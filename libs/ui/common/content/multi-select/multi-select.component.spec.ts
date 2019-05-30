@@ -87,7 +87,7 @@ describe('UI/Common/Content - Multi Select', () => {
 
     component.isExpanded = true;
     component.isLoading = false;
-    const selectFacade = fixture.debugElement.nativeElement.querySelector('a');
+    const selectFacade = fixture.debugElement.nativeElement.querySelector('.select-facade');
     selectFacade.click();
 
     fixture.detectChanges();

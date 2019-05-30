@@ -1,16 +1,16 @@
 <h2 class="text-center mb-3">Peer Exchange Jobs</h2>
-<div class="filters position-relative d-flex flex-wrap mt-2 mb-2">
-  <div class="mb-2">
-    <i class="fas fa-search position-absolute"></i>
-    <pf-input-debounce 
+<div class="filters position-relative row mt-2 mb-2">
+  <div class="col">
+    <pf-input-debounce
       [id]="'exchange-jobs-search-box'"
       [delay]="400"
       [placeholderText]="'Search job title'"
       (valueChanged)="handleJobTitleFilterChanged($event)"
+      [prependIcon]="'fas fa-search fa-lg'"
     >
     </pf-input-debounce>
-  </div>
-  <div class="ml-3 mb-2">
+  </div>  
+  <div class="col">
     <pf-multi-select
       #multiSelectJobFamily
       [attr.data-qa-id]="'ddm-job-family-filter'"
@@ -22,7 +22,7 @@
     >
     </pf-multi-select>
   </div>
-  <div class="ml-3 mb-2">
+  <div class="col">
     <pf-multi-select
       #multiSelectExchange
       [attr.data-qa-id]="'ddm-exchange-filter'"

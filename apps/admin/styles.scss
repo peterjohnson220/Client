@@ -27,3 +27,9 @@ $branded-color: #0882BE;
   padding-left: 5px;
   padding-top: 3px;
 }
+
+// Hack for Elippses in Flexbox. We need to apply min-width: 0 to all parent flexboxes
+// https://stackoverflow.com/questions/38223879/white-space-nowrap-breaks-flexbox-layout
+.flex-grow-1 {
+  min-width: 0 !important;
+}

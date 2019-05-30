@@ -1,35 +1,44 @@
 <div *ngIf="currentRole$ | async;else no_role">
-
-  <ul *ngIf="!(currentRole$ | async)?.IsSystemRole;else system_role_restriction_message" class="list-group nav" >
-    <li>
+  <div *ngIf="!(currentRole$ | async)?.IsSystemRole;else system_role_restriction_message" class="row">
+    <div class="col-xl-10 col-12">
       <div class="alert alert-info">
-        Create user roles to permit or restrict users from accessing specific data. Users assigned to a role cannot access
-        any data that does not meet the criteria defined below.<br/>
-        Select <span class="text-danger">Is equal to</span> to allow users access to only data defined in the field and select  <span class="text-danger">Is not equal to</span> to allow
-        users access to everything except data defined in the field.  If there are no restrictions set, users will have access
-        to all data for that entity.
+        Create user roles to permit or restrict users from accessing specific data. Users assigned to a role cannot
+        access any data that does not meet the criteria defined below.<br />
+        Select <span class="text-danger">Is equal to</span> to allow users access to only data defined in the field and
+        select <span class="text-danger">Is not equal to</span> to allow
+        users access to everything except data defined in the field. If there are no restrictions set, users will have
+        access to all data for that entity.
       </div>
-    </li>
-    <li class="nav-item nav-item parentElement"  *ngFor="let dt of dataTypes$ | async">
-      {{dt.Name}}
-      <button type="button" class="btn btn-secondary add-btn ml-4" *ngIf="dt.DataFields.length > 1" (click)="addDataRestriction(dt)">
-        <i class="fal fa-plus"></i>
-      </button>
-      <ul class="list-group nav">
-        <li class="nav-item nf subElement" *ngFor="let rdr of roleDataRestrictions$ | async | dataTypeFilter:dt;trackBy: trackByFn;">
-
-          <pf-data-field-filter
-            [dataType]="dt"
-            [roleDataRestriction]="rdr"
-            (roleDataRestrictionChanged)="roleDataRestrictionChanged(rdr, $event.property, $event.value)" >
-          </pf-data-field-filter>
-          <button type="button" class="btn btn-secondary add-btn ml-4" *ngIf="dt.DataFields.length > 1" (click)="removeDataRestriction(rdr)">
-            <i class="fal fa-trash"></i>
+    </div>
+    <div *ngFor="let dt of dataTypes$ | async" class="col-xl-10 col-12">
+      <div class="d-flex align-items-center pb-2">
+        <div class="flex-grow-1 mr-4">
+          <b>{{dt.Name}}</b>
+        </div>
+        <div class="action-buttons">
+          <button type="button" *ngIf="dt.DataFields.length > 1" (click)="addDataRestriction(dt)"
+            class="btn btn-secondary action-buttons">
+            <span class="fal fa-plus"></span>
           </button>
-        </li>
-      </ul>
-    </li>
-  </ul>
+        </div>
+      </div>
+      <div *ngFor="let rdr of roleDataRestrictions$ | async | dataTypeFilter:dt;trackBy: trackByFn;"
+        class="d-flex align-items-center pb-2">
+        <div class="flex-grow-1 mr-4">
+          <pf-data-field-filter [dataType]="dt" [roleDataRestriction]="rdr"
+            (roleDataRestrictionChanged)="roleDataRestrictionChanged(rdr, $event.property, $event.value)">
+          </pf-data-field-filter>
+        </div>
+        <div class="action-buttons">
+          <button type="button" *ngIf="dt.DataFields.length > 1" (click)="removeDataRestriction(rdr)"
+            class="btn btn-secondary">
+            <span class="fal fa-trash"></span>
+          </button>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
 </div>
 
 <ng-template #no_role>
@@ -40,6 +49,7 @@
 
 <ng-template #system_role_restriction_message>
   <div>
-    <h4>No data restrictions can be added to the {{(currentRole$ | async)?.RoleName}} role. If you would like to add data restrictions, please create a new user role.</h4>
+    <h4>No data restrictions can be added to the {{(currentRole$ | async)?.RoleName}} role. If you would like to add
+      data restrictions, please create a new user role.</h4>
   </div>
 </ng-template>

@@ -1,54 +1,49 @@
 <div class="row">
-  <div class="col-12 col-lg-2">
-    <div>
-        <kendo-dropdownlist class="form-control border"
-                          [attr.data-qa-id]="'ddm-'+ dataType?.Name"
-                          [data]="dataType?.DataFields"
-                          [textField]="'DisplayName'"
-                          [valueField]="'Id'"
-                          (valueChange)="dataFieldChanged($event)"
-                          [valuePrimitive]="true"
-                          [ngModel] = "roleDataRestriction.DataFieldId"
-
-      ></kendo-dropdownlist>
-    </div>
-  </div>
-  <div class="col-12 col-lg-2">
-    <kendo-dropdownlist class="border form-control"
-                        [attr.data-qa-id]="'ddm-Operators'"
-                        [valuePrimitive]="true"
-                        textField="text"
-                        (valueChange)="roleDataRestrictionChanged.emit({property: 'DataConditionIsEqual', value: $event})"
-                        valueField="value"
-                        [ngModel] = "roleDataRestriction.DataConditionIsEqual"
-                        [tabIndex]="0"
-                        [data]="Operators"
-                        [disabled]="selectedField?.FieldType == _DataFieldTypes.MULTISELECT"
+  <div class="col-12 col-md-3">
+    <kendo-dropdownlist class="form-control border"
+      [attr.data-qa-id]="'ddm-'+ dataType?.Name"
+      [data]="dataType?.DataFields"
+      [textField]="'DisplayName'"
+      [valueField]="'Id'"
+      (valueChange)="dataFieldChanged($event)"
+      [valuePrimitive]="true"
+      [ngModel] = "roleDataRestriction.DataFieldId"
     ></kendo-dropdownlist>
   </div>
-  <div class="col-12 col-lg-4">
-     <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.MULTISELECT">
-        <pf-multi-select
-        [attr.data-qa-id]="'ddm-'+ dataType.Name"
-        [selectedValues]="roleDataRestriction.DataValue"
-        (selectedValuesChange)="roleDataRestrictionChanged.emit({property: 'DataValue', value: $event})"
-        [selectedOnTop]="true"
-        [highlightSelected]="true"
-        [endpointName]="buildApiEndpoint()"
-        [valueField]="'Id'"
-        [textField]="'Value'"
-        [displayNamePreview]="true"
-        >
-        </pf-multi-select>
-     </div>
-      <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.TEXT">
-        <pf-typeahead #typeaheadComponent
-          [apiEndpoint]="buildApiEndpoint()"
-          [apiResponsePropertyForTypeahead]="'Value'"
-          [ngModel]="roleDataRestriction.DataValue"
-          (valueChanged)="roleDataRestrictionChanged.emit({property: 'DataValue', value: $event})"
-          [automationClassName]="'txt-restrictionTypeahead'"
-        ></pf-typeahead>
-      </div>
+  <div class="col-12 col-md-3">
+    <kendo-dropdownlist class="border form-control"
+      [attr.data-qa-id]="'ddm-Operators'"
+      [valuePrimitive]="true"
+      textField="text"
+      (valueChange)="roleDataRestrictionChanged.emit({property: 'DataConditionIsEqual', value: $event})"
+      valueField="value"
+      [ngModel] = "roleDataRestriction.DataConditionIsEqual"
+      [tabIndex]="0"
+      [data]="Operators"
+      [disabled]="selectedField?.FieldType == _DataFieldTypes.MULTISELECT"
+    ></kendo-dropdownlist>
+  </div>
+  <div class="col-12 col-md-6" *ngIf="selectedField?.FieldType == _DataFieldTypes.MULTISELECT">
+    <pf-multi-select
+      [attr.data-qa-id]="'ddm-'+ dataType.Name"
+      [selectedValues]="roleDataRestriction.DataValue"
+      (selectedValuesChange)="roleDataRestrictionChanged.emit({property: 'DataValue', value: $event})"
+      [selectedOnTop]="true"
+      [highlightSelected]="true"
+      [endpointName]="buildApiEndpoint()"
+      [valueField]="'Id'"
+      [textField]="'Value'"
+      [displayNamePreview]="true"
+    >
+    </pf-multi-select>
+  </div>
+  <div class="col-12 col-md-6" *ngIf="selectedField?.FieldType == _DataFieldTypes.TEXT">
+    <pf-typeahead #typeaheadComponent
+      [apiEndpoint]="buildApiEndpoint()"
+      [apiResponsePropertyForTypeahead]="'Value'"
+      [ngModel]="roleDataRestriction.DataValue"
+      (valueChanged)="roleDataRestrictionChanged.emit({property: 'DataValue', value: $event})"
+      [automationClassName]="'txt-restrictionTypeahead'"
+    ></pf-typeahead>
   </div>
 </div>

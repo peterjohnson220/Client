@@ -27,10 +27,12 @@ exports[`UserRoleDataAccessTabComponent should show data access tab on company r
 >
   <div>
     
-    <ul
-      class="list-group nav"
+    <div
+      class="row"
     >
-      <li>
+      <div
+        class="col-xl-10 col-12"
+      >
         <div
           class="alert alert-info"
         >
@@ -50,26 +52,45 @@ exports[`UserRoleDataAccessTabComponent should show data access tab on company r
           </span>
            to allow users access to everything except data defined in the field. If there are no restrictions set, users will have access to all data for that entity. 
         </div>
-      </li>
+      </div>
       
-      <li
-        class="nav-item nav-item parentElement"
+      <div
+        class="col-xl-10 col-12"
       >
-         Test Data type 
-        
-        <ul
-          class="list-group nav"
+        <div
+          class="d-flex align-items-center pb-2"
         >
-          
-          <li
-            class="nav-item nf subElement"
+          <div
+            class="flex-grow-1 mr-4"
+          >
+            <b>
+              Test Data type
+            </b>
+          </div>
+          <div
+            class="action-buttons"
+          >
+            
+          </div>
+        </div>
+        
+        <div
+          class="d-flex align-items-center pb-2"
+        >
+          <div
+            class="flex-grow-1 mr-4"
           >
             <pf-data-field-filter />
+          </div>
+          <div
+            class="action-buttons"
+          >
             
-          </li>
-        </ul>
-      </li>
-    </ul>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </div>
   </div>
 </pf-user-role-data-access-tab>
 `;

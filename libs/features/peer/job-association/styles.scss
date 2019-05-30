@@ -19,20 +19,24 @@ $buttons-height: 70px;
   width: 25px;
   cursor: pointer;
   transition: opacity .2s ease-in-out;
+
   svg {
     vertical-align: -1px;
   }
+
   &.fake-button {
     pointer-events: none;
     height: 1.7rem;
     width: 1.7rem;
     padding-left: .25rem;
+
     svg {
       font-size: .85rem;
       margin-left: .15rem;
       vertical-align: -2px;
     }
   }
+
   &:disabled {
     opacity: .6;
   }
@@ -56,13 +60,16 @@ $buttons-height: 70px;
   h6.primary-header {
     font-weight: 500;
   }
+
   h6 {
     margin-top: .7rem;
     font-weight: 400;
+
     svg {
       margin-right: .4rem;
       opacity: .85;
     }
+
     p {
       padding: 0 1rem;
     }
@@ -70,37 +77,36 @@ $buttons-height: 70px;
 }
 
 // main grid components styling
-pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
-  &> h2 {
+pf-peer-job-association-exchange-jobs,
+pf-peer-job-association-company-jobs {
+  &>h2 {
     color: $header-color;
   }
+
   .filters {
     min-height: 40px; // this can be removed once both grids have the job family filter
+
     pf-input-debounce {
-      .input-group {
-        flex-wrap: nowrap;
+      .input-group-prepend {
+        .input-group-text {
+          color: $pf-brand-secondary-color !important;
+          background-color: white !important;
+          border-right: 0;
+        }
       }
+
+      .input-group-append {
+        .input-group-text {
+          background-color: white !important;
+        border-left: 0;
+        }
+      }
+
       input[type=text].form-control {
-        border-top-right-radius: .25rem;
-        border-bottom-right-radius: .25rem;
-        padding: 0 2.1rem;
-        min-width: 220px;
-      }
-      .input-group-text {
-        background-color: inherit;
-        border: none;
-        margin-left: -2.1rem;
-        z-index: 100;
-        opacity: .8;
-      }
-    }
-    .fa-search {
-      font-size: 18px;
-      left: 6px;
-      z-index: 100;
-      margin-top: 6px;
-      color: #0099cc;
-    }
+        border-right: 0;
+        border-left: 0;
+      }      
+    }    
   }
 
   .view-button {
@@ -111,28 +117,35 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
     opacity: .6;
     transition: opacity .2s ease-in-out;
     font-size: 16px;
+
     &:hover {
       opacity: 1;
     }
   }
+
   .view-button-active {
     color: $pf-brand-secondary-color;
     opacity: 1;
   }
+
   .grid-container {
     // keep the slide in detail panel hidden outside when collapsed
     overflow-x: hidden;
     // consume 100% of the parent minus some space for the header, filters, and some cushion beneath
     height: calc(100% - 140px);
+
     .k-tooltip-container {
       height: 100%;
+
       .k-grid {
         .k-grid-header {
           background-color: #E4E4E4;
           border: none;
         }
+
         .k-grid-header-wrap {
           border-right: none;
+
           .k-header {
             font-weight: 500;
             border: none;
@@ -142,62 +155,82 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
             padding-bottom: .5rem;
             text-overflow: clip;
             word-wrap: normal;
+
             &:not(:first-child) {
               border-right: 1px dashed #fff;
             }
           }
         }
+
         .grid-link {
           color: $link-color;
         }
-        .k-grid-content td, .k-grid-content td > div {
+
+        .k-grid-content td,
+        .k-grid-content td>div {
           border: none;
         }
+
         .k-grid-content .show-tooltip {
           @extend %ellipsis-overflowing-text;
         }
+
         .k-grid-content .no-ellipsis {
           text-overflow: clip;
           word-wrap: normal;
         }
-        a.exchange-job-title.selected, a.company-job-title.selected, a.company-job-code.selected {
+
+        a.exchange-job-title.selected,
+        a.company-job-title.selected,
+        a.company-job-code.selected {
           font-weight: 700;
         }
+
         .k-hierarchy-cell a {
           padding: 0.5rem 0;
         }
+
         .k-alt:not(.k-state-selected, .k-detail-row) {
           background-color: #f2f2f2;
         }
+
         // override plus/minus expand icons with right/down chevrons
         .k-icon.k-plus:before {
           content: '\E014';
         }
+
         .k-icon.k-minus:before {
           content: '\E015';
         }
+
         .association-status {
           display: inline-block;
           width: 100%;
           height: 32px;
           margin-left: -4px;
           transition: background-color .4s ease-in-out;
+
           &.associated {
             background-color: #8ed985;
           }
+
           &.not-associated {
             background-color: #fc6e68;
           }
         }
+
         .k-pager-wrap .k-link:not(.k-state-selected) {
           color: $pf-brand-secondary-color;
         }
+
         .k-grid-norecords {
           text-align: center;
+
           &:hover {
             color: inherit;
             background-color: inherit;
           }
+
           a {
             font-style: italic;
             text-decoration: underline;
@@ -205,11 +238,13 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
             margin: 0 auto;
             margin-top: 4px;
             font-size: 1.05rem;
+
             &:hover {
               .fa-redo-alt {
                 transform: rotate(720deg);
               }
             }
+
             .fa-redo-alt {
               margin-right: 2px;
               font-size: 12px;
@@ -222,47 +257,58 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
     }
   }
 
-  pf-complete-icon, pf-half-complete-icon {
+  pf-complete-icon,
+  pf-half-complete-icon {
     svg {
       height: 2rem;
       opacity: .9;
     }
+
     .fill-active-primary {
       fill: #009b09;
     }
+
     .fill-active-secondary {
       fill: rgba(0, 155, 9, 0.5);
     }
+
     .fill-white {
       fill: #fff;
     }
+
     .fill-inactive-primary {
       fill: rgba(222, 222, 222, 1.0);
     }
+
     .fill-inactive-secondary {
       fill: rgba(222, 222, 222, 0.4);
     }
   }
 
   // hide No records available when loading
-  .loading-blanket + .k-tooltip-container .k-grid .k-grid-norecords {
+  .loading-blanket+.k-tooltip-container .k-grid .k-grid-norecords {
     display: none;
   }
 }
 
-// stack filters at 1400px and shrink grid container to accomodate
+//stack filters at 1400px and shrink grid container to accomodate
 @media screen and (max-width: 1400px) {
   pf-peer-job-association-exchange-jobs {
     .filters {
       height: 120px;
-      width: 250px;
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 100%;
+      display: block !important;
     }
+
     .grid-container {
       height: calc(100% - 220px);
     }
+
     pf-multi-select {
       .main-label {
-        min-width: 60px;
+        width: 60px;
       }
     }
   }

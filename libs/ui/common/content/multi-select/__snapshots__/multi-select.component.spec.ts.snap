@@ -23,34 +23,26 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
     pfclickelsewhere=""
   >
     <div
-      class="d-flex"
+      class="selections-summary row align-items-center"
     >
-      <label
-        class="main-label mr-2 pt-2"
-      >
-        
-      </label>
+      
       <div
-        class="d-inline-block"
+        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
       >
-        <a
-          class="text-decoration-none"
-          href="javascript:void(0)"
+        <span
+          class="flex-grow-1 ellipsis-overflowing-text"
+          container="body"
+          ng-reflect-container="body"
+          ng-reflect-ngb-tooltip=""
         >
-          <span
-            class="select-facade d-inline-block rounded"
-          >
-            <label
-              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
-            >
-                
-            </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
-            />
-          </span>
-        </a>
+          
+        </span>
+        <span>
+          <i
+            class="k-i-arrow-s k-icon"
+            style="padding-left: 0.3rem"
+          />
+        </span>
       </div>
     </div>
     
@@ -81,65 +73,77 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
     pfclickelsewhere=""
   >
     <div
-      class="d-flex"
+      class="selections-summary row align-items-center"
     >
-      <label
-        class="main-label mr-2 pt-2"
-      >
-        
-      </label>
+      
       <div
-        class="d-inline-block"
+        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
       >
-        <a
-          class="text-decoration-none"
-          href="javascript:void(0)"
+        <span
+          class="flex-grow-1 ellipsis-overflowing-text"
+          container="body"
+          ng-reflect-container="body"
+          ng-reflect-ngb-tooltip=""
         >
-          <span
-            class="select-facade d-inline-block rounded"
-          >
-            <label
-              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
-            >
-                
-            </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
-            />
-          </span>
-        </a>
+          
+        </span>
+        <span>
+          <i
+            class="k-i-arrow-s k-icon"
+            style="padding-left: 0.3rem"
+          />
+        </span>
       </div>
     </div>
     
     <div
-      class="selections-container position-absolute"
+      class="selections-container d-flex flex-column"
     >
       
       
       <div>
-        <i
-          class="fas fa-search position-absolute"
-        />
-        <input
-          class="form-control d-block mt-2"
-          placeholder="Search"
-          type="text"
-        />
-        <a
-          class="position-absolute text-muted"
-          href="javascript:void(0)"
+        <div
+          class="input-group p-2"
         >
-          <i
-            class="fas fa-times"
+          <div
+            class="input-group-prepend"
+          >
+            <span
+              class="input-group-text pf-prepend-icon"
+            >
+              <i
+                class="fas fa-search fa-lg"
+              />
+            </span>
+          </div>
+          <input
+            class="form-control d-block pf-search-input"
+            placeholder="Search..."
+            type="text"
           />
-        </a>
-        <button
-          class="clear-selections btn d-block mt-2 mb-2"
-          disabled=""
+          <div
+            class="input-group-append action-item"
+          >
+            <span
+              class="input-group-text pf-append-icon"
+            >
+              <i
+                class="fas fa-times"
+              />
+            </span>
+          </div>
+        </div>
+        <div
+          class="d-flex justify-content-start mx-2 mb-2"
         >
-          Clear Selections
-        </button>
+          <button
+            class="btn btn-secondary clear-selections"
+            disabled=""
+            ng-reflect-ngb-tooltip="Clear Selections"
+          >
+             Clear Selections 
+          </button>
+        </div>
         <div
           class="checkbox-container"
         >
@@ -180,65 +184,77 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
     pfclickelsewhere=""
   >
     <div
-      class="d-flex"
+      class="selections-summary row align-items-center"
     >
-      <label
-        class="main-label mr-2 pt-2"
-      >
-        
-      </label>
+      
       <div
-        class="d-inline-block"
+        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
       >
-        <a
-          class="text-decoration-none"
-          href="javascript:void(0)"
+        <span
+          class="flex-grow-1 ellipsis-overflowing-text"
+          container="body"
+          ng-reflect-container="body"
+          ng-reflect-ngb-tooltip=""
         >
-          <span
-            class="select-facade d-inline-block rounded"
-          >
-            <label
-              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
-            >
-                
-            </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
-            />
-          </span>
-        </a>
+          
+        </span>
+        <span>
+          <i
+            class="k-i-arrow-s k-icon"
+            style="padding-left: 0.3rem"
+          />
+        </span>
       </div>
     </div>
     
     <div
-      class="selections-container position-absolute"
+      class="selections-container d-flex flex-column"
     >
       
       
       <div>
-        <i
-          class="fas fa-search position-absolute"
-        />
-        <input
-          class="form-control d-block mt-2"
-          placeholder="Search"
-          type="text"
-        />
-        <a
-          class="position-absolute text-muted"
-          href="javascript:void(0)"
+        <div
+          class="input-group p-2"
         >
-          <i
-            class="fas fa-times"
+          <div
+            class="input-group-prepend"
+          >
+            <span
+              class="input-group-text pf-prepend-icon"
+            >
+              <i
+                class="fas fa-search fa-lg"
+              />
+            </span>
+          </div>
+          <input
+            class="form-control d-block pf-search-input"
+            placeholder="Search..."
+            type="text"
           />
-        </a>
-        <button
-          class="clear-selections btn d-block mt-2 mb-2"
-          disabled=""
+          <div
+            class="input-group-append action-item"
+          >
+            <span
+              class="input-group-text pf-append-icon"
+            >
+              <i
+                class="fas fa-times"
+              />
+            </span>
+          </div>
+        </div>
+        <div
+          class="d-flex justify-content-start mx-2 mb-2"
         >
-          Clear Selections
-        </button>
+          <button
+            class="btn btn-secondary clear-selections"
+            disabled=""
+            ng-reflect-ngb-tooltip="Clear Selections"
+          >
+             Clear Selections 
+          </button>
+        </div>
         <div
           class="checkbox-container"
         >
@@ -246,7 +262,7 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
           
           
           <label
-            class="checkbox-label d-block ellipsis-overflowing-text m-0"
+            class="checkbox-label d-block ellipsis-overflowing-text m-0 p-2"
             ng-reflect-klass="checkbox-label d-block ellipsi"
             ng-reflect-ng-class=""
           >
@@ -293,34 +309,31 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
     pfclickelsewhere=""
   >
     <div
-      class="d-flex"
+      class="selections-summary row align-items-center"
     >
-      <label
-        class="main-label mr-2 pt-2"
+      
+      <div
+        class="main-label mr-2"
       >
         job family
-      </label>
+      </div>
       <div
-        class="d-inline-block"
+        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
       >
-        <a
-          class="text-decoration-none"
-          href="javascript:void(0)"
+        <span
+          class="flex-grow-1 ellipsis-overflowing-text"
+          container="body"
+          ng-reflect-container="body"
+          ng-reflect-ngb-tooltip=""
         >
-          <span
-            class="select-facade d-inline-block rounded"
-          >
-            <label
-              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
-            >
-                
-            </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
-            />
-          </span>
-        </a>
+          
+        </span>
+        <span>
+          <i
+            class="k-i-arrow-s k-icon"
+            style="padding-left: 0.3rem"
+          />
+        </span>
       </div>
     </div>
     
@@ -351,65 +364,77 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
     pfclickelsewhere=""
   >
     <div
-      class="d-flex"
+      class="selections-summary row align-items-center"
     >
-      <label
-        class="main-label mr-2 pt-2"
-      >
-        
-      </label>
+      
       <div
-        class="d-inline-block"
+        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
       >
-        <a
-          class="text-decoration-none"
-          href="javascript:void(0)"
+        <span
+          class="flex-grow-1 ellipsis-overflowing-text"
+          container="body"
+          ng-reflect-container="body"
+          ng-reflect-ngb-tooltip=""
         >
-          <span
-            class="select-facade d-inline-block rounded"
-          >
-            <label
-              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
-            >
-                
-            </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
-            />
-          </span>
-        </a>
+          
+        </span>
+        <span>
+          <i
+            class="k-i-arrow-s k-icon"
+            style="padding-left: 0.3rem"
+          />
+        </span>
       </div>
     </div>
     
     <div
-      class="selections-container position-absolute"
+      class="selections-container d-flex flex-column"
     >
       
       
       <div>
-        <i
-          class="fas fa-search position-absolute"
-        />
-        <input
-          class="form-control d-block mt-2"
-          placeholder="Search"
-          type="text"
-        />
-        <a
-          class="position-absolute text-muted"
-          href="javascript:void(0)"
+        <div
+          class="input-group p-2"
         >
-          <i
-            class="fas fa-times"
+          <div
+            class="input-group-prepend"
+          >
+            <span
+              class="input-group-text pf-prepend-icon"
+            >
+              <i
+                class="fas fa-search fa-lg"
+              />
+            </span>
+          </div>
+          <input
+            class="form-control d-block pf-search-input"
+            placeholder="Search..."
+            type="text"
           />
-        </a>
-        <button
-          class="clear-selections btn d-block mt-2 mb-2"
-          disabled=""
+          <div
+            class="input-group-append action-item"
+          >
+            <span
+              class="input-group-text pf-append-icon"
+            >
+              <i
+                class="fas fa-times"
+              />
+            </span>
+          </div>
+        </div>
+        <div
+          class="d-flex justify-content-start mx-2 mb-2"
         >
-          Clear Selections
-        </button>
+          <button
+            class="btn btn-secondary clear-selections"
+            disabled=""
+            ng-reflect-ngb-tooltip="Clear Selections"
+          >
+             Clear Selections 
+          </button>
+        </div>
         <div
           class="checkbox-container"
         >
@@ -449,39 +474,31 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
     pfclickelsewhere=""
   >
     <div
-      class="d-flex"
+      class="selections-summary row align-items-center"
     >
-      <label
-        class="main-label mr-2 pt-2"
-      >
-        
-      </label>
+      
       <div
-        class="d-inline-block"
+        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
       >
-        <a
-          class="text-decoration-none"
-          href="javascript:void(0)"
+        <span
+          class="flex-grow-1 ellipsis-overflowing-text"
+          container="body"
+          ng-reflect-container="body"
+          ng-reflect-ngb-tooltip=""
         >
-          <span
-            class="select-facade d-inline-block rounded"
-          >
-            <label
-              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
-            >
-                
-            </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
-            />
-          </span>
-        </a>
+          
+        </span>
+        <span>
+          <i
+            class="k-i-arrow-s k-icon"
+            style="padding-left: 0.3rem"
+          />
+        </span>
       </div>
     </div>
     
     <div
-      class="selections-container position-absolute"
+      class="selections-container d-flex flex-column"
     >
       
       <span
