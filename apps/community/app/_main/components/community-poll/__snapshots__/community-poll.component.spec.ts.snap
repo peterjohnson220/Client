@@ -17,19 +17,7 @@ exports[`CommunityPollComponent should show poll 1`] = `
   <pf-community-post-content
     class="font-weight-bold mt-2 mb-2"
   /><div>
-    <div
-      class="p-2"
-      data-qa-id="cnt-pollclosedate"
-    >
-      <i
-        class="far fa-stopwatch fa-lg poll-close-date"
-      />
-      <span
-        class="pl-3"
-      >
-        This poll closes on Dec 17, 1995, 3:24:00 AM 
-      </span>
-    </div>
+    
     
     <div>
       <div
