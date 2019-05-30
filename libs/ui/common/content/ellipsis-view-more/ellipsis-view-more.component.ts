@@ -13,13 +13,24 @@ export class EllipsisViewMoreComponent {
   @Input() maxLength: number;
   @Input() content: string;
   @Input() highlightFilter: string;
+  @Input() viewMoreText = 'View More';
+  @Input() viewLessText = 'View Less';
+  @Input() showTextInline = false;
   @Input() copy: boolean;
   @ViewChild('copiedSuccessToolTip') private tooltip: NgbTooltip;
 
   showFull: boolean;
 
   get lessContent(): string {
-    return this.content.substr(0, this.maxLength) + '...';
+    let short = this.content.substr(0, this.maxLength);
+    if (!this.showFull && short.length < this.content.length) {
+      short = short + '...';
+    }
+    return  short;
+  }
+
+  get remainingContent(): string {
+    return this.content.substr(this.maxLength);
   }
 
   constructor() {}

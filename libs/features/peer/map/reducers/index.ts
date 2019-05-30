@@ -75,6 +75,8 @@ export const getPeerFilterPreviewLimit = createSelector(selectPeerFiltersState, 
 export const getSystemFilter = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSystemFilter);
 export const getPeerFilterSelectionsCount = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelectionsCount);
 export const getPeerFilterScopeSelection = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getScopeSelection);
+export const getAssociatedExchangeJobs = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getAssociatedExchangeJobs);
+
 export const getPeerFilterIncludeUntaggedIncumbents = createSelector(
   selectPeerFiltersState,
   fromFilterSidebarReducer.getIncludeUntaggedIncumbents

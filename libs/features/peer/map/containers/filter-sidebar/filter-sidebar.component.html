@@ -1,6 +1,8 @@
 <div class="filter-sidebar">
 
   <div class="filter-header">
+     <pf-associated-exchange-job-list [associatedExchangeJobs]="associatedJobs$ | async">
+     </pf-associated-exchange-job-list>
     <pf-pay-market-bounds-filter
       *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter"
       [enabled]="limitToPayMarket$ | async"
