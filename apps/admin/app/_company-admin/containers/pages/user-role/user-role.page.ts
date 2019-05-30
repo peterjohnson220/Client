@@ -149,6 +149,7 @@ export class UserRolePageComponent implements OnDestroy {
   clickRole(role: UserAssignedRole) {
     this.setEditRoleNameMode(false);
     if (this.promptUserToSave(role)) {
+      this.handleTabClick(UserRoleTabState.FUNCTION);
       this.userRoleService.updateCurrentUserRole(role);
     }
   }

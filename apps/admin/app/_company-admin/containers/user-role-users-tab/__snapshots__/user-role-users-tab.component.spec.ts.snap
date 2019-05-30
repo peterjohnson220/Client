@@ -3,14 +3,11 @@
 exports[`UserRoleUserTabComponent Page load 1`] = `
 <pf-user-role-users-tab
   currentRole={[Function Object]}
-  currentRoleSubscription={[Function Subscriber]}
-  saveButtonText={[Function String]}
+  currentRole$={[Function Store]}
   searchTerm=""
   store={[Function Store]}
-  usersInActiveRoleSubscription={[Function Subscriber]}
-  usersInSelectedRole={[Function Array]}
-  usersNotInActiveRoleSubscription={[Function Subscriber]}
-  usersNotInCurrentRole={[Function Array]}
+  usersInRole$={[Function Store]}
+  usersNotInRole$={[Function Store]}
 >
   <div>
     <h4>

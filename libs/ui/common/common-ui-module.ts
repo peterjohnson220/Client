@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
@@ -57,7 +58,8 @@ const components = [
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    ImgFallbackModule
+    ImgFallbackModule,
+    ScrollingModule
   ],
   declarations: components,
   exports: components

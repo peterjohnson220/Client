@@ -16,7 +16,8 @@
         <div class="input-group-prepend">
           <span class="input-group-text pf-prepend-icon"><i class="fas fa-search fa-lg"></i></span>
         </div>
-        <input type="text" [(ngModel)]="searchTerm" class="form-control d-block pf-search-input" placeholder="Search..." />
+        <input type="text" [(ngModel)]="searchTerm" class="form-control d-block pf-search-input"
+          placeholder="Search..." />
         <div class="input-group-append action-item" (click)="clearSearchTerm()">
           <span class="input-group-text pf-append-icon"><i class="fas fa-times"></i></span>
         </div>
@@ -26,18 +27,19 @@
           Clear Selections
         </button>
       </div>
-      <div class="checkbox-container" (change)="emitChanges()" [style.height.px]="selectionsHeight()">
-        <ng-container *ngFor="let option of filteredOptions(); trackBy: trackByFn; let i=index;">
+      <cdk-virtual-scroll-viewport itemSize="30" minBufferPx="200" maxBufferPx="400" (change)="emitChanges()"
+        class="checkbox-container" [style.height.px]="selectionsHeight()">
+        <ng-container *cdkVirtualFor="let option of filteredOptions(); let i=index;trackBy: trackByFn">
           <label class="checkbox-label d-block ellipsis-overflowing-text m-0 p-2"
-            *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1"
             [ngClass]="highlightSelected && option.IsSelected? 'highlight' :''">
-            <input type="checkbox" [(ngModel)]="option.IsSelected" class="mr-1">{{ option.DisplayName }}
+            <input type="checkbox" [(ngModel)]="option.IsSelected" class="mr-1">
+            {{ option.DisplayName || 'Loading...'}}
           </label>
         </ng-container>
         <label *ngIf="filteredOptions().length === 0" class="no-results font-italic text-center d-block">
           No Results Found
         </label>
-      </div>
+      </cdk-virtual-scroll-viewport>
     </div>
   </div>
 </div>
