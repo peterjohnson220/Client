@@ -11,11 +11,13 @@ import * as fromRegistrationFormActions from '../../../actions/registration-form
 import { PfValidators, PfEmailValidators } from 'libs/forms/validators';
 import { RegistrationFormValidationService } from '../../../services/registration-form-validation.service';
 
+import { environment } from 'environments/environment';
+
 @Component({
   selector: 'pf-registration-form-page',
   providers: [ RegistrationFormValidationService ],
   templateUrl: './registration-form.page.html',
-  styleUrls: ['./registration-form.page.scss']
+  styleUrls: [ './registration-form.page.scss' ]
 })
 export class RegistrationFormPageComponent implements OnInit, OnDestroy {
 
@@ -31,6 +33,10 @@ export class RegistrationFormPageComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public validationService: RegistrationFormValidationService,
     public registrationStore: Store<fromRegistrationReducer.State>) {
+
+    if (environment.allowHubspotRegistration && window.location) {
+      window.location.href = environment.hubspotRegistrationUrl;
+    }
 
     this.showSuccessMessage$ = this.registrationStore.select(fromRegistrationReducer.getRegistrationFormSubmitSuccess);
     this.isSubmitError$ = this.registrationStore.select(fromRegistrationReducer.getRegistrationFormSubmitError);
@@ -171,21 +177,27 @@ export class RegistrationFormPageComponent implements OnInit, OnDestroy {
   get firstNameControl(): AbstractControl {
     return this.registrationForm.get('FirstName');
   }
+
   get lastNameControl(): AbstractControl {
     return this.registrationForm.get('LastName');
   }
+
   get emailControl(): AbstractControl {
     return this.registrationForm.get('Email');
   }
+
   get titleControl(): AbstractControl {
     return this.registrationForm.get('Title');
   }
+
   get companyNameControl(): AbstractControl {
     return this.registrationForm.get('CompanyName');
   }
+
   get websiteControl(): AbstractControl {
     return this.registrationForm.get('Website');
   }
+
   get numberEmployeesControl(): AbstractControl {
     return this.registrationForm.get('NumberEmployees');
   }
