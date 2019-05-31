@@ -67,9 +67,10 @@ export function reducer(
         // Give the new tag a unique identifier until it is saved.
         tagPayload.TagId = Math.floor((Math.random() * 100000) + 100000);
         // Check if a tag already exists with that name in the collection, if so use that.
-        const match = relevantTagCategory.Tags.filter(t => t.Value.toLowerCase() === tagPayload.Value.toLowerCase());
+        let match = relevantTagCategory.Tags.filter(t => t.Value.toLowerCase() === tagPayload.Value.toLowerCase());
         const existingTag = match.length > 0;
         if (existingTag) {
+          match = match[0];
           match.Selected = true;
           let index = removedTagsCopy.findIndex(rtc => rtc.TagId === match.TagId);
           if (index > -1) {
