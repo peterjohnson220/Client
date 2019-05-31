@@ -1,0 +1,33 @@
+<span class="editable" *ngIf="!isEditing" (click)="toggleEdit()">{{value}}</span>
+<ng-container *ngIf="isEditing">
+  <form [formGroup]="editDisplayNameForm" (ngSubmit)="save()">
+    <div class="input-group">
+      <input id="editable-category-name-input"
+             type="text"
+             class="form-control"
+             autocomplete="off"
+             formControlName="tempValue"
+             pfFocus
+             [pfValidatable]="true"
+             [disabled]="isSaving"
+             [minLength]="3">
+      <div (click)="save()" class="input-group-append" [ngClass]="{'disabled': !buttonsEnabled}">
+          <span class="input-group-text">
+            <i class="fas fa-check-circle text-success" aria-hidden="true"></i>
+          </span>
+      </div>
+      <div (click)="cancel()" class="input-group-append" [ngClass]="{'disabled': !buttonsEnabled}">
+          <span class="input-group-text">
+            <i class="fas fa-times"
+               aria-hidden="true"></i>
+          </span>
+      </div>
+
+    </div>
+
+    <ng-container *ngIf="tempValueControl.errors">
+      <div *ngIf="tempValueControl.errors.required" class="invalid-feedback">Display Name is required.</div>
+      <div *ngIf="tempValueControl.errors.error" class="invalid-feedback">{{tempValueControl.errors.error}}</div>
+    </ng-container>
+  </form>
+</ng-container>

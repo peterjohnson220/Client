@@ -33,17 +33,10 @@ export class ExchangeFiltersEffects {
   putFilter$: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeFiltersActions.PUT_FILTER),
       map((action: fromExchangeFiltersActions.PutFilter) => action.payload),
-      withLatestFrom(
-        this.peerAdminStore.pipe(select(fromPeerAdminReducer.getExchangeFilters)),
-        (action, exchangeFilters) => {
-          return {action, exchangeFilters};
-        }
-      ),
       switchMap(payload => {
-        const updateFilter = payload.exchangeFilters.filter(f => f.Id === payload.action.Id);
-        return this.exchangeApiService.putFilter(updateFilter[0]).pipe(
-          map(() => {
-            return new fromExchangeFiltersActions.PutFilterSuccess();
+        return this.exchangeApiService.putFilter(payload).pipe(
+          map((response) => {
+            return new fromExchangeFiltersActions.PutFilterSuccess(response);
           }),
           catchError(error => of(new fromExchangeFiltersActions.PutFilterError()))
         );
