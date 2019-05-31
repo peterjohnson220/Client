@@ -2,6 +2,7 @@
 
 exports[`Features - Peer - Filter Sidebar Component should not display "Exclude Indirect Matches" filter when shouldShowExcludeIndirectJobMatchesFilter is false 1`] = `
 <pf-peer-data-cut-filter-sidebar
+  associatedJobs$={[Function Store]}
   excludeIndirectJobMatches$={[Function Store]}
   filterAggregateGroups$={[Function Store]}
   filterAggregateGroupsLoading$={[Function Store]}
@@ -23,6 +24,7 @@ exports[`Features - Peer - Filter Sidebar Component should not display "Exclude 
     <div
       class="filter-header"
     >
+      <pf-exchange-job />
       
       <pf-pay-market-bounds-filter />
       
@@ -41,6 +43,7 @@ exports[`Features - Peer - Filter Sidebar Component should not display "Exclude 
 
 exports[`Features - Peer - Filter Sidebar Component should not display "Pay Market Only" filter when shouldShowPayMarketBoundsFilter is false 1`] = `
 <pf-peer-data-cut-filter-sidebar
+  associatedJobs$={[Function Store]}
   excludeIndirectJobMatches$={[Function Store]}
   filterAggregateGroups$={[Function Store]}
   filterAggregateGroupsLoading$={[Function Store]}
@@ -62,6 +65,7 @@ exports[`Features - Peer - Filter Sidebar Component should not display "Pay Mark
     <div
       class="filter-header"
     >
+      <pf-exchange-job />
       
       
       <pf-exclude-indirect-matches-filter />
