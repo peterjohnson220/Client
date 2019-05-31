@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { TagInformation, TagInformationRequest, Tag, SaveTagInformationRequest, TagEntityTypeEnum } from 'libs/models/peer';
 
@@ -70,6 +71,10 @@ export class TaggingEntitiesPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromTaggingEntitiesActions.LoadTagInformation(tagInformationRequest));
   }
 
+  public itemDisabled(itemArgs: { dataItem: any, index: number }): boolean {
+    return itemArgs.dataItem.Selected;
+  }
+
   getCategoriesToShow() {
     if (!this.viewMore && this.showViewMoreLink) {
       return this.priorityCategories;
@@ -79,6 +84,12 @@ export class TaggingEntitiesPageComponent implements OnInit, OnDestroy {
 
   getSelectedTags(tagArray: Tag[]) {
     return tagArray.filter(ta => ta.Selected);
+  }
+
+  sortTagsByValue(tagArray: Tag[]) {
+    return  tagArray.sort((a, b) => {
+      return a.Value.localeCompare(b.Value); // Use a polyfill for IE support
+    });
   }
 
   public onValueChange(value: any, tagCategoryId: number) {
@@ -93,7 +104,7 @@ export class TaggingEntitiesPageComponent implements OnInit, OnDestroy {
           New: true
         };
         this.store.dispatch(new fromTaggingEntitiesActions.AddTag(newTag));
-      } else if (!val.Selected) {
+      } else {
         this.store.dispatch(new fromTaggingEntitiesActions.AddTag(val));
       }
     }
@@ -130,9 +141,13 @@ export class TaggingEntitiesPageComponent implements OnInit, OnDestroy {
     this.loadTagInformation();
 
     this.tagInformationSubscription = this.tagInformation$.subscribe(information => {
-      this.tagInformation = information;
-      this.regularCategories = information.filter(i => i.IsCategoryInExchange !== true);
-      this.priorityCategories = information.filter(i => i.IsCategoryInExchange !== false);
+      this.tagInformation = cloneDeep(information);
+      this.tagInformation.forEach(ti => {
+        ti.SelectedTags = this.getSelectedTags(ti.Tags);
+        ti.Tags = this.sortTagsByValue(ti.Tags);
+      });
+      this.regularCategories = this.tagInformation.filter(i => i.IsCategoryInExchange !== true);
+      this.priorityCategories = this.tagInformation.filter(i => i.IsCategoryInExchange !== false);
       this.showViewMoreLink = !(this.regularCategories.length === 0 || this.priorityCategories.length === 0);
     });
 

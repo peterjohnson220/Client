@@ -5,6 +5,7 @@ export interface TagInformation {
   DisplayName: string;
   Tags: Tag[];
   IsCategoryInExchange: boolean;
+  SelectedTags: Tag[];
 }
 
 export function generateMockTagInformation(): TagInformation {
@@ -12,6 +13,7 @@ export function generateMockTagInformation(): TagInformation {
     TagCategoryId: 1,
     DisplayName: 'Display Name',
     Tags: [ generateMockTag() ],
-    IsCategoryInExchange: true
+    IsCategoryInExchange: true,
+    SelectedTags: [ generateMockTag() ]
   };
 }
