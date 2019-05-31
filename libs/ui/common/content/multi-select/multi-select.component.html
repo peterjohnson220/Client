@@ -19,10 +19,10 @@
         <input type="text" [(ngModel)]="searchTerm" class="form-control d-block pf-search-input" placeholder="Search..." />
         <div class="input-group-append action-item" (click)="clearSearchTerm()">
           <span class="input-group-text pf-append-icon"><i class="fas fa-times"></i></span>
-        </div>        
+        </div>
       </div>
       <div class="d-flex justify-content-start mx-2 mb-2">
-        <button [disabled]="!hasSelections()" (click)="clearSelections()" class="btn btn-secondary clear-selections" [ngbTooltip]="'Clear Selections'">
+        <button [disabled]="!hasSelections()" (click)="clearSelections()" class="btn btn-secondary clear-selections">
           Clear Selections
         </button>
       </div>
