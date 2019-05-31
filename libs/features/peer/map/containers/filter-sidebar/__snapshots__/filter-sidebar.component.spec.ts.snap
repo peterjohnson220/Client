@@ -24,6 +24,7 @@ exports[`Features - Peer - Filter Sidebar Component should not display "Exclude 
     <div
       class="filter-header"
     >
+      
       <pf-associated-exchange-job-list />
       
       <pf-pay-market-bounds-filter />
@@ -65,7 +66,7 @@ exports[`Features - Peer - Filter Sidebar Component should not display "Pay Mark
     <div
       class="filter-header"
     >
-      <pf-associated-exchange-job-list />
+      
       
       
       <pf-exclude-indirect-matches-filter />
