@@ -160,6 +160,10 @@ export const getRoleDataRestrictions = createSelector(
   selectRoleDataAccessTabState, fromDataAccessTabReducer.getRoleDataRestrictions
 );
 
+export const getRoleDataRestrictionsForSave = createSelector(
+  selectRoleDataAccessTabState, fromDataAccessTabReducer.getRoleDataRestrictionsForSave
+);
+
 export  const getDataAccessTabPendingChanges = createSelector(
   selectRoleDataAccessTabState, fromDataAccessTabReducer.getDataAccessTabHasPendingChanges
 );
