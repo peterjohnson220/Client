@@ -85,7 +85,7 @@ export function reducer(
           addedTagsCopy.push(tagPayload);
           relevantTagCategory.Tags.push(tagPayload);
         }
-      } else {
+      } else if (!tagPayload.Selected) {
         const updatedTag = relevantTagCategory.Tags.filter(t => t.TagId === tagPayload.TagId)[0];
         updatedTag.Selected = true;
         let index = removedTagsCopy.findIndex(rtc => rtc.TagId === tagPayload.TagId);

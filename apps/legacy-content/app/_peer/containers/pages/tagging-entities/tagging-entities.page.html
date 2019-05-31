@@ -15,7 +15,9 @@
                          [kendoDropDownFilter]="filterSettings"
                          [textField]="'Value'"
                          [valueField]="'TagId'"
-                         [value]="getSelectedTags(tc.Tags)"
+                         [value]="tc.SelectedTags"
+                         [listHeight]="150"
+                         [itemDisabled]="itemDisabled"
                          class="flex-1">
         <ng-template kendoMultiSelectNoDataTemplate>
         </ng-template>
