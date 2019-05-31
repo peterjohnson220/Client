@@ -193,4 +193,13 @@ export class PasswordManagementSettingsComponent implements OnInit, OnDestroy {
   isDirty(field: string) {
     return this.checkValidity(field) && this.passwordForm.get(field).dirty && this.passwordForm.get(field).value;
   }
+
+  isClear(field: string) {
+    return !this.passwordForm.get(field).value;
+  }
+
+  clearField(field: string) {
+    this.passwordForm.get(field).setValue('');
+    this.passwordForm.get(field).markAsDirty();
+  }
 }
