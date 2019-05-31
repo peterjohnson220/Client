@@ -38,6 +38,9 @@ export class FieldMapperComponent implements OnInit {
   payfactorsDataFieldsForReset: string[];
   dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
   dateFormatsFilteredData: Array<{ text: string, value: string}>;
+  templateReferenceConstants = {
+    LoaderType,
+  };
 
   @Input() fieldMappings$: Observable<LoaderFieldSet[]>;
   @Input() fieldMappingsLoading: boolean;
