@@ -4,6 +4,9 @@ $light-border: 1px solid #ccc;
 
 .select-facade {
   border: $light-border;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .action-item:hover {
@@ -25,7 +28,7 @@ $light-border: 1px solid #ccc;
   width: calc(100% - 30px);
 }
 
-.pf-append-icon {  
+.pf-append-icon {
   background-color: white !important;
   border-left: 0;
 }
@@ -42,7 +45,7 @@ $light-border: 1px solid #ccc;
 }
 
 button.clear-selections {
-  color: $pf-brand-secondary-color;  
+  color: $pf-brand-secondary-color;
 }
 
 button.clear-selections:disabled {
@@ -50,7 +53,7 @@ button.clear-selections:disabled {
   color: black;
 }
 
-input[type=text] {  
+input[type=text] {
   &::-ms-clear {
     display: none;
   }

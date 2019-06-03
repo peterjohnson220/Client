@@ -1,6 +1,6 @@
 <h2 class="text-center mb-3">Peer Exchange Jobs</h2>
 <div class="filters position-relative row mt-2 mb-2">
-  <div class="col">
+  <div class="col-4">
     <pf-input-debounce
       [id]="'exchange-jobs-search-box'"
       [delay]="400"
@@ -9,8 +9,8 @@
       [prependIcon]="'fas fa-search fa-lg'"
     >
     </pf-input-debounce>
-  </div>  
-  <div class="col">
+  </div>
+  <div class="col-4">
     <pf-multi-select
       #multiSelectJobFamily
       [attr.data-qa-id]="'ddm-job-family-filter'"
@@ -22,7 +22,7 @@
     >
     </pf-multi-select>
   </div>
-  <div class="col">
+  <div class="col-4">
     <pf-multi-select
       #multiSelectExchange
       [attr.data-qa-id]="'ddm-exchange-filter'"
@@ -65,7 +65,7 @@
             [jobDescription]="selectedExchangeJob.ExchangeJobDescription"
             [jobFamily]="selectedExchangeJob.ExchangeJobFamily"
             [jobExchange]="selectedExchangeJob.ExchangeName"
-            (closeClick)="handleCloseDetailPanel()"        
+            (closeClick)="handleCloseDetailPanel()"
           ></pf-grid-detail-panel>
           <kendo-grid
             [data]="exchangeJobs$ | async"
@@ -92,8 +92,8 @@
           </kendo-grid-column>
           <kendo-grid-column field="ExchangeJobTitle" title="Job Title">
             <ng-template kendoGridCellTemplate let-dataItem>
-              <a href="javascript:void(0)" 
-                (click)="handleExchangeJobClick(dataItem)" 
+              <a href="javascript:void(0)"
+                (click)="handleExchangeJobClick(dataItem)"
                 class="grid-link exchange-job-title"
                 [class.selected]="dataItem.Id === selectedExchangeJob.Id && (isDetailPanelExpanded$ | async)">
                 <div [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm" class="show-tooltip"></div>

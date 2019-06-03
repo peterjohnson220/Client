@@ -139,7 +139,6 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
           <button
             class="btn btn-secondary clear-selections"
             disabled=""
-            ng-reflect-ngb-tooltip="Clear Selections"
           >
              Clear Selections 
           </button>
@@ -250,7 +249,6 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
           <button
             class="btn btn-secondary clear-selections"
             disabled=""
-            ng-reflect-ngb-tooltip="Clear Selections"
           >
              Clear Selections 
           </button>
@@ -430,7 +428,6 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
           <button
             class="btn btn-secondary clear-selections"
             disabled=""
-            ng-reflect-ngb-tooltip="Clear Selections"
           >
              Clear Selections 
           </button>
