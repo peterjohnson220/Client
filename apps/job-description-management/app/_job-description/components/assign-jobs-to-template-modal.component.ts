@@ -21,7 +21,7 @@ import { TemplateListItem } from '../../shared/models/template-list-item.model';
 })
 
 export class AssignJobsToTemplateModalComponent {
-  @ViewChild('assignJobsToTemplateModal') public assignJobsToTemplateModal: any;
+  @ViewChild('assignJobsToTemplateModal', { static: true }) public assignJobsToTemplateModal: any;
 
   @Input() selectedCompanyJob: CompanyJobViewListItem;
 

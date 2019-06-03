@@ -40,11 +40,11 @@ import { SaveJobDescriptionTemplateIdSucessModel } from '../../models/save-job-d
   styleUrls: ['./job-description-list.page.scss']
 })
 export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
-  @ViewChild(AssignJobsToTemplateModalComponent) public assignJobToTemplateModalComponent: AssignJobsToTemplateModalComponent;
-  @ViewChild(JobDescriptionHistoryModalComponent) jobDescriptionHistoryModalComponent: JobDescriptionHistoryModalComponent;
-  @ViewChild(JobDescriptionAppliesToModalComponent) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
+  @ViewChild(AssignJobsToTemplateModalComponent, { static: true }) public assignJobToTemplateModalComponent: AssignJobsToTemplateModalComponent;
+  @ViewChild(JobDescriptionHistoryModalComponent, { static: true }) jobDescriptionHistoryModalComponent: JobDescriptionHistoryModalComponent;
+  @ViewChild(JobDescriptionAppliesToModalComponent, { static: true }) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
   // @ViewChild(AddJobModalComponent) public addJobModalComponent: AddJobModalComponent;
-  @ViewChild(SaveFilterModalComponent) public saveFilterModalComponent: SaveFilterModalComponent;
+  @ViewChild(SaveFilterModalComponent, { static: true }) public saveFilterModalComponent: SaveFilterModalComponent;
 
   public identity$: Observable<UserContext>;
   public gridLoading$: Observable<boolean>;

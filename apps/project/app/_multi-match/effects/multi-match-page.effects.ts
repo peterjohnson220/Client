@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, tap, mergeMap, withLatestFrom, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/index';
 
@@ -25,8 +25,8 @@ export class MultiMatchPageEffects {
 
   @Effect()
   getProjectSearchContext$ = this.actions$
-    .ofType(fromMultiMatchPageActions.GET_PROJECT_SEARCH_CONTEXT)
     .pipe(
+      ofType(fromMultiMatchPageActions.GET_PROJECT_SEARCH_CONTEXT),
       map((action: fromMultiMatchPageActions.GetProjectSearchContext) => action.payload),
       switchMap((projectContext) => {
         return this.surveySearchApiService.getProjectSearchContext(projectContext.ProjectId)
@@ -59,8 +59,8 @@ export class MultiMatchPageEffects {
 
   @Effect()
   saveJobMatchUpdates$ = this.actions$
-    .ofType(fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES)
     .pipe(
+      ofType(fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES),
       withLatestFrom(
         this.store.select(fromMultiMatchReducer.getJobsToPrice),
         this.store.select(fromMultiMatchReducer.getMultimatchProjectContext),
@@ -90,8 +90,8 @@ export class MultiMatchPageEffects {
 
   @Effect({dispatch: false})
   saveJobMatchUpdatesSuccess$ = this.actions$
-    .ofType(fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES_SUCCESS)
     .pipe(
+      ofType(fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES_SUCCESS),
       tap((action: fromMultiMatchPageActions.SaveJobMatchUpdatesSuccess) => {
         this.windowCommunicationService.postMessage(action.type);
       })

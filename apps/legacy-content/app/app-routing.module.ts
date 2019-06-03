@@ -12,7 +12,7 @@ export const routes: Routes = [
     canActivate: [UserContextGuard, PeerTileEnabledGuard],
     children: [
       { path: '', loadChildren:
-          'apps/legacy-content/app/_peer-job-association/peer-job-association.module#PeerJobAssociationModule'
+          () => import('apps/legacy-content/app/_peer-job-association/peer-job-association.module').then(m => m.PeerJobAssociationModule)
       },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }
@@ -24,7 +24,7 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', redirectTo: 'peer', pathMatch: 'full' },
-      { path: 'peer', loadChildren: 'apps/legacy-content/app/_peer/peer.module#PeerModule' },
+      { path: 'peer', loadChildren: () => import('apps/legacy-content/app/_peer/peer.module').then(m => m.PeerModule) },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }
     ]

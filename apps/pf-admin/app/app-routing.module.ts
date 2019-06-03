@@ -12,8 +12,8 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', redirectTo: 'navigation', pathMatch: 'full' },
-      { path: 'navigation', loadChildren: 'apps/pf-admin/app/_navigation/navigation.module#NavigationModule' },
-      { path: 'companies', loadChildren: 'apps/pf-admin/app/_companies/company.module#CompanyModule' },
+      { path: 'navigation', loadChildren: () => import('apps/pf-admin/app/_navigation/navigation.module').then(m => m.NavigationModule) },
+      { path: 'companies', loadChildren: () => import('apps/pf-admin/app/_companies/company.module').then(m => m.CompanyModule) },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }
     ]

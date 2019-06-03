@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -16,7 +16,8 @@ import { PayfactorsApiModelMapper } from '../helpers';
 export class TicketLookupEffects {
   @Effect()
   loadServiceReps$: Observable<Action> = this.actions$
-    .ofType(fromTicketLookupActions.LOAD_PFSERVICESREPS).pipe(
+    .pipe(
+      ofType(fromTicketLookupActions.LOAD_PFSERVICESREPS),
       switchMap((action: fromTicketLookupActions.LoadPfServiceReps) =>
         this.userApiService.getPfServicesReps().pipe(
           map((userResponses: UserResponse[]) => {
@@ -30,7 +31,8 @@ export class TicketLookupEffects {
 
   @Effect()
   loadTicketStates$: Observable<Action> = this.actions$
-    .ofType(fromTicketLookupActions.LOAD_TICKETSTATES).pipe(
+    .pipe(
+      ofType(fromTicketLookupActions.LOAD_TICKETSTATES),
       switchMap((action: fromTicketLookupActions.LoadTicketStates) =>
         this.userTicketApiService.getUserTicketStates().pipe(
           map((ticketStates: UserTicketStateResponse[]) => {
@@ -44,7 +46,8 @@ export class TicketLookupEffects {
 
   @Effect()
   loadTicketTypes$: Observable<Action> = this.actions$
-    .ofType(fromTicketLookupActions.LOAD_TICKETTYPES).pipe(
+    .pipe(
+      ofType(fromTicketLookupActions.LOAD_TICKETTYPES),
       switchMap((action: fromTicketLookupActions.LoadTicketTypes) =>
         this.userTicketApiService.getUserTicketTypes().pipe(
           map((ticketTypes: UserTicketTypeResponse[]) => {

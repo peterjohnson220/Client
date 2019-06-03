@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
 import { of , Observable } from 'rxjs';
@@ -14,7 +14,8 @@ import * as fromTimelineActivityAction from '../actions/timeline-activity.action
 export class TimelineActivityEffects {
   @Effect()
   loadingTimelineActivity$: Observable<Action> = this.actions$
-    .ofType(fromTimelineActivityAction.LOADING_ACTIVITY).pipe(
+    .pipe(
+      ofType(fromTimelineActivityAction.LOADING_ACTIVITY),
       switchMap((action: fromTimelineActivityAction.LoadingActivity) =>
         this.dashboardApiService.getTimelineActivities(action.payload).pipe(
           map((response: TimelineActivityResponse) => new fromTimelineActivityAction.LoadingActivitySuccess(response)),

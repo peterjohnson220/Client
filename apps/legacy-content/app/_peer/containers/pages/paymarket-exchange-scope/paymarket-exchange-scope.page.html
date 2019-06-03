@@ -32,7 +32,7 @@
                             [data]='exchanges'
                             [allowCustom]='false'
                             [filterable]='false'
-                            [(ngModel)] = 'selectionSource'
+                            [(ngModel)] = 'exchangeScopeSelections[i]'
                             (selectionChange)="selectExchange(i, $event)"
             >
             </kendo-combobox>

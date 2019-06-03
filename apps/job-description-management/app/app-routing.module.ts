@@ -11,10 +11,10 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: 'apps/job-description-management/app/_job-description/job-description.module#JobDescriptionModule' },
+      { path: '', loadChildren: () => import('apps/job-description-management/app/_job-description/job-description.module').then(m => m.JobDescriptionModule) },
       {
         path: 'job-descriptions',
-        loadChildren: 'apps/job-description-management/app/_job-description/job-description.module#JobDescriptionModule'
+        loadChildren: () => import('apps/job-description-management/app/_job-description/job-description.module').then(m => m.JobDescriptionModule)
       }
     ]
   },

@@ -15,7 +15,7 @@ export class MatchesDetailsTooltipComponent implements OnChanges, AfterViewCheck
   @Input() containerHeight: number;
   @Input() containerWidth: number;
 
-  @ViewChild('tooltip') private tooltipElement: ElementRef;
+  @ViewChild('tooltip', { static: true }) private tooltipElement: ElementRef;
 
   readonly tooltipMargin: number = 10;
   readonly rightPadding: number = 50;

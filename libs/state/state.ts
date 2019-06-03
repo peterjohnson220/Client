@@ -1,7 +1,5 @@
 import { ActionReducerMap, createSelector, createFeatureSelector, ActionReducer, MetaReducer } from '@ngrx/store';
 
-import { storeFreeze } from 'ngrx-store-freeze';
-
 import { environment } from '../../environments/environment';
 
 import * as fromUserContextReducer from './app-context/reducers/user-context.reducer';
@@ -40,7 +38,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 }
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? [storeFreeze]
+  ? []
   : [];
 
 /**

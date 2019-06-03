@@ -17,7 +17,7 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
     @Input() isDisabled: boolean;
     @Output() onExchangeSelected = new EventEmitter<number>();
 
-    @ViewChild('exchangeList') exchangeList: ComboBoxComponent;
+    @ViewChild('exchangeList', { static: true }) exchangeList: ComboBoxComponent;
 
     exchangeOptionsFiltered: GenericKeyValue<number, string>[];
     exchangeForm: FormGroup;

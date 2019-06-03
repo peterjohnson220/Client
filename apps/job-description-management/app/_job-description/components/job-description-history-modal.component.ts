@@ -17,7 +17,7 @@ import * as fromJobDescriptionHistoryListReducer from '../reducers';
 })
 
 export class JobDescriptionHistoryModalComponent implements OnInit, OnDestroy {
-  @ViewChild('jobDescriptionHistoryModalComponent') public jobDescriptionHistoryModalComponent: any;
+  @ViewChild('jobDescriptionHistoryModalComponent', { static: true }) public jobDescriptionHistoryModalComponent: any;
 
   private jobDescriptionHistoryList$: Observable<JobDescriptionHistoryListItem[]>;
   private jobDescriptionHistoryListLoading$: Observable<boolean>;

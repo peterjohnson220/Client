@@ -2,7 +2,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { tap, switchMap, map, catchError } from 'rxjs/operators';
 
@@ -14,7 +14,8 @@ export class UserContextEffects {
 
   @Effect()
   getUserContext$ = this.actions$
-    .ofType(userContextActions.GET_USER_CONTEXT).pipe(
+    .pipe(
+      ofType(userContextActions.GET_USER_CONTEXT),
       switchMap(() =>
         this.companySecurityApiService.getIdentity().pipe(
           map((identity: any) => new userContextActions.GetUserContextSuccess(identity)),
@@ -28,7 +29,8 @@ export class UserContextEffects {
 
   @Effect()
   getUserContextError$ = this.actions$
-    .ofType(userContextActions.GET_USER_CONTEXT_ERROR).pipe(
+    .pipe(
+      ofType(userContextActions.GET_USER_CONTEXT_ERROR),
       map((action: userContextActions.GetUserContextError) => action.errorContext),
       map(errorContext => {
           if (errorContext.error.status === 401) {
@@ -42,7 +44,8 @@ export class UserContextEffects {
 
   @Effect({ dispatch: false })
   getUserContext401Error$ = this.actions$
-    .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR).pipe(
+    .pipe(
+      ofType(userContextActions.GET_USER_CONTEXT_401_ERROR),
       tap((action: userContextActions.GetUserContext401Error) => {
           if (isPlatformBrowser(this.platformId)) {
             window.location.href = `/?` + encodeURIComponent(action.redirect);
@@ -54,7 +57,8 @@ export class UserContextEffects {
 
   @Effect({ dispatch: false })
   getUserContext404Error$ = this.actions$
-    .ofType(userContextActions.GET_USER_CONTEXT_404_ERROR).pipe(
+    .pipe(
+      ofType(userContextActions.GET_USER_CONTEXT_404_ERROR),
       tap((action: userContextActions.GetUserContext404Error) => {
           if (isPlatformBrowser(this.platformId)) {
             this.router.navigate(['/not-found']);

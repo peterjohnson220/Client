@@ -2,12 +2,14 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": ".",
+    "module": "esnext",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    // Currently disabling differential loading. To Re-enable update target to be "es2015"
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"

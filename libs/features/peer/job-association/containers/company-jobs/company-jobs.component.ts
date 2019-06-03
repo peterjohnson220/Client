@@ -24,9 +24,9 @@ import { CompanyJob, ExchangeJobAssociation } from '../../models';
   styleUrls: ['./company-jobs.component.scss']
 })
 export class CompanyJobsComponent implements OnInit, OnDestroy {
-  @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
-  @ViewChild(InputDebounceComponent) public companyJobSearchComponent: InputDebounceComponent;
-  @ViewChild(GridComponent) public grid: GridComponent;
+  @ViewChild(TooltipDirective, { static: true }) public tooltipDir: TooltipDirective;
+  @ViewChild(InputDebounceComponent, { static: true }) public companyJobSearchComponent: InputDebounceComponent;
+  @ViewChild(GridComponent, { static: true }) public grid: GridComponent;
 
   // Observables
   companyJobsGridItemsData$: Observable<GridDataResult>;

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Effect, Actions} from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {Action} from '@ngrx/store';
 
@@ -13,7 +13,8 @@ export class LoaderSettingsEffects {
 
   @Effect()
   loadingLoaderSettings$: Observable<Action> = this.actions$
-    .ofType(fromLoaderSettingsActions.LOADING_LOADER_SETTINGS).pipe(
+    .pipe(
+      ofType(fromLoaderSettingsActions.LOADING_LOADER_SETTINGS),
       switchMap((action: fromLoaderSettingsActions.LoadingLoaderSettings) =>
       this.loaderSettingsApiService.getCompanyLoaderSettings(action.payload).pipe(
         map((result: LoaderSetting[]) => {
@@ -25,7 +26,8 @@ export class LoaderSettingsEffects {
 
   @Effect()
   savingLoaderSettings$: Observable<Action> = this.actions$
-    .ofType(fromLoaderSettingsActions.SAVING_LOADER_SETTINGS).pipe(
+    .pipe(
+      ofType(fromLoaderSettingsActions.SAVING_LOADER_SETTINGS),
       switchMap((action: fromLoaderSettingsActions.SavingLoaderSettings) =>
       this.loaderSettingsApiService.saveOrUpdate(action.payload).pipe(
         map(() => {

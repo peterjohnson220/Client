@@ -21,7 +21,7 @@ import * as fromCompanyIndustriesActions from '../../../actions/company-industri
 })
 
 export class NewCompanyFormComponent implements OnInit {
-  @ViewChild('companyIndustriesComboBox') companyIndustriesComboBox: ComboBoxComponent;
+  @ViewChild('companyIndustriesComboBox', { static: true }) companyIndustriesComboBox: ComboBoxComponent;
   @Input() exchange: Exchange;
   @Input() requestCompanyForm: FormGroup;
 

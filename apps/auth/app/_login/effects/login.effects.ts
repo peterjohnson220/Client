@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
@@ -15,7 +15,8 @@ import * as fromLoginAction from '../actions/login.actions';
 export class LoginEffects {
   @Effect()
   login: Observable<Action> = this.actions$
-    .ofType(fromLoginAction.LOGIN).pipe(
+    .pipe(
+      ofType(fromLoginAction.LOGIN),
       switchMap((action: fromLoginAction.Login) =>
         this.accountApiService.login({ email: action.payload.Email, password: action.payload.Password }).pipe(
           map((response: any) => {
@@ -34,7 +35,8 @@ export class LoginEffects {
 
   @Effect()
   loginSuccess$ = this.actions$
-    .ofType(fromLoginAction.LOGIN_SUCCESS).pipe(
+    .pipe(
+      ofType(fromLoginAction.LOGIN_SUCCESS),
       map((action: fromLoginAction.LoginSuccess) => {
           if (action.payload) {
             return new fromLoginAction.LoginSuccessRouteToNextPage(action.payload);
@@ -47,7 +49,8 @@ export class LoginEffects {
 
   @Effect({ dispatch: false })
   LoginSuccessRouteToHome$ = this.actions$
-    .ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_HOME).pipe(
+    .pipe(
+      ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_HOME),
       switchMap(() =>
         this.userApiService.getUserHomePageAuthenticated().pipe(
           map((response: any) => this.routeToHomePage(response)),
@@ -58,7 +61,8 @@ export class LoginEffects {
 
   @Effect({ dispatch: false })
   LoginSuccessRouteToNextPage$ = this.actions$
-    .ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE).pipe(
+    .pipe(
+      ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE),
       map((action: fromLoginAction.LoginSuccessRouteToNextPage) => {
         this.routeToNextPage(action.payload);
         }
@@ -67,7 +71,8 @@ export class LoginEffects {
 
   @Effect({ dispatch: false })
   loginError$ = this.actions$
-    .ofType(fromLoginAction.LOGIN_ERROR).pipe(
+    .pipe(
+      ofType(fromLoginAction.LOGIN_ERROR),
       map((action: fromLoginAction.LoginError) => action.payload),
       map(error => {
           if (error.status === 401) {

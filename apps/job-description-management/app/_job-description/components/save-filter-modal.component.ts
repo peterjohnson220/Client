@@ -12,7 +12,7 @@ import { CustomValidators } from '../../shared/validators/custom-validators.vali
   templateUrl: './save-filter-modal.component.html'
 })
 export class SaveFilterModalComponent implements OnInit {
-  @ViewChild('saveFilterModal') public saveFilterModal: any;
+  @ViewChild('saveFilterModal', { static: true }) public saveFilterModal: any;
 
   @Output() saved = new EventEmitter();
   @Output() opened = new EventEmitter();

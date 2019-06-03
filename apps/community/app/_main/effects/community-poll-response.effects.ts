@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map} from 'rxjs/operators';
@@ -17,8 +17,8 @@ export class CommunityPollResponseEffects {
 
   @Effect()
   loadCommunityPollResponses$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPollResponseActions.LOADING_COMMUNITY_POLL_RESPONSES)
     .pipe(
+      ofType(fromCommunityPollResponseActions.LOADING_COMMUNITY_POLL_RESPONSES),
       switchMap(() =>
         this.communityPollService.getAllCommunityPollResponses().pipe(
           map((pollResponses: CommunityPollResponse[]) => {
@@ -31,7 +31,8 @@ export class CommunityPollResponseEffects {
 
     @Effect()
     dismissingCommunityPollRequestResponse$: Observable<Action> = this.actions$
-      .ofType(fromCommunityPollResponseActions.DISMISSING_COMMUNITY_POLL_RESPONSE).pipe(
+      .pipe(
+        ofType(fromCommunityPollResponseActions.DISMISSING_COMMUNITY_POLL_RESPONSE),
         switchMap((action: fromCommunityPollResponseActions.DismissingCommunityPollResponse) =>
           this.communityPollService.dismissCommunityPollResponse(action.payload).pipe(
             map(() => {
@@ -44,7 +45,8 @@ export class CommunityPollResponseEffects {
 
   @Effect()
   exportCommunityPoll$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPollResponseActions.EXPORTING_COMMUNITY_USER_POLL_RESPONSES).pipe(
+    .pipe(
+      ofType(fromCommunityPollResponseActions.EXPORTING_COMMUNITY_USER_POLL_RESPONSES),
       switchMap((action: fromCommunityPollResponseActions.ExportingCommunityUserPollResponses) =>
         this.communityPollService.exportCommunityUserPoll(action.payload).pipe(
           map((data) => {

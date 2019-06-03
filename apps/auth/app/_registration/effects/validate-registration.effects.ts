@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -14,7 +14,8 @@ import * as fromValidateRegistrationActions from '../actions/validate-registrati
 export class ValidateRegistrationEffects {
   @Effect()
   validateRegistrationToken$: Observable<Action> = this.actions$
-    .ofType(fromValidateRegistrationActions.VALIDATE_TOKEN).pipe(
+    .pipe(
+      ofType(fromValidateRegistrationActions.VALIDATE_TOKEN),
       switchMap((action: fromValidateRegistrationActions.ValidateToken) =>
         this.accountApiService.validateSelfRegistrationToken(action.payload.token).pipe(
           map(() => new fromValidateRegistrationActions.ValidateTokenSuccess({ token: action.payload.token })),
@@ -38,7 +39,8 @@ export class ValidateRegistrationEffects {
 
   @Effect()
   resendToken$: Observable<Action> = this.actions$
-    .ofType(fromValidateRegistrationActions.RESEND_TOKEN).pipe(
+    .pipe(
+      ofType(fromValidateRegistrationActions.RESEND_TOKEN),
       switchMap((action: fromValidateRegistrationActions.ResendToken) => {
         return this.accountApiService.resendSelfRegistrationToken(action.payload.token).pipe(
           map((response) => new fromValidateRegistrationActions.ResendTokenSuccess({ email: response.email })),

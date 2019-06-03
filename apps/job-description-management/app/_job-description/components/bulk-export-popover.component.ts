@@ -13,7 +13,7 @@ import { JobDescriptionViewConstants } from '../../shared/constants/job-descript
 })
 
 export class BulkExportPopoverComponent implements OnChanges {
-  @ViewChild('p') public p: any;
+  @ViewChild('p', { static: true }) public p: any;
 
   private selectedControlLabels: ControlLabel[] = [];
   public selectedControlLabelsAsString: string;

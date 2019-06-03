@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -16,7 +16,8 @@ import { PayfactorsApiModelMapper } from '../../shared/helpers';
 export class JobInformationFieldsEffects {
   @Effect()
   loadJobInformationFieldsForBulkExport$: Observable<Action> = this.actions$
-    .ofType(fromJobInformationFieldsActions.LOAD_JOB_INFORMATION_FIELDS_FOR_BULK_EXPORT).pipe(
+    .pipe(
+      ofßType(fromJobInformationFieldsActions.LOAD_JOB_INFORMATION_FIELDS_FOR_BULK_EXPORT),
       switchMap((action: fromJobInformationFieldsActions.LoadJobInformationFieldsForBulkExport) =>
         this.jobDescriptionApiService.getJobInformationFieldsForBulkExport(action.payload).pipe(
           map((response: JobInformationFieldForBulkExportResponse[]) => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map } from 'rxjs/operators';
 
@@ -16,7 +16,8 @@ import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper
 export class CompaniesEffects {
     @Effect()
     loadCompaniesList$: Observable<Action> = this.actions$
-        .ofType(fromCompaniesActions.LOAD_COMPANIES).pipe(
+        .pipe(
+            ofType(fromCompaniesActions.LOAD_COMPANIES),
             switchMap((action: fromCompaniesActions.LoadCompanies) =>
                 this.companyApiService.getListOfCompanies().pipe(
                     map((response: CompanyListResponseModel[]) => {

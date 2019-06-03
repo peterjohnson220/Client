@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
@@ -19,8 +19,8 @@ export class SurveySearchFiltersEffects {
 
   @Effect()
   getDefaultSurveyScopesFilter$ = this.actions$
-    .ofType(fromSurveySearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER)
     .pipe(
+      ofType(fromSurveySearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER),
       withLatestFrom(this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         (action, projectSearchContext) => projectSearchContext),
       switchMap((projectSearchContext) => {
@@ -38,15 +38,15 @@ export class SurveySearchFiltersEffects {
 
   @Effect()
   getDefaultSurveyScopesFilterSuccess$ = this.actions$
-    .ofType(fromSurveySearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER_SUCCESS)
     .pipe(
+      ofType(fromSurveySearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER_SUCCESS),
       map(() => new fromUserFilterActions.Init())
     );
 
   @Effect()
   resetAllFilters$ = this.actions$
-    .ofType(fromSearchFiltersActions.RESET_ALL_FILTERS)
     .pipe(
+      ofType(fromSearchFiltersActions.RESET_ALL_FILTERS),
       map(() => new fromSurveySearchResultsActions.ClearDataCutSelections())
     );
 

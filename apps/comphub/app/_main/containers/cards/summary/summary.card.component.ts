@@ -25,7 +25,7 @@ import { DataCardHelper } from '../../../helpers';
   styleUrls: ['./summary.card.component.scss']
 })
 export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
-  @ViewChild('pdf') pdf: PDFExportComponent;
+  @ViewChild('pdf', { static: true }) pdf: PDFExportComponent;
   @Input() workflowContext: WorkflowContext;
 
   selectedJobData$: Observable<JobData>;

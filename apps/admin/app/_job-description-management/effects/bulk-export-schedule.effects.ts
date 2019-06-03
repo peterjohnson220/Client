@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -13,7 +13,8 @@ export class JdmBulkExportScheduleEffects {
 
   @Effect()
   loadSchedules$: Observable<Action> = this.actions$
-    .ofType(fromJdmBulkExportScheduleActions.LOADING_SCHEDULE).pipe(
+    .pipe(
+      ofType(fromJdmBulkExportScheduleActions.LOADING_SCHEDULE),
       switchMap(() =>
         this.jobDescriptionApiService.getSchedules().pipe(
           map((schedules: BulkExportSchedule[]) => new fromJdmBulkExportScheduleActions.LoadingSchedulesSuccess(schedules)),
@@ -24,7 +25,8 @@ export class JdmBulkExportScheduleEffects {
 
   @Effect()
   addSchedule$: Observable<Action> = this.actions$
-    .ofType(fromJdmBulkExportScheduleActions.ADDING_SCHEDULE).pipe(
+    .pipe(
+      ofType(fromJdmBulkExportScheduleActions.ADDING_SCHEDULE),
       map((action: fromJdmBulkExportScheduleActions.AddingSchedule) => action.payload),
       switchMap((payload) => {
         return this.jobDescriptionApiService.addSchedule(payload).pipe(
@@ -38,7 +40,8 @@ export class JdmBulkExportScheduleEffects {
 
   @Effect()
   addScheduleSuccess$: Observable<Action> = this.actions$
-    .ofType(fromJdmBulkExportScheduleActions.ADDING_SCHEDULE_SUCCESS).pipe(
+    .pipe(
+      ofType(fromJdmBulkExportScheduleActions.ADDING_SCHEDULE_SUCCESS),
       switchMap(() =>
         this.jobDescriptionApiService.getSchedules().pipe(
           map((schedules: BulkExportSchedule[]) => new fromJdmBulkExportScheduleActions.LoadingSchedulesSuccess(schedules)),
@@ -49,7 +52,8 @@ export class JdmBulkExportScheduleEffects {
 
   @Effect()
   removeSchedule$: Observable<Action> = this.actions$
-    .ofType(fromJdmBulkExportScheduleActions.REMOVING_SCHEDULE).pipe(
+    .pipe(
+      ofType(fromJdmBulkExportScheduleActions.REMOVING_SCHEDULE),
       map((action: fromJdmBulkExportScheduleActions.RemovingSchedule) => action.payload),
       switchMap((payload) => {
         return this.jobDescriptionApiService.removeSchedule(payload).pipe(
@@ -63,7 +67,8 @@ export class JdmBulkExportScheduleEffects {
 
   @Effect()
   removeScheduleSuccess$: Observable<Action> = this.actions$
-    .ofType(fromJdmBulkExportScheduleActions.REMOVING_SCHEDULE_SUCCESS).pipe(
+    .pipe(
+      ofType(fromJdmBulkExportScheduleActions.REMOVING_SCHEDULE_SUCCESS),
       switchMap(() =>
         this.jobDescriptionApiService.getSchedules().pipe(
           map((schedules: BulkExportSchedule[]) => new fromJdmBulkExportScheduleActions.LoadingSchedulesSuccess(schedules)),

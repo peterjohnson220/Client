@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
@@ -16,7 +16,8 @@ export class JdmFiltersEffects {
 
   @Effect()
   loadFilters$: Observable<Action> = this.actions$
-    .ofType(fromJdmFilterActions.LOADING_FILTERS).pipe(
+    .pipe(
+      ofType(fromJdmFilterActions.LOADING_FILTERS),
       switchMap(() =>
         this.userProfileApiService.getUserFilterList().pipe(
           map((userFilters: JdmListFilter[]) => new fromJdmFilterActions.LoadingFiltersSuccess({userFilters: userFilters})),

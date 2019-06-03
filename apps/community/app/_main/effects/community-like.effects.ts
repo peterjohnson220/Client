@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map} from 'rxjs/operators';
@@ -17,7 +17,8 @@ export class CommunityLikeEffects {
 
   @Effect()
   gettingCommunityLikes$: Observable<Action> = this.actions$
-    .ofType(fromCommunityLikeActions.LOADING_COMMUNITY_LIKES).pipe(
+    .pipe(
+      ofType(fromCommunityLikeActions.LOADING_COMMUNITY_LIKES),
       switchMap((action: fromCommunityLikeActions.LoadingCommunityLikes) =>
         this.communityPostService.getCommunityLikes(action.payload).pipe(
           map((communityLikes: CommunityUserInfo[]) => {
