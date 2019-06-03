@@ -63,6 +63,7 @@ exports[`Auth - Login should disable and show correct login button text when log
             
             
           </div>
+          
           <label
             class="text-uppercase font-weight-bold"
             for="email"
@@ -209,6 +210,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
             
             
           </div>
+          
           <label
             class="text-uppercase font-weight-bold"
             for="email"
@@ -314,6 +316,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
   nextPage="undefined"
   passwordExpired$={[Function Store]}
   route={[Function Object]}
+  router={[Function Object]}
   store={[Function Store]}
 >
   <div
@@ -353,6 +356,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
             
             
           </div>
+          
           <label
             class="text-uppercase font-weight-bold"
             for="email"
@@ -423,7 +427,6 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
         <button
           class="btn align-self-center"
           id="au-btn-registration"
-          routerlink="/registration"
         >
            Register 
           <i
@@ -505,6 +508,8 @@ exports[`Auth - Login should show password expired notification on submitError 1
                The email and password combination has expired, please select Reset Password below. 
             </p>
           </div>
+          
+          <br />
           <label
             class="text-uppercase font-weight-bold"
             for="email"
