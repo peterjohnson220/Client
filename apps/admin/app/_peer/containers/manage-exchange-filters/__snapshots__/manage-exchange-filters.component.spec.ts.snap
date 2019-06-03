@@ -42,8 +42,13 @@ exports[`Manage Exchange Filters should match snapshot 1`] = `
         <thead>
           <tr>
             <th
+              width="5%"
+            >
+               
+            </th>
+            <th
               scope="col"
-              width="35%"
+              width="40%"
             >
               Display Name
             </th>
@@ -56,11 +61,6 @@ exports[`Manage Exchange Filters should match snapshot 1`] = `
             <th
               scope="col"
               width="40%"
-            >
-               
-            </th>
-            <th
-              width="10%"
             >
                
             </th>

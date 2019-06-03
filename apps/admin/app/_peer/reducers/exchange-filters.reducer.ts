@@ -89,7 +89,7 @@ export function reducer(state, action) {
         case fromExchangeFiltersActions.REORDER_FILTERS: {
           return {
             ...adapter.updateMany(action.payload.map((filter, index) =>
-              Object.assign({}, {id: filter.Id, changes: { Ordinal: index + 1 }})),  featureState)
+              Object.assign({}, {id: filter.Id, changes: { Ordinal: index + 1, Id: index + 1 }})),  featureState)
           };
         }
         default: {
