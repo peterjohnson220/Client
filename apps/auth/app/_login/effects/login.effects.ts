@@ -21,6 +21,8 @@ export class LoginEffects {
           map((response: any) => {
             if (response !== null && response.first_login === 'true') {
               return new fromLoginAction.LoginSuccess(environment.firstTimeLoginPage);
+            } else if (response !== null && response.password_expired === true) {
+              return new fromLoginAction.PasswordExpired;
             } else {
               return new fromLoginAction.LoginSuccess(action.payload.NextPage);
             }
