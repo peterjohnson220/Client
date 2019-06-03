@@ -10,7 +10,7 @@
       <div class="top">
         <div *ngIf="selectedPaymarketId !== paymarket.CompanyPayMarketId; else checkMark" class="circle"></div>
         <ng-template #checkMark>
-          <div class="checkmark"><i class="fas fa-check-circle"></i></div>
+          <fa-icon class="checkmark" icon="check-circle"></fa-icon>
         </ng-template>
       </div>
       <div class="bottom">

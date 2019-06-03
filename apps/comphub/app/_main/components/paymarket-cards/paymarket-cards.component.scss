@@ -61,7 +61,7 @@ $light-unselected-grey: #DCE3E6;
       border-radius: 5px 5px 0 0;
       background-color: $light-unselected-grey;
       padding: .5rem;
-      min-height: 50px;
+      height: 50px;
       display: flex;
       justify-content: flex-end;
 
@@ -74,10 +74,9 @@ $light-unselected-grey: #DCE3E6;
       }
 
       .checkmark {
-        svg {
-          color: $comphub-primary-blue;;
-          font-size: 35px;
-        }
+        color: $comphub-primary-blue;
+        font-size: 35px;
+        display: inline-flex;
       }
     }
 
