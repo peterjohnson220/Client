@@ -20,3 +20,6 @@ export * from './create-tag-category-modal';
 export * from './toggle-exchange-status-confirmation-modal';
 export * from './tag-categories-list';
 export * from './add-tag-categories-modal';
+export * from './add-companies-modal';
+export * from './add-jobs-modal';
+export * from './delete-company-modal';
