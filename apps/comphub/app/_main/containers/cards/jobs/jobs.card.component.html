@@ -1,7 +1,7 @@
 <pf-card-layout
   pageTitle="Jobs"
   pageSubTitle="First, let's find a job to price"
-  pageIconClass="fa-user-circle"
+  pageIconClass="user-circle"
   [hideBackButton]="true"
   [page]="comphubPages.Jobs"
   [workflowContext]="workflowContext"
@@ -96,7 +96,7 @@
     && (countryDataSetsLoaded$ | async)
     && (userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
       <div class="icon">
-        <i class="fas fa-exclamation-triangle"></i>
+        <fa-icon class="exclamation-triangle"></fa-icon>
       </div>
       <div class="message">
         <div class="mb-2">Congratulations</div>

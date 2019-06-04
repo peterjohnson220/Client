@@ -16,25 +16,25 @@ export const AccordionCards: AccordionCard[] = [
   {
     Id: ComphubPages.Jobs,
     Title: 'Jobs',
-    IconClass: 'fa-user-circle',
+    IconClass: 'user-circle',
     Subtitle: ''
   },
   {
     Id: ComphubPages.Markets,
     Title: 'Markets',
-    IconClass: 'fa-map-marker-alt',
+    IconClass: 'map-marker-alt',
     Subtitle: 'National'
   },
   {
     Id: ComphubPages.Data,
     Title: 'Data',
-    IconClass: 'fa-database',
+    IconClass: 'database',
     Subtitle: ''
   },
   {
     Id: ComphubPages.Summary,
     Title: 'Summary',
-    IconClass: 'fa-file-alt',
+    IconClass: 'file-alt',
     Subtitle: ''
   },
 ];

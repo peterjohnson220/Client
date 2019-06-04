@@ -31,7 +31,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   workflowContext={[Function Object]}
 >
   <pf-card-layout
-    pageiconclass="fa-database"
+    pageiconclass="database"
     pagesubtitle="Let's find the most timely and relevant data sources for pricing your job"
     pagetitle="Data"
   >
@@ -176,8 +176,8 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   class="expand-caret"
                 >
                   
-                  <i
-                    class="fas fa-caret-right"
+                  <fa-icon
+                    icon="caret-right"
                   />
                   
                 </td>
@@ -278,7 +278,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   workflowContext={[Function Object]}
 >
   <pf-card-layout
-    pageiconclass="fa-database"
+    pageiconclass="database"
     pagesubtitle="Let's find the most timely and relevant data sources for pricing your job"
     pagetitle="Data"
   >
@@ -423,8 +423,8 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   class="expand-caret"
                 >
                   
-                  <i
-                    class="fas fa-caret-right"
+                  <fa-icon
+                    icon="caret-right"
                   />
                   
                 </td>
