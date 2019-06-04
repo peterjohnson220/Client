@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 
 @Component({
   selector: 'pf-community-search-result-header',
@@ -9,13 +10,13 @@ export class CommunitySearchResultHeaderComponent {
 
   @Input() companyName: string;
   @Input() elapsedTime: string;
-  @Input() isPoll: boolean;
+  @Input() type: CommunitySearchResultTypeEnum;
   @Input() pollExpirationDate: Date;
 
   constructor() { }
 
-  postType() {
-    return this.isPoll ? 'Poll' : 'Discussion';
+  isPoll(): boolean {
+    return this.type === CommunitySearchResultTypeEnum.Poll;
   }
 
   isPollExpired() {

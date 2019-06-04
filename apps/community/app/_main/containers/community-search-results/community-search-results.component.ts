@@ -10,6 +10,7 @@ import * as fromCommunitySearchReducer from '../../reducers';
 import { CommunityPost } from 'libs/models/community';
 
 import { ScrollDirectionEnum } from '../../models/scroll-direction.enum';
+import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 
 @Component({
   selector: 'pf-community-search-results',
@@ -37,6 +38,9 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   scrollDirection = ScrollDirectionEnum.Down;
   currentScrollTop: number;
   lastScrollTop = 0;
+
+  pollType = CommunitySearchResultTypeEnum.Poll;
+  replyType = CommunitySearchResultTypeEnum.Reply;
 
   constructor(public store: Store<fromCommunitySearchReducer.State>) {
 
@@ -146,7 +150,7 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     this.resetInfiniteScroll();
   }
 
-  isPoll(post: any) {
-    return post.CommunityContent.Responses;
+  getSearchResultType(post: any): CommunitySearchResultTypeEnum {
+    return post.CommunityContent.Responses ? CommunitySearchResultTypeEnum.Poll : CommunitySearchResultTypeEnum.Discussion;
   }
 }
