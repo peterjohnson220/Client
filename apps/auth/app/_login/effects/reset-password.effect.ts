@@ -19,6 +19,8 @@ export class ResetPasswordEffects {
           map((response: any) => {
             if (response === 'token_expired') {
               return new fromResetPasswordAction.ResetPasswordTokenExpired();
+            } else if (response === 'password_used') {
+              return new fromResetPasswordAction.ResetPasswordAlreadyUsed();
             } else {
               return new fromResetPasswordAction.ResetPasswordSuccess();
             }

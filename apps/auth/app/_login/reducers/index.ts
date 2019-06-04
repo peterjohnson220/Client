@@ -74,6 +74,8 @@ export const getResetPasswordSuccess =
   createSelector(resetPasswordState, fromResetPasswordReducer.getResettingPasswordSuccess);
 export const getResetPasswordTokenExpired =
   createSelector(resetPasswordState, fromResetPasswordReducer.getResettingPasswordTokenExpired);
+export const getResetPasswordAlreadyUsed =
+  createSelector(resetPasswordState, fromResetPasswordReducer.getResettingPasswordAlreadyUsed);
 export const getResetPasswordError =
   createSelector(resetPasswordState, fromResetPasswordReducer.getResettingPasswordError);
 export const getCheckingResetPasswordToken =
