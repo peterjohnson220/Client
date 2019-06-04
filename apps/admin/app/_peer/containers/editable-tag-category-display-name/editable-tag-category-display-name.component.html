@@ -1,4 +1,6 @@
-<span class="editable" *ngIf="!isEditing" (click)="toggleEdit()">{{value}}</span>
+<span title="Click to Edit Display Name" class="editable" *ngIf="!isEditing" (click)="toggleEdit()">
+  {{value}} <span class="editable-icon"> <i class="fas fa-edit"></i></span>
+</span>
 <ng-container *ngIf="isEditing">
   <form [formGroup]="editDisplayNameForm" (ngSubmit)="save()">
     <div class="input-group">
@@ -8,8 +10,7 @@
              autocomplete="off"
              formControlName="tempValue"
              pfFocus
-             [pfValidatable]="true"
-             [disabled]="isSaving"
+             [pfValidatable]="!isSaving"
              [minLength]="3">
       <div (click)="save()" class="input-group-append" [ngClass]="{'disabled': !buttonsEnabled}">
           <span class="input-group-text">

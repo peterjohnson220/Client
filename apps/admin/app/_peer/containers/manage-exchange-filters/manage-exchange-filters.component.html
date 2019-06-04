@@ -22,15 +22,20 @@
     <table class="table">
       <thead>
       <tr>
-        <th width="35%" scope="col">Display Name</th>
+        <th width="5%">&nbsp;</th>
+        <th width="40%" scope="col">Display Name</th>
         <th width="15%" scope="col">Field Name</th>
         <th width="40%" scope="col">&nbsp;</th>
-        <th width="10%">&nbsp;</th>
       </tr>
       </thead>
       <tbody  cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="searching">
         <tr [class.cursor-no-move]="searching" *ngFor="let efs of exchangeFilters" cdkDrag>
-          <th width="35%" scope="row">
+          <td width="2%" class="text-left drag-handle">
+            <span cdkDragHandle>
+              <i class="fas fa-grip-vertical fa-lg"></i>
+            </span>
+          </td>
+          <th width="43%" scope="row">
             <pf-editable-tag-category-display-name
               [value]="efs.DisplayName"
               [saving$]="exchangeFilterPutting$"
@@ -50,11 +55,6 @@
             </div>
 
 
-          </td>
-          <td width="10%" class="text-right">
-            <span cdkDragHandle>
-              <i class="fas fa-grip-vertical fa-lg"></i>
-            </span>
           </td>
         </tr>
 
