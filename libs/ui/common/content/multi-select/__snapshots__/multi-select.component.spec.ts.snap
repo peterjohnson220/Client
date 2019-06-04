@@ -27,20 +27,22 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
     >
       
       <div
-        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
+        class="select-facade action-item rounded form-control d-flex col pr-4"
       >
         <span
-          class="flex-grow-1 ellipsis-overflowing-text"
+          class="ellipsis-overflowing-text pr-0"
           container="body"
           ng-reflect-container="body"
           ng-reflect-ngb-tooltip=""
         >
           
         </span>
-        <span>
+        <span
+          class="position-absolute"
+          style="right: 0.375rem"
+        >
           <i
             class="k-i-arrow-s k-icon"
-            style="padding-left: 0.3rem"
           />
         </span>
       </div>
@@ -77,20 +79,22 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
     >
       
       <div
-        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
+        class="select-facade action-item rounded form-control d-flex col pr-4"
       >
         <span
-          class="flex-grow-1 ellipsis-overflowing-text"
+          class="ellipsis-overflowing-text pr-0"
           container="body"
           ng-reflect-container="body"
           ng-reflect-ngb-tooltip=""
         >
           
         </span>
-        <span>
+        <span
+          class="position-absolute"
+          style="right: 0.375rem"
+        >
           <i
             class="k-i-arrow-s k-icon"
-            style="padding-left: 0.3rem"
           />
         </span>
       </div>
@@ -187,20 +191,22 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
     >
       
       <div
-        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
+        class="select-facade action-item rounded form-control d-flex col pr-4"
       >
         <span
-          class="flex-grow-1 ellipsis-overflowing-text"
+          class="ellipsis-overflowing-text pr-0"
           container="body"
           ng-reflect-container="body"
           ng-reflect-ngb-tooltip=""
         >
           
         </span>
-        <span>
+        <span
+          class="position-absolute"
+          style="right: 0.375rem"
+        >
           <i
             class="k-i-arrow-s k-icon"
-            style="padding-left: 0.3rem"
           />
         </span>
       </div>
@@ -316,20 +322,22 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
         job family
       </div>
       <div
-        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
+        class="select-facade action-item rounded form-control d-flex col pr-4"
       >
         <span
-          class="flex-grow-1 ellipsis-overflowing-text"
+          class="ellipsis-overflowing-text pr-0"
           container="body"
           ng-reflect-container="body"
           ng-reflect-ngb-tooltip=""
         >
           
         </span>
-        <span>
+        <span
+          class="position-absolute"
+          style="right: 0.375rem"
+        >
           <i
             class="k-i-arrow-s k-icon"
-            style="padding-left: 0.3rem"
           />
         </span>
       </div>
@@ -366,20 +374,22 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
     >
       
       <div
-        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
+        class="select-facade action-item rounded form-control d-flex col pr-4"
       >
         <span
-          class="flex-grow-1 ellipsis-overflowing-text"
+          class="ellipsis-overflowing-text pr-0"
           container="body"
           ng-reflect-container="body"
           ng-reflect-ngb-tooltip=""
         >
           
         </span>
-        <span>
+        <span
+          class="position-absolute"
+          style="right: 0.375rem"
+        >
           <i
             class="k-i-arrow-s k-icon"
-            style="padding-left: 0.3rem"
           />
         </span>
       </div>
@@ -475,20 +485,22 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
     >
       
       <div
-        class="select-facade action-item rounded form-control flex-grow-1 d-flex col"
+        class="select-facade action-item rounded form-control d-flex col pr-4"
       >
         <span
-          class="flex-grow-1 ellipsis-overflowing-text"
+          class="ellipsis-overflowing-text pr-0"
           container="body"
           ng-reflect-container="body"
           ng-reflect-ngb-tooltip=""
         >
           
         </span>
-        <span>
+        <span
+          class="position-absolute"
+          style="right: 0.375rem"
+        >
           <i
             class="k-i-arrow-s k-icon"
-            style="padding-left: 0.3rem"
           />
         </span>
       </div>
