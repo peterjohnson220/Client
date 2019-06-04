@@ -1,15 +1,17 @@
 import { PipeTransform, Pipe, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
+import { icon } from '@fortawesome/fontawesome-svg-core';
+
 @Pipe({ name: 'jobDescriptionParser' })
 export class JobDescriptionParserPipe implements PipeTransform {
-  sections = [
-    { text: 'Job Summary:', cssClass: 'job-summary', headerIcon: '<i class="fas fa-id-card"></i>' },
-    { text: 'Job Duties:', cssClass: 'job-duties', headerIcon: '<i class="fas fa-tasks"></i>' },
-    { text: 'Experience and Education:', cssClass: 'experience-and-education', headerIcon: '<i class="fas fa-graduation-cap"></i>' },
-    { text: 'Reports to:', cssClass: 'reports-to', headerIcon: '<i class="fas fa-user-alt"></i>' },
-    { text: 'Competencies:', cssClass: 'competencies', headerIcon: '<i class="fas fa-university"></i>' }
-  ];
+  faIdCard = icon({ prefix: 'fas', iconName: 'id-card'});
+  faTasks = icon({ prefix: 'fas', iconName: 'tasks'});
+  faGraduationCap = icon({ prefix: 'fas', iconName: 'graduation-cap'});
+  faUserAlt = icon({ prefix: 'fas', iconName: 'user-alt'});
+  faUniversity = icon({ prefix: 'fas', iconName: 'university'});
+
+  sections = [];
 
   constructor(public sanitizer: DomSanitizer) { }
 
@@ -18,6 +20,15 @@ export class JobDescriptionParserPipe implements PipeTransform {
     if (!jobDescription) {
       return '';
     }
+
+    this.sections = [
+      { text: 'Job Summary:', cssClass: 'job-summary', headerIcon: `<span>${this.faIdCard.html.join('\n')}</span>` },
+      { text: 'Job Duties:', cssClass: 'job-duties', headerIcon: `<span>${this.faTasks.html.join('\n')}</span>` },
+      { text: 'Experience and Education:', cssClass: 'experience-and-education',
+        headerIcon: `<span>${this.faGraduationCap.html.join('\n')}</span>` },
+      { text: 'Reports to:', cssClass: 'reports-to', headerIcon: `<span>${this.faUserAlt.html.join('\n')}</span>` },
+      { text: 'Competencies:', cssClass: 'competencies', headerIcon: `<span>${this.faUniversity.html.join('\n')}</span>` }
+    ];
 
     // loop through all sections
     let parsedJobDescriptionHtml = '';

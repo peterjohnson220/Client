@@ -1,7 +1,7 @@
 <section class="slide-in-panel position-absolute" [ngClass]="(isExpanded$ | async) ? 'expanded' : 'collapsed'" [class.invisible]="!jobId">
   <header>
     <a href="javascript:void(0)" (click)="handleClose()" class="close-detail position-absolute">
-      <i class="far fa-arrow-alt-circle-right"></i>
+      <fa-icon [icon]="['far', 'arrow-alt-circle-right']"></fa-icon>
     </a>
     <h5>{{ jobTitle }}</h5>
   </header>

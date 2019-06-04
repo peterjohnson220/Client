@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+import * as fromFaIcons from './fa-icons';
 import { DebounceClickDirective } from './directives';
 import {
   HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
@@ -24,6 +28,11 @@ const declarations = [
 
 @NgModule({
   declarations: declarations,
-  exports: declarations
+  exports: declarations,
+  imports: [FontAwesomeModule]
 })
-export class PfCommonModule { }
+export class PfCommonModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

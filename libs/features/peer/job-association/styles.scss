@@ -94,10 +94,14 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
         opacity: .8;
       }
     }
+    
+    .search-icon {
+      z-index: 100;
+      left: 6px;
+    }
+
     .fa-search {
       font-size: 18px;
-      left: 6px;
-      z-index: 100;
       margin-top: 6px;
       color: #0099cc;
     }

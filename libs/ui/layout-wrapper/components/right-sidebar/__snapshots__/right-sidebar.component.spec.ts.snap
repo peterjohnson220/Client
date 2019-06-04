@@ -15,11 +15,10 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
         id="openSidebarIconContainer"
         style="visibility: visible;"
       >
-        <i
-          class="fas fa-lg open-sidebar-icon"
+        <fa-icon
+          class="open-sidebar-icon"
           id="openSidebarIcon"
-          ng-reflect-klass="fas fa-lg open-sidebar-icon"
-          ng-reflect-ng-class=""
+          size="lg"
         />
       </span>
     </span>
@@ -39,9 +38,10 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
           <span
             style="visibility: hidden;"
           >
-            <i
-              class="fas fa-times fa-lg"
+            <fa-icon
+              icon="times"
               id="closeSidebarIcon"
+              size="lg"
             />
           </span>
         </div>
@@ -66,11 +66,10 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
         id="openSidebarIconContainer"
         style="visibility: visible;"
       >
-        <i
-          class="fas fa-lg open-sidebar-icon"
+        <fa-icon
+          class="open-sidebar-icon"
           id="openSidebarIcon"
-          ng-reflect-klass="fas fa-lg open-sidebar-icon"
-          ng-reflect-ng-class=""
+          size="lg"
         />
       </span>
     </span>
@@ -90,9 +89,10 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
           <span
             style="visibility: hidden;"
           >
-            <i
-              class="fas fa-times fa-lg"
+            <fa-icon
+              icon="times"
               id="closeSidebarIcon"
+              size="lg"
             />
           </span>
         </div>
@@ -113,9 +113,10 @@ exports[`Right Sidebar should transclude 1`] = `
           class="open-sidebar-icon-container"
           id="openSidebarIconContainer"
         >
-          <i
-            class="fas fa-lg open-sidebar-icon"
+          <fa-icon
+            class="open-sidebar-icon"
             id="openSidebarIcon"
+            size="lg"
           />
         </span>
       </span>
@@ -131,9 +132,10 @@ exports[`Right Sidebar should transclude 1`] = `
             class="close-sidebar-icon p-2"
           >
             <span>
-              <i
-                class="fas fa-times fa-lg"
+              <fa-icon
+                icon="times"
                 id="closeSidebarIcon"
+                size="lg"
               />
             </span>
           </div>

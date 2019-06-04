@@ -66,9 +66,9 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
               <span
                 class="input-group-text"
               >
-                <i
+                <fa-icon
                   aria-hidden="true"
-                  class="fas fa-times"
+                  icon="times"
                 />
               </span>
             </div>

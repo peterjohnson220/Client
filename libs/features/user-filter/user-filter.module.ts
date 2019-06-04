@@ -5,10 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
+import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { UserFilterEffects, UserFilterPopoverEffects, SaveFilterModalEffects } from './effects';
 import { UserFilterPopoverComponent } from './containers';
@@ -31,9 +34,14 @@ import { SaveFilterModalComponent } from './components';
       UserFilterPopoverEffects,
       SaveFilterModalEffects
     ]),
-    NgbPopoverModule.forRoot()
+    NgbPopoverModule.forRoot(),
+    FontAwesomeModule
   ],
   declarations: [ UserFilterPopoverComponent, SaveFilterModalComponent ],
   exports: [ UserFilterPopoverComponent, SaveFilterModalComponent ]
 })
-export class PfUserFilterModule { }
+export class PfUserFilterModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

@@ -66,9 +66,10 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
     />
     
     <span>
-      <i
+      <fa-icon
         aria-hidden="true"
-        class="fas fa-spin fa-circle-notch picker-searching-icon"
+        class="picker-searching-icon"
+        icon="circle-notch"
       />
     </span>
     

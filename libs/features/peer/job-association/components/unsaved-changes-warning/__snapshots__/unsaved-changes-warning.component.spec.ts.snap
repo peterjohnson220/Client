@@ -25,8 +25,8 @@ exports[`UnsavedChangesWarningComponent should render when isVisible is true 1`]
       <h5
         class="mb-4 mt-2"
       >
-        <i
-          class="far fa-exclamation-triangle mr-2"
+        <fa-icon
+          class="mr-2"
         />
         Leave without saving changes? 
       </h5>

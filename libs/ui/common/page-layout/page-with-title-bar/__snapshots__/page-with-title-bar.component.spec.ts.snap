@@ -17,9 +17,9 @@ exports[`Page With Title Bar should show the back button, when provided a return
         <button
           class="btn btn-secondary back-btn"
         >
-          <i
+          <fa-icon
             aria-hidden="true"
-            class="fas fa-long-arrow-alt-left"
+            icon="long-arrow-alt-left"
           />
         </button>
         
@@ -57,9 +57,9 @@ exports[`Page With Title Bar should show the back button, when provided an absol
           <button
             class="btn btn-secondary back-btn"
           >
-            <i
+            <fa-icon
               aria-hidden="true"
-              class="fas fa-long-arrow-alt-left"
+              icon="long-arrow-alt-left"
             />
           </button>
         </a>

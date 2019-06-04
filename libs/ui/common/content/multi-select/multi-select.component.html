@@ -7,7 +7,7 @@
           <label class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2" [ngbTooltip]="getSelectionsString()">
             {{ getSelectionsString() }}
           </label>
-          <i class="fas fa-angle-down d-inline-block ml-2"></i>
+          <fa-icon icon="angle-down" class="d-inline-block ml-2"></fa-icon>
         </span>
       </a>
     </div>
@@ -17,10 +17,10 @@
       <pf-loading-indicator></pf-loading-indicator>
     </span>
     <div *ngIf="!(isLoading)">
-      <i class="fas fa-search position-absolute"></i>
+      <fa-icon icon="search" class="position-absolute"></fa-icon>
       <input type="text" [(ngModel)]="searchTerm" class="form-control d-block mt-2" placeholder="Search" />
       <a href="javascript:void(0)" (click)="clearSearchTerm()" class="position-absolute text-muted">
-        <i class="fas fa-times"></i>
+        <fa-icon icon="times"></fa-icon>
       </a>
       <button [disabled]="!hasSelections()" (click)="clearSelections()" class="clear-selections btn d-block mt-2 mb-2">Clear Selections</button>
       <div class="checkbox-container" (change)="emitChanges()">
