@@ -1,5 +1,5 @@
 <span title="Click to Edit Display Name" class="editable" *ngIf="!isEditing" (click)="toggleEdit()">
-  {{value}} <span class="editable-icon"> <i class="fas fa-edit"></i></span>
+  {{value}} <span class="editable-icon"> <i class="fas fa-pencil"></i></span>
 </span>
 <ng-container *ngIf="isEditing">
   <form [formGroup]="editDisplayNameForm" (ngSubmit)="save()">
@@ -12,12 +12,12 @@
              pfFocus
              [pfValidatable]="!isSaving"
              [minLength]="3">
-      <div (click)="save()" class="input-group-append" [ngClass]="{'disabled': !buttonsEnabled}">
+      <div (click)="save()" class="input-group-append" [ngClass]="{'disabled': !saveButtonEnabled}">
           <span class="input-group-text">
             <i class="fas fa-check-circle text-success" aria-hidden="true"></i>
           </span>
       </div>
-      <div (click)="cancel()" class="input-group-append" [ngClass]="{'disabled': !buttonsEnabled}">
+      <div (click)="cancel()" class="input-group-append" [ngClass]="{'disabled': isSaving}">
           <span class="input-group-text">
             <i class="fas fa-times"
                aria-hidden="true"></i>

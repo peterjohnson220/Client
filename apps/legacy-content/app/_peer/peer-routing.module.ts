@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'upsert-data-cut', pathMatch: 'full' },
   { path: 'associate-exchange-job', component: AssociateCompanyJobComponent },
   { path: 'exchange-paymarket-scope', component: PaymarketExchangeScopeComponent, canActivate: [PeerTileEnabledGuard] },
-  { path: 'tag-entities', component: TaggingEntitiesPageComponent, canActivate: [PeerTileEnabledGuard] },
+  { path: 'tag-entities', component: TaggingEntitiesPageComponent },
   { path: 'upsert-data-cut', component: UpsertDataCutPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
