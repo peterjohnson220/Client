@@ -55,7 +55,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
 
   emitChanges() {
-    this.refreshSelected()
+    this.refreshSelected();
     this.selectedOptionsChange.emit(this.selectedOptions);
     this.selectedValuesChange.emit(this.selectedValues);
 

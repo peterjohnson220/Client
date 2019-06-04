@@ -49,21 +49,21 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
     class="filters position-relative row mt-2 mb-2"
   >
     <div
-      class="col-4"
+      class="mb-2 col filter-el"
     >
       <pf-input-debounce
         id="exchange-jobs-search-box"
       />
     </div>
     <div
-      class="col-4"
+      class="mb-2 col filter-el"
     >
       <pf-multi-select
         data-qa-id="ddm-job-family-filter"
       />
     </div>
     <div
-      class="col-4"
+      class="mb-2 col filter-el"
     >
       <pf-multi-select
         data-qa-id="ddm-exchange-filter"
