@@ -1,5 +1,24 @@
 @import 'colors';
 
 .editable {
-  text-decoration: underline dashed $pf-brand-secondary-accent-color;
+
+  padding: .35rem;
+
+  .editable-icon:not(:hover) {
+    display: none;
+  }
+
+  &:hover {
+    .editable-icon {
+      padding-left: 1rem;
+      display: inline-block;
+    }
+    background-color: lighten($inactive-button-color, 20%);
+    border-radius: 7%;
+    cursor: pointer;
+  }
+}
+
+.disabled {
+  opacity: .5;
 }

@@ -36,7 +36,7 @@ export class EditableTagCategoryDisplayNameComponent implements OnInit, OnDestro
 
   createForm(): void {
     this.editDisplayNameForm = this.fb.group({
-      'tempValue': [this.value, [PfValidators.required, PfValidators.minLengthTrimWhitespace(3)]]
+      'tempValue': [{value: false, disabled: true}, [PfValidators.required, PfValidators.minLengthTrimWhitespace(3)]]
     });
   }
 
@@ -59,18 +59,27 @@ export class EditableTagCategoryDisplayNameComponent implements OnInit, OnDestro
   reset(): void {
     this.isEditing = false;
     this.tempValueControl.setValue(this.value);
+    this.tempValueControl.enable();
   }
 
   toggleEdit(): void {
     this.isEditing = true;
     this.tempValueControl.setValue(this.value);
+    this.tempValueControl.enable();
   }
 
   // Events
   ngOnInit(): void {
     this.savingSubscription = this.saving$.subscribe(saving => {
       this.isSaving = saving;
-      if (!saving && this.isEditing) {
+
+      if (!this.isEditing) {
+        return;
+      }
+
+      if (saving) {
+        this.tempValueControl.disable();
+      } else {
         this.reset();
       }
     });
