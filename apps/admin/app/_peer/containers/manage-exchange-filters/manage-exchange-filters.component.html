@@ -46,11 +46,12 @@
           <td width="15%">{{efs.FieldName}}</td>
           <td width="40%">
             <div class="d-flex justify-content-end">
-              <kendo-switch [checked]="!efs.IsDisabled"
-                            [onLabel]="'On'"
-                            [offLabel]="'Off'"
-                            (valueChange)="handleSwitchToggled(efs)"
-                            class="switch">
+              <kendo-switch
+                class="switch"
+                onLabel="On"
+                offLabel="Off"
+                [checked]="!efs.IsDisabled"
+                (valueChange)="handleSwitchToggled(efs)">
               </kendo-switch>
             </div>
 

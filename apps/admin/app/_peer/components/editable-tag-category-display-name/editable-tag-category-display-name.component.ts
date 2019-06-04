@@ -10,7 +10,6 @@ import { PfValidators } from 'libs/forms/validators';
   templateUrl: './editable-tag-category-display-name.component.html',
   styleUrls: ['./editable-tag-category-display-name.component.scss']
 })
-// TODO: WRITE UNIT TESTS
 export class EditableTagCategoryDisplayNameComponent implements OnInit, OnDestroy {
   @Input() value: string;
   @Input() saving$: Observable<boolean>;
@@ -30,7 +29,7 @@ export class EditableTagCategoryDisplayNameComponent implements OnInit, OnDestro
 
   get isDirty(): boolean { return this.value !== this.tempValueControl.value; }
 
-  get buttonsEnabled(): boolean {
+  get saveButtonEnabled(): boolean {
     return this.isDirty && !this.isSaving && this.tempValueControl.valid;
   }
 
@@ -41,7 +40,7 @@ export class EditableTagCategoryDisplayNameComponent implements OnInit, OnDestro
   }
 
   save(): void {
-    if (!this.buttonsEnabled) {
+    if (!this.saveButtonEnabled) {
       return;
     }
 

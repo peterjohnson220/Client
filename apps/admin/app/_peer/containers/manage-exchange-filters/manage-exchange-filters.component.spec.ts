@@ -62,10 +62,11 @@ describe('Manage Exchange Filters', () => {
 
     fixture = TestBed.createComponent(ManageExchangeFiltersComponent);
     instance = fixture.componentInstance;
+
+    instance.exchange$ = of(generateMockExchange());
   });
 
   it('should match snapshot', () => {
-    instance.exchange$ = of(generateMockExchange());
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -76,6 +77,8 @@ describe('Manage Exchange Filters', () => {
       exchangeId: routeIdParam,
       searchString: ''
     });
+
+    fixture.detectChanges();
 
     instance.handleExchangeFiltersGridReload();
 
@@ -88,13 +91,32 @@ describe('Manage Exchange Filters', () => {
       {...filter, IsDisabled: false}
     );
 
+    fixture.detectChanges();
+
     instance.handleSwitchToggled(filter);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should dispatch a PutFilter action when handleSaveFilterDisplayName is called', () => {
+    const filter = {...generateMockExchangeSearchFilterAggregate(), IsDisabled: false};
+    const expectedNewDisplayName = 'NewDisplayName';
+    const expectedAction = new fromExchangeFiltersActions.PutFilter(
+      {...filter, DisplayName: expectedNewDisplayName}
+    );
+    instance.exchangeFilters$ = of([filter]);
+
+    fixture.detectChanges();
+
+    instance.handleSaveFilterDisplayName(expectedNewDisplayName, filter.Id);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
   it('should call GridHelperService LoadExchangeFilters when handleSearchChanged is called', () => {
     const str = 'go';
+
+    fixture.detectChanges();
 
     spyOn(gridHelperService, 'loadExchangeFilters');
 
@@ -120,11 +142,15 @@ describe('Manage Exchange Filters', () => {
     instance.exchangeFilters = filters;
     instance.drop(ddEvent);
 
+    fixture.detectChanges();
+
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should dispatch a OpenAddTagCategoriesModal action when openAddTagCategoriesModal is called', () => {
     const action = new fromTagCategoriesActions.OpenAddTagCategoriesModal();
+
+    fixture.detectChanges();
 
     instance.openAddTagCategoriesModal();
 
