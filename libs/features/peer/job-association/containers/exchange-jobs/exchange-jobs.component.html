@@ -1,6 +1,6 @@
 <h2 class="text-center mb-3">Peer Exchange Jobs</h2>
 <div class="filters position-relative row mt-2 mb-2">
-  <div class="col-4">
+  <div class="mb-2 col filter-el">
     <pf-input-debounce
       [id]="'exchange-jobs-search-box'"
       [delay]="400"
@@ -10,7 +10,7 @@
     >
     </pf-input-debounce>
   </div>
-  <div class="col-4">
+  <div class="mb-2 col filter-el">
     <pf-multi-select
       #multiSelectJobFamily
       [attr.data-qa-id]="'ddm-job-family-filter'"
@@ -22,7 +22,7 @@
     >
     </pf-multi-select>
   </div>
-  <div class="col-4">
+  <div class="mb-2 col filter-el">
     <pf-multi-select
       #multiSelectExchange
       [attr.data-qa-id]="'ddm-exchange-filter'"

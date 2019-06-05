@@ -98,15 +98,15 @@ pf-peer-job-association-company-jobs {
       .input-group-append {
         .input-group-text {
           background-color: white !important;
-        border-left: 0;
+          border-left: 0;
         }
       }
 
       input[type=text].form-control {
         border-right: 0;
         border-left: 0;
-      }      
-    }    
+      }
+    }
   }
 
   .view-button {
@@ -301,15 +301,33 @@ pf-peer-job-association-company-jobs {
       max-width: 100%;
       display: block !important;
     }
+    .filter-el {
+      padding-right: 0px;
+      padding-left: 0px;
+      margin-left: 15px;
+    }
 
     .grid-container {
       height: calc(100% - 220px);
+    }
+
+    .selections-container{
+      width: 100% !important;
     }
 
     pf-multi-select {
       .main-label {
         width: 60px;
       }
+    }
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  pf-peer-job-association-exchange-jobs {
+    .filter-el {
+      flex: 0 0 33.33333333%;
+      max-width: 33.333%;
     }
   }
 }
