@@ -130,8 +130,11 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
 
   selectionsHeight() {
+    const selectionsHeight = 32;
+    const maxHeight = 200;
+    const heightInPx = this.filteredOptions().length * selectionsHeight;
     // The cdk-virtual scroll requires the height to be specified so we have to manually calculate it
-    return Math.min((this.filteredOptions().length * 32) + 32, 200);
+    return heightInPx === 0 ? 32 : Math.min(heightInPx, maxHeight);
   }
 
   trackByFn(index, item: GenericMenuItem) {
