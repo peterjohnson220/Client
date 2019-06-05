@@ -26,15 +26,17 @@
           Clear Selections
         </button>
       </div>
-      <div class="checkbox-container" (change)="emitChanges()">
-        <ng-container *ngFor="let option of options; trackBy: trackByFn; let i=index;">
+      <div class="checkbox-container" (change)="emitChanges()" [style.height.px]="selectionsHeight()">
+        <ng-container *ngFor="let option of filteredOptions(); trackBy: trackByFn; let i=index;">
           <label class="checkbox-label d-block ellipsis-overflowing-text m-0 p-2"
             *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1"
             [ngClass]="highlightSelected && option.IsSelected? 'highlight' :''">
             <input type="checkbox" [(ngModel)]="option.IsSelected" class="mr-1">{{ option.DisplayName }}
           </label>
         </ng-container>
-        <label class="no-results font-italic text-center d-block">No Results Found</label>
+        <label *ngIf="filteredOptions().length === 0" class="no-results font-italic text-center d-block">
+          No Results Found
+        </label>
       </div>
     </div>
   </div>
