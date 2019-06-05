@@ -1,10 +1,10 @@
 <div class="multi-select-container" pfClickElsewhere (clickElsewhere)="clickElsewhere()">
   <div class="selections-summary row align-items-center">
     <div *ngIf="labelText" class="main-label mr-2">{{ labelText }}</div>
-    <div class="select-facade action-item rounded form-control flex-grow-1 d-flex col" (click)="toggleCheckboxPanel()">
-      <span class="flex-grow-1 ellipsis-overflowing-text" [ngbTooltip]="getSelectionsString()"
+    <div class="select-facade action-item rounded form-control d-flex col pr-4" (click)="toggleCheckboxPanel()">
+      <span class="ellipsis-overflowing-text pr-0" [ngbTooltip]="getSelectionsString()"
         container="body">{{getSelectionsString()}}</span>
-      <span><i class="k-i-arrow-s k-icon" style="padding-left: 0.3rem"></i></span>
+      <span class="position-absolute" style="right: 0.375rem"><i class="k-i-arrow-s k-icon"></i></span>
     </div>
   </div>
   <div *ngIf="isExpanded" class="selections-container d-flex flex-column">
