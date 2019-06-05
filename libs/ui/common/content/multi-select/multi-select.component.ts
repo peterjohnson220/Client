@@ -55,10 +55,9 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
 
   emitChanges() {
-    this.refreshSelected()
+    this.refreshSelected();
     this.selectedOptionsChange.emit(this.selectedOptions);
     this.selectedValuesChange.emit(this.selectedValues);
-
   }
 
   getFromRemoteSource() {
@@ -122,6 +121,17 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
     return this.selectedOptions
     .filter((selectedOptions) => selectedOptions.IsSelected)
     .map((x) => x[fieldMap]).join(', ');
+  }
+
+  filteredOptions() {
+    return this.searchTerm ?
+      this.options.filter(option => option.DisplayName.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      : this.options ? this.options : [];
+  }
+
+  selectionsHeight() {
+    // The cdk-virtual scroll requires the height to be specified so we have to manually calculate it
+    return Math.min((this.filteredOptions().length * 32) + 32, 200);
   }
 
   trackByFn(index, item: GenericMenuItem) {

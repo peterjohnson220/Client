@@ -145,12 +145,14 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
         </div>
         <div
           class="checkbox-container"
+          style="height: 32px;"
         >
+          
           
           <label
             class="no-results font-italic text-center d-block"
           >
-            No Results Found
+             No Results Found 
           </label>
         </div>
       </div>
@@ -255,6 +257,7 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
         </div>
         <div
           class="checkbox-container"
+          style="height: 64px;"
         >
           
           
@@ -271,11 +274,7 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
             Zoos and Zookeeping 
           </label>
           
-          <label
-            class="no-results font-italic text-center d-block"
-          >
-            No Results Found
-          </label>
+          
         </div>
       </div>
     </div>
@@ -434,12 +433,14 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
         </div>
         <div
           class="checkbox-container"
+          style="height: 32px;"
         >
+          
           
           <label
             class="no-results font-italic text-center d-block"
           >
-            No Results Found
+             No Results Found 
           </label>
         </div>
       </div>
