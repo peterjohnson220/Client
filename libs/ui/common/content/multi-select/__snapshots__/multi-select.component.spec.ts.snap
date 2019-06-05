@@ -263,7 +263,7 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
         </div>
         <div
           class="checkbox-container"
-          style="height: 64px;"
+          style="height: 32px;"
         >
           
           
