@@ -19,14 +19,25 @@
         <div class="col-12">
           <pf-community-search-result-header [companyName]="result.CompanyName"
                                              [elapsedTime]="result.ElapsedTime"
-                                             [isPoll]=isPoll(result)
+                                             [type]=getSearchResultType(result)
                                              [pollExpirationDate]="result.CommunityContent.ExpirationDate"></pf-community-search-result-header>
           <pf-community-search-result-content [content]="result.Content"
                                               [searchTerm]="query"
                                               [pollResponses]="result.CommunityContent.Responses"></pf-community-search-result-content>
-          <div *ngIf="!isPoll(result)" class="footer-container">
+          <div *ngIf="getSearchResultType(result) != pollType" class="footer-container">
             <span> <i class="fas fa-heart icon"></i> {{result.LikeCount}} Likes</span>
             <span class="ml-1"> Replies ({{result.ReplyCount}})</span>
+          </div>
+          <div class="pl-3 pt-3" *ngFor="let reply of result.Replies">
+            <pf-community-search-result-header class="my-0"
+              [type]="replyType"
+              [companyName]="reply.CompanyName"
+              [elapsedTime]="reply.ElapsedTime">
+            </pf-community-search-result-header>
+              <pf-community-search-result-content 
+              [content]="reply.Content"
+              [searchTerm]="query">
+            </pf-community-search-result-content>
           </div>
         </div>
       </div>
