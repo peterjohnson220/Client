@@ -416,17 +416,29 @@ describe('FieldMapperComponent', () => {
       expect(next).toBeCalledWith(expectedPayload);
     });
 
-    it('should clear out any existing mappings on init', () => {
-      component.loaderType = LoaderType.Jobs;
+    it('should clear out any existing mappings and add new mappings on refresh', () => {
+      component.loaderType = LoaderType.Structures;
       component.payfactorsDataFields = [];
       component.clientFields = [];
-      component.mappedFields = ['Job_Code__JobCode', 'Job_Title__JobTitle'];
+      component.mappedFields = ['ExistingMapping__ThatWasPreviouslyMapped', 'Another__OldMapping'];
 
+      component.fieldMappings$ = of([{
+        CompanyId: 13,
+        LoaderType: LoaderType.Structures,
+        LoaderFieldMappings: [{
+          InternalField: 'GradeCode',
+          ClientField: 'Grade'
+        },
+          {
+            InternalField: 'Min',
+            ClientField: 'Minimum'
+          }]
+      }]);
       fixture.detectChanges();
 
       component.ngOnInit();
 
-      expect(component.mappedFields).toEqual(['Job_Code__JobCode', 'Job_Title__JobTitle']);
+      expect(component.mappedFields).toEqual(['GradeCode__Grade', 'Min__Minimum']);
     });
   });
 });
