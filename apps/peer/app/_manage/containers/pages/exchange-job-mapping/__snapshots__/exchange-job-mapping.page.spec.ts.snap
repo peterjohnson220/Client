@@ -12,6 +12,8 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   route={[Function Object]}
   selectedExchangeJobMapping$={[Function Store]}
   selectedExchangeJobMappingSubscription={[Function Subscriber]}
+  settingsService={[Function SettingsService]}
+  showCompanyJobs="false"
   store={[Function Store]}
   userContext$={[Function Store]}
 >
@@ -22,6 +24,8 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
     <div
       class="omni-box"
     >
+      
+      
       <pf-input-debounce />
     </div>
     <button
@@ -59,6 +63,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
       />
     </button>
     
+    
     <div
       class="flex-column-container"
     >
@@ -74,6 +79,164 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
         <pf-exchange-job-mapping-info />
       </div>
     </div>
+    
+  </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal />
+</pf-exchange-job-mapping-page>
+`;
+
+exports[`Peer - Exchange Job Mapping Page should show the correct header message and company jobs grid when the company jobs grid is enabled 1`] = `
+<pf-exchange-job-mapping-page
+  _Permissions={[Function Function]}
+  collapse="false"
+  companySecurityApi={[Function Object]}
+  disableGridScollTo="false"
+  exchangeId={[Function Number]}
+  exchangeJobMappingService={[Function Object]}
+  gridPageRowIndexToScrollTo$={[Function Store]}
+  route={[Function Object]}
+  selectedExchangeJobMapping$={[Function Store]}
+  selectedExchangeJobMappingSubscription={[Function Subscriber]}
+  settingsService={[Function SettingsService]}
+  showCompanyJobs={[Function Boolean]}
+  store={[Function Store]}
+  userContext$={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Company to Exchange Job Match 
+    
+    <div
+      class="omni-box"
+    >
+      
+      <pf-input-debounce />
+      
+    </div>
+    <button
+      class="btn btn-secondary"
+      type="button"
+    >
+      Request Exchange Job
+    </button>
+    <a
+      href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId=1"
+    >
+      <button
+        class="btn btn-secondary"
+        id="export-popover-btn"
+        placement="bottom"
+        title="Export to Excel"
+        type="button"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-download"
+        />
+      </button>
+    </a>
+    <button
+      class="btn btn-secondary"
+      id="import-popover-btn"
+      placement="bottom"
+      title="Import Associations"
+      type="button"
+    >
+      <i
+        aria-hidden="true"
+        class="fas fa-upload"
+      />
+    </button>
+    
+    
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="h-100"
+      >
+        <pf-company-jobs-grid />
+      </div>
+    </div>
+    
+  </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal />
+</pf-exchange-job-mapping-page>
+`;
+
+exports[`Peer - Exchange Job Mapping Page should show the correct header message and exchange jobs grid when the company jobs grid is disabled 1`] = `
+<pf-exchange-job-mapping-page
+  _Permissions={[Function Function]}
+  collapse="false"
+  companySecurityApi={[Function Object]}
+  disableGridScollTo="false"
+  exchangeId={[Function Number]}
+  exchangeJobMappingService={[Function Object]}
+  gridPageRowIndexToScrollTo$={[Function Store]}
+  route={[Function Object]}
+  selectedExchangeJobMapping$={[Function Store]}
+  selectedExchangeJobMappingSubscription={[Function Subscriber]}
+  settingsService={[Function SettingsService]}
+  showCompanyJobs="false"
+  store={[Function Store]}
+  userContext$={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Exchange to Company Job Association 
+    
+    <div
+      class="omni-box"
+    >
+      
+      
+      <pf-input-debounce />
+    </div>
+    <button
+      class="btn btn-secondary"
+      type="button"
+    >
+      Request Job
+    </button>
+    <a
+      href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId=1"
+    >
+      <button
+        class="btn btn-secondary"
+        id="export-popover-btn"
+        placement="bottom"
+        title="Export to Excel"
+        type="button"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-download"
+        />
+      </button>
+    </a>
+    <button
+      class="btn btn-secondary"
+      id="import-popover-btn"
+      placement="bottom"
+      title="Import Associations"
+      type="button"
+    >
+      <i
+        aria-hidden="true"
+        class="fas fa-upload"
+      />
+    </button>
+    
+    
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="exchange-job-mapping-grid-container"
+      >
+        <pf-exchange-job-mapping-grid />
+      </div>
+      
+    </div>
+    
   </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal />
 </pf-exchange-job-mapping-page>
 `;

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
 import { GridTypeEnum } from 'libs/models/common';
 import { ExchangeJobMapping, ExchangeRequestTypeEnum } from 'libs/models/peer';
@@ -11,11 +12,13 @@ import { UserContext } from 'libs/models';
 import {Permissions} from 'libs/constants';
 import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
 import { ExchangeJobMappingService } from '../../../services';
-
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import * as companyJobsActions from '../../../actions/company-jobs.actions';
 import * as fromPeerManagementReducer from '../../../reducers';
 import * as fromRootState from 'libs/state/state';
 import * as fromImportRequestActions from '../../../actions/import.actions';
@@ -27,6 +30,8 @@ import * as fromImportRequestActions from '../../../actions/import.actions';
 })
 export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     exchangeId: number;
+    showCompanyJobs: boolean;
+
     collapse = false;
     disableGridScollTo = false;
     _Permissions = null;
@@ -40,7 +45,8 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         private store: Store<fromPeerManagementReducer.State>,
         private route: ActivatedRoute,
         private exchangeJobMappingService: ExchangeJobMappingService,
-        private companySecurityApi: CompanySecurityApiService
+        private companySecurityApi: CompanySecurityApiService,
+        private settingsService: SettingsService
     ) {
         this.exchangeId = this.route.snapshot.params.id;
         this.gridPageRowIndexToScrollTo$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingPageRowIndexToScrollTo);
@@ -55,6 +61,12 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
             { columnName: 'ExchangeJobTitle', value: query }
         ));
         this.exchangeJobMappingService.loadExchangeJobMappings();
+    }
+
+    handleCompanyJobsSearchChanged(searchTerm: string): void {
+        this.store.dispatch(new companyJobsActions.UpdateSearchTerm(searchTerm));
+        this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.PeerManageCompanyJobs, { skip: 0 } as PageChangeEvent));
+        this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
     }
 
     isUserAdmin(): boolean {
@@ -92,6 +104,9 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
             this.disableGridScollTo = this.collapse;
             this.collapse = !!selectedMapping;
         });
+
+        this.settingsService.selectCompanySetting<string>(CompanySettingsEnum.PeerManageShowCompanyJobs, 'string')
+          .subscribe(setting => this.showCompanyJobs = (setting === 'true'));
     }
 
     ngOnDestroy() {

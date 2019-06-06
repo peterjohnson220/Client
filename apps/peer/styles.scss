@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'peer/peer-colors';
+@import 'common/common-variables';
+
+.association-status {
+  display: inline-block;
+  width: 100%;
+  height: 34px;
+  margin-left: -4px;
+  transition: background-color .4s ease-in-out;
+  &.associated {
+    background-color: $associated;
+  }
+  &.not-associated {
+    background-color: $not-associated;
+  }
+}
+
+// hide No records available when loading
+.loading-blanket + .k-grid .k-grid-norecords {
+  display: none;
+}
+
+// hide the border between the association color column and the company job title column
+.company-jobs-grid-container .k-grid th.k-header:nth-of-type(2) {
+  border-left: 0;
+}
+
+.company-jobs-grid-container .k-grid-content .show-tooltip {
+  @extend %ellipsis-overflowing-text;
+}
