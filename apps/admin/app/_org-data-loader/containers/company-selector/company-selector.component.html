@@ -1,15 +1,10 @@
-<div class="company-selector-container">
-  <h3>Select a Company</h3>
-  <hr class="clear"/>
-  <span [hidden]="!loading"><i class="fa fa-spinner fa-spin"></i> Loading Companies</span>
-  <select
-    [hidden]="loading"
-    [(ngModel)]="selectedCompany"
-    [disabled]="selectedCompany"
-    class="form-control"
-    (change)="onCompanySelected()"
-  >
-    <option value="undefined">Select a Company</option>
-    <option *ngFor="let company of companies" [ngValue]="company.CompanyId">{{company.CompanyName}}</option>
-  </select>
-</div>
+<span [hidden]="!loading"><i class="fa fa-spinner fa-spin"></i> Loading Companies</span>
+<select
+  [hidden]="loading"
+  [(ngModel)]="selectedCompany"
+  [disabled]="selectedCompany"
+  class="form-control"
+  (change)="onCompanySelected()">
+  <option value="undefined">Select a Company</option>
+  <option *ngFor="let company of companies" [ngValue]="company.CompanyId">{{company.CompanyName}}</option>
+</select>

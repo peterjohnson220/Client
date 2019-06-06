@@ -3,7 +3,7 @@ import { OrgDataFilenamePatternSetFactory } from '../helpers/org-data-filename-p
 import { LoaderSetting, OrgDataFilenamePatternSet } from '../models';
 
 export interface State {
-  OrgDataFilenamePatternSet: OrgDataFilenamePatternSet
+  OrgDataFilenamePatternSet: OrgDataFilenamePatternSet;
 }
 
 const factory = new OrgDataFilenamePatternSetFactory();

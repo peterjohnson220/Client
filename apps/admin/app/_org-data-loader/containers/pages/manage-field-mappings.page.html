@@ -1,110 +1,137 @@
 <pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
-  <ng-container page-title>
-    Org Data Autoloader Field Mappings
-  </ng-container>
-
+  <ng-container page-title>Org Data Autoloader Field Mappings</ng-container>
   <ng-container page-content>
-    <pf-company-selector
-      [loading]="companiesLoading$ | async"
-      [companies]="companies$ | async"
-      (companySelected)="onCompanySelected($event)">
 
-    </pf-company-selector>
+      <div class="list-group list-group-flush">
 
-    <div *ngIf="selectedCompany" class="mapping-container">
-      <h3 class="pull-left">Field Mapper</h3>
-      <hr class="clear" />
-      <div class="container-fluid">
-        <div class="form-group row">
-          <label for="delimiter" class="col-sm-1 col-form-label">Delimiter: </label>
-          <div class="col-sm-1">
-            <input type="text" id="delimiter" class="form-control" [(ngModel)]="delimiter">
+        <div class="list-group-item">
+          <div>
+            <h3>Company</h3>
+          </div>
+          <pf-company-selector
+            [loading]="companiesLoading$ | async"
+            [companies]="companies$ | async"
+            (companySelected)="onCompanySelected($event)">
+          </pf-company-selector>
+        </div>
+
+        <div class="list-group-item" *ngIf="selectedCompany">
+          <h3>SFTP</h3>
+          <div class="container-fluid">
+            <pf-sftp-account-status></pf-sftp-account-status>
           </div>
         </div>
+
+        <div class="list-group-item" *ngIf="selectedCompany">
+          <h3>Mappings</h3>
+          <div class="container-fluid">
+            <div class="form-group row">
+              <label for="delimiter" class="col-sm-1 col-form-label">Delimiter: </label>
+              <div class="col-sm-1">
+                <input type="text" id="delimiter" class="form-control" [(ngModel)]="delimiter">
+              </div>
+            </div>
+          </div>
+          <kendo-tabstrip 
+            [keepTabContent]="true"
+            *ngIf="(orgDataFilenamePatternSet$ | async) || {} as orgDataFilenamePatternSet">
+            <kendo-tabstrip-tab title="Pay Markets" [selected]="true">
+              <ng-template kendoTabContent>
+                <pf-field-mapper
+                  [payfactorsDataFields]="payfactorsPaymarketDataFields"
+                  [loaderType]="templateReferenceConstants.LoaderType.PayMarkets"
+                  [delimiter]="delimiter"
+                  [filenamePattern]="orgDataFilenamePatternSet?.PayMarketsFilenamePattern"
+                  [fieldMappings$]="companyMappings$"
+                  [fieldMappingsLoading]="companyMappingsLoading$ | async"
+                  [loadEnabled]="isPaymarketsLoadEnabled"
+                  (mappingComplete)="onPaymarketMappingComplete($event)"></pf-field-mapper>
+              </ng-template>
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab title="Jobs">
+              <ng-template kendoTabContent>
+                <pf-field-mapper
+                  [payfactorsDataFields]="payfactorsJobDataFields"
+                  [loaderType]="templateReferenceConstants.LoaderType.Jobs"
+                  [delimiter]="delimiter"
+                  [filenamePattern]="orgDataFilenamePatternSet?.JobsFilenamePattern"
+                  [fieldMappings$]="companyMappings$"
+                  [fieldMappingsLoading]="companyMappingsLoading$ | async"
+                  [loadEnabled]="isJobsLoadEnabled"
+                  (mappingComplete)="onJobMappingComplete($event)"></pf-field-mapper>
+              </ng-template>
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab title="Structures">
+              <ng-template kendoTabContent>
+                <pf-field-mapper
+                  [payfactorsDataFields]="payfactorsStructureDataFields"
+                  [loaderType]="templateReferenceConstants.LoaderType.Structures"
+                  [delimiter]="delimiter"
+                  [filenamePattern]="orgDataFilenamePatternSet?.StructuresFilenamePattern"
+                  [fieldMappings$]="companyMappings$"
+                  [fieldMappingsLoading]="companyMappingsLoading$ | async"
+                  [loadEnabled]="isStructuresLoadEnabled"
+                  (mappingComplete)="onStructureMappingComplete($event)"></pf-field-mapper>
+              </ng-template>
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab title="Structure Mappings">
+              <ng-template kendoTabContent>
+                <pf-field-mapper
+                  [payfactorsDataFields]="payfactorsStructureMappingDataFields"
+                  [loaderType]="templateReferenceConstants.LoaderType.StructureMapping"
+                  [delimiter]="delimiter"
+                  [filenamePattern]="orgDataFilenamePatternSet?.StructureMappingsFilenamePattern"
+                  [fieldMappings$]="companyMappings$"
+                  [fieldMappingsLoading]="companyMappingsLoading$ | async"
+                  [isFullReplace]="isStructureMappingsFullReplace"
+                  [loadEnabled]="isStructureMappingsLoadEnabled"
+                  (mappingComplete)="onStructureMappingMappingComplete($event)"></pf-field-mapper>
+              </ng-template>
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab title="Employees">
+              <ng-template kendoTabContent>
+                <pf-field-mapper
+                  [payfactorsDataFields]="payfactorsEmployeeDataFields"
+                  [loaderType]="templateReferenceConstants.LoaderType.Employees"
+                  [delimiter]="delimiter"
+                  [filenamePattern]="orgDataFilenamePatternSet?.EmployeesFilenamePattern"
+                  [dateFormat]="dateFormat"
+                  [fieldMappings$]="companyMappings$"
+                  [fieldMappingsLoading]="companyMappingsLoading$ | async"
+                  [isFullReplace]="isEmployeesFullReplace"
+                  [loadEnabled]="isEmployeesLoadEnabled"
+                  (mappingComplete)="onEmployeeMappingComplete($event)"></pf-field-mapper>
+              </ng-template>
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+
+          <div class="float-right m-2">
+            <span class="save-message {{saveClass}}" [hidden]="!saveMessage">
+              {{saveMessage}}
+            </span>
+            <button
+              type="button"
+              class="btn btn-primary m-2"
+              [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete)
+                    || delimiter === ''"
+              (click)="SaveMappings()">
+              Update Mapping
+            </button>
+            <button class="btn btn-secondary" (click)="openEmailRecipientsModal()">
+              Email Recipients
+            </button>
+          </div>
+
+        </div> <!-- end list-group-item -->
       </div>
-      <kendo-tabstrip 
-        [keepTabContent]="true"
-        *ngIf="(orgDataFilenamePatternSet$ | async) || {} as orgDataFilenamePatternSet">
-        <kendo-tabstrip-tab title="Pay Markets" [selected]="true">
-          <ng-template kendoTabContent>
-            <pf-field-mapper
-              [payfactorsDataFields]="payfactorsPaymarketDataFields"
-              [loaderType]="templateReferenceConstants.LoaderType.PayMarkets"
-              [delimiter]="delimiter"
-              [filenamePattern]="orgDataFilenamePatternSet?.PayMarketsFilenamePattern"
-              [fieldMappings$]="companyMappings$"
-              [fieldMappingsLoading]="companyMappingsLoading$ | async"
-              [loadEnabled]="isPaymarketsLoadEnabled"
-              (mappingComplete)="onPaymarketMappingComplete($event)"></pf-field-mapper>
-          </ng-template>
-        </kendo-tabstrip-tab>
-        <kendo-tabstrip-tab title="Jobs">
-          <ng-template kendoTabContent>
-            <pf-field-mapper
-              [payfactorsDataFields]="payfactorsJobDataFields"
-              [loaderType]="templateReferenceConstants.LoaderType.Jobs"
-              [delimiter]="delimiter"
-              [filenamePattern]="orgDataFilenamePatternSet?.JobsFilenamePattern"
-              [fieldMappings$]="companyMappings$"
-              [fieldMappingsLoading]="companyMappingsLoading$ | async"
-              [loadEnabled]="isJobsLoadEnabled"
-              (mappingComplete)="onJobMappingComplete($event)"></pf-field-mapper>
-          </ng-template>
-        </kendo-tabstrip-tab>
-        <kendo-tabstrip-tab title="Structures">
-          <ng-template kendoTabContent>
-            <pf-field-mapper
-              [payfactorsDataFields]="payfactorsStructureDataFields"
-              [loaderType]="templateReferenceConstants.LoaderType.Structures"
-              [delimiter]="delimiter"
-              [filenamePattern]="orgDataFilenamePatternSet?.StructuresFilenamePattern"
-              [fieldMappings$]="companyMappings$"
-              [fieldMappingsLoading]="companyMappingsLoading$ | async"
-              [loadEnabled]="isStructuresLoadEnabled"
-              (mappingComplete)="onStructureMappingComplete($event)"></pf-field-mapper>
-          </ng-template>
-        </kendo-tabstrip-tab>
-        <kendo-tabstrip-tab title="Structure Mappings">
-          <ng-template kendoTabContent>
-            <pf-field-mapper
-              [payfactorsDataFields]="payfactorsStructureMappingDataFields"
-              [loaderType]="templateReferenceConstants.LoaderType.StructureMapping"
-              [delimiter]="delimiter"
-              [filenamePattern]="orgDataFilenamePatternSet?.StructureMappingsFilenamePattern"
-              [fieldMappings$]="companyMappings$"
-              [fieldMappingsLoading]="companyMappingsLoading$ | async"
-              [isFullReplace]="isStructureMappingsFullReplace"
-              [loadEnabled]="isStructureMappingsLoadEnabled"
-              (mappingComplete)="onStructureMappingMappingComplete($event)"></pf-field-mapper>
-          </ng-template>
-        </kendo-tabstrip-tab>
-        <kendo-tabstrip-tab title="Employees">
-          <ng-template kendoTabContent>
-            <pf-field-mapper
-              [payfactorsDataFields]="payfactorsEmployeeDataFields"
-              [loaderType]="templateReferenceConstants.LoaderType.Employees"
-              [delimiter]="delimiter"
-              [filenamePattern]="orgDataFilenamePatternSet?.EmployeesFilenamePattern"
-              [dateFormat]="dateFormat"
-              [fieldMappings$]="companyMappings$"
-              [fieldMappingsLoading]="companyMappingsLoading$ | async"
-              [isFullReplace]="isEmployeesFullReplace"
-              [loadEnabled]="isEmployeesLoadEnabled"
-              (mappingComplete)="onEmployeeMappingComplete($event)"></pf-field-mapper>
-          </ng-template>
-        </kendo-tabstrip-tab>
-      </kendo-tabstrip>
-      <div class="buttons-container">
-        <span class="save-message {{saveClass}}" [hidden]="!saveMessage">{{saveMessage}}</span>
-        <button type="button" class="btn btn-primary"
-                [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete)
-                || delimiter === ''"
-                (click)="SaveMappings()">Update Mapping</button>
-        <pf-email-recipients-modal class="email-recipients-btn"
-                                   *ngIf="selectedCompany"
-                                   [companyId]="selectedCompany"
-                                   [recipients]="emailRecipients$ | async"></pf-email-recipients-modal>
-      </div>
-    </div>
+
+      <!-- The modal suffers from z-index issues when inside the list-group -->
+      <pf-email-recipients-modal
+        class="float-right m-2"
+        *ngIf="selectedCompany"
+        [companyId]="selectedCompany"
+        [recipients]="emailRecipients$ | async">
+      </pf-email-recipients-modal>
+
   </ng-container>
 </pf-page-with-title-bar>

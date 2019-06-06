@@ -1,4 +1,4 @@
-import { FilenamePattern } from "./filename-pattern.model";
+import { FilenamePattern } from './filename-pattern.model';
 
 export interface OrgDataFilenamePatternSet {
   PayMarketsFilenamePattern: FilenamePattern;

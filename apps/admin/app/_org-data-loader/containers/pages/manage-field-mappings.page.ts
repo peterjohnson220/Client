@@ -14,6 +14,7 @@ import * as fromCompanySelectorActions from '../../actions/company-selector.acti
 import * as fromEmailRecipientsActions from '../../actions/email-recipients.actions';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
+import { OpenEmailRecipientsModal } from '../../actions/email-recipients.actions';
 
 import {
   ORG_DATA_PF_EMPLOYEE_FIELDS,
@@ -390,5 +391,9 @@ export class ManageFieldMappingsPageComponent implements OnInit {
       KeyName: keyName,
       KeyValue: keyValue
     });
+  }
+
+  openEmailRecipientsModal() {
+    this.store.dispatch(new OpenEmailRecipientsModal);
   }
 }
