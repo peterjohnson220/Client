@@ -5,6 +5,7 @@ export interface State {
   resetPasswordSuccess: boolean;
   resetPasswordError: boolean;
   resetPasswordTokenExpired: boolean;
+  resetPasswordAlreadyUsed: boolean;
   checkingResetPasswordToken: boolean;
   checkResetPasswordTokenSuccess: boolean;
   minimumLength: number;
@@ -16,6 +17,7 @@ export const initialState: State = {
   resetPasswordSuccess: false,
   resetPasswordError: false,
   resetPasswordTokenExpired: false,
+  resetPasswordAlreadyUsed: false,
   checkingResetPasswordToken: false,
   checkResetPasswordTokenSuccess: false,
   minimumLength: 8,
@@ -27,7 +29,8 @@ export function reducer(state = initialState, action: fromResetPasswordActions.A
     case fromResetPasswordActions.RESET_PASSWORD: {
       return {
         ...state,
-        resettingPassword: true
+        resettingPassword: true,
+        resetPasswordAlreadyUsed: false
       };
     }
     case fromResetPasswordActions.RESET_PASSWORD_SUCCESS: {
@@ -42,6 +45,13 @@ export function reducer(state = initialState, action: fromResetPasswordActions.A
         ...state,
         resettingPassword: false,
         resetPasswordTokenExpired: true
+      };
+    }
+    case fromResetPasswordActions.RESET_PASSWORD_ALREADY_USED: {
+      return {
+        ...state,
+        resettingPassword: false,
+        resetPasswordAlreadyUsed: true
       };
     }
     case fromResetPasswordActions.RESET_PASSWORD_ERROR: {
@@ -84,6 +94,7 @@ export function reducer(state = initialState, action: fromResetPasswordActions.A
 export const getResettingPassword = (state: State) => state.resettingPassword;
 export const getResettingPasswordSuccess = (state: State) => state.resetPasswordSuccess;
 export const getResettingPasswordTokenExpired = (state: State) => state.resetPasswordTokenExpired;
+export const getResettingPasswordAlreadyUsed = (state: State) => state.resetPasswordAlreadyUsed;
 export const getResettingPasswordError = (state: State) => state.resetPasswordError;
 export const getCheckingResetPasswordToken = (state: State) => state.checkingResetPasswordToken;
 export const getCheckingResetPasswordTokenSuccess = (state: State) => state.checkResetPasswordTokenSuccess;
