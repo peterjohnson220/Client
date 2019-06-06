@@ -415,5 +415,18 @@ describe('FieldMapperComponent', () => {
       expect(next).toBeCalledTimes(1);
       expect(next).toBeCalledWith(expectedPayload);
     });
+
+    it('should clear out any existing mappings on init', () => {
+      component.loaderType = LoaderType.Jobs;
+      component.payfactorsDataFields = [];
+      component.clientFields = [];
+      component.mappedFields = ['Job_Code__JobCode', 'Job_Title__JobTitle'];
+
+      fixture.detectChanges();
+
+      component.ngOnInit();
+
+      expect(component.mappedFields).toEqual(['Job_Code__JobCode', 'Job_Title__JobTitle']);
+    });
   });
 });
