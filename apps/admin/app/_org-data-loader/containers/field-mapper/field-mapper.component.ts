@@ -68,6 +68,7 @@ export class FieldMapperComponent implements OnInit {
     this.payfactorsDataFieldsForReset = this.payfactorsDataFields;
     this.fieldMappings$.subscribe(mappings => {
       if (mappings.length > 0) {
+        this.mappedFields = [];
         const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
         if (entityMapping) {
           for (const mapping of entityMapping.LoaderFieldMappings) {
