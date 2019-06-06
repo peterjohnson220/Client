@@ -41,7 +41,7 @@ export class CompanyJobsEffects {
     ),
     // make the call to the api service, then fire a success/failure action
     switchMap(combined => (
-      this.exchangeCompanyApiService.getActiveNonAssociatedCompanyJobs(
+      this.exchangeCompanyApiService.getActiveCompanyJobs(
           combined.listState, combined.companyJobIds, combined.searchTerm).pipe(
             map((grid) => new fromCompanyJobsActions.LoadCompanyJobsSuccess(grid)),
         catchError((error: HttpErrorResponse ) => {
