@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
@@ -15,7 +14,8 @@ import {LoaderFieldSet} from '../models';
 export class OrgDataFieldMappingsEffects {
   @Effect()
   loadFieldMappings$: Observable<Action> = this.actions$
-    .ofType(fromOrgDataFieldMappingsActions.LOADING_FIELD_MAPPINGS).pipe(
+    .pipe(
+      ofType(fromOrgDataFieldMappingsActions.LOADING_FIELD_MAPPINGS),
       switchMap((action: fromOrgDataFieldMappingsActions.LoadingFieldMappings) =>
         this.loaderFieldMappingsApiService.getCompanyFieldMappings(action.payload).pipe(
           map((fieldMappings: LoaderFieldSet[]) => {
@@ -28,7 +28,8 @@ export class OrgDataFieldMappingsEffects {
 
   @Effect()
   SaveFieldMappings$: Observable<Action> = this.actions$
-    .ofType(fromOrgDataFieldMappingsActions.SAVING_FIELD_MAPPINGS).pipe(
+    .pipe(
+      ofType(fromOrgDataFieldMappingsActions.SAVING_FIELD_MAPPINGS),
       map((action: fromOrgDataFieldMappingsActions.SavingFieldMappings) => action.payload),
       switchMap((mappings: any) => {
         return this.loaderFieldMappingsApiService.saveFieldMappings(mappings).pipe(

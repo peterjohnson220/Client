@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -16,7 +16,8 @@ import { UserFeatureDtoToFeatureMapper } from '../mappers';
 export class DashboardEffects {
   @Effect()
   loadFeatures$: Observable<Action> = this.actions$
-    .ofType(fromDashboardActions.LOADING_FEATURES).pipe(
+    .pipe(
+      ofType(fromDashboardActions.LOADING_FEATURES),
       switchMap(() =>
         this.dashboardApiService.getUserFeatures().pipe(
           map((userFeatureDtos: UserFeatureDto[]) => this.mapToFeatures(userFeatureDtos)),

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { catchError, map, switchMap, debounceTime, withLatestFrom } from 'rxjs/operators';
@@ -14,7 +14,8 @@ import * as fromRegistrationReducer from '../reducers';
 export class RegistrationFormEffects {
   @Effect()
   submitRequestForm$: Observable<Action> = this.actions$
-    .ofType(fromRegistrationFormActions.SUBMIT).pipe(
+    .pipe(
+      ofType(fromRegistrationFormActions.SUBMIT),
       // in case of an error the form can be re-submitted rapidly by holding enter, so debounce that
       debounceTime(400),
       // get the form data from the store so it can be passed along in the post body

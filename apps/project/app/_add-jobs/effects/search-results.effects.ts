@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, withLatestFrom, mergeMap, catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -22,15 +22,15 @@ import { PayfactorsAddJobsApiModelMapper } from '../helpers';
 export class SearchResultsEffects {
 
   @Effect()
-  getResults$ = this.searchJobs(this.actions$.ofType(fromSearchResultsActions.GET_RESULTS));
+  getResults$ = this.searchJobs(this.actions$.pipe(ofType(fromSearchResultsActions.GET_RESULTS)));
 
   @Effect()
-  getMoreResults$ = this.searchJobs(this.actions$.ofType(fromSearchResultsActions.GET_MORE_RESULTS));
+  getMoreResults$ = this.searchJobs(this.actions$.pipe(ofType(fromSearchResultsActions.GET_MORE_RESULTS)));
 
   @Effect()
   loadPricingData$ = this.actions$
-    .ofType(fromAddJobsSearchResultsActions.LOAD_JOB_PRICING_DATA)
     .pipe(
+      ofType(fromAddJobsSearchResultsActions.LOAD_JOB_PRICING_DATA),
       withLatestFrom(
         this.store.select(fromAddJobsReducer.getContext),
         (action: fromAddJobsSearchResultsActions.GetJobPricingData, context) => (

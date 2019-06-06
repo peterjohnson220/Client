@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -16,7 +16,8 @@ import { PayfactorsApiModelMapper } from '../helpers';
 export class TemplateListEffects {
   @Effect()
   loadTemplateList$: Observable<Action> = this.actions$
-    .ofType(fromTemplateListActions.LOAD_TEMPLATE_LIST).pipe(
+    .pipe(
+      ofType(fromTemplateListActions.LOAD_TEMPLATE_LIST),
       switchMap((action: fromTemplateListActions.LoadTemplateList) => {
           let observable: Observable<TemplateListItemResponse[]>;
 

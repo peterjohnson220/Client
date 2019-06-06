@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
@@ -16,7 +16,8 @@ import * as fromFirstLoginAction from '../actions/first-login.action';
 export class FirstLoginEffects {
   @Effect()
   validatingFirstTimeLogin: Observable<Action> = this.actions$
-    .ofType(fromFirstLoginAction.VALIDATE_FIRST_LOGIN).pipe(
+    .pipe(
+      ofType(fromFirstLoginAction.VALIDATE_FIRST_LOGIN),
       switchMap((action: fromFirstLoginAction.ValidateFirstLogin) =>
         this.accountApiService.validateFirstTimeLogin().pipe(
           map((response: any) => new fromFirstLoginAction.ValidateFirstLoginSuccess()),
@@ -27,17 +28,19 @@ export class FirstLoginEffects {
 
   @Effect()
   updatingPassword: Observable<Action> = this.actions$
-    .ofType(fromFirstLoginAction.FIRST_LOGIN_UPDATING_PASSWORD).pipe(
-    switchMap((action: fromFirstLoginAction.UpdatePassword) =>
-      this.accountApiService.updatePassword(action.payload).pipe(
-        map(() => new fromFirstLoginAction.UpdatePasswordSuccess()),
-        catchError(error => of(new fromFirstLoginAction.UpdatePasswordError(error)))
-      )
+    .pipe(
+      ofType(fromFirstLoginAction.FIRST_LOGIN_UPDATING_PASSWORD),
+      switchMap((action: fromFirstLoginAction.UpdatePassword) =>
+        this.accountApiService.updatePassword(action.payload).pipe(
+          map(() => new fromFirstLoginAction.UpdatePasswordSuccess()),
+          catchError(error => of(new fromFirstLoginAction.UpdatePasswordError(error)))
+        )
     ));
 
   @Effect({ dispatch: false })
   updatingPasswordSuccess$ = this.actions$
-    .ofType(fromFirstLoginAction.FIRST_LOGIN_UPDATING_PASSWORD_SUCCESS).pipe(
+    .pipe(
+      ofType(fromFirstLoginAction.FIRST_LOGIN_UPDATING_PASSWORD_SUCCESS),
       switchMap(() =>
           this.userApiService.getUserHomePageAuthenticated().pipe(
             map((response: any) => this.routeToHomePage(response)),

@@ -17,7 +17,7 @@ export class EllipsisViewMoreComponent {
   @Input() viewLessText = 'View Less';
   @Input() showTextInline = false;
   @Input() copy: boolean;
-  @ViewChild('copiedSuccessToolTip') private tooltip: NgbTooltip;
+  @ViewChild('copiedSuccessToolTip', { static: false }) private tooltip: NgbTooltip;
 
   showFull: boolean;
 

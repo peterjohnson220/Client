@@ -21,7 +21,7 @@ declare var InitializeUserVoice: any;
   styleUrls: [ './community-dashboard.page.scss' ]
 })
 export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
-  @ViewChild('posts') postsComponent: CommunityPostsComponent;
+  @ViewChild('posts', { static: true }) postsComponent: CommunityPostsComponent;
 
   readonly POST_ITEM_CLASS = 'post-item';
   readonly COMMUNITY_POSTS_CONTAINER_ID = 'community-posts';

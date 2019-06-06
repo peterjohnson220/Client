@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
@@ -15,8 +15,8 @@ export class UserFilterEffects {
 
   @Effect()
   getAll$ = this.actions$
-  .ofType(fromUserFilterActions.GET_ALL)
   .pipe(
+    ofType(fromUserFilterActions.GET_ALL),
     switchMap((action: fromUserFilterActions.GetAll) => {
       return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
         .pipe(
@@ -30,8 +30,8 @@ export class UserFilterEffects {
 
   @Effect()
   upsert$ = this.actions$
-  .ofType(fromUserFilterActions.UPSERT)
   .pipe(
+    ofType(fromUserFilterActions.UPSERT),
     switchMap((action: fromUserFilterActions.Upsert) => {
       const request = action.payload;
       const isEditMode = !!request.SavedFilter.Id;
@@ -51,8 +51,8 @@ export class UserFilterEffects {
 
   @Effect()
   delete$ = this.actions$
-  .ofType(fromUserFilterActions.DELETE)
   .pipe(
+    ofType(fromUserFilterActions.DELETE),
     switchMap((action: fromUserFilterActions.Delete) => {
       const request = {
         Type: this.userFilterTypeData.Type,

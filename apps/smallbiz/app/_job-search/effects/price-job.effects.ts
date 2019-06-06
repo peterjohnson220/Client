@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { map, catchError, switchMap, debounceTime } from 'rxjs/operators';
@@ -16,7 +16,8 @@ export class PriceJobEffects {
 
   @Effect()
   searchLocations: Observable<Action> = this.actions$
-    .ofType(fromPriceJobAction.LOCATION_SEARCH_TERM_CHANGED).pipe(
+    .pipe(
+      ofType(fromPriceJobAction.LOCATION_SEARCH_TERM_CHANGED),
       debounceTime(300),
       switchMap((action: fromPriceJobAction.LocationSearchTermChanged) => {
         return this.locationService.search(action.payload.searchTerm).pipe(

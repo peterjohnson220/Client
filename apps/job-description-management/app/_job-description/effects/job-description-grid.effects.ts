@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
@@ -19,7 +19,8 @@ import { PayfactorsApiModelMapper } from '../../shared/helpers';
 export class JobDescriptionGridEffects {
   @Effect()
   getListAreaColumns$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS).pipe(
+    .pipe(
+      ofType(fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS),
       switchMap((action: fromJobDescriptionGridActions.LoadListAreaColumns) =>
         this.userProfileApiService.getListAreaColumns(action.payload).pipe(
           map((response: ListAreaColumnResponse[]) => {
@@ -32,7 +33,8 @@ export class JobDescriptionGridEffects {
 
   @Effect()
   loadJobDescriptionGrid$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionGridActions.LOAD_JOB_DESCRIPTION_GRID).pipe(
+    .pipe(
+      ofType(fromJobDescriptionGridActions.LOAD_JOB_DESCRIPTION_GRID),
       switchMap((action: fromJobDescriptionGridActions.LoadJobDescriptionGrid) => {
         this.store.dispatch(new fromJobDescriptionGridActions.UpdateGridState(JSON.parse(action.payload.ListState)));
 
@@ -48,7 +50,8 @@ export class JobDescriptionGridEffects {
 
   @Effect()
   saveListAreaColumns$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS).pipe(
+    .pipe(
+      ofType(fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS),
       switchMap((action: fromJobDescriptionGridActions.SaveListAreaColumns) => {
           const newRequest = cloneDeep(action.payload);
           const listAreaColumnsRequestList = PayfactorsApiModelMapper.mapListAreaColumnListToListAreaColumnRequestList(

@@ -18,8 +18,8 @@ import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-c
   styleUrls: [ './community-search-results.component.scss' ]
 })
 export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
-  @ViewChild('SearchResults') public searchResultsScrollContainer: ElementRef;
-  @ViewChild(InfiniteScrollDirective) infiniteScroll: InfiniteScrollDirective;
+  @ViewChild('SearchResults', { static: true }) public searchResultsScrollContainer: ElementRef;
+  @ViewChild(InfiniteScrollDirective, { static: true }) infiniteScroll: InfiniteScrollDirective;
 
   loadingSearchResults$: Observable<boolean>;
   loadingSearchResultsError$: Observable<boolean>;

@@ -19,8 +19,8 @@ import * as fromExchangeOptionsActions from '../../../actions/exchange-job-assoc
   styleUrls: ['./exchange-job-association-utility.page.scss']
 })
 export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDestroy {
-  @ViewChild('companyList') companyList: ComboBoxComponent;
-  @ViewChild('exchangeList') exchangeList: ComboBoxComponent;
+  @ViewChild('companyList', { static: true }) companyList: ComboBoxComponent;
+  @ViewChild('exchangeList', { static: true }) exchangeList: ComboBoxComponent;
 
   companyOptions$: Observable<GenericKeyValue<number, string>[]>;
   exchangeOptions$: Observable<GenericKeyValue<number, string>[]>;

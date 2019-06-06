@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Observable, of } from 'rxjs';
 import { concatMap, map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
@@ -20,15 +20,16 @@ export class ExchangeJobMappingGridEffects {
 
   @Effect()
   successfulExchangeJobRequest: Observable<Action> = this.actions$
-    .ofType(`${ExchangeRequestTypeEnum.PayfactorsJob}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST_SUCCESS}`)
     .pipe(
+      ofType(`${ExchangeRequestTypeEnum.PayfactorsJob}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST_SUCCESS}`),
       withLatestFrom(this.store.select(fromPeerManageReducer.getLoadExchangeJobMappingGridRequest), (action, payload) => payload),
       switchMap(payload => of(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings()))
     );
 
   @Effect()
   loadExchangeJobMappings$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS).pipe(
+    .pipe(
+      ofType(fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS),
       withLatestFrom(
         this.store.select(fromPeerManageReducer.getExchangeJobMappingsGridState),
         this.sharedPeerStore.select(fromSharedPeerReducer.getExchangeId),
@@ -47,7 +48,8 @@ export class ExchangeJobMappingGridEffects {
 
   @Effect()
   loadExchangeJobMappingsAfterMap$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS_AFTER_MAP).pipe(
+    .pipe(
+      ofType(fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS_AFTER_MAP),
       withLatestFrom(this.store.select(fromPeerManageReducer.getLoadExchangeJobMappingGridRequest), (action, payload) => payload),
       switchMap(payload =>
         this.exchangeCompanyApiService.getExchangeJobsWithMappings(payload.exchangeId, payload.listState).pipe(
@@ -63,13 +65,12 @@ export class ExchangeJobMappingGridEffects {
 
   @Effect()
   reselectExchangeJobMapping$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobInfoActions.LOAD_MAPPED_COMPANY_JOBS_SUCCESS)
     .pipe(
+      ofType(fromExchangeJobInfoActions.LOAD_MAPPED_COMPANY_JOBS_SUCCESS),
       withLatestFrom(
         this.store.select(fromPeerManageReducer.getFirstCompanyJobMappingFromSelectedExchangeJob),
         (action, payload) => payload
       ),
-
       switchMap(payload => of(new fromExchangeJobInfoActions.SetActiveMapping(payload)))
     );
 

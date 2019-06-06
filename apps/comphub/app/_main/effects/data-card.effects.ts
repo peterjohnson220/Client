@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -24,8 +24,8 @@ export class DataCardEffects {
 
   @Effect()
   getQuickPriceMarketData$ = this.actions$
-    .ofType(fromDataCardActions.GET_QUICK_PRICE_MARKET_DATA)
     .pipe(
+      ofType(fromDataCardActions.GET_QUICK_PRICE_MARKET_DATA),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
         (action: fromDataCardActions.GetQuickPriceMarketData, dataSet) => ({ action, dataSet })
@@ -58,8 +58,8 @@ export class DataCardEffects {
 
   @Effect()
   setSelectedJobData$ = this.actions$
-    .ofType(fromDataCardActions.SET_SELECTED_JOB_DATA)
     .pipe(
+      ofType(fromDataCardActions.SET_SELECTED_JOB_DATA),
       map((action: fromDataCardActions.SetSelectedJobData) => action.payload),
       mergeMap((jobData: JobData) => [
         new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: `Payfactors ${jobData.JobTitle}`}),
@@ -70,8 +70,8 @@ export class DataCardEffects {
 
   @Effect()
   clearSelectedJobData$ = this.actions$
-    .ofType(fromDataCardActions.CLEAR_SELECTED_JOB_DATA)
     .pipe(
+      ofType(fromDataCardActions.CLEAR_SELECTED_JOB_DATA),
       mergeMap(() => {
         return [
           new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: ''}),
@@ -83,10 +83,11 @@ export class DataCardEffects {
 
   @Effect()
   setMarketDataChange$ = this.actions$
-  .ofType(
-    fromMarketsCardActions.SET_SELECTED_PAYMARKET,
-    fromJobsCardActions.SET_SELECTED_JOB)
   .pipe(
+    ofType(
+      fromMarketsCardActions.SET_SELECTED_PAYMARKET,
+      fromJobsCardActions.SET_SELECTED_JOB
+    ),
     map(() => new fromDataCardActions.SetMarketDataChange(true))
   );
 

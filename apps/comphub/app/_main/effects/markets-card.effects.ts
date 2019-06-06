@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { ComphubApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
@@ -24,8 +24,8 @@ export class MarketsCardEffects {
 
   @Effect()
   initMarketsCard$ = this.actions$
-  .ofType(fromMarketsCardActions.INIT_MARKETS_CARD)
   .pipe(
+    ofType(fromMarketsCardActions.INIT_MARKETS_CARD),
     withLatestFrom(
       this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
       (action: fromMarketsCardActions.InitMarketsCard, countryDataSet) => ({ action, countryDataSet })
@@ -42,8 +42,8 @@ export class MarketsCardEffects {
 
   @Effect()
   getPaymarkets$ = this.actions$
-    .ofType(fromMarketsCardActions.GET_PAYMARKETS)
     .pipe(
+      ofType(fromMarketsCardActions.GET_PAYMARKETS),
       switchMap((action: fromMarketsCardActions.GetPaymarkets) => {
           return this.comphubApiService.getPaymarketData(action.payload.countryCode)
             .pipe(
@@ -79,8 +79,8 @@ export class MarketsCardEffects {
 
   @Effect()
   getMarketDataScope$ = this.actions$
-    .ofType(fromMarketsCardActions.GET_MD_SCOPE)
     .pipe(
+      ofType(fromMarketsCardActions.GET_MD_SCOPE),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
         (action: fromMarketsCardActions.GetMarketDataScope, countryDataSet) => ({ action, countryDataSet })
@@ -101,8 +101,8 @@ export class MarketsCardEffects {
 
   @Effect()
   getMarketDataLocations$ = this.actions$
-    .ofType(fromMarketsCardActions.GET_MD_LOCATIONS)
     .pipe(
+      ofType(fromMarketsCardActions.GET_MD_LOCATIONS),
       debounceTime(200),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
@@ -129,8 +129,8 @@ export class MarketsCardEffects {
 
   @Effect()
   savePayMarket$ = this.actions$
-    .ofType(fromMarketsCardActions.SAVE_PAYMARKET)
     .pipe(
+      ofType(fromMarketsCardActions.SAVE_PAYMARKET),
       withLatestFrom(
         this.store.select(fromRootState.getUserContext),
         (action: fromMarketsCardActions.SavePayMarket, userContext) => ({ action, userContext })
@@ -144,8 +144,8 @@ export class MarketsCardEffects {
 
   @Effect()
   setSelectedPaymarket$ = this.actions$
-    .ofType(fromMarketsCardActions.SET_SELECTED_PAYMARKET)
     .pipe(
+      ofType(fromMarketsCardActions.SET_SELECTED_PAYMARKET),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
         (action: fromMarketsCardActions.SetSelectedPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
@@ -162,8 +162,8 @@ export class MarketsCardEffects {
 
   @Effect()
   clearSelectedPayMarket$ = this.actions$
-    .ofType(fromMarketsCardActions.SET_TO_DEFAULT_PAYMARKET)
     .pipe(
+      ofType(fromMarketsCardActions.SET_TO_DEFAULT_PAYMARKET),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
         (action: fromMarketsCardActions.SetToDefaultPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
@@ -179,8 +179,8 @@ export class MarketsCardEffects {
 
   @Effect()
   openPaymarketForm$ = this.actions$
-    .ofType(fromAddPayMarketFormActions.OPEN_FORM)
     .pipe(
+      ofType(fromAddPayMarketFormActions.OPEN_FORM),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
         this.store.select(fromComphubMainReducer.getMarketDataScope),
@@ -198,8 +198,8 @@ export class MarketsCardEffects {
 
   @Effect()
   closeAddPayMarketForm$ = this.actions$
-    .ofType(fromAddPayMarketFormActions.CLOSE_FORM)
     .pipe(
+      ofType(fromAddPayMarketFormActions.CLOSE_FORM),
       map(() =>
         new fromMarketsCardActions.ClearMarketDataLocations()
       )

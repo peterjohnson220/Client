@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
@@ -16,7 +16,8 @@ export class HeaderEffects {
 
   @Effect()
   getHeaderDropdownNavigationLinks$ = this.actions$
-    .ofType(headerActions.GET_HEADER_DROPDOWN_NAVIGATION_LINKS).pipe(
+    .pipe(
+      ofType(headerActions.GET_HEADER_DROPDOWN_NAVIGATION_LINKS),
       switchMap(() =>
         this.navigationApiService.getHeaderDropdownNavigationLinks().pipe(
           map((navigationLinks: NavigationLink[]) => new headerActions.GetHeaderDropdownNavigationLinksSuccess(navigationLinks)),
@@ -27,7 +28,8 @@ export class HeaderEffects {
 
   @Effect()
   getHomePageLink$: Observable<Action> = this.actions$
-    .ofType(headerActions.GET_HEADER_USER_HOMEPAGE_LINK).pipe(
+    .pipe(
+      ofType(headerActions.GET_HEADER_USER_HOMEPAGE_LINK),
       map((action: headerActions.GetHeaderUserHomePageLink) => action.payload),
       switchMap(payload =>
         this.userApiService.getUserHomePage(payload.userId).pipe(

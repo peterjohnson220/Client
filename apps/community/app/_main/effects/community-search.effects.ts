@@ -16,7 +16,8 @@ export class CommunitySearchEffects {
 
   @Effect()
   searchingCommunity$: Observable<Action> = this.actions$
-    .ofType(fromCommunitySearchActions.SEARCHING_COMMUNITY).pipe(
+    .pipe(
+      ofType(fromCommunitySearchActions.SEARCHING_COMMUNITY),
       switchMap((action: fromCommunitySearchActions.SearchingCommunity) =>
         this.communitySearchService.searchCommunity(action.payload).pipe(
           map((response: any) => {

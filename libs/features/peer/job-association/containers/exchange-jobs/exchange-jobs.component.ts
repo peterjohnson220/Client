@@ -21,11 +21,11 @@ import { MultiSelectComponent } from 'libs/ui/common/content/multi-select/multi-
   styleUrls: ['./exchange-jobs.component.scss']
 })
 export class ExchangeJobsComponent implements OnInit, OnDestroy {
-  @ViewChild('multiSelectJobFamily') public multiSelectJobFamily: MultiSelectComponent;
-  @ViewChild('multiSelectExchange') public multiSelectExchange: MultiSelectComponent;
-  @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
-  @ViewChild(InputDebounceComponent) public jobTitleSearchComponent: InputDebounceComponent;
-  @ViewChild(GridComponent) public grid: GridComponent;
+  @ViewChild('multiSelectJobFamily', { static: true }) public multiSelectJobFamily: MultiSelectComponent;
+  @ViewChild('multiSelectExchange', { static: true }) public multiSelectExchange: MultiSelectComponent;
+  @ViewChild(TooltipDirective, { static: true }) public tooltipDir: TooltipDirective;
+  @ViewChild(InputDebounceComponent, { static: true }) public jobTitleSearchComponent: InputDebounceComponent;
+  @ViewChild(GridComponent, { static: true }) public grid: GridComponent;
 
   // Observables
   exchangeJobs$: Observable<GridDataResult>;

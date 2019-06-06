@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { map, catchError, switchMap, withLatestFrom, tap } from 'rxjs/operators';
@@ -19,7 +19,8 @@ export class JobDetailEffects {
 
   @Effect()
   loadJob: Observable<Action> = this.actions$
-    .ofType(fromJobDetailAction.LOAD_JOB).pipe(
+    .pipe(
+      ofType(fromJobDetailAction.LOAD_JOB),
       withLatestFrom(this.store.select(fromJobSearch.selectJob),
         (action: fromJobDetailAction.LoadJob, selectedJob: Job) => ({ action, selectedJob })),
       switchMap((jobAndAction) => {

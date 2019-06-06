@@ -23,11 +23,15 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
     
      Manage Exchange - Mock Exchange 
     
-    <kendo-switch
-      class="k-switch-lg"
-      offlabel="Inactive"
-      onlabel="Active"
-    />
+    <div
+      class="pointer"
+    >
+      <kendo-switch
+        class="k-switch-lg"
+        offlabel="Inactive"
+        onlabel="Active"
+      />
+    </div>
     
     <div
       class="d-flex h-100 w-100"

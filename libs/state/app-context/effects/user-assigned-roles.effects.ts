@@ -1,6 +1,6 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
@@ -11,7 +11,8 @@ import * as userAssignedRoleActions from '../actions/user-assigned-roles.actions
 export class UserAssignedRoleEffects {
   @Effect()
   getUserAssignedRoles$ = this.actions$
-    .ofType(userAssignedRoleActions.GET_USER_ASSIGNED_ROLES).pipe(
+    .pipe(
+      ofType(userAssignedRoleActions.GET_USER_ASSIGNED_ROLES),
       switchMap(() =>
         this.userApiService.getUserAssignedRoles().pipe(
           map((userAssignedRoles: any) => new userAssignedRoleActions.GetUserAssignedRolesSuccess(userAssignedRoles)),

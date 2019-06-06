@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { mergeMap } from 'rxjs/operators';
 
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
@@ -14,8 +14,8 @@ export class SearchFiltersEffects {
 
   @Effect()
   resetAllFilters = this.actions$
-    .ofType(fromSearchFiltersActions.RESET_ALL_FILTERS)
     .pipe(
+      ofType(fromSearchFiltersActions.RESET_ALL_FILTERS),
       mergeMap(() =>
         [
           new fromSearchResultsActions.GetResults({keepFilteredOutOptions: false}),

@@ -18,7 +18,7 @@ export class FilterPillsComponent implements OnChanges {
   @Input() filters: Filter[];
   @Output() clearPill = new EventEmitter<Pill>();
   @Output() clearPillGroup = new EventEmitter<PillGroup>();
-  @ViewChild(PerfectScrollbarDirective) psDirectiveRef?: PerfectScrollbarDirective;
+  @ViewChild(PerfectScrollbarDirective, { static: true }) psDirectiveRef?: PerfectScrollbarDirective;
 
   pillGroups: PillGroup[];
   private previewStringLength = 40;
