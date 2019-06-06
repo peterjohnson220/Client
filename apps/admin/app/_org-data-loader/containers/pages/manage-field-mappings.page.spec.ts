@@ -13,6 +13,8 @@ import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
 import { ManageFieldMappingsPageComponent } from './manage-field-mappings.page';
+import { LoaderEntityStatus } from '../../models/loader-entity-status.model';
+import { CompanyAdminModule } from 'apps/admin/app/_company-admin/company-admin.module';
 
 describe('ManageFieldMapperPageComponent', () => {
   let component: ManageFieldMappingsPageComponent;
@@ -124,7 +126,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should add a paymarket mapping to the list of mappings when the paymarket mapping is complete ' +
     'and no paymarket mapping exists yet', () => {
-    const evt = {complete: true, mappings: ['Paymarket__Paymarket']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'PayMarkets',
+      mappings: ['Paymarket__Paymarket'],
+    };
     component.mappings = [];
     component.onPaymarketMappingComplete(evt);
 
@@ -140,7 +146,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should replace a paymarket mapping in the list of mappings when the paymarket mapping is complete ' +
     'and a paymarket mapping exists', () => {
-    const evt = {complete: true, mappings: ['Country__Country Code']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'PayMarkets',
+      mappings: ['Country__Country Code'],
+    };
     component.mappings = [{LoaderType: 'PayMarkets', Mappings: ['Paymarket__Paymarket']}];
     component.onPaymarketMappingComplete(evt);
 
@@ -156,7 +166,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should add a job mapping to the list of mappings when the job mapping is complete ' +
     'and no job mapping exists yet', () => {
-    const evt = {complete: true, mappings: ['Job_Code__Job Code']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'Jobs',
+      mappings: ['Job_Code__Job Code'],
+    };
     component.mappings = [];
     component.onJobMappingComplete(evt);
 
@@ -172,7 +186,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should replace a job mapping in the list of mappings when the job mapping is complete ' +
     'and a job mapping exists', () => {
-    const evt = {complete: true, mappings: ['Job_Title__Job Title']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'Jobs',
+      mappings: ['Job_Title__Job Title'],
+    };
     component.mappings = [{LoaderType: 'Jobs', Mappings: ['Job_Code__Job Code']}];
     component.onJobMappingComplete(evt);
 
@@ -188,7 +206,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should add a structure mapping to the list of mappings when the structure mapping is complete ' +
     'and no structure mapping exists yet', () => {
-    const evt = {complete: true, mappings: ['Structure_Code__Structure Code']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'Structures',
+      mappings: ['Structure_Code__Structure Code'],
+    };
     component.mappings = [];
     component.onStructureMappingComplete(evt);
 
@@ -204,7 +226,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should replace a structure mapping in the list of mappings when the structure mapping is complete ' +
     'and a structure mapping exists', () => {
-    const evt = {complete: true, mappings: ['Grade_Code__Grade Code']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'Structures',
+      mappings: ['Grade_Code__Grade Code'],
+    };
     component.mappings = [{LoaderType: 'Structures', Mappings: ['Structure_Code__Structure Code']}];
     component.onStructureMappingComplete(evt);
 
@@ -220,7 +246,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should add a structuremapping mapping to the list of mappings when the structuremapping mapping is complete ' +
     'and no structuremapping mapping exists yet', () => {
-    const evt = {complete: true, mappings: ['Job_Code__Job Code']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'StructureMapping',
+      mappings: ['Job_Code__Job Code'],
+    };
     component.mappings = [];
     component.onStructureMappingMappingComplete(evt);
 
@@ -236,7 +266,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should replace a structuremapping mapping in the list of mappings when the structuremapping mapping is complete ' +
     'and a structuremapping mapping exists', () => {
-    const evt = {complete: true, mappings: ['Structure_Code__Structure Code']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'StructureMapping',
+      mappings: ['Structure_Code__Structure Code'],
+    };
     component.mappings = [{LoaderType: 'StructureMapping', Mappings: ['Job_Code__Job Code']}];
     component.onStructureMappingMappingComplete(evt);
 
@@ -252,7 +286,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should add a employee mapping to the list of mappings when the employee mapping is complete ' +
     'and no employee mapping exists yet', () => {
-    const evt = {complete: true, mappings: ['Base__Salary']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'Employees',
+      mappings: ['Base__Salary'],
+    };
     component.mappings = [];
     component.onEmployeeMappingComplete(evt);
 
@@ -268,7 +306,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should replace a employee mapping in the list of mappings when the employee mapping is complete ' +
     'and an employee mapping exists', () => {
-    const evt = {complete: true, mappings: ['First_Name__First Name']};
+    const evt: LoaderEntityStatus = {
+      complete: true,
+      loaderType: 'Employees',
+      mappings: ['First_Name__First Name'],
+    };
     component.mappings = [{LoaderType: 'Employees', Mappings: ['Base__Salary']}];
     component.onEmployeeMappingComplete(evt);
 
@@ -314,8 +356,19 @@ describe('ManageFieldMapperPageComponent', () => {
   it('should add the delimiter to loaderSettingsToSave array on Save when company setting does not exist' +
     ' and dispatch SavingLoaderSettings action', () => {
     component.loaderSettingsToSave = [];
-    component.existingCompanyLoaderSettings = [];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 2, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
     component.delimiter = '|';
+    component.isEmployeesFullReplace = true;
+    component.isStructureMappingsFullReplace = true;
     component.selectedCompany = 13;
     fixture.detectChanges();
 
@@ -330,8 +383,20 @@ describe('ManageFieldMapperPageComponent', () => {
   it('should add the delimiter to loaderSettingsToSave array on Save when the delimiter is different from the company setting' +
     ' and dispatch SavingLoaderSettings action', () => {
     component.loaderSettingsToSave = [];
-    component.existingCompanyLoaderSettings = [{LoaderSettingsId: 1, KeyName: 'Delimiter', KeyValue: ','}];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'Delimiter', KeyValue: ',' },
+      { LoaderSettingsId: 2, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 4, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
     component.delimiter = '|';
+    component.isEmployeesFullReplace = true;
+    component.isStructureMappingsFullReplace = true;
     component.selectedCompany = 13;
     fixture.detectChanges();
 
@@ -346,9 +411,20 @@ describe('ManageFieldMapperPageComponent', () => {
   it('should add the dateFormat to loaderSettingsToSave array on Save when company setting does not exist' +
     ' and dispatch SavingLoaderSettings action', () => {
     component.loaderSettingsToSave = [];
-    component.existingCompanyLoaderSettings = [];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 2, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
     component.delimiter = '';
     component.dateFormat = 'MM/dd/yyyy';
+    component.isEmployeesFullReplace = true;
+    component.isStructureMappingsFullReplace = true;
     component.selectedCompany = 13;
     fixture.detectChanges();
 
@@ -363,9 +439,21 @@ describe('ManageFieldMapperPageComponent', () => {
   it('should add the dateFormat to loaderSettingsToSave array on Save when the dateFormat is different from the company setting' +
     ' and dispatch SavingLoaderSettings action', () => {
     component.loaderSettingsToSave = [];
-    component.existingCompanyLoaderSettings = [{LoaderSettingsId: 1, KeyName: 'DateFormat', KeyValue: 'MM-dd-yyyy'}];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'DateFormat', KeyValue: 'MM-dd-yyyy' },
+      { LoaderSettingsId: 2, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 4, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 9, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
     component.dateFormat = 'MM/dd/yyyy';
     component.delimiter = '';
+    component.isEmployeesFullReplace = true;
+    component.isStructureMappingsFullReplace = true;
     component.selectedCompany = 13;
     fixture.detectChanges();
 
@@ -377,10 +465,227 @@ describe('ManageFieldMapperPageComponent', () => {
     expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
   });
 
+  it('should add the IsEmployeesFullReplace to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 2, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
+    component.delimiter = '';
+    component.isEmployeesFullReplace = false;
+    component.isStructureMappingsFullReplace = true;
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {
+      settings: [{ LoaderSettingId: undefined, KeyName: 'IsEmployeesFullReplace', KeyValue: 'false' }],
+      companyId: 13
+    };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should add the IsStructureMappingsFullReplace to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 2, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
+    component.delimiter = '';
+    component.isEmployeesFullReplace = true;
+    component.isStructureMappingsFullReplace = false;
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {
+      settings: [{ LoaderSettingId: undefined, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'false' }],
+      companyId: 13
+    };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should add the IsEmployeesLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 2, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
+    component.delimiter = '';
+    component.isEmployeesLoadEnabled = true;
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {
+      settings: [{ LoaderSettingId: undefined, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'true' }],
+      companyId: 13
+    };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should add the IsJobsLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 2, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
+    component.delimiter = '';
+    component.isJobsLoadEnabled = true;
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {
+      settings: [{ LoaderSettingId: undefined, KeyName: 'IsJobsLoadEnabled', KeyValue: 'true' }],
+      companyId: 13
+    };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should add the IsPaymarketsLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 2, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
+    component.delimiter = '';
+    component.isPaymarketsLoadEnabled = true;
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {
+      settings: [{ LoaderSettingId: undefined, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'true' }],
+      companyId: 13
+    };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should add the IsStructuresLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 2, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
+    component.delimiter = '';
+    component.isStructuresLoadEnabled = true;
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {
+      settings: [{ LoaderSettingId: undefined, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'true' }],
+      companyId: 13
+    };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should add the IsStructureMappingsLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 2, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
+    component.delimiter = '';
+    component.isStructureMappingsLoadEnabled = true;
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {
+      settings: [{ LoaderSettingId: undefined, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'true' }],
+      companyId: 13
+    };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
   it('should not dispatch SavingLoaderSettings when there are no settings to be saved', () => {
     component.loaderSettingsToSave = [];
-    component.existingCompanyLoaderSettings = [{LoaderSettingsId: 1, KeyName: 'Delimiter', KeyValue: ','}];
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: 'Delimiter', KeyValue: ',' },
+      { LoaderSettingsId: 2, KeyName: 'IsEmployeesFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: 'IsJobsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+    ];
     component.delimiter = ',';
+    component.isEmployeesFullReplace = true;
+    component.isStructureMappingsFullReplace = true;
     fixture.detectChanges();
 
     spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');

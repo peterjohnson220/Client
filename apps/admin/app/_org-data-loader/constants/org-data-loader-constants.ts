@@ -124,6 +124,3 @@ export const DATE_FORMATS: DateFormatItem[] = [
   {text: 'dd MMM yyyy (ex: 29 Jun 2015)', value: 'dd MMM yyyy'},
   {text: 'dd MMMM yyyy (ex: 29 June 2015)', value: 'dd MMMM yyyy'},
 ];
-
-export const DELIMITER_LOADER_SETTING_KEY_NAME = 'Delimiter';
-export const DATEFORMAT_LOADER_SETTING_KEY_NAME = 'DateFormat';

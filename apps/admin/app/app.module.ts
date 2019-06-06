@@ -23,8 +23,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     NoopAnimationsModule,
 
     // 3rd Party
-    NgbModalModule.forRoot(),
-    NgbTabsetModule.forRoot(),
+    NgbModalModule,
+    NgbTabsetModule,
     LayoutModule,
 
     // PF Modules

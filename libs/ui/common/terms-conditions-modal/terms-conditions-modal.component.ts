@@ -22,7 +22,9 @@ export class TermsConditionsModalComponent implements OnInit {
   @Input() declineButtonText = 'Decline';
   @Input() showDeclineButton: false;
   @Input() showCloseButton: boolean;
+  @Input() isHardCopy = false;
   @Input() tcType: string;
+  @Input() fileToDownload: string;
 
   @Output() onAccept = new EventEmitter();
   @Output() onDecline = new EventEmitter();

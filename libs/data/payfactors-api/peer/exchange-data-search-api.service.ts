@@ -38,4 +38,12 @@ export class ExchangeDataSearchApiService {
   getFilterAggregates(exchangeDataSearchFilter: ExchangeDataSearchFilter): Observable<FilterAggregateGroup[]> {
    return this.payfactorsApiService.post(`${this.endpoint}/GetFilterAggregates`, exchangeDataSearchFilter);
   }
+
+  getAssociatedExchangeJobs(companyJobId: number): Observable<string[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetAssociatedExchangeJobs`, {
+      params: {
+        companyJobId: companyJobId
+      }
+    });
+  }
 }

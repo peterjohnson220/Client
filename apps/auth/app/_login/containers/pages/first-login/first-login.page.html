@@ -17,6 +17,7 @@
   <pf-confirm-password
     [minLength]="passwordLengthReq"
     [allowSpaces]="false"
+    [allowUsername]="(userContext$ | async)?.EmailAddress"
     [numberOfRequiredUppercaseCharacters]="1"
     [numberOfRequiredLowercaseCharacters]="1"
     [numberOfRequiredSpecialCharacters]="1"

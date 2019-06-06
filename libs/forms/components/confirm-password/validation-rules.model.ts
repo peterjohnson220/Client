@@ -3,4 +3,5 @@ export interface ValidationRules {
   Rule: string;
   Message: string;
   IsSatisfied: boolean;
+  Validator?: () => boolean;
 }

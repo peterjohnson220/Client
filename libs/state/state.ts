@@ -54,6 +54,7 @@ export const getGettingUserContextError =
 export const getGettingUserContextAttempted =
   createSelector(getUserContextState, fromUserContextReducer.getGettingUserContextAttempted);
 export const getIsAdmin = createSelector(getUserContext, (f) => f.AccessLevel === 'Admin');
+export const hasUserContext = createSelector(getUserContextState, fromUserContextReducer.hasUserContext);
 
 /**
  * Legacy Company Settings Reducers

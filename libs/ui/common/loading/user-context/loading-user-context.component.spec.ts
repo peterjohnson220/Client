@@ -46,14 +46,6 @@ describe('Loading User Context', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should show a centered loading indicator, when we are getting the user context', () => {
-    instance.gettingUserContext$ = of(true);
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should show a router outlet, when we are not getting the user context', () => {
     instance.gettingUserContext$ = of(false);
 

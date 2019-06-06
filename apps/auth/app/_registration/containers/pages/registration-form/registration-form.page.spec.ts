@@ -33,6 +33,7 @@ describe('RegistrationFormPageComponent', () => {
 
     store = TestBed.get(Store);
     spyOn(store, 'dispatch');
+    delete global.window.location;
   }));
 
   beforeEach(() => {

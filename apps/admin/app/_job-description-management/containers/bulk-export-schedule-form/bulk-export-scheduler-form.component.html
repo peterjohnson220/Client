@@ -32,6 +32,30 @@
       </td>
     </tr>
     <tr>
+      <td colspan="2" class="indent">Select File Type</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <select id="fileType" [(ngModel)]="schedule.Format">
+          <option value="xlsx">Excel</option>
+          <option value="csv">CSV</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="indent">Include Delimiters</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <select id="includeDelimiters" [(ngModel)]="schedule.IncludeDelimiters">
+          <option [ngValue]="true">Yes</option>
+          <option [ngValue]="false">No</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
       <td colspan="2" class="font-weight-bold">Select Frequency</td>
     </tr>
     <tr>
@@ -110,6 +134,8 @@
           <p>Using {{getViewName(existingSchedule.ViewId)}} view</p>
           <p *ngIf="existingSchedule.Filter === 'All'">All Jobs</p>
           <p *ngIf="existingSchedule.Filter !== 'All'">Using {{existingSchedule.Filter}} filter</p>
+          <p *ngIf="existingSchedule.IncludeDelimiters">Including Delimiters</p>
+          <p *ngIf="existingSchedule.Format">Using {{existingSchedule.Format}} file format</p>
         </td>
       </tr>
     </ng-container>

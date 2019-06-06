@@ -1,13 +1,44 @@
 @import 'colors';
 
-.card-header{
-  background-color: $header-background-color;
-  color: white;
+.community-payfactors-polls {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
-.card-body{
-  background-color: $grey;
+::ng-deep .carousel-inner {
+  overflow: visible;
 }
 
-/* fixes blue box in chrome that appears when clicking the carousel */
+::ng-deep .carousel-control-prev, ::ng-deep .carousel-control-next {
+  width: 10%;
+}
+
+::ng-deep .carousel-control-prev-icon, ::ng-deep .carousel-control-next-icon  {
+  filter: invert(0.15);
+}
+
+::ng-deep .carousel-indicators li:active {
+  background-color: #e4e6e7;
+}
+
+::ng-deep .carousel-indicators li:hover {
+  opacity: 0.7;
+}
+
+::ng-deep .carousel-indicators {
+
+  li {
+    background-color: #e4e6e7;
+  }
+
+  .active {
+    background-color: #e4e6e7;
+  }
+}
+
 .slide, .slide *{ outline: none !important; }

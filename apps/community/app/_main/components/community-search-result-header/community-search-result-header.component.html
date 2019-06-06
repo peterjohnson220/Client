@@ -1,4 +1,16 @@
-<p class="m-0"><span class="search-result-header-text"><span
-  class="search-result-header-text-bold">Discussion</span> posted by <span>{{companyName}}</span></span>
+<div class="m-0">
+  <span class="search-result-header-text">
+    <span class="search-result-header-text-bold">{{postType()}}</span> posted by <span>{{companyName}}</span>
+  </span>
   <span class="community-sub-text"> | {{elapsedTime}}</span>
-</p>
+  <span *ngIf="isPoll && !isPollExpired()" class="community-sub-text"> | 
+      <i class="far fa-stopwatch fa-lg poll-close-date"></i>
+      <span> Closes on {{ pollExpirationDate  | date:'medium' }}</span>
+  </span>
+  <span *ngIf="isPoll && isPollExpired()" class="community-sub-text"> | 
+      <i class="far fa-stopwatch fa-lg poll-expired"></i>
+      <span> Closed on {{ pollExpirationDate  | date:'medium' }}</span>
+  </span>
+</div>
+
+

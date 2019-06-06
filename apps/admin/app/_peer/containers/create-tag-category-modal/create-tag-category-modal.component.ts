@@ -8,7 +8,7 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { PfValidators } from 'libs/forms/validators';
 import { TagApiService } from 'libs/data/payfactors-api/index';
-import { EntityTypesFlag } from 'libs/models/peer';
+import { EntityTypesFlag, TagCategoryDataTypeEnum } from 'libs/models/peer';
 import { UpsertTagCategoryRequest } from 'libs/models/peer/requests';
 
 import * as fromPeerAdminReducer from '../../reducers';
@@ -27,6 +27,8 @@ export class CreateTagCategoryModalComponent {
   entityTypeCompany: any;
   entityTypeJob: any;
   entityTypeEmployee: any;
+
+  dataTypes: Array<string> = [TagCategoryDataTypeEnum.Text, TagCategoryDataTypeEnum.Numeric];
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -48,6 +50,8 @@ export class CreateTagCategoryModalComponent {
   get entityTypeJobControl() { return this.createTagCategoryForm.get('entityTypeJob'); }
   get entityTypeEmployeeControl() { return this.createTagCategoryForm.get('entityTypeEmployee'); }
   get description() { return this.createTagCategoryForm.get('description'); }
+  get dataType() { return this.createTagCategoryForm.get('dataType'); }
+  get useSlider() { return this.createTagCategoryForm.get('useSlider'); }
 
   createForm(): void {
     this.createTagCategoryForm = this.fb.group({
@@ -55,13 +59,16 @@ export class CreateTagCategoryModalComponent {
       'entityTypeCompany': [''],
       'entityTypeJob': [''],
       'entityTypeEmployee': [''],
-      'description': ['']
+      'dataType': [TagCategoryDataTypeEnum.Text, [PfValidators.required]],
+      'useSlider': [{value: false, disabled: true}],
+      'description': [''],
     });
   }
 
   // Events
   handleModalDismissed() {
     this.store.dispatch(new fromTagCategoriesActions.CloseCreateTagCategoryModal());
+    this.resetForm();
   }
 
   handleFormSubmit(): void {
@@ -78,14 +85,32 @@ export class CreateTagCategoryModalComponent {
     const upsertRequest: UpsertTagCategoryRequest = {
       DisplayName: this.name.value,
       EntityTypesFlag: entityTypes,
-      Description: this.description.value
+      Description: this.description.value,
+      DataType: this.dataType.value,
+      UseSlider: this.useSlider.value
     };
 
     this.store.dispatch(new fromTagCategoriesActions.CreateTagCategory(upsertRequest));
+    this.resetForm();
+  }
+
+  dropDownSelectionChange(value: any) {
+    this.dataType.setValue(value);
+    if (value === TagCategoryDataTypeEnum.Text) {
+      this.useSlider.disable();
+      this.useSlider.setValue(false);
+    } else if (value === TagCategoryDataTypeEnum.Numeric) {
+      this.useSlider.enable();
+    }
   }
 
   setPlaceholderOnBlur(event: any) {
     event.target.placeholder = this.descriptionPlaceholder;
+  }
+
+  resetForm() {
+    this.createTagCategoryForm.reset({ dataType:  TagCategoryDataTypeEnum.Text, useSlider: false });
+    this.useSlider.disable();
   }
 
   tagCategoryNameValidator(): AsyncValidatorFn {

@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
@@ -33,6 +33,10 @@ describe('Auth - Login', () => {
         ReactiveFormsModule
       ],
       providers: [
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() },
+        },
         {
           provide: ActivatedRoute,
           useValue: {

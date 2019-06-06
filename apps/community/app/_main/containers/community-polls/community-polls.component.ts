@@ -3,6 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
 import { CommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 
@@ -26,11 +28,14 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
 
   userSubmittedResponses: CommunityPollResponse[];
   communityPollRequests: CommunityPollRequest[];
+  showNavigationArrows = false;
 
-  constructor(public store: Store<fromCommunityPollReducer.State>) {
+  constructor(public store: Store<fromCommunityPollReducer.State>,
+              config: NgbCarouselConfig) {
     this.communityPollRequests$ = this.store.select(fromCommunityPollReducer.getCommunityPollRequests);
     this.communityPollRequestsLoaded$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollRequestsLoaded);
     this.communityPollResponses$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollResponsesSuccess);
+    config.showNavigationArrows = false;
    }
 
   ngOnInit() {
@@ -45,7 +50,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
     this.communityPollResponsesSuccessSubscription = this.communityPollResponses$.subscribe(responses => {
       if (responses) {
           this.userSubmittedResponses = responses.map(o => {
-          return { CommunityPollId: o.CommunityPollId, ResponsePercents: o.ResponsePercents, IsDismissed: false };
+          return { CommunityPollId: o.CommunityPollId, ResponsePercents: o.ResponsePercents, ResponseVotes: o.ResponseVotes, UserHasVoted: o.UserHasVoted,  IsDismissed: false };
         });
       }
     });

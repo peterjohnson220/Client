@@ -5,7 +5,7 @@ exports[`CommunitySearchResultHeaderComponent should display company name and el
   companyName={[Function String]}
   elapsedTime={[Function String]}
 >
-  <p
+  <div
     class="m-0"
   >
     <span
@@ -26,6 +26,8 @@ exports[`CommunitySearchResultHeaderComponent should display company name and el
     >
        | 2 days ago
     </span>
-  </p>
+    
+    
+  </div>
 </pf-community-search-result-header>
 `;

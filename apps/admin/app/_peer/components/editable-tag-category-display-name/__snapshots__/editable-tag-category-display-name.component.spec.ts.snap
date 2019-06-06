@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admin - Peer - Editable Tag Category Display Name should match snapshot 1`] = `
+<pf-editable-tag-category-display-name
+  editDisplayNameForm={[Function FormGroup]}
+  errorSaving$={[Function Observable]}
+  fb={[Function FormBuilder]}
+  isSaving="false"
+  onSave={[Function EventEmitter]}
+  saving$={[Function Observable]}
+  savingSubscription={[Function Subscriber]}
+  value={[Function String]}
+>
+  <span
+    class="editable"
+    title="Click to Edit Display Name"
+  >
+     MOCK_VALUE 
+    <span
+      class="editable-icon"
+    >
+      <i
+        class="fas fa-pencil"
+      />
+    </span>
+  </span>
+</pf-editable-tag-category-display-name>
+`;
+
+exports[`Admin - Peer - Editable Tag Category Display Name should show edit form when toggleEdit is triggered 1`] = `
+<pf-editable-tag-category-display-name
+  editDisplayNameForm={[Function FormGroup]}
+  errorSaving$={[Function Observable]}
+  fb={[Function FormBuilder]}
+  isEditing={[Function Boolean]}
+  isSaving="false"
+  onSave={[Function EventEmitter]}
+  saving$={[Function Observable]}
+  savingSubscription={[Function Subscriber]}
+  value={[Function String]}
+>
+  <form
+    class="ng-untouched ng-pristine ng-valid"
+    ng-reflect-form="[object Object]"
+    novalidate=""
+  >
+    <div
+      class="input-group"
+    >
+      <input
+        autocomplete="off"
+        class="form-control ng-untouched ng-pristine ng-valid"
+        formcontrolname="tempValue"
+        id="editable-category-name-input"
+        minlength="3"
+        ng-reflect-name="tempValue"
+        ng-reflect-pf-validatable="true"
+        pffocus=""
+        type="text"
+      />
+      <div
+        class="input-group-append disabled"
+        ng-reflect-klass="input-group-append"
+        ng-reflect-ng-class="[object Object]"
+      >
+        <span
+          class="input-group-text"
+        >
+          <i
+            aria-hidden="true"
+            class="fas fa-check-circle text-success"
+          />
+        </span>
+      </div>
+      <div
+        class="input-group-append"
+        ng-reflect-klass="input-group-append"
+        ng-reflect-ng-class="[object Object]"
+      >
+        <span
+          class="input-group-text"
+        >
+          <i
+            aria-hidden="true"
+            class="fas fa-times"
+          />
+        </span>
+      </div>
+    </div>
+    
+  </form>
+</pf-editable-tag-category-display-name>
+`;

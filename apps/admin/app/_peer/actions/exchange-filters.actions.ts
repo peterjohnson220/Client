@@ -38,6 +38,8 @@ export class PutFilter implements Action {
 
 export class PutFilterSuccess implements Action {
   readonly type = PUT_FILTER_SUCCESS;
+
+  constructor(public payload: ExchangeSearchFilterAggregate) {}
 }
 
 export class PutFilterError implements Action {
