@@ -130,7 +130,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         this.saveClass = 'success';
         this.saveMessage = 'Saved.';
         this.mappings = [];
-        this.reloadFieldMappings();
       });
 
     this.saveMappingsError$
