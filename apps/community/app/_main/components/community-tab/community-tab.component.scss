@@ -9,14 +9,14 @@ $tab-icon-width: 60px;
 {
   position: relative;
   color: #ffffff;
-  border: none; 
+  border: none;
   height: $tab-height;
   width: 100%;
   min-width: $tab-width;
   padding: 0;
   margin: 0;
   border-radius: 0;
-  cursor: pointer; 
+  cursor: pointer;
   background-color: #333333;
   background-image: #333333;
 }
@@ -51,6 +51,18 @@ $tab-icon-width: 60px;
     }
 }
 
+.active-icon {
+  color: $community-tab-active-color
+}
+
+.inactive-icon {
+  color: $community-tab-color;
+}
+
+.icon-background {
+  color: white;
+}
+
 .active:after{
   content: '';
   position: absolute;
@@ -75,7 +87,7 @@ $tab-icon-width: 60px;
   padding-left: $tab-icon-width + 5px;
 }
 
-.inner-circle-icon 
+.inner-circle-icon
 {
   margin-left: 1px;
 }

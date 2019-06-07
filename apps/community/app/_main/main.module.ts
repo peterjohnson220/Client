@@ -14,6 +14,11 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+import * as fromFaIcons from './fa-icons';
+
 import { PfCommonUIModule } from 'libs/ui/common';
 import { CommunityDashboardPageComponent } from './containers';
 import { CommunityJobPostingsPageComponent } from './containers';
@@ -149,6 +154,7 @@ const components = [
       CommunityLikeEffects,
       CommunitySearchEffects
     ]),
+    FontAwesomeModule,
 
     // Routing
     MainRoutingModule,
@@ -174,4 +180,7 @@ const components = [
   ]
 })
 export class MainModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
 }
