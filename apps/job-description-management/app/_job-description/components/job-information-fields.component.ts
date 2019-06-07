@@ -19,10 +19,9 @@ export class JobInformationFieldsComponent implements OnInit, OnDestroy {
   public allJobInformationFieldsSelected = false;
   public jobInformationFieldsDisplay = false;
   public selectedJobInformationFieldsAsString: string;
-  private jobInformationFieldSelected = false;
-
+  public jobInformationFieldSelected = false;
   public jobInformationFields: AvailableJobInformationField[];
-  private jobInformationFieldsLoading: boolean;
+  public jobInformationFieldsLoading: boolean;
 
   private jobInformationFields$: Observable<AvailableJobInformationField[]>;
   private jobInformationFieldsLoading$: Observable<boolean>;

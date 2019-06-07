@@ -29,8 +29,9 @@ export class AssignJobsToTemplateModalComponent {
 
   private templateListItems$: Observable<TemplateListItem[]>;
   private templateListLoading$: Observable<boolean>;
-  private templateId = -1;
-  private modalRef: NgbModalRef;
+
+  public templateId = -1;
+  public modalRef: NgbModalRef;
 
   constructor(
     private store: Store<fromTemplateListReducer.State>,

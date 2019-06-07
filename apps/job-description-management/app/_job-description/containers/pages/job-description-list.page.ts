@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-  } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FilterDescriptor, SortDescriptor, State } from '@progress/kendo-data-query';
@@ -35,35 +30,40 @@ import { SaveFilterModalComponent } from '../../components/save-filter-modal.com
 import { SaveJobDescriptionTemplateIdSucessModel } from '../../models/save-job-description-template-id-sucess.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'pf-job-description-list-page',
   templateUrl: './job-description-list.page.html',
   styleUrls: ['./job-description-list.page.scss']
 })
 export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
-  @ViewChild(AssignJobsToTemplateModalComponent, { static: true }) public assignJobToTemplateModalComponent: AssignJobsToTemplateModalComponent;
-  @ViewChild(JobDescriptionHistoryModalComponent, { static: true }) jobDescriptionHistoryModalComponent: JobDescriptionHistoryModalComponent;
-  @ViewChild(JobDescriptionAppliesToModalComponent, { static: true }) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
+  @ViewChild(AssignJobsToTemplateModalComponent,
+    { static: true }) public assignJobToTemplateModalComponent: AssignJobsToTemplateModalComponent;
+  @ViewChild(JobDescriptionHistoryModalComponent,
+    { static: true }) jobDescriptionHistoryModalComponent: JobDescriptionHistoryModalComponent;
+  @ViewChild(JobDescriptionAppliesToModalComponent,
+    { static: true }) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
   // @ViewChild(AddJobModalComponent) public addJobModalComponent: AddJobModalComponent;
   @ViewChild(SaveFilterModalComponent, { static: true }) public saveFilterModalComponent: SaveFilterModalComponent;
 
   public identity$: Observable<UserContext>;
   public gridLoading$: Observable<boolean>;
   public gridDataResult$: Observable<GridDataResult>;
-  private savedGridState$: Observable<State>;
+  public userFilterError$: Observable<boolean>;
   public listAreaColumns$: Observable<ListAreaColumn[]>;
+  public selectedCompanyJobForModal: CompanyJobViewListItem;
+  public userFilterList$: Observable<JdmListFilter[]>;
+  public userFilterListLoading$: Observable<boolean>;
+
+  private savedGridState$: Observable<State>;
   private listAreaColumnsToUpdate$: Observable<ListAreaColumn[]>;
   private hasManageTemplatesPermission$: Observable<boolean>;
   private hasManageSettingsPermission$: Observable<boolean>;
-  public selectedCompanyJobForModal: CompanyJobViewListItem;
   private bulkExportControlLabels$: Observable<ControlLabel[]>;
   private bulkExportControlLabelsLoading$: Observable<boolean>;
   private bulkExportNoPublishedJobDescriptions$: Observable<boolean>;
   private savedSearchTerm$: Observable<string>;
-  public userFilterList$: Observable<JdmListFilter[]>;
-  public userFilterListLoading$: Observable<boolean>;
   private userFilterListAdding$: Observable<boolean>;
   private userFilterDeleting$: Observable<boolean>;
-  public userFilterError$: Observable<boolean>;
   private userFilterErrorMessage$: Observable<string>;
   private jobDescriptionListViewsLoading$: Observable<boolean>;
   private jobDescriptionListViews$: Observable<string[]>;
@@ -76,15 +76,15 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private addingUserFilterSuccess$: Observable<boolean>;
 
   public savedSearchTerm: string;
-  private listFilter: string;
   public gridState: State = { skip: 0, take: 20 };
-  private filterThrottle: Subject<any>;
   public nonStaticListAreaColumns: ListAreaColumn[];
-  private displayedListAreaColumnNames: string[];
-  private tokenId: string;
-  private isPublic: boolean;
   public customListAreaColumns: ListAreaColumn[] = [];
   public showFilterSidebar: any;
+  public filterThrottle: Subject<any>;
+  public displayedListAreaColumnNames: string[];
+  public tokenId: string;
+  public isPublic: boolean;
+  public listFilter: string;
 
   private listAreaColumnsSubscription: Subscription;
   private routerParmsSubscription: Subscription;
@@ -97,11 +97,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private userContextStore: Store<fromUserContextReducer.State>,
-    // private bulkExportPopoverStore: Store<fromJobDescriptionReducers.State>,
-    // private jobDescriptionStore: Store<fromJobDescriptionReducers.State>,
-    // private jobDescriptionGridStore: Store<fromJobDescriptionReducers.State>,
-    // private jobInformationFieldsStore: Store<fromJobDescriptionReducers.State>,
-    // private userFilterStore: Store<fromJobDescriptionReducers.State>,
     private store: Store<fromJobDescriptionReducers.State>,
     private router: Router,
     private route: ActivatedRoute,
@@ -179,6 +174,13 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
       this.store.dispatch(new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId(request));
     }
+  }
+
+  getQueryListStateRequest() {
+    return {
+      Query: this.listFilter,
+      ListState: JSON.stringify(this.gridState)
+    };
   }
 
   handleBulkExportPopoverOpened() {
@@ -338,13 +340,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     };
 
     this.store.dispatch(new fromJobDescriptionActions.CreateJobDescription(request));
-  }
-
-  private getQueryListStateRequest() {
-    return {
-      Query: this.listFilter,
-      ListState: JSON.stringify(this.gridState)
-    };
   }
 
   private initFilterThrottle() {
