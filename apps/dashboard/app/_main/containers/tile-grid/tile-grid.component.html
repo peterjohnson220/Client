@@ -1,16 +1,17 @@
 <pf-async-container
- [loading]="loading$ | async"
+ [loading]="false"
  [loadingError]="loadingError$ | async"
  [loadingErrorMessage]="'Error retrieving dashboard tiles.'"
- (reload)="handleTilesGridReload()"
->
+ (reload)="handleTilesGridReload()">
+
   <div class="container">
     <div class="row" [dragula]="'tile-grid-bag'" [(dragulaModel)]='tiles'>
       <pf-tile *ngFor="let tile of tiles"
-         [tile]="tile" class="tile-text-color m-0 p-2"
-         [ngClass]="tile.Size == 1 ? 'col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 tile-small' : 'col-xl-6 col-lg-6 col-md-4 col-sm-6 col-12 tile-large'"
-         [userId]="(userContext$ | async)?.UserId">
+               [tile]="tile" class="tile-text-color m-0 p-2"
+               [ngClass]="tile.Size == 1 ? 'col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 tile-small' : 'col-xl-6 col-lg-6 col-md-4 col-sm-6 col-12 tile-large'"
+               [userId]="(userContext$ | async)?.UserId">
       </pf-tile>
     </div>
   </div>
+
 </pf-async-container>

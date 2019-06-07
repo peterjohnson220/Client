@@ -1,13 +1,25 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { FileRestrictions } from '@progress/kendo-angular-upload';
-import {Observable} from 'rxjs';
 
 import {
-  DATE_FORMATS, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL,
+  DATE_FORMATS,
+  ORG_DATA_CLIENTFIELDS_INDEX_RESET,
+  ORG_DATA_REMOVE_URL,
   ORG_DATA_UPLOAD_URL
 } from '../../constants';
-import {DateFormatItem, LoaderFieldSet} from '../../models';
+
+
+import { LoaderType } from '../../constants/loader-type.enum';
+
+import {
+  DateFormatItem,
+  LoaderFieldSet,
+  LoaderEntityStatus,
+  FilenamePattern
+} from '../../models';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -26,13 +38,19 @@ export class FieldMapperComponent implements OnInit {
   payfactorsDataFieldsForReset: string[];
   dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
   dateFormatsFilteredData: Array<{ text: string, value: string}>;
+  templateReferenceConstants = {
+    LoaderType,
+  };
 
   @Input() fieldMappings$: Observable<LoaderFieldSet[]>;
   @Input() fieldMappingsLoading: boolean;
   @Input() payfactorsDataFields: string[];
-  @Input() loaderType: string;
+  @Input() loaderType: LoaderType;
   @Input() dateFormat: string;
   @Input() delimiter: string;
+  @Input() isFullReplace: boolean;
+  @Input() loadEnabled: boolean;
+  @Input() filenamePattern: FilenamePattern;
   @Output() mappingComplete = new EventEmitter<any>();
 
   constructor() {
@@ -50,6 +68,7 @@ export class FieldMapperComponent implements OnInit {
     this.payfactorsDataFieldsForReset = this.payfactorsDataFields;
     this.fieldMappings$.subscribe(mappings => {
       if (mappings.length > 0) {
+        this.mappedFields = [];
         const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
         if (entityMapping) {
           for (const mapping of entityMapping.LoaderFieldMappings) {
@@ -58,6 +77,11 @@ export class FieldMapperComponent implements OnInit {
         }
       }
     });
+  }
+
+  changeIsFullReplace(isFullReplace: boolean) {
+    this.isFullReplace = isFullReplace;
+    this.fireCompleteEvent();
   }
 
   successEventHandler = function($event) {
@@ -138,6 +162,7 @@ export class FieldMapperComponent implements OnInit {
 
     return pfField === clientField;
   }
+
   private mapSimilarFields() {
     for (let i = 0; i < this.clientFields.length; i++) {
       /* the Bonus_Target field in the client files do not map to the Pf Bonus_Target field,
@@ -156,17 +181,41 @@ export class FieldMapperComponent implements OnInit {
   }
 
   private fireCompleteEvent() {
-    if (this.clientFields.length > 0 || (this.loaderType === 'Employees' && (!this.dateFormat || this.dateFormat === ''))) {
-      this.mappingComplete.emit({
-        complete: false
-      });
-    } else {
-      this.mappingComplete.emit({
-        complete: true,
-        mappings: this.mappedFields,
-        dateFormat: this.dateFormat
-      });
+    let payload: LoaderEntityStatus = {
+      complete: this.clientFields.length === 0,
+      loaderType: this.loaderType,
+      loadEnabled: true,
+      mappings: this.clientFields.length === 0 ? this.mappedFields : null,
+    };
+
+    payload = this.configureCompleteEventPayloadForLoaderType(payload);
+
+    this.mappingComplete.emit(payload);
+  }
+
+  private configureCompleteEventPayloadForLoaderType(basePayload: LoaderEntityStatus) {
+    let payload: LoaderEntityStatus = {
+      ...basePayload,
+    };
+
+    switch (this.loaderType) {
+      case LoaderType.Employees:
+        payload = {
+          ...payload,
+          complete: !(isNullOrUndefined(this.dateFormat) || this.dateFormat === '') && payload.complete,
+          dateFormat: this.dateFormat,
+          isFullReplace: this.isFullReplace,
+        };
+        break;
+      case LoaderType.StructureMapping:
+        payload = {
+          ...payload,
+          isFullReplace: this.isFullReplace,
+        };
+        break;
     }
+
+    return payload;
   }
 
   private resetMapping() {

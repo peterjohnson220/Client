@@ -1,7 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {of} from 'rxjs';
+import { of } from 'rxjs';
+
+import { LoaderType } from '../../constants/loader-type.enum';
 import { FieldMapperComponent } from './field-mapper.component';
+import { LoaderEntityStatus } from '../../models';
 
 describe('FieldMapperComponent', () => {
   let component: FieldMapperComponent;
@@ -18,10 +21,10 @@ describe('FieldMapperComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FieldMapperComponent);
     component = fixture.componentInstance;
-    component.loaderType = 'Structures';
+    component.loaderType = LoaderType.Structures;
     component.fieldMappings$ = of([{
       CompanyId: 13,
-      LoaderType: 'Jobs',
+      LoaderType: LoaderType.Jobs,
       LoaderFieldMappings: [{
         InternalField: 'Job_Code',
         ClientField: 'JobCode'
@@ -33,7 +36,7 @@ describe('FieldMapperComponent', () => {
     },
     {
       CompanyId: 13,
-      LoaderType: 'Employees',
+      LoaderType: LoaderType.Employees,
       LoaderFieldMappings: [{
         InternalField: 'Employee_Id',
         ClientField: 'EmpId'
@@ -92,7 +95,21 @@ describe('FieldMapperComponent', () => {
   });
 
   it('should show a date format selector when the loader type is Employees', () => {
-    component.loaderType = 'Employees';
+    component.loaderType = LoaderType.Employees;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show a add/full replace toggle when the loader type is Employees', () => {
+    component.loaderType = LoaderType.Employees;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show a add/full replace toggle when the loader type is Structure Mappings', () => {
+    component.loaderType = LoaderType.StructureMapping;
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -157,7 +174,6 @@ describe('FieldMapperComponent', () => {
     expect(component.mappedFields).toEqual([]);
     expect(component.clientFields).toEqual([]);
     expect(component.payfactorsDataFields).toBe(component.payfactorsDataFieldsForReset);
-
   });
 
   it('should reset the mappings on removal of a file', () => {
@@ -170,11 +186,10 @@ describe('FieldMapperComponent', () => {
     expect(component.mappedFields).toEqual([]);
     expect(component.clientFields).toEqual([]);
     expect(component.payfactorsDataFields).toBe(component.payfactorsDataFieldsForReset);
-
   });
 
   it('should populate the mappings box with the company\'s existing mappings on init', () => {
-    component.loaderType = 'Jobs';
+    component.loaderType = LoaderType.Jobs;
     component.payfactorsDataFields = ['Job_Code', 'Job_Title'];
 
     const expectedMappings = ['Job_Code__JobCode', 'Job_Title__JobTitle'];
@@ -183,5 +198,222 @@ describe('FieldMapperComponent', () => {
     fixture.detectChanges();
 
     expect(component.mappedFields).toEqual(expectedMappings);
+  });
+
+  describe('Filename Pattern', () => {
+    it('should read "begin with" if the pattern is start restricted', () => {
+      component.filenamePattern = {
+        IsStartWithRestricted: true,
+        Name: 'paymarkets_pf'
+      };
+
+      fixture.detectChanges();
+
+      expect(fixture).toMatchSnapshot();
+    });
+
+    it('should read "contain" if the pattern is not start restricted', () => {
+      component.filenamePattern = {
+        IsStartWithRestricted: false,
+        Name: 'employees_123'
+      };
+
+      fixture.detectChanges();
+
+      expect(fixture).toMatchSnapshot();
+    });
+
+    it('should display the filename pattern', () => {
+      component.filenamePattern = {
+        IsStartWithRestricted: true,
+        Name: 'this-is-my-filename-pattern'
+      };
+
+      fixture.detectChanges();
+
+      expect(fixture).toMatchSnapshot();
+    });
+  });
+
+  describe('mappingComplete LoaderEntityStatus payload', () => {
+    it('should include Employees settings when mapping is complete', () => {
+      // arrange
+      const dateFormat = 'yyyy-MM-dd';
+      const isFullReplace = false;
+      const loaderType = LoaderType.Employees;
+      const mappings = ['some field'];
+      component.clientFields = [];
+      component.dateFormat = dateFormat;
+      component.loaderType = loaderType;
+      component.mappedFields = mappings;
+      component.isFullReplace = true;
+      const next = jest.fn();
+      const expectedPayload: LoaderEntityStatus = {
+        complete: true,
+        dateFormat,
+        isFullReplace,
+        loadEnabled: true,
+        loaderType,
+        mappings,
+      };
+
+      component.mappingComplete.subscribe({ next });
+
+      fixture.detectChanges();
+
+      // act
+      component.changeIsFullReplace(isFullReplace);
+
+      // assert
+      expect(next).toBeCalledTimes(1);
+      expect(next).toBeCalledWith(expectedPayload);
+    });
+
+    it('should include Employees settings when mapping is not complete', () => {
+      // arrange
+      const dateFormat = 'yyyy-MM-dd';
+      const isFullReplace = false;
+      const loaderType = LoaderType.Employees;
+      component.clientFields = ['some field'];
+      component.dateFormat = dateFormat;
+      component.loaderType = loaderType;
+      component.isFullReplace = true;
+      const next = jest.fn();
+      const expectedPayload: LoaderEntityStatus = {
+        complete: false,
+        dateFormat,
+        isFullReplace,
+        loadEnabled: true,
+        loaderType,
+        mappings: null,
+      };
+
+      component.mappingComplete.subscribe({ next });
+
+      fixture.detectChanges();
+
+      // act
+      component.changeIsFullReplace(isFullReplace);
+
+      // assert
+      expect(next).toBeCalledTimes(1);
+      expect(next).toBeCalledWith(expectedPayload);
+    });
+
+    it('should include StructureMapping settings when mapping is complete', () => {
+      // arrange
+      const isFullReplace = false;
+      const loaderType = LoaderType.StructureMapping;
+      const mappings = ['some field'];
+      component.clientFields = [];
+      component.loaderType = loaderType;
+      component.mappedFields = mappings;
+      component.isFullReplace = true;
+      const next = jest.fn();
+      const expectedPayload: LoaderEntityStatus = {
+        complete: true,
+        dateFormat: undefined,
+        isFullReplace,
+        loadEnabled: true,
+        loaderType,
+        mappings,
+      };
+
+      component.mappingComplete.subscribe({ next });
+
+      fixture.detectChanges();
+
+      // act
+      component.changeIsFullReplace(isFullReplace);
+
+      // assert
+      expect(next).toBeCalledTimes(1);
+      expect(next).toBeCalledWith(expectedPayload);
+    });
+
+    it('should include StructureMapping settings when mapping is not complete', () => {
+      // arrange
+      const isFullReplace = false;
+      const loaderType = LoaderType.StructureMapping;
+      component.clientFields = ['some field'];
+      component.loaderType = loaderType;
+      component.isFullReplace = true;
+      const next = jest.fn();
+      const expectedPayload: LoaderEntityStatus = {
+        complete: false,
+        dateFormat: undefined,
+        isFullReplace,
+        loadEnabled: true,
+        loaderType,
+        mappings: null,
+      };
+
+      component.mappingComplete.subscribe({ next });
+
+      fixture.detectChanges();
+
+      // act
+      component.changeIsFullReplace(isFullReplace);
+
+      // assert
+      expect(next).toBeCalledTimes(1);
+      expect(next).toBeCalledWith(expectedPayload);
+    });
+
+    it('should not include settings for entities without settings when mapping is complete', () => {
+      // arrange
+      const loaderType = LoaderType.Structures;
+      const mappings = ['some field'];
+      component.clientFields = [];
+      component.loaderType = loaderType;
+      component.mappedFields = mappings;
+      const next = jest.fn();
+      const expectedPayload: LoaderEntityStatus = {
+        complete: true,
+        dateFormat: undefined,
+        isFullReplace: undefined,
+        loadEnabled: true,
+        loaderType,
+        mappings,
+      };
+
+      component.mappingComplete.subscribe({ next });
+
+      fixture.detectChanges();
+
+      // act
+      component.selectionChange(null);
+
+      // assert
+      expect(next).toBeCalledTimes(1);
+      expect(next).toBeCalledWith(expectedPayload);
+    });
+
+    it('should not include settings for entities without settings when mapping is not complete', () => {
+      // arrange
+      const loaderType = LoaderType.Structures;
+      component.clientFields = ['some field'];
+      component.loaderType = loaderType;
+      const next = jest.fn();
+      const expectedPayload: LoaderEntityStatus = {
+        complete: false,
+        dateFormat: undefined,
+        isFullReplace: undefined,
+        loadEnabled: true,
+        loaderType,
+        mappings: null,
+      };
+
+      component.mappingComplete.subscribe({ next });
+
+      fixture.detectChanges();
+
+      // act
+      component.selectionChange(null);
+
+      // assert
+      expect(next).toBeCalledTimes(1);
+      expect(next).toBeCalledWith(expectedPayload);
+    });
   });
 });

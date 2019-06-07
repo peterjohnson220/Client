@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { SwitchModule } from '@progress/kendo-angular-inputs';
+import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 
 import * as fromRootState from 'libs/state/state';
 import { TagApiService } from 'libs/data/payfactors-api/tags';
@@ -22,12 +24,16 @@ describe('Admin - Create Tag Category Modal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        // Even though we are doing shallow testing a weird error will occur with the kendo switch because one of
+        // its inputs is prefixed with 'on'. Need to import the module to get the template to parse. [BG]
+        SwitchModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
         }),
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DropDownListModule
       ],
       declarations: [
         CreateTagCategoryModalComponent
@@ -51,8 +57,6 @@ describe('Admin - Create Tag Category Modal', () => {
   });
 
   it('(the modal) should match the snapshot', () => {
-    fixture.detectChanges();
-
     expect(fixture).toMatchSnapshot();
   });
 
@@ -68,7 +72,6 @@ describe('Admin - Create Tag Category Modal', () => {
     spyOn(instance, 'setPlaceholderOnBlur');
 
     fixture.detectChanges();
-
     // Find the textarea in the template and trigger a blur event
     const textArea = fixture.debugElement.query(By.css('.text-area-no-resize'));
     textArea.triggerEventHandler('blur', {target: {placeholder: ''}});
@@ -79,12 +82,18 @@ describe('Admin - Create Tag Category Modal', () => {
   it('should call CreateTagCategory action when handleFormSubmit called', () => {
     const name = 'new tag';
     const description = 'description';
+    const dataType = 'Text';
+    const useSlider = false;
     instance.name.setValue(name);
     instance.description.setValue(description);
+    instance.dataType.setValue(dataType);
+    instance.useSlider.setValue(useSlider);
     const upsertRequest: UpsertTagCategoryRequest = {
       DisplayName: name,
       EntityTypesFlag: 0,
-      Description: description
+      Description: description,
+      DataType: dataType,
+      UseSlider: useSlider
     };
     const expectedAction = new fromTagCategoriesActions.CreateTagCategory(upsertRequest);
 

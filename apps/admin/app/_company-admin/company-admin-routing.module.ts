@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { AuthorizationGuard } from 'libs/security/guards';
-import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import {AuthorizationGuard} from 'libs/security/guards';
+import {PermissionCheckEnum, Permissions} from 'libs/constants';
 
-import { UserRolePageComponent, NavigationPageComponent } from './containers';
+import {NavigationPageComponent, PasswordManagementPageComponent, UserRolePageComponent} from './containers';
+import { CompanyAdminUsersListPageComponent } from './components/pages/company-admin-users-list';
 
 
 const routes: Routes = [
@@ -13,6 +14,12 @@ const routes: Routes = [
   },
   { path: 'user-role', component: UserRolePageComponent, canActivate: [AuthorizationGuard],
     data: { Permissions: [Permissions.USER_ROLES], Check: PermissionCheckEnum.Single}
+  },
+  { path: 'passwordmanagement', component: PasswordManagementPageComponent, canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.PASSWORD_MANAGEMENT], Check: PermissionCheckEnum.Single}
+  },
+  { path: ':companyId/users', component: CompanyAdminUsersListPageComponent, canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.COMPANY_ADMIN], Check: PermissionCheckEnum.Single}
   },
   { path: '', redirectTo: 'user-role', pathMatch: 'full' },
 ];

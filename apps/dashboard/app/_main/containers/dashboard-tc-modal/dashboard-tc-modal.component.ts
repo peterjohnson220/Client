@@ -29,6 +29,7 @@ export class DashboardTCModalComponent implements OnInit {
   tcContent: string;
   termAndConditionsFeatureName = 'Peer';
   showClose = true;
+  isPeerHardCopy = false;
 
   constructor(private store: Store<fromDashboardTCReducer.State>, private route: ActivatedRoute) {
     this.tcModel$ = this.store.select(fromDashboardTCReducer.getTCData);
@@ -45,6 +46,10 @@ export class DashboardTCModalComponent implements OnInit {
         this.tcId = tcModel.TCId;
         this.tcTitle = tcModel.Title;
         this.tcContent = tcModel.Content;
+        if (tcModel.Type === 'PeerHardCopy') {
+          this.isPeerHardCopy = true;
+          this.showClose = true;
+        }
       }
     });
   }

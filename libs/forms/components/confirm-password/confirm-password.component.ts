@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidationRules } from './validation-rules.model';
 
+
 @Component({
   selector: 'pf-confirm-password',
   templateUrl: './confirm-password.component.html',
@@ -15,6 +16,7 @@ export class ConfirmPasswordComponent implements OnInit {
   @Input() numberOfRequiredLowercaseCharacters: number;
   @Input() numberOfRequiredNumericCharacters: number;
   @Input() numberOfRequiredSpecialCharacters: number;
+  @Input() allowUsername: string;
 
   @Output() onIsValid = new EventEmitter<string>();
   @Output() onInvalidPassword = new EventEmitter<ValidationRules[]>();
@@ -102,11 +104,36 @@ export class ConfirmPasswordComponent implements OnInit {
       });
     }
 
+    // No username allowed
+    if (this.allowUsername) {
+      const username = this.allowUsername.split('@')[0].toLowerCase();
+      rules.push({
+        Name: 'Contains Username',
+        Message: 'Cannot contain username',
+        Rule: '',
+        IsSatisfied: false,
+        Validator: (vr: ValidationRules) => {
+          return (control: FormControl) => {
+            if (control.value) {
+              const password = control.value;
+              if (password.toLowerCase().includes(username)) {
+                vr.IsSatisfied = false;
+                return { passwordContainsUsername: true};
+              }
+            }
+            vr.IsSatisfied = true;
+            return null;
+          };
+        }
+      });
+    }
+
     // Dynamically create password validators
     this.validationRules = rules;
     const passwordValidators = [Validators.required, Validators.minLength(this.minLength)];
     for (const validationRule of rules) {
-      passwordValidators.push(Validators.pattern(new RegExp(validationRule.Rule)));
+      passwordValidators.push(validationRule.Validator ? validationRule.Validator(validationRule)
+        : Validators.pattern(new RegExp(validationRule.Rule)));
     }
 
     // Initialize FormGroup
@@ -123,9 +150,12 @@ export class ConfirmPasswordComponent implements OnInit {
   }
 
   passwordValidator() {
-    const currentPasswordValue = this.changePasswordForm.get('password').value;
+    const currentPasswordControl = this.changePasswordForm.get('password');
     for (const validationRule of this.validationRules) {
-      validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(currentPasswordValue);
+      if (validationRule.Name === 'Contains Username') {
+        continue; // ignore the Rule property as we are using a ValidatorFn on the object
+      }
+      validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(currentPasswordControl.value);
     }
   }
 
@@ -149,4 +179,3 @@ export class ConfirmPasswordComponent implements OnInit {
     }
   }
 }
-

@@ -15,7 +15,7 @@ export class CompanySearchPipe implements PipeTransform {
             const filteredItems = companiesList.filter(company => company.CompanyName.toLowerCase().indexOf(searchTerm) > -1
                 || company.CompanyId.toString().indexOf(searchTerm) > -1);
 
-            return allCompanies = process(filteredItems, state);
+            return process(filteredItems, state);
         } else {
             return allCompanies;
         }

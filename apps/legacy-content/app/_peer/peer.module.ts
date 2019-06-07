@@ -19,12 +19,12 @@ import {
   ApplyMappingButtonComponent
 } from './../../../peer/app/_manage/components';
 import {
-  AssociateCompanyJobComponent, PaymarketExchangeScopeComponent, UpsertDataCutPageComponent
+  AssociateCompanyJobComponent, PaymarketExchangeScopeComponent, UpsertDataCutPageComponent, TaggingEntitiesPageComponent
 } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import {
   AssociateCompanyJobEffects, DataCutValidationEffects, PaymarketExchangeScopeEffects,
-  RequestPeerAccessEffects, UpsertDataCutPageEffects
+  RequestPeerAccessEffects, UpsertDataCutPageEffects, TaggingEntitiesEffects
 } from './effects';
 import { reducers } from './reducers';
 import { GuidelinesBadgeComponent } from './components';
@@ -44,7 +44,8 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
       DataCutValidationEffects,
       PaymarketExchangeScopeEffects,
       UpsertDataCutPageEffects,
-      RequestPeerAccessEffects
+      RequestPeerAccessEffects,
+      TaggingEntitiesEffects
     ]),
     NgbPopoverModule,
     DropDownsModule,
@@ -69,7 +70,8 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     // Pages
     AssociateCompanyJobComponent,
     PaymarketExchangeScopeComponent,
-    UpsertDataCutPageComponent
+    UpsertDataCutPageComponent,
+    TaggingEntitiesPageComponent
   ],
   providers: [
     WindowCommunicationService, DojGuidelinesService, CompanyJobApiService

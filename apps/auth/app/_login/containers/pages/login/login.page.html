@@ -53,7 +53,7 @@
         </div>
     </form>
     <div *ngIf="allowSelfRegistration" class="mt-5 mb-2 d-flex flex-column justify-content-center">
-      <button id="au-btn-registration" class="btn align-self-center" routerLink="/registration">
+      <button id="au-btn-registration" class="btn align-self-center" (click)="navigateToRegistration()">
         Register <i class="fas fa-arrow-right"></i>
       </button>
     </div>

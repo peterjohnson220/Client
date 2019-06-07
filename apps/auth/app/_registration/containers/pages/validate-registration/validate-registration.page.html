@@ -72,6 +72,7 @@
       <pf-confirm-password
         [minLength]="8"
         [allowSpaces]="false"
+        [allowUsername]="accountEmail$ | async"
         [numberOfRequiredUppercaseCharacters]="1"
         [numberOfRequiredLowercaseCharacters]="1"
         [numberOfRequiredSpecialCharacters]="1"

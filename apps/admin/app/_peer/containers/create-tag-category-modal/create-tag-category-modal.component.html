@@ -46,6 +46,28 @@
           </div>
         </div>
 
+        <div class="mb-5 d-flex flex-row">
+          <div class="mr-5">
+            <label class="col-form-label">Filter Data Type:</label>
+            <div>
+              <kendo-dropdownlist class="form-control border drop-down-width"
+                                  formControlName="dataType"
+                                  (selectionChange)="dropDownSelectionChange($event)"
+                                  [data]="dataTypes">
+              </kendo-dropdownlist>
+            </div>
+          </div>
+          <div>
+            <label class="col-form-label">Display filter as slider:</label>
+            <div>
+              <kendo-switch formControlName="useSlider"
+                            [onLabel]="'Yes'"
+                            [offLabel]="'No'">
+              </kendo-switch>
+            </div>
+          </div>
+        </div>
+
         <textarea
           maxlength="250"
           id="tag-category-description"

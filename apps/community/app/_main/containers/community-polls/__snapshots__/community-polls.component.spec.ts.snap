@@ -7,16 +7,13 @@ exports[`ItemFormControlComponent should show the form text 1`] = `
   communityPollRequestsSubscription={[Function Subscriber]}
   communityPollResponses$={[Function Store]}
   communityPollResponsesSuccessSubscription={[Function Subscriber]}
+  showNavigationArrows="false"
   store={[Function Store]}
 >
   <div
-    class="card community-border-radius"
+    class="community-payfactors-polls community-border-radius py-4"
   >
-    <div
-      class="card-body"
-    >
-      
-    </div>
+    
   </div>
 </pf-community-polls>
 `;

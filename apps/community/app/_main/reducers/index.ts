@@ -280,6 +280,11 @@ export const getHasPreviousBatchPostsOnServer = createSelector(
   }
 );
 
+export const getCommunityPostDeleted = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getCommunityPostDeleted
+);
+
 // Community Post Reply Selectors
 
 export const {

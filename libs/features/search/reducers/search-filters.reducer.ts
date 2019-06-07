@@ -2,8 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-// import { staticFilters } from '../data';
-import { Filter, FilterType, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
+import { Filter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
 import { ClientServerFilterHelper, FiltersHelper } from '../helpers';
 
 export interface State {

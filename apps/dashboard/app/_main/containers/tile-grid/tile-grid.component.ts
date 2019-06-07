@@ -17,11 +17,9 @@ import { ReorderTileRequest } from 'libs/models/dashboard';
 @Component({
   selector: 'pf-tile-grid',
   templateUrl: './tile-grid.component.html',
-  styleUrls: ['./tile-grid.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./tile-grid.component.scss']
 })
 export class TileGridComponent implements OnInit, OnDestroy {
-  loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
   tiles$: Observable<Tile[]>;
   tiles: Tile[];
@@ -39,7 +37,6 @@ export class TileGridComponent implements OnInit, OnDestroy {
     );
 
     // Register state
-    this.loading$ = this.store.select(fromTileGridReducer.getTileGridLoading);
     this.loadingError$ = this.store.select(fromTileGridReducer.getTileGridLoadingError);
     this.tiles$ = this.store.select(fromTileGridReducer.getTileGridTiles);
     this.userContext$ = store.select(fromRootState.getUserContext);

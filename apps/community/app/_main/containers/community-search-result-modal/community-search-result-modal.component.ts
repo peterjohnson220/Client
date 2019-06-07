@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -27,9 +29,13 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   loadingCommunityPost$: Observable<boolean>;
   loadingCommunityPostError$: Observable<boolean>;
 
-  communityPost: CommunityPost;
+  communityPostDeleted$: Observable<any>;
 
-  constructor(public store: Store<fromCommunitySearchPostReducer.State>) {
+  communityPost: CommunityPost;
+  isUserPoll: boolean;
+
+  constructor(public store: Store<fromCommunitySearchPostReducer.State>,
+              private router: Router) {
     this.communitySearchResultModal$ = this.store.select(fromCommunitySearchPostReducer.getCommunitySearchResultModal);
 
     this.communityPost$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostCombinedWithReplies);
@@ -37,6 +43,8 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
     this.loadingCommunityPostError$ = this.store.select(fromCommunitySearchPostReducer.getLoadingCommunityPostError);
 
     this.maximumReplies$ = this.store.select(fromCommunitySearchPostReducer.getMaximumReplies);
+
+    this.communityPostDeleted$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostDeleted);
    }
 
   ngOnInit() {
@@ -48,6 +56,9 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
 
     this.communityPostSubscription = this.communityPost$.subscribe(post => {
       this.communityPost = post;
+      if (post) {
+        this.isUserPoll = post.UserPollRequest ? true : false;
+      }
     });
   }
 
@@ -64,5 +75,23 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   handleModalDismissed(): void {
     this.store.dispatch(new fromCommunitySearchActions.CloseSearchResultModal);
     this.communityPost = null;
+  }
+
+  hashtagClicked(hashTagName: string) {
+    this.handleModalDismissed();
+
+    if (hashTagName && hashTagName.substr(0, 1) === '#') {
+
+      const hashTagText = hashTagName.substr(1);
+      this.router.navigate([ `/dashboard/tag/${hashTagText}` ]);
+    }
+  }
+
+  getTitle() {
+    return this.isUserPoll ? 'Community Poll' : 'Community Discussion';
+  }
+
+  getDeletedMessage() {
+    return this.isUserPoll ? 'Poll successfully deleted.' : 'Post successfully deleted.';
   }
 }

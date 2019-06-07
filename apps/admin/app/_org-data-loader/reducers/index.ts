@@ -8,6 +8,7 @@ import * as fromCompanySelectorReducer from './company-selector.reducer';
 import * as fromOrgDataFieldMappingsReducer from './org-data-field-mappings.reducer';
 import * as fromOrgDataEmailRecipientsReducer from './email-recipients.reducer';
 import * as fromLoaderSettingsReducer from './loader-settings.reducer';
+import * as fromOrgDataFilenamePatternsReducer from './org-data-filename-patterns.reducer';
 
 // Feature area state
 export interface OrgDataLoaderState {
@@ -15,6 +16,7 @@ export interface OrgDataLoaderState {
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.State;
   emailRecipients: fromOrgDataEmailRecipientsReducer.State;
   loaderSettings: fromLoaderSettingsReducer.State;
+  orgDataFilenamePatternSet: fromOrgDataFilenamePatternsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,9 +29,9 @@ export const reducers = {
   companySelector: fromCompanySelectorReducer.reducer,
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
   emailRecipients: fromOrgDataEmailRecipientsReducer.reducer,
-  loaderSettings: fromLoaderSettingsReducer.reducer
+  loaderSettings: fromLoaderSettingsReducer.reducer,
+  orgDataFilenamePatternSet: fromOrgDataFilenamePatternsReducer.reducer
 };
-
 
 // Select Feature Area
 export const selectorgDataAutoloaderState = createFeatureSelector<OrgDataLoaderState>('orgDataLoader');
@@ -43,6 +45,8 @@ export const selectEmailRecipientsState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.emailRecipients);
 export const selectLoaderSettingsState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.loaderSettings);
+export const selectOrgDataFilenamePatternSetState =
+  createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.orgDataFilenamePatternSet);
 
 export const {
   selectAll: getCompanies
@@ -100,6 +104,7 @@ export const getRemovingRecipientError = createSelector(
   selectEmailRecipientsState,
   fromOrgDataEmailRecipientsReducer.getRemovingEmailRecipientsError
 );
+
 export const getEmailRecipientsModalOpen = createSelector(
   selectEmailRecipientsState,
   fromOrgDataEmailRecipientsReducer.getEmailRecipientsModalOpen
@@ -132,4 +137,9 @@ export const getLoaderSettingsSavingSuccess = createSelector(
 export const getLoaderSettingsSavingError = createSelector(
   selectLoaderSettingsState,
   fromLoaderSettingsReducer.getSavingLoaderSettingsError
+);
+
+export const getOrgDataFilenamePatternSet = createSelector(
+  selectOrgDataFilenamePatternSetState,
+  fromOrgDataFilenamePatternsReducer.getOrgDataFilenamePatternSet
 );

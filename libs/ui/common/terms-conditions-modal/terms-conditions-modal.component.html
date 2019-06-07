@@ -15,7 +15,10 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="declineTermsAndConditions()" *ngIf="showDeclineButton">{{declineButtonText}}</button>
-    <button class="btn btn-primary" (click)="acceptTermsAndConditions()">{{acceptButtonText}}</button>
+    <button class="btn btn-primary" (click)="acceptTermsAndConditions()" *ngIf="!isHardCopy">{{acceptButtonText}}</button>
+    <a *ngIf="isHardCopy" id="peerTermsDownload" href={{fileToDownload}}>
+      <button class="btn btn-primary">Review Terms & Conditions</button>
+    </a>
   </div>
 </ng-template>
 <div class="modal-container"></div>

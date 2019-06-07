@@ -7,6 +7,7 @@ import { FilterAggregateGroup, PayMarket, ExchangeMapSummary, ToggleAggregateGro
 
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
 import * as fromPeerMapReducer from '../../reducers';
+import * as fromFilterSidebarReducer from '../../reducers';
 import { AggregateSelectionInfo } from '../../models';
 
 @Component({
@@ -20,6 +21,7 @@ export class FilterSidebarComponent implements OnInit {
   @Input() shouldShowPayMarketBoundsFilter = true;
   @Input() shouldShowExcludeIndirectJobMatchesFilter = true;
   @Input() shouldShowExchangeScopeSelector = true;
+  @Input() companyJobId: number;
 
   filterAggregateGroups$: Observable<FilterAggregateGroup[]>;
   filterAggregateGroupsLoading$: Observable<boolean>;
@@ -31,6 +33,7 @@ export class FilterSidebarComponent implements OnInit {
   previewLimit$: Observable<number>;
   mapSummary$: Observable<ExchangeMapSummary>;
   selectionsCount$: Observable<number>;
+  associatedJobs$: Observable<string[]>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.filterAggregateGroups$ = this.store.pipe(select(fromPeerMapReducer.getFilterAggregateGroups));
@@ -43,6 +46,7 @@ export class FilterSidebarComponent implements OnInit {
     this.previewLimit$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterPreviewLimit));
     this.mapSummary$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapSummary));
     this.selectionsCount$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterSelectionsCount));
+    this.associatedJobs$ = this.store.pipe(select(fromFilterSidebarReducer.getAssociatedExchangeJobs));
   }
 
   trackByFilterProp(index: number, filterAggregateGroup: FilterAggregateGroup): string {
@@ -74,6 +78,10 @@ export class FilterSidebarComponent implements OnInit {
   ngOnInit() {
     if (this.companyPayMarketId) {
       this.store.dispatch(new fromFilterSidebarActions.LoadPayMarketInformation(this.companyPayMarketId));
+    }
+
+    if (this.companyJobId) {
+      this.store.dispatch(new fromFilterSidebarActions.LoadAssociatedExchangeJobs(this.companyJobId));
     }
   }
 }

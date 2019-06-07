@@ -2,12 +2,8 @@
 @import 'colors';
 @import '~dragula/dist/dragula.min.css';
 
-html{
-  background-color: transparent;
-}
-
-body {
-  background: url('/client/dashboard/assets/images/DarkWood.png') repeat fixed center;
+.main-body-scroll {
+  background: url('/client/dashboard/assets/images/DarkWood.png') repeat;
 }
 
 .reset-button {

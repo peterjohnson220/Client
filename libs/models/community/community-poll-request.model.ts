@@ -7,6 +7,7 @@ export interface CommunityPollRequest {
     ResponseOptions: CommunityPollResponseOption[];
     CreatedByUser: number;
     IsExpired: boolean;
+    ExpirationDate: Date;
   }
 
   export function generateMockCommunityPollRequest(): CommunityPollRequest {
@@ -16,6 +17,7 @@ export interface CommunityPollRequest {
       DatePosted: new Date(),
       ResponseOptions: [generateMockCommunityPollResponseOption(0, 'yes'), generateMockCommunityPollResponseOption(1, 'no')],
       CreatedByUser: 123,
-      IsExpired: false
+      IsExpired: false,
+      ExpirationDate: new Date()
     };
   }

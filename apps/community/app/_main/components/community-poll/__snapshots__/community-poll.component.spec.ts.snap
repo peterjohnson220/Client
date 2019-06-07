@@ -10,70 +10,101 @@ exports[`CommunityPollComponent should show poll 1`] = `
   pollTypes={[Function Object]}
   request={[Function Object]}
   response={[Function Object]}
+  showResults="false"
   store={[Function Store]}
   type="0"
 >
   <pf-community-post-content
-    class="text-center lead mt-2 mb-2"
+    class="font-weight-bold mt-2 mb-2"
   /><div>
     
-    <div>
-      <div
-        class="inner-element my-1"
-      >
-        <div
-          class="poll-choice poll-border community-border-radius"
-        />
-        <div
-          class="poll-border"
-          ng-reflect-klass="poll-border"
-          ng-reflect-ng-class="[object Object]"
-          style="width: 100%;"
-        />
-        <div
-          class="response-option-text-container poll-response-question"
-        >
-          yes
-        </div>
-        <div
-          class="response-option-text-container poll-response-percent"
-        >
-          0%
-        </div>
-      </div>
-    </div>
-    <div>
-      <div
-        class="inner-element my-1"
-      >
-        <div
-          class="poll-choice poll-border community-border-radius"
-        />
-        <div
-          class="poll-border poll-choice-filled"
-          ng-reflect-klass="poll-border"
-          ng-reflect-ng-class="[object Object]"
-          style="width: 100%;"
-        />
-        <div
-          class="response-option-text-container poll-response-question"
-        >
-          no
-        </div>
-        <div
-          class="response-option-text-container poll-response-percent"
-        >
-          100%
-        </div>
-      </div>
-    </div>
     
-    <p
-      class="dismiss-poll-button text-center mt-2"
-      data-qa-id="cnt-dismissPollResponse"
+    <div>
+      <div
+        class="inner-element mb-3 pt-2"
+      >
+        <div
+          class="poll-choice-unanswered poll-choice-shadow p-3 mb-5 bg-white rounded"
+          data-qa-id="cnt-pollResponse0"
+          ng-reflect-klass="poll-choice-unanswered poll-ch"
+          ng-reflect-ng-class="[object Object]"
+        >
+          <div
+            class="response-option-text-container pl-1"
+          >
+            
+            <span
+              class="poll-choice-unselected-indicator"
+            >
+              <i
+                class="far fa-circle"
+              />
+            </span>
+            
+            <span
+              class="poll-choice-label pl-1"
+            >
+              yes
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="inner-element mb-3 pt-2"
+      >
+        <div
+          class="poll-choice-unanswered poll-choice-shadow p-3 mb-5 bg-white rounded"
+          data-qa-id="cnt-pollResponse1"
+          ng-reflect-klass="poll-choice-unanswered poll-ch"
+          ng-reflect-ng-class="[object Object]"
+        >
+          <div
+            class="response-option-text-container pl-1"
+          >
+            
+            <span
+              class="poll-choice-unselected-indicator"
+            >
+              <i
+                class="far fa-circle"
+              />
+            </span>
+            
+            <span
+              class="poll-choice-label pl-1"
+            >
+              no
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-flex pt-3 justify-content-between"
+      ng-reflect-klass="d-flex pt-3"
+      ng-reflect-ng-class="[object Object]"
     >
-      Dismiss poll
-    </p>
+      
+      <div
+        class="poll-jump-to-results"
+        data-qa-id="cnt-submitJumpToResults"
+      >
+         Jump to results 
+        <i
+          class="far fa-chevron-right"
+        />
+      </div>
+      <button
+        class="btn btn-secondary submit-button-container"
+        data-qa-id="btn-submitPollResponse"
+        type="button"
+      >
+         Vote 
+        
+      </button>
+    </div>
   </div>
 </pf-community-poll>
 `;

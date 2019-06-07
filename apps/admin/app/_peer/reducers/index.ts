@@ -665,6 +665,15 @@ export const getTotalExchangeFilters = createSelector(
   selectExchangeFiltersFeatureState, fromExchangeFiltersReducer.getTotal
 );
 
+export const getPuttingExchangeFilter = createSelector(
+  selectExchangeFiltersFeatureState, fromExchangeFiltersReducer.getPutting
+);
+
+export const getPuttingExchangeFilterError = createSelector(
+  selectExchangeFiltersFeatureState, fromExchangeFiltersReducer.getPuttingError
+);
+
+
 export const getExchangeFiltersGrid = createSelector(
   getExchangeFilters,
   getTotalExchangeFilters,

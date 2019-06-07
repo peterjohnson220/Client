@@ -17,6 +17,7 @@ import {
   FilterAggregateGroupComponent,
   ExcludeIndirectMatchesFilterComponent,
   PayMarketBoundsFilterComponent,
+  AssociatedExchangeJobListComponent,
   PeerFilterInfoComponent
 } from './components';
 import { FilterSidebarComponent, MapComponent, ScopeSelectorComponent } from './containers';
@@ -26,7 +27,7 @@ import { reducers } from './reducers';
 const declarations = [
   // Components
   FilterAggregateComponent, FilterAggregateGroupComponent, PayMarketBoundsFilterComponent, PeerFilterInfoComponent,
-  ExcludeIndirectMatchesFilterComponent,
+  ExcludeIndirectMatchesFilterComponent, AssociatedExchangeJobListComponent,
 
   // Containers
   FilterSidebarComponent, MapComponent, ScopeSelectorComponent

@@ -46,6 +46,17 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
+  loadAssociatedExchangeJob$ = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.LOAD_ASSOCIATED_EXCHANGE_JOBS),
+      map((action: fromFilterSidebarActions.LoadAssociatedExchangeJobs) => action.payload),
+      switchMap((payload) => {
+        return this.exchangeDataSearchApiService.getAssociatedExchangeJobs(payload).pipe(
+          map((response) => new fromFilterSidebarActions.LoadAssociatedExchangeJobsSuccess(response))
+        );
+      })
+    );
+
+  @Effect()
   loadFilterAggregates$ = this.actions$.pipe(
       ofType(fromFilterSidebarActions.LOAD_FILTER_AGGREGATES),
       map((action: fromFilterSidebarActions.LoadFilterAggregates) => action.payload),

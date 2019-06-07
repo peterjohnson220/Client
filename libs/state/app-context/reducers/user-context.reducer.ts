@@ -52,3 +52,4 @@ export const getGettingUserContext = (state: State) => state.gettingUserContext;
 export const getGettingUserContextError = (state: State) => state.gettingUserContextError;
 export const getGettingUserContextAttempted = (state: State) => state.gettingUserContextAttempted;
 export const getUserContext = (state: State) => state.userContext;
+export const hasUserContext = (state: State) => !!state.userContext;

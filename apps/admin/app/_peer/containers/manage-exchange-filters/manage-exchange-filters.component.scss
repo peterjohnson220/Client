@@ -1,41 +1,32 @@
-@import 'kendo-grid';
 @import 'colors';
 
 .omni-box{
   width: 400px;
 }
 
-.filter-list {
-  width: 100%;
-  max-width: 100%;
-  border: solid 1px $border-grey;
-  display: block;
-  background: white;
-  overflow: auto;
+tr:not(.cursor-no-move) .cdk-drag-handle {
+  cursor: move;
 }
 
-.filter-box {
-  padding: 9px 9px;
-  border-bottom: solid 1px $border-grey;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  cursor: move;
-  background: white;
-  font-size: 1rem;
+tr > td, tr > th {
+  vertical-align: middle;
+}
+
+pf-async-container {
+  white-space: nowrap;
+  overflow: auto;
 }
 
 .cursor-no-move {
   cursor: default !important;
 }
 
-.filter-box:hover {
-  background: $light-hover-background;
-}
-
 .cdk-drag-preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 1rem;
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
@@ -51,22 +42,15 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.filter-box:last-child {
-  border: none;
-}
+.cdk-drag-handle {
+  color: $grey;
+  margin-left: 1rem;
 
-.filter-list.cdk-drop-list-dragging .filter-box:not(.cdk-drag-placeholder) {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  &:hover {
+    color: darken($grey, 20%)
+  }
 }
 
 .switch {
   margin-right: 40em;
-}
-
-.header {
-  padding: 8px 8px;
-  margin-top: 2px;
-  border: solid 1px $border-grey;
-  display: flex;
-  font-size: 1rem;
 }

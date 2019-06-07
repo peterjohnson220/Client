@@ -1,9 +1,1 @@
-<ng-container *ngIf="(gettingUserContext$ | async); else routerOutlet">
-  <div class="h-100 d-flex justify-content-center align-items-center">
-    <h2 class="text-white"><pf-loading-indicator></pf-loading-indicator></h2>
-  </div>
-</ng-container>
-
-<ng-template #routerOutlet>
-  <router-outlet></router-outlet>
-</ng-template>
+<router-outlet></router-outlet>

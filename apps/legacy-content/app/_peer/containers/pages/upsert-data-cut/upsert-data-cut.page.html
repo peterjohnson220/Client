@@ -8,7 +8,8 @@
       <pf-peer-data-cut-filter-sidebar [companyPayMarketId]="companyPayMarketId"
                                        [shouldShowPayMarketBoundsFilter]="hasAcceptedPeerTerms$ | async"
                                        [shouldShowExcludeIndirectJobMatchesFilter]="hasAcceptedPeerTerms$ | async"
-                                       [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async">
+                                       [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async"
+                                       [companyJobId]="companyJobId">
       </pf-peer-data-cut-filter-sidebar>
     </div>
     <div class="flex-grow-1 d-flex flex-column h-100 w-100">

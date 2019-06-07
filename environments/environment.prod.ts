@@ -18,4 +18,6 @@ export const environment = {
   smallBusinessApiUrl: 'https://smallbiz.payfactors.com/api/',
   smallBusinessAppUrl: 'https://smallbiz.payfactors.com/app/',
   hostPath: 'client',
+  allowHubspotRegistration: false,
+  hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data-wh'
 };
