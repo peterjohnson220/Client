@@ -1,5 +1,417 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`FieldMapperComponent Filename Pattern should display the filename pattern 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
+  fileRestrictions={[Function Object]}
+  filenamePattern={[Function Object]}
+  loaderType={[Function String]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="container-fluid"
+  >
+    
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col"
+      >
+         Client filename for this entity must 
+        
+        <span>
+          begin with 
+        </span>
+        
+        <span
+          class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre"
+        >
+          this-is-my-filename-pattern
+        </span>
+      </div>
+    </div>
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent Filename Pattern should read "begin with" if the pattern is start restricted 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
+  fileRestrictions={[Function Object]}
+  filenamePattern={[Function Object]}
+  loaderType={[Function String]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="container-fluid"
+  >
+    
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col"
+      >
+         Client filename for this entity must 
+        
+        <span>
+          begin with 
+        </span>
+        
+        <span
+          class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre"
+        >
+          paymarkets_pf
+        </span>
+      </div>
+    </div>
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent Filename Pattern should read "contain" if the pattern is not start restricted 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
+  fileRestrictions={[Function Object]}
+  filenamePattern={[Function Object]}
+  loaderType={[Function String]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="container-fluid"
+  >
+    
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col"
+      >
+         Client filename for this entity must 
+        
+        contain 
+        
+        <span
+          class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre"
+        >
+          employees_123
+        </span>
+      </div>
+    </div>
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
+  </div>
+</pf-field-mapper>
+`;
+
 exports[`FieldMapperComponent should disable the Map button when a payfactors field OR client field have not been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
@@ -16,96 +428,106 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
   selectedClientField={[Function String]}
   selectedPfField=""
   successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
 >
   <div
-    class="upload-container"
+    class="container-fluid"
   >
     
-    <kendo-upload>
-      <kendo-upload-messages
-        select="Select file..."
-      />
-    </kendo-upload>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
+    <div
+      class="row mt-3"
     >
-      structures
-    </span>
-  </p><div
-    class="field-mappings-container"
-  >
-    <table>
-      <tbody>
-        <tr
-          class="header"
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
         >
-          <td>
-            Payfactors fields
-          </td>
-          <td>
-            Client fields
-          </td>
-          <td />
-          <td>
-            Mapping
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <select
-              class="list-box"
-              name="payfactors_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <select
-              class="list-box"
-              name="client_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <div
-              class="mapping-btn-container"
-              role="group"
-            >
-              <button
-                class="btn btn-primary"
-                disabled=""
-                type="button"
-              >
-                Map &gt; 
-              </button>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                type="button"
-              >
-                &lt; Remove Mapping 
-              </button>
-            </div>
-          </td>
-          <td>
-            <select
-              class="list-box mapped-fields"
-              name="mapped_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
   </div>
 </pf-field-mapper>
 `;
@@ -125,96 +547,106 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
   removeUrl={[Function String]}
   selectedMapping=""
   successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
 >
   <div
-    class="upload-container"
+    class="container-fluid"
   >
     
-    <kendo-upload>
-      <kendo-upload-messages
-        select="Select file..."
-      />
-    </kendo-upload>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
+    <div
+      class="row mt-3"
     >
-      structures
-    </span>
-  </p><div
-    class="field-mappings-container"
-  >
-    <table>
-      <tbody>
-        <tr
-          class="header"
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
         >
-          <td>
-            Payfactors fields
-          </td>
-          <td>
-            Client fields
-          </td>
-          <td />
-          <td>
-            Mapping
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <select
-              class="list-box"
-              name="payfactors_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <select
-              class="list-box"
-              name="client_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <div
-              class="mapping-btn-container"
-              role="group"
-            >
-              <button
-                class="btn btn-primary"
-                disabled=""
-                type="button"
-              >
-                Map &gt; 
-              </button>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                type="button"
-              >
-                &lt; Remove Mapping 
-              </button>
-            </div>
-          </td>
-          <td>
-            <select
-              class="list-box mapped-fields"
-              name="mapped_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
   </div>
 </pf-field-mapper>
 `;
@@ -235,95 +667,105 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
   selectedClientField={[Function String]}
   selectedPfField={[Function String]}
   successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
 >
   <div
-    class="upload-container"
+    class="container-fluid"
   >
     
-    <kendo-upload>
-      <kendo-upload-messages
-        select="Select file..."
-      />
-    </kendo-upload>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
+    <div
+      class="row mt-3"
     >
-      structures
-    </span>
-  </p><div
-    class="field-mappings-container"
-  >
-    <table>
-      <tbody>
-        <tr
-          class="header"
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
         >
-          <td>
-            Payfactors fields
-          </td>
-          <td>
-            Client fields
-          </td>
-          <td />
-          <td>
-            Mapping
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <select
-              class="list-box"
-              name="payfactors_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <select
-              class="list-box"
-              name="client_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <div
-              class="mapping-btn-container"
-              role="group"
-            >
-              <button
-                class="btn btn-primary"
-                type="button"
-              >
-                Map &gt; 
-              </button>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                type="button"
-              >
-                &lt; Remove Mapping 
-              </button>
-            </div>
-          </td>
-          <td>
-            <select
-              class="list-box mapped-fields"
-              name="mapped_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
   </div>
 </pf-field-mapper>
 `;
@@ -343,95 +785,444 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
   removeUrl={[Function String]}
   selectedMapping={[Function String]}
   successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
 >
   <div
-    class="upload-container"
+    class="container-fluid"
   >
     
-    <kendo-upload>
-      <kendo-upload-messages
-        select="Select file..."
-      />
-    </kendo-upload>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
+    <div
+      class="row mt-3"
     >
-      structures
-    </span>
-  </p><div
-    class="field-mappings-container"
-  >
-    <table>
-      <tbody>
-        <tr
-          class="header"
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
         >
-          <td>
-            Payfactors fields
-          </td>
-          <td>
-            Client fields
-          </td>
-          <td />
-          <td>
-            Mapping
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <select
-              class="list-box"
-              name="payfactors_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <select
-              class="list-box"
-              name="client_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <div
-              class="mapping-btn-container"
-              role="group"
-            >
-              <button
-                class="btn btn-primary"
-                disabled=""
-                type="button"
-              >
-                Map &gt; 
-              </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-              >
-                &lt; Remove Mapping 
-              </button>
-            </div>
-          </td>
-          <td>
-            <select
-              class="list-box mapped-fields"
-              name="mapped_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent should show a add/full replace toggle when the loader type is Employees 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
+  fileRestrictions={[Function Object]}
+  loaderType={[Function String]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="container-fluid"
+  >
+    
+    <div
+      class="row mt-3"
+    >
+      
+      <div
+        class="col-md-4 d-flex"
+      >
+        <label
+          class="text-nowrap mr-4"
+          for="dateFormat"
+        >
+          Date Format: 
+        </label>
+        <kendo-combobox
+          class="form-control flex-fill"
+          id="dateFormat"
+          textfield="text"
+          valuefield="value"
+        />
+        <span
+          class="text-danger ml-2"
+        >
+          *
+        </span>
+      </div>
+      <div
+        class="col-md-4"
+      >
+        <div
+          class="d-inline-block mr-2"
+        >
+          <input
+            class="k-radio"
+            id="addRecords_Employees"
+            name="addOrFullReplaceRecords_Employees"
+            type="radio"
+          />
+          <label
+            class="k-radio-label"
+            for="addRecords_Employees"
+          >
+            Add
+          </label>
+        </div>
+        <div
+          class="d-inline-block"
+        >
+          <input
+            class="k-radio"
+            id="fullReplaceRecords_Employees"
+            name="addOrFullReplaceRecords_Employees"
+            type="radio"
+          />
+          <label
+            class="k-radio-label"
+            for="fullReplaceRecords_Employees"
+          >
+            Full Replace
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent should show a add/full replace toggle when the loader type is Structure Mappings 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
+  fileRestrictions={[Function Object]}
+  loaderType={[Function String]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="container-fluid"
+  >
+    
+    <div
+      class="row mt-3"
+    >
+      
+      <div
+        class="col-md-4"
+      >
+        <div
+          class="d-inline-block mr-2"
+        >
+          <input
+            class="k-radio"
+            id="addRecords_StructureMapping"
+            name="addOrFullReplaceRecords_StructureMapping"
+            type="radio"
+          />
+          <label
+            class="k-radio-label"
+            for="addRecords_StructureMapping"
+          >
+            Add
+          </label>
+        </div>
+        <div
+          class="d-inline-block"
+        >
+          <input
+            class="k-radio"
+            id="fullReplaceRecords_StructureMapping"
+            name="addOrFullReplaceRecords_StructureMapping"
+            type="radio"
+          />
+          <label
+            class="k-radio-label"
+            for="fullReplaceRecords_StructureMapping"
+          >
+            Full Replace
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
   </div>
 </pf-field-mapper>
 `;
@@ -450,116 +1241,168 @@ exports[`FieldMapperComponent should show a date format selector when the loader
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
 >
   <div
-    class="upload-container"
+    class="container-fluid"
   >
     
     <div
-      class="dateFormat-container"
+      class="row mt-3"
     >
-      <label
-        for="dateFormat"
+      
+      <div
+        class="col-md-4 d-flex"
       >
-        Date Format: 
-      </label>
-      <kendo-combobox
-        class="form-control dateFormat"
-        id="dateFormat"
-        textfield="text"
-        valuefield="value"
-      />
-      <span
-        class="text-danger ml-2"
-      >
-        *
-      </span>
-    </div>
-    <kendo-upload>
-      <kendo-upload-messages
-        select="Select file..."
-      />
-    </kendo-upload>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
-    >
-      employees
-    </span>
-  </p><div
-    class="field-mappings-container"
-  >
-    <table>
-      <tbody>
-        <tr
-          class="header"
+        <label
+          class="text-nowrap mr-4"
+          for="dateFormat"
         >
-          <td>
-            Payfactors fields
-          </td>
-          <td>
-            Client fields
-          </td>
-          <td />
-          <td>
-            Mapping
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <select
-              class="list-box"
-              name="payfactors_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <select
-              class="list-box"
-              name="client_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-          <td>
-            <div
-              class="mapping-btn-container"
-              role="group"
-            >
-              <button
-                class="btn btn-primary"
-                disabled=""
-                type="button"
-              >
-                Map &gt; 
-              </button>
-              <button
-                class="btn btn-primary"
-                disabled=""
-                type="button"
-              >
-                &lt; Remove Mapping 
-              </button>
-            </div>
-          </td>
-          <td>
-            <select
-              class="list-box mapped-fields"
-              name="mapped_fields"
-              size="20"
-            >
-              
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          Date Format: 
+        </label>
+        <kendo-combobox
+          class="form-control flex-fill"
+          id="dateFormat"
+          textfield="text"
+          valuefield="value"
+        />
+        <span
+          class="text-danger ml-2"
+        >
+          *
+        </span>
+      </div>
+      <div
+        class="col-md-4"
+      >
+        <div
+          class="d-inline-block mr-2"
+        >
+          <input
+            class="k-radio"
+            id="addRecords_Employees"
+            name="addOrFullReplaceRecords_Employees"
+            type="radio"
+          />
+          <label
+            class="k-radio-label"
+            for="addRecords_Employees"
+          >
+            Add
+          </label>
+        </div>
+        <div
+          class="d-inline-block"
+        >
+          <input
+            class="k-radio"
+            id="fullReplaceRecords_Employees"
+            name="addOrFullReplaceRecords_Employees"
+            type="radio"
+          />
+          <label
+            class="k-radio-label"
+            for="fullReplaceRecords_Employees"
+          >
+            Full Replace
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+    
+    <div
+      class="row mt-3 h5 font-weight-bold text-center"
+    >
+      <div
+        class="col px-0"
+      >
+        Payfactors fields
+      </div>
+      <div
+        class="col px-0"
+      >
+        Client fields
+      </div>
+      <div
+        class="col px-0"
+      />
+      <div
+        class="col px-0"
+      >
+        Mapping
+      </div>
+    </div>
+    <div
+      class="row mt-3"
+    >
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="payfactors_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-50 px-2"
+          name="client_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+      <div
+        class="col px-0 align-self-center"
+        role="group"
+      >
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          Map &gt;
+        </button>
+        <button
+          class="btn btn-primary d-block my-3 mx-auto"
+          disabled=""
+          type="button"
+        >
+          &lt; Remove Mapping
+        </button>
+      </div>
+      <div
+        class="col px-0"
+      >
+        <select
+          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          name="mapped_fields"
+          size="20"
+        >
+          
+        </select>
+      </div>
+    </div>
   </div>
 </pf-field-mapper>
 `;
@@ -579,6 +1422,7 @@ exports[`FieldMapperComponent should show a spinner when the company's mappings 
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   successEventHandler={[Function Function]}
+  templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
 >

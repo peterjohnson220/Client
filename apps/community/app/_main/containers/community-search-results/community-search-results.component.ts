@@ -78,7 +78,7 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   }
 
   openDetailsModal(result) {
-    this.store.dispatch(new fromCommunitySearchActions.OpenSearchResultModal(result));
+      this.store.dispatch(new fromCommunitySearchActions.OpenSearchResultModal(result.CommunityPostId));
   }
 
   trackByFn(index, item) {
@@ -144,5 +144,9 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     this.sendBackToTop = true;
     this.scrollToTop();
     this.resetInfiniteScroll();
+  }
+
+  isPoll(post: any) {
+    return post.CommunityContent.Responses;
   }
 }

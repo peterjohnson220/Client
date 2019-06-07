@@ -5,6 +5,10 @@ $header-color: darken(#f7f7f7, 10%);
 $header-background-color: #1f2f3d;
 $branded-color: #0882BE;
 
+$primary-button: #0099cc;
+$primary-button-hover: #1F2F3D;
+$primary-button-focus: #1F2F3D;
+
 #au-modal-add-company-role {
   .modal-content {
     border-radius: .4rem;
@@ -26,6 +30,10 @@ $branded-color: #0882BE;
   height: 18px;
   padding-left: 5px;
   padding-top: 3px;
+}
+
+.text-pre {
+  white-space: pre;
 }
 
 // Hack for Elippses in Flexbox. We need to apply min-width: 0 to all parent flexboxes

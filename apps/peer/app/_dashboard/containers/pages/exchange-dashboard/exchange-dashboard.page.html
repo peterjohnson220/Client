@@ -8,7 +8,7 @@
     <button type="button" class="btn btn-secondary" (click)="referCompanyClick()">Invite Company</button>
     <button type="button" class="btn btn-secondary" (click)="manageJobsClick()">Manage Jobs</button>
     <button type="button" class="btn btn-primary" (click)="mapClick()" [disabled]="!(mapHasData$ | async)"
-    [title]="getTitle((mapHasData$ | async), (mapHasDataError$ | async))">Map</button>
+    [title]="getTitle((mapHasData$ | async), (mapHasDataError$ | async))">Manage Scopes & Export</button>
   </ng-container>
 
   <ng-container page-content>

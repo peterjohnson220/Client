@@ -10,6 +10,8 @@ import * as fromExchangeFiltersActions from '../actions/exchange-filters.actions
 export interface State extends EntityState<ExchangeSearchFilterAggregate> {
   loading: boolean;
   loadingError: boolean;
+  putting: boolean;
+  puttingError: boolean;
   total: number;
 }
 
@@ -28,6 +30,8 @@ export const adapter: EntityAdapter<ExchangeSearchFilterAggregate> = createEntit
 export const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
+  putting: false,
+  puttingError: false,
   total: 0
 });
 
@@ -61,16 +65,31 @@ export function reducer(state, action) {
           };
         }
         case fromExchangeFiltersActions.PUT_FILTER: {
-          const id = action.payload.Id;
-          const change = action.payload.IsDisabled !== true;
           return {
-            ...adapter.updateOne({ id: id, changes: { IsDisabled: change } }, featureState)
+            ...featureState,
+            putting: true,
+            puttingError: false
+          };
+        }
+        case fromExchangeFiltersActions.PUT_FILTER_SUCCESS: {
+          const id = action.payload.Id;
+          return {
+            ...adapter.updateOne({ id: id, changes: action.payload }, featureState),
+            putting: false,
+            puttingError: false
+          };
+        }
+        case fromExchangeFiltersActions.PUT_FILTER_ERROR: {
+          return {
+            ...featureState,
+            putting: false,
+            puttingError: true
           };
         }
         case fromExchangeFiltersActions.REORDER_FILTERS: {
           return {
             ...adapter.updateMany(action.payload.map((filter, index) =>
-              Object.assign({}, {id: filter.Id, changes: { Ordinal: index + 1 }})),  featureState)
+              Object.assign({}, {id: filter.Id, changes: { Ordinal: index + 1, Id: index + 1 }})),  featureState)
           };
         }
         default: {
@@ -84,3 +103,5 @@ export function reducer(state, action) {
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
+export const getPutting = (state: State) => state.putting;
+export const getPuttingError = (state: State) => state.puttingError;

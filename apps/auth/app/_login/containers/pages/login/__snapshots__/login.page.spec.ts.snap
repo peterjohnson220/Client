@@ -22,6 +22,7 @@ exports[`Auth - Login should disable and show correct login button text when log
   marketingImage$={[Function Store]}
   nextPage="undefined"
   route={[Function Object]}
+  router={[Function Object]}
   store={[Function Store]}
 >
   <div
@@ -131,7 +132,6 @@ exports[`Auth - Login should disable and show correct login button text when log
         <button
           class="btn align-self-center"
           id="au-btn-registration"
-          routerlink="/registration"
         >
            Register 
           <i
@@ -166,6 +166,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
   marketingImage$={[Function Store]}
   nextPage="undefined"
   route={[Function Object]}
+  router={[Function Object]}
   store={[Function Store]}
 >
   <div
@@ -274,7 +275,6 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
         <button
           class="btn align-self-center"
           id="au-btn-registration"
-          routerlink="/registration"
         >
            Register 
           <i
@@ -309,6 +309,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
   marketingImage$={[Function Store]}
   nextPage="undefined"
   route={[Function Object]}
+  router={[Function Object]}
   store={[Function Store]}
 >
   <div
@@ -417,7 +418,6 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
         <button
           class="btn align-self-center"
           id="au-btn-registration"
-          routerlink="/registration"
         >
            Register 
           <i

@@ -21,6 +21,7 @@ export interface State {
   scopeSelection: ExchangeScopeItem;
   includeUntaggedEmployees: boolean;
   excludeIndirectJobMatches: boolean;
+  associatedExchangeJobs: string[];
 }
 
 // Initial State
@@ -36,7 +37,8 @@ export const initialState: State = {
   selectionsCount: 0,
   scopeSelection: null,
   includeUntaggedEmployees: false,
-  excludeIndirectJobMatches: true
+  excludeIndirectJobMatches: true,
+  associatedExchangeJobs: []
 };
 
 // Reducer
@@ -191,6 +193,12 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         includeUntaggedEmployees: !state.includeUntaggedEmployees
       };
     }
+    case fromFilterSidebarActions.LOAD_ASSOCIATED_EXCHANGE_JOBS_SUCCESS: {
+      return {
+        ...state,
+        associatedExchangeJobs: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -222,3 +230,4 @@ export const getIncludeUntaggedIncumbents = (state: State) => state.includeUntag
 export const getExcludeIndirectJobMatches = (state: State) => state.excludeIndirectJobMatches;
 export const getHasSimilarJobLevels = (state: State) => state.systemFilter && state.systemFilter.SimilarExchangeJobIds
   && state.systemFilter.SimilarExchangeJobIds.some(x => !state.systemFilter.ExchangeJobIds.includes(x));
+export const getAssociatedExchangeJobs = (state: State) => state.associatedExchangeJobs;

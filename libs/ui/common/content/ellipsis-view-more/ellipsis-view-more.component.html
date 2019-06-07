@@ -1,21 +1,15 @@
-<ng-container
-  *ngIf="!showFull && content.length > maxLength; else fullContent">
-  <span [innerHtml]="lessContent | highlightText: highlightFilter"></span>
-</ng-container>
+<span [innerHtml]="lessContent | highlightText: highlightFilter"></span>
+<span [style.display]="showFull ? '' : 'none'" [innerHtml]="remainingContent | highlightText: highlightFilter"></span>
 
-<ng-template #fullContent>
-  <span [innerHtml]="content | highlightText: highlightFilter"></span>
-</ng-template>
-
-<div *ngIf="content.length > maxLength || copy" class="d-flex">
+<div *ngIf="content.length > maxLength || copy" [class.d-flex]="!showTextInline" [style.display]="showTextInline ? 'inline-block' : ''">
   <div *ngIf="content.length > maxLength"
        class="toggle-view-link link"
-       (click)="toggleView($event)">
+       (click)="toggleView($event)"
+       [style.padding-left]="showTextInline ? '0.25em': ''"> 
 
-    View {{showFull ? 'Less' : 'More'}}
+       {{showFull ? viewLessText : viewMoreText}}
 
   </div>
-
   <div class="link" *ngIf="copy"
        [class.ml-2]="content.length > maxLength"
        container="body"
@@ -27,8 +21,4 @@
        (click)="copyMessage($event, content)">
     Copy
   </div>
-
 </div>
-
-
-

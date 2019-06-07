@@ -25,6 +25,7 @@ export class ResetPasswordPageComponent implements OnInit {
   submitting: boolean;
   minLength$: Observable<number>;
   tokenValid$: Observable<boolean>;
+  username$: Observable<string>;
 
   constructor(public store: Store<fromResetPasswordReducer.State>, private route: ActivatedRoute) {
     this.submitEnabled = false;
@@ -34,6 +35,7 @@ export class ResetPasswordPageComponent implements OnInit {
     this.checkingResetToken$ = this.store.select(fromResetPasswordReducer.getCheckingResetPasswordToken);
     this.minLength$ = this.store.select(fromResetPasswordReducer.getPasswordMinimumLength);
     this.tokenValid$ = this.store.select(fromResetPasswordReducer.getCheckingResetPasswordTokenSuccess);
+    this.username$ = this.store.select(fromResetPasswordReducer.getUsername);
   }
 
   ngOnInit() {

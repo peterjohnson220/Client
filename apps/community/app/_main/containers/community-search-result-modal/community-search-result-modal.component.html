@@ -1,6 +1,6 @@
 <pf-modal-form
     [size]="'lg'"
-    [title]="'Community Discussion'"
+    [title]="getTitle()"
     [showFooter]="false"
     [centered]="true"
     [isOpen$]="communitySearchResultModal$"
@@ -13,13 +13,15 @@
           [loading]="loadingCommunityPost$ | async"
           [loadingError]="loadingCommunityPostError$ | async"
           [loadingErrorMessage]="'Error Loading Community Discussion'">
-            <div *ngIf = "communityPost" class="px-5 pb-3">
+            <div *ngIf = "communityPost && !communityPost.IsDeleted" class="px-5 pb-3">
               <pf-community-post
                 [post]="communityPost"
-                [isModal]="true"       
+                [isModal]="true"
+                (filtersModifiedEvent)="hashtagClicked($event)"
                 [maximumReplies]="maximumReplies$ | async">
-              </pf-community-post>  
+              </pf-community-post>
             </div>
+            <h5 *ngIf = "(communityPostDeleted$ | async) || (communityPost && communityPost.IsDeleted)" class="text-center">{{getDeletedMessage()}}</h5>
           </pf-async-container>
       </ng-container>
   </pf-modal-form>

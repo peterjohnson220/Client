@@ -9,7 +9,17 @@ export class CommunitySearchResultHeaderComponent {
 
   @Input() companyName: string;
   @Input() elapsedTime: string;
+  @Input() isPoll: boolean;
+  @Input() pollExpirationDate: Date;
 
   constructor() { }
+
+  postType() {
+    return this.isPoll ? 'Poll' : 'Discussion';
+  }
+
+  isPollExpired() {
+    return new Date() > new Date(this.pollExpirationDate);
+  }
 
 }

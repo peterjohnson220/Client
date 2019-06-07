@@ -8,6 +8,7 @@ export interface State {
   checkingResetPasswordToken: boolean;
   checkResetPasswordTokenSuccess: boolean;
   minimumLength: number;
+  username: string;
 }
 
 export const initialState: State = {
@@ -17,7 +18,8 @@ export const initialState: State = {
   resetPasswordTokenExpired: false,
   checkingResetPasswordToken: false,
   checkResetPasswordTokenSuccess: false,
-  minimumLength: 8
+  minimumLength: 8,
+  username: ''
 };
 
 export function reducer(state = initialState, action: fromResetPasswordActions.Actions): State {
@@ -61,7 +63,8 @@ export function reducer(state = initialState, action: fromResetPasswordActions.A
         checkingResetPasswordToken: false,
         checkResetPasswordTokenSuccess: true,
         resetPasswordTokenExpired: !action.payload.TokenIsValid,
-        minimumLength: action.payload.MinimumLength
+        minimumLength: action.payload.MinimumLength,
+        username: action.payload.Username
       };
     }
     case fromResetPasswordActions.CHECK_RESET_PASSWORD_TOKEN_ERROR: {
@@ -85,5 +88,4 @@ export const getResettingPasswordError = (state: State) => state.resetPasswordEr
 export const getCheckingResetPasswordToken = (state: State) => state.checkingResetPasswordToken;
 export const getCheckingResetPasswordTokenSuccess = (state: State) => state.checkResetPasswordTokenSuccess;
 export const getPasswordMinimumLength = (state: State) => state.minimumLength;
-
-
+export const getUsername = (state: State) => state.username;

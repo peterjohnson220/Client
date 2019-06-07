@@ -49,4 +49,9 @@ export class UserApiService {
     return this.payfactorsApiService
       .get<UserResponse[]>(`${this.endpoint}/Default.GetPfServicesRepsForCompany?companyId=${companyId}`);
   }
+
+  getByCompany(companyId: number) {
+    return this.payfactorsApiService
+      .get<UserResponse[]>(`${this.endpoint}/Default.GetByCompany?companyId=${companyId}`);
+  }
 }

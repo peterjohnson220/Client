@@ -9,6 +9,7 @@ import * as fromDataCutValidationReducer from './data-cut-validation.reducer';
 import * as fromAssociateCompanyJobReducer from './associate-company-job.reducer';
 import * as fromPaymarketExchangeScopeReducer from './paymarket-exchange-scope.reducer';
 import * as fromRequestPeerAccessReducer from './request-peer-access.reducer';
+import * as fromTaggingEntitiesReducer from './tagging-entities.reducer';
 
 // Feature area state
 export interface UpsertPeerDataState {
@@ -17,6 +18,7 @@ export interface UpsertPeerDataState {
   associateCompanyJob: fromAssociateCompanyJobReducer.State;
   paymarketExchangeScope: fromPaymarketExchangeScopeReducer.State;
   requestPeerAccess: fromRequestPeerAccessReducer.State;
+  taggingEntities: fromTaggingEntitiesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -30,7 +32,8 @@ export const reducers = {
   dataCutValidation: fromDataCutValidationReducer.reducer,
   associateCompanyJob: fromAssociateCompanyJobReducer.reducer,
   paymarketExchangeScope: fromPaymarketExchangeScopeReducer.reducer,
-  requestPeerAccess: fromRequestPeerAccessReducer.reducer
+  requestPeerAccess: fromRequestPeerAccessReducer.reducer,
+  taggingEntities: fromTaggingEntitiesReducer.reducer
 };
 
 // Select Feature Area
@@ -48,6 +51,8 @@ export const selectPaymarketExchangeState =
   createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.paymarketExchangeScope);
 export const selectRequestPeerAccessState =
   createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.requestPeerAccess);
+export const selectTaggingEntitiesState =
+  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.taggingEntities);
 
 // Add Data Cut Selectors
 export const getUpsertDataCutAddingDataCut = createSelector(
@@ -163,3 +168,38 @@ export const getRequestingPeerAccessError = createSelector(
   fromRequestPeerAccessReducer.getRequestingPeerAccessError
 );
 
+// Tagging Entities Selectors
+export const getTagInformationLoading = createSelector(
+  selectTaggingEntitiesState,
+  fromTaggingEntitiesReducer.getTagInformationLoading
+);
+
+export const getTagInformationLoadingError = createSelector(
+  selectTaggingEntitiesState,
+  fromTaggingEntitiesReducer.getTagInformationLoadingError
+);
+
+export const getTagInformation = createSelector(
+  selectTaggingEntitiesState,
+  fromTaggingEntitiesReducer.getTagInformation
+);
+
+export const getSavingTagInformation = createSelector(
+  selectTaggingEntitiesState,
+  fromTaggingEntitiesReducer.getSavingTagInformation
+);
+
+export const getSavingTagInformationError = createSelector(
+  selectTaggingEntitiesState,
+  fromTaggingEntitiesReducer.getSavingTagInformationError
+);
+
+export const getAddedTags = createSelector(
+  selectTaggingEntitiesState,
+  fromTaggingEntitiesReducer.getAddedTags
+);
+
+export const getRemovedTags = createSelector(
+  selectTaggingEntitiesState,
+  fromTaggingEntitiesReducer.getRemovedTags
+);

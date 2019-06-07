@@ -12,9 +12,12 @@ import { PfFormsModule } from 'libs/forms';
 
 import { CompanySearchPipe } from './pipes';
 import { CompaniesListPageComponent, CompaniesListComponent } from './containers';
+import { SiteAdminUsersListPageComponent } from './components/pages/site-admin-users-list';
 import { CompaniesEffects } from './effects';
 import { reducers } from './reducers';
 import { CompanyRoutingModule } from './company-routing.module';
+import { UsersModule } from '../../../../libs/features/pf-admin/users';
+import { UsersListEffects } from '../../../../libs/features/pf-admin/users/effects';
 
 @NgModule({
     imports: [
@@ -24,7 +27,8 @@ import { CompanyRoutingModule } from './company-routing.module';
         // 3rd Party
         StoreModule.forFeature('pfadmin_companies', reducers),
         EffectsModule.forFeature([
-            CompaniesEffects
+            CompaniesEffects,
+            UsersListEffects,
         ]),
         GridModule,
         LayoutModule,
@@ -35,6 +39,7 @@ import { CompanyRoutingModule } from './company-routing.module';
         // Payfactors
         PfCommonUIModule,
         PfFormsModule,
+        UsersModule,
     ],
     declarations: [
         // Components
@@ -42,6 +47,7 @@ import { CompanyRoutingModule } from './company-routing.module';
 
         // Pages
         CompaniesListPageComponent,
+        SiteAdminUsersListPageComponent,
 
         // Pipes
         CompanySearchPipe,

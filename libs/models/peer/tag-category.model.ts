@@ -4,6 +4,8 @@ export interface TagCategory {
   DisplayName: string;
   EntityTypesFlag: number;
   Description: string;
+  DataType: string;
+  UseSlider: boolean;
 }
 
 export function generateMockTagCategory(): TagCategory {
@@ -12,6 +14,8 @@ export function generateMockTagCategory(): TagCategory {
     FieldName: 'field_name',
     DisplayName: 'Display Name',
     EntityTypesFlag: 0,
-    Description: 'description'
+    Description: 'description',
+    DataType: 'Text',
+    UseSlider: false
   };
 }

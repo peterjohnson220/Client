@@ -1,0 +1,44 @@
+<div class="table-responsive" *ngIf="usersList">
+    <kendo-grid [data]="usersList"
+                [selectable]="true"
+    (selectionChange)="userSelectionChange($event)">
+          <kendo-grid-column field="FirstName" title="First Name" [width]="150">
+          </kendo-grid-column>
+          <kendo-grid-column field="LastName" title="Last Name" [width]="150">
+          </kendo-grid-column>
+          <kendo-grid-column field="UserId" title="User ID" [width]="100">
+          </kendo-grid-column>
+          <kendo-grid-column field="Title" title="Title" [width]="300">
+          </kendo-grid-column>
+          <kendo-grid-column field="EmailAddress" title="Email Address" [width]="300">
+          </kendo-grid-column>
+          <kendo-grid-column field="SsoId" title="SSO ID" [width]="200">
+          </kendo-grid-column>
+          <kendo-grid-column field="LastLogin" title="Last Login" [width]="200">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <span >{{dataItem.LastLogin | date:'short'}}</span>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column class="text-center" field="Status" title="Status" [width]="65">
+            <ng-template kendoGridCellTemplate let-dataItem >
+              <div *ngIf="dataItem.Active; else notActive" >
+                <i class="fas fa-circle text-success" aria-hidden="true"></i>
+              </div>
+              <ng-template #notActive>
+                <div>
+                  <i class="fas fa-minus-circle text-danger" aria-hidden="true"></i>
+                </div>
+              </ng-template>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column class="text-center" field="Impersonate" [width]="100">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <a *ngIf="dataItem.Active" (click)="$event.stopPropagation()"
+                 href="../../marketdata/default.asp?user_id={{dataItem.UserId}}&impersonate=yes"><i class="fas fa-user" aria-hidden="true"></i></a>
+            </ng-template>
+          </kendo-grid-column>
+    </kendo-grid>
+</div>
+<div *ngIf="!loading && !usersList">
+  <h5>No Users</h5>
+</div>

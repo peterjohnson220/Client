@@ -4,7 +4,11 @@ import { Observable } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
-import { AddTagCategoriesRequest, UpsertTagCategoryRequest } from '../../../models/peer/requests';
+import { AddTagCategoriesRequest,
+         TagInformationRequest,
+         UpsertTagCategoryRequest,
+         SaveTagInformationRequest } from '../../../models/peer/requests';
+import { TagInformation } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -32,5 +36,14 @@ export class TagApiService {
 
   addTagCategoriesToExchange(addTagCategoriesRequest: AddTagCategoriesRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddTagCategoriesToExchange`, addTagCategoriesRequest);
+  }
+
+  getTagInformation(tagInformationRequest: TagInformationRequest): Observable<TagInformation[]> {
+    return this.payfactorsApiService.get<TagInformation[]>(`${this.endpoint}/GetTagInformation`,
+      { params: { entityType: tagInformationRequest.EntityType, entityId: tagInformationRequest.EntityId } });
+  }
+
+  saveTagInformation(saveTagInformationRequest: SaveTagInformationRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/SaveTagInformation`, saveTagInformationRequest);
   }
 }

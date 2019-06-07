@@ -37,9 +37,8 @@ import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { GridHelperService } from './services';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
-import { AddCompaniesModalComponent } from './containers/add-companies-modal';
-import { AddJobsModalComponent } from './containers/add-jobs-modal';
-import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
+import { AddCompaniesModalComponent, AddJobsModalComponent, DeleteCompanyModalComponent } from './containers';
+import { EditableTagCategoryDisplayNameComponent } from './components';
 
 @NgModule({
   imports: [
@@ -108,6 +107,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     ToggleExchangeStatusConfirmationModalComponent,
     TagCategoriesListComponent,
     AddTagCategoriesModalComponent,
+    EditableTagCategoryDisplayNameComponent,
 
     // Pages
     ExchangeListPageComponent,

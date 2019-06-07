@@ -22,15 +22,19 @@
           </div>
         </div>
       </div>
-      <kendo-tabstrip [keepTabContent]="true">
+      <kendo-tabstrip 
+        [keepTabContent]="true"
+        *ngIf="(orgDataFilenamePatternSet$ | async) || {} as orgDataFilenamePatternSet">
         <kendo-tabstrip-tab title="Pay Markets" [selected]="true">
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsPaymarketDataFields"
-              [loaderType]="'PayMarkets'"
+              [loaderType]="templateReferenceConstants.LoaderType.PayMarkets"
               [delimiter]="delimiter"
+              [filenamePattern]="orgDataFilenamePatternSet?.PayMarketsFilenamePattern"
               [fieldMappings$]="companyMappings$"
               [fieldMappingsLoading]="companyMappingsLoading$ | async"
+              [loadEnabled]="isPaymarketsLoadEnabled"
               (mappingComplete)="onPaymarketMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -38,10 +42,12 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsJobDataFields"
-              [loaderType]="'Jobs'"
+              [loaderType]="templateReferenceConstants.LoaderType.Jobs"
               [delimiter]="delimiter"
+              [filenamePattern]="orgDataFilenamePatternSet?.JobsFilenamePattern"
               [fieldMappings$]="companyMappings$"
               [fieldMappingsLoading]="companyMappingsLoading$ | async"
+              [loadEnabled]="isJobsLoadEnabled"
               (mappingComplete)="onJobMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -49,10 +55,12 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsStructureDataFields"
-              [loaderType]="'Structures'"
+              [loaderType]="templateReferenceConstants.LoaderType.Structures"
               [delimiter]="delimiter"
+              [filenamePattern]="orgDataFilenamePatternSet?.StructuresFilenamePattern"
               [fieldMappings$]="companyMappings$"
               [fieldMappingsLoading]="companyMappingsLoading$ | async"
+              [loadEnabled]="isStructuresLoadEnabled"
               (mappingComplete)="onStructureMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -60,10 +68,13 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsStructureMappingDataFields"
-              [loaderType]="'StructureMapping'"
+              [loaderType]="templateReferenceConstants.LoaderType.StructureMapping"
               [delimiter]="delimiter"
+              [filenamePattern]="orgDataFilenamePatternSet?.StructureMappingsFilenamePattern"
               [fieldMappings$]="companyMappings$"
               [fieldMappingsLoading]="companyMappingsLoading$ | async"
+              [isFullReplace]="isStructureMappingsFullReplace"
+              [loadEnabled]="isStructureMappingsLoadEnabled"
               (mappingComplete)="onStructureMappingMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -71,11 +82,14 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsEmployeeDataFields"
-              [loaderType]="'Employees'"
+              [loaderType]="templateReferenceConstants.LoaderType.Employees"
               [delimiter]="delimiter"
+              [filenamePattern]="orgDataFilenamePatternSet?.EmployeesFilenamePattern"
               [dateFormat]="dateFormat"
               [fieldMappings$]="companyMappings$"
               [fieldMappingsLoading]="companyMappingsLoading$ | async"
+              [isFullReplace]="isEmployeesFullReplace"
+              [loadEnabled]="isEmployeesLoadEnabled"
               (mappingComplete)="onEmployeeMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>

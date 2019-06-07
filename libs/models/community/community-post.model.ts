@@ -27,6 +27,7 @@ export interface CommunityPost {
   UserPollResponse?: CommunityPollResponse;
   FilterTag: string;
   UserLikes: CommunityUserInfo[];
+  IsDeleted: boolean;
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
@@ -56,9 +57,10 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     PreviewDescription: 'Test Preview Description', PreviewTitle: 'Test Preview Title', PreviewUrl: 'www.testUrl.com'},
     IsCurrentUserPost: false,
     UserPollRequest : { CommunityPollId: '123', Question: 'Question',
-      DatePosted: new Date(), ResponseOptions: [], CreatedByUser: 1234, IsExpired: false },
-    UserPollResponse: {CommunityPollId: '123', ResponsePercents: [] },
+      DatePosted: new Date(), ResponseOptions: [], CreatedByUser: 1234, IsExpired: false, ExpirationDate: new Date() },
+    UserPollResponse: {CommunityPollId: '123', ResponsePercents: [], ResponseVotes: [], UserHasVoted: false},
     FilterTag: '#TestTag',
-    UserLikes: []
+    UserLikes: [],
+    IsDeleted: false
   };
 }

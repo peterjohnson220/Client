@@ -9,6 +9,7 @@ import * as fromUserRoleUserTabReducer from './user-role-users-tab.reducer';
 import * as fromUserRoleFunctionTabReducer from './user-role-functions-tab.reducer';
 import * as fromNavigationReducer from './navigation.reducer';
 import * as fromDataAccessTabReducer from './role-data-access-tab.reducer';
+import * as fromPasswordSettingsReducer from './password-setting.reducer';
 
 // Feature area state
 export interface UserRoleViewStateMain {
@@ -17,6 +18,7 @@ export interface UserRoleViewStateMain {
   userRoleFunctionTab: fromUserRoleFunctionTabReducer.State;
   navigation: fromNavigationReducer.State;
   dataAccessTab: fromDataAccessTabReducer.State;
+  passwordSettings: fromPasswordSettingsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -30,7 +32,8 @@ export const reducers = {
   userRoleUserTab: fromUserRoleUserTabReducer.reducer,
   userRoleFunctionTab: fromUserRoleFunctionTabReducer.reducer,
   navigation: fromNavigationReducer.reducer,
-  dataAccessTab: fromDataAccessTabReducer.reducer
+  dataAccessTab: fromDataAccessTabReducer.reducer,
+  passwordSettings: fromPasswordSettingsReducer.reducer
 };
 
 // Select Feature Area
@@ -52,6 +55,9 @@ export const selectUserRoleUserTabState =
 
 export const selectNavigationState =
   createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.navigation);
+
+export const selectPasswordSettingsState =
+  createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.passwordSettings);
 
 export const getUserRoleViewState = createSelector(
   selectUserRoleState, fromUserRoleViewReducer.getUserRoleViewState
@@ -162,3 +168,32 @@ export  const getDataAccessTabPendingChanges = createSelector(
   selectRoleDataAccessTabState, fromDataAccessTabReducer.getDataAccessTabHasPendingChanges
 );
 
+
+// Password Settings
+export const getPasswordSettings = createSelector(
+  selectPasswordSettingsState, fromPasswordSettingsReducer.getPasswordSettings
+);
+
+export const getPasswordSettingsLoading = createSelector(
+  selectPasswordSettingsState, fromPasswordSettingsReducer.getLoading
+);
+
+export const getPasswordSettingsLoadingError = createSelector(
+  selectPasswordSettingsState, fromPasswordSettingsReducer.getLoadingError
+);
+
+export const getPasswordSettingsModalOpen = createSelector(
+  selectPasswordSettingsState, fromPasswordSettingsReducer.getSaveModalOpen
+);
+
+export const getPasswordSettingsSaveRequest = createSelector(
+  selectPasswordSettingsState, fromPasswordSettingsReducer.getSaveRequest
+);
+
+export const getPasswordSettingsSaving = createSelector(
+  selectPasswordSettingsState, fromPasswordSettingsReducer.getSaving
+);
+
+export const getPasswordSettingsSavingError = createSelector(
+  selectPasswordSettingsState, fromPasswordSettingsReducer.getSavingError
+);

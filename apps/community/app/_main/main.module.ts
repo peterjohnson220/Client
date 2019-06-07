@@ -7,6 +7,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -125,6 +127,7 @@ const components = [
     ReactiveFormsModule,
     // 3rd party
     NgbCarouselModule,
+    NgbProgressbarModule,
     NgxLinkifyjsModule,
     NgbTooltipModule,
     NgbDropdownModule,

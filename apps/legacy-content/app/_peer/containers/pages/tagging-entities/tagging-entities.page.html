@@ -1,0 +1,41 @@
+<div class="te-outer-container">
+  <pf-async-container
+    [loading]="loadingTagInformation$ | async"
+    [loadingError]="loadingTagInformationError$ | async"
+    [loadingErrorMessage]="'Error loading tag information'"
+    (reload)="loadTagInformation()">
+
+    <div *ngFor="let tc of getCategoriesToShow()" class="d-flex multiselect-container">
+      <label class="multiselect-label mt-2">{{tc.DisplayName}}</label>
+      <kendo-multiselect (removeTag)="onRemoveTag($event)"
+                         (valueChange)="onValueChange($event, tc.TagCategoryId)"
+                         [allowCustom]="true"
+                         [clearButton]="false"
+                         [data]="tc.Tags"
+                         [kendoDropDownFilter]="filterSettings"
+                         [textField]="'Value'"
+                         [valueField]="'TagId'"
+                         [value]="tc.SelectedTags"
+                         [listHeight]="150"
+                         [itemDisabled]="itemDisabled"
+                         class="flex-1">
+        <ng-template kendoMultiSelectNoDataTemplate>
+        </ng-template>
+      </kendo-multiselect>
+    </div>
+
+    <span *ngIf="showViewMoreLink" class="pf-link-underline link-override" (click)="updateViewMore()">{{viewMoreLinkText}}</span>
+  </pf-async-container>
+</div>
+
+<hr>
+
+<div class="flex-grow-1 d-flex flex-row justify-content-end space-out-children mr-3">
+  <button type="button" class="btn btn-primary button-font" [disabled]="saveDisabled" (click)="saveTagInformation()">
+    <span *ngIf="(saving$ | async)">
+          <pf-loading-indicator></pf-loading-indicator> Saving...
+        </span>
+    <span *ngIf="!(saving$ | async)">Save</span>
+  </button>
+  <button type="button" class="btn btn-secondary button-font" (click)="closeModal()">Close</button>
+</div>

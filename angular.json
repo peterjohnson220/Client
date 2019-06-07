@@ -851,7 +851,6 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/googletagmanager.js",
               "assets/js/fontawesome-all.min.js"
             ]
           },
@@ -945,7 +944,6 @@
             "tsConfig": "apps/auth/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/googletagmanager.js",
               "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
@@ -1871,7 +1869,7 @@
               "assets/scss/client.scss",
               "apps/comphub/styles.scss",
               "apps/comphub/outside-view-encapsulation.scss",
-              "apps/comphub/assets/styles/flags.min.css"
+              "apps/comphub/assets/css/flags.min.css"
             ],
             "scripts": [
               "assets/js/pendo.js",
