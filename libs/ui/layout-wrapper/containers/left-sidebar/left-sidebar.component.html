@@ -4,7 +4,7 @@
     <li class="py-2 pl-3 pr-0" [ngClass]="{'highlight-icon': checkSidebarLinkAgainstURL(sidebarLink)}">
       <div>
         <a [href]="getSidebarHref(sidebarLink)">
-          <fa-icon [icon]="sidebarLink.FaIconClass" class="tile-icon"></fa-icon>
+          <fa-icon *ngIf="!!sidebarLink.FaIconClass" [icon]="sidebarLink.FaIconClass" class="tile-icon"></fa-icon>
           <span *ngIf="leftSidebarToggle">{{sidebarLink.DisplayName}}</span>
         </a>
       </div>
