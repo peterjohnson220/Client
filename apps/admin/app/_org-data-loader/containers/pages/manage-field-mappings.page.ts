@@ -7,6 +7,7 @@ import { filter } from 'rxjs/operators';
 import { Company } from 'libs/models/company/company.model';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 import { LoaderTypes } from 'libs/constants/loader-types';
+import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 
@@ -82,9 +83,12 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   templateReferenceConstants = {
     LoaderType,
   };
+  sftpDomainConfig$: Observable<string>;
+  sftpPortConfig$: Observable<string>;
 
   constructor (private store: Store<fromOrgDataAutoloaderReducer.State>,
-               private orgDataAutoloaderApi: LoaderFieldMappingsApiService) {
+               private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
+               private configSettingsSelectorFactory: ConfigSettingsSelectorFactory) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
@@ -108,6 +112,11 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.saveLoaderSettingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettingsSavingSuccess);
     this.saveLoaderSettingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettingsError);
     this.orgDataFilenamePatternSet$ = this.store.select(fromOrgDataAutoloaderReducer.getOrgDataFilenamePatternSet);
+
+    const sftpDomainConfigSelector = this.configSettingsSelectorFactory.getConfigSettingsSelector('SftpDomain');
+    const sftpPortConfigSelector = this.configSettingsSelectorFactory.getConfigSettingsSelector('SftpPort');
+    this.sftpDomainConfig$ = this.store.select(sftpDomainConfigSelector);
+    this.sftpPortConfig$ = this.store.select(sftpPortConfigSelector);
 
     this.mappings = [];
     this.isActive = true;

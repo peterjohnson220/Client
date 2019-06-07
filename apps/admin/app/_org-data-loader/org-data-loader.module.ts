@@ -10,6 +10,7 @@ import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
@@ -49,6 +50,9 @@ import {LoaderSettingsEffects} from './effects/loader-settings.effects';
     // Payfactors
     PfCommonUIModule,
     PfFormsModule
+  ],
+  providers: [
+    ConfigSettingsSelectorFactory
   ],
   declarations: [
     // Pages
