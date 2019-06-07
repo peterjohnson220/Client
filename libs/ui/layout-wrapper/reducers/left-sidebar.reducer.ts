@@ -1,3 +1,5 @@
+import { convertToFaIconFormat } from 'libs/core/functions';
+
 import * as leftSidebarActions from '../actions/left-sidebar.actions';
 import { SidebarLink } from '../../../models/';
 
@@ -27,10 +29,14 @@ export function reducer(state = initialState, action: leftSidebarActions.Actions
       };
     }
     case leftSidebarActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS: {
+      const sidebarLinks = action.payload.map((l: SidebarLink) => (<SidebarLink>{
+        ...l,
+        FaIconClass: convertToFaIconFormat(l.IconClassNew)
+      }));
       return {
         ...state,
         gettingLeftSidebarNavigationLinks: false,
-        leftSidebarNavigationLinks: action.payload,
+        leftSidebarNavigationLinks: sidebarLinks,
         loadedLeftSidebarNavigationLinks: true
       };
     }

@@ -18,9 +18,7 @@ exports[`GridDetailPanelComponent should hide a link to download the jdm descrip
         class="close-detail position-absolute"
         href="javascript:void(0)"
       >
-        <i
-          class="far fa-arrow-alt-circle-right"
-        />
+        <fa-icon />
       </a>
       <h5>
         
@@ -93,9 +91,7 @@ exports[`GridDetailPanelComponent should not render jdm controls when checkForJd
         class="close-detail position-absolute"
         href="javascript:void(0)"
       >
-        <i
-          class="far fa-arrow-alt-circle-right"
-        />
+        <fa-icon />
       </a>
       <h5>
         
@@ -152,9 +148,7 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
         class="close-detail position-absolute"
         href="javascript:void(0)"
       >
-        <i
-          class="far fa-arrow-alt-circle-right"
-        />
+        <fa-icon />
       </a>
       <h5>
         
@@ -215,9 +209,7 @@ exports[`GridDetailPanelComponent should render input props 1`] = `
         class="close-detail position-absolute"
         href="javascript:void(0)"
       >
-        <i
-          class="far fa-arrow-alt-circle-right"
-        />
+        <fa-icon />
       </a>
       <h5>
         
@@ -275,9 +267,7 @@ exports[`GridDetailPanelComponent should show a link to download the jdm descrip
         class="close-detail position-absolute"
         href="javascript:void(0)"
       >
-        <i
-          class="far fa-arrow-alt-circle-right"
-        />
+        <fa-icon />
       </a>
       <h5>
         
@@ -347,9 +337,7 @@ exports[`GridDetailPanelComponent should show a spinner when downloading a jdm d
         class="close-detail position-absolute"
         href="javascript:void(0)"
       >
-        <i
-          class="far fa-arrow-alt-circle-right"
-        />
+        <fa-icon />
       </a>
       <h5>
         
@@ -421,9 +409,7 @@ exports[`GridDetailPanelComponent should show an error message if the jdm descri
         class="close-detail position-absolute"
         href="javascript:void(0)"
       >
-        <i
-          class="far fa-arrow-alt-circle-right"
-        />
+        <fa-icon />
       </a>
       <h5>
         
@@ -497,9 +483,7 @@ exports[`GridDetailPanelComponent should show an informational message when mult
         class="close-detail position-absolute"
         href="javascript:void(0)"
       >
-        <i
-          class="far fa-arrow-alt-circle-right"
-        />
+        <fa-icon />
       </a>
       <h5>
         

@@ -5,6 +5,7 @@ export interface SidebarLink {
   IconClass: string;
   IconClassNew: string;
   NgAppLink: boolean;
+  FaIconClass?: string[];
 }
 
 export function generateMockSidebarLink(): SidebarLink {

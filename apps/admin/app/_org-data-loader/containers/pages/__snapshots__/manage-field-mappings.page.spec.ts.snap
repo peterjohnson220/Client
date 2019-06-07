@@ -63,10 +63,28 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
             <button
               class="btn btn-secondary back-btn"
             >
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-long-arrow-alt-left"
-              />
+                class="ng-fa-icon"
+                icon="long-arrow-alt-left"
+                ng-reflect-icon-prop="long-arrow-alt-left"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
+                  data-icon="long-arrow-alt-left"
+                  data-prefix="fas"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </fa-icon>
             </button>
           </a>
           <h3>
@@ -238,10 +256,28 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
             <button
               class="btn btn-secondary back-btn"
             >
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-long-arrow-alt-left"
-              />
+                class="ng-fa-icon"
+                icon="long-arrow-alt-left"
+                ng-reflect-icon-prop="long-arrow-alt-left"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
+                  data-icon="long-arrow-alt-left"
+                  data-prefix="fas"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </fa-icon>
             </button>
           </a>
           <h3>
@@ -413,10 +449,28 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
             <button
               class="btn btn-secondary back-btn"
             >
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-long-arrow-alt-left"
-              />
+                class="ng-fa-icon"
+                icon="long-arrow-alt-left"
+                ng-reflect-icon-prop="long-arrow-alt-left"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
+                  data-icon="long-arrow-alt-left"
+                  data-prefix="fas"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </fa-icon>
             </button>
           </a>
           <h3>
@@ -587,10 +641,28 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
             <button
               class="btn btn-secondary back-btn"
             >
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-long-arrow-alt-left"
-              />
+                class="ng-fa-icon"
+                icon="long-arrow-alt-left"
+                ng-reflect-icon-prop="long-arrow-alt-left"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
+                  data-icon="long-arrow-alt-left"
+                  data-prefix="fas"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </fa-icon>
             </button>
           </a>
           <h3>
@@ -678,10 +750,28 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
             <button
               class="btn btn-secondary back-btn"
             >
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-long-arrow-alt-left"
-              />
+                class="ng-fa-icon"
+                icon="long-arrow-alt-left"
+                ng-reflect-icon-prop="long-arrow-alt-left"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
+                  data-icon="long-arrow-alt-left"
+                  data-prefix="fas"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </fa-icon>
             </button>
           </a>
           <h3>
@@ -853,10 +943,28 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
             <button
               class="btn btn-secondary back-btn"
             >
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-long-arrow-alt-left"
-              />
+                class="ng-fa-icon"
+                icon="long-arrow-alt-left"
+                ng-reflect-icon-prop="long-arrow-alt-left"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
+                  data-icon="long-arrow-alt-left"
+                  data-prefix="fas"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </fa-icon>
             </button>
           </a>
           <h3>
@@ -1026,10 +1134,28 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
             <button
               class="btn btn-secondary back-btn"
             >
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-long-arrow-alt-left"
-              />
+                class="ng-fa-icon"
+                icon="long-arrow-alt-left"
+                ng-reflect-icon-prop="long-arrow-alt-left"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
+                  data-icon="long-arrow-alt-left"
+                  data-prefix="fas"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </fa-icon>
             </button>
           </a>
           <h3>

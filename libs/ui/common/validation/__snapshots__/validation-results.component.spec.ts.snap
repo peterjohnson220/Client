@@ -3,6 +3,7 @@
 exports[`Validation Results Component should default to not hiding validation messages when empty 1`] = `
 <pf-validation-results
   hideIfEmpty="false"
+  validationResultItemTypes={[Function Object]}
   validationResults={[Function Array]}
 >
   <div
@@ -44,6 +45,7 @@ exports[`Validation Results Component should default to not hiding validation me
 exports[`Validation Results Component should not show table when hide if empty is set 1`] = `
 <pf-validation-results
   hideIfEmpty={[Function Boolean]}
+  validationResultItemTypes={[Function Object]}
   validationResults={[Function Array]}
 >
   
@@ -53,6 +55,7 @@ exports[`Validation Results Component should not show table when hide if empty i
 exports[`Validation Results Component should show an empty grid message 1`] = `
 <pf-validation-results
   hideIfEmpty="false"
+  validationResultItemTypes={[Function Object]}
   validationResults={[Function Array]}
 >
   <div
@@ -94,6 +97,7 @@ exports[`Validation Results Component should show an empty grid message 1`] = `
 exports[`Validation Results Component should show validation results 1`] = `
 <pf-validation-results
   hideIfEmpty="false"
+  validationResultItemTypes={[Function Object]}
   validationResults={[Function Array]}
 >
   <div
@@ -118,13 +122,16 @@ exports[`Validation Results Component should show validation results 1`] = `
         
         <tr>
           <td>
+            
             <span>
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="far fa-check-circle text-success"
-                ng-reflect-ng-class="far fa-check-circle text-succe"
+                class="text-success"
               />
             </span>
+            
+            
+            
           </td>
           <td
             class="vertical-center"
@@ -134,13 +141,17 @@ exports[`Validation Results Component should show validation results 1`] = `
         </tr>
         <tr>
           <td>
+            
+            
             <span>
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-info-circle text-info"
-                ng-reflect-ng-class="fas fa-info-circle text-info"
+                class="text-info"
+                icon="info-circle"
               />
             </span>
+            
+            
           </td>
           <td
             class="vertical-center"
@@ -150,13 +161,17 @@ exports[`Validation Results Component should show validation results 1`] = `
         </tr>
         <tr>
           <td>
+            
+            
+            
             <span>
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-exclamation-triangle text-warning"
-                ng-reflect-ng-class="fas fa-exclamation-triangle te"
+                class="text-warning"
+                icon="exclamation-triangle"
               />
             </span>
+            
           </td>
           <td
             class="vertical-center"
@@ -166,11 +181,15 @@ exports[`Validation Results Component should show validation results 1`] = `
         </tr>
         <tr>
           <td>
+            
+            
+            
+            
             <span>
-              <i
+              <fa-icon
                 aria-hidden="true"
-                class="fas fa-exclamation-circle text-danger"
-                ng-reflect-ng-class="fas fa-exclamation-circle text"
+                class="text-danger"
+                icon="exclamation-circle"
               />
             </span>
           </td>

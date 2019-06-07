@@ -85,8 +85,9 @@ exports[`User Menu should show a divider for log out 1`] = `
           href="logout"
         >
           
-          <i
-            class="fas fa-lg fa-sign-out"
+          <fa-icon
+            icon="sign-out"
+            size="lg"
           />
            Log Out 
         </a>
@@ -245,8 +246,9 @@ exports[`User Menu should show an icon for log out 1`] = `
           href="logout"
         >
           
-          <i
-            class="fas fa-lg fa-sign-out"
+          <fa-icon
+            icon="sign-out"
+            size="lg"
           />
            Log Out 
         </a>

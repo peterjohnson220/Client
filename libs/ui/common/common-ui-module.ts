@@ -5,7 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
+import * as fromFaIcons from './fa-icons';
 import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
@@ -57,9 +60,14 @@ const components = [
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    ImgFallbackModule
+    ImgFallbackModule,
+    FontAwesomeModule
   ],
   declarations: components,
   exports: components
 })
-export class PfCommonUIModule { }
+export class PfCommonUIModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

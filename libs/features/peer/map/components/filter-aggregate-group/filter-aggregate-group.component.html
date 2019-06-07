@@ -18,10 +18,10 @@
       </div>
 
       <div *ngIf="collapsed">
-        <i class="far fa-angle-down"></i>
+        <fa-icon [icon]="['far', 'angle-down']"></fa-icon>
       </div>
       <div *ngIf="!collapsed">
-        <i class="far fa-angle-up"></i>
+        <fa-icon [icon]="['far', 'angle-up']"></fa-icon>
       </div>
     </div>
 
@@ -50,11 +50,11 @@
     Show
 
     <span *ngIf="!showAllAggregates">
-      {{aggregateGroup.Aggregates.length - aggregateGroup.AggregatesPreview.length}} More <i class="far fa-angle-down"></i>
+      {{aggregateGroup.Aggregates.length - aggregateGroup.AggregatesPreview.length}} More <fa-icon [icon]="['far', 'angle-down']"></fa-icon>
     </span>
 
     <span *ngIf="showAllAggregates">
-      Less <i class="far fa-angle-up"></i>
+      Less <fa-icon [icon]="['far', 'angle-up']"></fa-icon>
     </span>
   </div>
 

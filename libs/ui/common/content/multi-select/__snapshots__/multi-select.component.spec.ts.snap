@@ -46,8 +46,9 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
             >
                 
             </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
+            <fa-icon
+              class="d-inline-block ml-2"
+              icon="angle-down"
             />
           </span>
         </a>
@@ -104,8 +105,9 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
             >
                 
             </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
+            <fa-icon
+              class="d-inline-block ml-2"
+              icon="angle-down"
             />
           </span>
         </a>
@@ -118,8 +120,9 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
       
       
       <div>
-        <i
-          class="fas fa-search position-absolute"
+        <fa-icon
+          class="position-absolute"
+          icon="search"
         />
         <input
           class="form-control d-block mt-2"
@@ -130,8 +133,8 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
           class="position-absolute text-muted"
           href="javascript:void(0)"
         >
-          <i
-            class="fas fa-times"
+          <fa-icon
+            icon="times"
           />
         </a>
         <button
@@ -203,8 +206,9 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
             >
                 
             </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
+            <fa-icon
+              class="d-inline-block ml-2"
+              icon="angle-down"
             />
           </span>
         </a>
@@ -217,8 +221,9 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
       
       
       <div>
-        <i
-          class="fas fa-search position-absolute"
+        <fa-icon
+          class="position-absolute"
+          icon="search"
         />
         <input
           class="form-control d-block mt-2"
@@ -229,8 +234,8 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
           class="position-absolute text-muted"
           href="javascript:void(0)"
         >
-          <i
-            class="fas fa-times"
+          <fa-icon
+            icon="times"
           />
         </a>
         <button
@@ -316,8 +321,9 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
             >
                 
             </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
+            <fa-icon
+              class="d-inline-block ml-2"
+              icon="angle-down"
             />
           </span>
         </a>
@@ -374,8 +380,9 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
             >
                 
             </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
+            <fa-icon
+              class="d-inline-block ml-2"
+              icon="angle-down"
             />
           </span>
         </a>
@@ -388,8 +395,9 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
       
       
       <div>
-        <i
-          class="fas fa-search position-absolute"
+        <fa-icon
+          class="position-absolute"
+          icon="search"
         />
         <input
           class="form-control d-block mt-2"
@@ -400,8 +408,8 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
           class="position-absolute text-muted"
           href="javascript:void(0)"
         >
-          <i
-            class="fas fa-times"
+          <fa-icon
+            icon="times"
           />
         </a>
         <button
@@ -472,8 +480,9 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
             >
                 
             </label>
-            <i
-              class="fas fa-angle-down d-inline-block ml-2"
+            <fa-icon
+              class="d-inline-block ml-2"
+              icon="angle-down"
             />
           </span>
         </a>

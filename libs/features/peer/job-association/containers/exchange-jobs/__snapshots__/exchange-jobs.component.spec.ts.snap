@@ -51,8 +51,9 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
     <div
       class="mb-2"
     >
-      <i
-        class="fas fa-search position-absolute"
+      <fa-icon
+        class="search-icon position-absolute"
+        icon="search"
       />
       <pf-input-debounce
         id="exchange-jobs-search-box"
