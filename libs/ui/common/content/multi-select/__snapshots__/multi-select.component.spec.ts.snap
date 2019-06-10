@@ -121,7 +121,7 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
       
       <div>
         <fa-icon
-          class="position-absolute"
+          class="fa-search-icon position-absolute"
           icon="search"
         />
         <input
@@ -222,7 +222,7 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
       
       <div>
         <fa-icon
-          class="position-absolute"
+          class="fa-search-icon position-absolute"
           icon="search"
         />
         <input
@@ -396,7 +396,7 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
       
       <div>
         <fa-icon
-          class="position-absolute"
+          class="fa-search-icon position-absolute"
           icon="search"
         />
         <input

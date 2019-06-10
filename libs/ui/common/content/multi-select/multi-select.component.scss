@@ -36,13 +36,11 @@ $light-border: 1px solid #ccc;
     .loading {
       width: 300px;
     }
-    .fa-search {
+    .fa-search-icon {
       font-size: 18px;
       position: relative;
       left: 1rem;
-      top: .5rem;
       z-index: 100;
-      margin-top: 6px;
       color: #0099cc;
     }
     input[type=text] {
