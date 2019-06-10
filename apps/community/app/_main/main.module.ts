@@ -25,6 +25,7 @@ import { CommunityJobPostingsPageComponent } from './containers';
 import { MainRoutingModule } from './main-routing.module';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
+import { PfCommunityModule } from 'libs/features/community/community.module';
 
 import { CommunityPostsComponent } from './containers/community-posts/community-posts.component';
 import { CommunityStartDiscussionComponent } from './containers/community-start-discussion';
@@ -41,7 +42,6 @@ import { CommunityAvatarComponent } from './components/community-avatar/communit
 import { CommunityNewPostComponent } from './containers/community-new-post/community-new-post.component';
 import { CommunityNewPollComponent } from './containers/community-new-poll/community-new-poll.component';
 import { CommunityNewJobComponent } from './containers/community-new-job/community-new-job.component';
-import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
 import { CommunityTextAreaComponent } from './containers/community-text-area/community-text-area.component';
 import { CommunityPostContentComponent } from './components/community-post-content/community-post-content.component';
 import { RadialTextCounterComponent } from './components/radial-text-counter/radial-text-counter.component';
@@ -105,7 +105,6 @@ const components = [
   CommunityAvatarComponent,
   CommunityNewPollComponent,
   CommunityNewPostComponent,
-  CommunityPollChoicesComponent,
   CommunityPollComponent,
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
@@ -162,7 +161,8 @@ const components = [
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfCommunityModule
   ],
   declarations: components,
   providers: [
