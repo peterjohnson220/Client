@@ -6,7 +6,7 @@
             data-qa-id="btn-Tag"
             (click)="trendingTagClicked(trendingTag)"
             [ngClass]="{'btn-selected': IsTagSelected(trendingTag) }">{{trendingTag.Tag}}
-      <span *ngIf="IsTagSelected(trendingTag)"><i class="fas fa-times-circle icon"></i></span>
+      <span *ngIf="IsTagSelected(trendingTag)"><fa-icon icon="times-circle"></fa-icon></span>
     </button>
   </ng-container>
 
@@ -15,24 +15,24 @@
       <button *ngIf="!isTrendingTag(filteredTag)"
               type="button" class="btn m-1 tag py-2 px-3 shadow-none" (click)="nonTrendingTagClicked(filteredTag)"
               [ngClass]="{'btn-selected': true }">{{ filteredTag.TagName }}
-        <span><i class="fas fa-times-circle icon"></i></span>
+        <span><fa-icon icon="times-circle"></fa-icon></span>
       </button>
     </ng-container>
     <ng-container *ngFor="let filter of filteredCategories">
       <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="categoryFilterClicked(filter)"
               [ngClass]="{'btn-selected': IsCategorySelected(filter) }">{{ filter }}
-        <span *ngIf="IsCategorySelected(filter)"><i class="fas fa-times-circle icon"></i></span>
+        <span *ngIf="IsCategorySelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
       </button>
     </ng-container>
 
     <div *ngIf="filter.PostIds.length > 0 || filter.ReplyIds.length > 0" class="mt-1">
       <button *ngIf="filter.PostIds.length === 1 || filter.ReplyIds.length === 1" (click)="viewAllClicked()"  type="button" class="btn m-1 tag py-2 px-3 shadow-none btn-selected">
         <span>{{filterTitle}}</span>
-        <span><i class="fas fa-times-circle icon"></i></span>
+        <fa-icon icon="times-circle"></fa-icon>
       </button>
        <button *ngIf="filter.PostIds.length > 1 || filter.ReplyIds.length > 1" (click)="viewAllClicked()" type="button" class="btn btn-secondary submit-button-container">
-          <i class="far fa-eye pr-2"></i>
-          <span>View All Posts</span>
+          <fa-icon [icon]="['far', 'eye']"></fa-icon>
+          <span class="pl-2">View All Posts</span>
         </button>
     </div>
   </ng-container>

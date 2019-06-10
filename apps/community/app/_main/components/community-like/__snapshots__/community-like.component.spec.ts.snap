@@ -22,8 +22,9 @@ exports[`CommunityLikeComponent should display as liked if LikedByCurrentUser ==
   >
     
     <span>
-      <i
-        class="fas fa-heart icon"
+      <fa-icon
+        class="liked-by-current-user"
+        icon="heart"
       />
     </span>
     
@@ -59,9 +60,15 @@ exports[`CommunityLikeComponent should display as not liked if LikedByCurrentUse
     
     
     <span>
-      <i
-        class="far fa-heart icon"
-      />
+      <fa-layers>
+        <fa-icon
+          icon="heart"
+        />
+        <fa-icon
+          icon="heart"
+          transform="shrink-4"
+        />
+      </fa-layers>
     </span>
     <span
       data-qa-id="cnt-likeCount"
@@ -94,9 +101,15 @@ exports[`CommunityLikeComponent should show like component 1`] = `
     
     
     <span>
-      <i
-        class="far fa-heart icon"
-      />
+      <fa-layers>
+        <fa-icon
+          icon="heart"
+        />
+        <fa-icon
+          icon="heart"
+          transform="shrink-4"
+        />
+      </fa-layers>
     </span>
     <span
       data-qa-id="cnt-likeCount"
