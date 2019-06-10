@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { SystemUserGroupNames } from 'libs/constants';
+import { SystemUserGroupNames, Permissions } from 'libs/constants';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromRootState from 'libs/state/state';
@@ -37,6 +37,7 @@ export class AddJobsPageComponent extends SearchBase implements OnInit, OnDestro
   addingDataError$: Observable<boolean>;
   addingDataErrorMessage$: Observable<any>;
   userContext: Observable<UserContext>;
+  _Permissions = null;
 
   // Subscriptions
   selectedJobIdsSubscription: Subscription;
@@ -64,6 +65,7 @@ export class AddJobsPageComponent extends SearchBase implements OnInit, OnDestro
     this.addingDataError$ = this.store.select(fromAddJobsReducer.getAddingDataError);
     this.addingDataErrorMessage$ = this.store.select(fromAddJobsReducer.getAddingDataErrorMessage);
     this.userContext = store.select(fromRootState.getUserContext);
+    this._Permissions = Permissions;
   }
 
   onSetContext(payload: any): void {
