@@ -1,4 +1,8 @@
-.pointer {
+.switch-wrapper {
+  &.disabled {
+    pointer-events: none;
+  }
+
   cursor: pointer;
 }
 
