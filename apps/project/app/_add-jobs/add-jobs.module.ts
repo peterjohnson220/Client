@@ -7,6 +7,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -16,6 +18,7 @@ import { JobLimitCounterComponent } from 'libs/features/smallbiz';
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 
+import * as fromFaIcons from './fa-icons';
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
 import { reducers } from './reducers';
 import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects, SingledFilterEffects, PaymarketEffects,
@@ -45,6 +48,7 @@ import { SavedFiltersHelper } from './helpers';
     DropDownsModule,
     NgbProgressbarModule,
     NgbTooltipModule,
+    FontAwesomeModule,
 
     // Routing
     AddJobsRoutingModule,
@@ -72,4 +76,8 @@ import { SavedFiltersHelper } from './helpers';
     { provide: UserFilterTypeData, useValue: JobSearchUserFilterType }
   ]
 })
-export class AddJobsModule { }
+export class AddJobsModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}
