@@ -4,7 +4,7 @@
   <div class="fa-4x">
     <fa-layers [ngClass]="['fa-fw']">
       <fa-icon icon="circle" class="icon-background"></fa-icon>
-      <fa-icon icon="circle" transform="shrink-2" class="{{iconClass}}"></fa-icon>
+      <fa-icon icon="circle" transform="shrink-2" [ngClass]="active ? 'active-icon' : 'inactive-icon'"></fa-icon>
       <fa-icon icon="{{icon}}" transform="shrink-8" class="icon-background"></fa-icon>
     </fa-layers>
   </div>
