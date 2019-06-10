@@ -17,7 +17,7 @@
       <pf-loading-indicator></pf-loading-indicator>
     </span>
     <div *ngIf="!(isLoading)">
-      <fa-icon icon="search" class="position-absolute"></fa-icon>
+      <fa-icon icon="search" class="fa-search-icon position-absolute"></fa-icon>
       <input type="text" [(ngModel)]="searchTerm" class="form-control d-block mt-2" placeholder="Search" />
       <a href="javascript:void(0)" (click)="clearSearchTerm()" class="position-absolute text-muted">
         <fa-icon icon="times"></fa-icon>
