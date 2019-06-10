@@ -14,6 +14,9 @@
  * Learn more in https://angular.io/guide/browser-support
  */
 
+/** Needed before Polyfills in order to avoid an infinite recursion issue */
+import 'assets/js/new-relic.js';
+
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */

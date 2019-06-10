@@ -55,8 +55,7 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -149,8 +148,7 @@
             "tsConfig": "apps/admin/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -252,8 +250,7 @@
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -347,8 +344,7 @@
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -451,8 +447,7 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/fontawesome-all.min.js",
-              "assets/js/drift.js",
-              "assets/js/new-relic.js"
+              "assets/js/drift.js"
             ]
           },
           "configurations": {
@@ -545,8 +540,7 @@
             "tsConfig": "apps/peer/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -652,8 +646,7 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -746,8 +739,7 @@
             "tsConfig": "apps/legacy-content/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1045,8 +1037,7 @@
               "apps/project/outside-view-encapsulation.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/new-relic.js"
+              "assets/js/pendo.js"
             ]
           },
           "configurations": {
@@ -1138,8 +1129,7 @@
             "polyfills": "apps/project/polyfills.ts",
             "tsConfig": "apps/project/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/new-relic.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1241,8 +1231,7 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/uservoice.js",
-              "assets/js/new-relic.js"
+              "assets/js/uservoice.js"
             ]
           },
           "configurations": {
@@ -1334,8 +1323,7 @@
             "polyfills": "apps/community/polyfills.ts",
             "tsConfig": "apps/community/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/new-relic.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1435,8 +1423,7 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -1573,8 +1560,7 @@
             "tsConfig": "apps/smallbiz/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "apps/smallbiz/styles.scss"
@@ -1674,8 +1660,7 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -1768,8 +1753,7 @@
             "tsConfig": "apps/jobs/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1871,8 +1855,7 @@
               "apps/comphub/assets/css/flags.min.css"
             ],
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/new-relic.js"
+              "assets/js/pendo.js"
             ]
           },
           "configurations": {
@@ -1965,8 +1948,7 @@
             "tsConfig": "apps/comphub/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
