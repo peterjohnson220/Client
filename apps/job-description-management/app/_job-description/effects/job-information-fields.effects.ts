@@ -17,7 +17,7 @@ export class JobInformationFieldsEffects {
   @Effect()
   loadJobInformationFieldsForBulkExport$: Observable<Action> = this.actions$
     .pipe(
-      ofßType(fromJobInformationFieldsActions.LOAD_JOB_INFORMATION_FIELDS_FOR_BULK_EXPORT),
+      ofType(fromJobInformationFieldsActions.LOAD_JOB_INFORMATION_FIELDS_FOR_BULK_EXPORT),
       switchMap((action: fromJobInformationFieldsActions.LoadJobInformationFieldsForBulkExport) =>
         this.jobDescriptionApiService.getJobInformationFieldsForBulkExport(action.payload).pipe(
           map((response: JobInformationFieldForBulkExportResponse[]) => {
