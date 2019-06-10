@@ -218,6 +218,9 @@ pf-peer-job-association-company-jobs {
           &.not-associated {
             background-color: #fc6e68;
           }
+          &.pending {
+            background-color: #ffb300;
+          }
         }
 
         .k-pager-wrap .k-link:not(.k-state-selected) {
