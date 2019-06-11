@@ -100,4 +100,8 @@ export class JobDescriptionApiService {
     const body = 'export-type=pdf';
     return this.payfactorsApiService.downloadFile(`${this.endpoint}(${jdmDescriptionId})/Default.Export`, body, headers, true);
   }
+
+  getPublicTokenUrl(companyId: number): Observable<string> {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetPublicListPageUrl`, { companyId: companyId });
+  }
 }

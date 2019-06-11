@@ -1,0 +1,113 @@
+<div class="card">
+  <div class="card-content">
+    <ngb-tabset>
+      <ngb-tab title="Tiles">
+        <ng-template ngbTabContent>
+          <div class="pt-2">
+            <pf-async-container [loading]="loadingCompanyTiles$ | async"
+              [loadingError]="loadingCompanyTilesError$ | async" [loadingErrorMessage]="'Error.'"
+              [hideReloadButton]="true">
+              <ng-container *ngIf="(companyTiles$ | async)?.length">
+                <div class="checkbox" *ngFor="let companyTile of (companyTiles$ | async)">
+                  <label>
+                    <input type="checkbox"
+                      (change)="toggleCompanyTile(companyTile)"
+                      [disabled]="companyTile.Disabled" [checked]="companyTile.Checked" />
+                    {{companyTile.TileName}}
+                  </label>
+                </div>
+              </ng-container>
+            </pf-async-container>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Settings">
+        <ng-template ngbTabContent>
+          <div class="pt-2">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="customCompanySettings.EnablePricingReview" /> Enable Pricing Review
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="customCompanySettings.ParticipateInPeerDataExchange" /> Agreed to Normative Research
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableLibraryForRoutedJobDescriptions" /> Enable Library for Routed Job Descriptions
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableEmployeeAcknowledgement" /> Enable Employee Acknowledgement of Job Descriptions
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableWorkflowEmployeeResults" /> Enable Employee Results in Workflow Setup
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="customCompanySettings.RestrictWorkflowToCompanyEmployeesOnly" /> Restrict Workflow to Company Employees Only
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableLiveChat" /> Enable Live Chat
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="customCompanySettings.HideSecondarySurveyDataFields" /> Hide <a href="#"
+                  (click)="handleSurveyFieldsClicked()">Secondary Survey Fields</a>
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableIntervalAgingFactor" /> Use Historical Country Aging Factors
+              </label>
+            </div>
+            <pf-async-container [loading]="loadingCompanySettings$ | async"
+              [loadingError]="loadingCompanySettingsError$ | async" [loadingErrorMessage]="'Error.'"
+              [hideReloadButton]="true">
+              <div *ngIf="(companySettings$ | async)?.length">
+                <div class="checkbox" *ngFor="let companySetting of (companySettings$ | async)">
+                  <label>
+                    <input type="checkbox" (change)="toggleCompanySetting(companySetting)" [disabled]="companySetting.Disabled"
+                      [checked]="companySetting.Value === 'true'" />
+                    {{companySetting.DisplayName}}
+                  </label>
+                </div>
+              </div>
+            </pf-async-container>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Market Data">
+        <ng-template ngbTabContent>
+          <div class="pt-2">
+            <pf-async-container [loading]="loadingCompanyDataSets$ | async"
+              [loadingError]="loadingCompanyDataSetsError$ | async" [loadingErrorMessage]="'Error.'"
+              [hideReloadButton]="true">
+              <div *ngIf="(companyDataSets$ | async)?.length">
+                <div class="checkbox" *ngFor="let companyDataSet of (companyDataSets$ | async)">
+                  <label>
+                    <input type="checkbox" 
+                      (change)="toggleCompanyDataSet(companyDataSet)" 
+                      [checked]="companyDataSet.Checked" /> {{companyDataSet.DataSetName}}
+                  </label>
+                </div>
+              </div>
+            </pf-async-container>
+          </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>
+
+<!-- Modal -->
+<pf-secondary-survey-fields-modal [surveyFields]="compositeFields$ | async"></pf-secondary-survey-fields-modal>
