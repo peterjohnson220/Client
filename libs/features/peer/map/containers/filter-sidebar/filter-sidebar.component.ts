@@ -34,6 +34,7 @@ export class FilterSidebarComponent implements OnInit {
   mapSummary$: Observable<ExchangeMapSummary>;
   selectionsCount$: Observable<number>;
   associatedJobs$: Observable<string[]>;
+  searchingAggregate$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.filterAggregateGroups$ = this.store.pipe(select(fromPeerMapReducer.getFilterAggregateGroups));
@@ -47,6 +48,7 @@ export class FilterSidebarComponent implements OnInit {
     this.mapSummary$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapSummary));
     this.selectionsCount$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterSelectionsCount));
     this.associatedJobs$ = this.store.pipe(select(fromFilterSidebarReducer.getAssociatedExchangeJobs));
+    this.searchingAggregate$ = this.store.pipe(select(fromFilterSidebarReducer.getSearchingAggregate));
   }
 
   trackByFilterProp(index: number, filterAggregateGroup: FilterAggregateGroup): string {
@@ -74,6 +76,15 @@ export class FilterSidebarComponent implements OnInit {
     this.store.dispatch(new fromFilterSidebarActions.ClearAllSelections);
     this.store.dispatch(new fromFilterSidebarActions.GetMapData);
   }
+
+  handleSearchEvent(aggregateGroupId: string): void {
+    this.store.dispatch(new fromFilterSidebarActions.ToggleAggregateSearch(aggregateGroupId));
+  }
+
+  onBackToAllFiltersClick(): void {
+    this.store.dispatch(new fromFilterSidebarActions.ToggleAggregateSearch(null));
+  }
+
 
   ngOnInit() {
     if (this.companyPayMarketId) {

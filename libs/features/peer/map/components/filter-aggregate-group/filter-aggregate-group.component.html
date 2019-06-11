@@ -1,7 +1,7 @@
+<div class="aggregate-group"
+     *ngIf="!searchingAnotherAggregate"
+     [ngClass]="{'collapsed': collapsed, 'searching': searchingThisAggregate}">
 
-<div class="aggregate-group" [class.collapsed]="collapsed">
-
-  <!--Header-->
   <div class="aggregate-group-header" (click)="collapsed = !collapsed">
     <div class="header-left space-out-children-right">
       <div>
@@ -10,25 +10,37 @@
       <div>
         {{categoryLabel}}
       </div>
-    </div>
-
-    <div class="header-right">
-      <div class="reset-link" *ngIf="hasSelections" (click)="handleResetClicked($event)">
-        Reset ({{selectionsCount}})
-      </div>
-
-      <div *ngIf="collapsed">
+      <div class="ml-2" *ngIf="collapsed">
         <fa-icon [icon]="['far', 'angle-down']"></fa-icon>
       </div>
-      <div *ngIf="!collapsed">
-        <fa-icon [icon]="['far', 'angle-up']"></fa-icon>
+    </div>
+    <div class="header-right">
+      <div class="reset-link"
+           *ngIf="hasSelections"
+           [ngClass]="cssResetClearBtnAutomationName"
+           (click)="handleResetClicked($event)">
+        <ng-container *ngIf="hasSelections">Clear ({{selectionsCount}})</ng-container>
+      </div>
+      <div class="search"
+           [ngClass]=" 'au-btn-search-' + aggregateGroup.MetaData.Id"
+           *ngIf="allowedToSearch"
+           (click)="handleSearchClicked($event)">
+        <fa-icon [icon]="['far', 'search']"></fa-icon>
       </div>
     </div>
 
   </div>
 
+  <div class="search-filter" *ngIf="searchingThisAggregate">
+    <pf-input-debounce
+      [ngModel]="searchValue"
+      (valueChanged)="handleSearchValueChanged($event)"
+      [automationClassName]="'au-txt-search-single-filter-search'">
+    </pf-input-debounce>
+  </div>
+
   <!--Options-->
-  <div class="aggregate-container" [class.show-all]="showAllAggregates">
+  <div class="aggregate-container">
     <ng-container *ngIf="filterAggregates.length; else noAggregateItems">
       <pf-filter-aggregate
         *ngFor="let filterAggregate of filterAggregates;trackBy: trackById"
@@ -43,19 +55,13 @@
   </div>
 
   <!--Options Toggle-->
-  <div *ngIf="aggregateGroup.Aggregates.length > previewLimit"
-       (click)="showAllAggregates = !showAllAggregates"
+  <div *ngIf="allowedToSearch"
+       (click)="handleSearchClicked($event)"
        class="toggle-option-height">
 
-    Show
+    Show {{aggregateGroup.Aggregates.length - aggregateGroup.AggregatesPreview.length}} More
+    <fa-icon [icon]="['far', 'angle-down']"></fa-icon>
 
-    <span *ngIf="!showAllAggregates">
-      {{aggregateGroup.Aggregates.length - aggregateGroup.AggregatesPreview.length}} More <fa-icon [icon]="['far', 'angle-down']"></fa-icon>
-    </span>
-
-    <span *ngIf="showAllAggregates">
-      Less <fa-icon [icon]="['far', 'angle-up']"></fa-icon>
-    </span>
   </div>
 
 </div>

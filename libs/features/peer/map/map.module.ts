@@ -13,6 +13,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { environment } from 'environments/environment';
 
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
+import { PfFormsModule } from 'libs/forms';
 
 import {
   FilterAggregateComponent,
@@ -43,6 +44,7 @@ const declarations = [
 
     // PF Modules
     PfCommonUIModule,
+    PfFormsModule,
 
     // 3rd Party
     SwitchModule,
