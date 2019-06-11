@@ -1,6 +1,6 @@
 export * from './mapping.model';
 export * from './email-recipient.model';
-export * from './loader-entity-status.model'
+export * from './loader-entity-status.model';
 export * from './loader-settings.model';
 export * from './date-format-item.model';
 export * from './loader-field-mapping.model';

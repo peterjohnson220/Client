@@ -11,29 +11,29 @@ describe('OrgDataFilenamePatternSetFactory', () => {
 
   describe('getConvenction function', () => {
     it('should return filename pattern convention', () => {
-      let actualConvention = sut.getConvention();
+      const actualConvention = sut.getConvention();
       expect(actualConvention).toEqual(OrgDataFilenamePatternSetConvention);
     });
   });
 
   describe('create function', () => {
     it('should return convention if given null', () => {
-      let actualConvention = sut.create(null);
+      const actualConvention = sut.create(null);
       expect(actualConvention).toEqual(OrgDataFilenamePatternSetConvention);
     });
 
     it('should return convention if given undefined', () => {
-      let actualConvention = sut.create(undefined);
+      const actualConvention = sut.create(undefined);
       expect(actualConvention).toEqual(OrgDataFilenamePatternSetConvention);
     });
 
     it('should return convention if given empty array', () => {
-      let actualConvention = sut.create(new Array<LoaderSetting>());
+      const actualConvention = sut.create(new Array<LoaderSetting>());
       expect(actualConvention).toEqual(OrgDataFilenamePatternSetConvention);
     });
 
     it('should return employee filename pattern override when setting is present', () => {
-      const expectedPattern = "pattern!@#$";
+      const expectedPattern = 'pattern!@#$';
       const givenFilenamePatternOverrideSetting: LoaderSetting = {
         LoaderSettingsId: 1,
         KeyName: LoaderSettingsFilenamePatternOverrideKey.Employees,
@@ -41,7 +41,7 @@ describe('OrgDataFilenamePatternSetFactory', () => {
       };
       const givenSettings: Array<LoaderSetting> = [givenFilenamePatternOverrideSetting];
 
-      let actualSet = sut.create(givenSettings);
+      const actualSet = sut.create(givenSettings);
 
       const expectedSet: OrgDataFilenamePatternSet = {
         ...OrgDataFilenamePatternSetConvention,
@@ -55,15 +55,15 @@ describe('OrgDataFilenamePatternSetFactory', () => {
     });
 
     it('should return jobs filename pattern override when setting is present', () => {
-      const expectedPattern = "it-is-a-pattern";
+      const expectedPattern = 'it-is-a-pattern';
       const givenFilenamePatternOverrideSetting: LoaderSetting = {
         LoaderSettingsId: 2,
         KeyName: LoaderSettingsFilenamePatternOverrideKey.Jobs,
-        KeyValue: "^" + expectedPattern
+        KeyValue: '^' + expectedPattern
       };
       const givenSettings: Array<LoaderSetting> = [givenFilenamePatternOverrideSetting];
 
-      let actualSet = sut.create(givenSettings);
+      const actualSet = sut.create(givenSettings);
 
       const expectedSet: OrgDataFilenamePatternSet = {
         ...OrgDataFilenamePatternSetConvention,
@@ -77,7 +77,7 @@ describe('OrgDataFilenamePatternSetFactory', () => {
     });
 
     it('should return pay markets filename pattern override when setting is present', () => {
-      const expectedPattern = "Hello, World!";
+      const expectedPattern = 'Hello, World!';
       const givenFilenamePatternOverrideSetting: LoaderSetting = {
         LoaderSettingsId: 3,
         KeyName: LoaderSettingsFilenamePatternOverrideKey.PayMarkets,
@@ -85,7 +85,7 @@ describe('OrgDataFilenamePatternSetFactory', () => {
       };
       const givenSettings: Array<LoaderSetting> = [givenFilenamePatternOverrideSetting];
 
-      let actualSet = sut.create(givenSettings);
+      const actualSet = sut.create(givenSettings);
 
       const expectedSet: OrgDataFilenamePatternSet = {
         ...OrgDataFilenamePatternSetConvention,
@@ -99,15 +99,15 @@ describe('OrgDataFilenamePatternSetFactory', () => {
     });
 
     it('should return structure mappings filename pattern override when setting is present', () => {
-      const expectedPattern = "hey hey hey hey";
+      const expectedPattern = 'hey hey hey hey';
       const givenFilenamePatternOverrideSetting: LoaderSetting = {
         LoaderSettingsId: 4,
         KeyName: LoaderSettingsFilenamePatternOverrideKey.StructureMapping,
-        KeyValue: "^" + expectedPattern
+        KeyValue: '^' + expectedPattern
       };
       const givenSettings: Array<LoaderSetting> = [givenFilenamePatternOverrideSetting];
 
-      let actualSet = sut.create(givenSettings);
+      const actualSet = sut.create(givenSettings);
 
       const expectedSet: OrgDataFilenamePatternSet = {
         ...OrgDataFilenamePatternSetConvention,
@@ -121,7 +121,7 @@ describe('OrgDataFilenamePatternSetFactory', () => {
     });
 
     it('should return structures filename pattern override when setting is present', () => {
-      const expectedPattern = "this is the song, la la la la";
+      const expectedPattern = 'this is the song, la la la la';
       const givenFilenamePatternOverrideSetting: LoaderSetting = {
         LoaderSettingsId: 5,
         KeyName: LoaderSettingsFilenamePatternOverrideKey.Structures,
@@ -129,7 +129,7 @@ describe('OrgDataFilenamePatternSetFactory', () => {
       };
       const givenSettings: Array<LoaderSetting> = [givenFilenamePatternOverrideSetting];
 
-      let actualSet = sut.create(givenSettings);
+      const actualSet = sut.create(givenSettings);
 
       const expectedSet: OrgDataFilenamePatternSet = {
         ...OrgDataFilenamePatternSetConvention,
@@ -143,7 +143,7 @@ describe('OrgDataFilenamePatternSetFactory', () => {
     });
 
     it('should return pattern that is not start with restricted when override pattern does not begin with a caret', () => {
-      const expectedPattern = "no-caret";
+      const expectedPattern = 'no-caret';
       const givenFilenamePatternOverrideSetting: LoaderSetting = {
         LoaderSettingsId: 6,
         KeyName: LoaderSettingsFilenamePatternOverrideKey.StructureMapping,
@@ -151,35 +151,35 @@ describe('OrgDataFilenamePatternSetFactory', () => {
       };
       const givenSettings: Array<LoaderSetting> = [givenFilenamePatternOverrideSetting];
 
-      let actual = sut.create(givenSettings);
+      const actual = sut.create(givenSettings);
 
       expect(actual.StructureMappingsFilenamePattern.IsStartWithRestricted).toEqual(false);
     });
 
     it('should return pattern that is start with restricted when override pattern begins with a caret', () => {
-      const expectedPattern = "yes-caret";
+      const expectedPattern = 'yes-caret';
       const givenFilenamePatternOverrideSetting: LoaderSetting = {
         LoaderSettingsId: 7,
         KeyName: LoaderSettingsFilenamePatternOverrideKey.PayMarkets,
-        KeyValue: "^" + expectedPattern
+        KeyValue: '^' + expectedPattern
       };
       const givenSettings: Array<LoaderSetting> = [givenFilenamePatternOverrideSetting];
 
-      let actual = sut.create(givenSettings);
+      const actual = sut.create(givenSettings);
 
       expect(actual.PayMarketsFilenamePattern.IsStartWithRestricted).toEqual(true);
     });
 
     it('should return pattern without caret at start', () => {
-      const expectedPattern = "paymarkets";
+      const expectedPattern = 'paymarkets';
       const givenFilenamePatternOverrideSetting: LoaderSetting = {
         LoaderSettingsId: 7,
         KeyName: LoaderSettingsFilenamePatternOverrideKey.PayMarkets,
-        KeyValue: "^" + expectedPattern
+        KeyValue: '^' + expectedPattern
       };
       const givenSettings: Array<LoaderSetting> = [givenFilenamePatternOverrideSetting];
 
-      let actual = sut.create(givenSettings);
+      const actual = sut.create(givenSettings);
 
       expect(actual.PayMarketsFilenamePattern.Name).toEqual(expectedPattern);
     });

@@ -89,7 +89,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
           </a>
           <h3>
             
-             Org Data Autoloader Field Mappings 
+            Org Data Autoloader Field Mappings
           </h3>
         </div>
         <div
@@ -100,93 +100,119 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
         class="page-content"
       >
         
-        <pf-company-selector />
-        
         <div
-          class="mapping-container"
+          class="list-group list-group-flush"
         >
-          <h3
-            class="pull-left"
-          >
-            Field Mapper
-          </h3>
-          <hr
-            class="clear"
-          />
           <div
-            class="container-fluid"
+            class="list-group-item"
           >
+            <div>
+              <h3>
+                Company
+              </h3>
+            </div>
+            <pf-company-selector />
+          </div>
+          
+          <div
+            class="list-group-item"
+          >
+            <h3>
+              SFTP
+            </h3>
             <div
-              class="form-group row"
+              class="container-fluid"
             >
-              <label
-                class="col-sm-1 col-form-label"
-                for="delimiter"
-              >
-                Delimiter: 
-              </label>
-              <div
-                class="col-sm-1"
-              >
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  id="delimiter"
-                  ng-reflect-model=""
-                  type="text"
-                />
-              </div>
+              <pf-sftp-account-status />
             </div>
           </div>
           
-          <kendo-tabstrip>
-            <kendo-tabstrip-tab
-              title="Pay Markets"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Jobs"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structures"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structure Mappings"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Employees"
-            >
-              
-            </kendo-tabstrip-tab>
-          </kendo-tabstrip>
           <div
-            class="buttons-container"
+            class="list-group-item"
           >
-            <span
-              class="save-message "
-              hidden=""
+            <h3>
+              Mappings
+            </h3>
+            <div
+              class="container-fluid"
             >
-              
-            </span>
-            <button
-              class="btn btn-primary"
-              disabled=""
-              type="button"
-            >
-              Update Mapping
-            </button>
+              <div
+                class="form-group row"
+              >
+                <label
+                  class="col-sm-1 col-form-label"
+                  for="delimiter"
+                >
+                  Delimiter: 
+                </label>
+                <div
+                  class="col-sm-1"
+                >
+                  <input
+                    class="form-control ng-untouched ng-pristine ng-valid"
+                    id="delimiter"
+                    ng-reflect-model=""
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
             
-            <pf-email-recipients-modal
-              class="email-recipients-btn"
-            />
+            <kendo-tabstrip>
+              <kendo-tabstrip-tab
+                title="Pay Markets"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Jobs"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structures"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structure Mappings"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Employees"
+              >
+                
+              </kendo-tabstrip-tab>
+            </kendo-tabstrip>
+            <div
+              class="float-right m-2"
+            >
+              <span
+                class="save-message "
+                hidden=""
+              >
+                  
+              </span>
+              <button
+                class="btn btn-primary m-2"
+                disabled=""
+                type="button"
+              >
+                 Update Mapping 
+              </button>
+              <button
+                class="btn btn-secondary"
+              >
+                 Email Recipients 
+              </button>
+            </div>
           </div>
         </div>
+        
+        <pf-email-recipients-modal
+          class="float-right m-2"
+        />
       </div>
     </div>
   </pf-page-with-title-bar>
@@ -282,7 +308,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
           </a>
           <h3>
             
-             Org Data Autoloader Field Mappings 
+            Org Data Autoloader Field Mappings
           </h3>
         </div>
         <div
@@ -293,93 +319,119 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
         class="page-content"
       >
         
-        <pf-company-selector />
-        
         <div
-          class="mapping-container"
+          class="list-group list-group-flush"
         >
-          <h3
-            class="pull-left"
-          >
-            Field Mapper
-          </h3>
-          <hr
-            class="clear"
-          />
           <div
-            class="container-fluid"
+            class="list-group-item"
           >
+            <div>
+              <h3>
+                Company
+              </h3>
+            </div>
+            <pf-company-selector />
+          </div>
+          
+          <div
+            class="list-group-item"
+          >
+            <h3>
+              SFTP
+            </h3>
             <div
-              class="form-group row"
+              class="container-fluid"
             >
-              <label
-                class="col-sm-1 col-form-label"
-                for="delimiter"
-              >
-                Delimiter: 
-              </label>
-              <div
-                class="col-sm-1"
-              >
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  id="delimiter"
-                  ng-reflect-model=","
-                  type="text"
-                />
-              </div>
+              <pf-sftp-account-status />
             </div>
           </div>
           
-          <kendo-tabstrip>
-            <kendo-tabstrip-tab
-              title="Pay Markets"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Jobs"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structures"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structure Mappings"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Employees"
-            >
-              
-            </kendo-tabstrip-tab>
-          </kendo-tabstrip>
           <div
-            class="buttons-container"
+            class="list-group-item"
           >
-            <span
-              class="save-message "
-              hidden=""
+            <h3>
+              Mappings
+            </h3>
+            <div
+              class="container-fluid"
             >
-              
-            </span>
-            <button
-              class="btn btn-primary"
-              disabled=""
-              type="button"
-            >
-              Update Mapping
-            </button>
+              <div
+                class="form-group row"
+              >
+                <label
+                  class="col-sm-1 col-form-label"
+                  for="delimiter"
+                >
+                  Delimiter: 
+                </label>
+                <div
+                  class="col-sm-1"
+                >
+                  <input
+                    class="form-control ng-untouched ng-pristine ng-valid"
+                    id="delimiter"
+                    ng-reflect-model=","
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
             
-            <pf-email-recipients-modal
-              class="email-recipients-btn"
-            />
+            <kendo-tabstrip>
+              <kendo-tabstrip-tab
+                title="Pay Markets"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Jobs"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structures"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structure Mappings"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Employees"
+              >
+                
+              </kendo-tabstrip-tab>
+            </kendo-tabstrip>
+            <div
+              class="float-right m-2"
+            >
+              <span
+                class="save-message "
+                hidden=""
+              >
+                  
+              </span>
+              <button
+                class="btn btn-primary m-2"
+                disabled=""
+                type="button"
+              >
+                 Update Mapping 
+              </button>
+              <button
+                class="btn btn-secondary"
+              >
+                 Email Recipients 
+              </button>
+            </div>
           </div>
         </div>
+        
+        <pf-email-recipients-modal
+          class="float-right m-2"
+        />
       </div>
     </div>
   </pf-page-with-title-bar>
@@ -475,7 +527,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           </a>
           <h3>
             
-             Org Data Autoloader Field Mappings 
+            Org Data Autoloader Field Mappings
           </h3>
         </div>
         <div
@@ -486,92 +538,118 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
         class="page-content"
       >
         
-        <pf-company-selector />
-        
         <div
-          class="mapping-container"
+          class="list-group list-group-flush"
         >
-          <h3
-            class="pull-left"
-          >
-            Field Mapper
-          </h3>
-          <hr
-            class="clear"
-          />
           <div
-            class="container-fluid"
+            class="list-group-item"
           >
+            <div>
+              <h3>
+                Company
+              </h3>
+            </div>
+            <pf-company-selector />
+          </div>
+          
+          <div
+            class="list-group-item"
+          >
+            <h3>
+              SFTP
+            </h3>
             <div
-              class="form-group row"
+              class="container-fluid"
             >
-              <label
-                class="col-sm-1 col-form-label"
-                for="delimiter"
-              >
-                Delimiter: 
-              </label>
-              <div
-                class="col-sm-1"
-              >
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  id="delimiter"
-                  ng-reflect-model=","
-                  type="text"
-                />
-              </div>
+              <pf-sftp-account-status />
             </div>
           </div>
           
-          <kendo-tabstrip>
-            <kendo-tabstrip-tab
-              title="Pay Markets"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Jobs"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structures"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structure Mappings"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Employees"
-            >
-              
-            </kendo-tabstrip-tab>
-          </kendo-tabstrip>
           <div
-            class="buttons-container"
+            class="list-group-item"
           >
-            <span
-              class="save-message "
-              hidden=""
+            <h3>
+              Mappings
+            </h3>
+            <div
+              class="container-fluid"
             >
-              
-            </span>
-            <button
-              class="btn btn-primary"
-              type="button"
-            >
-              Update Mapping
-            </button>
+              <div
+                class="form-group row"
+              >
+                <label
+                  class="col-sm-1 col-form-label"
+                  for="delimiter"
+                >
+                  Delimiter: 
+                </label>
+                <div
+                  class="col-sm-1"
+                >
+                  <input
+                    class="form-control ng-untouched ng-pristine ng-valid"
+                    id="delimiter"
+                    ng-reflect-model=","
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
             
-            <pf-email-recipients-modal
-              class="email-recipients-btn"
-            />
+            <kendo-tabstrip>
+              <kendo-tabstrip-tab
+                title="Pay Markets"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Jobs"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structures"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structure Mappings"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Employees"
+              >
+                
+              </kendo-tabstrip-tab>
+            </kendo-tabstrip>
+            <div
+              class="float-right m-2"
+            >
+              <span
+                class="save-message "
+                hidden=""
+              >
+                  
+              </span>
+              <button
+                class="btn btn-primary m-2"
+                type="button"
+              >
+                 Update Mapping 
+              </button>
+              <button
+                class="btn btn-secondary"
+              >
+                 Email Recipients 
+              </button>
+            </div>
           </div>
         </div>
+        
+        <pf-email-recipients-modal
+          class="float-right m-2"
+        />
       </div>
     </div>
   </pf-page-with-title-bar>
@@ -667,7 +745,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
           </a>
           <h3>
             
-             Org Data Autoloader Field Mappings 
+            Org Data Autoloader Field Mappings
           </h3>
         </div>
         <div
@@ -678,7 +756,22 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
         class="page-content"
       >
         
-        <pf-company-selector />
+        <div
+          class="list-group list-group-flush"
+        >
+          <div
+            class="list-group-item"
+          >
+            <div>
+              <h3>
+                Company
+              </h3>
+            </div>
+            <pf-company-selector />
+          </div>
+          
+          
+        </div>
         
       </div>
     </div>
@@ -776,7 +869,7 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
           </a>
           <h3>
             
-             Org Data Autoloader Field Mappings 
+            Org Data Autoloader Field Mappings
           </h3>
         </div>
         <div
@@ -787,92 +880,118 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
         class="page-content"
       >
         
-        <pf-company-selector />
-        
         <div
-          class="mapping-container"
+          class="list-group list-group-flush"
         >
-          <h3
-            class="pull-left"
-          >
-            Field Mapper
-          </h3>
-          <hr
-            class="clear"
-          />
           <div
-            class="container-fluid"
+            class="list-group-item"
           >
+            <div>
+              <h3>
+                Company
+              </h3>
+            </div>
+            <pf-company-selector />
+          </div>
+          
+          <div
+            class="list-group-item"
+          >
+            <h3>
+              SFTP
+            </h3>
             <div
-              class="form-group row"
+              class="container-fluid"
             >
-              <label
-                class="col-sm-1 col-form-label"
-                for="delimiter"
-              >
-                Delimiter: 
-              </label>
-              <div
-                class="col-sm-1"
-              >
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  id="delimiter"
-                  ng-reflect-model=","
-                  type="text"
-                />
-              </div>
+              <pf-sftp-account-status />
             </div>
           </div>
           
-          <kendo-tabstrip>
-            <kendo-tabstrip-tab
-              title="Pay Markets"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Jobs"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structures"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structure Mappings"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Employees"
-            >
-              
-            </kendo-tabstrip-tab>
-          </kendo-tabstrip>
           <div
-            class="buttons-container"
+            class="list-group-item"
           >
-            <span
-              class="save-message "
-              hidden=""
+            <h3>
+              Mappings
+            </h3>
+            <div
+              class="container-fluid"
             >
-              
-            </span>
-            <button
-              class="btn btn-primary"
-              type="button"
-            >
-              Update Mapping
-            </button>
+              <div
+                class="form-group row"
+              >
+                <label
+                  class="col-sm-1 col-form-label"
+                  for="delimiter"
+                >
+                  Delimiter: 
+                </label>
+                <div
+                  class="col-sm-1"
+                >
+                  <input
+                    class="form-control ng-untouched ng-pristine ng-valid"
+                    id="delimiter"
+                    ng-reflect-model=","
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
             
-            <pf-email-recipients-modal
-              class="email-recipients-btn"
-            />
+            <kendo-tabstrip>
+              <kendo-tabstrip-tab
+                title="Pay Markets"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Jobs"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structures"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structure Mappings"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Employees"
+              >
+                
+              </kendo-tabstrip-tab>
+            </kendo-tabstrip>
+            <div
+              class="float-right m-2"
+            >
+              <span
+                class="save-message "
+                hidden=""
+              >
+                  
+              </span>
+              <button
+                class="btn btn-primary m-2"
+                type="button"
+              >
+                 Update Mapping 
+              </button>
+              <button
+                class="btn btn-secondary"
+              >
+                 Email Recipients 
+              </button>
+            </div>
           </div>
         </div>
+        
+        <pf-email-recipients-modal
+          class="float-right m-2"
+        />
       </div>
     </div>
   </pf-page-with-title-bar>
@@ -969,7 +1088,7 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
           </a>
           <h3>
             
-             Org Data Autoloader Field Mappings 
+            Org Data Autoloader Field Mappings
           </h3>
         </div>
         <div
@@ -980,91 +1099,117 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
         class="page-content"
       >
         
-        <pf-company-selector />
-        
         <div
-          class="mapping-container"
+          class="list-group list-group-flush"
         >
-          <h3
-            class="pull-left"
-          >
-            Field Mapper
-          </h3>
-          <hr
-            class="clear"
-          />
           <div
-            class="container-fluid"
+            class="list-group-item"
           >
+            <div>
+              <h3>
+                Company
+              </h3>
+            </div>
+            <pf-company-selector />
+          </div>
+          
+          <div
+            class="list-group-item"
+          >
+            <h3>
+              SFTP
+            </h3>
             <div
-              class="form-group row"
+              class="container-fluid"
             >
-              <label
-                class="col-sm-1 col-form-label"
-                for="delimiter"
-              >
-                Delimiter: 
-              </label>
-              <div
-                class="col-sm-1"
-              >
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  id="delimiter"
-                  ng-reflect-model=","
-                  type="text"
-                />
-              </div>
+              <pf-sftp-account-status />
             </div>
           </div>
           
-          <kendo-tabstrip>
-            <kendo-tabstrip-tab
-              title="Pay Markets"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Jobs"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structures"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structure Mappings"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Employees"
-            >
-              
-            </kendo-tabstrip-tab>
-          </kendo-tabstrip>
           <div
-            class="buttons-container"
+            class="list-group-item"
           >
-            <span
-              class="save-message "
+            <h3>
+              Mappings
+            </h3>
+            <div
+              class="container-fluid"
             >
-              Saved Successfully
-            </span>
-            <button
-              class="btn btn-primary"
-              type="button"
-            >
-              Update Mapping
-            </button>
+              <div
+                class="form-group row"
+              >
+                <label
+                  class="col-sm-1 col-form-label"
+                  for="delimiter"
+                >
+                  Delimiter: 
+                </label>
+                <div
+                  class="col-sm-1"
+                >
+                  <input
+                    class="form-control ng-untouched ng-pristine ng-valid"
+                    id="delimiter"
+                    ng-reflect-model=","
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
             
-            <pf-email-recipients-modal
-              class="email-recipients-btn"
-            />
+            <kendo-tabstrip>
+              <kendo-tabstrip-tab
+                title="Pay Markets"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Jobs"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structures"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structure Mappings"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Employees"
+              >
+                
+              </kendo-tabstrip-tab>
+            </kendo-tabstrip>
+            <div
+              class="float-right m-2"
+            >
+              <span
+                class="save-message "
+              >
+                 Saved Successfully 
+              </span>
+              <button
+                class="btn btn-primary m-2"
+                type="button"
+              >
+                 Update Mapping 
+              </button>
+              <button
+                class="btn btn-secondary"
+              >
+                 Email Recipients 
+              </button>
+            </div>
           </div>
         </div>
+        
+        <pf-email-recipients-modal
+          class="float-right m-2"
+        />
       </div>
     </div>
   </pf-page-with-title-bar>
@@ -1160,7 +1305,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
           </a>
           <h3>
             
-             Org Data Autoloader Field Mappings 
+            Org Data Autoloader Field Mappings
           </h3>
         </div>
         <div
@@ -1171,92 +1316,118 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
         class="page-content"
       >
         
-        <pf-company-selector />
-        
         <div
-          class="mapping-container"
+          class="list-group list-group-flush"
         >
-          <h3
-            class="pull-left"
-          >
-            Field Mapper
-          </h3>
-          <hr
-            class="clear"
-          />
           <div
-            class="container-fluid"
+            class="list-group-item"
           >
+            <div>
+              <h3>
+                Company
+              </h3>
+            </div>
+            <pf-company-selector />
+          </div>
+          
+          <div
+            class="list-group-item"
+          >
+            <h3>
+              SFTP
+            </h3>
             <div
-              class="form-group row"
+              class="container-fluid"
             >
-              <label
-                class="col-sm-1 col-form-label"
-                for="delimiter"
-              >
-                Delimiter: 
-              </label>
-              <div
-                class="col-sm-1"
-              >
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  id="delimiter"
-                  ng-reflect-model=","
-                  type="text"
-                />
-              </div>
+              <pf-sftp-account-status />
             </div>
           </div>
           
-          <kendo-tabstrip>
-            <kendo-tabstrip-tab
-              title="Pay Markets"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Jobs"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structures"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structure Mappings"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Employees"
-            >
-              
-            </kendo-tabstrip-tab>
-          </kendo-tabstrip>
           <div
-            class="buttons-container"
+            class="list-group-item"
           >
-            <span
-              class="save-message "
-              hidden=""
+            <h3>
+              Mappings
+            </h3>
+            <div
+              class="container-fluid"
             >
-              
-            </span>
-            <button
-              class="btn btn-primary"
-              type="button"
-            >
-              Update Mapping
-            </button>
+              <div
+                class="form-group row"
+              >
+                <label
+                  class="col-sm-1 col-form-label"
+                  for="delimiter"
+                >
+                  Delimiter: 
+                </label>
+                <div
+                  class="col-sm-1"
+                >
+                  <input
+                    class="form-control ng-untouched ng-pristine ng-valid"
+                    id="delimiter"
+                    ng-reflect-model=","
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
             
-            <pf-email-recipients-modal
-              class="email-recipients-btn"
-            />
+            <kendo-tabstrip>
+              <kendo-tabstrip-tab
+                title="Pay Markets"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Jobs"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structures"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Structure Mappings"
+              >
+                
+              </kendo-tabstrip-tab>
+              <kendo-tabstrip-tab
+                title="Employees"
+              >
+                
+              </kendo-tabstrip-tab>
+            </kendo-tabstrip>
+            <div
+              class="float-right m-2"
+            >
+              <span
+                class="save-message "
+                hidden=""
+              >
+                  
+              </span>
+              <button
+                class="btn btn-primary m-2"
+                type="button"
+              >
+                 Update Mapping 
+              </button>
+              <button
+                class="btn btn-secondary"
+              >
+                 Email Recipients 
+              </button>
+            </div>
           </div>
         </div>
+        
+        <pf-email-recipients-modal
+          class="float-right m-2"
+        />
       </div>
     </div>
   </pf-page-with-title-bar>
