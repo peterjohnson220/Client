@@ -18,7 +18,8 @@ export enum CommunityPollTypeEnum {
 export enum CommunitySearchResultTypeEnum {
   Discussion = 'Discussion',
   Reply = 'Reply',
-  Poll = 'Poll'
+  Poll = 'Poll',
+  Podcast = 'Podcast'
 }
 
 export const CommunityPollStatuses: Array<{ text: string, value: number }> = [

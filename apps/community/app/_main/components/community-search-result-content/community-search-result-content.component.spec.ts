@@ -29,6 +29,7 @@ describe('CommunitySearchResultContentComponent', () => {
     });
 
     fixture = TestBed.createComponent(CommunitySearchResultContentComponent);
+
     instance = fixture.componentInstance;
 
   }));
@@ -37,9 +38,10 @@ describe('CommunitySearchResultContentComponent', () => {
     expect(instance).toBeTruthy();
   });
 
-  it('should display content', () => {
+  it('should display', () => {
+
     instance.searchTerm = 'test';
-    instance.content = 'test content';
+    instance.details = {Content: 'test', Responses: null};
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
