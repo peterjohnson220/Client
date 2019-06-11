@@ -21,9 +21,9 @@ export class SaveFilterModalComponent implements OnInit {
   @Input() errorSaving = false;
   @Input() userFilters: JdmListFilter[] = [];
 
-  private modalRef: NgbModalRef;
-  private filterForm: FormGroup;
-  private attemptedSave = false;
+  public modalRef: NgbModalRef;
+  public filterForm: FormGroup;
+  public attemptedSave = false;
 
   constructor(
     private formBuilder: FormBuilder,

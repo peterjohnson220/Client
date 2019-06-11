@@ -26,13 +26,12 @@ export class FilterSelectorPopoverComponent {
   @Output() onDeleteConfirmed = new EventEmitter();
   @Output() open = new EventEmitter();
 
-  private attemptedDelete = false;
-  private idDeleting: string = null;
-
   @ViewChild('p', { static: true }) public p: any;
 
   public filter: any;
   public filterSearchTerm: any;
+  public attemptedDelete = false;
+  public idDeleting: string = null;
 
   constructor(private listAreaService: ListAreaService) {}
 
