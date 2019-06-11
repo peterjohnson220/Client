@@ -20,24 +20,3 @@ exports[`CommunitySearchResultContentComponent should display 1`] = `
   </div>
 </pf-community-search-result-content>
 `;
-
-exports[`CommunitySearchResultContentComponent should display content 1`] = `
-<pf-community-search-result-content
-  content={[Function String]}
-  searchTerm={[Function String]}
->
-  <div
-    class="h-100 w-100 position-absolute cursor-pointer"
-    id="overlay"
-  /><div
-    class="mt-2 mb-2"
-  >
-    <span
-      class="community-search-highlight"
-    >
-      test
-    </span>
-     content
-  </div>
-</pf-community-search-result-content>
-`;
