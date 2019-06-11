@@ -2,97 +2,95 @@
 
 $light-border: 1px solid #ccc;
 
-@mixin center-with-spacing {
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
+.select-facade {
+  border: $light-border;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-.multi-select-container {
-  .main-label {
-    white-space: nowrap;
+.action-item:hover {
+  cursor: pointer;
+  background-color: $selected-item-light-background-color;
+}
+
+.selections-summary {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.selections-container {
+  border: $light-border;
+  box-shadow: 2px 2px 2px 1px rgba(93, 93, 98, 0.2);
+  background-color: #fff;
+  z-index: 200;
+  position: absolute;
+  width: calc(100% - 30px);
+}
+
+.pf-append-icon {
+  background-color: white !important;
+  border-left: 0;
+}
+
+.pf-prepend-icon {
+  color: $pf-brand-secondary-color !important;
+  background-color: white !important;
+  border-right: 0;
+}
+
+.pf-search-input {
+  border-right: 0;
+  border-left: 0;
+}
+
+button.clear-selections {
+  color: $pf-brand-secondary-color;
+}
+
+button.clear-selections:disabled {
+  border-color: #ccc;
+  color: black;
+}
+
+input[type=text] {
+  &::-ms-clear {
+    display: none;
   }
-  a {
-    color: inherit;
-    .select-facade {
-      border: $light-border;
-      width: 140px;
-      padding: .4rem .25rem;
-      label {
-        width: 85%;
-        vertical-align: -4px;
-      }
-      .fa-angle-down {
-        color: $link-color;
-        font-size: 1.2rem;
-      }
+}
+
+.checkbox-container {
+  overflow: auto;
+  z-index: 200;
+
+  .checkbox-label {
+    transition: background-color .2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $selected-item-light-background-color;
+      text-overflow: clip;
+      white-space: normal;
+      word-break: keep-all;
+      color: black;
+    }
+
+    input[type=checkbox] {
+      vertical-align: -2px;
+      cursor: pointer;
     }
   }
-  .selections-container {
-    border: $light-border;
-    box-shadow: 2px 2px 2px 1px rgba(93, 93, 98, 0.2);
-    z-index: 200;
-    background-color: #fff;
-    .loading {
-      width: 300px;
-    }
-    .fa-search {
-      font-size: 18px;
-      position: relative;
-      left: 1rem;
-      top: .5rem;
-      z-index: 100;
-      margin-top: 6px;
-      color: #0099cc;
-    }
-    input[type=text] {
-      @include center-with-spacing();
-      padding-left: 30px;
-      &+ a {
-        right: 1rem;
-        top: 1rem;
-      }
-      &::-ms-clear {
-        display: none;
-      }
-    }
-    button.clear-selections {
-      @include center-with-spacing();
-      color: #fff;
-      background-color: $pf-brand-secondary-color;
-    }
-    .checkbox-container {
-      width: 200px;
-      max-height: 200px;
-      min-height: 1rem;
-      overflow: auto;
-      .checkbox-label {
-        transition: background-color .2s ease-in-out;
-        cursor: pointer;
-        padding: .38rem 0 .38rem .5rem;
-        &:hover {
-          background-color: #f2f2f2;
-          text-overflow: clip;
-          white-space: normal;
-          word-break: keep-all;
-          color: black;
-        }
-        &.isSelected {
-          background-color: #ccc;
-        }
-        input[type=checkbox] {
-          vertical-align: -2px;
-          cursor: pointer;
-        }
-      }
-      // hide the no results label when it's adjacent to a selectable option
-      .checkbox-label + .no-results {
-        display: none !important;
-      }
-      .highlight{
-        background-color: $pf-brand-secondary-color;
-        color:white;
-      }
-    }
+
+  // hide the no results label when it's adjacent to a selectable option
+  .checkbox-label+.no-results {
+    display: none !important;
+  }
+
+  .highlight {
+    background-color: $selected-item-light-background-color;
+  }
+
+  .highlight:hover {
+    opacity: .7;
   }
 }

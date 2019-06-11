@@ -27,6 +27,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   @Input() placeholderText = 'Search...';
   @Input() delay = PfConstants.DEBOUNCE_DELAY;
   @Input() hideClearBtn = false;
+  @Input() prependIcon = '';
   @Input() distinctUntilChanged = false;
   @Input() focus = false;
   @Input() showing = true;
