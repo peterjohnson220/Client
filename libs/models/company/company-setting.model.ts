@@ -9,7 +9,6 @@ export enum CompanySettingsEnum {
   CommunityReplyLimit = 'CommunityReplyLimit',
   MaxProjectJobCount = 'MaxProjectJobCount',
   ProjectJobCount = 'ProjectJobCount',
-  CommunitySearchBar = 'CommunitySearchBar',
   PasswordExpirationEnabled = 'PasswordExpirationEnabled',
   PasswordHistoryEnabled = 'PasswordHistoryEnabled',
   PasswordExpirationDays = 'PasswordExpirationDays',

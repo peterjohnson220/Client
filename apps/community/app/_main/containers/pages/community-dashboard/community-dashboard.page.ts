@@ -9,8 +9,6 @@ import * as  fromCommunityPostActions from '../../../actions/community-post.acti
 import { CommunityPostsComponent } from '../../community-posts';
 import { CommunityConstants } from '../../../models';
 import { BrowserDetectionService } from 'libs/core/services';
-import { SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum } from 'libs/models/company';
 import { Router } from '@angular/router';
 
 declare var InitializeUserVoice: any;
@@ -60,11 +58,9 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   postsChangedObserver: any;
   targetNode: any;
   observerOptions: any;
-  showSearchBar: boolean;
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
               private browserDetectionService: BrowserDetectionService,
-              private settingsService: SettingsService,
               private router: Router) {
 
     this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
@@ -192,8 +188,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   // Lifecycle events
   ngOnInit() {
-    this.settingsService.selectCompanySetting<string>(CompanySettingsEnum.CommunitySearchBar, 'string')
-      .subscribe(setting => this.showSearchBar = setting === 'true');
 
     this.targetNode = document.querySelector(`#${this.COMMUNITY_POSTS_CONTAINER_ID}`);
     this.observerOptions = {
