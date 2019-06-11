@@ -3,13 +3,14 @@ import { Observable } from 'rxjs';
 
 import { FileRestrictions } from '@progress/kendo-angular-upload';
 
+import { isNullOrUndefined } from 'libs/core/functions/';
+
 import {
   DATE_FORMATS,
   ORG_DATA_CLIENTFIELDS_INDEX_RESET,
   ORG_DATA_REMOVE_URL,
   ORG_DATA_UPLOAD_URL
 } from '../../constants';
-
 
 import { LoaderType } from '../../constants/loader-type.enum';
 
@@ -19,7 +20,6 @@ import {
   LoaderEntityStatus,
   FilenamePattern
 } from '../../models';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'pf-field-mapper',
