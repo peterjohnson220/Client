@@ -42,9 +42,16 @@ describe('CommunityAvatarComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should display CompanyLogoSource if AvatarSource === default_user.png and CompanyLogoSource !== null', () => {
+    instance.AvatarSource = 'default_user.png';
+    instance.CompanyLogoSource = 'companyLogo.png';
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should display default avatar if AvatarSource === default_user.png', () => {
     instance.AvatarSource = 'default_user.png';
-
+    instance.CompanyLogoSource = null;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
