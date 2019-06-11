@@ -10,6 +10,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
   isExchangeActive$={[Function Store]}
   isValidExchange$={[Function Store]}
   isValidExchangeSubcription={[Function Subscriber]}
+  loadingExchange$={[Function Store]}
   store={[Function Store]}
   totalExchangeAccessRequests$={[Function Store]}
   totalExchangeCompanies$={[Function Store]}
@@ -22,6 +23,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
   <pf-page-with-title-bar>
     
      Manage Exchange - Mock Exchange 
+    
     
     <div
       class="switch-wrapper disabled"
