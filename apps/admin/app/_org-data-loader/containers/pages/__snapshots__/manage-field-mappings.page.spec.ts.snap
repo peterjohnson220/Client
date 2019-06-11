@@ -7,6 +7,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
   delimiter=""
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -37,6 +38,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   selectedCompany={[Function Number]}
+  sftpDomainConfig$={[Function Store]}
+  sftpPortConfig$={[Function Store]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
@@ -226,6 +229,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete="false"
@@ -256,6 +260,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   selectedCompany={[Function Number]}
+  sftpDomainConfig$={[Function Store]}
+  sftpPortConfig$={[Function Store]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
@@ -445,6 +451,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -475,6 +482,8 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   selectedCompany={[Function Number]}
+  sftpDomainConfig$={[Function Store]}
+  sftpPortConfig$={[Function Store]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
@@ -663,6 +672,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -693,6 +703,8 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   selectedCompany="undefined"
+  sftpDomainConfig$={[Function Store]}
+  sftpPortConfig$={[Function Store]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
@@ -786,6 +798,7 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -817,6 +830,8 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
   saveMappingsSuccess$={[Function Store]}
   saveMessage=""
   selectedCompany={[Function Number]}
+  sftpDomainConfig$={[Function Store]}
+  sftpPortConfig$={[Function Store]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
@@ -1005,6 +1020,7 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -1036,6 +1052,8 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
   saveMappingsSuccess$={[Function Store]}
   saveMessage={[Function String]}
   selectedCompany={[Function Number]}
+  sftpDomainConfig$={[Function Store]}
+  sftpPortConfig$={[Function Store]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
@@ -1223,6 +1241,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -1253,6 +1272,8 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   selectedCompany={[Function Number]}
+  sftpDomainConfig$={[Function Store]}
+  sftpPortConfig$={[Function Store]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}

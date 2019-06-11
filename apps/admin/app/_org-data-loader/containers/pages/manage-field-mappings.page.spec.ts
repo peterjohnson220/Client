@@ -14,7 +14,8 @@ import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-m
 import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
 import { ManageFieldMappingsPageComponent } from './manage-field-mappings.page';
 import { LoaderEntityStatus } from '../../models/loader-entity-status.model';
-import { CompanyAdminModule } from 'apps/admin/app/_company-admin/company-admin.module';
+import { LoaderType } from '../../constants/loader-type.enum';
+import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 
 describe('ManageFieldMapperPageComponent', () => {
   let component: ManageFieldMappingsPageComponent;
@@ -32,11 +33,10 @@ describe('ManageFieldMapperPageComponent', () => {
       ],
       declarations: [ ManageFieldMappingsPageComponent ],
       providers: [
-        {
-          provide: LoaderFieldMappingsApiService
-        }
+        ConfigSettingsSelectorFactory,
+        { provide: LoaderFieldMappingsApiService },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
       .compileComponents();
   }));
@@ -128,7 +128,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and no paymarket mapping exists yet', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'PayMarkets',
+      loaderType: LoaderType.PayMarkets,
       mappings: ['Paymarket__Paymarket'],
     };
     component.mappings = [];
@@ -137,7 +137,7 @@ describe('ManageFieldMapperPageComponent', () => {
     fixture.detectChanges();
 
     const expectedValue: MappingModel = {
-      LoaderType: 'PayMarkets',
+      LoaderType: LoaderType.PayMarkets,
       Mappings: ['Paymarket__Paymarket']
     };
 
@@ -148,7 +148,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and a paymarket mapping exists', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'PayMarkets',
+      loaderType: LoaderType.PayMarkets,
       mappings: ['Country__Country Code'],
     };
     component.mappings = [{LoaderType: 'PayMarkets', Mappings: ['Paymarket__Paymarket']}];
@@ -157,7 +157,7 @@ describe('ManageFieldMapperPageComponent', () => {
     fixture.detectChanges();
 
     const expectedValue: MappingModel = {
-      LoaderType: 'PayMarkets',
+      LoaderType: LoaderType.PayMarkets,
       Mappings: ['Country__Country Code']
     };
 
@@ -168,7 +168,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and no job mapping exists yet', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'Jobs',
+      loaderType: LoaderType.Jobs,
       mappings: ['Job_Code__Job Code'],
     };
     component.mappings = [];
@@ -177,7 +177,7 @@ describe('ManageFieldMapperPageComponent', () => {
     fixture.detectChanges();
 
     const expectedValue: MappingModel = {
-      LoaderType: 'Jobs',
+      LoaderType: LoaderType.Jobs,
       Mappings: ['Job_Code__Job Code']
     };
 
@@ -188,7 +188,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and a job mapping exists', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'Jobs',
+      loaderType: LoaderType.Jobs,
       mappings: ['Job_Title__Job Title'],
     };
     component.mappings = [{LoaderType: 'Jobs', Mappings: ['Job_Code__Job Code']}];
@@ -208,7 +208,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and no structure mapping exists yet', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'Structures',
+      loaderType: LoaderType.Structures,
       mappings: ['Structure_Code__Structure Code'],
     };
     component.mappings = [];
@@ -228,7 +228,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and a structure mapping exists', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'Structures',
+      loaderType: LoaderType.Structures,
       mappings: ['Grade_Code__Grade Code'],
     };
     component.mappings = [{LoaderType: 'Structures', Mappings: ['Structure_Code__Structure Code']}];
@@ -248,7 +248,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and no structuremapping mapping exists yet', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'StructureMapping',
+      loaderType: LoaderType.StructureMapping,
       mappings: ['Job_Code__Job Code'],
     };
     component.mappings = [];
@@ -268,7 +268,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and a structuremapping mapping exists', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'StructureMapping',
+      loaderType: LoaderType.StructureMapping,
       mappings: ['Structure_Code__Structure Code'],
     };
     component.mappings = [{LoaderType: 'StructureMapping', Mappings: ['Job_Code__Job Code']}];
@@ -288,7 +288,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and no employee mapping exists yet', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'Employees',
+      loaderType: LoaderType.Employees,
       mappings: ['Base__Salary'],
     };
     component.mappings = [];
@@ -308,7 +308,7 @@ describe('ManageFieldMapperPageComponent', () => {
     'and an employee mapping exists', () => {
     const evt: LoaderEntityStatus = {
       complete: true,
-      loaderType: 'Employees',
+      loaderType: LoaderType.Employees,
       mappings: ['First_Name__First Name'],
     };
     component.mappings = [{LoaderType: 'Employees', Mappings: ['Base__Salary']}];
