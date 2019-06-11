@@ -25,6 +25,6 @@ export class DataLoadEmailRecipientsApiService {
   }
 
   deleteRecipient(recipient: EmailRecipientModel) {
-    return this.payfactorsApiService.delete<EmailRecipientModel>(`${this.endpoint}(${recipient.DataLoadEmailRecipientId})`, recipient);
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.Delete`, {recipient: recipient});
   }
 }
