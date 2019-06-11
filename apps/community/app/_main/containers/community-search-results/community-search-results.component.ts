@@ -40,7 +40,9 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   lastScrollTop = 0;
 
   pollType = CommunitySearchResultTypeEnum.Poll;
-  replyType = CommunitySearchResultTypeEnum.Reply;
+  discussionType = CommunitySearchResultTypeEnum.Discussion;
+  discussionReplyType = CommunitySearchResultTypeEnum.Reply;
+  podcastType = CommunitySearchResultTypeEnum.Podcast;
 
   constructor(public store: Store<fromCommunitySearchReducer.State>) {
 
@@ -82,7 +84,7 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   }
 
   openDetailsModal(result) {
-      this.store.dispatch(new fromCommunitySearchActions.OpenSearchResultModal(result.CommunityPostId));
+      this.store.dispatch(new fromCommunitySearchActions.OpenSearchResultModal(result.Details.CommunityPostId));
   }
 
   trackByFn(index, item) {
@@ -148,9 +150,5 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     this.sendBackToTop = true;
     this.scrollToTop();
     this.resetInfiniteScroll();
-  }
-
-  getSearchResultType(post: any): CommunitySearchResultTypeEnum {
-    return post.CommunityContent.Responses ? CommunitySearchResultTypeEnum.Poll : CommunitySearchResultTypeEnum.Discussion;
   }
 }

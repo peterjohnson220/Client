@@ -19,23 +19,24 @@
         <div class="col-12">
           <pf-community-search-result-header [companyName]="result.CompanyName"
                                              [elapsedTime]="result.ElapsedTime"
-                                             [type]=getSearchResultType(result)
-                                             [pollExpirationDate]="result.CommunityContent.ExpirationDate"></pf-community-search-result-header>
-          <pf-community-search-result-content [content]="result.Content"
-                                              [searchTerm]="query"
-                                              [pollResponses]="result.CommunityContent.Responses"></pf-community-search-result-content>
-          <div *ngIf="getSearchResultType(result) != pollType" class="footer-container">
-            <span><fa-icon icon="heart"></fa-icon> {{result.LikeCount}} Likes</span>
-            <span class="ml-1"> Replies ({{result.ReplyCount}})</span>
+                                             [type]="result.Type"
+                                             [pollExpirationDate]="result.Details.ExpirationDate"></pf-community-search-result-header>
+          <pf-community-search-result-content [details]="result.Details"
+                                              [type]="result.Type"
+                                              [searchTerm]="query"></pf-community-search-result-content>
+          <div *ngIf="result.Type == discussionType || result.Type == discussionReplyType" class="footer-container">
+            <span><fa-icon icon="heart"></fa-icon> {{result.Details.LikeCount}} Likes</span>
+            <span class="ml-1"> Replies ({{result.Details.ReplyCount}})</span>
           </div>
-          <div class="pl-3 pt-3" *ngFor="let reply of result.Replies">
+          <div class="pl-3 pt-3" *ngFor="let reply of result.Details.Replies">
             <pf-community-search-result-header class="my-0"
-              [type]="replyType"
+              [type]="discussionReplyType"
               [companyName]="reply.CompanyName"
               [elapsedTime]="reply.ElapsedTime">
             </pf-community-search-result-header>
-              <pf-community-search-result-content 
-              [content]="reply.Content"
+            <pf-community-search-result-content
+              [type]="discussionReplyType"
+              [details]="reply"
               [searchTerm]="query">
             </pf-community-search-result-content>
           </div>

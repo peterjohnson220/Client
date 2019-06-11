@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 
 @Component({
   selector: 'pf-community-search-result-content',
@@ -7,9 +8,21 @@ import { Component, Input } from '@angular/core';
 })
 export class CommunitySearchResultContentComponent {
 
-  @Input() content: string;
+  @Input() type = CommunitySearchResultTypeEnum.Discussion;
+  @Input() details: any;
   @Input() searchTerm: string;
-  @Input() pollResponses: any;
+
   constructor() { }
+
+  getContentText(): string {
+    if (this.type === CommunitySearchResultTypeEnum.Discussion ||
+      this.type === CommunitySearchResultTypeEnum.Reply) {
+      return this.details.Content;
+    } else if (this.type === CommunitySearchResultTypeEnum.Poll) {
+      return this.details.Question;
+    } else if (this.type === CommunitySearchResultTypeEnum.Podcast) {
+      return this.details.Title;
+    }
+  }
 
 }
