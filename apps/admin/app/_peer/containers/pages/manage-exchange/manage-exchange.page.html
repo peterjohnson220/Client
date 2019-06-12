@@ -5,6 +5,7 @@
   </ng-container>
   <ng-container page-actions>
     <div class="switch-wrapper"
+         *ngIf="!(loadingExchange$ | async)"
          [class.disabled]="!(canToggleExchangeStatus$ | async)"
          (click)="handleSwitchToggled()">
       <kendo-switch class="k-switch-lg"
