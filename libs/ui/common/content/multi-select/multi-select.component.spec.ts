@@ -79,7 +79,7 @@ describe('UI/Common/Content - Multi Select', () => {
 
     fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+    expect(fixture).  toMatchSnapshot();
   });
 
   it('should emit when the select facade is clicked', () => {
@@ -87,7 +87,7 @@ describe('UI/Common/Content - Multi Select', () => {
 
     component.isExpanded = true;
     component.isLoading = false;
-    const selectFacade = fixture.debugElement.nativeElement.querySelector('a');
+    const selectFacade = fixture.debugElement.nativeElement.querySelector('.select-facade');
     selectFacade.click();
 
     fixture.detectChanges();

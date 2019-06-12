@@ -35,3 +35,9 @@ $primary-button-focus: #1F2F3D;
 .text-pre {
   white-space: pre;
 }
+
+// Hack for Elippses in Flexbox. We need to apply min-width: 0 to all parent flexboxes
+// https://stackoverflow.com/questions/38223879/white-space-nowrap-breaks-flexbox-layout
+.flex-grow-1 {
+  min-width: 0 !important;
+}
