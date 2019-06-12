@@ -9,6 +9,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
 import { GridTypeEnum } from 'libs/models';
+import { CompanyJob } from 'libs/models/company';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as companyJobsActions from '../../actions/company-jobs.actions';
@@ -28,11 +29,17 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
   loadingGrid$: Observable<boolean>;
   loadingGridError$: Observable<boolean>;
   loadingGridErrorMessage$: Observable<string>;
+  selectedCompanyJob$: Observable<CompanyJob>;
 
   allSubscriptions: Subscription = new Subscription();
 
   companyJobsGridState: State;
   gridFilter: CompositeFilterDescriptor;
+  pageRowIndexToScrollTo: number;
+  selectedCompanyJob: CompanyJob;
+
+  // only highlight the selected row if we a) have a job selected, and b) the row's CompanyJob matches the one selected
+  public isRowSelected = (e: any) => this.selectedCompanyJob && e.dataItem.CompanyJobId === this.selectedCompanyJob.CompanyJobId;
 
   constructor(private store: Store<companyJobsReducer.State>) { }
 
@@ -42,6 +49,7 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
     this.loadingGrid$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsLoading));
     this.loadingGridError$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsLoadingError));
     this.loadingGridErrorMessage$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsLoadingErrorMessage));
+    this.selectedCompanyJob$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsSelectedCompanyJob));
 
     this.allSubscriptions.add(this.companyJobsGridState$.subscribe(gridState => {
       this.companyJobsGridState = cloneDeep(gridState);
@@ -49,6 +57,14 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
 
     this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsGridState)).subscribe(gridState => {
       this.gridFilter = gridState.filter;
+    }));
+
+    this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsPageRowIndexToScrollTo)).subscribe(pageRowIndex => {
+      this.pageRowIndexToScrollTo = pageRowIndex;
+    }));
+
+    this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsSelectedCompanyJob)).subscribe(selectedCompanyJob => {
+      this.selectedCompanyJob = selectedCompanyJob;
     }));
 
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
@@ -67,6 +83,20 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
+  }
+
+  handleCellClick({ dataItem, rowIndex }) {
+    // bail if user selects currently selected job again to prevent fast clicks all sending xhrs
+    if (this.selectedCompanyJob && this.selectedCompanyJob.CompanyJobId === dataItem.CompanyJobId) {
+      return;
+    }
+
+    const pageRowIndex = rowIndex - this.companyJobsGridState.skip;
+    this.store.dispatch(new companyJobsActions.UpdatePageRowIndexToScrollTo(pageRowIndex));
+    this.store.dispatch(new companyJobsActions.LoadMappedExchangeJobs(dataItem.CompanyJobId));
+
+    // need to wait a turn here so the scroll directive can run as enabled before the indicator to disable (a company job) is set
+    setTimeout(() => this.store.dispatch(new companyJobsActions.SetSelectedCompanyJob(dataItem)), 0);
   }
 
   reloadGrid() {

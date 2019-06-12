@@ -1,1 +1,5 @@
 @import 'kendo-grid';
+
+.company-jobs-grid-container {
+  transition: height .4s ease-in-out;
+}

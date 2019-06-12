@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CompanyJobAndExchangeDetailComponent should render a close link plus the company job and exchange job detail panels 1`] = `
+<pf-company-job-and-exchange-detail
+  jdmDescriptionIds$={[Function Store]}
+  jdmDescriptionLoading$={[Function Store]}
+  jdmDescriptionLoadingError$={[Function Store]}
+  mappedExchangeJob$={[Function Store]}
+  mappedExchangeJobsLoading$={[Function Store]}
+  mappedExchangeJobsLoadingError$={[Function Store]}
+  mappedExchangeJobsLoadingSuccess$={[Function Store]}
+  selectedCompanyJob$={[Function Store]}
+  store={[Function Store]}
+>
+  <section
+    class="card mb-2"
+  >
+    <div
+      class="card-header"
+    >
+      <h6
+        class="text-uppercase mb-0"
+      >
+        Company Job and Exchange
+      </h6>
+    </div>
+    <a
+      class="close-panel mr-3 mt-1"
+      href="javascript:void(0)"
+      title="Close"
+    >
+      <fa-icon
+        icon="times"
+      />
+    </a>
+    <div
+      class="d-flex"
+    >
+      <div
+        class="w-50 p-3"
+      >
+        <pf-company-job-detail />
+      </div>
+      <fa-icon
+        icon="exchange"
+      />
+      <div
+        class="w-50 p-3"
+      >
+        <pf-exchange-job-detail />
+      </div>
+    </div>
+  </section>
+</pf-company-job-and-exchange-detail>
+`;

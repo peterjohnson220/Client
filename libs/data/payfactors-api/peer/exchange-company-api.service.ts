@@ -11,6 +11,7 @@ import {
   RequestExchangeRequest, ExchangeRequestCandidatesRequest,
   SaveExchangeJobAssociationRequestModel, GetExchangeCompanyJobsAllEntityIdsRequest, AggregateGridDataResult
 } from '../../../models';
+import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 import { GenericMenuItem } from 'libs/models/common';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -62,6 +63,11 @@ export class ExchangeCompanyApiService {
       },
       MappingHelper.mapListAreaResultToAggregateGridDataResult
     );
+  }
+
+  getAssociatedExchangeJobs(companyJobId: number): Observable<ExchangeJob[]> {
+    const params = { params: { companyJobId } };
+    return this.payfactorsApiService.get<ExchangeJob[]>(`${this.endpoint}/GetAssociatedExchangeJobs`, params);
   }
 
   getExchangeJobComparisonList(exchangeId: number, listState: any): Observable<GridDataResult> {

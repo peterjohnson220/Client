@@ -2,16 +2,60 @@
 @import 'peer/peer-colors';
 @import 'common/common-variables';
 
-// hide the border between the association color column and the company job title column
-.company-jobs-grid-container .k-grid th.k-header:nth-of-type(2) {
-  border-left: 0;
-}
+pf-company-jobs-grid {
+  // hide the header border between the association color column and the company job title column
+  .k-grid th.k-header:nth-of-type(2) {
+    border-left: 0;
+  }
+  .k-grid-content .show-tooltip {
+    @extend %ellipsis-overflowing-text;
+  }
+  .association-status {
+    display: inline-block;
+    width: 100%;
+    height: 34px;
+    margin-left: -4px;
+    transition: background-color .4s ease-in-out;
+    &.associated {
+      background-color: $associated;
+    }
+    &.not-associated {
+      background-color: $not-associated;
+    }
+  }
 
-.company-jobs-grid-container .k-grid-content .show-tooltip {
-  @extend %ellipsis-overflowing-text;
-}
-
-.company-jobs-grid-container .loading-blanket + .k-grid .k-grid-norecords {
   // hide No records msg when loading, needs to be hidden vs display: none since the scroll directive uses it as a height benchmark 
-  visibility: hidden;
+  .loading-blanket + .k-grid .k-grid-norecords {
+    visibility: hidden;
+  }
+}
+
+pf-company-job-and-exchange-detail {
+  svg.fa-exchange {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 170px;
+    opacity: .03;
+    pointer-events: none;
+    // show through loading container's blanket
+    z-index: 200;
+  }
+  pf-company-job-detail, pf-exchange-job-detail {
+    .job-description, .exchange-job-description {
+      h6.primary-header {
+        font-weight: 500;
+      }
+      h6 {
+        margin-top: .75rem;
+        font-weight: 400;
+        opacity: .9;
+        svg {
+          margin-right: .5rem;
+          opacity: .8;
+          font-size: 15px;
+        }
+      }
+    }
+  }
 }
