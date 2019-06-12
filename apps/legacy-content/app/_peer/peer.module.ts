@@ -6,6 +6,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+import * as fromFaIcons from './fa-icons';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -49,6 +53,7 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     ]),
     NgbPopoverModule,
     DropDownsModule,
+    FontAwesomeModule,
 
     // Routing
     PeerRoutingModule,
@@ -77,4 +82,8 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     WindowCommunicationService, DojGuidelinesService, CompanyJobApiService
   ]
 })
-export class PeerModule { }
+export class PeerModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}
