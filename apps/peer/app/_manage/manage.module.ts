@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -8,7 +9,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { HttpClientModule } from '@angular/common/http';
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
@@ -20,7 +21,9 @@ import {
   ExchangeJobMappingPageComponent, ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
   PayfactorsJobSelectionFormComponent, DeleteMappingConfirmationModalComponent
 } from './containers';
-import { ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects } from './effects';
+import {
+  ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects, CompanyJobsEffects
+} from './effects';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService, } from './services';
 import { ManageRoutingModule } from './manage-routing.module';
@@ -30,6 +33,7 @@ import { BoolFilterComponent } from 'libs/extensions/kendo/boolfilter/bool-filte
 import {
   AssociationImportModalComponent
 } from './containers/pages/exchange-job-mapping/association-import-modal/association-import-modal.component';
+import { CompanyJobsGridComponent } from './containers/company-jobs-grid/company-jobs-grid.component';
 
 @NgModule({
   imports: [
@@ -37,16 +41,18 @@ import {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
 
     // 3rd party
     GridModule,
     StoreModule.forFeature('peer_manage', reducers),
     EffectsModule.forFeature([
-      ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects
+      ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects, CompanyJobsEffects
     ]),
     DropDownsModule,
     NgbCarouselModule,
-    HttpClientModule, UploadModule,
+    UploadModule,
+    TooltipModule,
 
     // Routing
     ManageRoutingModule,
@@ -64,7 +70,7 @@ import {
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobSelectionFormComponent,
     RequestJobModalComponent, NewJobFormComponent, DeleteMappingConfirmationModalComponent,
-    AssociationImportModalComponent,
+    AssociationImportModalComponent, CompanyJobsGridComponent,
 
     // Pages
     ExchangeJobMappingPageComponent,

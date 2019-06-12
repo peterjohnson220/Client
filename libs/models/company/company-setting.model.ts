@@ -2,6 +2,7 @@ export enum CompanySettingsEnum {
   SurveySearchIntegration = 'SurveySearchIntegration',
   PeerTermsAndConditionsRequested = 'PeerTermsAndConditionsRequested',
   PeerTermsAndConditionsAccepted = 'PeerTermsAndConditionsAccepted',
+  PeerManageShowCompanyJobs = 'PeerManageShowCompanyJobs',
   RestrictSurveySearchCountryFilterToPayMarket = 'RestrictSurveySearchCountryFilterToPayMarket',
   MultiMatchSearchIntegration = 'MultiMatchSearchIntegration',
   AddJobsSearchIntegration = 'AddJobsSearchIntegration',
