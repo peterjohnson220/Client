@@ -14,6 +14,6 @@ export function generateMockCompanyJob(): CompanyJob {
     JobCode: 'jobCode',
     JobDescription: 'JobDescription',
     JobFamily: 'JobFamily',
-    IsAssociated: true,
+    IsAssociated: true
   };
 }
