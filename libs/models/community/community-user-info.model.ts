@@ -5,6 +5,7 @@ export interface CommunityUserInfo {
   UserLastName: string;
   CompanyName: string;
   AvatarSource: string;
+  CompanyLogoSource: string;
 }
 
 export function generateMockCommunityUserInfo(): CommunityUserInfo {
@@ -14,6 +15,7 @@ export function generateMockCommunityUserInfo(): CommunityUserInfo {
     UserFirstName:  'Testfirstname',
     UserLastName: 'Testlastname',
     CompanyName: 'Company Name',
-    AvatarSource: 'Avatar Source'
+    AvatarSource: 'Avatar Source',
+    CompanyLogoSource: 'Company Logo Source'
   };
 }
