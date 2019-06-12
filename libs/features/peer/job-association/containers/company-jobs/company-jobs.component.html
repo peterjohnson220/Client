@@ -1,11 +1,11 @@
 <h2 class="text-center mb-3">Company Jobs</h2>
 <div class="filters position-relative d-flex mt-2 mb-2">
-  <fa-icon icon="search" class="search-icon position-absolute"></fa-icon>
   <pf-input-debounce
     [id]="'company-jobs-search-box'"
     [delay]="400"
     [placeholderText]="'Search job title or job code'"
-    (valueChanged)="handleSearchBoxValueChanged($event)">
+    (valueChanged)="handleSearchBoxValueChanged($event)"
+    [prependIcon]="'search'">
   </pf-input-debounce>
 </div>
 <div>

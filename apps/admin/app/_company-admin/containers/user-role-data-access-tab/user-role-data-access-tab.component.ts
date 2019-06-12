@@ -1,11 +1,9 @@
-import {Component} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
-
-import { RoleDataRestriction, DataType, UserAssignedRole} from 'libs/models/security/roles';
-
-import * as userRoleReducer from '../../reducers';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { DataType, RoleDataRestriction, UserAssignedRole } from 'libs/models/security/roles';
 import * as fromRoleDataTabActions from '../../actions/data-access-tab.action';
+import * as userRoleReducer from '../../reducers';
 
 @Component({
   selector: 'pf-user-role-data-access-tab',
@@ -32,7 +30,7 @@ export class UserRoleDataAccessTabComponent {
   }
 
   addDataRestriction(dataType: DataType) {
-       this.store.dispatch(new fromRoleDataTabActions.AddNewDataRestriction(dataType));
+    this.store.dispatch(new fromRoleDataTabActions.AddNewDataRestriction(dataType));
   }
   trackByFn(index, item: RoleDataRestriction) {
     return item.Id;

@@ -1,35 +1,45 @@
-<div class="multi-select-container"  pfClickElsewhere (clickElsewhere)="clickElsewhere()">
-  <div class="d-flex">
-    <label class="main-label mr-2 pt-2">{{ labelText }}</label>
-    <div class="d-inline-block">
-      <a href="javascript:void(0)" (click)="toggleCheckboxPanel()" class="text-decoration-none">
-        <span class="select-facade d-inline-block rounded">
-          <label class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2" [ngbTooltip]="getSelectionsString()">
-            {{ getSelectionsString() }}
-          </label>
-          <fa-icon icon="angle-down" class="d-inline-block ml-2"></fa-icon>
-        </span>
-      </a>
+<div class="multi-select-container" pfClickElsewhere (clickElsewhere)="clickElsewhere()">
+  <div class="selections-summary row align-items-center">
+    <div *ngIf="labelText" class="main-label mr-2">{{ labelText }}</div>
+    <div class="select-facade action-item rounded form-control d-flex col pr-4" (click)="toggleCheckboxPanel()">
+      <span class="ellipsis-overflowing-text pr-0" [ngbTooltip]="getSelectionsString()"
+        container="body">{{getSelectionsString()}}</span>
+      <span class="position-absolute" style="right: 0.375rem">
+        <!-- This icon is consistent with kendoUI dropdown carets. Fontawesome caret icons are different from KendoUI carets -->
+        <i class="k-i-arrow-s k-icon"></i>
+      </span>
     </div>
   </div>
-  <div *ngIf="isExpanded" class="selections-container position-absolute">
+  <div *ngIf="isExpanded" class="selections-container d-flex flex-column">
     <span *ngIf="isLoading" class="loading d-block mt-2 mb-2 text-center">
       <pf-loading-indicator></pf-loading-indicator>
     </span>
     <div *ngIf="!(isLoading)">
-      <fa-icon icon="search" class="fa-search-icon position-absolute"></fa-icon>
-      <input type="text" [(ngModel)]="searchTerm" class="form-control d-block mt-2" placeholder="Search" />
-      <a href="javascript:void(0)" (click)="clearSearchTerm()" class="position-absolute text-muted">
-        <fa-icon icon="times"></fa-icon>
-      </a>
-      <button [disabled]="!hasSelections()" (click)="clearSelections()" class="clear-selections btn d-block mt-2 mb-2">Clear Selections</button>
-      <div class="checkbox-container" (change)="emitChanges()">
-        <ng-container *ngFor="let option of options; trackBy: trackByFn; let i=index;" >
-          <label  class="checkbox-label d-block ellipsis-overflowing-text m-0" *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1" [ngClass]="highlightSelected && option.IsSelected? 'highlight' :''">
-            <input type="checkbox" [(ngModel)] = "option.IsSelected"  class="mr-1">{{ option.DisplayName }}
+      <div class="input-group p-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text pf-prepend-icon"><fa-icon icon="search" size="lg" aria-hidden="true"></fa-icon></span>
+        </div>
+        <input type="text" [(ngModel)]="searchTerm" class="form-control d-block pf-search-input" placeholder="Search..." />
+        <div class="input-group-append action-item" (click)="clearSearchTerm()">
+          <span class="input-group-text pf-append-icon"><fa-icon icon="times" aria-hidden="true"></fa-icon></span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-start mx-2 mb-2">
+        <button [disabled]="!hasSelections()" (click)="clearSelections()" class="btn btn-secondary clear-selections">
+          Clear Selections
+        </button>
+      </div>
+      <div class="checkbox-container" (change)="emitChanges()" [style.height.px]="selectionsHeight()">
+        <ng-container *ngFor="let option of filteredOptions(); trackBy: trackByFn; let i=index;">
+          <label class="checkbox-label d-block ellipsis-overflowing-text m-0 p-2"
+            *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1"
+            [ngClass]="highlightSelected && option.IsSelected? 'highlight' :''">
+            <input type="checkbox" [(ngModel)]="option.IsSelected" class="mr-1">{{ option.DisplayName }}
           </label>
         </ng-container>
-        <label class="no-results font-italic text-center d-block">No Results Found</label>
+        <label *ngIf="filteredOptions().length === 0" class="no-results font-italic text-center d-block">
+          No Results Found
+        </label>
       </div>
     </div>
   </div>

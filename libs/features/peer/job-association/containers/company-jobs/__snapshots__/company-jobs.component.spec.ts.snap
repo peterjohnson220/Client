@@ -34,10 +34,6 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
   </h2><div
     class="filters position-relative d-flex mt-2 mb-2"
   >
-    <fa-icon
-      class="search-icon position-absolute"
-      icon="search"
-    />
     <pf-input-debounce
       id="company-jobs-search-box"
     />

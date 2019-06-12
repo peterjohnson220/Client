@@ -46,28 +46,24 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   >
     Peer Exchange Jobs
   </h2><div
-    class="filters position-relative d-flex flex-wrap mt-2 mb-2"
+    class="filters position-relative row mt-2 mb-2"
   >
     <div
-      class="mb-2"
+      class="mb-2 col filter-el"
     >
-      <fa-icon
-        class="search-icon position-absolute"
-        icon="search"
-      />
       <pf-input-debounce
         id="exchange-jobs-search-box"
       />
     </div>
     <div
-      class="ml-3 mb-2"
+      class="mb-2 col filter-el"
     >
       <pf-multi-select
         data-qa-id="ddm-job-family-filter"
       />
     </div>
     <div
-      class="ml-3 mb-2"
+      class="mb-2 col filter-el"
     >
       <pf-multi-select
         data-qa-id="ddm-exchange-filter"

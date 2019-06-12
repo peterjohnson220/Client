@@ -13,9 +13,11 @@
        [maxlength]="maxLength"
        [ngClass]="automationClassName"
        [attr.data-qa-id]="'txt-'+id">
-<div *ngIf="!hideClearBtn"
-     class="input-group">
-  <input type="text"
+<div *ngIf="!hideClearBtn" class="input-group">
+    <div class="input-group-prepend" *ngIf="prependIcon">
+      <span class="input-group-text"><fa-icon icon="{{prependIcon}}" size="lg" aria-hidden="true"></fa-icon></span>
+    </div>
+    <input type="text"
          class="form-control"
          autocomplete="off"
          [placeholder]="placeholderText"
@@ -30,11 +32,7 @@
          [ngClass]="automationClassName"
          [attr.data-qa-id]="'txt-'+id"
          [style.min-width]="minWidth + 'px'">
-  <div (click)="clearValue()"
-       class="input-group-append"
-       [ngClass]="automationClassName + '-clear'">
-    <span class="input-group-text">
-      <fa-icon icon="times" aria-hidden="true"></fa-icon>
-    </span>
-  </div>
+    <div (click)="clearValue()" class="input-group-append action-item" [ngClass]="automationClassName + '-clear'">
+      <span class="input-group-text"><fa-icon icon="times" aria-hidden="true"></fa-icon></span>
+    </div>
 </div>

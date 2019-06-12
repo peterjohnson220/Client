@@ -25,18 +25,20 @@
             <th class="col-2">Add</th>
           </tr>
           </thead>
-          <tr *ngFor="let user of usersNotInCurrentRole; let idx = index;" [attr.data-qa-id]="idx">
-            <td class="col-2">{{user.FirstName}}</td>
-            <td class="col-2">{{user.LastName}}</td>
-            <td class="col-2">{{user.UserId}}</td>
-            <td class="col-2">{{user.EmailAddress}}</td>
-            <td class="col-2">{{user.RoleName}}</td>
-            <td class="col-2">
-              <button type="button" class="btn btn-secondary add-btn ml-4" (click)="addUserToRole(user)">
-                <i class="fal fa-plus"></i>
-              </button>
-            </td>
-          </tr>
+          <tbody>
+            <tr *ngFor="let user of usersNotInCurrentRole; let idx = index;" [attr.data-qa-id]="idx">
+              <td class="col-2">{{user.FirstName}}</td>
+              <td class="col-2">{{user.LastName}}</td>
+              <td class="col-2">{{user.UserId}}</td>
+              <td class="col-2">{{user.EmailAddress}}</td>
+              <td class="col-2">{{user.RoleName}}</td>
+              <td class="col-2">
+                <button type="button" class="btn btn-secondary add-btn ml-4" (click)="addUserToRole(user)">
+                  <i class="fal fa-plus"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -57,14 +59,16 @@
             <th class="col-2">Last Login</th>
           </tr>
           </thead>
-          <tr *ngFor="let user of usersInSelectedRole; let idx = index;" [attr.data-qa-id]="idx">
-            <td class="col-2">{{user.FirstName}}</td>
-            <td class="col-2">{{user.LastName}}</td>
-            <td class="col-2">{{user.UserId}}</td>
-            <td class="col-2">{{user.EmailAddress}}</td>
-            <td class="col-2">{{user.Title}}</td>
-            <td class="col-2">{{user.LastLogin | date:'short'}}</td>
-          </tr>
+          <tbody>
+            <tr *ngFor="let user of usersInSelectedRole; let idx = index;" [attr.data-qa-id]="idx">
+              <td class="col-2">{{user.FirstName}}</td>
+              <td class="col-2">{{user.LastName}}</td>
+              <td class="col-2">{{user.UserId}}</td>
+              <td class="col-2">{{user.EmailAddress}}</td>
+              <td class="col-2">{{user.Title}}</td>
+              <td class="col-2">{{user.LastLogin | date:'short'}}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>

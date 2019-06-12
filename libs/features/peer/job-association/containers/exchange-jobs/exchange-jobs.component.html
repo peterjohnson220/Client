@@ -1,16 +1,16 @@
 <h2 class="text-center mb-3">Peer Exchange Jobs</h2>
-<div class="filters position-relative d-flex flex-wrap mt-2 mb-2">
-  <div class="mb-2">
-    <fa-icon icon="search" class="search-icon position-absolute"></fa-icon>
-    <pf-input-debounce 
+<div class="filters position-relative row mt-2 mb-2">
+  <div class="mb-2 col filter-el">
+    <pf-input-debounce
       [id]="'exchange-jobs-search-box'"
       [delay]="400"
       [placeholderText]="'Search job title'"
       (valueChanged)="handleJobTitleFilterChanged($event)"
+      [prependIcon]="'search'"
     >
     </pf-input-debounce>
   </div>
-  <div class="ml-3 mb-2">
+  <div class="mb-2 col filter-el">
     <pf-multi-select
       #multiSelectJobFamily
       [attr.data-qa-id]="'ddm-job-family-filter'"
@@ -22,7 +22,7 @@
     >
     </pf-multi-select>
   </div>
-  <div class="ml-3 mb-2">
+  <div class="mb-2 col filter-el">
     <pf-multi-select
       #multiSelectExchange
       [attr.data-qa-id]="'ddm-exchange-filter'"
@@ -65,7 +65,7 @@
             [jobDescription]="selectedExchangeJob.ExchangeJobDescription"
             [jobFamily]="selectedExchangeJob.ExchangeJobFamily"
             [jobExchange]="selectedExchangeJob.ExchangeName"
-            (closeClick)="handleCloseDetailPanel()"        
+            (closeClick)="handleCloseDetailPanel()"
           ></pf-grid-detail-panel>
           <kendo-grid
             [data]="exchangeJobs$ | async"
@@ -92,8 +92,8 @@
           </kendo-grid-column>
           <kendo-grid-column field="ExchangeJobTitle" title="Job Title">
             <ng-template kendoGridCellTemplate let-dataItem>
-              <a href="javascript:void(0)" 
-                (click)="handleExchangeJobClick(dataItem)" 
+              <a href="javascript:void(0)"
+                (click)="handleExchangeJobClick(dataItem)"
                 class="grid-link exchange-job-title"
                 [class.selected]="dataItem.Id === selectedExchangeJob.Id && (isDetailPanelExpanded$ | async)">
                 <div [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm" class="show-tooltip"></div>

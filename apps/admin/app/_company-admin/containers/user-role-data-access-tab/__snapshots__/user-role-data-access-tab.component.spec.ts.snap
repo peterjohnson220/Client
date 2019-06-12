@@ -27,28 +27,70 @@ exports[`UserRoleDataAccessTabComponent should show data access tab on company r
 >
   <div>
     
-    <ul
-      class="list-group nav"
+    <div
+      class="row"
     >
-      
-      <li
-        class="nav-item nav-item parentElement"
+      <div
+        class="col-xl-10 col-12"
       >
-         Test Data type 
-        
-        <ul
-          class="list-group nav"
+        <div
+          class="alert alert-info"
         >
-          
-          <li
-            class="nav-item nf subElement"
+           Create user roles to permit or restrict users from accessing specific data. Users assigned to a role cannot access any data that does not meet the criteria defined below.
+          <br />
+           Select 
+          <span
+            class="text-danger"
+          >
+            Is equal to
+          </span>
+           to allow users access to only data defined in the field and select 
+          <span
+            class="text-danger"
+          >
+            Is not equal to
+          </span>
+           to allow users access to everything except data defined in the field. If there are no restrictions set, users will have access to all data for that entity. 
+        </div>
+      </div>
+      
+      <div
+        class="col-xl-10 col-12"
+      >
+        <div
+          class="d-flex align-items-center pb-2"
+        >
+          <div
+            class="flex-grow-1 mr-4"
+          >
+            <b>
+              Test Data type
+            </b>
+          </div>
+          <div
+            class="action-buttons"
+          >
+            
+          </div>
+        </div>
+        
+        <div
+          class="d-flex align-items-center pb-2"
+        >
+          <div
+            class="flex-grow-1 mr-4"
           >
             <pf-data-field-filter />
+          </div>
+          <div
+            class="action-buttons"
+          >
             
-          </li>
-        </ul>
-      </li>
-    </ul>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </div>
   </div>
 </pf-user-role-data-access-tab>
 `;
