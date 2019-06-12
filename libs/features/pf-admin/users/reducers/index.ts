@@ -11,7 +11,7 @@ export interface UserManagementState {
 }
 
 export interface State extends fromRoot.State {
-  pf_admin_users: UserManagementState;
+  userManagement: UserManagementState;
 }
 
 export const reducers = {
@@ -19,7 +19,7 @@ export const reducers = {
 };
 
 // Select Feature area
-export const selectFeatureAreaState = createFeatureSelector<UserManagementState>('pf_admin_users');
+export const selectFeatureAreaState = createFeatureSelector<UserManagementState>('pf-admin_users');
 
 // Users Page State
 export const selectUsersState =

@@ -28,6 +28,7 @@ import { ComphubApiService } from './comphub';
 import { MarketDataScopeApiService } from './paymarket';
 import { FileApiService } from './file';
 import { TagApiService } from './tags';
+import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
 import { JobDescriptionTemplateApiService } from './jdm/job-description-template-api.service';
 
@@ -72,7 +73,8 @@ import { JobDescriptionTemplateApiService } from './jdm/job-description-template
     PermissionService,
     RemoteDataSourceService,
     TagApiService,
-    JobDescriptionTemplateApiService
+    JobDescriptionTemplateApiService,
+    SurveyApiService
   ]
 })
 export class PfApiModule { }

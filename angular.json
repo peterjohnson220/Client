@@ -2042,7 +2042,7 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/admin/styles.scss"
+              "apps/pf-admin/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js"

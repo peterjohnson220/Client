@@ -33,7 +33,7 @@ import { UsersListEffects } from '../../../../libs/features/pf-admin/users/effec
         CommonModule, FormsModule, ReactiveFormsModule,
 
         // 3rd Party
-        StoreModule.forFeature('pfadmin_companies', reducers),
+        StoreModule.forFeature('pf-admin_companies', reducers),
         EffectsModule.forFeature([
           CompaniesEffects,
           UsersListEffects,
