@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModalModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { NotificationModule } from '@progress/kendo-angular-notification';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
@@ -12,7 +13,7 @@ import { PfFormsModule } from 'libs/forms/forms.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     NgbModalModule,
     NgbTabsetModule,
     LayoutModule,
+    NotificationModule,
 
     // PF Modules
     PfCommonUIModule,
@@ -35,7 +37,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     PfAppRootModule,
 
     // Routing
-    AppRoutingModule
+    AppRoutingModule,
+
+    BrowserAnimationsModule
 
   ],
   bootstrap: [AppComponent]

@@ -22,9 +22,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
-  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
+  notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsEmployeeDataFields={[Function Array]}
@@ -40,11 +40,18 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   selectedCompany={[Function Number]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
+  showLoaderMappingsSaveErrorToast={[Function Function]}
+  showLoaderMappingsSaveSuccessToast={[Function Function]}
+  showLoaderSettingsSaveErrorToast={[Function Function]}
+  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  showSaveErrorToast={[Function Function]}
+  showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
+  toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -191,23 +198,17 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
             <div
               class="float-right m-2"
             >
-              <span
-                class="save-message "
-                hidden=""
-              >
-                  
-              </span>
               <button
                 class="btn btn-primary m-2"
                 disabled=""
                 type="button"
               >
-                 Update Mapping 
+                Update
               </button>
               <button
                 class="btn btn-secondary"
               >
-                 Email Recipients 
+                Email Recipients
               </button>
             </div>
           </div>
@@ -244,9 +245,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
-  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
+  notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsEmployeeDataFields={[Function Array]}
@@ -262,11 +263,18 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   selectedCompany={[Function Number]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
+  showLoaderMappingsSaveErrorToast={[Function Function]}
+  showLoaderMappingsSaveSuccessToast={[Function Function]}
+  showLoaderSettingsSaveErrorToast={[Function Function]}
+  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  showSaveErrorToast={[Function Function]}
+  showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
+  toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -413,23 +421,17 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
             <div
               class="float-right m-2"
             >
-              <span
-                class="save-message "
-                hidden=""
-              >
-                  
-              </span>
               <button
                 class="btn btn-primary m-2"
                 disabled=""
                 type="button"
               >
-                 Update Mapping 
+                Update
               </button>
               <button
                 class="btn btn-secondary"
               >
-                 Email Recipients 
+                Email Recipients
               </button>
             </div>
           </div>
@@ -466,9 +468,9 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
-  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
+  notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsEmployeeDataFields={[Function Array]}
@@ -484,11 +486,18 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   selectedCompany={[Function Number]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
+  showLoaderMappingsSaveErrorToast={[Function Function]}
+  showLoaderMappingsSaveSuccessToast={[Function Function]}
+  showLoaderSettingsSaveErrorToast={[Function Function]}
+  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  showSaveErrorToast={[Function Function]}
+  showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
+  toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -635,22 +644,16 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
             <div
               class="float-right m-2"
             >
-              <span
-                class="save-message "
-                hidden=""
-              >
-                  
-              </span>
               <button
                 class="btn btn-primary m-2"
                 type="button"
               >
-                 Update Mapping 
+                Update
               </button>
               <button
                 class="btn btn-secondary"
               >
-                 Email Recipients 
+                Email Recipients
               </button>
             </div>
           </div>
@@ -687,9 +690,9 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
-  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
+  notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsEmployeeDataFields={[Function Array]}
@@ -705,11 +708,18 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   selectedCompany="undefined"
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
+  showLoaderMappingsSaveErrorToast={[Function Function]}
+  showLoaderMappingsSaveSuccessToast={[Function Function]}
+  showLoaderSettingsSaveErrorToast={[Function Function]}
+  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  showSaveErrorToast={[Function Function]}
+  showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
+  toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -785,449 +795,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
           
         </div>
         
-      </div>
-    </div>
-  </pf-page-with-title-bar>
-</pf-autoloader-field-mapping-page>
-`;
-
-exports[`ManageFieldMapperPageComponent should not show a message when the mappings have not been saved yet 1`] = `
-<pf-autoloader-field-mapping-page
-  booleanSettingToStringTransform={[Function Function]}
-  companies$={[Function Store]}
-  companiesLoading$={[Function Store]}
-  companyMappings$={[Function Store]}
-  companyMappingsLoading$={[Function Store]}
-  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
-  delimiter={[Function String]}
-  emailRecipients$={[Function Store]}
-  employeeMappingComplete={[Function Boolean]}
-  existingCompanyLoaderSettings={[Function Array]}
-  isActive={[Function Boolean]}
-  isEmployeesFullReplace={[Function Boolean]}
-  isEmployeesLoadEnabled="false"
-  isJobsLoadEnabled="false"
-  isPaymarketsLoadEnabled="false"
-  isStructureMappingsFullReplace={[Function Boolean]}
-  isStructureMappingsLoadEnabled="false"
-  isStructuresLoadEnabled="false"
-  jobMappingComplete={[Function Boolean]}
-  loaderSettings$={[Function Store]}
-  loaderSettingsToSave={[Function Array]}
-  mappings={[Function Array]}
-  noopStringTransform={[Function Function]}
-  orgDataAutoloaderApi="undefined"
-  orgDataFilenamePatternSet$={[Function Store]}
-  payfactorsEmployeeDataFields={[Function Array]}
-  payfactorsJobDataFields={[Function Array]}
-  payfactorsPaymarketDataFields={[Function Array]}
-  payfactorsStructureDataFields={[Function Array]}
-  payfactorsStructureMappingDataFields={[Function Array]}
-  paymarketMappingComplete={[Function Boolean]}
-  saveLoaderSettingsError$={[Function Store]}
-  saveLoaderSettingsSuccess$={[Function Store]}
-  saveMappingsError$={[Function Store]}
-  saveMappingsSuccess$={[Function Store]}
-  saveMessage=""
-  selectedCompany={[Function Number]}
-  sftpDomainConfig$={[Function Store]}
-  sftpPortConfig$={[Function Store]}
-  store={[Function Store]}
-  stringSettingToBooleanTransform={[Function Function]}
-  structureMappingComplete={[Function Boolean]}
-  structureMappingMappingComplete={[Function Boolean]}
-  templateReferenceConstants={[Function Object]}
->
-  <pf-page-with-title-bar
-    ng-reflect-absolute-url="/ng/site-admin/navigation"
-  >
-    <div
-      class="flex-column-container"
-    >
-      <div
-        class="page-header d-flex justify-content-between align-items-center"
-      >
-        <div
-          class="d-flex"
-        >
-          
-          
-          <a
-            href="/ng/site-admin/navigation"
-          >
-            <button
-              class="btn btn-secondary back-btn"
-            >
-              <fa-icon
-                aria-hidden="true"
-                class="ng-fa-icon"
-                icon="long-arrow-alt-left"
-                ng-reflect-icon-prop="long-arrow-alt-left"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
-                  data-icon="long-arrow-alt-left"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 448 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </fa-icon>
-            </button>
-          </a>
-          <h3>
-            
-            Org Data Autoloader Field Mappings
-          </h3>
-        </div>
-        <div
-          class="d-flex space-out-children"
-        />
-      </div>
-      <div
-        class="page-content"
-      >
-        
-        <div
-          class="list-group list-group-flush"
-        >
-          <div
-            class="list-group-item"
-          >
-            <div>
-              <h3>
-                Company
-              </h3>
-            </div>
-            <pf-company-selector />
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              SFTP
-            </h3>
-            <div
-              class="container-fluid"
-            >
-              <pf-sftp-account-status />
-            </div>
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              Mappings
-            </h3>
-            <div
-              class="container-fluid"
-            >
-              <div
-                class="form-group row"
-              >
-                <label
-                  class="col-sm-1 col-form-label"
-                  for="delimiter"
-                >
-                  Delimiter: 
-                </label>
-                <div
-                  class="col-sm-1"
-                >
-                  <input
-                    class="form-control ng-untouched ng-pristine ng-valid"
-                    id="delimiter"
-                    ng-reflect-model=","
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <kendo-tabstrip>
-              <kendo-tabstrip-tab
-                title="Pay Markets"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Jobs"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structures"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structure Mappings"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Employees"
-              >
-                
-              </kendo-tabstrip-tab>
-            </kendo-tabstrip>
-            <div
-              class="float-right m-2"
-            >
-              <span
-                class="save-message "
-                hidden=""
-              >
-                  
-              </span>
-              <button
-                class="btn btn-primary m-2"
-                type="button"
-              >
-                 Update Mapping 
-              </button>
-              <button
-                class="btn btn-secondary"
-              >
-                 Email Recipients 
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <pf-email-recipients-modal
-          class="float-right m-2"
-        />
-      </div>
-    </div>
-  </pf-page-with-title-bar>
-</pf-autoloader-field-mapping-page>
-`;
-
-exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
-<pf-autoloader-field-mapping-page
-  booleanSettingToStringTransform={[Function Function]}
-  companies$={[Function Store]}
-  companiesLoading$={[Function Store]}
-  companyMappings$={[Function Store]}
-  companyMappingsLoading$={[Function Store]}
-  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
-  delimiter={[Function String]}
-  emailRecipients$={[Function Store]}
-  employeeMappingComplete={[Function Boolean]}
-  existingCompanyLoaderSettings={[Function Array]}
-  isActive={[Function Boolean]}
-  isEmployeesFullReplace={[Function Boolean]}
-  isEmployeesLoadEnabled="false"
-  isJobsLoadEnabled="false"
-  isPaymarketsLoadEnabled="false"
-  isStructureMappingsFullReplace={[Function Boolean]}
-  isStructureMappingsLoadEnabled="false"
-  isStructuresLoadEnabled="false"
-  jobMappingComplete={[Function Boolean]}
-  loaderSettings$={[Function Store]}
-  loaderSettingsToSave={[Function Array]}
-  mappings={[Function Array]}
-  noopStringTransform={[Function Function]}
-  orgDataAutoloaderApi="undefined"
-  orgDataFilenamePatternSet$={[Function Store]}
-  payfactorsEmployeeDataFields={[Function Array]}
-  payfactorsJobDataFields={[Function Array]}
-  payfactorsPaymarketDataFields={[Function Array]}
-  payfactorsStructureDataFields={[Function Array]}
-  payfactorsStructureMappingDataFields={[Function Array]}
-  paymarketMappingComplete={[Function Boolean]}
-  saveLoaderSettingsError$={[Function Store]}
-  saveLoaderSettingsSuccess$={[Function Store]}
-  saveMappingsError$={[Function Store]}
-  saveMappingsSuccess$={[Function Store]}
-  saveMessage={[Function String]}
-  selectedCompany={[Function Number]}
-  sftpDomainConfig$={[Function Store]}
-  sftpPortConfig$={[Function Store]}
-  store={[Function Store]}
-  stringSettingToBooleanTransform={[Function Function]}
-  structureMappingComplete={[Function Boolean]}
-  structureMappingMappingComplete={[Function Boolean]}
-  templateReferenceConstants={[Function Object]}
->
-  <pf-page-with-title-bar
-    ng-reflect-absolute-url="/ng/site-admin/navigation"
-  >
-    <div
-      class="flex-column-container"
-    >
-      <div
-        class="page-header d-flex justify-content-between align-items-center"
-      >
-        <div
-          class="d-flex"
-        >
-          
-          
-          <a
-            href="/ng/site-admin/navigation"
-          >
-            <button
-              class="btn btn-secondary back-btn"
-            >
-              <fa-icon
-                aria-hidden="true"
-                class="ng-fa-icon"
-                icon="long-arrow-alt-left"
-                ng-reflect-icon-prop="long-arrow-alt-left"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
-                  data-icon="long-arrow-alt-left"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 448 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </fa-icon>
-            </button>
-          </a>
-          <h3>
-            
-            Org Data Autoloader Field Mappings
-          </h3>
-        </div>
-        <div
-          class="d-flex space-out-children"
-        />
-      </div>
-      <div
-        class="page-content"
-      >
-        
-        <div
-          class="list-group list-group-flush"
-        >
-          <div
-            class="list-group-item"
-          >
-            <div>
-              <h3>
-                Company
-              </h3>
-            </div>
-            <pf-company-selector />
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              SFTP
-            </h3>
-            <div
-              class="container-fluid"
-            >
-              <pf-sftp-account-status />
-            </div>
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              Mappings
-            </h3>
-            <div
-              class="container-fluid"
-            >
-              <div
-                class="form-group row"
-              >
-                <label
-                  class="col-sm-1 col-form-label"
-                  for="delimiter"
-                >
-                  Delimiter: 
-                </label>
-                <div
-                  class="col-sm-1"
-                >
-                  <input
-                    class="form-control ng-untouched ng-pristine ng-valid"
-                    id="delimiter"
-                    ng-reflect-model=","
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <kendo-tabstrip>
-              <kendo-tabstrip-tab
-                title="Pay Markets"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Jobs"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structures"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structure Mappings"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Employees"
-              >
-                
-              </kendo-tabstrip-tab>
-            </kendo-tabstrip>
-            <div
-              class="float-right m-2"
-            >
-              <span
-                class="save-message "
-              >
-                 Saved Successfully 
-              </span>
-              <button
-                class="btn btn-primary m-2"
-                type="button"
-              >
-                 Update Mapping 
-              </button>
-              <button
-                class="btn btn-secondary"
-              >
-                 Email Recipients 
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <pf-email-recipients-modal
-          class="float-right m-2"
-        />
       </div>
     </div>
   </pf-page-with-title-bar>
@@ -1256,9 +823,9 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
-  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
+  notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsEmployeeDataFields={[Function Array]}
@@ -1274,11 +841,18 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   selectedCompany={[Function Number]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
+  showLoaderMappingsSaveErrorToast={[Function Function]}
+  showLoaderMappingsSaveSuccessToast={[Function Function]}
+  showLoaderSettingsSaveErrorToast={[Function Function]}
+  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  showSaveErrorToast={[Function Function]}
+  showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
+  toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -1425,22 +999,16 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
             <div
               class="float-right m-2"
             >
-              <span
-                class="save-message "
-                hidden=""
-              >
-                  
-              </span>
               <button
                 class="btn btn-primary m-2"
                 type="button"
               >
-                 Update Mapping 
+                Update
               </button>
               <button
                 class="btn btn-secondary"
               >
-                 Email Recipients 
+                Email Recipients
               </button>
             </div>
           </div>

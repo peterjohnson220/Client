@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 
-import { LoaderType } from '../../constants/loader-type.enum';
+import { LoaderType } from '../../constants/index';
 import { FieldMapperComponent } from './field-mapper.component';
 import { LoaderEntityStatus } from '../../models';
 

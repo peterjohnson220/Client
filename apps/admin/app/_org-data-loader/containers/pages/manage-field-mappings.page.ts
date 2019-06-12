@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
+import { isObject } from 'lodash';
 
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -22,11 +24,10 @@ import {
   ORG_DATA_PF_JOB_FIELDS,
   ORG_DATA_PF_PAYMARKET_FIELDS,
   ORG_DATA_PF_STRUCTURE_FIELDS,
-  ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
+  ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS,
+  LoaderType,
+  LoaderSettingsKeys,
 } from '../../constants';
-
-import { LoaderSettingsKeys } from '../../constants/loader-settings-keys.enum';
-import { LoaderType } from '../../constants/loader-type.enum';
 
 import {
   EmailRecipientModel,
@@ -34,7 +35,8 @@ import {
   LoaderFieldSet,
   LoaderSetting,
   MappingModel,
-  OrgDataFilenamePatternSet
+  OrgDataFilenamePatternSet,
+  LoaderSaveCoordination
 } from '../../models';
 
 @Component({
@@ -62,8 +64,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   companyMappingsLoading$: Observable<boolean>;
   saveMappingsSuccess$: Observable<boolean>;
   saveMappingsError$: Observable<boolean>;
-  saveMessage: string;
-  saveClass: string;
   emailRecipients$: Observable<EmailRecipientModel[]>;
   isActive: boolean;
   delimiter: string;
@@ -79,7 +79,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   saveLoaderSettingsSuccess$: Observable<boolean>;
   saveLoaderSettingsError$: Observable<boolean>;
   existingCompanyLoaderSettings: LoaderSetting[];
-  loaderSettingsToSave: LoaderSetting[];
   orgDataFilenamePatternSet$: Observable<OrgDataFilenamePatternSet>;
   templateReferenceConstants = {
     LoaderType,
@@ -87,9 +86,51 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   sftpDomainConfig$: Observable<string>;
   sftpPortConfig$: Observable<string>;
 
-  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>,
-               private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
-               private configSettingsSelectorFactory: ConfigSettingsSelectorFactory) {
+  private toastOptions: NotificationSettings = {
+    animation: {
+      type: 'slide',
+      duration: 400,
+    },
+    closable: true,
+    content: '',
+    cssClass: '',
+    hideAfter: 5000,
+    position: {
+      horizontal: 'center',
+      vertical: 'bottom',
+    },
+    type: {
+      style: 'success',
+      icon: true,
+    },
+  };
+
+  private get toastSuccessOptions(): NotificationSettings {
+    return {
+      ...this.toastOptions,
+      cssClass: 'alert-success',
+    };
+  }
+
+  private get toastErrorOptions(): NotificationSettings {
+    return {
+      ...this.toastOptions,
+      cssClass: 'alert-error',
+      type: {
+        ...this.toastOptions.type,
+        style: 'error',
+      }
+    };
+  }
+
+  private loaderSaveCoordination: LoaderSaveCoordination;
+
+  constructor (
+    private store: Store<fromOrgDataAutoloaderReducer.State>,
+    private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
+    private notificationService: NotificationService,
+    private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
+  ) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
@@ -129,7 +170,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.isStructureMappingsLoadEnabled = false;
     this.isEmployeesFullReplace = true;
     this.isStructureMappingsFullReplace = true;
-    this.loaderSettingsToSave = [];
     this.existingCompanyLoaderSettings = [];
 
     this.saveMappingsSuccess$
@@ -137,8 +177,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         filter(success => success),
       )
       .subscribe(success => {
-        this.saveClass = 'success';
-        this.saveMessage = 'Saved.';
+        this.showLoaderMappingsSaveSuccessToast();
         this.mappings = [];
       });
 
@@ -146,10 +185,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
       .pipe(
         filter(error => error),
       )
-      .subscribe(error => {
-        this.saveClass = 'error';
-        this.saveMessage = 'Failed.';
-      });
+      .subscribe(this.showLoaderMappingsSaveErrorToast);
 
     this.loaderSettings$
       .pipe(
@@ -207,9 +243,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         filter(success => success),
       )
       .subscribe(() => {
-        this.saveClass = 'success';
-        this.saveMessage = 'Saved.';
-        this.loaderSettingsToSave = [];
+        this.showLoaderSettingsSaveSuccessToast();
         this.reloadLoaderSettings();
       });
 
@@ -217,10 +251,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
       .pipe(
         filter(error => error),
       )
-      .subscribe(() => {
-        this.saveClass = 'error';
-        this.saveMessage = 'Failed.';
-      });
+      .subscribe(this.showLoaderSettingsSaveErrorToast);
   } // end constructor
 
   ngOnInit() {
@@ -228,7 +259,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   onPaymarketMappingComplete($event: LoaderEntityStatus) {
-    this.saveMessage = '';
     this.paymarketMappingComplete = $event.complete;
     this.isPaymarketsLoadEnabled = $event.loadEnabled;
     if (this.paymarketMappingComplete) {
@@ -237,7 +267,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   onJobMappingComplete($event: LoaderEntityStatus) {
-    this.saveMessage = '';
     this.jobMappingComplete = $event.complete;
     this.isJobsLoadEnabled = $event.loadEnabled;
     if (this.jobMappingComplete) {
@@ -246,7 +275,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   onStructureMappingComplete($event: LoaderEntityStatus) {
-    this.saveMessage = '';
     this.structureMappingComplete = $event.complete;
     this.isStructuresLoadEnabled = $event.loadEnabled;
     if (this.structureMappingComplete) {
@@ -255,7 +283,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   onStructureMappingMappingComplete($event: LoaderEntityStatus) {
-    this.saveMessage = '';
     this.structureMappingMappingComplete = $event.complete;
     this.isStructureMappingsLoadEnabled = $event.loadEnabled;
     if (this.structureMappingMappingComplete) {
@@ -265,7 +292,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   onEmployeeMappingComplete($event: LoaderEntityStatus) {
-    this.saveMessage = '';
     this.employeeMappingComplete = $event.complete;
     this.isEmployeesLoadEnabled = $event.loadEnabled;
     if (this.employeeMappingComplete) {
@@ -301,19 +327,26 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   SaveMappings() {
-    this.getLoaderSettingsToSave();
+    const loaderSettingsToSave = this.getLoaderSettingsToSave();
 
-    if (this.loaderSettingsToSave.length > 0) {
+    this.loaderSaveCoordination = {
+      mappingsSaveComplete: false,
+      mappingsSaved: this.mappings.length > 0,
+      settingsSaveComplete: false,
+      settingsSaved: loaderSettingsToSave.length > 0,
+    };
+
+    if (this.loaderSaveCoordination.settingsSaved) {
       this.store.dispatch(new fromLoaderSettingsActions.SavingLoaderSettings({
-        settings: this.loaderSettingsToSave,
-        companyId: this.selectedCompany
+        companyId: this.selectedCompany,
+        settings: loaderSettingsToSave,
       }));
     }
 
-    if (this.mappings.length > 0) {
+    if (this.loaderSaveCoordination.mappingsSaved) {
       this.store.dispatch(new fromOrgDataFieldMappingsActions.SavingFieldMappings({
-        mappings: this.mappings,
         companyId: this.selectedCompany,
+        mappings: this.mappings,
       }));
     }
   }
@@ -342,40 +375,42 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   private getLoaderSettingsToSave() {
-    this.updateSettingIfChanged(
-      LoaderSettingsKeys.IsActive,
-      this.booleanSettingToStringTransform(this.isActive),
-    );
-    this.updateSettingIfChanged(LoaderSettingsKeys.Delimiter, this.delimiter);
-    this.updateSettingIfChanged(LoaderSettingsKeys.DateFormat, this.dateFormat);
-    this.updateSettingIfChanged(
-      LoaderSettingsKeys.IsEmployeesLoadEnabled,
-      this.booleanSettingToStringTransform(this.isEmployeesLoadEnabled),
-    );
-    this.updateSettingIfChanged(
-      LoaderSettingsKeys.IsJobsLoadEnabled,
-      this.booleanSettingToStringTransform(this.isJobsLoadEnabled),
-    );
-    this.updateSettingIfChanged(
-      LoaderSettingsKeys.IsPaymarketsLoadEnabled,
-      this.booleanSettingToStringTransform(this.isPaymarketsLoadEnabled),
-    );
-    this.updateSettingIfChanged(
-      LoaderSettingsKeys.IsStructuresLoadEnabled,
-      this.booleanSettingToStringTransform(this.isStructuresLoadEnabled),
-    );
-    this.updateSettingIfChanged(
-      LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
-      this.booleanSettingToStringTransform(this.isStructureMappingsLoadEnabled),
-    );
-    this.updateSettingIfChanged(
-      LoaderSettingsKeys.IsEmployeesFullReplace,
-      this.booleanSettingToStringTransform(this.isEmployeesFullReplace),
-    );
-    this.updateSettingIfChanged(
-      LoaderSettingsKeys.IsStructureMappingsFullReplace,
-      this.booleanSettingToStringTransform(this.isStructureMappingsFullReplace),
-    );
+    return [
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsActive,
+        this.booleanSettingToStringTransform(this.isActive),
+      ),
+      this.getSettingIfChanged(LoaderSettingsKeys.Delimiter, this.delimiter),
+      this.getSettingIfChanged(LoaderSettingsKeys.DateFormat, this.dateFormat),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsEmployeesLoadEnabled,
+        this.booleanSettingToStringTransform(this.isEmployeesLoadEnabled),
+      ),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsJobsLoadEnabled,
+        this.booleanSettingToStringTransform(this.isJobsLoadEnabled),
+      ),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsPaymarketsLoadEnabled,
+        this.booleanSettingToStringTransform(this.isPaymarketsLoadEnabled),
+      ),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsStructuresLoadEnabled,
+        this.booleanSettingToStringTransform(this.isStructuresLoadEnabled),
+      ),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
+        this.booleanSettingToStringTransform(this.isStructureMappingsLoadEnabled),
+      ),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsEmployeesFullReplace,
+        this.booleanSettingToStringTransform(this.isEmployeesFullReplace),
+      ),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsStructureMappingsFullReplace,
+        this.booleanSettingToStringTransform(this.isStructureMappingsFullReplace),
+      ),
+    ].filter(setting => isObject(setting));
   }
 
   private booleanSettingToStringTransform = (value: boolean) => value ? 'true' : 'false';
@@ -383,22 +418,83 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
   private noopStringTransform = (value: string) => value;
 
-  private updateSettingIfChanged(keyName: string, keyValue: string) {
+  private getSettingIfChanged(keyName: string, keyValue: string) {
     const existingSettingValue = this.existingCompanyLoaderSettings.find(setting => setting.KeyName === keyName);
 
     if (
       (!existingSettingValue && keyValue) ||
       (existingSettingValue && keyValue !== existingSettingValue.KeyValue)
     ) {
-      this.pushToLoaderSettingsToSave(keyName, keyValue);
+      return this.getSettingToSave(keyName, keyValue);
     }
   }
 
-  private pushToLoaderSettingsToSave(keyName: string, keyValue: string) {
-    this.loaderSettingsToSave.push({
+  private getSettingToSave(keyName: string, keyValue: string) {
+    return <LoaderSetting> {
       LoaderSettingsId: undefined,
       KeyName: keyName,
       KeyValue: keyValue
+    };
+  }
+
+  /**
+   * toast notifications for saving field mappings and settings are somewhat complex
+   *
+   *                       | settings save success | settings save failure | settings not saved    |
+   * ----------------------|-----------------------------------------------------------------------|
+   * mappings save success | show success toast    | show error toast      | show success toast    |
+   * mappings save failure | show error toast      | show error toast      | show error toast      |
+   * mappings not saved    | show success toast    | show error toast      | n/a                   |
+   *
+   * use this.loaderSaveCoordination to coordinate, since saving mappings and saving settings are separate async operations
+   */
+  private showLoaderMappingsSaveSuccessToast = () => {
+    this.loaderSaveCoordination.mappingsSaveComplete = true;
+    this.loaderSaveCoordination.mappingsSaveSuccess = true;
+
+    if (!this.loaderSaveCoordination.settingsSaved || this.loaderSaveCoordination.settingsSaveSuccess) {
+      this.showSaveSuccessToast();
+    }
+  }
+
+  private showLoaderMappingsSaveErrorToast = () => {
+    this.loaderSaveCoordination.mappingsSaveComplete = true;
+    this.loaderSaveCoordination.mappingsSaveSuccess = false;
+
+    if (!this.loaderSaveCoordination.settingsSaved || this.loaderSaveCoordination.settingsSaveComplete) {
+      this.showSaveErrorToast();
+    }
+  }
+
+  private showLoaderSettingsSaveSuccessToast = () => {
+    this.loaderSaveCoordination.settingsSaveComplete = true;
+    this.loaderSaveCoordination.settingsSaveSuccess = true;
+
+    if (!this.loaderSaveCoordination.mappingsSaved || this.loaderSaveCoordination.mappingsSaveSuccess) {
+      this.showSaveSuccessToast();
+    }
+  }
+
+  private showLoaderSettingsSaveErrorToast = () => {
+    this.loaderSaveCoordination.settingsSaveComplete = true;
+    this.loaderSaveCoordination.settingsSaveSuccess = false;
+
+    if (!this.loaderSaveCoordination.mappingsSaved || this.loaderSaveCoordination.mappingsSaveComplete) {
+      this.showSaveErrorToast();
+    }
+  }
+
+  private showSaveSuccessToast = () => {
+    this.notificationService.show({
+      ...this.toastSuccessOptions,
+      content: 'Mappings have been saved and autoloader will begin processing this client\'s files when they become available.',
+    });
+  }
+
+  private showSaveErrorToast = () => {
+    this.notificationService.show({
+      ...this.toastErrorOptions,
+      content: 'Error saving field mappings.',
     });
   }
 
