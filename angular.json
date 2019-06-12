@@ -2048,8 +2048,7 @@
               "apps/admin/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ]
           },
           "configurations": {
@@ -2137,8 +2136,7 @@
             "polyfills": "apps/pf-admin/polyfills.ts",
             "tsConfig": "apps/pf-admin/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
