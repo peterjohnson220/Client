@@ -250,7 +250,7 @@
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {

@@ -8,6 +8,10 @@ import { DragulaModule } from 'ng2-dragula';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+import * as fromFaIcons from './fa-icons';
 
 // PF
 import { PfCommonModule } from 'libs/core';
@@ -64,6 +68,7 @@ import { BasicListComponent } from './components';
     ]),
     ChartsModule,
     DateInputsModule,
+    FontAwesomeModule,
     NgbModule.forRoot(),
 
 
@@ -97,4 +102,7 @@ import { BasicListComponent } from './components';
   ]
 })
 export class MainModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
 }
