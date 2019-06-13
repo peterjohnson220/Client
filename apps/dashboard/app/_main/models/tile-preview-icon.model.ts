@@ -1,9 +1,11 @@
 import { TilePreviewBase } from './tile-preview-base.model';
 import { Tile } from './tile.model';
 import { TilePreviewTypes } from './tile-preview-types';
+import { convertToFaIconFormat } from 'libs/core/functions';
 
 export interface TilePreviewIcon extends TilePreviewBase {
   IconClass: string;
+  faIconClass?: string[];
   ContainsDetailData: boolean;
   CssClassName: string;
   IconSize: string;
@@ -13,6 +15,7 @@ export interface TilePreviewIcon extends TilePreviewBase {
 }
 
 export function generateTilePreviewIconFromTile(tile: Tile): TilePreviewIcon {
+  const faIconClass = convertToFaIconFormat(tile.IconClass);
   if (tile.TilePreviewData === undefined ||
     tile.TilePreviewData === null ||
     tile.TilePreviewData.length === 0 ||
@@ -20,8 +23,9 @@ export function generateTilePreviewIconFromTile(tile: Tile): TilePreviewIcon {
     return {
       PreviewType: TilePreviewTypes.Icon,
       ContainsDetailData: false,
+      faIconClass: faIconClass,
       IconClass: tile.IconClass,
-      IconSize: 'fa-10x',
+      IconSize: '10x',
       CssClassName: 'preview-tile-icon'
     };
   }
@@ -33,8 +37,9 @@ export function generateTilePreviewIconFromTile(tile: Tile): TilePreviewIcon {
   return {
     PreviewType: TilePreviewTypes.Icon,
     ContainsDetailData: true,
+    faIconClass: faIconClass,
     IconClass: tile.IconClass,
-    IconSize: 'fa-4x',
+    IconSize: '4x',
     CssClassName: 'preview-tile-icon-small',
     Title: title,
     SubTitle: subTitle,
