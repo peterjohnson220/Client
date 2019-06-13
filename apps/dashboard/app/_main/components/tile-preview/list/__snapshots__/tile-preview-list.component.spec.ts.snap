@@ -82,9 +82,7 @@ exports[`TilePreviewList should show data with columns when data is given and sh
     class="btn tile-preview-list-button p-1"
     href="mainButtonUrl"
   >
-    <i
-      class="test button icon"
-    />
+    <fa-icon />
      test button text
   
   </a><table
@@ -195,9 +193,7 @@ exports[`TilePreviewList should show data without columns when data is given and
     class="btn tile-preview-list-button p-1"
     href="mainButtonUrl"
   >
-    <i
-      class="test button icon"
-    />
+    <fa-icon />
      test button text
   
   </a><table
