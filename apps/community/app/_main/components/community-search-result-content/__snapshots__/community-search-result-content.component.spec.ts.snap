@@ -3,6 +3,7 @@
 exports[`CommunitySearchResultContentComponent should display 1`] = `
 <pf-community-search-result-content
   details={[Function Object]}
+  podcastType={[Function String]}
   searchTerm={[Function String]}
   type={[Function String]}
 >
