@@ -52,8 +52,10 @@ exports[`UI/Common/Content - Card should show cardBodyTemplate template, with co
   <pf-card
     ng-reflect-card="[object Object]"
     ng-reflect-card-body-template="[object Object]"
-    ng-reflect-card-identifier="function (card) { return card."
-    ng-reflect-card-is-disabled="function (card) { return false"
+    ng-reflect-card-identifier="function (card) {
+              "
+    ng-reflect-card-is-disabled="function (card) {
+              "
     ng-reflect-selected-card-identifier="1"
   >
     <div
