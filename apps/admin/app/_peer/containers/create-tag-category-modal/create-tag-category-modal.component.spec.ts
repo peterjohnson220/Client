@@ -10,6 +10,7 @@ import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import * as fromRootState from 'libs/state/state';
 import { TagApiService } from 'libs/data/payfactors-api/tags';
 import { UpsertTagCategoryRequest } from 'libs/models/peer/requests';
+import { OperatorEnum } from 'libs/constants';
 
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromTagCategoriesActions from '../../actions/tag-categories.actions';
@@ -93,7 +94,9 @@ describe('Admin - Create Tag Category Modal', () => {
       EntityTypesFlag: 0,
       Description: description,
       DataType: dataType,
-      UseSlider: useSlider
+      UseSlider: useSlider,
+      CategoryOperator: OperatorEnum.And,
+      DisplayOperatorToggle: false
     };
     const expectedAction = new fromTagCategoriesActions.CreateTagCategory(upsertRequest);
 

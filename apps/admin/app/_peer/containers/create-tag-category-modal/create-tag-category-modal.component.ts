@@ -10,6 +10,7 @@ import { PfValidators } from 'libs/forms/validators';
 import { TagApiService } from 'libs/data/payfactors-api/index';
 import { EntityTypesFlag, TagCategoryDataTypeEnum } from 'libs/models/peer';
 import { UpsertTagCategoryRequest } from 'libs/models/peer/requests';
+import { OperatorEnum } from 'libs/constants';
 
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromTagCategoriesActions from '../../actions/tag-categories.actions';
@@ -29,6 +30,7 @@ export class CreateTagCategoryModalComponent {
   entityTypeEmployee: any;
 
   dataTypes: Array<string> = [TagCategoryDataTypeEnum.Text, TagCategoryDataTypeEnum.Numeric];
+  operatorEnum = OperatorEnum;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -52,6 +54,8 @@ export class CreateTagCategoryModalComponent {
   get description() { return this.createTagCategoryForm.get('description'); }
   get dataType() { return this.createTagCategoryForm.get('dataType'); }
   get useSlider() { return this.createTagCategoryForm.get('useSlider'); }
+  get categoryOperator() { return this.createTagCategoryForm.get('categoryOperator'); }
+  get displayOperatorToggle() { return this.createTagCategoryForm.get('displayOperatorToggle'); }
 
   createForm(): void {
     this.createTagCategoryForm = this.fb.group({
@@ -62,6 +66,8 @@ export class CreateTagCategoryModalComponent {
       'dataType': [TagCategoryDataTypeEnum.Text, [PfValidators.required]],
       'useSlider': [{value: false, disabled: true}],
       'description': [''],
+      'categoryOperator': [this.operatorEnum.And],
+      'displayOperatorToggle': [false]
     });
   }
 
@@ -82,12 +88,15 @@ export class CreateTagCategoryModalComponent {
     if (this.entityTypeEmployee) { entityTypes |= EntityTypesFlag.Employee; }
 
     if (this.description.value == null) { this.description.setValue(''); }
+
     const upsertRequest: UpsertTagCategoryRequest = {
       DisplayName: this.name.value,
       EntityTypesFlag: entityTypes,
       Description: this.description.value,
       DataType: this.dataType.value,
-      UseSlider: this.useSlider.value
+      UseSlider: this.useSlider.value,
+      CategoryOperator: this.categoryOperator.value,
+      DisplayOperatorToggle: this.displayOperatorToggle.value
     };
 
     this.store.dispatch(new fromTagCategoriesActions.CreateTagCategory(upsertRequest));
@@ -109,7 +118,8 @@ export class CreateTagCategoryModalComponent {
   }
 
   resetForm() {
-    this.createTagCategoryForm.reset({ dataType:  TagCategoryDataTypeEnum.Text, useSlider: false });
+    this.createTagCategoryForm.reset({ dataType:  TagCategoryDataTypeEnum.Text, useSlider: false,
+      categoryOperator: this.operatorEnum.And, displayOperatorToggle: false });
     this.useSlider.disable();
   }
 
