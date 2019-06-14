@@ -54,8 +54,7 @@ export class JobDescriptionGridEffects {
       ofType(fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS),
       switchMap((action: fromJobDescriptionGridActions.SaveListAreaColumns) => {
           const newRequest = cloneDeep(action.payload);
-          const listAreaColumnsRequestList = PayfactorsApiModelMapper.mapListAreaColumnListToListAreaColumnRequestList(
-            newRequest.Columns);
+          newRequest.Columns = PayfactorsApiModelMapper.mapListAreaColumnListToListAreaColumnRequestList(newRequest.Columns);
 
           return this.userProfileApiService.saveListAreaColumns(newRequest).pipe(
             map((response: number) => {
