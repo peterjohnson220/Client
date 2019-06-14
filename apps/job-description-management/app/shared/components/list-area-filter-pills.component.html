@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between pt-1">
   <div>
-    <div class="badge badge-pill" *ngFor="let filter of filters" (click)="pillClicked([filter])">
+    <div class="badge badge-pill" *ngFor="let filter of filters" (click)="pillClicked(filter)">
       {{ getPillDisplay(filter) }}
       <i class="fas fa-times" aria-hidden="true"></i>
     </div>
