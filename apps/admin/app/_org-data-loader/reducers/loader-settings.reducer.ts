@@ -1,5 +1,5 @@
-import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
-import {LoaderSetting} from '../models/loader-settings.model';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { LoaderSetting } from '../models/index';
 import * as fromLoaderSettingsActions from '../actions/loader-settings.actions';
 
 export interface State extends EntityState<LoaderSetting> {

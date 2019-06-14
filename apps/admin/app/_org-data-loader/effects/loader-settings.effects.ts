@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
-import {Action} from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { Action } from '@ngrx/store';
 
 import * as fromLoaderSettingsActions from '../actions/loader-settings.actions';
-import {LoaderSettingsApiService} from '../../../../../libs/data/payfactors-api/data-loads';
-import {catchError, map, switchMap} from 'rxjs/internal/operators';
-import {LoaderSetting} from '../models/loader-settings.model';
+import { LoaderSettingsApiService } from 'libs/data/payfactors-api/data-loads';
+import { catchError, map, switchMap } from 'rxjs/internal/operators';
+import { LoaderSetting } from '../models/index';
 
 @Injectable()
 export class LoaderSettingsEffects {

@@ -106,20 +106,13 @@
           </kendo-tabstrip>
 
           <div class="float-right m-2">
-            <span class="save-message {{saveClass}}" [hidden]="!saveMessage">
-              {{saveMessage}}
-            </span>
             <button
               type="button"
               class="btn btn-primary m-2"
-              [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete)
-                    || delimiter === ''"
-              (click)="SaveMappings()">
-              Update Mapping
-            </button>
-            <button class="btn btn-secondary" (click)="openEmailRecipientsModal()">
-              Email Recipients
-            </button>
+              [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete) || delimiter === ''"
+              (click)="SaveMappings()"
+            >Update</button>
+            <button class="btn btn-secondary" (click)="openEmailRecipientsModal()">Email Recipients</button>
           </div>
 
         </div> <!-- end list-group-item -->
