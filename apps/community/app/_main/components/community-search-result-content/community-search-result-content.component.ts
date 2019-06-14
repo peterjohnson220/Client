@@ -12,6 +12,8 @@ export class CommunitySearchResultContentComponent {
   @Input() details: any;
   @Input() searchTerm: string;
 
+  podcastType = CommunitySearchResultTypeEnum.Podcast;
+
   constructor() { }
 
   getContentText(): string {

@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CommunitySearchResultContentComponent } from './community-search-result-content.component';
 import { TruncateAfterPipe, NewLinePipe } from 'libs/core/pipes';
@@ -16,7 +17,7 @@ describe('CommunitySearchResultContentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ NgxLinkifyjsModule.forRoot() ],
+      imports: [ NgxLinkifyjsModule.forRoot(), NgbTooltipModule.forRoot()],
       providers: [],
       declarations: [
         CommunitySearchResultContentComponent,

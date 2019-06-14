@@ -84,7 +84,12 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   }
 
   openDetailsModal(result) {
+
+    if (result.Type === this.podcastType) {
+      window.open(result.Details.Link, '_blank');
+    } else {
       this.store.dispatch(new fromCommunitySearchActions.OpenSearchResultModal(result.Details.CommunityPostId));
+    }
   }
 
   trackByFn(index, item) {
