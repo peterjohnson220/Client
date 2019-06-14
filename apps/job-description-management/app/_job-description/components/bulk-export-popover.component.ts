@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import { State } from '@progress/kendo-data-query';
 
@@ -7,6 +7,7 @@ import { AvailableJobInformationField } from '../../shared/models/available-job-
 import { JobDescriptionViewConstants } from '../../shared/constants/job-description-view-constants';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'pf-bulk-export-popover',
   templateUrl: './bulk-export-popover.component.html',
   styleUrls: ['./bulk-export-popover.component.scss']

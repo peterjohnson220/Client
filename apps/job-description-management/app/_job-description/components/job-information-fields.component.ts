@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -8,8 +8,10 @@ import { AvailableJobInformationField } from '../../shared/models/available-job-
 import * as fromJobInformationFieldsReducer from '../reducers';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'pf-job-information-fields',
-  templateUrl: './job-information-fields.component.html'
+  templateUrl: './job-information-fields.component.html',
+  styleUrls: ['./job-information-fields.component.scss']
 })
 
 export class JobInformationFieldsComponent implements OnInit, OnDestroy {

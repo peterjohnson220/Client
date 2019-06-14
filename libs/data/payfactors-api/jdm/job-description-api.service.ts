@@ -73,8 +73,10 @@ export class JobDescriptionApiService {
   }
 
   getJobInformationFieldsForBulkExport(viewName?: string): Observable<JobInformationFieldForBulkExportResponse[]> {
+    const options = viewName ? { params: { viewName: viewName } } : {};
+
     return this.payfactorsApiService.get<JobInformationFieldForBulkExportResponse[]>(
-      `${this.endpoint}/Default.GetJobInformationFieldsForBulkExport`, {params: { viewName: viewName || '' }});
+      `${this.endpoint}/Default.GetJobInformationFieldsForBulkExport`, options);
   }
 
   getJobDescriptionIds(companyJobId: number): Observable<number[]> {
