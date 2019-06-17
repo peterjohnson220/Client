@@ -7,6 +7,7 @@ import { faAngleDown } from '@fortawesome/pro-regular-svg-icons/faAngleDown';
 import { faAngleUp } from '@fortawesome/pro-regular-svg-icons/faAngleUp';
 import { faMap } from '@fortawesome/pro-regular-svg-icons/faMap';
 import { faExclamationTriangle } from '@fortawesome/pro-regular-svg-icons/faExclamationTriangle';
+import { faSearch } from '@fortawesome/pro-regular-svg-icons/faSearch';
 
 export const faIcons = [faGlobe, faCaretRight, faCaretDown, faTrashAlt, faAngleDown, faAngleUp, faMap,
-  faExclamationTriangle];
+  faExclamationTriangle, faSearch];
