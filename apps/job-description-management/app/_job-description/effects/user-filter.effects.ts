@@ -6,8 +6,8 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { UserFilterResponse } from 'libs/models/payfactors-api/user-profile/response';
-import { JdmListFilter } from 'libs/models/user-profile';
 import { UserProfileApiService } from 'libs/data/payfactors-api/user';
+import { GetUserFilterListResponse } from 'libs/models/payfactors-api/user-filter/response/get-user-filter-list-response.model';
 
 import * as fromUserFilterActions from '../actions/user-filter.actions';
 import * as fromUserFilterReducer from '../reducers';
@@ -47,8 +47,16 @@ export class UserFilterEffects {
       ofType(fromUserFilterActions.LOAD_USER_FILTER_LIST),
       switchMap((action: fromUserFilterActions.LoadUserFilterList) =>
         this.userProfileApiService.getUserFilterList().pipe(
-          map((response: JdmListFilter[]) => {
-            return new fromUserFilterActions.LoadUserFilterListSuccess(response);
+          map((response: GetUserFilterListResponse[]) => {
+            const newResponse = response.map(r => {
+              return {
+                Id: r.Id,
+                Name: r.Name,
+                CompositeFilter: PayfactorsApiModelMapper.mapCompositeFilterUppercaseToCompositeFilter(r.CompositeFilter)
+              };
+            });
+
+            return new fromUserFilterActions.LoadUserFilterListSuccess(newResponse);
           }),
           catchError(response => of(new fromUserFilterActions.LoadUserFilterListError(response)))
         )

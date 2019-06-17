@@ -1,4 +1,5 @@
 import { GridDataResult } from '@progress/kendo-angular-grid';
+import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
 
 import { JdmListFilter } from 'libs/models/user-profile';
 import { ListAreaColumnResponse, UserFilterResponse } from 'libs/models/payfactors-api/user-profile/response';
@@ -16,6 +17,7 @@ import {
   AppliesToAttributesExistResponse
 } from 'libs/models/payfactors-api/job-description/response/applies-to-attributes-exist-response.model';
 import { ListAreaColumnRequest } from 'libs/models/payfactors-api/user-profile/request/list-area-column-request.model';
+import { CompositeFilterUppercase } from 'libs/models/jdm';
 
 import { ControlLabel } from '../models/control-label.model';
 import { AvailableJobInformationField } from '../models/available-job-information-field.model';
@@ -36,6 +38,37 @@ export class PayfactorsApiModelMapper {
       AppliesToValueInvalid: response.AppliesToValueInvalid,
       CanRemoveValues: response.CanRemoveValues,
       JobDescriptionAppliesTo: null
+    };
+  }
+
+  static mapCompositeFilterToCompositeUppercase(compositeFilter: CompositeFilterDescriptor): CompositeFilterUppercase {
+    const filters: any[] = compositeFilter.filters;
+    return {
+      Logic: compositeFilter.logic,
+      Filters: filters.map(f => {
+        return {
+          Field: f.field,
+          Operator: f.operator,
+          Value: f.value,
+          IgnoreCase: f.ignoreCase
+        };
+      })
+    };
+  }
+
+  static mapCompositeFilterUppercaseToCompositeFilter(compositeFilter: CompositeFilterUppercase): CompositeFilterDescriptor {
+    const filters: any[] = compositeFilter.Filters;
+    const logic: any = compositeFilter.Logic;
+    return {
+      logic: logic,
+      filters: filters.map(f => {
+        return {
+          field: f.Field,
+          operator: f.Operator,
+          value: f.Value,
+          ignoreCase: f.IgnoreCase
+        };
+      })
     };
   }
 
