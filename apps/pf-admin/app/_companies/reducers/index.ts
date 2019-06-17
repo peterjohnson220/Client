@@ -5,10 +5,12 @@ import * as fromRoot from 'libs/state/state';
 
 import * as fromCompaniesReducer from './companies.reducer';
 import * as fromCompaniesGridReducer from './companies-grid.reducer';
+import * as fromCompanyPageReducer from './company-page.reducer';
 
 export interface CompanyManagementState {
-    companies: fromCompaniesReducer.State;
-    grid: fromCompaniesGridReducer.GridState;
+  companies: fromCompaniesReducer.State;
+  grid: fromCompaniesGridReducer.GridState;
+  companyPage: fromCompanyPageReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -16,12 +18,19 @@ export interface State extends fromRoot.State {
 }
 
 export const reducers = {
-    companies: fromCompaniesReducer.reducer,
-    grid: fromCompaniesGridReducer.reducer,
+  companies: fromCompaniesReducer.reducer,
+  grid: fromCompaniesGridReducer.reducer,
+  companyPage: fromCompanyPageReducer.reducer
 };
 
 // Select Feature area
 export const selectFeatureAreaState = createFeatureSelector<CompanyManagementState>('pfadmin_companies');
+
+// Feature selectors
+export const selectCompanyPageState = createSelector(
+  selectFeatureAreaState,
+  (state: CompanyManagementState) => state.companyPage
+);
 
 // Companies Page State
 export const selectCompaniesState =
@@ -48,3 +57,146 @@ export const getState =
     createSelector( selectCompaniesGridState, fromCompaniesGridReducer.getState);
 export const getGridTakeAmount =
     createSelector(selectCompaniesGridState, fromCompaniesGridReducer.getTakeAmount);
+
+// Company Page
+export const getLoadingPublicTokenUrl = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingPublicTokenUrl
+);
+
+export const getLoadingPublicTokenUrlError = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingPublicTokenUrlError
+);
+
+export const getTokenUrl = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getTokenUrl
+);
+
+export const getLoadingSystemUserGroups = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingSystemUserGroups
+);
+
+export const getSystemUserGroups = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getSystemUserGroups
+);
+
+export const getLoadingPfServicesReps = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingPfServicesReps
+);
+
+export const getPfServicesReps = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getPfServicesReps
+);
+
+export const getLoadingPfCustomerSuccessManagers = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingPfCustomerSuccessManagers
+);
+
+export const getPfCustomerSuccessManagers = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getPfCustomerSuccessManagers
+);
+
+export const getLoadingCompanyIndustries = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanyIndustries
+);
+
+export const getCompanyIndustries = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getCompanyIndustries
+);
+
+export const getLoadingCompanyTiles = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanyTiles
+);
+
+export const getLoadingCompanyTilesError = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanyTilesError
+);
+
+export const getCompanyTiles = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getCompanyTiles
+);
+
+export const getSelectedCompanyTiles = createSelector(
+  getCompanyTiles, tiles => {
+    return tiles.filter(x => x.Checked).map(t => t.TileId);
+  }
+);
+
+export const getLoadingCompanySettings = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanySettings
+);
+
+export const getLoadingCompanySettingsError = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanySettingsError
+);
+
+export const getCompanySettings = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getCompanySettings
+);
+
+export const getLoadingCompanyDataSets = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanyDataSets
+);
+
+export const getLoadingCompanyDataSetsError = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanyDataSetsError
+);
+
+export const getCompanyDataSets = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getCompanyDataSets
+);
+
+export const getSelectedDataSets = createSelector(
+  getCompanyDataSets, dataSets => {
+    return dataSets.filter(x => x.Checked).map(ds => ds.CountryCode);
+  }
+);
+
+export const getLoadingCompanyClientTypes = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanyClientTypes
+);
+
+export const getCompanyClientTypes = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getCompanyClientTypes
+);
+
+export const getLoadingCompositeFields = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompositeFields
+);
+
+export const getCompositeFields = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getCompositeFields
+);
+
+export const getSavingCompany = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getSavingCompany
+);
+
+export const getSavingCompanyError = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getSavingCompanyError
+);
