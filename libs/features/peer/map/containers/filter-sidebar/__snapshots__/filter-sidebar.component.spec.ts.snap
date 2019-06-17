@@ -12,6 +12,7 @@ exports[`Features - Peer - Filter Sidebar Component should not display "Exclude 
   mapSummary$={[Function Store]}
   payMarket$={[Function Observable]}
   previewLimit$={[Function Store]}
+  searchingAggregate$={[Function Store]}
   selectionsCount$={[Function Store]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter="false"
@@ -37,6 +38,7 @@ exports[`Features - Peer - Filter Sidebar Component should not display "Exclude 
       class="aggregate-groups-container"
     >
       
+      
     </div>
   </div>
 </pf-peer-data-cut-filter-sidebar>
@@ -54,6 +56,7 @@ exports[`Features - Peer - Filter Sidebar Component should not display "Pay Mark
   mapSummary$={[Function Store]}
   payMarket$={[Function Store]}
   previewLimit$={[Function Store]}
+  searchingAggregate$={[Function Store]}
   selectionsCount$={[Function Store]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
@@ -76,6 +79,7 @@ exports[`Features - Peer - Filter Sidebar Component should not display "Pay Mark
     <div
       class="aggregate-groups-container"
     >
+      
       
     </div>
   </div>

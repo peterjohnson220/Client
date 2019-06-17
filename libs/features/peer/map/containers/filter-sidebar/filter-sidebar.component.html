@@ -29,14 +29,25 @@
     </pf-peer-filter-info>
   </div>
 
-  <div class="aggregate-groups-container">
+  <div class="aggregate-groups-container" [class.searching]="searchingAggregate$ | async">
+
+    <div class="back-to-all-filters"
+         *ngIf="searchingAggregate$ | async"
+         (click)="onBackToAllFiltersClick()">
+      < Back To All Filters
+    </div>
+
     <pf-filter-aggregate-group
       *ngFor="let aggregateGroup of (filterAggregateGroups$ | async); trackBy: trackByFilterProp"
       [aggregateGroup]="aggregateGroup"
       [previewLimit]="previewLimit$ | async"
+      [searching]="searchingAggregate$ | async"
       (aggregateToggled)="handleAggregateToggled($event)"
-      (aggregateGroupSelectionsToggled)="handleAggregateGroupSelectionsToggled($event)">
+      (aggregateGroupSelectionsToggled)="handleAggregateGroupSelectionsToggled($event)"
+      (searchEvent)="handleSearchEvent($event)"
+    >
     </pf-filter-aggregate-group>
+
   </div>
 
 </div>

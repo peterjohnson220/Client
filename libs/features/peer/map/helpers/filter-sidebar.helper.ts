@@ -64,7 +64,9 @@ export class FilterSidebarHelper {
         // For each current selected aggregate item replace the count with the new count for that item from the server
         // If that item does not come back from the server set the count to 0
         let currentAggGroupsWithCountReplaced = [];
-        const currentAggGroupsForFilter = copiedCurrentAggGroups.find(cag => cag.MetaData.FilterProp === sag.MetaData.FilterProp);
+        const currentAggGroupsForFilter: FilterAggregateGroup = copiedCurrentAggGroups.find(
+          cag => cag.MetaData.FilterProp === sag.MetaData.FilterProp
+        );
         if (!!currentAggGroupsForFilter) {
           currentAggGroupsWithCountReplaced = currentAggGroupsForFilter.Aggregates.filter(a => a.Selected || !shouldReplaceAggs)
             .map(c => {
@@ -75,6 +77,7 @@ export class FilterSidebarHelper {
             });
         }
 
+        sag.IsSearching = currentAggGroupsForFilter.IsSearching;
         sag.Aggregates = currentAggGroupsWithCountReplaced
           .concat(sag.Aggregates.filter(sai => !currentAggGroupsWithCountReplaced.some(n => n.Item === sai.Item)));
 

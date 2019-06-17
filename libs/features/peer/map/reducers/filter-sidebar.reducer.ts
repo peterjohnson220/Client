@@ -1,3 +1,5 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import {
   PayMarket, PeerMapScopeSystemSideBarInfo, SystemFilter,
   ExchangeScopeItem, PeerMapScopeSideBarInfo, FilterAggregateGroup,
@@ -22,6 +24,7 @@ export interface State {
   includeUntaggedEmployees: boolean;
   excludeIndirectJobMatches: boolean;
   associatedExchangeJobs: string[];
+  searchingAggregate: boolean;
 }
 
 // Initial State
@@ -38,7 +41,8 @@ export const initialState: State = {
   scopeSelection: null,
   includeUntaggedEmployees: false,
   excludeIndirectJobMatches: true,
-  associatedExchangeJobs: []
+  associatedExchangeJobs: [],
+  searchingAggregate: false
 };
 
 // Reducer
@@ -199,6 +203,22 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         associatedExchangeJobs: action.payload
       };
     }
+    case fromFilterSidebarActions.TOGGLE_AGGREGATE_SEARCH: {
+      const filterAggregateId = action.payload;
+      const searching = !state.searchingAggregate;
+
+      const newFilterAggregateGroups = cloneDeep(state.filterAggregateGroups).map(g => {
+        g.IsSearching = searching && g.MetaData.Id === filterAggregateId;
+
+        return g;
+      });
+
+      return {
+        ...state,
+        searchingAggregate: searching,
+        filterAggregateGroups: newFilterAggregateGroups
+      };
+    }
     default: {
       return state;
     }
@@ -231,3 +251,4 @@ export const getExcludeIndirectJobMatches = (state: State) => state.excludeIndir
 export const getHasSimilarJobLevels = (state: State) => state.systemFilter && state.systemFilter.SimilarExchangeJobIds
   && state.systemFilter.SimilarExchangeJobIds.some(x => !state.systemFilter.ExchangeJobIds.includes(x));
 export const getAssociatedExchangeJobs = (state: State) => state.associatedExchangeJobs;
+export const getSearchingAggregate = (state: State) => state.searchingAggregate;

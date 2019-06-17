@@ -6,10 +6,16 @@ exports[`Features - Peer - Filter Aggregate Group Component should apply the col
   aggregateGroupSelectionsToggled={[Function EventEmitter]}
   aggregateToggled={[Function EventEmitter]}
   collapsed={[Function Boolean]}
+  cssReplacementRegex={[Function RegExp]}
   previewLimit={[Function Number]}
+  searchEvent={[Function EventEmitter]}
+  searchValue=""
+  searching="false"
 >
   <div
     class="aggregate-group collapsed"
+    ng-reflect-klass="aggregate-group"
+    ng-reflect-ng-class="[object Object]"
   >
     <div
       class="aggregate-group-header"
@@ -25,72 +31,23 @@ exports[`Features - Peer - Filter Aggregate Group Component should apply the col
         <div>
            MockLabel 
         </div>
+        
+        <div
+          class="ml-2"
+        >
+          <fa-icon />
+        </div>
       </div>
       <div
         class="header-right"
       >
         
         
-        <div>
-          <fa-icon />
-        </div>
-        
       </div>
-    </div>
-    <div
-      class="aggregate-container"
-    >
-      
-      
-      
-      <pf-filter-aggregate />
-      
-      
     </div>
     
-  </div>
-</pf-filter-aggregate-group>
-`;
-
-exports[`Features - Peer - Filter Aggregate Group Component should apply the show-all class to the .aggregate-container when showAllAggregates is true 1`] = `
-<pf-filter-aggregate-group
-  aggregateGroup={[Function Object]}
-  aggregateGroupSelectionsToggled={[Function EventEmitter]}
-  aggregateToggled={[Function EventEmitter]}
-  previewLimit={[Function Number]}
-  showAllAggregates={[Function Boolean]}
->
-  <div
-    class="aggregate-group"
-  >
     <div
-      class="aggregate-group-header"
-    >
-      <div
-        class="header-left space-out-children-right"
-      >
-        <div>
-          <input
-            type="checkbox"
-          />
-        </div>
-        <div>
-           MockLabel 
-        </div>
-      </div>
-      <div
-        class="header-right"
-      >
-        
-        
-        
-        <div>
-          <fa-icon />
-        </div>
-      </div>
-    </div>
-    <div
-      class="aggregate-container show-all"
+      class="aggregate-container"
     >
       
       
@@ -192,87 +149,21 @@ exports[`Features - Peer - Filter Aggregate Group Component should display 'sele
 </pf-filter-aggregate-group>
 `;
 
-exports[`Features - Peer - Filter Aggregate Group Component should show a 'Show Less' link when showAllAggregates is true 1`] = `
-<pf-filter-aggregate-group
-  aggregateGroup={[Function Object]}
-  aggregateGroupSelectionsToggled={[Function EventEmitter]}
-  aggregateToggled={[Function EventEmitter]}
-  previewLimit={[Function Number]}
-  showAllAggregates={[Function Boolean]}
->
-  <div
-    class="aggregate-group"
-  >
-    <div
-      class="aggregate-group-header"
-    >
-      <div
-        class="header-left space-out-children-right"
-      >
-        <div>
-          <input
-            type="checkbox"
-          />
-        </div>
-        <div>
-           MockLabel 
-        </div>
-      </div>
-      <div
-        class="header-right"
-      >
-        
-        
-        
-        <div>
-          <fa-icon />
-        </div>
-      </div>
-    </div>
-    <div
-      class="aggregate-container show-all"
-    >
-      
-      
-      
-      <pf-filter-aggregate />
-      <pf-filter-aggregate />
-      <pf-filter-aggregate />
-      <pf-filter-aggregate />
-      <pf-filter-aggregate />
-      <pf-filter-aggregate />
-      <pf-filter-aggregate />
-      <pf-filter-aggregate />
-      <pf-filter-aggregate />
-      <pf-filter-aggregate />
-      
-      
-    </div>
-    
-    <div
-      class="toggle-option-height"
-    >
-       Show 
-      
-      
-      <span>
-         Less 
-        <fa-icon />
-      </span>
-    </div>
-  </div>
-</pf-filter-aggregate-group>
-`;
-
 exports[`Features - Peer - Filter Aggregate Group Component should show the Options Toggle when the number of aggregates is greater than the preview limit 1`] = `
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
   aggregateGroupSelectionsToggled={[Function EventEmitter]}
   aggregateToggled={[Function EventEmitter]}
+  cssReplacementRegex={[Function RegExp]}
   previewLimit={[Function Number]}
+  searchEvent={[Function EventEmitter]}
+  searchValue=""
+  searching="false"
 >
   <div
     class="aggregate-group"
+    ng-reflect-klass="aggregate-group"
+    ng-reflect-ng-class="[object Object]"
   >
     <div
       class="aggregate-group-header"
@@ -288,18 +179,23 @@ exports[`Features - Peer - Filter Aggregate Group Component should show the Opti
         <div>
            MockLabel 
         </div>
+        
       </div>
       <div
         class="header-right"
       >
         
         
-        
-        <div>
+        <div
+          class="search au-btn-search-MockId"
+          ng-reflect-klass="search"
+          ng-reflect-ng-class="au-btn-search-MockId"
+        >
           <fa-icon />
         </div>
       </div>
     </div>
+    
     <div
       class="aggregate-container"
     >
@@ -318,13 +214,8 @@ exports[`Features - Peer - Filter Aggregate Group Component should show the Opti
     <div
       class="toggle-option-height"
     >
-       Show 
-      
-      <span>
-         5 More 
-        <fa-icon />
-      </span>
-      
+       Show 5 More 
+      <fa-icon />
     </div>
   </div>
 </pf-filter-aggregate-group>
