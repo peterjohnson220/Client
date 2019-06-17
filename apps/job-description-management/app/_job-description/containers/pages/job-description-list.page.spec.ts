@@ -29,6 +29,7 @@ import { CompanyJobViewListItem, generateMockCompanyJobViewListItem } from '../.
 import { RouteTrackingService } from '../../../shared/services';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent } from '../../components';
 import { JobDescriptionAppliesToModalComponent } from '../../../shared/components/job-description-applies-to-modal.component';
+import { PayfactorsApiModelMapper } from '../../../shared/helpers';
 
 describe('Job Description Management - Job Description - Job Description List Page', () => {
   let instance: JobDescriptionListPageComponent;
@@ -450,7 +451,11 @@ describe('Job Description Management - Job Description - Job Description List Pa
 
     instance.saveFilterHandler(mockedFilterName);
 
-    const expectedRequest = { Name: mockedFilterName, CompositeFilter: instance.gridState.filter };
+    const expectedRequest = {
+      Id: null,
+      Name: mockedFilterName,
+      CompositeFilter: PayfactorsApiModelMapper.mapCompositeFilterToCompositeUppercase(instance.gridState.filter)
+    };
     const expectedAction = new fromUserFilterActions.AddUserFilter(expectedRequest);
 
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);

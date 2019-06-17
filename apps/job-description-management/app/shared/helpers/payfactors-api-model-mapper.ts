@@ -42,6 +42,10 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapCompositeFilterToCompositeUppercase(compositeFilter: CompositeFilterDescriptor): CompositeFilterUppercase {
+    if (!compositeFilter) {
+      return null;
+    }
+
     const filters: any[] = compositeFilter.filters;
     return {
       Logic: compositeFilter.logic,
