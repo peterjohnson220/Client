@@ -6,9 +6,10 @@ import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
 import { UserProfileApiService } from 'libs/data/payfactors-api/user';
-import { JdmListFilter } from 'libs/models/user-profile';
+import { GetUserFilterListResponse } from 'libs/models/payfactors-api/user-filter/response/get-user-filter-list-response.model';
 
 import * as fromJdmFilterActions from '../actions/filter.actions';
+import { PayfactorsApiModelMapper } from '../../../../job-description-management/app/shared/helpers';
 
 
 @Injectable()
@@ -20,7 +21,17 @@ export class JdmFiltersEffects {
       ofType(fromJdmFilterActions.LOADING_FILTERS),
       switchMap(() =>
         this.userProfileApiService.getUserFilterList().pipe(
-          map((userFilters: JdmListFilter[]) => new fromJdmFilterActions.LoadingFiltersSuccess({userFilters: userFilters})),
+          map((response: GetUserFilterListResponse[]) => {
+            const newResponse = response.map(r => {
+              return {
+                Id: r.Id,
+                Name: r.Name,
+                CompositeFilter: PayfactorsApiModelMapper.mapCompositeFilterUppercaseToCompositeFilter(r.CompositeFilter)
+              };
+            });
+
+            return new fromJdmFilterActions.LoadingFiltersSuccess({ userFilters: newResponse });
+          }),
           catchError(error => of(new fromJdmFilterActions.LoadingFiltersError(error)))
         )
       )
