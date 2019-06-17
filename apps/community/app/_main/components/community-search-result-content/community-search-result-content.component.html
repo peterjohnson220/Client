@@ -7,16 +7,16 @@
     </div>
 </div>
 
-<div *ngIf="type===podcastType" class="row  align-items-center cursor-pointer" (mouseenter)="t.open()" (mouseleave)="t.close()">
-    <div class="col fixed-col pr-0"
+<div *ngIf="type===podcastType" class="row cursor-pointer" (mouseenter)="t.open()" (mouseleave)="t.close()">
+    <div class="col fixed-col pr-0 pt-3"
         ngbTooltip="Listen to podcast" 
         [autoClose]="false" 
         triggers="manual"
         #t="ngbTooltip">
         <img src="assets/images/podcast.jpg" width="50" height="50">
     </div>
-    <span class="col">
-        <p class="mt-2 mb-2"  [innerHtml]="details.Title | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></p>
-        <p class="mt-2 mb-2"  [innerHtml]="details.Summary | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></p>
-    </span>
+    <div class="col pt-2 pb-0">
+        <p [innerHtml]="details.Title | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></p>
+        <p class="mb-0" [innerHtml]="details.Summary | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></p>
+    </div>
 </div>
