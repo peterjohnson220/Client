@@ -50,6 +50,11 @@ export const PUT_SETTINGS = '[Pf-Admin/Company Page] Put Settings';
 export const PUT_SETTINGS_SUCCESS = '[Pf-Admin/Company Page] Put Settings Success';
 export const PUT_SETTINGS_ERROR = '[Pf-Admin/Company Page] Put Settings Error';
 
+// Client Type Select
+export const SELECT_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer Client Type';
+export const SELECT_PEER_AND_ANALYSIS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer And Analysis Client Type';
+export const SELECT_NON_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Non-Peer Client Type';
+
 export class GetSystemUserGroups implements Action {
   readonly type = GET_SYSTEM_USER_GROUPS;
 
@@ -286,6 +291,25 @@ export class PutSettingsError implements Action {
   constructor() {}
 }
 
+// Client Type Select
+export class SelectPeerClientType implements Action {
+  readonly type = SELECT_PEER_CLIENT_TYPE;
+
+  constructor() {}
+}
+
+export class SelectPeerAndAnalysisClientType implements Action {
+  readonly type = SELECT_PEER_AND_ANALYSIS_CLIENT_TYPE;
+
+  constructor() {}
+}
+
+export class SelectNonPeerClientType implements Action {
+  readonly type = SELECT_NON_PEER_CLIENT_TYPE;
+
+  constructor() {}
+}
+
 export type Actions
   = GetSystemUserGroups
   | GetSystemUserGroupsSuccess
@@ -325,4 +349,7 @@ export type Actions
   | SaveCompanyError
   | PutSettings
   | PutSettingsSuccess
-  | PutSettingsError;
+  | PutSettingsError
+  | SelectPeerClientType
+  | SelectPeerAndAnalysisClientType
+  | SelectNonPeerClientType;

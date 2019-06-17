@@ -10,3 +10,4 @@ export * from './data-load/index';
 export * from './system-user-group-ids';
 export * from './company-client-type';
 export * from './operator.enum';
+export * from './tile-names';

@@ -1,3 +1,7 @@
 .card-content {
   padding: 1.25rem;
 }
+
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+}

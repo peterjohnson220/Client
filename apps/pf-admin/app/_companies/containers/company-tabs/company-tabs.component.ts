@@ -34,6 +34,7 @@ export class CompanyTabsComponent implements OnInit {
   companyDataSets$: Observable<CompanyDataSetsReponse[]>;
 
   compositeFields$: Observable<ListCompositeFields[]>;
+  companyDataSetsEnabled$: Observable<boolean>;
 
   constructor( private store: Store<fromPfAdminMainReducer.State> ) {}
 
@@ -51,6 +52,7 @@ export class CompanyTabsComponent implements OnInit {
     this.companyDataSets$ = this.store.select(fromPfAdminMainReducer.getCompanyDataSets);
 
     this.compositeFields$ = this.store.select(fromPfAdminMainReducer.getCompositeFields);
+    this.companyDataSetsEnabled$ = this.store.select(fromPfAdminMainReducer.getCompanyDataSetsEnabled);
   }
 
   handleSurveyFieldsClicked() {

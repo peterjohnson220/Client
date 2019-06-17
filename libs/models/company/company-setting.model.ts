@@ -1,6 +1,7 @@
 export enum CompanySettingsEnum {
   SurveySearchIntegration = 'SurveySearchIntegration',
   PeerTermsAndConditionsRequested = 'PeerTermsAndConditionsRequested',
+  PeerTermsAndConditionsHardCopyRequested = 'PeerTermsAndConditionsHardCopyRequested',
   PeerTermsAndConditionsAccepted = 'PeerTermsAndConditionsAccepted',
   PeerManageShowCompanyJobs = 'PeerManageShowCompanyJobs',
   RestrictSurveySearchCountryFilterToPayMarket = 'RestrictSurveySearchCountryFilterToPayMarket',
@@ -21,6 +22,7 @@ export interface CompanySetting {
   DisplayName: string;
   Value: string;
   Visible: boolean;
+  Disabled?: boolean;
 }
 
 export function generateMockCompanySetting(): CompanySetting {
