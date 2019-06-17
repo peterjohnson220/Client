@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { NgbDropdownModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import { FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
+import { ColumnResizingService, FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -101,7 +101,7 @@ import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './
     UserFilterSearchPipe
   ],
   providers: [
-    ListAreaService
+    ListAreaService, ColumnResizingService
   ]
 })
 export class JobDescriptionModule { }

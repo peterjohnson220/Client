@@ -28,6 +28,7 @@ import { JobDescriptionViewConstants } from '../../../shared/constants/job-descr
 import { RouteTrackingService } from '../../../shared/services/route-tracking.service';
 import { SaveFilterModalComponent } from '../../components/save-filter-modal.component';
 import { SaveJobDescriptionTemplateIdSucessModel } from '../../models/save-job-description-template-id-sucess.model';
+import { PayfactorsApiModelMapper } from '../../../shared/helpers';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -296,8 +297,9 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   saveFilterHandler(filterName) {
     const filter = this.gridState.filter;
     const request = {
+      Id: null,
       Name: filterName,
-      CompositeFilter: filter
+      CompositeFilter: PayfactorsApiModelMapper.mapCompositeFilterToCompositeUppercase(filter)
     };
 
     this.store.dispatch(new fromUserFilterActions.AddUserFilter(request));
