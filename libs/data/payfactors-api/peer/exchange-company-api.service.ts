@@ -43,6 +43,18 @@ export class ExchangeCompanyApiService {
     );
   }
 
+  GetActiveCompanyJobsWithMatchedExchangeJob(listState: any, companyJobIds: number[],
+                                             searchTerm: string, exchangeId: number): Observable<GridDataResult> {
+    return this.payfactorsApiService.post<GridDataResult>(
+      `${this.endpoint}/GetActiveCompanyJobsWithMatchedExchangeJob`, {
+        ListState: listState,
+        SearchTerm: searchTerm,
+        ExchangeId: exchangeId
+      },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
   getExchangeJobsWithMappings(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeJobsWithMappings`,

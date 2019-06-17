@@ -187,6 +187,7 @@ export const getTotal = (state: State) => state.total;
 export const getSearchTerm = (state: State) => state.searchTerm;
 export const getSelectedCompanyJob = (state: State) => state.selectedCompanyJob;
 export const getPageRowIndexToScrollTo = (state: State) => state.pageRowIndexToScrollTo;
+export const getCompanyJobsExchangeId = (state: State) => state.exchangeId;
 
 // Selector functions, mapped exchange jobs
 export const getMappedExchangeJobsLoading = (state: State) => state.loadingMappedExchangeJobs;
