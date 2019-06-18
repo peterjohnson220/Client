@@ -6,6 +6,8 @@ export interface TagCategory {
   Description: string;
   DataType: string;
   UseSlider: boolean;
+  CategoryOperator: string;
+  DisplayOperatorToggle: boolean;
 }
 
 export function generateMockTagCategory(): TagCategory {
@@ -16,6 +18,8 @@ export function generateMockTagCategory(): TagCategory {
     EntityTypesFlag: 0,
     Description: 'description',
     DataType: 'Text',
-    UseSlider: false
+    UseSlider: false,
+    CategoryOperator: 'And',
+    DisplayOperatorToggle: false
   };
 }

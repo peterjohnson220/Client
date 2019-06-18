@@ -7,6 +7,7 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
   creatingTagCategory$={[Function Store]}
   dataTypes={[Function Array]}
   fb={[Function FormBuilder]}
+  operatorEnum={[Function Object]}
   store={[Function Store]}
   tagApiService={[Function Object]}
 >
@@ -76,8 +77,80 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
             </label>
           </div>
         </div>
+        <hr />
         <div
-          class="mb-5 d-flex flex-row"
+          class="mb-1 d-flex flex-row"
+        >
+          <div
+            class="mr-5"
+          >
+            <label
+              class="col-form-label"
+            >
+              Filter Operator:
+            </label>
+            <div
+              class="d-flex flex-row"
+            >
+              <div>
+                <input
+                  formcontrolname="categoryOperator"
+                  type="radio"
+                />
+                <label
+                  class="radio-label"
+                >
+                  
+                </label>
+              </div>
+              <div>
+                <input
+                  formcontrolname="categoryOperator"
+                  type="radio"
+                />
+                <label
+                  class="radio-label"
+                >
+                  
+                </label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              class="col-form-label"
+            >
+              Display operator toggle in UI:
+            </label>
+            <div>
+              <kendo-switch
+                formcontrolname="displayOperatorToggle"
+              >
+                
+                <span
+                  class="k-switch-container"
+                >
+                  <span
+                    class="k-switch-label-on"
+                  >
+                    
+                  </span>
+                  <span
+                    class="k-switch-label-off"
+                  >
+                    
+                  </span>
+                  <span
+                    class="k-switch-handle"
+                  />
+                </span>
+              </kendo-switch>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div
+          class="mb-1 d-flex flex-row"
         >
           <div
             class="mr-5"
@@ -151,6 +224,7 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
             </div>
           </div>
         </div>
+        <hr />
         <textarea
           class="form-control text-area-no-resize"
           formcontrolname="description"
