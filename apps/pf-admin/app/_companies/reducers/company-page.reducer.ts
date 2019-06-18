@@ -7,6 +7,7 @@ import { UserResponse } from 'libs/models/payfactors-api/user/response';
 import { CompanySetting } from 'libs/models/company';
 
 import * as fromCompanyPageActions from '../actions/company-page.actions';
+import { CompanyPageHelper } from '../helpers';
 
 export interface State {
   loadingPublicTokenUrl: boolean;
@@ -26,6 +27,7 @@ export interface State {
   savingCompany: boolean;
   savingCompanyError: boolean;
   tokenUrl: string;
+  companyDataSetsEnabled: boolean;
   pfCustomerSuccessManagers: UserResponse[];
   pfServicesReps: UserResponse[];
   systemUserGroups: SystemUserGroupsResponse[];
@@ -35,6 +37,8 @@ export interface State {
   companyDataSets: CompanyDataSetsReponse[];
   companyClientTypes: CompanyClientTypesReponse[];
   compositeFields: ListCompositeFields[];
+  initialCompanyTiles: CompanyTilesResponse[];
+  initialCompanySettings: CompanySetting[];
 }
 
 const initialState: State = {
@@ -55,6 +59,7 @@ const initialState: State = {
   savingCompany: false,
   savingCompanyError: false,
   tokenUrl: '',
+  companyDataSetsEnabled: true,
   pfCustomerSuccessManagers: [],
   pfServicesReps: [],
   systemUserGroups: [],
@@ -63,7 +68,9 @@ const initialState: State = {
   companySettings: [],
   companyDataSets: [],
   companyClientTypes: [],
-  compositeFields: []
+  compositeFields: [],
+  initialCompanyTiles: [],
+  initialCompanySettings: []
 };
 
 export function reducer(state = initialState, action: fromCompanyPageActions.Actions) {
@@ -202,7 +209,8 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       return {
         ...state,
         loadingCompanyTiles: false,
-        companyTiles: action.payload
+        companyTiles: action.payload,
+        initialCompanyTiles: action.payload
       };
     }
     case fromCompanyPageActions.GET_COMPANY_TILES_ERROR: {
@@ -219,10 +227,12 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       };
     }
     case fromCompanyPageActions.GET_DEFAULT_SETTINGS_SUCCESS: {
+      const defaultSettings = action.payload.filter(x => x.Visible);
       return {
         ...state,
         loadingCompanySettings: false,
-        companySettings: action.payload
+        companySettings: defaultSettings,
+        initialCompanySettings: defaultSettings
       };
     }
     case fromCompanyPageActions.GET_DEFAULT_SETTINGS_ERROR: {
@@ -326,6 +336,39 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         companySettings: companySettingsCopy
       };
     }
+    case fromCompanyPageActions.SELECT_PEER_CLIENT_TYPE: {
+      let companyTilesCopy = cloneDeep(state.companyTiles);
+      companyTilesCopy = CompanyPageHelper.getPeerClientTypeCompanyTiles(companyTilesCopy);
+      let companySettingsCopy = cloneDeep(state.companySettings);
+      companySettingsCopy = CompanyPageHelper.getPeerClientTypeCompanySettings(companySettingsCopy);
+      return {
+        ...state,
+        companyTiles: companyTilesCopy,
+        companySettings: companySettingsCopy,
+        companyDataSetsEnabled: true
+      };
+    }
+    case fromCompanyPageActions.SELECT_PEER_AND_ANALYSIS_CLIENT_TYPE: {
+      let companyTilesCopy = cloneDeep(state.companyTiles);
+      companyTilesCopy = CompanyPageHelper.getPeerAndAnalysisClientTypeCompanyTiles(companyTilesCopy);
+      let companySettingsCopy = cloneDeep(state.companySettings);
+      companySettingsCopy = CompanyPageHelper.getPeerAndAnalysisClientTypeCompanySettings(companySettingsCopy);
+      return {
+        ...state,
+        companyTiles: companyTilesCopy,
+        companySettings: companySettingsCopy,
+        companyDataSetsEnabled: false
+      };
+    }
+    case fromCompanyPageActions.SELECT_NON_PEER_CLIENT_TYPE: {
+      const companyTilesCopy = cloneDeep(state.companyTiles);
+      return {
+        ...state,
+        companyTiles: CompanyPageHelper.getNonPeerClientTypeCompanyTiles(companyTilesCopy),
+        companySettings: state.initialCompanySettings,
+        companyDataSetsEnabled: true
+      };
+    }
     default: {
       return state;
     }
@@ -358,3 +401,4 @@ export const getLoadingCompositeFields = (state: State) => state.loadingComposit
 export const getCompositeFields = (state: State) => state.compositeFields;
 export const getSavingCompany = (state: State) => state.savingCompany;
 export const getSavingCompanyError = (state: State) => state.savingCompanyError;
+export const getCompanyDataSetsEnabled = (state: State) => state.companyDataSetsEnabled;

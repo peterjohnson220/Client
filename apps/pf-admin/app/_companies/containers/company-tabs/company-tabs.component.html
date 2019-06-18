@@ -86,7 +86,7 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="Market Data">
+      <ngb-tab title="Market Data" *ngIf="companyDataSetsEnabled$ | async">
         <ng-template ngbTabContent>
           <div class="pt-2">
             <pf-async-container [loading]="loadingCompanyDataSets$ | async"

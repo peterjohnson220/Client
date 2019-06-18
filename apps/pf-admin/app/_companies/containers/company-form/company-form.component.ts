@@ -78,11 +78,12 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
     this.uploadUrl = `/odata/CloudFiles.UploadCompanyLogo?CompanyID=${this.companyFormData.CompanyId}`;
     this.createForm();
     this.systemUserGroupsSubscription = this.systemUserGroups$.subscribe(results => {
-      if (!!results) {
+      if (!!results && !!results.length) {
         this.systemUserGroups = results;
         this.peerOnlySystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.PeerOnly).toString();
         this.smallBusinessSystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.SmallBusiness).toString();
         this.smallBusinessPaidSystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.SmallBusinessPaid).toString();
+        this.changeRepositoryDropdown(this.companyFormData.SystemUserGroupsId.toString());
       }
     });
     this.pfServicesRepsSubscription = this.pfServicesReps$.subscribe(results => this.pfServicesReps = results);
@@ -177,8 +178,9 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
   }
 
   get isClientTypeSystemUserGroup(): boolean {
-    const selectedSystemUserGroupsId = this.companyForm.get('repository').value;
-    return selectedSystemUserGroupsId === SystemUserGroupIds.PayfactorsServices ||
+    let selectedSystemUserGroupsId = this.companyForm.get('repository').value;
+    selectedSystemUserGroupsId = !!selectedSystemUserGroupsId ? selectedSystemUserGroupsId.toString() : '';
+    return selectedSystemUserGroupsId === SystemUserGroupIds.PayfactorsServices.toString() ||
     selectedSystemUserGroupsId === this.peerOnlySystemUserGroupId ||
     selectedSystemUserGroupsId === this.smallBusinessSystemUserGroupId ||
     selectedSystemUserGroupsId === this.smallBusinessPaidSystemUserGroupId;
@@ -191,7 +193,7 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
       clientTypeControl.setValue(CompanyClientTypeConstants.PEER);
       repositoryControl.disable();
 
-      // this.companyManagementService.loadCompanyConfig(CompanyConfigurationKeys.PEER_ONLY_CONFIG);
+      this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
       return;
     } else if ( systemUserGroupsIdValue === this.smallBusinessSystemUserGroupId ||
       systemUserGroupsIdValue === this.smallBusinessPaidSystemUserGroupId) {
@@ -199,25 +201,20 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
         return;
     }
 
-    // this.companyManagementService.resetToLastLoadedConfig();
+    this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
 
     this.companyFormData.PrimarySupportUserId = null;
     clientTypeControl.reset();
   }
 
   onClientTypeChange(clientType: string) {
-    if (!clientType.length) {
-        return;
-    }
-
     const repositoryControl = this.companyForm.get('repository');
     const currentSystemUserGroupId = repositoryControl.value.toString();
 
     if (clientType === CompanyClientTypeConstants.PEER) {
       repositoryControl.setValue(this.peerOnlySystemUserGroupId);
       repositoryControl.disable();
-      // this.companyManagementService.loadCompanyConfig(CompanyConfigurationKeys.PEER_ONLY_CONFIG);
-      // this.companyManagementService.enableCompanyDataSets();
+      this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
       return;
     } else if (currentSystemUserGroupId === this.peerOnlySystemUserGroupId) {
       repositoryControl.setValue(SystemUserGroupIds.PayfactorsServices);
@@ -225,11 +222,9 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
     }
 
     if (clientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS) {
-        // this.companyManagementService.loadCompanyConfig(CompanyConfigurationKeys.PEER_AND_ANALYSIS_CONFIG);
-        // this.companyManagementService.disableCompanyDataSets();
+      this.store.dispatch(new fromCompanyPageActions.SelectPeerAndAnalysisClientType());
     } else {
-        // this.companyManagementService.resetToLastLoadedConfig();
-        // this.companyManagementService.enableCompanyDataSets();
+      this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
     }
   }
 

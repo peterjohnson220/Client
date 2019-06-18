@@ -200,3 +200,8 @@ export const getSavingCompanyError = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getSavingCompanyError
 );
+
+export const getCompanyDataSetsEnabled = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getCompanyDataSetsEnabled
+);

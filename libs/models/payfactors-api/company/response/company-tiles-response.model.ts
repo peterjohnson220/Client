@@ -6,4 +6,5 @@ export interface CompanyTilesResponse {
   CreateUser?: number;
   TileId: number;
   TileName: string;
+  Disabled?: boolean;
 }
