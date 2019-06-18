@@ -32,7 +32,10 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { InviteCompanyModalComponent } from './containers/invite-company/invite-company-modal';
 import { NewCompanyFormComponent } from './containers/invite-company/new-company-form';
 import { ExistingCompanySelectionFormComponent } from './containers/invite-company/existing-company-selection-form';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -53,6 +56,7 @@ import { ExistingCompanySelectionFormComponent } from './containers/invite-compa
       InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects, ExchangeDashboardTCModalEffects, UploadOrgDataEffects
     ]),
     NgbPopoverModule,
+    FontAwesomeModule,
 
     // Routing
     DashboardRoutingModule,
@@ -80,4 +84,6 @@ import { ExistingCompanySelectionFormComponent } from './containers/invite-compa
     ExchangeExistsGuard
   ]
 })
-export class DashboardModule { }
+export class DashboardModule {
+  constructor() { library.add(...fromFaIcons.faIcons); }
+}

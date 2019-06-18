@@ -34,6 +34,10 @@ import {
   AssociationImportModalComponent
 } from './containers/pages/exchange-job-mapping/association-import-modal/association-import-modal.component';
 import { CompanyJobsGridComponent } from './containers/company-jobs-grid/company-jobs-grid.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -53,6 +57,7 @@ import { CompanyJobsGridComponent } from './containers/company-jobs-grid/company
     NgbCarouselModule,
     UploadModule,
     TooltipModule,
+    FontAwesomeModule,
 
     // Routing
     ManageRoutingModule,
@@ -80,4 +85,6 @@ import { CompanyJobsGridComponent } from './containers/company-jobs-grid/company
     ExchangeJobMappingService
   ]
 })
-export class ManageModule { }
+export class ManageModule {
+  constructor() { library.add(...fromFaIcons.faIcons); }
+}

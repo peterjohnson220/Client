@@ -44,9 +44,9 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
         title="Export to Excel"
         type="button"
       >
-        <i
+        <fa-icon
           aria-hidden="true"
-          class="fas fa-download"
+          icon="download"
         />
       </button>
     </a>
@@ -57,9 +57,9 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
       title="Import Associations"
       type="button"
     >
-      <i
+      <fa-icon
         aria-hidden="true"
-        class="fas fa-upload"
+        icon="upload"
       />
     </button>
     
@@ -128,9 +128,9 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
         title="Export to Excel"
         type="button"
       >
-        <i
+        <fa-icon
           aria-hidden="true"
-          class="fas fa-download"
+          icon="download"
         />
       </button>
     </a>
@@ -141,9 +141,9 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       title="Import Associations"
       type="button"
     >
-      <i
+      <fa-icon
         aria-hidden="true"
-        class="fas fa-upload"
+        icon="upload"
       />
     </button>
     
@@ -206,9 +206,9 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
         title="Export to Excel"
         type="button"
       >
-        <i
+        <fa-icon
           aria-hidden="true"
-          class="fas fa-download"
+          icon="download"
         />
       </button>
     </a>
@@ -219,9 +219,9 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       title="Import Associations"
       type="button"
     >
-      <i
+      <fa-icon
         aria-hidden="true"
-        class="fas fa-upload"
+        icon="upload"
       />
     </button>
     

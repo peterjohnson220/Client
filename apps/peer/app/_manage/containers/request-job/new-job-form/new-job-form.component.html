@@ -13,7 +13,7 @@
           </ng-container>
           <span *ngIf="!jobTitleControl?.errors?.jobTitleExists" class="pf-placeholder"></span>
           <p>
-            <i class="far fa-info-circle text-info"></i>
+            <fa-icon [icon]="['far','info-circle']" class="text-info"></fa-icon>
             <small class="text-muted"> Job title must be at least 3 characters, unique for this exchange
               (including existing requests) and cannot be an existing job. If it is an existing job,
               try using that instead by clicking the 'Existing Jobs' link below.
