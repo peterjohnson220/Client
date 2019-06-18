@@ -5,6 +5,7 @@ export interface CompanyJob {
   JobDescription: string;
   JobFamily: string;
   IsAssociated: boolean;
+  IsPendingPeerUserReview: boolean;
 }
 
 export function generateMockCompanyJob(): CompanyJob {
@@ -14,6 +15,7 @@ export function generateMockCompanyJob(): CompanyJob {
     JobCode: 'jobCode',
     JobDescription: 'JobDescription',
     JobFamily: 'JobFamily',
-    IsAssociated: true
+    IsAssociated: true,
+    IsPendingPeerUserReview: false,
   };
 }

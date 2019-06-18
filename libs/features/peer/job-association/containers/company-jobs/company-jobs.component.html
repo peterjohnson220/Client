@@ -66,8 +66,8 @@
         <ng-template kendoGridCellTemplate let-dataItem>
           <span 
             class="association-status" 
-            [ngClass]="(dataItem.IsAssociated || isPendingAssociation(dataItem.CompanyJobId)) ? 'associated' : 'not-associated'"
-            [title]="(dataItem.IsAssociated || isPendingAssociation(dataItem.CompanyJobId)) ? 'Associated' : 'Not Associated'"
+            [ngClass]="getAssociationClass(dataItem.CompanyJobId, dataItem.IsAssociated, dataItem.IsPendingPeerUserReview)"
+            [title]="getAssociationLabel(dataItem.CompanyJobId, dataItem.IsAssociated, dataItem.IsPendingPeerUserReview)"
           >
           </span>
         </ng-template>
