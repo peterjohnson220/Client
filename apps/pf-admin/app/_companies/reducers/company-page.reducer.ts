@@ -4,7 +4,7 @@ import { SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesRespon
   CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields } from 'libs/models/payfactors-api';
 import { SortDirection, arraySortByString } from 'libs/core/functions';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
-import { CompanySetting } from 'libs/models/company';
+import { CompanySetting, CompanyDto, CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromCompanyPageActions from '../actions/company-page.actions';
 import { CompanyPageHelper } from '../helpers';
@@ -17,13 +17,16 @@ export interface State {
   loadingPfCustomerSuccessManagers: boolean;
   loadingCompanyIndustries: boolean;
   loadingCompanyTiles: boolean;
+  loadingCompanyTilesSuccess: boolean;
   loadingCompanyTilesError: boolean;
   loadingCompanySettings: boolean;
+  loadingCompanySettingsSuccess: boolean;
   loadingCompanySettingsError: boolean;
   loadingCompanyDataSets: boolean;
   loadingCompanyDataSetsError: boolean;
   loadingCompanyClientTypes: boolean;
   loadingCompositeFields: boolean;
+  loadingCompany: boolean;
   savingCompany: boolean;
   savingCompanyError: boolean;
   tokenUrl: string;
@@ -39,6 +42,7 @@ export interface State {
   compositeFields: ListCompositeFields[];
   initialCompanyTiles: CompanyTilesResponse[];
   initialCompanySettings: CompanySetting[];
+  company: CompanyDto;
 }
 
 const initialState: State = {
@@ -49,13 +53,16 @@ const initialState: State = {
   loadingPfCustomerSuccessManagers: false,
   loadingCompanyIndustries: false,
   loadingCompanyTiles: false,
+  loadingCompanyTilesSuccess: false,
   loadingCompanyTilesError: false,
   loadingCompanySettings: false,
+  loadingCompanySettingsSuccess: false,
   loadingCompanySettingsError: false,
   loadingCompanyDataSets: false,
   loadingCompanyDataSetsError: false,
   loadingCompanyClientTypes: false,
   loadingCompositeFields: false,
+  loadingCompany: false,
   savingCompany: false,
   savingCompanyError: false,
   tokenUrl: '',
@@ -70,7 +77,8 @@ const initialState: State = {
   companyClientTypes: [],
   compositeFields: [],
   initialCompanyTiles: [],
-  initialCompanySettings: []
+  initialCompanySettings: [],
+  company: null
 };
 
 export function reducer(state = initialState, action: fromCompanyPageActions.Actions) {
@@ -202,13 +210,16 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
     case fromCompanyPageActions.GET_COMPANY_TILES: {
       return {
         ...state,
-        loadingCompanyTiles: true
+        loadingCompanyTiles: true,
+        loadingCompanyTilesSuccess: false,
+        loadingCompanyTilesError: false
       };
     }
     case fromCompanyPageActions.GET_COMPANY_TILES_SUCCESS: {
       return {
         ...state,
         loadingCompanyTiles: false,
+        loadingCompanyTilesSuccess: true,
         companyTiles: action.payload,
         initialCompanyTiles: action.payload
       };
@@ -220,22 +231,39 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         loadingCompanyTilesError: true
       };
     }
-    case fromCompanyPageActions.GET_DEFAULT_SETTINGS: {
+    case fromCompanyPageActions.GET_DEFAULT_SETTINGS:
+    case fromCompanyPageActions.GET_COMPANY_SETTINGS: {
       return {
         ...state,
-        loadingCompanySettings: true
+        loadingCompanySettings: true,
+        loadingCompanySettingsSuccess: false,
+        loadingCompanySettingsError: false
       };
     }
     case fromCompanyPageActions.GET_DEFAULT_SETTINGS_SUCCESS: {
-      const defaultSettings = action.payload.filter(x => x.Visible);
+      const settings = action.payload.filter(x => x.Visible);
       return {
         ...state,
         loadingCompanySettings: false,
-        companySettings: defaultSettings,
-        initialCompanySettings: defaultSettings
+        loadingCompanySettingsSuccess: true,
+        companySettings: settings,
+        initialCompanySettings: settings
       };
     }
-    case fromCompanyPageActions.GET_DEFAULT_SETTINGS_ERROR: {
+    case fromCompanyPageActions.GET_COMPANY_SETTINGS_SUCCESS: {
+      let settings = cloneDeep(action.payload);
+      settings = settings.filter((x: CompanySetting) => x.Visible);
+      settings = CompanyPageHelper.modifyPeerTCRequestSettingDisabled(settings);
+      return {
+        ...state,
+        loadingCompanySettings: false,
+        loadingCompanySettingsSuccess: true,
+        companySettings: settings,
+        initialCompanySettings: settings
+      };
+    }
+    case fromCompanyPageActions.GET_DEFAULT_SETTINGS_ERROR:
+    case fromCompanyPageActions.GET_COMPANY_SETTINGS_ERROR: {
       return {
         ...state,
         loadingCompanySettings: false,
@@ -326,10 +354,15 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
     }
     case fromCompanyPageActions.TOGGLE_COMPANY_SETTING: {
       const selectedCompanySetting = action.payload;
-      const companySettingsCopy =  cloneDeep(state.companySettings);
+      let companySettingsCopy =  cloneDeep(state.companySettings);
       const companySetting: CompanySetting = companySettingsCopy.find((x: CompanySetting) => x.Key === selectedCompanySetting.Key);
       if (companySetting) {
         companySetting.Value = companySetting.Value === 'true' ? 'false' : 'true';
+        if ((companySetting.Key === CompanySettingsEnum.PeerTermsAndConditionsRequested ||
+          companySetting.Key === CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested) &&
+          companySetting.Value === 'true') {
+          companySettingsCopy = CompanyPageHelper.modifyPeerTCRequestSettingValue(companySetting, companySettingsCopy);
+        }
       }
       return {
         ...state,
@@ -369,6 +402,37 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         companyDataSetsEnabled: true
       };
     }
+    case fromCompanyPageActions.GET_COMPANY: {
+      return {
+        ...state,
+        loadingCompany: true
+      };
+    }
+    case fromCompanyPageActions.GET_COMPANY_SUCCESS: {
+      return {
+        ...state,
+        loadingCompany: false,
+        company: action.payload
+      };
+    }
+    case fromCompanyPageActions.GET_COMPANY_ERROR: {
+      return {
+        ...state,
+        loadingCompany: false
+      };
+    }
+    case fromCompanyPageActions.HANDLE_PEER_TILE_ENABLED: {
+      let companyTilesCopy = cloneDeep(state.companyTiles);
+      const peerTermsAndCondAccepted = state.companySettings.some(x =>
+          x.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted && x.Value.toLowerCase() === 'true');
+      if (!peerTermsAndCondAccepted) {
+        companyTilesCopy = CompanyPageHelper.disablePeerTile(companyTilesCopy);
+      }
+      return {
+        ...state,
+        companyTiles: companyTilesCopy
+      };
+    }
     default: {
       return state;
     }
@@ -387,9 +451,11 @@ export const getPfCustomerSuccessManagers = (state: State) => state.pfCustomerSu
 export const getLoadingCompanyIndustries = (state: State) => state.loadingCompanyIndustries;
 export const getCompanyIndustries = (state: State) => state.companyIndustries;
 export const getLoadingCompanyTiles = (state: State) => state.loadingCompanyTiles;
+export const getLoadingCompanyTilesSuccess = (state: State) => state.loadingCompanyTilesSuccess;
 export const getLoadingCompanyTilesError = (state: State) => state.loadingCompanyTilesError;
 export const getCompanyTiles = (state: State) => state.companyTiles;
 export const getLoadingCompanySettings = (state: State) => state.loadingCompanySettings;
+export const getLoadingCompanySettingsSuccess = (state: State) => state.loadingCompanySettingsSuccess;
 export const getLoadingCompanySettingsError = (state: State) => state.loadingCompanySettingsError;
 export const getCompanySettings = (state: State) => state.companySettings;
 export const getLoadingCompanyDataSets = (state: State) => state.loadingCompanyDataSets;
@@ -402,3 +468,5 @@ export const getCompositeFields = (state: State) => state.compositeFields;
 export const getSavingCompany = (state: State) => state.savingCompany;
 export const getSavingCompanyError = (state: State) => state.savingCompanyError;
 export const getCompanyDataSetsEnabled = (state: State) => state.companyDataSetsEnabled;
+export const getLoadingCompany = (state: State) => state.loadingCompany;
+export const getCompany = (state: State) => state.company;

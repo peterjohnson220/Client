@@ -1,4 +1,4 @@
-<form id="company-form" [formGroup]="companyForm">
+<form *ngIf="!!companyFormData" id="company-form" [formGroup]="companyForm">
   <div class="row">
     <div class="col-6">
       <div class="form-group" [class.has-danger]="!companyForm.controls.companyName.valid">
@@ -7,7 +7,7 @@
           placeholder="Company Name" maxlength="255">
       </div>
       <div *ngIf="isClientTypeSystemUserGroup" class="form-group"
-        [class.has-danger]="companyFormData.SystemUserGroupsId == 1 && !companyForm.controls.clientType.value">
+        [class.has-danger]="companyFormData.SystemUserGroupsId == 1 && !clientTypeControl.value">
         <label class="control-label" for="clientType">
           Client Type <span *ngIf="isPayfactorsServicesRepositorySelected" class="text-danger">*</span>
         </label>
@@ -66,17 +66,18 @@
           </span>
         </div>
       </div>
-      <div class="form-group" [class.has-danger]="!companyForm.controls.passwordLength.valid">
+      <div class="form-group" [class.has-danger]="!passwordLengthControl.valid">
         <label class="control-label" for="passwordLength">Minimum Character Password Requirement:</label>
         <input [readonly]="saving" formControlName="passwordLength" type="number" class="form-control" min="8" max="20">
-        <span
-          *ngIf="(companyForm.controls.passwordLength.errors?.min || companyForm.controls.passwordLength.errors?.required)"
-          class="help-block">Minimum password length must be at least 8 characters.</span>
-        <span *ngIf="companyForm.controls.passwordLength.errors?.max" class="help-block">
+        <span *ngIf="passwordLengthControl.touched && (passwordLengthControl.errors?.min || passwordLengthControl.errors?.required)"
+          class="help-block">Minimum password length must be at least 8 characters.
+        </span>
+        <span *ngIf="passwordLengthControl.touched && passwordLengthControl.errors?.max" class="help-block">
           Minimum password length cannot be more than 20 characters.
         </span>
-        <span *ngIf="companyForm.controls.passwordLength.errors?.pattern" class="help-block">
-          Minimum password length must be an integer.</span>
+        <span *ngIf="passwordLengthControl.touched && passwordLengthControl.errors?.pattern" class="help-block">
+          Minimum password length must be an integer.
+        </span>
       </div>
     </div>
     <div class="col-6">

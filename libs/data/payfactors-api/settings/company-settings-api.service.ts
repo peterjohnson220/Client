@@ -27,4 +27,8 @@ export class CompanySettingsApiService {
   getDefaultSettings(): Observable<CompanySetting[]> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}.GetDefaultSettings`);
   }
+
+  getCompanySettings(companyId: number): Observable<CompanySetting[]> {
+    return this.payfactorsApiService.get<CompanySetting[]>(`${this.endpoint}.GetSettings?companyId=${companyId}`);
+  }
 }

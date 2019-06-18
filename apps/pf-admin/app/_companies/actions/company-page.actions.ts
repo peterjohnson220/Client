@@ -3,9 +3,12 @@ import { Action } from '@ngrx/store';
 import { SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesResponse,
   CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields, CompanySettingsSaveRequest} from 'libs/models/payfactors-api';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
-import { CompanySetting, CompanyFormData } from 'libs/models/company';
+import { CompanySetting, CompanyFormData, CompanyDto } from 'libs/models/company';
 
 // Form
+export const GET_COMPANY = '[Pf-Admin/Company Page] Get Company';
+export const GET_COMPANY_SUCCESS = '[Pf-Admin/Company Page] Get Company Success';
+export const GET_COMPANY_ERROR = '[Pf-Admin/Company Page] Get Company Error';
 export const GET_SYSTEM_USER_GROUPS = '[Pf-Admin/Company Page] Get System User Groups';
 export const GET_SYSTEM_USER_GROUPS_SUCCESS = '[Pf-Admin/Company Page] Get System User Groups Success';
 export const GET_SYSTEM_USER_GROUPS_ERROR = '[Pf-Admin/Company Page] Get System User Groups Error';
@@ -41,8 +44,13 @@ export const GET_COMPOSITE_FIELDS_ERROR = '[Pf-Admin/Company Page] Get Composite
 export const TOGGLE_COMPANY_TILE = '[Pf-Admin/Company Page] Toggle Company Tile';
 export const TOGGLE_COMPANY_DATA_SET = '[Pf-Admin/Company Page] Toggle Company Data Set';
 export const TOGGLE_COMPANY_SETTING = '[Pf-Admin/Company Page] Toggle Company Setting';
+export const GET_COMPANY_SETTINGS = '[Pf-Admin/Company Page] Get Company Settings';
+export const GET_COMPANY_SETTINGS_SUCCESS = '[Pf-Admin/Company Page] Get Company Settings Success';
+export const GET_COMPANY_SETTINGS_ERROR = '[Pf-Admin/Company Page] Get Company Settings Error';
+export const HANDLE_PEER_TILE_ENABLED = '[Pf-Admin/Company Page] Handle Peer Tile Enabled';
 
 // Actions bar
+export const CREATE_COMPANY = '[Pf-Admin/Company Page] Create Company';
 export const SAVE_COMPANY = '[Pf-Admin/Company Page] Save Company';
 export const SAVE_COMPANY_SUCCESS = '[Pf-Admin/Company Page] Save Company Success';
 export const SAVE_COMPANY_ERROR = '[Pf-Admin/Company Page] Save Company Error';
@@ -54,6 +62,24 @@ export const PUT_SETTINGS_ERROR = '[Pf-Admin/Company Page] Put Settings Error';
 export const SELECT_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer Client Type';
 export const SELECT_PEER_AND_ANALYSIS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer And Analysis Client Type';
 export const SELECT_NON_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Non-Peer Client Type';
+
+export class GetCompany implements Action {
+  readonly type = GET_COMPANY;
+
+  constructor( public payload: number ) {}
+}
+
+export class GetCompanySuccess implements Action {
+  readonly type = GET_COMPANY_SUCCESS;
+
+  constructor( public payload: CompanyDto ) {}
+}
+
+export class GetCompanyError implements Action {
+  readonly type = GET_COMPANY_ERROR;
+
+  constructor() {}
+}
 
 export class GetSystemUserGroups implements Action {
   readonly type = GET_SYSTEM_USER_GROUPS;
@@ -254,7 +280,37 @@ export class ToggleCompanySetting implements Action {
   constructor( public payload: CompanySetting ) {}
 }
 
+export class GetCompanySettings implements Action {
+  readonly type = GET_COMPANY_SETTINGS;
+
+  constructor( public payload: number ) {}
+}
+
+export class GetCompanySettingsSuccess implements Action {
+  readonly type = GET_COMPANY_SETTINGS_SUCCESS;
+
+  constructor( public payload: CompanySetting[] ) {}
+}
+
+export class GetCompanySettingsError implements Action {
+  readonly type = GET_COMPANY_SETTINGS_ERROR;
+
+  constructor() {}
+}
+
+export class HandlePeerTileEnabled implements Action {
+  readonly type = HANDLE_PEER_TILE_ENABLED;
+
+  constructor() {}
+}
+
 // Actions bar
+export class CreateCompany implements Action {
+  readonly type = CREATE_COMPANY;
+
+  constructor( public payload: CompanyFormData ) {}
+}
+
 export class SaveCompany implements Action {
   readonly type = SAVE_COMPANY;
 
@@ -344,6 +400,7 @@ export type Actions
   | ToggleCompanyTile
   | ToggleCompanyDataSet
   | ToggleCompanySetting
+  | CreateCompany
   | SaveCompany
   | SaveCompanySuccess
   | SaveCompanyError
@@ -352,4 +409,11 @@ export type Actions
   | PutSettingsError
   | SelectPeerClientType
   | SelectPeerAndAnalysisClientType
-  | SelectNonPeerClientType;
+  | SelectNonPeerClientType
+  | GetCompany
+  | GetCompanySuccess
+  | GetCompanyError
+  | GetCompanySettings
+  | GetCompanySettingsSuccess
+  | GetCompanySettingsError
+  | HandlePeerTileEnabled;

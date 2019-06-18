@@ -5,8 +5,12 @@
   </ng-container>
 
   <ng-container page-actions>
-    <button [disabled]="(savingCompany$ | async) || companyPageForm.submitDisabled" id="company-form-submit"
-      (click)="handleSaveClicked(companyPageForm.buildFormData(), companyPageTabs.customCompanySettings)"
+    <button *ngIf="isEditMode" class="btn btn-secondary tag-button" type="submit" title="Company Tags"
+      (click)="handleCompanyTagsClicked()">
+      <fa-icon [icon]="['fal', 'tags']" class="tag-icon-center"></fa-icon>
+    </button>
+    <button [disabled]="(savingCompany$ | async) || submitDisabled" id="company-form-submit"
+      (click)="handleSaveClicked(companyPageTabs.customCompanySettings)"
       class="btn btn-primary">{{(savingCompany$ | async) ? 'Saving' : 'Save'}}
     </button>
     <button [disabled]="savingCompany$ | async" routerLink="/companies" class="btn btn-secondary" type="submit">Cancel</button>
@@ -15,10 +19,12 @@
   <ng-container page-content>
     <div class="row ml-1 mr-1">
       <div class="col-lg-9">
-        <pf-company-form #companyPageForm
+        <pf-company-form *ngIf="!!companyFormData && isCompanyFormContextLoaded" #companyPageForm
           [companyFormData]="companyFormData"
+          [companyFormContext]="companyFormContext"
           [companyLogoImgPath]="companyLogoImgPath"
-          [jdmEnabled]="jdmEnabled">
+          [jdmEnabled]="jdmEnabled"
+          [saving]="(savingCompany$ | async)">
         </pf-company-form>
       </div>
       <div class="col-lg-3">
@@ -29,3 +35,5 @@
     </div>
   </ng-container>
 </pf-page-with-title-bar>
+
+<pf-company-tags-modal></pf-company-tags-modal>
