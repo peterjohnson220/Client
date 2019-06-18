@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -14,6 +14,7 @@ import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/com
 import { ExchangeJobMappingService } from '../../../services';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
+import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
@@ -29,8 +30,11 @@ import * as fromImportRequestActions from '../../../actions/import.actions';
     styleUrls: ['./exchange-job-mapping.page.scss']
 })
 export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
+    @ViewChild('companyJobsSearchComponent', { static: true }) public companyJobsSearchComponent: InputDebounceComponent;
+
     exchangeId: number;
     showCompanyJobs: boolean;
+    companyJobsSearchTerm: string;
 
     collapse = false;
     disableGridScollTo = false;
@@ -39,7 +43,10 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     gridPageRowIndexToScrollTo$: Observable<number>;
     selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
     userContext$: Observable<UserContext>;
+
     selectedExchangeJobMappingSubscription: Subscription;
+    showCompanyJobsSubscription: Subscription;
+    companyJobsSearchTermSubscription: Subscription;
 
     constructor(
         private store: Store<fromPeerManagementReducer.State>,
@@ -105,12 +112,25 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
             this.collapse = !!selectedMapping;
         });
 
-        this.settingsService.selectCompanySetting<string>(CompanySettingsEnum.PeerManageShowCompanyJobs, 'string')
+        this.showCompanyJobsSubscription = this.settingsService
+          .selectCompanySetting<string>(CompanySettingsEnum.PeerManageShowCompanyJobs, 'string')
           .subscribe(setting => this.showCompanyJobs = (setting === 'true'));
+
+        if (this.showCompanyJobs) {
+          this.companyJobsSearchTermSubscription = this.store.select(fromPeerManagementReducer.getCompanyJobsSearchTerm).subscribe(term => {
+            this.companyJobsSearchComponent.writeValue(term);
+            this.companyJobsSearchTerm = term;
+          });
+        }
     }
 
     ngOnDestroy() {
         this.selectedExchangeJobMappingSubscription.unsubscribe();
+        this.showCompanyJobsSubscription.unsubscribe();
+        if (this.showCompanyJobs) {
+          this.companyJobsSearchTermSubscription.unsubscribe();
+        }
+
         this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping));
         this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(null));
     }

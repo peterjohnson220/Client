@@ -6,11 +6,16 @@
   <ng-container page-actions>
     <div class="omni-box">
       <!-- company jobs search box -->
-      <pf-input-debounce *ngIf="showCompanyJobs" [placeholderText]="'Search for company job title or code'" (valueChanged)="handleCompanyJobsSearchChanged($event)">
+      <pf-input-debounce 
+        #companyJobsSearchComponent 
+        [class.d-none]="!showCompanyJobs" 
+        [placeholderText]="'Search for company job title or code'"
+        [(ngModel)]="companyJobsSearchTerm" 
+        (valueChanged)="handleCompanyJobsSearchChanged($event)">
       </pf-input-debounce>
 
       <!-- exchange jobs search box -->
-      <pf-input-debounce *ngIf="!showCompanyJobs" [placeholderText]="'Search for an Exchange Job Title...'" (valueChanged)="handleSearchChanged($event)">
+      <pf-input-debounce [class.d-none]="showCompanyJobs" [placeholderText]="'Search for an Exchange Job Title...'" (valueChanged)="handleSearchChanged($event)">
       </pf-input-debounce>
     </div>
     <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">{{ showCompanyJobs ? 'Request Exchange Job' : 'Request Job' }}</button>
