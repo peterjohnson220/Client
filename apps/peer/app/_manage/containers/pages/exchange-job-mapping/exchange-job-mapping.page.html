@@ -17,13 +17,13 @@
 
     <a href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId={{exchangeId}}">
       <button type="button" title="Export to Excel" id="export-popover-btn" class="btn btn-secondary" placement="bottom">
-        <i class="fas fa-download" aria-hidden="true"></i>
+        <fa-icon icon="download" aria-hidden="true"></fa-icon>
       </button>
     </a>
 
     <button (click)="importAssociationClick()" [pfSecuredResource]="_Permissions.PEER_IMPORT_ASSOCIATIONS" type="button" title="Import Associations" id="import-popover-btn"
       class="btn btn-secondary" placement="bottom">
-      <i class="fas fa-upload" aria-hidden="true"></i>
+      <fa-icon icon="upload" aria-hidden="true"></fa-icon>
     </button>
 
   </ng-container>

@@ -57,8 +57,8 @@ exports[`Peer - Manage - Request Job - New Job Form should provide correct value
               class="pf-placeholder"
             />
             <p>
-              <i
-                class="far fa-info-circle text-info"
+              <fa-icon
+                class="text-info"
               />
               <small
                 class="text-muted"
