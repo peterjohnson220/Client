@@ -75,9 +75,9 @@ export class FilterSidebarHelper {
 
               return c;
             });
+          sag.IsSearching = currentAggGroupsForFilter.IsSearching;
         }
 
-        sag.IsSearching = currentAggGroupsForFilter.IsSearching;
         sag.Aggregates = currentAggGroupsWithCountReplaced
           .concat(sag.Aggregates.filter(sai => !currentAggGroupsWithCountReplaced.some(n => n.Item === sai.Item)));
 
