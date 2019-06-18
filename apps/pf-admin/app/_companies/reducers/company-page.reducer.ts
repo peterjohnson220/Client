@@ -361,7 +361,7 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       };
     }
     case fromCompanyPageActions.SELECT_NON_PEER_CLIENT_TYPE: {
-      const companyTilesCopy = cloneDeep(state.companyTiles);
+      const companyTilesCopy = cloneDeep(state.initialCompanyTiles);
       return {
         ...state,
         companyTiles: CompanyPageHelper.getNonPeerClientTypeCompanyTiles(companyTilesCopy),
