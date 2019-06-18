@@ -249,6 +249,6 @@ export const getScopeSelection = (state: State) => state.scopeSelection;
 export const getIncludeUntaggedIncumbents = (state: State) => state.includeUntaggedEmployees;
 export const getExcludeIndirectJobMatches = (state: State) => state.excludeIndirectJobMatches;
 export const getHasSimilarJobLevels = (state: State) => state.systemFilter && state.systemFilter.SimilarExchangeJobIds
-  && state.systemFilter.SimilarExchangeJobIds.some(x => !state.systemFilter.ExchangeJobIds.includes(x));
+  && state.systemFilter.SimilarExchangeJobIds.some(x => !(state.systemFilter.ExchangeJobIds.indexOf(x) > -1));
 export const getAssociatedExchangeJobs = (state: State) => state.associatedExchangeJobs;
 export const getSearchingAggregate = (state: State) => state.searchingAggregate;

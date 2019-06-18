@@ -28,6 +28,7 @@ $group-header-bg-color: #eaeaea;
     pf-filter-aggregate-group {
       display: flex;
       flex-direction: column;
+      overflow-y: hidden;
     }
   }
 }
@@ -45,6 +46,7 @@ $group-header-bg-color: #eaeaea;
   justify-content: center;
   padding: 1.25rem;
   height: 45px;
+  min-height: 45px;
   width: 100%;
 }
 

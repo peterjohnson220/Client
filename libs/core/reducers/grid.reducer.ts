@@ -84,7 +84,7 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
 
         const entityIdsOnPage = action.payload;
         const newState = {...state};
-        const existingPageSelections = selectionsCopy.filter(s => entityIdsOnPage.includes(s));
+        const existingPageSelections = selectionsCopy.filter(s => entityIdsOnPage.indexOf(s) > -1);
         const shouldSelectAll = state.selectAllState !== 'checked' && entityIdsOnPage.length > existingPageSelections.length;
 
         if (shouldSelectAll) {
@@ -182,7 +182,7 @@ export const getGridSelectAllState = (state: IGridState) => state.selectAllState
 
 // Helper Functions
 function getSelectAllState(newSelections, entityIdsOnPage): SelectAllCheckboxState {
-  const existingPageSelections = newSelections.filter(s => entityIdsOnPage.includes(s));
+  const existingPageSelections = newSelections.filter(s => entityIdsOnPage.indexOf(s) > -1);
   const allSelected = existingPageSelections.length === entityIdsOnPage.length;
   const hasNoSelections = existingPageSelections.length === 0;
 
