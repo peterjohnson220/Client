@@ -504,7 +504,14 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
   private showToast(options: NotificationSettings) {
     if (isObject(this.toastReference)) {
-      this.toastReference.hide();
+      try {
+        /**
+         * smh... Kendo Notifications throw an error if you try to hide a notification that is already hidden,
+         * but also don't provide a way to detect whether the notification is visible or not
+         * wrap in try-catch block to swallow the error and get around this nonsense
+         */
+        this.toastReference.hide();
+      } catch (e) {}
     }
 
     // delay to emphasize that this is a new toast message in the event that the text content is the same
