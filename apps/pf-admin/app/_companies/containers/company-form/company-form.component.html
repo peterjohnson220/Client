@@ -8,11 +8,12 @@
       </div>
       <div *ngIf="isClientTypeSystemUserGroup" class="form-group"
         [class.has-danger]="companyFormData.SystemUserGroupsId == 1 && !companyForm.controls.clientType.value">
-        <label class="control-label" for="clientType">Client Type <span class="text-danger">*</span></label>
-        <select (change)="onClientTypeChange($event.target.value)" formControlName="clientType" class="form-control"
-          placeholder="Client Type">
+        <label class="control-label" for="clientType">
+          Client Type <span *ngIf="isPayfactorsServicesRepositorySelected" class="text-danger">*</span>
+        </label>
+        <select (change)="onClientTypeChange()" formControlName="clientType" class="form-control" placeholder="Client Type">
           <option></option>
-          <option *ngFor="let clientType of clientTypes" [value]="clientType.ClientType">
+          <option *ngFor="let clientType of clientTypes" [ngValue]="clientType.ClientType">
             {{clientType.ClientType}}
           </option>
         </select>
@@ -30,8 +31,8 @@
       <div class="form-group" [class.has-danger]="!companyForm.controls.repository.valid">
         <label class="control-label" for="repository">Repository:</label>
         <select formControlName="repository" class="form-control" placeholder="Repository"
-          (change)="changeRepositoryDropdown($event.target.value)">
-          <option *ngFor="let systemUserGroup of systemUserGroups" [value]="systemUserGroup.SystemUserGroupsId">
+          (change)="changeRepositoryDropdown()">
+          <option *ngFor="let systemUserGroup of systemUserGroups" [ngValue]="systemUserGroup.SystemUserGroupsId">
             {{systemUserGroup.DisplayName}}
           </option>
         </select>
@@ -86,20 +87,24 @@
       </div>
       <div class="form-group"
         [class.has-danger]="companyFormData.SystemUserGroupsId == 1 && !companyForm.controls.servicesRep.value">
-        <label class="control-label" for="servicesRep">Sr. Associate, Compensation <span class="text-danger">*</span></label>
+        <label class="control-label" for="servicesRep">
+          Sr. Associate, Compensation <span *ngIf="isPayfactorsServicesRepositorySelected" class="text-danger">*</span>
+        </label>
         <select formControlName="servicesRep" class="form-control" placeholder="Services Rep">
           <option></option>
-          <option *ngFor="let servicesRep of pfServicesReps" [value]="servicesRep.UserId">
+          <option *ngFor="let servicesRep of pfServicesReps" [ngValue]="servicesRep.UserId">
             {{servicesRep.FirstName}} {{servicesRep.LastName}}
           </option>
         </select>
       </div>
       <div class="form-group"
         [class.has-danger]="companyFormData.SystemUserGroupsId == 1 && !companyForm.controls.customerSuccessMgr.value">
-        <label class="control-label" for="customerSuccessMgr">Customer Success Mgr <span class="text-danger">*</span></label>
+        <label class="control-label" for="customerSuccessMgr">
+          Customer Success Mgr <span *ngIf="isPayfactorsServicesRepositorySelected" class="text-danger">*</span>
+        </label>
         <select formControlName="customerSuccessMgr" class="form-control" placeholder="Customer Success Mgr">
           <option></option>
-          <option *ngFor="let customerSuccessMgr of pfCustomerSuccessMgrs" [value]="customerSuccessMgr.UserId">
+          <option *ngFor="let customerSuccessMgr of pfCustomerSuccessMgrs" [ngValue]="customerSuccessMgr.UserId">
             {{customerSuccessMgr.FirstName}} {{customerSuccessMgr.LastName}}
           </option>
         </select>
@@ -121,10 +126,9 @@
       </div>
       <div class="form-group">
         <label class="control-label" for="industry">Industry:</label>
-        <select formControlName="industry" class="form-control" placeholder="Industry"
-          (change)="changeIndustryDropdown($event.target.value)">
+        <select formControlName="industry" class="form-control" placeholder="Industry" (change)="changeIndustryDropdown()">
           <option></option>
-          <option *ngFor="let industry of industries" [value]="industry.Industry">{{industry.Industry}}</option>
+          <option *ngFor="let industry of industries" [ngValue]="industry.Industry">{{industry.Industry}}</option>
         </select>
       </div>
       <div class="form-group" *ngIf="(groupVal === RETAILING) || (groupVal === HEALTHCARE)"
