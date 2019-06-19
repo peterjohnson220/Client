@@ -50,9 +50,9 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
   industriesSubscription: Subscription;
   clientTypesSubscription: Subscription;
 
-  private peerOnlySystemUserGroupId: string;
-  private smallBusinessSystemUserGroupId: string;
-  private smallBusinessPaidSystemUserGroupId: string;
+  private peerOnlySystemUserGroupId: number;
+  private smallBusinessSystemUserGroupId: number;
+  private smallBusinessPaidSystemUserGroupId: number;
   public readonly HEALTHCARE = 'Health Care Equipment & Services';
   public readonly RETAILING = 'Retailing';
   uploadUrl: string;
@@ -80,10 +80,10 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
     this.systemUserGroupsSubscription = this.systemUserGroups$.subscribe(results => {
       if (!!results && !!results.length) {
         this.systemUserGroups = results;
-        this.peerOnlySystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.PeerOnly).toString();
-        this.smallBusinessSystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.SmallBusiness).toString();
-        this.smallBusinessPaidSystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.SmallBusinessPaid).toString();
-        this.changeRepositoryDropdown(this.companyFormData.SystemUserGroupsId.toString());
+        this.peerOnlySystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.PeerOnly);
+        this.smallBusinessSystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.SmallBusiness);
+        this.smallBusinessPaidSystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.SmallBusinessPaid);
+        this.changeRepositoryDropdown();
       }
     });
     this.pfServicesRepsSubscription = this.pfServicesReps$.subscribe(results => this.pfServicesReps = results);
@@ -129,7 +129,7 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
     },
     {
       validator: (fg: FormGroup) => {
-        if (fg.controls['repository'].value === 1 && (!fg.controls['servicesRep'].value ||
+        if (fg.controls['repository'].value === SystemUserGroupIds.PayfactorsServices && (!fg.controls['servicesRep'].value ||
           !fg.controls['customerSuccessMgr'].value || !fg.controls['clientType'].value)) {
           return { invalid: true };
         }
@@ -138,21 +138,26 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
   }
 
   buildFormData(): CompanyFormData {
+    const primarySupportUserId = this.companyForm.get('servicesRep').value;
+    const customerSuccessMgrUserId = this.companyForm.get('customerSuccessMgr').value;
+    const ftes = this.companyForm.get('ftes').value;
+    const assets = this.companyForm.get('assets').value;
+    const revenue = this.companyForm.get('revenue').value;
     return {
       CompanyId: -1,
       CompanyName: this.companyForm.get('companyName').value,
       CompanyNameShort: this.companyForm.get('companyNameShort').value,
       Status: this.companyForm.get('status').value,
-      PrimarySupportUserId: Number(this.companyForm.get('servicesRep').value).toString(),
+      PrimarySupportUserId: !!primarySupportUserId ? primarySupportUserId.toString() : null,
       SystemUserGroupsId: Number(this.companyForm.get('repository').value),
       ClientType: this.companyForm.get('clientType').value,
       Industry: this.companyForm.get('industry').value,
-      FTEs: Number(this.companyForm.get('ftes').value).toString(),
-      Assets: Number(this.companyForm.get('assets').value).toString(),
-      Revenue: Number(this.companyForm.get('revenue').value).toString(),
+      FTEs: !!ftes ? ftes.toString() : null,
+      Assets: !!assets ? assets.toString() : null,
+      Revenue: !!revenue ? revenue.toString() : null,
       CompanyLogo: this.companyLogo,
-      CustomerSuccessMgrUserId: Number(this.companyForm.get('customerSuccessMgr').value).toString(),
-      PasswordLengthRequirement: Number(this.companyForm.get('passwordLength').value),
+      CustomerSuccessMgrUserId: !!customerSuccessMgrUserId ? customerSuccessMgrUserId.toString() : null,
+      PasswordLengthRequirement: this.companyForm.get('passwordLength').value,
       CustomFieldName: this.companyFormData.CustomFieldName,
       CustomFieldValue: this.companyForm.get('customFieldValue').value,
       GroupName: null,
@@ -178,18 +183,22 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
   }
 
   get isClientTypeSystemUserGroup(): boolean {
-    let selectedSystemUserGroupsId = this.companyForm.get('repository').value;
-    selectedSystemUserGroupsId = !!selectedSystemUserGroupsId ? selectedSystemUserGroupsId.toString() : '';
-    return selectedSystemUserGroupsId === SystemUserGroupIds.PayfactorsServices.toString() ||
+    const selectedSystemUserGroupsId = this.companyForm.get('repository').value;
+    return selectedSystemUserGroupsId === SystemUserGroupIds.PayfactorsServices ||
     selectedSystemUserGroupsId === this.peerOnlySystemUserGroupId ||
     selectedSystemUserGroupsId === this.smallBusinessSystemUserGroupId ||
     selectedSystemUserGroupsId === this.smallBusinessPaidSystemUserGroupId;
   }
 
-  changeRepositoryDropdown(systemUserGroupsIdValue: string) {
+  get isPayfactorsServicesRepositorySelected(): boolean {
+    return this.companyForm.get('repository').value === SystemUserGroupIds.PayfactorsServices;
+  }
+
+  changeRepositoryDropdown() {
+    const repositoryControl = this.companyForm.get('repository');
+    const systemUserGroupsIdValue = repositoryControl.value;
     const clientTypeControl = this.companyForm.get('clientType');
     if (systemUserGroupsIdValue === this.peerOnlySystemUserGroupId) {
-      const repositoryControl = this.companyForm.get('repository');
       clientTypeControl.setValue(CompanyClientTypeConstants.PEER);
       repositoryControl.disable();
 
@@ -197,7 +206,7 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
       return;
     } else if ( systemUserGroupsIdValue === this.smallBusinessSystemUserGroupId ||
       systemUserGroupsIdValue === this.smallBusinessPaidSystemUserGroupId) {
-      clientTypeControl.setValue(CompanyClientTypeConstants.DATA_ONLY);
+        clientTypeControl.setValue(CompanyClientTypeConstants.DATA_ONLY);
         return;
     }
 
@@ -207,9 +216,10 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
     clientTypeControl.reset();
   }
 
-  onClientTypeChange(clientType: string) {
+  onClientTypeChange() {
+    const clientType = this.companyForm.get('clientType').value;
     const repositoryControl = this.companyForm.get('repository');
-    const currentSystemUserGroupId = repositoryControl.value.toString();
+    const currentSystemUserGroupId = repositoryControl.value;
 
     if (clientType === CompanyClientTypeConstants.PEER) {
       repositoryControl.setValue(this.peerOnlySystemUserGroupId);
@@ -228,7 +238,8 @@ export class CompanyFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeIndustryDropdown(industryValue: string) {
+  changeIndustryDropdown() {
+    const industryValue = this.companyForm.get('industry').value;
     this.setGroupFromIndustryValue(industryValue);
 
     if (this.groupVal === this.RETAILING) {
