@@ -19,7 +19,7 @@ export class CommunitySearchEffects {
     .pipe(
       ofType(fromCommunitySearchActions.SEARCHING_COMMUNITY),
       switchMap((action: fromCommunitySearchActions.SearchingCommunity) =>
-        this.communitySearchService.searchCommunity(action.payload).pipe(
+        this.communitySearchService.searchCommunity(action.searchTerm, action.searchDuration).pipe(
           map((response: any) => {
             return new fromCommunitySearchActions.SearchingCommunitySuccess(response);
           }),

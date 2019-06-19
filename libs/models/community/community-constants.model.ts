@@ -22,6 +22,22 @@ export enum CommunitySearchResultTypeEnum {
   Podcast = 'Podcast'
 }
 
+export enum CommunitySearchDurationEnum {
+  AllTime = 0,
+  Day,
+  Week,
+  Month,
+  Year
+}
+
+export const CommunitySearchResultDates: Array<{ text: string, value: number }> = [
+  { text: 'All Time', value: CommunitySearchDurationEnum.AllTime },
+  { text: 'Past 24 Hours', value: CommunitySearchDurationEnum.Day },
+  { text: 'Past Week', value: CommunitySearchDurationEnum.Week },
+  { text: 'Past Month', value: CommunitySearchDurationEnum.Month },
+  { text: 'Past Year', value: CommunitySearchDurationEnum.Year }
+];
+
 export const CommunityPollStatuses: Array<{ text: string, value: number }> = [
     { text: 'DRAFT', value: CommunityPollStatusEnum.Draft },
     { text: 'LIVE', value: CommunityPollStatusEnum.Live },

@@ -15,7 +15,7 @@ export const GETTING_MORE_COMMUNITY_SEARCH_RESULTS_ERROR = '[Community/Search] G
 
 export class SearchingCommunity implements Action {
   readonly type = SEARCHING_COMMUNITY;
-  constructor(public payload: string) {}
+  constructor(public searchTerm: string, public searchDuration: number) {}
 }
 
 export class SearchingCommunitySuccess implements Action {

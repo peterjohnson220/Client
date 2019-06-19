@@ -6,6 +6,7 @@ import * as fromCommunitySearchActions from '../../actions/community-search.acti
 
 import { CommunitySearchResultsComponent } from './community-search-results.component';
 import * as fromRootState from 'libs/state/state';
+import { CommunitySearchDurationEnum } from 'libs/models/community/community-constants.model';
 
 describe('CommunitySearchResultsComponent', () => {
   let fixture: ComponentFixture<CommunitySearchResultsComponent>;
@@ -37,9 +38,10 @@ describe('CommunitySearchResultsComponent', () => {
 
   it('should dispatch SearchingCommunity when calling executeSearch', () => {
     const searchQuery = 'searchQuery';
-    const expectedAction = new fromCommunitySearchActions.SearchingCommunity(searchQuery);
+    const searchDuration = CommunitySearchDurationEnum.AllTime;
+    const expectedAction = new fromCommunitySearchActions.SearchingCommunity(searchQuery, searchDuration);
 
-    instance.executeSearch(searchQuery);
+    instance.executeSearch(searchQuery, searchDuration);
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });

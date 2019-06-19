@@ -5,10 +5,29 @@
   <ng-container page-content>
     <div class="p-0 m-0">
       <div class="w-100 m-0 search-results-container-height">
-        <div class="d-flex justify-content-center sticky-top search-bar-container p-1">
-          <pf-community-search class="mt-2 w-50" [searchBoxText]="searchQuery"
-                               (searchEvent)="routeToSearch($event)"></pf-community-search>
+        
+        
+        <div class="col-left pt-3 pl-5 ml-3">
+          <div class="search-bar-container">
+            <pf-community-search class="mt-2" 
+              [searchBoxText]="searchQuery"
+              (searchEvent)="routeToSearch($event)"></pf-community-search>
+          </div>
+
+          <div class="pt-4">
+            <label class="label-block mt-2">Results From</label>
+            <kendo-dropdownlist class="ml-2 border"
+              [data]="dateOptions"
+              [textField]="'text'"
+              [valueField]="'value'"
+              [valuePrimitive]="true"
+              [value]="defaultDateOption"
+              (selectionChange)="dateSelectionChange($event)">          
+            </kendo-dropdownlist>
+          </div>
         </div>
+      
+
         <pf-community-search-results></pf-community-search-results>
       </div>
     </div>

@@ -10,7 +10,7 @@ import * as fromCommunitySearchReducer from '../../reducers';
 import { CommunityPost } from 'libs/models/community';
 
 import { ScrollDirectionEnum } from '../../models/scroll-direction.enum';
-import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
+import { CommunitySearchResultTypeEnum, CommunitySearchDurationEnum } from 'libs/models/community/community-constants.model';
 
 @Component({
   selector: 'pf-community-search-results',
@@ -71,9 +71,9 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  executeSearch(query) {
+  executeSearch(query, searchDuration = CommunitySearchDurationEnum.AllTime) {
     this.query = query;
-    this.store.dispatch(new fromCommunitySearchActions.SearchingCommunity(query));
+    this.store.dispatch(new fromCommunitySearchActions.SearchingCommunity(query, searchDuration));
 
     this.scrollToTop();
   }
