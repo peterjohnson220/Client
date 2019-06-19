@@ -64,12 +64,12 @@
                 (selectionChange)="handleSelectionChange($event)">
       <kendo-grid-column field="AssociationStatus" title="" [sortable]="false" [width]="11" class="p-0 m-0">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <span 
-            class="association-status" 
-            [ngClass]="getAssociationClass(dataItem.CompanyJobId, dataItem.IsAssociated, dataItem.IsPendingPeerUserReview)"
-            [title]="getAssociationLabel(dataItem.CompanyJobId, dataItem.IsAssociated, dataItem.IsPendingPeerUserReview)"
-          >
-          </span>
+          <pf-peer-association-color-block 
+            [unsavedExchangeJobAssociations]="exchangeJobAssociations"
+            [companyJobId]="dataItem.CompanyJobId"
+            [isAssociated]="dataItem.IsAssociated" 
+            [isPendingPeerUserReview]="dataItem.IsPendingPeerUserReview">
+          </pf-peer-association-color-block>
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-checkbox-column showSelectAll="true" [resizable]="false" [width]="35" class="no-ellipsis">
