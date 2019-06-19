@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
-import { isObject } from 'lodash';
+import { NotificationService, NotificationSettings, NotificationRef } from '@progress/kendo-angular-notification';
+import { delay, isNumber, isObject } from 'lodash';
 
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -108,6 +108,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   private get toastSuccessOptions(): NotificationSettings {
     return {
       ...this.toastOptions,
+      content: 'Mappings have been saved and autoloader will begin processing this client\'s files when they become available.',
       cssClass: 'alert-success',
     };
   }
@@ -115,12 +116,21 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   private get toastErrorOptions(): NotificationSettings {
     return {
       ...this.toastOptions,
+      content: 'Error saving field mappings.',
       cssClass: 'alert-error',
       type: {
         ...this.toastOptions.type,
         style: 'error',
       }
     };
+  }
+
+  private toastReference: NotificationRef;
+  private get toastClosePaddingMs(): number {
+    // need to provide some padding around the closing of toast notifications before opening a new one
+    // should be longer than the animation duration of the toast
+    const baseAnimationDuration = isNumber(this.toastOptions.animation.duration) ? this.toastOptions.animation.duration : 0;
+    return baseAnimationDuration + 100;
   }
 
   private loaderSaveCoordination: LoaderSaveCoordination;
@@ -485,20 +495,26 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   private showSaveSuccessToast = () => {
-    this.notificationService.show({
-      ...this.toastSuccessOptions,
-      content: 'Mappings have been saved and autoloader will begin processing this client\'s files when they become available.',
-    });
+    this.showToast(this.toastSuccessOptions);
   }
 
   private showSaveErrorToast = () => {
-    this.notificationService.show({
-      ...this.toastErrorOptions,
-      content: 'Error saving field mappings.',
-    });
+    this.showToast(this.toastErrorOptions);
+  }
+
+  private showToast(options: NotificationSettings) {
+    if (isObject(this.toastReference)) {
+      this.toastReference.hide();
+    }
+
+    // delay to emphasize that this is a new toast message in the event that the text content is the same
+    delay(
+      () => this.toastReference = this.notificationService.show(options),
+      this.toastClosePaddingMs,
+    );
   }
 
   openEmailRecipientsModal() {
-    this.store.dispatch(new OpenEmailRecipientsModal);
+    this.store.dispatch(new OpenEmailRecipientsModal());
   }
 }
