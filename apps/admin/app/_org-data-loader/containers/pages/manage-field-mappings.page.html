@@ -18,7 +18,11 @@
         <div class="list-group-item" *ngIf="selectedCompany">
           <h3>SFTP</h3>
           <div class="container-fluid">
-            <pf-sftp-account-status></pf-sftp-account-status>
+            <pf-sftp-account-status
+            [SftpDomain]="(sftpDomainConfig$ | async)?.Value"
+            [SftpPort]="(sftpPortConfig$ | async)?.Value"
+            [LoadingLoadersettings]="loaderSettingsLoading$ | async"
+            [CompanyAutoloaderStatus]="isCompanyOnAutoloader"></pf-sftp-account-status>
           </div>
         </div>
 

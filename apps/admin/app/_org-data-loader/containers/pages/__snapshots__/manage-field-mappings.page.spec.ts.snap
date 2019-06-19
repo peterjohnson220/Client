@@ -22,6 +22,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}
@@ -245,6 +246,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}
@@ -468,6 +470,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}
@@ -690,6 +693,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}
@@ -823,6 +827,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}

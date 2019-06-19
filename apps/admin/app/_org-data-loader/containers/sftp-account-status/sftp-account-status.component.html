@@ -1,12 +1,22 @@
 <div class="d-flex justify-content-between" data-qa-id='sftp-account-status-component'>
   <dl class="row">
     <dt class="col-3 col-sm-3 text-right">Host</dt>
-    <dd class="col-9 col-sm-9">sftp.payfactors.com</dd>
+    <dd class="col-9 col-sm-9">{{SftpDomain}}</dd>
 
     <dt class="col-3 col-sm-3 text-right">Port</dt>
-    <dd class="col-9 col-sm-9">22</dd>
+    <dd class="col-9 col-sm-9">{{SftpPort}}</dd>
 
-    <dt class="col-3 col-sm-3 text-right">Account</dt>
-    <dd class="col-9 col-sm-9"><fa-icon icon="check-circle" class="text-success"></fa-icon> Active | <fa-icon icon="times-circle" class="text-danger"></fa-icon> Not Created</dd>
+    <dt class="col-3 col-sm-3 text-right">Status</dt>
+    <dd class="col-9 col-sm-9">
+      <div *ngIf="LoadingLoadersettings; else ftpStatus">
+        <fa-icon icon="spinner" [spin]="true"></fa-icon>
+      </div>
+      <ng-template #ftpStatus>
+        <span *ngIf="CompanyAutoloaderStatus else notCreated"><fa-icon icon="check-circle" class="text-success"></fa-icon> Active </span>
+        <ng-template #notCreated>
+          <fa-icon icon="times-circle" class="text-danger"></fa-icon> Not Active
+        </ng-template>
+      </ng-template>
+    </dd>
   </dl>
 </div>

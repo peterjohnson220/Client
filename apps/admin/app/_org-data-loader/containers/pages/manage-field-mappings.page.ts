@@ -10,6 +10,7 @@ import { Company } from 'libs/models/company/company.model';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 import { LoaderTypes } from 'libs/constants/loader-types';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+import { ConfigSetting } from 'libs/models/security';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 
@@ -66,6 +67,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   saveMappingsError$: Observable<boolean>;
   emailRecipients$: Observable<EmailRecipientModel[]>;
   isActive: boolean;
+  isCompanyOnAutoloader: boolean;
   delimiter: string;
   dateFormat: string;
   isEmployeesLoadEnabled: boolean;
@@ -76,6 +78,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   isEmployeesFullReplace: boolean;
   isStructureMappingsFullReplace: boolean;
   loaderSettings$: Observable<LoaderSetting[]>;
+  loaderSettingsLoading$: Observable<boolean>;
   saveLoaderSettingsSuccess$: Observable<boolean>;
   saveLoaderSettingsError$: Observable<boolean>;
   existingCompanyLoaderSettings: LoaderSetting[];
@@ -83,8 +86,8 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   templateReferenceConstants = {
     LoaderType,
   };
-  sftpDomainConfig$: Observable<string>;
-  sftpPortConfig$: Observable<string>;
+  sftpDomainConfig$: Observable<ConfigSetting>;
+  sftpPortConfig$: Observable<ConfigSetting>;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -151,6 +154,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.saveMappingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsError);
     this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
     this.loaderSettings$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettings);
+    this.loaderSettingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettings);
     this.saveLoaderSettingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettingsSavingSuccess);
     this.saveLoaderSettingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettingsError);
     this.orgDataFilenamePatternSet$ = this.store.select(fromOrgDataAutoloaderReducer.getOrgDataFilenamePatternSet);
@@ -198,6 +202,11 @@ export class ManageFieldMappingsPageComponent implements OnInit {
           LoaderSettingsKeys.IsActive,
           true,
           this.stringSettingToBooleanTransform,
+        );
+        this.isCompanyOnAutoloader = this.getLoaderSettingValueIfSet<boolean>(
+          LoaderSettingsKeys.IsActive,
+          false,
+          this.stringSettingToBooleanTransform
         );
         this.delimiter = this.getLoaderSettingValueIfSet<string>(LoaderSettingsKeys.Delimiter, null, this.noopStringTransform);
         this.dateFormat = this.getLoaderSettingValueIfSet<string>(LoaderSettingsKeys.DateFormat, null, this.noopStringTransform);

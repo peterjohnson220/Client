@@ -9,13 +9,12 @@ import * as fromRootState from 'libs/state/state';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 
-import { MappingModel } from '../../models';
+import { MappingModel, LoaderEntityStatus } from '../../models';
 import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
 import { ManageFieldMappingsPageComponent } from './manage-field-mappings.page';
-import { LoaderEntityStatus } from '../../models/loader-entity-status.model';
-import { LoaderType } from '../../constants/index';
+import { LoaderType } from '../../constants';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 
 describe('ManageFieldMapperPageComponent', () => {
