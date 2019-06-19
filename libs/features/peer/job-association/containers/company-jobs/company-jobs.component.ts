@@ -196,11 +196,12 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     } else if (isAssociated) {
       return 'associated';
     }
-    this.exchangeJobAssociations.forEach((eja) => {
+    for (let i = 0; i < this.exchangeJobAssociations.length; i++) {
+      const eja = this.exchangeJobAssociations[i];
       if (eja.CompanyJobs.map(cj => cj.CompanyJobId).sort().indexOf(companyJobId) >= 0) {
         return 'associated';
       }
-    });
+    }
     return 'not-associated';
   }
   getAssociationLabel(companyJobId: number, isAssociated: boolean, isPendingPeerUserReview: boolean): string {
