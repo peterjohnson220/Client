@@ -11,7 +11,7 @@ import * as fromJobAssociationReducers from '../../reducers';
 import { GenericMenuItem, GridTypeEnum } from 'libs/models/common';
 import * as exchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
-import { CompanyJob, ExchangeJob, ExchangeJobAssociation } from '../../models';
+import { CompanyJob, CompanyJobWithMatches, ExchangeJob, ExchangeJobAssociation } from '../../models';
 import { CompanyJobMapping } from 'libs/models/peer';
 import { MultiSelectComponent } from 'libs/ui/common/content/multi-select/multi-select.component';
 
@@ -34,7 +34,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
   badRequestError$: Observable<string>;
-  selectedCompanyJobs$: Observable<CompanyJob[]>;
+  selectedCompanyJobs$: Observable<CompanyJobWithMatches[]>;
   exchangeJobAssociations$: Observable<ExchangeJobAssociation[]>;
   selectedExchangeJob$: Observable<ExchangeJob>;
   isDetailPanelExpanded$: Observable<boolean>;
@@ -57,7 +57,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   maxAssociableThreshold: number;
   searchTerm = '';
   badRequestError: string;
-  selectedCompanyJobs: CompanyJob[];
+  selectedCompanyJobs: CompanyJobWithMatches[];
   exchangeJobAssociations: ExchangeJobAssociation[];
   selectedExchangeJob: ExchangeJob;
   expandedDetailRowId: number;
@@ -303,6 +303,11 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   }
 
   selectedCompanyJobAreUniqueToExchange(exchangeId: number): boolean {
+
+    if (this.selectedCompanyJobs.some(x => x.MappedExchangeIds.indexOf(exchangeId) >= 0)) {
+      return false;
+    }
+
     const exchangeJobAssociations = this.exchangeJobAssociations.filter((x) => x.ExchangeId === exchangeId);
     const isUnique = true;
 
@@ -345,6 +350,9 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   }
 
   getPreviouslyAssociatedExchangeJobCount(exchangeId: number, exchangeJobId: number): number {
+    if (this.exchangeJobs == null) {
+      return 0;
+    }
     const exchangeJob = this.exchangeJobs.find((ej: ExchangeJob) => ej.ExchangeId === exchangeId && ej.ExchangeJobId === exchangeJobId);
     return exchangeJob.CompanyJobMappings.length;
   }
@@ -369,8 +377,8 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
       return 'First select the company job you want to associate';
     } else if (this.isAssociable(exchangeId, exchangeJobId)) {
       return 'Click to associate';
-    } else if (this.getAssociationCount(exchangeId, exchangeJobId) >= this.maxAssociableThreshold) {
-      return 'Exchange jobs should not have more than 10 associations per exchange';
+    } else if (!this.selectedCompanyJobsAndAssociatedExchangeJobAreLessThanLimit(exchangeId, exchangeJobId)) {
+      return 'Exchange jobs should not have more than ' + this.maxAssociableThreshold + ' associations per exchange';
     }
     return 'A single company job can be associated to only 1 job per exchange';
   }
