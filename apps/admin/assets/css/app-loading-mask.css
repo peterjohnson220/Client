@@ -24,7 +24,7 @@ html, body {
 }
 
 .loading-logo img {
-  animation: show .5s;
+  animation: show 1.25s;
 }
 
 .loading-arrow-reveal-x {
