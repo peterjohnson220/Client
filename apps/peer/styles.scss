@@ -2,11 +2,6 @@
 @import 'peer/peer-colors';
 @import 'common/common-variables';
 
-// hide No records available when loading
-.loading-blanket + .k-grid .k-grid-norecords {
-  display: none;
-}
-
 // hide the border between the association color column and the company job title column
 .company-jobs-grid-container .k-grid th.k-header:nth-of-type(2) {
   border-left: 0;
@@ -14,4 +9,9 @@
 
 .company-jobs-grid-container .k-grid-content .show-tooltip {
   @extend %ellipsis-overflowing-text;
+}
+
+.company-jobs-grid-container .loading-blanket + .k-grid .k-grid-norecords {
+  // hide No records msg when loading, needs to be hidden vs display: none since the scroll directive uses it as a height benchmark 
+  visibility: hidden;
 }
