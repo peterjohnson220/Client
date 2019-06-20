@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NotificationService, NotificationSettings, NotificationRef } from '@progress/kendo-angular-notification';
 
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule, createSelector } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -30,7 +30,27 @@ describe('ManageFieldMapperPageComponent', () => {
     }
   }
 
+  let mockSftpDomainSelector = jest.fn();
+  let mockSftpPortSelector = jest.fn();
+
+  class MockConfigSettingsSelectorFactory {
+    getConfigSettingsSelector(key: string) {
+      let selector: jest.Mock;
+      switch (key) {
+        case 'SftpDomain':
+          selector = mockSftpDomainSelector;
+          break;
+        case 'SftpPort':
+          selector = mockSftpPortSelector;
+          break;
+      }
+      return selector;
+    }
+  }
+
   beforeEach(async(() => {
+    mockSftpDomainSelector = jest.fn();
+    mockSftpPortSelector = jest.fn();
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -41,7 +61,10 @@ describe('ManageFieldMapperPageComponent', () => {
       ],
       declarations: [ ManageFieldMappingsPageComponent ],
       providers: [
-        ConfigSettingsSelectorFactory,
+        {
+          provide: ConfigSettingsSelectorFactory,
+          useClass: MockConfigSettingsSelectorFactory
+        },
         {
           provide: LoaderFieldMappingsApiService,
         },
