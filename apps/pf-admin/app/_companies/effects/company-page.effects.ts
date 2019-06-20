@@ -140,6 +140,32 @@ export class CompanyPageEffects {
   );
 
   @Effect()
+  createCompany$ = this.actions$
+  .pipe(
+    ofType(fromCompanyPageActions.CREATE_COMPANY),
+    withLatestFrom(
+      this.store.select(fromPfAdminMainReducer.getSelectedCompanyTiles),
+      this.store.select(fromPfAdminMainReducer.getCompanySettings),
+      this.store.select(fromPfAdminMainReducer.getSelectedDataSets),
+      (action: fromCompanyPageActions.SaveCompany, tileIds, settings, countryCodes) =>
+        ({ action, tileIds, settings, countryCodes })
+    ),
+    switchMap((data) =>
+      this.companyApiService.insert(data.action.payload, data.tileIds, data.countryCodes)
+      .pipe(
+        mergeMap((company: CompanyDto ) => {
+          const putSettingsRequest = CompanyPageHelper.buildCompanySettingsSaveRequest(company.CompanyId, data.settings);
+          return [
+            new fromCompanyPageActions.SaveCompanySuccess(),
+            new fromCompanyPageActions.PutSettings(putSettingsRequest)
+          ];
+        }),
+        catchError(() => of(new fromCompanyPageActions.SaveCompanyError()))
+      )
+    )
+  );
+
+  @Effect()
   saveCompany$ = this.actions$
   .pipe(
     ofType(fromCompanyPageActions.SAVE_COMPANY),
@@ -151,7 +177,7 @@ export class CompanyPageEffects {
         ({ action, tileIds, settings, countryCodes })
     ),
     switchMap((data) =>
-      this.companyApiService.insert(data.action.payload, data.tileIds, data.countryCodes)
+      this.companyApiService.update(data.action.payload, data.tileIds, data.countryCodes)
       .pipe(
         mergeMap((company: CompanyDto ) => {
           const putSettingsRequest = CompanyPageHelper.buildCompanySettingsSaveRequest(company.CompanyId, data.settings);
@@ -185,6 +211,32 @@ export class CompanyPageEffects {
     tap(() => {
       this.router.navigate(['companies']);
     })
+  );
+
+  @Effect()
+  getCompany$ = this.actions$
+  .pipe(
+    ofType(fromCompanyPageActions.GET_COMPANY),
+    switchMap((action: fromCompanyPageActions.GetCompany) =>
+      this.companyApiService.get(action.payload)
+      .pipe(
+        map((response) => new fromCompanyPageActions.GetCompanySuccess(response)),
+        catchError(() => of(new fromCompanyPageActions.GetCompanyError()))
+      )
+    )
+  );
+
+  @Effect()
+  getCompanySetting$ = this.actions$
+  .pipe(
+    ofType(fromCompanyPageActions.GET_COMPANY_SETTINGS),
+    switchMap((action: fromCompanyPageActions.GetCompanySettings) =>
+      this.companySettingsApiService.getCompanySettings(action.payload)
+      .pipe(
+        map((response) => new fromCompanyPageActions.GetCompanySettingsSuccess(response)),
+        catchError(() => of(new fromCompanyPageActions.GetCompanySettingsError()))
+      )
+    )
   );
 
   constructor(

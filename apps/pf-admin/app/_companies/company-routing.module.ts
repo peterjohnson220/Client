@@ -7,7 +7,8 @@ import { SiteAdminUsersListPageComponent } from './components/pages/site-admin-u
 const routes: Routes = [
   { path: '', component: CompaniesListPageComponent, canActivate: [PfAdminGuard] },
   { path: ':companyId/users', component: SiteAdminUsersListPageComponent, canActivate: [PfAdminGuard] },
-  { path: 'add', component: CompanyPageComponent, canActivate: [PfAdminGuard] }
+  { path: 'add', component: CompanyPageComponent, canActivate: [PfAdminGuard] },
+  { path: 'edit/:companyId', component: CompanyPageComponent, canActivate: [PfAdminGuard] }
 ];
 
 @NgModule({

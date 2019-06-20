@@ -26,6 +26,12 @@ export class CompanyApiService {
     );
   }
 
+  update(company: CompanyFormData, tileIds: number[], countryCodes: string[]) {
+    return this.payfactorsApiService.post(`${this.endpoint}(${company.CompanyId})/Default.Update`,
+      { Company: company, TileIds: tileIds, DataSetCountryCodes: countryCodes }
+    );
+  }
+
   getCompanySettings() {
     return this.payfactorsApiService.get<LegacyCompanySettingDto[]>(`${this.endpoint}.GetCompanySettings`);
   }

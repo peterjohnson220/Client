@@ -119,6 +119,11 @@ export const getLoadingCompanyTiles = createSelector(
   fromCompanyPageReducer.getLoadingCompanyTiles
 );
 
+export const getLoadingCompanyTilesSuccess = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanyTilesSuccess
+);
+
 export const getLoadingCompanyTilesError = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getLoadingCompanyTilesError
@@ -138,6 +143,11 @@ export const getSelectedCompanyTiles = createSelector(
 export const getLoadingCompanySettings = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getLoadingCompanySettings
+);
+
+export const getLoadingCompanySettingsSuccess = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompanySettingsSuccess
 );
 
 export const getLoadingCompanySettingsError = createSelector(
@@ -204,4 +214,14 @@ export const getSavingCompanyError = createSelector(
 export const getCompanyDataSetsEnabled = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getCompanyDataSetsEnabled
+);
+
+export const getLoadingCompany = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getLoadingCompany
+);
+
+export const getCompany = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getCompany
 );

@@ -14,18 +14,18 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
+import { UsersModule } from 'libs/features/pf-admin/users';
+import { UsersListEffects } from 'libs/features/pf-admin/users/effects';
 
 import * as fromFaIcons from './fa-icons';
 import { CompanySearchPipe } from './pipes';
 import { CompaniesListPageComponent, CompaniesListComponent, CompanyPageComponent, CompanyFormComponent,
   CompanyTabsComponent } from './containers';
-import { SecondarySurveyFieldsModalComponent } from './components';
+import { SecondarySurveyFieldsModalComponent, CompanyTagsModalComponent } from './components';
 import { SiteAdminUsersListPageComponent } from './components/pages/site-admin-users-list';
 import { CompaniesEffects, CompanyPageEffects } from './effects';
 import { reducers } from './reducers';
 import { CompanyRoutingModule } from './company-routing.module';
-import { UsersModule } from '../../../../libs/features/pf-admin/users';
-import { UsersListEffects } from '../../../../libs/features/pf-admin/users/effects';
 
 @NgModule({
     imports: [
@@ -61,6 +61,7 @@ import { UsersListEffects } from '../../../../libs/features/pf-admin/users/effec
         CompanyFormComponent,
         CompanyTabsComponent,
         SecondarySurveyFieldsModalComponent,
+        CompanyTagsModalComponent,
 
         // Pages
         CompaniesListPageComponent,

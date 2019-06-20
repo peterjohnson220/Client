@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
+
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { CompanyTilesResponse, CompanyDataSetsReponse, ListCompositeFields } from 'libs/models/payfactors-api';
-import { CompanySetting } from 'libs/models/company';
+import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromPfAdminMainReducer from '../../reducers';
 import * as fromCompanyPageActions from '../../actions/company-page.actions';
 import { SecondarySurveyFieldsModalComponent } from '../../components';
-import { CustomCompanySettings } from '../../models';
+import { CustomCompanySettings, CompanyTabsContext } from '../../models';
 
 @Component({
   selector: 'pf-company-tabs',
@@ -22,10 +24,12 @@ export class CompanyTabsComponent implements OnInit {
   secondarySurveyFieldsModalComponent: SecondarySurveyFieldsModalComponent;
 
   loadingCompanyTiles$: Observable<boolean>;
+  loadingCompanyTilesSuccess$: Observable<boolean>;
   loadingCompanyTilesError$: Observable<boolean>;
   companyTiles$: Observable<CompanyTilesResponse[]>;
 
   loadingCompanySettings$: Observable<boolean>;
+  loadingCompanySettingsSuccess$: Observable<boolean>;
   loadingCompanySettingsError$: Observable<boolean>;
   companySettings$: Observable<CompanySetting[]>;
 
@@ -36,14 +40,16 @@ export class CompanyTabsComponent implements OnInit {
   compositeFields$: Observable<ListCompositeFields[]>;
   companyDataSetsEnabled$: Observable<boolean>;
 
-  constructor( private store: Store<fromPfAdminMainReducer.State> ) {}
+  companyTabsContextSubscription: Subscription;
 
-  ngOnInit() {
+  constructor( private store: Store<fromPfAdminMainReducer.State> ) {
     this.loadingCompanyTiles$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTiles);
+    this.loadingCompanyTilesSuccess$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTilesSuccess);
     this.loadingCompanyTilesError$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTilesError);
     this.companyTiles$ = this.store.select(fromPfAdminMainReducer.getCompanyTiles);
 
     this.loadingCompanySettings$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanySettings);
+    this.loadingCompanySettingsSuccess$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanySettingsSuccess);
     this.loadingCompanySettingsError$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanySettingsError);
     this.companySettings$ = this.store.select(fromPfAdminMainReducer.getCompanySettings);
 
@@ -53,6 +59,20 @@ export class CompanyTabsComponent implements OnInit {
 
     this.compositeFields$ = this.store.select(fromPfAdminMainReducer.getCompositeFields);
     this.companyDataSetsEnabled$ = this.store.select(fromPfAdminMainReducer.getCompanyDataSetsEnabled);
+  }
+
+  ngOnInit() {
+    this.companyTabsContextSubscription = combineLatest(
+      this.loadingCompanySettingsSuccess$,
+      this.loadingCompanyTilesSuccess$
+    ).pipe(
+      map(([companyTilesLoaded, companySettingsLoaded]) => {
+        return {
+          companyTilesLoaded,
+          companySettingsLoaded
+        };
+      })
+    ).subscribe(c => this.handlePeerTileEnabled(c));
   }
 
   handleSurveyFieldsClicked() {
@@ -71,5 +91,11 @@ export class CompanyTabsComponent implements OnInit {
 
   toggleCompanySetting(companySetting: CompanySetting) {
     this.store.dispatch(new fromCompanyPageActions.ToggleCompanySetting(companySetting));
+  }
+
+  private handlePeerTileEnabled(companyTabsContext: CompanyTabsContext) {
+    if (!!companyTabsContext && companyTabsContext.companySettingsLoaded && companyTabsContext.companyTilesLoaded) {
+      this.store.dispatch(new fromCompanyPageActions.HandlePeerTileEnabled());
+    }
   }
 }
