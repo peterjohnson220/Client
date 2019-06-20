@@ -1,24 +1,26 @@
 <div class="card h-100">
   <div class="card-header d-flex justify-content-between align-items-center">
-    <div class="d-flex" *ngIf="!!selectedMatch">
-      <ng-container [ngSwitch]="selectedMatch.IsExactMatch">
-        <fa-icon *ngSwitchCase="true" icon="check-circle" class="text-success mr-1"></fa-icon>
-        <fa-icon *ngSwitchCase="false" icon="exclamation-triangle" class="text-warning mr-1"></fa-icon>
-      </ng-container>
+    <ng-container *ngIf="!!selectedMatch">
       <div class="d-flex">
-        <div class="mx-2">
-          <strong><span *ngIf="!selectedMatch.IsExactMatch">Mis-</span>Matched Scope:</strong>
-          {{selectedMatch.Scope1}}/{{selectedMatch.Scope2}}/{{selectedMatch.Scope3}}
-        </div>
-        <div class="mx-2">
-          <strong>Weighting Type:</strong>
-          {{selectedMatch.WeightingType}}
+        <ng-container [ngSwitch]="selectedMatch.IsExactMatch">
+          <fa-icon *ngSwitchCase="true" icon="check-circle" class="text-success mr-1"></fa-icon>
+          <fa-icon *ngSwitchCase="false" icon="exclamation-triangle" class="text-warning mr-1"></fa-icon>
+        </ng-container>
+        <div class="d-flex">
+          <div class="mx-2">
+            <strong><span *ngIf="!selectedMatch.IsExactMatch">Mis-</span>Matched Scope:</strong>
+            {{selectedMatch.Scope1}}/{{selectedMatch.Scope2}}/{{selectedMatch.Scope3}}
+          </div>
+          <div class="mx-2">
+            <strong>Weighting Type:</strong>
+            {{selectedMatch.WeightingType}}
+          </div>
         </div>
       </div>
-    </div>
-    <button *ngIf="hasSelection" class="btn btn-sm btn-secondary" (click)="handleApplyScopeClicked()">
-      Apply Selected Scope
-    </button>
+      <button *ngIf="hasSelection" class="btn btn-sm btn-secondary" (click)="handleApplyScopeClicked()">
+        Apply Selected Scope
+      </button>
+    </ng-container>
   </div>
   <div class="card-body overflow-y-auto">
     <pf-async-container
