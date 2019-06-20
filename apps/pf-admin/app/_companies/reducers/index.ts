@@ -14,7 +14,7 @@ export interface CompanyManagementState {
 }
 
 export interface State extends fromRoot.State {
-    pfadmin_companies: CompanyManagementState;
+    companies: CompanyManagementState;
 }
 
 export const reducers = {
@@ -24,7 +24,7 @@ export const reducers = {
 };
 
 // Select Feature area
-export const selectFeatureAreaState = createFeatureSelector<CompanyManagementState>('pfadmin_companies');
+export const selectFeatureAreaState = createFeatureSelector<CompanyManagementState>('pf-admin_companies');
 
 // Feature selectors
 export const selectCompanyPageState = createSelector(

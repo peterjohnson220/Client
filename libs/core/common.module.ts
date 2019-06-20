@@ -5,12 +5,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 
 import * as fromFaIcons from './fa-icons';
 import { DebounceClickDirective } from './directives';
-import {
-  HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
+import {  HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
   NewLinePipe, JobDescriptionParserPipe, WrapSubtextWithTag, DataTypeFilterPipe,
-  OrderByPipe
-} from './pipes';
-
+  OrderByPipe, FilterArrayByName } from './pipes';
 
 const declarations = [
   // Directives
@@ -25,7 +22,8 @@ const declarations = [
   DataTypeFilterPipe,
   JobDescriptionParserPipe,
   WrapSubtextWithTag,
-  OrderByPipe
+  OrderByPipe,
+  FilterArrayByName
 ];
 
 @NgModule({

@@ -1,0 +1,63 @@
+<div class="card h-100">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <div class="d-flex" *ngIf="!!selectedMatch">
+      <ng-container [ngSwitch]="selectedMatch.IsExactMatch">
+        <fa-icon *ngSwitchCase="true" icon="check-circle" class="text-success mr-1"></fa-icon>
+        <fa-icon *ngSwitchCase="false" icon="exclamation-triangle" class="text-warning mr-1"></fa-icon>
+      </ng-container>
+      <div class="d-flex">
+        <div class="mx-2">
+          <strong><span *ngIf="!selectedMatch.IsExactMatch">Mis-</span>Matched Scope:</strong>
+          {{selectedMatch.Scope1}}/{{selectedMatch.Scope2}}/{{selectedMatch.Scope3}}
+        </div>
+        <div class="mx-2">
+          <strong>Weighting Type:</strong>
+          {{selectedMatch.WeightingType}}
+        </div>
+      </div>
+    </div>
+    <button *ngIf="hasSelection" class="btn btn-sm btn-secondary" (click)="handleApplyScopeClicked()">
+      Apply Selected Scope
+    </button>
+  </div>
+  <div class="card-body overflow-y-auto">
+    <pf-async-container
+      *ngIf="!!selectedMatch"
+      [loading]="surveyScopesAsync?.loading"
+      [loadingError]="surveyScopesAsync?.loadingError"
+      [hideReloadButton]="true">
+
+      <div *ngIf="selectedMatch.CombinedScope" class="mb-3">
+        <pf-input-debounce [placeholderText]="'Search for a Scope...'" (valueChanged)="handleSearchValueChanged($event)"></pf-input-debounce>
+      </div>
+
+      <ng-container *ngIf="surveyScopes | filterArrayByName: filter as filteredSurveyScopes">
+        <ng-container *ngIf="filteredSurveyScopes.length else noSurveyScopes">
+          <table class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th>Scope</th>
+                <th>Weighting Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let surveyScope of filteredSurveyScopes; trackBy: trackByFn"
+                  [class.selected]="surveyScope.Selected"
+                  (click)="handleSurveyScopeClicked(surveyScope)">
+                <td>{{surveyScope.Name}}</td>
+                <td>{{surveyScope.WeightingType}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+      </ng-container>
+    </pf-async-container>
+
+  </div>
+</div>
+
+<ng-template #noSurveyScopes>
+  <strong *ngIf="!surveyScopesAsync?.loading && !surveyScopesAsync?.loadingError" class="mt-3">
+    No Survey Scopes
+  </strong>
+</ng-template>

@@ -24,7 +24,7 @@ import { UsersListPageComponent } from './containers/pages/users-list';
     CommonModule, FormsModule, ReactiveFormsModule,
 
     // 3rd Party
-    StoreModule.forFeature('pf_admin_users', reducers),
+    StoreModule.forFeature('pf-admin_users', reducers),
     EffectsModule.forFeature([
       UsersListEffects,
     ]),

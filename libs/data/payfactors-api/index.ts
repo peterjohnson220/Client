@@ -17,3 +17,4 @@ export * from './company-job-pricing-match';
 export * from './project';
 export * from './comphub';
 export * from './tags';
+export * from './surveys';
