@@ -4,6 +4,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
 <pf-exchange-job-mapping-page
   _Permissions={[Function Function]}
   collapse={[Function Boolean]}
+  companyJobsSearchComponent={[Function ElementRef]}
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
   exchangeId={[Function Number]}
@@ -14,6 +15,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   selectedExchangeJobMappingSubscription={[Function Subscriber]}
   settingsService={[Function SettingsService]}
   showCompanyJobs="false"
+  showCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
   userContext$={[Function Store]}
 >
@@ -24,8 +26,9 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
     <div
       class="omni-box"
     >
-      
-      
+      <pf-input-debounce
+        class="d-none"
+      />
       <pf-input-debounce />
     </div>
     <button
@@ -88,6 +91,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
 <pf-exchange-job-mapping-page
   _Permissions={[Function Function]}
   collapse="false"
+  companyJobsSearchComponent={[Function ElementRef]}
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
   exchangeId={[Function Number]}
@@ -98,6 +102,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   selectedExchangeJobMappingSubscription={[Function Subscriber]}
   settingsService={[Function SettingsService]}
   showCompanyJobs={[Function Boolean]}
+  showCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
   userContext$={[Function Store]}
 >
@@ -108,9 +113,12 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
     <div
       class="omni-box"
     >
-      
-      <pf-input-debounce />
-      
+      <pf-input-debounce
+        class=""
+      />
+      <pf-input-debounce
+        class="d-none"
+      />
     </div>
     <button
       class="btn btn-secondary"
@@ -166,6 +174,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
 <pf-exchange-job-mapping-page
   _Permissions={[Function Function]}
   collapse="false"
+  companyJobsSearchComponent={[Function ElementRef]}
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
   exchangeId={[Function Number]}
@@ -176,6 +185,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   selectedExchangeJobMappingSubscription={[Function Subscriber]}
   settingsService={[Function SettingsService]}
   showCompanyJobs="false"
+  showCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
   userContext$={[Function Store]}
 >
@@ -186,8 +196,9 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
     <div
       class="omni-box"
     >
-      
-      
+      <pf-input-debounce
+        class="d-none"
+      />
       <pf-input-debounce />
     </div>
     <button
