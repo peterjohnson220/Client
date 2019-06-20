@@ -24,11 +24,8 @@
         (dataStateChange)="handleDataStateChange($event)">
         <kendo-grid-column field="AssociationStatus" [sortable]="false" [resizable]="false" [filterable]="false" [width]="11" class="p-0 m-0">
           <ng-template kendoGridCellTemplate let-dataItem>
-            <span 
-              class="association-status" 
-              [ngClass]="(dataItem.IsAssociated) ? 'associated' : 'not-associated'"
-              [title]="(dataItem.IsAssociated) ? 'Matched' : 'Not Matched'">
-            </span>
+            <pf-peer-association-color-block [isAssociated]="dataItem.IsAssociated" [isPendingPeerUserReview]="dataItem.IsPendingPeerUserReview">
+            </pf-peer-association-color-block>
           </ng-template>
         </kendo-grid-column>
         <kendo-grid-column field="JobTitle" title="Company Job Title">

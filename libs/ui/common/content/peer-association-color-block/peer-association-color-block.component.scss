@@ -1,0 +1,19 @@
+@import 'peer/peer-colors';
+@import 'common/common-variables';
+
+.association-status {
+  display: inline-block;
+  width: 100%;
+  height: 34px;
+  margin-left: -4px;
+  transition: background-color .4s ease-in-out;
+  &.associated {
+    background-color: $associated;
+  }
+  &.not-associated {
+    background-color: $not-associated;
+  }
+  &.pending {
+    background-color: $pending;
+  }
+}

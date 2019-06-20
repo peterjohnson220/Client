@@ -189,32 +189,6 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAssociationClass(companyJobId: number, isAssociated: boolean, isPendingPeerUserReview: boolean): string {
-    // const matchType = 'not-associated';
-    if (isPendingPeerUserReview) {
-      return 'pending';
-    } else if (isAssociated) {
-      return 'associated';
-    }
-    for (let i = 0; i < this.exchangeJobAssociations.length; i++) {
-      const eja = this.exchangeJobAssociations[i];
-      if (eja.CompanyJobs.map(cj => cj.CompanyJobId).sort().indexOf(companyJobId) >= 0) {
-        return 'associated';
-      }
-    }
-    return 'not-associated';
-  }
-  getAssociationLabel(companyJobId: number, isAssociated: boolean, isPendingPeerUserReview: boolean): string {
-    const associationClass = this.getAssociationClass(companyJobId, isAssociated, isPendingPeerUserReview);
-    if (associationClass === 'pending') {
-      return 'Pending Review';
-    } else if (associationClass === 'associated') {
-      return 'Associated';
-    } else {
-      return 'Not Associated';
-    }
-  }
-
   isRowSelected = (e: RowArgs) => this.isSelectedCompanyJob(e.dataItem.CompanyJobId);
 
   isSelectedCompanyJob(companyJobId: number): boolean {

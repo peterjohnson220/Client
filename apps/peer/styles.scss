@@ -2,20 +2,6 @@
 @import 'peer/peer-colors';
 @import 'common/common-variables';
 
-.association-status {
-  display: inline-block;
-  width: 100%;
-  height: 34px;
-  margin-left: -4px;
-  transition: background-color .4s ease-in-out;
-  &.associated {
-    background-color: $associated;
-  }
-  &.not-associated {
-    background-color: $not-associated;
-  }
-}
-
 // hide No records available when loading
 .loading-blanket + .k-grid .k-grid-norecords {
   display: none;
