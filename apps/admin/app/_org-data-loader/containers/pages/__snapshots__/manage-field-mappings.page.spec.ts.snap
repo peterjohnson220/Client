@@ -7,7 +7,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
-  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
+  configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter=""
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -231,7 +231,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
-  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
+  configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete="false"
@@ -455,7 +455,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
-  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
+  configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -678,7 +678,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
-  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
+  configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -812,7 +812,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
-  configSettingsSelectorFactory={[Function ConfigSettingsSelectorFactory]}
+  configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
