@@ -13,12 +13,11 @@
     background-color: white !important;
     color: black !important;
   }
-}
 
-.k-list-container {
-  .k-state-focused.k-state-selected {
+  .k-state-focused {
     background-color: white !important;
     color: black !important;
+    box-shadow: none !important;
   }
 }
 
@@ -34,8 +33,11 @@
   }
 }
 
- .k-dropdown-wrap .k-input {
+.k-dropdown .k-dropdown-wrap {
+  background-color: white;
+}
 
+.k-dropdown-wrap .k-input,  .k-dropdown-wrap .k-select {
    &::selection {
      background: highlight !important;
      color: black !important;

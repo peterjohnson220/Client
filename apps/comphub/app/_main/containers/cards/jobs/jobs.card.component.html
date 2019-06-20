@@ -19,7 +19,7 @@
         <div class="data-set-selector" *ngIf="(countryDataSets$ | async)?.length > 1">
           <kendo-dropdownlist
             (valueChange)="handleCountryDataSetChanged($event)"
-            class="form-control border"
+            class="form-control"
             textField="CountryCode"
             valueField="CountryCode"
             [data]="countryDataSets$ | async"
