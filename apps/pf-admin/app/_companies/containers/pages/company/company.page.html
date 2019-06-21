@@ -23,12 +23,13 @@
           [companyFormData]="companyFormData"
           [companyFormContext]="companyFormContext"
           [companyLogoImgPath]="companyLogoImgPath"
-          [jdmEnabled]="jdmEnabled"
           [saving]="(savingCompany$ | async)">
         </pf-company-form>
       </div>
       <div class="col-lg-3">
         <pf-company-tabs #companyPageTabs
+          [companyId]="companyId"
+          [clientType]="companyFormData?.ClientType"
           [customCompanySettings]="customCompanySettings">
         </pf-company-tabs>
       </div>

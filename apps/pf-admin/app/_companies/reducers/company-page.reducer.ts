@@ -43,6 +43,7 @@ export interface State {
   initialCompanyTiles: CompanyTilesResponse[];
   initialCompanySettings: CompanySetting[];
   company: CompanyDto;
+  peerTermsAndCondAccepted: boolean;
 }
 
 const initialState: State = {
@@ -78,7 +79,8 @@ const initialState: State = {
   compositeFields: [],
   initialCompanyTiles: [],
   initialCompanySettings: [],
-  company: null
+  company: null,
+  peerTermsAndCondAccepted: false
 };
 
 export function reducer(state = initialState, action: fromCompanyPageActions.Actions) {
@@ -212,7 +214,8 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         ...state,
         loadingCompanyTiles: true,
         loadingCompanyTilesSuccess: false,
-        loadingCompanyTilesError: false
+        loadingCompanyTilesError: false,
+        tokenUrl: ''
       };
     }
     case fromCompanyPageActions.GET_COMPANY_TILES_SUCCESS: {
@@ -253,13 +256,16 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
     case fromCompanyPageActions.GET_COMPANY_SETTINGS_SUCCESS: {
       let settings = cloneDeep(action.payload);
       settings = settings.filter((x: CompanySetting) => x.Visible);
-      settings = CompanyPageHelper.modifyPeerTCRequestSettingDisabled(settings);
+      const peerTermsAndCondAccepted = settings.some((x: CompanySetting) =>
+        x.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted && x.Value.toLowerCase() === 'true');
+      settings = CompanyPageHelper.modifyPeerTCRequestSettingDisabled(settings, peerTermsAndCondAccepted);
       return {
         ...state,
         loadingCompanySettings: false,
         loadingCompanySettingsSuccess: true,
         companySettings: settings,
-        initialCompanySettings: settings
+        initialCompanySettings: settings,
+        peerTermsAndCondAccepted: peerTermsAndCondAccepted
       };
     }
     case fromCompanyPageActions.GET_DEFAULT_SETTINGS_ERROR:
@@ -394,10 +400,13 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       };
     }
     case fromCompanyPageActions.SELECT_NON_PEER_CLIENT_TYPE: {
-      const companyTilesCopy = cloneDeep(state.initialCompanyTiles);
+      let companyTilesCopy = cloneDeep(state.initialCompanyTiles);
+      if (!state.peerTermsAndCondAccepted) {
+        companyTilesCopy = CompanyPageHelper.getNonPeerClientTypeCompanyTiles(companyTilesCopy);
+      }
       return {
         ...state,
-        companyTiles: CompanyPageHelper.getNonPeerClientTypeCompanyTiles(companyTilesCopy),
+        companyTiles: companyTilesCopy,
         companySettings: state.initialCompanySettings,
         companyDataSetsEnabled: true
       };
@@ -419,18 +428,6 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       return {
         ...state,
         loadingCompany: false
-      };
-    }
-    case fromCompanyPageActions.HANDLE_PEER_TILE_ENABLED: {
-      let companyTilesCopy = cloneDeep(state.companyTiles);
-      const peerTermsAndCondAccepted = state.companySettings.some(x =>
-          x.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted && x.Value.toLowerCase() === 'true');
-      if (!peerTermsAndCondAccepted) {
-        companyTilesCopy = CompanyPageHelper.disablePeerTile(companyTilesCopy);
-      }
-      return {
-        ...state,
-        companyTiles: companyTilesCopy
       };
     }
     default: {

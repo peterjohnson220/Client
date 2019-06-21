@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy, SimpleChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -18,13 +18,11 @@ import { CompanyFormContext } from '../../models';
 @Component({
   selector: 'pf-company-form',
   templateUrl: './company-form.component.html',
-  styleUrls: ['./company-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./company-form.component.scss']
 })
 export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() companyFormData: CompanyFormData;
   @Input() companyFormContext: CompanyFormContext;
-  @Input() jdmEnabled: boolean;
   @Input() saving: boolean;
   @Input() companyLogoImgPath: string;
 
@@ -98,7 +96,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   get isClientTypeSystemUserGroup(): boolean {
     const selectedSystemUserGroupsId = this.repositoryControl.value;
-    return this.repositoryControl.untouched || selectedSystemUserGroupsId === SystemUserGroupIds.PayfactorsServices ||
+    return selectedSystemUserGroupsId === SystemUserGroupIds.PayfactorsServices ||
     selectedSystemUserGroupsId === this.peerOnlySystemUserGroupId ||
     selectedSystemUserGroupsId === this.smallBusinessSystemUserGroupId ||
     selectedSystemUserGroupsId === this.smallBusinessPaidSystemUserGroupId;
@@ -229,15 +227,6 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   changeIndustryDropdown() {
     const industryValue = this.companyForm.get('industry').value;
     this.setGroupFromIndustryValue(industryValue);
-
-    if (this.groupVal === this.RETAILING) {
-      this.companyFormData.CustomFieldName = '# Stores';
-    } else if (this.groupVal === this.HEALTHCARE) {
-      this.companyFormData.CustomFieldName = '# Beds';
-    } else {
-      this.companyFormData.CustomFieldName = null;
-      this.companyFormData.CustomFieldValue = null;
-    }
   }
 
   successEventHandler(e: SuccessEvent) {
@@ -265,10 +254,19 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     } else {
       this.groupVal = '';
     }
-}
+    if (this.groupVal === this.RETAILING) {
+      this.companyFormData.CustomFieldName = '# Stores';
+    } else if (this.groupVal === this.HEALTHCARE) {
+      this.companyFormData.CustomFieldName = '# Beds';
+    } else {
+      this.companyFormData.CustomFieldName = null;
+      this.companyFormData.CustomFieldValue = null;
+    }
+  }
 
   private updateCompanyFormData(): void {
     this.companyForm.reset();
+    this.setGroupFromIndustryValue(this.companyFormData.Industry);
 
     this.companyForm.get('companyName').setValue(this.companyFormData.CompanyName);
     this.companyForm.get('companyNameShort').setValue(this.companyFormData.CompanyNameShort);
@@ -287,7 +285,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.get('ParticipateInPeerDataExchange').setValue(this.companyFormData.ParticipateInPeerDataExchange);
     this.companyForm.get('orgDataAutoloaderApiKey').setValue(this.companyFormData.OrgDataAutoloaderApiKey);
 
-    this.setGroupFromIndustryValue(this.companyFormData.Industry);
+    this.disableRepositoryForPeerClientType();
     this.companyForm.markAsTouched();
   }
 
@@ -295,4 +293,13 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     const systemUserGroup = this.systemUserGroups.find(sug => sug.GroupName === groupName);
     return !!systemUserGroup ? systemUserGroup.SystemUserGroupsId : -1;
   }
+
+  private disableRepositoryForPeerClientType() {
+    if (this.companyFormData.ClientType === CompanyClientTypeConstants.PEER) {
+      this.repositoryControl.disable();
+    } else {
+      this.repositoryControl.enable();
+    }
+  }
+
 }
