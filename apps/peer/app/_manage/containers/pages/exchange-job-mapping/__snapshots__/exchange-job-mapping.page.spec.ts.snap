@@ -28,8 +28,11 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
     >
       <pf-input-debounce
         class="d-none"
+        id="company-job-search-box"
       />
-      <pf-input-debounce />
+      <pf-input-debounce
+        id="exchange-job-search-box"
+      />
     </div>
     <button
       class="btn btn-secondary"
@@ -115,9 +118,11 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
     >
       <pf-input-debounce
         class=""
+        id="company-job-search-box"
       />
       <pf-input-debounce
         class="d-none"
+        id="exchange-job-search-box"
       />
     </div>
     <button
@@ -198,8 +203,11 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
     >
       <pf-input-debounce
         class="d-none"
+        id="company-job-search-box"
       />
-      <pf-input-debounce />
+      <pf-input-debounce
+        id="exchange-job-search-box"
+      />
     </div>
     <button
       class="btn btn-secondary"
