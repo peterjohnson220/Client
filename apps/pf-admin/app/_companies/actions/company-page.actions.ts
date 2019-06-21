@@ -27,6 +27,8 @@ export const GET_PUBLIC_TOKEN_URL_ERROR = '[Pf-Admin/Company Page] Get Public To
 export const GET_COMPANY_CLIENT_TYPES = '[Pf-Admin/Company Page] Get Company Client Types';
 export const GET_COMPANY_CLIENT_TYPES_SUCCESS = '[Pf-Admin/Company Page] Get Company Client Types Success';
 export const GET_COMPANY_CLIENT_TYPES_ERROR = '[Pf-Admin/Company Page] Get Company Client Types Error';
+export const CHECK_JDM_ENABLED = '[Pf-Admin/Company Page] Check JDM Enabled';
+export const LOAD_FORM_DATA = '[Pf-Admin/Company Page] Load Form Data';
 
 // Tabs
 export const GET_COMPANY_TILES = '[Pf-Admin/Company Page] Get Company Tiles';
@@ -47,7 +49,6 @@ export const TOGGLE_COMPANY_SETTING = '[Pf-Admin/Company Page] Toggle Company Se
 export const GET_COMPANY_SETTINGS = '[Pf-Admin/Company Page] Get Company Settings';
 export const GET_COMPANY_SETTINGS_SUCCESS = '[Pf-Admin/Company Page] Get Company Settings Success';
 export const GET_COMPANY_SETTINGS_ERROR = '[Pf-Admin/Company Page] Get Company Settings Error';
-export const HANDLE_PEER_TILE_ENABLED = '[Pf-Admin/Company Page] Handle Peer Tile Enabled';
 
 // Actions bar
 export const CREATE_COMPANY = '[Pf-Admin/Company Page] Create Company';
@@ -66,7 +67,7 @@ export const SELECT_NON_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Non-P
 export class GetCompany implements Action {
   readonly type = GET_COMPANY;
 
-  constructor( public payload: number ) {}
+  constructor( public payload: { companyId: number } ) {}
 }
 
 export class GetCompanySuccess implements Action {
@@ -156,7 +157,7 @@ export class GetCompanyIndustriesError implements Action {
 export class GetPublicTokenUrl implements Action {
   readonly type = GET_PUBLIC_TOKEN_URL;
 
-  constructor( public payload: number ) {}
+  constructor( public payload: { companyId: number } ) {}
 }
 
 export class GetPublicTokenUrlSuccess implements Action {
@@ -189,11 +190,23 @@ export class GetCompanyClientTypesError implements Action {
   constructor() {}
 }
 
+export class CheckJDMEnabled implements Action {
+  readonly type = CHECK_JDM_ENABLED;
+
+  constructor( public payload: { companyId: number } ) {}
+}
+
+export class LoadFormData implements Action {
+  readonly type = LOAD_FORM_DATA;
+
+  constructor( public payload: { companyId: number } ) {}
+}
+
 // Tabs
 export class GetCompanyTiles implements Action {
   readonly type = GET_COMPANY_TILES;
 
-  constructor( public payload: number ) {}
+  constructor( public payload: { companyId: number } ) {}
 }
 
 export class GetCompanyTilesSuccess implements Action {
@@ -229,7 +242,7 @@ export class GetDefaultSettingsError implements Action {
 export class GetCompanyDataSets implements Action {
   readonly type = GET_COMPANY_DATA_SETS;
 
-  constructor( public payload: number ) {}
+  constructor( public payload: { companyId: number } ) {}
 }
 
 export class GetCompanyDataSetsSuccess implements Action {
@@ -283,7 +296,7 @@ export class ToggleCompanySetting implements Action {
 export class GetCompanySettings implements Action {
   readonly type = GET_COMPANY_SETTINGS;
 
-  constructor( public payload: number ) {}
+  constructor( public payload: { companyId: number } ) {}
 }
 
 export class GetCompanySettingsSuccess implements Action {
@@ -294,12 +307,6 @@ export class GetCompanySettingsSuccess implements Action {
 
 export class GetCompanySettingsError implements Action {
   readonly type = GET_COMPANY_SETTINGS_ERROR;
-
-  constructor() {}
-}
-
-export class HandlePeerTileEnabled implements Action {
-  readonly type = HANDLE_PEER_TILE_ENABLED;
 
   constructor() {}
 }
@@ -416,4 +423,5 @@ export type Actions
   | GetCompanySettings
   | GetCompanySettingsSuccess
   | GetCompanySettingsError
-  | HandlePeerTileEnabled;
+  | CheckJDMEnabled
+  | LoadFormData;

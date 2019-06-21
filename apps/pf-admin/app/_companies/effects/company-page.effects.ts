@@ -8,6 +8,7 @@ import { map, switchMap, catchError, withLatestFrom, mergeMap, tap } from 'rxjs/
 
 import { CompanyApiService, UserApiService, CompanySettingsApiService, JobDescriptionApiService } from 'libs/data/payfactors-api';
 import { CompanyDto } from 'libs/models';
+import { TileNames } from 'libs/constants';
 
 import * as fromPfAdminMainReducer from '../reducers';
 import * as fromCompanyPageActions from '../actions/company-page.actions';
@@ -15,6 +16,23 @@ import { CompanyPageHelper } from '../helpers';
 
 @Injectable()
 export class CompanyPageEffects {
+
+  @Effect()
+  loadFormData$ = this.actions$
+  .pipe(
+    ofType(fromCompanyPageActions.LOAD_FORM_DATA),
+    mergeMap((action: fromCompanyPageActions.LoadFormData) => [
+      new fromCompanyPageActions.GetSystemUserGroups(),
+      new fromCompanyPageActions.GetPfServicesReps(),
+      new fromCompanyPageActions.GetPfCustomerSuccessManagers(),
+      new fromCompanyPageActions.GetCompanyIndustries(),
+      new fromCompanyPageActions.GetCompanyClientTypes(),
+      new fromCompanyPageActions.GetCompanyTiles(action.payload),
+      new fromCompanyPageActions.GetCompanyDataSets(action.payload),
+      new fromCompanyPageActions.GetCompositeFields()
+    ])
+  );
+
   @Effect()
   getSystemUserGroups$ = this.actions$
   .pipe(
@@ -80,7 +98,7 @@ export class CompanyPageEffects {
   .pipe(
     ofType(fromCompanyPageActions.GET_COMPANY_TILES),
     switchMap((action: fromCompanyPageActions.GetCompanyTiles) =>
-      this.companyApiService.getCompanyTiles(action.payload)
+      this.companyApiService.getCompanyTiles(action.payload.companyId)
       .pipe(
         map((response) => new fromCompanyPageActions.GetCompanyTilesSuccess(response)),
         catchError(() => of(new fromCompanyPageActions.GetCompanyTilesError()))
@@ -106,7 +124,7 @@ export class CompanyPageEffects {
   .pipe(
     ofType(fromCompanyPageActions.GET_COMPANY_DATA_SETS),
     switchMap((action: fromCompanyPageActions.GetCompanyDataSets) =>
-      this.companyApiService.getCompanyDataSets(action.payload)
+      this.companyApiService.getCompanyDataSets(action.payload.companyId)
       .pipe(
         map((response) => new fromCompanyPageActions.GetCompanyDataSetsSuccess(response)),
         catchError(() => of(new fromCompanyPageActions.GetCompanyDataSetsError()))
@@ -127,11 +145,28 @@ export class CompanyPageEffects {
   );
 
   @Effect()
+  checkJDMEnabled$ = this.actions$
+  .pipe(
+    ofType(fromCompanyPageActions.CHECK_JDM_ENABLED),
+    withLatestFrom(
+      this.store.select(fromPfAdminMainReducer.getCompanyTiles),
+      (action: fromCompanyPageActions.CheckJDMEnabled, tiles) => ({action, tiles})
+    ),
+    map((data) => {
+      const jdmEnabled = data.tiles.some(tile => tile.TileName === TileNames.JobDescriptions && tile.Checked);
+      if (jdmEnabled) {
+        return new fromCompanyPageActions.GetPublicTokenUrl(data.action.payload);
+      }
+      return { type: 'No Action' };
+    })
+  );
+
+  @Effect()
   getTokenUrl$ = this.actions$
   .pipe(
     ofType(fromCompanyPageActions.GET_PUBLIC_TOKEN_URL),
     switchMap((action: fromCompanyPageActions.GetPublicTokenUrl) =>
-      this.jobDescriptionApiService.getPublicTokenUrl(action.payload)
+      this.jobDescriptionApiService.getPublicTokenUrl(action.payload.companyId)
       .pipe(
         map((response) => new fromCompanyPageActions.GetPublicTokenUrlSuccess(response)),
         catchError(() => of(new fromCompanyPageActions.GetPublicTokenUrlError()))
@@ -218,7 +253,7 @@ export class CompanyPageEffects {
   .pipe(
     ofType(fromCompanyPageActions.GET_COMPANY),
     switchMap((action: fromCompanyPageActions.GetCompany) =>
-      this.companyApiService.get(action.payload)
+      this.companyApiService.get(action.payload.companyId)
       .pipe(
         map((response) => new fromCompanyPageActions.GetCompanySuccess(response)),
         catchError(() => of(new fromCompanyPageActions.GetCompanyError()))
@@ -231,7 +266,7 @@ export class CompanyPageEffects {
   .pipe(
     ofType(fromCompanyPageActions.GET_COMPANY_SETTINGS),
     switchMap((action: fromCompanyPageActions.GetCompanySettings) =>
-      this.companySettingsApiService.getCompanySettings(action.payload)
+      this.companySettingsApiService.getCompanySettings(action.payload.companyId)
       .pipe(
         map((response) => new fromCompanyPageActions.GetCompanySettingsSuccess(response)),
         catchError(() => of(new fromCompanyPageActions.GetCompanySettingsError()))

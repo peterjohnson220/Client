@@ -96,20 +96,11 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     });
 
     if (this.isEditMode) {
-      this.store.dispatch(new fromCompanyPageActions.GetCompany(this.companyId));
-      this.store.dispatch(new fromCompanyPageActions.GetCompanySettings(this.companyId));
+      this.store.dispatch(new fromCompanyPageActions.GetCompany({ companyId: this.companyId }));
+      this.store.dispatch(new fromCompanyPageActions.GetCompanySettings({ companyId: this.companyId }));
     } else {
       this.store.dispatch(new fromCompanyPageActions.GetDefaultSettings());
     }
-
-    this.store.dispatch(new fromCompanyPageActions.GetSystemUserGroups());
-    this.store.dispatch(new fromCompanyPageActions.GetPfServicesReps());
-    this.store.dispatch(new fromCompanyPageActions.GetPfCustomerSuccessManagers());
-    this.store.dispatch(new fromCompanyPageActions.GetCompanyIndustries());
-    this.store.dispatch(new fromCompanyPageActions.GetCompanyClientTypes());
-    this.store.dispatch(new fromCompanyPageActions.GetCompanyTiles(this.companyId));
-    this.store.dispatch(new fromCompanyPageActions.GetCompanyDataSets(this.companyId));
-    this.store.dispatch(new fromCompanyPageActions.GetCompositeFields());
   }
 
   ngOnDestroy() {
@@ -130,6 +121,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     if (!this.isEditMode) {
       this.companyFormData = CompanyPageHelper.buildAddNewCompanyFormData(userContext.SystemUserGroupsId);
       this.customCompanySettings = CompanyPageHelper.buildDefaultCustomCompanySettings();
+      this.store.dispatch(new fromCompanyPageActions.LoadFormData({ companyId: this.companyId }));
     }
   }
 
@@ -139,6 +131,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     }
     this.companyFormData = CompanyPageHelper.buildEditCompanyFormData(companyDto);
     this.customCompanySettings = CompanyPageHelper.buildCustomCompanySettings(companyDto);
+    this.store.dispatch(new fromCompanyPageActions.LoadFormData({ companyId: this.companyId }));
   }
 
   handleSaveClicked(customSettings: CustomCompanySettings) {

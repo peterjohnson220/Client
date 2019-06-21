@@ -212,9 +212,7 @@ export class CompanyPageHelper {
     });
   }
 
-  static modifyPeerTCRequestSettingDisabled(settings: CompanySetting[]): CompanySetting[] {
-    const peerTermsAndCondAccepted = settings.some(x =>
-      x.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted && x.Value.toLowerCase() === 'true');
+  static modifyPeerTCRequestSettingDisabled(settings: CompanySetting[], peerTermsAndCondAccepted: boolean): CompanySetting[] {
     // Disable Peer T&C request settings
     if (peerTermsAndCondAccepted) {
       settings = settings.map((s) => {
@@ -246,14 +244,5 @@ export class CompanyPageHelper {
       });
     }
     return settings;
-  }
-
-  static disablePeerTile(tiles: CompanyTilesResponse[]): CompanyTilesResponse[] {
-    return tiles.map(t => {
-      if (t.TileName === TileNames.Peer) {
-        t.Disabled = true;
-      }
-      return t;
-    });
   }
 }

@@ -152,18 +152,14 @@
             [disabled]="orgDataAutoloaderApiKey">{{orgDataAutoloaderApiKeyGenerating ? 'Generating...' : 'Generate'}}</button>
         </div>
       </div>
-      <div *ngIf="jdmEnabled">
+      <div *ngIf="(tokenUrl$ | async)?.length">
         <label class="control-label">Public Token Url:</label>
         <pf-async-container
           [loading]="loadingTokenUrl$ | async"
           [loadingError]="loadingTokenUrlError$ | async"
           [loadingErrorMessage]="'Error.'"
           [hideReloadButton]="true">
-          <div *ngIf="(tokenUrl$ | async)?.length">
-            <textarea [readonly]="true" rows="8" type="text" class="form-control token-url-container">
-              {{ tokenUrl$ | async }}
-            </textarea>
-          </div>
+            <textarea [readonly]="true" rows="8" type="text" class="form-control token-url-container">{{ tokenUrl$ | async }}</textarea>
         </pf-async-container>
       </div>
     </div>
