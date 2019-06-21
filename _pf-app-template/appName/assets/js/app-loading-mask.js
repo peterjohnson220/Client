@@ -12,7 +12,7 @@ var observer = new MutationObserver(function(mutations) {
     if(mutation.attributeName === 'class' && targetNode.classList.contains('ready')) {
       setTimeout(function() {
         loadingMask.style.display = "none"
-      }, (new Date() - start) > 500 ? 1000 : 1);
+      }, (new Date() - start) > 1250 ? 1000 : 1);
     }
   });
 });
