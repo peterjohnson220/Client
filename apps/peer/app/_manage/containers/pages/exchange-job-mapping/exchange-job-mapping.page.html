@@ -11,11 +11,18 @@
         [class.d-none]="!showCompanyJobs" 
         [placeholderText]="'Search for company job title or code'"
         [(ngModel)]="companyJobsSearchTerm" 
-        (valueChanged)="handleCompanyJobsSearchChanged($event)">
+        (valueChanged)="handleCompanyJobsSearchChanged($event)"
+        [id]="'company-job-search-box'"
+      >
       </pf-input-debounce>
 
       <!-- exchange jobs search box -->
-      <pf-input-debounce [class.d-none]="showCompanyJobs" [placeholderText]="'Search for an Exchange Job Title...'" (valueChanged)="handleSearchChanged($event)">
+      <pf-input-debounce
+        [class.d-none]="showCompanyJobs"
+        [placeholderText]="'Search for an Exchange Job Title...'"
+        (valueChanged)="handleSearchChanged($event)"
+        [id]="'exchange-job-search-box'"
+      >
       </pf-input-debounce>
     </div>
     <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">{{ showCompanyJobs ? 'Request Exchange Job' : 'Request Job' }}</button>
