@@ -159,7 +159,7 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       const aggSelections = FilterSidebarHelper.mapAggregateGroupSelections(cutCriteria.FilterAggregateSelections);
       const limitingToExchange = systemFilter && !!systemFilter.ExchangeId;
       const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
-        aggSelections, cutCriteria.FilterAggregateGroups, limitingToExchange);
+        aggSelections, cutCriteria.FilterAggregateGroups, limitingToExchange, true, true);
       return {
         ...state,
         limitToPayMarket: cutCriteria.LimitToPayMarket,
@@ -169,20 +169,22 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         selectionsCount: cutCriteria.SelectionsCount,
         filterAggregateGroups: newAggGroups,
         includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents,
-        excludeIndirectJobMatches: !cutCriteria.IsFilteredBySimilarExchangeJobIds
+        excludeIndirectJobMatches: !cutCriteria.IsFilteredBySimilarExchangeJobIds,
+        searchingAggregate: false
       };
     }
     case fromFilterSidebarActions.APPLY_SCOPE_CRITERIA: {
       const cutCriteria: PeerMapScopeSideBarInfo = action.payload;
       const aggSelections = FilterSidebarHelper.mapAggregateGroupSelections(cutCriteria.FilterAggregateSelections);
       const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
-        aggSelections, cutCriteria.FilterAggregateGroups, false);
+        aggSelections, cutCriteria.FilterAggregateGroups, false, true, true);
       return {
         ...state,
         selections: cutCriteria.Selections,
         selectionsCount: cutCriteria.SelectionsCount,
         filterAggregateGroups: newAggGroups,
-        includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents
+        includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents,
+        searchingAggregate: false
       };
     }
     case fromFilterSidebarActions.SET_EXCHANGE_SCOPE_SELECTION: {
