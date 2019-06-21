@@ -97,7 +97,7 @@ export class MapComponent implements OnInit {
   }
 
   handleMoveEndEvent(e: any) {
-    if (!!e.skipMapRefresh) {
+    if (!!e.skipMapRefresh || !this.map) {
       return;
     }
     let scopeApplied = false;
