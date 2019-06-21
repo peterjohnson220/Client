@@ -21,11 +21,11 @@
       <div class="form-group" [class.has-danger]="!companyForm.controls.status.valid">
         <label class="control-label" for="status">Status:</label>
         <select formControlName="status" class="form-control" placeholder="Status">
-          <option>Active</option>
-          <option>Delete</option>
-          <option>Demo</option>
-          <option>Inactive</option>
-          <option>Proof of Concept</option>
+          <option value="Active">Active</option>
+          <option value="Delete">Delete</option>
+          <option value="Demo">Demo</option>
+          <option value="Inactive">Inactive</option>
+          <option value="Proof of Concept">Proof of Concept</option>
         </select>
       </div>
       <div class="form-group" [class.has-danger]="!companyForm.controls.repository.valid">
