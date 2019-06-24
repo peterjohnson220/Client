@@ -16,17 +16,17 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
 import { JobDescriptionRoutingModule } from './job-description-routing.module';
-import { JobDescriptionListPageComponent } from './containers/pages/job-description-list.page';
+import { JobDescriptionListPageComponent } from './containers/pages/job-description-list/job-description-list.page';
 import {
   AssignJobsToTemplateModalComponent,
   BulkExportPopoverComponent,
   ColumnSelectorPopoverComponent,
   FilterSelectorPopoverComponent, JobDescriptionGridComponent, JobInformationFieldsComponent
 } from './components';
-import { JobDescriptionHistoryModalComponent } from './components/job-description-history-modal.component';
-import { SaveFilterModalComponent } from './components/save-filter-modal.component';
+import { JobDescriptionHistoryModalComponent } from './components/modals/job-description-history/job-description-history-modal.component';
+import { SaveFilterModalComponent } from './components/modals/save-filter/save-filter-modal.component';
 import { SharedModule } from '../shared/shared.module';
-import { PublicViewHeaderComponent } from './components/public-view-header.component';
+import { PublicViewHeaderComponent } from './components/public-view-header/public-view-header.component';
 import { ListAreaService } from '../shared/services/list-area.service';
 import { reducers } from './reducers';
 import {

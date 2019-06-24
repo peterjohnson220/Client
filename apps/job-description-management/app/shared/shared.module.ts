@@ -14,13 +14,15 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
-import { ListAreaFilterDateComponent } from './components/list-area-filter-date.component';
-import { ListAreaFilterNumberComponent } from './components/list-area-filter-number.component';
-import { ListAreaFilterPillsComponent } from './components/list-area-filter-pills.component';
-import { ListAreaFilterSidebarComponent } from './components/list-area-filter-sidebar.component';
-import { ListAreaFilterTextComponent } from './components/list-area-filter-text.component';
-import { StatusPillComponent } from './components/status-pill.component';
-import { JobDescriptionAppliesToModalComponent } from './components/job-description-applies-to-modal.component';
+import { ListAreaFilterDateComponent } from './components/list-area-filter/list-area-filter-date/list-area-filter-date.component';
+import { ListAreaFilterNumberComponent } from './components/list-area-filter/list-area-filter-number/list-area-filter-number.component';
+import { ListAreaFilterPillsComponent } from './components/list-area-filter/list-area-filter-pills/list-area-filter-pills.component';
+import { ListAreaFilterSidebarComponent } from './components/list-area-filter/list-area-filter-sidebar/list-area-filter-sidebar.component';
+import { ListAreaFilterTextComponent } from './components/list-area-filter/list-area-filter-text/list-area-filter-text.component';
+import { StatusPillComponent } from './components/status-pill/status-pill.component';
+import {
+  JobDescriptionAppliesToModalComponent
+} from './components/modals/job-description-applies-to/job-description-applies-to-modal.component';
 import { RouteTrackingService } from './services';
 import { ListAreaService } from './services/list-area.service';
 import { reducers } from './reducers';
