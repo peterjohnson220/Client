@@ -25,9 +25,9 @@ const initialState: State = {
   loadingDefaultScopeSurveys: false,
   loadingDefaultScopeSurveysError: false,
   defaultScopeSurveys: [],
-  matchResultsAsync: generateDefaultAsyncStateObj<MatchResult[]>(),
+  matchResultsAsync: {...generateDefaultAsyncStateObj<MatchResult[]>(), obj: []},
   filteredMatchResults: [],
-  surveyScopesAsync: generateDefaultAsyncStateObj<SurveyScope[]>(),
+  surveyScopesAsync: {...generateDefaultAsyncStateObj<SurveyScope[]>(), obj: []},
 };
 
 export function reducer(state = initialState, action: fromYoyDefaultScopesPageActions.Actions): State {
