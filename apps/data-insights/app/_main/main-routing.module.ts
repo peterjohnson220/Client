@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DataViewsPageComponent } from './containers/pages';
+import { DataInsightsPageComponent } from './containers/pages';
 
 const routes: Routes = [
-  { path: '', component: DataViewsPageComponent }
+  { path: '', component: DataInsightsPageComponent }
 ];
 
 @NgModule({

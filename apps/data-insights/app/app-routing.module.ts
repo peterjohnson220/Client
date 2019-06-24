@@ -11,7 +11,7 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard, TileEnabledGuard],
     children: [
-      { path: '', loadChildren: () => import('apps/dataviews/app/_main/main.module').then(m => m.MainModule) }
+      { path: '', loadChildren: () => import('apps/data-insights/app/_main/main.module').then(m => m.MainModule) }
     ]
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },

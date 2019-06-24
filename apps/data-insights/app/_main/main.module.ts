@@ -5,7 +5,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { DataViewsPageComponent } from './containers';
+import { DataInsightsPageComponent } from './containers';
 import { MainRoutingModule } from './main-routing.module';
 
 
@@ -24,7 +24,7 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Pages
-    DataViewsPageComponent
+    DataInsightsPageComponent
   ]
 })
 export class MainModule { }
