@@ -1,0 +1,392 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CompanyJobDetailComponent should hide a link to download the jdm description via omitting the \`show\` class when no jdm descriptions exists 1`] = `
+<pf-company-job-detail
+  jdmDescriptionIds={[Function Array]}
+  selectedCompanyJob={[Function Object]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <h5
+    class="text-uppercase mb-3"
+  >
+    Company Job
+  </h5><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Title
+    </label>
+    <span>
+      MockCompanyJobTitle
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Code
+    </label>
+    <span>
+      MockCompanyJobCode
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Family
+    </label>
+    <span>
+      MockJobFamily
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Description
+    </label>
+    <a
+      class="jdm mr-2"
+      href="javascript:void(0)"
+    >
+      View Full Job Description
+    </a>
+    
+    
+    
+    
+    
+    <p
+      class="font-italic"
+    >
+       No Job Description Available 
+    </p>
+    
+    
+  </div>
+</pf-company-job-detail>
+`;
+
+exports[`CompanyJobDetailComponent should render the selected company jobs props 1`] = `
+<pf-company-job-detail
+  jdmDescriptionIds={[Function Array]}
+  selectedCompanyJob={[Function Object]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <h5
+    class="text-uppercase mb-3"
+  >
+    Company Job
+  </h5><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Title
+    </label>
+    <span>
+      MockCompanyJobTitle
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Code
+    </label>
+    <span>
+      MockCompanyJobCode
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Family
+    </label>
+    <span>
+      MockJobFamily
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Description
+    </label>
+    <a
+      class="jdm mr-2"
+      href="javascript:void(0)"
+    >
+      View Full Job Description
+    </a>
+    
+    
+    
+    
+    
+    <p
+      class="font-italic"
+    >
+       No Job Description Available 
+    </p>
+    
+    
+  </div>
+</pf-company-job-detail>
+`;
+
+exports[`CompanyJobDetailComponent should show a link to download the jdm description via the \`show\` class when one jdm description id exists 1`] = `
+<pf-company-job-detail
+  jdmDescriptionIds={[Function Array]}
+  selectedCompanyJob={[Function Object]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <h5
+    class="text-uppercase mb-3"
+  >
+    Company Job
+  </h5><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Title
+    </label>
+    <span>
+      MockCompanyJobTitle
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Code
+    </label>
+    <span>
+      MockCompanyJobCode
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Family
+    </label>
+    <span>
+      MockJobFamily
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Description
+    </label>
+    <a
+      class="jdm mr-2 show"
+      href="javascript:void(0)"
+    >
+      View Full Job Description
+    </a>
+    
+    
+    
+    
+    
+    
+    
+  </div>
+</pf-company-job-detail>
+`;
+
+exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm description 1`] = `
+<pf-company-job-detail
+  jdmDescriptionIds={[Function Array]}
+  jdmDescriptionLoading={[Function Boolean]}
+  selectedCompanyJob={[Function Object]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <h5
+    class="text-uppercase mb-3"
+  >
+    Company Job
+  </h5><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Title
+    </label>
+    <span>
+      MockCompanyJobTitle
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Code
+    </label>
+    <span>
+      MockCompanyJobCode
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Family
+    </label>
+    <span>
+      MockJobFamily
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Description
+    </label>
+    <a
+      class="jdm mr-2 show"
+      href="javascript:void(0)"
+    >
+      View Full Job Description
+    </a>
+    
+    
+    <pf-loading-indicator />
+    
+    
+    
+    
+    
+  </div>
+</pf-company-job-detail>
+`;
+
+exports[`CompanyJobDetailComponent should show an error message if the jdm description download fails 1`] = `
+<pf-company-job-detail
+  jdmDescriptionIds={[Function Array]}
+  jdmDescriptionLoading="false"
+  jdmDescriptionLoadingError={[Function Boolean]}
+  selectedCompanyJob={[Function Object]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <h5
+    class="text-uppercase mb-3"
+  >
+    Company Job
+  </h5><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Title
+    </label>
+    <span>
+      MockCompanyJobTitle
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Code
+    </label>
+    <span>
+      MockCompanyJobCode
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Family
+    </label>
+    <span>
+      MockJobFamily
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Description
+    </label>
+    <a
+      class="jdm mr-2 show"
+      href="javascript:void(0)"
+    >
+      View Full Job Description
+    </a>
+    
+    
+    
+    <p
+      class="jdm-error d-inline-block mb-0"
+    >
+       Unable to load job description 
+    </p>
+    
+    
+    
+    
+  </div>
+</pf-company-job-detail>
+`;
+
+exports[`CompanyJobDetailComponent should show an informational message when multiple jdm ids exist 1`] = `
+<pf-company-job-detail
+  jdmDescriptionIds={[Function Array]}
+  selectedCompanyJob={[Function Object]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <h5
+    class="text-uppercase mb-3"
+  >
+    Company Job
+  </h5><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Title
+    </label>
+    <span>
+      MockCompanyJobTitle
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Code
+    </label>
+    <span>
+      MockCompanyJobCode
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Family
+    </label>
+    <span>
+      MockJobFamily
+    </span>
+  </div><div>
+    <label
+      class="text-muted text-uppercase"
+    >
+      Description
+    </label>
+    <a
+      class="jdm mr-2"
+      href="javascript:void(0)"
+    >
+      View Full Job Description
+    </a>
+    
+    <p
+      class="mb-1"
+    >
+       There is more than one Job Description for this job. Please refer to the 
+      <a
+        href="/ng/job-description-management/job-descriptions"
+        target="_blank"
+      >
+        Job Description Management Tile
+      </a>
+       to view each description. 
+    </p>
+    
+    
+    
+    
+    
+    
+  </div>
+</pf-company-job-detail>
+`;

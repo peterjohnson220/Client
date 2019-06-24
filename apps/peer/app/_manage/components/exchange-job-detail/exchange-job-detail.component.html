@@ -1,0 +1,30 @@
+<section *ngIf="exchangeJob">
+  <h5 class="text-uppercase mb-3">Exchange Job</h5>
+  <div class="position-relative">
+    <pf-async-container 
+      [loading]="exchangeJobLoading" 
+      [loadingError]="exchangeJobLoadingError"
+      [loadingErrorMessage]="'Error Loading Exchange Job'"
+      [hideReloadButton]="true">
+      <div>
+        <label class="text-muted text-uppercase">Title</label>
+        <span>{{ exchangeJob.ExchangeJobTitle }}</span>
+      </div>
+      <div>
+        <label class="text-muted text-uppercase">Family</label>
+        <span>{{ exchangeJob.ExchangeJobFamily }}</span>
+      </div>
+      <div>
+        <label class="text-muted text-uppercase">Description</label>
+        <ng-container *ngIf="exchangeJob.ExchangeJobDescription && exchangeJob.ExchangeJobDescription !== '#N/A'; else noDescription">
+          <p [innerHTML]="exchangeJob.ExchangeJobDescription | jobDescriptionParser" class="exchange-job-description"></p>
+        </ng-container>
+        <ng-template #noDescription>
+          <p class="font-italic">
+            No Job Description Available
+          </p>
+        </ng-template>
+      </div>
+    </pf-async-container>
+  </div>
+</section>

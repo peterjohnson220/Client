@@ -7,14 +7,18 @@ exports[`CompanyJobsGridComponent should show a kendo grid with columns 1`] = `
   companyJobsGridState={[Function Object]}
   companyJobsGridState$={[Function Store]}
   gridFilter={[Function Object]}
+  isRowSelected={[Function Function]}
   loadingGrid$={[Function Store]}
   loadingGridError$={[Function Store]}
   loadingGridErrorMessage$={[Function Store]}
+  pageRowIndexToScrollTo="null"
+  selectedCompanyJob="null"
+  selectedCompanyJob$={[Function Store]}
   store={[Function Store]}
   tooltipDir="undefined"
 >
   <div
-    class="company-jobs-grid-container position-relative h-100 k-tooltip-container"
+    class="company-jobs-grid-container position-relative k-tooltip-container h-100"
     filter=".k-grid td"
     kendotooltip=""
     showon="none"

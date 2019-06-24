@@ -38,6 +38,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 import * as fromFaIcons from './fa-icons';
+import {
+  CompanyJobAndExchangeDetailComponent
+} from './containers/company-job-and-exchange-detail/company-job-and-exchange-detail.component';
+import { CompanyJobDetailComponent } from './components/company-job-detail/company-job-detail.component';
+import { ExchangeDetailComponent } from './components/exchange-job-detail/exchange-job-detail.component';
 
 @NgModule({
   imports: [
@@ -70,12 +75,13 @@ import * as fromFaIcons from './fa-icons';
   ],
   declarations: [
     // Components
-    CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
+    CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent, CompanyJobDetailComponent,
+    ExchangeDetailComponent,
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobSelectionFormComponent,
     RequestJobModalComponent, NewJobFormComponent, DeleteMappingConfirmationModalComponent,
-    AssociationImportModalComponent, CompanyJobsGridComponent,
+    AssociationImportModalComponent, CompanyJobsGridComponent, CompanyJobAndExchangeDetailComponent,
 
     // Pages
     ExchangeJobMappingPageComponent,

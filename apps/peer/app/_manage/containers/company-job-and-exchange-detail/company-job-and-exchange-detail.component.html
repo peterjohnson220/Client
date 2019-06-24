@@ -1,0 +1,28 @@
+<section class="card mb-2">
+  <div class="card-header">
+    <h6 class="text-uppercase mb-0">Company Job and Exchange</h6>
+  </div>
+  <a href="javascript:void(0)" (click)="handleCloseClick()" class="close-panel mr-3 mt-1" title="Close">
+    <fa-icon icon="times"></fa-icon>
+  </a>
+  <div class="d-flex">
+    <div class="w-50 p-3">
+      <pf-company-job-detail 
+        [selectedCompanyJob]="selectedCompanyJob$ | async"
+        [jdmDescriptionIds]="jdmDescriptionIds$ | async"
+        [jdmDescriptionLoading]="jdmDescriptionLoading$ | async"
+        [jdmDescriptionLoadingError]="jdmDescriptionLoadingError$ | async" 
+        (viewJdmDescriptionClick)="handleViewJdmDescriptionClick()">
+      </pf-company-job-detail>
+    </div>
+    <fa-icon icon="exchange"></fa-icon>
+    <div class="w-50 p-3">
+      <pf-exchange-job-detail 
+        [exchangeJob]="mappedExchangeJob$ | async"
+        [exchangeJobLoading]="mappedExchangeJobsLoading$ | async"
+        [exchangeJobLoadingSuccess]="mappedExchangeJobsLoadingSuccess$ | async"
+        [exchangeJobLoadingError]="mappedExchangeJobsLoadingError$ | async">
+      </pf-exchange-job-detail>
+    </div>
+  </div>
+</section>

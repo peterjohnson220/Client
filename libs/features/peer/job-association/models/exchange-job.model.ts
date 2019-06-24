@@ -10,3 +10,16 @@ export interface ExchangeJob {
   ExchangeName: string;
   CompanyJobMappings: CompanyJobMapping[];
 }
+
+export function generateMockExchangeJob(): ExchangeJob {
+  return {
+    Id: '123',
+    ExchangeJobId: 456,
+    ExchangeJobTitle: 'ExchangeJobTitle',
+    ExchangeJobDescription: 'ExchangeJobDescription',
+    ExchangeJobFamily: 'ExchangeJobFamily',
+    ExchangeId: 789,
+    ExchangeName: 'ExchangeName',
+    CompanyJobMappings: [],
+  };
+}

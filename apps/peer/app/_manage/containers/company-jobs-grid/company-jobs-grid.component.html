@@ -1,5 +1,5 @@
 <div 
-  class="company-jobs-grid-container position-relative h-100 k-tooltip-container" 
+  class="company-jobs-grid-container position-relative k-tooltip-container {{ (selectedCompanyJob$ | async) ? 'h-50' : 'h-100' }}" 
   kendoTooltip 
   showOn="none" 
   filter=".k-grid td" 
@@ -12,6 +12,7 @@
     (reload)="reloadGrid()">
       <kendo-grid
         class="row-click-navigates"
+        filterable="menu"
         [data]="companyJobsGridData$ | async"
         [pageSize]="(companyJobsGridState$ | async)?.take"
         [skip]="(companyJobsGridState$ | async)?.skip"
@@ -20,8 +21,12 @@
         [pageable]="{ buttonCount: 5, info: true }"
         [resizable]="true"
         [sortable]="true"
-        filterable="menu"
-        (dataStateChange)="handleDataStateChange($event)">
+        [pfKendoScrollTo]="pageRowIndexToScrollTo"
+        [pfKendoScrollToEnabled]="!(selectedCompanyJob$ | async)"
+        [kendoGridSelectBy]="'CompanyJobId'"
+        [rowSelected]="isRowSelected"
+        (dataStateChange)="handleDataStateChange($event)"
+        (cellClick)="handleCellClick($event)">
         <kendo-grid-column field="AssociationStatus" [sortable]="false" [resizable]="false" [filterable]="false" [width]="11" class="p-0 m-0">
           <ng-template kendoGridCellTemplate let-dataItem>
             <pf-peer-association-color-block [isAssociated]="dataItem.IsAssociated" [isPendingPeerUserReview]="dataItem.IsPendingPeerUserReview">

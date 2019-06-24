@@ -1,0 +1,11 @@
+a.close-panel {
+  position: absolute;
+  right: 0;
+  opacity: .85;
+  color: #fc6e68;
+  transition: opacity .3s ease-in-out;
+  font-size: 16px;
+  &:hover{
+    opacity: 1;
+  }
+}
