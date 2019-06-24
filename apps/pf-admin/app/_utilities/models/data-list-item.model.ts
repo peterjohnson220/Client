@@ -3,3 +3,11 @@ export interface DataListItem {
   Name: string;
   Selected: boolean;
 }
+
+export function generateMockDataListItem(): DataListItem {
+  return {
+    Id: 1001,
+    Name: 'Data List Item',
+    Selected: true
+  };
+}
