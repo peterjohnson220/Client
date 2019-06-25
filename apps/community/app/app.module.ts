@@ -11,6 +11,7 @@ import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
 import { NewCommunityEnabledGuard } from 'libs/security/guards/new-community-enabled.guard';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -30,8 +31,8 @@ import { NewCommunityEnabledGuard } from 'libs/security/guards/new-community-ena
     PfAppRootModule,
 
     // Routing
-    AppRoutingModule
-
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [
     NewCommunityEnabledGuard
