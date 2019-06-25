@@ -25,12 +25,16 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   loadingSearchResultsError$: Observable<boolean>;
   loadingMoreSearchResults$: Observable<boolean>;
   communitySearchResults$: Observable<CommunityPost[]>;
+  totalSearchResults$: Observable<number>;
   hasMoreSearchResultsOnServer$: Observable<boolean>;
   hasMoreSearchResultsOnServerSubscription: Subscription;
   loadingMoreSearchResultsSubscription: Subscription;
+  totalSearchResultsSubscription: Subscription;
+
   query: string;
   hasMoreResultsOnServer: boolean;
   loadingMoreSearchResults: boolean;
+  totalSearchResults: number;
   isNavigationVisible = false;
   scrollTimerId: number;
   scrollerTimeout = 1000;
@@ -51,6 +55,7 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     this.loadingMoreSearchResults$ = this.store.select(fromCommunitySearchReducer.getCommunityLoadingMoreSearchResults);
     this.communitySearchResults$ = this.store.select(fromCommunitySearchReducer.getCommunitySearchResults);
     this.hasMoreSearchResultsOnServer$ = this.store.select(fromCommunitySearchReducer.getHasMoreSearchResultsOnServer);
+    this.totalSearchResults$ = this.store.select(fromCommunitySearchReducer.getTotalSearchResultsOnServer);
   }
 
   ngOnInit() {
@@ -59,6 +64,9 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
 
   this.loadingMoreSearchResultsSubscription = this.loadingMoreSearchResults$.subscribe(result =>
   this.loadingMoreSearchResults = result);
+
+  this.totalSearchResultsSubscription = this.totalSearchResults$.subscribe(result =>
+    this.totalSearchResults = result);
   }
 
   ngOnDestroy() {
@@ -68,6 +76,10 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
 
     if (this.loadingMoreSearchResultsSubscription) {
       this.loadingMoreSearchResultsSubscription.unsubscribe();
+    }
+
+    if (this.totalSearchResultsSubscription) {
+      this.totalSearchResultsSubscription.unsubscribe();
     }
   }
 
