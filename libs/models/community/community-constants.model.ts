@@ -30,12 +30,22 @@ export enum CommunitySearchDurationEnum {
   Year
 }
 
+export enum CommunitySearchSortByEnum {
+  Relevance = 0,
+  Date
+}
+
 export const CommunitySearchResultDates: Array<{ text: string, value: number }> = [
   { text: 'All Time', value: CommunitySearchDurationEnum.AllTime },
   { text: 'Past 24 Hours', value: CommunitySearchDurationEnum.Day },
   { text: 'Past Week', value: CommunitySearchDurationEnum.Week },
   { text: 'Past Month', value: CommunitySearchDurationEnum.Month },
   { text: 'Past Year', value: CommunitySearchDurationEnum.Year }
+];
+
+export const CommunitySearchResultSortOptions: Array<{ text: string, value: number }> = [
+  { text: 'Relevance', value: CommunitySearchSortByEnum.Relevance },
+  { text: 'Date', value: CommunitySearchSortByEnum.Date }
 ];
 
 export const CommunityPollStatuses: Array<{ text: string, value: number }> = [

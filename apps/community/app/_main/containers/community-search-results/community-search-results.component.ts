@@ -11,6 +11,8 @@ import { CommunityPost } from 'libs/models/community';
 
 import { ScrollDirectionEnum } from '../../models/scroll-direction.enum';
 import { CommunitySearchResultTypeEnum, CommunitySearchDurationEnum } from 'libs/models/community/community-constants.model';
+import { CommunitySearchSortByEnum } from 'libs/models/community/community-constants.model';
+import { CommunitySearchQuery } from 'libs/models/community/community-search-query.model';
 
 @Component({
   selector: 'pf-community-search-results',
@@ -32,6 +34,9 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   totalSearchResultsSubscription: Subscription;
 
   query: string;
+  searchSort = CommunitySearchSortByEnum.Relevance;
+  searchDuration = CommunitySearchDurationEnum.AllTime;
+
   hasMoreResultsOnServer: boolean;
   loadingMoreSearchResults: boolean;
   totalSearchResults: number;
@@ -83,9 +88,11 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  executeSearch(query, searchDuration = CommunitySearchDurationEnum.AllTime) {
-    this.query = query;
-    this.store.dispatch(new fromCommunitySearchActions.SearchingCommunity(query, searchDuration));
+  executeSearch(searchQuery: CommunitySearchQuery) {
+    this.query = searchQuery.searchTerm;
+    this.searchSort = searchQuery.searchSort;
+    this.searchDuration = searchQuery.searchDuration;
+    this.store.dispatch(new fromCommunitySearchActions.SearchingCommunity(searchQuery));
 
     this.scrollToTop();
   }
@@ -110,7 +117,11 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
 
   onScrollDown() {
     if (this.query.length > 0 && this.hasMoreResultsOnServer && !this.loadingMoreSearchResults) {
-      this.store.dispatch(new fromCommunitySearchActions.GettingMoreCommunitySearchResults(this.query));
+      this.store.dispatch(
+        new fromCommunitySearchActions.GettingMoreCommunitySearchResults({
+          searchTerm: this.query,
+          searchSort: this.searchSort,
+          searchDuration: this.searchDuration}));
     }
   }
 

@@ -4,30 +4,36 @@
   </ng-container>
   <ng-container page-content>
     <div class="p-0 m-0">
-      <div class="w-100 m-0 search-results-container-height">
-        
-        
-        <div class="col-left pt-3 pl-5 ml-3">
+      <div class="w-100 m-0 search-results-container-height">           
+        <div class="pt-3 pb-2 pl-5 ml-3">
           <div class="search-bar-container">
             <pf-community-search class="mt-2" 
               [searchBoxText]="searchQuery"
               (searchEvent)="routeToSearch($event)"></pf-community-search>
           </div>
-
-          <div class="pt-4">
+          <div class="options-block pt-4">
+            <label class="label-block mt-2">Sort By</label>
+            <kendo-dropdownlist class="ml-2 border"
+              [data]="sortOptions"
+              [textField]="'text'"
+              [valueField]="'value'"
+              [valuePrimitive]="true"
+              [value]="sortOption"
+              (selectionChange)="sortBySelectionChange($event)">          
+            </kendo-dropdownlist>
+          </div>
+          <div class="options-block pl-3 pt-4">
             <label class="label-block mt-2">Results From</label>
             <kendo-dropdownlist class="ml-2 border"
               [data]="dateOptions"
               [textField]="'text'"
               [valueField]="'value'"
               [valuePrimitive]="true"
-              [value]="defaultDateOption"
+              [value]="durationOption"
               (selectionChange)="dateSelectionChange($event)">          
             </kendo-dropdownlist>
           </div>
-        </div>
-      
-
+        </div>  
         <pf-community-search-results></pf-community-search-results>
       </div>
     </div>
