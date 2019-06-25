@@ -5,7 +5,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, switchMap, withLatestFrom, filter, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, withLatestFrom, filter, mergeMap } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/peer';
@@ -14,6 +14,7 @@ import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
+import { ExchangeJobsSearchParams } from '../models/exchange-jobs-search-params.model';
 import * as fromCompanyJobsActions from '../actions/company-jobs.actions';
 import * as fromReducers from '../reducers';
 
@@ -47,6 +48,19 @@ export class CompanyJobsEffects {
     ))
   );
 
+  // get exchange job with description and other props for display in detail panel
+  @Effect()
+  loadMappedExchangeJobs$: Observable<Action> = this.actions$.pipe(
+    ofType(fromCompanyJobsActions.LOAD_MAPPED_EXCHANGE_JOBS),
+    switchMap((action: fromCompanyJobsActions.LoadMappedExchangeJobs) =>
+      this.exchangeCompanyApiService.getAssociatedExchangeJobs(action.payload).pipe(
+        map((exchangeJobs: ExchangeJob[]) => new fromCompanyJobsActions.LoadMappedExchangeJobsSuccess(exchangeJobs)),
+        catchError(() => of(new fromCompanyJobsActions.LoadMappedExchangeJobsError())
+      )
+    ))
+  );
+
+  // check if a company job has jdm descriptions
   @Effect()
   loadJdmDescriptionIds$: Observable<Action> = this.actions$.pipe(
     ofType(fromCompanyJobsActions.SET_SELECTED_COMPANY_JOB),
@@ -61,17 +75,7 @@ export class CompanyJobsEffects {
     ))
   );
 
-  @Effect()
-  loadMappedExchangeJobs$: Observable<Action> = this.actions$.pipe(
-    ofType(fromCompanyJobsActions.LOAD_MAPPED_EXCHANGE_JOBS),
-    switchMap((action: fromCompanyJobsActions.LoadMappedExchangeJobs) =>
-      this.exchangeCompanyApiService.getAssociatedExchangeJobs(action.payload).pipe(
-        map((exchangeJobs: ExchangeJob[]) => new fromCompanyJobsActions.LoadMappedExchangeJobsSuccess(exchangeJobs)),
-        catchError(() => of(new fromCompanyJobsActions.LoadMappedExchangeJobsError())
-      )
-    ))
-  );
-
+  // download a jdm description as a PDF
   @Effect()
   downloadJdmDescription$: Observable<Action> = this.actions$.pipe(
     ofType(fromCompanyJobsActions.DOWNLOAD_JDM_DESCRIPTION),
@@ -84,6 +88,52 @@ export class CompanyJobsEffects {
       this.jobDescriptionApiService.downloadPdf(jdmDescriptionId).pipe(
         map(() => new fromCompanyJobsActions.DownloadJdmDescriptionSuccess()),
         catchError(() => of(new fromCompanyJobsActions.DownloadJdmDescriptionError())
+      )
+    ))
+  );
+
+  // search for exchange jobs in detail panel
+  @Effect()
+  searchExchangeJobs$: Observable<Action> = this.actions$.pipe(
+    ofType(fromCompanyJobsActions.SEARCH_EXCHANGE_JOBS),
+     // grab the title search term
+     withLatestFrom(
+      this.store.pipe(
+        select(fromReducers.getCompanyJobsExchangeJobsTitleSearchTerm)),
+        (action, titleSearchTerm) => titleSearchTerm
+    ),
+    // grab the description search term
+    withLatestFrom(
+      this.store.pipe(
+        select(fromReducers.getCompanyJobsExchangeJobsDescriptionSearchTerm)),
+        (titleSearchTerm, descriptionSearchTerm) => ({ titleSearchTerm, descriptionSearchTerm })
+    ),
+    // grab the exchange Id
+    withLatestFrom(
+      this.store.pipe(
+        select(fromReducers.getCompanyJobsExchangeId)),
+        (searchTerms, exchangeId) => ({ ...searchTerms, exchangeId } as ExchangeJobsSearchParams)
+    ),
+    switchMap((combined: ExchangeJobsSearchParams) =>
+      this.exchangeCompanyApiService.GetAssociableExchangeJobs(combined).pipe(
+        map((exchangeJobs) => new fromCompanyJobsActions.SearchExchangeJobsSuccess(exchangeJobs)),
+        catchError(() => of(new fromCompanyJobsActions.SearchExchangeJobsError())
+      )
+    ))
+  );
+
+  // make an association
+  @Effect()
+  saveAssociation$: Observable<Action> = this.actions$.pipe(
+    ofType(fromCompanyJobsActions.SAVE_ASSOCIATION),
+    switchMap((action: any) =>
+      this.exchangeCompanyApiService.upsertExchangeJobMap(action.payload).pipe(
+        mergeMap(() => [
+          new fromCompanyJobsActions.SaveAssociationSuccess(),
+          new fromCompanyJobsActions.LoadMappedExchangeJobs(action.payload.CompanyJobId),
+          new fromCompanyJobsActions.LoadCompanyJobs()
+        ]),
+        catchError(() => of(new fromCompanyJobsActions.SaveAssociationError())
       )
     ))
   );

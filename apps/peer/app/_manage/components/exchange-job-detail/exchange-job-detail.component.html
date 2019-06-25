@@ -15,6 +15,10 @@
         <span>{{ exchangeJob.ExchangeJobFamily }}</span>
       </div>
       <div>
+        <label class="text-muted text-uppercase">Level</label>
+        <span>{{ exchangeJob.ExchangeJobLevel }}</span>
+      </div>
+      <div>
         <label class="text-muted text-uppercase">Description</label>
         <ng-container *ngIf="exchangeJob.ExchangeJobDescription && exchangeJob.ExchangeJobDescription !== '#N/A'; else noDescription">
           <p [innerHTML]="exchangeJob.ExchangeJobDescription | jobDescriptionParser" class="exchange-job-description"></p>

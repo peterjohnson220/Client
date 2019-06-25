@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CompanyJobAndExchangeDetailComponent should render a close link plus the company job and exchange job detail panels 1`] = `
+exports[`CompanyJobAndExchangeDetailComponent should render the exchange job detail panel when the selected company job is associated 1`] = `
 <pf-company-job-and-exchange-detail
   jdmDescriptionIds$={[Function Store]}
   jdmDescriptionLoading$={[Function Store]}
@@ -9,7 +9,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render a close link plus th
   mappedExchangeJobsLoading$={[Function Store]}
   mappedExchangeJobsLoadingError$={[Function Store]}
   mappedExchangeJobsLoadingSuccess$={[Function Store]}
-  selectedCompanyJob$={[Function Store]}
+  selectedCompanyJob$={[Function Observable]}
   store={[Function Store]}
 >
   <section
@@ -41,13 +41,79 @@ exports[`CompanyJobAndExchangeDetailComponent should render a close link plus th
       >
         <pf-company-job-detail />
       </div>
-      <fa-icon
-        icon="exchange"
-      />
+      <span
+        class="bg-image"
+      >
+        <fa-icon
+          icon="exchange"
+        />
+      </span>
       <div
         class="w-50 p-3"
       >
+        
         <pf-exchange-job-detail />
+        
+      </div>
+    </div>
+  </section>
+</pf-company-job-and-exchange-detail>
+`;
+
+exports[`CompanyJobAndExchangeDetailComponent should render the exchange job search panel when the selected company job is not associated 1`] = `
+<pf-company-job-and-exchange-detail
+  jdmDescriptionIds$={[Function Store]}
+  jdmDescriptionLoading$={[Function Store]}
+  jdmDescriptionLoadingError$={[Function Store]}
+  mappedExchangeJob$={[Function Store]}
+  mappedExchangeJobsLoading$={[Function Store]}
+  mappedExchangeJobsLoadingError$={[Function Store]}
+  mappedExchangeJobsLoadingSuccess$={[Function Store]}
+  selectedCompanyJob$={[Function Observable]}
+  store={[Function Store]}
+>
+  <section
+    class="card mb-2"
+  >
+    <div
+      class="card-header"
+    >
+      <h6
+        class="text-uppercase mb-0"
+      >
+        Company Job and Exchange
+      </h6>
+    </div>
+    <a
+      class="close-panel mr-3 mt-1"
+      href="javascript:void(0)"
+      title="Close"
+    >
+      <fa-icon
+        icon="times"
+      />
+    </a>
+    <div
+      class="d-flex"
+    >
+      <div
+        class="w-50 p-3"
+      >
+        <pf-company-job-detail />
+      </div>
+      <span
+        class="bg-image"
+      >
+        <fa-icon
+          icon="exchange"
+        />
+      </span>
+      <div
+        class="w-50 p-3"
+      >
+        
+        <pf-exchange-job-search />
+        
       </div>
     </div>
   </section>

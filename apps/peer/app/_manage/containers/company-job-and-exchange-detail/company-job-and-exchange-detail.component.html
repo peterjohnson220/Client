@@ -15,14 +15,20 @@
         (viewJdmDescriptionClick)="handleViewJdmDescriptionClick()">
       </pf-company-job-detail>
     </div>
-    <fa-icon icon="exchange"></fa-icon>
+    <span class="bg-image">
+      <fa-icon icon="exchange"></fa-icon>
+    </span>
     <div class="w-50 p-3">
-      <pf-exchange-job-detail 
+      <pf-exchange-job-detail
+        *ngIf="(selectedCompanyJob$ | async) && (selectedCompanyJob$ | async).IsAssociated; else exchangeJobSearch"
         [exchangeJob]="mappedExchangeJob$ | async"
         [exchangeJobLoading]="mappedExchangeJobsLoading$ | async"
         [exchangeJobLoadingSuccess]="mappedExchangeJobsLoadingSuccess$ | async"
         [exchangeJobLoadingError]="mappedExchangeJobsLoadingError$ | async">
       </pf-exchange-job-detail>
+      <ng-template #exchangeJobSearch>
+        <pf-exchange-job-search ></pf-exchange-job-search>
+      </ng-template>
     </div>
   </div>
 </section>

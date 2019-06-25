@@ -38,6 +38,16 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
           <label
             class="text-muted text-uppercase"
           >
+            Level
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div>
+          <label
+            class="text-muted text-uppercase"
+          >
             Description
           </label>
           

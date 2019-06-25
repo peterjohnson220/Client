@@ -14,6 +14,7 @@ import {
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 import { GenericMenuItem } from 'libs/models/common';
 
+import { ExchangeJobsSearchParams } from 'apps/peer/app/_manage/models/exchange-jobs-search-params.model';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -80,6 +81,10 @@ export class ExchangeCompanyApiService {
   getAssociatedExchangeJobs(companyJobId: number): Observable<ExchangeJob[]> {
     const params = { params: { companyJobId } };
     return this.payfactorsApiService.get<ExchangeJob[]>(`${this.endpoint}/GetAssociatedExchangeJobs`, params);
+  }
+
+  GetAssociableExchangeJobs(request: ExchangeJobsSearchParams) {
+    return this.payfactorsApiService.post<ExchangeJob[]>(`${this.endpoint}/GetAssociableExchangeJobs`, { ...request });
   }
 
   getExchangeJobComparisonList(exchangeId: number, listState: any): Observable<GridDataResult> {

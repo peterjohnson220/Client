@@ -43,6 +43,7 @@ import {
 } from './containers/company-job-and-exchange-detail/company-job-and-exchange-detail.component';
 import { CompanyJobDetailComponent } from './components/company-job-detail/company-job-detail.component';
 import { ExchangeDetailComponent } from './components/exchange-job-detail/exchange-job-detail.component';
+import { ExchangeJobSearchComponent } from './containers/exchange-job-search/exchange-job-search.component';
 
 @NgModule({
   imports: [
@@ -85,7 +86,8 @@ import { ExchangeDetailComponent } from './components/exchange-job-detail/exchan
 
     // Pages
     ExchangeJobMappingPageComponent,
-    BoolFilterComponent
+    BoolFilterComponent,
+    ExchangeJobSearchComponent
   ],
   providers: [
     ExchangeJobMappingService

@@ -1,0 +1,35 @@
+@import 'peer/peer-colors';
+
+%match-button {
+  background-color: transparent;
+  border: 1px solid $match-button-primary;
+  border-radius: .35rem;
+  height: 26px;
+  min-width: 90px;
+  cursor: pointer;
+  transition: background-color, color .2s ease-in;
+  span {
+    font-weight: 600;
+    opacity: .8;
+  }
+  svg {
+    transition: color .2s ease-in;
+    margin-right: .4rem;
+    color: $match-button-primary;
+    opacity: .8;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    background-color: $match-button-primary;
+    color: #fff;
+    span {
+      font-weight: 500;
+      opacity: 1;
+    }
+    svg {
+      color: #fff;
+    }
+  }
+}

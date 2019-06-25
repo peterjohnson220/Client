@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { CompanyJob } from 'libs/models/company';
+import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 
 import * as companyJobsActions from '../../actions/company-jobs.actions';
