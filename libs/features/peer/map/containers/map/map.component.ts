@@ -39,6 +39,7 @@ export class MapComponent implements OnInit {
   peerMapInitialZoomLevel$: Observable<number>;
   peerMapApplyingScope$: Observable<boolean>;
   peerMapAutoZooming$: Observable<boolean>;
+  loadingEditDataCut$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.peerMapSummary$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapSummary));
@@ -55,6 +56,7 @@ export class MapComponent implements OnInit {
     this.peerMapCentroid$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapCentroid));
     this.peerMapApplyingScope$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapApplyingScope));
     this.peerMapAutoZooming$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapAutoZooming));
+    this.loadingEditDataCut$ = this.store.pipe(select(fromPeerMapReducer.getLoadingEditDataCut));
   }
 
   get satelliteStyleEnabledText(): string {
@@ -84,6 +86,9 @@ export class MapComponent implements OnInit {
 
   // Map events
   handleZoomEnd(e: any) {
+    if (!this.map) {
+      this.map = e.target;
+    }
     this.peerMapAutoZooming$.pipe(take(1)).subscribe(az => {
       if (!!az) {
         this.store.dispatch(new fromMapActions.AutoZoomComplete);
@@ -97,8 +102,11 @@ export class MapComponent implements OnInit {
   }
 
   handleMoveEndEvent(e: any) {
-    if (!!e.skipMapRefresh || !this.map) {
+    if (!!e.skipMapRefresh) {
       return;
+    }
+    if (!this.map) {
+      this.map = e.target;
     }
     let scopeApplied = false;
     this.peerMapApplyingScope$.pipe(take(1)).subscribe(as => {
@@ -111,6 +119,17 @@ export class MapComponent implements OnInit {
       }
     });
     if (scopeApplied) {
+      return;
+    }
+
+    let loadingEditDataCutSuccess = false;
+    this.loadingEditDataCut$.pipe(take(1)).subscribe(edc => {
+      if (!!edc) {
+        loadingEditDataCutSuccess = true;
+        this.store.dispatch(new fromMapActions.LoadEditDataCutSuccess());
+      }
+    });
+    if (loadingEditDataCutSuccess) {
       return;
     }
 

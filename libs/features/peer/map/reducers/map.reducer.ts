@@ -20,6 +20,7 @@ export interface State {
   initialZoom: number;
   initialMapCentroid: number[];
   applyingScope: boolean;
+  loadingEditDataCut: boolean;
   zoomPrecisionDictionary: GenericKeyValue<number, number>[];
   zoomPrecisionDictionaryLoading: boolean;
   zoomPrecisionDictionaryLoadingError: boolean;
@@ -46,6 +47,7 @@ export const initialState: State = {
   initialZoom: 3,
   initialMapCentroid: [-98, 38.88],
   applyingScope: false,
+  loadingEditDataCut: false,
   zoomPrecisionDictionary: null,
   zoomPrecisionDictionaryLoading: false,
   zoomPrecisionDictionaryLoadingError: false
@@ -124,7 +126,8 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapFilter: mapDetails.MapFilter,
         applyingScope: true,
         initialMapMoveComplete: true,
-        isInitialLoad: false
+        isInitialLoad: false,
+        loadingEditDataCut: true
       };
     }
     case fromPeerMapActions.APPLY_SCOPE_CRITERIA: {
@@ -233,6 +236,12 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         loadingError: true
       };
     }
+    case fromPeerMapActions.LOAD_EDIT_DATA_CUT_SUCCESS: {
+      return {
+        ...state,
+        loadingEditDataCut: false
+      };
+    }
     default: {
       return state;
     }
@@ -255,3 +264,4 @@ export const showNoData = (state: State) => !state.loading && !state.isInitialLo
 (!state.mapCollection || state.mapCollection.features.length === 0);
 export const getApplyingScope = (state: State) => state.applyingScope;
 export const getAutoZooming = (state: State) => state.autoZooming;
+export const getLoadingEditDataCut = (state: State) => state.loadingEditDataCut;
