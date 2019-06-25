@@ -20,6 +20,7 @@ export const AUTO_ZOOM_COMPLETE = '[Features/Peer/Map] Auto Zoom Complete';
 export const LOAD_PEER_MAP_BOUNDS  = '[Features/Peer/Map] Load Peer Map Bounds';
 export const LOAD_PEER_MAP_BOUNDS_SUCCESS  = '[Features/Peer/Map] Load Peer Map Bounds Success';
 export const LOAD_PEER_MAP_BOUNDS_ERROR  = '[Features/Peer/Map] Load Peer Map Bounds Error';
+export const LOAD_EDIT_DATA_CUT_SUCCESS = '[Features/Peer/Map] Load Edit Data Cut Success';
 
 
 export class LoadPeerMapData implements Action {
@@ -112,6 +113,10 @@ export class LoadPeerMapBoundsError implements Action {
   readonly payload = null;
 }
 
+export class LoadEditDataCutSuccess implements Action {
+  readonly type = LOAD_EDIT_DATA_CUT_SUCCESS;
+}
+
 export type Actions
   = LoadPeerMapData
   | LoadPeerMapDataSuccess
@@ -130,4 +135,5 @@ export type Actions
   | AutoZoomComplete
   | LoadPeerMapBounds
   | LoadPeerMapBoundsSuccess
-  | LoadPeerMapBoundsError;
+  | LoadPeerMapBoundsError
+  | LoadEditDataCutSuccess;
