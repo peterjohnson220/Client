@@ -61,11 +61,17 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   checkSidebarLinkAgainstURL(link) {
-    if (window.location.pathname.indexOf(link.Url) > -1) {
+
+    if (window.location.pathname.indexOf(link.Url) > -1 && window.location.pathname.indexOf('client/dashboard/resources') < 0) {
       return true;
     }
+
     // TODO: check to see if there is a better way to handle highlighting left sidebar links
     if (window.location.pathname.indexOf('client/peer') > -1 && link.Url.indexOf('client/peer') > -1) {
+      return true;
+    }
+
+    if (window.location.pathname.indexOf('client/dashboard/resources') > -1 && link.Url.indexOf('client/dashboard/resources') > -1) {
       return true;
     }
   }
