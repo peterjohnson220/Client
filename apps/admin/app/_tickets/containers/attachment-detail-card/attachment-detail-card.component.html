@@ -1,37 +1,35 @@
 <div class="section card mb-2" *ngIf="ticketAttachments && ticketId">
-    <div class="card-header bg-transparent border-bottom-0">
+    <div class="card-header bg-transparent border-bottom-0 pf-secondary-color uppercase">
         <h4>Attachments</h4>
-        <div></div>
+        <br />
+        <button type="button" class="btn btn-primary pf-secondary-background px-4 py-2">Select files...</button>
     </div>
     <div class="card-body mx-3">
-        <div class="row" *ngIf="!ticketAttachments.length">
-            <div class="card-subtitle text-muted">
-                <h5>No Attachments</h5>
-            </div>
-            <div class="col">
-            </div>
-        </div>
-        <div class="row" *ngIf="ticketAttachments.length">
-            <table class="table table-hover">
-                <tbody>
-                    <tr *ngFor="let attachment of ticketAttachments" (click)="openDocumentPreview(attachment)">
-                        <td>
-                            <i class="fa {{attachment.ExtensionCssClass}} " style="font-size: 45px"></i>
-                        </td>
-                        <td class="align-middle">
-                            <a href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}" title="{{attachment.DisplayName}}">
-                                <h5>{{attachment.DisplayName}}</h5>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <hr class="my-2" />
-        <div class="row justify-content-center">
-            <div class="col-s12">
-                <button type="button" class="btn btn-primary px-5 py-2">Upload</button>
-            </div>
-        </div>
+      <div class="row" *ngIf="ticketAttachments.length">
+          <table class="table table-hover">
+              <tbody>
+                  <tr *ngFor="let attachment of ticketAttachments" (click)="openDocumentPreview(attachment)">
+                      <td class="icon-cell">
+                          <i class="fa {{attachment.ExtensionCssClass}} pf-grey" style="font-size: 45px"></i>
+                      </td>
+                      <td>
+                          <a class="pf-link-text" href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}" title="{{attachment.DisplayName}}">
+                              <h5>{{attachment.DisplayName}}</h5>
+                          </a>
+                      </td>
+                      <td class="text-right actions-cell">
+                        <a href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}" title="{{attachment.DisplayName}}">
+                          <i class="fa fa-download fa-2x pf-secondary-color"></i>
+                        </a>
+                          &nbsp;
+                        <a href="javascript:void(0)" (click)="openModal(attachment.AttachmentId)">
+                          <i class="fa fa-times fa-2x pf-secondary-color"></i>
+                        </a>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
     </div>
 </div>
+<pf-attachment-delete-modal *ngIf="canModalOpen()" [request]="this.deleteRequest"></pf-attachment-delete-modal>

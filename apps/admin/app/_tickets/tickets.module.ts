@@ -1,26 +1,28 @@
 import { NgModule } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { WindowRef } from 'libs/core/services';
+import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import {
-  TicketListComponent, TicketListPageComponent, CompanyDetailCardComponent,
-  TicketComponent, TicketFieldsComponent, AttachmentDetailCardComponent
-} from './containers';
-import {TicketEffects, TicketListEffects, TicketLookupEffects} from './effects';
-import { reducers } from './reducers';
 import { TicketDetailCardComponent } from './components';
+import {
+    AttachmentDeleteModalComponent, AttachmentDetailCardComponent, CompanyDetailCardComponent, TicketComponent, TicketFieldsComponent,
+    TicketListComponent, TicketListPageComponent
+} from './containers';
+import { TicketAttachmentEffects, TicketEffects, TicketListEffects, TicketLookupEffects } from './effects';
+import { reducers } from './reducers';
 import { TicketsRoutingModule } from './tickets-routing.module';
-
 
 @NgModule({
   imports: [
@@ -32,7 +34,8 @@ import { TicketsRoutingModule } from './tickets-routing.module';
     EffectsModule.forFeature([
       TicketEffects,
       TicketListEffects,
-      TicketLookupEffects
+      TicketLookupEffects,
+      TicketAttachmentEffects
     ]),
     GridModule,
     LayoutModule,
@@ -43,7 +46,8 @@ import { TicketsRoutingModule } from './tickets-routing.module';
     TicketsRoutingModule,
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
+    PfFormsModule
   ],
   declarations: [
     // Components
@@ -55,6 +59,7 @@ import { TicketsRoutingModule } from './tickets-routing.module';
     TicketListComponent,
     TicketComponent,
     TicketFieldsComponent,
+    AttachmentDeleteModalComponent,
 
     // Pages
     TicketListPageComponent,

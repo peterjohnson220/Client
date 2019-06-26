@@ -6,12 +6,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromTicketsReducer from './ticket.reducer';
 import * as fromTicketsListReducer from './ticket-list.reducer';
 import * as fromTicketLookupsReducer from './ticket-lookups.reducer';
+import * as fromTicketAttachmentReducer from './ticket-attachment.reducer';
 
 // Feature area state
 export interface TicketsAdminState {
   ticket: fromTicketsReducer.State;
   ticketList: fromTicketsListReducer.State;
   ticketLookups: fromTicketLookupsReducer.State;
+  ticketAttachment: fromTicketAttachmentReducer.State;
 }
 
 // Extend root state with feature area state
@@ -23,7 +25,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   ticket: fromTicketsReducer.reducer,
   ticketList: fromTicketsListReducer.reducer,
-  ticketLookups: fromTicketLookupsReducer.reducer
+  ticketLookups: fromTicketLookupsReducer.reducer,
+  ticketAttachment: fromTicketAttachmentReducer.reducer
 };
 
 // Select Feature area
@@ -33,6 +36,7 @@ export const selectTicketsAdminState = createFeatureSelector<TicketsAdminState>(
 export const selectTicketState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticket);
 export const selectTicketListState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketList);
 export const selectTicketLookupsState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketLookups);
+export const selectTicketAttachmentState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketAttachment);
 
 // Company Detail area
 export const getCompanyDetailLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
@@ -63,3 +67,13 @@ export const getUserTicketTypes = createSelector(selectTicketLookupsState, fromT
 export const getLookupLoading = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getLoading);
 export const getLookupLoadingError = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getLoadingError);
 export const getUserTicketPfServiceReps = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getPfServicesReps);
+
+// Ticket Attachment Selectors
+export const getAttachmentDeleteModalOpen =
+  createSelector(selectTicketAttachmentState, fromTicketAttachmentReducer.getDeleteAttachmentModalOpen);
+export const getAttachmentDeleteAttachmentRequest =
+  createSelector(selectTicketAttachmentState, fromTicketAttachmentReducer.getDeleteAttachmentRequest);
+export const getAttachmentDeleting =
+  createSelector(selectTicketAttachmentState, fromTicketAttachmentReducer.getDeletingAttachment);
+export const getAttachmentDeletingError =
+  createSelector(selectTicketAttachmentState, fromTicketAttachmentReducer.getDeletingAttachmentError);
