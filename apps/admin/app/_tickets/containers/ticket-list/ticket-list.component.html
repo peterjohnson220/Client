@@ -6,7 +6,13 @@
               #ticketGrid
               [data]="ticketListItems$ | async"
               [resizable]="false"
+              [sortable]="{
+                allowUnsort: false,
+                mode: 'single'
+              }"
+              [sort]="sort"
               [scrollable]="'none'"
+              (sortChange)=sortChange($event)
               (cellClick)="handleCellClick($event)"
               (dblclick)="handleCellDoubleClick()">
     <kendo-grid-column field="Id"

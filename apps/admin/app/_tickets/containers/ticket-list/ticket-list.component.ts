@@ -4,6 +4,9 @@ import { Store } from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
+import { PageChangeEvent } from '@progress/kendo-angular-grid';
+import { SortDescriptor, composeSortDescriptors } from '@progress/kendo-data-query';
+
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
@@ -25,6 +28,10 @@ export class TicketListComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject();
 
   isDirty = false;
+  sort: SortDescriptor[] = [{
+    field: 'Id',
+    dir: 'desc'
+  }];
 
   constructor(private store: Store<fromTicketReducer.State>) {
     this.ticketListLoading$ = this.store.select(fromTicketReducer.getTicketListLoading);
@@ -69,5 +76,9 @@ export class TicketListComponent implements OnInit, OnDestroy {
     if (this.isDirty) {
       this.handleTicketGridReload();
     }
+  }
+  sortChange(sort: SortDescriptor[]): void {
+    this.sort = sort;
+    this.store.dispatch(new fromTicketListActions.SortTickets(this.sort[0]));
   }
 }
