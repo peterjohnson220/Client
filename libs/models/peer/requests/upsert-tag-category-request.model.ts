@@ -4,6 +4,8 @@ export interface UpsertTagCategoryRequest {
   Description: string;
   DataType: string;
   UseSlider: boolean;
+  CategoryOperator: string;
+  DisplayOperatorToggle: boolean;
 }
 
 export function generateMockUpsertTagCategoryRequest(): UpsertTagCategoryRequest {
@@ -12,6 +14,8 @@ export function generateMockUpsertTagCategoryRequest(): UpsertTagCategoryRequest
     EntityTypesFlag: 3,
     Description: 'Description',
     DataType: 'Text',
-    UseSlider: false
+    UseSlider: false,
+    CategoryOperator: 'And',
+    DisplayOperatorToggle: false
   };
 }

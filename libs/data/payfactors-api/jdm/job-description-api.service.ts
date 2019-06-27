@@ -73,8 +73,10 @@ export class JobDescriptionApiService {
   }
 
   getJobInformationFieldsForBulkExport(viewName?: string): Observable<JobInformationFieldForBulkExportResponse[]> {
+    const options = viewName ? { params: { viewName: viewName } } : {};
+
     return this.payfactorsApiService.get<JobInformationFieldForBulkExportResponse[]>(
-      `${this.endpoint}/Default.GetJobInformationFieldsForBulkExport`, {params: { viewName: viewName || '' }});
+      `${this.endpoint}/Default.GetJobInformationFieldsForBulkExport`, options);
   }
 
   getJobDescriptionIds(companyJobId: number): Observable<number[]> {
@@ -97,5 +99,9 @@ export class JobDescriptionApiService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
     const body = 'export-type=pdf';
     return this.payfactorsApiService.downloadFile(`${this.endpoint}(${jdmDescriptionId})/Default.Export`, body, headers, true);
+  }
+
+  getPublicTokenUrl(companyId: number): Observable<string> {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetPublicListPageUrl`, { companyId: companyId });
   }
 }

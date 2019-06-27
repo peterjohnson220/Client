@@ -115,8 +115,10 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
             <span
               class="input-group-text pf-prepend-icon"
             >
-              <i
-                class="fas fa-search fa-lg"
+              <fa-icon
+                aria-hidden="true"
+                icon="search"
+                size="lg"
               />
             </span>
           </div>
@@ -131,8 +133,9 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
             <span
               class="input-group-text pf-append-icon"
             >
-              <i
-                class="fas fa-times"
+              <fa-icon
+                aria-hidden="true"
+                icon="times"
               />
             </span>
           </div>
@@ -229,8 +232,10 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
             <span
               class="input-group-text pf-prepend-icon"
             >
-              <i
-                class="fas fa-search fa-lg"
+              <fa-icon
+                aria-hidden="true"
+                icon="search"
+                size="lg"
               />
             </span>
           </div>
@@ -245,8 +250,9 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
             <span
               class="input-group-text pf-append-icon"
             >
-              <i
-                class="fas fa-times"
+              <fa-icon
+                aria-hidden="true"
+                icon="times"
               />
             </span>
           </div>
@@ -409,8 +415,10 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
             <span
               class="input-group-text pf-prepend-icon"
             >
-              <i
-                class="fas fa-search fa-lg"
+              <fa-icon
+                aria-hidden="true"
+                icon="search"
+                size="lg"
               />
             </span>
           </div>
@@ -425,8 +433,9 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
             <span
               class="input-group-text pf-append-icon"
             >
-              <i
-                class="fas fa-times"
+              <fa-icon
+                aria-hidden="true"
+                icon="times"
               />
             </span>
           </div>

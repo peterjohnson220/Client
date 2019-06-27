@@ -7,10 +7,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { environment } from 'environments/environment';
 
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
+import { PfFormsModule } from 'libs/forms';
 
 import {
   FilterAggregateComponent,
@@ -23,6 +26,7 @@ import {
 import { FilterSidebarComponent, MapComponent, ScopeSelectorComponent } from './containers';
 import { FilterSidebarEffects, MapEffects, ExchangeScopeEffects } from './effects';
 import { reducers } from './reducers';
+import * as fromFaIcons from './fa-icons';
 
 const declarations = [
   // Components
@@ -40,6 +44,7 @@ const declarations = [
 
     // PF Modules
     PfCommonUIModule,
+    PfFormsModule,
 
     // 3rd Party
     SwitchModule,
@@ -51,8 +56,13 @@ const declarations = [
     ]),
     NgxMapboxGLModule.withConfig({accessToken: environment.mapboxAccessToken}),
     NgbPopoverModule,
+    FontAwesomeModule
   ],
   declarations: declarations,
   exports: declarations
 })
-export class PfPeerMapModule { }
+export class PfPeerMapModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

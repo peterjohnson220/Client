@@ -20,7 +20,7 @@ import { AppliesToAttributesExist } from '../models/applies-to-attributes-exist.
   templateUrl: './job-description-applies-to-modal.component.html'
 })
 export class JobDescriptionAppliesToModalComponent implements OnInit {
-  @ViewChild('jobDescriptionAppliesToModal') public jobDescriptionAppliesToModal: any;
+  @ViewChild('jobDescriptionAppliesToModal', { static: true }) public jobDescriptionAppliesToModal: any;
 
   @Input() selectedCompanyJob: CompanyJobViewListItem;
   @Input() editing: boolean;

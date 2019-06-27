@@ -3,6 +3,7 @@
 exports[`Admin - Tickets - Attachment Detail Card Should display details about a ticket 1`] = `
 <pf-attachment-detail-card
   ticketAttachments={[Function Array]}
+  ticketId={[Function Number]}
 >
   <div
     class="section card mb-2"
@@ -38,9 +39,14 @@ exports[`Admin - Tickets - Attachment Detail Card Should display details about a
               <td
                 class="align-middle"
               >
-                <h5>
-                  MockAttachmentDisplayName1.txt
-                </h5>
+                <a
+                  href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName=MockAttachmentFileName1.txt&TicketID=1"
+                  title="MockAttachmentDisplayName1.txt"
+                >
+                  <h5>
+                    MockAttachmentDisplayName1.txt
+                  </h5>
+                </a>
               </td>
             </tr>
             <tr>
@@ -53,9 +59,14 @@ exports[`Admin - Tickets - Attachment Detail Card Should display details about a
               <td
                 class="align-middle"
               >
-                <h5>
-                  MockAttachmentDisplayName2.xlsx
-                </h5>
+                <a
+                  href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName=MockAttachmentFileName2.xlsx&TicketID=1"
+                  title="MockAttachmentDisplayName2.xlsx"
+                >
+                  <h5>
+                    MockAttachmentDisplayName2.xlsx
+                  </h5>
+                </a>
               </td>
             </tr>
             <tr>
@@ -68,9 +79,14 @@ exports[`Admin - Tickets - Attachment Detail Card Should display details about a
               <td
                 class="align-middle"
               >
-                <h5>
-                  MockAttachmentDisplayName3.docx
-                </h5>
+                <a
+                  href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName=MockAttachmentFileName3.docx&TicketID=1"
+                  title="MockAttachmentDisplayName3.docx"
+                >
+                  <h5>
+                    MockAttachmentDisplayName3.docx
+                  </h5>
+                </a>
               </td>
             </tr>
           </tbody>

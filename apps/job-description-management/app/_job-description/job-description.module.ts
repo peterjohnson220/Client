@@ -4,14 +4,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { NgbDropdownModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import { FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
+import { ColumnResizingService, FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
 import { JobDescriptionRoutingModule } from './job-description-routing.module';
 import { JobDescriptionListPageComponent } from './containers/pages/job-description-list.page';
@@ -38,6 +40,7 @@ import { JobDescriptionHistoryListEffects } from './effects/job-description-hist
 import { PublicViewHeaderEffects } from './effects/public-view-header.effects';
 import { ListAreaColumnSearchPipe } from './pipes/list-area-column-search.pipe';
 import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './pipes';
+
 
 @NgModule({
   imports: [
@@ -73,7 +76,9 @@ import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './
     GridModule,
     NgbDropdownModule,
     FilterMenuModule,
-    SharedModule
+    SharedModule,
+    FontAwesomeModule,
+    PfJobDescriptionManagementModule
   ],
   declarations: [
     // Components
@@ -96,7 +101,7 @@ import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './
     UserFilterSearchPipe
   ],
   providers: [
-    ListAreaService
+    ListAreaService, ColumnResizingService
   ]
 })
 export class JobDescriptionModule { }

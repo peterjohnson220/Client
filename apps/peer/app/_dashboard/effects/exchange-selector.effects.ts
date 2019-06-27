@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -15,7 +15,8 @@ export class ExchangeSelectorEffects {
 
   @Effect()
   loadExchanges$: Observable<Action> = this.actions$
-    .ofType(fromExchangeSelectorActions.LOAD_EXCHANGES).pipe(
+    .pipe(
+      ofType(fromExchangeSelectorActions.LOAD_EXCHANGES),
       switchMap(() =>
         this.exchangeCompanyApiService.getExchanges().pipe(
           map((exchangeListItems: ExchangeListItem[]) => {

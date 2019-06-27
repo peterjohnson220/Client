@@ -27,8 +27,8 @@
         {{pillGroup.PreviewString}}
       </div>
       <div class="icon" [class.locked]="pillGroup.Locked">
-        <span *ngIf="!pillGroup.Locked"><i class="far fa-angle-down"></i></span>
-        <span *ngIf="pillGroup.Locked"><i class="fas fa-lock"></i></span>
+        <span *ngIf="!pillGroup.Locked"><fa-icon [icon]="['far', 'angle-down']"></fa-icon></span>
+        <span *ngIf="pillGroup.Locked"><fa-icon icon="lock"></fa-icon></span>
       </div>
   </div>
 </div>

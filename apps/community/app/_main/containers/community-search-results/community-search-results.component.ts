@@ -10,6 +10,7 @@ import * as fromCommunitySearchReducer from '../../reducers';
 import { CommunityPost } from 'libs/models/community';
 
 import { ScrollDirectionEnum } from '../../models/scroll-direction.enum';
+import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 
 @Component({
   selector: 'pf-community-search-results',
@@ -17,8 +18,8 @@ import { ScrollDirectionEnum } from '../../models/scroll-direction.enum';
   styleUrls: [ './community-search-results.component.scss' ]
 })
 export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
-  @ViewChild('SearchResults') public searchResultsScrollContainer: ElementRef;
-  @ViewChild(InfiniteScrollDirective) infiniteScroll: InfiniteScrollDirective;
+  @ViewChild('SearchResults', { static: true }) public searchResultsScrollContainer: ElementRef;
+  @ViewChild(InfiniteScrollDirective, { static: true }) infiniteScroll: InfiniteScrollDirective;
 
   loadingSearchResults$: Observable<boolean>;
   loadingSearchResultsError$: Observable<boolean>;
@@ -37,6 +38,11 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   scrollDirection = ScrollDirectionEnum.Down;
   currentScrollTop: number;
   lastScrollTop = 0;
+
+  pollType = CommunitySearchResultTypeEnum.Poll;
+  discussionType = CommunitySearchResultTypeEnum.Discussion;
+  discussionReplyType = CommunitySearchResultTypeEnum.Reply;
+  podcastType = CommunitySearchResultTypeEnum.Podcast;
 
   constructor(public store: Store<fromCommunitySearchReducer.State>) {
 
@@ -78,7 +84,12 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   }
 
   openDetailsModal(result) {
-      this.store.dispatch(new fromCommunitySearchActions.OpenSearchResultModal(result.CommunityPostId));
+
+    if (result.Type === this.podcastType) {
+      window.open(result.Details.Link, '_blank');
+    } else {
+      this.store.dispatch(new fromCommunitySearchActions.OpenSearchResultModal(result.Details.CommunityPostId));
+    }
   }
 
   trackByFn(index, item) {
@@ -144,9 +155,5 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     this.sendBackToTop = true;
     this.scrollToTop();
     this.resetInfiniteScroll();
-  }
-
-  isPoll(post: any) {
-    return post.CommunityContent.Responses;
   }
 }

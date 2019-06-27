@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { isEmpty, isString } from 'lodash';
 
 import { FileRestrictions } from '@progress/kendo-angular-upload';
 
@@ -7,11 +8,9 @@ import {
   DATE_FORMATS,
   ORG_DATA_CLIENTFIELDS_INDEX_RESET,
   ORG_DATA_REMOVE_URL,
-  ORG_DATA_UPLOAD_URL
+  ORG_DATA_UPLOAD_URL,
+  LoaderType,
 } from '../../constants';
-
-
-import { LoaderType } from '../../constants/loader-type.enum';
 
 import {
   DateFormatItem,
@@ -19,7 +18,6 @@ import {
   LoaderEntityStatus,
   FilenamePattern
 } from '../../models';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -202,7 +200,7 @@ export class FieldMapperComponent implements OnInit {
       case LoaderType.Employees:
         payload = {
           ...payload,
-          complete: !(isNullOrUndefined(this.dateFormat) || this.dateFormat === '') && payload.complete,
+          complete: isString(this.dateFormat) && !isEmpty(this.dateFormat) && payload.complete,
           dateFormat: this.dateFormat,
           isFullReplace: this.isFullReplace,
         };

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, combineLatest, mergeMap, switchMap } from 'rxjs/operators';
@@ -19,8 +19,8 @@ import { PayfactorsApiModelMapper } from '../helpers';
 export class PasswordSettingEffects {
   @Effect()
   loadPasswordSettings$ = this.actions$
-    .ofType(fromPasswordSettingActions.LOAD_PASSWORD_SETTINGS)
     .pipe(
+      ofType(fromPasswordSettingActions.LOAD_PASSWORD_SETTINGS),
       combineLatest(
         this.store.select(fromRootState.getCompanySettings),
         (action, companySettings) =>
@@ -36,8 +36,8 @@ export class PasswordSettingEffects {
 
   @Effect()
   savePasswordSettings$ = this.actions$
-    .ofType(fromPasswordSettingActions.SAVE_PASSWORD_SETTINGS)
     .pipe(
+      ofType(fromPasswordSettingActions.SAVE_PASSWORD_SETTINGS),
       switchMap((action: fromPasswordSettingActions.SaveCompanyAdminPasswordSettings) =>
         this.companySettingsApiService.putSettings(action.payload).pipe(
           mergeMap(() => {
@@ -56,8 +56,8 @@ export class PasswordSettingEffects {
 
   @Effect({dispatch: false})
   savePasswordSettingsPost$ = this.actions$
-    .ofType(fromPasswordSettingActions.SAVE_PASSWORD_SETTINGS_SUCCESS_POST)
     .pipe(
+      ofType(fromPasswordSettingActions.SAVE_PASSWORD_SETTINGS_SUCCESS_POST),
       switchMap((action: fromPasswordSettingActions.SaveCompanyAdminPasswordSettingsSuccessPost) =>
         this.companyApiService.setPasswordExpiration().pipe(
           mergeMap(() => [null])

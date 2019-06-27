@@ -10,6 +10,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
   isExchangeActive$={[Function Store]}
   isValidExchange$={[Function Store]}
   isValidExchangeSubcription={[Function Subscriber]}
+  loadingExchange$={[Function Store]}
   store={[Function Store]}
   totalExchangeAccessRequests$={[Function Store]}
   totalExchangeCompanies$={[Function Store]}
@@ -23,11 +24,16 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
     
      Manage Exchange - Mock Exchange 
     
-    <kendo-switch
-      class="k-switch-lg"
-      offlabel="Inactive"
-      onlabel="Active"
-    />
+    
+    <div
+      class="switch-wrapper disabled"
+    >
+      <kendo-switch
+        class="k-switch-lg"
+        offlabel="Inactive"
+        onlabel="Active"
+      />
+    </div>
     
     <div
       class="d-flex h-100 w-100"

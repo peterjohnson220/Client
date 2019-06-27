@@ -39,12 +39,12 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   @Input() public postId: string;
   @Input() public minimumHeight = 75;
 
-  @ViewChild('discussionTextArea') discussionTextArea: ElementRef;
-  @ViewChild('overlayTextArea') overlayTextArea: ElementRef;
-  @ViewChild('textAreaContainer') textAreaContainer: ElementRef;
-  @ViewChild('textAreaContainerScrollable') textAreaContainerScrollable: ElementRef;
+  @ViewChild('discussionTextArea', { static: true }) discussionTextArea: ElementRef;
+  @ViewChild('overlayTextArea', { static: true }) overlayTextArea: ElementRef;
+  @ViewChild('textAreaContainer', { static: true }) textAreaContainer: ElementRef;
+  @ViewChild('textAreaContainerScrollable', { static: true }) textAreaContainerScrollable: ElementRef;
 
-  @ViewChild('suggestTagsContainer') suggestTagsContainer: ElementRef;
+  @ViewChild('suggestTagsContainer', { static: false }) suggestTagsContainer: ElementRef;
 
   get context() { return this.parentForm.get('context'); }
 

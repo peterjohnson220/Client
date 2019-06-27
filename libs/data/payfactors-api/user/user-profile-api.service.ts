@@ -9,7 +9,7 @@ import {
   SaveListAreaColumnsRequest
 } from '../../../models/payfactors-api/user-profile/request';
 import { ListAreaColumnResponse, UserFilterResponse } from '../../../models/payfactors-api/user-profile/response';
-import { JdmListFilter } from '../../../models/user-profile';
+import { GetUserFilterListResponse } from '../../../models/payfactors-api/user-filter/response/get-user-filter-list-response.model';
 
 @Injectable()
 export class UserProfileApiService {
@@ -19,7 +19,7 @@ export class UserProfileApiService {
   }
 
   addUserFilter(request: AddUserFilterRequest): Observable<UserFilterResponse> {
-    return this.payfactorsApiService.post<UserFilterResponse>(`${this.endpoint}.AddUserFilter`, request);
+    return this.payfactorsApiService.post<UserFilterResponse>(`${this.endpoint}.AddUserFilter`, { userFilter: request });
   }
 
   deleteUserFilter(id: string): Observable<string> {
@@ -30,8 +30,8 @@ export class UserProfileApiService {
     return this.payfactorsApiService.get<ListAreaColumnResponse[]>(`${this.endpoint}.GetListAreaColumns`, {params: request});
   }
 
-  getUserFilterList(): Observable<JdmListFilter[]> {
-    return this.payfactorsApiService.get<JdmListFilter[]>(`${this.endpoint}.GetFilterList`);
+  getUserFilterList(): Observable<GetUserFilterListResponse[]> {
+    return this.payfactorsApiService.get<GetUserFilterListResponse[]>(`${this.endpoint}.GetFilterList`);
   }
 
   saveListAreaColumns(request: SaveListAreaColumnsRequest): Observable<number> {

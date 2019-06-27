@@ -6,7 +6,7 @@ export interface JobDescriptionHistoryListItem {
   HasWorkflow: boolean;
 }
 
-export function generateMockJobDescriptionHistoryListItem(): JobDescriptionHistoryListItem {
+export function generateMockJobDescriptionHistoryListItem(mockVersionNumber: number = 1): JobDescriptionHistoryListItem {
   return {
     VersionNumber: 1,
     CreatedDate: new Date('01/01/2000'),

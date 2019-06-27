@@ -21,14 +21,19 @@
   color: $left-sidebar-text-color;
 }
 
-.left-sidebar-nav .svg-inline--fa {
+.left-sidebar-nav .tile-icon {
   font-size: 1.2rem;
 }
 
-.left-sidebar-nav li a .svg-inline--fa {
+.left-sidebar-nav li a .tile-icon {
   width: 30px;
   text-align: center;
   color: $left-sidebar-text-color;
+  ::ng-deep {
+    svg {
+      width: 30px;
+    }
+  }
 }
 
 .left-sidebar-nav li a:hover {
@@ -37,7 +42,7 @@
   color: #fff;
 }
 
-.left-sidebar-nav li a:hover .svg-inline--fa {
+.left-sidebar-nav li a:hover .tile-icon {
   color: #fff;
 }
 
@@ -88,7 +93,7 @@
   color: #fff;
 }
 
-.left-sidebar-nav .highlight-icon a .svg-inline--fa {
+.left-sidebar-nav .highlight-icon a .tile-icon {
   color: #fff;
 }
 

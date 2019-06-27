@@ -6,31 +6,30 @@ export interface JdmListFilter {
   CompositeFilter: CompositeFilterDescriptor;
 }
 
-export function generateMockJdmListFilter(): JdmListFilter {
+export function generateMockJdmListFilter(mockField: string = 'Test Field'): JdmListFilter {
   return {
     Id: '1',
     Name: 'Test Name',
-    CompositeFilter: generateMockCompositeFilter()
+    CompositeFilter: generateMockCompositeFilter(mockField)
   };
 }
 
-export function generateMockCompositeFilter(): CompositeFilterDescriptor {
+export function generateMockCompositeFilter(mockField: string = 'Test Field'): CompositeFilterDescriptor {
   return {
     logic: 'and',
-    filters: generateMockFilters()
+    filters: generateMockFilters(mockField)
   };
 }
 
-export function generateMockFilters(): FilterDescriptor[] {
-  return [{
-    field: 'Test Field 1',
+export function generateMockFilters(mockField: string = 'Test Field'): FilterDescriptor[] {
+  return [generateMockFilter(1, mockField), generateMockFilter(2, mockField)];
+}
+
+export function generateMockFilter(filterNumber: number = 1, mockField: string = 'Test Field'): FilterDescriptor {
+  return {
+    field: `${mockField} ${filterNumber}`,
     operator: 'eq',
-    value: 'Test Value 1',
+    value: `Test Value ${filterNumber}`,
     ignoreCase: false
-  }, {
-    field: 'Test Field 2',
-    operator: 'eq',
-    value: 'Test Value 2',
-    ignoreCase: false
-  }];
+  };
 }

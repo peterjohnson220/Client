@@ -23,7 +23,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   exportingCommunityPollSuccess$: Observable<any>;
   exportingCommunityPollSuccessSubscription: Subscription;
 
-  @ViewChild(GridComponent) grid: GridComponent;
+  @ViewChild(GridComponent, { static: true }) grid: GridComponent;
 
   get CommunityPollStatuses() { return constants.CommunityPollStatuses; }
 

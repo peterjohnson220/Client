@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { mergeMap, withLatestFrom, map, tap, catchError, switchMap } from 'rxjs/operators';
@@ -19,16 +19,16 @@ export class AddJobsPageEffects {
 
   @Effect()
   setContext$ = this.actions$
-    .ofType(fromAddJobsPageActions.SET_CONTEXT)
     .pipe(
+      ofType(fromAddJobsPageActions.SET_CONTEXT),
       mergeMap(() =>
         [ new fromUserFilterActions.Init() ]
       ));
 
   @Effect()
   addJobs$ = this.actions$
-    .ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS)
     .pipe(
+      ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS),
       withLatestFrom(
         this.store.select(fromAddJobsReducer.getContext),
         this.store.select(fromAddJobsReducer.getSelectedPaymarkets),
@@ -58,8 +58,8 @@ export class AddJobsPageEffects {
 
   @Effect({dispatch: false})
   addProjectJobsSuccess$ = this.actions$
-    .ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS_SUCCESS)
     .pipe(
+      ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS_SUCCESS),
       tap((action: fromAddJobsPageActions.AddSelectedJobsSuccess) => {
         this.windowCommunicationService.postMessage(action.type);
       }),

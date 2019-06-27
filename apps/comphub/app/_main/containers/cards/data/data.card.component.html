@@ -1,7 +1,7 @@
 <pf-card-layout
   pageTitle="Data"
   pageSubTitle="Let's find the most timely and relevant data sources for pricing your job"
-  pageIconClass="fa-database"
+  pageIconClass="database"
   [page]="comphubPages.Data"
   [workflowContext]="workflowContext"
   [nextButtonEnabled]="!!(selectedJobData$ | async) && workflowContext?.selectedPageId === comphubPages.Data"
@@ -49,10 +49,10 @@
                 <ng-container *ngIf="column.IsSortable">
                   <ng-container *ngIf="gridContext.sortBy?.field === column.SortField; else notSorted">
                   <span *ngIf="gridContext.sortBy?.dir === 'asc'">
-                    <i class="fa fa-fw fa-sort-up"></i>
+                    <fa-icon class="fa-fw sort-up"></fa-icon>
                   </span>
                     <span *ngIf="gridContext.sortBy?.dir === 'desc'">
-                    <i class="fa fa-fw fa-sort-down"></i>
+                    <fa-icon class="fa-fw sort-down"></fa-icon>
                   </span>
                   </ng-container>
                 </ng-container>
@@ -66,8 +66,8 @@
                   [class.selected]="job.JobId === (selectedJobData$ | async)?.JobId">
 
                   <td class="expand-caret" (click)="handleExpandJdClicked($event, job.JobId)">
-                    <i *ngIf="!job.ShowJd" class="fas fa-caret-right"></i>
-                    <i *ngIf="job.ShowJd" class="fas fa-caret-down"></i>
+                    <fa-icon *ngIf="!job.ShowJd" icon="caret-right"></fa-icon>
+                    <fa-icon *ngIf="job.ShowJd" icon="caret-down"></fa-icon>
                   </td>
 
                   <td class="text-column job-title-column" title="{{job.JobTitle}}">

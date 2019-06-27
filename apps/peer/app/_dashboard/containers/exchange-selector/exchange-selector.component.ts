@@ -31,7 +31,7 @@ import * as fromSharedPeerReducer from '../../../shared/reducers';
 })
 
 export class ExchangeSelectorComponent implements OnInit, OnDestroy {
-  @ViewChild('p') popover: NgbPopover;
+  @ViewChild('p', { static: true }) popover: NgbPopover;
 
   exchangeListItems$: Observable<ExchangeListItem[]>;
   exchange$: Observable<Exchange>;

@@ -10,6 +10,7 @@ import { TicketAttachment } from '../../models';
 })
 export class AttachmentDetailCardComponent {
     @Input() ticketAttachments: TicketAttachment[];
+    @Input() ticketId: number;
 
     constructor() {}
 

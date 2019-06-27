@@ -265,8 +265,9 @@ exports[`Project - Survey Search - Job Result should show error state if issue l
       <div
         class="loading-datacuts-error"
       >
-        <i
-          class="fas fa-exclamation-triangle icon"
+        <fa-icon
+          class="icon"
+          icon="exclamation-triangle"
         />
          Error loading data cuts. Please try again later. 
       </div>

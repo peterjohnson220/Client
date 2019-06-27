@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { UnsavedChangesWarningComponent } from './unsaved-changes-warning.component';
 
@@ -8,7 +9,8 @@ describe('UnsavedChangesWarningComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UnsavedChangesWarningComponent ]
+      declarations: [ UnsavedChangesWarningComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));

@@ -21,7 +21,7 @@ import * as fromExchangeRequestActions from '../../../../shared/actions/exchange
 })
 
 export class ExistingCompanySelectionFormComponent implements OnInit, OnDestroy {
-  @ViewChild(CardSelectorComponent) cardSelector;
+  @ViewChild(CardSelectorComponent, { static: true }) cardSelector;
   @Input() exchange: Exchange;
   @Input() requestCompanyForm: FormGroup;
   @Input() showing: boolean;

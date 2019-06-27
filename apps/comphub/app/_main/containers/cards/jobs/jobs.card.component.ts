@@ -20,7 +20,7 @@ import { ComphubPages } from '../../../data';
   styleUrls: ['./jobs.card.component.scss']
 })
 export class JobsCardComponent implements OnInit, OnDestroy {
-  @ViewChild('jobSearch') jobSearch: AutoCompleteComponent;
+  @ViewChild('jobSearch', { static: true }) jobSearch: AutoCompleteComponent;
   @Input() workflowContext: WorkflowContext;
 
   // Observables

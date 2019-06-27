@@ -5,7 +5,7 @@ import { merge as observableMerge, fromEvent as observableFromEvent, Subject, Su
 import { debounceTime, map } from 'rxjs/operators';
 
 import { PfConstants } from '../../../models/common';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { RemoteDataSourceService } from 'libs/core/services';
 

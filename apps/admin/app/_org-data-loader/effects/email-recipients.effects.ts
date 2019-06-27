@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { catchError, switchMap, map } from 'rxjs/internal/operators';
@@ -14,7 +14,8 @@ export class OrgDataEmailRecipientsEffects {
 
   @Effect()
   loadingEmailRecipients$: Observable<Action> = this.actions$
-    .ofType(fromOrgDataEmailRecipientsActions.LOAD_EMAIL_RECIPIENTS).pipe(
+    .pipe(
+      ofType(fromOrgDataEmailRecipientsActions.LOAD_EMAIL_RECIPIENTS),
       switchMap((action: fromOrgDataEmailRecipientsActions.LoadEmailRecipients) =>
         this.orgDataEmailRecipientService.getRecipients(action.payload).pipe(
           map((recipients: any) => {
@@ -27,7 +28,8 @@ export class OrgDataEmailRecipientsEffects {
 
   @Effect()
   savingEmailRecipients$: Observable<Action> = this.actions$
-    .ofType(fromOrgDataEmailRecipientsActions.SAVING_EMAIL_RECIPIENT).pipe(
+    .pipe(
+      ofType(fromOrgDataEmailRecipientsActions.SAVING_EMAIL_RECIPIENT),
       switchMap((action: fromOrgDataEmailRecipientsActions.SavingEmailRecipient) =>
       this.orgDataEmailRecipientService.insertRecipient(action.payload).pipe(
         map((recipient: any) => {
@@ -40,7 +42,8 @@ export class OrgDataEmailRecipientsEffects {
 
   @Effect()
   removingEmailRecipient$: Observable<Action> = this.actions$
-    .ofType(fromOrgDataEmailRecipientsActions.REMOVING_EMAIL_RECIPIENT).pipe(
+    .pipe(
+      ofType(fromOrgDataEmailRecipientsActions.REMOVING_EMAIL_RECIPIENT),
       switchMap((action: fromOrgDataEmailRecipientsActions.RemovingEmailRecipient) =>
       this.orgDataEmailRecipientService.deleteRecipient(action.payload).pipe(
         map((recipient: any) => {

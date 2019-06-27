@@ -1,7 +1,7 @@
 <pf-card-layout
   pageTitle="Summary"
   pageSubTitle="Let's review a summary of your pricing activity"
-  pageIconClass="fa-file-alt"
+  pageIconClass="file-alt"
   [page]="comphubPages.Summary"
   [workflowContext]="workflowContext"
   [hideNextButton]="true"
@@ -113,14 +113,14 @@
                     [attr.data-qa-id]="'btn-downloadPdf'"
                     (click)="handleDownloadPdfClicked()"
                     ngbTooltip="Export">
-              <i class="fas fa-file-pdf"></i>
+              <fa-icon icon="file-pdf"></fa-icon>
             </button>
 
             <button class="btn btn-secondary"
                     [attr.data-qa-id]="'btn-share'"
                     (click)="handleShareClicked()"
                     ngbTooltip="Share">
-              <i class="fas fa-share"></i>
+              <fa-icon icon="share"></fa-icon>
             </button>
 
             <button class="btn btn-secondary"
@@ -131,7 +131,7 @@
                     [attr.data-qa-id]="'btn-create-project'"
                     (click)="handleCreateProjectClicked()"
                     ngbTooltip="Create Project">
-              <i class="fas fa-file-plus"></i>
+              <fa-icon icon="file-plus"></fa-icon>
             </button>
 
             <div class="non-action" *ngIf="(creatingProject$ | async)" ngbTooltip="Creating Project...">
@@ -147,7 +147,7 @@
                     [attr.data-qa-id]="'btn-open-glossary'"
                     [title]="'Glossary of Terms'"
                     ngbTooltip="Glossary">
-              <i class="fa fa-book-open glossary-svg-disable"></i>
+              <fa-icon icon="book-open" class="glossary-svg-disable"></fa-icon>
             </button>
           </div>
         </div>

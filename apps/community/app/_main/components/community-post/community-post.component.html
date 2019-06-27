@@ -1,6 +1,7 @@
   <div class="pl-1 col-12">
       <pf-community-avatar
         [AvatarSource]="post.UserInfo?.AvatarSource"
+        [CompanyLogoSource]="post.UserInfo?.CompanyLogoSource"
         [UserFirstName]="post.UserInfo.UserFirstName"
         [UserLastName]="post.UserInfo.UserLastName">
       </pf-community-avatar>
@@ -83,12 +84,5 @@
             </div>
           </div>
         </ng-template>
-        <div>
-          <ng-container *ngFor="let tag of post.Tags">
-            <button type="button" class="btn m-1 tag p-1"><i class="far fa-tag fa-lg tag-icon"></i>
-              {{tag.TagName}}
-            </button>
-          </ng-container>
-        </div>
       </div>
     </div>

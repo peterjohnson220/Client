@@ -31,9 +31,9 @@ export class ExchangeCompanyApiService {
     );
   }
 
-  getActiveNonAssociatedCompanyJobs(listState: any, companyJobIds: number[], searchTerm: string): Observable<GridDataResult> {
+  getActiveCompanyJobs(listState: any, companyJobIds: number[], searchTerm: string): Observable<GridDataResult> {
     return this.payfactorsApiService.post<GridDataResult>(
-      `${this.endpoint}/GetActiveNonAssociatedCompanyJobs`, {
+      `${this.endpoint}/GetActiveCompanyJobs`, {
         ListState: listState,
         CompanyJobIds: companyJobIds,
         SearchTerm: searchTerm

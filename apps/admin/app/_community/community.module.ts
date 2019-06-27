@@ -18,11 +18,12 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 // Libs / Controls
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfCommunityModule } from 'libs/features/community/community.module';
+
 
 import { CommunityRoutingModule } from './community-routing.module';
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
 import { CommunityPollModalComponent } from './containers/community-poll-modal/community-poll-modal.component';
-import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
 
 // Services
 import { CommunityPollAdminApiService } from 'libs/data/payfactors-api/community/community-poll-admin-api.service';
@@ -47,13 +48,13 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
     // Payfactors
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfCommunityModule
   ],
   declarations: [
       // Components
       CommunityPollsComponent,
-      CommunityPollModalComponent,
-      CommunityPollChoicesComponent
+      CommunityPollModalComponent
   ],
   providers: [ CommunityPollAdminApiService ]
 })

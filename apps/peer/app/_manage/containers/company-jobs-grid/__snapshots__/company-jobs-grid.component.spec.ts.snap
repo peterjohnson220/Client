@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CompanyJobsGridComponent should show a kendo grid with columns 1`] = `
+<pf-company-jobs-grid
+  allSubscriptions={[Function Subscription]}
+  companyJobsGridData$={[Function Store]}
+  companyJobsGridState={[Function Object]}
+  companyJobsGridState$={[Function Store]}
+  gridFilter={[Function Object]}
+  loadingGrid$={[Function Store]}
+  loadingGridError$={[Function Store]}
+  loadingGridErrorMessage$={[Function Store]}
+  store={[Function Store]}
+  tooltipDir="undefined"
+>
+  <div
+    class="company-jobs-grid-container position-relative h-100 k-tooltip-container"
+    filter=".k-grid td"
+    kendotooltip=""
+    showon="none"
+  >
+    <pf-async-container>
+      <kendo-grid
+        class="row-click-navigates"
+        filterable="menu"
+      >
+        <kendo-grid-column
+          class="p-0 m-0"
+          field="AssociationStatus"
+        >
+          
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="JobTitle"
+          title="Company Job Title"
+        >
+          
+          
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="JobCode"
+          title="Company Job Code"
+        >
+          
+          
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="JobFamily"
+          title="Company Job Family"
+        >
+          
+          
+        </kendo-grid-column>
+      </kendo-grid>
+    </pf-async-container>
+  </div>
+</pf-company-jobs-grid>
+`;

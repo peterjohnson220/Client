@@ -52,8 +52,8 @@
     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
       <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block" placement="bottom-right">
         <button class="btn btn-secondary btn-sm" id="jd-list-view-actions-dropdown" ngbDropdownToggle>
-          <i class="fas fa-ellipsis-h" aria-hidden="true"></i></button>
-
+          <fa-icon icon="ellipsis-h"></fa-icon>
+        </button>
         <div class="dropdown-menu dropdown-menu-left" aria-labelledby="job-description-actions-dropdown" ngbDropdownMenu>
           <button class="dropdown-item"
                   [disabled]="dataItem.JobDescriptionStatus === 'Not Started'"

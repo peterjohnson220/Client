@@ -59,7 +59,8 @@ export class TicketEffects {
 
   @Effect()
   loadCompanyDetail$: Observable<Action> = this.actions$
-    .ofType(fromTicketActions.LOAD_COMPANY_DETAIL).pipe(
+    .pipe(
+      ofType(fromTicketActions.LOAD_COMPANY_DETAIL),
       switchMap((action: fromTicketActions.LoadCompanyDetail) =>
         this.userTicketApiService.getCompanyDetails(action.payload.companyId).pipe(
           map((companyDetailResponse: UserTicketCompanyDetailResponse) => {
@@ -73,7 +74,8 @@ export class TicketEffects {
 
   @Effect()
   updateUserTicket$: Observable<Action> = this.actions$
-    .ofType(fromTicketActions.UPDATE_TICKET).pipe(
+    .pipe(
+      ofType(fromTicketActions.UPDATE_TICKET),
       switchMap((action: fromTicketActions.UpdateTicket) =>
         this.userTicketApiService.updateUserTicket(action.payload).pipe(
           mergeMap((userTicket: UserTicketResponse) => {

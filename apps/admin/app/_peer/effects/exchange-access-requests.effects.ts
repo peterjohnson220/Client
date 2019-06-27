@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map} from 'rxjs/operators';
@@ -15,7 +15,8 @@ export class ExchangeAccessRequestsEffects {
 
   @Effect()
   loadExchangeAccessRequests$: Observable<Action> = this.actions$
-    .ofType(fromExchangeAccessRequestsActions.LOAD_EXCHANGE_ACCESS_REQUESTS).pipe(
+    .pipe(
+      ofType(fromExchangeAccessRequestsActions.LOAD_EXCHANGE_ACCESS_REQUESTS),
       map((action: fromExchangeAccessRequestsActions.LoadExchangeAccessRequests) => action.payload),
       switchMap(payload => {
         return this.exchangeApiService.getPendingExchangeAccessRequests(payload.exchangeId).pipe(

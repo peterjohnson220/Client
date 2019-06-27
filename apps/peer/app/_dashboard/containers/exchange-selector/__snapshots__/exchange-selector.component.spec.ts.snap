@@ -36,8 +36,8 @@ exports[`Peer Dashboard - Exchange Selector should display the currently selecte
     </strong>
     
     
-    <i
-      class="fas fa-caret-down"
+    <fa-icon
+      icon="caret-down"
     />
     
   

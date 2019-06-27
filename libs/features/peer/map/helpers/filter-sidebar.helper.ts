@@ -51,7 +51,7 @@ export class FilterSidebarHelper {
   // will merge the two collections. Any selected current agggregrate items will remain and have their counts updated
   // from the server.
   static mergeServerAggregatesWithSelected(currentAggGroups: FilterAggregateGroup[], serverAggGroups: FilterAggregateGroup[],
-                                           limitToExchange: boolean, shouldReplaceAggs = true) {
+                                           limitToExchange: boolean, shouldReplaceAggs = true, shouldClearSearchingAgg = false) {
     const copiedCurrentAggGroups = cloneDeep(currentAggGroups);
     const copiedServerAggGroups = limitToExchange
                                   ? cloneDeep(serverAggGroups).filter(sag => sag.MetaData.FilterProp !== 'ExchangeIds')
@@ -64,7 +64,9 @@ export class FilterSidebarHelper {
         // For each current selected aggregate item replace the count with the new count for that item from the server
         // If that item does not come back from the server set the count to 0
         let currentAggGroupsWithCountReplaced = [];
-        const currentAggGroupsForFilter = copiedCurrentAggGroups.find(cag => cag.MetaData.FilterProp === sag.MetaData.FilterProp);
+        const currentAggGroupsForFilter: FilterAggregateGroup = copiedCurrentAggGroups.find(
+          cag => cag.MetaData.FilterProp === sag.MetaData.FilterProp
+        );
         if (!!currentAggGroupsForFilter) {
           currentAggGroupsWithCountReplaced = currentAggGroupsForFilter.Aggregates.filter(a => a.Selected || !shouldReplaceAggs)
             .map(c => {
@@ -73,6 +75,7 @@ export class FilterSidebarHelper {
 
               return c;
             });
+          sag.IsSearching = currentAggGroupsForFilter.IsSearching && !shouldClearSearchingAgg;
         }
 
         sag.Aggregates = currentAggGroupsWithCountReplaced

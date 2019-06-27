@@ -36,9 +36,15 @@ exports[`CommunityPollComponent should show poll 1`] = `
             <span
               class="poll-choice-unselected-indicator"
             >
-              <i
-                class="far fa-circle"
-              />
+              <fa-layers>
+                <fa-icon
+                  icon="circle"
+                />
+                <fa-icon
+                  icon="circle"
+                  transform="shrink-4"
+                />
+              </fa-layers>
             </span>
             
             <span
@@ -67,9 +73,15 @@ exports[`CommunityPollComponent should show poll 1`] = `
             <span
               class="poll-choice-unselected-indicator"
             >
-              <i
-                class="far fa-circle"
-              />
+              <fa-layers>
+                <fa-icon
+                  icon="circle"
+                />
+                <fa-icon
+                  icon="circle"
+                  transform="shrink-4"
+                />
+              </fa-layers>
             </span>
             
             <span
@@ -92,9 +104,7 @@ exports[`CommunityPollComponent should show poll 1`] = `
         data-qa-id="cnt-submitJumpToResults"
       >
          Jump to results 
-        <i
-          class="far fa-chevron-right"
-        />
+        <fa-icon />
       </div>
       <button
         class="btn btn-secondary submit-button-container"

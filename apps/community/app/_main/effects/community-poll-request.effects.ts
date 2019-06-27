@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map} from 'rxjs/operators';
@@ -16,7 +16,8 @@ export class CommunityPollRequestEffects {
 
   @Effect()
   loadCommunityPollRequests$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPollRequestActions.LOADING_COMMUNITY_POLL_REQUEST).pipe(
+    .pipe(
+      ofType(fromCommunityPollRequestActions.LOADING_COMMUNITY_POLL_REQUEST),
       switchMap(() =>
         this.communityPollService.getAllCommunityPollRequests().pipe(
           map((communityPollListItems: CommunityPollRequest[]) => {
@@ -29,7 +30,8 @@ export class CommunityPollRequestEffects {
 
   @Effect()
   submittingCommunityPollRequestResponse$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPollRequestActions.SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE).pipe(
+    .pipe(
+      ofType(fromCommunityPollRequestActions.SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE),
       switchMap((action: fromCommunityPollRequestActions.SubmittingCommunityPollRequest) =>
         this.communityPollService.submitCommunityPollRequestResponse(action.payload).pipe(
           map((response: boolean) => {

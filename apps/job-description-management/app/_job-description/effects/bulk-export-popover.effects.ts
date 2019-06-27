@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -17,7 +17,8 @@ import { PayfactorsApiModelMapper } from '../../shared/helpers';
 export class BulkExportPopoverEffects {
   @Effect()
   openBulkExportPopover$: Observable<Action> = this.actions$
-    .ofType(fromBulkExportPopoverActions.OPEN_BULK_EXPORT_POPOVER).pipe(
+    .pipe(
+      ofType(fromBulkExportPopoverActions.OPEN_BULK_EXPORT_POPOVER),
       switchMap((action: fromBulkExportPopoverActions.OpenBulkExportPopover) =>
         this.jobDescriptionApiService.isBulkExportAvailable(action.payload).pipe(
           mergeMap((response: boolean) => {
@@ -40,7 +41,8 @@ export class BulkExportPopoverEffects {
 
   @Effect()
   loadViewNames$: Observable<Action> = this.actions$
-    .ofType(fromBulkExportPopoverActions.LOAD_VIEW_NAMES).pipe(
+    .pipe(
+      ofType(fromBulkExportPopoverActions.LOAD_VIEW_NAMES),
       switchMap((action: fromBulkExportPopoverActions.LoadViewNames) =>
         this.jobDescriptionManagementApiService.getViewNames(action.payload).pipe(
           map((response: string[]) => {
@@ -52,7 +54,8 @@ export class BulkExportPopoverEffects {
 
   @Effect()
   loadControlLabels$: Observable<Action> = this.actions$
-    .ofType(fromBulkExportPopoverActions.LOAD_CONTROL_LABELS).pipe(
+    .pipe(
+      ofType(fromBulkExportPopoverActions.LOAD_CONTROL_LABELS),
       switchMap((action: fromBulkExportPopoverActions.LoadControlLabels) =>
         this.jobDescriptionManagementApiService.getDistinctControlLabels(action.payload).pipe(
           map((response: ControlLabelResponse[]) => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -15,7 +15,8 @@ import * as fromPublicViewHeaderReducer from '../reducers';
 export class PublicViewHeaderEffects {
   @Effect()
   loadCompanyInformation$: Observable<Action> = this.actions$
-    .ofType(fromPublicViewHeaderActions.LOAD_COMPANY_INFORMATION).pipe(
+    .pipe(
+      ofType(fromPublicViewHeaderActions.LOAD_COMPANY_INFORMATION),
       switchMap((action: fromPublicViewHeaderActions.LoadCompanyInformation) =>
         this.companyApiService.get(action.payload.CompanyId).pipe(
           map((response: CompanyDto) => {

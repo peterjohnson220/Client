@@ -120,6 +120,22 @@ describe('Auth - Reset Password', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should show password used section on passwordAlreadyUsed', () => {
+    instance.resetSuccess$ = of(false);
+    instance.resetError$ = of(false);
+    instance.resetTokenExpired$ = of(false);
+
+    instance.submitEnabled = true;
+    instance.submitting = false;
+
+    instance.tokenValid$ = of(true);
+    instance.passwordAlreadyUsed$ = of(true);
+    instance.minLength$ = of(8);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 
   it('should dispatch ResetPassword action when reset password button is clicked', () => {
 

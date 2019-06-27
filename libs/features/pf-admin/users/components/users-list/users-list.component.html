@@ -22,11 +22,11 @@
           <kendo-grid-column class="text-center" field="Status" title="Status" [width]="65">
             <ng-template kendoGridCellTemplate let-dataItem >
               <div *ngIf="dataItem.Active; else notActive" >
-                <i class="fas fa-circle text-success" aria-hidden="true"></i>
+                <fa-icon icon="circle" class="text-success" aria-hidden="true"></fa-icon>
               </div>
               <ng-template #notActive>
                 <div>
-                  <i class="fas fa-minus-circle text-danger" aria-hidden="true"></i>
+                  <fa-icon icon="minus-circle" class="text-danger" aria-hidden="true"></fa-icon>
                 </div>
               </ng-template>
             </ng-template>
@@ -34,7 +34,7 @@
           <kendo-grid-column class="text-center" field="Impersonate" [width]="100">
             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <a *ngIf="dataItem.Active" (click)="$event.stopPropagation()"
-                 href="../../marketdata/default.asp?user_id={{dataItem.UserId}}&impersonate=yes"><i class="fas fa-user" aria-hidden="true"></i></a>
+                 href="../../marketdata/default.asp?user_id={{dataItem.UserId}}&impersonate=yes"><fa-icon icon="user" aria-hidden="true"></fa-icon></a>
             </ng-template>
           </kendo-grid-column>
     </kendo-grid>

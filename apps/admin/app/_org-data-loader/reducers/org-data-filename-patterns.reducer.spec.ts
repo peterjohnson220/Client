@@ -50,20 +50,20 @@ describe('org-data-filename-patterns-reducer', () => {
   describe('Given LoadingLoaderSettingsSuccess action', () => {
     it('should return current state given null settings', () => {
       const action = new LoadingLoaderSettingsSuccess(null);
-      const actualState = reducer(undefined, action);  
+      const actualState = reducer(undefined, action);
       expect(actualState).toBe(initialState);
     });
-  
+
     it('should call create on the factory', () => {
       const payload: Array<LoaderSetting> = [{
         LoaderSettingsId: 1,
-        KeyName: "Have",
-        KeyValue: "Fun"
+        KeyName: 'Have',
+        KeyValue: 'Fun'
       }];
       const action = new LoadingLoaderSettingsSuccess(payload);
-  
+
       const actualState = reducer(undefined, action);
-  
+
       expect(OrgDataFilenamePatternSetFactory.prototype.create).toBeCalled();
       expect(actualState).toEqual(initialState);
     });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
@@ -21,8 +21,8 @@ export class JobSearchUserFilterEffects {
 
   @Effect()
   initJobSearchUserFilter$ = this.actions$
-  .ofType(fromUserFilterActions.INIT)
   .pipe(
+    ofType(fromUserFilterActions.INIT),
     switchMap(() => {
       return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
         .pipe(
@@ -43,8 +43,8 @@ export class JobSearchUserFilterEffects {
 
   @Effect()
   getSavedFiltersSuccess$ = this.actions$
-  .ofType(fromUserFilterActions.GET_SUCCESS)
   .pipe(
+    ofType(fromUserFilterActions.GET_SUCCESS),
     mergeMap((action: fromUserFilterActions.GetSuccess) => {
       const defaultFilter = this.savedFiltersHelper.getDefaultFilter(action.payload);
       const defaultFilterId = defaultFilter ? defaultFilter.Id : '';
@@ -54,8 +54,8 @@ export class JobSearchUserFilterEffects {
 
   @Effect()
   applyDefaultSavedFilter$ = this.actions$
-  .ofType(fromUserFilterActions.APPLY_DEFAULT)
   .pipe(
+    ofType(fromUserFilterActions.APPLY_DEFAULT),
     withLatestFrom(
       this.store.select(fromUserFilterReducer.getSavedFilters),
       (action: fromUserFilterActions.ApplyDefault, savedFilters) =>
@@ -77,8 +77,8 @@ export class JobSearchUserFilterEffects {
 
   @Effect()
   saveFilter$ = this.actions$
-  .ofType(fromSaveFilterModalActions.SAVE)
   .pipe(
+    ofType(fromSaveFilterModalActions.SAVE),
     withLatestFrom(
       this.store.select(fromUserFilterReducer.getSavedFilters),
       (action: fromSaveFilterModalActions.Save, savedFilters) => ({ action, savedFilters})
@@ -106,8 +106,8 @@ export class JobSearchUserFilterEffects {
 
   @Effect()
   updateMetaInfoSuccess$ = this.actions$
-  .ofType(fromSaveFilterModalActions.UPDATE_META_INFO_SUCCESS)
   .pipe(
+    ofType(fromSaveFilterModalActions.UPDATE_META_INFO_SUCCESS),
     withLatestFrom(
       this.store.select(fromUserFilterReducer.getUpsertRequest),
       (action: fromSaveFilterModalActions.UpdateMetaInfoSuccess, upsertRequest) =>
@@ -119,8 +119,8 @@ export class JobSearchUserFilterEffects {
 
   @Effect()
   editSavedFilter$ = this.actions$
-  .ofType(fromUserFilterPopoverActions.EDIT)
   .pipe(
+    ofType(fromUserFilterPopoverActions.EDIT),
     mergeMap((action: fromUserFilterPopoverActions.Edit) => {
       const actions = [];
       actions.push(new fromSaveFilterModalActions.SetModalData({

@@ -1,0 +1,84 @@
+<div 
+  class="company-jobs-grid-container position-relative h-100 k-tooltip-container" 
+  kendoTooltip 
+  showOn="none" 
+  filter=".k-grid td" 
+  [tooltipTemplate]="template" 
+  (mouseover)="showGridTooltip($event)">
+  <pf-async-container 
+    [loading]="loadingGrid$ | async"
+    [loadingError]="loadingGridError$ | async"
+    [loadingErrorMessage]="loadingGridErrorMessage$ | async"
+    (reload)="reloadGrid()">
+      <kendo-grid
+        class="row-click-navigates"
+        [data]="companyJobsGridData$ | async"
+        [pageSize]="(companyJobsGridState$ | async)?.take"
+        [skip]="(companyJobsGridState$ | async)?.skip"
+        [sort]="(companyJobsGridState$ | async)?.sort"
+        [filter]="companyJobsGridState?.filter"
+        [pageable]="{ buttonCount: 5, info: true }"
+        [resizable]="true"
+        [sortable]="true"
+        filterable="menu"
+        (dataStateChange)="handleDataStateChange($event)">
+        <kendo-grid-column field="AssociationStatus" [sortable]="false" [resizable]="false" [filterable]="false" [width]="11" class="p-0 m-0">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <pf-peer-association-color-block [isAssociated]="dataItem.IsAssociated" [isPendingPeerUserReview]="dataItem.IsPendingPeerUserReview">
+            </pf-peer-association-color-block>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="JobTitle" title="Company Job Title">
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-menu>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="show-tooltip" [innerHTML]="dataItem.JobTitle"></div>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="JobCode" title="Company Job Code">
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-menu>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div [innerHTML]="dataItem.JobCode" class="show-tooltip"></div>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="JobFamily" title="Company Job Family">
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-menu>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div *ngIf="!dataItem.JobFamily; else hasFamily" class="show-tooltip">No Family</div>
+            <ng-template #hasFamily>
+              <div class="show-tooltip">{{ dataItem.JobFamily }}</div>
+            </ng-template>
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
+  </pf-async-container>
+</div>
+<ng-template #template let-anchor>
+  <span>{{ anchor.nativeElement.innerText }}</span>
+</ng-template>

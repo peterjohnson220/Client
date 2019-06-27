@@ -3,8 +3,7 @@ import { Company } from 'libs/models/company/company.model';
 
 @Component({
   selector: 'pf-company-selector',
-  templateUrl: './company-selector.component.html',
-  styleUrls: ['./company-selector.component.scss']
+  templateUrl: './company-selector.component.html'
 })
 export class CompanySelectorComponent implements OnInit {
   @Input() loading: boolean;
@@ -13,11 +12,7 @@ export class CompanySelectorComponent implements OnInit {
 
   selectedCompany: number;
 
-  constructor() {
-  }
-
   ngOnInit() {
-
   }
 
   onCompanySelected() {

@@ -47,7 +47,6 @@ describe('Peer - Exchange Job Mapping Info', () => {
     fixture = TestBed.createComponent(ExchangeJobMappingInfoComponent);
     instance = fixture.componentInstance;
 
-
     instance.carousel = mockCarousel;
     // Set up the store to already have a selected exchange job mapping
     store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(exchangeJobMappingMock));
@@ -295,6 +294,8 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
     fixture.detectChanges();
 
+    instance.carousel = mockCarousel;
+
     instance.handleControlRightClick();
 
     expect(instance.carousel.next).toBeCalled();
@@ -304,6 +305,8 @@ describe('Peer - Exchange Job Mapping Info', () => {
     spyOn(instance.carousel, 'prev');
 
     fixture.detectChanges();
+
+    instance.carousel = mockCarousel;
 
     instance.handleControlLeftClick();
 
@@ -316,6 +319,8 @@ describe('Peer - Exchange Job Mapping Info', () => {
     spyOn(instance.carousel, 'select');
 
     fixture.detectChanges();
+
+    instance.carousel = mockCarousel;
 
     instance.handleIndicatorClick(expectedSlideId);
 

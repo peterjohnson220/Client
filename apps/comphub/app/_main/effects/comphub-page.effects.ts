@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, mergeMap, switchMap, withLatestFrom, tap, combineLatest } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
@@ -22,8 +22,8 @@ export class ComphubPageEffects {
 
   @Effect()
   initComphubPage$ = this.actions$
-  .ofType(fromComphubPageActions.INIT)
   .pipe(
+    ofType(fromComphubPageActions.INIT),
     combineLatest(
       this.store.select(fromRootState.getUserContext),
       this.store.select(fromRootState.getCompanySettings),
@@ -51,8 +51,8 @@ export class ComphubPageEffects {
 
   @Effect()
   getJobPricingLimitInfo$ = this.actions$
-    .ofType(fromComphubPageActions.GET_JOB_PRICING_LIMIT_INFO)
     .pipe(
+      ofType(fromComphubPageActions.GET_JOB_PRICING_LIMIT_INFO),
       switchMap(() =>
         this.comphubApiService.getJobPricingLimitInfo()
           .pipe(
@@ -63,11 +63,11 @@ export class ComphubPageEffects {
 
   @Effect()
   onNavigation$ = this.actions$
-    .ofType(
-      fromComphubPageActions.NAVIGATE_TO_CARD,
-      fromComphubPageActions.NAVIGATE_TO_NEXT_CARD,
-      fromComphubPageActions.NAVIGATE_TO_PREVIOUS_CARD)
     .pipe(
+      ofType(
+        fromComphubPageActions.NAVIGATE_TO_CARD,
+        fromComphubPageActions.NAVIGATE_TO_NEXT_CARD,
+        fromComphubPageActions.NAVIGATE_TO_PREVIOUS_CARD),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getSelectedPageId),
         this.store.select(fromComphubMainReducer.getPaymarketsFilter),
@@ -93,7 +93,8 @@ export class ComphubPageEffects {
 
   @Effect({ dispatch: false })
   handleApiError$ = this.actions$
-    .ofType(fromComphubPageActions.HANDLE_API_ERROR).pipe(
+    .pipe(
+      ofType(fromComphubPageActions.HANDLE_API_ERROR),
       tap((action: fromComphubPageActions.HandleApiError) =>
         this.redirectForUnauthorized(action.payload)
       )
@@ -101,7 +102,8 @@ export class ComphubPageEffects {
 
   @Effect()
   getCountryDataSets$ = this.actions$
-    .ofType(fromComphubPageActions.GET_COUNTRY_DATA_SETS).pipe(
+    .pipe(
+      ofType(fromComphubPageActions.GET_COUNTRY_DATA_SETS),
       switchMap(() => {
         return this.comphubApiService.getCountryDataSets()
           .pipe(
@@ -122,7 +124,8 @@ export class ComphubPageEffects {
 
   @Effect()
   updateActiveCountryDataSet$ = this.actions$
-    .ofType(fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET).pipe(
+    .pipe(
+      ofType(fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET),
       mergeMap(() => [
         new fromJobsCardActions.GetTrendingJobs(),
         new fromDataCardActions.ClearSelectedJobData(),

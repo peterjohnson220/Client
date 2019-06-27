@@ -38,7 +38,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     Content: postText,
     UserInfo:
       {
-        UserId: 1, UserFirstName: 'Test', UserLastName: 'User', CompanyId: 2, CompanyName: 'Test Company',
+        UserId: 1, UserFirstName: 'Test', UserLastName: 'User', CompanyId: 2, CompanyName: 'Test Company', CompanyLogoSource: null,
         AvatarSource: 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg'
       },
     Time: new Date(),

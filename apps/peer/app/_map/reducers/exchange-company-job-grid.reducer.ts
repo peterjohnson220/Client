@@ -48,7 +48,7 @@ export function reducer(state, action) {
           const exchangeJobMappingsFinal = exchangeJobMappings.map(ejm => {
             return {
               ...ejm,
-              IsInMapScope: exchangeJobIdsInScope.includes(ejm.ExchangeJobId)
+              IsInMapScope: exchangeJobIdsInScope.indexOf(ejm.ExchangeJobId) > -1
             };
           });
           return {

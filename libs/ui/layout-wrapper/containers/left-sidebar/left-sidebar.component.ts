@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angu
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { UserContext } from 'libs/models';
+import { userVoiceUrl } from 'libs/core/functions';
 
 import { environment } from 'environments/environment';
 
@@ -10,7 +11,6 @@ import * as fromRootState from '../../../../state/state';
 import * as fromLeftSidebarActions from '../../actions/left-sidebar.actions';
 import { SidebarLink } from 'libs/models';
 import * as fromLayoutReducer from '../../reducers';
-import { userVoiceUrl } from 'libs/core/functions';
 
 @Component({
   selector: 'pf-layout-wrapper-left-sidebar',

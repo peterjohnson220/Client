@@ -22,7 +22,7 @@ import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
   styleUrls: ['./upsert-data-cut.page.scss']
 })
 export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
-  @ViewChild(MapComponent) map: MapComponent;
+  @ViewChild(MapComponent, { static: false }) map: MapComponent;
 
   upsertDataCutPageInViewInIframe$: Observable<boolean>;
   peerMapCompanies$: Observable<any>;

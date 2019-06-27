@@ -22,7 +22,7 @@ export class JobAssociationModalEffects {
   @Effect({ dispatch: false })
   jobAssociationModalInitialized$ = this.actions$.pipe(
     ofType(fromJamActions.INITIALIZE),
-    map((action) => {
+    map((action: fromJamActions.Initialize) => {
       this.windowCommunicationService.postMessage(action.type);
     })
   );

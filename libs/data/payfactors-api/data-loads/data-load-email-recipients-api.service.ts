@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { RequestOptions } from '@angular/http';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { EmailRecipientModel } from '../../../../apps/admin/app/_org-data-loader/models/email-recipient.model';
@@ -26,10 +25,6 @@ export class DataLoadEmailRecipientsApiService {
   }
 
   deleteRecipient(recipient: EmailRecipientModel) {
-    return this.payfactorsApiService.delete<EmailRecipientModel>(`${this.endpoint}(${recipient.DataLoadEmailRecipientId})`,
-      new RequestOptions({
-        body: recipient
-      })
-    );
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.Delete`, {recipient: recipient});
   }
 }

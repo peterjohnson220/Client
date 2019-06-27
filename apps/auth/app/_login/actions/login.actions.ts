@@ -6,6 +6,7 @@ export const LOGIN_ERROR = '[Auth/Login] Validate Login Error';
 export const LOGIN_SUCCESS_ROUTE_TO_HOME = '[Auth/Login] Validate Login Success Route To Home Page';
 export const LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE = '[Auth/Login] Validate Login Success Route To Next Page Error';
 export const LOGIN_401_ERROR = '[Auth/Login] Validate Login 401 Error';
+export const PASSWORD_EXPIRED = '[Auth/Login] Password expired';
 
 export class Login implements Action {
   readonly type = LOGIN;
@@ -37,10 +38,16 @@ export class Login401Error implements Action {
   constructor() { }
 }
 
+export class PasswordExpired implements Action {
+  readonly type = PASSWORD_EXPIRED;
+  constructor() {}
+}
+
 export type Actions
   = Login
   | LoginSuccess
   | LoginError
   | LoginSuccessRouteToHome
   | LoginSuccessRouteToNextPage
-  | Login401Error;
+  | Login401Error
+  | PasswordExpired;

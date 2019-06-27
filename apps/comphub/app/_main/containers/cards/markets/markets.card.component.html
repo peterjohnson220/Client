@@ -1,7 +1,7 @@
 <pf-card-layout
   pageTitle="Markets"
   pageSubTitle="Now, let's define the market"
-  pageIconClass="fa-map-marker-alt"
+  pageIconClass="map-marker-alt"
   [page]="comphubPages.Markets"
   [workflowContext]="workflowContext"
   [nextButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Markets"
@@ -64,7 +64,7 @@
                    *ngIf="!(hideNewPaymarketButton$ | async)"
                    [attr.data-qa-id]="'btn-addNewMarket'"
                    (click)="handleAddNewMarketClicked()">
-                <i class="fa fa-plus-circle"></i>
+                <fa-icon icon="plus-circle" class="plus-circle"></fa-icon>
                 Add New Market
               </div>
             </div>

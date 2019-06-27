@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
@@ -21,7 +21,8 @@ import * as fromUserRoleViewReducer from '../reducers';
 export class UserRoleEffects {
   @Effect()
   loadCompanyRoles$: Observable<Action> = this.actions$
-    .ofType(fromUserRoleActions.LOAD_COMPANY_ROLES).pipe(
+    .pipe(
+      ofType(fromUserRoleActions.LOAD_COMPANY_ROLES),
       switchMap(() =>
         this.adminRolesApi.getRoles().pipe(
           map((userRoles: UserAssignedRole[]) => new fromUserRoleActions.UpdateCompanyRoles(userRoles)),
@@ -31,7 +32,8 @@ export class UserRoleEffects {
 
   @Effect()
   addCompanyRole$ = this.actions$
-    .ofType(fromUserRoleActions.ADD_COMPANY_ROLE).pipe(
+    .pipe(
+      ofType(fromUserRoleActions.ADD_COMPANY_ROLE),
       switchMap((action: fromUserRoleActions.AddCompanyRole) =>
         this.adminRolesApi.addRole(action.payload).pipe(
           mergeMap(() => [new fromUserRoleActions.CloseAddCompanyRoleModal(),
@@ -43,7 +45,8 @@ export class UserRoleEffects {
 
   @Effect()
   getUsersAndRoles$: Observable<Action> = this.actions$
-    .ofType(fromUserRoleUserTabActions.GET_USERS_AND_ROLES).pipe(
+    .pipe(
+      ofType(fromUserRoleUserTabActions.GET_USERS_AND_ROLES),
       mergeMap(() =>
         this.adminRolesApi.getUsersAndRoles().pipe(
           map((usersAndRoles: UserAndRoleModel[]) => new fromUserRoleUserTabActions.GetUsersAndRolesSuccess(usersAndRoles))
@@ -53,7 +56,8 @@ export class UserRoleEffects {
 
   @Effect()
   changeActiveRole$: Observable<Action> = this.actions$
-    .ofType(fromUserRoleActions.UPDATE_CURRENT_USER_ROLE).pipe(
+    .pipe(
+      ofType(fromUserRoleActions.UPDATE_CURRENT_USER_ROLE),
       mergeMap((action: fromUserRoleActions.UpdateCurrentUserRole) =>
         [new fromUserRoleUserTabActions.CancelChanges(),
           new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole(action.payload.RoleId),
@@ -63,7 +67,8 @@ export class UserRoleEffects {
 
   @Effect()
   saveAllChanges$: Observable<Action> = this.actions$
-    .ofType(fromUserRoleActions.SAVE_ALL_CHANGES).pipe(
+    .pipe(
+      ofType(fromUserRoleActions.SAVE_ALL_CHANGES),
       switchMap((action: fromUserRoleActions.SaveAllChanges) => {
         return this.adminRolesApi.saveRole(action.payload.PermissionIdsToSave,
           action.payload.UserIdsToAssign, action.payload.DataRestrictions,
@@ -84,7 +89,8 @@ export class UserRoleEffects {
 
   @Effect()
   cancelAllChanges$: Observable<Action> = this.actions$
-    .ofType(fromUserRoleActions.CANCEL_ALL_CHANGES).pipe(
+    .pipe(
+      ofType(fromUserRoleActions.CANCEL_ALL_CHANGES),
       mergeMap((action: fromUserRoleActions.CancelAllChanges) =>
         [new fromUserRoleUserTabActions.CancelChanges(),
           new fromDataAccessActions.CancelRoleDataRestrictionChanges(),
@@ -93,7 +99,8 @@ export class UserRoleEffects {
 
     @Effect()
     loadDataTypes$: Observable<Action> = this.actions$
-      .ofType(fromDataAccessActions.LOAD_DATA_TYPES).pipe(
+      .pipe(
+        ofType(fromDataAccessActions.LOAD_DATA_TYPES),
         switchMap((action: fromDataAccessActions.LoadDataTypes) => this.adminRolesApi.getDataTypes().pipe(
           map((dataTypes: DataType[]) => {
             return new fromDataAccessActions.LoadedDataTypes(dataTypes); })
@@ -102,7 +109,8 @@ export class UserRoleEffects {
 
   @Effect()
   editRoleName$: Observable<Action> = this.actions$
-    .ofType(fromUserRoleActions.EDIT_ROLE_NAME).pipe(
+    .pipe(
+      ofType(fromUserRoleActions.EDIT_ROLE_NAME),
       switchMap((action: fromUserRoleActions.EditRoleName) =>
         this.adminRolesApi.updateRoleName(action.payload.NewRoleName, action.payload.RoleId).pipe(
           mergeMap(response => {

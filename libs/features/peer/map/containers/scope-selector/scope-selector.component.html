@@ -9,8 +9,8 @@
           #p="ngbPopover">
 
     <span class="selector-caret">
-      <i *ngIf="addDataModal" class="fas fa-caret-right"></i>
-      <i *ngIf="!addDataModal" class="fas fa-caret-down"></i>
+      <fa-icon *ngIf="addDataModal" icon="caret-right"></fa-icon>
+      <fa-icon *ngIf="!addDataModal" icon="caret-down"></fa-icon>
     </span>
 
     <span class="selector-label text-muted">Exchange Scope:</span>
@@ -52,7 +52,7 @@
                   [disabled]="deleteMode || (exchangeScopeItem.AssociatedToPaymarket == true)"
                   (click)="enterDeleteScopeMode($event, exchangeScopeItem)"
                   [class.disabled]="deleteMode || (exchangeScopeItem.AssociatedToPaymarket == true)">
-            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+            <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
           </button>
        </div>
       </div>

@@ -30,7 +30,7 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
   features$: Observable<Feature[]>;
   displayRightSideBar: boolean;
   isRightSidebarOpen: boolean;
-  rightSideBarOpenIcon = 'fa-comments';
+  rightSideBarOpenIcon = 'comments';
 
   featureSubscription: any;
   userContextSubscription: any;

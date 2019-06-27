@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
 import { Store } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map, concatMap} from 'rxjs/operators';
@@ -26,7 +26,8 @@ export class CommunityPostEffects {
 
   @Effect()
   submittingCommunityPost$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.SUBMITTING_COMMUNITY_POST).pipe(
+    .pipe(
+      ofType(fromCommunityPostActions.SUBMITTING_COMMUNITY_POST),
       switchMap((action: fromCommunityPostActions.SubmittingCommunityPost) =>
         this.communityPostService.submitCommunityPost(action.payload).pipe(
           concatMap((communityPost: CommunityPost) => {
@@ -57,27 +58,28 @@ export class CommunityPostEffects {
 
   @Effect()
   loadingCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
-    this.actions$.ofType(fromCommunityPostActions.GETTING_COMMUNITY_POSTS)
+    this.actions$.pipe(ofType(fromCommunityPostActions.GETTING_COMMUNITY_POSTS))
   );
 
   @Effect()
   loadingNextBatchCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
-    this.actions$.ofType(fromCommunityPostActions.GETTING_NEXT_BATCH_COMMUNITY_POSTS)
+    this.actions$.pipe(ofType(fromCommunityPostActions.GETTING_NEXT_BATCH_COMMUNITY_POSTS))
   );
 
   @Effect()
   loadingPreviousBatchCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
-    this.actions$.ofType(fromCommunityPostActions.GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS)
+    this.actions$.pipe(ofType(fromCommunityPostActions.GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS))
   );
 
   @Effect()
   gettingBackToTopCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
-    this.actions$.ofType(fromCommunityPostActions.GETTING_BACK_TO_TOP_COMMUNITY_POSTS)
+    this.actions$.pipe(ofType(fromCommunityPostActions.GETTING_BACK_TO_TOP_COMMUNITY_POSTS))
   );
 
   @Effect()
   updatingCommunityPostLike$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.UPDATING_COMMUNITY_POST_LIKE).pipe(
+    .pipe(
+      ofType(fromCommunityPostActions.UPDATING_COMMUNITY_POST_LIKE),
       switchMap((action: fromCommunityPostActions.UpdatingCommunityPostLike) =>
         this.communityPostService.updatePostLike(action.payload).pipe(
           map(() => {
@@ -90,7 +92,8 @@ export class CommunityPostEffects {
 
   @Effect()
   deletingCommunityPost$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.DELETING_COMMUNITY_POST).pipe(
+    .pipe(
+      ofType(fromCommunityPostActions.DELETING_COMMUNITY_POST),
       switchMap((action: fromCommunityPostActions.DeletingCommunityPost) =>
         this.communityPostService.updatePostDeletedFlag({ postId: action.payload.PostId }).pipe(
           concatMap(() => {
@@ -124,7 +127,8 @@ export class CommunityPostEffects {
 
   @Effect()
   addingCommunityUserPoll$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL).pipe(
+    .pipe(
+      ofType(fromCommunityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL),
       switchMap((action: fromCommunityPostActions.AddingCommunityDiscussionPoll) =>
         this.communityPollService.addCommunityUserPoll(action.payload).pipe(
           concatMap((communityPost: CommunityPost) => {
@@ -141,7 +145,8 @@ export class CommunityPostEffects {
 
     @Effect()
     gettingCommunityPost$: Observable<Action> = this.actions$
-      .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POST).pipe(
+      .pipe(
+        ofType(fromCommunityPostActions.GETTING_COMMUNITY_POST),
         switchMap((action: fromCommunityPostActions.GettingCommunityPost) =>
           this.communityPostService.getPost(action.payload).pipe(
             map((post: CommunityPost) => {
