@@ -1,0 +1,46 @@
+@import 'common/common';
+@import 'common/common-variables';
+@import 'data-insights-variables';
+
+.top-bar {
+  height: 60px;
+
+  .title {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1.5rem;
+    color: $dark-gray;
+  }
+}
+
+.report-container {
+  min-width: 350px;
+  max-width: 350px;
+  border: solid 1px #d8d8d8;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
+
+  .icon {
+    margin-right: 1rem;
+    font-size: 2em;
+  }
+
+  .content {
+    width: 272px;
+    overflow: hidden;
+
+    span {
+      @extend %ellipsis-overflowing-text;
+    }
+
+    .tag {
+      text-transform: uppercase;
+      color: $dark-gray;
+    }
+
+    .workbook-name {
+      font-size: 16px;
+    }
+  }
+}

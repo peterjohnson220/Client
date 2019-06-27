@@ -31,6 +31,7 @@ import { TagApiService } from './tags';
 import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
 import { JobDescriptionTemplateApiService } from './jdm/job-description-template-api.service';
+import { TableauReportApiService } from './data-insights';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -74,7 +75,8 @@ import { JobDescriptionTemplateApiService } from './jdm/job-description-template
     RemoteDataSourceService,
     TagApiService,
     JobDescriptionTemplateApiService,
-    SurveyApiService
+    SurveyApiService,
+    TableauReportApiService
   ]
 })
 export class PfApiModule { }
