@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -34,6 +35,7 @@ import { CompanyAdminUsersListPageComponent } from './components/pages/company-a
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ScrollingModule,
 
     // 3rd Party
     GridModule,

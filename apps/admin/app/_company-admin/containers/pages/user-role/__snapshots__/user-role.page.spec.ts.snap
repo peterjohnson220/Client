@@ -153,13 +153,10 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
           <div
             class="scrollable tab-container h-100 p-3"
           >
-            <pf-user-role-data-access-tab
-              hidden=""
-            />
+            
+            
             <pf-user-role-function-tab />
-            <pf-user-role-users-tab
-              hidden=""
-            />
+            
           </div>
         </div>
       </div>
@@ -294,13 +291,10 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
           <div
             class="scrollable tab-container h-100 p-3"
           >
-            <pf-user-role-data-access-tab
-              hidden=""
-            />
+            
+            
             <pf-user-role-function-tab />
-            <pf-user-role-users-tab
-              hidden=""
-            />
+            
           </div>
         </div>
       </div>

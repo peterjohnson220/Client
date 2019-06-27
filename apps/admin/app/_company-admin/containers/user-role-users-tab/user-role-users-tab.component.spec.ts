@@ -1,4 +1,4 @@
-import {async, TestBed} from '@angular/core/testing';
+import {async, fakeAsync, TestBed} from '@angular/core/testing';
 
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
@@ -10,13 +10,15 @@ import {UserRoleUsersTabComponent} from './user-role-users-tab.component';
 import {UserRoleService} from '../../services';
 import * as fromUserRoleViewReducer from '../../reducers';
 import * as fromUserRoleUserTabActions from '../../actions/user-role-users-tab.action';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 describe('UserRoleUserTabComponent', () => {
   let fixture, component;
   let store: Store<fromUserRoleViewReducer.State>;
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        ScrollingModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           userRoleAdminMain: combineReducers(fromUserRoleViewReducer.reducers)

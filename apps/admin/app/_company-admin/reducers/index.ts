@@ -117,10 +117,6 @@ export const getUsersAndRoles = createSelector(
   selectUserRoleUserTabState, fromUserRoleUserTabReducer.getUsersAndRoles
 );
 
-export const getUsersAndRolesError = createSelector(
-  selectUserRoleUserTabState, fromUserRoleUserTabReducer.getUsersAndRolesError
-);
-
 export const getUsersInActiveRole = createSelector(
   selectUserRoleUserTabState, fromUserRoleUserTabReducer.getUsersInActiveRole
 );
