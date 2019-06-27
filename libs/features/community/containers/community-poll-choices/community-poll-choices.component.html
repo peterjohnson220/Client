@@ -1,14 +1,18 @@
-<div class="form-group row pl-5 mb-1" [formGroup]="item">      
+<div class="form-group row pl-5 mb-1" [formGroup]="item">
       <div *ngIf="isAdmin">
             <label [attr.for]="'response'+index" class="form-control no-border col">{{index+1}}.</label>
       </div>
       <div class="{{colWidth}} input-containter">
             <input type="text" class="form-control input-body community-border-radius" [placeholder]=getPlaceholder [attr.id]="'response'+index" formControlName="response" [maxLength]="45">
             <div *ngIf="enableEditingResponseOptions && index > 1">
-                  <button type="button" class="btn btn-secondary remove-btn" (click)="removed.emit(index)"><i class="fal fa-times text-muted"></i></button>
+                  <button type="button" class="btn btn-secondary remove-btn" (click)="removed.emit(index)">
+                    <fa-icon [icon]="['fal', 'times']" class="text-muted"></fa-icon>
+                  </button>
             </div>
       </div>
       <div *ngIf="isLastChoice">
-            <button type="button" *ngIf="index < maxChoices - 1" class="btn btn-secondary add-btn ml-4" (click)="added.emit(index)"><i class="fal fa-plus-circle fa-2x"></i></button>
+            <button type="button" *ngIf="index < maxChoices - 1" class="btn btn-secondary add-btn ml-4" (click)="added.emit(index)">
+              <fa-icon [icon]="['fal', 'plus-circle']" size="2x"></fa-icon>
+            </button>
       </div>
 </div>

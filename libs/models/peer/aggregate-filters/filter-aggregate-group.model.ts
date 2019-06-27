@@ -5,12 +5,14 @@ export interface FilterAggregateGroup {
   MetaData: FilterAggregateMetaData;
   Aggregates: FilterAggregateItem[];
   AggregatesPreview: FilterAggregateItem[];
+  IsSearching: boolean;
 }
 
 export function generateMockFilterAggregateGroup(filterType = 1): FilterAggregateGroup {
   return {
     MetaData: generateMockFilterAggregateMetaData(filterType),
     Aggregates: [generateMockFilterAggregateItem()],
-    AggregatesPreview: [generateMockFilterAggregateItem()]
+    AggregatesPreview: [generateMockFilterAggregateItem()],
+    IsSearching: false
   };
 }

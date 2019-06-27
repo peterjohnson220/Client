@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import {Actions, Effect} from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
@@ -40,7 +40,8 @@ export class PayfactorsJobExchangeRequestEffects {
 
   @Effect()
   loadJobFamilies$: Observable<Action> = this.actions$
-    .ofType(fromJobFamilyActions.LOAD_JOB_FAMILIES).pipe(
+    .pipe(
+      ofType(fromJobFamilyActions.LOAD_JOB_FAMILIES),
       switchMap(() => this.exchangeCompanyApiService.getPayfactorsJobFamilies().pipe(
         map(results => {
           return new fromJobFamilyActions.LoadJobFamiliesSuccess(results);

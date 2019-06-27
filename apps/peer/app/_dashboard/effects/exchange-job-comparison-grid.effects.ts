@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Observable, of } from 'rxjs';
 import { catchError, map, withLatestFrom, switchMap } from 'rxjs/operators';
@@ -17,7 +17,8 @@ export class ExchangeJobComparisonGridEffects {
 
   @Effect()
   loadExchangeJobMappings$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobComparisonGridActions.LOAD_EXCHANGE_JOB_COMPARISONS).pipe(
+    .pipe(
+      ofType(fromExchangeJobComparisonGridActions.LOAD_EXCHANGE_JOB_COMPARISONS),
       withLatestFrom(
         this.store.select(fromDashboardReducer.getExchangeJobComparisonsGridState),
         this.sharedPeerStore.select(fromSharedPeerReducer.getExchangeId),

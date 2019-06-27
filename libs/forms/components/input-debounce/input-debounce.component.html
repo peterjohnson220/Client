@@ -15,7 +15,7 @@
        [attr.data-qa-id]="'txt-'+id">
 <div *ngIf="!hideClearBtn" class="input-group">
     <div class="input-group-prepend" *ngIf="prependIcon">
-      <span class="input-group-text"><i class="{{prependIcon}}"></i></span>
+      <span class="input-group-text"><fa-icon icon="{{prependIcon}}" size="lg" aria-hidden="true"></fa-icon></span>
     </div>
     <input type="text"
          class="form-control"
@@ -33,6 +33,6 @@
          [attr.data-qa-id]="'txt-'+id"
          [style.min-width]="minWidth + 'px'">
     <div (click)="clearValue()" class="input-group-append action-item" [ngClass]="automationClassName + '-clear'">
-      <span class="input-group-text"><i class="fas fa-times"></i></span>
+      <span class="input-group-text"><fa-icon icon="times" aria-hidden="true"></fa-icon></span>
     </div>
 </div>

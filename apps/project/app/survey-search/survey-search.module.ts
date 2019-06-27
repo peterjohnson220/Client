@@ -6,6 +6,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragulaModule } from 'ng2-dragula';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -13,6 +15,7 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { PfSearchModule } from 'libs/features/search';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 
+import * as fromFaIcons from './fa-icons';
 import { JobResultComponent, DataCutsComponent, MatchesDetailsTooltipComponent } from './components';
 import { TooltipContainerComponent, SurveySearchResultsComponent } from './containers';
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from './data';
@@ -41,6 +44,7 @@ const components = [
     ]),
     NgbTooltipModule,
     DragulaModule.forRoot(),
+    FontAwesomeModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -57,4 +61,8 @@ const components = [
     { provide: UserFilterTypeData, useValue: SurveySearchUserFilterType }
   ]
 })
-export class SurveySearchModule { }
+export class SurveySearchModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

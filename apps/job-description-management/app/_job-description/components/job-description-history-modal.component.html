@@ -25,7 +25,7 @@
           <td>{{historyListItem.CreatedDate | date:'short'}}</td>
           <td>{{historyListItem.CreatedBy}}</td>
           <td><pf-status-pill [status]="historyListItem.Status"></pf-status-pill></td>
-          <td class="text-center"><i *ngIf="historyListItem.HasWorkflow || historyListItem.Status == 'In Review'" class="fas fa-random" aria-hidden="true"></i></td>
+          <td class="text-center"><fa-icon *ngIf="historyListItem.HasWorkflow || historyListItem.Status == 'In Review'" icon="random"></fa-icon></td>
         </tr>
         </tbody>
       </table>

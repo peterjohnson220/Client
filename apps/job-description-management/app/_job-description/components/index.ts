@@ -3,4 +3,7 @@ export * from './bulk-export-popover.component';
 export * from './column-selector-popover.component';
 export * from './filter-selector-popover.component';
 export * from './job-description-grid.component';
+export * from './job-description-history-modal.component';
 export * from './job-information-fields.component';
+export * from './public-view-header.component';
+export * from './save-filter-modal.component';

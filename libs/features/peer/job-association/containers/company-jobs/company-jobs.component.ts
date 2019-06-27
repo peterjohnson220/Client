@@ -24,9 +24,9 @@ import { CompanyJob, ExchangeJobAssociation } from '../../models';
   styleUrls: ['./company-jobs.component.scss']
 })
 export class CompanyJobsComponent implements OnInit, OnDestroy {
-  @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
-  @ViewChild(InputDebounceComponent) public companyJobSearchComponent: InputDebounceComponent;
-  @ViewChild(GridComponent) public grid: GridComponent;
+  @ViewChild(TooltipDirective, { static: true }) public tooltipDir: TooltipDirective;
+  @ViewChild(InputDebounceComponent, { static: true }) public companyJobSearchComponent: InputDebounceComponent;
+  @ViewChild(GridComponent, { static: true }) public grid: GridComponent;
 
   // Observables
   companyJobsGridItemsData$: Observable<GridDataResult>;
@@ -187,17 +187,6 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     if (event.key.toLowerCase() === 'escape') {
       this.store.dispatch(new companyJobsActions.CloseDetailPanel());
     }
-  }
-
-  isPendingAssociation(companyJobId: number): boolean {
-    let isAssociated = false;
-    this.exchangeJobAssociations.forEach((eja) => {
-      if (eja.CompanyJobs.map(cj => cj.CompanyJobId).sort().indexOf(companyJobId) >= 0) {
-        isAssociated = true;
-        return;
-      }
-    });
-    return isAssociated;
   }
 
   isRowSelected = (e: RowArgs) => this.isSelectedCompanyJob(e.dataItem.CompanyJobId);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
 
@@ -14,7 +14,8 @@ export class PermissionsEffects {
 
     @Effect()
     loadExchangeAccess$: Observable<Action> = this.actions$
-        .ofType(fromPermissionActions.LOAD_ACCESS_PERMISSIONS).pipe(
+        .pipe(
+            ofType(fromPermissionActions.LOAD_ACCESS_PERMISSIONS),
             switchMap((action: fromPermissionActions.LoadAccessPermissions) =>
                 this.permissionApiService.getExchangeAccess().pipe(
                     map((res: number[]) => {

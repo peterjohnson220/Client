@@ -16,12 +16,15 @@ export class JobDescriptionManagementApiService {
   }
 
   getDistinctControlLabels(viewName?: string): Observable<ControlLabelResponse[]> {
-    return this.payfactorsApiService.get<ControlLabelResponse[]>(`${this.endpoint}.GetDistinctControlLabels`,
-      {params: {viewName: viewName || ''}});
+    const options = viewName ? { params: { viewName: viewName } } : {};
+
+    return this.payfactorsApiService.get<ControlLabelResponse[]>(`${this.endpoint}.GetDistinctControlLabels`, options);
   }
 
   getViewNames(templateId: number = null): Observable<string[]> {
-    return this.payfactorsApiService.get<string[]>(`${this.endpoint}.GetViewNames`, {params: {templateId: templateId}});
+    const options = templateId ? { params: { templateId: templateId } } : {};
+
+    return this.payfactorsApiService.get<string[]>(`${this.endpoint}.GetViewNames`, options);
   }
 
   getViews(): Observable<JobDescriptionViewModel[]> {

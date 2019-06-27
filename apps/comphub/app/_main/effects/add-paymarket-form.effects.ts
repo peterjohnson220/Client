@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -21,8 +21,8 @@ export class AddPayMarketFormEffects {
 
   @Effect()
   savePaymarket$ = this.actions$
-  .ofType(fromAddPayMarketFormActions.SAVE_PAYMARKET)
   .pipe(
+    ofType(fromAddPayMarketFormActions.SAVE_PAYMARKET),
     switchMap((action: fromAddPayMarketFormActions.SavePaymarket) => {
       return this.payMarketApiService.insert(action.payload)
         .pipe(
@@ -42,8 +42,8 @@ export class AddPayMarketFormEffects {
 
   @Effect()
   closeInfoBanner$ = this.actions$
-    .ofType(fromAddPayMarketFormActions.CLOSE_INFO_BANNER)
     .pipe(
+      ofType(fromAddPayMarketFormActions.CLOSE_INFO_BANNER),
       map(() =>
         new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
           FeatureArea: FeatureAreaConstants.CompHub,
@@ -55,8 +55,8 @@ export class AddPayMarketFormEffects {
 
   @Effect()
   openAddPayMarketForm$ = this.actions$
-    .ofType(fromAddPayMarketFormActions.OPEN_FORM)
     .pipe(
+      ofType(fromAddPayMarketFormActions.OPEN_FORM),
       map(() =>
         new fromAddPayMarketFormActions.GetDismissInfoBannerSetting()
       )
@@ -64,8 +64,8 @@ export class AddPayMarketFormEffects {
 
   @Effect()
   getDismissInfoBannerSetting$ = this.actions$
-    .ofType(fromAddPayMarketFormActions.GET_DISMISS_INFO_BANNER_SETTING)
     .pipe(
+      ofType(fromAddPayMarketFormActions.GET_DISMISS_INFO_BANNER_SETTING),
       withLatestFrom(
         this.store.select(fromRootState.getUiPersistenceSettings),
         (action, userSettings) => ({ action, userSettings })),
@@ -80,8 +80,8 @@ export class AddPayMarketFormEffects {
 
   @Effect()
   savePayMarketSuccess$ = this.actions$
-    .ofType(fromAddPayMarketFormActions.SAVE_PAYMARKET_SUCCESS)
     .pipe(
+      ofType(fromAddPayMarketFormActions.SAVE_PAYMARKET_SUCCESS),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
         (action: fromAddPayMarketFormActions.SavePaymarketSuccess, countryDataSet) => ({ action, countryDataSet })
@@ -98,9 +98,9 @@ export class AddPayMarketFormEffects {
 
   @Effect()
   closeForm$ = this.actions$
-    .ofType(fromAddPayMarketFormActions.CLOSE_FORM)
     .pipe(
-        map(() => new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst())
+      ofType(fromAddPayMarketFormActions.CLOSE_FORM),
+      map(() => new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst())
     );
 
   constructor(

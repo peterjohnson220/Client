@@ -15,7 +15,13 @@ import { SettingsService } from './app-context/services';
 @NgModule({
   imports: [
     // Store Module
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
 
     // Effects
     EffectsModule.forRoot([

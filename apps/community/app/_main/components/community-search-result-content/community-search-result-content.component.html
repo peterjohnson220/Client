@@ -1,8 +1,22 @@
 <div id="overlay" class="h-100 w-100 position-absolute cursor-pointer"></div>
-<div class="mt-2 mb-2" [innerHtml]="content | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></div>
-<div *ngIf="pollResponses != null">
-    <div *ngFor="let response of pollResponses">   
+<div *ngIf="type!=podcastType" class="mt-2 mb-2" [innerHtml]="getContentText() | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></div>
+<div *ngIf="details.Responses">
+    <div class="pl-3" *ngFor="let response of details.Responses">   
         <span  [innerHtml]="response.response_text | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></span> 
         <span class='small font-italic'> ({{response.number_of_responses }} Votes)</span>     
     </div>
-</div> 
+</div>
+
+<div *ngIf="type===podcastType" class="row cursor-pointer" (mouseenter)="t.open()" (mouseleave)="t.close()">
+    <div class="col fixed-col pr-0 pt-3"
+        ngbTooltip="Listen to podcast" 
+        [autoClose]="false" 
+        triggers="manual"
+        #t="ngbTooltip">
+        <img src="assets/images/podcast.jpg" width="50" height="50">
+    </div>
+    <div class="col pt-2 pb-0">
+        <p [innerHtml]="details.Title | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></p>
+        <p class="mb-0" [innerHtml]="details.Summary | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></p>
+    </div>
+</div>

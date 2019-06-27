@@ -67,7 +67,7 @@
             </td>
             <td class="text-center">{{dataCut.Base50 ? formatCurrency(dataCut.Base50) : "-"}}</td>
             <td class="text-center">{{dataCut.TCC50 ? formatCurrency(dataCut.TCC50) : "-"}}</td>
-            <td class="text-center" (click)="removeMatchCut(dataCut)"><i class="far fa-times fa-lg" ></i></td>
+            <td class="text-center" (click)="removeMatchCut(dataCut)"><fa-icon [icon]="['far', 'times']" size="lg" ></fa-icon></td>
           </tr>
         </tbody>
       </table>
@@ -90,7 +90,7 @@
 </ng-template>
 <ng-template #loadingDataCutsError>
   <div class="loading-datacuts-error">
-    <i class="fas fa-exclamation-triangle icon"></i> Error loading data cuts. Please try again later.
+    <fa-icon icon="exclamation-triangle" class="icon"></fa-icon> Error loading data cuts. Please try again later.
   </div>
 </ng-template>
 

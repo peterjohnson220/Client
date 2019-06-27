@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
 
@@ -18,8 +18,8 @@ import * as fromUserFilterReducer from '../reducers';
 export class UserFilterPopoverEffects {
   @Effect()
   selectSavedFilter$ = this.actions$
-  .ofType(fromUserFilterPopoverActions.SELECT)
   .pipe(
+    ofType(fromUserFilterPopoverActions.SELECT),
     withLatestFrom(
       this.store.select(fromSearchReducer.getSearchingFilter),
       this.store.select(fromSearchReducer.getSingledFilter),
@@ -46,8 +46,8 @@ export class UserFilterPopoverEffects {
 
   @Effect()
   unselectSavedFilter$ = this.actions$
-  .ofType(fromUserFilterPopoverActions.UNSELECT)
   .pipe(
+    ofType(fromUserFilterPopoverActions.UNSELECT),
     withLatestFrom(
       this.store.select(fromSearchReducer.getSearchingFilter),
       (action: fromUserFilterPopoverActions.Unselect, searchingFilter) =>
@@ -66,8 +66,8 @@ export class UserFilterPopoverEffects {
 
   @Effect()
   toggleSavedFilterSelection$ = this.actions$
-  .ofType(fromUserFilterPopoverActions.TOGGLE_SAVED_FILTER_SELECTION)
   .pipe(
+    ofType(fromUserFilterPopoverActions.TOGGLE_SAVED_FILTER_SELECTION),
     withLatestFrom(
       this.store.select(fromUserFilterReducer.getSelectedSavedFilter),
       (action: fromUserFilterPopoverActions.ToggleSavedFilterSelection, selectedSavedFilter) =>
@@ -88,8 +88,8 @@ export class UserFilterPopoverEffects {
 
   @Effect()
   deleteSavedFilterSuccess$ = this.actions$
-  .ofType(fromUserFilterActions.DELETE_SUCCESS)
   .pipe(
+    ofType(fromUserFilterActions.DELETE_SUCCESS),
     withLatestFrom(
       this.store.select(fromUserFilterReducer.getSelectedSavedFilter),
       (action: fromUserFilterActions.DeleteSuccess, currentSelectedSavedFilter) =>

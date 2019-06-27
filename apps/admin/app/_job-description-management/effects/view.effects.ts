@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
@@ -13,7 +13,8 @@ export class JdmViewEffects {
 
   @Effect()
   loadViews$: Observable<Action> = this.actions$
-    .ofType(fromJdmViewActions.LOADING_VIEWS).pipe(
+    .pipe(
+      ofType(fromJdmViewActions.LOADING_VIEWS),
       switchMap(() =>
         this.jobdescriptionManagementApiService.getViews().pipe(
           map((views: JobDescriptionViewModel[]) => new fromJdmViewActions.LoadingViewsSuccess({views: views})),

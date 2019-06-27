@@ -1,42 +1,68 @@
 <pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId">
   <ng-container page-title>
-    Exchange to Company Job Association
+    {{ showCompanyJobs ? 'Company to Exchange Job Match' : 'Exchange to Company Job Association' }}
   </ng-container>
 
   <ng-container page-actions>
     <div class="omni-box">
-      <pf-input-debounce [placeholderText]="'Search for an Exchange Job Title...'" (valueChanged)="handleSearchChanged($event)">
+      <!-- company jobs search box -->
+      <pf-input-debounce 
+        #companyJobsSearchComponent 
+        [class.d-none]="!showCompanyJobs" 
+        [placeholderText]="'Search for company job title or code'"
+        [(ngModel)]="companyJobsSearchTerm" 
+        (valueChanged)="handleCompanyJobsSearchChanged($event)"
+        [id]="'company-job-search-box'"
+      >
+      </pf-input-debounce>
+
+      <!-- exchange jobs search box -->
+      <pf-input-debounce
+        [class.d-none]="showCompanyJobs"
+        [placeholderText]="'Search for an Exchange Job Title...'"
+        (valueChanged)="handleSearchChanged($event)"
+        [id]="'exchange-job-search-box'"
+      >
       </pf-input-debounce>
     </div>
-    <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">Request Job</button>
+    <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">{{ showCompanyJobs ? 'Request Exchange Job' : 'Request Job' }}</button>
 
     <a href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId={{exchangeId}}">
       <button type="button" title="Export to Excel" id="export-popover-btn" class="btn btn-secondary" placement="bottom">
-        <i class="fas fa-download" aria-hidden="true"></i>
+        <fa-icon icon="download" aria-hidden="true"></fa-icon>
       </button>
     </a>
 
     <button (click)="importAssociationClick()" [pfSecuredResource]="_Permissions.PEER_IMPORT_ASSOCIATIONS" type="button" title="Import Associations" id="import-popover-btn"
       class="btn btn-secondary" placement="bottom">
-      <i class="fas fa-upload" aria-hidden="true"></i>
+      <fa-icon icon="upload" aria-hidden="true"></fa-icon>
     </button>
 
   </ng-container>
 
   <ng-container page-content>
-
-    <div class="flex-column-container">
-      <div class="exchange-job-mapping-grid-container" [class.collapse-grid]="collapse">
-        <pf-exchange-job-mapping-grid [exchangeId]="exchangeId" [disableScrollTo]="disableGridScollTo"
-          [pageRowIndexToScrollTo]="gridPageRowIndexToScrollTo$ | async">
-        </pf-exchange-job-mapping-grid>
-      </div>
-
-      <div *ngIf="collapse" class="mt-2 flex-grow-1 exchange-job-mapping-info-container">
-        <pf-exchange-job-mapping-info [exchangeId]="exchangeId" (closeClicked)="handleExchangeJobMappingInfoClosed()">
-        </pf-exchange-job-mapping-info>
+    <!-- company jobs grid -->
+    <div *ngIf="showCompanyJobs; else exchangeJobs" class="flex-column-container">
+      <div class="h-100">
+        <pf-company-jobs-grid></pf-company-jobs-grid>
       </div>
     </div>
+
+    <!-- exchange jobs grid -->
+    <ng-template #exchangeJobs>
+      <div class="flex-column-container">
+        <div class="exchange-job-mapping-grid-container" [class.collapse-grid]="collapse">
+          <pf-exchange-job-mapping-grid [exchangeId]="exchangeId" [disableScrollTo]="disableGridScollTo"
+            [pageRowIndexToScrollTo]="gridPageRowIndexToScrollTo$ | async">
+          </pf-exchange-job-mapping-grid>
+        </div>
+
+        <div *ngIf="collapse" class="mt-2 flex-grow-1 exchange-job-mapping-info-container">
+          <pf-exchange-job-mapping-info [exchangeId]="exchangeId" (closeClicked)="handleExchangeJobMappingInfoClosed()">
+          </pf-exchange-job-mapping-info>
+        </div>
+      </div>
+    </ng-template>
 
   </ng-container>
 </pf-page-with-title-bar>

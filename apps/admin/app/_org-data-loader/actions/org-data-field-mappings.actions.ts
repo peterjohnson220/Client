@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { LoaderFieldSet } from '../models';
+import { FieldMappingsDTO } from 'libs/models/data-loads/index';
 
 export const LOADING_FIELD_MAPPINGS = '[Org Data Autoloader/Field Mappings] Loading Field Mappings';
 export const LOADING_FIELD_MAPPINGS_ERROR = '[Org Data Autoloader/Field Mappings] Loading Field Mappings Error';
@@ -27,7 +28,7 @@ export class LoadingFieldMappingsSuccess implements Action {
 export class SavingFieldMappings implements Action {
   readonly type = SAVING_FIELD_MAPPINGS;
 
-  constructor(public payload: any) {}
+  constructor(public payload: FieldMappingsDTO) {}
 }
 export class SavingFieldMappingsError implements Action {
   readonly type = SAVING_FIELD_MAPPINGS_ERROR;

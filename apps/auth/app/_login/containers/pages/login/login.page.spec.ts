@@ -112,4 +112,16 @@ describe('Auth - Login', () => {
     expect(selfRegistrationButton).toBeNull();
   });
 
+  it('should show password expired notification on submitError', () => {
+
+    instance.login$ = of(false);
+    instance.loginSuccess$ = of(false);
+    instance.loginError$ = of(false);
+    instance.passwordExpired$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });

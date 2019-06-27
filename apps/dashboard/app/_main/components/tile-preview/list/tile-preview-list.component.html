@@ -1,5 +1,5 @@
 <a *ngIf="model.DetailData && model.MainButtonUrl.length > 0" class="btn tile-preview-list-button p-1" [href]="model.MainButtonUrl">
-  <i [class]="model.MainButtonIcon"></i> {{model.MainButtonText}}
+  <fa-icon [icon]="model.MainButtonIcon"></fa-icon> {{model.MainButtonText}}
 </a>
 <table class="mt-3">
   <tr *ngIf="model.DetailData && model.ShowColumnHeadings">

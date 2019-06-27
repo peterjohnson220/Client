@@ -1,0 +1,59 @@
+.vertical-align-top {
+  vertical-align: top;
+}
+
+.no-border {
+  border: 0;
+  box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+}
+
+#pricing-review-label{
+  padding-top: 15px;
+}
+
+#company-form-submit{
+  position: fixed;
+  right: 88px;
+  top: 65px;
+}
+
+.preview {
+  float: none;
+  position: relative;
+  top: 7px;
+  right:0px;
+}
+
+.token-url-container {
+ background-color: #fff;
+}
+
+.help-block {
+  color: #d9534f;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+ opacity: 1;
+}
+
+.api-key-container {
+  width: 100%;
+}
+
+.api-key-container input {
+  width: 80%;
+}
+
+.api-key-container button {
+  width: 15%;
+  float: right;
+}
+
+.remove-logo:hover {
+  cursor: pointer;
+}
+
+.form-control:disabled {
+  cursor: not-allowed;
+}

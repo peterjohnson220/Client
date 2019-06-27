@@ -57,15 +57,17 @@ export class TileGridComponent implements OnInit, OnDestroy {
   // Events
   private onDropModel(args) {
     let nextTileId = this.tiles[args.targetIndex].Id;
-    if (args.targetIndex > args.sourceIndex) {
-      const nextTileIndex = args.targetIndex < (this.tiles.length - 1) ? args.targetIndex + 1 : null;
-      nextTileId = nextTileIndex !== null ? this.tiles[nextTileIndex].Id : null;
+    if (nextTileId && nextTileId > 0 ) {
+      if (args.targetIndex > args.sourceIndex) {
+        const nextTileIndex = args.targetIndex < (this.tiles.length - 1) ? args.targetIndex + 1 : null;
+        nextTileId = nextTileIndex !== null ? this.tiles[ nextTileIndex ].Id : null;
+      }
+      const reorderTileRequest: ReorderTileRequest = {
+        movedUserTileId: this.tiles[ args.sourceIndex ].Id,
+        newNextUserTileId: nextTileId
+      };
+      this.store.dispatch(new fromTileGridActions.ReorderTiles(reorderTileRequest));
     }
-    const reorderTileRequest: ReorderTileRequest = {
-      movedUserTileId: this.tiles[args.sourceIndex].Id,
-      newNextUserTileId: nextTileId
-    };
-    this.store.dispatch(new fromTileGridActions.ReorderTiles(reorderTileRequest));
   }
 
   handleTilesGridReload() {

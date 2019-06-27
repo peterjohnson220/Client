@@ -8,7 +8,7 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping butt
   addingMappingSubscription={[Function Subscriber]}
   applyingMapping$={[Function Store]}
   applyingMappingError$={[Function Store]}
-  carousel={[Function Object]}
+  carousel="undefined"
   closeClicked={[Function EventEmitter]}
   companyDescriptionQuery=""
   companyJobQuery=""
@@ -46,9 +46,7 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping butt
       <div
         class="close-btn"
       >
-        <i
-          class="far fa-times"
-        />
+        <fa-icon />
       </div>
     </div>
     <div
@@ -99,7 +97,7 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
   addingMappingSubscription={[Function Subscriber]}
   applyingMapping$={[Function Store]}
   applyingMappingError$={[Function Store]}
-  carousel={[Function Object]}
+  carousel="undefined"
   closeClicked={[Function EventEmitter]}
   companyDescriptionQuery=""
   companyJobQuery=""
@@ -147,9 +145,7 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
       <div
         class="close-btn"
       >
-        <i
-          class="far fa-times"
-        />
+        <fa-icon />
       </div>
     </div>
     <div
@@ -180,8 +176,9 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
             <div
               class="control control-left"
             >
-              <i
-                class="fas fa-chevron-circle-left fa-2x"
+              <fa-icon
+                icon="chevron-circle-left"
+                size="2x"
               />
             </div>
             <div
@@ -193,8 +190,8 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
                 ng-reflect-klass="control"
                 ng-reflect-ng-class="[object Object]"
               >
-                <i
-                  class="fas fa-circle"
+                <fa-icon
+                  icon="circle"
                 />
               </span>
               <span
@@ -202,16 +199,17 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
                 ng-reflect-klass="control"
                 ng-reflect-ng-class="[object Object]"
               >
-                <i
-                  class="fas fa-circle"
+                <fa-icon
+                  icon="circle"
                 />
               </span>
             </div>
             <div
               class="control control-right"
             >
-              <i
-                class="fas fa-chevron-circle-right fa-2x"
+              <fa-icon
+                icon="chevron-circle-right"
+                size="2x"
               />
             </div>
           </div>
@@ -231,7 +229,7 @@ exports[`Peer - Exchange Job Mapping Info should display an add mapping button, 
   addingMappingSubscription={[Function Subscriber]}
   applyingMapping$={[Function Store]}
   applyingMappingError$={[Function Store]}
-  carousel={[Function Object]}
+  carousel="undefined"
   closeClicked={[Function EventEmitter]}
   companyDescriptionQuery=""
   companyJobQuery=""
@@ -278,9 +276,7 @@ exports[`Peer - Exchange Job Mapping Info should display an add mapping button, 
       <div
         class="close-btn"
       >
-        <i
-          class="far fa-times"
-        />
+        <fa-icon />
       </div>
     </div>
     <div

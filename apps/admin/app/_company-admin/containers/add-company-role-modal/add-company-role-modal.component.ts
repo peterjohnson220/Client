@@ -29,7 +29,7 @@ export class AddCompanyRoleModalComponent implements OnInit, OnDestroy {
   formValueChangesSubscription: Subscription;
   addCompanyRoleFormSubscription: Subscription;
   addCompanyRoleErrorSubscription: Subscription;
-  @ViewChild('companyRoleName') companyRoleName: ElementRef;
+  @ViewChild('companyRoleName', { static: true }) companyRoleName: ElementRef;
 
   constructor(private store: Store<fromUserRoleViewReducer.State>,
               private rootStore: Store<fromRootState.State>,

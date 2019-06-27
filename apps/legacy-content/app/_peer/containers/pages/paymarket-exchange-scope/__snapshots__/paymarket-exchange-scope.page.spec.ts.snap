@@ -42,8 +42,8 @@ exports[`Legacy Content - Peer - PayMarket Exchange Scope should display the Pay
           <button
             class="btn btn-sm btn-light"
           >
-            <i
-              class="fas fa-plus"
+            <fa-icon
+              icon="plus"
             />
           </button>
         </div>

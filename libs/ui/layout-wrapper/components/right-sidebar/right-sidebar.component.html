@@ -3,10 +3,7 @@
     <span id="openSidebarIconContainer"
           class="open-sidebar-icon-container"
           [style.visibility]="isOpen ? 'hidden' : 'visible'">
-      <i id="openSidebarIcon"
-         class="fas fa-lg open-sidebar-icon"
-         ngClass="{{ fontAwesomeOpenIcon }}"
-      ></i>
+      <fa-icon id="openSidebarIcon" class="open-sidebar-icon" [icon]="fontAwesomeOpenIcon" size="lg"></fa-icon>
     </span>
   </span>
   <div id="rightSidebarTransitionWrapper" class="right-sidebar-content"
@@ -15,7 +12,7 @@
       <div class="close-sidebar-icon p-2">
         <span (click)="toggle()"
               [style.visibility]="isOpen ? 'visible' : 'hidden'">
-          <i id="closeSidebarIcon" class="fas fa-times fa-lg"></i>
+          <fa-icon id="closeSidebarIcon" icon="times" size="lg"></fa-icon>
         </span>
       </div>
       <ng-content></ng-content>

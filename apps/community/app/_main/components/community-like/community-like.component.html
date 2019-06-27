@@ -10,8 +10,15 @@
           (mouseenter)="mouseEnter()"
           placement="auto"
           [ngbTooltip]="tipContent">
-    <span *ngIf="LikedByCurrentUser"><i class="fas fa-heart icon"></i></span>
-    <span *ngIf="!LikedByCurrentUser"><i class="far fa-heart icon"></i></span>
+    <span *ngIf="LikedByCurrentUser">
+      <fa-icon icon="heart" class="liked-by-current-user"></fa-icon>
+    </span>
+    <span *ngIf="!LikedByCurrentUser">
+       <fa-layers [fixedWidth]="true">
+          <fa-icon icon="heart"></fa-icon>
+          <fa-icon [inverse]="true" icon="heart" transform="shrink-4"></fa-icon>
+       </fa-layers>
+    </span>
     <span data-qa-id="cnt-likeCount"> {{LikeCount > 0 ? LikeCount : ''}} {{LikeCount > 1 ? 'Likes' : 'Like'}}</span>
 </span>
 

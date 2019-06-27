@@ -1,15 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { EffectsModule } from '@ngrx/effects';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { StoreModule } from '@ngrx/store';
-import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import * as fromFaIcons from './fa-icons';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
@@ -20,8 +25,8 @@ import { CompanySelectorComponent } from './containers/company-selector/company-
 import { OrgDataFieldMappingsEffects } from './effects/org-data-field-mappings.effects';
 import { EmailRecipientsComponent } from './containers/email-recipients/email-recipients.component';
 import { OrgDataEmailRecipientsEffects } from './effects/email-recipients.effects';
-import {LoaderSettingsEffects} from './effects/loader-settings.effects';
-
+import { LoaderSettingsEffects } from './effects/loader-settings.effects';
+import { SftpAccountStatusComponent } from './containers/sftp-account-status/sftp-account-status.component';
 
 @NgModule({
   imports:      [
@@ -42,6 +47,7 @@ import {LoaderSettingsEffects} from './effects/loader-settings.effects';
     // 3rd Party
     LayoutModule,
     UploadModule,
+    FontAwesomeModule,
 
     // Routing
     OrgDataLoaderRoutingModule,
@@ -50,12 +56,22 @@ import {LoaderSettingsEffects} from './effects/loader-settings.effects';
     PfCommonUIModule,
     PfFormsModule
   ],
+  providers: [
+    ConfigSettingsSelectorFactory
+  ],
   declarations: [
-    // Pages
-    ManageFieldMappingsPageComponent,
+    // Components
+    SftpAccountStatusComponent,
     FieldMapperComponent,
     CompanySelectorComponent,
-    EmailRecipientsComponent
+    EmailRecipientsComponent,
+
+    // Pages
+    ManageFieldMappingsPageComponent
   ]
 })
-export class OrgDataLoaderModule { }
+export class OrgDataLoaderModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

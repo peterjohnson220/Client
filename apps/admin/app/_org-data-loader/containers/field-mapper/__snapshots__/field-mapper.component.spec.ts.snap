@@ -43,7 +43,7 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
       <div
         class="col"
       >
-         Client filename for this entity must 
+         Client file name for this entity must 
         
         <span>
           begin with 
@@ -181,7 +181,7 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
       <div
         class="col"
       >
-         Client filename for this entity must 
+         Client file name for this entity must 
         
         <span>
           begin with 
@@ -319,7 +319,7 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
       <div
         class="col"
       >
-         Client filename for this entity must 
+         Client file name for this entity must 
         
         contain 
         

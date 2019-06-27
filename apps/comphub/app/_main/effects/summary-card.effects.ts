@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { of } from 'rxjs';
@@ -27,8 +27,8 @@ export class SummaryCardEffects {
 
   @Effect()
   priceNewJob$ = this.actions$
-    .ofType(fromSummaryCardActions.PRICE_NEW_JOB)
     .pipe(
+      ofType(fromSummaryCardActions.PRICE_NEW_JOB),
       mergeMap(() => [
         new fromComphubPageActions.NavigateToCard({cardId: ComphubPages.Jobs }),
         new fromComphubPageActions.ResetAccessiblePages(),
@@ -42,8 +42,8 @@ export class SummaryCardEffects {
 
   @Effect()
   getJobNationalTrend$ = this.actions$
-    .ofType(fromSummaryCardActions.GET_JOB_NATIONAL_TREND)
     .pipe(
+      ofType(fromSummaryCardActions.GET_JOB_NATIONAL_TREND),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
         (action: fromSummaryCardActions.GetNationalJobTrendData, activeCountryDataSet) => ({ action, activeCountryDataSet })
@@ -66,8 +66,8 @@ export class SummaryCardEffects {
 
   @Effect()
   sharePricingSummary$ = this.actions$
-  .ofType(fromSummaryCardActions.SHARE_PRICING_SUMMARY)
   .pipe(
+    ofType(fromSummaryCardActions.SHARE_PRICING_SUMMARY),
     switchMap((action: fromSummaryCardActions.SharePricingSummary) => {
       return this.comphubApiService.sharePricingSummary(action.payload)
         .pipe(
@@ -84,8 +84,8 @@ export class SummaryCardEffects {
 
   @Effect()
   createQuickPriceProject$ = this.actions$
-    .ofType(fromSummaryCardActions.CREATE_PROJECT)
     .pipe(
+      ofType(fromSummaryCardActions.CREATE_PROJECT),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getSelectedJobData),
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
@@ -115,8 +115,8 @@ export class SummaryCardEffects {
 
   @Effect({dispatch: false})
   createProjectSuccess$ = this.actions$
-    .ofType(fromSummaryCardActions.CREATE_PROJECT_SUCCESS)
     .pipe(
+      ofType(fromSummaryCardActions.CREATE_PROJECT_SUCCESS),
       tap((action: fromSummaryCardActions.CreateProjectSuccess) => {
         this.projectWindow.location.href = `/marketdata/marketdata.asp?usersession_id=${action.payload}`;
         this.projectWindow.focus();
@@ -125,8 +125,8 @@ export class SummaryCardEffects {
 
   @Effect({dispatch: false})
   createProjectError$ = this.actions$
-    .ofType(fromSummaryCardActions.CREATE_PROJECT_ERROR)
     .pipe(
+      ofType(fromSummaryCardActions.CREATE_PROJECT_ERROR),
       tap(() => {
         this.projectWindow.close();
       })
@@ -134,8 +134,8 @@ export class SummaryCardEffects {
 
   @Effect()
   getLeftSidebarNavigationLinksSuccess$ = this.actions$
-    .ofType(fromNavigationActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS)
     .pipe(
+      ofType(fromNavigationActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS),
       map((action: fromNavigationActions.GetLeftSidebarNavigationLinksSuccess) => {
         const hasAccessToProjectsTile = action.payload && action.payload.some(l => l.Name === 'Pricing Projects');
         return new fromSummaryCardActions.SetProjectTileAccess(hasAccessToProjectsTile);
@@ -144,8 +144,8 @@ export class SummaryCardEffects {
 
   @Effect()
   addCompletedPricingHistory$ = this.actions$
-  .ofType(fromSummaryCardActions.ADD_COMPLETED_PRICING_HISTORY)
   .pipe(
+    ofType(fromSummaryCardActions.ADD_COMPLETED_PRICING_HISTORY),
     withLatestFrom(
       this.store.select(fromComphubMainReducer.getSelectedJob),
       this.store.select(fromComphubMainReducer.getSelectedPaymarket),

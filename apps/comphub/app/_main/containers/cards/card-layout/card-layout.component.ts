@@ -28,7 +28,7 @@ export class CardLayoutComponent implements OnInit {
   @Input() backButtonEnabled: boolean;
   @Input() page: ComphubPages;
   @Input() workflowContext: WorkflowContext;
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
   jobPricingLimitInfoSub: Subscription;

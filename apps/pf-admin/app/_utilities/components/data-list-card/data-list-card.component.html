@@ -1,0 +1,37 @@
+<div class="card h-100">
+  <div class="card-body h-100 pr-3 pl-3 pb-3 position-relative">
+    <!--To avoid flexbox issue not transcluding the content-->
+    <pf-async-container
+      [loading]="loading"
+      [loadingError]="loadingError"
+      [hideReloadButton]="true">
+    </pf-async-container>
+
+    <div class="d-flex flex-column h-100">
+      <div class="mb-3">
+        <pf-input-debounce [ngModel]="filter" (valueChanged)="handleSearchTermChanged($event)"></pf-input-debounce>
+      </div>
+
+      <div class="mr--3 pr-3" [ngClass]="{ 'overflow-y-auto': !loading, 'overflow-hidden': loading }">
+        <table class="table table-hover">
+          <tbody>
+          <ng-container *ngIf="(items | filterArrayByName : filter) as filteredItems">
+            <ng-container *ngIf="filteredItems.length; else noItems">
+              <tr *ngFor="let item of filteredItems; trackBy : trackByFn"
+                  [class.selected]="item.Selected"
+                  (click)="handleCompanyClicked(item)">
+                <td>{{item.Name}}</td>
+              </tr>
+            </ng-container>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #noItems>
+  <strong *ngIf="!loading && !loadingError">No {{dataName}}</strong>
+</ng-template>

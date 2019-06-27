@@ -30,6 +30,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   isExchangeActive$: Observable<boolean>;
   canToggleExchangeStatus$: Observable<boolean>;
   isValidExchange$: Observable<boolean>;
+  loadingExchange$: Observable<boolean>;
 
   isValidExchangeSubcription: Subscription;
 
@@ -51,6 +52,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
     this.isExchangeActive$ = this.exchange$.pipe(map(e => e.Status === StatusEnum.Active));
     this.canToggleExchangeStatus$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeCanToggleExchangeStatus));
     this.isValidExchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeIsValidExchange));
+    this.loadingExchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeLoading));
   }
 
   handleSwitchToggled() {

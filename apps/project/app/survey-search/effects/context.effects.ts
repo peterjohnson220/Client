@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
 
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
@@ -12,8 +12,8 @@ export class ContextEffects {
 
   @Effect()
   setProjectContext$ = this.actions$
-    .ofType(fromContextActions.SET_PROJECT_SEARCH_CONTEXT)
     .pipe(
+      ofType(fromContextActions.SET_PROJECT_SEARCH_CONTEXT),
       map(() => {
         return new fromSearchPageActions.ShowPage();
       })

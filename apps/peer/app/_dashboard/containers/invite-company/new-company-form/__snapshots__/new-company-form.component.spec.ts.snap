@@ -48,8 +48,8 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
               <span
                 placement="right"
               >
-                <i
-                  class="far fa-info-circle text-info"
+                <fa-icon
+                  class="text-info"
                 />
               </span>
             </label>

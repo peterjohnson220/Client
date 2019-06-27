@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map, tap, concatMap } from 'rxjs/operators';
@@ -17,7 +17,8 @@ export class ExchangeListEffects {
 
   @Effect()
   loadExchanges$: Observable<Action> = this.actions$
-    .ofType(fromExchangeListActions.LOAD_EXCHANGES).pipe(
+    .pipe(
+      ofType(fromExchangeListActions.LOAD_EXCHANGES),
       switchMap((action: fromExchangeListActions.LoadExchanges) =>
         this.exchangeApiService.getAllExchanges(action.payload).pipe(
           map((exchangeListItems: ExchangeListItem[]) => {
@@ -30,7 +31,8 @@ export class ExchangeListEffects {
 
   @Effect()
   upsertExchange$: Observable<Action> = this.actions$
-    .ofType(fromExchangeListActions.UPSERT_EXCHANGE).pipe(
+    .pipe(
+      ofType(fromExchangeListActions.UPSERT_EXCHANGE),
       switchMap((action: fromExchangeListActions.UpsertExchange) =>
         this.exchangeApiService.upsertExchange(action.payload).pipe(
           map((exchangeListItem: ExchangeListItem) => {
@@ -43,7 +45,8 @@ export class ExchangeListEffects {
 
   @Effect()
   deleteExchange$: Observable<Action> = this.actions$
-    .ofType(fromExchangeListActions.DELETE_EXCHANGE).pipe(
+    .pipe(
+      ofType(fromExchangeListActions.DELETE_EXCHANGE),
       map((action: fromExchangeListActions.DeleteExchange) => action.payload),
       switchMap(payload =>
         this.exchangeApiService.deleteExchange(payload).pipe(
@@ -61,7 +64,8 @@ export class ExchangeListEffects {
 
   @Effect({ dispatch: false })
   navigateToManagePage: Observable<Action> = this.actions$
-    .ofType(fromExchangeListActions.UPSERT_EXCHANGE_SUCCESS).pipe(
+    .pipe(
+      ofType(fromExchangeListActions.UPSERT_EXCHANGE_SUCCESS),
       tap((action: fromExchangeListActions.UpsertExchangeSuccess) => {
         this.router.navigate(['/peer/exchange', action.payload.ExchangeId]);
       })

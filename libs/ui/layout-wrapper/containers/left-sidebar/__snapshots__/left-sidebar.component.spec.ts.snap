@@ -31,8 +31,8 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
       
       
       <span>
-        <i
-          class="fal fa-lg fa-angle-double-right"
+        <fa-icon
+          size="lg"
         />
       </span>
     </div>
@@ -70,8 +70,8 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
     >
       
       <span>
-        <i
-          class="fal fa-lg fa-angle-double-left"
+        <fa-icon
+          size="lg"
         />
       </span>
       

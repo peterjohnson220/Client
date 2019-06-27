@@ -1,0 +1,29 @@
+export interface CompanyFormData {
+  CompanyId: number;
+  CompanyName: string;
+  CompanyNameShort: string;
+  Status: string;
+  PrimarySupportUserId?: string;
+  SystemUserGroupsId: number;
+  ClientType: string;
+  Industry: string;
+  FTEs?: string;
+  Assets?: string;
+  Revenue?: string;
+  EnablePricingReview: boolean;
+  CompanyLogo: string;
+  CustomerSuccessMgrUserId?: string;
+  ParticipateInPeerDataExchange: boolean;
+  EnableLibraryForRoutedJobDescriptions: boolean;
+  EnableEmployeeAcknowledgement: boolean;
+  EnableWorkflowEmployeeResults: boolean;
+  RestrictWorkflowToCompanyEmployeesOnly: boolean;
+  CustomFieldName: string;
+  CustomFieldValue: string;
+  HideSecondarySurveyDataFields: boolean;
+  EnableLiveChat: boolean;
+  EnableIntervalAgingFactor: boolean;
+  PasswordLengthRequirement: number;
+  OrgDataAutoloaderApiKey?: string;
+  GroupName?: string;
+}

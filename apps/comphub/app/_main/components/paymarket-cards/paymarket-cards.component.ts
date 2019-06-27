@@ -14,7 +14,7 @@ export class PaymarketCardsComponent implements OnChanges {
   @Input() paymarkets: PricingPaymarket[];
   @Input() selectedPaymarketId: number;
   @Output() paymarketChecked = new EventEmitter<PricingPaymarket>();
-  @ViewChild(PerfectScrollbarDirective) psDirectiveRef?: PerfectScrollbarDirective;
+  @ViewChild(PerfectScrollbarDirective, { static: true }) psDirectiveRef?: PerfectScrollbarDirective;
 
   public readonly psConfig: PerfectScrollbarConfigInterface = {
     minScrollbarLength: 100,

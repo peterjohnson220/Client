@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CommunitySearchResultContentComponent should display content 1`] = `
+exports[`CommunitySearchResultContentComponent should display 1`] = `
 <pf-community-search-result-content
-  content={[Function String]}
+  details={[Function Object]}
+  podcastType={[Function String]}
   searchTerm={[Function String]}
+  type={[Function String]}
 >
   <div
     class="h-100 w-100 position-absolute cursor-pointer"
@@ -16,7 +18,6 @@ exports[`CommunitySearchResultContentComponent should display content 1`] = `
     >
       test
     </span>
-     content
   </div>
 </pf-community-search-result-content>
 `;

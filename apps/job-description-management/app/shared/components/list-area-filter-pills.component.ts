@@ -26,7 +26,7 @@ export class ListAreaFilterPillsComponent {
     return this.listAreaService.getHumanizedFilter(columns, filter);
   }
 
-  pillClicked(filter: FilterDescriptor[]) {
+  pillClicked(filter: FilterDescriptor) {
     this.clearFilter.emit(filter);
   }
 

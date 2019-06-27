@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, debounceTime, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -21,8 +21,8 @@ export class JobsCardEffects {
 
   @Effect()
   getTrendingJobs$ = this.actions$
-    .ofType(fromJobsCardActions.GET_TRENDING_JOBS)
     .pipe(
+      ofType(fromJobsCardActions.GET_TRENDING_JOBS),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
         (action: fromJobsCardActions.GetTrendingJobs, activeCountryDataSet) => ({ activeCountryDataSet })
@@ -43,8 +43,8 @@ export class JobsCardEffects {
 
   @Effect()
   getJobSearchOptions$ = this.actions$
-    .ofType(fromJobsCardActions.GET_JOB_SEARCH_OPTIONS)
     .pipe(
+      ofType(fromJobsCardActions.GET_JOB_SEARCH_OPTIONS),
       debounceTime(100),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
@@ -66,8 +66,8 @@ export class JobsCardEffects {
 
   @Effect()
   setSelectedJob$ = this.actions$
-    .ofType(fromJobsCardActions.SET_SELECTED_JOB)
     .pipe(
+      ofType(fromJobsCardActions.SET_SELECTED_JOB),
       map((action: fromJobsCardActions.SetSelectedJob) => action.payload),
       mergeMap((payload) => {
         const actions = [];
@@ -87,8 +87,8 @@ export class JobsCardEffects {
 
   @Effect()
   clearSelectedJob$ = this.actions$
-    .ofType(fromJobsCardActions.CLEAR_SELECTED_JOB)
     .pipe(
+      ofType(fromJobsCardActions.CLEAR_SELECTED_JOB),
       mergeMap(() => [
         new fromComphubPageActions.ResetAccessiblePages(),
         new fromDataCardActions.ClearSelectedJobData()
@@ -97,8 +97,8 @@ export class JobsCardEffects {
 
   @Effect({dispatch: false})
   persistActiveCountryDataSet$ = this.actions$
-    .ofType(fromJobsCardActions.PERSIST_ACTIVE_COUNTRY_DATA_SET)
     .pipe(
+      ofType(fromJobsCardActions.PERSIST_ACTIVE_COUNTRY_DATA_SET),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
         (action: fromJobsCardActions.PersistActiveCountryDataSet, dataSet) => (dataSet)

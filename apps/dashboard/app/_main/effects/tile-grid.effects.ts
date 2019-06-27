@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -16,7 +16,8 @@ import * as fromTileGridActions from '../actions/tile-grid.actions';
 export class TileGridEffects {
   @Effect()
   loadTiles$: Observable<Action> = this.actions$
-    .ofType(fromTileGridActions.LOADING_TILES).pipe(
+    .pipe(
+      ofType(fromTileGridActions.LOADING_TILES),
       switchMap((action: fromTileGridActions.LoadingTiles) =>
         this.dashboardApiService.getUserDashboardTiles(action.includeTilePreviewData).pipe(
           map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos)),
@@ -28,7 +29,8 @@ export class TileGridEffects {
 
   @Effect()
   loadTile$: Observable<Action> = this.actions$
-    .ofType(fromTileGridActions.LOADING_SINGLE_TILE).pipe(
+    .pipe(
+      ofType(fromTileGridActions.LOADING_SINGLE_TILE),
       switchMap((action: fromTileGridActions.LoadingSingleTile) =>
         this.dashboardApiService.getUserDashboardTile(action.tileId).pipe(
           map((userTileDtos: UserTileDto) => this.mapToTiles([userTileDtos])),
@@ -40,7 +42,8 @@ export class TileGridEffects {
 
   @Effect()
   reorderTiles$: Observable<Action> = this.actions$
-    .ofType(fromTileGridActions.REORDER_TILES).pipe(
+    .pipe(
+      ofType(fromTileGridActions.REORDER_TILES),
       switchMap((action: fromTileGridActions.ReorderTiles) =>
         this.dashboardApiService.reorderDashboardTiles(action.payload).pipe(
           map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos)),

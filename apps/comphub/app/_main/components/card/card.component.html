@@ -4,12 +4,12 @@
     [attr.data-qa-id]="'cnt-cardHeader'"
     (click)="handleCardHeaderClick()">
     <ng-container *ngIf="showCardTitle">
-      <span><i class="fa {{card?.IconClass}} card-icon" aria-hidden="true"></i></span>
+      <fa-icon icon="{{card?.IconClass}}" class="card-icon" aria-hidden="true"></fa-icon>
       <span class="card-title">{{card?.Title}}</span>
       <span *ngIf="accessed" class="card-subtitle" data-toggle="tooltip" title="{{card?.Subtitle}}">{{card?.Subtitle}}</span>
     </ng-container>
     <ng-container *ngIf="!showCardTitle">
-      <span><i class="fa {{prevCard?.IconClass}} card-icon" aria-hidden="true"></i></span>
+      <fa-icon icon="{{prevCard?.IconClass}}" class="card-icon" aria-hidden="true"></fa-icon>
       <span class="card-title">{{prevCard?.Title}}</span>
       <span *ngIf="accessed" class="card-subtitle" data-toggle="tooltip" title="{{prevCard?.Subtitle}}">{{prevCard?.Subtitle}}</span>
     </ng-container>

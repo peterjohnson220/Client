@@ -4,14 +4,18 @@
     Manage Exchange - {{ (exchange$ | async).ExchangeName }}
   </ng-container>
   <ng-container page-actions>
-    <kendo-switch class="k-switch-lg"
-                  onLabel="Active"
-                  offLabel="Inactive"
-                  [disabled]="!(canToggleExchangeStatus$ | async)"
-                  [readonly]="true"
-                  [checked]="isExchangeActive$ | async"
-                  (click)="handleSwitchToggled()">
-    </kendo-switch>
+    <div class="switch-wrapper"
+         *ngIf="!(loadingExchange$ | async)"
+         [class.disabled]="!(canToggleExchangeStatus$ | async)"
+         (click)="handleSwitchToggled()">
+      <kendo-switch class="k-switch-lg"
+                    onLabel="Active"
+                    offLabel="Inactive"
+                    [disabled]="!(canToggleExchangeStatus$ | async)"
+                    [readonly]="true"
+                    [checked]="isExchangeActive$ | async">
+      </kendo-switch>
+    </div>
   </ng-container>
 
   <ng-container page-content>

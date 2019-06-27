@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -15,7 +15,8 @@ import * as fromJobDescriptionReducer from '../reducers';
 export class JobDescriptionEffects {
   @Effect()
   createJobDescription$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionActions.CREATE_JOB_DESCRIPTION).pipe(
+    .pipe(
+      ofType(fromJobDescriptionActions.CREATE_JOB_DESCRIPTION),
       switchMap((action: fromJobDescriptionActions.CreateJobDescription) =>
         this.jobDescriptionApiService.createJobDescription(action.payload).pipe(
           map((response: number) => {
@@ -27,7 +28,8 @@ export class JobDescriptionEffects {
 
   @Effect()
   createJobDescriptionDraft$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionActions.CREATE_JOB_DESCRIPTION_DRAFT).pipe(
+    .pipe(
+      ofType(fromJobDescriptionActions.CREATE_JOB_DESCRIPTION_DRAFT),
       switchMap((action: fromJobDescriptionActions.CreateJobDescriptionDraft) =>
         this.jobDescriptionApiService.createJobDescriptionDraft(action.payload.JobDescriptionId, action.payload.Request).pipe(
           map((response: string) => {
@@ -39,7 +41,8 @@ export class JobDescriptionEffects {
 
   @Effect()
   saveCompanyJobsJobDescriptionTemplateId$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionActions.SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID).pipe(
+    .pipe(
+      ofType(fromJobDescriptionActions.SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID),
       switchMap((action: fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId) =>
         this.jobDescriptionTemplateApiService.saveCompanyJobsJobDescriptionTemplateId(action.payload.Request)
           .pipe(

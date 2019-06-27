@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
 import { UserProfileApiService } from 'libs/data/payfactors-api/user';
-import { JdmListFilter } from 'libs/models/user-profile';
+import { GetUserFilterListResponse } from 'libs/models/payfactors-api/user-filter/response/get-user-filter-list-response.model';
 
 import * as fromJdmFilterActions from '../actions/filter.actions';
+import { PayfactorsApiModelMapper } from '../../../../job-description-management/app/shared/helpers';
 
 
 @Injectable()
@@ -16,10 +17,21 @@ export class JdmFiltersEffects {
 
   @Effect()
   loadFilters$: Observable<Action> = this.actions$
-    .ofType(fromJdmFilterActions.LOADING_FILTERS).pipe(
+    .pipe(
+      ofType(fromJdmFilterActions.LOADING_FILTERS),
       switchMap(() =>
         this.userProfileApiService.getUserFilterList().pipe(
-          map((userFilters: JdmListFilter[]) => new fromJdmFilterActions.LoadingFiltersSuccess({userFilters: userFilters})),
+          map((response: GetUserFilterListResponse[]) => {
+            const newResponse = response.map(r => {
+              return {
+                Id: r.Id,
+                Name: r.Name,
+                CompositeFilter: PayfactorsApiModelMapper.mapCompositeFilterUppercaseToCompositeFilter(r.CompositeFilter)
+              };
+            });
+
+            return new fromJdmFilterActions.LoadingFiltersSuccess({ userFilters: newResponse });
+          }),
           catchError(error => of(new fromJdmFilterActions.LoadingFiltersError(error)))
         )
       )

@@ -5,6 +5,7 @@ import {UserAssignedRole} from '../../../models/security';
 import {UserResponse} from '../../../models/payfactors-api/user/response';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class UserApiService {
@@ -53,5 +54,9 @@ export class UserApiService {
   getByCompany(companyId: number) {
     return this.payfactorsApiService
       .get<UserResponse[]>(`${this.endpoint}/Default.GetByCompany?companyId=${companyId}`);
+  }
+
+  getPfCustomerSuccessMgrs(): Observable<UserResponse[]> {
+    return this.payfactorsApiService.get<UserResponse[]>(`${this.endpoint}/Default.GetPfCustomerSuccessMgrs`);
   }
 }

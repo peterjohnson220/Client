@@ -46,6 +46,7 @@ describe('Features - Peer - Filter Aggregate Group Component', () => {
     fixture = TestBed.createComponent(FilterAggregateGroupComponent);
     instance = fixture.componentInstance;
     instance.previewLimit = FilterSidebarHelper.PreviewLimit;
+    instance.searching = false;
   });
 
   it('should emit an aggregateToggled event with AggregateSelectionInfo when handling AggregateSelected', () => {
@@ -64,6 +65,10 @@ describe('Features - Peer - Filter Aggregate Group Component', () => {
   });
 
   it('should toggle collapsed when clicking on the .aggregate-group-header', () => {
+    instance.aggregateGroup = generateMockFilterAggregateGroup();
+
+    fixture.detectChanges();
+
     const header = fixture.debugElement.query(By.css('.aggregate-group-header'));
     header.triggerEventHandler('click', null);
 
@@ -79,13 +84,18 @@ describe('Features - Peer - Filter Aggregate Group Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should apply the show-all class to the .aggregate-container when showAllAggregates is true', () => {
-    instance.showAllAggregates = true;
-    instance.aggregateGroup = generateMockFilterAggregateGroup();
+  it('should emit a searchEvent when the handleSearchClicked function is called', () => {
+    const mockAggregateGroup = generateMockFilterAggregateGroup();
+    const expectedEmitPayload = mockAggregateGroup.MetaData.Id;
+    instance.aggregateGroup = mockAggregateGroup;
+
+    spyOn(instance.searchEvent, 'emit');
 
     fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+    instance.handleSearchClicked(generateMockEvent());
+
+    expect(instance.searchEvent.emit).toHaveBeenCalledWith(expectedEmitPayload);
   });
 
   it('should show the Options Toggle when the number of aggregates is greater than the preview limit', () => {
@@ -96,25 +106,30 @@ describe('Features - Peer - Filter Aggregate Group Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should toggle showAllAggregates when clicking on the .toggle-option-height', () => {
+  it('should trigger the handleSearchClicked function when clicking on the .toggle-option-height', () => {
     instance.aggregateGroup = buildAggregateGroupWithMultipleItems();
 
     fixture.detectChanges();
+
+    spyOn(instance, 'handleSearchClicked');
 
     const toggleLink = fixture.debugElement.query(By.css('.toggle-option-height'));
     toggleLink.triggerEventHandler('click', null);
 
-    expect(instance.showAllAggregates).toBe(true);
+    expect(instance.handleSearchClicked).toHaveBeenCalled();
   });
 
-  it('should show a \'Show Less\' link when showAllAggregates is true', () => {
+  it('should trigger the handleSearchClicked function when clicking on the .search icon', () => {
     instance.aggregateGroup = buildAggregateGroupWithMultipleItems();
-
-    instance.showAllAggregates = true;
 
     fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+    spyOn(instance, 'handleSearchClicked');
+
+    const toggleLink = fixture.debugElement.query(By.css('.search'));
+    toggleLink.triggerEventHandler('click', null);
+
+    expect(instance.handleSearchClicked).toHaveBeenCalled();
   });
 
   it('should emit a aggregateGroupSelectionsToggled with shouldSelect equals false event when handling Reset Clicked', () => {
@@ -157,20 +172,11 @@ describe('Features - Peer - Filter Aggregate Group Component', () => {
     expect(instance.aggregateGroupSelectionsToggled.emit).toHaveBeenCalledWith(expectedEmitPayload);
   });
 
-  it(`should display 'select all' checkbox as checked when all items are selected`, () => {
-    instance.aggregateGroup = buildAggregateGroupWithMultipleItems(true);
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it(`should display 'select all' checkbox as un-checked when only some items are selected`, () => {
-    instance.aggregateGroup = buildAggregateGroupWithMultipleItems(true);
-    instance.aggregateGroup.Aggregates.push(generateMockFilterAggregateItem());
-
-    expect(fixture).toMatchSnapshot();
-  });
-
 });
+
+function generateMockEvent() {
+  return { stopPropagation: jest.fn()};
+}
 
 function buildAggregateGroupWithMultipleItems(selectAll = false) {
   const aggGroup = generateMockFilterAggregateGroup();

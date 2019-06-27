@@ -26,6 +26,7 @@ describe('Admin - Tickets - Attachment Detail Card', () => {
   // TODO: Add tests once component has more functionality.
   it('Should display details about a ticket', () => {
     instance.ticketAttachments = mockTicketAttachments;
+    instance.ticketId = 1;
 
     fixture.detectChanges();
 

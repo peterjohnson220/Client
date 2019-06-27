@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -15,7 +15,8 @@ import { PayfactorsApiModelMapper } from '../../shared/helpers';
 export class JobDescriptionHistoryListEffects {
   @Effect()
   loadJobDescriptionHistoryListItems$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionHistoryListActions.LOAD_JOB_DESCRIPTION_HISTORY_LIST_ITEMS).pipe(
+    .pipe(
+      ofType(fromJobDescriptionHistoryListActions.LOAD_JOB_DESCRIPTION_HISTORY_LIST_ITEMS),
       switchMap((action: fromJobDescriptionHistoryListActions.LoadJobDescriptionHistoryListItems) =>
         this.jobDescriptionApiService.getHistoryList(action.payload.JobDescriptionId).pipe(
           map((response: JobDescriptionHistoryListItemResponse[]) => {

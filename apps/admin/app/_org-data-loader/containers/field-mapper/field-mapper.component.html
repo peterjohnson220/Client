@@ -1,13 +1,12 @@
 <span *ngIf="fieldMappingsLoading;else content">
-          <pf-loading-indicator></pf-loading-indicator> Loading...
+  <pf-loading-indicator></pf-loading-indicator> Loading...
 </span>
 
 <ng-template #content>
   <div class="container-fluid">
     <div
       class="row mt-3"
-      *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees || loaderType === templateReferenceConstants.LoaderType.StructureMapping"
-    >
+      *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees || loaderType === templateReferenceConstants.LoaderType.StructureMapping">
       <div *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees" class="col-md-4 d-flex">
         <label class="text-nowrap mr-4" for="dateFormat">Date Format: </label>
         <kendo-combobox class="form-control flex-fill" id="dateFormat" [(ngModel)]="dateFormat"
@@ -18,7 +17,6 @@
                         [filterable]="true"
                         (filterChange)="filterChange($event)"
                         (selectionChange)="selectionChange($event)">
-
         </kendo-combobox>
         <span class="text-danger ml-2">*</span>
       </div>
@@ -30,8 +28,7 @@
             name="addOrFullReplaceRecords_{{loaderType}}"
             class="k-radio"
             [checked]="!isFullReplace"
-            (click)="changeIsFullReplace(false)"
-          />
+            (click)="changeIsFullReplace(false)"/>
           <label class="k-radio-label" for="addRecords_{{loaderType}}">Add</label>
         </div>
         <div class="d-inline-block">
@@ -41,8 +38,7 @@
             name="addOrFullReplaceRecords_{{loaderType}}"
             class="k-radio"
             [checked]="isFullReplace"
-            (click)="changeIsFullReplace(true)"
-          />
+            (click)="changeIsFullReplace(true)"/>
           <label class="k-radio-label" for="fullReplaceRecords_{{loaderType}}">Full Replace</label>
         </div>
       </div>
@@ -68,7 +64,7 @@
 
     <div class="row mt-3" *ngIf="filenamePattern">
       <div class="col">
-        Client filename for this entity must 
+        Client file name for this entity must 
         <span *ngIf="filenamePattern.IsStartWithRestricted; else elseBlock">begin with </span>
         <ng-template #elseBlock>contain </ng-template>
         <span class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre">{{filenamePattern.Name}}</span>

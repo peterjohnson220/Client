@@ -26,4 +26,11 @@ export class PfValidators {
       return !(control.value && control.value.trim().length >= length) ? {'lengthValid': true} : null;
     };
   }
+
+  static isNotNumeric(control: FormControl): ValidationResult {
+    if (isNaN(control.value)) {
+        return {'isNotNumeric': true};
+    }
+    return null;
+  }
 }

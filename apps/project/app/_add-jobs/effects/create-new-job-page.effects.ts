@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, switchMap, withLatestFrom, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -20,8 +20,8 @@ export class CreateNewJobPageEffects {
 
   @Effect()
   getJdmStatus$ = this.actions$
-    .ofType(fromCreateNewJobPageActions.GET_JDM_STATUS)
     .pipe(
+      ofType(fromCreateNewJobPageActions.GET_JDM_STATUS),
       switchMap(() => {
           return this.dashboardApiService.getIsJdmEnabled()
             .pipe(
@@ -34,8 +34,8 @@ export class CreateNewJobPageEffects {
 
   @Effect()
   getJobFamilies$ = this.actions$
-    .ofType(fromCreateNewJobPageActions.GET_JOB_FAMILIES)
     .pipe(
+      ofType(fromCreateNewJobPageActions.GET_JOB_FAMILIES),
       switchMap(() => {
           return this.companyJobApiService.getJobFamilies()
             .pipe(
@@ -48,8 +48,8 @@ export class CreateNewJobPageEffects {
 
   @Effect()
   createJob$ = this.actions$
-    .ofType(fromCreateNewJobPageActions.CREATE_JOB)
     .pipe(
+      ofType(fromCreateNewJobPageActions.CREATE_JOB),
       withLatestFrom(
         this.store.select(fromAddJobsReducer.getContext),
         this.store.select(fromAddJobsReducer.getSelectedPaymarkets),
@@ -79,8 +79,8 @@ export class CreateNewJobPageEffects {
 
   @Effect({dispatch: false})
   createJobSuccess$ = this.actions$
-    .ofType(fromCreateNewJobPageActions.CREATE_JOB_SUCCESS)
     .pipe(
+      ofType(fromCreateNewJobPageActions.CREATE_JOB_SUCCESS),
       tap((action: fromCreateNewJobPageActions.CreateJobSuccess) => {
         this.windowCommunicationService.postMessage(action.type);
       })

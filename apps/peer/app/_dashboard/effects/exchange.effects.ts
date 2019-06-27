@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable } from 'rxjs';
 import { mergeMap, map} from 'rxjs/operators';
@@ -15,7 +15,8 @@ import * as fromExchangeJobComparisonGridActions from '../actions/exchange-job-c
 export class ExchangeEffects {
   @Effect()
   loadExchange$: Observable<Action> = this.actions$
-    .ofType(fromSharedPeerExchangeActions.LOAD_EXCHANGE_SUCCESS).pipe(
+    .pipe(
+      ofType(fromSharedPeerExchangeActions.LOAD_EXCHANGE_SUCCESS),
       map((action: fromSharedPeerExchangeActions.LoadExchangeSuccess): GetChartRequest => {
         return { ExchangeId: action.payload.ExchangeId, ChartType: ''};
       }),

@@ -27,7 +27,8 @@ export class CompanySettingsEffects {
 
   @Effect()
   putSettings$ = this.actions$
-    .ofType(companySettingsActions.PUT_COMPANY_SETTINGS).pipe(
+    .pipe(
+      ofType(companySettingsActions.PUT_COMPANY_SETTINGS),
       switchMap((action: companySettingsActions.PutCompanySettings) =>
         this.companySettingsApiService.putSettings(action.payload).pipe(
           map((responsePayload) =>  new companySettingsActions.PutCompanySettingsSuccess(responsePayload)),

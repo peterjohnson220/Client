@@ -13,20 +13,47 @@ import { AggregateSelectionInfo } from '../../models';
 export class FilterAggregateGroupComponent {
   @Input() aggregateGroup: FilterAggregateGroup;
   @Input() previewLimit: number;
+  @Input() searching = false;
   @Output() aggregateToggled = new EventEmitter<AggregateSelectionInfo>();
   @Output() aggregateGroupSelectionsToggled = new EventEmitter<ToggleAggregateGroupSelections>();
+  @Output() searchEvent: EventEmitter<string> = new EventEmitter();
 
+  searchValue = '';
   collapsed: boolean;
-  showAllAggregates: boolean;
+  protected cssReplacementRegex = /[\s]/g;
 
   constructor() { }
 
+  get searchingAnotherAggregate(): boolean {
+    return this.searching && !this.aggregateGroup.IsSearching;
+  }
+  get searchingThisAggregate(): boolean {
+    return this.searching && this.aggregateGroup.IsSearching;
+  }
+  get allowedToSearch(): boolean {
+    return this.aggregateGroup.Aggregates.length > this.previewLimit && !this.searchingThisAggregate;
+  }
+
+  get cssResetClearBtnAutomationName(): string {
+    const filterCssClassName = this.aggregateGroup.MetaData.Id.toLowerCase().replace(this.cssReplacementRegex, '-');
+    return 'au-btn-clear-' + filterCssClassName;
+  }
   get categoryLabel(): string {
     return this.aggregateGroup.MetaData.Label;
   }
 
   get filterAggregates(): FilterAggregateItem[] {
-    return this.showAllAggregates ? this.aggregateGroup.Aggregates : this.aggregateGroup.AggregatesPreview;
+    if (!this.searchingThisAggregate) {
+      this.searchValue = '';
+    }
+    const filterAggregates = this.searchingThisAggregate ? this.aggregateGroup.Aggregates : this.aggregateGroup.AggregatesPreview;
+    if (!this.searchValue.length) {
+      return filterAggregates;
+    }
+
+    const pattern = this.searchValue.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+    const regex = new RegExp(pattern, 'gi');
+    return filterAggregates.filter(agg => agg.Item.match(regex));
   }
 
   get hasSelections(): boolean {
@@ -68,5 +95,14 @@ export class FilterAggregateGroupComponent {
       AggregateGroup: this.aggregateGroup.MetaData.FilterProp,
       AggregateItem: aggregateItem.Item
     });
+  }
+
+  handleSearchClicked(e) {
+    e.stopPropagation();
+    this.searchEvent.emit(this.aggregateGroup.MetaData.Id);
+  }
+
+  handleSearchValueChanged(newValue: string) {
+    this.searchValue = newValue;
   }
 }

@@ -11,7 +11,7 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: 'apps/community/app/_main/main.module#MainModule' },
+      { path: '', loadChildren: () => import('apps/community/app/_main/main.module').then(m => m.MainModule) },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }
     ]

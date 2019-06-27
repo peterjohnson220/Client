@@ -17,9 +17,13 @@
         <div class="d-flex flex-column p-2 justify-content-center">
           <div class="error-spacer">
             <p id="errormessage" *ngIf="loginError" class="alert-danger error-container text-center p-3 position-absolute">
-                The email and password combination that you've entered is incorrect. 
+                The email and password combination that you've entered is incorrect.
+            </p>
+            <p id="passwordExpiredMessage" *ngIf="passwordExpired$ | async" class="alert-danger error-container text-center p-3 position-absolute">
+              The email and password combination has expired, please select Reset Password below.
             </p>
           </div>
+          <br *ngIf="passwordExpired$ | async" /> 
           <label class="text-uppercase font-weight-bold" for="email">
                 Email Address
           </label>
@@ -48,7 +52,7 @@
             </button>
           </div>
           <div class="p-0 d-flex align-self-center">
-            <a href="forgot-password">Forgot Password?</a>
+            <a href="forgot-password">Reset Password?</a>
           </div>
         </div>
     </form>

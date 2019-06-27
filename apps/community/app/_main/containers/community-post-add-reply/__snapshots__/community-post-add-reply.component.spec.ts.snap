@@ -35,8 +35,9 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
         id="reply"
         type="button"
       >
-        <i
-          class="fas fa-reply fa-lg icon"
+        <fa-icon
+          icon="reply"
+          size="lg"
         />
          Reply 
       </button>

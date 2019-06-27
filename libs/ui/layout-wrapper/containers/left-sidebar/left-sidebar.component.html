@@ -2,26 +2,21 @@
     [ngClass]="{'left-sidebar-nav-open': leftSidebarToggle, 'left-sidebar-nav-close': !leftSidebarToggle}">
   <ng-container *ngFor="let sidebarLink of leftSidebarNavigationLinks$ | async">
     <li class="py-2 pl-3 pr-0" [ngClass]="{'highlight-icon': checkSidebarLinkAgainstURL(sidebarLink)}">
-      <ng-template [ngIf]="!leftSidebarToggle">
-        <a placement="right" [href]="getSidebarHref(sidebarLink)">
-          <i [ngClass]="sidebarLink.IconClassNew"></i>
-        </a>
-      </ng-template>
-      <ng-template [ngIf]="leftSidebarToggle">
+      <div>
         <a [href]="getSidebarHref(sidebarLink)">
-          <i [ngClass]="sidebarLink.IconClassNew"></i>
-          {{sidebarLink.DisplayName}}</a>
-      </ng-template>
+          <fa-icon *ngIf="!!sidebarLink.FaIconClass" [icon]="sidebarLink.FaIconClass" class="tile-icon"></fa-icon>
+          <span *ngIf="leftSidebarToggle">{{sidebarLink.DisplayName}}</span>
+        </a>
+      </div>
     </li>
   </ng-container>
 </ul>
-<div class="left-sidebar-footer"
-     [ngClass]="{'left-sidebar-footer-open': leftSidebarToggle, 'left-sidebar-footer-close': !leftSidebarToggle}">
+<div class="left-sidebar-footer" [ngClass]="{'left-sidebar-footer-open': leftSidebarToggle, 'left-sidebar-footer-close': !leftSidebarToggle}">
 
   <div [ngClass]="{'left-sidebar-icon-open': leftSidebarToggle, 'left-sidebar-icon-close': !leftSidebarToggle}">
 
-    <span *ngIf="leftSidebarToggle"><i class="fal fa-lg fa-angle-double-left"></i></span>
-    <span *ngIf="!leftSidebarToggle"><i class="fal fa-lg fa-angle-double-right"></i></span>
+    <span *ngIf="leftSidebarToggle"><fa-icon [icon]="['fal', 'angle-double-left']" size="lg"></fa-icon></span>
+    <span *ngIf="!leftSidebarToggle"><fa-icon [icon]="['fal', 'angle-double-right']" size="lg"></fa-icon></span>
 
   </div>
 

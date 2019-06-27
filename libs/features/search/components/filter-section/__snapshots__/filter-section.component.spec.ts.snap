@@ -134,9 +134,7 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
         <div
           class="ml-2"
         >
-          <i
-            class="far fa-angle-down"
-          />
+          <fa-icon />
         </div>
       </div>
       <div
@@ -208,9 +206,7 @@ exports[`Search Feature - Filter Section should show a search icon and show more
           ng-reflect-klass="search"
           ng-reflect-ng-class="au-btn-search-au-chk-publisher"
         >
-          <i
-            class="far fa-search"
-          />
+          <fa-icon />
         </div>
       </div>
     </div>

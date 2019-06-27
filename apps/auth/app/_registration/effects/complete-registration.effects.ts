@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -13,7 +13,8 @@ import * as fromCompleteRegistrationActions from '../actions/complete-registrati
 export class CompleteRegistrationEffects {
   @Effect()
   submitCompletionForm$: Observable<Action> = this.actions$
-    .ofType(fromCompleteRegistrationActions.SUBMIT).pipe(
+    .pipe(
+      ofType(fromCompleteRegistrationActions.SUBMIT),
       switchMap((action: fromCompleteRegistrationActions.Submit) => {
         return this.accountApiService.submitSelfRegistrationCompletion(action.payload.token, action.payload.password).pipe(
           map((homePagePath) => new fromCompleteRegistrationActions.SubmitSuccess(homePagePath)),
@@ -24,7 +25,8 @@ export class CompleteRegistrationEffects {
 
   @Effect({ dispatch: false })
   completionSubmitSuccess$ = this.actions$
-    .ofType(fromCompleteRegistrationActions.SUBMIT_SUCCESS).pipe(
+    .pipe(
+      ofType(fromCompleteRegistrationActions.SUBMIT_SUCCESS),
       map((action: fromCompleteRegistrationActions.SubmitSuccess) => {
         document.location.href = document.location.origin + action.payload.homePagePath;
       })

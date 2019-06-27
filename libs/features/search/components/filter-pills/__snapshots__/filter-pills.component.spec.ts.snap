@@ -40,8 +40,8 @@ exports[`Search Feature - Filter Pills should apply a locked class to the pill, 
         
         
         <span>
-          <i
-            class="fas fa-lock"
+          <fa-icon
+            icon="lock"
           />
         </span>
       </div>
@@ -110,9 +110,7 @@ exports[`Search Feature - Filter Pills should not add a locked class to the pill
       >
         
         <span>
-          <i
-            class="far fa-angle-down"
-          />
+          <fa-icon />
         </span>
         
       </div>
@@ -181,9 +179,7 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
       >
         
         <span>
-          <i
-            class="far fa-angle-down"
-          />
+          <fa-icon />
         </span>
         
       </div>
@@ -252,9 +248,7 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
       >
         
         <span>
-          <i
-            class="far fa-angle-down"
-          />
+          <fa-icon />
         </span>
         
       </div>
@@ -323,9 +317,7 @@ exports[`Search Feature - Filter Pills should show range filters selected min an
       >
         
         <span>
-          <i
-            class="far fa-angle-down"
-          />
+          <fa-icon />
         </span>
         
       </div>

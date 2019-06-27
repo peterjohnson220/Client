@@ -13,6 +13,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../../../reducers';
 import { ExchangeJobMappingService } from '../../../services';
+import { SettingsService } from 'libs/state/app-context/services';
 import { ExchangeJobMappingPageComponent } from './exchange-job-mapping.page';
 import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
 
@@ -46,6 +47,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
           provide: CompanySecurityApiService,
           useValue: { getIsCompanyAdmin: () => of(true) }
         },
+        SettingsService
       ],
       declarations: [
         ExchangeJobMappingPageComponent
@@ -118,4 +120,21 @@ describe('Peer - Exchange Job Mapping Page', () => {
 
     expect(instance.collapse).toBe(false);
   });
+
+  it('should show the correct header message and company jobs grid when the company jobs grid is enabled', () => {
+    instance.showCompanyJobs = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show the correct header message and exchange jobs grid when the company jobs grid is disabled', () => {
+    instance.showCompanyJobs = false;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });
