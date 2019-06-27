@@ -1,0 +1,23 @@
+<div *ngIf="!!workbook"
+  class="workbook-container d-flex"
+  (mouseover)="handleMouseOverWorkbookContainer()"
+  (mouseleave)="handleMouseLeaveWorkbookContainer()">
+
+  <div class="actions-container" [ngClass]="displayActionsOverlay ? 'displayed' : ''">
+    <button class="btn action-button" (click)="handleFavoriteClicked(workbook)">
+      <fa-icon *ngIf="!workbook.IsFavorite" [icon]="['fal', 'star']" class="action-icon d-inline-flex light-star"></fa-icon>
+      <fa-icon *ngIf="workbook.IsFavorite" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
+    </button>
+  </div>
+  <div class="d-flex actions-overlay" [ngClass]="displayActionsOverlay ? 'displayed' : ''"></div>
+
+  <ng-container *ngIf="!!workbook.IconClass?.length">
+    <fa-icon [icon]="workbook.IconClass" class="icon fa-fw"></fa-icon>
+    <div class="vertical-separator"></div>
+  </ng-container>
+  <div class="d-flex flex-column ml-3 content">
+    <span class="tag" data-toggle="tooltip" title="{{workbook.Tag}}">{{workbook.Tag}}</span>
+    <span class="workbook-name" data-toggle="tooltip" title="{{workbook.WorkbookName}}">{{workbook.WorkbookName}}</span>
+  </div>
+
+</div>

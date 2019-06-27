@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FilterArrayByName } from 'libs/core/pipes';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 
-import { generateMockSurveyScope } from '../../models';
+import { generateMockSurveyScope, SurveyScope } from '../../models';
 import { ScopeSelectorComponent } from './scope-selector.component';
 
 describe('Pf-Admin - Utilities - Scope Selector', () => {
@@ -55,22 +55,16 @@ describe('Pf-Admin - Utilities - Scope Selector', () => {
   });
 
   it('Should return false for hasSelection, when we have no survey scopes', () => {
-    instance.surveyScopesAsync = {
-      ...generateDefaultAsyncStateObj(),
-      obj: []
-    };
+    instance.surveyScopesAsync = generateDefaultAsyncStateObj<SurveyScope[]>([]);
 
     expect(instance.hasSelection).toBe(false);
   });
 
   it('Should return true for hasSelection, when we have any survey scopes that are selected', () => {
-    instance.surveyScopesAsync = {
-      ...generateDefaultAsyncStateObj(),
-      obj: [{
-        ...generateMockSurveyScope(),
-        Selected: true
-      }]
-    };
+    instance.surveyScopesAsync = generateDefaultAsyncStateObj<SurveyScope[]>([{
+      ...generateMockSurveyScope(),
+      Selected: true
+    }]);
 
     expect(instance.hasSelection).toBe(true);
   });

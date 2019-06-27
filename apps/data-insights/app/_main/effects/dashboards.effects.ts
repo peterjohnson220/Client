@@ -13,18 +13,44 @@ import { PayfactorsApiModelMapper } from '../helpers';
 export class DashboardsEffects {
 
   @Effect()
-  getCompanyReports$ = this.action$
+  getCompanyWorkbooks$ = this.action$
   .pipe(
-    ofType(fromAllDashboardsActions.GET_COMPANY_REPORTS),
+    ofType(fromAllDashboardsActions.GET_COMPANY_WORKBOOKS),
     switchMap(() => {
       return this.tableauReportApiService.getCompanyReports()
         .pipe(
           map((response) => {
-            return new fromAllDashboardsActions.GetCompanyReportsSuccess(
+            return new fromAllDashboardsActions.GetCompanyWorkbooksSuccess(
               PayfactorsApiModelMapper.mapTableauReportResponsesToWorkbooks(response)
             );
           }),
-          catchError(() => of(new fromAllDashboardsActions.GetCompanyReportsError()))
+          catchError(() => of(new fromAllDashboardsActions.GetCompanyWorkbooksError()))
+        );
+    })
+  );
+
+  @Effect()
+  addWorkbookFavorite$ = this.action$
+  .pipe(
+    ofType(fromAllDashboardsActions.ADD_WORKBOOK_FAVORITE),
+    switchMap((action: fromAllDashboardsActions.AddWorkbookFavorite) => {
+      return this.tableauReportApiService.addWorkbookFavorite(action.payload.workbookId)
+        .pipe(
+          map(() => new fromAllDashboardsActions.AddWorkbookFavoriteSuccess()),
+          catchError(() => of(new fromAllDashboardsActions.AddWorkbookFavoriteError()))
+        );
+    })
+  );
+
+  @Effect()
+  removeWorkbookFavorite$ = this.action$
+  .pipe(
+    ofType(fromAllDashboardsActions.REMOVE_WORKBOOK_FAVORITE),
+    switchMap((action: fromAllDashboardsActions.RemoveWorkbookFavorite) => {
+      return this.tableauReportApiService.removeWorkbookFavorite(action.payload.workbookId)
+        .pipe(
+          map(() => new fromAllDashboardsActions.RemoveWorkbookFavoriteSuccess()),
+          catchError(() => of(new fromAllDashboardsActions.RemoveWorkbookFavoriteError()))
         );
     })
   );

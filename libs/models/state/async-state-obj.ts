@@ -4,10 +4,10 @@ export interface AsyncStateObj<T> {
   obj: T;
 }
 
-export function generateDefaultAsyncStateObj<T>(): AsyncStateObj<T> {
+export function generateDefaultAsyncStateObj<T>(defaultObjValue: T): AsyncStateObj<T> {
   return {
     loading: false,
     loadingError: false,
-    obj: null
+    obj: defaultObjValue
   };
 }

@@ -1,0 +1,77 @@
+@import 'common/common';
+@import 'common/common-variables';
+@import 'data-insights-variables';
+
+.workbook-container {
+  border: solid 1px #d8d8d8;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  position: relative;
+
+  .icon {
+    margin-right: 1rem;
+    font-size: 2em;
+  }
+
+  .content {
+    width: 272px;
+    overflow: hidden;
+
+    span {
+      @extend %ellipsis-overflowing-text;
+    }
+
+    .tag {
+      @extend %label;
+    }
+
+    .workbook-name {
+      font-size: 16px;
+    }
+  }
+
+  .actions-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $actions-mask-overlay;
+    opacity: 0;
+    padding: 1rem;
+    transition: opacity 500ms ease;
+  }
+
+  .actions-overlay.displayed {
+    opacity: 0.8;
+  }
+
+  .actions-container {
+    display: none;
+    button {
+      position: absolute;
+      z-index: 1;
+      background-color: #ffffff;
+      margin-top: 0.5rem;
+      padding: 0.3rem 0.6 rem;
+  
+      .action-icon {
+        font-size: 1.5rem;
+        padding-top: 2px;
+      }
+
+      .solid-star {
+        color: $solid-star-color;
+      }
+    }
+
+    button:focus {
+      box-shadow: 0 0 0 0.1rem $actions-mask-overlay;
+    }
+  }
+
+  .actions-container.displayed {
+    display: block;
+  }
+}
