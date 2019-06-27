@@ -2,114 +2,26 @@
 
 exports[`Admin - Tickets - Attachment Detail Card Should display details about a ticket 1`] = `
 <pf-attachment-detail-card
+  deleteRequest="null"
+  deletingAttachmentModalOpen$={[Function Store]}
+  store={[Function Store]}
   ticketAttachments={[Function Array]}
   ticketId={[Function Number]}
+  unsubscribe$={[Function Subject]}
 >
-  <div
-    class="section card mb-2"
-  >
-    <div
-      class="card-header bg-transparent border-bottom-0"
-    >
-      <h4>
-        Attachments
-      </h4>
-      <div />
-    </div>
-    <div
-      class="card-body mx-3"
-    >
-      
-      
-      <div
-        class="row"
-      >
-        <table
-          class="table table-hover"
-        >
-          <tbody>
-            
-            <tr>
-              <td>
-                <i
-                  class="fa fa-file "
-                  style="font-size: 45px"
-                />
-              </td>
-              <td
-                class="align-middle"
-              >
-                <a
-                  href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName=MockAttachmentFileName1.txt&TicketID=1"
-                  title="MockAttachmentDisplayName1.txt"
-                >
-                  <h5>
-                    MockAttachmentDisplayName1.txt
-                  </h5>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <i
-                  class="fa fa-file "
-                  style="font-size: 45px"
-                />
-              </td>
-              <td
-                class="align-middle"
-              >
-                <a
-                  href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName=MockAttachmentFileName2.xlsx&TicketID=1"
-                  title="MockAttachmentDisplayName2.xlsx"
-                >
-                  <h5>
-                    MockAttachmentDisplayName2.xlsx
-                  </h5>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <i
-                  class="fa fa-file "
-                  style="font-size: 45px"
-                />
-              </td>
-              <td
-                class="align-middle"
-              >
-                <a
-                  href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName=MockAttachmentFileName3.docx&TicketID=1"
-                  title="MockAttachmentDisplayName3.docx"
-                >
-                  <h5>
-                    MockAttachmentDisplayName3.docx
-                  </h5>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <hr
-        class="my-2"
-      />
-      <div
-        class="row justify-content-center"
-      >
-        <div
-          class="col-s12"
-        >
-          <button
-            class="btn btn-primary px-5 py-2"
-            type="button"
-          >
-            Upload
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  
+</pf-attachment-detail-card>
+`;
+
+exports[`Admin - Tickets - Attachment Detail Card should dispatch a model open action on a delete request 1`] = `
+<pf-attachment-detail-card
+  deleteRequest={[Function Object]}
+  deletingAttachmentModalOpen$={[Function Store]}
+  store={[Function Store]}
+  ticketAttachments={[Function Array]}
+  ticketId={[Function Number]}
+  unsubscribe$={[Function Subject]}
+>
+  
 </pf-attachment-detail-card>
 `;
