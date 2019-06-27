@@ -24,7 +24,8 @@ export class PayfactorsApiModelMapper {
         ContentUrl: r.ContentUrl,
         ShowTabs: r.ShowTabs,
         IconClass: r.IconClass,
-        Tag: r.Tag
+        Tag: r.Tag,
+        IsFavorite: r.IsFavorite
       };
     });
   }

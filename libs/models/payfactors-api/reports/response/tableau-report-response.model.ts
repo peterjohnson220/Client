@@ -6,8 +6,8 @@ export interface TableauReportResponse {
    ContentUrl: string;
    CreateDate: Date;
    EditDate: Date;
-   IsFavorite: boolean;
    ShowTabs: boolean;
    IconClass?: string[];
    Tag: string;
+   IsFavorite: boolean;
 }
