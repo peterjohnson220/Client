@@ -41,7 +41,14 @@ export class JobDescriptionApiService {
   appliesToAttributesExist(jobDescriptionId: number, request: GetAppliesToAttributesExistRequest):
     Observable<AppliesToAttributesExistResponse> {
     return this.payfactorsApiService.get<AppliesToAttributesExistResponse>(
-      `${this.endpoint}(${jobDescriptionId})/Default.AppliesToAttributesExist`, { params: request });
+      `${this.endpoint}(${jobDescriptionId})/Default.AppliesToAttributesExist`, {
+        params: {
+          AppliesToField: request.JobDescriptionAppliesTo.AppliesToField,
+          AppliesToValue: request.JobDescriptionAppliesTo.AppliesToValue,
+          JobDescriptionTitle: request.JobDescriptionAppliesTo.JobDescriptionTitle,
+          Editing: request.Editing
+        }
+      });
   }
 
   createJobDescription(request: CreateJobDescriptionRequest): Observable<number> {

@@ -43,8 +43,10 @@ export class JobDescriptionEffects {
   saveCompanyJobsJobDescriptionTemplateId$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID),
-      switchMap((action: fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId) =>
-        this.jobDescriptionTemplateApiService.saveCompanyJobsJobDescriptionTemplateId(action.payload.Request)
+      switchMap((action: fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId) => {
+        const templateId = action.payload.PassThroughParameters.templateId;
+
+        return this.jobDescriptionTemplateApiService.saveCompanyJobsJobDescriptionTemplateId(templateId, action.payload.Request)
           .pipe(
             map((response: any) => {
               const successPayload = {
@@ -55,8 +57,8 @@ export class JobDescriptionEffects {
               return new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateIdSuccess(successPayload);
             }),
             catchError(response => of(new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateIdError()))
-        )
-      ));
+          );
+      }));
 
   constructor(
     private actions$: Actions,

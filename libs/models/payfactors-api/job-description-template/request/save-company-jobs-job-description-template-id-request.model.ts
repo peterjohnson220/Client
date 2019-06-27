@@ -1,5 +1,4 @@
 export interface SaveCompanyJobsJobDescriptionTemplateIdRequest {
-  TemplateId: number;
-  CompanyJobIdsToAssign: number[];
-  CompanyJobIdsToUnassign: number[];
+  companyJobIdsToAssign: number[];
+  companyJobIdsToUnassign: number[];
 }

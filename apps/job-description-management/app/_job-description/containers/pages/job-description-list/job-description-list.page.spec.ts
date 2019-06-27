@@ -106,10 +106,10 @@ describe('Job Description Management - Job Description - Job Description List Pa
     };
 
     const expectedRequest = {
-      CompanyJobId: 1,
-      AppliesToField: '',
-      AppliesToValue: '',
-      JobDescriptionTitle: '',
+      companyJobId: 1,
+      appliesToField: '',
+      appliesToValue: '',
+      jobDescriptionTitle: '',
     };
 
     const expectedAction = new fromJobDescriptionActions.CreateJobDescription(expectedRequest);
@@ -133,9 +133,8 @@ describe('Job Description Management - Job Description - Job Description List Pa
 
     const expectedRequest = {
       Request: {
-        TemplateId: mockedSelected.templateId,
-        CompanyJobIdsToAssign: [mockedNewJobDescription.CompanyJobId],
-        CompanyJobIdsToUnassign: []
+        companyJobIdsToAssign: [mockedNewJobDescription.CompanyJobId],
+        companyJobIdsToUnassign: []
       },
       PassThroughParameters: {
         newJobDescription: mockedNewJobDescription,
@@ -241,10 +240,10 @@ describe('Job Description Management - Job Description - Job Description List Pa
     };
 
     const expectedRequest = {
-      CompanyJobId: 1,
-      AppliesToField: '',
-      AppliesToValue: '',
-      JobDescriptionTitle: '',
+      companyJobId: 1,
+      appliesToField: '',
+      appliesToValue: '',
+      jobDescriptionTitle: '',
     };
 
     const expectedAction = new fromJobDescriptionActions.CreateJobDescription(expectedRequest);
@@ -341,9 +340,8 @@ describe('Job Description Management - Job Description - Job Description List Pa
 
     const expectedRequest = {
       Request: {
-        TemplateId: 1,
-        CompanyJobIdsToAssign: [1],
-        CompanyJobIdsToUnassign: []
+        companyJobIdsToAssign: [1],
+        companyJobIdsToUnassign: []
       },
       PassThroughParameters: cloneDeep(mockedAssignTemplateToJobObj)
     };

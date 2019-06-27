@@ -21,8 +21,8 @@ export class JobDescriptionTemplateApiService {
     return this.payfactorsApiService.get<TemplateListItemResponse[]>(`${this.endpoint}`, {params: { publishedOnly: true }});
   }
 
-  saveCompanyJobsJobDescriptionTemplateId(request: SaveCompanyJobsJobDescriptionTemplateIdRequest): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}(${request.TemplateId})/Default.SaveCompanyJobsJobDescriptionTemplateId`,
+  saveCompanyJobsJobDescriptionTemplateId(templateId: number, request: SaveCompanyJobsJobDescriptionTemplateIdRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}(${templateId})/Default.SaveCompanyJobsJobDescriptionTemplateId`,
       request);
   }
 }
