@@ -18,7 +18,7 @@ import { hasMoreDataCuts } from '../../helpers';
   styleUrls: ['./survey-search-results.component.scss']
 })
 export class SurveySearchResultsComponent {
-  @ViewChild('tooltipContainer') tooltipContainer: TooltipContainerComponent;
+  @ViewChild('tooltipContainer', { static: true }) tooltipContainer: TooltipContainerComponent;
   @Input() cutsDraggable: boolean;
 
   // Observables

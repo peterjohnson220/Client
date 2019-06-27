@@ -1,0 +1,51 @@
+<div class="card h-100">
+  <div class="card-header">
+    <div class="d-flex filters">
+      <div class="mr-3">
+        <span (click)="handleFilterClicked('All')">({{matchCount}}) All</span>
+      </div>
+      <div class="mr-3">
+        <fa-icon icon="check-circle" class="text-success mr-2"></fa-icon>
+        <span (click)="handleFilterClicked('Exact')">({{exactMatchCount}}) Exact Matches</span>
+      </div>
+      <div class="mr-3">
+        <fa-icon icon="exclamation-triangle" class="text-warning mr-2"></fa-icon>
+        <span (click)="handleFilterClicked('Mismatch')">({{nonMatchCount}}) Scope Mis-matches</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body position-relative h-100 overflow-y-auto">
+    <pf-async-container
+      [loading]="matchResultsAsync?.loading"
+      [loadingError]="matchResultsAsync?.loadingError"
+      [hideReloadButton]="true">
+      <table class="table table-hover">
+        <tbody>
+          <tr *ngFor="let match of filteredMatchResults; trackBy: trackByFn"
+              [class.selected]="match.Selected"
+              (click)="handleMatchResultClicked(match)">
+            <td>
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <ng-container [ngSwitch]="match.IsExactMatch">
+                    <fa-icon *ngSwitchCase="true" icon="check-circle" class="text-success mr-3"></fa-icon>
+                    <fa-icon *ngSwitchCase="false" icon="exclamation-triangle" class="text-warning mr-3"></fa-icon>
+                  </ng-container>
+
+                  {{match.CombinedScope}}
+                </div>
+                <button
+                  *ngIf="match.IsExactMatch"
+                  (click)="handleApplyExactMatchClicked(match, $event)"
+                  class="btn btn-sm btn-secondary">
+                  Apply Exact Match
+                </button>
+              </div>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </pf-async-container>
+  </div>
+</div>

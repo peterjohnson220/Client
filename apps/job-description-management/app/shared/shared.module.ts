@@ -7,10 +7,12 @@ import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { GridModule, FilterMenuModule } from '@progress/kendo-angular-grid';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
 import { ListAreaFilterDateComponent } from './components/list-area-filter-date.component';
 import { ListAreaFilterNumberComponent } from './components/list-area-filter-number.component';
@@ -36,6 +38,8 @@ import { TemplateListEffects } from './effects/template-list.effects';
       JobDescriptionAppliesToEffects,
       TemplateListEffects
     ]),
+    FontAwesomeModule,
+    PfJobDescriptionManagementModule,
 
     // Payfactors
     PfCommonModule,
@@ -63,7 +67,7 @@ import { TemplateListEffects } from './effects/template-list.effects';
     ListAreaFilterSidebarComponent,
     ListAreaFilterTextComponent,
     StatusPillComponent,
-    JobDescriptionAppliesToModalComponent,
+    JobDescriptionAppliesToModalComponent
   ],
   providers: [
     RouteTrackingService,

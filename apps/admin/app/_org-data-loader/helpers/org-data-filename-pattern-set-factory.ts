@@ -1,3 +1,5 @@
+import { isNullOrUndefined } from 'libs/core/functions/';
+
 import { LoaderSettingsFilenamePatternOverrideKey, OrgDataFilenamePatternSetConvention } from '../constants';
 import { FilenamePattern, LoaderSetting, OrgDataFilenamePatternSet } from '../models';
 
@@ -9,7 +11,7 @@ export class OrgDataFilenamePatternSetFactory {
   }
 
   create(settings: LoaderSetting[]): OrgDataFilenamePatternSet {
-    if (settings == null || settings.length == 0) {
+    if (isNullOrUndefined(settings) || settings.length === 0) {
       return this.getConvention();
     }
 
@@ -20,35 +22,35 @@ export class OrgDataFilenamePatternSetFactory {
       StructureMappingsFilenamePattern: this.getStructureMappingsFilenamePattern(settings),
       StructuresFilenamePattern: this.getStructuresFilenamePattern(settings)
     };
-  };
+  }
 
   getEmployeesFilenamePattern(settings: LoaderSetting[]): FilenamePattern {
-    return this.getFilenamePattern(settings.find(s => s.KeyName == LoaderSettingsFilenamePatternOverrideKey.Employees))
+    return this.getFilenamePattern(settings.find(s => s.KeyName === LoaderSettingsFilenamePatternOverrideKey.Employees))
       || OrgDataFilenamePatternSetConvention.EmployeesFilenamePattern;
   }
 
   getJobsFilenamePattern(settings: LoaderSetting[]): FilenamePattern {
-    return this.getFilenamePattern(settings.find(s => s.KeyName == LoaderSettingsFilenamePatternOverrideKey.Jobs))
+    return this.getFilenamePattern(settings.find(s => s.KeyName === LoaderSettingsFilenamePatternOverrideKey.Jobs))
       || OrgDataFilenamePatternSetConvention.JobsFilenamePattern;
   }
 
   getPayMarketsFilenamePattern(settings: LoaderSetting[]): FilenamePattern {
-    return this.getFilenamePattern(settings.find(s => s.KeyName == LoaderSettingsFilenamePatternOverrideKey.PayMarkets))
+    return this.getFilenamePattern(settings.find(s => s.KeyName === LoaderSettingsFilenamePatternOverrideKey.PayMarkets))
       || OrgDataFilenamePatternSetConvention.PayMarketsFilenamePattern;
   }
 
   getStructureMappingsFilenamePattern(settings: LoaderSetting[]): FilenamePattern {
-    return this.getFilenamePattern(settings.find(s => s.KeyName == LoaderSettingsFilenamePatternOverrideKey.StructureMapping))
+    return this.getFilenamePattern(settings.find(s => s.KeyName === LoaderSettingsFilenamePatternOverrideKey.StructureMapping))
       || OrgDataFilenamePatternSetConvention.StructureMappingsFilenamePattern;
   }
 
   getStructuresFilenamePattern(settings: LoaderSetting[]): FilenamePattern {
-    return this.getFilenamePattern(settings.find(s => s.KeyName == LoaderSettingsFilenamePatternOverrideKey.Structures))
+    return this.getFilenamePattern(settings.find(s => s.KeyName === LoaderSettingsFilenamePatternOverrideKey.Structures))
       || OrgDataFilenamePatternSetConvention.StructuresFilenamePattern;
   }
 
   getFilenamePattern(setting: LoaderSetting): FilenamePattern {
-    if (setting == null || setting.KeyValue == null || setting.KeyValue == '') {
+    if (isNullOrUndefined(setting) || isNullOrUndefined(setting.KeyValue) || setting.KeyValue === '') {
       return null;
     }
 

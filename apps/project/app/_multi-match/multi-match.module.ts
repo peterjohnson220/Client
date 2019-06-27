@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { DragulaModule } from 'ng2-dragula';
 
@@ -11,6 +13,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
 
+import * as fromFaIcons from './fa-icons';
 import { JobToPriceComponent } from './components';
 import {  MultiMatchPageComponent, JobsToPriceContainerComponent } from './containers';
 import { MultiMatchPageEffects, JobsToPriceEffects } from './effects';
@@ -28,6 +31,7 @@ import { SurveySearchModule } from '../survey-search/survey-search.module';
     EffectsModule.forFeature([MultiMatchPageEffects, JobsToPriceEffects
     ]),
     DragulaModule.forRoot(),
+    FontAwesomeModule,
 
     // Routing
     MultiMatchRoutingModule,
@@ -49,4 +53,8 @@ import { SurveySearchModule } from '../survey-search/survey-search.module';
     MultiMatchPageComponent
   ]
 })
-export class MultiMatchModule { }
+export class MultiMatchModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

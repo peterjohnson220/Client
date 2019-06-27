@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
@@ -40,7 +40,8 @@ export class AccessExchangeRequestEffects {
 
   @Effect()
   loadPeerParticipants$: Observable<Action> = this.actions$
-    .ofType(fromPeerParticipantsActions.LOAD_PEER_PARTICIPANTS).pipe(
+    .pipe(
+      ofType(fromPeerParticipantsActions.LOAD_PEER_PARTICIPANTS),
       map((action: fromPeerParticipantsActions.LoadPeerParticipants) => action.payload),
       switchMap(searchTerm =>
         this.exchangeApiService.getTopPeerParticipants(searchTerm).pipe(

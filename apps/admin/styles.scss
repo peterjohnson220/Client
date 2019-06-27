@@ -1,4 +1,6 @@
 @import '_colors';
+@import '~bootstrap/scss/_functions.scss';
+@import '~bootstrap/scss/_variables.scss';
 
 $header-width: 190px;
 $header-color: darken(#f7f7f7, 10%);
@@ -34,6 +36,21 @@ $primary-button-focus: #1F2F3D;
 
 .text-pre {
   white-space: pre;
+}
+
+.k-notification-group {
+  /*
+   * kendo toast notifications lack z-index,
+   * which causes them to render under any element with z-index != auto
+   * when we want them to render over (almost all) other elements
+   *
+   * elevating them to the same level as Bootstrap popovers as a fix
+   *
+   * normally, we should introduce a new reusable class rather than modify an existing library class,
+   * but in this case, Kendo does not allow us to add a CSS class to the element that requires it
+   * so we must modify the class that Kendo uses
+   */
+  z-index: $zindex-popover;
 }
 
 // Hack for Elippses in Flexbox. We need to apply min-width: 0 to all parent flexboxes

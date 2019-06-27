@@ -7,13 +7,14 @@ export interface AvailableJobInformationField {
   Checked: boolean;
 }
 
-export function generateMockAvailableJobInformationField(): AvailableJobInformationField {
+export function generateMockAvailableJobInformationField(mockNumber: number = 1, isRequired: boolean = false, isChecked: boolean = false):
+  AvailableJobInformationField {
   return {
-    Id: 1,
-    DisplayName: 'Test Display Name',
-    FieldName: 'Test Field Name',
+    Id: mockNumber,
+    DisplayName: `Test Display Name ${mockNumber}`,
+    FieldName: `Test Field Name ${mockNumber}`,
     IsDefault: false,
-    IsRequired: false,
-    Checked: false
+    IsRequired: isRequired,
+    Checked: isChecked
   };
 }

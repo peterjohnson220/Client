@@ -12,7 +12,7 @@ import * as fromSearchReducer from '../../reducers';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent implements OnInit, OnDestroy {
-  @ViewChild('results') resultsContainer: ElementRef;
+  @ViewChild('results', { static: true }) resultsContainer: ElementRef;
   @Input() numberOfCurrentResults: number;
   @Input() useSmallBizStyles: boolean;
 

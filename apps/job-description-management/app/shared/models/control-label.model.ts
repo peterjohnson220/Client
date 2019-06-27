@@ -5,11 +5,11 @@ export interface ControlLabel {
   TemplateName: string;
 }
 
-export function generateMockControlLabel(): ControlLabel {
+export function generateMockControlLabel(mockNumber: number = 1): ControlLabel {
   return {
-      Label: 'Test Label',
-      Type: 'Test Type',
-      TemplateId: 1,
-      TemplateName: 'Test Template Name'
+      Label: `Test Label ${mockNumber}`,
+      Type: `Test Type ${mockNumber}`,
+      TemplateId: mockNumber,
+      TemplateName: `Test Template Name ${mockNumber}`
   };
 }

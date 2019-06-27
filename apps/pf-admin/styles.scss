@@ -27,3 +27,32 @@ $branded-color: #0882BE;
   padding-left: 5px;
   padding-top: 3px;
 }
+
+table {
+  tr {
+    &.selected {
+      background-color: $selected-item-background-color;
+
+      &:hover {
+        background-color: $selected-item-background-color;
+      }
+    }
+  }
+
+  &.table-hover {
+    cursor: pointer;
+  }
+}
+
+// TODO[BC]: Move these to globals
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.mr--3 {
+  margin-right: -1rem;
+}

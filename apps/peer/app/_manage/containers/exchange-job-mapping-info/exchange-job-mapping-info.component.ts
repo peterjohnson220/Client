@@ -20,7 +20,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   @Input() exchangeId: number;
   @Output() closeClicked = new EventEmitter();
   @Output() editMappingClicked = new EventEmitter();
-  @ViewChild(NgbCarousel) carousel: NgbCarousel;
+  @ViewChild(NgbCarousel, { static: false }) carousel: NgbCarousel;
 
   // Observables
   selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;

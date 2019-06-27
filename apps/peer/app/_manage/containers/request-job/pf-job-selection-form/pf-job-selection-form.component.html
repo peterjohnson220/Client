@@ -74,17 +74,16 @@
 
   <div class="d-flex flex-row justify-content-between mb-2">
     <span class="flex-grow-1" style="flex-basis: 20%" title="Job Family">
-      <i class="fas fa-sitemap fa-lg"></i>
+      <fa-icon icon="sitemap" size="lg"></fa-icon>
       {{card?.JobFamily ? card?.JobFamily : 'No Job Family'}}
     </span>
     <span class="flex-grow-1" style="flex-basis: 20%" title="Job Level">
-      <span class="fa-layers fa-fw mr-2">
-        <i class="fas fa-balance-scale-right fa-lg"></i>
-        <i class="fas fa-inverse fa-rectangle-landscape" data-fa-transform="shrink-2 down-7 right-13"></i>
-        <i class="fas fa-briefcase" data-fa-transform="shrink-5 down-5 right-12"></i>
-        <i class="fas fa-inverse fa-rectangle-landscape" data-fa-transform="shrink-2 down-2 left-5"></i>
-        <i class="fas fa-briefcase" data-fa-transform="shrink-5 left-5"></i>
-      </span>
+      <fa-layers [fixedWidth]="true" class="mr-2">
+        <fa-icon icon="balance-scale-right" size="lg"></fa-icon>
+        <fa-icon icon="rectangle-landscape" [inverse]="true" transform="shrink-2 down-7 right-13"></fa-icon>
+        <fa-icon icon="briefcase" transform="shrink-5 down-5 right-12"></fa-icon>
+        <fa-icon icon="briefcase" transform="shrink-5 left-5"></fa-icon>
+      </fa-layers>
        {{card?.JobLevel ? card?.JobLevel : 'N/A'}}
     </span>
   </div>

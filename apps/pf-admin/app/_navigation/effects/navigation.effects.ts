@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -15,16 +15,17 @@ import { SiteAdminNavigationLinkResponse } from 'libs/models/payfactors-api/navi
 export class NavigationEffects {
     @Effect()
     loadNavigationLinks$: Observable<Action> = this.actions$
-        .ofType(fromNavigationActions.LOAD_NAVIGATION_LINKS).pipe(
-            switchMap((action: fromNavigationActions.LoadNavigationLinks) =>
-                this.navigationApiService.getSiteAdminNavigationLinks().pipe(
-                    map((response: SiteAdminNavigationLinkResponse[]) => {
-                        const links  =
-                            PayfactorsApiModelMapper.mapSiteAdminNavigationLinkResponseToNavigationLinkGroup(response);
-                        return new fromNavigationActions.LoadNavigationLinksSuccess(links);
-                }),
-                catchError(error => of(new fromNavigationActions.LoadNavigationLinksError()))
-            )
+        .pipe(
+          ofType(fromNavigationActions.LOAD_NAVIGATION_LINKS),
+          switchMap((action: fromNavigationActions.LoadNavigationLinks) =>
+              this.navigationApiService.getSiteAdminNavigationLinks().pipe(
+                  map((response: SiteAdminNavigationLinkResponse[]) => {
+                      const links  =
+                          PayfactorsApiModelMapper.mapSiteAdminNavigationLinkResponseToNavigationLinkGroup(response);
+                      return new fromNavigationActions.LoadNavigationLinksSuccess(links);
+              }),
+              catchError(error => of(new fromNavigationActions.LoadNavigationLinksError()))
+          )
         )
     );
 

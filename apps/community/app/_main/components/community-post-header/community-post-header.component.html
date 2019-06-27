@@ -5,10 +5,10 @@
   <div ngbDropdownMenu>
     <button class="dropdown-item"
             data-qa-id="ddm-communityPostActionsDelete"
-            (click)="delete()"><i class="fas fa-trash-alt"></i> Delete</button>
+            (click)="delete()"><fa-icon icon="trash-alt"></fa-icon> Delete</button>
     <button *ngIf="isUserPoll" class="dropdown-item"
             data-qa-id="ddm-communityPostActionsExport"
-            (click)="exportPollResults()"><i class="fas fa-file-excel"></i> Export Poll Results</button>
+            (click)="exportPollResults()"><fa-icon icon="file-excel"></fa-icon> Export Poll Results</button>
   </div>
 </div>
 <div *ngIf="isInternalOnly"

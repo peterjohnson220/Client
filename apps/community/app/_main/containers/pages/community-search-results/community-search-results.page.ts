@@ -9,7 +9,7 @@ import { CommunitySearchResultsComponent } from '../../community-search-results'
 })
 
 export class CommunitySearchResultsPageComponent implements OnInit {
-  @ViewChild(CommunitySearchResultsComponent) searchResultsComponent: CommunitySearchResultsComponent;
+  @ViewChild(CommunitySearchResultsComponent, { static: true }) searchResultsComponent: CommunitySearchResultsComponent;
   searchQuery: string;
 
   constructor(private route: ActivatedRoute,

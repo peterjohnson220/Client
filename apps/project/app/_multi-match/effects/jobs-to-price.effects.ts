@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
@@ -18,8 +18,8 @@ export class JobsToPriceEffects {
 
   @Effect()
   getJobsToPrice$ = this.actions$
-    .ofType(fromJobsToPriceActions.GET_JOBS_TO_PRICE)
     .pipe(
+      ofType(fromJobsToPriceActions.GET_JOBS_TO_PRICE),
       map((action: fromJobsToPriceActions.GetJobsToPrice) => action.payload),
       switchMap((projectContext) => {
         return this.surveySearchApiService.getJobsToPrice({
@@ -37,8 +37,8 @@ export class JobsToPriceEffects {
 
   @Effect()
   getJobMatchCuts$ = this.actions$
-    .ofType(fromJobsToPriceActions.GET_MATCH_JOB_CUTS)
     .pipe(
+      ofType(fromJobsToPriceActions.GET_MATCH_JOB_CUTS),
       withLatestFrom(this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         (action: fromJobsToPriceActions.GetMatchJobCuts,
          projectSearchContext: ProjectSearchContext) => ({action, projectSearchContext})),

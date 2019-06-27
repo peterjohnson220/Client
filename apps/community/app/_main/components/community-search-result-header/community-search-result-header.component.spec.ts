@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommunitySearchResultHeaderComponent } from './community-search-result-header.component';
 
 
@@ -10,7 +10,8 @@ describe('CommunitySearchResultHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommunitySearchResultHeaderComponent ]
+      declarations: [ CommunitySearchResultHeaderComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
    fixture = TestBed.createComponent(CommunitySearchResultHeaderComponent);

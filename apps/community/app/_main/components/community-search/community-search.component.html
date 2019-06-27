@@ -10,16 +10,14 @@
         data-qa-id="ctr-clear-search">
     <span class="input-group-text clear-container"
           [ngClass]="{'clear-container-search': !isClear(), 'clear-container-empty-search': isClear()}">
-      <i class="fas fa-times"
-         aria-hidden="true"></i>
+      <fa-icon icon="times"></fa-icon>
     </span>
    </div>
    <div (click)="searchClick()"
         class="input-group-append"
         data-qa-id="ctr-search">
     <span class="input-group-text search-container cursor-pointer">
-      <i class="fas fa-search fa-2x"
-         aria-hidden="true"></i>
+      <fa-icon icon="search" size="2x"></fa-icon>
     </span>
    </div>
  </div>

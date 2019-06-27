@@ -20,7 +20,7 @@ import * as fromExchangeRequestActions from '../../../../shared/actions/exchange
 })
 
 export class PayfactorsJobSelectionFormComponent implements OnInit {
-  @ViewChild(CardSelectorComponent) cardSelector;
+  @ViewChild(CardSelectorComponent, { static: true }) cardSelector;
   @Input() exchangeName: string;
   @Input() exchangeJobRequestForm: FormGroup;
 

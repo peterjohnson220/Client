@@ -1,1 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
+
+.k-dropdown-wrap {
+  border-color: #cccccc !important;
+}
+
+.k-pager-numbers .k-state-selected {
+  background-color: #1872ae !important;
+}
+
+.k-grid {
+  background-color: white !important;
+}
+
+.form-check {
+  position: relative;
+  display: block;
+  margin-bottom: 0.5rem;
+  padding-left: 0;
+}
+
+.form-check-label {
+  padding-left: 1.25rem;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.popover-body {
+  padding: 0;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1872ae;
+  border-color: #1872ae;
+}
+
+.btn-group .btn-group-vertical {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.page-content {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.page-header {
+  padding: 0 1.2rem !important;
+}
+
+.arrow {
+  right: .25em !important;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.btn-secondary.disabled, .btn-secondary:disabled {
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.badge-info {
+  background-color: #5bc0de;
+}
+
+.badge {
+  min-width: 80px !important;
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+.fa-times {
+  vertical-align: middle !important;
+}

@@ -22,7 +22,7 @@ export interface UserContext {
   WorkflowStepInfo: WorkflowStepInfo;
 }
 
-interface ConfigSetting {
+export interface ConfigSetting {
   Name: string;
   Value: string;
 }

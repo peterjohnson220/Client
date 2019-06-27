@@ -13,6 +13,6 @@
 
 <ng-template #noListItems>
   <div class="d-flex justify-content-center align-items-center mt-3">
-    <i class="{{model.IconClass}} fas fa-10x"></i>
+    <fa-icon *ngIf="!!model.faIconClass" [icon]="model.faIconClass" size="10x"></fa-icon>
   </div>
 </ng-template>

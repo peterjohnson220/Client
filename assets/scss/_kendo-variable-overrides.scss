@@ -1,0 +1,31 @@
+@import '_colors';
+
+$accent: $body-background-color;
+$secondary: #fff;
+$selected-bg: #007bff;
+$line-height: 1.7;
+
+// Button
+$button-bg: #e4e7eb;
+
+// Switch
+$switch-size: 6em;
+$switch-label-display: inline;
+$switch-label-text-transform: uppercase;
+
+$switch-container-border-width: 1px;
+
+$switch-on-bg: white;
+$switch-on-text: $switch-on-color;
+$switch-on-border: rgba(0,0,0,.125);
+$switch-on-hovered-bg: white;
+$switch-on-handle-bg: $switch-on-color;
+$switch-on-handle-hovered-bg: darken($switch-on-color, 8);
+
+$switch-off-bg: white;
+$switch-off-text: grey;
+$switch-off-border: darken(grey, 7);
+$switch-off-border: rgba(0,0,0,.125);
+$switch-off-hovered-bg: white;
+$switch-off-handle-bg: $switch-off-color;
+$switch-off-handle-hovered-bg: darken($switch-off-color, 8);

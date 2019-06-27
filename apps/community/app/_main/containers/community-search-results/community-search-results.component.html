@@ -19,14 +19,26 @@
         <div class="col-12">
           <pf-community-search-result-header [companyName]="result.CompanyName"
                                              [elapsedTime]="result.ElapsedTime"
-                                             [isPoll]=isPoll(result)
-                                             [pollExpirationDate]="result.CommunityContent.ExpirationDate"></pf-community-search-result-header>
-          <pf-community-search-result-content [content]="result.Content"
-                                              [searchTerm]="query"
-                                              [pollResponses]="result.CommunityContent.Responses"></pf-community-search-result-content>
-          <div *ngIf="!isPoll(result)" class="footer-container">
-            <span> <i class="fas fa-heart icon"></i> {{result.LikeCount}} Likes</span>
-            <span class="ml-1"> Replies ({{result.ReplyCount}})</span>
+                                             [type]="result.Type"
+                                             [pollExpirationDate]="result.Details.ExpirationDate"></pf-community-search-result-header>
+          <pf-community-search-result-content [details]="result.Details"
+                                              [type]="result.Type"
+                                              [searchTerm]="query"></pf-community-search-result-content>
+          <div *ngIf="result.Type == discussionType || result.Type == discussionReplyType" class="footer-container">
+            <span><fa-icon icon="heart"></fa-icon> {{result.Details.LikeCount}} Likes</span>
+            <span class="ml-1"> Replies ({{result.Details.ReplyCount}})</span>
+          </div>
+          <div class="pl-3 pt-3" *ngFor="let reply of result.Details.Replies">
+            <pf-community-search-result-header class="my-0"
+              [type]="discussionReplyType"
+              [companyName]="reply.CompanyName"
+              [elapsedTime]="reply.ElapsedTime">
+            </pf-community-search-result-header>
+            <pf-community-search-result-content
+              [type]="discussionReplyType"
+              [details]="reply"
+              [searchTerm]="query">
+            </pf-community-search-result-content>
           </div>
         </div>
       </div>
@@ -53,7 +65,7 @@
 <ng-template #noResultsMessage>
   <div class="no-results-message-container" *ngIf="!(loadingSearchResults$ | async) && !(loadingSearchResultsError$ | async)">
     <div class="row mt-5 justify-content-center" >
-      <i class="fas fa-search fa-3x"></i>
+      <fa-icon icon="search" size="3x"></fa-icon>
     </div>
     <div class="row mt-2 justify-content-center">
       <h3>No results. Please change your filter criteria and search again.</h3>

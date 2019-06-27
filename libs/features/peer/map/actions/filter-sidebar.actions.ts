@@ -26,6 +26,7 @@ export const SET_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Sidebar] Set Scope S
 export const TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES = '[Features/Peer/Sidebar] Toggle Include Untagged Employees';
 export const LOAD_ASSOCIATED_EXCHANGE_JOBS =  '[Features/Peer/Sidebar] Load Associated Exchange Jobs';
 export const LOAD_ASSOCIATED_EXCHANGE_JOBS_SUCCESS =  '[Features/Peer/Sidebar] Load Associated Exchange Jobs Success';
+export const TOGGLE_AGGREGATE_SEARCH = '[Features/Peer/Sidebar] Toggle Aggregate Search';
 
 export class LoadFilterAggregates implements Action {
   readonly type = LOAD_FILTER_AGGREGATES;
@@ -139,6 +140,12 @@ export class LoadAssociatedExchangeJobsSuccess implements Action {
   constructor(public payload: string[]) { }
 }
 
+export class ToggleAggregateSearch implements Action {
+  readonly type = TOGGLE_AGGREGATE_SEARCH;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = LoadFilterAggregates
   | LoadFilterAggregatesSuccess
@@ -159,4 +166,5 @@ export type Actions
   | SetExchangeScopeSelection
   | ToggleIncludeUntaggedEmployees
   | LoadAssociatedExchangeJobs
-  | LoadAssociatedExchangeJobsSuccess;
+  | LoadAssociatedExchangeJobsSuccess
+  | ToggleAggregateSearch;

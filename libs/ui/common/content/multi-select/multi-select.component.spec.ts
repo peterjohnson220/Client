@@ -80,7 +80,7 @@ describe('UI/Common/Content - Multi Select', () => {
 
     fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+    expect(fixture).  toMatchSnapshot();
   });
 
   it('should emit when the select facade is clicked', () => {

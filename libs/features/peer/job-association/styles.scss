@@ -1,6 +1,7 @@
 @import 'kendo-grid';
 @import 'common/common-variables';
 @import 'colors';
+@import 'kendo-variable-overrides.scss';
 
 $sub-header-height: 27px;
 $buttons-height: 70px;
@@ -106,7 +107,7 @@ pf-peer-job-association-company-jobs {
         border-right: 0;
         border-left: 0;
       }
-    }
+    }    
   }
 
   .view-button {
@@ -203,26 +204,25 @@ pf-peer-job-association-company-jobs {
           content: '\E015';
         }
 
-        .association-status {
-          display: inline-block;
-          width: 100%;
-          height: 32px;
-          margin-left: -4px;
-          transition: background-color .4s ease-in-out;
-
-          &.associated {
-            background-color: #8ed985;
-          }
-
-          &.not-associated {
-            background-color: #fc6e68;
-          }
-        }
-
         .k-pager-wrap .k-link:not(.k-state-selected) {
           color: $pf-brand-secondary-color;
         }
-
+        .k-pager-wrap .k-link:focus {
+          box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        .k-link.k-state-selected {
+          color: #fff;
+          background-color: $selected-bg;
+          border: 1px solid $selected-bg;
+        }
+        .k-checkbox:checked+.k-checkbox-label::before,
+        .k-checkbox:indeterminate+.k-checkbox-label::after {
+          background-color: $selected-bg;
+          border-color: $selected-bg;
+        }
+        .k-checkbox:focus+.k-checkbox-label::before {
+          box-shadow: 0 0 0 1px #fff, 0 0 0 3px $selected-bg;
+        }
         .k-grid-norecords {
           text-align: center;
 

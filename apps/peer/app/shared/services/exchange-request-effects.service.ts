@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Actions } from '@ngrx/effects';
+import { Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { concatMap, switchMap, withLatestFrom, map, catchError } from 'rxjs/operators';
 
@@ -15,31 +15,40 @@ import * as fromSharedPeerReducer from '../../shared/reducers';
 export class ExchangeRequestEffectsService {
   openModal(type: ExchangeRequestTypeEnum): Observable<Action> {
     return this.actions$
-      .ofType(`${type}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`).pipe(
-      switchMap(() => of(new fromExchangeRequestActions.ResetExchangeRequest(type))));
+      .pipe(
+        ofType(`${type}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`),
+        switchMap(() => of(new fromExchangeRequestActions.ResetExchangeRequest(type)))
+      );
   }
 
   updateSearchTerm(type: ExchangeRequestTypeEnum): Observable<Action> {
     return this.actions$
-      .ofType(`${type}_${fromExchangeRequestActions.UPDATE_SEARCH_TERM}`).pipe(
-      switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type))));
+      .pipe(
+        ofType(`${type}_${fromExchangeRequestActions.UPDATE_SEARCH_TERM}`),
+        switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type)))
+      );
   }
 
   updateFilterOptions(type: ExchangeRequestTypeEnum): Observable<Action> {
     return this.actions$
-      .ofType(`${type}_${fromExchangeRequestActions.UPDATE_FILTER_OPTIONS}`).pipe(
-      switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type))));
+      .pipe(
+        ofType(`${type}_${fromExchangeRequestActions.UPDATE_FILTER_OPTIONS}`),
+        switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type)))
+      );
   }
 
   reset(type: ExchangeRequestTypeEnum): Observable<Action> {
     return this.actions$
-      .ofType(`${type}_${fromExchangeRequestActions.RESET_EXCHANGE_REQUEST}`).pipe(
-      switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type))));
+      .pipe(
+        ofType(`${type}_${fromExchangeRequestActions.RESET_EXCHANGE_REQUEST}`),
+        switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type)))
+      );
   }
 
   loadCandidates<T>(type: ExchangeRequestTypeEnum, storeSelector): Observable<Action> {
     return this.actions$
-      .ofType(`${type}_${fromExchangeRequestActions.LOAD_CANDIDATES}`).pipe(
+      .pipe(
+        ofType(`${type}_${fromExchangeRequestActions.LOAD_CANDIDATES}`),
         withLatestFrom(this.store.select(storeSelector), (action, payload) => payload),
         switchMap((payload: any) =>
           this.exchangeCompanyApiService.getTopCandidates<T>({
@@ -55,7 +64,8 @@ export class ExchangeRequestEffectsService {
 
   createExchangeRequest(type: ExchangeRequestTypeEnum, followUpActions: Action[] = []): Observable<Action> {
     return this.actions$
-      .ofType(`${type}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST}`).pipe(
+      .pipe(
+        ofType(`${type}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST}`),
         map((action: fromExchangeRequestActions.CreateExchangeRequest) => action.payload),
         switchMap((payload: RequestExchangeRequest) => {
             return this.exchangeCompanyApiService.createExchangeRequest(payload).pipe(

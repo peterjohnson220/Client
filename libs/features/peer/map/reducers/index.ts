@@ -63,6 +63,7 @@ export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canL
 export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
 export const getPeerMapApplyingScope = createSelector(selectMapState, fromMapReducer.getApplyingScope);
 export const getPeerMapAutoZooming = createSelector(selectMapState, fromMapReducer.getAutoZooming);
+export const getLoadingEditDataCut = createSelector(selectMapState, fromMapReducer.getLoadingEditDataCut);
 
 // Filter Sidebar Selectors
 export const getFilterAggregateGroupsLoading = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoading);
@@ -76,6 +77,7 @@ export const getSystemFilter = createSelector(selectPeerFiltersState, fromFilter
 export const getPeerFilterSelectionsCount = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelectionsCount);
 export const getPeerFilterScopeSelection = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getScopeSelection);
 export const getAssociatedExchangeJobs = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getAssociatedExchangeJobs);
+export const getSearchingAggregate = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSearchingAggregate);
 
 export const getPeerFilterIncludeUntaggedIncumbents = createSelector(
   selectPeerFiltersState,

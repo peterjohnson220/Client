@@ -12,21 +12,21 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', redirectTo: 'peer', pathMatch: 'full' },
-      { path: 'peer', loadChildren: 'apps/admin/app/_peer/peer-admin.module#PeerAdminModule' },
+      { path: 'peer', loadChildren: () => import('apps/admin/app/_peer/peer-admin.module').then(m => m.PeerAdminModule) },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       {
         path: 'company-admin',
-        loadChildren: 'apps/admin/app/_company-admin/company-admin.module#CompanyAdminModule'
+        loadChildren: () => import('apps/admin/app/_company-admin/company-admin.module').then(m => m.CompanyAdminModule)
       },
       {
         path: 'job-description-management',
-        loadChildren: 'apps/admin/app/_job-description-management/bulk-export-scheduler.module#JdmBulkExportSchedulerModule'
+        loadChildren: () => import('apps/admin/app/_job-description-management/bulk-export-scheduler.module').then(m => m.JdmBulkExportSchedulerModule)
       },
-      { path: 'marketing', loadChildren: 'apps/admin/app/_marketing/marketing.module#MarketingModule' },
-      { path: 'community', loadChildren: 'apps/admin/app/_community/community.module#CommunityModule' },
+      { path: 'marketing', loadChildren: () => import('apps/admin/app/_marketing/marketing.module').then(m => m.MarketingModule) },
+      { path: 'community', loadChildren: () => import('apps/admin/app/_community/community.module').then(m => m.CommunityModule) },
       { path: 'org-data-loader',
-        loadChildren: 'apps/admin/app/_org-data-loader/org-data-loader.module#OrgDataLoaderModule' },
-      { path: 'tickets', loadChildren: 'apps/admin/app/_tickets/tickets.module#TicketsModule' },
+        loadChildren: () => import('apps/admin/app/_org-data-loader/org-data-loader.module').then(m => m.OrgDataLoaderModule) },
+      { path: 'tickets', loadChildren: () => import('apps/admin/app/_tickets/tickets.module').then(m => m.TicketsModule) },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

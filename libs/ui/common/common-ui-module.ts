@@ -6,7 +6,10 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
+import * as fromFaIcons from './fa-icons';
 import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
@@ -20,6 +23,7 @@ import { CardComponent } from './content/cards/card';
 import { ClickElsewhereDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
 import { MultiSelectComponent } from './content/multi-select';
+import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
 
 const components = [
   // Content
@@ -29,6 +33,7 @@ const components = [
   UserOrEmailPickerComponent,
   MultiSelectComponent,
   NavigationLinksComponent,
+  PeerAssociationColorBlockComponent,
 
   // Directives
   ClickElsewhereDirective,
@@ -59,9 +64,14 @@ const components = [
     ReactiveFormsModule,
     NgbModule,
     ImgFallbackModule,
+    FontAwesomeModule,
     ScrollingModule
   ],
   declarations: components,
   exports: components
 })
-export class PfCommonUIModule { }
+export class PfCommonUIModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

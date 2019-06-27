@@ -98,9 +98,7 @@ exports[`Peer - Apply Mapping Button should show an error message under a Retry 
   </button><span
     class="error-applying-message text-danger"
   >
-    <i
-      class="fal fa-exclamation-triangle"
-    />
+    <fa-icon />
      Error Associating Job
   
   </span>

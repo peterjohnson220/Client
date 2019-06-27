@@ -6,7 +6,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
   styleUrls: ['./glossary-of-terms.component.scss']
 })
 export class GlossaryOfTermsComponent {
-  @ViewChild('termsContainer') private termsContainerElement: ElementRef;
+  @ViewChild('termsContainer', { static: true }) private termsContainerElement: ElementRef;
   @Input() open: boolean;
   @Output() close = new EventEmitter();
 

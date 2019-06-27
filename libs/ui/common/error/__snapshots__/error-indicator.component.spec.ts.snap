@@ -7,9 +7,8 @@ exports[`Error Indicator should show the error message 1`] = `
   <span
     class="error-message"
   >
-    <i
+    <fa-icon
       aria-hidden="true"
-      class="far fa-exclamation-triangle"
     />
      Example error message
   </span>

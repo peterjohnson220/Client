@@ -23,9 +23,8 @@ exports[`CommunitySearchComponent should show community search component 1`] = `
         ng-reflect-klass="input-group-text clear-contain"
         ng-reflect-ng-class="[object Object]"
       >
-        <i
-          aria-hidden="true"
-          class="fas fa-times"
+        <fa-icon
+          icon="times"
         />
       </span>
     </div>
@@ -36,9 +35,9 @@ exports[`CommunitySearchComponent should show community search component 1`] = `
       <span
         class="input-group-text search-container cursor-pointer"
       >
-        <i
-          aria-hidden="true"
-          class="fas fa-search fa-2x"
+        <fa-icon
+          icon="search"
+          size="2x"
         />
       </span>
     </div>

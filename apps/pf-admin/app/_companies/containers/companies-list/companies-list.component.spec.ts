@@ -80,6 +80,6 @@ describe('Pf-Admin - Companies - Companies List Component', () => {
             }
         );
 
-        expect(router.navigate).toHaveBeenCalledWith(['/companies/', 1]);
+        expect(router.navigate).toHaveBeenCalledWith(['/companies/edit/', 1]);
     });
 });

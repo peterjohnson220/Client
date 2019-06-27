@@ -15,7 +15,7 @@
 
     <div (click)="close()"
          class="close-btn">
-      <i class="far fa-times"></i>
+      <fa-icon [icon]="['far','times']"></fa-icon>
     </div>
   </div>
   <div class="card-body d-flex">
@@ -38,7 +38,7 @@
               <button class="delete-mapping-button btn btn-sm btn-danger"
                       [disabled]="(deletingMapping$ | async) || addingMapping"
                       (click)="handleDeleteClick()">
-                <i class="fas fa-trash-alt fa-lg"></i>
+                <fa-icon icon="trash-alt" size="lg"></fa-icon>
               </button>
               <pf-job-info-container [job]="mapping"
                                      [showJobCode]="true">
@@ -50,19 +50,19 @@
              *ngIf="selectedJobs.length > 1">
           <div class="control control-left"
                (click)="handleControlLeftClick()">
-            <i class="fas fa-chevron-circle-left fa-2x"></i>
+            <fa-icon icon="chevron-circle-left" size="2x"></fa-icon>
           </div>
           <div class="indicators flex-grow-1 space-out-children text-center">
             <span class="control"
                   [ngClass]="{'active' : (getActiveCompanyJobId$ | async) ===  mapping.CompanyJobId}"
                   *ngFor="let mapping of (selectedCompanyJobInfoModels$ | async)"
                   (click)="handleIndicatorClick(mapping.CompanyJobId)">
-              <i class="fas fa-circle"></i>
+              <fa-icon icon="circle"></fa-icon>
             </span>
           </div>
           <div class="control control-right"
                (click)="handleControlRightClick()">
-            <i class="fas fa-chevron-circle-right fa-2x"></i>
+            <fa-icon icon="chevron-circle-right" size="2x"></fa-icon>
           </div>
         </div>
       </div>

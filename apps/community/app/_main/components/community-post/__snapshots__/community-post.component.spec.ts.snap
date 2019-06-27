@@ -27,9 +27,6 @@ exports[`CommunityPostComponent should show post 1`] = `
         </div>
       </div>
       
-      <div>
-        
-      </div>
     </div>
   </div>
 </pf-community-post>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs/operators';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
@@ -12,8 +12,8 @@ import * as fromTooltipContainerActions from '../actions/tooltip-container.actio
 export class TooltipContainerEffects {
   @Effect()
   getMatchesDetails$ = this.actions$
-    .ofType(fromTooltipContainerActions.GET_MATCHES_DETAILS)
     .pipe(
+      ofType(fromTooltipContainerActions.GET_MATCHES_DETAILS),
       map((action: fromTooltipContainerActions.GetMatchesDetails) => action.payload),
       switchMap((matchesDetailsRequest: PricingMatchesDetailsRequest) => {
         return this.surveySearchApiService.getPricingMatchesDetails(matchesDetailsRequest)

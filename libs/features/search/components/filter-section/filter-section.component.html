@@ -4,7 +4,7 @@
       {{filter.DisplayName}}
 
       <div class="ml-2" *ngIf="collapsed">
-        <i class="far fa-angle-down"></i>
+        <fa-icon [icon]="['far', 'angle-down']"></fa-icon>
       </div>
     </div>
     <div class="header-right">
@@ -20,7 +20,7 @@
            [ngClass]=" 'au-btn-search-' + filter.CssClassName"
            *ngIf="allowedToSearch"
            (click)="handleSearchClicked($event, filter)">
-        <i class="far fa-search"></i>
+        <fa-icon [icon]="['far', 'search']"></fa-icon>
       </div>
     </div>
   </div>

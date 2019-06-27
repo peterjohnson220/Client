@@ -24,8 +24,8 @@ import * as fromExchangeRequestActions from '../../../shared/actions/exchange-re
 })
 
 export class AccessModalComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('list') list: AutoCompleteComponent;
-  @ViewChild(CardSelectorComponent) cardSelector;
+  @ViewChild('list', { static: true }) list: AutoCompleteComponent;
+  @ViewChild(CardSelectorComponent, { static: true }) cardSelector;
 
   exchangeRequestCandidates$: Observable<AvailableExchangeItem[]>;
   peerParticipants$: Observable<CompanyOption[]>;

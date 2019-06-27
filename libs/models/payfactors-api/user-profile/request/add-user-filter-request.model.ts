@@ -1,6 +1,7 @@
-import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
+import { CompositeFilterUppercase } from '../../../jdm';
 
 export interface AddUserFilterRequest {
+  Id: string;
   Name: string;
-  CompositeFilter: CompositeFilterDescriptor;
+  CompositeFilter: CompositeFilterUppercase;
 }

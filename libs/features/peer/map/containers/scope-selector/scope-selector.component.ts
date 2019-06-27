@@ -19,7 +19,7 @@ import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
 })
 
 export class ScopeSelectorComponent implements OnInit, OnDestroy {
-  @ViewChild('p') popover: NgbPopover;
+  @ViewChild('p', { static: true }) popover: NgbPopover;
 
   @Input() addDataModal: boolean;
   @Input() exchangeId: number;

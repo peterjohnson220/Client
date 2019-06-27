@@ -1,0 +1,40 @@
+<pf-page-with-title-bar>
+  <ng-container page-title>
+    <h3 *ngIf="!isEditMode">Add Company</h3>
+    <h3 *ngIf="isEditMode">Edit Company</h3>
+  </ng-container>
+
+  <ng-container page-actions>
+    <button *ngIf="isEditMode" class="btn btn-secondary tag-button" type="submit" title="Company Tags"
+      (click)="handleCompanyTagsClicked()">
+      <fa-icon [icon]="['fal', 'tags']" class="tag-icon-center"></fa-icon>
+    </button>
+    <button [disabled]="(savingCompany$ | async) || submitDisabled" id="company-form-submit"
+      (click)="handleSaveClicked(companyPageTabs.customCompanySettings)"
+      class="btn btn-primary">{{(savingCompany$ | async) ? 'Saving' : 'Save'}}
+    </button>
+    <button [disabled]="savingCompany$ | async" routerLink="/companies" class="btn btn-secondary" type="submit">Cancel</button>
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="row ml-1 mr-1">
+      <div class="col-lg-9">
+        <pf-company-form *ngIf="!!companyFormData && isCompanyFormContextLoaded" #companyPageForm
+          [companyFormData]="companyFormData"
+          [companyFormContext]="companyFormContext"
+          [companyLogoImgPath]="companyLogoImgPath"
+          [saving]="(savingCompany$ | async)">
+        </pf-company-form>
+      </div>
+      <div class="col-lg-3">
+        <pf-company-tabs #companyPageTabs
+          [companyId]="companyId"
+          [clientType]="companyFormData?.ClientType"
+          [customCompanySettings]="customCompanySettings">
+        </pf-company-tabs>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>
+
+<pf-company-tags-modal></pf-company-tags-modal>

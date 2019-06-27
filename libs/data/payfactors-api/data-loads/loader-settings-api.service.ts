@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
-import {PayfactorsApiService} from '../payfactors-api.service';
-import {LoaderSetting} from '../../../../apps/admin/app/_org-data-loader/models/loader-settings.model';
+import { Injectable } from '@angular/core';
+import { PayfactorsApiService } from '../payfactors-api.service';
+import { LoaderSettingsDTO } from 'libs/models/data-loads/request/loader-settings.dto';
+import { LoaderSetting } from 'libs/models/data-loads/loader-setting.model';
 
 @Injectable()
 export class LoaderSettingsApiService {
@@ -13,7 +14,7 @@ export class LoaderSettingsApiService {
     return this.payfactorsApiService.get<LoaderSetting[]>(`${this.endpoint}.GetCompanyLoaderSettings?companyId=${companyId}`);
   }
 
-  saveOrUpdate(data: any) {
-    return this.payfactorsApiService.post(`${this.endpoint}.SaveOrUpdate`, {settings: data.settings, companyId: data.companyId});
+  saveOrUpdate(data: LoaderSettingsDTO) {
+    return this.payfactorsApiService.post(`${this.endpoint}.SaveOrUpdate`, data);
   }
 }

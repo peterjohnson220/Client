@@ -15,7 +15,7 @@ export class ColumnSelectorPopoverComponent {
   @Output() columnModified = new EventEmitter();
   @Output() saveColumns = new EventEmitter();
 
-  @ViewChild('p') public p: any;
+  @ViewChild('p', { static: true }) public p: any;
 
   public filter: any;
   public loading: any;

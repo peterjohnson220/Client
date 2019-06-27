@@ -1,4 +1,4 @@
-<i class="{{ model.IconClass }} {{ model.IconSize }} {{ model.CssClassName }} text-center m-0 p-0" aria-hidden="true"></i>
+<fa-icon *ngIf="!!model.faIconClass" [icon]="model.faIconClass" size="{{model.IconSize}}" class="{{model.CssClassName}} text-center m-0 p-0 d-inline-block " aria-hidden="true"></fa-icon>
 <div *ngIf="model.ContainsDetailData">
   <h2 class="text-center m-0 p-0" *ngIf="model.Title !== undefined">{{ model.Title | TruncateAfter:20 }}</h2>
   <h3 class="text-center m-0 pb-2" *ngIf="model.SubTitle !== undefined">{{ model.SubTitle | TruncateAfter:40 }}</h3>

@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: communitySearchActions.Act
     }
     case communitySearchActions.SEARCHING_COMMUNITY_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload.CommunityPosts, state),
+        ...adapter.addAll(action.payload.CommunitySearchResults, state),
         loading: false,
         totalSearchResultsOnServer: action.payload.Paging.TotalRecordCount
       };
@@ -77,7 +77,7 @@ export function reducer(state = initialState, action: communitySearchActions.Act
     }
     case communitySearchActions.GETTING_MORE_COMMUNITY_SEARCH_RESULTS_SUCCESS: {
       return {
-        ...adapter.addMany(action.payload.CommunityPosts, state),
+        ...adapter.addMany(action.payload.CommunitySearchResults, state),
         loadingMoreSearchResults: false
       };
     }

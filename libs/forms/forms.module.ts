@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import * as fromFaIcons from './fa-icons';
 import { FocusDirective, PfValidatableDirective, PfSecuredResourceDirective } from './directives';
 import { ConfirmPasswordComponent, InputDebounceComponent, PfModalFormComponent,
   LocationSearchComponent, ActionButtonComponent, TypeaheadComponent } from './components';
@@ -30,8 +33,13 @@ const declarations = [
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
+    FontAwesomeModule
   ],
   declarations: declarations,
   exports: declarations
 })
-export class PfFormsModule { }
+export class PfFormsModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

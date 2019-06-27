@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import {switchMap, catchError, map, mergeMap} from 'rxjs/operators';
 
@@ -15,19 +15,20 @@ import {PayfactorsApiModelMapper} from '../helpers';
 export class TicketListEffects {
     @Effect()
     loadTickets$: Observable<Action> = this.actions$
-        .ofType(fromTicketListActions.LOAD_TICKETS).pipe(
-            switchMap((action: fromTicketListActions.LoadTickets) =>
-                this.userTicketApiService.searchUserTickets(action.payload).pipe(
-                    mergeMap((userTickets: UserTicketResponse[]) => {
-                      const userTicketGridItems = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicketGridItem(userTickets);
-                      return [
-                        new fromTicketListActions.LoadTicketsSuccess(userTicketGridItems),
-                        new fromTicketListActions.SetGridDirtyStatus(false)
-                      ];
-                    }),
-                    catchError(error => of(new fromTicketListActions.LoadTicketsError()))
-                )
-            )
+        .pipe(
+          ofType(fromTicketListActions.LOAD_TICKETS),
+          switchMap((action: fromTicketListActions.LoadTickets) =>
+              this.userTicketApiService.searchUserTickets(action.payload).pipe(
+                  mergeMap((userTickets: UserTicketResponse[]) => {
+                    const userTicketGridItems = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicketGridItem(userTickets);
+                    return [
+                      new fromTicketListActions.LoadTicketsSuccess(userTicketGridItems),
+                      new fromTicketListActions.SetGridDirtyStatus(false)
+                    ];
+                  }),
+                  catchError(error => of(new fromTicketListActions.LoadTicketsError()))
+              )
+          )
         );
 
     constructor(

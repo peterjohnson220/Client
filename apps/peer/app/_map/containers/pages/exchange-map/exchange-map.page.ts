@@ -21,7 +21,7 @@ import * as fromPeerMapReducer from '../../../reducers';
   styleUrls: ['./exchange-map.page.scss']
 })
 export class ExchangeMapPageComponent implements OnInit, OnDestroy {
-  @ViewChild(MapComponent) map: MapComponent;
+  @ViewChild(MapComponent, { static: true }) map: MapComponent;
 
   exchangeId: number;
   exchange$: Observable<Exchange>;

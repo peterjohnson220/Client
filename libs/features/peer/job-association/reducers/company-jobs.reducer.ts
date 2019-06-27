@@ -4,11 +4,11 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
 
-import { CompanyJob } from '../models/';
+import { CompanyJob, CompanyJobWithMatches } from '../models/';
 import * as fromCompanyJobsActions from '../actions/company-jobs.actions';
 
 export interface State extends EntityState<CompanyJob> {
-  companyJobsToAssociate: CompanyJob[];
+  companyJobsToAssociate: CompanyJobWithMatches[];
   companyJobIdFilters: number[];
   loading: boolean;
   loadingError: boolean;

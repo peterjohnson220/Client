@@ -9,8 +9,8 @@ export const routes: Routes = [
     path: '',
     component: AppWrapperComponent,
     children: [
-      { path: 'login', loadChildren: './_login/login.module#LoginModule' },
-      { path: 'job', loadChildren: './_job-search/job-search.module#JobSearchModule' }
+      { path: 'login', loadChildren: () => import('./_login/login.module').then(m => m.LoginModule) },
+      { path: 'job', loadChildren: () => import('./_job-search/job-search.module').then(m => m.JobSearchModule) }
     ]
   }
 ];

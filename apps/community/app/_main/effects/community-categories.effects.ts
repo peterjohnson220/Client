@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map} from 'rxjs/operators';
@@ -15,7 +15,8 @@ export class CommunityCategoriesEffects {
 
   @Effect()
   loadingCommunityCategories: Observable<Action> = this.actions$
-    .ofType(fromCommunityCategoriesActions.GETTING_COMMUNITY_CATEGORIES).pipe(
+    .pipe(
+      ofType(fromCommunityCategoriesActions.GETTING_COMMUNITY_CATEGORIES),
       switchMap((action: fromCommunityCategoriesActions.GettingCommunityCategories) =>
           this.communityCategoriesApiService.get().pipe(
             map((communityCategories: CommunityCategory[]) => {

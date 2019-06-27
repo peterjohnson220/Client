@@ -13,7 +13,7 @@
 <ng-template #poll_not_dismissed>
   <div *ngIf="request && !isCurrentUserPost && (!response  || !response?.UserHasVoted ) && !request.IsExpired && !showResults">
     <div  *ngIf="type===pollTypes.DiscussionPoll" [attr.data-qa-id]="'cnt-pollclosedate'" class="p-2">
-      <i class="far fa-stopwatch fa-lg poll-close-date"></i>
+      <span class="poll-close-date"><fa-icon [icon]="['far','stopwatch']" size="lg"></fa-icon></span>
       <span class="pl-3">This poll closes on {{ request.ExpirationDate  | date:'medium' }} </span>
     </div>
     <div *ngFor="let option of request.ResponseOptions">
@@ -24,10 +24,13 @@
              (click)="selectOption(option.ResponseId)">
           <div class="response-option-text-container pl-1">
             <span *ngIf="option.ResponseId !== selectedOption" class="poll-choice-unselected-indicator">
-              <i class="far fa-circle"></i>
+              <fa-layers [fixedWidth]="true">
+                <fa-icon icon="circle"></fa-icon>
+                <fa-icon [inverse]="true" icon="circle" transform="shrink-4"></fa-icon>
+              </fa-layers>
             </span>
             <span *ngIf="option.ResponseId === selectedOption" class="poll-choice-selected-indicator">
-              <i class="fas fa-check-circle"></i>
+              <fa-icon icon="check-circle"></fa-icon>
             </span>
             <span class="poll-choice-label pl-1">{{option.ResponseText}}</span>
           </div>
@@ -39,7 +42,7 @@
       <div *ngIf="showJumpToResults(response?.ResponseVotes)" data-qa-id="cnt-submitJumpToResults"
            class="poll-jump-to-results"
            (click)="jumpToResults()">
-        Jump to results <i class="far fa-chevron-right"></i>
+        Jump to results  <fa-icon [icon]="['far', 'chevron-right']"></fa-icon>
       </div>
       <button type="button" class="btn btn-secondary submit-button-container"
               data-qa-id="btn-submitPollResponse"
@@ -71,7 +74,7 @@
       <div data-qa-id="cnt-submitBackToPoll"
            class="poll-jump-to-results"
            (click)="backToPoll()">
-        <i class="far fa-chevron-left"></i> Back To Poll
+        <fa-icon [icon]="['far', 'chevron-left']"></fa-icon> Back To Poll
       </div>
     </div>
     <p *ngIf="type===pollTypes.CommunityPoll" class="dismiss-poll-button text-center mt-2"

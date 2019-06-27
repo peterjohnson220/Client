@@ -1,7 +1,9 @@
 export enum CompanySettingsEnum {
   SurveySearchIntegration = 'SurveySearchIntegration',
   PeerTermsAndConditionsRequested = 'PeerTermsAndConditionsRequested',
+  PeerTermsAndConditionsHardCopyRequested = 'PeerTermsAndConditionsHardCopyRequested',
   PeerTermsAndConditionsAccepted = 'PeerTermsAndConditionsAccepted',
+  PeerManageShowCompanyJobs = 'PeerManageShowCompanyJobs',
   RestrictSurveySearchCountryFilterToPayMarket = 'RestrictSurveySearchCountryFilterToPayMarket',
   MultiMatchSearchIntegration = 'MultiMatchSearchIntegration',
   AddJobsSearchIntegration = 'AddJobsSearchIntegration',
@@ -9,7 +11,6 @@ export enum CompanySettingsEnum {
   CommunityReplyLimit = 'CommunityReplyLimit',
   MaxProjectJobCount = 'MaxProjectJobCount',
   ProjectJobCount = 'ProjectJobCount',
-  CommunitySearchBar = 'CommunitySearchBar',
   PasswordExpirationEnabled = 'PasswordExpirationEnabled',
   PasswordHistoryEnabled = 'PasswordHistoryEnabled',
   PasswordExpirationDays = 'PasswordExpirationDays',
@@ -21,6 +22,7 @@ export interface CompanySetting {
   DisplayName: string;
   Value: string;
   Visible: boolean;
+  Disabled?: boolean;
 }
 
 export function generateMockCompanySetting(): CompanySetting {
