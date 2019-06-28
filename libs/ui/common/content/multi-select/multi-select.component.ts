@@ -115,6 +115,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   clearSearchTerm() {
     this.searchTerm = '';
   }
+
   getSelectionsString(): string {
     const fieldMap = this.displayNamePreview ? 'DisplayName' : 'Value';
 

@@ -60,7 +60,7 @@ export class UserRoleEffects {
       ofType(fromUserRoleActions.UPDATE_CURRENT_USER_ROLE),
       mergeMap((action: fromUserRoleActions.UpdateCurrentUserRole) =>
         [new fromUserRoleUserTabActions.CancelChanges(),
-          new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole(action.payload.RoleId),
+          new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole(action.payload),
           new fromDataAccessActions.UpdateCurrentRole(action.payload),
         new fromUserRoleFunctionTabActions.UpdateCurrentRoleFunctionTab(action.payload)])
     );

@@ -2,6 +2,10 @@
   height: 280px;
 }
 
+.users-table-content {
+  height: 235px;
+}
+
 .add-user-search{
   padding: 15px;
 }
@@ -28,14 +32,6 @@
 .users-in-role-container {
   margin-top: 25px;
 }
-/*
-  Freeze header row https://w3lessons.info/2017/09/27/bootstrap-fixed-table-header-using-css/
- */
-.table-fixed tbody {
-  overflow-y: auto;
-  height: 235px;
-  width: 100%;
-}
 
 .table-fixed thead,
 .table-fixed tbody,
@@ -51,10 +47,8 @@
   visibility: hidden;
   clear: both;
 }
+
 .table-fixed tbody td,
 .table-fixed thead > tr > th {
   float: left;
 }
-/*
-  End Freeze header row
- */
