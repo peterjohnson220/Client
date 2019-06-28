@@ -9,7 +9,18 @@
     <tbody>
     <tr *ngFor="let validationResult of validationResults">
       <td>
-        <span><i [ngClass]="getTypeIconClass(validationResult)" aria-hidden="true"></i></span>
+        <span *ngIf="validationResult.Type === validationResultItemTypes.Success">
+          <fa-icon [icon]="['far', 'check-circle']" class="text-success" aria-hidden="true"></fa-icon>
+        </span>
+        <span *ngIf="validationResult.Type === validationResultItemTypes.Info">
+          <fa-icon icon="info-circle" class="text-info" aria-hidden="true"></fa-icon>
+        </span>
+        <span *ngIf="validationResult.Type === validationResultItemTypes.Warning">
+          <fa-icon icon="exclamation-triangle" class="text-warning" aria-hidden="true"></fa-icon>
+        </span>
+        <span *ngIf="validationResult.Type === validationResultItemTypes.Error">
+          <fa-icon icon="exclamation-circle" class="text-danger" aria-hidden="true"></fa-icon>
+        </span>
       </td>
       <td class="vertical-center">
         {{ validationResult.Message }}

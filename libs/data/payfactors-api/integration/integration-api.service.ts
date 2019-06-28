@@ -2,7 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { CompositeSummaryDownloadRequest } from '../../../models/dashboard';
-import { FileApiService } from '../file/file-api.service';
+import { FileApiService } from '../file';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { switchMap } from 'rxjs/operators';
 import { UserContext } from 'libs/models';

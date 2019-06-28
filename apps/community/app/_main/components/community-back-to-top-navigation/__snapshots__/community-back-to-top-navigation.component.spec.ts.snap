@@ -11,8 +11,9 @@ exports[`CommunityBackToTopNavigationComponent should show back to top button 1`
     <span
       class="arrow-color"
     >
-      <i
-        class="fas fa-arrow-alt-circle-up fa-3x"
+      <fa-icon
+        icon="arrow-alt-circle-up"
+        size="3x"
       />
     </span>
   </div>

@@ -44,10 +44,10 @@ exports[`CommunityPopularTagsComponent should not show filter title when filteri
         class="btn btn-secondary submit-button-container"
         type="button"
       >
-        <i
-          class="far fa-eye pr-2"
-        />
-        <span>
+        <fa-icon />
+        <span
+          class="pl-2"
+        >
           View All Posts
         </span>
       </button>
@@ -103,11 +103,9 @@ exports[`CommunityPopularTagsComponent should show filter title when filtering b
         <span>
           Test Post Filter
         </span>
-        <span>
-          <i
-            class="fas fa-times-circle icon"
-          />
-        </span>
+        <fa-icon
+          icon="times-circle"
+        />
       </button>
       
     </div>

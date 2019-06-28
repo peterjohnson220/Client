@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import { State } from '@progress/kendo-data-query';
 
@@ -7,23 +7,24 @@ import { AvailableJobInformationField } from '../../shared/models/available-job-
 import { JobDescriptionViewConstants } from '../../shared/constants/job-description-view-constants';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'pf-bulk-export-popover',
   templateUrl: './bulk-export-popover.component.html',
   styleUrls: ['./bulk-export-popover.component.scss']
 })
 
 export class BulkExportPopoverComponent implements OnChanges {
-  @ViewChild('p') public p: any;
+  @ViewChild('p', { static: true }) public p: any;
 
-  private selectedControlLabels: ControlLabel[] = [];
+  public selectedControlLabels: ControlLabel[] = [];
   public selectedControlLabelsAsString: string;
   public gridStateAsString: string;
-  private viewSelected = false;
+  public viewSelected = false;
   public viewNameString = '';
   public allJobInformationFieldsSelected = false;
   public jobInformationFieldsDisplay = false;
   public selectedJobInformationFieldsAsString: string;
-  private jobInformationFieldSelected = false;
+  public jobInformationFieldSelected = false;
 
   @Input() controlLabels: ControlLabel[];
   @Input() controlLabelsLoading: boolean;
@@ -39,8 +40,7 @@ export class BulkExportPopoverComponent implements OnChanges {
   @Output() viewSelectionChanged = new EventEmitter();
 
   export() {
-    const htmlDocument: any = document;
-    htmlDocument.bulkExportForm.submit();
+    document.forms['bulkExportForm'].submit();
     this.p.close();
   }
 

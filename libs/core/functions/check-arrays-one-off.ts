@@ -11,10 +11,10 @@ export function checkArraysOneOff<TPrimitiveArrayType extends number|string>(
   // see if every item in the second array is in the first array.
   // If so, then return true because we know that the first array is only one larger than the second array.
   if (arrayOneHasOneMore) {
-    return (arrayTwo.every(val => arrayOne.includes(val)));
+    return (arrayTwo.every(val => arrayOne.indexOf(val) > -1));
     // If the second array is larger we then want to check and see if every item in the first array is in the second array.
     // If so, then return true because we know that the second array is only one larger than the first array.
   } else {
-    return (arrayOne.every(val => arrayTwo.includes(val)));
+    return (arrayOne.every(val => arrayTwo.indexOf(val) > -1));
   }
 }

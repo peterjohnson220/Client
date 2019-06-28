@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map } from 'rxjs/operators';
 
@@ -15,7 +15,8 @@ import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper
 export class NavigationEffects {
     @Effect()
     loadNavigationLinks$: Observable<Action> = this.actions$
-        .ofType(fromNavigationActions.LOAD_NAVIGATION_LINKS).pipe(
+        .pipe(
+            ofType(fromNavigationActions.LOAD_NAVIGATION_LINKS),
             switchMap((action: fromNavigationActions.LoadCompanyAdminNavigationLinks) =>
                 this.navigationApiService.getCompanyAdminNavigationLinks().pipe(
                     map((response: SiteAdminNavigationLinkResponse[]) => {

@@ -10,7 +10,7 @@ import { PasswordManagementSettingsComponent } from '../../password-management-s
   styleUrls: ['./password-management.page.scss']
 })
 export class PasswordManagementPageComponent implements OnInit {
-  @ViewChild(PasswordManagementSettingsComponent) settingsComponent: PasswordManagementSettingsComponent;
+  @ViewChild(PasswordManagementSettingsComponent, { static: true }) settingsComponent: PasswordManagementSettingsComponent;
   public passwordSettingsSaving$: Observable<boolean>;
   public isDirty = false;
 

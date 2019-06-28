@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map} from 'rxjs/operators';
@@ -16,7 +16,8 @@ export class CommunityPollEffects {
 
 @Effect()
 addCommunityPoll$: Observable<Action> = this.actions$
-  .ofType(fromCommunityPollActions.ADDING_COMMUNITY_POLL).pipe(
+  .pipe(
+    ofType(fromCommunityPollActions.ADDING_COMMUNITY_POLL),
     switchMap((action: fromCommunityPollActions.AddingCommunityPoll) =>
       this.communityPollAdminService.addCommunityPoll(action.payload).pipe(
         map(() => {
@@ -30,7 +31,8 @@ addCommunityPoll$: Observable<Action> = this.actions$
 
 @Effect()
 editCommunityPoll$: Observable<Action> = this.actions$
-  .ofType(fromCommunityPollActions.EDITING_COMMUNITY_POLL).pipe(
+  .pipe(
+    ofType(fromCommunityPollActions.EDITING_COMMUNITY_POLL),
     switchMap((action: fromCommunityPollActions.EditingCommunityPoll) =>
       this.communityPollAdminService.editCommunityPoll(action.payload).pipe(
         map(() => {
@@ -44,7 +46,8 @@ editCommunityPoll$: Observable<Action> = this.actions$
 
   @Effect()
   loadCommunityPolls$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPollActions.LOADING_COMMUNITY_POLLS).pipe(
+    .pipe(
+      ofType(fromCommunityPollActions.LOADING_COMMUNITY_POLLS),
       switchMap(() =>
         this.communityPollAdminService.getCommunityPolls().pipe(
           map((communityPollListItems: CommunityPollList[]) => {
@@ -57,7 +60,8 @@ editCommunityPoll$: Observable<Action> = this.actions$
 
   @Effect()
   exportCommunityPoll$: Observable<Action> = this.actions$
-  .ofType(fromCommunityPollActions.EXPORTING_COMMUNITY_POLL).pipe(
+  .pipe(
+    ofType(fromCommunityPollActions.EXPORTING_COMMUNITY_POLL),
     switchMap((action: fromCommunityPollActions.ExportingCommunityPoll) =>
       this.communityPollAdminService.exportCommunityPoll(action.payload).pipe(
         map((data) => {

@@ -48,8 +48,8 @@ describe('Tile', () => {
     fixture.detectChanges();
     const tilePreviewIcon = generateTilePreviewIconFromTile(instance.tile);
     expect(tilePreviewIcon.ContainsDetailData).toEqual(false);
-    expect(tilePreviewIcon.IconClass).toEqual(instance.tile.IconClass);
-    expect(tilePreviewIcon.IconSize).toEqual('fa-10x');
+    expect(tilePreviewIcon.faIconClass.join(' ')).toEqual(instance.tile.IconClass);
+    expect(tilePreviewIcon.IconSize).toEqual('10x');
     expect(tilePreviewIcon.CssClassName).toEqual('preview-tile-icon');
   });
 
@@ -58,8 +58,8 @@ describe('Tile', () => {
     fixture.detectChanges();
     const tilePreviewIconWithPayload = generateTilePreviewIconFromTile(instance.tile);
     expect(tilePreviewIconWithPayload.ContainsDetailData).toEqual(true);
-    expect(tilePreviewIconWithPayload.IconClass).toEqual(instance.tile.IconClass);
-    expect(tilePreviewIconWithPayload.IconSize).toEqual('fa-4x');
+    expect(tilePreviewIconWithPayload.faIconClass.join(' ')).toEqual(instance.tile.IconClass);
+    expect(tilePreviewIconWithPayload.IconSize).toEqual('4x');
     expect(tilePreviewIconWithPayload.CssClassName).toEqual('preview-tile-icon-small');
     expect(tilePreviewIconWithPayload.Title).toEqual(instance.tile.TilePreviewData[0].Title);
     expect(tilePreviewIconWithPayload.SubTitle).toEqual(instance.tile.TilePreviewData[0].SubTitle);

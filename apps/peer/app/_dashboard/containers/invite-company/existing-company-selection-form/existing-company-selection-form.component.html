@@ -66,15 +66,15 @@
 
   <div class="d-flex flex-row justify-content-between mb-2">
     <span class="flex-grow-1" style="flex-basis: 40%" title="Industry">
-      <i class="fas fa-building fa-lg"></i>
+      <fa-icon icon="building" size="lg"></fa-icon>
       {{card?.Industry ? card?.Industry : 'No Industry'}}
     </span>
     <span class="flex-grow-1" style="flex-basis: 20%" title="Revenue">
-      <i class="fas fa-usd-circle fa-lg"></i>
+      <fa-icon icon="usd-circle" size="lg"></fa-icon>
       {{card?.Size ? (card?.Size | humanizeNumber) : 'Not Reported'}}
     </span>
     <span class="flex-grow-1" style="flex-basis: 40%" title="FTEs">
-      <i class="fas fa-users fa-lg"></i>
+      <fa-icon icon="users" size="lg"></fa-icon>
       {{card?.FTEs ? card?.FTEs : 0}}
     </span>
   </div>

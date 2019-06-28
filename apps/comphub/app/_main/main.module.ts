@@ -16,6 +16,8 @@ import {
   NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { PfCommonModule } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
@@ -31,7 +33,7 @@ import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
-
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -52,6 +54,7 @@ import { MainRoutingModule } from './main-routing.module';
     ]),
     PerfectScrollbarModule,
     PDFExportModule,
+    FontAwesomeModule,
 
     // Routing
     MainRoutingModule,
@@ -94,4 +97,8 @@ import { MainRoutingModule } from './main-routing.module';
     WindowRef
   ]
 })
-export class MainModule { }
+export class MainModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

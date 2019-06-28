@@ -22,7 +22,7 @@
               <td>
                 <button class="association-action-button" title="Remove"
                         (click)="handleRemoveNewAssociate(companyJob.CompanyJobId)">
-                  <i class="fas fa-times"></i>
+                  <fa-icon icon="times"></fa-icon>
                 </button>
               </td>
               <td>
@@ -37,13 +37,13 @@
                 <span *ngIf="isPendingRemoval(previousAssociation.CompanyJobId); else isNotPendingRemoval">
                   <button class="association-action-button" title="Undo"
                           (click)="handleUndoRemovePreviousAssociation(previousAssociation.CompanyJobId)">
-                    <i class="fas fa-undo"></i>
+                    <fa-icon icon="undo"></fa-icon>
                   </button>
                 </span>
                 <ng-template #isNotPendingRemoval>
                   <button class="association-action-button" title="Remove"
                           (click)="handleRemovePreviousAssociation(previousAssociation.CompanyJobId)">
-                    <i class="fas fa-times"></i>
+                    <fa-icon icon="times"></fa-icon>
                   </button>
                 </ng-template>
               </td>

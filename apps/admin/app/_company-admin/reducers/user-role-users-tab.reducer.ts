@@ -1,109 +1,74 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import { UserAndRoleModel } from 'libs/models/security/roles';
+import { UserAndRoleModel, UserAssignedRole } from 'libs/models/security/roles';
 
 import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.action';
 
 export interface State {
-  usersAndRoles: UserAndRoleModel[];
-  usersAndRolesError: string;
-  activeRoleId: number;
-  usersInActiveRole: UserAndRoleModel[];
-  usersNotInActiveRole: UserAndRoleModel[];
+  users: UserAndRoleModel[];
+  originalUsers: UserAndRoleModel[];
+  activeRole: UserAssignedRole;
   filterTerm: string;
 }
 
 export const initialState: State = {
-  usersAndRoles: [],
-  usersAndRolesError: '',
-  activeRoleId: null,
-  usersInActiveRole: [],
-  usersNotInActiveRole: [],
+  users: [],
+  originalUsers: [],
+  activeRole: null,
   filterTerm: ''
 };
 
 export function reducer(state = initialState, action: fromUserRoleUserTabActions.UserTabActions): State {
   switch (action.type) {
     case fromUserRoleUserTabActions.UPDATE_CURRENT_USER_ROLE_USER_TAB: {
-      const newRoleId = action.payload;
-      const usersInNewRole = state.usersAndRoles
-        .filter(uar => filterUsersCollectionByRole(uar, newRoleId))
-        .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
-      const usersNotInNewRole = state.usersAndRoles
-        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, newRoleId))
-        .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
+      const newRole = action.payload;
       return {
         ...state,
-        activeRoleId: newRoleId,
-        usersInActiveRole: usersInNewRole,
-        usersNotInActiveRole: usersNotInNewRole
+        activeRole: newRole,
       };
     }
     case fromUserRoleUserTabActions.GET_USERS_AND_ROLES: {
       return {
         ...state,
-        usersAndRolesError: null
       };
     }
     case fromUserRoleUserTabActions.GET_USERS_AND_ROLES_SUCCESS: {
       return {
         ...state,
-        usersAndRoles: action.payload
+        users: Object.assign([], action.payload),
+        originalUsers: Object.assign([], action.payload)
       };
     }
     case fromUserRoleUserTabActions.ADD_USER_TO_ROLE: {
-      const existingUser = state.usersNotInActiveRole.find(u => u.UserId === action.payload.UserId);
-      const newUsersNotInRoleCollection = state.usersNotInActiveRole.filter(uar => {
-        return uar !== existingUser;
-      });
+      let updatedUsers = Object.assign([], state.users);
+      const userToUpdate = cloneDeep(updatedUsers.find(u => u.UserId === action.payload.UserId));
+      userToUpdate.CurrentRoleId = state.activeRole.RoleId;
+      userToUpdate.RoleName = state.activeRole.RoleName;
+      userToUpdate.Dirty = true;
 
-      const newUser: UserAndRoleModel = cloneDeep(existingUser);
-      newUser.PreviousRoleId = existingUser.CurrentRoleId;
-      newUser.CurrentRoleId = state.activeRoleId;
-      newUser.Dirty = true;
+      updatedUsers = updatedUsers.filter(u => u.UserId !== userToUpdate.UserId);
+      updatedUsers.push(userToUpdate);
 
-      const newUsersInRoleCollection = Object.assign([], state.usersInActiveRole);
-      newUsersInRoleCollection.push(newUser);
-
-      const usersInNewRole = newUsersInRoleCollection
-        .filter(uar => filterUsersCollectionByRole(uar, state.activeRoleId))
-        .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
-      const usersNotInNewRole = newUsersNotInRoleCollection
-        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRoleId))
-        .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
       return {
         ...state,
-        usersInActiveRole: usersInNewRole,
-        usersNotInActiveRole: usersNotInNewRole
+        users: updatedUsers
       };
     }
     case fromUserRoleUserTabActions.FILTER_USERS_COLLECTION: {
-      const currentSearchableUsers = state.usersAndRoles;
-      const term = action.payload.toString().toLowerCase();
       return {
         ...state,
-        filterTerm: term,
-        usersNotInActiveRole: currentSearchableUsers.filter(csu =>
-          filterUsersBySearchTerm(csu, term, state.activeRoleId))
+        filterTerm: action.payload.toString().toLowerCase(),
       };
     }
     case fromUserRoleUserTabActions.CANCEL_CHANGES: {
-      if (!state.activeRoleId) {
+      if (!state.activeRole) {
         return state;
       }
 
-      const originalUserCollection = state.usersAndRoles;
-
       return {
         ...state,
-        usersAndRoles: originalUserCollection,
-        usersInActiveRole: originalUserCollection
-          .filter(uar => filterUsersCollectionByRole(uar, state.activeRoleId))
-          .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending)),
-        usersNotInActiveRole: originalUserCollection
-          .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRoleId))
-          .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending))
+        users: Object.assign([], state.originalUsers)
       };
     }
     default: {
@@ -113,20 +78,25 @@ export function reducer(state = initialState, action: fromUserRoleUserTabActions
 }
 
 export const getUserRoleUserTabState = (state: State) => state;
-export const getUsersAndRoles = (state: State) => state.usersAndRoles;
-export const getUsersAndRolesError = (state: State) => state.usersAndRolesError;
-export const getUsersInActiveRole = (state: State) => state.usersInActiveRole;
-export const getUsersNotInActiveRole = (state: State) => state.usersNotInActiveRole;
-export const getUsersTabHasPendingChanges = (state: State) => state.usersInActiveRole.some(u => u.Dirty);
-export const getUserIdsToSave = (state: State) => state.usersInActiveRole.filter(u => u.Dirty).map(u => u.UserId);
+export const getUsersAndRoles = (state: State) => state.users;
+export const getUsersInActiveRole = (state: State) => getUsersInRole(state);
+export const getUsersNotInActiveRole = (state: State) => getUsersNotInRole(state);
+export const getUsersTabHasPendingChanges = (state: State) => state.users.some(u => u.Dirty);
+export const getUserIdsToSave = (state: State) => state.users.filter(u => u.Dirty).map(u => u.UserId);
 
-function filterUsersCollectionByRole(user: UserAndRoleModel, roleId: number) {
-  return user.CurrentRoleId === roleId;
+function getUsersInRole(state: State) {
+  return state.users
+    .filter(user => user.CurrentRoleId === state.activeRole.RoleId)
+    .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
 }
 
-function filterUsersBySearchTerm(user: UserAndRoleModel, searchTerm: string, roleId: number) {
-  return (user.FirstName.toLowerCase().indexOf(searchTerm) > -1 ||
-          user.LastName.toLowerCase().indexOf(searchTerm) > -1 ||
-          user.UserId.toString().toLowerCase().indexOf(searchTerm) > -1) &&
-          user.CurrentRoleId !== roleId;
+function getUsersNotInRole(state: State) {
+  return state.users
+    .filter(user =>
+      (user.FirstName.toLowerCase().indexOf(state.filterTerm) > -1
+        || user.LastName.toLowerCase().indexOf(state.filterTerm) > -1
+        || user.UserId.toString().toLowerCase().indexOf(state.filterTerm) > -1
+      ) && user.CurrentRoleId !== state.activeRole.RoleId
+    )
+    .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
 }

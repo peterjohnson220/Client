@@ -7,6 +7,7 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
   creatingTagCategory$={[Function Store]}
   dataTypes={[Function Array]}
   fb={[Function FormBuilder]}
+  operatorEnum={[Function Object]}
   store={[Function Store]}
   tagApiService={[Function Object]}
 >
@@ -76,8 +77,80 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
             </label>
           </div>
         </div>
+        <hr />
         <div
-          class="mb-5 d-flex flex-row"
+          class="mb-1 d-flex flex-row"
+        >
+          <div
+            class="mr-5"
+          >
+            <label
+              class="col-form-label"
+            >
+              Filter Operator:
+            </label>
+            <div
+              class="d-flex flex-row"
+            >
+              <div>
+                <input
+                  formcontrolname="categoryOperator"
+                  type="radio"
+                />
+                <label
+                  class="radio-label"
+                >
+                  
+                </label>
+              </div>
+              <div>
+                <input
+                  formcontrolname="categoryOperator"
+                  type="radio"
+                />
+                <label
+                  class="radio-label"
+                >
+                  
+                </label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              class="col-form-label"
+            >
+              Display operator toggle in UI:
+            </label>
+            <div>
+              <kendo-switch
+                formcontrolname="displayOperatorToggle"
+              >
+                
+                <span
+                  class="k-switch-container"
+                >
+                  <span
+                    class="k-switch-label-on"
+                  >
+                    
+                  </span>
+                  <span
+                    class="k-switch-label-off"
+                  >
+                    
+                  </span>
+                  <span
+                    class="k-switch-handle"
+                  />
+                </span>
+              </kendo-switch>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div
+          class="mb-1 d-flex flex-row"
         >
           <div
             class="mr-5"
@@ -98,15 +171,19 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                   unselectable="on"
                 >
                   <span
+                    class="k-input"
                     unselectable="on"
                   >
                     
                     
                   </span>
                   <span
+                    class="k-select"
                     unselectable="on"
                   >
-                    <span />
+                    <span
+                      class="k-icon"
+                    />
                   </span>
                   
                 </span>
@@ -130,46 +207,24 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                   class="k-switch-container"
                 >
                   <span
-                    class="k-switch-handle"
+                    class="k-switch-label-on"
                   >
-                    <span
-                      class="k-switch-label-on"
-                    >
-                      
-                    </span>
-                    <span
-                      class="k-switch-label-off"
-                    >
-                      
-                    </span>
+                    
                   </span>
+                  <span
+                    class="k-switch-label-off"
+                  >
+                    
+                  </span>
+                  <span
+                    class="k-switch-handle"
+                  />
                 </span>
-                <kendo-resize-sensor
-                  _nghost-c0=""
-                >
-                  <div
-                    _ngcontent-c0=""
-                    style="position: absolute; display: block; left: 0; top: 0; right: 0; bottom: 0; z-index: -1;overflow: hidden; visibility: hidden;"
-                  >
-                    <div
-                      _ngcontent-c0=""
-                      style="position: absolute; left: 0; top: 0; transition: 0s;"
-                    />
-                  </div>
-                  <div
-                    _ngcontent-c0=""
-                    style="position: absolute; display: block; left: 0; top: 0; right: 0; bottom: 0; z-index: -1;overflow: hidden; visibility: hidden;"
-                  >
-                    <div
-                      _ngcontent-c0=""
-                      style="position: absolute; left: 0; top: 0; transition: 0s;width: 200%; height: 200%;"
-                    />
-                  </div>
-                </kendo-resize-sensor>
               </kendo-switch>
             </div>
           </div>
         </div>
+        <hr />
         <textarea
           class="form-control text-area-no-resize"
           formcontrolname="description"

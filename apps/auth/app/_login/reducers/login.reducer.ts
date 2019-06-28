@@ -4,12 +4,14 @@ export interface State {
   login: boolean;
   loginSuccess: boolean;
   loginError: boolean;
+  passwordExpired: boolean;
 }
 
 export const initialState: State = {
   login: false,
   loginSuccess: false,
-  loginError: false
+  loginError: false,
+  passwordExpired: false,
 };
 
 export function reducer(state = initialState, action: fromLoginActions.Actions): State {
@@ -33,7 +35,16 @@ export function reducer(state = initialState, action: fromLoginActions.Actions):
         ...state,
         login: false,
         loginSuccess: false,
-        loginError: true
+        loginError: true,
+      };
+    }
+    case fromLoginActions.PASSWORD_EXPIRED: {
+      return {
+        ...state,
+        login: false,
+        loginSuccess: false,
+        loginError: false,
+        passwordExpired: true
       };
     }
     default: {
@@ -46,3 +57,4 @@ export function reducer(state = initialState, action: fromLoginActions.Actions):
 export const getLogin = (state: State) => state.login;
 export const getLoginSuccess = (state: State) => state.loginSuccess;
 export const getLoginError = (state: State) => state.loginError;
+export const getPasswordExpired = (state: State) => state.passwordExpired;

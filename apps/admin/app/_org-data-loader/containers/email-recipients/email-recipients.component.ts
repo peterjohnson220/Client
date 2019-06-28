@@ -44,10 +44,6 @@ export class EmailRecipientsComponent implements OnInit {
     });
   }
 
-  open() {
-    this.store.dispatch(new fromOrgDataEmailRecipientsActions.OpenEmailRecipientsModal);
-  }
-
   onRecipientSelected(recipient: EmailRecipientModel) {
     this.errorText = '';
     recipient.CompanyId = this.companyId;

@@ -25,9 +25,7 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
       <div
         class="close-btn"
       >
-        <i
-          class="far fa-times"
-        />
+        <fa-icon />
       </div>
     </div>
     <div
@@ -71,9 +69,7 @@ exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Jo
       <div
         class="close-btn"
       >
-        <i
-          class="far fa-times"
-        />
+        <fa-icon />
       </div>
     </div>
     <div
@@ -122,9 +118,7 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
       <div
         class="close-btn"
       >
-        <i
-          class="far fa-times"
-        />
+        <fa-icon />
       </div>
     </div>
     <div

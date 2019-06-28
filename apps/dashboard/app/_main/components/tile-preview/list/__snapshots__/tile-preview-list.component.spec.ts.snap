@@ -7,71 +7,69 @@ exports[`TilePreviewList should not display main button when main button url is 
   <table
     class="mt-3"
   >
-    <tbody>
+    
+    
+    <tr>
       
       
-      <tr>
+      <td
+        ng-reflect-ng-class="[object Object]"
+      >
         
         
-        <td
-          ng-reflect-ng-class="[object Object]"
+        <a
+          class="m-0 p-0;"
+          href="/marketdata/marketdata.asp?usersession_id=156025"
         >
-          
-          
-          <a
-            class="m-0 p-0;"
-            href="/marketdata/marketdata.asp?usersession_id=156025"
-          >
-            a new test project
-          </a>
-          
-        </td>
+          a new test project
+        </a>
         
-        <td
-          class="hideable"
-          ng-reflect-ng-class="[object Object]"
-        >
-          
-          <p
-            class="d-inline"
-            placement="top"
-          >
-            1
-          </p>
-          
-          
-        </td>
+      </td>
+      
+      <td
+        class="hideable"
+        ng-reflect-ng-class="[object Object]"
+      >
         
-        <td
-          class="hideable"
-          ng-reflect-ng-class="[object Object]"
+        <p
+          class="d-inline"
+          placement="top"
         >
-          
-          <p
-            class="d-inline"
-            placement="top"
-          >
-            02/07/2018
-          </p>
-          
-          
-        </td>
+          1
+        </p>
         
-        <td
-          class="w-10"
-          ng-reflect-ng-class="[object Object]"
+        
+      </td>
+      
+      <td
+        class="hideable"
+        ng-reflect-ng-class="[object Object]"
+      >
+        
+        <p
+          class="d-inline"
+          placement="top"
         >
-          
-          
-          
-          <i
-            class="mr-3 fa fa-thumb-tack"
-            ng-reflect-klass="mr-3"
-            ng-reflect-ng-class="fa fa-thumb-tack"
-          />
-        </td>
-      </tr>
-    </tbody>
+          02/07/2018
+        </p>
+        
+        
+      </td>
+      
+      <td
+        class="w-10"
+        ng-reflect-ng-class="[object Object]"
+      >
+        
+        
+        
+        <i
+          class="mr-3 fa fa-thumb-tack"
+          ng-reflect-klass="mr-3"
+          ng-reflect-ng-class="fa fa-thumb-tack"
+        />
+      </td>
+    </tr>
   </table>
 </pf-tile-preview-list>
 `;
@@ -84,109 +82,105 @@ exports[`TilePreviewList should show data with columns when data is given and sh
     class="btn tile-preview-list-button p-1"
     href="mainButtonUrl"
   >
-    <i
-      class="test button icon"
-    />
+    <fa-icon />
      test button text
   
   </a><table
     class="mt-3"
   >
-    <tbody>
+    
+    <tr>
       
-      <tr>
-        
-        
-        <th
-          ng-reflect-ng-class="[object Object]"
-        >
-           Project Name 
-        </th>
-        
-        <th
-          class="hideable"
-          ng-reflect-ng-class="[object Object]"
-        >
-           # Jobs 
-        </th>
-        
-        <th
-          class="hideable"
-          ng-reflect-ng-class="[object Object]"
-        >
-           Created 
-        </th>
-        
-        <th
-          class="w-10"
-          ng-reflect-ng-class="[object Object]"
-        >
-            
-        </th>
-      </tr>
       
-      <tr>
+      <th
+        ng-reflect-ng-class="[object Object]"
+      >
+         Project Name 
+      </th>
+      
+      <th
+        class="hideable"
+        ng-reflect-ng-class="[object Object]"
+      >
+         # Jobs 
+      </th>
+      
+      <th
+        class="hideable"
+        ng-reflect-ng-class="[object Object]"
+      >
+         Created 
+      </th>
+      
+      <th
+        class="w-10"
+        ng-reflect-ng-class="[object Object]"
+      >
+          
+      </th>
+    </tr>
+    
+    <tr>
+      
+      
+      <td
+        ng-reflect-ng-class="[object Object]"
+      >
         
         
-        <td
-          ng-reflect-ng-class="[object Object]"
+        <a
+          class="m-0 p-0;"
+          href="/marketdata/marketdata.asp?usersession_id=156025"
         >
-          
-          
-          <a
-            class="m-0 p-0;"
-            href="/marketdata/marketdata.asp?usersession_id=156025"
-          >
-            a new test project
-          </a>
-          
-        </td>
+          a new test project
+        </a>
         
-        <td
-          class="hideable"
-          ng-reflect-ng-class="[object Object]"
-        >
-          
-          <p
-            class="d-inline"
-            placement="top"
-          >
-            1
-          </p>
-          
-          
-        </td>
+      </td>
+      
+      <td
+        class="hideable"
+        ng-reflect-ng-class="[object Object]"
+      >
         
-        <td
-          class="hideable"
-          ng-reflect-ng-class="[object Object]"
+        <p
+          class="d-inline"
+          placement="top"
         >
-          
-          <p
-            class="d-inline"
-            placement="top"
-          >
-            02/07/2018
-          </p>
-          
-          
-        </td>
+          1
+        </p>
         
-        <td
-          class="w-10"
-          ng-reflect-ng-class="[object Object]"
+        
+      </td>
+      
+      <td
+        class="hideable"
+        ng-reflect-ng-class="[object Object]"
+      >
+        
+        <p
+          class="d-inline"
+          placement="top"
         >
-          
-          
-          
-          <i
-            class="mr-3 fa fa-thumb-tack"
-            ng-reflect-klass="mr-3"
-            ng-reflect-ng-class="fa fa-thumb-tack"
-          />
-        </td>
-      </tr>
-    </tbody>
+          02/07/2018
+        </p>
+        
+        
+      </td>
+      
+      <td
+        class="w-10"
+        ng-reflect-ng-class="[object Object]"
+      >
+        
+        
+        
+        <i
+          class="mr-3 fa fa-thumb-tack"
+          ng-reflect-klass="mr-3"
+          ng-reflect-ng-class="fa fa-thumb-tack"
+        />
+      </td>
+    </tr>
   </table>
 </pf-tile-preview-list>
 `;
@@ -199,79 +193,75 @@ exports[`TilePreviewList should show data without columns when data is given and
     class="btn tile-preview-list-button p-1"
     href="mainButtonUrl"
   >
-    <i
-      class="test button icon"
-    />
+    <fa-icon />
      test button text
   
   </a><table
     class="mt-3"
   >
-    <tbody>
+    
+    
+    <tr>
       
       
-      <tr>
+      <td
+        ng-reflect-ng-class="[object Object]"
+      >
         
         
-        <td
-          ng-reflect-ng-class="[object Object]"
+        <a
+          class="m-0 p-0;"
+          href="/marketdata/marketdata.asp?usersession_id=156025"
         >
-          
-          
-          <a
-            class="m-0 p-0;"
-            href="/marketdata/marketdata.asp?usersession_id=156025"
-          >
-            a new test project
-          </a>
-          
-        </td>
+          a new test project
+        </a>
         
-        <td
-          class="hideable"
-          ng-reflect-ng-class="[object Object]"
-        >
-          
-          <p
-            class="d-inline"
-            placement="top"
-          >
-            1
-          </p>
-          
-          
-        </td>
+      </td>
+      
+      <td
+        class="hideable"
+        ng-reflect-ng-class="[object Object]"
+      >
         
-        <td
-          class="hideable"
-          ng-reflect-ng-class="[object Object]"
+        <p
+          class="d-inline"
+          placement="top"
         >
-          
-          <p
-            class="d-inline"
-            placement="top"
-          >
-            02/07/2018
-          </p>
-          
-          
-        </td>
+          1
+        </p>
         
-        <td
-          class="w-10"
-          ng-reflect-ng-class="[object Object]"
+        
+      </td>
+      
+      <td
+        class="hideable"
+        ng-reflect-ng-class="[object Object]"
+      >
+        
+        <p
+          class="d-inline"
+          placement="top"
         >
-          
-          
-          
-          <i
-            class="mr-3 fa fa-thumb-tack"
-            ng-reflect-klass="mr-3"
-            ng-reflect-ng-class="fa fa-thumb-tack"
-          />
-        </td>
-      </tr>
-    </tbody>
+          02/07/2018
+        </p>
+        
+        
+      </td>
+      
+      <td
+        class="w-10"
+        ng-reflect-ng-class="[object Object]"
+      >
+        
+        
+        
+        <i
+          class="mr-3 fa fa-thumb-tack"
+          ng-reflect-klass="mr-3"
+          ng-reflect-ng-class="fa fa-thumb-tack"
+        />
+      </td>
+    </tr>
   </table>
 </pf-tile-preview-list>
 `;

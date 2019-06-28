@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {TestBed, ComponentFixture, async} from '@angular/core/testing';
+import {TestBed, ComponentFixture, async, fakeAsync} from '@angular/core/testing';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,15 +8,16 @@ import {RemoteDataSourceService} from 'libs/core/services';
 import {PayfactorsApiService} from '../../../../data/payfactors-api/payfactors-api.service';
 import {HttpClient, HttpHandler} from '@angular/common/http';
 import {FileApiService} from '../../../../data/payfactors-api/file';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 describe('UI/Common/Content - Multi Select', () => {
   let fixture: ComponentFixture<MultiSelectComponent>;
   let component: MultiSelectComponent;
 
   // Configure Testing Module for before each test
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ NgbTooltipModule ],
+      imports: [ NgbTooltipModule, ScrollingModule ],
       declarations: [ MultiSelectComponent ],
       providers: [FileApiService, HttpHandler, HttpClient, PayfactorsApiService, RemoteDataSourceService ],
       // Shallow Testing
@@ -79,7 +80,7 @@ describe('UI/Common/Content - Multi Select', () => {
 
     fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+    expect(fixture).  toMatchSnapshot();
   });
 
   it('should emit when the select facade is clicked', () => {

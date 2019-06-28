@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Action, Store} from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -16,7 +16,8 @@ import * as fromDashboardReducer from '../reducers';
 export class ExchangeDashboardEffects {
   @Effect()
   loadCompanyChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOAD_COMPANY_CHART).pipe(
+    .pipe(
+      ofType(fromExchangeDashboardActions.LOAD_COMPANY_CHART),
       switchMap((action: fromExchangeDashboardActions.LoadCompanyChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
@@ -29,7 +30,8 @@ export class ExchangeDashboardEffects {
 
   @Effect()
   loadJobChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOAD_JOB_CHART).pipe(
+    .pipe(
+      ofType(fromExchangeDashboardActions.LOAD_JOB_CHART),
       switchMap((action: fromExchangeDashboardActions.LoadJobChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
@@ -42,7 +44,8 @@ export class ExchangeDashboardEffects {
 
   @Effect()
   loadIndustryChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOAD_INDUSTRY_CHART).pipe(
+    .pipe(
+      ofType(fromExchangeDashboardActions.LOAD_INDUSTRY_CHART),
       switchMap((action: fromExchangeDashboardActions.LoadIndustryChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
@@ -55,7 +58,8 @@ export class ExchangeDashboardEffects {
 
   @Effect()
   loadJobFamilyChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOAD_JOB_FAMILY_CHART).pipe(
+    .pipe(
+      ofType(fromExchangeDashboardActions.LOAD_JOB_FAMILY_CHART),
       switchMap((action: fromExchangeDashboardActions.LoadJobFamilyChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
@@ -68,7 +72,8 @@ export class ExchangeDashboardEffects {
 
   @Effect()
   loadRevenueChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOAD_REVENUE_CHART).pipe(
+    .pipe(
+      ofType(fromExchangeDashboardActions.LOAD_REVENUE_CHART),
       switchMap((action: fromExchangeDashboardActions.LoadRevenueChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
@@ -81,7 +86,8 @@ export class ExchangeDashboardEffects {
 
   @Effect()
   loadDetailChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOAD_DETAIL_CHART).pipe(
+    .pipe(
+      ofType(fromExchangeDashboardActions.LOAD_DETAIL_CHART),
       switchMap((action: fromExchangeDashboardActions.LoadDetailChart) =>
         this.exchangeCompanyApiService.getDetailChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
@@ -94,7 +100,8 @@ export class ExchangeDashboardEffects {
 
   @Effect()
   loadExchanges$: Observable<Action> = this.actions$
-    .ofType(fromExchangeListActions.LOAD_EXCHANGES).pipe(
+    .pipe(
+      ofType(fromExchangeListActions.LOAD_EXCHANGES),
       switchMap(() =>
         this.exchangeCompanyApiService.getExchanges().pipe(
           map((exchangeListItems: ExchangeListItem[]) => {
@@ -107,7 +114,8 @@ export class ExchangeDashboardEffects {
 
     @Effect()
     loadMapCount$: Observable<Action> = this.actions$
-      .ofType(fromExchangeDashboardActions.LOAD_MAP_COUNT).pipe(
+      .pipe(
+        ofType(fromExchangeDashboardActions.LOAD_MAP_COUNT),
         map((action: fromExchangeDashboardActions.LoadMapCount) => action.exchangeId),
         switchMap((payload: number) =>
         this.exchangeDataSearchApiService.getMapHasData(payload).pipe(
@@ -121,7 +129,8 @@ export class ExchangeDashboardEffects {
 
   @Effect()
   loadExchangeJobOrgs$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOAD_EXCHANGE_JOB_ORGS).pipe(
+    .pipe(
+      ofType(fromExchangeDashboardActions.LOAD_EXCHANGE_JOB_ORGS),
       map((action: fromExchangeDashboardActions.LoadExchangeJobOrgs) => action),
       switchMap((action) =>
         this.exchangeCompanyApiService.getExchangeJobOrgs(action.payload.ExchangeJobId).pipe(

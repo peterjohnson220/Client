@@ -17,12 +17,12 @@ export const routes: Routes = [
         path: 'exchange/:id',
         canActivate: [PeerPermissionsGuard],
         children: [
-          { path: 'manage', loadChildren: 'apps/peer/app/_manage/manage.module#ManageModule' },
-          { path: 'map', loadChildren: 'apps/peer/app/_map/map.module#MapModule' },
-          { path: '', loadChildren: 'apps/peer/app/_dashboard/dashboard.module#DashboardModule' }
+          { path: 'manage', loadChildren: () => import('apps/peer/app/_manage/manage.module').then(m => m.ManageModule) },
+          { path: 'map', loadChildren: () => import('apps/peer/app/_map/map.module').then(m => m.MapModule) },
+          { path: '', loadChildren: () => import('apps/peer/app/_dashboard/dashboard.module').then(m => m.DashboardModule) }
         ]
       },
-      { path: 'exchanges', loadChildren: 'apps/peer/app/_dashboard/dashboard.module#DashboardModule' },
+      { path: 'exchanges', loadChildren: () => import('apps/peer/app/_dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }

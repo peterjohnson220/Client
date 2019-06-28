@@ -6,6 +6,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule, RowFilterModule} from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { reducers } from './reducers';
 import { ExchangeJobsEffects, CompanyJobsEffects, JobAssociationModalEffects } from './effects';
@@ -14,6 +16,7 @@ import { PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
+import * as fromFaIcons from './fa-icons';
 import { AssociatedCompanyJobsComponent } from './components';
 import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsComponent } from './containers';
 import { GridDetailPanelComponent } from './components/grid-detail-panel/grid-detail-panel.component';
@@ -32,6 +35,7 @@ import { UnsavedChangesWarningComponent } from './components/unsaved-changes-war
     // 3rd party
     GridModule,
     TooltipModule,
+    FontAwesomeModule,
 
     // Payfactors
     PfCommonModule,
@@ -56,4 +60,7 @@ import { UnsavedChangesWarningComponent } from './components/unsaved-changes-war
   exports: [JobAssociationModalComponent]
 })
 export class JobAssociationModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
 }

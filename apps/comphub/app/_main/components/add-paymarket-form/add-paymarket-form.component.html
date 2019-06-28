@@ -3,7 +3,7 @@
   <h4 class="uppercase-header" data-qa-id="lbl-add-new-paymarket">Add New Pay Market</h4>
   <div *ngIf="isInfoBannerOpen" class="info-banner d-flex flex-column flex-lg-row space-out-children" data-qa-id="cnt-info-message">
     <div class="d-flex flex-row">
-      <i class="fa fa-info-circle fa-w-16 info-icon"></i>
+      <fa-icon icon="info-circle" class="info-icon d-inline-flex"></fa-icon>
       <div class="info-message">Your job's location, company size and industry are factors that can impact compensation.</div>
     </div>
     <div class="form-check ml-auto">
@@ -65,7 +65,7 @@
 
       <div class="col-12 col-lg-4">
         <label>Industry</label>
-        <kendo-dropdownlist class="form-control border"
+        <kendo-dropdownlist class="form-control"
           [attr.data-qa-id]="'ddm-industry'"
           formControlName="industry"
           [listHeight]="100"

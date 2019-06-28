@@ -5,7 +5,7 @@
     [delay]="400"
     [placeholderText]="'Search job title or job code'"
     (valueChanged)="handleSearchBoxValueChanged($event)"
-    [prependIcon]="'fas fa-search fa-lg'">
+    [prependIcon]="'search'">
   </pf-input-debounce>
 </div>
 <div>
@@ -64,12 +64,12 @@
                 (selectionChange)="handleSelectionChange($event)">
       <kendo-grid-column field="AssociationStatus" title="" [sortable]="false" [width]="11" class="p-0 m-0">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <span 
-            class="association-status" 
-            [ngClass]="(dataItem.IsAssociated || isPendingAssociation(dataItem.CompanyJobId)) ? 'associated' : 'not-associated'"
-            [title]="(dataItem.IsAssociated || isPendingAssociation(dataItem.CompanyJobId)) ? 'Associated' : 'Not Associated'"
-          >
-          </span>
+          <pf-peer-association-color-block 
+            [unsavedExchangeJobAssociations]="exchangeJobAssociations"
+            [companyJobId]="dataItem.CompanyJobId"
+            [isAssociated]="dataItem.IsAssociated" 
+            [isPendingPeerUserReview]="dataItem.IsPendingPeerUserReview">
+          </pf-peer-association-color-block>
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-checkbox-column showSelectAll="true" [resizable]="false" [width]="35" class="no-ellipsis">
@@ -112,7 +112,7 @@
       <ng-template kendoGridNoRecordsTemplate>
         {{ badRequestError.length > 0 ? badRequestError + " Please narrow down the list by using the filters above." : "No records based on your search." }}
         <a href="javascript:void(0)" (click)="reload()">
-          <i class="fas fa-redo-alt"></i>Reset now
+          <fa-icon icon="redo-alt"></fa-icon>Reset now
         </a>
       </ng-template>
     </kendo-grid>

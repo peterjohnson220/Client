@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -21,7 +21,8 @@ import { PayfactorsApiModelMapper } from '../helpers';
 export class JobDescriptionAppliesToEffects {
   @Effect()
   getAppliesToAttributesExist$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionAppliesToActions.GET_APPLIES_TO_ATTRIBUTES_EXIST).pipe(
+    .pipe(
+      ofType(fromJobDescriptionAppliesToActions.GET_APPLIES_TO_ATTRIBUTES_EXIST),
       switchMap((action: fromJobDescriptionAppliesToActions.GetAppliesToAttributesExist) => {
           return this.jobDescriptionApiService.appliesToAttributesExist(action.payload.JobDescriptionId, action.payload.Request).pipe(
             map((response: AppliesToAttributesExistResponse) => {
@@ -37,7 +38,8 @@ export class JobDescriptionAppliesToEffects {
 
   @Effect()
   loadJobDescriptionAppliesTo$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionAppliesToActions.LOAD_JOB_DESCRIPTION_APPLIESTO).pipe(
+    .pipe(
+      ofType(fromJobDescriptionAppliesToActions.LOAD_JOB_DESCRIPTION_APPLIESTO),
       switchMap((action: fromJobDescriptionAppliesToActions.LoadJobDescriptionAppliesTo) => {
           return this.jobDescriptionApiService.getAppliesTo().pipe(
             map((response: JobDescriptionAppliesToItemResponse[]) => {
@@ -51,7 +53,8 @@ export class JobDescriptionAppliesToEffects {
 
   @Effect()
   loadJobDescriptionAppliesToValues$: Observable<Action> = this.actions$
-    .ofType(fromJobDescriptionAppliesToActions.LOAD_JOB_DESCRIPTION_APPLIESTO_VALUES).pipe(
+    .pipe(
+      ofType(fromJobDescriptionAppliesToActions.LOAD_JOB_DESCRIPTION_APPLIESTO_VALUES),
       switchMap((action: fromJobDescriptionAppliesToActions.LoadJobDescriptionAppliesToValues) => {
           return this.jobDescriptionApiService.getAppliesToValue(action.payload.SearchTerm).pipe(
             map((response: string[]) => {

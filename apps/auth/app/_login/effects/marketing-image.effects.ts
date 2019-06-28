@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -13,7 +13,8 @@ import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.mod
 export class MarketingImageEffects {
   @Effect()
   getMarketingImage$: Observable<Action> = this.actions$
-    .ofType(marketingImageActions.GET_MARKETING_IMAGE).pipe(
+    .pipe(
+      ofType(marketingImageActions.GET_MARKETING_IMAGE),
       switchMap(() =>
         this.marketingApiService.getMarketingImage().pipe(
           map((marketingImage: MarketingImageDto) => new marketingImageActions.GetMarketingImageSuccess(marketingImage)),

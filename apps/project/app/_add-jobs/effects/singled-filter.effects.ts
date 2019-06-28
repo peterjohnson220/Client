@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -20,8 +20,8 @@ export class SingledFilterEffects {
 
   @Effect()
   searchSurveyAggregations = this.actions$
-    .ofType(fromSingledFilterActions.SEARCH_AGGREGATION)
     .pipe(
+      ofType(fromSingledFilterActions.SEARCH_AGGREGATION),
       withLatestFrom(
         this.store.select(fromSearchReducer.getSingledFilter),
         this.store.select(fromSearchReducer.getFilters),

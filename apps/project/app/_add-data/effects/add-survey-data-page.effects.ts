@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -24,8 +24,8 @@ export class AddSurveyDataPageEffects {
 
   @Effect()
   setJobContext$ = this.actions$
-    .ofType(fromContextActions.SET_JOB_CONTEXT)
     .pipe(
+      ofType(fromContextActions.SET_JOB_CONTEXT),
       withLatestFrom(this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         (action: fromContextActions.SetJobContext,
          projectSearchContext: ProjectSearchContext) => ({action, projectSearchContext})),
@@ -48,8 +48,8 @@ export class AddSurveyDataPageEffects {
 
   @Effect()
   addSurveyData$ = this.actions$
-    .ofType(fromAddSurveyDataPageActions.ADD_DATA)
     .pipe(
+      ofType(fromAddSurveyDataPageActions.ADD_DATA),
       // Get the current filters and paging options from the store
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
@@ -79,8 +79,8 @@ export class AddSurveyDataPageEffects {
 
   @Effect({dispatch: false})
   addDataSuccess$ = this.actions$
-    .ofType(fromAddSurveyDataPageActions.ADD_DATA_SUCCESS)
     .pipe(
+      ofType(fromAddSurveyDataPageActions.ADD_DATA_SUCCESS),
       withLatestFrom(this.store.select(fromSurveySearchReducer.getJobContext),
         (action: fromAddSurveyDataPageActions.AddDataSuccess, jobContext: JobContext) => ({action, jobContext})),
       tap(jobContextAndMatches => {

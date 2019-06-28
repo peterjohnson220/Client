@@ -1,11 +1,13 @@
 <div class="list-group-item border-bottom border-white"
   [ngClass]="active ? 'active' : 'not-active'">
   <div class="div-background"></div>
-  <span class="fa-stack fa-2x tab-content">
-      <i class="fas fa-circle fa-stack-2x outer-circe-icon"></i>
-      <i class="fas fa-circle fa-stack-2x inner-circle-icon"></i>
-      <i class="fas {{icon}} fa-stack-1x"></i>
-  </span>
+  <div class="fa-4x">
+    <fa-layers [ngClass]="['fa-fw']">
+      <fa-icon icon="circle" class="icon-background"></fa-icon>
+      <fa-icon icon="circle" transform="shrink-2" [ngClass]="active ? 'active-icon' : 'inactive-icon'"></fa-icon>
+      <fa-icon icon="{{icon}}" transform="shrink-8" class="icon-background"></fa-icon>
+    </fa-layers>
+  </div>
   <span class="tab-content">
     <h5 class="tab-text">{{primaryText}}</h5>
     <p class="tab-text">{{secondaryText}}</p>

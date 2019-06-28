@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
@@ -21,8 +21,8 @@ export class SavedFiltersEffects {
 
   @Effect()
   initSavedFilters$ = this.actions$
-    .ofType(fromUserFilterActions.INIT)
     .pipe(
+      ofType(fromUserFilterActions.INIT),
       switchMap(() => {
         return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
           .pipe(
@@ -37,8 +37,8 @@ export class SavedFiltersEffects {
 
   @Effect()
   getSavedFiltersSuccess$ = this.actions$
-    .ofType(fromUserFilterActions.GET_SUCCESS)
     .pipe(
+      ofType(fromUserFilterActions.GET_SUCCESS),
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
@@ -57,8 +57,8 @@ export class SavedFiltersEffects {
 
   @Effect()
   saveFilter$ = this.actions$
-    .ofType(fromSaveFilterModalActions.SAVE)
     .pipe(
+      ofType(fromSaveFilterModalActions.SAVE),
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
@@ -90,8 +90,8 @@ export class SavedFiltersEffects {
 
   @Effect()
   updateMetaInfoSuccess$ = this.actions$
-  .ofType(fromSaveFilterModalActions.UPDATE_META_INFO_SUCCESS)
   .pipe(
+    ofType(fromSaveFilterModalActions.UPDATE_META_INFO_SUCCESS),
     withLatestFrom(
       this.store.select(fromUserFilterReducer.getUpsertRequest),
       (action: fromSaveFilterModalActions.UpdateMetaInfoSuccess, upsertRequest) =>
@@ -103,8 +103,8 @@ export class SavedFiltersEffects {
 
   @Effect()
   applyDefaultSavedFilter$ = this.actions$
-    .ofType(fromUserFilterActions.APPLY_DEFAULT)
     .pipe(
+      ofType(fromUserFilterActions.APPLY_DEFAULT),
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
@@ -129,8 +129,8 @@ export class SavedFiltersEffects {
 
   @Effect()
   editSavedFilter$ = this.actions$
-    .ofType(fromUserFilterPopoverActions.EDIT)
     .pipe(
+      ofType(fromUserFilterPopoverActions.EDIT),
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),

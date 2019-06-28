@@ -12,7 +12,7 @@ import {RemoteDataSourceService} from 'libs/core/services';
   styleUrls: ['./multi-select.component.scss']
 })
 export class MultiSelectComponent implements OnInit, OnDestroy {
-  @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
+  @ViewChild(TooltipDirective, { static: false }) public tooltipDir: TooltipDirective;
 
   @Input() options: GenericMenuItem[];
   @Input() selectedOptions: GenericMenuItem[] = [];
@@ -115,6 +115,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   clearSearchTerm() {
     this.searchTerm = '';
   }
+
   getSelectionsString(): string {
     const fieldMap = this.displayNamePreview ? 'DisplayName' : 'Value';
 

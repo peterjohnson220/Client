@@ -22,7 +22,7 @@ import * as fromSharedPeerReducer from '../../../../shared/reducers/index';
 })
 
 export class NewJobFormComponent implements OnInit, OnDestroy {
-  @ViewChild('jobFamiliesComboBox') jobFamiliesComboBox: ComboBoxComponent;
+  @ViewChild('jobFamiliesComboBox', { static: true }) jobFamiliesComboBox: ComboBoxComponent;
   @Input() exchange: Exchange;
   @Input() exchangeJobRequestForm: FormGroup;
 

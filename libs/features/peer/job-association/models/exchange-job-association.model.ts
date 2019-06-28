@@ -16,7 +16,8 @@ export function generateMockExchangeJobAssociation(): ExchangeJobAssociation {
       JobFamily: 'jobFamily',
       JobDescription: 'jobDescription',
       JobTitle: 'jobTitle',
-      IsAssociated: false
+      IsAssociated: false,
+      IsPendingPeerUserReview: false,
     }]
   };
 }

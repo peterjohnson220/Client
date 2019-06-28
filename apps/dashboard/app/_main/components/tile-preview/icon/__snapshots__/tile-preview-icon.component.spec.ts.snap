@@ -4,9 +4,9 @@ exports[`TilePreviewIcon should show just icon and when no payload is given 1`] 
 <pf-tile-preview-icon
   model={[Function Object]}
 >
-  <i
+  <fa-icon
     aria-hidden="true"
-    class="far file-alt fa-10x preview-tile-icon text-center m-0 p-0"
+    class="preview-tile-icon text-center m-0 p-0 d-inline-block "
   />
 </pf-tile-preview-icon>
 `;
@@ -15,9 +15,9 @@ exports[`TilePreviewIcon should show more than just an icon and when a payload i
 <pf-tile-preview-icon
   model={[Function Object]}
 >
-  <i
+  <fa-icon
     aria-hidden="true"
-    class="far file-alt fa-4x preview-tile-icon-small text-center m-0 p-0"
+    class="preview-tile-icon-small text-center m-0 p-0 d-inline-block "
   /><div>
     
     <h2

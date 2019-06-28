@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { concatMap, switchMap, catchError, map} from 'rxjs/operators';
@@ -18,7 +18,8 @@ export class CommunityPostReplyEffects {
 
   @Effect()
   updatingCommunityPostReplyLike$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostReplyActions.UPDATING_COMMUNITY_POST_REPLY_LIKE).pipe(
+    .pipe(
+      ofType(fromCommunityPostReplyActions.UPDATING_COMMUNITY_POST_REPLY_LIKE),
       switchMap((action: fromCommunityPostReplyActions.UpdatingCommunityPostReplyLike) =>
         this.communityPostService.updatePostReplyLike(action.payload).pipe(
           map(() => {
@@ -31,7 +32,8 @@ export class CommunityPostReplyEffects {
 
   @Effect()
   addingReply$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostReplyActions.ADDING_COMMUNITY_POST_REPLY).pipe(
+    .pipe(
+      ofType(fromCommunityPostReplyActions.ADDING_COMMUNITY_POST_REPLY),
       switchMap((action: fromCommunityPostReplyActions.AddingCommunityPostReply) =>
         this.communityPostService.addReply(action.payload).pipe(
           concatMap((reply: CommunityReply) => {
@@ -56,7 +58,8 @@ export class CommunityPostReplyEffects {
 
   @Effect()
   loadingCommunityPostReplies$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostReplyActions.GETTING_COMMUNITY_POST_REPLIES).pipe(
+    .pipe(
+      ofType(fromCommunityPostReplyActions.GETTING_COMMUNITY_POST_REPLIES),
       switchMap((action: fromCommunityPostReplyActions.GettingCommunityPostReplies) =>
         this.communityPostService.getRepliesByPostId(action.payload).pipe(
           concatMap((replies: CommunityReply[]) => {
@@ -73,7 +76,8 @@ export class CommunityPostReplyEffects {
 
   @Effect()
   deletingCommunityPostReplyLike$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostReplyActions.DELETING_COMMUNITY_POST_REPLY).pipe(
+    .pipe(
+      ofType(fromCommunityPostReplyActions.DELETING_COMMUNITY_POST_REPLY),
       switchMap((action: fromCommunityPostReplyActions.DeletingCommunityPostReply) =>
         this.communityPostService.updatePostReplyDeletedFlag(action.payload).pipe(
 

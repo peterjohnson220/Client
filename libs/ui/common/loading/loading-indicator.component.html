@@ -1,2 +1,2 @@
-<i *ngIf="spinnerType === 'SVG'" class="fas fa-spin fa-circle-notch" aria-hidden="true"></i>
+<span *ngIf="spinnerType === 'SVG'"><fa-icon icon="circle-notch" [spin]="true" aria-hidden="true"></fa-icon></span>
 <img *ngIf="spinnerType === 'GIF'" src="{{spinnerGifUrl}}"/>

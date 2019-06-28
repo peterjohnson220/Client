@@ -14,10 +14,10 @@ export const environment = {
   tableauPublicReportingServer: 'https://public.tableau.com/',
   defaultHomePage: '/client/dashboard',
   firstTimeLoginPage: '/client/auth/first-login',
-  allowSelfRegistration: false,
+  allowSelfRegistration: true,
   smallBusinessApiUrl: 'https://smallbiz.payfactors.com/api/',
   smallBusinessAppUrl: 'https://smallbiz.payfactors.com/app/',
   hostPath: 'client',
-  allowHubspotRegistration: false,
-  hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data-wh'
+  allowHubspotRegistration: true,
+  hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data'
 };

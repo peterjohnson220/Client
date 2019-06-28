@@ -5,35 +5,24 @@ exports[`CompanySelectorComponent should show a dropdown with companies when Com
   companySelected={[Function EventEmitter]}
   loading="false"
 >
-  <div
-    class="company-selector-container"
+  <span
+    hidden=""
   >
-    <h3>
-      Select a Company
-    </h3>
-    <hr
-      class="clear"
+    <i
+      class="fa fa-spinner fa-spin"
     />
-    <span
-      hidden=""
+     Loading Companies
+  </span><select
+    class="form-control ng-untouched ng-pristine ng-valid"
+  >
+    <option
+      ng-reflect-value="undefined"
+      value="undefined"
     >
-      <i
-        class="fa fa-spinner fa-spin"
-      />
-       Loading Companies
-    </span>
-    <select
-      class="form-control ng-untouched ng-pristine ng-valid"
-    >
-      <option
-        ng-reflect-value="undefined"
-        value="undefined"
-      >
-        Select a Company
-      </option>
-      
-    </select>
-  </div>
+      Select a Company
+    </option>
+    
+  </select>
 </pf-company-selector>
 `;
 
@@ -42,33 +31,22 @@ exports[`CompanySelectorComponent should show a spinner when Companies are loadi
   companySelected={[Function EventEmitter]}
   loading={[Function Boolean]}
 >
-  <div
-    class="company-selector-container"
-  >
-    <h3>
-      Select a Company
-    </h3>
-    <hr
-      class="clear"
+  <span>
+    <i
+      class="fa fa-spinner fa-spin"
     />
-    <span>
-      <i
-        class="fa fa-spinner fa-spin"
-      />
-       Loading Companies
-    </span>
-    <select
-      class="form-control ng-untouched ng-pristine ng-valid"
-      hidden=""
+     Loading Companies
+  </span><select
+    class="form-control ng-untouched ng-pristine ng-valid"
+    hidden=""
+  >
+    <option
+      ng-reflect-value="undefined"
+      value="undefined"
     >
-      <option
-        ng-reflect-value="undefined"
-        value="undefined"
-      >
-        Select a Company
-      </option>
-      
-    </select>
-  </div>
+      Select a Company
+    </option>
+    
+  </select>
 </pf-company-selector>
 `;

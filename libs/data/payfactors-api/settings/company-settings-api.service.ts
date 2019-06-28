@@ -23,4 +23,12 @@ export class CompanySettingsApiService {
   putSettings(request: CompanySettingsSaveRequest) {
     return this.payfactorsApiService.put<any>(`${this.endpoint}.PutSettings`, { request: request });
   }
+
+  getDefaultSettings(): Observable<CompanySetting[]> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}.GetDefaultSettings`);
+  }
+
+  getCompanySettings(companyId: number): Observable<CompanySetting[]> {
+    return this.payfactorsApiService.get<CompanySetting[]>(`${this.endpoint}.GetSettings?companyId=${companyId}`);
+  }
 }

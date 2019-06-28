@@ -14,6 +14,7 @@ export class CommunityTabComponent implements OnInit {
   icon: string;
   primaryText: string;
   secondaryText: string;
+  iconClass = 'inactive-icon';
 
   constructor() { }
 
@@ -22,16 +23,19 @@ export class CommunityTabComponent implements OnInit {
   }
 
   setup() {
+    if (this.active) {
+      this.iconClass = 'active-icon';
+    }
     if (this.type === CommunityPostTypeStatusEnum.Discussion) {
-      this.icon = 'fa-comments';
+      this.icon = 'comments';
       this.primaryText = 'DISCUSS';
       this.secondaryText = 'Start a discussion';
     }  else if (this.type === CommunityPostTypeStatusEnum.Question) {
-      this.icon = 'fa-chart-bar';
+      this.icon = 'chart-bar';
       this.primaryText = 'POLL';
       this.secondaryText = 'Ask a question';
     } else if (this.type === CommunityPostTypeStatusEnum.Job) {
-      this.icon = 'fa-building';
+      this.icon = 'building';
       this.primaryText = 'JOB';
       this.secondaryText = 'Post an opportunity';
     }

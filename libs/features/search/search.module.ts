@@ -8,11 +8,14 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfUserFilterModule } from 'libs/features/user-filter';
 
+import * as fromFaIcons from './fa-icons';
 import { FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent,
 SearchLayoutComponent } from './components';
 import { SearchFiltersComponent, SingleFilterComponent, ResultsHeaderComponent,
@@ -49,6 +52,7 @@ const declarations = [
     Ng5SliderModule,
     InfiniteScrollModule,
     NgbPopoverModule.forRoot(),
+    FontAwesomeModule
   ],
   providers: [
     PayfactorsSearchApiHelper,
@@ -58,4 +62,8 @@ const declarations = [
   declarations: declarations,
   exports: declarations
 })
-export class PfSearchModule { }
+export class PfSearchModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

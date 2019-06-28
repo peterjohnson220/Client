@@ -53,8 +53,8 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
                     class="association-action-button"
                     title="Remove"
                   >
-                    <i
-                      class="fas fa-times"
+                    <fa-icon
+                      icon="times"
                     />
                   </button>
                 </td>
@@ -194,8 +194,8 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                     class="association-action-button"
                     title="Remove"
                   >
-                    <i
-                      class="fas fa-times"
+                    <fa-icon
+                      icon="times"
                     />
                   </button>
                 </td>
@@ -284,8 +284,8 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                     class="association-action-button"
                     title="Remove"
                   >
-                    <i
-                      class="fas fa-times"
+                    <fa-icon
+                      icon="times"
                     />
                   </button>
                   
@@ -415,8 +415,8 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
                     class="association-action-button"
                     title="Remove"
                   >
-                    <i
-                      class="fas fa-times"
+                    <fa-icon
+                      icon="times"
                     />
                   </button>
                 </td>

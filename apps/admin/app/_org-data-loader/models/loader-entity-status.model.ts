@@ -1,4 +1,4 @@
-import { LoaderType } from '../constants/loader-type.enum';
+import { LoaderType } from 'libs/constants';
 
 export interface LoaderEntityStatus {
   complete: boolean;

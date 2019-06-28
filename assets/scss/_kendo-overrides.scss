@@ -13,37 +13,22 @@
   border-color: $border-grey;
 }
 
-.k-switch {
-  &.k-switch-sm {
-    font-size: .5rem;
-  }
-  &.k-switch-on .k-switch-handle {
-    background-color: $switch-on-color;
-    border: $switch-on-color;
-  }
-  &.k-switch-off .k-switch-handle {
-    background-color: $switch-off-color;
-    border: $switch-off-color;
-  }
-  .k-switch-label-on {
-    color: $switch-on-color;
-  }
-  .k-switch-label-off {
-    color: #616161;
-  }
+// To be used as the class of the kendo-switch to allow for longer labels.
+.k-switch.k-switch-sm {
+  width: 7em;
+  font-size: .5rem;
 }
 
-
-
-// To be used as the class of the kendo-switch to allow for longer labels.
 .k-switch-lg.k-switch {
   width: 7rem;
+
   .k-switch-label-on {
-    left: -200%;
     white-space: nowrap;
+    text-align: center;
   }
   .k-switch-label-off {
     white-space: nowrap;
+    text-align: center;
   }
 }
 

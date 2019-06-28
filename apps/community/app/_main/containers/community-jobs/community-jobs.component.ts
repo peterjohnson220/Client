@@ -17,8 +17,8 @@ import { CommunityJob } from 'libs/models';
   styleUrls: ['./community-jobs.component.scss']
 })
 export class CommunityJobsComponent implements OnInit, OnDestroy {
-  @ViewChild('jobSearchResults') public jobSearchResultsScrollContainer: ElementRef;
-  @ViewChild(InfiniteScrollDirective) infiniteScroll: InfiniteScrollDirective;
+  @ViewChild('jobSearchResults', { static: true }) public jobSearchResultsScrollContainer: ElementRef;
+  @ViewChild(InfiniteScrollDirective, { static: true }) infiniteScroll: InfiniteScrollDirective;
   @Input() addPaddingTopToJobsList: boolean;
 
   communityJobs$: Observable<CommunityJob[]>;

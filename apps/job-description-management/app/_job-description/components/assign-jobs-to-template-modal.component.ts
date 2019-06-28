@@ -21,7 +21,7 @@ import { TemplateListItem } from '../../shared/models/template-list-item.model';
 })
 
 export class AssignJobsToTemplateModalComponent {
-  @ViewChild('assignJobsToTemplateModal') public assignJobsToTemplateModal: any;
+  @ViewChild('assignJobsToTemplateModal', { static: true }) public assignJobsToTemplateModal: any;
 
   @Input() selectedCompanyJob: CompanyJobViewListItem;
 
@@ -29,8 +29,9 @@ export class AssignJobsToTemplateModalComponent {
 
   private templateListItems$: Observable<TemplateListItem[]>;
   private templateListLoading$: Observable<boolean>;
-  private templateId = -1;
-  private modalRef: NgbModalRef;
+
+  public templateId = -1;
+  public modalRef: NgbModalRef;
 
   constructor(
     private store: Store<fromTemplateListReducer.State>,

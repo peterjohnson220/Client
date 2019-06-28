@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map, debounceTime} from 'rxjs/operators';
@@ -17,7 +17,8 @@ export class CommunityTagEffects {
 
   @Effect()
   gettingCommunityTrendingTags$: Observable<Action> = this.actions$
-    .ofType(fromCommunityTagActions.LOADING_COMMUNITY_TRENDING_TAGS).pipe(
+    .pipe(
+      ofType(fromCommunityTagActions.LOADING_COMMUNITY_TRENDING_TAGS),
       switchMap((action: fromCommunityTagActions.LoadingCommunityTrendingTags) =>
         this.communityTagService.getPopularTags().pipe(
           map((response: any) => {
@@ -30,7 +31,8 @@ export class CommunityTagEffects {
 
   @Effect()
   suggestingCommunityPosts$: Observable<Action> = this.actions$
-    .ofType(fromCommunityTagActions.SUGGESTING_COMMUNITY_TAGS).pipe(
+    .pipe(
+      ofType(fromCommunityTagActions.SUGGESTING_COMMUNITY_TAGS),
       debounceTime(200),
       switchMap((action: fromCommunityTagActions.SuggestingCommunityTags) =>
         this.communityTagService.suggestTags(action.payload.query).pipe(

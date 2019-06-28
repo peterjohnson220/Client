@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -13,12 +13,15 @@ import * as fromResetPasswordAction from '../actions/reset-password.actions';
 export class ResetPasswordEffects {
   @Effect()
   sendingPasswordReset$: Observable<Action> = this.actions$
-    .ofType(fromResetPasswordAction.RESET_PASSWORD).pipe(
+    .pipe(
+      ofType(fromResetPasswordAction.RESET_PASSWORD),
       switchMap((action: fromResetPasswordAction.ResetPassword) =>
         this.accountApiService.resetPassword(action.payload.token, action.payload.password).pipe(
           map((response: any) => {
             if (response === 'token_expired') {
               return new fromResetPasswordAction.ResetPasswordTokenExpired();
+            } else if (response === 'password_used') {
+              return new fromResetPasswordAction.ResetPasswordAlreadyUsed();
             } else {
               return new fromResetPasswordAction.ResetPasswordSuccess();
             }
@@ -31,7 +34,8 @@ export class ResetPasswordEffects {
 
   @Effect()
   checkingResetPasswordToken$: Observable<Action> = this.actions$
-    .ofType(fromResetPasswordAction.CHECK_RESET_PASSWORD_TOKEN).pipe(
+    .pipe(
+      ofType(fromResetPasswordAction.CHECK_RESET_PASSWORD_TOKEN),
       switchMap((action: fromResetPasswordAction.CheckResetPasswordToken) =>
         this.accountApiService.checkPasswordResetToken(action.payload).pipe(
           map((response: any) => {

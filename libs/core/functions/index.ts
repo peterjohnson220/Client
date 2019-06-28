@@ -6,3 +6,4 @@ export * from './copy-text-to-clipboard';
 export * from './check-arrays-one-off';
 export * from './arrays-equal';
 export * from './is-null-or-undefined';
+export * from './convert-tile-icon-class-to-fa-icon';

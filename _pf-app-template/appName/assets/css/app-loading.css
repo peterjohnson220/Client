@@ -24,11 +24,11 @@ html, body {
   left: 193px;
   border-right: 5px solid #1079b1;
   border-top: 5px solid #1079b1;
-  animation: show .5s;
+  animation: show 1.25s;
 }
 
 .loading-logo img {
-  animation: show .5s;
+  animation: show 1.25s;
 }
 
 .loading-arrow-reveal-x {
@@ -67,7 +67,7 @@ html, body {
   border-style: solid;
   border-color: #1f2f3d #1079b1;
   backface-visibility: hidden;
-  animation: show .5s;
+  animation: show 1.25s;
 }
 
 .sharp-edges::after{
@@ -80,7 +80,7 @@ html, body {
   border-style: solid;
   border-color: #1f2f3d #1079b1;
   backface-visibility: hidden;
-  animation: show .5s;
+  animation: show 1.25s;
 }
 
 pf-root.ready + .loading-logo {

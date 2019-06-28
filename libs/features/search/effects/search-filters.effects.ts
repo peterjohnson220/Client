@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
@@ -17,15 +17,15 @@ export class SearchFiltersEffects {
 
   @Effect()
   updateStaticFilterValue$ = this.actions$
-    .ofType(fromSearchFiltersActions.UPDATE_FILTER_VALUE)
     .pipe(
+      ofType(fromSearchFiltersActions.UPDATE_FILTER_VALUE),
       map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }))
     );
 
   @Effect()
   updateRangeFilter$ = this.actions$
-    .ofType(fromSearchFiltersActions.UPDATE_RANGE_FILTER)
     .pipe(
+      ofType(fromSearchFiltersActions.UPDATE_RANGE_FILTER),
       mergeMap(() => [
         new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }),
         new fromUserFilterActions.SetSelected({ selected: false })
@@ -34,17 +34,17 @@ export class SearchFiltersEffects {
 
   @Effect()
   clearFilter$ = this.searchEffectsService.handleFilterRemoval(
-    this.actions$.ofType(fromSearchFiltersActions.CLEAR_FILTER));
+    this.actions$.pipe(ofType(fromSearchFiltersActions.CLEAR_FILTER)));
 
 
   @Effect()
   removeFilterValue$ = this.searchEffectsService.handleFilterRemoval(
-    this.actions$.ofType(fromSearchFiltersActions.REMOVE_FILTER_VALUE));
+    this.actions$.pipe(ofType(fromSearchFiltersActions.REMOVE_FILTER_VALUE)));
 
   @Effect()
   toggleMultiSelectOption$ = this.actions$
-    .ofType(fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION)
     .pipe(
+      ofType(fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION),
       mergeMap(() => [
         new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }),
         new fromUserFilterActions.SetSelected({ selected: false })
@@ -53,8 +53,8 @@ export class SearchFiltersEffects {
 
   @Effect()
   resetAllFilter$ = this.actions$
-    .ofType(fromSearchFiltersActions.RESET_ALL_FILTERS)
     .pipe(
+      ofType(fromSearchFiltersActions.RESET_ALL_FILTERS),
       withLatestFrom(
         this.store.select(fromSharedSearchReducer.getSearchingFilter),
         (action: fromSearchFiltersActions.ResetAllFilters, searchingFilter) => ({ action, searchingFilter })

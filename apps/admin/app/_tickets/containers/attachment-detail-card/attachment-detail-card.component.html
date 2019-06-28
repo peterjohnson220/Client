@@ -1,4 +1,4 @@
-<div class="section card mb-2" *ngIf="ticketAttachments">
+<div class="section card mb-2" *ngIf="ticketAttachments && ticketId">
     <div class="card-header bg-transparent border-bottom-0">
         <h4>Attachments</h4>
         <div></div>
@@ -19,7 +19,9 @@
                             <i class="fa {{attachment.ExtensionCssClass}} " style="font-size: 45px"></i>
                         </td>
                         <td class="align-middle">
-                            <h5>{{attachment.DisplayName}}</h5>
+                            <a href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}" title="{{attachment.DisplayName}}">
+                                <h5>{{attachment.DisplayName}}</h5>
+                            </a>
                         </td>
                     </tr>
                 </tbody>

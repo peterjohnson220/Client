@@ -15,7 +15,7 @@ import { GridTypeEnum } from 'libs/models/common';
 import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromExchangeJobsReducer from '../../reducers';
 import { ExchangeJobsComponent } from './exchange-jobs.component';
-import { generateMockCompanyJob } from '../../models';
+import { generateMockCompanyJob, generateMockCompanyJobWithMatches } from '../../models';
 
 describe('ExchangeJobsComponent', () => {
   let component: ExchangeJobsComponent;
@@ -100,19 +100,19 @@ describe('ExchangeJobsComponent', () => {
   });
 
   it('should fire the expected action when handleAssociateClick is clicked', () => {
-    const dataItem = { ExchangeId: 123, ExchangeJobId: 456, CompanyJobMappings: [generateMockCompanyJob()] };
+    const dataItem = { ExchangeId: 123, ExchangeJobId: 456, CompanyJobMappings: [generateMockCompanyJobWithMatches()] };
 
     const addAssociationAction = new fromExchangeJobsActions.AddAssociation({
       ExchangeId: dataItem.ExchangeId,
       ExchangeJobId: dataItem.ExchangeJobId,
-      CompanyJobs: [generateMockCompanyJob()]
+      CompanyJobs: [generateMockCompanyJobWithMatches()]
     });
 
     component.isAssociable = () => true;
     component.grid = {} as GridComponent;
     component.grid.expandRow = () => ({});
     component.grid.collapseRow = () => ({});
-    component.selectedCompanyJobs = [generateMockCompanyJob()];
+    component.selectedCompanyJobs = [generateMockCompanyJobWithMatches()];
     component.handleAssociateClick(dataItem, 44);
 
     expect(store.dispatch).toHaveBeenCalledWith(addAssociationAction);
@@ -142,8 +142,9 @@ describe('ExchangeJobsComponent', () => {
 
   it('should create the correct associate button tooltip msg when the job is associable', () => {
     component.maxAssociableThreshold = 10;
-    component.selectedCompanyJobs = [generateMockCompanyJob()];
+    component.selectedCompanyJobs = [generateMockCompanyJobWithMatches()];
     component.isAssociable = () => true;
+    component.getPreviouslyAssociatedExchangeJobCount = () => 0;
     component.getAssociationCount = () => 1;
 
     const tooltipText = component.createAssociateButtonTooltipText(123, 456);
@@ -152,8 +153,9 @@ describe('ExchangeJobsComponent', () => {
 
   it('should create the correct associate button tooltip msg when there are > 10 associations', () => {
     component.maxAssociableThreshold = 10;
-    component.selectedCompanyJobs = [generateMockCompanyJob()];
+    component.selectedCompanyJobs = [generateMockCompanyJobWithMatches()];
     component.isAssociable = () => false;
+    component.getPreviouslyAssociatedExchangeJobCount = () => 0;
     component.getAssociationCount = () => component.maxAssociableThreshold + 1;
 
     const tooltipText = component.createAssociateButtonTooltipText(123, 456);
@@ -162,7 +164,7 @@ describe('ExchangeJobsComponent', () => {
 
   it('should create the correct associate button tooltip msg when the job is already associated to an exchange', () => {
     component.maxAssociableThreshold = 10;
-    component.selectedCompanyJobs = [generateMockCompanyJob()];
+    component.selectedCompanyJobs = [generateMockCompanyJobWithMatches()];
     component.isAssociable = () => false;
     component.getAssociationCount = () => 1;
 

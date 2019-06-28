@@ -1,3 +1,5 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import {
   PayMarket, PeerMapScopeSystemSideBarInfo, SystemFilter,
   ExchangeScopeItem, PeerMapScopeSideBarInfo, FilterAggregateGroup,
@@ -22,6 +24,7 @@ export interface State {
   includeUntaggedEmployees: boolean;
   excludeIndirectJobMatches: boolean;
   associatedExchangeJobs: string[];
+  searchingAggregate: boolean;
 }
 
 // Initial State
@@ -38,7 +41,8 @@ export const initialState: State = {
   scopeSelection: null,
   includeUntaggedEmployees: false,
   excludeIndirectJobMatches: true,
-  associatedExchangeJobs: []
+  associatedExchangeJobs: [],
+  searchingAggregate: false
 };
 
 // Reducer
@@ -155,7 +159,7 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       const aggSelections = FilterSidebarHelper.mapAggregateGroupSelections(cutCriteria.FilterAggregateSelections);
       const limitingToExchange = systemFilter && !!systemFilter.ExchangeId;
       const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
-        aggSelections, cutCriteria.FilterAggregateGroups, limitingToExchange);
+        aggSelections, cutCriteria.FilterAggregateGroups, limitingToExchange, true, true);
       return {
         ...state,
         limitToPayMarket: cutCriteria.LimitToPayMarket,
@@ -165,20 +169,22 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         selectionsCount: cutCriteria.SelectionsCount,
         filterAggregateGroups: newAggGroups,
         includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents,
-        excludeIndirectJobMatches: !cutCriteria.IsFilteredBySimilarExchangeJobIds
+        excludeIndirectJobMatches: !cutCriteria.IsFilteredBySimilarExchangeJobIds,
+        searchingAggregate: false
       };
     }
     case fromFilterSidebarActions.APPLY_SCOPE_CRITERIA: {
       const cutCriteria: PeerMapScopeSideBarInfo = action.payload;
       const aggSelections = FilterSidebarHelper.mapAggregateGroupSelections(cutCriteria.FilterAggregateSelections);
       const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
-        aggSelections, cutCriteria.FilterAggregateGroups, false);
+        aggSelections, cutCriteria.FilterAggregateGroups, false, true, true);
       return {
         ...state,
         selections: cutCriteria.Selections,
         selectionsCount: cutCriteria.SelectionsCount,
         filterAggregateGroups: newAggGroups,
-        includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents
+        includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents,
+        searchingAggregate: false
       };
     }
     case fromFilterSidebarActions.SET_EXCHANGE_SCOPE_SELECTION: {
@@ -197,6 +203,22 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       return {
         ...state,
         associatedExchangeJobs: action.payload
+      };
+    }
+    case fromFilterSidebarActions.TOGGLE_AGGREGATE_SEARCH: {
+      const filterAggregateId = action.payload;
+      const searching = !state.searchingAggregate;
+
+      const newFilterAggregateGroups = cloneDeep(state.filterAggregateGroups).map(g => {
+        g.IsSearching = searching && g.MetaData.Id === filterAggregateId;
+
+        return g;
+      });
+
+      return {
+        ...state,
+        searchingAggregate: searching,
+        filterAggregateGroups: newFilterAggregateGroups
       };
     }
     default: {
@@ -229,5 +251,6 @@ export const getScopeSelection = (state: State) => state.scopeSelection;
 export const getIncludeUntaggedIncumbents = (state: State) => state.includeUntaggedEmployees;
 export const getExcludeIndirectJobMatches = (state: State) => state.excludeIndirectJobMatches;
 export const getHasSimilarJobLevels = (state: State) => state.systemFilter && state.systemFilter.SimilarExchangeJobIds
-  && state.systemFilter.SimilarExchangeJobIds.some(x => !state.systemFilter.ExchangeJobIds.includes(x));
+  && state.systemFilter.SimilarExchangeJobIds.some(x => !(state.systemFilter.ExchangeJobIds.indexOf(x) > -1));
 export const getAssociatedExchangeJobs = (state: State) => state.associatedExchangeJobs;
+export const getSearchingAggregate = (state: State) => state.searchingAggregate;

@@ -14,7 +14,7 @@ exports[`CommunitySearchResultHeaderComponent should display company name and el
       <span
         class="search-result-header-text-bold"
       >
-        Discussion
+        
       </span>
        posted by 
       <span>

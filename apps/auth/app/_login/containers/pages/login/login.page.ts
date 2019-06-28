@@ -31,6 +31,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   login$: Observable<boolean>;
   loginError$: Observable<boolean>;
   loginSuccess$: Observable<boolean>;
+  passwordExpired$: Observable<boolean>;
   loginSubscription: Subscription;
   loginSuccessSubscription: Subscription;
   loginErrorSubscription: Subscription;
@@ -47,6 +48,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
               private router: Router) {
     this.login$ = this.loginStore.select(fromLoginReducer.getLogin);
     this.loginError$ = this.loginStore.select(fromLoginReducer.getLoginError);
+    this.passwordExpired$ = this.loginStore.select(fromLoginReducer.getPasswordExpired);
     this.loginSuccess$ = this.loginStore.select(fromLoginReducer.getLoginSuccess);
     this.marketingImage$ = this.store.select(fromMarketingReducer.getMarketingImage);
     this.gettingMarketingImage$ = this.store.select(fromMarketingReducer.getGettingMarketingImage);

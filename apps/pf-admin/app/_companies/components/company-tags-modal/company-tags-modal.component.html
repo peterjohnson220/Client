@@ -1,0 +1,27 @@
+<ng-template #companyTagsModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <div class="d-flex flex-column">
+            <h4 class="modal-title modal-title-space">Company Tags</h4>
+            <h5>
+                <small class="text-muted">
+                  Tags are additional attributes you can add to a Company. 
+                  Tags help you to better organize and search for information. 
+                  Click the drop down in each section or simply start typing to look for tags to apply to this company.
+                </small>
+            </h5>
+        </div>
+        <div>
+            <button type="button" class="close close-button" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <span *ngIf="displaySpinner" class="center-spinner">
+          <fa-icon icon="circle-notch" size="sm" spin="true"></fa-icon>
+        </span>
+        
+        <iframe [src]="iframeUrl" width="775" height="400" frameborder="0">
+        </iframe>
+    </div>
+</ng-template>

@@ -24,7 +24,7 @@ exports[`Comphub - Main - Markets Card Component should NOT hide the add paymark
   workflowContext={[Function Object]}
 >
   <pf-card-layout
-    pageiconclass="fa-map-marker-alt"
+    pageiconclass="map-marker-alt"
     pagesubtitle="Now, let's define the market"
     pagetitle="Markets"
   >
@@ -72,8 +72,9 @@ exports[`Comphub - Main - Markets Card Component should NOT hide the add paymark
                 class="add-new-market-button"
                 data-qa-id="btn-addNewMarket"
               >
-                <i
-                  class="fa fa-plus-circle"
+                <fa-icon
+                  class="plus-circle"
+                  icon="plus-circle"
                 />
                  Add New Market 
               </div>
@@ -127,7 +128,7 @@ exports[`Comphub - Main - Markets Card Component should hide the add paymarkets 
   workflowContext={[Function Object]}
 >
   <pf-card-layout
-    pageiconclass="fa-map-marker-alt"
+    pageiconclass="map-marker-alt"
     pagesubtitle="Now, let's define the market"
     pagetitle="Markets"
   >

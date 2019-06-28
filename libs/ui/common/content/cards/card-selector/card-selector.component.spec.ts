@@ -31,7 +31,7 @@ import spyOn = jest.spyOn;
   `
 })
 class TestHostComponent implements OnInit {
-  @ViewChild(CardSelectorComponent) cardSelectorInstance;
+  @ViewChild(CardSelectorComponent, { static: true }) cardSelectorInstance;
   cardData$ = of([{Id: 1}, {Id: 2}]);
   cardDataLoading$ = of(false);
   cardDataError$ = of(false);

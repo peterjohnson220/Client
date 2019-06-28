@@ -63,8 +63,9 @@ exports[`Add Tag Categories Modal should show a modal with a search bar and a ta
             <span
               class="input-group-text"
             >
-              <i
-                class="fas fa-times"
+              <fa-icon
+                aria-hidden="true"
+                icon="times"
               />
             </span>
           </div>

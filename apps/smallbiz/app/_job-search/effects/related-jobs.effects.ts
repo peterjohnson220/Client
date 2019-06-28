@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { map, catchError, switchMap, debounceTime } from 'rxjs/operators';
@@ -17,7 +17,8 @@ export class RelatedJobEffects {
 
   @Effect()
   load: Observable<Action> = this.actions$
-    .ofType(fromRelatedJobsAction.LOAD_RELATED_JOBS).pipe(
+    .pipe(
+      ofType(fromRelatedJobsAction.LOAD_RELATED_JOBS),
       switchMap((action: fromRelatedJobsAction.LoadRelatedJobs) => {
         return this.jobService.getRelatedJobs(action.payload.jobId).pipe(
           map((response: Job[]) => {

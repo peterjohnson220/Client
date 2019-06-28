@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { mergeMap, withLatestFrom, switchMap, map, catchError } from 'rxjs/operators';
@@ -18,8 +18,8 @@ import { UserFilterTypeData } from '../models';
 export class SaveFilterModalEffects {
   @Effect()
   createSavedFilter$ = this.actions$
-  .ofType(fromSaveFilterModalActions.CREATE_SAVED_FILTER)
   .pipe(
+    ofType(fromSaveFilterModalActions.CREATE_SAVED_FILTER),
     withLatestFrom(
       this.store.select(fromSearchReducer.getFilters),
       (action: fromSaveFilterModalActions.CreateSavedFilter, filters) => ({ action, filters })),
@@ -39,8 +39,8 @@ export class SaveFilterModalEffects {
 
   @Effect()
   closeSaveModal$ = this.actions$
-  .ofType(fromSaveFilterModalActions.CLOSE_SAVE_MODAL)
   .pipe(
+    ofType(fromSaveFilterModalActions.CLOSE_SAVE_MODAL),
     map((action: fromSaveFilterModalActions.CloseSaveModal) => {
       return new fromUserFilterActions.ClearUpsertError();
     })
@@ -48,8 +48,8 @@ export class SaveFilterModalEffects {
 
   @Effect()
   updateSavedFilterMetaInfo$ = this.actions$
-  .ofType(fromSaveFilterModalActions.UPDATE_META_INFO)
   .pipe(
+    ofType(fromSaveFilterModalActions.UPDATE_META_INFO),
     switchMap((action: fromSaveFilterModalActions.UpdateMetaInfo) => {
       const savedFilter = action.payload.savedFilter;
       return this.userFilterApiService.upsert({
@@ -75,8 +75,8 @@ export class SaveFilterModalEffects {
 
   @Effect()
   saveFilterSuccess$ = this.actions$
-  .ofType(fromUserFilterActions.UPSERT_SUCCESS)
   .pipe(
+    ofType(fromUserFilterActions.UPSERT_SUCCESS),
     mergeMap(() => {
       const actions = [];
       actions.push(new fromSaveFilterModalActions.CloseSaveModal());

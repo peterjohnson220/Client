@@ -14,6 +14,7 @@ import * as fromSharedPeerReducer from '../../shared/reducers';
 import * as fromExchangeRequestReducer from '../../shared/reducers/exchange-request.reducer';
 import * as fromJobFamiliesReducer from './job-families.reducer';
 import * as fromImportReducer from './import.reducer';
+import * as fromCompanyJobsReducer from './company-jobs.reducer';
 
 // Feature area state
 export interface PeerManagementState {
@@ -22,6 +23,7 @@ export interface PeerManagementState {
   pfJobsExchangeRequest: fromPfJobsExchangeRequestReducer.State;
   jobFamilies: fromJobFamiliesReducer.State;
   import: fromImportReducer.State;
+  companyJobs: IFeatureGridState<fromCompanyJobsReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -35,7 +37,8 @@ export const reducers = {
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer,
   pfJobsExchangeRequest: fromPfJobsExchangeRequestReducer.reducer,
   jobFamilies: fromJobFamiliesReducer.reducer,
-  import: fromImportReducer.reducer
+  import: fromImportReducer.reducer,
+  companyJobs: fromCompanyJobsReducer.reducer
 };
 
 // Select Feature Area
@@ -66,6 +69,10 @@ export const selectImportState = createSelector(
   selectFeatureAreaState,
   (state: PeerManagementState) => state.import
 );
+
+export const selectCompanyJobsState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerManagementState) => state.companyJobs);
 
 // Exchange Job Mapping Selectors
 export const selectExchangeJobMappingsFeatureState = createSelector(
@@ -254,4 +261,52 @@ export const getIsImportModalOpen = createSelector(
 export const getImportStatus = createSelector(
   selectImportState,
   fromImportReducer.getImportStatus
+);
+
+// Company Jobs
+export const getCompanyJobsGrid = createSelector(
+  selectCompanyJobsState,
+  (state: IFeatureGridState<fromCompanyJobsReducer.State>) => state.grid);
+
+export const getCompanyJobsFeature = createSelector(
+  selectCompanyJobsState,
+  (state: IFeatureGridState<fromCompanyJobsReducer.State>) => state.feature);
+
+export const getCompanyJobsGridState = createSelector(
+  getCompanyJobsGrid,
+  (fromGridReducer.getGridState)
+);
+
+export const {
+  selectAll: getCompanyJobsList
+} = fromCompanyJobsReducer.adapter.getSelectors(getCompanyJobsFeature);
+
+export const getCompanyJobsTotal = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getTotal);
+
+export const getCompanyJobsData = createSelector(
+  getCompanyJobsList,
+  getCompanyJobsTotal,
+  (data, total) => ({ data, total})
+);
+
+export const getCompanyJobsLoading = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.loading
+);
+
+export const getCompanyJobsLoadingError = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.loadingError
+);
+
+export const getCompanyJobsLoadingErrorMessage = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.loadingErrorMessage
+);
+
+export const getCompanyJobsSearchTerm = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.searchTerm
 );

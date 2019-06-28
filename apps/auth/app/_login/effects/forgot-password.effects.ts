@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -13,7 +13,8 @@ import * as fromForgotPasswordAction from '../actions/forgot-password.actions';
 export class ForgotPasswordEffects {
   @Effect()
   sendingPasswordReset$: Observable<Action> = this.actions$
-    .ofType(fromForgotPasswordAction.SENDING_PASSWORD_RESET).pipe(
+    .pipe(
+      ofType(fromForgotPasswordAction.SENDING_PASSWORD_RESET),
       switchMap((action: fromForgotPasswordAction.SendingPasswordReset) =>
         this.accountApiService.sendPasswordReset(action.payload).pipe(
           map((response: any) => new fromForgotPasswordAction.SendingPasswordResetSuccess()),

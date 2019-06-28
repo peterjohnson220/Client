@@ -8,8 +8,8 @@ export const routes: Routes = [
     path: '',
     component: AppWrapperComponent,
     children: [
-      { path: '', loadChildren: 'apps/auth/app/_login/login.module#LoginModule' },
-      { path: 'registration', loadChildren: 'apps/auth/app/_registration/registration.module#RegistrationModule' },
+      { path: '', loadChildren: () => import('apps/auth/app/_login/login.module').then(m => m.LoginModule) },
+      { path: 'registration', loadChildren: () => import('apps/auth/app/_registration/registration.module').then(m => m.RegistrationModule) },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

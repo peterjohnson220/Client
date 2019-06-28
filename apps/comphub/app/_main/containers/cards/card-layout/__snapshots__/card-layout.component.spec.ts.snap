@@ -23,9 +23,9 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
     <div
       class="page-header"
     >
-      <i
+      <fa-icon
         aria-hidden="true"
-        class="fa  page-icon"
+        class="page-icon"
       />
       <span
         class="page-title"
@@ -94,9 +94,9 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
     <div
       class="page-header"
     >
-      <i
+      <fa-icon
         aria-hidden="true"
-        class="fa  page-icon"
+        class="page-icon"
       />
       <span
         class="page-title"
@@ -158,9 +158,9 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
     <div
       class="page-header"
     >
-      <i
+      <fa-icon
         aria-hidden="true"
-        class="fa  page-icon"
+        class="page-icon"
       />
       <span
         class="page-title"

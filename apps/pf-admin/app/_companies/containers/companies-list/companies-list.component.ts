@@ -54,7 +54,7 @@ export class CompaniesListComponent implements OnChanges {
     public gridSelectionChange(selection) {
         if (selection.selectedRows && selection.selectedRows.length) {
             const item = selection.selectedRows[0].dataItem;
-            this.router.navigate(['/companies/', item.CompanyId]);
+            this.router.navigate(['/companies/edit/', item.CompanyId]);
         }
     }
 

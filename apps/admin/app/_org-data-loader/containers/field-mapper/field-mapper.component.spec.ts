@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 
-import { LoaderType } from '../../constants/loader-type.enum';
+import { LoaderType } from '../../constants/index';
 import { FieldMapperComponent } from './field-mapper.component';
 import { LoaderEntityStatus } from '../../models';
 
@@ -414,6 +414,31 @@ describe('FieldMapperComponent', () => {
       // assert
       expect(next).toBeCalledTimes(1);
       expect(next).toBeCalledWith(expectedPayload);
+    });
+
+    it('should clear out any existing mappings and add new mappings on refresh', () => {
+      component.loaderType = LoaderType.Structures;
+      component.payfactorsDataFields = [];
+      component.clientFields = [];
+      component.mappedFields = ['ExistingMapping__ThatWasPreviouslyMapped', 'Another__OldMapping'];
+
+      component.fieldMappings$ = of([{
+        CompanyId: 13,
+        LoaderType: LoaderType.Structures,
+        LoaderFieldMappings: [{
+          InternalField: 'GradeCode',
+          ClientField: 'Grade'
+        },
+          {
+            InternalField: 'Min',
+            ClientField: 'Minimum'
+          }]
+      }]);
+      fixture.detectChanges();
+
+      component.ngOnInit();
+
+      expect(component.mappedFields).toEqual(['GradeCode__Grade', 'Min__Minimum']);
     });
   });
 });

@@ -17,16 +17,17 @@ import * as fromJobDescriptionHistoryListReducer from '../reducers';
 })
 
 export class JobDescriptionHistoryModalComponent implements OnInit, OnDestroy {
-  @ViewChild('jobDescriptionHistoryModalComponent') public jobDescriptionHistoryModalComponent: any;
+  @ViewChild('jobDescriptionHistoryModalComponent', { static: true }) public jobDescriptionHistoryModalComponent: any;
 
   private jobDescriptionHistoryList$: Observable<JobDescriptionHistoryListItem[]>;
   private jobDescriptionHistoryListLoading$: Observable<boolean>;
 
-  private modalRef: NgbModalRef;
-  private jobDescriptionId: number;
-  private jobTitle: string;
   private jobDescriptionHistorySubscription: Subscription;
-  private jobDescriptionHistoryListItems: JobDescriptionHistoryListItem[];
+
+  public modalRef: NgbModalRef;
+  public jobDescriptionId: number;
+  public jobTitle: string;
+  public jobDescriptionHistoryListItems: JobDescriptionHistoryListItem[];
 
   constructor(
     private store: Store<fromJobDescriptionHistoryListReducer.State>,
