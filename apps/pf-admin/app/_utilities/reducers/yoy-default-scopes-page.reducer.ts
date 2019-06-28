@@ -1,10 +1,9 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { Company } from 'libs/models/company/company.model';
+import { Company, AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 
 import * as fromYoyDefaultScopesPageActions from '../actions/yoy-default-scopes-page.actions';
-import { DataListItem, generateDefaultAsyncStateObj, MatchResult, SurveyScope } from '../models';
-import { AsyncStateObj } from '../models/async-state-obj';
+import { DataListItem, MatchResult, SurveyScope } from '../models';
 
 export interface State {
   loadingCompany: boolean;

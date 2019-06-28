@@ -4,6 +4,26 @@
   color: $header-color;
 }
 
-.data-insights-page {
-  background-color: #efefef;
+.page {
+  background-color: #ffffff;
+  min-height: 100%;
+
+  .header {
+    color: $header-color;
+    padding: 1rem 0 1rem 2rem;
+    font-size: 2.5rem;
+    font-weight: 500;
+  }
+
+  .featured {
+    min-height: 370px;
+    border-bottom: 4px solid $border-grey;
+    padding: 0 75px;
+  }
+
+  .dashboards {
+    flex-grow: 1;
+    background: $grey;
+    padding: 1rem;
+  }
 }

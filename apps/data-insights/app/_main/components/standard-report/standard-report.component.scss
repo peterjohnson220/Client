@@ -1,0 +1,24 @@
+@import 'colors';
+@import 'common/common';
+@import 'data-insights-variables';
+
+.standard-report {
+  padding: 1rem 1rem 3rem 1rem;
+  position: relative;
+  height: 350px;
+
+  .preview {
+    margin-bottom: 1rem;
+    cursor: pointer;
+  }
+
+  .type {
+    @extend %label;
+    border-bottom: 1px solid $border-grey;
+  }
+
+  .name {
+    font-size: 1.25rem;
+    @extend %ellipsis-overflowing-text;
+  }
+}

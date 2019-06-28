@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { TableauReport } from '../models';
+import { Workbook } from '../models';
 
 export const GET_COMPANY_REPORTS = '[Data Insights / All Dashboards] Get Company Reports';
 export const GET_COMPANY_REPORTS_SUCCESS = '[Data Insights / All Dashboards] Get Company Reports Success';
@@ -15,7 +15,7 @@ export class GetCompanyReports implements Action {
 export class GetCompanyReportsSuccess implements Action {
   readonly type = GET_COMPANY_REPORTS_SUCCESS;
 
-  constructor( public payload: { tableauReports: TableauReport[] }) {}
+  constructor( public payload: Workbook[]) {}
 }
 
 export class GetCompanyReportsError implements Action {
