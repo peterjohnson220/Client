@@ -2230,7 +2230,8 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/data-insights/styles.scss"
+              "apps/data-insights/styles.scss",
+              "apps/data-insights/outside-view-encapsulation.scss"
             ],
             "scripts": [
               "assets/js/pendo.js"

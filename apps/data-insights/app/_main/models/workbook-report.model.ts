@@ -7,4 +7,5 @@ export interface Workbook {
   ShowTabs: boolean;
   IconClass: string[];
   Tag: string;
+  IsFavorite: boolean;
 }

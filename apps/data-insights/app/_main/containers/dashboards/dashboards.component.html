@@ -1,6 +1,14 @@
 <div class="container position-relative h-100">
   <div class="top-bar">
-    <div class="title">All Dashboards</div>
+    <div class="title">
+      <kendo-dropdownlist *ngIf="anyFavorites; else allDashboards"
+                          class="dashboard-view"
+                          [attr.data-qa-id]="'ddm-dashboard-views'"
+                          [data]="dashboardViews"
+                          [(ngModel)]="selectedView">
+      </kendo-dropdownlist>
+      <ng-template #allDashboards>All Dashboards</ng-template>
+    </div>
   </div>
   <pf-async-container
         [loading]="loadingCompanyReports$ | async"
@@ -10,7 +18,9 @@
 
         <div class="row">
           <ng-container *ngIf="companyReports?.length">
-            <div *ngFor="let report of companyReports" class="col-xs-12 col-md-6 col-lg-4">
+            <div *ngFor="let report of companyReports"
+                 class="col-xs-12 col-md-6 col-lg-4"
+                 [ngClass]="{'d-none': isFavoritesOnly && !report.IsFavorite}">
 
               <div class="report-container">
                 <ng-container *ngIf="!!report.IconClass?.length">

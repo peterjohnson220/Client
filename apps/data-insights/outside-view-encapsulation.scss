@@ -1,0 +1,52 @@
+@import 'data-insights-variables';
+@import 'colors';
+
+// Some elements from third party libraries that are added dynamically to the body can lose their view encapsulation context.
+// If the the dynamically added content can't be styled using the shadow-piercing descendant combinator :host ::ng-deep
+// add those styles to this file.
+
+
+// Kendo Overrides
+.k-list {
+  .k-state-selected {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  .k-state-focused {
+    background-color: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+}
+
+.title {
+  .k-dropdown {
+    width: auto;
+  }
+  .k-dropdown-wrap {
+    background-color: $grey;
+    border-style: none !important;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: auto;
+
+    &:hover {
+      background: darken($grey, 5%);
+    }
+  }
+
+  .k-i-arrow-s {
+    color: $dark-grey;
+  }
+
+  .k-input {
+    font-size: 1.5rem;
+    color: $dark-grey;
+  }
+  
+  .k-select {
+    padding: 0;
+  }
+}
+

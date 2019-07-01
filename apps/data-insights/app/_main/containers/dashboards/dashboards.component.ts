@@ -22,6 +22,8 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   companyReportsSubscription: Subscription;
 
   companyReports: Workbook[];
+  dashboardViews: Array<string> = ['All Dashboards', 'Favorites'];
+  selectedView = 'All Dashboards';
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
@@ -30,6 +32,14 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.loadingCompanyReportsSuccess$ = this.store.select(fromDataInsightsMainReducer.getLoadingCompanyReportsSuccess);
     this.loadingCompanyReportsErrors$ = this.store.select(fromDataInsightsMainReducer.getLoadingCompanyReportsError);
     this.companyReports$ = this.store.select(fromDataInsightsMainReducer.getCompanyReports);
+  }
+
+  get anyFavorites() {
+    return this.companyReports && this.companyReports.some(r => r.IsFavorite);
+  }
+
+  get isFavoritesOnly() {
+    return this.selectedView === 'Favorites';
   }
 
   ngOnInit() {
