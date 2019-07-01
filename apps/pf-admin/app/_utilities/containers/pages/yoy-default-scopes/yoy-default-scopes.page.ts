@@ -5,10 +5,11 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Company } from 'libs/models/company/company.model';
+import { AsyncStateObj } from 'libs/models';
 
 import * as fromDefaultScopesPageActions from '../../../actions/yoy-default-scopes-page.actions';
 import * as fromUtilitiesReducer from '../../../reducers';
-import { DataListItem, MatchResult, AsyncStateObj, SurveyScope } from '../../../models';
+import { DataListItem, MatchResult, SurveyScope } from '../../../models';
 
 @Component({
   selector: 'pf-admin-utilities-yoy-default-scopes',
