@@ -1,0 +1,44 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
+import * as fromJobFamilyActions from '../../shared/actions/job-family.actions';
+
+export interface State {
+  jobFamilies: string[];
+  loadingJobFamilies: boolean;
+  loadingJobFamiliesError: boolean;
+}
+
+export const initialState: State = {
+  jobFamilies: [],
+  loadingJobFamilies: false,
+  loadingJobFamiliesError: false
+};
+
+export function reducer(state = initialState, action: fromJobFamilyActions.Actions): State {
+  switch (action.type) {
+    case fromJobFamilyActions.LOAD_JOB_FAMILIES:
+      return {
+        ...state,
+        loadingJobFamilies: true
+      };
+    case fromJobFamilyActions.LOAD_JOB_FAMILIES_ERROR:
+      return {
+        ...state,
+        loadingJobFamilies: false,
+        loadingJobFamiliesError: true
+      };
+    case fromJobFamilyActions.LOAD_JOB_FAMILIES_SUCCESS:
+      return {
+        ...state,
+        loadingJobFamilies: false,
+        loadingJobFamiliesError: false,
+        jobFamilies: cloneDeep(action.payload)
+      };
+    default:
+      return state;
+  }
+}
+
+export const getJobFamilies = (state: State) => state.jobFamilies;
+export const getJobFamiliesLoading = (state: State) => state.loadingJobFamilies;
+export const getJobFamiliesLoadingError = (state: State) => state.loadingJobFamiliesError;

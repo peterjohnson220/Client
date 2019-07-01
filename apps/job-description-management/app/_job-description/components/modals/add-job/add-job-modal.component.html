@@ -1,0 +1,129 @@
+<ng-template #addJobModal let-c="close" let-d="dismiss">
+  <form [formGroup]="addJobForm" (ngSubmit)="submit()">
+    <div class="modal-header">
+      <h4 class="modal-title">Add Job</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <ngb-tabset>
+        <ngb-tab title="Standard Fields">
+          <ng-template ngbTabContent>
+            <div class="standard-fields">
+              <div class="form-group row pt-3">
+                <label class="col-2 col-form-label">Job Code:</label>
+                <div class="col-4" [class.has-danger]="!addJobForm.controls['JobCode'].pristine && (addJobForm.controls['JobCode'].invalid || companyJobMessage)">
+                  <input type="text" class="form-control"
+                         formControlName="JobCode"
+                         (keydown)="handleJobCodeChanged()">
+                  <span *ngIf="!addJobForm.controls['JobCode'].pristine && addJobForm.controls['JobCode'].hasError('required')" class="text-danger float-right">Required</span>
+                  <span *ngIf="!addJobForm.controls['JobCode'].pristine && addJobForm.controls['JobCode'].hasError('maxlength')" class="text-danger float-right">
+	                            		Exceeds {{addJobForm.controls.JobCode.errors.maxlength.requiredLength}} characters:
+                    {{addJobForm.controls.JobCode.errors.maxlength.actualLength}}
+	                    			</span>
+                  <span *ngIf="!addJobForm.controls['JobCode'].pristine" class="text-danger float-right">{{ companyJobMessage }}</span>
+                </div>
+                <label class="col-2 col-form-label">Job Title:</label>
+                <div class="col-4" [class.has-danger]="!addJobForm.controls['JobTitle'].pristine && (addJobForm.controls['JobTitle'].invalid)">
+                  <input type="text" class="form-control" formControlName="JobTitle">
+                  <span *ngIf="!addJobForm.controls['JobTitle'].pristine && addJobForm.controls['JobTitle'].hasError('required')" class="text-danger float-right">Required</span>
+                  <span *ngIf="!addJobForm.controls['JobTitle'].pristine && addJobForm.controls['JobTitle'].hasError('maxlength')" class="text-danger float-right">
+	                            		Exceeds {{addJobForm.controls.JobTitle.errors.maxlength.requiredLength}} characters:
+                    {{addJobForm.controls.JobTitle.errors.maxlength.actualLength}}
+	                    			</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-2 col-form-label">Job Family:</label>
+                <div class="col-4">
+                  <kendo-combobox class="form-control" formControlName="JobFamily"
+                                  [clearButton]="false"
+                                  [suggest]="true"
+                                  [data]="jobFamilies$ | async"
+                                  [allowCustom]="true">
+                  </kendo-combobox>
+                </div>
+                <label class="col-2 col-form-label">Level:</label>
+                <div class="col-4">
+                  <input type="text" class="form-control" formControlName="JobLevel">
+                  <span *ngIf="!addJobForm.controls['JobLevel'].pristine && addJobForm.controls['JobLevel'].hasError('maxlength')" class="text-danger float-right">
+	                            		Exceeds {{addJobForm.controls.JobLevel.errors.maxlength.requiredLength}} characters:
+                    {{addJobForm.controls.JobLevel.errors.maxlength.actualLength}}
+	                    			</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-2 col-form-label">FLSA Status:</label>
+                <div class="col-4">
+                  <kendo-combobox class="form-control" formControlName="FLSAStatus"
+                                  [clearButton]="false"
+                                  [suggest]="true"
+                                  [data]="jobFLSAStatus$ | async"
+                                  [allowCustom]="true">
+                  </kendo-combobox>
+                </div>
+              </div>
+              <div class="form-group row template-name-border pt-2">
+                <label for="templateListInput" class="col-2 col-form-label">Template Name:</label>
+                <div class="col-4">
+                  <kendo-combobox class="form-control" formControlName="CompanyJobDescriptionTemplateId"
+                                  [disabled]="templateListLoading$ | async"
+                                  (valueChange)="handleTemplateChanged($event)"
+                                  [clearButton]="false"
+                                  [suggest]="true"
+                                  [data]="templateListItems$ | async"
+                                  [textField]="'TemplateName'"
+                                  [valueField]="'TemplateId'"
+                                  [valuePrimitive]="true">
+                  </kendo-combobox>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <div  *ngIf="(jobUserDefinedFields$ | async).length">
+          <ngb-tab title="User Defined Fields">
+            <ng-template ngbTabContent>
+              <div class="row pt-3 user-defined-fields-section">
+                <div class="col-6 px-0">
+                  <div *ngFor="let jobUserDefinedField of (jobUserDefinedFields$ | async)
+							      	 	let index =index;
+			             				let isOdd=odd;
+			             				let isEven=even">
+                    <div *ngIf="!isOdd" class="form-group row">
+                      <label class="col-4 col-form-label">{{jobUserDefinedField.DispName }}:</label>
+                      <div class="col-8">
+                        <input type="text" class="form-control" [formControlName]="jobUserDefinedField.ColumnName">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 px-0">
+                  <div *ngFor="let jobUserDefinedField of (jobUserDefinedFields$ | async)
+							      	 	let index =index;
+			             				let isOdd=odd;
+			             				let isEven=even">
+                    <div *ngIf="isOdd" class="form-group row">
+                      <label class="col-4 col-form-label">{{jobUserDefinedField.DispName }}:</label>
+                      <div class="col-8">
+                        <input type="text" class="form-control" [formControlName]="jobUserDefinedField.ColumnName">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </div>
+      </ngb-tabset>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+      <button type="submit" [disabled]="!addJobForm.valid" class="btn btn-primary">
+        <div *ngIf="!addAndAssign">Add</div>
+        <div *ngIf="addAndAssign">Add & Assign</div>
+      </button>
+    </div>
+  </form>
+</ng-template>

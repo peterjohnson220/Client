@@ -28,6 +28,8 @@ import { ListAreaService } from './services/list-area.service';
 import { reducers } from './reducers';
 import { JobDescriptionAppliesToEffects } from './effects/job-description-appliesto.effects';
 import { TemplateListEffects } from './effects/template-list.effects';
+import { CompanyFlsaStatusEffects } from './effects/company-flsa-status.effects';
+import { JobFamilyEffects } from './effects/job-family.effects';
 
 @NgModule({
   imports: [
@@ -37,7 +39,9 @@ import { TemplateListEffects } from './effects/template-list.effects';
     // 3rd Party
     StoreModule.forFeature('jobDescriptionManagement_shared', reducers),
     EffectsModule.forFeature([
+      CompanyFlsaStatusEffects,
       JobDescriptionAppliesToEffects,
+      JobFamilyEffects,
       TemplateListEffects
     ]),
     FontAwesomeModule,

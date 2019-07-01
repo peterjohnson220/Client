@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { NgbDropdownModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbPopoverModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnResizingService, FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -18,6 +18,7 @@ import { PfJobDescriptionManagementModule } from 'libs/features/job-description-
 import { JobDescriptionRoutingModule } from './job-description-routing.module';
 import { JobDescriptionListPageComponent } from './containers/pages/job-description-list/job-description-list.page';
 import {
+  AddJobModalComponent,
   AssignJobsToTemplateModalComponent,
   BulkExportPopoverComponent,
   ColumnSelectorPopoverComponent,
@@ -30,14 +31,13 @@ import { PublicViewHeaderComponent } from './components/public-view-header/publi
 import { ListAreaService } from '../shared/services/list-area.service';
 import { reducers } from './reducers';
 import {
+  AddJobModalEffects,
   BulkExportPopoverEffects,
   JobDescriptionEffects,
-  JobDescriptionGridEffects,
-  JobInformationFieldsEffects,
+  JobDescriptionGridEffects, JobDescriptionHistoryListEffects,
+  JobInformationFieldsEffects, PublicViewHeaderEffects,
   UserFilterEffects
 } from './effects';
-import { JobDescriptionHistoryListEffects } from './effects/job-description-history-list.effects';
-import { PublicViewHeaderEffects } from './effects/public-view-header.effects';
 import { ListAreaColumnSearchPipe } from './pipes/list-area-column-search.pipe';
 import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './pipes';
 
@@ -50,6 +50,7 @@ import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './
     // 3rd Party
     StoreModule.forFeature('jobDescriptionManagement_jobDescription', reducers),
     EffectsModule.forFeature([
+      AddJobModalEffects,
       BulkExportPopoverEffects,
       JobDescriptionEffects,
       JobDescriptionGridEffects,
@@ -78,10 +79,12 @@ import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './
     FilterMenuModule,
     SharedModule,
     FontAwesomeModule,
-    PfJobDescriptionManagementModule
+    PfJobDescriptionManagementModule,
+    NgbTabsetModule
   ],
   declarations: [
     // Components
+    AddJobModalComponent,
     AssignJobsToTemplateModalComponent,
     BulkExportPopoverComponent,
     ColumnSelectorPopoverComponent,

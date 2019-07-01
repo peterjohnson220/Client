@@ -33,6 +33,9 @@ import { RouteTrackingService } from '../../../../shared/services/route-tracking
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter/save-filter-modal.component';
 import { SaveJobDescriptionTemplateIdSucessModel } from '../../../models/save-job-description-template-id-sucess.model';
 import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
+import { AddJobModalComponent } from '../../../components/modals/add-job/add-job-modal.component';
+import { PermissionService } from '../../../../../../../libs/core/services';
+import { PermissionCheckEnum, Permissions } from '../../../../../../../libs/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,7 +50,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     { static: true }) jobDescriptionHistoryModalComponent: JobDescriptionHistoryModalComponent;
   @ViewChild(JobDescriptionAppliesToModalComponent,
     { static: true }) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
-  // @ViewChild(AddJobModalComponent) public addJobModalComponent: AddJobModalComponent;
+  @ViewChild(AddJobModalComponent, { static: true }) public addJobModalComponent: AddJobModalComponent;
   @ViewChild(SaveFilterModalComponent, { static: true }) public saveFilterModalComponent: SaveFilterModalComponent;
 
   public identity$: Observable<UserContext>;
@@ -61,8 +64,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
   private savedGridState$: Observable<State>;
   private listAreaColumnsToUpdate$: Observable<ListAreaColumn[]>;
-  private hasManageTemplatesPermission$: Observable<boolean>;
-  private hasManageSettingsPermission$: Observable<boolean>;
   private bulkExportControlLabels$: Observable<ControlLabel[]>;
   private bulkExportControlLabelsLoading$: Observable<boolean>;
   private bulkExportNoPublishedJobDescriptions$: Observable<boolean>;
@@ -90,6 +91,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public tokenId: string;
   public isPublic: boolean;
   public listFilter: string;
+  public hasManageTemplatesPermission: boolean;
+  public hasManageSettingsPermission: boolean;
 
   private listAreaColumnsSubscription: Subscription;
   private routerParmsSubscription: Subscription;
@@ -105,15 +108,14 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     private store: Store<fromJobDescriptionReducers.State>,
     private router: Router,
     private route: ActivatedRoute,
-    private routeTrackingService: RouteTrackingService
+    private routeTrackingService: RouteTrackingService,
+    private permissionService: PermissionService
   ) {
     this.identity$ = this.userContextStore.select(fromUserContextReducer.getUserContext);
     this.gridLoading$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoading);
     this.gridDataResult$ = this.store.select(fromJobDescriptionReducers.getGridDataResult);
     this.listAreaColumns$ = this.store.select(fromJobDescriptionReducers.getListAreaColumns);
     this.listAreaColumnsToUpdate$ = this.store.select(fromJobDescriptionReducers.getListAreaColumnsToUpdate);
-    // this.hasManageTemplatesPermission$ = this.sharedStore.let(hasPermission(SystemPermission.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES));
-    // this.hasManageSettingsPermission$ = this.sharedStore.let(hasPermission(SystemPermission.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS));
     this.savedSearchTerm$ = this.store.select(fromJobDescriptionReducers.getSearchTerm);
     this.savedGridState$ = this.store.select(fromJobDescriptionReducers.getGridState);
     this.bulkExportControlLabels$ = this.store.select(fromJobDescriptionReducers.getControlLabels);
@@ -139,6 +141,11 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.savingListAreaColumnsSuccess$ = this.store.select(fromJobDescriptionReducers.getListAreaColumnsSavingSuccess);
     this.addingUserFilterSuccess$ = this.store.select(fromJobDescriptionReducers.getUserFilterAddingSuccess);
 
+    this.hasManageTemplatesPermission = this.permissionService.CheckPermission([Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES],
+      PermissionCheckEnum.Single);
+    this.hasManageSettingsPermission = this.permissionService.CheckPermission([Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES],
+      PermissionCheckEnum.Single);
+
     this.filterThrottle = new Subject();
 
     this.customListAreaColumns.push({
@@ -155,7 +162,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
    addJobClicked() {
-  //   this.addJobModalComponent.open();
+    this.addJobModalComponent.open();
    }
 
   appliesToFormCompleted(selected: any) {
@@ -167,11 +174,11 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     } else {
       const request = {
         Request: {
-          TemplateId: selected.templateId,
-          CompanyJobIdsToAssign: [newJobDescription.CompanyJobId],
-          CompanyJobIdsToUnassign: []
+          companyJobIdsToAssign: [newJobDescription.CompanyJobId],
+          companyJobIdsToUnassign: []
         },
         PassThroughParameters: {
+          templateId: selected.templateId,
           newJobDescription: newJobDescription,
           jobDescriptionAppliesTo: selected.jobDescriptionAppliesTo
         }
@@ -249,9 +256,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   handleTemplateAssignedToJob(assignTemplateToJobObj: any) {
     const request = {
       Request: {
-        TemplateId: assignTemplateToJobObj.templateId,
-        CompanyJobIdsToAssign: [assignTemplateToJobObj.selectedCompanyJob.CompanyJobId],
-        CompanyJobIdsToUnassign: []
+        companyJobIdsToAssign: [assignTemplateToJobObj.selectedCompanyJob.CompanyJobId],
+        companyJobIdsToUnassign: []
       },
       PassThroughParameters: assignTemplateToJobObj
     };
@@ -339,10 +345,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     }
 
     const request = {
-      CompanyJobId: companyJobViewListItem.CompanyJobId,
-      AppliesToField: appliesTo.AppliesToField,
-      AppliesToValue: appliesTo.AppliesToValue,
-      JobDescriptionTitle: appliesTo.JobDescriptionTitle,
+      companyJobId: companyJobViewListItem.CompanyJobId,
+      appliesToField: appliesTo.AppliesToField,
+      appliesToValue: appliesTo.AppliesToValue,
+      jobDescriptionTitle: appliesTo.JobDescriptionTitle,
     };
 
     this.store.dispatch(new fromJobDescriptionActions.CreateJobDescription(request));
@@ -415,9 +421,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   public navigateToJobDescription(companyJobViewListItem: CompanyJobViewListItem) {
-    // const canEditJobDescription: boolean = this.permissionService.CheckPermission([SystemPermission.CAN_EDIT_JOB_DESCRIPTION],
-    // PermissionCheckEnum.Single);
-    const canEditJobDescription = true;
+    const canEditJobDescription: boolean = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
+      PermissionCheckEnum.Single);
 
     // Coming from grid, not started and assigned a template, create the job description
     if (canEditJobDescription && companyJobViewListItem.JobDescriptionStatus === 'Not Started' &&
