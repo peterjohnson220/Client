@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunitySearchResult } from 'libs/models/community';
+import { CommunitySearchQuery } from 'libs/models/community/community-search-query.model';
 
 @Injectable()
 export class CommunitySearchApiService {
@@ -11,8 +12,14 @@ export class CommunitySearchApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  searchCommunity(searchTerm: any, searchDuration: any, from = 0, count = 15): Observable<CommunitySearchResult[]> {
+  searchCommunity(payload: CommunitySearchQuery, from = 0, count = 15): Observable<CommunitySearchResult[]> {
     return this.payfactorsApiService.post<CommunitySearchResult[]>
-    (`${this.endpoint}/Get`,  { SearchTerm: searchTerm,  SearchDuration: searchDuration, PagingOptions: {From: from, Count: count}  });
+    (`${this.endpoint}/Get`,
+      {
+        SearchTerm: payload.searchTerm,
+        SearchSort: payload.searchSort,
+        SearchDuration: payload.searchDuration,
+        PagingOptions: {From: from, Count: count}
+      });
   }
 }
