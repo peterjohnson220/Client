@@ -2,8 +2,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FilterArrayByName } from 'libs/core/pipes';
+import { generateDefaultAsyncStateObj } from 'libs/models';
 
-import { generateDefaultAsyncStateObj, generateMockSurveyScope } from '../../models';
+import { generateMockSurveyScope } from '../../models';
 import { ScopeSelectorComponent } from './scope-selector.component';
 
 describe('Pf-Admin - Utilities - Scope Selector', () => {

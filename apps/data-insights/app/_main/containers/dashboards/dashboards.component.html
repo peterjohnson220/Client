@@ -1,0 +1,30 @@
+<div class="container position-relative h-100">
+  <div class="top-bar">
+    <div class="title">All Dashboards</div>
+  </div>
+  <pf-async-container
+        [loading]="loadingCompanyReports$ | async"
+        [loadingError]="loadingCompanyReportsErrors$ | async"
+        [loadingErrorMessage]="'Error.'"
+        [hideReloadButton]="true">
+
+        <div class="row">
+          <ng-container *ngIf="companyReports?.length">
+            <div *ngFor="let report of companyReports" class="col-xs-12 col-md-6 col-lg-4">
+
+              <div class="report-container">
+                <ng-container *ngIf="!!report.IconClass?.length">
+                  <fa-icon [icon]="report.IconClass" class="icon fa-fw"></fa-icon>
+                  <div class="vertical-separator"></div>
+                </ng-container>
+
+                <div class="d-flex flex-column ml-3 content">
+                  <span class="tag" data-toggle="tooltip" title="{{report.Tag}}">{{report.Tag}}</span>
+                  <span class="workbook-name" data-toggle="tooltip" title="{{report.WorkbookName}}">{{report.WorkbookName}}</span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </pf-async-container>
+</div>

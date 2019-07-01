@@ -1,2 +1,7 @@
 // Colors
-$dark-gray: #999999;
+$dark-grey: #999999;
+
+%label {
+  text-transform: uppercase;
+  color: $dark-grey;
+}

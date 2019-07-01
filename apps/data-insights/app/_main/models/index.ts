@@ -1,1 +1,2 @@
-export * from './tableau-report.model';
+export * from './standard-report.model';
+export * from './workbook-report.model';

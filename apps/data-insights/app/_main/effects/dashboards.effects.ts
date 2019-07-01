@@ -4,13 +4,13 @@ import { of } from 'rxjs';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
-import { TableauReportApiService } from 'libs/data/payfactors-api/data-insights';
+import { TableauReportApiService } from 'libs/data/payfactors-api';
 
-import * as fromAllDashboardsActions from '../actions/all-dashboards.action';
-import { TableauReportApiModelMapper } from '../helpers';
+import * as fromAllDashboardsActions from '../actions/dashboards.actions';
+import { PayfactorsApiModelMapper } from '../helpers';
 
 @Injectable()
-export class AllDashboardsEffects {
+export class DashboardsEffects {
 
   @Effect()
   getCompanyReports$ = this.action$
@@ -20,10 +20,11 @@ export class AllDashboardsEffects {
       return this.tableauReportApiService.getCompanyReports()
         .pipe(
           map((response) => {
-            const reports = TableauReportApiModelMapper.mapTableauReportResponseToTableauReport(response);
-            return new fromAllDashboardsActions.GetCompanyReportsSuccess({ tableauReports : reports });
+            return new fromAllDashboardsActions.GetCompanyReportsSuccess(
+              PayfactorsApiModelMapper.mapTableauReportResponsesToWorkbooks(response)
+            );
           }),
-          catchError((error) => of(new fromAllDashboardsActions.GetCompanyReportsError()))
+          catchError(() => of(new fromAllDashboardsActions.GetCompanyReportsError()))
         );
     })
   );

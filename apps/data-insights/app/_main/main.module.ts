@@ -10,11 +10,12 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
+import { StandardReportComponent } from './components';
+import { DataInsightsPageComponent, DashboardsComponent } from './containers';
+import { DataInsightsPageEffects, DashboardsEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
-import { AllDashboardsEffects } from './effects';
 import { MainRoutingModule } from './main-routing.module';
-import { DataInsightsPageComponent, AllDashboardsComponent } from './containers';
 
 @NgModule({
   imports: [
@@ -22,9 +23,10 @@ import { DataInsightsPageComponent, AllDashboardsComponent } from './containers'
     CommonModule,
 
     // 3rd Party
-    StoreModule.forFeature('datainsights_main', reducers),
+    StoreModule.forFeature('dataInsights_main', reducers),
     EffectsModule.forFeature([
-      AllDashboardsEffects
+      DataInsightsPageEffects,
+      DashboardsEffects
     ]),
     FontAwesomeModule,
 
@@ -37,11 +39,11 @@ import { DataInsightsPageComponent, AllDashboardsComponent } from './containers'
     PfFormsModule
   ],
   declarations: [
-    // Pages
-    DataInsightsPageComponent,
+    // Components
+    StandardReportComponent,
 
-    // Containers
-    AllDashboardsComponent
+    // Pages
+    DataInsightsPageComponent, DashboardsComponent
   ]
 })
 export class MainModule {

@@ -1,1 +1,1 @@
-export * from './tableau-report-api-model-mapper';
+export * from './payfactors-api-model-mapper.helper';

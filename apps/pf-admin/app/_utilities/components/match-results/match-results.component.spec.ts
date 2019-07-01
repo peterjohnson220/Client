@@ -1,7 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { generateDefaultAsyncStateObj, generateMockMatchResult } from '../../models';
+import { generateDefaultAsyncStateObj } from 'libs/models';
+
+import { generateMockMatchResult } from '../../models';
 import { MatchResultsComponent } from './match-results.component';
 
 

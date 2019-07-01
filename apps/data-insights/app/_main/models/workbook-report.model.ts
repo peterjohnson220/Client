@@ -1,4 +1,4 @@
-export interface TableauReportResponse {
+export interface Workbook {
   WorkbookId: string;
   WorkbookName: string;
   Thumbnail: string;
@@ -7,6 +7,4 @@ export interface TableauReportResponse {
   ShowTabs: boolean;
   IconClass: string[];
   Tag: string;
-  CreateDate?: Date;
-  EditDate?: Date;
 }

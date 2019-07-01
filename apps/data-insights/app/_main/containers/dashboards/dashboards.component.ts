@@ -4,24 +4,24 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
-import * as fromAllDashboardsActions from '../../actions/all-dashboards.action';
-import { TableauReport } from '../../models';
+import * as fromAllDashboardsActions from '../../actions/dashboards.actions';
+import { Workbook } from '../../models';
 
 @Component({
-  selector: 'pf-all-dashboards',
-  templateUrl: './all-dashboards.component.html',
-  styleUrls: ['./all-dashboards.component.scss']
+  selector: 'pf-dashboards',
+  templateUrl: './dashboards.component.html',
+  styleUrls: ['./dashboards.component.scss']
 })
-export class AllDashboardsComponent implements OnInit, OnDestroy {
+export class DashboardsComponent implements OnInit, OnDestroy {
 
   loadingCompanyReports$: Observable<boolean>;
   loadingCompanyReportsSuccess$: Observable<boolean>;
   loadingCompanyReportsErrors$: Observable<boolean>;
-  companyReports$: Observable<TableauReport[]>;
+  companyReports$: Observable<Workbook[]>;
 
   companyReportsSubscription: Subscription;
 
-  companyReports: TableauReport[];
+  companyReports: Workbook[];
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>

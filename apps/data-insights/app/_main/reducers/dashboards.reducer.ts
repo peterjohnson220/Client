@@ -1,11 +1,11 @@
-import * as fromAllDashboardsActions from '../actions/all-dashboards.action';
-import { TableauReport } from '../models';
+import * as fromAllDashboardsActions from '../actions/dashboards.actions';
+import { Workbook } from '../models';
 
 export interface State {
   loadingCompanyReports: boolean;
   loadingCompanyReportsSuccess: boolean;
   loadingCompanyReportsError: boolean;
-  companyReports: TableauReport[];
+  companyReports: Workbook[];
 }
 
 const initialState: State = {
@@ -30,7 +30,7 @@ export function reducer(state = initialState, action: fromAllDashboardsActions.A
         ...state,
         loadingCompanyReports: false,
         loadingCompanyReportsSuccess: true,
-        companyReports: action.payload.tableauReports
+        companyReports: action.payload
       };
     }
     case fromAllDashboardsActions.GET_COMPANY_REPORTS_ERROR: {
