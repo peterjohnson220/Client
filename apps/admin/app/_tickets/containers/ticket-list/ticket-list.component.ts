@@ -1,11 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-import { PageChangeEvent } from '@progress/kendo-angular-grid';
-import { SortDescriptor, composeSortDescriptors } from '@progress/kendo-data-query';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
@@ -15,7 +14,8 @@ import { UserTicketGridItem, UserTicketTabItem } from '../../models';
 @Component({
   selector: 'pf-ticket-list',
   templateUrl: './ticket-list.component.html',
-  styleUrls: ['./ticket-list.component.scss']
+  styleUrls: ['./ticket-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TicketListComponent implements OnInit, OnDestroy {
   private selectedTicket: UserTicketTabItem;
@@ -48,19 +48,14 @@ export class TicketListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromTicketListActions.LoadTickets({'UserTicket_State': 'New', 'Company_ID': 13}));
   }
 
-  handleCellClick(cellClickEvent: any): void {
+  handleCellClick(dataItem: any): void {
     const ut: UserTicketTabItem = {
-      UserTicketId: cellClickEvent.dataItem.Id,
-      Title: cellClickEvent.dataItem.Description
+      UserTicketId: dataItem.Id,
+      Title: dataItem.Description
     };
 
     this.selectedTicket = ut;
-  }
-
-  handleCellDoubleClick(): void {
-    if (this.selectedTicket) {
-      this.store.dispatch(new fromTicketActions.OpenTicket(this.selectedTicket));
-    }
+    this.store.dispatch(new fromTicketActions.OpenTicket(this.selectedTicket));
   }
 
   ngOnInit() {

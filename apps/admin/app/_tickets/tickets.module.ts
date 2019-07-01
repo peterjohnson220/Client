@@ -8,7 +8,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
-import { GridModule } from '@progress/kendo-angular-grid';
+import {BodyModule, ColumnResizingService, GridModule, SharedModule} from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { WindowRef } from 'libs/core/services';
@@ -38,6 +38,8 @@ import { TicketsRoutingModule } from './tickets-routing.module';
       TicketAttachmentEffects
     ]),
     GridModule,
+    SharedModule,
+    BodyModule,
     LayoutModule,
     ComboBoxModule,
     NgbTabsetModule,
@@ -65,7 +67,8 @@ import { TicketsRoutingModule } from './tickets-routing.module';
     TicketListPageComponent,
   ],
   providers: [
-    WindowRef
+    WindowRef,
+    ColumnResizingService
   ]
 })
 export class TicketsModule { }
