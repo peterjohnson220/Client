@@ -17,6 +17,7 @@ import {
   generateMockJdmListFilter
 } from 'libs/models/user-profile';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
+import { PermissionService } from 'libs/core/services';
 
 import { JobDescriptionListPageComponent } from './job-description-list.page';
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
@@ -72,6 +73,10 @@ describe('Job Description Management - Job Description - Job Description List Pa
         {
           provide: NgbModal,
           useValue: { open: jest.fn() }
+        },
+        {
+          provide: PermissionService,
+          useValue: { CheckPermission: jest.fn(() => true) }
         }
       ],
       declarations: [
@@ -138,7 +143,8 @@ describe('Job Description Management - Job Description - Job Description List Pa
       },
       PassThroughParameters: {
         newJobDescription: mockedNewJobDescription,
-        jobDescriptionAppliesTo: mockedSelected.jobDescriptionAppliesTo
+        jobDescriptionAppliesTo: mockedSelected.jobDescriptionAppliesTo,
+        templateId: 1
       }
     };
 
