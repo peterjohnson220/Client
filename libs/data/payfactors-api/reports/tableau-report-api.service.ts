@@ -19,4 +19,12 @@ export class TableauReportApiService {
   getCompanyReports(): Observable<TableauReportResponse[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetCompanyReports`);
   }
+
+  addWorkbookFavorite(workbookId: string): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.AddWorkbookFavorite`, { WorkbookId: workbookId });
+  }
+
+  removeWorkbookFavorite(workbookId: string): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.RemoveWorkbookFavorite`, { WorkbookId: workbookId });
+  }
 }

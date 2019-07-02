@@ -10,7 +10,7 @@ export interface State {
 }
 
 const initialState: State = {
-  standardReportsAsync: {...generateDefaultAsyncStateObj<StandardReport[]>(), obj: [] }
+  standardReportsAsync: generateDefaultAsyncStateObj<StandardReport[]>([])
 };
 
 export function reducer(state = initialState, action: fromDataInsightsPageActions.Actions): State {

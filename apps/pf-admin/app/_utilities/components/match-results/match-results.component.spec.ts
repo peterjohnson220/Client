@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { generateDefaultAsyncStateObj } from 'libs/models';
 
-import { generateMockMatchResult } from '../../models';
+import { generateMockMatchResult, MatchResult } from '../../models';
 import { MatchResultsComponent } from './match-results.component';
 
 
@@ -68,43 +68,41 @@ describe('Pf-Admin - Utilities - Match Results', () => {
   });
 
   it('Should return 0 for the match count when we have no match results', () => {
-    instance.matchResultsAsync = {...generateDefaultAsyncStateObj(), obj: [] };
+    instance.matchResultsAsync = generateDefaultAsyncStateObj<MatchResult[]>([]);
 
     expect(instance.matchCount).toBe(0);
   });
 
   it('Should return 0 for the exact match count when we have no match results', () => {
-    instance.matchResultsAsync = {...generateDefaultAsyncStateObj(), obj: [] };
+    instance.matchResultsAsync = generateDefaultAsyncStateObj<MatchResult[]>([]);
 
     expect(instance.exactMatchCount).toBe(0);
   });
 
   it('Should return 0 for the non match count when we have no match results', () => {
-    instance.matchResultsAsync = {...generateDefaultAsyncStateObj(), obj: [] };
+    instance.matchResultsAsync = generateDefaultAsyncStateObj<MatchResult[]>([]);
 
     expect(instance.nonMatchCount).toBe(0);
   });
 
   it('Should return the length of the match results for the match count', () => {
-    instance.matchResultsAsync = {...generateDefaultAsyncStateObj(), obj: [generateMockMatchResult()] };
+    instance.matchResultsAsync = generateDefaultAsyncStateObj<MatchResult[]>([generateMockMatchResult()]);
 
     expect(instance.matchCount).toBe(1);
   });
 
   it('Should return the exact match count, when we have match results', () => {
-    instance.matchResultsAsync = {
-      ...generateDefaultAsyncStateObj(),
-      obj: [generateMockMatchResult(), {...generateMockMatchResult(), IsExactMatch: true}]
-    };
+    instance.matchResultsAsync = generateDefaultAsyncStateObj<MatchResult[]>(
+      [generateMockMatchResult(), {...generateMockMatchResult(), IsExactMatch: true}]
+    );
 
     expect(instance.exactMatchCount).toBe(1);
   });
 
   it('Should return the length of match results minus the exact match count for the non match count', () => {
-    instance.matchResultsAsync = {
-      ...generateDefaultAsyncStateObj(),
-      obj: [generateMockMatchResult(), generateMockMatchResult(), {...generateMockMatchResult(), IsExactMatch: true}]
-    };
+    instance.matchResultsAsync = generateDefaultAsyncStateObj<MatchResult[]>(
+      [generateMockMatchResult(), generateMockMatchResult(), {...generateMockMatchResult(), IsExactMatch: true}]
+    );
 
     expect(instance.nonMatchCount).toBe(2);
   });

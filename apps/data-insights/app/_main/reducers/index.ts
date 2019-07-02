@@ -4,12 +4,12 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 import * as fromDataInsightsPageReducer from './data-insights-page.reducer';
-import * as fromAllDashboardsReducer from './dashboards.reducer';
+import * as fromDashboardsReducer from './dashboards.reducer';
 
 // Feature area state
 export interface DataInsightsMainState {
   dataInsightsPage: fromDataInsightsPageReducer.State;
-  dashboards: fromAllDashboardsReducer.State;
+  dashboards: fromDashboardsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -20,7 +20,7 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   dataInsightsPage: fromDataInsightsPageReducer.reducer,
-  dashboards: fromAllDashboardsReducer.reducer
+  dashboards: fromDashboardsReducer.reducer
 };
 
 // Select Feature Area
@@ -32,7 +32,7 @@ export const selectDataInsightsPageState = createSelector(
   (state: DataInsightsMainState) => state.dataInsightsPage
 );
 
-export const selectAllDashboardsState = createSelector(
+export const selectDashboardsState = createSelector(
   selectFeatureAreaState,
   (state: DataInsightsMainState) => state.dashboards
 );
@@ -44,22 +44,17 @@ export const getStandardReportsAsync = createSelector(
 );
 
 // Dashboards
-export const getLoadingCompanyReports = createSelector(
-  selectAllDashboardsState,
-  fromAllDashboardsReducer.getLoadingCompanyReports
+export const getCompanyWorkbooksAsync = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getCompanyWorkbooksAsync
 );
 
-export const getLoadingCompanyReportsSuccess = createSelector(
-  selectAllDashboardsState,
-  fromAllDashboardsReducer.getLoadingCompanyReportsSuccess
+export const getDashboardView = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getDashboardView
 );
 
-export const getLoadingCompanyReportsError = createSelector(
-  selectAllDashboardsState,
-  fromAllDashboardsReducer.getLoadingCompanyReportsError
-);
-
-export const getCompanyReports = createSelector(
-  selectAllDashboardsState,
-  fromAllDashboardsReducer.getCompanyReports
+export const getFilteredCompanyWorkbooks = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getFilteredCompanyWorkbooks
 );

@@ -1,40 +1,38 @@
-<div class="container position-relative h-100">
+<div class="dashboards position-relative h-100">
   <div class="top-bar">
     <div class="title">
       <kendo-dropdownlist *ngIf="anyFavorites; else allDashboards"
                           class="dashboard-view"
                           [attr.data-qa-id]="'ddm-dashboard-views'"
                           [data]="dashboardViews"
-                          [(ngModel)]="selectedView">
+                          [ngModel]="dashboardView$ | async"
+                          (valueChange)="handleViewChanged($event)">
       </kendo-dropdownlist>
-      <ng-template #allDashboards>All Dashboards</ng-template>
+      <ng-template #allDashboards>
+        <span class="d-inline-block">All Dashboards</span>
+      </ng-template>
     </div>
   </div>
-  <pf-async-container
-        [loading]="loadingCompanyReports$ | async"
-        [loadingError]="loadingCompanyReportsErrors$ | async"
-        [loadingErrorMessage]="'Error.'"
-        [hideReloadButton]="true">
+  <ng-container *ngIf="(companyWorkbooksAsync$ | async) as companyWorkbooksAsync">
+    <pf-async-container
+      [loading]="companyWorkbooksAsync.loading"
+      [loadingError]="companyWorkbooksAsync.loadingError"
+      [loadingErrorMessage]="'Error Loading Dashboards'"
+      [hideReloadButton]="true">
 
+      <div class="container-fluid">
         <div class="row">
-          <ng-container *ngIf="companyReports?.length">
-            <div *ngFor="let report of companyReports"
-                 class="col-xs-12 col-md-6 col-lg-4"
-                 [ngClass]="{'d-none': isFavoritesOnly && !report.IsFavorite}">
-
-              <div class="report-container">
-                <ng-container *ngIf="!!report.IconClass?.length">
-                  <fa-icon [icon]="report.IconClass" class="icon fa-fw"></fa-icon>
-                  <div class="vertical-separator"></div>
-                </ng-container>
-
-                <div class="d-flex flex-column ml-3 content">
-                  <span class="tag" data-toggle="tooltip" title="{{report.Tag}}">{{report.Tag}}</span>
-                  <span class="workbook-name" data-toggle="tooltip" title="{{report.WorkbookName}}">{{report.WorkbookName}}</span>
-                </div>
-              </div>
+          <ng-container *ngIf="filteredCompanyWorkbooks?.length">
+            <div *ngFor="let workbook of filteredCompanyWorkbooks; trackBy: trackByFn"
+                 class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+              <pf-workbook-card
+                [workbook]="workbook"
+                (favoriteClicked)="handleFavoriteClicked($event)">
+              </pf-workbook-card>
             </div>
           </ng-container>
         </div>
-      </pf-async-container>
+      </div>
+    </pf-async-container>
+  </ng-container>
 </div>
