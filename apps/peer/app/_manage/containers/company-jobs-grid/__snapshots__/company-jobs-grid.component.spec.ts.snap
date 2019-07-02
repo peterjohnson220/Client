@@ -56,9 +56,24 @@ exports[`CompanyJobsGridComponent should show a kendo grid with columns 1`] = `
           
         </kendo-grid-column>
         <kendo-grid-column
+          field="ExchangeJobTitle"
+          title="Exchange Job Title"
+        >
+          
+          
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="ExchangeJobFamily"
+          title="Exchange Job Family"
+        >
+          
+          
+        </kendo-grid-column>
+        <kendo-grid-column
           field="MatchedBy"
           title="Matched By"
         >
+          
           
         </kendo-grid-column>
       </kendo-grid>

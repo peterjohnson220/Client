@@ -3,3 +3,17 @@
 .company-jobs-grid-container {
   transition: height .4s ease-in-out;
 }
+
+:host ::ng-deep .k-grid {
+  tr, tr.k-alt {
+    &:hover {
+      button {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.match-button {
+  visibility: hidden;
+}
