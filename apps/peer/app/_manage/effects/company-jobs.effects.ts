@@ -23,21 +23,18 @@ export class CompanyJobsEffects {
   @Effect()
   loadCompanyJobs$: Observable<Action> = this.actions$.pipe(
     ofType(fromCompanyJobsActions.LOAD_COMPANY_JOBS),
-    // grab grid state
+    // grab grid state and search term
     withLatestFrom(
-      this.store.pipe(
-        select(fromReducers.getCompanyJobsGridState)),
-        (action, gridState) => gridState
-    ),
-    // grab the search term
-    withLatestFrom(
-      this.store.pipe(
-        select(fromReducers.getCompanyJobsSearchTerm)),
-        (gridState, searchTerm) => ({ gridState, searchTerm })
+      this.store.pipe(select(fromReducers.getCompanyJobsGridState)),
+      this.store.pipe(select(fromReducers.getCompanyJobsSearchTerm)),
+      this.store.pipe(select(fromReducers.getCompanyJobsExchangeId)),
+        (action: fromCompanyJobsActions.LoadCompanyJobs, gridState, searchTerm, exchangeId) =>
+          ({ action, gridState, searchTerm, exchangeId })
     ),
     // make the call to the api service, then fire a success/failure action
     switchMap(combined => (
-      this.exchangeCompanyApiService.getActiveCompanyJobs(combined.gridState, [], combined.searchTerm).pipe(
+      this.exchangeCompanyApiService.GetActiveCompanyJobsWithMatchedExchangeJob(combined.gridState, [],
+        combined.searchTerm, combined.exchangeId).pipe(
         map((gridDataResult: GridDataResult) => new fromCompanyJobsActions.LoadCompanyJobsSuccess(gridDataResult)),
         catchError((error: HttpErrorResponse ) => {
           if (error.status === 400 && error.error.Message.includes('Paging')) {

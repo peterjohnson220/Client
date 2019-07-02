@@ -55,6 +55,12 @@ exports[`CompanyJobsGridComponent should show a kendo grid with columns 1`] = `
           
           
         </kendo-grid-column>
+        <kendo-grid-column
+          field="MatchedBy"
+          title="Matched By"
+        >
+          
+        </kendo-grid-column>
       </kendo-grid>
     </pf-async-container>
   </div>

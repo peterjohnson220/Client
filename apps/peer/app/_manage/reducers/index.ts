@@ -355,3 +355,8 @@ export const getCompanyJobsDownloadingJdmDescriptionError = createSelector(
   getCompanyJobsFeature,
   fromCompanyJobsReducer.getDownloadingJdmDescriptionError
 );
+
+export const getCompanyJobsExchangeId = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getCompanyJobsExchangeId
+)
