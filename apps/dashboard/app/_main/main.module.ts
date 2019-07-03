@@ -49,6 +49,7 @@ import { TilePreviewListComponent } from './components';
 import { TilePreviewPlaceHolderComponent } from './components';
 import { CompositeSummaryDownloadComponent } from './components';
 import { BasicListComponent } from './components';
+import { ResourcesComponent } from './containers/resources/resources.component';
 
 @NgModule({
   imports: [
@@ -98,7 +99,8 @@ import { BasicListComponent } from './components';
     UserVoiceIndicatorComponent,
     DashboardTCModalComponent,
     CompositeSummaryDownloadComponent,
-    BasicListComponent
+    BasicListComponent,
+    ResourcesComponent
   ]
 })
 export class MainModule {
