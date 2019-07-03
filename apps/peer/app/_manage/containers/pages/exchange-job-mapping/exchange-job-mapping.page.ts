@@ -9,7 +9,7 @@ import { PageChangeEvent } from '@progress/kendo-angular-grid';
 import { GridTypeEnum } from 'libs/models/common';
 import { ExchangeJobMapping, ExchangeRequestTypeEnum } from 'libs/models/peer';
 import { UserContext } from 'libs/models';
-import { CompanyJob } from 'libs/models/company';
+import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 import {Permissions} from 'libs/constants';
 import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
 import { ExchangeJobMappingService } from '../../../services';
@@ -76,7 +76,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     }
 
     handleCompanyJobsSearchChanged(searchTerm: string): void {
-        this.store.dispatch(new companyJobsActions.UpdateSearchTerm(searchTerm));
+        this.store.dispatch(new companyJobsActions.UpdateCompanyJobsSearchTerm(searchTerm));
         this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.PeerManageCompanyJobs, { skip: 0 } as PageChangeEvent));
         this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
     }
@@ -140,7 +140,5 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping));
         this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(null));
-
-        this.store.dispatch(new companyJobsActions.UpdateSearchTerm(null));
     }
 }

@@ -6,6 +6,7 @@ exports[`CompanyJobsGridComponent should show a kendo grid with columns 1`] = `
   companyJobsGridData$={[Function Store]}
   companyJobsGridState={[Function Object]}
   companyJobsGridState$={[Function Store]}
+  exchangeId="null"
   gridFilter={[Function Object]}
   isRowSelected={[Function Function]}
   loadingGrid$={[Function Store]}

@@ -1,0 +1,51 @@
+<section class="exchange-job-search-container position-relative">
+  <h5 class="text-uppercase mb-3">Search Exchange Jobs</h5>
+  <div class="search-box-container d-flex">
+    <pf-input-debounce
+      #titleSearchComponent
+      [(ngModel)]="titleSearchTerm"
+      [placeholderText]="'Search for a Job Title...'" 
+      [automationClassName]="'au-txt-exchange-job-title-search'"
+      (valueChanged)="handleTitleSearchChanged($event)"
+      class="w-50 mr-3">
+    </pf-input-debounce>
+    <pf-input-debounce
+      [(ngModel)]="descriptionSearchTerm"
+      [placeholderText]="'Search in the Job Description...'"
+      [automationClassName]="'au-txt-exchange-job-description-search'"
+      (valueChanged)="handleDescriptionSearchChanged($event)"
+      class="w-50">
+    </pf-input-debounce>
+  </div>
+  <div class="loading-container position-relative">
+    <pf-async-container 
+      [loading]="(loadingExchangeJobs$ | async) || (savingAssociation$ | async)"
+      [loadingError]="(loadingExchangeJobsError$ | async) || (savingAssociationError$ | async)"
+      [loadingErrorMessage]="'Unexpected Error Occurred'"
+      [hideReloadButton]="true">
+      <div *ngFor="let exchangeJob of exchangeJobs$ | async" class="search-results mt-4">
+        <div class="d-flex">
+          <div class="flex-grow-2">
+            <h6>{{ exchangeJob.ExchangeJobTitle }}</h6>
+            <label class="text-muted mb-1">{{ exchangeJob.ExchangeJobFamily }}</label>
+          </div>
+          <button class="associate" (click)="handleAssociationClick(exchangeJob)">
+            <fa-icon icon="exchange"></fa-icon><span>Match</span>
+          </button>
+        </div>
+        <pf-ellipsis-view-more [content]="exchangeJob.ExchangeJobDescription" [maxLength]="175">
+        </pf-ellipsis-view-more>
+      </div>
+      <div *ngIf="(exchangeJobs$ | async).length === 0 && !(loadingExchangeJobs$ | async)" class="no-search-results">
+        <p class="text-center text-muted pt-4 mb-1">
+          No results for <span class="font-italic">{{ titleSearchTerm }} {{ descriptionSearchTerm }}</span>
+        </p>
+        <p class="text-center">
+          <a href="javascript:void(0)" (click)="handleResetSearch()" class="reset font-italic">
+            <fa-icon icon="redo-alt" class="mr-1"></fa-icon>Reset now
+          </a>
+        </p>
+      </div>
+    </pf-async-container>
+  </div>
+</section>

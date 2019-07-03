@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExchangeJobSearchComponent should search results when matches are found 1`] = `
+<pf-exchange-job-search
+  allSubscriptions={[Function Subscription]}
+  descriptionSearchTerm="null"
+  exchangeId="null"
+  exchangeJobs$={[Function Observable]}
+  loadingExchangeJobs$={[Function Store]}
+  loadingExchangeJobsError$={[Function Store]}
+  savingAssociation$={[Function Store]}
+  savingAssociationError$={[Function Store]}
+  selectedCompanyJob="null"
+  store={[Function Store]}
+  titleSearchTerm="null"
+>
+  <section
+    class="exchange-job-search-container position-relative"
+  >
+    <h5
+      class="text-uppercase mb-3"
+    >
+      Search Exchange Jobs
+    </h5>
+    <div
+      class="search-box-container d-flex"
+    >
+      <pf-input-debounce
+        class="w-50 mr-3"
+      />
+      <pf-input-debounce
+        class="w-50"
+      />
+    </div>
+    <div
+      class="loading-container position-relative"
+    >
+      <pf-async-container>
+        
+        <div
+          class="search-results mt-4"
+        >
+          <div
+            class="d-flex"
+          >
+            <div
+              class="flex-grow-2"
+            >
+              <h6>
+                ExchangeJobTitle
+              </h6>
+              <label
+                class="text-muted mb-1"
+              >
+                ExchangeJobFamily
+              </label>
+            </div>
+            <button
+              class="associate"
+            >
+              <fa-icon
+                icon="exchange"
+              />
+              <span>
+                Match
+              </span>
+            </button>
+          </div>
+          <pf-ellipsis-view-more />
+        </div>
+        
+      </pf-async-container>
+    </div>
+  </section>
+</pf-exchange-job-search>
+`;
+
+exports[`ExchangeJobSearchComponent should show a no results message when no matches are found 1`] = `
+<pf-exchange-job-search
+  allSubscriptions={[Function Subscription]}
+  descriptionSearchTerm="null"
+  exchangeId="null"
+  exchangeJobs$={[Function Observable]}
+  loadingExchangeJobs$={[Function Store]}
+  loadingExchangeJobsError$={[Function Store]}
+  savingAssociation$={[Function Store]}
+  savingAssociationError$={[Function Store]}
+  selectedCompanyJob="null"
+  store={[Function Store]}
+  titleSearchTerm="null"
+>
+  <section
+    class="exchange-job-search-container position-relative"
+  >
+    <h5
+      class="text-uppercase mb-3"
+    >
+      Search Exchange Jobs
+    </h5>
+    <div
+      class="search-box-container d-flex"
+    >
+      <pf-input-debounce
+        class="w-50 mr-3"
+      />
+      <pf-input-debounce
+        class="w-50"
+      />
+    </div>
+    <div
+      class="loading-container position-relative"
+    >
+      <pf-async-container>
+        
+        
+        <div
+          class="no-search-results"
+        >
+          <p
+            class="text-center text-muted pt-4 mb-1"
+          >
+             No results for 
+            <span
+              class="font-italic"
+            >
+               
+            </span>
+          </p>
+          <p
+            class="text-center"
+          >
+            <a
+              class="reset font-italic"
+              href="javascript:void(0)"
+            >
+              <fa-icon
+                class="mr-1"
+                icon="redo-alt"
+              />
+              Reset now 
+            </a>
+          </p>
+        </div>
+      </pf-async-container>
+    </div>
+  </section>
+</pf-exchange-job-search>
+`;

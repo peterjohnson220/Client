@@ -1,6 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
-@import 'peer/peer-colors';
 @import 'common/common-variables';
+
+@import 'peer/peer-colors';
+@import 'peer/peer-match-button';
 
 pf-company-jobs-grid {
   // hide the header border between the association color column and the company job title column
@@ -10,20 +11,6 @@ pf-company-jobs-grid {
   .k-grid-content .show-tooltip {
     @extend %ellipsis-overflowing-text;
   }
-  .association-status {
-    display: inline-block;
-    width: 100%;
-    height: 34px;
-    margin-left: -4px;
-    transition: background-color .4s ease-in-out;
-    &.associated {
-      background-color: $associated;
-    }
-    &.not-associated {
-      background-color: $not-associated;
-    }
-  }
-
   // hide No records msg when loading, needs to be hidden vs display: none since the scroll directive uses it as a height benchmark 
   .loading-blanket + .k-grid .k-grid-norecords {
     visibility: hidden;
@@ -31,15 +18,17 @@ pf-company-jobs-grid {
 }
 
 pf-company-job-and-exchange-detail {
-  svg.fa-exchange {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 170px;
-    opacity: .03;
-    pointer-events: none;
-    // show through loading container's blanket
-    z-index: 200;
+  .bg-image {
+    svg.fa-exchange {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 170px;
+      opacity: .03;
+      pointer-events: none;
+      // show through loading container's blanket
+      z-index: 200;
+    }
   }
   pf-company-job-detail, pf-exchange-job-detail {
     .job-description, .exchange-job-description {
@@ -54,6 +43,26 @@ pf-company-job-and-exchange-detail {
           margin-right: .5rem;
           opacity: .8;
           font-size: 15px;
+        }
+      }
+    }
+  }
+  pf-exchange-job-search {
+    button.associate {
+      @extend %match-button;
+    }
+    .no-search-results {
+      a.reset {
+        color: inherit;
+        text-decoration: underline;
+        svg {
+          font-size: .9rem;
+          transition: all .4s ease-in-out;
+        }
+        &:hover {
+          svg {
+            transform: rotate(720deg);
+          }
         }
       }
     }

@@ -2,10 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import * as manageReducers from '../../reducers/';
+import { generateMockCompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 
 import { CompanyJobAndExchangeDetailComponent } from './company-job-and-exchange-detail.component';
 
@@ -22,10 +24,9 @@ describe('CompanyJobAndExchangeDetailComponent', () => {
           peer_manage: combineReducers(manageReducers.reducers)
         }),
       ],
-      declarations: [ CompanyJobAndExchangeDetailComponent ],
+      declarations: [CompanyJobAndExchangeDetailComponent],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+    });
 
     store = TestBed.get(Store);
     spyOn(store, 'dispatch');
@@ -41,7 +42,15 @@ describe('CompanyJobAndExchangeDetailComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render a close link plus the company job and exchange job detail panels', () => {
+  it('should render the exchange job detail panel when the selected company job is associated', () => {
+    component.selectedCompanyJob$ = of({ ...generateMockCompanyJob(), IsAssociated: true });
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should render the exchange job search panel when the selected company job is not associated', () => {
+    component.selectedCompanyJob$ = of({ ...generateMockCompanyJob(), IsAssociated: false });
+    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 

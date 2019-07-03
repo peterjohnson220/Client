@@ -23,19 +23,19 @@ exports[`CompanyJobDetailComponent should hide a link to download the jdm descri
     <label
       class="text-muted text-uppercase"
     >
-      Code
+      Family
     </label>
     <span>
-      MockCompanyJobCode
+      MockJobFamily
     </span>
   </div><div>
     <label
       class="text-muted text-uppercase"
     >
-      Family
+      Level
     </label>
     <span>
-      MockJobFamily
+      MockJobLevel
     </span>
   </div><div>
     <label
@@ -88,19 +88,19 @@ exports[`CompanyJobDetailComponent should render the selected company jobs props
     <label
       class="text-muted text-uppercase"
     >
-      Code
+      Family
     </label>
     <span>
-      MockCompanyJobCode
+      MockJobFamily
     </span>
   </div><div>
     <label
       class="text-muted text-uppercase"
     >
-      Family
+      Level
     </label>
     <span>
-      MockJobFamily
+      MockJobLevel
     </span>
   </div><div>
     <label
@@ -153,19 +153,19 @@ exports[`CompanyJobDetailComponent should show a link to download the jdm descri
     <label
       class="text-muted text-uppercase"
     >
-      Code
+      Family
     </label>
     <span>
-      MockCompanyJobCode
+      MockJobFamily
     </span>
   </div><div>
     <label
       class="text-muted text-uppercase"
     >
-      Family
+      Level
     </label>
     <span>
-      MockJobFamily
+      MockJobLevel
     </span>
   </div><div>
     <label
@@ -214,19 +214,19 @@ exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm 
     <label
       class="text-muted text-uppercase"
     >
-      Code
+      Family
     </label>
     <span>
-      MockCompanyJobCode
+      MockJobFamily
     </span>
   </div><div>
     <label
       class="text-muted text-uppercase"
     >
-      Family
+      Level
     </label>
     <span>
-      MockJobFamily
+      MockJobLevel
     </span>
   </div><div>
     <label
@@ -277,19 +277,19 @@ exports[`CompanyJobDetailComponent should show an error message if the jdm descr
     <label
       class="text-muted text-uppercase"
     >
-      Code
+      Family
     </label>
     <span>
-      MockCompanyJobCode
+      MockJobFamily
     </span>
   </div><div>
     <label
       class="text-muted text-uppercase"
     >
-      Family
+      Level
     </label>
     <span>
-      MockJobFamily
+      MockJobLevel
     </span>
   </div><div>
     <label
@@ -342,19 +342,19 @@ exports[`CompanyJobDetailComponent should show an informational message when mul
     <label
       class="text-muted text-uppercase"
     >
-      Code
+      Family
     </label>
     <span>
-      MockCompanyJobCode
+      MockJobFamily
     </span>
   </div><div>
     <label
       class="text-muted text-uppercase"
     >
-      Family
+      Level
     </label>
     <span>
-      MockJobFamily
+      MockJobLevel
     </span>
   </div><div>
     <label

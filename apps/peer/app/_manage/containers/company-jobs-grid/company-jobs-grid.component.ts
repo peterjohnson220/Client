@@ -9,7 +9,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
 import { GridTypeEnum } from 'libs/models';
-import { CompanyJob } from 'libs/models/company';
+import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as companyJobsActions from '../../actions/company-jobs.actions';
@@ -33,6 +33,7 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
 
   allSubscriptions: Subscription = new Subscription();
 
+  exchangeId: number;
   companyJobsGridState: State;
   gridFilter: CompositeFilterDescriptor;
   pageRowIndexToScrollTo: number;
@@ -67,10 +68,15 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
       this.selectedCompanyJob = selectedCompanyJob;
     }));
 
+    this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsExchangeId)).subscribe(exchangeId => {
+      this.exchangeId = exchangeId;
+    }));
+
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
 
   ngOnDestroy() {
+    this.store.dispatch(new companyJobsActions.Reset());
     this.allSubscriptions.unsubscribe();
   }
 
@@ -86,14 +92,22 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
   }
 
   handleCellClick({ dataItem, rowIndex }) {
-    // bail if user selects currently selected job again to prevent fast clicks all sending xhrs
+    // bail if user selects currently selected since there's nothing to do
     if (this.selectedCompanyJob && this.selectedCompanyJob.CompanyJobId === dataItem.CompanyJobId) {
       return;
     }
 
     const pageRowIndex = rowIndex - this.companyJobsGridState.skip;
     this.store.dispatch(new companyJobsActions.UpdatePageRowIndexToScrollTo(pageRowIndex));
-    this.store.dispatch(new companyJobsActions.LoadMappedExchangeJobs(dataItem.CompanyJobId));
+
+    // if the job is associated fetch the exchange job details, otherwise kick off a search based on the company job's title
+    if (dataItem.IsAssociated) {
+      this.store.dispatch(new companyJobsActions.LoadMappedExchangeJobs(dataItem.CompanyJobId));
+    } else {
+      this.store.dispatch(new companyJobsActions.UpdateExchangeJobsTitleSearchTerm(dataItem.JobTitle));
+      this.store.dispatch(new companyJobsActions.UpdateExchangeJobsDescriptionSearchTerm(null));
+      this.store.dispatch(new companyJobsActions.SearchExchangeJobs());
+    }
 
     // need to wait a turn here so the scroll directive can run as enabled before the indicator to disable (a company job) is set
     setTimeout(() => this.store.dispatch(new companyJobsActions.SetSelectedCompanyJob(dataItem)), 0);
