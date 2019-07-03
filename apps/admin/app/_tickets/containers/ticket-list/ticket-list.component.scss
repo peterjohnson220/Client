@@ -1,2 +1,24 @@
 @import 'tickets-page';
 @import 'tickets-variables';
+@import "colors";
+
+:host ::ng-deep thead tr {
+  background-color: rgb(228, 228, 228);
+  font-weight: 600;
+}
+
+:host ::ng-deep .badge {
+  white-space: normal !important;
+}
+
+:host ::ng-deep kendo-grid table {
+  table-layout: fixed !important;
+}
+
+:host ::ng-deep a.ticket-link {
+  color: $pf-brand-secondary-color;
+}
+
+:host ::ng-deep .k-grid td {
+  border-width: 0 0 0 0;
+}

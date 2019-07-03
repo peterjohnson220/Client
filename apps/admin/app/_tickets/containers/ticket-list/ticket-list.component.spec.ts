@@ -47,15 +47,14 @@ describe('Admin - Tickets - Ticket List', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it(  'should dispatch an OpenTicket action when handleCellDoubleClick is triggered', () => {
+  it(  'should dispatch an OpenTicket action when handleCellClick is triggered', () => {
     spyOn(store, 'dispatch');
 
     const userTicketGridItem: UserTicketGridItem = mockUserTicketGridItem;
     const mockUserTicketTabItem: UserTicketTabItem = {UserTicketId: userTicketGridItem.Id, Title: userTicketGridItem.Description};
     const expectedAction = new fromTicketList.OpenTicket(mockUserTicketTabItem);
 
-    instance.handleCellClick({ dataItem: userTicketGridItem});
-    instance.handleCellDoubleClick();
+    instance.handleCellClick(userTicketGridItem);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

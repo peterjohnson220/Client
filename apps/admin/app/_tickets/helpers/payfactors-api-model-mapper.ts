@@ -30,8 +30,8 @@ export class PayfactorsApiModelMapper {
         CompanyId: ut.CompanyId,
         Type: this.getTicketTypeDisplayName(ut.UserTicketType, ut.FileType),
         Status: ut.UserTicketState,
-        OpenedUser: ut.OpenedUserEmail,
-        ServiceUser: ut.ServicesUserEmail,
+        OpenedUser: ut.OpenedUserFullName,
+        ServiceUser: ut.ServicesUserFullName,
         Comments: this.squashComments(ut.UserTicketComments),
         Description: ut.UserTicket,
         TicketCssClass: ut.TicketCssClass
