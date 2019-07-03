@@ -8,13 +8,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
-import { PfCommonModule } from 'libs/core';
+import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { StandardReportComponent, WorkbookCardComponent } from './components';
-import { DataInsightsPageComponent, DashboardsComponent } from './containers';
-import { DataInsightsPageEffects, DashboardsEffects } from './effects';
+import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent } from './containers';
+import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -29,7 +29,8 @@ import { MainRoutingModule } from './main-routing.module';
     StoreModule.forFeature('dataInsights_main', reducers),
     EffectsModule.forFeature([
       DataInsightsPageEffects,
-      DashboardsEffects
+      DashboardsEffects,
+      ReportViewPageEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
@@ -44,10 +45,13 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Containers
-    DataInsightsPageComponent, DashboardsComponent,
+    DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
 
     // Components
     StandardReportComponent, WorkbookCardComponent
+  ],
+  providers: [
+    WindowRef
   ]
 })
 export class MainModule {

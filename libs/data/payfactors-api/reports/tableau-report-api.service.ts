@@ -16,6 +16,11 @@ export class TableauReportApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetStandardReports`);
   }
 
+  getStandardReportViewUrl(workbookId: string): Observable<string> {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetStandardReportViewUrl`,
+      { params: { workbookId: workbookId }});
+  }
+
   getCompanyReports(): Observable<TableauReportResponse[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetCompanyReports`);
   }

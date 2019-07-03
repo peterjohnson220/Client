@@ -1,1 +1,2 @@
-export * from './data-insights.page';
+export * from './data-insights';
+export * from './report-view';

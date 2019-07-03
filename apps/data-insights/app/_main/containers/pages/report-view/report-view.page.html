@@ -1,0 +1,16 @@
+<ng-container *ngIf="(workbookViewUrl$ | async) as workbookViewUrlAsync">
+  <pf-page-with-title-bar [returnUrl]="'/'">
+    <ng-container page-title>{{workbookTitle}}</ng-container>
+    <ng-container page-content>
+      <pf-async-container
+        [loading]="workbookViewUrlAsync.loading"
+        [loadingError]="workbookViewUrlAsync.loadingError"
+        [loadingErrorMessage]="'Error loading this workbook'"
+        [hideReloadButton]="true">
+        <div id="vizContainer">
+
+        </div>
+      </pf-async-container>
+    </ng-container>
+  </pf-page-with-title-bar>
+</ng-container>

@@ -9,7 +9,9 @@ export class PayfactorsApiModelMapper {
       return {
         Id: tr.WorkbookId,
         Name: tr.WorkbookName,
-        ThumbnailUrl: tr.Thumbnail
+        ThumbnailUrl: tr.Thumbnail,
+        ContentUrl: tr.ContentUrl,
+        ShowTabs: tr.ShowTabs
       };
     });
   }

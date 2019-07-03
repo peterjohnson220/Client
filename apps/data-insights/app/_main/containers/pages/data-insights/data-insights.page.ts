@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
 
-import { StandardReport } from '../../models';
-import * as fromDataInsightsPageActions from '../../actions/data-insights-page.actions';
-import * as fromDataInsightsMainReducer from '../../reducers';
+import { StandardReport } from '../../../models';
+import * as fromDataInsightsPageActions from '../../../actions/data-insights-page.actions';
+import * as fromDataInsightsMainReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-data-insights-page',
