@@ -162,6 +162,14 @@ export class ExchangeCompanyApiService {
     );
   }
 
+  approvePendingExchangeJobMapping(request: UpsertExchangeJobMapRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/ApprovePendingExchangeJobMapping`, request);
+  }
+
+  rejectPendingExchangeJobMapping(request: UpsertExchangeJobMapRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/RejectPendingExchangeJobMapping`, request);
+  }
+
   getExchangeJobOrgs(exchangeJobId: number): Observable<string[]> {
     return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetExchangeJobOrgs`,
       { params: { exchangeJobId } }

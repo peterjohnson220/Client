@@ -1,10 +1,20 @@
 <section *ngIf="exchangeJob">
-  <h5 class="text-uppercase mb-3">Exchange Job</h5>
+  <div class="d-flex">
+    <h5 class="text-uppercase mb-3 flex-grow-2">Exchange Job</h5>
+    <div *ngIf="selectedCompanyJob.IsPendingPeerUserReview">
+      <button class="approve mr-2" (click)="handleApproveClick()">
+        <fa-icon icon="check"></fa-icon>Approve
+      </button>
+      <button class="reject" (click)="handleRejectClick()">
+        <fa-icon icon="times"></fa-icon>Reject
+      </button>
+    </div>
+  </div>
   <div class="position-relative">
     <pf-async-container 
-      [loading]="exchangeJobLoading" 
-      [loadingError]="exchangeJobLoadingError"
-      [loadingErrorMessage]="'Error Loading Exchange Job'"
+      [loading]="exchangeJobLoading || savingAssociation" 
+      [loadingError]="exchangeJobLoadingError || savingAssociationError"
+      [loadingErrorMessage]="'Unexpected Error Occurred'"
       [hideReloadButton]="true">
       <div>
         <label class="text-muted text-uppercase">Title</label>

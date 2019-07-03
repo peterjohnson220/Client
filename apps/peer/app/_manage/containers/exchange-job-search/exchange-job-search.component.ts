@@ -75,7 +75,7 @@ export class ExchangeJobSearchComponent implements OnInit, OnDestroy {
       CompanyJobId: this.selectedCompanyJob.CompanyJobId
     };
 
-    this.store.dispatch(new companyJobsActions.SaveAssociation(associationRequest));
+    this.store.dispatch(new companyJobsActions.CreateAssociation(associationRequest));
   }
 
   handleResetSearch() {

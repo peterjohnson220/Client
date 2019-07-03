@@ -6,6 +6,7 @@ export interface ExchangeJob {
   ExchangeJobTitle: string;
   ExchangeJobDescription: string;
   ExchangeJobFamily: string;
+  ExchangeJobLevel: string;
   ExchangeId: number;
   ExchangeName: string;
   CompanyJobMappings: CompanyJobMapping[];
@@ -18,6 +19,7 @@ export function generateMockExchangeJob(): ExchangeJob {
     ExchangeJobTitle: 'ExchangeJobTitle',
     ExchangeJobDescription: 'ExchangeJobDescription',
     ExchangeJobFamily: 'ExchangeJobFamily',
+    ExchangeJobLevel: 'ExchangeJobLevel',
     ExchangeId: 789,
     ExchangeName: 'ExchangeName',
     CompanyJobMappings: [],

@@ -1,8 +1,8 @@
 @import 'peer/peer-colors';
 
-%match-button {
+@mixin peer-button($primaryColor) {
   background-color: transparent;
-  border: 1px solid $match-button-primary;
+  border: 1px solid $primaryColor;
   border-radius: .35rem;
   height: 26px;
   min-width: 90px;
@@ -15,14 +15,14 @@
   svg {
     transition: color .2s ease-in;
     margin-right: .4rem;
-    color: $match-button-primary;
+    color: $primaryColor;
     opacity: .8;
   }
   &:focus {
     outline: none;
   }
   &:hover {
-    background-color: $match-button-primary;
+    background-color: $primaryColor;
     color: #fff;
     span {
       font-weight: 500;
@@ -30,6 +30,7 @@
     }
     svg {
       color: #fff;
+      opacity: 1;
     }
   }
 }

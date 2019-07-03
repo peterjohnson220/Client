@@ -34,7 +34,7 @@ export interface State extends EntityState<CompanyJob> {
   exchangeJobsSearchResults: ExchangeJob[];
   exchangeJobsTitleSearchTerm: string;
   exchangeJobsDescriptionSearchTerm: string;
-  // create association in exchange job search
+  // create, approve or reject pending association in exchange job search
   savingAssociation: boolean;
   savingAssociationSuccess: boolean;
   savingAssociationError: boolean;
@@ -71,10 +71,10 @@ const initialState: State = adapter.getInitialState({
   exchangeJobsSearchResults: [],
   exchangeJobsTitleSearchTerm: null,
   exchangeJobsDescriptionSearchTerm: null,
-  // create association in exchange job search
+  // create, approve or reject pending association in exchange job search
   savingAssociation: false,
   savingAssociationSuccess: false,
-  savingAssociationError: false
+  savingAssociationError: false,
 });
 
 export function reducer(state, action) {
@@ -243,23 +243,37 @@ export function reducer(state, action) {
             exchangeJobsDescriptionSearchTerm: featureAction.payload
           };
         }
-        case fromPeerCompanyJobs.SAVE_ASSOCIATION: {
+        case fromPeerCompanyJobs.CREATE_ASSOCIATION:
+        case fromPeerCompanyJobs.APPROVE_PENDING_MATCH:
+        case fromPeerCompanyJobs.REJECT_PENDING_MATCH: {
           return {
             ...featureState,
             savingAssociation: true,
             savingAssociationError: false
           };
         }
-        case fromPeerCompanyJobs.SAVE_ASSOCIATION_SUCCESS: {
+        case fromPeerCompanyJobs.CREATE_ASSOCIATION_SUCCESS:
+        case fromPeerCompanyJobs.APPROVE_PENDING_MATCH_SUCCESS: {
           return {
             ...featureState,
             savingAssociation: false,
             savingAssociationSuccess: true,
             savingAssociationError: false,
-            selectedCompanyJob: { ...featureState.selectedCompanyJob, IsAssociated: true }
+            selectedCompanyJob: { ...featureState.selectedCompanyJob, IsAssociated: true, IsPendingPeerUserReview: false }
           };
         }
-        case fromPeerCompanyJobs.SAVE_ASSOCIATION_ERROR: {
+        case fromPeerCompanyJobs.REJECT_PENDING_MATCH_SUCCESS: {
+          return {
+            ...featureState,
+            savingAssociation: false,
+            savingAssociationSuccess: true,
+            savingAssociationError: false,
+            selectedCompanyJob: { ...featureState.selectedCompanyJob, IsAssociated: false }
+          };
+        }
+        case fromPeerCompanyJobs.CREATE_ASSOCIATION_ERROR:
+        case fromPeerCompanyJobs.APPROVE_PENDING_MATCH_ERROR:
+        case fromPeerCompanyJobs.REJECT_PENDING_MATCH_ERROR: {
           return {
             ...featureState,
             savingAssociation: false,
@@ -306,7 +320,7 @@ export const getExchangeJobsSearchResults = (state: State) => state.exchangeJobs
 export const getExchangeJobsTitleSearchTerm = (state: State) => state.exchangeJobsTitleSearchTerm;
 export const getExchangeJobsDescriptionSearchTerm = (state: State) => state.exchangeJobsDescriptionSearchTerm;
 
-// Selector functions, make association in exchange jobs search
+// Selector functions, create, approve or reject a pending association in exchange jobs search
 export const getSavingAssociation = (state: State) => state.savingAssociation;
 export const getSavingAssociationSuccess = (state: State) => state.savingAssociationSuccess;
 export const getSavingAssociationError = (state: State) => state.savingAssociationError;

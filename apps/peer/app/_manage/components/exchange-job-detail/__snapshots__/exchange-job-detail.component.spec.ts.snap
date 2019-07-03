@@ -1,15 +1,95 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ExchangeDetailComponent should render the selected exchange jobs props 1`] = `
+exports[`ExchangeDetailComponent should hide the approve/reject buttons when a company job with a pending match is selected 1`] = `
 <pf-exchange-job-detail
+  approveClick={[Function EventEmitter]}
   exchangeJob={[Function Object]}
+  rejectClick={[Function EventEmitter]}
+  selectedCompanyJob={[Function Object]}
 >
   <section>
-    <h5
-      class="text-uppercase mb-3"
+    <div
+      class="d-flex"
     >
-      Exchange Job
-    </h5>
+      <h5
+        class="text-uppercase mb-3 flex-grow-2"
+      >
+        Exchange Job
+      </h5>
+      
+    </div>
+    <div
+      class="position-relative"
+    >
+      <pf-async-container>
+        <div>
+          <label
+            class="text-muted text-uppercase"
+          >
+            Title
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div>
+          <label
+            class="text-muted text-uppercase"
+          >
+            Family
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div>
+          <label
+            class="text-muted text-uppercase"
+          >
+            Level
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div>
+          <label
+            class="text-muted text-uppercase"
+          >
+            Description
+          </label>
+          
+          <p
+            class="font-italic"
+          >
+             No Job Description Available 
+          </p>
+          
+        </div>
+      </pf-async-container>
+    </div>
+  </section>
+</pf-exchange-job-detail>
+`;
+
+exports[`ExchangeDetailComponent should render the selected exchange jobs props 1`] = `
+<pf-exchange-job-detail
+  approveClick={[Function EventEmitter]}
+  exchangeJob={[Function Object]}
+  rejectClick={[Function EventEmitter]}
+  selectedCompanyJob={[Function Object]}
+>
+  <section>
+    <div
+      class="d-flex"
+    >
+      <h5
+        class="text-uppercase mb-3 flex-grow-2"
+      >
+        Exchange Job
+      </h5>
+      
+    </div>
     <div
       class="position-relative"
     >
@@ -32,6 +112,96 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
           </label>
           <span>
             ExchangeJobFamily
+          </span>
+        </div>
+        <div>
+          <label
+            class="text-muted text-uppercase"
+          >
+            Level
+          </label>
+          <span>
+            ExchangeJobLevel
+          </span>
+        </div>
+        <div>
+          <label
+            class="text-muted text-uppercase"
+          >
+            Description
+          </label>
+          
+          <p
+            class="font-italic"
+          >
+             No Job Description Available 
+          </p>
+          
+        </div>
+      </pf-async-container>
+    </div>
+  </section>
+</pf-exchange-job-detail>
+`;
+
+exports[`ExchangeDetailComponent should show the approve/reject buttons when a company job with a pending match is selected 1`] = `
+<pf-exchange-job-detail
+  approveClick={[Function EventEmitter]}
+  exchangeJob={[Function Object]}
+  rejectClick={[Function EventEmitter]}
+  selectedCompanyJob={[Function Object]}
+>
+  <section>
+    <div
+      class="d-flex"
+    >
+      <h5
+        class="text-uppercase mb-3 flex-grow-2"
+      >
+        Exchange Job
+      </h5>
+      
+      <div>
+        <button
+          class="approve mr-2"
+        >
+          <fa-icon
+            icon="check"
+          />
+          Approve 
+        </button>
+        <button
+          class="reject"
+        >
+          <fa-icon
+            icon="times"
+          />
+          Reject 
+        </button>
+      </div>
+    </div>
+    <div
+      class="position-relative"
+    >
+      <pf-async-container>
+        <div>
+          <label
+            class="text-muted text-uppercase"
+          >
+            Title
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div>
+          <label
+            class="text-muted text-uppercase"
+          >
+            Family
+          </label>
+          <span>
+            
           </span>
         </div>
         <div>
