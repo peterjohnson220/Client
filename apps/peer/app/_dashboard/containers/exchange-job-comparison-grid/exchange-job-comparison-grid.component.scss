@@ -6,6 +6,14 @@
   padding: .5rem 0;
 }
 
+.country-filter {
+  margin-left: 2rem;
+
+  label {
+    padding-right: .5rem;
+  }
+}
+
 // Leaving this here as an example of a left filter menu [JP]
 //:host ::ng-deep .k-widget.k-grid {
 //  .k-grid-header .k-header.k-filterable.filter-menu-left {

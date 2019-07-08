@@ -9,10 +9,7 @@
               [skip]="exchangeJobComparisonGridState?.skip"
               [sort]="exchangeJobComparisonGridState?.sort"
               [filter]="exchangeJobComparisonGridState?.filter"
-              [pageable]="{
-                    buttonCount: 5,
-                    info: true
-                  }"
+              [pageable]="true"
               [sortable]="true"
               [selectable]="{
                 mode: 'single'
@@ -145,6 +142,17 @@
         <br> <br> If you have uploaded your data already, Payfactors is currently processing the organizational data files you had previously uploaded.
         <br> Check this grid at a later time.
       </div>
+    </ng-template>
+    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+      <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+      <kendo-pager-info></kendo-pager-info>
+      <div class="country-filter">
+        <label for="country-dropdown">Country: </label>
+        <kendo-dropdownlist id="country-dropdown" [value]="'USA'" [disabled]="true"></kendo-dropdownlist>
+      </div>
+
     </ng-template>
   </kendo-grid>
 </pf-async-container>
