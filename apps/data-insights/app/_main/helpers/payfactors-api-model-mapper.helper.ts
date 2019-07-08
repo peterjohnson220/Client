@@ -30,7 +30,9 @@ export class PayfactorsApiModelMapper {
         IconClass: r.IconClass,
         Tag: r.Tag,
         IsFavorite: r.IsFavorite,
-        DefaultTag: `${companyName} Reports`
+        DefaultTag: `${companyName} Reports`,
+        DashboardsOrder: r.DashboardsOrder,
+        FavoritesOrder: r.FavoritesOrder
       };
     });
   }

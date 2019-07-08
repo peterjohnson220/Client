@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 
+import { SaveWorkbookOrderRequest } from 'libs/models/payfactors-api/reports/request';
+
 import { DashboardView, Workbook, SaveWorkbookTagObj } from '../models';
 
 export const GET_COMPANY_WORKBOOKS = '[Data Insights / Dashboards] Get Company Workbooks';
@@ -15,6 +17,9 @@ export const TOGGLE_DASHBOARD_VIEW = '[Data Insights / Dashboards] Toggle Dashbo
 export const SAVE_WORKBOOK_TAG = '[Data Insights / Dashboards] Save Workbook Tag';
 export const SAVE_WORKBOOK_TAG_SUCCESS = '[Data Insights / Dashboards] Save Workbook Tag Success';
 export const SAVE_WORKBOOK_TAG_ERROR = '[Data Insights / Dashboards] Save Workbook Tag Error';
+export const SAVE_WORKBOOK_ORDER = '[Data Insights / Dashboards] Save Workbook Order';
+export const SAVE_WORKBOOK_ORDER_SUCCESS = '[Data Insights / Dashboards] Save Workbook Order Success';
+export const SAVE_WORKBOOK_ORDER_ERROR = '[Data Insights / Dashboards] Save Workbook Order Error';
 
 export class GetCompanyWorkbooks implements Action {
   readonly type = GET_COMPANY_WORKBOOKS;
@@ -94,6 +99,24 @@ export class SaveWorkbookTagError implements Action {
   constructor() {}
 }
 
+export class SaveWorkbookOrder implements Action {
+  readonly type = SAVE_WORKBOOK_ORDER;
+
+  constructor(public payload: SaveWorkbookOrderRequest) {}
+}
+
+export class SaveWorkbookOrderSuccess implements Action {
+  readonly type = SAVE_WORKBOOK_ORDER_SUCCESS;
+
+  constructor(public payload: { workbookIds: string[] }) {}
+}
+
+export class SaveWorkbookOrderError implements Action {
+  readonly type = SAVE_WORKBOOK_ORDER_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetCompanyWorkbooks
   | GetCompanyWorkbooksSuccess
@@ -107,4 +130,7 @@ export type Actions
   | ToggleDashboardView
   | SaveWorkbookTag
   | SaveWorkbookTagSuccess
-  | SaveWorkbookTagError;
+  | SaveWorkbookTagError
+  | SaveWorkbookOrder
+  | SaveWorkbookOrderSuccess
+  | SaveWorkbookOrderError;

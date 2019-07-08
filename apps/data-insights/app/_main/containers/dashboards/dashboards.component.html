@@ -22,10 +22,10 @@
       [hideReloadButton]="true">
     </pf-async-container>
     <div class="container-fluid">
-      <div class="row">
+      <div class="row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">
         <ng-container *ngIf="filteredCompanyWorkbooks?.length">
-          <div *ngFor="let workbook of filteredCompanyWorkbooks; trackBy: trackByFn"
-               class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+          <div *ngFor="let workbook of filteredCompanyWorkbooks"
+               class="col-xs-12 col-md-6 col-lg-4 col-xl-3 workbook-card">
             <pf-workbook-card
               [workbook]="workbook"
               (favoriteClicked)="handleFavoriteClicked($event)"

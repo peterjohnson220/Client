@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { DragulaModule } from 'ng2-dragula';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -34,6 +35,7 @@ import { MainRoutingModule } from './main-routing.module';
     ]),
     FontAwesomeModule,
     DropDownsModule,
+    DragulaModule.forRoot(),
 
     // Routing
     MainRoutingModule,

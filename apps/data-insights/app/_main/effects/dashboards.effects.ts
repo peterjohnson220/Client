@@ -85,6 +85,19 @@ export class DashboardsEffects {
       map(() => new fromAllDashboardsActions.GetCompanyWorkbooks())
     );
 
+  @Effect()
+  saveWorkbookOrder$ = this.action$
+    .pipe(
+      ofType(fromAllDashboardsActions.SAVE_WORKBOOK_ORDER),
+      switchMap((action: fromAllDashboardsActions.SaveWorkbookOrder) => {
+        return this.userReportApiService.saveWorkbookOrder(action.payload)
+          .pipe(
+            map(() => new fromAllDashboardsActions.SaveWorkbookOrderSuccess({ workbookIds: action.payload.WorkbookIds })),
+            catchError(() => of(new fromAllDashboardsActions.SaveWorkbookOrderError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataInsightsMainReducer.State>,

@@ -2,8 +2,11 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { DragulaService } from 'ng2-dragula';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { SaveWorkbookOrderRequest } from 'libs/models/payfactors-api/reports/request';
+import { WorkbookOrderType } from 'libs/constants';
 
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
@@ -24,13 +27,21 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   tags$: Observable<string[]>;
 
   filteredCompanyWorkbooksSub: Subscription;
+  dragulaSub: Subscription;
+  dashboardViewSub: Subscription;
   filteredCompanyWorkbooks: Workbook[];
   dashboardViews: Array<string> = ['All Dashboards', 'Favorites'];
   selectedWorkbook: Workbook;
+  dashboardView: string;
 
   constructor(
-    private store: Store<fromDataInsightsMainReducer.State>
+    private store: Store<fromDataInsightsMainReducer.State>,
+    private dragulaService: DragulaService
   ) {
+    this.dragulaSub = new Subscription();
+    this.dragulaSub.add(this.dragulaService.dropModel('workbooks').subscribe(({ sourceModel }) => {
+      this.handleDropModel(sourceModel);
+    }));
     this.companyWorkbooksAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsync));
     this.filteredCompanyWorkbooks$ = this.store.pipe(select(fromDataInsightsMainReducer.getFilteredCompanyWorkbooks));
     this.dashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardView));
@@ -43,12 +54,15 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.filteredCompanyWorkbooksSub = this.filteredCompanyWorkbooks$.subscribe(cw => this.filteredCompanyWorkbooks = cw);
+    this.dashboardViewSub = this.dashboardView$.subscribe(v => this.dashboardView = v);
 
     this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
   }
 
   ngOnDestroy() {
     this.filteredCompanyWorkbooksSub.unsubscribe();
+    this.dashboardViewSub.unsubscribe();
+    this.dragulaSub.unsubscribe();
   }
 
   trackByFn(workbook: Workbook) {
@@ -74,5 +88,22 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   handleSaveTagClicked(saveObj: SaveWorkbookTagObj) {
     this.store.dispatch(new fromDashboardsActions.SaveWorkbookTag(saveObj));
+  }
+
+  private handleDropModel(sourceModel) {
+    if (!sourceModel) {
+      return;
+    }
+    const request: SaveWorkbookOrderRequest = {
+      WorkbookIds: sourceModel.map((x: Workbook) => x.WorkbookId),
+      Type: this.getWorkbookOrderType()
+    };
+    this.store.dispatch(new fromDashboardsActions.SaveWorkbookOrder(request));
+  }
+
+  private getWorkbookOrderType(): WorkbookOrderType {
+    return this.dashboardView === DashboardView.All
+      ? WorkbookOrderType.DashboardsOrdering
+      : WorkbookOrderType.FavoritesOrdering;
   }
 }
