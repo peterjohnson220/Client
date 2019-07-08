@@ -63,10 +63,8 @@ exports[`TilePreviewList should not display main button when main button url is 
         
         
         
-        <i
-          class="mr-3 fa fa-thumb-tack"
-          ng-reflect-klass="mr-3"
-          ng-reflect-ng-class="fa fa-thumb-tack"
+        <fa-icon
+          class="mr-3"
         />
       </td>
     </tr>
@@ -174,10 +172,8 @@ exports[`TilePreviewList should show data with columns when data is given and sh
         
         
         
-        <i
-          class="mr-3 fa fa-thumb-tack"
-          ng-reflect-klass="mr-3"
-          ng-reflect-ng-class="fa fa-thumb-tack"
+        <fa-icon
+          class="mr-3"
         />
       </td>
     </tr>
@@ -255,10 +251,8 @@ exports[`TilePreviewList should show data without columns when data is given and
         
         
         
-        <i
-          class="mr-3 fa fa-thumb-tack"
-          ng-reflect-klass="mr-3"
-          ng-reflect-ng-class="fa fa-thumb-tack"
+        <fa-icon
+          class="mr-3"
         />
       </td>
     </tr>
