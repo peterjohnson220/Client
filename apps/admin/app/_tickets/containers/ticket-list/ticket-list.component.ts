@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
+import {GridDataResult, PageChangeEvent} from '@progress/kendo-angular-grid';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
@@ -18,13 +19,18 @@ import { UserTicketGridItem, UserTicketTabItem } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TicketListComponent implements OnInit, OnDestroy {
-  private selectedTicket: UserTicketTabItem;
+  gridView: GridDataResult;
+  pageSizes = [10, 25, 100];
+  pageSize = 100;
+  skip = 0;
 
+  private selectedTicket: UserTicketTabItem;
   ticketListLoading$: Observable<boolean>;
   ticketListLoadingError$: Observable<boolean>;
-  ticketListItems$: Observable<UserTicketGridItem[]>;
+  ticketListItems: UserTicketGridItem[] = [];
   dirty$: Observable<boolean>;
   dirtySubscription: Subscription;
+  ticketListItemsSubscription: Subscription;
   private unsubscribe$ = new Subject();
 
   isDirty = false;
@@ -36,12 +42,16 @@ export class TicketListComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromTicketReducer.State>) {
     this.ticketListLoading$ = this.store.select(fromTicketReducer.getTicketListLoading);
     this.ticketListLoadingError$ = this.store.select(fromTicketReducer.getTicketListLoadingError);
-    this.ticketListItems$ = this.store.select(fromTicketReducer.getTickets);
     this.dirty$ = this.store.select(fromTicketReducer.getDirtyGridState);
 
     this.dirtySubscription = this.dirty$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
       this.isDirty = v;
     });
+    this.ticketListItemsSubscription = this.store.select(fromTicketReducer.getTickets)
+      .pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
+        this.ticketListItems = v;
+        this.loadTickets();
+      });
   }
 
   handleTicketGridReload() {
@@ -75,5 +85,18 @@ export class TicketListComponent implements OnInit, OnDestroy {
   sortChange(sort: SortDescriptor[]): void {
     this.sort = sort;
     this.store.dispatch(new fromTicketListActions.SortTickets(this.sort[0]));
+  }
+
+  private loadTickets(): void {
+    this.gridView = {
+      data: this.ticketListItems.slice(this.skip, this.skip + this.pageSize),
+      total: this.ticketListItems.length
+    };
+  }
+
+  pageChange({ skip, take }: PageChangeEvent): void {
+    this.skip = skip;
+    this.pageSize = take;
+    this.loadTickets();
   }
 }
