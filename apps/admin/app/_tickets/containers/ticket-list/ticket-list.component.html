@@ -4,14 +4,20 @@
                     (reload)="handleTicketGridReload">
   <kendo-grid class="row-click-navigates"
               #ticketGrid
-              [data]="ticketListItems$ | async"
+              [data]="gridView"
               [sortable]="{
                 allowUnsort: false,
                 mode: 'single'
               }"
+              [pageable]="{
+                pageSizes: pageSizes
+              }"
+              [pageSize]="pageSize"
               [sort]="sort"
+              [skip]="skip"
               [scrollable]="'none'"
-              (sortChange)=sortChange($event)>
+              (sortChange)=sortChange($event)
+              (pageChange)="pageChange($event)">
     <kendo-grid-column field="Status"
                        title="Status"
                        width="40">
