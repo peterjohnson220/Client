@@ -170,7 +170,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         filterAggregateGroups: newAggGroups,
         includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents,
         excludeIndirectJobMatches: !cutCriteria.IsFilteredBySimilarExchangeJobIds,
-        searchingAggregate: false
+        searchingAggregate: false,
+        scopeSelection: cutCriteria.SelectedExchangeScope
       };
     }
     case fromFilterSidebarActions.APPLY_SCOPE_CRITERIA: {
