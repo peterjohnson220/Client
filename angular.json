@@ -408,7 +408,8 @@
             "polyfills": "apps/peer/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "assets/scss"
+                "assets/scss",
+                "apps/peer/assets"
               ]
             },
             "assets": [
@@ -441,6 +442,7 @@
             "styles": [
               "assets/scss/client.scss",
               "apps/peer/styles.scss",
+              "apps/peer/assets/css/flags.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
@@ -544,6 +546,7 @@
             "styles": [
               "assets/scss/client.scss",
               "apps/peer/styles.scss",
+              "apps/peer/assets/css/flags.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
