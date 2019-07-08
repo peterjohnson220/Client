@@ -12,14 +12,32 @@ export class PeerAssociationColorBlockComponent {
   @Input() companyJobId: number;
   @Input() isAssociated: boolean;
   @Input() isPendingPeerUserReview: boolean;
+  @Input() isApproved: boolean;
+  @Input() isExchangeSpecific: boolean;
 
   constructor() { }
 
   getAssociationClass(): string {
+    if (this.isExchangeSpecific) {
+      return this.getExchangeSpecificAssociationClass();
+    }
+    return this.getNonExchangeSpecificAssociationClass();
+  }
+
+  getNonExchangeSpecificAssociationClass(): string {
     if (this.isPendingPeerUserReview) {
       return 'pending';
     } else if (this.isAssociated || this.unsavedExchangeJobAssociationsContainAssociations()) {
       return 'associated';
+    }
+    return 'not-associated';
+  }
+
+  getExchangeSpecificAssociationClass(): string {
+    if (this.isApproved && this.isAssociated) {
+      return 'associated';
+    } else if (this.isAssociated && !this.isApproved) {
+      return 'pending';
     }
     return 'not-associated';
   }

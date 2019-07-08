@@ -29,7 +29,7 @@
         (cellClick)="handleCellClick($event)">
         <kendo-grid-column field="AssociationStatus" [sortable]="false" [resizable]="false" [filterable]="false" [width]="11" class="p-0 m-0">
           <ng-template kendoGridCellTemplate let-dataItem>
-            <pf-peer-association-color-block [isAssociated]="dataItem.IsAssociated" [isPendingPeerUserReview]="dataItem.IsPendingPeerUserReview">
+            <pf-peer-association-color-block [isAssociated]="dataItem.IsAssociated" [isApproved]="dataItem.IsApproved" [isExchangeSpecific]="true">
             </pf-peer-association-color-block>
           </ng-template>
         </kendo-grid-column>
