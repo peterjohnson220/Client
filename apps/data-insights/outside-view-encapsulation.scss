@@ -7,23 +7,25 @@
 
 
 // Kendo Overrides
-.k-list {
-  .k-state-selected {
-    background-color: white !important;
-    color: black !important;
+
+.dashboards-title {
+  .k-list {
+    .k-state-selected {
+      background-color: white !important;
+      color: black !important;
+    }
+
+    .k-state-focused {
+      background-color: white !important;
+      color: black !important;
+      box-shadow: none !important;
+    }
   }
 
-  .k-state-focused {
-    background-color: white !important;
-    color: black !important;
-    box-shadow: none !important;
-  }
-}
-
-.title {
   .k-dropdown {
     width: auto;
   }
+
   .k-dropdown-wrap {
     background-color: $grey;
     border-style: none !important;
