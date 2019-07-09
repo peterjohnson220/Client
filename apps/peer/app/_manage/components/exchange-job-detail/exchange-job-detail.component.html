@@ -1,12 +1,17 @@
 <section *ngIf="exchangeJob">
   <div class="d-flex">
-    <h5 class="mb-3 font-weight-bold">Exchange Job</h5>
+    <h5 class="mb-3 font-weight-bold flex-grow-2">Exchange Job</h5>
     <div *ngIf="selectedCompanyJob.IsPendingPeerUserReview">
       <button class="approve mr-2" (click)="handleApproveClick()">
-        <fa-icon icon="check"></fa-icon>Approve
+        <fa-icon icon="check"></fa-icon><span>Approve</span>
       </button>
       <button class="reject" (click)="handleRejectClick()">
-        <fa-icon icon="times"></fa-icon>Reject
+        <fa-icon icon="times"></fa-icon><span>Reject</span>
+      </button>
+    </div>
+    <div *ngIf="!selectedCompanyJob.IsPendingPeerUserReview && selectedCompanyJob.IsAssociated">
+      <button class="unmatch" (click)="handleUnmatchClick()">
+        <pf-unmatch-icon></pf-unmatch-icon><span>Unmatch</span>
       </button>
     </div>
   </div>

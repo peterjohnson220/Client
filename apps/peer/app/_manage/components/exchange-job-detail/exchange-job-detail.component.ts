@@ -20,6 +20,7 @@ export class ExchangeDetailComponent {
 
   @Output() approveClick = new EventEmitter();
   @Output() rejectClick = new EventEmitter();
+  @Output() unmatchClick = new EventEmitter();
 
   handleApproveClick() {
     this.approveClick.emit(this.exchangeJob);
@@ -27,5 +28,9 @@ export class ExchangeDetailComponent {
 
   handleRejectClick() {
     this.rejectClick.emit(this.exchangeJob);
+  }
+
+  handleUnmatchClick() {
+    this.unmatchClick.emit();
   }
 }

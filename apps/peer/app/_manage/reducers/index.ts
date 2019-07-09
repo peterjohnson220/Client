@@ -405,3 +405,8 @@ export const getCompanyJobsSavingAssociationError = createSelector(
   getCompanyJobsFeature,
   fromCompanyJobsReducer.getSavingAssociationError
 );
+
+export const getCompanyJobsShowConfirmUnmatchModal = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getShowConfirmUnmatchModal
+);

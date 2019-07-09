@@ -52,6 +52,12 @@ describe('ExchangeDetailComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should show the unmatch button when a matched company job is selected', () => {
+    component.selectedCompanyJob = { ...generateMockCompanyJob(), IsPendingPeerUserReview: false, IsAssociated: true };
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should emit when approve is clicked', () => {
     spyOn(component.approveClick, 'emit');
     component.selectedCompanyJob = { ...generateMockCompanyJob(), IsPendingPeerUserReview: true };
@@ -72,6 +78,17 @@ describe('ExchangeDetailComponent', () => {
     rejectButton.click();
 
     expect(component.rejectClick.emit).toHaveBeenCalled();
+  });
+
+  it('should emit when unmatch is clicked', () => {
+    spyOn(component.unmatchClick, 'emit');
+    component.selectedCompanyJob = { ...generateMockCompanyJob(), IsPendingPeerUserReview: false, IsAssociated: true };
+
+    fixture.detectChanges();
+    const unmatchButton = fixture.debugElement.nativeElement.querySelector('button.unmatch');
+    unmatchButton.click();
+
+    expect(component.unmatchClick.emit).toHaveBeenCalled();
   });
 
 });

@@ -7,14 +7,15 @@
   height: 26px;
   min-width: 90px;
   cursor: pointer;
-  transition: background-color, color .2s ease-in;
+  transition: background-color .2s ease-in, color .2s ease-in;
   span {
     font-weight: 600;
     opacity: .8;
   }
   svg {
-    transition: color .2s ease-in;
+    transition: color .2s ease-in, fill .2s ease-in;
     margin-right: .4rem;
+    fill: $primaryColor;
     color: $primaryColor;
     opacity: .8;
   }
@@ -29,6 +30,7 @@
       opacity: 1;
     }
     svg {
+      fill: #fff;
       color: #fff;
       opacity: 1;
     }
