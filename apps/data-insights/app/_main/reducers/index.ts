@@ -5,11 +5,13 @@ import * as fromRoot from 'libs/state/state';
 
 import * as fromDataInsightsPageReducer from './data-insights-page.reducer';
 import * as fromDashboardsReducer from './dashboards.reducer';
+import * as fromReportViewReducer from './reports-view-page.reducer';
 
 // Feature area state
 export interface DataInsightsMainState {
   dataInsightsPage: fromDataInsightsPageReducer.State;
   dashboards: fromDashboardsReducer.State;
+  reportViewPage: fromReportViewReducer.State;
 }
 
 // Extend root state with feature area state
@@ -20,7 +22,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   dataInsightsPage: fromDataInsightsPageReducer.reducer,
-  dashboards: fromDashboardsReducer.reducer
+  dashboards: fromDashboardsReducer.reducer,
+  reportViewPage: fromReportViewReducer.reducer
 };
 
 // Select Feature Area
@@ -37,10 +40,21 @@ export const selectDashboardsState = createSelector(
   (state: DataInsightsMainState) => state.dashboards
 );
 
+export const selectReportViewPageState = createSelector(
+  selectFeatureAreaState,
+  (state: DataInsightsMainState) => state.reportViewPage
+);
+
 // Data Insights Page
 export const getStandardReportsAsync = createSelector(
   selectDataInsightsPageState,
   fromDataInsightsPageReducer.getStandardReportsAsync
+);
+
+// Data Insights Page
+export const getWorkbookViewUrl = createSelector(
+  selectReportViewPageState,
+  fromReportViewReducer.getWorkbookViewUrlAsync
 );
 
 // Dashboards
