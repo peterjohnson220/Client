@@ -70,7 +70,7 @@
   <button type="button" title="Edit Role Name" class="btn btn-link ignore-click-elsewhere cursor-pointer"
           (click)="setEditRoleNameMode(false)"
           [style.visibility]="currentRole && currentRole.RoleId === userAssignedRole.RoleId ? 'visible' : 'hidden'">
-    <i class="fas fa-check-circle ignore-click-elsewhere cursor-pointer" aria-hidden="true"></i>
+    <fa-icon icon="check-circle" class="ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></fa-icon>
   </button>
   <pf-input-debounce [delay]="400"
                      [(ngModel)]="newRoleName"
@@ -89,7 +89,7 @@
           [style.visibility]="currentRole
           && currentRole.RoleId === userAssignedRole.RoleId
           && !userAssignedRole.IsSystemRole? 'visible' : 'hidden'">
-    <i class="fas fa-pencil ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></i>
+    <fa-icon icon="pencil" class="ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></fa-icon>
   </button>
   <a class="ml-1 ignore-click-elsewhere cursor-pointer" [routerLink]="" (click)="clickRole(userAssignedRole)">{{userAssignedRole.RoleName}}</a>
 </ng-template>

@@ -40,8 +40,8 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
       <div
         class="close-btn"
       >
-        <i
-          class="far fa-times"
+        <fa-icon
+          icon="times"
         />
       </div>
     </div>

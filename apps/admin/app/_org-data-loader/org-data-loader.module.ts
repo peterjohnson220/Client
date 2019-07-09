@@ -10,11 +10,11 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import * as fromFaIcons from './fa-icons';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+import * as fromFaIcons from './fa-icons';
 
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
@@ -27,6 +27,7 @@ import { EmailRecipientsComponent } from './containers/email-recipients/email-re
 import { OrgDataEmailRecipientsEffects } from './effects/email-recipients.effects';
 import { LoaderSettingsEffects } from './effects/loader-settings.effects';
 import { SftpAccountStatusComponent } from './containers/sftp-account-status/sftp-account-status.component';
+
 
 @NgModule({
   imports:      [
