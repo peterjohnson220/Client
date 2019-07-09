@@ -1,10 +1,14 @@
 import { Action } from '@ngrx/store';
 
-import { DashboardView, Workbook, SaveWorkbookTagObj } from '../models';
+import { DashboardView, Workbook, SaveWorkbookTagObj, View } from '../models';
+
 
 export const GET_COMPANY_WORKBOOKS = '[Data Insights / Dashboards] Get Company Workbooks';
 export const GET_COMPANY_WORKBOOKS_SUCCESS = '[Data Insights / Dashboards] Get Company Workbooks Success';
 export const GET_COMPANY_WORKBOOKS_ERROR = '[Data Insights / Dashboards] Get Company Workbooks Error';
+export const GET_COMPANY_WORKBOOK_VIEWS = '[Data Insights / Dashboards] Get Company Workbook Views';
+export const GET_COMPANY_WORKBOOK_VIEWS_SUCCESS = '[Data Insights / Dashboards] Get Company Workbook Views Success';
+export const GET_COMPANY_WORKBOOK_VIEWS_ERROR = '[Data Insights / Dashboards] Get Company Workbook Views Error';
 export const ADD_WORKBOOK_FAVORITE = '[Data Insights / Dashboards] Add Workbook Favorite';
 export const ADD_WORKBOOK_FAVORITE_SUCCESS = '[Data Insights / Dashboards] Add Workbook Favorite Success';
 export const ADD_WORKBOOK_FAVORITE_ERROR = '[Data Insights / Dashboards] Add Workbook Favorite Error';
@@ -115,6 +119,24 @@ export class SaveWorkbookOrderError implements Action {
   constructor() {}
 }
 
+export class GetCompanyWorkbookViews implements Action {
+  readonly type = GET_COMPANY_WORKBOOK_VIEWS;
+
+  constructor(public payload: { workbookId: string }) {}
+}
+
+export class GetCompanyWorkbookViewsSuccess implements Action {
+  readonly type = GET_COMPANY_WORKBOOK_VIEWS_SUCCESS;
+
+  constructor(public payload: { workbookId: string, views: View[] }) {}
+}
+
+export class GetCompanyWorkbookViewsError implements Action {
+  readonly type = GET_COMPANY_WORKBOOK_VIEWS_ERROR;
+
+  constructor(public payload: { workbookId: string }) {}
+}
+
 export type Actions
   = GetCompanyWorkbooks
   | GetCompanyWorkbooksSuccess
@@ -131,4 +153,7 @@ export type Actions
   | SaveWorkbookTagError
   | SaveWorkbookOrder
   | SaveWorkbookOrderSuccess
-  | SaveWorkbookOrderError;
+  | SaveWorkbookOrderError
+  | GetCompanyWorkbookViews
+  | GetCompanyWorkbookViewsSuccess
+  | GetCompanyWorkbookViewsError;

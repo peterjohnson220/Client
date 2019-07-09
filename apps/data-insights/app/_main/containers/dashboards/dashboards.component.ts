@@ -69,8 +69,8 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.dragulaSub.unsubscribe();
   }
 
-  trackByFn(workbook: Workbook) {
-    return workbook.WorkbookId;
+  trackByFn(index: any, workbook: Workbook) {
+    return workbook.WorkbookId ;
   }
 
   handleFavoriteClicked(workbook: Workbook) {
@@ -88,6 +88,12 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   handleTagWorkbookClicked(workbook: Workbook) {
     this.selectedWorkbook = workbook;
     this.tagWorkbookModalComponent.open();
+  }
+
+  handleOpenViewsClicked(workbook: Workbook) {
+    if (!workbook.Views || workbook.Views.loadingError) {
+      this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbookViews({workbookId: workbook.WorkbookId}));
+    }
   }
 
   handleSaveTagClicked(saveObj: SaveWorkbookTagObj) {

@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DragulaModule } from 'ng2-dragula';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -36,6 +37,7 @@ import { MainRoutingModule } from './main-routing.module';
     FontAwesomeModule,
     DropDownsModule,
     DragulaModule.forRoot(),
+    NgbPopoverModule.forRoot(),
 
     // Routing
     MainRoutingModule,

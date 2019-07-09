@@ -1,7 +1,7 @@
-import { TableauReportResponse, UpsertUserReportTag, SaveWorkbookOrderRequest } from 'libs/models/payfactors-api';
+import { TableauReportResponse, UpsertUserReportTag, SaveWorkbookOrderRequest, TableauReportViewsResponse } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 
-import { SaveWorkbookTagObj, StandardReport, Workbook, DashboardView } from '../models';
+import { SaveWorkbookTagObj, StandardReport, Workbook, DashboardView, View } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -34,6 +34,16 @@ export class PayfactorsApiModelMapper {
         DefaultTag: `${companyName} Reports`,
         DashboardsOrder: r.DashboardsOrder,
         FavoritesOrder: r.FavoritesOrder
+      };
+    });
+  }
+
+  static mapTableauReportViewsResponsesToViews(response: TableauReportViewsResponse[]): View[] {
+    return response.map(r => {
+      return {
+        ContentUrl: r.ContentUrl,
+        ViewId: r.ViewId,
+        ViewName: r.ViewName
       };
     });
   }

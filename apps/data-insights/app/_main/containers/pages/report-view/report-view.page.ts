@@ -1,14 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { select, Store } from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { WindowRef } from 'libs/core/services';
 
 import * as fromReportsViewActions from '../../../actions/reports-view-page.actions';
 import * as fromDataInsightsMainReducer from '../../../reducers';
+import { ReportViewTypes } from '../../../models';
 
 @Component({
   selector: 'pf-report-view-page',
@@ -22,25 +24,24 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
   // Subscriptions
   viewUrlSub: Subscription;
 
-  workbookId: string;
-  workbookTitle: string;
+  reportTitle: string;
   showTabs: boolean;
   viz: any;
   vizLoading: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
+    private location: Location,
     private route: ActivatedRoute,
     public winRef: WindowRef
   ) {
-    this.workbookId = this.route.snapshot.params.workbookId;
-    this.workbookTitle = this.route.snapshot.queryParamMap.get('title');
+    this.reportTitle = this.route.snapshot.queryParamMap.get('title');
     this.showTabs = this.route.snapshot.queryParamMap.get('showTabs') === 'true';
     this.workbookViewUrl$ = this.store.pipe(select(fromDataInsightsMainReducer.getWorkbookViewUrl));
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new fromReportsViewActions.GetStandardReportViewUrl(this.workbookId));
+    this.loadWorkbookViewUrl();
 
     this.viewUrlSub = this.workbookViewUrl$.subscribe(url => {
       this.initViz(url.obj);
@@ -69,5 +70,65 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
     }
     const tableau = this.winRef.nativeWindow.tableau || {};
     this.viz = new tableau.Viz(containerDiv, url, options);
+    this.viz.addEventListener('tabSwitch', function () {
+      that.updateRoute();
+    });
+  }
+
+  loadWorkbookViewUrl(): void {
+    const routedViewType: ReportViewTypes = this.route.snapshot.data.viewType;
+    switch (routedViewType) {
+      case ReportViewTypes.StandardWorkbook:
+        this.store.dispatch(new fromReportsViewActions.GetStandardReportViewUrl({ workbookId: this.route.snapshot.params.workbookId }));
+        break;
+      case ReportViewTypes.StandardWorkbookSheet:
+        this.store.dispatch(new fromReportsViewActions.GetStandardReportSheetViewUrl({
+          viewName: this.route.snapshot.params.viewName,
+          workbookName: this.route.snapshot.params.workbookName
+        }));
+        break;
+      case ReportViewTypes.CompanyWorkbookSheet:
+        this.store.dispatch(new fromReportsViewActions.GetCompanyReportSheetViewUrl({
+          viewName: this.route.snapshot.params.viewName,
+          workbookName: this.route.snapshot.params.workbookName
+        }));
+        break;
+      case ReportViewTypes.CompanyWorkbook:
+        this.store.dispatch(new fromReportsViewActions.GetCompanyReportViewUrl({ workbookId: this.route.snapshot.params.workbookId }));
+        break;
+      default:
+        this.store.dispatch(new fromReportsViewActions.GetViewUrlError());
+        break;
+    }
+  }
+
+  private updateRoute() {
+    const viewUrl = this.getViewUrl();
+    const baseUrl = this.getReportBaseUrl();
+    this.location.go(baseUrl + viewUrl, 'title=' + this.reportTitle + '&showTabs=' + this.showTabs);
+  }
+
+  private getReportBaseUrl(): string {
+    const routedViewType: ReportViewTypes = this.route.snapshot.data.viewType;
+    switch (routedViewType) {
+      case ReportViewTypes.StandardWorkbook:
+      case ReportViewTypes.StandardWorkbookSheet:
+        return '/standard-reports/';
+      case ReportViewTypes.CompanyWorkbookSheet:
+      case ReportViewTypes.CompanyWorkbook:
+        return '/company-reports/';
+      default:
+        return null;
+    }
+  }
+
+  private getViewUrl(): string {
+    try {
+      const url = this.viz.getWorkbook().getActiveSheet().getUrl();
+      const viewUrl = url.substring(url.indexOf('/views/') + 7);
+      return viewUrl;
+    } catch (e) {
+      return null;
+    }
   }
 }

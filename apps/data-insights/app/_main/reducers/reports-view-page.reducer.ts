@@ -14,6 +14,9 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: fromReportsViewActions.Actions): State {
   switch (action.type) {
+    case fromReportsViewActions.GET_COMPANY_REPORT_VIEW_URL:
+    case fromReportsViewActions.GET_COMPANY_REPORT_SHEET_VIEW_URL:
+    case fromReportsViewActions.GET_STANDARD_REPORT_SHEET_VIEW_URL:
     case fromReportsViewActions.GET_STANDARD_REPORT_VIEW_URL: {
       const workbookViewUrlAsyncClone = cloneDeep(state.workbookViewUrl);
 
@@ -26,7 +29,7 @@ export function reducer(state = initialState, action: fromReportsViewActions.Act
         workbookViewUrl: workbookViewUrlAsyncClone
       };
     }
-    case fromReportsViewActions.GET_STANDARD_REPORT_VIEW_URL_SUCCESS: {
+    case fromReportsViewActions.GET_VIEW_URL_SUCCESS: {
       const workbookViewUrlAsyncClone = cloneDeep(state.workbookViewUrl);
 
       workbookViewUrlAsyncClone.loading = false;
@@ -37,7 +40,7 @@ export function reducer(state = initialState, action: fromReportsViewActions.Act
         workbookViewUrl: workbookViewUrlAsyncClone
       };
     }
-    case fromReportsViewActions.GET_STANDARD_REPORT_VIEW_URL_ERROR: {
+    case fromReportsViewActions.GET_VIEW_URL_ERROR: {
       const workbookViewUrlAsyncClone = cloneDeep(state.workbookViewUrl);
 
       workbookViewUrlAsyncClone.loading = false;

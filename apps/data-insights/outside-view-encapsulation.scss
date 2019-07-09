@@ -1,5 +1,6 @@
 @import 'data-insights-variables';
 @import 'colors';
+@import 'common/common-variables';
 
 // Some elements from third party libraries that are added dynamically to the body can lose their view encapsulation context.
 // If the the dynamically added content can't be styled using the shadow-piercing descendant combinator :host ::ng-deep
@@ -61,3 +62,9 @@
     width: 400px;
   }
 }
+.workbook-views-popover {
+  .popover-header {
+    @extend %ellipsis-overflowing-text;
+  }
+}
+

@@ -1,6 +1,6 @@
 <ng-container *ngIf="(workbookViewUrl$ | async) as workbookViewUrlAsync">
   <pf-page-with-title-bar [returnUrl]="'/'">
-    <ng-container page-title>{{workbookTitle}}</ng-container>
+    <ng-container page-title>{{reportTitle}}</ng-container>
     <ng-container page-content>
       <pf-async-container
         [loading]="workbookViewUrlAsync.loading || vizLoading"

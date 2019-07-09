@@ -104,6 +104,24 @@ export class DashboardsEffects {
       })
     );
 
+  @Effect()
+  getCompanyWorkbookViews$ = this.action$
+    .pipe(
+      ofType(fromAllDashboardsActions.GET_COMPANY_WORKBOOK_VIEWS),
+      switchMap((action: fromAllDashboardsActions.GetCompanyWorkbookViews) => {
+        return this.tableauReportApiService.getCompanyReportViews(action.payload.workbookId)
+          .pipe(
+            map((response) => new fromAllDashboardsActions.GetCompanyWorkbookViewsSuccess(
+              {
+                workbookId: action.payload.workbookId,
+                views: PayfactorsApiModelMapper.mapTableauReportViewsResponsesToViews(response)
+              }
+            )),
+            catchError(() => of(new fromAllDashboardsActions.GetCompanyWorkbookViewsError({workbookId: action.payload.workbookId})))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataInsightsMainReducer.State>,

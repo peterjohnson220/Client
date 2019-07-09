@@ -3,3 +3,11 @@ export interface View {
   ViewName: string;
   ContentUrl: string;
 }
+
+export function generateMockView(): View {
+  return {
+    ViewName: 'Some View',
+    ViewId: 'viewId',
+    ContentUrl: 'Workbook/ViewUrl'
+  };
+}
