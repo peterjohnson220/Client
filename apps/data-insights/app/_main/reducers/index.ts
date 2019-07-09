@@ -72,3 +72,8 @@ export const getFilteredCompanyWorkbooks = createSelector(
   selectDashboardsState,
   fromDashboardsReducer.getFilteredCompanyWorkbooks
 );
+
+export const getDistinctTags = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getDistinctTags
+);

@@ -9,6 +9,7 @@ import { Workbook } from '../../models';
 export class WorkbookCardComponent {
   @Input() workbook: Workbook;
   @Output() favoriteClicked: EventEmitter<Workbook> = new EventEmitter();
+  @Output() tagClicked: EventEmitter<Workbook> = new EventEmitter();
 
   displayActionsOverlay: boolean;
 
@@ -22,5 +23,9 @@ export class WorkbookCardComponent {
 
   handleFavoriteClicked(workbook: Workbook) {
     this.favoriteClicked.emit(workbook);
+  }
+
+  handleTagClicked(workbook: Workbook) {
+    this.tagClicked.emit(workbook);
   }
 }

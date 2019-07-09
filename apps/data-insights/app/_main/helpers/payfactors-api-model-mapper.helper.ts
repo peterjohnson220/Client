@@ -1,9 +1,11 @@
-import { TableauReportResponse } from 'libs/models/payfactors-api';
+import { TableauReportResponse, UpsertUserReportTag } from 'libs/models/payfactors-api';
 
-import { StandardReport, Workbook } from '../models';
+import { SaveWorkbookTagObj, StandardReport, Workbook } from '../models';
 
 export class PayfactorsApiModelMapper {
 
+
+  /// IN
   static mapTableauReportResponsesToStandardReports(response: TableauReportResponse[]): StandardReport[] {
     return response.map(tr => {
       return {
@@ -16,7 +18,7 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  static mapTableauReportResponsesToWorkbooks(response: TableauReportResponse[]): Workbook[] {
+  static mapTableauReportResponsesToWorkbooks(response: TableauReportResponse[], companyName: string): Workbook[] {
     return response.map(r => {
       return {
         WorkbookId: r.WorkbookId,
@@ -27,8 +29,19 @@ export class PayfactorsApiModelMapper {
         ShowTabs: r.ShowTabs,
         IconClass: r.IconClass,
         Tag: r.Tag,
-        IsFavorite: r.IsFavorite
+        IsFavorite: r.IsFavorite,
+        DefaultTag: `${companyName} Reports`
       };
     });
   }
+
+
+  /// OUT
+  static mapSaveWorkbookTagObjToUpsertUserReportTag(saveWorkbookTagObj: SaveWorkbookTagObj): UpsertUserReportTag {
+    return  {
+      WorkbookId: saveWorkbookTagObj.WorkbookId,
+      Tag: saveWorkbookTagObj.Tag
+    };
+  }
+
 }

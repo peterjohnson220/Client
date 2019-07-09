@@ -1,3 +1,4 @@
+@import 'colors';
 @import 'common/common';
 @import 'common/common-variables';
 @import 'data-insights-variables';
@@ -49,16 +50,24 @@
 
   .actions-container {
     display: none;
-    button {
-      position: absolute;
-      z-index: 1;
+    position: absolute;
+    z-index: 1;
+    height: 38px;
+    top: 16px;
+
+    .action-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background-color: #ffffff;
-      margin-top: 0.5rem;
-      padding: 0.3rem 0.6 rem;
+      margin: 0 0.35rem;
   
       .action-icon {
         font-size: 1.5rem;
-        padding-top: 2px;
+
+        &.brand-secondary {
+          color: $pf-brand-secondary-color;
+        }
       }
 
       .solid-star {
@@ -72,6 +81,6 @@
   }
 
   .actions-container.displayed {
-    display: block;
+    display: flex;
   }
 }

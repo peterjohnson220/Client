@@ -8,4 +8,5 @@ export interface Workbook {
   IconClass: string[];
   Tag: string;
   IsFavorite: boolean;
+  DefaultTag: string;
 }

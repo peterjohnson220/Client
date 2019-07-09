@@ -21,7 +21,6 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
 
       companyWorkbooksAsyncClone.loading = true;
-      companyWorkbooksAsyncClone.obj = [];
       companyWorkbooksAsyncClone.loadingError = false;
 
       return {
@@ -109,4 +108,7 @@ export const getCompanyWorkbooksAsync = (state: State) => state.companyWorkbooks
 export const getDashboardView = (state: State) => state.dashboardView;
 export const getFilteredCompanyWorkbooks = (state: State) => {
   return state.companyWorkbooksAsync.obj.filter(getWorkbookFilterFn(state.dashboardView));
+};
+export const getDistinctTags = (state: State) => {
+  return Array.from(new Set(state.companyWorkbooksAsync.obj.filter(cw => !!cw.Tag).map(cw => cw.Tag)));
 };
