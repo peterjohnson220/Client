@@ -1,4 +1,5 @@
 @import 'common/common-variables';
+@import 'colors';
 
 @import 'peer/peer-colors';
 @import 'peer/peer-button';
@@ -18,19 +19,11 @@ pf-company-jobs-grid {
 }
 
 pf-company-job-and-exchange-detail {
-  .bg-image {
-    svg.fa-exchange {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 170px;
-      opacity: .03;
-      pointer-events: none;
-      // show through loading container's blanket
-      z-index: 200;
-    }
-  }
   pf-company-job-detail, pf-exchange-job-detail {
+    .info-row {
+      border-bottom: 1px solid $border-grey;
+      padding: .65rem .25rem;
+    }
     .job-description, .exchange-job-description {
       h6.primary-header {
         font-weight: 500;

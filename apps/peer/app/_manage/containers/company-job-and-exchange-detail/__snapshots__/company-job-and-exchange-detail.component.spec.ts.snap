@@ -24,13 +24,13 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
       class="card-header"
     >
       <h6
-        class="text-uppercase mb-0"
+        class="mb-0 font-weight-bold"
       >
-        Company Job and Exchange
+        Job Information
       </h6>
     </div>
     <a
-      class="close-panel mr-3 mt-1"
+      class="close-panel mr-2 mt-1"
       href="javascript:void(0)"
       title="Close"
     >
@@ -46,13 +46,9 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
       >
         <pf-company-job-detail />
       </div>
-      <span
-        class="bg-image"
-      >
-        <fa-icon
-          icon="exchange"
-        />
-      </span>
+      <div
+        class="vertical-separator mt-3 mb-2"
+      />
       <div
         class="w-50 p-3"
       >
@@ -89,13 +85,13 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job sea
       class="card-header"
     >
       <h6
-        class="text-uppercase mb-0"
+        class="mb-0 font-weight-bold"
       >
-        Company Job and Exchange
+        Job Information
       </h6>
     </div>
     <a
-      class="close-panel mr-3 mt-1"
+      class="close-panel mr-2 mt-1"
       href="javascript:void(0)"
       title="Close"
     >
@@ -111,13 +107,9 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job sea
       >
         <pf-company-job-detail />
       </div>
-      <span
-        class="bg-image"
-      >
-        <fa-icon
-          icon="exchange"
-        />
-      </span>
+      <div
+        class="vertical-separator mt-3 mb-2"
+      />
       <div
         class="w-50 p-3"
       >

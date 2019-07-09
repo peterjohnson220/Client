@@ -12,7 +12,7 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
       class="d-flex"
     >
       <h5
-        class="text-uppercase mb-3 flex-grow-2"
+        class="mb-3 font-weight-bold"
       >
         Exchange Job
       </h5>
@@ -22,41 +22,49 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
       class="position-relative"
     >
       <pf-async-container>
-        <div>
+        <div
+          class="info-row"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25 mb-0"
           >
-            Title
+            Title:
           </label>
           <span>
             
           </span>
         </div>
-        <div>
+        <div
+          class="info-row"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25 mb-0"
           >
-            Family
+            Family:
           </label>
           <span>
             
           </span>
         </div>
-        <div>
+        <div
+          class="info-row"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25 mb-0"
           >
-            Level
+            Level:
           </label>
           <span>
             
           </span>
         </div>
-        <div>
+        <div
+          class="info-row border-0"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25"
           >
-            Description
+            Description:
           </label>
           
           <p
@@ -84,7 +92,7 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
       class="d-flex"
     >
       <h5
-        class="text-uppercase mb-3 flex-grow-2"
+        class="mb-3 font-weight-bold"
       >
         Exchange Job
       </h5>
@@ -94,41 +102,49 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
       class="position-relative"
     >
       <pf-async-container>
-        <div>
+        <div
+          class="info-row"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25 mb-0"
           >
-            Title
+            Title:
           </label>
           <span>
             ExchangeJobTitle
           </span>
         </div>
-        <div>
+        <div
+          class="info-row"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25 mb-0"
           >
-            Family
+            Family:
           </label>
           <span>
             ExchangeJobFamily
           </span>
         </div>
-        <div>
+        <div
+          class="info-row"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25 mb-0"
           >
-            Level
+            Level:
           </label>
           <span>
             ExchangeJobLevel
           </span>
         </div>
-        <div>
+        <div
+          class="info-row border-0"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25"
           >
-            Description
+            Description:
           </label>
           
           <p
@@ -156,7 +172,7 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
       class="d-flex"
     >
       <h5
-        class="text-uppercase mb-3 flex-grow-2"
+        class="mb-3 font-weight-bold"
       >
         Exchange Job
       </h5>
@@ -184,41 +200,49 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
       class="position-relative"
     >
       <pf-async-container>
-        <div>
+        <div
+          class="info-row"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25 mb-0"
           >
-            Title
+            Title:
           </label>
           <span>
             
           </span>
         </div>
-        <div>
+        <div
+          class="info-row"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25 mb-0"
           >
-            Family
+            Family:
           </label>
           <span>
             
           </span>
         </div>
-        <div>
+        <div
+          class="info-row"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25 mb-0"
           >
-            Level
+            Level:
           </label>
           <span>
             
           </span>
         </div>
-        <div>
+        <div
+          class="info-row border-0"
+        >
           <label
-            class="text-muted text-uppercase"
+            class="font-weight-bold w-25"
           >
-            Description
+            Description:
           </label>
           
           <p

@@ -1,8 +1,8 @@
 <section class="card mb-2">
   <div class="card-header">
-    <h6 class="text-uppercase mb-0">Company Job and Exchange</h6>
+    <h6 class="mb-0 font-weight-bold">Job Information</h6>
   </div>
-  <a href="javascript:void(0)" (click)="handleCloseClick()" class="close-panel mr-3 mt-1" title="Close">
+  <a href="javascript:void(0)" (click)="handleCloseClick()" class="close-panel mr-2 mt-1" title="Close">
     <fa-icon icon="times"></fa-icon>
   </a>
   <div class="d-flex">
@@ -15,9 +15,7 @@
         (viewJdmDescriptionClick)="handleViewJdmDescriptionClick()">
       </pf-company-job-detail>
     </div>
-    <span class="bg-image">
-      <fa-icon icon="exchange"></fa-icon>
-    </span>
+    <div class="vertical-separator mt-3 mb-2"></div>
     <div class="w-50 p-3">
       <pf-exchange-job-detail
         *ngIf="(selectedCompanyJob$ | async) && (selectedCompanyJob$ | async).IsAssociated; else exchangeJobSearch"
