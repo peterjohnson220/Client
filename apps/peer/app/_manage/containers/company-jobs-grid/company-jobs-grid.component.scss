@@ -1,5 +1,5 @@
 @import 'kendo-grid';
-@import 'peer/peer-match-button';
+@import 'peer/peer-button';
 
 .company-jobs-grid-container {
   transition: height .4s ease-in-out;
@@ -16,6 +16,6 @@
 }
 
 .match-button {
-  @extend %match-button;
+  @include peer-button($match-button-primary);
   visibility: hidden;
 }

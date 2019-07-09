@@ -21,10 +21,15 @@
     <div class="w-50 p-3">
       <pf-exchange-job-detail
         *ngIf="(selectedCompanyJob$ | async) && (selectedCompanyJob$ | async).IsAssociated; else exchangeJobSearch"
+        [selectedCompanyJob]="selectedCompanyJob$ | async"
+        [savingAssociation]="savingAssociation$ | async"
+        [savingAssociationError]="savingAssociationError$ | async"
         [exchangeJob]="mappedExchangeJob$ | async"
         [exchangeJobLoading]="mappedExchangeJobsLoading$ | async"
         [exchangeJobLoadingSuccess]="mappedExchangeJobsLoadingSuccess$ | async"
-        [exchangeJobLoadingError]="mappedExchangeJobsLoadingError$ | async">
+        [exchangeJobLoadingError]="mappedExchangeJobsLoadingError$ | async"
+        (approveClick)="handleApprovePendingMatchClick($event)"
+        (rejectClick)="handleRejectPendingMatchClick($event)">
       </pf-exchange-job-detail>
       <ng-template #exchangeJobSearch>
         <pf-exchange-job-search ></pf-exchange-job-search>

@@ -29,8 +29,7 @@ export class CompanyJobsEffects {
       this.store.pipe(select(fromReducers.getCompanyJobsGridState)),
       this.store.pipe(select(fromReducers.getCompanyJobsSearchTerm)),
       this.store.pipe(select(fromReducers.getCompanyJobsExchangeId)),
-        (action: fromCompanyJobsActions.LoadCompanyJobs, gridState, searchTerm, exchangeId) =>
-          ({ action, gridState, searchTerm, exchangeId })
+        (action, gridState, searchTerm, exchangeId) => ({ action, gridState, searchTerm, exchangeId })
     ),
     // make the call to the api service, then fire a success/failure action
     switchMap(combined => (
@@ -97,22 +96,11 @@ export class CompanyJobsEffects {
   searchExchangeJobs$: Observable<Action> = this.actions$.pipe(
     ofType(fromCompanyJobsActions.SEARCH_EXCHANGE_JOBS),
      // grab the title search term
-     withLatestFrom(
-      this.store.pipe(
-        select(fromReducers.getCompanyJobsExchangeJobsTitleSearchTerm)),
-        (action, titleSearchTerm) => titleSearchTerm
-    ),
-    // grab the description search term
     withLatestFrom(
-      this.store.pipe(
-        select(fromReducers.getCompanyJobsExchangeJobsDescriptionSearchTerm)),
-        (titleSearchTerm, descriptionSearchTerm) => ({ titleSearchTerm, descriptionSearchTerm })
-    ),
-    // grab the exchange Id
-    withLatestFrom(
-      this.store.pipe(
-        select(fromReducers.getCompanyJobsExchangeId)),
-        (searchTerms, exchangeId) => ({ ...searchTerms, exchangeId } as ExchangeJobsSearchParams)
+      this.store.pipe(select(fromReducers.getCompanyJobsExchangeJobsTitleSearchTerm)),
+      this.store.pipe(select(fromReducers.getCompanyJobsExchangeJobsDescriptionSearchTerm)),
+      this.store.pipe(select(fromReducers.getCompanyJobsExchangeId)),
+        (action, titleSearchTerm, descriptionSearchTerm, exchangeId) => ({ titleSearchTerm, descriptionSearchTerm, exchangeId })
     ),
     switchMap((combined: ExchangeJobsSearchParams) =>
       this.exchangeCompanyApiService.GetAssociableExchangeJobs(combined).pipe(
@@ -122,18 +110,56 @@ export class CompanyJobsEffects {
     ))
   );
 
-  // make an association
+  // make a new association or approve a pending association
   @Effect()
-  saveAssociation$: Observable<Action> = this.actions$.pipe(
-    ofType(fromCompanyJobsActions.SAVE_ASSOCIATION),
-    switchMap((action: any) =>
+  createAssociation$: Observable<Action> = this.actions$.pipe(
+    ofType(fromCompanyJobsActions.CREATE_ASSOCIATION),
+    switchMap((action: fromCompanyJobsActions.CreateAssociation) =>
       this.exchangeCompanyApiService.upsertExchangeJobMap(action.payload).pipe(
         mergeMap(() => [
-          new fromCompanyJobsActions.SaveAssociationSuccess(),
+          new fromCompanyJobsActions.CreateAssociationSuccess(),
           new fromCompanyJobsActions.LoadMappedExchangeJobs(action.payload.CompanyJobId),
           new fromCompanyJobsActions.LoadCompanyJobs()
         ]),
-        catchError(() => of(new fromCompanyJobsActions.SaveAssociationError())
+        catchError(() => of(new fromCompanyJobsActions.CreateAssociationError())
+      )
+    ))
+  );
+
+  // update a pending association to be approved
+  @Effect()
+  approvePendingAssociation$: Observable<Action> = this.actions$.pipe(
+    ofType(fromCompanyJobsActions.APPROVE_PENDING_MATCH),
+    switchMap((action: fromCompanyJobsActions.ApprovePendingMatch) =>
+      this.exchangeCompanyApiService.approvePendingExchangeJobMapping(action.payload).pipe(
+        mergeMap(() => [
+          new fromCompanyJobsActions.ApprovePendingMatchSuccess(),
+          new fromCompanyJobsActions.LoadCompanyJobs()
+        ]),
+        catchError(() => of(new fromCompanyJobsActions.RejectPendingMatchError())
+      )
+    ))
+  );
+
+  // update a pending association to be approved/denied
+  @Effect()
+  rejectPendingAssociation$: Observable<Action> = this.actions$.pipe(
+    ofType(fromCompanyJobsActions.REJECT_PENDING_MATCH),
+    // grab the latest company job so that on success it can be used as the search term for finding a new match
+    withLatestFrom(
+      this.store.pipe(
+        select(fromReducers.getCompanyJobsSelectedCompanyJob)),
+        (action, selectedCompanyJob) => ({ action, selectedCompanyJob })
+    ),
+    switchMap((combined: any) =>
+      this.exchangeCompanyApiService.rejectPendingExchangeJobMapping(combined.action.payload).pipe(
+        mergeMap(() => [
+          new fromCompanyJobsActions.RejectPendingMatchSuccess(),
+          new fromCompanyJobsActions.LoadCompanyJobs(),
+          new fromCompanyJobsActions.UpdateExchangeJobsTitleSearchTerm(combined.selectedCompanyJob.JobTitle),
+          new fromCompanyJobsActions.SearchExchangeJobs()
+        ]),
+        catchError(() => of(new fromCompanyJobsActions.RejectPendingMatchError())
       )
     ))
   );

@@ -35,9 +35,18 @@ export const SEARCH_EXCHANGE_JOBS_ERROR = '[Peer Manage/Company Jobs] Search Exc
 export const UPDATE_EXCHANGE_JOBS_TITLE_SEARCH_TERM = '[Peer Manage/Company Jobs] Update Exchange Jobs Title Search Term';
 export const UPDATE_EXCHANGE_JOBS_DESCRIPTION_SEARCH_TERM = '[Peer Manage/Company Jobs] Update Exchange Jobs Description Search Term';
 
-export const SAVE_ASSOCIATION = '[Peer Manage/Company Jobs] Save Association';
-export const SAVE_ASSOCIATION_SUCCESS = '[Peer Manage/Company Jobs] Save Association Success';
-export const SAVE_ASSOCIATION_ERROR = '[Peer Manage/Company Jobs] Save Association Error';
+// exchange job search, create new association
+export const CREATE_ASSOCIATION = '[Peer Manage/Company Jobs] Create Association';
+export const CREATE_ASSOCIATION_SUCCESS = '[Peer Manage/Company Jobs] Create Association Success';
+export const CREATE_ASSOCIATION_ERROR = '[Peer Manage/Company Jobs] Create Association Error';
+
+// exchange job search, approve/reject pending match
+export const APPROVE_PENDING_MATCH = '[Peer Manage/Company Jobs] Approve Pending Match';
+export const APPROVE_PENDING_MATCH_SUCCESS = '[Peer Manage/Company Jobs] Approve Pending Match Success';
+export const APPROVE_PENDING_MATCH_ERROR = '[Peer Manage/Company Jobs] Approve Pending Match Error';
+export const REJECT_PENDING_MATCH = '[Peer Manage/Company Jobs] Reject Pending Match';
+export const REJECT_PENDING_MATCH_SUCCESS = '[Peer Manage/Company Jobs] Reject Pending Match Success';
+export const REJECT_PENDING_MATCH_ERROR = '[Peer Manage/Company Jobs] Reject Pending Match Error';
 
 export class Reset implements Action {
   readonly type = RESET;
@@ -141,17 +150,43 @@ export class UpdateExchangeJobsDescriptionSearchTerm implements Action {
   constructor(public payload: string) {}
 }
 
-export class SaveAssociation implements Action {
-  readonly type = SAVE_ASSOCIATION;
+export class CreateAssociation implements Action {
+  readonly type = CREATE_ASSOCIATION;
   constructor(public payload: UpsertExchangeJobMapRequest) {}
 }
 
-export class SaveAssociationSuccess implements Action {
-  readonly type = SAVE_ASSOCIATION_SUCCESS;
+export class CreateAssociationSuccess implements Action {
+  readonly type = CREATE_ASSOCIATION_SUCCESS;
 }
 
-export class SaveAssociationError implements Action {
-  readonly type = SAVE_ASSOCIATION_ERROR;
+export class CreateAssociationError implements Action {
+  readonly type = CREATE_ASSOCIATION_ERROR;
+}
+
+export class ApprovePendingMatch implements Action {
+  readonly type = APPROVE_PENDING_MATCH;
+  constructor(public payload: UpsertExchangeJobMapRequest) {}
+}
+
+export class ApprovePendingMatchSuccess implements Action {
+  readonly type = APPROVE_PENDING_MATCH_SUCCESS;
+}
+
+export class ApprovePendingMatchError implements Action {
+  readonly type = APPROVE_PENDING_MATCH_ERROR;
+}
+
+export class RejectPendingMatch implements Action {
+  readonly type = REJECT_PENDING_MATCH;
+  constructor(public payload: UpsertExchangeJobMapRequest) {}
+}
+
+export class RejectPendingMatchSuccess implements Action {
+  readonly type = REJECT_PENDING_MATCH_SUCCESS;
+}
+
+export class RejectPendingMatchError implements Action {
+  readonly type = REJECT_PENDING_MATCH_ERROR;
 }
 
 export type Actions =
@@ -181,6 +216,14 @@ export type Actions =
   | SearchExchangeJobsError
   | UpdateExchangeJobsTitleSearchTerm
   | UpdateExchangeJobsDescriptionSearchTerm
-  | SaveAssociation
-  | SaveAssociationSuccess
-  | SaveAssociationError;
+  // create match
+  | CreateAssociation
+  | CreateAssociationSuccess
+  | CreateAssociationError
+  // approve/deny pending match
+  | ApprovePendingMatch
+  | ApprovePendingMatchSuccess
+  | ApprovePendingMatchError
+  | RejectPendingMatch
+  | RejectPendingMatchSuccess
+  | RejectPendingMatchError;
