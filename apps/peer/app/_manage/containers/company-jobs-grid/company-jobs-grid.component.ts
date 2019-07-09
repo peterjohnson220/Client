@@ -3,7 +3,8 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { GridDataResult, DataStateChangeEvent, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { State, CompositeFilterDescriptor } from '@progress/kendo-data-query';
+import { State, CompositeFilterDescriptor, FilterDescriptor } from '@progress/kendo-data-query';
+import { FilterService } from '@progress/kendo-angular-grid';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
@@ -38,6 +39,11 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
   gridFilter: CompositeFilterDescriptor;
   pageRowIndexToScrollTo: number;
   selectedCompanyJob: CompanyJob;
+  statusFilterOptions: any[] = [
+    {StatusName: 'Matched', StatusId: 'matched'},
+    {StatusName: 'Not Matched', StatusId: 'not-matched'},
+    {StatusName: 'Pending Review', StatusId: 'pending-review'}];
+  selectedStatusFilterOption: any;
 
   // only highlight the selected row if we a) have a job selected, and b) the row's CompanyJob matches the one selected
   public isRowSelected = (e: any) => this.selectedCompanyJob && e.dataItem.CompanyJobId === this.selectedCompanyJob.CompanyJobId;
@@ -58,6 +64,7 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
 
     this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsGridState)).subscribe(gridState => {
       this.gridFilter = gridState.filter;
+      this.clearSelectedStatusFilter();
     }));
 
     this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsPageRowIndexToScrollTo)).subscribe(pageRowIndex => {
@@ -114,6 +121,7 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
   }
 
   reloadGrid() {
+    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.PeerManageCompanyJobs));
     this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.PeerManageCompanyJobs, { skip: 0 } as PageChangeEvent));
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
@@ -126,4 +134,19 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
     }
   }
 
+  onStatusFilterChange(value: any, filterService: FilterService): void {
+    filterService.filter({
+      filters: [{ field: 'StatusId', operator: 'eq', value: value }],
+      logic: 'and'
+    });
+  }
+
+  clearSelectedStatusFilter(): void {
+    const statusIdFilter: any = this.gridFilter.filters.find((f: FilterDescriptor) => f.field === 'StatusId');
+    if (!statusIdFilter) {
+      this.selectedStatusFilterOption = null;
+    } else if (statusIdFilter.value !== this.selectedStatusFilterOption) {
+      this.selectedStatusFilterOption = statusIdFilter.value;
+    }
+  }
 }
