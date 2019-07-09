@@ -26,6 +26,7 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
   workbookTitle: string;
   showTabs: boolean;
   viz: any;
+  vizLoading: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -54,9 +55,14 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
     if (!url) {
       return;
     }
+    this.vizLoading = true;
     const containerDiv = document.getElementById('vizContainer');
+    const that = this;
     const options = {
-      hideTabs: !this.showTabs
+      hideTabs: !this.showTabs,
+      onFirstInteractive: function () {
+        that.vizLoading = false;
+      }
     };
     if (this.viz) {
       this.viz.dispose();

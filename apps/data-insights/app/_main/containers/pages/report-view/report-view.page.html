@@ -3,9 +3,10 @@
     <ng-container page-title>{{workbookTitle}}</ng-container>
     <ng-container page-content>
       <pf-async-container
-        [loading]="workbookViewUrlAsync.loading"
+        [loading]="workbookViewUrlAsync.loading || vizLoading"
         [loadingError]="workbookViewUrlAsync.loadingError"
         [loadingErrorMessage]="'Error loading this workbook'"
+        [opacityLevel]="1"
         [hideReloadButton]="true">
         <div id="vizContainer">
 
