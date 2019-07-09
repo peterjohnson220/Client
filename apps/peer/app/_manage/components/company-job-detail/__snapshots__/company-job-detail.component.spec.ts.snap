@@ -7,41 +7,49 @@ exports[`CompanyJobDetailComponent should hide a link to download the jdm descri
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
-    class="text-uppercase mb-3"
+    class="mb-3 font-weight-bold"
   >
     Company Job
-  </h5><div>
+  </h5><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Title
+      Title:
     </label>
     <span>
       MockCompanyJobTitle
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Family
+      Family:
     </label>
     <span>
       MockJobFamily
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Level
+      Level:
     </label>
     <span>
       MockJobLevel
     </span>
-  </div><div>
+  </div><div
+    class="info-row border-0"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25"
     >
-      Description
+      Description:
     </label>
     <a
       class="jdm mr-2"
@@ -72,41 +80,49 @@ exports[`CompanyJobDetailComponent should render the selected company jobs props
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
-    class="text-uppercase mb-3"
+    class="mb-3 font-weight-bold"
   >
     Company Job
-  </h5><div>
+  </h5><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Title
+      Title:
     </label>
     <span>
       MockCompanyJobTitle
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Family
+      Family:
     </label>
     <span>
       MockJobFamily
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Level
+      Level:
     </label>
     <span>
       MockJobLevel
     </span>
-  </div><div>
+  </div><div
+    class="info-row border-0"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25"
     >
-      Description
+      Description:
     </label>
     <a
       class="jdm mr-2"
@@ -137,41 +153,49 @@ exports[`CompanyJobDetailComponent should show a link to download the jdm descri
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
-    class="text-uppercase mb-3"
+    class="mb-3 font-weight-bold"
   >
     Company Job
-  </h5><div>
+  </h5><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Title
+      Title:
     </label>
     <span>
       MockCompanyJobTitle
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Family
+      Family:
     </label>
     <span>
       MockJobFamily
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Level
+      Level:
     </label>
     <span>
       MockJobLevel
     </span>
-  </div><div>
+  </div><div
+    class="info-row border-0"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25"
     >
-      Description
+      Description:
     </label>
     <a
       class="jdm mr-2 show"
@@ -198,41 +222,49 @@ exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm 
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
-    class="text-uppercase mb-3"
+    class="mb-3 font-weight-bold"
   >
     Company Job
-  </h5><div>
+  </h5><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Title
+      Title:
     </label>
     <span>
       MockCompanyJobTitle
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Family
+      Family:
     </label>
     <span>
       MockJobFamily
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Level
+      Level:
     </label>
     <span>
       MockJobLevel
     </span>
-  </div><div>
+  </div><div
+    class="info-row border-0"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25"
     >
-      Description
+      Description:
     </label>
     <a
       class="jdm mr-2 show"
@@ -261,41 +293,49 @@ exports[`CompanyJobDetailComponent should show an error message if the jdm descr
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
-    class="text-uppercase mb-3"
+    class="mb-3 font-weight-bold"
   >
     Company Job
-  </h5><div>
+  </h5><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Title
+      Title:
     </label>
     <span>
       MockCompanyJobTitle
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Family
+      Family:
     </label>
     <span>
       MockJobFamily
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Level
+      Level:
     </label>
     <span>
       MockJobLevel
     </span>
-  </div><div>
+  </div><div
+    class="info-row border-0"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25"
     >
-      Description
+      Description:
     </label>
     <a
       class="jdm mr-2 show"
@@ -326,41 +366,49 @@ exports[`CompanyJobDetailComponent should show an informational message when mul
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
-    class="text-uppercase mb-3"
+    class="mb-3 font-weight-bold"
   >
     Company Job
-  </h5><div>
+  </h5><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Title
+      Title:
     </label>
     <span>
       MockCompanyJobTitle
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Family
+      Family:
     </label>
     <span>
       MockJobFamily
     </span>
-  </div><div>
+  </div><div
+    class="info-row"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25 mb-0"
     >
-      Level
+      Level:
     </label>
     <span>
       MockJobLevel
     </span>
-  </div><div>
+  </div><div
+    class="info-row border-0"
+  >
     <label
-      class="text-muted text-uppercase"
+      class="font-weight-bold w-25"
     >
-      Description
+      Description:
     </label>
     <a
       class="jdm mr-2"

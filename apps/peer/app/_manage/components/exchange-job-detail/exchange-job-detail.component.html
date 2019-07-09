@@ -1,6 +1,6 @@
 <section *ngIf="exchangeJob">
   <div class="d-flex">
-    <h5 class="text-uppercase mb-3 flex-grow-2">Exchange Job</h5>
+    <h5 class="mb-3 font-weight-bold">Exchange Job</h5>
     <div *ngIf="selectedCompanyJob.IsPendingPeerUserReview">
       <button class="approve mr-2" (click)="handleApproveClick()">
         <fa-icon icon="check"></fa-icon>Approve
@@ -16,20 +16,20 @@
       [loadingError]="exchangeJobLoadingError || savingAssociationError"
       [loadingErrorMessage]="'Unexpected Error Occurred'"
       [hideReloadButton]="true">
-      <div>
-        <label class="text-muted text-uppercase">Title</label>
+      <div class="info-row">
+        <label class="font-weight-bold w-25 mb-0">Title:</label>
         <span>{{ exchangeJob.ExchangeJobTitle }}</span>
       </div>
-      <div>
-        <label class="text-muted text-uppercase">Family</label>
+      <div class="info-row">
+        <label class="font-weight-bold w-25 mb-0">Family:</label>
         <span>{{ exchangeJob.ExchangeJobFamily }}</span>
       </div>
-      <div>
-        <label class="text-muted text-uppercase">Level</label>
+      <div class="info-row">
+        <label class="font-weight-bold w-25 mb-0">Level:</label>
         <span>{{ exchangeJob.ExchangeJobLevel }}</span>
       </div>
-      <div>
-        <label class="text-muted text-uppercase">Description</label>
+      <div class="info-row border-0">
+        <label class="font-weight-bold w-25">Description:</label>
         <ng-container *ngIf="exchangeJob.ExchangeJobDescription && exchangeJob.ExchangeJobDescription !== '#N/A'; else noDescription">
           <p [innerHTML]="exchangeJob.ExchangeJobDescription | jobDescriptionParser" class="exchange-job-description"></p>
         </ng-container>

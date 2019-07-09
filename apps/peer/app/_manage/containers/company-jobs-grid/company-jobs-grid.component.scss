@@ -3,6 +3,9 @@
 
 .company-jobs-grid-container {
   transition: height .4s ease-in-out;
+  &.short {
+    height: 250px;
+  }
 }
 
 :host ::ng-deep .k-grid {
