@@ -3,7 +3,7 @@
 .modal-body {
   &.no-filtered-tags {
     kendo-combobox{
-      kendo-popup{
+      ::ng-deep kendo-popup{
         display: none;
       }
     }
