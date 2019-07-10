@@ -2,6 +2,7 @@
 @import 'common/common-variables';
 @import 'colors';
 @import 'kendo-variable-overrides.scss';
+@import 'peer/peer-button';
 
 $sub-header-height: 27px;
 $buttons-height: 70px;
@@ -12,34 +13,11 @@ $buttons-height: 70px;
 
 // styling outside of the the two main components
 .associate-button {
-  border: 0;
-  background-color: $pf-brand-secondary-color;
-  color: #fff;
-  border-radius: 50%;
-  height: 25px;
-  width: 25px;
-  cursor: pointer;
-  transition: opacity .2s ease-in-out;
-
-  svg {
-    vertical-align: -1px;
-  }
-
+  @include peer-button($match-button-primary);
+  min-width: 70px;
+  opacity: 1;
   &.fake-button {
-    pointer-events: none;
-    height: 1.7rem;
-    width: 1.7rem;
-    padding-left: .25rem;
-
-    svg {
-      font-size: .85rem;
-      margin-left: .15rem;
-      vertical-align: -2px;
-    }
-  }
-
-  &:disabled {
-    opacity: .6;
+    cursor: default;
   }
 }
 
