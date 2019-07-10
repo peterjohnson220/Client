@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -7,7 +7,8 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { DashboardView, Workbook } from '../../models';
+import { DashboardView, Workbook, SaveWorkbookTagObj } from '../../models';
+import { TagWorkbookModalComponent } from '../../components/tag-workbook-modal';
 
 @Component({
   selector: 'pf-dashboards',
@@ -15,13 +16,17 @@ import { DashboardView, Workbook } from '../../models';
   styleUrls: ['./dashboards.component.scss']
 })
 export class DashboardsComponent implements OnInit, OnDestroy {
+  @ViewChild(TagWorkbookModalComponent, { static: true }) public tagWorkbookModalComponent: TagWorkbookModalComponent;
+
   companyWorkbooksAsync$: Observable<AsyncStateObj<Workbook[]>>;
   filteredCompanyWorkbooks$: Observable<Workbook[]>;
   dashboardView$: Observable<string>;
+  tags$: Observable<string[]>;
 
   filteredCompanyWorkbooksSub: Subscription;
   filteredCompanyWorkbooks: Workbook[];
   dashboardViews: Array<string> = ['All Dashboards', 'Favorites'];
+  selectedWorkbook: Workbook;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
@@ -29,6 +34,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.companyWorkbooksAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsync));
     this.filteredCompanyWorkbooks$ = this.store.pipe(select(fromDataInsightsMainReducer.getFilteredCompanyWorkbooks));
     this.dashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardView));
+    this.tags$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTags));
   }
 
   get anyFavorites() {
@@ -59,5 +65,14 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   handleViewChanged(view: DashboardView) {
     this.store.dispatch(new fromDashboardsActions.ToggleDashboardView({ view }));
+  }
+
+  handleTagWorkbookClicked(workbook: Workbook) {
+    this.selectedWorkbook = workbook;
+    this.tagWorkbookModalComponent.open();
+  }
+
+  handleSaveTagClicked(saveObj: SaveWorkbookTagObj) {
+    this.store.dispatch(new fromDashboardsActions.SaveWorkbookTag(saveObj));
   }
 }

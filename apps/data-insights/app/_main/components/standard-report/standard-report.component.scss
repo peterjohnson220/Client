@@ -11,9 +11,15 @@
     margin-bottom: 1rem;
     cursor: pointer;
     min-height: 1px;
+    border: 1px solid #e8e8e8;
+    padding: 1rem;
 
     .img-fluid {
       width: 100%;
+    }
+
+    &:hover{
+      box-shadow: 1px 1px 7px 0 #e8e8e8;
     }
   }
 

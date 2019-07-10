@@ -12,7 +12,7 @@ import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { StandardReportComponent, WorkbookCardComponent } from './components';
+import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
@@ -45,7 +45,7 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Containers
-    DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
+    DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, TagWorkbookModalComponent,
 
     // Components
     StandardReportComponent, WorkbookCardComponent

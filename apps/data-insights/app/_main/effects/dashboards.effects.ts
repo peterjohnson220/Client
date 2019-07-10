@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 
-import { TableauReportApiService } from 'libs/data/payfactors-api';
+import { TableauReportApiService, UserReportApiService } from 'libs/data/payfactors-api';
+import { UserContext } from 'libs/models/security';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromAllDashboardsActions from '../actions/dashboards.actions';
+import * as fromDataInsightsMainReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
 
 @Injectable()
@@ -16,12 +20,16 @@ export class DashboardsEffects {
   getCompanyWorkbooks$ = this.action$
   .pipe(
     ofType(fromAllDashboardsActions.GET_COMPANY_WORKBOOKS),
-    switchMap(() => {
+    withLatestFrom(
+      this.store.pipe(select(fromRootState.getUserContext)),
+      (action, userContext: UserContext) => ({ userContext })
+    ),
+    switchMap((data) => {
       return this.tableauReportApiService.getCompanyReports()
         .pipe(
           map((response) => {
             return new fromAllDashboardsActions.GetCompanyWorkbooksSuccess(
-              PayfactorsApiModelMapper.mapTableauReportResponsesToWorkbooks(response)
+              PayfactorsApiModelMapper.mapTableauReportResponsesToWorkbooks(response, data.userContext.CompanyName)
             );
           }),
           catchError(() => of(new fromAllDashboardsActions.GetCompanyWorkbooksError()))
@@ -55,8 +63,32 @@ export class DashboardsEffects {
     })
   );
 
+  @Effect()
+  saveWorkbookTag$ = this.action$
+    .pipe(
+      ofType(fromAllDashboardsActions.SAVE_WORKBOOK_TAG),
+      switchMap((action: fromAllDashboardsActions.SaveWorkbookTag) => {
+        return this.userReportApiService.upsertUserReportTag(
+          PayfactorsApiModelMapper.mapSaveWorkbookTagObjToUpsertUserReportTag(action.payload)
+        ).pipe(
+            map(() => new fromAllDashboardsActions.SaveWorkbookTagSuccess())
+            // catchError(() => of(new fromAllDashboardsActions.RemoveWorkbookFavoriteError()))
+          );
+      })
+    );
+
+
+  @Effect()
+  saveWorkbookTagSuccess$ = this.action$
+    .pipe(
+      ofType(fromAllDashboardsActions.SAVE_WORKBOOK_TAG_SUCCESS),
+      map(() => new fromAllDashboardsActions.GetCompanyWorkbooks())
+    );
+
   constructor(
     private action$: Actions,
-    private tableauReportApiService: TableauReportApiService
+    private store: Store<fromDataInsightsMainReducer.State>,
+    private tableauReportApiService: TableauReportApiService,
+    private userReportApiService: UserReportApiService
   ) {}
 }

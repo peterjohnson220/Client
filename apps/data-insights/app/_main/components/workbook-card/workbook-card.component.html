@@ -5,8 +5,12 @@
 
   <div class="actions-container" [ngClass]="displayActionsOverlay ? 'displayed' : ''">
     <button class="btn action-button" (click)="handleFavoriteClicked(workbook)">
-      <fa-icon *ngIf="!workbook.IsFavorite" [icon]="['fal', 'star']" class="action-icon d-inline-flex light-star"></fa-icon>
       <fa-icon *ngIf="workbook.IsFavorite" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
+      <fa-icon *ngIf="!workbook.IsFavorite" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
+    </button>
+    <button class="btn action-button" (click)="handleTagClicked(workbook)">
+      <fa-icon *ngIf="workbook.Tag" [icon]="['fas', 'tag']" class="action-icon brand-secondary"></fa-icon>
+      <fa-icon *ngIf="!workbook.Tag" [icon]="['far', 'tag']" class="action-icon"></fa-icon>
     </button>
   </div>
   <div class="d-flex actions-overlay" [ngClass]="displayActionsOverlay ? 'displayed' : ''"></div>
@@ -16,7 +20,7 @@
     <div class="vertical-separator"></div>
   </ng-container>
   <div class="d-flex flex-column ml-3 content">
-    <span class="tag" data-toggle="tooltip" title="{{workbook.Tag}}">{{workbook.Tag}}</span>
+    <span class="tag" data-toggle="tooltip" title="{{workbook.Tag || workbook.DefaultTag}}">{{workbook.Tag || workbook.DefaultTag}}</span>
     <span class="workbook-name" data-toggle="tooltip" title="{{workbook.WorkbookName}}">{{workbook.WorkbookName}}</span>
   </div>
 

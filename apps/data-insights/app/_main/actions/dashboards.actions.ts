@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { DashboardView, Workbook } from '../models';
+import { DashboardView, Workbook, SaveWorkbookTagObj } from '../models';
 
 export const GET_COMPANY_WORKBOOKS = '[Data Insights / Dashboards] Get Company Workbooks';
 export const GET_COMPANY_WORKBOOKS_SUCCESS = '[Data Insights / Dashboards] Get Company Workbooks Success';
@@ -12,6 +12,9 @@ export const REMOVE_WORKBOOK_FAVORITE = '[Data Insights / Dashboards] Remove Wor
 export const REMOVE_WORKBOOK_FAVORITE_SUCCESS = '[Data Insights / Dashboards] Remove Workbook Favorite Success';
 export const REMOVE_WORKBOOK_FAVORITE_ERROR = '[Data Insights / Dashboards] Remove Workbook Favorite Error';
 export const TOGGLE_DASHBOARD_VIEW = '[Data Insights / Dashboards] Toggle Dashboard View';
+export const SAVE_WORKBOOK_TAG = '[Data Insights / Dashboards] Save Workbook Tag';
+export const SAVE_WORKBOOK_TAG_SUCCESS = '[Data Insights / Dashboards] Save Workbook Tag Success';
+export const SAVE_WORKBOOK_TAG_ERROR = '[Data Insights / Dashboards] Save Workbook Tag Error';
 
 export class GetCompanyWorkbooks implements Action {
   readonly type = GET_COMPANY_WORKBOOKS;
@@ -73,6 +76,24 @@ export class ToggleDashboardView implements Action {
   constructor(public payload: { view: DashboardView }) {}
 }
 
+export class SaveWorkbookTag implements Action {
+  readonly type = SAVE_WORKBOOK_TAG;
+
+  constructor(public payload: SaveWorkbookTagObj ) {}
+}
+
+export class SaveWorkbookTagSuccess implements Action {
+  readonly type = SAVE_WORKBOOK_TAG_SUCCESS;
+
+  constructor() {}
+}
+
+export class SaveWorkbookTagError implements Action {
+  readonly type = SAVE_WORKBOOK_TAG_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetCompanyWorkbooks
   | GetCompanyWorkbooksSuccess
@@ -83,4 +104,7 @@ export type Actions
   | RemoveWorkbookFavorite
   | RemoveWorkbookFavoriteSuccess
   | RemoveWorkbookFavoriteError
-  | ToggleDashboardView;
+  | ToggleDashboardView
+  | SaveWorkbookTag
+  | SaveWorkbookTagSuccess
+  | SaveWorkbookTagError;
