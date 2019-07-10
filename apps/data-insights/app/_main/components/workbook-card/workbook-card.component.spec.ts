@@ -4,7 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { WorkbookCardComponent } from './workbook-card.component';
 import { generateMockWorkbook } from '../../models';
 
-describe('Data Insights - Workbook Card Comopnent', () => {
+describe('Data Insights - Workbook Card Component', () => {
   let instance: WorkbookCardComponent;
   let fixture: ComponentFixture<WorkbookCardComponent>;
 

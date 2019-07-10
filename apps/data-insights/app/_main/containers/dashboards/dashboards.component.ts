@@ -23,9 +23,12 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   filteredCompanyWorkbooks$: Observable<Workbook[]>;
   dashboardView$: Observable<string>;
   tags$: Observable<string[]>;
+  savingTag$: Observable<boolean>;
+  savingTagError$: Observable<boolean>;
 
   filteredCompanyWorkbooksSub: Subscription;
   dragulaSub: Subscription;
+  savingTagsSub: Subscription;
   filteredCompanyWorkbooks: Workbook[];
   dashboardViews: Array<string> = ['All Dashboards', 'Favorites'];
   selectedWorkbook: Workbook;
@@ -42,6 +45,8 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.filteredCompanyWorkbooks$ = this.store.pipe(select(fromDataInsightsMainReducer.getFilteredCompanyWorkbooks));
     this.dashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardView));
     this.tags$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTags));
+    this.savingTag$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTag));
+    this.savingTagError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTagError));
   }
 
   get anyFavorites() {
@@ -50,6 +55,11 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.filteredCompanyWorkbooksSub = this.filteredCompanyWorkbooks$.subscribe(cw => this.filteredCompanyWorkbooks = cw);
+    this.savingTagsSub = this.savingTag$.subscribe(st => {
+      if (!st) {
+        this.tagWorkbookModalComponent.close();
+      }
+    });
 
     this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
   }

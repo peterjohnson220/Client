@@ -13,6 +13,9 @@
         <span class="d-inline-block">All Dashboards</span>
       </ng-template>
     </div>
+    <div class="error-message text-danger" *ngIf="savingTagError$ | async">
+      Error Saving Tag
+    </div>
   </div>
   <ng-container *ngIf="(companyWorkbooksAsync$ | async) as companyWorkbooksAsync">
     <pf-async-container
@@ -38,4 +41,9 @@
   </ng-container>
 </div>
 
-<pf-tag-workbook-modal [selectedWorkbook]="selectedWorkbook" [tags]="tags$ | async" (saveClicked)="handleSaveTagClicked($event)"></pf-tag-workbook-modal>
+<pf-tag-workbook-modal
+  [selectedWorkbook]="selectedWorkbook"
+  [saving]="savingTag$ | async"
+  [tags]="tags$ | async"
+  (saveClicked)="handleSaveTagClicked($event)">
+</pf-tag-workbook-modal>

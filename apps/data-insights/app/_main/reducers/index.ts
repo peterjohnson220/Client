@@ -77,3 +77,13 @@ export const getDistinctTags = createSelector(
   selectDashboardsState,
   fromDashboardsReducer.getDistinctTags
 );
+
+export const getSavingTag = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getSavingTag
+);
+
+export const getSavingTagError = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getSavingTagError
+);

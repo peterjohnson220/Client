@@ -16,6 +16,7 @@ export class TagWorkbookModalComponent {
 
   @Input() selectedWorkbook: Workbook;
   @Input() tags: string[];
+  @Input() saving: boolean;
   @Output() saveClicked = new EventEmitter();
 
   saveWorkbookTagObj: SaveWorkbookTagObj;
@@ -39,9 +40,12 @@ export class TagWorkbookModalComponent {
     this.saveWorkbookTagObj = null;
   }
 
+  close(): void {
+    this.modalService.dismissAll();
+  }
+
   handleSaveClicked(): void {
     this.saveClicked.emit(this.saveWorkbookTagObj);
-    this.modalService.dismissAll();
   }
 
   handleTagValueChanged(tag: string) {
@@ -55,7 +59,7 @@ export class TagWorkbookModalComponent {
   private buildSaveWorkbookTagObj(tag: string): void {
     this.saveWorkbookTagObj = {
       WorkbookId: this.selectedWorkbook.WorkbookId,
-      Tag: tag.trim()
+      Tag: !!tag ? tag.trim() : ''
     };
   }
 }

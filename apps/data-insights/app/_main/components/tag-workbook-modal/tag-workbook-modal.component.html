@@ -19,6 +19,7 @@
       [valuePrimitive]="true"
       [data]="tags"
       [allowCustom]="true"
+      [disabled]="saving"
       (filterChange)="handleTagFilterChanged($event)"
       (valueChange)="handleTagValueChanged($event)">
     </kendo-combobox>
@@ -27,11 +28,15 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">
-      Cancel
-    </button>
-    <button [disabled]="!saveWorkbookTagObj || tag.errors" type="button" class="btn btn-primary" (click)="handleSaveClicked()">
-      Save
-    </button>
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">
+        Cancel
+      </button>
+      <button
+        [disabled]="!saveWorkbookTagObj || tag.errors || saving"
+        (click)="handleSaveClicked()"
+        type="button" class="btn btn-primary">
+        <span *ngIf="!saving">Save</span>
+        <span *ngIf="saving"><pf-loading-indicator></pf-loading-indicator> Saving...</span>
+      </button>
   </div>
 </ng-template>
