@@ -71,8 +71,8 @@ export class DashboardsEffects {
         return this.userReportApiService.upsertUserReportTag(
           PayfactorsApiModelMapper.mapSaveWorkbookTagObjToUpsertUserReportTag(action.payload)
         ).pipe(
-            map(() => new fromAllDashboardsActions.SaveWorkbookTagSuccess())
-            // catchError(() => of(new fromAllDashboardsActions.RemoveWorkbookFavoriteError()))
+            map(() => new fromAllDashboardsActions.SaveWorkbookTagSuccess()),
+            catchError(() => of(new fromAllDashboardsActions.SaveWorkbookTagError()))
           );
       })
     );

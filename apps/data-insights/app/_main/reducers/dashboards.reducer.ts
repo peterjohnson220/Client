@@ -8,11 +8,15 @@ import { DashboardView, Workbook } from '../models';
 
 export interface State {
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;
+  savingTag: boolean;
+  savingTagError: boolean;
   dashboardView: DashboardView;
 }
 
 const initialState: State = {
   companyWorkbooksAsync: generateDefaultAsyncStateObj<Workbook[]>([]),
+  savingTag: false,
+  savingTagError: false,
   dashboardView: DashboardView.All
 };
 
@@ -91,6 +95,26 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
         companyWorkbooksAsync: companyWorkbooksAsyncClone
       };
     }
+    case fromDashboardsActions.SAVE_WORKBOOK_TAG: {
+      return {
+        ...state,
+        savingTag: true,
+        savingTagError: false
+      };
+    }
+    case fromDashboardsActions.SAVE_WORKBOOK_TAG_SUCCESS: {
+      return {
+        ...state,
+        savingTag: false
+      };
+    }
+    case fromDashboardsActions.SAVE_WORKBOOK_TAG_ERROR: {
+      return {
+        ...state,
+        savingTagError: true,
+        savingTag: false
+      };
+    }
     default: {
       return state;
     }
@@ -144,6 +168,8 @@ function applyWorkbookOrderByView(workbooks: Workbook[], orderedWorkbookIds: str
 }
 
 export const getCompanyWorkbooksAsync = (state: State) => state.companyWorkbooksAsync;
+export const getSavingTag = (state: State) => state.savingTag;
+export const getSavingTagError = (state: State) => state.savingTagError;
 export const getDashboardView = (state: State) => state.dashboardView;
 export const getFilteredCompanyWorkbooks = (state: State) => {
   let workbooks = state.companyWorkbooksAsync.obj.filter(getWorkbookFilterFn(state.dashboardView));
