@@ -62,6 +62,8 @@ export class CompanyJobAndExchangeDetailComponent implements OnInit, OnDestroy {
   }
 
   handleCloseClick() {
+    // reset the scroll to index so clicking on the same row after closing the detail kicks off the scroller
+    this.store.dispatch(new companyJobsActions.UpdatePageRowIndexToScrollTo(null));
     this.store.dispatch(new companyJobsActions.SetSelectedCompanyJob(null));
   }
 
