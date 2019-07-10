@@ -5,8 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { SaveWorkbookOrderRequest } from 'libs/models/payfactors-api/reports/request';
-import { WorkbookOrderType } from 'libs/constants';
 
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
@@ -28,11 +26,9 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   filteredCompanyWorkbooksSub: Subscription;
   dragulaSub: Subscription;
-  dashboardViewSub: Subscription;
   filteredCompanyWorkbooks: Workbook[];
   dashboardViews: Array<string> = ['All Dashboards', 'Favorites'];
   selectedWorkbook: Workbook;
-  dashboardView: string;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -54,14 +50,12 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.filteredCompanyWorkbooksSub = this.filteredCompanyWorkbooks$.subscribe(cw => this.filteredCompanyWorkbooks = cw);
-    this.dashboardViewSub = this.dashboardView$.subscribe(v => this.dashboardView = v);
 
     this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
   }
 
   ngOnDestroy() {
     this.filteredCompanyWorkbooksSub.unsubscribe();
-    this.dashboardViewSub.unsubscribe();
     this.dragulaSub.unsubscribe();
   }
 
@@ -94,16 +88,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     if (!sourceModel) {
       return;
     }
-    const request: SaveWorkbookOrderRequest = {
-      WorkbookIds: sourceModel.map((x: Workbook) => x.WorkbookId),
-      Type: this.getWorkbookOrderType()
-    };
-    this.store.dispatch(new fromDashboardsActions.SaveWorkbookOrder(request));
-  }
-
-  private getWorkbookOrderType(): WorkbookOrderType {
-    return this.dashboardView === DashboardView.All
-      ? WorkbookOrderType.DashboardsOrdering
-      : WorkbookOrderType.FavoritesOrdering;
+    const workbookIds = sourceModel.map((x: Workbook) => x.WorkbookId);
+    this.store.dispatch(new fromDashboardsActions.SaveWorkbookOrder({ workbookIds }));
   }
 }
