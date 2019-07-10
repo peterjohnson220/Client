@@ -29,7 +29,9 @@ export class TagWorkbookModalComponent {
   ) { }
 
   get noFilteredTags() {
-    return !!this.saveWorkbookTagObj && !this.tags.some(t => t.startsWith(this.saveWorkbookTagObj.Tag));
+    return !!this.saveWorkbookTagObj && !this.tags.some(t => {
+      return t.toLowerCase().startsWith(this.saveWorkbookTagObj.Tag.toLowerCase());
+    });
   }
 
   open(): void {
