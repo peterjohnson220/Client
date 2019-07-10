@@ -19,8 +19,8 @@ exports[`Admin - Peer - Editable Tag Category Display Name should match snapshot
     <span
       class="editable-icon"
     >
-      <i
-        class="fas fa-pencil"
+      <fa-icon
+        icon="pencil"
       />
     </span>
   </span>
@@ -66,9 +66,9 @@ exports[`Admin - Peer - Editable Tag Category Display Name should show edit form
         <span
           class="input-group-text"
         >
-          <i
-            aria-hidden="true"
-            class="fas fa-check-circle text-success"
+          <fa-icon
+            class="text-success"
+            icon="check-circle"
           />
         </span>
       </div>
@@ -80,9 +80,8 @@ exports[`Admin - Peer - Editable Tag Category Display Name should show edit form
         <span
           class="input-group-text"
         >
-          <i
-            aria-hidden="true"
-            class="fas fa-times"
+          <fa-icon
+            icon="times"
           />
         </span>
       </div>

@@ -76,8 +76,8 @@
                 class="delete-exchange-button btn btn-sm btn-danger"
                 *ngIf="dataItem.NumberOfCompanies == 0"
                 (click)="openDeleteExchangeModal($event, dataItem)">
-          <i class="fas fa-trash-alt fa-lg"
-             aria-hidden="true"></i>
+          <fa-icon icon="trash-alt"></fa-icon>
+
         </button>
       </ng-template>
     </kendo-grid-column>

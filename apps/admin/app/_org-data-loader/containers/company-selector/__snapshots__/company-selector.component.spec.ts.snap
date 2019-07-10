@@ -8,10 +8,10 @@ exports[`CompanySelectorComponent should show a dropdown with companies when Com
   <span
     hidden=""
   >
-    <i
-      class="fa fa-spinner fa-spin"
+    <fa-icon
+      icon="spinner"
     />
-     Loading Companies
+    Loading Companies
   </span><select
     class="form-control ng-untouched ng-pristine ng-valid"
   >
@@ -32,10 +32,10 @@ exports[`CompanySelectorComponent should show a spinner when Companies are loadi
   loading={[Function Boolean]}
 >
   <span>
-    <i
-      class="fa fa-spinner fa-spin"
+    <fa-icon
+      icon="spinner"
     />
-     Loading Companies
+    Loading Companies
   </span><select
     class="form-control ng-untouched ng-pristine ng-valid"
     hidden=""
