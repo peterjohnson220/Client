@@ -83,8 +83,8 @@ export class ExchangeCompanyApiService {
     return this.payfactorsApiService.get<ExchangeJob[]>(`${this.endpoint}/GetAssociatedExchangeJobs`, params);
   }
 
-  GetAssociableExchangeJobs(request: ExchangeJobsSearchParams) {
-    return this.payfactorsApiService.post<ExchangeJob[]>(`${this.endpoint}/GetAssociableExchangeJobs`, { ...request });
+  GetAssociableExchangeJobs(params: ExchangeJobsSearchParams) {
+    return this.payfactorsApiService.post<ExchangeJob[]>(`${this.endpoint}/GetAssociableExchangeJobs`, params);
   }
 
   getExchangeJobComparisonList(exchangeId: number, listState: any): Observable<GridDataResult> {
@@ -162,12 +162,12 @@ export class ExchangeCompanyApiService {
     );
   }
 
-  approvePendingExchangeJobMapping(request: UpsertExchangeJobMapRequest): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/ApprovePendingExchangeJobMapping`, request);
+  deleteExchangeJobMappingByIds(request: UpsertExchangeJobMapRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteExchangeJobMappingByIds`, request);
   }
 
-  rejectPendingExchangeJobMapping(request: UpsertExchangeJobMapRequest): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/RejectPendingExchangeJobMapping`, request);
+  approvePendingExchangeJobMapping(request: UpsertExchangeJobMapRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/ApprovePendingExchangeJobMapping`, request);
   }
 
   getExchangeJobOrgs(exchangeJobId: number): Observable<string[]> {

@@ -38,6 +38,7 @@ export interface State extends EntityState<CompanyJob> {
   savingAssociation: boolean;
   savingAssociationSuccess: boolean;
   savingAssociationError: boolean;
+  showConfirmUnmatchModal: boolean;
 }
 
 export const adapter: EntityAdapter<CompanyJob> = createEntityAdapter<CompanyJob>({
@@ -75,6 +76,7 @@ const initialState: State = adapter.getInitialState({
   savingAssociation: false,
   savingAssociationSuccess: false,
   savingAssociationError: false,
+  showConfirmUnmatchModal: false
 });
 
 export function reducer(state, action) {
@@ -245,7 +247,7 @@ export function reducer(state, action) {
         }
         case fromPeerCompanyJobs.CREATE_ASSOCIATION:
         case fromPeerCompanyJobs.APPROVE_PENDING_MATCH:
-        case fromPeerCompanyJobs.REJECT_PENDING_MATCH: {
+        case fromPeerCompanyJobs.UNMATCH: {
           return {
             ...featureState,
             savingAssociation: true,
@@ -262,18 +264,19 @@ export function reducer(state, action) {
             selectedCompanyJob: { ...featureState.selectedCompanyJob, IsAssociated: true, IsPendingPeerUserReview: false }
           };
         }
-        case fromPeerCompanyJobs.REJECT_PENDING_MATCH_SUCCESS: {
+        case fromPeerCompanyJobs.UNMATCH_SUCCESS: {
           return {
             ...featureState,
             savingAssociation: false,
             savingAssociationSuccess: true,
             savingAssociationError: false,
-            selectedCompanyJob: { ...featureState.selectedCompanyJob, IsAssociated: false }
+            selectedCompanyJob: { ...featureState.selectedCompanyJob, IsAssociated: false },
+            showConfirmUnmatchModal: false
           };
         }
         case fromPeerCompanyJobs.CREATE_ASSOCIATION_ERROR:
         case fromPeerCompanyJobs.APPROVE_PENDING_MATCH_ERROR:
-        case fromPeerCompanyJobs.REJECT_PENDING_MATCH_ERROR: {
+        case fromPeerCompanyJobs.UNMATCH_ERROR: {
           return {
             ...featureState,
             savingAssociation: false,
@@ -281,6 +284,16 @@ export function reducer(state, action) {
             savingAssociationError: true
           };
         }
+        case fromPeerCompanyJobs.CONFIRM_UNMATCH:
+          return {
+            ...featureState,
+            showConfirmUnmatchModal: true
+          };
+        case fromPeerCompanyJobs.CANCEL_UNMATCH:
+          return {
+            ...featureState,
+            showConfirmUnmatchModal: false
+          };
         default: {
           return featureState;
         }
@@ -324,3 +337,4 @@ export const getExchangeJobsDescriptionSearchTerm = (state: State) => state.exch
 export const getSavingAssociation = (state: State) => state.savingAssociation;
 export const getSavingAssociationSuccess = (state: State) => state.savingAssociationSuccess;
 export const getSavingAssociationError = (state: State) => state.savingAssociationError;
+export const getShowConfirmUnmatchModal = (state: State) => state.showConfirmUnmatchModal;

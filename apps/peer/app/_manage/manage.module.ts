@@ -44,6 +44,8 @@ import {
 import { CompanyJobDetailComponent } from './components/company-job-detail/company-job-detail.component';
 import { ExchangeDetailComponent } from './components/exchange-job-detail/exchange-job-detail.component';
 import { ExchangeJobSearchComponent } from './containers/exchange-job-search/exchange-job-search.component';
+import { UnmatchIconComponent } from './components/unmatch-icon/unmatch-icon.component';
+import { ConfirmUnmatchModalComponent } from './containers/confirm-unmatch-modal/confirm-unmatch-modal.component';
 
 @NgModule({
   imports: [
@@ -77,17 +79,17 @@ import { ExchangeJobSearchComponent } from './containers/exchange-job-search/exc
   declarations: [
     // Components
     CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent, CompanyJobDetailComponent,
-    ExchangeDetailComponent,
+    ExchangeDetailComponent, UnmatchIconComponent,
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobSelectionFormComponent,
     RequestJobModalComponent, NewJobFormComponent, DeleteMappingConfirmationModalComponent,
     AssociationImportModalComponent, CompanyJobsGridComponent, CompanyJobAndExchangeDetailComponent,
+    ExchangeJobSearchComponent, ConfirmUnmatchModalComponent,
 
     // Pages
     ExchangeJobMappingPageComponent,
     BoolFilterComponent,
-    ExchangeJobSearchComponent
   ],
   providers: [
     ExchangeJobMappingService

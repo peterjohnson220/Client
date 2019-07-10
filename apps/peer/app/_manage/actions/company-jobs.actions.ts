@@ -40,13 +40,15 @@ export const CREATE_ASSOCIATION = '[Peer Manage/Company Jobs] Create Association
 export const CREATE_ASSOCIATION_SUCCESS = '[Peer Manage/Company Jobs] Create Association Success';
 export const CREATE_ASSOCIATION_ERROR = '[Peer Manage/Company Jobs] Create Association Error';
 
-// exchange job search, approve/reject pending match
+// exchange job search, approve/reject/unmatch
 export const APPROVE_PENDING_MATCH = '[Peer Manage/Company Jobs] Approve Pending Match';
 export const APPROVE_PENDING_MATCH_SUCCESS = '[Peer Manage/Company Jobs] Approve Pending Match Success';
 export const APPROVE_PENDING_MATCH_ERROR = '[Peer Manage/Company Jobs] Approve Pending Match Error';
-export const REJECT_PENDING_MATCH = '[Peer Manage/Company Jobs] Reject Pending Match';
-export const REJECT_PENDING_MATCH_SUCCESS = '[Peer Manage/Company Jobs] Reject Pending Match Success';
-export const REJECT_PENDING_MATCH_ERROR = '[Peer Manage/Company Jobs] Reject Pending Match Error';
+export const UNMATCH = '[Peer Manage/Company Jobs] Unmatch';
+export const UNMATCH_SUCCESS = '[Peer Manage/Company Jobs] Unmatch Success';
+export const UNMATCH_ERROR = '[Peer Manage/Company Jobs] Unmatch Error';
+export const CONFIRM_UNMATCH = '[Peer Manage/Company Jobs] Confirm Unmatch';
+export const CANCEL_UNMATCH = '[Peer Manage/Company Jobs] Cancel Unmatch';
 
 export class Reset implements Action {
   readonly type = RESET;
@@ -176,17 +178,25 @@ export class ApprovePendingMatchError implements Action {
   readonly type = APPROVE_PENDING_MATCH_ERROR;
 }
 
-export class RejectPendingMatch implements Action {
-  readonly type = REJECT_PENDING_MATCH;
+export class Unmatch implements Action {
+  readonly type = UNMATCH;
   constructor(public payload: UpsertExchangeJobMapRequest) {}
 }
 
-export class RejectPendingMatchSuccess implements Action {
-  readonly type = REJECT_PENDING_MATCH_SUCCESS;
+export class UnmatchSuccess implements Action {
+  readonly type = UNMATCH_SUCCESS;
 }
 
-export class RejectPendingMatchError implements Action {
-  readonly type = REJECT_PENDING_MATCH_ERROR;
+export class UnmatchError implements Action {
+  readonly type = UNMATCH_ERROR;
+}
+
+export class ConfirmUnmatch implements Action {
+  readonly type = CONFIRM_UNMATCH;
+}
+
+export class CancelUnmatch implements Action {
+  readonly type = CANCEL_UNMATCH;
 }
 
 export type Actions =
@@ -220,10 +230,12 @@ export type Actions =
   | CreateAssociation
   | CreateAssociationSuccess
   | CreateAssociationError
-  // approve/deny pending match
+  // approve/deny/unmatch
   | ApprovePendingMatch
   | ApprovePendingMatchSuccess
   | ApprovePendingMatchError
-  | RejectPendingMatch
-  | RejectPendingMatchSuccess
-  | RejectPendingMatchError;
+  | Unmatch
+  | UnmatchSuccess
+  | UnmatchError
+  | ConfirmUnmatch
+  | CancelUnmatch;

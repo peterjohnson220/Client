@@ -16,6 +16,9 @@ pf-company-jobs-grid {
   .loading-blanket + .k-grid .k-grid-norecords {
     visibility: hidden;
   }
+  .match-button {
+    @include peer-button($match-button-primary);
+  }
 }
 
 pf-company-job-and-exchange-detail {
@@ -66,6 +69,12 @@ pf-company-job-and-exchange-detail {
     }
     button.reject {
       @include peer-button($not-associated);
+    }
+    button.unmatch {
+      @include peer-button($not-associated);
+      svg {
+        height: 1.15rem;
+      }
     }
   }
 }

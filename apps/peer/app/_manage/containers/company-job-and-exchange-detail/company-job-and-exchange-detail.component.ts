@@ -8,7 +8,7 @@ import { CompanyJob } from 'libs/features/peer/job-association/models/company-jo
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 
 import * as companyJobsActions from '../../actions/company-jobs.actions';
-import * as companyJobsReducer from '../../reducers';
+import * as peerManagementReducer from '../../reducers';
 
 @Component({
   selector: 'pf-company-job-and-exchange-detail',
@@ -34,25 +34,25 @@ export class CompanyJobAndExchangeDetailComponent implements OnInit, OnDestroy {
 
   allSubscriptions = new Subscription();
 
-  constructor(private store: Store<companyJobsReducer.State>) { }
+  constructor(private store: Store<peerManagementReducer.State>) { }
 
   ngOnInit() {
-    this.selectedCompanyJob$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsSelectedCompanyJob));
+    this.selectedCompanyJob$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsSelectedCompanyJob));
 
-    this.savingAssociation$ =  this.store.pipe(select(companyJobsReducer.getCompanyJobsSavingAssociation));
-    this.savingAssociationError$ =  this.store.pipe(select(companyJobsReducer.getCompanyJobsSavingAssociationError));
+    this.savingAssociation$ =  this.store.pipe(select(peerManagementReducer.getCompanyJobsSavingAssociation));
+    this.savingAssociationError$ =  this.store.pipe(select(peerManagementReducer.getCompanyJobsSavingAssociationError));
 
-    this.mappedExchangeJobsLoading$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsMappedExchangeJobsLoading));
-    this.mappedExchangeJobsLoadingSuccess$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsMappedExchangeJobsLoadingSuccess));
-    this.mappedExchangeJobsLoadingError$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsMappedExchangeJobsLoadingError));
-    this.mappedExchangeJob$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsMappedExchangeJob));
+    this.mappedExchangeJobsLoading$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsMappedExchangeJobsLoading));
+    this.mappedExchangeJobsLoadingSuccess$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsMappedExchangeJobsLoadingSuccess));
+    this.mappedExchangeJobsLoadingError$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsMappedExchangeJobsLoadingError));
+    this.mappedExchangeJob$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsMappedExchangeJob));
 
-    this.jdmDescriptionIds$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsJdmDescriptionIds));
-    this.jdmDescriptionLoading$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsDownloadingJdmDescription));
-    this.jdmDescriptionLoadingError$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsDownloadingJdmDescriptionError));
+    this.jdmDescriptionIds$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsJdmDescriptionIds));
+    this.jdmDescriptionLoading$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsDownloadingJdmDescription));
+    this.jdmDescriptionLoadingError$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsDownloadingJdmDescriptionError));
 
     this.allSubscriptions.add(this.selectedCompanyJob$.subscribe(selectedCompanyJob => this.selectedCompanyJob = selectedCompanyJob));
-    this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsExchangeId)).subscribe((exchangeId: number) => {
+    this.allSubscriptions.add(this.store.pipe(select(peerManagementReducer.getCompanyJobsExchangeId)).subscribe((exchangeId: number) => {
       this.exchangeId = exchangeId;
     }));
   }
@@ -74,7 +74,11 @@ export class CompanyJobAndExchangeDetailComponent implements OnInit, OnDestroy {
   }
 
   handleRejectPendingMatchClick(exchangeJob: ExchangeJob) {
-    this.store.dispatch(new companyJobsActions.RejectPendingMatch(this.getPendingAssociationRequest(exchangeJob)));
+    this.store.dispatch(new companyJobsActions.Unmatch(this.getPendingAssociationRequest(exchangeJob)));
+  }
+
+  handleUnmatchClick() {
+    this.store.dispatch(new companyJobsActions.ConfirmUnmatch());
   }
 
   getPendingAssociationRequest(exchangeJob: ExchangeJob): UpsertExchangeJobMapRequest {

@@ -136,15 +136,15 @@ export class CompanyJobsEffects {
           new fromCompanyJobsActions.ApprovePendingMatchSuccess(),
           new fromCompanyJobsActions.LoadCompanyJobs()
         ]),
-        catchError(() => of(new fromCompanyJobsActions.RejectPendingMatchError())
+        catchError(() => of(new fromCompanyJobsActions.UnmatchError())
       )
     ))
   );
 
-  // update a pending association to be approved/denied
+  // remove a match
   @Effect()
-  rejectPendingAssociation$: Observable<Action> = this.actions$.pipe(
-    ofType(fromCompanyJobsActions.REJECT_PENDING_MATCH),
+  deleteAssociation$: Observable<Action> = this.actions$.pipe(
+    ofType(fromCompanyJobsActions.UNMATCH),
     // grab the latest company job so that on success it can be used as the search term for finding a new match
     withLatestFrom(
       this.store.pipe(
@@ -152,14 +152,14 @@ export class CompanyJobsEffects {
         (action, selectedCompanyJob) => ({ action, selectedCompanyJob })
     ),
     switchMap((combined: any) =>
-      this.exchangeCompanyApiService.rejectPendingExchangeJobMapping(combined.action.payload).pipe(
+      this.exchangeCompanyApiService.deleteExchangeJobMappingByIds(combined.action.payload).pipe(
         mergeMap(() => [
-          new fromCompanyJobsActions.RejectPendingMatchSuccess(),
+          new fromCompanyJobsActions.UnmatchSuccess(),
           new fromCompanyJobsActions.LoadCompanyJobs(),
           new fromCompanyJobsActions.UpdateExchangeJobsTitleSearchTerm(combined.selectedCompanyJob.JobTitle),
           new fromCompanyJobsActions.SearchExchangeJobs()
         ]),
-        catchError(() => of(new fromCompanyJobsActions.RejectPendingMatchError())
+        catchError(() => of(new fromCompanyJobsActions.UnmatchError())
       )
     ))
   );

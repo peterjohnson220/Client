@@ -1,0 +1,23 @@
+<pf-modal-form 
+  [title]="'Unmatch Company Job'"
+  [size]="'md'"
+  secondaryButtonText="No"
+  primaryButtonClass="btn-danger"
+  primaryButtonText="Yes"
+  primaryButtonTextSubmitting="Unmatching..."
+  [submitting]="savingAssociation$ | async"
+  [isOpen$]="showModal$"
+  (onSubmit)="handleUnmatchConfirmed()"
+  (onDismiss)="handleUnmatchCanceled()">
+
+  <ng-container basic-content *ngIf="mappedExchangeJob && selectedCompanyJob">
+    <p class="mb-2">
+      You are about to unmatch company job <strong>{{ selectedCompanyJob.JobTitle }}</strong> and exchange job 
+      <strong>{{ mappedExchangeJob.ExchangeJobTitle }}</strong>.
+    </p>
+    <p>
+      Would you like to continue?
+    </p>
+  </ng-container>
+
+</pf-modal-form>
