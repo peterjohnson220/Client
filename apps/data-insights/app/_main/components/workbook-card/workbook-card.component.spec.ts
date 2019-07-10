@@ -2,6 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { WorkbookCardComponent } from './workbook-card.component';
+import { generateMockWorkbook } from '../../models';
 
 describe('Data Insights - Workbook Card Comopnent', () => {
   let instance: WorkbookCardComponent;
@@ -20,9 +21,7 @@ describe('Data Insights - Workbook Card Comopnent', () => {
   });
 
   it('should display overlay when mouse over workbook container', () => {
-    const mouseOverEvent: MouseEvent = new MouseEvent('mouseover');
-
-    instance.handleMouseOverWorkbookContainer(mouseOverEvent);
+    instance.handleMouseOverWorkbookContainer();
     fixture.detectChanges();
 
     expect(instance.displayActionsOverlay).toEqual(true);
@@ -36,10 +35,11 @@ describe('Data Insights - Workbook Card Comopnent', () => {
   });
 
   it('should emit favoriteClicked when clicking on star icon', () => {
+    const workbook = generateMockWorkbook();
     spyOn(instance.favoriteClicked, 'emit');
 
-    instance.handleFavoriteClicked();
+    instance.handleFavoriteClicked(workbook);
 
-    expect(instance.favoriteClicked.emit).toHaveBeenCalled();
+    expect(instance.favoriteClicked.emit).toHaveBeenCalledWith(workbook);
   });
 });
