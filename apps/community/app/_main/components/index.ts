@@ -5,5 +5,4 @@ export * from './community-back-to-top-navigation';
 export * from './community-search';
 export * from './community-search-result-header';
 export * from './community-search-result-content';
-
-
+export * from './community-polls-all-polls-answered';

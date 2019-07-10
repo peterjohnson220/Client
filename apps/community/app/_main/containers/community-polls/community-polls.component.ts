@@ -21,6 +21,7 @@ import * as fromCommunityPollResponseActions from '../../actions/community-poll-
 export class CommunityPollsComponent implements OnInit, OnDestroy {
   communityPollRequests$: Observable<CommunityPollRequest[]>;
   communityPollRequestsLoaded$: Observable<boolean>;
+  hasNonDismissedResponses$: Observable<boolean>;
   communityPollResponses$: Observable<CommunityPollResponse[]>;
 
   communityPollResponsesSuccessSubscription: Subscription;
@@ -35,6 +36,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
     this.communityPollRequests$ = this.store.select(fromCommunityPollReducer.getCommunityPollRequests);
     this.communityPollRequestsLoaded$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollRequestsLoaded);
     this.communityPollResponses$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollResponsesSuccess);
+    this.hasNonDismissedResponses$ = this.store.select(fromCommunityPollReducer.hasNonDismissedResponses);
     config.showNavigationArrows = false;
    }
 

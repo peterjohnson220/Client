@@ -1,10 +1,13 @@
 <!--Poll question-->
-<pf-community-post-content class="font-weight-bold mt-2 mb-2"
+<pf-community-post-content *ngIf="hasNonDismissedResponses$ | async" class="font-weight-bold mt-2 mb-2"
                            (hashTagClicked)="handleHashTagClicked($event)"
                            [content]="request.Question">
 </pf-community-post-content>
 <div *ngIf="isResponseDismissed(request.CommunityPollId); else poll_not_dismissed" class="py-5">
-    <div class="outer-element">
+  <div *ngIf="!(hasNonDismissedResponses$ | async)">
+    <pf-community-polls-all-polls-answered></pf-community-polls-all-polls-answered>
+  </div>
+    <div *ngIf="(hasNonDismissedResponses$ | async)" class="outer-element">
       <div class="inner-element pl-2 response-submitted-container">
         <p class="lead text-center">Poll Dismissed</p>
       </div>

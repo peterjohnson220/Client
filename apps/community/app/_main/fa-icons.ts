@@ -17,9 +17,10 @@ import { faComments } from '@fortawesome/pro-solid-svg-icons/faComments';
 import { faBuilding } from '@fortawesome/pro-solid-svg-icons/faBuilding';
 import { faChartBar} from '@fortawesome/pro-solid-svg-icons/faChartBar';
 import { faTrashAlt } from '@fortawesome/pro-solid-svg-icons/faTrashAlt';
+import { faThumbsUp } from '@fortawesome/pro-light-svg-icons/faThumbsUp';
 
 export const faIcons = [
   faTimes, faSearch, faTimesCircle, faCheckCircle, faCircle, faReply, faHeart,
   faArrowAltCircleUp, faChevronRight, faExternalLink, faFileExcel,
-  faChevronLeft, faEye, faStopwatch, faComments, faBuilding, faChartBar, faTrashAlt
+  faChevronLeft, faEye, faStopwatch, faComments, faBuilding, faChartBar, faTrashAlt, faThumbsUp
 ];
