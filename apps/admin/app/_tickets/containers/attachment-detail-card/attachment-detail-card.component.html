@@ -1,34 +1,45 @@
 <div class="section card mb-2" *ngIf="ticketAttachments && ticketId">
-    <div class="card-header bg-transparent border-bottom-0 pf-secondary-color uppercase">
-        <h4>Attachments</h4>
-        <br />
-        <button type="button" class="btn btn-primary pf-secondary-background px-4 py-2">Select files...</button>
+    <div class="card-header bg-transparent border-bottom-0 pf-secondary-color">
+      <h4 class="uppercase">Attachments</h4>
     </div>
     <div class="card-body mx-3">
-      <div class="row" *ngIf="ticketAttachments.length">
-          <table class="table table-hover">
-              <tbody>
-                  <tr *ngFor="let attachment of ticketAttachments" (click)="openDocumentPreview(attachment)">
-                      <td class="icon-cell">
-                          <i class="fa {{attachment.ExtensionCssClass}} pf-grey" style="font-size: 45px"></i>
-                      </td>
-                      <td>
-                          <a class="pf-link-text" href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}" title="{{attachment.DisplayName}}">
-                              <h5>{{attachment.DisplayName}}</h5>
-                          </a>
-                      </td>
-                      <td class="text-right actions-cell">
-                        <a href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}" title="{{attachment.DisplayName}}">
-                          <i class="fa fa-download fa-2x pf-secondary-color"></i>
-                        </a>
-                          &nbsp;
-                        <a href="javascript:void(0)" (click)="openModal(attachment.AttachmentId)">
-                          <i class="fa fa-times fa-2x pf-secondary-color"></i>
-                        </a>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
+      <pf-attachment-upload 
+        [ticketId]="ticketId"
+        (addAttachments)="addUploadedAttachments($event)">
+      </pf-attachment-upload>
+      <div id="section-existin-attachments" class="row" *ngIf="ticketAttachments.length || uploadedAttachments.length">
+        <div class="container  p-0">
+          <hr class="w-100" *ngIf="ticketAttachments.length || uploadedAttachments.length"/>
+          <div id="existing-attachments" class="row" *ngFor="let attachment of uploadedAttachments.concat(ticketAttachments); let lastFile = last;" >
+            <div class="col col-12">
+              <div class="row">
+                <div class="col-8">
+                  <a class="pf-link-text {{attachment.FileState | getUploadProgressCssClass}}"
+                    href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}"
+                    title="{{attachment.DisplayName}}">
+                    <h5 class="file-name break-word">
+                      <i class="fa {{attachment.ExtensionCssClass}} fa-lg pf-grey mr-1"></i>
+                      {{attachment.DisplayName}}
+                    </h5>
+                  </a>
+                </div>
+                <div class="col-4 text-right actions-cell">
+                  <a href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}"
+                    title="download">
+                    <i class="fa fa-download fa-lg pf-secondary-color"></i>
+                  </a>
+                  &nbsp;
+                  <a href="javascript:void(0)" title="remove" (click)="openModal(attachment.AttachmentId)">
+                    <i class="fa fa-times fa-lg pf-secondary-color"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="col-12 mt-1 p-0">
+                <hr *ngIf="!lastFile"/>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 </div>

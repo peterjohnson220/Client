@@ -1,5 +1,14 @@
 @import "colors";
 
+.file-name {
+  font-size: 1.1em;
+}
+
+.break-word {
+  word-break: break-all;
+  word-wrap: normal;
+}
+
 .pf-secondary-color {
   color: $pf-brand-secondary-color;
 }
@@ -21,11 +30,10 @@
   text-transform: uppercase;
 }
 
-.icon-cell {
-  width: 50px;
-  overflow-x: auto;
-}
-
 .actions-cell {
   vertical-align: middle;
+}
+
+.upload-complete {
+  color: rgb(0, 153, 0) !important;
 }

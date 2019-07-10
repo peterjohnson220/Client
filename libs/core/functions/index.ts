@@ -8,3 +8,5 @@ export * from './arrays-equal';
 export * from './is-null-or-undefined';
 export * from './convert-tile-icon-class-to-fa-icon';
 export * from './get-value-for-sort-by-field';
+export * from './get-file-extension-type';
+export * from './get-file-extension-css-class';

@@ -4,7 +4,7 @@ export interface TicketAttachment {
     FileName: string;
     ExtensionType: string;
     ExtensionCssClass: string;
-
+    FileState?: number;
 }
 
 export function generateMockTicketAttachment(attachmentId: number, extensionType: string): TicketAttachment {
