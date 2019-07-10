@@ -1,7 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { SaveWorkbookOrderRequest } from 'libs/models/payfactors-api/reports/request';
-
 import { DashboardView, Workbook, SaveWorkbookTagObj } from '../models';
 
 export const GET_COMPANY_WORKBOOKS = '[Data Insights / Dashboards] Get Company Workbooks';
@@ -102,7 +100,7 @@ export class SaveWorkbookTagError implements Action {
 export class SaveWorkbookOrder implements Action {
   readonly type = SAVE_WORKBOOK_ORDER;
 
-  constructor(public payload: SaveWorkbookOrderRequest) {}
+  constructor(public payload: { workbookIds: string[] }) {}
 }
 
 export class SaveWorkbookOrderSuccess implements Action {

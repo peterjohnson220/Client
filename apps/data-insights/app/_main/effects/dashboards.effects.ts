@@ -89,10 +89,16 @@ export class DashboardsEffects {
   saveWorkbookOrder$ = this.action$
     .pipe(
       ofType(fromAllDashboardsActions.SAVE_WORKBOOK_ORDER),
-      switchMap((action: fromAllDashboardsActions.SaveWorkbookOrder) => {
-        return this.userReportApiService.saveWorkbookOrder(action.payload)
+      withLatestFrom(
+        this.store.pipe(select(fromDataInsightsMainReducer.getDashboardView)),
+        (action: fromAllDashboardsActions.SaveWorkbookOrder, view) => ({ action, view })
+      ),
+      switchMap((data) => {
+        const workbookIds = data.action.payload.workbookIds;
+        const request = PayfactorsApiModelMapper.buildSaveWorkbookOrderRequest(workbookIds, data.view);
+        return this.userReportApiService.saveWorkbookOrder(request)
           .pipe(
-            map(() => new fromAllDashboardsActions.SaveWorkbookOrderSuccess({ workbookIds: action.payload.WorkbookIds })),
+            map(() => new fromAllDashboardsActions.SaveWorkbookOrderSuccess({ workbookIds })),
             catchError(() => of(new fromAllDashboardsActions.SaveWorkbookOrderError()))
           );
       })
