@@ -4,9 +4,12 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { JobDescriptionViewModel } from '../../../models/jdm/job-description-view.model';
+import { JobDescriptionViewModel, ValidateStepResultItem } from '../../../models/jdm';
 import { ControlLabelResponse } from '../../../models/payfactors-api/job-description-management/response';
-
+import {
+  JobDescriptionValidationRequest
+} from 'apps/pf-admin/app/_utilities/models/requests/job-description-validation-request.model';
+import { LoadJobDescriptionRequest } from 'apps/pf-admin/app/_utilities/models/requests/job-description-load-request.model';
 
 @Injectable()
 export class JobDescriptionManagementApiService {
@@ -29,5 +32,13 @@ export class JobDescriptionManagementApiService {
 
   getViews(): Observable<JobDescriptionViewModel[]> {
     return this.payfactorsApiService.get<JobDescriptionViewModel[]>(`${this.endpoint}.GetViews`);
+  }
+
+  validate(jobDescriptionValidationRequest: JobDescriptionValidationRequest): Observable<ValidateStepResultItem> {
+    return this.payfactorsApiService.postFormData(`${this.endpoint}.ValidateImport`, jobDescriptionValidationRequest);
+  }
+
+  load(loadJobDescriptionRequest: LoadJobDescriptionRequest): Observable<ValidateStepResultItem> {
+    return this.payfactorsApiService.post(`${this.endpoint}.Import`, loadJobDescriptionRequest);
   }
 }

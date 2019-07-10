@@ -18,16 +18,17 @@ import {
 } from 'libs/models/payfactors-api/job-description/response/applies-to-attributes-exist-response.model';
 import { ListAreaColumnRequest } from 'libs/models/payfactors-api/user-profile/request/list-area-column-request.model';
 import { CompositeFilterUppercase } from 'libs/models/jdm';
+import { TemplateListItem } from 'libs/models/jdm';
 
 import { ControlLabel } from '../models/control-label.model';
 import { AvailableJobInformationField } from '../models/available-job-information-field.model';
-import { TemplateListItem } from '../models/template-list-item.model';
-import { JobDescriptionHistoryListItem } from '../../_job-description/models/job-description-history-list-item.model';
+
 import {
   JobDescriptionAppliesToItemResponse
 } from 'libs/models/payfactors-api/job-description/response/job-description-appliesto-item-response.model';
 import { JobDescriptionAppliesToItem } from '../models/job-description-appliesto-item.model';
 import { AppliesToAttributesExist } from '../models/applies-to-attributes-exist.model';
+import { JobDescriptionHistoryListItem } from '../../_job-description/models';
 
 export class PayfactorsApiModelMapper {
   static mapAppliesToAttributesExistResponseToAppliesToAttributesExist(response: AppliesToAttributesExistResponse):

@@ -28,49 +28,52 @@ import { reducers } from './reducers';
 import { CompanyRoutingModule } from './company-routing.module';
 
 @NgModule({
-    imports: [
-        // Angular
-        CommonModule, FormsModule, ReactiveFormsModule,
+  imports: [
+    // Angular
+    CommonModule, FormsModule, ReactiveFormsModule,
 
-        // 3rd Party
-        StoreModule.forFeature('pf-admin_companies', reducers),
-        EffectsModule.forFeature([
-          CompaniesEffects,
-          UsersListEffects,
-          CompanyPageEffects
-        ]),
-        GridModule,
-        LayoutModule,
-        UploadModule,
-        NgbTabsetModule,
-        NgbModalModule,
-        FontAwesomeModule,
+    // 3rd Party
+    StoreModule.forFeature('pf-admin_companies', reducers),
+    EffectsModule.forFeature([
+      CompaniesEffects,
+      UsersListEffects,
+      CompanyPageEffects
+    ]),
+    GridModule,
+    LayoutModule,
+    UploadModule,
+    NgbTabsetModule,
+    NgbModalModule,
+    FontAwesomeModule,
 
-        // Routing
-        CompanyRoutingModule,
+    // Routing
+    CompanyRoutingModule,
 
-        // Payfactors
-        PfCommonUIModule,
-        PfFormsModule,
-        UsersModule,
-        PfCommonModule
-    ],
-    declarations: [
-        // Components
-        CompaniesListComponent,
-        CompanyFormComponent,
-        CompanyTabsComponent,
-        SecondarySurveyFieldsModalComponent,
-        CompanyTagsModalComponent,
+    // Payfactors
+    PfCommonUIModule,
+    PfFormsModule,
+    UsersModule,
+    PfCommonModule
+  ],
+  exports: [
+    CompaniesListComponent
+  ],
+  declarations: [
+    // Components
+    CompaniesListComponent,
+    CompanyFormComponent,
+    CompanyTabsComponent,
+    SecondarySurveyFieldsModalComponent,
+    CompanyTagsModalComponent,
 
-        // Pages
-        CompaniesListPageComponent,
-        SiteAdminUsersListPageComponent,
-        CompanyPageComponent,
+    // Pages
+    CompaniesListPageComponent,
+    SiteAdminUsersListPageComponent,
+    CompanyPageComponent,
 
-        // Pipes
-        CompanySearchPipe,
-    ]
+    // Pipes
+    CompanySearchPipe,
+  ]
 })
 export class CompanyModule {
   constructor() {

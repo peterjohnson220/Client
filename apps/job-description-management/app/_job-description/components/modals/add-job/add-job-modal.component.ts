@@ -5,12 +5,12 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
+import * as fromRootState from 'libs/state/state';
 import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 import { CompanyJob } from 'libs/models/company';
 import { UserContext } from 'libs/models/security';
-import * as fromRootState from 'libs/state/state';
+import { TemplateListItem } from 'libs/models/jdm';
 
-import { TemplateListItem } from '../../../../shared/models/template-list-item.model';
 import * as fromAddJobModalActions from '../../../actions/add-job-modal.actions';
 import * as fromCompanyFlsaStatusActions from '../../../../shared/actions/company-flsa-status.actions';
 import * as fromJobFamilyActions from '../../../../shared/actions/job-family.actions';
@@ -93,7 +93,7 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
 
     this.initializeValues();
 
-    this.sharedStore.dispatch(new fromTemplateListActions.LoadTemplateList({ PublishedOnly: true }));
+    this.sharedStore.dispatch(new fromTemplateListActions.LoadTemplateList({ publishedOnly: true }));
     this.store.dispatch(new fromAddJobModalActions.SetDuplicateCompanyJobMessage(''));
 
     this.modalRef = this.modalService.open(this.addJobModal, { backdrop: 'static', size: 'lg' });

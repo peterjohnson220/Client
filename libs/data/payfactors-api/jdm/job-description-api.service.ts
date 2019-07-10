@@ -4,7 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { BulkExportSchedule } from '../../../models/jdm';
+import { BulkExportSchedule, ValidateStepResultItem } from '../../../models/jdm';
 import {
   CreateJobDescriptionDraftRequest,
   CreateJobDescriptionRequest,
@@ -26,6 +26,9 @@ import {
 import {
   AppliesToAttributesExistResponse
 } from '../../../models/payfactors-api/job-description/response/applies-to-attributes-exist-response.model';
+import {
+  JobDescriptionDeleteByTemplateIdRequest
+} from 'apps/pf-admin/app/_utilities/models/requests/job-description-delete-by-template-id-request.model';
 
 @Injectable()
 export class JobDescriptionApiService {
@@ -110,5 +113,9 @@ export class JobDescriptionApiService {
 
   getPublicTokenUrl(companyId: number): Observable<string> {
     return this.payfactorsApiService.get(`${this.endpoint}/Default.GetPublicListPageUrl`, { companyId: companyId });
+  }
+
+  deleteByTemplateId(jobDescriptionDeleteByTemplateIdRequest: JobDescriptionDeleteByTemplateIdRequest): Observable<ValidateStepResultItem> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.DeleteByTemplateId`, jobDescriptionDeleteByTemplateIdRequest);
   }
 }

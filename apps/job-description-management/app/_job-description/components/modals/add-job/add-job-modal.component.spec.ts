@@ -87,7 +87,7 @@ describe('Job Description Management - Job Description - Add Job Modal', () => {
 
     instance.open();
 
-    const expectedFirstAction = new fromTemplateListActions.LoadTemplateList({ PublishedOnly: true });
+    const expectedFirstAction = new fromTemplateListActions.LoadTemplateList({ publishedOnly: true });
     const expectedSecondAction = new fromAddJobModalActions.SetDuplicateCompanyJobMessage('');
 
     expect(instance.addAndAssign).toEqual(false);

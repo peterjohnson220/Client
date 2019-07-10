@@ -57,7 +57,7 @@ describe('Job Description Management - Job Description - Assign Jobs To Template
 
     instance.open();
 
-    const expectedOpenRequest = { PublishedOnly: true };
+    const expectedOpenRequest = { publishedOnly: true };
     const expectedOpenAction = new fromTemplateListActions.LoadTemplateList(expectedOpenRequest);
 
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedOpenAction);

@@ -10,10 +10,11 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
+import { TemplateListItem } from 'libs/models/jdm';
+
 import * as fromTemplateListActions from '../../../../shared/actions/template-list.actions';
 import * as fromTemplateListReducer from '../../../../shared/reducers';
 import { CompanyJobViewListItem } from '../../../models';
-import { TemplateListItem } from '../../../../shared/models/template-list-item.model';
 
 @Component({
   selector: 'pf-assign-jobs-to-template-modal',
@@ -42,7 +43,7 @@ export class AssignJobsToTemplateModalComponent {
   }
 
   open() {
-    this.store.dispatch(new fromTemplateListActions.LoadTemplateList({ PublishedOnly: true }));
+    this.store.dispatch(new fromTemplateListActions.LoadTemplateList({ publishedOnly: true }));
     this.templateId = -1;
     this.modalRef = this.modalService.open(this.assignJobsToTemplateModal, { backdrop: 'static' });
   }

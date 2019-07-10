@@ -19,6 +19,7 @@
       <div class="column-scroll-container col-12">
         <div class="column-scroll-inner scroll-y">
           <pf-companies-list
+            [selectedRowRouterLink]="companiesEditRouterLink"
             [companiesList]="companies$ | async"
             [filter]="searchTerm$ | async">
           </pf-companies-list>

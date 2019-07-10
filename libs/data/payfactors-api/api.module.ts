@@ -30,7 +30,7 @@ import { FileApiService } from './file';
 import { TagApiService } from './tags';
 import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
-import { JobDescriptionTemplateApiService } from './jdm/job-description-template-api.service';
+import { JobDescriptionTemplateApiService } from './jdm';
 import { TableauReportApiService, UserReportApiService } from './reports';
 
 @NgModule({
