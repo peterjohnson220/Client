@@ -20,7 +20,8 @@ export const routes: Routes = [
       },
       {
         path: 'job-description-management',
-        loadChildren: () => import('apps/admin/app/_job-description-management/bulk-export-scheduler.module').then(m => m.JdmBulkExportSchedulerModule)
+        loadChildren: () => import('apps/admin/app/_job-description-management/bulk-export-scheduler.module')
+          .then(m => m.JdmBulkExportSchedulerModule)
       },
       { path: 'marketing', loadChildren: () => import('apps/admin/app/_marketing/marketing.module').then(m => m.MarketingModule) },
       { path: 'community', loadChildren: () => import('apps/admin/app/_community/community.module').then(m => m.CommunityModule) },
