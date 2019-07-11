@@ -1,0 +1,216 @@
+<pf-page-with-title-bar>
+  <ng-container page-title>
+    <button routerLink="/utilities/loadjobdescriptions/" type="button" class="btn btn-secondary">
+      <fa-icon icon="long-arrow-alt-left"></fa-icon>
+    </button>
+    Job Description Loader - {{(company$ | async)?.CompanyName}}
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="column-scroll-container col-12">
+      <div class="column-scroll-inner scroll-y">
+
+        <div class="card w-50 my-2">
+          <div class="card-header py-2" (click)="isMappingCollapsed = !isMappingCollapsed"
+               [attr.aria-expanded]="!isMappingCollapsed" aria-controls="mappingfile-collapse-container">Mapping Files
+          </div>
+          <div id="mappingfile-collapse-container" *ngIf="!isMappingCollapsed">
+            <div class="card-block py-2">
+              <div class="table" *ngIf="(templateListItems$ | async)?.length > 0">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th width="60%">Template Name</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let templateListItem of templateListItems$ | async">
+                    <td>{{ templateListItem.TemplateName }}</td>
+                    <td class="center-align">
+                      <a class="btn btn-primary button-match pr-3"
+                         href="/odata/JobDescriptionManagement.GenerateImportMappingFile?templateId={{templateListItem.TemplateId}}&companyId={{companyId}}"
+                         download><i class="fas fa-download pr-1" aria-hidden="true"></i> Mapping</a>
+                    </td>
+                    <td class="center-align">
+                      <a class="btn btn-primary button-match pr-3"
+                         href="/odata/JobDescriptionManagement.DownloadJobDescriptionsForImport?templateId={{templateListItem.TemplateId}}&companyId={{companyId}}"
+                         download><i class="fas fa-download pr-1" aria-hidden="true"></i> Data</a>
+                    </td>
+                    <td>
+                      <span class="link" (click)="confirmDeleteJobDescriptions(templateListItem)">Delete Job Descriptions</span>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="(templateListItems$ | async)?.length == 0">
+                <h5>No Templates</h5>
+                <p>This company does not have any templates. Please go to template management to create a template.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card w-50 my-2" *ngIf="(templateListItems$ | async)?.length > 0">
+          <div class="card-header py-2" (click)="isFileUploadCollapsed = !isFileUploadCollapsed"
+               [attr.aria-expanded]="!isFileUploadCollapsed" aria-controls="fileupload-collapse-container">Job
+            Description Upload
+          </div>
+          <div id="fileupload-collapse-container" *ngIf="!isFileUploadCollapsed">
+            <div class="card-block py-2">
+              <div class="row m-0">
+                <div class="table">
+                  <table class="table file-container">
+                    <thead>
+                    <tr>
+                      <th width="30%">File Type</th>
+                      <th width="40%">File Name</th>
+                      <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="file-row-mapping">
+                      <td><strong>Mapping File</strong>
+
+                      </td>
+                      <td>
+                                                   <span *ngIf="mappingFile">
+                                                        {{ mappingFile?.name }}
+                                                     <span (click)="remove('mappingFile',mappingFileInput)"><i
+                                                       class="fas fa-trash-alt" aria-hidden="true"></i></span>
+                                                    </span>
+                      </td>
+                      <td>
+                        <div class="fileContainer">
+                          <label htmlFor="mappingFile">
+                            Choose File
+                          </label>
+                          <input #mappingFileInput id="mappingFile" type="file" (change)="mappingFileChange($event)"
+                                 accept=".txt">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr id="file-row-data">
+                      <td><strong>Data File</strong>
+                      </td>
+                      <td>
+                                                  <span *ngIf="dataFile">
+                                                         {{ dataFile?.name }}
+                                                    <span (click)="remove('dataFile',dataFileInput)"><i
+                                                      class="fas fa-trash-alt" aria-hidden="true"></i></span>
+                                                    </span>
+                      </td>
+                      <td>
+                        <div class="fileContainer">
+                          <label htmlFor="dataFile">
+                            Choose File
+                          </label>
+                          <input #dataFileInput id="dataFile" type="file" (change)="dataFileChange($event)"
+                                 accept=".xls, .xlsx">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="importMode" id="importMode-add"
+                                 value="INSERT" [(ngModel)]="importMode">
+                          <label class="form-check-label" for="importMode-add">
+                            Add
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="importMode" id="importMode-update"
+                                 value="UPSERT" [(ngModel)]="importMode">
+                          <label class="form-check-label" for="importMode-update">
+                            Add / Update
+                          </label>
+                        </div>
+                      </td>
+                      <td class="center-align">
+                        <div *ngIf="!(jobDescriptionLoaderValidated$ | async)">
+                          <button type="button" class="btn btn-warning button-match pr-3"
+                                  (click)="validate()"
+                                  [disabled]="!this.mappingFile || !this.dataFile || (jobDescriptionLoaderValidating$ | async) ">
+                            <i class="fas fa-check pr-1" aria-hidden="true"></i> Validate
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <div class="processing-indicator" *ngIf="jobDescriptionLoaderValidating$ | async">
+                          <h5>
+                            <pf-loading-indicator></pf-loading-indicator>
+                            'Processing Job Description Files...'
+                          </h5>
+                        </div>
+                      </td>
+                    <tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card w-50 my-2" *ngIf="(jobDescriptionLoaderValidated$ | async)">
+          <div class="card-header py-2">Validation Results</div>
+          <div class="card-block py-2">
+
+            <div
+              *ngIf="(jobDescriptionLoaderValidated$ | async) && !(jobDescriptionLoaderValidating$ | async) && !((jobDescriptionLoaderImporting$ | async) || (jobDescriptionLoaderImported$ | async))">
+              <pf-validation-results
+                [validationResults]="(jobDescriptionLoaderValidationResults$ | async)?.ValidationResults"
+                [title]="'Validation'">
+              </pf-validation-results>
+            </div>
+            <div *ngIf="jobDescriptionLoaderImported$ | async">
+              <pf-validation-results
+                [validationResults]="jobDescriptionLoaderImportResults$ | async"
+                [title]="'Upload'">
+              </pf-validation-results>
+            </div>
+
+            <div class="row">
+              <div class="col-md-8 py-2">
+                <div class="processing-indicator" *ngIf="jobDescriptionLoaderImporting$ | async">
+                  <h5>
+                    <pf-loading-indicator></pf-loading-indicator>
+                    'Processing Job Description Files...'
+                  </h5>
+                </div>
+              </div>
+              <div class="col-md-4 offset-md-8 grid-bottom">
+                <div
+                  *ngIf="(jobDescriptionLoaderValidated$ | async) && !(jobDescriptionLoaderImported$ | async) && ((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length === 0">
+                  <button type="button" class="btn btn-success button-match pr-3"
+                          (click)="upload()"
+                          [disabled]="(jobDescriptionLoaderImporting$ | async) ||  ((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length > 0">
+                    <i class="fas fa-upload pr-1" aria-hidden="true"></i> Upload
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </ng-container>
+</pf-page-with-title-bar>
+
+<pf-confirm-delete-job-descriptions-modal
+  [deleting]="deletingJobDescriptions$ | async"
+  [error]="deletingJobDescriptionsError$ | async"
+  (closed)="clearDeleteJobDescriptionsError()"
+  (deleteConfirmed)="deleteJobDescriptionsForTemplate($event)">
+</pf-confirm-delete-job-descriptions-modal>

@@ -5,8 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
-import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm/job-description-template-api.service';
+import { JobDescriptionApiService, JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import * as fromJobDescriptionReducer from '../reducers';

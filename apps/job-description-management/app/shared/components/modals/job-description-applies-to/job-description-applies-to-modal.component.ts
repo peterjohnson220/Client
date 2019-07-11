@@ -6,8 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
+import { TemplateListItem } from 'libs/models/jdm';
+
 import { CompanyJobViewListItem } from '../../../../_job-description/models';
-import { TemplateListItem } from '../../../models/template-list-item.model';
 import { JobDescriptionAppliesTo } from '../../../models/job-description-applies-to.model';
 import * as fromTemplateListActions from '../../../actions/template-list.actions';
 import * as fromJobDescriptionAppliesToActions from '../../../actions/job-description-appliesto.actions';
@@ -92,7 +93,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit {
     this.initializeFormValues(appliesTo);
 
     this.store.dispatch(new fromJobDescriptionAppliesToActions.LoadJobDescriptionAppliesTo());
-    this.store.dispatch(new fromTemplateListActions.LoadTemplateList({ PublishedOnly: true }));
+    this.store.dispatch(new fromTemplateListActions.LoadTemplateList({ publishedOnly: true }));
 
     this.templateId = -1;
     this.modalRef = this.modalService.open(this.jobDescriptionAppliesToModal, { backdrop: 'static' });

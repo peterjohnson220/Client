@@ -1,0 +1,57 @@
+.card-header{
+  background-color: #e7f0f9;
+  height: 33px;
+}
+
+.button-match{
+  width: 100px;
+  height: 30px;
+}
+
+.fileContainer {
+  overflow: hidden;
+  position: relative;
+}
+
+
+.fileContainer [type=file] {
+  cursor: pointer;
+  display: block;
+  font-size: 999px;
+  filter: alpha(opacity=0);
+  min-height: 100%;
+  min-width: 100%;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  top: 0;
+}
+
+label {
+  cursor:pointer;
+  color: #3572b0;
+  text-decoration:underline;
+}
+
+label:hover {
+  text-decoration:none;
+}
+
+.link {
+  color: #1872ae;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.btn-primary {
+  background: #1872ae;
+  border: #1872ae;
+}
+
+.card-block {
+  padding: 1.25rem;
+}
