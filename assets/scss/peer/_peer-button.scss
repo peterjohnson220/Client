@@ -22,7 +22,10 @@
   &:focus {
     outline: none;
   }
-  &:hover {
+  &:disabled {
+    opacity: .8;
+  }
+  &:hover:not(:disabled):not(.no-hover) {
     background-color: $primaryColor;
     color: #fff;
     span {
