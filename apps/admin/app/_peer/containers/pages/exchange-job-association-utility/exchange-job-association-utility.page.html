@@ -1,7 +1,7 @@
 <pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
 
   <ng-container page-title>
-    Exchange Job to Company Job Auto Association
+    Exchange Job to Company Job Auto Match
   </ng-container>
 
   <ng-container page-content>
@@ -55,7 +55,7 @@
       <ng-container *ngIf="!(autoAssociating$ | async) && hasAttemptedRun">
         <div class="alert alert-success"
              *ngIf="!(autoAssociatingError$ | async)">
-          {{(autoAssociatingCount$ | async )}} job(s) have been associated successfully!
+          {{(autoAssociatingCount$ | async )}} job(s) have been matched successfully!
         </div>
         <div class="alert alert-danger"
              *ngIf="(autoAssociatingError$ | async)">

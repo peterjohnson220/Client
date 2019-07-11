@@ -374,12 +374,12 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
   createAssociateButtonTooltipText(exchangeId: number, exchangeJobId: number) {
     if (!this.selectedCompanyJobs.length) {
-      return 'First select the company job you want to associate';
+      return 'First select the company job you want to match';
     } else if (this.isAssociable(exchangeId, exchangeJobId)) {
-      return 'Click to associate';
+      return 'Click to match';
     } else if (!this.selectedCompanyJobsAndAssociatedExchangeJobAreLessThanLimit(exchangeId, exchangeJobId)) {
-      return 'Exchange jobs should not have more than ' + this.maxAssociableThreshold + ' associations per exchange';
+      return 'Exchange jobs should not have more than ' + this.maxAssociableThreshold + ' matches per exchange';
     }
-    return 'A single company job can be associated to only 1 job per exchange';
+    return 'A single company job can be matched to only 1 job per exchange';
   }
 }

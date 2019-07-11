@@ -61,7 +61,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
       class="btn btn-secondary"
       id="import-popover-btn"
       placement="bottom"
-      title="Import Associations"
+      title="Import Matches"
       type="button"
     >
       <fa-icon
@@ -153,7 +153,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       class="btn btn-secondary"
       id="import-popover-btn"
       placement="bottom"
-      title="Import Associations"
+      title="Import Matches"
       type="button"
     >
       <fa-icon
@@ -239,7 +239,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       class="btn btn-secondary"
       id="import-popover-btn"
       placement="bottom"
-      title="Import Associations"
+      title="Import Matches"
       type="button"
     >
       <fa-icon

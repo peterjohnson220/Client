@@ -137,7 +137,7 @@ describe('ExchangeJobsComponent', () => {
     component.selectedCompanyJobs = [];
 
     const tooltipText = component.createAssociateButtonTooltipText(123, 456);
-    expect(tooltipText).toBe('First select the company job you want to associate');
+    expect(tooltipText).toBe('First select the company job you want to match');
   });
 
   it('should create the correct associate button tooltip msg when the job is associable', () => {
@@ -148,7 +148,7 @@ describe('ExchangeJobsComponent', () => {
     component.getAssociationCount = () => 1;
 
     const tooltipText = component.createAssociateButtonTooltipText(123, 456);
-    expect(tooltipText).toBe('Click to associate');
+    expect(tooltipText).toBe('Click to match');
   });
 
   it('should create the correct associate button tooltip msg when there are > 10 associations', () => {
@@ -159,7 +159,7 @@ describe('ExchangeJobsComponent', () => {
     component.getAssociationCount = () => component.maxAssociableThreshold + 1;
 
     const tooltipText = component.createAssociateButtonTooltipText(123, 456);
-    expect(tooltipText).toBe('Exchange jobs should not have more than 10 associations per exchange');
+    expect(tooltipText).toBe('Exchange jobs should not have more than 10 matches per exchange');
   });
 
   it('should create the correct associate button tooltip msg when the job is already associated to an exchange', () => {
@@ -169,7 +169,7 @@ describe('ExchangeJobsComponent', () => {
     component.getAssociationCount = () => 1;
 
     const tooltipText = component.createAssociateButtonTooltipText(123, 456);
-    expect(tooltipText).toBe('A single company job can be associated to only 1 job per exchange');
+    expect(tooltipText).toBe('A single company job can be matched to only 1 job per exchange');
   });
 
   it('should not call the kendo api when collapseDetailRow is invoked and detailRowId is not set', () => {

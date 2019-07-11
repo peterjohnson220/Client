@@ -57,9 +57,9 @@ export class PeerAssociationColorBlockComponent {
     if (associationClass === 'pending') {
       return 'Pending Review';
     } else if (associationClass === 'associated') {
-      return 'Associated';
+      return 'Matched';
     } else {
-      return 'Not Associated';
+      return 'Not Matched';
     }
   }
 
