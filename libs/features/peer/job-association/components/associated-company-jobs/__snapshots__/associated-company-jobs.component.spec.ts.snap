@@ -353,7 +353,7 @@ exports[`AssociatedCompanyJobsComponent should show No Associations instead of t
     
     <div>
       <i>
-        No Associations
+        No Matches
       </i>
     </div>
   </div>
