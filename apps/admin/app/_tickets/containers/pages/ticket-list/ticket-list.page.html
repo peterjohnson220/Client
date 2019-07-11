@@ -21,7 +21,7 @@
         <ng-template ngbTabTitle>
           <div [title]="tab.Title">
             {{tab.UserTicketId}}
-            <span (click)="handleCloseTabClick(tab.UserTicketId, $event)"><i class="fas fa-times-circle fa-2x close-btn"></i></span>
+            <span (click)="handleCloseTabClick(tab.UserTicketId, $event)"><fa-icon icon="times-circle" class="close-btn"></fa-icon></span>
           </div>
         </ng-template>
         <ng-template ngbTabContent>

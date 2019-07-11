@@ -18,7 +18,7 @@
                     href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}"
                     title="{{attachment.DisplayName}}">
                     <h5 class="file-name break-word">
-                      <i class="fa {{attachment.ExtensionCssClass}} fa-lg pf-grey mr-1"></i>
+                      <fa-icon icon="{{attachment.ExtensionCssClass}}" size="lg" class="pf-grey mr-1"></fa-icon>
                       {{attachment.DisplayName}}
                     </h5>
                   </a>
@@ -26,11 +26,11 @@
                 <div class="col-4 text-right actions-cell">
                   <a href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}"
                     title="download">
-                    <i class="fa fa-download fa-lg pf-secondary-color"></i>
+                    <fa-icon icon="download" size="lg" class="pf-secondary-color"></fa-icon>
                   </a>
                   &nbsp;
                   <a href="javascript:void(0)" title="remove" (click)="openModal(attachment.AttachmentId)">
-                    <i class="fa fa-times fa-lg pf-secondary-color"></i>
+                    <fa-icon icon="times" size="lg" class="pf-secondary-color"></fa-icon>
                   </a>
                 </div>
               </div>

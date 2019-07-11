@@ -11,29 +11,29 @@ export class GetFileExtensionCssClassPipe implements PipeTransform {
             case 'xltx':
             case 'xltm':
             case 'xla':
-                return 'fa-file-excel';
+                return 'file-excel';
             case 'docx':
             case 'docm':
             case 'dotx':
             case 'dotm':
             case 'docb':
             case 'doc':
-              return 'fa-file-word';
+              return 'file-word';
             case 'ppt':
             case 'pptx':
-              return 'fa-file-word';
+              return 'file-word';
             case 'pdf':
-              return 'fa-file-pdf';
+              return 'file-pdf';
             case 'jpg':
             case 'jpeg':
             case 'png':
-              return 'fa-file-image';
+              return 'file-image';
             case 'zip':
             case 'zipx':
             case '7z':
-              return 'fa-file-archive';
+              return 'file-archive';
             case 'msg':
-              return 'fa-envelope';
+              return 'envelope';
             case 'csv':
             case 'txt':
             case 'xml':
@@ -42,7 +42,7 @@ export class GetFileExtensionCssClassPipe implements PipeTransform {
             case 'mdb':
             case 'partial':
             default:
-              return 'fa-file-alt';
+              return 'file-alt';
         }
     }
 }

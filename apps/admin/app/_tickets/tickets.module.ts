@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {library} from '@fortawesome/fontawesome-svg-core';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 import {BodyModule, ColumnResizingService, GridModule, RowFilterModule, SharedModule} from '@progress/kendo-angular-grid';
@@ -26,6 +28,7 @@ import { TicketAttachmentEffects, TicketEffects, TicketListEffects, TicketLookup
 import { reducers } from './reducers';
 import { TicketsRoutingModule } from './tickets-routing.module';
 import { GetUploadProgressCssClassPipe, GetFileValidationErrorMessagePipe } from './pipes';
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -48,6 +51,7 @@ import { GetUploadProgressCssClassPipe, GetFileValidationErrorMessagePipe } from
     NgbTabsetModule,
     UploadModule,
     RowFilterModule,
+    FontAwesomeModule,
 
     // Routing
     TicketsRoutingModule,
@@ -83,4 +87,8 @@ import { GetUploadProgressCssClassPipe, GetFileValidationErrorMessagePipe } from
     ColumnResizingService
   ]
 })
-export class TicketsModule { }
+export class TicketsModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

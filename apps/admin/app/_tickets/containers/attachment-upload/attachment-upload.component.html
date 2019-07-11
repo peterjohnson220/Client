@@ -15,7 +15,7 @@
           <div class="col-8">
             <a class="pf-link-text {{file.state | getUploadProgressCssClass}}" title="{{file.name}}">
               <h5 class="file-name break-word">
-                <i class="fa {{(file.extension + '').replace('.', '') | getFileExtensionCssClass}} fa-lg pf-grey"></i>
+                <fa-icon icon="{{(file.extension + '').replace('.', '') | getFileExtensionCssClass}}" size="lg" class="pf-grey"></fa-icon>
                 {{file.name}}
               </h5>
             </a>
@@ -28,14 +28,13 @@
               {{file.uploadProgress}}%
             </label>
             <a title="retry" *ngIf="file.state === 0 && file.validationErrors.includes('genericError')" (click)="retryFileUpload(file.uid)">
-              <i class="fa fa-undo fa-lg pf-secondary-color"></i>
+              <fa-icon icon="undo" size="lg" class="pf-secondary-color"></fa-icon>
             </a>
             <a title="download" *ngIf="file.state !== 0 && file.state !== 4">
-              <i class="fa fa-download fa-lg pf-secondary-color"></i>
+              <fa-icon icon="download" size="lg" class="pf-secondary-color"></fa-icon>
             </a>
-            &nbsp;
             <a href="javascript:void(0)" title="remove" (click)="removeFileClick(file)">
-              <i class="fa fa-times fa-lg pf-secondary-color"></i>
+              <fa-icon icon="times" size="lg" class="pf-secondary-color"></fa-icon>
             </a>
           </div>
         </div>
