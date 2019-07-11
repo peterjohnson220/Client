@@ -1,16 +1,22 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {Observable, Subject, Subscription} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 
-import {GridDataResult, PageChangeEvent} from '@progress/kendo-angular-grid';
-import { SortDescriptor } from '@progress/kendo-data-query';
+import {GridDataResult, PageChangeEvent, SortSettings} from '@progress/kendo-angular-grid';
+import {SortDescriptor, State} from '@progress/kendo-data-query';
 
+import * as fromRootState from 'libs/state/state';
+import {UserContext} from 'libs/models/security';
+import {UserTicketSearchRequest} from 'libs/models/payfactors-api/service/request';
+
+import {SearchRequestFilterMapper} from '../../helpers';
+import {TicketListFilterComponent} from '../filters/ticket-list-filter';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
-import { UserTicketGridItem, UserTicketTabItem } from '../../models';
+import {PfServicesRep, UserTicketGridItem, UserTicketTabItem} from '../../models';
 
 @Component({
   selector: 'pf-ticket-list',
@@ -19,31 +25,63 @@ import { UserTicketGridItem, UserTicketTabItem } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TicketListComponent implements OnInit, OnDestroy {
+  @ViewChild('serviceUserFilter', {static: false}) serviceUserFilterComponent: TicketListFilterComponent;
   gridView: GridDataResult;
-  pageSizes = [10, 25, 100];
-  pageSize = 100;
-  skip = 0;
+  sortable: SortSettings = {
+    allowUnsort: false,
+    mode: 'single'
+  };
+  state: State = {
+    skip: 0,
+    take: 25,
+    filter: {
+      logic: 'and',
+      filters: [{
+        value: 'New',
+        field: 'Status',
+        operator: 'contains'
+      }]
+    },
+    sort: [{
+      field: 'Id',
+      dir: 'desc'
+    }],
+  };
+  pageSizes = [10, 25];
+
+  userContext$: Observable<UserContext>;
+  userContext: UserContext;
 
   private selectedTicket: UserTicketTabItem;
+  private defaultPfServiceRep: number;
+  pfServiceReps: PfServicesRep[] = [];
+  ticketListItems: UserTicketGridItem[] = [];
+
+  initSuccess$: Observable<boolean>;
   ticketListLoading$: Observable<boolean>;
   ticketListLoadingError$: Observable<boolean>;
-  ticketListItems: UserTicketGridItem[] = [];
+  pfServicesReps$: Observable<PfServicesRep[]>;
   dirty$: Observable<boolean>;
   dirtySubscription: Subscription;
+  initSuccessSubscription: Subscription;
   ticketListItemsSubscription: Subscription;
   private unsubscribe$ = new Subject();
 
   isDirty = false;
-  sort: SortDescriptor[] = [{
-    field: 'Id',
-    dir: 'desc'
-  }];
 
-  constructor(private store: Store<fromTicketReducer.State>) {
+  constructor(private store: Store<fromTicketReducer.State>,
+              private rootStore: Store<fromRootState.State>) {
     this.ticketListLoading$ = this.store.select(fromTicketReducer.getTicketListLoading);
     this.ticketListLoadingError$ = this.store.select(fromTicketReducer.getTicketListLoadingError);
     this.dirty$ = this.store.select(fromTicketReducer.getDirtyGridState);
+    this.initSuccess$ = this.store.select(fromTicketReducer.getGridInitSuccess);
+    this.pfServicesReps$ = this.store.select(fromTicketReducer.getPfServiceReps);
+    this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
 
+    this.initSubscriptions();
+  }
+
+  initSubscriptions() {
     this.dirtySubscription = this.dirty$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
       this.isDirty = v;
     });
@@ -52,24 +90,58 @@ export class TicketListComponent implements OnInit, OnDestroy {
         this.ticketListItems = v;
         this.loadTickets();
       });
+    this.initSuccessSubscription = this.store.select(fromTicketReducer.getGridInitSuccess)
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(v => v)
+      ).subscribe(v => {
+        this.initFilter();
+        this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
+      });
+    this.userContext$
+      .pipe(
+        filter(uc => !!uc),
+        take(1),
+        takeUntil(this.unsubscribe$)
+      ).subscribe(uc => {
+        this.userContext = uc;
+      });
+    this.pfServicesReps$
+      .pipe(
+        filter(v => v && v.length > 0),
+        takeUntil(this.unsubscribe$)
+      ).subscribe(v => {
+        this.pfServiceReps = v;
+      });
+  }
+
+  initFilter() {
+    // check if current id exists within service reps
+    const u = this.pfServiceReps.find(r => r.PfServicesRepId === this.userContext.UserId);
+    if (u) {
+      this.defaultPfServiceRep = u.PfServicesRepId;
+      this.serviceUserFilterComponent.modifyFilter(u.PfServicesRepId);
+    }
+  }
+
+  prepareFilter(): UserTicketSearchRequest {
+    return SearchRequestFilterMapper.mapCompositeFilterDescriptorToUserTicketSearchRequest(this.state.filter);
   }
 
   handleTicketGridReload() {
-    this.store.dispatch(new fromTicketListActions.LoadTickets({'UserTicket_State': 'New', 'Company_ID': 13}));
+    this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
   }
 
   handleCellClick(dataItem: any): void {
-    const ut: UserTicketTabItem = {
+    this.selectedTicket = {
       UserTicketId: dataItem.Id,
       Title: dataItem.Description
     };
-
-    this.selectedTicket = ut;
     this.store.dispatch(new fromTicketActions.OpenTicket(this.selectedTicket));
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromTicketListActions.LoadTickets({'UserTicket_State': 'New', 'Company_ID': 13}));
+    this.store.dispatch(new fromTicketListActions.InitTickets());
   }
 
   ngOnDestroy(): void {
@@ -83,20 +155,24 @@ export class TicketListComponent implements OnInit, OnDestroy {
     }
   }
   sortChange(sort: SortDescriptor[]): void {
-    this.sort = sort;
-    this.store.dispatch(new fromTicketListActions.SortTickets(this.sort[0]));
+    this.state.sort = sort;
+    this.store.dispatch(new fromTicketListActions.SortTickets(this.state.sort[0]));
   }
 
   private loadTickets(): void {
     this.gridView = {
-      data: this.ticketListItems.slice(this.skip, this.skip + this.pageSize),
+      data: this.ticketListItems.slice(this.state.skip, this.state.skip + this.state.take),
       total: this.ticketListItems.length
     };
   }
 
-  pageChange({ skip, take }: PageChangeEvent): void {
-    this.skip = skip;
-    this.pageSize = take;
+  pageChange(e: PageChangeEvent): void {
+    this.state.skip = e.skip;
+    this.state.take = e.take;
     this.loadTickets();
+  }
+
+  filterChanged() {
+    this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
   }
 }
