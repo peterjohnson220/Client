@@ -11,6 +11,12 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+
+
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -28,6 +34,7 @@ import { reducers } from './reducers';
 import { DataAccessService, UserRoleService, UserRoleValidationService } from './services';
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
 import { CompanyAdminUsersListPageComponent } from './components/pages/company-admin-users-list';
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -56,6 +63,7 @@ import { CompanyAdminUsersListPageComponent } from './components/pages/company-a
     PfCommonUIModule,
     PfFormsModule,
     UsersModule,
+    FontAwesomeModule,
   ],
   declarations: [
     // Components
@@ -81,4 +89,8 @@ import { CompanyAdminUsersListPageComponent } from './components/pages/company-a
     CompanyApiService
   ]
 })
-export class CompanyAdminModule { }
+export class CompanyAdminModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

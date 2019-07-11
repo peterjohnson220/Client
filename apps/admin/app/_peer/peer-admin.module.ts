@@ -15,6 +15,9 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent,
          ManageExchangeSectionHeaderComponent, ExchangeAccessRequestsComponent,
@@ -39,6 +42,7 @@ import { GridHelperService } from './services';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 import { AddCompaniesModalComponent, AddJobsModalComponent, DeleteCompanyModalComponent } from './containers';
 import { EditableTagCategoryDisplayNameComponent } from './components';
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -78,7 +82,8 @@ import { EditableTagCategoryDisplayNameComponent } from './components';
     PfKendoExtensions,
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    FontAwesomeModule,
   ],
   declarations: [
     // Containers
@@ -122,4 +127,8 @@ import { EditableTagCategoryDisplayNameComponent } from './components';
     GridHelperService
   ]
 })
-export class PeerAdminModule { }
+export class PeerAdminModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}

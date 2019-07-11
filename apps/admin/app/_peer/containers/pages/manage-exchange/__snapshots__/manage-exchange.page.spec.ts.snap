@@ -56,8 +56,8 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
               <a
                 class="nav-link"
               >
-                <i
-                  class="fas fa-building font-a-icon"
+                <fa-icon
+                  icon="building"
                 />
                  Companies 
                 
@@ -71,8 +71,8 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
               <a
                 class="nav-link"
               >
-                <i
-                  class="fas fa-briefcase font-a-icon"
+                <fa-icon
+                  icon="briefcase"
                 />
                  Jobs 
                 
@@ -86,8 +86,8 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
               <a
                 class="nav-link"
               >
-                <i
-                  class="fas fa-unlock-alt font-a-icon"
+                <fa-icon
+                  icon="unlock-alt"
                 />
                  Access Requests 
                 
@@ -101,8 +101,8 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
               <a
                 class="nav-link"
               >
-                <i
-                  class="fas fa-envelope font-a-icon-close"
+                <fa-icon
+                  icon="envelope"
                 />
                  Company Invitations 
                 
@@ -116,9 +116,10 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
               <a
                 class="nav-link"
               >
-                <i
+                <fa-icon
                   aria-hidden="true"
-                  class="fa fa-address-card font-a-icon-close"
+                  class="font-a-icon-close"
+                  icon="address-card"
                 />
                  Company Referrals 
                 
@@ -135,13 +136,13 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
                 <span
                   class="fa-layers fa-fw font-a-icon-close"
                 >
-                  <i
-                    class="fas fa-briefcase"
+                  <fa-icon
                     data-fa-transform="shrink-1 down-2 left-2"
+                    icon="briefcase"
                   />
-                  <i
-                    class="far fa-clock"
+                  <fa-icon
                     data-fa-transform="shrink-5 up-5 right-6"
+                    icon="clock"
                   />
                 </span>
                  Job Requests 
@@ -156,8 +157,8 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
               <a
                 class="nav-link"
               >
-                <i
-                  class="fas fa-filter font-a-icon"
+                <fa-icon
+                  icon="filter"
                 />
                  Exchange Filters 
                 
