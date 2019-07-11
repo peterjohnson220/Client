@@ -27,25 +27,25 @@ export class JobDescriptionLoaderPageComponent implements OnInit {
   public isMappingCollapsed = false;
   public isFileUploadCollapsed = false;
 
-  private templateListItems$: Observable<TemplateListItem[]>;
-  private templateListLoading$: Observable<boolean>;
+  templateListItems$: Observable<TemplateListItem[]>;
+  templateListLoading$: Observable<boolean>;
 
-  private jobDescriptionLoaderValidationResults$: Observable<ValidateStepResultItem>;
-  private jobDescriptionLoaderImportResults$: Observable<ValidationResultItem[]>;
-  private jobDescriptionLoaderValidating$: Observable<boolean>;
-  private jobDescriptionLoaderValidated$: Observable<boolean>;
-  private jobDescriptionLoaderImporting$: Observable<boolean>;
-  private jobDescriptionLoaderImported$: Observable<boolean>;
-  private deletingJobDescriptions$: Observable<boolean>;
-  private deletingJobDescriptionsError$: Observable<boolean>;
-  private company$: Observable<Company>;
+  jobDescriptionLoaderValidationResults$: Observable<ValidateStepResultItem>;
+  jobDescriptionLoaderImportResults$: Observable<ValidationResultItem[]>;
+  jobDescriptionLoaderValidating$: Observable<boolean>;
+  jobDescriptionLoaderValidated$: Observable<boolean>;
+  jobDescriptionLoaderImporting$: Observable<boolean>;
+  jobDescriptionLoaderImported$: Observable<boolean>;
+  deletingJobDescriptions$: Observable<boolean>;
+  deletingJobDescriptionsError$: Observable<boolean>;
+  company$: Observable<Company>;
 
-  private companyId: number;
-  private importMode: string;
-  private mappingFile: File;
-  private dataFile: File;
-  private storedMappingFile: string;
-  private storedDataFile: string;
+  companyId: number;
+  importMode: string;
+  mappingFile: File;
+  dataFile: File;
+  storedMappingFile: string;
+  storedDataFile: string;
 
   constructor(
     private store: Store<fromTemplateListReducer.State>,
