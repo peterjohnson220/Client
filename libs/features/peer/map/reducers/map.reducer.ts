@@ -147,7 +147,6 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       return {
         ...state,
         applyingScope: false,
-        maxZoom: initialState.maxZoom,
         autoZooming: true
       };
     }
