@@ -16,11 +16,11 @@ import { CompaniesListViews } from '../../../../_companies/constants/companies-l
 })
 export class UtilitiesSelectCompanyPageComponent implements OnInit {
 
-  private companies$: Observable<CompanyGridItem[]>;
-  private companiesLoading$: Observable<boolean>;
-  private selectedItem: number;
-  private filter: string;
-  private _CompaniesListViews: typeof CompaniesListViews = CompaniesListViews;
+  companies$: Observable<CompanyGridItem[]>;
+  companiesLoading$: Observable<boolean>;
+  selectedItem: number;
+  filter: string;
+  _CompaniesListViews: typeof CompaniesListViews = CompaniesListViews;
 
   loadJobDescriptionRouterLink: string = UtilitiesSelectCompanyConstants.LOAD_JOB_DESCRIPTIONS_ROUTER_LINK;
 
