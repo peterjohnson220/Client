@@ -7,6 +7,7 @@ import * as fromRootState from 'libs/state/state';
 
 import { TicketListComponent } from './ticket-list.component';
 import * as fromTicketReducer from '../../reducers';
+import * as fromTicketLookupActions from '../../actions/ticket-lookup.actions';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketList from '../../actions/ticket.actions';
 
@@ -38,9 +39,9 @@ describe('Admin - Tickets - Ticket List', () => {
     store = TestBed.get(Store);
   });
 
-  it('should dispatch a LoadTickets action upon init based on default search params', () => {
+  it('should dispatch a InitTickets action upon init', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromTicketListActions.LoadTickets({'UserTicket_State': 'New', 'Company_ID': 13});
+    const expectedAction = new fromTicketListActions.InitTickets();
 
     fixture.detectChanges();
 

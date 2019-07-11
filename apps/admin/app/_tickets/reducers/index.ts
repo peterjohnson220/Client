@@ -59,6 +59,7 @@ export const {
 export const getTicketListLoading = createSelector(selectTicketListState, fromTicketsListReducer.getLoading);
 export const getTicketListLoadingError = createSelector(selectTicketListState, fromTicketsListReducer.getLoadingError);
 export const getDirtyGridState = createSelector(selectTicketListState, fromTicketsListReducer.getDirtyGridState);
+export const getGridInitSuccess = createSelector(selectTicketListState, fromTicketsListReducer.getInitSuccess);
 
 // Ticket Field Lookup Selectors
 export const getUserTicketStates = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getUserTicketStates);
@@ -66,7 +67,7 @@ export const getUserTicketTypes = createSelector(selectTicketLookupsState, fromT
 
 export const getLookupLoading = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getLoading);
 export const getLookupLoadingError = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getLoadingError);
-export const getUserTicketPfServiceReps = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getPfServicesReps);
+export const getPfServiceReps = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getPfServicesReps);
 
 // Ticket Attachment Selectors
 export const getAttachmentDeleteModalOpen =

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import { UserApiService, UserTicketApiService } from 'libs/data/payfactors-api';
 import { UserTicketStateResponse, UserTicketTypeResponse } from 'libs/models/payfactors-api/service/response';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
 
+import * as fromTicketListActions from '../actions/ticket-list.actions';
 import * as fromTicketLookupActions from '../actions/ticket-lookup.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 
@@ -18,11 +19,14 @@ export class TicketLookupEffects {
   loadServiceReps$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromTicketLookupActions.LOAD_PFSERVICESREPS),
-      switchMap((action: fromTicketLookupActions.LoadPfServiceReps) =>
+      mergeMap((action: fromTicketLookupActions.LoadPfServiceReps) =>
         this.userApiService.getPfServicesReps().pipe(
-          map((userResponses: UserResponse[]) => {
+          switchMap((userResponses: UserResponse[]) => {
             const servicesReps = PayfactorsApiModelMapper.mapUserResponseToPfServicesRep(userResponses);
-            return new fromTicketLookupActions.LoadPfServiceRepsSuccess(servicesReps);
+            return [
+              new fromTicketLookupActions.LoadPfServiceRepsSuccess(servicesReps),
+              new fromTicketListActions.InitTicketsCheck()
+            ];
           }),
           catchError(error => of(new fromTicketLookupActions.LoadPfServiceRepsError()))
         )
@@ -33,11 +37,14 @@ export class TicketLookupEffects {
   loadTicketStates$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromTicketLookupActions.LOAD_TICKETSTATES),
-      switchMap((action: fromTicketLookupActions.LoadTicketStates) =>
+      mergeMap((action: fromTicketLookupActions.LoadTicketStates) =>
         this.userTicketApiService.getUserTicketStates().pipe(
-          map((ticketStates: UserTicketStateResponse[]) => {
+          switchMap((ticketStates: UserTicketStateResponse[]) => {
             const states = PayfactorsApiModelMapper.mapUserTicketStatesResposnseToUserTicketState(ticketStates);
-            return new fromTicketLookupActions.LoadTicketStatesSuccess(states);
+            return [
+              new fromTicketLookupActions.LoadTicketStatesSuccess(states),
+              new fromTicketListActions.InitTicketsCheck()
+            ];
           }),
           catchError(error => of(new fromTicketLookupActions.LoadTicketStatesError()))
         )
@@ -48,11 +55,14 @@ export class TicketLookupEffects {
   loadTicketTypes$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromTicketLookupActions.LOAD_TICKETTYPES),
-      switchMap((action: fromTicketLookupActions.LoadTicketTypes) =>
+      mergeMap((action: fromTicketLookupActions.LoadTicketTypes) =>
         this.userTicketApiService.getUserTicketTypes().pipe(
-          map((ticketTypes: UserTicketTypeResponse[]) => {
+          switchMap((ticketTypes: UserTicketTypeResponse[]) => {
             const types = PayfactorsApiModelMapper.mapUserTicketTypeResponseToTicketType(ticketTypes);
-            return new fromTicketLookupActions.LoadTicketTypesSuccess(types);
+            return [
+              new fromTicketLookupActions.LoadTicketTypesSuccess(types),
+              new fromTicketListActions.InitTicketsCheck()
+            ];
           }),
           catchError(error => of(new fromTicketLookupActions.LoadTicketTypesError()))
         )
