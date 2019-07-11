@@ -1,0 +1,53 @@
+<div id="section-upload-attachments" class="row">
+  <div class="container p-0">
+    <kendo-upload [saveUrl]="uploadUrl"
+        [showFileList]="false"
+        (select)="selectEventHandler($event)"
+        (error)="errorEventHandler($event)"
+        (upload)="beginUploadEventHandler($event)"
+        (uploadProgress)="uploadProgressEventHandler($event)"
+        (success)="uploadSuccessEventHandler($event)">
+    </kendo-upload>
+    <hr class="w-100" *ngIf="uploadedFiles && uploadedFiles.length > 0" />
+    <div id="new-attachments" class="row" *ngFor='let file of uploadedFiles; let lastFile = last;'>
+      <div class="col col-12">
+        <div class="row">
+          <div class="col-8">
+            <a class="pf-link-text {{file.state | getUploadProgressCssClass}}" title="{{file.name}}">
+              <h5 class="file-name break-word">
+                <i class="fa {{(file.extension + '').replace('.', '') | getFileExtensionCssClass}} fa-lg pf-grey"></i>
+                {{file.name}}
+              </h5>
+            </a>
+            <span class="upload-error" *ngIf="file.state === 0">
+              <label *ngFor='let error of file.validationErrors'>{{ error | getFileValidationErrorMessage }} <br /></label>
+            </span>
+          </div>
+          <div class="col-4 text-right actions-cell">
+            <label class="progress-text" *ngIf="file.state === 4">
+              {{file.uploadProgress}}%
+            </label>
+            <a title="retry" *ngIf="file.state === 0 && file.validationErrors.includes('genericError')" (click)="retryFileUpload(file.uid)">
+              <i class="fa fa-undo fa-lg pf-secondary-color"></i>
+            </a>
+            <a title="download" *ngIf="file.state !== 0 && file.state !== 4">
+              <i class="fa fa-download fa-lg pf-secondary-color"></i>
+            </a>
+            &nbsp;
+            <a href="javascript:void(0)" title="remove" (click)="removeFileClick(file)">
+              <i class="fa fa-times fa-lg pf-secondary-color"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-12 mt-1 p-0">
+          <div *ngIf="file.state === 4" class="progress fade {{ file.state === 4 ? 'show active' : '' }}">
+            <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar"
+              aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+              [style.width]="file.uploadProgress.toString() + '%'"></div>
+          </div>
+          <hr class="fade {{ file.state !== 4 ? 'show active' : '' }}" *ngIf="!lastFile" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

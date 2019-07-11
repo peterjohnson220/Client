@@ -12,3 +12,4 @@ export * from './company-client-type';
 export * from './operator.enum';
 export * from './tile-names';
 export * from './workbook-order-types';
+export * from './files';

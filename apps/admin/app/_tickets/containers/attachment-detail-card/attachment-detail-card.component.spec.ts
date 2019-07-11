@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { AttachmentDetailCardComponent } from './attachment-detail-card.component';
 import { generateMockTicketAttachments } from '../../models';
 import * as fromTicketReducer from '../../reducers';
+import { GetUploadProgressCssClassPipe } from '../../pipes';
 
 describe('Admin - Tickets - Attachment Detail Card', () => {
   let instance: AttachmentDetailCardComponent;
@@ -24,7 +25,8 @@ describe('Admin - Tickets - Attachment Detail Card', () => {
         }),
         StoreModule.forFeature('admin_tickets', fromTicketReducer.reducers)
       ],
-      declarations: [ AttachmentDetailCardComponent ],
+      declarations: [ AttachmentDetailCardComponent,
+        GetUploadProgressCssClassPipe ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 

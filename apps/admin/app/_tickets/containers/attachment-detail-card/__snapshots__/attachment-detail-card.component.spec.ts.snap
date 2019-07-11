@@ -4,10 +4,12 @@ exports[`Admin - Tickets - Attachment Detail Card Should display details about a
 <pf-attachment-detail-card
   deleteRequest="null"
   deletingAttachmentModalOpen$={[Function Store]}
+  isDeleting$={[Function Store]}
   store={[Function Store]}
   ticketAttachments={[Function Array]}
   ticketId={[Function Number]}
   unsubscribe$={[Function Subject]}
+  uploadedAttachments={[Function Array]}
 >
   
 </pf-attachment-detail-card>
@@ -17,10 +19,12 @@ exports[`Admin - Tickets - Attachment Detail Card should dispatch a model open a
 <pf-attachment-detail-card
   deleteRequest={[Function Object]}
   deletingAttachmentModalOpen$={[Function Store]}
+  isDeleting$={[Function Store]}
   store={[Function Store]}
   ticketAttachments={[Function Array]}
   ticketId={[Function Number]}
   unsubscribe$={[Function Subject]}
+  uploadedAttachments={[Function Array]}
 >
   
 </pf-attachment-detail-card>
