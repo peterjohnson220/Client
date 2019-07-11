@@ -74,9 +74,10 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
                   title="Edit Role Name"
                   type="button"
                 >
-                  <i
+                  <fa-icon
                     aria-hidden="true"
-                    class="fas fa-pencil ignore-click-elsewhere ignore-click cursor-pointer"
+                    class="ignore-click-elsewhere ignore-click cursor-pointer"
+                    icon="pencil"
                   />
                 </button>
                 <a

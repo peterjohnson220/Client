@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CompanySelectorComponent } from './company-selector.component';
 
 describe('CompanySelectorComponent', () => {
@@ -9,7 +10,9 @@ describe('CompanySelectorComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [ CompanySelectorComponent ]
+      declarations: [ CompanySelectorComponent ],
+      // Shallow Testing
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));
