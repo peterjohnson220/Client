@@ -36,7 +36,7 @@ export class CommunityPollResponseEffects {
         switchMap((action: fromCommunityPollResponseActions.DismissingCommunityPollResponse) =>
           this.communityPollService.dismissCommunityPollResponse(action.payload).pipe(
             map(() => {
-                return new fromCommunityPollResponseActions.DismissingCommunityPollResponseSuccess();
+                return new fromCommunityPollResponseActions.DismissingCommunityPollResponseSuccess(action.payload.communityPollId);
             }),
             catchError(error => of(new fromCommunityPollResponseActions.DismissingCommunityPollResponseError()))
           )

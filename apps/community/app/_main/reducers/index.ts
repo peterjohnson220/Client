@@ -180,6 +180,22 @@ export const getDismissingCommunityPollResponseError = createSelector(
   fromCommunityPollResponseReducer.getDismissingCommunityPollResponseError
 );
 
+export const getDismissedResponses = createSelector(
+  selectFromCommunityPollResponseState,
+  fromCommunityPollResponseReducer.getDismissedResponses
+);
+export const hasNonDismissedResponses = createSelector(
+  getDismissedResponses,
+  getGettingCommunityPollResponsesSuccess,
+  (dismissedResponses, allResponses) => {
+    if (dismissedResponses.length > 0) {
+      const filteredResponses = allResponses.filter((response) => dismissedResponses.indexOf(response.CommunityPollId) === -1);
+      return filteredResponses.length > 0;
+    } else {
+      return allResponses.length > 0;
+    }
+  }
+);
 // Community Post Selectors
 export const {
   selectAll: getCommunityPosts,
