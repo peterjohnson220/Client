@@ -4,7 +4,7 @@ import { orderBy } from 'lodash';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromDashboardsActions from '../actions/dashboards.actions';
-import { DashboardView, Workbook } from '../models';
+import { DashboardView, View, Workbook } from '../models';
 
 export interface State {
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;
@@ -93,6 +93,48 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
       return {
         ...state,
         companyWorkbooksAsync: companyWorkbooksAsyncClone
+      };
+    }
+    case fromDashboardsActions.GET_COMPANY_WORKBOOK_VIEWS: {
+      const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
+
+      const workbook = companyWorkbooksAsyncClone.obj.find(w => w.WorkbookId === action.payload.workbookId);
+      if (workbook) {
+        workbook.Views = generateDefaultAsyncStateObj<View[]>([]);
+        workbook.Views.loading = true;
+      }
+
+      return {
+        ...state,
+        companyWorkbooksAsync: companyWorkbooksAsyncClone,
+      };
+    }
+    case fromDashboardsActions.GET_COMPANY_WORKBOOK_VIEWS_SUCCESS: {
+      const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
+
+      const workbook = companyWorkbooksAsyncClone.obj.find(w => w.WorkbookId === action.payload.workbookId);
+      if (workbook) {
+        workbook.Views.loading = false;
+        workbook.Views.obj = action.payload.views;
+      }
+
+      return {
+        ...state,
+        companyWorkbooksAsync: companyWorkbooksAsyncClone,
+      };
+    }
+    case fromDashboardsActions.GET_COMPANY_WORKBOOK_VIEWS_ERROR: {
+      const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
+
+      const workbook = companyWorkbooksAsyncClone.obj.find(w => w.WorkbookId === action.payload.workbookId);
+      if (workbook) {
+        workbook.Views.loading = false;
+        workbook.Views.loadingError = true;
+      }
+
+      return {
+        ...state,
+        companyWorkbooksAsync: companyWorkbooksAsyncClone,
       };
     }
     case fromDashboardsActions.SAVE_WORKBOOK_TAG: {

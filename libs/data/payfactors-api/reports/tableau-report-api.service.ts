@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { TableauReportResponse } from 'libs/models/payfactors-api';
+import { TableauReportResponse, TableauReportViewsResponse } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -21,8 +21,28 @@ export class TableauReportApiService {
       { params: { workbookId: workbookId }});
   }
 
+  getStandardReportSheetViewUrl(workbookName: string, viewName: string): Observable<string> {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetStandardReportViewUrl`,
+      { params: { workbookName: workbookName, viewName: viewName }});
+  }
+
+  getCompanyReportViewUrl(workbookId: string): Observable<string> {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetCompanyReportViewUrl`,
+      { params: { workbookId: workbookId }});
+  }
+
+  getCompanyReportSheetViewUrl(workbookName: string, viewName: string): Observable<string> {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetCompanyReportViewUrl`,
+      { params: { workbookName: workbookName, viewName: viewName }});
+  }
+
   getCompanyReports(): Observable<TableauReportResponse[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetCompanyReports`);
+  }
+
+  getCompanyReportViews(workbookId: string): Observable<TableauReportViewsResponse[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetCompanyWorkbookViews`,
+      { params: { workbookId: workbookId }});
   }
 
   addWorkbookFavorite(workbookId: string): Observable<any> {

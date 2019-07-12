@@ -1,3 +1,6 @@
+import { AsyncStateObj } from 'libs/models/state';
+import { View } from './view.model';
+
 export interface Workbook {
   WorkbookId: string;
   WorkbookName: string;
@@ -11,6 +14,7 @@ export interface Workbook {
   DefaultTag: string;
   DashboardsOrder?: number;
   FavoritesOrder?: number;
+  Views?: AsyncStateObj<View[]>;
 }
 
 export function generateMockWorkbook(): Workbook {
