@@ -27,10 +27,33 @@
         [rowSelected]="isRowSelected"
         (dataStateChange)="handleDataStateChange($event)"
         (cellClick)="handleCellClick($event)">
-        <kendo-grid-column field="AssociationStatus" [sortable]="false" [resizable]="false" [filterable]="false" [width]="11" class="p-0 m-0">
+        <kendo-grid-column field="StatusId" title="Status" class="p-0 m-0"
+                           [sortable]="false"
+                           [resizable]="false"
+                           [width]="200">
+          <ng-template kendoGridFilterMenuTemplate let-filterService="filterService">
+            <kendo-dropdownlist
+              [data]="statusFilterOptions"
+              textField="StatusName"
+              valueField="StatusId"
+              [defaultItem]="{StatusId: '', StatusName: 'Select a Status'}"
+              [valuePrimitive]="true"
+              [value]="selectedStatusFilterOption"
+              (valueChange)="onStatusFilterChange($event, filterService)"
+              >
+            </kendo-dropdownlist>
+          </ng-template>
+
           <ng-template kendoGridCellTemplate let-dataItem>
-            <pf-peer-association-color-block [isAssociated]="dataItem.IsAssociated" [isApproved]="dataItem.IsApproved" [isExchangeSpecific]="true">
-            </pf-peer-association-color-block>
+            <ng-template let-statusLabel [ngTemplateOutletContext]="{ $implicit: ' ' }" [ngTemplateOutlet]="t" #t>
+              <pf-peer-association-color-block class="status-color-block"
+                [isAssociated]="dataItem.IsAssociated"
+                [isApproved]="dataItem.IsApproved"
+                [isExchangeSpecific]="true"
+                (statusLabel)="statusLabel = $event"
+              ></pf-peer-association-color-block>
+              <div class="status-label">{{statusLabel}}</div>
+            </ng-template>
           </ng-template>
         </kendo-grid-column>
 
