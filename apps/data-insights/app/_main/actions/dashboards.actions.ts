@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { DashboardView, Workbook, SaveWorkbookTagObj, View } from '../models';
+import { WorkbookOrderType } from 'libs/constants';
 
+import { DashboardView, Workbook, SaveWorkbookTagObj, View } from '../models';
 
 export const GET_COMPANY_WORKBOOKS = '[Data Insights / Dashboards] Get Company Workbooks';
 export const GET_COMPANY_WORKBOOKS_SUCCESS = '[Data Insights / Dashboards] Get Company Workbooks Success';
@@ -104,7 +105,7 @@ export class SaveWorkbookTagError implements Action {
 export class SaveWorkbookOrder implements Action {
   readonly type = SAVE_WORKBOOK_ORDER;
 
-  constructor(public payload: { workbookIds: string[] }) {}
+  constructor(public payload: { workbookIds: string[], workbookOrderType?: WorkbookOrderType }) {}
 }
 
 export class SaveWorkbookOrderSuccess implements Action {

@@ -7,11 +7,13 @@ import { select, Store } from '@ngrx/store';
 
 import { TableauReportApiService, UserReportApiService } from 'libs/data/payfactors-api';
 import { UserContext } from 'libs/models/security';
+import { WorkbookOrderType } from 'libs/constants';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromAllDashboardsActions from '../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers';
+import { PayfactorsApiModelMapper, DashboardsHelper } from '../helpers';
+import { DashboardView } from '../models';
 
 @Injectable()
 export class DashboardsEffects {
@@ -64,6 +66,24 @@ export class DashboardsEffects {
   );
 
   @Effect()
+  reorderFavoriteWorkbooks$ = this.action$
+  .pipe(
+    ofType(fromAllDashboardsActions.REMOVE_WORKBOOK_FAVORITE_SUCCESS),
+    withLatestFrom(
+      this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsync)),
+      (action, workbooksAsync) => ({ workbooksAsync })
+    ),
+    map((data) => {
+      const favoriteWorkbooks = DashboardsHelper.getCompanyWorkbooksByView(data.workbooksAsync.obj, DashboardView.Favorites);
+      const workbookIds = favoriteWorkbooks.map(w => w.WorkbookId);
+      return new fromAllDashboardsActions.SaveWorkbookOrder({
+        workbookIds,
+        workbookOrderType: WorkbookOrderType.FavoritesOrdering
+      });
+    })
+  );
+
+  @Effect()
   saveWorkbookTag$ = this.action$
     .pipe(
       ofType(fromAllDashboardsActions.SAVE_WORKBOOK_TAG),
@@ -95,7 +115,8 @@ export class DashboardsEffects {
       ),
       switchMap((data) => {
         const workbookIds = data.action.payload.workbookIds;
-        const request = PayfactorsApiModelMapper.buildSaveWorkbookOrderRequest(workbookIds, data.view);
+        const request = PayfactorsApiModelMapper.buildSaveWorkbookOrderRequest(
+          workbookIds, data.view, data.action.payload.workbookOrderType);
         return this.userReportApiService.saveWorkbookOrder(request)
           .pipe(
             map(() => new fromAllDashboardsActions.SaveWorkbookOrderSuccess({ workbookIds })),
