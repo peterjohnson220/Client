@@ -3,7 +3,7 @@
     <div class="col-1">
       <img *ngIf="job.CompanyLogo; else no_company_logo" [src]="companyLogo" width="50"/>
       <ng-template #no_company_logo>
-        <img class="fal fa-building fa-2x">
+        <fa-icon class="default-logo" [icon]="['fal','building']" size="2x"></fa-icon>
       </ng-template>
     </div>
     <div class="job-container col-7">
