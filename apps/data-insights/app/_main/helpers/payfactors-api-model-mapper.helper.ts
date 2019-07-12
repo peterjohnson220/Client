@@ -1,4 +1,6 @@
-import { TableauReportResponse, UpsertUserReportTag, SaveWorkbookOrderRequest, TableauReportViewsResponse } from 'libs/models/payfactors-api';
+import { TableauReportResponse, UpsertUserReportTag, SaveWorkbookOrderRequest,
+  TableauReportViewsResponse
+} from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 
 import { SaveWorkbookTagObj, StandardReport, Workbook, DashboardView, View } from '../models';
@@ -57,10 +59,12 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static buildSaveWorkbookOrderRequest(workbookIds: string[], view: DashboardView): SaveWorkbookOrderRequest {
-    const workbookOrderType = view === DashboardView.All
+  static buildSaveWorkbookOrderRequest(workbookIds: string[], view: DashboardView,
+    typeOverride?: WorkbookOrderType): SaveWorkbookOrderRequest {
+    const typeByView = view === DashboardView.All
       ? WorkbookOrderType.DashboardsOrdering
       : WorkbookOrderType.FavoritesOrdering;
+    const workbookOrderType = !!typeOverride ? typeOverride : typeByView;
     return {
       WorkbookIds: workbookIds,
       Type: workbookOrderType
