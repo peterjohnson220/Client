@@ -91,7 +91,7 @@ describe('Data Insights - Workbook Card Component', () => {
     view.ViewName = 'Garden View';
     workbook.Views = generateDefaultAsyncStateObj<View[]>([view]);
     instance.workbook = workbook;
-    instance.handleSearchValueChanged('garden');
+    instance.viewFilterValue = 'garden';
     fixture.detectChanges();
 
     expect(instance.filteredViews.length).toEqual(1);
@@ -103,7 +103,7 @@ describe('Data Insights - Workbook Card Component', () => {
     view.ViewName = 'Garden View';
     workbook.Views = generateDefaultAsyncStateObj<View[]>([view]);
     instance.workbook = workbook;
-    instance.handleSearchValueChanged('Smells');
+    instance.viewFilterValue = 'Smells';
     fixture.detectChanges();
 
     expect(instance.filteredViews.length).toEqual(0);

@@ -55,7 +55,7 @@
             [delay]="200"
             [placeholderText]="'Search Views...'"
             (mouseleave)="handleSearchMouseLeave($event)"
-            (valueChanged)="handleSearchValueChanged($event)">
+            [(ngModel)]="viewFilterValue">
           </pf-input-debounce>
         </div>
         <div class="available-views" *ngIf="filteredViews.length; else noAvailableViews">

@@ -48,14 +48,11 @@ export class WorkbookCardComponent {
   handleViewsHidden() {
     this.showingViewPopover = false;
     this.displayActionsOverlay = this.hoverWorkbookContainer;
+    this.viewFilterValue = '';
   }
 
   getViewUrl(view: View): string {
     return view.ContentUrl.replace(this.workbook.ContentUrl + '/', '');
-  }
-
-  handleSearchValueChanged(value: string) {
-    this.viewFilterValue = value;
   }
 
   handleSearchMouseLeave(event: MouseEvent): void {
