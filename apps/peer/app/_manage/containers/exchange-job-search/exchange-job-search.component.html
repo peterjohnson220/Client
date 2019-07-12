@@ -1,5 +1,5 @@
 <section class="exchange-job-search-container position-relative">
-  <h5 class="text-uppercase mb-3">Search Exchange Jobs</h5>
+  <h5 class="font-weight-bold mb-4">Search for Exchange Job</h5>
   <div class="search-box-container d-flex">
     <pf-input-debounce
       #titleSearchComponent
@@ -33,7 +33,7 @@
             <fa-icon icon="exchange"></fa-icon><span>Match</span>
           </button>
         </div>
-        <pf-ellipsis-view-more [content]="exchangeJob.ExchangeJobDescription" [maxLength]="175">
+        <pf-ellipsis-view-more [content]="exchangeJob.ExchangeJobDescription || ''" [maxLength]="175">
         </pf-ellipsis-view-more>
       </div>
       <div *ngIf="(exchangeJobs$ | async).length === 0 && !(loadingExchangeJobs$ | async)" class="no-search-results">

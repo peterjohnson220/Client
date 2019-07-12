@@ -18,9 +18,9 @@ exports[`ExchangeJobSearchComponent should search results when matches are found
     class="exchange-job-search-container position-relative"
   >
     <h5
-      class="text-uppercase mb-3"
+      class="font-weight-bold mb-4"
     >
-      Search Exchange Jobs
+      Search for Exchange Job
     </h5>
     <div
       class="search-box-container d-flex"
@@ -93,9 +93,9 @@ exports[`ExchangeJobSearchComponent should show a no results message when no mat
     class="exchange-job-search-container position-relative"
   >
     <h5
-      class="text-uppercase mb-3"
+      class="font-weight-bold mb-4"
     >
-      Search Exchange Jobs
+      Search for Exchange Job
     </h5>
     <div
       class="search-box-container d-flex"
