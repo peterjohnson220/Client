@@ -28,6 +28,7 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
   showTabs: boolean;
   viz: any;
   vizLoading: boolean;
+  currentHistoryState: any;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -57,12 +58,18 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.vizLoading = true;
+    this.currentHistoryState = history.state;
     const containerDiv = document.getElementById('vizContainer');
     const that = this;
     const options = {
       hideTabs: !this.showTabs,
       onFirstInteractive: function () {
         that.vizLoading = false;
+        /* IE11 bug: the browser history state not matched with current state
+           when workbook is loaded */
+        if (history.state !== that.currentHistoryState) {
+          history.replaceState(that.currentHistoryState, null);
+        }
       }
     };
     if (this.viz) {
