@@ -85,18 +85,18 @@ export const getUsersTabHasPendingChanges = (state: State) => state.users.some(u
 export const getUserIdsToSave = (state: State) => state.users.filter(u => u.Dirty).map(u => u.UserId);
 
 function getUsersInRole(state: State) {
-  return state.users
+  return state.activeRole ? state.users
     .filter(user => user.CurrentRoleId === state.activeRole.RoleId)
-    .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
+    .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending)) : [];
 }
 
 function getUsersNotInRole(state: State) {
-  return state.users
+  return state.activeRole ? state.users
     .filter(user =>
       (user.FirstName.toLowerCase().indexOf(state.filterTerm) > -1
         || user.LastName.toLowerCase().indexOf(state.filterTerm) > -1
         || user.UserId.toString().toLowerCase().indexOf(state.filterTerm) > -1
       ) && user.CurrentRoleId !== state.activeRole.RoleId
     )
-    .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
+    .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending)) : [];
 }
