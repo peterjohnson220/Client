@@ -1,8 +1,11 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
+
 import { View, Workbook } from '../../models';
+
 
 @Component({
   selector: 'pf-workbook-card',
@@ -11,6 +14,7 @@ import { View, Workbook } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkbookCardComponent {
+  @ViewChild('workbookViewsSearchComponent', { static: false }) public workbookViewsSearchComponent: InputDebounceComponent;
   @Input() workbook: Workbook;
   @Output() favoriteClicked: EventEmitter<Workbook> = new EventEmitter();
   @Output() tagClicked: EventEmitter<Workbook> = new EventEmitter();
@@ -59,10 +63,8 @@ export class WorkbookCardComponent {
     return view.ContentUrl.replace(this.workbook.ContentUrl + '/', '');
   }
 
-  handleSearchMouseLeave(event: MouseEvent): void {
-    const target = event.target as HTMLTextAreaElement;
-    const innerInput = target.getElementsByTagName('input')[0];
-    innerInput.blur();
+  handleViewsMouseEnter(): void {
+    this.workbookViewsSearchComponent.blur();
   }
 
   get filteredViews(): View[] {

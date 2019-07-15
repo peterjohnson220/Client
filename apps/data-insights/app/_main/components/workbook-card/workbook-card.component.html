@@ -52,14 +52,14 @@
         [hideReloadButton]="true">
         <div class="header">
           <pf-input-debounce
+            #workbookViewsSearchComponent
             [delay]="200"
             [placeholderText]="'Search Views...'"
-            (mouseleave)="handleSearchMouseLeave($event)"
             [(ngModel)]="viewFilterValue"
             (valueChanged)="handleSearchValueChanged($event)">
           </pf-input-debounce>
         </div>
-        <div class="available-views" *ngIf="filteredViews.length; else noAvailableViews">
+        <div class="available-views" *ngIf="filteredViews.length; else noAvailableViews" (mouseenter)="handleViewsMouseEnter($event)">
           <a class="workbook-view" *ngFor="let view of filteredViews"
              [routerLink]="['/company-reports',workbook.ContentUrl, getViewUrl(view)]" [queryParams]="{showTabs: false, title: workbook.WorkbookName + ' - ' + view.ViewName}"
              [title]="view.ViewName">
