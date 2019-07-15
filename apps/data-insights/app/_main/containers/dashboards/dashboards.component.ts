@@ -62,6 +62,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     });
 
     this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
+    this.store.dispatch(new fromDashboardsActions.GetDashboardView());
   }
 
   ngOnDestroy() {
