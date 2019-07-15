@@ -67,6 +67,10 @@ export class WorkbookCardComponent {
     this.workbookViewsSearchComponent.blur();
   }
 
+  trackByFn(index: any, view: View) {
+    return view.ViewId ;
+  }
+
   get filteredViews(): View[] {
     if (!this.workbook.Views) {
       return [];

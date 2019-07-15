@@ -60,7 +60,7 @@
           </pf-input-debounce>
         </div>
         <div class="available-views" *ngIf="filteredViews.length; else noAvailableViews" (mouseenter)="handleViewsMouseEnter($event)">
-          <a class="workbook-view" *ngFor="let view of filteredViews"
+          <a class="workbook-view" *ngFor="let view of filteredViews; trackBy: trackByFn"
              [routerLink]="['/company-reports',workbook.ContentUrl, getViewUrl(view)]" [queryParams]="{showTabs: false, title: workbook.WorkbookName + ' - ' + view.ViewName}"
              [title]="view.ViewName">
             <div class="name">
