@@ -51,6 +51,10 @@ export class WorkbookCardComponent {
     this.viewFilterValue = '';
   }
 
+  handleSearchValueChanged(value: string) {
+    this.viewFilterValue = value;
+  }
+
   getViewUrl(view: View): string {
     return view.ContentUrl.replace(this.workbook.ContentUrl + '/', '');
   }
