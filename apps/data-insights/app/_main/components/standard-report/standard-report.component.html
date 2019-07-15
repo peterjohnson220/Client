@@ -1,14 +1,15 @@
 <div class="standard-report d-flex flex-column">
   <div class="preview d-flex justify-content-center align-items-center flex-grow-1">
-    <a [routerLink]="['/standard-reports',report.Id]" [queryParams]="{showTabs: report.ShowTabs, title: report.Name}">
-      <img class="img-fluid" [src]="report.ThumbnailUrl" />
+    <a [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
+      [queryParams]="{showTabs: workbook.ShowTabs, title: workbook.WorkbookName}">
+      <img class="img-fluid" [src]="workbook.Thumbnail" />
     </a>
   </div>
   <div class="type mt-3 mb-2">
     Payfactors Reports
   </div>
-  <div class="name" [title]="report.Name">
-    {{report.Name}}
+  <div class="name" [title]="workbook.WorkbookName">
+    {{workbook.WorkbookName}}
   </div>
 </div>
 
