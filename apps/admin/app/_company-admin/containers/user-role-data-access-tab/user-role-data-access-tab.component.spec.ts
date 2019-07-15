@@ -1,15 +1,16 @@
 import { async, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
 
 import * as fromRootState from 'libs/state/state';
-import {DataTypeFilterPipe} from 'libs/core/pipes';
-import {getMockDataTypes} from 'libs/models/security/roles/data-type.model';
-import {getMockRoleDataRestrictions} from 'libs/models/security/roles/role-data-restriction.model';
+import { DataTypeFilterPipe } from 'libs/core/pipes';
+import { getMockDataTypes } from 'libs/models/security/roles/data-type.model';
+import { getMockRoleDataRestrictions } from 'libs/models/security/roles/role-data-restriction.model';
+import { generateMockSystemDefinedUserAssignedRole, generateMockUserAssignedRole } from 'libs/models/security/roles/user-assigned-roles.model';
 
 import {
   generateMockSystemDefinedUserAssignedRole,
@@ -19,7 +20,7 @@ import {
 import { UserRoleDataAccessTabComponent } from './user-role-data-access-tab.component';
 import * as fromUserRoleViewReducer from '../../reducers';
 import * as fromDataAccessTabActions from '../../reducers';
-import {DataAccessService} from '../../services';
+import { DataAccessService } from '../../services';
 
 
 
@@ -32,10 +33,10 @@ describe('UserRoleDataAccessTabComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          userRoleAdminMain: combineReducers(fromDataAccessTabActions.reducers)
+          companyAdminMain: combineReducers(fromDataAccessTabActions.reducers)
         }),
       ],
-      providers: [ DataAccessService ],
+      providers: [DataAccessService],
       declarations: [UserRoleDataAccessTabComponent, DataTypeFilterPipe],
       schemas: [NO_ERRORS_SCHEMA]
     });

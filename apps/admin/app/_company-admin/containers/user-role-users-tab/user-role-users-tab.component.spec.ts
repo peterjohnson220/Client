@@ -21,7 +21,7 @@ describe('UserRoleUserTabComponent', () => {
         ScrollingModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          userRoleAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
+          companyAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
       ],
       providers: [ UserRoleService ],

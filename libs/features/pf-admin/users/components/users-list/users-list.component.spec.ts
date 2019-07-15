@@ -67,6 +67,6 @@ describe('Pf-Admin - Users - Users List Component', () => {
       }
     );
 
-    expect(router.navigate).toHaveBeenCalledWith(['/companies/', 1, 'users', 1]);
+    expect(router.navigate).toHaveBeenCalledWith(['/company-admin/', 1, 'users', 1]);
   });
 });

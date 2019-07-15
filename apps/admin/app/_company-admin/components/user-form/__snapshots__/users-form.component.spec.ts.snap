@@ -1,0 +1,823 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admin - Company Admin - User Component Should display form 1`] = `
+<pf-user-form
+  DEFAULT_STATUS={[Function Boolean]}
+  DEFAULT_USER_ROLE={[Function Number]}
+  MAX_EMAIL_LENGTH={[Function Number]}
+  MAX_NAME_LENGTH={[Function Number]}
+  MAX_PASSWORD_LENGTH={[Function Number]}
+  MAX_TITLE_LENGTH={[Function Number]}
+  MIN_PASSWORD_LENGTH={[Function Number]}
+  _showPassword={[Function Boolean]}
+  formBuilder={[Function FormBuilder]}
+  saveUser={[Function EventEmitter]}
+  user={[Function Object]}
+  userApiService="undefined"
+  userForm={[Function FormGroup]}
+>
+  <form
+    autocomplete="nope"
+    id="user-form"
+  >
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="firstName"
+      >
+        First Name*
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="firstName"
+        id="user-form-first-name"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="First Name"
+        type="text"
+      />
+      
+      <div
+        class="invalid-feedback"
+      >
+        
+        <div>
+          First Name is required
+        </div>
+        
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="lastName"
+      >
+        Last Name*
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="lastName"
+        id="user-form-last-name"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Last Name"
+        type="text"
+      />
+      
+      <div
+        class="invalid-feedback"
+      >
+        
+        <div>
+          Last Name is required
+        </div>
+        
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="title"
+      >
+        Title
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="title"
+        id="user-form-title"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Title"
+        type="text"
+      />
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="status"
+      >
+        Status*
+      </label>
+      <select
+        class="form-control"
+        formcontrolname="status"
+        id="user-form-status"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Status"
+      >
+        <option
+          value="true"
+        >
+          Active
+        </option>
+        <option
+          value="false"
+        >
+          Inactive
+        </option>
+      </select>
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="phoneNumber"
+      >
+        Phone Number
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="phoneNumber"
+        id="user-form-phone-number"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Phone Number"
+        type="text"
+      />
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="emailAddress"
+      >
+        Email Address*
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="emailAddress"
+        id="user-form-email-address"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Email Address"
+        type="text"
+      />
+      
+      <div
+        class="invalid-feedback"
+      >
+        
+        <div>
+          Email Address is required
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="userRole"
+      >
+        User Role*
+      </label>
+      <select
+        class="form-control"
+        formcontrolname="userRole"
+        id="user-form-user-role"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="User Role"
+      >
+        
+      </select>
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="ssoId"
+      >
+        SSO ID
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="ssoId"
+        id="user-form-ssoid"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="SSO ID"
+        type="text"
+      />
+      
+    </div>
+    
+    <div>
+      
+      <div
+        class="form-group"
+      >
+        <label
+          class="control-label"
+          for="password"
+        >
+          Password*
+        </label>
+        <input
+          class="form-control"
+          formcontrolname="password"
+          id="user-form-password"
+          ng-reflect-klass="form-control"
+          ng-reflect-ng-class="[object Object]"
+          placeholder="Password"
+          type="password"
+        />
+        
+        <div
+          class="invalid-feedback"
+        >
+          
+          <div>
+            Password is required
+          </div>
+          
+          
+        </div>
+        <button
+          class="btn btn-link"
+          type="button"
+        >
+          Automatically generate a new password...
+        </button>
+      </div>
+      
+      <div>
+        <label>
+          <input
+            formcontrolname="sendWelcomeEmail"
+            type="checkbox"
+          />
+           Send an email to this user with their password and login instructions upon save 
+        </label>
+      </div>
+    </div>
+  </form>
+</pf-user-form>
+`;
+
+exports[`Admin - Company Admin - User Component Should display new user form 1`] = `
+<pf-user-form
+  DEFAULT_STATUS={[Function Boolean]}
+  DEFAULT_USER_ROLE={[Function Number]}
+  MAX_EMAIL_LENGTH={[Function Number]}
+  MAX_NAME_LENGTH={[Function Number]}
+  MAX_PASSWORD_LENGTH={[Function Number]}
+  MAX_TITLE_LENGTH={[Function Number]}
+  MIN_PASSWORD_LENGTH={[Function Number]}
+  _showPassword={[Function Boolean]}
+  formBuilder={[Function FormBuilder]}
+  saveUser={[Function EventEmitter]}
+  user={[Function Object]}
+  userApiService="undefined"
+  userForm={[Function FormGroup]}
+>
+  <form
+    autocomplete="nope"
+    id="user-form"
+  >
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="firstName"
+      >
+        First Name*
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="firstName"
+        id="user-form-first-name"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="First Name"
+        type="text"
+      />
+      
+      <div
+        class="invalid-feedback"
+      >
+        
+        <div>
+          First Name is required
+        </div>
+        
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="lastName"
+      >
+        Last Name*
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="lastName"
+        id="user-form-last-name"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Last Name"
+        type="text"
+      />
+      
+      <div
+        class="invalid-feedback"
+      >
+        
+        <div>
+          Last Name is required
+        </div>
+        
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="title"
+      >
+        Title
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="title"
+        id="user-form-title"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Title"
+        type="text"
+      />
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="status"
+      >
+        Status*
+      </label>
+      <select
+        class="form-control"
+        formcontrolname="status"
+        id="user-form-status"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Status"
+      >
+        <option
+          value="true"
+        >
+          Active
+        </option>
+        <option
+          value="false"
+        >
+          Inactive
+        </option>
+      </select>
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="phoneNumber"
+      >
+        Phone Number
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="phoneNumber"
+        id="user-form-phone-number"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Phone Number"
+        type="text"
+      />
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="emailAddress"
+      >
+        Email Address*
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="emailAddress"
+        id="user-form-email-address"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Email Address"
+        type="text"
+      />
+      
+      <div
+        class="invalid-feedback"
+      >
+        
+        <div>
+          Email Address is required
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="userRole"
+      >
+        User Role*
+      </label>
+      <select
+        class="form-control"
+        formcontrolname="userRole"
+        id="user-form-user-role"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="User Role"
+      >
+        
+      </select>
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="ssoId"
+      >
+        SSO ID
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="ssoId"
+        id="user-form-ssoid"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="SSO ID"
+        type="text"
+      />
+      
+    </div>
+    
+    <div>
+      
+      <div
+        class="form-group"
+      >
+        <label
+          class="control-label"
+          for="password"
+        >
+          Password*
+        </label>
+        <input
+          class="form-control"
+          formcontrolname="password"
+          id="user-form-password"
+          ng-reflect-klass="form-control"
+          ng-reflect-ng-class="[object Object]"
+          placeholder="Password"
+          type="password"
+        />
+        
+        <div
+          class="invalid-feedback"
+        >
+          
+          <div>
+            Password is required
+          </div>
+          
+          
+        </div>
+        <button
+          class="btn btn-link"
+          type="button"
+        >
+          Automatically generate a new password...
+        </button>
+      </div>
+      
+      <div>
+        <label>
+          <input
+            formcontrolname="sendWelcomeEmail"
+            type="checkbox"
+          />
+           Send an email to this user with their password and login instructions upon save 
+        </label>
+      </div>
+    </div>
+  </form>
+</pf-user-form>
+`;
+
+exports[`Admin - Company Admin - User Component Should populate user form with mock data 1`] = `
+<pf-user-form
+  DEFAULT_STATUS={[Function Boolean]}
+  DEFAULT_USER_ROLE={[Function Number]}
+  MAX_EMAIL_LENGTH={[Function Number]}
+  MAX_NAME_LENGTH={[Function Number]}
+  MAX_PASSWORD_LENGTH={[Function Number]}
+  MAX_TITLE_LENGTH={[Function Number]}
+  MIN_PASSWORD_LENGTH={[Function Number]}
+  _showPassword="false"
+  formBuilder={[Function FormBuilder]}
+  saveUser={[Function EventEmitter]}
+  user={[Function Object]}
+  userApiService="undefined"
+  userForm={[Function FormGroup]}
+>
+  <form
+    autocomplete="nope"
+    id="user-form"
+  >
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="firstName"
+      >
+        First Name*
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="firstName"
+        id="user-form-first-name"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="First Name"
+        type="text"
+      />
+      
+      <div
+        class="invalid-feedback"
+      >
+        
+        <div>
+          First Name is required
+        </div>
+        
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="lastName"
+      >
+        Last Name*
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="lastName"
+        id="user-form-last-name"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Last Name"
+        type="text"
+      />
+      
+      <div
+        class="invalid-feedback"
+      >
+        
+        <div>
+          Last Name is required
+        </div>
+        
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="title"
+      >
+        Title
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="title"
+        id="user-form-title"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Title"
+        type="text"
+      />
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="status"
+      >
+        Status*
+      </label>
+      <select
+        class="form-control"
+        formcontrolname="status"
+        id="user-form-status"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Status"
+      >
+        <option
+          value="true"
+        >
+          Active
+        </option>
+        <option
+          value="false"
+        >
+          Inactive
+        </option>
+      </select>
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="phoneNumber"
+      >
+        Phone Number
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="phoneNumber"
+        id="user-form-phone-number"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Phone Number"
+        type="text"
+      />
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="emailAddress"
+      >
+        Email Address*
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="emailAddress"
+        id="user-form-email-address"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="Email Address"
+        type="text"
+      />
+      
+      <div
+        class="invalid-feedback"
+      >
+        
+        <div>
+          Email Address is required
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="userRole"
+      >
+        User Role*
+      </label>
+      <select
+        class="form-control"
+        formcontrolname="userRole"
+        id="user-form-user-role"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="User Role"
+      >
+        
+      </select>
+      
+    </div>
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="ssoId"
+      >
+        SSO ID
+      </label>
+      <input
+        class="form-control"
+        formcontrolname="ssoId"
+        id="user-form-ssoid"
+        ng-reflect-klass="form-control"
+        ng-reflect-ng-class="[object Object]"
+        placeholder="SSO ID"
+        type="text"
+      />
+      
+    </div>
+    
+    <div>
+      
+      <div
+        class="form-group"
+      >
+        <label
+          class="control-label"
+          for="password"
+        >
+          Password*
+        </label>
+        <input
+          class="form-control"
+          formcontrolname="password"
+          id="user-form-password"
+          ng-reflect-klass="form-control"
+          ng-reflect-ng-class="[object Object]"
+          placeholder="Password"
+          type="password"
+        />
+        
+        <div
+          class="invalid-feedback"
+        >
+          
+          <div>
+            Password is required
+          </div>
+          
+          
+        </div>
+        <button
+          class="btn btn-link"
+          type="button"
+        >
+          Automatically generate a new password...
+        </button>
+      </div>
+      
+      <div>
+        <label>
+          <input
+            formcontrolname="sendWelcomeEmail"
+            type="checkbox"
+          />
+           Send an email to this user with their password and login instructions upon save 
+        </label>
+      </div>
+    </div>
+  </form>
+</pf-user-form>
+`;

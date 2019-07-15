@@ -26,7 +26,7 @@ describe('UserRolePageComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          userRoleAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
+          companyAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
 
         // PF

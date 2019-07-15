@@ -19,8 +19,8 @@ import * as fromUserRoleUserTabActions from '../../../actions/user-role-users-ta
 })
 export class UserRolePageComponent implements OnDestroy {
   currentUserRoleTabState: UserRoleTabState = UserRoleTabState.FUNCTION;
-  _UserRoleTabState: typeof UserRoleTabState = UserRoleTabState;
-  _RoleApiResponse: typeof RoleApiResponse = RoleApiResponse;
+  _UserRoleTabState = UserRoleTabState;
+  _RoleApiResponse = RoleApiResponse;
   currentTabStateSubscription: Subscription;
   currentRoleSubscription: Subscription;
   companyRolesSubscription: Subscription;

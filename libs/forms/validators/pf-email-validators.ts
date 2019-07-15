@@ -1,4 +1,5 @@
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { FormControl, ValidationErrors, AbstractControl } from '@angular/forms';
+import { UserApiService } from 'libs/data/payfactors-api';
 
 // List of popular blacklisted personal email domains from https://github.com/mailcheck/mailcheck/wiki/List-of-Popular-Domains
 const BLACKLISTED_DOMAINS: Set<string> = new Set([
@@ -59,6 +60,7 @@ enum EmailValidatorGroup {
 }
 
 export class PfEmailValidators {
+
   static emailFormat(control: FormControl): ValidationErrors {
     return !EMAIL_VALIDATOR.test(control.value) ? { 'emailFormat': { valid: false } } : null;
   }
@@ -70,5 +72,18 @@ export class PfEmailValidators {
     }
     const emailDomain: string = matches[EmailValidatorGroup.Domain];
     return BLACKLISTED_DOMAINS.has(emailDomain.toLowerCase()) ? { 'workEmail': { valid: false, domain: emailDomain } } : null;
+  }
+}
+
+export class PfEmailTakenValidator {
+  static createValidator(userApiService: UserApiService) {
+    return (control: AbstractControl) => {
+      if (!control.dirty || control.value === '') {
+        return new Promise(resolve => resolve(null));
+      }
+
+      return userApiService.emailExists(control.value)
+        .map(exists => exists === true ? { emailTaken: true } : null);
+    };
   }
 }

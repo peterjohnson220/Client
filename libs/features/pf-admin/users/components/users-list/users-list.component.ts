@@ -21,7 +21,7 @@ export class UsersListComponent implements OnInit {
   public userSelectionChange({ selectedRows }): void {
     if (selectedRows && selectedRows.length) {
       const item = selectedRows[0].dataItem;
-      this.router.navigate(['/companies/', item.CompanyId, 'users', item.UserId]);
+      this.router.navigate(['/company-admin/', item.CompanyId, 'users', item.UserId]);
     }
   }
 }

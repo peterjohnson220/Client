@@ -20,7 +20,7 @@ describe('AddCompanyRoleModalComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          userRoleAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
+          companyAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
         PfFormsModule
       ],

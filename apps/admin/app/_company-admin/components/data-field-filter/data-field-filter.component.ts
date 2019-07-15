@@ -20,7 +20,7 @@ export class DataFieldFilterComponent implements OnInit {
   @Output() roleDataRestrictionChange =  new EventEmitter();
   @Output() roleDataRestrictionChanged =  new EventEmitter();
   userContext$: Observable<UserContext>;
- _DataFieldTypes: typeof DataFieldTypes = DataFieldTypes;
+ _DataFieldTypes = DataFieldTypes;
   Operators = [{value: true, text: 'Is equal to'}, {value: false, text: 'Is not equal to'}];
   selectedField: DataField;
   constructor() { }
