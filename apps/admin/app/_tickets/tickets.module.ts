@@ -22,7 +22,9 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { TicketDetailCardComponent } from './components';
 import {
     AttachmentDeleteModalComponent, AttachmentDetailCardComponent, CompanyDetailCardComponent, TicketComponent, TicketFieldsComponent,
-    TicketListComponent, TicketListPageComponent, AttachmentUploadComponent, TicketListFilterComponent
+    TicketListComponent, TicketListPageComponent, AttachmentUploadComponent, TicketListFilterComponent,
+    TicketCommentsDetailComponent,
+    TicketCommentComponent
 } from './containers';
 import { TicketAttachmentEffects, TicketEffects, TicketListEffects, TicketLookupEffects } from './effects';
 import { reducers } from './reducers';
@@ -78,6 +80,8 @@ import * as fromFaIcons from './fa-icons';
     AttachmentDeleteModalComponent,
     AttachmentUploadComponent,
     TicketListFilterComponent,
+    TicketCommentsDetailComponent,
+    TicketCommentComponent,
 
     // Pages
     TicketListPageComponent

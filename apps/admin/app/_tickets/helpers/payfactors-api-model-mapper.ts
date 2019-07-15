@@ -17,7 +17,8 @@ import {
     UserTicketState,
     UserTicketType,
     TicketDetail,
-    TicketAttachment
+    TicketAttachment,
+    TicketComment
 } from '../models';
 import { getFileExtensionType, getFileExtensionCssClass } from 'libs/core/functions';
 
@@ -61,7 +62,8 @@ export class PayfactorsApiModelMapper {
           TicketTypeName: response.UserTicketType,
           TicketSubTypeName: response.FileType,
           TicketCssClass: response.TicketCssClass,
-        }
+        },
+        Comments: this.mapUserTicketCommentsToTicketComment(response.UserTicketComments),
       },
       CompanyInfo: null,
       Attachments: this.mapUserTicketFilesToTicketAttachment(response.UserTicketFiles)
@@ -131,6 +133,19 @@ export class PayfactorsApiModelMapper {
         ExtensionType: getFileExtensionType(utf.DisplayName),
         ExtensionCssClass: getFileExtensionCssClass(getFileExtensionType(utf.DisplayName.toLowerCase())),
         FileState: fileState
+      };
+    });
+  }
+
+  static mapUserTicketCommentsToTicketComment( userTicketComments: UserTicketComment[]): TicketComment[] {
+    return userTicketComments.map( utf => {
+      return {
+        TicketId: utf.UserTicketId,
+        UserTicketsCommentsId: utf.UserTicketsCommentsId,
+        UserEmail: utf.UserEmail,
+        UserFullName: utf.UserFullName,
+        Comments: utf.Comments,
+        CreateDate: utf.CreateDate
       };
     });
   }

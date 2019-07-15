@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import {
   UserTicketAttachmentDeleteRequest,
   UserTicketSearchRequest,
-  UserTicketUpdateRequest
+  UserTicketUpdateRequest,
+  UserTicketCommentRequest
 } from 'libs/models/payfactors-api/service/request';
 import {
   UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse
@@ -53,6 +54,25 @@ export class UserTicketApiService {
   deleteAttachment(request: UserTicketAttachmentDeleteRequest) {
     return this.payfactorsApiService.post(`${this.endpoint}(${request.UserTicketId})/Default.DeleteAttachment`, {
       UserTicketsFileId: request.UserTicketsFileId
+    });
+  }
+
+  deleteComment(request: UserTicketCommentRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}(${request.UserTicketId})/Default.DeleteComment`, {
+      UserTicketsCommentId: request.UserTicketsCommentId
+    });
+  }
+
+  addComment(request: UserTicketCommentRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}(${request.UserTicketId})/Default.AddComment`, {
+      Comments: request.Comments
+    });
+  }
+
+  updateComment(request: UserTicketCommentRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}(${request.UserTicketId})/Default.UpdateComment`, {
+      Comments: request.Comments,
+      UserTicketsCommentId: request.UserTicketsCommentId
     });
   }
 }

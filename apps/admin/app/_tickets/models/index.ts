@@ -8,3 +8,4 @@ export * from './user-ticket-state.model';
 export * from './user-ticket-type.model';
 export * from './ticket-attachment.model';
 export * from './upload-ticket-attachment.model';
+export * from './ticket-comment.model';

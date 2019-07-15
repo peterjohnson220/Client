@@ -5,7 +5,7 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
   ticketDetail={[Function Object]}
 >
   <div
-    style="padding-top:10px"
+    class="pt-3"
     title="Ticket Details"
   >
     <div

@@ -1,4 +1,5 @@
 import { generateMockUserTicketType, UserTicketType } from './user-ticket-type.model';
+import { generateMockTicketComment, TicketComment } from './ticket-comment.model';
 
 export interface TicketDetail {
   TicketId: number;
@@ -12,6 +13,7 @@ export interface TicketDetail {
   TicketState: string;
   LastUpdatedText: string;
   Description: string;
+  Comments: TicketComment[];
 }
 
 export function generateMockTicketDetail() {
@@ -30,6 +32,7 @@ export function generateMockTicketDetail() {
     TicketState: 'MockTicketState',
     LastUpdatedText: 'MockLastUpdatedText',
     Description: 'MockDescription',
-    UserTicketType: generateMockUserTicketType()
+    UserTicketType: generateMockUserTicketType(),
+    Comments: [generateMockTicketComment()]
   };
 }

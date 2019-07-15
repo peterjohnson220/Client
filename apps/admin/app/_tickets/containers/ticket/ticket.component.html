@@ -2,7 +2,7 @@
   [loadingErrorMessage]="'Error Loading Ticket'" (reload)="handleTicketReload">
   <div class="container-fluid" *ngIf="ticket">
     <div class="row">
-      <div style="padding-top:5px" class="col-sm-8">
+      <div class="col-sm-8 pt-2">
         <span class="detail-label">Description</span>
         <h4 class="ticket-description-title detail-text ">
           <pf-ellipsis-view-more [content]="ticket.Description" [maxLength]="350">
@@ -11,6 +11,7 @@
         <pf-ticket-fields *ngIf="ticket.TicketInfo" [ticket]="ticket.TicketInfo" (valueChange)="fieldChange($event)">
         </pf-ticket-fields>
         <pf-ticket-detail-card [ticketDetail]="ticket.TicketInfo"></pf-ticket-detail-card>
+        <pf-ticket-comments-detail [ticketId]="ticket.TicketInfo.TicketId" [comments]="ticket.TicketInfo.Comments"></pf-ticket-comments-detail>
       </div>
       <div class="col-sm-4">
         <pf-company-detail-card [companyDetail]="ticket.CompanyInfo"></pf-company-detail-card>

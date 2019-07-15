@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { UserTicketUpdateRequest } from 'libs/models/payfactors-api/service/request';
+import { UserTicketUpdateRequest, UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
 import { CompanyDetail, UserTicketItem, UserTicketTabItem } from '../models';
 
 export const LOAD_COMPANY_DETAIL = '[Admin / Tickets] Load Company Detail';
@@ -15,6 +15,15 @@ export const INITIALIZE_TICKET_TAB = '[Admin Tickets/ Ticket] Initialize Ticket 
 export const UPDATE_TICKET = '[Admin Tickets / Ticket] Update Ticket';
 export const UPDATE_TICKET_SUCCESS = '[Admin Tickets / Ticket] Update Ticket Success';
 export const UPDATE_TICKET_ERROR = '[Admin Tickets / Ticket] Update Ticket Error';
+
+// Comments
+export const CREATE_COMMENT = '[Admin Tickets / Ticket ] Create Comment';
+export const CREATE_COMMENT_ERROR = '[Admin Tickets / Ticket ] Create Comment Error';
+export const DELETE_COMMENT = '[Admin Tickets / Ticket ] Delete Comment';
+export const DELETE_COMMENT_ERROR = '[Admin Tickets / Ticket ] Delete Comment Error';
+export const UPDATE_COMMENT = '[Admin Tickets / Ticket ] Update Comment';
+export const UPDATE_COMMENT_ERROR = '[Admin Tickets / Ticket ] Update Comment Error';
+
 
 export class LoadCompanyDetail implements Action {
   readonly type = LOAD_COMPANY_DETAIL;
@@ -86,6 +95,34 @@ export class UpdateTicketError implements Action {
   readonly type = UPDATE_TICKET_ERROR;
 }
 
+export class CreateComment implements Action {
+  readonly type = CREATE_COMMENT;
+  constructor(public payload: UserTicketCommentRequest) {}
+}
+export class CreateCommentError implements Action {
+  readonly type = CREATE_COMMENT_ERROR;
+}
+
+export class DeleteComment implements Action {
+  readonly type = DELETE_COMMENT;
+
+  constructor(public payload: UserTicketCommentRequest) {}
+}
+
+export class DeleteCommentError implements Action {
+  readonly type = DELETE_COMMENT_ERROR;
+}
+
+export class UpdateComment implements Action {
+  readonly type = UPDATE_COMMENT;
+
+  constructor(public payload: UserTicketCommentRequest) {}
+}
+
+export class UpdateCommentError implements Action {
+  readonly type = UPDATE_COMMENT_ERROR;
+}
+
 export type Actions
   = LoadCompanyDetail
   | LoadCompanyDetailSuccess
@@ -99,4 +136,10 @@ export type Actions
   | InitializeTicketTab
   | UpdateTicket
   | UpdateTicketSuccess
-  | UpdateTicketError;
+  | UpdateTicketError
+  | CreateComment
+  | CreateCommentError
+  | DeleteComment
+  | DeleteCommentError
+  | UpdateComment
+  | UpdateCommentError;

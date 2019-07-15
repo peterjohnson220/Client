@@ -1,0 +1,50 @@
+
+  <div class="d-flex">
+    <div class="p-1 col-11 pf-comment">
+      <div class="row" *ngIf="comment.UserFullName && comment.CreateDate">
+        <div class="col col-12 mb-2">
+          <div class="d-flex flex-row">
+            <div class="pr-2">
+              Created by: <b>{{comment.UserFullName}}</b>
+            </div>
+            <div class="px-2">
+              Date: <b>{{comment.CreateDate | date:'shortDate'}}</b>&nbsp; Time:
+              <b>{{comment.CreateDate | date:'shortTime'}}</b>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-12 pf-comment-text" *ngIf="!editMode" [innerText]="comment.Comments"></div>
+        <div class="col col-12 pf-comment-text" *ngIf="editMode || comment.Comments === ''">
+          <textarea
+            autofocus
+            data-qa-id="txt-ticketsCommentsTextArea"
+            spellcheck="false" rows="1"
+            class="w-100 p-3" 
+            [pfFocus]="true"
+            (keyup)="updateText($event)"
+            (focusin)="updateText($event)">{{commentText}}</textarea>
+        </div>
+      </div>
+    </div>
+    <div class="p-1 col-1 align-self-center">
+      <div class="d-flex">
+        <div class="ml-auto p-2" *ngIf="comment.Comments !== commentText">
+          <a title="save" (click)="saveComment(comment)">
+            <fa-icon icon="save" size="lg" class="pf-secondary-color"></fa-icon>
+          </a>
+        </div>
+        <div class="ml-auto p-2" *ngIf="comment.Comments === commentText && comment.UserTicketsCommentsId">
+          <a title="edit" (click)="toggleEditMode()">
+            <fa-icon icon="edit" size="lg" class="pf-secondary-color"></fa-icon>
+          </a>
+        </div>
+        <div class="ml-auto p-2">
+          <a title="remove" (click)="removeComment(comment)">
+            <fa-icon icon="times" size="lg" class="pf-secondary-color"></fa-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
