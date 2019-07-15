@@ -83,5 +83,10 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
     this.propogateChange = fn;
   }
 
+  blur() {
+    const innerInput = this.elementRef.nativeElement.getElementsByTagName('input')[0];
+    innerInput.blur();
+  }
+
   registerOnTouched() { }
 }
