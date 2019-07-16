@@ -1,41 +1,16 @@
-<div class="section card mb-2" title="Ticket Details">
-  <div class="card-body">
-    <div class="row">
-      <div class="col-sm">
-        <div class="card-subtitle text-muted">ID</div>
-        <div class="card-text mb-2"><h4>{{ticketDetail.TicketId}}</h4></div>
-      </div>
-      <div class="col-sm">
-        <div class="card-subtitle text-muted">Status</div>
-        <div class="card-text mb-2"><h4>{{ticketDetail.TicketState}}</h4></div>
-      </div>
+<div style="padding-top:10px" title="Ticket Details">
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="detail-label">Opened By</div>
+      <div class="detail-text mb-2">{{ticketDetail.OpenedBy}}</div>
     </div>
-    <div class="row">
-      <div class="col-sm">
-        <h4>
-          <span class="badge {{ticketDetail.UserTicketType.TicketCssClass}}">{{ticketDetail.UserTicketType.TicketTypeDisplayName}}</span>
-        </h4>
-      </div>
+    <div class="col-sm-3">
+      <div class="detail-label">Opened</div>
+      <div class="detail-text mb-2">{{ticketDetail.CreateDate | date:'shortDate'}}</div>
     </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="card-subtitle text-muted">Company</div>
-        <div class="card-text mb-2">{{ticketDetail.CompanyName}}</div>
-      </div>
-      <div class="col-sm-6">
-        <div class="card-subtitle text-muted">Opened By</div>
-        <div class="card-text mb-2">{{ticketDetail.OpenedBy}}</div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="card-subtitle text-muted">Last Updated</div>
-        <div class="card-text mb-2">{{ticketDetail.LastUpdatedText}}</div>
-      </div>
-      <div class="col-sm-6">
-        <div class="card-subtitle text-muted">Submitted</div>
-        <div class="card-text mb-2">{{ticketDetail.CreateDate | date:'medium'}}</div>
-      </div>
+    <div class="col-sm-4">
+      <div class="detail-label">Last Updated</div>
+      <div class="detail-text mb-2">{{ticketDetail.LastUpdatedText}}</div>
     </div>
   </div>
 </div>

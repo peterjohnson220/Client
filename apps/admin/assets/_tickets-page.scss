@@ -1,4 +1,5 @@
 @import 'tickets-variables';
+@import 'colors';
 
 .badge {
 
@@ -18,4 +19,35 @@
     background-color: $tickets-tickettype-fileupload-background;
   }
 
+}
+
+//ticket detail:
+.ticket-header {
+  font-family: 'Segoe UI Bold', 'Segoe UI Regular', 'Segoe UI';
+  font-weight: 700;
+  font-style: normal;
+  font-size: 1.231rem;
+  color: $header-color;
+}
+
+.detail-label {
+  font-family: 'Segoe UI';
+  font-weight: 400;
+  color: $detail-label;
+  font-size: 0.9231rem;
+}
+
+.detail-text {
+  font-family: 'Segoe UI Semibold', 'Segoe UI Regular', 'Segoe UI';
+  font-weight: 600;
+  font-size: 1.077rem;
+}
+
+.detail-card {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(204, 204, 204, 1);
+  border-radius: 3px;
+  margin-top: 10px;
+  padding: 10px;
 }
