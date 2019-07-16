@@ -2,6 +2,7 @@
   <div class="container p-0">
     <kendo-upload [saveUrl]="uploadUrl"
         [showFileList]="false"
+        [restrictions]="fileRestrictions"
         (select)="selectEventHandler($event)"
         (error)="errorEventHandler($event)"
         (upload)="beginUploadEventHandler($event)"
