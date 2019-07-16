@@ -163,7 +163,7 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
     }
     case fromDashboardsActions.GET_DASHBOARD_VIEW_SUCCESS: {
       let dashboardViewClone = cloneDeep(state.dashboardView);
-      if (action.payload) {
+      if (action.payload && typeof action.payload === 'string') {
         dashboardViewClone = action.payload;
       }
       return {
