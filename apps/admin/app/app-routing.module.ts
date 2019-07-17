@@ -28,6 +28,10 @@ export const routes: Routes = [
       { path: 'org-data-loader',
         loadChildren: () => import('apps/admin/app/_org-data-loader/org-data-loader.module').then(m => m.OrgDataLoaderModule) },
       { path: 'tickets', loadChildren: () => import('apps/admin/app/_tickets/tickets.module').then(m => m.TicketsModule) },
+      {
+        path: 'data-insights',
+        loadChildren: () => import('apps/admin/app/_data-insights/data-insights.module').then(m => m.DataInsightsModule)
+      },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }
