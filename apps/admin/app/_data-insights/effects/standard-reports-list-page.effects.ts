@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ReportManagementApiService } from 'libs/data/payfactors-api';
@@ -22,6 +22,26 @@ export class StandardReportsListPageEffects {
               return new fromStandardReportsListPageActions.GetStandardReportDetailsSuccess(
                 PayfactorsApiModelMapper.mapReportDetailsResponseToStandardReportDetails(response)
               );
+            }),
+            catchError(() => of(new fromStandardReportsListPageActions.GetStandardReportDetailsError()))
+          );
+        }
+      )
+    );
+
+  @Effect()
+  syncPayfactorsReports$ = this.actions$
+    .pipe(
+      ofType(fromStandardReportsListPageActions.SYNC_STANDARD_REPORTS),
+      switchMap(() => {
+          return this.reportManagementService.syncPayfactorsReports().pipe(
+            mergeMap((response) => {
+              const actions = [];
+              actions.push(new fromStandardReportsListPageActions.SyncStandardReportsSuccess());
+              if (response > 0) {
+                actions.push(new fromStandardReportsListPageActions.GetStandardReportDetails());
+              }
+              return actions;
             }),
             catchError(() => of(new fromStandardReportsListPageActions.GetStandardReportDetailsError()))
           );

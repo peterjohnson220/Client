@@ -11,6 +11,7 @@ export class PayfactorsApiModelMapper {
       return {
         Id: tr.Id,
         Name: tr.Name,
+        DisplayName: tr.DisplayName,
         CreateDate: tr.CreateDate,
         EditDate: tr.EditDate,
         Summary: tr.Summary,

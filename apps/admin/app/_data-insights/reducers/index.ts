@@ -29,8 +29,14 @@ export const selectStandardReportsListPageState = createSelector(
   (state: DataInsightsManagementMainState) => state.standardReportsListPage
 );
 
-// Data Insights Page
+// Data Insights Management List Page
 export const getStandardReportDetailsAsync = createSelector(
   selectStandardReportsListPageState,
   fromStandardReportsListPageReducer.getStandardReportDetails
 );
+
+export const getSyncingStandardReports = createSelector(
+  selectStandardReportsListPageState,
+  fromStandardReportsListPageReducer.getSyncingStandardReports
+);
+

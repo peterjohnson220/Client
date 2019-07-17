@@ -14,4 +14,8 @@ export class ReportManagementApiService {
   getPayfactorsReportsDetails(): Observable<ReportDetailsResponse[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetPayfactorsReportsDetails`);
   }
+
+  syncPayfactorsReports(): Observable<number> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SyncPayfactorsReports`);
+  }
 }
