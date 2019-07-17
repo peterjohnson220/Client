@@ -1,10 +1,6 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
-
-import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
-
-import { View, Workbook } from '../../models';
+import { Workbook } from '../../models';
 
 
 @Component({
@@ -14,7 +10,6 @@ import { View, Workbook } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkbookCardComponent {
-  @ViewChild('workbookViewsSearchComponent', { static: false }) public workbookViewsSearchComponent: InputDebounceComponent;
   @Input() workbook: Workbook;
   @Output() favoriteClicked: EventEmitter<Workbook> = new EventEmitter();
   @Output() tagClicked: EventEmitter<Workbook> = new EventEmitter();
@@ -23,7 +18,6 @@ export class WorkbookCardComponent {
   displayActionsOverlay: boolean;
   hoverWorkbookContainer: boolean;
   showingViewPopover = false;
-  viewFilterValue: string;
 
   handleMouseOverWorkbookContainer() {
     this.hoverWorkbookContainer = true;
@@ -52,32 +46,6 @@ export class WorkbookCardComponent {
   handleViewsHidden() {
     this.showingViewPopover = false;
     this.displayActionsOverlay = this.hoverWorkbookContainer;
-    this.viewFilterValue = '';
   }
 
-  handleSearchValueChanged(value: string) {
-    this.viewFilterValue = value;
-  }
-
-  getViewUrl(view: View): string {
-    return view.ContentUrl.replace(this.workbook.ContentUrl + '/', '');
-  }
-
-  handleViewsMouseEnter(): void {
-    this.workbookViewsSearchComponent.blur();
-  }
-
-  trackByFn(index: any, view: View) {
-    return view.ViewId ;
-  }
-
-  get filteredViews(): View[] {
-    if (!this.workbook.Views) {
-      return [];
-    }
-    const allViews = cloneDeep(this.workbook.Views.obj);
-    return this.viewFilterValue
-      ? allViews.filter(vw => vw.ViewName.toLowerCase().includes(this.viewFilterValue.toLowerCase()))
-      : allViews;
-  }
 }

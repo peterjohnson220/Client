@@ -18,6 +18,8 @@ export class SearchWorkbookResultComponent {
 
   handleOpenViewsClicked() {
     this.openViews = !this.openViews;
-    this.openViewsClicked.emit(this.workbook);
+    if (this.openViews) {
+      this.openViewsClicked.emit(this.workbook);
+    }
   }
 }

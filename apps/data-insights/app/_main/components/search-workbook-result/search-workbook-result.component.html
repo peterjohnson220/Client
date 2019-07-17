@@ -1,4 +1,4 @@
-<div class="search-result-container d-flex flex-column" [ngClass]="openViews ? 'expanded' : ''">
+<div *ngIf="workbook" class="search-result-container d-flex flex-column" [ngClass]="openViews ? 'expanded' : ''">
   <div class="d-flex flex-row justify-content-between header">
     <div class="workbook-name">
       <a class="btn" title="Open Workbook"

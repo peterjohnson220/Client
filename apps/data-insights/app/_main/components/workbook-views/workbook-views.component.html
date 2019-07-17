@@ -1,4 +1,4 @@
-<div *ngIf="workbook.Views" class="workbook-views">
+<div *ngIf="workbook && workbook.Views" class="workbook-views">
   <pf-async-container
     [loading]="workbook.Views.loading"
     [loadingError]="workbook.Views.loadingError"
