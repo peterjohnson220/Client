@@ -1,0 +1,28 @@
+<ng-container *ngIf="(standardReportDetails$ | async) as standardReportDetailsAsync">
+  <pf-async-container [loading]="standardReportDetailsAsync.loading"
+                      [loadingError]="standardReportDetailsAsync.loadingError"
+                      [loadingErrorMessage]="'Error Loading Reports'">
+    <pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
+      <ng-container page-title>
+        Payfactors Reports
+      </ng-container>
+
+      <ng-container page-actions>
+        <pf-input-debounce
+          id="search-box"
+          [minWidth]="250"
+          (valueChanged)="updateSearchTerm($event)">
+        </pf-input-debounce>
+      </ng-container>
+
+      <ng-container page-content>
+        <pf-standard-reports-list
+          [loading]="standardReportDetailsAsync.loading"
+          [filter]="searchTerm"
+          [standardReportsList]="standardReportDetailsAsync.obj">
+        </pf-standard-reports-list>
+      </ng-container>
+
+    </pf-page-with-title-bar>
+  </pf-async-container>
+</ng-container>
