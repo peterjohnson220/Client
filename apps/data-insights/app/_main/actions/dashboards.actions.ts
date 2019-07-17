@@ -116,7 +116,7 @@ export class SaveWorkbookOrder implements Action {
 export class SaveWorkbookOrderSuccess implements Action {
   readonly type = SAVE_WORKBOOK_ORDER_SUCCESS;
 
-  constructor(public payload: { workbookIds: string[] }) {}
+  constructor(public payload: { workbookIds: string[], workbookOrderType?: WorkbookOrderType }) {}
 }
 
 export class SaveWorkbookOrderError implements Action {

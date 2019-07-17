@@ -145,11 +145,11 @@ export class DashboardsEffects {
       ),
       switchMap((data) => {
         const workbookIds = data.action.payload.workbookIds;
-        const request = PayfactorsApiModelMapper.buildSaveWorkbookOrderRequest(
-          workbookIds, data.view, data.action.payload.workbookOrderType);
+        const typeOverride = data.action.payload.workbookOrderType;
+        const request = PayfactorsApiModelMapper.buildSaveWorkbookOrderRequest(workbookIds, data.view, typeOverride);
         return this.userReportApiService.saveWorkbookOrder(request)
           .pipe(
-            map(() => new fromAllDashboardsActions.SaveWorkbookOrderSuccess({ workbookIds })),
+            map(() => new fromAllDashboardsActions.SaveWorkbookOrderSuccess({ workbookIds, workbookOrderType: typeOverride })),
             catchError(() => of(new fromAllDashboardsActions.SaveWorkbookOrderError()))
           );
       })
