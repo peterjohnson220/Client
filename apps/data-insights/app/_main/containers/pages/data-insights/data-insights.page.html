@@ -1,11 +1,18 @@
 <div class="page d-flex flex-column">
-  <div class="d-flex justify-content-between align-items-center">
-    <div class="header d-flex">
+  <div class="header d-flex justify-content-between align-items-center">
+    <div class="title d-flex">
       Data Insights
     </div>
 
-    <div class="d-flex space-out-children">
-      <!--Future home for search-->
+    <div class="actions d-flex space-out-children">
+      <div class="search d-flex flex-nowrap" (click)="handleSearchClicked()">
+        <div class="icon d-flex flex-column">
+          <fa-icon icon="search"></fa-icon>
+        </div>
+        <div class="icon-title">
+          <span>Search</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -13,7 +20,7 @@
     <div class="row align-items-center">
       <ng-container *ngFor="let standardReport of (standardReports$ | async)?.obj; trackBy: trackByFn">
         <div class="col-12 col-sm-6 col-lg-3 h-100">
-          <pf-standard-report [report]="standardReport"></pf-standard-report>
+          <pf-standard-report [workbook]="standardReport"></pf-standard-report>
         </div>
       </ng-container>
     </div>
@@ -24,3 +31,5 @@
   </div>
 
 </div>
+
+<pf-search-workbook-modal></pf-search-workbook-modal>

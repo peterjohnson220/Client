@@ -1,0 +1,22 @@
+@import 'colors';
+
+.modal-body {
+
+  .search-results {
+    background: #eaeaea;
+  }
+
+  .no-results-message {
+    font-size: 16px;
+    border-top: 1px solid #e9ecef;
+    padding: 1.5rem 1rem;
+  }
+
+  .search-bar {
+    .search-icon {
+      color: $pf-brand-secondary-color;
+      font-size: 1.25em;
+      padding: 1.5rem;
+    }
+  }
+}

@@ -69,3 +69,33 @@
   margin-bottom: 20px;
 }
 
+.search-modal {
+  .modal-body {
+    padding: 0;
+  }
+
+  .modal-dialog {
+    margin: 9rem auto;
+  }
+
+  .form-control {
+    border: none;
+    padding: 1rem;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  input {
+    height: 60px;
+    font-size: 24px;
+    border: none;
+    border-bottom: solid 1px #ccc;
+    border-radius: 0;
+  }
+
+  .input-group-append {
+    display: none;
+  }
+}
+

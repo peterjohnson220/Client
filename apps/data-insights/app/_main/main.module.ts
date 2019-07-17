@@ -14,8 +14,9 @@ import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent } from './components';
-import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent } from './containers';
+import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
+  WorkbookViewsComponent } from './components';
+import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, SearchWorkbookModalComponent } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -50,9 +51,10 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, TagWorkbookModalComponent,
+    SearchWorkbookModalComponent,
 
     // Components
-    StandardReportComponent, WorkbookCardComponent
+    StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent
   ],
   providers: [
     WindowRef

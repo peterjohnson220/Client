@@ -2,6 +2,8 @@
 import { faStar } from '@fortawesome/pro-solid-svg-icons/faStar';
 import { faTag as fasTag } from '@fortawesome/pro-solid-svg-icons/faTag';
 import { faCaretDown } from '@fortawesome/pro-solid-svg-icons/faCaretDown';
+import { faSearch } from '@fortawesome/pro-solid-svg-icons/faSearch';
+import { faCaretRight } from '@fortawesome/pro-solid-svg-icons/faCaretRight';
 
 // Light
 import { faSitemap } from '@fortawesome/pro-light-svg-icons/faSitemap';
@@ -13,4 +15,5 @@ import { faUsers } from '@fortawesome/pro-light-svg-icons/faUsers';
 import { faTag } from '@fortawesome/pro-regular-svg-icons/faTag';
 import { faStar as falStar } from '@fortawesome/pro-regular-svg-icons/faStar';
 
-export const faIcons = [ faChartBar, faSitemap, faUsers, faListUl, falStar, faStar, faTag, fasTag, faCaretDown ];
+export const faIcons = [ faChartBar, faSitemap, faUsers, faListUl, falStar, faStar, faTag, fasTag, faCaretDown,
+  faSearch, faCaretRight ];

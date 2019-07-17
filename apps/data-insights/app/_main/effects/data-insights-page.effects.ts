@@ -20,7 +20,7 @@ export class DataInsightsPageEffects {
           return this.tableauReportApiService.getStandardReports().pipe(
             map((response) => {
               return new fromDataInsightsPageActions.GetStandardReportsSuccess(
-                PayfactorsApiModelMapper.mapTableauReportResponsesToStandardReports(response)
+                PayfactorsApiModelMapper.mapTableauReportResponsesToWorkbooks(response)
               );
             }),
             catchError(() => of(new fromDataInsightsPageActions.GetStandardReportsError()))
