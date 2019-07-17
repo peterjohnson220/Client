@@ -89,8 +89,11 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
     }
     case fromDashboardsActions.SAVE_WORKBOOK_ORDER_SUCCESS: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
-      companyWorkbooksAsyncClone.obj = DashboardsHelper.applyWorkbookOrderByView(
-        companyWorkbooksAsyncClone.obj, action.payload.workbookIds, state.dashboardView);
+      const typeOverride = action.payload.workbookOrderType;
+      if (!typeOverride) {
+        companyWorkbooksAsyncClone.obj = DashboardsHelper.applyWorkbookOrderByView(
+          companyWorkbooksAsyncClone.obj, action.payload.workbookIds, state.dashboardView);
+      }
       return {
         ...state,
         companyWorkbooksAsync: companyWorkbooksAsyncClone
