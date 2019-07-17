@@ -5,125 +5,52 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
   ticketDetail={[Function Object]}
 >
   <div
-    class="section card mb-2"
+    style="padding-top:10px"
     title="Ticket Details"
   >
     <div
-      class="card-body"
+      class="row"
     >
       <div
-        class="row"
+        class="col-sm-5"
       >
         <div
-          class="col-sm"
+          class="detail-label"
         >
-          <div
-            class="card-subtitle text-muted"
-          >
-            ID
-          </div>
-          <div
-            class="card-text mb-2"
-          >
-            <h4>
-              1
-            </h4>
-          </div>
+          Opened By
         </div>
         <div
-          class="col-sm"
+          class="detail-text mb-2"
         >
-          <div
-            class="card-subtitle text-muted"
-          >
-            Status
-          </div>
-          <div
-            class="card-text mb-2"
-          >
-            <h4>
-              MockTicketState
-            </h4>
-          </div>
+          MockOpenedByUser
         </div>
       </div>
       <div
-        class="row"
+        class="col-sm-3"
       >
         <div
-          class="col-sm"
+          class="detail-label"
         >
-          <h4>
-            <span
-              class="badge MockTicketCssClass"
-            >
-              MockTicketTypeDisplayName
-            </span>
-          </h4>
+          Opened
+        </div>
+        <div
+          class="detail-text mb-2"
+        >
+          1/1/90
         </div>
       </div>
       <div
-        class="row"
+        class="col-sm-4"
       >
         <div
-          class="col-sm-6"
+          class="detail-label"
         >
-          <div
-            class="card-subtitle text-muted"
-          >
-            Company
-          </div>
-          <div
-            class="card-text mb-2"
-          >
-            MockCompanyName
-          </div>
+          Last Updated
         </div>
         <div
-          class="col-sm-6"
+          class="detail-text mb-2"
         >
-          <div
-            class="card-subtitle text-muted"
-          >
-            Opened By
-          </div>
-          <div
-            class="card-text mb-2"
-          >
-            MockOpenedByUser
-          </div>
-        </div>
-      </div>
-      <div
-        class="row"
-      >
-        <div
-          class="col-sm-6"
-        >
-          <div
-            class="card-subtitle text-muted"
-          >
-            Last Updated
-          </div>
-          <div
-            class="card-text mb-2"
-          >
-            MockLastUpdatedText
-          </div>
-        </div>
-        <div
-          class="col-sm-6"
-        >
-          <div
-            class="card-subtitle text-muted"
-          >
-            Submitted
-          </div>
-          <div
-            class="card-text mb-2"
-          >
-            Jan 1, 1990, 12:00:00 AM
-          </div>
+          MockLastUpdatedText
         </div>
       </div>
     </div>
