@@ -26,10 +26,18 @@
         <pf-standard-reports-list
           [loading]="standardReportDetailsAsync.loading"
           [filter]="searchTerm"
-          [standardReportsList]="filteredStandardReports">
+          [standardReportsList]="filteredStandardReports"
+          (editClicked)="handleEditClicked($event)">
         </pf-standard-reports-list>
       </ng-container>
 
     </pf-page-with-title-bar>
   </pf-async-container>
 </ng-container>
+
+<pf-edit-report-modal
+  [report]="selectedReport"
+  [saving]="savingReport$ | async"
+  [cloudFilesPublicBaseUrl]="cloudFilesPublicBaseUrl"
+  (saveClicked)="handleSaveClicked($event)">
+</pf-edit-report-modal>

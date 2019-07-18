@@ -1,0 +1,16 @@
+@import 'common/common-variables';
+
+.title {
+  margin-bottom: 1rem;
+  @extend %ellipsis-overflowing-text;
+}
+
+.summary {
+  height: 120px;
+}
+
+.thumbnail {
+  width: 200px;
+  border: solid 1px #cccccc;
+  margin-top: 1rem;
+}

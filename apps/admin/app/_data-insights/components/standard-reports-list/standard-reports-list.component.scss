@@ -1,7 +1,22 @@
-@import "kendo-grid";
+@import 'kendo-grid';
 
-.k-grid a {
-  padding: 10px;
-  color: #1872ae;
-  text-decoration: none;
+:host ::ng-deep .k-grid {
+
+  a {
+    padding: 10px;
+    color: #1872ae;
+    text-decoration: none;
+  }
+
+  tr, tr.k-alt {
+    &:hover {
+      button {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.btn-edit {
+  visibility: hidden;
 }

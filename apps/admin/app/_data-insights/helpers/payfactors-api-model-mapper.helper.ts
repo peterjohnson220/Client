@@ -1,6 +1,6 @@
-import {  ReportDetailsResponse } from 'libs/models/payfactors-api';
+import {  ReportDetailsResponse, UpdatePayfactorsReportDetailsRequest } from 'libs/models/payfactors-api';
 
-import { StandardReportDetails } from '../models';
+import { StandardReportDetails, EditReportFormData } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -19,6 +19,25 @@ export class PayfactorsApiModelMapper {
         ThumbnailUrl: tr.Thumbnail
       };
     });
+  }
+
+  static updateStandardReportDetails(target: StandardReportDetails, source: StandardReportDetails): StandardReportDetails {
+    target.DisplayName = source.DisplayName;
+    target.Summary = source.Summary;
+    target.ThumbnailUrl = source.ThumbnailUrl;
+    target.EditDate = source.EditDate;
+    target.LastEditedBy = source.LastEditedBy;
+    return target;
+  }
+
+  // OUT
+  static mapEditReportFormDataToUpdatePayfactorsReportDetailsRequest(data: EditReportFormData): UpdatePayfactorsReportDetailsRequest {
+    return {
+      WorkbookId: data.WorkbookId,
+      DisplayName: data.DisplayName,
+      Summary: data.Summary,
+      ThumbnailUrl: data.ThumbnailUrl
+    };
   }
 
 }

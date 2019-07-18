@@ -40,3 +40,7 @@ export const getSyncingStandardReports = createSelector(
   fromStandardReportsListPageReducer.getSyncingStandardReports
 );
 
+export const getSavingReport = createSelector(
+  selectStandardReportsListPageState,
+  fromStandardReportsListPageReducer.getSavingReport
+);
