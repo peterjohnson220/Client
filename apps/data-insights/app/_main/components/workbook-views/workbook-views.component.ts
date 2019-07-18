@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
@@ -12,13 +12,17 @@ import { Workbook, View } from '../../models';
   styleUrls: ['./workbook-views.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkbookViewsComponent {
+export class WorkbookViewsComponent implements OnDestroy {
   @Input() workbook: Workbook;
   @Input() searchEnabled = true;
 
   @ViewChild('workbookViewsSearchComponent', { static: false })
   public workbookViewsSearchComponent: InputDebounceComponent;
   viewFilterValue: string;
+
+  ngOnDestroy() {
+    this.viewFilterValue = '';
+  }
 
   get filteredViews(): View[] {
     if (!this.workbook.Views) {
