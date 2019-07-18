@@ -5,7 +5,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { SavePasswordSettingsModalComponent } from './save-password-settings-modal.component';
-import * as fromRootState from '../../../../../../libs/state/state';
+import * as fromRootState from 'libs/state/state';
 import * as fromAdminReducer from '../../reducers';
 import * as fromCompanyAdminActions from '../../actions';
 import { CompanySettingsSaveRequest } from '../../../../../../libs/models/payfactors-api/settings/request';

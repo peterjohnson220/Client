@@ -123,7 +123,8 @@ export const getExchangeDataCutRequestData = createSelector(
   getPeerFilterLimitToPayMarket,
   getPeerFilterIncludeUntaggedIncumbents,
   getPeerFilterExcludeIndirectJobMatches,
-  (sf, fs, pmf, pfltp, includeUntaggedIncumbents, isExcludingIndirectJobMatches) => {
+  getPeerFilterScopeSelection,
+  (sf, fs, pmf, pfltp, includeUntaggedIncumbents, isExcludingIndirectJobMatches, selectedExchangeScope) => {
     return {
         ...sf,
         ...fs,
@@ -132,7 +133,8 @@ export const getExchangeDataCutRequestData = createSelector(
         IncludeUntaggedIncumbents: includeUntaggedIncumbents,
         // We store the inverse logic ("IsFilteredBySimilarExchangeJobIds") in the filter model so that the default will be false and
         // thus avoids any potential issues with existing data cuts/scopes. [JP]
-        IsFilteredBySimilarExchangeJobIds: !isExcludingIndirectJobMatches
+        IsFilteredBySimilarExchangeJobIds: !isExcludingIndirectJobMatches,
+        SelectedExchangeScopeId: !!selectedExchangeScope ? selectedExchangeScope.Id : null
     };
   });
 

@@ -1,0 +1,371 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExchangeDetailComponent should hide the approve/reject buttons when a company job with a pending match is selected 1`] = `
+<pf-exchange-job-detail
+  approveClick={[Function EventEmitter]}
+  exchangeJob={[Function Object]}
+  rejectClick={[Function EventEmitter]}
+  selectedCompanyJob={[Function Object]}
+  unmatchClick={[Function EventEmitter]}
+>
+  <section>
+    <div
+      class="d-flex"
+    >
+      <h5
+        class="mb-3 font-weight-bold flex-grow-2"
+      >
+        Exchange Job
+      </h5>
+      
+      
+      <div>
+        <button
+          class="unmatch"
+        >
+          <pf-unmatch-icon />
+          <span>
+            Unmatch
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="position-relative"
+    >
+      <pf-async-container>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Title:
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Family:
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Level:
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div
+          class="info-row border-0"
+        >
+          <label
+            class="font-weight-bold w-25"
+          >
+            Description:
+          </label>
+          
+          <p
+            class="font-italic"
+          >
+             No Job Description Available 
+          </p>
+          
+        </div>
+      </pf-async-container>
+    </div>
+  </section>
+</pf-exchange-job-detail>
+`;
+
+exports[`ExchangeDetailComponent should render the selected exchange jobs props 1`] = `
+<pf-exchange-job-detail
+  approveClick={[Function EventEmitter]}
+  exchangeJob={[Function Object]}
+  rejectClick={[Function EventEmitter]}
+  selectedCompanyJob={[Function Object]}
+  unmatchClick={[Function EventEmitter]}
+>
+  <section>
+    <div
+      class="d-flex"
+    >
+      <h5
+        class="mb-3 font-weight-bold flex-grow-2"
+      >
+        Exchange Job
+      </h5>
+      
+      
+    </div>
+    <div
+      class="position-relative"
+    >
+      <pf-async-container>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Title:
+          </label>
+          <span>
+            ExchangeJobTitle
+          </span>
+        </div>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Family:
+          </label>
+          <span>
+            ExchangeJobFamily
+          </span>
+        </div>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Level:
+          </label>
+          <span>
+            ExchangeJobLevel
+          </span>
+        </div>
+        <div
+          class="info-row border-0"
+        >
+          <label
+            class="font-weight-bold w-25"
+          >
+            Description:
+          </label>
+          
+          <p
+            class="font-italic"
+          >
+             No Job Description Available 
+          </p>
+          
+        </div>
+      </pf-async-container>
+    </div>
+  </section>
+</pf-exchange-job-detail>
+`;
+
+exports[`ExchangeDetailComponent should show the approve/reject buttons when a company job with a pending match is selected 1`] = `
+<pf-exchange-job-detail
+  approveClick={[Function EventEmitter]}
+  exchangeJob={[Function Object]}
+  rejectClick={[Function EventEmitter]}
+  selectedCompanyJob={[Function Object]}
+  unmatchClick={[Function EventEmitter]}
+>
+  <section>
+    <div
+      class="d-flex"
+    >
+      <h5
+        class="mb-3 font-weight-bold flex-grow-2"
+      >
+        Exchange Job
+      </h5>
+      
+      <div>
+        <button
+          class="approve mr-2"
+        >
+          <fa-icon
+            icon="check"
+          />
+          <span>
+            Approve
+          </span>
+        </button>
+        <button
+          class="reject"
+        >
+          <fa-icon
+            icon="times"
+          />
+          <span>
+            Reject
+          </span>
+        </button>
+      </div>
+      
+    </div>
+    <div
+      class="position-relative"
+    >
+      <pf-async-container>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Title:
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Family:
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Level:
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div
+          class="info-row border-0"
+        >
+          <label
+            class="font-weight-bold w-25"
+          >
+            Description:
+          </label>
+          
+          <p
+            class="font-italic"
+          >
+             No Job Description Available 
+          </p>
+          
+        </div>
+      </pf-async-container>
+    </div>
+  </section>
+</pf-exchange-job-detail>
+`;
+
+exports[`ExchangeDetailComponent should show the unmatch button when a matched company job is selected 1`] = `
+<pf-exchange-job-detail
+  approveClick={[Function EventEmitter]}
+  exchangeJob={[Function Object]}
+  rejectClick={[Function EventEmitter]}
+  selectedCompanyJob={[Function Object]}
+  unmatchClick={[Function EventEmitter]}
+>
+  <section>
+    <div
+      class="d-flex"
+    >
+      <h5
+        class="mb-3 font-weight-bold flex-grow-2"
+      >
+        Exchange Job
+      </h5>
+      
+      
+      <div>
+        <button
+          class="unmatch"
+        >
+          <pf-unmatch-icon />
+          <span>
+            Unmatch
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="position-relative"
+    >
+      <pf-async-container>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Title:
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Family:
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div
+          class="info-row"
+        >
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Level:
+          </label>
+          <span>
+            
+          </span>
+        </div>
+        <div
+          class="info-row border-0"
+        >
+          <label
+            class="font-weight-bold w-25"
+          >
+            Description:
+          </label>
+          
+          <p
+            class="font-italic"
+          >
+             No Job Description Available 
+          </p>
+          
+        </div>
+      </pf-async-container>
+    </div>
+  </section>
+</pf-exchange-job-detail>
+`;

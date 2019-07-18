@@ -11,8 +11,10 @@ import {
   RequestExchangeRequest, ExchangeRequestCandidatesRequest,
   SaveExchangeJobAssociationRequestModel, GetExchangeCompanyJobsAllEntityIdsRequest, AggregateGridDataResult
 } from '../../../models';
+import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 import { GenericMenuItem } from 'libs/models/common';
 
+import { ExchangeJobsSearchParams } from 'apps/peer/app/_manage/models/exchange-jobs-search-params.model';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -42,6 +44,18 @@ export class ExchangeCompanyApiService {
     );
   }
 
+  GetActiveCompanyJobsWithMatchedExchangeJob(listState: any, companyJobIds: number[],
+                                             searchTerm: string, exchangeId: number): Observable<GridDataResult> {
+    return this.payfactorsApiService.post<GridDataResult>(
+      `${this.endpoint}/GetActiveCompanyJobsWithMatchedExchangeJob`, {
+        ListState: listState,
+        SearchTerm: searchTerm,
+        ExchangeId: exchangeId
+      },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
   getExchangeJobsWithMappings(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeJobsWithMappings`,
@@ -62,6 +76,15 @@ export class ExchangeCompanyApiService {
       },
       MappingHelper.mapListAreaResultToAggregateGridDataResult
     );
+  }
+
+  getAssociatedExchangeJobs(companyJobId: number): Observable<ExchangeJob[]> {
+    const params = { params: { companyJobId } };
+    return this.payfactorsApiService.get<ExchangeJob[]>(`${this.endpoint}/GetAssociatedExchangeJobs`, params);
+  }
+
+  GetAssociableExchangeJobs(params: ExchangeJobsSearchParams) {
+    return this.payfactorsApiService.post<ExchangeJob[]>(`${this.endpoint}/GetAssociableExchangeJobs`, params);
   }
 
   getExchangeJobComparisonList(exchangeId: number, listState: any): Observable<GridDataResult> {
@@ -137,6 +160,14 @@ export class ExchangeCompanyApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteExchangeJobMapping`,
       exchangeJobToCompanyJobId
     );
+  }
+
+  deleteExchangeJobMappingByIds(request: UpsertExchangeJobMapRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteExchangeJobMappingByIds`, request);
+  }
+
+  approvePendingExchangeJobMapping(request: UpsertExchangeJobMapRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/ApprovePendingExchangeJobMapping`, request);
   }
 
   getExchangeJobOrgs(exchangeJobId: number): Observable<string[]> {

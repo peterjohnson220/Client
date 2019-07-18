@@ -8,6 +8,7 @@ import { DataStateChangeEvent, PageChangeEvent } from '@progress/kendo-angular-g
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { GridTypeEnum } from 'libs/models/common';
+import { generateMockCompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 
 import { CompanyJobsGridComponent } from './company-jobs-grid.component';
 import * as companyJobsActions from '../../actions/company-jobs.actions';
@@ -92,5 +93,56 @@ describe('CompanyJobsGridComponent', () => {
     // Assert
     expect(store.dispatch).toHaveBeenCalledWith(pageChangeAction);
     expect(store.dispatch).toHaveBeenCalledWith(loadCompanyJobsAction);
+  });
+
+  it ('should not do anything when handleCellClick is called for the already selected company job', () => {
+    // Arrange
+    component.selectedCompanyJob = { ...generateMockCompanyJob(), CompanyJobId: 123 };
+
+    // Act
+    component.handleCellClick({ dataItem: { CompanyJobId: 123 }, rowIndex: 456 });
+
+    // Assert
+    const unexpectedScrollAction = new companyJobsActions.UpdatePageRowIndexToScrollTo(456);
+    const unexpectedLoadAction = new companyJobsActions.LoadMappedExchangeJobs(123);
+    const unexpectedSearchAction = new companyJobsActions.SearchExchangeJobs();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(unexpectedScrollAction);
+    expect(store.dispatch).not.toHaveBeenCalledWith(unexpectedLoadAction);
+    expect(store.dispatch).not.toHaveBeenCalledWith(unexpectedSearchAction);
+  });
+
+  it ('should scroll and load mapped exchange jobs when an associated company job is selected', () => {
+    // Arrange
+    component.companyJobsGridState = { skip: 0 };
+
+    // Act
+    component.handleCellClick({ dataItem: { CompanyJobId: 789, IsAssociated: true }, rowIndex: 20 });
+
+    // Assert
+    const expectedScrollAction = new companyJobsActions.UpdatePageRowIndexToScrollTo(20);
+    const expectedLoadAction = new companyJobsActions.LoadMappedExchangeJobs(789);
+    const unexpectedSearchAction = new companyJobsActions.SearchExchangeJobs();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedScrollAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedLoadAction);
+    expect(store.dispatch).not.toHaveBeenCalledWith(unexpectedSearchAction);
+  });
+
+  it ('should scroll and search exchange jobs when a new unassociated company job is selected', () => {
+    // Arrange
+    component.companyJobsGridState = { skip: 0 };
+
+    // Act
+    component.handleCellClick({ dataItem: { CompanyJobId: 789, IsAssociated: false }, rowIndex: 20 });
+
+    // Assert
+    const expectedScrollAction = new companyJobsActions.UpdatePageRowIndexToScrollTo(20);
+    const expectedLoadAction = new companyJobsActions.LoadMappedExchangeJobs(789);
+    const unexpectedSearchAction = new companyJobsActions.SearchExchangeJobs();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedScrollAction);
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedLoadAction);
+    expect(store.dispatch).toHaveBeenCalledWith(unexpectedSearchAction);
   });
 });

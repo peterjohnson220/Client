@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { AsyncStateObj, MatchResult, SurveyScope } from '../../models';
+import { AsyncStateObj } from 'libs/models';
+
+import { MatchResult, SurveyScope } from '../../models';
 
 @Component({
   selector: 'pf-scope-selector',

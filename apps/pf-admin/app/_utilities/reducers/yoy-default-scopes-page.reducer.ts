@@ -1,10 +1,9 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { Company } from 'libs/models/company/company.model';
+import { Company, AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 
 import * as fromYoyDefaultScopesPageActions from '../actions/yoy-default-scopes-page.actions';
-import { DataListItem, generateDefaultAsyncStateObj, MatchResult, SurveyScope } from '../models';
-import { AsyncStateObj } from '../models/async-state-obj';
+import { DataListItem, MatchResult, SurveyScope } from '../models';
 
 export interface State {
   loadingCompany: boolean;
@@ -25,9 +24,9 @@ const initialState: State = {
   loadingDefaultScopeSurveys: false,
   loadingDefaultScopeSurveysError: false,
   defaultScopeSurveys: [],
-  matchResultsAsync: generateDefaultAsyncStateObj<MatchResult[]>(),
+  matchResultsAsync: generateDefaultAsyncStateObj<MatchResult[]>([]),
   filteredMatchResults: [],
-  surveyScopesAsync: generateDefaultAsyncStateObj<SurveyScope[]>(),
+  surveyScopesAsync: generateDefaultAsyncStateObj<SurveyScope[]>([])
 };
 
 export function reducer(state = initialState, action: fromYoyDefaultScopesPageActions.Actions): State {

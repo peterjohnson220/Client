@@ -1,0 +1,28 @@
+<pf-page-with-title-bar>
+  <ng-container page-title>
+    <button routerLink="/navigation" type="button" class="btn btn-secondary">
+      <fa-icon icon="long-arrow-alt-left"></fa-icon>
+    </button>
+    Job Description Loader - Select Company
+  </ng-container>
+  <ng-container page-content>
+    <div class="column-scroll-container col-12">
+      <pf-input-debounce id="search-box"
+                         class="mb-1 d-block"
+                         (valueChanged)="updateSearchTerm($event)"
+                         [placeholderText]="'Search for a Company...'">
+      </pf-input-debounce>
+      <div class="column-scroll-inner scroll-y">
+        <pf-companies-list
+          [selectedRowRouterLink]="loadJobDescriptionRouterLink"
+          [companiesList]="companies$ | async"
+          [loading]="companiesLoading$ | async"
+          [filter]="filter"
+          [view]="_CompaniesListViews.JOB_DESCRIPTION_MANAGEMENT_SELECT_COMPANY">
+        </pf-companies-list>
+      </div>
+      <span *ngIf="companiesLoading$ | async"><pf-loading-indicator></pf-loading-indicator> Loading...</span>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>
+

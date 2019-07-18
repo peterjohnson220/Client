@@ -10,7 +10,9 @@ import * as fromCommunitySearchReducer from '../../reducers';
 import { CommunityPost } from 'libs/models/community';
 
 import { ScrollDirectionEnum } from '../../models/scroll-direction.enum';
-import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
+import { CommunitySearchResultTypeEnum, CommunitySearchDurationEnum } from 'libs/models/community/community-constants.model';
+import { CommunitySearchSortByEnum } from 'libs/models/community/community-constants.model';
+import { CommunitySearchQuery } from 'libs/models/community/community-search-query.model';
 
 @Component({
   selector: 'pf-community-search-results',
@@ -25,12 +27,19 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   loadingSearchResultsError$: Observable<boolean>;
   loadingMoreSearchResults$: Observable<boolean>;
   communitySearchResults$: Observable<CommunityPost[]>;
+  totalSearchResults$: Observable<number>;
   hasMoreSearchResultsOnServer$: Observable<boolean>;
   hasMoreSearchResultsOnServerSubscription: Subscription;
   loadingMoreSearchResultsSubscription: Subscription;
+  totalSearchResultsSubscription: Subscription;
+
   query: string;
+  searchSort = CommunitySearchSortByEnum.Relevance;
+  searchDuration = CommunitySearchDurationEnum.AllTime;
+
   hasMoreResultsOnServer: boolean;
   loadingMoreSearchResults: boolean;
+  totalSearchResults: number;
   isNavigationVisible = false;
   scrollTimerId: number;
   scrollerTimeout = 1000;
@@ -51,6 +60,7 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     this.loadingMoreSearchResults$ = this.store.select(fromCommunitySearchReducer.getCommunityLoadingMoreSearchResults);
     this.communitySearchResults$ = this.store.select(fromCommunitySearchReducer.getCommunitySearchResults);
     this.hasMoreSearchResultsOnServer$ = this.store.select(fromCommunitySearchReducer.getHasMoreSearchResultsOnServer);
+    this.totalSearchResults$ = this.store.select(fromCommunitySearchReducer.getTotalSearchResultsOnServer);
   }
 
   ngOnInit() {
@@ -59,6 +69,9 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
 
   this.loadingMoreSearchResultsSubscription = this.loadingMoreSearchResults$.subscribe(result =>
   this.loadingMoreSearchResults = result);
+
+  this.totalSearchResultsSubscription = this.totalSearchResults$.subscribe(result =>
+    this.totalSearchResults = result);
   }
 
   ngOnDestroy() {
@@ -69,11 +82,17 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     if (this.loadingMoreSearchResultsSubscription) {
       this.loadingMoreSearchResultsSubscription.unsubscribe();
     }
+
+    if (this.totalSearchResultsSubscription) {
+      this.totalSearchResultsSubscription.unsubscribe();
+    }
   }
 
-  executeSearch(query) {
-    this.query = query;
-    this.store.dispatch(new fromCommunitySearchActions.SearchingCommunity(query));
+  executeSearch(searchQuery: CommunitySearchQuery) {
+    this.query = searchQuery.searchTerm;
+    this.searchSort = searchQuery.searchSort;
+    this.searchDuration = searchQuery.searchDuration;
+    this.store.dispatch(new fromCommunitySearchActions.SearchingCommunity(searchQuery));
 
     this.scrollToTop();
   }
@@ -98,7 +117,11 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
 
   onScrollDown() {
     if (this.query.length > 0 && this.hasMoreResultsOnServer && !this.loadingMoreSearchResults) {
-      this.store.dispatch(new fromCommunitySearchActions.GettingMoreCommunitySearchResults(this.query));
+      this.store.dispatch(
+        new fromCommunitySearchActions.GettingMoreCommunitySearchResults({
+          searchTerm: this.query,
+          searchSort: this.searchSort,
+          searchDuration: this.searchDuration}));
     }
   }
 

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { AsyncStateObj, MatchResult } from '../../models';
+import { AsyncStateObj } from 'libs/models';
+
+import { MatchResult } from '../../models';
 
 @Component({
   selector: 'pf-match-results',

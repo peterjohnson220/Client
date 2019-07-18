@@ -6,7 +6,7 @@ import {DataFieldTypes} from '../constants/data-field-type.constants';
 export interface State {
   currentRoleId: number;
   dataTypes: DataType[];
-  dataFields: DataField[],
+  dataFields: DataField[];
   currentRoleDataRestrictions: RoleDataRestriction[];
   currentRoleDataRestrictionsUnchanged: RoleDataRestriction[];
 }
@@ -53,7 +53,7 @@ export function reducer(state = initialState, action: fromDataAccessTabActions.D
     }
     case fromDataAccessTabActions.REMOVE_DATA_RESTRICTION: {
       const dataRestrictions = [...state.currentRoleDataRestrictions];
-      const index = state.currentRoleDataRestrictions.indexOf(action.dataRestriction)
+      const index = state.currentRoleDataRestrictions.indexOf(action.dataRestriction);
       dataRestrictions.splice(index, 1);
       return {
         ...state,

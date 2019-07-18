@@ -33,7 +33,7 @@
       </button>
     </a>
 
-    <button (click)="importAssociationClick()" [pfSecuredResource]="_Permissions.PEER_IMPORT_ASSOCIATIONS" type="button" title="Import Associations" id="import-popover-btn"
+    <button (click)="importAssociationClick()" [pfSecuredResource]="_Permissions.PEER_IMPORT_ASSOCIATIONS" type="button" title="Import Matches" id="import-popover-btn"
       class="btn btn-secondary" placement="bottom">
       <fa-icon icon="upload" aria-hidden="true"></fa-icon>
     </button>
@@ -41,14 +41,17 @@
   </ng-container>
 
   <ng-container page-content>
-    <!-- company jobs grid -->
+    <!-- company jobs grid and detail panel -->
     <div *ngIf="showCompanyJobs; else exchangeJobs" class="flex-column-container">
       <div class="h-100">
         <pf-company-jobs-grid></pf-company-jobs-grid>
+        <div *ngIf="selectedCompanyJob$ | async" class="mt-2 flex-grow-1">
+          <pf-company-job-and-exchange-detail></pf-company-job-and-exchange-detail>
+        </div>
       </div>
     </div>
 
-    <!-- exchange jobs grid -->
+    <!-- exchange jobs grid and detail panel -->
     <ng-template #exchangeJobs>
       <div class="flex-column-container">
         <div class="exchange-job-mapping-grid-container" [class.collapse-grid]="collapse">

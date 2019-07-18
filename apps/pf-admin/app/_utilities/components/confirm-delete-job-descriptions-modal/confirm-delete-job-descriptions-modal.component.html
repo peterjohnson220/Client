@@ -1,0 +1,43 @@
+<ng-template #confirmDeleteJobDescriptionsModalComponent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Delete Job Descriptions</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="!error; else errorMessage" class="modal-body">
+
+        You are about to delete all job descriptions associated to <strong>{{templateListItem.TemplateName}}</strong>.
+        This will include job descriptions in a Draft, Published or In Review status. This will also remove all
+        historical jobs descriptions. This is <strong>PERMANENT</strong> and cannot be undone.
+
+        <div class="form-group mt-3">
+            <label class="form-control-label">Please type in the name of the template to confirm.</label>
+            <input [(ngModel)]="templateNameConfirmValue" type="text" class="form-control" [disabled]="deleting">
+        </div>
+    </div>
+
+    <ng-template #errorMessage>
+        <div class="modal-body">
+            <div class="alert alert-danger">
+                Error Deleting Job Descriptions
+            </div>
+        </div>
+    </ng-template>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+                [disabled]="deleting" (click)="close()">
+            <span *ngIf="error">Close</span>
+            <span *ngIf="!error">Cancel</span>
+        </button>
+
+        <button type="button" class="btn btn-danger"
+                *ngIf="!error"
+                [disabled]="(templateNameConfirmValue !== templateListItem.TemplateName) || deleting"
+                (click)="confirmDelete()">
+            <span *ngIf="!deleting">Delete</span>
+            <span *ngIf="deleting"><pf-loading-indicator></pf-loading-indicator> Deleting...</span>
+        </button>
+    </div>
+</ng-template>

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { CompanyJob, Match, CompanyJobToMapTo, LatestCompanyJob } from 'libs/models';
+import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
-
 
 @Injectable()
 export class CompanyJobApiService {
@@ -38,4 +38,17 @@ export class CompanyJobApiService {
             { params: { companyJobIds: (companyJobIds) } })
         );
     }
+
+    getCompanyFLSAStatuses(): Observable<string[]> {
+        return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetCompanyFLSAStatuses`);
+    }
+
+    getJobUserDefinedFields(): Observable<CompanyJobUdfColumn[]> {
+      return this.payfactorsApiService.get<CompanyJobUdfColumn[]>(`${this.endpoint}.GetJobUserDefinedFields`);
+    }
+
+    createCompanyJob(request: CompanyJob): Observable<CompanyJob> {
+      return this.payfactorsApiService.post<CompanyJob>(`${this.endpoint}/`, request);
+    }
 }
+

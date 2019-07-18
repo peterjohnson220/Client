@@ -11,6 +11,7 @@ export interface State {
   exportingUserPollResponses: boolean;
   exportingUserPollResponsesSuccess: boolean;
   exportingUserPollResponsesError: boolean;
+  dismissedByUser: string[];
 }
 
 export const initialState: State = {
@@ -22,7 +23,8 @@ export const initialState: State = {
   dismissedResponseSuccess: false,
   exportingUserPollResponses: false,
   exportingUserPollResponsesSuccess: null,
-  exportingUserPollResponsesError: false
+  exportingUserPollResponsesError: false,
+  dismissedByUser: []
 };
 
 export function reducer(state = initialState, action: communityPollResponseActions.Actions): State {
@@ -59,6 +61,7 @@ export function reducer(state = initialState, action: communityPollResponseActio
     case communityPollResponseActions.DISMISSING_COMMUNITY_POLL_RESPONSE_SUCCESS: {
       return {
         ...state,
+        dismissedByUser: state.dismissedByUser.concat(action.payload),
         dismissingResponse: false,
         dismissingResponseError: false,
         dismissedResponseSuccess: true
@@ -109,3 +112,4 @@ export const getGettingCommunityPollResponsesError = (state: State) => state.loa
 export const getDismissingCommunityPollResponse = (state: State) => state.dismissingResponse;
 export const getDismissingCommunityPollResponseSuccess = (state: State) => state.dismissedResponseSuccess;
 export const getDismissingCommunityPollResponseError = (state: State) => state.dismissingResponseError;
+export const getDismissedResponses = (state: State) => state.dismissedByUser;

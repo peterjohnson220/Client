@@ -1,17 +1,80 @@
-/* You can add global styles to this file, and also import other style files */
-@import 'peer/peer-colors';
 @import 'common/common-variables';
+@import 'colors';
 
-// hide the border between the association color column and the company job title column
-.company-jobs-grid-container .k-grid th.k-header:nth-of-type(2) {
-  border-left: 0;
-}
+@import 'peer/peer-colors';
+@import 'peer/peer-button';
 
-.company-jobs-grid-container .k-grid-content .show-tooltip {
-  @extend %ellipsis-overflowing-text;
-}
-
-.company-jobs-grid-container .loading-blanket + .k-grid .k-grid-norecords {
+pf-company-jobs-grid {
+  // hide the header border between the association color column and the company job title column
+  .k-grid th.k-header:nth-of-type(2) {
+    border-left: 0;
+  }
+  .k-grid-content .show-tooltip {
+    @extend %ellipsis-overflowing-text;
+  }
   // hide No records msg when loading, needs to be hidden vs display: none since the scroll directive uses it as a height benchmark 
-  visibility: hidden;
+  .loading-blanket + .k-grid .k-grid-norecords {
+    visibility: hidden;
+  }
+  .match-button {
+    @include peer-button($match-button-primary);
+  }
+}
+
+pf-company-job-and-exchange-detail {
+  pf-company-job-detail, pf-exchange-job-detail {
+    .info-row {
+      border-bottom: 1px solid $border-grey;
+      padding: .65rem .25rem;
+    }
+    .job-description, .exchange-job-description {
+      h6.primary-header {
+        font-weight: 500;
+      }
+      h6 {
+        margin-top: .75rem;
+        font-weight: 400;
+        opacity: .9;
+        svg {
+          margin-right: .5rem;
+          opacity: .8;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+  pf-exchange-job-search {
+    button.associate {
+      @include peer-button($match-button-primary);
+    }
+    .no-search-results {
+      a.reset {
+        color: inherit;
+        text-decoration: underline;
+        svg {
+          font-size: .9rem;
+          transition: all .4s ease-in-out;
+        }
+        &:hover {
+          svg {
+            transform: rotate(720deg);
+          }
+        }
+      }
+    }
+  }
+  pf-exchange-job-detail {
+    button.approve {
+      @include peer-button($match-button-primary);
+    }
+    button.reject {
+      @include peer-button($not-associated);
+    }
+    button.unmatch {
+      @include peer-button($not-associated);
+      svg {
+        height: 1.15rem;
+      }
+    }
+  }
 }

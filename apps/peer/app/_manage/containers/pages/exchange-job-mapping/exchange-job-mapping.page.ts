@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
@@ -9,6 +9,7 @@ import { PageChangeEvent } from '@progress/kendo-angular-grid';
 import { GridTypeEnum } from 'libs/models/common';
 import { ExchangeJobMapping, ExchangeRequestTypeEnum } from 'libs/models/peer';
 import { UserContext } from 'libs/models';
+import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 import {Permissions} from 'libs/constants';
 import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
 import { ExchangeJobMappingService } from '../../../services';
@@ -47,6 +48,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     selectedExchangeJobMappingSubscription: Subscription;
     showCompanyJobsSubscription: Subscription;
     companyJobsSearchTermSubscription: Subscription;
+    selectedCompanyJob$: Observable<CompanyJob>;
 
     constructor(
         private store: Store<fromPeerManagementReducer.State>,
@@ -56,9 +58,12 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         private settingsService: SettingsService
     ) {
         this.exchangeId = this.route.snapshot.params.id;
+
         this.gridPageRowIndexToScrollTo$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingPageRowIndexToScrollTo);
         this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
         this.userContext$ = store.select(fromRootState.getUserContext);
+        this.selectedCompanyJob$ = this.store.select(fromPeerManagementReducer.getCompanyJobsSelectedCompanyJob);
+
         this._Permissions = Permissions;
     }
 
@@ -71,7 +76,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     }
 
     handleCompanyJobsSearchChanged(searchTerm: string): void {
-        this.store.dispatch(new companyJobsActions.UpdateSearchTerm(searchTerm));
+        this.store.dispatch(new companyJobsActions.UpdateCompanyJobsSearchTerm(searchTerm));
         this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.PeerManageCompanyJobs, { skip: 0 } as PageChangeEvent));
         this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
     }
@@ -122,6 +127,8 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
             this.companyJobsSearchTerm = term;
           });
         }
+
+        this.store.dispatch(new companyJobsActions.SetExchangeId(parseInt(this.route.snapshot.params.id, 10)));
     }
 
     ngOnDestroy() {

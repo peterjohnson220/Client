@@ -12,9 +12,13 @@
   [loadingError]="loadingSearchResultsError$ | async"
   [hideReloadButton]="true">
   <div class="container-fluid" *ngIf="(communitySearchResults$ | async)?.length; else noResultsMessage">
+    <div class="m-4 results-count">
+      <div class="col-12"><h5>{{ totalSearchResults }} results for <span class="font-weight-bold">{{ query }}</span></h5>
+      </div>
+    </div>
     <div
-      *ngFor="let result of (communitySearchResults$ | async); trackBy: trackByFn; let last = last;">
-      <hr>
+      *ngFor="let result of (communitySearchResults$ | async); trackBy: trackByFn; let last = last;first as isFirst">
+      <hr *ngIf="!isFirst">
       <div class="row mx-4" (click)="openDetailsModal(result)">
         <div class="col-12">
           <pf-community-search-result-header [companyName]="result.CompanyName"

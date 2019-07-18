@@ -33,7 +33,7 @@ export class DismissingCommunityPollResponse implements Action {
 
 export class DismissingCommunityPollResponseSuccess implements Action {
   readonly type = DISMISSING_COMMUNITY_POLL_RESPONSE_SUCCESS;
-  constructor() {}
+  constructor(public payload: any) {}
 }
 export class DismissingCommunityPollResponseError implements Action {
   readonly type = DISMISSING_COMMUNITY_POLL_RESPONSE_ERROR;

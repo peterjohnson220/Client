@@ -1,5 +1,5 @@
 <div id="job-association-associated-jobs" class="job-association-associated-jobs">
-  <h5>Associated Jobs</h5>
+  <h5>Matched Jobs</h5>
   <div class="position-relative">
     <pf-async-container 
       [loading]="loadingPreviousAssociations"
@@ -26,7 +26,7 @@
                 </button>
               </td>
               <td>
-                <pf-half-complete-icon title="Unsaved Association">
+                <pf-half-complete-icon title="Unsaved Match">
                 </pf-half-complete-icon>
               </td>
               <td class="font-italic show-tooltip">{{companyJob.JobTitle}}</td>
@@ -49,11 +49,11 @@
               </td>
               <td>
                 <span *ngIf="isPendingRemoval(previousAssociation.CompanyJobId); else isNotPendingRemoval2">
-                  <pf-complete-icon [isActive]="false" title="Saved Association (Pending Deletion)">
+                  <pf-complete-icon [isActive]="false" title="Saved Match (Pending Deletion)">
                   </pf-complete-icon>
                 </span>
                 <ng-template #isNotPendingRemoval2>
-                  <pf-complete-icon [isActive]="true" title="Saved Association">
+                  <pf-complete-icon [isActive]="true" title="Saved Match">
                   </pf-complete-icon>
                 </ng-template>
               </td>
@@ -70,6 +70,6 @@
     </pf-async-container>
   </div>
   <div *ngIf="!loadingPreviousAssociations && !loadingPreviousAssociationsError && !hasAssociations()">
-    <i>No Associations</i>
+    <i>No Matches</i>
   </div>
 </div>

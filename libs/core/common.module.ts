@@ -7,7 +7,7 @@ import * as fromFaIcons from './fa-icons';
 import { DebounceClickDirective } from './directives';
 import {  HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
   NewLinePipe, JobDescriptionParserPipe, WrapSubtextWithTag, DataTypeFilterPipe,
-  OrderByPipe, FilterArrayByName } from './pipes';
+  OrderByPipe, FilterArrayByName, GetFileExtensionCssClassPipe } from './pipes';
 
 const declarations = [
   // Directives
@@ -23,7 +23,8 @@ const declarations = [
   JobDescriptionParserPipe,
   WrapSubtextWithTag,
   OrderByPipe,
-  FilterArrayByName
+  FilterArrayByName,
+  GetFileExtensionCssClassPipe
 ];
 
 @NgModule({

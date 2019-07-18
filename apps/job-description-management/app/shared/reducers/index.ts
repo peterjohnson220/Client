@@ -4,11 +4,15 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
+import * as fromCompanyFlsaStatusReducer from './company-flsa-status.reducer';
+import * as fromJobFamilyReducer from './job-family.reducer';
 import * as fromJobDescriptionAppliesToReducer from './job_description-appliesto.reducer';
 import * as fromTemplateListReducer from './template-list.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementSharedState {
+  companyFlsaStatus: fromCompanyFlsaStatusReducer.State;
+  jobFamily: fromJobFamilyReducer.State;
   jobDescriptionAppliesTo: fromJobDescriptionAppliesToReducer.State;
   templateList: fromTemplateListReducer.State;
 }
@@ -20,6 +24,8 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
+  companyFlsaStatus: fromCompanyFlsaStatusReducer.reducer,
+  jobFamily: fromJobFamilyReducer.reducer,
   jobDescriptionAppliesTo: fromJobDescriptionAppliesToReducer.reducer,
   templateList: fromTemplateListReducer.reducer
 };
@@ -29,6 +35,16 @@ export const selectFeatureAreaState = createFeatureSelector<JobDescriptionManage
   'jobDescriptionManagement_shared');
 
 // Feature Selectors
+export const selectCompanyFlsaStatusState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementSharedState) => state.companyFlsaStatus
+);
+
+export const selectJobFamilyState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementSharedState) => state.jobFamily
+);
+
 export const selectJobDescriptionAppliesToState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementSharedState) => state.jobDescriptionAppliesTo
@@ -37,6 +53,38 @@ export const selectJobDescriptionAppliesToState = createSelector(
 export const selectTemplateListState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementSharedState) => state.templateList
+);
+
+// Company FLSA Status
+export const getCompanyFlsaStatuses = createSelector(
+  selectCompanyFlsaStatusState,
+  fromCompanyFlsaStatusReducer.getCompanyFlsaStatuses
+);
+
+export const getCompanyFlsaStatusesLoading = createSelector(
+  selectCompanyFlsaStatusState,
+  fromCompanyFlsaStatusReducer.getCompanyFlsaStatusesLoading
+);
+
+export const getCompanyFlsaStatusesLoadingError = createSelector(
+  selectCompanyFlsaStatusState,
+  fromCompanyFlsaStatusReducer.getCompanyFlsaStatusesLoadingError
+);
+
+// Job Family
+export const getJobFamilies = createSelector(
+  selectJobFamilyState,
+  fromJobFamilyReducer.getJobFamilies
+);
+
+export const getJobFamiliesLoading = createSelector(
+  selectJobFamilyState,
+  fromJobFamilyReducer.getJobFamiliesLoading
+);
+
+export const getJobFamiliesLoadingError = createSelector(
+  selectJobFamilyState,
+  fromJobFamilyReducer.getJobFamiliesLoadingError
 );
 
 // Job Description Applies To

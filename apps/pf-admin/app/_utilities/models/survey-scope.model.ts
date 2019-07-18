@@ -9,3 +9,15 @@ export interface SurveyScope extends FilterableName {
   Scope2: string;
   Scope3: string;
 }
+
+export function generateMockSurveyScope(): SurveyScope {
+  return {
+    Id: '239048',
+    Name: 'All///I',
+    WeightingType: 'I',
+    Selected: true,
+    Scope1: 'All',
+    Scope2: '',
+    Scope3: ''
+  };
+}

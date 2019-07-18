@@ -4,6 +4,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
+import * as fromAddJobModalReducer from './add-job-modal.reducer';
 import * as fromBulkExportPopoverReducer from './bulk-export-popover.reducer';
 import * as fromJobDescriptionReducer from './job-description.reducer';
 import * as fromJobDescriptionGridReducer from './job-description-grid.reducer';
@@ -14,6 +15,7 @@ import * as fromUserFilterReducer from './user-filter.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementJobDescriptionState {
+  addJobModal: fromAddJobModalReducer.State;
   bulkExportPopover: fromBulkExportPopoverReducer.State;
   jobDescription: fromJobDescriptionReducer.State;
   jobDescriptionGrid: fromJobDescriptionGridReducer.State;
@@ -30,6 +32,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
+  addJobModal: fromAddJobModalReducer.reducer,
   bulkExportPopover: fromBulkExportPopoverReducer.reducer,
   jobDescription: fromJobDescriptionReducer.reducer,
   jobDescriptionGrid: fromJobDescriptionGridReducer.reducer,
@@ -44,6 +47,11 @@ export const selectFeatureAreaState = createFeatureSelector<JobDescriptionManage
   'jobDescriptionManagement_jobDescription');
 
 // Feature Selectors
+export const selectAddJobModalState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.addJobModal
+);
+
 export const selectBulkExportPopoverState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.bulkExportPopover
@@ -77,6 +85,47 @@ export const selectPublicViewHeaderState = createSelector(
 export const selectUserFilterState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.userFilter
+);
+
+// Add Job Modal
+export const getCompanyJob = createSelector(
+  selectAddJobModalState,
+  fromAddJobModalReducer.getCompanyJob
+);
+
+export const getCompanyJobCreating = createSelector(
+  selectAddJobModalState,
+  fromAddJobModalReducer.getCompanyJobCreating
+);
+
+export const getCompanyJobCreatingError = createSelector(
+  selectAddJobModalState,
+  fromAddJobModalReducer.getCompanyJobCreatingError
+);
+
+export const getCompanyJobCreatingSuccess = createSelector(
+  selectAddJobModalState,
+  fromAddJobModalReducer.getCompanyJobCreatingSuccess
+);
+
+export const getCompanyJobUdfColumns = createSelector(
+  selectAddJobModalState,
+  fromAddJobModalReducer.getCompanyJobUdfColumns
+);
+
+export const getCompanyJobUdfColumnsLoading = createSelector(
+  selectAddJobModalState,
+  fromAddJobModalReducer.getCompanyJobUdfColumnsLoading
+);
+
+export const getCompanyJobUdfColumnsLoadingError = createSelector(
+  selectAddJobModalState,
+  fromAddJobModalReducer.getCompanyJobUdfColumnsLoadingError
+);
+
+export const getDuplicateCompanyJobMessage = createSelector(
+  selectAddJobModalState,
+  fromAddJobModalReducer.getDuplicateCompanyJobMessage
 );
 
 // Bulk Export Popover

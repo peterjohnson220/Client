@@ -1,1 +1,33 @@
 @import 'kendo-grid';
+@import 'peer/peer-button';
+
+.company-jobs-grid-container {
+  transition: height .4s ease-in-out;
+  &.short {
+    height: 250px;
+  }
+}
+
+:host ::ng-deep .k-grid {
+  tr, tr.k-alt {
+    &:hover {
+      button {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.match-button {
+  visibility: hidden;
+}
+
+.status-color-block {
+  float: left;
+  width: 11px;
+}
+
+.status-label {
+  font-weight: 600;
+  padding: 6px 20px;
+}

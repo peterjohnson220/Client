@@ -18,3 +18,4 @@ export * from './project';
 export * from './comphub';
 export * from './tags';
 export * from './surveys';
+export * from './reports';
