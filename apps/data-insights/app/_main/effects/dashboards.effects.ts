@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 
 import { TableauReportApiService, UserReportApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
@@ -103,15 +103,21 @@ export class DashboardsEffects {
       this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsync)),
       (action, workbooksAsync) => ({ workbooksAsync })
     ),
-    map((data) => {
-      const favoriteWorkbooks = DashboardsHelper.getCompanyWorkbooksByView(data.workbooksAsync.obj, DashboardView.Favorites);
-      const workbookIds = favoriteWorkbooks.map(w => w.WorkbookId);
-      return new fromAllDashboardsActions.SaveWorkbookOrder({
-        workbookIds,
-        workbookOrderType: WorkbookOrderType.FavoritesOrdering
-      });
-    })
-  );
+    mergeMap((data) => {
+        const actions = [];
+        const favoriteWorkbooks = DashboardsHelper.getCompanyWorkbooksByView(data.workbooksAsync.obj, DashboardView.Favorites);
+        const workbookIds = favoriteWorkbooks.map(w => w.WorkbookId);
+        if (favoriteWorkbooks.length === 0) {
+          actions.push(new fromAllDashboardsActions.ToggleDashboardView({view: DashboardView.All}));
+        } else {
+          actions.push(new fromAllDashboardsActions.SaveWorkbookOrder({
+            workbookIds,
+            workbookOrderType: WorkbookOrderType.FavoritesOrdering
+          }));
+        }
+        return actions;
+      })
+    );
 
   @Effect()
   saveWorkbookTag$ = this.action$

@@ -66,19 +66,12 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
     }
     case fromDashboardsActions.REMOVE_WORKBOOK_FAVORITE: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
-      let dashboardView = state.dashboardView;
       const workbook: Workbook = companyWorkbooksAsyncClone.obj.find((w: Workbook) => w.WorkbookId === action.payload.workbookId);
       workbook.IsFavorite = false;
       workbook.FavoritesOrder = null;
-
-      if (!companyWorkbooksAsyncClone.obj.some(w => w.IsFavorite)) {
-        dashboardView = DashboardView.All;
-      }
-
       return {
         ...state,
         companyWorkbooksAsync: companyWorkbooksAsyncClone,
-        dashboardView: dashboardView
       };
     }
     case fromDashboardsActions.TOGGLE_DASHBOARD_VIEW: {
