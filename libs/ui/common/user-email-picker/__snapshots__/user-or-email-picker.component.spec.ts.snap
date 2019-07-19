@@ -23,7 +23,7 @@ exports[`UserOrEmailPickerComponent should not show a spinner when no search is 
       autocorrect="off"
       class="form-control ng-untouched ng-pristine ng-valid"
       ng-reflect-ngb-typeahead="function (text$) {
-        retur"
+             "
       ng-reflect-result-template="[object Object]"
       placeholder="Name or Email"
       role="combobox"
@@ -58,7 +58,7 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
       autocorrect="off"
       class="form-control ng-untouched ng-pristine ng-valid"
       ng-reflect-ngb-typeahead="function (text$) {
-        retur"
+             "
       ng-reflect-result-template="[object Object]"
       placeholder="Name or Email"
       role="combobox"
@@ -100,7 +100,7 @@ exports[`UserOrEmailPickerComponent should show an error message when a search f
       autocorrect="off"
       class="form-control ng-untouched ng-pristine ng-valid"
       ng-reflect-ngb-typeahead="function (text$) {
-        retur"
+             "
       ng-reflect-result-template="[object Object]"
       placeholder="Name or Email"
       role="combobox"

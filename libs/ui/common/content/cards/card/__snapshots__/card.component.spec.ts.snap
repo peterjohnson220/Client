@@ -53,9 +53,9 @@ exports[`UI/Common/Content - Card should show cardBodyTemplate template, with co
     ng-reflect-card="[object Object]"
     ng-reflect-card-body-template="[object Object]"
     ng-reflect-card-identifier="function (card) {
-        return"
+              "
     ng-reflect-card-is-disabled="function (card) {
-        return"
+              "
     ng-reflect-selected-card-identifier="1"
   >
     <div
