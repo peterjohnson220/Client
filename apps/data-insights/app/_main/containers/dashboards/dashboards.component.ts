@@ -10,6 +10,7 @@ import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { DashboardView, Workbook, SaveWorkbookTagObj } from '../../models';
 import { TagWorkbookModalComponent } from '../../components/tag-workbook-modal';
+import { ComboBoxComponent, DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 
 @Component({
   selector: 'pf-dashboards',
@@ -18,11 +19,13 @@ import { TagWorkbookModalComponent } from '../../components/tag-workbook-modal';
 })
 export class DashboardsComponent implements OnInit, OnDestroy {
   @ViewChild(TagWorkbookModalComponent, { static: true }) public tagWorkbookModalComponent: TagWorkbookModalComponent;
+  @ViewChild('tagsDropDownList', {static: true}) public tagsDropDownList: ComboBoxComponent;
 
   companyWorkbooksAsync$: Observable<AsyncStateObj<Workbook[]>>;
   filteredCompanyWorkbooks$: Observable<Workbook[]>;
   dashboardView$: Observable<string>;
   tags$: Observable<string[]>;
+  distinctTagsByView$: Observable<string[]>;
   savingTag$: Observable<boolean>;
   savingTagError$: Observable<boolean>;
 
@@ -45,6 +48,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.filteredCompanyWorkbooks$ = this.store.pipe(select(fromDataInsightsMainReducer.getFilteredCompanyWorkbooks));
     this.dashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardView));
     this.tags$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTags));
+    this.distinctTagsByView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTagsByView));
     this.savingTag$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTag));
     this.savingTagError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTagError));
   }
@@ -84,6 +88,11 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   handleViewChanged(view: DashboardView) {
     this.store.dispatch(new fromDashboardsActions.ToggleDashboardView({ view }));
+    this.tagsDropDownList.reset();
+  }
+
+  handleTagChanged(tag: string) {
+    this.store.dispatch(new fromDashboardsActions.SetTaggedFilter(tag));
   }
 
   handleTagWorkbookClicked(workbook: Workbook) {
@@ -99,6 +108,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   handleSaveTagClicked(saveObj: SaveWorkbookTagObj) {
     this.store.dispatch(new fromDashboardsActions.SaveWorkbookTag(saveObj));
+    this.tagsDropDownList.reset();
   }
 
   private handleDropModel(sourceModel) {

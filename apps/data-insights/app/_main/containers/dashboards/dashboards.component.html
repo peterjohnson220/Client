@@ -1,16 +1,38 @@
 <div class="dashboards h-100">
   <div class="top-bar">
     <div class="dashboards-title">
-      <kendo-dropdownlist *ngIf="anyFavorites; else allDashboards"
-                          class="dashboard-view"
-                          [attr.data-qa-id]="'ddm-dashboard-views'"
-                          [data]="dashboardViews"
-                          [ngModel]="dashboardView$ | async"
-                          [popupSettings]="{appendTo: 'component'}"
-                          (valueChange)="handleViewChanged($event)">
-      </kendo-dropdownlist>
+      <div class="row">
+        <div class="col-7">
+          <kendo-dropdownlist *ngIf="anyFavorites; else allDashboards"
+                              class="dashboard-view"
+                              [attr.data-qa-id]="'ddm-dashboard-views'"
+                              [data]="dashboardViews"
+                              [ngModel]="dashboardView$ | async"
+                              [popupSettings]="{appendTo: 'component'}"
+                              (valueChange)="handleViewChanged($event)">
+          </kendo-dropdownlist>
+        </div>
+        <div class="col-5 tag-container" >
+            <kendo-dropdownlist #tagsDropDownList
+                                class="tag-dropdown"
+                                [data]="distinctTagsByView$ | async"
+                                [defaultItem]="'All'"
+                                [popupSettings]="{width: 200}"
+                                (valueChange)="handleTagChanged($event)">
+              <ng-template kendoDropDownListValueTemplate let-dataItem>
+                <fa-icon icon="tags" id="tag-icon"></fa-icon>
+                <span [title]="dataItem">{{ dataItem }}</span>
+              </ng-template>
+              <ng-template kendoDropDownListItemTemplate let-dataItem>
+                <span [title]="dataItem">{{ dataItem }}</span>
+              </ng-template>
+            </kendo-dropdownlist>
+          </div>
+        </div>
       <ng-template #allDashboards>
-        <span class="d-inline-block">All Dashboards</span>
+        <div class="col-12">
+        <span class="d-inline-block dashboard-view">All Dashboards</span>
+        </div>
       </ng-template>
     </div>
     <div class="error-message text-danger" *ngIf="savingTagError$ | async">
