@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { StandardReportDetails } from '../../models';
 
@@ -7,12 +7,10 @@ import { StandardReportDetails } from '../../models';
   templateUrl: './standard-reports-list.component.html',
   styleUrls: ['./standard-reports-list.component.scss']
 })
-export class StandardReportsListComponent implements OnInit {
+export class StandardReportsListComponent {
   @Input() standardReportsList: StandardReportDetails[];
   @Input() loading: boolean;
   @Input() filter: string;
 
   constructor() { }
-
-  ngOnInit() { }
 }

@@ -1,6 +1,9 @@
 <div class="table-responsive" *ngIf="standardReportsList">
     <kendo-grid [data]="standardReportsList" class="no-wrap-ellipsis-values">
           <kendo-grid-column field="Name" title="Report Name" [width]="200">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.DisplayName ? dataItem.DisplayName : dataItem.Name }}
+            </ng-template>
           </kendo-grid-column>
           <kendo-grid-column field="Summary" title="Report Summary" [width]="300">
           </kendo-grid-column>
@@ -20,6 +23,9 @@
           </kendo-grid-column>
           <kendo-grid-column field="LastEditedBy" title="Last Edited By" [width]="200">
           </kendo-grid-column>
+          <ng-template kendoGridNoRecordsTemplate>
+            {{filter ? 'No reports found matching this filter' : 'No reports to display'}}
+          </ng-template>
     </kendo-grid>
 </div>
 <div *ngIf="!loading && !standardReportsList">

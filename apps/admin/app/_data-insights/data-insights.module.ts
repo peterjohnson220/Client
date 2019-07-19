@@ -9,11 +9,15 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
 import { StandardReportsListPageComponent } from './containers';
 import { StandardReportsListComponent } from './components';
 import { DataInsightsRoutingModule } from './data-insights-routing.module';
 import {reducers} from './reducers';
 import { StandardReportsListPageEffects } from './effects';
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -33,7 +37,8 @@ import { StandardReportsListPageEffects } from './effects';
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    FontAwesomeModule
   ],
   declarations: [
     // Components
@@ -42,7 +47,11 @@ import { StandardReportsListPageEffects } from './effects';
     StandardReportsListPageComponent
   ]
 })
-export class DataInsightsModule { }
+export class DataInsightsModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}
 
 
 
