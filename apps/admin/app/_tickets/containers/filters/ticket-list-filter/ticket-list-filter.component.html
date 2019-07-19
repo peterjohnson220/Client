@@ -1,10 +1,25 @@
-<kendo-combobox
-  [data]="data"
-  [valueField]="valueField"
-  [textField]="textField"
-  [value]="selectedValue"
-  [valuePrimitive]="true"
-  [(ngModel)]="defaultValue"
-  (valueChange)="onChange($event)"
-  [suggest]="true">
+<kendo-combobox [data]="data"
+                [valueField]="valueField"
+                [textField]="textField"
+                [value]="selectedValue"
+                [valuePrimitive]="true"
+                [(ngModel)]="defaultValue"
+                (valueChange)="onChange($event)"
+                [suggest]="true">
+  <ng-template kendoComboBoxItemTemplate
+               let-dataItem>
+    <span class="userticketstatus"
+          *ngIf="userTicketType(ticketFieldType.STATUS)">
+      <img [alt]="dataItem[textField]"
+           src="assets/svg/userticketstate_{{svgParse.getLowerAndTrimmedValue(dataItem, valueField)}}.svg">
+      {{ dataItem[textField] }}
+    </span>
+
+    <span class="userticketstatus"
+          *ngIf="userTicketType(ticketFieldType.TYPE)">
+      <span class="ticketsdot {{dataItem.TicketCssClass}}"></span>
+      <span>{{ dataItem[textField] }}</span>
+    </span>
+
+  </ng-template>
 </kendo-combobox>

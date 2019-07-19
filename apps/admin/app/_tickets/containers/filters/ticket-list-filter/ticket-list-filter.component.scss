@@ -1,3 +1,18 @@
+@import 'tickets-page';
+
 :host ::ng-deep span.k-dropdown-wrap {
   border-width: 1.5px !important;
 }
+
+span.userticketstatus {
+  margin-left: -0.75rem !important;
+  margin-right: -0.75rem !important;
+}
+
+span.ticketsdot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right:5px;
+  }

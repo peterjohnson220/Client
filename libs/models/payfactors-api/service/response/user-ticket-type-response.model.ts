@@ -1,5 +1,6 @@
 export interface UserTicketTypeResponse {
   UserTicketTypeId: number;
+  TicketFileTypeId: number;
   TicketTypeName: string;
   TicketCssClass: string;
   SortOrder: number;
@@ -11,6 +12,7 @@ export interface UserTicketTypeResponse {
 export function generateMockUserTicketTypeResponse(): UserTicketTypeResponse {
   return {
     UserTicketTypeId: 1,
+    TicketFileTypeId: 1,
     TicketTypeName: 'Job Pricing',
     TicketCssClass: 'jobPricingColor',
     SortOrder: 1,

@@ -1,12 +1,12 @@
-import { Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import {PayfactorsApiModelMapper} from '../../helpers';
+import { PayfactorsApiModelMapper } from '../../helpers';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
-import {PfServicesRep, UserTicketItem, UserTicketState, UserTicketType} from '../../models';
+import { PfServicesRep, UserTicketItem, UserTicketState, UserTicketType } from '../../models';
 
 @Component({
   selector: 'pf-ticket',
@@ -65,6 +65,7 @@ export class TicketComponent implements OnInit, OnDestroy {
         const v = event.value as UserTicketType;
         ticket.UserTicketType = {
           UserTicketTypeId: 0,
+          TicketFileTypeId: 0,
           TicketCssClass: null,
           SortOrder: 0,
           TicketTypeName: v.TicketTypeName,
