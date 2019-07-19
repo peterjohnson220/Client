@@ -16,3 +16,4 @@ export * from './community-job.model';
 export * from './community-job-search-response.model';
 export * from './paging-response.model';
 export * from './community-link.model';
+export * from './community-dismiss-poll.model';

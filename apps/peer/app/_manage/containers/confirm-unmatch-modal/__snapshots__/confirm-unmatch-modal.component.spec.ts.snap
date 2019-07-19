@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfirmUnmatchModalComponent should not render job details if the exchange and company jobs are falsy 1`] = `
+<pf-confirm-unmatch-modal
+  allSubscriptions={[Function Subscription]}
+  mappedExchangeJob={[Function Object]}
+  mappedExchangeJob$={[Function Store]}
+  savingAssociation$={[Function Store]}
+  selectedCompanyJob="null"
+  selectedCompanyJob$={[Function Store]}
+  showModal$={[Function Store]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    primarybuttonclass="btn-danger"
+    primarybuttontext="Yes"
+    primarybuttontextsubmitting="Unmatching..."
+    secondarybuttontext="No"
+    title="Unmatch Company Job"
+  >
+    
+  </pf-modal-form>
+</pf-confirm-unmatch-modal>
+`;
+
+exports[`ConfirmUnmatchModalComponent should render job details if the exchange job and company job are truthy 1`] = `
+<pf-confirm-unmatch-modal
+  allSubscriptions={[Function Subscription]}
+  mappedExchangeJob={[Function Object]}
+  mappedExchangeJob$={[Function Store]}
+  savingAssociation$={[Function Store]}
+  selectedCompanyJob={[Function Object]}
+  selectedCompanyJob$={[Function Store]}
+  showModal$={[Function Store]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    primarybuttonclass="btn-danger"
+    primarybuttontext="Yes"
+    primarybuttontextsubmitting="Unmatching..."
+    secondarybuttontext="No"
+    title="Unmatch Company Job"
+  >
+    
+    
+    <p
+      class="mb-2"
+    >
+       You are about to unmatch company job 
+      <strong>
+        jobTitle
+      </strong>
+       and exchange job 
+      <strong>
+        ExchangeJobTitle
+      </strong>
+      . 
+    </p>
+    <p>
+       Would you like to continue? 
+    </p>
+  </pf-modal-form>
+</pf-confirm-unmatch-modal>
+`;

@@ -80,13 +80,14 @@
             (dataStateChange)="handleDataStateChange($event)"
             (detailExpand)="handleDetailExpand($event)"
           >
-          <kendo-grid-column [resizable]="false" [width]="40" class="no-ellipsis">
+          <kendo-grid-column [resizable]="false" [width]="90" class="no-ellipsis">
             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <button class="associate-button"
                       [disabled]="!isAssociable(dataItem.ExchangeId, dataItem.ExchangeJobId)"
                       (click)="handleAssociateClick(dataItem, rowIndex)"
                       [title]="createAssociateButtonTooltipText(dataItem.ExchangeId, dataItem.ExchangeJobId)">
                       <fa-icon icon="exchange-alt"></fa-icon>
+                      <span>Match</span>
               </button>
             </ng-template>
           </kendo-grid-column>

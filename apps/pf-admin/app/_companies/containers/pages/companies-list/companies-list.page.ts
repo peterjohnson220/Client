@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromCompaniesActions from '../../../actions/companies.actions';
 import * as fromCompaniesReducer from '../../../reducers';
-
 import { CompanyGridItem } from '../../../models';
+import { CompaniesListConstants } from '../../../constants/companies-list-constants';
 
 @Component({
     selector: 'pf-admin-companies-list-page',
@@ -18,6 +18,7 @@ export class CompaniesListPageComponent implements OnInit {
     companiesLoading$: Observable<boolean>;
     companiesLoadingError$: Observable<boolean>;
     searchTerm$: Observable<string>;
+    companiesEditRouterLink: string = CompaniesListConstants.COMPANIES_EDIT_ROUTER_LINK;
 
     constructor( private store: Store<fromCompaniesReducer.CompanyManagementState>) {
         this.companies$ = this.store.select(fromCompaniesReducer.getCompanies);

@@ -9,8 +9,8 @@ import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 
 import * as fromCompaniesGridActions from '../../actions/companies-grid.actions';
 import * as fromCompaniesGridReducer from '../../reducers';
-
 import { CompanyGridItem } from '../../models';
+import { CompaniesListViews } from '../../constants/companies-list-constants';
 
 @Component({
     selector: 'pf-companies-list',
@@ -20,10 +20,12 @@ import { CompanyGridItem } from '../../models';
 })
 
 export class CompaniesListComponent implements OnChanges {
+    @Input() selectedRowRouterLink: string;
     @Input() companiesList: CompanyGridItem[];
     @Input() loading: boolean;
     @Input() filter: string;
     @Input() handleCompaniesReload;
+    @Input() view = CompaniesListViews.DEFAULT;
 
     gridSkipAmount$: Observable<number>;
     gridTakeAmount$: Observable<number>;
@@ -54,7 +56,7 @@ export class CompaniesListComponent implements OnChanges {
     public gridSelectionChange(selection) {
         if (selection.selectedRows && selection.selectedRows.length) {
             const item = selection.selectedRows[0].dataItem;
-            this.router.navigate(['/companies/edit/', item.CompanyId]);
+            this.router.navigate([this.selectedRowRouterLink, item.CompanyId]);
         }
     }
 

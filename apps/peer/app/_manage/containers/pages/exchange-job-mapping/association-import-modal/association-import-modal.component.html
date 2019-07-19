@@ -1,4 +1,4 @@
-<pf-modal-form [size]="'lg'" [title]="'Import Job Associations'" [subTitle]="" [primaryButtonText]="btnText"
+<pf-modal-form [size]="'lg'" [title]="'Import Job Matches'" [subTitle]="" [primaryButtonText]="btnText"
     [primaryButtonTextSubmitting]="'Processing...'" [submitting]="(importStatus$ | async) === importStatus.InProcess"
     [isOpen$]="importAssociationModalOpen$" [formGroup]="exchangeJobRequestForm" (onSubmit)="handleFormSubmit()"
     (onDismiss)="handleModalDismissed()">

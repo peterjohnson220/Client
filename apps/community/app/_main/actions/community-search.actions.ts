@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CommunitySearchResult } from 'libs/models/community';
+import { CommunitySearchQuery } from 'libs/models/community/community-search-query.model';
 
 export const SEARCHING_COMMUNITY = '[Community/Search] Searching Community';
 export const SEARCHING_COMMUNITY_SUCCESS = '[Community/Search] Searching Community Success';
@@ -15,7 +15,7 @@ export const GETTING_MORE_COMMUNITY_SEARCH_RESULTS_ERROR = '[Community/Search] G
 
 export class SearchingCommunity implements Action {
   readonly type = SEARCHING_COMMUNITY;
-  constructor(public payload: string) {}
+  constructor(public payload: CommunitySearchQuery) {}
 }
 
 export class SearchingCommunitySuccess implements Action {
@@ -37,7 +37,7 @@ export class CloseSearchResultModal implements Action {
 
 export class GettingMoreCommunitySearchResults implements Action {
   readonly type = GETTING_MORE_COMMUNITY_SEARCH_RESULTS;
-  constructor(public payload: any) {}
+  constructor(public payload: CommunitySearchQuery) {}
 }
 
 export class GettingMoreCommunitySearchResultsSuccess implements Action {

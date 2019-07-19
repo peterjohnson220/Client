@@ -1,37 +1,46 @@
 <div class="section card mb-2" *ngIf="ticketAttachments && ticketId">
-    <div class="card-header bg-transparent border-bottom-0">
-        <h4>Attachments</h4>
-        <div></div>
+    <div class="card-header bg-transparent border-bottom-0 pf-secondary-color">
+      <h4 class="uppercase">Attachments</h4>
     </div>
     <div class="card-body mx-3">
-        <div class="row" *ngIf="!ticketAttachments.length">
-            <div class="card-subtitle text-muted">
-                <h5>No Attachments</h5>
+      <pf-attachment-upload 
+        [ticketId]="ticketId"
+        (addAttachments)="addUploadedAttachments($event)">
+      </pf-attachment-upload>
+      <div id="section-existin-attachments" class="row" *ngIf="ticketAttachments.length || uploadedAttachments.length">
+        <div class="container  p-0">
+          <hr class="w-100" *ngIf="ticketAttachments.length || uploadedAttachments.length"/>
+          <div id="existing-attachments" class="row" *ngFor="let attachment of uploadedAttachments.concat(ticketAttachments); let lastFile = last;" >
+            <div class="col col-12">
+              <div class="row">
+                <div class="col-8">
+                  <a class="pf-link-text {{attachment.FileState | getUploadProgressCssClass}}"
+                    href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}"
+                    title="{{attachment.DisplayName}}">
+                    <h5 class="file-name break-word">
+                      <fa-icon icon="{{attachment.ExtensionCssClass}}" size="lg" class="pf-grey mr-1"></fa-icon>
+                      {{attachment.DisplayName}}
+                    </h5>
+                  </a>
+                </div>
+                <div class="col-4 text-right actions-cell">
+                  <a href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}"
+                    title="download">
+                    <fa-icon icon="download" size="lg" class="pf-secondary-color"></fa-icon>
+                  </a>
+                  &nbsp;
+                  <a href="javascript:void(0)" title="remove" (click)="openModal(attachment.AttachmentId)">
+                    <fa-icon icon="times" size="lg" class="pf-secondary-color"></fa-icon>
+                  </a>
+                </div>
+              </div>
+              <div class="col-12 mt-1 p-0">
+                <hr *ngIf="!lastFile"/>
+              </div>
             </div>
-            <div class="col">
-            </div>
+          </div>
         </div>
-        <div class="row" *ngIf="ticketAttachments.length">
-            <table class="table table-hover">
-                <tbody>
-                    <tr *ngFor="let attachment of ticketAttachments" (click)="openDocumentPreview(attachment)">
-                        <td>
-                            <i class="fa {{attachment.ExtensionCssClass}} " style="font-size: 45px"></i>
-                        </td>
-                        <td class="align-middle">
-                            <a href="/odata/CloudFiles.DownloadUserTicketAttachment?FileName={{attachment.FileName}}&TicketID={{ticketId}}" title="{{attachment.DisplayName}}">
-                                <h5>{{attachment.DisplayName}}</h5>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <hr class="my-2" />
-        <div class="row justify-content-center">
-            <div class="col-s12">
-                <button type="button" class="btn btn-primary px-5 py-2">Upload</button>
-            </div>
-        </div>
+      </div>
     </div>
 </div>
+<pf-attachment-delete-modal *ngIf="canModalOpen()" [request]="this.deleteRequest"></pf-attachment-delete-modal>

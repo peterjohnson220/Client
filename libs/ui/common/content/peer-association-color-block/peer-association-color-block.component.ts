@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 
 import { ExchangeJobAssociation } from 'libs/features/peer/job-association/models/exchange-job-association.model';
 
@@ -7,19 +7,42 @@ import { ExchangeJobAssociation } from 'libs/features/peer/job-association/model
   templateUrl: './peer-association-color-block.component.html',
   styleUrls: ['./peer-association-color-block.component.scss']
 })
-export class PeerAssociationColorBlockComponent {
+export class PeerAssociationColorBlockComponent implements OnInit {
   @Input() unsavedExchangeJobAssociations: ExchangeJobAssociation[] = [];
   @Input() companyJobId: number;
   @Input() isAssociated: boolean;
   @Input() isPendingPeerUserReview: boolean;
+  @Input() isApproved: boolean;
+  @Input() isExchangeSpecific: boolean;
+  @Output() statusLabel = new EventEmitter<string>();
 
-  constructor() { }
+  constructor() {}
+
+  ngOnInit(): void {
+    this.statusLabel.emit(this.getAssociationLabel());
+  }
 
   getAssociationClass(): string {
+    if (this.isExchangeSpecific) {
+      return this.getExchangeSpecificAssociationClass();
+    }
+    return this.getNonExchangeSpecificAssociationClass();
+  }
+
+  getNonExchangeSpecificAssociationClass(): string {
     if (this.isPendingPeerUserReview) {
       return 'pending';
     } else if (this.isAssociated || this.unsavedExchangeJobAssociationsContainAssociations()) {
       return 'associated';
+    }
+    return 'not-associated';
+  }
+
+  getExchangeSpecificAssociationClass(): string {
+    if (this.isApproved && this.isAssociated) {
+      return 'associated';
+    } else if (this.isAssociated && !this.isApproved) {
+      return 'pending';
     }
     return 'not-associated';
   }
@@ -39,9 +62,9 @@ export class PeerAssociationColorBlockComponent {
     if (associationClass === 'pending') {
       return 'Pending Review';
     } else if (associationClass === 'associated') {
-      return 'Associated';
+      return 'Matched';
     } else {
-      return 'Not Associated';
+      return 'Not Matched';
     }
   }
 

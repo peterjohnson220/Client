@@ -1,0 +1,27 @@
+@import 'data-insights-variables';
+
+.modal-body {
+  &.no-filtered-tags {
+    kendo-combobox{
+      ::ng-deep kendo-popup{
+        display: none;
+      }
+    }
+  }
+
+  kendo-combobox {
+    width: 100%;
+  }
+
+  ::ng-deep .k-dropdown-wrap .k-clear-value {
+    right: 35px !important;
+  }
+}
+
+.modal-header{
+  width: 100%;
+}
+
+.modal-title {
+  @extend %label;
+}

@@ -1,7 +1,10 @@
 <div class="community-payfactors-polls community-border-radius py-4"
      (mouseenter)="showNavigationArrows = true"
      (mouseleave)="showNavigationArrows = false">
-    <ngb-carousel *ngIf="communityPollRequestsLoaded$ | async" [interval]="0" [showNavigationArrows]="showNavigationArrows" class="px-5 pb-5">
+  <div *ngIf="((communityPollRequestsLoaded$ | async) && communityPollRequests.length === 0) ">
+    <pf-community-polls-all-polls-answered></pf-community-polls-all-polls-answered>
+  </div>
+    <ngb-carousel *ngIf="communityPollRequestsLoaded$ | async" [interval]="0" [showNavigationArrows]="showNavigationArrows && (communityPollRequests$ | async)?.length > 1" class="px-5 pb-5">
       <ng-container *ngFor="let request of communityPollRequests;">
         <ng-template ngbSlide>
           <pf-community-poll

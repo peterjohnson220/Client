@@ -12,11 +12,30 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 
-import { DataListCardComponent, MatchResultsComponent, ScopeSelectorComponent } from './components';
-import { SelectCompanyPageComponent, YoyDefaultScopesPageComponent } from './containers';
-import { SelectCompanyEffects, YoyDefaultScopesPageEffects } from './effects';
+import { CompanyModule } from '../_companies/company.module';
+import {
+  ConfirmDeleteJobDescriptionsModalComponent,
+  DataListCardComponent,
+  MatchResultsComponent,
+  ScopeSelectorComponent
+} from './components';
+import {
+  SelectCompanyPageComponent,
+  YoyDefaultScopesPageComponent,
+  JobDescriptionLoaderPageComponent,
+  UtilitiesSelectCompanyPageComponent
+} from './containers';
+import {
+  JobDescriptionLoaderEffects,
+  SelectCompanyEffects,
+  YoyDefaultScopesCompaniesListEffects,
+  YoyDefaultScopesPageEffects
+} from './effects';
 import { reducers } from './reducers';
 import { UtilitiesRoutingModule } from './utilities-routing.module';
+import { JobDescriptionLoaderValidationErrorsPipe } from './pipes';
+import { LoadJobDescriptionLoaderGuard } from './guards';
+import { SharedModule } from '../../../job-description-management/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -27,7 +46,9 @@ import { UtilitiesRoutingModule } from './utilities-routing.module';
     StoreModule.forFeature('pf-admin_utilities', reducers),
     EffectsModule.forFeature([
       SelectCompanyEffects,
-      YoyDefaultScopesPageEffects
+      YoyDefaultScopesPageEffects,
+      YoyDefaultScopesCompaniesListEffects,
+      JobDescriptionLoaderEffects
     ]),
     FontAwesomeModule,
 
@@ -38,15 +59,27 @@ import { UtilitiesRoutingModule } from './utilities-routing.module';
     PfCommonUIModule,
     PfFormsModule,
     PfCommonModule,
-    FormsModule
+    FormsModule,
+    CompanyModule,
+    SharedModule
   ],
   declarations: [
     // Components
     DataListCardComponent, MatchResultsComponent, ScopeSelectorComponent,
 
     // Pages
-    SelectCompanyPageComponent, YoyDefaultScopesPageComponent
-  ]
+    SelectCompanyPageComponent, YoyDefaultScopesPageComponent, JobDescriptionLoaderPageComponent, UtilitiesSelectCompanyPageComponent,
+
+    // Modals
+    ConfirmDeleteJobDescriptionsModalComponent,
+
+    // Pipes
+    JobDescriptionLoaderValidationErrorsPipe
+  ],
+  providers: [
+    // Guards
+    LoadJobDescriptionLoaderGuard
+    ]
 })
 export class UtilitiesModule {
   constructor() {

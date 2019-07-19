@@ -6,6 +6,7 @@ exports[`CommunityPollComponent should show poll 1`] = `
   communityPollResponseSubmittedSubscription={[Function Subscriber]}
   communityPollResponses$={[Function Store]}
   dismissedPollIds={[Function Array]}
+  hasNonDismissedResponses$={[Function Store]}
   pollHashTagClicked={[Function EventEmitter]}
   pollTypes={[Function Object]}
   request={[Function Object]}
@@ -14,9 +15,7 @@ exports[`CommunityPollComponent should show poll 1`] = `
   store={[Function Store]}
   type="0"
 >
-  <pf-community-post-content
-    class="font-weight-bold mt-2 mb-2"
-  /><div>
+  <div>
     
     
     <div>

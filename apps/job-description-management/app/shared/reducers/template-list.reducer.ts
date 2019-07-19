@@ -1,7 +1,8 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { TemplateListItem } from 'libs/models/jdm';
+
 import * as fromTemplateListActions from '../../shared/actions/template-list.actions';
-import { TemplateListItem } from '../models/template-list-item.model';
 
 export interface State {
   loadingTemplateList: boolean;
@@ -29,6 +30,17 @@ export function reducer(state = initialState, action: fromTemplateListActions.Ac
         loadingTemplateListError: true
       };
     case fromTemplateListActions.LOAD_TEMPLATE_LIST_SUCCESS:
+      return {
+        ...state,
+        loadingTemplateList: false,
+        templateList: cloneDeep(action.payload)
+      };
+    case fromTemplateListActions.LOAD_TEMPLATE_LIST_BY_COMPANY_ID:
+        return {
+        ...state,
+          loadingTemplateList: true
+        };
+    case fromTemplateListActions.LOAD_TEMPLATE_LIST_BY_COMPANY_ID_SUCCESS:
       return {
         ...state,
         loadingTemplateList: false,

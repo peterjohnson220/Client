@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CompanyJobAndExchangeDetailComponent should render the exchange job detail panel when the selected company job is associated 1`] = `
+<pf-company-job-and-exchange-detail
+  allSubscriptions={[Function Subscription]}
+  exchangeId="null"
+  jdmDescriptionIds$={[Function Store]}
+  jdmDescriptionLoading$={[Function Store]}
+  jdmDescriptionLoadingError$={[Function Store]}
+  mappedExchangeJob$={[Function Store]}
+  mappedExchangeJobsLoading$={[Function Store]}
+  mappedExchangeJobsLoadingError$={[Function Store]}
+  mappedExchangeJobsLoadingSuccess$={[Function Store]}
+  savingAssociation$={[Function Store]}
+  savingAssociationError$={[Function Store]}
+  selectedCompanyJob="null"
+  selectedCompanyJob$={[Function Observable]}
+  store={[Function Store]}
+>
+  <section
+    class="card mb-2"
+  >
+    <div
+      class="card-header"
+    >
+      <h6
+        class="mb-0 font-weight-bold"
+      >
+        Job Information
+      </h6>
+    </div>
+    <a
+      class="close-panel mr-2 mt-1"
+      href="javascript:void(0)"
+      title="Close"
+    >
+      <fa-icon
+        icon="times"
+      />
+    </a>
+    <div
+      class="d-flex"
+    >
+      <div
+        class="w-50 p-3"
+      >
+        <pf-company-job-detail />
+      </div>
+      <div
+        class="vertical-separator mt-3 mb-2"
+      />
+      <div
+        class="w-50 p-3"
+      >
+        
+        <pf-exchange-job-detail />
+        
+      </div>
+    </div>
+  </section><pf-confirm-unmatch-modal />
+</pf-company-job-and-exchange-detail>
+`;
+
+exports[`CompanyJobAndExchangeDetailComponent should render the exchange job search panel when the selected company job is not associated 1`] = `
+<pf-company-job-and-exchange-detail
+  allSubscriptions={[Function Subscription]}
+  exchangeId="null"
+  jdmDescriptionIds$={[Function Store]}
+  jdmDescriptionLoading$={[Function Store]}
+  jdmDescriptionLoadingError$={[Function Store]}
+  mappedExchangeJob$={[Function Store]}
+  mappedExchangeJobsLoading$={[Function Store]}
+  mappedExchangeJobsLoadingError$={[Function Store]}
+  mappedExchangeJobsLoadingSuccess$={[Function Store]}
+  savingAssociation$={[Function Store]}
+  savingAssociationError$={[Function Store]}
+  selectedCompanyJob="null"
+  selectedCompanyJob$={[Function Observable]}
+  store={[Function Store]}
+>
+  <section
+    class="card mb-2"
+  >
+    <div
+      class="card-header"
+    >
+      <h6
+        class="mb-0 font-weight-bold"
+      >
+        Job Information
+      </h6>
+    </div>
+    <a
+      class="close-panel mr-2 mt-1"
+      href="javascript:void(0)"
+      title="Close"
+    >
+      <fa-icon
+        icon="times"
+      />
+    </a>
+    <div
+      class="d-flex"
+    >
+      <div
+        class="w-50 p-3"
+      >
+        <pf-company-job-detail />
+      </div>
+      <div
+        class="vertical-separator mt-3 mb-2"
+      />
+      <div
+        class="w-50 p-3"
+      >
+        
+        <pf-exchange-job-search />
+        
+      </div>
+    </div>
+  </section><pf-confirm-unmatch-modal />
+</pf-company-job-and-exchange-detail>
+`;
