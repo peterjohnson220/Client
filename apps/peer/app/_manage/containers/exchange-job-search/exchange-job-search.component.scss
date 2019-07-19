@@ -1,0 +1,11 @@
+.exchange-job-search-container {
+  // show on top of the exchange icon background svg
+  z-index: 300;
+  h6 {
+    font-size: 1.1rem;
+    margin-bottom: .1rem;
+  }
+  .loading-container {
+    min-height: 100px;
+  }
+}

@@ -1,0 +1,27 @@
+
+import { faPlus } from '@fortawesome/pro-solid-svg-icons/faPlus';
+import { faLongArrowAltLeft } from '@fortawesome/pro-solid-svg-icons/faLongArrowAltLeft';
+import { faPencil } from '@fortawesome/pro-solid-svg-icons/faPencil';
+import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons/faCheckCircle';
+import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes';
+import { faTrash } from '@fortawesome/pro-solid-svg-icons/faTrash';
+import { faSpinner } from '@fortawesome/pro-solid-svg-icons/faSpinner';
+import { faDownload } from '@fortawesome/pro-solid-svg-icons/faDownload';
+import { faTimesCircle } from '@fortawesome/pro-solid-svg-icons/faTimesCircle';
+import { faTimes as faTimesRegular } from '@fortawesome/pro-regular-svg-icons/faTimes';
+import { faDownload as faDownloadRegular } from '@fortawesome/pro-regular-svg-icons/faDownload';
+import { faFileExcel } from '@fortawesome/pro-solid-svg-icons/faFileExcel';
+import { faFileWord } from '@fortawesome/pro-solid-svg-icons/faFileWord';
+import { faFilePdf } from '@fortawesome/pro-solid-svg-icons/faFilePdf';
+import { faFileImage } from '@fortawesome/pro-solid-svg-icons/faFileImage';
+import { faFileArchive } from '@fortawesome/pro-solid-svg-icons/faFileArchive';
+import { faEnvelope } from '@fortawesome/pro-solid-svg-icons/faEnvelope';
+import { faFileAlt } from '@fortawesome/pro-solid-svg-icons/faFileAlt';
+import { faUndo } from '@fortawesome/pro-solid-svg-icons/faUndo';
+
+export const faIcons = [
+  faPlus, faLongArrowAltLeft, faPencil, faCheckCircle, faTimes,
+  faTrash, faSpinner, faTimesCircle, faDownload, faTimesRegular,
+  faDownloadRegular, faFileExcel, faFileWord, faFilePdf, faFileImage,
+  faFileArchive, faEnvelope, faFileAlt, faUndo
+];

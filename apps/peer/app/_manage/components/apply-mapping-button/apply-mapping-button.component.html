@@ -7,7 +7,7 @@
         (click)="handleApplyMappingClicked()">
 
   <span *ngIf="(!applyingMapping && !applyingMappingError) || (applyingMappingError && !selectedMapping)">
-    Associate
+    Match
   </span>
 
   <span *ngIf="applyingMappingError && selectedMapping">
@@ -15,7 +15,7 @@
   </span>
 
   <span *ngIf="applyingMapping">
-          <pf-loading-indicator></pf-loading-indicator> Associating...
+          <pf-loading-indicator></pf-loading-indicator> Matching...
   </span>
 
 </button>
@@ -24,9 +24,9 @@
         type="button"
         class="btn btn-sm btn-outline-dark"
         disabled>
-  Associated
+  Matched
 </button>
 
 <span *ngIf="applyingMappingError && selectedMapping" class="error-applying-message text-danger">
-  <fa-icon [icon]="['fal','exclamation-triangle']"></fa-icon> Error Associating Job
+  <fa-icon [icon]="['fal','exclamation-triangle']"></fa-icon> Error Matching Job
 </span>

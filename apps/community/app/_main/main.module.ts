@@ -61,7 +61,7 @@ import {CommunitySearchResultHeaderComponent} from './components/community-searc
 import {CommunitySearchResultContentComponent} from './components/community-search-result-content';
 import { CommunityPostComponent } from './components/community-post/community-post.component';
 import { CommunitySearchResultModalComponent } from './containers/community-search-result-modal/community-search-result-modal.component';
-
+import { CommunityPollsAllPollsAnsweredComponent } from './components/community-polls-all-polls-answered/community-polls-all-polls-answered.component';
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
 import { CommunityPostEffectsService } from './services/community-post-effects-service';
@@ -120,7 +120,8 @@ const components = [
   CommunitySearchResultHeaderComponent,
   CommunitySearchResultContentComponent,
   CommunitySearchResultModalComponent,
-  CommunityPostComponent
+  CommunityPostComponent,
+  CommunityPollsAllPollsAnsweredComponent
 ];
 
 @NgModule({

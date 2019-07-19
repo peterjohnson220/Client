@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-
 import * as fromRootState from 'libs/state/state';
 
 import { CompaniesListComponent } from './companies-list.component';
@@ -12,7 +11,7 @@ import { CompanySearchPipe } from '../../pipes';
 import * as fromCompaniesReducer from '../../reducers';
 import * as fromCompaniesGridActions from '../../actions/companies-grid.actions';
 import { generateMockCompanyGridItems } from '../../models';
-
+import { CompaniesListConstants } from '../../constants/companies-list-constants';
 
 describe('Pf-Admin - Companies - Companies List Component', () => {
     let instance: CompaniesListComponent;
@@ -52,6 +51,7 @@ describe('Pf-Admin - Companies - Companies List Component', () => {
 
         instance.companiesList = mockCompanyList;
         instance.state = mockGridState;
+        instance.selectedRowRouterLink = CompaniesListConstants.COMPANIES_EDIT_ROUTER_LINK;
     });
 
     it('Should dispatch a GetGridSkipAmount Action when the grid page is changed', () => {

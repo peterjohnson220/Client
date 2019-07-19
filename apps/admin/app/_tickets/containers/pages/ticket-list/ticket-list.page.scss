@@ -1,1 +1,15 @@
 @import '../../../../../../../libs/styles/ngbootstrap-tabset-overrides';
+
+:host ::ng-deep a.nav-link {
+  border-color: white !important;
+}
+
+:host ::ng-deep a.nav-link.active {
+  border-bottom-color: rgba(0, 153, 0, 1) !important;
+  border-width: 0px 0px 5px 0px;
+  font-weight: 700;
+}
+
+:host ::ng-deep ul.nav {
+  padding: 0px 5px 0px 5px;
+}

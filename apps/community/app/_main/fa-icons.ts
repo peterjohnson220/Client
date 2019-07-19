@@ -14,12 +14,16 @@ import { faFileExcel } from '@fortawesome/pro-solid-svg-icons/faFileExcel';
 import { faEye } from '@fortawesome/pro-regular-svg-icons/faEye';
 import { faStopwatch } from '@fortawesome/pro-regular-svg-icons/faStopwatch';
 import { faComments } from '@fortawesome/pro-solid-svg-icons/faComments';
-import { faBuilding } from '@fortawesome/pro-solid-svg-icons/faBuilding';
+import { faBuilding as fasBuilding } from '@fortawesome/pro-solid-svg-icons/faBuilding';
+import { faBuilding as falBuilding } from '@fortawesome/pro-light-svg-icons/faBuilding';
 import { faChartBar} from '@fortawesome/pro-solid-svg-icons/faChartBar';
 import { faTrashAlt } from '@fortawesome/pro-solid-svg-icons/faTrashAlt';
+import { faThumbsUp } from '@fortawesome/pro-light-svg-icons/faThumbsUp';
+
 
 export const faIcons = [
   faTimes, faSearch, faTimesCircle, faCheckCircle, faCircle, faReply, faHeart,
   faArrowAltCircleUp, faChevronRight, faExternalLink, faFileExcel,
-  faChevronLeft, faEye, faStopwatch, faComments, faBuilding, faChartBar, faTrashAlt
+  faChevronLeft, faEye, faStopwatch, faComments, faChartBar, faTrashAlt, faThumbsUp,
+  fasBuilding, falBuilding
 ];

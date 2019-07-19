@@ -19,6 +19,7 @@ export interface ExchangeDataSearchFilter extends SystemFilter {
   BottomRight: GeoCoordinates;
   ClusterPrecision: number;
   IsFilteredBySimilarExchangeJobIds: boolean;
+  SelectedExchangeScopeId: string;
 }
 
 export function generateMockExchangeDataSearchFilter(): ExchangeDataSearchFilter {
@@ -42,6 +43,7 @@ export function generateMockExchangeDataSearchFilter(): ExchangeDataSearchFilter
     TopLeft: generateMockGeoCoordinates(),
     BottomRight: generateMockGeoCoordinates(),
     ClusterPrecision: 12,
-    IsFilteredBySimilarExchangeJobIds: false
+    IsFilteredBySimilarExchangeJobIds: false,
+    SelectedExchangeScopeId: null
   };
 }

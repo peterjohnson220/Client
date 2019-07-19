@@ -9,7 +9,8 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     children: [
       { path: '', loadChildren: () => import('apps/auth/app/_login/login.module').then(m => m.LoginModule) },
-      { path: 'registration', loadChildren: () => import('apps/auth/app/_registration/registration.module').then(m => m.RegistrationModule) },
+      { path: 'registration', loadChildren: () => import('apps/auth/app/_registration/registration.module')
+          .then(m => m.RegistrationModule) },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

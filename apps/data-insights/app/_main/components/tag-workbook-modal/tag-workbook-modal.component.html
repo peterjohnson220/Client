@@ -1,0 +1,42 @@
+<ng-template #tagWorkbookModal let-modal>
+  <div class="modal-header d-flex flex-column">
+    <div class="d-flex w-100">
+      <h4 class="modal-title">Manage Tag</h4>
+
+      <button type="button" class="close" aria-label="Close" (click)="modal.close('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <h5 class="mt-1 mb-0 w-100">{{selectedWorkbook.WorkbookName}}</h5>
+  </div>
+  <div class="modal-body" [class.no-filtered-tags]="noFilteredTags">
+    <kendo-combobox
+      maxlength="255"
+      #tag="ngModel"
+      [ngModel]="selectedWorkbook.Tag"
+      [kendoDropDownFilter]="filterSettings"
+      [popupSettings]="{popupClass: 'tag-options-popup', appendTo: 'component' }"
+      [valuePrimitive]="true"
+      [data]="tags"
+      [allowCustom]="true"
+      [disabled]="saving"
+      (filterChange)="handleTagFilterChanged($event)"
+      (valueChange)="handleTagValueChanged($event)">
+    </kendo-combobox>
+    <div *ngIf="tag.errors?.maxlength" class="invalid-feedback d-block">
+      Exceeds maxlength of {{tag.errors?.maxlength.requiredLength}}
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">
+        Cancel
+      </button>
+      <button
+        [disabled]="!saveWorkbookTagObj || tag.errors || saving"
+        (click)="handleSaveClicked()"
+        type="button" class="btn btn-primary">
+        <span *ngIf="!saving">Save</span>
+        <span *ngIf="saving"><pf-loading-indicator></pf-loading-indicator> Saving...</span>
+      </button>
+  </div>
+</ng-template>

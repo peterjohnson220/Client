@@ -1,0 +1,50 @@
+<div class="dashboards h-100">
+  <div class="top-bar">
+    <div class="dashboards-title">
+      <kendo-dropdownlist *ngIf="anyFavorites; else allDashboards"
+                          class="dashboard-view"
+                          [attr.data-qa-id]="'ddm-dashboard-views'"
+                          [data]="dashboardViews"
+                          [ngModel]="dashboardView$ | async"
+                          [popupSettings]="{appendTo: 'component'}"
+                          (valueChange)="handleViewChanged($event)">
+      </kendo-dropdownlist>
+      <ng-template #allDashboards>
+        <span class="d-inline-block">All Dashboards</span>
+      </ng-template>
+    </div>
+    <div class="error-message text-danger" *ngIf="savingTagError$ | async">
+      Error Saving Tag
+    </div>
+  </div>
+  <ng-container *ngIf="(companyWorkbooksAsync$ | async) as companyWorkbooksAsync">
+    <pf-async-container
+      [loading]="companyWorkbooksAsync.loading"
+      [loadingError]="companyWorkbooksAsync.loadingError"
+      [loadingErrorMessage]="'Error Loading Dashboards'"
+      [hideReloadButton]="true">
+    </pf-async-container>
+    <div class="container-fluid">
+      <div class="row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">
+        <ng-container *ngIf="filteredCompanyWorkbooks?.length">
+          <div *ngFor="let workbook of filteredCompanyWorkbooks; trackBy: trackByFn"
+               class="col-xs-12 col-md-6 col-lg-4 col-xl-3 workbook-card">
+            <pf-workbook-card
+              [workbook]="workbook"
+              (favoriteClicked)="handleFavoriteClicked($event)"
+              (tagClicked)="handleTagWorkbookClicked($event)"
+              (openViewsClicked)="handleOpenViewsClicked($event)">
+            </pf-workbook-card>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<pf-tag-workbook-modal
+  [selectedWorkbook]="selectedWorkbook"
+  [saving]="savingTag$ | async"
+  [tags]="tags$ | async"
+  (saveClicked)="handleSaveTagClicked($event)">
+</pf-tag-workbook-modal>

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Community Polls All Polls Answered should show the thumbs up icon 1`] = `
+<pf-community-polls-all-polls-answered>
+  <div
+    class="d-flex flex-column align-items-center p-2 answer-polls"
+  >
+    <div
+      class="p-2"
+    >
+      <fa-icon
+        size="5x"
+      />
+    </div>
+    <div
+      class="p-2"
+    >
+      <span>
+        You have answered all Payfactors Polls!
+      </span>
+    </div>
+  </div>
+</pf-community-polls-all-polls-answered>
+`;

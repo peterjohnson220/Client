@@ -1,7 +1,5 @@
 import {Action} from '@ngrx/store';
 
-import {UserTicketTypeResponse} from 'libs/models/payfactors-api/service/response';
-
 import {PfServicesRep, UserTicketState, UserTicketType} from '../models';
 
 export const LOAD_PFSERVICESREPS = '[Admin Tickets / Ticket Fields] Load Pf Services Reps';

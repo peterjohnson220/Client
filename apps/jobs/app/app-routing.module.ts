@@ -10,7 +10,8 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', redirectTo: 'matches-modal', pathMatch: 'full' },
-      { path: 'matches-modal', loadChildren: () => import('apps/jobs/app/_matches-modal/matches-modal.module').then(m => m.MatchesModalModule) }
+      { path: 'matches-modal', loadChildren: () => import('apps/jobs/app/_matches-modal/matches-modal.module')
+          .then(m => m.MatchesModalModule) }
     ]
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },

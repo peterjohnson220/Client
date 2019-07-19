@@ -9,6 +9,7 @@ import * as fromCommunityPollRequestActions from '../../actions/community-poll-r
 import * as fromCommunityPollResponseActions from '../../actions/community-poll-response.actions';
 
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
+import { CommunityDismissPoll } from 'libs/models/community/community-dismiss-poll.model';
 
 @Component({
   selector: 'pf-community-poll',
@@ -25,6 +26,7 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
 
   communityPollResponses$: Observable<CommunityPollResponse[]>;
   communityPolResponseSubmitted$: Observable<CommunityPollResponse>;
+  hasNonDismissedResponses$: Observable<boolean>;
 
   communityPollResponseSubmittedSubscription: Subscription;
 
@@ -36,15 +38,10 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
   constructor(public store: Store<fromCommunityPollReducer.State>) {
     this.communityPollResponses$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollResponsesSuccess);
     this.communityPolResponseSubmitted$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
+    this.hasNonDismissedResponses$ = this.store.select(fromCommunityPollReducer.hasNonDismissedResponses);
   }
 
   ngOnInit() {
-    this.communityPollResponseSubmittedSubscription = this.communityPolResponseSubmitted$.subscribe(response => {
-      if (response != null && response.CommunityPollId === this.request.CommunityPollId) {
-        this.response = response;
-      }
-    });
-
     this.communityPollResponseSubmittedSubscription = this.communityPolResponseSubmitted$.subscribe(response => {
       if (response != null && response.CommunityPollId === this.request.CommunityPollId) {
         this.response = response;
@@ -112,8 +109,10 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
   dismissPoll(communityPollId: string): void {
     this.dismissedPollIds.push(communityPollId);
 
-    this.store.dispatch(new fromCommunityPollResponseActions.DismissingCommunityPollResponse(
-      { communityPollId: communityPollId } ));
+    const dismissPoll: CommunityDismissPoll = {
+      communityPollId: communityPollId
+    };
+    this.store.dispatch(new fromCommunityPollResponseActions.DismissingCommunityPollResponse(dismissPoll));
   }
   handleHashTagClicked(event: any) {
     this.pollHashTagClicked.emit(event);

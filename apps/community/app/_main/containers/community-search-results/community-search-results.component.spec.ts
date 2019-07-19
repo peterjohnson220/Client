@@ -6,6 +6,8 @@ import * as fromCommunitySearchActions from '../../actions/community-search.acti
 
 import { CommunitySearchResultsComponent } from './community-search-results.component';
 import * as fromRootState from 'libs/state/state';
+import { CommunitySearchDurationEnum, CommunitySearchSortByEnum } from 'libs/models/community/community-constants.model';
+import { CommunitySearchQuery } from 'libs/models/community/community-search-query.model';
 
 describe('CommunitySearchResultsComponent', () => {
   let fixture: ComponentFixture<CommunitySearchResultsComponent>;
@@ -37,9 +39,20 @@ describe('CommunitySearchResultsComponent', () => {
 
   it('should dispatch SearchingCommunity when calling executeSearch', () => {
     const searchQuery = 'searchQuery';
-    const expectedAction = new fromCommunitySearchActions.SearchingCommunity(searchQuery);
+    const searchDuration = CommunitySearchDurationEnum.AllTime;
+    const searchSort = CommunitySearchSortByEnum.Relevance;
 
-    instance.executeSearch(searchQuery);
+    const expectedAction = new fromCommunitySearchActions.SearchingCommunity({
+      searchTerm: searchQuery,
+      searchSort: searchSort,
+      searchDuration: searchDuration
+    });
+
+    instance.executeSearch({
+      searchTerm: searchQuery,
+      searchSort: searchSort,
+      searchDuration: searchDuration
+    });
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
@@ -47,10 +60,17 @@ describe('CommunitySearchResultsComponent', () => {
   it('should dispatch GettingMoreCommunitySearchResults onScrollDown with more results true and not loading', () => {
     const searchQuery = 'searchQuery';
     instance.query = searchQuery;
+    instance.searchSort = CommunitySearchSortByEnum.Relevance;
+    instance.searchDuration = CommunitySearchDurationEnum.AllTime;
     instance.hasMoreResultsOnServer = true;
     instance.loadingMoreSearchResults = false;
 
-    const expectedAction = new fromCommunitySearchActions.GettingMoreCommunitySearchResults(searchQuery);
+    const expectedAction =
+      new fromCommunitySearchActions.GettingMoreCommunitySearchResults({
+        searchTerm: searchQuery,
+        searchSort: instance.searchSort,
+        searchDuration: instance.searchDuration
+      });
 
     instance.onScrollDown();
 
@@ -86,4 +106,5 @@ describe('CommunitySearchResultsComponent', () => {
 
     expect(store.dispatch).toBeCalledTimes(0);
   });
+
 });

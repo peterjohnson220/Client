@@ -38,6 +38,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 import * as fromFaIcons from './fa-icons';
+import {
+  CompanyJobAndExchangeDetailComponent
+} from './containers/company-job-and-exchange-detail/company-job-and-exchange-detail.component';
+import { CompanyJobDetailComponent } from './components/company-job-detail/company-job-detail.component';
+import { ExchangeDetailComponent } from './components/exchange-job-detail/exchange-job-detail.component';
+import { ExchangeJobSearchComponent } from './containers/exchange-job-search/exchange-job-search.component';
+import { UnmatchIconComponent } from './components/unmatch-icon/unmatch-icon.component';
+import { ConfirmUnmatchModalComponent } from './containers/confirm-unmatch-modal/confirm-unmatch-modal.component';
 
 @NgModule({
   imports: [
@@ -70,16 +78,18 @@ import * as fromFaIcons from './fa-icons';
   ],
   declarations: [
     // Components
-    CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
+    CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent, CompanyJobDetailComponent,
+    ExchangeDetailComponent, UnmatchIconComponent,
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobSelectionFormComponent,
     RequestJobModalComponent, NewJobFormComponent, DeleteMappingConfirmationModalComponent,
-    AssociationImportModalComponent, CompanyJobsGridComponent,
+    AssociationImportModalComponent, CompanyJobsGridComponent, CompanyJobAndExchangeDetailComponent,
+    ExchangeJobSearchComponent, ConfirmUnmatchModalComponent,
 
     // Pages
     ExchangeJobMappingPageComponent,
-    BoolFilterComponent
+    BoolFilterComponent,
   ],
   providers: [
     ExchangeJobMappingService

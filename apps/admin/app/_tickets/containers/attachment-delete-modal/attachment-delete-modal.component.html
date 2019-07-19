@@ -1,0 +1,18 @@
+<pf-modal-form
+  [modalId]="'DeleteAttachmentModal'"
+  [title]="'Delete this attachment?'"
+  size=""
+  secondaryButtonText="Cancel"
+  primaryButtonClass="btn-primary"
+  primaryButtonText="Delete"
+  primaryButtonTextSubmitting="Deleting..."
+  [submitting]="deletingAttachment$ | async"
+  [isOpen$]="deletingAttachmentModalOpen$"
+  (onSubmit)="handleDeleteConfirmed()"
+  (onDismiss)="handleDeleteDenied()">
+
+  <ng-container basic-content>
+    This attachment cannot be recovered once deleted.
+  </ng-container>
+
+</pf-modal-form>

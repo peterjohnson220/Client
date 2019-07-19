@@ -293,20 +293,120 @@ export const getCompanyJobsData = createSelector(
 
 export const getCompanyJobsLoading = createSelector(
   getCompanyJobsFeature,
-  (feature) => feature.loading
+  fromCompanyJobsReducer.getLoading
 );
 
 export const getCompanyJobsLoadingError = createSelector(
   getCompanyJobsFeature,
-  (feature) => feature.loadingError
+  fromCompanyJobsReducer.getLoadingError
 );
 
 export const getCompanyJobsLoadingErrorMessage = createSelector(
   getCompanyJobsFeature,
-  (feature) => feature.loadingErrorMessage
+  fromCompanyJobsReducer.getLoadingErrorMessage
 );
 
 export const getCompanyJobsSearchTerm = createSelector(
   getCompanyJobsFeature,
-  (feature) => feature.searchTerm
+  fromCompanyJobsReducer.getSearchTerm
+);
+
+export const getCompanyJobsSelectedCompanyJob = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getSelectedCompanyJob
+);
+
+export const getCompanyJobsPageRowIndexToScrollTo = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getPageRowIndexToScrollTo
+);
+
+export const getCompanyJobsMappedExchangeJobsLoading = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getMappedExchangeJobsLoading
+);
+
+export const getCompanyJobsMappedExchangeJobsLoadingSuccess = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getMappedExchangeJobsLoadingSuccess
+);
+
+export const getCompanyJobsMappedExchangeJobsLoadingError = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getMappedExchangeJobsLoadingError
+);
+
+export const getCompanyJobsMappedExchangeJob = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getMappedExchangeJob
+);
+
+export const getCompanyJobsJdmDescriptionIds = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getJdmDescriptionIds
+);
+
+export const getCompanyJobsDownloadingJdmDescription = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getDownloadingJdmDescription
+);
+
+export const getCompanyJobsDownloadingJdmDescriptionError = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getDownloadingJdmDescriptionError
+);
+
+export const getCompanyJobsExchangeId = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getCompanyJobsExchangeId
+);
+
+export const getCompanyJobsSearchingExchangeJobs = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getSearchingExchangeJobs
+);
+
+export const getCompanyJobsSearchingExchangeJobsSuccess = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getSearchingExchangeJobsSuccess
+);
+
+export const getCompanyJobsSearchingExchangeJobsError = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getSearchingExchangeJobsError
+);
+
+export const getCompanyJobsExchangeJobsSearchResults = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getExchangeJobsSearchResults
+);
+
+export const getCompanyJobsExchangeJobsTitleSearchTerm = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getExchangeJobsTitleSearchTerm
+);
+
+export const getCompanyJobsExchangeJobsDescriptionSearchTerm = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getExchangeJobsDescriptionSearchTerm
+);
+
+export const getCompanyJobsSavingAssociation = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getSavingAssociation
+);
+
+export const getCompanyJobsSavingAssociationSuccess = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getSavingAssociationSuccess
+);
+
+export const getCompanyJobsSavingAssociationError = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getSavingAssociationError
+);
+
+export const getCompanyJobsShowConfirmUnmatchModal = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getShowConfirmUnmatchModal
 );

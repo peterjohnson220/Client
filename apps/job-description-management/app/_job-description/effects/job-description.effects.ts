@@ -5,8 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
-import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm/job-description-template-api.service';
+import { JobDescriptionApiService, JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import * as fromJobDescriptionReducer from '../reducers';
@@ -43,8 +42,10 @@ export class JobDescriptionEffects {
   saveCompanyJobsJobDescriptionTemplateId$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID),
-      switchMap((action: fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId) =>
-        this.jobDescriptionTemplateApiService.saveCompanyJobsJobDescriptionTemplateId(action.payload.Request)
+      switchMap((action: fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId) => {
+        const templateId = action.payload.PassThroughParameters.templateId;
+
+        return this.jobDescriptionTemplateApiService.saveCompanyJobsJobDescriptionTemplateId(templateId, action.payload.Request)
           .pipe(
             map((response: any) => {
               const successPayload = {
@@ -55,8 +56,8 @@ export class JobDescriptionEffects {
               return new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateIdSuccess(successPayload);
             }),
             catchError(response => of(new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateIdError()))
-        )
-      ));
+          );
+      }));
 
   constructor(
     private actions$: Actions,

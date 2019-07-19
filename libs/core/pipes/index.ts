@@ -8,3 +8,4 @@ export * from './wrap-subtext-with-tag';
 export * from './data-type-filter.pipe';
 export * from './order-by.pipe';
 export * from './filter-array-by-name';
+export * from './get-file-extension-css-class.pipe';

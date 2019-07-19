@@ -31,7 +31,7 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
         <fa-icon
           class="fa-w-16 peer-icon"
           icon="exchange-alt"
-          title="Job is associated to at least one exchange job"
+          title="Job is matched to at least one exchange job"
         />
       </div>
     </div>
@@ -162,7 +162,7 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
         <fa-icon
           class="fa-w-16 peer-icon"
           icon="exchange-alt"
-          title="Job is associated to at least one exchange job"
+          title="Job is matched to at least one exchange job"
         />
       </div>
     </div>

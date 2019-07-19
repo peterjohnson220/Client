@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import {UserTicketSearchRequest, UserTicketUpdateRequest} from 'libs/models/payfactors-api/service/request';
+import {
+  UserTicketAttachmentDeleteRequest,
+  UserTicketSearchRequest,
+  UserTicketUpdateRequest
+} from 'libs/models/payfactors-api/service/request';
 import {
   UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse
 } from 'libs/models/payfactors-api/service/response';
@@ -44,5 +48,11 @@ export class UserTicketApiService {
   updateUserTicket(request: UserTicketUpdateRequest) {
     return this.payfactorsApiService
       .post<UserTicketResponse>( `${this.endpoint}(${request.UserTicket.UserTicketId})/Default.UpdateUserTicket`, request);
+  }
+
+  deleteAttachment(request: UserTicketAttachmentDeleteRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}(${request.UserTicketId})/Default.DeleteAttachment`, {
+      UserTicketsFileId: request.UserTicketsFileId
+    });
   }
 }

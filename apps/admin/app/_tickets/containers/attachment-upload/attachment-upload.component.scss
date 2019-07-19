@@ -1,0 +1,76 @@
+@import "colors";
+
+.file-name {
+    font-size: 1.1em;
+}
+
+.break-word {
+  word-break: break-all;
+  word-wrap: normal;
+}
+
+.pf-secondary-color {
+  color: $pf-brand-secondary-color;
+}
+
+.pf-secondary-background {
+  background-color: $pf-brand-secondary-color;
+  border-color: $pf-brand-secondary-color;
+}
+
+.pf-grey {
+  color: #999999;
+}
+
+.pf-link-text {
+  color: rgb(33, 37, 41);
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.actions-cell {
+  vertical-align: middle;
+}
+
+.progress {
+  height: 3px;
+}
+
+.progress-text {
+  font-size: 1.15em;
+  font-style: normal;
+  font-weight: 400;
+  color: #999999;
+}
+
+.upload-error {
+  color: red !important;
+}
+
+.upload-complete {
+  color: rgb(0, 153, 0) !important;
+}
+
+// Kendo overrides
+:host ::ng-deep .k-widget {
+  border: none;
+  background: none;
+}
+
+:host ::ng-deep .k-upload.k-dropzone {
+  background: none;
+}
+
+:host ::ng-deep .k-button.k-upload-button {
+  color: #fff;
+  background-color: $pf-brand-secondary-color;
+  border-color: $pf-brand-secondary-color;
+  padding: 0.5rem 1.5rem;
+  margin: 0;
+}
+
+:host ::ng-deep .k-upload .k-dropzone .k-upload-status {
+  display: none;
+}

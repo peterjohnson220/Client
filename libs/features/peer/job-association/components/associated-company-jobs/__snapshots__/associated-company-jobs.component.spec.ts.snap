@@ -12,7 +12,7 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
     id="job-association-associated-jobs"
   >
     <h5>
-      Associated Jobs
+      Matched Jobs
     </h5>
     <div
       class="position-relative"
@@ -60,7 +60,7 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
                 </td>
                 <td>
                   <pf-half-complete-icon
-                    title="Unsaved Association"
+                    title="Unsaved Match"
                   />
                 </td>
                 <td
@@ -100,7 +100,7 @@ exports[`AssociatedCompanyJobsComponent should render different messaging if the
     id="job-association-associated-jobs"
   >
     <h5>
-      Associated Jobs
+      Matched Jobs
     </h5>
     <div
       class="position-relative"
@@ -152,7 +152,7 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
     id="job-association-associated-jobs"
   >
     <h5>
-      Associated Jobs
+      Matched Jobs
     </h5>
     <div
       class="position-relative"
@@ -201,7 +201,7 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                 </td>
                 <td>
                   <pf-half-complete-icon
-                    title="Unsaved Association"
+                    title="Unsaved Match"
                   />
                 </td>
                 <td
@@ -240,7 +240,7 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
     id="job-association-associated-jobs"
   >
     <h5>
-      Associated Jobs
+      Matched Jobs
     </h5>
     <div
       class="position-relative"
@@ -293,7 +293,7 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                 <td>
                   
                   <pf-complete-icon
-                    title="Saved Association"
+                    title="Saved Match"
                   />
                   
                 </td>
@@ -336,7 +336,7 @@ exports[`AssociatedCompanyJobsComponent should show No Associations instead of t
     id="job-association-associated-jobs"
   >
     <h5>
-      Associated Jobs
+      Matched Jobs
     </h5>
     <div
       class="position-relative"
@@ -353,7 +353,7 @@ exports[`AssociatedCompanyJobsComponent should show No Associations instead of t
     
     <div>
       <i>
-        No Associations
+        No Matches
       </i>
     </div>
   </div>
@@ -373,7 +373,7 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
     id="job-association-associated-jobs"
   >
     <h5>
-      Associated Jobs
+      Matched Jobs
     </h5>
     <div
       class="position-relative"
@@ -422,7 +422,7 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
                 </td>
                 <td>
                   <pf-half-complete-icon
-                    title="Unsaved Association"
+                    title="Unsaved Match"
                   />
                 </td>
                 <td

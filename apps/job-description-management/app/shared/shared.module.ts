@@ -14,18 +14,22 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
-import { ListAreaFilterDateComponent } from './components/list-area-filter-date.component';
-import { ListAreaFilterNumberComponent } from './components/list-area-filter-number.component';
-import { ListAreaFilterPillsComponent } from './components/list-area-filter-pills.component';
-import { ListAreaFilterSidebarComponent } from './components/list-area-filter-sidebar.component';
-import { ListAreaFilterTextComponent } from './components/list-area-filter-text.component';
-import { StatusPillComponent } from './components/status-pill.component';
-import { JobDescriptionAppliesToModalComponent } from './components/job-description-applies-to-modal.component';
+import { ListAreaFilterDateComponent } from './components/list-area-filter/list-area-filter-date';
+import { ListAreaFilterNumberComponent } from './components/list-area-filter/list-area-filter-number';
+import { ListAreaFilterPillsComponent } from './components/list-area-filter/list-area-filter-pills';
+import { ListAreaFilterSidebarComponent } from './components/list-area-filter/list-area-filter-sidebar';
+import { ListAreaFilterTextComponent } from './components/list-area-filter/list-area-filter-text';
+import { StatusPillComponent } from './components/status-pill';
+import {
+  JobDescriptionAppliesToModalComponent
+} from './components/modals/job-description-applies-to';
 import { RouteTrackingService } from './services';
 import { ListAreaService } from './services/list-area.service';
 import { reducers } from './reducers';
 import { JobDescriptionAppliesToEffects } from './effects/job-description-appliesto.effects';
 import { TemplateListEffects } from './effects/template-list.effects';
+import { CompanyFlsaStatusEffects } from './effects/company-flsa-status.effects';
+import { JobFamilyEffects } from './effects/job-family.effects';
 
 @NgModule({
   imports: [
@@ -35,7 +39,9 @@ import { TemplateListEffects } from './effects/template-list.effects';
     // 3rd Party
     StoreModule.forFeature('jobDescriptionManagement_shared', reducers),
     EffectsModule.forFeature([
+      CompanyFlsaStatusEffects,
       JobDescriptionAppliesToEffects,
+      JobFamilyEffects,
       TemplateListEffects
     ]),
     FontAwesomeModule,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { FileApiService } from './file/file-api.service';
@@ -58,6 +58,28 @@ export class PayfactorsApiService {
     );
   }
 
+  postFormData(url: string, formDataParams?: any): Observable<any> {
+
+    const formData = this.buildFormData(formDataParams);
+
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+
+    const options = {
+      headers: new HttpHeaders().append('Accept', 'application/json')
+    };
+
+    /*  unable to send via authHttp
+        Angular2 jwt is supposed to be pass through
+        but its not working
+        https://github.com/auth0/angular2-jwt/issues/54
+    */
+
+    return this.http.post(`${environment.payfactorsApiUrl}${url}`, formData, options).pipe(
+      map(this.extractValueFromOdata)
+    );
+  }
+
   private extractValueFromOdata(response: any) {
     if (response === null) {
       return null;
@@ -76,5 +98,14 @@ export class PayfactorsApiService {
     }
 
     return token;
+  }
+
+  private buildFormData(formDataParams: any[]) {
+    if (!formDataParams) { return; }
+
+    const formData = new FormData();
+    Object.keys(formDataParams).forEach(key => formData.append(key, formDataParams[key]));
+
+    return formData;
   }
 }

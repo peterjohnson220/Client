@@ -4,5 +4,5 @@ interface AppToTileMap {
 
 export const AppToTileMapping: AppToTileMap = {
   'comphub': { tileName: 'Quick Price' },
-  'dataviews': { tileName: 'Data Views' }
+  'data-insights': { tileName: 'Data Insights'}
 };

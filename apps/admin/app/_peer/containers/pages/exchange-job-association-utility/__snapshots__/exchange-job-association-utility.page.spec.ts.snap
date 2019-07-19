@@ -39,6 +39,6 @@ exports[`Admin - Exchange Job Association Utility Page should display success al
 <div
   class="alert alert-success"
 >
-   0 job(s) have been associated successfully! 
+   0 job(s) have been matched successfully! 
 </div>
 `;

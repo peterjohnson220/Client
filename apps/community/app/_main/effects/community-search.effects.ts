@@ -38,7 +38,10 @@ export class CommunitySearchEffects {
       }
     ),
     switchMap(payload => {
-      return this.communitySearchService.searchCommunity(payload.actionPayload, payload.storePayload.From, payload.storePayload.Count).pipe(
+      return this.communitySearchService.searchCommunity(
+          payload.actionPayload,
+          payload.storePayload.From,
+          payload.storePayload.Count).pipe(
         map((response: any) => {
           return new fromCommunitySearchActions.GettingMoreCommunitySearchResultsSuccess(response);
         }),
