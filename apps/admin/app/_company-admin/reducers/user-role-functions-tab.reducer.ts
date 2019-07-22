@@ -20,11 +20,15 @@ export const initialState: State = {
 export function reducer(state = initialState, action: fromUserRoleFunctionTabActions.FunctionTabActions): State {
   switch (action.type) {
     case fromUserRoleFunctionTabActions.UPDATE_CURRENT_ROLE_FUNCTION_TAB: {
-      return {
+      return action.payload ? {
         ...state,
         currentPermissions: action.payload.Permissions,
         currentPermissionsDefaultStatus: action.payload.Permissions,
         disableCheckboxes: action.payload.IsSystemRole
+      } : {
+        ...state,
+        currentPermissions: initialState.currentPermissions,
+        currentPermissionsDefaultStatus: initialState.currentPermissionsDefaultStatus
       };
     }
     case fromUserRoleFunctionTabActions.GRANT_DENY_PERMISSIONS: {

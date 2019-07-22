@@ -109,4 +109,22 @@ describe('UserRolePageComponent', () => {
     component.cancelChanges();
     expect(store.dispatch).toHaveBeenCalledWith(cancelAction);
   });
+  it('should delete role when deleteRole is called and user confirms', () => {
+    const mockRole = generateMockUserAssignedRole();
+    const deleteAction = new fromUserRoleActions.DeleteRole(mockRole.RoleId);
+    component.currentRole = mockRole;
+    spyOn(window, 'confirm').and.returnValue(true);
+    fixture.detectChanges();
+    component.deleteRole();
+    expect(store.dispatch).toHaveBeenCalledWith(deleteAction);
+  });
+  it('should not delete role when user does not confirm', () => {
+    const mockRole = generateMockUserAssignedRole();
+    const deleteAction = new fromUserRoleActions.DeleteRole(mockRole.RoleId);
+    component.currentRole = mockRole;
+    spyOn(window, 'confirm').and.returnValue(false);
+    fixture.detectChanges();
+    component.deleteRole();
+    expect(store.dispatch).not.toHaveBeenCalledWith(deleteAction);
+  });
 });

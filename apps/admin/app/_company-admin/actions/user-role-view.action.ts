@@ -22,6 +22,9 @@ export const SAVE_ROLE_ERROR = '[Company Admin/User Role] Save Role Error';
 export const DISABLE_SAVE_BUTTON = '[Company Admin/User Role] Disable Save Button';
 export const EDIT_ROLE_NAME = '[Company Admin/User Role] Edit Role Name IUserRoleUsersTabState';
 export const DISCARD_ROLE_CHANGES = '[Company Admin/User Role] Discard Role Changes';
+export const DELETE_ROLE = '[Company Admin/User Role] Delete Role';
+export const DELETE_ROLE_SUCCESS = '[Company Admin/User Role] Delete Role Success';
+export const DELETE_ROLE_ERROR = '[Company Admin/User Role] Delete Role Error';
 
 export class FieldChange implements Action {
   readonly type = FIELD_CHANGE;
@@ -111,6 +114,21 @@ export class DiscardRoleChanges implements  Action {
   constructor() {}
 }
 
+export class DeleteRole implements Action {
+  readonly type = DELETE_ROLE;
+  constructor(public payload: number) {}
+}
+
+export class DeleteRoleSuccess implements Action {
+  readonly type = DELETE_ROLE_SUCCESS;
+  constructor(public payload: number) {}
+}
+
+export class DeleteRoleError implements Action {
+  readonly type = DELETE_ROLE_ERROR;
+  constructor(public payload: string) {}
+}
+
 export type Actions = FieldChange
   | UpdateUserRoleTabState
   | UpdateCurrentUserRole
@@ -127,4 +145,7 @@ export type Actions = FieldChange
   | SaveRoleError
   | DisableSaveButton
   | EditRoleName
-  | DiscardRoleChanges;
+  | DiscardRoleChanges
+  | DeleteRole
+  | DeleteRoleSuccess
+  | DeleteRoleError;

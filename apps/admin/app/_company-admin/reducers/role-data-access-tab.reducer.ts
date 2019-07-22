@@ -72,6 +72,14 @@ export function reducer(state = initialState, action: fromDataAccessTabActions.D
       };
     }
     case fromDataAccessTabActions.UPDATE_CURRENT_ROLE: {
+      if (!action.payload) {
+        return {
+          ...state,
+          currentRoleDataRestrictions: initialState.currentRoleDataRestrictions,
+          currentRoleDataRestrictionsUnchanged: initialState.currentRoleDataRestrictionsUnchanged,
+          currentRoleId: initialState.currentRoleId
+        };
+      }
       const withBlankRows =  createBlankDataRestrictionIfNeeded(state.dataTypes, action.payload.DataRestrictions);
       const dataRestrictions =  convertRoleDataRestrictionForUI(state.dataFields, withBlankRows);
       return {

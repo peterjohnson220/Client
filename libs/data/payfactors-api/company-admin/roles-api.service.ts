@@ -40,4 +40,8 @@ export class RolesApiService {
   getDataTypes() {
     return this.payfactorsApiService.get<DataType[]>(`${this.endpoint}/GetDataTypes`);
   }
+
+  deleteRole(roleId: number) {
+    return this.payfactorsApiService.post(`${this.endpoint}(${roleId})/Default.DeleteRole`);
+  }
 }

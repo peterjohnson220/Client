@@ -44,6 +44,9 @@ export class UserRolePageComponent implements OnDestroy {
   roleDataRestrictionsSubscription: Subscription;
   inEditRoleMode = false;
   newRoleName: string;
+  usersInCurrentRoleSubscription: Subscription;
+  usersInCurrentRole = false;
+  deleteTitle = 'Delete Role';
 
   constructor(private userRoleService: UserRoleService, private store: Store<fromUserRoleViewReducer.State>) {
     this.store.dispatch(new fromUserRoleActions.LoadCompanyRoles());
@@ -95,6 +98,12 @@ export class UserRolePageComponent implements OnDestroy {
 
     this.dataAccessTabPendingChangesSubscription = this.store.select(fromUserRoleViewReducer.getDataAccessTabPendingChanges)
       .subscribe(p => {  this.dataAccessTabPendingChanges = p; });
+
+    this.usersInCurrentRoleSubscription = this.store.select(fromUserRoleViewReducer.getUsersInActiveRole).subscribe(u => {
+      this.usersInCurrentRole = u.length > 0;
+      this.deleteTitle = this.usersInCurrentRole ? 'Cannot delete role if there are users assigned to it' : 'Delete role';
+    });
+
   }
 
   // clear edit role name when in edit mode
@@ -183,6 +192,7 @@ export class UserRolePageComponent implements OnDestroy {
     this.permissionIdsToSaveSubscription.unsubscribe();
     this.dataAccessTabPendingChangesSubscription.unsubscribe();
     this.roleDataRestrictionsSubscription.unsubscribe();
+    this.usersInCurrentRoleSubscription.unsubscribe();
   }
 
   promptUserToSave(input: any): boolean {
@@ -201,5 +211,15 @@ export class UserRolePageComponent implements OnDestroy {
     } else {
       return true;
     }
+  }
+
+  deleteRole() {
+    if (confirm('Are you sure you want to delete this role?')) {
+      this.store.dispatch(new fromUserRoleActions.DeleteRole(this.currentRole.RoleId));
+    }
+  }
+
+  isThisRoleActiveRole(roleId: number) {
+    return this.currentRole && this.currentRole.RoleId === roleId && !this.currentRole.IsSystemRole;
   }
 }
