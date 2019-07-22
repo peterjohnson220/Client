@@ -2564,6 +2564,199 @@
         }
       }
     },
+    "structures": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/structures",
+            "index": "apps/structures/index.html",
+            "main": "apps/structures/main.ts",
+            "tsConfig": "apps/structures/tsconfig.app.json",
+            "polyfills": "apps/structures/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/structures/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/structures/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/structures",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/structures",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/structures/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/structures/../../environments/environment.ts",
+                  "with": "apps/structures/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/structures/../../environments/environment.ts",
+                  "with": "apps/structures/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/structures/../../assets/js/new-relic.js",
+                  "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/structures/../../environments/environment.ts",
+                  "with": "apps/structures/../../environments/environment.sales.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "structures:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "structures:build:staging"
+            },
+            "production": {
+              "browserTarget": "structures:build:production"
+            },
+            "sales": {
+              "browserTarget": "structures:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "structures:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/structures/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/structures/polyfills.ts",
+            "tsConfig": "apps/structures/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/structures/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/structures/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/structures",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/structures",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
     "data-management": {
       "root": "",
       "sourceRoot": "",
