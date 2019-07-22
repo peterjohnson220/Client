@@ -56,6 +56,35 @@
     padding: 0;
   }
 }
+.tag-container {
+  .tag-dropdown {
+    background-color: transparent;
+    .k-dropdown-wrap {
+      background-color: transparent;
+      padding-left: 0;
+      .k-input {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        font-size: 1rem;
+      }
+      .k-i-arrow-s {
+        color: #0883BE;
+      }
+    }
+  }
+}
+.k-popup{
+  .k-list{
+      .k-item {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+  }
+}
 
 .tag-modal {
   .modal-dialog {

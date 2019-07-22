@@ -10,6 +10,7 @@ import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import { DashboardsComponent } from './dashboards.component';
 import { generateMockWorkbook, DashboardView } from '../../models';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 describe('Data Insights - Dashboards Comopnent', () => {
   let instance: DashboardsComponent;
@@ -23,7 +24,8 @@ describe('Data Insights - Dashboards Comopnent', () => {
           ...fromRootState.reducers,
           dataInsights_main: combineReducers(fromDataInsightsMainReducer.reducers),
         }),
-        DragulaModule.forRoot()
+        DragulaModule.forRoot(),
+        DropDownsModule
       ],
       declarations: [ DashboardsComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]

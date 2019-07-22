@@ -28,6 +28,7 @@ export const PERSIST_DASHBOARD_VIEW_ERROR = '[Data Insights / Dashboards] Persis
 export const GET_DASHBOARD_VIEW = '[Data Insights / Dashboards] Get Dashboard View]';
 export const GET_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Dashboards] Get Dashboard View Success';
 export const GET_DASHBOARD_VIEW_ERROR = '[Data Insights / Dashboards] Get Dashboard View Error';
+export const SET_TAGGED_FILTER = '[Data Insights / Dashboards] Set Tagged Filter';
 
 export class GetCompanyWorkbooks implements Action {
   readonly type = GET_COMPANY_WORKBOOKS;
@@ -167,6 +168,11 @@ export class GetDashboardViewError implements Action {
   constructor() {}
 }
 
+export class SetTaggedFilter implements Action {
+  readonly type = SET_TAGGED_FILTER;
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = GetCompanyWorkbooks
   | GetCompanyWorkbooksSuccess
@@ -191,4 +197,5 @@ export type Actions
   | PersistDashboardViewError
   | GetDashboardView
   | GetDashboardViewSuccess
-  | GetDashboardViewError;
+  | GetDashboardViewError
+  | SetTaggedFilter;
