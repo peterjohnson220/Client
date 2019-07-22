@@ -17,8 +17,7 @@
               (pageChange)="pageChange($event)">
     <kendo-grid-column field="Status"
                        title="Status"
-                       width="40"
-                       [filterable]="false">
+                       width="40">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
         <img [alt]="dataItem[textField]"
