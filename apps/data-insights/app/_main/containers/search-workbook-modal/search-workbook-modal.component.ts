@@ -77,6 +77,7 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll();
     this.searchValue = '';
     this.filteredWorkbooks = [];
+    this.noSearchResults = false;
   }
 
   handleSearchValueChanged(value: string) {
