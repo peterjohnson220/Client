@@ -1,0 +1,58 @@
+<ng-template #editReportModal let-modal>
+  <div class="modal-body">
+    <form class="edit-report-form" [formGroup]="editReportForm">
+      <div class="form-content row">
+        <div class="col-12">
+          <h4 class="title">Edit {{report.Name}}</h4>
+
+          <div class="form-group">
+            <label>Display Name</label>
+            <input type="text" class="form-control"
+              [attr.data-qa-id]="'txt-reportName'"
+              [placeholder]="'Report Name...'"
+              maxlength="255"
+              ngbAutoFocus
+              formControlName="displayName"
+              name="displayName"/>
+          </div>
+          
+          <div class="form-group">
+            <label>Summary</label>
+            <textarea class="form-control summary" name="summary"
+              maxlength="300"
+              formControlName="summary"
+              placeholder="Report Summary...">
+            </textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Thumbnail</label>
+            <kendo-upload
+              [autoUpload]="true"
+              [saveUrl]="uploadThumbnailUrl"
+              [multiple]="false"
+              [showFileList]="false"
+              [restrictions]="thumbnailRestrictions"
+              (select)="selectEventHandler($event)"
+              (uploadProgress)="uploadProgressEventHandler($event)"
+              (success)="successEventHandler($event)"
+              (error)="errorEventHandler($event)">
+              <kendo-upload-messages select="Select file..."></kendo-upload-messages>
+            </kendo-upload>
+            <div class="d-flex flex-column">
+              <span *ngIf="!!errorMessage" class="text-danger">{{ errorMessage }}</span>
+              <img *ngIf="!!thumbnailUrl" class="thumbnail" [src]="thumbnailUrl" name="thumbnail"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="close()">Cancel</button>
+    <button type="button" class="btn btn-primary" [disabled]="saveDisabled" (click)="save()">
+      <span *ngIf="!saving">Save</span>
+      <span *ngIf="saving"><pf-loading-indicator></pf-loading-indicator> Saving...</span>
+    </button>
+  </div>
+</ng-template>

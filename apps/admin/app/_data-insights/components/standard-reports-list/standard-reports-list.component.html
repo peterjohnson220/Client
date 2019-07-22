@@ -26,6 +26,13 @@
           <ng-template kendoGridNoRecordsTemplate>
             {{filter ? 'No reports found matching this filter' : 'No reports to display'}}
           </ng-template>
+          <kendo-grid-column width="50">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <button title="Edit Report" class="btn-edit btn btn-sm btn-primary" (click)="handleEditClicked(dataItem)">
+                <fa-icon icon="pencil"></fa-icon>
+              </button>
+            </ng-template>
+          </kendo-grid-column>
     </kendo-grid>
 </div>
 <div *ngIf="!loading && !standardReportsList">

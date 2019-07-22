@@ -49,6 +49,23 @@ export class StandardReportsListPageEffects {
       )
     );
 
+  @Effect()
+  updatePayfactorsReportDetails$ = this.actions$
+  .pipe(
+    ofType(fromStandardReportsListPageActions.UPDATE_REPORT_DETAILS),
+    switchMap((action: fromStandardReportsListPageActions.UpdateReportDetails) => {
+      const request = PayfactorsApiModelMapper.mapEditReportFormDataToUpdatePayfactorsReportDetailsRequest(action.payload);
+      return this.reportManagementService.updatePayfactorsReportDetails(request)
+        .pipe(
+          map((response) => {
+            const reportDetails = PayfactorsApiModelMapper.mapReportDetailsResponseToStandardReportDetails([response]);
+            return new fromStandardReportsListPageActions.UpdateReportDetailsSuccess(reportDetails[0]);
+          }),
+          catchError(() => of(new fromStandardReportsListPageActions.UpdateReportDetailsError()))
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private reportManagementService: ReportManagementApiService

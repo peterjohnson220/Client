@@ -4,15 +4,18 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromStandardReportsListPageActions from '../actions/standard-reports-list-page.actions';
 import { StandardReportDetails } from '../models';
+import { PayfactorsApiModelMapper } from '../helpers';
 
 export interface State {
   standardReportDetailsAsync: AsyncStateObj<StandardReportDetails[]>;
   syncingReports: boolean;
+  savingReport: boolean;
 }
 
 const initialState: State = {
   standardReportDetailsAsync: generateDefaultAsyncStateObj<StandardReportDetails[]>([]),
-  syncingReports: false
+  syncingReports: false,
+  savingReport: false
 };
 
 export function reducer(state = initialState, action: fromStandardReportsListPageActions.Actions): State {
@@ -63,6 +66,29 @@ export function reducer(state = initialState, action: fromStandardReportsListPag
         syncingReports: false
       };
     }
+    case fromStandardReportsListPageActions.UPDATE_REPORT_DETAILS: {
+      return {
+        ...state,
+        savingReport: true
+      };
+    }
+    case fromStandardReportsListPageActions.UPDATE_REPORT_DETAILS_SUCCESS: {
+      const standardReportDetailsAsyncClone = cloneDeep(state.standardReportDetailsAsync);
+      let updatedReport = standardReportDetailsAsyncClone.obj.find((x: StandardReportDetails) =>
+        x.Id === action.payload.Id);
+      updatedReport = PayfactorsApiModelMapper.updateStandardReportDetails(updatedReport, action.payload);
+      return {
+        ...state,
+        savingReport: false,
+        standardReportDetailsAsync: standardReportDetailsAsyncClone
+      };
+    }
+    case fromStandardReportsListPageActions.UPDATE_REPORT_DETAILS_ERROR: {
+      return {
+        ...state,
+        savingReport: false
+      };
+    }
     default: {
       return state;
     }
@@ -71,3 +97,4 @@ export function reducer(state = initialState, action: fromStandardReportsListPag
 
 export const getStandardReportDetails = (state: State) => state.standardReportDetailsAsync;
 export const getSyncingStandardReports = (state: State) => state.syncingReports;
+export const getSavingReport = (state: State) => state.savingReport;

@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { UploadModule } from '@progress/kendo-angular-upload';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-
 import { StandardReportsListPageComponent } from './containers';
-import { StandardReportsListComponent } from './components';
+import { StandardReportsListComponent, EditReportModalComponent } from './components';
 import { DataInsightsRoutingModule } from './data-insights-routing.module';
 import {reducers} from './reducers';
 import { StandardReportsListPageEffects } from './effects';
@@ -23,6 +23,8 @@ import * as fromFaIcons from './fa-icons';
   imports: [
     // Angular
     CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
 
     // 3rd Party
     StoreModule.forFeature('dataInsightsManagement_main', reducers),
@@ -30,6 +32,8 @@ import * as fromFaIcons from './fa-icons';
       StandardReportsListPageEffects
     ]),
     GridModule,
+    FontAwesomeModule,
+    UploadModule,
 
     // Routing
     DataInsightsRoutingModule,
@@ -42,7 +46,7 @@ import * as fromFaIcons from './fa-icons';
   ],
   declarations: [
     // Components
-    StandardReportsListComponent,
+    StandardReportsListComponent, EditReportModalComponent,
     // Pages
     StandardReportsListPageComponent
   ]

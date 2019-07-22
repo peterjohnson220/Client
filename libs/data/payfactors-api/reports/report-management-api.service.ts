@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ReportDetailsResponse } from '../../../models/payfactors-api/reports';
+import { ReportDetailsResponse, UpdatePayfactorsReportDetailsRequest } from '../../../models/payfactors-api/reports';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -17,5 +17,9 @@ export class ReportManagementApiService {
 
   syncPayfactorsReports(): Observable<number> {
     return this.payfactorsApiService.post(`${this.endpoint}/SyncPayfactorsReports`);
+  }
+
+  updatePayfactorsReportDetails(request: UpdatePayfactorsReportDetailsRequest): Observable<ReportDetailsResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/UpdatePayfactorsReportsDetails`, request);
   }
 }
