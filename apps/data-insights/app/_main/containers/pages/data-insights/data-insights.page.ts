@@ -20,6 +20,8 @@ export class DataInsightsPageComponent implements OnInit {
   public searchWorkbookModalComponent: SearchWorkbookModalComponent;
   standardReports$: Observable<AsyncStateObj<Workbook[]>>;
 
+  showAllStandardReports: boolean;
+
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
   ) {
@@ -36,5 +38,9 @@ export class DataInsightsPageComponent implements OnInit {
 
   handleSearchClicked() {
     this.searchWorkbookModalComponent.open();
+  }
+
+  toggleShowAllStandardReports() {
+    this.showAllStandardReports = !this.showAllStandardReports;
   }
 }

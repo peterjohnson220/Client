@@ -1,9 +1,16 @@
 <div class="standard-report d-flex flex-column">
-  <div class="preview d-flex justify-content-center align-items-center flex-grow-1">
-    <a [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
-      [queryParams]="{showTabs: workbook.ShowTabs, title: workbook.WorkbookName}">
-      <img class="img-fluid" [src]="workbook.Thumbnail" />
-    </a>
+  <div class="preview d-flex justify-content-center align-items-center flex-grow-1"
+  (mouseenter)="handleMouseOverWorkbookContainer()"
+  (mouseleave)="handleMouseLeaveWorkbookContainer()">
+    <div class="w-100">
+      <a [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
+         [queryParams]="{showTabs: workbook.ShowTabs, title: workbook.WorkbookName}">
+        <pf-standard-report-hexagon [workbook]="workbook" [showOverlay]="displayOverlay"></pf-standard-report-hexagon>
+        <div *ngIf="workbook.WorkbookDescription" class="workbook-description">
+            {{workbookDescription}}
+        </div>
+      </a>
+    </div>
   </div>
   <div class="type mt-3 mb-2">
     Payfactors Reports
