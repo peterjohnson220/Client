@@ -87,10 +87,10 @@ export class ExchangeCompanyApiService {
     return this.payfactorsApiService.post<ExchangeJob[]>(`${this.endpoint}/GetAssociableExchangeJobs`, params);
   }
 
-  getExchangeJobComparisonList(exchangeId: number, listState: any): Observable<GridDataResult> {
+  getExchangeJobComparisonList(exchangeId: number, listState: any, countryCode: string): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeCompanyJobComparisonList`,
-      { params: { exchangeId, listState: JSON.stringify(listState) } },
+      { params: { exchangeId, countryCode, listState: JSON.stringify(listState) } },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
