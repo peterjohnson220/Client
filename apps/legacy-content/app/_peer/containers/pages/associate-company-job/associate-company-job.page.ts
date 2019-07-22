@@ -21,6 +21,8 @@ import * as fromAssociateReducer from '../../../reducers';
     styleUrls: ['./associate-company-job.page.scss']
 })
 export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
+    private _jobTitleText: string;
+
     nullCheck = isNullOrUndefined;
     companyJobInfo: Job;
     companyJobId: number;
@@ -87,6 +89,10 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
         });
     }
 
+    get jobTitleText(): string {
+        return this._jobTitleText;
+    }
+
     setSelectedKey(exchangeId: number) {
         this.exchangeId = exchangeId;
         if (!isNullOrUndefined(exchangeId)) {
@@ -145,6 +151,15 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
             s += '<u>' + jobDescription + '</u>';
         }
         return s;
+    }
+
+    displayTooltip(element: HTMLElement, text: string): boolean {
+        if (element.offsetWidth < element.scrollWidth) {
+            this._jobTitleText = text;
+            return true;
+        }
+        this._jobTitleText = '';
+        return false;
     }
 
     ngOnDestroy(): void {
