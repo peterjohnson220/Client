@@ -19,11 +19,12 @@
 
     .workbook-name {
       width: 100%;
-      @extend %ellipsis-overflowing-text;
-      
+
       .btn {
+        @extend %ellipsis-overflowing-text;
         font-size: 24px;
         color: #000000;
+        max-width: 19em;
       }
     }
     
