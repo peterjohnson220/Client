@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -45,8 +45,8 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
   private unsubscribe$ = new Subject();
 
   constructor(private store: Store<fromTicketReducer.State>,
-              private userApiService: UserApiService,
-              private ref: ChangeDetectorRef) {
+    private userApiService: UserApiService,
+    private ref: ChangeDetectorRef) {
     this.lookupsLoading$ = this.store.select(fromTicketReducer.getLookupLoading);
     this.lookupsLoadingError$ = this.store.select(fromTicketReducer.getLookupLoadingError);
     this.userTicketStates$ = this.store.select(fromTicketReducer.getUserTicketStates);
@@ -117,7 +117,7 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
           this.userTicketTypes = cloneDeep(v);
           const match = this.userTicketTypes.find(e =>
             (e.TicketTypeName === this.ticket.UserTicketType.TicketTypeName && !this.ticket.UserTicketType.TicketSubTypeName)
-              || (e.TicketTypeName === this.ticket.UserTicketType.TicketTypeName
+            || (e.TicketTypeName === this.ticket.UserTicketType.TicketTypeName
               && e.TicketSubTypeName === this.ticket.UserTicketType.TicketSubTypeName));
           if (match) {
             this.selectedUserTicketType = match;
@@ -126,6 +126,7 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
 
             const localType: UserTicketType = {
               UserTicketTypeId: this.ticket.UserTicketType.UserTicketTypeId,
+              TicketFileTypeId: this.ticket.UserTicketType.TicketFileTypeId,
               TicketTypeName: this.ticket.UserTicketType.TicketTypeName,
               SortOrder: this.ticket.UserTicketType.SortOrder,
               TicketSubTypeName: this.ticket.UserTicketType.TicketSubTypeName,

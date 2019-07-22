@@ -21,6 +21,7 @@ export interface UserTicketResponse {
   UserTicketFiles?: UserTicketFile[];
   UserTicketComments?: UserTicketComment[];
   UserTicketTypeId: number;
+  TicketFileTypeId: number;
   UserTicketTypeSortOrder: number;
 }
 
@@ -55,7 +56,8 @@ export function generateMockUserTicketViewModel(): UserTicketResponse {
     OpenedUserFullName: 'Test Hello',
     LastUpdatedText: '5 seconds ago',
     UserTicketTypeId: 1,
-    UserTicketTypeSortOrder: 1,
+    TicketFileTypeId: 1,
+    UserTicketTypeSortOrder: 1
   };
 }
 

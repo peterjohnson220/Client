@@ -7,9 +7,7 @@
               [data]="gridView"
               [filterable]="true"
               [sortable]="sortable"
-              [pageable]="{
-                pageSizes: pageSizes
-              }"
+              [pageable]="{ pageSizes: pageSizes }"
               [pageSize]="state.take"
               [sort]="state.sort"
               [skip]="state.skip"
@@ -23,16 +21,41 @@
                        [filterable]="false">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div [innerHTML]="dataItem.Status"></div>
+        <img [alt]="dataItem[textField]"
+             src="assets/svg/userticketstate_{{svgParse.getLowerAndTrimmedValue(dataItem, 'Status')}}.svg">
+        {{ dataItem.Status }}
+      </ng-template>
+      <ng-template kendoGridFilterCellTemplate
+                   let-filter>
+        <pf-ticket-list-filter #ticketStateFilter
+                               [filter]="filter"
+                               [data]="userTicketStates"
+                               [textField]="'UserTicketState'"
+                               [valueField]="'UserTicketState'"
+                               [filterField]="ticketFieldType.STATUS"
+                               [defaultValue]="defaultUserTicketState"
+                               (valueChange)="filterChanged()">
+        </pf-ticket-list-filter>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="Type"
                        title="Type"
-                       width="75"
-                       [filterable]="false">
+                       width="75">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div><h4><span class="badge {{dataItem.TicketCssClass}}">{{dataItem.Type}}</span></h4></div>
+        <span class="ticketsdot {{dataItem.TicketCssClass}}"></span>
+        <span>{{ dataItem.Type }}</span>
+      </ng-template>
+      <ng-template kendoGridFilterCellTemplate
+                   let-filter>
+        <pf-ticket-list-filter #ticketTypeFilter
+                               [filter]="filter"
+                               [data]="userTicketTypes"
+                               [textField]="'TicketTypeDisplayName'"
+                               [valueField]="'TicketTypeDisplayName'"
+                               [filterField]="ticketFieldType.TYPE"
+                               (valueChange)="filterChanged()">
+        </pf-ticket-list-filter>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="Id"
@@ -41,7 +64,9 @@
                        [filterable]="false">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <a class="ticket-link" href="javascript:void(0)" (click)="handleCellClick(dataItem)">{{dataItem.Id}}</a>
+        <a class="ticket-link"
+           href="javascript:void(0)"
+           (click)="handleCellClick(dataItem)">{{dataItem.Id}}</a>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="CompanyName"
@@ -59,7 +84,9 @@
                        [filterable]="false">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div>{{dataItem.Description.length > 150 ? dataItem.Description.substring(0,150) +  '...' : dataItem.Description}}</div>
+        <div>
+          {{dataItem.Description.length > 150 ? dataItem.Description.substring(0,150) +  '...' : dataItem.Description}}
+        </div>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="Created"
@@ -79,16 +106,16 @@
                    let-dataItem>
         <div [innerHTML]="dataItem.ServiceUser"></div>
       </ng-template>
-      <ng-template kendoGridFilterCellTemplate let-filter>
-        <pf-ticket-list-filter
-          #serviceUserFilter
-          [filter]="filter"
-          [data]="pfServiceReps"
-          [textField]="'Name'"
-          [valueField]="'PfServicesRepId'"
-          [filterField]="'ServiceUser'"
-          [defaultValue]="defaultPfServiceRep"
-          (valueChange)="filterChanged()">
+      <ng-template kendoGridFilterCellTemplate
+                   let-filter>
+        <pf-ticket-list-filter #serviceUserFilter
+                               [filter]="filter"
+                               [data]="pfServiceReps"
+                               [textField]="'Name'"
+                               [valueField]="'PfServicesRepId'"
+                               [filterField]="'ServiceUser'"
+                               [defaultValue]="defaultPfServiceRep"
+                               (valueChange)="filterChanged()">
         </pf-ticket-list-filter>
       </ng-template>
     </kendo-grid-column>

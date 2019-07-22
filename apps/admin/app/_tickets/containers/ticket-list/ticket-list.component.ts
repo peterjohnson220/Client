@@ -1,22 +1,25 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import {Store} from '@ngrx/store';
-import {Observable, Subject, Subscription} from 'rxjs';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
-import {GridDataResult, PageChangeEvent, SortSettings} from '@progress/kendo-angular-grid';
-import {SortDescriptor, State} from '@progress/kendo-data-query';
+import { GridDataResult, PageChangeEvent, SortSettings } from '@progress/kendo-angular-grid';
+import { orderBy, SortDescriptor, State } from '@progress/kendo-data-query';
 
+import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
+import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
-import {UserContext} from 'libs/models/security';
-import {UserTicketSearchRequest} from 'libs/models/payfactors-api/service/request';
 
-import {SearchRequestFilterMapper} from '../../helpers';
-import {TicketListFilterComponent} from '../filters/ticket-list-filter';
+import { TicketFieldType } from '../../constants/tickets-constants';
+import { SearchRequestFilterMapper, SVGLocationParse } from '../../helpers';
+import { TicketListFilterComponent } from '../filters/ticket-list-filter';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
-import {PfServicesRep, UserTicketGridItem, UserTicketTabItem} from '../../models';
+
+import { PfServicesRep, UserTicketGridItem, UserTicketState, UserTicketTabItem, UserTicketType } from '../../models';
+
 
 @Component({
   selector: 'pf-ticket-list',
@@ -25,7 +28,8 @@ import {PfServicesRep, UserTicketGridItem, UserTicketTabItem} from '../../models
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TicketListComponent implements OnInit, OnDestroy {
-  @ViewChild('serviceUserFilter', {static: false}) serviceUserFilterComponent: TicketListFilterComponent;
+  @ViewChild('serviceUserFilter', { static: false }) serviceUserFilterComponent: TicketListFilterComponent;
+  @ViewChild('ticketStateFilter', { static: false }) ticketStateFilterComponent: TicketListFilterComponent;
   gridView: GridDataResult;
   sortable: SortSettings = {
     allowUnsort: false,
@@ -55,12 +59,18 @@ export class TicketListComponent implements OnInit, OnDestroy {
   private selectedTicket: UserTicketTabItem;
   private defaultPfServiceRep: number;
   pfServiceReps: PfServicesRep[] = [];
+  userTicketStates: UserTicketState[] = [];
+  userTicketTypes: UserTicketType[] = [];
   ticketListItems: UserTicketGridItem[] = [];
+  public ticketFieldType = TicketFieldType;
+  public svgParse = SVGLocationParse;
 
   initSuccess$: Observable<boolean>;
   ticketListLoading$: Observable<boolean>;
   ticketListLoadingError$: Observable<boolean>;
   pfServicesReps$: Observable<PfServicesRep[]>;
+  userTicketStates$: Observable<UserTicketState[]>;
+  userTicketTypes$: Observable<UserTicketType[]>;
   dirty$: Observable<boolean>;
   dirtySubscription: Subscription;
   initSuccessSubscription: Subscription;
@@ -70,12 +80,14 @@ export class TicketListComponent implements OnInit, OnDestroy {
   isDirty = false;
 
   constructor(private store: Store<fromTicketReducer.State>,
-              private rootStore: Store<fromRootState.State>) {
+    private rootStore: Store<fromRootState.State>) {
     this.ticketListLoading$ = this.store.select(fromTicketReducer.getTicketListLoading);
     this.ticketListLoadingError$ = this.store.select(fromTicketReducer.getTicketListLoadingError);
     this.dirty$ = this.store.select(fromTicketReducer.getDirtyGridState);
     this.initSuccess$ = this.store.select(fromTicketReducer.getGridInitSuccess);
     this.pfServicesReps$ = this.store.select(fromTicketReducer.getPfServiceReps);
+    this.userTicketStates$ = this.store.select(fromTicketReducer.getUserTicketStates);
+    this.userTicketTypes$ = this.store.select(fromTicketReducer.getUserTicketTypes);
     this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
 
     this.initSubscriptions();
@@ -112,6 +124,21 @@ export class TicketListComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       ).subscribe(v => {
         this.pfServiceReps = v;
+      });
+    this.userTicketStates$
+      .pipe(
+        filter(v => v && v.length > 0),
+        takeUntil(this.unsubscribe$)
+      ).subscribe(v => {
+        this.userTicketStates = v;
+      });
+
+    this.userTicketTypes$
+      .pipe(
+        filter(v => v && v.length > 0),
+        takeUntil(this.unsubscribe$)
+      ).subscribe(v => {
+        this.userTicketTypes = v;
       });
   }
 

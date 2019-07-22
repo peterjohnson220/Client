@@ -1,6 +1,6 @@
-import {CompositeFilterDescriptor, FilterDescriptor} from '@progress/kendo-data-query';
+import { CompositeFilterDescriptor, FilterDescriptor } from '@progress/kendo-data-query';
 
-import {UserTicketSearchRequest} from 'libs/models/payfactors-api/service/request';
+import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
 
 export class SearchRequestFilterMapper {
   static mapCompositeFilterDescriptorToUserTicketSearchRequest(filter: CompositeFilterDescriptor): UserTicketSearchRequest {
@@ -12,6 +12,9 @@ export class SearchRequestFilterMapper {
           break;
         case 'Status':
           model.UserTicket_State = f.value;
+          break;
+        case 'Type':
+          model.UserTicket_Type = f.value;
           break;
       }
     });

@@ -12,6 +12,7 @@ export interface TicketDetail {
   UserTicketType: UserTicketType;
   TicketState: string;
   LastUpdatedText: string;
+  TicketCssClass: string;
   Description: string;
   Comments: TicketComment[];
 }
