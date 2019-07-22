@@ -38,6 +38,7 @@
 .left-side-menu-nav {
   list-style: none;
   overflow-y: hidden;
+  overflow-x: hidden;
   li a {
     display: block;
     text-decoration: none;
@@ -90,4 +91,8 @@
 
 .ignore-click {
   pointer-events: none;
+}
+
+.role-name {
+  flex: 1 1 auto;
 }

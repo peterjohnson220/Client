@@ -27,7 +27,7 @@
       <div class="d-flex flex-column-reverse flex-grow-1 role-tab-container">
         <div class="d-flex flex-row action-container ">
           <div id="api-response-container" *ngIf="roleApiResponse" class="d-flex pi-save-success mx-3"
-               [ngClass]="{'api-save-error': roleApiResponse === _RoleApiResponse.Error}">
+               [ngClass]="{'api-save-error': roleApiResponse !== _RoleApiResponse.Success}">
             {{roleApiResponse}}
           </div>
           <div class="d-flex my-3">
@@ -84,12 +84,24 @@
 </ng-template>
 
 <ng-template #readonlyModeRoleName let-userAssignedRole="userAssignedRole">
-  <button type="button" title="Edit Role Name" class="btn btn-link ignore-click-elsewhere cursor-pointer"
-          (click)="setEditRoleNameMode(true)"
-          [style.visibility]="currentRole
-          && currentRole.RoleId === userAssignedRole.RoleId
-          && !userAssignedRole.IsSystemRole? 'visible' : 'hidden'">
-    <fa-icon icon="pencil" class="ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></fa-icon>
-  </button>
-  <a class="ml-1 ignore-click-elsewhere cursor-pointer" [routerLink]="" (click)="clickRole(userAssignedRole)">{{userAssignedRole.RoleName}}</a>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <button type="button" title="Edit Role Name" class="btn btn-link ignore-click-elsewhere cursor-pointer"
+              (click)="setEditRoleNameMode(true)"
+              [style.visibility]="isThisRoleActiveRole(userAssignedRole.RoleId) ? 'visible' : 'hidden'">
+        <fa-icon icon="pencil" class="ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></fa-icon>
+      </button>
+    </div>
+    <div class="ml-1 pt-1 ignore-click-elsewhere cursor-pointer role-name">
+      <a [routerLink]="" (click)="clickRole(userAssignedRole)">{{userAssignedRole.RoleName}}</a>
+    </div>
+    <div *ngIf="isThisRoleActiveRole(userAssignedRole.RoleId)" class="input-group-append action-item" title="{{deleteTitle}}">
+      <button class="btn btn-link ignore-click-elsewhere cursor-pointer"
+              (click)="deleteRole()"
+              [disabled]="usersInCurrentRole"
+              [attr.data-qa-id]="'btn-delete-role' + userAssignedRole.RoleId">
+        <fa-icon icon="trash"></fa-icon>
+      </button>
+    </div>
+  </div>
 </ng-template>

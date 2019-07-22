@@ -120,6 +120,21 @@ export class UserRoleEffects {
             .SaveRoleError(RoleApiResponse.Error)))
       )));
 
+  @Effect()
+  deleteRole$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromUserRoleActions.DELETE_ROLE),
+      switchMap((action: fromUserRoleActions.DeleteRole) =>
+        this.adminRolesApi.deleteRole(action.payload).pipe(
+          mergeMap(response => {
+            return [new fromUserRoleActions.UpdateCurrentUserRole(undefined),
+              new fromUserRoleActions.DeleteRoleSuccess(action.payload)];
+          }),
+          catchError(error => of(new fromUserRoleActions.DeleteRoleError(RoleApiResponse.DeleteError)))
+        )
+      )
+    );
+
   constructor(private actions$: Actions,
               private adminRolesApi: RolesApiService,
               private store: Store<fromUserRoleViewReducer.State>) {

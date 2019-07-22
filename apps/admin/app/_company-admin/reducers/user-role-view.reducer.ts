@@ -126,6 +126,19 @@ export function reducer(state = initialState, action: fromUserRoleViewActions.Ac
         currentUserRole: cloneDeep(noApiResponseState.currentUserRoleDefaultState)
       };
     }
+    case fromUserRoleViewActions.DELETE_ROLE_SUCCESS: {
+      return {
+        ...noApiResponseState,
+        roles: state.roles.filter(r => r.RoleId !== action.payload),
+        apiSaveResponse: RoleApiResponse.Success
+      };
+    }
+    case fromUserRoleViewActions.DELETE_ROLE_ERROR: {
+      return {
+        ...noApiResponseState,
+        apiSaveResponse: action.payload
+      };
+    }
     default: {
       return noApiResponseState;
     }

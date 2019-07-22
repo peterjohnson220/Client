@@ -11,6 +11,7 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
   currentUserRoleTabState="0"
   dataAccessTabPendingChanges="false"
   dataAccessTabPendingChangesSubscription={[Function Subscriber]}
+  deleteTitle={[Function String]}
   functionTabPendingChanges="false"
   functionTabPendingChangesSubscription={[Function Subscriber]}
   inEditRoleMode="false"
@@ -27,6 +28,8 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
   userIdsToAssignSubscription={[Function Subscriber]}
   userIdsToAssignToRole={[Function Array]}
   userRoleService={[Function UserRoleService]}
+  usersInCurrentRole="false"
+  usersInCurrentRoleSubscription={[Function Subscriber]}
   usersTabPendingChanges="false"
   usersTabPendingChangesSubscription={[Function Subscriber]}
 >
@@ -68,23 +71,34 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
                 class="d-flex flex-row left-side-menu-nav-row"
               >
                 
-                <button
-                  class="btn btn-link ignore-click-elsewhere cursor-pointer"
-                  style="visibility: hidden;"
-                  title="Edit Role Name"
-                  type="button"
+                <div
+                  class="input-group"
                 >
-                  <fa-icon
-                    aria-hidden="true"
-                    class="ignore-click-elsewhere ignore-click cursor-pointer"
-                    icon="pencil"
-                  />
-                </button>
-                <a
-                  class="ml-1 ignore-click-elsewhere cursor-pointer"
-                >
+                  <div
+                    class="input-group-prepend"
+                  >
+                    <button
+                      class="btn btn-link ignore-click-elsewhere cursor-pointer"
+                      style="visibility: hidden;"
+                      title="Edit Role Name"
+                      type="button"
+                    >
+                      <fa-icon
+                        aria-hidden="true"
+                        class="ignore-click-elsewhere ignore-click cursor-pointer"
+                        icon="pencil"
+                      />
+                    </button>
+                  </div>
+                  <div
+                    class="ml-1 pt-1 ignore-click-elsewhere cursor-pointer role-name"
+                  >
+                    <a>
+                      
+                    </a>
+                  </div>
                   
-                </a>
+                </div>
               </div>
             </li>
           </ul>
@@ -177,6 +191,7 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
   currentUserRoleTabState="0"
   dataAccessTabPendingChanges="false"
   dataAccessTabPendingChangesSubscription={[Function Subscriber]}
+  deleteTitle={[Function String]}
   functionTabPendingChanges="false"
   functionTabPendingChangesSubscription={[Function Subscriber]}
   inEditRoleMode="false"
@@ -193,6 +208,8 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
   userIdsToAssignSubscription={[Function Subscriber]}
   userIdsToAssignToRole={[Function Array]}
   userRoleService={[Function UserRoleService]}
+  usersInCurrentRole="false"
+  usersInCurrentRoleSubscription={[Function Subscriber]}
   usersTabPendingChanges="false"
   usersTabPendingChangesSubscription={[Function Subscriber]}
 >
