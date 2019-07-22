@@ -36,6 +36,7 @@ export interface UserTicketComment {
   UserTicketId: number;
   UserId: number;
   UserEmail: string;
+  UserFullName: string;
   Comments?: string;
   CreateDate?: Date;
 }
@@ -73,6 +74,7 @@ export function generateMockUserTicketsComment(): UserTicketComment {
     UserTicketId: 1,
     UserId: 123,
     UserEmail: 'test@hello.com',
+    UserFullName: 'mockUserFullName',
     Comments: 'This is a comment.',
     CreateDate: new Date(2019, 3, 4)
   };

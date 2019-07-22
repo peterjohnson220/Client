@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 
 import * as fromTicketActions from '../actions/ticket.actions';
-import { UserTicketItem, UserTicketTabItem } from '../models';
+import { UserTicketItem, UserTicketTabItem, TicketComment } from '../models';
 
 export interface State {
   loading: boolean;
@@ -126,6 +126,21 @@ export function reducer(state = initialState, action: fromTicketActions.Actions)
         updatingError: true
       };
     }
+    case fromTicketActions.CREATE_COMMENT: {
+      return {
+        ...state,
+      };
+    }
+    case fromTicketActions.DELETE_COMMENT: {
+      return {
+        ...state,
+      };
+    }
+    case fromTicketActions.UPDATE_COMMENT: {
+      return {
+        ...state,
+      };
+    }
     default: {
       return state;
     }
@@ -140,3 +155,4 @@ export const getOpenedTicket = (state: State) => state.openedTicket;
 export const getSelectedTabTicket = (state: State) => state.selectedTabTicket;
 export const getUpdating = (state: State) => state.updating;
 export const getUpdatingError = (state: State) => state.updatingError;
+export const getComments = (state: State) => state.userTicket.TicketInfo.Comments;

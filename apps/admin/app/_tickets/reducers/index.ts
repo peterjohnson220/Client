@@ -26,7 +26,7 @@ export const reducers = {
   ticket: fromTicketsReducer.reducer,
   ticketList: fromTicketsListReducer.reducer,
   ticketLookups: fromTicketLookupsReducer.reducer,
-  ticketAttachment: fromTicketAttachmentReducer.reducer
+  ticketAttachment: fromTicketAttachmentReducer.reducer,
 };
 
 // Select Feature area
@@ -51,6 +51,7 @@ export const getSelectedTabTicket = createSelector(selectTicketState, fromTicket
 export const getLoadingTabTicket = createSelector(selectTicketState, fromTicketsReducer.getLoadingTabTicket);
 export const getTicketUpdating = createSelector(selectTicketState, fromTicketsReducer.getUpdating);
 export const getTicketUpdatingError = createSelector(selectTicketState, fromTicketsReducer.getUpdatingError);
+export const getTicketComments = createSelector(selectTicketState, fromTicketsReducer.getComments);
 
 // Ticket List Selectors
 export const {

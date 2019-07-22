@@ -1,7 +1,7 @@
 <div class="detail-card mb-2" *ngIf="ticketAttachments && ticketId">
   <div class="uppercase ticket-header">Attachments
   </div>
-  <div class="mx-3" style="padding-top:10px">
+  <div class="mx-3 pt-4 pb-2">
     <pf-attachment-upload [ticketId]="ticketId" (addAttachments)="addUploadedAttachments($event)">
     </pf-attachment-upload>
     <div id="section-existin-attachments" class="row" *ngIf="ticketAttachments.length || uploadedAttachments.length">

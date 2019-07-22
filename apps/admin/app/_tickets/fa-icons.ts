@@ -18,10 +18,12 @@ import { faFileArchive } from '@fortawesome/pro-solid-svg-icons/faFileArchive';
 import { faEnvelope } from '@fortawesome/pro-solid-svg-icons/faEnvelope';
 import { faFileAlt } from '@fortawesome/pro-solid-svg-icons/faFileAlt';
 import { faUndo } from '@fortawesome/pro-solid-svg-icons/faUndo';
+import { faEdit } from '@fortawesome/pro-solid-svg-icons/faEdit';
+import { faSave } from '@fortawesome/pro-solid-svg-icons/faSave';
 
 export const faIcons = [
   faPlus, faLongArrowAltLeft, faPencil, faCheckCircle, faTimes,
   faTrash, faSpinner, faTimesCircle, faDownload, faTimesRegular,
   faDownloadRegular, faFileExcel, faFileWord, faFilePdf, faFileImage,
-  faFileArchive, faEnvelope, faFileAlt, faUndo
+  faFileArchive, faEnvelope, faFileAlt, faUndo, faEdit, faSave
 ];
