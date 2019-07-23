@@ -101,14 +101,17 @@ export class DashboardsEffects {
     ofType(fromAllDashboardsActions.REMOVE_WORKBOOK_FAVORITE_SUCCESS),
     withLatestFrom(
       this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsync)),
-      (action, workbooksAsync) => ({ workbooksAsync })
+      this.store.pipe(select(fromDataInsightsMainReducer.getDashboardView)),
+      (action, workbooksAsync, dashboardView) => ({ workbooksAsync, dashboardView })
     ),
     mergeMap((data) => {
         const actions = [];
         const favoriteWorkbooks = DashboardsHelper.getCompanyWorkbooksByView(data.workbooksAsync.obj, DashboardView.Favorites);
         const workbookIds = favoriteWorkbooks.map(w => w.WorkbookId);
         if (favoriteWorkbooks.length === 0) {
-          actions.push(new fromAllDashboardsActions.ToggleDashboardView({view: DashboardView.All}));
+          if (data.dashboardView === DashboardView.Favorites) {
+            actions.push(new fromAllDashboardsActions.ToggleDashboardView({view: DashboardView.All}));
+          }
         } else {
           actions.push(new fromAllDashboardsActions.SaveWorkbookOrder({
             workbookIds,

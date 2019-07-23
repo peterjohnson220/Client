@@ -67,12 +67,22 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
     }
     case fromDashboardsActions.REMOVE_WORKBOOK_FAVORITE: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
+      let tagFilterClone = cloneDeep(state.tagFilter);
       const workbook: Workbook = companyWorkbooksAsyncClone.obj.find((w: Workbook) => w.WorkbookId === action.payload.workbookId);
       workbook.IsFavorite = false;
       workbook.FavoritesOrder = null;
+      if (state.dashboardView === DashboardView.Favorites) {
+        const workbookLength = DashboardsHelper.getCompanyWorkbooksByView(
+          state.companyWorkbooksAsync.obj, state.dashboardView, state.tagFilter
+        ).length;
+        if (workbookLength === 1) {
+          tagFilterClone = null;
+        }
+      }
       return {
         ...state,
         companyWorkbooksAsync: companyWorkbooksAsyncClone,
+        tagFilter: tagFilterClone
       };
     }
     case fromDashboardsActions.TOGGLE_DASHBOARD_VIEW: {
@@ -200,3 +210,4 @@ export const getDistinctTagsByView  = (state: State) => {
 export const getDistinctTags = (state: State) => {
   return Array.from(new Set(state.companyWorkbooksAsync.obj.filter(cw => !!cw.Tag).map(cw => cw.Tag)));
 };
+export const getTagFilter = (state: State) => state.tagFilter;

@@ -26,6 +26,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   dashboardView$: Observable<string>;
   tags$: Observable<string[]>;
   distinctTagsByView$: Observable<string[]>;
+  tagFilter$: Observable<string>;
   savingTag$: Observable<boolean>;
   savingTagError$: Observable<boolean>;
 
@@ -51,6 +52,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.distinctTagsByView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTagsByView));
     this.savingTag$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTag));
     this.savingTagError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTagError));
+    this.tagFilter$ = this.store.pipe(select(fromDataInsightsMainReducer.getTagFilter));
   }
 
   get anyFavorites() {
@@ -75,7 +77,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   }
 
   trackByFn(index: any, workbook: Workbook) {
-    return workbook.WorkbookId ;
+    return workbook.WorkbookId;
   }
 
   handleFavoriteClicked(workbook: Workbook) {
@@ -88,7 +90,6 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   handleViewChanged(view: DashboardView) {
     this.store.dispatch(new fromDashboardsActions.ToggleDashboardView({ view }));
-    this.tagsDropDownList.reset();
   }
 
   handleTagChanged(tag: string) {
@@ -108,7 +109,6 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   handleSaveTagClicked(saveObj: SaveWorkbookTagObj) {
     this.store.dispatch(new fromDashboardsActions.SaveWorkbookTag(saveObj));
-    this.tagsDropDownList.reset();
   }
 
   private handleDropModel(sourceModel) {
