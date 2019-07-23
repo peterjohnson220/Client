@@ -5,5 +5,6 @@ import { faInfoCircle } from '@fortawesome/pro-regular-svg-icons/faInfoCircle';
 import { faUsdCircle } from '@fortawesome/pro-solid-svg-icons/faUsdCircle';
 import { faUsers } from '@fortawesome/pro-solid-svg-icons/faUsers';
 import { faCaretDown } from '@fortawesome/pro-solid-svg-icons/faCaretDown';
+import { faGlobeAmericas } from '@fortawesome/pro-solid-svg-icons/faGlobeAmericas';
 
-export const faIcons = [faBuilding, faBriefcase, faTimes, faInfoCircle, faUsdCircle, faUsers, faCaretDown];
+export const faIcons = [faBuilding, faBriefcase, faTimes, faInfoCircle, faUsdCircle, faUsers, faCaretDown, faGlobeAmericas];

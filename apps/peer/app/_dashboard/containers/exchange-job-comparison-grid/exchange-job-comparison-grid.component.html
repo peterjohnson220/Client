@@ -150,13 +150,36 @@
       <kendo-pager-info></kendo-pager-info>
       <div class="country-filter">
         <label for="country-dropdown">Market: </label>
-        <kendo-dropdownlist id="country-dropdown" [value]="'USA'" [disabled]="true">
-          <ng-template kendoDropDownListValueTemplate  let-dataItem>
-            <img src="assets/images/blank.gif" class="flag flag-us mr-2" /> USA
+        <kendo-dropdownlist
+          id="country-dropdown"
+          [attr.data-qa-id]="'ddm-country-dropdown'"
+          (valueChange)="handleMarketFilterChanged($event)"
+          [data]="marketFilterOptions"
+          [textField]="'Value'"
+          [valueField]="'Key'"
+          [valuePrimitive]="true"
+          [ngModel]="selectedMarket">
+
+          <ng-template kendoDropDownListItemTemplate let-dataItem>
+            <ng-container *ngTemplateOutlet="countryOptionTemplate; context: {dataItem: dataItem}"></ng-container>
           </ng-template>
+          <ng-template kendoDropDownListValueTemplate let-dataItem>
+            <ng-container *ngTemplateOutlet="countryOptionTemplate; context: {dataItem: dataItem}"></ng-container>
+          </ng-template>
+
         </kendo-dropdownlist>
       </div>
 
     </ng-template>
   </kendo-grid>
 </pf-async-container>
+<ng-template #countryOptionTemplate let-dataItem="dataItem">
+  <ng-container [ngSwitch]="dataItem?.Key">
+              <span *ngSwitchCase="'ALL'">
+                <fa-icon icon="globe-americas" class="mr-2" size="lg"></fa-icon> {{dataItem.Value}}
+              </span>
+    <span *ngSwitchCase="'USA'">
+                <img src="assets/images/blank.gif" class="flag flag-us mr-2 mb-sm-1" /> {{dataItem.Value}}
+              </span>
+  </ng-container>
+</ng-template>

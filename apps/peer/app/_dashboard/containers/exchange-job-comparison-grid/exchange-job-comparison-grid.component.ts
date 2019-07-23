@@ -2,13 +2,17 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import {DataStateChangeEvent, GridDataResult, SelectionEvent} from '@progress/kendo-angular-grid';
+import { DataStateChangeEvent, GridDataResult, SelectionEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { GridTypeEnum, ExchangeJobComparison } from 'libs/models';
+import {
+  GridTypeEnum, ExchangeJobComparison, GenericKeyValue,
+  FeatureAreaConstants, UiPersistenceSettingConstants
+} from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as fromRootState from 'libs/state/state';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -26,18 +30,21 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   exchangeJobComparisonsGridData$: Observable<GridDataResult>;
   exchangeJobComparisonsGridState$: Observable<State>;
   exchangeJobOrgsDetailVisible$: Observable<boolean>;
-
+  persistedComparisonGridMarket$: Observable<string>;
   companyContext$: Observable<any>;
 
   exchangeJobOrgsDetailVisibleSubscription: Subscription;
   exchangeJobComparisonGridStateSubscription: Subscription;
+  persistedComparisonGridMarketSubscription: Subscription;
 
   exchangeJobComparisonGridState: State;
-
+  marketFilterOptions: GenericKeyValue<string, string>[] = [{Key: 'USA', Value: 'USA'}, {Key: 'ALL', Value: 'Global'}];
+  selectedMarket = 'USA';
   selectedKeys: number[] = [];
 
   constructor(
-    private store: Store<fromDashboardReducer.State>
+    private store: Store<fromDashboardReducer.State>,
+    private settingsService: SettingsService
   ) {
     this.loadingExchangeJobComparisons$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsLoading));
     this.loadingExchangeJobComparisonsError$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsLoadingError));
@@ -45,12 +52,18 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     this.exchangeJobComparisonsGridState$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsGridState));
     this.exchangeJobOrgsDetailVisible$ = this.store.pipe(select(fromDashboardReducer.getExchangeDashboardExchangeJobOrgsDetailVisible));
     this.companyContext$ = this.store.pipe(select(fromRootState.getCompanyContext));
+    this.persistedComparisonGridMarket$ = this.settingsService.selectUiPersistenceSetting(
+      FeatureAreaConstants.PeerDashboard,
+      UiPersistenceSettingConstants.ComparisonMarketSelection, 'string'
+    );
   }
 
   // Grid
   handleDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobComparison, state));
-    this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
+    this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({
+      countryCode: this.selectedMarket
+    }));
   }
 
   getExchangeIndexValue(exchangeIndex: number): string {
@@ -80,8 +93,22 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromUploadOrgDataActions.OpenUploadOrgDataModal());
   }
 
+  handleMarketFilterChanged(countryCode: string) {
+    this.selectedMarket = countryCode;
+    this.store.dispatch(new fromExchangeJobComparisonGridActions.SelectComparisonMarket({newMarket: countryCode}));
+    this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({
+      countryCode: this.selectedMarket
+    }));
+  }
+
   // Lifecycle
   ngOnInit() {
+    this.persistedComparisonGridMarketSubscription = this.persistedComparisonGridMarket$.subscribe((market) => {
+      this.selectedMarket = !!market ? market : 'USA';
+      this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({
+        countryCode: this.selectedMarket
+      }));
+    });
     this.exchangeJobComparisonGridStateSubscription = this.exchangeJobComparisonsGridState$.subscribe(gridState => {
       this.exchangeJobComparisonGridState = cloneDeep(gridState);
     });
@@ -94,6 +121,7 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.persistedComparisonGridMarketSubscription.unsubscribe();
     this.exchangeJobComparisonGridStateSubscription.unsubscribe();
     this.exchangeJobOrgsDetailVisibleSubscription.unsubscribe();
   }

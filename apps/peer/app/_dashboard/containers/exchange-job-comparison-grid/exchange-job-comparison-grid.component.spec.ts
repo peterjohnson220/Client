@@ -10,6 +10,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { GridTypeEnum, ExchangeJobComparison, generateMockExchangeJobComparison } from 'libs/models';
 import { generateMockDataStateChangeEvent, generateMockSelectionEvent } from 'libs/extensions/kendo/mocks';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -35,7 +36,10 @@ describe('Peer - Exchange Job Comparison Grid', () => {
         ExchangeJobComparisonGridComponent
       ],
       // Shallow Testing
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        {provide: SettingsService, useValue: {selectUiPersistenceSetting: jest.fn()}}
+      ]
     });
 
     store = TestBed.get(Store);
@@ -43,13 +47,12 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     fixture = TestBed.createComponent(ExchangeJobComparisonGridComponent);
     instance = fixture.componentInstance;
 
-    spyOn(store, 'dispatch');
-
     const mockJobComparison: ExchangeJobComparison = generateMockExchangeJobComparison();
     const gridDataResult: GridDataResult = {data: [mockJobComparison], total: 1};
     instance.exchangeJobComparisonsGridData$ = of(gridDataResult);
     instance.selectedKeys = [1];
     instance.exchangeJobOrgsDetailVisible$ = of(false);
+    instance.persistedComparisonGridMarket$ = of('USA');
 
     fixture.detectChanges();
   });
@@ -57,6 +60,9 @@ describe('Peer - Exchange Job Comparison Grid', () => {
   it('should dispatch an UpdateGrid action when handleDataStateChange is called', () => {
     const mockGridState = generateMockDataStateChangeEvent('CompanyJobTitle');
     const expectedAction = new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobComparison, mockGridState);
+
+    spyOn(store, 'dispatch');
+
     fixture.detectChanges();
 
     instance.handleDataStateChange(mockGridState);
@@ -66,10 +72,25 @@ describe('Peer - Exchange Job Comparison Grid', () => {
 
   it('should dispatch a LoadExchangeJobComparisons action when handleDataStateChange is called', () => {
     const mockGridState = generateMockDataStateChangeEvent('CompanyJobTitle');
-    const expectedAction = new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons();
+    const expectedAction = new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({countryCode: 'USA'});
+
+    spyOn(store, 'dispatch');
+
     fixture.detectChanges();
 
     instance.handleDataStateChange(mockGridState);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a LoadExchangeJobComparisons action when handleMarketFilterChanged is called', () => {
+    const expectedAction = new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({countryCode: 'ALL'});
+
+    spyOn(store, 'dispatch');
+
+    fixture.detectChanges();
+
+    instance.handleMarketFilterChanged('ALL');
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
@@ -109,6 +130,8 @@ describe('Peer - Exchange Job Comparison Grid', () => {
   it(`should NOT dispatch a LoadExchangeJobOrgs action when onSelectionChange is triggered and there are no selections`, () => {
     const mockSelectionEvent = {...generateMockSelectionEvent(generateMockExchangeJobComparison()), selectedRows: []};
 
+    spyOn(store, 'dispatch');
+
     instance.onSelectionChange(mockSelectionEvent);
 
     expect(store.dispatch).not.toHaveBeenCalled();
@@ -117,6 +140,8 @@ describe('Peer - Exchange Job Comparison Grid', () => {
   it(`should dispatch a LoadExchangeJobOrgs action when onSelectionChange is triggered and there are selections`, () => {
     const mockExchangeJobComparison = generateMockExchangeJobComparison();
     const expectedAction = new fromExchangeDashboardActions.LoadExchangeJobOrgs(mockExchangeJobComparison);
+
+    spyOn(store, 'dispatch');
 
     instance.onSelectionChange(generateMockSelectionEvent(generateMockExchangeJobComparison()));
 

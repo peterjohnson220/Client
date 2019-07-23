@@ -6,9 +6,13 @@ export const LOAD_EXCHANGE_JOB_COMPARISONS_SUCCESS  = '[Peer Main/Exchange Job C
 export const LOAD_EXCHANGE_JOB_COMPARISONS_ERROR = '[Peer Main/Exchange Job Comparisons] Load Exchange Job Comparisons Error';
 export const LOAD_EXCHANGE_JOB_ORGS = '[Peer Main/Exchange Job Comparisons] Load Exchange Job Orgs';
 export const LOAD_EXCHANGE_JOB_ORGS_SUCCESS = '[Peer Main/Exchange Job Comparisons] Load Exchange Job Orgs Success';
+export const SELECT_COMPARISON_MARKET = '[Peer Main/Exchange Job Comparisons] Select Comparison Market';
+export const SELECTED_COMPARISON_MARKET_PERSISTED = '[Peer Main/Exchange Job Comparisons] Selected Comparison Market Persisted';
 
 export class LoadExchangeJobComparisons implements Action {
   readonly type = LOAD_EXCHANGE_JOB_COMPARISONS;
+
+  constructor(public payload: {countryCode: string}) {}
 }
 
 export class LoadExchangeJobComparisonsSuccess implements Action {
@@ -21,7 +25,19 @@ export class LoadExchangeJobComparisonsError implements Action {
   readonly type = LOAD_EXCHANGE_JOB_COMPARISONS_ERROR;
 }
 
+export class SelectComparisonMarket implements Action {
+  readonly type = SELECT_COMPARISON_MARKET;
+
+  constructor(public payload: {newMarket: string}) {}
+}
+
+export class SelectedComparisonMarketPersisted implements Action {
+  readonly type = SELECTED_COMPARISON_MARKET_PERSISTED;
+}
+
 export type Actions
   = LoadExchangeJobComparisons
   | LoadExchangeJobComparisonsSuccess
-  | LoadExchangeJobComparisonsError;
+  | LoadExchangeJobComparisonsError
+  | SelectComparisonMarket
+  | SelectedComparisonMarketPersisted;
