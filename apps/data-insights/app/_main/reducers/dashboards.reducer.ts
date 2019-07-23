@@ -190,7 +190,11 @@ export const getFilteredCompanyWorkbooks = (state: State) => {
 
 export const getDistinctTagsByView  = (state: State) => {
   const workbooks = DashboardsHelper.getCompanyWorkbooksByView(state.companyWorkbooksAsync.obj, state.dashboardView);
-  return Array.from(new Set(workbooks.filter(cw => !!cw.Tag || cw.DefaultTag).map(cw => cw.Tag || cw.DefaultTag)));
+  const sortedTags = Array.from(new Set(workbooks.filter(cw => !!cw.Tag || cw.DefaultTag).map(cw => cw.Tag || cw.DefaultTag)))
+    .sort(function( a, b) {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+  return sortedTags;
 };
 
 export const getDistinctTags = (state: State) => {
