@@ -29,6 +29,7 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
   trendingTags: CommunityTag[] = [];
   filteredTags: Tag[] = [];
   filteredCategories: CommunityCategoryEnum[] = [];
+  filteredIndustries: string[] = [];
   isFilteredByPostId = false;
   isFilteredByReplyId = false;
   communityPosts$: Observable<CommunityPost[]>;
@@ -55,6 +56,7 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
     this.filterOptionsSubscription = this.filters$.subscribe((data) => {
       this.filteredTags = data.TagFilter.Tags;
       this.filteredCategories = data.CategoryFilter.Category;
+      this.filteredIndustries = data.IndustryFilter.Industry;
       this.isFilteredByPostId = data.PostIds.length > 0;
       this.isFilteredByReplyId = data.ReplyIds.length > 0;
     });
@@ -95,6 +97,10 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
     this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityCategoryFromFilterOptions(filter));
   }
 
+  industryFilterClicked(filter: any) {
+    this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityIndustryFromFilterOptions(filter));
+  }
+
   viewAllClicked() {
     this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingAllFilterOptions());
     this.router.navigateByUrl('/dashboard');
@@ -105,7 +111,11 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
   }
 
   showFilterView() {
-    return this.isFilteredByCategory()  || this.isFilteredByNonTrendingTags() || this.isFilteredByPostId || this.isFilteredByReplyId;
+    return this.isFilteredByCategory()
+    || this.isFilteredByNonTrendingTags()
+    || this.isFilteredByIndustry()
+    || this.isFilteredByPostId
+    || this.isFilteredByReplyId;
   }
 
   isFilteredByCategory() {
@@ -117,6 +127,10 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
     return filteredNonTrendingTags.length > 0;
   }
 
+  isFilteredByIndustry() {
+    return this.filteredIndustries.length > 0;
+  }
+
 
   private IsTagSelected(tag: CommunityTag): boolean {
     return this.filteredTags.some (x => x.TagName === tag.Tag);
@@ -124,5 +138,9 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
 
   private IsCategorySelected(category) {
     return this.filteredCategories.some (filteredCategory => filteredCategory === category);
+  }
+
+  private IsIndustrySelected(industry) {
+    return this.filteredIndustries.some (filteredIndustry => filteredIndustry === industry);
   }
 }

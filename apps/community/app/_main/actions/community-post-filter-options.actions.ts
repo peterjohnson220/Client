@@ -9,6 +9,12 @@ export const ADDING_COMMUNITY_POST_REPLY_TO_FILTER_OPTIONS = '[Community/Filter 
 export const DELETING_COMMUNITY_TAG_FROM_FILTER_OPTIONS = '[Community/Filter Options] Deleting Community Tag To Filter Options';
 export const DELETING_COMMUNITY_CATEGORY_FROM_FILTER_OPTIONS = '[Community/Filter Options] Deleting Community Category To Filter Options';
 export const DELETING_ALL_FILTER_OPTIONS = '[Community/Filter Options] Deleting All Filter Options';
+export const ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS =
+  '[Community/Filter Options] Adding Community Industry To Filter Options';
+export const ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS_SUCCESS =
+'[Community/Filter Options] Adding Community Industry To Filter Options Success';
+export const DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS =
+  '[Community/Filter Options] Deleting Community Industry To Filter Options';
 
 export class AddingCommunityTagToFilterOptions implements Action {
   readonly type = ADDING_COMMUNITY_TAG_TO_FILTER_OPTIONS;
@@ -52,6 +58,21 @@ export class DeletingAllFilterOptions implements Action {
   readonly type = DELETING_ALL_FILTER_OPTIONS;
 }
 
+export class AddingCommunityIndustryToFilterOptions implements Action {
+  readonly type = ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS;
+  constructor(public payload: any) {}
+}
+
+export class AddingCommunityIndustryToFilterOptionsSuccess implements Action {
+  readonly type = ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityIndustryFromFilterOptions implements Action {
+  readonly type = DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS;
+  constructor(public payload: any) {}
+}
+
 export type Actions
   = AddingCommunityTagToFilterOptions
   | AddingCommunityTagToFilterOptionsSuccess
@@ -61,4 +82,7 @@ export type Actions
   | AddingCommunityPostReplyToFilterOptions
   | DeletingCommunityTagFromFilterOptions
   | DeletingCommunityCategoryFromFilterOptions
-  | DeletingAllFilterOptions;
+  | DeletingAllFilterOptions
+  | AddingCommunityIndustryToFilterOptions
+  | AddingCommunityIndustryToFilterOptionsSuccess
+  | DeletingCommunityIndustryFromFilterOptions;

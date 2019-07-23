@@ -81,6 +81,23 @@ describe('CommunityPopularTagsComponent', () => {
     expect(result).toBeTruthy();
 
   });
+  it('should filtered by industry return false if not filtered by industries', () => {
+
+    instance.filteredIndustries = [];
+    const result = instance.isFilteredByIndustry();
+    expect(result).toBeFalsy();
+
+  });
+  it('should filtered by industry return true if not filtered by industries', () => {
+
+    const filtered = [];
+    filtered.push('TestIndustry');
+    instance.filteredIndustries = filtered;
+
+    const result = instance.isFilteredByIndustry();
+    expect(result).toBeTruthy();
+
+  });
   it('should be true when non filtered tags selected', () => {
 
     const trending = [];
@@ -135,6 +152,17 @@ describe('CommunityPopularTagsComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
+  it('should dispatch deleting industry filter action when industry filter Clicked', () => {
+
+    const industryFilter = 'TestIndustry';
+
+    const expectedAction = new fromCommunityPostFilterOptionsActions.DeletingCommunityIndustryFromFilterOptions(industryFilter);
+    fixture.detectChanges();
+
+    instance.industryFilterClicked(industryFilter);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
   it('should dispatch deletingallfilteroptions when view all is clicked', () => {
     const expectedAction = new fromCommunityPostFilterOptionsActions.DeletingAllFilterOptions();
     fixture.detectChanges();
@@ -149,6 +177,7 @@ describe('CommunityPopularTagsComponent', () => {
     instance.filters$ = Observable.of({
       TagFilter: null,
       CategoryFilter: null,
+      IndustryFilter: null,
       PostIds: ['999'],
       ReplyIds: []
     });
@@ -164,6 +193,7 @@ describe('CommunityPopularTagsComponent', () => {
     instance.filters$ = Observable.of({
       TagFilter: null,
       CategoryFilter: null,
+      IndustryFilter: null,
       PostIds: ['999', '888'],
       ReplyIds: []
     });

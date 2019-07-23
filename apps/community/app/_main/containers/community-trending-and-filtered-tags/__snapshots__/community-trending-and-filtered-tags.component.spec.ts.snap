@@ -10,6 +10,7 @@ exports[`CommunityPopularTagsComponent should not show filter title when filteri
   filterTitleSubscription={[Function Subscriber]}
   filteredByPost$={[Function Store]}
   filteredCategories={[Function Array]}
+  filteredIndustries={[Function Array]}
   filteredTags={[Function Array]}
   filters$={[Function Observable]}
   isFilteredByPostId={[Function Boolean]}
@@ -29,6 +30,7 @@ exports[`CommunityPopularTagsComponent should not show filter title when filteri
     >
       FILTERS
     </h5>
+    
     
     
     
@@ -67,6 +69,7 @@ exports[`CommunityPopularTagsComponent should show filter title when filtering b
   filterTitleSubscription={[Function Subscriber]}
   filteredByPost$={[Function Store]}
   filteredCategories={[Function Array]}
+  filteredIndustries={[Function Array]}
   filteredTags={[Function Array]}
   filters$={[Function Observable]}
   isFilteredByPostId={[Function Boolean]}
@@ -86,6 +89,7 @@ exports[`CommunityPopularTagsComponent should show filter title when filtering b
     >
       FILTERS
     </h5>
+    
     
     
     
@@ -123,6 +127,7 @@ exports[`CommunityPopularTagsComponent should show trending tags 1`] = `
   filterTitleSubscription={[Function Subscriber]}
   filteredByPost$={[Function Store]}
   filteredCategories={[Function Array]}
+  filteredIndustries={[Function Array]}
   filteredTags={[Function Array]}
   filters$={[Function Store]}
   isFilteredByPostId="false"

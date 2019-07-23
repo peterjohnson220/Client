@@ -5,6 +5,7 @@ import { TagFilter } from '../models/tag-filter.model';
 import { CategoryFilter } from '../models/category-filter.model';
 import { CommunityTag } from 'libs/models/community/community-tag.model';
 import { PagingOptions } from '../models/paging-options.model';
+import { IndustryFilter } from '../models/industry-filter.model';
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
   return {
@@ -25,6 +26,7 @@ export function initializeFilterOptions(): FilterOptions {
   const filterOptions: FilterOptions = {
     TagFilter: initializeTagFilter(tags),
     CategoryFilter: initializeCategoryFilter(),
+    IndustryFilter: initializeIndustryFilter(),
     PostIds: [],
     ReplyIds: []
   };
@@ -42,6 +44,13 @@ export function initializeCategoryFilter(): CategoryFilter {
   const categoryFilters: CommunityCategoryEnum[] = [];
   return {
     Category: categoryFilters
+  };
+}
+
+export function initializeIndustryFilter(): IndustryFilter {
+  const industryFilters: string[] = [];
+  return {
+    Industry: industryFilters
   };
 }
 

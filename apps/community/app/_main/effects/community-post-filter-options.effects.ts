@@ -37,6 +37,20 @@ export class CommunityPostFilterOptionsEffects {
     );
 
   @Effect()
+  addingIndustryFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+
+  @Effect()
+  removingIndustryFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+
+  @Effect()
   addingPostFilter$ = this.actions$
     .pipe(
       ofType(fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_POST_TO_FILTER_OPTIONS),

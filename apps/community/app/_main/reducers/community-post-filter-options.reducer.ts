@@ -10,6 +10,7 @@ export interface State {
   filterOptions: FilterOptions;
   addingCommunityTag: boolean;
   addingCommunityCategory: boolean;
+  addingCommunityIndustry: boolean;
   filterByPost: boolean;
 }
 
@@ -17,6 +18,7 @@ export const initialState: State = {
   filterOptions: initializeFilterOptions(),
   addingCommunityTag: false,
   addingCommunityCategory: false,
+  addingCommunityIndustry: false,
   filterByPost: false
 };
 
@@ -72,6 +74,30 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
         addingCommunityCategory: false
       };
     }
+  case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS: {
+      const newIndustry = action.payload;
+      const currentEntities = cloneDeep(state.filterOptions);
+
+      if (currentEntities.IndustryFilter.Industry.length === 0) {
+        currentEntities.IndustryFilter.Industry.push(newIndustry);
+      } else {
+        const exists = currentEntities.IndustryFilter.Industry.filter(industry => isEqual(industry, newIndustry));
+        if (exists.length === 0) {
+          currentEntities.IndustryFilter.Industry.push(newIndustry);
+        }
+      }
+      return {
+        ...state,
+        addingCommunityIndustry: true,
+        filterOptions: currentEntities
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS_SUCCESS: {
+      return {
+        ...state,
+        addingCommunityIndustry: false
+      };
+    }
     case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TAG_FROM_FILTER_OPTIONS: {
       const removeTag = action.payload;
       const currentEntities = cloneDeep(state.filterOptions);
@@ -92,6 +118,20 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
       const filters = currentEntities.CategoryFilter;
       if (filters) {
         filters.Category = filters.Category.filter(category => !isEqual(category, removeCategory));
+      }
+
+      return {
+        ...state,
+        filterOptions: currentEntities
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS: {
+      const removeIndustry = action.payload;
+      const currentEntities = cloneDeep(state.filterOptions);
+
+      const filters = currentEntities.IndustryFilter;
+      if (filters) {
+        filters.Industry = filters.Industry.filter(industry => !isEqual(industry, removeIndustry));
       }
 
       return {

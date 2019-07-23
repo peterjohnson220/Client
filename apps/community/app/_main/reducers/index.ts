@@ -15,6 +15,7 @@ import * as fromCommunityCategoriesReducer from './community-categories.reducer'
 import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-options.reducer';
 import * as fromCommunityLikeReducer from './community-like.reducer';
 import * as fromCommunitySearchReducer from './community-search.reducer';
+import * as fromCommunityIndustryReducer from './community-industry.reducer';
 import { CommunityConstants } from '../models';
 import { populatePostReplies } from '../helpers/model-mapping.helper';
 
@@ -32,6 +33,7 @@ export interface CommunityState {
   communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.State;
   communityLikes: fromCommunityLikeReducer.State;
   communitySearch: fromCommunitySearchReducer.State;
+  communityIndustries: fromCommunityIndustryReducer.State;
 }
 
 // Extend root state with feature area state
@@ -52,7 +54,8 @@ export const reducers = {
   communityCategories: fromCommunityCategoriesReducer.reducer,
   communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.reducer,
   communityLikes: fromCommunityLikeReducer.reducer,
-  communitySearch: fromCommunitySearchReducer.reducer
+  communitySearch: fromCommunitySearchReducer.reducer,
+  communityIndustries: fromCommunityIndustryReducer.reducer,
 };
 
 // select feature area
@@ -117,6 +120,11 @@ export const selectFromCommunityLikeState = createSelector(
 export const selectFromCommunitySearchState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communitySearch
+);
+
+export const selectFromCommunityIndustryState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityIndustries
 );
 
 // Community Poll Selectors
@@ -583,5 +591,21 @@ export const getHasMoreSearchResultsOnServer = createSelector(
   (results, totalResults) => {
     return totalResults > results.length;
   }
+);
+
+// Community Industry Selectors
+export const getLoadingCommunityIndustries = createSelector(
+  selectFromCommunityIndustryState,
+  fromCommunityIndustryReducer.getLoadingCommunityIndustries
+);
+
+export const getCommunityIndustries = createSelector(
+  selectFromCommunityIndustryState,
+  fromCommunityIndustryReducer.getCommunityIndustries
+);
+
+export const getLoadingCommunityIndustriesError = createSelector(
+  selectFromCommunityIndustryState,
+  fromCommunityIndustryReducer.getLoadingCommunityIndustriesError
 );
 
