@@ -2563,7 +2563,196 @@
           }
         }
       }
+    },
+    "data-management": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/data-management",
+            "index": "apps/data-management/index.html",
+            "main": "apps/data-management/main.ts",
+            "tsConfig": "apps/data-management/tsconfig.app.json",
+            "polyfills": "apps/data-management/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/data-management/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/data-management/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/data-management",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/data-management",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/data-management/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/data-management/../../environments/environment.ts",
+                  "with": "apps/data-management/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/data-management/../../environments/environment.ts",
+                  "with": "apps/data-management/../../environments/environment.prod.ts"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/data-management/../../environments/environment.ts",
+                  "with": "apps/data-management/../../environments/environment.sales.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "data-management:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "data-management:build:staging"
+            },
+            "production": {
+              "browserTarget": "data-management:build:production"
+            },
+            "sales": {
+              "browserTarget": "data-management:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "data-management:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/data-management/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/data-management/polyfills.ts",
+            "tsConfig": "apps/data-management/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/data-management/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/data-management/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/data-management",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/data-management",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
+
   },
   "defaultProject": "admin",
   "schematics": {

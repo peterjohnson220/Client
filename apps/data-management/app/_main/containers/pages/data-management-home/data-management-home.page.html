@@ -1,0 +1,15 @@
+<pf-page-with-title-bar [absoluteUrl]="'/client/dashboard'">
+  <ng-container page-title>
+    Data Management
+  </ng-container>
+  <ng-container page-content>
+    <div class="column-scroll-container col-12">
+      <div class="d-flex h-100">
+        <pf-data-management-sidebar></pf-data-management-sidebar>
+        <div class="inner-content">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>
