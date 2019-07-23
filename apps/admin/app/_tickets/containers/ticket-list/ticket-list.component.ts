@@ -57,7 +57,8 @@ export class TicketListComponent implements OnInit, OnDestroy {
   userContext: UserContext;
 
   private selectedTicket: UserTicketTabItem;
-  private defaultPfServiceRep: number;
+  public defaultPfServiceRep: number;
+  public defaultUserTicketState = 'New';
   pfServiceReps: PfServicesRep[] = [];
   userTicketStates: UserTicketState[] = [];
   userTicketTypes: UserTicketType[] = [];

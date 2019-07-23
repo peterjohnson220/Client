@@ -1,7 +1,7 @@
 
 export class SVGLocationParse {
-  static getLowerAndTrimmedValue(dataItem: any, valuefield: string): string {
-    return (dataItem[valuefield] as string)
+  static getLowerAndTrimmedValue(value: string): string {
+    return (value as string)
       .toLowerCase()
       .replace(/ /g, '');
   }

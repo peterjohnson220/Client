@@ -31,27 +31,27 @@ export class AttachmentUploadComponent implements OnInit, OnDestroy {
 
     @ViewChild(UploadComponent, { static: false }) uploadComponent: UploadComponent;
 
-    constructor() {}
+    constructor() { }
 
     ngOnInit() {
         if (this.ticketId) {
-            this.uploadUrl = `/odata/UserTicket(${this.ticketId})/Default.AddAttachment`;
+            this.uploadUrl = `/odata/UserTicket/AddAttachment/${this.ticketId}`;
         }
     }
 
-    ngOnDestroy() {}
+    ngOnDestroy() { }
 
     selectEventHandler(e: SelectEvent) {
         e.files.forEach((file) => this.uploadedFiles.push(KendoModelMapper.mapFileInfoToUploadTicketAttachment(file)));
     }
 
     uploadProgressEventHandler(e: UploadProgressEvent) {
-        this.uploadedFiles.find( file => file.uid === e.files[0].uid).uploadProgress =
+        this.uploadedFiles.find(file => file.uid === e.files[0].uid).uploadProgress =
             parseFloat(e.percentComplete.toFixed(2));
     }
 
     beginUploadEventHandler(e: UploadEvent) {
-        this.uploadedFiles.find( file => file.uid === e.files[0].uid).state = FileState.Uploading;
+        this.uploadedFiles.find(file => file.uid === e.files[0].uid).state = FileState.Uploading;
     }
 
     errorEventHandler(e: ErrorEvent) {
@@ -59,12 +59,12 @@ export class AttachmentUploadComponent implements OnInit, OnDestroy {
         if (e.response instanceof HttpErrorResponse) {
             if (e.response.error.error) {
                 errors = e.response.error.error.message.split(',');
-                this.uploadedFiles.find( file => file.uid === e.files[0].uid).validationErrors = errors;
+                this.uploadedFiles.find(file => file.uid === e.files[0].uid).validationErrors = errors;
             } else {
-                this.uploadedFiles.find( file => file.uid === e.files[0].uid).validationErrors = ['genericError'];
+                this.uploadedFiles.find(file => file.uid === e.files[0].uid).validationErrors = ['genericError'];
             }
         }
-        this.uploadedFiles.find( file => file.uid === e.files[0].uid).state = FileState.Failed;
+        this.uploadedFiles.find(file => file.uid === e.files[0].uid).state = FileState.Failed;
     }
 
     uploadSuccessEventHandler(e: SuccessEvent) {
