@@ -10,9 +10,9 @@
                let-dataItem>
     <span class="userticketstatus"
           *ngIf="userTicketType(ticketFieldType.STATUS)">
-      <img [alt]="dataItem.Status"
-           src="assets/svg/userticketstate_{{svgParse.getLowerAndTrimmedValue(dataItem.Status)}}.svg">
-      {{ dataItem.Status }}
+      <img [alt]="dataItem.UserTicketState"
+           src="assets/svg/userticketstate_{{svgParse.getLowerAndTrimmedValue(dataItem.UserTicketState)}}.svg">
+      {{ dataItem.UserTicketState }}
     </span>
 
     <span class="userticketstatus"
