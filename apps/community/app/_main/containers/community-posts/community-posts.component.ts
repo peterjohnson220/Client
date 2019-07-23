@@ -10,10 +10,13 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
+import * as fromCommunityIndustryReducer from '../../reducers';
 
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 
 import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
+
+import * as fromCommunityIndustryActions from '../../actions/community-industry.actions';
 
 import { CommunityPost } from 'libs/models/community';
 import { environment } from 'environments/environment';
@@ -40,6 +43,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
   filteredByPost$: Observable<boolean>;
   totalDiscussionResultsOnServer$: Observable<number>;
+  communityIndustries$: Observable<string[]>;
 
   communityPosts: CommunityPost[];
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
@@ -60,7 +64,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
               public store: Store<fromCommunityPostReducer.State>,
               public replyStore: Store<fromCommunityPostReplyReducer.State>,
               public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>,
-              public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
+              public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>,
+              public industryStore: Store<fromCommunityIndustryReducer.State>) {
 
     this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPostsCombinedWithReplies);
     this.maximumReplies$ = this.store.select(fromCommunityPostReducer.getMaximumReplies);
@@ -72,6 +77,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
     this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
+    this.communityIndustries$ = this.industryStore.select(fromCommunityIndustryReducer.getCommunityIndustries);
   }
 
   ngOnInit() {
@@ -128,6 +134,12 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
         this.hasPreviousBatchOnServer = value;
       }
     });
+
+    this.industryStore.dispatch(new fromCommunityIndustryActions.LoadingCommunityIndustries());
+
+    // TODO: Industry filter test. Will be removed when filter's UI is available
+    // this.industryStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityIndustryToFilterOptions('Retailing'));
+    // this.industryStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityIndustryToFilterOptions('Insurance'));
   }
 
   ngOnDestroy() {

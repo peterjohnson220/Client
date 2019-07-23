@@ -6,3 +6,4 @@ export * from './community-posts.effects';
 export * from './community-tag.effects';
 export * from './community-jobs.effects';
 export * from './community-like.effects';
+export * from './community-industry.effects';
