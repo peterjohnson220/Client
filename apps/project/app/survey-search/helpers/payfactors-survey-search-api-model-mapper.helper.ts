@@ -1,7 +1,14 @@
 import { SurveySearchResultDataSources } from 'libs/constants';
-import { AddSurveyDataCutRequest, DataCut, SurveyDataCutResponse, SurveyJob, PeerCut } from 'libs/models/payfactors-api';
+import {
+  AddSurveyDataCutRequest,
+  JobDataCut,
+  SurveyJob,
+  PeerCut,
+  ExchangeJobDataResponse,
+  DataCutResponse, ExchangeJobDataCutResponse
+} from 'libs/models/payfactors-api';
 
-import { DataCutDetails, JobContext, JobResult, ProjectSearchContext, SurveyDataCut, PeerJobInfo } from '../models';
+import { DataCutDetails, JobContext, JobResult, ProjectSearchContext, PeerJobInfo, DataCut } from '../models';
 
 export class PayfactorsSurveySearchApiModelMapper {
 
@@ -16,7 +23,7 @@ export class PayfactorsSurveySearchApiModelMapper {
     return {
       CompanyJobId: jobContext.CompanyJobId,
       ProjectId: projectSearchContext.ProjectId,
-      JobDataCuts: this.mapDataCutDetailsToDataCuts(selectedDataCuts),
+      JobDataCuts: this.mapDataCutDetailsToJobDataCuts(selectedDataCuts),
       ExcludeFromParticipation: excludeFromParticipation,
       PayMarketId : jobContext.JobPayMarketId,
       CompanyPayMarketId: projectSearchContext.PayMarketId,
@@ -60,10 +67,10 @@ export class PayfactorsSurveySearchApiModelMapper {
     });
   }
 
-  static mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCutResponse[], selectedDataCuts: DataCutDetails[]): SurveyDataCut[] {
-    return dataCuts.map((dc: SurveyDataCutResponse) => {
+  static mapDataCutResponseToDataCut(dataCuts: DataCutResponse[], selectedDataCuts: DataCutDetails[]): DataCut[] {
+    return dataCuts.map((dc: DataCutResponse) => {
       return {
-        SurveyDataId: dc.SurveyDataId,
+        Id: dc.Id,
         Title: dc.Title,
         Country: dc.Country,
         Weight: dc.Weight,
@@ -75,11 +82,28 @@ export class PayfactorsSurveySearchApiModelMapper {
     });
   }
 
+  static mapExchangeJobDataCutResponseToDataCut(response: ExchangeJobDataCutResponse[], selectedDataCuts: DataCutDetails[]): DataCut[] {
+    return response.map(r => {
+      return {
+        Id: r.ExchangeJobId,
+        Title: r.Title,
+        Country: r.Country,
+        Weight: r.Weight,
+        Base50th: r.Base50,
+        TCC50th: r.Tcc50,
+        Incs: r.Incs,
+        Orgs: r.Orgs,
+        Matches: null,
+        IsSelected: this.isCutSelected(r, selectedDataCuts)
+      };
+    });
+  }
+
 
   ///
   /// OUT
   ///
-  static mapDataCutDetailsToDataCuts(dataCutDetails: DataCutDetails[]): DataCut[] {
+  static mapDataCutDetailsToJobDataCuts(dataCutDetails: DataCutDetails[]): JobDataCut[] {
     if (!dataCutDetails) {
       return [];
     }
@@ -126,9 +150,9 @@ export class PayfactorsSurveySearchApiModelMapper {
     }
   }
 
-  private static isCutSelected(dataCut: SurveyDataCutResponse, selectedCuts: DataCutDetails[]) {
-    return selectedCuts.some(cutData =>
-      cutData.DataCutId === dataCut.SurveyDataId);
+  private static isCutSelected(dataCut: DataCutResponse, selectedCuts: DataCutDetails[]) {
+    return selectedCuts.some(sc =>
+      sc.DataCutId === dataCut.Id);
   }
 
   private static getEffectiveDate(surveyJob: SurveyJob) {

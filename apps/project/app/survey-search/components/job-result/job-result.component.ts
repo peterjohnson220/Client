@@ -7,7 +7,7 @@ import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'lib
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
 
-import { DataCutDetails, JobResult, MatchesDetailsTooltipData, SurveyDataCut } from '../../models';
+import { DataCutDetails, JobResult, MatchesDetailsTooltipData, DataCut } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
 import * as fromSurveySearchReducer from '../../reducers';
 
@@ -84,10 +84,10 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.showJobDetail = !this.showJobDetail;
   }
 
-  handleDataCutSelected(idObj: SurveyDataCut) {
+  handleDataCutSelected(idObj: DataCut) {
     this.cutSelected.emit({
       DataSource: this.job.DataSource,
-      DataCutId: idObj.SurveyDataId,
+      DataCutId: idObj.Id,
       SurveyJobId: this.job.Id,
       Job: this.job,
       TCC50th: idObj.TCC50th,

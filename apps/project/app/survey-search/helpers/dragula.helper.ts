@@ -1,6 +1,6 @@
 import { DragulaService } from 'ng2-dragula';
 
-import { SurveyDataCut } from '../models';
+import { DataCut } from '../models';
 
 export function disableDatacutsDragging(dragulaService: DragulaService) {
   dragulaService.createGroup('data-cuts-bag', {
@@ -25,6 +25,6 @@ export function enableDatacutsDragging(dragulaService: DragulaService) {
       return !target.classList.contains('data-cuts-source');
     },
     copy: true,
-    copyItem: (item: SurveyDataCut) => ({ ...item })
+    copyItem: (item: DataCut) => ({ ...item })
   });
 }

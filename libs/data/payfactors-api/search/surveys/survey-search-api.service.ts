@@ -18,7 +18,8 @@ import {
   JobMatchCutsRequest,
   JobMatchCutsResponse,
   UpdateUserJobMatchesRequest,
-  SurveySearchRequest
+  SurveySearchRequest,
+  ExchangeDataFilterRequest, ExchangeJobDataResponse
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
@@ -43,6 +44,10 @@ export class SurveySearchApiService {
 
   searchDataCuts(surveyDataFilter: SurveyDataFilterRequest): Observable<SurveyDataResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetSurveyJobData`, surveyDataFilter);
+  }
+
+  getExchangeJobData(exchangeDataFilter: ExchangeDataFilterRequest): Observable<ExchangeJobDataResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetExchangeJobData`, exchangeDataFilter);
   }
 
   addSurveyDataCuts(addDataRequest: AddSurveyDataCutRequest): Observable<AddSurveyDataCutMatchResponse> {
