@@ -208,6 +208,9 @@ export const getDistinctTagsByView  = (state: State) => {
 };
 
 export const getDistinctTags = (state: State) => {
-  return Array.from(new Set(state.companyWorkbooksAsync.obj.filter(cw => !!cw.Tag).map(cw => cw.Tag)));
+  return Array.from(new Set(state.companyWorkbooksAsync.obj.filter(cw => !!cw.Tag).map(cw => cw.Tag)))
+    .sort(function( a, b) {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
 };
 export const getTagFilter = (state: State) => state.tagFilter;
