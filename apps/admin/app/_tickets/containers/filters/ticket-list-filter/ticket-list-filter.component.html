@@ -10,15 +10,20 @@
                let-dataItem>
     <span class="userticketstatus"
           *ngIf="userTicketType(ticketFieldType.STATUS)">
-      <img [alt]="dataItem[textField]"
-           src="assets/svg/userticketstate_{{svgParse.getLowerAndTrimmedValue(dataItem, valueField)}}.svg">
-      {{ dataItem[textField] }}
+      <img [alt]="dataItem.Status"
+           src="assets/svg/userticketstate_{{svgParse.getLowerAndTrimmedValue(dataItem.Status)}}.svg">
+      {{ dataItem.Status }}
     </span>
 
     <span class="userticketstatus"
           *ngIf="userTicketType(ticketFieldType.TYPE)">
       <span class="ticketsdot {{dataItem.TicketCssClass}}"></span>
-      <span>{{ dataItem[textField] }}</span>
+      <span>{{ dataItem.TicketTypeDisplayName }}</span>
+    </span>
+
+    <span class="userticketstatus"
+          *ngIf="userTicketType(ticketFieldType.SERVICEUSER)">
+      <span>{{ dataItem.Name }}</span>
     </span>
 
   </ng-template>

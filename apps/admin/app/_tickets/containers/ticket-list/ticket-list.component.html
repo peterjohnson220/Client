@@ -20,8 +20,8 @@
                        width="40">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <img [alt]="dataItem[textField]"
-             src="assets/svg/userticketstate_{{svgParse.getLowerAndTrimmedValue(dataItem, 'Status')}}.svg">
+        <img [alt]="dataItem.Status"
+             src="assets/svg/userticketstate_{{svgParse.getLowerAndTrimmedValue(dataItem.Status)}}.svg">
         {{ dataItem.Status }}
       </ng-template>
       <ng-template kendoGridFilterCellTemplate

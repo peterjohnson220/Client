@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import {
@@ -15,64 +15,56 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
 export class UserTicketApiService {
-  private endpoint = 'UserTicket';
+  private endpoint = 'Ticket';
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
   createUserTicket(uploadData: any): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/Default.CreateUserTicket`, uploadData);
+    return this.payfactorsApiService.post(`${this.endpoint}/CreateUserTicket`, uploadData);
   }
 
   searchUserTickets(request: UserTicketSearchRequest): Observable<UserTicketResponse[]> {
-    return this.payfactorsApiService.post<UserTicketResponse[]>( `${this.endpoint}/Default.Search`, {
-      UserTicketSearchRequest: request
-    });
+    return this.payfactorsApiService.post<UserTicketResponse[]>(`${this.endpoint}/Search`, request);
   }
 
   getUserTicket(ticketId: number): Observable<UserTicketResponse> {
-    return this.payfactorsApiService.get<UserTicketResponse>( `${this.endpoint}(${ticketId})/Default.GetUserTicket`);
+    return this.payfactorsApiService.get<UserTicketResponse>(`${this.endpoint}/GetUserTicket/${ticketId}`);
   }
 
   getCompanyDetails(companyId: number): Observable<UserTicketCompanyDetailResponse> {
     return this.payfactorsApiService
-      .get<UserTicketCompanyDetailResponse>( `${this.endpoint}.GetUserTicketDetailsByCompany?companyId=${companyId}`);
+      .get<UserTicketCompanyDetailResponse>(`${this.endpoint}/GetUserTicketDetailsByCompany/${companyId}`);
   }
 
   getUserTicketTypes(): Observable<UserTicketTypeResponse[]> {
-    return this.payfactorsApiService.get<UserTicketTypeResponse[]>(`${this.endpoint}.GetUserTicketTypes`);
+    return this.payfactorsApiService.get<UserTicketTypeResponse[]>(`${this.endpoint}/GetUserTicketTypes`);
   }
 
   getUserTicketStates(): Observable<UserTicketStateResponse[]> {
-    return this.payfactorsApiService.get<UserTicketStateResponse[]>(`${this.endpoint}.GetUserTicketStates`);
+    return this.payfactorsApiService.get<UserTicketStateResponse[]>(`${this.endpoint}/GetUserTicketStates`);
   }
 
   updateUserTicket(request: UserTicketUpdateRequest) {
     return this.payfactorsApiService
-      .post<UserTicketResponse>( `${this.endpoint}(${request.UserTicket.UserTicketId})/Default.UpdateUserTicket`, request);
+      .post<UserTicketResponse>(`${this.endpoint}/UpdateUserTicket/${request.UserTicket.UserTicketId}`, request);
   }
 
   deleteAttachment(request: UserTicketAttachmentDeleteRequest) {
-    return this.payfactorsApiService.post(`${this.endpoint}(${request.UserTicketId})/Default.DeleteAttachment`, {
-      UserTicketsFileId: request.UserTicketsFileId
-    });
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteAttachment/${request.UserTicketsFileId}`);
   }
 
   deleteComment(request: UserTicketCommentRequest) {
-    return this.payfactorsApiService.post(`${this.endpoint}(${request.UserTicketId})/Default.DeleteComment`, {
-      UserTicketsCommentId: request.UserTicketsCommentId
-    });
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteComment/${request.UserTicketsCommentId}`);
   }
 
   addComment(request: UserTicketCommentRequest) {
-    return this.payfactorsApiService.post(`${this.endpoint}(${request.UserTicketId})/Default.AddComment`, {
-      Comments: request.Comments
-    });
+    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/AddComment/${request.UserTicketId}`,
+      JSON.stringify(request.Comments), this.headers);
   }
 
   updateComment(request: UserTicketCommentRequest) {
-    return this.payfactorsApiService.post(`${this.endpoint}(${request.UserTicketId})/Default.UpdateComment`, {
-      Comments: request.Comments,
-      UserTicketsCommentId: request.UserTicketsCommentId
-    });
+    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/UpdateComment/${request.UserTicketsCommentId}`,
+      JSON.stringify(request.Comments), this.headers);
   }
 }

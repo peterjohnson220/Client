@@ -1,4 +1,5 @@
 export enum TicketFieldType {
     STATUS = 'Status',
-    TYPE = 'Type'
+    TYPE = 'Type',
+    SERVICEUSER = 'ServiceUser'
 }
