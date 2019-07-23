@@ -92,3 +92,8 @@ export const getSavingTagError = createSelector(
   selectDashboardsState,
   fromDashboardsReducer.getSavingTagError
 );
+
+export const getTagFilter = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getTagFilter
+);

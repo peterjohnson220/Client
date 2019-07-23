@@ -17,6 +17,7 @@
                                 class="tag-dropdown"
                                 [data]="distinctTagsByView$ | async"
                                 [defaultItem]="'All'"
+                                [value]="tagFilter$ | async"
                                 [popupSettings]="{width: 200}"
                                 (valueChange)="handleTagChanged($event)">
               <ng-template kendoDropDownListValueTemplate let-dataItem>
