@@ -1,5 +1,3 @@
-import { KendoDropDownItem } from './kendo-dropdown-item.model';
-
 export interface AddPayMarketFormData {
   Name: string;
   Country: string;

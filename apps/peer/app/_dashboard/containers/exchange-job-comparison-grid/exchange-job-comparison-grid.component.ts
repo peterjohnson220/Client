@@ -1,18 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { DataStateChangeEvent, GridDataResult, SelectionEvent } from '@progress/kendo-angular-grid';
-import { State } from '@progress/kendo-data-query';
+import {select, Store} from '@ngrx/store';
+import {Observable, Subscription} from 'rxjs';
+import {DataStateChangeEvent, GridDataResult, SelectionEvent} from '@progress/kendo-angular-grid';
+import {State} from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import {
-  GridTypeEnum, ExchangeJobComparison, GenericKeyValue,
-  FeatureAreaConstants, UiPersistenceSettingConstants
+  ExchangeJobComparison,
+  FeatureAreaConstants,
+  GenericKeyValue,
+  GridTypeEnum,
+  KendoDropDownItem,
+  UiPersistenceSettingConstants
 } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
+import { Rates, RateType } from 'libs/data/data-sets';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -31,16 +36,20 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   exchangeJobComparisonsGridState$: Observable<State>;
   exchangeJobOrgsDetailVisible$: Observable<boolean>;
   persistedComparisonGridMarket$: Observable<string>;
+  persistedComparisonGridRate$: Observable<string>;
   companyContext$: Observable<any>;
 
   exchangeJobOrgsDetailVisibleSubscription: Subscription;
   exchangeJobComparisonGridStateSubscription: Subscription;
   persistedComparisonGridMarketSubscription: Subscription;
+  persistedComparisonGridRateSubscription: Subscription;
 
   exchangeJobComparisonGridState: State;
   marketFilterOptions: GenericKeyValue<string, string>[] = [{Key: 'USA', Value: 'USA'}, {Key: 'ALL', Value: 'Global'}];
   selectedMarket = 'USA';
   selectedKeys: number[] = [];
+  rates: KendoDropDownItem[] = Rates;
+  selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
 
   constructor(
     private store: Store<fromDashboardReducer.State>,
@@ -54,8 +63,30 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     this.companyContext$ = this.store.pipe(select(fromRootState.getCompanyContext));
     this.persistedComparisonGridMarket$ = this.settingsService.selectUiPersistenceSetting(
       FeatureAreaConstants.PeerDashboard,
-      UiPersistenceSettingConstants.ComparisonMarketSelection, 'string'
+      UiPersistenceSettingConstants.ComparisonMarketSelection,
+      'string'
     );
+    this.persistedComparisonGridRate$ = this.settingsService.selectUiPersistenceSetting(
+      FeatureAreaConstants.PeerDashboard,
+      UiPersistenceSettingConstants.ComparisonRateSelection,
+      'string'
+    );
+  }
+
+  get isAnnualRate(): boolean {
+    return this.selectedRate.Value === RateType.Annual;
+  }
+
+  get companyBaseAverageField(): string {
+    return this.isAnnualRate ? 'CompanyBaseAverage' : 'HourlyCompanyBaseAverage';
+  }
+
+  get exchangeBaseAverageField(): string {
+    return this.isAnnualRate ? 'ExchangeBaseAverage' : 'HourlyExchangeBaseAverage';
+  }
+
+  get digitsInfo(): string {
+    return this.isAnnualRate ? '1.1-1' : '1.2-2';
   }
 
   // Grid
@@ -99,10 +130,24 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({
       countryCode: this.selectedMarket
     }));
+    this.store.dispatch(new fromExchangeDashboardActions.CloseSidebar());
+  }
+
+  handleRateSelectionChange(item: KendoDropDownItem) {
+    this.store.dispatch(new fromExchangeJobComparisonGridActions.SelectRate({newRate: item.Value}));
+    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobComparison));
+    this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({
+      countryCode: this.selectedMarket
+    }));
   }
 
   // Lifecycle
   ngOnInit() {
+    this.persistedComparisonGridRateSubscription = this.persistedComparisonGridRate$.subscribe(rate => {
+      if (!!rate) {
+        this.selectedRate = Rates.find(r => r.Value === rate);
+      }
+    });
     this.persistedComparisonGridMarketSubscription = this.persistedComparisonGridMarket$.subscribe((market) => {
       this.selectedMarket = !!market ? market : 'USA';
       this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({
@@ -122,6 +167,7 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.persistedComparisonGridMarketSubscription.unsubscribe();
+    this.persistedComparisonGridRateSubscription.unsubscribe();
     this.exchangeJobComparisonGridStateSubscription.unsubscribe();
     this.exchangeJobOrgsDetailVisibleSubscription.unsubscribe();
   }

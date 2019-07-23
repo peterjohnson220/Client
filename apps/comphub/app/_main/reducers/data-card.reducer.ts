@@ -1,8 +1,9 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { RateType } from 'libs/data/data-sets';
+
 import * as fromDataCardActions from '../actions/data-card.actions';
 import { JobData, JobGridData } from '../models';
-import { RateType } from '../data';
 
 export interface State {
   loading: boolean;

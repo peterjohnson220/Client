@@ -7,11 +7,12 @@ import { of } from 'rxjs';
 
 import { PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
+import { RateType } from 'libs/data/data-sets';
 
 import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
-import { ComphubPages, RateType } from '../../../data';
+import { ComphubPages } from '../../../data';
 import {
   generateFakeJobData,
   generateMockCountryDataSet,
