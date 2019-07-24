@@ -1,0 +1,18 @@
+<div class="job-range-model-page">
+  <pf-model-name-input-component
+    [isEditModelNameLoading]="isEditModelNameLoading$ | async"
+    [inEditModelNameMode]="inEditModelNameMode"
+    [currentModelName]="currentModelName"
+    [newModelName]="newModelName"
+    [editModelNameError]="editModelNameError"
+    (updateModelName)="updateModelName($event)"
+    ></pf-model-name-input-component>
+  <div>Based on: {{currentStructureName}}</div>
+  <div class="d-flex flex-row main-container">
+    <pf-modeling-settings-component></pf-modeling-settings-component>
+    <div class="d-flex flex-column flex-grow-1 h-100 modeling-data-container">
+      <div class="d-flex flex-row w-100 modeling-data-main"><h3>place data grid here</h3>
+      </div>
+    </div>
+  </div>
+</div>
