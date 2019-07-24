@@ -3,6 +3,7 @@
 .title {
   margin-bottom: 1rem;
   @extend %ellipsis-overflowing-text;
+  line-height: unset;
 }
 
 .summary {
