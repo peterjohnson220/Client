@@ -57,7 +57,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
   ngOnInit() {
-    this.maxSelectionThreshold = 10;
+    this.maxSelectionThreshold = 50;
 
     this.companyJobsGridItemsData$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsData));
     this.totalCompanyJobsGridItems$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsTotal));
