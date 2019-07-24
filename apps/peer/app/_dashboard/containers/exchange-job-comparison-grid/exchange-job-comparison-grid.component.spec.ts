@@ -139,7 +139,10 @@ describe('Peer - Exchange Job Comparison Grid', () => {
 
   it(`should dispatch a LoadExchangeJobOrgs action when onSelectionChange is triggered and there are selections`, () => {
     const mockExchangeJobComparison = generateMockExchangeJobComparison();
-    const expectedAction = new fromExchangeDashboardActions.LoadExchangeJobOrgs(mockExchangeJobComparison);
+    const expectedAction = new fromExchangeDashboardActions.LoadExchangeJobOrgs({
+      selectedExchangeJobComparison: mockExchangeJobComparison,
+      selectedMarket: 'USA'
+    });
 
     spyOn(store, 'dispatch');
 
