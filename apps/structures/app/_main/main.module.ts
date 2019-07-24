@@ -27,7 +27,7 @@ import { JobRangeModelingPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 import { ModelNameInputComponent, ModelingSettingsComponent } from './components';
-import { JobRangeModelingPageComponent } from './containers/pages';
+import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent } from './containers/pages';
 
 @NgModule({
   imports: [
@@ -67,7 +67,8 @@ import { JobRangeModelingPageComponent } from './containers/pages';
     ModelingSettingsComponent,
 
     // Pages
-    JobRangeModelingPageComponent
+    JobRangeModelingPageComponent,
+    JobBasedRangeStructuresPageComponent
   ],
   providers: [
     WindowRef
