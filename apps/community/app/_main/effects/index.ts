@@ -7,3 +7,4 @@ export * from './community-tag.effects';
 export * from './community-jobs.effects';
 export * from './community-like.effects';
 export * from './community-industry.effects';
+export * from './community-company-size.effects';

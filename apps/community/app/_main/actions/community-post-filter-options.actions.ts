@@ -16,6 +16,13 @@ export const ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS_SUCCESS =
 export const DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS =
   '[Community/Filter Options] Deleting Community Industry To Filter Options';
 
+export const ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS =
+  '[Community/Filter Options] Adding Community Company Size To Filter Options';
+export const ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS_SUCCESS =
+'[Community/Filter Options] Adding Community Company Size To Filter Options Success';
+export const DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS =
+  '[Community/Filter Options] Deleting Community Company Size To Filter Options';
+
 export class AddingCommunityTagToFilterOptions implements Action {
   readonly type = ADDING_COMMUNITY_TAG_TO_FILTER_OPTIONS;
   constructor(public payload: any) {}
@@ -73,6 +80,21 @@ export class DeletingCommunityIndustryFromFilterOptions implements Action {
   constructor(public payload: any) {}
 }
 
+export class AddingCommunityCompanySizeToFilterOptions implements Action {
+  readonly type = ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS;
+  constructor(public payload: any) {}
+}
+
+export class AddingCommunityCompanySizeToFilterOptionsSuccess implements Action {
+  readonly type = ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityCompanySizeFromFilterOptions implements Action {
+  readonly type = DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS;
+  constructor(public payload: any) {}
+}
+
 export type Actions
   = AddingCommunityTagToFilterOptions
   | AddingCommunityTagToFilterOptionsSuccess
@@ -85,4 +107,7 @@ export type Actions
   | DeletingAllFilterOptions
   | AddingCommunityIndustryToFilterOptions
   | AddingCommunityIndustryToFilterOptionsSuccess
-  | DeletingCommunityIndustryFromFilterOptions;
+  | DeletingCommunityIndustryFromFilterOptions
+  | AddingCommunityCompanySizeToFilterOptions
+  | AddingCommunityCompanySizeToFilterOptionsSuccess
+  | DeletingCommunityCompanySizeFromFilterOptions;

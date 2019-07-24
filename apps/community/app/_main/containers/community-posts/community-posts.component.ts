@@ -10,13 +10,13 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
-import * as fromCommunityIndustryReducer from '../../reducers';
 
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 
 import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
 
 import * as fromCommunityIndustryActions from '../../actions/community-industry.actions';
+import * as fromCommunityCompanySizeActions from '../../actions/community-company-size.actions';
 
 import { CommunityPost } from 'libs/models/community';
 import { environment } from 'environments/environment';
@@ -24,6 +24,7 @@ import { CommunityPollTypeEnum } from 'libs/models/community/community-constants
 import { CommunityTag } from 'libs/models/community/community-tag.model';
 import { Tag } from '../../models/tag.model';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
+import { CommunityCompanySizeBucket } from 'libs/models/community/community-company-size-bucket.model';
 
 @Component({
   selector: 'pf-community-posts',
@@ -44,6 +45,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   filteredByPost$: Observable<boolean>;
   totalDiscussionResultsOnServer$: Observable<number>;
   communityIndustries$: Observable<string[]>;
+  communityCompanySizes$: Observable<CommunityCompanySizeBucket[]>;
 
   communityPosts: CommunityPost[];
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
@@ -64,8 +66,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
               public store: Store<fromCommunityPostReducer.State>,
               public replyStore: Store<fromCommunityPostReplyReducer.State>,
               public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>,
-              public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>,
-              public industryStore: Store<fromCommunityIndustryReducer.State>) {
+              public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
 
     this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPostsCombinedWithReplies);
     this.maximumReplies$ = this.store.select(fromCommunityPostReducer.getMaximumReplies);
@@ -77,7 +78,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
     this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
-    this.communityIndustries$ = this.industryStore.select(fromCommunityIndustryReducer.getCommunityIndustries);
+    this.communityIndustries$ = this.store.select(fromCommunityPostReducer.getCommunityIndustries);
+    this.communityCompanySizes$ = this.store.select(fromCommunityPostReducer.getCommunityCompanySizes);
   }
 
   ngOnInit() {
@@ -135,11 +137,18 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.industryStore.dispatch(new fromCommunityIndustryActions.LoadingCommunityIndustries());
+    this.store.dispatch(new fromCommunityIndustryActions.LoadingCommunityIndustries());
+    this.store.dispatch(new fromCommunityCompanySizeActions.LoadingCommunityCompanySizes());
 
     // TODO: Industry filter test. Will be removed when filter's UI is available
-    // this.industryStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityIndustryToFilterOptions('Retailing'));
-    // this.industryStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityIndustryToFilterOptions('Insurance'));
+    // this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityIndustryToFilterOptions('Retailing'));
+    // this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityIndustryToFilterOptions('Insurance'));
+
+    // TODO: Company sizes filter test. Will be removed when filter's UI is available
+    // const companySize1: CommunityCompanySizeBucket = {LowRange : 1000, HighRange : 3000, DisplayName: '1,000 - 3,000'};
+    // const companySize2: CommunityCompanySizeBucket = {LowRange : 50, HighRange : 100, DisplayName: '50 - 100'};
+    // this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityCompanySizeToFilterOptions(companySize1));
+    // this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityCompanySizeToFilterOptions(companySize2));
   }
 
   ngOnDestroy() {

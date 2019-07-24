@@ -8,7 +8,7 @@ import { switchMap, catchError, map } from 'rxjs/operators';
 
 import * as fromCommunityIndustryActions from '../actions/community-industry.actions';
 
-import { CommunityIndustryApiService } from 'libs/data/payfactors-api/community/community-industry-api.service';
+import { CommunityFilterApiService } from 'libs/data/payfactors-api/community/community-filter-api.service';
 
 @Injectable()
 export class CommunityIndustryEffects {
@@ -18,7 +18,7 @@ export class CommunityIndustryEffects {
     .pipe(
       ofType(fromCommunityIndustryActions.LOADING_COMMUNITY_INDUSTRIES),
       switchMap((action: fromCommunityIndustryActions.LoadingCommunityIndustries) =>
-        this.communityIndustryService.getIndustries().pipe(
+        this.communityFilterService.getIndustries().pipe(
           map((response: string[]) => {
             return new fromCommunityIndustryActions.LoadingCommunityIndustriesSuccess(response);
           }),
@@ -29,6 +29,6 @@ export class CommunityIndustryEffects {
 
   constructor(
     private actions$: Actions,
-    private communityIndustryService: CommunityIndustryApiService,
+    private communityFilterService: CommunityFilterApiService,
   ) {}
 }

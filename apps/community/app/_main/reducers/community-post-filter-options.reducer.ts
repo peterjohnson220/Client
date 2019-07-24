@@ -11,6 +11,7 @@ export interface State {
   addingCommunityTag: boolean;
   addingCommunityCategory: boolean;
   addingCommunityIndustry: boolean;
+  addingCommunityCompanySize: boolean;
   filterByPost: boolean;
 }
 
@@ -19,6 +20,7 @@ export const initialState: State = {
   addingCommunityTag: false,
   addingCommunityCategory: false,
   addingCommunityIndustry: false,
+  addingCommunityCompanySize: false,
   filterByPost: false
 };
 
@@ -74,7 +76,7 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
         addingCommunityCategory: false
       };
     }
-  case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS: {
+    case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS: {
       const newIndustry = action.payload;
       const currentEntities = cloneDeep(state.filterOptions);
 
@@ -96,6 +98,30 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
       return {
         ...state,
         addingCommunityIndustry: false
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS: {
+      const newCompanySize = action.payload;
+      const currentEntities = cloneDeep(state.filterOptions);
+
+      if (currentEntities.CompanySizeFilter.CompanySize.length === 0) {
+        currentEntities.CompanySizeFilter.CompanySize.push(newCompanySize);
+      } else {
+        const exists = currentEntities.CompanySizeFilter.CompanySize.filter(size => isEqual(size, newCompanySize));
+        if (exists.length === 0) {
+          currentEntities.CompanySizeFilter.CompanySize.push(newCompanySize);
+        }
+      }
+      return {
+        ...state,
+        addingCommunityCompanySize: true,
+        filterOptions: currentEntities
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS_SUCCESS: {
+      return {
+        ...state,
+        addingCommunityCompanySize: false
       };
     }
     case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TAG_FROM_FILTER_OPTIONS: {
@@ -132,6 +158,20 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
       const filters = currentEntities.IndustryFilter;
       if (filters) {
         filters.Industry = filters.Industry.filter(industry => !isEqual(industry, removeIndustry));
+      }
+
+      return {
+        ...state,
+        filterOptions: currentEntities
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS: {
+      const removeCompanySize = action.payload;
+      const currentEntities = cloneDeep(state.filterOptions);
+
+      const filters = currentEntities.CompanySizeFilter;
+      if (filters) {
+        filters.CompanySize = filters.CompanySize.filter(size => !isEqual(size, removeCompanySize));
       }
 
       return {
