@@ -14,6 +14,8 @@ export class ModelNameInputComponent {
 
   @Output() updateModelName = new EventEmitter();
 
+  private didMouseDownInInput = false;
+
   constructor() {
   }
 
@@ -30,6 +32,12 @@ export class ModelNameInputComponent {
   }
 
   setEditModelNameMode(isInEditModelNameMode: boolean) {
+    const mouseDownInInputWasTrue = this.didMouseDownInInput;
+    this.didMouseDownInInput = false;
+
+    if (mouseDownInInputWasTrue) {
+      return;
+    }
     if (isInEditModelNameMode) {
       this.updateNewModelName(this.currentModelName);
       this.inEditModelNameMode = true;
@@ -53,4 +61,7 @@ export class ModelNameInputComponent {
     }
   }
 
+  mouseDownInInput() {
+    this.didMouseDownInInput = true;
+  }
 }
