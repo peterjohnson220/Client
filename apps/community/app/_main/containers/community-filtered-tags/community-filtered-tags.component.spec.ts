@@ -7,7 +7,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityTagsReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
-import { CommunityTrendingAndFilteredTagsComponent } from './community-trending-and-filtered-tags.component';
+import { CommunityFilteredTagsComponent } from './community-filtered-tags.component';
 
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
 import { generateMockCommunityTag } from 'libs/models/community/community-tag.model';
@@ -16,9 +16,9 @@ import { Tag } from '../../models/tag.model';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
 
-describe('CommunityPopularTagsComponent', () => {
-  let fixture: ComponentFixture<CommunityTrendingAndFilteredTagsComponent>;
-  let instance: CommunityTrendingAndFilteredTagsComponent;
+describe('CommunityFilteredTagsComponent', () => {
+  let fixture: ComponentFixture<CommunityFilteredTagsComponent>;
+  let instance: CommunityFilteredTagsComponent;
   let store: Store<fromRootState.State>;
   let router: Router;
 
@@ -30,7 +30,7 @@ describe('CommunityPopularTagsComponent', () => {
           communityTags: combineReducers(fromCommunityTagsReducer.reducers)
         })
       ],
-      declarations: [ CommunityTrendingAndFilteredTagsComponent ],
+      declarations: [ CommunityFilteredTagsComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
         {
@@ -43,7 +43,7 @@ describe('CommunityPopularTagsComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommunityTrendingAndFilteredTagsComponent);
+    fixture = TestBed.createComponent(CommunityFilteredTagsComponent);
 
     store = TestBed.get(Store);
     router = TestBed.get(Router);
@@ -57,13 +57,7 @@ describe('CommunityPopularTagsComponent', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-  it('should dispatch if button clicked', () => {
-    const tag = generateMockCommunityTag();
-    const mappedTag = mapCommunityTagToTag(tag);
-    const expectedAction = new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(mappedTag);
-    instance.trendingTagClicked(tag);
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
+
   it('should filtered by category return false if not filtered by categories', () => {
 
     instance.filteredCategories = [];
@@ -102,10 +96,9 @@ describe('CommunityPopularTagsComponent', () => {
 
     const trending = [];
     trending.push(generateMockCommunityTag);
-    instance.trendingTags = [];
     instance.filteredTags = [];
 
-    const result = instance.isFilteredByNonTrendingTags();
+    const result = instance.isFilteredByTag();
     expect(result).toBeFalsy();
   });
   it('should be false when non filtered are not selected', () => {
@@ -120,11 +113,10 @@ describe('CommunityPopularTagsComponent', () => {
     const trending = [];
     trending.push(generateMockCommunityTag);
 
-    instance.trendingTags = trending;
     instance.filteredTags = filteredTags;
 
 
-    const result = instance.isFilteredByNonTrendingTags();
+    const result = instance.isFilteredByTag();
     expect(result).toBeTruthy();
   });
   it('should dispatch delete tags filter action when nonTrendingTag Clicked', () => {
@@ -137,7 +129,7 @@ describe('CommunityPopularTagsComponent', () => {
     const expectedAction = new fromCommunityPostFilterOptionsActions.DeletingCommunityTagFromFilterOptions(tag);
 
     fixture.detectChanges();
-    instance.nonTrendingTagClicked(tag);
+    instance.tagClicked(tag);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

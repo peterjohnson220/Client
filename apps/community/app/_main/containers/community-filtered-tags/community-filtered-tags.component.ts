@@ -3,30 +3,25 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import * as fromCommunityTagActions from '../../actions/community-tag.actions';
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import * as fromCommunityTagReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
 
 import { CommunityPost, CommunityTag } from 'libs/models/community';
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
-import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
 import { FilterOptions } from 'apps/community/app/_main/models/filter-options.model';
 import { Tag } from '../../models';
 
 @Component({
-  selector: 'pf-community-trending-and-filtered-tags',
-  templateUrl: './community-trending-and-filtered-tags.component.html',
-  styleUrls: ['./community-trending-and-filtered-tags.component.scss']
+  selector: 'pf-community-filtered-tags',
+  templateUrl: './community-filtered-tags.component.html',
+  styleUrls: ['./community-filtered-tags.component.scss']
 })
-export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDestroy {
-  trendingTags$: Observable<CommunityTag[]>;
+export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
   filteredByPost$: Observable<boolean>;
   filters$: Observable<FilterOptions>;
   filterOptionsSubscription: Subscription;
-  trendingTagSubscription: Subscription;
   filterTitleSubscription: Subscription;
-  trendingTags: CommunityTag[] = [];
   filteredTags: Tag[] = [];
   filteredCategories: CommunityCategoryEnum[] = [];
   filteredIndustries: string[] = [];
@@ -39,7 +34,6 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
   constructor(public store: Store<fromCommunityTagReducer.State>,
               public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>,
               public router: Router) {
-    this.trendingTags$ = this.store.select(fromCommunityTagReducer.getLoadingCommunityTrendingTagsSuccess);
     this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
     this.filters$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions);
     this.communityPosts$ = this.store.select(fromCommunityTagReducer.getCommunityPostsCombinedWithReplies);
@@ -47,11 +41,6 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromCommunityTagActions.LoadingCommunityTrendingTags());
-
-    this.trendingTagSubscription = this.trendingTags$.subscribe((trending) => {
-      this.trendingTags = trending;
-    });
 
     this.filterOptionsSubscription = this.filters$.subscribe((data) => {
       this.filteredTags = data.TagFilter.Tags;
@@ -67,9 +56,6 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
   }
 
   ngOnDestroy() {
-    if (this.trendingTagSubscription) {
-      this.trendingTagSubscription.unsubscribe();
-    }
 
     if (this.filterOptionsSubscription) {
       this.filterOptionsSubscription.unsubscribe();
@@ -80,16 +66,7 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
     }
   }
 
-  trendingTagClicked(trendingTag: CommunityTag) {
-    const tag = mapCommunityTagToTag(trendingTag);
-    if ( ! this.IsTagSelected (trendingTag)) {
-      this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
-    } else {
-      this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityTagFromFilterOptions(tag));
-    }
-  }
-
-  nonTrendingTagClicked(filteredTag: any) {
+  tagClicked(filteredTag: any) {
     this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityTagFromFilterOptions(filteredTag));
   }
 
@@ -106,25 +83,19 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
     this.router.navigateByUrl('/dashboard');
   }
 
-  isTrendingTag(tag: Tag) {
-    return this.trendingTags.some(trendingTag => trendingTag.Tag === tag.TagName);
-  }
-
   showFilterView() {
     return this.isFilteredByCategory()
-    || this.isFilteredByNonTrendingTags()
+    || this.isFilteredByTag()
     || this.isFilteredByIndustry()
     || this.isFilteredByPostId
     || this.isFilteredByReplyId;
   }
 
+  isFilteredByTag() {
+    return this.filteredTags.length > 0;
+  }
   isFilteredByCategory() {
     return this.filteredCategories.length > 0;
-  }
-
-  isFilteredByNonTrendingTags() {
-    const filteredNonTrendingTags  = this.filteredTags.filter(item => !this.isTrendingTag(item));
-    return filteredNonTrendingTags.length > 0;
   }
 
   isFilteredByIndustry() {

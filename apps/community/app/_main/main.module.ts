@@ -54,7 +54,7 @@ import { CommunityPollRequestEffects } from './effects/community-poll-request.ef
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
 import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
-import { CommunityTrendingAndFilteredTagsComponent } from './containers/community-trending-and-filtered-tags';
+import { CommunityFilteredTagsComponent } from './containers/community-filtered-tags';
 import { CommunitySearchComponent } from './components/community-search/community-search.component';
 import {CommunitySearchResultsComponent} from './containers/community-search-results/community-search-results.component';
 import {CommunitySearchResultHeaderComponent} from './components/community-search-result-header';
@@ -116,7 +116,7 @@ const components = [
   CommunityJobComponent,
   CommunityJobsComponent,
   CommunityTabComponent,
-  CommunityTrendingAndFilteredTagsComponent,
+  CommunityFilteredTagsComponent,
   CommunitySearchComponent,
   CommunitySearchResultsComponent,
   CommunitySearchResultHeaderComponent,

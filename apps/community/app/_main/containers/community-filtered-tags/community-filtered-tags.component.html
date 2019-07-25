@@ -1,19 +1,8 @@
 <div id="tag-container" class="mb-3">
-  <h5 id="tag-section-header">{{ showFilterView() ? 'FILTERS' : 'TRENDING TAGS' }}</h5>
-  <ng-container *ngFor="let trendingTag of trendingTags$ | async">
-    <button *ngIf="IsTagSelected(trendingTag) || (!IsTagSelected(trendingTag) && !showFilterView())" [disabled]="(filteredByPost$ | async)"
-            type="button" class="btn m-1 tag py-2 px-3 shadow-none"
-            data-qa-id="btn-Tag"
-            (click)="trendingTagClicked(trendingTag)"
-            [ngClass]="{'btn-selected': IsTagSelected(trendingTag) }">{{trendingTag.Tag}}
-      <span *ngIf="IsTagSelected(trendingTag)"><fa-icon icon="times-circle"></fa-icon></span>
-    </button>
-  </ng-container>
-
+  <h5 *ngIf="showFilterView()" id="tag-section-header">FILTERS</h5>
   <ng-container *ngIf="filters$ | async as filter">
     <ng-container *ngFor="let filteredTag of filteredTags">
-      <button *ngIf="!isTrendingTag(filteredTag)"
-              type="button" class="btn m-1 tag py-2 px-3 shadow-none" (click)="nonTrendingTagClicked(filteredTag)"
+      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none" (click)="tagClicked(filteredTag)"
               [ngClass]="{'btn-selected': true }">{{ filteredTag.TagName }}
         <span><fa-icon icon="times-circle"></fa-icon></span>
       </button>
