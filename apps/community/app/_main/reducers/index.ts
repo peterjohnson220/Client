@@ -408,20 +408,6 @@ export const getCommunityPostCombinedWithReplies = createSelector(
 );
 
 // Community Tag Selectors
-export const getLoadingCommunityTrendingTags = createSelector(
-  selectFromCommunityTagState,
-  fromCommunityTagReducer.getLoadingCommunityTrendingTags
-);
-
-export const getLoadingCommunityTrendingTagsSuccess = createSelector(
-  selectFromCommunityTagState,
-  fromCommunityTagReducer.getCommunityTrendingTags
-);
-
-export const getLoadingCommunityTrendingTagsError = createSelector(
-  selectFromCommunityTagState,
-  fromCommunityTagReducer.getLoadingCommunityTrendingTagsError
-);
 
 export const getSuggestingCommunityTags = createSelector(
   selectFromCommunityTagState,
