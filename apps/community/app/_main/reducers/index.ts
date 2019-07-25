@@ -16,6 +16,7 @@ import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-
 import * as fromCommunityLikeReducer from './community-like.reducer';
 import * as fromCommunitySearchReducer from './community-search.reducer';
 import * as fromCommunityIndustryReducer from './community-industry.reducer';
+import * as fromCommunityCompanySizeReducer from './community-company-size.reducer';
 import { CommunityConstants } from '../models';
 import { populatePostReplies } from '../helpers/model-mapping.helper';
 
@@ -34,6 +35,7 @@ export interface CommunityState {
   communityLikes: fromCommunityLikeReducer.State;
   communitySearch: fromCommunitySearchReducer.State;
   communityIndustries: fromCommunityIndustryReducer.State;
+  communityCompanySizes: fromCommunityCompanySizeReducer.State;
 }
 
 // Extend root state with feature area state
@@ -56,6 +58,7 @@ export const reducers = {
   communityLikes: fromCommunityLikeReducer.reducer,
   communitySearch: fromCommunitySearchReducer.reducer,
   communityIndustries: fromCommunityIndustryReducer.reducer,
+  communityCompanySizes: fromCommunityCompanySizeReducer.reducer,
 };
 
 // select feature area
@@ -125,6 +128,11 @@ export const selectFromCommunitySearchState = createSelector(
 export const selectFromCommunityIndustryState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityIndustries
+);
+
+export const selectFromCommunityCompanySizeState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityCompanySizes
 );
 
 // Community Poll Selectors
@@ -593,5 +601,21 @@ export const getCommunityIndustries = createSelector(
 export const getLoadingCommunityIndustriesError = createSelector(
   selectFromCommunityIndustryState,
   fromCommunityIndustryReducer.getLoadingCommunityIndustriesError
+);
+
+// Community Company Size Selectors
+export const getLoadingCommunityCompanySizes = createSelector(
+  selectFromCommunityCompanySizeState,
+  fromCommunityCompanySizeReducer.getLoadingCommunityCompanySizes
+);
+
+export const getCommunityCompanySizes = createSelector(
+  selectFromCommunityCompanySizeState,
+  fromCommunityCompanySizeReducer.getCommunityCompanySizes
+);
+
+export const getLoadingCommunityCompanySizesError = createSelector(
+  selectFromCommunityCompanySizeState,
+  fromCommunityCompanySizeReducer.getLoadingCommunityCompanySizesError
 );
 

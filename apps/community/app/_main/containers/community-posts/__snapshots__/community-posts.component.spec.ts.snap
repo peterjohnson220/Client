@@ -4,6 +4,7 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
 <pf-community-posts
   addReplyViewStore={[Function Store]}
   avatarUrl={[Function String]}
+  communityCompanySizes$={[Function Store]}
   communityIndustries$={[Function Store]}
   communityPosts$={[Function Store]}
   communityPostsSubscription={[Function Subscriber]}
@@ -14,7 +15,6 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   getHasPreviousBatchPostsOnServer$={[Function Store]}
   hasNextBatchResultsOnServerSubscription={[Function Subscriber]}
   hasPreviousBatchResultsOnServerSubscription={[Function Subscriber]}
-  industryStore={[Function Store]}
   loadingCommunityPosts$={[Function Store]}
   loadingNextBatchCommunityPosts$={[Function Store]}
   loadingNextBatchCommunityPostsSubscription={[Function Subscriber]}

@@ -63,7 +63,7 @@ import { CommunityPostComponent } from './components/community-post/community-po
 import { CommunitySearchResultModalComponent } from './containers/community-search-result-modal/community-search-result-modal.component';
 import { CommunityPollsAllPollsAnsweredComponent } from './components/community-polls-all-polls-answered';
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
-import { CommunityIndustryEffects } from './effects';
+import { CommunityIndustryEffects, CommunityCompanySizeEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
 import { CommunityPostEffectsService } from './services/community-post-effects-service';
 import { PfLinkifyService } from './services/pf-linkify-service';
@@ -76,7 +76,7 @@ import { CommunityJobApiService } from 'libs/data/payfactors-api/community/commu
 import { MapboxApiService } from 'libs/data/mapbox-api/mapbox-api.service';
 import { BrowserDetectionService} from 'libs/core/services';
 import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/community/community-categories-api.service';
-import { CommunityIndustryApiService } from 'libs/data/payfactors-api/community/community-industry-api.service';
+import { CommunityFilterApiService } from 'libs/data/payfactors-api/community/community-filter-api.service';
 import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
 import { CommunityHighlightTextPipe } from './pipes/community-highlight-search.pipe';
 import { CommunityLinkifyPipe } from './pipes/community-linkify.pipe';
@@ -155,7 +155,8 @@ const components = [
       CommunityPostFilterOptionsEffects,
       CommunityLikeEffects,
       CommunitySearchEffects,
-      CommunityIndustryEffects
+      CommunityIndustryEffects,
+      CommunityCompanySizeEffects
     ]),
     FontAwesomeModule,
 
@@ -181,7 +182,7 @@ const components = [
     PfLinkifyService,
     BrowserDetectionService,
     CommunitySearchApiService,
-    CommunityIndustryApiService
+    CommunityFilterApiService
   ]
 })
 export class MainModule {
