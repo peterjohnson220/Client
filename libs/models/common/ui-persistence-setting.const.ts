@@ -6,4 +6,5 @@ export class UiPersistenceSettingConstants {
   static readonly JobsTileShouldGetPricingsBeforeEffectiveDate = 'JobsTileShouldGetPricingsBeforeEffectiveDate';
   static readonly CompHubAddPayMarketFormDismissInfoBanner = 'CompHubAddPayMarketFormDismissInfoBanner';
   static readonly ComparisonMarketSelection = 'ComparisonMarketSelection';
+  static readonly ComparisonRateSelection = 'ComparisonRateSelection';
 }

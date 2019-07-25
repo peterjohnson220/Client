@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, Input, OnChanges, SimpleChange
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-  import * as cloneDeep from 'lodash.clonedeep';
+import * as cloneDeep from 'lodash.clonedeep';
 import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
 import { pdf } from '@progress/kendo-drawing';
 const { exportPDF } = pdf;
@@ -12,11 +12,12 @@ import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 import { SystemUserGroupNames } from 'libs/constants';
+import { RateType } from 'libs/data/data-sets';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { JobData, PricingPaymarket, JobSalaryTrend, CountryDataSet, WorkflowContext } from '../../../models';
-import { ComphubPages, RateType } from '../../../data';
+import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
+import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
 
 @Component({

@@ -54,6 +54,23 @@ export class ExchangeJobComparisonGridEffects {
       })
     );
 
+  @Effect()
+  selectComparisonRate$ = this.actions$
+    .pipe(
+      ofType(fromExchangeJobComparisonGridActions.SELECT_RATE),
+      switchMap((action: fromExchangeJobComparisonGridActions.SelectRate) => {
+        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
+          FeatureArea: FeatureAreaConstants.PeerDashboard,
+          SettingName: UiPersistenceSettingConstants.ComparisonRateSelection,
+          SettingValue: action.payload.newRate
+        })
+          .pipe(
+            map(() => new fromExchangeJobComparisonGridActions.SelectedRatePersisted()),
+            catchError(() => of())
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private exchangeCompanyApiService: ExchangeCompanyApiService,

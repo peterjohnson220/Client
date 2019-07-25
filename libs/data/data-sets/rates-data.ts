@@ -1,4 +1,4 @@
-import { KendoDropDownItem } from '../models';
+import { KendoDropDownItem } from 'libs/models/kendo';
 
 export enum RateType {
   Annual = 'Annual',

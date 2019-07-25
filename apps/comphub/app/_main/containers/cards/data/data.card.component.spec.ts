@@ -7,12 +7,13 @@ import { of } from 'rxjs';
 import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
 import { PfCommonModule } from 'libs/core';
+import { RateType } from 'libs/data/data-sets';
 
 import { DataCardComponent } from './data.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import { generateFakeJobData, generateMockWorkflowContext, JobGridData } from '../../../models';
-import { RateType, ComphubPages } from '../../../data';
+import { ComphubPages } from '../../../data';
 
 describe('Comphub - Main - Data Card Component', () => {
   let instance: DataCardComponent;
