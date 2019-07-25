@@ -7,4 +7,5 @@ export class UiPersistenceSettingConstants {
   static readonly CompHubAddPayMarketFormDismissInfoBanner = 'CompHubAddPayMarketFormDismissInfoBanner';
   static readonly ComparisonMarketSelection = 'ComparisonMarketSelection';
   static readonly ComparisonRateSelection = 'ComparisonRateSelection';
+  static readonly ExchangeDataCutsExportRateSelection = 'ExchangeDataCutsExportRateSelection';
 }

@@ -1,4 +1,4 @@
-import { KendoDropDownItem } from 'libs/models/kendo/';
+import { KendoDropDownItem } from 'libs/models/kendo';
 
 export interface MarketDataScope {
   Sizes: KendoDropDownItem[];

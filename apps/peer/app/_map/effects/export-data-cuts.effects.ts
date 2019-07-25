@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import {Action, select, Store} from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
 import { ExchangeDataCutsExportRequest } from 'libs/models/peer/requests';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api/settings';
 import * as fromLibsPeerMapReducers from 'libs/features/peer/map/reducers';
 
 import * as fromPeerMapReducer from '../reducers/';
@@ -24,11 +26,12 @@ export class ExportDataCutsEffects {
         this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchangeName)),
         this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getExchangeDataCutRequestData)),
         this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections)),
-        (action, exchangeName, filterModel, gridSelections) => {
+        (action: fromExportDataCutsActions.ExportDataCuts, exchangeName, filterModel, gridSelections) => {
           return {
             ExchangeName: exchangeName,
             ExchangeJobToCompanyJobIds: gridSelections,
-            FilterModel: filterModel
+            FilterModel: filterModel,
+            SelectedRate: action.payload.selectedRate
           };
       }),
       switchMap((payload: ExchangeDataCutsExportRequest) => {
@@ -41,11 +44,29 @@ export class ExportDataCutsEffects {
       })
     );
 
+  @Effect()
+  selectRateForExport$ = this.actions$
+    .pipe(
+      ofType(fromExportDataCutsActions.SELECT_RATE),
+      switchMap((action: fromExportDataCutsActions.SelectRate) => {
+        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
+          FeatureArea: FeatureAreaConstants.PeerManageScopes,
+          SettingName: UiPersistenceSettingConstants.ExchangeDataCutsExportRateSelection,
+          SettingValue: action.payload.newRate
+        })
+          .pipe(
+            map(() => new fromExportDataCutsActions.SelectedRatePersisted()),
+            catchError(() => of())
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromPeerMapReducer.State>,
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
     private libsPeerMapStore: Store<fromLibsPeerMapReducers.State>,
-    private exchangeDataCutsApiService: ExchangeDataCutsApiService
+    private exchangeDataCutsApiService: ExchangeDataCutsApiService,
+    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService
   ) {}
 }
