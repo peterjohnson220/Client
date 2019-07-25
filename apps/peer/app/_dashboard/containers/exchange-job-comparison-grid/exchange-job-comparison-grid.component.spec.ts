@@ -11,6 +11,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { GridTypeEnum, ExchangeJobComparison, generateMockExchangeJobComparison } from 'libs/models';
 import { generateMockDataStateChangeEvent, generateMockSelectionEvent } from 'libs/extensions/kendo/mocks';
 import { SettingsService } from 'libs/state/app-context/services';
+import { generateMockRateOption, RateType } from 'libs/data/data-sets';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -53,6 +54,7 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     instance.selectedKeys = [1];
     instance.exchangeJobOrgsDetailVisible$ = of(false);
     instance.persistedComparisonGridMarket$ = of('USA');
+    instance.persistedComparisonGridRate$ = of(generateMockRateOption().Value);
 
     fixture.detectChanges();
   });
@@ -146,6 +148,23 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     instance.onSelectionChange(generateMockSelectionEvent(generateMockExchangeJobComparison()));
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it(`should use a 2 decimal format for digit info when the selectedRate is hourly`, () => {
+    const expectedHourlyFormat = '1.2-2';
+    instance.selectedRate = {Name: RateType.Hourly, Value: RateType.Hourly};
+
+    fixture.detectChanges();
+
+    expect(instance.digitsInfo).toBe(expectedHourlyFormat);
+  });
+
+  it(`should use a 1 decimal format for digit info when the selectedRate is annual`, () => {
+    const expectedHourlyFormat = '1.1-1';
+
+    fixture.detectChanges();
+
+    expect(instance.digitsInfo).toBe(expectedHourlyFormat);
   });
 
 });
