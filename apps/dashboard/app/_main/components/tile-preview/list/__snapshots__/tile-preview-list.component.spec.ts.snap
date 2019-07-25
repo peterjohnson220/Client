@@ -63,9 +63,6 @@ exports[`TilePreviewList should not display main button when main button url is 
         
         
         
-        <fa-icon
-          class="mr-3"
-        />
       </td>
     </tr>
   </table>
@@ -172,9 +169,6 @@ exports[`TilePreviewList should show data with columns when data is given and sh
         
         
         
-        <fa-icon
-          class="mr-3"
-        />
       </td>
     </tr>
   </table>
@@ -251,9 +245,6 @@ exports[`TilePreviewList should show data without columns when data is given and
         
         
         
-        <fa-icon
-          class="mr-3"
-        />
       </td>
     </tr>
   </table>
