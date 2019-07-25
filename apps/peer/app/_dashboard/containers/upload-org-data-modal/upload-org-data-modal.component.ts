@@ -68,7 +68,7 @@ export class UploadOrgDataModalComponent implements OnInit {
       UserTicketType: 'File Upload',
       UserTicketState: 'New',
       UserTicket: this.uploadOrgDataForm.get('fileUploadDescription').value,
-      FileType: 'Organizational Data'
+      FileType: 'Organization Data'
     };
 
     const uploadData = {

@@ -1,4 +1,4 @@
 export * from './payfactors-api-model-mapper';
 export * from './kendo-model-mapper';
 export * from './search-request-filter-mapper';
-export * from './svg-location-parse';
+export * from './picker-helper';

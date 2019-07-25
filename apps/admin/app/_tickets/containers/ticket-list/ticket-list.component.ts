@@ -5,14 +5,15 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { GridDataResult, PageChangeEvent, SortSettings } from '@progress/kendo-angular-grid';
-import { orderBy, SortDescriptor, State } from '@progress/kendo-data-query';
+import { SortDescriptor, State } from '@progress/kendo-data-query';
+import { orderBy, cloneDeep } from 'lodash';
 
 import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
 import { TicketFieldType } from '../../constants/tickets-constants';
-import { SearchRequestFilterMapper, SVGLocationParse } from '../../helpers';
+import { SearchRequestFilterMapper, PickerHelper } from '../../helpers';
 import { TicketListFilterComponent } from '../filters/ticket-list-filter';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
@@ -29,7 +30,6 @@ import { PfServicesRep, UserTicketGridItem, UserTicketState, UserTicketTabItem, 
 })
 export class TicketListComponent implements OnInit, OnDestroy {
   @ViewChild('serviceUserFilter', { static: false }) serviceUserFilterComponent: TicketListFilterComponent;
-  @ViewChild('ticketStateFilter', { static: false }) ticketStateFilterComponent: TicketListFilterComponent;
   gridView: GridDataResult;
   sortable: SortSettings = {
     allowUnsort: false,
@@ -58,13 +58,12 @@ export class TicketListComponent implements OnInit, OnDestroy {
 
   private selectedTicket: UserTicketTabItem;
   public defaultPfServiceRep: number;
-  public defaultUserTicketState = 'New';
   pfServiceReps: PfServicesRep[] = [];
   userTicketStates: UserTicketState[] = [];
   userTicketTypes: UserTicketType[] = [];
   ticketListItems: UserTicketGridItem[] = [];
   public ticketFieldType = TicketFieldType;
-  public svgParse = SVGLocationParse;
+  public pickerHelper = new PickerHelper();
 
   initSuccess$: Observable<boolean>;
   ticketListLoading$: Observable<boolean>;
@@ -124,7 +123,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
         filter(v => v && v.length > 0),
         takeUntil(this.unsubscribe$)
       ).subscribe(v => {
-        this.pfServiceReps = v;
+        this.pfServiceReps = orderBy(v, ['Name'], 'asc');
       });
     this.userTicketStates$
       .pipe(
@@ -203,5 +202,17 @@ export class TicketListComponent implements OnInit, OnDestroy {
   filterChanged() {
     this.state.skip = 0;
     this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
+  }
+
+  getSelectedUserState(value: string): UserTicketState {
+    return this.userTicketStates.find(f => f.UserTicketState === value);
+  }
+
+  getSelectedUserType(value: string): UserTicketType {
+    return this.userTicketTypes.find(f => f.TicketTypeDisplayName === value);
+  }
+
+  getSelectedServiceUser(value: string): PfServicesRep {
+    return this.pfServiceReps.find(f => f.Name === value);
   }
 }

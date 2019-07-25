@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
-import { UserTicketUpdateRequest, UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
+import { UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
 import { CompanyDetail, UserTicketItem, UserTicketTabItem } from '../models';
+import { GenericKeyValue } from 'libs/models';
 
 export const LOAD_COMPANY_DETAIL = '[Admin / Tickets] Load Company Detail';
 export const LOAD_COMPANY_DETAIL_ERROR = '[Admin Tickets/ Ticket] Load Company Detail Error';
@@ -28,7 +29,7 @@ export const UPDATE_COMMENT_ERROR = '[Admin Tickets / Ticket ] Update Comment Er
 export class LoadCompanyDetail implements Action {
   readonly type = LOAD_COMPANY_DETAIL;
 
-  constructor(public payload: { companyId: number }) {}
+  constructor(public payload: { companyId: number }) { }
 }
 
 export class LoadCompanyDetailError implements Action {
@@ -38,19 +39,19 @@ export class LoadCompanyDetailError implements Action {
 export class LoadCompanyDetailSuccess implements Action {
   readonly type = LOAD_COMPANY_DETAIL_SUCCESS;
 
-  constructor(public payload: { companyDetail: CompanyDetail }) {}
+  constructor(public payload: { companyDetail: CompanyDetail }) { }
 }
 
 export class LoadTicket implements Action {
   readonly type = LOAD_TICKET;
 
-  constructor(public payload: number) {}
+  constructor(public payload: number) { }
 }
 
 export class LoadTicketSuccess implements Action {
   readonly type = LOAD_TICKET_SUCCESS;
 
-  constructor(public payload: UserTicketItem) {}
+  constructor(public payload: UserTicketItem) { }
 }
 
 export class LoadTicketError implements Action {
@@ -60,7 +61,7 @@ export class LoadTicketError implements Action {
 export class OpenTicket implements Action {
   readonly type = OPEN_TICKET;
 
-  constructor(public payload: UserTicketTabItem) {}
+  constructor(public payload: UserTicketTabItem) { }
 }
 
 export class CloseTicket implements Action {
@@ -70,25 +71,25 @@ export class CloseTicket implements Action {
 export class SelectTicketTab implements Action {
   readonly type = SELECT_TICKET_TAB;
 
-  constructor(public payload: number) {}
+  constructor(public payload: number) { }
 }
 
 export class InitializeTicketTab implements Action {
   readonly type = INITIALIZE_TICKET_TAB;
 
-  constructor(public payload: number) {}
+  constructor(public payload: number) { }
 }
 
 export class UpdateTicket implements Action {
   readonly type = UPDATE_TICKET;
 
-  constructor(public payload: UserTicketUpdateRequest) {}
+  constructor(public payload: { userTicketId: number, updateFields: GenericKeyValue<string, string>[] }) { }
 }
 
 export class UpdateTicketSuccess implements Action {
   readonly type = UPDATE_TICKET_SUCCESS;
 
-  constructor(public payload: UserTicketItem) {}
+  constructor(public payload: UserTicketItem) { }
 }
 
 export class UpdateTicketError implements Action {
@@ -97,7 +98,7 @@ export class UpdateTicketError implements Action {
 
 export class CreateComment implements Action {
   readonly type = CREATE_COMMENT;
-  constructor(public payload: UserTicketCommentRequest) {}
+  constructor(public payload: UserTicketCommentRequest) { }
 }
 export class CreateCommentError implements Action {
   readonly type = CREATE_COMMENT_ERROR;
@@ -106,7 +107,7 @@ export class CreateCommentError implements Action {
 export class DeleteComment implements Action {
   readonly type = DELETE_COMMENT;
 
-  constructor(public payload: UserTicketCommentRequest) {}
+  constructor(public payload: UserTicketCommentRequest) { }
 }
 
 export class DeleteCommentError implements Action {
@@ -116,7 +117,7 @@ export class DeleteCommentError implements Action {
 export class UpdateComment implements Action {
   readonly type = UPDATE_COMMENT;
 
-  constructor(public payload: UserTicketCommentRequest) {}
+  constructor(public payload: UserTicketCommentRequest) { }
 }
 
 export class UpdateCommentError implements Action {

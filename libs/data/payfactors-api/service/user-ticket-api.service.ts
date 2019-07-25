@@ -5,13 +5,13 @@ import { Observable } from 'rxjs';
 import {
   UserTicketAttachmentDeleteRequest,
   UserTicketSearchRequest,
-  UserTicketUpdateRequest,
   UserTicketCommentRequest
 } from 'libs/models/payfactors-api/service/request';
 import {
   UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse
 } from 'libs/models/payfactors-api/service/response';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { GenericKeyValue } from 'libs/models';
 
 @Injectable()
 export class UserTicketApiService {
@@ -21,7 +21,8 @@ export class UserTicketApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
   createUserTicket(uploadData: any): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/CreateUserTicket`, uploadData);
+    return this.payfactorsApiService.post(`${this.endpoint}/CreateUserTicket`,
+      { UserTicket: uploadData.UserTicket, FileData: uploadData.FileData });
   }
 
   searchUserTickets(request: UserTicketSearchRequest): Observable<UserTicketResponse[]> {
@@ -45,9 +46,9 @@ export class UserTicketApiService {
     return this.payfactorsApiService.get<UserTicketStateResponse[]>(`${this.endpoint}/GetUserTicketStates`);
   }
 
-  updateUserTicket(request: UserTicketUpdateRequest) {
+  updateUserTicket(userTicketId: number, request: GenericKeyValue<string, string>[]) {
     return this.payfactorsApiService
-      .post<UserTicketResponse>(`${this.endpoint}/UpdateUserTicket/${request.UserTicket.UserTicketId}`, request);
+      .post<UserTicketResponse>(`${this.endpoint}/UpdateUserTicket/${userTicketId}`, request);
   }
 
   deleteAttachment(request: UserTicketAttachmentDeleteRequest) {

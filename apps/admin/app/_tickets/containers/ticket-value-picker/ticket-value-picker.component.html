@@ -1,0 +1,32 @@
+<span *ngIf="showLabel && selectedValue"
+      (click)="switchView()"
+      style="width:100%">
+  <img *ngIf="pickerType === ticketFieldType.STATUS"
+       [alt]="selectedValue.UserTicketState"
+       src="assets/svg/userticketstate_{{pickerHelper.getLowerAndTrimmedValue(selectedValue.UserTicketState)}}.svg">
+  <span *ngIf="pickerType === ticketFieldType.TYPE"
+        class="ticketsdot {{selectedValue.TicketCssClass}}"></span>
+  {{selectedValue[textField]}}
+</span>
+
+<kendo-combobox *ngIf="!showLabel"
+                [data]="data"
+                [valueField]="valueField"
+                [textField]="textField"
+                (valueChange)="comboValueChanged($event)"
+                [(ngModel)]="selectedValue"
+                [suggest]="true"
+                (blur)="switchView()">
+  <ng-template kendoComboBoxItemTemplate
+               let-dataItem>
+    <span class="userticketstatus">
+      <img *ngIf="pickerType === ticketFieldType.STATUS"
+           [alt]="dataItem.UserTicketState"
+           src="assets/svg/userticketstate_{{pickerHelper.getLowerAndTrimmedValue(dataItem.UserTicketState)}}.svg">
+      <span *ngIf="pickerType === ticketFieldType.TYPE"
+            class="ticketsdot {{dataItem.TicketCssClass}}"></span>
+      {{dataItem[textField]}}
+    </span>
+
+  </ng-template>
+</kendo-combobox>
