@@ -18,6 +18,17 @@ $structures-secondary-text-disabled: #999999;
 $structures-header-blue: #306589;
 $structures-header-background-grey: #eaeaea;
 
+$structures-dark-grey: #999999;
+
+%label {
+  text-transform: uppercase;
+  color: $structures-dark-grey;
+  font-size: .95rem;
+}
+
+$structures-actions-mask-overlay: #aeaeae;
+$structures-solid-star-color: #F5cd5c;
+
 // Weights
 $structures-bold-font-weight: 500;
 
