@@ -15,7 +15,7 @@
   <span class="ignore-click-elsewhere page-title" (click)="setEditModelNameMode(true)">{{currentModelName}}</span>
 </ng-template>
 <ng-template #editModeModelName>
-  <div class="w-100">
+  <div class="w-100 ignore-click-elsewhere" (mousedown)="mouseDownInInput()">
     <pf-input-debounce [delay]="400"
                        [(ngModel)]="newModelName"
                        [placeholderText]="'Enter Model Name...'"
