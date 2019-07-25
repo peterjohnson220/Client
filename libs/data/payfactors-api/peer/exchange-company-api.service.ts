@@ -170,9 +170,9 @@ export class ExchangeCompanyApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/ApprovePendingExchangeJobMapping`, request);
   }
 
-  getExchangeJobOrgs(exchangeJobId: number): Observable<string[]> {
+  getExchangeJobOrgs(exchangeJobId: number, selectedMarket = 'USA'): Observable<string[]> {
     return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetExchangeJobOrgs`,
-      { params: { exchangeJobId } }
+      { params: { exchangeJobId, countryCode: selectedMarket } }
     );
   }
 

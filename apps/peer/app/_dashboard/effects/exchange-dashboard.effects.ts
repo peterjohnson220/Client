@@ -131,9 +131,9 @@ export class ExchangeDashboardEffects {
   loadExchangeJobOrgs$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromExchangeDashboardActions.LOAD_EXCHANGE_JOB_ORGS),
-      map((action: fromExchangeDashboardActions.LoadExchangeJobOrgs) => action),
-      switchMap((action) =>
-        this.exchangeCompanyApiService.getExchangeJobOrgs(action.payload.ExchangeJobId).pipe(
+      map((action: fromExchangeDashboardActions.LoadExchangeJobOrgs) => action.payload),
+      switchMap((payload) =>
+        this.exchangeCompanyApiService.getExchangeJobOrgs(payload.selectedExchangeJobComparison.ExchangeJobId, payload.selectedMarket).pipe(
           map((orgs: string[]) => {
             return new fromExchangeDashboardActions.LoadExchangeJobOrgsSuccess(orgs);
           }),
