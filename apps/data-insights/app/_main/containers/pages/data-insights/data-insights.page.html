@@ -5,7 +5,8 @@
     </div>
 
     <div class="actions d-flex space-out-children">
-      <div class="search d-flex flex-nowrap" (click)="handleSearchClicked()">
+      <div class="search d-flex flex-nowrap" [attr.data-qa-id]="'cnt-search'"
+        (click)="handleSearchClicked()">
         <div class="icon d-flex flex-column">
           <fa-icon icon="search"></fa-icon>
         </div>
@@ -25,7 +26,8 @@
       </ng-container>
     </div>
     <div class="row align-items-center" *ngIf="(standardReports$ | async)?.obj?.length > 4">
-      <div class="col-12 toggle-show-more d-flex flex-nowrap" (click)="toggleShowAllStandardReports()">
+      <div class="col-12 toggle-show-more d-flex flex-nowrap" [attr.data-qa-id]="'cnt-showMore'"
+        (click)="toggleShowAllStandardReports()">
         <ng-container *ngIf="!showAllStandardReports; else showLess">
           <div class="icon">
             <fa-icon icon="chevron-double-down"></fa-icon>

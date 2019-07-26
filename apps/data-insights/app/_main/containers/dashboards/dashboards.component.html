@@ -16,6 +16,7 @@
           <div class="tag-container" >
             <kendo-dropdownlist #tagsDropDownList
                                 class="tag-dropdown"
+                                [attr.data-qa-id]="'ddm-tags'"
                                 [data]="distinctTagsByView$ | async"
                                 [defaultItem]="'All'"
                                 [value]="tagFilter$ | async"
