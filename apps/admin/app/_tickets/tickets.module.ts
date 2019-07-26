@@ -6,11 +6,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {library} from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
-import {BodyModule, ColumnResizingService, GridModule, RowFilterModule, SharedModule} from '@progress/kendo-angular-grid';
+import { BodyModule, ColumnResizingService, GridModule, RowFilterModule, SharedModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
@@ -21,10 +21,10 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { TicketDetailCardComponent } from './components';
 import {
-    AttachmentDeleteModalComponent, AttachmentDetailCardComponent, CompanyDetailCardComponent, TicketComponent, TicketFieldsComponent,
-    TicketListComponent, TicketListPageComponent, AttachmentUploadComponent, TicketListFilterComponent,
-    TicketCommentsDetailComponent,
-    TicketCommentComponent
+  AttachmentDeleteModalComponent, AttachmentDetailCardComponent, CompanyDetailCardComponent, TicketComponent, TicketFieldsComponent,
+  TicketListComponent, TicketListPageComponent, AttachmentUploadComponent, TicketListFilterComponent,
+  TicketCommentsDetailComponent,
+  TicketCommentComponent, TicketValuePickerComponent
 } from './containers';
 import { TicketAttachmentEffects, TicketEffects, TicketListEffects, TicketLookupEffects } from './effects';
 import { reducers } from './reducers';
@@ -82,6 +82,7 @@ import * as fromFaIcons from './fa-icons';
     TicketListFilterComponent,
     TicketCommentsDetailComponent,
     TicketCommentComponent,
+    TicketValuePickerComponent,
 
     // Pages
     TicketListPageComponent

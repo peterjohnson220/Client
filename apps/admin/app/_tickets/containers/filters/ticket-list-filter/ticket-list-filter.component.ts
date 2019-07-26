@@ -4,7 +4,7 @@ import { BaseFilterCellComponent, FilterService } from '@progress/kendo-angular-
 import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
 
 import { TicketFieldType } from '../../../constants/tickets-constants';
-import { SVGLocationParse } from '../../../helpers';
+import { PickerHelper } from '../../../helpers';
 
 @Component({
   selector: 'pf-ticket-list-filter',
@@ -13,6 +13,7 @@ import { SVGLocationParse } from '../../../helpers';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TicketListFilterComponent extends BaseFilterCellComponent {
+
   @Input() public filter: CompositeFilterDescriptor;
   @Input() public data: any[];
   @Input() public textField: string;
@@ -21,9 +22,8 @@ export class TicketListFilterComponent extends BaseFilterCellComponent {
   @Input() public defaultValue: any;
   @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
-  selectedValue: any;
   public ticketFieldType = TicketFieldType;
-  public svgParse = SVGLocationParse;
+  public pickerHelper = new PickerHelper();
 
   constructor(filterService: FilterService) {
     super(filterService);

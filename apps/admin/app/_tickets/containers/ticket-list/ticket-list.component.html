@@ -17,12 +17,17 @@
               (pageChange)="pageChange($event)">
     <kendo-grid-column field="Status"
                        title="Status"
-                       width="40">
+                       width="55">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <img [alt]="dataItem.Status"
-             src="assets/svg/userticketstate_{{svgParse.getLowerAndTrimmedValue(dataItem.Status)}}.svg">
-        {{ dataItem.Status }}
+        <pf-ticket-value-picker [data]="userTicketStates"
+                                [ticketId]="dataItem.Id"
+                                [textField]="'UserTicketState'"
+                                [valueField]="'UserTicketState'"
+                                [pickerType]="ticketFieldType.STATUS"
+                                [selectedValue]="getSelectedUserState(dataItem.Status)"
+                                [pickerOnly]="false">
+        </pf-ticket-value-picker>
       </ng-template>
       <ng-template kendoGridFilterCellTemplate
                    let-filter>
@@ -32,7 +37,7 @@
                                [textField]="'UserTicketState'"
                                [valueField]="'UserTicketState'"
                                [filterField]="ticketFieldType.STATUS"
-                               [defaultValue]="defaultUserTicketState"
+                               [defaultValue]=""
                                (valueChange)="filterChanged()">
         </pf-ticket-list-filter>
       </ng-template>
@@ -42,8 +47,14 @@
                        width="75">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <span class="ticketsdot {{dataItem.TicketCssClass}}"></span>
-        <span>{{ dataItem.Type }}</span>
+        <pf-ticket-value-picker [data]="userTicketTypes"
+                                [ticketId]="dataItem.Id"
+                                [textField]="'TicketTypeDisplayName'"
+                                [valueField]="'TicketTypeDisplayName'"
+                                [pickerType]="ticketFieldType.TYPE"
+                                [selectedValue]="getSelectedUserType(dataItem.Type)"
+                                [pickerOnly]="false">
+        </pf-ticket-value-picker>
       </ng-template>
       <ng-template kendoGridFilterCellTemplate
                    let-filter>
@@ -103,7 +114,14 @@
                        width="60">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div [innerHTML]="dataItem.ServiceUser"></div>
+        <pf-ticket-value-picker [data]="pfServiceReps"
+                                [ticketId]="dataItem.Id"
+                                [textField]="'Name'"
+                                [valueField]="'PfServicesRepId'"
+                                [pickerType]="ticketFieldType.SERVICEUSER"
+                                [selectedValue]="getSelectedServiceUser(dataItem.ServiceUser)"
+                                [pickerOnly]="false">
+        </pf-ticket-value-picker>
       </ng-template>
       <ng-template kendoGridFilterCellTemplate
                    let-filter>
@@ -112,7 +130,7 @@
                                [data]="pfServiceReps"
                                [textField]="'Name'"
                                [valueField]="'PfServicesRepId'"
-                               [filterField]="'ServiceUser'"
+                               [filterField]="ticketFieldType.SERVICEUSER"
                                [defaultValue]="defaultPfServiceRep"
                                (valueChange)="filterChanged()">
         </pf-ticket-list-filter>

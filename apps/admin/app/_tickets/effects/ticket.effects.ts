@@ -20,15 +20,15 @@ export class TicketEffects {
   initializeTicket$: Observable<Action> = this.actions$.pipe(
     ofType(fromTicketActions.INITIALIZE_TICKET_TAB),
     delay(0),
-    switchMap((action: fromTicketActions.InitializeTicketTab) => of (action.payload)),
+    switchMap((action: fromTicketActions.InitializeTicketTab) => of(action.payload)),
     switchMap((res) => [
       new fromTicketActions.LoadTicket(res)
     ])
   );
 
   @Effect()
-  loadTicket$: Observable <Action> = this.actions$.pipe(
-    ofType < fromTicketActions.LoadTicket > (fromTicketActions.LOAD_TICKET),
+  loadTicket$: Observable<Action> = this.actions$.pipe(
+    ofType<fromTicketActions.LoadTicket>(fromTicketActions.LOAD_TICKET),
     withLatestFrom(
       this.store.select(fromReducers.getUserTicketTypes),
       this.store.select(fromReducers.getUserTicketStates),
@@ -58,7 +58,7 @@ export class TicketEffects {
           }
           return actions;
         }),
-        catchError(error => of (new fromTicketActions.LoadTicketError()))
+        catchError(error => of(new fromTicketActions.LoadTicketError()))
       )
     )
   );
@@ -74,7 +74,7 @@ export class TicketEffects {
             companyDetail: companyDetail
           });
         }),
-        catchError(error => of (new fromTicketActions.LoadCompanyDetailError()))
+        catchError(error => of(new fromTicketActions.LoadCompanyDetailError()))
       )
     )
   );
@@ -83,7 +83,7 @@ export class TicketEffects {
   updateUserTicket$: Observable<Action> = this.actions$.pipe(
     ofType(fromTicketActions.UPDATE_TICKET),
     switchMap((action: fromTicketActions.UpdateTicket) =>
-      this.userTicketApiService.updateUserTicket(action.payload).pipe(
+      this.userTicketApiService.updateUserTicket(action.payload.userTicketId, action.payload.updateFields).pipe(
         mergeMap((userTicket: UserTicketResponse) => {
           const ticket = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicketItem(userTicket);
           return [
@@ -94,7 +94,7 @@ export class TicketEffects {
             new fromTicketListActions.SetGridDirtyStatus(true)
           ];
         }),
-        catchError(error => of (new fromTicketActions.UpdateTicketError()))
+        catchError(error => of(new fromTicketActions.UpdateTicketError()))
       )
     )
   );
@@ -109,7 +109,7 @@ export class TicketEffects {
             new fromTicketActions.LoadTicket(action.payload.UserTicketId)
           ];
         }),
-        catchError(error => of (new fromTicketActions.CreateCommentError()))
+        catchError(error => of(new fromTicketActions.CreateCommentError()))
       )
     )
   );
@@ -124,7 +124,7 @@ export class TicketEffects {
             new fromTicketActions.LoadTicket(action.payload.UserTicketId)
           ];
         }),
-        catchError(error => of (new fromTicketActions.DeleteCommentError()))
+        catchError(error => of(new fromTicketActions.DeleteCommentError()))
       )
     )
   );
@@ -139,14 +139,14 @@ export class TicketEffects {
             new fromTicketActions.LoadTicket(action.payload.UserTicketId)
           ];
         }),
-        catchError(error => of (new fromTicketActions.UpdateCommentError()))
+        catchError(error => of(new fromTicketActions.UpdateCommentError()))
       )
     )
   );
 
   constructor(
     private actions$: Actions,
-    private store: Store <fromReducers.State> ,
+    private store: Store<fromReducers.State>,
     private userTicketApiService: UserTicketApiService
-  ) {}
+  ) { }
 }
