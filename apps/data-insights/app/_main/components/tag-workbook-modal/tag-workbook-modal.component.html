@@ -3,7 +3,7 @@
     <div class="d-flex w-100">
       <h4 class="modal-title">Manage Tag</h4>
 
-      <button type="button" class="close" aria-label="Close" (click)="modal.close('Cross click')">
+      <button type="button" [attr.data-qa-id]="'btn-close'" class="close" aria-label="Close" (click)="modal.close('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -13,6 +13,7 @@
     <kendo-combobox
       maxlength="255"
       #tag="ngModel"
+      [attr.data-qa-id]="'ddm-tags'"
       [ngModel]="selectedWorkbook.Tag"
       [kendoDropDownFilter]="filterSettings"
       [popupSettings]="{popupClass: 'tag-options-popup', appendTo: 'component' }"
@@ -28,11 +29,12 @@
     </div>
   </div>
   <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">
+      <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary" (click)="modal.close('Close click')">
         Cancel
       </button>
       <button
         [disabled]="!saveWorkbookTagObj || tag.errors || saving"
+        [attr.data-qa-id]="'btn-save'"
         (click)="handleSaveClicked()"
         type="button" class="btn btn-primary">
         <span *ngIf="!saving">Save</span>

@@ -4,20 +4,21 @@
   (mouseleave)="handleMouseLeaveWorkbookContainer()">
 
   <div class="actions-container" [ngClass]="displayActionsOverlay ? 'displayed' : ''">
-    <button class="btn action-button" (click)="handleFavoriteClicked(workbook)">
+    <button class="btn action-button" [attr.data-qa-id]="'btn-favorite'" (click)="handleFavoriteClicked(workbook)">
       <fa-icon *ngIf="workbook.IsFavorite" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
       <fa-icon *ngIf="!workbook.IsFavorite" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
     </button>
-    <button class="btn action-button" (click)="handleTagClicked(workbook)">
+    <button class="btn action-button" [attr.data-qa-id]="'btn-addTag'" (click)="handleTagClicked(workbook)">
       <fa-icon *ngIf="workbook.Tag" [icon]="['fas', 'tag']" class="action-icon brand-secondary"></fa-icon>
       <fa-icon *ngIf="!workbook.Tag" [icon]="['far', 'tag']" class="action-icon"></fa-icon>
     </button>
     <div class="open-workbook">
-      <a class="btn" title="Open Workbook" [routerLink]="['/company-reports',workbook.WorkbookId]" [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
+      <a class="btn" [attr.data-qa-id]="'lnk-openWorkbook'" title="Open Workbook" [routerLink]="['/company-reports',workbook.WorkbookId]" [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
         Open
       </a>
       <div class="vertical-separator h-100"></div>
       <button class="btn open-views"
+              [attr.data-qa-id]="'btn-openViews'"
               [ngbPopover]="popContent"
               [popoverClass]="'workbook-views-popover'"
               [placement]="'bottom'"

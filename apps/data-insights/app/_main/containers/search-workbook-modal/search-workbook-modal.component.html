@@ -2,6 +2,7 @@
   <div class="modal-body">
     <div class="d-flex flex-row justify-content-between search-bar">
       <pf-input-debounce class="w-100"
+        [attr.data-qa-id]="'txt-searchWorkbook'"
         [delay]="200"
         [placeholderText]="'Search Workbook...'"
         [(ngModel)]="searchValue"
@@ -18,6 +19,6 @@
     <div *ngIf="noSearchResults" class="no-results-message">No Matching Workbooks Found</div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="close()">Close</button>
+    <button type="button" class="btn btn-light" [attr.data-qa-id]="'btn-close'" (click)="close()">Close</button>
   </div>
 </ng-template>

@@ -3,8 +3,8 @@
   (mouseenter)="handleMouseOverWorkbookContainer()"
   (mouseleave)="handleMouseLeaveWorkbookContainer()">
     <div class="w-100">
-      <a [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
-         [queryParams]="{showTabs: workbook.ShowTabs, title: workbook.WorkbookName}">
+      <a [attr.data-qa-id]="'lnk-openWorkbook'" [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
+        [queryParams]="{showTabs: workbook.ShowTabs, title: workbook.WorkbookName}">
         <pf-standard-report-hexagon [workbook]="workbook" [showOverlay]="displayOverlay"></pf-standard-report-hexagon>
         <div *ngIf="workbook.WorkbookDescription" class="workbook-description">
             {{workbookDescription}}
