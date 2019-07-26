@@ -170,4 +170,38 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     expect(instance.digitsInfo).toBe(expectedHourlyFormat);
   });
 
+  it(`should format companyBaseAverageField as hourly when the selectedRate is hourly`, () => {
+    const expected = 'HourlyCompanyBaseAverage';
+    instance.selectedRate = {Name: RateType.Hourly, Value: RateType.Hourly};
+
+    fixture.detectChanges();
+
+    expect(instance.companyBaseAverageField).toBe(expected);
+  });
+
+  it(`should format companyBaseAverageField as annual when the selectedRate is annual`, () => {
+    const expected = 'CompanyBaseAverage';
+
+    fixture.detectChanges();
+
+    expect(instance.companyBaseAverageField).toBe(expected);
+  });
+
+  it(`should format exchangeBaseAverageField as hourly when the selectedRate is hourly`, () => {
+    const expected = 'HourlyExchangeBaseAverage';
+    instance.selectedRate = {Name: RateType.Hourly, Value: RateType.Hourly};
+
+    fixture.detectChanges();
+
+    expect(instance.exchangeBaseAverageField).toBe(expected);
+  });
+
+  it(`should format exchangeBaseAverageField as annual when the selectedRate is annual`, () => {
+    const expected = 'ExchangeBaseAverage';
+
+    fixture.detectChanges();
+
+    expect(instance.exchangeBaseAverageField).toBe(expected);
+  });
+
 });
