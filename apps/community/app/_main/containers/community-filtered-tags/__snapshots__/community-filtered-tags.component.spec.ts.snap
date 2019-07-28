@@ -12,6 +12,7 @@ exports[`CommunityFilteredTagsComponent should not show filter title when filter
   filteredCategories={[Function Array]}
   filteredIndustries={[Function Array]}
   filteredTags={[Function Array]}
+  filteredTopics={[Function Array]}
   filters$={[Function Observable]}
   isFilteredByPostId={[Function Boolean]}
   isFilteredByReplyId="false"
@@ -23,11 +24,6 @@ exports[`CommunityFilteredTagsComponent should not show filter title when filter
     id="tag-container"
   >
     
-    <h5
-      id="tag-section-header"
-    >
-      FILTERS
-    </h5>
     
     
     
@@ -68,6 +64,7 @@ exports[`CommunityFilteredTagsComponent should show filter title when filtering 
   filteredCategories={[Function Array]}
   filteredIndustries={[Function Array]}
   filteredTags={[Function Array]}
+  filteredTopics={[Function Array]}
   filters$={[Function Observable]}
   isFilteredByPostId={[Function Boolean]}
   isFilteredByReplyId="false"
@@ -79,11 +76,6 @@ exports[`CommunityFilteredTagsComponent should show filter title when filtering 
     id="tag-container"
   >
     
-    <h5
-      id="tag-section-header"
-    >
-      FILTERS
-    </h5>
     
     
     
@@ -123,6 +115,7 @@ exports[`CommunityFilteredTagsComponent should show trending tags 1`] = `
   filteredCategories={[Function Array]}
   filteredIndustries={[Function Array]}
   filteredTags={[Function Array]}
+  filteredTopics={[Function Array]}
   filters$={[Function Store]}
   isFilteredByPostId="false"
   isFilteredByReplyId="false"
@@ -133,7 +126,6 @@ exports[`CommunityFilteredTagsComponent should show trending tags 1`] = `
     class="mb-3"
     id="tag-container"
   >
-    
     
   </div>
 </pf-community-filtered-tags>

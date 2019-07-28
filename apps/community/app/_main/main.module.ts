@@ -32,6 +32,8 @@ import { CommunityStartDiscussionComponent } from './containers/community-start-
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
 import { CommunityCategoriesComponent } from './containers/community-categories';
+import { CommunityFiltersComponent } from './containers/community-filters';
+
 import { CommunityPostRepliesComponent } from './components/community-post-replies';
 import { CommunityPostReplyComponent } from './components/community-post-reply';
 import { CommunityPostAddReplyViewComponent } from './containers/community-post-add-reply-view';
@@ -63,7 +65,7 @@ import { CommunityPostComponent } from './components/community-post/community-po
 import { CommunitySearchResultModalComponent } from './containers/community-search-result-modal/community-search-result-modal.component';
 import { CommunityPollsAllPollsAnsweredComponent } from './components/community-polls-all-polls-answered';
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
-import { CommunityIndustryEffects, CommunityCompanySizeEffects } from './effects';
+import { CommunityIndustryEffects, CommunityCompanySizeEffects, CommunityTopicEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
 import { CommunityPostEffectsService } from './services/community-post-effects-service';
 import { PfLinkifyService } from './services/pf-linkify-service';
@@ -110,6 +112,7 @@ const components = [
   CommunityPollComponent,
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
+  CommunityFiltersComponent,
   CommunityCategoryDisplayNamePipe,
   CommunityHighlightTextPipe,
   CommunityLinkifyPipe,
@@ -150,6 +153,7 @@ const components = [
       CommunityPostEffects,
       CommunityPostReplyEffects,
       CommunityTagEffects,
+      CommunityTopicEffects,
       CommunityJobEffects,
       CommunityCategoriesEffects,
       CommunityPostFilterOptionsEffects,

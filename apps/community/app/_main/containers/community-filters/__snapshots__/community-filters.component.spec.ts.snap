@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityFiltersComponent should show community filters 1`] = `
+<pf-community-filters
+  communityTopics$={[Function Store]}
+  filterStore={[Function Store]}
+  selectedTopics={[Function Array]}
+  store={[Function Store]}
+>
+  <div>
+    <h5
+      id="filter-section-header"
+    >
+      POSTS
+    </h5>
+    <kendo-multiselect
+      id="topic"
+      kendomultiselectsummarytag=""
+    >
+      
+      
+    </kendo-multiselect>
+  </div>
+</pf-community-filters>
+`;

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunityCompanySizeBucket } from 'libs/models/community/community-company-size-bucket.model';
+import { CommunityTopic } from '../../../models/community';
 
 @Injectable()
 export class CommunityFilterApiService {
@@ -19,5 +20,10 @@ export class CommunityFilterApiService {
   getCompanySizes(): Observable<CommunityCompanySizeBucket[]> {
     return this.payfactorsApiService.get<CommunityCompanySizeBucket[]>
     (`${this.endpoint}/GetCompanySizeFilterOptions`);
+  }
+
+  getTopics(): Observable<any> {
+    return this.payfactorsApiService.get<CommunityTopic[]>
+    (`${this.endpoint}/GetTopics`);
   }
 }

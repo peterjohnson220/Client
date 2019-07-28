@@ -7,3 +7,5 @@ export * from './tag-filter.model';
 export * from './community-job-search-request.model';
 export * from './scroll-direction.enum';
 export * from './community-constants';
+export * from './topic.model';
+export * from './topic-filter.model';

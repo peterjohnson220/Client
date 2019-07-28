@@ -12,6 +12,7 @@ export interface State {
   addingCommunityCategory: boolean;
   addingCommunityIndustry: boolean;
   addingCommunityCompanySize: boolean;
+  changingCommunityTopic: boolean;
   filterByPost: boolean;
 }
 
@@ -21,6 +22,7 @@ export const initialState: State = {
   addingCommunityCategory: false,
   addingCommunityIndustry: false,
   addingCommunityCompanySize: false,
+  changingCommunityTopic: false,
   filterByPost: false
 };
 
@@ -121,7 +123,27 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
     case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS_SUCCESS: {
       return {
         ...state,
-        addingCommunityCompanySize: false
+        addingCommunityCompanySize: false };
+    }
+    case fromCommunityPostFilterOptionsActions.CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS: {
+      const changedTopics = action.payload;
+      const currentEntities = cloneDeep(state.filterOptions);
+
+      currentEntities.TopicFilter.Topics = [];
+      if (changedTopics) {
+        currentEntities.TopicFilter.Topics = changedTopics;
+      }
+
+      return {
+        ...state,
+        changingCommunityTopic: true,
+        filterOptions: currentEntities
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS_SUCCESS: {
+      return {
+        ...state,
+        changingCommunityTopic: false
       };
     }
     case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TAG_FROM_FILTER_OPTIONS: {
@@ -131,6 +153,19 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
       const filters = currentEntities.TagFilter;
       if (filters) {
         filters.Tags = filters.Tags.filter(tag => !isEqual(tag.TagName, removeTag.TagName));
+      }
+      return {
+        ...state,
+        filterOptions: currentEntities
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS: {
+      const removeTopic = action.payload;
+      const currentEntities = cloneDeep(state.filterOptions);
+
+      const filters = currentEntities.TopicFilter;
+      if (filters) {
+        filters.Topics = filters.Topics.filter(topic => !isEqual(topic.Id, removeTopic.Id));
       }
       return {
         ...state,
@@ -152,19 +187,19 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
       };
     }
     case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS: {
-      const removeIndustry = action.payload;
-      const currentEntities = cloneDeep(state.filterOptions);
+    const removeIndustry = action.payload;
+    const currentEntities = cloneDeep(state.filterOptions);
 
-      const filters = currentEntities.IndustryFilter;
-      if (filters) {
-        filters.Industry = filters.Industry.filter(industry => !isEqual(industry, removeIndustry));
-      }
-
-      return {
-        ...state,
-        filterOptions: currentEntities
-      };
+    const filters = currentEntities.IndustryFilter;
+    if (filters) {
+      filters.Industry = filters.Industry.filter(industry => !isEqual(industry, removeIndustry));
     }
+
+    return {
+      ...state,
+      filterOptions: currentEntities
+    };
+  }
     case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS: {
       const removeCompanySize = action.payload;
       const currentEntities = cloneDeep(state.filterOptions);

@@ -11,7 +11,6 @@ import { CommunityFilteredTagsComponent } from './community-filtered-tags.compon
 
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
 import { generateMockCommunityTag } from 'libs/models/community/community-tag.model';
-import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
 import { Tag } from '../../models/tag.model';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
@@ -170,6 +169,8 @@ describe('CommunityFilteredTagsComponent', () => {
       TagFilter: null,
       CategoryFilter: null,
       IndustryFilter: null,
+      CompanySizeFilter: null,
+      TopicFilter: null,
       PostIds: ['999'],
       ReplyIds: []
     });
@@ -186,6 +187,8 @@ describe('CommunityFilteredTagsComponent', () => {
       TagFilter: null,
       CategoryFilter: null,
       IndustryFilter: null,
+      CompanySizeFilter: null,
+      TopicFilter: null,
       PostIds: ['999', '888'],
       ReplyIds: []
     });

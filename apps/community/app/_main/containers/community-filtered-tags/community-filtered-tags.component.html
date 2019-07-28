@@ -1,5 +1,4 @@
 <div id="tag-container" class="mb-3">
-  <h5 *ngIf="showFilterView()" id="tag-section-header">FILTERS</h5>
   <ng-container *ngIf="filters$ | async as filter">
     <ng-container *ngFor="let filteredTag of filteredTags">
       <button type="button" class="btn m-1 tag py-2 px-3 shadow-none" (click)="tagClicked(filteredTag)"
@@ -17,6 +16,12 @@
       <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="industryFilterClicked(filter)"
               [ngClass]="{'btn-selected': IsIndustrySelected(filter) }">Industry: {{ filter }}
         <span *ngIf="IsIndustrySelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
+      </button>
+    </ng-container>
+    <ng-container *ngFor="let filter of filteredTopics">
+      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="topicFilterClicked(filter)"
+              [ngClass]="{'btn-selected': IsTopicSelected(filter) }">Topic: {{ filter.TopicName }}
+        <span *ngIf="IsTopicSelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
       </button>
     </ng-container>
 
