@@ -2,7 +2,7 @@
 
   <ng-container sidebar>
 
-    <div *ngIf="!(searchingFilter$ | async)" class="create-new-job" [attr.data-qa-id]="'btn-createNewJobNav'">
+    <div *ngIf="!(searchingFilter$ | async)" [pfSecuredResource]="_Permissions.JOBS_ADD_EDIT_DELETE" class="create-new-job" [attr.data-qa-id]="'btn-createNewJobNav'">
       <div class="search-action" (click)="handleCreateNewJobClicked()">
         <fa-icon [icon]="['far', 'plus']"></fa-icon> Create New Job
       </div>
