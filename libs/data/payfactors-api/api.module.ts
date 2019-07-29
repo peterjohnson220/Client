@@ -31,7 +31,7 @@ import { TagApiService } from './tags';
 import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
 import { JobDescriptionTemplateApiService } from './jdm';
-import { TableauReportApiService, UserReportApiService, ReportManagementApiService } from './reports';
+import { TableauReportApiService, UserReportApiService, ReportManagementApiService, DataViewApiService } from './reports';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
 
 @NgModule({
@@ -81,7 +81,8 @@ import { StructuresApiService, StructuresRangeGroupApiService } from './structur
     UserReportApiService,
     ReportManagementApiService,
     StructuresApiService,
-    StructuresRangeGroupApiService
+    StructuresRangeGroupApiService,
+    DataViewApiService
   ]
 })
 export class PfApiModule { }

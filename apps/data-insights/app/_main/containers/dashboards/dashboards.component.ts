@@ -3,14 +3,16 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
+import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 import { AsyncStateObj } from 'libs/models/state';
 
+import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { DashboardView, Workbook, SaveWorkbookTagObj } from '../../models';
+import { DashboardView, Workbook, SaveWorkbookTagObj, Entity } from '../../models';
 import { TagWorkbookModalComponent } from '../../components/tag-workbook-modal';
-import { ComboBoxComponent, DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
+import { SaveUserWorkbookModalComponent } from '../../components/save-user-workbook-modal';
 
 @Component({
   selector: 'pf-dashboards',
@@ -20,6 +22,7 @@ import { ComboBoxComponent, DropDownFilterSettings } from '@progress/kendo-angul
 export class DashboardsComponent implements OnInit, OnDestroy {
   @ViewChild(TagWorkbookModalComponent, { static: true }) public tagWorkbookModalComponent: TagWorkbookModalComponent;
   @ViewChild('tagsDropDownList', {static: true}) public tagsDropDownList: ComboBoxComponent;
+  @ViewChild(SaveUserWorkbookModalComponent, { static: false }) public saveUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
 
   companyWorkbooksAsync$: Observable<AsyncStateObj<Workbook[]>>;
   filteredCompanyWorkbooks$: Observable<Workbook[]>;
@@ -29,6 +32,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   tagFilter$: Observable<string>;
   savingTag$: Observable<boolean>;
   savingTagError$: Observable<boolean>;
+  baseEntitiesAsync$: Observable<AsyncStateObj<Entity[]>>;
 
   filteredCompanyWorkbooksSub: Subscription;
   dragulaSub: Subscription;
@@ -53,6 +57,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.savingTag$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTag));
     this.savingTagError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTagError));
     this.tagFilter$ = this.store.pipe(select(fromDataInsightsMainReducer.getTagFilter));
+    this.baseEntitiesAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getBaseEntitiesAsync));
   }
 
   get anyFavorites() {
@@ -69,6 +74,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
     this.store.dispatch(new fromDashboardsActions.GetDashboardView());
+    this.store.dispatch(new fromDataViewActions.GetBaseEntities());
   }
 
   ngOnDestroy() {
@@ -109,6 +115,10 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   handleSaveTagClicked(saveObj: SaveWorkbookTagObj) {
     this.store.dispatch(new fromDashboardsActions.SaveWorkbookTag(saveObj));
+  }
+
+  handleNewReportClicked() {
+    this.saveUserWorkbookModalComponent.open();
   }
 
   private handleDropModel(sourceModel) {

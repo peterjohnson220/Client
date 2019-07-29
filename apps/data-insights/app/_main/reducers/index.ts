@@ -6,12 +6,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromDataInsightsPageReducer from './data-insights-page.reducer';
 import * as fromDashboardsReducer from './dashboards.reducer';
 import * as fromReportViewReducer from './reports-view-page.reducer';
+import * as fromDataViewReducer from './data-view.reducer';
 
 // Feature area state
 export interface DataInsightsMainState {
   dataInsightsPage: fromDataInsightsPageReducer.State;
   dashboards: fromDashboardsReducer.State;
   reportViewPage: fromReportViewReducer.State;
+  dataView: fromDataViewReducer.State;
 }
 
 // Extend root state with feature area state
@@ -23,7 +25,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   dataInsightsPage: fromDataInsightsPageReducer.reducer,
   dashboards: fromDashboardsReducer.reducer,
-  reportViewPage: fromReportViewReducer.reducer
+  reportViewPage: fromReportViewReducer.reducer,
+  dataView: fromDataViewReducer.reducer
 };
 
 // Select Feature Area
@@ -43,6 +46,11 @@ export const selectDashboardsState = createSelector(
 export const selectReportViewPageState = createSelector(
   selectFeatureAreaState,
   (state: DataInsightsMainState) => state.reportViewPage
+);
+
+export const selectDataViewState = createSelector(
+  selectFeatureAreaState,
+  (state: DataInsightsMainState) => state.dataView
 );
 
 // Data Insights Page
@@ -96,4 +104,10 @@ export const getSavingTagError = createSelector(
 export const getTagFilter = createSelector(
   selectDashboardsState,
   fromDashboardsReducer.getTagFilter
+);
+
+// Data View
+export const getBaseEntitiesAsync = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getBaseEntitiesAsync
 );
