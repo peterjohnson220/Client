@@ -3,22 +3,21 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Out
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 import { SurveySearchResultDataSources } from 'libs/constants';
 
-import { JobResult, MatchesDetailsTooltipData, SurveyDataCut } from '../../models';
+import { JobResult, MatchesDetailsTooltipData, DataCut } from '../../models';
 
 @Component({
   selector: 'pf-data-cuts',
   templateUrl: './data-cuts.component.html',
-  styleUrls: ['./data-cuts.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./data-cuts.component.scss']
 })
 export class DataCutsComponent implements OnDestroy {
   @Input() job: JobResult;
   @Input() numberCutsSelected: number;
-  @Input() dataCuts: SurveyDataCut[];
+  @Input() dataCuts: DataCut[];
   @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
 
-  @Output() dataCutSelected: EventEmitter<SurveyDataCut> = new EventEmitter();
+  @Output() dataCutSelected: EventEmitter<DataCut> = new EventEmitter();
   @Output() payFactorsCutSelected: EventEmitter<any> = new EventEmitter();
   @Output() peerCutSelected: EventEmitter<any> = new EventEmitter();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
@@ -37,11 +36,11 @@ export class DataCutsComponent implements OnDestroy {
     }
   }
 
-  trackByDataCutId(index, item: SurveyDataCut) {
-    return item.SurveyDataId;
+  trackById(index, item: DataCut) {
+    return item.Id;
   }
 
-  toggleDataCutSelection(dataCut: SurveyDataCut): void {
+  toggleDataCutSelection(dataCut: DataCut): void {
     this.dataCutSelected.emit(dataCut);
   }
 
@@ -53,10 +52,10 @@ export class DataCutsComponent implements OnDestroy {
     this.peerCutSelected.emit();
   }
 
-  handleMatchesMouseEnter(event: MouseEvent, dataCut: SurveyDataCut): void {
+  handleMatchesMouseEnter(event: MouseEvent, dataCut: DataCut): void {
     this.isMatchesHovered = true;
     const request: PricingMatchesDetailsRequest = {
-      JobId: dataCut.SurveyDataId.toString(),
+      JobId: dataCut.Id.toString(),
       JobType: MatchesDetailsRequestJobTypes.SurveyData
     };
     const data: MatchesDetailsTooltipData = {

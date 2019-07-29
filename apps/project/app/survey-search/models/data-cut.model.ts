@@ -2,13 +2,15 @@ import { SurveySearchResultDataSources } from 'libs/constants';
 
 import { JobResult } from './';
 
-export interface SurveyDataCut {
-  SurveyDataId: number;
+export interface DataCut {
+  Id: number;
   Title: string;
   Country: string;
   Weight: string;
   Base50th?: number;
   TCC50th?: number;
+  Incs?: number;
+  Orgs?: number;
   Matches: number;
   IsSelected: boolean;
 }
@@ -24,9 +26,9 @@ export interface DataCutDetails {
   TCC50th?: number;
 }
 
-export function generateMockDataCut(): SurveyDataCut {
+export function generateMockDataCut(): DataCut {
   return {
-    SurveyDataId: 1,
+    Id: 1,
     Title: 'Metropolitan/Big/Large',
     Country: 'USA',
     Weight: 'Incs (8)',

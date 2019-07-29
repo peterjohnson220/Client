@@ -1,13 +1,12 @@
 <div class="data-cuts-container">
-  <ng-container *ngIf="job.DataSource === surveySearchResultDataSources.Surveys">
+  <ng-container *ngIf="job.DataSource === surveySearchResultDataSources.Surveys || job.DataSource === surveySearchResultDataSources.Peer">
     <ng-container *ngIf="dataCuts.length;else noDataCuts">
       <ng-container *ngTemplateOutlet="dataCutsTable;context:{dataSource: job.DataSource, dataCuts: dataCuts}"></ng-container>
     </ng-container>
   </ng-container>
 
   <ng-container
-    *ngIf="job.DataSource === surveySearchResultDataSources.Payfactors ||
-           job.DataSource === surveySearchResultDataSources.Peer">
+    *ngIf="job.DataSource === surveySearchResultDataSources.Payfactors">
     <ng-container *ngTemplateOutlet="dataCutsTable;context:{dataSource: job.DataSource}"></ng-container>
   </ng-container>
 </div>
@@ -32,7 +31,7 @@
   <tbody dragula="data-cuts-bag" class="data-cuts-source">
     <ng-container [ngSwitch]="dataSource">
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Surveys">
-        <tr *ngFor="let dataCut of dataCuts; trackBy: trackByDataCutId" (click)="toggleDataCutSelection(dataCut)" [class.selected]="dataCut.IsSelected" [class.draggable]="dataCut.IsSelected && cutsDraggable">
+        <tr *ngFor="let dataCut of dataCuts; trackBy: trackById" (click)="toggleDataCutSelection(dataCut)" [class.selected]="dataCut.IsSelected" [class.draggable]="dataCut.IsSelected && cutsDraggable">
             <td><input type="checkbox" [ngModel]="dataCut.IsSelected" /> </td>
             <td class="scope-cell">
               {{dataCut.Title}}
@@ -56,6 +55,29 @@
             </td>
           </tr>
       </ng-container>
+      <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
+        <tr *ngFor="let dataCut of dataCuts; trackBy: trackById"
+            [class.selected]="dataCut.IsSelected"
+            [class.draggable]="dataCut.IsSelected && cutsDraggable">
+          <td></td>
+          <td class="scope-cell">
+            {{dataCut?.Title}}
+          </td>
+          <td class="text-center">{{dataCut?.Country || '-'}}</td>
+          <td class="text-center">{{dataCut?.Weight || '-'}}</td>
+          <td class="text-center">{{dataCut?.Incs || '-'}}</td>
+          <td class="text-center">{{dataCut?.Orgs || '-'}}</td>
+          <td class="text-center">{{dataCut?.Base50th ? dataCut.Base50th : "-"}}</td>
+          <td class="text-center">{{dataCut?.TCC50th ? dataCut.TCC50th : "-"}}</td>
+
+          <!--Hidden Cell for Drag/Drop Re-Order-->
+          <td class="gu-mirror-show">
+            <div class="card">
+              <div class="card-block">Add <strong>{{numberCutsSelected}}</strong> selected data cut<ng-container *ngIf="numberCutsSelected > 1">s</ng-container> to job...</div>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Payfactors">
         <tr (click)="togglePayfactorsSelection()" [class.selected]="job.IsSelected" [class.draggable]="job.IsSelected && cutsDraggable">
           <td><input type="checkbox" [ngModel]="job.IsSelected" /></td>
@@ -71,24 +93,7 @@
           </td>
         </tr>
       </ng-container>
-      <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
-        <tr (click)="togglePeerCutSelection()" [class.selected]="job.IsSelected" [class.draggable]="job.IsSelected && cutsDraggable">
-          <td><input type="checkbox" [ngModel]="job.IsSelected" /></td>
-          <td class="scope-cell">National</td>
-          <td class="text-center">{{job.CountryCode || '-'}}</td>
-          <td class="text-center">Inc</td>
-          <td class="text-center">{{job.Incs || '-'}}</td>
-          <td class="text-center">{{job.Orgs || '-'}}</td>
-          <td class="text-center">{{job.Base50th || '-'}}</td>
-          <td class="text-center">{{job.TCC50th || '-'}}</td>
-          <!-- Hidden Cell for Drag/Drop Re-Order -->
-          <td class="gu-mirror-show">
-            <div class="card">
-              <div class="card-block">Add <strong>{{numberCutsSelected}}</strong> selected data cut<ng-container *ngIf="numberCutsSelected > 1">s</ng-container> to job...</div>
-            </div>
-          </td>
-        </tr>
-      </ng-container>
+
     </ng-container>
   </tbody>
   </table>

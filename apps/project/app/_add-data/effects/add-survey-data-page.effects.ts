@@ -7,7 +7,7 @@ import { catchError, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/opera
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api';
 import { WindowCommunicationService } from 'libs/core/services';
-import { AddSurveyDataCutMatchResponse, DataCut } from 'libs/models/payfactors-api';
+import { AddSurveyDataCutMatchResponse } from 'libs/models/payfactors-api';
 import * as fromSearchFiltersActionsShared from 'libs/features/search/actions/search-filters.actions';
 import * as fromSearchPageActionsShared from 'libs/features/search/actions/search-page.actions';
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';

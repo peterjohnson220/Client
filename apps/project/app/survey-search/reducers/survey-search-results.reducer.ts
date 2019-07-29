@@ -107,6 +107,41 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
         results: resultsCopy
       };
     }
+    case fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS: {
+      const id = action.payload.PeerJobInfo.ExchangeJobId;
+      const resultsCopy = cloneDeep(state.results);
+      const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
+      job.LoadingDataCuts = !job.DataCuts.length;
+      job.LoadingDataCutsError = false;
+      return {
+        ...state,
+        results: resultsCopy
+      };
+    }
+    case fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS_SUCCESS: {
+      const id = action.payload.ExchangeJobId;
+      const resultsCopy = cloneDeep(state.results);
+      const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
+      const dataCuts = action.payload.DataCuts;
+
+      job.LoadingDataCuts = false;
+      job.DataCuts = job.DataCuts.concat(dataCuts);
+      return {
+        ...state,
+        results: resultsCopy
+      };
+    }
+    case fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS_ERROR: {
+      const id = action.payload.exchangeJobId;
+      const resultsCopy = cloneDeep(state.results);
+      const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
+      job.LoadingDataCuts = false;
+      job.LoadingDataCutsError = true;
+      return {
+        ...state,
+        results: resultsCopy
+      };
+    }
     case fromSurveySearchResultsActions.UPDATE_RESULTS_MATCHES_COUNT: {
       const resultsCopy = cloneDeep(state.results);
       return {
@@ -147,7 +182,7 @@ function setSelectedPropertyInSearchResults(dataCut: DataCutDetails, resultsCopy
     peerJob.IsSelected = isSelected;
   } else {
     const surveyJob = resultsCopy.find(job => job.Id === dataCut.SurveyJobId);
-    const surveyCut = surveyJob.DataCuts.find(surveyData => surveyData.SurveyDataId === dataCut.DataCutId);
+    const surveyCut = surveyJob.DataCuts.find(surveyData => surveyData.Id === dataCut.DataCutId);
     surveyCut.IsSelected = isSelected;
   }
 }
