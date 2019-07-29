@@ -73,7 +73,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Set properties
-    this.maxAssociableThreshold = 10;
+    this.maxAssociableThreshold = 100;
 
     // Register Observables
     this.loading$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoading));
