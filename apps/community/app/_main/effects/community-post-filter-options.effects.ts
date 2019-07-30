@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 
 import * as fromCommunityPostFilterOptionsActions from '../actions/community-post-filter-options.actions';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
+import * as fromCommunityFilterActions from '../actions/community-post-filter-options.actions';
+
 
 @Injectable()
 export class CommunityPostFilterOptionsEffects {
@@ -59,6 +61,13 @@ export class CommunityPostFilterOptionsEffects {
   removingTopicFilters$ = this.actions$
     .pipe(
       ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS),
+      map(() =>
+        new fromCommunityFilterActions.DeletingCommunityTopicFromFilterOptionsSuccess())
+    );
+  @Effect()
+  removingTopicFiltersSuccess$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS_SUCCESS),
       map(() => new fromCommunityPostActions.GettingCommunityPosts())
     );
   @Effect()

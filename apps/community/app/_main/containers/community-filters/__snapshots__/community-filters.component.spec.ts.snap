@@ -2,10 +2,13 @@
 
 exports[`CommunityFiltersComponent should show community filters 1`] = `
 <pf-community-filters
+  communityFilterOptions$={[Function Store]}
   communityTopics$={[Function Store]}
+  deletingCommunityTopicSuccess$={[Function Store]}
   filterStore={[Function Store]}
   selectedTopics={[Function Array]}
   store={[Function Store]}
+  topicFilters={[Function Array]}
 >
   <div>
     <h5
