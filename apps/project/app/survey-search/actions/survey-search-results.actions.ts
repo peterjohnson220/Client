@@ -7,7 +7,7 @@ import { JobResult, DataCutDetails } from '../models';
 export const REPLACE_JOB_RESULTS = '[Project/Survey Search] Replace Job Results';
 export const ADD_JOB_RESULTS = '[Project/Survey Search] Add Job Results';
 export const CLEAR_RESULTS = '[Project/Survey Search] Clear Results';
-export const TOGGLE_SURVEY_DATA_CUT_SELECTION = '[Project/Survey Search] Toggle Survey Data Cut Selection';
+export const TOGGLE_DATA_CUT_SELECTION = '[Project/Survey Search] Toggle Data Cut Selection';
 export const CLEAR_DATA_CUT_SELECTIONS = '[Project/Survey Search] Clear Data Cut Selections';
 export const GET_SURVEY_DATA_RESULTS = '[Project/Survey Search] Get Survey Data Results';
 export const GET_SURVEY_DATA_RESULTS_SUCCESS = '[Project/Survey Search] Get Survey Data Results Success';
@@ -33,8 +33,8 @@ export class ClearResults implements Action {
   readonly type = CLEAR_RESULTS;
 }
 
-export class ToggleSurveyDataCutSelection implements Action {
-  readonly type = TOGGLE_SURVEY_DATA_CUT_SELECTION;
+export class ToggleDataCutSelection implements Action {
+  readonly type = TOGGLE_DATA_CUT_SELECTION;
 
   constructor(public payload: DataCutDetails) {}
 }
@@ -91,7 +91,7 @@ export type Actions
   = AddJobResults
   | ReplaceJobResults
   | ClearResults
-  | ToggleSurveyDataCutSelection
+  | ToggleDataCutSelection
   | ClearDataCutSelections
   | GetSurveyDataResults
   | GetSurveyDataResultsSuccess

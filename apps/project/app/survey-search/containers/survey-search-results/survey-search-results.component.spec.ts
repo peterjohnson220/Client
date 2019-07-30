@@ -43,7 +43,7 @@ describe('Project - Survey Search - Search Results', () => {
         CountryCode: 'USA',
         SurveyJobCode: '1234'
     };
-    const toggleSurveyDataCut = new fromSurveySearchResultsActions.ToggleSurveyDataCutSelection(surveyDataCut);
+    const toggleSurveyDataCut = new fromSurveySearchResultsActions.ToggleDataCutSelection(surveyDataCut);
 
     spyOn(store, 'dispatch');
     instance.handleCutSelectionToggle(surveyDataCut);

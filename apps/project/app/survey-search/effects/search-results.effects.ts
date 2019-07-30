@@ -56,7 +56,7 @@ export class SearchResultsEffects {
             .pipe(
               map(response => new fromSurveySearchResultsActions.GetSurveyDataResultsSuccess({
                 SurveyJobId: surveyJobId,
-                DataCuts: PayfactorsSurveySearchApiModelMapper.mapDataCutResponseToDataCut(response.DataCuts, data.selectedDataCuts),
+                DataCuts: PayfactorsSurveySearchApiModelMapper.mapSurveyJobDataResponseToDataCut(response.DataCuts, data.selectedDataCuts),
                 TotalResults: response.TotalResults
               })),
               catchError(() => of(new fromSurveySearchResultsActions.GetSurveyDataResultsError(surveyJobId)))

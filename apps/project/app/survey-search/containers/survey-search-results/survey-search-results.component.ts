@@ -51,7 +51,7 @@ export class SurveySearchResultsComponent {
   }
 
   handleCutSelectionToggle(data: DataCutDetails): void {
-    this.store.dispatch(new fromSurveySearchResultsActions.ToggleSurveyDataCutSelection(data));
+    this.store.dispatch(new fromSurveySearchResultsActions.ToggleDataCutSelection(data));
   }
 
   trackByJobId(index, item: JobResult) {

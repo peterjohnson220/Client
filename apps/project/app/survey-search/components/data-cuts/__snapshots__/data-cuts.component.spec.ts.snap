@@ -9,7 +9,6 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
-  peerCutSelected={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -151,7 +150,6 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
   matchesMouseLeaveTimeout={[Function Number]}
   numberCutsSelected={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
-  peerCutSelected={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -293,7 +291,6 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
-  peerCutSelected={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -434,7 +431,6 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
-  peerCutSelected={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -577,7 +573,6 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
-  peerCutSelected={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -718,7 +713,6 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
-  peerCutSelected={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -862,7 +856,6 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
   matchesMouseLeaveTimeout={[Function Number]}
   numberCutsSelected={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
-  peerCutSelected={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -1007,7 +1000,6 @@ exports[`Project - Survey Search - Data Cuts should show a message when there is
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
-  peerCutSelected={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -1036,7 +1028,6 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
-  peerCutSelected={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div

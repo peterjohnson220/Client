@@ -10,7 +10,7 @@ export interface AddSurveyDataCutRequest {
 }
 
 export interface JobDataCut {
-  DataCutId?: number;
+  SurveyDataId?: number;
   SurveyJobCode?: string;
   SurveyJobId?: number;
   IsPayfactorsJob: boolean;
@@ -20,6 +20,8 @@ export interface JobDataCut {
 export interface PeerCut {
   ExchangeId: number;
   ExchangeJobId: number;
+  DailyNatAvgId: number;
+  DailyScopeAvgId: number;
 }
 
 export function generateMockPayfactorsCutData(): JobDataCut {
@@ -32,7 +34,7 @@ export function generateMockPayfactorsCutData(): JobDataCut {
 
 export function generateMockSurveyJobDataCut(): JobDataCut {
   return {
-    DataCutId: 1,
+    SurveyDataId: 1,
     IsPayfactorsJob: false,
     SurveyJobId: 2345
   };
