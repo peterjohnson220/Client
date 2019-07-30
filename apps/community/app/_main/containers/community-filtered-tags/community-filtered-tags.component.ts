@@ -10,12 +10,12 @@ import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
 import { CommunityPost, CommunityTag } from 'libs/models/community';
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
 import { FilterOptions } from 'apps/community/app/_main/models/filter-options.model';
-import { Tag } from '../../models';
+import { Tag, Topic } from '../../models';
 
 @Component({
   selector: 'pf-community-filtered-tags',
   templateUrl: './community-filtered-tags.component.html',
-  styleUrls: ['./community-filtered-tags.component.scss']
+  styleUrls: [ './community-filtered-tags.component.scss' ]
 })
 export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
   filteredByPost$: Observable<boolean>;
@@ -25,6 +25,7 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
   filteredTags: Tag[] = [];
   filteredCategories: CommunityCategoryEnum[] = [];
   filteredIndustries: string[] = [];
+  filteredTopics: Topic[] = [];
   isFilteredByPostId = false;
   isFilteredByReplyId = false;
   communityPosts$: Observable<CommunityPost[]>;
@@ -46,6 +47,7 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
       this.filteredTags = data.TagFilter.Tags;
       this.filteredCategories = data.CategoryFilter.Category;
       this.filteredIndustries = data.IndustryFilter.Industry;
+      this.filteredTopics = data.TopicFilter.Topics;
       this.isFilteredByPostId = data.PostIds.length > 0;
       this.isFilteredByReplyId = data.ReplyIds.length > 0;
     });
@@ -78,6 +80,10 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
     this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityIndustryFromFilterOptions(filter));
   }
 
+  topicFilterClicked(filter: any) {
+    this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityTopicFromFilterOptions(filter));
+  }
+
   viewAllClicked() {
     this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingAllFilterOptions());
     this.router.navigateByUrl('/dashboard');
@@ -85,15 +91,17 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
 
   showFilterView() {
     return this.isFilteredByCategory()
-    || this.isFilteredByTag()
-    || this.isFilteredByIndustry()
-    || this.isFilteredByPostId
-    || this.isFilteredByReplyId;
+      || this.isFilteredByTag()
+      || this.isFilteredByIndustry()
+      || this.isFilteredByTopic()
+      || this.isFilteredByPostId
+      || this.isFilteredByReplyId;
   }
 
   isFilteredByTag() {
     return this.filteredTags.length > 0;
   }
+
   isFilteredByCategory() {
     return this.filteredCategories.length > 0;
   }
@@ -102,16 +110,24 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
     return this.filteredIndustries.length > 0;
   }
 
+  isFilteredByTopic() {
+    return this.filteredTopics.length > 0;
+  }
+
 
   private IsTagSelected(tag: CommunityTag): boolean {
-    return this.filteredTags.some (x => x.TagName === tag.Tag);
+    return this.filteredTags.some(x => x.TagName === tag.Tag);
   }
 
   private IsCategorySelected(category) {
-    return this.filteredCategories.some (filteredCategory => filteredCategory === category);
+    return this.filteredCategories.some(filteredCategory => filteredCategory === category);
   }
 
   private IsIndustrySelected(industry) {
-    return this.filteredIndustries.some (filteredIndustry => filteredIndustry === industry);
+    return this.filteredIndustries.some(filteredIndustry => filteredIndustry === industry);
+  }
+
+  private IsTopicSelected(topic) {
+    return this.filteredTopics.some(filteredTopic => filteredTopic === topic);
   }
 }

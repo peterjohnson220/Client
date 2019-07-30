@@ -8,6 +8,8 @@ import { PagingOptions } from '../models/paging-options.model';
 import { IndustryFilter } from '../models/industry-filter.model';
 import { CompanySizeFilter } from '../models/company-size-filter.model';
 import { CommunityCompanySizeBucket } from 'libs/models/community/community-company-size-bucket.model';
+import { Topic } from '../models/topic.model';
+import { TopicFilter } from '../models/topic-filter.model';
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
   return {
@@ -25,11 +27,13 @@ export function mapCommunityTagToTag(communityTag: CommunityTag): Tag {
 
 export function initializeFilterOptions(): FilterOptions {
   const tags: Tag[] = [];
+  const topics: Topic[] = [];
   const filterOptions: FilterOptions = {
     TagFilter: initializeTagFilter(tags),
     CategoryFilter: initializeCategoryFilter(),
     IndustryFilter: initializeIndustryFilter(),
     CompanySizeFilter: initializeCompanySizeFilter(),
+    TopicFilter: initializeTopicFilter(topics),
     PostIds: [],
     ReplyIds: []
   };
@@ -62,6 +66,13 @@ export function initializeCompanySizeFilter(): CompanySizeFilter {
   return {
     CompanySize: companySizes
   };
+}
+
+export function initializeTopicFilter(topics: Topic[]): TopicFilter {
+  const topicFilter: TopicFilter =  {
+    Topics: topics
+  };
+  return topicFilter;
 }
 
 export function mapToCategoryEnum(category: string): CommunityCategoryEnum {

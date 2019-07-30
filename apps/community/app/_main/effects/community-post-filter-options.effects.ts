@@ -49,7 +49,18 @@ export class CommunityPostFilterOptionsEffects {
       ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS),
       map(() => new fromCommunityPostActions.GettingCommunityPosts())
     );
-
+  @Effect()
+  changingTopicFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+  @Effect()
+  removingTopicFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
   @Effect()
   addingPostFilter$ = this.actions$
     .pipe(

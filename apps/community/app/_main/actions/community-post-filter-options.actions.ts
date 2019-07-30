@@ -23,6 +23,14 @@ export const ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS_SUCCESS =
 export const DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS =
   '[Community/Filter Options] Deleting Community Company Size To Filter Options';
 
+export const CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS =
+  '[Community/Filter Options] Changing Community Topic Filter Options';
+export const CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS_SUCCESS =
+  '[Community/Filter Options] Changing Community Topic Filter Options Success';
+export const DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS =
+  '[Community/Filter Options] Deleting Community Topic from Filter Options';
+
+
 export class AddingCommunityTagToFilterOptions implements Action {
   readonly type = ADDING_COMMUNITY_TAG_TO_FILTER_OPTIONS;
   constructor(public payload: any) {}
@@ -95,6 +103,22 @@ export class DeletingCommunityCompanySizeFromFilterOptions implements Action {
   constructor(public payload: any) {}
 }
 
+export class ChangingCommunityTopicFilterOptions implements Action {
+  readonly type = CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS;
+  constructor(public payload: any) {}
+}
+
+export class ChangingCommunityTopicFilterOptionsSuccess implements Action {
+  readonly type = CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityTopicFromFilterOptions implements Action {
+  readonly type = DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS;
+  constructor(public payload: any) {}
+}
+
+
 export type Actions
   = AddingCommunityTagToFilterOptions
   | AddingCommunityTagToFilterOptionsSuccess
@@ -110,4 +134,8 @@ export type Actions
   | DeletingCommunityIndustryFromFilterOptions
   | AddingCommunityCompanySizeToFilterOptions
   | AddingCommunityCompanySizeToFilterOptionsSuccess
-  | DeletingCommunityCompanySizeFromFilterOptions;
+  | DeletingCommunityCompanySizeFromFilterOptions
+  | ChangingCommunityTopicFilterOptions
+  | ChangingCommunityTopicFilterOptionsSuccess
+  | DeletingCommunityTopicFromFilterOptions;
+

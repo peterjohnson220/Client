@@ -17,6 +17,7 @@ import * as fromCommunityLikeReducer from './community-like.reducer';
 import * as fromCommunitySearchReducer from './community-search.reducer';
 import * as fromCommunityIndustryReducer from './community-industry.reducer';
 import * as fromCommunityCompanySizeReducer from './community-company-size.reducer';
+import * as fromCommunityTopicReducer from './community-topic.reducer';
 import { CommunityConstants } from '../models';
 import { populatePostReplies } from '../helpers/model-mapping.helper';
 
@@ -36,6 +37,7 @@ export interface CommunityState {
   communitySearch: fromCommunitySearchReducer.State;
   communityIndustries: fromCommunityIndustryReducer.State;
   communityCompanySizes: fromCommunityCompanySizeReducer.State;
+  communityTopic: fromCommunityTopicReducer.State;
 }
 
 // Extend root state with feature area state
@@ -59,6 +61,7 @@ export const reducers = {
   communitySearch: fromCommunitySearchReducer.reducer,
   communityIndustries: fromCommunityIndustryReducer.reducer,
   communityCompanySizes: fromCommunityCompanySizeReducer.reducer,
+  communityTopic: fromCommunityTopicReducer.reducer
 };
 
 // select feature area
@@ -125,9 +128,15 @@ export const selectFromCommunitySearchState = createSelector(
   (state: CommunityState) => state.communitySearch
 );
 
+
 export const selectFromCommunityIndustryState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityIndustries
+  );
+
+export const selectFromCommunityTopicState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityTopic
 );
 
 export const selectFromCommunityCompanySizeState = createSelector(
@@ -619,3 +628,18 @@ export const getLoadingCommunityCompanySizesError = createSelector(
   fromCommunityCompanySizeReducer.getLoadingCommunityCompanySizesError
 );
 
+// Community Topic Selectors
+export const getLoadingTopics = createSelector(
+  selectFromCommunityTopicState,
+  fromCommunityTopicReducer.getLoadingCommunityTopics
+);
+
+export const getLoadingTopicsError = createSelector(
+  selectFromCommunityTopicState,
+  fromCommunityTopicReducer.getLoadingCommunityTopicsError
+);
+
+export const getTopics = createSelector(
+  selectFromCommunityTopicState,
+  fromCommunityTopicReducer.getCommunityTopics
+);

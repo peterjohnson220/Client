@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
+import { DropDownListModule, MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import 'rxjs/add/operator/take';
