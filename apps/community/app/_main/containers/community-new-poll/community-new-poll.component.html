@@ -1,6 +1,17 @@
 
   <div class="form-group" [formGroup]="communityPollForm"> 
-    <pf-community-text-area 
+  
+    <kendo-dropdownlist #topicList class="pb-2 w-75"
+            [defaultItem]="defaultTopic"
+            [data]="communityTopics$ | async"
+            [textField]="'TopicName'"
+            [valueField]="'Id'"
+            [valuePrimitive]="true"
+            (open)="onOpenTopicsList()"
+            formControlName="topic">          
+    </kendo-dropdownlist>
+
+    <pf-community-text-area class="pt-5"
       [parentForm]="communityPollForm"
       [maxTextLength]="maxTextLength"
       [warningStartNumber]="200"
@@ -44,4 +55,5 @@
         </select>
       </div> 
     </div>
+
   </div>

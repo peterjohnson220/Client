@@ -1,22 +1,32 @@
 <div class="form-group" [formGroup]="communityDiscussionForm">
+    <div class="pb-2">      
+      <kendo-dropdownlist #topicList class="w-75"
+        [defaultItem]="defaultTopic"
+        [data]="communityTopics$ | async"
+        [textField]="'TopicName'"
+        [valueField]="'Id'"
+        [valuePrimitive]="true"   
+        (open)="onOpenTopicsList()"
+        formControlName="topic">
+      </kendo-dropdownlist>
+  
+      <span placement="right" class="pl-3" ngbTooltip="Will be visible to users within your organization">
+        <input #isInternal
+              id="internal-only"
+              data-qa-id="chk-communityDiscussionInternal"
+              name="internal-only"
+              formControlName="isInternalOnly"
+              type="checkbox" class="k-checkbox" />
+        <label for="internal-only" class="k-checkbox-label">Internal</label>
+      </span>
+    </div>  
+
   <pf-community-text-area
       [parentForm]="communityDiscussionForm"
       [maxTextLength]="2000"
       textPlaceholder="Start a discussion..."
       minimumHeight="160">
   </pf-community-text-area>
-
-    <span id="internal-only-container" class="pb-3" placement="right"
-          ngbTooltip="Will be visible to users within your organization">
-      <input #isInternal
-            id="internal-only"
-            data-qa-id="chk-communityDiscussionInternal"
-            name="internal-only"
-            formControlName="isInternalOnly"
-            type="checkbox" class="k-checkbox" />
-      <label for="internal-only" class="k-checkbox-label">Internal Only</label>
-    </span>
-
 </div>
 
 

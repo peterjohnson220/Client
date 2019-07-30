@@ -7,4 +7,5 @@ export interface CommunityPollUpsertRequest {
     Status: number;
     DurationInHours?: number;
     Links: CommunityLink[];
+    TopicId: string;
   }
