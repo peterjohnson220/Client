@@ -525,6 +525,11 @@ export const getFilteredByPost = createSelector(
   fromCommunityPostFilterOptionsReducer.getFilteredByPost
 );
 
+export const getDeletingCommunityTopicSuccess = createSelector(
+  selectFromCommunityPostFilterOptionsState,
+  fromCommunityPostFilterOptionsReducer.getDeletingCommunityTopicSuccess
+);
+
 // Community Like Selectors
 export const getLoadingCommunityLikes = createSelector(
   selectFromCommunityLikeState,

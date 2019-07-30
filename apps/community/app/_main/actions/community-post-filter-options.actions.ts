@@ -29,6 +29,8 @@ export const CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS_SUCCESS =
   '[Community/Filter Options] Changing Community Topic Filter Options Success';
 export const DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS =
   '[Community/Filter Options] Deleting Community Topic from Filter Options';
+export const DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS_SUCCESS =
+  '[Community/Filter Options] Deleting Community Topic from Filter Options Success';
 
 
 export class AddingCommunityTagToFilterOptions implements Action {
@@ -118,6 +120,12 @@ export class DeletingCommunityTopicFromFilterOptions implements Action {
   constructor(public payload: any) {}
 }
 
+export class DeletingCommunityTopicFromFilterOptionsSuccess implements Action {
+  readonly type = DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS_SUCCESS;
+  constructor() {}
+}
+
+
 
 export type Actions
   = AddingCommunityTagToFilterOptions
@@ -137,5 +145,6 @@ export type Actions
   | DeletingCommunityCompanySizeFromFilterOptions
   | ChangingCommunityTopicFilterOptions
   | ChangingCommunityTopicFilterOptionsSuccess
-  | DeletingCommunityTopicFromFilterOptions;
+  | DeletingCommunityTopicFromFilterOptions
+  | DeletingCommunityTopicFromFilterOptionsSuccess;
 

@@ -13,6 +13,7 @@ export interface State {
   addingCommunityIndustry: boolean;
   addingCommunityCompanySize: boolean;
   changingCommunityTopic: boolean;
+  deletingCommunityTopicSuccess: boolean;
   filterByPost: boolean;
 }
 
@@ -23,6 +24,7 @@ export const initialState: State = {
   addingCommunityIndustry: false,
   addingCommunityCompanySize: false,
   changingCommunityTopic: false,
+  deletingCommunityTopicSuccess: false,
   filterByPost: false
 };
 
@@ -169,7 +171,14 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
       }
       return {
         ...state,
-        filterOptions: currentEntities
+        filterOptions: currentEntities,
+        deletingCommunityTopicSuccess: false
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS_SUCCESS: {
+      return {
+        ...state,
+        deletingCommunityTopicSuccess: true
       };
     }
     case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_CATEGORY_FROM_FILTER_OPTIONS: {
@@ -250,3 +259,4 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
 
 export const getCommunityPostFilterOptions = (state: State ) => state.filterOptions;
 export const getFilteredByPost = (state: State ) => state.filterByPost;
+export const getDeletingCommunityTopicSuccess = (state: State ) => state.deletingCommunityTopicSuccess;
