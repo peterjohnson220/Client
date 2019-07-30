@@ -1,11 +1,6 @@
 @import 'colors';
 @import 'styles';
 
-#internal-only-container
-{
-  position: absolute;
-}
-
 .k-checkbox:checked + .k-checkbox-label::before{
   background-color:$community-tab-color;
   border-color: $community-tab-color;
