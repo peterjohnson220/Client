@@ -31,7 +31,10 @@
   <tbody dragula="data-cuts-bag" class="data-cuts-source">
     <ng-container [ngSwitch]="dataSource">
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Surveys">
-        <tr *ngFor="let dataCut of dataCuts; trackBy: trackById" (click)="toggleDataCutSelection(dataCut)" [class.selected]="dataCut.IsSelected" [class.draggable]="dataCut.IsSelected && cutsDraggable">
+        <tr *ngFor="let dataCut of dataCuts; trackBy: trackById"
+            (click)="toggleDataCutSelection(dataCut)"
+            [class.selected]="dataCut.IsSelected"
+            [class.draggable]="dataCut.IsSelected && cutsDraggable">
             <td><input type="checkbox" [ngModel]="dataCut.IsSelected" /> </td>
             <td class="scope-cell">
               {{dataCut.Title}}
@@ -57,9 +60,10 @@
       </ng-container>
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
         <tr *ngFor="let dataCut of dataCuts; trackBy: trackById"
+            (click)="toggleDataCutSelection(dataCut)"
             [class.selected]="dataCut.IsSelected"
             [class.draggable]="dataCut.IsSelected && cutsDraggable">
-          <td></td>
+          <td><input type="checkbox" [ngModel]="dataCut.IsSelected" /></td>
           <td class="scope-cell">
             {{dataCut?.Title}}
           </td>
