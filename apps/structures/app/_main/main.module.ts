@@ -23,11 +23,11 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import * as fromFaIcons from './fa-icons';
-import { JobRangeModelingPageEffects } from './effects';
+import { JobBasedRangeAllStructuresEffects, JobRangeModelingPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
-import { ModelNameInputComponent, ModelingSettingsComponent } from './components';
-import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent } from './containers/pages';
+import { ModelNameInputComponent, ModelingSettingsComponent, StructureCardComponent } from './components';
+import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, JobBasedRangeAllStructuresComponent } from './containers';
 
 @NgModule({
   imports: [
@@ -39,7 +39,8 @@ import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent } f
     // 3rd Party
     StoreModule.forFeature('structures_main', reducers),
     EffectsModule.forFeature([
-      JobRangeModelingPageEffects
+      JobRangeModelingPageEffects,
+      JobBasedRangeAllStructuresEffects
     ]),
     PerfectScrollbarModule,
     FontAwesomeModule,
@@ -65,10 +66,12 @@ import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent } f
     // Components
     ModelNameInputComponent,
     ModelingSettingsComponent,
+    StructureCardComponent,
 
-    // Pages
+    // Containers
     JobRangeModelingPageComponent,
-    JobBasedRangeStructuresPageComponent
+    JobBasedRangeStructuresPageComponent,
+    JobBasedRangeAllStructuresComponent
   ],
   providers: [
     WindowRef

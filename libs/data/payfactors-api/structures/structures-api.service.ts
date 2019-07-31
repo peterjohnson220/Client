@@ -16,4 +16,8 @@ export class StructuresApiService {
     return this.payfactorsApiService.get<CompanyStructure>(`${this.endpoint}/GetStructureById`,
       { params: { companyStructureId: companyStructureId } });
   }
+
+  getCompanyStructuresListViewData(): Observable<CompanyStructure[]> {
+    return this.payfactorsApiService.get<CompanyStructure[]>(`${this.endpoint}/GetStructuresListViewData`);
+  }
 }

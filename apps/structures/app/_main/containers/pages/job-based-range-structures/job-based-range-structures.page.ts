@@ -21,7 +21,7 @@ export class JobBasedRangeStructuresPageComponent implements OnInit, OnDestroy {
   }
 
   trackByFn(sr: CompanyStructure) {
-    return sr.CompanyStructuresID;
+    return sr.CompanyStructuresId;
   }
 
   handleSearchClicked() {
