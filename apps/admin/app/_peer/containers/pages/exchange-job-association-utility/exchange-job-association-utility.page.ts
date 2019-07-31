@@ -12,6 +12,7 @@ import * as fromPeerAdminReducer from '../../../reducers';
 import * as fromAssociateJobsActions from '../../../actions/exchange-job-association-utility/associate-jobs.actions';
 import * as fromCompanyOptionsActions from '../../../actions/exchange-job-association-utility/company-options.actions';
 import * as fromExchangeOptionsActions from '../../../actions/exchange-job-association-utility/exchange-options.actions';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-exchange-job-association-import',
@@ -19,6 +20,9 @@ import * as fromExchangeOptionsActions from '../../../actions/exchange-job-assoc
   styleUrls: ['./exchange-job-association-utility.page.scss']
 })
 export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDestroy {
+
+  env = environment;
+
   @ViewChild('companyList', { static: true }) companyList: ComboBoxComponent;
   @ViewChild('exchangeList', { static: true }) exchangeList: ComboBoxComponent;
 

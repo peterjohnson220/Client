@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthorizationGuard, LoadUserGuard } from 'libs/security/guards';
+import { AuthorizationGuard, LoadUserGuard, LoadCompanyGuard } from 'libs/security/guards';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
-import { NavigationPageComponent, PasswordManagementPageComponent, UserRolePageComponent } from './containers';
-import { CompanyAdminUsersListPageComponent } from './components/pages/company-admin-users-list';
-import { UserPageComponent } from './pages';
+import {
+  NavigationPageComponent,
+  PasswordManagementPageComponent,
+  UserManagementPageComponent,
+  UsersListPageComponent,
+  UserRolePageComponent
+} from './';
+
 
 const routes: Routes = [
   {
@@ -22,15 +27,15 @@ const routes: Routes = [
     data: { Permissions: [Permissions.PASSWORD_MANAGEMENT], Check: PermissionCheckEnum.Single }
   },
   {
-    path: ':companyId/users', component: CompanyAdminUsersListPageComponent, canActivate: [AuthorizationGuard],
+    path: ':companyId/users', component: UsersListPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard],
     data: { Permissions: [Permissions.USERS], Check: PermissionCheckEnum.Single }
   },
   {
-    path: ':companyId/users/add', component: UserPageComponent, canActivate: [AuthorizationGuard],
+    path: ':companyId/users/add', component: UserManagementPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard],
     data: { Permissions: [Permissions.ADD_USER], Check: PermissionCheckEnum.Single }
   },
   {
-    path: ':companyId/users/:userId', component: UserPageComponent, canActivate: [AuthorizationGuard, LoadUserGuard],
+    path: ':companyId/users/:userId', component: UserManagementPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard, LoadUserGuard],
     data: { Permissions: [Permissions.USERS], Check: PermissionCheckEnum.Single }
   },
   { path: '', redirectTo: 'navigation', pathMatch: 'full' },

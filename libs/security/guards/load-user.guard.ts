@@ -18,7 +18,7 @@ export class LoadUserGuard implements CanActivate {
         return this.userApiService.get(userId)
             .map(user => !!user)
             .catch(() => {
-                this.router.navigate(['/404']);
+                this.router.navigate(['/access-denied']);
                 return of(false);
             });
     }

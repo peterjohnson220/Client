@@ -15,6 +15,9 @@ export const GET_SYSTEM_USER_GROUPS_ERROR = '[Pf-Admin/Company Page] Get System 
 export const GET_PF_SERVICES_REPS = '[Pf-Admin/Company Page] Get Pf Services Reps';
 export const GET_PF_SERVICES_REPS_SUCCESS = '[Pf-Admin/Company Page] Get Pf Services Reps Success';
 export const GET_PF_SERVICES_REPS_ERROR = '[Pf-Admin/Company Page] Get Pf Services Reps Error';
+export const GET_PF_JDM_SR_ASSOCIATES = '[[Pf-Admin/Company Page] Get Pf JDM Senior Associates';
+export const GET_PF_JDM_SR_ASSOCIATES_SUCCESS = '[[Pf-Admin/Company Page] Get Pf JDM Senior Associates Success';
+export const GET_PF_JDM_SR_ASSOCIATES_ERROR = '[[Pf-Admin/Company Page] Get Pf JDM Senior Associates Error';
 export const GET_PF_CUSTOMER_SUCCESS_MANAGERS = '[Pf-Admin/Company Page] Get Pf Customer Success Managers';
 export const GET_PF_CUSTOMER_SUCCESS_MANAGERS_SUCCESS = '[Pf-Admin/Company Page] Get Pf Customer Success Managers Success';
 export const GET_PF_CUSTOMER_SUCCESS_MANAGERS_ERROR = '[Pf-Admin/Company Page] Get Pf Customer Success Managers Error';
@@ -29,6 +32,7 @@ export const GET_COMPANY_CLIENT_TYPES_SUCCESS = '[Pf-Admin/Company Page] Get Com
 export const GET_COMPANY_CLIENT_TYPES_ERROR = '[Pf-Admin/Company Page] Get Company Client Types Error';
 export const CHECK_JDM_ENABLED = '[Pf-Admin/Company Page] Check JDM Enabled';
 export const LOAD_FORM_DATA = '[Pf-Admin/Company Page] Load Form Data';
+
 
 // Tabs
 export const GET_COMPANY_TILES = '[Pf-Admin/Company Page] Get Company Tiles';
@@ -116,6 +120,24 @@ export class GetPfServicesRepsError implements Action {
   readonly type = GET_PF_SERVICES_REPS_ERROR;
 
   constructor() {}
+}
+
+export class GetPfJdmSrAssociates implements Action {
+  readonly type = GET_PF_JDM_SR_ASSOCIATES;
+
+  constructor() {}
+}
+
+export class GetPfJdmSrAssociatesSuccess implements Action {
+  readonly type = GET_PF_JDM_SR_ASSOCIATES_SUCCESS;
+
+  constructor( public payload: UserResponse[] ) {}
+}
+
+export class GetPfJdmSrAssociatesError implements Action {
+  readonly type = GET_PF_JDM_SR_ASSOCIATES_ERROR;
+
+  constructor( public payload: UserResponse[] ) {}
 }
 
 export class GetPfCustomerSuccessManagers implements Action {
@@ -380,6 +402,9 @@ export type Actions
   | GetPfServicesReps
   | GetPfServicesRepsSuccess
   | GetPfServicesRepsError
+  | GetPfJdmSrAssociates
+  | GetPfJdmSrAssociatesSuccess
+  | GetPfJdmSrAssociatesError
   | GetPfCustomerSuccessManagers
   | GetPfCustomerSuccessManagersSuccess
   | GetPfCustomerSuccessManagersError

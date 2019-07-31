@@ -14,6 +14,7 @@ export interface State {
   loadingPublicTokenUrlError: boolean;
   loadingSystemUserGroups: boolean;
   loadingPfServicesReps: boolean;
+  loadingPfJdmSrAssociates: boolean;
   loadingPfCustomerSuccessManagers: boolean;
   loadingCompanyIndustries: boolean;
   loadingCompanyTiles: boolean;
@@ -33,6 +34,7 @@ export interface State {
   companyDataSetsEnabled: boolean;
   pfCustomerSuccessManagers: UserResponse[];
   pfServicesReps: UserResponse[];
+  pfJdmSrAssociates: UserResponse[];
   systemUserGroups: SystemUserGroupsResponse[];
   companyIndustries: CompanyIndustriesResponse[];
   companyTiles: CompanyTilesResponse[];
@@ -51,6 +53,7 @@ const initialState: State = {
   loadingPublicTokenUrlError: false,
   loadingSystemUserGroups: false,
   loadingPfServicesReps: false,
+  loadingPfJdmSrAssociates: false,
   loadingPfCustomerSuccessManagers: false,
   loadingCompanyIndustries: false,
   loadingCompanyTiles: false,
@@ -70,6 +73,7 @@ const initialState: State = {
   companyDataSetsEnabled: true,
   pfCustomerSuccessManagers: [],
   pfServicesReps: [],
+  pfJdmSrAssociates: [],
   systemUserGroups: [],
   companyIndustries: [],
   companyTiles: [],
@@ -127,6 +131,28 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       return {
         ...state,
         loadingPfServicesReps: false
+      };
+    }
+    case fromCompanyPageActions.GET_PF_JDM_SR_ASSOCIATES: {
+      return {
+        ...state,
+        loadingPfJdmSrAssociates: true
+      };
+    }
+    case fromCompanyPageActions.GET_PF_JDM_SR_ASSOCIATES_SUCCESS: {
+      const results = cloneDeep(action.payload)
+        .sort((a: UserResponse, b: UserResponse) =>
+          arraySortByString(a.FirstName, b.FirstName, SortDirection.Ascending));
+      return {
+        ...state,
+        loadingPfJdmSrAssociates: false,
+        pfJdmSrAssociates: results
+      };
+    }
+    case fromCompanyPageActions.GET_PF_JDM_SR_ASSOCIATES_ERROR: {
+      return {
+        ...state,
+        loadingPfJdmSrAssociates: false
       };
     }
     case fromCompanyPageActions.GET_PF_CUSTOMER_SUCCESS_MANAGERS: {
@@ -443,6 +469,8 @@ export const getLoadingSystemUserGroups = (state: State) => state.loadingSystemU
 export const getSystemUserGroups = (state: State) => state.systemUserGroups;
 export const getLoadingPfServicesReps = (state: State) => state.loadingPfServicesReps;
 export const getPfServicesReps = (state: State) => state.pfServicesReps;
+export const getLoadingPfJdmSrAssociates = (state: State) => state.loadingPfJdmSrAssociates;
+export const getPfJdmSrAssociates = (state: State) => state.pfJdmSrAssociates;
 export const getLoadingPfCustomerSuccessManagers = (state: State) => state.loadingPfCustomerSuccessManagers;
 export const getPfCustomerSuccessManagers = (state: State) => state.pfCustomerSuccessManagers;
 export const getLoadingCompanyIndustries = (state: State) => state.loadingCompanyIndustries;

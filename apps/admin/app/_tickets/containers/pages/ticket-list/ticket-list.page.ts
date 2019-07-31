@@ -12,6 +12,7 @@ import { UserTicketTabItem } from '../../../models';
 import * as fromTicketReducer from '../../../reducers';
 import * as fromTicketActions from '../../../actions/ticket.actions';
 import {takeUntil} from 'rxjs/operators';
+import { environment } from 'environments/environment';
 
 
 @Component({
@@ -20,6 +21,9 @@ import {takeUntil} from 'rxjs/operators';
   styleUrls: ['./ticket-list.page.scss']
 })
 export class TicketListPageComponent implements OnDestroy {
+
+  env = environment;
+
   userTicketTabs: UserTicketTabItem[] = [];
   selectedTicketId: number = null;
 
@@ -47,10 +51,6 @@ export class TicketListPageComponent implements OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.unsubscribe();
-  }
-
-  handleBackButtonClick(): void {
-    this.window.nativeWindow.location = '/ng/site-admin/navigation';
   }
 
   configureTicketEvents(): void {

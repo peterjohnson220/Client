@@ -10,6 +10,7 @@ import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromPeerAdminReducer from '../../../reducers';
 import * as fromTagCategoriesActions from '../../../actions/tag-categories.actions';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-tag-categories',
@@ -18,6 +19,9 @@ import * as fromTagCategoriesActions from '../../../actions/tag-categories.actio
 })
 
 export class TagCategoriesPageComponent {
+
+  env = environment;
+
   gridState$: Observable<State>;
 
   constructor(

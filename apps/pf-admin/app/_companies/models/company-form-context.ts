@@ -5,6 +5,7 @@ export interface CompanyFormContext {
   clientTypes: CompanyClientTypesReponse[];
   systemUserGroups: SystemUserGroupsResponse[];
   pfServicesReps: UserResponse[];
+  pfJdmSrAssociates: UserResponse[];
   pfCustomerSuccessMgrs: UserResponse[];
   industries: CompanyIndustriesResponse[];
 }

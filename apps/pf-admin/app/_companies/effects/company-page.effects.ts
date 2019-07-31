@@ -24,6 +24,7 @@ export class CompanyPageEffects {
     mergeMap((action: fromCompanyPageActions.LoadFormData) => [
       new fromCompanyPageActions.GetSystemUserGroups(),
       new fromCompanyPageActions.GetPfServicesReps(),
+      new fromCompanyPageActions.GetPfJdmSrAssociates(),
       new fromCompanyPageActions.GetPfCustomerSuccessManagers(),
       new fromCompanyPageActions.GetCompanyIndustries(),
       new fromCompanyPageActions.GetCompanyClientTypes(),
@@ -53,6 +54,18 @@ export class CompanyPageEffects {
       this.userApiService.getPfServicesReps()
       .pipe(
         map((response) => new fromCompanyPageActions.GetPfServicesRepsSuccess(response))
+      )
+    )
+  );
+
+  @Effect()
+  getPfJdmSrAssociates$ = this.actions$
+  .pipe(
+    ofType(fromCompanyPageActions.GET_PF_JDM_SR_ASSOCIATES),
+    switchMap(() =>
+      this.userApiService.getPfJdmSrAssociates()
+      .pipe(
+        map((response) => new fromCompanyPageActions.GetPfJdmSrAssociatesSuccess(response))
       )
     )
   );
