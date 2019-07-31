@@ -14,6 +14,7 @@ import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/
 import * as fromJobDescriptionGridActions from '../actions/job-description-grid.actions';
 import * as fromJobDescriptionGridReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../../shared/helpers';
+import { MappingHelper } from 'libs/core/helpers';
 
 @Injectable()
 export class JobDescriptionGridEffects {
@@ -24,7 +25,7 @@ export class JobDescriptionGridEffects {
       switchMap((action: fromJobDescriptionGridActions.LoadListAreaColumns) =>
         this.userProfileApiService.getListAreaColumns(action.payload).pipe(
           map((response: ListAreaColumnResponse[]) => {
-            const listAreaColumnList =  PayfactorsApiModelMapper.mapListAreaColumnResponseListToListAreaColumnList(response);
+            const listAreaColumnList =  MappingHelper.mapListAreaColumnResponseListToListAreaColumnList(response);
             return new fromJobDescriptionGridActions.LoadListAreaColumnsSuccess(listAreaColumnList);
           }),
           catchError(response => of(new fromJobDescriptionGridActions.LoadListAreaColumnsError()))
@@ -54,7 +55,7 @@ export class JobDescriptionGridEffects {
       ofType(fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS),
       switchMap((action: fromJobDescriptionGridActions.SaveListAreaColumns) => {
           const newRequest = cloneDeep(action.payload);
-          newRequest.Columns = PayfactorsApiModelMapper.mapListAreaColumnListToListAreaColumnRequestList(newRequest.Columns);
+          newRequest.Columns = MappingHelper.mapListAreaColumnListToListAreaColumnRequestList(newRequest.Columns);
 
           return this.userProfileApiService.saveListAreaColumns(newRequest).pipe(
             map((response: number) => {

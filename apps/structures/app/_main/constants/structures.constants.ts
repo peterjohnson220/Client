@@ -5,4 +5,5 @@ export enum JobRangeModelingResponse {
 
 export class JobRangeModelingConstants {
   static readonly MODEL_NAME_UPDATE_ERROR_TIMEOUT = 1500;
+  static readonly NOT_FOUND_INDEX = -1;
 }

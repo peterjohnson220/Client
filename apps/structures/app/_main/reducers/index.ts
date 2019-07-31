@@ -7,12 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromStructuresReducer from './structures.reducer';
 import * as fromJobRangeModelingReducer from './job-range-modeling-page.reducer';
 import * as fromJobBasedRangeAllStructuresReducer from './job-based-range-all-structures.reducer';
+import * as fromJobRangeModelingGridReducer from './job-range-modeling-grid.reducer';
 
 // Feature area state
 export interface StructuresMainState {
   structuresPage: fromStructuresReducer.State;
   jobRangeModelingPage: fromJobRangeModelingReducer.State;
   jobBasedRangeAllStructuresComponent: fromJobBasedRangeAllStructuresReducer.State;
+  jobRangeModelingGrid: fromJobRangeModelingGridReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +26,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   structuresPage: fromStructuresReducer.reducer,
   jobRangeModelingPage: fromJobRangeModelingReducer.reducer,
-  jobBasedRangeAllStructuresComponent: fromJobBasedRangeAllStructuresReducer.reducer
+  jobBasedRangeAllStructuresComponent: fromJobBasedRangeAllStructuresReducer.reducer,
+  jobRangeModelingGrid: fromJobRangeModelingGridReducer.reducer
 };
 
 // Select Feature Area
@@ -50,6 +53,11 @@ export const selectJobBasedRangeAllStructuresComponentState = createSelector(
 export const getCompanyStructuresAsync = createSelector(
   selectStructuresPageState,
   fromStructuresReducer.getCompanyStructuresAsync
+);
+
+export const selectJobRangeModelingGridState = createSelector(
+  selectFeatureAreaState,
+  (state: StructuresMainState) => state.jobRangeModelingGrid
 );
 
 // Job Range Modeling Page
@@ -82,4 +90,25 @@ export const getCompanyStructureViewsAsync = createSelector(
 export const getFilteredCompanyStructures = createSelector(
   selectJobBasedRangeAllStructuresComponentState,
   fromJobBasedRangeAllStructuresReducer.getFilteredCompanyStructures
+);
+
+// Job Range Modeling Grid
+export const getGridDataResultAsync = createSelector(
+  selectJobRangeModelingGridState,
+  fromJobRangeModelingGridReducer.getGridDataResultAsync
+);
+
+export const getListAreaColumnsAsync = createSelector(
+  selectJobRangeModelingGridState,
+  fromJobRangeModelingGridReducer.getListAreaColumnsAsync
+);
+
+export const getListAreaColumnsReordering = createSelector(
+  selectJobRangeModelingGridState,
+  fromJobRangeModelingGridReducer.getListAreaColumnsReordering
+);
+
+export const getListAreaColumnsSavingAsync = createSelector(
+  selectJobRangeModelingGridState,
+  fromJobRangeModelingGridReducer.getListAreaColumnsSavingAsync
 );

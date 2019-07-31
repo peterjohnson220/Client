@@ -27,7 +27,10 @@ import { JobBasedRangeAllStructuresEffects, JobRangeModelingPageEffects } from '
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 import { ModelNameInputComponent, ModelingSettingsComponent, StructureCardComponent } from './components';
-import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, JobBasedRangeAllStructuresComponent } from './containers';
+import {
+  JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, JobBasedRangeAllStructuresComponent, JobRangeModelingGridComponent
+} from './containers';
+import { JobRangeModelingGridEffects } from './effects/job-range-modeling-grid.effects';
 
 @NgModule({
   imports: [
@@ -40,7 +43,8 @@ import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, Jo
     StoreModule.forFeature('structures_main', reducers),
     EffectsModule.forFeature([
       JobRangeModelingPageEffects,
-      JobBasedRangeAllStructuresEffects
+      JobBasedRangeAllStructuresEffects,
+      JobRangeModelingGridEffects
     ]),
     PerfectScrollbarModule,
     FontAwesomeModule,
@@ -71,7 +75,8 @@ import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, Jo
     // Containers
     JobRangeModelingPageComponent,
     JobBasedRangeStructuresPageComponent,
-    JobBasedRangeAllStructuresComponent
+    JobBasedRangeAllStructuresComponent,
+    JobRangeModelingGridComponent
   ],
   providers: [
     WindowRef
