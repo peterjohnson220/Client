@@ -1,4 +1,4 @@
-<span *ngIf="showLabel && selectedValue"
+<div *ngIf="showLabel && selectedValue"
       (click)="switchView()"
       style="width:100%">
   <img *ngIf="pickerType === ticketFieldType.STATUS"
@@ -7,7 +7,7 @@
   <span *ngIf="pickerType === ticketFieldType.TYPE"
         class="ticketsdot {{selectedValue.TicketCssClass}}"></span>
   {{selectedValue[textField]}}
-</span>
+</div>
 
 <kendo-combobox *ngIf="!showLabel"
                 [data]="data"
