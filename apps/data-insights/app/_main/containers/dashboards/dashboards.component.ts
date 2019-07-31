@@ -74,6 +74,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.filteredCompanyWorkbooksSub.unsubscribe();
     this.dragulaSub.unsubscribe();
+    this.savingTagsSub.unsubscribe();
   }
 
   trackByFn(index: any, workbook: Workbook) {

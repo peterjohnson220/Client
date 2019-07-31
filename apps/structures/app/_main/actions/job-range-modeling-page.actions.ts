@@ -8,6 +8,7 @@ export const GET_MODEL_DATA = '[Structures/Job Range Modeling Page] Get Model Da
 export const GET_MODEL_DATA_SUCCESS = '[Structures/Job Range Modeling Page] Get Model Data Success';
 export const GET_STRUCTURE_DATA = '[Structures/Job Range Modeling Page] Get Structure Data';
 export const GET_STRUCTURE_DATA_SUCCESS = '[Structures/Job Range Modeling Page] Get Structure Data Success';
+export const SET_CURRENT_STRUCTURE = '[Structures/Job Range Modeling Page] Set Current Structure';
 export const UPDATE_CURRENT_COMPANY_STRUCTURE_RANGE_GROUP_NAME
   = '[Structures/Job Range Modeling Page] Update Current Company Structure Range Group Name';
 export const UPDATE_CURRENT_COMPANY_STRUCTURE_RANGE_GROUP_NAME_SUCCESS
@@ -39,6 +40,13 @@ export class GetStructureData implements Action {
 
 export class GetStructureDataSuccess implements Action {
   readonly type = GET_STRUCTURE_DATA_SUCCESS;
+
+  constructor(public payload: CompanyStructure) {
+  }
+}
+
+export class SetCurrentStructure implements Action {
+  readonly type = SET_CURRENT_STRUCTURE;
 
   constructor(public payload: CompanyStructure) {
   }
@@ -77,6 +85,7 @@ export type Actions
   | GetModelDataSuccess
   | GetStructureData
   | GetStructureDataSuccess
+  | SetCurrentStructure
   | UpdateCurrentCompanyStructureRangeGroupName
   | UpdateCurrentCompanyStructureRangeGroupNameSuccess
   | UpdateCurrentCompanyStructureRangeGroupNameError

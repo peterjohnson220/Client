@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, timer } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 import { CompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
 import { CompanyStructure } from 'libs/models/structures/company-structure.model';
@@ -19,8 +19,8 @@ import { JobRangeModelingConstants } from '../../../constants/structures.constan
 })
 export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
   // todo: replace temp Ids with routing parameters
-  private readonly temp_companyStructureId = 121;
   private readonly temp_companyStructureRangeGroupId = 609;
+  private readonly routeCompanyStructureId: number;
 
   public inEditModelNameMode = false;
   public currentModel: CompanyStructureRangeGroup;
@@ -33,6 +33,8 @@ export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
   public currentStructureSubscription: Subscription;
   public editModelNameErrorSubscription: Subscription;
   public editModelNameError: string;
+
+  public companyStructuresAsyncSubscription: Subscription;
 
   constructor(public route: ActivatedRoute,
               private store: Store<fromStructuresMainReducer.State>) {
@@ -47,13 +49,26 @@ export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.currentStructureSubscription = this.store.select(fromStructuresMainReducer.getCurrentStructure).subscribe(
+    this.currentStructureSubscription = this.store.select(fromStructuresMainReducer.getCurrentStructure).pipe(
+      filter(s => !!s)
+    ).subscribe(
       emittedStructure => {
         this.currentStructure = emittedStructure;
         if (this.currentStructure
           && this.currentStructure.StructureName
           && this.currentStructure.StructureName !== this.currentStructureName) {
           this.currentStructureName = this.currentStructure.StructureName;
+        }
+      }
+    );
+
+    this.routeCompanyStructureId = this.route.snapshot.params.id ? +this.route.snapshot.params.id as number : null;
+
+    this.companyStructuresAsyncSubscription = this.store.select(fromStructuresMainReducer.getCompanyStructuresAsync).subscribe(
+      emittedStructures => {
+        const currentStructure = emittedStructures.obj.find(s => s.CompanyStructuresId === this.routeCompanyStructureId);
+        if (currentStructure) {
+          this.store.dispatch(new fromJobRangeModelingActions.SetCurrentStructure(currentStructure));
         }
       }
     );
@@ -80,13 +95,13 @@ export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params.id ? this.route.snapshot.params.id : 'No ID Passed';
-
     const modelId: number = this.temp_companyStructureRangeGroupId;
-    const structureId: number = this.temp_companyStructureId;
+    const structureId: number = this.routeCompanyStructureId;
 
     this.store.dispatch(new fromJobRangeModelingActions.GetModelData(modelId));
-    this.store.dispatch(new fromJobRangeModelingActions.GetStructureData(structureId));
+    if (structureId) {
+      this.store.dispatch(new fromJobRangeModelingActions.GetStructureData(structureId));
+    }
   }
 
   updateModelName(modelName: string) {
@@ -111,5 +126,6 @@ export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.currentModelSubscription.unsubscribe();
     this.currentStructureSubscription.unsubscribe();
+    this.companyStructuresAsyncSubscription.unsubscribe();
   }
 }

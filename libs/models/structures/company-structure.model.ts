@@ -2,7 +2,7 @@ import { CompanyStructureGrade, generateMockCompanyStructureGrade } from './comp
 import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from './company-structure-range-group.model';
 
 export interface CompanyStructure {
-  CompanyStructuresID: number;
+  CompanyStructuresId: number;
   CompanyId: number;
   StructureCode: string;
   StructureName: string;
@@ -12,7 +12,7 @@ export interface CompanyStructure {
 
 export function generateMockCompanyStructure(): CompanyStructure {
   return {
-    CompanyStructuresID: 1,
+    CompanyStructuresId: 1,
     CompanyId: 13,
     StructureCode: 'TestStructureCode',
     StructureName: 'TestStructureName',
