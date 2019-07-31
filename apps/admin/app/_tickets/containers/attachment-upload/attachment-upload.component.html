@@ -25,13 +25,13 @@
             </span>
           </div>
           <div class="col-4 text-right actions-cell">
-            <label class="progress-text" *ngIf="file.state === 4">
+            <label class="progress-text p-2" *ngIf="file.state === 4">
               {{file.uploadProgress}}%
             </label>
-            <a title="retry" *ngIf="file.state === 0 && file.validationErrors.includes('genericError')" (click)="retryFileUpload(file.uid)">
+            <a class="p-2" title="retry" *ngIf="file.state === 0 && file.validationErrors.includes('genericError')" (click)="retryFileUpload(file.uid)">
               <fa-icon icon="undo" size="lg" class="pf-secondary-color"></fa-icon>
             </a>
-            <a title="download" *ngIf="file.state !== 0 && file.state !== 4">
+            <a class="p-2" title="download" *ngIf="file.state !== 0 && file.state !== 4">
               <fa-icon icon="download" size="lg" class="pf-secondary-color"></fa-icon>
             </a>
             <a href="javascript:void(0)" title="remove" (click)="removeFileClick(file)">
