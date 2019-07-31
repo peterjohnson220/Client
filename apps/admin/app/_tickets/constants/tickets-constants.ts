@@ -1,5 +1,7 @@
 export enum TicketFieldType {
     STATUS = 'Status',
     TYPE = 'Type',
-    SERVICEUSER = 'ServiceUser'
+    SERVICEUSER = 'ServiceUser',
+    TICKETID = 'Id',
+    COMPANYNAME = 'CompanyName',
 }
