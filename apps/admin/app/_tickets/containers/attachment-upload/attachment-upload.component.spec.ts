@@ -44,9 +44,7 @@ describe('Admin - Tickets - Attachment Upload', () => {
                 state: FileState.Uploaded,
             }
         ], 'upload', new HttpResponse({
-            body: {
-                value: [generateMockUserTicketsFile()]
-            }
+            body: [generateMockUserTicketsFile()]
         }));
 
     instance.uploadSuccessEventHandler(mockSuccessEvent);

@@ -35,7 +35,7 @@ export class AttachmentUploadComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         if (this.ticketId) {
-            this.uploadUrl = `/odata/UserTicket/AddAttachment/${this.ticketId}`;
+            this.uploadUrl = `/odata/Ticket/AddAttachment/${this.ticketId}`;
         }
     }
 
@@ -68,9 +68,9 @@ export class AttachmentUploadComponent implements OnInit, OnDestroy {
     }
 
     uploadSuccessEventHandler(e: SuccessEvent) {
-        if (e.response.body.value) {
+        if (e.response.body) {
             const attachments =
-                PayfactorsApiModelMapper.mapUserTicketFilesToTicketAttachment(e.response.body.value, FileState.Uploaded);
+                PayfactorsApiModelMapper.mapUserTicketFilesToTicketAttachment(e.response.body, FileState.Uploaded);
             this.addAttachments.emit(attachments);
             this.uploadedFiles = this.uploadedFiles.filter((uf) => {
                 return uf.uid !== e.files[0].uid;
