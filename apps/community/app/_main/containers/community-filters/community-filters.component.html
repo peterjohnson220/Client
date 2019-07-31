@@ -1,24 +1,10 @@
-<div>
-  <h5 id="filter-section-header">POSTS</h5>
-  <kendo-multiselect
-    #topicMultiSelect
-    kendoMultiSelectSummaryTag
-    [data]="communityTopics$ | async"
-    [(ngModel)]="selectedTopics"
-    [textField]="'TopicName'"
-    [valueField]="'Id'"
-    [autoClose]="false"
-    [placeholder]="'Select a Topic'"
-    (valueChange)="filterPosts('topic', 'Select a Topic')"
-    id="topic"
-  >
-    <ng-template kendoMultiSelectItemTemplate let-dataItem style="background-color: red;">
-      <input type="checkbox" class="k-checkbox"
-             [checked]="isTopicSelected(dataItem.Id)">
-      <label class="k-checkbox-label">{{ dataItem.TopicName }}</label>
-    </ng-template>
-    <ng-template kendoMultiSelectGroupTagTemplate let-dataItems>
-      <span> Topic {{dataItems.length}} selected</span>
-    </ng-template>
-  </kendo-multiselect>
-</div>
+<h5 id="filter-section-header">POSTS</h5>
+<pf-community-filters-dropdown
+  [data]="communityTopics$ | async"
+  [name]="'TopicName'"
+  [id]="'Id'"
+  [placeholder]="'Select a Topic'"
+  [selectedItems]="selectedTopics"
+  [filterType]="'Topic'"
+  (filtersSelected)="topicsSelected($event)">
+</pf-community-filters-dropdown>

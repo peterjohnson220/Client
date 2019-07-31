@@ -1,0 +1,22 @@
+<div>
+    <kendo-multiselect
+      [data]="data"
+      [(ngModel)]="selectedItems"
+      [textField]="name"
+      [valueField]="id"
+      [autoClose]="false"
+      [placeholder]="placeholder"
+      (valueChange)="filterItems('item')"
+      id="item">
+
+      <ng-template kendoMultiSelectItemTemplate let-dataItem style="background-color: red;">
+        <input type="checkbox" class="k-checkbox"
+               [checked]="isItemSelected(dataItem[id])">
+        <label class="k-checkbox-label">{{ dataItem[name] }}</label>
+      </ng-template>
+      <ng-template kendoMultiSelectGroupTagTemplate let-dataItems>
+        <span> {{filterType}} {{dataItems.length}} selected</span>
+      </ng-template>
+    </kendo-multiselect>
+  </div>
+  

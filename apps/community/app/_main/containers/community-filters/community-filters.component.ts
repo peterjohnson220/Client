@@ -8,7 +8,6 @@ import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import { FilterOptions } from '../../models';
 
-
 @Component({
   selector: 'pf-community-filters',
   templateUrl: './community-filters.component.html',
@@ -58,23 +57,9 @@ export class CommunityFiltersComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterPosts(filterId, placeHolderValue) {
-
+  topicsSelected(topics) {
     this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.ChangingCommunityTopicFilterOptions
-    (this.selectedTopics));
-
-    this.setKendoMultiSelectPlaceholder(filterId, placeHolderValue);
-  }
-
-  setKendoMultiSelectPlaceholder(filterId, placeHolderValue) {
-    const element = document.querySelector(`#${filterId} kendo-searchbar input`) as HTMLInputElement;
-    setTimeout(function () {
-      element.placeholder = `${placeHolderValue}`;
-    }, 0);
-  }
-
-  isTopicSelected(itemId: string): boolean {
-    return this.selectedTopics.some(item => item.Id === itemId);
+    (topics));
   }
 }
 

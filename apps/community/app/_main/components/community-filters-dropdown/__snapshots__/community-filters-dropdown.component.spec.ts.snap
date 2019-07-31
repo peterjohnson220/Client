@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityFiltersDropdownComponent should show community filters 1`] = `
+<pf-community-filters-dropdown
+  filtersSelected={[Function EventEmitter]}
+>
+  <div>
+    <kendo-multiselect
+      id="item"
+    >
+      
+      
+    </kendo-multiselect>
+  </div>
+</pf-community-filters-dropdown>
+`;
