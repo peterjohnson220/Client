@@ -33,6 +33,7 @@ import { CommunityPollsComponent } from './containers/community-polls/community-
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
 import { CommunityCategoriesComponent } from './containers/community-categories';
 import { CommunityFiltersComponent } from './containers/community-filters';
+import { CommunityFiltersDropdownComponent } from './components/community-filters-dropdown/community-filters-dropdown.component';
 
 import { CommunityPostRepliesComponent } from './components/community-post-replies';
 import { CommunityPostReplyComponent } from './components/community-post-reply';
@@ -113,6 +114,7 @@ const components = [
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
   CommunityFiltersComponent,
+  CommunityFiltersDropdownComponent,
   CommunityCategoryDisplayNamePipe,
   CommunityHighlightTextPipe,
   CommunityLinkifyPipe,

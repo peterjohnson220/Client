@@ -10,19 +10,10 @@ exports[`CommunityFiltersComponent should show community filters 1`] = `
   store={[Function Store]}
   topicFilters={[Function Array]}
 >
-  <div>
-    <h5
-      id="filter-section-header"
-    >
-      POSTS
-    </h5>
-    <kendo-multiselect
-      id="topic"
-      kendomultiselectsummarytag=""
-    >
-      
-      
-    </kendo-multiselect>
-  </div>
+  <h5
+    id="filter-section-header"
+  >
+    POSTS
+  </h5><pf-community-filters-dropdown />
 </pf-community-filters>
 `;
