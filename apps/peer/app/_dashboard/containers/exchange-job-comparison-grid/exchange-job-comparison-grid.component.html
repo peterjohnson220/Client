@@ -21,7 +21,7 @@
               (dataStateChange)="handleDataStateChange($event)">
     <kendo-grid-column field="CompanyJobCode" title="Company Job Code" width="15">
       <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-        <div title="{{column.title}}">{{column.title}}</div>
+        <span title="{{column.title}}">{{column.title}}</span>
       </ng-template>
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
@@ -39,7 +39,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="CompanyJobTitle" title="Company Job Title" width="25">
       <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-        <div title="{{column.title}}">{{column.title}}</div>
+        <span title="{{column.title}}">{{column.title}}</span>
       </ng-template>
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
@@ -54,7 +54,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="ExchangeJobTitle" title="Exchange Job Title" width="25">
       <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-        <div title="{{column.title}}">{{column.title}}</div>
+        <span title="{{column.title}}">{{column.title}}</span>
       </ng-template>
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
@@ -69,7 +69,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="ExchangeOrgs" title="Exchg Orgs" class="text-right" width="8">
       <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-        <div title="{{column.title}}">{{column.title}}</div>
+        <span title="{{column.title}}">{{column.title}}</span>
       </ng-template>
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
@@ -87,7 +87,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="ExchangeIncs" title="Exchg Incs" class="text-right" width="8">
       <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-        <div title="{{column.title}}">{{column.title}}</div>
+        <span title="{{column.title}}">{{column.title}}</span>
       </ng-template>
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
@@ -105,7 +105,7 @@
     </kendo-grid-column>
     <kendo-grid-column [field]="companyBaseAverageField" title="Company Base Avg" width="12" class="text-right" headerClass="text-right">
       <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-        <div title="{{column.title}}">{{column.title}}</div>
+        <span title="{{column.title}}">{{column.title}}</span>
       </ng-template>
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
@@ -123,7 +123,7 @@
     </kendo-grid-column>
     <kendo-grid-column [field]="exchangeBaseAverageField" title="Exchange Base Avg" width="12" class="text-right" headerClass="text-right">
       <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-        <div title="{{column.title}}">{{column.title}}</div>
+        <span title="{{column.title}}">{{column.title}}</span>
       </ng-template>
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
@@ -141,7 +141,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="ExchangeIndex" title="Market Index" width="10" class="text-right" headerClass="text-right">
       <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-        <div title="{{column.title}}">{{column.title}}</div>
+        <span title="{{column.title}}">{{column.title}}</span>
       </ng-template>
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
