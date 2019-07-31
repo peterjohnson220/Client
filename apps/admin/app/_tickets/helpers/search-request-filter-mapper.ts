@@ -16,6 +16,12 @@ export class SearchRequestFilterMapper {
         case 'Type':
           model.UserTicket_Type = f.value;
           break;
+        case 'CompanyName':
+          model.Company_Name = f.value;
+          break;
+        case 'Id':
+          model.UserTicket_ID = f.value;
+          break;
       }
     });
     return model;

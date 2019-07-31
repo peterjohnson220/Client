@@ -4,6 +4,18 @@
   width: 100% !important;
 }
 
+:host ::ng-deep .k-combobox.k-state-focused {
+  color: #495057;
+  background-color: #fff;
+  border-color: #4a7092;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(31, 47, 61, 0.25);
+}
+
+:host ::ng-deep .k-dropdown-wrap .k-clear-value {
+  right: calc( 0.75rem + 17px + 6.5px);
+}
+
 :host > * div[class*="col-sm"] {
   align-self: center;
 }

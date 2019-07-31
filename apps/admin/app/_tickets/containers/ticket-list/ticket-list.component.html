@@ -70,8 +70,19 @@
     </kendo-grid-column>
     <kendo-grid-column field="Id"
                        title="ID"
-                       width="30"
-                       [filterable]="false">
+                       width="30">
+      <ng-template kendoGridFilterCellTemplate
+                       let-filter>
+        <pf-ticket-list-filter #ticketIdFilter
+                                [filter]="filter"
+                                [data]=""
+                                [defaultValue]="''"
+                                [filterField]="ticketFieldType.TICKETID"
+                                [textField]="'Id'"
+                                [valueField]="'Id'"
+                                (valueChange)="filterChanged()">
+        </pf-ticket-list-filter>
+      </ng-template>
       <ng-template kendoGridCellTemplate
                    let-dataItem>
         <a class="ticket-link"
@@ -81,8 +92,19 @@
     </kendo-grid-column>
     <kendo-grid-column field="CompanyName"
                        title="Client"
-                       width="60"
-                       [filterable]="false">>
+                       width="60">
+      <ng-template kendoGridFilterCellTemplate
+                       let-filter>
+        <pf-ticket-list-filter #ticketCompanyNameFilter
+                                [filter]="filter"
+                                [data]=""
+                                [defaultValue]="''"
+                                [filterField]="ticketFieldType.COMPANYNAME"
+                                [textField]="'CompanyName'"
+                                [valueField]="'CompanyName'"
+                                (valueChange)="filterChanged()">
+        </pf-ticket-list-filter>
+      </ng-template>
       <ng-template kendoGridCellTemplate
                    let-dataItem>
         <div [innerHTML]="dataItem.CompanyName"></div>
