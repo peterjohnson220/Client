@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CommunityCompanySizeBucket } from 'libs/models/community/community-company-size-bucket.model';
+import { CommunityCompanySize } from 'libs/models/community/community-company-size.model';
 
 export const LOADING_COMMUNITY_COMPANY_SIZES =
   '[Community/Company Sizes] Loading Community Company Sizes';
@@ -14,7 +14,7 @@ export class LoadingCommunityCompanySizes implements Action {
 
 export class LoadingCommunityCompanySizesSuccess implements Action {
   readonly type = LOADING_COMMUNITY_COMPANY_SIZES_SUCCESS;
-  constructor(public payload: CommunityCompanySizeBucket[]) {}
+  constructor(public payload: CommunityCompanySize[]) {}
 }
 
 export class LoadingCommunityCompanySizesError implements Action {

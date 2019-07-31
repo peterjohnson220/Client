@@ -1,5 +1,5 @@
-import { CommunityCompanySizeBucket } from 'libs/models/community/community-company-size-bucket.model';
+import { CommunityCompanySize } from 'libs/models/community/community-company-size.model';
 
 export interface CompanySizeFilter {
-  CompanySize: CommunityCompanySizeBucket[];
+  CompanySizes: CommunityCompanySize[];
 }

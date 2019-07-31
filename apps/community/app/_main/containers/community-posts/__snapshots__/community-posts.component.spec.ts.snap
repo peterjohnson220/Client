@@ -4,8 +4,6 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
 <pf-community-posts
   addReplyViewStore={[Function Store]}
   avatarUrl={[Function String]}
-  communityCompanySizes$={[Function Store]}
-  communityIndustries$={[Function Store]}
   communityPosts$={[Function Store]}
   communityPostsSubscription={[Function Subscriber]}
   filterStore={[Function Store]}

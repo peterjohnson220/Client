@@ -14,7 +14,7 @@
     </ng-container>
     <ng-container *ngFor="let filter of filteredIndustries">
       <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="industryFilterClicked(filter)"
-              [ngClass]="{'btn-selected': IsIndustrySelected(filter) }">Industry: {{ filter }}
+              [ngClass]="{'btn-selected': IsIndustrySelected(filter) }">Industry: {{ filter.IndustryName }}
         <span *ngIf="IsIndustrySelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
       </button>
     </ng-container>
@@ -24,7 +24,12 @@
         <span *ngIf="IsTopicSelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
       </button>
     </ng-container>
-
+    <ng-container *ngFor="let filter of filteredCompanySizes">
+      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="companySizeFilterClicked(filter)"
+              [ngClass]="{'btn-selected': IsCompanySizeSelected(filter) }">Company Size: {{ filter.DisplayName }}
+        <span *ngIf="IsCompanySizeSelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
+      </button>
+    </ng-container>
     <div *ngIf="filter.PostIds.length > 0 || filter.ReplyIds.length > 0" class="mt-1">
       <button *ngIf="filter.PostIds.length === 1 || filter.ReplyIds.length === 1" (click)="viewAllClicked()"  type="button" class="btn m-1 tag py-2 px-3 shadow-none btn-selected">
         <span>{{filterTitle}}</span>

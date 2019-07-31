@@ -14,6 +14,8 @@ export interface State {
   addingCommunityCompanySize: boolean;
   changingCommunityTopic: boolean;
   deletingCommunityTopicSuccess: boolean;
+  deletingCommunityIndustrySuccess: boolean;
+  deletingCommunityCompanySizeSuccess: boolean;
   filterByPost: boolean;
 }
 
@@ -25,6 +27,8 @@ export const initialState: State = {
   addingCommunityCompanySize: false,
   changingCommunityTopic: false,
   deletingCommunityTopicSuccess: false,
+  deletingCommunityIndustrySuccess: false,
+  deletingCommunityCompanySizeSuccess: false,
   filterByPost: false
 };
 
@@ -81,16 +85,12 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
       };
     }
     case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS: {
-      const newIndustry = action.payload;
+      const changedIndustries = action.payload;
       const currentEntities = cloneDeep(state.filterOptions);
 
-      if (currentEntities.IndustryFilter.Industry.length === 0) {
-        currentEntities.IndustryFilter.Industry.push(newIndustry);
-      } else {
-        const exists = currentEntities.IndustryFilter.Industry.filter(industry => isEqual(industry, newIndustry));
-        if (exists.length === 0) {
-          currentEntities.IndustryFilter.Industry.push(newIndustry);
-        }
+      currentEntities.IndustryFilter.Industries = [];
+      if (changedIndustries) {
+        currentEntities.IndustryFilter.Industries = changedIndustries;
       }
       return {
         ...state,
@@ -108,13 +108,9 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
       const newCompanySize = action.payload;
       const currentEntities = cloneDeep(state.filterOptions);
 
-      if (currentEntities.CompanySizeFilter.CompanySize.length === 0) {
-        currentEntities.CompanySizeFilter.CompanySize.push(newCompanySize);
-      } else {
-        const exists = currentEntities.CompanySizeFilter.CompanySize.filter(size => isEqual(size, newCompanySize));
-        if (exists.length === 0) {
-          currentEntities.CompanySizeFilter.CompanySize.push(newCompanySize);
-        }
+      currentEntities.CompanySizeFilter.CompanySizes = [];
+      if (newCompanySize) {
+        currentEntities.CompanySizeFilter.CompanySizes = newCompanySize;
       }
       return {
         ...state,
@@ -201,26 +197,42 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
 
     const filters = currentEntities.IndustryFilter;
     if (filters) {
-      filters.Industry = filters.Industry.filter(industry => !isEqual(industry, removeIndustry));
+      filters.Industries = filters.Industries.filter(industry => !isEqual(industry.Id, removeIndustry.Id));
     }
 
     return {
       ...state,
-      filterOptions: currentEntities
+      filterOptions: currentEntities,
+      deletingCommunityIndustrySuccess: false
     };
   }
-    case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS: {
+
+  case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS_SUCCESS: {
+    return {
+      ...state,
+      deletingCommunityIndustrySuccess: true
+    };
+  }
+
+  case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS: {
       const removeCompanySize = action.payload;
       const currentEntities = cloneDeep(state.filterOptions);
 
       const filters = currentEntities.CompanySizeFilter;
       if (filters) {
-        filters.CompanySize = filters.CompanySize.filter(size => !isEqual(size, removeCompanySize));
+        filters.CompanySizes = filters.CompanySizes.filter(size => !isEqual(size, removeCompanySize));
       }
 
       return {
         ...state,
-        filterOptions: currentEntities
+        filterOptions: currentEntities,
+        deletingCommunityCompanySizeSuccess: false
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS_SUCCESS: {
+      return {
+        ...state,
+        deletingCommunityCompanySizeSuccess: true
       };
     }
     case fromCommunityPostFilterOptionsActions.DELETING_ALL_FILTER_OPTIONS: {
@@ -260,3 +272,5 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
 export const getCommunityPostFilterOptions = (state: State ) => state.filterOptions;
 export const getFilteredByPost = (state: State ) => state.filterByPost;
 export const getDeletingCommunityTopicSuccess = (state: State ) => state.deletingCommunityTopicSuccess;
+export const getDeletingCommunityIndustrySuccess = (state: State ) => state.deletingCommunityIndustrySuccess;
+export const getDeletingCommunityCompanySizeSuccess = (state: State ) => state.deletingCommunityCompanySizeSuccess;

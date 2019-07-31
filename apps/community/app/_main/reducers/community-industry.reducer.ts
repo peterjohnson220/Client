@@ -1,9 +1,10 @@
 import * as communityIndustryActions from '../actions/community-industry.actions';
+import { CommunityIndustry } from 'libs/models/community/community-industry.model';
 
 export interface State {
   loading: boolean;
   loadingError: boolean;
-  entities: string[];
+  entities: CommunityIndustry[];
 }
 
 export const initialState: State = {

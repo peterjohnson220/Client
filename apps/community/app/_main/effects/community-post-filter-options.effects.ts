@@ -49,6 +49,32 @@ export class CommunityPostFilterOptionsEffects {
   removingIndustryFilters$ = this.actions$
     .pipe(
       ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS),
+      map(() =>
+        new fromCommunityFilterActions.DeletingCommunityIndustryFromFilterOptionsSuccess())
+    );
+  @Effect()
+  removingIndustryFiltersSuccess$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS_SUCCESS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+  @Effect()
+  addingCompanySizeFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+  @Effect()
+  removingCompanySizeFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS),
+      map(() =>
+        new fromCommunityFilterActions.DeletingCommunityCompanySizeFromFilterOptionsSuccess())
+    );
+  @Effect()
+  removingCompanySizeFiltersSuccess$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS_SUCCESS),
       map(() => new fromCommunityPostActions.GettingCommunityPosts())
     );
   @Effect()

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { CommunityIndustry } from 'libs/models/community/community-industry.model';
 
 export const LOADING_COMMUNITY_INDUSTRIES =
   '[Community/Industries] Loading Community Industries';
@@ -13,7 +14,7 @@ export class LoadingCommunityIndustries implements Action {
 
 export class LoadingCommunityIndustriesSuccess implements Action {
   readonly type = LOADING_COMMUNITY_INDUSTRIES_SUCCESS;
-  constructor(public payload: string[]) {}
+  constructor(public payload: CommunityIndustry[]) {}
 }
 
 export class LoadingCommunityIndustriesError implements Action {

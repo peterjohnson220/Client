@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CommunityCompanySizeBucket } from 'libs/models/community/community-company-size-bucket.model';
+import { CommunityCompanySize } from 'libs/models/community/community-company-size.model';
 import { CommunityTopic } from '../../../models/community';
+import { CommunityIndustry } from 'libs/models/community/community-industry.model';
 
 @Injectable()
 export class CommunityFilterApiService {
@@ -12,13 +13,13 @@ export class CommunityFilterApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  getIndustries(): Observable<string[]> {
-    return this.payfactorsApiService.get<string[]>
+  getIndustries(): Observable<CommunityIndustry[]> {
+    return this.payfactorsApiService.get<CommunityIndustry[]>
     (`${this.endpoint}/GetIndustryFilterOptions`);
   }
 
-  getCompanySizes(): Observable<CommunityCompanySizeBucket[]> {
-    return this.payfactorsApiService.get<CommunityCompanySizeBucket[]>
+  getCompanySizes(): Observable<CommunityCompanySize[]> {
+    return this.payfactorsApiService.get<CommunityCompanySize[]>
     (`${this.endpoint}/GetCompanySizeFilterOptions`);
   }
 

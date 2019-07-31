@@ -25,9 +25,9 @@ export class CommunityFiltersDropdownComponent implements OnInit {
     return this.selectedItems.some(item => item.Id === itemId);
   }
 
-  filterItems(filterId) {
+  filterItems(filterId, placeHolderValue) {
     this.filtersSelected.emit(this.selectedItems);
-    this.setKendoMultiSelectPlaceholder(filterId, this.placeholder);
+    this.setKendoMultiSelectPlaceholder(filterId, placeHolderValue);
   }
 
   setKendoMultiSelectPlaceholder(filterId, placeHolderValue) {
