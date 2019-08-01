@@ -92,6 +92,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     return `Exporting (${numOfSelections})...`;
   }
   get selectionsControl() { return this.exportDataCutsForm.get('selections'); }
+  get selectedRateControl() { return this.exportDataCutsForm.get('selectedRate'); }
   get pageEntityIds(): number[] {
     const gridDataResult = this.gridDataResult;
     return !!gridDataResult ? this.gridDataResult.data.filter(item => item.IsInMapScope)
@@ -102,7 +103,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   createForm(): void {
     this.exportDataCutsForm = this.fb.group({
       'selections': [[], [PfValidators.selectionRequired]],
-      'selectedRate': [{ Name: RateType.Annual, Value: RateType.Annual }]
+      'selectedRate': [this.selectedRate]
     });
   }
 
@@ -185,6 +186,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   }
 
   handleRateSelectionChange(item: KendoDropDownItem) {
+    this.selectedRate = item;
     this.store.dispatch(new fromExportDataCutsActions.SelectRate({newRate: item.Value}));
   }
 
@@ -197,6 +199,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     });
     this.exportDataCutsModalOpenSubscription = this.exportDataCutsModalOpen$.subscribe(isOpen => {
       if (isOpen) {
+        this.selectedRateControl.setValue(this.selectedRate);
         this.loadExchangeCompanyJobs();
       }
     });
