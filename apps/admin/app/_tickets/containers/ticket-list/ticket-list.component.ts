@@ -41,7 +41,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
     filter: {
       logic: 'and',
       filters: [{
-        value: 'New',
+        value: 'Open',
         field: 'Status',
         operator: 'contains'
       }]
@@ -60,6 +60,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
   public defaultPfServiceRep: number;
   pfServiceReps: PfServicesRep[] = [];
   userTicketStates: UserTicketState[] = [];
+  userTicketStatesFilter: UserTicketState[] = [];
   userTicketTypes: UserTicketType[] = [];
   ticketListItems: UserTicketGridItem[] = [];
   public ticketFieldType = TicketFieldType;
@@ -131,6 +132,8 @@ export class TicketListComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       ).subscribe(v => {
         this.userTicketStates = v;
+        this.userTicketStatesFilter = cloneDeep(v);
+        this.userTicketStatesFilter.unshift({UserTicketStateId: 0, UserTicketState: 'Open'});
       });
 
     this.userTicketTypes$
