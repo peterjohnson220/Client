@@ -77,6 +77,7 @@ export class SearchResultsEffects {
       mergeMap((data) => {
           const exchangeJobId = data.action.payload.PeerJobInfo.ExchangeJobId;
           const currencyCode = data.projectSearchContext.CurrencyCode;
+          const countryCode = data.projectSearchContext.CountryCode;
           const projectId = data.projectSearchContext.ProjectId;
           const searchFieldsRequestObj = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters);
           const filtersRequestObj = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters);
@@ -86,7 +87,8 @@ export class SearchResultsEffects {
             SearchFields: searchFieldsRequestObj,
             Filters: filtersRequestObj,
             CurrencyCode: currencyCode,
-            ProjectId: projectId
+            ProjectId: projectId,
+            CountryCode: countryCode
           })
             .pipe(
               map(response => new fromSurveySearchResultsActions.GetExchangeDataResultsSuccess({
