@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -8,16 +8,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DragulaModule } from 'ng2-dragula';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
-  WorkbookViewsComponent, StandardReportHexagonComponent } from './components';
+  WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, SearchWorkbookModalComponent } from './containers';
-import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects } from './effects';
+import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -27,18 +27,21 @@ import { MainRoutingModule } from './main-routing.module';
     // Angular
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
 
     // 3rd Party
     StoreModule.forFeature('dataInsights_main', reducers),
     EffectsModule.forFeature([
       DataInsightsPageEffects,
       DashboardsEffects,
-      ReportViewPageEffects
+      ReportViewPageEffects,
+      DataViewEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
     DragulaModule.forRoot(),
     NgbPopoverModule.forRoot(),
+    NgbTooltipModule,
 
     // Routing
     MainRoutingModule,
@@ -55,7 +58,7 @@ import { MainRoutingModule } from './main-routing.module';
 
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
-    StandardReportHexagonComponent
+    StandardReportHexagonComponent, SaveUserWorkbookModalComponent
   ],
   providers: [
     WindowRef

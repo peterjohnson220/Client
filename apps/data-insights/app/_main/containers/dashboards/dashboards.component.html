@@ -13,23 +13,30 @@
                                 (valueChange)="handleViewChanged($event)">
             </kendo-dropdownlist>
           </div>
-          <div class="tag-container" >
-            <kendo-dropdownlist #tagsDropDownList
-                                class="tag-dropdown"
-                                [attr.data-qa-id]="'ddm-tags'"
-                                [data]="distinctTagsByView$ | async"
-                                [defaultItem]="'All'"
-                                [value]="tagFilter$ | async"
-                                [popupSettings]="{width: 200}"
-                                (valueChange)="handleTagChanged($event)">
-              <ng-template kendoDropDownListValueTemplate let-dataItem>
-                <fa-icon icon="tags" id="tag-icon"></fa-icon>
-                <span [title]="dataItem">{{ dataItem }}</span>
-              </ng-template>
-              <ng-template kendoDropDownListItemTemplate let-dataItem>
-                <span [title]="dataItem">{{ dataItem }}</span>
-              </ng-template>
-            </kendo-dropdownlist>
+
+          <div class="d-flex flex-row right-container">
+            <div class="tag-container" >
+              <kendo-dropdownlist #tagsDropDownList
+                                  class="tag-dropdown"
+                                  [attr.data-qa-id]="'ddm-tags'"
+                                  [data]="distinctTagsByView$ | async"
+                                  [defaultItem]="'All'"
+                                  [value]="tagFilter$ | async"
+                                  [popupSettings]="{width: 200}"
+                                  (valueChange)="handleTagChanged($event)">
+                <ng-template kendoDropDownListValueTemplate let-dataItem>
+                  <fa-icon icon="tags" id="tag-icon"></fa-icon>
+                  <span [title]="dataItem">{{ dataItem }}</span>
+                </ng-template>
+                <ng-template kendoDropDownListItemTemplate let-dataItem>
+                  <span [title]="dataItem">{{ dataItem }}</span>
+                </ng-template>
+              </kendo-dropdownlist>
+            </div>
+
+            <div *ngIf="(baseEntitiesAsync$ | async)?.obj?.length" class="new">
+              <button type="button" class="btn light-blue-btn" [attr.data-qa-id]="'btn-new'" (click)="handleNewReportClicked()">New</button>
+            </div>
           </div>
         </div>
       </div>
@@ -74,3 +81,7 @@
   [tags]="tags$ | async"
   (saveClicked)="handleSaveTagClicked($event)">
 </pf-tag-workbook-modal>
+
+<pf-save-user-workbook-modal *ngIf="(baseEntitiesAsync$ | async)?.obj?.length"
+  [baseEntities]="(baseEntitiesAsync$ | async)?.obj">
+</pf-save-user-workbook-modal>
