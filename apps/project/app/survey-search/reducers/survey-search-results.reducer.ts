@@ -160,7 +160,7 @@ export const getResults = (state: State) => state.results;
 export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
 
 function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDetails[]) {
-  let matchingDataCut = filter => filter.SurveyDataId === dataCut.ServerInfo.SurveyDataId;
+  let matchingDataCut = filter => filter.ServerInfo.SurveyDataId === dataCut.ServerInfo.SurveyDataId;
   if (dataCut.DataSource === SurveySearchResultDataSources.Payfactors) {
     matchingDataCut = filter => filter.SurveyJobCode === dataCut.SurveyJobCode && filter.CountryCode === dataCut.CountryCode;
   } else if (dataCut.DataSource === SurveySearchResultDataSources.Peer) {
