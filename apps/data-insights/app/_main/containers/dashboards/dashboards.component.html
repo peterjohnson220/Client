@@ -34,7 +34,7 @@
               </kendo-dropdownlist>
             </div>
 
-            <div *ngIf="(baseEntitiesAsync$ | async)?.obj?.length" class="new">
+            <div *ngIf="reportBuilderSettingEnabled && (baseEntitiesAsync$ | async)?.obj?.length" class="new">
               <button type="button" class="btn light-blue-btn" [attr.data-qa-id]="'btn-new'" (click)="handleNewReportClicked()">New</button>
             </div>
           </div>
