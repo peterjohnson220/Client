@@ -1,5 +1,5 @@
 <kendo-grid
-  [kendoGridBinding]="(gridDataResultAsync$ | async)?.obj.data"
+  [kendoGridBinding]="(gridDataResultAsync$ | async)?.obj?.data"
   [skip]="gridState.skip"
   [pageSize]="gridState.take"
   [sort]="gridState.sort"
