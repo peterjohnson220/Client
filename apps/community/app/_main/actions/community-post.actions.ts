@@ -40,6 +40,19 @@ export const GETTING_COMMUNITY_POST = '[Community/Post] Get Community Post';
 export const GETTING_COMMUNITY_POST_SUCCESS = '[Community/Post] Get Community Post Success';
 export const GETTING_COMMUNITY_POST_ERROR = '[Community/Post] Get Community Post Error';
 
+export const EDITING_COMMUNITY_POST = '[Community/Post] Editing Community Post';
+export const EDITING_COMMUNITY_POST_SUCCESS = '[Community/Post] Editing Community Post Success';
+export const EDITING_COMMUNITY_POST_ERROR = '[Community/Post] Editing Community Post Error';
+
+export const CANCEL_EDITING_COMMUNITY_POST = '[Community/Post] Cancel Editing Community Post';
+export const CANCEL_EDITING_COMMUNITY_POST_SUCCESS = '[Community/Post] Cancel Editing Community Post Success';
+export const CANCEL_EDITING_COMMUNITY_POST_ERROR = '[Community/Post] Cancel Editing Community Post Error';
+
+export const SAVING_COMMUNITY_POST_EDIT = '[Community/Post] Saving Community Post Edit';
+export const SAVING_COMMUNITY_POST_EDIT_SUCCESS = '[Community/Post] Saving Community Post Edit Success';
+export const SAVING_COMMUNITY_POST_EDIT_ERROR = '[Community/Post] Saving Community Post Edit Error';
+
+
 export class SubmittingCommunityPost implements Action {
   readonly type = SUBMITTING_COMMUNITY_POST;
   constructor(public payload: any) {}
@@ -174,6 +187,45 @@ export class GettingCommunityPostError implements Action {
   readonly type = GETTING_COMMUNITY_POST_ERROR;
 }
 
+export class EditingCommunityPost implements Action {
+  constructor(public payload: any) {}
+  readonly type = EDITING_COMMUNITY_POST;
+}
+
+export class EditingCommunityPostSuccess implements Action {
+  readonly type = EDITING_COMMUNITY_POST_SUCCESS;
+}
+
+export class EditingCommunityPostError implements Action {
+  readonly type = EDITING_COMMUNITY_POST_ERROR;
+}
+
+export class CancelEditingCommunityPost implements Action {
+  readonly type = CANCEL_EDITING_COMMUNITY_POST;
+}
+
+export class CancelEditingCommunityPostSuccess implements Action {
+  readonly type = CANCEL_EDITING_COMMUNITY_POST_SUCCESS;
+}
+
+export class CancelEditingCommunityPostError implements Action {
+  readonly type = CANCEL_EDITING_COMMUNITY_POST_ERROR;
+}
+
+export class SavingCommunityPostEdit implements Action {
+  constructor(public payload: any) {}
+  readonly type = SAVING_COMMUNITY_POST_EDIT;
+}
+
+export class SavingCommunityPostEditSuccess implements Action {
+  constructor(public payload: any) {}
+  readonly type = SAVING_COMMUNITY_POST_EDIT_SUCCESS;
+}
+
+export class SavingCommunityPostEditError implements Action {
+  readonly type = SAVING_COMMUNITY_POST_EDIT_ERROR;
+}
+
 export type Actions
   =  SubmittingCommunityPost
   | SubmittingCommunityPostSuccess
@@ -203,4 +255,13 @@ export type Actions
   | AddingCommunityDiscussionPollError
   | GettingCommunityPost
   | GettingCommunityPostSuccess
-  | GettingCommunityPostError;
+  | GettingCommunityPostError
+  | EditingCommunityPost
+  | EditingCommunityPostSuccess
+  | EditingCommunityPostError
+  | CancelEditingCommunityPost
+  | CancelEditingCommunityPostSuccess
+  | CancelEditingCommunityPostError
+  | SavingCommunityPostEdit
+  | SavingCommunityPostEditSuccess
+  | SavingCommunityPostEditError;

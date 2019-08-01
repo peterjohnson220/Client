@@ -40,6 +40,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
   filteredByPost$: Observable<boolean>;
   totalDiscussionResultsOnServer$: Observable<number>;
+  communityPostEdited$: Observable<any>;
 
   communityPosts: CommunityPost[];
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
@@ -49,11 +50,13 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   loadingPreviousBatchCommunityPostsSubscription: Subscription;
   hasNextBatchResultsOnServerSubscription: Subscription;
   hasPreviousBatchResultsOnServerSubscription: Subscription;
+  postEditedSubscription: Subscription;
 
   loadingNextBatchCommunityPosts: boolean;
   loadingPreviousBatchCommunityPosts: boolean;
   hasNextBatchOnServer: boolean;
   hasPreviousBatchOnServer: boolean;
+  editedPostId: string;
 
 
   constructor(private route: ActivatedRoute,
@@ -72,6 +75,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
     this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
+    this.communityPostEdited$ = this.store.select(fromCommunityPostReplyReducer.getCommunityPostEdited);
+
   }
 
   ngOnInit() {
@@ -97,6 +102,10 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       } else {
         this.getPosts();
       }
+    });
+
+    this.postEditedSubscription = this.communityPostEdited$.subscribe( postId => {
+      this.editedPostId = postId;
     });
 
     this.communityPostsSubscription = this.communityPosts$.subscribe(posts => {
@@ -131,6 +140,10 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.postEditedSubscription) {
+      this.postEditedSubscription.unsubscribe();
+    }
+
     if (this.communityPostsSubscription) {
       this.communityPostsSubscription.unsubscribe();
     }

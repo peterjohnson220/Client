@@ -11,9 +11,11 @@ import { generateMockCommunityUserInfo } from 'libs/models/community/community-u
 
 import { CommunityPostHeaderComponent } from './community-post-header.component';
 import { CommunityDeletePost } from '../../models/community-delete-post.model';
+import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
+import { of } from 'rxjs';
 
 
-describe('CommunityPostsComponent', () => {
+describe('CommunityPostHeaderComponent', () => {
   let fixture: ComponentFixture<CommunityPostHeaderComponent>;
   let instance: CommunityPostHeaderComponent;
   let store: Store<fromRootState.State>;
@@ -92,7 +94,8 @@ describe('CommunityPostsComponent', () => {
       PostId: instance.postId,
       IsInternalOnly: instance.isInternalOnly,
       HasReplies: instance.hasReplies,
-      IsUserPoll: instance.isUserPoll };
+      IsUserPoll: instance.isUserPoll
+    };
     const expectedAction = new fromCommunityPostActions.DeletingCommunityPost(post);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
