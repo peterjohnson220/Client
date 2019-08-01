@@ -10,7 +10,9 @@
     <ng-template kendoComboBoxItemTemplate
                 let-dataItem>
       <span class="userticketstatus">
-        <img *ngIf="userTicketType(ticketFieldType.STATUS)"
+        <span *ngIf="userTicketType(ticketFieldType.STATUS) && dataItem[textField].toUpperCase() === 'OPEN'"
+          class="statusdot fileUploadColor align-middle"></span>
+        <img *ngIf="userTicketType(ticketFieldType.STATUS) && dataItem[textField].toUpperCase() !== 'OPEN'"
             [alt]="dataItem.UserTicketState"
             src="assets/svg/userticketstate_{{pickerHelper.getLowerAndTrimmedValue(dataItem.UserTicketState)}}.svg">
         <span *ngIf="userTicketType(ticketFieldType.TYPE)"

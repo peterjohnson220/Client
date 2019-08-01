@@ -33,11 +33,11 @@
                    let-filter>
         <pf-ticket-list-filter #ticketStateFilter
                                [filter]="filter"
-                               [data]="userTicketStates"
+                               [data]="userTicketStatesFilter"
                                [textField]="'UserTicketState'"
                                [valueField]="'UserTicketState'"
                                [filterField]="ticketFieldType.STATUS"
-                               [defaultValue]=""
+                               [defaultValue]="'Open'"
                                (valueChange)="filterChanged()">
         </pf-ticket-list-filter>
       </ng-template>
