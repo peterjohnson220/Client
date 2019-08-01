@@ -72,8 +72,6 @@ export class SaveListAreaColumnsError implements Action {
 
 export class SaveListAreaColumnsSuccess implements Action {
   readonly type = SAVE_LIST_AREA_COLUMNS_SUCCESS;
-
-  constructor(public payload: { ListAreaColumns: ListAreaColumn[] }) {}
 }
 
 export class UpdateGridState implements Action {

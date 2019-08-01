@@ -1,0 +1,62 @@
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
+import * as fromStructures from '../../../../../structures/app/_main/reducers';
+import * as fromJobRangeModelingActions from '../../actions/job-range-modeling-grid.actions';
+import { FormBuilder } from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {ListAreaColumn} from '../../../../../../libs/models/common/list-area';
+import { AsyncStateObj } from 'libs/models/state';
+import {take} from 'rxjs/operators';
+import * as cloneDeep from 'lodash.clonedeep';
+
+@Component({
+  selector: 'pf-edit-grid-columns-modal',
+  templateUrl: './edit-grid-columns-modal.component.html',
+  styleUrls: ['./edit-grid-columns-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+
+export class EditGridColumnsModalComponent implements OnInit, OnDestroy {
+  @ViewChild('editGridColumnsModal', { static: true }) public editGridColumnsModal: any;
+  public ListAreaColumns: ListAreaColumn[];
+  public loading: boolean;
+  listAreaColumnsAsync$: Observable<AsyncStateObj<ListAreaColumn[]>>;
+  listAreaColumnsLoading$: Observable<boolean>;
+  listAreaColumnsSubscription: Subscription;
+  listAreaColumnsLoadingSubscription: Subscription;
+  modalReference: NgbModalRef;
+
+  constructor(
+    private store: Store<fromStructures.State>,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal) {
+      this.listAreaColumnsAsync$ = this.store.pipe(select(fromStructures.getListAreaColumnsAsync));
+      this.listAreaColumnsLoading$ = this.store.pipe(select(fromStructures.getListAreaColumnsLoading));
+  }
+
+  open() {
+    this.modalReference = this.modalService.open(this.editGridColumnsModal, { backdrop: 'static', windowClass: 'edit-grid-columns-modal' });
+    this.listAreaColumnsSubscription = this.listAreaColumnsAsync$.pipe(
+      take(1)
+    ).subscribe(listAreaColumnsAsync => {
+      this.ListAreaColumns = cloneDeep(listAreaColumnsAsync.obj);
+    });
+  }
+
+  ngOnInit() {
+    this.listAreaColumnsLoadingSubscription = this.listAreaColumnsLoading$.subscribe(listAreaColumnsLoading => {
+      this.loading = listAreaColumnsLoading;
+    });
+  }
+
+  ngOnDestroy() {
+    this.listAreaColumnsSubscription.unsubscribe();
+    this.listAreaColumnsLoadingSubscription.unsubscribe();
+  }
+
+  saveButtonClicked() {
+    this.store.dispatch(new fromJobRangeModelingActions.SaveListAreaColumns({Columns: this.ListAreaColumns}));
+    this.modalReference.close();
+  }
+}

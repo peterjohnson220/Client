@@ -17,7 +17,7 @@
   (pageChange)="handlePageChange($event)"
 >
   <!-- TODO: Remove headerStyle once issue with Kendo's headerClass is determined -->
-  <kendo-grid-column *ngFor="let listAreaColumn of (listAreaColumnsAsync$ | async)?.obj"
+  <kendo-grid-column *ngFor="let listAreaColumn of (listAreaColumnsVisible$ | async)"
                      [field]="listAreaColumn.ColumnDatabaseName"
                      [title]="listAreaColumn.ColumnDisplayName"
                      [style]="{'font-family': 'Segoe UI', 'font-weight': '400', 'font-style': 'normal', 'font-size': '11px', 'background-color': 'white', 'border-width': '0px'}"

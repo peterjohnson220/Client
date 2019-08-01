@@ -103,6 +103,11 @@ export const getListAreaColumnsAsync = createSelector(
   fromJobRangeModelingGridReducer.getListAreaColumnsAsync
 );
 
+export const getListAreaColumnsLoading = createSelector(
+  selectJobRangeModelingGridState,
+  fromJobRangeModelingGridReducer.getListAreaColumnsLoading
+);
+
 export const getListAreaColumnsReordering = createSelector(
   selectJobRangeModelingGridState,
   fromJobRangeModelingGridReducer.getListAreaColumnsReordering
@@ -111,4 +116,9 @@ export const getListAreaColumnsReordering = createSelector(
 export const getListAreaColumnsSavingAsync = createSelector(
   selectJobRangeModelingGridState,
   fromJobRangeModelingGridReducer.getListAreaColumnsSavingAsync
+);
+
+export const getListAreaColumnsVisible = createSelector(
+  selectJobRangeModelingGridState,
+  fromJobRangeModelingGridReducer.getListAreaColumnsVisible
 );
