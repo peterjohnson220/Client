@@ -530,6 +530,16 @@ export const getDeletingCommunityTopicSuccess = createSelector(
   fromCommunityPostFilterOptionsReducer.getDeletingCommunityTopicSuccess
 );
 
+export const getDeletingCommunityIndustrySuccess = createSelector(
+  selectFromCommunityPostFilterOptionsState,
+  fromCommunityPostFilterOptionsReducer.getDeletingCommunityIndustrySuccess
+);
+
+export const getDeletingCommunityCompanySizeSuccess = createSelector(
+  selectFromCommunityPostFilterOptionsState,
+  fromCommunityPostFilterOptionsReducer.getDeletingCommunityCompanySizeSuccess
+);
+
 // Community Like Selectors
 export const getLoadingCommunityLikes = createSelector(
   selectFromCommunityLikeState,

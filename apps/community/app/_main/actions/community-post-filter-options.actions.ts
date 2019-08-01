@@ -15,6 +15,8 @@ export const ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS_SUCCESS =
 '[Community/Filter Options] Adding Community Industry To Filter Options Success';
 export const DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS =
   '[Community/Filter Options] Deleting Community Industry To Filter Options';
+export const DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS_SUCCESS =
+  '[Community/Filter Options] Deleting Community Industry from Filter Options Success';
 
 export const ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS =
   '[Community/Filter Options] Adding Community Company Size To Filter Options';
@@ -22,6 +24,8 @@ export const ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS_SUCCESS =
 '[Community/Filter Options] Adding Community Company Size To Filter Options Success';
 export const DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS =
   '[Community/Filter Options] Deleting Community Company Size To Filter Options';
+export const DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS_SUCCESS =
+  '[Community/Filter Options] Deleting Community Company Size from Filter Options Success';
 
 export const CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS =
   '[Community/Filter Options] Changing Community Topic Filter Options';
@@ -90,6 +94,11 @@ export class DeletingCommunityIndustryFromFilterOptions implements Action {
   constructor(public payload: any) {}
 }
 
+export class DeletingCommunityIndustryFromFilterOptionsSuccess implements Action {
+  readonly type = DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS_SUCCESS;
+  constructor() {}
+}
+
 export class AddingCommunityCompanySizeToFilterOptions implements Action {
   readonly type = ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS;
   constructor(public payload: any) {}
@@ -103,6 +112,11 @@ export class AddingCommunityCompanySizeToFilterOptionsSuccess implements Action 
 export class DeletingCommunityCompanySizeFromFilterOptions implements Action {
   readonly type = DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS;
   constructor(public payload: any) {}
+}
+
+export class DeletingCommunityCompanySizeFromFilterOptionsSuccess implements Action {
+  readonly type = DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS_SUCCESS;
+  constructor() {}
 }
 
 export class ChangingCommunityTopicFilterOptions implements Action {
@@ -140,9 +154,11 @@ export type Actions
   | AddingCommunityIndustryToFilterOptions
   | AddingCommunityIndustryToFilterOptionsSuccess
   | DeletingCommunityIndustryFromFilterOptions
+  | DeletingCommunityIndustryFromFilterOptionsSuccess
   | AddingCommunityCompanySizeToFilterOptions
   | AddingCommunityCompanySizeToFilterOptionsSuccess
   | DeletingCommunityCompanySizeFromFilterOptions
+  | DeletingCommunityCompanySizeFromFilterOptionsSuccess
   | ChangingCommunityTopicFilterOptions
   | ChangingCommunityTopicFilterOptionsSuccess
   | DeletingCommunityTopicFromFilterOptions

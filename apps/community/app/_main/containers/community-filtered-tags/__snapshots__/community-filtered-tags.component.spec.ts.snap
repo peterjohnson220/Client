@@ -10,6 +10,7 @@ exports[`CommunityFilteredTagsComponent should not show filter title when filter
   filterTitleSubscription={[Function Subscriber]}
   filteredByPost$={[Function Store]}
   filteredCategories={[Function Array]}
+  filteredCompanySizes={[Function Array]}
   filteredIndustries={[Function Array]}
   filteredTags={[Function Array]}
   filteredTopics={[Function Array]}
@@ -23,6 +24,7 @@ exports[`CommunityFilteredTagsComponent should not show filter title when filter
     class="mb-3"
     id="tag-container"
   >
+    
     
     
     
@@ -62,6 +64,7 @@ exports[`CommunityFilteredTagsComponent should show filter title when filtering 
   filterTitleSubscription={[Function Subscriber]}
   filteredByPost$={[Function Store]}
   filteredCategories={[Function Array]}
+  filteredCompanySizes={[Function Array]}
   filteredIndustries={[Function Array]}
   filteredTags={[Function Array]}
   filteredTopics={[Function Array]}
@@ -75,6 +78,7 @@ exports[`CommunityFilteredTagsComponent should show filter title when filtering 
     class="mb-3"
     id="tag-container"
   >
+    
     
     
     
@@ -113,6 +117,7 @@ exports[`CommunityFilteredTagsComponent should show trending tags 1`] = `
   filterTitleSubscription={[Function Subscriber]}
   filteredByPost$={[Function Store]}
   filteredCategories={[Function Array]}
+  filteredCompanySizes={[Function Array]}
   filteredIndustries={[Function Array]}
   filteredTags={[Function Array]}
   filteredTopics={[Function Array]}

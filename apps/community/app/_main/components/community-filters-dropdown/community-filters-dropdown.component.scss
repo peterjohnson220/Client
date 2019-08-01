@@ -1,17 +1,9 @@
 @import 'colors';
 @import 'styles';
 
-
-#filter-section-header
-{
-  font-weight: 500;
-  color: $community-tags-header-color;
-}
-
 .k-multiselect {
-  width: 250px;
+  width: 200px;
 }
-
 
 ::ng-deep kendo-taglist
 {
@@ -47,3 +39,4 @@
 {
   display: none !important;
 }
+

@@ -11,6 +11,8 @@ import { CommunityPost, CommunityTag } from 'libs/models/community';
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
 import { FilterOptions } from 'apps/community/app/_main/models/filter-options.model';
 import { Tag, Topic } from '../../models';
+import { CommunityIndustry } from 'libs/models/community/community-industry.model';
+import { CommunityCompanySize } from 'libs/models/community/community-company-size.model';
 
 @Component({
   selector: 'pf-community-filtered-tags',
@@ -24,7 +26,8 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
   filterTitleSubscription: Subscription;
   filteredTags: Tag[] = [];
   filteredCategories: CommunityCategoryEnum[] = [];
-  filteredIndustries: string[] = [];
+  filteredIndustries: CommunityIndustry[] = [];
+  filteredCompanySizes: CommunityCompanySize[] = [];
   filteredTopics: Topic[] = [];
   isFilteredByPostId = false;
   isFilteredByReplyId = false;
@@ -46,7 +49,8 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
     this.filterOptionsSubscription = this.filters$.subscribe((data) => {
       this.filteredTags = data.TagFilter.Tags;
       this.filteredCategories = data.CategoryFilter.Category;
-      this.filteredIndustries = data.IndustryFilter.Industry;
+      this.filteredIndustries = data.IndustryFilter.Industries;
+      this.filteredCompanySizes = data.CompanySizeFilter.CompanySizes;
       this.filteredTopics = data.TopicFilter.Topics;
       this.isFilteredByPostId = data.PostIds.length > 0;
       this.isFilteredByReplyId = data.ReplyIds.length > 0;
@@ -76,12 +80,16 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
     this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityCategoryFromFilterOptions(filter));
   }
 
+  topicFilterClicked(filter: any) {
+    this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityTopicFromFilterOptions(filter));
+  }
+
   industryFilterClicked(filter: any) {
     this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityIndustryFromFilterOptions(filter));
   }
 
-  topicFilterClicked(filter: any) {
-    this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityTopicFromFilterOptions(filter));
+  companySizeFilterClicked(filter: any) {
+    this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityCompanySizeFromFilterOptions(filter));
   }
 
   viewAllClicked() {
@@ -110,10 +118,13 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
     return this.filteredIndustries.length > 0;
   }
 
+  isFilteredByCompanySize() {
+    return this.filteredCompanySizes.length > 0;
+  }
+
   isFilteredByTopic() {
     return this.filteredTopics.length > 0;
   }
-
 
   private IsTagSelected(tag: CommunityTag): boolean {
     return this.filteredTags.some(x => x.TagName === tag.Tag);
@@ -123,11 +134,15 @@ export class CommunityFilteredTagsComponent implements OnInit, OnDestroy {
     return this.filteredCategories.some(filteredCategory => filteredCategory === category);
   }
 
+  private IsTopicSelected(topic) {
+    return this.filteredTopics.some(filteredTopic => filteredTopic === topic);
+  }
+
   private IsIndustrySelected(industry) {
     return this.filteredIndustries.some(filteredIndustry => filteredIndustry === industry);
   }
 
-  private IsTopicSelected(topic) {
-    return this.filteredTopics.some(filteredTopic => filteredTopic === topic);
+  private IsCompanySizeSelected(companySize) {
+    return this.filteredCompanySizes.some(filteredCompanySize => filteredCompanySize === companySize);
   }
 }

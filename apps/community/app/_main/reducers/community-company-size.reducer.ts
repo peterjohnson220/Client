@@ -1,10 +1,10 @@
 import * as communityCompanySizeActions from '../actions/community-company-size.actions';
-import { CommunityCompanySizeBucket } from 'libs/models/community/community-company-size-bucket.model';
+import { CommunityCompanySize } from 'libs/models/community/community-company-size.model';
 
 export interface State {
   loading: boolean;
   loadingError: boolean;
-  entities: CommunityCompanySizeBucket[];
+  entities: CommunityCompanySize[];
 }
 
 export const initialState: State = {

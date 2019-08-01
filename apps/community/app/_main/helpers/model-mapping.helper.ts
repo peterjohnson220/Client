@@ -7,9 +7,10 @@ import { CommunityTag } from 'libs/models/community/community-tag.model';
 import { PagingOptions } from '../models/paging-options.model';
 import { IndustryFilter } from '../models/industry-filter.model';
 import { CompanySizeFilter } from '../models/company-size-filter.model';
-import { CommunityCompanySizeBucket } from 'libs/models/community/community-company-size-bucket.model';
+import { CommunityCompanySize } from 'libs/models/community/community-company-size.model';
 import { Topic } from '../models/topic.model';
 import { TopicFilter } from '../models/topic-filter.model';
+import { CommunityIndustry } from 'libs/models/community/community-industry.model';
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
   return {
@@ -55,16 +56,16 @@ export function initializeCategoryFilter(): CategoryFilter {
 }
 
 export function initializeIndustryFilter(): IndustryFilter {
-  const industryFilters: string[] = [];
+  const industryFilters: CommunityIndustry[] = [];
   return {
-    Industry: industryFilters
+    Industries: industryFilters
   };
 }
 
 export function initializeCompanySizeFilter(): CompanySizeFilter {
-  const companySizes: CommunityCompanySizeBucket[] = [];
+  const companySizes: CommunityCompanySize[] = [];
   return {
-    CompanySize: companySizes
+    CompanySizes: companySizes
   };
 }
 

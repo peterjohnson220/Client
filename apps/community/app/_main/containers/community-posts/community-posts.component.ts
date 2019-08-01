@@ -15,16 +15,12 @@ import * as fromCommunityPostFilterOptionsActions from '../../actions/community-
 
 import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
 
-import * as fromCommunityIndustryActions from '../../actions/community-industry.actions';
-import * as fromCommunityCompanySizeActions from '../../actions/community-company-size.actions';
-
 import { CommunityPost } from 'libs/models/community';
 import { environment } from 'environments/environment';
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityTag } from 'libs/models/community/community-tag.model';
 import { Tag } from '../../models/tag.model';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
-import { CommunityCompanySizeBucket } from 'libs/models/community/community-company-size-bucket.model';
 
 @Component({
   selector: 'pf-community-posts',
@@ -44,8 +40,6 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
   filteredByPost$: Observable<boolean>;
   totalDiscussionResultsOnServer$: Observable<number>;
-  communityIndustries$: Observable<string[]>;
-  communityCompanySizes$: Observable<CommunityCompanySizeBucket[]>;
 
   communityPosts: CommunityPost[];
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
@@ -78,8 +72,6 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
     this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
-    this.communityIndustries$ = this.store.select(fromCommunityPostReducer.getCommunityIndustries);
-    this.communityCompanySizes$ = this.store.select(fromCommunityPostReducer.getCommunityCompanySizes);
   }
 
   ngOnInit() {
@@ -136,19 +128,6 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
         this.hasPreviousBatchOnServer = value;
       }
     });
-
-    this.store.dispatch(new fromCommunityIndustryActions.LoadingCommunityIndustries());
-    this.store.dispatch(new fromCommunityCompanySizeActions.LoadingCommunityCompanySizes());
-
-    // TODO: Industry filter test. Will be removed when filter's UI is available
-    // this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityIndustryToFilterOptions('Retailing'));
-    // this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityIndustryToFilterOptions('Insurance'));
-
-    // TODO: Company sizes filter test. Will be removed when filter's UI is available
-    // const companySize1: CommunityCompanySizeBucket = {LowRange : 1000, HighRange : 3000, DisplayName: '1,000 - 3,000'};
-    // const companySize2: CommunityCompanySizeBucket = {LowRange : 50, HighRange : 100, DisplayName: '50 - 100'};
-    // this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityCompanySizeToFilterOptions(companySize1));
-    // this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityCompanySizeToFilterOptions(companySize2));
   }
 
   ngOnDestroy() {

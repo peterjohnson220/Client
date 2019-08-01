@@ -1,4 +1,4 @@
-<div>
+<div class="py-2">
     <kendo-multiselect
       [data]="data"
       [(ngModel)]="selectedItems"
@@ -6,8 +6,8 @@
       [valueField]="id"
       [autoClose]="false"
       [placeholder]="placeholder"
-      (valueChange)="filterItems('item')"
-      id="item">
+      (valueChange)="filterItems(filterType,placeholder)"
+      [id]="filterType">
 
       <ng-template kendoMultiSelectItemTemplate let-dataItem style="background-color: red;">
         <input type="checkbox" class="k-checkbox"

@@ -1,3 +1,5 @@
+import { CommunityIndustry } from 'libs/models/community/community-industry.model';
+
 export interface IndustryFilter {
-  Industry: string[];
+  Industries: CommunityIndustry[];
 }
