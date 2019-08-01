@@ -83,7 +83,7 @@ export function reducer(state = initialState, action: fromJobRangeModelingGridAc
     case fromJobRangeModelingGridActions.LOAD_LIST_AREA_COLUMNS_SUCCESS: {
       const listAreaColumnsAsyncClone = cloneDeep(state.listAreaColumnsAsync);
 
-      listAreaColumnsAsyncClone.obj = action.payload;
+      listAreaColumnsAsyncClone.obj = action.payload.filter(lac => lac.Visible);
       listAreaColumnsAsyncClone.loading = false;
 
       return {
