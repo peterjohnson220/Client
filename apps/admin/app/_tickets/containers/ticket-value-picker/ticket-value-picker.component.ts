@@ -54,18 +54,24 @@ export class TicketValuePickerComponent implements OnInit {
     switch (this.pickerType) {
       case TicketFieldType.SERVICEUSER: {
         const v = value as PfServicesRep;
-        changedFields.push({ Key: 'ServicesUserId', Value: v.PfServicesRepId.toString() });
+        if (v) {
+          changedFields.push({Key: 'ServicesUserId', Value: v.PfServicesRepId.toString()});
+        }
         break;
       }
       case TicketFieldType.TYPE: {
-        const v = value as UserTicketType;
-        changedFields.push({ Key: 'UserTicketType', Value: v.TicketTypeName });
-        changedFields.push({ Key: 'FileType', Value: v.TicketSubTypeName });
+        const  v = value as UserTicketType;
+        if (v) {
+          changedFields.push({ Key: 'UserTicketType', Value: v.TicketTypeName });
+          changedFields.push({ Key: 'FileType', Value: v.TicketSubTypeName });
+        }
         break;
       }
       case TicketFieldType.STATUS: {
         const v = value as UserTicketState;
-        changedFields.push({ Key: 'UserTicketState', Value: v.UserTicketState });
+        if (v) {
+          changedFields.push({Key: 'UserTicketState', Value: v.UserTicketState});
+        }
         break;
       }
     }
