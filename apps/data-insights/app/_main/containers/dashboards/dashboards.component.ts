@@ -6,6 +6,8 @@ import { DragulaService } from 'ng2-dragula';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
@@ -33,17 +35,22 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   savingTag$: Observable<boolean>;
   savingTagError$: Observable<boolean>;
   baseEntitiesAsync$: Observable<AsyncStateObj<Entity[]>>;
+  reportBuilderSettingEnabled$: Observable<boolean>;
 
   filteredCompanyWorkbooksSub: Subscription;
   dragulaSub: Subscription;
   savingTagsSub: Subscription;
+  reportBuilderSettingEnabledSub: Subscription;
+
   filteredCompanyWorkbooks: Workbook[];
   dashboardViews: Array<string> = ['All Dashboards', 'Favorites'];
   selectedWorkbook: Workbook;
+  reportBuilderSettingEnabled: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private settingsService: SettingsService
   ) {
     this.dragulaSub = new Subscription();
     this.dragulaSub.add(this.dragulaService.dropModel('workbooks').subscribe(({ sourceModel }) => {
@@ -58,6 +65,9 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.savingTagError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTagError));
     this.tagFilter$ = this.store.pipe(select(fromDataInsightsMainReducer.getTagFilter));
     this.baseEntitiesAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getBaseEntitiesAsync));
+    this.reportBuilderSettingEnabled$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.DataInsightsReportBuilder
+    );
   }
 
   get anyFavorites() {
@@ -71,16 +81,22 @@ export class DashboardsComponent implements OnInit, OnDestroy {
         this.tagWorkbookModalComponent.close();
       }
     });
+    this.reportBuilderSettingEnabledSub = this.reportBuilderSettingEnabled$.subscribe(settingEnabled => {
+      this.reportBuilderSettingEnabled = settingEnabled;
+      if (settingEnabled) {
+        this.store.dispatch(new fromDataViewActions.GetBaseEntities());
+      }
+    });
 
     this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
     this.store.dispatch(new fromDashboardsActions.GetDashboardView());
-    this.store.dispatch(new fromDataViewActions.GetBaseEntities());
   }
 
   ngOnDestroy() {
     this.filteredCompanyWorkbooksSub.unsubscribe();
     this.dragulaSub.unsubscribe();
     this.savingTagsSub.unsubscribe();
+    this.reportBuilderSettingEnabledSub.unsubscribe();
   }
 
   trackByFn(index: any, workbook: Workbook) {

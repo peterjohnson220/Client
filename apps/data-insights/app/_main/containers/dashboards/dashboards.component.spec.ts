@@ -5,6 +5,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
@@ -28,7 +29,10 @@ describe('Data Insights - Dashboards Comopnent', () => {
         DropDownsModule
       ],
       declarations: [ DashboardsComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        { provide: SettingsService, useClass: SettingsService }
+      ]
     });
 
     fixture = TestBed.createComponent(DashboardsComponent);
