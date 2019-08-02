@@ -19,6 +19,7 @@
                 (valueChange)="comboValueChanged($event)"
                 [(ngModel)]="selectedValue"
                 [suggest]="true"
+                (pf-afterIf)="focus()"
                 (blur)="switchView()">
   <ng-template kendoComboBoxItemTemplate
                let-dataItem>

@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 import { TicketFieldType } from '../../constants/tickets-constants';
-import { PickerHelper, PayfactorsApiModelMapper } from '../../helpers';
-import { TicketDetail, PfServicesRep, UserTicketType, UserTicketState } from '../../models';
+import { PickerHelper } from '../../helpers';
+import { PfServicesRep, UserTicketType, UserTicketState } from '../../models';
 
 
 import * as fromTicketActions from '../../actions/ticket.actions';
@@ -17,7 +24,7 @@ import { GenericKeyValue } from 'libs/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TicketValuePickerComponent implements OnInit {
-
+  @ViewChild(ComboBoxComponent, {static: false}) private comboBox: ComboBoxComponent;
 
   @Input() public data: any[];
   @Input() public ticketId: number;
@@ -85,5 +92,9 @@ export class TicketValuePickerComponent implements OnInit {
     }
 
     this.switchView();
+  }
+
+  focus() {
+    this.comboBox.focus();
   }
 }
