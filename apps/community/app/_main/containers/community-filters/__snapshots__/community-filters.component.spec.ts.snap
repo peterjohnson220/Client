@@ -17,8 +17,6 @@ exports[`CommunityFiltersComponent should show community filters 1`] = `
   >
     POSTS
   </h5><pf-community-filters-dropdown
-    class="d-inline-block topic-filter pr-2"
-  /><pf-community-filters-dropdown
     class="d-inline-block industry-filter pr-2"
   /><pf-community-filters-dropdown
     class="d-inline-block company-size-filter"
