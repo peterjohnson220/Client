@@ -23,6 +23,7 @@ export interface State extends EntityState<CommunityPost> {
   maximumReplies: number;
   postId: string;
   deletedPostId: string;
+  editedPostId: string;
 }
 
 function sortByTime(a: CommunityPost, b: CommunityPost) {
@@ -55,7 +56,8 @@ export const initialState: State = adapter.getInitialState({
   totalResultsOnServer: 0,
   maximumReplies: null,
   postId: null,
-  deletedPostId: null
+  deletedPostId: null,
+  editedPostId: null
 });
 
 export function reducer(
@@ -268,7 +270,7 @@ export function reducer(
       return {
         ...adapter.removeOne(postId,
           state),
-          deletedPostId: postId
+        deletedPostId: postId
       };
     }
     case communityPostActions.DELETING_COMMUNITY_POST_ERROR: {
@@ -328,9 +330,42 @@ export function reducer(
         postId: null
       };
     }
-    default: {
-      return state;
+    case communityPostActions.EDITING_COMMUNITY_POST: {
+      const postId = action.payload;
+
+      return {
+        ...state,
+        editedPostId: postId
+      };
     }
+    case communityPostActions.CANCEL_EDITING_COMMUNITY_POST: {
+      return {
+        ...state,
+        editedPostId: null
+      };
+    }
+    case communityPostActions.SAVING_COMMUNITY_POST_EDIT: {
+      return {
+        ...state
+      };
+    }
+    case communityPostActions.SAVING_COMMUNITY_POST_EDIT_SUCCESS: {
+      const postId = action.payload['postId'];
+      const newTopic = action.payload['topic'];
+
+      return {...adapter.updateOne(
+          { id: postId, changes: { Topic: newTopic }},
+          state),
+        editedPostId: null
+      };
+    }
+    case communityPostActions.SAVING_COMMUNITY_POST_EDIT_ERROR: {
+      return {
+        ...state,
+        editedPostId: null
+      };
+    }
+    default: {return state; }
   }
 }
 
@@ -355,4 +390,5 @@ export const getLoadingCommunityPostError = (state: State) => state.loadingError
 export const getLoadingCommunityPostSuccess = (state: State) => state.postId;
 
 export const getCommunityPostDeleted = (state: State) => state.deletedPostId;
+export const getCommunityPostEdited = (state: State) => state.editedPostId;
 

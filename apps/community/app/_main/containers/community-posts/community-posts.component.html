@@ -4,11 +4,15 @@
     <div id="community-posts" >
       <ng-container *ngFor="let post of communityPosts; trackBy: trackByPostId; let i = index; let last = last;">
         <div class="post-item row mb-3 ml-0 mr-0">
-          <div class="pl-1 col-12">
+          <div class="pl-1 col-12" *ngIf="editedPostId !== post.Id">
             <pf-community-post
               [post]="post"
               [maximumReplies]="maximumReplies$ | async"
               (filtersModifiedEvent)="hashtagClicked($event)"></pf-community-post>
+          </div>
+          <div class="pl-1 col-12" *ngIf="editedPostId === post.Id">
+            <pf-community-post-edit
+              [post]="post"></pf-community-post-edit>
           </div>
         </div>
         <hr *ngIf="!last">

@@ -63,6 +63,7 @@ import {CommunitySearchResultsComponent} from './containers/community-search-res
 import {CommunitySearchResultHeaderComponent} from './components/community-search-result-header';
 import {CommunitySearchResultContentComponent} from './components/community-search-result-content';
 import { CommunityPostComponent } from './components/community-post/community-post.component';
+import { CommunityPostEditComponent } from './components/community-post-edit/community-post-edit.component';
 import { CommunitySearchResultModalComponent } from './containers/community-search-result-modal/community-search-result-modal.component';
 import { CommunityPollsAllPollsAnsweredComponent } from './components/community-polls-all-polls-answered';
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
@@ -128,6 +129,7 @@ const components = [
   CommunitySearchResultContentComponent,
   CommunitySearchResultModalComponent,
   CommunityPostComponent,
+  CommunityPostEditComponent,
   CommunityPollsAllPollsAnsweredComponent
 ];
 

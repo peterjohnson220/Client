@@ -89,6 +89,19 @@ export class CommunityPostEffects {
         )
       )
     );
+  @Effect()
+  savingCmmunityPostEdit$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCommunityPostActions.SAVING_COMMUNITY_POST_EDIT),
+      switchMap((action: fromCommunityPostActions.SavingCommunityPostEdit) =>
+        this.communityPostService.updatePost({'postId': action.payload.postId, 'topicId': action.payload.topic.Id}).pipe(
+          map(() => {
+            return new fromCommunityPostActions.SavingCommunityPostEditSuccess(action.payload);
+          }),
+          catchError(error => of(new fromCommunityPostActions.SavingCommunityPostEditError()))
+        )
+      )
+    );
 
   @Effect()
   deletingCommunityPost$: Observable<Action> = this.actions$

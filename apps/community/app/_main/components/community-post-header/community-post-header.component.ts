@@ -8,6 +8,8 @@ import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPollResponseActions from '../../actions/community-poll-response.actions';
+import * as fromRootState from 'libs/state/state';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'pf-community-post-header',
@@ -26,8 +28,19 @@ export class CommunityPostHeaderComponent {
   @Input() isUserPoll = false;
   @Input() userPollId: string;
   @Input() hasReplies: boolean;
+  @Input() hidePostActions: boolean;
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
+  }
+
+  isUserAdmin(): boolean {
+    let isSystemAdmin: boolean;
+
+    this.store.select(fromRootState.getIsAdmin).pipe(
+      take(1)
+    ).subscribe(r => isSystemAdmin = r);
+
+    return isSystemAdmin;
   }
 
   delete() {
@@ -44,7 +57,7 @@ export class CommunityPostHeaderComponent {
       IsInternalOnly: this.isInternalOnly,
       HasReplies: this.hasReplies,
       IsUserPoll: this.isUserPoll };
-    this.store.dispatch(new fromCommunityPostActions.DeletingCommunityPost(post));
+      this.store.dispatch(new fromCommunityPostActions.DeletingCommunityPost(post));
   }
 
   deleteReply() {
@@ -54,5 +67,9 @@ export class CommunityPostHeaderComponent {
 
   exportPollResults() {
     this.store.dispatch(new fromCommunityPollResponseActions.ExportingCommunityUserPollResponses(this.userPollId));
+  }
+
+  editPost() {
+    this.store.dispatch(new fromCommunityPostActions.EditingCommunityPost(this.postId));
   }
 }

@@ -326,6 +326,11 @@ export const getCommunityPostDeleted = createSelector(
   fromCommunityPostReducer.getCommunityPostDeleted
 );
 
+export const getCommunityPostEdited = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getCommunityPostEdited
+);
+
 // Community Post Reply Selectors
 
 export const {
