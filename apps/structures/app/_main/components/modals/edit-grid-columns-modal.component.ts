@@ -23,7 +23,6 @@ export class EditGridColumnsModalComponent implements OnInit, OnDestroy {
   public loading: boolean;
   listAreaColumnsAsync$: Observable<AsyncStateObj<ListAreaColumn[]>>;
   listAreaColumnsLoading$: Observable<boolean>;
-  listAreaColumnsSubscription: Subscription;
   listAreaColumnsLoadingSubscription: Subscription;
   modalReference: NgbModalRef;
 
@@ -37,7 +36,7 @@ export class EditGridColumnsModalComponent implements OnInit, OnDestroy {
 
   open() {
     this.modalReference = this.modalService.open(this.editGridColumnsModal, { backdrop: 'static', windowClass: 'edit-grid-columns-modal' });
-    this.listAreaColumnsSubscription = this.listAreaColumnsAsync$.pipe(
+    this.listAreaColumnsAsync$.pipe(
       take(1)
     ).subscribe(listAreaColumnsAsync => {
       this.ListAreaColumns = cloneDeep(listAreaColumnsAsync.obj);
@@ -51,7 +50,6 @@ export class EditGridColumnsModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.listAreaColumnsSubscription.unsubscribe();
     this.listAreaColumnsLoadingSubscription.unsubscribe();
   }
 
