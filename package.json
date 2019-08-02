@@ -9,6 +9,7 @@
     "buildall": "ng build admin && ng build dashboard && ng build legacy-content && ng build peer && ng build auth && ng build community && ng build project && ng build comphub && ng build pf-admin && ng build data-insights && ng build structures && ng build data-management",
     "buildallprod": "ng build admin --prod && ng build dashboard --prod && ng build legacy-content --prod && ng build peer --prod && ng build auth --prod && ng build community --prod && ng build project --prod && ng build comphub --prod && ng build pf-admin --prod && ng build data-insights --prod && ng build structures --prod && ng build data-management --prod",
     "test": "jest",
+    "test-report": "jest --coverage --coverageDirectory=output/coverage/jest",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:smallbiz-local": "ng build smallbiz --configuration local-universal && ng run smallbiz:server",
@@ -125,6 +126,22 @@
       "**/*.component.ts",
       "**/*.page.ts"
     ],
-    "testResultsProcessor": "jest-teamcity-reporter"
+    "testResultsProcessor": "jest-teamcity-reporter",
+    "coverageReporters": [
+      "text",
+      "cobertura",
+      "json",
+      "lcov",
+      "clover",
+      "json-summary"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "jest-junit": {
+    "output": "output/coverage/junit/junit.xml",
+    "usePathForSuiteName": "true"
   }
 }
