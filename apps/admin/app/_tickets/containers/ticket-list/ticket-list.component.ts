@@ -31,6 +31,7 @@ import { PfServicesRep, UserTicketGridItem, UserTicketState, UserTicketTabItem, 
 export class TicketListComponent implements OnInit, OnDestroy {
   @ViewChild('serviceUserFilter', { static: false }) serviceUserFilterComponent: TicketListFilterComponent;
   gridView: GridDataResult;
+  defaultDateRange = {start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), end: new Date()};
   sortable: SortSettings = {
     allowUnsort: false,
     mode: 'single'
@@ -44,8 +45,13 @@ export class TicketListComponent implements OnInit, OnDestroy {
         value: 'Open',
         field: 'Status',
         operator: 'contains'
-      }]
-    },
+      },
+      {
+        field: 'Created',
+        value: this.defaultDateRange,
+        operator: 'contains'
+      }
+    ]},
     sort: [{
       field: 'Id',
       dir: 'desc'
