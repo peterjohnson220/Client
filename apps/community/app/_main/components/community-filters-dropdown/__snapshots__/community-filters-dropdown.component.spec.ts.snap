@@ -10,6 +10,20 @@ exports[`CommunityFiltersDropdownComponent should show community filters 1`] = `
     <kendo-multiselect>
       
     </kendo-multiselect>
+    <div
+      class="dropdown-arrow"
+    >
+      <span
+        class="dropdown-arrow-icon"
+      />
+    </div>
+    <div
+      class="dropdown-arrow"
+    >
+      <span
+        class="dropdown-arrow-icon"
+      />
+    </div>
   </div>
 </pf-community-filters-dropdown>
 `;

@@ -21,18 +21,28 @@
   color: black !important;
 }
 
-.k-multiselect:after {
-  content: "\25BC";
-  position: absolute;
-  top: 20%;
-  right: 10px;
-  font-size: 12px;
-  color: #0e76a8;
-  pointer-events: none;
-}
-
 ::ng-deep .k-i-close
 {
   display: none !important;
 }
 
+.dropdown-arrow
+{
+  font-size: 12px;
+  color: #0e76a8;
+  position: relative;
+  display: inline;
+  top: 0;
+  right:25px;
+  cursor: pointer;
+}
+
+.dropdown-arrow:after
+{
+  content: "\25BC";
+}
+
+.display-none
+{
+  display: none;
+}
