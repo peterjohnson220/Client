@@ -1,5 +1,5 @@
 <h5 id="filter-section-header">POSTS</h5>
-  <pf-community-filters-dropdown class="d-inline-block"
+  <pf-community-filters-dropdown class="d-inline-block topic-filter pr-2"
     [data]="communityTopics$ | async"
     [name]="'TopicName'"
     [id]="'Id'"
@@ -8,7 +8,7 @@
     [filterType]="'Topic'"
     (filtersSelected)="topicsSelected($event)">
   </pf-community-filters-dropdown>
-  <pf-community-filters-dropdown class="d-inline-block pl-2"
+  <pf-community-filters-dropdown class="d-inline-block industry-filter pr-2"
     [data]="communityIndustries$ | async"
     [name]="'IndustryName'"
     [id]="'Id'"
@@ -17,7 +17,7 @@
     [filterType]="'Industry'"
     (filtersSelected)="industriesSelected($event)">
   </pf-community-filters-dropdown>
-  <pf-community-filters-dropdown class="d-inline-block pl-2"
+  <pf-community-filters-dropdown class="d-inline-block company-size-filter"
     [data]="communityCompanySizes$ | async"
     [name]="'DisplayName'"
     [id]="'Id'"
