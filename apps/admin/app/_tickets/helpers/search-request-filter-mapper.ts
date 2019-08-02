@@ -22,6 +22,9 @@ export class SearchRequestFilterMapper {
         case 'Id':
           model.UserTicket_ID = f.value;
           break;
+        case 'Created':
+          model.StartDate = f.value.start;
+          model.EndDate = f.value.end;
       }
     });
     return model;

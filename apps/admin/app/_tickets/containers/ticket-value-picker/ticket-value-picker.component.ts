@@ -55,8 +55,6 @@ export class TicketValuePickerComponent implements OnInit {
   }
 
   public comboValueChanged(value: any): void {
-
-
     const changedFields: GenericKeyValue<string, string>[] = [];
     switch (this.pickerType) {
       case TicketFieldType.SERVICEUSER: {

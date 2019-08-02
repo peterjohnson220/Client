@@ -13,6 +13,7 @@ import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 import { BodyModule, ColumnResizingService, GridModule, RowFilterModule, SharedModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 
 import { PfCommonModule } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
@@ -24,7 +25,7 @@ import {
   AttachmentDeleteModalComponent, AttachmentDetailCardComponent, CompanyDetailCardComponent, TicketComponent, TicketFieldsComponent,
   TicketListComponent, TicketListPageComponent, AttachmentUploadComponent, TicketListFilterComponent,
   TicketCommentsDetailComponent,
-  TicketCommentComponent, TicketValuePickerComponent
+  TicketCommentComponent, TicketValuePickerComponent, TicketListDateRangeFilterComponent
 } from './containers';
 import { TicketAttachmentEffects, TicketEffects, TicketListEffects, TicketLookupEffects } from './effects';
 import { reducers } from './reducers';
@@ -55,6 +56,7 @@ import { AfterIfDirective } from './directives/after-if.directive';
     UploadModule,
     RowFilterModule,
     FontAwesomeModule,
+    DateInputsModule,
 
     // Routing
     TicketsRoutingModule,
@@ -87,6 +89,7 @@ import { AfterIfDirective } from './directives/after-if.directive';
     TicketCommentsDetailComponent,
     TicketCommentComponent,
     TicketValuePickerComponent,
+    TicketListDateRangeFilterComponent,
 
     // Pages
     TicketListPageComponent
