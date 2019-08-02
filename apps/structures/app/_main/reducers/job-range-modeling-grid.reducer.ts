@@ -10,7 +10,6 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from '../../../../../libs
 export interface State {
   gridDataResultAsync: AsyncStateObj<GridDataResult>;
   listAreaColumnsAsync: AsyncStateObj<ListAreaColumn[]>;
-  nonStaticListAreaColumns: ListAreaColumn[];
   reorderingListAreaColumns: boolean;
   savingListAreaColumnsAsync: AsyncStateObj<boolean>;
 }
@@ -18,7 +17,6 @@ export interface State {
 export const initialState: State = {
   gridDataResultAsync: generateDefaultAsyncStateObj<GridDataResult>(null),
   listAreaColumnsAsync: generateDefaultAsyncStateObj<ListAreaColumn[]>([]),
-  nonStaticListAreaColumns: [],
   reorderingListAreaColumns: false,
   savingListAreaColumnsAsync: generateDefaultAsyncStateObj<boolean>(false)
 };
@@ -83,7 +81,7 @@ export function reducer(state = initialState, action: fromJobRangeModelingGridAc
     case fromJobRangeModelingGridActions.LOAD_LIST_AREA_COLUMNS_SUCCESS: {
       const listAreaColumnsAsyncClone = cloneDeep(state.listAreaColumnsAsync);
 
-      listAreaColumnsAsyncClone.obj = action.payload.filter(lac => lac.Visible);
+      listAreaColumnsAsyncClone.obj = action.payload;
       listAreaColumnsAsyncClone.loading = false;
 
       return {
@@ -128,7 +126,7 @@ export function reducer(state = initialState, action: fromJobRangeModelingGridAc
     case fromJobRangeModelingGridActions.SAVE_LIST_AREA_COLUMNS_SUCCESS: {
       const savingListAreaColumnsAsyncClone = cloneDeep(state.savingListAreaColumnsAsync);
 
-      savingListAreaColumnsAsyncClone.obj = action.payload;
+      savingListAreaColumnsAsyncClone.obj = true;
       savingListAreaColumnsAsyncClone.loading = false;
 
       return {
@@ -143,5 +141,7 @@ export function reducer(state = initialState, action: fromJobRangeModelingGridAc
 
 export const getGridDataResultAsync = (state: State) => state.gridDataResultAsync;
 export const getListAreaColumnsAsync = (state: State) => state.listAreaColumnsAsync;
+export const getListAreaColumnsLoading = (state: State) => state.listAreaColumnsAsync.loading;
 export const getListAreaColumnsReordering = (state: State) => state.reorderingListAreaColumns;
 export const getListAreaColumnsSavingAsync = (state: State) => state.savingListAreaColumnsAsync;
+export const getListAreaColumnsVisible = (state: State) => state.listAreaColumnsAsync.obj.filter(lac => lac.Visible);

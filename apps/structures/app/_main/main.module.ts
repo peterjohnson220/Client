@@ -26,7 +26,7 @@ import * as fromFaIcons from './fa-icons';
 import { JobBasedRangeAllStructuresEffects, JobRangeModelingPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
-import { ModelNameInputComponent, ModelingSettingsComponent, StructureCardComponent } from './components';
+import { ModelNameInputComponent, ModelingSettingsComponent, StructureCardComponent, EditGridColumnsModalComponent } from './components';
 import {
   JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, JobBasedRangeAllStructuresComponent, JobRangeModelingGridComponent
 } from './containers';
@@ -71,6 +71,7 @@ import { JobRangeModelingGridEffects } from './effects/job-range-modeling-grid.e
     ModelNameInputComponent,
     ModelingSettingsComponent,
     StructureCardComponent,
+    EditGridColumnsModalComponent,
 
     // Containers
     JobRangeModelingPageComponent,

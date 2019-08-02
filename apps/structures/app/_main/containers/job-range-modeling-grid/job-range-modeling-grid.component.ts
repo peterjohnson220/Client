@@ -38,6 +38,7 @@ export class JobRangeModelingGridComponent implements AfterViewInit, OnInit, OnD
   gridDataResultAsync$: Observable<AsyncStateObj<GridDataResult>>;
   listAreaColumnsAsync$: Observable<AsyncStateObj<ListAreaColumn[]>>;
   listAreaColumnsReordering$: Observable<boolean>;
+  listAreaColumnsVisible$: Observable<ListAreaColumn[]>;
 
   currentModelSubscription: Subscription;
   gridDataResultSubscription: Subscription;
@@ -49,6 +50,7 @@ export class JobRangeModelingGridComponent implements AfterViewInit, OnInit, OnD
     this.gridDataResultAsync$ = this.store.select(fromStructuresMainReducer.getGridDataResultAsync);
     this.listAreaColumnsAsync$ = this.store.select(fromStructuresMainReducer.getListAreaColumnsAsync);
     this.listAreaColumnsReordering$ = this.store.select(fromStructuresMainReducer.getListAreaColumnsReordering);
+    this.listAreaColumnsVisible$ = this.store.select(fromStructuresMainReducer.getListAreaColumnsVisible);
   }
 
   handleCellClick(event: CellClickEvent) {

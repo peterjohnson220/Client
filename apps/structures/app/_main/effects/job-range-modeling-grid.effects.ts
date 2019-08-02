@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Action} from '@ngrx/store';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
-import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
-import { UserProfileApiService } from 'libs/data/payfactors-api/user';
-import { MappingHelper } from 'libs/core/helpers';
+import {ListAreaColumnResponse} from 'libs/models/payfactors-api/user-profile/response';
+import {UserProfileApiService} from 'libs/data/payfactors-api/user';
+import {MappingHelper} from 'libs/core/helpers';
 
 import * as fromJobRangeModelingGridActions from '../actions/job-range-modeling-grid.actions';
 
@@ -21,7 +21,7 @@ export class JobRangeModelingGridEffects {
       switchMap((action: fromJobRangeModelingGridActions.LoadListAreaColumns) =>
         this.userProfileApiService.getListAreaColumns(action.payload).pipe(
           map((response: ListAreaColumnResponse[]) => {
-            const listAreaColumnList =  MappingHelper.mapListAreaColumnResponseListToListAreaColumnList(response);
+            const listAreaColumnList = MappingHelper.mapListAreaColumnResponseListToListAreaColumnList(response);
             return new fromJobRangeModelingGridActions.LoadListAreaColumnsSuccess(listAreaColumnList);
           }),
           catchError(response => of(new fromJobRangeModelingGridActions.LoadListAreaColumnsError()))
@@ -37,8 +37,11 @@ export class JobRangeModelingGridEffects {
           newRequest.Columns = MappingHelper.mapListAreaColumnListToListAreaColumnRequestList(newRequest.Columns);
 
           return this.userProfileApiService.saveListAreaColumns(newRequest).pipe(
-            map((response: number) => {
-              return new fromJobRangeModelingGridActions.SaveListAreaColumnsSuccess({ ListAreaColumns: action.payload.Columns });
+            mergeMap((response: number) => {
+              const actions = [];
+              actions.push(new fromJobRangeModelingGridActions.SaveListAreaColumnsSuccess());
+              actions.push(new fromJobRangeModelingGridActions.LoadListAreaColumnsSuccess(action.payload.Columns));
+              return actions;
             }),
             catchError(response => of(new fromJobRangeModelingGridActions.SaveListAreaColumnsError()))
           );
