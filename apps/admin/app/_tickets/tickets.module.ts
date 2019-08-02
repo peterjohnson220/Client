@@ -31,6 +31,7 @@ import { reducers } from './reducers';
 import { TicketsRoutingModule } from './tickets-routing.module';
 import { GetUploadProgressCssClassPipe, GetFileValidationErrorMessagePipe } from './pipes';
 import * as fromFaIcons from './fa-icons';
+import { AfterIfDirective } from './directives/after-if.directive';
 
 @NgModule({
   imports: [
@@ -67,6 +68,9 @@ import * as fromFaIcons from './fa-icons';
     // Pipes
     GetUploadProgressCssClassPipe,
     GetFileValidationErrorMessagePipe,
+
+    // Directives
+    AfterIfDirective,
 
     // Components
     AttachmentDetailCardComponent,
