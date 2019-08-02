@@ -37,10 +37,6 @@ export class CommunityFiltersComponent implements OnInit, OnDestroy {
   industryFilters: any = [];
   companySizeFilters: any = [];
 
-  selectedTopics: any = [];
-  selectedIndustries: any = [];
-  selectedCompanySizes: any = [];
-
   constructor(public store: Store<fromCommunityTopicReducer.State>,
               public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
     this.communityFilterOptions$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions);
@@ -48,13 +44,6 @@ export class CommunityFiltersComponent implements OnInit, OnDestroy {
     this.communityTopics$ = this.store.select(fromCommunityTopicReducer.getTopics);
     this.communityIndustries$ = this.store.select(fromCommunityPostFilterOptionsReducer.getCommunityIndustries);
     this.communityCompanySizes$ = this.store.select(fromCommunityPostFilterOptionsReducer.getCommunityCompanySizes);
-
-    this.deletingCommunityTopicSuccess$ = this.filterStore.select(
-      fromCommunityPostFilterOptionsReducer.getDeletingCommunityTopicSuccess);
-    this.deletingCommunityIndustrySuccess$ = this.filterStore.select(
-      fromCommunityPostFilterOptionsReducer.getDeletingCommunityIndustrySuccess);
-    this.deletingCommunityCompanySizeSuccess$ = this.filterStore.select(
-      fromCommunityPostFilterOptionsReducer.getDeletingCommunityCompanySizeSuccess);
   }
 
   ngOnInit() {
@@ -70,23 +59,6 @@ export class CommunityFiltersComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.deleteCommunityTopicSubscription = this.deletingCommunityTopicSuccess$.subscribe(response => {
-      if (response) {
-        this.selectedTopics = this.topicFilters;
-      }
-    });
-
-    this.deleteCommunityIndustrySubscription = this.deletingCommunityIndustrySuccess$.subscribe(response => {
-      if (response) {
-        this.selectedIndustries = this.industryFilters;
-      }
-    });
-
-    this.deleteCommunityCompanySizeSubscription = this.deletingCommunityCompanySizeSuccess$.subscribe(response => {
-      if (response) {
-        this.selectedCompanySizes = this.companySizeFilters;
-      }
-    });
   }
 
   ngOnDestroy() {

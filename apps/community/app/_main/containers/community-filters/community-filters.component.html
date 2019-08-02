@@ -4,7 +4,7 @@
     [name]="'TopicName'"
     [id]="'Id'"
     [placeholder]="'Select a Topic'"
-    [selectedItems]="selectedTopics"
+    [selectedItems]="topicFilters"
     [filterType]="'Topic'"
     (filtersSelected)="topicsSelected($event)">
   </pf-community-filters-dropdown>
@@ -13,7 +13,7 @@
     [name]="'IndustryName'"
     [id]="'Id'"
     [placeholder]="'Select Industry'"
-    [selectedItems]="selectedIndustries"
+    [selectedItems]="industryFilters"
     [filterType]="'Industry'"
     (filtersSelected)="industriesSelected($event)">
   </pf-community-filters-dropdown>
@@ -22,7 +22,7 @@
     [name]="'DisplayName'"
     [id]="'Id'"
     [placeholder]="'Select Company Size'"
-    [selectedItems]="selectedCompanySizes"
+    [selectedItems]="companySizeFilters"
     [filterType]="'CompanySize'"
     (filtersSelected)="companySizesSelected($event)">
   </pf-community-filters-dropdown>

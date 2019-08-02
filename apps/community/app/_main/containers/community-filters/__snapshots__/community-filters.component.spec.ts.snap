@@ -7,14 +7,8 @@ exports[`CommunityFiltersComponent should show community filters 1`] = `
   communityIndustries$={[Function Store]}
   communityTopics$={[Function Store]}
   companySizeFilters={[Function Array]}
-  deletingCommunityCompanySizeSuccess$={[Function Store]}
-  deletingCommunityIndustrySuccess$={[Function Store]}
-  deletingCommunityTopicSuccess$={[Function Store]}
   filterStore={[Function Store]}
   industryFilters={[Function Array]}
-  selectedCompanySizes={[Function Array]}
-  selectedIndustries={[Function Array]}
-  selectedTopics={[Function Array]}
   store={[Function Store]}
   topicFilters={[Function Array]}
 >

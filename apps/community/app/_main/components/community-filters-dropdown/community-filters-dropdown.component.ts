@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'pf-community-filters-dropdown',
   templateUrl: './community-filters-dropdown.component.html',
   styleUrls: ['./community-filters-dropdown.component.scss']
 })
-export class CommunityFiltersDropdownComponent implements OnInit {
+export class CommunityFiltersDropdownComponent implements OnInit, AfterViewInit {
 
   @Input() data: any;
   @Input() name: any;
@@ -19,6 +19,10 @@ export class CommunityFiltersDropdownComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
+    this.setKendoMultiSelectPlaceholder(this.filterType, this.placeholder);
   }
 
   isItemSelected(itemId: string): boolean {
