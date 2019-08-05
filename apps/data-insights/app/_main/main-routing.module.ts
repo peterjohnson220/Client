@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DataInsightsPageComponent, ReportViewPageComponent } from './containers/pages';
+import { CustomReportViewPageComponent, DataInsightsPageComponent, ReportViewPageComponent } from './containers/pages';
 import { ReportViewTypes } from './models';
 
 const routes: Routes = [
@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: 'standard-reports/:workbookId', component: ReportViewPageComponent, data: { viewType: ReportViewTypes.StandardWorkbook } },
   { path: 'company-reports/:workbookName/:viewName', component: ReportViewPageComponent,
     data: { viewType: ReportViewTypes.CompanyWorkbookSheet } },
-  { path: 'company-reports/:workbookId', component: ReportViewPageComponent, data: { viewType: ReportViewTypes.CompanyWorkbook } }
+  { path: 'company-reports/:workbookId', component: ReportViewPageComponent, data: { viewType: ReportViewTypes.CompanyWorkbook } },
+  { path: 'custom-report', component: CustomReportViewPageComponent }
 ];
 
 @NgModule({
