@@ -7,6 +7,7 @@
   position: relative;
 
   .preview {
+    position: relative;
     margin-bottom: 1rem;
     cursor: pointer;
     min-height: 1px;
@@ -16,12 +17,32 @@
       width: 100%;
     }
 
-    &:hover{
-      .workbook-description {
-        opacity: 1;
-        display: block;
-        position: absolute;
+    .img-overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #000000;
+      opacity: 0;
+      padding: 1rem 0rem;
+      transition: all 0.25s ease-in-out;
+
+      &.displayed {
+        opacity: 0.8;
       }
+    }
+
+    &:hover{
+      box-shadow: 1px 1px 7px 0 #e8e8e8;
+    }
+
+    .workbook-description {
+      font-size: 1rem;
+      color: white;
+      font-weight: 400;
+      padding: 0rem 2rem;
+      text-align: center;
     }
   }
 
@@ -35,23 +56,10 @@
     @extend %ellipsis-overflowing-text;
   }
 
-  .workbook-description {
-    display: none;
-    opacity: 0;
-    font-size: 1rem;
-    color: white;
-    font-weight: 400;
-    width: 50%;
-    height: 135px;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    transition: all 0.25s ease-in-out;
-  }
   @media (min-width: 1600px) {
     .workbook-description {
-      font-size: 1.2rem;
+      font-size: 1.2rem !important;
+      padding: 0rem 5rem !important;
     }
   }
 }
