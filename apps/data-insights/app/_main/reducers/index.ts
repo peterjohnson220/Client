@@ -7,6 +7,7 @@ import * as fromDataInsightsPageReducer from './data-insights-page.reducer';
 import * as fromDashboardsReducer from './dashboards.reducer';
 import * as fromReportViewReducer from './reports-view-page.reducer';
 import * as fromDataViewReducer from './data-view.reducer';
+import * as fromDataViewGridReducer from './data-view-grid.reducer';
 
 // Feature area state
 export interface DataInsightsMainState {
@@ -14,6 +15,7 @@ export interface DataInsightsMainState {
   dashboards: fromDashboardsReducer.State;
   reportViewPage: fromReportViewReducer.State;
   dataView: fromDataViewReducer.State;
+  dataViewGrid: fromDataViewGridReducer.State;
 }
 
 // Extend root state with feature area state
@@ -26,7 +28,8 @@ export const reducers = {
   dataInsightsPage: fromDataInsightsPageReducer.reducer,
   dashboards: fromDashboardsReducer.reducer,
   reportViewPage: fromReportViewReducer.reducer,
-  dataView: fromDataViewReducer.reducer
+  dataView: fromDataViewReducer.reducer,
+  dataViewGrid: fromDataViewGridReducer.reducer
 };
 
 // Select Feature Area
@@ -51,6 +54,11 @@ export const selectReportViewPageState = createSelector(
 export const selectDataViewState = createSelector(
   selectFeatureAreaState,
   (state: DataInsightsMainState) => state.dataView
+);
+
+export const selectDataViewGridState = createSelector(
+  selectFeatureAreaState,
+  (state: DataInsightsMainState) => state.dataViewGrid
 );
 
 // Data Insights Page
@@ -130,4 +138,35 @@ export const getSaveUserReportConflict = createSelector(
 export const getUserDataViewAsync = createSelector(
   selectDataViewState,
   fromDataViewReducer.getUserDataViewAsync
+);
+
+export const getReportFieldsAsync = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getReportFieldsAsync
+);
+
+export const getSelectedFields = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getSelectedFields
+);
+
+// Data View Grid
+export const getReportDataAsync = createSelector(
+  selectDataViewGridState,
+  fromDataViewGridReducer.getReportDataAsync
+);
+
+export const getPagingOptions = createSelector(
+  selectDataViewGridState,
+  fromDataViewGridReducer.getPagingOptions
+);
+
+export const getLoadingMoreData = createSelector(
+  selectDataViewGridState,
+  fromDataViewGridReducer.getLoadingMoreData
+);
+
+export const getHasMoreDataOnServer = createSelector(
+  selectDataViewGridState,
+  fromDataViewGridReducer.getHasMoreDataOnServer
 );

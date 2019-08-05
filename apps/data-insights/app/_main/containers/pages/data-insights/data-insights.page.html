@@ -20,7 +20,7 @@
   <div class="featured justify-content-center container-fluid">
     <div class="row align-items-center">
       <ng-container *ngFor="let standardReport of (standardReports$ | async)?.obj; let i = index; trackBy: trackByFn">
-        <div class="col-12 col-lg-6 col-xxl-3 h-100">
+        <div class="col-12 col-sm-6 col-lg-3 h-100">
           <pf-standard-report [class.d-none]="i > 3 && !showAllStandardReports" [workbook]="standardReport"></pf-standard-report>
         </div>
       </ng-container>

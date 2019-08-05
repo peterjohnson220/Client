@@ -1,0 +1,11 @@
+<div>
+  <kendo-grid class="data-view-grid"
+    [kendoGridBinding]="(dataAsync$ | async)?.obj"
+    (scrollBottom)="handleScrollBottom()">
+    <kendo-grid-column *ngFor="let field of (fields$ | async)"
+      field="{{field.SourceName}}"
+      title="{{field.DisplayName}}"
+      headerClass="grid-header">
+    </kendo-grid-column>
+  </kendo-grid>
+</div>

@@ -7,3 +7,4 @@ export * from './entity.model';
 export * from './save-user-workbook-modal-data.model';
 export * from './user-data-view.model';
 export * from './report-types.enum';
+export * from './field.model';

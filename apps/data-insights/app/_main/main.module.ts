@@ -9,6 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DragulaModule } from 'ng2-dragula';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -17,8 +18,8 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
-  CustomReportViewPageComponent, SearchWorkbookModalComponent } from './containers';
-import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects } from './effects';
+  CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent } from './containers';
+import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -37,13 +38,15 @@ import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.com
       DataInsightsPageEffects,
       DashboardsEffects,
       ReportViewPageEffects,
-      DataViewEffects
+      DataViewEffects,
+      DataViewGridEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
     DragulaModule.forRoot(),
     NgbPopoverModule.forRoot(),
     NgbTooltipModule,
+    GridModule,
 
     // Routing
     MainRoutingModule,
@@ -56,7 +59,7 @@ import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.com
   declarations: [
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
-    SearchWorkbookModalComponent,
+    SearchWorkbookModalComponent, DataViewGridComponent,
 
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,

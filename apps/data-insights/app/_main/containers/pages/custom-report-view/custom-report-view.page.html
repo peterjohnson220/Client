@@ -1,4 +1,4 @@
-<ng-container *ngIf="(userDataView$ | async) as userDataViewAsync">
+<div *ngIf="(userDataView$ | async) as userDataViewAsync" class="custom-report-page">
   <pf-async-container
     [loading]="userDataViewAsync.loading"
     [loadingError]="userDataViewAsync.loadingError"
@@ -11,8 +11,10 @@
         <div class="d-flex flex-row main-content">
           <pf-left-sidebar>
           </pf-left-sidebar>
+
+          <pf-data-view-grid></pf-data-view-grid>
         </div>
       </ng-container>
     </pf-page-with-title-bar>
   </pf-async-container>
-</ng-container>
+</div>
