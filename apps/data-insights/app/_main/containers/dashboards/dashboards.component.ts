@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
+import { Router } from '@angular/router';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -50,7 +51,8 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
     private dragulaService: DragulaService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private router: Router
   ) {
     this.dragulaSub = new Subscription();
     this.dragulaSub.add(this.dragulaService.dropModel('workbooks').subscribe(({ sourceModel }) => {
@@ -133,6 +135,10 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   handleSaveTagClicked(saveObj: SaveWorkbookTagObj) {
     this.store.dispatch(new fromDashboardsActions.SaveWorkbookTag(saveObj));
   }
+
+  handleSaveWorkbookClicked() {
+    this.router.navigate(['custom-report']);
+}
 
   handleNewReportClicked() {
     this.saveUserWorkbookModalComponent.open();

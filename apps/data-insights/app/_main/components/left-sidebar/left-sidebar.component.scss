@@ -1,0 +1,31 @@
+@import 'colors';
+@import 'data-insights-variables';
+
+.sidebar {
+  color: #E6E9F7;
+  background-color: $grey;
+
+    #open-sidebar {
+      color: $header-color;
+      cursor: pointer;
+    }
+}
+
+.sidebar-closed {
+  background-color: $grey;
+  padding: 25px 10px;
+  transition: all 0.25s ease-in-out;
+}
+
+.sidebar-open {
+  min-width: 250px;
+  min-height: 250px;
+  background-color: white;
+
+      #close-sidebar {
+        color: $header-color;
+        margin-left: 92%;
+        cursor: pointer;
+      }
+    }
+

@@ -16,11 +16,13 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent } from './components';
-import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, SearchWorkbookModalComponent } from './containers';
+import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
+  CustomReportViewPageComponent, SearchWorkbookModalComponent } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
+import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.component';
 
 @NgModule({
   imports: [
@@ -53,12 +55,12 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Containers
-    DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, TagWorkbookModalComponent,
+    DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
     SearchWorkbookModalComponent,
 
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
-    StandardReportHexagonComponent, SaveUserWorkbookModalComponent
+    StandardReportHexagonComponent, SaveUserWorkbookModalComponent, LeftSidebarComponent
   ],
   providers: [
     WindowRef

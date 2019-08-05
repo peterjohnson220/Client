@@ -1,0 +1,5 @@
+<div [ngClass]="sideBarOpen ? 'sidebar-open ' : 'sidebar-closed'" class="sidebar d-flex ">
+    <fa-icon *ngIf="sideBarOpen" icon="chevron-double-left" id="close-sidebar" data-qa-id="btn-close-sidebar" (click)="toggleSidebar()"></fa-icon>
+    <fa-icon *ngIf="!sideBarOpen" icon="chevron-double-right" id="open-sidebar" data-qa-id="btn-open-sidebar" (click)="toggleSidebar()"></fa-icon>
+</div>
+
