@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { CreateUserViewRequest, DataViewEntityResponse } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { DataViewEntityResponse } from 'libs/models/payfactors-api';
 
 @Injectable()
 export class DataViewApiService {
@@ -13,5 +13,9 @@ export class DataViewApiService {
 
   getBaseEntities(): Observable<DataViewEntityResponse[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetBaseEntities`);
+  }
+
+  saveUserDataView(request: CreateUserViewRequest): Observable<number> {
+    return this.payfactorsApiService.post(`${this.endpoint}/CreateUserDataView`, request);
   }
 }

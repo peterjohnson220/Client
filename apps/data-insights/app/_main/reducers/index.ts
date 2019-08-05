@@ -111,3 +111,18 @@ export const getBaseEntitiesAsync = createSelector(
   selectDataViewState,
   fromDataViewReducer.getBaseEntitiesAsync
 );
+
+export const getSavingUserReport = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getSavingUserReport
+);
+
+export const getSaveUserReportError = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getSaveUserReportError
+);
+
+export const getSaveUserReportConflict = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getSaveUserReportConflict
+);

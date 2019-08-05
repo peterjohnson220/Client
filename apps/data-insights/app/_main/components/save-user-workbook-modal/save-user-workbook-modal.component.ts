@@ -18,11 +18,14 @@ export class SaveUserWorkbookModalComponent implements OnInit, OnChanges {
   @Input() baseEntities: Entity[];
   @Input() modalData: SaveUserWorkbookModalData;
   @Input() saving: boolean;
+  @Input() saveError: boolean;
+  @Input() saveNameConflict: boolean;
   @Output() saveClicked: EventEmitter<SaveUserWorkbookModalData> = new EventEmitter();
 
   @ViewChild('saveUserWorkbookModal', { static: true }) public saveUserWorkbookModal: any;
   saveUserWorkbookForm: FormGroup;
   defaultEntity: Entity;
+  showErrorMessages: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -57,12 +60,13 @@ export class SaveUserWorkbookModalComponent implements OnInit, OnChanges {
     this.modalService.dismissAll();
     this.modalData = null;
     this.clearForm();
+    this.showErrorMessages = false;
   }
 
   save(): void {
     this.buildSaveUserWorkbookModalData();
     this.saveClicked.emit(this.modalData);
-    this.close();
+    this.showErrorMessages = true;
   }
 
   private createForm(): void {
