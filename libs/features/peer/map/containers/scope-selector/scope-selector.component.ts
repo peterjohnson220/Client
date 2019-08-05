@@ -14,8 +14,7 @@ import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
   selector: 'pf-scope-selector',
   templateUrl: './scope-selector.component.html',
   styleUrls: ['./scope-selector.component.scss'],
-  preserveWhitespaces: true,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  preserveWhitespaces: true
 })
 
 export class ScopeSelectorComponent implements OnInit, OnDestroy {
@@ -29,13 +28,18 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
   deletingExchangeScope$: Observable<boolean>;
   exchangeScopeItems$: Observable<ExchangeScopeItem[]>;
   selectedExchangeScopeItem$: Observable<ExchangeScopeItem>;
-  systemFilterLoadedSubscription: Subscription;
   inDeleteScopeMode$: Observable<boolean>;
+
   inDeleteModeSubscription: Subscription;
+  scopeToDeleteSubscription: Subscription;
+  systemFilterLoadedSubscription: Subscription;
+  exchangeScopeItemsSubscription: Subscription;
+
   deleteMode = false;
   scopeToDelete$: Observable<ExchangeScopeItem>;
-  scopeToDeleteSubscription: Subscription;
   scopeToDelete: ExchangeScopeItem = null;
+  exchangeScopeItems: ExchangeScopeItem[];
+  filteredExchangeScopeItems: ExchangeScopeItem[];
 
   constructor(
     private store: Store<fromLibsPeerMapReducer.State>
@@ -94,6 +98,18 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromLibsExchangeScopeActions.DeleteExchangeScope(this.scopeToDelete.Id));
   }
 
+  handleSearchValueChanged(value: string) {
+    this.filteredExchangeScopeItems = this.exchangeScopeItems.filter(esi => esi.Name.toLowerCase().includes(value.toLowerCase()));
+  }
+
+  handlePopoverShown() {
+    this.filteredExchangeScopeItems = this.exchangeScopeItems;
+  }
+
+  trackByFn(scopeItem: ExchangeScopeItem) {
+    return scopeItem.Id;
+  }
+
   // Lifecycle
   ngOnInit() {
     this.systemFilterLoadedSubscription = this.systemFilterLoaded$.subscribe(loaded => {
@@ -105,17 +121,15 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
         }
       }
     });
-    this.inDeleteModeSubscription = this.inDeleteScopeMode$.subscribe(dsm => {
-      this.deleteMode = dsm;
-    });
-    this.scopeToDeleteSubscription = this.scopeToDelete$.subscribe(std => {
-      this.scopeToDelete = std;
-    });
+    this.inDeleteModeSubscription = this.inDeleteScopeMode$.subscribe(dsm => this.deleteMode = dsm);
+    this.scopeToDeleteSubscription = this.scopeToDelete$.subscribe(std => this.scopeToDelete = std);
+    this.exchangeScopeItemsSubscription = this.exchangeScopeItems$.subscribe(esi => this.exchangeScopeItems = esi);
   }
 
   ngOnDestroy() {
     this.systemFilterLoadedSubscription.unsubscribe();
     this.inDeleteModeSubscription.unsubscribe();
     this.scopeToDeleteSubscription.unsubscribe();
+    this.exchangeScopeItemsSubscription.unsubscribe();
   }
 }
