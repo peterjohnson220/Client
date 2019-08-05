@@ -5,9 +5,12 @@
     <div class="w-100">
       <a [attr.data-qa-id]="'lnk-openWorkbook'" [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
         [queryParams]="{showTabs: workbook.ShowTabs, title: workbook.WorkbookName}">
-        <pf-standard-report-hexagon [workbook]="workbook" [showOverlay]="displayOverlay"></pf-standard-report-hexagon>
-        <div *ngIf="workbook.WorkbookDescription" class="workbook-description">
-            {{workbookDescription}}
+        <img class="img-fluid" [src]="workbook.Thumbnail" />
+
+        <div class="d-flex img-overlay" [ngClass]="displayOverlay ? 'displayed' : ''">
+          <div class="d-flex justify-content-center align-items-center workbook-description">
+            {{workbook.WorkbookDescription}}
+          </div>
         </div>
       </a>
     </div>
