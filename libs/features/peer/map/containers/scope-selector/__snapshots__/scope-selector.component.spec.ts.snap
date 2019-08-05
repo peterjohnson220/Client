@@ -5,8 +5,10 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
   addDataModal={[Function Boolean]}
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
+  exchangeScopeItemsSubscription={[Function Subscriber]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -28,6 +30,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
     <button
       class="btn btn-secondary selector"
       disabled=""
+      ng-reflect-auto-close="outside"
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="right"
       ng-reflect-popover-title="Select a Scope"
@@ -90,8 +93,10 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
   addDataModal={[Function Boolean]}
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
+  exchangeScopeItemsSubscription={[Function Subscriber]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -112,6 +117,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
     
     <button
       class="btn btn-secondary selector"
+      ng-reflect-auto-close="outside"
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="right"
       ng-reflect-popover-title="Select a Scope"
@@ -174,8 +180,10 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
   addDataModal={[Function Boolean]}
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
+  exchangeScopeItemsSubscription={[Function Subscriber]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -196,6 +204,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
     
     <button
       class="btn btn-secondary selector"
+      ng-reflect-auto-close="outside"
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="right"
       ng-reflect-popover-title="Select a Scope"
@@ -258,8 +267,10 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   addDataModal={[Function Boolean]}
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
+  exchangeScopeItemsSubscription={[Function Subscriber]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -280,6 +291,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
     
     <button
       class="btn btn-secondary selector"
+      ng-reflect-auto-close="outside"
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="right"
       ng-reflect-popover-title="Select a Scope"
@@ -342,8 +354,10 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   addDataModal="false"
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
+  exchangeScopeItemsSubscription={[Function Subscriber]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -364,6 +378,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
     
     <button
       class="btn btn-secondary selector"
+      ng-reflect-auto-close="outside"
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="bottom-right"
       ng-reflect-popover-title="Select a Scope"
