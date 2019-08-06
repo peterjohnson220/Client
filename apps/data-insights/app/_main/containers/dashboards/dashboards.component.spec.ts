@@ -9,10 +9,10 @@ import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
+import * as fromDataViewActions from '../../actions/data-view.actions';
 import { DashboardsComponent } from './dashboards.component';
-import { generateMockWorkbook, DashboardView } from '../../models';
+import { generateMockWorkbook, DashboardView, generateMockSaveUserWorkbookModalData } from '../../models';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { Router } from '@angular/router';
 
 describe('Data Insights - Dashboards Comopnent', () => {
   let instance: DashboardsComponent;
@@ -32,10 +32,7 @@ describe('Data Insights - Dashboards Comopnent', () => {
       declarations: [ DashboardsComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
-        { provide: SettingsService, useClass: SettingsService },
-        { provide: Router,
-          useValue: { navigate: jest.fn() }
-        }
+        { provide: SettingsService, useClass: SettingsService }
       ]
     });
 
@@ -88,5 +85,15 @@ describe('Data Insights - Dashboards Comopnent', () => {
     instance.filteredCompanyWorkbooks = [workbook];
 
     expect(instance.anyFavorites).toEqual(false);
+  });
+
+  it('should dispatch SaveUserReport action with save user report view clicked', () => {
+    const workbookData = generateMockSaveUserWorkbookModalData();
+    const expectedAction = new fromDataViewActions.SaveUserReport(workbookData);
+    spyOn(store, 'dispatch');
+
+    instance.handleSaveUserDataViewClicked(workbookData);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'company-reports/:workbookName/:viewName', component: ReportViewPageComponent,
     data: { viewType: ReportViewTypes.CompanyWorkbookSheet } },
   { path: 'company-reports/:workbookId', component: ReportViewPageComponent, data: { viewType: ReportViewTypes.CompanyWorkbook } },
-  { path: 'custom-report', component: CustomReportViewPageComponent }
+  { path: 'custom-report/:dataViewId', component: CustomReportViewPageComponent }
 ];
 
 @NgModule({

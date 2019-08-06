@@ -4,7 +4,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
-import { Router } from '@angular/router';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -13,7 +12,7 @@ import { CompanySettingsEnum } from 'libs/models/company';
 import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { DashboardView, Workbook, SaveWorkbookTagObj, Entity } from '../../models';
+import { DashboardView, Workbook, SaveWorkbookTagObj, Entity, SaveUserWorkbookModalData } from '../../models';
 import { TagWorkbookModalComponent } from '../../components/tag-workbook-modal';
 import { SaveUserWorkbookModalComponent } from '../../components/save-user-workbook-modal';
 
@@ -37,6 +36,9 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   savingTagError$: Observable<boolean>;
   baseEntitiesAsync$: Observable<AsyncStateObj<Entity[]>>;
   reportBuilderSettingEnabled$: Observable<boolean>;
+  savingUserDataView$: Observable<boolean>;
+  savingUserDataViewConflict$: Observable<boolean>;
+  savingUserDataViewError$: Observable<boolean>;
 
   filteredCompanyWorkbooksSub: Subscription;
   dragulaSub: Subscription;
@@ -51,8 +53,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
     private dragulaService: DragulaService,
-    private settingsService: SettingsService,
-    private router: Router
+    private settingsService: SettingsService
   ) {
     this.dragulaSub = new Subscription();
     this.dragulaSub.add(this.dragulaService.dropModel('workbooks').subscribe(({ sourceModel }) => {
@@ -67,6 +68,9 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.savingTagError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTagError));
     this.tagFilter$ = this.store.pipe(select(fromDataInsightsMainReducer.getTagFilter));
     this.baseEntitiesAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getBaseEntitiesAsync));
+    this.savingUserDataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingUserReport));
+    this.savingUserDataViewError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSaveUserReportError));
+    this.savingUserDataViewConflict$ = this.store.pipe(select(fromDataInsightsMainReducer.getSaveUserReportConflict));
     this.reportBuilderSettingEnabled$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.DataInsightsReportBuilder
     );
@@ -136,12 +140,12 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromDashboardsActions.SaveWorkbookTag(saveObj));
   }
 
-  handleSaveWorkbookClicked() {
-    this.router.navigate(['custom-report']);
-}
-
   handleNewReportClicked() {
     this.saveUserWorkbookModalComponent.open();
+  }
+
+  handleSaveUserDataViewClicked(saveUserDataViewModalData: SaveUserWorkbookModalData) {
+    this.store.dispatch(new fromDataViewActions.SaveUserReport(saveUserDataViewModalData));
   }
 
   private handleDropModel(sourceModel) {

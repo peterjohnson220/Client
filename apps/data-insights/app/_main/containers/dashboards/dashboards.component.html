@@ -84,5 +84,8 @@
 
 <pf-save-user-workbook-modal *ngIf="(baseEntitiesAsync$ | async)?.obj?.length"
   [baseEntities]="(baseEntitiesAsync$ | async)?.obj"
-  (saveClicked)="handleSaveWorkbookClicked()">
+  [saving]="savingUserDataView$ | async"
+  [saveNameConflict]="savingUserDataViewConflict$ | async"
+  [saveError]="savingUserDataViewError$ | async"
+  (saveClicked)="handleSaveUserDataViewClicked($event)">
 </pf-save-user-workbook-modal>

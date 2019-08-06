@@ -28,6 +28,10 @@
               maxlength="255"
               formControlName="name"
               name="name"/>
+            <ng-container *ngIf="showErrorMessages && !saving">
+              <div class="text-danger mt-2" *ngIf="saveNameConflict">Name in use. Please choose a unique report name.</div>
+              <div class="text-danger mt-2" *ngIf="saveError">Error Saving Report.</div>
+            </ng-container>
           </div>
           
           <div class="form-group">
