@@ -1,0 +1,90 @@
+<pf-modal-form size="lg"
+               [title]="'Map Companies'"
+               [isOpen$]="mapCompaniesModalOpen$"
+               (onDismiss)="handleModalDismissed()"
+               [submitting]="false"
+               [showFooter]="false">
+
+  <ng-container basic-content>
+    <div>
+      <pf-input-debounce [delay]="400"
+                         [(ngModel)]="tbxSearch"
+                         (valueChanged)="handleSearchChanged()"
+                         (clearClicked)="clearClick()"
+                         [placeholderText]="'Search Company Name'">
+      </pf-input-debounce>
+    </div>
+    <pf-async-container [loading]="isLoadingMapModalData$ | async"
+                        [loadingError]="getMapModalDataFailed$ | async">
+      <div class="row pt-3 ">
+        <div class="col-5
+         pb-2 pr-5">
+          <h5>Companies not Mapped:</h5>
+          <ng-container *ngIf="companiesList">
+            <div *ngIf="companiesList.length===0">No companies found</div>
+            <div class="pt-2">
+              <div *ngFor="let item of companiesList"
+                   (mouseenter)="selectedCompany = item.CompanyId"
+                   [class.selected-map-row]="item.CompanyId === selectedCompany"
+                   class="mt-1"
+                   (click)="shouldAdd(item.CompanyId)">
+                {{item.CompanyName}}
+
+                <span *ngIf="item.CompanyId === selectedCompany"
+                      class="add-map-btn float-right">
+                  Map
+                  <fa-icon icon="caret-right"
+                           size="1x"></fa-icon>
+                </span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="col-7 pb-2">
+          <h5>Companies Mapped:
+            <small
+                   *ngIf="mappedCompanies && mappedCompanies.data && mappedCompanies.data.length !== mappedCompanies.total ">Showing
+              {{mappedCompanies.data.length}} of
+              {{mappedCompanies.total}} </small></h5>
+          <div class="pt-2 row"
+               *ngIf="mappedCompanies && mappedCompanies.data && mappedCompanies.data.length > 0">
+            <table>
+              <thead>
+                <th></th>
+                <th class="text-center">
+                  Cost ($)
+                </th>
+                <th class="text-center">
+                  Aging (%)
+                </th>
+                <th class="text-center">
+                  Remove
+                </th>
+              </thead>
+              <tr *ngFor="let item of mappedCompanies.data">
+                <td class="pr-2">{{item.CompanyName}}</td>
+                <td class="map-input-width">
+                  <input class="form-control form-control-sm "
+                         type="text"
+                         (blur)="saveItem(item)"
+                         [(ngModel)]="item.SurveyCost">
+                </td>
+                <td class="map-input-width">
+                  <input class="form-control form-control-sm "
+                         type="text"
+                         (blur)="saveItem(item)"
+                         [(ngModel)]="item.AgingFactor">
+                </td>
+                <td class="text-center">
+                  <fa-icon icon="times"
+                           size="sm"
+                           (click)="removeAssociation(item.CompanyId)"></fa-icon>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </pf-async-container>
+  </ng-container>
+</pf-modal-form>

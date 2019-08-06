@@ -16,7 +16,7 @@ import * as fromCustomSurveyTitleActions from '../../actions/survey-titles.actio
 })
 
 export class CustomSurveyTitleComponent implements OnInit {
-  @ViewChild('surveyTitleInput', {static: false}) surveyTitleInput: ElementRef;
+  @ViewChild('surveyTitleInput', { static: false }) surveyTitleInput: ElementRef;
   @Input() SurveyTitleCompany: SurveyTitleCompanyModel;
   @Input() SurveyTitleId: number;
 
@@ -55,7 +55,7 @@ export class CustomSurveyTitleComponent implements OnInit {
         CompanyId: this.SurveyTitleCompany.CompanyId,
         CustomSurveyName: this.newSurveyTitle
       };
-      this.store.dispatch(new fromCustomSurveyTitleActions.SaveCustomTitle({surveyTitleId: this.SurveyTitleId, request: request}));
+      this.store.dispatch(new fromCustomSurveyTitleActions.SaveCustomTitle({ surveyTitleId: this.SurveyTitleId, request: request }));
     } else {
       this.switchView();
     }

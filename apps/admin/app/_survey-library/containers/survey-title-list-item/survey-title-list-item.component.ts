@@ -17,7 +17,7 @@ export class SurveyTitleListItemComponent {
   surveyTitleCompanies: SurveyTitleCompanyModel[];
   isLoading: boolean;
 
-  constructor (private surveyLibraryApi: SurveyLibraryApiService) {
+  constructor(private surveyLibraryApi: SurveyLibraryApiService) {
     this.isCollapsed = true;
   }
 

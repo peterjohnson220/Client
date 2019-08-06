@@ -1,34 +1,45 @@
 <pf-modal-form [title]="'Add Survey'"
+               [size]="'lg'"
                [primaryButtonText]="'Save'"
                [primaryButtonTextSubmitting]="'Saving...'"
                [submitting]="false"
-               [isOpen$]="state.addSurveyModalOpen$"
+               [isOpen$]="isModalOpen$"
                (onSubmit)="handleFormSubmit()"
                (onDismiss)="handleModalDismissed()"
-               [formGroup]="addSurveyForm"
-               [modalId]="'add-survey-modal'">
+               [formGroup]="addSurveyForm">
 
   <ng-container form-content>
-    <div class="form-group">
-      <select class="form-control form-control-sm"
-              formControlName="newCompany"
-              name="companySelect">
-        <option>Small select</option>
-      </select>
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label for="companySelect">Survey</label>
+        <select class="form-control "
+                formControlName="newCompany"
+                (change)="getSelectedCompanyName()"
+                name="companySelect">
+          <option [value]=""
+                  selected>Seed</option>
+          <option *ngFor="let company of companies"
+                  [value]="company.CompanyId">{{company.CompanyName}}</option>
+        </select>
+      </div>
 
-      <label for="cost"
-             class="sr-only">Cost ($)</label>
-      <input type="text"
-             class="form-control"
-             formControlName="newCost"
-             id="cost">
+      <div class="form-group col-3"
+           *ngIf="showAgingAndCost">
+        <label for="cost">Cost ($)</label>
+        <input type="text"
+               class="form-control"
+               formControlName="newCost"
+               id="cost">
+      </div>
 
-      <label for="aging"
-             class="sr-only">Aging Factor (%)</label>
-      <input type="text"
-             class="form-control"
-             formControlName="newAging"
-             id="aging">
+      <div class="form-group col-3"
+           *ngIf="showAgingAndCost">
+        <label for="aging">Aging Factor (%)</label>
+        <input type="text"
+               class="form-control"
+               formControlName="newAging"
+               id="aging">
+      </div>
     </div>
   </ng-container>
 </pf-modal-form>

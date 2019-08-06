@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -20,8 +21,8 @@ export class AddSurveyTitleModalComponent implements OnInit {
   private saveSurveyTitleSuccess$: Observable<boolean>;
 
   constructor(private store: Store<fromSurveyLibraryReducer.State>,
-              public state: SurveyLibraryStateService,
-              private fb: FormBuilder) {
+    public state: SurveyLibraryStateService,
+    private fb: FormBuilder) {
     this.addSurveyTitleForm = this.fb.group({
       'newSurveyName': [],
       'newSurveyCode': []
@@ -33,7 +34,7 @@ export class AddSurveyTitleModalComponent implements OnInit {
     this.saveSurveyTitleSuccess$.subscribe(isSuccess => {
       if (isSuccess) {
         this.store.dispatch(new fromSurveyTitlesActions.LoadingSurveyTitles({
-          publisherId: this.surveyPublisherId, filter: {SearchTerm: '', CompanyId: undefined}
+          publisherId: this.surveyPublisherId, filter: { SearchTerm: '', CompanyId: undefined }
         }));
         this.handleModalDismissed();
       }

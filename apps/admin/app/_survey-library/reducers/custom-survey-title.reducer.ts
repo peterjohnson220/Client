@@ -56,8 +56,9 @@ export function reducer(state = initialState, action: fromSurveyTitleActions.Act
 export const getSavingCustomTitleSaving = (state: State) => state.saving;
 export const getSavingCustomTitleSavingSuccess = (state: State) => state.savingSuccess;
 export const getSavingCustomTitleSavingError = (state: State) => state.savingError;
-export const getSavedInfo = (state: State) => {return {
-  companyId: state.savedCompanyId,
-  titleId: state.savedTitleId
+export const getSavedInfo = (state: State) => {
+  return {
+    companyId: state.savedCompanyId,
+    titleId: state.savedTitleId
   };
 };
