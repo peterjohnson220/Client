@@ -25,12 +25,18 @@ export const routes: Routes = [
       },
       { path: 'marketing', loadChildren: () => import('apps/admin/app/_marketing/marketing.module').then(m => m.MarketingModule) },
       { path: 'community', loadChildren: () => import('apps/admin/app/_community/community.module').then(m => m.CommunityModule) },
-      { path: 'org-data-loader',
-        loadChildren: () => import('apps/admin/app/_org-data-loader/org-data-loader.module').then(m => m.OrgDataLoaderModule) },
+      {
+        path: 'org-data-loader',
+        loadChildren: () => import('apps/admin/app/_org-data-loader/org-data-loader.module').then(m => m.OrgDataLoaderModule)
+      },
       { path: 'tickets', loadChildren: () => import('apps/admin/app/_tickets/tickets.module').then(m => m.TicketsModule) },
       {
         path: 'data-insights',
         loadChildren: () => import('apps/admin/app/_data-insights/data-insights.module').then(m => m.DataInsightsModule)
+      },
+      {
+        path: 'survey-library', loadChildren: () => import('apps/admin/app/_survey-library/survey-library.module')
+          .then(m => m.SurveyLibraryModule)
       },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
@@ -41,7 +47,7 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
 
 
 
