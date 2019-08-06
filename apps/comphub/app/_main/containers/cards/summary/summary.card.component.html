@@ -92,6 +92,14 @@
           <div class="v" [attr.data-qa-id]="'cnt-location'">{{paymarket?.Location || '-'}}</div>
         </div>
         <div class="item">
+          <div class="h">Minimum Wage</div>
+          <div class="v" [attr.data-qa-id]="'cnt-minWage'" [innerHTML]="getPaymarketMinimumWage(
+          minPaymarketMinimumWage$ | async,
+          maxPaymarketMinimumWage$ | async,
+          workflowContext?.activeCountryDataSet?.CurrencyCode
+          )"></div>
+        </div>
+        <div class="item">
           <div class="h">Industry</div>
           <div class="v" [attr.data-qa-id]="'cnt-industry'">{{paymarket?.Industry || '-'}}</div>
         </div>

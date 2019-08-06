@@ -326,3 +326,13 @@ export const getGlossaryOpen = createSelector(
   selectSummaryCardState,
   fromSummaryCardReducer.getGlossaryOpen
 );
+
+export const getMinPaymarketMinimumWage = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getMinPaymarketMinimumWage
+);
+
+export const getMaxPaymarketMinimumWage = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getMaxPaymarketMinimumWage
+);
