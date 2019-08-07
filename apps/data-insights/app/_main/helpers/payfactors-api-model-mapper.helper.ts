@@ -1,10 +1,14 @@
 import {
-  TableauReportResponse, UpsertUserReportTag, SaveWorkbookOrderRequest,
-  TableauReportViewsResponse, DataViewEntityResponse, UserDataViewResponse
+  DataViewEntityResponse,
+  SaveWorkbookOrderRequest,
+  TableauReportResponse,
+  TableauReportViewsResponse,
+  UpsertUserReportTag,
+  UserDataViewResponse
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 
-import { SaveWorkbookTagObj, Workbook, DashboardView, View, Entity, UserDataView } from '../models';
+import { DashboardView, Entity, ReportType, SaveWorkbookTagObj, UserDataView, View, Workbook } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -13,6 +17,7 @@ export class PayfactorsApiModelMapper {
   static mapTableauReportResponsesToWorkbooks(response: TableauReportResponse[], companyName?: string): Workbook[] {
     return response.map(r => {
       return {
+        Type: r.ReportType === 'TableauReport' ? ReportType.TableauReport : ReportType.DataView,
         WorkbookId: r.WorkbookId,
         WorkbookName: r.WorkbookName,
         Thumbnail: r.Thumbnail,
