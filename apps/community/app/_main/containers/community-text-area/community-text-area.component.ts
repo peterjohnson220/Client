@@ -84,9 +84,17 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.suggestedCommunityTagsPostIdSubscription.unsubscribe();
-    this.suggestedCommunityTagsSubscription.unsubscribe();
-    this.textValueChangesSubscription.unsubscribe();
+    if (this.suggestedCommunityTagsPostIdSubscription) {
+      this.suggestedCommunityTagsPostIdSubscription.unsubscribe();
+    }
+
+    if (this.suggestedCommunityTagsSubscription) {
+      this.suggestedCommunityTagsSubscription.unsubscribe();
+    }
+
+    if (this.textValueChangesSubscription) {
+      this.textValueChangesSubscription.unsubscribe();
+    }
   }
 
   onKeyUp(e) {
