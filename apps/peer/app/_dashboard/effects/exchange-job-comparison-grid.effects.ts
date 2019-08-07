@@ -8,6 +8,7 @@ import { catchError, map, withLatestFrom, switchMap } from 'rxjs/operators';
 
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { ExchangeCompanyApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromExchangeJobComparisonGridActions from '../actions/exchange-job-comparison-grid.actions';
 import * as fromDashboardReducer from '../reducers';
@@ -23,8 +24,20 @@ export class ExchangeJobComparisonGridEffects {
       withLatestFrom(
         this.store.select(fromDashboardReducer.getExchangeJobComparisonsGridState),
         this.sharedPeerStore.select(fromSharedPeerReducer.getExchangeId),
-        (action: fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons, listState, exchangeId) => {
-          return {exchangeId, listState, countryCode: action.payload.countryCode};
+        this.settingsService.selectUiPersistenceSetting<string>(
+          FeatureAreaConstants.PeerDashboard,
+          UiPersistenceSettingConstants.ComparisonMarketSelection,
+          'string'
+        ),
+        (action: fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons, listState, exchangeId, persistedCountryCode) => {
+          const payloadCountryCode = !!action.payload ? action.payload.countryCode : null;
+          let countryCode = payloadCountryCode;
+
+          if (!payloadCountryCode) {
+            countryCode = !!persistedCountryCode ? persistedCountryCode : 'USA';
+          }
+
+          return {exchangeId, listState, countryCode};
         }
       ),
       switchMap(payload =>
@@ -76,7 +89,8 @@ export class ExchangeJobComparisonGridEffects {
     private exchangeCompanyApiService: ExchangeCompanyApiService,
     private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService,
     private store: Store<fromDashboardReducer.State>,
-    private sharedPeerStore: Store<fromSharedPeerReducer.State>
+    private sharedPeerStore: Store<fromSharedPeerReducer.State>,
+    private settingsService: SettingsService
   ) {}
 }
 
