@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, tap } from 'rxjs/operators';
+import { switchMap, map, catchError, tap, mergeMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
+import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { Entity } from '../models';
-import { of } from 'rxjs';
-
 
 @Injectable()
 export class DataViewEffects {
@@ -78,6 +78,24 @@ export class DataViewEffects {
           );
       })
     );
+
+  @Effect()
+  getReportFields$ = this.action$
+  .pipe(
+    ofType(fromDataViewActions.GET_REPORT_FIELDS),
+    switchMap((action: fromDataViewActions.GetReportFields) => {
+      return this.dataViewApiService.getUserDataViewFields(action.payload.dataViewId)
+      .pipe(
+        mergeMap((response) => [
+            new fromDataViewActions.GetReportFieldsSuccess(
+              PayfactorsApiModelMapper.mapDataViewFieldsToFields(response)),
+            new fromDataViewGridActions.GetData()
+          ]
+        ),
+        catchError(() => of(new fromDataViewActions.GetReportFieldsError()))
+      );
+    })
+  );
 
   constructor(
     private action$: Actions,

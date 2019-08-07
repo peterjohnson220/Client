@@ -3,7 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
-import { Entity, UserDataView } from '../models';
+import { Entity, UserDataView, Field } from '../models';
 
 export interface State {
   baseEntitiesAsync: AsyncStateObj<Entity[]>;
@@ -11,6 +11,7 @@ export interface State {
   saveUserReportError: boolean;
   saveUserReportConflict: boolean;
   userDataViewAsync: AsyncStateObj<UserDataView>;
+  reportFieldsAsync: AsyncStateObj<Field[]>;
 }
 
 const initialState: State = {
@@ -18,7 +19,8 @@ const initialState: State = {
   saveUserReportConflict: false,
   savingUserReport: false,
   saveUserReportError: false,
-  userDataViewAsync: generateDefaultAsyncStateObj<UserDataView>(null)
+  userDataViewAsync: generateDefaultAsyncStateObj<UserDataView>(null),
+  reportFieldsAsync: generateDefaultAsyncStateObj<Field[]>([]),
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -112,6 +114,36 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         userDataViewAsync: asyncStateObjClone
       };
     }
+    case fromDataViewActions.GET_REPORT_FIELDS: {
+      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
+
+      asyncStateObjClone.loading = true;
+      asyncStateObjClone.loadingError = false;
+      return {
+        ...state,
+        reportFieldsAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.GET_REPORT_FIELDS_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.obj = action.payload;
+
+      return {
+        ...state,
+        reportFieldsAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.GET_REPORT_FIELDS_ERROR: {
+      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
+
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.loadingError = true;
+      return {
+        ...state,
+        reportFieldsAsync: asyncStateObjClone
+      };
+    }
     default: {
       return state;
     }
@@ -123,3 +155,9 @@ export const getSavingUserReport = (state: State) => state.savingUserReport;
 export const getSaveUserReportError = (state: State) => state.saveUserReportError;
 export const getSaveUserReportConflict = (state: State) => state.saveUserReportConflict;
 export const getUserDataViewAsync = (state: State) => state.userDataViewAsync;
+export const getReportFieldsAsync = (state: State) => state.reportFieldsAsync;
+export const getSelectedFields = (state: State) => {
+  if (state.reportFieldsAsync.obj) {
+    return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === true);
+  }
+};

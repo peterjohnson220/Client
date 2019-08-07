@@ -4,11 +4,14 @@ import {
   TableauReportResponse,
   TableauReportViewsResponse,
   UpsertUserReportTag,
-  UserDataViewResponse
+  UserDataViewResponse,
+  DataViewDataRequest,
+  DataViewField,
+  PagingOptions
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 
-import { DashboardView, Entity, ReportType, SaveWorkbookTagObj, UserDataView, View, Workbook } from '../models';
+import { DashboardView, Entity, ReportType, SaveWorkbookTagObj, UserDataView, View, Workbook, Field } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -66,6 +69,21 @@ export class PayfactorsApiModelMapper {
     };
   }
 
+  static mapDataViewFieldsToFields(response: DataViewField[]): Field[] {
+    return response.map(f => {
+      return {
+        EntityId: f.EntityId,
+        Entity: f.Entity,
+        EntitySourceName: f.EntitySourceName,
+        DataElementId: f.DataElementId,
+        SourceName: f.SourceName,
+        DisplayName: f.DisplayName,
+        DataType: f.DataType,
+        IsSelected: f.IsSelected,
+        Order: f.Order
+      };
+    });
+  }
 
   /// OUT
   static mapSaveWorkbookTagObjToUpsertUserReportTag(saveWorkbookTagObj: SaveWorkbookTagObj): UpsertUserReportTag {
@@ -73,6 +91,22 @@ export class PayfactorsApiModelMapper {
       WorkbookId: saveWorkbookTagObj.WorkbookId,
       Tag: saveWorkbookTagObj.Tag
     };
+  }
+
+  static mapFieldsToDataViewFields(response: Field[]): DataViewField[] {
+    return response.map(f => {
+      return {
+        EntityId: f.EntityId,
+        Entity: f.Entity,
+        EntitySourceName: f.EntitySourceName,
+        DataElementId: f.DataElementId,
+        SourceName: f.SourceName,
+        DisplayName: f.DisplayName,
+        DataType: f.DataType,
+        IsSelected: f.IsSelected,
+        Order: f.Order
+      };
+    });
   }
 
   static buildSaveWorkbookOrderRequest(workbookIds: string[], view: DashboardView,
@@ -84,6 +118,15 @@ export class PayfactorsApiModelMapper {
     return {
       WorkbookIds: workbookIds,
       Type: workbookOrderType
+    };
+  }
+
+  static buildDataViewDataRequest(dataView: UserDataView, fields: Field[], pagingOptions: PagingOptions): DataViewDataRequest {
+    return {
+      BaseEntityId: dataView.BaseEntityId,
+      Fields: PayfactorsApiModelMapper.mapFieldsToDataViewFields(fields),
+      Filters: [],
+      PagingOptions: pagingOptions
     };
   }
 
