@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Entity, SaveUserWorkbookModalData } from '../models';
+import { Entity, SaveUserWorkbookModalData, UserDataView } from '../models';
 
 export const GET_BASE_ENTITIES = '[Data Insights / Data View] Get Base Entities';
 export const GET_BASE_ENTITIES_SUCCESS = '[Data Insights / Data View] Get Base Entities Success';
@@ -9,6 +9,9 @@ export const SAVE_USER_REPORT = '[Data Insights / Data View] Save User Report';
 export const SAVE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Save User Report Success';
 export const SAVE_USER_REPORT_ERROR = '[Data Insights / Data View] Save User Report Error';
 export const SAVE_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Save User Report Conflict';
+export const GET_USER_DATA_VIEW = '[Data Insights / Data View] Get User Data View';
+export const GET_USER_DATA_VIEW_SUCCESS = '[Data Insights / Data View] Get User Data View Success';
+export const GET_USER_DATA_VIEW_ERROR = '[Data Insights / Data View] Get User Data View Error';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -52,6 +55,23 @@ export class SaveUserReportConflict implements Action {
   constructor() {}
 }
 
+export class GetUserDataView implements Action {
+  readonly type = GET_USER_DATA_VIEW;
+
+  constructor(public payload: { dataViewId: number }) {}
+}
+
+export class GetUserDataViewSuccess implements Action {
+  readonly type = GET_USER_DATA_VIEW_SUCCESS;
+
+  constructor(public payload: UserDataView) {}
+}
+
+export class GetUserDataViewError implements Action {
+  readonly type = GET_USER_DATA_VIEW_ERROR;
+
+  constructor() {}
+}
 
 export type Actions
   = GetBaseEntities
@@ -60,4 +80,7 @@ export type Actions
   | SaveUserReport
   | SaveUserReportSuccess
   | SaveUserReportError
-  | SaveUserReportConflict;
+  | SaveUserReportConflict
+  | GetUserDataView
+  | GetUserDataViewSuccess
+  | GetUserDataViewError;

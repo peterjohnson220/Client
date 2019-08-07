@@ -1,9 +1,10 @@
-import { TableauReportResponse, UpsertUserReportTag, SaveWorkbookOrderRequest,
-  TableauReportViewsResponse, DataViewEntityResponse
+import {
+  TableauReportResponse, UpsertUserReportTag, SaveWorkbookOrderRequest,
+  TableauReportViewsResponse, DataViewEntityResponse, UserDataViewResponse
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 
-import { SaveWorkbookTagObj, Workbook, DashboardView, View, Entity } from '../models';
+import { SaveWorkbookTagObj, Workbook, DashboardView, View, Entity, UserDataView } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -48,6 +49,16 @@ export class PayfactorsApiModelMapper {
         IsBaseEntity: e.IsBaseEntity
       };
     });
+  }
+
+  static mapUserDataViewResponseToUserDataView(response: UserDataViewResponse): UserDataView {
+    return {
+      BaseEntityId: response.BaseEntityId,
+      Entity: response.Entity,
+      Name: response.Name,
+      Summary: response.Summary,
+      UserDataViewId: response.UserDataViewId
+    };
   }
 
 
