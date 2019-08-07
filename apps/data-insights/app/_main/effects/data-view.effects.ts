@@ -63,6 +63,22 @@ export class DataViewEffects {
       })
     );
 
+  @Effect()
+  getUserDataView$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.GET_USER_DATA_VIEW),
+      switchMap((action: fromDataViewActions.GetUserDataView) => {
+        return this.dataViewApiService.getUserDataView(action.payload.dataViewId)
+          .pipe(
+            map((response) => {
+              const userDataView = PayfactorsApiModelMapper.mapUserDataViewResponseToUserDataView(response);
+              return new fromDataViewActions.GetUserDataViewSuccess(userDataView);
+            }),
+            catchError(() => of(new fromDataViewActions.GetUserDataViewError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private dataViewApiService: DataViewApiService,

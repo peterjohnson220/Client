@@ -126,3 +126,8 @@ export const getSaveUserReportConflict = createSelector(
   selectDataViewState,
   fromDataViewReducer.getSaveUserReportConflict
 );
+
+export const getUserDataViewAsync = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getUserDataViewAsync
+);
