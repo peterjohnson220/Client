@@ -50,6 +50,8 @@ describe('CommunityStartPollComponent', () => {
     pfLinkifyService = TestBed.get(PfLinkifyService);
     fixture = TestBed.createComponent(CommunityNewPollComponent);
     instance = fixture.componentInstance;
+
+    instance.buildForm();
   });
 
   it('should show community start poll', () => {
@@ -63,21 +65,20 @@ describe('CommunityStartPollComponent', () => {
       Question: 'Question',
       Status: 1,
       DurationInHours: 24,
-      ResponseOptions: ['yes', 'no']
+      ResponseOptions: ['yes', 'no'],
+      Links: undefined,
+      TopicId: 'TestTopic'
     };
-
 
     instance.communityPollForm = formBuilder.group({
       'communityPollId': [''],
       'context': [newPoll.Question, [Validators.required, Validators.minLength(1), Validators.maxLength(instance.maxTextLength)]],
       'status': [newPoll.Status],
-      'choices': formBuilder.array([]),
+      'choices': formBuilder.array([CommunityPollChoicesComponent.buildItem('yes'), CommunityPollChoicesComponent.buildItem('no')]),
       'days':  [1],
-      'hours': [0]
+      'hours': [0],
+      'topic': ['TestTopic', [ Validators.required]]
     });
-
-    instance.choices.push(CommunityPollChoicesComponent.buildItem('yes'));
-    instance.choices.push(CommunityPollChoicesComponent.buildItem('no'));
 
     instance.submit();
 
@@ -87,7 +88,6 @@ describe('CommunityStartPollComponent', () => {
 
   it('should show community poll duration choices', () => {
     instance.onDurationDaysChange();
-    fixture.detectChanges();
     expect(fixture).toBeTruthy();
   });
 

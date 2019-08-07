@@ -1,15 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { PfLinkifyService } from '../../services/pf-linkify-service';
 
-import { CommunityAddPost, CommunityPost } from 'libs/models';
+import { CommunityAddPost, CommunityPost, CommunityTopic } from 'libs/models';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
-
 
 @Component({
   selector: 'pf-community-new-post',
@@ -24,13 +23,20 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
   communityDiscussionForm: FormGroup;
   textMaxLength = 2000;
 
+  communityTopics$: Observable<CommunityTopic[]>;
+  selectedTopicId: string;
+
+  public defaultTopic: CommunityTopic = { TopicName: 'Select a Topic to start your discussion...', Id: null };
+
   get context() { return this.communityDiscussionForm.get('context'); }
+  get topic() { return this.communityDiscussionForm.get('topic'); }
   get isFormValid() { return this.communityDiscussionForm.valid; }
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
     private formBuilder: FormBuilder,
     public pfLinkifyService: PfLinkifyService) {
       this.submittingCommunityPostSuccess$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPostsSuccess);
+      this.communityTopics$ = this.store.select(fromCommunityPostReducer.getTopics);
       this.buildForm();
     }
 
@@ -49,8 +55,10 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
   buildForm() {
     this.communityDiscussionForm = this.formBuilder.group({
       'context':   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.textMaxLength)]],
-      'isInternalOnly':  [false]
+      'isInternalOnly':  [false],
+      'topic': [null, [ Validators.required ]]
     });
+
   }
 
   submit() {
@@ -61,10 +69,14 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
     const newPost: CommunityAddPost = {
       PostText: this.context.value,
       IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value,
-      Links: this.pfLinkifyService.getLinks(this.context.value)
+      Links: this.pfLinkifyService.getLinks(this.context.value),
+      TopicId: this.topic.value
     };
 
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
   }
 
+  public onOpenTopicsList(): void {
+    this.defaultTopic = null;
+  }
 }
