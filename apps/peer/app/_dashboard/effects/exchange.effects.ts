@@ -9,6 +9,7 @@ import { GetChartRequest, ExchangeChartTypeEnum } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
 import * as fromSharedPeerExchangeActions from '../../shared/actions/exchange.actions';
+import * as fromExchangeJobComparisonGridActions from '../actions/exchange-job-comparison-grid.actions';
 
 @Injectable()
 export class ExchangeEffects {
@@ -25,6 +26,7 @@ export class ExchangeEffects {
         new fromExchangeDashboardActions.LoadRevenueChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Revenue}),
         new fromExchangeDashboardActions.LoadJobFamilyChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Family}),
         new fromExchangeDashboardActions.LoadJobChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Job}),
+        new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons(),
         new fromExchangeDashboardActions.CloseSidebar()
       ])
     );

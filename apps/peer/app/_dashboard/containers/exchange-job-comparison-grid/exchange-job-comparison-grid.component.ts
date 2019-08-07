@@ -129,7 +129,6 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
 
   handleMarketFilterChanged(countryCode: string) {
     this.selectedMarket = countryCode;
-    this.store.dispatch(new fromExchangeDashboardActions.CloseSidebar());
     this.store.dispatch(new fromExchangeJobComparisonGridActions.SelectComparisonMarket({newMarket: countryCode}));
     this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({
       countryCode: this.selectedMarket
@@ -152,12 +151,11 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
         this.selectedRate = Rates.find(r => r.Value === rate);
       }
     });
+
     this.persistedComparisonGridMarketSubscription = this.persistedComparisonGridMarket$.subscribe((market) => {
       this.selectedMarket = !!market ? market : 'USA';
-      this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({
-        countryCode: this.selectedMarket
-      }));
     });
+
     this.exchangeJobComparisonGridStateSubscription = this.exchangeJobComparisonsGridState$.subscribe(gridState => {
       this.exchangeJobComparisonGridState = cloneDeep(gridState);
     });
