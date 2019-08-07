@@ -14,7 +14,7 @@ export const SELECTED_RATE_PERSISTED = '[Peer Main/Exchange Job Comparisons] Sel
 export class LoadExchangeJobComparisons implements Action {
   readonly type = LOAD_EXCHANGE_JOB_COMPARISONS;
 
-  constructor(public payload: {countryCode: string} = null) {}
+  constructor(public payload?: {countryCode: string}) {}
 }
 
 export class LoadExchangeJobComparisonsSuccess implements Action {
