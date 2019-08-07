@@ -1,7 +1,10 @@
 import { AsyncStateObj } from 'libs/models/state';
+
 import { View } from './view.model';
+import { ReportType } from './report-types.enum';
 
 export interface Workbook {
+  Type: ReportType;
   WorkbookId: string;
   WorkbookName: string;
   Thumbnail: string;
@@ -21,6 +24,7 @@ export interface Workbook {
 
 export function generateMockWorkbook(): Workbook {
   return {
+    Type: ReportType.TableauReport,
     WorkbookId: '123456789',
     WorkbookName: 'abc',
     Thumbnail: '',

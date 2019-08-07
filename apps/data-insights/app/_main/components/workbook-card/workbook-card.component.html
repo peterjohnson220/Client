@@ -13,21 +13,28 @@
       <fa-icon *ngIf="!workbook.Tag" [icon]="['far', 'tag']" class="action-icon"></fa-icon>
     </button>
     <div class="open-workbook">
-      <a class="btn" [attr.data-qa-id]="'lnk-openWorkbook'" title="Open Workbook" [routerLink]="['/company-reports',workbook.WorkbookId]" [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
-        Open
-      </a>
-      <div class="vertical-separator h-100"></div>
-      <button class="btn open-views"
-              [attr.data-qa-id]="'btn-openViews'"
-              [ngbPopover]="popContent"
-              [popoverClass]="'workbook-views-popover'"
-              [placement]="'bottom'"
-              [popoverTitle]="workbook.WorkbookName"
-              [autoClose]="'outside'"
-              (shown)="handleOpenViewsClicked(workbook)"
-              (hidden)="handleViewsHidden()">
-        <fa-icon title="Open Views" [icon]="['fas','caret-down']" class="action-icon open-arrow"></fa-icon>
-      </button>
+      <ng-container *ngIf="workbook.Type === reportTypes.TableauReport">
+        <a class="btn" [attr.data-qa-id]="'lnk-openWorkbook'" title="Open Workbook" [routerLink]="['/company-reports',workbook.WorkbookId]" [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
+          Open
+        </a>
+        <div class="vertical-separator h-100"></div>
+        <button class="btn open-views"
+                [attr.data-qa-id]="'btn-openViews'"
+                [ngbPopover]="popContent"
+                [popoverClass]="'workbook-views-popover'"
+                [placement]="'bottom'"
+                [popoverTitle]="workbook.WorkbookName"
+                [autoClose]="'outside'"
+                (shown)="handleOpenViewsClicked(workbook)"
+                (hidden)="handleViewsHidden()">
+          <fa-icon title="Open Views" [icon]="['fas','caret-down']" class="action-icon open-arrow"></fa-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="workbook.Type === reportTypes.DataView">
+        <a class="btn" [attr.data-qa-id]="'lnk-openWorkbook'" title="Open Workbook" [routerLink]="['/custom-report',workbook.WorkbookId]">
+          Open
+        </a>
+      </ng-container>
 
     </div>
   </div>
