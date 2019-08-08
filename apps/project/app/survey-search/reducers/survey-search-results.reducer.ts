@@ -160,13 +160,20 @@ export const getResults = (state: State) => state.results;
 export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
 
 function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDetails[]) {
-  let matchingDataCut = filter => filter.ServerInfo.SurveyDataId === dataCut.ServerInfo.SurveyDataId;
+  let matchingDataCut = filter =>
+    filter.DataSource === SurveySearchResultDataSources.Surveys &&
+    filter.ServerInfo.SurveyDataId === dataCut.ServerInfo.SurveyDataId;
+
   if (dataCut.DataSource === SurveySearchResultDataSources.Payfactors) {
-    matchingDataCut = filter => filter.SurveyJobCode === dataCut.SurveyJobCode && filter.CountryCode === dataCut.CountryCode;
+    matchingDataCut = filter =>
+      filter.DataSource === SurveySearchResultDataSources.Payfactors &&
+      filter.SurveyJobCode === dataCut.SurveyJobCode &&
+      filter.CountryCode === dataCut.CountryCode;
   } else if (dataCut.DataSource === SurveySearchResultDataSources.Peer) {
     matchingDataCut = filter =>
-      (!!dataCut.ServerInfo.DailyNatAvgId && filter.ServerInfo.DailyNatAvgId === dataCut.ServerInfo.DailyNatAvgId)
-      || (!!dataCut.ServerInfo.DailyScopeAvgId && filter.ServerInfo.DailyScopeAvgId === dataCut.ServerInfo.DailyScopeAvgId);
+      filter.DataSource === SurveySearchResultDataSources.Peer &&
+      ((!!dataCut.ServerInfo.DailyNatAvgId && filter.ServerInfo.DailyNatAvgId === dataCut.ServerInfo.DailyNatAvgId)
+      || (!!dataCut.ServerInfo.DailyScopeAvgId && filter.ServerInfo.DailyScopeAvgId === dataCut.ServerInfo.DailyScopeAvgId));
   }
   return selectedDataCuts.find(matchingDataCut);
 }
