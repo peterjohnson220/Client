@@ -128,6 +128,7 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
       TopicId: this.topic.value
     };
     this.store.dispatch(new fromCommunityPostActions.AddingCommunityDiscussionPoll(communityPollRequest));
+    this.defaultTopic = { TopicName: 'Select a Topic to start your poll...', Id: null };
   }
 
   isPollDurationDaysZero () {
