@@ -20,9 +20,8 @@ describe('Data-Insights LeftSidebarComponent', () => {
   }));
 
   it('should toggle sidebar', () => {
-    instance.sideBarOpen = false;
-    instance.toggleSidebar();
-    expect(instance.sideBarOpen).toBe(true);
-
+    instance.isOpen = false;
+    instance.toggle();
+    expect(instance.isOpen).toBe(true);
   });
 });

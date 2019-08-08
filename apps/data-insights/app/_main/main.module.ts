@@ -16,14 +16,14 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
-  WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent } from './components';
+  WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent, LeftSidebarComponent,
+  LeftSidebarExistingFieldsComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
-import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.component';
 
 @NgModule({
   imports: [
@@ -63,7 +63,7 @@ import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.com
 
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
-    StandardReportHexagonComponent, SaveUserWorkbookModalComponent, LeftSidebarComponent
+    StandardReportHexagonComponent, SaveUserWorkbookModalComponent, LeftSidebarComponent, LeftSidebarExistingFieldsComponent,
   ],
   providers: [
     WindowRef

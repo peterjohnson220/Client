@@ -6,12 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./left-sidebar.component.scss']
 })
 export class LeftSidebarComponent {
-  sideBarOpen = true;
+  isOpen = true;
 
   constructor() { }
 
-  toggleSidebar() {
-    this.sideBarOpen = !this.sideBarOpen;
+  toggle() {
+    this.isOpen = !this.isOpen;
   }
 
 }

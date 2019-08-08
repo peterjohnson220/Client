@@ -5,7 +5,6 @@ import { Store, select } from '@ngrx/store';
 
 import { AsyncStateObj } from 'libs/models/state';
 
-import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { Field } from '../../models';
@@ -29,8 +28,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   hasMoreDataOnServer: boolean;
 
   constructor(
-    private store: Store<fromDataInsightsMainReducer.State>,
-    private route: ActivatedRoute
+    private store: Store<fromDataInsightsMainReducer.State>
   ) {
     this.fields$ = this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields));
     this.dataAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getReportDataAsync));
@@ -41,7 +39,6 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadingMoreDataSub = this.loadingMoreData$.subscribe(loading => this.loadingMoreData = loading);
     this.hasMoreDataOnServerSub = this.hasMoreDataOnServer$.subscribe(result => this.hasMoreDataOnServer = result);
-    this.store.dispatch(new fromDataViewActions.GetReportFields({ dataViewId: this.route.snapshot.params.dataViewId }));
   }
 
   ngOnDestroy(): void {

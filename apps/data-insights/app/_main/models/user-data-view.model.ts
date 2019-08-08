@@ -5,3 +5,13 @@ export interface UserDataView {
   Name: string;
   Summary: string;
 }
+
+export function generateMockUserDataView(): UserDataView {
+  return {
+    UserDataViewId: 1,
+    BaseEntityId: 1,
+    Entity: 'Jobs',
+    Name: 'Jobs Report',
+    Summary: 'Job summary'
+  };
+}

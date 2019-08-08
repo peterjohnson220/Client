@@ -11,7 +11,7 @@ import { faChevronDoubleRight } from '@fortawesome/pro-solid-svg-icons/faChevron
 import { faChevronDoubleLeft } from '@fortawesome/pro-solid-svg-icons/faChevronDoubleLeft';
 import { faEdit } from '@fortawesome/pro-solid-svg-icons/faEdit';
 import { faClone } from '@fortawesome/pro-solid-svg-icons/faClone';
-
+import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes';
 
 // Light
 import { faSitemap } from '@fortawesome/pro-light-svg-icons/faSitemap';
@@ -24,4 +24,5 @@ import { faTag } from '@fortawesome/pro-regular-svg-icons/faTag';
 import { faStar as falStar } from '@fortawesome/pro-regular-svg-icons/faStar';
 
 export const faIcons = [ faChartBar, faSitemap, faUsers, faListUl, falStar, faStar, faTag, fasTag, faCaretDown,
-  faSearch, faCaretRight, faTags, faChevronDoubleDown, faChevronDoubleUp, faChevronDoubleRight, faChevronDoubleLeft, faEdit, faClone ];
+  faSearch, faCaretRight, faTags, faChevronDoubleDown, faChevronDoubleUp, faChevronDoubleRight, faChevronDoubleLeft,
+  faEdit, faClone,  faTimes];
