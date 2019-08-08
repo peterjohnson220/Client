@@ -74,6 +74,7 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
     };
 
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
+    this.defaultTopic = { TopicName: 'Select a Topic to start your discussion...', Id: null };
   }
 
   public onOpenTopicsList(): void {
