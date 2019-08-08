@@ -17,10 +17,11 @@
 }
 
 .main-content {
-  padding-left: 0 !important;
-  background-color: white;
-  padding: 1rem;
-  height: calc(100vh - 114px);
+  background-color: #ffffff;
+
+  .data-view-grid-container {
+    width: calc(100vw - 480px);
+  }
 }
 
 .actions {
