@@ -1,0 +1,61 @@
+@import 'colors';
+@import 'data-insights-variables';
+
+.existing-field-header {
+  border-bottom: 1px solid $grey;
+  margin-left: 7px;
+
+  .expand-fields {
+    position: relative;
+    left: 267px;
+    cursor: pointer;
+  }
+}
+.existing-fields-container{
+
+  .existingFieldExpanded-closed{
+    display: none;
+  }
+
+  .existingFieldExpanded-open {
+    overflow-y: scroll;
+    height: 200px;
+    padding-right: 6px;
+
+    li .truncate{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      max-width: 41%;
+    }
+
+  }
+  .data-list-item{
+    padding: 7px 3px;
+    border-radius: 5px;
+    background-color: #0099CC;
+    color: white;
+    font-size: 12px;
+
+    .pull-right {
+      float: right;
+      color: $grey;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      max-width: 41%;
+
+      .delete-btn {
+        margin-left: 13px;
+        cursor: pointer;
+        color: white;
+      }
+
+    }
+  }
+}
+
+
+

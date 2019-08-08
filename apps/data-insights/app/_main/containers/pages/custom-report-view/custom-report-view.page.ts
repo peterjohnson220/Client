@@ -43,6 +43,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new fromDataViewActions.GetUserDataView({ dataViewId: this.route.snapshot.params.dataViewId }));
+    this.store.dispatch(new fromDataViewActions.GetReportFields({ dataViewId: this.route.snapshot.params.dataViewId}));
     this.editReportSuccessSubscription =
       this.store.pipe(select(fromDataInsightsMainReducer.getEditUserReportSuccess)).subscribe(succeeded => {
       if (succeeded && this.editUserWorkbookModalComponent) {

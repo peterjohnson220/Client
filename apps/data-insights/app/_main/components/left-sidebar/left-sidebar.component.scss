@@ -1,31 +1,68 @@
 @import 'colors';
 @import 'data-insights-variables';
 
-.sidebar {
-  color: #E6E9F7;
-  background-color: $grey;
+$left-sidebar-open-width: 400px;
 
-    #open-sidebar {
-      color: $header-color;
-      cursor: pointer;
-    }
+.left-sidebar-dock {
+  min-width: 35px;
 }
 
-.sidebar-closed {
-  background-color: $grey;
-  padding: 25px 10px;
-  transition: all 0.25s ease-in-out;
+.close-sidebar-icon {
+  text-align: right;
+  width: 100%;
 }
 
-.sidebar-open {
-  min-width: 250px;
-  min-height: 250px;
+.close-sidebar-icon span{
+  z-index: 3;
+  cursor: pointer;
+}
+
+.open-sidebar-icon-container{
+  padding: 9px 10px;
+  transition-delay: 0.23s;
+  background-color: $right-sidebar-color;
+}
+
+.open-sidebar-icon {
+  color: #fff;
+  cursor: pointer;
+}
+
+.left-sidebar-content {
+  background-color: #fff;
+  z-index: 3;
+}
+
+.left-sidebar-close {
+  width: 0;
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+.left-sidebar-open {
+  width: $left-sidebar-open-width;
+  transition: .4s ease-in-out;
   background-color: white;
+  overflow: hidden;
+}
 
-      #close-sidebar {
-        color: $header-color;
-        margin-left: 92%;
-        cursor: pointer;
-      }
-    }
+.sidebar-width {
+  min-width:400px;
+  border: 1px solid $grey;
+}
+.close-icon {
+  position: relative;
+  left: 302px;
+}
 
+@media screen and (max-width: 860px) {
+  .right-sidebar-close {
+    position: fixed;
+    right: 0;
+  }
+
+  .left-sidebar-open {
+    position: fixed;
+    right: 0;
+  }
+}
