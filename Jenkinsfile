@@ -11,6 +11,7 @@ octoChannel = 'Default'
 octoVerSuffix = ''
 
 slackCh = 'f-build'
+slackTitle = 'Build'
 
 changeReturn = null
 suffix = null
@@ -66,6 +67,8 @@ pipeline {
               env.buildConfig = '--configuration=staging'
             }      
             
+            slackTitle = (isAutoDeployBranch) ? 'Build/Deploy' : 'Build'
+
             env.pkgFullName = pkgName + "." + suffix + "-J." + env.pkgVersion
             echo env.pkgFullName
 
@@ -87,7 +90,7 @@ pipeline {
             configFileProvider([configFile(fileId: 'b6ff041b-b388-489a-b63b-e3389d76cea9', variable: 'slackChConfigFile')]) {
               def slackChConfigRaw = readFile slackChConfigFile
               def slackChConfig = new JsonSlurper().parseText(slackChConfigRaw)
-              def branchShort = env.BRANCH_NAME.substring(0,4)
+              def branchShort = env.BRANCH_NAME.substring(0,4).toLowerCase()
 
               slackCh = slackChConfig[branchShort]
 
@@ -151,7 +154,7 @@ pipeline {
             echo "Getting list of apps..."
             sh 'ls -I "smallbiz" apps > dirs'
             sh """
-              cat dirs | time parallel -j-2 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && echo "{} build complete"'
+              cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && echo "{} build complete"'
             """
           }
         }
@@ -247,13 +250,13 @@ pipeline {
     success {
       script { 
         fullDur = (currentBuild.durationString).replace(' and counting',"")
-        slackSend channel: slackCh, color: 'good', message: "*Build/Deploy Success* \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor(s): ${env.changeAuthorList} \n<${env.buildurl}|Build Log>"
+        slackSend channel: slackCh, color: 'good', message: "*${slackTitle} Success* \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor(s): ${env.changeAuthorList} \n<${env.buildurl}|Build Log>"
       }
     }
     // aborted {
     //   script { 
     //     fullDur = (currentBuild.durationString).replace(' and counting',"")
-    //     slackSend channel: slackCh, color: 'danger', message: "*Build Aborted* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor(s): ${env.changeAuthorList} \n<${env.buildurl}console|Build Log>"
+    //     slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Aborted* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor(s): ${env.changeAuthorList} \n<${env.buildurl}console|Build Log>"
     //   }
     // }
   }
@@ -292,5 +295,5 @@ def getGitChangeLog() {
 
 def sendSlackFail(changeAuthorList) { 
   fullDur = (currentBuild.durationString).replace(' and counting',"")
-  slackSend channel: slackCh, color: 'danger', message: "*Build Failure* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor(s): ${env.changeAuthorList} \n<${env.buildurl}console|Build Log>"
+  slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Failure* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor(s): ${env.changeAuthorList} \n<${env.buildurl}console|Build Log>"
 }
