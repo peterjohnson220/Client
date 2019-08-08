@@ -12,20 +12,23 @@
   height: calc(100vh - 114px);
 }
 
-.page {
-  background-color: $grey;
+.actions {
+  min-width: 185px;
+  margin: 0.5rem 1rem 0.5rem 0.5rem;
+  justify-content: flex-end;
 
-  .header {
-    height: 67px;
-    padding: 0 1rem;
-    width: 100%;
-    background-color: #ffffff;
+  .btn {
+    margin-left: .75rem;
+    border: 1px solid transparent;
 
-    .title {
-      color: $header-color;
-      font-size: 2.5rem;
-      font-weight: 500;
+    &:hover {
+      border: 1px solid #CCC;
     }
+
+    fa-icon {
+      color: #777777;
+      font-size: 1.25rem;
     }
   }
+}
 

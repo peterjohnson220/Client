@@ -15,6 +15,10 @@ export const GET_USER_DATA_VIEW_ERROR = '[Data Insights / Data View] Get User Da
 export const GET_REPORT_FIELDS = '[Data Insights / Data View] Get Report Fields';
 export const GET_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View] Get Report Fields Success';
 export const GET_REPORT_FIELDS_ERROR = '[Data Insights / Data View] Get Report Fields Error';
+export const EDIT_USER_REPORT = '[Data Insights / Data View] Edit User Report';
+export const EDIT_USER_REPORT_SUCCESS = '[Data Insights / Data View] Edit User Report Success';
+export const EDIT_USER_REPORT_ERROR = '[Data Insights / Data View] Edit User Report Error';
+export const EDIT_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Edit User Report Conflict';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -93,6 +97,29 @@ export class GetReportFieldsError implements Action {
 
   constructor() {}
 }
+export class EditUserReport implements Action {
+  readonly type = EDIT_USER_REPORT;
+
+  constructor(public payload: SaveUserWorkbookModalData) {}
+}
+
+export class EditUserReportSuccess implements Action {
+  readonly type = EDIT_USER_REPORT_SUCCESS;
+
+  constructor(public payload: SaveUserWorkbookModalData) {}
+}
+
+export class EditUserReportError implements Action {
+  readonly type = EDIT_USER_REPORT_ERROR;
+
+  constructor() {}
+}
+
+export class EditUserReportConflict implements Action {
+  readonly type = EDIT_USER_REPORT_CONFLICT_ERROR;
+
+  constructor() {}
+}
 
 export type Actions
   = GetBaseEntities
@@ -107,4 +134,8 @@ export type Actions
   | GetUserDataViewError
   | GetReportFields
   | GetReportFieldsSuccess
-  | GetReportFieldsError;
+  | GetReportFieldsError
+  | EditUserReport
+  | EditUserReportSuccess
+  | EditUserReportError
+  | EditUserReportConflict;

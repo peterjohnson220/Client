@@ -12,6 +12,10 @@ export interface State {
   saveUserReportConflict: boolean;
   userDataViewAsync: AsyncStateObj<UserDataView>;
   reportFieldsAsync: AsyncStateObj<Field[]>;
+  editingUserReport: boolean;
+  editUserReportError: boolean;
+  editUserReportConflict: boolean;
+  editUserReportSuccess: boolean;
 }
 
 const initialState: State = {
@@ -21,6 +25,10 @@ const initialState: State = {
   saveUserReportError: false,
   userDataViewAsync: generateDefaultAsyncStateObj<UserDataView>(null),
   reportFieldsAsync: generateDefaultAsyncStateObj<Field[]>([]),
+  editingUserReport: false,
+  editUserReportError: false,
+  editUserReportConflict: false,
+  editUserReportSuccess: false
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -144,6 +152,44 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         reportFieldsAsync: asyncStateObjClone
       };
     }
+    case fromDataViewActions.EDIT_USER_REPORT: {
+      return {
+        ...state,
+        editingUserReport: true,
+        editUserReportError: false,
+        editUserReportConflict: false,
+        editUserReportSuccess: false
+      };
+    }
+    case fromDataViewActions.EDIT_USER_REPORT_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.userDataViewAsync);
+      asyncStateObjClone.obj.Name = action.payload.Name;
+      asyncStateObjClone.obj.Summary = action.payload.Summary;
+      return {
+        ...state,
+        editingUserReport: false,
+        editUserReportError: false,
+        editUserReportConflict: false,
+        editUserReportSuccess: true,
+        userDataViewAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.EDIT_USER_REPORT_ERROR: {
+      return {
+        ...state,
+        editingUserReport: false,
+        editUserReportError: true,
+        editUserReportConflict: false
+      };
+    }
+    case fromDataViewActions.EDIT_USER_REPORT_CONFLICT_ERROR: {
+      return {
+        ...state,
+        editingUserReport: false,
+        editUserReportError: false,
+        editUserReportConflict: true
+      };
+    }
     default: {
       return state;
     }
@@ -156,6 +202,10 @@ export const getSaveUserReportError = (state: State) => state.saveUserReportErro
 export const getSaveUserReportConflict = (state: State) => state.saveUserReportConflict;
 export const getUserDataViewAsync = (state: State) => state.userDataViewAsync;
 export const getReportFieldsAsync = (state: State) => state.reportFieldsAsync;
+export const getEditingUserReport = (state: State) => state.editingUserReport;
+export const getEditUserReportError = (state: State) => state.editUserReportError;
+export const getEditUserReportConflict = (state: State) => state.editUserReportConflict;
+export const getEditUserReportSuccess = (state: State) => state.editUserReportSuccess;
 export const getSelectedFields = (state: State) => {
   if (state.reportFieldsAsync.obj) {
     return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === true);

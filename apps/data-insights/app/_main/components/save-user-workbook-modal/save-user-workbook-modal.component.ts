@@ -6,7 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfValidators } from 'libs/forms/validators/pf-validators';
 
-import { Entity, SaveUserWorkbookModalData } from '../../models';
+import { Entity, SaveUserWorkbookModalData, SaveWorkbookMode } from '../../models';
 
 @Component({
   selector: 'pf-save-user-workbook-modal',
@@ -20,12 +20,17 @@ export class SaveUserWorkbookModalComponent implements OnInit, OnChanges {
   @Input() saving: boolean;
   @Input() saveError: boolean;
   @Input() saveNameConflict: boolean;
+  @Input() lockedEntityName: string;
+  @Input() reportName = '';
+  @Input() summary = '';
+  @Input() workbookMode = SaveWorkbookMode.NewWorkbook;
   @Output() saveClicked: EventEmitter<SaveUserWorkbookModalData> = new EventEmitter();
 
   @ViewChild('saveUserWorkbookModal', { static: true }) public saveUserWorkbookModal: any;
   saveUserWorkbookForm: FormGroup;
   defaultEntity: Entity;
   showErrorMessages: boolean;
+  workbookModes = SaveWorkbookMode;
 
   constructor(
     private modalService: NgbModal,
@@ -59,7 +64,8 @@ export class SaveUserWorkbookModalComponent implements OnInit, OnChanges {
   close(): void {
     this.modalService.dismissAll();
     this.modalData = null;
-    this.clearForm();
+    this.resetForm();
+
     this.showErrorMessages = false;
   }
 
@@ -72,13 +78,13 @@ export class SaveUserWorkbookModalComponent implements OnInit, OnChanges {
   private createForm(): void {
     this.saveUserWorkbookForm = this.formBuilder.group({
       entity: [this.defaultEntity],
-      name: ['', [PfValidators.required, Validators.maxLength(255)]],
-      summary: ['', [Validators.maxLength(300)]]
+      name: [this.reportName, [PfValidators.required, Validators.maxLength(255)]],
+      summary: [this.summary, [Validators.maxLength(300)]]
     });
   }
 
   private updateForm() {
-    if (!!this.modalData) {
+    if (!!this.modalData && !!this.saveUserWorkbookForm) {
       this.saveUserWorkbookForm.patchValue({
         entity: this.modalData.Entity,
         name: this.modalData.Name,
@@ -95,11 +101,11 @@ export class SaveUserWorkbookModalComponent implements OnInit, OnChanges {
     };
   }
 
-  private clearForm(): void {
+  private resetForm(): void {
     this.saveUserWorkbookForm.patchValue({
       entity: this.defaultEntity,
-      name: '',
-      summary: ''
+      name: this.reportName,
+      summary: this.summary
     });
   }
 }

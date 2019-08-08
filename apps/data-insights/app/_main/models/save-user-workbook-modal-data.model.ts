@@ -1,7 +1,7 @@
 import { Entity, generateMockEntity } from './entity.model';
 
 export interface SaveUserWorkbookModalData {
-  Entity: Entity;
+  Entity?: Entity;
   Name: string;
   Summary: string;
 }
