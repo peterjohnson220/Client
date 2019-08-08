@@ -19,6 +19,10 @@ export const EDIT_USER_REPORT = '[Data Insights / Data View] Edit User Report';
 export const EDIT_USER_REPORT_SUCCESS = '[Data Insights / Data View] Edit User Report Success';
 export const EDIT_USER_REPORT_ERROR = '[Data Insights / Data View] Edit User Report Error';
 export const EDIT_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Edit User Report Conflict';
+export const DUPLICATE_USER_REPORT = '[Data Insights / Data View] Duplicate User Report';
+export const DUPLICATE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Duplicate User Report Success';
+export const DUPLICATE_USER_REPORT_ERROR = '[Data Insights / Data View] Duplicate User Report Error';
+export const DUPLICATE_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Duplicate User Report Conflict';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -97,6 +101,7 @@ export class GetReportFieldsError implements Action {
 
   constructor() {}
 }
+
 export class EditUserReport implements Action {
   readonly type = EDIT_USER_REPORT;
 
@@ -121,6 +126,30 @@ export class EditUserReportConflict implements Action {
   constructor() {}
 }
 
+export class DuplicateUserReport implements Action {
+  readonly type = DUPLICATE_USER_REPORT;
+
+  constructor(public payload: SaveUserWorkbookModalData) {}
+}
+
+export class DuplicateUserReportSuccess implements Action {
+  readonly type = DUPLICATE_USER_REPORT_SUCCESS;
+
+  constructor(public payload: { dataViewId: number }) {}
+}
+
+export class DuplicateUserReportError implements Action {
+  readonly type = DUPLICATE_USER_REPORT_ERROR;
+
+  constructor() {}
+}
+
+export class DuplicateUserReportConflict implements Action {
+  readonly type = DUPLICATE_USER_REPORT_CONFLICT_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetBaseEntities
   | GetBaseEntitiesSuccess
@@ -138,4 +167,8 @@ export type Actions
   | EditUserReport
   | EditUserReportSuccess
   | EditUserReportError
-  | EditUserReportConflict;
+  | EditUserReportConflict
+  | DuplicateUserReport
+  | DuplicateUserReportSuccess
+  | DuplicateUserReportError
+  | DuplicateUserReportConflict;

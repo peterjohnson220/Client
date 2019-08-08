@@ -84,11 +84,48 @@ export class DataViewEffects {
       })
     );
 
+  @Effect()
+  duplicateUserReport$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.DUPLICATE_USER_REPORT),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.DuplicateUserReport, userDataView) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.duplicateUserDataView({
+          UserDataViewId: data.userDataView.obj.UserDataViewId,
+          Name: data.action.payload.Name,
+          Summary: data.action.payload.Summary
+        })
+          .pipe(
+            map((response) => {
+              return new fromDataViewActions.DuplicateUserReportSuccess({ dataViewId: response });
+            }),
+            catchError((response) => {
+              return of(response.status === 409 ?
+                new fromDataViewActions.DuplicateUserReportConflict()
+                : new fromDataViewActions.DuplicateUserReportError());
+            })
+          );
+      })
+    );
+
   @Effect({dispatch: false})
   saveUserReportSuccess$ = this.action$
     .pipe(
       ofType(fromDataViewActions.SAVE_USER_REPORT_SUCCESS),
       tap((action: fromDataViewActions.SaveUserReportSuccess) => {
+        this.router.navigate(['custom-report', action.payload.dataViewId]);
+      })
+    );
+
+  @Effect({dispatch: false})
+  duplicateUserReportSuccess$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.DUPLICATE_USER_REPORT_SUCCESS),
+      tap((action: fromDataViewActions.DuplicateUserReportSuccess) => {
         this.router.navigate(['custom-report', action.payload.dataViewId]);
       })
     );
