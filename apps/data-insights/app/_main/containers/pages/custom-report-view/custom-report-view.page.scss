@@ -1,6 +1,17 @@
 @import 'colors';
 @import 'data-insights-variables';
+@import 'common/common-variables';
 
+::ng-deep {
+  .page-header {
+    .d-flex{
+      @extend %ellipsis-overflowing-text;
+      h3 {
+        @extend %ellipsis-overflowing-text;
+      }
+    }
+  }
+}
 .center-content-scroll {
   overflow: hidden;
 }
