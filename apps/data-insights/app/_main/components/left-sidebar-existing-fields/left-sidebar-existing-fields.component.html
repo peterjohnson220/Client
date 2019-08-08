@@ -1,7 +1,7 @@
-<div class="existing-field-header d-flex">
+<div class="existing-field-header d-flex" (click)="toggleField()">
   <h6>Existing Fields</h6>
-  <fa-icon *ngIf="existingFieldExpanded" icon="caret-down" size="1x" class="expand-fields" data-qa-id='btn-collapseExistingFields' (click)="toggleField()"></fa-icon>
-  <fa-icon *ngIf="!existingFieldExpanded" icon="caret-right" size="1x" class="expand-fields" data-qa-id='btn-expandExistingFields' (click)="toggleField()"></fa-icon>
+  <fa-icon *ngIf="existingFieldExpanded" icon="caret-down" size="1x" class="expand-fields" data-qa-id="btn-collapseExistingFields" ></fa-icon>
+  <fa-icon *ngIf="!existingFieldExpanded" icon="caret-right" size="1x" class="expand-fields" data-qa-id="btn-expandExistingFields" ></fa-icon>
 </div>
 <div class="existing-fields-container ml-2 mr-2">
   <ul  [ngClass]="existingFieldExpanded ? 'existingFieldExpanded-open ' : 'existingFieldExpanded-closed'" class="list-group list-unstyled">
