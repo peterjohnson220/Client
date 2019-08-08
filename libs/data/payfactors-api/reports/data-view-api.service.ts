@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CreateUserViewRequest, DataViewEntityResponse , UserDataViewResponse,
-  DataViewDataRequest, DataViewField } from 'libs/models/payfactors-api';
+  DataViewDataRequest, DataViewField, EditUserViewRequest, DuplicateUserViewRequest } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -18,6 +18,14 @@ export class DataViewApiService {
 
   saveUserDataView(request: CreateUserViewRequest): Observable<number> {
     return this.payfactorsApiService.post(`${this.endpoint}/CreateUserDataView`, request);
+  }
+
+  editUserDataView(request: EditUserViewRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/EditUserDataView`, request);
+  }
+
+  duplicateUserDataView(request: DuplicateUserViewRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DuplicateUserDataView`, request);
   }
 
   getUserDataView(dataViewId: number): Observable<UserDataViewResponse> {

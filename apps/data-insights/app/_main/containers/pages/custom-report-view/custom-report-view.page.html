@@ -8,6 +8,15 @@
     <pf-page-with-title-bar [returnUrl]="'/'">
       <ng-container page-title>{{userDataViewAsync?.obj?.Name}}</ng-container>
       <ng-container page-content>
+        <div class="d-flex flex-row actions">
+          <button class="btn btn-secondary"
+                  [attr.data-qa-id]="'btn-edit'"
+                  (click)="handleEditClicked()"
+                  ngbTooltip="Edit"
+                  container="body">
+            <fa-icon icon="edit"></fa-icon>
+          </button>
+        </div>
         <div class="d-flex flex-row main-content">
           <pf-left-sidebar>
           </pf-left-sidebar>
@@ -17,4 +26,19 @@
       </ng-container>
     </pf-page-with-title-bar>
   </pf-async-container>
+
+  <pf-save-user-workbook-modal
+    #editWorkbookModal
+    [workbookMode]="workbookModes.EditWorkbook"
+    [modalData]="editWorkbookData"
+    [lockedEntityName]="userDataViewAsync?.obj?.Entity"
+    [reportName]="userDataViewAsync?.obj?.Name"
+    [summary]="userDataViewAsync?.obj?.Summary"
+    [saving]="editingUserDataView$ | async"
+    [saveNameConflict]="editUserDataViewConflict$ | async"
+    [saveError]="editUserDataViewError$ | async"
+    (saveClicked)="handleEditSaveClicked($event)">
+  </pf-save-user-workbook-modal>
 </div>
+
+

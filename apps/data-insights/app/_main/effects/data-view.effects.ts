@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, tap, mergeMap } from 'rxjs/operators';
+import { switchMap, map, catchError, tap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
@@ -11,6 +11,8 @@ import * as fromDataViewActions from '../actions/data-view.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { Entity } from '../models';
+import { select, Store } from '@ngrx/store';
+import * as fromDataViewReducer from '../reducers';
 
 @Injectable()
 export class DataViewEffects {
@@ -49,6 +51,34 @@ export class DataViewEffects {
               return of(response.status === 409 ?
                 new fromDataViewActions.SaveUserReportConflict()
                 : new fromDataViewActions.SaveUserReportError());
+            })
+          );
+      })
+    );
+
+  @Effect()
+  editUserReport$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.EDIT_USER_REPORT),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.EditUserReport, userDataView) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.editUserDataView({
+          UserDataViewId: data.userDataView.obj.UserDataViewId,
+          Name: data.action.payload.Name,
+          Summary: data.action.payload.Summary
+        })
+          .pipe(
+            map(() => {
+              return new fromDataViewActions.EditUserReportSuccess(data.action.payload);
+            }),
+            catchError((response) => {
+              return of(response.status === 409 ?
+                new fromDataViewActions.EditUserReportConflict()
+                : new fromDataViewActions.EditUserReportError());
             })
           );
       })
@@ -99,6 +129,7 @@ export class DataViewEffects {
 
   constructor(
     private action$: Actions,
+    private store: Store<fromDataViewReducer.State>,
     private dataViewApiService: DataViewApiService,
     private router: Router
   ) {}
