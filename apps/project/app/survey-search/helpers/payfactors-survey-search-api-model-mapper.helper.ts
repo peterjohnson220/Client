@@ -1,9 +1,15 @@
 import { SurveySearchResultDataSources } from 'libs/constants';
-import { AddSurveyDataCutRequest, JobDataCut, SurveyJob, PeerCut,
-  ExchangeJobDataCutResponse, SurveyJobDataCutResponse } from 'libs/models/payfactors-api';
+import {
+  AddSurveyDataCutRequest,
+  ExchangeJobDataCutResponse,
+  JobDataCut,
+  PeerCut,
+  SurveyJob,
+  SurveyJobDataCutResponse
+} from 'libs/models/payfactors-api';
 import { generateGuid } from 'libs/core/functions';
 
-import { DataCutDetails, JobContext, JobResult, ProjectSearchContext, PeerJobInfo, DataCut } from '../models';
+import { DataCut, DataCutDetails, JobContext, JobResult, PeerJobInfo, ProjectSearchContext } from '../models';
 
 export class PayfactorsSurveySearchApiModelMapper {
 
@@ -97,7 +103,7 @@ export class PayfactorsSurveySearchApiModelMapper {
           DailyNatAvgId: r.DailyNatAvgId,
           DailyScopeAvgId: r.DailyScopeAvgId
         },
-        IsSelected: selectedDataCuts
+        IsSelected: selectedDataCuts.filter(sd => sd.DataSource === SurveySearchResultDataSources.Peer)
           .some(sc => (!!r.DailyNatAvgId && sc.ServerInfo.DailyNatAvgId === r.DailyNatAvgId) ||
                       (!!r.DailyScopeAvgId && sc.ServerInfo.DailyScopeAvgId === r.DailyScopeAvgId))
       };
