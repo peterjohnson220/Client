@@ -28,6 +28,7 @@ export function reducer(state = initialState, action: fromDataViewGridActions.Ac
       const asyncStateObjClone = cloneDeep(state.dataAsync);
       asyncStateObjClone.loading = true;
       asyncStateObjClone.loadingError = false;
+      asyncStateObjClone.obj = [];
       return {
         ...state,
         dataAsync: asyncStateObjClone,

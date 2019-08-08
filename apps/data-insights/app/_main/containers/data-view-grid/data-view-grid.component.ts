@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -8,7 +9,6 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { Field } from '../../models';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'pf-data-view-grid',
@@ -44,6 +44,10 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.loadingMoreDataSub.unsubscribe();
     this.hasMoreDataOnServerSub.unsubscribe();
+  }
+
+  trackByFn(index: any, field: Field) {
+    return field.DataElementId;
   }
 
   handleScrollBottom(): void {

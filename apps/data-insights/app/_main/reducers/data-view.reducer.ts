@@ -127,6 +127,7 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
 
       asyncStateObjClone.loading = true;
       asyncStateObjClone.loadingError = false;
+      asyncStateObjClone.obj = [];
       return {
         ...state,
         reportFieldsAsync: asyncStateObjClone
