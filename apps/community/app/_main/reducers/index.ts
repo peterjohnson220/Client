@@ -15,6 +15,9 @@ import * as fromCommunityCategoriesReducer from './community-categories.reducer'
 import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-options.reducer';
 import * as fromCommunityLikeReducer from './community-like.reducer';
 import * as fromCommunitySearchReducer from './community-search.reducer';
+import * as fromCommunityIndustryReducer from './community-industry.reducer';
+import * as fromCommunityCompanySizeReducer from './community-company-size.reducer';
+import * as fromCommunityTopicReducer from './community-topic.reducer';
 import { CommunityConstants } from '../models';
 import { populatePostReplies } from '../helpers/model-mapping.helper';
 
@@ -32,6 +35,9 @@ export interface CommunityState {
   communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.State;
   communityLikes: fromCommunityLikeReducer.State;
   communitySearch: fromCommunitySearchReducer.State;
+  communityIndustries: fromCommunityIndustryReducer.State;
+  communityCompanySizes: fromCommunityCompanySizeReducer.State;
+  communityTopic: fromCommunityTopicReducer.State;
 }
 
 // Extend root state with feature area state
@@ -52,7 +58,10 @@ export const reducers = {
   communityCategories: fromCommunityCategoriesReducer.reducer,
   communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.reducer,
   communityLikes: fromCommunityLikeReducer.reducer,
-  communitySearch: fromCommunitySearchReducer.reducer
+  communitySearch: fromCommunitySearchReducer.reducer,
+  communityIndustries: fromCommunityIndustryReducer.reducer,
+  communityCompanySizes: fromCommunityCompanySizeReducer.reducer,
+  communityTopic: fromCommunityTopicReducer.reducer
 };
 
 // select feature area
@@ -117,6 +126,22 @@ export const selectFromCommunityLikeState = createSelector(
 export const selectFromCommunitySearchState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communitySearch
+);
+
+
+export const selectFromCommunityIndustryState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityIndustries
+  );
+
+export const selectFromCommunityTopicState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityTopic
+);
+
+export const selectFromCommunityCompanySizeState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityCompanySizes
 );
 
 // Community Poll Selectors
@@ -301,6 +326,11 @@ export const getCommunityPostDeleted = createSelector(
   fromCommunityPostReducer.getCommunityPostDeleted
 );
 
+export const getCommunityPostEdited = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getCommunityPostEdited
+);
+
 // Community Post Reply Selectors
 
 export const {
@@ -400,20 +430,6 @@ export const getCommunityPostCombinedWithReplies = createSelector(
 );
 
 // Community Tag Selectors
-export const getLoadingCommunityTrendingTags = createSelector(
-  selectFromCommunityTagState,
-  fromCommunityTagReducer.getLoadingCommunityTrendingTags
-);
-
-export const getLoadingCommunityTrendingTagsSuccess = createSelector(
-  selectFromCommunityTagState,
-  fromCommunityTagReducer.getCommunityTrendingTags
-);
-
-export const getLoadingCommunityTrendingTagsError = createSelector(
-  selectFromCommunityTagState,
-  fromCommunityTagReducer.getLoadingCommunityTrendingTagsError
-);
 
 export const getSuggestingCommunityTags = createSelector(
   selectFromCommunityTagState,
@@ -514,6 +530,21 @@ export const getFilteredByPost = createSelector(
   fromCommunityPostFilterOptionsReducer.getFilteredByPost
 );
 
+export const getDeletingCommunityTopicSuccess = createSelector(
+  selectFromCommunityPostFilterOptionsState,
+  fromCommunityPostFilterOptionsReducer.getDeletingCommunityTopicSuccess
+);
+
+export const getDeletingCommunityIndustrySuccess = createSelector(
+  selectFromCommunityPostFilterOptionsState,
+  fromCommunityPostFilterOptionsReducer.getDeletingCommunityIndustrySuccess
+);
+
+export const getDeletingCommunityCompanySizeSuccess = createSelector(
+  selectFromCommunityPostFilterOptionsState,
+  fromCommunityPostFilterOptionsReducer.getDeletingCommunityCompanySizeSuccess
+);
+
 // Community Like Selectors
 export const getLoadingCommunityLikes = createSelector(
   selectFromCommunityLikeState,
@@ -585,3 +616,50 @@ export const getHasMoreSearchResultsOnServer = createSelector(
   }
 );
 
+// Community Industry Selectors
+export const getLoadingCommunityIndustries = createSelector(
+  selectFromCommunityIndustryState,
+  fromCommunityIndustryReducer.getLoadingCommunityIndustries
+);
+
+export const getCommunityIndustries = createSelector(
+  selectFromCommunityIndustryState,
+  fromCommunityIndustryReducer.getCommunityIndustries
+);
+
+export const getLoadingCommunityIndustriesError = createSelector(
+  selectFromCommunityIndustryState,
+  fromCommunityIndustryReducer.getLoadingCommunityIndustriesError
+);
+
+// Community Company Size Selectors
+export const getLoadingCommunityCompanySizes = createSelector(
+  selectFromCommunityCompanySizeState,
+  fromCommunityCompanySizeReducer.getLoadingCommunityCompanySizes
+);
+
+export const getCommunityCompanySizes = createSelector(
+  selectFromCommunityCompanySizeState,
+  fromCommunityCompanySizeReducer.getCommunityCompanySizes
+);
+
+export const getLoadingCommunityCompanySizesError = createSelector(
+  selectFromCommunityCompanySizeState,
+  fromCommunityCompanySizeReducer.getLoadingCommunityCompanySizesError
+);
+
+// Community Topic Selectors
+export const getLoadingTopics = createSelector(
+  selectFromCommunityTopicState,
+  fromCommunityTopicReducer.getLoadingCommunityTopics
+);
+
+export const getLoadingTopicsError = createSelector(
+  selectFromCommunityTopicState,
+  fromCommunityTopicReducer.getLoadingCommunityTopicsError
+);
+
+export const getTopics = createSelector(
+  selectFromCommunityTopicState,
+  fromCommunityTopicReducer.getCommunityTopics
+);

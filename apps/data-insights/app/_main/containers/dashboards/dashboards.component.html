@@ -1,16 +1,49 @@
 <div class="dashboards h-100">
   <div class="top-bar">
     <div class="dashboards-title">
-      <kendo-dropdownlist *ngIf="anyFavorites; else allDashboards"
-                          class="dashboard-view"
-                          [attr.data-qa-id]="'ddm-dashboard-views'"
-                          [data]="dashboardViews"
-                          [ngModel]="dashboardView$ | async"
-                          [popupSettings]="{appendTo: 'component'}"
-                          (valueChange)="handleViewChanged($event)">
-      </kendo-dropdownlist>
+      <div class="container-fluid">
+        <div class="d-flex flex-nowrap dashboard-actions">
+          <div class="view-selector">
+            <kendo-dropdownlist *ngIf="anyFavorites; else allDashboards"
+                                class="dashboard-view"
+                                [attr.data-qa-id]="'ddm-dashboard-views'"
+                                [data]="dashboardViews"
+                                [ngModel]="dashboardView$ | async"
+                                [popupSettings]="{appendTo: 'component'}"
+                                (valueChange)="handleViewChanged($event)">
+            </kendo-dropdownlist>
+          </div>
+
+          <div class="d-flex flex-row right-container">
+            <div class="tag-container" >
+              <kendo-dropdownlist #tagsDropDownList
+                                  class="tag-dropdown"
+                                  [attr.data-qa-id]="'ddm-tags'"
+                                  [data]="distinctTagsByView$ | async"
+                                  [defaultItem]="'All'"
+                                  [value]="tagFilter$ | async"
+                                  [popupSettings]="{width: 200}"
+                                  (valueChange)="handleTagChanged($event)">
+                <ng-template kendoDropDownListValueTemplate let-dataItem>
+                  <fa-icon icon="tags" id="tag-icon"></fa-icon>
+                  <span [title]="dataItem">{{ dataItem }}</span>
+                </ng-template>
+                <ng-template kendoDropDownListItemTemplate let-dataItem>
+                  <span [title]="dataItem">{{ dataItem }}</span>
+                </ng-template>
+              </kendo-dropdownlist>
+            </div>
+
+            <div *ngIf="reportBuilderSettingEnabled && (baseEntitiesAsync$ | async)?.obj?.length" class="new">
+              <button type="button" class="btn light-blue-btn" [attr.data-qa-id]="'btn-new'" (click)="handleNewReportClicked()">New</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <ng-template #allDashboards>
-        <span class="d-inline-block">All Dashboards</span>
+        <div class="col-12">
+        <span class="d-inline-block dashboard-view">All Dashboards</span>
+        </div>
       </ng-template>
     </div>
     <div class="error-message text-danger" *ngIf="savingTagError$ | async">
@@ -48,3 +81,7 @@
   [tags]="tags$ | async"
   (saveClicked)="handleSaveTagClicked($event)">
 </pf-tag-workbook-modal>
+
+<pf-save-user-workbook-modal *ngIf="(baseEntitiesAsync$ | async)?.obj?.length"
+  [baseEntities]="(baseEntitiesAsync$ | async)?.obj">
+</pf-save-user-workbook-modal>

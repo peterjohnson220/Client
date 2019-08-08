@@ -57,6 +57,7 @@ tr{
 .scope-cell{
   min-width: $scope-cell-width;
   max-width: $scope-cell-width;
+  word-break: break-word;
 }
 
 

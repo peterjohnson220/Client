@@ -32,6 +32,9 @@ import { CommunityStartDiscussionComponent } from './containers/community-start-
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
 import { CommunityCategoriesComponent } from './containers/community-categories';
+import { CommunityFiltersComponent } from './containers/community-filters';
+import { CommunityFiltersDropdownComponent } from './components/community-filters-dropdown/community-filters-dropdown.component';
+
 import { CommunityPostRepliesComponent } from './components/community-post-replies';
 import { CommunityPostReplyComponent } from './components/community-post-reply';
 import { CommunityPostAddReplyViewComponent } from './containers/community-post-add-reply-view';
@@ -54,15 +57,17 @@ import { CommunityPollRequestEffects } from './effects/community-poll-request.ef
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
 import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
-import { CommunityTrendingAndFilteredTagsComponent } from './containers/community-trending-and-filtered-tags';
+import { CommunityFilteredTagsComponent } from './containers/community-filtered-tags';
 import { CommunitySearchComponent } from './components/community-search/community-search.component';
 import {CommunitySearchResultsComponent} from './containers/community-search-results/community-search-results.component';
 import {CommunitySearchResultHeaderComponent} from './components/community-search-result-header';
 import {CommunitySearchResultContentComponent} from './components/community-search-result-content';
 import { CommunityPostComponent } from './components/community-post/community-post.component';
+import { CommunityPostEditComponent } from './components/community-post-edit/community-post-edit.component';
 import { CommunitySearchResultModalComponent } from './containers/community-search-result-modal/community-search-result-modal.component';
-import { CommunityPollsAllPollsAnsweredComponent } from './components/community-polls-all-polls-answered/community-polls-all-polls-answered.component';
+import { CommunityPollsAllPollsAnsweredComponent } from './components/community-polls-all-polls-answered';
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
+import { CommunityIndustryEffects, CommunityCompanySizeEffects, CommunityTopicEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
 import { CommunityPostEffectsService } from './services/community-post-effects-service';
 import { PfLinkifyService } from './services/pf-linkify-service';
@@ -75,6 +80,7 @@ import { CommunityJobApiService } from 'libs/data/payfactors-api/community/commu
 import { MapboxApiService } from 'libs/data/mapbox-api/mapbox-api.service';
 import { BrowserDetectionService} from 'libs/core/services';
 import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/community/community-categories-api.service';
+import { CommunityFilterApiService } from 'libs/data/payfactors-api/community/community-filter-api.service';
 import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
 import { CommunityHighlightTextPipe } from './pipes/community-highlight-search.pipe';
 import { CommunityLinkifyPipe } from './pipes/community-linkify.pipe';
@@ -108,19 +114,22 @@ const components = [
   CommunityPollComponent,
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
+  CommunityFiltersComponent,
+  CommunityFiltersDropdownComponent,
   CommunityCategoryDisplayNamePipe,
   CommunityHighlightTextPipe,
   CommunityLinkifyPipe,
   CommunityJobComponent,
   CommunityJobsComponent,
   CommunityTabComponent,
-  CommunityTrendingAndFilteredTagsComponent,
+  CommunityFilteredTagsComponent,
   CommunitySearchComponent,
   CommunitySearchResultsComponent,
   CommunitySearchResultHeaderComponent,
   CommunitySearchResultContentComponent,
   CommunitySearchResultModalComponent,
   CommunityPostComponent,
+  CommunityPostEditComponent,
   CommunityPollsAllPollsAnsweredComponent
 ];
 
@@ -148,11 +157,14 @@ const components = [
       CommunityPostEffects,
       CommunityPostReplyEffects,
       CommunityTagEffects,
+      CommunityTopicEffects,
       CommunityJobEffects,
       CommunityCategoriesEffects,
       CommunityPostFilterOptionsEffects,
       CommunityLikeEffects,
-      CommunitySearchEffects
+      CommunitySearchEffects,
+      CommunityIndustryEffects,
+      CommunityCompanySizeEffects
     ]),
     FontAwesomeModule,
 
@@ -177,7 +189,8 @@ const components = [
     MapboxApiService,
     PfLinkifyService,
     BrowserDetectionService,
-    CommunitySearchApiService
+    CommunitySearchApiService,
+    CommunityFilterApiService
   ]
 })
 export class MainModule {

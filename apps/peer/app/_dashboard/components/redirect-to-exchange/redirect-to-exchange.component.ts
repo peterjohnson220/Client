@@ -33,7 +33,7 @@ export class RedirectToExchangeComponent implements OnInit {
 
       // Subscribe to the exchange list from the store.
       this.getExchangeSelectorListLoaded().pipe(
-        switchMap(() => forkJoin(this.getExchangeSelectorList(), this.getLastExchangeIdVisited())),
+        switchMap(() => forkJoin([this.getExchangeSelectorList(), this.getLastExchangeIdVisited()])),
         map((exchangesAndLastVisted) => this.navigateToExchange({
           Exchanges: exchangesAndLastVisted[0],
           LastVisitedExchangeId: exchangesAndLastVisted[1]

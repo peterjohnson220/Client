@@ -1,9 +1,13 @@
+@import 'colors';
+
 .card-header{
   background-color: #e7f0f9;
   height: 33px;
 }
 
 .button-match{
+  color: white;
+  background: $pf-brand-primary-color;
   width: 100px;
   height: 30px;
 }

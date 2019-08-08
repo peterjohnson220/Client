@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityFiltersComponent should show community filters 1`] = `
+<pf-community-filters
+  communityCompanySizes$={[Function Store]}
+  communityFilterOptions$={[Function Store]}
+  communityIndustries$={[Function Store]}
+  communityTopics$={[Function Store]}
+  companySizeFilters={[Function Array]}
+  filterStore={[Function Store]}
+  industryFilters={[Function Array]}
+  store={[Function Store]}
+  topicFilters={[Function Array]}
+>
+  <h5
+    id="filter-section-header"
+  >
+    POSTS
+  </h5><pf-community-filters-dropdown
+    class="d-inline-block industry-filter pr-2"
+  /><pf-community-filters-dropdown
+    class="d-inline-block company-size-filter"
+  />
+</pf-community-filters>
+`;

@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import { Workbook } from '../../models';
 
-import { View, Workbook } from '../../models';
 
 @Component({
   selector: 'pf-workbook-card',
@@ -19,7 +18,6 @@ export class WorkbookCardComponent {
   displayActionsOverlay: boolean;
   hoverWorkbookContainer: boolean;
   showingViewPopover = false;
-  viewFilterValue: string;
 
   handleMouseOverWorkbookContainer() {
     this.hoverWorkbookContainer = true;
@@ -48,26 +46,6 @@ export class WorkbookCardComponent {
   handleViewsHidden() {
     this.showingViewPopover = false;
     this.displayActionsOverlay = this.hoverWorkbookContainer;
-    this.viewFilterValue = '';
   }
 
-  getViewUrl(view: View): string {
-    return view.ContentUrl.replace(this.workbook.ContentUrl + '/', '');
-  }
-
-  handleSearchMouseLeave(event: MouseEvent): void {
-    const target = event.target as HTMLTextAreaElement;
-    const innerInput = target.getElementsByTagName('input')[0];
-    innerInput.blur();
-  }
-
-  get filteredViews(): View[] {
-    if (!this.workbook.Views) {
-      return [];
-    }
-    const allViews = cloneDeep(this.workbook.Views.obj);
-    return this.viewFilterValue
-      ? allViews.filter(vw => vw.ViewName.toLowerCase().includes(this.viewFilterValue.toLowerCase()))
-      : allViews;
-  }
 }

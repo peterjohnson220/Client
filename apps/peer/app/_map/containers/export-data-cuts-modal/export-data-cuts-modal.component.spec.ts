@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
+import { DropDownListModule, MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import 'rxjs/add/operator/take';
@@ -11,6 +12,8 @@ import { GridTypeEnum } from 'libs/models/common';
 import { PfCommonModule, KendoGridFilterHelper } from 'libs/core';
 import { PfValidatableDirective } from 'libs/forms/directives';
 import { generateMockDataStateChangeEvent } from 'libs/extensions/kendo/mocks';
+import { SettingsService } from 'libs/state/app-context/services';
+import { RateType } from 'libs/data/data-sets';
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
@@ -40,6 +43,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
         }),
         ReactiveFormsModule,
         FormsModule,
+        DropDownListModule,
         PfCommonModule
       ],
       declarations: [
@@ -50,6 +54,10 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
         {
           provide: ActivatedRoute,
           useValue: { parent: { snapshot: { params: { id : 1 } } } }
+        },
+        {
+          provide: SettingsService,
+          useValue: { selectUiPersistenceSetting: jest.fn() }
         }
       ],
       // Shallow Testing
@@ -68,12 +76,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
     instance.gridState$ = of(KendoGridFilterHelper.getMockEmptyGridState());
     instance.selections$ = of([]);
     instance.exportDataCutsModalOpen$ = of(true);
-  });
-
-  it('should show a modal with an exchange company jobs grid when exportDataCutsModalOpen$ is true', () => {
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
+    instance.persistedRateForExport$ = of(RateType.Annual);
   });
 
   it('should dispatch LoadExchangeCompanyJobs action when loadExchangeCompanyJobs is called', () => {
@@ -117,7 +120,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
   });
 
   it('should dispatch a ExportDataCuts action when the handleFormSubmit event is triggered', () => {
-    const action = new fromExportDataCutsActions.ExportDataCuts;
+    const action = new fromExportDataCutsActions.ExportDataCuts({selectedRate: RateType.Annual});
 
     instance.selections$ = of([1, 2]);
 
@@ -301,6 +304,18 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
     fixture.detectChanges();
 
     instance.onClearAllClick({});
+
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it(`should dispatch a SelectRate action when handleRateSelectionChange is called`, () => {
+    const expectedAction = new fromExportDataCutsActions.SelectRate({newRate: RateType.Annual});
+
+    fixture.detectChanges();
+
+    instance.handleRateSelectionChange( { Name: RateType.Annual, Value: RateType.Annual });
 
     fixture.detectChanges();
 

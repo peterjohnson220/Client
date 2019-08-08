@@ -63,6 +63,7 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
     const that = this;
     const options = {
       hideTabs: !this.showTabs,
+      toolbarPosition: 'top',
       onFirstInteractive: function () {
         that.vizLoading = false;
         /* IE11 bug: the browser history state not matched with current state

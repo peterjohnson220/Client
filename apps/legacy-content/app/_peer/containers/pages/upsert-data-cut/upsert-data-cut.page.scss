@@ -15,7 +15,7 @@
   height: 100%;
 }
 
-.buttons .btn{
+.buttons .btn {
   margin-left: .35rem;
 }
 
@@ -26,6 +26,9 @@
   min-height: 135px;
   font-size: 13pt;
   border-radius: 0 !important;
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
 }
 
 .request-access-message {

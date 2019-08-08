@@ -1,6 +1,6 @@
 import { SurveySearchResultDataSources } from 'libs/constants';
 
-import { SurveyDataCut } from './data-cut.model';
+import { DataCut } from './data-cut.model';
 
 export interface BaseJobInfo {
   Id: number;
@@ -37,7 +37,7 @@ export interface JobResult extends BaseJobInfo {
     CountryCode?: string;
     IsSelected: boolean;
     EEO: string;
-    DataCuts: SurveyDataCut[];
+    DataCuts: DataCut[];
     PeerJobInfo?: PeerJobInfo;
 }
 

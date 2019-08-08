@@ -16,20 +16,6 @@ import { CommunityTag } from 'libs/models';
 export class CommunityTagEffects {
 
   @Effect()
-  gettingCommunityTrendingTags$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromCommunityTagActions.LOADING_COMMUNITY_TRENDING_TAGS),
-      switchMap((action: fromCommunityTagActions.LoadingCommunityTrendingTags) =>
-        this.communityTagService.getPopularTags().pipe(
-          map((response: any) => {
-            return new fromCommunityTagActions.LoadingCommunityTrendingTagsSuccess(response);
-          }),
-          catchError(error => of(new fromCommunityTagActions.LoadingCommunityTrendingTagsError()))
-        )
-      )
-    );
-
-  @Effect()
   suggestingCommunityPosts$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromCommunityTagActions.SUGGESTING_COMMUNITY_TAGS),

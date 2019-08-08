@@ -19,3 +19,8 @@ div.matches-list-container > div:nth-of-type(odd) {
 .matches-modal-content.matches-header{
   padding-top: 20px;
 }
+
+.dropzoneContainer{
+  min-height: 40px;
+  border: 2px dashed #b9d3e0;
+}

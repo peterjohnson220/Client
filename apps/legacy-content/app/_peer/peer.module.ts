@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -62,7 +62,8 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     PfCommonUIModule,
     PfCommonModule,
     PfFormsModule,
-    PfPeerMapModule
+    PfPeerMapModule,
+    NgbTooltipModule
   ],
   declarations: [
     // Components

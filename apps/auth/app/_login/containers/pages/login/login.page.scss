@@ -31,14 +31,16 @@
   background-color: transparent;
   border-color: $pf-brand-secondary-color;
   color: $pf-brand-secondary-color;
-  i.fa-arrow-right {
+  fa-icon.arrow-right {
     color: $pf-brand-secondary-color;
+    ::ng-deep {
+      svg {
+        transition: transform .2s ease-in-out;
+        font-size: 12px;
+      }
+    }
   }
-  svg.fa-arrow-right {
-    transition: transform .2s ease-in-out;
-    font-size: 12px;
-  }
-  &:hover svg.fa-arrow-right {
+  &:hover ::ng-deep svg.fa-arrow-right {
     transform: translateX(4px);
   }
 }

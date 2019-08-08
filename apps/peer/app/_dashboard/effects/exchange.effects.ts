@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable } from 'rxjs';
-import { mergeMap, map} from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 
 import { GetChartRequest, ExchangeChartTypeEnum } from 'libs/models';
 
@@ -33,7 +33,7 @@ export class ExchangeEffects {
 
   constructor(
     private actions$: Actions
-  ) {}
+  ) { }
 }
 
 

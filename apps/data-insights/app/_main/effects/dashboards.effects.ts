@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 
-import { TableauReportApiService, UserReportApiService } from 'libs/data/payfactors-api';
+import { TableauReportApiService, UserReportApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
 import { UserContext } from 'libs/models/security';
 import { WorkbookOrderType } from 'libs/constants';
 import * as fromRootState from 'libs/state/state';
@@ -40,6 +40,36 @@ export class DashboardsEffects {
   );
 
   @Effect()
+  updateDashboardView$ = this.action$
+    .pipe(
+      ofType(fromAllDashboardsActions.TOGGLE_DASHBOARD_VIEW),
+      switchMap((action: fromAllDashboardsActions.ToggleDashboardView) => {
+        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
+            FeatureArea: 'DataInsights',
+            SettingName: 'DashboardView',
+            SettingValue: action.payload.view
+          })
+          .pipe(
+            map(() => new fromAllDashboardsActions.PersistDashboardViewSuccess()),
+            catchError(() => of(new fromAllDashboardsActions.PersistDashboardViewError()))
+          );
+      })
+    );
+
+  @Effect()
+  getDashboardView$ = this.action$
+    .pipe(
+      ofType(fromAllDashboardsActions.GET_DASHBOARD_VIEW),
+      switchMap(() => {
+        return this.uiPersistenceSettingsApiService.getUiPersistenceSetting('DataInsights', 'DashboardView')
+          .pipe(
+            map((response) => new fromAllDashboardsActions.GetDashboardViewSuccess(response)),
+            catchError(() => of(new fromAllDashboardsActions.GetDashboardViewError()))
+          );
+      })
+    );
+
+  @Effect()
   addWorkbookFavorite$ = this.action$
   .pipe(
     ofType(fromAllDashboardsActions.ADD_WORKBOOK_FAVORITE),
@@ -71,17 +101,26 @@ export class DashboardsEffects {
     ofType(fromAllDashboardsActions.REMOVE_WORKBOOK_FAVORITE_SUCCESS),
     withLatestFrom(
       this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsync)),
-      (action, workbooksAsync) => ({ workbooksAsync })
+      this.store.pipe(select(fromDataInsightsMainReducer.getDashboardView)),
+      (action, workbooksAsync, dashboardView) => ({ workbooksAsync, dashboardView })
     ),
-    map((data) => {
-      const favoriteWorkbooks = DashboardsHelper.getCompanyWorkbooksByView(data.workbooksAsync.obj, DashboardView.Favorites);
-      const workbookIds = favoriteWorkbooks.map(w => w.WorkbookId);
-      return new fromAllDashboardsActions.SaveWorkbookOrder({
-        workbookIds,
-        workbookOrderType: WorkbookOrderType.FavoritesOrdering
-      });
-    })
-  );
+    mergeMap((data) => {
+        const actions = [];
+        const favoriteWorkbooks = DashboardsHelper.getCompanyWorkbooksByView(data.workbooksAsync.obj, DashboardView.Favorites);
+        const workbookIds = favoriteWorkbooks.map(w => w.WorkbookId);
+        if (favoriteWorkbooks.length === 0) {
+          if (data.dashboardView === DashboardView.Favorites) {
+            actions.push(new fromAllDashboardsActions.ToggleDashboardView({view: DashboardView.All}));
+          }
+        } else {
+          actions.push(new fromAllDashboardsActions.SaveWorkbookOrder({
+            workbookIds,
+            workbookOrderType: WorkbookOrderType.FavoritesOrdering
+          }));
+        }
+        return actions;
+      })
+    );
 
   @Effect()
   saveWorkbookTag$ = this.action$
@@ -115,11 +154,11 @@ export class DashboardsEffects {
       ),
       switchMap((data) => {
         const workbookIds = data.action.payload.workbookIds;
-        const request = PayfactorsApiModelMapper.buildSaveWorkbookOrderRequest(
-          workbookIds, data.view, data.action.payload.workbookOrderType);
+        const typeOverride = data.action.payload.workbookOrderType;
+        const request = PayfactorsApiModelMapper.buildSaveWorkbookOrderRequest(workbookIds, data.view, typeOverride);
         return this.userReportApiService.saveWorkbookOrder(request)
           .pipe(
-            map(() => new fromAllDashboardsActions.SaveWorkbookOrderSuccess({ workbookIds })),
+            map(() => new fromAllDashboardsActions.SaveWorkbookOrderSuccess({ workbookIds, workbookOrderType: typeOverride })),
             catchError(() => of(new fromAllDashboardsActions.SaveWorkbookOrderError()))
           );
       })
@@ -147,6 +186,7 @@ export class DashboardsEffects {
     private action$: Actions,
     private store: Store<fromDataInsightsMainReducer.State>,
     private tableauReportApiService: TableauReportApiService,
-    private userReportApiService: UserReportApiService
+    private userReportApiService: UserReportApiService,
+    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService
   ) {}
 }

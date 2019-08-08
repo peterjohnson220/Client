@@ -7,7 +7,7 @@ import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'lib
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
 
-import { DataCutDetails, JobResult, MatchesDetailsTooltipData, SurveyDataCut } from '../../models';
+import { DataCutDetails, JobResult, MatchesDetailsTooltipData, DataCut } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
 import * as fromSurveySearchReducer from '../../reducers';
 
@@ -84,14 +84,14 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.showJobDetail = !this.showJobDetail;
   }
 
-  handleDataCutSelected(idObj: SurveyDataCut) {
+  handleDataCutSelected(dataCut: DataCut) {
     this.cutSelected.emit({
       DataSource: this.job.DataSource,
-      DataCutId: idObj.SurveyDataId,
       SurveyJobId: this.job.Id,
       Job: this.job,
-      TCC50th: idObj.TCC50th,
-      Base50th: idObj.Base50th
+      TCC50th: dataCut.TCC50th,
+      Base50th: dataCut.Base50th,
+      ServerInfo: dataCut.ServerInfo
     });
   }
 
@@ -100,15 +100,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
       DataSource: this.job.DataSource,
       SurveyJobCode: this.job.Code,
       CountryCode: this.job.CountryCode,
-      Job: this.job,
-      Base50th: this.job.Base50th,
-      TCC50th: this.job.TCC50th
-    });
-  }
-
-  handlePeerCutSelected() {
-    this.cutSelected.emit({
-      DataSource: this.job.DataSource,
       Job: this.job,
       Base50th: this.job.Base50th,
       TCC50th: this.job.TCC50th

@@ -4,23 +4,23 @@
   (mouseleave)="handleMouseLeaveWorkbookContainer()">
 
   <div class="actions-container" [ngClass]="displayActionsOverlay ? 'displayed' : ''">
-    <button class="btn action-button" (click)="handleFavoriteClicked(workbook)">
+    <button class="btn action-button" [attr.data-qa-id]="'btn-favorite'" (click)="handleFavoriteClicked(workbook)">
       <fa-icon *ngIf="workbook.IsFavorite" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
       <fa-icon *ngIf="!workbook.IsFavorite" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
     </button>
-    <button class="btn action-button" (click)="handleTagClicked(workbook)">
+    <button class="btn action-button" [attr.data-qa-id]="'btn-addTag'" (click)="handleTagClicked(workbook)">
       <fa-icon *ngIf="workbook.Tag" [icon]="['fas', 'tag']" class="action-icon brand-secondary"></fa-icon>
       <fa-icon *ngIf="!workbook.Tag" [icon]="['far', 'tag']" class="action-icon"></fa-icon>
     </button>
     <div class="open-workbook">
-      <a class="btn" title="Open Workbook" [routerLink]="['/company-reports',workbook.WorkbookId]" [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
+      <a class="btn" [attr.data-qa-id]="'lnk-openWorkbook'" title="Open Workbook" [routerLink]="['/company-reports',workbook.WorkbookId]" [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
         Open
       </a>
       <div class="vertical-separator h-100"></div>
       <button class="btn open-views"
+              [attr.data-qa-id]="'btn-openViews'"
               [ngbPopover]="popContent"
               [popoverClass]="'workbook-views-popover'"
-              [container]="'body'"
               [placement]="'bottom'"
               [popoverTitle]="workbook.WorkbookName"
               [autoClose]="'outside'"
@@ -44,36 +44,7 @@
   </div>
 
   <ng-template #popContent>
-    <div *ngIf="workbook.Views" class="workbook-views">
-      <pf-async-container
-        [loading]="workbook.Views.loading"
-        [loadingError]="workbook.Views.loadingError"
-        [loadingErrorMessage]="'Error loading views'"
-        [hideReloadButton]="true">
-        <div class="header">
-          <pf-input-debounce
-            [delay]="200"
-            [placeholderText]="'Search Views...'"
-            (mouseleave)="handleSearchMouseLeave($event)"
-            [(ngModel)]="viewFilterValue">
-          </pf-input-debounce>
-        </div>
-        <div class="available-views" *ngIf="filteredViews.length; else noAvailableViews">
-          <a class="workbook-view" *ngFor="let view of filteredViews"
-             [routerLink]="['/company-reports',workbook.ContentUrl, getViewUrl(view)]" [queryParams]="{showTabs: false, title: workbook.WorkbookName + ' - ' + view.ViewName}"
-             [title]="view.ViewName">
-            <div class="name">
-                {{view.ViewName}}
-            </div>
-          </a>
-        </div>
-
-      </pf-async-container>
-    </div>
-  </ng-template>
-
-  <ng-template #noAvailableViews>
-    <div class="no-views-message">No Matching Views Found</div>
+    <pf-workbook-views [workbook]="workbook"></pf-workbook-views>
   </ng-template>
 
 </div>

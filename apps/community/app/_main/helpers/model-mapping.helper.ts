@@ -5,6 +5,12 @@ import { TagFilter } from '../models/tag-filter.model';
 import { CategoryFilter } from '../models/category-filter.model';
 import { CommunityTag } from 'libs/models/community/community-tag.model';
 import { PagingOptions } from '../models/paging-options.model';
+import { IndustryFilter } from '../models/industry-filter.model';
+import { CompanySizeFilter } from '../models/company-size-filter.model';
+import { CommunityCompanySize } from 'libs/models/community/community-company-size.model';
+import { Topic } from '../models/topic.model';
+import { TopicFilter } from '../models/topic-filter.model';
+import { CommunityIndustry } from 'libs/models/community/community-industry.model';
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
   return {
@@ -22,9 +28,13 @@ export function mapCommunityTagToTag(communityTag: CommunityTag): Tag {
 
 export function initializeFilterOptions(): FilterOptions {
   const tags: Tag[] = [];
+  const topics: Topic[] = [];
   const filterOptions: FilterOptions = {
     TagFilter: initializeTagFilter(tags),
     CategoryFilter: initializeCategoryFilter(),
+    IndustryFilter: initializeIndustryFilter(),
+    CompanySizeFilter: initializeCompanySizeFilter(),
+    TopicFilter: initializeTopicFilter(topics),
     PostIds: [],
     ReplyIds: []
   };
@@ -43,6 +53,27 @@ export function initializeCategoryFilter(): CategoryFilter {
   return {
     Category: categoryFilters
   };
+}
+
+export function initializeIndustryFilter(): IndustryFilter {
+  const industryFilters: CommunityIndustry[] = [];
+  return {
+    Industries: industryFilters
+  };
+}
+
+export function initializeCompanySizeFilter(): CompanySizeFilter {
+  const companySizes: CommunityCompanySize[] = [];
+  return {
+    CompanySizes: companySizes
+  };
+}
+
+export function initializeTopicFilter(topics: Topic[]): TopicFilter {
+  const topicFilter: TopicFilter =  {
+    Topics: topics
+  };
+  return topicFilter;
 }
 
 export function mapToCategoryEnum(category: string): CommunityCategoryEnum {

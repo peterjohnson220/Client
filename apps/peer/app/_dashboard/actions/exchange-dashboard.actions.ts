@@ -147,7 +147,7 @@ export class LoadMapCountError implements Action {
 export class LoadExchangeJobOrgs implements Action {
   readonly type = LOAD_EXCHANGE_JOB_ORGS;
 
-  constructor(public payload: ExchangeJobComparison) {}
+  constructor(public payload: {selectedExchangeJobComparison: ExchangeJobComparison, selectedMarket: string}) {}
 }
 
 export class LoadExchangeJobOrgsSuccess implements Action {

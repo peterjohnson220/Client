@@ -6,7 +6,9 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Observable, of } from 'rxjs';
 import { catchError, map, withLatestFrom, switchMap } from 'rxjs/operators';
 
-import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { ExchangeCompanyApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromExchangeJobComparisonGridActions from '../actions/exchange-job-comparison-grid.actions';
 import * as fromDashboardReducer from '../reducers';
@@ -22,12 +24,24 @@ export class ExchangeJobComparisonGridEffects {
       withLatestFrom(
         this.store.select(fromDashboardReducer.getExchangeJobComparisonsGridState),
         this.sharedPeerStore.select(fromSharedPeerReducer.getExchangeId),
-        (action, listState, exchangeId) => {
-          return {exchangeId, listState};
+        this.settingsService.selectUiPersistenceSetting<string>(
+          FeatureAreaConstants.PeerDashboard,
+          UiPersistenceSettingConstants.ComparisonMarketSelection,
+          'string'
+        ),
+        (action: fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons, listState, exchangeId, persistedCountryCode) => {
+          const payloadCountryCode = !!action.payload ? action.payload.countryCode : null;
+          let countryCode = payloadCountryCode;
+
+          if (!payloadCountryCode) {
+            countryCode = !!persistedCountryCode ? persistedCountryCode : 'USA';
+          }
+
+          return {exchangeId, listState, countryCode};
         }
       ),
       switchMap(payload =>
-        this.exchangeCompanyApiService.getExchangeJobComparisonList(payload.exchangeId, payload.listState).pipe(
+        this.exchangeCompanyApiService.getExchangeJobComparisonList(payload.exchangeId, payload.listState, payload.countryCode).pipe(
           map((gridDataResult: GridDataResult) => {
             return new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisonsSuccess(gridDataResult);
           }),
@@ -36,11 +50,47 @@ export class ExchangeJobComparisonGridEffects {
       )
     );
 
+  @Effect()
+  selectComparisonMarket$ = this.actions$
+    .pipe(
+      ofType(fromExchangeJobComparisonGridActions.SELECT_COMPARISON_MARKET),
+      switchMap((action: fromExchangeJobComparisonGridActions.SelectComparisonMarket) => {
+        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
+          FeatureArea: FeatureAreaConstants.PeerDashboard,
+          SettingName: UiPersistenceSettingConstants.ComparisonMarketSelection,
+          SettingValue: action.payload.newMarket
+        })
+          .pipe(
+            map(() => new fromExchangeJobComparisonGridActions.SelectedComparisonMarketPersisted),
+            catchError(() => of())
+          );
+      })
+    );
+
+  @Effect()
+  selectComparisonRate$ = this.actions$
+    .pipe(
+      ofType(fromExchangeJobComparisonGridActions.SELECT_RATE),
+      switchMap((action: fromExchangeJobComparisonGridActions.SelectRate) => {
+        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
+          FeatureArea: FeatureAreaConstants.PeerDashboard,
+          SettingName: UiPersistenceSettingConstants.ComparisonRateSelection,
+          SettingValue: action.payload.newRate
+        })
+          .pipe(
+            map(() => new fromExchangeJobComparisonGridActions.SelectedRatePersisted()),
+            catchError(() => of())
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
+    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService,
     private store: Store<fromDashboardReducer.State>,
-    private sharedPeerStore: Store<fromSharedPeerReducer.State>
+    private sharedPeerStore: Store<fromSharedPeerReducer.State>,
+    private settingsService: SettingsService
   ) {}
 }
 

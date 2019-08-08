@@ -1,22 +1,26 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import {Store} from '@ngrx/store';
-import {Observable, Subject, Subscription} from 'rxjs';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
-import {GridDataResult, PageChangeEvent, SortSettings} from '@progress/kendo-angular-grid';
-import {SortDescriptor, State} from '@progress/kendo-data-query';
+import { GridDataResult, PageChangeEvent, SortSettings } from '@progress/kendo-angular-grid';
+import { SortDescriptor, State } from '@progress/kendo-data-query';
+import { orderBy, cloneDeep } from 'lodash';
 
+import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
+import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
-import {UserContext} from 'libs/models/security';
-import {UserTicketSearchRequest} from 'libs/models/payfactors-api/service/request';
 
-import {SearchRequestFilterMapper} from '../../helpers';
-import {TicketListFilterComponent} from '../filters/ticket-list-filter';
+import { TicketFieldType } from '../../constants/tickets-constants';
+import { SearchRequestFilterMapper, PickerHelper } from '../../helpers';
+import { TicketListFilterComponent } from '../filters/ticket-list-filter';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
-import {PfServicesRep, UserTicketGridItem, UserTicketTabItem} from '../../models';
+
+import { PfServicesRep, UserTicketGridItem, UserTicketState, UserTicketTabItem, UserTicketType } from '../../models';
+
 
 @Component({
   selector: 'pf-ticket-list',
@@ -25,8 +29,9 @@ import {PfServicesRep, UserTicketGridItem, UserTicketTabItem} from '../../models
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TicketListComponent implements OnInit, OnDestroy {
-  @ViewChild('serviceUserFilter', {static: false}) serviceUserFilterComponent: TicketListFilterComponent;
+  @ViewChild('serviceUserFilter', { static: false }) serviceUserFilterComponent: TicketListFilterComponent;
   gridView: GridDataResult;
+  defaultDateRange = {start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), end: new Date()};
   sortable: SortSettings = {
     allowUnsort: false,
     mode: 'single'
@@ -37,11 +42,16 @@ export class TicketListComponent implements OnInit, OnDestroy {
     filter: {
       logic: 'and',
       filters: [{
-        value: 'New',
+        value: 'Open',
         field: 'Status',
         operator: 'contains'
-      }]
-    },
+      },
+      {
+        field: 'Created',
+        value: this.defaultDateRange,
+        operator: 'contains'
+      }
+    ]},
     sort: [{
       field: 'Id',
       dir: 'desc'
@@ -53,14 +63,21 @@ export class TicketListComponent implements OnInit, OnDestroy {
   userContext: UserContext;
 
   private selectedTicket: UserTicketTabItem;
-  private defaultPfServiceRep: number;
+  public defaultPfServiceRep: number;
   pfServiceReps: PfServicesRep[] = [];
+  userTicketStates: UserTicketState[] = [];
+  userTicketStatesFilter: UserTicketState[] = [];
+  userTicketTypes: UserTicketType[] = [];
   ticketListItems: UserTicketGridItem[] = [];
+  public ticketFieldType = TicketFieldType;
+  public pickerHelper = new PickerHelper();
 
   initSuccess$: Observable<boolean>;
   ticketListLoading$: Observable<boolean>;
   ticketListLoadingError$: Observable<boolean>;
   pfServicesReps$: Observable<PfServicesRep[]>;
+  userTicketStates$: Observable<UserTicketState[]>;
+  userTicketTypes$: Observable<UserTicketType[]>;
   dirty$: Observable<boolean>;
   dirtySubscription: Subscription;
   initSuccessSubscription: Subscription;
@@ -70,12 +87,14 @@ export class TicketListComponent implements OnInit, OnDestroy {
   isDirty = false;
 
   constructor(private store: Store<fromTicketReducer.State>,
-              private rootStore: Store<fromRootState.State>) {
+    private rootStore: Store<fromRootState.State>) {
     this.ticketListLoading$ = this.store.select(fromTicketReducer.getTicketListLoading);
     this.ticketListLoadingError$ = this.store.select(fromTicketReducer.getTicketListLoadingError);
     this.dirty$ = this.store.select(fromTicketReducer.getDirtyGridState);
     this.initSuccess$ = this.store.select(fromTicketReducer.getGridInitSuccess);
     this.pfServicesReps$ = this.store.select(fromTicketReducer.getPfServiceReps);
+    this.userTicketStates$ = this.store.select(fromTicketReducer.getUserTicketStates);
+    this.userTicketTypes$ = this.store.select(fromTicketReducer.getUserTicketTypes);
     this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
 
     this.initSubscriptions();
@@ -111,7 +130,24 @@ export class TicketListComponent implements OnInit, OnDestroy {
         filter(v => v && v.length > 0),
         takeUntil(this.unsubscribe$)
       ).subscribe(v => {
-        this.pfServiceReps = v;
+        this.pfServiceReps = orderBy(v, ['Name'], 'asc');
+      });
+    this.userTicketStates$
+      .pipe(
+        filter(v => v && v.length > 0),
+        takeUntil(this.unsubscribe$)
+      ).subscribe(v => {
+        this.userTicketStates = v;
+        this.userTicketStatesFilter = cloneDeep(v);
+        this.userTicketStatesFilter.unshift({UserTicketStateId: 0, UserTicketState: 'Open'});
+      });
+
+    this.userTicketTypes$
+      .pipe(
+        filter(v => v && v.length > 0),
+        takeUntil(this.unsubscribe$)
+      ).subscribe(v => {
+        this.userTicketTypes = v;
       });
   }
 
@@ -175,5 +211,17 @@ export class TicketListComponent implements OnInit, OnDestroy {
   filterChanged() {
     this.state.skip = 0;
     this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
+  }
+
+  getSelectedUserState(value: string): UserTicketState {
+    return this.userTicketStates.find(f => f.UserTicketState === value);
+  }
+
+  getSelectedUserType(value: string): UserTicketType {
+    return this.userTicketTypes.find(f => f.TicketTypeDisplayName === value);
+  }
+
+  getSelectedServiceUser(value: string): PfServicesRep {
+    return this.pfServiceReps.find(f => f.Name === value);
   }
 }

@@ -21,6 +21,7 @@ export interface UserTicketResponse {
   UserTicketFiles?: UserTicketFile[];
   UserTicketComments?: UserTicketComment[];
   UserTicketTypeId: number;
+  TicketFileTypeId: number;
   UserTicketTypeSortOrder: number;
 }
 
@@ -36,6 +37,7 @@ export interface UserTicketComment {
   UserTicketId: number;
   UserId: number;
   UserEmail: string;
+  UserFullName: string;
   Comments?: string;
   CreateDate?: Date;
 }
@@ -54,7 +56,8 @@ export function generateMockUserTicketViewModel(): UserTicketResponse {
     OpenedUserFullName: 'Test Hello',
     LastUpdatedText: '5 seconds ago',
     UserTicketTypeId: 1,
-    UserTicketTypeSortOrder: 1,
+    TicketFileTypeId: 1,
+    UserTicketTypeSortOrder: 1
   };
 }
 
@@ -73,6 +76,7 @@ export function generateMockUserTicketsComment(): UserTicketComment {
     UserTicketId: 1,
     UserId: 123,
     UserEmail: 'test@hello.com',
+    UserFullName: 'mockUserFullName',
     Comments: 'This is a comment.',
     CreateDate: new Date(2019, 3, 4)
   };

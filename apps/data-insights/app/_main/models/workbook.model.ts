@@ -12,6 +12,8 @@ export interface Workbook {
   Tag: string;
   IsFavorite: boolean;
   DefaultTag: string;
+  IsStandard?: boolean;
+  SourceUrl?: string;
   DashboardsOrder?: number;
   FavoritesOrder?: number;
   Views?: AsyncStateObj<View[]>;

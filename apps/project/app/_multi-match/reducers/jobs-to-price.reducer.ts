@@ -125,7 +125,6 @@ function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
       Source: getJobSource(jobCut),
       Base50: Number(jobCut.Base50th),
       TCC50: Number(jobCut.TCC50th),
-      DataCutId: jobCut.DataCutId,
       SurveyJobCode: jobCut.SurveyJobCode,
       PeerCutId: getPeerCutId(jobCut)
     };
@@ -172,7 +171,7 @@ function removeJobMatchCut(jobToPrice: JobToPrice, cutToRemove: JobMatchCut) {
     jobToPrice.DeletedJobMatchCutIds.push(cutToRemove.UserJobMatchId);
   } else {
     // new data cut filter
-    let cutFilter = x => x.DataCutId === cutToRemove.DataCutId;
+    let cutFilter = x => x.SurveyDataId === cutToRemove.DataCutId;
     if (cutToRemove.SurveyJobCode) {
       cutFilter = x => x.SurveyJobCode === cutToRemove.SurveyJobCode;
     } else if (!!cutToRemove.PeerCutId) {

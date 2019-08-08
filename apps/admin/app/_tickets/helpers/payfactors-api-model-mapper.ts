@@ -10,20 +10,21 @@ import { UserResponse } from 'libs/models/payfactors-api/user/response';
 import { UserTicketDto } from 'libs/models/service';
 
 import {
-    CompanyDetail,
-    PfServicesRep,
-    UserTicketGridItem,
-    UserTicketItem,
-    UserTicketState,
-    UserTicketType,
-    TicketDetail,
-    TicketAttachment
+  CompanyDetail,
+  PfServicesRep,
+  UserTicketGridItem,
+  UserTicketItem,
+  UserTicketState,
+  UserTicketType,
+  TicketDetail,
+  TicketAttachment,
+  TicketComment
 } from '../models';
 import { getFileExtensionType, getFileExtensionCssClass } from 'libs/core/functions';
 
 export class PayfactorsApiModelMapper {
   static mapUserTicketResponseToUserTicketGridItem(response: UserTicketResponse[]): UserTicketGridItem[] {
-    return response.map( ut => {
+    return response.map(ut => {
       return {
         Id: ut.UserTicketId,
         Created: ut.CreateDate,
@@ -56,12 +57,15 @@ export class PayfactorsApiModelMapper {
         Description: response.UserTicket,
         UserTicketType: {
           UserTicketTypeId: response.UserTicketTypeId,
+          TicketFileTypeId: response.TicketFileTypeId,
           SortOrder: response.UserTicketTypeSortOrder,
           TicketTypeDisplayName: this.getTicketTypeDisplayName(response.UserTicketType, response.FileType),
           TicketTypeName: response.UserTicketType,
           TicketSubTypeName: response.FileType,
           TicketCssClass: response.TicketCssClass,
-        }
+        },
+        Comments: this.mapUserTicketCommentsToTicketComment(response.UserTicketComments),
+        TicketCssClass: response.TicketCssClass
       },
       CompanyInfo: null,
       Attachments: this.mapUserTicketFilesToTicketAttachment(response.UserTicketFiles)
@@ -99,9 +103,10 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapUserTicketTypeResponseToTicketType(response: UserTicketTypeResponse[]): UserTicketType[] {
-    return response.map( utt => {
+    return response.map(utt => {
       return {
         UserTicketTypeId: utt.UserTicketTypeId,
+        TicketFileTypeId: utt.TicketFileTypeId,
         TicketTypeName: utt.TicketTypeName,
         SortOrder: utt.SortOrder,
         TicketSubTypeName: utt.TicketSubTypeName,
@@ -122,8 +127,8 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapUserTicketFilesToTicketAttachment( userTicketFiles: UserTicketFile[], fileState?: number): TicketAttachment[] {
-    return userTicketFiles.map( utf => {
+  static mapUserTicketFilesToTicketAttachment(userTicketFiles: UserTicketFile[], fileState?: number): TicketAttachment[] {
+    return userTicketFiles.map(utf => {
       return {
         AttachmentId: utf.UserTicketsFileId,
         DisplayName: utf.DisplayName,
@@ -135,13 +140,26 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  private static squashComments( userTicketComments: UserTicketComment[]): string {
+  static mapUserTicketCommentsToTicketComment(userTicketComments: UserTicketComment[]): TicketComment[] {
+    return userTicketComments.map(utf => {
+      return {
+        TicketId: utf.UserTicketId,
+        UserTicketsCommentsId: utf.UserTicketsCommentsId,
+        UserEmail: utf.UserEmail,
+        UserFullName: utf.UserFullName,
+        Comments: utf.Comments,
+        CreateDate: utf.CreateDate
+      };
+    });
+  }
+
+  private static squashComments(userTicketComments: UserTicketComment[]): string {
 
     let comment = '';
 
     userTicketComments.forEach((utc, i) => {
       comment += utc.Comments;
-      if ( utc.Comments !== '' && (userTicketComments.length - 1) !== i ) {
+      if (utc.Comments !== '' && (userTicketComments.length - 1) !== i) {
         comment += ' ';
       }
     });
@@ -149,7 +167,7 @@ export class PayfactorsApiModelMapper {
     return comment;
   }
 
-  private static getTicketTypeDisplayName( userTicketType: string, fileType: string): string {
+  private static getTicketTypeDisplayName(userTicketType: string, fileType: string): string {
     let displayName = userTicketType;
     if (fileType) {
       displayName = displayName + ' - ' + fileType;

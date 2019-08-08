@@ -51,9 +51,15 @@
                                     <div *ngFor="let res of searchResults$ | async"
                                          class="company-job-to-map-to-result d-flex flex-column">
                                         <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-column">
-                                                <strong>
-                                                    <span [innerHtml]="res.JobTitle"></span> - {{res.JobFamily}}</strong>
+                                            <div class="d-flex flex-column company-job-result-content">
+                                                <strong #jobTitle class="company-job-result-job-title" container="body"
+                                                        (mouseenter)="displayTooltip(jobTitle, res.JobTitle)"
+                                                        [ngbTooltip]="(jobTitleText) ? jobTitleTipContent : ''">
+                                                    <span [innerHtml]="res.JobTitle"></span> - {{res.JobFamily}}
+                                                </strong>
+                                                <ng-template #jobTitleTipContent>
+                                                    {{jobTitleText}}
+                                                </ng-template>
                                                 <div class="mt-2">
                                                     <ng-container *ngIf="res.JobDescription && res.JobDescription.length; else noJobDescription">
                                                         <pf-ellipsis-view-more [highlightFilter]="exchangeDescriptionQuery"

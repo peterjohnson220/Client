@@ -2,8 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { PfValidators } from 'libs/forms/validators';
+import { KendoDropDownItem } from 'libs/models/kendo';
 
-import { MarketDataScope, AddPayMarketFormData, KendoDropDownItem, CountryDataSet, MarketDataLocation } from '../../models';
+import { MarketDataScope, AddPayMarketFormData, CountryDataSet, MarketDataLocation } from '../../models';
 
 @Component({
   selector: 'pf-add-paymarket-form',

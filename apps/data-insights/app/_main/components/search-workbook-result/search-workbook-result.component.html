@@ -1,0 +1,23 @@
+<div *ngIf="workbook" class="search-result-container d-flex flex-column" [ngClass]="openViews ? 'expanded' : ''">
+  <div class="d-flex flex-row justify-content-between header">
+    <div class="workbook-name">
+      <a class="btn" title="Open Workbook"
+        [attr.data-qa-id]="'lnk-openWorkbook'"
+        [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
+        [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
+        {{workbook.WorkbookName}}
+      </a>
+    </div>
+    <div *ngIf="!workbook.IsStandard" class="icon" [attr.data-qa-id]="'cnt-openViews'" (click)="handleOpenViewsClicked()" title="Open Views">
+      <fa-icon *ngIf="!openViews" icon="caret-right" size="2x"></fa-icon>
+      <fa-icon *ngIf="openViews" icon="caret-down" size="2x"></fa-icon>
+    </div>
+  </div>
+
+  <div *ngIf="workbook.Views && openViews">
+    <pf-workbook-views
+      [workbook]="workbook"
+      [searchEnabled]="false">
+    </pf-workbook-views>
+  </div>
+</div>

@@ -7,9 +7,10 @@ import {
 } from 'libs/models/payfactors-api/comphub';
 
 import { PayMarket } from 'libs/models/paymarket';
+import { KendoDropDownItem } from 'libs/models/kendo';
 
 import {
-  TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope,
+  TrendingJobGroup, PricingPaymarket, MarketDataScope,
   JobData, JobGridData, CountryDataSet, JobSalaryTrend, MarketDataLocation
 } from '../models';
 import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';

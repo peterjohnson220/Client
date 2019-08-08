@@ -10,19 +10,6 @@
 // Kendo Overrides
 
 .dashboards-title {
-  .k-list {
-    .k-state-selected {
-      background-color: white !important;
-      color: black !important;
-    }
-
-    .k-state-focused {
-      background-color: white !important;
-      color: black !important;
-      box-shadow: none !important;
-    }
-  }
-
   .k-dropdown {
     width: auto;
   }
@@ -56,6 +43,35 @@
     padding: 0;
   }
 }
+.tag-container {
+  .tag-dropdown {
+    background-color: transparent;
+    .k-dropdown-wrap {
+      background-color: transparent;
+      padding-left: 0;
+      .k-input {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        font-size: 1rem;
+      }
+      .k-i-arrow-s {
+        color: #0883BE;
+      }
+    }
+  }
+}
+.k-popup{
+  .k-list{
+      .k-item {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+  }
+}
 
 .tag-modal {
   .modal-dialog {
@@ -66,5 +82,46 @@
   .popover-header {
     @extend %ellipsis-overflowing-text;
   }
+  margin-bottom: 20px;
+  width: 275px;
 }
 
+.search-modal {
+  .modal-body {
+    padding: 0;
+  }
+
+  .modal-dialog {
+    margin: 9rem auto;
+  }
+
+  .form-control {
+    border: none;
+    padding: 1rem;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  input {
+    height: 60px;
+    font-size: 24px;
+    border: none;
+    border-bottom: solid 1px #ccc;
+    border-radius: 0;
+  }
+
+  .input-group-append {
+    display: none;
+  }
+}
+
+.save-user-workbook-modal {
+
+  .entity-dropdownlist {
+    .k-dropdown-wrap {
+      background-color: #ffffff;
+    }
+  }
+
+}

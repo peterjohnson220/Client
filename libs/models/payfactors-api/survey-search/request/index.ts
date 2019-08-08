@@ -1,4 +1,4 @@
-export * from './search-survey-data-request.model';
+export * from './survey-data-filter-request.model';
 export * from './add-data-cut-request.model';
 export * from './pricing-matches-request.model';
 export * from './pricing-matches-details-request.model';
@@ -7,3 +7,5 @@ export * from './jobs-to-price-request.model';
 export * from './job-match-cuts-request.model';
 export * from './update-user-job-matches.request.model';
 export * from './survey-search-request.model';
+export * from './data-filter-request.model';
+export * from './exchange-data-filter-request.model';

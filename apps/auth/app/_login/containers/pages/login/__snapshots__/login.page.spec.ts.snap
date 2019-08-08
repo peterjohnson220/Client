@@ -137,8 +137,8 @@ exports[`Auth - Login should disable and show correct login button text when log
           id="au-btn-registration"
         >
            Register 
-          <i
-            class="fas fa-arrow-right"
+          <fa-icon
+            class="arrow-right"
           />
         </button>
       </div>
@@ -283,8 +283,8 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
           id="au-btn-registration"
         >
            Register 
-          <i
-            class="fas fa-arrow-right"
+          <fa-icon
+            class="arrow-right"
           />
         </button>
       </div>
@@ -429,8 +429,8 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
           id="au-btn-registration"
         >
            Register 
-          <i
-            class="fas fa-arrow-right"
+          <fa-icon
+            class="arrow-right"
           />
         </button>
       </div>
@@ -582,8 +582,8 @@ exports[`Auth - Login should show password expired notification on submitError 1
           id="au-btn-registration"
         >
            Register 
-          <i
-            class="fas fa-arrow-right"
+          <fa-icon
+            class="arrow-right"
           />
         </button>
       </div>

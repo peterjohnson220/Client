@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { StandardReport } from '../models';
+import { Workbook } from '../models';
 
 export const GET_STANDARD_REPORTS = '[Data Insights/Data Insights Page] Get Standard Reports';
 export const GET_STANDARD_REPORTS_SUCCESS = '[Data Insights/Data Insights Page] Get Standard Reports Success';
@@ -15,7 +15,7 @@ export class GetStandardReports implements Action {
 export class GetStandardReportsSuccess implements Action {
   readonly type = GET_STANDARD_REPORTS_SUCCESS;
 
-  constructor(public payload: StandardReport[]) {}
+  constructor(public payload: Workbook[]) {}
 }
 
 export class GetStandardReportsError implements Action {

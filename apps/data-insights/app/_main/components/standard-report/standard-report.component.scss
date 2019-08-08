@@ -3,23 +3,25 @@
 @import 'data-insights-variables';
 
 .standard-report {
-  margin: 1rem 1rem 3rem 1rem;
+  margin: 1rem 0 3rem 0;
   position: relative;
-  height: 350px;
 
   .preview {
     margin-bottom: 1rem;
     cursor: pointer;
     min-height: 1px;
-    border: 1px solid #e8e8e8;
-    padding: 1rem;
+    padding: 1rem 0;
 
     .img-fluid {
       width: 100%;
     }
 
     &:hover{
-      box-shadow: 1px 1px 7px 0 #e8e8e8;
+      .workbook-description {
+        opacity: 1;
+        display: block;
+        position: absolute;
+      }
     }
   }
 
@@ -32,4 +34,25 @@
     font-size: 1.25rem;
     @extend %ellipsis-overflowing-text;
   }
+
+  .workbook-description {
+    display: none;
+    opacity: 0;
+    font-size: 1rem;
+    color: white;
+    font-weight: 400;
+    width: 50%;
+    height: 135px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    transition: all 0.25s ease-in-out;
+  }
+  @media (min-width: 1600px) {
+    .workbook-description {
+      font-size: 1.2rem;
+    }
+  }
 }
+

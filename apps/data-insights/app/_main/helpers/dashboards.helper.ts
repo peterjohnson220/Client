@@ -1,4 +1,4 @@
-import { orderBy } from 'lodash';
+import { orderBy, filter } from 'lodash';
 
 import { DashboardView, Workbook } from '../models';
 
@@ -37,9 +37,12 @@ export class DashboardsHelper {
     return orderByFn;
   }
 
-  static getCompanyWorkbooksByView(workbooks: Workbook[], view: DashboardView): Workbook[] {
+  static getCompanyWorkbooksByView(workbooks: Workbook[], view: DashboardView, workbooktag?: string ): Workbook[] {
     let filteredWorkbooks = workbooks.filter(this.getWorkbookFilterFn(view));
     filteredWorkbooks = this.getOrderByFn(view, filteredWorkbooks);
+    if (workbooktag && workbooktag !== 'All') {
+      filteredWorkbooks = filter(filteredWorkbooks, w => (w.Tag === workbooktag || (w.DefaultTag === workbooktag && w.Tag === null)));
+    }
     return filteredWorkbooks;
   }
 
