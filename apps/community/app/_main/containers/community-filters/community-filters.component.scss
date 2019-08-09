@@ -1,23 +1,35 @@
 @import 'colors';
 @import 'styles';
 
-#filter-section-header
-{
+$topic-filter-width: 250px;
+$industry-filter-width: 370px;
+$company-size-filter-width: 200px;
+
+#filter-section-header {
   font-weight: 500;
   color: $community-tags-header-color;
 }
 
-.topic-filter
-{
-  width: 250px;
+::ng-deep .topic-filter kendo-multiselect {
+  width: $topic-filter-width;
 }
 
-.industry-filter
-{
-  width: 370px;
+::ng-deep .topic-filter input {
+  width: calc(#{$topic-filter-width} - 25px) !important;
 }
 
-.company-size-filter
-{
-  width: 200px;
+::ng-deep .industry-filter kendo-multiselect {
+  width: $industry-filter-width;
+}
+
+::ng-deep .industry-filter input {
+  width: calc(#{$industry-filter-width} - 25px) !important;
+}
+
+::ng-deep .company-size-filter kendo-multiselect {
+  width: $company-size-filter-width;
+}
+
+::ng-deep .company-size-filter input {
+  width: calc(#{$company-size-filter-width} - 25px) !important;
 }

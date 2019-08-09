@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, ViewChild } from '@angular/core';
+import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
+
 
 @Component({
   selector: 'pf-community-filters-dropdown',
   templateUrl: './community-filters-dropdown.component.html',
-  styleUrls: ['./community-filters-dropdown.component.scss']
+  styleUrls: [ './community-filters-dropdown.component.scss' ]
 })
 export class CommunityFiltersDropdownComponent implements OnInit, AfterViewInit {
 
@@ -15,8 +17,12 @@ export class CommunityFiltersDropdownComponent implements OnInit, AfterViewInit 
   @Input() filterType: string;
 
   @Output() filtersSelected: EventEmitter<any> = new EventEmitter<any>();
+  @ViewChild('multiselect', { static: false }) public multiselect: MultiSelectComponent;
 
-  constructor() { }
+  filterIsOpen: boolean;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -41,4 +47,21 @@ export class CommunityFiltersDropdownComponent implements OnInit, AfterViewInit 
     }, 0);
   }
 
+  openFilter() {
+    this.filterIsOpen = true;
+  }
+
+  closeFilter() {
+    this.filterIsOpen = false;
+  }
+
+  dropdownOpenArrowClicked(filterId) {
+    const inputElement = document.querySelector(`#${filterId} kendo-searchbar input`) as HTMLInputElement;
+
+    this.multiselect.toggle(true);
+
+    inputElement.focus();
+
+    this.filterIsOpen = true;
+  }
 }
