@@ -53,8 +53,7 @@ export class SaveUserWorkbookModalComponent implements OnInit, OnChanges {
       return this.saving;
     }
 
-    return this.saving || !this.saveUserWorkbookForm.valid ||
-      !(this.saveUserWorkbookForm.dirty || this.saveUserWorkbookForm.touched);
+    return this.saving || !this.saveUserWorkbookForm.valid;
   }
 
   open(): void {

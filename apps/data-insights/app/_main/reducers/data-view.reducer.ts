@@ -16,6 +16,10 @@ export interface State {
   editUserReportError: boolean;
   editUserReportConflict: boolean;
   editUserReportSuccess: boolean;
+  duplicatingUserReport: boolean;
+  duplicateUserReportError: boolean;
+  duplicateUserReportConflict: boolean;
+  duplicateUserReportSuccess: boolean;
 }
 
 const initialState: State = {
@@ -28,7 +32,11 @@ const initialState: State = {
   editingUserReport: false,
   editUserReportError: false,
   editUserReportConflict: false,
-  editUserReportSuccess: false
+  editUserReportSuccess: false,
+  duplicatingUserReport: false,
+  duplicateUserReportError: false,
+  duplicateUserReportConflict: false,
+  duplicateUserReportSuccess: false
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -191,6 +199,42 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         editUserReportConflict: true
       };
     }
+    case fromDataViewActions.DUPLICATE_USER_REPORT: {
+      return {
+        ...state,
+        duplicatingUserReport: true,
+        duplicateUserReportError: false,
+        duplicateUserReportConflict: false,
+        duplicateUserReportSuccess: false
+      };
+    }
+    case fromDataViewActions.DUPLICATE_USER_REPORT_SUCCESS: {
+      return {
+        ...state,
+        duplicatingUserReport: false,
+        duplicateUserReportError: false,
+        duplicateUserReportConflict: false,
+        duplicateUserReportSuccess: true
+      };
+    }
+    case fromDataViewActions.DUPLICATE_USER_REPORT_ERROR: {
+      return {
+        ...state,
+        duplicatingUserReport: false,
+        duplicateUserReportError: true,
+        duplicateUserReportConflict: false,
+        duplicateUserReportSuccess: false
+      };
+    }
+    case fromDataViewActions.DUPLICATE_USER_REPORT_CONFLICT_ERROR: {
+      return {
+        ...state,
+        duplicatingUserReport: false,
+        duplicateUserReportError: false,
+        duplicateUserReportConflict: true,
+        duplicateUserReportSuccess: false
+      };
+    }
     default: {
       return state;
     }
@@ -207,6 +251,10 @@ export const getEditingUserReport = (state: State) => state.editingUserReport;
 export const getEditUserReportError = (state: State) => state.editUserReportError;
 export const getEditUserReportConflict = (state: State) => state.editUserReportConflict;
 export const getEditUserReportSuccess = (state: State) => state.editUserReportSuccess;
+export const getDuplicatingUserReport = (state: State) => state.duplicatingUserReport;
+export const getDuplicateUserReportError = (state: State) => state.duplicateUserReportError;
+export const getDuplicateUserReportConflict = (state: State) => state.duplicateUserReportConflict;
+export const getDuplicateUserReportSuccess = (state: State) => state.duplicateUserReportSuccess;
 export const getSelectedFields = (state: State) => {
   if (state.reportFieldsAsync.obj) {
     return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === true);

@@ -16,6 +16,13 @@
                   container="body">
             <fa-icon icon="edit"></fa-icon>
           </button>
+          <button class="btn btn-secondary"
+                  [attr.data-qa-id]="'btn-duplicate'"
+                  (click)="handleDuplicateClicked()"
+                  ngbTooltip="Duplicate"
+                  container="body">
+            <fa-icon icon="clone"></fa-icon>
+          </button>
         </div>
         <div class="d-flex flex-row main-content">
           <pf-left-sidebar>
@@ -39,6 +46,18 @@
     [saveNameConflict]="editUserDataViewConflict$ | async"
     [saveError]="editUserDataViewError$ | async"
     (saveClicked)="handleEditSaveClicked($event)">
+  </pf-save-user-workbook-modal>
+  <pf-save-user-workbook-modal
+    #duplicateWorkbookModal
+    [workbookMode]="workbookModes.DuplicateWorkbook"
+    [modalData]="duplicateWorkbookData"
+    [lockedEntityName]="userDataViewAsync?.obj?.Entity"
+    [reportName]="'Copy of '+ userDataViewAsync?.obj?.Name"
+    [summary]="userDataViewAsync?.obj?.Summary"
+    [saving]="duplicatingUserReport$ | async"
+    [saveNameConflict]="duplicateUserReportConflict$ | async"
+    [saveError]="duplicateUserReportError$ | async"
+    (saveClicked)="handleDuplicateSaveClicked($event)">
   </pf-save-user-workbook-modal>
 </div>
 

@@ -19,17 +19,23 @@ import { SaveUserWorkbookModalComponent } from '../../../components/save-user-wo
 
 export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   @ViewChild('editWorkbookModal', { static: false }) public editUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
+  @ViewChild('duplicateWorkbookModal', { static: false }) public duplicateUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
 
   userDataView$: Observable<AsyncStateObj<UserDataView>>;
   editingUserDataView$: Observable<boolean>;
   editUserDataViewConflict$: Observable<boolean>;
   editUserDataViewError$: Observable<boolean>;
+  duplicatingUserReport$: Observable<boolean>;
+  duplicateUserReportConflict$: Observable<boolean>;
+  duplicateUserReportError$: Observable<boolean>;
 
   editReportSuccessSubscription: Subscription;
+  duplicateReportSuccessSubscription: Subscription;
   userDataViewSubscription: Subscription;
 
   workbookModes = SaveWorkbookMode;
   editWorkbookData: SaveUserWorkbookModalData;
+  duplicateWorkbookData: SaveUserWorkbookModalData;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -39,21 +45,51 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.editingUserDataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getEditingUserReport));
     this.editUserDataViewError$ = this.store.pipe(select(fromDataInsightsMainReducer.getEditUserReportError));
     this.editUserDataViewConflict$ = this.store.pipe(select(fromDataInsightsMainReducer.getEditUserReportConflict));
+    this.duplicatingUserReport$ = this.store.pipe(select(fromDataInsightsMainReducer.getDuplicatingUserReport));
+    this.duplicateUserReportError$ = this.store.pipe(select(fromDataInsightsMainReducer.getDuplicateUserReportError));
+    this.duplicateUserReportConflict$ = this.store.pipe(select(fromDataInsightsMainReducer.getDuplicateUserReportConflict));
+    route.params.subscribe(val => {
+      this.loadFieldsAndData();
+    });
   }
 
   ngOnInit(): void {
+    this.loadFieldsAndData();
+    this.startSubscriptions();
+  }
+
+  ngOnDestroy(): void {
+    this.editReportSuccessSubscription.unsubscribe();
+    this.userDataViewSubscription.unsubscribe();
+    this.duplicateReportSuccessSubscription.unsubscribe();
+  }
+
+  private loadFieldsAndData(): void {
     this.store.dispatch(new fromDataViewActions.GetUserDataView({ dataViewId: this.route.snapshot.params.dataViewId }));
     this.store.dispatch(new fromDataViewActions.GetReportFields({ dataViewId: this.route.snapshot.params.dataViewId}));
+  }
+
+  private startSubscriptions(): void {
     this.editReportSuccessSubscription =
       this.store.pipe(select(fromDataInsightsMainReducer.getEditUserReportSuccess)).subscribe(succeeded => {
-      if (succeeded && this.editUserWorkbookModalComponent) {
-        this.editUserWorkbookModalComponent.close();
-      }
-    });
+        if (succeeded && this.editUserWorkbookModalComponent) {
+          this.editUserWorkbookModalComponent.close();
+        }
+      });
+    this.duplicateReportSuccessSubscription =
+      this.store.pipe(select(fromDataInsightsMainReducer.getDuplicateUserReportSuccess)).subscribe(succeeded => {
+        if (succeeded && this.duplicateUserWorkbookModalComponent) {
+          this.duplicateUserWorkbookModalComponent.close();
+        }
+      });
     this.userDataViewSubscription = this.userDataView$.subscribe( u => {
       if (u.obj) {
         this.editWorkbookData = {
           Name: u.obj.Name,
+          Summary: u.obj.Summary
+        };
+        this.duplicateWorkbookData = {
+          Name: 'Copy of ' + u.obj.Name,
           Summary: u.obj.Summary
         };
       }
@@ -65,15 +101,14 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   handleDuplicateClicked(): void {
-    this.editUserWorkbookModalComponent.open();
+    this.duplicateUserWorkbookModalComponent.open();
   }
 
   handleEditSaveClicked(workbookData: SaveUserWorkbookModalData): void {
     this.store.dispatch(new fromDataViewActions.EditUserReport(workbookData));
   }
 
-  ngOnDestroy(): void {
-    this.editReportSuccessSubscription.unsubscribe();
-    this.userDataViewSubscription.unsubscribe();
+  handleDuplicateSaveClicked(workbookData: SaveUserWorkbookModalData): void {
+    this.store.dispatch(new fromDataViewActions.DuplicateUserReport(workbookData));
   }
 }

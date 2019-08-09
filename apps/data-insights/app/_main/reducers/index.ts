@@ -155,6 +155,26 @@ export const getEditUserReportConflict = createSelector(
   fromDataViewReducer.getEditUserReportConflict
 );
 
+export const getDuplicatingUserReport = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getDuplicatingUserReport
+);
+
+export const getDuplicateUserReportError = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getDuplicateUserReportError
+);
+
+export const getDuplicateUserReportConflict = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getDuplicateUserReportConflict
+);
+
+export const getDuplicateUserReportSuccess = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getDuplicateUserReportSuccess
+);
+
 export const getUserDataViewAsync = createSelector(
   selectDataViewState,
   fromDataViewReducer.getUserDataViewAsync
