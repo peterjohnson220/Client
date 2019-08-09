@@ -72,15 +72,15 @@
                        title="ID"
                        width="30">
       <ng-template kendoGridFilterCellTemplate
-                       let-filter>
+                   let-filter>
         <pf-ticket-list-filter #ticketIdFilter
-                                [filter]="filter"
-                                [data]=""
-                                [defaultValue]="''"
-                                [filterField]="ticketFieldType.TICKETID"
-                                [textField]="'Id'"
-                                [valueField]="'Id'"
-                                (valueChange)="filterChanged()">
+                               [filter]="filter"
+                               [data]=""
+                               [defaultValue]="''"
+                               [filterField]="ticketFieldType.TICKETID"
+                               [textField]="'Id'"
+                               [valueField]="'Id'"
+                               (valueChange)="filterChanged()">
         </pf-ticket-list-filter>
       </ng-template>
       <ng-template kendoGridCellTemplate
@@ -94,15 +94,15 @@
                        title="Client"
                        width="60">
       <ng-template kendoGridFilterCellTemplate
-                       let-filter>
+                   let-filter>
         <pf-ticket-list-filter #ticketCompanyNameFilter
-                                [filter]="filter"
-                                [data]=""
-                                [defaultValue]="''"
-                                [filterField]="ticketFieldType.COMPANYNAME"
-                                [textField]="'CompanyName'"
-                                [valueField]="'CompanyName'"
-                                (valueChange)="filterChanged()">
+                               [filter]="filter"
+                               [data]=""
+                               [defaultValue]="''"
+                               [filterField]="ticketFieldType.COMPANYNAME"
+                               [textField]="'CompanyName'"
+                               [valueField]="'CompanyName'"
+                               (valueChange)="filterChanged()">
         </pf-ticket-list-filter>
       </ng-template>
       <ng-template kendoGridCellTemplate
@@ -113,7 +113,8 @@
     <kendo-grid-column field="Description"
                        title="Description"
                        width="100"
-                       [filterable]="false">
+                       [filterable]="false"
+                       [sortable]="false">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
         <div>
@@ -129,7 +130,7 @@
         <div [innerHTML]="dataItem.Created | date:'LL/dd/yyyy'"></div>
       </ng-template>
       <ng-template kendoGridFilterCellTemplate
-                    let-filter>
+                   let-filter>
         <pf-ticket-list-date-range-filter #createDateRangeFilter
                                           [filter]="filter"
                                           [filterField]="ticketFieldType.CREATED"

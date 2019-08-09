@@ -7,6 +7,10 @@ export interface UserTicketSearchRequest {
   StartDate?: Date;
   EndDate?: Date;
   UserTicket_ID?: number;
+  Skip: number;
+  Take: number;
+  SortField: string;
+  SortDirection: string;
 }
 
 export function generateMockUserTicketSearchRequest(): UserTicketSearchRequest {
@@ -16,6 +20,10 @@ export function generateMockUserTicketSearchRequest(): UserTicketSearchRequest {
     Company_ID: 13,
     UserTicket_Type: 'Question',
     StartDate: new Date(2019, 3, 1),
-    EndDate: new Date(2019, 3, 31)
+    EndDate: new Date(2019, 3, 31),
+    Skip: 0,
+    Take: 25,
+    SortField: 'TicketId',
+    SortDirection: 'asc'
   };
 }

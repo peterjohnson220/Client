@@ -54,9 +54,7 @@ export const getTicketUpdatingError = createSelector(selectTicketState, fromTick
 export const getTicketComments = createSelector(selectTicketState, fromTicketsReducer.getComments);
 
 // Ticket List Selectors
-export const {
-  selectAll: getTickets,
-} = fromTicketsListReducer.adapter.getSelectors(selectTicketListState);
+export const getTickets = createSelector(selectTicketListState, fromTicketsListReducer.getData);
 export const getTicketListLoading = createSelector(selectTicketListState, fromTicketsListReducer.getLoading);
 export const getTicketListLoadingError = createSelector(selectTicketListState, fromTicketsListReducer.getLoadingError);
 export const getDirtyGridState = createSelector(selectTicketListState, fromTicketsListReducer.getDirtyGridState);
