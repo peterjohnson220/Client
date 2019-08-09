@@ -8,14 +8,14 @@ import spyOn = jest.spyOn;
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum } from 'libs/models';
 
-import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
-import * as fromPeerDashboardReducer from '../../../reducers';
+import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
+import * as fromPeerSharedReducer from '../../../reducers';
 import { NoExchangesPageComponent } from './no-exchanges.page';
 
 describe('Peer Dashboard - Exchange Selector', () => {
   let fixture: ComponentFixture<NoExchangesPageComponent>;
   let instance: NoExchangesPageComponent;
-  let store: Store<fromPeerDashboardReducer.State>;
+  let store: Store<fromPeerSharedReducer.State>;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('Peer Dashboard - Exchange Selector', () => {
         NgbPopoverModule.forRoot(),
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers),
+          peer_shared: combineReducers(fromPeerSharedReducer.reducers),
         }),
       ],
       declarations: [

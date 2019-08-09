@@ -5,13 +5,13 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { Exchange } from 'libs/models/peer/index';
+import { Exchange } from 'libs/models/peer';
 
-import * as fromSharedPeerReducer from '../../../../../shared/reducers/index';
-import * as fromPeerManagementReducer from '../../../../reducers/index';
-import * as importAssociationAction from '../../../../actions/import.actions';
-import { ImportStatusEnum } from '../../../../actions/import.actions';
-import { ExchangeJobMappingService } from '../../../../services/exchange-job-mapping.service';
+import * as fromSharedPeerReducer from '../../../shared/reducers';
+import * as fromPeerManagementReducer from '../../reducers';
+import * as importAssociationAction from '../../actions/import.actions';
+import { ImportStatusEnum } from '../../actions/import.actions';
+import { ExchangeJobMappingService } from '../../services/exchange-job-mapping.service';
 
 import { ErrorEvent, UploadEvent, FileRestrictions } from '@progress/kendo-angular-upload';
 import { SuccessEvent, FileInfo } from '@progress/kendo-angular-upload';

@@ -42,7 +42,7 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
   }
 
   manageJobsClick(): void {
-    this.router.navigate(['manage'], { relativeTo: this.route });
+    this.router.navigate(['manage'], { relativeTo: this.route.parent.parent });
   }
 
   referCompanyClick(): void {
@@ -50,7 +50,7 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
   }
 
   mapClick(): void {
-    this.router.navigate(['map'], { relativeTo: this.route });
+    this.router.navigate(['map'], { relativeTo: this.route.parent.parent });
   }
 
   getTitle(hasData: boolean, hasDataError: boolean): string {

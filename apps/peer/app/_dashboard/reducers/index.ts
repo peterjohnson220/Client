@@ -14,7 +14,6 @@ import * as fromAccessExchangeRequestReducer from './access-exchange-request.red
 import * as fromExchangeRequestReducer from '../../shared/reducers/exchange-request.reducer';
 import * as fromSharedPeerReducer from '../../shared/reducers';
 import * as fromExchangeJobComparisonGridReducer from './exchange-job-comparison-grid.reducer';
-import * as fromExchangeSelectorReducer from './exchange-selector.reducer';
 import * as fromCompanyIndustriesReducer from './company-industries.reducer';
 import * as fromExchangeDashboardTCModalReducer from './exchange-dashboard-tc-modal.reducer';
 import * as fromUploadOrgDataReducer from './upload-org-data.reducer';
@@ -26,7 +25,6 @@ export interface DashboardState {
   accessExchangeRequest: fromAccessExchangeRequestReducer.State;
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.State;
   exchangeJobComparison: IFeatureGridState<fromExchangeJobComparisonGridReducer.State>;
-  exchangeSelector: fromExchangeSelectorReducer.State;
   companyIndustries: fromCompanyIndustriesReducer.State;
   exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.State;
   uploadOrgData: fromUploadOrgDataReducer.State;
@@ -44,7 +42,6 @@ export const reducers = {
   accessExchangeRequest: fromAccessExchangeRequestReducer.reducer,
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer,
   exchangeJobComparison: fromExchangeJobComparisonGridReducer.reducer,
-  exchangeSelector: fromExchangeSelectorReducer.reducer,
   companyIndustries: fromCompanyIndustriesReducer.reducer,
   exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.reducer,
   uploadOrgData: fromUploadOrgDataReducer.reducer
@@ -77,11 +74,6 @@ export const selectAccessExchangeRequestState = createSelector(
 export const selectPfCompaniesExchangeRequestState = createSelector(
   selectFeatureAreaState,
   (state: DashboardState) => state.pfCompaniesExchangeRequest
-);
-
-export const selectExchangeSelectorState = createSelector(
-  selectFeatureAreaState,
-  (state: DashboardState) => state.exchangeSelector
 );
 
 export const selectCompanyIndustriesState = createSelector(
@@ -312,21 +304,6 @@ export const getExchangeJobComparisonsGridData = createSelector(
   (data, total) => {
     return { data: data, total: total };
   }
-);
-
-// Exchange Selector
-export const {
-  selectAll: getExchangeSelectorList
-} = fromExchangeSelectorReducer.adapter.getSelectors(selectExchangeSelectorState);
-
-export const getExchangeSelectorListLoading = createSelector(
-  selectExchangeSelectorState,
-  fromExchangeSelectorReducer.getLoading
-);
-
-export const getExchangeSelectorListLoaded = createSelector(
-  selectExchangeSelectorState,
-  fromExchangeSelectorReducer.getLoaded
 );
 
 // Request Company - New Company - Company Industries

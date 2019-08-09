@@ -11,7 +11,6 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfPeerMapModule } from 'libs/features/peer/map';
 import { PfFormsModule } from 'libs/forms';
 
-import { SharedModule } from '../shared/shared.module';
 import { MapRoutingModule } from './map-routing.module';
 
 import { ExchangeMapPageComponent, SaveExchangeScopeModalComponent, ExportDataCutsModalComponent } from './containers';
@@ -36,10 +35,9 @@ import { reducers } from './reducers';
     ]),
 
     // Payfactors
-    SharedModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfPeerMapModule,
+    PfPeerMapModule
   ],
   declarations: [
     // Pages
