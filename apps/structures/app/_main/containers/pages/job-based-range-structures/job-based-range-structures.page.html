@@ -18,16 +18,23 @@
 
   <div class="featured justify-content-center container-fluid">
     <div class="row align-items-center">
-      <ng-container *ngFor="let jobBasedRangeStructureFavorite of (jobBasedRangeStructureFavorites$ | async)?.obj; trackBy: trackByFn">
+      <ng-container *ngFor="let jobBasedRangeStructureFavorite of filteredCompanyStructureFavorites">
         <div class="col-12 col-sm-6 col-lg-3 h-100">
-<!--          <pf-job-based-range-structure-favorite [jobBasedRangeStructure]="jobBasedRangeStructureFavorite"></pf-job-based-range-structure-favorite>-->
+          <pf-job-based-range-structure-favorite
+            [structureFavorite]="jobBasedRangeStructureFavorite">
+          </pf-job-based-range-structure-favorite>
         </div>
       </ng-container>
     </div>
   </div>
 
-  <div class="job-based-range-all-structures">
-    <pf-job-based-range-all-structures></pf-job-based-range-all-structures>
+  <div class="job-based-range-all-structures" *ngIf="(companyStructureViewsAsync$ | async) as companyStructuresViewsAsync">
+    <pf-job-based-range-all-structures
+      [isCompanyStructureViewsLoading]="companyStructuresViewsAsync.loading"
+      [isCompanyStructureViewsLoadingError]="companyStructuresViewsAsync.loadingError"
+      [filteredCompanyStructureViews]="filteredCompanyStructureViews"
+      (favoriteClicked)="handleFavoriteClicked($event)"
+    ></pf-job-based-range-all-structures>
   </div>
 
 </div>

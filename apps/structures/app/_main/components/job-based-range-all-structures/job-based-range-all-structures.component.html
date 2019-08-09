@@ -14,19 +14,21 @@
       </div>
     </div>
   </div>
-    <ng-container *ngIf="(companyStructureViewsAsync$ | async) as companyStructuresAsync">
+    <ng-container>
       <pf-async-container
-        [loading]="companyStructuresAsync.loading"
-        [loadingError]="companyStructuresAsync.loadingError"
+        [loading]="isCompanyStructureViewsLoading"
+        [loadingError]="isCompanyStructureViewsLoadingError"
         [loadingErrorMessage]="'Error Loading Structures'"
         [hideReloadButton]="true">
       </pf-async-container>
       <div class="container-fluid">
         <div class="row">
-          <ng-container *ngIf="(filteredCompanyStructureViews$ | async) as filteredCompanyStructureViews">
-            <div *ngFor="let structureView of filteredCompanyStructureViews; trackBy: trackByFn"
+          <ng-container *ngIf="filteredCompanyStructureViews">
+            <div *ngFor="let structureView of filteredCompanyStructureViews"
                  class="col-xs-12 col-md-6 col-lg-4 col-xl-3 structure-card">
-              <pf-structure-card [structureView]="structureView">
+              <pf-structure-card
+                [structureView]="structureView"
+                (favoriteClicked)="handleFavoriteClicked($event)">
               </pf-structure-card>
             </div>
           </ng-container>

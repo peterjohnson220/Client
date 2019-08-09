@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CompanyStructure } from '../../../models/structures/company-structure.model';
+import { CompanyStructureView } from '../../../models/structures/company-structure-view.model';
 
 @Injectable()
 export class StructuresApiService {
@@ -17,7 +18,16 @@ export class StructuresApiService {
       { params: { companyStructureId: companyStructureId } });
   }
 
-  getCompanyStructuresListViewData(): Observable<CompanyStructure[]> {
-    return this.payfactorsApiService.get<CompanyStructure[]>(`${this.endpoint}/GetStructuresListViewData`);
+  getCompanyStructuresListViewData(): Observable<CompanyStructureView[]> {
+    return this.payfactorsApiService.get<CompanyStructureView[]>(`${this.endpoint}/GetStructuresListViewData`);
   }
+
+  addStructuresFavorite(companyStructureId: number): Observable<number> {
+    return this.payfactorsApiService.post<number>(`${this.endpoint}(${companyStructureId})/Default.AddFavorite`);
+  }
+
+  removeStructuresFavorite(companyStructureId: number): Observable<number> {
+    return this.payfactorsApiService.post<number>(`${this.endpoint}(${companyStructureId})/Default.RemoveFavorite`);
+  }
+
 }
