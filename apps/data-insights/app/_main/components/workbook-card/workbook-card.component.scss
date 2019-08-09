@@ -6,7 +6,7 @@
 .workbook-container {
   border: solid 1px #d8d8d8;
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 1rem 0.8rem;
   background-color: #ffffff;
   position: relative;
 
@@ -53,14 +53,16 @@
     position: absolute;
     z-index: 1;
     height: 38px;
-    top: 16px;
+    top: 1.2rem;
+    right: 0.8rem;
+    left: 0.8rem;
 
     .action-button {
       display: flex;
       justify-content: center;
       align-items: center;
       background-color: #ffffff;
-      margin: 0 0.35rem;
+      margin: 0 0.7rem 0 0;
   
       .action-icon {
         font-size: 1.5rem;
@@ -109,7 +111,6 @@
 
   .actions-container.displayed {
     display: flex;
-    width: 90%;
   }
 }
 
