@@ -18,9 +18,8 @@
           </button>
         </div>
         <div class="d-flex flex-row main-content">
-          <pf-left-sidebar>
-          </pf-left-sidebar>
-          <div class="data-view-grid-container">
+          <pf-left-sidebar #leftSidebar></pf-left-sidebar>
+          <div class="data-view-grid-container" [ngClass]="leftSidebar.isOpen ? 'sidebar-open': 'sidebar-close'">
             <pf-data-view-grid></pf-data-view-grid>
           </div>
         </div>
