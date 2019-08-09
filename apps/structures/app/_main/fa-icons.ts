@@ -1,6 +1,12 @@
-import { faSearch, faUserCircle } from '@fortawesome/pro-solid-svg-icons';
+// Solid
+import { faSearch, faStar, faUserCircle } from '@fortawesome/pro-solid-svg-icons';
+
+// Regular
+import { faStar as falStar } from '@fortawesome/pro-regular-svg-icons/faStar';
 
 export const faIcons = [
   faUserCircle,
-  faSearch
+  faSearch,
+  falStar,
+  faStar
 ];

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -11,7 +11,7 @@ import { CompanyStructure } from 'libs/models/structures/company-structure.model
 import * as fromStructuresMainReducer from '../../../reducers';
 import * as fromJobRangeModelingActions from '../../../actions/job-range-modeling-page.actions';
 import { JobRangeModelingConstants } from '../../../constants/structures.constants';
-import {EditGridColumnsModalComponent} from '../../../components/modals/edit-grid-columns-modal.component';
+import { EditGridColumnsModalComponent } from '../../../components/modals/edit-grid-columns-modal.component';
 
 @Component({
   selector: 'pf-job-range-modeling-page',
@@ -19,7 +19,7 @@ import {EditGridColumnsModalComponent} from '../../../components/modals/edit-gri
   styleUrls: ['./job-range-modeling.page.scss']
 })
 export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
-  @ViewChild(EditGridColumnsModalComponent, { static: true }) public editGridColumnsModalComponent: EditGridColumnsModalComponent;
+  @ViewChild(EditGridColumnsModalComponent, {static: true}) public editGridColumnsModalComponent: EditGridColumnsModalComponent;
 
   // todo: replace temp Ids with routing parameters
   private readonly temp_companyStructureRangeGroupId = 609;
