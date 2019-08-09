@@ -20,6 +20,8 @@ export interface State {
   duplicateUserReportError: boolean;
   duplicateUserReportConflict: boolean;
   duplicateUserReportSuccess: boolean;
+  savingReportFields: boolean;
+  savingReportFieldsError: boolean;
 }
 
 const initialState: State = {
@@ -36,7 +38,9 @@ const initialState: State = {
   duplicatingUserReport: false,
   duplicateUserReportError: false,
   duplicateUserReportConflict: false,
-  duplicateUserReportSuccess: false
+  duplicateUserReportSuccess: false,
+  savingReportFields: false,
+  savingReportFieldsError: false
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -233,6 +237,38 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         duplicateUserReportError: false,
         duplicateUserReportConflict: true,
         duplicateUserReportSuccess: false
+      };
+    }
+    case fromDataViewActions.REMOVE_SELECTED_FIELD: {
+      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
+      const fieldToRemove = asyncStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
+      if (fieldToRemove) {
+        fieldToRemove.IsSelected = false;
+      }
+      return {
+        ...state,
+        reportFieldsAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.SAVE_REPORT_FIELDS: {
+      return {
+        ...state,
+        savingReportFields: true,
+        savingReportFieldsError: false
+      };
+    }
+    case fromDataViewActions.SAVE_REPORT_FIELDS_SUCCESS: {
+      return {
+        ...state,
+        savingReportFields: false,
+        savingReportFieldsError: false
+      };
+    }
+    case fromDataViewActions.SAVE_REPORT_FIELDS_ERROR: {
+      return {
+        ...state,
+        savingReportFields: false,
+        savingReportFieldsError: true
       };
     }
     default: {

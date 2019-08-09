@@ -5,8 +5,9 @@
 </div>
 <div class="existing-fields-container ml-2 mr-2">
   <ul  [ngClass]="existingFieldExpanded ? 'existingFieldExpanded-open ' : 'existingFieldExpanded-closed'" class="list-group list-unstyled">
-    <li *ngFor="let field of (fields$ | async); trackBy: trackByFn;" class="mb-1 mt-1 data-list-item"><span title="{{field.SourceName | uppercase}}" class="truncate">{{field.SourceName | uppercase}}</span>
-      <span class="pull-right" title="{{field.Entity | uppercase}}">{{field.Entity | uppercase}} <fa-icon class="delete-btn" data-qa-id='btn-deleteElement' icon="times"></fa-icon></span>
+    <li *ngFor="let field of fields; trackBy: trackByFn;" class="mb-1 mt-1 data-list-item"><span title="{{field.SourceName | uppercase}}" class="truncate">{{field.SourceName | uppercase}}</span>
+      <span class="pull-right" title="{{field.Entity | uppercase}}">{{field.Entity | uppercase}}
+      <fa-icon *ngIf="fields.length > 1" (click)="handleFieldRemoved(field)" class="delete-btn" data-qa-id='btn-deleteElement' icon="times"></fa-icon></span>
     </li>
   </ul>
 </div>

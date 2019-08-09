@@ -54,7 +54,6 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadFieldsAndData();
     this.startSubscriptions();
   }
 

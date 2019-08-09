@@ -14,7 +14,10 @@
           <fa-icon class="close-icon"  icon="chevron-double-left" size="lg"></fa-icon>
         </span>
       </div>
-      <pf-left-sidebar-existing-fields></pf-left-sidebar-existing-fields>
+      <pf-left-sidebar-existing-fields
+        (fieldRemoved)="handleFieldRemoved($event)"
+        [fields]="selectedFields$ | async">
+      </pf-left-sidebar-existing-fields>
     </div>
   </div>
 </div>
