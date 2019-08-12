@@ -10,6 +10,7 @@ export interface State {
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;
   savingTag: boolean;
   savingTagError: boolean;
+  tagFilter: string;
   dashboardView: DashboardView;
 }
 
@@ -17,6 +18,7 @@ const initialState: State = {
   companyWorkbooksAsync: generateDefaultAsyncStateObj<Workbook[]>([]),
   savingTag: false,
   savingTagError: false,
+  tagFilter: null,
   dashboardView: DashboardView.All
 };
 
@@ -46,7 +48,6 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
     }
     case fromDashboardsActions.GET_COMPANY_WORKBOOKS_ERROR: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
-
       companyWorkbooksAsyncClone.loadingError = true;
 
       return {
@@ -66,31 +67,38 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
     }
     case fromDashboardsActions.REMOVE_WORKBOOK_FAVORITE: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
-      let dashboardView = state.dashboardView;
+      let tagFilterClone = cloneDeep(state.tagFilter);
       const workbook: Workbook = companyWorkbooksAsyncClone.obj.find((w: Workbook) => w.WorkbookId === action.payload.workbookId);
       workbook.IsFavorite = false;
       workbook.FavoritesOrder = null;
-
-      if (!companyWorkbooksAsyncClone.obj.some(w => w.IsFavorite)) {
-        dashboardView = DashboardView.All;
+      if (state.dashboardView === DashboardView.Favorites) {
+        const workbookLength = DashboardsHelper.getCompanyWorkbooksByView(
+          state.companyWorkbooksAsync.obj, state.dashboardView, state.tagFilter
+        ).length;
+        if (workbookLength === 1) {
+          tagFilterClone = null;
+        }
       }
-
       return {
         ...state,
         companyWorkbooksAsync: companyWorkbooksAsyncClone,
-        dashboardView: dashboardView
+        tagFilter: tagFilterClone
       };
     }
     case fromDashboardsActions.TOGGLE_DASHBOARD_VIEW: {
       return {
         ...state,
-        dashboardView: action.payload.view
+        dashboardView: action.payload.view,
+        tagFilter: null
       };
     }
     case fromDashboardsActions.SAVE_WORKBOOK_ORDER_SUCCESS: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
-      companyWorkbooksAsyncClone.obj = DashboardsHelper.applyWorkbookOrderByView(
-        companyWorkbooksAsyncClone.obj, action.payload.workbookIds, state.dashboardView);
+      const typeOverride = action.payload.workbookOrderType;
+      if (!typeOverride) {
+        companyWorkbooksAsyncClone.obj = DashboardsHelper.applyWorkbookOrderByView(
+          companyWorkbooksAsyncClone.obj, action.payload.workbookIds, state.dashboardView);
+      }
       return {
         ...state,
         companyWorkbooksAsync: companyWorkbooksAsyncClone
@@ -148,7 +156,8 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
     case fromDashboardsActions.SAVE_WORKBOOK_TAG_SUCCESS: {
       return {
         ...state,
-        savingTag: false
+        savingTag: false,
+        tagFilter: null
       };
     }
     case fromDashboardsActions.SAVE_WORKBOOK_TAG_ERROR: {
@@ -161,6 +170,22 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
     default: {
       return state;
     }
+    case fromDashboardsActions.SET_TAGGED_FILTER: {
+      return {
+        ...state,
+        tagFilter: action.payload
+      };
+    }
+    case fromDashboardsActions.GET_DASHBOARD_VIEW_SUCCESS: {
+      let dashboardViewClone = cloneDeep(state.dashboardView);
+      if (action.payload && typeof action.payload === 'string') {
+        dashboardViewClone = action.payload;
+      }
+      return {
+        ...state,
+        dashboardView: dashboardViewClone
+      };
+    }
   }
 }
 
@@ -169,9 +194,23 @@ export const getSavingTag = (state: State) => state.savingTag;
 export const getSavingTagError = (state: State) => state.savingTagError;
 export const getDashboardView = (state: State) => state.dashboardView;
 export const getFilteredCompanyWorkbooks = (state: State) => {
-  const workbooks = DashboardsHelper.getCompanyWorkbooksByView(state.companyWorkbooksAsync.obj, state.dashboardView);
+  const workbooks = DashboardsHelper.getCompanyWorkbooksByView(state.companyWorkbooksAsync.obj, state.dashboardView, state.tagFilter);
   return workbooks;
 };
-export const getDistinctTags = (state: State) => {
-  return Array.from(new Set(state.companyWorkbooksAsync.obj.filter(cw => !!cw.Tag).map(cw => cw.Tag)));
+
+export const getDistinctTagsByView  = (state: State) => {
+  const workbooks = DashboardsHelper.getCompanyWorkbooksByView(state.companyWorkbooksAsync.obj, state.dashboardView);
+  const sortedTags = Array.from(new Set(workbooks.filter(cw => !!cw.Tag || cw.DefaultTag).map(cw => cw.Tag || cw.DefaultTag)))
+    .sort(function( a, b) {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+  return sortedTags;
 };
+
+export const getDistinctTags = (state: State) => {
+  return Array.from(new Set(state.companyWorkbooksAsync.obj.filter(cw => !!cw.Tag).map(cw => cw.Tag)))
+    .sort(function( a, b) {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+};
+export const getTagFilter = (state: State) => state.tagFilter;

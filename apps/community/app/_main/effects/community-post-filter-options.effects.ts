@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 
 import * as fromCommunityPostFilterOptionsActions from '../actions/community-post-filter-options.actions';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
+import * as fromCommunityFilterActions from '../actions/community-post-filter-options.actions';
+
 
 @Injectable()
 export class CommunityPostFilterOptionsEffects {
@@ -36,6 +38,64 @@ export class CommunityPostFilterOptionsEffects {
       map(() => new fromCommunityPostActions.GettingCommunityPosts())
     );
 
+  @Effect()
+  addingIndustryFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_INDUSTRY_TO_FILTER_OPTIONS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+
+  @Effect()
+  removingIndustryFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS),
+      map(() =>
+        new fromCommunityFilterActions.DeletingCommunityIndustryFromFilterOptionsSuccess())
+    );
+  @Effect()
+  removingIndustryFiltersSuccess$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_INDUSTRY_FROM_FILTER_OPTIONS_SUCCESS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+  @Effect()
+  addingCompanySizeFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_COMPANY_SIZE_TO_FILTER_OPTIONS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+  @Effect()
+  removingCompanySizeFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS),
+      map(() =>
+        new fromCommunityFilterActions.DeletingCommunityCompanySizeFromFilterOptionsSuccess())
+    );
+  @Effect()
+  removingCompanySizeFiltersSuccess$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_COMPANY_SIZE_FROM_FILTER_OPTIONS_SUCCESS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+  @Effect()
+  changingTopicFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.CHANGING_COMMUNITY_TOPIC_FILTER_OPTIONS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+  @Effect()
+  removingTopicFilters$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS),
+      map(() =>
+        new fromCommunityFilterActions.DeletingCommunityTopicFromFilterOptionsSuccess())
+    );
+  @Effect()
+  removingTopicFiltersSuccess$ = this.actions$
+    .pipe(
+      ofType(fromCommunityPostFilterOptionsActions.DELETING_COMMUNITY_TOPIC_FROM_FILTER_OPTIONS_SUCCESS),
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
   @Effect()
   addingPostFilter$ = this.actions$
     .pipe(

@@ -16,7 +16,7 @@
     Included in Participation - These matches will be included in your survey participation report
   </div>
 
-  <div id="includeInParticipation" class="matches-modal-content matches-list-container dropzone" dragula="matches-bag">
+  <div id="includeInParticipation" class="matches-modal-content matches-list-container dropzone" dragula="matches-bag" [class.dropzoneContainer]="isDragging">
     <span *ngIf="(matchesLoading$ | async)">
       <pf-loading-indicator></pf-loading-indicator> Loading...
     </span>
@@ -31,7 +31,7 @@
     Excluded from Participation - These matches will be excluded from your survey participation report
   </div>
 
-  <div id="excludeFromParticipation" class="matches-modal-content matches-list-container dropzone" dragula="matches-bag">
+  <div id="excludeFromParticipation" class="matches-modal-content matches-list-container dropzone" dragula="matches-bag" [class.dropzoneContainer]="isDragging">
     <span *ngIf="(matchesLoading$ | async)">
       <pf-loading-indicator></pf-loading-indicator> Loading...
     </span>

@@ -5,11 +5,13 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import { DashboardsComponent } from './dashboards.component';
 import { generateMockWorkbook, DashboardView } from '../../models';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 describe('Data Insights - Dashboards Comopnent', () => {
   let instance: DashboardsComponent;
@@ -23,10 +25,14 @@ describe('Data Insights - Dashboards Comopnent', () => {
           ...fromRootState.reducers,
           dataInsights_main: combineReducers(fromDataInsightsMainReducer.reducers),
         }),
-        DragulaModule.forRoot()
+        DragulaModule.forRoot(),
+        DropDownsModule
       ],
       declarations: [ DashboardsComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        { provide: SettingsService, useClass: SettingsService }
+      ]
     });
 
     fixture = TestBed.createComponent(DashboardsComponent);

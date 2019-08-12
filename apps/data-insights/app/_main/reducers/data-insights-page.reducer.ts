@@ -3,49 +3,49 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromDataInsightsPageActions from '../actions/data-insights-page.actions';
-import { StandardReport } from '../models';
+import { Workbook } from '../models';
 
 export interface State {
-  standardReportsAsync: AsyncStateObj<StandardReport[]>;
+  standardWorkbooksAsync: AsyncStateObj<Workbook[]>;
 }
 
 const initialState: State = {
-  standardReportsAsync: generateDefaultAsyncStateObj<StandardReport[]>([])
+  standardWorkbooksAsync: generateDefaultAsyncStateObj<Workbook[]>([])
 };
 
 export function reducer(state = initialState, action: fromDataInsightsPageActions.Actions): State {
   switch (action.type) {
     case fromDataInsightsPageActions.GET_STANDARD_REPORTS: {
-      const standardReportsAsyncClone = cloneDeep(state.standardReportsAsync);
+      const standardWorkbooksAsyncClone = cloneDeep(state.standardWorkbooksAsync);
 
-      standardReportsAsyncClone.loading = true;
-      standardReportsAsyncClone.obj = null;
-      standardReportsAsyncClone.loadingError = false;
+      standardWorkbooksAsyncClone.loading = true;
+      standardWorkbooksAsyncClone.obj = null;
+      standardWorkbooksAsyncClone.loadingError = false;
 
       return {
         ...state,
-        standardReportsAsync: standardReportsAsyncClone
+        standardWorkbooksAsync: standardWorkbooksAsyncClone
       };
     }
     case fromDataInsightsPageActions.GET_STANDARD_REPORTS_SUCCESS: {
-      const standardReportsAsyncClone = cloneDeep(state.standardReportsAsync);
+      const standardWorkbooksAsyncClone = cloneDeep(state.standardWorkbooksAsync);
 
-      standardReportsAsyncClone.loading = false;
-      standardReportsAsyncClone.obj = action.payload;
+      standardWorkbooksAsyncClone.loading = false;
+      standardWorkbooksAsyncClone.obj = action.payload;
 
       return {
         ...state,
-        standardReportsAsync: standardReportsAsyncClone
+        standardWorkbooksAsync: standardWorkbooksAsyncClone
       };
     }
     case fromDataInsightsPageActions.GET_STANDARD_REPORTS_ERROR: {
-      const standardReportsAsyncClone = cloneDeep(state.standardReportsAsync);
+      const standardWorkbooksAsyncClone = cloneDeep(state.standardWorkbooksAsync);
 
-      standardReportsAsyncClone.loadingError = true;
+      standardWorkbooksAsyncClone.loadingError = true;
 
       return {
         ...state,
-        standardReportsAsync: standardReportsAsyncClone
+        standardWorkbooksAsync: standardWorkbooksAsyncClone
       };
     }
     default: {
@@ -54,4 +54,4 @@ export function reducer(state = initialState, action: fromDataInsightsPageAction
   }
 }
 
-export const getStandardReportsAsync = (state: State) => state.standardReportsAsync;
+export const getStandardWorkbooksAsync = (state: State) => state.standardWorkbooksAsync;

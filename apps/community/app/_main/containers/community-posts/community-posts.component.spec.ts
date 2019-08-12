@@ -12,14 +12,10 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
-import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
-import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
-import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import { CommunityPostsComponent } from './community-posts.component';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
-import { Tag } from '../../models/tag.model';
 
 describe('CommunityPostsComponent', () => {
   let fixture: ComponentFixture<CommunityPostsComponent>;

@@ -37,7 +37,7 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
         results: []
       };
     }
-    case fromSurveySearchResultsActions.TOGGLE_SURVEY_DATA_CUT_SELECTION: {
+    case fromSurveySearchResultsActions.TOGGLE_DATA_CUT_SELECTION: {
       const resultsCopy = cloneDeep(state.results);
       let selectedDataCuts = cloneDeep(state.selectedDataCuts);
       const dataCut = action.payload;
@@ -107,6 +107,41 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
         results: resultsCopy
       };
     }
+    case fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS: {
+      const id = action.payload.PeerJobInfo.ExchangeJobId;
+      const resultsCopy = cloneDeep(state.results);
+      const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
+      job.LoadingDataCuts = !job.DataCuts.length;
+      job.LoadingDataCutsError = false;
+      return {
+        ...state,
+        results: resultsCopy
+      };
+    }
+    case fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS_SUCCESS: {
+      const id = action.payload.ExchangeJobId;
+      const resultsCopy = cloneDeep(state.results);
+      const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
+      const dataCuts = action.payload.DataCuts;
+
+      job.LoadingDataCuts = false;
+      job.DataCuts = job.DataCuts.concat(dataCuts);
+      return {
+        ...state,
+        results: resultsCopy
+      };
+    }
+    case fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS_ERROR: {
+      const id = action.payload.exchangeJobId;
+      const resultsCopy = cloneDeep(state.results);
+      const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
+      job.LoadingDataCuts = false;
+      job.LoadingDataCutsError = true;
+      return {
+        ...state,
+        results: resultsCopy
+      };
+    }
     case fromSurveySearchResultsActions.UPDATE_RESULTS_MATCHES_COUNT: {
       const resultsCopy = cloneDeep(state.results);
       return {
@@ -125,12 +160,20 @@ export const getResults = (state: State) => state.results;
 export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
 
 function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDetails[]) {
-  let matchingDataCut = filter => filter.SurveyJobCode === dataCut.SurveyJobCode && filter.CountryCode === dataCut.CountryCode;
-  if (dataCut.DataSource === SurveySearchResultDataSources.Surveys) {
-    matchingDataCut = filter => filter.DataCutId === dataCut.DataCutId;
+  let matchingDataCut = filter =>
+    filter.DataSource === SurveySearchResultDataSources.Surveys &&
+    filter.ServerInfo.SurveyDataId === dataCut.ServerInfo.SurveyDataId;
+
+  if (dataCut.DataSource === SurveySearchResultDataSources.Payfactors) {
+    matchingDataCut = filter =>
+      filter.DataSource === SurveySearchResultDataSources.Payfactors &&
+      filter.SurveyJobCode === dataCut.SurveyJobCode &&
+      filter.CountryCode === dataCut.CountryCode;
   } else if (dataCut.DataSource === SurveySearchResultDataSources.Peer) {
-    matchingDataCut = filter => filter.DataSource === SurveySearchResultDataSources.Peer &&
-      filter.Job.PeerJobInfo.Id === dataCut.Job.PeerJobInfo.Id;
+    matchingDataCut = filter =>
+      filter.DataSource === SurveySearchResultDataSources.Peer &&
+      ((!!dataCut.ServerInfo.DailyNatAvgId && filter.ServerInfo.DailyNatAvgId === dataCut.ServerInfo.DailyNatAvgId)
+      || (!!dataCut.ServerInfo.DailyScopeAvgId && filter.ServerInfo.DailyScopeAvgId === dataCut.ServerInfo.DailyScopeAvgId));
   }
   return selectedDataCuts.find(matchingDataCut);
 }
@@ -144,10 +187,13 @@ function setSelectedPropertyInSearchResults(dataCut: DataCutDetails, resultsCopy
     payfactorsJob.IsSelected = isSelected;
   } else if (dataCut.DataSource === SurveySearchResultDataSources.Peer) {
     const peerJob = resultsCopy.find(job => job.PeerJobInfo.Id === dataCut.Job.PeerJobInfo.Id);
-    peerJob.IsSelected = isSelected;
+    const exchangeJobDataCut = peerJob.DataCuts.find(dc =>
+      (!!dataCut.ServerInfo.DailyScopeAvgId && dc.ServerInfo.DailyScopeAvgId === dataCut.ServerInfo.DailyScopeAvgId)
+      || (!!dataCut.ServerInfo.DailyNatAvgId && dc.ServerInfo.DailyNatAvgId === dataCut.ServerInfo.DailyNatAvgId));
+    exchangeJobDataCut.IsSelected = isSelected;
   } else {
     const surveyJob = resultsCopy.find(job => job.Id === dataCut.SurveyJobId);
-    const surveyCut = surveyJob.DataCuts.find(surveyData => surveyData.SurveyDataId === dataCut.DataCutId);
+    const surveyCut = surveyJob.DataCuts.find(surveyData => surveyData.ServerInfo.SurveyDataId === dataCut.ServerInfo.SurveyDataId);
     surveyCut.IsSelected = isSelected;
   }
 }

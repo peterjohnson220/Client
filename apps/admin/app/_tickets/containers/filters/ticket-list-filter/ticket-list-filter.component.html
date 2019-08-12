@@ -1,10 +1,32 @@
-<kendo-combobox
-  [data]="data"
-  [valueField]="valueField"
-  [textField]="textField"
-  [value]="selectedValue"
-  [valuePrimitive]="true"
-  [(ngModel)]="defaultValue"
-  (valueChange)="onChange($event)"
-  [suggest]="true">
+
+<kendo-combobox *ngIf="userTicketType(ticketFieldType.STATUS) || userTicketType(ticketFieldType.TYPE) || userTicketType(ticketFieldType.SERVICEUSER)"
+                  [data]="data"
+                  [valueField]="valueField"
+                  [textField]="textField"
+                  (valueChange)="onChange($event)"
+                  [valuePrimitive]="true"
+                  [(ngModel)]="defaultValue"
+                  [suggest]="true">
+    <ng-template kendoComboBoxItemTemplate
+                let-dataItem>
+      <span class="userticketstatus">
+        <span *ngIf="userTicketType(ticketFieldType.STATUS) && dataItem[textField].toUpperCase() === 'OPEN'"
+          class="statusdot fileUploadColor align-middle"></span>
+        <img *ngIf="userTicketType(ticketFieldType.STATUS) && dataItem[textField].toUpperCase() !== 'OPEN'"
+            [alt]="dataItem.UserTicketState"
+            src="assets/svg/userticketstate_{{pickerHelper.getLowerAndTrimmedValue(dataItem.UserTicketState)}}.svg">
+        <span *ngIf="userTicketType(ticketFieldType.TYPE)"
+              class="ticketsdot {{dataItem.TicketCssClass}}"></span>
+        {{ dataItem[textField] }}
+      </span>
+
+    </ng-template>
 </kendo-combobox>
+<pf-input-debounce *ngIf="userTicketType(ticketFieldType.COMPANYNAME) || userTicketType(ticketFieldType.TICKETID)" class="w-100"
+                    [delay]="400"
+                    [(ngModel)]="defaultValue"
+                    (valueChanged)="onChange($event)"
+                    [delay]="400"
+                    [placeholderText]="''"
+                    pfClickElsewhere [whitelist]="['ignore-click-elsewhere']">
+</pf-input-debounce>

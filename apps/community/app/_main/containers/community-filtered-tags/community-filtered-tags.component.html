@@ -1,0 +1,45 @@
+<div id="tag-container" class="mb-3">
+  <ng-container *ngIf="filters$ | async as filter">
+    <ng-container *ngFor="let filteredTag of filteredTags">
+      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none" (click)="tagClicked(filteredTag)"
+              [ngClass]="{'btn-selected': true }">{{ filteredTag.TagName }}
+        <span><fa-icon icon="times-circle"></fa-icon></span>
+      </button>
+    </ng-container>
+    <ng-container *ngFor="let filter of filteredCategories">
+      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="categoryFilterClicked(filter)"
+              [ngClass]="{'btn-selected': IsCategorySelected(filter) }">{{ filter }}
+        <span *ngIf="IsCategorySelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
+      </button>
+    </ng-container>
+    <ng-container *ngFor="let filter of filteredIndustries">
+      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="industryFilterClicked(filter)"
+              [ngClass]="{'btn-selected': IsIndustrySelected(filter) }">Industry: {{ filter.IndustryName }}
+        <span *ngIf="IsIndustrySelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
+      </button>
+    </ng-container>
+    <ng-container *ngFor="let filter of filteredTopics">
+      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="topicFilterClicked(filter)"
+              [ngClass]="{'btn-selected': IsTopicSelected(filter) }">Topic: {{ filter.TopicName }}
+        <span *ngIf="IsTopicSelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
+      </button>
+    </ng-container>
+    <ng-container *ngFor="let filter of filteredCompanySizes">
+      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="companySizeFilterClicked(filter)"
+              [ngClass]="{'btn-selected': IsCompanySizeSelected(filter) }">Company Size: {{ filter.DisplayName }}
+        <span *ngIf="IsCompanySizeSelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
+      </button>
+    </ng-container>
+    <div *ngIf="filter.PostIds.length > 0 || filter.ReplyIds.length > 0" class="mt-1">
+      <button *ngIf="filter.PostIds.length === 1 || filter.ReplyIds.length === 1" (click)="viewAllClicked()"  type="button" class="btn m-1 tag py-2 px-3 shadow-none btn-selected">
+        <span>{{filterTitle}}</span>
+        <fa-icon icon="times-circle"></fa-icon>
+      </button>
+       <button *ngIf="filter.PostIds.length > 1 || filter.ReplyIds.length > 1" (click)="viewAllClicked()" type="button" class="btn btn-secondary submit-button-container">
+          <fa-icon [icon]="['far', 'eye']"></fa-icon>
+          <span class="pl-2">View All Posts</span>
+        </button>
+    </div>
+  </ng-container>
+</div>
+

@@ -1,0 +1,17 @@
+@import 'common/common';
+
+.light-blue-btn, %light-blue-btn {
+  background-color: $pf-brand-secondary-color;
+  border: 1px solid $pf-brand-secondary-color;
+  color: white;
+
+  &:hover, &:not(:disabled):not(.disabled):active{
+    background-color: darken($pf-brand-secondary-color, 5%);
+    border-color: darken($pf-brand-secondary-color, 5%);
+  }
+
+  &:disabled {
+    background-color: rgba($pf-brand-secondary-color, .65);
+    border-color: rgba($pf-brand-secondary-color, .65);
+  }
+}

@@ -56,10 +56,47 @@ export class SearchResultsEffects {
             .pipe(
               map(response => new fromSurveySearchResultsActions.GetSurveyDataResultsSuccess({
                 SurveyJobId: surveyJobId,
-                DataCuts: PayfactorsSurveySearchApiModelMapper.mapSurveyDataCutResultsToDataCut(response.DataCuts, data.selectedDataCuts),
+                DataCuts: PayfactorsSurveySearchApiModelMapper.mapSurveyJobDataResponseToDataCut(response.DataCuts, data.selectedDataCuts),
                 TotalResults: response.TotalResults
               })),
               catchError(() => of(new fromSurveySearchResultsActions.GetSurveyDataResultsError(surveyJobId)))
+            );
+        }
+      ));
+
+  @Effect()
+  getExchangeDataResults$ = this.actions$
+    .pipe(
+      ofType(fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS),
+      withLatestFrom(
+        this.store.select(fromSearchReducer.getFilters),
+        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
+        (action: fromSurveySearchResultsActions.GetExchangeDataResults, filters, projectSearchContext, selectedDataCuts) =>
+          ({ action, filters, projectSearchContext, selectedDataCuts })),
+      mergeMap((data) => {
+          const exchangeJobId = data.action.payload.PeerJobInfo.ExchangeJobId;
+          const currencyCode = data.projectSearchContext.CurrencyCode;
+          const countryCode = data.projectSearchContext.CountryCode;
+          const projectId = data.projectSearchContext.ProjectId;
+          const searchFieldsRequestObj = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters);
+          const filtersRequestObj = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters);
+
+          return this.surveySearchApiService.getExchangeJobData({
+            ExchangeJobId: exchangeJobId,
+            SearchFields: searchFieldsRequestObj,
+            Filters: filtersRequestObj,
+            CurrencyCode: currencyCode,
+            ProjectId: projectId,
+            CountryCode: countryCode
+          })
+            .pipe(
+              map(response => new fromSurveySearchResultsActions.GetExchangeDataResultsSuccess({
+                ExchangeJobId: exchangeJobId,
+                DataCuts: PayfactorsSurveySearchApiModelMapper
+                  .mapExchangeJobDataCutResponseToDataCut(response.DataCuts, data.selectedDataCuts)
+              })),
+              catchError(() => of(new fromSurveySearchResultsActions.GetExchangeDataResultsError({ exchangeJobId })))
             );
         }
       ));

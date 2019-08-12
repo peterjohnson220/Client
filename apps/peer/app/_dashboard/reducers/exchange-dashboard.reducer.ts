@@ -239,7 +239,7 @@ export function reducer(
       };
     }
     case fromExchangeDashboardActions.LOAD_EXCHANGE_JOB_ORGS: {
-      const payload: ExchangeJobComparison = action.payload;
+      const payload: ExchangeJobComparison = action.payload.selectedExchangeJobComparison;
       return {
         ...state,
         detailChartType: ExchangeChartTypeEnum.ExchangeJobOrgs,

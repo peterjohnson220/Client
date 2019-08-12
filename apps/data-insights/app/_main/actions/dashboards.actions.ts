@@ -23,6 +23,12 @@ export const SAVE_WORKBOOK_TAG_ERROR = '[Data Insights / Dashboards] Save Workbo
 export const SAVE_WORKBOOK_ORDER = '[Data Insights / Dashboards] Save Workbook Order';
 export const SAVE_WORKBOOK_ORDER_SUCCESS = '[Data Insights / Dashboards] Save Workbook Order Success';
 export const SAVE_WORKBOOK_ORDER_ERROR = '[Data Insights / Dashboards] Save Workbook Order Error';
+export const PERSIST_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Dashboards] Persist Dashboard View Success';
+export const PERSIST_DASHBOARD_VIEW_ERROR = '[Data Insights / Dashboards] Persist Dashboard View Error';
+export const GET_DASHBOARD_VIEW = '[Data Insights / Dashboards] Get Dashboard View]';
+export const GET_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Dashboards] Get Dashboard View Success';
+export const GET_DASHBOARD_VIEW_ERROR = '[Data Insights / Dashboards] Get Dashboard View Error';
+export const SET_TAGGED_FILTER = '[Data Insights / Dashboards] Set Tagged Filter';
 
 export class GetCompanyWorkbooks implements Action {
   readonly type = GET_COMPANY_WORKBOOKS;
@@ -111,7 +117,7 @@ export class SaveWorkbookOrder implements Action {
 export class SaveWorkbookOrderSuccess implements Action {
   readonly type = SAVE_WORKBOOK_ORDER_SUCCESS;
 
-  constructor(public payload: { workbookIds: string[] }) {}
+  constructor(public payload: { workbookIds: string[], workbookOrderType?: WorkbookOrderType }) {}
 }
 
 export class SaveWorkbookOrderError implements Action {
@@ -138,6 +144,35 @@ export class GetCompanyWorkbookViewsError implements Action {
   constructor(public payload: { workbookId: string }) {}
 }
 
+export class PersistDashboardViewSuccess implements Action {
+  readonly type = PERSIST_DASHBOARD_VIEW_SUCCESS;
+  constructor() {}
+}
+export class PersistDashboardViewError implements Action {
+  readonly type = PERSIST_DASHBOARD_VIEW_ERROR;
+  constructor() {}
+}
+
+export class GetDashboardView implements Action {
+  readonly type = GET_DASHBOARD_VIEW;
+  constructor() {}
+}
+
+export class GetDashboardViewSuccess implements Action {
+  readonly type = GET_DASHBOARD_VIEW_SUCCESS;
+  constructor(public payload: string) {}
+}
+
+export class GetDashboardViewError implements Action {
+  readonly type = GET_DASHBOARD_VIEW_ERROR;
+  constructor() {}
+}
+
+export class SetTaggedFilter implements Action {
+  readonly type = SET_TAGGED_FILTER;
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = GetCompanyWorkbooks
   | GetCompanyWorkbooksSuccess
@@ -157,4 +192,10 @@ export type Actions
   | SaveWorkbookOrderError
   | GetCompanyWorkbookViews
   | GetCompanyWorkbookViewsSuccess
-  | GetCompanyWorkbookViewsError;
+  | GetCompanyWorkbookViewsError
+  | PersistDashboardViewSuccess
+  | PersistDashboardViewError
+  | GetDashboardView
+  | GetDashboardViewSuccess
+  | GetDashboardViewError
+  | SetTaggedFilter;

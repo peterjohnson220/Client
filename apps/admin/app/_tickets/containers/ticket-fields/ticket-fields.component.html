@@ -2,46 +2,35 @@
                     [loadingError]="lookupsLoadingError$ | async"
                     [loadingErrorMessage]="'Error loading lookups'">
   <div class="row">
-    <div class="col-sm-2">
-      Assigned To:
+    <div class="col-sm-4">
+      <span class="detail-label"> Assigned To</span><br>
+      <pf-ticket-value-picker [data]="pfServicesReps"
+                              [ticketId]="ticket.TicketId"
+                              [textField]="'Name'"
+                              [valueField]="'PfServicesRepId'"
+                              [pickerType]="ticketFieldType.SERVICEUSER"
+                              [selectedValue]="getSelectedServiceRep(ticket.ServicesUserId)">
+      </pf-ticket-value-picker>
     </div>
     <div class="col-sm-4">
-      <kendo-combobox
-        [data]="pfServicesReps"
-        [valueField]="'PfServicesRepId'"
-        [textField]="'Name'"
-        (valueChange)="comboValueChanged($event, 'assigned')"
-        [(ngModel)]="selectedPfServicesRep"
-        [suggest]="true">
-      </kendo-combobox>
-    </div>
-    <div class="col-sm-2">
-      Status:
+      <span class="detail-label">Status</span><br>
+      <pf-ticket-value-picker [data]="userTicketStates"
+                              [ticketId]="ticket.TicketId"
+                              [textField]="'UserTicketState'"
+                              [valueField]="'UserTicketState'"
+                              [pickerType]="ticketFieldType.STATUS"
+                              [selectedValue]="getSelectedUserState(ticket.TicketState)">
+      </pf-ticket-value-picker>
     </div>
     <div class="col-sm-4">
-      <kendo-combobox
-        [data]="userTicketStates$ | async"
-        [valueField]="'UserTicketStateId'"
-        [textField]="'UserTicketState'"
-        (valueChange)="comboValueChanged($event, 'status')"
-        [(ngModel)]="selectedUserTicketState"
-        [suggest]="true">
-      </kendo-combobox>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-2">
-      Type:
-    </div>
-    <div class="col-sm-4">
-      <kendo-combobox
-        [data]="userTicketTypes"
-        [textField]="'TicketTypeDisplayName'"
-        [valueField]="'TicketTypeDisplayName'"
-        [suggest]="true"
-        [(ngModel)]="selectedUserTicketType"
-        (valueChange)="comboValueChanged($event, 'type')">
-      </kendo-combobox>
+      <span class="detail-label">Type</span><br>
+      <pf-ticket-value-picker [data]="userTicketTypes"
+                              [ticketId]="ticket.TicketId"
+                              [textField]="'TicketTypeDisplayName'"
+                              [valueField]="'TicketTypeDisplayName'"
+                              [pickerType]="ticketFieldType.TYPE"
+                              [selectedValue]="getSelectedUserType(ticket.UserTicketType.TicketTypeDisplayName)">
+      </pf-ticket-value-picker>
     </div>
   </div>
 </pf-async-container>

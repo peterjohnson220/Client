@@ -1,0 +1,43 @@
+<ng-container *ngIf="(standardReportDetails$ | async) as standardReportDetailsAsync">
+  <pf-async-container [loading]="standardReportDetailsAsync.loading"
+                      [loadingError]="standardReportDetailsAsync.loadingError"
+                      [loadingErrorMessage]="'Error Loading Reports'">
+    <pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
+      <ng-container page-title>
+        Payfactors Reports
+      </ng-container>
+
+      <ng-container page-actions>
+        <button type="button"
+                class="btn btn-primary"
+                [disabled]="(syncingStandardReports$ | async)"
+                (click)="syncStandardReports()">
+          <fa-icon [icon]="['fas','sync']" [spin]="(syncingStandardReports$ | async)"></fa-icon>
+          {{(syncingStandardReports$ | async) ? 'Syncing' : 'Sync Standard Reports'}}</button>
+        <pf-input-debounce
+          id="search-box"
+          [minWidth]="250"
+          [placeholderText]="'Search reports by name...'"
+          (valueChanged)="updateSearchTerm($event)">
+        </pf-input-debounce>
+      </ng-container>
+
+      <ng-container page-content>
+        <pf-standard-reports-list
+          [loading]="standardReportDetailsAsync.loading"
+          [filter]="searchTerm"
+          [standardReportsList]="filteredStandardReports"
+          (editClicked)="handleEditClicked($event)">
+        </pf-standard-reports-list>
+      </ng-container>
+
+    </pf-page-with-title-bar>
+  </pf-async-container>
+</ng-container>
+
+<pf-edit-report-modal
+  [report]="selectedReport"
+  [saving]="savingReport$ | async"
+  [cloudFilesPublicBaseUrl]="cloudFilesPublicBaseUrl"
+  (saveClicked)="handleSaveClicked($event)">
+</pf-edit-report-modal>

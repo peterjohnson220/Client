@@ -78,34 +78,4 @@ describe('Data Insights - Workbook Card Component', () => {
     expect(instance.displayActionsOverlay).toEqual(false);
   });
 
-  it('should return no views when filtering views and workbook has no views', () => {
-    const workbook = generateMockWorkbook();
-    instance.workbook = workbook;
-
-    expect(instance.filteredViews.length).toEqual(0);
-  });
-
-  it('should return views matching filter text only when filter text provided', () => {
-    const workbook = generateMockWorkbook();
-    const view = generateMockView();
-    view.ViewName = 'Garden View';
-    workbook.Views = generateDefaultAsyncStateObj<View[]>([view]);
-    instance.workbook = workbook;
-    instance.viewFilterValue = 'garden';
-    fixture.detectChanges();
-
-    expect(instance.filteredViews.length).toEqual(1);
-  });
-
-  it('should return no views when no view names match provided filter text', () => {
-    const workbook = generateMockWorkbook();
-    const view = generateMockView();
-    view.ViewName = 'Garden View';
-    workbook.Views = generateDefaultAsyncStateObj<View[]>([view]);
-    instance.workbook = workbook;
-    instance.viewFilterValue = 'Smells';
-    fixture.detectChanges();
-
-    expect(instance.filteredViews.length).toEqual(0);
-  });
 });

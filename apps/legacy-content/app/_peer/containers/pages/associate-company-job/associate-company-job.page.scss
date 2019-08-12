@@ -21,6 +21,15 @@
     padding-top:10px;
 }
 
+.company-job-result-content {
+    max-width: 299px;
+}
+
+.company-job-result-job-title {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
 .mapping-results-row{
     height:90%;
 }

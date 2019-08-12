@@ -14,6 +14,10 @@ import { reducers } from './reducers';
 // Third party
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+import * as fromFaIcons from './fa-icons';
 
 // Containers
 import { FirstLoginPageComponent, LoginPageComponent, ForgotPasswordPageComponent, ResetPasswordPageComponent } from './containers';
@@ -45,6 +49,7 @@ import { MarketingApiService } from 'libs/data/payfactors-api/marketing/marketin
       LoginEffects,
       MarketingImageEffects
     ]),
+    FontAwesomeModule,
 
     // Routing
     LoginRoutingModule,
@@ -64,4 +69,6 @@ import { MarketingApiService } from 'libs/data/payfactors-api/marketing/marketin
   ],
   providers: [ MarketingApiService ]
 })
-export class LoginModule { }
+export class LoginModule {
+  constructor() { library.add(...fromFaIcons.faIcons); }
+}

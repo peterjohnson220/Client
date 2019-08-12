@@ -6,140 +6,154 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
   store={[Function Store]}
 >
   <div
-    class="section card mb-2"
+    class="detail-card"
     title="Company Details"
   >
     <div
-      class="card-header bg-transparent border-bottom-0"
+      class="row"
     >
-      <h4>
-        Company Details
-      </h4>
-      <div />
+      <div
+        class="col-sm"
+      >
+        <span
+          class="ticket-header"
+        >
+          COMPANY DETAILS
+        </span>
+      </div>
     </div>
     <div
-      class="card-body"
+      class="row"
     >
       <div
-        class="row"
+        class="col-sm"
       >
         <div
-          class="col-sm"
+          class="detail-label"
         >
-          <div
-            class="card-subtitle text-muted"
-          >
-            Name
-          </div>
-          <div
-            class="card-text mb-2"
-          >
-            1 - MockCompanyDetailName
-          </div>
+          Name
+        </div>
+        <div
+          class="detail-text mb-2"
+        >
+          MockCompanyDetailName
         </div>
       </div>
-      
+    </div>
+    
+    <div
+      class="row"
+    >
       <div
-        class="row"
+        class="col-sm"
       >
         <div
-          class="col-sm"
+          class="detail-label"
         >
-          <div
-            class="card-subtitle text-muted"
-          >
-            Client Type
-          </div>
-          <div
-            class="card-text mb-2"
-          >
-            MockClientType
-          </div>
+          Client Type
+        </div>
+        <div
+          class="detail-text mb-2"
+        >
+          MockClientType
         </div>
       </div>
-      <hr
-        class="my-2"
-      />
+    </div>
+    <hr
+      class="my-1"
+    />
+    <div
+      class="row"
+    >
       <div
-        class="row"
+        class="col-sm"
       >
         <div
-          class="col-sm"
+          class="card-subtitle mb-1 mt-1"
         >
-          <div
-            class="card-subtitle mb-2"
+          <span
+            class="font-weight-bold"
           >
-            <span
-              class="font-weight-bold"
-            >
-              1
-            </span>
-             Tickets Total
-          </div>
+            1
+          </span>
+           
+          <span
+            class="detail-label"
+          >
+            Tickets Total
+          </span>
         </div>
       </div>
-      <hr
-        class="my-2"
-      />
+    </div>
+    <hr
+      class="my-1"
+    />
+    <div
+      class="row"
+    >
       <div
-        class="row"
+        class="col-sm"
       >
         <div
-          class="col-sm"
+          class="card-subtitle mb-1 mt-1"
         >
-          <div
-            class="card-subtitle mb-2"
+          <span
+            class="font-weight-bold"
           >
-            <span
-              class="font-weight-bold"
-            >
-              1
-            </span>
-             Opened tickets in the past 1
-          </div>
+            1
+          </span>
+           
+          <span
+            class="detail-label"
+          >
+            Opened tickets in the past 1 days
+          </span>
         </div>
       </div>
-      
-      <hr
-        class="my-2"
-      />
-      
+    </div>
+    
+    <hr
+      class="my-1"
+    />
+    
+    <div
+      class="row"
+    >
       <div
-        class="row"
+        class="col-sm mt-3"
       >
         <div
-          class="col-sm"
+          class="card-subtitle mb-1 detail-label"
         >
-          <div
-            class="card-subtitle mb-1"
+          Recent Tickets
+        </div>
+        
+        <div>
+          <a
+            href="javascript:void(0)"
+            style="font-weight: 600"
+            title="MockTitle_1"
           >
-            Recent Tickets
-          </div>
-          
-          <div>
-            <a
-              href="javascript:void(0)"
-              title="MockTitle_1"
-            >
-              1
-            </a>
-          </div>
-          <div>
-            <a
-              href="javascript:void(0)"
-              title="MockTitle_2"
-            >
-              2
-            </a>
-          </div>
-          <div>
-            <a
-              href="javascript:void(0)"
-              title="MockTitle_3"
-            >
-              3
-            </a>
-          </div>
+            1
+          </a>
+        </div>
+        <div>
+          <a
+            href="javascript:void(0)"
+            style="font-weight: 600"
+            title="MockTitle_2"
+          >
+            2
+          </a>
+        </div>
+        <div>
+          <a
+            href="javascript:void(0)"
+            style="font-weight: 600"
+            title="MockTitle_3"
+          >
+            3
+          </a>
         </div>
       </div>
     </div>

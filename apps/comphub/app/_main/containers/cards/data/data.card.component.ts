@@ -6,11 +6,14 @@ import { Observable, Subscription } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { WindowRef } from 'libs/core/services';
+import { Rates, RateType } from 'libs/data/data-sets';
+import { KendoDropDownItem } from 'libs/models/kendo';
 
-import { ComphubPages, Rates, RateType } from '../../../data';
+import { ComphubPages } from '../../../data';
 import {
   JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
-  KendoDropDownItem, WorkflowContext } from '../../../models';
+  WorkflowContext
+} from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { DataCardHelper } from '../../../helpers';

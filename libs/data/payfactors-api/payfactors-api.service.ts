@@ -26,6 +26,11 @@ export class PayfactorsApiService {
     );
   }
 
+  postWithHeader<T>(url: string, body: any = {}, headers: any): Observable<T> {
+    return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, body, { headers: headers }).pipe(
+    );
+  }
+
   downloadFile(url: string, body: any = {}, headers: HttpHeaders = null, openInNewTab = false): Observable<boolean> {
     const options: any = {
       responseType: 'blob',

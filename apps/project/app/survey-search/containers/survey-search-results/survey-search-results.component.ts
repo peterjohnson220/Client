@@ -36,14 +36,22 @@ export class SurveySearchResultsComponent {
 
   // Events
   handleLoadDataCuts(job: JobResult): void {
-    if ((job.DataCuts.length && !hasMoreDataCuts(job)) || job.DataSource !== SurveySearchResultDataSources.Surveys) {
+    if ((job.DataCuts.length && !hasMoreDataCuts(job)) || job.DataSource === SurveySearchResultDataSources.Payfactors) {
       return;
     }
-    this.store.dispatch(new fromSurveySearchResultsActions.GetSurveyDataResults(job));
+
+    switch (job.DataSource) {
+      case SurveySearchResultDataSources.Surveys :
+        this.store.dispatch(new fromSurveySearchResultsActions.GetSurveyDataResults(job));
+        break;
+      case SurveySearchResultDataSources.Peer:
+        this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults(job));
+        break;
+    }
   }
 
   handleCutSelectionToggle(data: DataCutDetails): void {
-    this.store.dispatch(new fromSurveySearchResultsActions.ToggleSurveyDataCutSelection(data));
+    this.store.dispatch(new fromSurveySearchResultsActions.ToggleDataCutSelection(data));
   }
 
   trackByJobId(index, item: JobResult) {

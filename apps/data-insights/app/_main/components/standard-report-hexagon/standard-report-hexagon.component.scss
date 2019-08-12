@@ -1,0 +1,45 @@
+@import 'colors';
+@import 'common/common';
+@import 'data-insights-variables';
+
+.svg-container {
+  position: relative;
+  height: 0;
+  width: 100%;
+  padding: 0 0 100%;
+}
+svg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  &:hover {
+    .hex-outer{
+      filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));;
+      stroke-width: 1;
+    }
+  }
+}
+
+.hex-outer {
+  stroke-width: .5;
+  stroke: #e8e8e8;
+  fill: white;
+}
+
+.hex-overlay {
+  opacity: 0;
+  fill: black;
+  transition: all 0.25s ease-in-out;
+}
+
+.show-overlay {
+  .hex-overlay {
+    opacity: 0.8;
+  }
+}
+
+
+
+

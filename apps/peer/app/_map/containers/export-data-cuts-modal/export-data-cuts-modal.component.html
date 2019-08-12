@@ -145,9 +145,17 @@
   </ng-container>
 
   <ng-container footer-left>
-    <small>*Cells will be blank for jobs that don’t meet the pricing guidelines. Must include 5 other companies or companies
-      that don’t make up more than 50% of the data cut.
-    </small>
+    <label for="ddm-rate">Rate: </label>
+    <kendo-dropdownlist id="ddm-rate"
+                        class="rates-dropdown"
+                        formControlName="selectedRate"
+                        [attr.data-qa-id]="'ddm-rate'"
+                        [data]="rates"
+                        [textField]="'Name'"
+                        [valueField]="'Value'"
+                        [ngModel]="selectedRate"
+                        (selectionChange)="handleRateSelectionChange($event)">
+    </kendo-dropdownlist>
   </ng-container>
 
 </pf-modal-form>

@@ -1,0 +1,35 @@
+<div *ngIf="workbook && workbook.Views" class="workbook-views">
+  <pf-async-container
+    [loading]="workbook.Views.loading"
+    [loadingError]="workbook.Views.loadingError"
+    [loadingErrorMessage]="'Error loading views'"
+    [hideReloadButton]="true">
+    <div *ngIf="searchEnabled" class="header">
+      <pf-input-debounce
+        #workbookViewsSearchComponent
+        [attr.data-qa-id]="'txt-searchViews'"
+        [delay]="200"
+        [placeholderText]="'Search Views...'"
+        [(ngModel)]="viewFilterValue"
+        (valueChanged)="handleSearchValueChanged($event)">
+      </pf-input-debounce>
+    </div>
+    <div class="available-views" *ngIf="filteredViews.length; else noAvailableViews"
+      (mouseenter)="handleViewsMouseEnter($event)">
+      <a class="workbook-view" *ngFor="let view of filteredViews; trackBy: trackByFn"
+        [attr.data-qa-id]="'lnk-openWorkbook'"
+        [routerLink]="[workbook.SourceUrl,workbook.ContentUrl, getViewUrl(view)]"
+        [queryParams]="{showTabs: false, title: workbook.WorkbookName + ' - ' + view.ViewName}"
+        [title]="view.ViewName">
+        <div class="name">
+            {{view.ViewName}}
+        </div>
+      </a>
+    </div>
+
+  </pf-async-container>
+</div>
+
+<ng-template #noAvailableViews>
+<div class="no-views-message">No Matching Views Found</div>
+</ng-template>

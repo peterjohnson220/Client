@@ -1,0 +1,40 @@
+@import "colors";
+
+.pf-secondary-color {
+  color: $pf-brand-secondary-color;
+}
+
+.pf-secondary-background {
+  background-color: $pf-brand-secondary-color;
+  border-color: $pf-brand-secondary-color;
+}
+
+.pf-grey {
+  color: #999999;
+}
+
+.pf-comment {
+  color: $detail-label;
+  font-weight: 400;
+}
+
+.pf-comment-text {
+  font-size: 1.25em;
+}
+
+.pf-link-text {
+  color: rgb(33, 37, 41);
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.icon-cell {
+  width: 50px;
+  overflow-x: auto;
+}
+
+.actions-cell {
+  vertical-align: middle;
+}

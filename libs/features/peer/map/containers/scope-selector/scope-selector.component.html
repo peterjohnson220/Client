@@ -47,11 +47,11 @@
           </div>
 
           <button *ngIf="!addDataModal"
-                  [title]="exchangeScopeItem.AssociatedToPaymarket ? 'Unable to delete scope associated to a paymarket.' : 'Delete'"
+                  [title]="exchangeScopeItem.CanDelete ? 'Delete' : 'Unable to delete a scope that is in use'"
                   class="btn btn-sm btn-secondary delete-btn mt-2"
-                  [disabled]="deleteMode || (exchangeScopeItem.AssociatedToPaymarket == true)"
+                  [disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)"
                   (click)="enterDeleteScopeMode($event, exchangeScopeItem)"
-                  [class.disabled]="deleteMode || (exchangeScopeItem.AssociatedToPaymarket == true)">
+                  [class.disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)">
             <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
           </button>
        </div>

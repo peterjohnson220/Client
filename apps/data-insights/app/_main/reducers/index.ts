@@ -6,12 +6,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromDataInsightsPageReducer from './data-insights-page.reducer';
 import * as fromDashboardsReducer from './dashboards.reducer';
 import * as fromReportViewReducer from './reports-view-page.reducer';
+import * as fromDataViewReducer from './data-view.reducer';
 
 // Feature area state
 export interface DataInsightsMainState {
   dataInsightsPage: fromDataInsightsPageReducer.State;
   dashboards: fromDashboardsReducer.State;
   reportViewPage: fromReportViewReducer.State;
+  dataView: fromDataViewReducer.State;
 }
 
 // Extend root state with feature area state
@@ -23,7 +25,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   dataInsightsPage: fromDataInsightsPageReducer.reducer,
   dashboards: fromDashboardsReducer.reducer,
-  reportViewPage: fromReportViewReducer.reducer
+  reportViewPage: fromReportViewReducer.reducer,
+  dataView: fromDataViewReducer.reducer
 };
 
 // Select Feature Area
@@ -45,13 +48,18 @@ export const selectReportViewPageState = createSelector(
   (state: DataInsightsMainState) => state.reportViewPage
 );
 
-// Data Insights Page
-export const getStandardReportsAsync = createSelector(
-  selectDataInsightsPageState,
-  fromDataInsightsPageReducer.getStandardReportsAsync
+export const selectDataViewState = createSelector(
+  selectFeatureAreaState,
+  (state: DataInsightsMainState) => state.dataView
 );
 
 // Data Insights Page
+export const getStandardWorkbooksAsync = createSelector(
+  selectDataInsightsPageState,
+  fromDataInsightsPageReducer.getStandardWorkbooksAsync
+);
+
+// Report View Page
 export const getWorkbookViewUrl = createSelector(
   selectReportViewPageState,
   fromReportViewReducer.getWorkbookViewUrlAsync
@@ -78,6 +86,11 @@ export const getDistinctTags = createSelector(
   fromDashboardsReducer.getDistinctTags
 );
 
+export const getDistinctTagsByView = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getDistinctTagsByView
+);
+
 export const getSavingTag = createSelector(
   selectDashboardsState,
   fromDashboardsReducer.getSavingTag
@@ -86,4 +99,15 @@ export const getSavingTag = createSelector(
 export const getSavingTagError = createSelector(
   selectDashboardsState,
   fromDashboardsReducer.getSavingTagError
+);
+
+export const getTagFilter = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getTagFilter
+);
+
+// Data View
+export const getBaseEntitiesAsync = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getBaseEntitiesAsync
 );

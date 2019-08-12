@@ -19,11 +19,12 @@ import { faBuilding as falBuilding } from '@fortawesome/pro-light-svg-icons/faBu
 import { faChartBar} from '@fortawesome/pro-solid-svg-icons/faChartBar';
 import { faTrashAlt } from '@fortawesome/pro-solid-svg-icons/faTrashAlt';
 import { faThumbsUp } from '@fortawesome/pro-light-svg-icons/faThumbsUp';
+import { faPencil } from '@fortawesome/pro-solid-svg-icons/faPencil';
 
 
 export const faIcons = [
   faTimes, faSearch, faTimesCircle, faCheckCircle, faCircle, faReply, faHeart,
   faArrowAltCircleUp, faChevronRight, faExternalLink, faFileExcel,
   faChevronLeft, faEye, faStopwatch, faComments, faChartBar, faTrashAlt, faThumbsUp,
-  fasBuilding, falBuilding
+  fasBuilding, falBuilding, faPencil
 ];

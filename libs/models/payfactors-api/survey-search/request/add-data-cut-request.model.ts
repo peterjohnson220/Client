@@ -1,7 +1,7 @@
 export interface AddSurveyDataCutRequest {
   ProjectId: number;
   CompanyJobId: number;
-  JobDataCuts: DataCut[];
+  JobDataCuts: JobDataCut[];
   ExcludeFromParticipation: boolean;
   PayMarketId?: number;
   JobCode: string;
@@ -9,8 +9,8 @@ export interface AddSurveyDataCutRequest {
   PeerDataCuts: PeerCut[];
 }
 
-export interface DataCut {
-  DataCutId?: number;
+export interface JobDataCut {
+  SurveyDataId?: number;
   SurveyJobCode?: string;
   SurveyJobId?: number;
   IsPayfactorsJob: boolean;
@@ -20,9 +20,11 @@ export interface DataCut {
 export interface PeerCut {
   ExchangeId: number;
   ExchangeJobId: number;
+  DailyNatAvgId: number;
+  DailyScopeAvgId: number;
 }
 
-export function generateMockPayfactorsCutData(): DataCut {
+export function generateMockPayfactorsCutData(): JobDataCut {
   return {
     SurveyJobCode: 'MD1234',
     IsPayfactorsJob: true,
@@ -30,9 +32,9 @@ export function generateMockPayfactorsCutData(): DataCut {
   };
 }
 
-export function generateMockSurveyJobDataCut(): DataCut {
+export function generateMockSurveyJobDataCut(): JobDataCut {
   return {
-    DataCutId: 1,
+    SurveyDataId: 1,
     IsPayfactorsJob: false,
     SurveyJobId: 2345
   };

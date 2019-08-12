@@ -8,8 +8,11 @@ import { DataStateChangeEvent, GridDataResult, RowArgs, RowClassArgs, SelectAllC
 import { State } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { GridTypeEnum } from 'libs/models/common';
+import { FeatureAreaConstants, GridTypeEnum, UiPersistenceSettingConstants } from 'libs/models/common';
 import { PfValidators } from 'libs/forms/validators';
+import { KendoDropDownItem } from 'libs/models/kendo';
+import { Rates, RateType } from 'libs/data/data-sets';
+import { SettingsService } from 'libs/state/app-context/services';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeCompanyJobGridActions from '../../actions/exchange-company-job-grid.actions';
@@ -32,8 +35,10 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   selections$: Observable<number[]>;
   selectAllState$: Observable<SelectAllCheckboxState>;
   allIds$: Observable<number[]>;
+  persistedRateForExport$: Observable<string>;
 
   exportDataCutsModalOpenSubscription: Subscription;
+  persistedRateForExportSubscription: Subscription;
   exportingJobsErrorSubscription: Subscription;
   gridDataResultSubscription: Subscription;
   gridStateSubscription: Subscription;
@@ -49,11 +54,14 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   total = 0;
   pageSizes = [];
   allIds: number[] = [];
+  rates: KendoDropDownItem[] = Rates;
+  selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
 
   constructor(
     private store: Store<fromPeerMapReducer.State>,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private settingsService: SettingsService
   ) {
     this.exchangeCompanyJobsLoading$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsLoading));
     this.exchangeCompanyJobsLoadingError$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsLoadingError));
@@ -65,6 +73,11 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.selections$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections));
     this.selectAllState$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelectAllState));
     this.allIds$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsAllIds));
+    this.persistedRateForExport$ = this.settingsService.selectUiPersistenceSetting(
+      FeatureAreaConstants.PeerManageScopes,
+      UiPersistenceSettingConstants.ExchangeDataCutsExportRateSelection,
+      'string'
+    );
 
     this.exchangeId = this.route.parent.snapshot.params.id;
     this.createForm();
@@ -79,6 +92,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     return `Exporting (${numOfSelections})...`;
   }
   get selectionsControl() { return this.exportDataCutsForm.get('selections'); }
+  get selectedRateControl() { return this.exportDataCutsForm.get('selectedRate'); }
   get pageEntityIds(): number[] {
     const gridDataResult = this.gridDataResult;
     return !!gridDataResult ? this.gridDataResult.data.filter(item => item.IsInMapScope)
@@ -88,14 +102,15 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
 
   createForm(): void {
     this.exportDataCutsForm = this.fb.group({
-      'selections': [[], [PfValidators.selectionRequired]]
+      'selections': [[], [PfValidators.selectionRequired]],
+      'selectedRate': [this.selectedRate]
     });
   }
 
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    this.store.dispatch(new fromExportDataCutsActions.ExportDataCuts);
+    this.store.dispatch(new fromExportDataCutsActions.ExportDataCuts({selectedRate: this.selectedRate.Value}));
   }
 
   handleModalDismissed(): void {
@@ -170,10 +185,21 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromGridActions.SetSelections(GridTypeEnum.ExchangeCompanyJob, [], this.pageEntityIds));
   }
 
+  handleRateSelectionChange(item: KendoDropDownItem) {
+    this.selectedRate = item;
+    this.store.dispatch(new fromExportDataCutsActions.SelectRate({newRate: item.Value}));
+  }
+
   // Lifecycle
   ngOnInit() {
+    this.persistedRateForExportSubscription = this.persistedRateForExport$.subscribe(rate => {
+      if (!!rate) {
+        this.selectedRate = Rates.find(r => r.Value === rate);
+      }
+    });
     this.exportDataCutsModalOpenSubscription = this.exportDataCutsModalOpen$.subscribe(isOpen => {
       if (isOpen) {
+        this.selectedRateControl.setValue(this.selectedRate);
         this.loadExchangeCompanyJobs();
       }
     });

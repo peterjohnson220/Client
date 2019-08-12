@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
 
+import { RateType } from 'libs/data/data-sets';
+
 import { JobData, JobGridData, QuickPriceGridContext } from '../models';
-import { RateType } from '../data';
 
 export const CARD_OPENED  = '[Comphub/Data Card] Card Opened';
 export const GET_QUICK_PRICE_MARKET_DATA  = '[Comphub/Data Card] Get quick Price Data';

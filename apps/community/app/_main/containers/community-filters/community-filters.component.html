@@ -1,0 +1,28 @@
+<h5 id="filter-section-header">POSTS</h5>
+  <!--TODO:<pf-community-filters-dropdown class="d-inline-block topic-filter pr-2"
+    [data]="communityTopics$ | async"
+    [name]="'TopicName'"
+    [id]="'Id'"
+    [placeholder]="'Select a Topic'"
+    [selectedItems]="topicFilters"
+    [filterType]="'Topic'"
+    (filtersSelected)="topicsSelected($event)">
+  </pf-community-filters-dropdown>-->
+  <pf-community-filters-dropdown class="d-inline-block industry-filter pr-2"
+    [data]="communityIndustries$ | async"
+    [name]="'IndustryName'"
+    [id]="'Id'"
+    [placeholder]="'Select Industry'"
+    [selectedItems]="industryFilters"
+    [filterType]="'Industry'"
+    (filtersSelected)="industriesSelected($event)">
+  </pf-community-filters-dropdown>
+  <pf-community-filters-dropdown class="d-inline-block company-size-filter"
+    [data]="communityCompanySizes$ | async"
+    [name]="'DisplayName'"
+    [id]="'Id'"
+    [placeholder]="'Select Company Size'"
+    [selectedItems]="companySizeFilters"
+    [filterType]="'CompanySize'"
+    (filtersSelected)="companySizesSelected($event)">
+  </pf-community-filters-dropdown>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CommunityPostsComponent should show community post header 1`] = `
+exports[`CommunityPostHeaderComponent should show community post header 1`] = `
 <pf-community-post-header
   isExpiredPoll="false"
   isInternalOnly="false"
@@ -27,7 +27,7 @@ exports[`CommunityPostsComponent should show community post header 1`] = `
 </pf-community-post-header>
 `;
 
-exports[`CommunityPostsComponent should show internal community post header 1`] = `
+exports[`CommunityPostHeaderComponent should show internal community post header 1`] = `
 <pf-community-post-header
   isExpiredPoll="false"
   isInternalOnly={[Function Boolean]}

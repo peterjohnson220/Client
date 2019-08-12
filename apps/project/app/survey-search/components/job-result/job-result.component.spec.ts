@@ -175,28 +175,4 @@ describe('Project - Survey Search - Job Result', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should emit cutSelected with peer data cut details when a peer cut is selected', () => {
-    spyOn(instance.cutSelected, 'emit');
-
-    instance.job = { ...generateMockSurveyJobResult(),
-      DataSource: SurveySearchResultDataSources.Peer,
-      PeerJobInfo: {
-        Id: 'PEER_10_1254',
-        ExchangeId: 10,
-        ExchangeJobId: 751
-      }
-    };
-
-    const expectedDataCutDetails: DataCutDetails = {
-      DataSource: SurveySearchResultDataSources.Peer,
-      Job: instance.job,
-      Base50th: instance.job.Base50th,
-      TCC50th: instance.job.TCC50th
-    };
-
-    instance.handlePeerCutSelected();
-
-    expect(instance.cutSelected.emit).toBeCalledWith(expectedDataCutDetails);
-  });
-
 });

@@ -5,9 +5,9 @@
   </ng-container>
 
   <ng-container page-actions>
-    <button type="button" class="btn btn-secondary" (click)="referCompanyClick()">Invite Company</button>
-    <button type="button" class="btn btn-secondary" (click)="manageJobsClick()">Manage Jobs</button>
-    <button type="button" class="btn btn-primary" (click)="mapClick()" [disabled]="!(mapHasData$ | async)"
+    <button type="button" class="btn btn-secondary" [attr.data-qa-id]="'btn-inviteCompany'" (click)="referCompanyClick()">Invite Company</button>
+    <button type="button" class="btn btn-secondary" [attr.data-qa-id]="'btn-manageJobs'" (click)="manageJobsClick()">Manage Jobs</button>
+    <button type="button" class="btn btn-primary" [attr.data-qa-id]="'btn-manageScopesAndExport'" (click)="mapClick()" [disabled]="!(mapHasData$ | async)"
     [title]="getTitle((mapHasData$ | async), (mapHasDataError$ | async))">Manage Scopes & Export</button>
   </ng-container>
 

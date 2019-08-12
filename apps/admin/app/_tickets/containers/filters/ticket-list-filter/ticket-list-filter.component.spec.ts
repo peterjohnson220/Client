@@ -5,7 +5,7 @@ import {FilterService} from '@progress/kendo-angular-grid';
 
 import { TicketListFilterComponent } from './ticket-list-filter.component';
 
-describe('TicketListFilterComponent', () => {
+describe('Admin - Tickets - Ticket List Filter', () => {
   let component: TicketListFilterComponent;
   let fixture: ComponentFixture<TicketListFilterComponent>;
 

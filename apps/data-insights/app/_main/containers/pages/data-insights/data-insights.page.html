@@ -1,21 +1,50 @@
 <div class="page d-flex flex-column">
-  <div class="d-flex justify-content-between align-items-center">
-    <div class="header d-flex">
+  <div class="header d-flex justify-content-between align-items-center">
+    <div class="title d-flex">
       Data Insights
     </div>
 
-    <div class="d-flex space-out-children">
-      <!--Future home for search-->
+    <div class="actions d-flex space-out-children">
+      <div class="search d-flex flex-nowrap" [attr.data-qa-id]="'cnt-search'"
+        (click)="handleSearchClicked()">
+        <div class="icon d-flex flex-column">
+          <fa-icon icon="search"></fa-icon>
+        </div>
+        <div class="icon-title">
+          <span>Search</span>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="featured justify-content-center container-fluid">
     <div class="row align-items-center">
-      <ng-container *ngFor="let standardReport of (standardReports$ | async)?.obj; trackBy: trackByFn">
-        <div class="col-12 col-sm-6 col-lg-3 h-100">
-          <pf-standard-report [report]="standardReport"></pf-standard-report>
+      <ng-container *ngFor="let standardReport of (standardReports$ | async)?.obj; let i = index; trackBy: trackByFn">
+        <div class="col-12 col-lg-6 col-xxl-3 h-100">
+          <pf-standard-report [class.d-none]="i > 3 && !showAllStandardReports" [workbook]="standardReport"></pf-standard-report>
         </div>
       </ng-container>
+    </div>
+    <div class="row align-items-center" *ngIf="(standardReports$ | async)?.obj?.length > 4">
+      <div class="col-12 toggle-show-more d-flex flex-nowrap" [attr.data-qa-id]="'cnt-showMore'"
+        (click)="toggleShowAllStandardReports()">
+        <ng-container *ngIf="!showAllStandardReports; else showLess">
+          <div class="icon">
+            <fa-icon icon="chevron-double-down"></fa-icon>
+          </div>
+          <div class="icon-title">
+            Show More
+          </div>
+        </ng-container>
+        <ng-template #showLess>
+          <div class="icon">
+            <fa-icon icon="chevron-double-up"></fa-icon>
+          </div>
+          <div class="icon-title">
+            Show Less
+          </div>
+        </ng-template>
+      </div>
     </div>
   </div>
 
@@ -24,3 +53,5 @@
   </div>
 
 </div>
+
+<pf-search-workbook-modal></pf-search-workbook-modal>

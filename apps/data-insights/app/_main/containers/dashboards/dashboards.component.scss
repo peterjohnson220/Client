@@ -1,6 +1,7 @@
 @import 'common/common';
 @import 'common/common-variables';
 @import 'data-insights-variables';
+@import 'data-insights-styles';
 
 .dashboards {
   padding: 0 75px;
@@ -11,9 +12,47 @@
 
     .dashboards-title {
       text-transform: uppercase;
-      text-align: center;
       font-size: 1.5rem;
       color: $dark-grey;
+
+      .dashboard-view {
+        float: right;
+      }
+
+      .dashboard-actions {
+        position: relative;
+        justify-content: center;
+
+        .right-container {
+          position: absolute;
+          right: 0;
+          padding-top: 5px;
+
+          .new {
+            margin-left: 1rem;
+            .btn {
+              width: 75px;
+            }
+          }
+        }
+      }
+
+      .view-selector{
+        text-align: center;
+      }
+      
+      .tag-dropdown {
+        width: 150px;
+        text-transform: none;
+        background-color: white;
+
+        &:hover{
+          background: darken($grey, 5%);
+        }
+      }
+      #tag-icon {
+        color: #0883BE;
+      }
 
       span {
         padding: 0.375rem 0.75rem;
@@ -29,6 +68,16 @@
 
   .workbook-card {
     cursor: move;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .dashboard-actions {
+    justify-content: space-between !important;
+  }
+
+  .tag-container {
+    position: relative !important;
   }
 }
 

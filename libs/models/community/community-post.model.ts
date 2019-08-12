@@ -1,5 +1,6 @@
 import { CommunityUserInfo } from './community-user-info.model';
 import { CommunityTag } from './community-tag.model';
+import { CommunityTopic } from './community-topic.model';
 import { CommunityReply } from './community-reply.model';
 import { CommunityUrlPreviewDataModel } from './community-url-preview-data.model';
 import { CommunityPollRequest } from './community-poll-request.model';
@@ -17,6 +18,7 @@ export interface CommunityPost {
   ReplyCount: number;
   TimeTicks: number;
   Tags: CommunityTag[];
+  Topic: CommunityTopic;
   Replies: CommunityReply[];
   FilteredReplies: CommunityReply[];
   ReplyIds: string[];
@@ -28,10 +30,11 @@ export interface CommunityPost {
   FilterTag: string;
   UserLikes: CommunityUserInfo[];
   IsDeleted: boolean;
+  IsEditMode: boolean;
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
-                                          tags: any = null, isInternalOnly: boolean = false,
+                                          tags: any = null, topic: any = null, isInternalOnly: boolean = false,
                                           replies: CommunityReply[] = null): CommunityPost {
   return {
     Id: 'testId',
@@ -49,6 +52,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     ReplyCount: replyCount,
     TimeTicks: 12345,
     Tags: tags,
+    Topic: topic,
     Replies: replies,
     FilteredReplies: null,
     ReplyIds: [ '1', '2' ],
@@ -61,6 +65,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     UserPollResponse: {CommunityPollId: '123', ResponsePercents: [], ResponseVotes: [], UserHasVoted: false},
     FilterTag: '#TestTag',
     UserLikes: [],
-    IsDeleted: false
+    IsDeleted: false,
+    IsEditMode: false
   };
 }
