@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+
 import { ExchangeRequestTypeEnum } from 'libs/models/peer';
 
-import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
-import * as fromPeerDashboardReducer from '../../../reducers';
+import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
+import * as fromPeerSharedReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-no-exchanges-page',
@@ -13,7 +14,7 @@ import * as fromPeerDashboardReducer from '../../../reducers';
 })
 export class NoExchangesPageComponent {
   constructor(
-    private store: Store<fromPeerDashboardReducer.State>
+    private store: Store<fromPeerSharedReducer.State>
   ) {}
 
   openRequestAccessModal(): void {

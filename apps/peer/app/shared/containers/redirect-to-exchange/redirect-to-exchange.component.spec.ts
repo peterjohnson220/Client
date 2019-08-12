@@ -70,7 +70,7 @@ describe('Peer Dashboard - Redirect to Exchange', () => {
       LastVisitedExchangeId: null
     });
 
-    expect(router.navigate).toHaveBeenCalledWith(['/exchange', 11]);
+    expect(router.navigate).toHaveBeenCalledWith(['/exchange', 11, 'dashboard']);
   });
 
   it('should navigate to the first exchange when the last visited exchange Id is not an exchange in the list', () => {
@@ -78,6 +78,6 @@ describe('Peer Dashboard - Redirect to Exchange', () => {
 
     instance.navigateToExchange({...generateMockExchangesAndLastVisted(), LastVisitedExchangeId: 43});
 
-    expect(router.navigate).toHaveBeenCalledWith(['/exchange', 1]);
+    expect(router.navigate).toHaveBeenCalledWith(['/exchange', 1, 'dashboard']);
   });
 });

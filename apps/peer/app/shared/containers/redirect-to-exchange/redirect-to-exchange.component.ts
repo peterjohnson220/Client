@@ -74,6 +74,6 @@ export class RedirectToExchangeComponent implements OnInit {
       exchangeIdToNavigateTo = lastVistedExchangeId;
     }
 
-    this.router.navigate(['/exchange', exchangeIdToNavigateTo]);
+    this.router.navigate(['/exchange', exchangeIdToNavigateTo, 'dashboard']);
   }
 }
