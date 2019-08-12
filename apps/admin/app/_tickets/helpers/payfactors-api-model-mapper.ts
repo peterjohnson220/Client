@@ -21,7 +21,6 @@ import {
   TicketComment
 } from '../models';
 import { getFileExtensionType, getFileExtensionCssClass } from 'libs/core/functions';
-import { SaveRoleResponseModel } from 'libs/models';
 
 export class PayfactorsApiModelMapper {
   static mapUserTicketResponseToUserTicketGridItem(response: UserTicketResponse[]): UserTicketGridItem[] {
@@ -40,7 +39,8 @@ export class PayfactorsApiModelMapper {
         ServiceUser: ut.ServicesUserFullName,
         Comments: this.squashComments(ut.UserTicketComments),
         Description: ut.UserTicket,
-        TicketCssClass: ut.TicketCssClass
+        TicketCssClass: ut.TicketCssClass,
+        OpenedUserFullName: ut.OpenedUserFullName
       };
     });
   }

@@ -28,6 +28,9 @@ export class SearchRequestFilterMapper {
       case 'Created':
         model.SortField = 'Create_Date';
         break;
+      case 'OpenedUserFullName':
+        model.SortField = 'OpenedUserFullName';
+        break;
       case '':
         break;
       default:
@@ -55,6 +58,9 @@ export class SearchRequestFilterMapper {
         case 'Created':
           model.StartDate = f.value.start;
           model.EndDate = f.value.end;
+          break;
+        case 'OpenedUserFullName':
+          model.Opened_User = f.value;
           break;
         case '':
           break;
