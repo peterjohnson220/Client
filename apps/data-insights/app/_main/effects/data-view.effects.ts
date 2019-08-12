@@ -5,6 +5,8 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, tap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
+import { orderBy } from 'lodash';
+
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
@@ -163,6 +165,49 @@ export class DataViewEffects {
       );
     })
   );
+
+  @Effect()
+  removeSelectedField$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.REMOVE_SELECTED_FIELD),
+      map(() => {
+        return new fromDataViewActions.SaveReportFields();
+      })
+    );
+
+  @Effect()
+  saveReportFields$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.SAVE_REPORT_FIELDS),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        this.store.pipe(select(fromDataViewReducer.getSelectedFields)),
+        (action: fromDataViewActions.SaveReportFields, userDataView, selectedFields) =>
+          ({ userDataView, selectedFields })
+      ),
+      switchMap((data) => {
+        const selectedFields = orderBy(data.selectedFields, 'Order');
+        const fieldsToSave = selectedFields.map((f, index) => {
+          return {
+            DataElementId: f.DataElementId,
+            Order: index + 1,
+            DisplayName: f.DisplayName
+          };
+        });
+        return this.dataViewApiService.updateDataViewFields({
+          UserDataViewId: data.userDataView.obj.UserDataViewId,
+          Fields: fieldsToSave
+        })
+          .pipe(
+            map(() => {
+              return new fromDataViewActions.SaveReportFieldsSuccess();
+            }),
+            catchError(() => {
+              return of(new fromDataViewActions.SaveReportFieldsError());
+            })
+          );
+      })
+    );
 
   constructor(
     private action$: Actions,

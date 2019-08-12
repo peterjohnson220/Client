@@ -1,12 +1,6 @@
-import { Component } from '@angular/core';
-import { select, Store} from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { Field } from '../../models';
-
-import * as fromDataInsightsMainReducer from '../../reducers/index';
-
-
-
 
 @Component({
   selector: 'pf-left-sidebar-existing-fields',
@@ -14,14 +8,11 @@ import * as fromDataInsightsMainReducer from '../../reducers/index';
   styleUrls: ['./left-sidebar-existing-fields.component.scss']
 })
 export class LeftSidebarExistingFieldsComponent  {
+  @Input() fields: Field[];
+  @Output() fieldRemoved: EventEmitter<Field> = new EventEmitter();
   existingFieldExpanded = true;
-  fields$: Observable<Field[]>;
 
-  constructor(
-    private store: Store<fromDataInsightsMainReducer.State>
-  ) {
-     this.fields$ = this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields));
-  }
+  constructor() {}
 
   toggleField() {
     this.existingFieldExpanded = !this.existingFieldExpanded;
@@ -31,4 +22,7 @@ export class LeftSidebarExistingFieldsComponent  {
     return field.DataElementId;
   }
 
+  handleFieldRemoved(field: Field) {
+    this.fieldRemoved.emit(field);
+  }
 }

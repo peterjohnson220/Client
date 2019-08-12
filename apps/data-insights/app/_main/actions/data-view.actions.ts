@@ -23,6 +23,10 @@ export const DUPLICATE_USER_REPORT = '[Data Insights / Data View] Duplicate User
 export const DUPLICATE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Duplicate User Report Success';
 export const DUPLICATE_USER_REPORT_ERROR = '[Data Insights / Data View] Duplicate User Report Error';
 export const DUPLICATE_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Duplicate User Report Conflict';
+export const REMOVE_SELECTED_FIELD = '[Data Insights / Data View] Remove Selected Field';
+export const SAVE_REPORT_FIELDS = '[Data Insights / Data View] Save Report Fields';
+export const SAVE_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View] Save Report Fields Success';
+export const SAVE_REPORT_FIELDS_ERROR = '[Data Insights / Data View] Save Report Fields Error';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -150,6 +154,30 @@ export class DuplicateUserReportConflict implements Action {
   constructor() {}
 }
 
+export class RemoveSelectedField implements Action {
+  readonly type = REMOVE_SELECTED_FIELD;
+
+  constructor(public payload: Field) {}
+}
+
+export class SaveReportFields implements Action {
+  readonly type = SAVE_REPORT_FIELDS;
+
+  constructor() {}
+}
+
+export class SaveReportFieldsSuccess implements Action {
+  readonly type = SAVE_REPORT_FIELDS_SUCCESS;
+
+  constructor() {}
+}
+
+export class SaveReportFieldsError implements Action {
+  readonly type = SAVE_REPORT_FIELDS_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetBaseEntities
   | GetBaseEntitiesSuccess
@@ -171,4 +199,8 @@ export type Actions
   | DuplicateUserReport
   | DuplicateUserReportSuccess
   | DuplicateUserReportError
-  | DuplicateUserReportConflict;
+  | DuplicateUserReportConflict
+  | RemoveSelectedField
+  | SaveReportFields
+  | SaveReportFieldsSuccess
+  | SaveReportFieldsError;

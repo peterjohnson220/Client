@@ -16,10 +16,10 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
-  WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent, LeftSidebarComponent,
+  WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent,
   LeftSidebarExistingFieldsComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
-  CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent } from './containers';
+  CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent, } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';

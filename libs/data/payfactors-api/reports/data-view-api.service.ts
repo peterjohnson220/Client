@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CreateUserViewRequest, DataViewEntityResponse , UserDataViewResponse,
-  DataViewDataRequest, DataViewField, EditUserViewRequest, DuplicateUserViewRequest } from 'libs/models/payfactors-api';
+import {
+  CreateUserViewRequest, DataViewEntityResponse, UserDataViewResponse,
+  DataViewDataRequest, DataViewField, EditUserViewRequest, DuplicateUserViewRequest, UpdateDataViewFieldsRequest
+} from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -39,5 +41,9 @@ export class DataViewApiService {
 
   getData(request: DataViewDataRequest): Observable<any[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetData`, request);
+  }
+
+  updateDataViewFields(request: UpdateDataViewFieldsRequest): Observable<any[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/UpdateDataViewFields`, request);
   }
 }
