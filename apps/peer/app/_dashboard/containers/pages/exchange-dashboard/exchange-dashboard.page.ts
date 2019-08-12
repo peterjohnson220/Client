@@ -6,12 +6,14 @@ import { Observable, Subscription } from 'rxjs';
 
 import { ExchangeRequestTypeEnum, Exchange } from 'libs/models';
 import * as fromCompanyContextActions from 'libs/state/app-context/actions/company-context.actions';
+import { Permissions } from 'libs/constants';
 
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
 import * as fromUploadOrgDataAction from '../../../actions/upload-org-data.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import * as fromPeerDashboardReducer from '../../../reducers';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
+
 
 @Component({
   selector: 'pf-exchange-dashboard-page',
@@ -25,6 +27,7 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
   uploadOrgDataModalOpen$: Observable<boolean>;
   exchange$: Observable<Exchange>;
   exchangeSubscription: Subscription;
+  permissions = Permissions;
 
   constructor(
     private route: ActivatedRoute,
