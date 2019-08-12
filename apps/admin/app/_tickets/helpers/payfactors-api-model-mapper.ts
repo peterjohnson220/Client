@@ -21,9 +21,13 @@ import {
   TicketComment
 } from '../models';
 import { getFileExtensionType, getFileExtensionCssClass } from 'libs/core/functions';
+import { SaveRoleResponseModel } from 'libs/models';
 
 export class PayfactorsApiModelMapper {
   static mapUserTicketResponseToUserTicketGridItem(response: UserTicketResponse[]): UserTicketGridItem[] {
+    if (response == null || response.length === 0) {
+      return [];
+    }
     return response.map(ut => {
       return {
         Id: ut.UserTicketId,

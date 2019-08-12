@@ -18,6 +18,7 @@ import { TicketListFilterComponent } from '../filters/ticket-list-filter';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
+import { PayfactorsApiModelMapper } from '../../helpers';
 
 import { PfServicesRep, UserTicketGridItem, UserTicketState, UserTicketTabItem, UserTicketType } from '../../models';
 
@@ -30,8 +31,8 @@ import { PfServicesRep, UserTicketGridItem, UserTicketState, UserTicketTabItem, 
 })
 export class TicketListComponent implements OnInit, OnDestroy {
   @ViewChild('serviceUserFilter', { static: false }) serviceUserFilterComponent: TicketListFilterComponent;
-  gridView: GridDataResult;
-  defaultDateRange = {start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), end: new Date()};
+  gridView: GridDataResult = { data: [], total: 0 };
+  defaultDateRange = { start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), end: new Date() };
   sortable: SortSettings = {
     allowUnsort: false,
     mode: 'single'
@@ -51,13 +52,14 @@ export class TicketListComponent implements OnInit, OnDestroy {
         value: this.defaultDateRange,
         operator: 'contains'
       }
-    ]},
+      ]
+    },
     sort: [{
       field: 'Id',
       dir: 'desc'
     }],
   };
-  pageSizes = [10, 25];
+  pageSizes = [10, 25, 50, 100];
 
   userContext$: Observable<UserContext>;
   userContext: UserContext;
@@ -68,7 +70,6 @@ export class TicketListComponent implements OnInit, OnDestroy {
   userTicketStates: UserTicketState[] = [];
   userTicketStatesFilter: UserTicketState[] = [];
   userTicketTypes: UserTicketType[] = [];
-  ticketListItems: UserTicketGridItem[] = [];
   public ticketFieldType = TicketFieldType;
   public pickerHelper = new PickerHelper();
 
@@ -106,8 +107,12 @@ export class TicketListComponent implements OnInit, OnDestroy {
     });
     this.ticketListItemsSubscription = this.store.select(fromTicketReducer.getTickets)
       .pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
-        this.ticketListItems = v;
-        this.loadTickets();
+        if (v != null) {
+          this.gridView = {
+            data: v.data,
+            total: v.total
+          };
+        }
       });
     this.initSuccessSubscription = this.store.select(fromTicketReducer.getGridInitSuccess)
       .pipe(
@@ -139,7 +144,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
       ).subscribe(v => {
         this.userTicketStates = v;
         this.userTicketStatesFilter = cloneDeep(v);
-        this.userTicketStatesFilter.unshift({UserTicketStateId: 0, UserTicketState: 'Open'});
+        this.userTicketStatesFilter.unshift({ UserTicketStateId: 0, UserTicketState: 'Open' });
       });
 
     this.userTicketTypes$
@@ -161,7 +166,8 @@ export class TicketListComponent implements OnInit, OnDestroy {
   }
 
   prepareFilter(): UserTicketSearchRequest {
-    return SearchRequestFilterMapper.mapCompositeFilterDescriptorToUserTicketSearchRequest(this.state.filter);
+    return SearchRequestFilterMapper.mapGridStateToUserTicketSearchRequest
+      (this.state.filter, this.state.skip, this.state.take, this.state.sort[0].field, this.state.sort[0].dir);
   }
 
   handleTicketGridReload() {
@@ -192,20 +198,15 @@ export class TicketListComponent implements OnInit, OnDestroy {
   }
   sortChange(sort: SortDescriptor[]): void {
     this.state.sort = sort;
-    this.store.dispatch(new fromTicketListActions.SortTickets(this.state.sort[0]));
+    this.state.skip = 0;
+    this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
   }
 
-  private loadTickets(): void {
-    this.gridView = {
-      data: this.ticketListItems.slice(this.state.skip, this.state.skip + this.state.take),
-      total: this.ticketListItems.length
-    };
-  }
 
   pageChange(e: PageChangeEvent): void {
     this.state.skip = e.skip;
     this.state.take = e.take;
-    this.loadTickets();
+    this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
   }
 
   filterChanged() {
