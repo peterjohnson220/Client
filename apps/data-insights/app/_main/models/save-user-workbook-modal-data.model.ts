@@ -6,7 +6,7 @@ export interface SaveUserWorkbookModalData {
   Summary: string;
 }
 
-export function generateMockSaveUserWorkbookModalData(): SaveUserWorkbookModalData{
+export function generateMockSaveUserWorkbookModalData(): SaveUserWorkbookModalData {
   return {
     Entity: generateMockEntity(),
     Summary: 'Test summary',
