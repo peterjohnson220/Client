@@ -8,6 +8,7 @@
       @extend %ellipsis-overflowing-text;
       h3 {
         @extend %ellipsis-overflowing-text;
+        line-height: 2rem;
       }
     }
   }
