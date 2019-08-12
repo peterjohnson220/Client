@@ -10,10 +10,11 @@ export interface UserTicketGridItem {
   Comments: string;
   Description: string;
   TicketCssClass: string;
+  OpenedUserFullName: string;
 }
 
 export function generateMockUserTicketGridItem(): UserTicketGridItem {
-  return  {
+  return {
     Id: 1,
     Created: new Date('01/01/1990'),
     CompanyName: 'MockCompanyName',
@@ -24,6 +25,7 @@ export function generateMockUserTicketGridItem(): UserTicketGridItem {
     ServiceUser: 'MockServiceUser',
     Comments: 'MockComments',
     Description: 'MockDescription',
-    TicketCssClass: 'MockTicketCssClass'
+    TicketCssClass: 'MockTicketCssClass',
+    OpenedUserFullName: 'MockOpenedUserFullName'
   };
 }

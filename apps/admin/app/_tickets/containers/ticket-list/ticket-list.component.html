@@ -110,6 +110,28 @@
         <div [innerHTML]="dataItem.CompanyName"></div>
       </ng-template>
     </kendo-grid-column>
+
+    <kendo-grid-column field="OpenedUserFullName"
+                       title="Opened User"
+                       width="60">
+      <ng-template kendoGridFilterCellTemplate
+                   let-filter>
+        <pf-ticket-list-filter #ticketOpenedUserFilter
+                               [filter]="filter"
+                               [data]=""
+                               [defaultValue]="''"
+                               [filterField]="ticketFieldType.OPENED_USERNAME"
+                               [textField]="'OpenedUserFullName'"
+                               [valueField]="'OpenedUserFullName'"
+                               (valueChange)="filterChanged()">
+        </pf-ticket-list-filter>
+      </ng-template>
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.OpenedUserFullName"></div>
+      </ng-template>
+    </kendo-grid-column>
+
     <kendo-grid-column field="Description"
                        title="Description"
                        width="100"
