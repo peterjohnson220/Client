@@ -11,6 +11,7 @@ import { CommunityPollChoicesComponent } from 'libs/features/community/container
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import { CommunityTopic } from 'libs/models';
 
 @Component({
   selector: 'pf-community-new-poll',
@@ -27,13 +28,18 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   pollLengthHours = Array.from({length: 24}, (v, k) => k);
   displayPollLengthChoices = false;
 
+  communityTopics$: Observable<CommunityTopic[]>;
+
   communityPollForm: FormGroup;
   get context() { return this.communityPollForm.get('context'); }
   get choices() { return this.communityPollForm.get('choices') as FormArray; }
   get days() { return this.communityPollForm.get('days'); }
   get hours() { return this.communityPollForm.get('hours'); }
   get status() { return this.communityPollForm.get('status'); }
+  get topic() { return this.communityPollForm.get('topic'); }
   get isFormValid() { return this.communityPollForm.valid; }
+
+  public defaultTopic: CommunityTopic = { TopicName: 'Select a Topic to start your poll...', Id: null };
 
   get pollLengthText() {
     let text = '';
@@ -58,6 +64,7 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public pfLinkifyService: PfLinkifyService) {
       this.addingCommunityDiscussionPollSuccess$ = this.store.select(fromCommunityPostReducer.getAddingCommunityDiscussionPollSuccess);
+      this.communityTopics$ = this.store.select(fromCommunityPostReducer.getTopics);
       this.buildForm();
   }
 
@@ -87,7 +94,8 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
       'status': [0],
       'choices': this.formBuilder.array([]),
       'days':  [14],
-      'hours': [0]
+      'hours': [0],
+      'topic': [null, [ Validators.required]]
     });
 
     this.choices.push(CommunityPollChoicesComponent.buildItem(''));
@@ -116,9 +124,11 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
       ResponseOptions: responseOptions,
       Status: CommunityPollStatusEnum.Live,
       DurationInHours: this.days.value * 24 + this.hours.value,
-      Links: this.pfLinkifyService.getLinks(this.context.value)
+      Links: this.pfLinkifyService.getLinks(this.context.value),
+      TopicId: this.topic.value
     };
     this.store.dispatch(new fromCommunityPostActions.AddingCommunityDiscussionPoll(communityPollRequest));
+    this.defaultTopic = { TopicName: 'Select a Topic to start your poll...', Id: null };
   }
 
   isPollDurationDaysZero () {
@@ -133,6 +143,10 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
     if (this.days.value === 0 && this.hours.value === 0) {
       this.hours.setValue(1);
     }
+  }
+
+  public onOpenTopicsList(): void {
+    this.defaultTopic = null;
   }
 
 }

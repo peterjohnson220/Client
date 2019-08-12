@@ -95,7 +95,8 @@ export class CommunityPollModalComponent implements OnInit, OnDestroy {
       Question: this.context.value,
       ResponseOptions: responseOptions,
       Status: this.status.value,
-      Links: []
+      Links: [],
+      TopicId: ''
     };
 
     if (this.isEditMode) {
