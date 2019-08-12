@@ -50,4 +50,14 @@ describe('Data-Insights LeftSidebarComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
+
+  it('should dispatch ReorderFields action when handling fields reordering', () => {
+    const fields = [ generateMockField() ];
+    const expectedAction = new fromDataViewActions.ReorderFields(fields);
+
+    spyOn(store, 'dispatch');
+    instance.handleFieldsReordered(fields);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
 });

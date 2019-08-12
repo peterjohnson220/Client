@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { Subscription } from 'rxjs';
+import { DragulaService } from 'ng2-dragula';
+
 import { Field } from '../../models';
 
 @Component({
@@ -10,12 +13,17 @@ import { Field } from '../../models';
 export class LeftSidebarExistingFieldsComponent  {
   @Input() fields: Field[];
   @Output() fieldRemoved: EventEmitter<Field> = new EventEmitter();
-  existingFieldExpanded = true;
+  @Output() fieldsReordered: EventEmitter<Field[]> = new EventEmitter();
 
-  constructor() {}
+  dragulaSub: Subscription;
 
-  toggleField() {
-    this.existingFieldExpanded = !this.existingFieldExpanded;
+  constructor(
+    private dragulaService: DragulaService
+  ) {
+    this.dragulaSub = new Subscription();
+    this.dragulaSub.add(this.dragulaService.dropModel('fields-bag').subscribe(({ sourceModel }) => {
+      this.handleDropModel(sourceModel);
+    }));
   }
 
   trackByFn(index: any, field: Field) {
@@ -24,5 +32,12 @@ export class LeftSidebarExistingFieldsComponent  {
 
   handleFieldRemoved(field: Field) {
     this.fieldRemoved.emit(field);
+  }
+
+  private handleDropModel(sourceModel) {
+    if (!sourceModel) {
+      return;
+    }
+    this.fieldsReordered.emit(sourceModel);
   }
 }

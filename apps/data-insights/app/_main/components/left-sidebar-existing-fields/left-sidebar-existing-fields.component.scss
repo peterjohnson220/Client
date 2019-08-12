@@ -1,61 +1,67 @@
 @import 'colors';
+@import 'common/common-variables';
 @import 'data-insights-variables';
 
-.existing-field-header {
-  border-bottom: 1px solid $grey;
-  margin-left: 7px;
-  cursor: pointer;
+.fields-container {
 
-  .expand-fields {
-    position: relative;
-    left: 267px;
-  }
-}
-.existing-fields-container{
+  .data-list-item {
+    padding: 0.8rem;
+    margin-top: 0.5rem;
+    font-size: 13px;
+    border-bottom: solid 1px $grid-border-color;
 
-  .existingFieldExpanded-closed{
-    display: none;
-  }
-
-  .existingFieldExpanded-open {
-    overflow-y: scroll;
-    height: 200px;
-    padding-right: 6px;
-
-    li .truncate{
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: inline-block;
-      max-width: 41%;
+    &:hover{
+      background-color: $selection-hover-background;
+      cursor: move;
     }
 
-  }
-  .data-list-item{
-    padding: .7rem;
-    border-radius: 5px;
-    background-color: #0099CC;
-    color: white;
-    font-size: 12px;
+    .field-text {
+      width: 150px;
+      @extend %ellipsis-overflowing-text;
+    }
 
-    .pull-right {
-      float: right;
-      color: $grey;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: inline-block;
-      max-width: 41%;
+    .right-container {
+      color: $dark-grey;
+
+      span {
+        text-align: right;
+      }
 
       .delete-btn {
-        margin-left: 13px;
+        width: 20px;
         cursor: pointer;
-        color: white;
       }
 
     }
   }
 }
 
-
+/*** DragulaModule: https://github.com/valor-software/ng2-dragula ***/
+/* in-flight clone */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  pointer-events: none;
+}
+/* high-performance display:none; helper */
+.gu-hide {
+  left: -9999px !important;
+}
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+}
 

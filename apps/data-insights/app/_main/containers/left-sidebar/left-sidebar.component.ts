@@ -31,4 +31,8 @@ export class LeftSidebarComponent {
     this.store.dispatch(new fromDataViewActions.RemoveSelectedField(fieldToBeRemoved));
   }
 
+  handleFieldsReordered(fields: Field[]) {
+    this.store.dispatch(new fromDataViewActions.ReorderFields(fields));
+  }
+
 }
