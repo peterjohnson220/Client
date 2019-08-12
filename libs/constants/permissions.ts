@@ -49,6 +49,7 @@ export class Permissions {
   public static PRICING_PROJECTS_NEW_PROJECT	=	'Pricing_Projects_New_Project';
   public static USER_ROLES	=	'User Roles';
   public static PEER_IMPORT_ASSOCIATIONS	=	'Peer_Import_Associations';
+  public static PEER_MANAGE_JOBS	=	'Peer_Manage_Jobs';
   public static PASSWORD_MANAGEMENT = 'Password Management';
 }
 
