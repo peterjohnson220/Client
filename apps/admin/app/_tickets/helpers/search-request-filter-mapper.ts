@@ -11,7 +11,7 @@ export class SearchRequestFilterMapper {
     // map our grid to our db for sorting
     switch (sort) {
       case 'ServiceUser':
-        model.SortField = 'ServicesUser_ID';
+        model.SortField = 'ServicesUserFullName';
         break;
       case 'Status':
         model.SortField = 'UserTicket_State';
