@@ -1,0 +1,22 @@
+@import 'colors';
+@import 'data-insights-variables';
+
+.k-autocomplete {
+  margin: 1rem;
+  width: 94%;
+  padding-right: 0;
+}
+
+.add-icon {
+  color: $dark-grey;
+  padding-right: .3rem;
+}
+
+::ng-deep {
+  .k-outer-group-header {
+    color: $dark-grey;
+  }
+}
+
+
+

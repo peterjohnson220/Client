@@ -16,11 +16,13 @@ export class LeftSidebarComponent {
   isOpen = true;
 
   selectedFields$: Observable<Field[]>;
+  unselectedFields$: Observable<Field[]>;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
   ) {
     this.selectedFields$ = this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields));
+    this.unselectedFields$ = this.store.pipe(select(fromDataInsightsMainReducer.getUnselectedFields));
   }
 
   toggle() {
@@ -33,6 +35,10 @@ export class LeftSidebarComponent {
 
   handleFieldsReordered(fields: Field[]) {
     this.store.dispatch(new fromDataViewActions.ReorderFields(fields));
+  }
+
+  handleFieldAdded(fieldToAdd: Field) {
+    this.store.dispatch(new fromDataViewActions.AddSelectedField(fieldToAdd));
   }
 
 }

@@ -305,6 +305,20 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         deleteUserReportSuccess: true
       };
     }
+    case fromDataViewActions.ADD_SELECTED_FIELD: {
+      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
+      const fieldToAdd = asyncStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
+      const maxOrder = Math.max.apply(Math, asyncStateObjClone.obj.filter(f => f.IsSelected).map(function(o: Field) { return o.Order; }));
+      if (fieldToAdd) {
+        fieldToAdd.IsSelected = true;
+        fieldToAdd.Order = maxOrder + 1;
+      }
+      asyncStateObjClone.obj = orderBy(asyncStateObjClone.obj, 'Order');
+      return {
+        ...state,
+        reportFieldsAsync: asyncStateObjClone
+      };
+    }
     default: {
       return state;
     }
@@ -328,5 +342,10 @@ export const getDuplicateUserReportSuccess = (state: State) => state.duplicateUs
 export const getSelectedFields = (state: State) => {
   if (state.reportFieldsAsync.obj) {
     return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === true);
+  }
+};
+export const getUnselectedFields = (state: State) => {
+  if (state.reportFieldsAsync.obj) {
+    return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === false);
   }
 };

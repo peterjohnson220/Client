@@ -1,4 +1,4 @@
-import {DataViewFieldDataType} from 'libs/models/payfactors-api/reports/request';
+import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request';
 
 export interface Field {
   EntityId: number;
@@ -10,6 +10,12 @@ export interface Field {
   DataType?: DataViewFieldDataType;
   IsSelected?: boolean;
   Order?: number;
+}
+
+export interface FieldListItem {
+  Entity: string;
+  DataElementId: string;
+  DisplayName: string;
 }
 
 export function generateMockField(): Field {

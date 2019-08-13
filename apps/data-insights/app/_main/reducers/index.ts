@@ -190,6 +190,11 @@ export const getSelectedFields = createSelector(
   fromDataViewReducer.getSelectedFields
 );
 
+export const getUnselectedFields = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getUnselectedFields
+);
+
 // Data View Grid
 export const getReportDataAsync = createSelector(
   selectDataViewGridState,
