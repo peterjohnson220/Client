@@ -3,3 +3,15 @@
 .data-view-grid {
   height: calc(100vh - 200px);
 }
+
+::ng-deep {
+  .k-grid {
+    tr {
+      height: 41px;
+    }
+    .empty-row {
+      font-style: italic;
+      color: #999999;
+    }
+  }
+}
