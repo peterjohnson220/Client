@@ -23,6 +23,8 @@ export interface State {
   duplicateUserReportSuccess: boolean;
   savingReportFields: boolean;
   savingReportFieldsError: boolean;
+  deleteUserReport: boolean;
+  deleteUserReportSuccess: boolean;
 }
 
 const initialState: State = {
@@ -41,7 +43,9 @@ const initialState: State = {
   duplicateUserReportConflict: false,
   duplicateUserReportSuccess: false,
   savingReportFields: false,
-  savingReportFieldsError: false
+  savingReportFieldsError: false,
+  deleteUserReport: false,
+  deleteUserReportSuccess: false
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -285,6 +289,20 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       return {
         ...state,
         reportFieldsAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.DELETE_USER_REPORT: {
+      return {
+        ...state,
+        deleteUserReport: true,
+        deleteUserReportSuccess: false
+      };
+    }
+    case fromDataViewActions.DELETE_USER_REPORT_SUCCESS: {
+      return {
+        ...state,
+        deleteUserReport: false,
+        deleteUserReportSuccess: true
       };
     }
     default: {
