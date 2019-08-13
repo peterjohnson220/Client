@@ -217,6 +217,35 @@ export class DataViewEffects {
     })
   );
 
+  @Effect()
+  deleteUserReport$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.DELETE_USER_REPORT),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.DeleteUserReport, userDataView) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.deleteUserDateView({
+          UserDataViewId: data.userDataView.obj.UserDataViewId
+        })
+          .pipe(
+            map((response) => {
+              return new fromDataViewActions.DeleteUserReportSuccess();
+            })
+          );
+      })
+    );
+
+  @Effect({dispatch: false})
+  deleteUserReportSuccess$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.DELETE_USER_REPORT_SUCCESS),
+      tap(() =>
+        this.router.navigate(['']))
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataViewReducer.State>,

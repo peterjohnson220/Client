@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import {
   CreateUserViewRequest, DataViewEntityResponse, UserDataViewResponse,
-  DataViewDataRequest, DataViewField, EditUserViewRequest, DuplicateUserViewRequest, UpdateDataViewFieldsRequest
-} from 'libs/models/payfactors-api';
+  DataViewDataRequest, DataViewField, EditUserViewRequest,
+  DuplicateUserViewRequest, UpdateDataViewFieldsRequest, DeleteUserViewRequest } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -28,6 +28,10 @@ export class DataViewApiService {
 
   duplicateUserDataView(request: DuplicateUserViewRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/DuplicateUserDataView`, request);
+  }
+
+  deleteUserDateView(request: DeleteUserViewRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteUserDataView`, request);
   }
 
   getUserDataView(dataViewId: number): Observable<UserDataViewResponse> {

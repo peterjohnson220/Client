@@ -10,6 +10,7 @@ import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
 import { SaveUserWorkbookModalData, SaveWorkbookMode, UserDataView } from '../../../models';
 import { SaveUserWorkbookModalComponent } from '../../../components/save-user-workbook-modal';
+import { DeleteUserWorkbookModalComponent } from '../../../components/delete-user-workbook-modal';
 
 @Component({
   selector: 'pf-custom-report-view-page',
@@ -20,6 +21,7 @@ import { SaveUserWorkbookModalComponent } from '../../../components/save-user-wo
 export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   @ViewChild('editWorkbookModal', { static: false }) public editUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
   @ViewChild('duplicateWorkbookModal', { static: false }) public duplicateUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
+  @ViewChild('deleteWorkbookModal', { static: false }) public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
 
   userDataView$: Observable<AsyncStateObj<UserDataView>>;
   editingUserDataView$: Observable<boolean>;
@@ -103,11 +105,19 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.duplicateUserWorkbookModalComponent.open();
   }
 
+  handleDeleteClicked(): void {
+    this.deleteUserWorkbookModalComponent.open();
+  }
+
   handleEditSaveClicked(workbookData: SaveUserWorkbookModalData): void {
     this.store.dispatch(new fromDataViewActions.EditUserReport(workbookData));
   }
 
   handleDuplicateSaveClicked(workbookData: SaveUserWorkbookModalData): void {
     this.store.dispatch(new fromDataViewActions.DuplicateUserReport(workbookData));
+  }
+
+  handleDeleteSaveClicked(): void {
+    this.store.dispatch(new fromDataViewActions.DeleteUserReport());
   }
 }
