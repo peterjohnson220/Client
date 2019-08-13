@@ -14,6 +14,12 @@
       [title]="field.DisplayName"
       [headerClass]="'grid-header'"
       width="150">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <span *ngIf="!!dataItem[field.SourceName];else blankCellTemplate">{{dataItem[field.SourceName]}}</span>
+      </ng-template>
+      <ng-template #blankCellTemplate>
+        <div class="empty-row">N/A</div>
+      </ng-template>
     </kendo-grid-column>
   </kendo-grid>
 </div>
