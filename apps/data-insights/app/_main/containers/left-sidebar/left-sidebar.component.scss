@@ -1,31 +1,33 @@
 @import 'colors';
 @import 'data-insights-variables';
+@import '../../../../../../libs/styles/perfect-scrollbar-overrides';
 
 $left-sidebar-open-width: 400px;
 
 .left-sidebar-dock {
-  min-width: 35px;
-}
 
-.close-sidebar-icon {
-  text-align: right;
-  width: 100%;
-}
+  .header {
+    height: 41px;
+    box-shadow: 0 2px 2px 0 $grid-border-color;
+    border-top: solid 1px $grid-border-color;
+    padding: 0.5rem 1rem 0.5rem 1rem;
 
-.close-sidebar-icon span{
-  z-index: 3;
-  cursor: pointer;
-}
+    .icon {
+      color: $icon-blue-color;
+      cursor: pointer;
+    }
 
-.open-sidebar-icon-container{
-  padding: 9px 10px;
-  transition-delay: 0.23s;
-  background-color: $right-sidebar-color;
-}
+  }
 
-.open-sidebar-icon {
-  color: #fff;
-  cursor: pointer;
+  .content, .open-icon {
+    transition-delay: 0.23s;
+  }
+
+  .content {
+    position: relative;
+    max-height: calc(100vh - 241px);
+  }
+
 }
 
 .left-sidebar-content {
@@ -34,9 +36,10 @@ $left-sidebar-open-width: 400px;
 }
 
 .left-sidebar-close {
-  width: 0;
+  width: 40px;
   transition: 0.3s;
   overflow: hidden;
+  box-shadow: 0 2px 2px 0 #d6d6d6;
 }
 
 .left-sidebar-open {
@@ -44,25 +47,4 @@ $left-sidebar-open-width: 400px;
   transition: .4s ease-in-out;
   background-color: white;
   overflow: hidden;
-}
-
-.sidebar-width {
-  min-width:400px;
-  border: 1px solid $grey;
-}
-.close-icon {
-  position: relative;
-  left: 302px;
-}
-
-@media screen and (max-width: 860px) {
-  .right-sidebar-close {
-    position: fixed;
-    right: 0;
-  }
-
-  .left-sidebar-open {
-    position: fixed;
-    right: 0;
-  }
 }

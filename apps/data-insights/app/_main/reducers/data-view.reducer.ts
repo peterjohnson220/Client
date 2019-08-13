@@ -1,4 +1,5 @@
 import * as cloneDeep from 'lodash.clonedeep';
+import { orderBy } from 'lodash';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
@@ -269,6 +270,21 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         ...state,
         savingReportFields: false,
         savingReportFieldsError: true
+      };
+    }
+    case fromDataViewActions.REORDER_FIELDS: {
+      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
+      asyncStateObjClone.obj = asyncStateObjClone.obj.map(x => {
+        const newFieldIndex = action.payload.findIndex(y => y.DataElementId === x.DataElementId);
+        if (newFieldIndex !== -1) {
+          x.Order = newFieldIndex + 1;
+        }
+        return x;
+      });
+      asyncStateObjClone.obj = orderBy(asyncStateObjClone.obj, 'Order');
+      return {
+        ...state,
+        reportFieldsAsync: asyncStateObjClone
       };
     }
     default: {

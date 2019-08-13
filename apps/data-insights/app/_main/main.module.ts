@@ -10,6 +10,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DragulaModule } from 'ng2-dragula';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -47,6 +48,7 @@ import { MainRoutingModule } from './main-routing.module';
     NgbPopoverModule.forRoot(),
     NgbTooltipModule,
     GridModule,
+    PerfectScrollbarModule,
 
     // Routing
     MainRoutingModule,

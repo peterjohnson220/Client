@@ -27,6 +27,7 @@ export const REMOVE_SELECTED_FIELD = '[Data Insights / Data View] Remove Selecte
 export const SAVE_REPORT_FIELDS = '[Data Insights / Data View] Save Report Fields';
 export const SAVE_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View] Save Report Fields Success';
 export const SAVE_REPORT_FIELDS_ERROR = '[Data Insights / Data View] Save Report Fields Error';
+export const REORDER_FIELDS = '[Data Insights / Data View] Reorder Fields';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -178,6 +179,12 @@ export class SaveReportFieldsError implements Action {
   constructor() {}
 }
 
+export class ReorderFields implements Action {
+  readonly type = REORDER_FIELDS;
+
+  constructor(public payload: Field[]) {}
+}
+
 export type Actions
   = GetBaseEntities
   | GetBaseEntitiesSuccess
@@ -203,4 +210,5 @@ export type Actions
   | RemoveSelectedField
   | SaveReportFields
   | SaveReportFieldsSuccess
-  | SaveReportFieldsError;
+  | SaveReportFieldsError
+  | ReorderFields;

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, tap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
-
 import { orderBy } from 'lodash';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
@@ -208,6 +207,15 @@ export class DataViewEffects {
           );
       })
     );
+
+  @Effect()
+  reorderFields$ = this.action$
+  .pipe(
+    ofType(fromDataViewActions.REORDER_FIELDS),
+    map(() => {
+      return new fromDataViewActions.SaveReportFields();
+    })
+  );
 
   constructor(
     private action$: Actions,

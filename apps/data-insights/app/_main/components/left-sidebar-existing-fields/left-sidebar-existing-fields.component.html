@@ -1,14 +1,13 @@
-<div class="existing-field-header d-flex" (click)="toggleField()">
-  <h6>Existing Fields</h6>
-  <fa-icon *ngIf="existingFieldExpanded" icon="caret-down" size="1x" class="expand-fields" data-qa-id="btn-collapseExistingFields" ></fa-icon>
-  <fa-icon *ngIf="!existingFieldExpanded" icon="caret-right" size="1x" class="expand-fields" data-qa-id="btn-expandExistingFields" ></fa-icon>
-</div>
-<div class="existing-fields-container ml-2 mr-2">
-  <ul  [ngClass]="existingFieldExpanded ? 'existingFieldExpanded-open ' : 'existingFieldExpanded-closed'" class="list-group list-unstyled">
-    <li *ngFor="let field of fields; trackBy: trackByFn;" class="mb-1 mt-1 data-list-item"><span title="{{field.SourceName | uppercase}}" class="truncate">{{field.SourceName | uppercase}}</span>
-      <span class="pull-right" title="{{field.Entity | uppercase}}">{{field.Entity | uppercase}}
-      <fa-icon *ngIf="fields.length > 1" (click)="handleFieldRemoved(field)" class="delete-btn" data-qa-id='btn-deleteElement' icon="times"></fa-icon></span>
-    </li>
-  </ul>
-</div>
+<div class="fields-container ml-2 mr-2" dragula="fields-bag" [(dragulaModel)]="fields">
 
+  <div *ngFor="let field of fields; trackBy: trackByFn;" class="d-flex justify-content-between data-list-item">
+    <span title="{{field.SourceName}}" class="field-text">{{field.SourceName}}</span>
+    <div class="d-flex right-container">
+      <span class="field-text" title="{{field.Entity | uppercase}}">{{field.Entity | uppercase}}</span>
+      <div *ngIf="fields.length > 1" class="delete-btn d-flex flex-row-reverse" (click)="handleFieldRemoved(field)" data-qa-id='btn-deleteElement'>
+        <fa-icon icon="times"></fa-icon>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,23 +1,19 @@
-<div class="left-sidebar-dock">
-  <span (click)="toggle()">
-    <span class="open-sidebar-icon-container"
-          [style.display]="isOpen ? 'none' : 'flex'">
-      <fa-icon class="open-sidebar-icon" icon="chevron-double-right" size="lg"></fa-icon>
+<div class="left-sidebar-dock" [ngClass]="{'left-sidebar-open': isOpen, 'left-sidebar-close': !isOpen}">
+
+  <div class="header d-flex justify-content-between">
+    <h5 *ngIf="isOpen">Fields</h5>
+    <span (click)="toggle()">
+      <fa-icon *ngIf="!isOpen" class="icon open-icon" icon="chevron-double-right" size="lg"></fa-icon>
+      <fa-icon *ngIf="isOpen" class="icon close-icon"  icon="chevron-double-left" size="lg"></fa-icon>
     </span>
-  </span>
-  <div [ngClass]="{'left-sidebar-open': isOpen, 'left-sidebar-close': !isOpen}">
-    <div class="sidebar-width">
-      <div class="close-sidebar-icon p-2 d-flex">
-        <h5>Fields</h5>
-        <span (click)="toggle()"
-              [style.display]="isOpen ? 'flex' : 'none'">
-          <fa-icon class="close-icon"  icon="chevron-double-left" size="lg"></fa-icon>
-        </span>
-      </div>
-      <pf-left-sidebar-existing-fields
-        (fieldRemoved)="handleFieldRemoved($event)"
-        [fields]="selectedFields$ | async">
-      </pf-left-sidebar-existing-fields>
-    </div>
   </div>
+
+  <div perfectScrollbar class="content" [style.display]="isOpen ? 'block' : 'none'">
+    <pf-left-sidebar-existing-fields
+      (fieldRemoved)="handleFieldRemoved($event)"
+      (fieldsReordered)="handleFieldsReordered($event)"
+      [fields]="selectedFields$ | async">
+    </pf-left-sidebar-existing-fields>
+  </div>
+
 </div>
