@@ -12,6 +12,8 @@ export interface State {
   createProjectError: boolean;
   canAccessProjectsTile: boolean;
   glossaryOpen: boolean;
+  minPaymarketMinimumWage: number;
+  maxPaymarketMinimumWage: number;
 }
 
 const initialState: State = {
@@ -24,7 +26,9 @@ const initialState: State = {
   creatingProject: false,
   createProjectError: false,
   canAccessProjectsTile: false,
-  glossaryOpen: false
+  glossaryOpen: false,
+  minPaymarketMinimumWage: null,
+  maxPaymarketMinimumWage: null
 };
 
 // Reducer function
@@ -117,6 +121,18 @@ export function reducer(state = initialState, action: fromSummaryCardActions.Act
         glossaryOpen: action.payload.open
       };
     }
+    case fromSummaryCardActions.SET_MIN_PAYMARKET_MINIMUM_WAGE: {
+      return {
+        ...state,
+        minPaymarketMinimumWage: action.payload
+      };
+    }
+    case fromSummaryCardActions.SET_MAX_PAYMARKET_MINIMUM_WAGE: {
+      return {
+        ...state,
+        maxPaymarketMinimumWage: action.payload
+      };
+    }
 
     default: {
       return state;
@@ -135,3 +151,5 @@ export const getCreatingProject = (state: State) => state.creatingProject;
 export const getCreatingProjectError = (state: State) => state.createProjectError;
 export const getCanAccessProjectTile = (state: State) => state.canAccessProjectsTile;
 export const getGlossaryOpen = (state: State) => state.glossaryOpen;
+export const getMinPaymarketMinimumWage = (state: State) => state.minPaymarketMinimumWage;
+export const getMaxPaymarketMinimumWage = (state: State) => state.maxPaymarketMinimumWage;
