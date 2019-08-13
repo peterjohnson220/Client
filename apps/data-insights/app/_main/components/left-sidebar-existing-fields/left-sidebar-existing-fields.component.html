@@ -1,4 +1,4 @@
-<div class="fields-container ml-2 mr-2" dragula="fields-bag" [(dragulaModel)]="fields">
+<div perfectScrollbar class="fields-container" dragula="fields-bag" [(dragulaModel)]="fields">
 
   <div *ngFor="let field of fields; trackBy: trackByFn;" class="d-flex justify-content-between data-list-item">
     <span title="{{field.SourceName}}" class="field-text">{{field.SourceName}}</span>

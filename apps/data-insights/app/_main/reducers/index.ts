@@ -215,3 +215,8 @@ export const getHasMoreDataOnServer = createSelector(
   selectDataViewGridState,
   fromDataViewGridReducer.getHasMoreDataOnServer
 );
+
+export const getSortDescriptor = createSelector(
+  selectDataViewGridState,
+  fromDataViewGridReducer.getSortDescriptor
+);

@@ -1,4 +1,4 @@
-<div class="existing-fields-container w-100">
+<div class="w-100">
   <kendo-autocomplete
     #reportFieldsList
     [data]="filteredFields"
@@ -9,9 +9,6 @@
     (valueChange)="handleValueChanged($event)">
 
     <ng-template kendoAutoCompleteItemTemplate let-dataItem>
-      <span class="add-icon">
-        <fa-icon icon="plus"></fa-icon>
-      </span>
       <span>
         {{dataItem.DisplayName}}
       </span>

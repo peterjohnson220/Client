@@ -3,12 +3,14 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { combineReducers, StoreModule, Store } from '@ngrx/store';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { DataViewGridComponent } from './data-view-grid.component';
+import { generateMockField } from '../../models';
 
 describe('Data Insights - Data View Grid', () => {
   let fixture: ComponentFixture<DataViewGridComponent>;
@@ -81,5 +83,19 @@ describe('Data Insights - Data View Grid', () => {
     instance.handleScrollBottom();
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getMoreDataAction);
+  });
+
+  it('should dispatch a SortField action when handling sort change', () => {
+    const sortDesc: SortDescriptor[] = [{
+      field: 'CompanyJobs.Job_Title',
+      dir: 'desc'
+    }];
+    instance.fields = [generateMockField()];
+    const sortFieldAction = new fromDataViewGridActions.SortField({ field: instance.fields[0], dir: 'desc'});
+    spyOn(store, 'dispatch');
+
+    instance.handleSortChange(sortDesc);
+
+    expect(store.dispatch).toHaveBeenCalledWith(sortFieldAction);
   });
 });

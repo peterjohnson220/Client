@@ -5,6 +5,7 @@
   margin: 1rem;
   width: 94%;
   padding-right: 0;
+  font-size: 16px;
 }
 
 .add-icon {
@@ -14,9 +15,12 @@
 
 ::ng-deep {
   .k-outer-group-header {
-    color: $dark-grey;
+    color: $icon-blue-color
+  }
+
+  .k-animation-container-shown {
+    .k-popup {
+      min-height: 150px;
+    }
   }
 }
-
-
-

@@ -8,17 +8,22 @@
     </span>
   </div>
 
-  <div perfectScrollbar class="content" [style.display]="isOpen ? 'block' : 'none'">
-    <pf-add-report-fields
-      (fieldAdded)="handleFieldAdded($event)"
-      [fields]="unselectedFields$ | async">
-    </pf-add-report-fields>
-    <hr />
-    <pf-left-sidebar-existing-fields
-      (fieldRemoved)="handleFieldRemoved($event)"
-      (fieldsReordered)="handleFieldsReordered($event)"
-      [fields]="selectedFields$ | async">
-    </pf-left-sidebar-existing-fields>
+  <div class="content" [ngClass]="isOpen ? 'opened' : 'closed'">
+
+    <div class="actions">
+      <pf-add-report-fields
+        (fieldAdded)="handleFieldAdded($event)"
+        [fields]="unselectedFields$ | async">
+      </pf-add-report-fields>
+    </div>
+
+    <div class="fields">
+      <pf-left-sidebar-existing-fields
+        (fieldRemoved)="handleFieldRemoved($event)"
+        (fieldsReordered)="handleFieldsReordered($event)"
+        [fields]="selectedFields$ | async">
+      </pf-left-sidebar-existing-fields>
+    </div>
   </div>
 
 </div>

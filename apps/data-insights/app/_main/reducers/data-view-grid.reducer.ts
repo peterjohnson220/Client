@@ -1,15 +1,17 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { PagingOptions } from 'libs/models/payfactors-api';
+import { PagingOptions, DataViewSortDescriptor } from 'libs/models/payfactors-api';
 
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
+import { PayfactorsApiModelMapper } from '../helpers';
 
 export interface State {
   dataAsync: AsyncStateObj<any[]>;
   loadingMoreData: boolean;
   pagingOptions: PagingOptions;
   hasMoreDataOnServer: boolean;
+  sortDescriptor: DataViewSortDescriptor;
 }
 
 const initialState: State = {
@@ -19,7 +21,8 @@ const initialState: State = {
     From: 0,
     Count: 25
   },
-  hasMoreDataOnServer: true
+  hasMoreDataOnServer: true,
+  sortDescriptor: null
 };
 
 export function reducer(state = initialState, action: fromDataViewGridActions.Actions): State {
@@ -76,6 +79,26 @@ export function reducer(state = initialState, action: fromDataViewGridActions.Ac
         hasMoreDataOnServer: (action.payload.length === state.pagingOptions.Count)
       };
     }
+    case fromDataViewGridActions.SORT_FIELD: {
+      let newSortDescriptor: DataViewSortDescriptor = null;
+      const dataViewFields = PayfactorsApiModelMapper.mapFieldsToDataViewFields([action.payload.field]);
+      if (dataViewFields && dataViewFields.length) {
+        newSortDescriptor = {
+          SortField: dataViewFields[0],
+          SortDirection: action.payload.dir
+        };
+      }
+      return {
+        ...state,
+        sortDescriptor: newSortDescriptor
+      };
+    }
+    case fromDataViewGridActions.RESET_SORT_FIELD: {
+      return {
+        ...state,
+        sortDescriptor: null
+      };
+    }
     default: {
       return state;
     }
@@ -86,3 +109,4 @@ export const getReportDataAsync = (state: State) => state.dataAsync;
 export const getPagingOptions = (state: State) => state.pagingOptions;
 export const getLoadingMoreData = (state: State) => state.loadingMoreData;
 export const getHasMoreDataOnServer = (state: State) => state.hasMoreDataOnServer;
+export const getSortDescriptor = (state: State) => state.sortDescriptor;

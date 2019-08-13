@@ -5,6 +5,7 @@ export interface DataViewDataRequest {
   Fields: DataViewField[];
   Filters: DataViewFilter[];
   PagingOptions: PagingOptions;
+  SortDescriptor?: DataViewSortDescriptor;
 }
 
 export interface DataViewField {
@@ -36,4 +37,9 @@ export enum DataViewFieldDataType {
   String,
   Binary,
   Unknown
+}
+
+export interface DataViewSortDescriptor {
+  SortDirection: string;
+  SortField: DataViewField;
 }
