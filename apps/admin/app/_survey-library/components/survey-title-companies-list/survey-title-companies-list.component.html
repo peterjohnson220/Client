@@ -1,0 +1,26 @@
+<table class="table">
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">Company Name</th>
+    <th scope="col">Custom Survey Name</th>
+    <th scope="col">Effective Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let surveyTitleCompany of SurveyTitleCompanies">
+    <td>
+      {{surveyTitleCompany.CompanyName}}
+    </td>
+    <td>
+      <pf-custom-survey-title
+        class="d-flex justify-content-between pr-5"
+        [SurveyTitleCompany]="surveyTitleCompany"
+        [SurveyTitleId]="SurveyTitleId"></pf-custom-survey-title>
+    </td>
+    <td>
+      {{surveyTitleCompany.SurveyYear | date:'M/d/yyyy'}}
+    </td>
+  </tr>
+  </tbody>
+</table>
+

@@ -1,0 +1,11 @@
+<a href="/marketdata/admin/surveys.asp?surveyyear_id={{SurveyTitleCompany.SurveyYearId}}" *ngIf="labelOnly">{{SurveyTitleCompany.CustomSurveyName ? SurveyTitleCompany.CustomSurveyName : '-'}} </a>
+<fa-icon (click)="switchView()" *ngIf="labelOnly" icon="pencil"></fa-icon>
+<input #surveyTitleInput
+       (blur)="saveCustomSurveyTitle()"
+       (pf-afterIf)="focus()"
+       *ngIf="!labelOnly"
+       [(ngModel)]="newSurveyTitle"
+       class="form-control col-7"
+       type="text">
+
+

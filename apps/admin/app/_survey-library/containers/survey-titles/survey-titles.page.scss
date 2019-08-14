@@ -4,7 +4,7 @@
   color:#000000;
 }
 
-.button{
+.button {
   border: 1px solid #1F2F3D;
   margin-left: 10px;
   margin-right: 10px;
@@ -14,12 +14,17 @@
   cursor: pointer;
 }
 
-a {
-  color: #000000;
-}
-
 #survey-titles-table{
   min-width: 1100px;
   margin: 0 auto;
+}
 
+fa-icon {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.expand-collapse-btn{
+  width: 15px;
+  height: 15px;
 }

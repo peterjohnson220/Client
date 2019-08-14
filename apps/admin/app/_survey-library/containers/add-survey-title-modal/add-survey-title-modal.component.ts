@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { SurveyLibraryStateService } from '../../services/survey-library-state.service';
-import { SurveyLibraryApiService } from '../../../../../../libs/data/payfactors-api/survey-library';
 import { FormBuilder, FormGroup } from '@angular/forms';
+
+import { SurveyLibraryStateService } from '../../services/survey-library-state.service';
+import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 
 @Component({
   selector: 'pf-add-survey-title-modal',

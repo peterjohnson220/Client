@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models';
-import { Store } from '@ngrx/store';
+
 import { SurveyLibraryStateService } from '../../services/survey-library-state.service';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { SurveyTitleResponseModel } from '../../models';
 
 @Component({
   selector: 'pf-survey-titles-page',
@@ -22,10 +24,12 @@ export class SurveyTitlesPageComponent implements OnInit {
   public publisher: string;
   public systemUserGroupsId: number;
   private filterModelChanged: Subject<string> = new Subject<string>();
-  public surveyTitles: any;
+  public surveyTitles: SurveyTitleResponseModel[];
   public readonly publisherId: number;
   private userContext$: Observable<UserContext>;
   private surveyTitleModalOpen$: BehaviorSubject<boolean>;
+  isCollapsed: boolean;
+  isPageLoading: boolean;
 
   constructor(private activeRoute: ActivatedRoute,
               private surveyLibraryApiService: SurveyLibraryApiService,
@@ -34,6 +38,8 @@ export class SurveyTitlesPageComponent implements OnInit {
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.surveyTitleModalOpen$ = new BehaviorSubject<boolean>(false);
     this.publisherId = activeRoute.snapshot.params.id;
+    this.isCollapsed = true;
+    this.isPageLoading = false;
 
     this.filterModelChanged.pipe(
       debounceTime(800),
@@ -49,9 +55,11 @@ export class SurveyTitlesPageComponent implements OnInit {
   }
 
   getSurveyTitles(publisherId: number, filter: string): void {
+    this.isPageLoading = true;
     this.surveyLibraryApiService.getSurveyTitlesByPublisherId(publisherId, filter).subscribe(value => {
       this.surveyTitles = value;
       this.publisher = this.surveyTitles[0].PublisherName;
+      this.isPageLoading = false;
     });
   }
 
@@ -61,5 +69,9 @@ export class SurveyTitlesPageComponent implements OnInit {
 
   openModal() {
     this.state.setAddSurveyTitleModalOpen(true);
+  }
+
+  returnToPublishers() {
+    document.location.href = '/marketdata/admin/surveypublishers.asp';
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
+import { SaveCustomCompanySurveyTitleRequestModel } from '../../../models/payfactors-api/survey-library/request';
 
 @Injectable()
 export class SurveyLibraryApiService {
@@ -36,7 +37,15 @@ export class SurveyLibraryApiService {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/GetSurveyTitlesByPublisherId/${publisherId}`, {params: params});
   }
 
+  getSurveyTitleCompanies(surveyTitleId: number): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetSurveyTitleCompanies/${surveyTitleId}`);
+  }
+
   saveSurveyTitle(request: any) {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveSurveyTitle`, request);
+  }
+
+  saveCustomCompanySurveyTitle(surveyTitleId: number, request: SaveCustomCompanySurveyTitleRequestModel) {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveCustomCompanySurveyTitle/${surveyTitleId}`, request);
   }
 }
