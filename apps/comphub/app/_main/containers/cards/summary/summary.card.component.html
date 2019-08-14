@@ -203,7 +203,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-4">
+              <div class="col">
                 <div class="item">
                   <div class="h">Size
                     <ng-container *ngIf="paymarket?.SizeLabel">({{paymarket?.SizeLabel}})</ng-container>
@@ -211,7 +211,17 @@
                   <div class="v">{{paymarket?.Size || '-'}}</div>
                 </div>
               </div>
-              <div class="col-8">
+              <div class="col">
+                <div class="item">
+                  <div class="h">Minimum Wage</div>
+                  <div class="v">{{getPaymarketMinimumWage(
+                    minPaymarketMinimumWage$ | async,
+                    maxPaymarketMinimumWage$ | async,
+                    workflowContext?.activeCountryDataSet?.CurrencyCode
+                  )}}</div>
+                </div>
+              </div>
+              <div class="col">
                 <div class="item">
                   <div class="h">Market</div>
                   <div class="v">{{paymarket?.PayMarketName}}</div>
