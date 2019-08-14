@@ -166,11 +166,25 @@ export class DataViewEffects {
   );
 
   @Effect()
-  removeSelectedField$ = this.action$
+  fieldsChanged$ = this.action$
     .pipe(
-      ofType(fromDataViewActions.REMOVE_SELECTED_FIELD),
+      ofType(
+        fromDataViewActions.REMOVE_SELECTED_FIELD,
+        fromDataViewActions.REORDER_FIELDS,
+        fromDataViewActions.ADD_SELECTED_FIELD),
       map(() => {
         return new fromDataViewActions.SaveReportFields();
+      })
+    );
+
+  @Effect()
+  selectedDataChanged$ = this.action$
+    .pipe(
+      ofType(
+        fromDataViewActions.ADD_SELECTED_FIELD,
+        fromDataViewActions.REMOVE_SELECTED_FIELD),
+      map(() => {
+        return new fromDataViewGridActions.GetData();
       })
     );
 
@@ -207,15 +221,6 @@ export class DataViewEffects {
           );
       })
     );
-
-  @Effect()
-  reorderFields$ = this.action$
-  .pipe(
-    ofType(fromDataViewActions.REORDER_FIELDS),
-    map(() => {
-      return new fromDataViewActions.SaveReportFields();
-    })
-  );
 
   @Effect()
   deleteUserReport$ = this.action$

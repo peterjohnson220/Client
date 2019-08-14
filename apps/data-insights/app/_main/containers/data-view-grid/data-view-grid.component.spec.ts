@@ -6,7 +6,6 @@ import { combineReducers, StoreModule, Store } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { DataViewGridComponent } from './data-view-grid.component';
