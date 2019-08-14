@@ -11,6 +11,7 @@ export interface UserTicketGridItem {
   Description: string;
   TicketCssClass: string;
   OpenedUserFullName: string;
+  OpenedUserId: number;
 }
 
 export function generateMockUserTicketGridItem(): UserTicketGridItem {
@@ -26,6 +27,7 @@ export function generateMockUserTicketGridItem(): UserTicketGridItem {
     Comments: 'MockComments',
     Description: 'MockDescription',
     TicketCssClass: 'MockTicketCssClass',
-    OpenedUserFullName: 'MockOpenedUserFullName'
+    OpenedUserFullName: 'MockOpenedUserFullName',
+    OpenedUserId: 1
   };
 }

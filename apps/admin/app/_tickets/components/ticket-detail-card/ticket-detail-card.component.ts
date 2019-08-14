@@ -1,7 +1,10 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import { TicketDetail } from '../../models';
 
+import * as fromTicketReducer from '../../reducers';
+import * as fromTicketSharedActions from '../../actions/ticket-shared.actions';
 
 @Component({
   selector: 'pf-ticket-detail-card',
@@ -11,5 +14,10 @@ import { TicketDetail } from '../../models';
 export class TicketDetailCardComponent {
   @Input() ticketDetail: TicketDetail;
 
-  constructor() {}
+  constructor(public store: Store<fromTicketReducer.State>) { }
+
+  openDetailsModal() {
+    this.store.dispatch(new fromTicketSharedActions.UserDetailOpen(true));
+    this.store.dispatch(new fromTicketSharedActions.GetUserDetail(this.ticketDetail.OpenedByUserId, this.ticketDetail.TicketId));
+  }
 }

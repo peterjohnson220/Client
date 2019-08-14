@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -29,8 +29,8 @@ describe('Admin - Tickets - Ticket List', () => {
           ticketsAdminMain: combineReducers(fromTicketReducer.reducers),
         })
       ],
-      declarations: [ TicketListComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      declarations: [TicketListComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(TicketListComponent);
@@ -48,11 +48,11 @@ describe('Admin - Tickets - Ticket List', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it(  'should dispatch an OpenTicket action when handleCellClick is triggered', () => {
+  it('should dispatch an OpenTicket action when handleCellClick is triggered', () => {
     spyOn(store, 'dispatch');
 
     const userTicketGridItem: UserTicketGridItem = mockUserTicketGridItem;
-    const mockUserTicketTabItem: UserTicketTabItem = {UserTicketId: userTicketGridItem.Id, Title: userTicketGridItem.Description};
+    const mockUserTicketTabItem: UserTicketTabItem = { UserTicketId: userTicketGridItem.Id, Title: userTicketGridItem.Description };
     const expectedAction = new fromTicketList.OpenTicket(mockUserTicketTabItem);
 
     instance.handleCellClick(userTicketGridItem);

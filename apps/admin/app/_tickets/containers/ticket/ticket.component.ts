@@ -3,10 +3,10 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { PayfactorsApiModelMapper } from '../../helpers';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
-import { PfServicesRep, UserTicketItem, UserTicketState, UserTicketType } from '../../models';
+
+import { UserTicketItem } from '../../models';
 
 @Component({
   selector: 'pf-ticket',

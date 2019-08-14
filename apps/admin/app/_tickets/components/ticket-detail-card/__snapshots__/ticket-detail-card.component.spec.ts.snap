@@ -2,6 +2,7 @@
 
 exports[`Admin - Tickets - Ticket Detail Card Should display details about a ticket 1`] = `
 <pf-ticket-detail-card
+  store={[Function Store]}
   ticketDetail={[Function Object]}
 >
   <div
@@ -12,10 +13,11 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
       class="row"
     >
       <div
-        class="col-sm-5"
+        class="col-sm-5 action-item"
       >
         <div
-          class="detail-label"
+          class="
+           detail-label"
         >
           Opened By
         </div>

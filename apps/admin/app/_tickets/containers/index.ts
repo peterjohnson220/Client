@@ -10,3 +10,4 @@ export * from './filters';
 export * from './ticket-comments-detail';
 export * from './ticket-comment';
 export * from './ticket-value-picker';
+export * from './client-detail-modal';

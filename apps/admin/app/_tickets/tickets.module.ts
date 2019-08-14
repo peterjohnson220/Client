@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
@@ -24,7 +25,7 @@ import { TicketDetailCardComponent } from './components';
 import {
   AttachmentDeleteModalComponent, AttachmentDetailCardComponent, CompanyDetailCardComponent, TicketComponent, TicketFieldsComponent,
   TicketListComponent, TicketListPageComponent, AttachmentUploadComponent, TicketListFilterComponent,
-  TicketCommentsDetailComponent,
+  TicketCommentsDetailComponent, ClientDetailModalComponent,
   TicketCommentComponent, TicketValuePickerComponent, TicketListDateRangeFilterComponent
 } from './containers';
 import { TicketAttachmentEffects, TicketEffects, TicketListEffects, TicketLookupEffects } from './effects';
@@ -33,6 +34,7 @@ import { TicketsRoutingModule } from './tickets-routing.module';
 import { GetUploadProgressCssClassPipe, GetFileValidationErrorMessagePipe } from './pipes';
 import * as fromFaIcons from './fa-icons';
 import { AfterIfDirective } from './directives/after-if.directive';
+import { TicketSharedEffects } from './effects/ticket-shared.effects';
 
 @NgModule({
   imports: [
@@ -45,7 +47,8 @@ import { AfterIfDirective } from './directives/after-if.directive';
       TicketEffects,
       TicketListEffects,
       TicketLookupEffects,
-      TicketAttachmentEffects
+      TicketAttachmentEffects,
+      TicketSharedEffects
     ]),
     GridModule,
     SharedModule,
@@ -53,6 +56,7 @@ import { AfterIfDirective } from './directives/after-if.directive';
     LayoutModule,
     ComboBoxModule,
     NgbTabsetModule,
+    NgbTooltipModule,
     UploadModule,
     RowFilterModule,
     FontAwesomeModule,
@@ -90,6 +94,7 @@ import { AfterIfDirective } from './directives/after-if.directive';
     TicketCommentComponent,
     TicketValuePickerComponent,
     TicketListDateRangeFilterComponent,
+    ClientDetailModalComponent,
 
     // Pages
     TicketListPageComponent

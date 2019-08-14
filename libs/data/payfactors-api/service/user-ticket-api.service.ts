@@ -69,4 +69,9 @@ export class UserTicketApiService {
     return this.payfactorsApiService.postWithHeader(`${this.endpoint}/UpdateComment/${request.UserTicketsCommentId}`,
       JSON.stringify(request.Comments), this.headers);
   }
+
+  getUserDetail(userId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDetail/${userId}`);
+  }
+
 }

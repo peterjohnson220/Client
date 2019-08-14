@@ -9,6 +9,7 @@ export interface TicketDetail {
   EditDate: Date;
   CreateDate: Date;
   OpenedBy: string;
+  OpenedByUserId: number;
   UserTicketType: UserTicketType;
   TicketState: string;
   LastUpdatedText: string;
@@ -26,6 +27,7 @@ export function generateMockTicketDetail() {
     EditDate: new Date('1/1/1990'),
     CreateDate: new Date('1/1/1990'),
     OpenedBy: 'MockOpenedByUser',
+    OpenedByUserId: 1,
     TicketTypeDisplayName: 'MockTicketType - MockTicketSubType',
     TicketType: 'MockTicketType',
     TicketSubType: 'MockTicketSubType',

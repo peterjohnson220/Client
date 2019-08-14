@@ -17,17 +17,16 @@ import { SearchRequestFilterMapper, PickerHelper } from '../../helpers';
 import { TicketListFilterComponent } from '../filters/ticket-list-filter';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
+import * as fromTicketSharedActions from '../../actions/ticket-shared.actions';
 import * as fromTicketReducer from '../../reducers';
-import { PayfactorsApiModelMapper } from '../../helpers';
 
-import { PfServicesRep, UserTicketGridItem, UserTicketState, UserTicketTabItem, UserTicketType } from '../../models';
+import { PfServicesRep, UserTicketState, UserTicketTabItem, UserTicketType } from '../../models';
 
 
 @Component({
   selector: 'pf-ticket-list',
   templateUrl: './ticket-list.component.html',
-  styleUrls: ['./ticket-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ticket-list.component.scss']
 })
 export class TicketListComponent implements OnInit, OnDestroy {
   @ViewChild('serviceUserFilter', { static: false }) serviceUserFilterComponent: TicketListFilterComponent;
@@ -86,6 +85,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject();
 
   isDirty = false;
+  selectedUserId: number;
 
   constructor(private store: Store<fromTicketReducer.State>,
     private rootStore: Store<fromRootState.State>) {
@@ -224,5 +224,11 @@ export class TicketListComponent implements OnInit, OnDestroy {
 
   getSelectedServiceUser(value: string): PfServicesRep {
     return this.pfServiceReps.find(f => f.Name === value);
+  }
+
+  openUserDetail(ticketId: number, OpenedUserId: number) {
+
+    this.store.dispatch(new fromTicketSharedActions.UserDetailOpen(true));
+    this.store.dispatch(new fromTicketSharedActions.GetUserDetail(OpenedUserId, ticketId));
   }
 }
