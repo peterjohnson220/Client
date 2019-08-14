@@ -26,12 +26,14 @@ export class ExportDataCutsEffects {
         this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchangeName)),
         this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getExchangeDataCutRequestData)),
         this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections)),
-        (action: fromExportDataCutsActions.ExportDataCuts, exchangeName, filterModel, gridSelections) => {
+        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getPeerFilterScopeSelection)),
+        (action: fromExportDataCutsActions.ExportDataCuts, exchangeName, filterModel, gridSelections, scopeSelection) => {
           return {
             ExchangeName: exchangeName,
             ExchangeJobToCompanyJobIds: gridSelections,
             FilterModel: filterModel,
-            SelectedRate: action.payload.selectedRate
+            SelectedRate: action.payload.selectedRate,
+            SelectedExchangeScopeGuid: scopeSelection ? scopeSelection.Id : null
           };
       }),
       switchMap((payload: ExchangeDataCutsExportRequest) => {
