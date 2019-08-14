@@ -1,7 +1,7 @@
 <div class="fields-container ml-2 mr-2" dragula="fields-bag" [(dragulaModel)]="fields">
 
   <div *ngFor="let field of fields; trackBy: trackByFn;" class="d-flex justify-content-between data-list-item">
-    <span title="{{field.SourceName}}" class="field-text">{{field.SourceName}}</span>
+    <span title="{{field.SourceName}}" class="field-text">{{field.DisplayName}}</span>
     <div class="d-flex right-container">
       <span class="field-text" title="{{field.Entity | uppercase}}">{{field.Entity | uppercase}}</span>
       <div *ngIf="fields.length > 1" class="delete-btn d-flex flex-row-reverse" (click)="handleFieldRemoved(field)" data-qa-id='btn-deleteElement'>
