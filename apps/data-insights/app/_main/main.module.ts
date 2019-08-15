@@ -18,7 +18,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent,
-  LeftSidebarExistingFieldsComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent } from './components';
+  ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent, } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects } from './effects';
@@ -61,11 +61,11 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
-    SearchWorkbookModalComponent, DataViewGridComponent,
+    SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent,
 
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
-    StandardReportHexagonComponent, SaveUserWorkbookModalComponent, LeftSidebarComponent, LeftSidebarExistingFieldsComponent,
+    StandardReportHexagonComponent, SaveUserWorkbookModalComponent, ReportFieldComponent,
     DeleteUserWorkbookModalComponent, AddReportFieldsComponent
   ],
   providers: [

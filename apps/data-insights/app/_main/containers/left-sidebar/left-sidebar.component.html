@@ -17,13 +17,16 @@
       </pf-add-report-fields>
     </div>
 
-    <div class="fields">
-      <pf-left-sidebar-existing-fields
-        (fieldRemoved)="handleFieldRemoved($event)"
-        (fieldsReordered)="handleFieldsReordered($event)"
-        [fields]="selectedFields$ | async">
-      </pf-left-sidebar-existing-fields>
+    <div *ngIf="selectedFields" class="fields-container">
+      <div perfectScrollbar class="fields" dragula="fields-bag" [(dragulaModel)]="selectedFields">
+        <pf-report-field *ngFor="let field of selectedFields; trackBy: trackByFn;"
+          [field]="field"
+          [removable]="selectedFields.length > 1"
+          (fieldRemoved)="handleFieldRemoved($event)">
+        </pf-report-field>
+      </div>
     </div>
+
   </div>
 
 </div>

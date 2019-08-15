@@ -1,0 +1,9 @@
+<div *ngIf="field" class="d-flex justify-content-between field-container">
+  <span title="{{field.SourceName}}" class="field-text">{{field.DisplayName}}</span>
+  <div class="d-flex right-container">
+    <span class="field-text" title="{{field.Entity | uppercase}}">{{field.Entity | uppercase}}</span>
+    <div *ngIf="removable" class="delete-btn d-flex flex-row-reverse" (click)="handleFieldRemoved()" data-qa-id='btn-deleteElement'>
+      <fa-icon icon="times"></fa-icon>
+    </div>
+  </div>
+</div>

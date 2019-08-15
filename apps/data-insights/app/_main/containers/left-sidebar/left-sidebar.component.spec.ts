@@ -2,6 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -23,6 +24,7 @@ describe('Data-Insights LeftSidebarComponent', () => {
           ...fromRootState.reducers,
           dataInsights_main: combineReducers(fromDataInsightsMainReducer.reducers)
         }),
+        DragulaModule.forRoot()
       ],
       declarations: [ LeftSidebarComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
