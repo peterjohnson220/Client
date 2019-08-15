@@ -50,21 +50,19 @@ describe('CommunityNewPostComponent', () => {
 
     fixture = TestBed.createComponent(CommunityNewPostComponent);
     instance = fixture.componentInstance;
-  });
 
-  it('should show community start poll', () => {
-    fixture.detectChanges();
-    expect(fixture).toBeTruthy();
+    instance.communityDiscussionForm.get('context').setValue('hello world');
+    instance.communityDiscussionForm.get('topic').setValue('TestTopic');
   });
 
   it('should dispatch SubmittingCommunityPost when calling submit', () => {
-    instance.communityDiscussionForm.get('context').setValue('hello world');
     instance.submit();
 
     const newPost: CommunityAddPost = {
       PostText: 'hello world',
       IsInternalOnly: false,
-      Links: undefined
+      Links: undefined,
+      TopicId: 'TestTopic'
     };
 
      const expectedAction = new fromCommunityPostActions.SubmittingCommunityPost(newPost);
@@ -72,21 +70,55 @@ describe('CommunityNewPostComponent', () => {
   });
   it('it should return true when form is valid', () => {
     // Set required fields
-    instance.communityDiscussionForm.controls['context'].setValue('this is the context');
     instance.communityDiscussionForm.controls['isInternalOnly'].setValue(false);
 
     const value = instance.isFormValid;
     expect(value).toBeTruthy();
 
   });
-  it('form invalid when empty', () => {
+  it('form invalid when context is empty', () => {
+    instance.communityDiscussionForm.get('context').setValue('hello world');
+    instance.communityDiscussionForm.get('topic').setValue('');
     expect(instance.communityDiscussionForm.valid).toBeFalsy();
   });
+  it('form invalid when topic is empty', () => {
+    instance.communityDiscussionForm.get('context').setValue('');
+    instance.communityDiscussionForm.get('topic').setValue('TestTopic');
+    expect(instance.communityDiscussionForm.valid).toBeFalsy();
+  });
+  it('form valid when context and topic are not empty', () => {
+    instance.communityDiscussionForm.get('context').setValue('hello world');
+    instance.communityDiscussionForm.get('topic').setValue('TestTopic');
+    expect(instance.communityDiscussionForm.valid).toBeTruthy();
+  });
+
   it('submitting invalid form does not submit post', () => {
+    instance.communityDiscussionForm.get('context').setValue('hello world');
+    instance.communityDiscussionForm.get('topic').setValue('');
     expect(instance.communityDiscussionForm.valid).toBeFalsy();
 
     instance.submit();
 
     expect(store.dispatch).toBeCalledTimes(0);
+  });
+
+  it('submitting invalid form does not submit post', () => {
+    instance.communityDiscussionForm.get('context').setValue('');
+    instance.communityDiscussionForm.get('topic').setValue('TestTopic');
+    expect(instance.communityDiscussionForm.valid).toBeFalsy();
+
+    instance.submit();
+
+    expect(store.dispatch).toBeCalledTimes(0);
+  });
+
+  it('submitting valid form submits post', () => {
+    instance.communityDiscussionForm.get('context').setValue('hello world');
+    instance.communityDiscussionForm.get('topic').setValue('TestTopic');
+    expect(instance.communityDiscussionForm.valid).toBeTruthy();
+
+    instance.submit();
+
+    expect(store.dispatch).toBeCalledTimes(1);
   });
 });
