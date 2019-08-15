@@ -15,7 +15,8 @@ export enum CompanySettingsEnum {
   PasswordHistoryEnabled = 'PasswordHistoryEnabled',
   PasswordExpirationDays = 'PasswordExpirationDays',
   PasswordHistoryNumber = 'PasswordHistoryNumber',
-  DataInsightsReportBuilder = 'DataInsightsReportBuilder'
+  DataInsightsReportBuilder = 'DataInsightsReportBuilder',
+  PeerExchangeExplorerEnabled = 'PeerExchangeExplorerEnabled'
 }
 
 export interface CompanySetting {
