@@ -33,7 +33,6 @@ import { reducers } from './reducers';
 import { TicketsRoutingModule } from './tickets-routing.module';
 import { GetUploadProgressCssClassPipe, GetFileValidationErrorMessagePipe } from './pipes';
 import * as fromFaIcons from './fa-icons';
-import { AfterIfDirective } from './directives/after-if.directive';
 import { TicketSharedEffects } from './effects/ticket-shared.effects';
 
 @NgModule({
@@ -74,9 +73,6 @@ import { TicketSharedEffects } from './effects/ticket-shared.effects';
     // Pipes
     GetUploadProgressCssClassPipe,
     GetFileValidationErrorMessagePipe,
-
-    // Directives
-    AfterIfDirective,
 
     // Components
     AttachmentDetailCardComponent,

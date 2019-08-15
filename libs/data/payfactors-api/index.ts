@@ -19,3 +19,4 @@ export * from './comphub';
 export * from './tags';
 export * from './surveys';
 export * from './reports';
+export * from './survey-library';

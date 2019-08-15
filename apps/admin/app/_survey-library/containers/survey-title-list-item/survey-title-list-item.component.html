@@ -1,0 +1,14 @@
+<pf-expand-collapse-icon (click)="toggleCollapse()"></pf-expand-collapse-icon>
+
+<a
+  href="/marketdata/admin/surveyyears.asp?surveytitle_id={{SurveyTitle.SurveyTitleId}}">{{SurveyTitle.SurveyName}}</a>
+<div [ngbCollapse]="isCollapsed" id="survey{{SurveyTitle.SurveyTitleId}}">
+  <div class="card card-body">
+    <pf-async-container
+      [loading]="isLoading">
+      <pf-survey-title-companies-list
+        [SurveyTitleCompanies]="surveyTitleCompanies"
+        [SurveyTitleId]="SurveyTitle.SurveyTitleId"></pf-survey-title-companies-list>
+    </pf-async-container>
+  </div>
+</div>
