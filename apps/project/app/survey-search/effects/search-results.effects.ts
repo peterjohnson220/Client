@@ -106,8 +106,8 @@ export class SearchResultsEffects {
   );
 
   @Effect()
-  getResultsSuccess$ = this.surveySearchEffectsService.loadPricingMatches(
-    this.actions$.pipe(ofType(fromSearchResultsActions.GET_RESULTS_SUCCESS))
+  replaceJobResults$ = this.surveySearchEffectsService.loadPricingMatches(
+    this.actions$.pipe(ofType(fromSurveySearchResultsActions.REPLACE_JOB_RESULTS))
   );
 
   @Effect()
