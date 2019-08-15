@@ -1,0 +1,34 @@
+@import 'colors';
+@import 'common/common-variables';
+@import 'data-insights-variables';
+
+.field-container {
+  padding: 0.8rem;
+  margin-top: 1rem;
+  font-size: 13px;
+  border-bottom: solid 1px $grid-border-color;
+  background-color: #ffffff;
+
+  &:hover{
+    cursor: move;
+  }
+}
+
+.field-text {
+  width: 150px;
+  @extend %ellipsis-overflowing-text;
+}
+
+.right-container {
+  color: $dark-grey;
+
+  span {
+    text-align: right;
+  }
+
+  .delete-btn {
+    width: 20px;
+    cursor: pointer;
+  }
+
+}

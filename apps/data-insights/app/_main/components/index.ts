@@ -5,6 +5,6 @@ export * from './search-workbook-result';
 export * from './workbook-views';
 export * from './standard-report-hexagon';
 export * from './save-user-workbook-modal';
-export * from './left-sidebar-existing-fields';
+export * from './report-field';
 export * from './delete-user-workbook-modal';
 export * from './add-report-fields';
