@@ -9,7 +9,7 @@ import * as fromRootState from 'libs/state/state';
 import {generateMockFilterAggregateGroup, generateMockPayMarket} from 'libs/models';
 
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
-import * as fromFeaturePeerMapReducer from '../../../map/reducers';
+import * as fromFeaturePeerMapReducer from '../../reducers';
 import { generateMockAggregateSelectionInfo } from '../../models';
 import { FilterSidebarComponent } from './filter-sidebar.component';
 

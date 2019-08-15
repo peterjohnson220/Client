@@ -6,22 +6,21 @@ import { NavigationApiService } from './navigation';
 import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './settings';
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
-import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService,
+import { ExchangeApiService, ExchangeCompanyApiService,
          ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
 import { CompanySecurityApiService } from './security';
-import { SurveySearchApiService, JobSearchApiService } from './search';
+import { SurveySearchApiService, JobSearchApiService, ExchangeDataSearchApiService } from './search';
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
-import { LoaderFieldMappingsApiService } from './data-loads/index';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobApiService } from './company';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
 import { RolesApiService } from './company-admin';
-import {DataLoadEmailRecipientsApiService, LoaderSettingsApiService} from './data-loads';
+import { LoaderFieldMappingsApiService, DataLoadEmailRecipientsApiService, LoaderSettingsApiService } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
 import { ComphubApiService } from './comphub';

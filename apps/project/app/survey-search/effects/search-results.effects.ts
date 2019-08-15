@@ -16,7 +16,6 @@ import { SurveySearchEffectsService } from '../services';
 import * as fromSurveySearchReducer from '../reducers';
 import { PayfactorsSurveySearchApiModelMapper } from '../helpers';
 
-
 @Injectable()
 export class SearchResultsEffects {
 

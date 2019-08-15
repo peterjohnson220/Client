@@ -20,6 +20,12 @@ export interface BaseSearchRequest {
   Filters: SearchFilter[];
 }
 
+export interface BaseSearchAggregationsRequest {
+  SearchField: string;
+  TextQuery: string;
+  AggregateCount?: number;
+}
+
 export interface BaseProjectSearchRequest extends BaseSearchRequest {
   CountryCode?: string;
   ProjectId: number;

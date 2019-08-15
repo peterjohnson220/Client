@@ -10,7 +10,7 @@ import { generateMockFilterAggregateGroup,  generateMockFilterAggregateItem, gen
 import * as fromRootState from 'libs/state/state';
 import { FilterSidebarHelper } from 'libs/features/peer/map/helpers';
 
-import * as fromFeaturePeerMapReducer from '../../../map/reducers';
+import * as fromFeaturePeerMapReducer from '../../reducers';
 import { AggregateSelectionInfo } from '../../models';
 import { FilterAggregateGroupComponent } from './filter-aggregate-group.component';
 

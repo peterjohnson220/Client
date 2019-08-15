@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ExchangeMapPageComponent } from './containers/pages';
+import {ExchangeMapNewPageComponent, ExchangeMapPageComponent} from './containers/pages';
 
 const routes: Routes = [
-  { path: '', component: ExchangeMapPageComponent }
+  { path: '', component: ExchangeMapPageComponent },
+  { path: 'new', component: ExchangeMapNewPageComponent }
 ];
 
 @NgModule({

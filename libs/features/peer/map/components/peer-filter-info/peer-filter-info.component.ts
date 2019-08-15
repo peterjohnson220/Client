@@ -10,6 +10,7 @@ export class PeerFilterInfoComponent {
   @Input() orgCount: number;
   @Input() incCount: number;
   @Input() hasSelections: boolean;
+  @Input() showResetLink = true;
   @Output() resetAllFiltersClicked = new EventEmitter();
 
   constructor() { }

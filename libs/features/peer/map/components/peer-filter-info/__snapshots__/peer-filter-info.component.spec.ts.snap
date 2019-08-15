@@ -3,6 +3,7 @@
 exports[`Feature - Peer - Pay Market Filter Info Component should provide correct values to the pf-peer-filter-info component 1`] = `
 <pf-peer-filter-info
   resetAllFiltersClicked={[Function EventEmitter]}
+  showResetLink={[Function Boolean]}
 >
   <div
     class="filter-info"
@@ -27,6 +28,7 @@ exports[`Feature - Peer - Pay Market Filter Info Component should provide correc
         
       </span>
     </label>
+    
     <div
       class="reset-link filters-link disabled"
     >
