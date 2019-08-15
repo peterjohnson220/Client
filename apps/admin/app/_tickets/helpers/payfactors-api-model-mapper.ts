@@ -40,7 +40,8 @@ export class PayfactorsApiModelMapper {
         Comments: this.squashComments(ut.UserTicketComments),
         Description: ut.UserTicket,
         TicketCssClass: ut.TicketCssClass,
-        OpenedUserFullName: ut.OpenedUserFullName
+        OpenedUserFullName: ut.OpenedUserFullName,
+        OpenedUserId: ut.OpenedUserId
       };
     });
   }
@@ -56,6 +57,7 @@ export class PayfactorsApiModelMapper {
         EditDate: response.EditDate,
         CreateDate: response.CreateDate,
         OpenedBy: response.OpenedUserEmail,
+        OpenedByUserId: response.OpenedUserId,
         TicketState: response.UserTicketState,
         LastUpdatedText: response.LastUpdatedText,
         Description: response.UserTicket,

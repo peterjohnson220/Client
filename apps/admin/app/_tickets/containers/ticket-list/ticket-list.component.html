@@ -128,7 +128,8 @@
       </ng-template>
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div [innerHTML]="dataItem.OpenedUserFullName"></div>
+        <div class="action-item"
+             (click)="openUserDetail(dataItem.Id, dataItem.OpenedUserId)">{{dataItem.OpenedUserFullName}}</div>
       </ng-template>
     </kendo-grid-column>
 

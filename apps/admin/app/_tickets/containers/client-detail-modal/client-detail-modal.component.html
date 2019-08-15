@@ -1,0 +1,41 @@
+<span>
+  <pf-modal-form [title]="'User Detail'"
+                 size=""
+                 [showFooter]="false"
+                 [isOpen$]="isUserDetailOpen$"
+                 (onDismiss)="onDismiss()"
+                 onblur="onDismiss()">
+    <ng-container basic-content>
+      <pf-async-container [loading]="isLoading$ | async"
+                          [loadingError]="hasLoadError$ | async">
+        <div>
+          <div class="row "
+               *ngIf="userInfo">
+            <div class="col-sm-auto">
+              User Name:<br />
+              Job Title:<br />
+              Phone Number:<br />
+              Email:<br />
+            </div>
+            <div class="col-sm-auto">
+              {{userInfo.FirstName}} {{userInfo.LastName}} <br />
+              {{userInfo.JobTitle}}<br />
+              {{userInfo.PhoneNumber}}<br />
+              <a
+                 href="mailto:{{userInfo.EmailAddress}}?Subject=Payfactors%20Support%20Ticket%20#{{ticketId}}">{{userInfo.EmailAddress}}</a><br />
+            </div>
+            <div class="col-sm-auto"> <a class="pl-3 float-right"
+                 [ngbTooltip]="tipContent"
+                 (click)="$event.stopPropagation()"
+                 href="../../marketdata/default.asp?user_id={{userInfo.UserId}}&impersonate=yes">
+                <fa-icon icon="user"></fa-icon>
+              </a></div>
+          </div>
+        </div>
+      </pf-async-container>
+    </ng-container>
+    <ng-template #tipContent>
+      Impersonate User
+    </ng-template>
+  </pf-modal-form>
+</span>
