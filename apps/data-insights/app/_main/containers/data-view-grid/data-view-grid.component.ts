@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { AsyncStateObj } from 'libs/models/state';
 
@@ -23,9 +23,15 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
 
   loadingMoreDataSub: Subscription;
   hasMoreDataOnServerSub: Subscription;
+  fieldsSub: Subscription;
 
   loadingMoreData: boolean;
   hasMoreDataOnServer: boolean;
+  fields: Field[];
+  sortableConfig = {
+    allowUnsort: false,
+    mode: 'single'
+  };
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
@@ -39,11 +45,13 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadingMoreDataSub = this.loadingMoreData$.subscribe(loading => this.loadingMoreData = loading);
     this.hasMoreDataOnServerSub = this.hasMoreDataOnServer$.subscribe(result => this.hasMoreDataOnServer = result);
+    this.fieldsSub = this.fields$.subscribe(results => this.fields = results);
   }
 
   ngOnDestroy(): void {
     this.loadingMoreDataSub.unsubscribe();
     this.hasMoreDataOnServerSub.unsubscribe();
+    this.fieldsSub.unsubscribe();
   }
 
   trackByFn(index: any, field: Field) {
@@ -54,5 +62,19 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     if (!this.loadingMoreData && this.hasMoreDataOnServer) {
       this.store.dispatch(new fromDataViewGridActions.GetMoreData());
     }
+  }
+
+  handleSortChange(sortDesc: SortDescriptor[]): void {
+    if (!sortDesc.length) {
+      return;
+    }
+    const selectedField = this.fields.find(x => x.KendoGridField === sortDesc[0].field);
+    if (!selectedField) {
+      return;
+    }
+    this.store.dispatch(new fromDataViewGridActions.SortField({
+      field: selectedField,
+      dir: sortDesc[0].dir
+    }));
   }
 }

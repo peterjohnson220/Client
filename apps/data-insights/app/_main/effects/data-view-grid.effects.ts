@@ -25,10 +25,17 @@ export class DataViewGridEffects {
       this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
       this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields)),
       this.store.pipe(select(fromDataInsightsMainReducer.getPagingOptions)),
-      (action, dataViewAsync, fields, pagingOptions) => ({ action, dataViewAsync, fields, pagingOptions })
+      this.store.pipe(select(fromDataInsightsMainReducer.getSortDescriptor)),
+      (action, dataViewAsync, fields, pagingOptions, sortDescriptor) =>
+        ({ action, dataViewAsync, fields, pagingOptions, sortDescriptor })
     ),
     switchMap((data) => {
-      const request = PayfactorsApiModelMapper.buildDataViewDataRequest(data.dataViewAsync.obj, data.fields, data.pagingOptions);
+      const sortDescriptor = data.sortDescriptor &&
+        data.fields.some(x => x.DataElementId === data.sortDescriptor.SortField.DataElementId)
+        ? data.sortDescriptor
+        : null;
+      const request = PayfactorsApiModelMapper.buildDataViewDataRequest(
+        data.dataViewAsync.obj, data.fields, data.pagingOptions, sortDescriptor);
       return this.dataViewApiService.getData(request)
       .pipe(
         map((response: any[]) => {
@@ -41,6 +48,13 @@ export class DataViewGridEffects {
         catchError(() => of(new fromDataViewGridActions.GetDataError()))
       );
     })
+  );
+
+  @Effect()
+  sortField$ = this.action$
+  .pipe(
+    ofType(fromDataViewGridActions.SORT_FIELD),
+    map(() => new fromDataViewGridActions.GetData())
   );
 
   constructor(

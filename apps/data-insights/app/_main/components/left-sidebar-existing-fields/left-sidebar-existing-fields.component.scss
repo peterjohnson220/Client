@@ -3,15 +3,19 @@
 @import 'data-insights-variables';
 
 .fields-container {
+  background-color: $background-grey;
+  position: relative;
+  max-height: calc(100vh - 298px);
+  padding: 0 1rem 1rem;
 
   .data-list-item {
     padding: 0.8rem;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     font-size: 13px;
     border-bottom: solid 1px $grid-border-color;
+    background-color: #ffffff;
 
     &:hover{
-      background-color: $selection-hover-background;
       cursor: move;
     }
 

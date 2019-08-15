@@ -7,7 +7,8 @@ import {
   UserDataViewResponse,
   DataViewDataRequest,
   DataViewField,
-  PagingOptions
+  PagingOptions,
+  DataViewSortDescriptor
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 
@@ -78,6 +79,7 @@ export class PayfactorsApiModelMapper {
         DataElementId: f.DataElementId,
         SourceName: f.SourceName,
         DisplayName: f.DisplayName,
+        KendoGridField: `${f.EntitySourceName}.${f.SourceName}`,
         DataType: f.DataType,
         IsSelected: f.IsSelected,
         Order: f.Order
@@ -121,13 +123,20 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static buildDataViewDataRequest(dataView: UserDataView, fields: Field[], pagingOptions: PagingOptions): DataViewDataRequest {
+  static buildDataViewDataRequest(
+    dataView: UserDataView,
+    fields: Field[],
+    pagingOptions: PagingOptions,
+    sortDescriptor?: DataViewSortDescriptor): DataViewDataRequest {
+
     return {
       BaseEntityId: dataView.BaseEntityId,
       Fields: PayfactorsApiModelMapper.mapFieldsToDataViewFields(fields),
       Filters: [],
-      PagingOptions: pagingOptions
+      PagingOptions: pagingOptions,
+      SortDescriptor: sortDescriptor
     };
+
   }
 
 }

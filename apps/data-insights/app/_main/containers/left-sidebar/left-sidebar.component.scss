@@ -5,15 +5,15 @@
 $left-sidebar-open-width: 400px;
 
 .left-sidebar-dock {
+  height: 100%;
 
   .header {
-    height: 41px;
-    box-shadow: 0 2px 2px 0 $grid-border-color;
-    border-top: solid 1px $grid-border-color;
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    height: 42px;
+    padding: 0.8rem 1rem 0.5rem 1rem;
+    background-color: #0883BE;
+    color: #fff;
 
     .icon {
-      color: $icon-blue-color;
       cursor: pointer;
     }
 
@@ -25,7 +25,25 @@ $left-sidebar-open-width: 400px;
 
   .content {
     position: relative;
-    max-height: calc(100vh - 241px);
+
+    .actions {
+      border-bottom: solid 1px $grid-border-color;
+    }
+
+    .fields {
+      background-color: $background-grey;
+      height: 100%;
+    }
+
+    &.opened {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    &.closed {
+      display: none;
+    }
   }
 
 }
@@ -45,6 +63,5 @@ $left-sidebar-open-width: 400px;
 .left-sidebar-open {
   width: $left-sidebar-open-width;
   transition: .4s ease-in-out;
-  background-color: white;
   overflow: hidden;
 }

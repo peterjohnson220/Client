@@ -7,6 +7,7 @@ export interface Field {
   DataElementId: number;
   SourceName: string;
   DisplayName: string;
+  KendoGridField?: string;
   DataType?: DataViewFieldDataType;
   IsSelected?: boolean;
   Order?: number;
@@ -28,6 +29,7 @@ export function generateMockField(): Field {
     EntitySourceName: 'CompanyJobs',
     IsSelected: false,
     Order: 1,
-    SourceName: 'Job_Title'
+    SourceName: 'Job_Title',
+    KendoGridField: 'CompanyJobs.Job_Title'
   };
 }
