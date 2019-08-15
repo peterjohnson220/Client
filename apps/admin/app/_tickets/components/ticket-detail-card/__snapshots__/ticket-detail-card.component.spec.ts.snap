@@ -2,7 +2,6 @@
 
 exports[`Admin - Tickets - Ticket Detail Card Should display details about a ticket 1`] = `
 <pf-ticket-detail-card
-  store={[Function Store]}
   ticketDetail={[Function Object]}
 >
   <div
@@ -24,7 +23,11 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
         <div
           class="detail-text mb-2"
         >
-          MockOpenedByUser
+          <a
+            href="mailto:MockOpenedByUser?Subject=Payfactors%20Support%20Ticket%20#1"
+          >
+             MockOpenedByUser
+          </a>
         </div>
       </div>
       <div
