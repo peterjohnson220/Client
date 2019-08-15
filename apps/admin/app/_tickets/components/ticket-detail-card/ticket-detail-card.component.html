@@ -1,11 +1,13 @@
 <div class="pt-3"
      title="Ticket Details">
   <div class="row">
-    <div class="col-sm-5 action-item"
-         (click)="openDetailsModal()">
+    <div class="col-sm-5 action-item">
       <div class="
          detail-label">Opened By</div>
-      <div class="detail-text mb-2">{{ticketDetail.OpenedBy}}</div>
+      <div class="detail-text mb-2">
+        <a href="mailto:{{ticketDetail.OpenedBy}}?Subject=Payfactors%20Support%20Ticket%20#{{ticketDetail.TicketId}}">
+          {{ticketDetail.OpenedBy}}</a>
+      </div>
     </div>
     <div class="col-sm-3">
       <div class="detail-label">Opened</div>
