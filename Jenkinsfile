@@ -13,7 +13,6 @@ octoVerSuffix = ''
 slackCh = 'f-build'
 slackTitle = 'Build'
 
-changeReturn = null
 suffix = null
 
 isPublishable = true
@@ -75,11 +74,16 @@ pipeline {
             currentBuild.description = "Built on: ${env.NODE_NAME}"
             currentBuild.displayName = env.pkgVersion
 
-            changeReturn = getGitChangeLog()
-            changeLogOrig = changeReturn[0]
-            env.changeAuthorList = (changeReturn[1]) ? changeReturn[1] : 'N/A'
+          changeLogOrig = getGitChangeLog()
 
-            changeReturn = null
+          def lastAuthorEmail = sh (
+            script: "git show -s --format='%ae' HEAD",
+            returnStdout: true
+          ).trim()
+
+          env.lastAuthor = lastAuthorEmail.replaceAll('@.*','')
+
+          echo "The last commit was written by ${env.lastAuthor} (${lastAuthorEmail})."
 
             changeLog = changeLogOrig.replaceAll('\\_','\\\\_')
             writeFile file: 'CHANGES', text: changeLog
@@ -113,7 +117,7 @@ pipeline {
       post {
         failure {
           script { 
-            sendSlackFail(env.changeAuthorList)
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
@@ -162,7 +166,7 @@ pipeline {
       post {
         failure {
           script { 
-            sendSlackFail(env.changeAuthorList)
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
@@ -183,7 +187,7 @@ pipeline {
       post {
         failure {
           script { 
-            sendSlackFail(env.changeAuthorList)
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
@@ -204,7 +208,7 @@ pipeline {
       post {
         failure {
           script { 
-            sendSlackFail(env.changeAuthorList)
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
@@ -240,7 +244,7 @@ pipeline {
       post {
         failure {
           script { 
-            sendSlackFail(env.changeAuthorList)
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
@@ -250,13 +254,13 @@ pipeline {
     success {
       script { 
         fullDur = (currentBuild.durationString).replace(' and counting',"")
-        slackSend channel: slackCh, color: 'good', message: "*${slackTitle} Success* \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor(s): ${env.changeAuthorList} \n<${env.buildurl}|Build Log>"
+        slackSend channel: slackCh, color: 'good', message: "*${slackTitle} Success* \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor: ${env.lastAuthor} \n<${env.buildurl}|Build Log>"
       }
     }
     // aborted {
     //   script { 
     //     fullDur = (currentBuild.durationString).replace(' and counting',"")
-    //     slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Aborted* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor(s): ${env.changeAuthorList} \n<${env.buildurl}console|Build Log>"
+    //     slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Aborted* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor: ${env.lastAuthor} \n<${env.buildurl}console|Build Log>"
     //   }
     // }
   }
@@ -266,21 +270,22 @@ pipeline {
 def getGitChangeLog() {
   def gitchangelog = ''
   def changeLogSets = null
-  def changeAuthor = null
+  def lastAuthor = null
   def entries = null
   def entry = null
   def files = null
   def file = null
 
   changeLogSets = currentBuild.changeSets
+  echo "changeLogSets.size(): ${changeLogSets.size()}"
 
   if (changeLogSets != null) {
     for (int i = 0; i < changeLogSets.size(); i++) {
       entries = changeLogSets[i].items
+
       for (int j = 0; j < entries.length; j++) {
         entry = entries[j]
         gitchangelog = gitchangelog + "<b>${entry.commitId}</b> by <b>${entry.author}</b> on ${new Date(entry.timestamp)}:<br/>${entry.msg}<br/>"
-        changeAuthor = (changeAuthor == null) ? entry.author : changeAuthor + ', ' + entry.author 
 
         files = new ArrayList(entry.affectedFiles)
         for (int k = 0; k < files.size(); k++) {
@@ -290,10 +295,10 @@ def getGitChangeLog() {
       }
     }
   }
-  return [gitchangelog, changeAuthor]
+  return gitchangelog
 }
 
-def sendSlackFail(changeAuthorList) { 
+def sendSlackFail(gitAuthor, pkgVersion) { 
   fullDur = (currentBuild.durationString).replace(' and counting',"")
-  slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Failure* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor(s): ${env.changeAuthorList} \n<${env.buildurl}console|Build Log>"
+  slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Failure* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${pkgVersion} \nElapsed: ${fullDur} \nAuthor: ${gitAuthor} \n<${env.buildurl}console|Build Log>"
 }
