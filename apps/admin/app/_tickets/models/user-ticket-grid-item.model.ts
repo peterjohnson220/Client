@@ -1,3 +1,5 @@
+import { TicketAttachment, generateMockTicketAttachments } from './';
+
 export interface UserTicketGridItem {
   Id: number;
   Created?: Date;
@@ -12,6 +14,7 @@ export interface UserTicketGridItem {
   TicketCssClass: string;
   OpenedUserFullName: string;
   OpenedUserId: number;
+  Attachments: TicketAttachment[];
 }
 
 export function generateMockUserTicketGridItem(): UserTicketGridItem {
@@ -28,6 +31,7 @@ export function generateMockUserTicketGridItem(): UserTicketGridItem {
     Description: 'MockDescription',
     TicketCssClass: 'MockTicketCssClass',
     OpenedUserFullName: 'MockOpenedUserFullName',
-    OpenedUserId: 1
+    OpenedUserId: 1,
+    Attachments: generateMockTicketAttachments()
   };
 }

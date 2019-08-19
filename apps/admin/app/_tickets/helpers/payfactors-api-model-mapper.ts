@@ -41,7 +41,8 @@ export class PayfactorsApiModelMapper {
         Description: ut.UserTicket,
         TicketCssClass: ut.TicketCssClass,
         OpenedUserFullName: ut.OpenedUserFullName,
-        OpenedUserId: ut.OpenedUserId
+        OpenedUserId: ut.OpenedUserId,
+        Attachments: this.mapUserTicketFilesToTicketAttachment(ut.UserTicketFiles)
       };
     });
   }
