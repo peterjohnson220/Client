@@ -73,7 +73,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     });
 
     const queryParamMap = this.route.snapshot.queryParamMap;
-    this.nextPage = queryParamMap.keys[ 0 ];
+    this.nextPage = queryParamMap.get('redirect');
 
     this.loginSubscription = this.login$.subscribe(value => {
       this.loggingIn = value;

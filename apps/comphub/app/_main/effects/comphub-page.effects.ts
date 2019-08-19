@@ -143,7 +143,7 @@ export class ComphubPageEffects {
   private redirectForUnauthorized(error: HttpErrorResponse) {
     if (error.status === 401) {
       const redirectToAfterSuccessfulLogin = window.location.pathname + window.location.search;
-      window.location.href = '/?' + encodeURIComponent(redirectToAfterSuccessfulLogin);
+      window.location.href = '/?redirect=' + encodeURIComponent(redirectToAfterSuccessfulLogin);
     }
   }
 
