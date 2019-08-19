@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Data-Insights Report Field Component should show edit form when toggleEdit is triggered 1`] = `
+<pf-report-field
+  displayNameUpdated={[Function EventEmitter]}
+  fieldRemoved={[Function EventEmitter]}
+  inputField="undefined"
+  isEditing={[Function Boolean]}
+>
+  
+</pf-report-field>
+`;

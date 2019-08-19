@@ -22,7 +22,8 @@
         <pf-report-field *ngFor="let field of selectedFields; trackBy: trackByFn;"
           [field]="field"
           [removable]="selectedFields.length > 1"
-          (fieldRemoved)="handleFieldRemoved($event)">
+          (fieldRemoved)="handleFieldRemoved($event)"
+          (displayNameUpdated)="handleSaveDisplayName($event)">
         </pf-report-field>
       </div>
     </div>

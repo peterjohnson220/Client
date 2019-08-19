@@ -30,4 +30,14 @@ describe('Data-Insights Report Field Component', () => {
 
     expect(instance.fieldRemoved.emit).toHaveBeenCalledWith(instance.field);
   });
+
+  it('should show edit form when toggleEdit is triggered', () => {
+    fixture.detectChanges();
+
+    instance.toggleEdit();
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 });
