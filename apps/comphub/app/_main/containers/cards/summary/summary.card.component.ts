@@ -139,10 +139,11 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
 
   getPaymarketMinimumWage(minPaymarketMinWage: number, maxPaymarketMinWage: number, currencyCode: string): any {
     if (minPaymarketMinWage === maxPaymarketMinWage && minPaymarketMinWage !== null) {
-      return this.cp.transform(minPaymarketMinWage, currencyCode);
+      return this.cp.transform(minPaymarketMinWage, currencyCode, 'symbol-narrow');
     }
     if (minPaymarketMinWage < maxPaymarketMinWage) {
-      return this.cp.transform(minPaymarketMinWage, currencyCode) + ' - ' + this.cp.transform(maxPaymarketMinWage, currencyCode);
+      return this.cp.transform(minPaymarketMinWage, currencyCode, 'symbol-narrow')
+        + ' - ' + this.cp.transform(maxPaymarketMinWage, currencyCode, 'symbol-narrow');
     }
     return '-';
   }
