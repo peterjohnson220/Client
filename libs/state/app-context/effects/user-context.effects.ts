@@ -48,7 +48,7 @@ export class UserContextEffects {
       ofType(userContextActions.GET_USER_CONTEXT_401_ERROR),
       tap((action: userContextActions.GetUserContext401Error) => {
           if (isPlatformBrowser(this.platformId)) {
-            window.location.href = `/?` + encodeURIComponent(action.redirect);
+            window.location.href = `/?redirect=` + encodeURIComponent(action.redirect);
           }
           return null;
         }

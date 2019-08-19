@@ -7,7 +7,6 @@ import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import * as fromLoginActions from '../../../actions/login.actions';
 import { LoginPageComponent } from './login.page';
 import * as fromReducers from '../../../reducers';
 
@@ -21,7 +20,7 @@ describe('Auth - Login', () => {
   let instance: LoginPageComponent;
   let store: Store<fromReducers.State>;
   let formBuilder: FormBuilder;
-  const queryStringParams = { 'nextPage': '/thisisthenextpage' };
+  const queryStringParams = { 'redirect': '/redirect' };
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,7 +39,7 @@ describe('Auth - Login', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: { queryParamMap: { keys: queryStringParams } }
+            snapshot: { queryParamMap: { keys: queryStringParams, get: (key) => queryStringParams[key]  } },
           }
         }
       ],
