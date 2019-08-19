@@ -18,7 +18,7 @@ describe('UserRoleFunctionTabComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          userRoleAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
+          companyAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
       ],
       providers: [ RolesApiService ],

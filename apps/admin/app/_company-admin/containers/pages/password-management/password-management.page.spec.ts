@@ -25,7 +25,7 @@ describe('PasswordManagementComponent', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers
         }),
-        StoreModule.forFeature('userRoleAdminMain', fromAdminReducer.reducers)
+        StoreModule.forFeature('companyAdminMain', fromAdminReducer.reducers)
       ]
     })
     .compileComponents();

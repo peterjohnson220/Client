@@ -10,20 +10,22 @@ import * as fromUserRoleFunctionTabReducer from './user-role-functions-tab.reduc
 import * as fromNavigationReducer from './navigation.reducer';
 import * as fromDataAccessTabReducer from './role-data-access-tab.reducer';
 import * as fromPasswordSettingsReducer from './password-setting.reducer';
+import * as fromUserReducer from './user.reducer';
 
 // Feature area state
-export interface UserRoleViewStateMain {
+export interface CompanyAdminStateMain {
   userRoleView: fromUserRoleViewReducer.IUserRoleState;
   userRoleUserTab: fromUserRoleUserTabReducer.State;
   userRoleFunctionTab: fromUserRoleFunctionTabReducer.State;
   navigation: fromNavigationReducer.State;
   dataAccessTab: fromDataAccessTabReducer.State;
   passwordSettings: fromPasswordSettingsReducer.State;
+  userForm: fromUserReducer.IUserState;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  userRoleAdminMain: UserRoleViewStateMain;
+  companyAdminMain: CompanyAdminStateMain;
 }
 
 // Feature area reducers
@@ -33,32 +35,37 @@ export const reducers = {
   userRoleFunctionTab: fromUserRoleFunctionTabReducer.reducer,
   navigation: fromNavigationReducer.reducer,
   dataAccessTab: fromDataAccessTabReducer.reducer,
-  passwordSettings: fromPasswordSettingsReducer.reducer
+  passwordSettings: fromPasswordSettingsReducer.reducer,
+  userForm: fromUserReducer.reducer
 };
 
 // Select Feature Area
-export const selectUserRoleAdminMainState =
-  createFeatureSelector<UserRoleViewStateMain>('userRoleAdminMain');
+export const selectCompanyAdminMainState =
+  createFeatureSelector<CompanyAdminStateMain>('companyAdminMain');
 
-// User Role View Selectors
+// View Selectors
 export const selectUserRoleState =
-  createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleView);
+  createSelector(selectCompanyAdminMainState, (state: CompanyAdminStateMain) => state.userRoleView);
 
 export const selectUserRoleFunctionTabState =
-  createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleFunctionTab);
+  createSelector(selectCompanyAdminMainState, (state: CompanyAdminStateMain) => state.userRoleFunctionTab);
 
 export const selectRoleDataAccessTabState =
-  createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.dataAccessTab);
+  createSelector(selectCompanyAdminMainState, (state: CompanyAdminStateMain) => state.dataAccessTab);
 
 export const selectUserRoleUserTabState =
-  createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleUserTab);
+  createSelector(selectCompanyAdminMainState, (state: CompanyAdminStateMain) => state.userRoleUserTab);
 
 export const selectNavigationState =
-  createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.navigation);
+  createSelector(selectCompanyAdminMainState, (state: CompanyAdminStateMain) => state.navigation);
 
 export const selectPasswordSettingsState =
-  createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.passwordSettings);
+  createSelector(selectCompanyAdminMainState, (state: CompanyAdminStateMain) => state.passwordSettings);
 
+export const selectUserFormState =
+    createSelector(selectCompanyAdminMainState, (state: CompanyAdminStateMain) => state.userForm);
+
+// Select User Role
 export const getUserRoleViewState = createSelector(
   selectUserRoleState, fromUserRoleViewReducer.getUserRoleViewState
 );
@@ -192,4 +199,29 @@ export const getPasswordSettingsSaving = createSelector(
 
 export const getPasswordSettingsSavingError = createSelector(
   selectPasswordSettingsState, fromPasswordSettingsReducer.getSavingError
+);
+
+// User Form
+export const getUserState = createSelector(
+  selectUserFormState, fromUserReducer.getUserState
+);
+
+export const getUserStateRoles = createSelector(
+  selectUserFormState, fromUserReducer.getRoles
+);
+
+export const getUserStateUser = createSelector(
+  selectUserFormState, fromUserReducer.getUser
+);
+
+export const getUserStateLoading = createSelector(
+  selectUserFormState, fromUserReducer.getUserLoading
+);
+
+export const getUserStateLoaded = createSelector(
+  selectUserFormState, fromUserReducer.getUserLoaded
+);
+
+export const getUserStateApiError = createSelector(
+  selectUserFormState, fromUserReducer.getUserApiError
 );

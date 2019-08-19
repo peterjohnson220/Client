@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-
-import { HomePageLink } from '../../../models/user';
-import {UserAssignedRole} from '../../../models/security';
-import {UserResponse} from '../../../models/payfactors-api/user/response';
+import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { Observable } from 'rxjs';
+import { UserManagementDto } from 'libs/models/payfactors-api/user';
+import { UserResponse } from 'libs/models/payfactors-api/user/response';
+import { UserAssignedRole, HomePageLink } from 'libs/models';
 
 @Injectable()
 export class UserApiService {
@@ -14,6 +13,19 @@ export class UserApiService {
   constructor(
     private payfactorsApiService: PayfactorsApiService
   ) {}
+
+
+  get(userId: number) {
+    return this.payfactorsApiService.get<UserResponse>(`${this.endpoint}(${userId})/`);
+  }
+
+  saveUser(user: UserManagementDto) {
+    return this.payfactorsApiService.post<UserManagementDto>(`${this.endpoint}/Default.SaveUser`, {User: user});
+  }
+
+  emailExists(email: string) {
+      return this.payfactorsApiService.post(`${this.endpoint}/Default.EmailExists`, {emailAddress: email});
+  }
 
   getUserHomePageAuthenticated() {
     return this.payfactorsApiService
