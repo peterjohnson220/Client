@@ -2,6 +2,7 @@
 
 exports[`Project - Add Jobs - Jobs Page should not display GUI features related to job count in non small biz companies, and should display the "normal" result count  1`] = `
 <pf-add-jobs-page
+  _Permissions={[Function Function]}
   addingData$={[Function Store]}
   addingDataError$={[Function Store]}
   addingDataErrorMessage$={[Function Store]}

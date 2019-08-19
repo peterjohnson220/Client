@@ -26,8 +26,9 @@ export class Permissions {
   public static PAY_INTELLIGENCE	=	'Pay Intelligence';
   public static PEER	=	'Peer';
   public static COMPANY_ADMIN	=	'Company_Admin';
-  public static PRICING_PROJECTS_ADD_EDIT_DELETE	=	'Pricing_Projects_Add_Edit_Delete';
-  public static PRICING_PROJECTS_ADD_DATA_CUTS	=	'Pricing_Projects_Add_Data_Cuts';
+  public static PRICING_PROJECTS_DELETE	=	'Pricing_Projects_Delete';
+  public static PRICING_PROJECTS_DATA_CUTS	=	'Pricing_Projects_Data_Cuts';
+  public static PRICING_PROJECTS_PUBLISH_JOBS	=	'Pricing_Projects_Publish_Jobs';
   public static PAY_MARKETS_ADD_EDIT_DELETE	=	'Pay_Markets_Add_Edit_Delete';
   public static JOBS_ADD_EDIT_DELETE	=	'Jobs_Add_Edit_Delete';
   public static JOBS_INACTIVATE_ACTIVATE	=	'Jobs_Inactivate_Activate';
