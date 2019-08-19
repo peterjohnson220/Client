@@ -143,6 +143,14 @@
         <div>
           {{dataItem.Description.length > 150 ? dataItem.Description.substring(0,150) +  '...' : dataItem.Description}}
         </div>
+        <div class="pl-2 action-item text-underline"
+             *ngFor="let attachment of dataItem.Attachments">
+          <a href="/odata/CloudFiles.DownloadUserTicketAttachment?AttachmentId={{attachment.AttachmentId}}&TicketID={{dataItem.Id}}"
+             title="download">
+
+            {{attachment.DisplayName}}
+          </a>
+        </div>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="Created"
