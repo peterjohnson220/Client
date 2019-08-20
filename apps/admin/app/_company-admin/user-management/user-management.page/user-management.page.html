@@ -1,5 +1,5 @@
 <pf-async-container [loading]="loading$ | async" [loadingError]="apiError$ | async" [loadingErrorMessage]="apiError$ | async" (reload)="reloadPage()">
-  <pf-page-with-title-bar [returnUrl]="returnUrl">
+  <pf-page-with-title-bar [locationBack]="true">
     <ng-container page-title>
       {{userId ? 'Edit' : 'Add'}} User
     </ng-container>
