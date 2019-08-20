@@ -9,6 +9,7 @@
   <kendo-grid
     [kendoGridBinding]="(dataAsync$ | async)?.obj"
     [sortable]="sortableConfig"
+    [sort]="sortDesc"
     (scrollBottom)="handleScrollBottom()"
     (sortChange)="handleSortChange($event)">
     <kendo-grid-column *ngFor="let field of (fields$ | async); trackBy: trackByFn"
