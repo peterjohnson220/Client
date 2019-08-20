@@ -14,13 +14,14 @@
   }
 }
 
-.field-text {
-  width: 150px;
-  @extend %ellipsis-overflowing-text;
-}
+.field-text-container{
+  max-width: 160px;
 
-.editable {
-  padding: .35rem;
+  .field-text.editable {
+    width: 150px;
+    padding: .35rem;
+    @extend %ellipsis-overflowing-text;
+  }
 
   .editable-icon:not(:hover) {
     display: none;
@@ -28,9 +29,10 @@
 
   &:hover {
     .editable-icon {
-      padding-left: 4rem;
+      width: 20px;
       display: inline-block;
     }
+
     background-color: lighten($inactive-button-color, 20%);
     border-radius: 7%;
     cursor: pointer;
