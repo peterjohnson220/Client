@@ -40,6 +40,7 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
   scopeToDelete: ExchangeScopeItem = null;
   exchangeScopeItems: ExchangeScopeItem[];
   filteredExchangeScopeItems: ExchangeScopeItem[];
+  scopeFilter: string;
 
   constructor(
     private store: Store<fromLibsPeerMapReducer.State>
@@ -99,7 +100,16 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
   }
 
   handleSearchValueChanged(value: string) {
-    this.filteredExchangeScopeItems = this.exchangeScopeItems.filter(esi => esi.Name.toLowerCase().includes(value.toLowerCase()));
+    this.scopeFilter = value.toLowerCase();
+    this.applyFilterToScopeList();
+  }
+
+  applyFilterToScopeList(): void {
+    if (!!this.scopeFilter && !!this.scopeFilter.length) {
+      this.filteredExchangeScopeItems = this.exchangeScopeItems.filter(esi => esi.Name.toLowerCase().includes(this.scopeFilter));
+    } else {
+      this.filteredExchangeScopeItems = this.exchangeScopeItems;
+    }
   }
 
   handlePopoverShown() {
@@ -123,7 +133,10 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
     });
     this.inDeleteModeSubscription = this.inDeleteScopeMode$.subscribe(dsm => this.deleteMode = dsm);
     this.scopeToDeleteSubscription = this.scopeToDelete$.subscribe(std => this.scopeToDelete = std);
-    this.exchangeScopeItemsSubscription = this.exchangeScopeItems$.subscribe(esi => this.exchangeScopeItems = esi);
+    this.exchangeScopeItemsSubscription = this.exchangeScopeItems$.subscribe(esi => {
+      this.exchangeScopeItems = esi;
+      this.applyFilterToScopeList();
+    });
   }
 
   ngOnDestroy() {
