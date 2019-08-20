@@ -2,21 +2,36 @@ import { Action } from '@ngrx/store';
 
 import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
 
-export const LOAD_EXCHANGE_SCOPES_BY_JOBS  = '[Features/Peer/Exchange Scopes] Load Exchange Scopes By Jobs';
-export const LOAD_EXCHANGE_SCOPES_BY_JOBS_SUCCESS  = '[Features/Peer/Exchange Scopes] Load Exchange Scopes By Jobs Success';
-export const LOAD_EXCHANGE_SCOPES_BY_JOBS_ERROR  = '[Features/Peer/Exchange Scopes] Load Exchange Scopes By Jobs Error';
-export const LOAD_EXCHANGE_SCOPES_BY_EXCHANGE  = '[Features/Peer/Exchange Scopes] Load Exchange Scopes By Exchange';
-export const LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_SUCCESS  = '[Features/Peer/Exchange Scopes] Load Exchange Scopes By Exchange Success';
-export const LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_ERROR  = '[Features/Peer/Exchange Scopes] Load Exchange Scopes By Exchange Error';
-export const LOAD_EXCHANGE_SCOPE_DETAILS  = '[Features/Peer/Exchange Scopes] Load Exchange Scope Details';
-export const LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS  = '[Features/Peer/Exchange Scopes] Load Exchange Scope Details Success';
-export const LOAD_EXCHANGE_SCOPE_DETAILS_ERROR  = '[Features/Peer/Exchange Scopes] Load Exchange Scope Details Error';
-export const DELETE_EXCHANGE_SCOPE = '[Features/Peer/Exchange Scopes] Delete Exchange Scope';
-export const DELETE_EXCHANGE_SCOPE_SUCCESS = '[Features/Peer/Exchange Scopes] Delete Exchange Scope Success';
-export const DELETE_EXCHANGE_SCOPE_ERROR = '[Features/Peer/Exchange Scopes] Delete Exchange Scope Error';
-export const ENTER_DELETE_EXCHANGE_SCOPE_MODE = '[Features/Peer/Exchange Scopes] Enter Delete Exchange Scope Mode';
-export const EXIT_DELETE_EXCHANGE_SCOPE_MODE = '[Features/Peer/Exchange Scopes] Exit Delete Exchange Scope Mode';
-export const SET_EXCHANGE_SCOPE_TO_DELETE = '[Features/Peer/Exchange Scopes] Set Exchange Scope To Delete';
+export const LOAD_EXCHANGE_SCOPES_BY_JOBS  =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scopes By Jobs';
+export const LOAD_EXCHANGE_SCOPES_BY_JOBS_SUCCESS  =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scopes By Jobs Success';
+export const LOAD_EXCHANGE_SCOPES_BY_JOBS_ERROR  =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scopes By Jobs Error';
+export const LOAD_EXCHANGE_SCOPES_BY_EXCHANGE  =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scopes By Exchange';
+export const LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_SUCCESS  =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scopes By Exchange Success';
+export const LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_ERROR  =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scopes By Exchange Error';
+export const LOAD_EXCHANGE_SCOPE_DETAILS  =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scope Details';
+export const LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS  =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scope Details Success';
+export const LOAD_EXCHANGE_SCOPE_DETAILS_ERROR  =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scope Details Error';
+export const DELETE_EXCHANGE_SCOPE =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Delete Exchange Scope';
+export const DELETE_EXCHANGE_SCOPE_SUCCESS =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Delete Exchange Scope Success';
+export const DELETE_EXCHANGE_SCOPE_ERROR =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Delete Exchange Scope Error';
+export const ENTER_DELETE_EXCHANGE_SCOPE_MODE =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Enter Delete Exchange Scope Mode';
+export const EXIT_DELETE_EXCHANGE_SCOPE_MODE =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Exit Delete Exchange Scope Mode';
+export const SET_EXCHANGE_SCOPE_TO_DELETE =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Set Exchange Scope To Delete';
 
 export class LoadExchangeScopesByJobs implements Action {
   readonly type = LOAD_EXCHANGE_SCOPES_BY_JOBS;
