@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Action, select, Store} from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
-import {Observable, of} from 'rxjs/index';
+import { Observable, of } from 'rxjs';
 
-import {PagingOptions} from 'libs/models/payfactors-api';
+import { PagingOptions } from 'libs/models/payfactors-api';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
@@ -87,29 +87,29 @@ export class ExchangeSearchEffects {
       ofType(subscribedAction),
       withLatestFrom(
         this.exchangeExplorerContextService.selectFilterContext(),
-        (action, filterContext) => { return filterContext; }),
+        (action, filterContext) => filterContext),
       mergeMap((data: any) => {
 
-        const searchFieldsRequestObj = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.searchFilters);
-        const filtersRequestObj = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.searchFilters);
-        const pagingOptions: PagingOptions = {
-          From: 0,
-          Count: 5
-        };
-        return this.exchangeDataSearchApiService.searchExchangeData({
-          ...data.filterContext,
-          ...data.mapFilter,
-          SearchFields: searchFieldsRequestObj,
-          Filters: filtersRequestObj,
-          PagingOptions: pagingOptions
-        })
-          .pipe(
-            map(response => new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess(response)),
-            catchError(() => of(new fromExchangeSearchResultsActions.GetExchangeDataResultsError(0)))
-          );
-      }
-    )
-    )
+          const searchFieldsRequestObj = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.searchFilters);
+          const filtersRequestObj = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.searchFilters);
+          const pagingOptions: PagingOptions = {
+            From: 0,
+            Count: 5
+          };
+          return this.exchangeDataSearchApiService.searchExchangeData({
+            ...data.filterContext,
+            ...data.mapFilter,
+            SearchFields: searchFieldsRequestObj,
+            Filters: filtersRequestObj,
+            PagingOptions: pagingOptions
+          })
+            .pipe(
+              map(response => new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess(response)),
+              catchError(() => of(new fromExchangeSearchResultsActions.GetExchangeDataResultsError(0)))
+            );
+        }
+      )
+    );
   }
 
   constructor(

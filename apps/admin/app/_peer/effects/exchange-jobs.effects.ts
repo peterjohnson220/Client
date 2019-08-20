@@ -45,6 +45,20 @@ export class ExchangeJobsEffects {
       })
     );
 
+  @Effect()
+  exportExchangeJobs$: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeJobsActions.EXPORT_EXCHANGE_JOBS),
+    map((action: fromExchangeJobsActions.ExportExchangeJobs) => action.payload),
+    switchMap((payload) => {
+      return this.exchangeApiService.exportExchangeJobs(payload.exchangeId).pipe(
+        map(() => {
+          return new fromExchangeJobsActions.ExportExchangeJobsSuccess;
+        }),
+        catchError(error => of(new fromExchangeJobsActions.ExportExchangeJobsError()))
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private exchangeApiService: ExchangeApiService,
