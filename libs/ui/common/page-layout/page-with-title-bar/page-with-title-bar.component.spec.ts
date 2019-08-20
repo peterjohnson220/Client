@@ -1,5 +1,6 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { PageWithTitleBarComponent } from './page-with-title-bar.component';
 
@@ -22,6 +23,9 @@ describe('Page With Title Bar', () => {
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
       declarations: [
         PageWithTitleBarComponent, TestHostComponent
       ],
@@ -45,6 +49,23 @@ describe('Page With Title Bar', () => {
   it('should show the back button, when provided an absolute Url', () => {
 
     instance.absoluteUrl = '/redirectToThis/Path';
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+
+  it('should show the back button, when provided an locationBack parameter', () => {
+
+    instance.locationBack = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show no back button when no URL is provided', () => {
 
     fixture.detectChanges();
 

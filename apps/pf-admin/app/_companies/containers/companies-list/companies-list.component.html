@@ -44,8 +44,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="UserCount" title="Users" [width]="85">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-        <a (click)="$event.stopPropagation()"
-           [routerLink]="['/companies', dataItem.CompanyId,'users']">{{dataItem.UserCount}}</a>
+          <a (click)="$event.stopPropagation()" href="/client/admin/company-admin/{{dataItem.CompanyId}}/users">{{dataItem.UserCount}}</a>
       </ng-template>
     </kendo-grid-column>
   </kendo-grid>

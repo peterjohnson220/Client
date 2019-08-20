@@ -13,6 +13,7 @@ export class CompanyPageHelper {
       CompanyNameShort: '',
       Status: 'Active',
       PrimarySupportUserId: null,
+      JDMSeniorAssociateUserId: null,
       SystemUserGroupsId: systemUserGroupsId,
       ClientType: '',
       Industry: '',
@@ -33,7 +34,6 @@ export class CompanyPageHelper {
       EnableLiveChat: false,
       EnableIntervalAgingFactor: false,
       PasswordLengthRequirement: 8,
-      OrgDataAutoloaderApiKey: null,
       GroupName: null
     };
   }
@@ -45,6 +45,7 @@ export class CompanyPageHelper {
       CompanyNameShort: company.CompanyNameShort,
       Status: company.Status,
       PrimarySupportUserId: !!company.PrimarySupportUserId ? company.PrimarySupportUserId.toString() : '',
+      JDMSeniorAssociateUserId: !!company.JDMSeniorAssociateUserId ? company.JDMSeniorAssociateUserId.toString() : '',
       SystemUserGroupsId: company.SystemUserGroupsId,
       ClientType: company.ClientType,
       Industry: company.Industry,
@@ -56,7 +57,6 @@ export class CompanyPageHelper {
       CustomFieldName: company.CustomFieldName,
       CustomFieldValue: company.CustomFieldValue,
       PasswordLengthRequirement: company.PasswordLengthRequirement,
-      OrgDataAutoloaderApiKey: company.OrgDataAutoloaderApiKey,
       GroupName: company.GroupName,
       EnablePricingReview: company.EnablePricingReview,
       ParticipateInPeerDataExchange: company.ParticipateInPeerDataExchange,
