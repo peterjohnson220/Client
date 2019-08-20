@@ -32,6 +32,7 @@ import { PermissionService, RemoteDataSourceService } from '../../core/services'
 import { JobDescriptionTemplateApiService } from './jdm';
 import { TableauReportApiService, UserReportApiService, ReportManagementApiService, DataViewApiService } from './reports';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
+import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService } from './hris-api';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -81,10 +82,12 @@ import { StructuresApiService, StructuresRangeGroupApiService } from './structur
     ReportManagementApiService,
     StructuresApiService,
     StructuresRangeGroupApiService,
-    DataViewApiService
+    DataViewApiService,
+
+    // Hris Api Services
+    HrisApiService,
+    TransferMethodsHrisApiService,
+    ProvidersHrisApiService,
   ]
 })
 export class PfApiModule { }
-
-
-

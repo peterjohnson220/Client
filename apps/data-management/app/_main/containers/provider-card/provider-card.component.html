@@ -1,0 +1,8 @@
+<div class="card text-center bg-light mb-3 {{provider.ProviderId === selectedProvider ? 'active' : ''}}" 
+  style="max-width: 18rem;" 
+  (click)="selectProviderClick($event)">
+  <img class="card-img-top provider-img" src="{{provider.ImageUrl}}" alt="{{provider.ProviderName}}" />
+  <div class="card-body">
+      <h4 class="card-title">{{provider.ProviderName}}</h4>
+  </div>
+</div>
