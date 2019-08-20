@@ -23,6 +23,7 @@ export class ExchangeJobsComponent {
   importExchangeJobsModalOpen$: Observable<boolean>;
   exchangeJobsLoading$: Observable<boolean>;
   exchangeJobsLoadingError$: Observable<boolean>;
+  exportingExchangeJobs$: Observable<boolean>;
   exchangeJobs$: Observable<ExchangeJob[]>;
   exchangeJobsGrid$: Observable<GridDataResult>;
   gridState$: Observable<State>;
@@ -36,6 +37,7 @@ export class ExchangeJobsComponent {
     this.importExchangeJobsModalOpen$ = this.store.select(fromPeerAdminReducer.getImportExchangeJobsModalOpen);
     this.exchangeJobsLoading$ = this.store.select(fromPeerAdminReducer.getExchangeJobsLoading);
     this.exchangeJobsLoadingError$ = this.store.select(fromPeerAdminReducer.getExchangeJobsLoadingError);
+    this.exportingExchangeJobs$ = this.store.select(fromPeerAdminReducer.getExportingExchangeJobs);
     this.exchangeJobs$ = this.store.select(fromPeerAdminReducer.getExchangeJobs);
     this.exchangeJobsGrid$ = this.store.select(fromPeerAdminReducer.getExchangeJobsGrid);
     this.gridState$ = this.store.select(fromPeerAdminReducer.getExchangeJobsGridState);
@@ -81,5 +83,9 @@ export class ExchangeJobsComponent {
 
   openAddExchangeJobsModal(): void {
     this.store.dispatch(new fromExchangeJobsActions.OpenAddExchangeJobsModal);
+  }
+
+  exportExchangeJobs(): void {
+    this.store.dispatch(new fromExchangeJobsActions.ExportExchangeJobs({ exchangeId: +this.exchangeId }));
   }
 }

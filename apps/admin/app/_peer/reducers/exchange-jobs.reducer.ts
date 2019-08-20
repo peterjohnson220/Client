@@ -14,6 +14,8 @@ export interface State extends EntityState<ExchangeJob> {
   adding: boolean;
   addingError: boolean;
   total: number;
+  exportingExchangeJobs: boolean;
+  exportingExchangeJobsError: boolean;
 }
 
 // Create entity adapter
@@ -28,7 +30,9 @@ export const initialState: State = adapter.getInitialState({
   addModalOpen: false,
   adding: false,
   addingError: false,
-  total: 0
+  total: 0,
+  exportingExchangeJobs: false,
+  exportingExchangeJobsError: false
 });
 
 // Reducer
@@ -91,6 +95,27 @@ export function reducer(state, action) {
             addingError: true
           };
         }
+        case fromExchangeJobsActions.EXPORT_EXCHANGE_JOBS: {
+          return {
+            ...featureState,
+            exportingExchangeJobs: true,
+            exportingExchangeJobsError: false
+          };
+        }
+        case fromExchangeJobsActions.EXPORT_EXCHANGE_JOBS_SUCCESS: {
+          return {
+            ...featureState,
+            exportingExchangeJobs: false,
+            exportingExchangeJobsError: false
+          };
+        }
+        case fromExchangeJobsActions.EXPORT_EXCHANGE_JOBS_ERROR: {
+          return {
+            ...featureState,
+            exportingExchangeJobs: false,
+            exportingExchangeJobsError: true
+          };
+        }
         default: {
           return featureState;
         }
@@ -105,3 +130,5 @@ export const getAddModalOpen = (state: State) => state.addModalOpen;
 export const getAdding = (state: State) => state.adding;
 export const getAddingError = (state: State) => state.addingError;
 export const getTotal = (state: State) => state.total;
+export const getExportingExchangeJobs = (state: State) => state.exportingExchangeJobs;
+export const getExportingExchangeJobsError = (state: State) => state.exportingExchangeJobsError;

@@ -293,6 +293,14 @@ export const getTotalExchangeJobs = createSelector(
   selectExchangeJobsFeatureState, fromExchangeJobsReducer.getTotal
 );
 
+export const getExportingExchangeJobs = createSelector(
+  selectExchangeJobsFeatureState, fromExchangeJobsReducer.getExportingExchangeJobs
+);
+
+export const getExportingExchangeJobsError = createSelector(
+  selectExchangeJobsFeatureState, fromExchangeJobsReducer.getExportingExchangeJobsError
+);
+
 export const getExchangeJobsGridState = createSelector(
   selectExchangeJobsGridState, fromGridReducer.getGridState
 );
