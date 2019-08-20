@@ -53,12 +53,6 @@ describe('Admin - Tickets - Ticket List Page', () => {
     fixture.detectChanges();
   });
 
-  it('should call window location, when handling the back button being clicked', () => {
-    instance.handleBackButtonClick();
-
-    expect(windowRef.nativeWindow.location).toBe('/ng/site-admin/navigation');
-  });
-
   it('should remove "2" tab if userTicketId is 2 when handleCloseTabClick is called', () => {
     const userTicketId = 2;
     const mockUserTicketTabs = generateMockUserTicketTabItems();

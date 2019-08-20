@@ -1,9 +1,10 @@
 import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import {RouterTestingModule} from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { NotificationService, NotificationSettings, NotificationRef } from '@progress/kendo-angular-notification';
+import { NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
-import { combineReducers, Store, StoreModule, createSelector } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -57,7 +58,7 @@ describe('ManageFieldMapperPageComponent', () => {
           ...fromRootState.reducers,
           orgDataLoader: combineReducers(fromOrgDataLoaderReducer.reducers)
         }),
-        FormsModule, PfCommonUIModule
+        FormsModule, PfCommonUIModule, RouterTestingModule
       ],
       declarations: [ ManageFieldMappingsPageComponent ],
       providers: [

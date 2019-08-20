@@ -9,6 +9,7 @@ import * as fromCommunityPollActions from '../../actions/community-poll.actions'
 import * as fromCommunityPollReducer from '../../reducers';
 import * as constants from 'libs/models/community/community-constants.model';
 import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-community-polls',
@@ -16,6 +17,8 @@ import { CommunityPollList } from 'libs/models/community/community-poll-list.mod
   styleUrls: ['./community-polls.component.scss']
 })
 export class CommunityPollsComponent implements OnInit, OnDestroy {
+
+  env = environment;
 
   communityPollListLoading$: Observable<boolean>;
   communityPollListLoadingError$: Observable<boolean>;

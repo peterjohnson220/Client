@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
@@ -14,6 +14,7 @@ export class AuthorizationGuard implements CanActivate, OnDestroy {
   userContext: UserContext;
   userContextSubscription: Subscription;
   constructor(
+    private router: Router,
     private store: Store<fromRootState.State>,
     private _PermissionsService: PermissionService
   ) {
@@ -28,7 +29,7 @@ export class AuthorizationGuard implements CanActivate, OnDestroy {
     } else if (this._PermissionsService.CheckPermission(next.data.Permissions, next.data.Check)) {
       return of(true);
     } else {
-      window.location.href = '/ng/404';
+      this.router.navigate(['/access-denied']);
       return of(false);
     }
   }

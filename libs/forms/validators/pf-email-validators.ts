@@ -76,9 +76,9 @@ export class PfEmailValidators {
 }
 
 export class PfEmailTakenValidator {
-  static createValidator(userApiService: UserApiService) {
+  static createValidator(userApiService: UserApiService, originaValue = '') {
     return (control: AbstractControl) => {
-      if (!control.dirty || control.value === '') {
+      if (!control.dirty || control.value === '' || control.value === originaValue) {
         return new Promise(resolve => resolve(null));
       }
 

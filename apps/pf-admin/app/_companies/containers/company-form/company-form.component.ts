@@ -30,10 +30,9 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   clientTypes: CompanyClientTypesReponse[];
   systemUserGroups: SystemUserGroupsResponse[];
   pfServicesReps: UserResponse[];
+  pfJdmSrAssociates: UserResponse[];
   pfCustomerSuccessMgrs: UserResponse[];
   industries: CompanyIndustriesResponse[];
-  orgDataAutoloaderApiKeyGenerating: boolean;
-  orgDataAutoloaderApiKey: string;
   uploadUrl: string;
   groupVal: string;
   uploadLogoErrorMessage: string;
@@ -67,6 +66,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       this.clientTypes = this.companyFormContext.clientTypes;
       this.systemUserGroups = this.companyFormContext.systemUserGroups;
       this.pfServicesReps = this.companyFormContext.pfServicesReps;
+      this.pfJdmSrAssociates = this.companyFormContext.pfJdmSrAssociates;
       this.pfCustomerSuccessMgrs = this.companyFormContext.pfCustomerSuccessMgrs;
       this.industries = this.companyFormContext.industries;
       this.peerOnlySystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.PeerOnly);
@@ -124,6 +124,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       companyNameShort: ['', Validators.maxLength(50)],
       status: [''],
       servicesRep: [0],
+      jdmSrAssociate: [0],
       customerSuccessMgr: [0],
       clientType: [''],
       ftes: [0, PfValidators.isNotNumeric],
@@ -134,13 +135,18 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       customFieldValue: ['', Validators.maxLength(50)],
       enablePricingReview: [false],
       passwordLength: [0, [Validators.required, Validators.pattern('[0-9]*'), Validators.min(8), Validators.max(20)]],
-      ParticipateInPeerDataExchange: [true],
-      orgDataAutoloaderApiKey: ['']
+      ParticipateInPeerDataExchange: [true]
     },
     {
       validator: (fg: FormGroup) => {
-        if (fg.controls['repository'].value === SystemUserGroupIds.PayfactorsServices && (!fg.controls['servicesRep'].value ||
-          !fg.controls['customerSuccessMgr'].value || !fg.controls['clientType'].value)) {
+        if (fg.controls['repository'].value === SystemUserGroupIds.PayfactorsServices &&
+          (
+            !fg.controls['servicesRep'].value ||
+            !fg.controls['jdmSrAssociate'].value ||
+            !fg.controls['customerSuccessMgr'].value ||
+            !fg.controls['clientType'].value
+          )
+        ) {
           return { invalid: true };
         }
       }
@@ -149,6 +155,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   buildFormData(): CompanyFormData {
     const primarySupportUserId = this.companyForm.get('servicesRep').value;
+    const jdmSrAssociatesUserId = this.companyForm.get('jdmSrAssociate').value;
     const customerSuccessMgrUserId = this.companyForm.get('customerSuccessMgr').value;
     const ftes = this.companyForm.get('ftes').value;
     const assets = this.companyForm.get('assets').value;
@@ -159,6 +166,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       CompanyNameShort: this.companyForm.get('companyNameShort').value,
       Status: this.companyForm.get('status').value,
       PrimarySupportUserId: !!primarySupportUserId ? primarySupportUserId.toString() : null,
+      JDMSeniorAssociateUserId: !!jdmSrAssociatesUserId ? jdmSrAssociatesUserId.toString() : null,
       SystemUserGroupsId: Number(this.repositoryControl.value),
       ClientType: this.clientTypeControl.value,
       Industry: this.companyForm.get('industry').value,
@@ -179,8 +187,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       RestrictWorkflowToCompanyEmployeesOnly: false,
       HideSecondarySurveyDataFields: true,
       EnableLiveChat: false,
-      EnableIntervalAgingFactor: false,
-      OrgDataAutoloaderApiKey: null
+      EnableIntervalAgingFactor: false
     };
   }
 
@@ -201,6 +208,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
 
     this.companyFormData.PrimarySupportUserId = null;
+    this.companyFormData.JDMSeniorAssociateUserId = null;
     this.clientTypeControl.reset();
   }
 
@@ -242,10 +250,6 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyLogo = '';
   }
 
-  generateApiKey() {
-    // TODO: Edit Company
-  }
-
   private setGroupFromIndustryValue(industryValue: string) {
     // [GL] Existing industry values such as Retailing do not exist on new collection
     // Cannot read property Group of undefined will occur without the additional filter to find the industry value in the collection first
@@ -272,6 +276,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.get('companyNameShort').setValue(this.companyFormData.CompanyNameShort);
     this.companyForm.get('status').setValue(this.companyFormData.Status);
     this.companyForm.get('servicesRep').setValue(Number(this.companyFormData.PrimarySupportUserId));
+    this.companyForm.get('jdmSrAssociate').setValue(Number(this.companyFormData.JDMSeniorAssociateUserId));
     this.companyForm.get('customerSuccessMgr').setValue(Number(this.companyFormData.CustomerSuccessMgrUserId));
     this.companyForm.get('clientType').setValue(this.companyFormData.ClientType);
     this.companyForm.get('ftes').setValue(this.companyFormData.FTEs);
@@ -283,7 +288,6 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.get('enablePricingReview').setValue(this.companyFormData.EnablePricingReview);
     this.companyForm.get('passwordLength').setValue(this.companyFormData.PasswordLengthRequirement);
     this.companyForm.get('ParticipateInPeerDataExchange').setValue(this.companyFormData.ParticipateInPeerDataExchange);
-    this.companyForm.get('orgDataAutoloaderApiKey').setValue(this.companyFormData.OrgDataAutoloaderApiKey);
 
     this.disableRepositoryForPeerClientType();
     this.companyForm.markAsTouched();

@@ -39,6 +39,7 @@ import {
   OrgDataFilenamePatternSet,
   LoaderSaveCoordination
 } from '../../models';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
@@ -46,6 +47,8 @@ import {
   styleUrls: ['./manage-field-mappings.page.scss']
 })
 export class ManageFieldMappingsPageComponent implements OnInit {
+
+  env = environment;
 
   payfactorsPaymarketDataFields: string[];
   payfactorsJobDataFields: string[];

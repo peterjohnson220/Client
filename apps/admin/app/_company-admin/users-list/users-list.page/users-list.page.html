@@ -1,0 +1,31 @@
+<pf-async-container [loading]="usersLoading$ | async"
+                    [loadingError]="usersLoadingError$ | async"
+                    [loadingErrorMessage]="'Error Loading Users'">
+  <pf-page-with-title-bar [locationBack]="true">
+    <ng-container page-title>
+      User Management - {{(companyName$ | async)}}
+    </ng-container>
+
+    <ng-container page-actions>
+      <pf-input-debounce
+        id="search-box"
+        [minWidth]="250"
+        (valueChanged)="updateSearchTerm($event)">
+      </pf-input-debounce>
+      <button (click)="handleAddButton()" class="btn btn-primary" type="submit">Add User</button>
+    </ng-container>
+
+    <ng-container page-content>
+      <div class="col-12 column-scroll-container">
+        <div class="column-scroll-inner scroll-y">
+          <pf-users-list
+            [usersList]="users$ | async"
+            [loading]="usersLoading$ | async"
+            [filter]="searchTerm$ | async"
+            [userContext]="userContext$ | async">
+          </pf-users-list>
+        </div>
+      </div>
+    </ng-container>
+  </pf-page-with-title-bar>
+</pf-async-container>

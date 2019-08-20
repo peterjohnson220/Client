@@ -58,6 +58,11 @@ export class UserApiService {
       .get<UserResponse[]>(`${this.endpoint}/Default.GetPfServicesReps`);
   }
 
+  getPfJdmSrAssociates() {
+    return this.payfactorsApiService
+      .get<UserResponse[]>(`${this.endpoint}/Default.GetPfJDMSeniorAssociates`);
+}
+
   getPfServiceRepsByCompany(companyId: number) {
     return this.payfactorsApiService
       .get<UserResponse[]>(`${this.endpoint}/Default.GetPfServicesRepsForCompany?companyId=${companyId}`);

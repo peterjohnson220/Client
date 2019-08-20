@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-exchange-list-page',
@@ -13,9 +14,10 @@ import * as fromPeerAdminReducer from '../../../reducers';
 })
 export class ExchangeListPageComponent {
 
-  constructor(private store: Store<fromPeerAdminReducer.State>, private router: Router) { }
-
+  env = environment;
   searchQuery = '';
+
+  constructor(private store: Store<fromPeerAdminReducer.State>, private router: Router) { }
 
   openCreateExchangeModal() {
     this.store.dispatch(new fromExchangeListActions.OpenCreateExchangeModal);
@@ -24,10 +26,6 @@ export class ExchangeListPageComponent {
   // Events
   handleCellClick(exchangeId: number): void {
     this.router.navigate(['peer/exchange', exchangeId]);
-  }
-
-  handleBackButtonClick(): void {
-    window.location.href = '/ng/site-admin/navigation';
   }
 
   handleSearchChanged(query: string): void {
