@@ -9,6 +9,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -97,6 +98,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -184,6 +186,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -271,6 +274,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -358,6 +362,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
