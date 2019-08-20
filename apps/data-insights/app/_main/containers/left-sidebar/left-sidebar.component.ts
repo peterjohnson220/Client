@@ -64,6 +64,10 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromDataViewActions.AddSelectedField(fieldToAdd));
   }
 
+  handleSaveDisplayName(newDisplayName) {
+    this.store.dispatch(new fromDataViewActions.UpdateDisplayName(newDisplayName));
+}
+
   trackByFn(index: any, field: Field) {
     return field.DataElementId;
   }

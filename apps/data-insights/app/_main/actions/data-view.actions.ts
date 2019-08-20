@@ -31,6 +31,7 @@ export const REORDER_FIELDS = '[Data Insights / Data View] Reorder Fields';
 export const ADD_SELECTED_FIELD = '[Data Insights / Data View] Add Selected Field';
 export const DELETE_USER_REPORT = '[Data Insights / Data View] Delete User Report';
 export const DELETE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Delete User Report Success';
+export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View] Update Display Name';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -206,6 +207,12 @@ export class DeleteUserReportSuccess implements Action {
   constructor() {}
 }
 
+export  class UpdateDisplayName implements Action {
+  readonly type = UPDATE_DISPLAY_NAME;
+
+  constructor(public payload: { newDisplayName: string, fieldDataElementId: number }) {}
+}
+
 export type Actions
   = GetBaseEntities
   | GetBaseEntitiesSuccess
@@ -235,4 +242,5 @@ export type Actions
   | ReorderFields
   | AddSelectedField
   | DeleteUserReport
-  | DeleteUserReportSuccess;
+  | DeleteUserReportSuccess
+  | UpdateDisplayName;

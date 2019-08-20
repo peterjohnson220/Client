@@ -171,7 +171,8 @@ export class DataViewEffects {
       ofType(
         fromDataViewActions.REMOVE_SELECTED_FIELD,
         fromDataViewActions.REORDER_FIELDS,
-        fromDataViewActions.ADD_SELECTED_FIELD),
+        fromDataViewActions.ADD_SELECTED_FIELD,
+        fromDataViewActions.UPDATE_DISPLAY_NAME),
       map(() => {
         return new fromDataViewActions.SaveReportFields();
       })

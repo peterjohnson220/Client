@@ -319,6 +319,17 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         reportFieldsAsync: asyncStateObjClone
       };
     }
+    case fromDataViewActions.UPDATE_DISPLAY_NAME: {
+      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
+      const fieldToUpdate = asyncStateObjClone.obj.find(x => x.DataElementId === action.payload.fieldDataElementId);
+      if (fieldToUpdate) {
+        fieldToUpdate.DisplayName = action.payload.newDisplayName;
+      }
+      return {
+        ...state,
+        reportFieldsAsync: asyncStateObjClone
+      };
+    }
     default: {
       return state;
     }
