@@ -71,7 +71,7 @@ describe('Data Insights Management - Edit Report Modal Component', () => {
       WorkbookId: instance.report.Id,
       DisplayName: instance.editReportForm.value.displayName,
       Summary: instance.editReportForm.value.summary,
-      ThumbnailUrl: instance.thumbnailUrl
+      ThumbnailUrl: null
     };
     expect(instance.saveClicked.emit).toHaveBeenCalledWith(formData);
   });
@@ -91,7 +91,28 @@ describe('Data Insights Management - Edit Report Modal Component', () => {
       WorkbookId: instance.report.Id,
       DisplayName: updatedName,
       Summary: instance.editReportForm.value.summary,
-      ThumbnailUrl: instance.thumbnailUrl
+      ThumbnailUrl: null
+    };
+    expect(instance.saveClicked.emit).toHaveBeenCalledWith(formData);
+  });
+
+  it('should send form data with updated thumbnail when thumbnail uploaded', () => {
+    spyOn(instance.saveClicked, 'emit');
+
+    instance.report = generateMockStandardReportDetails();
+    instance.updateForm();
+    fixture.detectChanges();
+
+    const updatedName = 'Custom report name';
+    instance.uploadedFileName = 'test.jpg';
+    instance.editReportForm.patchValue({ displayName: updatedName });
+    instance.save();
+
+    const formData: EditReportFormData = {
+      WorkbookId: instance.report.Id,
+      DisplayName: updatedName,
+      Summary: instance.editReportForm.value.summary,
+      ThumbnailUrl: instance.uploadedFileName
     };
     expect(instance.saveClicked.emit).toHaveBeenCalledWith(formData);
   });
