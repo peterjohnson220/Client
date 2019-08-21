@@ -44,6 +44,8 @@
 
   span {
     text-align: right;
+    width: 150px;
+    @extend %ellipsis-overflowing-text;
   }
 
   .delete-btn {
