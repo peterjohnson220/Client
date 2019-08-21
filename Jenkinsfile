@@ -1,19 +1,22 @@
+import hudson.model.*
+import jenkins.model.*
 import groovy.io.FileType
+import groovy.json.JsonSlurper
 
 nodeVersion = '10.15.0'
 pkgName = 'PayFactorsClient'
 
 octoProject = 'Client-J'
 octoChannel = 'Default'
+octoVerSuffix = ''
 
-slackCh = 'jenkins-test'
+slackCh = 'f-build'
+slackTitle = 'Build'
 
-buildConfig = null
-pkgFullName = null
-pkgVersion = null
+suffix = null
 
-isAutoDeployBranch = (env.BRANCH_NAME == 'develop')
-isPublishable = (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME ==~ /^hotfix\/.*/ || env.BRANCH_NAME ==~ /^release\/.*/) ? true : false
+isPublishable = true
+isAutoDeployBranch = false
 
 pipeline {
   agent { label 'ubuntu-node1' }
@@ -21,50 +24,92 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr:'20'))
     disableConcurrentBuilds()
+    timeout(time: 30, unit: 'MINUTES', activity: true)
   }
 
   stages {
     stage('Preparation') {
       steps {
         script {
-          // properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '20')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], [$class: 'ThrottleJobProperty', categories: [], limitOneJobWithMatchingParams: false, maxConcurrentPerNode: 0, maxConcurrentTotal: 0, paramsToUseForLimit: '', throttleEnabled: false, throttleOption: 'project'], pipelineTriggers([githubPush()])])
           deleteDir()
           checkout scm
           echo "Branch: " + env.BRANCH_NAME
 
+          env.buildurl = BUILD_URL.replace('codejenkins.engineering.payfactors.net', env.jenkins_server)
+
           nodejs(nodeVersion) {
-            pkgVersion = sh(returnStdout: true, script: 'node -pe "require(\'./package.json\').version"').trim()
-            pkgVersion = pkgVersion + "." + env.BUILD_NUMBER
+            env.pkgVersion = sh(returnStdout: true, script: 'node -pe "require(\'./package.json\').version"').trim()
+            env.pkgVersion = env.pkgVersion + "." + env.BUILD_NUMBER
 
             // Suffix according to branches.
             if (env.BRANCH_NAME == 'master') {
               suffix = 'Production'
-              buildConfig = '--prod'
+              env.buildConfig = '--prod'
             } else if (env.BRANCH_NAME == 'develop') {
+              isAutoDeployBranch = true
               suffix = 'Staging'
-              buildConfig = '--configuration=staging'
+              env.octoEnv = 'Staging'
+              env.buildConfig = '--configuration=staging'
             } else if (env.BRANCH_NAME ==~ /^hotfix\/.*/) {
               suffix = 'Hotfix'
-              buildConfig = '--configuration=production'
+              env.buildConfig = '--configuration=production'
             } else if (env.BRANCH_NAME ==~ /^release\/.*/) {
               suffix = 'RC'
-              buildConfig = '--prod'
+              env.buildConfig = '--prod'
             } else if (env.BRANCH_NAME == 'Normandy/develop') {
+              isAutoDeployBranch = true
               suffix = 'Normandy'
-              buildConfig = '--configuration=staging'
+              octoChannel = 'Normandy'
+              env.octoEnv = 'Normandy'
+              octoVerSuffix = '-NM'
+              env.buildConfig = '--configuration=staging'
             } else {
+              isPublishable = false
               suffix = env.BRANCH_NAME.substring(0,3)
-              buildConfig = '--configuration=staging'
+              env.buildConfig = '--configuration=staging'
             }      
             
-            pkgFullName = pkgName + "." + suffix + "-J." + pkgVersion
-            echo pkgFullName
+            slackTitle = (isAutoDeployBranch) ? 'Build/Deploy' : 'Build'
+
+            env.pkgFullName = pkgName + "." + suffix + "-J." + env.pkgVersion
+            echo env.pkgFullName
 
             currentBuild.description = "Built on: ${env.NODE_NAME}"
-            currentBuild.displayName = pkgVersion
+            currentBuild.displayName = env.pkgVersion
 
-            changeLog = getGitChangeLog().replaceAll('\\_','\\\\_')
+          changeLogOrig = getGitChangeLog()
+
+          def lastAuthorEmail = sh (
+            script: "git show -s --format='%ae' HEAD",
+            returnStdout: true
+          ).trim()
+
+          env.lastAuthor = lastAuthorEmail.replaceAll('@.*','')
+
+          echo "The last commit was written by ${env.lastAuthor} (${lastAuthorEmail})."
+
+            changeLog = changeLogOrig.replaceAll('\\_','\\\\_')
             writeFile file: 'CHANGES', text: changeLog
+
+            sh "git log -n 1 --pretty=format:'%H' > sha.txt"
+
+            // Select slack channel
+            configFileProvider([configFile(fileId: 'b6ff041b-b388-489a-b63b-e3389d76cea9', variable: 'slackChConfigFile')]) {
+              def slackChConfigRaw = readFile slackChConfigFile
+              def slackChConfig = new JsonSlurper().parseText(slackChConfigRaw)
+              def branchShort = env.BRANCH_NAME.substring(0,4).toLowerCase()
+
+              slackCh = slackChConfig[branchShort]
+
+              echo "branchShort: ${branchShort}"
+
+              // f-build is dumping ground for the rest of branches.
+              if (slackCh == null) {
+                slackCh = "f-build"
+              } 
+              
+              echo "slackCh: ${slackCh}"
+            }
 
             sh 'npm install'
           }
@@ -75,7 +120,7 @@ pipeline {
       post {
         failure {
           script { 
-            sendSlackFail()
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
@@ -103,7 +148,7 @@ pipeline {
         }
         failure {
           script { 
-            sendSlackFail()
+            sendSlackFail(env.changeAuthorList)
           }
         }
       }
@@ -116,7 +161,7 @@ pipeline {
             echo "Getting list of apps..."
             sh 'ls -I "smallbiz" apps > dirs'
             sh """
-              cat dirs | time parallel -j-2 --halt soon,fail=1 'node_modules/.bin/ng build {} ${buildConfig} --progress=false && echo "{} build complete"'
+              cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && echo "{} build complete"'
             """
           }
         }
@@ -124,7 +169,7 @@ pipeline {
       post {
         failure {
           script { 
-            sendSlackFail()
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
@@ -135,8 +180,9 @@ pipeline {
         script {
           dir ("dist/apps") {
             sh """
+              cp ../../sha.txt .
               cp ../../CHANGES .
-              zip -r ../../${pkgFullName}.zip *
+              zip -r ../../${env.pkgFullName}.zip *
             """
           }
         }
@@ -144,7 +190,7 @@ pipeline {
       post {
         failure {
           script { 
-            sendSlackFail()
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
@@ -158,21 +204,21 @@ pipeline {
       steps {
         script {
           sh """
-            curl -X POST ${env.octopus_server}/api/packages/raw -H "X-Octopus-ApiKey: ${env.apikey}" -F "data=@${pkgFullName}.zip"
+            curl -X POST ${env.octopus_server}/api/packages/raw -H "X-Octopus-ApiKey: ${env.apikey}" -F "data=@${env.pkgFullName}.zip"
           """
         }
       }
       post {
         failure {
           script { 
-            sendSlackFail()
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
     }
 
     stage ('Deploy') {
-      agent { label 'windows' }
+      agent { label 'windows-deploy' }
       when { expression { return isAutoDeployBranch}}
       environment {
         apikey = credentials('octoapikey')
@@ -187,9 +233,9 @@ pipeline {
             --apiKey ${env.apikey} ^
             --project ${octoProject} ^
             --channel ${octoChannel} ^
-            --Version ${pkgVersion} ^
-            --packageversion ${pkgVersion} ^
-            --deployto "Staging" ^
+            --Version ${env.pkgVersion + octoVerSuffix} ^
+            --packageversion ${env.pkgVersion} ^
+            --deployto ${env.octoEnv} ^
             --guidedfailure=false ^
             --releasenotesfile "CHANGES" ^
             --deploymenttimeout=00:45:00 ^
@@ -201,7 +247,7 @@ pipeline {
       post {
         failure {
           script { 
-            sendSlackFail()
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }
@@ -211,13 +257,13 @@ pipeline {
     success {
       script { 
         fullDur = (currentBuild.durationString).replace(' and counting',"")
-        slackSend channel: slackCh, color: 'good', message: "*Build/Deploy Success* \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${pkgVersion} \nElapsed: ${fullDur} \n<${BUILD_URL}|Build Log>"
+        slackSend channel: slackCh, color: 'good', message: "*${slackTitle} Success* \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor: ${env.lastAuthor} \n<${env.buildurl}|Build Log>"
       }
     }
     // aborted {
     //   script { 
     //     fullDur = (currentBuild.durationString).replace(' and counting',"")
-    //     slackSend channel: slackCh, color: 'danger', message: "*Build Aborted* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${pkgVersion} \nElapsed: ${fullDur} \n<${BUILD_URL}console|Build Log>"
+    //     slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Aborted* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor: ${env.lastAuthor} \n<${env.buildurl}console|Build Log>"
     //   }
     // }
   }
@@ -227,19 +273,23 @@ pipeline {
 def getGitChangeLog() {
   def gitchangelog = ''
   def changeLogSets = null
+  def lastAuthor = null
   def entries = null
   def entry = null
   def files = null
   def file = null
 
   changeLogSets = currentBuild.changeSets
+  echo "changeLogSets.size(): ${changeLogSets.size()}"
 
   if (changeLogSets != null) {
     for (int i = 0; i < changeLogSets.size(); i++) {
       entries = changeLogSets[i].items
+
       for (int j = 0; j < entries.length; j++) {
         entry = entries[j]
         gitchangelog = gitchangelog + "<b>${entry.commitId}</b> by <b>${entry.author}</b> on ${new Date(entry.timestamp)}:<br/>${entry.msg}<br/>"
+
         files = new ArrayList(entry.affectedFiles)
         for (int k = 0; k < files.size(); k++) {
           file = files[k]
@@ -251,7 +301,7 @@ def getGitChangeLog() {
   return gitchangelog
 }
 
-def sendSlackFail() { 
+def sendSlackFail(gitAuthor, pkgVersion) { 
   fullDur = (currentBuild.durationString).replace(' and counting',"")
-  slackSend channel: slackCh, color: 'danger', message: "*Build Failure* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${pkgVersion} \nElapsed: ${fullDur} \n<${BUILD_URL}console|Build Log>"
+  slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Failure* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${pkgVersion} \nElapsed: ${fullDur} \nAuthor: ${gitAuthor} \n<${env.buildurl}console|Build Log>"
 }
