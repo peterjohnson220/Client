@@ -159,6 +159,7 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         Email Address*
       </label>
       <input
+        autocomplete="email"
         class="form-control"
         formcontrolname="emailAddress"
         id="user-form-email-address"
@@ -234,6 +235,7 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
           Password*
         </label>
         <input
+          autocomplete="new-password"
           class="form-control"
           formcontrolname="password"
           id="user-form-password"
