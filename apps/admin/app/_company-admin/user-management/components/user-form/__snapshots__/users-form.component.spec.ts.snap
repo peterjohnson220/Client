@@ -11,6 +11,7 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
   MIN_PASSWORD_LENGTH={[Function Number]}
   _showPassword={[Function Boolean]}
   formBuilder={[Function FormBuilder]}
+  newUser={[Function Object]}
   saveUser={[Function EventEmitter]}
   user={[Function Object]}
   userApiService="undefined"
