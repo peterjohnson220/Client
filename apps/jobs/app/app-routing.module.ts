@@ -12,11 +12,11 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', redirectTo: 'company-jobs', pathMatch: 'full' },
-      { path: 'company-jobs', loadChildren: () => import('apps/jobs/app/_jobs-page/jobs-page.module').then(m => m.JobsPageModule)},
-      { path: 'matches-modal', loadChildren: () => import('apps/jobs/app/_matches-modal/matches-modal.module')
-          .then(m => m.MatchesModalModule) }
+      { path: 'company-jobs', loadChildren: () => import('apps/jobs/app/_jobs-page/jobs-page.module').then(m => m.JobsPageModule)}
     ]
   },
+  { path: 'matches-modal', loadChildren: () => import('apps/jobs/app/_matches-modal/matches-modal.module')
+      .then(m => m.MatchesModalModule) },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'not-found', component: NotFoundErrorPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
