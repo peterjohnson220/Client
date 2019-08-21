@@ -23,7 +23,7 @@ export class UserFormComponent {
   readonly DEFAULT_STATUS = true;
 
   userForm: FormGroup;
-  user: UserManagementDto = {
+  newUser: UserManagementDto = {
     UserId: null,
     CompanyId: null,
     FirstName: null,
@@ -38,6 +38,7 @@ export class UserFormComponent {
     SendWelcomeEmail: null,
     RoleId: null
   };
+  user = this.newUser;
 
   private _showPassword = false;
   get showPassword(): boolean {
@@ -55,6 +56,8 @@ export class UserFormComponent {
       this.populateForm(this.user);
       this.showPassword = !this.user.LastLogin;
       this.setEmailExistsValidator(this.user.EmailAddress);
+    } else {
+      this.user = this.newUser;
     }
   }
 
