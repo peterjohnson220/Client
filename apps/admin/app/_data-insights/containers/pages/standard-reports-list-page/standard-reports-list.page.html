@@ -2,7 +2,7 @@
   <pf-async-container [loading]="standardReportDetailsAsync.loading"
                       [loadingError]="standardReportDetailsAsync.loadingError"
                       [loadingErrorMessage]="'Error Loading Reports'">
-    <pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
+    <pf-page-with-title-bar [absoluteUrl]="env.siteAdminUrl + '/navigation'">
       <ng-container page-title>
         Payfactors Reports
       </ng-container>
