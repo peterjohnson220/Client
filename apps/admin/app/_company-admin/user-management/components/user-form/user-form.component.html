@@ -47,7 +47,7 @@
   <div class="form-group">
     <label class="control-label" for="emailAddress">Email Address*</label>
     <input id="user-form-email-address" type="text" class="form-control" formControlName="emailAddress" placeholder="Email Address"
-      [maxlength]="MAX_EMAIL_LENGTH" [ngClass]="{ 'is-invalid': !f.emailAddress.valid && f.emailAddress.touched }">
+      [maxlength]="MAX_EMAIL_LENGTH" [ngClass]="{ 'is-invalid': !f.emailAddress.valid && f.emailAddress.touched }" autocomplete="email">
     <div *ngIf="f.emailAddress.errors" class="invalid-feedback">
       <div *ngIf="f.emailAddress.errors.required">Email Address is required</div>
       <div *ngIf="f.emailAddress.errors.maxlength">Email Address cannot be longer than {{MAX_EMAIL_LENGTH}} characters</div>
@@ -79,7 +79,7 @@
     <div class="form-group" *ngIf="showPassword">
       <label class="control-label" for="password">Password*</label>
       <input id="user-form-password" type="password" class="form-control" formControlName="password" placeholder="Password" [maxlength]="MAX_PASSWORD_LENGTH"
-        [ngClass]="{ 'is-invalid': !f.password.valid && f.password.touched }">
+        [ngClass]="{ 'is-invalid': !f.password.valid && f.password.touched }" autocomplete="new-password">
       <div *ngIf="f.password.errors" class="invalid-feedback">
         <div *ngIf="f.password.errors.required">Password is required</div>
         <div *ngIf="f.password.errors.minlength">Password must be at least {{MIN_PASSWORD_LENGTH}} characters</div>
