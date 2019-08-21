@@ -21,13 +21,13 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr:'20'))
     disableConcurrentBuilds()
+    timeout(time: 30, unit: 'MINUTES', activity: true)
   }
 
   stages {
     stage('Preparation') {
       steps {
         script {
-          // properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '20')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], [$class: 'ThrottleJobProperty', categories: [], limitOneJobWithMatchingParams: false, maxConcurrentPerNode: 0, maxConcurrentTotal: 0, paramsToUseForLimit: '', throttleEnabled: false, throttleOption: 'project'], pipelineTriggers([githubPush()])])
           deleteDir()
           checkout scm
           echo "Branch: " + env.BRANCH_NAME
@@ -43,6 +43,7 @@ pipeline {
             } else if (env.BRANCH_NAME == 'develop') {
               suffix = 'Staging'
               buildConfig = '--configuration=staging'
+              env.octoEnv = 'Staging'
             } else if (env.BRANCH_NAME ==~ /^hotfix\/.*/) {
               suffix = 'Hotfix'
               buildConfig = '--configuration=production'
@@ -52,6 +53,8 @@ pipeline {
             } else if (env.BRANCH_NAME == 'Normandy/develop') {
               suffix = 'Normandy'
               buildConfig = '--configuration=staging'
+              octoChannel = 'Normandy'
+              env.octoEnv = 'Normandy'
             } else {
               suffix = env.BRANCH_NAME.substring(0,3)
               buildConfig = '--configuration=staging'
@@ -189,7 +192,7 @@ pipeline {
             --channel ${octoChannel} ^
             --Version ${pkgVersion} ^
             --packageversion ${pkgVersion} ^
-            --deployto "Staging" ^
+            --deployto ${env.octoEnv} ^
             --guidedfailure=false ^
             --releasenotesfile "CHANGES" ^
             --deploymenttimeout=00:45:00 ^
