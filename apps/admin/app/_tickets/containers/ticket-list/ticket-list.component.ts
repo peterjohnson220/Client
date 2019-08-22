@@ -20,6 +20,7 @@ import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketSharedActions from '../../actions/ticket-shared.actions';
 import * as fromTicketReducer from '../../reducers';
 
+
 import { PfServicesRep, UserTicketState, UserTicketTabItem, UserTicketType } from '../../models';
 
 
@@ -83,9 +84,11 @@ export class TicketListComponent implements OnInit, OnDestroy {
   initSuccessSubscription: Subscription;
   ticketListItemsSubscription: Subscription;
   private unsubscribe$ = new Subject();
+  selectedTicketTab$: Observable<number>;
+  selectedTicketsTabSubscription: Subscription;
 
   isDirty = false;
-  selectedUserId: number;
+  ticketsTab: number;
 
   constructor(private store: Store<fromTicketReducer.State>,
     private rootStore: Store<fromRootState.State>) {
@@ -97,13 +100,19 @@ export class TicketListComponent implements OnInit, OnDestroy {
     this.userTicketStates$ = this.store.select(fromTicketReducer.getUserTicketStates);
     this.userTicketTypes$ = this.store.select(fromTicketReducer.getUserTicketTypes);
     this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
-
+    this.selectedTicketTab$ = this.store.select(fromTicketReducer.getSelectedTabTicket);
     this.initSubscriptions();
   }
 
   initSubscriptions() {
+    this.selectedTicketsTabSubscription = this.selectedTicketTab$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
+      this.ticketsTab = v === null ? 0 : v;
+  });
     this.dirtySubscription = this.dirty$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
       this.isDirty = v;
+      if (this.ticketsTab === 0) {
+        this.checkForRefresh();
+      }
     });
     this.ticketListItemsSubscription = this.store.select(fromTicketReducer.getTickets)
       .pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
