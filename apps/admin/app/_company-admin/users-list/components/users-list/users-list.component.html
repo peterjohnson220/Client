@@ -31,7 +31,7 @@
               </ng-template>
             </ng-template>
           </kendo-grid-column>
-          <kendo-grid-column *ngIf="userContext && userContext.AccessLevel === 'Admin'" class="text-center" field="Impersonate" [width]="100">
+          <kendo-grid-column *ngIf="userContext && userContext.AccessLevel === 'Admin'" class="text-center" field="Impersonate" title="" [width]="65">
             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <a *ngIf="dataItem.Active" (click)="$event.stopPropagation()"
                  href="../../marketdata/default.asp?user_id={{dataItem.UserId}}&impersonate=yes"><fa-icon icon="user" aria-hidden="true"></fa-icon></a>

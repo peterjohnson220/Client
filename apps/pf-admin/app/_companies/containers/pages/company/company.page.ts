@@ -139,8 +139,14 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   }
 
   handleSaveClicked(customSettings: CustomCompanySettings) {
-    let companyFormData = this.companyForm.buildFormData();
+    // TODO: Communication between the form and the pages should be done with events.
+    // The page should not have a direct reference to the form components
+    this.companyForm.companyForm.markAllAsTouched();
+    if (!this.companyForm.companyForm.valid) {
+      return;
+    }
 
+    let companyFormData = this.companyForm.buildFormData();
     companyFormData = Object.assign({},
       companyFormData,
       { EnablePricingReview: customSettings.EnablePricingReview },

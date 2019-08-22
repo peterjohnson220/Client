@@ -1,90 +1,74 @@
 <form id="user-form" [formGroup]="userForm" autocomplete="nope">
   <div class="form-group">
-    <label class="control-label" for="firstName">First Name*</label>
+    <label class="control-label" for="firstName">First Name <span class="text-danger">*</span></label>
     <input id="user-form-first-name" type="text" class="form-control" formControlName="firstName" placeholder="First Name" [maxlength]="MAX_NAME_LENGTH"
       [ngClass]="{ 'is-invalid': !f.firstName.valid && f.firstName.touched }">
-    <div *ngIf="f.firstName.errors" class="invalid-feedback">
-      <div *ngIf="f.firstName.errors.required">First Name is required</div>
-      <div *ngIf="f.firstName.errors.maxlength">First Name cannot be longer than {{MAX_NAME_LENGTH}} characters</div>
-    </div>
+    <span *ngIf="f.firstName.errors?.required" class="invalid-feedback">First Name is required</span>
+    <span *ngIf="f.firstName.errors?.maxlength" class="invalid-feedback">First Name cannot be longer than {{MAX_NAME_LENGTH}} characters</span>
   </div>
   <div class="form-group">
-    <label class="control-label" for="lastName">Last Name*</label>
+    <label class="control-label" for="lastName">Last Name <span class="text-danger">*</span></label>
     <input id="user-form-last-name" type="text" class="form-control" formControlName="lastName" placeholder="Last Name" [maxlength]="MAX_NAME_LENGTH"
       [ngClass]="{ 'is-invalid': !f.lastName.valid && f.lastName.touched }">
-    <div *ngIf="f.lastName.errors" class="invalid-feedback">
-      <div *ngIf="f.lastName.errors.required">Last Name is required</div>
-      <div *ngIf="f.lastName.errors.maxlength">Last Name cannot be longer than {{MAX_NAME_LENGTH}} characters</div>
-    </div>
+    <span *ngIf="f.lastName.errors?.required" class="invalid-feedback">Last Name is required</span>
+    <span *ngIf="f.lastName.errors?.maxlength" class="invalid-feedback">Last Name cannot be longer than {{MAX_NAME_LENGTH}} characters</span>
   </div>
   <div class="form-group">
     <label class="control-label" for="title">Title</label>
     <input id="user-form-title" type="text" class="form-control" formControlName="title" placeholder="Title" [maxlength]="MAX_TITLE_LENGTH"
       [ngClass]="{ 'is-invalid': !f.title.valid && f.title.touched }">
-    <div *ngIf="f.title.errors" class="invalid-feedback">
-      <div *ngIf="f.title.errors.maxlength">Title cannot be longer than {{MAX_TITLE_LENGTH}} characters</div>
-    </div>
+    <span *ngIf="f.title.errors?.maxlength" class="invalid-feedback">Title cannot be longer than {{MAX_TITLE_LENGTH}} characters</span>
   </div>
   <div class="form-group">
-    <label class="control-label" for="status">Status*</label>
+    <label class="control-label" for="status">Status <span class="text-danger">*</span></label>
     <select id="user-form-status" class="form-control" formControlName="status" placeholder="Status"
       [ngClass]="{ 'is-invalid': !f.status.valid && f.status.touched }">
       <option [value]="true">Active</option>
       <option [value]="false">Inactive</option>
     </select>
-    <div *ngIf="f.status.errors" class="invalid-feedback">
-      <div *ngIf="f.status.errors.required">Status is required</div>
-    </div>
+    <span *ngIf="f.status.errors?.required" class="invalid-feedback">Status is required</span>
   </div>
   <div class="form-group">
     <label class="control-label" for="phoneNumber">Phone Number</label>
     <input id="user-form-phone-number" type="text" class="form-control" formControlName="phoneNumber" placeholder="Phone Number" [maxlength]="MAX_NAME_LENGTH"
       [ngClass]="{ 'is-invalid': !f.phoneNumber.valid && f.phoneNumber.touched }">
-    <div *ngIf="f.phoneNumber.errors" class="invalid-feedback">
-      <div *ngIf="f.phoneNumber.errors.maxlength">Phone Number cannot be longer than {{MAX_NAME_LENGTH}} characters</div>
-    </div>
+    <span *ngIf="f.phoneNumber.errors?.maxlength" class="invalid-feedback">Phone Number cannot be longer than {{MAX_NAME_LENGTH}} characters</span>
   </div>
   <div class="form-group">
-    <label class="control-label" for="emailAddress">Email Address*</label>
+    <label class="control-label" for="emailAddress">Email Address <span class="text-danger">*</span></label>
     <input id="user-form-email-address" type="text" class="form-control" formControlName="emailAddress" placeholder="Email Address"
       [maxlength]="MAX_EMAIL_LENGTH" [ngClass]="{ 'is-invalid': !f.emailAddress.valid && f.emailAddress.touched }" autocomplete="email">
-    <div *ngIf="f.emailAddress.errors" class="invalid-feedback">
-      <div *ngIf="f.emailAddress.errors.required">Email Address is required</div>
-      <div *ngIf="f.emailAddress.errors.maxlength">Email Address cannot be longer than {{MAX_EMAIL_LENGTH}} characters</div>
-      <div *ngIf="!f.emailAddress.errors.required && f.emailAddress.errors.emailFormat">Invalid Email Address</div>
-      <div *ngIf="!f.emailAddress.errors.required && f.emailAddress.errors.emailTaken">A user account with this Email Address already exists</div>
-    </div>
+    <span *ngIf="f.emailAddress.errors?.required" class="invalid-feedback">Email Address is required</span>
+    <span *ngIf="f.emailAddress.errors?.maxlength" class="invalid-feedback">Email Address cannot be longer than {{MAX_EMAIL_LENGTH}} characters</span>
+    <span *ngIf="!f.emailAddress.errors?.required && f.emailAddress.errors.emailFormat" class="invalid-feedback">Invalid Email Address</span>
+    <span *ngIf="!f.emailAddress.errors?.required && f.emailAddress.errors.emailTaken" class="invalid-feedback">A user account with this Email Address already exists</span>    
   </div>
   <div class="form-group">
-    <label class="control-label" for="userRole">User Role*</label>
+    <label class="control-label" for="userRole">User Role <span class="text-danger">*</span></label>
     <select id="user-form-user-role" class="form-control" formControlName="userRole" placeholder="User Role"
       [ngClass]="{ 'is-invalid': !f.userRole.valid && f.userRole.touched }">
       <ng-container *ngFor="let role of userRoles">
         <option *ngIf="role.UiVisible" [value]="role.RoleId">{{role.RoleName}}</option>
       </ng-container>
     </select>
-    <div *ngIf="f.userRole.errors" class="invalid-feedback">
-      <div *ngIf="f.userRole.errors.required">User Role is required</div>
-    </div>
+    <span *ngIf="f.userRole.errors?.required" class="invalid-feedback">User Role is required</span>
   </div>
   <div class="form-group">
     <label class="control-label" for="ssoId">SSO ID</label>
     <input id="user-form-ssoid" type="text" class="form-control" formControlName="ssoId" placeholder="SSO ID" [maxlength]="MAX_NAME_LENGTH"
       [ngClass]="{ 'is-invalid': !f.ssoId.valid && f.ssoId.touched }">
     <div *ngIf="f.ssoId.errors" class="invalid-feedback">
-      <div *ngIf="f.ssoId.errors.maxlength">SSO ID cannot be longer than {{MAX_NAME_LENGTH}} characters</div>
+      <span *ngIf="f.ssoId.errors?.maxlength" class="invalid-feedback">SSO ID cannot be longer than {{MAX_NAME_LENGTH}} characters</span>
     </div>
   </div>
   <div *ngIf="!user.LastLogin">
     <div class="form-group" *ngIf="showPassword">
-      <label class="control-label" for="password">Password*</label>
+      <label class="control-label" for="password">Password <span class="text-danger">*</span></label>
       <input id="user-form-password" type="password" class="form-control" formControlName="password" placeholder="Password" [maxlength]="MAX_PASSWORD_LENGTH"
         [ngClass]="{ 'is-invalid': !f.password.valid && f.password.touched }" autocomplete="new-password">
-      <div *ngIf="f.password.errors" class="invalid-feedback">
-        <div *ngIf="f.password.errors.required">Password is required</div>
-        <div *ngIf="f.password.errors.minlength">Password must be at least {{MIN_PASSWORD_LENGTH}} characters</div>
-        <div *ngIf="f.password.errors.maxlength">Password cannot be longer than {{MAX_PASSWORD_LENGTH}} characters</div>
-      </div>
+      <span *ngIf="f.password.errors?.required" class="invalid-feedback">Password is required</span>
+      <span *ngIf="f.password.errors?.minlength" class="invalid-feedback">Password must be at least {{MIN_PASSWORD_LENGTH}} characters</span>
+      <span *ngIf="f.password.errors?.maxlength" class="invalid-feedback">Password cannot be longer than {{MAX_PASSWORD_LENGTH}} characters</span>
       <button type="button" class="btn btn-link" (click)="showPassword = false">Automatically generate a new password...</button>
     </div>
     <div class="form-group" *ngIf="!showPassword">
