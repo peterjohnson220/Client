@@ -67,6 +67,11 @@ export const getStandardWorkbooksAsync = createSelector(
   fromDataInsightsPageReducer.getStandardWorkbooksAsync
 );
 
+export const getShowStandardReportsSection = createSelector(
+  selectDataInsightsPageState,
+  fromDataInsightsPageReducer.getShowStandardReportsSection
+);
+
 // Report View Page
 export const getWorkbookViewUrl = createSelector(
   selectReportViewPageState,
