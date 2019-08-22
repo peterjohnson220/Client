@@ -1,7 +1,7 @@
 <div class="dashboards h-100">
   <div class="top-bar">
     <div class="dashboards-title">
-      <div class="container-fluid">
+      <div class="ml-auto mr-auto">
         <div class="d-flex flex-nowrap dashboard-actions">
           <div class="view-selector">
             <kendo-dropdownlist *ngIf="anyFavorites; else allDashboards"
@@ -57,7 +57,7 @@
       [loadingErrorMessage]="'Error Loading Dashboards'"
       [hideReloadButton]="true">
     </pf-async-container>
-    <div class="container-fluid">
+    <div class="ml-auto mr-auto mb-4">
       <div class="row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">
         <ng-container *ngIf="filteredCompanyWorkbooks?.length">
           <div *ngFor="let workbook of filteredCompanyWorkbooks; trackBy: trackByFn"

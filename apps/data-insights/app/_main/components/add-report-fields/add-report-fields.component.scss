@@ -12,15 +12,3 @@
   color: $dark-grey;
   padding-right: .3rem;
 }
-
-::ng-deep {
-  .k-outer-group-header {
-    color: $icon-blue-color
-  }
-
-  .k-animation-container-shown {
-    .k-popup {
-      min-height: 150px;
-    }
-  }
-}
