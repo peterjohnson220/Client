@@ -1,25 +1,28 @@
 <form *ngIf="!!companyFormData" id="company-form" [formGroup]="companyForm">
   <div class="row">
     <div class="col-6">
-      <div class="form-group" [class.has-danger]="!companyForm.controls.companyName.valid">
+      <div class="form-group">
         <label class="control-label" for="companyName">Company Name <span class="text-danger">*</span></label>
-        <input [readonly]="saving" formControlName="companyName" type="text" class="form-control"
-          placeholder="Company Name" maxlength="255">
+        <input [readonly]="saving" formControlName="companyName" type="text" class="form-control" placeholder="Company Name" maxlength="255"
+          [ngClass]="{ 'is-invalid': !f.companyName.valid && f.companyName.touched }">
+        <span *ngIf="f.companyName.errors?.required" class="invalid-feedback">Company Name is required</span>        
+        <span *ngIf="f.companyName.errors?.maxlength" class="invalid-feedback">Company Name cannot be longer than 255 characters</span>
       </div>
-      <div *ngIf="isClientTypeSystemUserGroup" class="form-group"
-        [class.has-danger]="companyFormData.SystemUserGroupsId == 1 && !clientTypeControl.value">
+      <div *ngIf="isClientTypeSystemUserGroup" class="form-group">
         <label class="control-label" for="clientType">
-          Client Type <span *ngIf="isPayfactorsServicesRepositorySelected" class="text-danger">*</span>
+          Client Type <span class="text-danger">*</span>
         </label>
-        <select (change)="onClientTypeChange()" formControlName="clientType" class="form-control" placeholder="Client Type">
+        <select (change)="onClientTypeChange()" formControlName="clientType" class="form-control" placeholder="Client Type"
+          [ngClass]="{ 'is-invalid': !f.clientType.valid && f.clientType.touched }">
           <option></option>
           <option *ngFor="let clientType of clientTypes" [ngValue]="clientType.ClientType">
             {{clientType.ClientType}}
           </option>
         </select>
+        <span *ngIf="f.clientType.errors?.required" class="invalid-feedback">Client Type is required</span>        
       </div>
-      <div class="form-group" [class.has-danger]="!companyForm.controls.status.valid">
-        <label class="control-label" for="status">Status:</label>
+      <div class="form-group">
+        <label class="control-label" for="status">Status</label>
         <select formControlName="status" class="form-control" placeholder="Status">
           <option value="Active">Active</option>
           <option value="Delete">Delete</option>
@@ -28,25 +31,22 @@
           <option value="Proof of Concept">Proof of Concept</option>
         </select>
       </div>
-      <div class="form-group" [class.has-danger]="!companyForm.controls.repository.valid">
-        <label class="control-label" for="repository">Repository:</label>
-        <select formControlName="repository" class="form-control" placeholder="Repository"
-          (change)="changeRepositoryDropdown()">
+      <div class="form-group">
+        <label class="control-label" for="repository">Repository</label>
+        <select formControlName="repository" class="form-control" placeholder="Repository" (change)="changeRepositoryDropdown()">
           <option *ngFor="let systemUserGroup of systemUserGroups" [ngValue]="systemUserGroup.SystemUserGroupsId">
             {{systemUserGroup.DisplayName}}
           </option>
-        </select>
-      </div>
-      <div class="form-group" [class.has-danger]="!companyForm.controls.assets.valid">
-        <label class="control-label" for="assets">Assets:</label>
-        <input [readonly]="saving" formControlName="assets" type="text" class="form-control"
-          placeholder="Assets">
-        <span *ngIf="companyForm.controls.assets.errors?.isNotNumeric" class="help-block">
-          Assets must be numeric
-        </span>
+        </select>        
       </div>
       <div class="form-group">
-        <label class="control-label" for="revenue">Company Logo:</label>
+        <label class="control-label" for="assets">Assets</label>
+        <input [readonly]="saving" formControlName="assets" type="text" class="form-control" placeholder="Assets"
+          [ngClass]="{ 'is-invalid': !f.assets.valid && f.assets.touched }">          
+        <span *ngIf="f.assets.errors?.isNotNumeric" class="invalid-feedback">Assets must be numeric</span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="revenue">Company Logo</label>
         <kendo-upload
           [autoUpload]="true"
           [saveUrl]="uploadUrl"
@@ -67,41 +67,38 @@
         </div>
       </div>
       <div class="form-group" [class.has-danger]="!passwordLengthControl.valid">
-        <label class="control-label" for="passwordLength">Minimum Character Password Requirement:</label>
-        <input [readonly]="saving" formControlName="passwordLength" type="number" class="form-control" min="8" max="20">
-        <span *ngIf="passwordLengthControl.touched && (passwordLengthControl.errors?.min || passwordLengthControl.errors?.required)"
-          class="help-block">Minimum password length must be at least 8 characters.
-        </span>
-        <span *ngIf="passwordLengthControl.touched && passwordLengthControl.errors?.max" class="help-block">
-          Minimum password length cannot be more than 20 characters.
-        </span>
-        <span *ngIf="passwordLengthControl.touched && passwordLengthControl.errors?.pattern" class="help-block">
-          Minimum password length must be an integer.
-        </span>
+        <label class="control-label" for="passwordLength">Minimum Character Password Requirement</label>
+        <input [readonly]="saving" formControlName="passwordLength" type="number" class="form-control" min="8" max="20"
+          [ngClass]="{ 'is-invalid': !f.passwordLength.valid && f.passwordLength.touched }">
+        <span *ngIf="f.passwordLength.errors?.required" class="invalid-feedback">Password length is required</span>
+        <span *ngIf="f.passwordLength.errors?.min" class="invalid-feedback">Minimum password length must be at least 8 characters</span>
+        <span *ngIf="f.passwordLength.errors?.max" class="invalid-feedback">Minimum password length cannot be more than 20 characters</span>
+        <span *ngIf="f.passwordLength.errors?.pattern" class="invalid-feedback">Minimum password length must be an integer</span>
       </div>
     </div>
     <div class="col-6">
-      <div class="form-group" [class.has-danger]="!companyForm.controls.companyNameShort.valid">
-        <label class="control-label" for="companyNameShort">Short Name:</label>
-        <input [readonly]="saving" formControlName="companyNameShort" type="text" class="form-control"
-          placeholder="Short Name" maxlength="50">
+      <div class="form-group">
+        <label class="control-label" for="companyNameShort">Short Name</label>
+        <input [readonly]="saving" formControlName="companyNameShort" type="text" class="form-control" placeholder="Short Name" maxlength="50"
+          [ngClass]="{ 'is-invalid': !f.companyNameShort.valid && f.companyNameShort.touched }">
+        <span *ngIf="f.companyName.errors?.maxlength" class="invalid-feedback">Short Name cannot be longer than 50 characters</span>
       </div>
-      <div class="form-group"
-        [class.has-danger]="companyFormData.SystemUserGroupsId == 1 && !companyForm.controls.servicesRep.value">
+      <div class="form-group">
         <label class="control-label" for="servicesRep">
           Sr. Associate, Compensation <span *ngIf="isPayfactorsServicesRepositorySelected" class="text-danger">*</span>
         </label>
-        <select formControlName="servicesRep" class="form-control" placeholder="Services Rep">
+        <select formControlName="servicesRep" class="form-control" placeholder="Services Rep"
+          [ngClass]="{ 'is-invalid': !f.servicesRep.valid && f.servicesRep.touched }">
           <option></option>
           <option *ngFor="let servicesRep of pfServicesReps" [ngValue]="servicesRep.UserId">
             {{servicesRep.FirstName}} {{servicesRep.LastName}}
           </option>
         </select>
+        <span *ngIf="f.servicesRep.errors?.required" class="invalid-feedback">Sr. Associate, Compensation is required</span>        
       </div>
-      <div class="form-group"
-        [class.has-danger]="companyFormData.SystemUserGroupsId == 1 && !companyForm.controls.jdmSrAssociate.value">
+      <div class="form-group">
         <label class="control-label" for="jdmSrAssociate">
-          Sr. Associate, JDM: <span *ngIf="isPayfactorsServicesRepositorySelected" class="text-danger">*</span>
+          Sr. Associate, JDM
         </label>
         <select formControlName="jdmSrAssociate" class="form-control" placeholder="Services Rep JDM">
           <option></option>
@@ -110,51 +107,48 @@
           </option>
         </select>
       </div>
-      <div class="form-group"
-        [class.has-danger]="companyFormData.SystemUserGroupsId == 1 && !companyForm.controls.customerSuccessMgr.value">
+      <div class="form-group">
         <label class="control-label" for="customerSuccessMgr">
           Customer Success Mgr <span *ngIf="isPayfactorsServicesRepositorySelected" class="text-danger">*</span>
         </label>
-        <select formControlName="customerSuccessMgr" class="form-control" placeholder="Customer Success Mgr">
+        <select formControlName="customerSuccessMgr" class="form-control" placeholder="Customer Success Mgr"
+          [ngClass]="{ 'is-invalid': !f.customerSuccessMgr.valid && f.customerSuccessMgr.touched }">
           <option></option>
           <option *ngFor="let customerSuccessMgr of pfCustomerSuccessMgrs" [ngValue]="customerSuccessMgr.UserId">
             {{customerSuccessMgr.FirstName}} {{customerSuccessMgr.LastName}}
           </option>
         </select>
-      </div>
-      <div class="form-group" [class.has-danger]="!companyForm.controls.ftes.valid">
-        <label class="control-label" for="ftes"># FTEs:</label>
-        <input [readonly]="saving" formControlName="ftes" type="text" class="form-control" placeholder="# FTEs">
-        <span *ngIf="companyForm.controls.ftes.errors?.isNotNumeric" class="help-block">
-          FTEs must be numeric
-        </span>
-      </div>
-      <div class="form-group" [class.has-danger]="!companyForm.controls.revenue.valid">
-        <label class="control-label" for="revenue">Revenue:</label>
-        <input [readonly]="saving" formControlName="revenue" type="text" class="form-control"
-          placeholder="Revenue">
-        <span *ngIf="companyForm.controls.revenue.errors?.isNotNumeric" class="help-block">
-          Revenue must be numeric
-        </span>
+        <span *ngIf="f.customerSuccessMgr.errors?.required" class="invalid-feedback">Customer Success Mgr is required</span>
       </div>
       <div class="form-group">
-        <label class="control-label" for="industry">Industry:</label>
+        <label class="control-label" for="ftes"># FTEs</label>
+        <input [readonly]="saving" formControlName="ftes" type="text" class="form-control" placeholder="# FTEs"
+          [ngClass]="{ 'is-invalid': !f.ftes.valid && f.ftes.touched }">
+        <span *ngIf="f.ftes.errors?.isNotNumeric" class="invalid-feedback">FTEs must be numeric</span>
+      </div>
+      <div class="form-group" [class.has-danger]="!f.revenue.valid">
+        <label class="control-label" for="revenue">Revenue</label>
+        <input [readonly]="saving" formControlName="revenue" type="text" class="form-control" placeholder="Revenue"
+          [ngClass]="{ 'is-invalid': !f.revenue.valid && f.revenue.touched }">
+        <span *ngIf="f.revenue.errors?.isNotNumeric" class="invalid-feedback">Revenue must be numeric</span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="industry">Industry</label>
         <select formControlName="industry" class="form-control" placeholder="Industry" (change)="changeIndustryDropdown()">
           <option></option>
           <option *ngFor="let industry of industries" [ngValue]="industry.Industry">{{industry.Industry}}</option>
         </select>
       </div>
       <div class="form-group" *ngIf="(groupVal === RETAILING) || (groupVal === HEALTHCARE)"
-        [class.has-danger]="!companyForm.controls.customFieldValue.valid">
+        [class.has-danger]="!f.customFieldValue.valid">
         <label class="control-label" for="customFieldValue">{{companyFormData.CustomFieldName}}</label>
-        <input [readonly]="saving" formControlName="customFieldValue" type="text" class="form-control"
-          placeholder="{{companyFormData.CustomFieldName}}">
-        <span *ngIf="companyForm.controls.customFieldValue.errors?.maxlength" class="help-block">
-          Custom Field Value is too long
-        </span>
+        <input [readonly]="saving" formControlName="customFieldValue" type="text" class="form-control" 
+          placeholder="{{companyFormData.CustomFieldName}}" maxlength="50"
+          [ngClass]="{ 'is-invalid': !f.customFieldValue.valid && f.customFieldValue.touched }">
+        <span *ngIf="f.customFieldValue.errors?.maxlength" class="invalid-feedback">{{companyFormData.CustomFieldName}} cannot be longer than 50 characters</span>
       </div>
       <div *ngIf="(tokenUrl$ | async)?.length">
-        <label class="control-label">Public Token Url:</label>
+        <label class="control-label">Public Token Url</label>
         <pf-async-container
           [loading]="loadingTokenUrl$ | async"
           [loadingError]="loadingTokenUrlError$ | async"

@@ -59,6 +59,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit() {
     this.createForm();
+    this.subscribeToChanges();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -87,19 +88,15 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   get submitDisabled(): boolean {
-    if (!this.companyForm) {
-      return this.saving;
-    }
-
-    return this.saving || !this.companyForm.valid || !(this.companyForm.dirty || this.companyForm.touched);
+    return this.saving;
   }
 
   get isClientTypeSystemUserGroup(): boolean {
     const selectedSystemUserGroupsId = this.repositoryControl.value;
     return selectedSystemUserGroupsId === SystemUserGroupIds.PayfactorsServices ||
-    selectedSystemUserGroupsId === this.peerOnlySystemUserGroupId ||
-    selectedSystemUserGroupsId === this.smallBusinessSystemUserGroupId ||
-    selectedSystemUserGroupsId === this.smallBusinessPaidSystemUserGroupId;
+      selectedSystemUserGroupsId === this.peerOnlySystemUserGroupId ||
+      selectedSystemUserGroupsId === this.smallBusinessSystemUserGroupId ||
+      selectedSystemUserGroupsId === this.smallBusinessPaidSystemUserGroupId;
   }
 
   get isPayfactorsServicesRepositorySelected(): boolean {
@@ -118,14 +115,17 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     return this.companyForm.get('passwordLength');
   }
 
+  // convenience getter for easy access to form fields
+  get f() { return this.companyForm.controls; }
+
   createForm(): void {
     this.companyForm = this.fb.group({
       companyName: ['', [Validators.required, Validators.maxLength(255)]],
       companyNameShort: ['', Validators.maxLength(50)],
       status: [''],
-      servicesRep: [0],
-      jdmSrAssociate: [0],
-      customerSuccessMgr: [0],
+      servicesRep: [null],
+      jdmSrAssociate: [null],
+      customerSuccessMgr: [null],
       clientType: [''],
       ftes: [0, PfValidators.isNotNumeric],
       assets: [0, PfValidators.isNotNumeric],
@@ -136,21 +136,27 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       enablePricingReview: [false],
       passwordLength: [0, [Validators.required, Validators.pattern('[0-9]*'), Validators.min(8), Validators.max(20)]],
       ParticipateInPeerDataExchange: [true]
-    },
-    {
-      validator: (fg: FormGroup) => {
-        if (fg.controls['repository'].value === SystemUserGroupIds.PayfactorsServices &&
-          (
-            !fg.controls['servicesRep'].value ||
-            !fg.controls['jdmSrAssociate'].value ||
-            !fg.controls['customerSuccessMgr'].value ||
-            !fg.controls['clientType'].value
-          )
-        ) {
-          return { invalid: true };
-        }
-      }
     });
+  }
+
+  subscribeToChanges() {
+    this.companyForm.controls.repository.valueChanges.subscribe(val => this.setDynamicValidators(val === SystemUserGroupIds.PayfactorsServices));
+  }
+
+  setDynamicValidators(value: boolean) {
+    const validators = value ? [Validators.required] : null;
+
+    this.companyForm.controls.servicesRep.setValidators(validators);
+    this.companyForm.controls.customerSuccessMgr.setValidators(validators);
+    this.companyForm.controls.clientType.setValidators(validators);
+
+    this.companyForm.controls.servicesRep.updateValueAndValidity();
+    this.companyForm.controls.customerSuccessMgr.updateValueAndValidity();
+    this.companyForm.controls.clientType.updateValueAndValidity();
+  }
+
+  isValid(): boolean {
+    return this.companyForm.valid;
   }
 
   buildFormData(): CompanyFormData {
@@ -192,17 +198,19 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   changeRepositoryDropdown() {
+
     const systemUserGroupsIdValue = this.repositoryControl.value;
+
     if (systemUserGroupsIdValue === this.peerOnlySystemUserGroupId) {
       this.clientTypeControl.setValue(CompanyClientTypeConstants.PEER);
       this.repositoryControl.disable();
 
       this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
       return;
-    } else if ( systemUserGroupsIdValue === this.smallBusinessSystemUserGroupId ||
+    } else if (systemUserGroupsIdValue === this.smallBusinessSystemUserGroupId ||
       systemUserGroupsIdValue === this.smallBusinessPaidSystemUserGroupId) {
-        this.clientTypeControl.setValue(CompanyClientTypeConstants.DATA_ONLY);
-        return;
+      this.clientTypeControl.setValue(CompanyClientTypeConstants.DATA_ONLY);
+      return;
     }
 
     this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
@@ -272,12 +280,15 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.reset();
     this.setGroupFromIndustryValue(this.companyFormData.Industry);
 
+    const PrimarySupportUserId = this.companyFormData.PrimarySupportUserId ? Number(this.companyFormData.PrimarySupportUserId) : null;
+    const CustomerSuccessMgrUserId = this.companyFormData.CustomerSuccessMgrUserId ? Number(this.companyFormData.CustomerSuccessMgrUserId) : null;
+
     this.companyForm.get('companyName').setValue(this.companyFormData.CompanyName);
     this.companyForm.get('companyNameShort').setValue(this.companyFormData.CompanyNameShort);
     this.companyForm.get('status').setValue(this.companyFormData.Status);
-    this.companyForm.get('servicesRep').setValue(Number(this.companyFormData.PrimarySupportUserId));
+    this.companyForm.get('servicesRep').setValue(PrimarySupportUserId);
     this.companyForm.get('jdmSrAssociate').setValue(Number(this.companyFormData.JDMSeniorAssociateUserId));
-    this.companyForm.get('customerSuccessMgr').setValue(Number(this.companyFormData.CustomerSuccessMgrUserId));
+    this.companyForm.get('customerSuccessMgr').setValue(CustomerSuccessMgrUserId);
     this.companyForm.get('clientType').setValue(this.companyFormData.ClientType);
     this.companyForm.get('ftes').setValue(this.companyFormData.FTEs);
     this.companyForm.get('assets').setValue(this.companyFormData.Assets);
