@@ -24,6 +24,7 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr:'20'))
     disableConcurrentBuilds()
+    timeout(time: 30, unit: 'MINUTES', activity: true)
   }
 
   stages {
@@ -47,6 +48,7 @@ pipeline {
             } else if (env.BRANCH_NAME == 'develop') {
               isAutoDeployBranch = true
               suffix = 'Staging'
+              env.octoEnv = 'Staging'
               env.buildConfig = '--configuration=staging'
             } else if (env.BRANCH_NAME ==~ /^hotfix\/.*/) {
               suffix = 'Hotfix'
@@ -58,6 +60,7 @@ pipeline {
               isAutoDeployBranch = true
               suffix = 'Normandy'
               octoChannel = 'Normandy'
+              env.octoEnv = 'Normandy'
               octoVerSuffix = '-NM'
               env.buildConfig = '--configuration=staging'
             } else {
@@ -232,7 +235,7 @@ pipeline {
             --channel ${octoChannel} ^
             --Version ${env.pkgVersion + octoVerSuffix} ^
             --packageversion ${env.pkgVersion} ^
-            --deployto "Staging" ^
+            --deployto ${env.octoEnv} ^
             --guidedfailure=false ^
             --releasenotesfile "CHANGES" ^
             --deploymenttimeout=00:45:00 ^
