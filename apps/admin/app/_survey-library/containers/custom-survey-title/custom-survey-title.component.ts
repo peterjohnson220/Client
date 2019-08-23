@@ -34,6 +34,7 @@ export class CustomSurveyTitleComponent implements OnInit {
 
     this.savedInfo$.subscribe(obj => {
       if (this.SurveyTitleCompany.CompanyId === obj.companyId && this.SurveyTitleId === obj.titleId) {
+        this.store.dispatch(new fromCustomSurveyTitleActions.SaveCustomTitleSuccess(null, null));
         this.SurveyTitleCompany.CustomSurveyName = this.newSurveyTitle;
         this.switchView();
       }
