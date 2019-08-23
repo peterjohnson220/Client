@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'pf-expand-collapse-icon',
@@ -7,13 +7,9 @@ import { Component } from '@angular/core';
 })
 
 export class ExpandCollapseIconComponent {
-  expanded: boolean;
 
+  @Input() expanded: boolean;
   constructor() {
-    this.expanded = false;
   }
 
-  switchIcon() {
-    this.expanded = !this.expanded;
-  }
 }
