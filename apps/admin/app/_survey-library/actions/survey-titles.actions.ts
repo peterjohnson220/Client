@@ -13,6 +13,8 @@ export class SaveCustomTitle implements Action {
 
 export class SaveCustomTitleSuccess implements Action {
   readonly type = SAVE_CUSTOM_TITLE_SUCCESS;
+
+  constructor(public companyId: number, public titleId: number) {}
 }
 
 export class SaveCustomTitleError implements Action {

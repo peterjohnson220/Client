@@ -15,24 +15,29 @@ import * as fromCustomSurveyTitleActions from '../../actions';
   styleUrls: ['./custom-survey-title.component.scss']
 })
 
-export class CustomSurveyTitleComponent implements OnInit, OnDestroy{
+export class CustomSurveyTitleComponent implements OnInit {
   @ViewChild('surveyTitleInput', {static: false}) surveyTitleInput: ElementRef;
   @Input() SurveyTitleCompany: SurveyTitleCompanyModel;
   @Input() SurveyTitleId: number;
 
   labelOnly: boolean;
   newSurveyTitle: string;
-  private customSurveyNameSaveSuccess$: Observable<boolean>;
-  private subscription: Subscription;
+  private savedInfo$: Observable<any>;
 
   constructor(private store: Store<fromSurveyLibraryReducer.State>) {
     this.labelOnly = true;
-    this.customSurveyNameSaveSuccess$ = store.select(fromSurveyLibraryReducer.getCustomSurveyTitleSavingSuccess);
-    this.subscription = new Subscription();
+    this.savedInfo$ = store.select(fromSurveyLibraryReducer.getSavedCustomTitleInfo);
   }
 
   ngOnInit(): void {
     this.newSurveyTitle = this.SurveyTitleCompany.CustomSurveyName;
+
+    this.savedInfo$.subscribe(obj => {
+      if (this.SurveyTitleCompany.CompanyId === obj.companyId && this.SurveyTitleId === obj.titleId) {
+        this.SurveyTitleCompany.CustomSurveyName = this.newSurveyTitle;
+        this.switchView();
+      }
+    });
   }
 
   focus() {
@@ -50,22 +55,8 @@ export class CustomSurveyTitleComponent implements OnInit, OnDestroy{
         CustomSurveyName: this.newSurveyTitle
       };
       this.store.dispatch(new fromCustomSurveyTitleActions.SaveCustomTitle({surveyTitleId: this.SurveyTitleId, request: request}));
-
-      this.subscription.add(
-        this.customSurveyNameSaveSuccess$.subscribe(success => {
-          if (success) {
-            this.SurveyTitleCompany.CustomSurveyName = this.newSurveyTitle;
-            this.subscription.unsubscribe();
-            this.switchView();
-          }
-        })
-      );
     } else {
       this.switchView();
     }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
