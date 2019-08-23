@@ -44,7 +44,7 @@
 
   span {
     text-align: right;
-    width: 150px;
+    width: 100px;
     @extend %ellipsis-overflowing-text;
   }
 

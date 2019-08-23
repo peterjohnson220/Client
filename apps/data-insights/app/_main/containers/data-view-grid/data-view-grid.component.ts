@@ -36,6 +36,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     mode: 'single'
   };
   sortDesc: DataViewSortDescriptor[];
+  kendoSortDesc: SortDescriptor;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
@@ -75,6 +76,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     if (!sortDesc.length) {
       return;
     }
+    this.kendoSortDesc = sortDesc[0];
     const selectedField = this.fields.find(x => x.KendoGridField === sortDesc[0].field);
     if (!selectedField) {
       return;
@@ -88,6 +90,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   handleResetSort(sort: DataViewSortDescriptor): void {
     if (!sort) {
       this.sortDesc = [];
+      this.kendoSortDesc = null;
     }
   }
 }

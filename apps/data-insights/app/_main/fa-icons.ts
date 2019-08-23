@@ -28,7 +28,9 @@ import { faTable } from '@fortawesome/pro-light-svg-icons/faTable';
 import { faTag } from '@fortawesome/pro-regular-svg-icons/faTag';
 import { faStar as falStar } from '@fortawesome/pro-regular-svg-icons/faStar';
 import { faChartLine } from '@fortawesome/pro-regular-svg-icons/faChartLine';
+import { faLongArrowUp } from '@fortawesome/pro-regular-svg-icons/faLongArrowUp';
+import { faLongArrowDown } from '@fortawesome/pro-regular-svg-icons/faLongArrowDown';
 
 export const faIcons = [ faChartBar, faSitemap, faUsers, faListUl, falStar, faStar, faTag, fasTag, faCaretDown,
   faSearch, faCaretRight, faTags, faChevronDoubleDown, faChevronDoubleUp, faChevronDoubleRight, faChevronDoubleLeft,
-  faEdit, faClone,  faTimes, faTable, faChartLine, faTrashAlt, faPlus, faPencil, faAnalytics ];
+  faEdit, faClone,  faTimes, faTable, faChartLine, faTrashAlt, faPlus, faPencil, faAnalytics, faLongArrowUp, faLongArrowDown ];
