@@ -28,3 +28,6 @@ export const getCustomSurveyTitleSavingSuccess = createSelector(selectCustomSurv
 
 export const getCustomSurveyTitleSavingError = createSelector(selectCustomSurveyTitleState,
   fromCustomSurveyTitleReducer.getSavingCustomTitleSavingError);
+
+export const getSavedCustomTitleInfo = createSelector(selectCustomSurveyTitleState,
+  fromCustomSurveyTitleReducer.getSavedInfo);
