@@ -19,7 +19,7 @@ import { SurveyTitleResponseModel } from '../../models';
 })
 
 export class SurveyTitlesPageComponent implements OnInit {
-  @ViewChild('TitleSearch', {static: false}) titleSearch;
+  @ViewChild('TitleSearch', { static: false }) titleSearch;
   public filter: string;
   public publisher: string;
   public systemUserGroupsId: number;
@@ -32,9 +32,9 @@ export class SurveyTitlesPageComponent implements OnInit {
   isPageLoading: boolean;
 
   constructor(private activeRoute: ActivatedRoute,
-              private surveyLibraryApiService: SurveyLibraryApiService,
-              private store: Store<fromRootState.State>,
-              private state: SurveyLibraryStateService) {
+    private surveyLibraryApiService: SurveyLibraryApiService,
+    private store: Store<fromRootState.State>,
+    private state: SurveyLibraryStateService) {
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.surveyTitleModalOpen$ = new BehaviorSubject<boolean>(false);
     this.publisherId = activeRoute.snapshot.params.id;
@@ -57,8 +57,8 @@ export class SurveyTitlesPageComponent implements OnInit {
   getSurveyTitles(publisherId: number, filter: string): void {
     this.isPageLoading = true;
     this.surveyLibraryApiService.getSurveyTitlesByPublisherId(publisherId, filter).subscribe(value => {
-      this.surveyTitles = value;
-      this.publisher = this.surveyTitles[0].PublisherName;
+      this.surveyTitles = value.PublisherTitles;
+      this.publisher = value.PublisherName;
       this.isPageLoading = false;
     });
   }

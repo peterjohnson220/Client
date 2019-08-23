@@ -1,6 +1,5 @@
 export interface SurveyTitleResponseModel {
   SurveyTitleId: number;
-  PublisherName: string;
   SurveyName: string;
 }
 
