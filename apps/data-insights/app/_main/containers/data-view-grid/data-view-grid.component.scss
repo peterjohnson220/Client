@@ -4,14 +4,6 @@
   height: calc(100vh - 194px);
 }
 
-::ng-deep {
-  .k-grid {
-    tr {
-      height: 41px;
-    }
-    .empty-row {
-      font-style: italic;
-      color: #999999;
-    }
-  }
+.sort-icon {
+  margin-right: 0.5rem;
 }

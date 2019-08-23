@@ -150,3 +150,20 @@
   }
 
 }
+
+.data-view-grid {
+
+  .k-grid {
+    tr {
+      height: 41px;
+    }
+    .empty-row {
+      font-style: italic;
+      color: #999999;
+    }
+  }
+
+  .k-grid-header th>.k-link>.k-icon {
+    display: none;
+  }
+}
