@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
 
 import { HrisApiService } from '../hris-api.service';
 import { UserContext } from 'libs/models/security';
@@ -15,7 +14,7 @@ export class ProvidersHrisApiService {
 
   }
 
-  getProvidersByTransferMethodId(userContext: UserContext, transferMethodId: number, token: string) {
+  getProvidersByTransferMethodId(userContext: UserContext, transferMethodId: number) {
     const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
     if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
@@ -23,18 +22,10 @@ export class ProvidersHrisApiService {
 
     const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-
-    const options: any = {
-      headers,
-    };
-
-    return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}?transferMethodId=${transferMethodId}`, options);
+    return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}?transferMethodId=${transferMethodId}`);
   }
 
-  getProviderById(userContext: UserContext, providerId: number, token: string) {
+  getProviderById(userContext: UserContext, providerId: number) {
     const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
     if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
@@ -42,14 +33,6 @@ export class ProvidersHrisApiService {
 
     const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-
-    const options: any = {
-      headers,
-    };
-
-    return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}/${providerId}`, options);
+    return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}/${providerId}`);
   }
 }
