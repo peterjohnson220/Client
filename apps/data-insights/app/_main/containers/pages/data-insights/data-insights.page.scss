@@ -65,11 +65,14 @@
       text-transform: uppercase;
     }
 
-    .icon {
-      margin-right: 1rem;
+    .toggle-featured-btn {
       &:hover {
         cursor: pointer;
       }
+    }
+
+    .icon {
+      margin-right: 1rem;
     }
   }
 
