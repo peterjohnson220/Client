@@ -1,6 +1,5 @@
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NgModel } from '@angular/forms';
 import { FilterService } from '@progress/kendo-angular-grid';
 
@@ -10,7 +9,6 @@ import { TicketFieldType } from '../../../constants/tickets-constants';
 describe('Admin - Tickets - Ticket Value Picker', () => {
   let instance: TicketListDateRangeFilterComponent;
   let fixture: ComponentFixture<TicketListDateRangeFilterComponent>;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TicketListDateRangeFilterComponent, NgModel ],

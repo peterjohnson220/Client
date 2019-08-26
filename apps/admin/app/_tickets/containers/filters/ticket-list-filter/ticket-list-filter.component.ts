@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit, OnDestroy} from '@angular/core';
 
-import { BaseFilterCellComponent, FilterService } from '@progress/kendo-angular-grid';
-import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
+import {BaseFilterCellComponent, FilterService} from '@progress/kendo-angular-grid';
+import {CompositeFilterDescriptor} from '@progress/kendo-data-query';
 
-import { TicketFieldType } from '../../../constants/tickets-constants';
-import { PickerHelper } from '../../../helpers';
+import {TicketFieldType} from '../../../constants/tickets-constants';
+import {PickerHelper} from '../../../helpers';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'pf-ticket-list-filter',
@@ -12,7 +14,7 @@ import { PickerHelper } from '../../../helpers';
   styleUrls: ['./ticket-list-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TicketListFilterComponent extends BaseFilterCellComponent {
+export class TicketListFilterComponent  extends BaseFilterCellComponent implements OnInit {
 
   @Input() public filter: CompositeFilterDescriptor;
   @Input() public data: any[];
@@ -24,10 +26,27 @@ export class TicketListFilterComponent extends BaseFilterCellComponent {
 
   public ticketFieldType = TicketFieldType;
   public pickerHelper = new PickerHelper();
+  defaultInterval: any;
+  private maxTries = 3;
+  private tries: number;
 
-  constructor(filterService: FilterService) {
+  constructor(filterService: FilterService, private ref: ChangeDetectorRef, private route: ActivatedRoute) {
     super(filterService);
   }
+
+   ngOnInit() {
+     const queryParam = this.route.snapshot.queryParamMap;
+     if (queryParam.keys.length > 0 && this.filterField === this.ticketFieldType.COMPANYNAME) {
+       this.tries = 0;
+       this.defaultInterval = setInterval(() => {
+        this.defaultValue = queryParam.get('company_name');
+        this.ref.markForCheck();
+        if (++this.tries === this.maxTries) {
+          clearInterval(this.defaultInterval);
+        }
+       }, 500);
+     }
+   }
 
   public userTicketType(type: TicketFieldType): boolean {
     return this.filterField === type;
