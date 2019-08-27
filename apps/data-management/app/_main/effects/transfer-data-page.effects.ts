@@ -5,8 +5,6 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { mergeMap, switchMap, map, withLatestFrom } from 'rxjs/operators';
 
-
-import { IntegrationApiService } from 'libs/data/payfactors-api/integration';
 import * as fromRootState from 'libs/state/state';
 import { TransferMethodsHrisApiService, ProvidersHrisApiService } from 'libs/data/payfactors-api/hris-api';
 import { TransferMethodResponse, ProviderResponse } from 'libs/models/hris-api';
@@ -44,20 +42,15 @@ export class TransferDataPageEffects {
         }
       ),
       switchMap((obj) => {
-        return this.jwtApiService.fetchAuthToken()
+        return this.transferMethodsHrisApiService.getAllActiveTransferMethods(obj.userContext)
           .pipe(
-            mergeMap((data: string) =>
-              this.transferMethodsHrisApiService.getAllActiveTransferMethods(obj.userContext, data)
-                .pipe(
-                  switchMap((response: TransferMethodResponse[]) => {
-                    const transferMethods = PayfactorsApiModelMapper.mapTransferMethodResponseToTransferMethod(response);
-                    return [
-                      new fromTransferDataPageActions.LoadTransferMethodsSuccess(transferMethods),
-                      new fromTransferDataPageActions.SetSelectedTransferMethod(transferMethods.find( x => x.Selected).TransferMethodId)
-                    ];
-                })
-              )
-            )
+            mergeMap((response: TransferMethodResponse[]) => {
+              const transferMethods = PayfactorsApiModelMapper.mapTransferMethodResponseToTransferMethod(response);
+              return [
+                new fromTransferDataPageActions.LoadTransferMethodsSuccess(transferMethods),
+                new fromTransferDataPageActions.SetSelectedTransferMethod(transferMethods.find( x => x.Selected).TransferMethodId)
+              ];
+            })
           );
       })
     );
@@ -87,25 +80,19 @@ export class TransferDataPageEffects {
         }
       ),
       switchMap((obj) => {
-        return this.jwtApiService.fetchAuthToken()
+        return this.providersHrisApiService.getProvidersByTransferMethodId(obj.userContext, obj.selectedTransferMethod)
           .pipe(
-            mergeMap((data: string) =>
-              this.providersHrisApiService.getProvidersByTransferMethodId(obj.userContext, obj.selectedTransferMethod, data)
-                .pipe(
-                  map((response: ProviderResponse[]) => {
-                    const providers = PayfactorsApiModelMapper.mapProviderResponseToProvider(response);
-                    return new fromTransferDataPageActions.LoadProvidersSuccess(providers);
-                })
-              )
-            )
-          );
+            map((response: ProviderResponse[]) => {
+              const providers = PayfactorsApiModelMapper.mapProviderResponseToProvider(response);
+              return new fromTransferDataPageActions.LoadProvidersSuccess(providers);
+          })
+        );
       })
     );
 
   constructor(
     private actions$: Actions,
     private store: Store<fromDataManagementMainReducer.State>,
-    private jwtApiService: IntegrationApiService,
     private transferMethodsHrisApiService: TransferMethodsHrisApiService,
     private providersHrisApiService: ProvidersHrisApiService
   ) {}
