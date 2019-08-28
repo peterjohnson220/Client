@@ -182,6 +182,45 @@ export class DashboardsEffects {
       })
     );
 
+  @Effect()
+  refreshTableauReports$ = this.action$
+  .pipe(
+    ofType(fromAllDashboardsActions.REFRESH_TABLEAU_REPORTS),
+    switchMap(() => {
+      return this.tableauReportApiService.refreshTableauReports()
+        .pipe(
+          mergeMap((changesDetected) => {
+            const actions = [];
+            if (changesDetected) {
+              actions.push(new fromAllDashboardsActions.GetAllCompanyReportsViews());
+            }
+            actions.push(new fromAllDashboardsActions.RefreshTableauReportsSuccess());
+            return actions;
+          }),
+          catchError(() => of(new fromAllDashboardsActions.RefreshTableauReportsError()))
+        );
+    })
+  );
+
+  @Effect()
+  getAllCompanyReportsViews$ = this.action$
+  .pipe(
+    ofType(fromAllDashboardsActions.GET_ALL_COMPANY_REPORTS_VIEWS),
+    withLatestFrom(
+      this.store.pipe(select(fromRootState.getUserContext)),
+      (action: fromAllDashboardsActions.GetAllCompanyReportsViews, userContext: UserContext) => ({ userContext })
+    ),
+    switchMap((data) => {
+      return this.tableauReportApiService.getAllCompanyReportsViews()
+        .pipe(
+          map((response) => new fromAllDashboardsActions.GetAllCompanyReportsViewsSuccess(
+            PayfactorsApiModelMapper.mapTableauReportResponsesToWorkbooks(response, data.userContext.CompanyName)
+          )),
+          catchError(() => of(new fromAllDashboardsActions.GetAllCompanyReportsViewsError()))
+        );
+    })
+  );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataInsightsMainReducer.State>,

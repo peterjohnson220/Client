@@ -13,6 +13,7 @@ import {
 import { WorkbookOrderType } from 'libs/constants';
 
 import { DashboardView, Entity, ReportType, SaveWorkbookTagObj, UserDataView, View, Workbook, Field } from '../models';
+import { generateDefaultAsyncStateObj } from 'libs/models';
 
 export class PayfactorsApiModelMapper {
 
@@ -20,6 +21,11 @@ export class PayfactorsApiModelMapper {
   /// IN
   static mapTableauReportResponsesToWorkbooks(response: TableauReportResponse[], companyName?: string): Workbook[] {
     return response.map(r => {
+      let views = null;
+      if (r.Views) {
+        views = generateDefaultAsyncStateObj<View[]>([]);
+        views.obj = this.mapTableauReportViewsResponsesToViews(r.Views);
+      }
       return {
         Type: r.ReportType === 'TableauReport' ? ReportType.TableauReport : ReportType.DataView,
         WorkbookId: r.WorkbookId,
@@ -35,7 +41,8 @@ export class PayfactorsApiModelMapper {
         SourceUrl: companyName ? '/company-reports' : '/standard-reports',
         DefaultTag: companyName ? `${companyName} Reports` : 'Payfactors Reports',
         DashboardsOrder: r.DashboardsOrder,
-        FavoritesOrder: r.FavoritesOrder
+        FavoritesOrder: r.FavoritesOrder,
+        Views: views
       };
     });
   }
@@ -45,7 +52,8 @@ export class PayfactorsApiModelMapper {
       return {
         ContentUrl: r.ContentUrl,
         ViewId: r.ViewId,
-        ViewName: r.ViewName
+        ViewName: r.ViewName,
+        ViewThumbnail: r.ViewThumbnail
       };
     });
   }

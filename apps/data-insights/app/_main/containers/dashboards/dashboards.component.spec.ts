@@ -3,16 +3,15 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
-import * as fromDataViewActions from '../../actions/data-view.actions';
 import { DashboardsComponent } from './dashboards.component';
-import { generateMockWorkbook, DashboardView, generateMockSaveUserWorkbookModalData } from '../../models';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { generateMockWorkbook } from '../../models';
 
 describe('Data Insights - Dashboards Comopnent', () => {
   let instance: DashboardsComponent;
@@ -63,16 +62,6 @@ describe('Data Insights - Dashboards Comopnent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch ToggleDashboardView action with correct selected view', () => {
-    const view = DashboardView.All;
-    const expectedAction = new fromDashboardsActions.ToggleDashboardView({ view });
-    spyOn(store, 'dispatch');
-
-    instance.handleViewChanged(view);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('anyFavorites should returns true when there is a favorite workbook', () => {
     const workbook = {...generateMockWorkbook(), IsFavorite: true};
     instance.filteredCompanyWorkbooks = [workbook];
@@ -87,13 +76,4 @@ describe('Data Insights - Dashboards Comopnent', () => {
     expect(instance.anyFavorites).toEqual(false);
   });
 
-  it('should dispatch SaveUserReport action with save user report view clicked', () => {
-    const workbookData = generateMockSaveUserWorkbookModalData();
-    const expectedAction = new fromDataViewActions.SaveUserReport(workbookData);
-    spyOn(store, 'dispatch');
-
-    instance.handleSaveUserDataViewClicked(workbookData);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
 });

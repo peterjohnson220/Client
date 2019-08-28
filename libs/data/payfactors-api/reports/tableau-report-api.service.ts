@@ -52,4 +52,12 @@ export class TableauReportApiService {
   removeWorkbookFavorite(workbookId: string): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.RemoveWorkbookFavorite`, { WorkbookId: workbookId });
   }
+
+  refreshTableauReports(): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.RefreshTableauReports`);
+  }
+
+  getAllCompanyReportsViews(): Observable<TableauReportResponse[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetAllCompanyReportsViews`);
+  }
 }

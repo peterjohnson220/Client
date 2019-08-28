@@ -29,6 +29,12 @@ export const GET_DASHBOARD_VIEW = '[Data Insights / Dashboards] Get Dashboard Vi
 export const GET_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Dashboards] Get Dashboard View Success';
 export const GET_DASHBOARD_VIEW_ERROR = '[Data Insights / Dashboards] Get Dashboard View Error';
 export const SET_TAGGED_FILTER = '[Data Insights / Dashboards] Set Tagged Filter';
+export const REFRESH_TABLEAU_REPORTS = '[Data Insights / Dashboards] Refresh Tableau Reports';
+export const REFRESH_TABLEAU_REPORTS_SUCCESS = '[Data Insights / Dashboards] Refresh Tableau Reports Success';
+export const REFRESH_TABLEAU_REPORTS_ERROR = '[Data Insights / Dashboards] Refresh Tableau Reports Error';
+export const GET_ALL_COMPANY_REPORTS_VIEWS = '[Data Insights / Dashboards] Get All Company Reports Views';
+export const GET_ALL_COMPANY_REPORTS_VIEWS_SUCCESS = '[Data Insights / Dashboards] Get All Company Reports Views Success';
+export const GET_ALL_COMPANY_REPORTS_VIEWS_ERROR = '[Data Insights / Dashboards] Get All Company Reports Views Error';
 
 export class GetCompanyWorkbooks implements Action {
   readonly type = GET_COMPANY_WORKBOOKS;
@@ -173,6 +179,42 @@ export class SetTaggedFilter implements Action {
   constructor(public payload: string) {}
 }
 
+export class RefreshTableauReports implements Action {
+  readonly type = REFRESH_TABLEAU_REPORTS;
+
+  constructor() {}
+}
+
+export class RefreshTableauReportsSuccess implements Action {
+  readonly type = REFRESH_TABLEAU_REPORTS_SUCCESS;
+
+  constructor() {}
+}
+
+export class RefreshTableauReportsError implements Action {
+  readonly type = REFRESH_TABLEAU_REPORTS_ERROR;
+
+  constructor() {}
+}
+
+export class GetAllCompanyReportsViews implements Action {
+  readonly type = GET_ALL_COMPANY_REPORTS_VIEWS;
+
+  constructor() {}
+}
+
+export class GetAllCompanyReportsViewsSuccess implements Action {
+  readonly type = GET_ALL_COMPANY_REPORTS_VIEWS_SUCCESS;
+
+  constructor(public payload: Workbook[]) {}
+}
+
+export class GetAllCompanyReportsViewsError implements Action {
+  readonly type = GET_ALL_COMPANY_REPORTS_VIEWS_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetCompanyWorkbooks
   | GetCompanyWorkbooksSuccess
@@ -198,4 +240,10 @@ export type Actions
   | GetDashboardView
   | GetDashboardViewSuccess
   | GetDashboardViewError
-  | SetTaggedFilter;
+  | SetTaggedFilter
+  | RefreshTableauReports
+  | RefreshTableauReportsSuccess
+  | RefreshTableauReportsError
+  | GetAllCompanyReportsViews
+  | GetAllCompanyReportsViewsSuccess
+  | GetAllCompanyReportsViewsError;

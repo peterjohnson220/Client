@@ -24,7 +24,8 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: fromDashboardsActions.Actions): State {
   switch (action.type) {
-    case fromDashboardsActions.GET_COMPANY_WORKBOOKS: {
+    case fromDashboardsActions.GET_COMPANY_WORKBOOKS:
+    case fromDashboardsActions.GET_ALL_COMPANY_REPORTS_VIEWS: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
 
       companyWorkbooksAsyncClone.loading = true;
@@ -35,7 +36,8 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
         companyWorkbooksAsync: companyWorkbooksAsyncClone,
       };
     }
-    case fromDashboardsActions.GET_COMPANY_WORKBOOKS_SUCCESS: {
+    case fromDashboardsActions.GET_COMPANY_WORKBOOKS_SUCCESS:
+    case fromDashboardsActions.GET_ALL_COMPANY_REPORTS_VIEWS_SUCCESS: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
 
       companyWorkbooksAsyncClone.loading = false;
@@ -46,7 +48,8 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
         companyWorkbooksAsync: companyWorkbooksAsyncClone
       };
     }
-    case fromDashboardsActions.GET_COMPANY_WORKBOOKS_ERROR: {
+    case fromDashboardsActions.GET_COMPANY_WORKBOOKS_ERROR:
+    case fromDashboardsActions.GET_ALL_COMPANY_REPORTS_VIEWS_ERROR: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
       companyWorkbooksAsyncClone.loadingError = true;
 

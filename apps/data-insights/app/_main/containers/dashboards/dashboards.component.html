@@ -1,55 +1,10 @@
-<div class="dashboards h-100">
-  <div class="top-bar">
-    <div class="dashboards-title">
-      <div class="ml-auto mr-auto">
-        <div class="d-flex flex-nowrap dashboard-actions">
-          <div class="view-selector">
-            <kendo-dropdownlist *ngIf="anyFavorites; else allDashboards"
-                                class="dashboard-view"
-                                [attr.data-qa-id]="'ddm-dashboard-views'"
-                                [data]="dashboardViews"
-                                [ngModel]="dashboardView$ | async"
-                                [popupSettings]="{appendTo: 'component'}"
-                                (valueChange)="handleViewChanged($event)">
-            </kendo-dropdownlist>
-          </div>
+<div class="dashboards h-100 d-flex flex-column">
 
-          <div class="d-flex flex-row right-container">
-            <div class="tag-container" >
-              <kendo-dropdownlist #tagsDropDownList
-                                  class="tag-dropdown"
-                                  [attr.data-qa-id]="'ddm-tags'"
-                                  [data]="distinctTagsByView$ | async"
-                                  [defaultItem]="'All'"
-                                  [value]="tagFilter$ | async"
-                                  [popupSettings]="{width: 200}"
-                                  (valueChange)="handleTagChanged($event)">
-                <ng-template kendoDropDownListValueTemplate let-dataItem>
-                  <fa-icon icon="tags" id="tag-icon"></fa-icon>
-                  <span [title]="dataItem">{{ dataItem }}</span>
-                </ng-template>
-                <ng-template kendoDropDownListItemTemplate let-dataItem>
-                  <span [title]="dataItem">{{ dataItem }}</span>
-                </ng-template>
-              </kendo-dropdownlist>
-            </div>
+  <pf-dashboards-header
+    [thumbnailsViewEnabled]="thumbnailsViewSettingEnabled"
+    [hasFavorites]="anyFavorites">
+  </pf-dashboards-header>
 
-            <div *ngIf="reportBuilderSettingEnabled && (baseEntitiesAsync$ | async)?.obj?.length" class="new">
-              <button type="button" class="btn light-blue-btn" [attr.data-qa-id]="'btn-new'" (click)="handleNewReportClicked()">New</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ng-template #allDashboards>
-        <div class="col-12">
-        <span class="d-inline-block dashboard-view">All Dashboards</span>
-        </div>
-      </ng-template>
-    </div>
-    <div class="error-message text-danger" *ngIf="savingTagError$ | async">
-      Error Saving Tag
-    </div>
-  </div>
   <ng-container *ngIf="(companyWorkbooksAsync$ | async) as companyWorkbooksAsync">
     <pf-async-container
       [loading]="companyWorkbooksAsync.loading"
@@ -57,21 +12,27 @@
       [loadingErrorMessage]="'Error Loading Dashboards'"
       [hideReloadButton]="true">
     </pf-async-container>
-    <div class="ml-auto mr-auto mb-4">
-      <div class="row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">
-        <ng-container *ngIf="filteredCompanyWorkbooks?.length">
-          <div *ngFor="let workbook of filteredCompanyWorkbooks; trackBy: trackByFn"
-               class="col-xs-12 col-md-6 col-lg-4 col-xl-3 workbook-card">
-            <pf-workbook-card
-              [workbook]="workbook"
-              (favoriteClicked)="handleFavoriteClicked($event)"
-              (tagClicked)="handleTagWorkbookClicked($event)"
-              (openViewsClicked)="handleOpenViewsClicked($event)">
-            </pf-workbook-card>
-          </div>
-        </ng-container>
-      </div>
+
+    <div *ngIf="!thumbnailsViewSettingEnabled" class="workbooks-container row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">
+      <ng-container *ngIf="filteredCompanyWorkbooks?.length">
+        <div *ngFor="let workbook of filteredCompanyWorkbooks; trackBy: trackByFn"
+              class="col-xs-12 col-md-6 col-lg-4 col-xl-3 workbook-card">
+          <pf-workbook-card
+            [workbook]="workbook"
+            (favoriteClicked)="handleFavoriteClicked($event)"
+            (tagClicked)="handleTagWorkbookClicked($event)"
+            (openViewsClicked)="handleOpenViewsClicked($event)">
+          </pf-workbook-card>
+        </div>
+      </ng-container>
     </div>
+
+    <ng-container *ngIf="thumbnailsViewSettingEnabled && companyWorkbooksAsync?.obj?.length">
+      <ng-container *ngFor="let workbook of companyWorkbooksAsync.obj; trackBy: trackByFn">
+        <pf-views [workbook]="workbook"></pf-views>
+      </ng-container>
+    </ng-container>
+
   </ng-container>
 </div>
 
@@ -81,11 +42,3 @@
   [tags]="tags$ | async"
   (saveClicked)="handleSaveTagClicked($event)">
 </pf-tag-workbook-modal>
-
-<pf-save-user-workbook-modal *ngIf="(baseEntitiesAsync$ | async)?.obj?.length"
-  [baseEntities]="(baseEntitiesAsync$ | async)?.obj"
-  [saving]="savingUserDataView$ | async"
-  [saveNameConflict]="savingUserDataViewConflict$ | async"
-  [saveError]="savingUserDataViewError$ | async"
-  (saveClicked)="handleSaveUserDataViewClicked($event)">
-</pf-save-user-workbook-modal>
