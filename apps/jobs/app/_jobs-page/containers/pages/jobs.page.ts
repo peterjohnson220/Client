@@ -5,12 +5,16 @@ import { Store } from '@ngrx/store';
 
 import { Observable, Subscription } from 'rxjs';
 
+import { PfGridApiService } from 'libs/data/payfactors-api/pf-grid/pf-grid-api.service';
+import { PfGridColumnModel } from 'libs/models/common/pf-grid';
 import { Company, CompanyJob } from 'libs/models/company';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromJobsPageActions from '../../actions/jobs-page.actions';
 import * as fromJobsPageReducer from '../../reducers';
+
+
 
 
 @Component({
@@ -24,23 +28,37 @@ export class JobsPageComponent implements OnInit, OnDestroy {
   userContextSubscription: Subscription;
   companyId: number;
   testPayMarketData = ['Boston', 'Chicago', 'Los Angeles'];
+  columnSubscription: Subscription;
+  columns: PfGridColumnModel[];
+  activeColumns: PfGridColumnModel[] = [];
 
   constructor(private store: Store<fromJobsPageReducer.State>,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private gridApiService: PfGridApiService) {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.company$ = this.store.select(fromJobsPageReducer.getCompany);
   }
 
+  // Lifecycle
   ngOnInit() {
     this.userContextSubscription = this.userContext$.subscribe(uc => {
       this.companyId = uc.CompanyId;
     });
     this.store.dispatch(new fromJobsPageActions.LoadCompany(this.companyId));
+    this.columnSubscription = this.gridApiService.getDefaultColumns('Job').subscribe(c => {
+      this.columns = c;
+      this.setActiveColumns();
+    });
   }
-
-
 
   ngOnDestroy(): void {
     this.userContextSubscription.unsubscribe();
+    this.columnSubscription.unsubscribe();
+  }
+
+  // Column Selection
+
+  setActiveColumns() {
+    this.activeColumns = this.columns.filter(c => c.Visible);
   }
 }

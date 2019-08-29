@@ -33,6 +33,7 @@ import { JobDescriptionTemplateApiService } from './jdm';
 import { TableauReportApiService, UserReportApiService, ReportManagementApiService, DataViewApiService } from './reports';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
 import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService } from './hris-api';
+import { PfGridApiService } from './pf-grid/pf-grid-api.service';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -88,6 +89,8 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService 
     HrisApiService,
     TransferMethodsHrisApiService,
     ProvidersHrisApiService,
+
+    PfGridApiService
   ]
 })
 export class PfApiModule { }

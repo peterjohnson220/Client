@@ -14,7 +14,7 @@ import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
-import { PageWithTitleBarComponent } from './page-layout';
+import { PageWithTitleBarComponent, PageWithTitleBarAndGridComponent } from './page-layout';
 import { TermsConditionsModalComponent } from './terms-conditions-modal';
 import { ValidationResultsComponent } from './validation';
 import { PfCommonModule } from '../../core';
@@ -24,6 +24,7 @@ import { AfterIfDirective, ClickElsewhereDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
 import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
+import { ColumnChooserPopoverComponent } from './popovers';
 
 const components = [
   // Content
@@ -45,7 +46,7 @@ const components = [
   AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,
 
   // Page Layouts
-  PageWithTitleBarComponent,
+  PageWithTitleBarComponent, PageWithTitleBarAndGridComponent, ColumnChooserPopoverComponent,
 
   // Modals
   TermsConditionsModalComponent,

@@ -1,4 +1,4 @@
-<pf-page-with-title-bar class="wrapper" [absoluteUrl]="'/client/dashboard'">
+<pf-page-with-title-bar-and-grid class="wrapper" [absoluteUrl]="'/client/dashboard'">
   <ng-container page-title>
       {{(company$ | async)?.CompanyNameShort}} Jobs
   </ng-container>
@@ -33,11 +33,14 @@
             (shown)="open.emit(); handlePopoverShown()"
       -->
     </button>
-    <button title="Choose Columns" type="button" id="column-popover-btn" class="btn btn-secondary"
-            placement="bottom-right" popoverTitle="Choose Columns"
-            >
-      <fa-icon icon="table"></fa-icon>
-    </button>
+
+    <span class="column-popover">
+      <pf-column-chooser-popover
+        [ListAreaColumns]="columns"
+        (saveColumns)="setActiveColumns()"
+      >
+      </pf-column-chooser-popover>
+    </span>
     <!--
     #p="ngbPopover"
     [ngbPopover]="popContent" (hidden)="filter=''" [autoClose]="'outside'"
@@ -62,7 +65,26 @@
     </div>
   </ng-container>
 
-  <ng-container page-content>
-    Jobs grid goes here
+  <ng-container grid-actions>
+    Add to Project | Match | Inactivate Jobs
   </ng-container>
-</pf-page-with-title-bar>
+
+  <ng-container grid-content>
+    <table class="table">
+      <thead>
+        <tr>
+          <th *ngFor="let column of activeColumns">
+            {{column.DisplayName}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let column of activeColumns">
+            Mock data for {{column.DisplayName}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</pf-page-with-title-bar-and-grid>
