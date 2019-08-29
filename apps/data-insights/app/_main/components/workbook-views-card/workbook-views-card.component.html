@@ -13,7 +13,8 @@
           [sourceUrl]="workbook.SourceUrl"
           [workbookName]="workbook.WorkbookName"
           [workbookContentUrl]="workbook.ContentUrl"
-          [view]="view">
+          [view]="view"
+          (favoriteClicked)="handleFavoriteClicked($event)">
         </pf-view-card>
       </ng-container>
     </div>

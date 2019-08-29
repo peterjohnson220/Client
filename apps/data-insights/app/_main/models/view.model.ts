@@ -3,6 +3,7 @@ export interface View {
   ViewName: string;
   ContentUrl: string;
   ViewThumbnail?: string;
+  IsFavorite?: boolean;
 }
 
 export function generateMockView(): View {

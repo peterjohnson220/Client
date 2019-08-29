@@ -1,0 +1,17 @@
+<ng-container *ngIf="companyWorkbooksAsync">
+  <pf-async-container
+    [loading]="companyWorkbooksAsync.loading"
+    [loadingError]="companyWorkbooksAsync.loadingError"
+    [loadingErrorMessage]="'Error Loading Views'"
+    [hideReloadButton]="true">
+  </pf-async-container>
+
+  <pf-dashboards-header [thumbnailsViewEnabled]="true" [hasFavorites]="anyFavorites"></pf-dashboards-header>
+
+  <ng-container *ngIf="companyWorkbooksAsync?.obj?.length">
+    <ng-container *ngFor="let workbook of companyWorkbooksAsync.obj; trackBy: trackByFn">
+      <pf-workbook-views-card [workbook]="workbook" (favoriteClicked)="handleFavoriteClicked($event)"></pf-workbook-views-card>
+    </ng-container>
+  </ng-container>
+
+</ng-container>

@@ -101,9 +101,10 @@
     transition-delay: 0.1s;
   }
 
-  .dashboards {
+  .dashboards-section {
     flex-grow: 1;
     position: relative;
+    padding: 0 75px;
   }
 
   .toggle-show-more {

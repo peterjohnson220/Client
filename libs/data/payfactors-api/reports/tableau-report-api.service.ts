@@ -60,4 +60,12 @@ export class TableauReportApiService {
   getAllCompanyReportsViews(): Observable<TableauReportResponse[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetAllCompanyReportsViews`);
   }
+
+  addViewFavorite(viewId: string): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.AddViewFavorite`, { ViewId: viewId });
+  }
+
+  removeViewFavorite(viewId: string): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.RemoveViewFavorite`, { ViewId: viewId });
+  }
 }
