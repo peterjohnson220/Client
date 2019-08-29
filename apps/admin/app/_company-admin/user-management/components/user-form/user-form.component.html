@@ -40,8 +40,8 @@
       [maxlength]="MAX_EMAIL_LENGTH" [ngClass]="{ 'is-invalid': !f.emailAddress.valid && f.emailAddress.touched }" autocomplete="email">
     <span *ngIf="f.emailAddress.errors?.required" class="invalid-feedback">Email Address is required</span>
     <span *ngIf="f.emailAddress.errors?.maxlength" class="invalid-feedback">Email Address cannot be longer than {{MAX_EMAIL_LENGTH}} characters</span>
-    <span *ngIf="!f.emailAddress.errors?.required && f.emailAddress.errors.emailFormat" class="invalid-feedback">Invalid Email Address</span>
-    <span *ngIf="!f.emailAddress.errors?.required && f.emailAddress.errors.emailTaken" class="invalid-feedback">A user account with this Email Address already exists</span>    
+    <span *ngIf="!f.emailAddress.errors?.required && f.emailAddress.errors?.emailFormat" class="invalid-feedback">Invalid Email Address</span>
+    <span *ngIf="!f.emailAddress.errors?.required && f.emailAddress.errors?.emailTaken" class="invalid-feedback">A user account with this Email Address already exists</span>    
   </div>
   <div class="form-group">
     <label class="control-label" for="userRole">User Role <span class="text-danger">*</span></label>
