@@ -24,6 +24,9 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   communityPost$: Observable<any>;
   communityPostSubscription: Subscription;
 
+  communityPostEdited$: Observable<any>;
+  postEditedSubscription: Subscription;
+
   maximumReplies$: Observable<number>;
 
   loadingCommunityPost$: Observable<boolean>;
@@ -33,6 +36,7 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
 
   communityPost: CommunityPost;
   isUserPoll: boolean;
+  editedPostId: string;
 
   constructor(public store: Store<fromCommunitySearchPostReducer.State>,
               private router: Router) {
@@ -45,13 +49,14 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
     this.maximumReplies$ = this.store.select(fromCommunitySearchPostReducer.getMaximumReplies);
 
     this.communityPostDeleted$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostDeleted);
-   }
+    this.communityPostEdited$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostEdited);
+  }
 
   ngOnInit() {
     this.communitySearchResultModalSubscription = this.communitySearchResultModal$.subscribe(postId => {
       if (postId != null) {
         this.store.dispatch(new fromCommunityPostActions.GettingCommunityPost(postId));
-        }
+      }
     });
 
     this.communityPostSubscription = this.communityPost$.subscribe(post => {
@@ -59,6 +64,10 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
       if (post) {
         this.isUserPoll = post.UserPollRequest ? true : false;
       }
+    });
+
+    this.postEditedSubscription = this.communityPostEdited$.subscribe( postId => {
+      this.editedPostId = postId;
     });
   }
 
@@ -69,6 +78,10 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
 
     if (this.communityPostSubscription) {
       this.communityPostSubscription.unsubscribe();
+    }
+
+    if (this.postEditedSubscription) {
+      this.postEditedSubscription.unsubscribe();
     }
   }
 

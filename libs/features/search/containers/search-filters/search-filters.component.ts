@@ -16,6 +16,7 @@ import { Filter, FilterType, MultiSelectOption } from '../../models';
 })
 export class SearchFiltersComponent implements OnInit, OnDestroy {
   @Input() visible: boolean;
+  @Input() defaultDisplayValue = 'block';
   @Input() defaultFocusedFilterId: string;
 
   filters$: Observable<Filter[]>;

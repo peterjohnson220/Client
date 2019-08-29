@@ -5,6 +5,12 @@
         <pf-input-debounce [placeholderText]="'Search for Jobs in this Exchange...'" (valueChanged)="handleSearchChanged($event)">
         </pf-input-debounce>
       </div>
+      <button type="button" class="btn btn-md btn-secondary" [disabled]="(exportingExchangeJobs$ | async)" (click)="exportExchangeJobs()">
+        <span *ngIf="(exportingExchangeJobs$ | async)">
+          <pf-loading-indicator></pf-loading-indicator> Exporting...
+        </span>
+        <span *ngIf="!(exportingExchangeJobs$ | async)">Export Jobs</span>
+      </button>
       <button type="button" class="btn btn-md btn-secondary" (click)="openImportExchangeJobsModal()">Import Jobs</button>
       <button type="button" class="btn btn-md btn-primary" (click)="openAddExchangeJobsModal()">Add Jobs</button>
     </ng-container>

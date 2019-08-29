@@ -32,7 +32,7 @@ import { NewJobFormComponent } from './containers/request-job/new-job-form';
 import { BoolFilterComponent } from 'libs/extensions/kendo/boolfilter/bool-filter.component';
 import {
   AssociationImportModalComponent
-} from './containers/pages/exchange-job-mapping/association-import-modal/association-import-modal.component';
+} from './containers/association-import-modal/association-import-modal.component';
 import { CompanyJobsGridComponent } from './containers/company-jobs-grid/company-jobs-grid.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';

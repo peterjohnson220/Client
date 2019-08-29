@@ -1,0 +1,25 @@
+<pf-modal-form [title]="'Add Survey Title'"
+               [size]="'md'"
+               [subTitle]=""
+               [primaryButtonText]="'Save'"
+               [isOpen$]="state.addSurveyTitleModalOpen$()"
+               [formGroup]="addSurveyTitleForm"
+               (onSubmit)="handleFormSubmit()"
+               [submitting]="false"
+               (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+    <div class="form-group">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="surveyName">Survey Name</label>
+          <input type="text" class="form-control" formControlName="newSurveyName" id="surveyName">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="surveyCode">Code</label>
+          <input type="text" class="form-control" formControlName="newSurveyCode" id="surveyCode">
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>

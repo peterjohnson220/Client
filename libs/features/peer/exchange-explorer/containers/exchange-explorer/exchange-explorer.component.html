@@ -1,0 +1,73 @@
+<pf-search-layout>
+
+  <ng-container sidebar>
+
+    <pf-search-filters [visible]="!(searchingFilter$ | async)" defaultDisplayValue="flex">
+
+      <ng-container filters-top>
+
+        <div class="d-flex flex-column">
+
+          <pf-pay-market-bounds-filter
+            *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter"
+            [enabled]="limitToPayMarket$ | async"
+            [payMarket]="payMarket$ | async"
+            (limitToPayMarketToggled)="handleLimitToPayMarketToggled()">
+          </pf-pay-market-bounds-filter>
+
+          <pf-exclude-indirect-matches-filter
+            *ngIf="shouldShowExcludeIndirectJobMatchesFilter && (hasAdditionalJobLevels$ | async)"
+            [enabled]="excludeIndirectJobMatches$ | async"
+            (filterToggled)="handleIncludeAdditionalJobLevelsToggled()"
+          ></pf-exclude-indirect-matches-filter>
+
+          <pf-exchange-scope-selector
+            *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowExchangeScopeSelector"
+            [isExchangeJobSpecific]="true"
+            [exchangeId]="exchangeId"
+          >
+          </pf-exchange-scope-selector>
+
+          <pf-peer-filter-info
+            class="d-flex"
+            [orgCount]="(mapSummary$ | async)?.OverallMapStats.CompanyCount"
+            [incCount]="(mapSummary$ | async)?.OverallMapStats.SalaryCount">
+          </pf-peer-filter-info>
+
+        </div>
+
+      </ng-container>
+
+    </pf-search-filters>
+
+    <pf-single-filter
+      *ngIf="!!(searchingFilter$ | async)">
+    </pf-single-filter>
+
+  </ng-container>
+
+  <ng-container content>
+
+   <pf-exchange-explorer-map [canFitBounds]="true"></pf-exchange-explorer-map>
+
+    <ng-content select="[map-footer]">
+
+    </ng-content>
+
+  </ng-container>
+
+  <ng-container action-left>
+
+    <ng-content select="[action-left]">
+
+    </ng-content>
+
+  </ng-container>
+
+  <ng-container action-buttons>
+
+    <ng-content select="[action-buttons]"></ng-content>
+
+  </ng-container>
+
+</pf-search-layout>

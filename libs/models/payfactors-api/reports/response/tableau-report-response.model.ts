@@ -1,4 +1,5 @@
 export interface TableauReportResponse {
+  ReportType: string;
   WorkbookId: string;
   WorkbookName: string;
   Thumbnail?: string;

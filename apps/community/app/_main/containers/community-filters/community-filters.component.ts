@@ -24,13 +24,6 @@ export class CommunityFiltersComponent implements OnInit, OnDestroy {
   communityIndustries$: Observable<CommunityIndustry[]>;
   communityCompanySizes$: Observable<CommunityCompanySize[]>;
 
-  deletingCommunityTopicSuccess$: Observable<boolean>;
-  deletingCommunityIndustrySuccess$: Observable<boolean>;
-  deletingCommunityCompanySizeSuccess$: Observable<boolean>;
-
-  deleteCommunityTopicSubscription: Subscription;
-  deleteCommunityIndustrySubscription: Subscription;
-  deleteCommunityCompanySizeSubscription: Subscription;
   filterOptionsSubscription: Subscription;
 
   topicFilters: any = [];
@@ -64,14 +57,6 @@ export class CommunityFiltersComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.filterOptionsSubscription) {
       this.filterOptionsSubscription.unsubscribe();
-    }
-
-    if (this.deleteCommunityTopicSubscription) {
-      this.deleteCommunityTopicSubscription.unsubscribe();
-    }
-
-    if (this.deleteCommunityIndustrySubscription) {
-      this.deleteCommunityIndustrySubscription.unsubscribe();
     }
   }
 

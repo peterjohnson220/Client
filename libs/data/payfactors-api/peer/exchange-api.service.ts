@@ -22,7 +22,7 @@ import {
   ExchangeJobRequestAction,
   ExchangeRequestActionEnum,
   CompanyExchangeInvitationAction,
-  ExchangeSearchFilterAggregate, StatusEnum
+  ExchangeSearchFilterAggregate
 } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import {ExchangeManagementDetails} from '../../../../apps/admin/app/_peer/models';
@@ -209,5 +209,9 @@ export class ExchangeApiService {
 
   updateExchangeStatus(payload: any): Observable<Exchange> {
     return this.payfactorsApiService.post<Exchange>(`${this.endpoint}/UpdateExchangeStatus`, payload);
+  }
+
+  exportExchangeJobs(exchangeId: number): Observable<any> {
+    return this.payfactorsApiService.downloadFile(`${this.endpoint}/ExportExchangeJobs`,  exchangeId);
   }
 }

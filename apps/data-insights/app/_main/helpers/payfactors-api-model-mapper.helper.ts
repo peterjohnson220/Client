@@ -1,9 +1,18 @@
-import { TableauReportResponse, UpsertUserReportTag, SaveWorkbookOrderRequest,
-  TableauReportViewsResponse, DataViewEntityResponse
+import {
+  DataViewEntityResponse,
+  SaveWorkbookOrderRequest,
+  TableauReportResponse,
+  TableauReportViewsResponse,
+  UpsertUserReportTag,
+  UserDataViewResponse,
+  DataViewDataRequest,
+  DataViewField,
+  PagingOptions,
+  DataViewSortDescriptor
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 
-import { SaveWorkbookTagObj, Workbook, DashboardView, View, Entity } from '../models';
+import { DashboardView, Entity, ReportType, SaveWorkbookTagObj, UserDataView, View, Workbook, Field } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -12,6 +21,7 @@ export class PayfactorsApiModelMapper {
   static mapTableauReportResponsesToWorkbooks(response: TableauReportResponse[], companyName?: string): Workbook[] {
     return response.map(r => {
       return {
+        Type: r.ReportType === 'TableauReport' ? ReportType.TableauReport : ReportType.DataView,
         WorkbookId: r.WorkbookId,
         WorkbookName: r.WorkbookName,
         Thumbnail: r.Thumbnail,
@@ -50,6 +60,32 @@ export class PayfactorsApiModelMapper {
     });
   }
 
+  static mapUserDataViewResponseToUserDataView(response: UserDataViewResponse): UserDataView {
+    return {
+      BaseEntityId: response.BaseEntityId,
+      Entity: response.Entity,
+      Name: response.Name,
+      Summary: response.Summary,
+      UserDataViewId: response.UserDataViewId
+    };
+  }
+
+  static mapDataViewFieldsToFields(response: DataViewField[]): Field[] {
+    return response.map(f => {
+      return {
+        EntityId: f.EntityId,
+        Entity: f.Entity,
+        EntitySourceName: f.EntitySourceName,
+        DataElementId: f.DataElementId,
+        SourceName: f.SourceName,
+        DisplayName: f.DisplayName,
+        KendoGridField: `${f.EntitySourceName}.${f.SourceName}`,
+        DataType: f.DataType,
+        IsSelected: f.IsSelected,
+        Order: f.Order
+      };
+    });
+  }
 
   /// OUT
   static mapSaveWorkbookTagObjToUpsertUserReportTag(saveWorkbookTagObj: SaveWorkbookTagObj): UpsertUserReportTag {
@@ -57,6 +93,22 @@ export class PayfactorsApiModelMapper {
       WorkbookId: saveWorkbookTagObj.WorkbookId,
       Tag: saveWorkbookTagObj.Tag
     };
+  }
+
+  static mapFieldsToDataViewFields(response: Field[]): DataViewField[] {
+    return response.map(f => {
+      return {
+        EntityId: f.EntityId,
+        Entity: f.Entity,
+        EntitySourceName: f.EntitySourceName,
+        DataElementId: f.DataElementId,
+        SourceName: f.SourceName,
+        DisplayName: f.DisplayName,
+        DataType: f.DataType,
+        IsSelected: f.IsSelected,
+        Order: f.Order
+      };
+    });
   }
 
   static buildSaveWorkbookOrderRequest(workbookIds: string[], view: DashboardView,
@@ -69,6 +121,22 @@ export class PayfactorsApiModelMapper {
       WorkbookIds: workbookIds,
       Type: workbookOrderType
     };
+  }
+
+  static buildDataViewDataRequest(
+    dataView: UserDataView,
+    fields: Field[],
+    pagingOptions: PagingOptions,
+    sortDescriptor?: DataViewSortDescriptor): DataViewDataRequest {
+
+    return {
+      BaseEntityId: dataView.BaseEntityId,
+      Fields: PayfactorsApiModelMapper.mapFieldsToDataViewFields(fields),
+      Filters: [],
+      PagingOptions: pagingOptions,
+      SortDescriptor: sortDescriptor
+    };
+
   }
 
 }

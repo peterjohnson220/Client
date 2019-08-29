@@ -6,12 +6,15 @@ import { NgbCarouselModule, NgbModalModule, NgbPopoverModule } from '@ng-bootstr
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
+import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
+import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
+import { WindowCommunicationService } from 'libs/core/services';
+import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './shared/appwrapper/app-wrapper.component';
-import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { SharedModule } from './shared/shared.module';
-import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
+import { ExchangeExplorerSearchFilterMappingDataObj } from 'libs/features/peer/exchange-explorer/data';
 
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './shared/reducers';
@@ -26,9 +29,9 @@ import { reducers } from './shared/reducers';
     BrowserAnimationsModule,
 
     // Third Party
-    NgbModalModule.forRoot(),
-    NgbPopoverModule.forRoot(),
-    NgbCarouselModule.forRoot(),
+    NgbModalModule,
+    NgbPopoverModule,
+    NgbCarouselModule,
     StoreModule.forFeature('peer_shared', reducers),
 
     // PF Modules
@@ -43,7 +46,11 @@ import { reducers } from './shared/reducers';
   ],
 
   bootstrap: [AppComponent],
-  providers: [PayfactorsApiService]
+  providers: [
+    PayfactorsApiService,
+    WindowCommunicationService,
+    { provide: SearchFilterMappingDataObj, useValue: ExchangeExplorerSearchFilterMappingDataObj }
+  ]
 
 })
 export class AppModule { }

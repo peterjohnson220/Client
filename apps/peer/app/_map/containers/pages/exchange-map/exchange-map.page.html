@@ -1,4 +1,4 @@
-<pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId" [contentNoPadding]="true">
+<pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId+'/dashboard/'" [contentNoPadding]="true">
 
   <ng-container page-title>
     {{ (exchange$ | async)?.ExchangeName }}
@@ -7,7 +7,7 @@
   <ng-container page-actions>
 
     <pf-scope-selector [addDataModal]="false"
-                       [exchangeId]="exchangeId"></pf-scope-selector>
+                                [exchangeId]="exchangeId"></pf-scope-selector>
 
     <button type="button" class="btn btn-secondary"
             [disabled]="(numberOfSelections$ | async) === 0 ||

@@ -26,7 +26,10 @@ export class PayfactorsSearchApiModelMapper {
   ///
   /// IN
   ///
-   mapSearchFiltersToFilters(searchFilters: SearchFilter[]): Filter[] {
+   mapSearchFiltersToFilters(searchFilters: SearchFilter[], mappingDataObject: SearchFilterMappingDataObj = null): Filter[] {
+    if (mappingDataObject !== null) {
+      this.searchFilterMappingData = mappingDataObject;
+    }
     return searchFilters.map(sf => this.mapSearchFilterToFilter(sf));
   }
 

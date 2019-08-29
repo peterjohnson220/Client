@@ -61,6 +61,12 @@ describe('Exchange Jobs', () => {
     instance = fixture.componentInstance;
   });
 
+  it('exchange jobs page should match the snapshot', () => {
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should dispatch a LoadingExchangeJobs action when handleExchangeJobsGridReload is called', () => {
     const action = new fromExchangeJobsActions.LoadingExchangeJobs(routeIdParam);
 
@@ -147,6 +153,14 @@ describe('Exchange Jobs', () => {
     const action = new fromExchangeJobsActions.OpenAddExchangeJobsModal();
 
     instance.openAddExchangeJobsModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an ExportExchangeJobs action when exportExchangeJobs is called', () => {
+    const action = new fromExchangeJobsActions.ExportExchangeJobs({exchangeId: 1});
+
+    instance.exportExchangeJobs();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

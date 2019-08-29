@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { CompanyStructureView } from 'libs/models/structures/company-structure-view.model';
+
+import { JobRangeModelingConstants } from '../../constants/structures.constants';
 
 @Component({
   selector: 'pf-structure-card',
@@ -10,12 +12,14 @@ import { CompanyStructureView } from 'libs/models/structures/company-structure-v
 })
 export class StructureCardComponent implements OnInit {
   @Input() structureView: CompanyStructureView;
+  @Output() favoriteClicked: EventEmitter<CompanyStructureView> = new EventEmitter();
 
   structurePaymarket: string;
   displayActionsOverlay: boolean;
   hoverStructureContainer: boolean;
+  jobRangeModelingLink = JobRangeModelingConstants.JOB_RANGE_MODELING_LINK;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.structurePaymarket = (this.structureView.Structure
       && this.structureView.Structure.CompanyStructureRangeGroups
       && this.structureView.Structure.CompanyStructureRangeGroups.length > 0)
@@ -30,5 +34,10 @@ export class StructureCardComponent implements OnInit {
   handleMouseLeaveStructureContainer() {
     this.hoverStructureContainer = false;
     this.displayActionsOverlay = false;
+  }
+
+  handleFavoriteClicked(structureView: CompanyStructureView) {
+    this.favoriteClicked.emit(structureView);
+    this.structureView.IsFavorite = !this.structureView.IsFavorite;
   }
 }

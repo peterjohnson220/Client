@@ -1,0 +1,74 @@
+<div *ngIf="(userDataView$ | async) as userDataViewAsync" class="custom-report-page">
+  <pf-async-container
+    [loading]="userDataViewAsync.loading"
+    [loadingError]="userDataViewAsync.loadingError"
+    [loadingErrorMessage]="'Error loading this data view'"
+    [hideReloadButton]="true">
+
+    <pf-page-with-title-bar [returnUrl]="'/'">
+      <ng-container page-title>{{userDataViewAsync?.obj?.Name}}</ng-container>
+      <ng-container page-content>
+        <div class="d-flex flex-row actions">
+          <button class="btn btn-secondary"
+                  [attr.data-qa-id]="'btn-edit'"
+                  (click)="handleEditClicked()"
+                  ngbTooltip="Edit"
+                  container="body">
+            <fa-icon icon="edit"></fa-icon>
+          </button>
+          <button class="btn btn-secondary"
+                  [attr.data-qa-id]="'btn-duplicate'"
+                  (click)="handleDuplicateClicked()"
+                  ngbTooltip="Duplicate"
+                  container="body">
+            <fa-icon icon="clone"></fa-icon>
+          </button>
+          <button class="btn btn-secondary"
+                  [attr.data-qa-id]="'btn-delete'"
+                  (click)="handleDeleteClicked()"
+                  ngbTooltip="Delete"
+                  container="body">
+            <fa-icon icon="trash-alt"></fa-icon>
+          </button>
+        </div>
+        <div class="d-flex flex-row main-content">
+          <pf-left-sidebar #leftSidebar></pf-left-sidebar>
+          <div class="data-view-grid-container" [ngClass]="leftSidebar.isOpen ? 'sidebar-open': 'sidebar-close'">
+            <pf-data-view-grid></pf-data-view-grid>
+          </div>
+        </div>
+      </ng-container>
+    </pf-page-with-title-bar>
+  </pf-async-container>
+
+  <pf-save-user-workbook-modal
+    #editWorkbookModal
+    [workbookMode]="workbookModes.EditWorkbook"
+    [modalData]="editWorkbookData"
+    [lockedEntityName]="userDataViewAsync?.obj?.Entity"
+    [reportName]="userDataViewAsync?.obj?.Name"
+    [summary]="userDataViewAsync?.obj?.Summary"
+    [saving]="editingUserDataView$ | async"
+    [saveNameConflict]="editUserDataViewConflict$ | async"
+    [saveError]="editUserDataViewError$ | async"
+    (saveClicked)="handleEditSaveClicked($event)">
+  </pf-save-user-workbook-modal>
+  <pf-save-user-workbook-modal
+    #duplicateWorkbookModal
+    [workbookMode]="workbookModes.DuplicateWorkbook"
+    [modalData]="duplicateWorkbookData"
+    [lockedEntityName]="userDataViewAsync?.obj?.Entity"
+    [reportName]="'Copy of '+ userDataViewAsync?.obj?.Name"
+    [summary]="userDataViewAsync?.obj?.Summary"
+    [saving]="duplicatingUserReport$ | async"
+    [saveNameConflict]="duplicateUserReportConflict$ | async"
+    [saveError]="duplicateUserReportError$ | async"
+    (saveClicked)="handleDuplicateSaveClicked($event)">
+  </pf-save-user-workbook-modal>
+  <pf-delete-user-workbook-modal
+    #deleteWorkbookModal
+    (deleteClicked)="handleDeleteSaveClicked()">
+  </pf-delete-user-workbook-modal>
+</div>
+
+

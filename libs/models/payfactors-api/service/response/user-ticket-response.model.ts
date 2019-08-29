@@ -11,6 +11,7 @@ export interface UserTicketResponse {
   FileType?: string;
   CompanyName: string;
   OpenedUserEmail: string;
+  OpenedUserId: number;
   ServicesUserEmail?: string;
   OpenedUserFullName: string;
   ServicesUserFullName?: string;
@@ -54,6 +55,7 @@ export function generateMockUserTicketViewModel(): UserTicketResponse {
     CompanyName: 'Test Company',
     OpenedUserEmail: 'test@hello.com',
     OpenedUserFullName: 'Test Hello',
+    OpenedUserId: 1,
     LastUpdatedText: '5 seconds ago',
     UserTicketTypeId: 1,
     TicketFileTypeId: 1,

@@ -2,13 +2,21 @@
   <div class="d-flex flex-row justify-content-between header">
     <div class="workbook-name">
       <a class="btn" title="Open Workbook"
+         *ngIf="workbook.Type === reportTypes.TableauReport;else openCustomReport"
         [attr.data-qa-id]="'lnk-openWorkbook'"
         [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
         [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
         {{workbook.WorkbookName}}
       </a>
+      <ng-template #openCustomReport>
+        <a class="btn" title="Open Workbook"
+           [attr.data-qa-id]="'lnk-openWorkbook'"
+           [routerLink]="['/custom-report',workbook.WorkbookId]">
+          {{workbook.WorkbookName}}
+        </a>
+      </ng-template>
     </div>
-    <div *ngIf="!workbook.IsStandard" class="icon" [attr.data-qa-id]="'cnt-openViews'" (click)="handleOpenViewsClicked()" title="Open Views">
+    <div *ngIf="!workbook.IsStandard && workbook.Type === reportTypes.TableauReport" class="icon" [attr.data-qa-id]="'cnt-openViews'" (click)="handleOpenViewsClicked()" title="Open Views">
       <fa-icon *ngIf="!openViews" icon="caret-right" size="2x"></fa-icon>
       <fa-icon *ngIf="openViews" icon="caret-down" size="2x"></fa-icon>
     </div>

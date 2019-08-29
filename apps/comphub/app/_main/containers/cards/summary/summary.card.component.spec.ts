@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CurrencyPipe } from '@angular/common';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
@@ -24,6 +25,7 @@ describe('Comphub - Main - Summary Card Component', () => {
   let instance: SummaryCardComponent;
   let fixture: ComponentFixture<SummaryCardComponent>;
   let store: Store<fromComphubMainReducer.State>;
+  let currencyPipe: CurrencyPipe;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,6 +39,12 @@ describe('Comphub - Main - Summary Card Component', () => {
         PfCommonModule
       ],
       declarations: [ SummaryCardComponent ],
+      providers: [
+        {
+          provide: CurrencyPipe,
+          useValue: { transform: (x) => { return x; } }
+        }
+      ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
@@ -44,6 +52,7 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.get(Store);
+    currencyPipe = TestBed.get(CurrencyPipe);
 
     instance.workflowContext = {
       ...generateMockWorkflowContext(),
@@ -275,4 +284,47 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+  it('should display min wage when available', () => {
+    instance.minPaymarketMinimumWage$ = of(7.25);
+    instance.maxPaymarketMinimumWage$ = of(7.25);
+    instance.workflowContext.activeCountryDataSet = {
+      ...generateMockCountryDataSet(),
+      CountryCode: 'USA',
+      CurrencyCode: 'USD'
+    };
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+
+  });
+
+  it('should display min wage range if min and max are different', () => {
+    instance.minPaymarketMinimumWage$ = of(7.25);
+    instance.maxPaymarketMinimumWage$ = of(11.50);
+    instance.workflowContext.activeCountryDataSet = {
+      ...generateMockCountryDataSet(),
+      CountryCode: 'USA',
+      CurrencyCode: 'USD'
+    };
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display - as the min wage when there is no wage data', () => {
+    instance.minPaymarketMinimumWage$ = of(null);
+    instance.maxPaymarketMinimumWage$ = of(null);
+    instance.workflowContext.activeCountryDataSet = {
+      ...generateMockCountryDataSet(),
+      CountryCode: 'USA',
+      CurrencyCode: 'USD'
+    };
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });

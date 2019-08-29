@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
 
@@ -19,16 +19,23 @@ export class DataInsightsPageComponent implements OnInit {
   @ViewChild(SearchWorkbookModalComponent, { static: true })
   public searchWorkbookModalComponent: SearchWorkbookModalComponent;
   standardReports$: Observable<AsyncStateObj<Workbook[]>>;
+  showStandardReportsSection$: Observable<boolean>;
+
+  showStandardReportsSectionSub: Subscription;
 
   showAllStandardReports: boolean;
+  showStandardReportsSection: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
   ) {
     this.standardReports$ = this.store.pipe(select(fromDataInsightsMainReducer.getStandardWorkbooksAsync));
+    this.showStandardReportsSection$ = this.store.pipe(select(fromDataInsightsMainReducer.getShowStandardReportsSection));
   }
 
   ngOnInit(): void {
+    this.showStandardReportsSectionSub = this.showStandardReportsSection$.subscribe(result => this.showStandardReportsSection = result);
+    this.store.dispatch(new fromDataInsightsPageActions.GetStandardReportsDisplaySetting());
     this.store.dispatch(new fromDataInsightsPageActions.GetStandardReports());
   }
 
@@ -42,5 +49,12 @@ export class DataInsightsPageComponent implements OnInit {
 
   toggleShowAllStandardReports() {
     this.showAllStandardReports = !this.showAllStandardReports;
+  }
+
+  toggleStandardReportsDisplay(): void {
+    this.showStandardReportsSection = !this.showStandardReportsSection;
+    this.store.dispatch(new fromDataInsightsPageActions.SaveStandardReportsDisplaySetting({
+      settingValue: this.showStandardReportsSection
+    }));
   }
 }

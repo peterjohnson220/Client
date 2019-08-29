@@ -1,0 +1,33 @@
+<pf-page-with-title-bar>
+  <ng-container page-title>
+    Survey Library - {{publisher}}
+  </ng-container>
+  <ng-container page-content>
+    <pf-async-container
+      [loading]="isPageLoading">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <input (ngModelChange)="filterChanged($event)" [ngModel]="filter" class="searchText" size="30" type="text">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            Survey Name
+          </div>
+        </div>
+        <div *ngFor="let surveyTitle of surveyTitles" class="row my-3">
+          <div class="col">
+            <pf-survey-title-list-item [SurveyTitle]="surveyTitle"></pf-survey-title-list-item>
+          </div>
+        </div>
+        <div class="row">
+          <input (click)="openModal()" *ngIf="systemUserGroupsId === 1" class="button" type="button" value="Add">
+          <input (click)="returnToPublishers()" class="button" type="button" value="Back to Survey Publishers">
+        </div>
+      </div>
+    </pf-async-container>
+  </ng-container>
+</pf-page-with-title-bar>
+<pf-add-survey-title-modal [surveyPublisherId]="publisherId"></pf-add-survey-title-modal>
+

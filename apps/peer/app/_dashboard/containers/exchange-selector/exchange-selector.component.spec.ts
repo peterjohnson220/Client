@@ -10,7 +10,7 @@ import * as fromRootState from 'libs/state/state';
 import { generateMockExchangeListItem, ExchangeRequestTypeEnum, generateMockExchange } from 'libs/models';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 
-import * as fromExchangeSelectorActions from '../../actions/exchange-selector.actions';
+import * as fromExchangeSelectorActions from '../../../shared/actions/exchange-selector.actions';
 import * as fromPeerDashboardReducer from '../../reducers';
 import * as fromSharedPeerReducer from '../../../shared/reducers';
 import * as fromSharedPeerExchangeActions from '../../../shared/actions/exchange.actions';
