@@ -11,7 +11,7 @@
         <a class="btn"
           title="Open View"
           [attr.data-qa-id]="'lnk-openView'"
-          [routerLink]="[sourceUrl, workbookName, view.ContentUrl]"
+          [routerLink]="[sourceUrl, workbookContentUrl, view.ContentUrl]"
           [queryParams]="{showTabs: false, title: workbookName + ' - ' + view.ViewName}">
           Open
         </a>

@@ -10,6 +10,7 @@ import { View } from '../../models';
 export class ViewCardComponent {
   @Input() sourceUrl: string;
   @Input() workbookName: string;
+  @Input() workbookContentUrl: string;
   @Input() view: View;
 
   displayActionsOverlay: boolean;
