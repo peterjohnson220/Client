@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommunitySearchResultsComponent } from '../../community-search-results';
-import { CommunitySearchQuery } from 'libs/models/community/community-search-query.model';
 
 import * as constants from 'libs/models/community/community-constants.model';
 

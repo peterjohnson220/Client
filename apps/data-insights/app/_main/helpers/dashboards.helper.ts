@@ -24,10 +24,10 @@ export class DashboardsHelper {
     let orderByFn;
     switch (view) {
       case DashboardView.All:
-        orderByFn = orderBy(workbooks, ['DashboardsOrder', 'WorkbookName'], 'asc');
+        orderByFn = orderBy(workbooks, ['DashboardsOrder', (x: Workbook) => x.WorkbookName.toLowerCase()], 'asc');
         break;
       case DashboardView.Favorites:
-        orderByFn = orderBy(workbooks, ['FavoritesOrder', 'WorkbookName'], 'asc');
+        orderByFn = orderBy(workbooks, ['FavoritesOrder', (x: Workbook) => x.WorkbookName.toLowerCase()], 'asc');
         break;
       default:
         orderByFn = orderBy(workbooks, ['WorkbookName'], 'asc');

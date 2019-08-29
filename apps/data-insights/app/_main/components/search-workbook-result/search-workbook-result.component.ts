@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Workbook } from '../../models';
+import { ReportType, Workbook } from '../../models';
 
 @Component({
   selector: 'pf-search-workbook-result',
@@ -11,6 +11,8 @@ export class SearchWorkbookResultComponent {
   @Input() workbook: Workbook;
   @Output() openViewsClicked: EventEmitter<Workbook> = new EventEmitter();
   openViews: boolean;
+
+  reportTypes = ReportType;
 
   constructor() {
     this.openViews = false;

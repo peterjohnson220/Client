@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { Workbook } from '../../models';
+import { ReportType, Workbook } from '../../models';
 
 
 @Component({
@@ -14,6 +14,8 @@ export class WorkbookCardComponent {
   @Output() favoriteClicked: EventEmitter<Workbook> = new EventEmitter();
   @Output() tagClicked: EventEmitter<Workbook> = new EventEmitter();
   @Output() openViewsClicked: EventEmitter<Workbook> = new EventEmitter();
+
+  reportTypes = ReportType;
 
   displayActionsOverlay: boolean;
   hoverWorkbookContainer: boolean;

@@ -1,0 +1,34 @@
+<pf-modal-form [title]="'Add Survey'"
+               [primaryButtonText]="'Save'"
+               [primaryButtonTextSubmitting]="'Saving...'"
+               [submitting]="false"
+               [isOpen$]="state.addSurveyModalOpen$"
+               (onSubmit)="handleFormSubmit()"
+               (onDismiss)="handleModalDismissed()"
+               [formGroup]="addSurveyForm"
+               [modalId]="'add-survey-modal'">
+
+  <ng-container form-content>
+    <div class="form-group">
+      <select class="form-control form-control-sm"
+              formControlName="newCompany"
+              name="companySelect">
+        <option>Small select</option>
+      </select>
+
+      <label for="cost"
+             class="sr-only">Cost ($)</label>
+      <input type="text"
+             class="form-control"
+             formControlName="newCost"
+             id="cost">
+
+      <label for="aging"
+             class="sr-only">Aging Factor (%)</label>
+      <input type="text"
+             class="form-control"
+             formControlName="newAging"
+             id="aging">
+    </div>
+  </ng-container>
+</pf-modal-form>

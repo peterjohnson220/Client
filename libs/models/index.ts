@@ -15,3 +15,4 @@ export * from './user-profile';
 export * from './user-context';
 export * from './state';
 export * from './kendo';
+export * from './hris-api';

@@ -10,11 +10,16 @@ import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfPeerMapModule } from 'libs/features/peer/map';
 import { PfFormsModule } from 'libs/forms';
+import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 
-import { SharedModule } from '../shared/shared.module';
 import { MapRoutingModule } from './map-routing.module';
 
-import { ExchangeMapPageComponent, SaveExchangeScopeModalComponent, ExportDataCutsModalComponent } from './containers';
+import {
+  ExchangeMapPageComponent,
+  SaveExchangeScopeModalComponent,
+  ExportDataCutsModalComponent,
+  ExchangeMapNewPageComponent
+} from './containers';
 import { ExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects } from './effects';
 import { reducers } from './reducers';
 
@@ -36,14 +41,14 @@ import { reducers } from './reducers';
     ]),
 
     // Payfactors
-    SharedModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfPeerMapModule,
+    PfExchangeExplorerModule,
+    PfPeerMapModule
   ],
   declarations: [
     // Pages
-    ExchangeMapPageComponent,
+    ExchangeMapPageComponent, ExchangeMapNewPageComponent,
 
     // Containers
     SaveExchangeScopeModalComponent, ExportDataCutsModalComponent

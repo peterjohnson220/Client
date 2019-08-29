@@ -1,0 +1,18 @@
+<div class="w-100 add-report-fields">
+  <kendo-autocomplete
+    #reportFieldsList
+    [data]="filteredFields"
+    [placeholder]="'Add Report Fields'"
+    [filterable]="true"
+    [valueField]="'DataElementId'"
+    [popupSettings]="{appendTo: 'component'}"
+    (valueChange)="handleValueChanged($event)">
+
+    <ng-template kendoAutoCompleteItemTemplate let-dataItem>
+      <span>
+        {{dataItem.DisplayName}}
+      </span>
+    </ng-template>
+  </kendo-autocomplete>
+</div>
+

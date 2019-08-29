@@ -16,7 +16,6 @@ import { SurveySearchEffectsService } from '../services';
 import * as fromSurveySearchReducer from '../reducers';
 import { PayfactorsSurveySearchApiModelMapper } from '../helpers';
 
-
 @Injectable()
 export class SearchResultsEffects {
 
@@ -107,8 +106,8 @@ export class SearchResultsEffects {
   );
 
   @Effect()
-  getResultsSuccess$ = this.surveySearchEffectsService.loadPricingMatches(
-    this.actions$.pipe(ofType(fromSearchResultsActions.GET_RESULTS_SUCCESS))
+  replaceJobResults$ = this.surveySearchEffectsService.loadPricingMatches(
+    this.actions$.pipe(ofType(fromSurveySearchResultsActions.REPLACE_JOB_RESULTS))
   );
 
   @Effect()

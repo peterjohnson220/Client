@@ -5,10 +5,24 @@
   </ng-container>
 
   <ng-container page-actions>
-    <button type="button" class="btn btn-secondary" [attr.data-qa-id]="'btn-inviteCompany'" (click)="referCompanyClick()">Invite Company</button>
-    <button type="button" class="btn btn-secondary" [attr.data-qa-id]="'btn-manageJobs'" (click)="manageJobsClick()">Manage Jobs</button>
-    <button type="button" class="btn btn-primary" [attr.data-qa-id]="'btn-manageScopesAndExport'" (click)="mapClick()" [disabled]="!(mapHasData$ | async)"
-    [title]="getTitle((mapHasData$ | async), (mapHasDataError$ | async))">Manage Scopes & Export</button>
+    <button type="button" class="btn btn-secondary"
+            [attr.data-qa-id]="'btn-inviteCompany'"
+            (click)="referCompanyClick()">
+      Invite Company
+    </button>
+    <button type="button" class="btn btn-secondary"
+            [attr.data-qa-id]="'btn-manageJobs'"
+            [pfSecuredResource]="permissions.PEER_MANAGE_JOBS"
+            (click)="manageJobsClick()">
+      Manage Jobs
+    </button>
+    <button type="button" class="btn btn-primary"
+            [attr.data-qa-id]="'btn-manageScopesAndExport'"
+            [disabled]="!(mapHasData$ | async)"
+            [title]="getTitle((mapHasData$ | async), (mapHasDataError$ | async))"
+            (click)="mapClick()">
+      Manage Scopes & Export
+    </button>
   </ng-container>
 
   <ng-container page-content>

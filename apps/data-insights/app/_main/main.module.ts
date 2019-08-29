@@ -9,15 +9,19 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DragulaModule } from 'ng2-dragula';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
-  WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent } from './components';
-import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, SearchWorkbookModalComponent } from './containers';
-import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects } from './effects';
+  WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent,
+  ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent } from './components';
+import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
+  CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent, } from './containers';
+import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -35,13 +39,16 @@ import { MainRoutingModule } from './main-routing.module';
       DataInsightsPageEffects,
       DashboardsEffects,
       ReportViewPageEffects,
-      DataViewEffects
+      DataViewEffects,
+      DataViewGridEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
     DragulaModule.forRoot(),
     NgbPopoverModule.forRoot(),
     NgbTooltipModule,
+    GridModule,
+    PerfectScrollbarModule,
 
     // Routing
     MainRoutingModule,
@@ -53,12 +60,13 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Containers
-    DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, TagWorkbookModalComponent,
-    SearchWorkbookModalComponent,
+    DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
+    SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent,
 
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
-    StandardReportHexagonComponent, SaveUserWorkbookModalComponent
+    StandardReportHexagonComponent, SaveUserWorkbookModalComponent, ReportFieldComponent,
+    DeleteUserWorkbookModalComponent, AddReportFieldsComponent
   ],
   providers: [
     WindowRef

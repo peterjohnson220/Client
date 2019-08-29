@@ -22,6 +22,8 @@ export const ADD_COMPLETED_PRICING_HISTORY = '[Comphub/Summary Card] Create Comp
 export const ADD_COMPLETED_PRICING_HISTORY_SUCCESS = '[Comphub/Summary Card] Create Completed Pricing History Success';
 export const ADD_COMPLETED_PRICING_HISTORY_ERROR = '[Comphub/Summary Card] Create Completed Pricing History Error';
 export const TOGGLE_GLOSSARY_DISPLAY = '[Comphub/Summary Card] Toggle Glossary Display';
+export const SET_MIN_PAYMARKET_MINIMUM_WAGE = '[Comphub/Summary Card] Set Min Paymarket Minimum Wage';
+export const SET_MAX_PAYMARKET_MINIMUM_WAGE = '[Comphub/Summary Card] Set Max Paymarket Minimum Wage';
 
 export class PriceNewJob implements Action {
   readonly type = PRICE_NEW_JOB;
@@ -131,6 +133,18 @@ export class ToggleGlossaryDisplay implements Action {
   constructor(public payload: { open: boolean}) {}
 }
 
+export class SetMinPaymarketMinimumWage implements Action {
+  readonly type = SET_MIN_PAYMARKET_MINIMUM_WAGE;
+
+  constructor(public payload: number) {}
+}
+
+export class SetMaxPaymarketMinimumWage implements Action {
+  readonly type = SET_MAX_PAYMARKET_MINIMUM_WAGE;
+
+  constructor(public payload: number) {}
+}
+
 export type Actions
   = PriceNewJob
   | GetNationalJobTrendData
@@ -149,4 +163,6 @@ export type Actions
   | AddCompletedPricingHistory
   | AddCompletedPricingHistorySuccess
   | AddCompletedPricingHistoryError
-  | ToggleGlossaryDisplay;
+  | ToggleGlossaryDisplay
+  | SetMinPaymarketMinimumWage
+  | SetMaxPaymarketMinimumWage;

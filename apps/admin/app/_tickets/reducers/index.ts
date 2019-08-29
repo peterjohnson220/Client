@@ -7,6 +7,7 @@ import * as fromTicketsReducer from './ticket.reducer';
 import * as fromTicketsListReducer from './ticket-list.reducer';
 import * as fromTicketLookupsReducer from './ticket-lookups.reducer';
 import * as fromTicketAttachmentReducer from './ticket-attachment.reducer';
+import * as fromTicketSharedReducer from './ticket-shared.reducer';
 
 // Feature area state
 export interface TicketsAdminState {
@@ -14,6 +15,7 @@ export interface TicketsAdminState {
   ticketList: fromTicketsListReducer.State;
   ticketLookups: fromTicketLookupsReducer.State;
   ticketAttachment: fromTicketAttachmentReducer.State;
+  ticketShared: fromTicketSharedReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,6 +29,7 @@ export const reducers = {
   ticketList: fromTicketsListReducer.reducer,
   ticketLookups: fromTicketLookupsReducer.reducer,
   ticketAttachment: fromTicketAttachmentReducer.reducer,
+  ticketShared: fromTicketSharedReducer.reducer
 };
 
 // Select Feature area
@@ -37,6 +40,7 @@ export const selectTicketState = createSelector(selectTicketsAdminState, (state:
 export const selectTicketListState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketList);
 export const selectTicketLookupsState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketLookups);
 export const selectTicketAttachmentState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketAttachment);
+export const selectTicketSharedState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketShared);
 
 // Company Detail area
 export const getCompanyDetailLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
@@ -53,10 +57,14 @@ export const getTicketUpdating = createSelector(selectTicketState, fromTicketsRe
 export const getTicketUpdatingError = createSelector(selectTicketState, fromTicketsReducer.getUpdatingError);
 export const getTicketComments = createSelector(selectTicketState, fromTicketsReducer.getComments);
 
+// Ticket Shared Selector
+export const getUserDetailModalOpen = createSelector(selectTicketSharedState, fromTicketSharedReducer.isUserDetailModalOpen);
+export const getUserDetail = createSelector(selectTicketSharedState, fromTicketSharedReducer.getUserDetail);
+export const isLoadingUserDetial = createSelector(selectTicketSharedState, fromTicketSharedReducer.isLoadingUserDetial);
+export const hasLoadingError = createSelector(selectTicketSharedState, fromTicketSharedReducer.hasLoadingError);
+
 // Ticket List Selectors
-export const {
-  selectAll: getTickets,
-} = fromTicketsListReducer.adapter.getSelectors(selectTicketListState);
+export const getTickets = createSelector(selectTicketListState, fromTicketsListReducer.getData);
 export const getTicketListLoading = createSelector(selectTicketListState, fromTicketsListReducer.getLoading);
 export const getTicketListLoadingError = createSelector(selectTicketListState, fromTicketsListReducer.getLoadingError);
 export const getDirtyGridState = createSelector(selectTicketListState, fromTicketsListReducer.getDirtyGridState);

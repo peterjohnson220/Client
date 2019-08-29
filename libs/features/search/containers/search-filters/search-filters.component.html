@@ -1,5 +1,14 @@
-<div [style.display]="visible ? 'block' : 'none'">
+<div class="filters-container" [style.display]="visible ? defaultDisplayValue : 'none'">
+
+  <div class="filters-top">
+    <ng-content select="[filters-top]">
+
+    </ng-content>
+  </div>
+
   <div class="filters">
+
+
     <pf-filter-section
       *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
       [filter]="filter"

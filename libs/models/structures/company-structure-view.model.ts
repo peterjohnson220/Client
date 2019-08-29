@@ -19,14 +19,3 @@ export function generateMockCompanyStructureView(): CompanyStructureView {
     Structure: generateMockCompanyStructure()
   };
 }
-
-export function generateDefaultCompanyStructureView(structure: CompanyStructure): CompanyStructureView {
-  return {
-    Tag: '',
-    IsFavorite: false,
-    DefaultTag: structure.StructureCode,
-    StructuresOrder: 1,
-    FavoritesOrder: 2,
-    Structure: structure
-  };
-}

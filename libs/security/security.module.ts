@@ -1,16 +1,26 @@
 import { NgModule } from '@angular/core';
 
-import { UserContextGuard, PfAdminGuard, PeerTileEnabledGuard, AuthorizationGuard, TileEnabledGuard, LoadUserGuard, LoadCompanyGuard } from './guards';
+import { SettingsService } from '../state/app-context/services';
+import {
+  UserContextGuard, PfAdminGuard, PeerTileEnabledGuard,
+  AuthorizationGuard, TileEnabledGuard, PeerExchangeExplorerEnabledGuard, LoadUserGuard, LoadCompanyGuard
+} from './guards';
 
 @NgModule({
   providers: [
+
+    // Guards
     UserContextGuard,
     PfAdminGuard,
     PeerTileEnabledGuard,
     AuthorizationGuard,
     TileEnabledGuard,
+    PeerExchangeExplorerEnabledGuard,
     LoadUserGuard,
-    LoadCompanyGuard
+    LoadCompanyGuard,
+
+    // Services
+    SettingsService
   ]
 })
 export class PfSecurityModule { }

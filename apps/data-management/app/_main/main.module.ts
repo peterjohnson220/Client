@@ -1,15 +1,23 @@
 import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
+
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
+import { reducers } from './reducers';
 import {
-    DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, ManageDataPageComponent,
-    TransferDataPageComponent
+  DataAlertsPageComponent, DataManagementHomePageComponent,
+  DataManagementSidebarComponent,
+  ManageDataPageComponent,
+  ProviderCardComponent,
+  TransferDataPageComponent,
+  TransferMethodDropdownComponent
 } from './containers';
+import { TransferDataPageEffects } from './effects';
 import { MainRoutingModule } from './main-routing.module';
 
 @NgModule({
@@ -19,6 +27,12 @@ import { MainRoutingModule } from './main-routing.module';
 
     // Routing
     MainRoutingModule,
+
+    // 3rd Party
+    StoreModule.forFeature('data_management', reducers),
+    EffectsModule.forFeature([
+      TransferDataPageEffects
+    ]),
 
     // Payfactors
     PfCommonModule,
@@ -33,15 +47,9 @@ import { MainRoutingModule } from './main-routing.module';
     DataManagementSidebarComponent,
     TransferDataPageComponent,
     ManageDataPageComponent,
-    DataAlertsPageComponent
+    DataAlertsPageComponent,
+    TransferMethodDropdownComponent,
+    ProviderCardComponent
   ]
 })
 export class MainModule { }
-
-
-
-
-
-
-
-

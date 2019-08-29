@@ -87,9 +87,24 @@ export const getCompanyStructureViewsAsync = createSelector(
   fromJobBasedRangeAllStructuresReducer.getCompanyStructureViewsAsync
 );
 
-export const getFilteredCompanyStructures = createSelector(
+export const getFilteredCompanyStructureViews = createSelector(
   selectJobBasedRangeAllStructuresComponentState,
-  fromJobBasedRangeAllStructuresReducer.getFilteredCompanyStructures
+  fromJobBasedRangeAllStructuresReducer.getFilteredCompanyStructureViews
+);
+
+export const getFilteredCompanyStructureFavorites = createSelector(
+  selectJobBasedRangeAllStructuresComponentState,
+  fromJobBasedRangeAllStructuresReducer.getFilteredCompanyStructureFavorites
+);
+
+export const getCompanyStructureAddFavoriteError = createSelector(
+  selectJobBasedRangeAllStructuresComponentState,
+  fromJobBasedRangeAllStructuresReducer.getCompanyStructureAddFavoriteError
+);
+
+export const getCompanyStructureRemoveFavoriteError = createSelector(
+  selectJobBasedRangeAllStructuresComponentState,
+  fromJobBasedRangeAllStructuresReducer.getCompanyStructureRemoveFavoriteError
 );
 
 // Job Range Modeling Grid

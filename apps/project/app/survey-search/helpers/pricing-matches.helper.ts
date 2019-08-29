@@ -35,7 +35,7 @@ export function createPricingMatchesRequest(jobResults: JobResult[], lastJobResu
   latestResults.forEach((jobResult: JobResult) => {
     if (jobResult.DataSource === SurveySearchResultDataSources.Payfactors) {
       jobCodes.push(jobResult.Code);
-    } else {
+    } else if (jobResult.DataSource === SurveySearchResultDataSources.Surveys) {
       jobIds.push(jobResult.Id);
     }
   });

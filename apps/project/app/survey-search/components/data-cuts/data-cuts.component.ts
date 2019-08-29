@@ -54,7 +54,7 @@ export class DataCutsComponent implements OnDestroy {
   handleMatchesMouseEnter(event: MouseEvent, dataCut: DataCut): void {
     this.isMatchesHovered = true;
     const request: PricingMatchesDetailsRequest = {
-      JobId: dataCut.Id.toString(),
+      JobId: dataCut.ServerInfo.SurveyDataId.toString(),
       JobType: MatchesDetailsRequestJobTypes.SurveyData
     };
     const data: MatchesDetailsTooltipData = {

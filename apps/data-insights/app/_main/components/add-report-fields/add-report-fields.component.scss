@@ -1,0 +1,14 @@
+@import 'colors';
+@import 'data-insights-variables';
+
+.k-autocomplete {
+  margin: 1rem;
+  width: 94%;
+  padding-right: 0;
+  font-size: 16px;
+}
+
+.add-icon {
+  color: $dark-grey;
+  padding-right: .3rem;
+}
