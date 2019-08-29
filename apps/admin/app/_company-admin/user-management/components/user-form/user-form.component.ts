@@ -47,6 +47,7 @@ export class UserFormComponent {
   set showPassword(value: boolean) {
     this._showPassword = value;
     this.f.password.patchValue('');
+    this.f.sendWelcomeEmail.patchValue(!value);
     this.setPasswordValidator(this._showPassword);
   }
 
