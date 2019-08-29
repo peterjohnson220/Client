@@ -7,6 +7,7 @@ export const environment = {
   payfactorsApiUrl: '/odata/',
   payfactorsMarketDataUrl: '/marketdata/',
   userVoiceUrl: 'http://payfactors.uservoice.com/forums/',
+  userVoiceLoginRedirect: '/payfactors/UserVoice/RedirectFromLogin',
   userVoiceForumId: 268517,
   ngAppRoot: '/ng/',
   mapboxAccessToken: 'pk.eyJ1IjoianByZWhlbW9wZiIsImEiOiJjajh1a3VqZDMxMmt0MzRxenFsem9oaTN1In0.06ePvHZIgOD5IHAYad8JHQ',
