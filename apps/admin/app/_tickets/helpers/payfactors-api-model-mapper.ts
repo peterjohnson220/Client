@@ -49,7 +49,6 @@ export class PayfactorsApiModelMapper {
 
   static mapUserTicketResponseToUserTicketItem(response: UserTicketResponse): UserTicketItem {
     return {
-      Description: response.UserTicket,
       TicketInfo: {
         TicketId: response.UserTicketId,
         CompanyId: response.CompanyId,
