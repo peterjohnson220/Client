@@ -3,17 +3,16 @@
   [skip]="gridState.skip"
   [pageSize]="gridState.take"
   [sort]="gridState.sort"
-  [navigable]="true"
   [sortable]="true"
   [reorderable]="true"
   [pageable]="false"
   [selectable]="false"
   [rowHeight]="36"
-  [height]="700"
+  [height]="675"
   scrollable="virtual"
-  (columnReorder)="handleColumnReorder()"
   (cellClick)="handleCellClick($event)"
   (cellClose)="handleCellClose($event)"
+  (columnReorder)="handleColumnReorder()"
   (pageChange)="handlePageChange($event)"
 >
   <!-- TODO: Remove headerStyle once issue with Kendo's headerClass is determined -->
@@ -24,6 +23,9 @@
                      [headerStyle]="{ 'font-family': 'Segoe UI', 'font-weight': '400', 'font-style': 'normal', 'font-size': '11px', 'background-color': 'rgb(228, 228, 228)', 'border-width': '0px' }">
     <ng-template *ngIf="listAreaColumn.ColumnDataType === 'date'" kendoGridCellTemplate let-dataItem>
       {{dataItem[listAreaColumn.ColumnDatabaseName] | date:'MM/DD/YYYY'}}
+    </ng-template>
+    <ng-template *ngIf="listAreaColumn.ColumnDataType === 'numeric'" kendoGridCellTemplate let-dataItem>
+      {{dataItem[listAreaColumn.ColumnDatabaseName] | number:'1.0-0'}}
     </ng-template>
   </kendo-grid-column>
 </kendo-grid>

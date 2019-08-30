@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -41,6 +42,8 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
   canAccessProjectsTile$: Observable<boolean>;
   userContext$: Observable<UserContext>;
   glossaryOpen$: Observable<boolean>;
+  minPaymarketMinimumWage$: Observable<number>;
+  maxPaymarketMinimumWage$: Observable<number>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -57,7 +60,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
   comphubPages = ComphubPages;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>
+    private store: Store<fromComphubMainReducer.State>, public cp: CurrencyPipe
   ) {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
@@ -71,6 +74,8 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
     this.canAccessProjectsTile$ = this.store.select(fromComphubMainReducer.getCanAccessProjectsTile);
     this.glossaryOpen$ = this.store.select(fromComphubMainReducer.getGlossaryOpen);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
+    this.minPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMinPaymarketMinimumWage);
+    this.maxPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMaxPaymarketMinimumWage);
   }
 
   ngOnInit() {
@@ -130,6 +135,17 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
 
   handleGlossaryClosed() {
     this.store.dispatch(new fromSummaryCardActions.ToggleGlossaryDisplay({ open: false }));
+  }
+
+  getPaymarketMinimumWage(minPaymarketMinWage: number, maxPaymarketMinWage: number, currencyCode: string): any {
+    if (minPaymarketMinWage === maxPaymarketMinWage && minPaymarketMinWage !== null) {
+      return this.cp.transform(minPaymarketMinWage, currencyCode, 'symbol-narrow');
+    }
+    if (minPaymarketMinWage < maxPaymarketMinWage) {
+      return this.cp.transform(minPaymarketMinWage, currencyCode, 'symbol-narrow')
+        + ' - ' + this.cp.transform(maxPaymarketMinWage, currencyCode, 'symbol-narrow');
+    }
+    return '-';
   }
 
   get isHourly(): boolean {

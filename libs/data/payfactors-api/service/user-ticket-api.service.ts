@@ -12,6 +12,7 @@ import {
 } from 'libs/models/payfactors-api/service/response';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { GenericKeyValue } from 'libs/models';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 @Injectable()
 export class UserTicketApiService {
@@ -25,8 +26,8 @@ export class UserTicketApiService {
       { UserTicket: uploadData.UserTicket, FileData: uploadData.FileData });
   }
 
-  searchUserTickets(request: UserTicketSearchRequest): Observable<UserTicketResponse[]> {
-    return this.payfactorsApiService.post<UserTicketResponse[]>(`${this.endpoint}/Search`, request);
+  searchUserTickets(request: UserTicketSearchRequest): Observable<GridDataResult> {
+    return this.payfactorsApiService.post<GridDataResult>(`${this.endpoint}/Search`, request);
   }
 
   getUserTicket(ticketId: number): Observable<UserTicketResponse> {
@@ -68,4 +69,9 @@ export class UserTicketApiService {
     return this.payfactorsApiService.postWithHeader(`${this.endpoint}/UpdateComment/${request.UserTicketsCommentId}`,
       JSON.stringify(request.Comments), this.headers);
   }
+
+  getUserDetail(userId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDetail/${userId}`);
+  }
+
 }

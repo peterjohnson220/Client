@@ -1,0 +1,56 @@
+@import 'colors';
+@import 'common/common-variables';
+@import 'data-insights-variables';
+
+.field-container {
+  padding: 0.8rem;
+  margin-top: 1rem;
+  font-size: 13px;
+  border-bottom: solid 1px $grid-border-color;
+  background-color: #ffffff;
+
+  &:hover{
+    cursor: move;
+  }
+}
+
+.field-text-container{
+  max-width: 160px;
+
+  .field-text.editable {
+    width: 150px;
+    padding: .35rem;
+    @extend %ellipsis-overflowing-text;
+  }
+
+  .editable-icon:not(:hover) {
+    display: none;
+  }
+
+  &:hover {
+    .editable-icon {
+      width: 20px;
+      display: inline-block;
+    }
+
+    background-color: lighten($inactive-button-color, 20%);
+    border-radius: 7%;
+    cursor: pointer;
+  }
+}
+
+.right-container {
+  color: $dark-grey;
+
+  span {
+    text-align: right;
+    width: 100px;
+    @extend %ellipsis-overflowing-text;
+  }
+
+  .delete-btn {
+    width: 20px;
+    cursor: pointer;
+  }
+
+}

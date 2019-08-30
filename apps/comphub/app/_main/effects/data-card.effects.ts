@@ -47,8 +47,10 @@ export class DataCardEffects {
 
                 return [
                   new fromDataCardActions.GetQuickPriceMarketDataSuccess(gridDataResult),
-                  new fromComphubPageActions.SetJobPricingLimitInfo(response.PricingLimitInfo)
-                  ];
+                  new fromComphubPageActions.SetJobPricingLimitInfo(response.PricingLimitInfo),
+                  new fromSummaryCardActions.SetMinPaymarketMinimumWage(response.MinPaymarketMinimumWage),
+                  new fromSummaryCardActions.SetMaxPaymarketMinimumWage(response.MaxPaymarketMinimumWage)
+                ];
               }),
               catchError((error) => of(new fromDataCardActions.GetQuickPriceMarketDataError(),
                 new fromComphubPageActions.HandleApiError(error)))

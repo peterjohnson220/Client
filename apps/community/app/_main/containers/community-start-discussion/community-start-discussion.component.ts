@@ -25,7 +25,6 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   submittingCommunityJobSuccess$: Observable<CommunityJob>;
 
   submittingCommunityJobSuccessSubscription: Subscription;
-  creatingUserPollFromPreviewTileSubscription: Subscription;
   showPostJobButton = true;
 
   creatingUserPoll$: Observable<boolean>;

@@ -34,8 +34,8 @@ export class CompanyJobApiService {
     }
 
     getCompanyJobs(companyJobIds: number[]): Observable<LatestCompanyJob[]> {
-        return (this.payfactorsApiService.get<LatestCompanyJob[]>(`${this.endpoint}/GetCompanyJobsByIds`,
-            { params: { companyJobIds: (companyJobIds) } })
+        return (this.payfactorsApiService.post<LatestCompanyJob[]>(`${this.endpoint}/Default.GetCompanyJobsByIds`,
+            { companyJobIds: companyJobIds })
         );
     }
 

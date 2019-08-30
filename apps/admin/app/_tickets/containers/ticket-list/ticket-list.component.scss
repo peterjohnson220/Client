@@ -21,4 +21,14 @@
 
 :host ::ng-deep .k-grid td {
   border-width: 0 0 0 0;
+  vertical-align: top;
+}
+
+.action-item:hover {
+  cursor: pointer;
+  background-color: $selected-item-light-background-color;
+}
+
+.text-underline {
+  text-decoration: underline;
 }

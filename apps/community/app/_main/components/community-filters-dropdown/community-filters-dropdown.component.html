@@ -1,5 +1,6 @@
 <div class="py-2">
     <kendo-multiselect
+      #multiselect
       [data]="data"
       [(ngModel)]="selectedItems"
       [textField]="name"
@@ -7,16 +8,17 @@
       [autoClose]="false"
       [placeholder]="placeholder"
       (valueChange)="filterItems(filterType,placeholder)"
-      [id]="filterType">
+      [id]="filterType"
+      [popupSettings]="{animate : false, appendTo: 'component'}"
+      (open)="openFilter()"
+      (close)="closeFilter()">
 
-      <ng-template kendoMultiSelectItemTemplate let-dataItem style="background-color: red;">
+      <ng-template kendoMultiSelectItemTemplate let-dataItem>
         <input type="checkbox" class="k-checkbox"
                [checked]="isItemSelected(dataItem[id])">
         <label class="k-checkbox-label">{{ dataItem[name] }}</label>
       </ng-template>
-      <ng-template kendoMultiSelectGroupTagTemplate let-dataItems>
-        <span> {{filterType}} {{dataItems.length}} selected</span>
-      </ng-template>
     </kendo-multiselect>
+    <div [id]="filterType + '-dropdown-arrow-open'" class="dropdown-arrow" [class.display-none]="filterIsOpen" (click)="dropdownOpenArrowClicked(filterType)"><span class="dropdown-arrow-icon"></span></div>
+    <div [id]="filterType + '-dropdown-arrow-close'" class="dropdown-arrow" [class.display-none]="!filterIsOpen"><span class="dropdown-arrow-icon"></span></div>
   </div>
-  

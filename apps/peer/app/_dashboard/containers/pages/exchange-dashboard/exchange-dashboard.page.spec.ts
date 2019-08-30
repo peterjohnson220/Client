@@ -36,7 +36,7 @@ describe('Peer - Exchange Dashboard', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id: 1 } } },
+          useValue: { snapshot: { params: { id: 1 } }, parent: {parent: 'mock'} },
         },
       ],
       declarations: [
@@ -57,14 +57,19 @@ describe('Peer - Exchange Dashboard', () => {
   });
 
   it('should navigate to the job mapping page when clicking the manage jobs button', () => {
+
+    fixture.detectChanges();
+
     spyOn(router, 'navigate');
 
     instance.manageJobsClick();
 
-    expect(router.navigate).toHaveBeenCalledWith(['manage'], { relativeTo: activatedRoute });
+    expect(router.navigate).toHaveBeenCalledWith(['manage'], { relativeTo: activatedRoute.parent.parent });
   });
 
   it('should return expected strings after api result', () => {
+    fixture.detectChanges();
+
     expect(instance.getTitle(false, true)).toBe('Failed to get map data');
     expect(instance.getTitle(false, false)).toBe('No exchange map data available');
     expect(instance.getTitle(true, false)).toBe('');

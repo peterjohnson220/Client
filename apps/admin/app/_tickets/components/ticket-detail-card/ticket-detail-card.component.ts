@@ -1,7 +1,6 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { TicketDetail } from '../../models';
-
 
 @Component({
   selector: 'pf-ticket-detail-card',
@@ -11,5 +10,5 @@ import { TicketDetail } from '../../models';
 export class TicketDetailCardComponent {
   @Input() ticketDetail: TicketDetail;
 
-  constructor() {}
+  constructor() { }
 }

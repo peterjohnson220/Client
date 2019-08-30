@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exchange Jobs exchange jobs page should match the snapshot 1`] = `
+<pf-exchange-jobs
+  exchangeId={[Function Number]}
+  exchangeJobs$={[Function Store]}
+  exchangeJobsGrid$={[Function Store]}
+  exchangeJobsLoading$={[Function Store]}
+  exchangeJobsLoadingError$={[Function Store]}
+  exportingExchangeJobs$={[Function Store]}
+  gridHelperService={[Function Object]}
+  gridState$={[Function Store]}
+  importExchangeJobsModalOpen$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+>
+  <div
+    class="d-flex flex-column h-100"
+  >
+    <pf-manage-exchange-section-header>
+      
+      <div
+        class="omni-box"
+      >
+        <pf-input-debounce />
+      </div>
+      <button
+        class="btn btn-md btn-secondary"
+        type="button"
+      >
+        
+        
+        <span>
+          Export Jobs
+        </span>
+      </button>
+      <button
+        class="btn btn-md btn-secondary"
+        type="button"
+      >
+        Import Jobs
+      </button>
+      <button
+        class="btn btn-md btn-primary"
+        type="button"
+      >
+        Add Jobs
+      </button>
+    </pf-manage-exchange-section-header>
+    <div
+      class="d-flex h-100"
+    >
+      <pf-async-container
+        class="flex-grow-1"
+      >
+        <kendo-grid>
+          <kendo-grid-column
+            field="Job_Title"
+            title="Job Title"
+          />
+          <kendo-grid-column
+            field="Job_Family"
+            title="Job Family"
+          />
+          <kendo-grid-column
+            field="Job_Level"
+            title="Job Level"
+          />
+        </kendo-grid>
+      </pf-async-container>
+    </div>
+  </div><pf-import-exchange-jobs-modal /><pf-add-jobs-modal />
+</pf-exchange-jobs>
+`;

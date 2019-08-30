@@ -3,7 +3,7 @@ import { Component, ViewChild, Input, EventEmitter, OnInit, OnChanges, SimpleCha
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SuccessEvent, ErrorEvent, FileRestrictions, UploadEvent, SelectEvent } from '@progress/kendo-angular-upload';
+import { SuccessEvent, ErrorEvent, FileRestrictions, UploadProgressEvent, SelectEvent } from '@progress/kendo-angular-upload';
 
 import { StandardReportDetails, EditReportFormData, StandardReportThumbnailData } from '../../models';
 
@@ -22,6 +22,7 @@ export class EditReportModalComponent implements OnInit, OnChanges {
   @ViewChild('editReportModal', { static: true }) public editReportModal: any;
   editReportForm: FormGroup;
   thumbnailUrl: string;
+  uploadedFileName: string;
   uploadThumbnailUrl: string;
   thumbnailRestrictions: FileRestrictions = {
     allowedExtensions: ['.jpg', '.png']
@@ -72,6 +73,7 @@ export class EditReportModalComponent implements OnInit, OnChanges {
     });
     this.thumbnailUrl = this.report.ThumbnailUrl;
     this.uploadingThumbnail = false;
+    this.uploadedFileName = null;
     this.errorMessage = '';
   }
 
@@ -100,7 +102,7 @@ export class EditReportModalComponent implements OnInit, OnChanges {
     });
   }
 
-  uploadProgressEventHandler(e: UploadEvent): void {
+  uploadProgressEventHandler(e: UploadProgressEvent): void {
     this.uploadingThumbnail = true;
   }
 
@@ -108,6 +110,7 @@ export class EditReportModalComponent implements OnInit, OnChanges {
     this.uploadingThumbnail = false;
     const fileName = e.response.body.value;
     this.thumbnailUrl = `${this.cloudFilesPublicBaseUrl}/${StandardReportThumbnailData.CloudFilesContainer}/${fileName}`;
+    this.uploadedFileName = fileName;
   }
 
   errorEventHandler(e: ErrorEvent): void {
@@ -120,7 +123,7 @@ export class EditReportModalComponent implements OnInit, OnChanges {
       WorkbookId: this.report.Id,
       DisplayName: this.editReportForm.value.displayName || this.report.Name,
       Summary: this.editReportForm.value.summary,
-      ThumbnailUrl: this.thumbnailUrl
+      ThumbnailUrl: this.uploadedFileName
     };
     return formData;
   }

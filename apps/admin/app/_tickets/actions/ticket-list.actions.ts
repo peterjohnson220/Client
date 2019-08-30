@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
-import { SortDescriptor } from '@progress/kendo-data-query';
 import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
-import { UserTicketGridItem } from '../models';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 export const INIT_TICKETS = '[Admin Tickets / Ticket List] Init Tickets';
 export const INIT_TICKETS_CHECK = '[Admin Tickets / Ticket List] Init Tickets Check Status';
@@ -10,7 +9,6 @@ export const LOAD_TICKETS = '[Admin Tickets / Ticket List] Load Tickets';
 export const LOAD_TICKETS_SUCCESS = '[Admin Tickets / Ticket List] Load Tickets Success';
 export const LOAD_TICKETS_ERROR = '[Admin Tickets / Ticket List] Load Tickets Error';
 export const SET_GRID_DIRTY_STATUS = '[Admin Tickets / Ticket List] Set Grid Dirty Status';
-export const SORT_TICKETS = '[Admin Tickets / Ticket List] Sort Tickets Grid';
 
 export class InitTickets implements Action {
   readonly type = INIT_TICKETS;
@@ -27,13 +25,13 @@ export class InitTicketsSuccess implements Action {
 export class LoadTickets implements Action {
   readonly type = LOAD_TICKETS;
 
-  constructor(public payload: UserTicketSearchRequest) {}
+  constructor(public payload: UserTicketSearchRequest) { }
 }
 
 export class LoadTicketsSuccess implements Action {
   readonly type = LOAD_TICKETS_SUCCESS;
 
-  constructor(public payload: UserTicketGridItem[]) {}
+  constructor(public payload: GridDataResult) { }
 }
 
 export class LoadTicketsError implements Action {
@@ -43,14 +41,9 @@ export class LoadTicketsError implements Action {
 export class SetGridDirtyStatus implements Action {
   readonly type = SET_GRID_DIRTY_STATUS;
 
-  constructor(public payload: boolean) {}
+  constructor(public payload: boolean) { }
 }
 
-export class SortTickets implements Action {
-  readonly type = SORT_TICKETS;
-
-  constructor(public payload: SortDescriptor) {}
-}
 
 export type Actions
   = InitTickets
@@ -59,5 +52,4 @@ export type Actions
   | LoadTickets
   | LoadTicketsSuccess
   | LoadTicketsError
-  | SetGridDirtyStatus
-  | SortTickets;
+  | SetGridDirtyStatus;

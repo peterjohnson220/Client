@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -18,10 +18,10 @@ import {
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
-import * as fromExchangeSelectorActions from '../../actions/exchange-selector.actions';
-import * as fromPeerDashboardReducer from '../../reducers';
+import * as fromExchangeSelectorActions from '../../../shared/actions/exchange-selector.actions';
 import * as fromExchangeRequestActions from '../../../shared/actions/exchange-request.actions';
 import * as fromSharedPeerReducer from '../../../shared/reducers';
+import * as fromPeerDashboardReducer from '../../reducers';
 
 @Component({
   selector: 'pf-peer-dashboard-exchange-selector',
@@ -44,8 +44,8 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
     private sharedStore: Store<fromSharedPeerReducer.State>,
     private router: Router
   ) {
-    this.exchangeListItems$ = this.store.select(fromPeerDashboardReducer.getExchangeSelectorList);
-    this.exchange$ = this.store.select(fromSharedPeerReducer.getExchange);
+    this.exchangeListItems$ = this.store.pipe(select(fromSharedPeerReducer.getExchangeSelectorList));
+    this.exchange$ = this.store.pipe(select(fromSharedPeerReducer.getExchange));
   }
 
   isInactive(exchangeListItem: ExchangeListItem): boolean {

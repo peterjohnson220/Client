@@ -4,6 +4,8 @@ export interface QuickPriceResponse {
   Count: number;
   Data: QuickPriceMarketData[];
   PricingLimitInfo: JobPricingLimitInfoResponse;
+  MinPaymarketMinimumWage: number;
+  MaxPaymarketMinimumWage: number;
 }
 
 export interface QuickPriceMarketData {

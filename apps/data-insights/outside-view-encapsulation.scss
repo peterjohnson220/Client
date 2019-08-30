@@ -125,3 +125,41 @@
   }
 
 }
+
+
+.custom-report-page {
+  .page-content {
+    padding: 0;
+  }
+}
+
+.add-report-fields {
+
+  .k-outer-group-header {
+    color: $icon-blue-color
+  }
+
+  .k-animation-container-shown {
+    .k-popup {
+      min-height: 150px;
+    }
+  }
+
+}
+
+.data-view-grid {
+
+  .k-grid {
+    tr {
+      height: 41px;
+    }
+    .empty-row {
+      font-style: italic;
+      color: #999999;
+    }
+  }
+
+  .k-grid-header th>.k-link>.k-icon {
+    display: none;
+  }
+}

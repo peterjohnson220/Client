@@ -7,17 +7,10 @@
   </pf-community-avatar>
 
   <div class="post-offset">
-
-    <kendo-dropdownlist id="edit-post-topic-list" class="w-25 ml-2 border float-right mb-2"
-                        [data]="communityTopics$ | async"
-                        [textField]="'TopicName'"
-                        [valueField]="'Id'"
-                        [valuePrimitive]="false"
-                        (valueChange)="handleTopicChange($event)"
-                        [(ngModel)]="selectedItem"
-                        [defaultItem]="defaultTopic"
-                        (open)="defaultTopic = null">
-    </kendo-dropdownlist>
+    <select class="w-25 ml-2 border float-right mb-2" [(ngModel)]="selectedItem">
+      <option *ngIf="!selectedItem" value="undefined" hidden disabled selected>Select a Topic</option>
+      <option *ngFor="let topic of communityTopics$ | async" [ngValue]="topic">{{topic.TopicName}}</option>
+    </select>
 
     <pf-community-post-header [user]="post.UserInfo"
                               [time]="post.ElapsedTime"

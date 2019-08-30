@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PeerTileEnabledGuard } from 'libs/security/guards';
-
-import { ExchangeMapPageComponent } from './containers/pages';
-import { ExchangeExistsGuard } from '../shared/guards';
+import { ExchangeMapNewPageComponent, ExchangeMapPageComponent } from './containers/pages';
+import { PeerExchangeExplorerEnabledGuard } from 'libs/security/guards';
 
 const routes: Routes = [
-  { path: '', component: ExchangeMapPageComponent, canActivate: [PeerTileEnabledGuard, ExchangeExistsGuard] }
+  { path: '', component: ExchangeMapPageComponent, canActivate: [PeerExchangeExplorerEnabledGuard] },
+  { path: 'new', component: ExchangeMapNewPageComponent }
 ];
 
 @NgModule({

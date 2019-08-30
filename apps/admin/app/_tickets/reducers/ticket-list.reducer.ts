@@ -1,36 +1,30 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import { orderBy, cloneDeep, zipObject, map, keyBy } from 'lodash';
 
-import { getValueForSortByProperty } from 'libs/core/functions';
-
 import * as fromTicketListActions from '../actions/ticket-list.actions';
 import { UserTicketGridItem } from '../models';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 // Extended entity state
-export interface State extends EntityState<UserTicketGridItem> {
+export interface State {
   initSuccess: boolean;
   loading: boolean;
   loadingError: boolean;
   dirty: boolean;
-  unfilteredList: UserTicketGridItem[];
+  gridData: GridDataResult;
 }
 
-// Create entity adapter
-export const adapter: EntityAdapter<UserTicketGridItem> = createEntityAdapter<UserTicketGridItem>({
-    selectId: (userTicketViewModel: UserTicketGridItem) => userTicketViewModel.Id
-});
-
 // Initial State
-export const initialState: State = adapter.getInitialState({
+const initialState: State = {
   initSuccess: false,
   loading: true,
   loadingError: false,
   dirty: false,
-  unfilteredList: [],
-});
+  gridData: null
+};
 
 export function reducer(state = initialState, action: fromTicketListActions.Actions): State {
+
   switch (action.type) {
     case fromTicketListActions.INIT_TICKETS_SUCCESS: {
       return {
@@ -47,10 +41,11 @@ export function reducer(state = initialState, action: fromTicketListActions.Acti
     }
     case fromTicketListActions.LOAD_TICKETS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...state,
+        gridData: action.payload,
+        loadingError: false,
         loading: false,
-        dirty: false,
-        unfilteredList: action.payload
+        dirty: false
       };
     }
     case fromTicketListActions.LOAD_TICKETS_ERROR: {
@@ -66,26 +61,6 @@ export function reducer(state = initialState, action: fromTicketListActions.Acti
         dirty: action.payload
       };
     }
-    case fromTicketListActions.SORT_TICKETS: {
-      let ticketIds = state.ids;
-      let sortedTicketList;
-
-      if (action.payload.dir) {
-        sortedTicketList = orderBy(cloneDeep(state.entities),
-          [ticket => getValueForSortByProperty(ticket, action.payload.field)],
-          [action.payload.dir]);
-        ticketIds = map(sortedTicketList, 'Id');
-      } else {
-        ticketIds = map(state.unfilteredList, 'Id');
-        sortedTicketList = cloneDeep(state.unfilteredList);
-      }
-
-      return {
-        ...state,
-        entities: zipObject(ticketIds, sortedTicketList),
-        ids: ticketIds,
-      };
-    }
     default: {
       return state;
     }
@@ -96,3 +71,4 @@ export const getInitSuccess = (state: State) => state.initSuccess;
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getDirtyGridState = (state: State) => state.dirty;
+export const getData = (state: State) => state.gridData;

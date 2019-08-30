@@ -1,0 +1,51 @@
+@import 'colors';
+@import 'data-insights-variables';
+@import 'common/common-variables';
+
+::ng-deep {
+  .page-header {
+    .d-flex{
+      @extend %ellipsis-overflowing-text;
+      h3 {
+        @extend %ellipsis-overflowing-text;
+        line-height: 2rem;
+      }
+    }
+  }
+}
+.center-content-scroll {
+  overflow: hidden;
+}
+
+.main-content {
+  background-color: #ffffff;
+
+  .data-view-grid-container.sidebar-open {
+    width: calc(100vw - 430px);
+  }
+
+  .data-view-grid-container.sidebar-close {
+    width: calc(100vw - 120px);
+  }
+}
+
+.actions {
+  min-width: 185px;
+  margin: 0.5rem 1rem 0.5rem 0.5rem;
+  justify-content: flex-end;
+
+  .btn {
+    margin-left: .75rem;
+    border: 1px solid transparent;
+
+    &:hover {
+      border: 1px solid #CCC;
+    }
+
+    fa-icon {
+      color: #777777;
+      font-size: 1.25rem;
+    }
+  }
+}
+

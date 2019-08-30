@@ -5,7 +5,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromFeaturePeerMapReducer from '../../../map/reducers';
+import * as fromFeaturePeerMapReducer from '../../reducers';
 import { MapComponent } from './map.component';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({

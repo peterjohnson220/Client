@@ -1,4 +1,4 @@
-<pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId">
+<pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId+'/dashboard'">
   <ng-container page-title>
     {{ showCompanyJobs ? 'Company to Exchange Job Match' : 'Exchange to Company Job Association' }}
   </ng-container>
@@ -6,11 +6,11 @@
   <ng-container page-actions>
     <div class="omni-box">
       <!-- company jobs search box -->
-      <pf-input-debounce 
-        #companyJobsSearchComponent 
-        [class.d-none]="!showCompanyJobs" 
+      <pf-input-debounce
+        #companyJobsSearchComponent
+        [class.d-none]="!showCompanyJobs"
         [placeholderText]="'Search for company job title or code'"
-        [(ngModel)]="companyJobsSearchTerm" 
+        [(ngModel)]="companyJobsSearchTerm"
         (valueChanged)="handleCompanyJobsSearchChanged($event)"
         [id]="'company-job-search-box'"
       >

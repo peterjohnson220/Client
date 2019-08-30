@@ -1,1 +1,6 @@
 @import 'tickets-page';
+
+.action-item:hover {
+    cursor: pointer;
+    background-color: $selected-item-light-background-color;
+  }

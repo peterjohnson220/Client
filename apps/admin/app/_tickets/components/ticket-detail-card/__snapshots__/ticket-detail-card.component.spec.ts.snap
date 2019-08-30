@@ -12,17 +12,22 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
       class="row"
     >
       <div
-        class="col-sm-5"
+        class="col-sm-5 action-item"
       >
         <div
-          class="detail-label"
+          class="
+           detail-label"
         >
           Opened By
         </div>
         <div
           class="detail-text mb-2"
         >
-          MockOpenedByUser
+          <a
+            href="mailto:MockOpenedByUser?Subject=Payfactors%20Support%20Ticket%20#1"
+          >
+             MockOpenedByUser
+          </a>
         </div>
       </div>
       <div

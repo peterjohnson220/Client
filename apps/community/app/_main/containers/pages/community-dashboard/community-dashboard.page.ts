@@ -33,7 +33,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   loadingPreviousBatchCommunityPostsSubscription: Subscription;
   hasPreviousBatchResultsOnServerSubscription: Subscription;
   hasNextBatchResultsOnServerSubscription: Subscription;
-  scrollingSubscription: Subscription;
   hasPreviousBatchOnServer = false;
   hasNextBatchOnServer = false;
   hideTopComponents = false;
@@ -260,10 +259,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.scrollingSubscription) {
-      this.scrollingSubscription.unsubscribe();
-    }
-
     if (this.loadingNextBatchCommunityPostsSubscription) {
       this.loadingNextBatchCommunityPostsSubscription.unsubscribe();
     }

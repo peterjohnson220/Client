@@ -24,6 +24,9 @@ import { getFileExtensionType, getFileExtensionCssClass } from 'libs/core/functi
 
 export class PayfactorsApiModelMapper {
   static mapUserTicketResponseToUserTicketGridItem(response: UserTicketResponse[]): UserTicketGridItem[] {
+    if (response == null || response.length === 0) {
+      return [];
+    }
     return response.map(ut => {
       return {
         Id: ut.UserTicketId,
@@ -36,7 +39,10 @@ export class PayfactorsApiModelMapper {
         ServiceUser: ut.ServicesUserFullName,
         Comments: this.squashComments(ut.UserTicketComments),
         Description: ut.UserTicket,
-        TicketCssClass: ut.TicketCssClass
+        TicketCssClass: ut.TicketCssClass,
+        OpenedUserFullName: ut.OpenedUserFullName,
+        OpenedUserId: ut.OpenedUserId,
+        Attachments: this.mapUserTicketFilesToTicketAttachment(ut.UserTicketFiles)
       };
     });
   }
@@ -52,6 +58,7 @@ export class PayfactorsApiModelMapper {
         EditDate: response.EditDate,
         CreateDate: response.CreateDate,
         OpenedBy: response.OpenedUserEmail,
+        OpenedByUserId: response.OpenedUserId,
         TicketState: response.UserTicketState,
         LastUpdatedText: response.LastUpdatedText,
         Description: response.UserTicket,

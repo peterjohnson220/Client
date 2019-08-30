@@ -1,0 +1,48 @@
+<pf-page-with-title-bar>
+  <ng-container page-title>
+    {{pageTitle}}
+  </ng-container>
+
+  <ng-container page-content>
+    <pf-input-debounce [delay]="400"
+                       [(ngModel)]="tbxSearch"
+                       (valueChanged)="handleSearchChanged($event)">
+    </pf-input-debounce>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Survey</th>
+          <th>ID</th>
+          <th>Code</th>
+          <th># Jobs</th>
+          <th># Data Cuts</th>
+          <th># Participants</th>
+          <th># Published Matches</th>
+          <th># Project Matches</th>
+          <th>Map Companies</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of surveys">
+          <td>{{item.SurveyName}}</td>
+          <td>{{item.SurveyId}}</td>
+          <td>{{item.SurveyCode}}</td>
+          <td>{{item.JobCount}}</td>
+          <td>{{item.CutCount}}</td>
+          <td>{{item.ParticipantCount}}</td>
+          <td>{{item.PublishMatchCount}}</td>
+          <td>{{item.ProjectMatchCount}}</td>
+          <td>{{item.CompanyCount}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="button"
+            (click)="addSurvey()">Add Survey</button>
+    <button class="button"
+            (click)="backToSurveyYear()">Back to Survey Years</button>
+
+  </ng-container>
+</pf-page-with-title-bar>
+<pf-add-survey-modal [surveyYearId]="surveyYearId">
+</pf-add-survey-modal>

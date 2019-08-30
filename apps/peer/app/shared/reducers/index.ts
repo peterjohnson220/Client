@@ -6,11 +6,13 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromExchangeReducer from './exchange.reducer';
 import * as fromPermissionReducer from './permissions.reducer';
+import * as fromExchangeSelectorReducer from './exchange-selector.reducer';
 
 // Feature area state
 export interface SharedPeerState {
   exchange: fromExchangeReducer.State;
   exchangeAccess: fromPermissionReducer.State;
+  exchangeSelector: fromExchangeSelectorReducer.State;
 }
 
 // Extend root state with feature area state
@@ -21,7 +23,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   exchange: fromExchangeReducer.reducer,
-  exchangeAccess: fromPermissionReducer.reducer
+  exchangeAccess: fromPermissionReducer.reducer,
+  exchangeSelector: fromExchangeSelectorReducer.reducer
 };
 
 // Select Feature Area
@@ -38,6 +41,11 @@ export const selectAccessState = createSelector(
   (state: SharedPeerState) => state.exchangeAccess
 );
 
+export const selectExchangeSelectorState = createSelector(
+  selectFeatureAreaState,
+  (state: SharedPeerState) => state.exchangeSelector
+);
+
 // Exchange Selectors
 export const getExchange = createSelector(
   selectExchangeState,
@@ -51,6 +59,21 @@ export const getExchangeLoadingError = createSelector(
   selectExchangeState,
   fromExchangeReducer.getLoadingError
 );
+
+export const {
+  selectAll: getExchangeSelectorList
+} = fromExchangeSelectorReducer.adapter.getSelectors(selectExchangeSelectorState);
+
+export const getExchangeSelectorListLoading = createSelector(
+  selectExchangeSelectorState,
+  fromExchangeSelectorReducer.getLoading
+);
+
+export const getExchangeSelectorListLoaded = createSelector(
+  selectExchangeSelectorState,
+  fromExchangeSelectorReducer.getLoaded
+);
+
 export const getExchangeId = createSelector(
   getExchange,
   (exchange) => exchange ? exchange.ExchangeId : 0

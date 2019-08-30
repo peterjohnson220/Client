@@ -54,16 +54,52 @@
     }
   }
 
+  .featured-header {
+    background-color: #ffffff;
+    height: 50px;
+    color: #495057;
+    font-size: 1.2rem;
+    padding: 0 75px;
+
+    .title {
+      text-transform: uppercase;
+    }
+
+    .icon {
+      margin-right: 1rem;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
   .featured {
-    min-height: 370px;
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
     background-color: #ffffff;
     border-bottom: 4px solid $border-grey;
     padding: 0 75px;
+
+    .reports {
+      visibility: hidden;
+    }
+  }
+
+  .featured.displayed {
+    max-height: 1400px;
+    transition: max-height 0.5s ease-in;
+
+    .reports {
+      visibility: visible;
+    }
+  }
+
+  .reports {
+    transition-delay: 0.1s;
   }
 
   .dashboards {
     flex-grow: 1;
-    padding: 1rem;
     position: relative;
   }
 

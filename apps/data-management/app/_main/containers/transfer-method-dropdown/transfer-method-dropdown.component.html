@@ -1,0 +1,8 @@
+<select class="form-control form-control"
+  (change)="transferMethodChanged($event)">
+  <option *ngFor="let method of transferMethods" 
+    [value]="method.TransferMethodId"
+    [selected]="method.Selected">
+    {{method.TransferMethodName}}
+  </option>
+</select>

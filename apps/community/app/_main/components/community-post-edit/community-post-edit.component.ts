@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { CommunityPost, CommunityTopic } from 'libs/models';
@@ -14,7 +14,7 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
   templateUrl: './community-post-edit.component.html',
   styleUrls: ['./community-post-edit.component.scss']
 })
-export class CommunityPostEditComponent implements OnInit {
+export class CommunityPostEditComponent implements OnInit, OnDestroy {
   @Input() post: CommunityPost;
 
   communityTopicSubscription: Subscription;
@@ -24,7 +24,7 @@ export class CommunityPostEditComponent implements OnInit {
   communityTopics: CommunityTopic[];
   selectedTopicId: string;
   selectedItem: CommunityTopic;
-  defaultTopic: any = {'Id': null, 'TopicName': 'Select a Topic'};
+
 
   constructor( public store: Store<fromCommunityPostReplyReducer.State>) {
     this.communityTopics$ = this.store.select(fromCommunityPostReplyReducer.getTopics);
@@ -37,6 +37,12 @@ export class CommunityPostEditComponent implements OnInit {
         this.selectedItem = topics.find(p => p.Id === this.post.Topic.Id);
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.communityTopicSubscription) {
+      this.communityTopicSubscription.unsubscribe();
+    }
   }
 
   savePost() {
