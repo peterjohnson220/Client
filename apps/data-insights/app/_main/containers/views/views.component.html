@@ -10,7 +10,11 @@
 
   <ng-container *ngIf="companyWorkbooksAsync?.obj?.length">
     <ng-container *ngFor="let workbook of companyWorkbooksAsync.obj; trackBy: trackByFn">
-      <pf-workbook-views-card [workbook]="workbook" (favoriteClicked)="handleFavoriteClicked($event)"></pf-workbook-views-card>
+      <pf-workbook-views-card
+        [workbook]="workbook"
+        (favoriteClicked)="handleFavoriteClicked($event)"
+        (viewsOrderUpdated)="handleViewsOrderUpdated($event)">
+      </pf-workbook-views-card>
     </ng-container>
   </ng-container>
 

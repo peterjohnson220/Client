@@ -5,11 +5,12 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models';
+import { ReportOrderType } from 'libs/constants';
 
 import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { ViewsComponent } from './views.component';
-import { generateMockView, generateMockWorkbook } from '../../models';
+import { generateMockView, generateMockWorkbook, SaveReportOrderData } from '../../models';
 
 describe('Data Insights - Views Component', () => {
   let instance: ViewsComponent;
@@ -69,6 +70,20 @@ describe('Data Insights - Views Component', () => {
     spyOn(store, 'dispatch');
 
     instance.handleFavoriteClicked({ workbookId: workbook.WorkbookId, view });
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch SaveReportOrder action when handling views order updated', () => {
+    const data: SaveReportOrderData = {
+      Type: ReportOrderType.Custom,
+      WorkbookId: '123-456-789',
+      ViewIds: ['123', '456']
+    };
+    const expectedAction = new fromViewsActions.SaveReportOrder(data);
+    spyOn(store, 'dispatch');
+
+    instance.handleViewsOrderUpdated(data);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

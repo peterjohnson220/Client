@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Workbook } from '../models';
+import { Workbook, SaveReportOrderData } from '../models';
 
 export const REFRESH_TABLEAU_REPORTS = '[Data Insights / Views] Refresh Tableau Reports';
 export const REFRESH_TABLEAU_REPORTS_SUCCESS = '[Data Insights / Views] Refresh Tableau Reports Success';
@@ -14,6 +14,9 @@ export const ADD_VIEW_FAVORITE_ERROR = '[Data Insights / Views] Add View Favorit
 export const REMOVE_VIEW_FAVORITE = '[Data Insights / Views] Remove View Favorite';
 export const REMOVE_VIEW_FAVORITE_SUCCESS = '[Data Insights / Views] Remove View Favorite Success';
 export const REMOVE_VIEW_FAVORITE_ERROR = '[Data Insights / Views] Remove View Favorite Error';
+export const SAVE_REPORT_ORDER = '[Data Insights / Views] Save Report Order';
+export const SAVE_REPORT_ORDER_SUCCESS = '[Data Insights / Views] Save Report Order Success';
+export const SAVE_REPORT_ORDER_ERROR = '[Data Insights / Views] Save Report Order Error';
 
 export class RefreshTableauReports implements Action {
   readonly type = REFRESH_TABLEAU_REPORTS;
@@ -87,6 +90,24 @@ export class RemoveViewFavoriteError implements Action {
   constructor() {}
 }
 
+export class SaveReportOrder implements Action {
+  readonly type = SAVE_REPORT_ORDER;
+
+  constructor(public payload: SaveReportOrderData) {}
+}
+
+export class SaveReportOrderSuccess implements Action {
+  readonly type = SAVE_REPORT_ORDER_SUCCESS;
+
+  constructor(public payload: SaveReportOrderData) {}
+}
+
+export class SaveReportOrderError implements Action {
+  readonly type = SAVE_REPORT_ORDER_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = RefreshTableauReports
   | RefreshTableauReportsSuccess
@@ -99,4 +120,7 @@ export type Actions
   | AddViewFavoriteError
   | RemoveViewFavorite
   | RemoveViewFavoriteSuccess
-  | RemoveViewFavoriteError;
+  | RemoveViewFavoriteError
+  | SaveReportOrder
+  | SaveReportOrderSuccess
+  | SaveReportOrderError;

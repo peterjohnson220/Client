@@ -4,4 +4,6 @@ export interface TableauReportViewsResponse {
   ViewId: string;
   ViewThumbnail: string;
   IsFavorite?: boolean;
+  ViewsOrder?: number;
+  FavoritesOrder?: number;
 }
