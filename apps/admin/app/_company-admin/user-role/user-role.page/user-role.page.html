@@ -1,0 +1,107 @@
+<pf-page-with-title-bar [locationBack]="true" class="wrapper">
+  <ng-container page-title>
+    User Roles <span *ngIf="currentRole"> - {{currentRole.RoleName}}</span>
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="d-flex flex-row main-container">
+      <div class="d-flex flex-column-reverse left-side-menu flex-grow-7">
+        <div class="d-flex outer-nav-link m-3">
+          <a class="cursor-pointer" (click)="createUserRole()">Create New Role</a>
+        </div>
+        <div class="scrollable h-100">
+          <ul class="left-side-menu-nav flex-grow-1 pt-2 pl-0 m-0 mb-0">
+            <li class="py-0 px-1" *ngFor="let userAssignedRole of userAssignedRoles"
+                [ngClass]="{'highlight-role': currentRole && currentRole.RoleId === userAssignedRole.RoleId && currentRole.IsSystemRole === userAssignedRole.IsSystemRole}">
+              <div class="d-flex flex-row left-side-menu-nav-row">
+                <ng-container
+                  [ngTemplateOutlet]="!inEditRoleMode || currentRole.RoleId !== userAssignedRole.RoleId ? readonlyModeRoleName : editModeRoleName"
+                  [ngTemplateOutletContext]="{userAssignedRole: userAssignedRole}">
+                </ng-container>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <h4>Roles</h4>
+      </div>
+      <div class="d-flex flex-column-reverse flex-grow-1 role-tab-container">
+        <div class="d-flex flex-row action-container ">
+          <div id="api-response-container" *ngIf="roleApiResponse" class="d-flex pi-save-success mx-3"
+               [ngClass]="{'api-save-error': roleApiResponse !== _RoleApiResponse.Success}">
+            {{roleApiResponse}}
+          </div>
+          <div class="d-flex my-3">
+            <pf-action-button
+              (saveClicked)="saveChanges()"
+              (cancelClicked)="cancelChanges()"
+              [saveButtonQaId]="'btn-user-role-save-changes-btn'"
+              [cancelButtonQaId]="'btn-user-role-cancel-btn'"
+              [saveButtonDisabled]="saveButtonDisabled || !currentRole || permissionIdsToSave.length === 0"
+              [cancelButtonDisabled]="!(functionTabPendingChanges || usersTabPendingChanges || dataAccessTabPendingChanges) || saveButtonDisabled"
+            ></pf-action-button>
+          </div>
+        </div>
+        <div class="d-flex card h-100 flex-grow-1">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item" *ngFor="let type of _UserRoleTabState.values()">
+                <button class="nav-link cursor-pointer" [ngClass]="{ 'active': currentUserRoleTabState == _UserRoleTabState[type]}"
+                        (click)="handleTabClick(_UserRoleTabState[type])">{{ type | stringReplace:'_': ' ' | titlecase }}
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="scrollable tab-container h-100 p-3">
+            <pf-user-role-data-access-tab
+              *ngIf="currentUserRoleTabState === _UserRoleTabState.DATA_ACCESS"></pf-user-role-data-access-tab>
+            <pf-user-role-function-tab
+              *ngIf="currentUserRoleTabState === _UserRoleTabState.FUNCTION"></pf-user-role-function-tab>
+            <pf-user-role-users-tab
+              *ngIf="currentUserRoleTabState === _UserRoleTabState.USERS"></pf-user-role-users-tab>
+          </div>
+        </div>
+    </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>
+<pf-add-company-role-modal></pf-add-company-role-modal>
+
+<ng-template #editModeRoleName let-userAssignedRole="userAssignedRole" >
+  <button type="button" title="Edit Role Name" class="btn btn-link ignore-click-elsewhere cursor-pointer"
+          (click)="setEditRoleNameMode(false)"
+          [style.visibility]="currentRole && currentRole.RoleId === userAssignedRole.RoleId ? 'visible' : 'hidden'">
+    <fa-icon icon="check-circle" class="ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></fa-icon>
+  </button>
+  <pf-input-debounce [delay]="400"
+                     [(ngModel)]="newRoleName"
+                     [placeholderText]="'Enter Role...'"
+                     id="edit-role-name-input"
+                     [automationClassName]="'au-txt-edit-role-name-input'"
+                     pfClickElsewhere [whitelist]="['ignore-click-elsewhere']"
+                     (clickElsewhere)="setEditRoleNameMode(false)"
+                     (clearClicked)="updateNewRoleName(null)">
+  </pf-input-debounce>
+</ng-template>
+
+<ng-template #readonlyModeRoleName let-userAssignedRole="userAssignedRole">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <button type="button" title="Edit Role Name" class="btn btn-link ignore-click-elsewhere cursor-pointer"
+              (click)="setEditRoleNameMode(true)"
+              [style.visibility]="isThisRoleActiveRole(userAssignedRole.RoleId) ? 'visible' : 'hidden'">
+        <fa-icon icon="pencil" class="ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></fa-icon>
+      </button>
+    </div>
+    <div class="ml-1 pt-1 ignore-click-elsewhere cursor-pointer role-name">
+      <a (click)="clickRole(userAssignedRole)">{{userAssignedRole.RoleName}}</a>
+    </div>
+    <div *ngIf="isThisRoleActiveRole(userAssignedRole.RoleId)" class="input-group-append action-item" title="{{deleteTitle}}">
+      <button class="btn btn-link ignore-click-elsewhere cursor-pointer"
+              (click)="deleteRole()"
+              [disabled]="usersInCurrentRole"
+              [attr.data-qa-id]="'btn-delete-role' + userAssignedRole.RoleId">
+        <fa-icon icon="trash"></fa-icon>
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ErrorEvent, UploadEvent, SelectEvent, ClearEvent, FileRestrictions, RemoveEvent } from '@progress/kendo-angular-upload';
 import { SuccessEvent } from '@progress/kendo-angular-upload';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-marketing-image',
@@ -9,6 +10,9 @@ import { SuccessEvent } from '@progress/kendo-angular-upload';
   styleUrls: ['./marketing-image.component.scss'],
 })
 export class MarketingImageComponent implements OnInit {
+
+  env = environment;
+
   previewFileUri: any;
   errorMessage = '';
   uploadSaveUrl = '/odata/Marketing.UploadMarketingImage';

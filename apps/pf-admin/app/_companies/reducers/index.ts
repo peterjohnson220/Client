@@ -94,6 +94,11 @@ export const getPfServicesReps = createSelector(
   fromCompanyPageReducer.getPfServicesReps
 );
 
+export const getPfJdmSrAssociates = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getPfJdmSrAssociates
+);
+
 export const getLoadingPfCustomerSuccessManagers = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getLoadingPfCustomerSuccessManagers

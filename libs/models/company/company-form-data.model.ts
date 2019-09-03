@@ -4,6 +4,7 @@ export interface CompanyFormData {
   CompanyNameShort: string;
   Status: string;
   PrimarySupportUserId?: string;
+  JDMSeniorAssociateUserId?: string;
   SystemUserGroupsId: number;
   ClientType: string;
   Industry: string;
@@ -24,6 +25,5 @@ export interface CompanyFormData {
   EnableLiveChat: boolean;
   EnableIntervalAgingFactor: boolean;
   PasswordLengthRequirement: number;
-  OrgDataAutoloaderApiKey?: string;
   GroupName?: string;
 }

@@ -4,37 +4,26 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-
+import { NotificationModule } from '@progress/kendo-angular-notification';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-
-
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { CompanyApiService } from 'libs/data/payfactors-api/company';
-import { UsersModule } from 'libs/features/pf-admin/users';
 
-import { DataFieldFilterComponent } from './components';
-import {
-    AddCompanyRoleModalComponent, NavigationPageComponent, PasswordManagementPageComponent, PasswordManagementSettingsComponent,
-    SavePasswordSettingsModalComponent, UserRoleDataAccessTabComponent, UserRoleFunctionTabComponent, UserRolePageComponent,
-    UserRoleUsersTabComponent
-} from './containers';
-import { NavigationEffects, PasswordSettingEffects, UserRoleEffects } from './effects';
-import { reducers } from './reducers';
-import { DataAccessService, UserRoleService, UserRoleValidationService } from './services';
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
-import { CompanyAdminUsersListPageComponent } from './components/pages/company-admin-users-list';
-import * as fromFaIcons from './fa-icons';
+
+import {
+  UsersListModule,
+  UserManagementModule,
+  UserRoleModule,
+  PasswordManagementModule,
+  NavigationModule
+} from './';
 
 @NgModule({
   imports: [
@@ -45,15 +34,10 @@ import * as fromFaIcons from './fa-icons';
     ScrollingModule,
 
     // 3rd Party
+    NotificationModule,
     GridModule,
     DropDownsModule,
     LayoutModule,
-    StoreModule.forFeature('userRoleAdminMain', reducers),
-    EffectsModule.forFeature([
-      NavigationEffects,
-      UserRoleEffects,
-      PasswordSettingEffects
-    ]),
 
     // Routing
     CompanyAdminRoutingModule,
@@ -62,35 +46,16 @@ import * as fromFaIcons from './fa-icons';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    UsersModule,
     FontAwesomeModule,
-  ],
-  declarations: [
-    // Components
-    UserRoleDataAccessTabComponent,
-    UserRoleFunctionTabComponent,
-    UserRoleUsersTabComponent,
-    AddCompanyRoleModalComponent,
-    DataFieldFilterComponent,
-    NavigationPageComponent,
-    PasswordManagementSettingsComponent,
-    SavePasswordSettingsModalComponent,
 
-    // Pages
-    UserRolePageComponent,
-    PasswordManagementPageComponent,
-    CompanyAdminUsersListPageComponent,
-  ],
-  providers: [
-    // Services
-    UserRoleService,
-    UserRoleValidationService,
-    DataAccessService,
-    CompanyApiService
+    // Features
+    UsersListModule,
+    UserManagementModule,
+    UserRoleModule,
+    PasswordManagementModule,
+    NavigationModule
   ]
 })
 export class CompanyAdminModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
-  }
+  constructor() { }
 }

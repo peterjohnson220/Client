@@ -14,15 +14,12 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
-import { UsersModule } from 'libs/features/pf-admin/users';
-import { UsersListEffects } from 'libs/features/pf-admin/users/effects';
 
 import * as fromFaIcons from './fa-icons';
 import { CompanySearchPipe } from './pipes';
 import { CompaniesListPageComponent, CompaniesListComponent, CompanyPageComponent, CompanyFormComponent,
   CompanyTabsComponent } from './containers';
 import { SecondarySurveyFieldsModalComponent, CompanyTagsModalComponent } from './components';
-import { SiteAdminUsersListPageComponent } from './components/pages/site-admin-users-list';
 import { CompaniesEffects, CompanyPageEffects } from './effects';
 import { reducers } from './reducers';
 import { CompanyRoutingModule } from './company-routing.module';
@@ -36,7 +33,6 @@ import { CompanyRoutingModule } from './company-routing.module';
     StoreModule.forFeature('pf-admin_companies', reducers),
     EffectsModule.forFeature([
       CompaniesEffects,
-      UsersListEffects,
       CompanyPageEffects
     ]),
     GridModule,
@@ -52,7 +48,6 @@ import { CompanyRoutingModule } from './company-routing.module';
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
-    UsersModule,
     PfCommonModule
   ],
   exports: [
@@ -68,7 +63,6 @@ import { CompanyRoutingModule } from './company-routing.module';
 
     // Pages
     CompaniesListPageComponent,
-    SiteAdminUsersListPageComponent,
     CompanyPageComponent,
 
     // Pipes

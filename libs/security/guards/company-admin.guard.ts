@@ -1,5 +1,5 @@
 import {Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Data } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Data, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -15,6 +15,7 @@ export class AuthorizationGuard implements CanActivate {
   userContext$: Observable<UserContext>;
 
   constructor(
+    private router: Router,
     private store: Store<fromRootState.State>,
     private permissionService: PermissionService
   ) {
@@ -31,7 +32,7 @@ export class AuthorizationGuard implements CanActivate {
     } else if (this.permissionService.CheckPermission(routeData.Permissions, routeData.Check)) {
       return of(true);
     } else {
-      window.location.href = '/ng/404';
+      this.router.navigate(['/access-denied']);
       return of(false);
     }
   }
