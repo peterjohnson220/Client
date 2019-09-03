@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admin - Company Admin - Users List Component Should show the users list grid when usersList is populated 1`] = `
+<pf-users-list
+  router={[Function Object]}
+  usersList={[Function Array]}
+>
+  <div
+    class="table-responsive"
+  >
+    <kendo-grid>
+      <kendo-grid-column
+        field="FirstName"
+        title="First Name"
+      />
+      <kendo-grid-column
+        field="LastName"
+        title="Last Name"
+      />
+      <kendo-grid-column
+        field="UserId"
+        title="User ID"
+      />
+      <kendo-grid-column
+        field="Title"
+        title="Title"
+      />
+      <kendo-grid-column
+        field="EmailAddress"
+        title="Email Address"
+      />
+      <kendo-grid-column
+        field="SsoId"
+        title="SSO ID"
+      />
+      <kendo-grid-column
+        field="LastLogin"
+        title="Last Login"
+      >
+        
+      </kendo-grid-column>
+      <kendo-grid-column
+        class="text-center"
+        field="Status"
+        title="Status"
+      >
+        
+      </kendo-grid-column>
+      
+    </kendo-grid>
+  </div>
+</pf-users-list>
+`;

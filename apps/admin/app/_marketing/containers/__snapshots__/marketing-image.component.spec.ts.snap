@@ -2,6 +2,7 @@
 
 exports[`MarketingComponent should NOT show error message, when errorMessage is empty 1`] = `
 <pf-marketing-image
+  env={[Function Object]}
   errorMessage=""
   fb={[Function FormBuilder]}
   fileRestrictions={[Function Object]}
@@ -58,6 +59,7 @@ exports[`MarketingComponent should NOT show error message, when errorMessage is 
 
 exports[`MarketingComponent should NOT show the preview image, when previewFileUri is empty 1`] = `
 <pf-marketing-image
+  env={[Function Object]}
   errorMessage=""
   fb={[Function FormBuilder]}
   fileRestrictions={[Function Object]}
@@ -115,6 +117,7 @@ exports[`MarketingComponent should NOT show the preview image, when previewFileU
 
 exports[`MarketingComponent should show error message, when errorMessage is NOT empty 1`] = `
 <pf-marketing-image
+  env={[Function Object]}
   errorMessage={[Function String]}
   fb={[Function FormBuilder]}
   fileRestrictions={[Function Object]}
@@ -176,6 +179,7 @@ exports[`MarketingComponent should show error message, when errorMessage is NOT 
 
 exports[`MarketingComponent should show the preview image, when previewFileUri is NOT empty 1`] = `
 <pf-marketing-image
+  env={[Function Object]}
   errorMessage=""
   fb={[Function FormBuilder]}
   fileRestrictions={[Function Object]}

@@ -11,6 +11,7 @@ import * as fromJdmViewActions from '../../actions/view.actions';
 import * as fromJdmFilterActions from '../../actions/filter.actions';
 import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
 import * as fromJdmAdminReducer from '../../reducers';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-bulk-export-scheduler-page',
@@ -18,10 +19,12 @@ import * as fromJdmAdminReducer from '../../reducers';
   styleUrls: ['./bulk-export-scheduler.page.scss']
 })
 export class BulkExportSchedulerPageComponent implements OnInit {
+
+  env = environment;
+
   views$: Observable<JobDescriptionViewModel[]>;
   filters$: Observable<JdmListFilter[]>;
   schedules$: Observable<BulkExportSchedule[]>;
-
 
   constructor(private store: Store<fromJdmAdminReducer.State>) {
     this.views$ = this.store.select(fromJdmAdminReducer.getViews);
@@ -33,9 +36,5 @@ export class BulkExportSchedulerPageComponent implements OnInit {
     this.store.dispatch(new fromJdmViewActions.LoadingViews());
     this.store.dispatch(new fromJdmFilterActions.LoadingFilters());
     this.store.dispatch(new fromJdmBulkExportScheduleActions.LoadingSchedules());
-  }
-
-  handleBackButtonClick(): void {
-    window.location.href = '/ng/company-admin/navigation';
   }
 }
