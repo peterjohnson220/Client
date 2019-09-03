@@ -21,10 +21,10 @@
                          width="150">
 
         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-          <fa-icon *ngIf="kendoSortDesc?.field === column.field && kendoSortDesc?.dir === 'desc'"
+          <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'desc'"
                    class="sort-icon" [icon]="['far', 'long-arrow-down']">
           </fa-icon>
-          <fa-icon *ngIf="kendoSortDesc?.field === column.field && kendoSortDesc?.dir === 'asc'"
+          <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'asc'"
                    class="sort-icon" [icon]="['far', 'long-arrow-up']">
           </fa-icon>
           <span class="k-link">{{column.title}}</span>
