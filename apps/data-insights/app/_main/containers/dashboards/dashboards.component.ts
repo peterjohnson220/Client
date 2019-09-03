@@ -1,12 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
@@ -26,21 +24,17 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   tags$: Observable<string[]>;
   savingTag$: Observable<boolean>;
   savingTagError$: Observable<boolean>;
-  thumbnailsViewSettingEnabled$: Observable<boolean>;
 
   filteredCompanyWorkbooksSub: Subscription;
   dragulaSub: Subscription;
   savingTagsSub: Subscription;
-  thumbnailsViewSettingEnabledSub: Subscription;
 
   filteredCompanyWorkbooks: Workbook[];
   selectedWorkbook: Workbook;
-  thumbnailsViewSettingEnabled: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
-    private dragulaService: DragulaService,
-    private settingsService: SettingsService
+    private dragulaService: DragulaService
   ) {
     this.dragulaSub = new Subscription();
     this.dragulaSub.add(this.dragulaService.dropModel('workbooks').subscribe(({ sourceModel }) => {
@@ -51,13 +45,6 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.tags$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTags));
     this.savingTag$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTag));
     this.savingTagError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTagError));
-    this.thumbnailsViewSettingEnabled$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.DataInsightsThumbnailsViewDisplay
-    );
-  }
-
-  get anyFavorites() {
-    return !!this.filteredCompanyWorkbooks && this.filteredCompanyWorkbooks.some(r => r.IsFavorite);
   }
 
   ngOnInit() {
@@ -67,15 +54,10 @@ export class DashboardsComponent implements OnInit, OnDestroy {
         this.tagWorkbookModalComponent.close();
       }
     });
-    this.thumbnailsViewSettingEnabledSub = this.thumbnailsViewSettingEnabled$.subscribe(settingEnabled => {
-      this.thumbnailsViewSettingEnabled = settingEnabled;
-      if (settingEnabled) {
-        this.store.dispatch(new fromDashboardsActions.RefreshTableauReports());
-        this.store.dispatch(new fromDashboardsActions.GetAllCompanyReportsViews());
-      } else {
-        this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
-      }
-    });
+  }
+
+  get anyFavorites() {
+    return !!this.filteredCompanyWorkbooks && this.filteredCompanyWorkbooks.some(r => r.IsFavorite);
   }
 
   ngOnDestroy() {

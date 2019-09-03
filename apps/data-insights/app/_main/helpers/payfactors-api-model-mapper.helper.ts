@@ -53,7 +53,8 @@ export class PayfactorsApiModelMapper {
         ContentUrl: r.ContentUrl,
         ViewId: r.ViewId,
         ViewName: r.ViewName,
-        ViewThumbnail: r.ViewThumbnail
+        ViewThumbnail: r.ViewThumbnail,
+        IsFavorite: r.IsFavorite
       };
     });
   }

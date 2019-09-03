@@ -7,6 +7,11 @@
   <div class="card-body view-content">
 
     <div class="actions-container" [ngClass]="displayActionsOverlay ? 'displayed' : ''">
+      <button class="btn action-button" [attr.data-qa-id]="'btn-favorite'" (click)="handleFavoriteClicked(view)">
+        <fa-icon *ngIf="view.IsFavorite" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
+        <fa-icon *ngIf="!view.IsFavorite" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
+      </button>
+
       <div class="open-view">
         <a class="btn"
           title="Open View"

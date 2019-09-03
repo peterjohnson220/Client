@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { View } from '../../models';
 
@@ -12,6 +12,7 @@ export class ViewCardComponent {
   @Input() workbookName: string;
   @Input() workbookContentUrl: string;
   @Input() view: View;
+  @Output() favoriteClicked: EventEmitter<View> = new EventEmitter<View>();
 
   displayActionsOverlay: boolean;
 
@@ -21,5 +22,9 @@ export class ViewCardComponent {
 
   handleMouseLeaveViewContainer() {
     this.displayActionsOverlay = false;
+  }
+
+  handleFavoriteClicked(view: View) {
+    this.favoriteClicked.emit(view);
   }
 }

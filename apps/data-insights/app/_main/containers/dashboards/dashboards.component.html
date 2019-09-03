@@ -1,19 +1,16 @@
-<div class="dashboards h-100 d-flex flex-column">
+<ng-container *ngIf="(companyWorkbooksAsync$ | async) as companyWorkbooksAsync">
+  <pf-async-container
+    [loading]="companyWorkbooksAsync.loading"
+    [loadingError]="companyWorkbooksAsync.loadingError"
+    [loadingErrorMessage]="'Error Loading Dashboards'"
+    [hideReloadButton]="true">
+  </pf-async-container>
 
-  <pf-dashboards-header
-    [thumbnailsViewEnabled]="thumbnailsViewSettingEnabled"
-    [hasFavorites]="anyFavorites">
-  </pf-dashboards-header>
+  <pf-dashboards-header [thumbnailsViewEnabled]="false" [hasFavorites]="anyFavorites"></pf-dashboards-header>
 
-  <ng-container *ngIf="(companyWorkbooksAsync$ | async) as companyWorkbooksAsync">
-    <pf-async-container
-      [loading]="companyWorkbooksAsync.loading"
-      [loadingError]="companyWorkbooksAsync.loadingError"
-      [loadingErrorMessage]="'Error Loading Dashboards'"
-      [hideReloadButton]="true">
-    </pf-async-container>
+  <div *ngIf="filteredCompanyWorkbooks" class="dashboards h-100 d-flex flex-column">
 
-    <div *ngIf="!thumbnailsViewSettingEnabled" class="workbooks-container row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">
+    <div class="workbooks-container row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">
       <ng-container *ngIf="filteredCompanyWorkbooks?.length">
         <div *ngFor="let workbook of filteredCompanyWorkbooks; trackBy: trackByFn"
               class="col-xs-12 col-md-6 col-lg-4 col-xl-3 workbook-card">
@@ -27,14 +24,8 @@
       </ng-container>
     </div>
 
-    <ng-container *ngIf="thumbnailsViewSettingEnabled && companyWorkbooksAsync?.obj?.length">
-      <ng-container *ngFor="let workbook of companyWorkbooksAsync.obj; trackBy: trackByFn">
-        <pf-views [workbook]="workbook"></pf-views>
-      </ng-container>
-    </ng-container>
-
-  </ng-container>
-</div>
+  </div>
+</ng-container>
 
 <pf-tag-workbook-modal
   [selectedWorkbook]="selectedWorkbook"

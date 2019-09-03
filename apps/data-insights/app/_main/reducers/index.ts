@@ -8,6 +8,7 @@ import * as fromDashboardsReducer from './dashboards.reducer';
 import * as fromReportViewReducer from './reports-view-page.reducer';
 import * as fromDataViewReducer from './data-view.reducer';
 import * as fromDataViewGridReducer from './data-view-grid.reducer';
+import * as fromViewsReducer from './views.reducer';
 
 // Feature area state
 export interface DataInsightsMainState {
@@ -16,6 +17,7 @@ export interface DataInsightsMainState {
   reportViewPage: fromReportViewReducer.State;
   dataView: fromDataViewReducer.State;
   dataViewGrid: fromDataViewGridReducer.State;
+  views: fromViewsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -29,7 +31,8 @@ export const reducers = {
   dashboards: fromDashboardsReducer.reducer,
   reportViewPage: fromReportViewReducer.reducer,
   dataView: fromDataViewReducer.reducer,
-  dataViewGrid: fromDataViewGridReducer.reducer
+  dataViewGrid: fromDataViewGridReducer.reducer,
+  views: fromViewsReducer.reducer
 };
 
 // Select Feature Area
@@ -59,6 +62,11 @@ export const selectDataViewState = createSelector(
 export const selectDataViewGridState = createSelector(
   selectFeatureAreaState,
   (state: DataInsightsMainState) => state.dataViewGrid
+);
+
+export const selectViewsState = createSelector(
+  selectFeatureAreaState,
+  (state: DataInsightsMainState) => state.views
 );
 
 // Data Insights Page
@@ -224,4 +232,10 @@ export const getHasMoreDataOnServer = createSelector(
 export const getSortDescriptor = createSelector(
   selectDataViewGridState,
   fromDataViewGridReducer.getSortDescriptor
+);
+
+// All Views
+export const getCompanyWorkbooksAsyncFromViews = createSelector(
+  selectViewsState,
+  fromViewsReducer.getCompanyWorkbooksAsyncFromViews
 );
