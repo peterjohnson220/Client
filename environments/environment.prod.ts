@@ -20,5 +20,7 @@ export const environment = {
   smallBusinessAppUrl: 'https://smallbiz.payfactors.com/app/',
   hostPath: 'client',
   allowHubspotRegistration: true,
-  hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data'
+  hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data',
+  siteAdminUrl: '/client/pf-admin',
+  companyAdminUrl: '/client/admin/company-admin'
 };

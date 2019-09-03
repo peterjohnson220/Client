@@ -3,6 +3,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { environment } from 'environments/environment';
+
 import { AsyncStateObj } from 'libs/models/state';
 import { UserContext } from 'libs/models/security';
 import * as fromRootReducer from 'libs/state/state';
@@ -33,6 +35,8 @@ export class StandardReportsListPageComponent implements OnInit, OnDestroy {
   searchTerm: string;
   selectedReport: StandardReportDetails;
   cloudFilesPublicBaseUrl: string;
+
+  env = environment;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>

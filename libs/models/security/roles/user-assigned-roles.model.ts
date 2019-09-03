@@ -1,5 +1,5 @@
 import { SystemPermission } from 'libs/models/security';
-import {RoleDataRestriction} from './role-data-restriction.model';
+import { RoleDataRestriction } from './role-data-restriction.model';
 
 export class UserAssignedRole {
   RoleId: number;
@@ -10,6 +10,15 @@ export class UserAssignedRole {
   Permissions: SystemPermission[];
   DataRestrictions: RoleDataRestriction[];
 }
+
+export interface UserRole {
+  Id: number;
+  CompanyId: number;
+  RoleName: string;
+  IsSystemRole: boolean;
+  UiVisible: boolean;
+}
+
 export function generateMockUserAssignedRole(): UserAssignedRole {
   return {
     RoleId: 0,
@@ -51,13 +60,15 @@ export function getMockUserAssignedRoleWithPermissions(): UserAssignedRole {
         IsChecked: false,
         ChildPermission: null
       },
-      {SystemPermissionId: 2,
+      {
+        SystemPermissionId: 2,
         Permission: 'Sub1_Permission',
         Name: 'Sub1 Permission',
         TileId: 1,
         IsParent: true,
         IsChecked: false,
-        ChildPermission: null},
+        ChildPermission: null
+      },
       {
         SystemPermissionId: 3,
         Permission: 'Sub2_Permission',
@@ -67,7 +78,7 @@ export function getMockUserAssignedRoleWithPermissions(): UserAssignedRole {
         IsChecked: false,
         ChildPermission: null
       }
-        ],
+    ],
     DataRestrictions: []
   };
 }

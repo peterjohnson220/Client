@@ -2,6 +2,7 @@
 
 exports[`Admin - Tag Categories Page (the page) should match the snapshot 1`] = `
 <pf-tag-categories
+  env={[Function Object]}
   gridState$={[Function Observable]}
   store={[Function Store]}
 >

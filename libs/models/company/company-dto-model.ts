@@ -2,6 +2,7 @@ import { Company } from './company.model';
 
 export interface CompanyDto extends Company {
   PrimarySupportUserId: number;
+  JDMSeniorAssociateUserId: number;
   SystemUserGroupsId: number;
   ClientType: string;
   Industry: string;
@@ -33,7 +34,6 @@ export interface CompanyDto extends Company {
   EditUser: number;
   EditDate: Date;
   PasswordLengthRequirement: number;
-  OrgDataAutoloaderApiKey: string;
   DataInsightsAssociateUserId: number;
   Website: string;
   Domain: string;
