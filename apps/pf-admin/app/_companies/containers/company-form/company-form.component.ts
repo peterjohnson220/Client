@@ -37,6 +37,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   groupVal: string;
   uploadLogoErrorMessage: string;
   companyLogo: string;
+  companyColor: string;
 
   loadingTokenUrl$: Observable<boolean>;
   loadingTokenUrlError$: Observable<boolean>;
@@ -135,7 +136,8 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       customFieldValue: ['', Validators.maxLength(50)],
       enablePricingReview: [false],
       passwordLength: [0, [Validators.required, Validators.pattern('[0-9]*'), Validators.min(8), Validators.max(20)]],
-      ParticipateInPeerDataExchange: [true]
+      ParticipateInPeerDataExchange: [true],
+      companyColor: ['']
     });
   }
 
@@ -193,7 +195,8 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       RestrictWorkflowToCompanyEmployeesOnly: false,
       HideSecondarySurveyDataFields: true,
       EnableLiveChat: false,
-      EnableIntervalAgingFactor: false
+      EnableIntervalAgingFactor: false,
+      CompanyColor: this.companyForm.get('companyColor').value
     };
   }
 
@@ -299,6 +302,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.get('enablePricingReview').setValue(this.companyFormData.EnablePricingReview);
     this.companyForm.get('passwordLength').setValue(this.companyFormData.PasswordLengthRequirement);
     this.companyForm.get('ParticipateInPeerDataExchange').setValue(this.companyFormData.ParticipateInPeerDataExchange);
+    this.companyForm.get('companyColor').setValue(this.companyFormData.CompanyColor);
 
     this.disableRepositoryForPeerClientType();
     this.companyForm.markAsTouched();
