@@ -112,7 +112,7 @@ export class JobDescriptionApiService {
   }
 
   getPublicTokenUrl(companyId: number): Observable<string> {
-    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetPublicListPageUrl`, { companyId: companyId });
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetPublicListPageUrl`, { params: {companyId: companyId }});
   }
 
   deleteByTemplateId(jobDescriptionDeleteByTemplateIdRequest: JobDescriptionDeleteByTemplateIdRequest): Observable<ValidateStepResultItem> {
