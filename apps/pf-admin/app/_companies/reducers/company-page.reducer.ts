@@ -410,7 +410,7 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         ...state,
         companyTiles: companyTilesCopy,
         companySettings: companySettingsCopy,
-        companyDataSetsEnabled: true
+        companyDataSetsEnabled: false
       };
     }
     case fromCompanyPageActions.SELECT_PEER_AND_ANALYSIS_CLIENT_TYPE: {
