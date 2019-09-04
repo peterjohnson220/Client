@@ -75,7 +75,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              09/01/2019
             </div>
           </div>
           <div
@@ -277,7 +277,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      09/01/2019
                     </div>
                   </div>
                 </div>
@@ -549,7 +549,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      09/01/2019
                     </div>
                   </div>
                   <div
@@ -751,7 +751,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              09/01/2019
                             </div>
                           </div>
                         </div>
@@ -3024,7 +3024,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              09/01/2019
             </div>
           </div>
           <div
@@ -3226,7 +3226,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      09/01/2019
                     </div>
                   </div>
                 </div>
@@ -3498,7 +3498,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      09/01/2019
                     </div>
                   </div>
                   <div
@@ -3700,7 +3700,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              09/01/2019
                             </div>
                           </div>
                         </div>
@@ -4007,7 +4007,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              09/01/2019
             </div>
           </div>
           <div
@@ -4209,7 +4209,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      09/01/2019
                     </div>
                   </div>
                 </div>
@@ -4481,7 +4481,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      09/01/2019
                     </div>
                   </div>
                   <div
@@ -4683,7 +4683,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              09/01/2019
                             </div>
                           </div>
                         </div>
