@@ -14,6 +14,7 @@ import { CompanyFormData } from 'libs/models/company';
 import * as fromPfAdminMainReducer from '../../reducers';
 import * as fromCompanyPageActions from '../../actions/company-page.actions';
 import { CompanyFormContext } from '../../models';
+import { BrowserDetectionService } from 'libs/core/services';
 
 @Component({
   selector: 'pf-company-form',
@@ -37,7 +38,6 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   groupVal: string;
   uploadLogoErrorMessage: string;
   companyLogo: string;
-  companyColor: string;
 
   loadingTokenUrl$: Observable<boolean>;
   loadingTokenUrlError$: Observable<boolean>;
@@ -51,7 +51,8 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store<fromPfAdminMainReducer.State>
+    private store: Store<fromPfAdminMainReducer.State>,
+    private browserDetectionService: BrowserDetectionService
   ) {
     this.loadingTokenUrl$ = this.store.select(fromPfAdminMainReducer.getLoadingPublicTokenUrl);
     this.loadingTokenUrlError$ = this.store.select(fromPfAdminMainReducer.getLoadingPublicTokenUrlError);
@@ -116,8 +117,13 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     return this.companyForm.get('passwordLength');
   }
 
+  get companyColorPickerControl() { return this.companyForm.get('companyColorPicker'); }
+  get companyColorTextControl() { return this.companyForm.get('companyColorText'); }
+
   // convenience getter for easy access to form fields
   get f() { return this.companyForm.controls; }
+
+  get checkBrowserIsIE() { return this.browserDetectionService.checkBrowserIsIE(); }
 
   createForm(): void {
     this.companyForm = this.fb.group({
@@ -137,12 +143,28 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       enablePricingReview: [false],
       passwordLength: [0, [Validators.required, Validators.pattern('[0-9]*'), Validators.min(8), Validators.max(20)]],
       ParticipateInPeerDataExchange: [true],
-      companyColor: ['']
+      companyColorPicker: ['#2F6C94'],
+      companyColorText: ['#2F6C94', Validators.pattern('#[A-Za-z0-9]{6}')]
     });
   }
 
   subscribeToChanges() {
     this.companyForm.controls.repository.valueChanges.subscribe(val => this.setDynamicValidators(val === SystemUserGroupIds.PayfactorsServices));
+
+    this.companyColorPickerControl.valueChanges.subscribe(value => {
+      if (value && this.companyColorTextControl &&  this.companyColorTextControl.value !== value) {
+        this.companyColorTextControl.setValue(value);
+      }
+    });
+    this.companyColorTextControl.valueChanges.subscribe(value => {
+      if (value
+          && this.companyColorTextControl.valid
+          && this.companyColorPickerControl
+          && this.companyColorPickerControl.value !== value) {
+        this.companyColorPickerControl.setValue(value);
+      }
+    });
+
   }
 
   setDynamicValidators(value: boolean) {
@@ -196,7 +218,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       HideSecondarySurveyDataFields: true,
       EnableLiveChat: false,
       EnableIntervalAgingFactor: false,
-      CompanyColor: this.companyForm.get('companyColor').value
+      CompanyColor: this.companyForm.get('companyColorText').value
     };
   }
 
@@ -285,6 +307,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
 
     const PrimarySupportUserId = this.companyFormData.PrimarySupportUserId ? Number(this.companyFormData.PrimarySupportUserId) : null;
     const CustomerSuccessMgrUserId = this.companyFormData.CustomerSuccessMgrUserId ? Number(this.companyFormData.CustomerSuccessMgrUserId) : null;
+    const CompanyColor =   this.companyFormData.CompanyColor ? this.companyFormData.CompanyColor : '#2F6C94';
 
     this.companyForm.get('companyName').setValue(this.companyFormData.CompanyName);
     this.companyForm.get('companyNameShort').setValue(this.companyFormData.CompanyNameShort);
@@ -302,7 +325,8 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.get('enablePricingReview').setValue(this.companyFormData.EnablePricingReview);
     this.companyForm.get('passwordLength').setValue(this.companyFormData.PasswordLengthRequirement);
     this.companyForm.get('ParticipateInPeerDataExchange').setValue(this.companyFormData.ParticipateInPeerDataExchange);
-    this.companyForm.get('companyColor').setValue(this.companyFormData.CompanyColor);
+    this.companyForm.get('companyColorPicker').setValue(CompanyColor);
+    this.companyForm.get('companyColorText').setValue(CompanyColor);
 
     this.disableRepositoryForPeerClientType();
     this.companyForm.markAsTouched();

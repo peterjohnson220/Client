@@ -75,9 +75,18 @@
         <span *ngIf="f.passwordLength.errors?.max" class="invalid-feedback">Minimum password length cannot be more than 20 characters</span>
         <span *ngIf="f.passwordLength.errors?.pattern" class="invalid-feedback">Minimum password length must be an integer</span>
       </div>
-      <div class="form-group" [class.has-danger]="!companyForm.controls.companyColor.valid">
-        <label class="control-label" for="companyColor">Company Color:</label>
-        <input [readonly]="saving" formControlName="companyColor" type="color" class="form-control form-control-color">
+      <div class="form-group" [class.has-danger]="!companyForm.controls.companyColorPicker.valid">
+        <label class="control-label">Company Color</label>
+        <div *ngIf="!checkBrowserIsIE" class="input-w">
+            <label for="companyColorPicker">RGB:</label>
+            <input [readonly]="saving" formControlName="companyColorPicker" type="color" class="form-control w-50 ml-2">
+        </div>
+        <div class="input-w mt-2">
+            <label for="companyColorText">HEX:</label>
+            <input [readonly]="saving" formControlName="companyColorText" type="text" placeholder="#FFFFFF" class="form-control w-50 ml-2"
+            [ngClass]="{ 'is-invalid': !f.companyColorText.valid && f.companyColorText.touched }">
+          <span *ngIf="f.companyColorText.errors?.pattern" class="invalid-feedback">Please enter correct HEX format</span>
+        </div>     
       </div>
     </div>
     <div class="col-6">
