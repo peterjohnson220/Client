@@ -1,8 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+
 import { SurveyLibraryStateService } from '../../services/survey-library-state.service';
-import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
+import * as fromSurveyLibraryReducer from '../../reducers';
+import * as fromSurveyTitlesActions from '../../actions/survey-titles.actions';
 
 @Component({
   selector: 'pf-add-survey-title-modal',
@@ -10,16 +14,29 @@ import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library
   styleUrls: ['./add-survey-title-modal.component.scss']
 })
 
-export class AddSurveyTitleModalComponent {
+export class AddSurveyTitleModalComponent implements OnInit{
   @Input() surveyPublisherId;
   addSurveyTitleForm: FormGroup;
+  private saveSurveyTitleSuccess$: Observable<boolean>;
 
-  constructor(private surveyApi: SurveyLibraryApiService,
+  constructor(private store: Store<fromSurveyLibraryReducer.State>,
               public state: SurveyLibraryStateService,
               private fb: FormBuilder) {
     this.addSurveyTitleForm = this.fb.group({
       'newSurveyName': [],
       'newSurveyCode': []
+    });
+    this.saveSurveyTitleSuccess$ = this.store.select(fromSurveyLibraryReducer.getSavingSurveyTitlesSuccess);
+  }
+
+  ngOnInit() {
+    this.saveSurveyTitleSuccess$.subscribe(isSuccess => {
+      if (isSuccess) {
+        this.store.dispatch(new fromSurveyTitlesActions.LoadingSurveyTitles({
+          publisherId: this.surveyPublisherId, filter: {SearchTerm: '', CompanyId: undefined}
+        }));
+        this.handleModalDismissed();
+      }
     });
   }
 
@@ -29,9 +46,7 @@ export class AddSurveyTitleModalComponent {
       SurveyName: this.addSurveyTitleForm.controls['newSurveyName'].value,
       SurveyCode: this.addSurveyTitleForm.controls['newSurveyCode'].value
     };
-    this.surveyApi.saveSurveyTitle(request).subscribe(success => {
-      this.handleModalDismissed();
-    });
+    this.store.dispatch(new fromSurveyTitlesActions.SaveSurveyTitle(request));
   }
 
   handleModalDismissed() {
