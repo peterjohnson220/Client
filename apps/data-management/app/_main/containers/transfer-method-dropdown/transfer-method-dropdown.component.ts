@@ -1,11 +1,12 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import { TransferMethod } from '../../models';
 
 @Component({
   selector: 'pf-transfer-method-dropdown',
   templateUrl: './transfer-method-dropdown.component.html',
-  styleUrls: ['./transfer-method-dropdown.component.scss']
+  styleUrls: ['./transfer-method-dropdown.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TransferMethodDropdownComponent {
 

@@ -5,6 +5,7 @@ export interface ProviderResponse {
   providerCode: string;
   providerImageUrl: string;
   active: boolean;
+  authenticationType_ID: number;
 }
 
 export function generateMockProviderResponse(): ProviderResponse {
@@ -14,7 +15,8 @@ export function generateMockProviderResponse(): ProviderResponse {
     providerName: 'MockProviderName',
     providerCode: 'MockProviderCode',
     providerImageUrl: '',
-    active: true
+    active: true,
+    authenticationType_ID: 1
   };
 }
 
@@ -26,7 +28,8 @@ export function generateMockProviderResponseList(): ProviderResponse[] {
       providerName: 'MockProviderName0',
       providerCode: 'MockProviderCode0',
       providerImageUrl: '',
-      active: true
+      active: true,
+      authenticationType_ID: 1
     },
     {
       provider_ID: 1,
@@ -34,7 +37,8 @@ export function generateMockProviderResponseList(): ProviderResponse[] {
       providerName: 'MockProviderName1',
       providerCode: 'MockProviderCode1',
       providerImageUrl: '',
-      active: true
+      active: true,
+      authenticationType_ID: 1
     },
     {
       provider_ID: 2,
@@ -42,7 +46,8 @@ export function generateMockProviderResponseList(): ProviderResponse[] {
       providerName: 'MockProviderName2',
       providerCode: 'MockProviderCode2',
       providerImageUrl: '',
-      active: true
+      active: true,
+      authenticationType_ID: 1
     }
   ];
 }

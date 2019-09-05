@@ -1,0 +1,27 @@
+<div>
+  <div>
+    <h4>Method of Transfer: {{transferMethod}}, {{provider?.ProviderName}}</h4>
+  </div>
+  <div>
+    <h5>
+      HRIS Authentication
+    </h5>
+    <div class="mx-5 p-3">
+      <div class="error-group mb-3" *ngIf="validationErrors">
+          <h5>Error(s):</h5>
+          <ul>
+            <li class="text-danger" *ngFor="let error of validationErrors">{{error}}</li>
+          </ul>
+      </div>
+      <pf-workday-authentication *ngIf="provider?.ProviderCode === 'WORKDAY'"
+                                 (cancelClick)="cancelAuthClick()"
+                                 (submitClick)="submitFormEvent($event)">
+      </pf-workday-authentication>
+
+      <pf-test-authentication *ngIf="provider?.ProviderCode === 'PFTEST'"
+                              (cancelClick)="cancelAuthClick()"
+                              (submitClick)="submitFormEvent($event)">
+      </pf-test-authentication>
+    </div>
+  </div>
+</div>

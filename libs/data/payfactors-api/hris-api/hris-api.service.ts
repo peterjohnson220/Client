@@ -16,4 +16,11 @@ export class HrisApiService {
       map((response: any) => <T>response)
     );
   }
+
+  post<T>(url: string, body: any, options: any = {}): Observable<T> {
+    options = addJwtAuthInterceptorHeader(options);
+    return this.http.post<T>(`${url}`, body, options).pipe(
+      map((response: any) => <T>response)
+    );
+  }
 }
