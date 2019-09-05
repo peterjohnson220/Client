@@ -49,7 +49,7 @@ export class CustomSurveyTitleComponent implements OnInit {
     this.labelOnly = !this.labelOnly;
   }
 
-  private saveCustomSurveyTitle() {
+  saveCustomSurveyTitle() {
     if (this.newSurveyTitle !== this.SurveyTitleCompany.CustomSurveyName) {
       const request: SaveCustomCompanySurveyTitleRequestModel = {
         CompanyId: this.SurveyTitleCompany.CompanyId,
