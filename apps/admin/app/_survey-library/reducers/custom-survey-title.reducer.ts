@@ -1,4 +1,4 @@
-import * as fromSurveyTitleActions from '../actions';
+import * as fromSurveyTitleActions from '../actions/survey-titles.actions';
 
 export interface State {
   saving: boolean;
@@ -59,4 +59,5 @@ export const getSavingCustomTitleSavingError = (state: State) => state.savingErr
 export const getSavedInfo = (state: State) => {return {
   companyId: state.savedCompanyId,
   titleId: state.savedTitleId
-}};
+  };
+};

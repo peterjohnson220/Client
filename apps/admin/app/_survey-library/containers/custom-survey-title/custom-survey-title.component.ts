@@ -1,13 +1,13 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable} from 'rxjs';
 
 import { SaveCustomCompanySurveyTitleRequestModel } from 'libs/models/payfactors-api/survey-library/request';
 
 import { SurveyTitleCompanyModel } from '../../models';
 import * as fromSurveyLibraryReducer from '../../reducers';
-import * as fromCustomSurveyTitleActions from '../../actions';
+import * as fromCustomSurveyTitleActions from '../../actions/survey-titles.actions';
 
 @Component({
   selector: 'pf-custom-survey-title',

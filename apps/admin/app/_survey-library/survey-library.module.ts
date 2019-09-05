@@ -27,7 +27,8 @@ import {
 import { SurveyTitleCompaniesListComponent, ExpandCollapseIconComponent } from './components';
 import { CollapserDirective } from './directives';
 import { reducers } from './reducers';
-import { SurveyTitlesEffects } from './effects';
+import { CompanySelectorEffects, SurveyTitlesEffects } from './effects';
+import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { SurveyTitlesEffects } from './effects';
     // 3rd party
     StoreModule.forFeature('survey_library', reducers),
     EffectsModule.forFeature([
-      SurveyTitlesEffects
+      SurveyTitlesEffects,
+      CompanySelectorEffects
     ]),
     NgbPopoverModule,
     NgbTooltipModule,
@@ -52,7 +54,8 @@ import { SurveyTitlesEffects } from './effects';
     PfApiModule,
     PfFormsModule,
     FontAwesomeModule,
-    NgbModule
+    NgbModule,
+    ComboBoxModule
   ],
   declarations: [
     // Containers

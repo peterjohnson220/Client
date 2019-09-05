@@ -3,6 +3,7 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
 import { SaveCustomCompanySurveyTitleRequestModel } from '../../../models/payfactors-api/survey-library/request';
+import { SurveyTitlesFilter } from '../../../../apps/admin/app/_survey-library/models';
 
 @Injectable()
 export class SurveyLibraryApiService {
@@ -32,8 +33,10 @@ export class SurveyLibraryApiService {
     );
   }
 
-  getSurveyTitlesByPublisherId(publisherId: number, filter: string): Observable<any> {
-    const params = new HttpParams().set('filter', filter);
+  getSurveyTitlesByPublisherId(publisherId: number, filter: SurveyTitlesFilter): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('searchTerm', filter.SearchTerm);
+    params = params.append('companyId', filter.CompanyId ? filter.CompanyId.toString() : '');
     return this.payfactorsApiService.get<any>(`${this.endpoint}/GetSurveyTitlesByPublisherId/${publisherId}`, {params: params});
   }
 
