@@ -1,8 +1,11 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { DragulaModule } from 'ng2-dragula';
+
 import { WorkbookViewsCardComponent } from './workbook-views-card.component';
 import { generateMockWorkbook, generateMockView } from '../../models';
+import { generateDefaultAsyncStateObj } from 'libs/models';
 
 describe('Data Insights - Workbook Views Card Component', () => {
   let instance: WorkbookViewsCardComponent;
@@ -11,7 +14,8 @@ describe('Data Insights - Workbook Views Card Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ WorkbookViewsCardComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [DragulaModule.forRoot()]
     });
 
     fixture = TestBed.createComponent(WorkbookViewsCardComponent);
@@ -22,7 +26,7 @@ describe('Data Insights - Workbook Views Card Component', () => {
 
   it('should emit favoriteClicked when clicking on star icon', () => {
     const view = {...generateMockView(), IsFavorite: true};
-    instance.workbook = generateMockWorkbook();
+    instance.workbook = {...generateMockWorkbook(), Views: generateDefaultAsyncStateObj([view])};
     spyOn(instance.favoriteClicked, 'emit');
 
     instance.handleFavoriteClicked(view);

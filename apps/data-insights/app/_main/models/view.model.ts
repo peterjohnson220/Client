@@ -4,6 +4,8 @@ export interface View {
   ContentUrl: string;
   ViewThumbnail?: string;
   IsFavorite?: boolean;
+  ViewsOrder?: number;
+  FavoritesOrder?: number;
 }
 
 export function generateMockView(): View {

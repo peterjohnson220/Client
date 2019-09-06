@@ -7,7 +7,7 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Workbook } from '../../models';
+import { Workbook, SaveReportOrderData } from '../../models';
 
 @Component({
   selector: 'pf-views',
@@ -54,6 +54,13 @@ export class ViewsComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new fromViewsActions.AddViewFavorite({ workbookId: obj.workbookId, viewId: obj.view.ViewId }));
     }
+  }
+
+  handleViewsOrderUpdated(saveReportOrderData: SaveReportOrderData): void {
+    if (!saveReportOrderData || !saveReportOrderData.ViewIds) {
+      return;
+    }
+    this.store.dispatch(new fromViewsActions.SaveReportOrder(saveReportOrderData));
   }
 
 }

@@ -5,9 +5,10 @@ import { of } from 'rxjs';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
-import { TableauReportApiService } from 'libs/data/payfactors-api';
+import { TableauReportApiService, UserReportApiService } from 'libs/data/payfactors-api';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
+import { SaveReportOrderRequest } from 'libs/models/payfactors-api';
 
 import * as fromViewsActions from '../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
@@ -81,9 +82,28 @@ export class ViewsEffects {
     })
   );
 
+  @Effect()
+  saveViewOrder$ = this.action$
+  .pipe(
+    ofType(fromViewsActions.SAVE_REPORT_ORDER),
+    switchMap((action: fromViewsActions.SaveReportOrder) => {
+      const request: SaveReportOrderRequest = {
+        WorkbookId: action.payload.WorkbookId,
+        Type: action.payload.Type,
+        Views: action.payload.ViewIds
+      };
+      return this.userReportApiService.saveReportOrder(request)
+        .pipe(
+          map(() => new fromViewsActions.SaveReportOrderSuccess(action.payload)),
+          catchError(() => of(new fromViewsActions.SaveReportOrderError()))
+        );
+    })
+  );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataInsightsMainReducer.State>,
-    private tableauReportApiService: TableauReportApiService
+    private tableauReportApiService: TableauReportApiService,
+    private userReportApiService: UserReportApiService
   ) {}
 }

@@ -4,6 +4,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromViewsActions from '../actions/views.actions';
 import { View, Workbook } from '../models';
+import { ViewsHelper } from '../helpers/views.helper';
 
 export interface State {
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;
@@ -30,7 +31,7 @@ export function reducer(state = initialState, action: fromViewsActions.Actions):
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
 
       companyWorkbooksAsyncClone.loading = false;
-      companyWorkbooksAsyncClone.obj = action.payload;
+      companyWorkbooksAsyncClone.obj = ViewsHelper.orderWorkbooksViews(action.payload);
 
       return {
         ...state,
@@ -63,8 +64,20 @@ export function reducer(state = initialState, action: fromViewsActions.Actions):
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
       const workbook: Workbook = companyWorkbooksAsyncClone.obj.find((w: Workbook) => w.WorkbookId === action.payload.workbookId);
       if (!!workbook) {
-        workbook.Views.obj.find((v: View) => v.ViewId === action.payload.viewId).IsFavorite = false;
+        const view = workbook.Views.obj.find((v: View) => v.ViewId === action.payload.viewId);
+        view.IsFavorite = false;
+        view.FavoritesOrder = null;
       }
+      return {
+        ...state,
+        companyWorkbooksAsync: companyWorkbooksAsyncClone
+      };
+    }
+    case fromViewsActions.SAVE_REPORT_ORDER_SUCCESS: {
+      const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
+      const workbook: Workbook = companyWorkbooksAsyncClone.obj.find((w: Workbook) => w.WorkbookId === action.payload.WorkbookId);
+      workbook.Views.obj = ViewsHelper.applyViewOrderByType(
+        workbook.Views.obj, action.payload.ViewIds, action.payload.Type);
       return {
         ...state,
         companyWorkbooksAsync: companyWorkbooksAsyncClone
