@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 
 import {
   ExchangeDataSearchFilter, ExchangeMapResponse, SystemFilterRequest, SystemFilter,
-  FilterAggregateGroup } from 'libs/models/peer';
+  FilterAggregateGroup, ExchangeExplorerContextInfo
+} from 'libs/models/peer';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
-import {SearchSurveyAggregationsRequest, SurveySearchRequest} from '../../../../models/payfactors-api/survey-search/request';
 import {SearchFilter} from '../../../../models/payfactors-api/search/response';
 import {
   ExchangeDataSearchRequest,
@@ -27,6 +27,12 @@ export class ExchangeDataSearchApiService {
         CompanyJobId: request.CompanyJobId,
         CompanyPayMarketId: request.CompanyPayMarketId
       }
+    });
+  }
+
+  getExchangeExplorerContextInfo(payload: {companyJobId?: number, companyPayMarketId?: number}|{exchangeId: number}): Observable<ExchangeExplorerContextInfo> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo`, {
+      params: payload
     });
   }
 

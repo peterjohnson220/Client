@@ -7,9 +7,11 @@ import { Observable } from 'rxjs';
 import { Exchange } from 'libs/models';
 import { MapComponent } from 'libs/features/peer/map/containers/map/map.component';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
-import * as fromLibsPeerMapActions from 'libs/features/peer/map/actions/map.actions';
-import * as fromLibsFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
-import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import * as fromLibsPeerExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
+import * as fromLibsPeerExchangeExplorerExchangeScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
+import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
+import * as fromLibsSearchReducer from 'libs/features/search/reducers';
 
 import * as fromExchangeScopeActions from '../../../actions/exchange-scope.actions';
 import * as fromExportDataCutsActions from '../../../actions/export-data-cuts.actions';
@@ -36,17 +38,18 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private libsPeerMapStore: Store<fromLibsPeerMapReducer.State>,
+    private libsExchangeExplorerStore: Store<fromLibsExchangeExplorerReducer.State>,
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
-    private peerMapStore: Store<fromPeerMapReducer.State>
+    private peerMapStore: Store<fromPeerMapReducer.State>,
+    private exchangeExplorerContextService: ExchangeExplorerContextService
   ) {
     this.exchange$ = this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchange));
-    this.initialMapMoveComplete$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapInitialMapMoveComplete));
-    this.peerMapLoadingError$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapLoadingError));
-    this.numberOfCompanySelections$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getNumberOfCompanySelections));
-    this.numberOfSelections$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerFilterSelectionsCount));
-    this.peerMapCompaniesCount$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapCompaniesCount));
-    this.exchangeJobIdsInScope$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapExchangeJobIdsFromSummary));
+    this.initialMapMoveComplete$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapInitialMapMoveComplete));
+    this.peerMapLoadingError$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapLoadingError));
+    this.numberOfCompanySelections$ = this.exchangeExplorerContextService.selectCountOfCompanyFiltersSelected();
+    this.numberOfSelections$ = this.sharedPeerStore.pipe(select(fromLibsSearchReducer.getOverallFilterSelectionsCount));
+    this.peerMapCompaniesCount$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapOrgCount));
+    this.exchangeJobIdsInScope$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapExchangeJobIds));
     this.exchangeId = +this.route.snapshot.params.id;
   }
 
@@ -55,11 +58,11 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
   }
 
   handleUpsertExchangeScopeEvent(scopeItem: any) {
-    const zoomLevel = this.map.getZoomLevel();
-    this.peerMapStore.dispatch(new fromExchangeScopeActions.UpsertExchangeScope({
+    // const zoomLevel = this.map.getZoomLevel(); TODO: Can we get this from the reducer instead?
+    this.peerMapStore.dispatch(new fromLibsPeerExchangeExplorerExchangeScopeActions.UpsertExchangeScope({
+      ExchangeScopeGuid: null,
       ExchangeScopeName: scopeItem.Name,
-      ExchangeScopeDescription: scopeItem.Description,
-      ZoomLevel: zoomLevel
+      ExchangeScopeDescription: scopeItem.Description
     }));
   }
 
@@ -68,8 +71,7 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.libsPeerMapStore.dispatch(new fromLibsPeerMapActions.ResetState());
-    this.libsPeerMapStore.dispatch(new fromLibsFilterSidebarActions.ResetState());
+    this.libsExchangeExplorerStore.dispatch(new fromLibsPeerExchangeExplorerMapActions.ResetState());
   }
 
   ngOnInit() {

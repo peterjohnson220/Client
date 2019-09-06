@@ -3,16 +3,31 @@ import { Injectable } from '@angular/core';
 import { Action, Store, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, switchMap, map, withLatestFrom, concatMap } from 'rxjs/operators';
+import { catchError, switchMap, map, withLatestFrom, concatMap, mergeMap } from 'rxjs/operators';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { ExchangeScopeApiService } from 'libs/data/payfactors-api';
-import { ExchangeScopeItem, PeerMapScopeDetails } from 'libs/models/peer';
+import {
+  ExchangeMapResponse, ExchangeMapSummary,
+  ExchangeScopeItem, PeerMapScopeMapInfo,
+  UpsertExchangeExplorerScopeRequest
+} from 'libs/models/peer';
+import { MultiSelectFilter, MultiSelectOption } from 'libs/features/search/models';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import {
+  ExchangeDataSearchResponse,
+  ExchangeExplorerScopeResponse
+} from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
 import * as fromLibsFeatureSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
+import * as fromExchangeFilterContextActions from '../actions/exchange-filter-context.actions';
 import * as fromMapActions from '../actions/map.actions';
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
-import * as fromExchangeFilterContextActions from '../actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerReducers from '../reducers';
 import { ExchangeExplorerContextService } from '../services';
 
@@ -50,14 +65,11 @@ export class ExchangeScopeEffects {
   loadExchangeScopeDetails: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS)).pipe(
       withLatestFrom(
-        this.store.pipe(select(fromExchangeExplorerReducers.getFilterContextScopeSelection)),
         this.exchangeExplorerContextService.selectFilterContext(),
-        (action, scopeSelection, filterContext) => {
-            return {...scopeSelection, ...filterContext};
-          }),
+        (action, filterContext) => filterContext),
       switchMap(payload =>
-        this.exchangeScopeApiService.getPeerMapScope(payload.exchangeScopeGuid, payload.filterModel).pipe(
-          map((peerMapScopeDetails: PeerMapScopeDetails) => new fromExchangeScopeActions
+        this.exchangeScopeApiService.getExchangeScopeFilterContext(payload).pipe(
+          map((peerMapScopeDetails: ExchangeExplorerScopeResponse) => new fromExchangeScopeActions
             .LoadExchangeScopeDetailsSuccess(peerMapScopeDetails)),
           catchError(() => of(new fromExchangeScopeActions.LoadExchangeScopeDetailsError))
         )
@@ -67,14 +79,91 @@ export class ExchangeScopeEffects {
   @Effect()
   loadExchangeScopeDetailsSuccess$: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS)).pipe(
-      map((action: fromExchangeScopeActions.LoadExchangeScopeDetailsSuccess) => action.payload),
-      concatMap(payload => {
-        return [
-          new fromMapActions.ApplyScopeCriteria(payload.MapInfo),
-          new fromExchangeFilterContextActions.ApplyScopeCriteria(payload.SideBarInfo)
-        ];
+      withLatestFrom(
+        this.store.pipe(select(fromSearchReducer.getSearchingFilter)),
+        this.store.pipe(select(fromSearchReducer.getSingledFilter)),
+        (
+          action: fromExchangeScopeActions.LoadExchangeScopeDetailsSuccess,
+          searchingFilter,
+          singledFilter
+        ) => ({response: (action.payload), searchingFilter, singledFilter})
+      ),
+      mergeMap((payload: any) => {
+        const actions = [];
+
+        const scopeResponse: ExchangeExplorerScopeResponse = payload.response;
+        const searchResponse = scopeResponse.ExchangeDataSearchResponse;
+        const filters: MultiSelectFilter[] = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(
+          searchResponse.SearchFilters,
+          searchResponse.SearchFilterMappingDataObj
+        ) as MultiSelectFilter[];
+
+        const filtersCopy = cloneDeep(filters);
+        const selections: MultiSelectOption[] = scopeResponse.SelectedFilterOptions;
+
+        // TODO: Find a better way to do this. Ideally we'd leverage the existing code and do this in the search reducer
+        const mergedOptions = filtersCopy.map((f: MultiSelectFilter) => {
+          const selectedOptions = selections.filter(s => s.Name === f.BackingField);
+          if (selectedOptions && selectedOptions.length) {
+            f.Options = selectedOptions.map(so => {
+              const existingOption = f.Options.find(o => o.Value === so.Value);
+              if (existingOption) {
+                return {
+                  ...existingOption,
+                  Selected: true
+                };
+              } else {
+                return {
+                  Name: so.Value,
+                  Value: so.Value,
+                  Selected: true,
+                  Count: 0
+                };
+              }
+            });
+          }
+          return f;
+        });
+        actions.push(new fromSearchResultsActions.GetResultsSuccess({
+          totalRecordCount: searchResponse.Paging.TotalRecordCount
+        }));
+        actions.push(new fromSearchFiltersActions.ReplaceFilters(mergedOptions));
+
+        if (payload.searchingFilter) {
+          actions.push(new fromSingledFilterActions.SearchAggregation());
+        }
+
+        actions.push(new fromMapActions.ApplyScopeCriteria(scopeResponse));
+        return actions;
       })
     );
+
+  @Effect()
+  upsertExchangeScope$: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeScopeActions.UPSERT_EXCHANGE_SCOPE),
+    map((action: fromExchangeScopeActions.UpsertExchangeScope) => action.payload),
+    withLatestFrom(
+      this.exchangeExplorerContextService.selectFilterContext(),
+      (actionPayload, filterContext) => {
+        return {
+          ExchangeScopeDetails: actionPayload,
+          ExchangeDataSearchRequest: filterContext
+        };
+      }
+    ),
+    switchMap((request: UpsertExchangeExplorerScopeRequest) => this.exchangeScopeApiService.upsertExchangeExplorerScope(request).pipe(
+      concatMap((exchangeScopeItem: ExchangeScopeItem) => {
+        return [
+          new fromExchangeScopeActions.UpsertExchangeScopeSuccess(),
+          new fromExchangeScopeActions.LoadExchangeScopesByExchange(
+            request.ExchangeDataSearchRequest.FilterContext.ExchangeId
+          ),
+          new fromExchangeFilterContextActions.SetExchangeScopeSelection(exchangeScopeItem)
+        ];
+      }),
+      catchError(() => of(new fromExchangeScopeActions.UpsertExchangeScopeError()))
+    ))
+  );
 
   @Effect()
   deleteExchangeScope$: Observable<Action> = this.actions$.pipe(
@@ -109,6 +198,7 @@ export class ExchangeScopeEffects {
     private actions$: Actions,
     private store: Store<fromExchangeExplorerReducers.State>,
     private exchangeScopeApiService: ExchangeScopeApiService,
-    private exchangeExplorerContextService: ExchangeExplorerContextService
+    private exchangeExplorerContextService: ExchangeExplorerContextService,
+    private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper
   ) {}
 }

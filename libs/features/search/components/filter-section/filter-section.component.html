@@ -1,6 +1,6 @@
 <div class="filter" [class.singled]="singled">
   <div class="header" (click)="toggle()">
-    <div class="header-left">
+    <div [title]="filter.DisplayName" class="header-left ellipsis-overflowing-text">
       {{filter.DisplayName}}
 
       <div class="ml-2" *ngIf="collapsed">

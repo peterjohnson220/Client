@@ -18,7 +18,8 @@ import {
   ExchangeMapPageComponent,
   SaveExchangeScopeModalComponent,
   ExportDataCutsModalComponent,
-  ExchangeMapNewPageComponent
+  ExchangeMapNewPageComponent,
+  SaveExchangeScopeModalNewComponent
 } from './containers';
 import { ExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects } from './effects';
 import { reducers } from './reducers';
@@ -51,7 +52,7 @@ import { reducers } from './reducers';
     ExchangeMapPageComponent, ExchangeMapNewPageComponent,
 
     // Containers
-    SaveExchangeScopeModalComponent, ExportDataCutsModalComponent
+    SaveExchangeScopeModalComponent, SaveExchangeScopeModalNewComponent, ExportDataCutsModalComponent
   ]
 })
 export class MapModule { }

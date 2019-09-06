@@ -14,7 +14,6 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './shared/appwrapper/app-wrapper.component';
 import { SharedModule } from './shared/shared.module';
-import { ExchangeExplorerSearchFilterMappingDataObj } from 'libs/features/peer/exchange-explorer/data';
 
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './shared/reducers';
@@ -49,7 +48,7 @@ import { reducers } from './shared/reducers';
   providers: [
     PayfactorsApiService,
     WindowCommunicationService,
-    { provide: SearchFilterMappingDataObj, useValue: ExchangeExplorerSearchFilterMappingDataObj }
+    { provide: SearchFilterMappingDataObj, useValue: {} }
   ]
 
 })

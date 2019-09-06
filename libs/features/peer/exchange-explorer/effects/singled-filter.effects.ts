@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
 
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {select, Store} from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { SearchFilter } from 'libs/models/payfactors-api';
-import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { MultiSelectFilter } from 'libs/features/search/models';
+import { SearchExchangeAggregationsRequest } from 'libs/models/payfactors-api/peer-exchange-explorer-search/request';
+import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
-import * as fromExchangeExplorerReducer from '../reducers';
 
-import * as fromSurveySearchReducer from '../reducers';
-import * as fromLibsPeerMapReducer from '../../map/reducers';
-import {SearchExchangeAggregationsRequest} from '../../../../models/payfactors-api/peer-exchange-explorer-search/request';
-import {ExchangeDataSearchApiService} from '../../../../data/payfactors-api/search/peer';
+import { ExchangeExplorerContextService } from '../services';
 
 @Injectable()
 export class SingledFilterEffects {
@@ -25,26 +23,21 @@ export class SingledFilterEffects {
     .pipe(
       ofType(fromSingledFilterActions.SEARCH_AGGREGATION),
       withLatestFrom(
-        this.store.pipe(select(fromSearchReducer.getSingledFilter)),
-        this.store.pipe(select(fromSearchReducer.getFilters)),
-        this.store.pipe(select(fromExchangeExplorerReducer.getFilterContext)),
-        this.store.pipe(select(fromLibsPeerMapReducer.getPeerMapFilter)),
-        this.store.pipe(select(fromSearchReducer.getSingledFilterSearchValue)),
-        (action: fromSingledFilterActions.SearchAggregation, singledFilter, filters, context, peerMapContext, searchValue) => (
-          { action, singledFilter, filters, context, peerMapContext, searchValue }
-        )),
+        this.exchangeExplorerContextService.selectFilterContext(),
+        this.searchStore.pipe(select(fromSearchReducer.getSingledFilter)),
+        this.searchStore.pipe(select(fromSearchReducer.getSingledFilterSearchValue)),
+        this.searchStore.pipe(select(fromSearchReducer.getFilters)),
+        (action, filterContext, singledFilter, searchValue, filters) => ({
+          filterContext, singledFilter, searchValue, filters
+        })),
       switchMap(data => {
         const request: SearchExchangeAggregationsRequest = {
-          ...data.peerMapContext,
-          ...data.context,
-          SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
-          Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
+          ...data.filterContext,
           SearchField: data.singledFilter.BackingField,
           TextQuery: data.searchValue
         };
 
         return this.exchangeDataSearchApiService.searchExchangeAggregations(request).pipe(
-
           map((response: SearchFilter) => {
             const matchingFilter = <MultiSelectFilter>data.filters.find(f => f.Id === data.singledFilter.Id);
             const currentSelections = matchingFilter.Options.filter(o => o.Selected);
@@ -63,10 +56,10 @@ export class SingledFilterEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<fromSurveySearchReducer.State>,
+    private searchStore: Store<fromSearchReducer.State>,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
-    private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
-    private exchangeDataSearchApiService: ExchangeDataSearchApiService
+    private exchangeDataSearchApiService: ExchangeDataSearchApiService,
+    private exchangeExplorerContextService: ExchangeExplorerContextService
   ) {
   }
 }

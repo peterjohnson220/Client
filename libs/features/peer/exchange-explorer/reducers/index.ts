@@ -7,20 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromExchangeScopeReducer from './exchange-scope.reducer';
 import * as fromExchangeFilterContextReducer from './exchange-filter-context.reducer';
 import * as fromMapReducer from './map.reducer';
-import {
-  getExchangeDataCutRequestData,
-  getPeerFilterPayMarket, getPeerFilterScopeSelection,
-  getPeerFilterSelections, getSystemFilter,
-  LibsPeerMapState,
-  selectLibsPeerMapState
-} from '../../map/reducers';
-import {ExchangeStatCompanyMakeup} from '../../../../models/peer';
+import * as fromExchangeExplorerContextInfoReducer from './exchange-explorer-context-info.reducer';
 
 // Feature area state
 export interface FeaturePeerExchangeExplorerState {
   map: fromMapReducer.State;
   exchangeScope: fromExchangeScopeReducer.State;
   exchangeFilterContext: fromExchangeFilterContextReducer.State;
+  exchangeExplorerContextInfo: fromExchangeExplorerContextInfoReducer.State;
 }
 
 // Extend root state with feature area state
@@ -32,7 +26,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   map: fromMapReducer.reducer,
   exchangeScope: fromExchangeScopeReducer.reducer,
-  exchangeFilterContext: fromExchangeFilterContextReducer.reducer
+  exchangeFilterContext: fromExchangeFilterContextReducer.reducer,
+  exchangeExplorerContextInfo: fromExchangeExplorerContextInfoReducer.reducer
 };
 
 // Select Feature Area
@@ -56,6 +51,11 @@ export const selectFilterContextState = createSelector(
   (state: FeaturePeerExchangeExplorerState) => state.exchangeFilterContext
 );
 
+export const selectExchangeExplorerContextInfo = createSelector(
+  selectFeaturePeerExchangeExplorerState,
+  (state: FeaturePeerExchangeExplorerState) => state.exchangeExplorerContextInfo
+);
+
 // Map Data Selectors
 export const getPeerMapLoading = createSelector(selectMapState, fromMapReducer.getLoading);
 export const getPeerMapLoadingError = createSelector(selectMapState, fromMapReducer.getLoadingError);
@@ -64,13 +64,17 @@ export const getPeerMapCompaniesFromSummary = createSelector(
   getPeerMapSummary,
   (summary) => !!summary ? summary.OverallMapStats.Companies : []
 );
-export const getPeerMapExchangeJobIdsFromSummary = createSelector(
+export const getPeerMapUntaggedIncumbentCount = createSelector(
+  getPeerMapSummary,
+  (summary) => !!summary ? summary.OverallMapStats.UntaggedIncumbentCount : 0
+);
+export const getPeerMapExchangeJobIds = createSelector(
   getPeerMapSummary,
   (summary) => !!summary ? summary.OverallMapStats.ExchangeJobIds : []
 );
-export const getPeerMapCompaniesCount = createSelector(
-  getPeerMapCompaniesFromSummary,
-  (companies: ExchangeStatCompanyMakeup[]) => !companies ? 0 : companies.length
+export const getPeerMapOrgCount = createSelector(
+  getPeerMapSummary,
+  (summary) => !!summary ? summary.OverallMapStats.CompanyCount : 0
 );
 export const getPeerMapFilter = createSelector(selectMapState, fromMapReducer.getMapFilter);
 export const getPeerMapCollection = createSelector(selectMapState, fromMapReducer.getMapCollection);
@@ -98,19 +102,29 @@ export const getExchangeScopeDetailsLoadingError = createSelector(
   selectExchangeScopeState,
   fromExchangeScopeReducer.getLoadingDetailsError
 );
+export const getExchangeScopeUpserting = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getUpserting);
+export const getExchangeScopeUpsertingError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getUpsertingError);
 export const getDeletingExchangeScope = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getDeletingScope);
 export const getDeletingExchangeScopeError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getDeletingScopeError);
 export const getInDeleteExchangeScopeMode = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getInDeleteScopeMode);
 export const getExchangeScopeToDelete = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getExchangeScopeToDelete);
 
 
-// Exchange Filter Context Selectors
-export const getFilterContextPayMarket = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getPayMarket);
-export const getFilterContextSystemFilter = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getSystemFilter);
-export const getFilterContextCountUntaggedIncumbents = createSelector(
-  selectFilterContextState,
-  fromExchangeFilterContextReducer.getCountUntaggedIncumbents
+// Exchange Explorer Info Selectors
+export const getExchangeExplorerPayMarket = createSelector(
+  selectExchangeExplorerContextInfo,
+  fromExchangeExplorerContextInfoReducer.getPayMarket
 );
+export const getSearchFilterMappingDataObj = createSelector(
+  selectExchangeExplorerContextInfo,
+  fromExchangeExplorerContextInfoReducer.getSearchFilterMappingDataObj
+);
+export const getFilterContextExchangeJobTitles = createSelector(
+  selectExchangeExplorerContextInfo,
+  fromExchangeExplorerContextInfoReducer.getExchangeJobTitlesShort
+);
+
+// Exchange Filter Context Selectors
 export const getFilterContextLimitToPayMarket = createSelector(
   selectFilterContextState,
   fromExchangeFilterContextReducer.getLimitToPayMarket
@@ -133,53 +147,11 @@ export const getFilterContext = createSelector(selectFilterContextState, fromExc
 
 
 // MISC
-
-export const getFilterRequest = createSelector(
-  getFilterContext,
-  getPeerMapFilter,
-  (filterContext, mapFilter) => {
-    return {
-      filterContext,
-      mapFilter
-    };
-  }
-);
-
-// TODO: This needs to live somewhere else with access to the searchReducer
-// export const getUpsertDataCutRequestData = createSelector(
-//   getExchangeDataCutRequestData,
-//   getPeerFilterPayMarket,
-//   (filterDetails, paymarketDetails) => {
-//     return {
-//       FilterDetails: filterDetails,
-//       PayMarketDetails: {
-//         CompanyPayMarketId: paymarketDetails ? paymarketDetails.CompanyPayMarketId : null,
-//         PayMarketName: paymarketDetails ? paymarketDetails.PayMarket : null
-//       }
-//     };
-//   }
-// );
-
-export const getNumberOfCompanySelections = createSelector(
-  getPeerFilterSelections,
-  (filterSelections) => !!filterSelections['CompanyIds'] ? filterSelections['CompanyIds'].length : 0
-);
-
 export const getSystemFilterExchangeJobIds = createSelector(
-  getSystemFilter,
-  (systemFilter) => !!systemFilter ? systemFilter.ExchangeJobIds : []
+  selectFilterContextState,
+  (filterContext) => filterContext.ExchangeJobIds
 );
-
-export const getPeerMapScopeRequestPayload = createSelector(
-  getExchangeDataCutRequestData,
-  getPeerFilterScopeSelection,
-  (filterModel, selectedExchangeScope) => {
-    return {
-      filterModel,
-      exchangeScopeGuid: !!selectedExchangeScope ? selectedExchangeScope.Id : null
-    };
-  }
+export const getHasAppliedFilterContext = createSelector(
+  selectFilterContextState,
+  fromExchangeFilterContextReducer.getHasAppliedContext
 );
-
-export const getSystemFilterLoaded = createSelector(getSystemFilter, (systemFilter) => !!systemFilter);
-
