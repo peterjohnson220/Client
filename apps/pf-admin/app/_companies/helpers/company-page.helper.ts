@@ -120,17 +120,20 @@ export class CompanyPageHelper {
   static getPeerClientTypeCompanyTiles(tiles: CompanyTilesResponse[]): CompanyTilesResponse[] {
     return tiles.map(t => {
       switch (t.TileName) {
+        case TileNames.NewProject:
+        case TileNames.PricingProjects:
+        case TileNames.PayMarkets:
+        case TileNames.Jobs:
         case TileNames.Service:
+        case TileNames.Activity:
         case TileNames.Resources:
         case TileNames.Ideas:
-        case TileNames.NewCommunity: {
+        case TileNames.Employees:
+        case TileNames.NewCommunity:
+        case TileNames.Peer:
+        case TileNames.CompanyAdmin: {
           t.Checked = true;
           t.Disabled = false;
-          return t;
-        }
-        case TileNames.Peer: {
-          t.Checked = true;
-          t.Disabled = true;
           return t;
         }
         default: {
@@ -145,19 +148,20 @@ export class CompanyPageHelper {
   static getPeerClientTypeCompanySettings(settings: CompanySetting[]): CompanySetting[] {
     return settings.map(s => {
       switch (s.Key) {
-        case CompanySettingsEnum.PeerTermsAndConditionsRequested: {
+        case CompanySettingsEnum.PeerTermsAndConditionsAccepted: {
           s.Value = 'true';
           s.Disabled = true;
           return s;
         }
-        case CompanySettingsEnum.PeerTermsAndConditionsAccepted: {
+        case CompanySettingsEnum.PeerTermsAndConditionsRequested:
+        case CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested: {
           s.Value = 'false';
-          s.Disabled = false;
+          s.Disabled = true;
           return s;
         }
         default: {
           s.Value = 'false';
-          s.Disabled = true;
+          s.Disabled = false;
           return s;
         }
       }
@@ -176,8 +180,9 @@ export class CompanyPageHelper {
         case TileNames.Resources:
         case TileNames.Ideas:
         case TileNames.Employees:
+        case TileNames.NewCommunity:
         case TileNames.Peer:
-        case TileNames.NewCommunity: {
+        case TileNames.CompanyAdmin: {
           t.Checked = true;
           t.Disabled = false;
           return t;
