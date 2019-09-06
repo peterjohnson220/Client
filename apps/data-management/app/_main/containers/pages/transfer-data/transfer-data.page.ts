@@ -6,7 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromDataManagementMainReducer from '../../../reducers';
 
-import { TransferMethod, Provider } from '../../../models';
+import { TransferDataWorkflowStep } from '../../../data';
+import { TransferMethod, Provider, AuthenticationType } from '../../../models';
 
 @Component({
   selector: 'pf-transfer-data-page',
@@ -15,43 +16,44 @@ import { TransferMethod, Provider } from '../../../models';
 })
 export class TransferDataPageComponent implements OnInit, OnDestroy {
 
-  providers: Provider[];
   transferMethods: TransferMethod[];
-  selectedProvider: number;
+  selectedProvider: Provider;
+  authenticationType: AuthenticationType;
 
   providers$: Observable<Provider[]>;
   transferMethods$: Observable<TransferMethod[]>;
-  selectedProvider$: Observable<number>;
+  selectedProvider$: Observable<Provider>;
   transferDataPageLoading$: Observable<boolean>;
   transferDataPageLoadingError$: Observable<boolean>;
+  currentWorkflowStep$: Observable<TransferDataWorkflowStep>;
 
-  providersSub: Subscription;
   transferMethodsSub: Subscription;
   selectedProviderSub: Subscription;
+  authenticationTypeSub: Subscription;
+
+  workflowStep = TransferDataWorkflowStep;
 
   constructor(private store: Store<fromDataManagementMainReducer.State>) {
     this.transferMethods$ = this.store.select(fromDataManagementMainReducer.getTransferMethods);
     this.providers$ = this.store.select(fromDataManagementMainReducer.getProviders);
     this.selectedProvider$ = this.store.select(fromDataManagementMainReducer.getSelectedProvider);
+    this.currentWorkflowStep$ = this.store.select(fromDataManagementMainReducer.getWorkflowStep);
 
     this.transferDataPageLoading$ = this.store.select(fromDataManagementMainReducer.getTransferDataPageLoading);
     this.transferDataPageLoadingError$ = this.store.select(fromDataManagementMainReducer.getTransferDataPageLoadingError);
+
+    this.transferMethodsSub =
+      this.transferMethods$.subscribe(tms => this.transferMethods = tms);
+    this.selectedProviderSub =
+      this.selectedProvider$.subscribe(sp => this.selectedProvider = sp);
   }
 
   ngOnInit() {
-    this.transferMethodsSub =
-      this.transferMethods$.subscribe(tms => this.transferMethods = tms);
-    this.providersSub =
-      this.providers$.subscribe(p => this.providers = p);
-    this.selectedProviderSub =
-      this.selectedProvider$.subscribe(sp => this.selectedProvider = sp);
-
     this.store.dispatch(new fromTransferDataPageActions.Init());
   }
 
   ngOnDestroy() {
     this.transferMethodsSub.unsubscribe();
-    this.providersSub.unsubscribe();
     this.selectedProviderSub.unsubscribe();
   }
 
@@ -64,6 +66,10 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
   }
 
   setSelectedProvider(provider: Provider) {
-    this.store.dispatch(new fromTransferDataPageActions.SetSelectedProvider(provider.ProviderId));
+    this.store.dispatch(new fromTransferDataPageActions.SetSelectedProvider(provider));
+  }
+
+  proceedToAuthentication() {
+    this.store.dispatch(new fromTransferDataPageActions.LoadAuthenticationFormSuccess());
   }
 }

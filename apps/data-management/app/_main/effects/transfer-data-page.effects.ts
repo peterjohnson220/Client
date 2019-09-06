@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Store, Action, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
-import { Observable } from 'rxjs';
-import { mergeMap, switchMap, map, withLatestFrom } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { mergeMap, switchMap, map, withLatestFrom, catchError } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
-import { TransferMethodsHrisApiService, ProvidersHrisApiService } from 'libs/data/payfactors-api/hris-api';
-import { TransferMethodResponse, ProviderResponse } from 'libs/models/hris-api';
+import { TransferMethodsHrisApiService, ProvidersHrisApiService,
+  ConnectionsHrisApiService} from 'libs/data/payfactors-api/hris-api';
+import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse } from 'libs/models/hris-api';
 
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import * as fromDataManagementMainReducer from '../reducers';
@@ -90,10 +91,66 @@ export class TransferDataPageEffects {
       })
     );
 
+  @Effect()
+  Authenticate$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromTransferDataPageActions.Validate>(fromTransferDataPageActions.VALIDATE),
+      withLatestFrom(this.store.pipe(select(fromRootState.getUserContext)),
+      (action, userContext) => {
+        return {
+          action,
+          userContext
+        };
+      }),
+      switchMap((obj) => {
+        return this.connectionsHrisApiService.validateConnection(obj.userContext, obj.action.payload)
+          .pipe(
+            mergeMap((response: ValidateCredentialsResponse) => {
+              if (!response.successful) {
+                return [new fromTransferDataPageActions.ValidateError(response.errors)];
+              }
+
+              return [
+                new fromTransferDataPageActions.ValidateSuccess(),
+                new fromTransferDataPageActions.CreateConnection(obj.action.payload)
+              ];
+            }),
+            catchError(error => of(new fromTransferDataPageActions.ValidateError()))
+          );
+      })
+    );
+
+  @Effect()
+    CreateConnection$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromTransferDataPageActions.CreateConnection>(fromTransferDataPageActions.CREATE_CONNECTION),
+      withLatestFrom(this.store.select(fromDataManagementMainReducer.getSelectedProvider),
+      this.store.pipe(select(fromRootState.getUserContext)),
+      (action, provider, userContext) => {
+        return {
+          action,
+          provider,
+          userContext
+        };
+      }),
+      switchMap((obj) => {
+        const connectionPostModel =
+          PayfactorsApiModelMapper.createConnectionPostRequest(obj.action.payload, obj.userContext.CompanyId, obj.provider.ProviderId);
+        return this.connectionsHrisApiService.connect(obj.userContext, connectionPostModel)
+          .pipe(
+            map((response: any) => {
+              return new fromTransferDataPageActions.CreateConnectionSuccess();
+            }),
+            catchError(error => of(new fromTransferDataPageActions.CreateConnectionError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromDataManagementMainReducer.State>,
     private transferMethodsHrisApiService: TransferMethodsHrisApiService,
-    private providersHrisApiService: ProvidersHrisApiService
+    private providersHrisApiService: ProvidersHrisApiService,
+    private connectionsHrisApiService: ConnectionsHrisApiService
   ) {}
 }
