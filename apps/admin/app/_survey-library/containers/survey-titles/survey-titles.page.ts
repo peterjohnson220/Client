@@ -28,7 +28,7 @@ export class SurveyTitlesPageComponent implements OnInit {
   public systemUserGroupsId: number;
   private filterModelChanged: Subject<string> = new Subject<string>();
   public surveyTitles: SurveyTitle[];
-  public readonly publisherId: number;
+  public publisherId: number;
   isCollapsed: boolean;
   searchTerm: string;
 
@@ -39,7 +39,6 @@ export class SurveyTitlesPageComponent implements OnInit {
   private surveyTitleModalOpen$: BehaviorSubject<boolean>;
 
   constructor(private activeRoute: ActivatedRoute,
-    private surveyLibraryApiService: SurveyLibraryApiService,
     private store: Store<fromSurveyLibraryReducer.State>,
     private state: SurveyLibraryStateService) {
     this.userContext$ = store.select(fromRootState.getUserContext);
