@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Workbook, SaveReportOrderData } from '../models';
+import { Workbook, SaveReportOrderData, DashboardView } from '../models';
 
 export const REFRESH_TABLEAU_REPORTS = '[Data Insights / Views] Refresh Tableau Reports';
 export const REFRESH_TABLEAU_REPORTS_SUCCESS = '[Data Insights / Views] Refresh Tableau Reports Success';
@@ -17,6 +17,12 @@ export const REMOVE_VIEW_FAVORITE_ERROR = '[Data Insights / Views] Remove View F
 export const SAVE_REPORT_ORDER = '[Data Insights / Views] Save Report Order';
 export const SAVE_REPORT_ORDER_SUCCESS = '[Data Insights / Views] Save Report Order Success';
 export const SAVE_REPORT_ORDER_ERROR = '[Data Insights / Views] Save Report Order Error';
+export const GET_DASHBOARD_VIEW = '[Data Insights / Views] Get Dashboard View]';
+export const GET_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Views] Get Dashboard View Success';
+export const GET_DASHBOARD_VIEW_ERROR = '[Data Insights / Views] Get Dashboard View Error';
+export const TOGGLE_DASHBOARD_VIEW = '[Data Insights / Views] Toggle Dashboard View]';
+export const PERSIST_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Views] Persist Dashboard View Success';
+export const PERSIST_DASHBOARD_VIEW_ERROR = '[Data Insights / Views] Persist Dashboard View Error';
 
 export class RefreshTableauReports implements Action {
   readonly type = REFRESH_TABLEAU_REPORTS;
@@ -108,6 +114,40 @@ export class SaveReportOrderError implements Action {
   constructor() {}
 }
 
+export class GetDashboardView implements Action {
+  readonly type = GET_DASHBOARD_VIEW;
+
+  constructor() {}
+}
+
+export class GetDashboardViewSuccess implements Action {
+  readonly type = GET_DASHBOARD_VIEW_SUCCESS;
+
+  constructor(public payload: string) {}
+}
+
+export class GetDashboardViewError implements Action {
+  readonly type = GET_DASHBOARD_VIEW_ERROR;
+
+  constructor() {}
+}
+
+export class ToggleDashboardView implements Action {
+  readonly type = TOGGLE_DASHBOARD_VIEW;
+
+  constructor(public payload: { view: DashboardView }) {}
+}
+
+export class PersistDashboardViewSuccess implements Action {
+  readonly type = PERSIST_DASHBOARD_VIEW_SUCCESS;
+  constructor() {}
+}
+export class PersistDashboardViewError implements Action {
+  readonly type = PERSIST_DASHBOARD_VIEW_ERROR;
+  constructor() {}
+}
+
+
 export type Actions
   = RefreshTableauReports
   | RefreshTableauReportsSuccess
@@ -123,4 +163,10 @@ export type Actions
   | RemoveViewFavoriteError
   | SaveReportOrder
   | SaveReportOrderSuccess
-  | SaveReportOrderError;
+  | SaveReportOrderError
+  | GetDashboardView
+  | GetDashboardViewSuccess
+  | GetDashboardViewError
+  | ToggleDashboardView
+  | PersistDashboardViewSuccess
+  | PersistDashboardViewError;

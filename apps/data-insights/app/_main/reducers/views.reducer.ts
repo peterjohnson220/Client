@@ -3,15 +3,17 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromViewsActions from '../actions/views.actions';
-import { View, Workbook } from '../models';
+import { View, Workbook, DashboardView } from '../models';
 import { ViewsHelper } from '../helpers/views.helper';
 
 export interface State {
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;
+  dashboardView: DashboardView;
 }
 
 const initialState: State = {
-  companyWorkbooksAsync: generateDefaultAsyncStateObj<Workbook[]>([])
+  companyWorkbooksAsync: generateDefaultAsyncStateObj<Workbook[]>([]),
+  dashboardView: DashboardView.Views
 };
 
 export function reducer(state = initialState, action: fromViewsActions.Actions): State {
@@ -83,6 +85,22 @@ export function reducer(state = initialState, action: fromViewsActions.Actions):
         companyWorkbooksAsync: companyWorkbooksAsyncClone
       };
     }
+    case fromViewsActions.GET_DASHBOARD_VIEW_SUCCESS: {
+      let dashboardViewClone = cloneDeep(state.dashboardView);
+      if (action.payload && typeof action.payload === 'string') {
+        dashboardViewClone = action.payload;
+      }
+      return {
+        ...state,
+        dashboardView: dashboardViewClone
+      };
+    }
+    case fromViewsActions.TOGGLE_DASHBOARD_VIEW: {
+      return {
+        ...state,
+        dashboardView: action.payload.view
+      };
+    }
     default: {
       return state;
     }
@@ -90,3 +108,8 @@ export function reducer(state = initialState, action: fromViewsActions.Actions):
 }
 
 export const getCompanyWorkbooksAsyncFromViews = (state: State) => state.companyWorkbooksAsync;
+export const getFavoriteViews = (state: State) => {
+  const views = ViewsHelper.getFavoriteViews(state.companyWorkbooksAsync.obj);
+  return views;
+};
+export const getDashboardViewThumbnailEnabled = (state: State) => state.dashboardView;

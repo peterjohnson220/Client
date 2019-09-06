@@ -34,6 +34,24 @@ export class ViewsHelper {
     });
   }
 
+  static getFavoriteViews(workbooks: Workbook[]): View[] {
+    const favoriteViews = [];
+    workbooks.forEach(function (workbook) {
+      workbook.Views.obj.forEach(function (view) {
+        if (view.IsFavorite) {
+          favoriteViews.push({
+            ...view,
+            WorkbookId: workbook.WorkbookId,
+            WorkbookSourceUrl: workbook.SourceUrl,
+            WorkbookContentUrl: workbook.ContentUrl,
+            WorkbookName: workbook.WorkbookName
+          });
+        }
+      });
+    });
+    return favoriteViews;
+  }
+
   static applyViewOrderByType(views: View[], orderedViewIds: string[], type: ReportOrderType): View[] {
     orderedViewIds.map((id: string, index: number) => {
       const view = views.find((x: View) => x.ViewId === id);

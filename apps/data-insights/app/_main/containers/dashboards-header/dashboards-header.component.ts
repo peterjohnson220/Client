@@ -9,6 +9,7 @@ import { CompanySettingsEnum } from 'libs/models';
 
 import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
+import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { DashboardView, Entity, SaveUserWorkbookModalData } from '../../models';
 import { SaveUserWorkbookModalComponent } from '../../components';
@@ -23,6 +24,7 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
   @Input() hasFavorites: boolean;
 
   dashboardView$: Observable<string>;
+  thumbnailEnabledDashboardView$: Observable<string>;
   distinctTagsByView$: Observable<string[]>;
   tags$: Observable<string[]>;
   tagFilter$: Observable<string>;
@@ -36,6 +38,7 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
 
   @ViewChild(SaveUserWorkbookModalComponent, { static: false }) public saveUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
   dashboardViews: Array<string> = ['All Dashboards', 'Favorites'];
+  thumbnailEnabledDashboardViews: Array<string> = ['All Views', 'Favorites'];
   reportBuilderSettingEnabled: boolean;
 
   constructor(
@@ -43,6 +46,7 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
     private settingsService: SettingsService
   ) {
     this.dashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardView));
+    this.thumbnailEnabledDashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardViewThumbnailEnabled));
     this.distinctTagsByView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTagsByView));
     this.tags$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTags));
     this.tagFilter$ = this.store.pipe(select(fromDataInsightsMainReducer.getTagFilter));
@@ -70,7 +74,11 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
   }
 
   handleViewChanged(view: DashboardView) {
-    this.store.dispatch(new fromDashboardsActions.ToggleDashboardView({ view }));
+    if (!this.thumbnailsViewEnabled) {
+      this.store.dispatch(new fromDashboardsActions.ToggleDashboardView({ view }));
+    } else {
+      this.store.dispatch(new fromViewsActions.ToggleDashboardView({ view }));
+    }
   }
 
   handleTagChanged(tag: string) {

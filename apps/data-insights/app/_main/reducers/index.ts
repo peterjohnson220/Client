@@ -239,3 +239,13 @@ export const getCompanyWorkbooksAsyncFromViews = createSelector(
   selectViewsState,
   fromViewsReducer.getCompanyWorkbooksAsyncFromViews
 );
+
+export const getFavoriteViews = createSelector(
+  selectViewsState,
+  fromViewsReducer.getFavoriteViews
+);
+
+export const getDashboardViewThumbnailEnabled = createSelector(
+  selectViewsState,
+  fromViewsReducer.getDashboardViewThumbnailEnabled
+);

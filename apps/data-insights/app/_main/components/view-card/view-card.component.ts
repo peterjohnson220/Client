@@ -11,8 +11,9 @@ export class ViewCardComponent {
   @Input() sourceUrl: string;
   @Input() workbookName: string;
   @Input() workbookContentUrl: string;
+  @Input() workbookId: string;
   @Input() view: View;
-  @Output() favoriteClicked: EventEmitter<View> = new EventEmitter<View>();
+  @Output() favoriteClicked: EventEmitter<{workbookId: string, view: View}> = new EventEmitter<{workbookId: string, view: View}>();
 
   displayActionsOverlay: boolean;
 
@@ -24,7 +25,7 @@ export class ViewCardComponent {
     this.displayActionsOverlay = false;
   }
 
-  handleFavoriteClicked(view: View) {
-    this.favoriteClicked.emit(view);
+  handleFavoriteClicked() {
+    this.favoriteClicked.emit({workbookId: this.workbookId, view: this.view});
   }
 }

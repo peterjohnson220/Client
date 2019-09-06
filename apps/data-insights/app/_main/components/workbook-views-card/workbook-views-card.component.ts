@@ -15,8 +15,8 @@ import { Workbook, View, SaveReportOrderData } from '../../models';
 })
 export class WorkbookViewsCardComponent implements OnInit, OnChanges, OnDestroy {
   @Input() workbook: Workbook;
-  @Output() favoriteClicked: EventEmitter<{ workbookId: String, view: View }> =
-    new EventEmitter<{ workbookId: String, view: View }>();
+  @Output() favoriteClicked: EventEmitter<{ workbookId: string, view: View }> =
+    new EventEmitter<{ workbookId: string, view: View }>();
   @Output() viewsOrderUpdated: EventEmitter<SaveReportOrderData> = new EventEmitter<SaveReportOrderData>();
 
   isCollapsed = false;
@@ -50,8 +50,8 @@ export class WorkbookViewsCardComponent implements OnInit, OnChanges, OnDestroy 
     return view.ViewId;
   }
 
-  handleFavoriteClicked(view: View) {
-    this.favoriteClicked.emit({ workbookId: this.workbook.WorkbookId, view });
+  handleFavoriteClicked(obj: {workbookId: string, view: View}) {
+    this.favoriteClicked.emit(obj);
   }
 
   private handleDropModel(sourceModel: any[]) {
