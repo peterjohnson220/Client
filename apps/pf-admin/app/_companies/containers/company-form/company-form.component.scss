@@ -54,6 +54,9 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: not-allowed;
 }
 
-.form-control-color {
-  height: 40px;
+.input-w label, .input-w input {
+  float: none;
+  display: inline-block;
+  vertical-align: middle;
+  align-items: center
 }
