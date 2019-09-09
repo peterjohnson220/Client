@@ -202,9 +202,15 @@ export class TicketListComponent implements OnInit, OnDestroy {
 
   checkForRefresh() {
     if (this.isDirty) {
+      this.cleanGrid();
       this.handleTicketGridReload();
     }
   }
+
+  cleanGrid() {
+    this.gridView = { data: [], total: 0 };
+  }
+
   sortChange(sort: SortDescriptor[]): void {
     this.state.sort = sort;
     this.state.skip = 0;
