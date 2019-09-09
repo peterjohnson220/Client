@@ -21,6 +21,6 @@ export const environment = {
   hostPath: 'client',
   allowHubspotRegistration: true,
   hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data-wh',
-  siteAdminUrl: '/client/pf-admin',
-  companyAdminUrl: '/client/admin/company-admin'
+  siteAdminUrl: '/ng/site-admin',
+  companyAdminUrl: '/ng/company-admin'
 };
