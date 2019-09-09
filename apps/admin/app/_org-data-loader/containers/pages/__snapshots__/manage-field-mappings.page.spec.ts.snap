@@ -56,7 +56,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
-    ng-reflect-absolute-url="/client/pf-admin/navigation"
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
   >
     <div
       class="flex-column-container"
@@ -71,7 +71,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
           
           
           <a
-            href="/client/pf-admin/navigation"
+            href="/ng/site-admin/navigation"
           >
             <button
               class="btn btn-secondary back-btn"
@@ -282,7 +282,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
-    ng-reflect-absolute-url="/client/pf-admin/navigation"
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
   >
     <div
       class="flex-column-container"
@@ -297,7 +297,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
           
           
           <a
-            href="/client/pf-admin/navigation"
+            href="/ng/site-admin/navigation"
           >
             <button
               class="btn btn-secondary back-btn"
@@ -508,7 +508,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
-    ng-reflect-absolute-url="/client/pf-admin/navigation"
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
   >
     <div
       class="flex-column-container"
@@ -523,7 +523,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           
           
           <a
-            href="/client/pf-admin/navigation"
+            href="/ng/site-admin/navigation"
           >
             <button
               class="btn btn-secondary back-btn"
@@ -733,7 +733,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
-    ng-reflect-absolute-url="/client/pf-admin/navigation"
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
   >
     <div
       class="flex-column-container"
@@ -748,7 +748,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
           
           
           <a
-            href="/client/pf-admin/navigation"
+            href="/ng/site-admin/navigation"
           >
             <button
               class="btn btn-secondary back-btn"
@@ -869,7 +869,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   toastOptions={[Function Object]}
 >
   <pf-page-with-title-bar
-    ng-reflect-absolute-url="/client/pf-admin/navigation"
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
   >
     <div
       class="flex-column-container"
@@ -884,7 +884,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
           
           
           <a
-            href="/client/pf-admin/navigation"
+            href="/ng/site-admin/navigation"
           >
             <button
               class="btn btn-secondary back-btn"

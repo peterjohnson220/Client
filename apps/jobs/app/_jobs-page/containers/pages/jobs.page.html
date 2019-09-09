@@ -37,7 +37,7 @@
     <span class="column-popover">
       <pf-column-chooser-popover
         [ListAreaColumns]="columns"
-        (saveColumns)="setActiveColumns()"
+        (saveColumns)="setActiveColumns($event)"
       >
       </pf-column-chooser-popover>
     </span>
