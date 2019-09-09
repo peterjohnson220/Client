@@ -3,8 +3,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromViewsActions from '../actions/views.actions';
-import { View, Workbook, DashboardView } from '../models';
-import { ViewsHelper } from '../helpers/views.helper';
+import { DashboardView, View, Workbook } from '../models';
+import { ViewsHelper } from '../helpers';
+import { ReportOrderType } from 'libs/constants';
 
 export interface State {
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;
@@ -109,7 +110,9 @@ export function reducer(state = initialState, action: fromViewsActions.Actions):
 
 export const getCompanyWorkbooksAsyncFromViews = (state: State) => state.companyWorkbooksAsync;
 export const getFavoriteViews = (state: State) => {
-  const views = ViewsHelper.getFavoriteViews(state.companyWorkbooksAsync.obj);
-  return views;
+  let favoriteViews = ViewsHelper.getFavoriteViews(state.companyWorkbooksAsync.obj);
+  favoriteViews = ViewsHelper.getOrderByFn(ReportOrderType.Favorites, favoriteViews);
+
+  return favoriteViews;
 };
 export const getDashboardViewThumbnailEnabled = (state: State) => state.dashboardView;
