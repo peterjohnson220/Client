@@ -5,14 +5,15 @@ import { of } from 'rxjs';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
-import { TableauReportApiService, UserReportApiService } from 'libs/data/payfactors-api';
+import { TableauReportApiService, UserReportApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { SaveReportOrderRequest } from 'libs/models/payfactors-api';
 
 import * as fromViewsActions from '../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper.helper';
+import { PayfactorsApiModelMapper, ViewsHelper } from '../helpers';
+import { DashboardView } from '../models';
 
 @Injectable()
 export class ViewsEffects {
@@ -100,10 +101,63 @@ export class ViewsEffects {
     })
   );
 
+  @Effect()
+  removeViewFavoriteSuccess$ = this.action$
+    .pipe(
+      ofType(fromViewsActions.REMOVE_VIEW_FAVORITE_SUCCESS),
+      withLatestFrom(
+        this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsyncFromViews)),
+        this.store.pipe(select(fromDataInsightsMainReducer.getDashboardViewThumbnailEnabled)),
+        (action, workbooksAsyncFromViews, dashboardView) => ({ workbooksAsyncFromViews, dashboardView })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        const favoriteViews = ViewsHelper.getFavoriteViews(data.workbooksAsyncFromViews.obj);
+        if (favoriteViews.length === 0 && data.dashboardView === DashboardView.Favorites) {
+
+            actions.push(new fromViewsActions.ToggleDashboardView({view: DashboardView.Views}));
+
+        }
+        return actions;
+      })
+    );
+
+
+  @Effect()
+  getDashboardView$ = this.action$
+    .pipe(
+      ofType(fromViewsActions.GET_DASHBOARD_VIEW),
+      switchMap(() => {
+        return this.uiPersistenceSettingsApiService.getUiPersistenceSetting('DataInsights', 'DashboardViewThumbnailEnabled')
+          .pipe(
+            map((response) => new fromViewsActions.GetDashboardViewSuccess(response)),
+            catchError(() => of(new fromViewsActions.GetDashboardViewError()))
+          );
+      })
+    );
+
+  @Effect()
+  updateDashboardView$ = this.action$
+    .pipe(
+      ofType(fromViewsActions.TOGGLE_DASHBOARD_VIEW),
+      switchMap((action: fromViewsActions.ToggleDashboardView) => {
+        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
+          FeatureArea: 'DataInsights',
+          SettingName: 'DashboardViewThumbnailEnabled',
+          SettingValue: action.payload.view
+        })
+          .pipe(
+            map(() => new fromViewsActions.PersistDashboardViewSuccess()),
+            catchError(() => of(new fromViewsActions.PersistDashboardViewError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataInsightsMainReducer.State>,
     private tableauReportApiService: TableauReportApiService,
-    private userReportApiService: UserReportApiService
+    private userReportApiService: UserReportApiService,
+    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService
   ) {}
 }

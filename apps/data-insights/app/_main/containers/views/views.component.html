@@ -8,7 +8,7 @@
 
   <pf-dashboards-header [thumbnailsViewEnabled]="true" [hasFavorites]="anyFavorites"></pf-dashboards-header>
 
-  <ng-container *ngIf="companyWorkbooksAsync?.obj?.length">
+  <ng-container *ngIf="companyWorkbooksAsync?.obj?.length && (dashboardView$ | async) !== 'Favorites'">
     <ng-container *ngFor="let workbook of companyWorkbooksAsync.obj; trackBy: trackByFn">
       <pf-workbook-views-card
         [workbook]="workbook"
@@ -16,6 +16,13 @@
         (viewsOrderUpdated)="handleViewsOrderUpdated($event)">
       </pf-workbook-views-card>
     </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="companyWorkbooksAsync?.obj?.length && (dashboardView$ | async) == 'Favorites'">
+    <pf-favorite-views
+      [favoriteViews]="favoriteViews"
+      (favoriteClicked)="handleFavoriteClicked($event)">
+    </pf-favorite-views>
   </ng-container>
 
 </ng-container>

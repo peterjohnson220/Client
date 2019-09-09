@@ -1,0 +1,13 @@
+<div class="card views-card">
+  <div class="card-body d-flex flex-wrap">
+    <ng-container *ngFor="let view of favoriteViews; trackBy: trackByFn">
+      <pf-view-card
+        [view]="view"
+        (favoriteClicked)="handleFavoriteClicked($event)"
+        [sourceUrl]="view.WorkbookSourceUrl"
+        [workbookName]="view.WorkbookName"
+        [workbookContentUrl]="view.WorkbookContentUrl"
+        [workbookId]="view.WorkbookId">
+      </pf-view-card>
+    </ng-container>
+  </div>

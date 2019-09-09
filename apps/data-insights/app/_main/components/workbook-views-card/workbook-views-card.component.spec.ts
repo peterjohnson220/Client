@@ -29,7 +29,7 @@ describe('Data Insights - Workbook Views Card Component', () => {
     instance.workbook = {...generateMockWorkbook(), Views: generateDefaultAsyncStateObj([view])};
     spyOn(instance.favoriteClicked, 'emit');
 
-    instance.handleFavoriteClicked(view);
+    instance.handleFavoriteClicked({view, workbookId: instance.workbook.WorkbookId});
 
     expect(instance.favoriteClicked.emit).toHaveBeenCalledWith({ workbookId: instance.workbook.WorkbookId, view });
   });

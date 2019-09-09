@@ -35,12 +35,11 @@ describe('Data Insights - View Card Component', () => {
   });
 
   it('should emit favoriteClicked when clicking on star icon', () => {
-    const view = generateMockView();
     spyOn(instance.favoriteClicked, 'emit');
 
-    instance.handleFavoriteClicked(view);
+    instance.handleFavoriteClicked();
 
-    expect(instance.favoriteClicked.emit).toHaveBeenCalledWith(view);
+    expect(instance.favoriteClicked.emit).toHaveBeenCalledWith({workbookId: instance.workbookId, view: instance.view});
   });
 
 });

@@ -19,7 +19,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent,
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
-  ViewCardComponent, WorkbookViewsCardComponent } from './components';
+  ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent,
   DashboardsHeaderComponent, ViewsComponent } from './containers';
@@ -71,7 +71,7 @@ import { MainRoutingModule } from './main-routing.module';
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
     StandardReportHexagonComponent, SaveUserWorkbookModalComponent, ReportFieldComponent,
-    DeleteUserWorkbookModalComponent, AddReportFieldsComponent, ViewCardComponent, WorkbookViewsCardComponent
+    DeleteUserWorkbookModalComponent, AddReportFieldsComponent, ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent
   ],
   providers: [
     WindowRef
