@@ -1,0 +1,33 @@
+<div class="card mb-3"
+     [class.added]="section.Statuses && wasAdded()"
+     [class.removed]="section.Statuses && wasRemoved()">
+  <div class="card-header">
+    <div class="section-title">
+            <span [hidden]="!wasMoved()" class="text-danger pr-2">
+              <fa-icon icon="long-arrow-alt-down" ></fa-icon>
+            </span>
+      <span [hidden]="!wasMoved()" class="text-success pr-2">
+        <fa-icon icon="long-arrow-alt-up" ></fa-icon>
+            </span>
+      <span [innerHtml]="section.Name"></span>
+      <div class="btn-group float-right">
+        <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+          <span [hidden]="!hideBody"><fa-icon icon="caret-down" ></fa-icon></span>
+          <span [hidden]="hideBody"><fa-icon icon="caret-up" ></fa-icon></span>
+        </button>
+      </div>
+    </div>
+    <div class="section-description">
+      <span [innerHtml]="section.SubHeading"></span>
+    </div>
+  </div>
+  <div class="card-block" [hidden]="hideBody">
+    <div *ngFor="let control of section.Controls; let i = index">
+      <pf-job-description-compare-control-result
+        [control]="control"
+        [controlTypesLoaded]="controlTypesLoaded"
+        [index]="i">
+      </pf-job-description-compare-control-result>
+    </div>
+  </div>
+</div>

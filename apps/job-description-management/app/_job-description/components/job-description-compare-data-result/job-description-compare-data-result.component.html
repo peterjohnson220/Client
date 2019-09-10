@@ -1,0 +1,81 @@
+<ng-container *ngIf="data.length; else noDataTemplate">
+  <ng-container *ngIf="!(controlType.EditorType === 'Single' && controlType.Vertical); else verticalTemplate">
+    <table class="table control-table">
+      <thead *ngIf="attributes.length > 1 && data.length">
+      <tr>
+        <th *ngIf="hasDataThatWasMoved"></th>
+        <th *ngIf="controlType.EditorType === 'SmartList'"></th>
+        <th width="{{(attribute.WidthPct) + '%'}}" *ngFor="let attribute of attributes">
+          {{ attribute.DisplayName }}
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--Data Row-->
+      <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+
+        <tr>
+          <td *ngIf="hasDataThatWasMoved">
+            <span *ngIf="wasMoved(dataRow) && dataRowIndex > dataRow.Ordinal_Old" class="text-danger">
+                <fa-icon icon="long-arrow-alt-down" aria-hidden="true"></fa-icon>
+            </span>
+            <span *ngIf="wasMoved(dataRow) && dataRowIndex < dataRow.Ordinal_Old" class="text-success">
+              <fa-icon icon="long-arrow-alt-up" aria-hidden="true"></fa-icon>
+            </span>
+          </td>
+
+          <td *ngIf="controlType.EditorType === 'SmartList'" class="bullet-cell">
+            <span [innerHTML]="getSmartListBullet(dataRowIndex)"></span>
+          </td>
+
+          <!--Attribute Cells-->
+          <td width="{{(attribute.WidthPct) + '%'}}"
+              *ngFor="let attribute of attributes">
+
+            <div [class.ql-editor]="attribute.Type === 'RichText' || attribute.Type === 'Textarea'"
+                 [class.ql-editor-output]="attribute.Type === 'Rendered'"
+                 [class.added-data]="wasAdded(dataRow) && dataRow[attribute.DisplayName]"
+                 [class.removed-data]="wasRemoved(dataRow) && dataRow[attribute.DisplayName]"
+                 [innerHtml]="sanitizer.bypassSecurityTrustHtml(dataRow[attribute.DisplayName + '_Diff'] || dataRow[attribute.DisplayName])"
+                 class="rendered-text">
+            </div>
+
+          </td>
+        </tr>
+
+      </ng-template>
+      </tbody>
+    </table>
+  </ng-container>
+</ng-container>
+
+<!-- No Data -->
+<ng-template #noDataTemplate>
+  <i>No Data</i>
+</ng-template>
+
+
+<!--Vertical Rendering-->
+<ng-template #verticalTemplate>
+  <table class="table control-table no-border">
+    <tr *ngFor="let attribute of attributes">
+      <th class="vertical-heading">
+        {{ attribute.DisplayName }}:
+      </th>
+      <td class="vertical-data-cell">
+        <!--Data Row Loop ( Max 2 )-->
+        <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+
+          <div [class.ql-editor]="attribute.Type === 'RichText' || attribute.Type === 'Textarea'"
+               [class.ql-editor-output]="attribute.Type === 'Rendered'"
+               [class.added-data]="wasAdded(dataRow) && dataRow[attribute.DisplayName]"
+               [class.removed-data]="wasRemoved(dataRow) && dataRow[attribute.DisplayName]"
+               [innerHtml]="sanitizer.bypassSecurityTrustHtml(dataRow[attribute.DisplayName + '_Diff'] || dataRow[attribute.DisplayName])"
+               class="rendered-text">
+          </div>
+
+        </ng-template>
+      </td>
+    </tr>
+  </table>
+</ng-template>
