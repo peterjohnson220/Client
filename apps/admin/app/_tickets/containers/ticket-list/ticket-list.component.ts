@@ -107,7 +107,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
   initSubscriptions() {
     this.selectedTicketsTabSubscription = this.selectedTicketTab$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
       this.ticketsTab = v === null ? 0 : v;
-  });
+    });
     this.dirtySubscription = this.dirty$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
       this.isDirty = v;
       if (this.ticketsTab === 0) {

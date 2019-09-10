@@ -3,8 +3,7 @@
     Survey Library - {{publisher}}
   </ng-container>
   <ng-container page-content>
-    <pf-async-container
-      [loading]="loadingSurveyTitles$ | async">
+    <pf-async-container [loading]="loadingSurveyTitles$ | async">
       <div class="container">
         <div class="row">
           <div class="col">
@@ -12,20 +11,21 @@
               <div class="row">
                 <div class="col-sm-3">
                   <div class="form-group">
-                    <label for="titleSearch" class="sr-only">Title Search</label>
+                    <label for="titleSearch"
+                           class="sr-only">Title Search</label>
                     <input (ngModelChange)="filterChanged($event)"
                            [ngModel]="searchTerm"
                            class="form-control"
                            type="text"
                            id="titleSearch"
                            placeholder="Search..."
-                           name="titleSearch"
-                    >
+                           name="titleSearch">
                   </div>
                 </div>
                 <!--<div class="col-sm-4">
                   <div class="form-group">
-                    <label for="companySearch" class="sr-only">Company Search</label>
+                    <label for="companySearch"
+                           class="sr-only">Company Search</label>
                     <kendo-combobox [data]="companies$ | async"
                                     [textField]="'CompanyName'"
                                     [valueField]="'CompanyId'"
@@ -33,8 +33,7 @@
                                     (valueChange)="companySelectionChange($event)"
                                     id="companySearch"
                                     [placeholder]="'Select Company'"
-                                    class="form-control"
-                    ></kendo-combobox>
+                                    class="form-control"></kendo-combobox>
                   </div>
                 </div>-->
               </div>
@@ -46,18 +45,23 @@
             <span class="font-weight-bold">Survey Name</span>
           </div>
         </div>
-        <div *ngFor="let surveyTitle of surveyTitles" class="row my-3">
+        <div *ngFor="let surveyTitle of surveyTitles"
+             class="row my-3">
           <div class="col">
             <pf-survey-title-list-item [SurveyTitle]="surveyTitle"></pf-survey-title-list-item>
           </div>
         </div>
         <div class="row">
-          <button (click)="openModal()" *ngIf="systemUserGroupsId === 1" class="btn btn-secondary btn-sm mx-2" type="button">Add</button>
-          <button (click)="returnToPublishers()" class="btn btn-secondary btn-sm mx-2" type="button">Back to Survey Publishers</button>
+          <button (click)="openModal()"
+                  *ngIf="systemUserGroupsId === 1"
+                  class="btn btn-secondary btn-sm mx-2"
+                  type="button">Add</button>
+          <button (click)="returnToPublishers()"
+                  class="btn btn-secondary btn-sm mx-2"
+                  type="button">Back to Survey Publishers</button>
         </div>
       </div>
     </pf-async-container>
   </ng-container>
 </pf-page-with-title-bar>
 <pf-add-survey-title-modal [surveyPublisherId]="publisherId"></pf-add-survey-title-modal>
-

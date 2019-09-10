@@ -46,7 +46,7 @@ export class SurveyTitlesPageComponent implements OnInit {
     this.surveyTitles$ = this.store.select(fromSurveyLibraryReducer.getSurveyTitles);
     this.loadingSurveyTitles$ = this.store.select(fromSurveyLibraryReducer.getLoadingSurveyTitles);
     this.surveyTitleModalOpen$ = new BehaviorSubject<boolean>(false);
-    this.filter = {SearchTerm: '', CompanyId: undefined};
+    this.filter = { SearchTerm: '', CompanyId: undefined };
     this.publisherId = activeRoute.snapshot.params.id;
     this.isCollapsed = true;
 
@@ -74,7 +74,7 @@ export class SurveyTitlesPageComponent implements OnInit {
   }
 
   getSurveyTitles(): void {
-    this.store.dispatch(new fromSurveyTitlesActions.LoadingSurveyTitles({publisherId: this.publisherId, filter: this.filter}));
+    this.store.dispatch(new fromSurveyTitlesActions.LoadingSurveyTitles({ publisherId: this.publisherId, filter: this.filter }));
   }
 
   filterChanged(searchTerm: string) {

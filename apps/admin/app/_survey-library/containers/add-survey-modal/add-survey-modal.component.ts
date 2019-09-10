@@ -1,8 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable, of, observable, BehaviorSubject } from 'rxjs';
-import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { SurveyLibraryStateService } from '../../services/survey-library-state.service';
+
+import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
+import * as fromSurveysReducer from '../../reducers';
+import * as fromSurveyActions from '../../actions/survey-actions';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pf-add-survey-modal',
@@ -13,36 +16,55 @@ export class AddSurveyModalComponent implements OnInit {
 
   @Input() public surveyYearId: number;
 
+  isModalOpen$: Observable<boolean>;
+  addSurveyForm: FormGroup;
+  public showAgingAndCost = false;
+  companies: any;
+
   constructor(
     private surveyApi: SurveyLibraryApiService,
-    public state: SurveyLibraryStateService,
+    private store: Store<fromSurveysReducer.State>,
     private fb: FormBuilder) {
 
     this.addSurveyForm = this.fb.group({
-      'newCompany': [],
-      'newCost': [],
-      'newAging': []
+      newCompany: [],
+      newCost: [],
+      newAging: []
     });
 
+    this.isModalOpen$ = this.store.select(fromSurveysReducer.isAddSurveyModalOpen);
   }
 
-  isSaving$ = of(false);
-  selectedCompanyId: number;
-  selectedCost: number;
-  selectedAging: number;
-  addSurveyForm: FormGroup;
+  ngOnInit() {
+    this.isModalOpen$.subscribe(isOpen => {
+      if (isOpen) {
+        this.surveyApi.getAddSurveyPopup(this.surveyYearId).subscribe(f => this.companies = f);
+      } else {
+        this.companies = [];
+      }
+    });
+  }
 
   handleFormSubmit() {
-    this.surveyApi.saveSurvey(this.surveyYearId, '', this.selectedAging, this.selectedCompanyId, this.selectedCost)
+    this.surveyApi.saveSurvey(this.surveyYearId, this.addSurveyForm.get('newAging').value,
+      this.getNewCompanyId(), this.addSurveyForm.get('newCost').value)
       .subscribe(f =>
         this.handleModalDismissed()
       );
   }
+
+  getNewCompanyId(): number {
+    // tslint:disable-next-line: radix
+    return parseInt(this.addSurveyForm.get('newCompany').value);
+  }
+
+  getSelectedCompanyName() {
+    const selectedCompanyId = this.getNewCompanyId();
+    this.showAgingAndCost = !Number.isNaN(selectedCompanyId);
+  }
+
   handleModalDismissed() {
-    this.state.setAddSurveyModalOpen(false);
+    this.store.dispatch(new fromSurveyActions.ShouldRefreshGrid(true));
+    this.store.dispatch(new fromSurveyActions.SetAddSurveyModalOpen(false));
   }
-
-  ngOnInit() {
-  }
-
 }

@@ -16,18 +16,18 @@ export class SurveyTitlesEffects {
     withLatestFrom(
       this.store.select(fromReducers.getCustomSurveyTitleSaving),
       (action: fromSurveyTitlesActions.SaveCustomTitle) => {
-        return {action};
+        return { action };
       }
     ),
     switchMap(obj =>
-    this.surveyLibraryApiService.saveCustomCompanySurveyTitle(obj.action.payload.surveyTitleId, obj.action.payload.request).pipe(
-      switchMap(() => {
-        return [
-          new fromSurveyTitlesActions.SaveCustomTitleSuccess(obj.action.payload.request.CompanyId, obj.action.payload.surveyTitleId)
-        ];
-      }),
-      catchError(error => of(new fromSurveyTitlesActions.SaveCustomTitleError()))
-    ))
+      this.surveyLibraryApiService.saveCustomCompanySurveyTitle(obj.action.payload.surveyTitleId, obj.action.payload.request).pipe(
+        switchMap(() => {
+          return [
+            new fromSurveyTitlesActions.SaveCustomTitleSuccess(obj.action.payload.request.CompanyId, obj.action.payload.surveyTitleId)
+          ];
+        }),
+        catchError(error => of(new fromSurveyTitlesActions.SaveCustomTitleError()))
+      ))
   );
 
   @Effect()
@@ -51,9 +51,9 @@ export class SurveyTitlesEffects {
     catchError(error => of(new fromSurveyTitlesActions.SaveSurveyTitleError()))
   );
 
-    constructor(
-      private actions$: Actions,
-      private store: Store<fromReducers.State>,
-      private surveyLibraryApiService: SurveyLibraryApiService
-    ) { }
+  constructor(
+    private actions$: Actions,
+    private store: Store<fromReducers.State>,
+    private surveyLibraryApiService: SurveyLibraryApiService
+  ) { }
 }

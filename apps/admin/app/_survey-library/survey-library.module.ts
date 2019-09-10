@@ -22,12 +22,13 @@ import {
   AddSurveyTitleModalComponent,
   CustomSurveyTitleComponent,
   SurveyTitleListItemComponent,
-  SurveyTitlesPageComponent
+  SurveyTitlesPageComponent,
+  MapCompanyModalComponent
 } from './containers';
 import { SurveyTitleCompaniesListComponent, ExpandCollapseIconComponent } from './components';
 import { CollapserDirective } from './directives';
 import { reducers } from './reducers';
-import { CompanySelectorEffects, SurveyTitlesEffects } from './effects';
+import { CompanySelectorEffects, SurveyTitlesEffects, SurveyEffects } from './effects';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
 @NgModule({
@@ -42,10 +43,13 @@ import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
     StoreModule.forFeature('survey_library', reducers),
     EffectsModule.forFeature([
       SurveyTitlesEffects,
-      CompanySelectorEffects
+      CompanySelectorEffects,
+      SurveyEffects
     ]),
     NgbPopoverModule,
     NgbTooltipModule,
+    NgbModule,
+    FontAwesomeModule,
 
     // PF Modules
     PfFormsModule,
@@ -56,17 +60,17 @@ import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
     FontAwesomeModule,
     NgbModule,
     ComboBoxModule
+
   ],
   declarations: [
     // Containers
     SurveyComponent,
     AddSurveyModalComponent,
-    SurveyTitlesPageComponent,
     AddSurveyTitleModalComponent,
-    CustomSurveyTitleComponent,
+    SurveyTitlesPageComponent,
     SurveyTitleListItemComponent,
-
-    // Components
+    MapCompanyModalComponent,
+    CustomSurveyTitleComponent,
     SurveyTitleCompaniesListComponent,
     ExpandCollapseIconComponent,
 
