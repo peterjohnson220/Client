@@ -14,7 +14,7 @@ import * as fromSurveyTitlesActions from '../../actions/survey-titles.actions';
   styleUrls: ['./add-survey-title-modal.component.scss']
 })
 
-export class AddSurveyTitleModalComponent implements OnInit{
+export class AddSurveyTitleModalComponent implements OnInit {
   @Input() surveyPublisherId;
   addSurveyTitleForm: FormGroup;
   private saveSurveyTitleSuccess$: Observable<boolean>;
