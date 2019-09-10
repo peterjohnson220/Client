@@ -60,7 +60,7 @@ export class TicketValuePickerComponent implements OnInit {
       case TicketFieldType.SERVICEUSER: {
         const v = value as PfServicesRep;
         if (v) {
-          changedFields.push({Key: 'ServicesUserId', Value: v.PfServicesRepId.toString()});
+          changedFields.push({Key: 'ServicesUserId', Value: Math.abs(v.PfServicesRepId).toString()});
         }
         break;
       }
