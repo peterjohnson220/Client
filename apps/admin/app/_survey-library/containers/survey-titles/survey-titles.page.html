@@ -14,7 +14,7 @@
                     <label for="titleSearch"
                            class="sr-only">Title Search</label>
                     <input (ngModelChange)="filterChanged($event)"
-                           [ngModel]="searchTerm"
+                           [(ngModel)]="searchTerm"
                            class="form-control"
                            type="text"
                            id="titleSearch"

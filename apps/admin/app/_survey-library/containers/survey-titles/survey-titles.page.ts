@@ -37,6 +37,7 @@ export class SurveyTitlesPageComponent implements OnInit {
   public companies$: Observable<CompanySelectorItem[]>;
   public loadingSurveyTitles$: Observable<boolean>;
   private surveyTitleModalOpen$: BehaviorSubject<boolean>;
+  private saveSurveyTitleSuccess$: Observable<boolean>;
 
   constructor(private activeRoute: ActivatedRoute,
     private store: Store<fromSurveyLibraryReducer.State>,
@@ -46,7 +47,8 @@ export class SurveyTitlesPageComponent implements OnInit {
     this.surveyTitles$ = this.store.select(fromSurveyLibraryReducer.getSurveyTitles);
     this.loadingSurveyTitles$ = this.store.select(fromSurveyLibraryReducer.getLoadingSurveyTitles);
     this.surveyTitleModalOpen$ = new BehaviorSubject<boolean>(false);
-    this.filter = { SearchTerm: '', CompanyId: undefined };
+    this.saveSurveyTitleSuccess$ = this.store.select(fromSurveyLibraryReducer.getSavingSurveyTitlesSuccess);
+    this.filter = {SearchTerm: '', CompanyId: undefined};
     this.publisherId = activeRoute.snapshot.params.id;
     this.isCollapsed = true;
 
@@ -69,6 +71,12 @@ export class SurveyTitlesPageComponent implements OnInit {
       if (payload) {
         this.publisher = payload.PublisherName;
         this.surveyTitles = payload.PublisherTitles;
+      }
+    });
+
+    this.saveSurveyTitleSuccess$.subscribe(isSuccess => {
+      if(isSuccess) {
+        this.searchTerm = '';
       }
     });
   }
