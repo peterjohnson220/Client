@@ -1,13 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromDataManagementMainReducer from '../../../reducers';
-
 import { TransferDataWorkflowStep } from '../../../data';
-import { TransferMethod, Provider, AuthenticationType } from '../../../models';
+import { AuthenticationType, Provider, TransferMethod } from '../../../models';
 
 @Component({
   selector: 'pf-transfer-data-page',

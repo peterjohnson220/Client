@@ -13,6 +13,7 @@
                 type="text"
                 class="form-control mb-1"
                 [ngClass]="{ 'is-invalid': submitted && pfTestForm.controls.apiKey.errors }"
+                [pfDisableFormControl]="validated"
                 formControlName="apiKey" autofocus>
           <div *ngIf="submitted && pfTestForm.controls.apiKey.errors" class="invalid-feedback">
               <div *ngIf="pfTestForm.controls.apiKey.errors.required">API Key is required</div>
@@ -20,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="pb-1 d-flex justify-content-end">
+    <div class="pb-1 d-flex justify-content-end" *ngIf="!validated">
       <div class="p-2">
         <button id="cancel" type="button" class="btn btn-primary" (click)="cancelAuthenticationClick()">Cancel</button>
       </div>

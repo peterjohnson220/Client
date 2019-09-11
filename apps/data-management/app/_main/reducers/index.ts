@@ -67,3 +67,8 @@ export const getWorkflowStep = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getWorkflowStep
 );
+
+export const getShowAuthenticatingModal = createSelector(
+  selectTransferDataPageState,
+  fromTransferDataPageReducer.getShowAuthenticatingModal
+);

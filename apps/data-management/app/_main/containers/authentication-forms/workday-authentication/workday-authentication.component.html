@@ -11,6 +11,7 @@
                 type="text"
                 class="form-control mb-1"
                 [ngClass]="{ 'is-invalid': submitted && workdayForm.controls.domain.errors }"
+                [pfDisableFormControl]="validated"
                 formControlName="domain" autofocus>
           <div *ngIf="submitted && workdayForm.controls.domain.errors" class="invalid-feedback">
               <div *ngIf="workdayForm.controls.domain.errors.required">Domain is required</div>
@@ -25,6 +26,7 @@
                 type="text"
                 class="form-control mb-1"
                 [ngClass]="{ 'is-invalid': submitted && workdayForm.controls.username.errors }"
+                [pfDisableFormControl]="validated"
                 formControlName="username">
           <div *ngIf="submitted && workdayForm.controls.username.errors" class="invalid-feedback">
               <div *ngIf="workdayForm.controls.username.errors.required">Username is required</div>
@@ -40,6 +42,7 @@
                   type="password"
                   class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && workdayForm.controls.password.errors }"
+                  [pfDisableFormControl]="validated"
                   formControlName="password">
           <div *ngIf="submitted && workdayForm.controls.password.errors" class="invalid-feedback">
             <div *ngIf="workdayForm.controls.password.errors.required">Password is required</div>
@@ -47,7 +50,7 @@
         </div>
       </div>
     </div>
-    <div class="pb-1 d-flex justify-content-end">
+    <div class="pb-1 d-flex justify-content-end" *ngIf="!validated">
       <div class="p-2">
         <button id="cancel" type="button" class="btn btn-primary" (click)="cancelAuthenticationClick()">Cancel</button>
       </div>

@@ -1,8 +1,8 @@
 <pf-async-container [loading]="transferDataPageLoading$ | async"
                     [loadingError]="transferDataPageLoadingError$ | async"
                     [loadingErrorMessage]="'Error Loading Transfer Data Page'">
-  <div [ngSwitch]="currentWorkflowStep$ | async">
-    <div *ngSwitchCase="workflowStep.SelectTransferMethod">
+  <div >
+    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.SelectTransferMethod">
       <h4>Select Method of Transfer</h4>
       <div class="mx-5 p-3">
         <div class="row">
@@ -32,13 +32,14 @@
         </div>
       </div>
     </div>
-    <div *ngSwitchCase="workflowStep.Authentication">
+    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.Authentication || (currentWorkflowStep$ | async) === workflowStep.Validated">
       <pf-hris-authentication-card
         [provider]="selectedProvider"
-        [transferMethod]="'HRIS Integration'">
+        [transferMethod]="'HRIS Integration'"
+        [validatedCredentials]="(currentWorkflowStep$ | async) === workflowStep.Validated">
       </pf-hris-authentication-card>
     </div>
-    <div *ngSwitchCase="workflowStep.Mappings">
+    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.Mappings">
         <h4>
           Map Fields
         </h4>

@@ -1,6 +1,6 @@
-import { Component, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'pf-workday-authentication',
@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkdayAuthenticationComponent implements OnInit {
+
+  @Input() validated = false;
 
   @Output() submitClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();

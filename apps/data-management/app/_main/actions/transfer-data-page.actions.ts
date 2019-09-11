@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CredentialsPackage } from 'libs/models';
-import { TransferMethod, Provider, AuthenticationType } from '../models';
+import { TransferMethod, Provider } from '../models';
 
 export const INIT = '[Data Management/Transfer Data Page] Init Transfer Data Page';
 export const LOAD_AUTHENTICATION_FORM = '[Data Management/Transfer Data Page] Load Authentication Form';
