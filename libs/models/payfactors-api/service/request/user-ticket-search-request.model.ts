@@ -3,6 +3,7 @@ export interface UserTicketSearchRequest {
   UserTicket_State?: string;
   Company_ID?: number;
   Company_Name?: string;
+  Company_IDName?: string;
   Opened_User?: string;
   UserTicket_Type?: string;
   StartDate?: Date;
