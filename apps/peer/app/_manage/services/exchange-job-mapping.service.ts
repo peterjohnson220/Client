@@ -4,9 +4,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
+import { ImportActionEnum } from 'libs/constants';
+
 import * as fromPeerMainReducer from '../reducers';
 import * as fromExchangeJobMappingGridActions from '../../_manage/actions/exchange-job-mapping-grid.actions';
-import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
 
 @Injectable()
 export class ExchangeJobMappingService {
@@ -26,7 +28,11 @@ export class ExchangeJobMappingService {
     });
   }
 
-  validateAndLoadAssociations(filename: string, exchangeId: number): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/FullReplace`, { filename, exchangeId });
+  validateAndLoadAssociations(filename: string, exchangeId: number, importAction: ImportActionEnum): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/Process`, {
+      FileName: filename,
+      ExchangeId: exchangeId,
+      ImportAction: importAction
+    });
   }
 }
