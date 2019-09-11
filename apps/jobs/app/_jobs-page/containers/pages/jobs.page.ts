@@ -47,7 +47,7 @@ export class JobsPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobsPageActions.LoadCompany(this.companyId));
     this.columnSubscription = this.gridApiService.getDefaultColumns('Job').subscribe(c => {
       this.columns = c;
-      this.setActiveColumns();
+      this.setActiveColumns(c);
     });
   }
 
@@ -58,7 +58,7 @@ export class JobsPageComponent implements OnInit, OnDestroy {
 
   // Column Selection
 
-  setActiveColumns() {
-    this.activeColumns = this.columns.filter(c => c.Visible);
+  setActiveColumns(gridColumns: PfGridColumnModel[]) {
+    this.activeColumns = gridColumns.filter(c => c.Visible);
   }
 }
