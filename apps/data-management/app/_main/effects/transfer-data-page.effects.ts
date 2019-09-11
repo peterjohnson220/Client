@@ -3,7 +3,7 @@ import { Store, Action, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { mergeMap, switchMap, map, withLatestFrom, catchError } from 'rxjs/operators';
+import { mergeMap, switchMap, map, withLatestFrom, catchError, delay } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { TransferMethodsHrisApiService, ProvidersHrisApiService,
@@ -103,16 +103,19 @@ export class TransferDataPageEffects {
         };
       }),
       switchMap((obj) => {
+        let delayTime = 0;
+        if (obj.action.payload.ProviderCode === 'PFTEST') {
+          delayTime = 5000;
+        }
         return this.connectionsHrisApiService.validateConnection(obj.userContext, obj.action.payload)
           .pipe(
+            delay(delayTime),
             mergeMap((response: ValidateCredentialsResponse) => {
               if (!response.successful) {
                 return [new fromTransferDataPageActions.ValidateError(response.errors)];
               }
-
               return [
-                new fromTransferDataPageActions.ValidateSuccess(),
-                new fromTransferDataPageActions.CreateConnection(obj.action.payload)
+                new fromTransferDataPageActions.ValidateSuccess()
               ];
             }),
             catchError(error => of(new fromTransferDataPageActions.ValidateError()))

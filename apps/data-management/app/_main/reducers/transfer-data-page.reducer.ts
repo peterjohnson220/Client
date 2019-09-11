@@ -12,6 +12,7 @@ export interface State {
   selectedProvider: Provider;
   workflowStep: TransferDataWorkflowStep;
   validationErrors: string[];
+  showAuthenticationModal: boolean;
 }
 
 const initialState: State = {
@@ -22,7 +23,8 @@ const initialState: State = {
   selectedTransferMethod: null,
   selectedProvider: null,
   validationErrors: null,
-  workflowStep: TransferDataWorkflowStep.SelectTransferMethod
+  workflowStep: TransferDataWorkflowStep.SelectTransferMethod,
+  showAuthenticationModal: false
 };
 
 export function reducer(state: State = initialState, action: fromTransferDataPageActions.Actions) {
@@ -82,27 +84,37 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
     case fromTransferDataPageActions.VALIDATE: {
       return {
         ...state,
-        loading: true
+        showAuthenticationModal: true,
       };
     }
     case fromTransferDataPageActions.VALIDATE_SUCCESS: {
       return {
         ...state,
-        validationErrors: null
+        validationErrors: null,
+        isValidCredentials: true,
+        workflowStep: TransferDataWorkflowStep.Validated,
+        showAuthenticationModal: false,
       };
     }
     case fromTransferDataPageActions.VALIDATE_ERROR: {
       if (action.payload) {
         return {
           ...state,
-          loading: false,
-          validationErrors: action.payload
+          validationErrors: action.payload,
+          isValidCredentials: false,
+          showAuthenticationModal: false
         };
       }
       return {
         ...state,
         loading: false,
         loadingError: true
+      };
+    }
+    case fromTransferDataPageActions.CREATE_CONNECTION: {
+      return {
+        ...state,
+        loading: true
       };
     }
     case fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS: {
@@ -125,3 +137,4 @@ export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getValidationErrors = (state: State) => state.validationErrors;
 export const getWorkflowStep = (state: State) => state.workflowStep;
+export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
