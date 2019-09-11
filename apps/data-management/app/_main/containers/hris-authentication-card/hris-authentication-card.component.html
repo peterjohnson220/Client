@@ -8,10 +8,13 @@
     </h5>
     <div class="mx-5 p-3">
       <div class="error-group mb-3" *ngIf="validationErrors$ | async">
-          <h5>Error(s):</h5>
-          <ul>
-            <li class="text-danger" *ngFor="let error of validationErrors$ | async">{{error}}</li>
-          </ul>
+        <div class="alert alert-danger">
+          <h5 class="mb-0">Authentication Failed</h5>
+        </div>
+        <h5>Error(s):</h5>
+        <ul>
+          <li class="text-danger" *ngFor="let error of validationErrors$ | async">{{error}}</li>
+        </ul>
       </div>
       <div class="alert alert-success" *ngIf="validatedCredentials">
         <h5 class="mb-0">Authentication Successful</h5>
