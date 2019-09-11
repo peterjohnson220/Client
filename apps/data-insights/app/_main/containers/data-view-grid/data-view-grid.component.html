@@ -30,7 +30,7 @@
           <span class="k-link">{{column.title}}</span>
         </ng-template>
         <ng-template kendoGridCellTemplate let-dataItem>
-          <span *ngIf="!!dataItem[field.SourceName];else blankCellTemplate">{{dataItem[field.SourceName]}}</span>
+          <span *ngIf="!!dataItem[field.KendoGridField];else blankCellTemplate">{{dataItem[field.KendoGridField]}}</span>
         </ng-template>
         <ng-template #blankCellTemplate>
           <div class="empty-row">N/A</div>

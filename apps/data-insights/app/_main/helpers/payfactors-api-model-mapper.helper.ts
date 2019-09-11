@@ -90,7 +90,7 @@ export class PayfactorsApiModelMapper {
         DataElementId: f.DataElementId,
         SourceName: f.SourceName,
         DisplayName: f.DisplayName,
-        KendoGridField: `${f.EntitySourceName}.${f.SourceName}`,
+        KendoGridField: `${f.EntitySourceName}_${f.SourceName}`,
         DataType: f.DataType,
         IsSelected: f.IsSelected,
         Order: f.Order
