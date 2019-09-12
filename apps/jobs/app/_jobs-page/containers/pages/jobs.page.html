@@ -1,30 +1,17 @@
 <pf-page-with-title-bar-and-grid class="wrapper" [absoluteUrl]="'/client/dashboard'">
   <ng-container page-title>
-      {{(company$ | async)?.CompanyNameShort}} Jobs
+    {{(company$ | async)?.CompanyNameShort}} Jobs
   </ng-container>
 
   <ng-container page-actions>
-    <pf-input-debounce
-      [placeholderText]="'Search for a Job Title/Code...'"
-      [hideClearBtn]="false"
-      [minWidth]="200"
-    ></pf-input-debounce>
-    <kendo-dropdownlist
-      [defaultItem]="'Select a Pay Market'"
-      [data]="testPayMarketData"
-    >
+    <pf-input-debounce [placeholderText]="'Search for a Job Title/Code...'" [hideClearBtn]="false" [minWidth]="200"></pf-input-debounce>
+    <kendo-dropdownlist [defaultItem]="'Select a Pay Market'" [data]="testPayMarketData">
     </kendo-dropdownlist>
     <button class="btn btn-primary">
       New Job
     </button>
 
-    <button type="button"
-            title="Export"
-            id="export-popover-btn"
-            class="btn btn-secondary"
-            placement="bottom-right"
-            popoverTitle="Choose Content to Export"
-            >
+    <button type="button" title="Export" id="export-popover-btn" class="btn btn-secondary" placement="bottom-right" popoverTitle="Choose Content to Export">
       <fa-icon icon="download"></fa-icon>
       <!--
       [autoClose]="'outside'"
@@ -52,10 +39,8 @@
       <!--
       (click)="filterButtonClicked()"
       -->
-      <button title="Saved Filters" type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-              placement="bottom-right"  popoverTitle="Saved Filters"
-      >
+      <button title="Saved Filters" type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false" placement="bottom-right" popoverTitle="Saved Filters">
       </button>
       <!--
       #p="ngbPopover"
@@ -64,6 +49,16 @@
       -->
     </div>
   </ng-container>
+
+  <ng-template #complexColumn let-parameters="parameters">
+    <pf-complex-column [parameters]="parameters"></pf-complex-column>
+  </ng-template>
+  <ng-template #complexColumn2 let-parameters="parameters">
+    <pf-complex-column [parameters]="parameters"></pf-complex-column>
+  </ng-template>
+  <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter">
+    <pf-jobs-details (onClose)="splitViewEmitter.emit('close')"></pf-jobs-details>
+  </ng-template>
 
   <ng-container grid-actions>
     Add to Project | Match | Inactivate Jobs
@@ -86,5 +81,6 @@
         </tr>
       </tbody>
     </table>
+    <pf-data-grid [entity]="'jobs'" [columnTemplates]="colTemplates" [splitViewTemplate]="jobsDetails"></pf-data-grid>
   </ng-container>
 </pf-page-with-title-bar-and-grid>

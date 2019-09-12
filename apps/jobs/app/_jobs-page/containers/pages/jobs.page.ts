@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -22,7 +22,7 @@ import * as fromJobsPageReducer from '../../reducers';
   templateUrl: './jobs.page.html'
 })
 
-export class JobsPageComponent implements OnInit, OnDestroy {
+export class JobsPageComponent implements OnInit, OnDestroy, AfterViewInit {
   company$: Observable<Company>;
   userContext$: Observable<UserContext>;
   userContextSubscription: Subscription;
@@ -31,6 +31,10 @@ export class JobsPageComponent implements OnInit, OnDestroy {
   columnSubscription: Subscription;
   columns: PfGridColumnModel[];
   activeColumns: PfGridColumnModel[] = [];
+
+  @ViewChild('complexColumn', {static: false}) complexColTemplate: ElementRef;
+  @ViewChild('complexColumn2', {static: false}) complexColTemplate2: ElementRef;
+  colTemplates = {};
 
   constructor(private store: Store<fromJobsPageReducer.State>,
               private route: ActivatedRoute,
@@ -49,6 +53,13 @@ export class JobsPageComponent implements OnInit, OnDestroy {
       this.columns = c;
       this.setActiveColumns(c);
     });
+  }
+
+  ngAfterViewInit() {
+      this.colTemplates = {
+        'Complex_Col': this.complexColTemplate,
+        'Complex_Col2': this.complexColTemplate2
+      };
   }
 
   ngOnDestroy(): void {
