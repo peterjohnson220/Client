@@ -33,6 +33,7 @@ export class PayfactorsApiModelMapper {
         Created: ut.CreateDate,
         CompanyName: ut.CompanyName,
         CompanyId: ut.CompanyId,
+        CompanyIdName: this.getTicketCompanyIdName(ut.CompanyId, ut.CompanyName),
         Type: this.getTicketTypeDisplayName(ut.UserTicketType, ut.FileType),
         Status: ut.UserTicketState,
         OpenedUser: ut.OpenedUserFullName,
@@ -180,5 +181,9 @@ export class PayfactorsApiModelMapper {
     }
 
     return displayName;
+  }
+
+  private static getTicketCompanyIdName(companyId: number, companyName: string): string {
+    return companyId.toString() + ' - ' + companyName;
   }
 }

@@ -182,7 +182,7 @@ export class TicketListComponent  implements OnInit, OnDestroy {
     if (queryParam.keys.length > 0) {
       KendoGridFilterHelper.updateFilter('Created', null, this.state);
       this.serviceDateRangeFilterComponent.clearValue();
-      this.state.filter.filters.push({field: 'CompanyName', value: queryParam.get('company_name'), operator: 'contains'});
+      this.state.filter.filters.push({field: this.ticketFieldType.COMPANYIDNAME, value: queryParam.get('company_name'), operator: 'contains'});
     }
   }
 
