@@ -13,7 +13,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule } from 'libs/features';
+import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
 
 import { JobsPageComponent } from './containers';
 import { JobsPageEffects } from './effects';

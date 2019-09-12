@@ -29,8 +29,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.gridConfig$ = configService;
   }
 
-  test: GridDataResult;
-
   ngOnInit(): void {
     this.splitViewEmitter.subscribe(res => {
       switch (res) {
