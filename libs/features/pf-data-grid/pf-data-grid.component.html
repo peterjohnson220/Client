@@ -5,7 +5,6 @@
       [scrollable]="isSplitView() ? 'none' : 'scrollable'"
       [kendoGridSelectBy]="(gridConfig$ | async)?.Identifier"
       [selectedKeys]="selection">
-      <ng-container></ng-container>
       <ng-container *ngFor="let col of (gridConfig$ | async)?.Columns">
         <ng-container *ngIf="!isSplitView() || col.CompactView">
           <kendo-grid-column [field]="col.Name" [title]="col.Description" width="250">
