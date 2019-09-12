@@ -15,7 +15,7 @@
           <button *ngIf="hasManageSettingsPermission" routerLink="/job-description-management/settings" class="dropdown-item">Settings</button>
         </div>
       </div>
-      <button class="btn btn-secondary" type="submit" (click)="addJobClicked()">Add Job</button>
+      <button *ngIf="hasAddJobPermission" class="btn btn-secondary" type="submit" (click)="addJobClicked()">Add Job</button>
       <pf-bulk-export-popover
         [controlLabels]="bulkExportControlLabels$ | async"
         [controlLabelsLoading]="bulkExportControlLabelsLoading$ | async"

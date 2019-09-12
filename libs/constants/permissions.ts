@@ -9,6 +9,7 @@ export class Permissions {
   public static CAN_CANCEL_JOB_DESCRIPTION_WORKFLOW	=	'Can Cancel Job Description Workflow';
   public static CAN_ROUTE_JOB_DESCRIPTION_FOR_APPROVAL	=	'Can Route Job Description For Approval';
   public static CAN_MANAGE_JOB_DESCRIPTION_SETTINGS	=	'Can Manage Job Description Settings';
+  public static JOB_DESCRIPTIONS_ADD = 'Job_Descriptions_Add';
   public static CAN_ACCEPT_TERMS_AND_CONDITIONS	=	'Can Accept Terms and Conditions';
   public static COMMUNITY	=	'Community';
   public static PRICING_PROJECTS	=	'Pricing Projects';
