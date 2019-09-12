@@ -86,7 +86,8 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
     switch (notification.Level) {
       case NotificationLevel.Success: {
         this.toastr.success(notification.Payload.Message, notification.Payload.Title, {
-          enableHtml: notification.EnableHtml
+          enableHtml: notification.EnableHtml,
+          disableTimeOut: true
         });
         break;
       }
