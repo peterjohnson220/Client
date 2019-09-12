@@ -4,7 +4,6 @@
 
 .selected-map-row{
     background-color: lightgray;
-    cursor: pointer;
 }
 
 .add-map-btn {
@@ -16,5 +15,10 @@
     box-shadow: none;
     color: #FFFFFF;
     text-align: left;
-    
+    cursor: pointer;
+}
+
+.map-scroll-overflow {
+    max-height: 400px;
+    overflow-y: auto;
 }
