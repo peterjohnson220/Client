@@ -86,6 +86,7 @@ export const getSurveyTitles = createSelector(selectSurveyTitlesState,
 export const getSurveyData = createSelector(selectSurveyState, fromSurveyReducer.getSurveyData);
 export const isLoadingSurveyData = createSelector(selectSurveyState, fromSurveyReducer.isLoadingSurveyData);
 export const isMapCompaniesModalOpen = createSelector(selectSurveyState, fromSurveyReducer.isMapCompaniesModalOpen);
+export const isCopySurveyModalOpen = createSelector(selectSurveyState, fromSurveyReducer.isCopySurveyModalOpen);
 export const isLoadingMapModalData = createSelector(selectSurveyState, fromSurveyReducer.isLoadingMapModalData);
 export const getMapModalDataFailed = createSelector(selectSurveyState, fromSurveyReducer.getMapModalDataFailed);
 export const mapCompaniesModalData = createSelector(selectSurveyState, fromSurveyReducer.mapCompaniesModalData);

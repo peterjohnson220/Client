@@ -6,7 +6,8 @@
   <ng-container page-content>
     <pf-input-debounce [delay]="400"
                        [(ngModel)]="tbxSearch"
-                       (valueChanged)="handleSearchChanged()">
+                       (valueChanged)="handleSearchChanged()"
+                       (clearClicked)="tbxSearch = ''">
     </pf-input-debounce>
     <pf-async-container [loading]="isLoadingData$ | async"
                         [loadingError]="hasLoadingError$ | async"
@@ -17,6 +18,7 @@
         <thead>
           <tr>
             <th *ngIf="isUserGroupOne()">Survey</th>
+            <th>Company</th>
             <th>ID</th>
             <th>Code</th>
             <th># Jobs</th>
@@ -31,6 +33,7 @@
         <tbody>
           <tr *ngFor="let item of surveys">
             <td *ngIf="isUserGroupOne()">{{item.SurveyName}}</td>
+            <td>{{item.CompanyName}}</td>
             <td>{{item.SurveyId}}</td>
             <td>{{item.SurveyCode}}</td>
             <td>{{item.JobCount}}</td>
@@ -43,7 +46,7 @@
             <td>
               <button type="button"
                       class="btn btn-info btn-sm"
-                      (click)="copySurvey(item.SurveyId)">
+                      (click)="copySurvey(item.SurveyId, item.SurveyName)">
                 Copy Survey
               </button>
               <ng-container *ngIf="isUserGroupOne()">
@@ -82,3 +85,6 @@
 </pf-add-survey-modal>
 <pf-map-company-modal [surveyId]="selectedSurveyId">
 </pf-map-company-modal>
+<pf-copy-survey-modal [surveyId]="selectedSurveyId"
+                      [SurveyName]="selectedSurveyName">
+</pf-copy-survey-modal>

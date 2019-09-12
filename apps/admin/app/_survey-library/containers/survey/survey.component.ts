@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
+import { UserContext } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromSurveyActions from '../../actions/survey-actions';
 import * as fromSurveyState from '../../reducers';
-import * as fromRootState from 'libs/state/state';
-
-import { UserContext } from 'libs/models';
-import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 
 @Component({
   selector: 'pf-survey',
@@ -29,6 +31,7 @@ export class SurveyComponent implements OnInit {
   public hasLoadingError$: Observable<boolean>;
   public systemUserGroupsId = -1;
   public selectedSurveyId: number;
+  public selectedSurveyName: string;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -111,13 +114,10 @@ export class SurveyComponent implements OnInit {
     }
   }
 
-  copySurvey(surveyId: number) {
-    const confirmed = confirm('Are you sure you want to copy this survey?');
-    if (confirmed) {
-      this.surveyApi.copySurvey(surveyId).subscribe(f =>
-        this.getSurveys()
-      );
-    }
+  copySurvey(surveyId: number, surveyName: string) {
+    this.selectedSurveyId = surveyId;
+    this.selectedSurveyName = surveyName;
+    this.store.dispatch(new fromSurveyActions.SetCopySurveyModalOpen(true));
   }
 
   public mapCompaniesClick(surveyId: number) {

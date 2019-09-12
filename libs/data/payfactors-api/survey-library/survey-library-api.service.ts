@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
+
 import { HttpHeaders, HttpParams } from '@angular/common/http';
-import { PayfactorsApiService } from '../payfactors-api.service';
+
 import { Observable } from 'rxjs';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 import { SaveCustomCompanySurveyTitleRequestModel } from '../../../models/payfactors-api/survey-library/request';
 import { SurveyTitlesFilter } from '../../../../apps/admin/app/_survey-library/models';
 
@@ -59,8 +62,9 @@ export class SurveyLibraryApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/DeleteSurveyData/${surveyId}`);
   }
 
-  copySurvey(surveyId: number) {
-    return this.payfactorsApiService.post(`${this.endpoint}/CopySurvey/${surveyId}`);
+  copySurvey(surveyId: number, newSurveyName: string) {
+    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/CopySurvey/${surveyId}`,
+      JSON.stringify(newSurveyName), this.headers);
   }
 
   saveCustomCompanySurveyTitle(surveyTitleId: number, request: SaveCustomCompanySurveyTitleRequestModel) {

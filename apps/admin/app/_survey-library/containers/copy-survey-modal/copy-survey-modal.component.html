@@ -1,0 +1,17 @@
+<pf-modal-form size="lg"
+               [title]="'Copy Survey'"
+               [isOpen$]="isModalOpen$"
+               (onDismiss)="handleModalDismissed()"
+               [submitting]="false"
+               [showFooter]="true"
+               [primaryButtonText]="'Copy Survey'"
+               (onSubmit)="addSurvey()">
+
+  <ng-container basic-content>
+    <label for="new-survey-name">Survey Name:</label>
+    <input type="text"
+           class="form-control"
+           id="new-survey-name"
+           [(ngModel)]="SurveyName">
+  </ng-container>
+</pf-modal-form>

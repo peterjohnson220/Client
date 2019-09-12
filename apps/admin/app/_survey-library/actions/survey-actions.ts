@@ -9,6 +9,7 @@ export const GET_SURVEY_DATA = '[Admin / Survey Library] Get Survey Data';
 export const GET_SURVEY_DATA_SUCCESS = '[Admin / Survey Library] Get Survey Data Success';
 export const GET_SURVEY_DATA_FAILED = '[Admin / Survey Library] Get Survey Data Failed';
 export const SHOULD_REFRESH_GRID = '[Admin / Survey Library] Should Refresh Grid';
+export const SET_COPY_SURVEY_MODAL_OPEN = '[Admin / Survey Library] Copy Survey Modal Open';
 
 
 export class SetMapCompaniesModalOpen implements Action {
@@ -56,6 +57,11 @@ export class ShouldRefreshGrid implements Action {
     constructor(public shouldRefresh: boolean) { }
 }
 
+export class SetCopySurveyModalOpen implements Action {
+    readonly type = SET_COPY_SURVEY_MODAL_OPEN;
+    constructor(public isOpen: boolean) { }
+}
+
 export type Actions
     = SetMapCompaniesModalOpen
     | SetAddSurveyModalOpen
@@ -65,4 +71,5 @@ export type Actions
     | GetSurveys
     | GetSurveysSuccess
     | GetSurveysFailed
-    | ShouldRefreshGrid;
+    | ShouldRefreshGrid
+    | SetCopySurveyModalOpen;

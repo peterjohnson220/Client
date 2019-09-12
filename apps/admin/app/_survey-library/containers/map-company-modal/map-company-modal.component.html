@@ -26,12 +26,12 @@
               <div *ngFor="let item of companiesList"
                    (mouseenter)="selectedCompany = item.CompanyId"
                    [class.selected-map-row]="item.CompanyId === selectedCompany"
-                   class="mt-1"
-                   (click)="shouldAdd(item.CompanyId)">
+                   class="mt-1">
                 {{item.CompanyName}}
 
                 <span *ngIf="item.CompanyId === selectedCompany"
-                      class="add-map-btn float-right">
+                      class="add-map-btn float-right"
+                      (click)="shouldAdd(item.CompanyId)">
                   Map
                   <fa-icon icon="caret-right"
                            size="1x"></fa-icon>
@@ -46,7 +46,7 @@
                    *ngIf="mappedCompanies && mappedCompanies.data && mappedCompanies.data.length !== mappedCompanies.total ">Showing
               {{mappedCompanies.data.length}} of
               {{mappedCompanies.total}} </small></h5>
-          <div class="pt-2 row"
+          <div class="pt-2 row map-scroll-overflow mw-100"
                *ngIf="mappedCompanies && mappedCompanies.data && mappedCompanies.data.length > 0">
             <table>
               <thead>
