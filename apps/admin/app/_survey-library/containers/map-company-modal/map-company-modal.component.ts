@@ -72,6 +72,7 @@ export class MapCompanyModalComponent implements OnDestroy, OnInit {
   }
 
   handleModalDismissed() {
+    this.tbxSearch = '';
     this.store.dispatch(new fromSurveysActions.ShouldRefreshGrid(true));
     this.store.dispatch(new fromSurveysActions.SetMapCompaniesModalOpen(false));
   }

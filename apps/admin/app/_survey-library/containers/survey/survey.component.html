@@ -18,7 +18,6 @@
         <thead>
           <tr>
             <th *ngIf="isUserGroupOne()">Survey</th>
-            <th>Company</th>
             <th>ID</th>
             <th>Code</th>
             <th># Jobs</th>
@@ -32,8 +31,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of surveys">
-            <td *ngIf="isUserGroupOne()">{{item.SurveyName}}</td>
-            <td>{{item.CompanyName}}</td>
+            <td *ngIf="isUserGroupOne()">{{item.CompanyName}}</td>
             <td>{{item.SurveyId}}</td>
             <td>{{item.SurveyCode}}</td>
             <td>{{item.JobCount}}</td>
