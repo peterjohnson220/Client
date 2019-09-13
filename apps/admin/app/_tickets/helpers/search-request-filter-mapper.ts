@@ -52,6 +52,9 @@ export class SearchRequestFilterMapper {
         case 'CompanyName':
           model.Company_Name = f.value;
           break;
+        case 'CompanyIDName':
+          model.Company_IDName = f.value;
+          break;
         case 'Id':
           model.UserTicket_ID = f.value;
           break;

@@ -21,7 +21,7 @@
 
   </ng-template>
 </kendo-combobox>
-<pf-input-debounce *ngIf="userTicketType(ticketFieldType.COMPANYNAME) || userTicketType(ticketFieldType.TICKETID) || userTicketType(ticketFieldType.OPENED_USERNAME)"
+<pf-input-debounce *ngIf="userTicketType(ticketFieldType.COMPANYNAME) || userTicketType(ticketFieldType.COMPANYIDNAME) || userTicketType(ticketFieldType.TICKETID) || userTicketType(ticketFieldType.OPENED_USERNAME)"
                    class="w-100"
                    [delay]="400"
                    [(ngModel)]="defaultValue"

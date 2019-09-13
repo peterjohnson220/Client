@@ -99,7 +99,7 @@
                                [filter]="filter"
                                [data]=""
                                [defaultValue]="defaultPfCompanyName"
-                               [filterField]="ticketFieldType.COMPANYNAME"
+                               [filterField]="ticketFieldType.COMPANYIDNAME"
                                [textField]="'CompanyName'"
                                [valueField]="'CompanyName'"
                                (valueChange)="filterChanged()">
@@ -107,7 +107,7 @@
       </ng-template>
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div [innerHTML]="dataItem.CompanyName"></div>
+        <div [innerHTML]="dataItem.CompanyIdName"></div>
       </ng-template>
     </kendo-grid-column>
 

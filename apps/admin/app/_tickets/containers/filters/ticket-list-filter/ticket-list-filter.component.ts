@@ -36,7 +36,7 @@ export class TicketListFilterComponent  extends BaseFilterCellComponent implemen
 
    ngOnInit() {
      const queryParam = this.route.snapshot.queryParamMap;
-     if (queryParam.keys.length > 0 && this.filterField === this.ticketFieldType.COMPANYNAME) {
+     if (queryParam.keys.length > 0 && this.filterField === this.ticketFieldType.COMPANYIDNAME) {
        this.tries = 0;
        this.defaultInterval = setInterval(() => {
         this.defaultValue = queryParam.get('company_name');
