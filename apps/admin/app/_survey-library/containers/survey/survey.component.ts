@@ -31,7 +31,7 @@ export class SurveyComponent implements OnInit {
   public hasLoadingError$: Observable<boolean>;
   public systemUserGroupsId = -1;
   public selectedSurveyId: number;
-  public selectedSurveyName: string;
+  public selectedCompany: string;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -114,9 +114,9 @@ export class SurveyComponent implements OnInit {
     }
   }
 
-  copySurvey(surveyId: number, surveyName: string) {
+  copySurvey(surveyId: number, company: string) {
     this.selectedSurveyId = surveyId;
-    this.selectedSurveyName = surveyName;
+    this.selectedCompany = company;
     this.store.dispatch(new fromSurveyActions.SetCopySurveyModalOpen(true));
   }
 

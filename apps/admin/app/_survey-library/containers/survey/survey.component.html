@@ -46,7 +46,7 @@
             <td>
               <button type="button"
                       class="btn btn-info btn-sm"
-                      (click)="copySurvey(item.SurveyId, item.SurveyName)">
+                      (click)="copySurvey(item.SurveyId, item.CompanyName)">
                 Copy Survey
               </button>
               <ng-container *ngIf="isUserGroupOne()">
@@ -86,5 +86,5 @@
 <pf-map-company-modal [surveyId]="selectedSurveyId">
 </pf-map-company-modal>
 <pf-copy-survey-modal [surveyId]="selectedSurveyId"
-                      [SurveyName]="selectedSurveyName">
+                      [SelectedSurveyCompany]="selectedCompany">
 </pf-copy-survey-modal>

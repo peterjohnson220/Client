@@ -62,9 +62,9 @@ export class SurveyLibraryApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/DeleteSurveyData/${surveyId}`);
   }
 
-  copySurvey(surveyId: number, newSurveyName: string) {
+  copySurvey(surveyId: number, companyId: number) {
     return this.payfactorsApiService.postWithHeader(`${this.endpoint}/CopySurvey/${surveyId}`,
-      JSON.stringify(newSurveyName), this.headers);
+      JSON.stringify(companyId), this.headers);
   }
 
   saveCustomCompanySurveyTitle(surveyTitleId: number, request: SaveCustomCompanySurveyTitleRequestModel) {

@@ -1,17 +1,29 @@
-<pf-modal-form size="lg"
-               [title]="'Copy Survey'"
+<pf-modal-form (onDismiss)="handleModalDismissed()"
+               (onSubmit)="addSurvey()"
                [isOpen$]="isModalOpen$"
-               (onDismiss)="handleModalDismissed()"
-               [submitting]="false"
-               [showFooter]="true"
                [primaryButtonText]="'Copy Survey'"
-               (onSubmit)="addSurvey()">
+               [showFooter]="true"
+               [submitting]="false"
+               [title]="'Copy Survey'"
+               size="lg">
 
   <ng-container basic-content>
-    <label for="new-survey-name">Survey Name:</label>
+    <!--<label for="new-survey-name">Survey Name:</label>
     <input type="text"
            class="form-control"
            id="new-survey-name"
-           [(ngModel)]="SurveyName">
+           [(ngModel)]="SurveyName">-->
+    <div class="form-group">
+      <label class="sr-only"
+             for="companySearch">Company Search</label>
+      <kendo-combobox [(ngModel)]='selectedCompany'
+                      [data]="companies"
+                      [placeholder]="'Select Company'"
+                      [suggest]="true"
+                      [textField]="'CompanyName'"
+                      [valueField]="'CompanyId'"
+                      class="form-control"
+                      id="companySearch"></kendo-combobox>
+    </div>
   </ng-container>
 </pf-modal-form>
