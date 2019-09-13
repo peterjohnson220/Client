@@ -16,8 +16,6 @@
                 formControlName="newCompany"
                 (change)="getSelectedCompanyName()"
                 name="companySelect">
-          <option [value]=""
-                  selected>Seed</option>
           <option *ngFor="let company of companies"
                   [value]="company.CompanyId">{{company.CompanyName}}</option>
         </select>

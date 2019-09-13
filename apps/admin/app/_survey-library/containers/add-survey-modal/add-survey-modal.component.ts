@@ -1,11 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
-import * as fromSurveysReducer from '../../reducers';
-import * as fromSurveyActions from '../../actions/survey-actions';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
+import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
+
+import * as fromSurveysReducer from '../../reducers';
+import * as fromSurveyActions from '../../actions/survey-actions';
 
 @Component({
   selector: 'pf-add-survey-modal',
@@ -38,7 +41,10 @@ export class AddSurveyModalComponent implements OnInit {
   ngOnInit() {
     this.isModalOpen$.subscribe(isOpen => {
       if (isOpen) {
-        this.surveyApi.getAddSurveyPopup(this.surveyYearId).subscribe(f => this.companies = f);
+        this.surveyApi.getAddSurveyPopup(this.surveyYearId).subscribe(f => {
+          this.companies = [{ CompanyId: '', CompanyName: 'Seed' }, ...f];
+
+        });
       } else {
         this.companies = [];
       }
