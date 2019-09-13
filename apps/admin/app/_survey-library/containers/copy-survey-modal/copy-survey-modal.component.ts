@@ -52,7 +52,7 @@ export class CopySurveyModalComponent implements OnInit {
   }
 
   addSurvey() {
-    this.surveyApi.copySurvey(this.surveyId, this.selectedCompany.CompanyId).subscribe(f =>
+    this.surveyApi.copySurvey(this.surveyId, this.selectedCompany ? this.selectedCompany.CompanyId : null).subscribe(f =>
       this.handleModalDismissed()
     );
   }
