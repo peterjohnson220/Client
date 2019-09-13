@@ -7,14 +7,13 @@ import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
+import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
-import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './app-wrapper.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
     AppWrapperComponent
   ],
   imports: [
@@ -23,6 +22,7 @@ import { AppWrapperComponent } from './app-wrapper.component';
     BrowserAnimationsModule,
 
     // PF Modules
+    PfAppRootModule,
     PfCommonUIModule,
     PfSecurityModule,
     PfLayoutWrapperModule,
