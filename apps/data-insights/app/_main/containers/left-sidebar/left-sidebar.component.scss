@@ -26,6 +26,18 @@ $left-sidebar-open-width: 350px;
   .content {
     position: relative;
 
+    .configure-tab-item {
+      position: relative;
+      left: 29px;
+      margin-left: 43px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .active {
+      border-bottom: 2px solid lightblue;
+    }
+
     .actions {
       border-bottom: solid 1px $grid-border-color;
     }

@@ -1,7 +1,7 @@
 <div class="left-sidebar-dock" [ngClass]="{'left-sidebar-open': isOpen, 'left-sidebar-close': !isOpen}">
 
   <div class="header d-flex justify-content-between">
-    <h5 *ngIf="isOpen">Fields</h5>
+    <h5 *ngIf="isOpen">Configure</h5>
     <span (click)="toggle()">
       <fa-icon *ngIf="!isOpen" class="icon open-icon" icon="chevron-double-right" size="lg"></fa-icon>
       <fa-icon *ngIf="isOpen" class="icon close-icon"  icon="chevron-double-left" size="lg"></fa-icon>
@@ -9,25 +9,37 @@
   </div>
 
   <div class="content" [ngClass]="isOpen ? 'opened' : 'closed'">
-
-    <div class="actions">
-      <pf-add-report-fields
-        (fieldAdded)="handleFieldAdded($event)"
-        [fields]="unselectedFields$ | async">
-      </pf-add-report-fields>
+    <div class="mt-3">
+      <ul class="configure-tabs">
+        <li *ngFor="let configureTab of configureTabOptions; let i = index"
+            (click)="selectTab(i, configureTab)"
+            [class.active]="selectedTabIndex === i"
+            class="d-inline configure-tab-item">
+          {{configureTab}}
+        </li>
+      </ul>
     </div>
 
-    <div *ngIf="selectedFields" class="fields-container">
-      <div perfectScrollbar class="fields" dragula="fields-bag" [(dragulaModel)]="selectedFields">
-        <pf-report-field *ngFor="let field of selectedFields; trackBy: trackByFn;"
-          [field]="field"
-          [removable]="selectedFields.length > 1"
-          (fieldRemoved)="handleFieldRemoved($event)"
-          (displayNameUpdated)="handleSaveDisplayName($event)">
-        </pf-report-field>
+    <ng-container *ngIf="activeTab === 'Fields'">
+      <div class="report-fields">
+        <div class="actions">
+          <pf-add-report-fields
+            (fieldAdded)="handleFieldAdded($event)"
+            [fields]="unselectedFields$ | async">
+          </pf-add-report-fields>
+        </div>
+        <div *ngIf="selectedFields" class="fields-container">
+          <div perfectScrollbar class="fields" dragula="fields-bag" [(dragulaModel)]="selectedFields">
+            <pf-report-field *ngFor="let field of selectedFields; trackBy: trackByFn;"
+              [field]="field"
+              [removable]="selectedFields.length > 1"
+              (fieldRemoved)="handleFieldRemoved($event)"
+              (displayNameUpdated)="handleSaveDisplayName($event)">
+            </pf-report-field>
+          </div>
+        </div>
       </div>
-    </div>
-
+    </ng-container>
   </div>
 
 </div>
