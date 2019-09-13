@@ -25,6 +25,7 @@ export class CopySurveyModalComponent implements OnInit {
   companies: CompanySelectorItem[];
   selectedCompany: CompanySelectorItem = null;
   private companies$: Observable<CompanySelectorItem[]>;
+  hasError = false;
 
   constructor(
     private surveyApi: SurveyLibraryApiService,
@@ -39,25 +40,33 @@ export class CopySurveyModalComponent implements OnInit {
 
     this.companies$.subscribe(companies => {
       if (companies) {
-        this.companies = [{CompanyId: null, CompanyName: 'Seed'}, ...companies];
+        this.companies = [{ CompanyId: null, CompanyName: 'Seed' }, ...companies];
         this.selectedCompany = this.companies.filter(x => x.CompanyName === this.SelectedSurveyCompany)[0];
       }
-    });
+    },
+      () => this.hasError = true
+    );
 
     this.isModalOpen$.subscribe(isOpen => {
       if (isOpen) {
+        this.hasError = false;
         this.store.dispatch(new fromCompanySelectorActions.GetCompanies());
       }
-    });
+    },
+      () => this.hasError = true
+    );
   }
 
   addSurvey() {
     this.surveyApi.copySurvey(this.surveyId, this.selectedCompany ? this.selectedCompany.CompanyId : null).subscribe(f =>
       this.handleModalDismissed()
+      ,
+      () => this.hasError = true
     );
   }
 
   handleModalDismissed() {
+    this.hasError = false;
     this.selectedCompany = null;
     this.store.dispatch(new fromSurveyActions.ShouldRefreshGrid(true));
     this.store.dispatch(new fromSurveyActions.SetCopySurveyModalOpen(false));
