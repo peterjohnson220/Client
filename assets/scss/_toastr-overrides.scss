@@ -5,7 +5,10 @@
     padding: 0;
   }
 
-  .toast-info {
+  .toast-info,
+  .toast-success,
+  .toast-warning,
+  .toast-error {
     background-image: none;
     background-color: white;
   }
@@ -30,6 +33,10 @@
   .toast-message {
     padding: 10px 15px;
     color: #404040;
+
+    a, label {
+      color: #404040;
+    }
   }
 
   .message-container {
