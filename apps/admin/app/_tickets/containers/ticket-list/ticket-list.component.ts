@@ -172,13 +172,13 @@ export class TicketListComponent  implements OnInit, OnDestroy {
   }
 
   initFilter() {
+    const queryParam = this.route.snapshot.queryParamMap;
     // check if current id exists within service reps
     const u = this.pfServiceReps.find(r => r.PfServicesRepId === this.userContext.UserId);
-    if (u) {
+    if (u && queryParam.keys.length === 0) {
       this.defaultPfServiceRep = u.PfServicesRepId;
       this.serviceUserFilterComponent.modifyFilter(u.PfServicesRepId);
     }
-    const queryParam = this.route.snapshot.queryParamMap;
     if (queryParam.keys.length > 0) {
       KendoGridFilterHelper.updateFilter('Created', null, this.state);
       this.serviceDateRangeFilterComponent.clearValue();
