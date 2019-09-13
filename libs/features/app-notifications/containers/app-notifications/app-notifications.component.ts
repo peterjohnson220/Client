@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import * as signalR from '@aspnet/signalr';
-import { ActiveToast, ToastrService } from 'ngx-toastr';
 
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 
 import * as fromAppNotificationsMainReducer from '../../reducers';
-import { HubMethodName, AppNotification, NotificationType, NotificationLevel } from '../../models';
+import * as fromAppNotificationsActions from '../../actions/app-notifications.actions';
+import { HubMethodName, AppNotification } from '../../models';
 
 @Component({
   selector: 'pf-app-notifications',
@@ -19,26 +19,20 @@ import { HubMethodName, AppNotification, NotificationType, NotificationLevel } f
 export class AppNotificationsComponent implements OnInit, OnDestroy {
 
   userContext$: Observable<UserContext>;
-  notifications$: Observable<AppNotification[]>;
 
   userContextSub: Subscription;
-  notificationsSub: Subscription;
 
-  notifications: AppNotification[];
-  activeProgressToasts: any = {};
+  notifications: AppNotification<any>[];
   signalRConnectionUrl: string;
   retryCount = 0;
 
   constructor(
-    private store: Store<fromAppNotificationsMainReducer.State>,
-    private toastr: ToastrService
+    private store: Store<fromAppNotificationsMainReducer.State>
   ) {
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
-    this.notifications$ = this.store.pipe(select(fromAppNotificationsMainReducer.getNotifications));
   }
 
   ngOnInit(): void {
-    this.notificationsSub = this.notifications$.subscribe(results => this.notifications = results);
     this.userContextSub = this.userContext$.subscribe(userContext => {
       if (!userContext) {
         return;
@@ -54,7 +48,6 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userContextSub.unsubscribe();
-    this.notificationsSub.unsubscribe();
   }
 
   private initHubConnection(): void {
@@ -64,8 +57,8 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
 
     this.startConnection(connection);
 
-    connection.on(HubMethodName.ReceiveNotification, (notification: AppNotification) => {
-      this.handleReceiveNotification(notification);
+    connection.on(HubMethodName.ReceiveNotification, (notification: AppNotification<any>) => {
+      this.store.dispatch(new fromAppNotificationsActions.AddNotification(notification));
     });
 
     connection.onclose(() => {
@@ -85,83 +78,6 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
           that.startConnection(connection);
         }, 5000);
       });
-    }
-  }
-
-  private handleReceiveNotification(notification: AppNotification) {
-    switch (notification.Type) {
-      case NotificationType.Event: {
-        this.handleEventNotification(notification);
-        break;
-      }
-      case NotificationType.Progress: {
-        this.handleProgressNotification(notification);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }
-
-  private handleEventNotification(notification: AppNotification): void {
-    switch (notification.Level) {
-      case NotificationLevel.Success: {
-        this.closeProgressNotification(notification);
-        this.toastr.success(notification.Payload.Message, notification.Payload.Title, {
-          enableHtml: notification.EnableHtml,
-          disableTimeOut: true
-        });
-        break;
-      }
-      case NotificationLevel.Info: {
-        this.toastr.info(notification.Payload.Message, notification.Payload.Title, {
-          enableHtml: notification.EnableHtml
-        });
-        break;
-      }
-      case NotificationLevel.Warning: {
-        this.toastr.warning(notification.Payload.Message, notification.Payload.Title, {
-          enableHtml: notification.EnableHtml
-        });
-        break;
-      }
-      case NotificationLevel.Error: {
-        this.closeProgressNotification(notification);
-        this.toastr.error(notification.Payload.Message, notification.Payload.Title, {
-          enableHtml: notification.EnableHtml
-        });
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }
-
-  private handleProgressNotification(notification: AppNotification): void {
-    if (notification.NotificationId && this.activeProgressToasts[notification.NotificationId]) {
-      const activeToast = this.activeProgressToasts[notification.NotificationId] as ActiveToast<any>;
-      if (activeToast) {
-          activeToast.toastRef.componentInstance.message = notification.Payload.Message;
-      }
-    } else {
-      const toast = this.toastr.info(notification.Payload.Message, notification.Payload.Title, {
-        enableHtml: true,
-        disableTimeOut: true
-      });
-      if (notification.NotificationId) {
-        this.activeProgressToasts[notification.NotificationId] = toast;
-      }
-    }
-  }
-
-  private closeProgressNotification(notification: AppNotification): void {
-    if (notification.NotificationId && this.activeProgressToasts[notification.NotificationId]) {
-      const activeToast = this.activeProgressToasts[notification.NotificationId] as ActiveToast<any>;
-      if (activeToast) {
-        activeToast.toastRef.manualClose();
-      }
     }
   }
 }
