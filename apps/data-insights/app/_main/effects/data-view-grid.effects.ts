@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
+import { SaveUserDataViewSortOrderRequest } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
@@ -30,12 +31,8 @@ export class DataViewGridEffects {
         ({ action, dataViewAsync, fields, pagingOptions, sortDescriptor })
     ),
     switchMap((data) => {
-      const sortDescriptor = data.sortDescriptor &&
-        data.fields.some(x => x.DataElementId === data.sortDescriptor.SortField.DataElementId)
-        ? data.sortDescriptor
-        : null;
       const request = PayfactorsApiModelMapper.buildDataViewDataRequest(
-        data.dataViewAsync.obj, data.fields, data.pagingOptions, sortDescriptor);
+        data.dataViewAsync.obj, data.fields, data.pagingOptions, data.sortDescriptor);
       return this.dataViewApiService.getData(request)
       .pipe(
         map((response: any[]) => {
@@ -54,8 +51,34 @@ export class DataViewGridEffects {
   sortField$ = this.action$
   .pipe(
     ofType(fromDataViewGridActions.SORT_FIELD),
-    map(() => new fromDataViewGridActions.GetData())
+    mergeMap((action: fromDataViewGridActions.SortField) => [
+      new fromDataViewGridActions.GetData(),
+      new fromDataViewGridActions.SaveSortDescriptor(action.payload.sortDesc)
+    ])
   );
+
+  @Effect()
+  saveSortDescriptor$ = this.action$
+    .pipe(
+      ofType(fromDataViewGridActions.SAVE_SORT_DESCRIPTOR),
+      withLatestFrom(
+        this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
+        (action: fromDataViewGridActions.SaveSortDescriptor, userDataView) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        const request: SaveUserDataViewSortOrderRequest = {
+          UserDataViewId: data.userDataView.obj.UserDataViewId,
+          SortField: !!data.action.payload.dir ? data.action.payload.field : null,
+          SortDir: !!data.action.payload.dir ? data.action.payload.dir : null
+        };
+        return this.dataViewApiService.saveUserDataViewSortOrder(request)
+          .pipe(
+            map(() => new fromDataViewGridActions.SaveSortDescriptorSuccess()),
+            catchError(() => of(new fromDataViewGridActions.SaveSortDescriptorError()))
+          );
+      })
+    );
 
   constructor(
     private action$: Actions,

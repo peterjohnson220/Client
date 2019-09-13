@@ -40,6 +40,6 @@ export enum DataViewFieldDataType {
 }
 
 export interface DataViewSortDescriptor {
-  SortDirection: string;
+  SortDirection: 'desc' | 'asc';
   SortField: DataViewField;
 }

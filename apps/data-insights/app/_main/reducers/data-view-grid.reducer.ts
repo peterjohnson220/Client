@@ -1,17 +1,18 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { SortDescriptor } from '@progress/kendo-data-query';
+
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { PagingOptions, DataViewSortDescriptor } from 'libs/models/payfactors-api';
+import { PagingOptions } from 'libs/models/payfactors-api';
 
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
-import { PayfactorsApiModelMapper } from '../helpers';
 
 export interface State {
   dataAsync: AsyncStateObj<any[]>;
   loadingMoreData: boolean;
   pagingOptions: PagingOptions;
   hasMoreDataOnServer: boolean;
-  sortDescriptor: DataViewSortDescriptor;
+  sortDescriptor: SortDescriptor;
 }
 
 const initialState: State = {
@@ -80,23 +81,15 @@ export function reducer(state = initialState, action: fromDataViewGridActions.Ac
       };
     }
     case fromDataViewGridActions.SORT_FIELD: {
-      let newSortDescriptor: DataViewSortDescriptor = null;
-      const dataViewFields = PayfactorsApiModelMapper.mapFieldsToDataViewFields([action.payload.field]);
-      if (dataViewFields && dataViewFields.length) {
-        newSortDescriptor = {
-          SortField: dataViewFields[0],
-          SortDirection: action.payload.dir
-        };
-      }
       return {
         ...state,
-        sortDescriptor: newSortDescriptor
+        sortDescriptor: action.payload.sortDesc
       };
     }
-    case fromDataViewGridActions.RESET_SORT_FIELD: {
+    case fromDataViewGridActions.SET_SORT_DESCRIPTOR: {
       return {
         ...state,
-        sortDescriptor: null
+        sortDescriptor: action.payload
       };
     }
     default: {

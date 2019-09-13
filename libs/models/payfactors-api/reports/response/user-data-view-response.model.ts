@@ -4,4 +4,6 @@ export interface UserDataViewResponse {
   Entity: string;
   Name: string;
   Summary: string;
+  SortField: string;
+  SortDir: 'desc' | 'asc';
 }
