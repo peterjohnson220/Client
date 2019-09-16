@@ -4,7 +4,7 @@ import * as fromAppNotificationsActions from '../actions/app-notifications.actio
 import { AppNotification } from '../models';
 
 export interface State {
-  notifications: AppNotification[];
+  notifications: AppNotification<any>[];
 }
 
 const initialState: State = {
@@ -24,7 +24,7 @@ export function reducer(state = initialState, action: fromAppNotificationsAction
     }
     case fromAppNotificationsActions.DELETE_NOTIFICATION: {
       let notificationsClone = cloneDeep(state.notifications);
-      notificationsClone = notificationsClone.filter((x: AppNotification) => x.NotificationId !== action.payload.notificationId);
+      notificationsClone = notificationsClone.filter((x: AppNotification<any>) => x.NotificationId !== action.payload.notificationId);
       return {
         ...state,
         notifications: notificationsClone
