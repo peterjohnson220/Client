@@ -8,7 +8,7 @@
     </div>-->
     <ul *ngIf="!loading" class="column-list">
       <!--  | listAreaColumnSearch: filter-->
-      <li *ngFor="let listAreaColumn of ListAreaColumns" class="column-item">
+      <li *ngFor="let listAreaColumn of listAreaColumns" class="column-item">
         <input type="checkbox" [attr.data-qa-id]="'chk-' + listAreaColumn.Field" [(ngModel)]="listAreaColumn.Visible" [disabled]="listAreaColumn.Default">
         <span class="column-text">{{listAreaColumn.DisplayName}}</span>
       </li>

@@ -30,7 +30,7 @@ export const jobsConfig = {
             'Columns': ['Match_Count', 'Job_Level']
         },
     ]
-}
+};
 
 
 export const employeesConfig = {
@@ -78,4 +78,4 @@ export const employeesConfig = {
             'CompactView': 'false'
         }
     ]
-}
+};
