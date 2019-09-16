@@ -64,6 +64,13 @@ $left-sidebar-open-width: 350px;
     &.closed {
       display: none;
     }
+
+    .tab-content {
+      display: none;
+      &.show {
+        display: inline;
+      }
+    }
   }
 
 }
@@ -84,6 +91,11 @@ $left-sidebar-open-width: 350px;
   width: $left-sidebar-open-width;
   transition: .4s ease-in-out;
   overflow: hidden;
+}
+
+.report-filters.show {
+  display: flex;
+  flex-direction: column;
 }
 
 /*** DragulaModule: https://github.com/valor-software/ng2-dragula ***/

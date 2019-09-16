@@ -10,11 +10,11 @@ import {
   DataViewDataRequest,
   DataViewField,
   PagingOptions,
-  DataViewSortDescriptor
+  DataViewFilterOptionsRequest
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 
-import { DashboardView, Entity, ReportType, SaveWorkbookTagObj, UserDataView, View, Workbook, Field } from '../models';
+import { DashboardView, Entity, ReportType, SaveWorkbookTagObj, UserDataView, View, Workbook, Field, GetFilterOptionsData } from '../models';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 
 export class PayfactorsApiModelMapper {
@@ -165,6 +165,14 @@ export class PayfactorsApiModelMapper {
       SortDescriptor: dataViewSortDesc
     };
 
+  }
+
+  static buildDataViewFilterOptionsRequest(data: GetFilterOptionsData): DataViewFilterOptionsRequest {
+    return {
+      EntitySourceName: data.EntitySourceName,
+      SourceName: data.SourceName,
+      Query: data.Query
+    };
   }
 
 }

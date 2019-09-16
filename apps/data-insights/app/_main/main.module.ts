@@ -19,12 +19,13 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent,
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
-  ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent } from './components';
+  ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent,
-  DashboardsHeaderComponent, ViewsComponent } from './containers';
+  DashboardsHeaderComponent, ViewsComponent, FiltersComponent } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects,
-  ViewsEffects } from './effects';
+  ViewsEffects, DataViewConfigurationEffects
+} from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -44,7 +45,8 @@ import { MainRoutingModule } from './main-routing.module';
       ReportViewPageEffects,
       DataViewEffects,
       DataViewGridEffects,
-      ViewsEffects
+      ViewsEffects,
+      DataViewConfigurationEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
@@ -66,12 +68,13 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
-    SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent, DashboardsHeaderComponent, ViewsComponent,
+    SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
 
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
     StandardReportHexagonComponent, SaveUserWorkbookModalComponent, ReportFieldComponent,
-    DeleteUserWorkbookModalComponent, AddReportFieldsComponent, ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent
+    DeleteUserWorkbookModalComponent, AddReportFieldsComponent, ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent,
+    FilterCardComponent
   ],
   providers: [
     WindowRef

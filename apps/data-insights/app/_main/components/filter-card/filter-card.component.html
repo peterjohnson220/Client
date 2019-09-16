@@ -1,0 +1,54 @@
+<div *ngIf="!!filter" class="filter-card card">
+  <div class="card-body">
+    <kendo-dropdownlist class="dropdown-list w-100"
+      [attr.data-qa-id]="'ddm-filter-fields'"
+      [data]="fields"
+      [ngModel]="filter.Field"
+      [textField]="'DisplayName'"
+      [valueField]="'Entity'"
+      (valueChange)="handleFieldChanged($event)">
+
+      <ng-template kendoDropDownListItemTemplate let-dataItem>
+        <div class="d-flex">
+          <span class="field-name">{{ dataItem.DisplayName }}</span>
+          <span class="ml-auto data-item-field-source">{{ dataItem.Entity }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template kendoDropDownListValueTemplate let-dataItem>
+        <div class="d-flex w-100">
+          <span class="field-name">{{ dataItem?.DisplayName }}</span>
+          <span class="ml-auto field-source">{{ dataItem?.Entity }}</span>
+        </div>
+      </ng-template>
+
+    </kendo-dropdownlist>
+
+    <kendo-dropdownlist class="dropdown-list"
+      [attr.data-qa-id]="'ddm-filter-terms'"
+      [data]="terms"
+      [ngModel]="filter.Term"
+      [disabled]="'true'">
+    </kendo-dropdownlist>
+
+    <kendo-multiselect class="w-100"
+      #filterOptionsMultiSelect
+      [attr.data-qa-id]="'ddm-filter-options'"
+      [data]="filter?.Options"
+      [value]="selectedValues"
+      [filterable]="true"
+      [popupSettings]="{popupClass: 'filter-options'}"
+      (open)="handleFilterOptionsMultiSelectOpen($event)"
+      (filterChange)="handleFilterChange($event)"
+      (valueChange)="handleSelectedValuesChange($event)">
+
+      <ng-template kendoMultiSelectItemTemplate let-dataItem>
+        <input type="checkbox" class="k-checkbox"
+          [checked]="isOptionSelected(dataItem)">
+        <label class="k-checkbox-label">{{ dataItem }}</label>
+      </ng-template>
+
+    </kendo-multiselect>
+
+  </div>
+</div>
