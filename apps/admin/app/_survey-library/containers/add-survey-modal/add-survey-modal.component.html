@@ -2,7 +2,7 @@
                [size]="'lg'"
                [primaryButtonText]="'Save'"
                [primaryButtonTextSubmitting]="'Saving...'"
-               [submitting]="false"
+               [submitting]="isSubmitting"
                [isOpen$]="isModalOpen$"
                (onSubmit)="handleFormSubmit()"
                (onDismiss)="handleModalDismissed()"
