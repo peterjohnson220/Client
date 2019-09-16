@@ -26,6 +26,7 @@ export class CopySurveyModalComponent implements OnInit {
   selectedCompany: CompanySelectorItem = null;
   private companies$: Observable<CompanySelectorItem[]>;
   hasError = false;
+  isSubmitting = false;
 
   constructor(
     private surveyApi: SurveyLibraryApiService,
@@ -49,6 +50,7 @@ export class CopySurveyModalComponent implements OnInit {
 
     this.isModalOpen$.subscribe(isOpen => {
       if (isOpen) {
+        this.isSubmitting = false;
         this.hasError = false;
         this.store.dispatch(new fromCompanySelectorActions.GetCompanies());
       }
@@ -58,9 +60,11 @@ export class CopySurveyModalComponent implements OnInit {
   }
 
   addSurvey() {
-    this.surveyApi.copySurvey(this.surveyId, this.selectedCompany ? this.selectedCompany.CompanyId : null).subscribe(f =>
-      this.handleModalDismissed()
-      ,
+    this.isSubmitting = true;
+    this.surveyApi.copySurvey(this.surveyId, this.selectedCompany ? this.selectedCompany.CompanyId : null).subscribe(f => {
+      this.isSubmitting = false;
+      this.handleModalDismissed();
+    },
       () => this.hasError = true
     );
   }

@@ -23,6 +23,7 @@ export class AddSurveyModalComponent implements OnInit {
   addSurveyForm: FormGroup;
   public showAgingAndCost = false;
   companies: any;
+  isSubmitting = false;
 
   constructor(
     private surveyApi: SurveyLibraryApiService,
@@ -41,6 +42,7 @@ export class AddSurveyModalComponent implements OnInit {
   ngOnInit() {
     this.isModalOpen$.subscribe(isOpen => {
       if (isOpen) {
+        this.isSubmitting = false;
         this.surveyApi.getAddSurveyPopup(this.surveyYearId).subscribe(f => {
           this.companies = [{ CompanyId: '', CompanyName: 'Seed' }, ...f];
 
@@ -52,10 +54,13 @@ export class AddSurveyModalComponent implements OnInit {
   }
 
   handleFormSubmit() {
+    this.isSubmitting = true;
     this.surveyApi.saveSurvey(this.surveyYearId, this.addSurveyForm.get('newAging').value,
       this.getNewCompanyId(), this.addSurveyForm.get('newCost').value)
-      .subscribe(f =>
-        this.handleModalDismissed()
+      .subscribe(() => {
+        this.isSubmitting = false;
+        this.handleModalDismissed();
+      }
       );
   }
 
