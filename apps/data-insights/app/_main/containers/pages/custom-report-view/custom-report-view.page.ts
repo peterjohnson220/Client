@@ -67,7 +67,6 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   private loadFieldsAndData(): void {
-    this.store.dispatch(new fromDataViewGridActions.ResetSortField());
     this.store.dispatch(new fromDataViewActions.GetUserDataView({ dataViewId: this.route.snapshot.params.dataViewId }));
     this.store.dispatch(new fromDataViewActions.GetReportFields({ dataViewId: this.route.snapshot.params.dataViewId}));
   }

@@ -9,7 +9,6 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { Field } from '../../models';
-import { DataViewSortDescriptor } from 'libs/models/payfactors-api/reports/request';
 
 @Component({
   selector: 'pf-data-view-grid',
@@ -21,18 +20,18 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   dataAsync$: Observable<AsyncStateObj<any[]>>;
   loadingMoreData$: Observable<boolean>;
   hasMoreDataOnServer$: Observable<boolean>;
-  dataViewSortDescriptor$: Observable<DataViewSortDescriptor>;
+  sortDescriptor$: Observable<SortDescriptor>;
 
   loadingMoreDataSub: Subscription;
   hasMoreDataOnServerSub: Subscription;
   fieldsSub: Subscription;
-  dataViewSortDescriptor: Subscription;
+  sortDescriptorSub: Subscription;
 
   loadingMoreData: boolean;
   hasMoreDataOnServer: boolean;
   fields: Field[];
   sortableConfig = {
-    allowUnsort: false,
+    allowUnsort: true,
     mode: 'single'
   };
   sortDesc: SortDescriptor[];
@@ -44,21 +43,21 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     this.dataAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getReportDataAsync));
     this.loadingMoreData$ = this.store.pipe(select(fromDataInsightsMainReducer.getLoadingMoreData));
     this.hasMoreDataOnServer$ = this.store.pipe(select(fromDataInsightsMainReducer.getHasMoreDataOnServer));
-    this.dataViewSortDescriptor$ = this.store.pipe(select(fromDataInsightsMainReducer.getSortDescriptor));
+    this.sortDescriptor$ = this.store.pipe(select(fromDataInsightsMainReducer.getSortDescriptor));
   }
 
   ngOnInit(): void {
     this.loadingMoreDataSub = this.loadingMoreData$.subscribe(loading => this.loadingMoreData = loading);
     this.hasMoreDataOnServerSub = this.hasMoreDataOnServer$.subscribe(result => this.hasMoreDataOnServer = result);
     this.fieldsSub = this.fields$.subscribe(results => this.fields = results);
-    this.dataViewSortDescriptor = this.dataViewSortDescriptor$.subscribe(sort => this.handleResetSort(sort));
+    this.sortDescriptorSub = this.sortDescriptor$.subscribe(sort => this.updateSortDescriptor(sort));
   }
 
   ngOnDestroy(): void {
     this.loadingMoreDataSub.unsubscribe();
     this.hasMoreDataOnServerSub.unsubscribe();
     this.fieldsSub.unsubscribe();
-    this.dataViewSortDescriptor.unsubscribe();
+    this.sortDescriptorSub.unsubscribe();
   }
 
   trackByFn(index: any, field: Field) {
@@ -75,20 +74,21 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     if (!sortDesc.length) {
       return;
     }
-    this.sortDesc = sortDesc;
     const selectedField = this.fields.find(x => x.KendoGridField === sortDesc[0].field);
     if (!selectedField) {
       return;
     }
     this.store.dispatch(new fromDataViewGridActions.SortField({
       field: selectedField,
-      dir: sortDesc[0].dir
+      sortDesc: sortDesc[0]
     }));
   }
 
-  handleResetSort(sort: DataViewSortDescriptor): void {
+  updateSortDescriptor(sort: SortDescriptor): void {
     if (!sort) {
       this.sortDesc = [];
+    } else {
+      this.sortDesc = [sort];
     }
   }
 }

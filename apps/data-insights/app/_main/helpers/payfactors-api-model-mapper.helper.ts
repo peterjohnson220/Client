@@ -1,3 +1,5 @@
+import { SortDescriptor } from '@progress/kendo-data-query';
+
 import {
   DataViewEntityResponse,
   SaveWorkbookOrderRequest,
@@ -77,25 +79,29 @@ export class PayfactorsApiModelMapper {
       Entity: response.Entity,
       Name: response.Name,
       Summary: response.Summary,
-      UserDataViewId: response.UserDataViewId
+      UserDataViewId: response.UserDataViewId,
+      SortField: response.SortField,
+      SortDir: response.SortDir
     };
   }
 
   static mapDataViewFieldsToFields(response: DataViewField[]): Field[] {
-    return response.map(f => {
-      return {
-        EntityId: f.EntityId,
-        Entity: f.Entity,
-        EntitySourceName: f.EntitySourceName,
-        DataElementId: f.DataElementId,
-        SourceName: f.SourceName,
-        DisplayName: f.DisplayName,
-        KendoGridField: `${f.EntitySourceName}_${f.SourceName}`,
-        DataType: f.DataType,
-        IsSelected: f.IsSelected,
-        Order: f.Order
-      };
-    });
+    return response.map(f => this.mapDataViewFieldToField(f));
+  }
+
+  static mapDataViewFieldToField(dataViewField: DataViewField): Field {
+    return {
+      EntityId: dataViewField.EntityId,
+      Entity: dataViewField.Entity,
+      EntitySourceName: dataViewField.EntitySourceName,
+      DataElementId: dataViewField.DataElementId,
+      SourceName: dataViewField.SourceName,
+      DisplayName: dataViewField.DisplayName,
+      KendoGridField: `${dataViewField.EntitySourceName}_${dataViewField.SourceName}`,
+      DataType: dataViewField.DataType,
+      IsSelected: dataViewField.IsSelected,
+      Order: dataViewField.Order
+    };
   }
 
   /// OUT
@@ -107,19 +113,21 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapFieldsToDataViewFields(response: Field[]): DataViewField[] {
-    return response.map(f => {
-      return {
-        EntityId: f.EntityId,
-        Entity: f.Entity,
-        EntitySourceName: f.EntitySourceName,
-        DataElementId: f.DataElementId,
-        SourceName: f.SourceName,
-        DisplayName: f.DisplayName,
-        DataType: f.DataType,
-        IsSelected: f.IsSelected,
-        Order: f.Order
-      };
-    });
+    return response.map(f => this.mapFieldToDataViewField(f));
+  }
+
+  static mapFieldToDataViewField(field: Field): DataViewField {
+    return {
+      EntityId: field.EntityId,
+      Entity: field.Entity,
+      EntitySourceName: field.EntitySourceName,
+      DataElementId: field.DataElementId,
+      SourceName: field.SourceName,
+      DisplayName: field.DisplayName,
+      DataType: field.DataType,
+      IsSelected: field.IsSelected,
+      Order: field.Order
+    };
   }
 
   static buildSaveWorkbookOrderRequest(workbookIds: string[], view: DashboardView,
@@ -138,14 +146,23 @@ export class PayfactorsApiModelMapper {
     dataView: UserDataView,
     fields: Field[],
     pagingOptions: PagingOptions,
-    sortDescriptor?: DataViewSortDescriptor): DataViewDataRequest {
+    sortDescriptor: SortDescriptor): DataViewDataRequest {
 
+    let dataViewSortDesc = null;
+    if (!!sortDescriptor && !!sortDescriptor.dir && !!sortDescriptor.field) {
+      const field: Field = fields.find(x => x.KendoGridField === sortDescriptor.field);
+      const dataViewField: DataViewField = !!field ? this.mapFieldToDataViewField(field) : null;
+      dataViewSortDesc = {
+        SortField: dataViewField,
+        SortDirection: sortDescriptor.dir
+      };
+    }
     return {
       BaseEntityId: dataView.BaseEntityId,
       Fields: PayfactorsApiModelMapper.mapFieldsToDataViewFields(fields),
       Filters: [],
       PagingOptions: pagingOptions,
-      SortDescriptor: sortDescriptor
+      SortDescriptor: dataViewSortDesc
     };
 
   }
