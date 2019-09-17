@@ -4,7 +4,7 @@
   </ng-container>
 
   <ng-container page-actions>
-    <pf-input-debounce [placeholderText]="'Search for a Job Title/Code...'" [hideClearBtn]="false" [minWidth]="200"></pf-input-debounce>
+    <pf-input-debounce [id]="'jobs-page-title-code-search'" [placeholderText]="'Search for a Job Title/Code...'" [hideClearBtn]="false" [minWidth]="200"></pf-input-debounce>
     <kendo-dropdownlist [defaultItem]="'Select a Pay Market'" [data]="testPayMarketData">
     </kendo-dropdownlist>
     <button class="btn btn-primary">
@@ -22,11 +22,11 @@
     </button>
 
     <span class="column-popover">
-      <pf-column-chooser-popover
+      <pf-column-chooser
         [ListAreaColumns]="columns"
         (saveColumns)="setActiveColumns($event)"
       >
-      </pf-column-chooser-popover>
+      </pf-column-chooser>
     </span>
     <!--
     #p="ngbPopover"

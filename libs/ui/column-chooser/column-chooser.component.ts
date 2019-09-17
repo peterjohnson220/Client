@@ -3,13 +3,13 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild } 
 import { PfGridColumnModel } from 'libs/models/common';
 
 @Component({
-  selector: 'pf-column-chooser-popover',
-  templateUrl: './column-chooser-popover.component.html',
-  styleUrls: ['./column-chooser-popover.component.scss'],
+  selector: 'pf-column-chooser',
+  templateUrl: './column-chooser.component.html',
+  styleUrls: ['./column-chooser.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class ColumnChooserPopoverComponent {
+export class ColumnChooserComponent {
   @Input() ListAreaColumns: PfGridColumnModel[];
 
   @Output() saveColumns = new EventEmitter();
@@ -17,8 +17,7 @@ export class ColumnChooserPopoverComponent {
   @ViewChild('p', { static: true }) public p: any;
 
   public filter: any;
-  public loading = false; // : any;
-  public columnSearchTerm: any;
+  public loading: any;
 
   saveButtonClicked() {
     this.saveColumns.emit(this.ListAreaColumns);

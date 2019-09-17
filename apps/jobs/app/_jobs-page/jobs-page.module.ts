@@ -14,6 +14,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
+import { PfColumnChooserModule } from 'libs/ui/column-chooser/column-chooser.module';
 
 import { JobsPageComponent } from './containers';
 import { JobsPageEffects } from './effects';
@@ -23,6 +24,7 @@ import * as fromFaIcons from './fa-icons';
 
 import { ComplexColumnComponent } from './grid-components/complex-column/complex-column.component';
 import { JobsDetailsComponent } from './grid-components/jobs-details/jobs-details.component';
+
 
 
 
@@ -45,7 +47,8 @@ import { JobsDetailsComponent } from './grid-components/jobs-details/jobs-detail
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfDataGridModule
+    PfDataGridModule,
+    PfColumnChooserModule
   ],
   declarations: [
     // Pages
