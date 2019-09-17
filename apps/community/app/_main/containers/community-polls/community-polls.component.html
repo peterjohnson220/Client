@@ -9,7 +9,8 @@
         <ng-template ngbSlide>
           <pf-community-poll
             [request]="request"
-            [response]="getPollResponse(request.CommunityPollId)">
+            [response]="getPollResponse(request.CommunityPollId)"
+            [type]="pollsType">
           </pf-community-poll>
         </ng-template>
       </ng-container>
