@@ -233,7 +233,7 @@ pipeline {
       steps {
         script {
           sh """
-            curl -X POST ${env.octopus_server}/api/packages/raw -H "X-Octopus-ApiKey: ${env.apikey}" -F "data=@${env.pkgFullName}.zip"
+            curl -X POST ${env.octopus_server}/api/packages/raw -H "X-Octopus-ApiKey:${env.apikey}" -F "data=@${env.pkgFullName}.zip" --fail
           """
         }
       }
