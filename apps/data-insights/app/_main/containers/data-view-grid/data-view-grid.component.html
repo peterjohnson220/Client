@@ -30,7 +30,15 @@
           <span class="k-link">{{column.title}}</span>
         </ng-template>
         <ng-template kendoGridCellTemplate let-dataItem>
-          <span *ngIf="!!dataItem[field.KendoGridField];else blankCellTemplate">{{dataItem[field.KendoGridField]}}</span>
+          <span *ngIf="!!dataItem[field.KendoGridField];else blankCellTemplate">
+            <ng-container *ngIf="field.DataType === dataTypes.DateTime;else defaultFieldTemplate">
+              {{dataItem[field.KendoGridField] | date: 'shortDate'}}
+            </ng-container>
+            <ng-template #defaultFieldTemplate>
+              {{dataItem[field.KendoGridField]}}
+            </ng-template>
+
+          </span>
         </ng-template>
         <ng-template #blankCellTemplate>
           <div class="empty-row">N/A</div>
