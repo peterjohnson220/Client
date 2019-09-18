@@ -77,7 +77,7 @@ pipeline {
               // Including date so hotfix packages from diff branches will be sorted correctly from Octopus.
               env.pkgVersion = pkgVersionOrig + "." + dateVer
 
-              branchShortName = env.BRANCH_NAME.replace('release/','')
+              branchShortName = env.BRANCH_NAME.replace('release/RC-','')
               int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
               verDetails = "-" + branchShortName.substring(0,subStrLen) + "." + env.BUILD_NUMBER
 
