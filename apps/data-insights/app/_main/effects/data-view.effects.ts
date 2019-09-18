@@ -275,8 +275,26 @@ export class DataViewEffects {
       switchMap((data) => {
         return this.dataViewApiService.exportUserDataView(data.userDataView.obj.UserDataViewId)
           .pipe(
-            map(() => new fromDataViewActions.ExportUserReportSuccess()),
+            map((response) => new fromDataViewActions.ExportUserReportSuccess(response)),
             catchError(() => of(new fromDataViewActions.ExportUserReportError()))
+          );
+      })
+    );
+
+  @Effect()
+  getExportingUserReport$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.GET_EXPORTING_USER_REPORT),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.GetExportingUserReport) =>
+          ({ action })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.getExportingDataView(data.action.payload.dataViewId)
+          .pipe(
+            map((response) => new fromDataViewActions.GetExportingUserReportSuccess(response)),
+            catchError(() => of(new fromDataViewActions.GetExportingUserReportError()))
           );
       })
     );
