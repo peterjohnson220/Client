@@ -35,6 +35,10 @@ export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View] Update Display N
 export const EXPORT_USER_REPORT = '[Data Insights / Data View] Export User Report';
 export const EXPORT_USER_REPORT_SUCCESS = '[Data Insights / Data View] Export User Report Success';
 export const EXPORT_USER_REPORT_ERROR = '[Data Insights / Data View] Export User Report Error';
+export const GET_EXPORTING_USER_REPORT = '[Data Insights / Data View] Get Exporting User Report';
+export const GET_EXPORTING_USER_REPORT_SUCCESS = '[Data Insights / Data View] Get Exporting User Report Success';
+export const GET_EXPORTING_USER_REPORT_ERROR = '[Data Insights / Data View] Get Exporting User Report Error';
+export const EXPORTING_COMPLETE = '[Data Insights / Data View] Exporting Complete';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -225,11 +229,35 @@ export class ExportUserReport implements Action {
 export class ExportUserReportSuccess implements Action {
   readonly type = EXPORT_USER_REPORT_SUCCESS;
 
-  constructor() {}
+  constructor(public payload: any) {}
 }
 
 export class ExportUserReportError implements Action {
   readonly type = EXPORT_USER_REPORT_ERROR;
+
+  constructor() {}
+}
+
+export class GetExportingUserReport implements Action {
+  readonly type = GET_EXPORTING_USER_REPORT;
+
+  constructor(public payload: { dataViewId: number }) {}
+}
+
+export class GetExportingUserReportSuccess implements Action {
+  readonly type = GET_EXPORTING_USER_REPORT_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetExportingUserReportError implements Action {
+  readonly type = GET_EXPORTING_USER_REPORT_ERROR;
+
+  constructor() {}
+}
+
+export class ExportingComplete implements Action {
+  readonly type = EXPORTING_COMPLETE;
 
   constructor() {}
 }
@@ -267,4 +295,8 @@ export type Actions
   | UpdateDisplayName
   | ExportUserReport
   | ExportUserReportSuccess
-  | ExportUserReportError;
+  | ExportUserReportError
+  | GetExportingUserReport
+  | GetExportingUserReportSuccess
+  | GetExportingUserReportError
+  | ExportingComplete;

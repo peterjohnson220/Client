@@ -43,6 +43,10 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, { DataViewId : dataViewId });
   }
 
+  getExportingDataView(dataViewId: number): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetExportingDataView`, { DataViewId : dataViewId });
+  }
+
   getUserDataViewFields(dataViewId: number): Observable<DataViewField[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewFields`,
       { params: { dataViewId: dataViewId }});

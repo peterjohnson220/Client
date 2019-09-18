@@ -188,6 +188,16 @@ export const getDuplicateUserReportSuccess = createSelector(
   fromDataViewReducer.getDuplicateUserReportSuccess
 );
 
+export const getExportingUserReport = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getExportingUserReport
+);
+
+export const getExportEventId = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getExportEventId
+);
+
 export const getUserDataViewAsync = createSelector(
   selectDataViewState,
   fromDataViewReducer.getUserDataViewAsync

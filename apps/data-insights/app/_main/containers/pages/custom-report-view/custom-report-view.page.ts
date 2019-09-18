@@ -8,10 +8,12 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
+import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import * as fromDataViewGridActions from '../../../actions/data-view-grid.actions';
 import { SaveUserWorkbookModalData, SaveWorkbookMode, UserDataView } from '../../../models';
 import { SaveUserWorkbookModalComponent } from '../../../components/save-user-workbook-modal';
 import { DeleteUserWorkbookModalComponent } from '../../../components/delete-user-workbook-modal';
+import { AppNotification } from 'libs/features/app-notifications/models';
 
 @Component({
   selector: 'pf-custom-report-view-page',
@@ -31,17 +33,24 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   duplicatingUserReport$: Observable<boolean>;
   duplicateUserReportConflict$: Observable<boolean>;
   duplicateUserReportError$: Observable<boolean>;
+  exportingUserDataReport$: Observable<boolean>;
+  getNotification$: Observable<AppNotification<any>[]>;
+  getEventId$: Observable<number>;
 
   editReportSuccessSubscription: Subscription;
   duplicateReportSuccessSubscription: Subscription;
   userDataViewSubscription: Subscription;
+  getNotificationSubscription: Subscription;
+  getEventIdSubscription: Subscription;
 
   workbookModes = SaveWorkbookMode;
   editWorkbookData: SaveUserWorkbookModalData;
   duplicateWorkbookData: SaveUserWorkbookModalData;
+  eventIdState = null;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
     private route: ActivatedRoute
   ) {
     this.userDataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
@@ -51,12 +60,27 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.duplicatingUserReport$ = this.store.pipe(select(fromDataInsightsMainReducer.getDuplicatingUserReport));
     this.duplicateUserReportError$ = this.store.pipe(select(fromDataInsightsMainReducer.getDuplicateUserReportError));
     this.duplicateUserReportConflict$ = this.store.pipe(select(fromDataInsightsMainReducer.getDuplicateUserReportConflict));
+    this.exportingUserDataReport$ = this.store.pipe(select(fromDataInsightsMainReducer.getExportingUserReport));
+    this.getNotification$ = this.appNotificationStore.pipe(select(fromAppNotificationsMainReducer.getNotifications));
+    this.getEventId$ = this.store.pipe(select(fromDataInsightsMainReducer.getExportEventId));
     route.params.subscribe(val => {
       this.loadFieldsAndData();
     });
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new fromDataViewActions.GetExportingUserReport({dataViewId: this.route.snapshot.params.dataViewId}));
+    this.getEventIdSubscription = this.getEventId$.subscribe(eventId => {
+      if (eventId !== this.eventIdState) {
+        this.eventIdState = eventId;
+      }
+    });
+    this.getNotificationSubscription = this.getNotification$.subscribe(notification => {
+      const successNotification = notification.find((x) => x.Level === 'Success' && x.NotificationId === this.eventIdState) ;
+      if (successNotification) {
+        this.store.dispatch(new fromDataViewActions.ExportingComplete());
+      }
+    });
     this.startSubscriptions();
   }
 
@@ -64,6 +88,8 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.editReportSuccessSubscription.unsubscribe();
     this.userDataViewSubscription.unsubscribe();
     this.duplicateReportSuccessSubscription.unsubscribe();
+    this.getEventIdSubscription.unsubscribe();
+    this.getNotificationSubscription.unsubscribe();
   }
 
   private loadFieldsAndData(): void {

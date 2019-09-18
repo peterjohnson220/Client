@@ -4,7 +4,7 @@ import { orderBy } from 'lodash';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
-import { Entity, UserDataView, Field } from '../models';
+import { Entity, Field, UserDataView } from '../models';
 
 export interface State {
   baseEntitiesAsync: AsyncStateObj<Entity[]>;
@@ -25,6 +25,8 @@ export interface State {
   savingReportFieldsError: boolean;
   deleteUserReport: boolean;
   deleteUserReportSuccess: boolean;
+  exportingUserReport: boolean;
+  exportEventId: number;
 }
 
 const initialState: State = {
@@ -45,7 +47,9 @@ const initialState: State = {
   savingReportFields: false,
   savingReportFieldsError: false,
   deleteUserReport: false,
-  deleteUserReportSuccess: false
+  deleteUserReportSuccess: false,
+  exportingUserReport: false,
+  exportEventId : null
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -330,6 +334,41 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         reportFieldsAsync: asyncStateObjClone
       };
     }
+    case fromDataViewActions.EXPORT_USER_REPORT: {
+      return {
+        ...state,
+        exportingUserReport: true
+      };
+    }
+
+    case fromDataViewActions.EXPORT_USER_REPORT_SUCCESS: {
+      let eventIdStateClone = cloneDeep(state.exportEventId);
+      eventIdStateClone = action.payload;
+      return {
+        ...state,
+        exportEventId: eventIdStateClone
+      };
+    }
+
+    case fromDataViewActions.EXPORTING_COMPLETE: {
+      return {
+        ...state,
+        exportingUserReport: false,
+        exportEventId: null
+      };
+    }
+
+    case fromDataViewActions.GET_EXPORTING_USER_REPORT_SUCCESS: {
+      let exportingUserReportStateClone = cloneDeep(state.exportingUserReport);
+      let eventIdStateClone = cloneDeep(state.exportEventId);
+      exportingUserReportStateClone = !!action.payload;
+      eventIdStateClone = !!action.payload ? action.payload.EventId : null;
+      return {
+        ...state,
+        exportingUserReport: exportingUserReportStateClone,
+        exportEventId: eventIdStateClone
+      };
+    }
     default: {
       return state;
     }
@@ -350,6 +389,8 @@ export const getDuplicatingUserReport = (state: State) => state.duplicatingUserR
 export const getDuplicateUserReportError = (state: State) => state.duplicateUserReportError;
 export const getDuplicateUserReportConflict = (state: State) => state.duplicateUserReportConflict;
 export const getDuplicateUserReportSuccess = (state: State) => state.duplicateUserReportSuccess;
+export const getExportingUserReport = (state: State) => state.exportingUserReport;
+export const getExportEventId = (state: State) => state.exportEventId;
 export const getSelectedFields = (state: State) => {
   if (state.reportFieldsAsync.obj) {
     return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === true);
