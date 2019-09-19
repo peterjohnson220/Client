@@ -24,6 +24,7 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
       const filterToUpdate = filtersClone.find((f, index) => index === action.payload.index);
       if (filterToUpdate) {
         filterToUpdate.Field = action.payload.field;
+        filterToUpdate.Options = [];
       }
 
       return {

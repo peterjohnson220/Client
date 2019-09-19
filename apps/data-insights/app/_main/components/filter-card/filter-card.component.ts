@@ -31,6 +31,7 @@ export class FilterCardComponent {
   handleFieldChanged(field: Field): void {
     this.selectedFieldChanged.emit(field);
     this.selectedOptions = [];
+    this.getFilterOptionsData = null;
   }
 
   handleSelectedValuesChange(values: string[]): void {
