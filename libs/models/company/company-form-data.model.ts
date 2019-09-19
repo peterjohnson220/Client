@@ -26,4 +26,5 @@ export interface CompanyFormData {
   EnableIntervalAgingFactor: boolean;
   PasswordLengthRequirement: number;
   GroupName?: string;
+  CompanyColor: string;
 }

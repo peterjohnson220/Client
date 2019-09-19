@@ -8,9 +8,10 @@ import * as fromCompanyFlsaStatusReducer from './company-flsa-status.reducer';
 import * as fromJobFamilyReducer from './job-family.reducer';
 import * as fromJobDescriptionAppliesToReducer from './job_description-appliesto.reducer';
 import * as fromTemplateListReducer from './template-list.reducer';
-
+import * as fromControlTypesReducer from './control-types.reducer';
 // Feature area state
 export interface JobDescriptionManagementSharedState {
+  controlTypes: fromControlTypesReducer.State;
   companyFlsaStatus: fromCompanyFlsaStatusReducer.State;
   jobFamily: fromJobFamilyReducer.State;
   jobDescriptionAppliesTo: fromJobDescriptionAppliesToReducer.State;
@@ -24,6 +25,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
+  controlTypes: fromControlTypesReducer.reducer,
   companyFlsaStatus: fromCompanyFlsaStatusReducer.reducer,
   jobFamily: fromJobFamilyReducer.reducer,
   jobDescriptionAppliesTo: fromJobDescriptionAppliesToReducer.reducer,
@@ -48,6 +50,11 @@ export const selectJobFamilyState = createSelector(
 export const selectJobDescriptionAppliesToState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementSharedState) => state.jobDescriptionAppliesTo
+);
+
+export const selectControlTypesState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementSharedState) => state.controlTypes
 );
 
 export const selectTemplateListState = createSelector(
@@ -147,4 +154,14 @@ export const getTemplateListLoading = createSelector(
 export const getTemplateListLoadingError = createSelector(
   selectTemplateListState,
   fromTemplateListReducer.getTemplateListLoadingError
+);
+
+export const getControlTypesLoaded = createSelector(
+  selectControlTypesState,
+  fromControlTypesReducer.getControlTypesLoaded
+);
+
+export const getControlTypeAndVersion = createSelector(
+  selectControlTypesState,
+  fromControlTypesReducer.getControlTypeAndVersion
 );

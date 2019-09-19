@@ -14,6 +14,7 @@ import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 import { AppRoutingModule } from './app-routing.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CompanyModule } from './_companies/company.module';
+import { BrowserDetectionService } from 'libs/core/services';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { CompanyModule } from './_companies/company.module';
     AppRoutingModule
 
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [BrowserDetectionService]
 })
 export class AppModule { }

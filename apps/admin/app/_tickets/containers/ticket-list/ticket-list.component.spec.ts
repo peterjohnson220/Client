@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
@@ -12,13 +13,15 @@ import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketList from '../../actions/ticket.actions';
 
 import { generateMockUserTicketGridItem, UserTicketGridItem, UserTicketTabItem } from '../../models';
+import {FilterService} from '@progress/kendo-angular-grid';
 
 
 describe('Admin - Tickets - Ticket List', () => {
   let instance: TicketListComponent;
   let fixture: ComponentFixture<TicketListComponent>;
   let store: Store<fromTicketReducer.State>;
-
+  const queryStringParams = { 'company_name': 'PayFactors' };
+  const length = 1;
   const mockUserTicketGridItem = generateMockUserTicketGridItem();
 
   beforeEach(() => {
@@ -30,7 +33,12 @@ describe('Admin - Tickets - Ticket List', () => {
         })
       ],
       declarations: [TicketListComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [{
+        provide: ActivatedRoute ,
+        useValue: { snapshot: { queryParamMap: { get: (key) =>  queryStringParams[key], keys: { length: length } } }
+        }
+      }]
     });
 
     fixture = TestBed.createComponent(TicketListComponent);

@@ -115,8 +115,8 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     expect(actual).toBe(expected);
   });
 
-  it('should return "text-danger" string when getExchangeIndexFontColorClass is called with an index < 50', () => {
-    const expected = 'text-danger';
+  it('should return "text-warning" string when getExchangeIndexFontColorClass is called with an index < 50', () => {
+    const expected = 'text-warning';
     const mockIndex = 49;
     const actual = instance.getExchangeIndexFontColorClass(mockIndex);
 

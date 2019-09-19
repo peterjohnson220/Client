@@ -93,6 +93,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public listFilter: string;
   public hasManageTemplatesPermission: boolean;
   public hasManageSettingsPermission: boolean;
+  public hasAddJobPermission: boolean;
 
   private listAreaColumnsSubscription: Subscription;
   private routerParmsSubscription: Subscription;
@@ -145,6 +146,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       PermissionCheckEnum.Single);
     this.hasManageSettingsPermission = this.permissionService.CheckPermission([Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES],
       PermissionCheckEnum.Single);
+    this.hasAddJobPermission = this.permissionService.CheckPermission([Permissions.JOB_DESCRIPTIONS_ADD], PermissionCheckEnum.Single);
 
     this.filterThrottle = new Subject();
 

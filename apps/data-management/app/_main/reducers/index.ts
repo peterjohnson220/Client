@@ -57,3 +57,18 @@ export const getTransferDataPageLoadingError = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getLoadingError
 );
+
+export const getValidationErrors = createSelector(
+  selectTransferDataPageState,
+  fromTransferDataPageReducer.getValidationErrors
+);
+
+export const getWorkflowStep = createSelector(
+  selectTransferDataPageState,
+  fromTransferDataPageReducer.getWorkflowStep
+);
+
+export const getShowAuthenticatingModal = createSelector(
+  selectTransferDataPageState,
+  fromTransferDataPageReducer.getShowAuthenticatingModal
+);

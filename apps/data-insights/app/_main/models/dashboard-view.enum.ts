@@ -1,4 +1,5 @@
 export enum DashboardView {
   All = 'All Dashboards',
-  Favorites = 'Favorites'
+  Favorites = 'Favorites',
+  Views = 'All Views'
 }

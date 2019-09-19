@@ -1,0 +1,16 @@
+<kendo-dropdownlist class="version-dropdown"
+                    [data]="jobDescriptionHistoryList"
+                    [textField]="'VersionNumber'"
+                    [valueField]="'VersionNumber'"
+                    [ngModel]="value"
+                    (valueChange)="versionChanged.emit($event)">
+
+  <ng-template kendoDropDownListItemTemplate let-dataItem>
+    {{dataItem.VersionNumber}} - {{dataItem.CreatedDate | date:'short'}}
+  </ng-template>
+
+  <ng-template kendoDropDownListValueTemplate let-dataItem>
+    {{dataItem?.VersionNumber}} - {{dataItem?.CreatedDate | date:'short'}}
+  </ng-template>
+
+</kendo-dropdownlist>

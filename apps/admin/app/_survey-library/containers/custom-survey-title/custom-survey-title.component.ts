@@ -1,13 +1,13 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable} from 'rxjs';
 
 import { SaveCustomCompanySurveyTitleRequestModel } from 'libs/models/payfactors-api/survey-library/request';
 
 import { SurveyTitleCompanyModel } from '../../models';
 import * as fromSurveyLibraryReducer from '../../reducers';
-import * as fromCustomSurveyTitleActions from '../../actions';
+import * as fromCustomSurveyTitleActions from '../../actions/survey-titles.actions';
 
 @Component({
   selector: 'pf-custom-survey-title',
@@ -16,7 +16,7 @@ import * as fromCustomSurveyTitleActions from '../../actions';
 })
 
 export class CustomSurveyTitleComponent implements OnInit {
-  @ViewChild('surveyTitleInput', {static: false}) surveyTitleInput: ElementRef;
+  @ViewChild('surveyTitleInput', { static: false }) surveyTitleInput: ElementRef;
   @Input() SurveyTitleCompany: SurveyTitleCompanyModel;
   @Input() SurveyTitleId: number;
 
@@ -49,13 +49,13 @@ export class CustomSurveyTitleComponent implements OnInit {
     this.labelOnly = !this.labelOnly;
   }
 
-  private saveCustomSurveyTitle() {
+  saveCustomSurveyTitle() {
     if (this.newSurveyTitle !== this.SurveyTitleCompany.CustomSurveyName) {
       const request: SaveCustomCompanySurveyTitleRequestModel = {
         CompanyId: this.SurveyTitleCompany.CompanyId,
         CustomSurveyName: this.newSurveyTitle
       };
-      this.store.dispatch(new fromCustomSurveyTitleActions.SaveCustomTitle({surveyTitleId: this.SurveyTitleId, request: request}));
+      this.store.dispatch(new fromCustomSurveyTitleActions.SaveCustomTitle({ surveyTitleId: this.SurveyTitleId, request: request }));
     } else {
       this.switchView();
     }

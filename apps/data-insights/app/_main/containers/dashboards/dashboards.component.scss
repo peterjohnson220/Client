@@ -2,72 +2,20 @@
 @import 'common/common-variables';
 @import 'data-insights-variables';
 @import 'data-insights-styles';
+@import 'libs/styles/dragula-drag-drop';
 
 .dashboards {
-  padding: 0 150px;
 
-  .top-bar {
-    height: 60px;
-    position: relative;
-
-    .dashboards-title {
-      text-transform: uppercase;
-      font-size: 1.5rem;
-      color: $dark-grey;
-
-      .dashboard-view {
-        float: right;
-      }
-
-      .dashboard-actions {
-        position: relative;
-        justify-content: center;
-
-        .right-container {
-          position: absolute;
-          right: 0;
-          padding-top: 5px;
-
-          .new {
-            margin-left: 1rem;
-            .btn {
-              width: 75px;
-            }
-          }
-        }
-      }
-
-      .view-selector{
-        text-align: center;
-      }
-      
-      .tag-dropdown {
-        width: 150px;
-        text-transform: none;
-        background-color: white;
-
-        &:hover{
-          background: darken($grey, 5%);
-        }
-      }
-      #tag-icon {
-        color: #0883BE;
-      }
-
-      span {
-        padding: 0.375rem 0.75rem;
-      }
-    }
-
-    .error-message {
-      position: absolute;
-      left: 15px;
-      top: 15px;
-    }
+  .workbooks-container {
+    padding: 0 75px 30px;
   }
 
   .workbook-card {
     cursor: move;
+  }
+
+  .view-container {
+    margin: 2rem;
   }
 }
 
@@ -79,33 +27,4 @@
   .tag-container {
     position: relative !important;
   }
-}
-
-/*** DragulaModule: https://github.com/valor-software/ng2-dragula ***/
-/* in-flight clone */
-.gu-mirror {
-  position: fixed !important;
-  margin: 0 !important;
-  z-index: 9999 !important;
-  opacity: 0.8;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-  filter: alpha(opacity=80);
-  pointer-events: none;
-}
-/* high-performance display:none; helper */
-.gu-hide {
-  left: -9999px !important;
-}
-/* added to mirrorContainer (default = body) while dragging */
-.gu-unselectable {
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-}
-/* added to the source element while its mirror is dragged */
-.gu-transit {
-  opacity: 0.2;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
-  filter: alpha(opacity=20);
 }

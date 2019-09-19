@@ -36,6 +36,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   loginSuccessSubscription: Subscription;
   loginErrorSubscription: Subscription;
   nextPage: string;
+  userVoiceNextPage: string;
   loggingIn = false;
   loginSuccess = false;
   loginError = false;
@@ -74,6 +75,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
     const queryParamMap = this.route.snapshot.queryParamMap;
     this.nextPage = queryParamMap.get('redirect');
+    this.userVoiceNextPage = queryParamMap.get('uv_login');
 
     this.loginSubscription = this.login$.subscribe(value => {
       this.loggingIn = value;
@@ -101,7 +103,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (!this.loginForm.invalid) {
       this.loginStore.dispatch(new fromLoginActions.Login(
-        { Email: this.getValue('email'), Password: this.getValue('password'), NextPage: this.nextPage }));
+        { Email: this.getValue('email'), Password: this.getValue('password'),
+          NextPage: this.nextPage, UserVoiceNextPage: this.userVoiceNextPage }));
     } else {
       this.loginError = true;
     }

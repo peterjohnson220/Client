@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
@@ -15,12 +16,14 @@ import * as fromRootState from 'libs/state/state';
 import { TicketFieldType } from '../../constants/tickets-constants';
 import { SearchRequestFilterMapper, PickerHelper } from '../../helpers';
 import { TicketListFilterComponent } from '../filters/ticket-list-filter';
+import { TicketListDateRangeFilterComponent } from '../filters/ticket-list-date-range-filter';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketSharedActions from '../../actions/ticket-shared.actions';
 import * as fromTicketReducer from '../../reducers';
 
 import { PfServicesRep, UserTicketState, UserTicketTabItem, UserTicketType } from '../../models';
+import {KendoGridFilterHelper} from '../../../../../../libs/core/helpers';
 
 
 @Component({
@@ -28,8 +31,9 @@ import { PfServicesRep, UserTicketState, UserTicketTabItem, UserTicketType } fro
   templateUrl: './ticket-list.component.html',
   styleUrls: ['./ticket-list.component.scss']
 })
-export class TicketListComponent implements OnInit, OnDestroy {
+export class TicketListComponent  implements OnInit, OnDestroy {
   @ViewChild('serviceUserFilter', { static: false }) serviceUserFilterComponent: TicketListFilterComponent;
+  @ViewChild('createDateRangeFilter', { static: false }) serviceDateRangeFilterComponent: TicketListDateRangeFilterComponent;
   gridView: GridDataResult = { data: [], total: 0 };
   defaultDateRange = { start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), end: new Date() };
   sortable: SortSettings = {
@@ -46,11 +50,11 @@ export class TicketListComponent implements OnInit, OnDestroy {
         field: 'Status',
         operator: 'contains'
       },
-      {
-        field: 'Created',
-        value: this.defaultDateRange,
-        operator: 'contains'
-      }
+        {
+          field: 'Created',
+          value: this.defaultDateRange,
+          operator: 'contains'
+        }
       ]
     },
     sort: [{
@@ -65,6 +69,8 @@ export class TicketListComponent implements OnInit, OnDestroy {
 
   private selectedTicket: UserTicketTabItem;
   public defaultPfServiceRep: number;
+  public defaultPfCompanyName: string;
+
   pfServiceReps: PfServicesRep[] = [];
   userTicketStates: UserTicketState[] = [];
   userTicketStatesFilter: UserTicketState[] = [];
@@ -83,12 +89,15 @@ export class TicketListComponent implements OnInit, OnDestroy {
   initSuccessSubscription: Subscription;
   ticketListItemsSubscription: Subscription;
   private unsubscribe$ = new Subject();
+  selectedTicketTab$: Observable<number>;
+  selectedTicketsTabSubscription: Subscription;
 
   isDirty = false;
-  selectedUserId: number;
+  ticketsTab: number;
 
   constructor(private store: Store<fromTicketReducer.State>,
-    private rootStore: Store<fromRootState.State>) {
+    private rootStore: Store<fromRootState.State>,
+    private route: ActivatedRoute) {
     this.ticketListLoading$ = this.store.select(fromTicketReducer.getTicketListLoading);
     this.ticketListLoadingError$ = this.store.select(fromTicketReducer.getTicketListLoadingError);
     this.dirty$ = this.store.select(fromTicketReducer.getDirtyGridState);
@@ -97,13 +106,19 @@ export class TicketListComponent implements OnInit, OnDestroy {
     this.userTicketStates$ = this.store.select(fromTicketReducer.getUserTicketStates);
     this.userTicketTypes$ = this.store.select(fromTicketReducer.getUserTicketTypes);
     this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
-
+    this.selectedTicketTab$ = this.store.select(fromTicketReducer.getSelectedTabTicket);
     this.initSubscriptions();
   }
 
   initSubscriptions() {
+    this.selectedTicketsTabSubscription = this.selectedTicketTab$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
+      this.ticketsTab = v === null ? 0 : v;
+    });
     this.dirtySubscription = this.dirty$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
       this.isDirty = v;
+      if (this.ticketsTab === 0) {
+        this.checkForRefresh();
+      }
     });
     this.ticketListItemsSubscription = this.store.select(fromTicketReducer.getTickets)
       .pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
@@ -157,11 +172,17 @@ export class TicketListComponent implements OnInit, OnDestroy {
   }
 
   initFilter() {
+    const queryParam = this.route.snapshot.queryParamMap;
     // check if current id exists within service reps
     const u = this.pfServiceReps.find(r => r.PfServicesRepId === this.userContext.UserId);
-    if (u) {
+    if (u && queryParam.keys.length === 0) {
       this.defaultPfServiceRep = u.PfServicesRepId;
       this.serviceUserFilterComponent.modifyFilter(u.PfServicesRepId);
+    }
+    if (queryParam.keys.length > 0) {
+      KendoGridFilterHelper.updateFilter('Created', null, this.state);
+      this.serviceDateRangeFilterComponent.clearValue();
+      this.state.filter.filters.push({field: this.ticketFieldType.COMPANYIDNAME, value: queryParam.get('company_name'), operator: 'contains'});
     }
   }
 
@@ -193,9 +214,15 @@ export class TicketListComponent implements OnInit, OnDestroy {
 
   checkForRefresh() {
     if (this.isDirty) {
+      this.cleanGrid();
       this.handleTicketGridReload();
     }
   }
+
+  cleanGrid() {
+    this.gridView = { data: [], total: 0 };
+  }
+
   sortChange(sort: SortDescriptor[]): void {
     this.state.sort = sort;
     this.state.skip = 0;
