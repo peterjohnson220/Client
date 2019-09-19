@@ -3,15 +3,9 @@
     <p>
       <pf-input-debounce id="column-search-box" (valueChanged)="(filter = $event)" [(ngModel)]="columnSearchTerm" [placeholderText]="'Search for a Column...'"></pf-input-debounce>
     </p>
-    <div *ngIf="!loading && !(ListAreaColumns | listAreaColumnSearch: filter).length">
+    <div class="column-list" *ngIf="!loading && !(ListAreaColumns | listAreaColumnSearch: filter).length;else column_list">
       <h5>No Columns</h5>
     </div>
-    <ul *ngIf="!loading" class="column-list">
-      <li *ngFor="let listAreaColumn of ListAreaColumns | listAreaColumnSearch: filter" class="column-item">
-        <input type="checkbox" [ngModel]="listAreaColumn.Visible" [disabled]="listAreaColumn.Required" (change)="columnChecked(listAreaColumn, $event.target.checked);">
-        <span class="column-text">{{listAreaColumn.ColumnDisplayName}}</span>
-      </li>
-    </ul>
     <pf-async-container [loading]="loading"></pf-async-container>
   </div>
   <div class="footer d-flex justify-content-end p-2">
@@ -23,3 +17,14 @@
         [ngbPopover]="popContent" (hidden)="filter=''" [autoClose]="'outside'">
   <fa-icon icon="table"></fa-icon>
 </button>
+
+<ng-template #column_list>
+  <div *ngIf="!loading" class="column-list">
+    <ul>
+      <li *ngFor="let listAreaColumn of ListAreaColumns | listAreaColumnSearch: filter" class="column-item">
+        <input type="checkbox" [ngModel]="listAreaColumn.Visible" [disabled]="listAreaColumn.Required" (change)="columnChecked(listAreaColumn, $event.target.checked);">
+        <span class="column-text">{{listAreaColumn.ColumnDisplayName}}</span>
+      </li>
+    </ul>
+  </div>
+</ng-template>
