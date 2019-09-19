@@ -5,7 +5,7 @@
       [data]="fields"
       [ngModel]="filter.Field"
       [textField]="'DisplayName'"
-      [valueField]="'Entity'"
+      [valueField]="'DataElementId'"
       (valueChange)="handleFieldChanged($event)">
 
       <ng-template kendoDropDownListItemTemplate let-dataItem>
@@ -35,7 +35,7 @@
       #filterOptionsMultiSelect
       [attr.data-qa-id]="'ddm-filter-options'"
       [data]="filter?.Options"
-      [value]="selectedValues"
+      [value]="selectedOptions"
       [filterable]="true"
       [popupSettings]="{popupClass: 'filter-options'}"
       (open)="handleFilterOptionsMultiSelectOpen($event)"
