@@ -28,26 +28,7 @@
       >
       </pf-column-chooser>
     </span>
-    <!--
-    #p="ngbPopover"
-    [ngbPopover]="popContent" (hidden)="filter=''" [autoClose]="'outside'"
-    -->
-    <div class="btn-group">
-      <button title="Filter" class="btn btn-secondary">
-        <fa-icon icon="sliders-h"></fa-icon>
-      </button>
-      <!--
-      (click)="filterButtonClicked()"
-      -->
-      <button title="Saved Filters" type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false" placement="bottom-right" popoverTitle="Saved Filters">
-      </button>
-      <!--
-      #p="ngbPopover"
-      [ngbPopover]="popContent" (hidden)="filter=''"
-              (shown)="open.emit()" [autoClose]="'outside'"
-      -->
-    </div>
+    <pf-filter-chooser></pf-filter-chooser>
   </ng-container>
 
   <ng-template #complexColumn let-parameters="parameters">
