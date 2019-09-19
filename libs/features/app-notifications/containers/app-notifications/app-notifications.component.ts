@@ -68,11 +68,10 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
 
   private startConnection(connection: any) {
     const that = this;
-    if (this.retryCount < 10) {
+    if (this.retryCount <= 3) {
       connection.start().then(function () {
         that.retryCount = 0;
-      }).catch(function (err) {
-        console.error(err.toString());
+      }).catch(function () {
         setTimeout(() => {
           that.retryCount++;
           that.startConnection(connection);
