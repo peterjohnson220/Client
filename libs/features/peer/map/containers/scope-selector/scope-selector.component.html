@@ -56,7 +56,7 @@
             </div>
 
             <button *ngIf="!addDataModal"
-                    [title]="exchangeScopeItem.CanDelete ? 'Delete' : 'Unable to delete a scope that is in use'"
+                    [title]="exchangeScopeItem.CanDelete ? 'Delete' : 'Exchange scope can not be deleted because it is linked to a Pay Market.'"
                     class="btn btn-sm btn-secondary delete-btn mt-2"
                     [disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)"
                     (click)="enterDeleteScopeMode($event, exchangeScopeItem)"
