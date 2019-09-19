@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ColumnSearchPipe implements PipeTransform {
   transform(columns: any[], searchTerm: string) {
     return searchTerm != null ?
-      columns.filter(c => c.DisplayName.toLowerCase().indexOf(searchTerm) > -1) :
+      columns.filter(c => c.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) :
       columns;
   }
 }
