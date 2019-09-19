@@ -9,6 +9,7 @@ import * as fromReportViewReducer from './reports-view-page.reducer';
 import * as fromDataViewReducer from './data-view.reducer';
 import * as fromDataViewGridReducer from './data-view-grid.reducer';
 import * as fromViewsReducer from './views.reducer';
+import * as fromConfigurationReducer from './configuration.reducer';
 
 // Feature area state
 export interface DataInsightsMainState {
@@ -18,6 +19,7 @@ export interface DataInsightsMainState {
   dataView: fromDataViewReducer.State;
   dataViewGrid: fromDataViewGridReducer.State;
   views: fromViewsReducer.State;
+  configuration: fromConfigurationReducer.State;
 }
 
 // Extend root state with feature area state
@@ -32,7 +34,8 @@ export const reducers = {
   reportViewPage: fromReportViewReducer.reducer,
   dataView: fromDataViewReducer.reducer,
   dataViewGrid: fromDataViewGridReducer.reducer,
-  views: fromViewsReducer.reducer
+  views: fromViewsReducer.reducer,
+  configuration: fromConfigurationReducer.reducer
 };
 
 // Select Feature Area
@@ -67,6 +70,11 @@ export const selectDataViewGridState = createSelector(
 export const selectViewsState = createSelector(
   selectFeatureAreaState,
   (state: DataInsightsMainState) => state.views
+);
+
+export const selectConfigurationState = createSelector(
+  selectFeatureAreaState,
+  (state: DataInsightsMainState) => state.configuration
 );
 
 // Data Insights Page
@@ -258,4 +266,10 @@ export const getFavoriteViews = createSelector(
 export const getDashboardViewThumbnailEnabled = createSelector(
   selectViewsState,
   fromViewsReducer.getDashboardViewThumbnailEnabled
+);
+
+// Configuration
+export const getFilters = createSelector(
+  selectConfigurationState,
+  fromConfigurationReducer.getFilters
 );

@@ -163,3 +163,17 @@
     display: none;
   }
 }
+
+// Filter Options
+.filter-options {
+  .k-list .k-item.k-state-selected {
+    background-color: #ffffff;
+    color: #404040;
+  }
+  
+  .k-checkbox:checked + .k-checkbox-label::before {
+    background-color: #0883BE !important;
+    color: #404040;
+    border-color: #0883BE;
+  }
+}
