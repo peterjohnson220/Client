@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
+
 import { HttpHeaders, HttpParams } from '@angular/common/http';
-import { PayfactorsApiService } from '../payfactors-api.service';
+
 import { Observable } from 'rxjs';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 import { SaveCustomCompanySurveyTitleRequestModel } from '../../../models/payfactors-api/survey-library/request';
+import { SurveyTitlesFilter } from '../../../../apps/admin/app/_survey-library/models';
 
 @Injectable()
 export class SurveyLibraryApiService {
@@ -20,11 +24,14 @@ export class SurveyLibraryApiService {
       JSON.stringify(searchText), this.headers);
   }
 
-  saveSurvey(surveyYearId: number, companyPrefix: string, agingFactor: number, companyId: number, surveyCost: number) {
+  getAddSurveyPopup(surveyYearId: number): any {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetAddSurveyPopup/${surveyYearId}`);
+  }
+
+  saveSurvey(surveyYearId: number, agingFactor: number, companyId: number, surveyCost: number) {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveNewSurvey/${surveyYearId}`,
       {
         SurveyYearId: surveyYearId,
-        CompanyPrefix: companyPrefix,
         AgingFactor: agingFactor,
         CompanyId: companyId,
         SurveyCost: surveyCost
@@ -32,9 +39,11 @@ export class SurveyLibraryApiService {
     );
   }
 
-  getSurveyTitlesByPublisherId(publisherId: number, filter: string): Observable<any> {
-    const params = new HttpParams().set('filter', filter);
-    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetSurveyTitlesByPublisherId/${publisherId}`, {params: params});
+  getSurveyTitlesByPublisherId(publisherId: number, filter: SurveyTitlesFilter): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('searchTerm', filter.SearchTerm);
+    params = params.append('companyId', filter.CompanyId ? filter.CompanyId.toString() : '');
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetSurveyTitlesByPublisherId/${publisherId}`, { params: params });
   }
 
   getSurveyTitleCompanies(surveyTitleId: number): Observable<any> {
@@ -45,7 +54,45 @@ export class SurveyLibraryApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveSurveyTitle`, request);
   }
 
+  deleteSurvey(surveyId: number) {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteSurvey/${surveyId}`);
+  }
+
+  deleteSurveyData(surveyId: number) {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteSurveyData/${surveyId}`);
+  }
+
+  copySurvey(surveyId: number, companyId: number) {
+    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/CopySurvey/${surveyId}`,
+      JSON.stringify(companyId), this.headers);
+  }
+
   saveCustomCompanySurveyTitle(surveyTitleId: number, request: SaveCustomCompanySurveyTitleRequestModel) {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveCustomCompanySurveyTitle/${surveyTitleId}`, request);
   }
+
+  getMapCompaniesModalData(surveyId: number, searchText: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetMapCompaniesModalData/${surveyId}`,
+      {
+        SearchText: searchText
+      }
+    );
+  }
+
+  insertCompanySurvey(surveyId: number, companyId: number) {
+    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/InsertCompanySurvey/${surveyId}`,
+      JSON.stringify(companyId), this.headers);
+  }
+
+  removeCompanySurvey(surveyId: number, companyId: number) {
+    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/RemoveCompanySurvey/${surveyId}`,
+      JSON.stringify(companyId), this.headers);
+  }
+
+  updateCompanySurvey(surveyId: number, companyId: number, agingFactor: number, SurveyCost: number) {
+    return this.payfactorsApiService.post(`${this.endpoint}/UpdateCompanySurvey/${surveyId}`, {
+      CompanyId: companyId, AgingFactor: agingFactor, SurveyCost: SurveyCost
+    });
+  }
+
 }

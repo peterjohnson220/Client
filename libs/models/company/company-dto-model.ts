@@ -37,4 +37,5 @@ export interface CompanyDto extends Company {
   DataInsightsAssociateUserId: number;
   Website: string;
   Domain: string;
+  CompanyColor: string;
 }

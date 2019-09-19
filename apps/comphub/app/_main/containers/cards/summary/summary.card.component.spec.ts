@@ -285,6 +285,7 @@ describe('Comphub - Main - Summary Card Component', () => {
     expect(fixture).toMatchSnapshot();
   });
   it('should display min wage when available', () => {
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
     instance.minPaymarketMinimumWage$ = of(7.25);
     instance.maxPaymarketMinimumWage$ = of(7.25);
     instance.workflowContext.activeCountryDataSet = {
@@ -300,6 +301,7 @@ describe('Comphub - Main - Summary Card Component', () => {
   });
 
   it('should display min wage range if min and max are different', () => {
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
     instance.minPaymarketMinimumWage$ = of(7.25);
     instance.maxPaymarketMinimumWage$ = of(11.50);
     instance.workflowContext.activeCountryDataSet = {
@@ -314,6 +316,7 @@ describe('Comphub - Main - Summary Card Component', () => {
   });
 
   it('should display - as the min wage when there is no wage data', () => {
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
     instance.minPaymarketMinimumWage$ = of(null);
     instance.maxPaymarketMinimumWage$ = of(null);
     instance.workflowContext.activeCountryDataSet = {

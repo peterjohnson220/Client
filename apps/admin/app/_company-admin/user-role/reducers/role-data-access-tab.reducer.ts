@@ -1,7 +1,9 @@
-import * as fromDataAccessTabActions from '../actions/data-access-tab.action';
-import { DataField, DataType, RoleDataRestriction } from 'libs/models/security/roles';
 import * as cloneDeep from 'lodash.clonedeep';
+
+import { DataField, DataType, RoleDataRestriction } from 'libs/models/security/roles';
+
 import { DataFieldTypes } from '../constants/data-field-type.constants';
+import * as fromDataAccessTabActions from '../actions/data-access-tab.action';
 
 export interface State {
   currentRoleId: number;
@@ -137,6 +139,7 @@ function convertRoleDataRestrictionForUI(dataFields: DataField[], roleDataRestri
     if (tempRd && tempRd.length !== 0) {
       switch (df.FieldType) {
         case DataFieldTypes.MULTISELECT:
+        case DataFieldTypes.CONDITIONAL_MULTISELECT:
           dataRestrictions.push({ ...tempRd[0], Id: new Date().getUTCMilliseconds(), DataValue: tempRd.map(t => t.DataValue) });
           break;
         default:
@@ -153,7 +156,8 @@ function convertRoleDataRestrictionForUI(dataFields: DataField[], roleDataRestri
 function convertRoleDataRestrictionForSave(dataFields: DataField[], dataRestrictions: RoleDataRestriction[], roleId: number) {
   const newRoleDataRestrictions = [];
   dataRestrictions.filter(f => f.DataFieldId).forEach(r => {
-    if (dataFields.find(df => df.Id === r.DataFieldId).FieldType === DataFieldTypes.MULTISELECT) {
+    const dataFieldType = dataFields.find(df => df.Id === r.DataFieldId).FieldType;
+    if (dataFieldType === DataFieldTypes.MULTISELECT || dataFieldType === DataFieldTypes.CONDITIONAL_MULTISELECT) {
       r.DataValue.forEach(dv => {
         newRoleDataRestrictions.push({
           DataFieldId: r.DataFieldId,

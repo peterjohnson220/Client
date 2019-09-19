@@ -1,6 +1,6 @@
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ActivatedRoute } from '@angular/router';
 import {FilterService} from '@progress/kendo-angular-grid';
 
 import { TicketListFilterComponent } from './ticket-list-filter.component';
@@ -8,12 +8,17 @@ import { TicketListFilterComponent } from './ticket-list-filter.component';
 describe('Admin - Tickets - Ticket List Filter', () => {
   let component: TicketListFilterComponent;
   let fixture: ComponentFixture<TicketListFilterComponent>;
-
+  const queryStringParams = { 'company_name': 'PayFactors' };
+  const length = 1;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TicketListFilterComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],
-      providers: [FilterService]
+      providers: [FilterService, {
+        provide: ActivatedRoute ,
+        useValue: { snapshot: { queryParamMap: { get: (key) =>  queryStringParams[key], keys: { length: length } } }
+        }
+      }]
     })
     .compileComponents();
   }));

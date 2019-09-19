@@ -9,3 +9,4 @@ export * from './user-data-view.model';
 export * from './report-types.enum';
 export * from './field.model';
 export * from './save-workbook-mode.enum';
+export * from './save-report-order-data.model';

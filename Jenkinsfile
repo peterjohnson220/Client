@@ -2,6 +2,7 @@ import hudson.model.*
 import jenkins.model.*
 import groovy.io.FileType
 import groovy.json.JsonSlurper
+import java.text.SimpleDateFormat
 
 nodeVersion = '10.15.0'
 pkgName = 'PayFactorsClient'
@@ -13,7 +14,8 @@ octoVerSuffix = ''
 slackCh = 'f-build'
 slackTitle = 'Build'
 
-suffix = null
+suffix = ""
+verDetails = ""
 
 isPublishable = true
 isAutoDeployBranch = false
@@ -38,55 +40,82 @@ pipeline {
           env.buildurl = BUILD_URL.replace('codejenkins.engineering.payfactors.net', env.jenkins_server)
 
           nodejs(nodeVersion) {
-            env.pkgVersion = sh(returnStdout: true, script: 'node -pe "require(\'./package.json\').version"').trim()
-            env.pkgVersion = env.pkgVersion + "." + env.BUILD_NUMBER
+            def date = new Date()
+            sdf = new SimpleDateFormat("yyMMddHHmm")
+            dateVer = sdf.format(date)
+            echo dateVer
+
+            def pkgVersionOrig = sh(returnStdout: true, script: 'node -pe "require(\'./package.json\').version"').trim()
+            env.pkgVersion = pkgVersionOrig + "." + env.BUILD_NUMBER
 
             // Suffix according to branches.
             if (env.BRANCH_NAME == 'master') {
-              suffix = 'Production'
+              suffix = '-Production'
               env.buildConfig = '--prod'
+
             } else if (env.BRANCH_NAME == 'develop') {
               isAutoDeployBranch = true
-              suffix = 'Staging'
+              suffix = '-Staging'
               env.octoEnv = 'Staging'
               env.buildConfig = '--configuration=staging'
+
             } else if (env.BRANCH_NAME ==~ /^hotfix\/.*/) {
-              suffix = 'Hotfix'
+              suffix = '-Hotfix'
               env.buildConfig = '--configuration=production'
+
+              // Including date so hotfix packages from diff branches will be sorted correctly from Octopus.
+              env.pkgVersion = pkgVersionOrig + "." + dateVer
+
+              branchShortName = env.BRANCH_NAME.replace('hotfix/','')
+              int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
+              verDetails = "-" + branchShortName.substring(0,subStrLen) + "." + env.BUILD_NUMBER
+
             } else if (env.BRANCH_NAME ==~ /^release\/.*/) {
-              suffix = 'RC'
+              suffix = '-RC'
               env.buildConfig = '--prod'
+
+              // Including date so hotfix packages from diff branches will be sorted correctly from Octopus.
+              env.pkgVersion = pkgVersionOrig + "." + dateVer
+
+              branchShortName = env.BRANCH_NAME.replace('release/','')
+              int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
+              verDetails = "-" + branchShortName.substring(0,subStrLen) + "." + env.BUILD_NUMBER
+
             } else if (env.BRANCH_NAME == 'Normandy/develop') {
               isAutoDeployBranch = true
-              suffix = 'Normandy'
+              suffix = '-Normandy'
               octoChannel = 'Normandy'
               env.octoEnv = 'Normandy'
               octoVerSuffix = '-NM'
               env.buildConfig = '--configuration=staging'
+
             } else {
               isPublishable = false
-              suffix = env.BRANCH_NAME.substring(0,3)
               env.buildConfig = '--configuration=staging'
+              
+              branchShortName = env.BRANCH_NAME.replace('/','-')
+              int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
+              verDetails = "-" + branchShortName.substring(0,subStrLen)
             }      
             
             slackTitle = (isAutoDeployBranch) ? 'Build/Deploy' : 'Build'
 
-            env.pkgFullName = pkgName + "." + suffix + "-J." + env.pkgVersion
-            echo env.pkgFullName
+            env.pkgFullName = pkgName + ".${env.pkgVersion}${suffix}${verDetails}"
+            echo "Package Name: ${env.pkgFullName}.zip"
 
             currentBuild.description = "Built on: ${env.NODE_NAME}"
-            currentBuild.displayName = env.pkgVersion
+            currentBuild.displayName = "#" + env.BUILD_NUMBER + " - " + env.pkgVersion
 
-          changeLogOrig = getGitChangeLog()
+            changeLogOrig = getGitChangeLog()
 
-          def lastAuthorEmail = sh (
-            script: "git show -s --format='%ae' HEAD",
-            returnStdout: true
-          ).trim()
+            def lastAuthorEmail = sh (
+              script: "git show -s --format='%ae' HEAD",
+              returnStdout: true
+            ).trim()
 
-          env.lastAuthor = lastAuthorEmail.replaceAll('@.*','')
+            env.lastAuthor = lastAuthorEmail.replaceAll('@.*','')
 
-          echo "The last commit was written by ${env.lastAuthor} (${lastAuthorEmail})."
+            echo "The last commit was written by ${env.lastAuthor} (${lastAuthorEmail})."
 
             changeLog = changeLogOrig.replaceAll('\\_','\\\\_')
             writeFile file: 'CHANGES', text: changeLog
@@ -234,7 +263,7 @@ pipeline {
             --project ${octoProject} ^
             --channel ${octoChannel} ^
             --Version ${env.pkgVersion + octoVerSuffix} ^
-            --packageversion ${env.pkgVersion} ^
+            --packageversion ${env.pkgVersion}${suffix}${verDetails} ^
             --deployto ${env.octoEnv} ^
             --guidedfailure=false ^
             --releasenotesfile "CHANGES" ^
@@ -257,15 +286,9 @@ pipeline {
     success {
       script { 
         fullDur = (currentBuild.durationString).replace(' and counting',"")
-        slackSend channel: slackCh, color: 'good', message: "*${slackTitle} Success* \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor: ${env.lastAuthor} \n<${env.buildurl}|Build Log>"
+        slackSend channel: slackCh, color: 'good', message: "<${env.buildurl}|*${slackTitle} Success*> - ${fullDur}\n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.BUILD_NUMBER} - ${env.pkgVersion} \nAuthor: ${env.lastAuthor}"
       }
     }
-    // aborted {
-    //   script { 
-    //     fullDur = (currentBuild.durationString).replace(' and counting',"")
-    //     slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Aborted* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.pkgVersion} \nElapsed: ${fullDur} \nAuthor: ${env.lastAuthor} \n<${env.buildurl}console|Build Log>"
-    //   }
-    // }
   }
 }
 
@@ -303,5 +326,5 @@ def getGitChangeLog() {
 
 def sendSlackFail(gitAuthor, pkgVersion) { 
   fullDur = (currentBuild.durationString).replace(' and counting',"")
-  slackSend channel: slackCh, color: 'danger', message: "*${slackTitle} Failure* (Stage: ${STAGE_NAME}) \n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${pkgVersion} \nElapsed: ${fullDur} \nAuthor: ${gitAuthor} \n<${env.buildurl}console|Build Log>"
+  slackSend channel: slackCh, color: 'danger', message: "<${env.buildurl}|*${slackTitle} Failure*> (Stage: ${STAGE_NAME}) - ${fullDur}\n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.BUILD_NUMBER} - ${pkgVersion} \nAuthor: ${gitAuthor}"
 }

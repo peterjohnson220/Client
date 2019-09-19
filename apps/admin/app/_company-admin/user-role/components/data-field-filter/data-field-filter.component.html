@@ -23,7 +23,7 @@
       [disabled]="selectedField?.FieldType == _DataFieldTypes.MULTISELECT"
     ></kendo-dropdownlist>
   </div>
-  <div class="col-12 col-md-6" *ngIf="selectedField?.FieldType == _DataFieldTypes.MULTISELECT">
+  <div class="col-12 col-md-6" *ngIf="isMultiSelect">
     <pf-multi-select
       [attr.data-qa-id]="'ddm-'+ dataType.Name"
       [selectedValues]="roleDataRestriction.DataValue"

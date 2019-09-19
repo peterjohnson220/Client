@@ -28,3 +28,7 @@ fa-icon {
   width: 15px;
   height: 15px;
 }
+
+input[type=text]::-ms-clear {
+  display: none;
+}

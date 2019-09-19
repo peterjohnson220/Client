@@ -103,7 +103,7 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
 
   getExchangeIndexFontColorClass(exchangeIndex: number): string {
     if (exchangeIndex < 50) {
-      return 'text-danger';
+      return 'text-warning';
     }
     if (exchangeIndex >= 100) {
       return 'text-success';

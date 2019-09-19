@@ -15,7 +15,7 @@ export class TransferMethodsHrisApiService {
 
   }
 
-  getAllActiveTransferMethods(userContext: UserContext, token: string) {
+  getAllActiveTransferMethods(userContext: UserContext) {
     const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
     if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
@@ -23,14 +23,6 @@ export class TransferMethodsHrisApiService {
 
     const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-
-    const options: any = {
-      headers,
-    };
-
-    return this.hrisApiService.get<TransferMethodResponse[]>(`${host}${this.endpoint}`, options);
+    return this.hrisApiService.get<TransferMethodResponse[]>(`${host}${this.endpoint}`);
   }
 }

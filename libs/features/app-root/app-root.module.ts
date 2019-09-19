@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
+import { PfAppNotificationsModule } from 'libs/features/app-notifications';
 
 import { AppComponent } from './app.component';
 import { AppWrapperComponent } from './app-wrapper.component';
@@ -26,6 +27,7 @@ const declarations = [
     PfCommonUIModule,
     PfSecurityModule,
     PfLayoutWrapperModule,
+    PfAppNotificationsModule
   ],
   declarations: declarations,
   exports: declarations

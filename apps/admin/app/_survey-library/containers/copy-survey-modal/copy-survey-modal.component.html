@@ -1,0 +1,28 @@
+<pf-modal-form (onDismiss)="handleModalDismissed()"
+               (onSubmit)="addSurvey()"
+               [isOpen$]="isModalOpen$"
+               [primaryButtonText]="'Copy Survey'"
+               [showFooter]="true"
+               [submitting]="isSubmitting"
+               [title]="'Copy Survey'"
+               size="lg">
+
+  <ng-container basic-content>
+    <pf-async-container [loadingError]="hasError"
+                        [loadingErrorMessage]="'An Error has occured.'"
+                        [hideReloadButton]="true">
+      <div class="form-group">
+        <label class="sr-only"
+               for="companySearch">Company Search</label>
+        <kendo-combobox [(ngModel)]='selectedCompany'
+                        [data]="companies"
+                        [placeholder]="'Select Company'"
+                        [suggest]="true"
+                        [textField]="'CompanyName'"
+                        [valueField]="'CompanyId'"
+                        class="form-control"
+                        id="companySearch"></kendo-combobox>
+      </div>
+    </pf-async-container>
+  </ng-container>
+</pf-modal-form>

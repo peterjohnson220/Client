@@ -1,0 +1,31 @@
+<div *ngIf="!!view" class="card view-card"
+  (mouseover)="handleMouseOverViewContainer()"
+  (mouseleave)="handleMouseLeaveViewContainer()">
+
+  <img class="card-img-top" src="/marketdata/images/reports/{{view.ViewThumbnail}}"/>
+
+  <div class="card-body view-content">
+
+    <div class="actions-container" [ngClass]="displayActionsOverlay ? 'displayed' : ''">
+      <button class="btn action-button" [attr.data-qa-id]="'btn-favorite'" (click)="handleFavoriteClicked(view)">
+        <fa-icon *ngIf="view.IsFavorite" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
+        <fa-icon *ngIf="!view.IsFavorite" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
+      </button>
+
+      <div class="open-view">
+        <a class="btn"
+          title="Open View"
+          [attr.data-qa-id]="'lnk-openView'"
+          [routerLink]="[sourceUrl, workbookContentUrl, view.ContentUrl]"
+          [queryParams]="{showTabs: false, title: workbookName + ' - ' + view.ViewName}">
+          Open
+        </a>
+      </div>
+    </div>
+
+    <div class="d-flex actions-overlay" [ngClass]="displayActionsOverlay ? 'displayed' : ''"></div>
+
+    <p class="card-text" [title]="view.ViewName">{{view.ViewName}}</p>
+  </div>
+
+</div>

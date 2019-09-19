@@ -18,6 +18,7 @@
 }
 
 .preview {
+  width: 240px;
   float: none;
   position: relative;
   top: 7px;
@@ -52,4 +53,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .form-control:disabled {
   cursor: not-allowed;
+}
+
+.input-w label, .input-w input {
+  float: none;
+  display: inline-block;
+  vertical-align: middle;
+  align-items: center
 }

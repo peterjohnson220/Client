@@ -24,6 +24,13 @@ export class DataFieldFilterComponent implements OnInit {
   Operators = [{ value: true, text: 'Is equal to' }, { value: false, text: 'Is not equal to' }];
   selectedField: DataField;
   constructor() { }
+
+  get isMultiSelect(): boolean {
+    const selectedFieldType = !!this.selectedField ? this.selectedField.FieldType : null;
+    return selectedFieldType === this._DataFieldTypes.MULTISELECT ||
+      selectedFieldType === this._DataFieldTypes.CONDITIONAL_MULTISELECT;
+  }
+
   dataFieldChanged(value) {
     this.selectedField = this.dataType.DataFields.find(f => f.Id === value);
     this.roleDataRestrictionChanged.emit({ property: 'DataFieldId', value: this.selectedField.Id });
@@ -47,7 +54,7 @@ export class DataFieldFilterComponent implements OnInit {
 
   buildApiEndpoint() {
     let endpoint = `${RoleApiNames.GetDataFieldValues}${this.dataType.Name.replace(/\s+/g, '')}`;
-    if (this.selectedField.FieldType !== this._DataFieldTypes.MULTISELECT) {
+    if (!this.isMultiSelect) {
       endpoint += `&dataField=${this.toTitleCase(this.selectedField.Name)}`;
     }
     return endpoint;
