@@ -1,12 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { Workbook } from '../../../models';
 import * as fromDataInsightsPageActions from '../../../actions/data-insights-page.actions';
+import * as fromDashboardsActions from '../../../actions/dashboards.actions';
+import * as fromViewsActions from '../../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import { SearchWorkbookModalComponent } from '../../search-workbook-modal';
 
@@ -15,31 +19,52 @@ import { SearchWorkbookModalComponent } from '../../search-workbook-modal';
   templateUrl: './data-insights.page.html',
   styleUrls: ['./data-insights.page.scss']
 })
-export class DataInsightsPageComponent implements OnInit {
+export class DataInsightsPageComponent implements OnInit, OnDestroy {
   @ViewChild(SearchWorkbookModalComponent, { static: true })
   public searchWorkbookModalComponent: SearchWorkbookModalComponent;
   standardReports$: Observable<AsyncStateObj<Workbook[]>>;
   showStandardReportsSection$: Observable<boolean>;
+  thumbnailsViewSettingEnabled$: Observable<boolean>;
 
   showStandardReportsSectionSub: Subscription;
+  thumbnailsViewSettingEnabledSub: Subscription;
 
   showAllStandardReports: boolean;
   showStandardReportsSection: boolean;
+  thumbnailsViewSettingEnabled: boolean;
 
   constructor(
-    private store: Store<fromDataInsightsMainReducer.State>
+    private store: Store<fromDataInsightsMainReducer.State>,
+    private settingsService: SettingsService
   ) {
     this.standardReports$ = this.store.pipe(select(fromDataInsightsMainReducer.getStandardWorkbooksAsync));
     this.showStandardReportsSection$ = this.store.pipe(select(fromDataInsightsMainReducer.getShowStandardReportsSection));
+    this.thumbnailsViewSettingEnabled$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.DataInsightsThumbnailsViewDisplay
+    );
   }
 
   ngOnInit(): void {
     this.showStandardReportsSectionSub = this.showStandardReportsSection$.subscribe(result => this.showStandardReportsSection = result);
+    this.thumbnailsViewSettingEnabledSub = this.thumbnailsViewSettingEnabled$.subscribe(settingEnabled => {
+      this.thumbnailsViewSettingEnabled = settingEnabled;
+      if (settingEnabled) {
+        this.store.dispatch(new fromViewsActions.RefreshTableauReports());
+        this.store.dispatch(new fromViewsActions.GetAllCompanyReportsViews());
+      } else {
+        this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
+      }
+    });
     this.store.dispatch(new fromDataInsightsPageActions.GetStandardReportsDisplaySetting());
     this.store.dispatch(new fromDataInsightsPageActions.GetStandardReports());
   }
 
-  trackByFn(sr: Workbook) {
+  ngOnDestroy(): void {
+    this.showStandardReportsSectionSub.unsubscribe();
+    this.thumbnailsViewSettingEnabledSub.unsubscribe();
+  }
+
+  trackByFn(index: any, sr: Workbook) {
     return sr.WorkbookId;
   }
 

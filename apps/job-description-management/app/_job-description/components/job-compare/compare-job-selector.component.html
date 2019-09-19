@@ -1,0 +1,24 @@
+<kendo-dropdownlist class="job-dropdown"
+                    [data]="jobDescriptionList"
+                    [textField]="'Name'"
+                    [valueField]="'JobDescriptionId'"
+                    [ngModel]="value"
+                    (valueChange)="jobDescriptionChanged.emit($event)">
+
+  <ng-template kendoDropDownListItemTemplate let-dataItem>
+    {{dataItem.Name}}
+    {{dataItem.AppliesToField && dataItem.AppliesToValue ? (' / '+dataItem.AppliesToField+' - '+dataItem.AppliesToValue) : ''}}
+    {{dataItem.JobDescriptionTitle ? (' / '+dataItem.JobDescriptionTitle) : ''}}
+    / Version {{dataItem.JobDescriptionRevision}}
+  </ng-template>
+
+  <ng-template kendoDropDownListValueTemplate let-dataItem>
+    {{dataItem ?
+    (dataItem.Name
+    + (dataItem.AppliesToField && dataItem.AppliesToValue ? (' / '+dataItem.AppliesToField+' - '+dataItem.AppliesToValue) : '')
+    + (dataItem.JobDescriptionTitle ? (' / '+dataItem.JobDescriptionTitle) : '')
+    + ' / Version ' + dataItem.JobDescriptionRevision)
+    : 'Select...'}}
+  </ng-template>
+
+</kendo-dropdownlist>

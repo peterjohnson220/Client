@@ -25,6 +25,7 @@ exports[`Auth - Login should disable and show correct login button text when log
   route={[Function Object]}
   router={[Function Object]}
   store={[Function Store]}
+  userVoiceNextPage="undefined"
 >
   <div
     class="d-flex flex-row"
@@ -172,6 +173,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
   route={[Function Object]}
   router={[Function Object]}
   store={[Function Store]}
+  userVoiceNextPage="undefined"
 >
   <div
     class="d-flex flex-row"
@@ -318,6 +320,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
   route={[Function Object]}
   router={[Function Object]}
   store={[Function Store]}
+  userVoiceNextPage="undefined"
 >
   <div
     class="d-flex flex-row"
@@ -464,6 +467,7 @@ exports[`Auth - Login should show password expired notification on submitError 1
   route={[Function Object]}
   router={[Function Object]}
   store={[Function Store]}
+  userVoiceNextPage="undefined"
 >
   <div
     class="d-flex flex-row"

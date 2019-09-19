@@ -3,3 +3,8 @@ export * from './popovers';
 export * from './job-description-grid';
 export * from './job-information-fields';
 export * from './public-view-header';
+export * from './compare-version-selector';
+export * from './job-description-compare-control-result';
+export * from './job-description-compare-data-result';
+export * from './job-description-compare-section-result';
+export * from './job-description-section';

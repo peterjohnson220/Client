@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -8,6 +9,7 @@ import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
+import { JwtAuthInterceptor } from 'libs/core/services/jwt-auth-interceptor.service';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -15,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     // Angular
     BrowserModule,
+    HttpClientModule,
 
     // PF Modules
     PfApiModule,
@@ -26,6 +29,9 @@ import { AppRoutingModule } from './app-routing.module';
 
     // Routing
     AppRoutingModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtAuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

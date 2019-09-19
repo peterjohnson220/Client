@@ -16,6 +16,8 @@ import * as fromDataViewActions from '../../actions/data-view.actions';
 })
 export class LeftSidebarComponent implements OnInit, OnDestroy {
   isOpen = true;
+  selectedTabIndex = 0;
+  activeTab = 'Fields';
 
   selectedFields$: Observable<Field[]>;
   unselectedFields$: Observable<Field[]>;
@@ -24,6 +26,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   selectedFieldsSub: Subscription;
 
   selectedFields: Field[];
+  configureTabOptions: Array<string> = ['Fields', 'Filters'];
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -66,6 +69,11 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   handleSaveDisplayName(newDisplayName) {
     this.store.dispatch(new fromDataViewActions.UpdateDisplayName(newDisplayName));
+}
+
+  selectTab(index: number, configureTab: string) {
+    this.activeTab = configureTab;
+    this.selectedTabIndex = index;
 }
 
   trackByFn(index: any, field: Field) {
