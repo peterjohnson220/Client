@@ -12,6 +12,7 @@ import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
+import * as fromConfigurationActions from '../actions/configuration.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { Entity } from '../models';
 import * as fromDataViewReducer from '../reducers';
@@ -144,13 +145,18 @@ export class DataViewEffects {
           .pipe(
             mergeMap((response) => {
               const userDataView = PayfactorsApiModelMapper.mapUserDataViewResponseToUserDataView(response);
+              const selectedFields = PayfactorsApiModelMapper.mapDataViewFieldsToFields(response.Fields);
+              const filters = PayfactorsApiModelMapper.mapDataViewFiltersToFilters(response.Filters, response.Fields);
               const sortDescriptor: SortDescriptor = {
                 field: userDataView.SortField,
                 dir: userDataView.SortDir
               };
               return [
                 new fromDataViewActions.GetUserDataViewSuccess(userDataView),
-                new fromDataViewGridActions.SetSortDescriptor(sortDescriptor)
+                new fromDataViewGridActions.SetSortDescriptor(sortDescriptor),
+                new fromDataViewActions.SetSelectedFields(selectedFields),
+                new fromConfigurationActions.SetFilters(filters),
+                new fromDataViewGridActions.GetData()
               ];
             }),
             catchError(() => of(new fromDataViewActions.GetUserDataViewError()))
@@ -167,8 +173,7 @@ export class DataViewEffects {
       .pipe(
         mergeMap((response) => [
             new fromDataViewActions.GetReportFieldsSuccess(
-              PayfactorsApiModelMapper.mapDataViewFieldsToFields(response)),
-            new fromDataViewGridActions.GetData()
+              PayfactorsApiModelMapper.mapDataViewFieldsToFields(response))
           ]
         ),
         catchError(() => of(new fromDataViewActions.GetReportFieldsError()))

@@ -1,4 +1,12 @@
+import { DataViewField, DataViewFilter } from '../request';
+
 export interface UserDataViewResponse {
+  DataView: DataViewResponse;
+  Fields: DataViewField[];
+  Filters: DataViewFilter[];
+}
+
+export interface DataViewResponse {
   UserDataViewId: number;
   BaseEntityId: number;
   Entity: string;
@@ -7,3 +15,4 @@ export interface UserDataViewResponse {
   SortField: string;
   SortDir: 'desc' | 'asc';
 }
+

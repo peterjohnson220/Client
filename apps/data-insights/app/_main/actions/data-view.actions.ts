@@ -29,6 +29,7 @@ export const SAVE_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View] Save Repo
 export const SAVE_REPORT_FIELDS_ERROR = '[Data Insights / Data View] Save Report Fields Error';
 export const REORDER_FIELDS = '[Data Insights / Data View] Reorder Fields';
 export const ADD_SELECTED_FIELD = '[Data Insights / Data View] Add Selected Field';
+export const SET_SELECTED_FIELDS = '[Data Insights / Data View] Set Selected Fields';
 export const DELETE_USER_REPORT = '[Data Insights / Data View] Delete User Report';
 export const DELETE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Delete User Report Success';
 export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View] Update Display Name';
@@ -202,6 +203,12 @@ export class AddSelectedField implements Action {
   constructor(public payload: Field) {}
 }
 
+export class SetSelectedFields implements Action {
+  readonly type = SET_SELECTED_FIELDS;
+
+  constructor(public payload: Field[]) {}
+}
+
 export class DeleteUserReport implements Action {
   readonly type = DELETE_USER_REPORT;
 
@@ -299,4 +306,5 @@ export type Actions
   | GetExportingUserReport
   | GetExportingUserReportSuccess
   | GetExportingUserReportError
-  | ExportingComplete;
+  | ExportingComplete
+  | SetSelectedFields;

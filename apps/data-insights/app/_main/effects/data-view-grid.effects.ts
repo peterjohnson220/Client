@@ -27,12 +27,13 @@ export class DataViewGridEffects {
       this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields)),
       this.store.pipe(select(fromDataInsightsMainReducer.getPagingOptions)),
       this.store.pipe(select(fromDataInsightsMainReducer.getSortDescriptor)),
-      (action, dataViewAsync, fields, pagingOptions, sortDescriptor) =>
-        ({ action, dataViewAsync, fields, pagingOptions, sortDescriptor })
+      this.store.pipe(select(fromDataInsightsMainReducer.getFilters)),
+      (action, dataViewAsync, fields, pagingOptions, sortDescriptor, filters) =>
+        ({ action, dataViewAsync, fields, pagingOptions, sortDescriptor, filters })
     ),
     switchMap((data) => {
       const request = PayfactorsApiModelMapper.buildDataViewDataRequest(
-        data.dataViewAsync.obj, data.fields, data.pagingOptions, data.sortDescriptor);
+        data.dataViewAsync.obj, data.fields, data.pagingOptions, data.sortDescriptor, data.filters);
       return this.dataViewApiService.getData(request)
       .pipe(
         map((response: any[]) => {
@@ -76,6 +77,25 @@ export class DataViewGridEffects {
           .pipe(
             map(() => new fromDataViewGridActions.SaveSortDescriptorSuccess()),
             catchError(() => of(new fromDataViewGridActions.SaveSortDescriptorError()))
+          );
+      })
+    );
+
+  @Effect()
+  saveFilters$ = this.action$
+    .pipe(
+      ofType(fromDataViewGridActions.SAVE_FILTERS),
+      withLatestFrom(
+        this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
+        (action: fromDataViewGridActions.SaveFilters, userDataView) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        const request = PayfactorsApiModelMapper.buildSaveFiltersRequest(data.action.payload, data.userDataView.obj);
+        return this.dataViewApiService.saveFilters(request)
+          .pipe(
+            map(() => new fromDataViewGridActions.SaveFiltersSuccess()),
+            catchError(() => of(new fromDataViewGridActions.SaveFiltersError()))
           );
       })
     );

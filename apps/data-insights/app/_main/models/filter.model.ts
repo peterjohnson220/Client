@@ -4,4 +4,5 @@ export interface Filter {
   Field: Field;
   Term: string;
   Options: string[];
+  SelectedOptions: string[];
 }
