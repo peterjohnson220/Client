@@ -15,7 +15,7 @@ export class LoadExchange implements Action {
 export class LoadExchangeSuccess implements Action {
   readonly type = LOAD_EXCHANGE_SUCCESS;
 
-  constructor(public payload: Exchange) {}
+  constructor(public payload: { exchange: Exchange, isDashboard: boolean }) {}
 }
 
 export class LoadExchangeError implements Action {

@@ -117,7 +117,9 @@ describe('Peer Dashboard - Exchange Selector', () => {
   });
 
   it('should display the currently selected exchange name', () => {
-      store.dispatch(new fromSharedPeerExchangeActions.LoadExchangeSuccess(generateMockExchange()));
+      store.dispatch(new fromSharedPeerExchangeActions.LoadExchangeSuccess(
+        { exchange: generateMockExchange(), isDashboard: true }
+      ));
 
       fixture.detectChanges();
 
