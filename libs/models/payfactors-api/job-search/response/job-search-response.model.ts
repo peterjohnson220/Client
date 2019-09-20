@@ -16,7 +16,7 @@ export interface JobSearchResult extends BaseJobSearchResult {
   Id: string;
   Base50Mrp: string;
   TccMrp: string;
-  Grade: string;
+  Grade: string[];
   EEO: string;
   IsMappedInPeerExchange: boolean;
   CompanyName: string;
