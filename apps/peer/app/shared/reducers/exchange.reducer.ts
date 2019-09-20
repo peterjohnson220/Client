@@ -32,7 +32,7 @@ export function reducer(
     case fromExchangeActions.LOAD_EXCHANGE_SUCCESS: {
       return {
         ...state,
-        exchange: action.payload,
+        exchange: action.payload.exchange,
         loading: false
       };
     }

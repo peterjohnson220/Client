@@ -70,7 +70,9 @@ describe('Peer - Map - Exchange Map Page', () => {
   });
 
   it('should show the exchange name as the page title', () => {
-    store.dispatch(new fromSharedPeerExchangeActions.LoadExchangeSuccess(generateMockExchange()));
+    store.dispatch(new fromSharedPeerExchangeActions.LoadExchangeSuccess(
+      { exchange: generateMockExchange(), isDashboard: false }
+    ));
 
     fixture.detectChanges();
 

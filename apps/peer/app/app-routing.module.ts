@@ -21,7 +21,8 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            canActivate: [ PeerTileEnabledGuard, ExchangeExistsGuard],
+            canActivate: [PeerTileEnabledGuard],
+            canActivateChild: [ExchangeExistsGuard],
             children: [
               { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
               { path: 'dashboard', loadChildren: () => import('apps/peer/app/_dashboard/dashboard.module').then(m => m.DashboardModule) },

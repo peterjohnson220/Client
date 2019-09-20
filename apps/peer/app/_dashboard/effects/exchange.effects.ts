@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable } from 'rxjs';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, filter } from 'rxjs/operators';
 
 import { GetChartRequest, ExchangeChartTypeEnum } from 'libs/models';
 
@@ -17,8 +17,9 @@ export class ExchangeEffects {
   loadExchange$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedPeerExchangeActions.LOAD_EXCHANGE_SUCCESS),
+      filter((action: fromSharedPeerExchangeActions.LoadExchangeSuccess) => action.payload.isDashboard),
       map((action: fromSharedPeerExchangeActions.LoadExchangeSuccess): GetChartRequest => {
-        return { ExchangeId: action.payload.ExchangeId, ChartType: ''};
+        return { ExchangeId: action.payload.exchange.ExchangeId, ChartType: ''};
       }),
       mergeMap((getChartRequest) => [
         new fromExchangeDashboardActions.LoadCompanyChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Company}),
