@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { ErrorEvent, UploadEvent, FileRestrictions } from '@progress/kendo-angular-upload';
+import { ErrorEvent, UploadEvent, FileRestrictions, RemoveEvent } from '@progress/kendo-angular-upload';
 import { SuccessEvent, FileInfo } from '@progress/kendo-angular-upload';
 
 import { Exchange } from 'libs/models/peer';
@@ -12,6 +12,7 @@ import { ImportActionEnum } from 'libs/constants';
 import * as fromSharedPeerReducer from '../../../shared/reducers';
 import * as fromPeerManagementReducer from '../../reducers';
 import * as importAssociationAction from '../../actions/import.actions';
+import * as companyJobsActions from '../../actions/company-jobs.actions';
 import { ImportStatusEnum } from '../../actions/import.actions';
 import { ExchangeJobMappingService } from '../../services';
 
@@ -31,7 +32,7 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
 
     // upload
     uploadSaveUrl = '/odata/ExchangeJobAssociation/UploadFile';
-    uploadRemoveUrl = 'removeUrl';
+    uploadRemoveUrl = '/odata/ExchangeJobAssociation/RemoveFile';
     public uploadRestrictions: FileRestrictions = {
         allowedExtensions: ['.xlx', '.xlsx']
     };
@@ -47,7 +48,6 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
     importAction: ImportActionEnum = ImportActionEnum.Append;
     CONST_RESTART = 'Restart';
     CONST_IMPORT = 'Import';
-
 
     constructor(
         private store: Store<fromPeerManagementReducer.State>,
@@ -71,7 +71,23 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
         if (this.btnText === this.CONST_RESTART) {
             this.reset();
         } else if (this.btnText === this.CONST_IMPORT) {
-            alert('Use the "Select files..." button above ');
+          if (this.fileUpload !== null) {
+            this.switchStatus(ImportStatusEnum.InProcess);
+            this.exchangeJobMappingService.validateAndLoadAssociations(
+              this.fileUpload, this.exchange.ExchangeId, this.importAction
+            ).subscribe(
+              res => {
+                this.uploadResult = res;
+                if (this.uploadResult.Success) {
+                  this.switchStatus(ImportStatusEnum.Success);
+                  this.Restart();
+                  this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
+                } else {
+                  this.Restart();
+                  this.Error();
+                }
+              });
+          }
         }
     }
 
@@ -83,31 +99,26 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
 
     // Upload events
     uploadEventHandler(e: UploadEvent) {
-        this.switchStatus(ImportStatusEnum.InProcess);
+        this.exchangeJobRequestForm.markAsTouched();
+        this.uploadResult = null;
+    }
+
+    onFileRemove(e: RemoveEvent) {
+      e.files[0].name = this.fileUpload;
+      this.fileUpload = null;
+      if (this.btnText === this.CONST_RESTART) {
+        this.btnText = this.CONST_IMPORT;
+      }
+      this.exchangeJobRequestForm.reset();
+      this.uploadResult = null;
     }
 
     successEventHandler(e: SuccessEvent) {
         if (e.operation === 'upload') {
             this.fileUpload = e.response.body.FileName;
-
-            this.exchangeJobMappingService.validateAndLoadAssociations(
-              this.fileUpload, this.exchange.ExchangeId, this.importAction
-            ).subscribe(
-                res => {
-                    this.uploadResult = res;
-                    if (this.uploadResult.success) {
-                        this.switchStatus(ImportStatusEnum.Success);
-                        this.Restart();
-                        this.exchangeJobMappingService.loadExchangeJobMappings();
-                    } else {
-                        this.Restart();
-                        this.Error();
-                    }
-                });
+            this.btnText = this.CONST_IMPORT;
         }
     }
-
-
 
     errorEventHandler(e: ErrorEvent) {
         this.Restart();
@@ -121,6 +132,7 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
     private Restart(): void {
         this.exchangeJobRequestForm.markAsDirty();
         this.btnText = this.CONST_RESTART;
+        this.fileUpload = null;
     }
 
     private switchStatus(status: ImportStatusEnum): void {
@@ -132,8 +144,9 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
         this.uploadResult = null;
         this.btnText = this.CONST_IMPORT;
         this.switchStatus(ImportStatusEnum.Idle);
+        this.fileUpload = null;
+        this.exchangeJobRequestForm.reset();
     }
-
 
     // Lifecycle Events
     ngOnInit(): void {
