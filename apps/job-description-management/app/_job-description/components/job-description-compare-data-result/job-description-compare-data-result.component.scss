@@ -1,0 +1,20 @@
+.control-table tr:first-child td, .control-table tr:first-child th, th {
+  border-top: none;
+}
+
+.bullet-cell{
+  vertical-align: middle;
+}
+
+.vertical-heading{
+  width: 150px;
+  border-top: 1px solid #eceeef
+}
+
+.rendered-text{
+  overflow-y: visible;
+}
+
+i.fas{
+  font-weight: bold;
+}

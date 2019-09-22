@@ -10,7 +10,10 @@ import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models';
 
 import { SurveyLibraryStateService } from '../../services/survey-library-state.service';
-import { SurveyTitleResponseModel } from '../../models';
+import { CompanySelectorItem, SurveyTitle, SurveyTitleResponseModel, SurveyTitlesFilter } from '../../models';
+import * as fromSurveyLibraryReducer from '../../reducers';
+import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
+import * as fromSurveyTitlesActions from '../../actions/survey-titles.actions';
 
 @Component({
   selector: 'pf-survey-titles-page',
@@ -20,51 +23,74 @@ import { SurveyTitleResponseModel } from '../../models';
 
 export class SurveyTitlesPageComponent implements OnInit {
   @ViewChild('TitleSearch', { static: false }) titleSearch;
-  public filter: string;
+  public filter: SurveyTitlesFilter;
   public publisher: string;
   public systemUserGroupsId: number;
   private filterModelChanged: Subject<string> = new Subject<string>();
-  public surveyTitles: SurveyTitleResponseModel[];
-  public readonly publisherId: number;
-  private userContext$: Observable<UserContext>;
-  private surveyTitleModalOpen$: BehaviorSubject<boolean>;
+  public surveyTitles: SurveyTitle[];
+  public publisherId: number;
   isCollapsed: boolean;
-  isPageLoading: boolean;
+  searchTerm: string;
+
+  public surveyTitles$: Observable<SurveyTitleResponseModel>;
+  private userContext$: Observable<UserContext>;
+  public companies$: Observable<CompanySelectorItem[]>;
+  public loadingSurveyTitles$: Observable<boolean>;
+  private surveyTitleModalOpen$: BehaviorSubject<boolean>;
+  private saveSurveyTitleSuccess$: Observable<boolean>;
 
   constructor(private activeRoute: ActivatedRoute,
-    private surveyLibraryApiService: SurveyLibraryApiService,
-    private store: Store<fromRootState.State>,
+    private store: Store<fromSurveyLibraryReducer.State>,
     private state: SurveyLibraryStateService) {
     this.userContext$ = store.select(fromRootState.getUserContext);
+    this.companies$ = store.select(fromSurveyLibraryReducer.getCompanies);
+    this.surveyTitles$ = this.store.select(fromSurveyLibraryReducer.getSurveyTitles);
+    this.loadingSurveyTitles$ = this.store.select(fromSurveyLibraryReducer.getLoadingSurveyTitles);
     this.surveyTitleModalOpen$ = new BehaviorSubject<boolean>(false);
+    this.saveSurveyTitleSuccess$ = this.store.select(fromSurveyLibraryReducer.getSavingSurveyTitlesSuccess);
+    this.filter = {SearchTerm: '', CompanyId: undefined};
     this.publisherId = activeRoute.snapshot.params.id;
     this.isCollapsed = true;
-    this.isPageLoading = false;
 
     this.filterModelChanged.pipe(
       debounceTime(800),
       distinctUntilChanged())
-      .subscribe(filter => this.getSurveyTitles(this.publisherId, filter));
+      .subscribe(searchTerm =>
+        this.getSurveyTitles()
+      );
   }
 
   ngOnInit(): void {
-    this.getSurveyTitles(this.publisherId, '');
+    this.store.dispatch(new fromCompanySelectorActions.GetCompanies);
+    this.getSurveyTitles();
     this.userContext$.subscribe(userContext => {
       this.systemUserGroupsId = userContext.CompanySystemUserGroupsId;
     });
-  }
 
-  getSurveyTitles(publisherId: number, filter: string): void {
-    this.isPageLoading = true;
-    this.surveyLibraryApiService.getSurveyTitlesByPublisherId(publisherId, filter).subscribe(value => {
-      this.surveyTitles = value.PublisherTitles;
-      this.publisher = value.PublisherName;
-      this.isPageLoading = false;
+    this.surveyTitles$.subscribe(payload => {
+      if (payload) {
+        this.publisher = payload.PublisherName;
+        this.surveyTitles = payload.PublisherTitles;
+      }
+    });
+
+    this.saveSurveyTitleSuccess$.subscribe(isSuccess => {
+      if(isSuccess) {
+        this.searchTerm = '';
+      }
     });
   }
 
-  filterChanged(filter: string) {
-    this.filterModelChanged.next(filter);
+  getSurveyTitles(): void {
+    this.store.dispatch(new fromSurveyTitlesActions.LoadingSurveyTitles({ publisherId: this.publisherId, filter: this.filter }));
+  }
+
+  filterChanged(searchTerm: string) {
+    this.filter = {
+      SearchTerm: searchTerm,
+      CompanyId: this.filter.CompanyId
+    };
+    this.filterModelChanged.next(searchTerm);
   }
 
   openModal() {
@@ -73,5 +99,13 @@ export class SurveyTitlesPageComponent implements OnInit {
 
   returnToPublishers() {
     document.location.href = '/marketdata/admin/surveypublishers.asp';
+  }
+
+  companySelectionChange($event: any) {
+    this.filter = {
+      SearchTerm: this.filter.SearchTerm,
+      CompanyId: $event ? $event.CompanyId : undefined
+    };
+    this.getSurveyTitles();
   }
 }

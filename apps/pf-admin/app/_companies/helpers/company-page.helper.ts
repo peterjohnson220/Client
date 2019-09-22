@@ -34,7 +34,8 @@ export class CompanyPageHelper {
       EnableLiveChat: false,
       EnableIntervalAgingFactor: false,
       PasswordLengthRequirement: 8,
-      GroupName: null
+      GroupName: null,
+      CompanyColor: null
     };
   }
 
@@ -66,7 +67,8 @@ export class CompanyPageHelper {
       RestrictWorkflowToCompanyEmployeesOnly: company.RestrictWorkflowToCompanyEmployeesOnly,
       HideSecondarySurveyDataFields: company.HideSecondarySurveyDataFields,
       EnableLiveChat: company.EnableLiveChat,
-      EnableIntervalAgingFactor: company.EnableIntervalAgingFactor
+      EnableIntervalAgingFactor: company.EnableIntervalAgingFactor,
+      CompanyColor: company.CompanyColor
     };
   }
 

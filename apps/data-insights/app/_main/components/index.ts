@@ -8,3 +8,6 @@ export * from './save-user-workbook-modal';
 export * from './report-field';
 export * from './delete-user-workbook-modal';
 export * from './add-report-fields';
+export * from './view-card';
+export * from './workbook-views-card';
+export * from './favorite-views';

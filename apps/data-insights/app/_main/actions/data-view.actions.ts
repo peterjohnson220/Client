@@ -32,6 +32,9 @@ export const ADD_SELECTED_FIELD = '[Data Insights / Data View] Add Selected Fiel
 export const DELETE_USER_REPORT = '[Data Insights / Data View] Delete User Report';
 export const DELETE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Delete User Report Success';
 export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View] Update Display Name';
+export const EXPORT_USER_REPORT = '[Data Insights / Data View] Export User Report';
+export const EXPORT_USER_REPORT_SUCCESS = '[Data Insights / Data View] Export User Report Success';
+export const EXPORT_USER_REPORT_ERROR = '[Data Insights / Data View] Export User Report Error';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -213,6 +216,24 @@ export  class UpdateDisplayName implements Action {
   constructor(public payload: { newDisplayName: string, fieldDataElementId: number }) {}
 }
 
+export class ExportUserReport implements Action {
+  readonly type = EXPORT_USER_REPORT;
+
+  constructor() {}
+}
+
+export class ExportUserReportSuccess implements Action {
+  readonly type = EXPORT_USER_REPORT_SUCCESS;
+
+  constructor() {}
+}
+
+export class ExportUserReportError implements Action {
+  readonly type = EXPORT_USER_REPORT_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetBaseEntities
   | GetBaseEntitiesSuccess
@@ -243,4 +264,7 @@ export type Actions
   | AddSelectedField
   | DeleteUserReport
   | DeleteUserReportSuccess
-  | UpdateDisplayName;
+  | UpdateDisplayName
+  | ExportUserReport
+  | ExportUserReportSuccess
+  | ExportUserReportError;

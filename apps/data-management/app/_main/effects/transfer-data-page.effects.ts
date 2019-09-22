@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { Store, Action, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
-import { Observable } from 'rxjs';
-import { mergeMap, switchMap, map, withLatestFrom } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { mergeMap, switchMap, map, withLatestFrom, catchError, delay } from 'rxjs/operators';
 
-
-import { IntegrationApiService } from 'libs/data/payfactors-api/integration';
 import * as fromRootState from 'libs/state/state';
-import { TransferMethodsHrisApiService, ProvidersHrisApiService } from 'libs/data/payfactors-api/hris-api';
-import { TransferMethodResponse, ProviderResponse } from 'libs/models/hris-api';
+import { TransferMethodsHrisApiService, ProvidersHrisApiService,
+  ConnectionsHrisApiService} from 'libs/data/payfactors-api/hris-api';
+import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse } from 'libs/models/hris-api';
 
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import * as fromDataManagementMainReducer from '../reducers';
@@ -44,20 +43,15 @@ export class TransferDataPageEffects {
         }
       ),
       switchMap((obj) => {
-        return this.jwtApiService.fetchAuthToken()
+        return this.transferMethodsHrisApiService.getAllActiveTransferMethods(obj.userContext)
           .pipe(
-            mergeMap((data: string) =>
-              this.transferMethodsHrisApiService.getAllActiveTransferMethods(obj.userContext, data)
-                .pipe(
-                  switchMap((response: TransferMethodResponse[]) => {
-                    const transferMethods = PayfactorsApiModelMapper.mapTransferMethodResponseToTransferMethod(response);
-                    return [
-                      new fromTransferDataPageActions.LoadTransferMethodsSuccess(transferMethods),
-                      new fromTransferDataPageActions.SetSelectedTransferMethod(transferMethods.find( x => x.Selected).TransferMethodId)
-                    ];
-                })
-              )
-            )
+            mergeMap((response: TransferMethodResponse[]) => {
+              const transferMethods = PayfactorsApiModelMapper.mapTransferMethodResponseToTransferMethod(response);
+              return [
+                new fromTransferDataPageActions.LoadTransferMethodsSuccess(transferMethods),
+                new fromTransferDataPageActions.SetSelectedTransferMethod(transferMethods.find( x => x.Selected).TransferMethodId)
+              ];
+            })
           );
       })
     );
@@ -87,17 +81,70 @@ export class TransferDataPageEffects {
         }
       ),
       switchMap((obj) => {
-        return this.jwtApiService.fetchAuthToken()
+        return this.providersHrisApiService.getProvidersByTransferMethodId(obj.userContext, obj.selectedTransferMethod)
           .pipe(
-            mergeMap((data: string) =>
-              this.providersHrisApiService.getProvidersByTransferMethodId(obj.userContext, obj.selectedTransferMethod, data)
-                .pipe(
-                  map((response: ProviderResponse[]) => {
-                    const providers = PayfactorsApiModelMapper.mapProviderResponseToProvider(response);
-                    return new fromTransferDataPageActions.LoadProvidersSuccess(providers);
-                })
-              )
-            )
+            map((response: ProviderResponse[]) => {
+              const providers = PayfactorsApiModelMapper.mapProviderResponseToProvider(response);
+              return new fromTransferDataPageActions.LoadProvidersSuccess(providers);
+          })
+        );
+      })
+    );
+
+  @Effect()
+  Authenticate$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromTransferDataPageActions.Validate>(fromTransferDataPageActions.VALIDATE),
+      withLatestFrom(this.store.pipe(select(fromRootState.getUserContext)),
+      (action, userContext) => {
+        return {
+          action,
+          userContext
+        };
+      }),
+      switchMap((obj) => {
+        let delayTime = 0;
+        if (obj.action.payload.ProviderCode === 'PFTEST') {
+          delayTime = 5000;
+        }
+        return this.connectionsHrisApiService.validateConnection(obj.userContext, obj.action.payload)
+          .pipe(
+            delay(delayTime),
+            mergeMap((response: ValidateCredentialsResponse) => {
+              if (!response.successful) {
+                return [new fromTransferDataPageActions.ValidateError(response.errors)];
+              }
+              return [
+                new fromTransferDataPageActions.ValidateSuccess()
+              ];
+            }),
+            catchError(error => of(new fromTransferDataPageActions.ValidateError()))
+          );
+      })
+    );
+
+  @Effect()
+    CreateConnection$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromTransferDataPageActions.CreateConnection>(fromTransferDataPageActions.CREATE_CONNECTION),
+      withLatestFrom(this.store.select(fromDataManagementMainReducer.getSelectedProvider),
+      this.store.pipe(select(fromRootState.getUserContext)),
+      (action, provider, userContext) => {
+        return {
+          action,
+          provider,
+          userContext
+        };
+      }),
+      switchMap((obj) => {
+        const connectionPostModel =
+          PayfactorsApiModelMapper.createConnectionPostRequest(obj.action.payload, obj.userContext.CompanyId, obj.provider.ProviderId);
+        return this.connectionsHrisApiService.connect(obj.userContext, connectionPostModel)
+          .pipe(
+            map((response: any) => {
+              return new fromTransferDataPageActions.CreateConnectionSuccess();
+            }),
+            catchError(error => of(new fromTransferDataPageActions.CreateConnectionError()))
           );
       })
     );
@@ -105,8 +152,8 @@ export class TransferDataPageEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromDataManagementMainReducer.State>,
-    private jwtApiService: IntegrationApiService,
     private transferMethodsHrisApiService: TransferMethodsHrisApiService,
-    private providersHrisApiService: ProvidersHrisApiService
+    private providersHrisApiService: ProvidersHrisApiService,
+    private connectionsHrisApiService: ConnectionsHrisApiService
   ) {}
 }

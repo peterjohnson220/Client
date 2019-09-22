@@ -5,9 +5,11 @@
 // 3rd Party
 @import '~bootstrap/scss/bootstrap';
 @import '~@progress/kendo-theme-bootstrap/scss/all';
+@import '~ngx-toastr/toastr';
 
 // Payfactors
 @import 'base.scss';
 @import 'common/common.scss';
 @import 'flex.scss';
 @import 'kendo-overrides';
+@import 'toastr-overrides';

@@ -72,7 +72,7 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
         })
       )
       .subscribe(v => {
-        this.pfServicesReps = orderBy(v, ['Name'], 'asc');
+        this.pfServicesReps = v;
         this.ref.markForCheck();
       });
 

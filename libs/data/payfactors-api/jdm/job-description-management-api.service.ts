@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-
 import { JobDescriptionViewModel, ValidateStepResultItem } from '../../../models/jdm';
 import { ControlLabelResponse } from '../../../models/payfactors-api/job-description-management/response';
 import {
@@ -40,5 +39,9 @@ export class JobDescriptionManagementApiService {
 
   load(loadJobDescriptionRequest: LoadJobDescriptionRequest): Observable<ValidateStepResultItem> {
     return this.payfactorsApiService.post(`${this.endpoint}.Import`, loadJobDescriptionRequest);
+  }
+
+  getAvailableControls(): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}.GetAvailableControls`);
   }
 }

@@ -1,6 +1,6 @@
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import { TransferMethod, Provider } from '../models';
-import { LoadingError } from 'apps/jobs/app/_matches-modal/actions/matches.actions';
+import { TransferDataWorkflowStep } from '../data';
 
 
 export interface State {
@@ -9,7 +9,10 @@ export interface State {
   transferMethods: TransferMethod[];
   providers: Provider[];
   selectedTransferMethod: number;
-  selectedProvider: number;
+  selectedProvider: Provider;
+  workflowStep: TransferDataWorkflowStep;
+  validationErrors: string[];
+  showAuthenticationModal: boolean;
 }
 
 const initialState: State = {
@@ -19,15 +22,21 @@ const initialState: State = {
   providers: null,
   selectedTransferMethod: null,
   selectedProvider: null,
+  validationErrors: null,
+  workflowStep: TransferDataWorkflowStep.SelectTransferMethod,
+  showAuthenticationModal: false
 };
 
 export function reducer(state: State = initialState, action: fromTransferDataPageActions.Actions) {
   switch (action.type) {
+    case fromTransferDataPageActions.CREATE_CONNECTION_ERROR:
+    case fromTransferDataPageActions.LOAD_AUTHENTICATION_FORM_ERROR:
     case fromTransferDataPageActions.LOAD_TRANSFER_METHODS_ERROR:
     case fromTransferDataPageActions.LOAD_PROVIDERS_ERROR: {
       return {
         ...state,
-          LoadingError: true
+        loading: false,
+        loadingError: true
       };
     }
     case fromTransferDataPageActions.LOAD_TRANSFER_METHODS_SUCCESS: {
@@ -59,6 +68,60 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
       return {
         ...state,
         selectedProvider: null,
+        authenticationType: null,
+        validationErrors: null,
+        workflowStep: TransferDataWorkflowStep.SelectTransferMethod,
+        isValidCredentials: false,
+        isConnectionEstablished: false
+      };
+    }
+    case fromTransferDataPageActions.LOAD_AUTHENTICATION_FORM_SUCCESS: {
+      return {
+        ...state,
+        workflowStep: TransferDataWorkflowStep.Authentication
+      };
+    }
+    case fromTransferDataPageActions.VALIDATE: {
+      return {
+        ...state,
+        showAuthenticationModal: true,
+      };
+    }
+    case fromTransferDataPageActions.VALIDATE_SUCCESS: {
+      return {
+        ...state,
+        validationErrors: null,
+        isValidCredentials: true,
+        workflowStep: TransferDataWorkflowStep.Validated,
+        showAuthenticationModal: false,
+      };
+    }
+    case fromTransferDataPageActions.VALIDATE_ERROR: {
+      if (action.payload) {
+        return {
+          ...state,
+          validationErrors: action.payload,
+          isValidCredentials: false,
+          showAuthenticationModal: false
+        };
+      }
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
+    case fromTransferDataPageActions.CREATE_CONNECTION: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        workflowStep: TransferDataWorkflowStep.Mappings
       };
     }
     default:
@@ -72,3 +135,6 @@ export const getSelectedTransferMethod = (state: State) => state.selectedTransfe
 export const getSelectedProvider = (state: State) => state.selectedProvider;
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
+export const getValidationErrors = (state: State) => state.validationErrors;
+export const getWorkflowStep = (state: State) => state.workflowStep;
+export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;

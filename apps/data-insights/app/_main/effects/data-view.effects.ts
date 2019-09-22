@@ -252,6 +252,24 @@ export class DataViewEffects {
         this.router.navigate(['']))
     );
 
+  @Effect()
+  exportUserDataView$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.EXPORT_USER_REPORT),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.ExportUserReport, userDataView) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.exportUserDataView(data.userDataView.obj.UserDataViewId)
+          .pipe(
+            map(() => new fromDataViewActions.ExportUserReportSuccess()),
+            catchError(() => of(new fromDataViewActions.ExportUserReportError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataViewReducer.State>,

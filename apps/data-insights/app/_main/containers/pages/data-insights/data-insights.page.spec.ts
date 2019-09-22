@@ -5,6 +5,7 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataInsightsPageActions from '../../../actions/data-insights-page.actions';
@@ -28,8 +29,9 @@ describe('Data Insights - Data Insights Page Component', () => {
       providers: [
         {
           provide: NgbModal,
-          useValue: { open: jest.fn(), dismissAll: jest.fn() },
+          useValue: { open: jest.fn(), dismissAll: jest.fn() }
         },
+        { provide: SettingsService, useClass: SettingsService }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });

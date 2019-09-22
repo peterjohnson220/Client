@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 
 
-import { SurveyTitleCompanyModel, SurveyTitleResponseModel } from '../../models';
+import { SurveyTitle, SurveyTitleCompanyModel, SurveyTitleResponseModel } from '../../models';
 
 @Component({
   selector: 'pf-survey-title-list-item',
@@ -12,12 +12,12 @@ import { SurveyTitleCompanyModel, SurveyTitleResponseModel } from '../../models'
 })
 
 export class SurveyTitleListItemComponent {
-  @Input() SurveyTitle: SurveyTitleResponseModel;
+  @Input() SurveyTitle: SurveyTitle;
   isCollapsed: boolean;
   surveyTitleCompanies: SurveyTitleCompanyModel[];
   isLoading: boolean;
 
-  constructor (private surveyLibraryApi: SurveyLibraryApiService) {
+  constructor(private surveyLibraryApi: SurveyLibraryApiService) {
     this.isCollapsed = true;
   }
 

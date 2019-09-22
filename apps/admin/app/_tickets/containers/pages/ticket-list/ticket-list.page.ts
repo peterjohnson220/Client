@@ -104,6 +104,7 @@ export class TicketListPageComponent implements OnDestroy {
     }
     if (event.nextId === 'tab-tickets') {
       this.ticketListComponent.checkForRefresh();
+      this.store.dispatch(new fromTicketActions.SelectTicketTab(0));
     }
   }
 }

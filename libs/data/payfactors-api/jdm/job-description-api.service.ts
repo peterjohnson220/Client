@@ -4,7 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { BulkExportSchedule, ValidateStepResultItem } from '../../../models/jdm';
+import {BulkExportSchedule, JobDescription, ValidateStepResultItem} from '../../../models/jdm';
 import {
   CreateJobDescriptionDraftRequest,
   CreateJobDescriptionRequest,
@@ -117,5 +117,14 @@ export class JobDescriptionApiService {
 
   deleteByTemplateId(jobDescriptionDeleteByTemplateIdRequest: JobDescriptionDeleteByTemplateIdRequest): Observable<ValidateStepResultItem> {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.DeleteByTemplateId`, jobDescriptionDeleteByTemplateIdRequest);
+  }
+
+  getJobDescriptionJobCompareList(jobDescriptionId: number) {
+    return this.payfactorsApiService.get<JobDescription[]>(`${this.endpoint}(${jobDescriptionId})/Default.GetJobCompareList`);
+  }
+
+  getDetail(jobDescriptionId: number, viewName: string = null) {
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetDetail`, {viewName},
+      (response) => JSON.parse(response.value));
   }
 }

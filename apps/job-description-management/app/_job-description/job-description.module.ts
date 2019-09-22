@@ -9,6 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -16,13 +17,17 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
 import { JobDescriptionRoutingModule } from './job-description-routing.module';
-import { JobDescriptionListPageComponent } from './containers/pages/job-description-list/job-description-list.page';
+import {
+  JobDescriptionListPageComponent, JobDescriptionVersionComparePageComponent
+} from './containers/pages';
 import {
   AddJobModalComponent,
   AssignJobsToTemplateModalComponent,
   BulkExportPopoverComponent,
   ColumnSelectorPopoverComponent,
-  FilterSelectorPopoverComponent, JobDescriptionGridComponent, JobInformationFieldsComponent
+  FilterSelectorPopoverComponent, JobDescriptionGridComponent, JobInformationFieldsComponent,
+  CompareVersionSelectorComponent, JobDescriptionCompareControlResultComponent, JobDescriptionCompareDataResultComponent,
+  JobDescriptionCompareSectionResultComponent, JobDescriptionSectionComponent
 } from './components';
 import { JobDescriptionHistoryModalComponent } from './components/modals/job-description-history/job-description-history-modal.component';
 import { SaveFilterModalComponent } from './components/modals/save-filter/save-filter-modal.component';
@@ -39,7 +44,15 @@ import {
   UserFilterEffects
 } from './effects';
 import { ListAreaColumnSearchPipe } from './pipes/list-area-column-search.pipe';
-import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './pipes';
+import { UserFilterSearchPipe } from './pipes';
+import {JobDescriptionVersionCompareService} from './services/job-description-version-compare.service';
+import {JobDescriptionApiService} from './services/job-description-api.service';
+import {ResolveHistoryListGuard} from './guards/resolve-history-list.guard';
+import {JobDescriptionJobCompareListResolver} from './guards/resolve-job-description-compare-list.guard';
+import * as fromFaIcons from '../../../job-description-management/app/_job-description/fa-icons';
+import { JobDescriptionVersionCompareEffects } from './effects/job-description-version-compare.effects';
+import { CompareJobSelectorComponent } from './components/job-compare/compare-job-selector.component';
+
 
 
 @NgModule({
@@ -57,7 +70,8 @@ import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './
       JobDescriptionHistoryListEffects,
       JobInformationFieldsEffects,
       PublicViewHeaderEffects,
-      UserFilterEffects
+      UserFilterEffects,
+      JobDescriptionVersionCompareEffects
     ]),
     LayoutModule,
 
@@ -94,20 +108,31 @@ import { JobDescriptionAppliesToDisplayNamePipe, UserFilterSearchPipe } from './
     JobDescriptionHistoryModalComponent,
     PublicViewHeaderComponent,
     SaveFilterModalComponent,
+    JobDescriptionSectionComponent,
+    CompareVersionSelectorComponent,
+    CompareJobSelectorComponent,
+    JobDescriptionCompareControlResultComponent,
+    JobDescriptionCompareDataResultComponent,
+    JobDescriptionCompareSectionResultComponent,
 
     // Pages
     JobDescriptionListPageComponent,
+    JobDescriptionVersionComparePageComponent,
 
     // Pipes
-    JobDescriptionAppliesToDisplayNamePipe,
     ListAreaColumnSearchPipe,
     UserFilterSearchPipe
   ],
   providers: [
-    ListAreaService, ColumnResizingService
+    ListAreaService, ColumnResizingService , JobDescriptionVersionCompareService, JobDescriptionApiService,
+    ResolveHistoryListGuard, JobDescriptionJobCompareListResolver
   ]
 })
-export class JobDescriptionModule { }
+export class JobDescriptionModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}
 
 
 

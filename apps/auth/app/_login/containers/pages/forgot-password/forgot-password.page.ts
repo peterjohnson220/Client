@@ -29,7 +29,7 @@ export class ForgotPasswordPageComponent implements OnInit {
   attemptedFormSubmit = false;
   formSubmitSuccess = false;
   emailForm: FormGroup;
-  emailRegex = /^\w+([\-\.+]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   constructor(public store: Store<fromForgotPasswordReducer.State>) {
 

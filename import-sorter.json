@@ -1,0 +1,48 @@
+{
+    "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 1,
+    "importSorter.sortConfiguration.customOrderingRules.defaultNumberOfEmptyLinesAfterGroup": 1,
+    "importSorter.importStringConfiguration.tabType": "space",
+    "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 140,
+    "importSorter.sortConfiguration.customOrderingRules.defaultOrderLevel": 20,
+    "importSorter.sortConfiguration.customOrderingRules.rules": [
+        {
+            "type": "importMember",
+            "regex": "^$",
+            "orderLevel": 10,
+            "disableSort": true
+        },
+        {
+            "regex": "^[@](angular/core)",
+            "orderLevel": 10
+        },
+        {
+            "regex": "^[@](angular)",
+            "orderLevel": 20
+        },
+        {
+            "regex": "^[@](ngrx)",
+            "orderLevel": 30
+        },
+        {
+            "regex": "^[rxjs]",
+            "orderLevel": 30
+        },
+        {
+            "regex": "^[@](?!ngrx)",
+            "orderLevel": 50
+        },
+        {
+            "regex": "^(libs)",
+            "orderLevel": 60
+        },
+        {
+            "regex": "^(environments)",
+            "orderLevel": 60
+        },
+        {
+            "regex": "^[.]",
+            "orderLevel": 70,
+            "disableSort": true
+        }
+    ]
+}
