@@ -17,6 +17,7 @@ import { PfDataGridEffects } from './effects';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfColumnChooserModule } from 'libs/ui/column-chooser/column-chooser.module';
 
 import { PfDataGridComponent } from './pf-data-grid.component/pf-data-grid.component';
 import { ActionBarComponent, GridComponent } from './containers';
@@ -29,6 +30,7 @@ import { ActionBarComponent, GridComponent } from './containers';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
+    PfColumnChooserModule,
 
     // 3rd Party
     StoreModule.forFeature('pfDataGrids', reducers),

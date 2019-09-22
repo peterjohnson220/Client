@@ -9,11 +9,11 @@ export class PfDataGridFieldModel {
   ShowInCompactView: boolean;
 }
 
-export function generateMockPfGridColumns(numberOfColumns: number = 2, startMockNumber: number = 1): PfDataGridFieldModel[] {
+export function generateMockPfDataGridFields(numberOfColumns: number = 2, startMockNumber: number = 1): PfDataGridFieldModel[] {
   const mockListAreaColumns = [];
 
   for (let i = 0; i < numberOfColumns; i++) {
-    mockListAreaColumns.push(generateMockPfGridColumn(startMockNumber));
+    mockListAreaColumns.push(generateMockPfDataGridField(startMockNumber));
 
     startMockNumber++;
   }
@@ -21,7 +21,7 @@ export function generateMockPfGridColumns(numberOfColumns: number = 2, startMock
   return mockListAreaColumns;
 }
 
-export function generateMockPfGridColumn(mockNumber: number = 1): PfDataGridFieldModel {
+export function generateMockPfDataGridField(mockNumber: number = 1): PfDataGridFieldModel {
   return {
     Visible: true,
     Field: `TestMockField${mockNumber}`,

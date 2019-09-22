@@ -10,10 +10,10 @@
     <fa-icon icon="download"></fa-icon>
   </button>
 
-  <pf-column-chooser-popover 
+  <pf-column-chooser 
     [dataFields]="dataFields$ | async"
     (saveColumns)="updateFields($event)">
-  </pf-column-chooser-popover>
+  </pf-column-chooser>
   <div class="btn-group">
     <button title="Filter" class="btn btn-secondary">
       <fa-icon icon="sliders-h"></fa-icon>

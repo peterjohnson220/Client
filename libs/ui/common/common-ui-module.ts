@@ -24,7 +24,6 @@ import { AfterIfDirective, ClickElsewhereDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
 import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
-import { ColumnChooserPopoverComponent } from './popovers';
 
 const components = [
   // Content
@@ -46,7 +45,7 @@ const components = [
   AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,
 
   // Page Layouts
-  PageWithTitleBarComponent, ColumnChooserPopoverComponent,
+  PageWithTitleBarComponent,
 
   // Modals
   TermsConditionsModalComponent,

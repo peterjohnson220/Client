@@ -3,11 +3,14 @@
 }
 
 .column-list{
-  list-style: none;
-  -webkit-padding-start: 0px;
   overflow-y: auto;
   min-height: 300px;
-  max-height: 350px;
+  max-height: 300px;
+}
+
+.column-list ul {
+  list-style: none;
+  -webkit-padding-start: 0px;
 }
 
 .column-list-container{
