@@ -3,7 +3,7 @@
     <p>
       <pf-input-debounce id="column-search-box" [id]="'jobs-page-column-chooser-search'" (valueChanged)="(filter = $event)" [placeholderText]="'Search for a Column...'"></pf-input-debounce>
     </p>
-    <div class="column-list" *ngIf="!loading && !(ListAreaColumns | columnChooserSearch: filter).length;else column_list">
+    <div class="column-list" *ngIf="!loading && !(listAreaColumns | columnChooserSearch: filter).length;else column_list">
       <h5>No Columns</h5>
     </div>
     <pf-async-container [loading]="loading"></pf-async-container>
@@ -21,9 +21,9 @@
 <ng-template #column_list>
   <div *ngIf="!loading" class="column-list">
     <ul>
-      <li *ngFor="let listAreaColumn of ListAreaColumns | columnChooserSearch: filter" class="column-item">
-        <input type="checkbox" [attr.data-qa-id]="'chk-' + listAreaColumn.Field" [(ngModel)]="listAreaColumn.Visible" [disabled]="listAreaColumn.Default">
-        <span class="column-text">{{listAreaColumn.DisplayName}}</span>
+      <li *ngFor="let col of listAreaColumns | columnChooserSearch: filter" class="column-item">
+        <input type="checkbox" [attr.data-qa-id]="'chk-' + col.Field" [(ngModel)]="col.Visible" [disabled]="col.Default">
+        <span class="column-text">{{col.DisplayName}}</span>
       </li>
     </ul>
   </div>

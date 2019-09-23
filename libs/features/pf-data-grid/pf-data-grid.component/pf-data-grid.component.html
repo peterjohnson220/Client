@@ -1,0 +1,28 @@
+<pf-page-with-title-bar class="wrapper">
+  <ng-container page-title>
+    {{entity | titlecase}} Page
+  </ng-container>
+  <ng-container page-actions>
+    <pf-action-bar [entity]="entity"></pf-action-bar>
+  </ng-container>
+  <ng-container page-content>
+    <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end pb-3">
+      <ng-container [ngTemplateOutlet]="gridActionsTemplate">
+      </ng-container>
+    </div>
+    <div class="row no-gutters">
+      <div [class.col-3]="isSplitView()">
+        <pf-grid
+          [entity]="entity"
+          [primaryKey]="primaryKey"
+          [columnTemplates]="columnTemplates"
+          [isCompact]="isSplitView()"
+          [selection]="selection"></pf-grid>
+      </div>
+      <div *ngIf="isSplitView()" class="col-9 pl-3">
+        <ng-container [ngTemplateOutlet]="splitViewTemplate" [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter}">
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>
