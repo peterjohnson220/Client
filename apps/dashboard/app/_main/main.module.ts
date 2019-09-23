@@ -24,7 +24,8 @@ import { DashboardEffects,
   UserVoiceEffects,
   TimelineActivityEffects,
   DashboardTcModalEffects,
-  CompositeSummaryDownloadEffects } from './effects';
+  CompositeSummaryDownloadEffects,
+  CompanyResourcesPageEffects } from './effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -33,7 +34,7 @@ import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 
 // Containers
-import { DashboardPageComponent } from './containers';
+import { DashboardPageComponent, CompanyResourcesPageComponent, CompanyResourceListComponent } from './containers';
 import { TileGridComponent } from './containers';
 import { TimelineActivityComponent } from './containers';
 import { UserVoiceIndicatorComponent } from './containers';
@@ -65,7 +66,8 @@ import { ResourcesComponent } from './containers/resources/resources.component';
       DashboardEffects,
       TimelineActivityEffects,
       DashboardTcModalEffects,
-      CompositeSummaryDownloadEffects
+      CompositeSummaryDownloadEffects,
+      CompanyResourcesPageEffects
     ]),
     ChartsModule,
     DateInputsModule,
@@ -84,6 +86,7 @@ import { ResourcesComponent } from './containers/resources/resources.component';
   declarations: [
     // Pages
     DashboardPageComponent,
+    CompanyResourcesPageComponent,
 
     // Components
     TileComponent,
@@ -100,7 +103,8 @@ import { ResourcesComponent } from './containers/resources/resources.component';
     DashboardTCModalComponent,
     CompositeSummaryDownloadComponent,
     BasicListComponent,
-    ResourcesComponent
+    ResourcesComponent,
+    CompanyResourceListComponent
   ]
 })
 export class MainModule {

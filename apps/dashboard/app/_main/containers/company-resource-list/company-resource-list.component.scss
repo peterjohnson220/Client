@@ -1,0 +1,184 @@
+$red-delete: #910113;
+$red-delete-hover: #D0021B;
+$blue-folder-text: #398CED;
+$white: #ffffff;
+$grey: #4a4a4a;
+$blue-accent-button: #034F9E;
+$blue-primary-button: #0366CC;
+$button-shadow: rgba(0, 0, 0, 0.5);
+$list-item-hover: rgba(74,74,74,.05);
+$icon-color: rgb(194,194,194);
+
+.button-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-align-content: flex-end;
+    align-content: flex-end;
+
+    fa-icon {
+        margin-right: 10px;
+    }
+
+    button {
+        border-radius: 4px;
+        font-size: 16px;
+        text-align: center;
+        box-shadow: 0 0 1px 0 $button-shadow;
+    }
+
+    #new-folder-btn {
+        margin-right: 10px;
+        background: $white;
+        border: 1px solid $blue-accent-button;
+        color: $blue-accent-button;
+    }
+    
+    #upload-btn {
+        background: $blue-primary-button;
+        color: $white;
+        border: 1px solid $blue-primary-button;
+    }
+}
+
+.list-container {
+    margin-left: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    letter-spacing: 1.2px;
+    line-height: 36px;
+
+    ul {
+        margin-bottom: 0.4rem;
+    }
+
+    li {
+        padding-left: 10px;
+    }
+
+    li:hover {
+        background-color: $list-item-hover;
+    }
+
+    li button.btn-danger, li button.btn-primary {
+        visibility: hidden;
+    }
+
+    li:hover button.btn-danger, li:hover button.btn-primary {
+        visibility: visible;
+    }
+
+    li fa-icon.resource-icon {
+        visibility: hidden;
+    }
+  
+    li:hover fa-icon.resource-icon {
+        visibility: visible;
+    }
+     
+    .resource-list {
+        list-style-type: none;
+    }
+
+    .folder-item {
+        cursor: pointer;
+        color: $grey;
+    }
+
+    .fa-li {
+        font-size: 1.4em;
+    }
+    
+    .resource-item {
+        letter-spacing: 1.2px;
+        display:-webkit-flex;
+        display:flex;
+        -webkit-justify-content:space-between;
+        justify-content:space-between;
+        -webkit-align-items:center;
+        align-items:center;
+        -webkit-align-content:center;
+        align-content:center;
+    }
+
+    .resource-text {
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-grow: 0;
+    }
+
+    .resource-text a:hover {
+        color: $blue-folder-text;
+    }   
+
+    .icon-container {
+        display:-webkit-flex;
+        display:flex;
+        -webkit-justify-content:space-between;
+        justify-content:space-between;
+        -webkit-align-items:center;
+        align-items:center;
+        -webkit-align-content:center;
+        align-content:center;
+
+        flex-grow: 1;
+        min-width: 150px;
+    }
+
+    .resource-icon {
+        margin-left: 10px;
+        color: $icon-color;
+    }
+
+    .btn-danger {
+        display: inline-block;
+        width: 80px;
+        border-radius: 4px;
+        font-size: 12.8px;
+        text-align: center;
+        max-height: 24px;
+        color: $red-delete;
+        background-color: $white;
+        border-color: $red-delete;
+        padding: 1px;
+        margin-right: 10px;
+    }
+
+    .btn-danger:hover {
+        background: $red-delete-hover;
+        border: 1px solid $red-delete-hover;
+        box-shadow: 0 2px 4px 0 $button-shadow;
+        color: $white;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        width: 80px;
+        border-radius: 4px;
+        font-size: 12.8px;
+        text-align: center;
+        max-height: 24px;
+        color: $blue-accent-button;
+        background-color: $white;
+        border-color: $blue-accent-button;
+        padding: 1px;
+        margin-right: 10px;
+    }
+
+    .btn-primary:hover {
+        background: $blue-primary-button;
+        border: 1px solid $blue-primary-button;
+        box-shadow: 0 2px 4px 0 $button-shadow;
+        color: $white;
+    }
+    
+    .orphan-list {
+        list-style-type: none;
+        margin-top: -4px;
+    }
+}
