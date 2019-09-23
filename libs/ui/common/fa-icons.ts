@@ -9,6 +9,7 @@ import { faExclamationCircle } from '@fortawesome/pro-solid-svg-icons/faExclamat
 
 import { faExclamationTriangle as farExclamationTriangle} from '@fortawesome/pro-regular-svg-icons/faExclamationTriangle';
 import { faCheckCircle} from '@fortawesome/pro-regular-svg-icons/faCheckCircle';
+import { faTable} from '@fortawesome/pro-regular-svg-icons/faTable';
 
 export const faIcons = [faTimes, faAngleDown, faSearch, faCircleNotch, faLongArrowAltLeft, faInfoCircle, faExclamationTriangle,
-  faExclamationCircle, farExclamationTriangle, faCheckCircle];
+  faExclamationCircle, farExclamationTriangle, faCheckCircle, faTable];

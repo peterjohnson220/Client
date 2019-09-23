@@ -35,6 +35,7 @@ import { StructuresApiService, StructuresRangeGroupApiService } from './structur
 import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService } from './hris-api';
+import { PfGridApiService } from './pf-grid/pf-grid-api.service';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -91,7 +92,8 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
     TransferMethodsHrisApiService,
     ProvidersHrisApiService,
     AuthenticationTypesHrisApiService,
-    ConnectionsHrisApiService
+    ConnectionsHrisApiService,
+    PfGridApiService
   ]
 })
 export class PfApiModule { }
