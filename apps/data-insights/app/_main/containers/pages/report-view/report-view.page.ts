@@ -10,7 +10,7 @@ import { WindowRef } from 'libs/core/services';
 
 import * as fromReportsViewActions from '../../../actions/reports-view-page.actions';
 import * as fromDataInsightsMainReducer from '../../../reducers';
-import { ReportViewTypes } from '../../../models';
+import { ReportViewTypes, StandardReportFilter } from '../../../models';
 
 @Component({
   selector: 'pf-report-view-page',
@@ -57,11 +57,13 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
     if (!url) {
       return;
     }
+    const filter: StandardReportFilter = this.getStandardReportFilter(url);
+    const contentUrl = this.getReportViewContentUrl(url);
     this.vizLoading = true;
     this.currentHistoryState = history.state;
     const containerDiv = document.getElementById('vizContainer');
     const that = this;
-    const options = {
+    let options = {
       hideTabs: !this.showTabs,
       toolbarPosition: 'top',
       onFirstInteractive: function () {
@@ -73,11 +75,14 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
         }
       }
     };
+    if (!!filter) {
+      options = Object.assign({ [filter.FieldName]: filter.FilterValue }, options);
+    }
     if (this.viz) {
       this.viz.dispose();
     }
     const tableau = this.winRef.nativeWindow.tableau || {};
-    this.viz = new tableau.Viz(containerDiv, url, options);
+    this.viz = new tableau.Viz(containerDiv, contentUrl, options);
     this.viz.addEventListener('tabSwitch', function () {
       that.updateRoute();
     });
@@ -138,5 +143,25 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
     } catch (e) {
       return null;
     }
+  }
+
+  private getReportViewContentUrl(url: string): string {
+    const urlSplits = url.split('?');
+    return urlSplits[0];
+  }
+
+  private getStandardReportFilter(url: string): StandardReportFilter {
+    const urlSplits = url.split('?');
+    if (urlSplits.length !== 2) {
+      return null;
+    }
+    const filterSplits = decodeURI(urlSplits[1]).split('=');
+    if (filterSplits.length !== 2) {
+      return null;
+    }
+    return {
+      FieldName: filterSplits[0],
+      FilterValue: filterSplits[1]
+    };
   }
 }

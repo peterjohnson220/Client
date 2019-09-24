@@ -12,3 +12,4 @@ export * from './save-workbook-mode.enum';
 export * from './save-report-order-data.model';
 export * from './filter.model';
 export * from './get-filter-options-data.model';
+export * from './standard-report-filter.model';
