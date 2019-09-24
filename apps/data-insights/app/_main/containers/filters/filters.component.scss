@@ -19,7 +19,15 @@
 .add-filter-btn {
   background-color: #ffffff;
   color: $pf-brand-secondary-color;
+}
 
+.apply-filter-btn {
+  background-color: $pf-brand-secondary-color;
+  color: #ffffff;
+}
+
+.action-btn {
+  margin: 0 1rem;
   .icon {
     padding-right: 0.5rem;
   }

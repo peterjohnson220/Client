@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { Field } from '../models';
+import { Field, Filter } from '../models';
 
 export const GET_DATA = '[Data Insights / Data View Grid] Get Data';
 export const GET_DATA_SUCCESS = '[Data Insights / Data View Grid] Get Data Success';
@@ -14,6 +14,9 @@ export const SAVE_SORT_DESCRIPTOR = '[Data Insights / Data View Grid] Save Sort 
 export const SAVE_SORT_DESCRIPTOR_SUCCESS = '[Data Insights / Data View Grid] Save Sort Descriptor Success';
 export const SAVE_SORT_DESCRIPTOR_ERROR = '[Data Insights / Data View Grid] Save Sort Descriptor Error';
 export const SET_SORT_DESCRIPTOR = '[Data Insights / Data View Grid] Set Sort Descriptor';
+export const SAVE_FILTERS = '[Data Insights / Configure] Save Filters';
+export const SAVE_FILTERS_SUCCESS = '[Data Insights / Configure] Save Filters Success';
+export const SAVE_FILTERS_ERROR = '[Data Insights / Configure] Save Filters Error';
 
 export class GetData implements Action {
   readonly type = GET_DATA;
@@ -75,6 +78,24 @@ export class SetSortDescriptor implements Action {
   constructor(public payload: SortDescriptor) {}
 }
 
+export class SaveFilters implements Action {
+  readonly type = SAVE_FILTERS;
+
+  constructor(public payload: Filter[]) {}
+}
+
+export class SaveFiltersSuccess implements Action {
+  readonly type = SAVE_FILTERS_SUCCESS;
+
+  constructor() {}
+}
+
+export class SaveFiltersError implements Action {
+  readonly type = SAVE_FILTERS_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetData
   | GetDataSuccess
@@ -85,4 +106,7 @@ export type Actions
   | SaveSortDescriptor
   | SaveSortDescriptorSuccess
   | SaveSortDescriptorError
-  | SetSortDescriptor;
+  | SetSortDescriptor
+  | SaveFilters
+  | SaveFiltersSuccess
+  | SaveFiltersError;

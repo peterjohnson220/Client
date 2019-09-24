@@ -273,3 +273,8 @@ export const getFilters = createSelector(
   selectConfigurationState,
   fromConfigurationReducer.getFilters
 );
+
+export const getFiltersValid = createSelector(
+  selectConfigurationState,
+  fromConfigurationReducer.getFiltersValid
+);

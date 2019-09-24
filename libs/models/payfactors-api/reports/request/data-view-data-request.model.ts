@@ -24,7 +24,7 @@ export interface DataViewFilter {
   EntitySourceName: string;
   SourceName: string;
   Operator: string;
-  Value: string;
+  Value?: string;
   Values?: string[];
   DataType?: DataViewFieldDataType;
 }

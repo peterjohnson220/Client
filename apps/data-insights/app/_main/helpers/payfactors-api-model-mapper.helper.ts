@@ -10,11 +10,22 @@ import {
   DataViewDataRequest,
   DataViewField,
   PagingOptions,
-  DataViewFilterOptionsRequest
+  DataViewFilterOptionsRequest, DataViewFilter, SaveUserViewFiltersRequest
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 
-import { DashboardView, Entity, ReportType, SaveWorkbookTagObj, UserDataView, View, Workbook, Field, GetFilterOptionsData } from '../models';
+import {
+  DashboardView,
+  Entity,
+  ReportType,
+  SaveWorkbookTagObj,
+  UserDataView,
+  View,
+  Workbook,
+  Field,
+  GetFilterOptionsData,
+  Filter
+} from '../models';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 
 export class PayfactorsApiModelMapper {
@@ -75,13 +86,13 @@ export class PayfactorsApiModelMapper {
 
   static mapUserDataViewResponseToUserDataView(response: UserDataViewResponse): UserDataView {
     return {
-      BaseEntityId: response.BaseEntityId,
-      Entity: response.Entity,
-      Name: response.Name,
-      Summary: response.Summary,
-      UserDataViewId: response.UserDataViewId,
-      SortField: response.SortField,
-      SortDir: response.SortDir
+      BaseEntityId: response.DataView.BaseEntityId,
+      Entity: response.DataView.Entity,
+      Name: response.DataView.Name,
+      Summary: response.DataView.Summary,
+      UserDataViewId: response.DataView.UserDataViewId,
+      SortField: response.DataView.SortField,
+      SortDir: response.DataView.SortDir
     };
   }
 
@@ -146,7 +157,8 @@ export class PayfactorsApiModelMapper {
     dataView: UserDataView,
     fields: Field[],
     pagingOptions: PagingOptions,
-    sortDescriptor: SortDescriptor): DataViewDataRequest {
+    sortDescriptor: SortDescriptor,
+    filters: Filter[]): DataViewDataRequest {
 
     let dataViewSortDesc = null;
     if (!!sortDescriptor && !!sortDescriptor.dir && !!sortDescriptor.field) {
@@ -160,7 +172,7 @@ export class PayfactorsApiModelMapper {
     return {
       BaseEntityId: dataView.BaseEntityId,
       Fields: PayfactorsApiModelMapper.mapFieldsToDataViewFields(fields),
-      Filters: [],
+      Filters: PayfactorsApiModelMapper.mapFiltersToDataViewFilters(filters),
       PagingOptions: pagingOptions,
       SortDescriptor: dataViewSortDesc
     };
@@ -172,6 +184,35 @@ export class PayfactorsApiModelMapper {
       EntitySourceName: data.EntitySourceName,
       SourceName: data.SourceName,
       Query: data.Query
+    };
+  }
+
+  static mapFiltersToDataViewFilters(data: Filter[]): DataViewFilter[] {
+    return data.map((filter) => {
+      return {
+        Operator: 'in',
+        Values: filter.SelectedOptions,
+        EntitySourceName: filter.Field.EntitySourceName,
+        SourceName: filter.Field.SourceName
+      };
+    });
+  }
+
+  static mapDataViewFiltersToFilters(data: DataViewFilter[], fields: DataViewField[]): Filter[] {
+    return data.map((filter) => {
+      return {
+        Field: fields.find(x => x.EntitySourceName === filter.EntitySourceName && x.SourceName === filter.SourceName),
+        SelectedOptions: filter.Values,
+        Term: 'equals',
+        Options: []
+      };
+    });
+  }
+
+  static buildSaveFiltersRequest(filters: Filter[], userDataView: UserDataView): SaveUserViewFiltersRequest {
+    return {
+      UserDataViewId: userDataView.UserDataViewId,
+      Filters: this.mapFiltersToDataViewFilters(filters)
     };
   }
 

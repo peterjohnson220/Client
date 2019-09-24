@@ -16,8 +16,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
   @Input() selectedFields: Field[];
 
   filters$: Observable<Filter[]>;
+  filtersValid$: Observable<boolean>;
 
   filtersSub: Subscription;
+  changesMade = false;
 
   filters: Filter[];
 
@@ -25,6 +27,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     public store: Store<fromDataInsightsMainReducer.State>
   ) {
     this.filters$ = this.store.pipe(select(fromDataInsightsMainReducer.getFilters));
+    this.filtersValid$ = this.store.pipe(select(fromDataInsightsMainReducer.getFiltersValid));
   }
 
   ngOnInit(): void {
@@ -46,7 +49,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
     const filter: Filter = {
       Field: this.selectedFields[0],
       Term: 'equals',
-      Options: []
+      Options: [],
+      SelectedOptions: []
     };
     this.store.dispatch(new fromConfigurationActions.AddFilter(filter));
   }
@@ -57,6 +61,16 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   handleSearchOptionChanged(data: GetFilterOptionsData): void {
     this.store.dispatch(new fromConfigurationActions.GetFilterOptions(data));
+  }
+
+  handleSelectedValuesChanged(index: number, selectedValues: string[]): void {
+    this.store.dispatch(new fromConfigurationActions.UpdateFilterSelectedOptions({ index, selectedOptions: selectedValues }));
+    this.changesMade = true;
+  }
+
+  handleApplyFilterClicked(): void {
+    this.store.dispatch(new fromConfigurationActions.ApplyFilters(this.filters));
+    this.changesMade = false;
   }
 }
 

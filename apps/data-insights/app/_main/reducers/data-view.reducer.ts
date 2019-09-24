@@ -13,6 +13,7 @@ export interface State {
   saveUserReportConflict: boolean;
   userDataViewAsync: AsyncStateObj<UserDataView>;
   reportFieldsAsync: AsyncStateObj<Field[]>;
+  selectedReportFields: Field[];
   editingUserReport: boolean;
   editUserReportError: boolean;
   editUserReportConflict: boolean;
@@ -36,6 +37,7 @@ const initialState: State = {
   saveUserReportError: false,
   userDataViewAsync: generateDefaultAsyncStateObj<UserDataView>(null),
   reportFieldsAsync: generateDefaultAsyncStateObj<Field[]>([]),
+  selectedReportFields: [],
   editingUserReport: false,
   editUserReportError: false,
   editUserReportConflict: false,
@@ -249,14 +251,11 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       };
     }
     case fromDataViewActions.REMOVE_SELECTED_FIELD: {
-      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
-      const fieldToRemove = asyncStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
-      if (fieldToRemove) {
-        fieldToRemove.IsSelected = false;
-      }
+      let fieldsClone = cloneDeep(state.selectedReportFields);
+      fieldsClone = fieldsClone.filter(x => x.DataElementId !== action.payload.DataElementId);
       return {
         ...state,
-        reportFieldsAsync: asyncStateObjClone
+        selectedReportFields: fieldsClone
       };
     }
     case fromDataViewActions.SAVE_REPORT_FIELDS: {
@@ -281,18 +280,18 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       };
     }
     case fromDataViewActions.REORDER_FIELDS: {
-      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
-      asyncStateObjClone.obj = asyncStateObjClone.obj.map(x => {
+      let fieldsClone = cloneDeep(state.selectedReportFields);
+      fieldsClone = fieldsClone.map(x => {
         const newFieldIndex = action.payload.findIndex(y => y.DataElementId === x.DataElementId);
         if (newFieldIndex !== -1) {
           x.Order = newFieldIndex + 1;
         }
         return x;
       });
-      asyncStateObjClone.obj = orderBy(asyncStateObjClone.obj, 'Order');
+      fieldsClone = orderBy(fieldsClone, 'Order');
       return {
         ...state,
-        reportFieldsAsync: asyncStateObjClone
+        selectedReportFields: fieldsClone
       };
     }
     case fromDataViewActions.DELETE_USER_REPORT: {
@@ -310,28 +309,38 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       };
     }
     case fromDataViewActions.ADD_SELECTED_FIELD: {
-      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
-      const fieldToAdd = asyncStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
-      const maxOrder = Math.max.apply(Math, asyncStateObjClone.obj.filter(f => f.IsSelected).map(function(o: Field) { return o.Order; }));
+      let fieldsClone = cloneDeep(state.selectedReportFields);
+      const reportFieldStateObjClone = cloneDeep(state.reportFieldsAsync);
+      const fieldToAdd = reportFieldStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
+      const maxOrder = Math.max.apply(Math, fieldsClone.filter(f => f.IsSelected).map(function(o: Field) { return o.Order; }));
       if (fieldToAdd) {
         fieldToAdd.IsSelected = true;
         fieldToAdd.Order = maxOrder + 1;
+        fieldsClone.push(fieldToAdd);
       }
-      asyncStateObjClone.obj = orderBy(asyncStateObjClone.obj, 'Order');
+      fieldsClone = orderBy(fieldsClone, 'Order');
       return {
         ...state,
-        reportFieldsAsync: asyncStateObjClone
+        selectedReportFields: fieldsClone
+      };
+    }
+    case fromDataViewActions.SET_SELECTED_FIELDS: {
+      let fieldsClone = cloneDeep(state.selectedReportFields);
+      fieldsClone = action.payload;
+      return {
+        ...state,
+        selectedReportFields: fieldsClone
       };
     }
     case fromDataViewActions.UPDATE_DISPLAY_NAME: {
-      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
-      const fieldToUpdate = asyncStateObjClone.obj.find(x => x.DataElementId === action.payload.fieldDataElementId);
+      const fieldsClone = cloneDeep(state.selectedReportFields);
+      const fieldToUpdate = fieldsClone.find(x => x.DataElementId === action.payload.fieldDataElementId);
       if (fieldToUpdate) {
         fieldToUpdate.DisplayName = action.payload.newDisplayName;
       }
       return {
         ...state,
-        reportFieldsAsync: asyncStateObjClone
+        selectedReportFields: fieldsClone
       };
     }
     case fromDataViewActions.EXPORT_USER_REPORT: {
@@ -391,13 +400,10 @@ export const getDuplicateUserReportConflict = (state: State) => state.duplicateU
 export const getDuplicateUserReportSuccess = (state: State) => state.duplicateUserReportSuccess;
 export const getExportingUserReport = (state: State) => state.exportingUserReport;
 export const getExportEventId = (state: State) => state.exportEventId;
-export const getSelectedFields = (state: State) => {
-  if (state.reportFieldsAsync.obj) {
-    return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === true);
-  }
-};
+export const getSelectedFields = (state: State) => state.selectedReportFields;
 export const getUnselectedFields = (state: State) => {
   if (state.reportFieldsAsync.obj) {
-    return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === false);
+    return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === false
+      && !state.selectedReportFields.some(y => y.DataElementId === f.DataElementId));
   }
 };

@@ -1,9 +1,16 @@
 <div class="top-actions-bar d-flex justify-content-center">
-  <button class="btn add-filter-btn"
+  <button class="btn add-filter-btn action-btn"
     [attr.data-qa-id]="'btn-add-filter'"
     (click)="handleAddFilterClicked()">
     <fa-icon icon="plus" class="icon"></fa-icon>
     <span class="btn-title">Add Filter</span>
+  </button>
+  <button class="btn apply-filter-btn action-btn"
+          [attr.data-qa-id]="'btn-apply-filter'"
+          [disabled]="!(filtersValid$ | async) || !changesMade"
+          (click)="handleApplyFilterClicked()">
+    <fa-icon icon="check" class="icon"></fa-icon>
+    <span class="btn-title">Apply</span>
   </button>
 </div>
 
@@ -15,6 +22,7 @@
         [fields]="selectedFields"
         [filter]="filter"
         (selectedFieldChanged)="handleSelectedFieldChanged(i, $event)"
+        (selectedValuesChanged)="handleSelectedValuesChanged(i, $event)"
         (searchOptionChanged)="handleSearchOptionChanged($event)">
       </pf-filter-card>
     </div>
