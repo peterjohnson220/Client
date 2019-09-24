@@ -155,12 +155,12 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
     if (urlSplits.length !== 2) {
       return null;
     }
-    const filterSplits = decodeURI(urlSplits[1]).split('=');
+    const filterSplits = urlSplits[1].split('=');
     if (filterSplits.length !== 2) {
       return null;
     }
     return {
-      FieldName: filterSplits[0],
+      FieldName: decodeURI(filterSplits[0]),
       FilterValue: filterSplits[1]
     };
   }
