@@ -68,6 +68,12 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
         filters: filtersClone
       };
     }
+    case fromConfigurationActions.RESET_FILTERS: {
+      return {
+        ...state,
+        filters: []
+      };
+    }
     default: {
       return state;
     }

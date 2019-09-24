@@ -11,14 +11,14 @@
 
         <ng-template kendoDropDownListItemTemplate let-dataItem>
           <div class="d-flex">
-            <span class="field-name" [title]="dataItem.DisplayName">{{ dataItem.DisplayName }}</span>
-            <span class="ml-auto data-item-field-source">{{ dataItem.Entity }}</span>
+            <span class="field-name" [title]="dataItem?.DisplayName">{{ dataItem?.DisplayName }}</span>
+            <span class="ml-auto data-item-field-source">{{ dataItem?.Entity }}</span>
           </div>
         </ng-template>
 
         <ng-template kendoDropDownListValueTemplate let-dataItem>
           <div class="d-flex w-100">
-            <span class="field-name" [title]="dataItem.DisplayName">{{ dataItem?.DisplayName }}</span>
+            <span class="field-name" [title]="dataItem?.DisplayName">{{ dataItem?.DisplayName }}</span>
             <span class="ml-auto field-source">{{ dataItem?.Entity }}</span>
           </div>
         </ng-template>

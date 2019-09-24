@@ -11,6 +11,7 @@ export const GET_FILTER_OPTIONS_SUCCESS = '[Data Insights / Configure] Get Filte
 export const GET_FILTER_OPTIONS_ERROR = '[Data Insights / Configure] Get Filter Options Error';
 export const SET_FILTERS = '[Data Insights / Configure] Set Filters';
 export const APPLY_FILTERS = '[Data Insights / Configure] Apply Filters';
+export const RESET_FILTERS = '[Data Insights / Configure] Reset Filters';
 
 export class AddFilter implements Action {
   readonly type = ADD_FILTER;
@@ -65,6 +66,13 @@ export class ApplyFilters implements Action {
 
   constructor(public payload: Filter[]) {}
 }
+
+export class ResetFilters implements Action {
+  readonly type = RESET_FILTERS;
+
+  constructor() {}
+}
+
 export type Actions
   = AddFilter
   | UpdateFilterSelectedField
@@ -74,4 +82,5 @@ export type Actions
   | GetFilterOptionsError
   | UpdateFilterSelectedOptions
   | SetFilters
-  | ApplyFilters;
+  | ApplyFilters
+  | ResetFilters;
