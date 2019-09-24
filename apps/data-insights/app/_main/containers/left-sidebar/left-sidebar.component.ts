@@ -59,11 +59,11 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   handleFieldRemoved(fieldToBeRemoved: Field) {
-    this.store.dispatch(new fromDataViewActions.RemoveSelectedField(fieldToBeRemoved));
     const hasFiltersToBeRemoved: boolean = this.filters.some(f => f.Field.DataElementId === fieldToBeRemoved.DataElementId);
     if (hasFiltersToBeRemoved) {
       this.store.dispatch(new fromConfigurationActions.RemoveFilter(fieldToBeRemoved));
     }
+    this.store.dispatch(new fromDataViewActions.RemoveSelectedField(fieldToBeRemoved));
   }
 
   handleFieldsReordered(sourceModel: Field[]) {

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, catchError, map, debounceTime, mergeMap } from 'rxjs/operators';
+import { switchMap, catchError, map, debounceTime, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
 import { PfConstants } from 'libs/models/common';
@@ -10,6 +11,8 @@ import { PfConstants } from 'libs/models/common';
 import * as fromConfigurationActions from '../actions/configuration.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
+
+import * as fromDataInsightsMainReducer from '../reducers';
 
 @Injectable()
 export class DataViewConfigurationEffects {
@@ -42,8 +45,22 @@ export class DataViewConfigurationEffects {
       ])
     );
 
+  @Effect()
+  removeFilter$ = this.action$
+    .pipe(
+      ofType(fromConfigurationActions.REMOVE_FILTER),
+      withLatestFrom(
+        this.store.pipe(select(fromDataInsightsMainReducer.getFilters)),
+        (action, filters) => ({ action, filters })
+      ),
+      mergeMap((data) => [
+        new fromDataViewGridActions.SaveFilters(data.filters)
+      ])
+    );
+
   constructor(
     private action$: Actions,
-    private dataViewApiService: DataViewApiService
+    private dataViewApiService: DataViewApiService,
+    private store: Store<fromDataInsightsMainReducer.State>
   ) {}
 }
