@@ -122,4 +122,8 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   handleDeleteSaveClicked(): void {
     this.store.dispatch(new fromDataViewActions.DeleteUserReport());
   }
+
+  handleExportClicked(): void {
+    this.store.dispatch(new fromDataViewActions.ExportUserReport());
+  }
 }

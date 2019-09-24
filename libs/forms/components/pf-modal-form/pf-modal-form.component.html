@@ -8,7 +8,8 @@
         <h5><small class="text-muted">{{subTitle}}</small></h5>
       </ng-container>
     </div>
-    <button type="button"
+    <button *ngIf="allowDismiss"
+            type="button"
             class="close"
             aria-label="Close"
             (click)="dismiss()">

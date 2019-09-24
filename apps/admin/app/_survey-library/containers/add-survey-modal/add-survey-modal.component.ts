@@ -1,8 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable, of, observable, BehaviorSubject } from 'rxjs';
-import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
+import { Component, Input, OnInit } from '@angular/core';
+
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { SurveyLibraryStateService } from '../../services/survey-library-state.service';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
+
+import * as fromSurveysReducer from '../../reducers';
+import * as fromSurveyActions from '../../actions/survey-actions';
 
 @Component({
   selector: 'pf-add-survey-modal',
@@ -13,36 +19,63 @@ export class AddSurveyModalComponent implements OnInit {
 
   @Input() public surveyYearId: number;
 
+  isModalOpen$: Observable<boolean>;
+  addSurveyForm: FormGroup;
+  public showAgingAndCost = false;
+  companies: any;
+  isSubmitting = false;
+
   constructor(
     private surveyApi: SurveyLibraryApiService,
-    public state: SurveyLibraryStateService,
+    private store: Store<fromSurveysReducer.State>,
     private fb: FormBuilder) {
 
     this.addSurveyForm = this.fb.group({
-      'newCompany': [],
-      'newCost': [],
-      'newAging': []
+      newCompany: [],
+      newCost: [],
+      newAging: []
     });
 
-  }
-
-  isSaving$ = of(false);
-  selectedCompanyId: number;
-  selectedCost: number;
-  selectedAging: number;
-  addSurveyForm: FormGroup;
-
-  handleFormSubmit() {
-    this.surveyApi.saveSurvey(this.surveyYearId, '', this.selectedAging, this.selectedCompanyId, this.selectedCost)
-      .subscribe(f =>
-        this.handleModalDismissed()
-      );
-  }
-  handleModalDismissed() {
-    this.state.setAddSurveyModalOpen(false);
+    this.isModalOpen$ = this.store.select(fromSurveysReducer.isAddSurveyModalOpen);
   }
 
   ngOnInit() {
+    this.isModalOpen$.subscribe(isOpen => {
+      if (isOpen) {
+        this.isSubmitting = false;
+        this.surveyApi.getAddSurveyPopup(this.surveyYearId).subscribe(f => {
+          this.companies = [{ CompanyId: '', CompanyName: 'Seed' }, ...f];
+
+        });
+      } else {
+        this.companies = [];
+      }
+    });
   }
 
+  handleFormSubmit() {
+    this.isSubmitting = true;
+    this.surveyApi.saveSurvey(this.surveyYearId, this.addSurveyForm.get('newAging').value,
+      this.getNewCompanyId(), this.addSurveyForm.get('newCost').value)
+      .subscribe(() => {
+        this.isSubmitting = false;
+        this.handleModalDismissed();
+      }
+      );
+  }
+
+  getNewCompanyId(): number {
+    // tslint:disable-next-line: radix
+    return parseInt(this.addSurveyForm.get('newCompany').value);
+  }
+
+  getSelectedCompanyName() {
+    const selectedCompanyId = this.getNewCompanyId();
+    this.showAgingAndCost = !Number.isNaN(selectedCompanyId);
+  }
+
+  handleModalDismissed() {
+    this.store.dispatch(new fromSurveyActions.ShouldRefreshGrid(true));
+    this.store.dispatch(new fromSurveyActions.SetAddSurveyModalOpen(false));
+  }
 }

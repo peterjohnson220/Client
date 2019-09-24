@@ -31,6 +31,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() centered = false;
   @Input() formGroup: FormGroup;
   @Input() isOpen$: Observable<boolean>;
+  @Input() allowDismiss = true;
   @Input() backdrop: boolean | 'static' = 'static';
   @Input() resetFormOnClose = true;
   @Output() onSubmit = new EventEmitter();

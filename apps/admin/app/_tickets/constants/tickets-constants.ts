@@ -4,6 +4,7 @@ export enum TicketFieldType {
     SERVICEUSER = 'ServiceUser',
     TICKETID = 'Id',
     COMPANYNAME = 'CompanyName',
+    COMPANYIDNAME = 'CompanyIDName',
     CREATED = 'Created',
     OPENED_USERNAME = 'OpenedUserFullName'
 }

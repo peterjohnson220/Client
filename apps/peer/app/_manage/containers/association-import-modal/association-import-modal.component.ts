@@ -1,20 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { map, catchError, switchMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { ErrorEvent, UploadEvent, FileRestrictions } from '@progress/kendo-angular-upload';
+import { SuccessEvent, FileInfo } from '@progress/kendo-angular-upload';
 
 import { Exchange } from 'libs/models/peer';
+import { ImportActionEnum } from 'libs/constants';
 
 import * as fromSharedPeerReducer from '../../../shared/reducers';
 import * as fromPeerManagementReducer from '../../reducers';
 import * as importAssociationAction from '../../actions/import.actions';
 import { ImportStatusEnum } from '../../actions/import.actions';
-import { ExchangeJobMappingService } from '../../services/exchange-job-mapping.service';
-
-import { ErrorEvent, UploadEvent, FileRestrictions } from '@progress/kendo-angular-upload';
-import { SuccessEvent, FileInfo } from '@progress/kendo-angular-upload';
+import { ExchangeJobMappingService } from '../../services';
 
 @Component({
     selector: 'pf-association-import-modal',
@@ -22,6 +21,8 @@ import { SuccessEvent, FileInfo } from '@progress/kendo-angular-upload';
 })
 
 export class AssociationImportModalComponent implements OnInit, OnDestroy {
+    ImportActionEnum = ImportActionEnum;
+
     exchange$: Observable<Exchange>;
 
     exchangeJobRequestForm: FormGroup;
@@ -43,8 +44,10 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
     uploadResult: any;
     myFiles: Array<FileInfo>;
 
+    importAction: ImportActionEnum = ImportActionEnum.Append;
     CONST_RESTART = 'Restart';
     CONST_IMPORT = 'Import';
+
 
     constructor(
         private store: Store<fromPeerManagementReducer.State>,
@@ -75,6 +78,7 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
     handleModalDismissed(): void {
         this.reset();
         this.store.dispatch(new importAssociationAction.SwitchAssociationImportModalOpenAction(false));
+        this.importAction = ImportActionEnum.Append;
     }
 
     // Upload events
@@ -86,7 +90,9 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
         if (e.operation === 'upload') {
             this.fileUpload = e.response.body.FileName;
 
-            this.exchangeJobMappingService.validateAndLoadAssociations(this.fileUpload, this.exchange.ExchangeId).subscribe(
+            this.exchangeJobMappingService.validateAndLoadAssociations(
+              this.fileUpload, this.exchange.ExchangeId, this.importAction
+            ).subscribe(
                 res => {
                     this.uploadResult = res;
                     if (this.uploadResult.success) {

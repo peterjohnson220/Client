@@ -3,7 +3,7 @@
     <p>
       <pf-input-debounce id="column-search-box" (valueChanged)="(filter = $event)" [(ngModel)]="filterSearchTerm" [placeholderText]="'Search for a Filter...'"></pf-input-debounce>
     </p>
-    <div *ngIf="!loading && !(userFilterList | userFilterSearch: filter).length">
+    <!--<div *ngIf="!loading && !(userFilterList | userFilterSearch: filter).length">
       <h5>No Filters</h5>
     </div>
     <div *ngIf="!loading" class="list-group user-filter-list">
@@ -16,7 +16,7 @@
           <fa-icon icon="trash-alt"></fa-icon>
         </button>
       </button>
-    </div>
+    </div>-->
     <pf-async-container [loading]="loading"></pf-async-container>
   </div>
 

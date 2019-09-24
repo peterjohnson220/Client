@@ -50,10 +50,6 @@
   padding-right: 0;
 }
 
-.page-header {
-  padding: 0 1.2rem !important;
-}
-
 .arrow {
   right: .25em !important;
 }
@@ -73,7 +69,7 @@
 }
 
 .badge {
-  min-width: 80px !important;
+  min-width: 75px !important;
   display: inline-block;
   padding: 0.25em 0.4em;
   font-size: 75%;
@@ -92,4 +88,8 @@
 
 .modal-header {
   background-color: inherit !important;
+}
+
+.badge-success {
+  background-color: #5cb85c;
 }

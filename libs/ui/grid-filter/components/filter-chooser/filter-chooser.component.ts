@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild } 
 import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
 
 import { ListAreaColumn } from 'libs/models/common';
-import { PfGridColumnFilter } from 'libs/models/common/pf-grid';
+import { PfDataGridFieldModel } from 'libs/models/common/pf-data-grid';
 
 // import { ListAreaService } from '../../../../shared/services/list-area.service';
 
@@ -15,7 +15,7 @@ import { PfGridColumnFilter } from 'libs/models/common/pf-grid';
 })
 
 export class FilterChooserComponent {
-  @Input() userFilterList: PfGridColumnFilter[];
+  @Input() userFilterList: PfDataGridFieldModel[];
   @Input() listAreaColumns: ListAreaColumn[];
   @Input() customListAreaColumns: ListAreaColumn[];
   @Input() loading: boolean;
@@ -55,7 +55,7 @@ export class FilterChooserComponent {
     return humanizedFilters.join(' • ');
   }
 
-  selectFilter(selectedFilter: PfGridColumnFilter) {
+  selectFilter(selectedFilter: PfDataGridFieldModel) {
     if (this.attemptedDelete || this.deleting) {
       return;
     }

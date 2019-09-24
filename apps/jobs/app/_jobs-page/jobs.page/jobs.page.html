@@ -1,0 +1,20 @@
+<pf-data-grid 
+  [entity]="'jobs'"
+  [primaryKey]="'CompanyJob_ID'"
+  [gridActionsTemplate]="gridActions"
+  [columnTemplates]="colTemplates"
+  [splitViewTemplate]="jobsDetails" >
+</pf-data-grid>
+
+<ng-template #gridActions>
+  Add to Project | Match | Inactivate Jobs
+</ng-template>
+<ng-template #complexColumn let-parameters="parameters">
+  <pf-complex-column [parameters]="parameters"></pf-complex-column>
+</ng-template>
+<ng-template #complexColumn2 let-parameters="parameters">
+  <pf-complex-column [parameters]="parameters"></pf-complex-column>
+</ng-template>
+<ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter">
+  <pf-jobs-details (onClose)="splitViewEmitter.emit('close')"></pf-jobs-details>
+</ng-template>

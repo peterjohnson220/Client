@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+
+import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,15 +21,21 @@ import { FilterChooserComponent } from './components/filter-chooser';
 
 @NgModule({
   imports: [
+    // Angular
     CommonModule,
-    RouterModule,
-    PfCommonModule,
     NgbTooltipModule,
+    NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule,
-    FontAwesomeModule,
     ScrollingModule,
+
+    // Third Party
+    DropDownListModule,
+    LayoutModule,
+    FontAwesomeModule,
+
+    // Payfactors
+    PfCommonModule,
     PfFormsModule,
     PfCommonUIModule
   ],

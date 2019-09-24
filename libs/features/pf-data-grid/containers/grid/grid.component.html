@@ -1,0 +1,21 @@
+<kendo-grid
+  [data]="data$ | async"
+  [scrollable]="isCompact ? 'none' : 'scrollable'"
+  [kendoGridSelectBy]="primaryKey"
+  [selectedKeys]="selection">
+  <ng-container *ngFor="let col of (dataFields$ | async)">
+    <ng-container *ngIf="showColumn(col)">
+      <kendo-grid-column [field]="col.Field" [title]="col.DisplayName" width="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <ng-container *ngIf="col.Type === 'text' || col.Type === 'numeric'">
+            {{dataItem[col.Field]}}
+          </ng-container>
+          <ng-container *ngIf="col.Type === 'template' && columnTemplates[col.Field]" 
+            [ngTemplateOutlet]="columnTemplates[col.Field]"
+            [ngTemplateOutletContext]="{parameters:getValue(dataItem, col.ChildColumns)}">
+          </ng-container>
+        </ng-template>
+      </kendo-grid-column>
+  </ng-container>
+  </ng-container>
+</kendo-grid>

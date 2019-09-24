@@ -24,6 +24,13 @@
             <fa-icon icon="clone"></fa-icon>
           </button>
           <button class="btn btn-secondary"
+                  [attr.data-qa-id]="'btn-export'"
+                  (click)="handleExportClicked()"
+                  ngbTooltip="Export"
+                  container="body">
+            <fa-icon icon="file-excel"></fa-icon>
+          </button>
+          <button class="btn btn-secondary"
                   [attr.data-qa-id]="'btn-delete'"
                   (click)="handleDeleteClicked()"
                   ngbTooltip="Delete"

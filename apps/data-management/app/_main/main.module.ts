@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -12,10 +13,13 @@ import { reducers } from './reducers';
 import {
   DataAlertsPageComponent, DataManagementHomePageComponent,
   DataManagementSidebarComponent,
+  HrisAuthenticationCardComponent,
   ManageDataPageComponent,
   ProviderCardComponent,
   TransferDataPageComponent,
-  TransferMethodDropdownComponent
+  TransferMethodDropdownComponent,
+  WorkdayAuthenticationComponent,
+  PfTestAuthenticationComponent
 } from './containers';
 import { TransferDataPageEffects } from './effects';
 import { MainRoutingModule } from './main-routing.module';
@@ -24,6 +28,7 @@ import { MainRoutingModule } from './main-routing.module';
   imports: [
     // Angular
     CommonModule,
+    ReactiveFormsModule,
 
     // Routing
     MainRoutingModule,
@@ -42,14 +47,17 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Pages
     DataManagementHomePageComponent,
-
-    // Components
-    DataManagementSidebarComponent,
     TransferDataPageComponent,
     ManageDataPageComponent,
     DataAlertsPageComponent,
+
+    // Components
+    DataManagementSidebarComponent,
     TransferMethodDropdownComponent,
-    ProviderCardComponent
+    ProviderCardComponent,
+    HrisAuthenticationCardComponent,
+    WorkdayAuthenticationComponent,
+    PfTestAuthenticationComponent
   ]
 })
 export class MainModule { }

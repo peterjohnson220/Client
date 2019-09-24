@@ -24,6 +24,8 @@ export class LoginEffects {
               return new fromLoginAction.LoginSuccess(environment.firstTimeLoginPage);
             } else if (response !== null && response.password_expired === true) {
               return new fromLoginAction.PasswordExpired;
+            }  else if (action.payload.UserVoiceNextPage != null) {
+              return new fromLoginAction.LoginSuccessRouteToUserVoice(response.user_id);
             } else {
               return new fromLoginAction.LoginSuccess(action.payload.NextPage);
             }
@@ -70,6 +72,16 @@ export class LoginEffects {
     );
 
   @Effect({ dispatch: false })
+  LoginSuccessRouteToUserVoice$ = this.actions$
+    .pipe(
+      ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_USER_VOICE),
+      map((action: fromLoginAction.LoginSuccessRouteToUserVoice) => {
+        this.routeToUserVoice(action.payload);
+        }
+      )
+    );
+
+  @Effect({ dispatch: false })
   loginError$ = this.actions$
     .pipe(
       ofType(fromLoginAction.LOGIN_ERROR),
@@ -91,6 +103,9 @@ export class LoginEffects {
   }
   routeToNextPage(nextPage: string) {
       window.location.href = nextPage;
+  }
+  routeToUserVoice(userId: string) {
+    window.location.href = `${environment.userVoiceLoginRedirect}?userId=${userId}`;
   }
   constructor(private actions$: Actions,
       private accountApiService: AccountApiService,

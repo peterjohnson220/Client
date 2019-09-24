@@ -4,7 +4,8 @@ export const LOGIN = '[Auth/Login] Login';
 export const LOGIN_SUCCESS = '[Auth/Login] Validate Login Success';
 export const LOGIN_ERROR = '[Auth/Login] Validate Login Error';
 export const LOGIN_SUCCESS_ROUTE_TO_HOME = '[Auth/Login] Validate Login Success Route To Home Page';
-export const LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE = '[Auth/Login] Validate Login Success Route To Next Page Error';
+export const LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE = '[Auth/Login] Validate Login Success Route To Next Page';
+export const LOGIN_SUCCESS_ROUTE_TO_USER_VOICE = '[Auth/Login] Validate Login Success Route To User Voice';
 export const LOGIN_401_ERROR = '[Auth/Login] Validate Login 401 Error';
 export const PASSWORD_EXPIRED = '[Auth/Login] Password expired';
 
@@ -33,6 +34,11 @@ export class LoginSuccessRouteToNextPage implements Action {
   constructor(public payload: string) {}
 }
 
+export class LoginSuccessRouteToUserVoice implements Action {
+  readonly type = LOGIN_SUCCESS_ROUTE_TO_USER_VOICE;
+  constructor(public payload: string) {}
+}
+
 export class Login401Error implements Action {
   readonly type = LOGIN_401_ERROR;
   constructor() { }
@@ -49,5 +55,6 @@ export type Actions
   | LoginError
   | LoginSuccessRouteToHome
   | LoginSuccessRouteToNextPage
+  | LoginSuccessRouteToUserVoice
   | Login401Error
   | PasswordExpired;

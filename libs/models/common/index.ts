@@ -15,4 +15,6 @@ export * from './ui-persistence-feature-settings.model';
 export * from './ui-persistence-setting.const';
 export * from './feature-area.const';
 export * from './status.enum';
-export * from './pf-grid';
+export * from './control-type.model';
+export * from './control-type-attribute.model';
+export * from './pf-data-grid';

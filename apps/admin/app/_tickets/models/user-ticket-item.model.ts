@@ -5,7 +5,6 @@ import { generateMockTicketDetail, TicketDetail } from './ticket-detail.model';
 export interface UserTicketItem {
   TicketInfo: TicketDetail;
   CompanyInfo: CompanyDetail;
-  Description: string;
   Attachments: TicketAttachment[];
 }
 

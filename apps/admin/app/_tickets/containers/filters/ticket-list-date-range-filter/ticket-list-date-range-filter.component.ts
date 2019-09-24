@@ -8,6 +8,7 @@ import { cloneDeep, isEqual } from 'lodash';
 
 import { TicketFieldType } from '../../../constants/tickets-constants';
 
+
 @Component({
   selector: 'pf-ticket-list-date-range-filter',
   templateUrl: './ticket-list-date-range-filter.component.html',
@@ -31,7 +32,7 @@ export class TicketListDateRangeFilterComponent extends BaseFilterCellComponent 
   @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
   public show = false;
-  public ticketFieldType = TicketFieldType;
+
 
   constructor(filterService: FilterService) {
     super(filterService);

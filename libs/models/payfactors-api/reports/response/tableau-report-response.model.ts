@@ -1,3 +1,5 @@
+import { TableauReportViewsResponse } from './tableau-report-views-response.model';
+
 export interface TableauReportResponse {
   ReportType: string;
   WorkbookId: string;
@@ -13,4 +15,5 @@ export interface TableauReportResponse {
   IsFavorite: boolean;
   DashboardsOrder?: number;
   FavoritesOrder?: number;
+  Views?: TableauReportViewsResponse[];
 }

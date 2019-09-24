@@ -23,6 +23,7 @@ import { StatusPillComponent } from './components/status-pill';
 import {
   JobDescriptionAppliesToModalComponent
 } from './components/modals/job-description-applies-to';
+import { JobDescriptionInfoHeaderNoLogoComponent } from './components/info-header/job-description-info-header-no-logo.component';
 import { RouteTrackingService } from './services';
 import { ListAreaService } from './services/list-area.service';
 import { reducers } from './reducers';
@@ -30,6 +31,11 @@ import { JobDescriptionAppliesToEffects } from './effects/job-description-applie
 import { TemplateListEffects } from './effects/template-list.effects';
 import { CompanyFlsaStatusEffects } from './effects/company-flsa-status.effects';
 import { JobFamilyEffects } from './effects/job-family.effects';
+import {
+  JobDescriptionInfoHeaderWithLogoComponent
+} from './components/info-header/job-description-info-header-with-logo/job-description-info-header-with-logo.component';
+import {ControlTypesEffects} from './effects/control-types.effects';
+import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
 
 @NgModule({
   imports: [
@@ -42,6 +48,7 @@ import { JobFamilyEffects } from './effects/job-family.effects';
       CompanyFlsaStatusEffects,
       JobDescriptionAppliesToEffects,
       JobFamilyEffects,
+      ControlTypesEffects,
       TemplateListEffects
     ]),
     FontAwesomeModule,
@@ -63,7 +70,9 @@ import { JobFamilyEffects } from './effects/job-family.effects';
     StatusPillComponent,
     ListAreaFilterPillsComponent,
     ListAreaFilterSidebarComponent,
-    JobDescriptionAppliesToModalComponent
+    JobDescriptionAppliesToModalComponent,
+    JobDescriptionInfoHeaderNoLogoComponent,
+    JobDescriptionInfoHeaderWithLogoComponent
   ],
   declarations: [
     // Components
@@ -73,7 +82,12 @@ import { JobFamilyEffects } from './effects/job-family.effects';
     ListAreaFilterSidebarComponent,
     ListAreaFilterTextComponent,
     StatusPillComponent,
-    JobDescriptionAppliesToModalComponent
+    JobDescriptionAppliesToModalComponent,
+    JobDescriptionInfoHeaderNoLogoComponent,
+    JobDescriptionInfoHeaderWithLogoComponent,
+
+    // Pipes
+    JobDescriptionAppliesToDisplayNamePipe
   ],
   providers: [
     RouteTrackingService,

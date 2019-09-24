@@ -1,4 +1,9 @@
 export interface SurveyTitleResponseModel {
+  PublisherName: string;
+  PublisherTitles: SurveyTitle[];
+}
+
+export interface SurveyTitle {
   SurveyTitleId: number;
   SurveyName: string;
 }

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 
 import { FilterDescriptor } from '@progress/kendo-data-query';
 
-import { PfGridColumnModel } from 'libs/models/common/pf-grid';
+import { PfDataGridFieldModel } from 'libs/models/common/pf-data-grid';
 
 import { FilterOperatorOptions } from '../../helpers/filter-operator-options/filter-operator-options';
 
@@ -13,8 +13,8 @@ import { FilterOperatorOptions } from '../../helpers/filter-operator-options/fil
   styleUrls: ['./filter-panel.component.scss']
 })
 export class GridFilterSidebarComponent implements OnChanges {
-  @Input() selectedColumns: PfGridColumnModel[];
-  @Input() nonSelectableFilterableColumns: PfGridColumnModel[];
+  @Input() selectedColumns: PfDataGridFieldModel[];
+  @Input() nonSelectableFilterableColumns: PfDataGridFieldModel[];
   @Input('filters') set _filters(value: FilterDescriptor[]) {
     if (value) {
       this.filters = JSON.parse(JSON.stringify(value));
@@ -32,7 +32,7 @@ export class GridFilterSidebarComponent implements OnChanges {
 
   constructor() {}
 
-  getFilterByListAreaColumn(listAreaColumn: PfGridColumnModel) {
+  getFilterByListAreaColumn(listAreaColumn: PfDataGridFieldModel) {
     const emptyFilter = this.createEmptyFilterDescriptor(listAreaColumn);
     let currentFilter;
 
@@ -49,7 +49,7 @@ export class GridFilterSidebarComponent implements OnChanges {
     return currentFilter || emptyFilter;
   }
 
-  createEmptyFilterDescriptor(listAreaColumn: PfGridColumnModel): FilterDescriptor {
+  createEmptyFilterDescriptor(listAreaColumn: PfDataGridFieldModel): FilterDescriptor {
     let op = '';
 
     switch (listAreaColumn.Type) {
