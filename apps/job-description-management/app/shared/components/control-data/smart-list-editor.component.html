@@ -1,0 +1,79 @@
+<div class="control-table">
+    <p-editor *ngIf="!readOnly" [style]="attributes.length === 1 ? {'min-height':'200px'} : {'height': '200px'}"
+            [(ngModel)]="rteData" (onTextChange)="parseQuillHtmlIntoRealHtml($event.htmlValue)">
+    <p-header>
+      <select class="ql-size">
+        <option value="small"></option>
+        <!-- Note a missing, thus falsy value, is used to reset to default -->
+        <option selected></option>
+        <option value="large"></option>
+        <option value="huge"></option>
+      </select>
+      <span class="ql-formats">
+                <button class="ql-bold"></button>
+                <button class="ql-italic"></button>
+                <button class="ql-underline"></button>
+            </span>
+      <span class="ql-formats">
+                <button class="ql-list" value="bullet"></button>
+                <button class="ql-list" value="ordered"></button>
+            </span>
+      <span class="ql-formats">
+                <select class="ql-color"></select>
+                <select class="ql-background"></select>
+            </span>
+      <span class="ql-formats">
+                <button class="ql-clean"></button>
+            </span>
+    </p-header>
+  </p-editor>
+
+  <div *ngIf="!readOnly" class="card my-3 control-table">
+    <div class="card-header" [class.no-control-data-warning]="rteTextButNoData()" (click)="toggleDataTable();">
+
+      <ng-template [ngIf]="rteTextButNoData()">
+        <fa-icon icon="exclamation-triangle"></fa-icon>
+        <strong>0</strong> Items
+      </ng-template>
+
+      <ng-template [ngIf]="!rteTextButNoData()">
+        <span *ngIf="checkInheritedData"><strong>{{ getJobDescriptionDataCount() }}</strong> Items</span>
+        <span *ngIf="!checkInheritedData"><strong>{{ data.length }}</strong> Items</span>
+      </ng-template>
+
+      <ng-template [ngIf]="getTemplateDataCount() > 0 && checkInheritedData">
+        - <strong>{{ data.length }}</strong> Total Items
+      </ng-template>
+
+      <ng-template [ngIf]="rteTextButNoData()">
+        - Unstructured data will be lost. Please Number or Bullet your content.
+      </ng-template>
+
+      <button class="btn btn-sm btn-secondary float-right">
+        <span *ngIf="!showDataTable"><fa-icon [icon]="['fas','caret-down']"></fa-icon></span>
+        <span *ngIf="showDataTable"><fa-icon [icon]="['fas','caret-up']"></fa-icon></span>
+      </button>
+    </div>
+    <div *ngIf="showDataTable" class="card-block">
+      <pf-smart-list-editor-data-table
+        [data]="data"
+        [attributes]="attributes"
+        [readOnly]="readOnly"
+        [checkInheritedData]="checkInheritedData"
+        [additionalProperties]="additionalProperties"
+        (dataChangesDetected)="handleDataChangesDetected($event)">
+      </pf-smart-list-editor-data-table>
+    </div>
+  </div>
+
+  <pf-smart-list-editor-data-table
+    *ngIf="readOnly"
+    [data]="data"
+    [attributes]="attributes"
+    [readOnly]="readOnly"
+    [additionalProperties]="additionalProperties"
+    [checkInheritedData]="checkInheritedData"
+    (dataChangesDetected)="handleDataChangesDetected($event)">
+  </pf-smart-list-editor-data-table>
+
+</div>

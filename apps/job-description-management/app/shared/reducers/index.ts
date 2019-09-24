@@ -9,6 +9,7 @@ import * as fromJobFamilyReducer from './job-family.reducer';
 import * as fromJobDescriptionAppliesToReducer from './job_description-appliesto.reducer';
 import * as fromTemplateListReducer from './template-list.reducer';
 import * as fromControlTypesReducer from './control-types.reducer';
+import * as fromJobDescriptionLibraryReducer from './job-description-library.reducer';
 // Feature area state
 export interface JobDescriptionManagementSharedState {
   controlTypes: fromControlTypesReducer.State;
@@ -16,6 +17,7 @@ export interface JobDescriptionManagementSharedState {
   jobFamily: fromJobFamilyReducer.State;
   jobDescriptionAppliesTo: fromJobDescriptionAppliesToReducer.State;
   templateList: fromTemplateListReducer.State;
+  jobDescriptionLibrary: fromJobDescriptionLibraryReducer.State;
 }
 
 // Extend root state with feature area state
@@ -29,7 +31,8 @@ export const reducers = {
   companyFlsaStatus: fromCompanyFlsaStatusReducer.reducer,
   jobFamily: fromJobFamilyReducer.reducer,
   jobDescriptionAppliesTo: fromJobDescriptionAppliesToReducer.reducer,
-  templateList: fromTemplateListReducer.reducer
+  templateList: fromTemplateListReducer.reducer,
+  jobDescriptionLibrary: fromJobDescriptionLibraryReducer.reducer
 };
 
 // Select Feature Area
@@ -60,6 +63,11 @@ export const selectControlTypesState = createSelector(
 export const selectTemplateListState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementSharedState) => state.templateList
+);
+
+export const selectJobDescriptionLibraryState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementSharedState) => state.jobDescriptionLibrary
 );
 
 // Company FLSA Status
@@ -164,4 +172,25 @@ export const getControlTypesLoaded = createSelector(
 export const getControlTypeAndVersion = createSelector(
   selectControlTypesState,
   fromControlTypesReducer.getControlTypeAndVersion
+);
+
+export const getControlTypeAndVersionAsync = createSelector(
+  selectControlTypesState,
+  fromControlTypesReducer.getControlTypeAndVersionAsync
+);
+
+// Job Description Library
+export const getBucketsAsync = createSelector(
+  selectJobDescriptionLibraryState,
+  fromJobDescriptionLibraryReducer.getBucketsAsync
+);
+
+export const getBucketsResultsAsync = createSelector(
+  selectJobDescriptionLibraryState,
+  fromJobDescriptionLibraryReducer.getBucketsResultsAsync
+);
+
+export const getLoadJobDescriptionLibraryError = createSelector(
+  selectJobDescriptionLibraryState,
+  fromJobDescriptionLibraryReducer.getLoadJobDescriptionLibraryError
 );

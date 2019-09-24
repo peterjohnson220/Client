@@ -10,8 +10,9 @@ import * as fromJobDescriptionReducer from './job-description.reducer';
 import * as fromJobDescriptionGridReducer from './job-description-grid.reducer';
 import * as fromJobDescriptionHistoryListReducer from './job-description-history-list.reducer';
 import * as fromJobInformationFieldsReducer from './job-information-fields.reducer';
-import * as fromPublicViewHeaderReducer from './public-view-header.reducers';
+import * as fromPublicViewHeaderReducer from './public-view-header.reducer';
 import * as fromUserFilterReducer from './user-filter.reducer';
+import * as fromJobDescriptionJobCompareReducer from './job-description-job-compare.reducer';
 import * as fromJobDescriptionVersionCompareReducer from './job-description-version-compare.reducer';
 
 // Feature area state
@@ -22,6 +23,7 @@ export interface JobDescriptionManagementJobDescriptionState {
   jobDescriptionGrid: fromJobDescriptionGridReducer.State;
   jobDescriptionHistoryList: fromJobDescriptionHistoryListReducer.State;
   jobInformationFields: fromJobInformationFieldsReducer.State;
+  jobDescriptionJobCompare: fromJobDescriptionJobCompareReducer.State;
   jobDescriptionVersionCompare: fromJobDescriptionVersionCompareReducer.State;
   publicViewHeader: fromPublicViewHeaderReducer.State;
   userFilter: fromUserFilterReducer.State;
@@ -42,6 +44,7 @@ export const reducers = {
   jobInformationFields: fromJobInformationFieldsReducer.reducer,
   publicViewHeader: fromPublicViewHeaderReducer.reducer,
   userFilter: fromUserFilterReducer.reducer,
+  jobDescriptionJobCompare: fromJobDescriptionJobCompareReducer.reducer,
   jobDescriptionVersionCompare: fromJobDescriptionVersionCompareReducer.reducer
 };
 
@@ -83,6 +86,11 @@ export const selectJobInformationFieldsState = createSelector(
 export const selectPublicViewHeaderState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.publicViewHeader
+);
+
+export const selectJobDescriptionJobCompareState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.jobDescriptionJobCompare
 );
 
 export const selectJobDescriptionVersionCompareState = createSelector(
@@ -361,6 +369,37 @@ export const getUserFilterLoadingError = createSelector(
 export const getUserFilterLoadingErrorMessage = createSelector(
   selectUserFilterState,
   fromUserFilterReducer.getUserFilterLoadingErrorMessage
+);
+
+// JDM Job Compare
+export const getJobDescriptionJobCompareJobDescriptionList = createSelector(
+  selectJobDescriptionJobCompareState,
+  fromJobDescriptionJobCompareReducer.getJobDescriptionList
+);
+
+export const getJobDescriptionJobCompareComparisonDiffAsync = createSelector(
+  selectJobDescriptionJobCompareState,
+  fromJobDescriptionJobCompareReducer.getJobDescriptionComparisonDiffAsync
+);
+
+export const getJobDescriptionJobCompareSourceJobDescriptionAsync = createSelector(
+  selectJobDescriptionJobCompareState,
+  fromJobDescriptionJobCompareReducer.getSourceJobDescriptionAsync
+);
+
+export const getJobDescriptionForComparisonAsync = createSelector(
+  selectJobDescriptionJobCompareState,
+  fromJobDescriptionJobCompareReducer.getJobDescriptionForComparisonAsync
+);
+
+export const getJobDescriptionSaving = createSelector(
+  selectJobDescriptionJobCompareState,
+  fromJobDescriptionJobCompareReducer.getJobDescriptionSaving
+);
+
+export const getJobDescriptionSaveError = createSelector(
+  selectJobDescriptionJobCompareState,
+  fromJobDescriptionJobCompareReducer.getJobDescriptionSaveError
 );
 
 // JDM Version Compare

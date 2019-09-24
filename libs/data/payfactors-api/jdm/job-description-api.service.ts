@@ -4,7 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import {BulkExportSchedule, JobDescription, ValidateStepResultItem} from '../../../models/jdm';
+import { BulkExportSchedule, JobDescription, ValidateStepResultItem } from '../../../models/jdm';
 import {
   CreateJobDescriptionDraftRequest,
   CreateJobDescriptionRequest,
@@ -38,7 +38,7 @@ export class JobDescriptionApiService {
   }
 
   addSchedule(schedule: BulkExportSchedule): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.CreateBulkExportSchedule`, { schedule });
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.CreateBulkExportSchedule`, {schedule});
   }
 
   appliesToAttributesExist(jobDescriptionId: number, request: GetAppliesToAttributesExistRequest):
@@ -68,13 +68,13 @@ export class JobDescriptionApiService {
 
   getAppliesToValue(columnName: string): Observable<string[]> {
     return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetAppliesToValues`,
-      {params: { columnName: columnName }});
+      {params: {columnName: columnName}});
   }
 
   getCompanyJobViewListItems(request: QueryListStateRequest):
     Observable<CompanyJobViewListItemsResponse> {
     return this.payfactorsApiService.get<CompanyJobViewListItemsResponse>(`${this.endpoint}/Default.GetCompanyJobViewListItems`,
-      { params: request });
+      {params: request});
   }
 
   getHistoryList(jobDescriptionId: number): Observable<JobDescriptionHistoryListItemResponse[]> {
@@ -83,14 +83,14 @@ export class JobDescriptionApiService {
   }
 
   getJobInformationFieldsForBulkExport(viewName?: string): Observable<JobInformationFieldForBulkExportResponse[]> {
-    const options = viewName ? { params: { viewName: viewName } } : {};
+    const options = viewName ? {params: {viewName: viewName}} : {};
 
     return this.payfactorsApiService.get<JobInformationFieldForBulkExportResponse[]>(
       `${this.endpoint}/Default.GetJobInformationFieldsForBulkExport`, options);
   }
 
   getJobDescriptionIds(companyJobId: number): Observable<number[]> {
-    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetJobDescriptionIds`, { params: { companyJobId } });
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetJobDescriptionIds`, {params: {companyJobId}});
   }
 
   getSchedules(): Observable<BulkExportSchedule[]> {
@@ -102,17 +102,17 @@ export class JobDescriptionApiService {
   }
 
   removeSchedule(fileName: string): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.DeleteBulkExportSchedule`, { fileName });
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.DeleteBulkExportSchedule`, {fileName});
   }
 
   downloadPdf(jdmDescriptionId: number): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
     const body = 'export-type=pdf';
     return this.payfactorsApiService.downloadFile(`${this.endpoint}(${jdmDescriptionId})/Default.Export`, body, headers, true);
   }
 
   getPublicTokenUrl(companyId: number): Observable<string> {
-    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetPublicListPageUrl`, { params: {companyId: companyId }});
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetPublicListPageUrl`, {params: {companyId: companyId}});
   }
 
   deleteByTemplateId(jobDescriptionDeleteByTemplateIdRequest: JobDescriptionDeleteByTemplateIdRequest): Observable<ValidateStepResultItem> {
@@ -124,7 +124,33 @@ export class JobDescriptionApiService {
   }
 
   getDetail(jobDescriptionId: number, viewName: string = null) {
-    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetDetail`, {viewName},
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetDetail`, {params: {viewName}},
       (response) => JSON.parse(response.value));
+  }
+
+  save(jobDescription: JobDescription, isFirstSave: boolean): Observable<JobDescription> {
+    const obj = {
+      jobDescriptionAsJsonString: JSON.stringify(jobDescription),
+      isFirstSave: isFirstSave
+    };
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescription.JobDescriptionId})/Default.Save`, obj);
+  }
+
+  publish(jobDescriptionId: number) {
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.Publish`, {});
+  }
+
+  getJobCompare(sourceJobDescriptionId: number, compareJobDescriptionId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}(${sourceJobDescriptionId})/Default.GetJobDescriptionCompare`, {params: {compareJobDescriptionId}},
+      (response) => JSON.parse(response.value));
+  }
+
+  getVersionCompare(jobDescriptionId: number, revisionNumber: number, previousRevisionNumber: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetVersionCompare`, {
+      params: {
+        revisionNumber,
+        previousRevisionNumber
+      }
+    }, (response) => JSON.parse(response.value));
   }
 }

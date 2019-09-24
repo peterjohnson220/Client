@@ -5,7 +5,6 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models';
 
@@ -22,7 +21,7 @@ import * as fromSurveyTitlesActions from '../../actions/survey-titles.actions';
 })
 
 export class SurveyTitlesPageComponent implements OnInit {
-  @ViewChild('TitleSearch', { static: false }) titleSearch;
+  @ViewChild('TitleSearch', {static: false}) titleSearch;
   public filter: SurveyTitlesFilter;
   public publisher: string;
   public systemUserGroupsId: number;
@@ -40,8 +39,8 @@ export class SurveyTitlesPageComponent implements OnInit {
   private saveSurveyTitleSuccess$: Observable<boolean>;
 
   constructor(private activeRoute: ActivatedRoute,
-    private store: Store<fromSurveyLibraryReducer.State>,
-    private state: SurveyLibraryStateService) {
+              private store: Store<fromSurveyLibraryReducer.State>,
+              private state: SurveyLibraryStateService) {
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.companies$ = store.select(fromSurveyLibraryReducer.getCompanies);
     this.surveyTitles$ = this.store.select(fromSurveyLibraryReducer.getSurveyTitles);
@@ -75,14 +74,14 @@ export class SurveyTitlesPageComponent implements OnInit {
     });
 
     this.saveSurveyTitleSuccess$.subscribe(isSuccess => {
-      if(isSuccess) {
+      if (isSuccess) {
         this.searchTerm = '';
       }
     });
   }
 
   getSurveyTitles(): void {
-    this.store.dispatch(new fromSurveyTitlesActions.LoadingSurveyTitles({ publisherId: this.publisherId, filter: this.filter }));
+    this.store.dispatch(new fromSurveyTitlesActions.LoadingSurveyTitles({publisherId: this.publisherId, filter: this.filter}));
   }
 
   filterChanged(searchTerm: string) {

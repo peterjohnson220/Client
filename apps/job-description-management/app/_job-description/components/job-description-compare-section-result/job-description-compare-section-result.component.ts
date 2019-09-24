@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 
 import { JobDescriptionSection } from 'libs/models/jdm';
 
-import {JobDescriptionVersionCompareService} from '../../services/job-description-version-compare.service';
+import {JobDescriptionVersionCompareService} from '../../services';
 
 @Component({
   selector: 'pf-job-description-compare-section-result',
