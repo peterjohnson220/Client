@@ -9,7 +9,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import * as fromDataViewGridActions from '../../../actions/data-view-grid.actions';
+import * as fromConfigurationActions from '../../../actions/configuration.actions';
 import { SaveUserWorkbookModalData, SaveWorkbookMode, UserDataView } from '../../../models';
 import { SaveUserWorkbookModalComponent } from '../../../components/save-user-workbook-modal';
 import { DeleteUserWorkbookModalComponent } from '../../../components/delete-user-workbook-modal';
@@ -93,6 +93,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   private loadFieldsAndData(): void {
+    this.store.dispatch(new fromConfigurationActions.ResetFilters());
     this.store.dispatch(new fromDataViewActions.GetUserDataView({ dataViewId: this.route.snapshot.params.dataViewId }));
     this.store.dispatch(new fromDataViewActions.GetReportFields({ dataViewId: this.route.snapshot.params.dataViewId}));
   }
