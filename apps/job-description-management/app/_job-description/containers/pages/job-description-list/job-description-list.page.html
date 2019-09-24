@@ -11,7 +11,7 @@
       <div *ngIf="hasManageTemplatesPermission || hasManageSettingsPermission" ngbDropdown class="d-inline-block">
         <button class="btn btn-primary" ngbDropdownToggle>Admin</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-          <button *ngIf="hasManageTemplatesPermission" routerLink="/job-description-management/templates" class="dropdown-item">Template Management</button>
+          <button *ngIf="hasManageTemplatesPermission" routerLink="/templates" class="dropdown-item">Template Management</button>
           <button *ngIf="hasManageSettingsPermission" routerLink="/job-description-management/settings" class="dropdown-item">Settings</button>
         </div>
       </div>
