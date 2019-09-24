@@ -7,7 +7,7 @@ export interface ExchangeDataCutsExportRequest {
   ExchangeJobToCompanyJobIds: number[];
   FilterModel: ExchangeDataSearchFilter;
   SelectedRate: string;
-  SelectedExchangeScopeGuid: string;
+  SelectedExchangeScopeGuids: string[];
 }
 
 export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExportRequest {
@@ -16,6 +16,6 @@ export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExp
     ExchangeJobToCompanyJobIds: [1, 2],
     FilterModel: generateMockExchangeDataSearchFilter(),
     SelectedRate: RateType.Annual,
-    SelectedExchangeScopeGuid: '1234567890'
+    SelectedExchangeScopeGuids: ['1234567890']
   };
 }

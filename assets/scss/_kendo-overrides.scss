@@ -1,11 +1,23 @@
 @import "_colors";
 
+// Buttons
 .k-button.k-primary[disabled] {
   &:hover,
   &.k-state-hover {
     background: none;
     color: inherit;
     cursor: not-allowed;
+  }
+}
+
+// Dropdown
+.k-dropdown.k-dropdown-white {
+  .k-dropdown-wrap {
+    background: #ffffff;
+
+    &:hover {
+      background-color: $selected-item-light-background-color;
+    }
   }
 }
 

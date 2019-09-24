@@ -4,11 +4,36 @@
   margin-bottom: 0;
 }
 
-.page-drop-down {
-  width: 125px;
-}
-
 .selection-action-links {
   padding-top: .5rem;
   display: flex;
+  justify-content: flex-end;
+  margin-bottom: .5rem;
+}
+
+:host ::ng-deep {
+  .checkbox-container {
+    min-height: 200px;
+  }
+
+  .multi-select-container {
+    display: inline-block;
+    width: 325px;
+
+    .selections-container {
+      width: 325px;
+      bottom: 52px;
+    }
+  }
+}
+
+
+.rates-dropdown {
+  width: 125px;
+
+  ::ng-deep .drop-up {
+    top: -106px;
+    width: 100%;
+    position: absolute;
+  }
 }

@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Exchange } from 'libs/models';
+import { Exchange, ExchangeScopeItem } from 'libs/models';
 import { MapComponent } from 'libs/features/peer/map/containers/map/map.component';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
@@ -12,6 +12,7 @@ import * as fromLibsPeerExchangeExplorerMapActions from 'libs/features/peer/exch
 import * as fromLibsPeerExchangeExplorerExchangeScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
 import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsSearchReducer from 'libs/features/search/reducers';
+import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
 import * as fromExchangeScopeActions from '../../../actions/exchange-scope.actions';
 import * as fromExportDataCutsActions from '../../../actions/export-data-cuts.actions';
@@ -35,6 +36,8 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
   numberOfSelections$: Observable<number>;
   peerMapCompaniesCount$: Observable<number>;
   exchangeJobIdsInScope$: Observable<number[]>;
+  exchangeScopeItems$: Observable<ExchangeScopeItem[]>;
+  selectedExchangeScope$: Observable<ExchangeScopeItem>;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,6 +53,8 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
     this.numberOfSelections$ = this.sharedPeerStore.pipe(select(fromLibsSearchReducer.getOverallFilterSelectionsCount));
     this.peerMapCompaniesCount$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapOrgCount));
     this.exchangeJobIdsInScope$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapExchangeJobIds));
+    this.exchangeScopeItems$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducers.getExchangeScopes));
+    this.selectedExchangeScope$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducers.getFilterContextScopeSelection));
     this.exchangeId = +this.route.snapshot.params.id;
   }
 

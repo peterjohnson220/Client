@@ -44,9 +44,8 @@ export class ExchangeCompanyJobsGridEffects {
       withLatestFrom(
         this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridState)),
         this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchangeId)),
-        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapExchangeJobIdsFromSummary)),
-        (action, listState, exchangeId, exchangeJobIds) => {
-          return {ExchangeId: exchangeId, ListState: listState, ExchangeJobIdsInScope: exchangeJobIds};
+        (action, listState, exchangeId) => {
+          return {ExchangeId: exchangeId, ListState: listState};
         }
       ),
       switchMap(payload =>
