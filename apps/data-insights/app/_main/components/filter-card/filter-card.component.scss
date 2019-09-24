@@ -1,5 +1,6 @@
 @import 'data-insights-styles';
 @import 'data-insights-variables';
+@import 'common/common-variables';
 
 .card {
   border-radius: 0.5rem;
@@ -12,6 +13,7 @@
 
 .field-name {
   font-weight: 500;
+  @extend %ellipsis-overflowing-text;
 }
 
 .field-source {
@@ -25,4 +27,8 @@
 
 .display-mode {
   cursor: pointer;
+}
+#field-value {
+  max-width: 250px;
+  @extend %ellipsis-overflowing-text;
 }
