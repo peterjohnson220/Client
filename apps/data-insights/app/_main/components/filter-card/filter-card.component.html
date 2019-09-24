@@ -11,14 +11,14 @@
 
         <ng-template kendoDropDownListItemTemplate let-dataItem>
           <div class="d-flex">
-            <span class="field-name">{{ dataItem.DisplayName }}</span>
+            <span class="field-name" [title]="dataItem.DisplayName">{{ dataItem.DisplayName }}</span>
             <span class="ml-auto data-item-field-source">{{ dataItem.Entity }}</span>
           </div>
         </ng-template>
 
         <ng-template kendoDropDownListValueTemplate let-dataItem>
           <div class="d-flex w-100">
-            <span class="field-name">{{ dataItem?.DisplayName }}</span>
+            <span class="field-name" [title]="dataItem.DisplayName">{{ dataItem?.DisplayName }}</span>
             <span class="ml-auto field-source">{{ dataItem?.Entity }}</span>
           </div>
         </ng-template>
@@ -46,7 +46,7 @@
         <ng-template kendoMultiSelectItemTemplate let-dataItem>
           <input type="checkbox" class="k-checkbox"
                  [checked]="isOptionSelected(dataItem)">
-          <label class="k-checkbox-label">{{ dataItem }}</label>
+          <label class="k-checkbox-label" id="field-value" [title]="dataItem">{{ dataItem }}</label>
         </ng-template>
 
       </kendo-multiselect>
