@@ -8,7 +8,7 @@ export enum DataViewType {
   Unknown
 }
 
-export class PfGridColumnFilter {
+export class PfGridFieldFilter {
   EntitySourceName: string;
   SourceName: string;
   Operator: string;

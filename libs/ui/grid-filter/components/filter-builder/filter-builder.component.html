@@ -1,0 +1,77 @@
+<div [ngSwitch]="type">
+  <ng-template [ngSwitchCase]="'text'">
+    <div class="row">
+      <div class="col-6 p-0">
+        <!--[disabled]="disableDropdown" -->
+        <kendo-dropdownlist
+          [data]="filterOperatorOptions.text"
+          [textField]="'display'"
+          [valueField]="'value'"
+          [valuePrimitive]="true"
+          [ngModel]="filter.Operator"
+          (valueChange)="handleFilterOperatorChanged($event)"
+          [style.width]="'100%'"
+        >
+        </kendo-dropdownlist>
+      </div>
+      <div class="col-6 px-2">
+        <input type="text" class="form-control"
+         [ngModel]="filter.Value"
+         [disabled]="disableValue"
+         (ngModelChange)="handleFilterValueChanged($event)"
+         [style.width]="'100%'"
+        />
+      </div>
+    </div>
+  </ng-template>
+  <ng-template [ngSwitchCase]="'date'">
+    <div class="row">
+      <div class="col-6 p-0">
+        <kendo-dropdownlist
+          [data]="filterOperatorOptions.date"
+          [textField]="'display'"
+          [valueField]="'value'"
+          [valuePrimitive]="true"
+          [ngModel]="filter.Operator"
+          [style.width]="'100%'"
+          (valueChange)="handleFilterOperatorChanged($event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="col-6 px-2">
+        <kendo-datepicker [value]="filter.Value"
+                          [disabled]="disableValue"
+                          [style.width]="'100%'"
+                          (valueChange)="handleFilterValueChanged($event)">
+        </kendo-datepicker>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template [ngSwitchCase]="'numeric'">
+    <div class="row">
+      <div class="col-6 p-0">
+        <kendo-dropdownlist
+          [data]="filterOperatorOptions.numeric"
+          [textField]="'display'"
+          [valueField]="'value'"
+          [valuePrimitive]="true"
+          [ngModel]="filter.Operator"
+          [style.width]="'100%'"
+          (valueChange)="handleFilterOperatorChanged($event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="col-6 px-2">
+        <kendo-numerictextbox
+          [value]="filter.Value"
+          [format]="'n0'"
+          [decimals]="0"
+          [min]="1"
+          [disabled]="disableValue"
+          [style.width]="'100%'"
+          (valueChange)="handleFilterValueChanged($event)">
+        </kendo-numerictextbox>
+      </div>
+    </div>
+
+  </ng-template>
+</div>
+

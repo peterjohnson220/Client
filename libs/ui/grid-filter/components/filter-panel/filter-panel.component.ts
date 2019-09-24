@@ -1,10 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
-import { FilterDescriptor } from '@progress/kendo-data-query';
-
-import { PfDataGridFieldModel } from 'libs/models/common/pf-data-grid';
-
-import { FilterOperatorOptions } from '../../helpers/filter-operator-options/filter-operator-options';
+import { PfDataGridFieldModel, PfGridFieldFilter } from 'libs/models/common/pf-data-grid';
+import {DataViewType} from '../../../../models/common/pf-data-grid';
 
 
 @Component({
@@ -12,32 +9,44 @@ import { FilterOperatorOptions } from '../../helpers/filter-operator-options/fil
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.scss']
 })
-export class GridFilterSidebarComponent implements OnChanges {
-  @Input() selectedColumns: PfDataGridFieldModel[];
+export class FilterPanelComponent /*implements OnChanges*/ {
+  @Input('selectedColumns') set _selectedColumns(columns: PfDataGridFieldModel[]) {
+    this.selectedColumns = columns.filter(c => c.Visible);
+  }
   @Input() nonSelectableFilterableColumns: PfDataGridFieldModel[];
-  @Input('filters') set _filters(value: FilterDescriptor[]) {
+  @Input('filters') set _filters(value: PfGridFieldFilter[]) {
     if (value) {
       this.filters = JSON.parse(JSON.stringify(value));
     }
   }
 
   @Output() saveFilterClicked = new EventEmitter();
-  @Output() filterChanged = new EventEmitter();
+  @Output() filterChanged = new EventEmitter<PfGridFieldFilter>();
   @Output() close = new EventEmitter();
 
-  private listAreaColumnAssociatedFilter;
-  private listAreaColumnCustomAssociatedFilter;
-  public filters: FilterDescriptor[];
-  // private filterOperatorOptions: FilterOperatorOptions;
+  private selectedColumns: PfDataGridFieldModel[];
+  public filters: PfGridFieldFilter[];
 
   constructor() {}
 
-  getFilterByListAreaColumn(listAreaColumn: PfDataGridFieldModel) {
+  closeSidebar() {
+    this.close.emit();
+  }
+
+  saveFilter() {
+    this.saveFilterClicked.emit();
+  }
+
+  handleFilterChange(event: PfGridFieldFilter) {
+    this.filterChanged.emit(event);
+  }
+
+  private getFilterByListAreaColumn(listAreaColumn: PfDataGridFieldModel) {
     const emptyFilter = this.createEmptyFilterDescriptor(listAreaColumn);
     let currentFilter;
 
     if (this.filters) {
-      currentFilter = this.filters.find(f => f.field === listAreaColumn.Field);
+      currentFilter = this.filters.find(f => f.SourceName === listAreaColumn.Field);
 
       // Since we break the binding of filters using a deep clone using JSON parse, JSON stringify
       // need to update any date fields values back to date objects.
@@ -49,98 +58,40 @@ export class GridFilterSidebarComponent implements OnChanges {
     return currentFilter || emptyFilter;
   }
 
-  createEmptyFilterDescriptor(listAreaColumn: PfDataGridFieldModel): FilterDescriptor {
-    let op = '';
-
-    switch (listAreaColumn.Type) {
+  private createEmptyFilterDescriptor(gridField: PfDataGridFieldModel): PfGridFieldFilter {
+    let operator = '';
+    switch (gridField.Type) {
       case 'text':
-        op = 'like';
-        break;
-      case 'date':
-        op = '>=';
+        operator = 'contains';
         break;
       case 'numeric':
-        op = '=';
+        operator = 'eq';
+        break;
+      case 'date':
+        operator = 'gte';
         break;
     }
 
     return {
-      operator: op,
-      field: listAreaColumn.Field,
-      value: null
+      Operator: operator,
+      Value: null,
+      SourceName: gridField.Field,
+      EntitySourceName: '',
+      Values: [],
+      DataViewType: this.getDataViewEnumTypeByField(gridField.Type)
     };
   }
 
-  handleFilterChanged(event) {
-    let changedFilterIndex = -1;
-
-    if (!this.filters) {
-      this.filters = [];
-    } else {
-      changedFilterIndex = this.filters.findIndex(f => f.field === event.field);
-    }
-
-    if (changedFilterIndex !== -1) {
-      if (this.filters[changedFilterIndex].value || this.valueCanBeEmptyOperator(this.filters[changedFilterIndex])) {
-        this.filters[changedFilterIndex] = event;
-      } else {
-        this.filters.splice(changedFilterIndex, 1);
-      }
-    } else {
-      this.filters.push(event);
-    }
-
-    this.filterChanged.emit(this.filters);
-  }
-
-  closeSidebar() {
-    this.close.emit();
-  }
-
-  saveFilter() {
-    this.saveFilterClicked.emit();
-  }
-
-  private valueCanBeEmptyOperator(filter: FilterDescriptor) {
-    let isValueCanBeEmptyOperator = false;
-    const fieldFound = this.selectedColumns.find(l => l.Field === filter.field);
-    let fieldDataType;
-    if (fieldFound) {
-      fieldDataType = fieldFound.Type;
-    } else {
-      fieldDataType = 'text';
-    }
-
-    switch (fieldDataType) {
+  private getDataViewEnumTypeByField(fieldType: string): DataViewType {
+    switch (fieldType) {
       case 'text':
-        isValueCanBeEmptyOperator = !FilterOperatorOptions.Text.find(t => t.value === filter.operator).requiresValue;
-        break;
-      case 'date':
-        isValueCanBeEmptyOperator = !FilterOperatorOptions.Date.find(t => t.value === filter.operator).requiresValue;
-        break;
+        return DataViewType.String;
       case 'numeric':
-        isValueCanBeEmptyOperator = !FilterOperatorOptions.Numeric.find(t => t.value === filter.operator).requiresValue;
-        break;
-    }
-
-    return isValueCanBeEmptyOperator;
-  }
-
-  // Lifecycle
-  ngOnChanges(changes: SimpleChanges) {
-    this.listAreaColumnAssociatedFilter = [];
-    this.listAreaColumnCustomAssociatedFilter = [];
-
-    if (this.nonSelectableFilterableColumns) {
-      for (const custom of this.nonSelectableFilterableColumns) {
-        this.listAreaColumnCustomAssociatedFilter.push(this.getFilterByListAreaColumn(custom));
-      }
-    }
-
-    if (this.selectedColumns) {
-      for (const column of this.selectedColumns) {
-        this.listAreaColumnAssociatedFilter.push(this.getFilterByListAreaColumn(column));
-      }
+        return DataViewType.Int; // TODO: float is also an option, should that be used
+      case 'date':
+        return DataViewType.DateTime;
+      default:
+        return DataViewType.String;
     }
   }
 }

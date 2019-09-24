@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
+import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
+import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,8 +18,10 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import * as fromFaIcons from './fa-icons';
-import { GridFilterSidebarComponent } from './components/filter-panel';
+import { FilterPanelComponent } from './components/filter-panel';
 import { FilterChooserComponent } from './components/filter-chooser';
+import { FilterBuilderComponent } from './components/filter-builder';
+import { PfDataGridFilterPillsComponent } from './components/filter-pills/';
 
 @NgModule({
   imports: [
@@ -31,6 +35,8 @@ import { FilterChooserComponent } from './components/filter-chooser';
 
     // Third Party
     DropDownListModule,
+    DatePickerModule,
+    NumericTextBoxModule,
     LayoutModule,
     FontAwesomeModule,
 
@@ -39,8 +45,8 @@ import { FilterChooserComponent } from './components/filter-chooser';
     PfFormsModule,
     PfCommonUIModule
   ],
-  declarations: [GridFilterSidebarComponent, FilterChooserComponent],
-  exports: [GridFilterSidebarComponent, FilterChooserComponent]
+  declarations: [FilterPanelComponent, FilterChooserComponent, FilterBuilderComponent, PfDataGridFilterPillsComponent],
+  exports: [FilterPanelComponent, FilterChooserComponent, FilterBuilderComponent, PfDataGridFilterPillsComponent]
 })
 export class PfGridFilterModule {
   constructor() {

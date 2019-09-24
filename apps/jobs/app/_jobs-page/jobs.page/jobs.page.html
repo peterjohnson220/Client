@@ -1,4 +1,4 @@
-<pf-data-grid 
+<pf-data-grid
   [entity]="'jobs'"
   [primaryKey]="'CompanyJob_ID'"
   [gridActionsTemplate]="gridActions"
@@ -18,3 +18,5 @@
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter">
   <pf-jobs-details (onClose)="splitViewEmitter.emit('close')"></pf-jobs-details>
 </ng-template>
+
+<!-- <pf-filter-chooser></end filter> -->

@@ -24,7 +24,7 @@ export class FilterChooserComponent {
   @Output() onFilterSelected = new EventEmitter();
   @Output() onFilterSidebarToggle = new EventEmitter();
   @Output() onDeleteConfirmed = new EventEmitter();
-  @Output() open = new EventEmitter();
+  @Output() savedFiltersOpen = new EventEmitter();
 
   @ViewChild('p', { static: true }) public p: any;
 

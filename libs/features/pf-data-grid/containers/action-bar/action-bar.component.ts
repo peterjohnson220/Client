@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import { PfDataGridFieldModel } from 'libs/models';
 import { Observable } from 'rxjs';
 import { DataGridService } from '../../services/data-grid.service';
@@ -15,10 +15,12 @@ import * as fromActions from '../../actions';
 export class ActionBarComponent implements OnChanges {
 
   @Input() entity: string;
+  @Output() onFilterSidebarToggle = new EventEmitter<boolean>();
 
   dataFields$: Observable<PfDataGridFieldModel[]>;
 
   testPayMarketData = ['Boston', 'Chicago', 'Los Angeles'];
+  displayFilterSidebar = false;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -28,7 +30,12 @@ export class ActionBarComponent implements OnChanges {
     }
   }
 
-  updateFields(updatedFields: PfDataGridFieldModel[]){
+  updateFields(updatedFields: PfDataGridFieldModel[]) {
     this.store.dispatch(new fromActions.UpdateFields(this.entity, updatedFields));
+  }
+
+  toggleFilterPanel() {
+    this.displayFilterSidebar = !this.displayFilterSidebar;
+    this.onFilterSidebarToggle.emit(this.displayFilterSidebar);
   }
 }

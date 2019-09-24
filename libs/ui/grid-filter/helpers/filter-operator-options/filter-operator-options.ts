@@ -37,7 +37,7 @@ const numericFilterOperators: FilterOperator[] = [
 ];
 
 export const FilterOperatorOptions = {
-  Date: dateFilterOperators,
-  Text: textFilterOperators,
-  Numeric: numericFilterOperators
+  date: dateFilterOperators,
+  text: textFilterOperators,
+  numeric: numericFilterOperators
 };

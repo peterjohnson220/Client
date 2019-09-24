@@ -34,3 +34,4 @@ export const getState = createSelector(selectPfDataGridState, fromPfDataGridRedu
 export const getGrid = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGrid);
 export const getFields = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFields);
 export const getData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getData);
+export const getFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilters);

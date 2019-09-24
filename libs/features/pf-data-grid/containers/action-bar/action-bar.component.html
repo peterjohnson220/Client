@@ -14,14 +14,8 @@
     [dataFields]="dataFields$ | async"
     (saveColumns)="updateFields($event)">
   </pf-column-chooser>
-  <!--filter chooser component -->
-  <div class="btn-group">
-    <button title="Filter" class="btn btn-secondary">
-      <fa-icon icon="sliders-h"></fa-icon>
-    </button>
-    <button title="Saved Filters" type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-      aria-haspopup="true" aria-expanded="false" placement="bottom-right" popoverTitle="Saved Filters">
-    </button>
-  </div>
-
+  <!--TODO: inputs/outputs to the filter-chooser component -->
+  <pf-filter-chooser
+    (onFilterSidebarToggle)="toggleFilterPanel($event)"
+  ></pf-filter-chooser>
 </div>
