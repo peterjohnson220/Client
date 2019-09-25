@@ -250,14 +250,6 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         duplicateUserReportSuccess: false
       };
     }
-    case fromDataViewActions.REMOVE_SELECTED_FIELD: {
-      let fieldsClone = cloneDeep(state.selectedReportFields);
-      fieldsClone = fieldsClone.filter(x => x.DataElementId !== action.payload.DataElementId);
-      return {
-        ...state,
-        selectedReportFields: fieldsClone
-      };
-    }
     case fromDataViewActions.SAVE_REPORT_FIELDS: {
       return {
         ...state,
@@ -308,6 +300,18 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         deleteUserReportSuccess: true
       };
     }
+    case fromDataViewActions.REMOVE_SELECTED_FIELD: {
+      let selectedFieldsClone = cloneDeep(state.selectedReportFields);
+      selectedFieldsClone = selectedFieldsClone.filter(x => x.DataElementId !== action.payload.DataElementId);
+      const reportFieldStateObjClone = cloneDeep(state.reportFieldsAsync);
+      const removedField = reportFieldStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
+      removedField.IsSelected = false;
+      return {
+        ...state,
+        selectedReportFields: selectedFieldsClone,
+        reportFieldsAsync: reportFieldStateObjClone
+      };
+    }
     case fromDataViewActions.ADD_SELECTED_FIELD: {
       let fieldsClone = cloneDeep(state.selectedReportFields);
       const reportFieldStateObjClone = cloneDeep(state.reportFieldsAsync);
@@ -321,7 +325,8 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       fieldsClone = orderBy(fieldsClone, 'Order');
       return {
         ...state,
-        selectedReportFields: fieldsClone
+        selectedReportFields: fieldsClone,
+        reportFieldsAsync: reportFieldStateObjClone
       };
     }
     case fromDataViewActions.SET_SELECTED_FIELDS: {
