@@ -20,7 +20,9 @@
 
 .actions-container{
   width: 100%;
+  bottom: 0;
   height: 30px;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
