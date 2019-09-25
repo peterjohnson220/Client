@@ -16,6 +16,7 @@ export class FilterCardComponent implements OnInit {
   @Output() selectedFieldChanged: EventEmitter<Field> = new EventEmitter<Field>();
   @Output() searchOptionChanged: EventEmitter<GetFilterOptionsData> = new EventEmitter<GetFilterOptionsData>();
   @Output() selectedValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() deleteFilter: EventEmitter<Field> = new EventEmitter<Field>();
 
   @ViewChild('filterOptionsMultiSelect', {static: false}) public filterOptionsMultiSelect: MultiSelectComponent;
   terms = ['equals'];
@@ -55,6 +56,10 @@ export class FilterCardComponent implements OnInit {
     } else {
       this.filterOptionsMultiSelect.toggle(false);
     }
+  }
+
+  handleDeleteFilter(filter: Filter): void {
+    this.deleteFilter.emit(filter.Field);
   }
 
   toggleEditMode(): void {
