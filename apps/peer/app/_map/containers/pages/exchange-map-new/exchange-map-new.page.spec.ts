@@ -13,6 +13,7 @@ import {
   UpsertExchangeScopeRequest
 } from 'libs/models/peer/requests/upsert-exchange-scope-request.model';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
 import { ExchangeMapNewPageComponent } from './exchange-map-new.page';
@@ -42,6 +43,10 @@ describe('Peer - Map - Exchange Map New Page', () => {
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { params: { id : 1 } } },
+        },
+        {
+          provide: ExchangeExplorerContextService,
+          useValue: {selectFilterContext: jest.fn(), selectCountOfCompanyFiltersSelected: jest.fn()}
         }
       ],
       declarations: [

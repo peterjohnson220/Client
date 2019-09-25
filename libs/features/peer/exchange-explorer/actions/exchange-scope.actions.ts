@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
 import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
+import { ExchangeScopeDetails } from 'libs/models/peer/requests';
+import { ExchangeExplorerScopeResponse } from '../../../../models/payfactors-api/peer-exchange-explorer-search/response';
 
 export const LOAD_EXCHANGE_SCOPES_BY_JOBS  =
   '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scopes By Jobs';
@@ -20,6 +22,12 @@ export const LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS  =
   '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scope Details Success';
 export const LOAD_EXCHANGE_SCOPE_DETAILS_ERROR  =
   '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scope Details Error';
+export const UPSERT_EXCHANGE_SCOPE =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Upsert Exchange Scope';
+export const UPSERT_EXCHANGE_SCOPE_SUCCESS =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Upsert Exchange Scope Success';
+export const UPSERT_EXCHANGE_SCOPE_ERROR =
+  '[Features/Peer/Exchange Explorer/Exchange Scopes] Upsert Exchange Scope Error';
 export const DELETE_EXCHANGE_SCOPE =
   '[Features/Peer/Exchange Explorer/Exchange Scopes] Delete Exchange Scope';
 export const DELETE_EXCHANGE_SCOPE_SUCCESS =
@@ -70,11 +78,25 @@ export class LoadExchangeScopeDetails implements Action {
 export class LoadExchangeScopeDetailsSuccess implements Action {
   readonly type = LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS;
 
-  constructor(public payload: any) {}
+  constructor(public payload: ExchangeExplorerScopeResponse) {}
 }
 
 export class LoadExchangeScopeDetailsError implements Action {
   readonly type = LOAD_EXCHANGE_SCOPE_DETAILS_ERROR;
+}
+
+export class UpsertExchangeScope implements Action {
+  readonly type = UPSERT_EXCHANGE_SCOPE;
+
+  constructor(public payload: ExchangeScopeDetails) {}
+}
+
+export class UpsertExchangeScopeSuccess implements Action {
+  readonly type = UPSERT_EXCHANGE_SCOPE_SUCCESS;
+}
+
+export class UpsertExchangeScopeError implements Action {
+  readonly type = UPSERT_EXCHANGE_SCOPE_ERROR;
 }
 
 export class DeleteExchangeScope implements Action {
@@ -117,6 +139,9 @@ export type Actions
   | LoadExchangeScopeDetails
   | LoadExchangeScopeDetailsSuccess
   | LoadExchangeScopeDetailsError
+  | UpsertExchangeScope
+  | UpsertExchangeScopeSuccess
+  | UpsertExchangeScopeError
   | DeleteExchangeScope
   | DeleteExchangeScopeSuccess
   | DeleteExchangeScopeError

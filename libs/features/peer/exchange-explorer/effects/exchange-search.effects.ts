@@ -6,10 +6,11 @@ import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { PagingOptions } from 'libs/models/payfactors-api';
-import * as fromSearchReducer from 'libs/features/search/reducers';
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { ExchangeMapResponse } from 'libs/models/peer';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
 import * as fromExchangeExplorerReducer from '../reducers';
@@ -19,8 +20,11 @@ import * as fromSearchFiltersActions from '../../../search/actions/search-filter
 import * as fromSingledFilterActions from '../../../search/actions/singled-filter.actions';
 import * as fromMapActions from '../actions/map.actions';
 
-import { ExchangeMapResponse } from '../../../../models/peer';
 import { ExchangeExplorerContextService } from '../services';
+import {
+  BaseExchangeDataSearchRequest,
+  ExchangeDataSearchRequest
+} from '../../../../models/payfactors-api/peer-exchange-explorer-search/request';
 
 @Injectable()
 export class ExchangeSearchEffects {
@@ -29,7 +33,7 @@ export class ExchangeSearchEffects {
   getResults$ = this.searchExchangeData(fromSearchResultsActions.GET_RESULTS);
 
   @Effect()
-  updateFilterBounds$ = this.searchExchangeData(fromMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS);
+  updateFilterBounds$ = this.searchExchangeData(fromMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS, false);
 
   @Effect()
   getExchangeDataSearchResults$ = this.searchExchangeData(fromExchangeSearchResultsActions.GET_EXCHANGE_DATA_RESULTS);
@@ -50,20 +54,22 @@ export class ExchangeSearchEffects {
       ) => ({payload: action.payload, searchingFilter, singledFilter})
     ),
     mergeMap((searchResponseContext) => {
-      const actions = [];
 
       const searchResponse: ExchangeDataSearchResponse = searchResponseContext.payload;
+      const actions: Action[] = [
+        new fromSearchResultsActions.GetResultsSuccess({
+          totalRecordCount: searchResponse.Paging.TotalRecordCount
+        })
+      ];
+
       const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(
         searchResponse.SearchFilters,
         searchResponse.SearchFilterMappingDataObj
       );
 
-      actions.push(new fromSearchResultsActions.GetResultsSuccess({
-        totalRecordCount: searchResponse.Paging.TotalRecordCount
-      }));
       actions.push(new fromSearchFiltersActions.RefreshFilters({
         filters: filters,
-        keepFilteredOutOptions: true
+        keepFilteredOutOptions: searchResponse.KeepFilteredOutOptions
       }));
 
       if (searchResponseContext.searchingFilter) {
@@ -71,7 +77,6 @@ export class ExchangeSearchEffects {
       }
 
       const exchangeMapResponse: ExchangeMapResponse = {
-        MapChunks: [],
         FeatureCollection: searchResponse.FeatureCollection,
         MapSummary: searchResponse.MapSummary
       };
@@ -82,29 +87,22 @@ export class ExchangeSearchEffects {
     })
   );
 
-  searchExchangeData(subscribedAction: string): Observable<Action> {
+  searchExchangeData(subscribedAction: string, keepFilteredOutOptions: boolean = true): Observable<Action> {
     return this.actions$.pipe(
       ofType(subscribedAction),
       withLatestFrom(
         this.exchangeExplorerContextService.selectFilterContext(),
-        (action, filterContext) => filterContext),
-      mergeMap((data: any) => {
-
-          const searchFieldsRequestObj = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.searchFilters);
-          const filtersRequestObj = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.searchFilters);
-          const pagingOptions: PagingOptions = {
-            From: 0,
-            Count: 5
+        (action, filterContext) => filterContext
+      ),
+      mergeMap((data: BaseExchangeDataSearchRequest) => {
+          const exchangeRequest: ExchangeDataSearchRequest = {
+            ...data
           };
-          return this.exchangeDataSearchApiService.searchExchangeData({
-            ...data.filterContext,
-            ...data.mapFilter,
-            SearchFields: searchFieldsRequestObj,
-            Filters: filtersRequestObj,
-            PagingOptions: pagingOptions
-          })
-            .pipe(
-              map(response => new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess(response)),
+          return this.exchangeDataSearchApiService.searchExchangeData(exchangeRequest).pipe(
+              map(response => {
+                response.KeepFilteredOutOptions = keepFilteredOutOptions;
+                return new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess(response);
+              }),
               catchError(() => of(new fromExchangeSearchResultsActions.GetExchangeDataResultsError(0)))
             );
         }

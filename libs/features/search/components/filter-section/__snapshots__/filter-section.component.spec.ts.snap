@@ -18,7 +18,8 @@ exports[`Search Feature - Filter Section should display the given title in the h
       class="header"
     >
       <div
-        class="header-left"
+        class="header-left ellipsis-overflowing-text"
+        title="Job Title/Code"
       >
          Job Title/Code 
         
@@ -68,7 +69,8 @@ exports[`Search Feature - Filter Section should display the transcluded content 
         class="header"
       >
         <div
-          class="header-left"
+          class="header-left ellipsis-overflowing-text"
+          title="Job Title/Code"
         >
            Job Title/Code 
           
@@ -127,7 +129,8 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
       class="header"
     >
       <div
-        class="header-left"
+        class="header-left ellipsis-overflowing-text"
+        title="Job Title/Code"
       >
          Job Title/Code 
         
@@ -180,7 +183,8 @@ exports[`Search Feature - Filter Section should show a search icon and show more
       class="header"
     >
       <div
-        class="header-left"
+        class="header-left ellipsis-overflowing-text"
+        title="Publisher"
       >
          Publisher 
         

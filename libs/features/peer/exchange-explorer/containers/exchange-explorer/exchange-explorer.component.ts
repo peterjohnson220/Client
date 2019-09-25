@@ -5,13 +5,13 @@ import { Observable } from 'rxjs';
 
 import { PayMarket } from 'libs/models/paymarket';
 import { SearchBase } from 'libs/features/search/containers/search-base';
-import { ExchangeMapSummary, SystemFilterRequest } from 'libs/models/peer';
+import { ExchangeMapSummary } from 'libs/models/peer';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 
 import * as fromExchangeExplorerReducer from '../../reducers';
+import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';
 import * as fromExchangeFilterContextActions from '../../actions/exchange-filter-context.actions';
-import * as fromExchangeSearchResultsActions from '../../actions/exchange-search-results.actions';
 
 @Component({
   selector: 'pf-exchange-explorer',
@@ -32,6 +32,7 @@ export class ExchangeExplorerComponent extends SearchBase {
   payMarket$: Observable<PayMarket>;
   mapSummary$: Observable<ExchangeMapSummary>;
   selectionsCount$: Observable<number>;
+  exchangeJobTitles$: Observable<string[]>;
 
   exchangeId: number;
 
@@ -50,8 +51,9 @@ export class ExchangeExplorerComponent extends SearchBase {
       select(fromExchangeExplorerReducer.getFilterContextExcludeIndirectJobMatches)
     );
     this.hasAdditionalJobLevels$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextHasSimilarJobLevels));
-    this.payMarket$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextPayMarket));
+    this.payMarket$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getExchangeExplorerPayMarket));
     this.mapSummary$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getPeerMapSummary));
+    this.exchangeJobTitles$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextExchangeJobTitles));
   }
 
   handleLimitToPayMarketToggled() {
@@ -70,23 +72,17 @@ export class ExchangeExplorerComponent extends SearchBase {
   }
 
   onSetContext(payload: any) {
+    this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
       this.exchangeId = payload.exchangeId;
-      this.store.dispatch(new fromExchangeFilterContextActions.LimitToExchange(payload.exchangeId));
-      this.store.dispatch(new fromExchangeSearchResultsActions.GetExchangeDataResults());
+      this.store.dispatch(new fromExchangeFilterContextActions.LimitToExchange(this.exchangeId));
+      this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({exchangeId: this.exchangeId}));
     } else {
-      const systemFilterRequest: SystemFilterRequest = {
-        CompanyJobId: payload.companyJobId,
-        CompanyPayMarketId: payload.companyPayMarketId
+      const systemFilterRequest = {
+        companyJobId: payload.companyJobId,
+        companyPayMarketId: payload.companyPayMarketId
       };
-      this.store.dispatch(new fromExchangeFilterContextActions.LoadSystemFilter(systemFilterRequest));
-      if (payload.companyPayMarketId) {
-        this.store.dispatch(new fromExchangeFilterContextActions.LoadPayMarketInformation(payload.companyPayMarketId));
-      }
-
-      if (payload.companyJobId) {
-        this.store.dispatch(new fromExchangeFilterContextActions.LoadAssociatedExchangeJobs(payload.companyJobId));
-      }
+      this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(systemFilterRequest));
     }
   }
 }

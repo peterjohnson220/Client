@@ -11,6 +11,7 @@ import { UpsertExchangeScopeRequest } from 'libs/models/peer/requests/upsert-exc
 import * as fromLibsPeerMapReducers from 'libs/features/peer/map/reducers';
 import * as fromLibsExchangeScopeActions from 'libs/features/peer/map/actions/exchange-scope.actions';
 import * as fromLibsFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
+import * as fromLibsPeerExchangeExplorerScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
 
 import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
 
@@ -41,6 +42,12 @@ export class ExchangeScopeEffects {
         catchError(() => of(new fromExchangeScopeActions.UpsertExchangeScopeError()))
       ))
     );
+
+  @Effect()
+  upsertExchangeExplorerScopeSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType(fromLibsPeerExchangeExplorerScopeActions.UPSERT_EXCHANGE_SCOPE_SUCCESS),
+    map(() => new fromExchangeScopeActions.CloseSaveExchangeScopeModal())
+  );
 
   constructor(
     private actions$: Actions,

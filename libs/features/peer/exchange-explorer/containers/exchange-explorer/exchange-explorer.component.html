@@ -7,7 +7,10 @@
       <ng-container filters-top>
 
         <div class="d-flex flex-column">
-
+          <pf-exchange-job-list
+            *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter"
+            [associatedExchangeJobs]="exchangeJobTitles$ | async">
+          </pf-exchange-job-list>
           <pf-pay-market-bounds-filter
             *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter"
             [enabled]="limitToPayMarket$ | async"

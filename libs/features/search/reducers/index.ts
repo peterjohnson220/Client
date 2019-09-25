@@ -1,10 +1,8 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { MultiSelectFilter } from '../models';
-
+import { Filter, FilterType, MultiSelectFilter } from '../models';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
-
 // Import feature reducers
 import * as fromSearchFiltersReducer from './search-filters.reducer';
 import * as fromSingledFilterReducer from './singled-filter.reducer';
@@ -60,6 +58,19 @@ export const selectSearchPageState = createSelector(
 export const getFilters = createSelector(
   selectSearchFiltersState,
   fromSearchFiltersReducer.getFilters
+);
+
+export const getOverallFilterSelectionsCount = createSelector(
+  getFilters,
+  (filters: Filter[]) => {
+    const multiSelectFilters = filters.filter(f => f.Type === FilterType.Multi);
+
+    return multiSelectFilters.reduce<number>((overallCount: number, currentFilter: MultiSelectFilter) => {
+      const selections = currentFilter.Options.filter(o => o.Selected);
+      const selectionCount = !!selections ? selections.length : 0;
+      return overallCount += selectionCount;
+    }, 0);
+  }
 );
 
 // Singled Filter Selectors
