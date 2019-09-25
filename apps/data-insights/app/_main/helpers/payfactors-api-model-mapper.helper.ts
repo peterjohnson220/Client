@@ -179,8 +179,9 @@ export class PayfactorsApiModelMapper {
 
   }
 
-  static buildDataViewFilterOptionsRequest(data: GetFilterOptionsData): DataViewFilterOptionsRequest {
+  static buildDataViewFilterOptionsRequest(data: GetFilterOptionsData, baseEntityId: number): DataViewFilterOptionsRequest {
     return {
+      BaseEntityId: baseEntityId,
       EntitySourceName: data.EntitySourceName,
       SourceName: data.SourceName,
       Query: data.Query

@@ -22,12 +22,16 @@ export class DataViewConfigurationEffects {
   .pipe(
     ofType(fromConfigurationActions.GET_FILTER_OPTIONS),
     debounceTime(PfConstants.DEBOUNCE_DELAY),
-    switchMap((action: fromConfigurationActions.GetFilterOptions) => {
-      const request = PayfactorsApiModelMapper.buildDataViewFilterOptionsRequest(action.payload);
+    withLatestFrom(
+      this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
+      (action: fromConfigurationActions.GetFilterOptions, dataView) => ({ action, dataView })
+    ),
+    switchMap((data) => {
+      const request = PayfactorsApiModelMapper.buildDataViewFilterOptionsRequest(data.action.payload, data.dataView.obj.BaseEntityId);
       return this.dataViewApiService.getFilterOptions(request)
         .pipe(
           map((response) => new fromConfigurationActions.GetFilterOptionsSuccess({
-            index: action.payload.FilterIndex,
+            index: data.action.payload.FilterIndex,
             options: response
           })),
           catchError(() => of(new fromConfigurationActions.GetFilterOptionsError()))
