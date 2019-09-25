@@ -2,9 +2,9 @@
   <div class="card-body">
     <ng-container *ngIf="editMode; else displayMode">
       <div class="filters-container">
-        <div class="filters-action-bar d-flex flex-row-reverse">
+        <div class="filters-action-bar d-flex justify-content-end">
+          <fa-icon icon="minus" class="filter-icons mr-2" data-qa-id="btn-toggleEditMode" (click)="toggleEditMode()"></fa-icon>
           <fa-icon icon="times" id="delete-filter" class="filter-icons" data-qa-id="btn-deleteFilter" (click)="handleDeleteFilter(filter)"></fa-icon>
-          <fa-icon icon="minus" class="filter-icons" data-qa-id="btn-toggleEditMode" (click)="toggleEditMode()"></fa-icon>
         </div>
       </div>
       <kendo-dropdownlist class="dropdown-list w-100"
@@ -31,31 +31,29 @@
 
       </kendo-dropdownlist>
 
-      <kendo-dropdownlist class="dropdown-list"
-                          [attr.data-qa-id]="'ddm-filter-terms'"
-                          [data]="terms"
-                          [ngModel]="filter.Term"
-                          [disabled]="'true'">
-      </kendo-dropdownlist>
+      <ng-container [ngSwitch]="filter.Field?.DataType">
 
-      <kendo-multiselect class="w-100"
-                         #filterOptionsMultiSelect
-                         [attr.data-qa-id]="'ddm-filter-options'"
-                         [data]="filter?.Options"
-                         [(ngModel)]="selectedOptions"
-                         [filterable]="true"
-                         [popupSettings]="{popupClass: 'filter-options'}"
-                         (open)="handleFilterOptionsMultiSelectOpen($event)"
-                         (filterChange)="handleFilterChange($event)"
-                         (valueChange)="handleSelectedValuesChange($event)">
+        <ng-container *ngSwitchCase="'string'">
+          <pf-multi-select-filter
+            [selectedOperator]="filter.Operator"
+            [options]="filter.Options"
+            [selectedOptions]="selectedOptions"
+            [filterValue]="getFilterOptionsData?.Query"
+            (filterChanged)="handleMultiSelectFilterChanged($event)"
+            (selectedValuesChanged)="handleMultiSelectSelectedValuesChange($event)">
+          </pf-multi-select-filter>
+        </ng-container>
 
-        <ng-template kendoMultiSelectItemTemplate let-dataItem>
-          <input type="checkbox" class="k-checkbox"
-                 [checked]="isOptionSelected(dataItem)">
-          <label class="k-checkbox-label" id="field-value" [title]="dataItem">{{ dataItem }}</label>
-        </ng-template>
+        <ng-container *ngSwitchCase="'dateTime'">
+          <pf-date-range-filter
+            [selectedOperator]="filter.Operator"
+            [startDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[0] : null"
+            [endDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[1] : null"
+            (selectionRangeChanged)="handleDateRangeChanged($event)">
+          </pf-date-range-filter>
+        </ng-container>
+      </ng-container>
 
-      </kendo-multiselect>
     </ng-container>
     <ng-template #displayMode>
       <div class="d-flex justify-content-between display-mode" (click)="toggleEditMode()">
@@ -63,7 +61,7 @@
           {{filter.Field?.DisplayName}}
         </div>
         <div class="filter-options">
-          <span class="badge badge-info"> {{filter.SelectedOptions.length}}</span>
+          <span class="badge badge-info"> {{selectedOptionsCount}}</span>
         </div>
       </div>
     </ng-template>

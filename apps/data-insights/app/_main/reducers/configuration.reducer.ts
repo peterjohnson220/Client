@@ -1,7 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromConfigurationActions from '../actions/configuration.actions';
-import { Filter } from '../models';
+import { Filter, getDefaultOperatorByDataType } from '../models';
 
 export interface State {
   filters: Filter[];
@@ -30,6 +30,7 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
       const filterToUpdate = filtersClone.find((f, index) => index === action.payload.index);
       if (filterToUpdate) {
         filterToUpdate.Field = action.payload.field;
+        filterToUpdate.Operator = getDefaultOperatorByDataType(action.payload.field),
         filterToUpdate.Options = [];
       }
 

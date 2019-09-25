@@ -1,0 +1,46 @@
+<ng-container>
+  <kendo-dropdownlist
+    class="dropdown-list"
+    [attr.data-qa-id]="'ddm-date-filter-operators'"
+    [data]="operators"
+    [ngModel]="selectedOperator ? selectedOperator : operators[0]"
+    [textField]="'Name'"
+    [valueField]="'Value'"
+    [disabled]="'true'">
+  </kendo-dropdownlist>
+
+  <kendo-daterange>
+    
+    <div class="d-flex">
+      <div class="d-flex flex-column">
+        <span>From</span>
+        <kendo-dateinput
+          class="date-input"
+          kendoDateRangeStartInput
+          [value]="selectionRange?.start"
+          [format]="'MM/dd/yyyy'">
+        </kendo-dateinput>
+      </div>
+  
+      <div class="d-flex flex-column">
+        <span>To</span>
+        <kendo-dateinput
+          class="date-input"
+          kendoDateRangeEndInput
+          [value]="selectionRange?.end"
+          [format]="'MM/dd/yyyy'">
+        </kendo-dateinput>
+      </div>
+    </div>
+
+    <kendo-daterange-popup>
+      <kendo-multiviewcalendar
+        kendoDateRangeSelection
+        [selectionRange]="selectionRange"
+        (selectionRangeChange)="handleSelectionRangeChange($event)">
+      </kendo-multiviewcalendar>
+    </kendo-daterange-popup>
+
+  </kendo-daterange>
+
+</ng-container>
