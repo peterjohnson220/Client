@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import * as fromConfigurationActions from '../../actions/configuration.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { Filter, Field, GetFilterOptionsData } from '../../models';
+import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 
 @Component({
   selector: 'pf-data-view-filters',
@@ -66,6 +67,11 @@ export class FiltersComponent implements OnInit, OnDestroy {
   handleSelectedValuesChanged(index: number, selectedValues: string[]): void {
     this.store.dispatch(new fromConfigurationActions.UpdateFilterSelectedOptions({ index, selectedOptions: selectedValues }));
     this.changesMade = true;
+  }
+
+  handleDeleteFilter(field: Field): void {
+    this.store.dispatch(new fromConfigurationActions.RemoveFilter(field));
+    this.store.dispatch(new fromDataViewGridActions.GetData());
   }
 
   handleApplyFilterClicked(): void {

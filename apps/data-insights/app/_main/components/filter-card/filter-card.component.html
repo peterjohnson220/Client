@@ -1,6 +1,12 @@
 <div *ngIf="!!filter" class="filter-card card">
   <div class="card-body">
     <ng-container *ngIf="editMode; else displayMode">
+      <div class="filters-container">
+        <div class="filters-action-bar d-flex flex-row-reverse">
+          <fa-icon icon="times" id="delete-filter" class="filter-icons" data-qa-id="btn-deleteFilter" (click)="handleDeleteFilter(filter)"></fa-icon>
+          <fa-icon icon="minus" class="filter-icons" data-qa-id="btn-toggleEditMode" (click)="toggleEditMode()"></fa-icon>
+        </div>
+      </div>
       <kendo-dropdownlist class="dropdown-list w-100"
                           [attr.data-qa-id]="'ddm-filter-fields'"
                           [data]="fields"

@@ -6,6 +6,24 @@
   border-radius: 0.5rem;
   margin-top: 1rem;
 }
+.filters-container {
+  position: relative;
+  bottom: 15px;
+  right: 16px;
+  width: 321px;
+  
+
+  .filters-action-bar {
+    margin-right: 6px;
+
+    .filter-icons {
+      position: relative;
+      margin-left: 10px;
+      color: $dark-grey;
+      cursor: pointer;
+    }
+  }
+}
 
 .dropdown-list {
   margin-bottom: 1rem;
