@@ -1,4 +1,5 @@
 import { PeerFilterEnum } from './peer-filter.enum';
+import { OperatorEnum } from '../../../constants';
 
 export interface FilterAggregateMetaData {
   Id: string;
@@ -7,6 +8,7 @@ export interface FilterAggregateMetaData {
   Label: string;
   Placeholder: string;
   IncludeInFilterSideBar: boolean;
+  Operator?: OperatorEnum;
 }
 
 export function generateMockFilterAggregateMetaData(peerFilter = 1): FilterAggregateMetaData {
@@ -16,6 +18,7 @@ export function generateMockFilterAggregateMetaData(peerFilter = 1): FilterAggre
     FilterProp: 'MockProp',
     Label: 'MockLabel',
     Placeholder: 'MockPlaceholder',
-    IncludeInFilterSideBar: true
+    IncludeInFilterSideBar: true,
+    Operator: OperatorEnum.And
   };
 }

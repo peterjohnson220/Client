@@ -1,4 +1,5 @@
 import { FilterType } from './filter.model';
+import { OperatorEnum } from '../../../constants';
 
 export interface SearchFilterMappingData {
   Type: FilterType;
@@ -8,6 +9,7 @@ export interface SearchFilterMappingData {
   OptionCountDisabled: boolean;
   SaveDisabled: boolean;
   RefreshOptionsFromServer: boolean;
+  Operator?: OperatorEnum;
 }
 
 interface ISearchFilterMappingDataObj {

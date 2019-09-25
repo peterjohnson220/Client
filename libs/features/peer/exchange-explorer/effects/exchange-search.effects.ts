@@ -5,7 +5,6 @@ import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { PagingOptions } from 'libs/models/payfactors-api';
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
