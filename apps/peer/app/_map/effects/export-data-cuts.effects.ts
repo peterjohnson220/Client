@@ -24,16 +24,16 @@ export class ExportDataCutsEffects {
       ofType(fromExportDataCutsActions.EXPORT_DATA_CUTS),
       withLatestFrom(
         this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchangeName)),
-        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getExchangeDataCutRequestData)),
+        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getExchangeDataCutRequestData, { excludeFilterSelections: false })),
+        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getExchangeDataCutRequestData, { excludeFilterSelections: true })),
         this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections)),
-        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getPeerFilterScopeSelection)),
-        (action: fromExportDataCutsActions.ExportDataCuts, exchangeName, filterModel, gridSelections, scopeSelection) => {
+        (action: fromExportDataCutsActions.ExportDataCuts, exchangeName, filterModelWithSelections, filterModelWithoutSelections, gridSelections) => {
           return {
             ExchangeName: exchangeName,
             ExchangeJobToCompanyJobIds: gridSelections,
-            FilterModel: filterModel,
+            FilterModel: this.getFilterModelToExport(action, filterModelWithSelections, filterModelWithoutSelections),
             SelectedRate: action.payload.selectedRate,
-            SelectedExchangeScopeGuid: scopeSelection ? scopeSelection.Id : null
+            SelectedExchangeScopeGuids: action.payload.scopes
           };
       }),
       switchMap((payload: ExchangeDataCutsExportRequest) => {
@@ -62,6 +62,21 @@ export class ExportDataCutsEffects {
           );
       })
     );
+
+  private getFilterModelToExport(exportDataCutsAction: fromExportDataCutsActions.ExportDataCuts, filterModelWithSelections, filterModelWithoutSelections) {
+    const payload = exportDataCutsAction.payload;
+    let filterModelToExport;
+
+    if (payload.exportCurrentFilters) {
+      filterModelToExport = filterModelWithSelections;
+    } else if (!payload.exportCurrentFilters && payload.scopes.length === 0) {
+      filterModelToExport = filterModelWithoutSelections;
+    } else {
+      return null;
+    }
+
+    return filterModelToExport;
+  }
 
   constructor(
     private actions$: Actions,

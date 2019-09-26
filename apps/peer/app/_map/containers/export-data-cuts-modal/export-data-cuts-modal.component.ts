@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { DataStateChangeEvent, GridDataResult, RowArgs, RowClassArgs, SelectAllCheckboxState } from '@progress/kendo-angular-grid';
+import { DataStateChangeEvent, GridDataResult, RowArgs, SelectAllCheckboxState } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { FeatureAreaConstants, GridTypeEnum, UiPersistenceSettingConstants } from 'libs/models/common';
+import { FeatureAreaConstants, GenericMenuItem, GridTypeEnum, UiPersistenceSettingConstants } from 'libs/models/common';
 import { PfValidators } from 'libs/forms/validators';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { Rates, RateType } from 'libs/data/data-sets';
@@ -18,6 +18,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as fromExchangeCompanyJobGridActions from '../../actions/exchange-company-job-grid.actions';
 import * as fromExportDataCutsActions from '../../actions/export-data-cuts.actions';
 import * as fromPeerMapReducer from '../../reducers';
+import { ExportDataCutsContext } from '../../models';
 
 @Component({
   selector: 'pf-export-data-cuts-modal',
@@ -25,6 +26,8 @@ import * as fromPeerMapReducer from '../../reducers';
   styleUrls: ['./export-data-cuts-modal.component.scss']
 })
 export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
+  @Input() context: ExportDataCutsContext;
+
   exchangeCompanyJobsLoading$: Observable<boolean>;
   exchangeCompanyJobsLoadingError$: Observable<boolean>;
   exportDataCutsModalOpen$: Observable<boolean>;
@@ -52,10 +55,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   attemptedSubmit = false;
   exchangeId: number;
   total = 0;
-  pageSizes = [];
   allIds: number[] = [];
   rates: KendoDropDownItem[] = Rates;
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
+  scopesToExportOptions: GenericMenuItem[] = [];
+  selectedScopesToExport: GenericMenuItem[] = [];
+  readonly currentSelectionsOptionValue = 'Current Selections';
 
   constructor(
     private store: Store<fromPeerMapReducer.State>,
@@ -88,15 +93,13 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     return `Export (${numOfSelections})`;
   }
   get primaryButtonTextSubmitting() {
-    const numOfSelections = this.selections ? this.selections.length : 0;
-    return `Exporting (${numOfSelections})...`;
+    return `Exporting...`;
   }
   get selectionsControl() { return this.exportDataCutsForm.get('selections'); }
   get selectedRateControl() { return this.exportDataCutsForm.get('selectedRate'); }
   get pageEntityIds(): number[] {
     const gridDataResult = this.gridDataResult;
-    return !!gridDataResult ? this.gridDataResult.data.filter(item => item.IsInMapScope)
-      .map(item => item.ExchangeJobToCompanyJobId) : [];
+    return !!gridDataResult ? this.gridDataResult.data.map(item => item.ExchangeJobToCompanyJobId) : [];
   }
   get selectAllDisabled(): boolean { return this.pageEntityIds.length === 0; }
 
@@ -110,29 +113,25 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    this.store.dispatch(new fromExportDataCutsActions.ExportDataCuts({selectedRate: this.selectedRate.Value}));
+    this.store.dispatch(new fromExportDataCutsActions.ExportDataCuts(
+      {
+        selectedRate: this.selectedRate.Value,
+        scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentSelectionsOptionValue).map(s => s.Value),
+        exportCurrentFilters: this.selectedScopesToExport.some(s => s.Value === this.currentSelectionsOptionValue)
+      }
+    ));
   }
 
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
+    this.scopesToExportOptions = [];
     this.store.dispatch(new fromExportDataCutsActions.CloseExportDataCutsModal);
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeCompanyJob));
   }
 
   // Grid
-  getCellTitle(isInMapScope: boolean, fieldValue: string): string {
-    const scopeMessage = isInMapScope ? '' : ' - There is no peer data for this job in the selected scope.';
-    return fieldValue + scopeMessage;
-  }
-
   selectionKey(context: RowArgs): number {
     return !!context.dataItem ? context.dataItem.ExchangeJobToCompanyJobId : 0;
-  }
-
-  handlePageDropDownChanged(state: any, dropDownValue: number) {
-    state.take = dropDownValue;
-    state.skip = 0;
-    this.handleDataStateChange(state);
   }
 
   handleDataStateChange(state: DataStateChangeEvent): void {
@@ -141,20 +140,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   }
 
   handleCellClick(event: any): void {
-    if (!event.dataItem.IsInMapScope) {
-      return;
-    }
-
     const selectedExchangeJobToCompanyJobId = event.dataItem.ExchangeJobToCompanyJobId;
     this.store.dispatch(new fromGridActions.ToggleRowSelection(
       GridTypeEnum.ExchangeCompanyJob,
       selectedExchangeJobToCompanyJobId,
       this.pageEntityIds)
     );
-  }
-
-  rowClass(context: RowClassArgs): string {
-    return !context.dataItem.IsInMapScope ? 'row-disabled' : '';
   }
 
   onSelectAllChange(checkedState: SelectAllCheckboxState) {
@@ -201,6 +192,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
       if (isOpen) {
         this.selectedRateControl.setValue(this.selectedRate);
         this.loadExchangeCompanyJobs();
+        this.buildScopeSelectorOptions();
       }
     });
     this.exportingJobsErrorSubscription = this.exportingDataCutsError$.subscribe(error => {
@@ -218,12 +210,6 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.gridDataResultSubscription = this.view$.subscribe(gridDataResult => {
       this.gridDataResult = gridDataResult;
       if (gridDataResult.total > this.total) {
-        this.pageSizes = [
-          {text: '10', value: 10},
-          {text: '25', value: 25},
-          {text: '50', value: 50},
-          {text: '100', value: 100}
-        ];
         this.total = gridDataResult.total;
       }
       this.store.dispatch(new fromGridActions.SetSelectAllState(GridTypeEnum.ExchangeCompanyJob, this.pageEntityIds));
@@ -247,5 +233,38 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   loadExchangeCompanyJobs(): void {
     this.store.dispatch(new fromExchangeCompanyJobGridActions.LoadExchangeCompanyJobs);
     this.store.dispatch(new fromExchangeCompanyJobGridActions.LoadExchangeCompanyJobsIds);
+  }
+
+  private buildScopeSelectorOptions(): void {
+    this.selectedScopesToExport = [];
+    this.scopesToExportOptions = [];
+    const currentSelectionsOption = {
+      DisplayName: this.currentSelectionsOptionValue,
+      Value: this.currentSelectionsOptionValue,
+      IsSelected: true,
+      SystemSelectedOption: true
+    };
+
+    if (this.context.dataIsFiltered && !this.context.selectedExchangeScope) {
+      this.selectedScopesToExport = [currentSelectionsOption];
+      this.scopesToExportOptions = [currentSelectionsOption];
+    }
+
+    this.context.exchangeScopeItems.map(si => {
+      const isSelectedScopeFromContext = !!this.context.selectedExchangeScope
+        ? this.context.selectedExchangeScope.Id === si.Id
+        : false;
+      const selectorOption = {
+        DisplayName: si.Name,
+        IsSelected: isSelectedScopeFromContext,
+        Value: si.Id
+      };
+
+      this.scopesToExportOptions.push(selectorOption);
+
+      if (isSelectedScopeFromContext) {
+        this.selectedScopesToExport.push(selectorOption);
+      }
+    });
   }
 }
