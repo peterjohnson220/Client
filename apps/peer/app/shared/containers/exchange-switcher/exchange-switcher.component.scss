@@ -1,6 +1,10 @@
 @import 'common/common';
 @import 'colors';
 
+:host {
+  position: relative;
+}
+
 .popover-content{
   max-height: 300px;
   overflow-y: auto;
@@ -37,8 +41,8 @@
 :host ::ng-deep .popover {
   max-width: 320px;
   width: 250px;
-  top: 90px !important;
-  left: 67px !important;
+  top: 27px !important;
+  left: 0px !important;
   font-size: 1rem;
 }
 

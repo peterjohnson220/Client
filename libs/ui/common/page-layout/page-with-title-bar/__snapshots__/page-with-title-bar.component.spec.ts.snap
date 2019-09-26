@@ -16,7 +16,9 @@ exports[`Page With Title Bar should show no back button when no URL is provided 
         
         
         
-        <h3 />
+        <h3
+          class="page-title"
+        />
       </div>
       <div
         class="d-flex space-out-children"
@@ -56,7 +58,9 @@ exports[`Page With Title Bar should show the back button, when provided a return
           />
         </button>
         
-        <h3 />
+        <h3
+          class="page-title"
+        />
       </div>
       <div
         class="d-flex space-out-children"
@@ -98,7 +102,9 @@ exports[`Page With Title Bar should show the back button, when provided an absol
             />
           </button>
         </a>
-        <h3 />
+        <h3
+          class="page-title"
+        />
       </div>
       <div
         class="d-flex space-out-children"
@@ -136,7 +142,9 @@ exports[`Page With Title Bar should show the back button, when provided an locat
         </button>
         
         
-        <h3 />
+        <h3
+          class="page-title"
+        />
       </div>
       <div
         class="d-flex space-out-children"
@@ -164,7 +172,9 @@ exports[`Page With Title Bar should transclude into slots 1`] = `
           
           
           
-          <h3>
+          <h3
+            class="page-title"
+          >
             
             I am a page title
           </h3>
