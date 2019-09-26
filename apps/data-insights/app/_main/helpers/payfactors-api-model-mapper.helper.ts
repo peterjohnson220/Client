@@ -13,6 +13,7 @@ import {
   DataViewFilterOptionsRequest, DataViewFilter, SaveUserViewFiltersRequest
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
+import { generateDefaultAsyncStateObj } from 'libs/models';
 
 import {
   DashboardView,
@@ -24,9 +25,9 @@ import {
   Workbook,
   Field,
   GetFilterOptionsData,
-  Filter
+  Filter,
+  getFilterOperatorByValue
 } from '../models';
-import { generateDefaultAsyncStateObj } from 'libs/models';
 
 export class PayfactorsApiModelMapper {
 
@@ -191,7 +192,7 @@ export class PayfactorsApiModelMapper {
   static mapFiltersToDataViewFilters(data: Filter[]): DataViewFilter[] {
     return data.map((filter) => {
       return {
-        Operator: 'in',
+        Operator: filter.Operator.Value,
         Values: filter.SelectedOptions,
         EntitySourceName: filter.Field.EntitySourceName,
         SourceName: filter.Field.SourceName
@@ -204,7 +205,7 @@ export class PayfactorsApiModelMapper {
       return {
         Field: fields.find(x => x.EntitySourceName === filter.EntitySourceName && x.SourceName === filter.SourceName),
         SelectedOptions: filter.Values,
-        Term: 'equals',
+        Operator: getFilterOperatorByValue(filter.Operator),
         Options: []
       };
     });

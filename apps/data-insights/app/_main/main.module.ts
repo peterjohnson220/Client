@@ -11,6 +11,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -19,7 +20,8 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent,
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
-  ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent } from './components';
+  ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent,
+  DateRangeFilterComponent, MultiSelectFilterComponent} from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent,
   DashboardsHeaderComponent, ViewsComponent, FiltersComponent } from './containers';
@@ -56,6 +58,7 @@ import { MainRoutingModule } from './main-routing.module';
     GridModule,
     PerfectScrollbarModule,
     NgbCollapseModule,
+    DateInputsModule,
 
     // Routing
     MainRoutingModule,
@@ -74,7 +77,7 @@ import { MainRoutingModule } from './main-routing.module';
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
     StandardReportHexagonComponent, SaveUserWorkbookModalComponent, ReportFieldComponent,
     DeleteUserWorkbookModalComponent, AddReportFieldsComponent, ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent,
-    FilterCardComponent
+    FilterCardComponent, DateRangeFilterComponent, MultiSelectFilterComponent
   ],
   providers: [
     WindowRef

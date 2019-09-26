@@ -12,3 +12,5 @@ export * from './view-card';
 export * from './workbook-views-card';
 export * from './favorite-views';
 export * from './filter-card';
+export * from './date-range-filter';
+export * from './multi-select-filter';

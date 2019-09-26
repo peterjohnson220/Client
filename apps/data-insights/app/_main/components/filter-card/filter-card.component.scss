@@ -14,7 +14,7 @@
   
 
   .filters-action-bar {
-    margin-right: 6px;
+    padding: 0.5rem 1rem 0 1rem;
 
     .filter-icons {
       position: relative;
@@ -46,6 +46,7 @@
 .display-mode {
   cursor: pointer;
 }
+
 #field-value {
   max-width: 250px;
   @extend %ellipsis-overflowing-text;

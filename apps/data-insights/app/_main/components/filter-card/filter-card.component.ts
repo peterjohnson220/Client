@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
-import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
+import { SelectionRange } from '@progress/kendo-angular-dateinputs';
+
+import { DataViewFieldDataType } from 'libs/models/payfactors-api';
 
 import { Field, Filter, GetFilterOptionsData } from '../../models';
 
@@ -18,23 +20,14 @@ export class FilterCardComponent implements OnInit {
   @Output() selectedValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() deleteFilter: EventEmitter<Field> = new EventEmitter<Field>();
 
-  @ViewChild('filterOptionsMultiSelect', {static: false}) public filterOptionsMultiSelect: MultiSelectComponent;
-  terms = ['equals'];
   selectedOptions = [];
   getFilterOptionsData: GetFilterOptionsData;
-  readonly MIN_QUERY_LENGTH = 2;
   editMode = true;
 
   ngOnInit(): void {
     if (this.filter && this.filter.SelectedOptions.length > 0) {
       this.selectedOptions = this.filter.SelectedOptions;
       this.editMode = false;
-    }
-  }
-
-  public handleFilterOptionsMultiSelectOpen(event: any) {
-    if (!this.getFilterOptionsData || this.getFilterOptionsData.Query.length < this.MIN_QUERY_LENGTH) {
-      event.preventDefault();
     }
   }
 
@@ -45,29 +38,36 @@ export class FilterCardComponent implements OnInit {
     this.selectedValuesChanged.emit(this.selectedOptions);
   }
 
-  handleSelectedValuesChange(): void {
-    this.selectedValuesChanged.emit(this.selectedOptions);
+  handleMultiSelectFilterChanged(value: string): void {
+    this.builGetFilterOptionsData(value);
+    this.searchOptionChanged.emit(this.getFilterOptionsData);
   }
 
-  handleFilterChange(value: string): void {
-    if (!!value && value.length >= this.MIN_QUERY_LENGTH) {
-      this.builGetFilterOptionsData(value);
-      this.searchOptionChanged.emit(this.getFilterOptionsData);
-    } else {
-      this.filterOptionsMultiSelect.toggle(false);
-    }
+  handleMultiSelectSelectedValuesChange(selectedOptions: string[]): void {
+    this.selectedOptions = selectedOptions;
+    this.selectedValuesChanged.emit(selectedOptions);
   }
 
   handleDeleteFilter(filter: Filter): void {
     this.deleteFilter.emit(filter.Field);
   }
 
+  handleDateRangeChanged(range: SelectionRange): void {
+    const startDate = this.getFormattedDateString(range.start);
+    const endDate = this.getFormattedDateString(range.end);
+    this.selectedOptions = [startDate, endDate];
+    this.selectedValuesChanged.emit(this.selectedOptions);
+  }
+
   toggleEditMode(): void {
     this.editMode = !this.editMode;
   }
 
-  public isOptionSelected(value: string): boolean {
-    return this.selectedOptions.some(option => option === value);
+  public get selectedOptionsCount(): number {
+    if (this.filter.Field.DataType === DataViewFieldDataType.DateTime) {
+      return 1;
+    }
+    return this.filter.SelectedOptions.length;
   }
 
   private builGetFilterOptionsData(query: string): void {
@@ -77,5 +77,13 @@ export class FilterCardComponent implements OnInit {
       SourceName: this.filter.Field.SourceName,
       Query: query
     };
+  }
+
+  private getFormattedDateString(date: Date): string {
+    const isoDateString = date.toISOString();
+    const year = isoDateString.substr(0, 4);
+    const month = isoDateString.substr(5, 2);
+    const day = isoDateString.substr(8, 2);
+    return `${year}-${month}-${day}`;
   }
 }

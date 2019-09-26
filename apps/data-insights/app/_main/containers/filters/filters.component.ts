@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromConfigurationActions from '../../actions/configuration.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Filter, Field, GetFilterOptionsData } from '../../models';
+import { Filter, Field, GetFilterOptionsData, getDefaultOperatorByDataType } from '../../models';
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 
 @Component({
@@ -49,7 +49,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     }
     const filter: Filter = {
       Field: this.selectedFields[0],
-      Term: 'equals',
+      Operator: getDefaultOperatorByDataType(this.selectedFields[0]),
       Options: [],
       SelectedOptions: []
     };
