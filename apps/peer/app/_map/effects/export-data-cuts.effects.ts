@@ -24,14 +24,13 @@ export class ExportDataCutsEffects {
       ofType(fromExportDataCutsActions.EXPORT_DATA_CUTS),
       withLatestFrom(
         this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchangeName)),
-        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getExchangeDataCutRequestData, { excludeFilterSelections: false })),
-        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getExchangeDataCutRequestData, { excludeFilterSelections: true })),
+        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getExchangeDataCutRequestData)),
         this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections)),
-        (action: fromExportDataCutsActions.ExportDataCuts, exchangeName, filterModelWithSelections, filterModelWithoutSelections, gridSelections) => {
+        (action: fromExportDataCutsActions.ExportDataCuts, exchangeName, filterModel, gridSelections) => {
           return {
             ExchangeName: exchangeName,
             ExchangeJobToCompanyJobIds: gridSelections,
-            FilterModel: this.getFilterModelToExport(action, filterModelWithSelections, filterModelWithoutSelections),
+            FilterModel: action.payload.exportCurrentMap ? filterModel : null,
             SelectedRate: action.payload.selectedRate,
             SelectedExchangeScopeGuids: action.payload.scopes
           };
@@ -62,21 +61,6 @@ export class ExportDataCutsEffects {
           );
       })
     );
-
-  private getFilterModelToExport(exportDataCutsAction: fromExportDataCutsActions.ExportDataCuts, filterModelWithSelections, filterModelWithoutSelections) {
-    const payload = exportDataCutsAction.payload;
-    let filterModelToExport;
-
-    if (payload.exportCurrentFilters) {
-      filterModelToExport = filterModelWithSelections;
-    } else if (!payload.exportCurrentFilters && payload.scopes.length === 0) {
-      filterModelToExport = filterModelWithoutSelections;
-    } else {
-      return null;
-    }
-
-    return filterModelToExport;
-  }
 
   constructor(
     private actions$: Actions,
