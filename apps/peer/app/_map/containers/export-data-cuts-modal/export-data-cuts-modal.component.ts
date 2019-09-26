@@ -60,7 +60,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
   scopesToExportOptions: GenericMenuItem[] = [];
   selectedScopesToExport: GenericMenuItem[] = [];
-  readonly currentSelectionsOptionValue = 'Current Selections';
+  readonly currentMapViewOptionValue = 'Current Map View';
 
   constructor(
     private store: Store<fromPeerMapReducer.State>,
@@ -106,7 +106,8 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   createForm(): void {
     this.exportDataCutsForm = this.fb.group({
       'selections': [[], [PfValidators.selectionRequired]],
-      'selectedRate': [this.selectedRate]
+      'selectedRate': [this.selectedRate],
+      'scopes': [[], [PfValidators.selectionRequired]]
     });
   }
 
@@ -116,8 +117,8 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExportDataCutsActions.ExportDataCuts(
       {
         selectedRate: this.selectedRate.Value,
-        scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentSelectionsOptionValue).map(s => s.Value),
-        exportCurrentFilters: this.selectedScopesToExport.some(s => s.Value === this.currentSelectionsOptionValue)
+        scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => s.Value),
+        exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue)
       }
     ));
   }
@@ -238,16 +239,16 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   private buildScopeSelectorOptions(): void {
     this.selectedScopesToExport = [];
     this.scopesToExportOptions = [];
-    const currentSelectionsOption = {
-      DisplayName: this.currentSelectionsOptionValue,
-      Value: this.currentSelectionsOptionValue,
+    const currentMapViewOption = {
+      DisplayName: this.currentMapViewOptionValue,
+      Value: this.currentMapViewOptionValue,
       IsSelected: true,
-      SystemSelectedOption: true
+      FeaturedOption: true
     };
 
-    if (this.context.dataIsFiltered && !this.context.selectedExchangeScope) {
-      this.selectedScopesToExport = [currentSelectionsOption];
-      this.scopesToExportOptions = [currentSelectionsOption];
+    if (!this.context.selectedExchangeScope) {
+      this.selectedScopesToExport = [currentMapViewOption];
+      this.scopesToExportOptions = [currentMapViewOption];
     }
 
     this.context.exchangeScopeItems.map(si => {

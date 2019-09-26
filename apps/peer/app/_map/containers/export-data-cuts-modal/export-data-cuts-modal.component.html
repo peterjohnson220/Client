@@ -127,6 +127,7 @@
 
     <div class="form-group hidden-form-control">
       <input type="hidden" class="form-control" name="hasSelections" formControlName="selections" [ngModel]="selections$ | async" [pfValidatable]="attemptedSubmit"/>
+      <input type="hidden" class="form-control" name="hasScopeSelections" formControlName="scopes" [ngModel]="selectedScopesToExport" [pfValidatable]="attemptedSubmit"/>
       <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
         <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
       </ng-container>

@@ -124,10 +124,10 @@ export const getExchangeDataCutRequestData = createSelector(
   getPeerFilterIncludeUntaggedIncumbents,
   getPeerFilterExcludeIndirectJobMatches,
   getPeerFilterScopeSelection,
-  (sf, fs, pmf, pfltp, includeUntaggedIncumbents, isExcludingIndirectJobMatches, selectedExchangeScope, props) => {
+  (sf, fs, pmf, pfltp, includeUntaggedIncumbents, isExcludingIndirectJobMatches, selectedExchangeScope) => {
     return {
         ...sf,
-        ...(!!props && !!props.excludeFilterSelections ? {} : fs),
+        ...fs,
         ...pmf,
         LimitToPayMarket: pfltp,
         IncludeUntaggedIncumbents: includeUntaggedIncumbents,

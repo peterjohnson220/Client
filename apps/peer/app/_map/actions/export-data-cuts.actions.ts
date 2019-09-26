@@ -11,7 +11,7 @@ export const SELECTED_RATE_PERSISTED = '[Peer Main/Map/Export Data Cuts] Selecte
 export class ExportDataCuts implements Action {
   readonly type = EXPORT_DATA_CUTS;
 
-  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentFilters: boolean}) {}
+  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean}) {}
 }
 
 export class ExportDataCutsSuccess implements Action {

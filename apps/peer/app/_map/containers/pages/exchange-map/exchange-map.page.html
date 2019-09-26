@@ -56,7 +56,6 @@
   (upsertExchangeScopeEvent)="handleUpsertExchangeScopeEvent($event)">
 </pf-save-exchange-scope-modal>
 <pf-export-data-cuts-modal [context]="{
-  dataIsFiltered: (numberOfSelections$ | async) !== 0,
   exchangeScopeItems: exchangeScopes$ | async,
   selectedExchangeScope: selectedExchangeScope$ | async
 }"></pf-export-data-cuts-modal>
