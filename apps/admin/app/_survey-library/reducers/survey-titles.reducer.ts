@@ -1,5 +1,6 @@
 import * as fromSurveyTitleActions from '../actions/survey-titles.actions';
 import { SurveyTitleResponseModel } from '../models';
+import { SurveyLibraryConstants } from '../constants/survey-library-constants';
 
 export interface State {
   loading: boolean;
@@ -9,6 +10,7 @@ export interface State {
   savingSuccess: boolean;
   savingError: boolean;
   titles: SurveyTitleResponseModel;
+  warning: string;
 }
 
 export const initialState: State = {
@@ -18,7 +20,8 @@ export const initialState: State = {
   saving: false,
   savingSuccess: false,
   savingError: false,
-  titles: null
+  titles: null,
+  warning: ''
 };
 
 export function reducer(state = initialState, action: fromSurveyTitleActions.Actions): State {
@@ -29,6 +32,7 @@ export function reducer(state = initialState, action: fromSurveyTitleActions.Act
         saving: true,
         savingSuccess: false,
         savingError: false,
+        warning: ''
       };
     }
     case fromSurveyTitleActions.SAVE_SURVEY_TITLE_SUCCESS: {
@@ -52,7 +56,7 @@ export function reducer(state = initialState, action: fromSurveyTitleActions.Act
         ...state,
         loading: true,
         loadingSuccess: false,
-        loadingError: false,
+        loadingError: false
       };
     }
     case fromSurveyTitleActions.LOADING_SURVEY_TITLES_SUCCESS: {
@@ -72,6 +76,15 @@ export function reducer(state = initialState, action: fromSurveyTitleActions.Act
         loadingError: true
       };
     }
+    case fromSurveyTitleActions.TITLE_CODE_EXISTS: {
+      return {
+        ...state,
+        saving: false,
+        savingSuccess: false,
+        savingError: true,
+        warning: SurveyLibraryConstants.DUPLICATE_SURVEY_CODE_ERROR
+      };
+    }
     default:
       return state;
   }
@@ -84,3 +97,4 @@ export const getLoadingSurveyTitles = (state: State) => state.loading;
 export const getLoadingSurveyTitlesSuccess = (state: State) => state.loadingSuccess;
 export const getLoadingSurveyTitlesError = (state: State) => state.loadingError;
 export const getTitles = (state: State) => state.titles;
+export const getWarning = (state: State) => state.warning;
