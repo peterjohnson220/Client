@@ -17,6 +17,7 @@
         <kendo-dateinput
           class="date-input"
           kendoDateRangeStartInput
+          autoCorrectOn="blur"
           [value]="selectionRange?.start"
           [format]="'MM/dd/yyyy'">
         </kendo-dateinput>
@@ -27,6 +28,7 @@
         <kendo-dateinput
           class="date-input"
           kendoDateRangeEndInput
+          autoCorrectOn="blur"
           [value]="selectionRange?.end"
           [format]="'MM/dd/yyyy'">
         </kendo-dateinput>
