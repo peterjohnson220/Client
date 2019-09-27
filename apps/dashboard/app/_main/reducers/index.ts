@@ -10,6 +10,7 @@ import * as fromUserVoiceReducer from './user-voice.reducer';
 import * as fromActivityTimelineReducer from './timeline-activity.reducer';
 import * as fromDashboardTCModalReducer from './dashboard-tc-modal.reducer';
 import * as fromCompanyResourcesReducer from './company-resources.reducer';
+import * as fromCompanyResourcesModalReducer from './company-resources-modal.reducer';
 
 // Feature area state
 export interface DashboardMainState {
@@ -19,6 +20,7 @@ export interface DashboardMainState {
   activityTimeline: fromActivityTimelineReducer.State;
   tcModal: fromDashboardTCModalReducer.State;
   companyResources: fromCompanyResourcesReducer.State;
+  companyResourcesModal: fromCompanyResourcesModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -33,7 +35,8 @@ export const reducers = {
   userVoice: fromUserVoiceReducer.reducer,
   activityTimeline: fromActivityTimelineReducer.reducer,
   tcModal: fromDashboardTCModalReducer.reducer,
-  companyResources: fromCompanyResourcesReducer.reducer
+  companyResources: fromCompanyResourcesReducer.reducer,
+  companyResourcesModal: fromCompanyResourcesModalReducer.reducer
 };
 
 // Select Feature Area
@@ -46,6 +49,7 @@ export const selectUserVoiceState = createSelector(selectDashboardMainState, (st
 export const selectActivityTimelineState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.activityTimeline);
 export const selectTCModalState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.tcModal);
 export const selectCompanyResourcesState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.companyResources);
+export const selectCompanyResourcesModalState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.companyResourcesModal);
 
 // Entity Adapter Selectors
 
@@ -95,3 +99,11 @@ export const getCompanyResourcesLoading = createSelector(selectCompanyResourcesS
 export const getCompanyResourcesLoadingError = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourcesLoadingError);
 export const getCompanyResourceToAdd = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceToAdd);
 export const getCompanyResourceId = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceId);
+export const getCompanyResourceFolder = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceFolder);
+export const getAddingCompanyResourceFolder = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceFolder);
+export const getAddingCompanyResourceFolderSuccess = createSelector(
+  selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceFolderSuccess);
+export const getAddingCompanyResourceFolderError = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceFolderError);
+
+// company resources modals
+export const getNewFolderModalOpen = createSelector(selectCompanyResourcesModalState, fromCompanyResourcesModalReducer.getNewFolderModalOpen);

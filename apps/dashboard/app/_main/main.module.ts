@@ -17,6 +17,7 @@ import * as fromFaIcons from './fa-icons';
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFileDownloadModule } from 'libs/features/file-download';
+import { PfFormsModule } from 'libs/forms/forms.module';
 
 // Effects
 import { DashboardEffects,
@@ -51,11 +52,15 @@ import { TilePreviewPlaceHolderComponent } from './components';
 import { CompositeSummaryDownloadComponent } from './components';
 import { BasicListComponent } from './components';
 import { ResourcesComponent } from './containers/resources/resources.component';
+import { NewFolderModalComponent } from './containers/new-folder-modal/new-folder-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
+    ReactiveFormsModule,
 
     // 3rd Party
     DragulaModule.forRoot(),
@@ -74,7 +79,6 @@ import { ResourcesComponent } from './containers/resources/resources.component';
     FontAwesomeModule,
     NgbModule.forRoot(),
 
-
     // Routing
     MainRoutingModule,
 
@@ -82,6 +86,7 @@ import { ResourcesComponent } from './containers/resources/resources.component';
     PfCommonUIModule,
     PfCommonModule,
     PfFileDownloadModule,
+    PfFormsModule,
   ],
   declarations: [
     // Pages
@@ -104,7 +109,8 @@ import { ResourcesComponent } from './containers/resources/resources.component';
     CompositeSummaryDownloadComponent,
     BasicListComponent,
     ResourcesComponent,
-    CompanyResourceListComponent
+    CompanyResourceListComponent,
+    NewFolderModalComponent
   ]
 })
 export class MainModule {

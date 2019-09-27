@@ -1,12 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { CompanyResources, CompanyResource } from '../../models';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
+import * as fromCompanyResourcesModalActions from '../../actions/company-resources-modal.actions';
+import * as fromCompanyResourcesModalReducer from '../../reducers';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 
 const BASE_LINK = '/odata/CloudFiles.DownloadCompanyResource?FileName=';
 const RESOURCE_TYPE = {
   link: 'Link',
   file: 'File'
 };
+
 
 @Component({
   selector: 'pf-company-resource-list',
@@ -19,16 +25,19 @@ const RESOURCE_TYPE = {
 export class CompanyResourceListComponent {
 
   @Input() companyResources: CompanyResources;
-  folders = {};
+  folderStates = {};
+  newFolderModalOpen$: Observable<boolean>;
 
-  constructor(private httpUrlEncodingCodec: HttpUrlEncodingCodec) {}
+  constructor(private httpUrlEncodingCodec: HttpUrlEncodingCodec, private store: Store<fromCompanyResourcesModalReducer.State>) {
+      this.newFolderModalOpen$ = this.store.select(fromCompanyResourcesModalReducer.getNewFolderModalOpen);
+    }
 
   onFolderSelect(folderId: string) {
-    this.folders[folderId] = !this.folders[folderId];
+    this.folderStates[folderId] = !this.folderStates[folderId];
   }
 
   setFolderIcon(folderId: string) {
-    return this.folders[folderId] ? 'folder' : 'folder-open';
+    return this.folderStates[folderId] ? 'folder' : 'folder-open';
   }
 
   setResourceIcon(resource: CompanyResource) {
@@ -40,7 +49,7 @@ export class CompanyResourceListComponent {
   }
 
   setFontWeight(folderId: string) {
-    return this.folders[folderId] ? 'normal' : 'bold';
+    return this.folderStates[folderId] ? 'normal' : 'bold';
   }
 
   isLink(resource: CompanyResource): boolean {
@@ -49,5 +58,9 @@ export class CompanyResourceListComponent {
 
   formatFileUrl(resource: CompanyResource): string {
     return `${BASE_LINK}${this.httpUrlEncodingCodec.encodeValue(resource.FileName)}`;
+  }
+
+  openNewFolderModal() {
+    this.store.dispatch(new fromCompanyResourcesModalActions.OpeningNewFolderModal());
   }
 }
