@@ -26,6 +26,12 @@ main {
   background: $left-sidebar-color;
 }
 
+.right-sidebar {
+  position: absolute;
+  right: 20px;
+  z-index: 9999;
+}
+
 //------------Conditional CSS for scrolling ---------------------------
 .main-body-scroll {
   flex: 1 0 auto;

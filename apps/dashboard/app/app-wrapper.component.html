@@ -3,6 +3,7 @@
   [rightSideBarFontAwesomeOpenIcon]="rightSideBarOpenIcon"
   [rightSidebarShouldBeOpen]="isRightSidebarOpen"
   (onRightSidebarToggle)="saveRightSidebarToggle($event)"
+  [centerContentScroll]="true"
 >
   <router-outlet mainContent></router-outlet>
   <router-outlet rightSidebarContent name="rightSidebarContent"></router-outlet>
