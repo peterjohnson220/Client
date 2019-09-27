@@ -30,6 +30,7 @@
 }
 
 .field-name {
+  width: 150px;
   font-weight: 500;
   @extend %ellipsis-overflowing-text;
 }
@@ -37,10 +38,9 @@
 .field-source {
   text-transform: uppercase;
   color: $dark-grey;
-}
-
-.data-item-field-source {
-  text-transform: uppercase;
+  width: 100px;
+  text-align: right;
+  @extend %ellipsis-overflowing-text;
 }
 
 .display-mode {
