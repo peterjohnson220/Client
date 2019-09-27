@@ -37,7 +37,7 @@
           <pf-multi-select-filter
             [selectedOperator]="filter.Operator"
             [options]="filter.Options"
-            [selectedOptions]="selectedOptions"
+            [selectedOptions]="filter.SelectedOptions"
             [filterValue]="getFilterOptionsData?.Query"
             (filterChanged)="handleMultiSelectFilterChanged($event)"
             (selectedValuesChanged)="handleMultiSelectSelectedValuesChange($event)">

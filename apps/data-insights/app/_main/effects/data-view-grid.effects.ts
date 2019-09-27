@@ -27,7 +27,7 @@ export class DataViewGridEffects {
       this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields)),
       this.store.pipe(select(fromDataInsightsMainReducer.getPagingOptions)),
       this.store.pipe(select(fromDataInsightsMainReducer.getSortDescriptor)),
-      this.store.pipe(select(fromDataInsightsMainReducer.getFilters)),
+      this.store.pipe(select(fromDataInsightsMainReducer.getActiveFilters)),
       (action, dataViewAsync, fields, pagingOptions, sortDescriptor, filters) =>
         ({ action, dataViewAsync, fields, pagingOptions, sortDescriptor, filters })
     ),
@@ -77,25 +77,6 @@ export class DataViewGridEffects {
           .pipe(
             map(() => new fromDataViewGridActions.SaveSortDescriptorSuccess()),
             catchError(() => of(new fromDataViewGridActions.SaveSortDescriptorError()))
-          );
-      })
-    );
-
-  @Effect()
-  saveFilters$ = this.action$
-    .pipe(
-      ofType(fromDataViewGridActions.SAVE_FILTERS),
-      withLatestFrom(
-        this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
-        (action: fromDataViewGridActions.SaveFilters, userDataView) =>
-          ({ action, userDataView })
-      ),
-      switchMap((data) => {
-        const request = PayfactorsApiModelMapper.buildSaveFiltersRequest(data.action.payload, data.userDataView.obj);
-        return this.dataViewApiService.saveFilters(request)
-          .pipe(
-            map(() => new fromDataViewGridActions.SaveFiltersSuccess()),
-            catchError(() => of(new fromDataViewGridActions.SaveFiltersError()))
           );
       })
     );

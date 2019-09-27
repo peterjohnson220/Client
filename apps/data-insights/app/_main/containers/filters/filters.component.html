@@ -15,13 +15,13 @@
 </div>
 
 <div class="filters-container">
-  <div perfectScrollbar class="filters" *ngIf="!!filters">
-    <div *ngFor="let filter of filters; let i = index; trackBy: trackByFn">
+  <div perfectScrollbar class="filters" *ngIf="!!pendingFilters">
+    <div *ngFor="let filter of pendingFilters; let i = index; trackBy: trackByFn">
       <pf-filter-card
         [filterIndex]="i"
         [fields]="selectedFields"
         [filter]="filter"
-        (deleteFilter)="handleDeleteFilter($event)"
+        (deleteFilter)="handleDeleteFilter(i)"
         (selectedFieldChanged)="handleSelectedFieldChanged(i, $event)"
         (selectedValuesChanged)="handleSelectedValuesChanged(i, $event)"
         (searchOptionChanged)="handleSearchOptionChanged($event)">

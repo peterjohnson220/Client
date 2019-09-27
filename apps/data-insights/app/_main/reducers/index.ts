@@ -269,12 +269,22 @@ export const getDashboardViewThumbnailEnabled = createSelector(
 );
 
 // Configuration
-export const getFilters = createSelector(
+export const getActiveFilters = createSelector(
   selectConfigurationState,
-  fromConfigurationReducer.getFilters
+  fromConfigurationReducer.getActiveFilters
 );
 
-export const getFiltersValid = createSelector(
+export const getActiveFiltersCount = createSelector(
   selectConfigurationState,
-  fromConfigurationReducer.getFiltersValid
+  fromConfigurationReducer.getActiveFiltersCount
+);
+
+export const getPendingFiltersValid = createSelector(
+  selectConfigurationState,
+  fromConfigurationReducer.getPendingFiltersValid
+);
+
+export const getPendingFilters = createSelector(
+  selectConfigurationState,
+  fromConfigurationReducer.getPendingFilters
 );

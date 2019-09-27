@@ -6,7 +6,6 @@ import { Observable, Subscription } from 'rxjs';
 import * as fromConfigurationActions from '../../actions/configuration.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { Filter, Field, GetFilterOptionsData, getDefaultOperatorByDataType } from '../../models';
-import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 
 @Component({
   selector: 'pf-data-view-filters',
@@ -16,27 +15,33 @@ import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 export class FiltersComponent implements OnInit, OnDestroy {
   @Input() selectedFields: Field[];
 
-  filters$: Observable<Filter[]>;
+  pendingFilters$: Observable<Filter[]>;
   filtersValid$: Observable<boolean>;
+  activeFiltersCount$: Observable<number>;
 
-  filtersSub: Subscription;
+  pendingFiltersSub: Subscription;
+  activeFiltersCountSub: Subscription;
   changesMade = false;
 
-  filters: Filter[];
+  pendingFilters: Filter[];
+  activeFiltersCount: number;
 
   constructor(
     public store: Store<fromDataInsightsMainReducer.State>
   ) {
-    this.filters$ = this.store.pipe(select(fromDataInsightsMainReducer.getFilters));
-    this.filtersValid$ = this.store.pipe(select(fromDataInsightsMainReducer.getFiltersValid));
+    this.pendingFilters$ = this.store.pipe(select(fromDataInsightsMainReducer.getPendingFilters));
+    this.filtersValid$ = this.store.pipe(select(fromDataInsightsMainReducer.getPendingFiltersValid));
+    this.activeFiltersCount$ = this.store.pipe(select(fromDataInsightsMainReducer.getActiveFiltersCount));
   }
 
   ngOnInit(): void {
-    this.filtersSub = this.filters$.subscribe(filters => this.filters = filters);
+    this.pendingFiltersSub = this.pendingFilters$.subscribe(filters => this.pendingFilters = filters);
+    this.activeFiltersCountSub = this.activeFiltersCount$.subscribe(count => this.activeFiltersCount = count);
   }
 
   ngOnDestroy(): void {
-    this.filtersSub.unsubscribe();
+    this.pendingFiltersSub.unsubscribe();
+    this.activeFiltersCountSub.unsubscribe();
   }
 
   trackByFn(index: any, field: Field): number {
@@ -69,13 +74,15 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this.changesMade = true;
   }
 
-  handleDeleteFilter(field: Field): void {
-    this.store.dispatch(new fromConfigurationActions.RemoveFilter(field));
-    this.store.dispatch(new fromDataViewGridActions.GetData());
+  handleDeleteFilter(index: number): void {
+    this.store.dispatch(new fromConfigurationActions.RemovePendingFilterByIndex({ index }));
+    if (index < this.activeFiltersCount) {
+      this.store.dispatch(new fromConfigurationActions.RemoveActiveFilterByIndex({ index }));
+    }
   }
 
   handleApplyFilterClicked(): void {
-    this.store.dispatch(new fromConfigurationActions.ApplyFilters(this.filters));
+    this.store.dispatch(new fromConfigurationActions.ApplyFilters());
     this.changesMade = false;
   }
 }

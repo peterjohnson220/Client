@@ -20,16 +20,19 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   selectedTabIndex = 0;
   activeTab = 'Fields';
 
-  filters$: Observable<Filter[]>;
   selectedFields$: Observable<Field[]>;
   unselectedFields$: Observable<Field[]>;
+  activeFilters$: Observable<Filter[]>;
+  pendingFilters$: Observable<Filter[]>;
 
   dragulaSub: Subscription;
   selectedFieldsSub: Subscription;
-  filtersSub: Subscription;
+  activeFiltersSub: Subscription;
+  pendingFiltersSub: Subscription;
 
   selectedFields: Field[];
-  filters: Filter[];
+  activeFilters: Filter[];
+  pendingFilters: Filter[];
   configureTabOptions: Array<string> = ['Fields', 'Filters'];
 
   constructor(
@@ -38,20 +41,24 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   ) {
     this.selectedFields$ = this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields));
     this.unselectedFields$ = this.store.pipe(select(fromDataInsightsMainReducer.getUnselectedFields));
+    this.activeFilters$ = this.store.pipe(select(fromDataInsightsMainReducer.getActiveFilters));
+    this.pendingFilters$ = this.store.pipe(select(fromDataInsightsMainReducer.getPendingFilters));
     this.dragulaSub = new Subscription();
     this.dragulaSub.add(this.dragulaService.dropModel('fields-bag').subscribe(({ sourceModel }) => {
       this.handleFieldsReordered(sourceModel);
     }));
-    this.filters$ = this.store.pipe(select(fromDataInsightsMainReducer.getFilters));
   }
 
   ngOnInit(): void {
     this.selectedFieldsSub = this.selectedFields$.subscribe(fields => this.selectedFields = fields);
-    this.filtersSub = this.filters$.subscribe(filters => this.filters = filters);
+    this.activeFiltersSub = this.activeFilters$.subscribe(filters => this.activeFilters = filters);
+    this.pendingFiltersSub = this.pendingFilters$.subscribe(filters => this.pendingFilters = filters);
   }
 
   ngOnDestroy(): void {
     this.selectedFieldsSub.unsubscribe();
+    this.activeFiltersSub.unsubscribe();
+    this.pendingFiltersSub.unsubscribe();
   }
 
   toggle() {
@@ -59,9 +66,13 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   handleFieldRemoved(fieldToBeRemoved: Field) {
-    const hasFiltersToBeRemoved: boolean = this.filters.some(f => f.Field.DataElementId === fieldToBeRemoved.DataElementId);
-    if (hasFiltersToBeRemoved) {
-      this.store.dispatch(new fromConfigurationActions.RemoveFilter(fieldToBeRemoved));
+    const activeFiltersContainField = this.activeFilters.some(f => f.Field.DataElementId === fieldToBeRemoved.DataElementId);
+    const pendingFiltersContainField = this.pendingFilters.some(f => f.Field.DataElementId === fieldToBeRemoved.DataElementId);
+    if (activeFiltersContainField) {
+      this.store.dispatch(new fromConfigurationActions.RemoveActiveFiltersByField(fieldToBeRemoved));
+    }
+    if (pendingFiltersContainField) {
+      this.store.dispatch(new fromConfigurationActions.RemovePendingFiltersByField(fieldToBeRemoved));
     }
     this.store.dispatch(new fromDataViewActions.RemoveSelectedField(fieldToBeRemoved));
   }

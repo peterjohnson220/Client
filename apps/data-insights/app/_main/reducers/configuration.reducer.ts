@@ -4,11 +4,13 @@ import * as fromConfigurationActions from '../actions/configuration.actions';
 import { Filter, getDefaultOperatorByDataType } from '../models';
 
 export interface State {
-  filters: Filter[];
+  activeFilters: Filter[];
+  pendingFilters: Filter[];
 }
 
 const initialState: State = {
-  filters: []
+  activeFilters: [],
+  pendingFilters: []
 };
 
 export function reducer(state = initialState, action: fromConfigurationActions.Actions): State {
@@ -16,31 +18,33 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
     case fromConfigurationActions.ADD_FILTER: {
       return {
         ...state,
-        filters: [...state.filters, action.payload]
+        pendingFilters: [...state.pendingFilters, action.payload]
       };
     }
     case fromConfigurationActions.SET_FILTERS: {
       return {
         ...state,
-        filters: action.payload
+        activeFilters: action.payload,
+        pendingFilters: action.payload
       };
     }
     case fromConfigurationActions.UPDATE_FILTER_SELECTED_FIELD: {
-      const filtersClone: Filter[] = cloneDeep(state.filters);
+      const filtersClone: Filter[] = cloneDeep(state.pendingFilters);
       const filterToUpdate = filtersClone.find((f, index) => index === action.payload.index);
       if (filterToUpdate) {
         filterToUpdate.Field = action.payload.field;
         filterToUpdate.Operator = getDefaultOperatorByDataType(action.payload.field),
         filterToUpdate.Options = [];
+        filterToUpdate.SelectedOptions = [];
       }
 
       return {
         ...state,
-        filters: filtersClone
+        pendingFilters: filtersClone
       };
     }
     case fromConfigurationActions.UPDATE_FILTER_SELECTED_OPTIONS: {
-      const filtersClone: Filter[] = cloneDeep(state.filters);
+      const filtersClone: Filter[] = cloneDeep(state.pendingFilters);
       const filterToUpdate = filtersClone.find((f, index) => index === action.payload.index);
       if (filterToUpdate) {
         filterToUpdate.SelectedOptions = action.payload.selectedOptions;
@@ -48,17 +52,41 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
 
       return {
         ...state,
-        filters: filtersClone
+        pendingFilters: filtersClone
       };
     }
-    case fromConfigurationActions.REMOVE_FILTER: {
+    case fromConfigurationActions.REMOVE_PENDING_FILTER_BY_INDEX: {
+      let pendingFiltersClone: Filter[] = cloneDeep(state.pendingFilters);
+      pendingFiltersClone = pendingFiltersClone.filter((f, index) => index !== action.payload.index);
       return {
         ...state,
-        filters: state.filters.filter(f => f.Field.DataElementId !== action.payload.DataElementId)
+        pendingFilters: pendingFiltersClone
+      };
+    }
+    case fromConfigurationActions.REMOVE_ACTIVE_FILTER_BY_INDEX: {
+      let activeFiltersClone: Filter[] = cloneDeep(state.activeFilters);
+      activeFiltersClone = activeFiltersClone.filter((f, index) => index !== action.payload.index);
+      return {
+        ...state,
+        activeFilters: activeFiltersClone
+      };
+    }
+    case fromConfigurationActions.REMOVE_PENDING_FILTERS_BY_FIELD: {
+      const pendingFiltersClone: Filter[] = state.pendingFilters.filter(f => f.Field.DataElementId !== action.payload.DataElementId);
+      return {
+        ...state,
+        pendingFilters: pendingFiltersClone
+      };
+    }
+    case fromConfigurationActions.REMOVE_ACTIVE_FILTERS_BY_FIELD: {
+      const activeFiltersClone: Filter[] = state.activeFilters.filter(f => f.Field.DataElementId !== action.payload.DataElementId);
+      return {
+        ...state,
+        activeFilters: activeFiltersClone
       };
     }
     case fromConfigurationActions.GET_FILTER_OPTIONS_SUCCESS: {
-      const filtersClone: Filter[] = cloneDeep(state.filters);
+      const filtersClone: Filter[] = cloneDeep(state.pendingFilters);
       const filterToUpdate = filtersClone.find((f, index) => index === action.payload.index);
       if (filterToUpdate) {
         filterToUpdate.Options = action.payload.options;
@@ -66,13 +94,20 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
 
       return {
         ...state,
-        filters: filtersClone
+        pendingFilters: filtersClone
       };
     }
     case fromConfigurationActions.RESET_FILTERS: {
       return {
         ...state,
-        filters: []
+        activeFilters: [],
+        pendingFilters: []
+      };
+    }
+    case fromConfigurationActions.APPLY_FILTERS: {
+      return {
+        ...state,
+        activeFilters: state.pendingFilters
       };
     }
     default: {
@@ -81,5 +116,7 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
   }
 }
 
-export const getFilters = (state: State) => state.filters;
-export const getFiltersValid = (state: State) => state.filters.length && !state.filters.some(x => x.SelectedOptions.length === 0);
+export const getActiveFilters = (state: State) => state.activeFilters;
+export const getActiveFiltersCount = (state: State) => !!state.activeFilters ? state.activeFilters.length : 0;
+export const getPendingFilters = (state: State) => state.pendingFilters;
+export const getPendingFiltersValid = (state: State) => state.pendingFilters.length && !state.activeFilters.some(x => x.SelectedOptions.length === 0);

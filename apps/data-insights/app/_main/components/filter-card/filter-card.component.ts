@@ -20,22 +20,18 @@ export class FilterCardComponent implements OnInit {
   @Output() selectedValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() deleteFilter: EventEmitter<Field> = new EventEmitter<Field>();
 
-  selectedOptions = [];
   getFilterOptionsData: GetFilterOptionsData;
   editMode = true;
 
   ngOnInit(): void {
     if (this.filter && this.filter.SelectedOptions.length > 0) {
-      this.selectedOptions = this.filter.SelectedOptions;
       this.editMode = false;
     }
   }
 
   handleFieldChanged(field: Field): void {
     this.selectedFieldChanged.emit(field);
-    this.selectedOptions = [];
     this.getFilterOptionsData = null;
-    this.selectedValuesChanged.emit(this.selectedOptions);
   }
 
   handleMultiSelectFilterChanged(value: string): void {
@@ -44,7 +40,6 @@ export class FilterCardComponent implements OnInit {
   }
 
   handleMultiSelectSelectedValuesChange(selectedOptions: string[]): void {
-    this.selectedOptions = selectedOptions;
     this.selectedValuesChanged.emit(selectedOptions);
   }
 
@@ -55,8 +50,7 @@ export class FilterCardComponent implements OnInit {
   handleDateRangeChanged(range: SelectionRange): void {
     const startDate = this.getFormattedDateString(range.start);
     const endDate = this.getFormattedDateString(range.end);
-    this.selectedOptions = [startDate, endDate];
-    this.selectedValuesChanged.emit(this.selectedOptions);
+    this.selectedValuesChanged.emit([startDate, endDate]);
   }
 
   toggleEditMode(): void {
