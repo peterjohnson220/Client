@@ -21,7 +21,7 @@
         [filterIndex]="i"
         [fields]="selectedFields"
         [filter]="filter"
-        (deleteFilter)="handleDeleteFilter(i)"
+        (deleteFilter)="handleDeleteFilter($event)"
         (selectedFieldChanged)="handleSelectedFieldChanged(i, $event)"
         (selectedValuesChanged)="handleSelectedValuesChanged(i, $event)"
         (searchOptionChanged)="handleSearchOptionChanged($event)">

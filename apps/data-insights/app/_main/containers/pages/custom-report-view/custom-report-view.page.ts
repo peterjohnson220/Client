@@ -5,22 +5,21 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
+import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import { AppNotification } from 'libs/features/app-notifications/models';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import * as fromConfigurationActions from '../../../actions/configuration.actions';
 import { SaveUserWorkbookModalData, SaveWorkbookMode, UserDataView } from '../../../models';
 import { SaveUserWorkbookModalComponent } from '../../../components/save-user-workbook-modal';
 import { DeleteUserWorkbookModalComponent } from '../../../components/delete-user-workbook-modal';
-import { AppNotification } from 'libs/features/app-notifications/models';
 
 @Component({
   selector: 'pf-custom-report-view-page',
   templateUrl: './custom-report-view.page.html',
   styleUrls: ['./custom-report-view.page.scss']
 })
-
 export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   @ViewChild('editWorkbookModal', { static: false }) public editUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
   @ViewChild('duplicateWorkbookModal', { static: false }) public duplicateUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
@@ -63,13 +62,10 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.exportingUserDataReport$ = this.store.pipe(select(fromDataInsightsMainReducer.getExportingUserReport));
     this.getNotification$ = this.appNotificationStore.pipe(select(fromAppNotificationsMainReducer.getNotifications));
     this.getEventId$ = this.store.pipe(select(fromDataInsightsMainReducer.getExportEventId));
-    route.params.subscribe(val => {
-      this.loadFieldsAndData();
-    });
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new fromDataViewActions.GetExportingUserReport({dataViewId: this.route.snapshot.params.dataViewId}));
+    this.loadFieldsAndData();
     this.getEventIdSubscription = this.getEventId$.subscribe(eventId => {
       if (eventId !== this.eventIdState) {
         this.eventIdState = eventId;
@@ -93,9 +89,11 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   private loadFieldsAndData(): void {
+    const dataViewIdObj = { dataViewId: this.route.snapshot.params.dataViewId };
     this.store.dispatch(new fromConfigurationActions.ResetFilters());
-    this.store.dispatch(new fromDataViewActions.GetUserDataView({ dataViewId: this.route.snapshot.params.dataViewId }));
-    this.store.dispatch(new fromDataViewActions.GetReportFields({ dataViewId: this.route.snapshot.params.dataViewId}));
+    this.store.dispatch(new fromDataViewActions.GetUserDataView(dataViewIdObj));
+    this.store.dispatch(new fromDataViewActions.GetReportFields(dataViewIdObj));
+    this.store.dispatch(new fromDataViewActions.GetExportingUserReport(dataViewIdObj));
   }
 
   private startSubscriptions(): void {

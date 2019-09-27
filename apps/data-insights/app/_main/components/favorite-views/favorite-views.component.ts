@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { View } from '../../models';
 
 @Component({
@@ -6,16 +7,11 @@ import { View } from '../../models';
   templateUrl: './favorite-views.component.html',
   styleUrls: ['./favorite-views.component.scss']
 })
-export class FavoriteViewsComponent implements OnInit {
+export class FavoriteViewsComponent {
 
   @Input() favoriteViews: View;
   @Output() favoriteClicked: EventEmitter<{ workbookId: string, view: View }> =
     new EventEmitter<{ workbookId: string, view: View }>();
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
   trackByFn(index: any, view: View) {
     return view.ViewId;

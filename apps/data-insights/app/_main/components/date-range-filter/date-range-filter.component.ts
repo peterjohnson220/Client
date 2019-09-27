@@ -19,12 +19,12 @@ export class DateRangeFilterComponent {
 
   operators = [ BetweenOperator ];
 
-  constructor(public intl: IntlService) {}
+  constructor(private intlService: IntlService) {}
 
   public get selectionRange(): SelectionRange {
     return {
-      start: this.startDate ? this.intl.parseDate(this.startDate) : null,
-      end: this.endDate ? this.intl.parseDate(this.endDate) : null
+      start: this.startDate ? this.intlService.parseDate(this.startDate) : null,
+      end: this.endDate ? this.intlService.parseDate(this.endDate) : null
     };
   }
 
