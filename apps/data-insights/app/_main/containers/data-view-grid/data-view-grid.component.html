@@ -32,7 +32,7 @@
         <ng-template kendoGridCellTemplate let-dataItem>
           <span *ngIf="!!dataItem[field.KendoGridField];else blankCellTemplate">
             <ng-container *ngIf="field.DataType === dataTypes.DateTime;else defaultFieldTemplate">
-              {{dataItem[field.KendoGridField] | date: 'shortDate'}}
+              {{dataItem[field.KendoGridField] | date: 'MM/dd/yyyy'}}
             </ng-container>
             <ng-template #defaultFieldTemplate>
               {{dataItem[field.KendoGridField]}}
