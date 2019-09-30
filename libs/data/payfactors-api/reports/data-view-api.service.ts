@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import {
   CreateUserViewRequest, DataViewEntityResponse, UserDataViewResponse,
   DataViewDataRequest, DataViewField, EditUserViewRequest,
-  DuplicateUserViewRequest, UpdateDataViewFieldsRequest, DeleteUserViewRequest } from 'libs/models/payfactors-api';
+  DuplicateUserViewRequest, UpdateDataViewFieldsRequest, DeleteUserViewRequest, SaveDataViewRequest
+} from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -35,16 +36,15 @@ export class DataViewApiService {
   }
 
   getUserDataView(dataViewId: number): Observable<UserDataViewResponse> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewInfo`, { params: { dataViewId: dataViewId }});
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewInfo`, { params: { dataViewId: dataViewId } });
   }
 
   exportUserDataView(dataViewId: number): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, { DataViewId : dataViewId });
+    return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, { DataViewId: dataViewId });
   }
 
   getUserDataViewFields(dataViewId: number): Observable<DataViewField[]> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewFields`,
-      { params: { dataViewId: dataViewId }});
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewFields`, { params: { dataViewId: dataViewId } });
   }
 
   getData(request: DataViewDataRequest): Observable<any[]> {
@@ -53,5 +53,13 @@ export class DataViewApiService {
 
   updateDataViewFields(request: UpdateDataViewFieldsRequest): Observable<any[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdateDataViewFields`, request);
+  }
+
+  getDataViewConfig(pageViewId: string) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: { pageViewId: pageViewId } });
+  }
+
+  updateDataView(request: SaveDataViewRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveView`, request);
   }
 }

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import * as cloneDeep from 'lodash.clonedeep';
-import { PfDataGridFieldModel } from 'libs/models/common';
+import { ViewField } from 'libs/models/payfactors-api';
 
 @Component({
   selector: 'pf-column-chooser',
@@ -10,7 +10,7 @@ import { PfDataGridFieldModel } from 'libs/models/common';
 })
 
 export class ColumnChooserComponent implements OnChanges {
-  @Input() dataFields: PfDataGridFieldModel[];
+  @Input() dataFields: ViewField[];
 
   @Output() saveColumns = new EventEmitter();
 

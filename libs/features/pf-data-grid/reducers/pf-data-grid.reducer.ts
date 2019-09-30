@@ -1,11 +1,16 @@
 import * as fromPfGridActions from '../actions';
-import { PfDataGridFieldModel } from 'libs/models';
+import { ViewField } from 'libs/models/payfactors-api';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 export interface DataGridState {
-    entity: string;
+    pageViewId: string;
     loading: boolean;
-    fields: PfDataGridFieldModel[];
-    data: any;
+    baseEntityId: number;
+    fields: ViewField[];
+    data: any[];
+    pageSize: number;
+    skip: number;
+    total: number;
 }
 
 export interface DataGridStoreState {
@@ -18,25 +23,42 @@ const initialState: DataGridStoreState = {
 
 export function reducer(state = initialState, action: fromPfGridActions.DataGridActions): DataGridStoreState {
     switch (action.type) {
-        case fromPfGridActions.INIT_GRID:
+        case fromPfGridActions.LOAD_VIEW_CONFIG:
             return {
                 ...state,
                 grids: {
                     ...state.grids,
-                    [action.entity]: {
-                        ...state.grids[action.entity],
-                        entity: action.entity,
+                    [action.pageViewId]: {
+                        ...state.grids[action.pageViewId],
+                        pageViewId: action.pageViewId,
+                        loading: true,
+                        pageSize: 15,
+                        skip: 0,
+                        total: 1500
                     }
                 }
             };
-        case fromPfGridActions.LOAD_FIELDS_SUCCESS:
+        case fromPfGridActions.LOAD_VIEW_CONFIG_SUCCESS:
             return {
                 ...state,
                 grids: {
                     ...state.grids,
-                    [action.entity]: {
-                        ...state.grids[action.entity],
-                        fields: action.payload,
+                    [action.pageViewId]: {
+                        ...state.grids[action.pageViewId],
+                        fields: action.payload.Fields,
+                        baseEntityId: action.payload.EntityId,
+                        loading: false
+                    }
+                }
+            };
+        case fromPfGridActions.LOAD_DATA:
+            return {
+                ...state,
+                grids: {
+                    ...state.grids,
+                    [action.pageViewId]: {
+                        ...state.grids[action.pageViewId],
+                        loading: true
                     }
                 }
             };
@@ -45,9 +67,10 @@ export function reducer(state = initialState, action: fromPfGridActions.DataGrid
                 ...state,
                 grids: {
                     ...state.grids,
-                    [action.entity]: {
-                        ...state.grids[action.entity],
+                    [action.pageViewId]: {
+                        ...state.grids[action.pageViewId],
                         data: action.payload,
+                        loading: false
                     }
                 }
             };
@@ -56,9 +79,53 @@ export function reducer(state = initialState, action: fromPfGridActions.DataGrid
                 ...state,
                 grids: {
                     ...state.grids,
-                    [action.entity]: {
-                        ...state.grids[action.entity],
+                    [action.pageViewId]: {
+                        ...state.grids[action.pageViewId],
                         fields: action.fields,
+                    }
+                }
+            };
+        case fromPfGridActions.UPDATE_TOTAL_COUNT:
+            return {
+                ...state,
+                grids: {
+                    ...state.grids,
+                    [action.pageViewId]: {
+                        ...state.grids[action.pageViewId],
+                        total: action.totalCount,
+                    }
+                }
+            };
+        case fromPfGridActions.UPDATE_PAGE_SIZE:
+            return {
+                ...state,
+                grids: {
+                    ...state.grids,
+                    [action.pageViewId]: {
+                        ...state.grids[action.pageViewId],
+                        pageSize: action.pageSize,
+                    }
+                }
+            };
+        case fromPfGridActions.UPDATE_SKIP:
+            return {
+                ...state,
+                grids: {
+                    ...state.grids,
+                    [action.pageViewId]: {
+                        ...state.grids[action.pageViewId],
+                        skip: action.skip,
+                    }
+                }
+            };
+        case fromPfGridActions.HANDLE_API_ERROR:
+            return {
+                ...state,
+                grids: {
+                    ...state.grids,
+                    [action.pageViewId]: {
+                        ...state.grids[action.pageViewId],
+                        loading: false
                     }
                 }
             };
@@ -68,6 +135,25 @@ export function reducer(state = initialState, action: fromPfGridActions.DataGrid
 }
 
 export const getState = (state: DataGridStoreState) => state;
-export const getGrid = (state: DataGridStoreState, entity: string) => state.grids[entity];
-export const getFields = (state: DataGridStoreState, entity: string) => state.grids[entity].fields;
-export const getData = (state: DataGridStoreState, entity: string) => state.grids[entity].data;
+export const getGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId];
+export const getLoading = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].loading : null;
+export const getBaseEntityId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntityId : null;
+export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].fields : null;
+export const getPageSize = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pageSize : null;
+export const getSkip = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].skip : null;
+export const getTotal = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].total : null;
+export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
+export const getGridData = (state: DataGridStoreState, pageViewId: string) => buildGridData(state, pageViewId);
+
+export function buildGridData(state: DataGridStoreState, pageViewId: string): GridDataResult {
+
+    if (state.grids[pageViewId] && state.grids[pageViewId].data) {
+        const gridState = <DataGridState>state.grids[pageViewId];
+        return {
+            data: gridState.data.slice(gridState.skip, gridState.skip + gridState.pageSize),
+            total: gridState.total
+        };
+    }
+    return null;
+}
+
