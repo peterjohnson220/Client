@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Peer Dashboard - Exchange Selector should display the currently selected exchange name 1`] = `
-<pf-peer-dashboard-exchange-selector
+<pf-exchange-switcher
   currentExchange={[Function Object]}
   currentExchangeSub={[Function Subscriber]}
   exchange$={[Function Store]}
   exchangeListItems$={[Function Store]}
   popover={[Function NgbPopover]}
+  route={[Function Object]}
   router={[Function Object]}
-  sharedStore={[Function Store]}
   showRequestAccessButton="false"
   store={[Function Store]}
 >
@@ -47,5 +47,5 @@ exports[`Peer Dashboard - Exchange Selector should display the currently selecte
   
   
   
-</pf-peer-dashboard-exchange-selector>
+</pf-exchange-switcher>
 `;

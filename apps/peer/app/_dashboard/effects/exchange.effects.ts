@@ -17,7 +17,7 @@ export class ExchangeEffects {
   loadExchange$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedPeerExchangeActions.LOAD_EXCHANGE_SUCCESS),
-      filter((action: fromSharedPeerExchangeActions.LoadExchangeSuccess) => action.payload.isDashboard),
+      filter((action: fromSharedPeerExchangeActions.LoadExchangeSuccess) => action.payload.path === 'dashboard'),
       map((action: fromSharedPeerExchangeActions.LoadExchangeSuccess): GetChartRequest => {
         return { ExchangeId: action.payload.exchange.ExchangeId, ChartType: ''};
       }),

@@ -22,7 +22,8 @@ import {
   PayfactorsJobSelectionFormComponent, DeleteMappingConfirmationModalComponent
 } from './containers';
 import {
-  ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects, CompanyJobsEffects
+  ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects, CompanyJobsEffects,
+  ExchangeEffects
 } from './effects';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService, } from './services';
@@ -46,6 +47,7 @@ import { ExchangeDetailComponent } from './components/exchange-job-detail/exchan
 import { ExchangeJobSearchComponent } from './containers/exchange-job-search/exchange-job-search.component';
 import { UnmatchIconComponent } from './components/unmatch-icon/unmatch-icon.component';
 import { ConfirmUnmatchModalComponent } from './containers/confirm-unmatch-modal/confirm-unmatch-modal.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -59,7 +61,8 @@ import { ConfirmUnmatchModalComponent } from './containers/confirm-unmatch-modal
     GridModule,
     StoreModule.forFeature('peer_manage', reducers),
     EffectsModule.forFeature([
-      ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects, CompanyJobsEffects
+      ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects, CompanyJobsEffects,
+      ExchangeEffects
     ]),
     DropDownsModule,
     NgbCarouselModule,
@@ -74,7 +77,8 @@ import { ConfirmUnmatchModalComponent } from './containers/confirm-unmatch-modal
     PfCommonUIModule,
     PfFormsModule,
     PfKendoExtensions,
-    PfCommonModule
+    PfCommonModule,
+    SharedModule
   ],
   declarations: [
     // Components

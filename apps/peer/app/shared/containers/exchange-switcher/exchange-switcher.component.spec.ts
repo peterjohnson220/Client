@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
@@ -10,18 +10,19 @@ import * as fromRootState from 'libs/state/state';
 import { generateMockExchangeListItem, ExchangeRequestTypeEnum, generateMockExchange } from 'libs/models';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 
-import * as fromExchangeSelectorActions from '../../../shared/actions/exchange-selector.actions';
-import * as fromPeerDashboardReducer from '../../reducers';
-import * as fromSharedPeerReducer from '../../../shared/reducers';
-import * as fromSharedPeerExchangeActions from '../../../shared/actions/exchange.actions';
-import * as fromExchangeRequestActions from '../../../shared/actions/exchange-request.actions';
-import { ExchangeSelectorComponent } from './exchange-selector.component';
+import * as fromExchangeSelectorActions from '../../actions/exchange-selector.actions';
+import * as fromPeerDashboardReducer from '../../../_dashboard/reducers';
+import * as fromSharedPeerReducer from '../../reducers';
+import * as fromSharedPeerExchangeActions from '../../actions/exchange.actions';
+import * as fromExchangeRequestActions from '../../actions/exchange-request.actions';
+import { ExchangeSwitcherComponent } from './exchange-switcher.component';
 
 describe('Peer Dashboard - Exchange Selector', () => {
-  let fixture: ComponentFixture<ExchangeSelectorComponent>;
-  let instance: ExchangeSelectorComponent;
+  let fixture: ComponentFixture<ExchangeSwitcherComponent>;
+  let instance: ExchangeSwitcherComponent;
   let store: Store<fromPeerDashboardReducer.State>;
   let router: Router;
+  let route: ActivatedRoute;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -35,13 +36,21 @@ describe('Peer Dashboard - Exchange Selector', () => {
         }),
       ],
       declarations: [
-        ExchangeSelectorComponent
+        ExchangeSwitcherComponent
       ],
       providers: [
         {
           provide: Router,
           useValue: { navigate: jest.fn() },
-        }
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            parent: {
+              snapshot: { url: [{ path: 'dashboard' }] }
+            }
+          }
+        },
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -49,8 +58,9 @@ describe('Peer Dashboard - Exchange Selector', () => {
 
     store = TestBed.get(Store);
     router = TestBed.get(Router);
+    route = TestBed.get(ActivatedRoute);
 
-    fixture = TestBed.createComponent(ExchangeSelectorComponent);
+    fixture = TestBed.createComponent(ExchangeSwitcherComponent);
     instance = fixture.componentInstance;
 
     spyOn(store, 'dispatch');
@@ -96,7 +106,7 @@ describe('Peer Dashboard - Exchange Selector', () => {
 
     instance.handleExchangeClicked(exchangeListItem);
 
-    expect(router.navigate).toHaveBeenCalledWith(['/exchange', exchangeListItem.ExchangeId]);
+    expect(router.navigate).toHaveBeenCalledWith(['/exchange', exchangeListItem.ExchangeId, route.parent.snapshot.url[0].path]);
   });
 
   it('should close the popover when opening the request access modal', () => {
@@ -118,7 +128,7 @@ describe('Peer Dashboard - Exchange Selector', () => {
 
   it('should display the currently selected exchange name', () => {
       store.dispatch(new fromSharedPeerExchangeActions.LoadExchangeSuccess(
-        { exchange: generateMockExchange(), isDashboard: true }
+        { exchange: generateMockExchange(), path: '' }
       ));
 
       fixture.detectChanges();

@@ -8,12 +8,16 @@
   padding: 0 0.85rem;
 }
 
-.page-content {
-  background-color: #FFFFFF;
+.page-title {
+  margin-bottom: 3px;
+
+  :empty {
+    display: none;
+  }
 }
 
-.page-header h3{
-  margin-bottom: 3px;
+.page-content {
+  background-color: #FFFFFF;
 }
 
 .back-btn{

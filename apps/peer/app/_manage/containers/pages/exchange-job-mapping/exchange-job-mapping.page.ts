@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
 import { GridTypeEnum } from 'libs/models/common';
@@ -44,10 +44,12 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     gridPageRowIndexToScrollTo$: Observable<number>;
     selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
     userContext$: Observable<UserContext>;
+    exchangeId$: Observable<number>;
 
     selectedExchangeJobMappingSubscription: Subscription;
     showCompanyJobsSubscription: Subscription;
     companyJobsSearchTermSubscription: Subscription;
+    exchangeIdSubscription: Subscription;
     selectedCompanyJob$: Observable<CompanyJob>;
 
     constructor(
@@ -57,7 +59,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         private companySecurityApi: CompanySecurityApiService,
         private settingsService: SettingsService
     ) {
-        this.exchangeId = this.route.snapshot.params.id;
+        this.exchangeId$ = this.route.params.pipe(map(p => p.id));
 
         this.gridPageRowIndexToScrollTo$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingPageRowIndexToScrollTo);
         this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
@@ -128,12 +130,15 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
           });
         }
 
+        this.exchangeIdSubscription = this.exchangeId$.subscribe(e => this.exchangeId = e);
+
         this.store.dispatch(new companyJobsActions.SetExchangeId(parseInt(this.route.snapshot.params.id, 10)));
     }
 
     ngOnDestroy() {
         this.selectedExchangeJobMappingSubscription.unsubscribe();
         this.showCompanyJobsSubscription.unsubscribe();
+        this.exchangeIdSubscription.unsubscribe();
         if (this.showCompanyJobs) {
           this.companyJobsSearchTermSubscription.unsubscribe();
         }

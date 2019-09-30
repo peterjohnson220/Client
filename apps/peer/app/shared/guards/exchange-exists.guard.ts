@@ -31,13 +31,16 @@ export class ExchangeExistsGuard implements CanActivate, CanActivateChild {
     this.store.dispatch(new fromExchangeActions.LoadExchange(exchangeId));
 
     return this.exchangeApiService.getExchange(exchangeId).pipe(
-      map((exchange: Exchange) => new fromExchangeActions.LoadExchangeSuccess({ exchange, isDashboard: path === "dashboard" })),
+      map((exchange: Exchange) => {
+        if (!!exchange) {
+          return new fromExchangeActions.LoadExchangeSuccess({ exchange, path })
+        } else {
+          this.exchangeNotFound();
+        }
+      }),
       tap((action: fromExchangeActions.LoadExchangeSuccess) => this.store.dispatch(action)),
       map(() => true),
-      catchError(() => {
-        this.router.navigate(['/exchange-not-found']);
-        return of(false);
-      })
+      catchError(() => this.exchangeNotFound())
     );
   }
 
@@ -47,5 +50,10 @@ export class ExchangeExistsGuard implements CanActivate, CanActivateChild {
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
     return this.exchangeExists(childRoute.parent.params.id, childRoute.routeConfig.path);
+  }
+
+  private exchangeNotFound(): Observable<boolean> {
+    this.router.navigate(['/exchange-not-found']);
+    return of(false);
   }
 }
