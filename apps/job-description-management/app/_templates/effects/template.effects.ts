@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {switchMap, map, catchError} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
+
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 
 import * as fromTemplateActions from '../actions/template.actions';
-import * as fromTemplateReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../../shared/helpers';
 import {ErrorGenerationService} from '../../shared/services';
 
 
@@ -38,7 +38,7 @@ export class TemplateEffects {
               TemplateStatus: response.TemplateStatus, TemplateRevision: response.TemplateRevision});
           }),
           catchError(response => of(new fromTemplateActions.SaveTemplateError(
-            {error: this.errorGenerationService.buildErrorModel(response, 'template', 'job-description-management/templates')})))
+            {error: this.errorGenerationService.buildErrorModel(response, 'template', this.router.url)})))
         )
       ));
 
@@ -57,6 +57,7 @@ export class TemplateEffects {
   constructor(
     private actions$: Actions,
     private templateApiService: JobDescriptionTemplateApiService,
-    private errorGenerationService: ErrorGenerationService
+    private errorGenerationService: ErrorGenerationService,
+    private router: Router
   ) {}
 }

@@ -8,7 +8,7 @@ import { TemplateListItemResponse } from '../../../models/payfactors-api/job-des
 import {
   LoadTemplateListByCompanyIdRequest
 } from 'apps/job-description-management/app/shared/models/requests/load-template-list-by-company-id.request.model';
-import {Template} from '../../../../apps/job-description-management/app/_templates/models';
+import {Template} from 'apps/job-description-management/app/_templates/models';
 
 @Injectable()
 export class JobDescriptionTemplateApiService {

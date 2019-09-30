@@ -1,31 +1,26 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as cloneDeep from 'lodash.clonedeep';
+import {of} from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
+import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
+import {PermissionService} from 'libs/core/services';
+import {JobDescriptionTemplateApiService} from 'libs/data/payfactors-api/jdm';
 
 import { TemplateListPageComponent } from './template-list.page';
-
 import * as fromTemplateListActions from '../../../actions/template-list.actions';
 import * as fromTemplateActions from '../../../actions/template.actions';
 import * as fromTemplateReducers from '../../../reducers';
 import {RouteTrackingService} from '../../../../shared/services';
-import {PermissionService} from '../../../../../../../libs/core/services';
-import {generateMockTemplateListItem, Template, TemplateListItem} from '../../../models';
+import {generateMockTemplateListItem, Template} from '../../../models';
 import {CopyTemplateModalComponent} from '../../../components/modals/copy-template';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {JobDescriptionTemplateApiService} from '../../../../../../../libs/data/payfactors-api/jdm';
-import {PayfactorsApiService} from '../../../../../../../libs/data/payfactors-api/payfactors-api.service';
-import {HttpClient} from '@angular/common/http';
-import {of} from 'rxjs';
 import {NewTemplateModalComponent} from '../../../components/modals/new-template';
 import {SimpleYesNoModalComponent} from '../../../../shared/components/modals/simple-yes-no';
-import * as fromJobDescriptionActions from '../../../../_job-description/actions/job-description.actions';
 
 
 describe('Job Description Management - Job Description - Template List Page', () => {

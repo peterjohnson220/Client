@@ -1,6 +1,6 @@
 import { TemplateSettingsExport } from './template-settings-export.model';
 
-export class TemplateSettings {
+export interface TemplateSettings {
   TemplateId: number;
   CompanyId: number;
   Export: TemplateSettingsExport;

@@ -1,7 +1,7 @@
 import { TemplateSettingsSection } from './template-settings-section.model';
 import { TemplateSettingsControl } from './template-settings-control.model';
 
-export class TemplateSettingsExport {
+export interface TemplateSettingsExport {
   Sections: TemplateSettingsSection[];
   Controls: TemplateSettingsControl[];
 }

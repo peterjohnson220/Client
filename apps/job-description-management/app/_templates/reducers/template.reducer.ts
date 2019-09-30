@@ -1,4 +1,5 @@
 import * as cloneDeep from 'lodash.clonedeep';
+
 import { SaveError } from '../../shared/models/save-error.model';
 import { Template } from '../models';
 import * as fromTemplateActions from '../actions/template.actions';

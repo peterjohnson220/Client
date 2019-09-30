@@ -5,11 +5,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { SimpleYesNoModalComponent } from '../../../../shared/components/modals/simple-yes-no';
 import { SimpleYesNoModalOptions } from '../../../../shared/models/simple-yes-no-modal-options';
-
 import { NewTemplateModalComponent } from '../../../components/modals/new-template';
 import { CopyTemplateModalComponent } from '../../../components/modals/copy-template';
 import {Template, TemplateListItem} from '../../../models';
-
 import * as fromTemplateActions from '../../../actions/template.actions';
 import * as fromTemplateListActions from '../../../actions/template-list.actions';
 import * as fromTemplateReducers from '../../../reducers';
@@ -23,9 +21,9 @@ export class TemplateListPageComponent implements OnInit {
   @ViewChild(CopyTemplateModalComponent, { static: true }) public copyTemplateModal: CopyTemplateModalComponent;
   @ViewChild(SimpleYesNoModalComponent, { static: true }) public deleteTemplateModal: SimpleYesNoModalComponent;
 
-  private templateListItems$: Observable<TemplateListItem[]>;
-  private templateListLoading$: Observable<boolean>;
-  private templateDeleteModalOptions: SimpleYesNoModalOptions;
+  public templateListItems$: Observable<TemplateListItem[]>;
+  public templateListLoading$: Observable<boolean>;
+  public templateDeleteModalOptions: SimpleYesNoModalOptions;
 
   constructor(
     private store: Store<fromTemplateReducers.State>

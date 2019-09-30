@@ -3,13 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbDropdown, NgbModal, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import {of} from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
+import {JobDescriptionTemplateApiService} from 'libs/data/payfactors-api/jdm';
 
 import * as fromTemplateReducers from '../../../reducers';
 import {NewTemplateModalComponent} from './new-template-modal.component';
-import {JobDescriptionTemplateApiService} from '../../../../../../../libs/data/payfactors-api/jdm';
-import {of} from 'rxjs';
 
 import {
   ReactiveFormsModule,

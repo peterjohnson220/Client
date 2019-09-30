@@ -1,11 +1,11 @@
+import {createFeatureSelector, createSelector} from '@ngrx/store';
+
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromTemplateListReducer from './template-list.reducer';
 import * as fromTemplateReducer from './template.reducer';
-
-import {createFeatureSelector, createSelector} from '@ngrx/store';
 
 // Feature area state
 export interface JobDescriptionManagementTemplateState {

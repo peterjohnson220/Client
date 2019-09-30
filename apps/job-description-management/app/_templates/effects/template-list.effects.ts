@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map } from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
+
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 import { TemplateListItemResponse } from 'libs/models/payfactors-api/job-description-template/response/';
 

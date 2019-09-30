@@ -1,21 +1,19 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ReactiveFormsModule,
+  FormBuilder, FormsModule
+} from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbDropdown, NgbModal, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import {of} from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
+import {JobDescriptionTemplateApiService} from 'libs/data/payfactors-api/jdm';
 
 import * as fromTemplateReducers from '../../../reducers';
 import {CopyTemplateModalComponent} from './copy-template-modal.component';
-import {JobDescriptionTemplateApiService} from '../../../../../../../libs/data/payfactors-api/jdm';
-import {of} from 'rxjs';
-
-import {
-  ReactiveFormsModule,
-  FormBuilder, Form, FormsModule
-} from '@angular/forms';
-import {By} from '@angular/platform-browser';
 
 describe('Job Description Management - Templates - Template List - Copy Template Modal', () => {
   let instance = CopyTemplateModalComponent;

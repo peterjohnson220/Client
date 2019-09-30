@@ -1,4 +1,4 @@
-export class SimpleYesNoModalOptions {
+export interface SimpleYesNoModalOptions {
   Title: string;
   Body: string;
   CancelText: string;

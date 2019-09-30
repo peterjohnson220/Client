@@ -1,7 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+import { PfCommonModule } from 'libs/core';
+import { PfCommonUIModule } from 'libs/ui/common';
+import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
+import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
+import {PfFormsModule} from 'libs/forms';
+
 import {TemplatesRoutingModule} from './templates-routing.module';
 import {TemplateListPageComponent} from './containers/pages/template-list';
 import { reducers } from './reducers';
@@ -9,20 +20,11 @@ import {
   TemplateListEffects,
   TemplateEffects
 } from './effects';
-import {EffectsModule} from '@ngrx/effects';
-import { PfCommonModule } from 'libs/core';
-import { PfCommonUIModule } from 'libs/ui/common';
 import {SharedModule} from '../shared/shared.module';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
-import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 import {TemplateListComponent} from './components/template-list';
 import {CopyTemplateModalComponent} from './components/modals/copy-template';
 import {NewTemplateModalComponent} from './components/modals/new-template';
-import {PfFormsModule} from 'libs/forms';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SimpleYesNoModalComponent} from '../shared/components/modals/simple-yes-no';
-import { library } from '@fortawesome/fontawesome-svg-core';
 import * as fromFaIcons from '../_templates/fa-icons';
 import {ErrorGenerationService} from '../shared/services';
 

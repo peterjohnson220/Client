@@ -1,4 +1,4 @@
-export class TemplateListItem {
+export interface TemplateListItem {
   TemplateId: number;
   TemplateName: string;
   CreatedBy: string;
