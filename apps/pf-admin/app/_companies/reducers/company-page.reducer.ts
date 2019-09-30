@@ -46,6 +46,7 @@ export interface State {
   initialCompanySettings: CompanySetting[];
   company: CompanyDto;
   peerTermsAndCondAccepted: boolean;
+  jobPricingLimitInfo: any;
 }
 
 const initialState: State = {
@@ -84,7 +85,8 @@ const initialState: State = {
   initialCompanyTiles: [],
   initialCompanySettings: [],
   company: null,
-  peerTermsAndCondAccepted: false
+  peerTermsAndCondAccepted: false,
+  jobPricingLimitInfo: null
 };
 
 export function reducer(state = initialState, action: fromCompanyPageActions.Actions) {
@@ -284,6 +286,7 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       settings = settings.filter((x: CompanySetting) => x.Visible);
       const peerTermsAndCondAccepted = settings.some((x: CompanySetting) =>
         x.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted && x.Value.toLowerCase() === 'true');
+
       settings = CompanyPageHelper.modifyPeerTCRequestSettingDisabled(settings, peerTermsAndCondAccepted);
       return {
         ...state,
@@ -401,6 +404,17 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         companySettings: companySettingsCopy
       };
     }
+    case fromCompanyPageActions.CHANGE_COMPANY_SETTING_VALUE: {
+      const companySettingsCopy =  cloneDeep(state.companySettings);
+      const companySetting: CompanySetting = companySettingsCopy.find((x: CompanySetting) => x.Key === action.payload.companySettingKey);
+      if (companySetting) {
+        companySetting.Value = action.payload.changedValue;
+      }
+      return {
+        ...state,
+        companySettings: companySettingsCopy
+      };
+    }
     case fromCompanyPageActions.SELECT_PEER_CLIENT_TYPE: {
       let companyTilesCopy = cloneDeep(state.companyTiles);
       companyTilesCopy = CompanyPageHelper.getPeerClientTypeCompanyTiles(companyTilesCopy);
@@ -456,6 +470,12 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         loadingCompany: false
       };
     }
+    case fromCompanyPageActions.SET_JOB_PRICING_LIMIT_INFO: {
+      return {
+        ...state,
+        jobPricingLimitInfo: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -495,3 +515,4 @@ export const getSavingCompanyError = (state: State) => state.savingCompanyError;
 export const getCompanyDataSetsEnabled = (state: State) => state.companyDataSetsEnabled;
 export const getLoadingCompany = (state: State) => state.loadingCompany;
 export const getCompany = (state: State) => state.company;
+export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInfo;
