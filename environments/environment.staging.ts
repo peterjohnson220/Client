@@ -1,8 +1,8 @@
 export const environment = {
-  avatarSource: 'https://stagingpublic.blob.core.windows.net/publicblob/avatars/',
-  companyLogoSource: 'https://stagingpublic.blob.core.windows.net/publicblob/company_logos/',
-  cloudFilesPublicBaseUrl: 'https://stagingpublic.blob.core.windows.net/publicblob/',
-  marketingImageSource: 'https://stagingpublic.blob.core.windows.net/publicblob/marketing_image/',
+  avatarSource: 'https://qa00filestore001.blob.core.windows.net/publicfiles/avatars/',
+  companyLogoSource: 'https://qa00filestore001.blob.core.windows.net/publicfiles/company_logos/',
+  cloudFilesPublicBaseUrl: 'https://qa00filestore001.blob.core.windows.net/publicfiles/',
+  marketingImageSource: 'https://qa00filestore001.blob.core.windows.net/publicfiles/marketing_image/',
   production: true,
   payfactorsApiUrl: '/odata/',
   payfactorsMarketDataUrl: '/marketdata/',
