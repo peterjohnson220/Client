@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
-import { DataGridService } from '../services/data-grid.service';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
@@ -11,6 +10,7 @@ import * as fromActions from '../actions';
 })
 export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
+  @Input() pageViewId: string;
   @Input() entity: string;
   @Input() primaryKey: string;
   @Input() columnTemplates: any;
@@ -21,7 +21,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   splitViewEmitter = new EventEmitter<string>();
 
-  constructor(public dataGridService: DataGridService, private store: Store<fromReducer.State>) {}
+  constructor(private store: Store<fromReducer.State>) {}
 
   ngOnInit(): void {
     this.splitViewEmitter.subscribe(res => {
@@ -40,10 +40,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['entity']) {
-      this.store.dispatch(new fromActions.InitGrid(changes['entity'].currentValue));
-      this.store.dispatch(new fromActions.LoadFields(changes['entity'].currentValue));
-      this.store.dispatch(new fromActions.LoadData(changes['entity'].currentValue));
+    if (changes['pageViewId']) {
+      this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
     }
   }
 

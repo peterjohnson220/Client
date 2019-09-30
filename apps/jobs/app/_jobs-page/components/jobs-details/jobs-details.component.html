@@ -5,7 +5,11 @@
 <kendo-tabstrip>
   <kendo-tabstrip-tab [title]="'Employees'" [selected]="true" data-qa-id='tab-employees'>
     <ng-template kendoTabContent>      
-      <pf-data-grid [entity]="'employees'" [primaryKey]="'CompanyEmployeeId'"></pf-data-grid>
+      <pf-data-grid
+        [pageViewId]="'12147D19-592A-44AF-9696-7F5347873D5E'"
+        [entity]="'employees'"
+        [primaryKey]="'Employee_ID'">
+      </pf-data-grid>
     </ng-template>
   </kendo-tabstrip-tab>
   <kendo-tabstrip-tab [title]="'Pay Markets'" data-qa-id='tab-payMarkets'>

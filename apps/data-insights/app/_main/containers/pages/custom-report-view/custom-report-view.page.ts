@@ -52,7 +52,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.duplicateUserReportError$ = this.store.pipe(select(fromDataInsightsMainReducer.getDuplicateUserReportError));
     this.duplicateUserReportConflict$ = this.store.pipe(select(fromDataInsightsMainReducer.getDuplicateUserReportConflict));
     route.params.subscribe(val => {
-      this.loadFieldsAndData();
+      this.LoadViewConfigAndData();
     });
   }
 
@@ -66,7 +66,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.duplicateReportSuccessSubscription.unsubscribe();
   }
 
-  private loadFieldsAndData(): void {
+  private LoadViewConfigAndData(): void {
     this.store.dispatch(new fromDataViewGridActions.ResetSortField());
     this.store.dispatch(new fromDataViewActions.GetUserDataView({ dataViewId: this.route.snapshot.params.dataViewId }));
     this.store.dispatch(new fromDataViewActions.GetReportFields({ dataViewId: this.route.snapshot.params.dataViewId}));
