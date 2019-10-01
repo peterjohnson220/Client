@@ -11,11 +11,13 @@ import * as fromActions from '../actions';
 export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() pageViewId: string;
-  @Input() entity: string;
+  @Input() title: string;
+  @Input() navigationURL: string;
   @Input() primaryKey: string;
   @Input() columnTemplates: any;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
+  
 
   selection = [];
 

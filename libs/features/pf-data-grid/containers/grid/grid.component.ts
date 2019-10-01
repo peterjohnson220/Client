@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { ViewField, DataViewFieldDataType } from 'libs/models/payfactors-api';
+import { ViewField } from 'libs/models/payfactors-api';
 
 @Component({
   selector: 'pf-grid',
@@ -76,5 +76,4 @@ export class GridComponent implements OnInit, OnChanges {
       previousNext: true
     }
   }
-
 }
