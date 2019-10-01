@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 
 import { ClientServerFilterHelper } from '../../helpers';
 import { Filter, FilterType, isMultiFilter, isRangeFilter, isTextFilter } from '../../models';
+import { OperatorEnum } from '../../../../constants';
 
 @Component({
   selector: 'pf-filter-section',
@@ -25,6 +26,15 @@ export class FilterSectionComponent {
   maxOptions = ClientServerFilterHelper.maxNumberOfOptions;
 
   constructor() {}
+
+  get filterOperatorLabel(): string {
+    const operator = this.filter.Operator;
+    if (operator !== null && !!OperatorEnum[operator]) {
+      return ' (' + OperatorEnum[operator].toUpperCase() + ')';
+    }
+
+    return null;
+  }
 
   get cssResetClearBtnAutomationName(): string {
     const filterCssClassName = this.filter.CssClassName.toLowerCase().replace(this.cssReplacementRegex, '-');

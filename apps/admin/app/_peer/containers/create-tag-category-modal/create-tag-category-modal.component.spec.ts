@@ -95,7 +95,7 @@ describe('Admin - Create Tag Category Modal', () => {
       Description: description,
       DataType: dataType,
       UseSlider: useSlider,
-      CategoryOperator: OperatorEnum.And,
+      CategoryOperator: OperatorEnum[OperatorEnum.And],
       DisplayOperatorToggle: false
     };
     const expectedAction = new fromTagCategoriesActions.CreateTagCategory(upsertRequest);

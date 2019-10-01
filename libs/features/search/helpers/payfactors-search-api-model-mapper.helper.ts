@@ -144,7 +144,8 @@ export class PayfactorsSearchApiModelMapper {
       OptionCountDisabled: mappingData.OptionCountDisabled,
       CssClassName: mappingData.DisplayName.toLowerCase().replace(/[\s]/g, '-'),
       DefaultSelections: [],
-      SaveDisabled: mappingData.SaveDisabled
+      SaveDisabled: mappingData.SaveDisabled,
+      Operator: mappingData.Operator
     };
   }
 

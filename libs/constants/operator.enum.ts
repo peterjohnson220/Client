@@ -1,4 +1,4 @@
 export enum OperatorEnum {
-  And = 'And',
-  Or = 'Or'
+  And = 1,
+  Or = 2
 }
