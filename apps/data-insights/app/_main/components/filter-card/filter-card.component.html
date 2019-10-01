@@ -29,30 +29,31 @@
           </div>
         </ng-template>
       </kendo-dropdownlist>
-        <ng-container *ngIf="filter.Field?.DataType === 'string'">
+        <ng-container *ngIf="filter.Field?.DataType === fieldDataType.String">
           <pf-multi-select-filter
             [selectedOperator]="filter.Operator"
             [options]="filter.Options"
             [selectedOptions]="filter.SelectedOptions"
             [filterValue]="getFilterOptionsData?.Query"
             (filterChanged)="handleMultiSelectFilterChanged($event)"
-            (selectedValuesChanged)="handleMultiSelectSelectedValuesChange($event)">
+            (selectedValuesChanged)="handleSelectedOptionsChange($event)">
           </pf-multi-select-filter>
         </ng-container>
-        <ng-container *ngIf="filter.Field?.DataType === 'dateTime'">
+        <ng-container *ngIf="filter.Field?.DataType === fieldDataType.Date">
           <pf-date-range-filter
             [selectedOperator]="filter.Operator"
-            [startDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[0] : null"
+            [startDate]="filter?.SelectedOptions?.length > 0 ? filter.SelectedOptions[0] : null"
             [endDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[1] : null"
-            (selectionRangeChanged)="handleDateRangeChanged($event)">
+            (selectedOptionsChanged)="handleSelectedOptionsChange($event)"
+            (selectedOperatorChanged)="handleOperatorChanged($event)">
           </pf-date-range-filter>
         </ng-container>
-        <ng-container *ngIf="filter.Field?.DataType === 'float' || filter.Field?.DataType === 'int'">
+        <ng-container *ngIf="isNumericDataType">
           <pf-numeric-filter
             [dataType]="filter.Field?.DataType"
             [selectedOperator]="filter.Operator"
             [value]="filter.SelectedOptions?.length ? filter.SelectedOptions[0] : null"
-            (numericValuesChanged)="handleNumericValueChanged($event)"
+            (numericValuesChanged)="handleSelectedOptionsChange($event)"
             (changeOperator)="handleOperatorChanged($event)">
           </pf-numeric-filter>
         </ng-container>

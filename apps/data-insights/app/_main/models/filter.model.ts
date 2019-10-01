@@ -1,28 +1,37 @@
-import { Field, generateMockField } from './field.model';
-import { FilterOperator, BetweenOperator, EqualsOperator } from './filter-operators.model';
-import { DataViewFieldDataType } from 'libs/models/payfactors-api';
+import { Field, generateMockField, FieldDataType } from './field.model';
+import { FilterOperator, Between, Equals } from './filter-operators.model';
 
 export interface Filter {
   Field: Field;
   Operator: FilterOperator;
   Options: string[];
   SelectedOptions: string[];
+  IsValid?: boolean;
 }
 
 export function getDefaultOperatorByDataType(field: Field): FilterOperator {
   switch (field.DataType) {
-    case DataViewFieldDataType.DateTime:
-      return BetweenOperator;
+    case FieldDataType.Date:
+      return Between;
     default:
-      return EqualsOperator;
+      return Equals;
   }
 }
 
 export function generateMockFilter(): Filter {
   return {
     Field: generateMockField(),
-    Operator: EqualsOperator,
+    Operator: Equals,
     Options: [],
     SelectedOptions: []
   };
+}
+
+export function validateFilter(filter: Filter): boolean {
+  switch (filter.Operator) {
+    case Between:
+      return !!filter.SelectedOptions.length && filter.SelectedOptions.length === 2;
+    default:
+      return !!filter.SelectedOptions.length;
+  }
 }

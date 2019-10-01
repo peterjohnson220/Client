@@ -15,7 +15,7 @@ export interface DataViewField {
   DataElementId: number;
   SourceName: string;
   DisplayName: string;
-  DataType: DataViewFieldDataType;
+  DataType?: DataViewFieldDataType;
   IsSelected?: boolean;
   Order?: number;
   IsSortable: boolean;
@@ -25,7 +25,6 @@ export interface DataViewFilter {
   EntitySourceName: string;
   SourceName: string;
   Operator: string;
-  Value?: string;
   Values?: string[];
   DataType?: DataViewFieldDataType;
 }

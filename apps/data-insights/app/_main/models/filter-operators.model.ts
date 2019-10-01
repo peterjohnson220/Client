@@ -3,59 +3,47 @@ export interface FilterOperator {
   Value: string;
 }
 
-export const EqualsOperator: FilterOperator = {
+export const Equals: FilterOperator = {
   Name: 'equals',
   Value: 'in'
 };
 
-export const BetweenOperator: FilterOperator = {
+export const Between: FilterOperator = {
   Name: 'between',
   Value: 'between'
 };
 
-export const GreaterThanOperator: FilterOperator = {
+export const GreaterThan: FilterOperator = {
   Name: 'greater than',
   Value: '>'
 };
 
-export const GreaterThanOrEqualOperator: FilterOperator = {
+export const GreaterThanOrEqual: FilterOperator = {
   Name: 'greater than or equal',
   Value: '>='
 };
 
-export const LessThanOperator: FilterOperator = {
+export const LessThan: FilterOperator = {
   Name: 'less than',
   Value: '<'
 };
 
-export const LessThanOrEqualOperator: FilterOperator = {
+export const LessThanOrEqual: FilterOperator = {
   Name: 'less than or equal',
   Value: '<='
 };
 
+export const IsBefore: FilterOperator = {
+  Name: 'is before',
+  Value: '<'
+};
 
-export function getFilterOperatorByValue(value: string): FilterOperator {
-  switch (value) {
-    case 'in': {
-      return EqualsOperator;
-    }
-    case 'between': {
-      return BetweenOperator;
-    }
-    case '>': {
-      return GreaterThanOperator;
-    }
-    case '<': {
-      return LessThanOperator;
-    }
-    case '>=': {
-      return GreaterThanOrEqualOperator;
-    }
-    case '<=': {
-      return LessThanOrEqualOperator;
-    }
-    default: {
-      return EqualsOperator;
-    }
-  }
-}
+export const IsAfter: FilterOperator = {
+  Name: 'is after',
+  Value: 'isafterdate'
+};
+
+export const Is: FilterOperator = {
+  Name: 'is',
+  Value: 'isdate'
+};
