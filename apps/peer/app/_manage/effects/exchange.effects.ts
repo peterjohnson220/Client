@@ -16,6 +16,7 @@ export class ExchangeEffects {
       ofType(fromSharedPeerExchangeActions.LOAD_EXCHANGE_SUCCESS),
       filter((action: fromSharedPeerExchangeActions.LoadExchangeSuccess) => action.payload.path === 'manage'),
       mergeMap((action: fromSharedPeerExchangeActions.LoadExchangeSuccess) => [
+        new fromCompanyJobsActions.Reset(),
         new fromCompanyJobsActions.SetExchangeId(action.payload.exchange.ExchangeId),
         new fromCompanyJobsActions.UpdateCompanyJobsSearchTerm(''),
         new fromCompanyJobsActions.LoadCompanyJobs()
