@@ -18,7 +18,7 @@ export class FilterCardComponent implements OnInit {
   @Output() selectedFieldChanged: EventEmitter<Field> = new EventEmitter<Field>();
   @Output() searchOptionChanged: EventEmitter<GetFilterOptionsData> = new EventEmitter<GetFilterOptionsData>();
   @Output() selectedValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output() deleteFilter: EventEmitter<Field> = new EventEmitter<Field>();
+  @Output() deleteFilter: EventEmitter<number> = new EventEmitter<number>();
 
   getFilterOptionsData: GetFilterOptionsData;
   editMode = true;
@@ -43,8 +43,8 @@ export class FilterCardComponent implements OnInit {
     this.selectedValuesChanged.emit(selectedOptions);
   }
 
-  handleDeleteFilter(filter: Filter): void {
-    this.deleteFilter.emit(filter.Field);
+  handleDeleteFilter(): void {
+    this.deleteFilter.emit(this.filterIndex);
   }
 
   handleDateRangeChanged(range: SelectionRange): void {

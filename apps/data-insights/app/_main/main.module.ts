@@ -18,7 +18,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
-  WorkbookViewsComponent, StandardReportHexagonComponent, SaveUserWorkbookModalComponent,
+  WorkbookViewsComponent, SaveUserWorkbookModalComponent,
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
   ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent,
   DateRangeFilterComponent, MultiSelectFilterComponent} from './components';
@@ -75,9 +75,9 @@ import { MainRoutingModule } from './main-routing.module';
 
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
-    StandardReportHexagonComponent, SaveUserWorkbookModalComponent, ReportFieldComponent,
-    DeleteUserWorkbookModalComponent, AddReportFieldsComponent, ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent,
-    FilterCardComponent, DateRangeFilterComponent, MultiSelectFilterComponent
+    SaveUserWorkbookModalComponent, ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
+    ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent, DateRangeFilterComponent,
+    MultiSelectFilterComponent
   ],
   providers: [
     WindowRef

@@ -1,4 +1,4 @@
-import { Field } from './field.model';
+import { Field, generateMockField } from './field.model';
 import { FilterOperator, BetweenOperator, EqualsOperator } from './filter-operators.model';
 import { DataViewFieldDataType } from 'libs/models/payfactors-api';
 
@@ -16,4 +16,13 @@ export function getDefaultOperatorByDataType(field: Field): FilterOperator {
     default:
       return EqualsOperator;
   }
+}
+
+export function generateMockFilter(): Filter {
+  return {
+    Field: generateMockField(),
+    Operator: EqualsOperator,
+    Options: [],
+    SelectedOptions: []
+  };
 }
