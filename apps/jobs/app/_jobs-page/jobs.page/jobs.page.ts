@@ -1,5 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
+import { Observable } from 'rxjs';
+
+import * as fromJobsPageActions from '../actions';
+import * as fromJobsPageReducer from '../reducers';
+
 @Component({
   selector: 'pf-jobs-page',
   templateUrl: './jobs.page.html'
@@ -7,20 +14,28 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 
 export class JobsPageComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('complexColumn', {static: false}) complexColTemplate: ElementRef;
-  @ViewChild('complexColumn2', {static: false}) complexColTemplate2: ElementRef;
+  company$: Observable<string>;
+
+  // @ViewChild('complexColumn', { static: false }) complexColTemplate: ElementRef;
+  // @ViewChild('complexColumn2', { static: false }) complexColTemplate2: ElementRef;
+  @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
   colTemplates = {};
 
-  constructor() {
+  constructor(private store: Store<fromJobsPageReducer.State>) {
+    this.company$ = this.store.select(fromJobsPageReducer.getCompany);
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromJobsPageActions.LoadCompany());
   }
 
   ngAfterViewInit() {
-      this.colTemplates = {
-        'Complex_Col': this.complexColTemplate,
-        'Complex_Col2': this.complexColTemplate2
-      };
+    this.colTemplates = {
+      'JobStatus': this.jobStatusColumn
+    };
+  }
+
+  getPageTitle(companyName: string) {
+    return companyName ? `${companyName} Jobs` : '';
   }
 }

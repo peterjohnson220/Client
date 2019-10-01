@@ -10,10 +10,14 @@
     (pageChange)="pageChange($event)">
     <ng-container *ngFor="let col of (dataFields$ | async)">
       <ng-container *ngIf="showColumn(col)">
-        <kendo-grid-column [field]="mappedColumnName(col)" [title]="col.DisplayName" width="250">
+        <kendo-grid-column [field]="mappedColumnName(col)" [title]="col.DisplayName" [headerStyle]="{'font-weight': 'bold'}">
           <ng-template kendoGridCellTemplate let-dataItem>
-            <ng-container>
+            <ng-container *ngIf="!columnTemplates[col.SourceName]">
               {{dataItem[mappedColumnName(col)]}}
+            </ng-container>
+            <ng-container *ngIf="columnTemplates[col.SourceName]" 
+              [ngTemplateOutlet]="columnTemplates[col.SourceName]"
+              [ngTemplateOutletContext]="{parameters:dataItem[mappedColumnName(col)]}">
             </ng-container>
             <!-- <ng-container *ngIf="col.DataType === 'template' && columnTemplates[col.SourceName]" 
               [ngTemplateOutlet]="columnTemplates[col.SourceName]"

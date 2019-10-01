@@ -1,6 +1,6 @@
-<pf-page-with-title-bar class="wrapper">
+<pf-page-with-title-bar class="wrapper" [absoluteUrl]="navigationURL">
   <ng-container page-title>
-    {{entity | titlecase}} Page
+    {{title | titlecase}}
   </ng-container>
   <ng-container page-actions>
     <pf-action-bar [pageViewId]="pageViewId"></pf-action-bar>
