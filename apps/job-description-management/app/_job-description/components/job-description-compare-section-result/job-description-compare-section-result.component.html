@@ -4,16 +4,16 @@
   <div class="card-header">
     <div class="section-title">
             <span [hidden]="!wasMoved()" class="text-danger pr-2">
-              <fa-icon icon="long-arrow-alt-down" ></fa-icon>
+              <fa-icon icon="long-arrow-alt-down"></fa-icon>
             </span>
       <span [hidden]="!wasMoved()" class="text-success pr-2">
-        <fa-icon icon="long-arrow-alt-up" ></fa-icon>
+        <fa-icon icon="long-arrow-alt-up"></fa-icon>
             </span>
       <span [innerHtml]="section.Name"></span>
       <div class="btn-group float-right">
         <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
-          <span [hidden]="!hideBody"><fa-icon icon="caret-down" ></fa-icon></span>
-          <span [hidden]="hideBody"><fa-icon icon="caret-up" ></fa-icon></span>
+          <span [hidden]="!hideBody"><fa-icon icon="caret-down"></fa-icon></span>
+          <span [hidden]="hideBody"><fa-icon icon="caret-up"></fa-icon></span>
         </button>
       </div>
     </div>

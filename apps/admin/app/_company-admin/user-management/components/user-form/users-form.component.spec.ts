@@ -97,7 +97,7 @@ describe('Admin - Company Admin - User Component', () => {
     expect(form.get('emailAddress').valid).toEqual(false);
     form.get('emailAddress').setValue('test@j');
     expect(form.get('emailAddress').valid).toEqual(false);
-    form.controls['emailAddress'].clearAsyncValidators()
+    form.controls['emailAddress'].clearAsyncValidators();
     form.get('emailAddress').setValue(mockUser.EmailAddress);
     expect(form.get('emailAddress').valid).toEqual(true);
 

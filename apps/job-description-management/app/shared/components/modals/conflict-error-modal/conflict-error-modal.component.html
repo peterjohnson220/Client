@@ -1,0 +1,12 @@
+<ng-template #conflictErrorModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Page out of sync</h4>
+  </div>
+  <div class="modal-body">
+    <p>{{errorMessage}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="goBack()">Go Back</button>
+    <button type="button" class="btn btn-warning" (click)="refresh()">Refresh</button>
+  </div>
+</ng-template>
