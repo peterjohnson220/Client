@@ -24,7 +24,7 @@ export class SurveyComponent implements OnInit {
   public tbxSearch: string;
   public surveys: any;
   public surveyTitleId: number;
-  private userContext$: Observable<UserContext>;
+  public userContext$: Observable<UserContext>;
   private shouldRefreshGrid$: Observable<boolean>;
   private surveyData$: Observable<any>;
   public isLoadingData$: Observable<boolean>;
