@@ -1,10 +1,10 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { SelectionRange } from '@progress/kendo-angular-dateinputs';
 
 import { DataViewFieldDataType } from 'libs/models/payfactors-api';
 
-import { Field, Filter, GetFilterOptionsData } from '../../models';
+import { Field, Filter, FilterOperator, GetFilterOptionsData } from '../../models';
 
 @Component({
   selector: 'pf-filter-card',
@@ -19,6 +19,8 @@ export class FilterCardComponent implements OnInit {
   @Output() searchOptionChanged: EventEmitter<GetFilterOptionsData> = new EventEmitter<GetFilterOptionsData>();
   @Output() selectedValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() deleteFilter: EventEmitter<number> = new EventEmitter<number>();
+  @Output() numericValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() changeOperator: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
 
   getFilterOptionsData: GetFilterOptionsData;
   editMode = true;
@@ -47,6 +49,14 @@ export class FilterCardComponent implements OnInit {
     this.deleteFilter.emit(this.filterIndex);
   }
 
+  handleNumericValueChanged(numericValue: string[]): void {
+    this.numericValuesChanged.emit(numericValue);
+  }
+
+  handleOperatorChanged(operator: FilterOperator): void {
+    this.changeOperator.emit(operator);
+  }
+
   handleDateRangeChanged(range: SelectionRange): void {
     const startDate = this.getFormattedDateString(range.start);
     const endDate = this.getFormattedDateString(range.end);
@@ -58,7 +68,7 @@ export class FilterCardComponent implements OnInit {
   }
 
   public get selectedOptionsCount(): number {
-    if (this.filter.Field.DataType === DataViewFieldDataType.DateTime) {
+    if (this.filter.Field.DataType === DataViewFieldDataType.DateTime || this.filter.Field.DataType === DataViewFieldDataType.Float) {
       return 1;
     }
     return this.filter.SelectedOptions.length;

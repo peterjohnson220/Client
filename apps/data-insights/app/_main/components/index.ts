@@ -13,3 +13,4 @@ export * from './favorite-views';
 export * from './filter-card';
 export * from './date-range-filter';
 export * from './multi-select-filter';
+export * from './numeric-filter';

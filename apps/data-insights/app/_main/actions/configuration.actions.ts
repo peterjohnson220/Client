@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Field, Filter, GetFilterOptionsData } from '../models';
+import { Field, Filter, FilterOperator, GetFilterOptionsData } from '../models';
 
 export const ADD_FILTER = '[Data Insights / Configure] Add Filter';
 export const UPDATE_FILTER_SELECTED_FIELD = '[Data Insights / Configure] Update Filter Selected Field';
@@ -18,6 +18,7 @@ export const RESET_FILTERS = '[Data Insights / Configure] Reset Filters';
 export const SAVE_FILTERS = '[Data Insights / Configure] Save Filters';
 export const SAVE_FILTERS_SUCCESS = '[Data Insights / Configure] Save Filters Success';
 export const SAVE_FILTERS_ERROR = '[Data Insights / Configure] Save Filters Error';
+export const UPDATE_FILTER_OPERATOR = '[Data Insights / Configure] Update Filter Operators';
 
 export class AddFilter implements Action {
   readonly type = ADD_FILTER;
@@ -115,6 +116,12 @@ export class SaveFiltersError implements Action {
   constructor() {}
 }
 
+export class UpdateFilterOperator implements Action {
+  readonly type = UPDATE_FILTER_OPERATOR;
+
+  constructor(public payload: { index: number, operator: FilterOperator }) {}
+}
+
 export type Actions
   = AddFilter
   | UpdateFilterSelectedField
@@ -131,4 +138,5 @@ export type Actions
   | ResetFilters
   | SaveFilters
   | SaveFiltersSuccess
-  | SaveFiltersError;
+  | SaveFiltersError
+  | UpdateFilterOperator;
