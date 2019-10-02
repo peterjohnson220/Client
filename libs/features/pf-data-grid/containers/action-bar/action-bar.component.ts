@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges, TemplateRef} from '@angular/core';
 import { ViewField } from 'libs/models/payfactors-api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -12,17 +12,21 @@ import * as fromActions from '../../actions';
 })
 export class ActionBarComponent implements OnChanges {
 
+  @Input() showColumnChooser = true;
+  @Input() showFilterChooser = true;
+  @Input() allowExport = true;
   @Input() pageViewId: string;
+  @Input() globalFilterAlignment:string;
+  @Input() globalActionsTemplate: TemplateRef<any>;
 
   dataFields$: Observable<ViewField[]>;
-
-  testPayMarketData = ['Boston', 'Chicago', 'Los Angeles'];
-
+  globalFilters$: Observable<ViewField[]>;
   constructor(private store: Store<fromReducer.State>) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
       this.dataFields$ = this.store.select(fromReducer.getFields, changes['pageViewId'].currentValue);
+      this.globalFilters$ = this.store.select(fromReducer.getGlobalFilters, changes['pageViewId'].currentValue);
     }
   }
 

@@ -1,9 +1,15 @@
-<pf-page-with-title-bar class="wrapper" [absoluteUrl]="navigationURL">
-  <ng-container page-title>
+<pf-page-with-title-bar  class="wrapper" [isFullHeader]="showTitle" [absoluteUrl]="navigationURL">
+  <ng-container  page-title *ngIf="showTitle">
     {{title | titlecase}}
   </ng-container>
   <ng-container page-actions>
-    <pf-action-bar [pageViewId]="pageViewId"></pf-action-bar>
+    <pf-action-bar [pageViewId]="pageViewId" class="flex-fill"
+                   [showColumnChooser]="showColumnChooser"
+                   [showFilterChooser]="showFilterChooser"
+                   [allowExport]="allowExport"
+                   [globalFilterAlignment]="showTitle?'Right':'Left'"
+                   [globalActionsTemplate]="gridGlobalActionsTemplate"
+    ></pf-action-bar>
   </ng-container>
   <ng-container page-content>
     <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end pb-3">
@@ -26,3 +32,4 @@
     </div>
   </ng-container>
 </pf-page-with-title-bar>
+

@@ -13,11 +13,15 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() pageViewId: string;
   @Input() title: string;
   @Input() navigationURL: string;
+  @Input() showTitle = true;
+  @Input() showColumnChooser = true;
+  @Input() allowExport = true;
+  @Input() showFilterChooser = true;
   @Input() primaryKey: string;
   @Input() columnTemplates: any;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
-  
+  @Input() gridGlobalActionsTemplate: TemplateRef<any>;
 
   selection = [];
 

@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./page-with-title-bar.component.scss']
 })
 export class PageWithTitleBarComponent {
+  @Input() isFullHeader = true;
   @Input() returnUrl: string;
   @Input() absoluteUrl: string;
   @Input() locationBack: boolean;
