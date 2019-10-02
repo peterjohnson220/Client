@@ -3,6 +3,7 @@ import { RateType } from 'libs/data/data-sets';
 import { ExchangeDataSearchFilter, generateMockExchangeDataSearchFilter } from '../exchange-data-search-filter.model';
 
 export interface ExchangeDataCutsExportRequest {
+  ExchangeId: number;
   ExchangeName: string;
   ExchangeJobToCompanyJobIds: number[];
   FilterModel: ExchangeDataSearchFilter;
@@ -12,6 +13,7 @@ export interface ExchangeDataCutsExportRequest {
 
 export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExportRequest {
   return {
+    ExchangeId: 44,
     ExchangeName: 'MockExchange',
     ExchangeJobToCompanyJobIds: [1, 2],
     FilterModel: generateMockExchangeDataSearchFilter(),
