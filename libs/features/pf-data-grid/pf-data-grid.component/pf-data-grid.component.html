@@ -11,7 +11,7 @@
       </ng-container>
     </div>
     <div class="row no-gutters">
-      <div [class.col-3]="isSplitView()">
+      <div [ngClass]="isSplitView() ? 'col-3': 'col-12'">
         <pf-grid
           [pageViewId]="pageViewId"
           [primaryKey]="primaryKey"
