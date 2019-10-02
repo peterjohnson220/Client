@@ -12,8 +12,8 @@
   Add to Project | Match | Inactivate Jobs
 </ng-template>
 
-<ng-template #jobStatusColumn let-status="parameters">  
-  {{status ? 'Active' : 'Inactive'}}
+<ng-template #jobStatusColumn let-dataRow="dataRow">  
+  {{dataRow['CompanyJobs_JobStatus'] ? 'Active' : 'Inactive'}}
 </ng-template>
 
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter">
