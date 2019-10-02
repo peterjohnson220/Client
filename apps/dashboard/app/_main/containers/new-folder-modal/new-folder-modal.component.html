@@ -1,0 +1,23 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Create New Folder'"
+  [primaryButtonText]="'Save'"
+  [isOpen$]="newFolderModalOpen$"
+  [formGroup]="addNewFolderForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()"
+  [centered]="true"
+>
+  <ng-container form-content class="form-group">
+    <label class="col-form-label" for="folder-name">Folder Name</label>
+    <input id="folder-name" type="text" class="form-control" formControlName="folderName" [maxLength]="50" autofocus required>
+    <div *ngIf="addNewFolderForm" class="alert-container"> 
+      <ng-container *ngIf="addNewFolderForm.invalid && (addNewFolderForm.dirty || addNewFolderForm.touched)">
+          <label class="alert alert-danger">Folder name is required.</label>
+      </ng-container>
+      <ng-container *ngIf="folderError.isActive && addNewFolderForm.valid">
+          <label class="alert alert-danger">{{folderError.message}}</label>
+      </ng-container>
+    </div>
+  </ng-container>
+</pf-modal-form>

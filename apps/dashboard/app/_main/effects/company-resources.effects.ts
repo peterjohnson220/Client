@@ -43,6 +43,28 @@ export class CompanyResourcesPageEffects {
             ))
       );
 
+  @Effect()
+  addingCompanyResourceFolder$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCompanyResourcesPageActions.ADDING_COMPANY_RESOURCE_FOLDER),
+      switchMap((action: fromCompanyResourcesPageActions.AddingCompanyResourceFolder) =>
+        this.resourcesApiService.addCompanyResourceFolder(action.payload).pipe(
+          map((response) => new fromCompanyResourcesPageActions.AddingCompanyResourceFolderSuccess(response)),
+          catchError((error) => of(new fromCompanyResourcesPageActions.AddingCompanyResourceFolderError(error)))
+        ))
+    );
+
+  @Effect()
+  deletingCompanyResourceFolder$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCompanyResourcesPageActions.DELETING_COMPANY_RESOURCE_FOLDER),
+      switchMap((action: fromCompanyResourcesPageActions.DeletingCompanyResourceFolder) =>
+        this.resourcesApiService.deleteCompanyResourceFolder(action.payload).pipe(
+            map((response) => new fromCompanyResourcesPageActions.DeletingCompanyResourceFolderSuccess(response)),
+            catchError(error => of(new fromCompanyResourcesPageActions.DeletingCompanyResourceFolderError(error)))
+        ))
+    );
+
   constructor(
     private actions$: Actions,
     private resourcesApiService: CompanyResourcesApiService,
