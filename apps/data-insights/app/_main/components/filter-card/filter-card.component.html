@@ -52,6 +52,14 @@
             (selectionRangeChanged)="handleDateRangeChanged($event)">
           </pf-date-range-filter>
         </ng-container>
+        <ng-container *ngSwitchCase="'float'">
+          <pf-numeric-filter
+            [selectedOperator]="filter.Operator"
+            [numericValue]="filter.SelectedOptions"
+            (numericValuesChanged)="handleNumericValueChanged($event)"
+            (changeOperator)="handleOperatorChanged($event)">
+          </pf-numeric-filter>
+        </ng-container>
       </ng-container>
 
     </ng-container>

@@ -21,7 +21,7 @@ import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardCompone
   WorkbookViewsComponent, SaveUserWorkbookModalComponent,
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
   ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent,
-  DateRangeFilterComponent, MultiSelectFilterComponent} from './components';
+  DateRangeFilterComponent, MultiSelectFilterComponent, NumericFilterComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent,
   DashboardsHeaderComponent, ViewsComponent, FiltersComponent } from './containers';
@@ -77,7 +77,8 @@ import { MainRoutingModule } from './main-routing.module';
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
     SaveUserWorkbookModalComponent, ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
     ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent, DateRangeFilterComponent,
-    MultiSelectFilterComponent
+    MultiSelectFilterComponent, NumericFilterComponent
+
   ],
   providers: [
     WindowRef
