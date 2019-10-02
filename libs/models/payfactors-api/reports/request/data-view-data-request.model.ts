@@ -18,6 +18,7 @@ export interface DataViewField {
   DataType: DataViewFieldDataType;
   IsSelected?: boolean;
   Order?: number;
+  IsSortable: boolean;
 }
 
 export interface DataViewFilter {
