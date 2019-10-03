@@ -1,26 +1,34 @@
-<div class="d-flex space-out-children">
-  <pf-input-debounce [placeholderText]="'Search for a Job Title/Code...'" [hideClearBtn]="false" [minWidth]="200"></pf-input-debounce>
-  <kendo-dropdownlist [defaultItem]="'Select a Pay Market'" [data]="testPayMarketData">
-  </kendo-dropdownlist>
-  <button class="btn btn-primary">
-    New Job
-  </button>
-
-  <button type="button" title="Export" id="export-popover-btn" class="btn btn-secondary" placement="bottom-right" popoverTitle="Choose Content to Export">
-    <fa-icon icon="download"></fa-icon>
-  </button>
-
-  <pf-column-chooser 
-    [dataFields]="dataFields$ | async"
-    (saveColumns)="updateFields($event)">
-  </pf-column-chooser>
-  <div class="btn-group">
-    <button title="Filter" class="btn btn-secondary">
-      <fa-icon icon="sliders-h"></fa-icon>
-    </button>
-    <button title="Saved Filters" type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-      aria-haspopup="true" aria-expanded="false" placement="bottom-right" popoverTitle="Saved Filters">
-    </button>
+<div class="d-flex  justify-content-between">
+  <div class="d-flex space-out-children">
+    <ng-container *ngFor="let gf of globalFilters$ | async">
+      <pf-input-debounce [placeholderText]="'Search for a ' + gf.DisplayName + '...'" [hideClearBtn]="false"
+                         [minWidth]="200"></pf-input-debounce>
+    </ng-container>
   </div>
+  <div class="d-flex space-out-children">
+    <ng-container>
+      <ng-container class="d-flex " *ngIf="globalActionsTemplate"
+                    [ngTemplateOutlet]="globalActionsTemplate">
+      </ng-container>
 
+      <button *ngIf="allowExport" type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
+              placement="bottom-right" popoverTitle="Choose Content to Export">
+        <fa-icon icon="download"></fa-icon>
+      </button>
+
+      <pf-column-chooser *ngIf="showColumnChooser"
+                         [dataFields]="dataFields$ | async"
+                         (saveColumns)="updateFields($event)">
+      </pf-column-chooser>
+      <div class="btn-group" *ngIf="showFilterChooser">
+        <button title="Filter" class="btn btn-secondary">
+          <fa-icon icon="sliders-h"></fa-icon>
+        </button>
+        <button title="Saved Filters" type="button" id="filter-popover-btn"
+                class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false" placement="bottom-right" popoverTitle="Saved Filters">
+        </button>
+      </div>
+    </ng-container>
+  </div>
 </div>
