@@ -8,6 +8,7 @@ export class TemplateListItem {
   EffectiveDate: Date;
   AssignedJobsCount: number;
   Status: string;
+  Version: number;
 }
 
 export function generateMockTemplateListItem(mockNumber: number = 1):
@@ -21,6 +22,7 @@ TemplateListItem {
     LastModifiedDate: new Date(),
     EffectiveDate: new Date(),
     AssignedJobsCount: mockNumber * 5,
-    Status: 'State'
+    Status: 'State',
+    Version: mockNumber
   };
 }
