@@ -85,6 +85,10 @@
                 {
                   "replace": "apps/appName/../../environments/environment.ts",
                   "with": "apps/appName/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/appName/../../assets/js/new-relic.js",
+                  "with": "apps/appName/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -102,6 +106,10 @@
                 {
                   "replace": "apps/appName/../../environments/environment.ts",
                   "with": "apps/appName/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/appName/../../assets/js/new-relic.js",
+                  "with": "apps/appName/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
