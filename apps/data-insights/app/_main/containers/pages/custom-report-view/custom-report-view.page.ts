@@ -65,7 +65,9 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadFieldsAndData();
+    this.route.params.subscribe(params => {
+      this.loadFieldsAndData(params['dataViewId']);
+    });
     this.getEventIdSubscription = this.getEventId$.subscribe(eventId => {
       if (eventId !== this.eventIdState) {
         this.eventIdState = eventId;
@@ -88,8 +90,8 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.getNotificationSubscription.unsubscribe();
   }
 
-  private loadFieldsAndData(): void {
-    const dataViewIdObj = { dataViewId: this.route.snapshot.params.dataViewId };
+  private loadFieldsAndData(dataViewId: number): void {
+    const dataViewIdObj = { dataViewId };
     this.store.dispatch(new fromConfigurationActions.ResetFilters());
     this.store.dispatch(new fromDataViewActions.GetUserDataView(dataViewIdObj));
     this.store.dispatch(new fromDataViewActions.GetReportFields(dataViewIdObj));

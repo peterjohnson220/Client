@@ -23,7 +23,7 @@ describe('Data Insights - Multi Selert Filter Card Component', () => {
   });
 
   it('should not open popup when query length is less than required length', () => {
-    instance.filterValue = 'A';
+    instance.filterValue = '';
     const openEvent: Event = new Event('open');
     spyOn(openEvent, 'preventDefault');
 
@@ -42,7 +42,7 @@ describe('Data Insights - Multi Selert Filter Card Component', () => {
   });
 
   it('should NOT emit filterChanged if query length is less than required length', () => {
-    const query = 'A';
+    const query = '';
     spyOn(instance.filterChanged, 'emit');
 
     instance.handleFilterChange(query);
@@ -51,7 +51,7 @@ describe('Data Insights - Multi Selert Filter Card Component', () => {
   });
 
   it('should not open popup if query length is less than required length', () => {
-    const query = 'A';
+    const query = '';
     spyOn(instance.filterOptionsMultiSelect, 'toggle');
 
     instance.handleFilterChange(query);
