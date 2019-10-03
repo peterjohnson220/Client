@@ -28,6 +28,7 @@ export class ExportDataCutsEffects {
         this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections)),
         (action: fromExportDataCutsActions.ExportDataCuts, exchangeName, filterModel, gridSelections) => {
           return {
+            ExchangeId: filterModel.ExchangeId,
             ExchangeName: exchangeName,
             ExchangeJobToCompanyJobIds: gridSelections,
             FilterModel: action.payload.exportCurrentMap ? filterModel : null,
