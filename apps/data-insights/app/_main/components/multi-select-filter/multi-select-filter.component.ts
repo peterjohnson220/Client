@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter, ViewChild, OnInit } from '@angular/core';
+import { Component, Output, Input, EventEmitter, ViewChild, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
 
@@ -7,9 +7,10 @@ import { FilterOperator, EqualsOperator } from '../../models';
 @Component({
   selector: 'pf-multi-select-filter',
   templateUrl: './multi-select-filter.component.html',
-  styleUrls: ['./multi-select-filter.component.scss']
+  styleUrls: ['./multi-select-filter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MultiSelectFilterComponent {
+export class MultiSelectFilterComponent implements OnChanges {
   @Input() selectedOperator: FilterOperator;
   @Input() options: string[];
   @Input() selectedOptions: string[];
@@ -19,7 +20,13 @@ export class MultiSelectFilterComponent {
 
   @ViewChild('filterOptionsMultiSelect', {static: false}) public filterOptionsMultiSelect: MultiSelectComponent;
   operators = [ EqualsOperator ];
-  readonly MIN_QUERY_LENGTH = 2;
+  readonly MIN_QUERY_LENGTH = 1;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes && !!changes.options && !!changes.options.currentValue && !!this.filterValue) {
+      this.filterOptionsMultiSelect.toggle(true);
+    }
+  }
 
   handleFilterOptionsMultiSelectOpen(event: any) {
     if (!this.filterValue || this.filterValue.length < this.MIN_QUERY_LENGTH) {
@@ -28,6 +35,7 @@ export class MultiSelectFilterComponent {
   }
 
   handleFilterChange(value: string): void {
+    this.filterValue = value;
     if (!!value && value.length >= this.MIN_QUERY_LENGTH) {
       this.filterChanged.emit(value);
     } else {

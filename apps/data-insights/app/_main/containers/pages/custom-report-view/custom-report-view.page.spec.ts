@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
@@ -34,7 +35,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { dataViewId : 1 } } }
+          useValue: { params: of({ dataViewId : 1 }) }
         }
       ],
       declarations: [ CustomReportViewPageComponent, SaveUserWorkbookModalComponent, DeleteUserWorkbookModalComponent ],
