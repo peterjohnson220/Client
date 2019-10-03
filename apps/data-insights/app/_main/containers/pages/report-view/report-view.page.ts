@@ -170,6 +170,7 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
     if (!this.standardReportFilter) {
       return;
     }
+    console.log(this.reportTitle);
     switch (this.reportTitle) {
       case StandardReportTitle.SalaryStructures:
         this.applyFilterBySheetName(StandardReportSheetName.SalaryStructures);
@@ -188,6 +189,7 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
         const tableau = this.winRef.nativeWindow.tableau || {};
         const sheet = this.viz.getWorkbook().getActiveSheet();
         const sheetName = sheet.getName();
+        console.log(sheetName);
         if (sheetName === sheetNameToFilter) {
           sheet.applyFilterAsync(this.standardReportFilter.FieldName, this.standardReportFilter.FilterValue, tableau.FilterUpdateType.REPLACE);
           this.standardReportFilterApplied = true;
