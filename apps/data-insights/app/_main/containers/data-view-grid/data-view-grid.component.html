@@ -16,6 +16,7 @@
       (sortChange)="handleSortChange($event)">
       <kendo-grid-column *ngFor="let field of (fields$ | async); trackBy: trackByFn"
                          [field]="field.KendoGridField"
+                         [sortable]="field.IsSortable"
                          [title]="field.DisplayName"
                          [headerClass]="'grid-header'"
                          width="150">
@@ -27,7 +28,7 @@
           <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'asc'"
                    class="sort-icon" [icon]="['far', 'long-arrow-up']">
           </fa-icon>
-          <span class="k-link">{{column.title}}</span>
+          <span class="k-link" [class.disabled]="!field.IsSortable">{{column.title}}</span>
         </ng-template>
         <ng-template kendoGridCellTemplate let-dataItem>
           <span *ngIf="!!dataItem[field.KendoGridField];else blankCellTemplate">

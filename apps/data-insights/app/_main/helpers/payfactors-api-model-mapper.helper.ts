@@ -112,7 +112,8 @@ export class PayfactorsApiModelMapper {
       KendoGridField: `${dataViewField.EntitySourceName}_${dataViewField.SourceName}`,
       DataType: dataViewField.DataType,
       IsSelected: dataViewField.IsSelected,
-      Order: dataViewField.Order
+      Order: dataViewField.Order,
+      IsSortable: dataViewField.IsSortable
     };
   }
 
@@ -138,7 +139,8 @@ export class PayfactorsApiModelMapper {
       DisplayName: field.DisplayName,
       DataType: field.DataType,
       IsSelected: field.IsSelected,
-      Order: field.Order
+      Order: field.Order,
+      IsSortable: field.IsSortable
     };
   }
 
