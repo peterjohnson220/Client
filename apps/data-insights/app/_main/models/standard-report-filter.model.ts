@@ -4,11 +4,11 @@ export interface StandardReportFilter {
 }
 
 export enum StandardReportTitle {
-  PublishedCompositesWithEmployees = 'Published%20Composites%20with%20Employees',
-  SalaryStructures = 'Salary%20Structures'
+  PublishedCompositesWithEmployees = 'Published Composites with Employees',
+  SalaryStructures = 'Salary Structures'
 }
 
 export enum StandardReportSheetName {
-  EmployeesAndMarketData = 'Ees and Market Data',
-  SalaryStructures = 'Graph'
+  EmployeesAndMarketData = 'Employees and Market Data',
+  SalaryStructures = 'Salary Structures'
 }
