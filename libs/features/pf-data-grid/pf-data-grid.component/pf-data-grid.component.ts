@@ -23,17 +23,17 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
 
-  selection = [];
+  isSplitView = false;
 
   splitViewEmitter = new EventEmitter<string>();
 
-  constructor(private store: Store<fromReducer.State>) {}
+  constructor(private store: Store<fromReducer.State>) { }
 
   ngOnInit(): void {
     this.splitViewEmitter.subscribe(res => {
       switch (res) {
         case 'close':
-          this.selection = [];
+          this.isSplitView = false;
           break;
         default:
           break;
@@ -49,9 +49,5 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
     }
-  }
-
-  isSplitView(): boolean {
-    return this.splitViewTemplate && this.selection.length > 0;
   }
 }

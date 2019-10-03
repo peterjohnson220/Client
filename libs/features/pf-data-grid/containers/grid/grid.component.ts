@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { ViewField } from 'libs/models/payfactors-api';
 
 @Component({
@@ -16,8 +16,10 @@ export class GridComponent implements OnInit, OnChanges {
   @Input() primaryKey: string;
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
+  @Input() allowSplitView = false;
   @Input() isCompact = false;
-  @Input() selection = [];
+
+  @Output() rowSelected = new EventEmitter();
 
   loading$: Observable<boolean>;
   dataFields$: Observable<ViewField[]>;
@@ -25,8 +27,10 @@ export class GridComponent implements OnInit, OnChanges {
   pageSize$: Observable<number>;
   skip$: Observable<number>;
 
-  public pageSize = 25;
-  public skip = 0;
+  pageSize = 25;
+  skip = 0;
+
+  selectedRowId: number;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -39,6 +43,8 @@ export class GridComponent implements OnInit, OnChanges {
       this.data$ = this.store.select(fromReducer.getGridData, changes['pageViewId'].currentValue);
       this.pageSize$ = this.store.select(fromReducer.getPageSize, changes['pageViewId'].currentValue);
       this.skip$ = this.store.select(fromReducer.getSkip, changes['pageViewId'].currentValue);
+    } else if (changes['isCompact'] && !changes['isCompact'].currentValue) {
+      this.selectedRowId = null;
     }
   }
 
@@ -55,11 +61,22 @@ export class GridComponent implements OnInit, OnChanges {
     return (col.EntitySourceName ? col.EntitySourceName + '_' : '') + col.SourceName;
   }
 
-  public pageChange(event: PageChangeEvent): void {
+  onPageChange(event: PageChangeEvent): void {
     this.store.dispatch(new fromActions.UpdateSkip(this.pageViewId, event.skip));
   }
 
-  public getPagingBarConfig() {
+  onCellClick({ dataItem }) {
+    if (this.allowSplitView && !getSelection().toString()) {
+      this.selectedRowId = dataItem[this.primaryKey];
+      this.rowSelected.emit();
+    }
+  }
+
+  public selectedRowClass = (context: RowClassArgs) => ({
+    'k-state-selected': context.dataItem[this.primaryKey] === this.selectedRowId
+  })
+
+  getPagingBarConfig() {
     if (this.isCompact) {
       return {
         info: true,
@@ -74,6 +91,6 @@ export class GridComponent implements OnInit, OnChanges {
       type: 'numeric',
       pageSizes: false,
       previousNext: true
-    }
+    };
   }
 }
