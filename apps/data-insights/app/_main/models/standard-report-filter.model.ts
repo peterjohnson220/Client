@@ -9,6 +9,6 @@ export enum StandardReportTitle {
 }
 
 export enum StandardReportSheetName {
-  EmployeesAndMarketData = 'EmployeesandMarketData',
-  SalaryStructures = 'SalaryStructures'
+  EmployeesAndMarketData = 'Ees and Market Data',
+  SalaryStructures = 'Graph'
 }
