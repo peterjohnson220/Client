@@ -28,12 +28,8 @@
             <span class="ml-auto field-source" title="{{dataItem?.Entity | uppercase}}">{{ dataItem?.Entity }}</span>
           </div>
         </ng-template>
-
       </kendo-dropdownlist>
-
-      <ng-container [ngSwitch]="filter.Field?.DataType">
-
-        <ng-container *ngSwitchCase="'string'">
+        <ng-container *ngIf="filter.Field?.DataType === 'string'">
           <pf-multi-select-filter
             [selectedOperator]="filter.Operator"
             [options]="filter.Options"
@@ -43,8 +39,7 @@
             (selectedValuesChanged)="handleMultiSelectSelectedValuesChange($event)">
           </pf-multi-select-filter>
         </ng-container>
-
-        <ng-container *ngSwitchCase="'dateTime'">
+        <ng-container *ngIf="filter.Field?.DataType === 'dateTime'">
           <pf-date-range-filter
             [selectedOperator]="filter.Operator"
             [startDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[0] : null"
@@ -52,7 +47,7 @@
             (selectionRangeChanged)="handleDateRangeChanged($event)">
           </pf-date-range-filter>
         </ng-container>
-        <ng-container *ngSwitchCase="'float'">
+        <ng-container *ngIf="filter.Field?.DataType === 'float' || filter.Field?.DataType === 'int'">
           <pf-numeric-filter
             [selectedOperator]="filter.Operator"
             [numericValue]="filter.SelectedOptions"
@@ -61,7 +56,6 @@
           </pf-numeric-filter>
         </ng-container>
       </ng-container>
-
     </ng-container>
     <ng-template #displayMode>
       <div class="d-flex justify-content-between display-mode" (click)="toggleEditMode()">
