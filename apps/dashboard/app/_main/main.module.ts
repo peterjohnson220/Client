@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 // Third party
 import { StoreModule } from '@ngrx/store';
@@ -10,7 +11,8 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-
+import { UploadModule } from '@progress/kendo-angular-upload';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import * as fromFaIcons from './fa-icons';
 
 // PF
@@ -53,7 +55,7 @@ import { CompositeSummaryDownloadComponent } from './components';
 import { BasicListComponent } from './components';
 import { ResourcesComponent } from './containers/resources/resources.component';
 import { NewFolderModalComponent } from './containers/new-folder-modal/new-folder-modal.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ResourceModalComponent } from './containers/resource-modal/resource-modal.component';
 
 
 @NgModule({
@@ -61,6 +63,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     // Angular
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
 
     // 3rd Party
     DragulaModule.forRoot(),
@@ -78,6 +81,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     DateInputsModule,
     FontAwesomeModule,
     NgbModule.forRoot(),
+    UploadModule,
+    DropDownsModule,
 
     // Routing
     MainRoutingModule,
@@ -110,7 +115,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     BasicListComponent,
     ResourcesComponent,
     CompanyResourceListComponent,
-    NewFolderModalComponent
+    NewFolderModalComponent,
+    ResourceModalComponent
+  ],
+  entryComponents: [
+    NewFolderModalComponent,
+    ResourceModalComponent
   ]
 })
 export class MainModule {

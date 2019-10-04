@@ -24,7 +24,8 @@ describe('CompanyResourceListComponent', () => {
     const fixture = TestBed.createComponent(CompanyResourceListComponent);
     const instance = fixture.componentInstance;
 
-    expect(instance.companyResources).not.toBeDefined();
+    expect(instance.folderResources).not.toBeDefined();
+    expect(instance.orphanedResources).not.toBeDefined();
   });
 
 });

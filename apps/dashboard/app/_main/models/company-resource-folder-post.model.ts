@@ -1,4 +1,4 @@
-export interface CompanyResourceFolder {
+export interface CompanyResourceFolderPost {
     CompanyId: number;
     CompanyResourcesFoldersId: number;
     CreateDate: string;

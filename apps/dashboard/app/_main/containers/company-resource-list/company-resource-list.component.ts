@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { CompanyResources, CompanyResource } from '../../models';
+import { CompanyResource, OrphanedCompanyResource, CompanyResourceFolder } from '../../models';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
-import * as fromCompanyResourcesModalActions from '../../actions/company-resources-modal.actions';
-import * as fromCompanyResourcesModalReducer from '../../reducers';
+import * as fromCompanyResourcesActions from '../../actions/company-resources.actions';
+import * as fromCompanyResourcesReducer from '../../reducers';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 
 const BASE_LINK = '/odata/CloudFiles.DownloadCompanyResource?FileName=';
@@ -24,13 +23,11 @@ const RESOURCE_TYPE = {
 })
 export class CompanyResourceListComponent {
 
-  @Input() companyResources: CompanyResources;
+  @Input() folderResources: CompanyResourceFolder[];
+  @Input() orphanedResources: OrphanedCompanyResource[];
   folderStates = {};
-  newFolderModalOpen$: Observable<boolean>;
 
-  constructor(private httpUrlEncodingCodec: HttpUrlEncodingCodec, private store: Store<fromCompanyResourcesModalReducer.State>) {
-      this.newFolderModalOpen$ = this.store.select(fromCompanyResourcesModalReducer.getNewFolderModalOpen);
-    }
+  constructor(private httpUrlEncodingCodec: HttpUrlEncodingCodec, private store: Store<fromCompanyResourcesReducer.State>) {}
 
   onFolderSelect(folderId: string) {
     this.folderStates[folderId] = !this.folderStates[folderId];
@@ -60,7 +57,11 @@ export class CompanyResourceListComponent {
     return `${BASE_LINK}${this.httpUrlEncodingCodec.encodeValue(resource.FileName)}`;
   }
 
-  openNewFolderModal() {
-    this.store.dispatch(new fromCompanyResourcesModalActions.OpeningNewFolderModal());
+  deleteResource(resourceId) {
+    this.store.dispatch(new fromCompanyResourcesActions.DeletingCompanyResource(resourceId));
+  }
+
+  deleteFolder(folderId) {
+    this.store.dispatch(new fromCompanyResourcesActions.DeletingFolderFromCompanyResources(folderId));
   }
 }
