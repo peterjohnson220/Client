@@ -5,10 +5,10 @@
     [skip]="skip$ | async"
     [pageable]="getPagingBarConfig()"
     [scrollable]="isCompact ? 'none' : 'scrollable'"
-    [resizable]="isCompact ? false : true"
-    [kendoGridSelectBy]="primaryKey"
-    [selectedKeys]="selection"
-    (pageChange)="pageChange($event)">
+    [resizable]="isCompact ? false : true"    
+    [rowClass]="selectedRowClass"
+    (pageChange)="onPageChange($event)"
+    (cellClick)="onCellClick($event)">
     <ng-container *ngFor="let col of (dataFields$ | async)">
       <ng-container *ngIf="showColumn(col)">
         <kendo-grid-column 

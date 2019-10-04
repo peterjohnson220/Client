@@ -17,15 +17,16 @@
       </ng-container>
     </div>
     <div class="row no-gutters">
-      <div [ngClass]="isSplitView() ? 'col-3': 'col-12'">
+      <div [ngClass]="isSplitView ? 'col-3': 'col-12'">
         <pf-grid
           [pageViewId]="pageViewId"
           [primaryKey]="primaryKey"
           [columnTemplates]="columnTemplates"
-          [isCompact]="isSplitView()"
-          [selection]="selection"></pf-grid>
+          [isCompact]="isSplitView"
+          [allowSplitView]="!!splitViewTemplate"
+          (rowSelected)="isSplitView = true"></pf-grid>
       </div>
-      <div *ngIf="isSplitView()" class="col-9 pl-3">
+      <div *ngIf="isSplitView" class="col-9 pl-3">
         <ng-container [ngTemplateOutlet]="splitViewTemplate" [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter}">
         </ng-container>
       </div>
