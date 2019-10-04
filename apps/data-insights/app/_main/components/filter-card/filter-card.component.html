@@ -49,6 +49,7 @@
         </ng-container>
         <ng-container *ngIf="filter.Field?.DataType === 'float' || filter.Field?.DataType === 'int'">
           <pf-numeric-filter
+            [dataType]="filter.Field?.DataType"
             [selectedOperator]="filter.Operator"
             [numericValue]="filter.SelectedOptions"
             (numericValuesChanged)="handleNumericValueChanged($event)"
