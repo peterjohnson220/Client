@@ -5,11 +5,12 @@
     </ng-container>
 
     <ng-container page-actions>
-      <button id="user-page-save" class="btn btn-primary" (click)="userForm.onSave()">Save</button>
+      <button [disabled]="!addUserFlag" id="user-page-save" class="btn btn-primary" (click)="userForm.onSave()">Save</button>
       <button id="user-page-cancel" class="btn btn-secondary" (click)="handleCancel()">Cancel</button>
     </ng-container>
 
     <ng-container page-content>
+      <span *ngIf="!addUserFlag" class="text-danger">You don't have permissions to add/edit users</span>
       <div class="row no-gutters">
         <div class="col-lg-6 px-3">
           <pf-user-form #userForm [userRoles]="userRoles$ | async" [user]="user$ | async" [companyId]="companyId" (saveUser)="save($event)"></pf-user-form>
