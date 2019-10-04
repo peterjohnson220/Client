@@ -6,12 +6,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
+import { Observable } from 'rxjs';
+import 'rxjs/add/observable/of';
+
 import * as fromRootState from 'libs/state/state';
 import * as fromUserReducer from '../reducers';
 import * as fromUserActions from '../actions/user-management.actions';
 
 import { UserManagementPageComponent } from './user-management.page';
 import { generateMockUserManagementDto } from 'libs/models/payfactors-api/user';
+import { generateMockUserContext } from 'libs/models';
+import { Permissions } from 'libs/constants';
 
 describe('Admin - Company Admin - User Page', () => {
   let instance: UserManagementPageComponent;
@@ -53,7 +58,11 @@ describe('Admin - Company Admin - User Page', () => {
 
     fixture = TestBed.createComponent(UserManagementPageComponent);
 
+    const mockUserContext = generateMockUserContext();
+    mockUserContext.Permissions.push(Permissions.ADD_USER);
+
     instance = fixture.componentInstance;
+    instance.userContext$ = Observable.of(mockUserContext);
 
   }));
 
