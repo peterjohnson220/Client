@@ -133,7 +133,8 @@ export class JobDescriptionApiService {
       jobDescriptionAsJsonString: JSON.stringify(jobDescription),
       isFirstSave: isFirstSave
     };
-    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescription.JobDescriptionId})/Default.Save`, obj);
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescription.JobDescriptionId})/Default.Save`, obj,
+      (response => JSON.parse(response.value)));
   }
 
   publish(jobDescriptionId: number) {

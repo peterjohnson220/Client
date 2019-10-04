@@ -43,14 +43,14 @@
               <div class="card-block">
                 <pf-job-description-info-header-with-logo
                   *ngIf="!(jobDescriptionForComparisonAsync$ | async)?.obj"
-                  [jobDescription]="(sourceJobDescriptionAsync$ | async)?.obj"
+                  [jobDescription]="sourceJobDescription"
                   [jobInformationFields]="(sourceJobDescriptionAsync$ | async)?.obj?.JobInformationFields"
                   [companyLogoPath]="companyLogoPath">
                 </pf-job-description-info-header-with-logo>
 
                 <pf-job-description-info-header-no-logo
                   *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj"
-                  [jobDescription]="(sourceJobDescriptionAsync$ | async)?.obj"
+                  [jobDescription]="sourceJobDescription"
                   [jobInformationFields]="(sourceJobDescriptionAsync$ | async)?.obj?.JobInformationFields">
                 </pf-job-description-info-header-no-logo>
                 <div class="edit-button">
