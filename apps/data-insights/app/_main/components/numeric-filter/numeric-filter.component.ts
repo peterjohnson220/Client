@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EqualsOperator, FilterOperator, GreaterThanOperator, GreaterThanOrEqualOperator, LessThanOperator, LessThanOrEqualOperator } from '../../models';
 
 @Component({
@@ -6,7 +6,7 @@ import { EqualsOperator, FilterOperator, GreaterThanOperator, GreaterThanOrEqual
   templateUrl: './numeric-filter.component.html',
   styleUrls: ['./numeric-filter.component.scss']
 })
-export class NumericFilterComponent {
+export class NumericFilterComponent implements OnInit {
   @Input() numericValue: string;
   @Input() selectedOperator: FilterOperator;
   @Output() numericValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
@@ -15,8 +15,16 @@ export class NumericFilterComponent {
 
   previousValue: string;
 
+  ngOnInit() {
+    this.previousValue = this.numericValue;
+  }
+
   handleNumericValueChange(): void {
-    if (this.numericValue === null) {
+    if (this.numericValue === null || this.numericValue.length === 0) {
+      if (this.previousValue === null || this.previousValue.length === 0  ) {
+        this.numericValue = '';
+        return;
+      }
       this.numericValue = this.previousValue;
     }
 
