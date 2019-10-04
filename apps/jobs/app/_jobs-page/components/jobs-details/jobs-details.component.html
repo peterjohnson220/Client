@@ -17,7 +17,7 @@
       </pf-data-grid>
 
       <ng-template #employeeColumn let-dataRow="dataRow">
-        <ng-container *ngIf="dataRow['CompanyEmployees_First_Name'] && dataRow['CompanyEmployees_Last_Name']; else noEmployeeName">
+        <ng-container *ngIf="dataRow['CompanyEmployees_First_Name'] || dataRow['CompanyEmployees_Last_Name']; else noEmployeeName">
          {{dataRow['CompanyEmployees_First_Name']}} {{dataRow['CompanyEmployees_Last_Name']}}
           <small> <em class="text-muted">({{dataRow['CompanyEmployees_Employee_ID']}})</em></small>
         </ng-container>
