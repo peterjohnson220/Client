@@ -7,6 +7,7 @@ import { EqualsOperator, FilterOperator, GreaterThanOperator, GreaterThanOrEqual
   styleUrls: ['./numeric-filter.component.scss']
 })
 export class NumericFilterComponent implements OnInit {
+  @Input() dataType: string;
   @Input() numericValue: string;
   @Input() selectedOperator: FilterOperator;
   @Output() numericValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
@@ -20,12 +21,13 @@ export class NumericFilterComponent implements OnInit {
   }
 
   handleNumericValueChange(): void {
-    if (this.numericValue === null || this.numericValue.length === 0) {
-      if (this.previousValue === null || this.previousValue.length === 0  ) {
-        this.numericValue = '';
-        return;
-      }
-      this.numericValue = this.previousValue;
+    if (isNaN(Number(this.numericValue)) || this.numericValue.length === 0) {
+      this.numericValue = this.previousValue.length !== 0 ? this.previousValue : '';
+      return;
+    }
+
+    if (this.dataType === 'int' && Number(this.numericValue) % 1 !== 0 ) {
+     this.numericValue = this.numericValue.split('.')[0];
     }
 
     this.previousValue = this.numericValue;
