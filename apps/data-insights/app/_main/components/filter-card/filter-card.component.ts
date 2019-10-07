@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { SelectionRange } from '@progress/kendo-angular-dateinputs';
+import * as cloneDeep from 'lodash.clonedeep';
 
-import { DataViewFieldDataType } from 'libs/models/payfactors-api';
-
-import { Field, Filter, FilterOperator, GetFilterOptionsData } from '../../models';
+import { Field, Filter, FilterOperator, GetFilterOptionsData, FieldDataType, validateFilter, getDefaultOperatorByDataType } from '../../models';
 
 @Component({
   selector: 'pf-filter-card',
@@ -15,15 +13,13 @@ export class FilterCardComponent implements OnInit {
   @Input() filterIndex: number;
   @Input() fields: Field[];
   @Input() filter: Filter;
-  @Output() selectedFieldChanged: EventEmitter<Field> = new EventEmitter<Field>();
+  @Output() filterChanged: EventEmitter<Filter> = new EventEmitter<Filter>();
   @Output() searchOptionChanged: EventEmitter<GetFilterOptionsData> = new EventEmitter<GetFilterOptionsData>();
-  @Output() selectedValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() deleteFilter: EventEmitter<number> = new EventEmitter<number>();
-  @Output() numericValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output() changeOperator: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
 
   getFilterOptionsData: GetFilterOptionsData;
   editMode = true;
+  fieldDataType = FieldDataType;
 
   ngOnInit(): void {
     if (this.filter && this.filter.SelectedOptions.length > 0) {
@@ -32,8 +28,28 @@ export class FilterCardComponent implements OnInit {
   }
 
   handleFieldChanged(field: Field): void {
-    this.selectedFieldChanged.emit(field);
+    const filterClone: Filter = cloneDeep(this.filter);
+    filterClone.Field = field;
+    filterClone.Operator = getDefaultOperatorByDataType(field);
+    filterClone.Options = [];
+    filterClone.SelectedOptions = [];
+    filterClone.IsValid = false;
     this.getFilterOptionsData = null;
+    this.filterChanged.emit(filterClone);
+  }
+
+  handleSelectedOptionsChange(selectedOptions: string[]): void {
+    const filterClone: Filter = cloneDeep(this.filter);
+    filterClone.SelectedOptions = selectedOptions;
+    filterClone.IsValid = validateFilter(filterClone);
+    this.filterChanged.emit(filterClone);
+  }
+
+  handleOperatorChanged(operator: FilterOperator): void {
+    const filterClone: Filter = cloneDeep(this.filter);
+    filterClone.Operator = operator;
+    filterClone.IsValid = validateFilter(filterClone);
+    this.filterChanged.emit(filterClone);
   }
 
   handleMultiSelectFilterChanged(value: string): void {
@@ -41,26 +57,8 @@ export class FilterCardComponent implements OnInit {
     this.searchOptionChanged.emit(this.getFilterOptionsData);
   }
 
-  handleMultiSelectSelectedValuesChange(selectedOptions: string[]): void {
-    this.selectedValuesChanged.emit(selectedOptions);
-  }
-
   handleDeleteFilter(): void {
     this.deleteFilter.emit(this.filterIndex);
-  }
-
-  handleNumericValueChanged(numericValue: string[]): void {
-    this.numericValuesChanged.emit(numericValue);
-  }
-
-  handleOperatorChanged(operator: FilterOperator): void {
-    this.changeOperator.emit(operator);
-  }
-
-  handleDateRangeChanged(range: SelectionRange): void {
-    const startDate = this.getFormattedDateString(range.start);
-    const endDate = this.getFormattedDateString(range.end);
-    this.selectedValuesChanged.emit([startDate, endDate]);
   }
 
   toggleEditMode(): void {
@@ -68,10 +66,19 @@ export class FilterCardComponent implements OnInit {
   }
 
   public get selectedOptionsCount(): number {
-    if (this.filter.Field.DataType === DataViewFieldDataType.DateTime || this.filter.Field.DataType === DataViewFieldDataType.Float) {
+    if (this.filter.Field.DataType === FieldDataType.Date ||
+      this.filter.Field.DataType === FieldDataType.Int ||
+      this.filter.Field.DataType === FieldDataType.Float) {
       return 1;
     }
     return this.filter.SelectedOptions.length;
+  }
+
+  public get isNumericDataType(): boolean {
+    return !!this.filter && (
+      this.filter.Field.DataType === this.fieldDataType.Int ||
+      this.filter.Field.DataType === this.fieldDataType.Float
+    );
   }
 
   private builGetFilterOptionsData(query: string): void {
@@ -81,13 +88,5 @@ export class FilterCardComponent implements OnInit {
       SourceName: this.filter.Field.SourceName,
       Query: query
     };
-  }
-
-  private getFormattedDateString(date: Date): string {
-    const isoDateString = date.toISOString();
-    const year = isoDateString.substr(0, 4);
-    const month = isoDateString.substr(5, 2);
-    const day = isoDateString.substr(8, 2);
-    return `${year}-${month}-${day}`;
   }
 }

@@ -61,17 +61,13 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromConfigurationActions.AddFilter(filter));
   }
 
-  handleSelectedFieldChanged(index: number, field: Field): void {
-    this.store.dispatch(new fromConfigurationActions.UpdateFilterSelectedField({ index, field }));
+  handleFilterChanged(index: number, filter: Filter): void {
+    this.store.dispatch(new fromConfigurationActions.UpdateFilter({ index, filter }));
+    this.changesMade = true;
   }
 
   handleSearchOptionChanged(data: GetFilterOptionsData): void {
     this.store.dispatch(new fromConfigurationActions.GetFilterOptions(data));
-  }
-
-  handleSelectedValuesChanged(index: number, selectedValues: string[]): void {
-    this.store.dispatch(new fromConfigurationActions.UpdateFilterSelectedOptions({ index, selectedOptions: selectedValues }));
-    this.changesMade = true;
   }
 
   handleDeleteFilter(index: number): void {
@@ -84,11 +80,6 @@ export class FiltersComponent implements OnInit, OnDestroy {
   handleApplyFilterClicked(): void {
     this.store.dispatch(new fromConfigurationActions.ApplyFilters());
     this.changesMade = false;
-  }
-
-  handleOperatorChanged(index: number, operator: FilterOperator): void {
-    this.store.dispatch(new fromConfigurationActions.UpdateFilterOperator({ index, operator }));
-    this.changesMade = true;
   }
 }
 

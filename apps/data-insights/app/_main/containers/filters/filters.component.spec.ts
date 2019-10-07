@@ -8,7 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromConfigurationActions from '../../actions/configuration.actions';
 import { FiltersComponent } from './filters.component';
-import { generateMockField, Field, Filter, getDefaultOperatorByDataType, GetFilterOptionsData } from '../../models';
+import { generateMockField, Field, Filter, getDefaultOperatorByDataType, GetFilterOptionsData, generateMockFilter } from '../../models';
 
 describe('Data Insights - Filters Comopnent', () => {
   let instance: FiltersComponent;
@@ -51,17 +51,17 @@ describe('Data Insights - Filters Comopnent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch UpdateFilterSelectedField with correct data when handling selected field changed', () => {
+  it('should dispatch UpdateFilter with correct data when handling filter changed', () => {
     spyOn(store, 'dispatch');
-    const selectedField: Field = generateMockField();
+    const filter: Filter = generateMockFilter();
     const filterIndex = 2;
     const data = {
       index: filterIndex,
-      field: selectedField
+      filter
     };
-    const expectedAction = new fromConfigurationActions.UpdateFilterSelectedField(data);
+    const expectedAction = new fromConfigurationActions.UpdateFilter(data);
 
-    instance.handleSelectedFieldChanged(filterIndex, selectedField);
+    instance.handleFilterChanged(filterIndex, filter);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
@@ -77,17 +77,6 @@ describe('Data Insights - Filters Comopnent', () => {
     const expectedAction = new fromConfigurationActions.GetFilterOptions(data);
 
     instance.handleSearchOptionChanged(data);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch UpdateFilterSelectedOptions with correct data when handling selected values changed', () => {
-    spyOn(store, 'dispatch');
-    const filterIndex = 2;
-    const selectedValues = ['Accountant', 'Accountant I'];
-    const expectedAction = new fromConfigurationActions.UpdateFilterSelectedOptions({ index: filterIndex, selectedOptions: selectedValues });
-
-    instance.handleSelectedValuesChanged(filterIndex, selectedValues);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

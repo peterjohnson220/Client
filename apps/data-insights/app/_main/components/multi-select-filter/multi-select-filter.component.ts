@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter, ViewChild, OnChanges, SimpleCha
 
 import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
 
-import { FilterOperator, EqualsOperator } from '../../models';
+import { FilterOperator, Equals } from '../../models';
 
 @Component({
   selector: 'pf-multi-select-filter',
@@ -19,7 +19,7 @@ export class MultiSelectFilterComponent implements OnChanges {
   @Output() selectedValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   @ViewChild('filterOptionsMultiSelect', {static: false}) public filterOptionsMultiSelect: MultiSelectComponent;
-  operators = [ EqualsOperator ];
+  operators = [ Equals ];
   readonly MIN_QUERY_LENGTH = 1;
 
   ngOnChanges(changes: SimpleChanges): void {

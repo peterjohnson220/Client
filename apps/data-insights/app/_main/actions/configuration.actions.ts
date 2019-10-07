@@ -1,10 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { Field, Filter, FilterOperator, GetFilterOptionsData } from '../models';
+import { Field, Filter, GetFilterOptionsData } from '../models';
 
 export const ADD_FILTER = '[Data Insights / Configure] Add Filter';
-export const UPDATE_FILTER_SELECTED_FIELD = '[Data Insights / Configure] Update Filter Selected Field';
-export const UPDATE_FILTER_SELECTED_OPTIONS = '[Data Insights / Configure] Update Filter Selected Field Options';
+export const UPDATE_FILTER = '[Data Insights / Configure] Update Filter ';
 export const REMOVE_PENDING_FILTER_BY_INDEX = '[Data Insights / Configure] Remove Pending Filter By Index';
 export const REMOVE_ACTIVE_FILTER_BY_INDEX = '[Data Insights / Configure] Remove Active Filter By Index';
 export const REMOVE_PENDING_FILTERS_BY_FIELD = '[Data Insights / Configure] Remove Pending Filters By Field';
@@ -18,7 +17,6 @@ export const RESET_FILTERS = '[Data Insights / Configure] Reset Filters';
 export const SAVE_FILTERS = '[Data Insights / Configure] Save Filters';
 export const SAVE_FILTERS_SUCCESS = '[Data Insights / Configure] Save Filters Success';
 export const SAVE_FILTERS_ERROR = '[Data Insights / Configure] Save Filters Error';
-export const UPDATE_FILTER_OPERATOR = '[Data Insights / Configure] Update Filter Operators';
 
 export class AddFilter implements Action {
   readonly type = ADD_FILTER;
@@ -26,16 +24,10 @@ export class AddFilter implements Action {
   constructor(public payload: Filter) {}
 }
 
-export class UpdateFilterSelectedField implements Action {
-  readonly type = UPDATE_FILTER_SELECTED_FIELD;
+export class UpdateFilter implements Action {
+  readonly type = UPDATE_FILTER;
 
-  constructor(public payload: { index: number, field: Field }) {}
-}
-
-export class UpdateFilterSelectedOptions implements Action {
-  readonly type = UPDATE_FILTER_SELECTED_OPTIONS;
-
-  constructor(public payload: { index: number, selectedOptions: string[] }) {}
+  constructor(public payload: { index: number, filter: Filter }) {}
 }
 
 export class RemovePendingFilterByIndex implements Action {
@@ -116,15 +108,9 @@ export class SaveFiltersError implements Action {
   constructor() {}
 }
 
-export class UpdateFilterOperator implements Action {
-  readonly type = UPDATE_FILTER_OPERATOR;
-
-  constructor(public payload: { index: number, operator: FilterOperator }) {}
-}
-
 export type Actions
   = AddFilter
-  | UpdateFilterSelectedField
+  | UpdateFilter
   | RemovePendingFilterByIndex
   | RemoveActiveFilterByIndex
   | RemovePendingFiltersByField
@@ -132,11 +118,9 @@ export type Actions
   | GetFilterOptions
   | GetFilterOptionsSuccess
   | GetFilterOptionsError
-  | UpdateFilterSelectedOptions
   | SetFilters
   | ApplyFilters
   | ResetFilters
   | SaveFilters
   | SaveFiltersSuccess
-  | SaveFiltersError
-  | UpdateFilterOperator;
+  | SaveFiltersError;

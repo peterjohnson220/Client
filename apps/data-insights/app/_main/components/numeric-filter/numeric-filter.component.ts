@@ -1,16 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
 
-import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request';
-
-import {
-  EqualsOperator,
-  FilterOperator,
-  GreaterThanOperator,
-  GreaterThanOrEqualOperator,
-  LessThanOperator,
-  LessThanOrEqualOperator
-} from '../../models';
-
+import { Equals, FilterOperator, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, FieldDataType } from '../../models';
 
 @Component({
   selector: 'pf-numeric-filter',
@@ -19,12 +9,12 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NumericFilterComponent implements OnChanges {
-  @Input() dataType: DataViewFieldDataType;
+  @Input() dataType: FieldDataType;
   @Input() value: string;
   @Input() selectedOperator: FilterOperator;
   @Output() numericValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() changeOperator: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
-  operators = [EqualsOperator, GreaterThanOperator, GreaterThanOrEqualOperator, LessThanOperator, LessThanOrEqualOperator];
+  operators = [Equals, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual];
 
   numberValue: number;
   decimals: number;
@@ -61,7 +51,7 @@ export class NumericFilterComponent implements OnChanges {
   }
 
   private setInputOptions() {
-    if (this.dataType === DataViewFieldDataType.Int) {
+    if (this.dataType === FieldDataType.Int) {
       this.decimals = 0;
     } else {
       this.decimals = 2;
