@@ -10,10 +10,12 @@
     [valueField]="'Value'">
   </kendo-dropdownlist>
 
-  <label for="numericTextBox"></label>
-  <input type="text"
-         id="numericTextBox"
-         [(ngModel)]="numericValue"
-         (change)="handleNumericValueChange()"
-         name="numericTextBox">
+  <kendo-numerictextbox
+    [autoCorrect]="true"
+    [decimals]="decimals"
+    [format]="numberFormat"
+    (valueChange)="handleNumericValueChange($event)"
+    [value]="numberValue">
+
+  </kendo-numerictextbox>
 </ng-container>
