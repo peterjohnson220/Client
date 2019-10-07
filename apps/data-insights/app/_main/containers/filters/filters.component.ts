@@ -56,7 +56,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
       Field: this.selectedFields[0],
       Operator: getDefaultOperatorByDataType(this.selectedFields[0]),
       Options: [],
-      SelectedOptions: []
+      SelectedOptions: [],
+      IsValid: false
     };
     this.store.dispatch(new fromConfigurationActions.AddFilter(filter));
   }

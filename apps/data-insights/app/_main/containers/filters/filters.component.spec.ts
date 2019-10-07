@@ -40,7 +40,8 @@ describe('Data Insights - Filters Comopnent', () => {
       Field: firstSelectedfield,
       Operator: getDefaultOperatorByDataType(firstSelectedfield),
       Options: [],
-      SelectedOptions: []
+      SelectedOptions: [],
+      IsValid: false
     };
     instance.selectedFields = [firstSelectedfield];
     const expectedAction = new fromConfigurationActions.AddFilter(filter);
