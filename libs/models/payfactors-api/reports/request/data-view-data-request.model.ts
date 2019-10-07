@@ -35,6 +35,7 @@ export enum DataViewFieldDataType {
   Int = 'int',
   Float = 'float',
   String = 'string',
+  LongString = 'longString',
   Binary = 'binary',
   Unknown = 'unknown'
 }

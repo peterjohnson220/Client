@@ -132,6 +132,9 @@ export class PayfactorsApiModelMapper {
       case DataViewFieldDataType.String: {
         return FieldDataType.String;
       }
+      case DataViewFieldDataType.LongString: {
+        return FieldDataType.LongString;
+      }
       case DataViewFieldDataType.DateTime: {
         return FieldDataType.Date;
       }

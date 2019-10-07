@@ -39,6 +39,13 @@
             (selectedValuesChanged)="handleSelectedOptionsChange($event)">
           </pf-multi-select-filter>
         </ng-container>
+      <ng-container *ngIf="filter.Field?.DataType === fieldDataType.LongString">
+        <pf-text-filter
+        [selectedOperator]="filter.Operator"
+        [filterValue]="filter.SelectedOptions?.length ? filter.SelectedOptions[0] : null"
+        (valueChanged)="handleSelectedOptionsChange($event)">
+        </pf-text-filter>
+      </ng-container>
         <ng-container *ngIf="filter.Field?.DataType === fieldDataType.Date">
           <pf-date-range-filter
             [selectedOperator]="filter.Operator"
