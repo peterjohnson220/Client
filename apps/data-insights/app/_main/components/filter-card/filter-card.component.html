@@ -51,7 +51,7 @@
           <pf-numeric-filter
             [dataType]="filter.Field?.DataType"
             [selectedOperator]="filter.Operator"
-            [numericValue]="filter.SelectedOptions"
+            [value]="filter.SelectedOptions?.length ? filter.SelectedOptions[0] : null"
             (numericValuesChanged)="handleNumericValueChanged($event)"
             (changeOperator)="handleOperatorChanged($event)">
           </pf-numeric-filter>

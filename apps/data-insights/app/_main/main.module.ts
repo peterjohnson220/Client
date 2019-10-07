@@ -12,6 +12,7 @@ import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-boots
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -59,6 +60,7 @@ import { MainRoutingModule } from './main-routing.module';
     PerfectScrollbarModule,
     NgbCollapseModule,
     DateInputsModule,
+    NumericTextBoxModule,
 
     // Routing
     MainRoutingModule,
