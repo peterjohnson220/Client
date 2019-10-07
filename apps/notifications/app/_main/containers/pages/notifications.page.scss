@@ -1,0 +1,20 @@
+@import 'colors';
+@import 'notifications-variables';
+
+.page {
+  min-height: 100%;
+  background-color: $grey;
+
+  .header {
+    height: 67px;
+    padding: 0 75px;
+    width: 100%;
+    background-color: #ffffff;
+
+    .title {
+      color: $header-color;
+      font-size: 2.5rem;
+      font-weight: 500;
+    }
+  }
+}
