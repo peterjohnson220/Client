@@ -233,7 +233,8 @@ export class PayfactorsApiModelMapper {
         Field: field,
         SelectedOptions: filter.Values,
         Operator: FilterOperatorHelper.getFilterOperatorByDataType(field.DataType, filter),
-        Options: []
+        Options: [],
+        IsValid: true
       };
     });
   }

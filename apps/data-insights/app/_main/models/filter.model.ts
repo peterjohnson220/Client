@@ -6,7 +6,7 @@ export interface Filter {
   Operator: FilterOperator;
   Options: string[];
   SelectedOptions: string[];
-  IsValid?: boolean;
+  IsValid: boolean;
 }
 
 export function getDefaultOperatorByDataType(field: Field): FilterOperator {
@@ -23,7 +23,8 @@ export function generateMockFilter(): Filter {
     Field: generateMockField(),
     Operator: Equals,
     Options: [],
-    SelectedOptions: []
+    SelectedOptions: [],
+    IsValid: false
   };
 }
 
