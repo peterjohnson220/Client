@@ -1,5 +1,5 @@
 import { Field, generateMockField, FieldDataType } from './field.model';
-import { FilterOperator, Between, Equals } from './filter-operators.model';
+import { FilterOperator, Between, Equals, Contains } from './filter-operators.model';
 
 export interface Filter {
   Field: Field;
@@ -13,6 +13,8 @@ export function getDefaultOperatorByDataType(field: Field): FilterOperator {
   switch (field.DataType) {
     case FieldDataType.Date:
       return Between;
+    case FieldDataType.LongString:
+      return Contains;
     default:
       return Equals;
   }

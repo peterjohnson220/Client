@@ -22,7 +22,8 @@ export enum FieldDataType {
   Date = 'Date',
   Int = 'int',
   Float = 'float',
-  String = 'String'
+  String = 'String',
+  LongString = 'longString'
 }
 
 export function generateMockField(): Field {

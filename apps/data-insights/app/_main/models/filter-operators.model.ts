@@ -47,3 +47,8 @@ export const Is: FilterOperator = {
   Name: 'is',
   Value: 'isdate'
 };
+
+export const Contains: FilterOperator = {
+  Name: 'contains',
+  Value: 'contains'
+};
