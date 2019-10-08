@@ -14,6 +14,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
+import { UserManagementModule } from 'libs/features/user-management';
 
 import * as fromFaIcons from './fa-icons';
 import { CompanySearchPipe } from './pipes';
@@ -48,7 +49,10 @@ import { CompanyRoutingModule } from './company-routing.module';
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
-    PfCommonModule
+    PfCommonModule,
+
+    // Features
+    UserManagementModule
   ],
   exports: [
     CompaniesListComponent

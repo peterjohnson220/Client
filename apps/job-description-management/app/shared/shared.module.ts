@@ -37,7 +37,7 @@ import {
   SaveErrorModalComponent,
   ConflictErrorModalComponent
 } from './components';
-import { RouteTrackingService, ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from './services';
+import { ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from './services';
 import { reducers } from './reducers';
 import {
   CompanyFlsaStatusEffects,
@@ -117,7 +117,6 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     JobDescriptionAppliesToDisplayNamePipe
   ],
   providers: [
-    RouteTrackingService,
     ListAreaService,
     JobDescriptionManagementService,
     JobDescriptionManagementDnDService

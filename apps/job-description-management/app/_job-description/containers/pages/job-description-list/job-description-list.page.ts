@@ -10,7 +10,7 @@ import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-co
 import { JdmListFilter } from 'libs/models/user-profile';
 import { ListAreaColumn } from 'libs/models/common';
 import { UserContext } from 'libs/models/security';
-import { PermissionService } from 'libs/core/services';
+import { PermissionService, RouteTrackingService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
@@ -29,7 +29,6 @@ import {
   JobDescriptionHistoryModalComponent
 } from '../../../components/modals/job-description-history';
 import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
-import { RouteTrackingService } from '../../../../shared/services';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
 import { SaveJobDescriptionTemplateIdSucessModel } from '../../../models';
 import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
@@ -108,8 +107,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     private store: Store<fromJobDescriptionReducers.State>,
     private router: Router,
     private route: ActivatedRoute,
-    private routeTrackingService: RouteTrackingService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private routeTrackingService: RouteTrackingService
   ) {
     this.identity$ = this.userContextStore.select(fromUserContextReducer.getUserContext);
     this.gridLoading$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoading);

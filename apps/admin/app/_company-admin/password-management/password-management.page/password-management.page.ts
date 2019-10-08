@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { environment } from 'environments/environment';
+
 import * as fromPasswordSettingsReducer from '../reducers';
 import { PasswordManagementSettingsComponent } from '../containers';
 
@@ -10,6 +13,8 @@ import { PasswordManagementSettingsComponent } from '../containers';
   styleUrls: ['./password-management.page.scss']
 })
 export class PasswordManagementPageComponent implements OnInit {
+  env = environment;
+
   @ViewChild(PasswordManagementSettingsComponent, { static: true }) settingsComponent: PasswordManagementSettingsComponent;
   public passwordSettingsSaving$: Observable<boolean>;
   public isDirty = false;

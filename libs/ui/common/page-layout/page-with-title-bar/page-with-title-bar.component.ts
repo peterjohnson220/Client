@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'pf-page-with-title-bar',
@@ -9,12 +8,7 @@ import { Location } from '@angular/common';
 export class PageWithTitleBarComponent {
   @Input() returnUrl: string;
   @Input() absoluteUrl: string;
-  @Input() locationBack: boolean;
   @Input() contentNoPadding: boolean;
 
-  constructor(private location: Location) {}
-
-  goBack() {
-    this.location.back();
-  }
+  constructor() {}
 }

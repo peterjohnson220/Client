@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Page With Title Bar and Grid should show no back button when no URL is provided 1`] = `
-<pf-page-with-title-bar-and-grid
-  location={[Function SpyLocation]}
->
+<pf-page-with-title-bar-and-grid>
   <div
     class="flex-column-container"
   >
@@ -13,7 +11,6 @@ exports[`Page With Title Bar and Grid should show no back button when no URL is 
       <div
         class="d-flex"
       >
-        
         
         
         <h3 />
@@ -40,7 +37,6 @@ exports[`Page With Title Bar and Grid should show no back button when no URL is 
 
 exports[`Page With Title Bar and Grid should show the back button, when provided a return Url 1`] = `
 <pf-page-with-title-bar-and-grid
-  location={[Function SpyLocation]}
   returnUrl={[Function String]}
 >
   <div
@@ -52,7 +48,6 @@ exports[`Page With Title Bar and Grid should show the back button, when provided
       <div
         class="d-flex"
       >
-        
         
         <button
           class="btn btn-secondary back-btn"
@@ -90,7 +85,6 @@ exports[`Page With Title Bar and Grid should show the back button, when provided
 exports[`Page With Title Bar and Grid should show the back button, when provided an absolute Url 1`] = `
 <pf-page-with-title-bar-and-grid
   absoluteUrl={[Function String]}
-  location={[Function SpyLocation]}
 >
   <div
     class="flex-column-container"
@@ -101,7 +95,6 @@ exports[`Page With Title Bar and Grid should show the back button, when provided
       <div
         class="d-flex"
       >
-        
         
         
         <a
@@ -140,7 +133,6 @@ exports[`Page With Title Bar and Grid should show the back button, when provided
 
 exports[`Page With Title Bar and Grid should show the back button, when provided an locationBack parameter 1`] = `
 <pf-page-with-title-bar-and-grid
-  location={[Function SpyLocation]}
   locationBack={[Function Boolean]}
 >
   <div
@@ -152,15 +144,6 @@ exports[`Page With Title Bar and Grid should show the back button, when provided
       <div
         class="d-flex"
       >
-        
-        <button
-          class="btn btn-secondary back-btn"
-        >
-          <fa-icon
-            aria-hidden="true"
-            icon="long-arrow-alt-left"
-          />
-        </button>
         
         
         <h3 />
@@ -197,7 +180,6 @@ exports[`Page With Title Bar and Grid should transclude into slots 1`] = `
         <div
           class="d-flex"
         >
-          
           
           
           <h3>

@@ -3,12 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthorizationGuard, LoadUserGuard, LoadCompanyGuard } from 'libs/security/guards';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { UsersListPageComponent, UserPageComponent } from 'libs/features/user-management';
 
 import {
   NavigationPageComponent,
   PasswordManagementPageComponent,
-  UserManagementPageComponent,
-  UsersListPageComponent,
   UserRolePageComponent
 } from './';
 
@@ -31,11 +30,11 @@ const routes: Routes = [
     data: { Permissions: [Permissions.USERS], Check: PermissionCheckEnum.Single }
   },
   {
-    path: ':companyId/users/add', component: UserManagementPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard],
+    path: ':companyId/users/add', component: UserPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard],
     data: { Permissions: [Permissions.ADD_USER], Check: PermissionCheckEnum.Single }
   },
   {
-    path: ':companyId/users/:userId', component: UserManagementPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard, LoadUserGuard],
+    path: ':companyId/users/:userId', component: UserPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard, LoadUserGuard],
     data: { Permissions: [Permissions.USERS], Check: PermissionCheckEnum.Single }
   },
   { path: '', redirectTo: 'navigation', pathMatch: 'full' },
