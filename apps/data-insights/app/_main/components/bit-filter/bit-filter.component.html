@@ -1,0 +1,20 @@
+<ng-container>
+  <kendo-dropdownlist
+    class="dropdown-list"
+    [attr.data-qa-id]="'ddm-bit-filter-operators'"
+    [data]="operators"
+    [ngModel]="selectedOperator"
+    [textField]="'Name'"
+    [valueField]="'Value'"
+    [disabled]="'true'">
+  </kendo-dropdownlist>
+
+  <kendo-dropdownlist
+    class="dropdown-list"
+    [attr.data-qa-id]="'ddm-bit-filter-values'"
+    [data]="values"
+    [ngModel]="value"
+    (selectionChange)="handleSelectedValueChanged($event)">
+  </kendo-dropdownlist>
+
+</ng-container>

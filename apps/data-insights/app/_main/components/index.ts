@@ -15,3 +15,4 @@ export * from './date-range-filter';
 export * from './multi-select-filter';
 export * from './numeric-filter';
 export * from './text-filter';
+export * from './bit-filter';

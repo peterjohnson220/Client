@@ -52,3 +52,9 @@ export const Contains: FilterOperator = {
   Name: 'contains',
   Value: 'contains'
 };
+
+export const IsTrueFalse: FilterOperator = {
+  Name: 'is',
+  Value: '='
+};
+

@@ -4,7 +4,8 @@ import {
   FilterOperator, Equals,
   Between, IsAfter, IsBefore, Is,
   LessThan, GreaterThan, GreaterThanOrEqual, LessThanOrEqual,
-  FieldDataType
+  FieldDataType,
+  IsTrueFalse
 } from '../models';
 
 export class FilterOperatorHelper {
@@ -17,6 +18,9 @@ export class FilterOperatorHelper {
       case FieldDataType.Int:
       case FieldDataType.Float: {
         return this.mapToFilterOperatorForNumericDataType(dataViewFilter);
+      }
+      case FieldDataType.Bit: {
+        return this.mapToFilterOperatorForBitDataType(dataViewFilter);
       }
       default: {
         return this.mapToFilterOperatorForStringDataType(dataViewFilter);
@@ -68,6 +72,14 @@ export class FilterOperatorHelper {
       }
       default: {
         return Equals;
+      }
+    }
+  }
+
+  static mapToFilterOperatorForBitDataType(dataViewFilter: DataViewFilter): FilterOperator {
+    switch (dataViewFilter.Operator) {
+      default: {
+        return IsTrueFalse;
       }
     }
   }
