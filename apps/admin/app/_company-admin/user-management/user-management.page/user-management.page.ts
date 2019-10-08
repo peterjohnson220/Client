@@ -21,9 +21,6 @@ export class UserManagementPageComponent implements OnInit {
 
   userId: number;
   companyId: number;
-  permissions: string[];
-  accessLevel: string;
-  addUserFlag = false;
 
   loading$: Observable<boolean>;
   loaded$: Observable<boolean>;
@@ -33,7 +30,6 @@ export class UserManagementPageComponent implements OnInit {
   userContext$: Observable<UserContext>;
 
   constructor(public location: Location, public route: ActivatedRoute, private store: Store<fromUserReducer.State>) {
-    this.userContext$ = store.select(fromRootState.getUserContext);
     this.loading$ = this.store.select(fromUserReducer.getUserStateLoading);
     this.loaded$ = this.store.select(fromUserReducer.getUserStateLoaded);
     this.apiError$ = this.store.select(fromUserReducer.getUserStateApiError);
@@ -44,11 +40,6 @@ export class UserManagementPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userContext$.subscribe( uc => {
-      this.permissions = uc.Permissions;
-      this.accessLevel = uc.AccessLevel;
-    });
-    this.addUserFlag = this.accessLevel === 'Admin' || this.permissions.indexOf(Permissions.ADD_USER) !== -1;
     this.userId = this.route.snapshot.params.userId;
     if (this.userId) {
       this.store.dispatch(new fromUserActions.LoadUser(this.userId));

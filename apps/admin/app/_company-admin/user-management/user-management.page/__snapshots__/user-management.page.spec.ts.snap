@@ -2,18 +2,14 @@
 
 exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
 <pf-user-management-page
-  accessLevel={[Function String]}
-  addUserFlag={[Function Boolean]}
   apiError$={[Function Store]}
   companyId="undefined"
   loaded$={[Function Store]}
   loading$={[Function Store]}
   location={[Function SpyLocation]}
-  permissions={[Function Array]}
   route={[Function ActivatedRoute]}
   store={[Function Store]}
   user$={[Function Store]}
-  userContext$={[Function Observable]}
   userId="undefined"
   userRoles$={[Function Store]}
 >
@@ -34,7 +30,6 @@ exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
       >
         Cancel
       </button>
-      
       
       <div
         class="row no-gutters"
@@ -74,18 +69,14 @@ exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
 
 exports[`Admin - Company Admin - User Page Should show the edit user page 1`] = `
 <pf-user-management-page
-  accessLevel={[Function String]}
-  addUserFlag={[Function Boolean]}
   apiError$={[Function Store]}
   companyId="undefined"
   loaded$={[Function Store]}
   loading$={[Function Store]}
   location={[Function SpyLocation]}
-  permissions={[Function Array]}
   route={[Function ActivatedRoute]}
   store={[Function Store]}
   user$={[Function Store]}
-  userContext$={[Function Observable]}
   userId="undefined"
   userRoles$={[Function Store]}
 >
@@ -106,7 +97,6 @@ exports[`Admin - Company Admin - User Page Should show the edit user page 1`] = 
       >
         Cancel
       </button>
-      
       
       <div
         class="row no-gutters"
