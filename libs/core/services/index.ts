@@ -6,3 +6,4 @@ export * from './permission.service';
 export * from './remote-data-source.service';
 export * from './window-communication.service';
 export * from './window-ref';
+export * from './route-tracking.service';

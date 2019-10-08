@@ -69,7 +69,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
         >
           
           
-          
           <a
             href="/ng/site-admin/navigation"
           >
@@ -295,7 +294,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
         <div
           class="d-flex"
         >
-          
           
           
           <a
@@ -525,7 +523,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
         >
           
           
-          
           <a
             href="/ng/site-admin/navigation"
           >
@@ -752,7 +749,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
         >
           
           
-          
           <a
             href="/ng/site-admin/navigation"
           >
@@ -888,7 +884,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
         <div
           class="d-flex"
         >
-          
           
           
           <a
