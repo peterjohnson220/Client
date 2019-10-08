@@ -2,6 +2,7 @@
 
 exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
 <pf-user-management-page
+  accessLevel={[Function String]}
   addUserFlag={[Function Boolean]}
   apiError$={[Function Store]}
   companyId="undefined"
@@ -73,6 +74,7 @@ exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
 
 exports[`Admin - Company Admin - User Page Should show the edit user page 1`] = `
 <pf-user-management-page
+  accessLevel={[Function String]}
   addUserFlag={[Function Boolean]}
   apiError$={[Function Store]}
   companyId="undefined"
