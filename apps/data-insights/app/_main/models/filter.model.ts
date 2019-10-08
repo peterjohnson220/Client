@@ -1,5 +1,5 @@
 import { Field, generateMockField, FieldDataType } from './field.model';
-import { FilterOperator, Between, Equals, Contains } from './filter-operators.model';
+import { FilterOperator, Between, Equals, Contains, IsTrueFalse } from './filter-operators.model';
 
 export interface Filter {
   Field: Field;
@@ -9,15 +9,35 @@ export interface Filter {
   IsValid: boolean;
 }
 
+export function generateDefaultFilter(field: Field): Filter {
+  return {
+    Field: field,
+    Operator: getDefaultOperatorByDataType(field),
+    Options: [],
+    SelectedOptions: [],
+    IsValid: false
+  };
+}
+
 export function getDefaultOperatorByDataType(field: Field): FilterOperator {
   switch (field.DataType) {
     case FieldDataType.Date:
       return Between;
     case FieldDataType.LongString:
       return Contains;
+    case FieldDataType.Bit:
+      return IsTrueFalse;
     default:
       return Equals;
   }
+}
+
+export function getDefaultSelectedOptions(dataType: FieldDataType): string[] {
+  return dataType === FieldDataType.Bit ? ['true'] : [];
+}
+
+export function getDefaultIsValid(dataType: FieldDataType): boolean {
+  return dataType === FieldDataType.Bit;
 }
 
 export function generateMockFilter(): Filter {

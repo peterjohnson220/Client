@@ -2,7 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { Field, Filter, FilterOperator, GetFilterOptionsData, FieldDataType, validateFilter, getDefaultOperatorByDataType } from '../../models';
+import { Field, Filter, FilterOperator, GetFilterOptionsData,
+  FieldDataType, validateFilter, getDefaultOperatorByDataType,
+  getDefaultSelectedOptions, getDefaultIsValid
+} from '../../models';
 
 @Component({
   selector: 'pf-filter-card',
@@ -32,8 +35,8 @@ export class FilterCardComponent implements OnInit {
     filterClone.Field = field;
     filterClone.Operator = getDefaultOperatorByDataType(field);
     filterClone.Options = [];
-    filterClone.SelectedOptions = [];
-    filterClone.IsValid = false;
+    filterClone.SelectedOptions = getDefaultSelectedOptions(field.DataType);
+    filterClone.IsValid = getDefaultIsValid(field.DataType);
     this.getFilterOptionsData = null;
     this.filterChanged.emit(filterClone);
   }

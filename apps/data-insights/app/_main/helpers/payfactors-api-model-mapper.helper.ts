@@ -138,6 +138,9 @@ export class PayfactorsApiModelMapper {
       case DataViewFieldDataType.DateTime: {
         return FieldDataType.Date;
       }
+      case DataViewFieldDataType.Bit: {
+        return FieldDataType.Bit;
+      }
       default: {
         return null;
       }

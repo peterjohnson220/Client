@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromConfigurationActions from '../../actions/configuration.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Filter, Field, GetFilterOptionsData, getDefaultOperatorByDataType, FilterOperator } from '../../models';
+import { Filter, Field, GetFilterOptionsData, generateDefaultFilter } from '../../models';
 
 @Component({
   selector: 'pf-data-view-filters',
@@ -52,13 +52,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     if (!this.selectedFields) {
       return;
     }
-    const filter: Filter = {
-      Field: this.selectedFields[0],
-      Operator: getDefaultOperatorByDataType(this.selectedFields[0]),
-      Options: [],
-      SelectedOptions: [],
-      IsValid: false
-    };
+    const filter: Filter = generateDefaultFilter(this.selectedFields[0]);
     this.store.dispatch(new fromConfigurationActions.AddFilter(filter));
   }
 
