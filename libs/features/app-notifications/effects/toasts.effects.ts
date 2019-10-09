@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { tap } from 'rxjs/operators';
@@ -8,7 +7,7 @@ import { ActiveToast, ToastrService } from 'ngx-toastr';
 
 import * as fromAppNotificationsActions from '../actions/app-notifications.actions';
 
-import { AppNotification, NotificationLevel, NotificationPayload, NotificationType, ProgressStatusPayload } from '../models';
+import { AppNotification, NotificationLevel, NotificationPayload, NotificationType, ProgressStatusPayload, NotificationHelper } from '../models';
 
 @Injectable()
 export class ToastsEffects {
@@ -40,30 +39,31 @@ export class ToastsEffects {
   }
 
   private handleEventNotification(notification: AppNotification<NotificationPayload>): void {
+    const eventMessage = this.notificationHelper.getEventMessage(notification);
     switch (notification.Level) {
       case NotificationLevel.Success: {
         this.closeProgressNotification(notification);
-        this.toastr.success(notification.Payload.Message, notification.Payload.Title, {
+        this.toastr.success(eventMessage, notification.Payload.Title, {
           enableHtml: notification.EnableHtml,
           disableTimeOut: true
         });
         break;
       }
       case NotificationLevel.Info: {
-        this.toastr.info(notification.Payload.Message, notification.Payload.Title, {
+        this.toastr.info(eventMessage, notification.Payload.Title, {
           enableHtml: notification.EnableHtml
         });
         break;
       }
       case NotificationLevel.Warning: {
-        this.toastr.warning(notification.Payload.Message, notification.Payload.Title, {
+        this.toastr.warning(eventMessage, notification.Payload.Title, {
           enableHtml: notification.EnableHtml
         });
         break;
       }
       case NotificationLevel.Error: {
         this.closeProgressNotification(notification);
-        this.toastr.error(notification.Payload.Message, notification.Payload.Title, {
+        this.toastr.error(eventMessage, notification.Payload.Title, {
           enableHtml: notification.EnableHtml
         });
         break;
@@ -75,7 +75,7 @@ export class ToastsEffects {
   }
 
   private handleProgressNotification(notification: AppNotification<ProgressStatusPayload>): void {
-    const progressMessage = this.addProgressBar(notification.Payload.Message, notification.Payload);
+    const progressMessage = this.notificationHelper.getProgressMessage(notification);
     if (notification.NotificationId && this.activeProgressToasts[notification.NotificationId]) {
       const activeToast = this.activeProgressToasts[notification.NotificationId] as ActiveToast<any>;
       if (activeToast) {
@@ -102,23 +102,9 @@ export class ToastsEffects {
     }
   }
 
-  private addProgressBar(message: string, progress: ProgressStatusPayload): SafeHtml {
-    let progressClasses = 'progress-bar-animated bg-info';
-    if (progress.PercentageComplete === 100) {
-      progressClasses = 'bg-success';
-    }
-    const progressBar = `
-        <div class="progress">
-          <div class="progress-bar progress-bar-striped ${progressClasses}" role="progressbar"
-          style="width: ${progress.PercentageComplete}%">
-          </div>
-        </div>`;
-    return this.sanitizer.bypassSecurityTrustHtml(message + progressBar);
-  }
-
   constructor(
     private action$: Actions,
     private toastr: ToastrService,
-    private sanitizer: DomSanitizer
+    private notificationHelper: NotificationHelper
   ) {}
 }
