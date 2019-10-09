@@ -1,0 +1,21 @@
+<ng-container *ngIf="!!(dataViewsExportRecords$ | async)?.obj?.length; else noRecentDownloads" >
+  <div class="notifications h-100 d-flex flex-column container">
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+      <h6 class="border-bottom border-gray pb-2 mb-0 font-weight-bold">Data View Exports</h6>
+      <div *ngFor="let exportRecord of (dataViewsExportRecords$ | async)?.obj">
+          <pf-data-views-export-card
+            [fileName]="exportRecord.FileName">
+          </pf-data-views-export-card>
+    </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #noRecentDownloads>
+  <div class="notifications h-100 d-flex flex-column container">
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+      <h6 class="border-bottom border-gray pb-2 mb-0 font-weight-bold">Data View Exports</h6>
+      No Recent Downloads
+    </div>
+  </div>
+</ng-template>

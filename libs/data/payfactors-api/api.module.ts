@@ -31,6 +31,7 @@ import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
 import { JobDescriptionTemplateApiService } from './jdm';
 import { TableauReportApiService, UserReportApiService, ReportManagementApiService, DataViewApiService } from './reports';
+import { NotificationsApiService } from './notifications';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
 import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   AuthenticationTypesHrisApiService,
@@ -86,6 +87,7 @@ import { PfGridApiService } from './pf-grid/pf-grid-api.service';
     StructuresApiService,
     StructuresRangeGroupApiService,
     DataViewApiService,
+    NotificationsApiService,
     CompanyResourcesApiService,
 
     // Hris Api Services
