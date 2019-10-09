@@ -1,21 +1,31 @@
-<div class="d-flex space-out-children">
-  <pf-input-debounce [placeholderText]="'Search for a Job Title/Code...'" [hideClearBtn]="false" [minWidth]="200"></pf-input-debounce>
-  <kendo-dropdownlist [defaultItem]="'Select a Pay Market'" [data]="testPayMarketData">
-  </kendo-dropdownlist>
-  <button class="btn btn-primary">
-    New Job
-  </button>
+<div class="d-flex  justify-content-between">
+  <div class="d-flex space-out-children">
+    <ng-container *ngFor="let gf of globalFilters$ | async">
+      <pf-input-debounce [placeholderText]="'Search for a ' + gf.DisplayName + '...'" [hideClearBtn]="false"
+                         [minWidth]="200"></pf-input-debounce>
+    </ng-container>
+  </div>
+  <div class="d-flex space-out-children">
+    <ng-container>
+      <ng-container class="d-flex " *ngIf="globalActionsTemplate"
+                    [ngTemplateOutlet]="globalActionsTemplate">
+      </ng-container>
 
-  <button type="button" title="Export" id="export-popover-btn" class="btn btn-secondary" placement="bottom-right" popoverTitle="Choose Content to Export">
-    <fa-icon icon="download"></fa-icon>
-  </button>
+      <button *ngIf="allowExport" type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
+              placement="bottom-right" popoverTitle="Choose Content to Export">
+        <fa-icon icon="download"></fa-icon>
+      </button>
 
-  <pf-column-chooser
-    [dataFields]="dataFields$ | async"
-    (saveColumns)="updateFields($event)">
-  </pf-column-chooser>
-  <!--TODO: inputs/outputs to the filter-chooser component -->
-  <pf-filter-chooser
-    (onFilterSidebarToggle)="toggleFilterPanel($event)"
-  ></pf-filter-chooser>
+      <pf-column-chooser *ngIf="showColumnChooser"
+        [dataFields]="dataFields$ | async"
+        [disabled]="disableActionButtons"
+        (saveColumns)="updateFields($event)">
+      </pf-column-chooser>
+
+      <pf-filter-chooser *ngIf="showFilterChooser"
+        [disabled]="disableActionButtons"
+        (onFilterSidebarToggle)="toggleFilterPanel($event)"
+      ></pf-filter-chooser>
+    </ng-container>
+  </div>
 </div>

@@ -3,20 +3,6 @@
     <p>
       <pf-input-debounce id="column-search-box" (valueChanged)="(filter = $event)" [(ngModel)]="filterSearchTerm" [placeholderText]="'Search for a Filter...'"></pf-input-debounce>
     </p>
-    <!--<div *ngIf="!loading && !(userFilterList | userFilterSearch: filter).length">
-      <h5>No Filters</h5>
-    </div>
-    <div *ngIf="!loading" class="list-group user-filter-list">
-      <button *ngFor="let filter of userFilterList | userFilterSearch: filter" class="list-group-item list-group-item-action p-2" [ngClass]="{'list-group-item-danger': isDeleting(filter.Id), 'disabled': !isDeleting(filter.Id) && (attemptedDelete || deleting)}" (click)="selectFilter(filter)">
-        <div class="user-filter">
-          <span>{{filter.Name}}</span>
-          <small class="filter-desc" [title]="displayFilterDescription(filter.CompositeFilter)">{{displayFilterDescription(filter.CompositeFilter)}}</small>
-        </div>
-        <button title="Delete" type="button" class="btn btn-secondary btn-sm user-filter-delete-btn" [disabled]="attemptedDelete || deleting" (click)="$event.stopPropagation(); deleteFilter(filter.Id);">
-          <fa-icon icon="trash-alt"></fa-icon>
-        </button>
-      </button>
-    </div>-->
     <pf-async-container [loading]="loading"></pf-async-container>
   </div>
 
@@ -31,13 +17,7 @@
   </div>
 </ng-template>
 <div class="btn-group">
-  <button title="Filter" (click)="filterButtonClicked()" class="btn btn-secondary">
+  <button title="Filter" (click)="filterButtonClicked()" class="btn btn-secondary" [disabled]="disabled">
     <fa-icon icon="sliders-h"></fa-icon>
-  </button>
-  <button title="Saved Filters" type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-          placement="bottom-right"  #p="ngbPopover" popoverTitle="Saved Filters"
-          [ngbPopover]="popContent" (hidden)="filter=''"
-          (shown)="savedFiltersOpen.emit()" [autoClose]="'outside'">
   </button>
 </div>

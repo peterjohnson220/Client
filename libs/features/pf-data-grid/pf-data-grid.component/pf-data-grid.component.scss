@@ -1,0 +1,64 @@
+:host ::ng-deep .modal-dialog {
+  max-width: 600px;
+}
+
+.grid-and-filter-container{
+  position: relative;
+  width: 100%;
+}
+
+.grid-and-filter-container > .filter-pills-container{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  height: 40px;
+  padding-bottom: .5rem;
+}
+
+.grid-and-filter-container > .grid-container{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+}
+
+.sidebar-filter-container{
+  /*min-width: 400px;*/
+  margin-left: 1rem;
+  background: #f7f7f9;
+}
+
+.grid-and-filter-container > .grid-container.shift-grid-down{
+  top: 40px;
+}
+
+.background-light-grey{
+  background: #f7f7f9;
+}
+
+.column-sidebar-open{
+  background: #f7f7f9;
+  margin-top: -10px;
+  padding-top: 10px;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.input-group{
+  width:100%;
+  min-width: 100%;
+}
+
+.input-group-append{
+  width: 36px !important;
+  cursor: pointer;
+}
+
+#search-box {
+  min-width: 570px;
+}

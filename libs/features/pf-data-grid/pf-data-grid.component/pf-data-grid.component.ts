@@ -4,11 +4,10 @@ import { Store } from '@ngrx/store';
 
 import {Observable, Subject} from 'rxjs';
 
-import { DataGridService } from '../services/data-grid.service';
+import { ViewField, DataViewFilter } from 'libs/models/payfactors-api';
+
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
-import { PfDataGridFieldModel, PfGridFieldFilter } from '../../../models';
-
 
 @Component({
   selector: 'pf-data-grid',
@@ -17,22 +16,28 @@ import { PfDataGridFieldModel, PfGridFieldFilter } from '../../../models';
 })
 export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
-  @Input() entity: string;
+  @Input() pageViewId: string;
+  @Input() title: string;
+  @Input() navigationURL: string;
+  @Input() showTitle = true;
+  @Input() showColumnChooser = true;
+  @Input() allowExport = true;
+  @Input() showFilterChooser = true;
   @Input() primaryKey: string;
   @Input() columnTemplates: any;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
+  @Input() gridGlobalActionsTemplate: TemplateRef<any>;
 
   public gridFilterThrottle: Subject<any>;
-
-  selection = [];
+  isSplitView = false;
   displayFilterPanel = false;
 
   splitViewEmitter = new EventEmitter<string>();
-  dataFields$: Observable<PfDataGridFieldModel[]>;
-  filters$: Observable<PfGridFieldFilter[]>;
+  dataFields$: Observable<ViewField[]>;
+  filters$: Observable<DataViewFilter[]>;
 
-  constructor(public dataGridService: DataGridService, private store: Store<fromReducer.State>) {
+  constructor(private store: Store<fromReducer.State>) {
     this.gridFilterThrottle = new Subject();
   }
 
@@ -40,15 +45,17 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.splitViewEmitter.subscribe(res => {
       switch (res) {
         case 'close':
-          this.selection = [];
+          this.isSplitView = false;
           break;
         default:
           break;
       }
     });
 
-    this.dataFields$ = this.store.select(fromReducer.getFields, this.entity);
-    this.filters$ = this.store.select(fromReducer.getFilters, this.entity);
+    this.initGridFilterThrottle();
+
+    this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
+    this.filters$ = this.store.select(fromReducer.getFilters, this.pageViewId);
   }
 
   ngOnDestroy() {
@@ -56,50 +63,36 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['entity']) {
-      this.store.dispatch(new fromActions.InitGrid(changes['entity'].currentValue));
-      this.store.dispatch(new fromActions.LoadFields(changes['entity'].currentValue));
-      this.store.dispatch(new fromActions.LoadData(changes['entity'].currentValue));
+    if (changes['pageViewId']) {
+      this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
     }
   }
 
-  isSplitView(): boolean {
-    return this.splitViewTemplate && this.selection.length > 0;
-  }
-
-  toggleFilterPanel(displayValue: boolean) {
-    this.displayFilterPanel = displayValue;
+  toggleFilterPanel() {
+    this.displayFilterPanel = !this.displayFilterPanel;
     if (this.displayFilterPanel) {
       this.splitViewEmitter.emit('close');
     }
   }
 
-  handleFilterChanged(event: PfGridFieldFilter) {
-    this.store.dispatch(new fromActions.UpdateFilter(this.entity, event));
+  handleFilterChanged(event: DataViewFilter) {
+    this.gridFilterThrottle.next(event);
   }
 
-  clearFilter(event: PfGridFieldFilter) {
-    // filter throttle here?
-    /*
-    const currentFilters: Array<any> = this.gridState.filter.filters;
-
-    this.filterThrottle.next(currentFilters.filter(f => f.field !== filter.field));
-     */
-    this.store.dispatch(new fromActions.ClearFilter(this.entity, event));
+  clearFilter(event: DataViewFilter) {
+    this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, event));
   }
 
   clearAllFilters() {
-    this.store.dispatch(new fromActions.ClearAllFilters(this.entity));
+    this.store.dispatch(new fromActions.ClearAllFilters(this.pageViewId));
   }
 
   private initGridFilterThrottle() {
     const gridThrottle$ = this.gridFilterThrottle.debounceTime(400);
 
-    gridThrottle$.subscribe(filters => {
-      if (filters) {
-        // dispatch action to store
-        // this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
-        // refactor this action/effect stack trace to acknowledge filters in the store
+    gridThrottle$.subscribe(filter => {
+      if (filter) {
+        this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, filter));
       }
     });
   }

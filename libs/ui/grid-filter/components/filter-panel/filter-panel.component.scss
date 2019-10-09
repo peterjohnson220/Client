@@ -1,6 +1,9 @@
 .sidebar-container{
   position: relative;
   height: 100%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  background: #f7f7f9;
 }
 
 .sidebar-header{
@@ -25,5 +28,6 @@
   left: 0px;
   right: 0px;
   bottom: 0px;
-  overflow:auto;
+  overflow-y:auto;
+  overflow-x: hidden;
 }

@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {DatePipe} from '@angular/common';
 
-import { DataGridService } from 'libs/features/pf-data-grid/services/data-grid.service';
-import { PfDataGridFieldModel, PfGridFieldFilter } from 'libs/models/common/pf-data-grid';
+import { ViewField, DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
+import { FilterOperatorOptions } from '../../helpers/filter-operator-options/filter-operator-options';
 
 @Component({
   selector: 'pf-data-grid-filter-pills',
@@ -9,25 +10,66 @@ import { PfDataGridFieldModel, PfGridFieldFilter } from 'libs/models/common/pf-d
   styleUrls: ['./data-grid-filter-pills.component.scss']
 })
 export class PfDataGridFilterPillsComponent {
-  @Input() filters: PfGridFieldFilter[];
-  @Input() listAreaColumns: PfDataGridFieldModel[];
-  @Input() customListAreaColumns: PfDataGridFieldModel[];
+  @Input() filters: DataViewFilter[];
+  @Input() listAreaColumns: ViewField[];
+  @Input() customListAreaColumns: ViewField[];
 
   @Output() clearFilter = new EventEmitter();
   @Output() clearAllFilters = new EventEmitter();
 
-  constructor(private gridService: DataGridService) { }
+  constructor() { }
 
-  getPillDisplay(filter: PfGridFieldFilter) {
-    const columns: PfDataGridFieldModel[] = this.listAreaColumns.concat(this.customListAreaColumns);
-    return this.gridService.getHumanizedFilter(columns, filter);
+  getPillDisplay(filter: DataViewFilter) {
+    const columns: ViewField[] = this.listAreaColumns.concat(this.customListAreaColumns);
+    return this.getHumanizedFilter(columns, filter);
   }
 
-  pillClicked(filter: PfGridFieldFilter) {
+  pillClicked(filter: DataViewFilter) {
     this.clearFilter.emit(filter);
   }
 
   clearAll() {
     this.clearAllFilters.emit();
+  }
+
+  private getHumanizedFilter(columns: ViewField[], filter: DataViewFilter) {
+    const field = columns.find(c => c.SourceName === filter.SourceName);
+    if (field === null) {
+      return `${filter.SourceName} ${filter.Operator} ${filter.Value}`;
+    }
+
+    const operatorDisplay = this.getOperatorDisplay(filter.Operator, field.DataType);
+    const valueDisplay = this.getValueDisplay(filter.Value, field.DataType);
+    return `${field.DisplayName} ${operatorDisplay} ${valueDisplay}`;
+  }
+
+  private getOperatorDisplay(operator: string, dataType: DataViewFieldDataType) {
+    let display = '';
+    switch (dataType) {
+      case DataViewFieldDataType.String:
+        display = FilterOperatorOptions.string.find(foo => foo.value === operator).display;
+        break;
+      case DataViewFieldDataType.Int:
+        display = FilterOperatorOptions.int.find(foo => foo.value === operator).display;
+        break;
+      case DataViewFieldDataType.DateTime:
+        display = FilterOperatorOptions.dateTime.find(foo => foo.value === operator).display;
+        break;
+      default:
+        break;
+    }
+    return display;
+  }
+
+  private getValueDisplay(value: string, dataType: DataViewFieldDataType) {
+    let display = value;
+
+    switch (dataType) {
+      case DataViewFieldDataType.DateTime:
+        const dateFormatPipe = new DatePipe('en-US');
+        display = dateFormatPipe.transform(display, 'MM/DD/YYYY');
+        break;
+    }
+    return display;
   }
 }

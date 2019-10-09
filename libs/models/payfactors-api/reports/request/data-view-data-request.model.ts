@@ -30,13 +30,13 @@ export interface DataViewFilter {
 }
 
 export enum DataViewFieldDataType {
-  Bit,
-  DateTime,
-  Int,
-  Float,
-  String,
-  Binary,
-  Unknown
+  Bit = 'bit',
+  DateTime = 'dataTime',
+  Int = 'int',
+  Float = 'float',
+  String = 'string',
+  Binary = 'binary',
+  Unknown = 'unknown'
 }
 
 export interface DataViewSortDescriptor {

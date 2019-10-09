@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
-import { PfDataGridFieldModel, PfGridFieldFilter } from 'libs/models/common/pf-data-grid';
-import {DataViewType} from '../../../../models/common/pf-data-grid';
+import { ViewField, DataViewFilter } from 'libs/models/payfactors-api';
+import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request';
+import {FilterOperatorOptions} from '../../helpers/filter-operator-options/filter-operator-options';
 
 
 @Component({
@@ -9,23 +10,26 @@ import {DataViewType} from '../../../../models/common/pf-data-grid';
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.scss']
 })
-export class FilterPanelComponent /*implements OnChanges*/ {
-  @Input('selectedColumns') set _selectedColumns(columns: PfDataGridFieldModel[]) {
-    this.selectedColumns = columns.filter(c => c.Visible);
+export class FilterPanelComponent implements OnChanges {
+  @Input('selectedColumns') set _selectedColumns(columns: ViewField[]) {
+    this.selectedColumns = columns.filter(c => c.IsSelected);
   }
-  @Input() nonSelectableFilterableColumns: PfDataGridFieldModel[];
-  @Input('filters') set _filters(value: PfGridFieldFilter[]) {
+  @Input() nonSelectableFilterableColumns: ViewField[];
+  @Input('filters') set _filters(value: DataViewFilter[]) {
     if (value) {
       this.filters = JSON.parse(JSON.stringify(value));
     }
   }
 
   @Output() saveFilterClicked = new EventEmitter();
-  @Output() filterChanged = new EventEmitter<PfGridFieldFilter>();
+  @Output() filterChanged = new EventEmitter<DataViewFilter>();
+  @Output() filterCleared = new EventEmitter<DataViewFilter>();
   @Output() close = new EventEmitter();
 
-  private selectedColumns: PfDataGridFieldModel[];
-  public filters: PfGridFieldFilter[];
+  public selectedColumns: ViewField[];
+  public filters: DataViewFilter[];
+
+  private standardColumnFilters = [];
 
   constructor() {}
 
@@ -37,20 +41,33 @@ export class FilterPanelComponent /*implements OnChanges*/ {
     this.saveFilterClicked.emit();
   }
 
-  handleFilterChange(event: PfGridFieldFilter) {
-    this.filterChanged.emit(event);
+  handleFilterChange(event: DataViewFilter) {
+    if ((event.Value && event.Value.length) || this.valueCanBeEmpty(event)) {
+      this.filterChanged.emit(event);
+    } else {
+      this.filterCleared.emit(event);
+    }
   }
 
-  private getFilterByListAreaColumn(listAreaColumn: PfDataGridFieldModel) {
-    const emptyFilter = this.createEmptyFilterDescriptor(listAreaColumn);
+  ngOnChanges(changes: SimpleChanges) {
+    this.standardColumnFilters = [];
+    if (this.selectedColumns) {
+      for (const column of this.selectedColumns) {
+        this.standardColumnFilters.push(this.getFilterByListAreaColumn(column));
+      }
+    }
+  }
+
+  private getFilterByListAreaColumn(viewField: ViewField) {
+    const emptyFilter = this.createEmptyFilterDescriptor(viewField);
     let currentFilter;
 
     if (this.filters) {
-      currentFilter = this.filters.find(f => f.SourceName === listAreaColumn.Field);
+      currentFilter = this.filters.find(f => f.SourceName === viewField.SourceName);
 
       // Since we break the binding of filters using a deep clone using JSON parse, JSON stringify
       // need to update any date fields values back to date objects.
-      if (listAreaColumn.Type === 'date' && currentFilter && currentFilter.value) {
+      if (viewField.DataType === DataViewFieldDataType.DateTime && currentFilter && currentFilter.value) {
         currentFilter.value = new Date(currentFilter.value);
       }
     }
@@ -58,40 +75,43 @@ export class FilterPanelComponent /*implements OnChanges*/ {
     return currentFilter || emptyFilter;
   }
 
-  private createEmptyFilterDescriptor(gridField: PfDataGridFieldModel): PfGridFieldFilter {
+  private createEmptyFilterDescriptor(viewField: ViewField): DataViewFilter {
     let operator = '';
-    switch (gridField.Type) {
-      case 'text':
-        operator = 'contains';
+    switch (viewField.DataType) {
+      case DataViewFieldDataType.String:
+        operator = '=';
         break;
-      case 'numeric':
-        operator = 'eq';
+      case DataViewFieldDataType.Int:
+        operator = '=';
         break;
-      case 'date':
-        operator = 'gte';
+      case DataViewFieldDataType.DateTime:
+        operator = '>=';
         break;
     }
 
     return {
+      EntitySourceName: viewField.EntitySourceName,
+      SourceName: viewField.SourceName,
       Operator: operator,
       Value: null,
-      SourceName: gridField.Field,
-      EntitySourceName: '',
       Values: [],
-      DataViewType: this.getDataViewEnumTypeByField(gridField.Type)
+      DataType: viewField.DataType
     };
   }
 
-  private getDataViewEnumTypeByField(fieldType: string): DataViewType {
-    switch (fieldType) {
-      case 'text':
-        return DataViewType.String;
-      case 'numeric':
-        return DataViewType.Int; // TODO: float is also an option, should that be used
-      case 'date':
-        return DataViewType.DateTime;
-      default:
-        return DataViewType.String;
+  private valueCanBeEmpty(filter: DataViewFilter) {
+    let canBeEmpty = false;
+    switch (filter.DataType) {
+      case DataViewFieldDataType.String:
+        canBeEmpty = !FilterOperatorOptions.string.find(f => f.value === filter.Operator).requiresValue;
+        break;
+      case DataViewFieldDataType.Int:
+        canBeEmpty = !FilterOperatorOptions.int.find(f => f.value === filter.Operator).requiresValue;
+        break;
+      case DataViewFieldDataType.DateTime:
+        canBeEmpty = !FilterOperatorOptions.dateTime.find(f => f.value === filter.Operator).requiresValue;
+        break;
     }
+   return canBeEmpty;
   }
 }

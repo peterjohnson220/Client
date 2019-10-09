@@ -32,6 +32,13 @@ export const selectPfDataGridState =
 // Grid selectors
 export const getState = createSelector(selectPfDataGridState, fromPfDataGridReducer.getState);
 export const getGrid = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGrid);
+export const getLoading = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLoading);
+export const getBaseEntityId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getBaseEntityId);
 export const getFields = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFields);
+export const getGlobalFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGlobalFilters);
+export const getPageSize = createSelector(selectPfDataGridState, fromPfDataGridReducer.getPageSize);
+export const getTotal = createSelector(selectPfDataGridState, fromPfDataGridReducer.getTotal);
+export const getSkip = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSkip);
 export const getData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getData);
+export const getGridData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGridData);
 export const getFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilters);
