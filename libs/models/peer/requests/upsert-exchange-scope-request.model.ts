@@ -1,11 +1,18 @@
 import { ExchangeDataSearchFilter, generateMockExchangeDataSearchFilter } from '../exchange-data-search-filter.model';
-
-export interface UpsertExchangeScopeRequest {
+import { BaseExchangeDataSearchRequest } from '../../payfactors-api/peer-exchange-explorer-search/request';
+export interface ExchangeScopeDetails {
   ExchangeScopeGuid: string;
   ExchangeScopeName: string;
   ExchangeScopeDescription: string;
+}
+
+export interface UpsertExchangeScopeRequest extends ExchangeScopeDetails {
   Filter: ExchangeDataSearchFilter;
   ZoomLevel: number;
+}
+export interface UpsertExchangeExplorerScopeRequest {
+  ExchangeScopeDetails: ExchangeScopeDetails;
+  ExchangeDataSearchRequest: BaseExchangeDataSearchRequest;
 }
 
 export function generateMockUpsertExchangeScopeRequest(): UpsertExchangeScopeRequest {
@@ -17,3 +24,4 @@ export function generateMockUpsertExchangeScopeRequest(): UpsertExchangeScopeReq
     ZoomLevel: 0
   };
 }
+

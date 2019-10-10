@@ -8,6 +8,8 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
   exchangeId={[Function Number]}
+  exchangeId$={[Function Observable]}
+  exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   route={[Function Object]}
@@ -22,7 +24,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
 >
   <pf-page-with-title-bar>
     
-     Exchange to Company Job Association 
+    <pf-exchange-switcher />
     
     <div
       class="omni-box"
@@ -99,6 +101,8 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
   exchangeId={[Function Number]}
+  exchangeId$={[Function Observable]}
+  exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   route={[Function Object]}
@@ -113,7 +117,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
 >
   <pf-page-with-title-bar>
     
-     Company to Exchange Job Match 
+    <pf-exchange-switcher />
     
     <div
       class="omni-box"
@@ -186,6 +190,8 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
   exchangeId={[Function Number]}
+  exchangeId$={[Function Observable]}
+  exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   route={[Function Object]}
@@ -200,7 +206,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
 >
   <pf-page-with-title-bar>
     
-     Exchange to Company Job Association 
+    <pf-exchange-switcher />
     
     <div
       class="omni-box"

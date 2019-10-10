@@ -1,6 +1,7 @@
 <div class="table-responsive" *ngIf="usersList">
-    <kendo-grid [data]="usersList"
+    <kendo-grid [data]="gridView"
                 [selectable]="true"
+                [sort]="sort"
     (selectionChange)="userSelectionChange($event)">
           <kendo-grid-column field="FirstName" title="First Name" [width]="150">
           </kendo-grid-column>

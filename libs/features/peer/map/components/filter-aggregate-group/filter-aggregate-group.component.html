@@ -10,6 +10,9 @@
       <div>
         {{categoryLabel}}
       </div>
+      <div>
+        <span class="text-muted" *ngIf="filterOperatorLabel">{{filterOperatorLabel}}</span>
+      </div>
       <div class="ml-2" *ngIf="collapsed">
         <fa-icon [icon]="['far', 'angle-down']"></fa-icon>
       </div>

@@ -28,6 +28,8 @@ export interface State {
 // Initial State
 export const initialState: State = {
   mapCollection: null,
+
+  // TODO: This should live and be pulled from the exchange-filter-context reducer
   mapFilter: {
     TopLeft: null,
     BottomRight: null,

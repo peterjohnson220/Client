@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, tap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { orderBy } from 'lodash';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
+import * as fromConfigurationActions from '../actions/configuration.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { Entity } from '../models';
-import { select, Store } from '@ngrx/store';
 import * as fromDataViewReducer from '../reducers';
 
 @Injectable()
@@ -91,14 +93,17 @@ export class DataViewEffects {
       ofType(fromDataViewActions.DUPLICATE_USER_REPORT),
       withLatestFrom(
         this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
-        (action: fromDataViewActions.DuplicateUserReport, userDataView) =>
-          ({ action, userDataView })
+        this.store.pipe(select(fromDataViewReducer.getSortDescriptor)),
+        (action: fromDataViewActions.DuplicateUserReport, userDataView, sortDescriptor) =>
+          ({ action, userDataView, sortDescriptor })
       ),
       switchMap((data) => {
         return this.dataViewApiService.duplicateUserDataView({
           UserDataViewId: data.userDataView.obj.UserDataViewId,
           Name: data.action.payload.Name,
-          Summary: data.action.payload.Summary
+          Summary: data.action.payload.Summary,
+          SortField: !!data.sortDescriptor ? data.sortDescriptor.field : '',
+          SortDir: !!data.sortDescriptor ? data.sortDescriptor.dir : ''
         })
           .pipe(
             map((response) => {
@@ -138,9 +143,21 @@ export class DataViewEffects {
       switchMap((action: fromDataViewActions.GetUserDataView) => {
         return this.dataViewApiService.getUserDataView(action.payload.dataViewId)
           .pipe(
-            map((response) => {
+            mergeMap((response) => {
               const userDataView = PayfactorsApiModelMapper.mapUserDataViewResponseToUserDataView(response);
-              return new fromDataViewActions.GetUserDataViewSuccess(userDataView);
+              const selectedFields = PayfactorsApiModelMapper.mapDataViewFieldsToFields(response.Fields);
+              const filters = PayfactorsApiModelMapper.mapDataViewFiltersToFilters(response.Filters, response.Fields);
+              const sortDescriptor: SortDescriptor = {
+                field: userDataView.SortField,
+                dir: userDataView.SortDir
+              };
+              return [
+                new fromDataViewActions.GetUserDataViewSuccess(userDataView),
+                new fromDataViewGridActions.SetSortDescriptor(sortDescriptor),
+                new fromDataViewActions.SetSelectedFields(selectedFields),
+                new fromConfigurationActions.SetFilters(filters),
+                new fromDataViewGridActions.GetData()
+              ];
             }),
             catchError(() => of(new fromDataViewActions.GetUserDataViewError()))
           );
@@ -156,8 +173,7 @@ export class DataViewEffects {
       .pipe(
         mergeMap((response) => [
             new fromDataViewActions.GetReportFieldsSuccess(
-              PayfactorsApiModelMapper.mapDataViewFieldsToFields(response)),
-            new fromDataViewGridActions.GetData()
+              PayfactorsApiModelMapper.mapDataViewFieldsToFields(response))
           ]
         ),
         catchError(() => of(new fromDataViewActions.GetReportFieldsError()))
@@ -264,8 +280,26 @@ export class DataViewEffects {
       switchMap((data) => {
         return this.dataViewApiService.exportUserDataView(data.userDataView.obj.UserDataViewId)
           .pipe(
-            map(() => new fromDataViewActions.ExportUserReportSuccess()),
+            map((response) => new fromDataViewActions.ExportUserReportSuccess(response)),
             catchError(() => of(new fromDataViewActions.ExportUserReportError()))
+          );
+      })
+    );
+
+  @Effect()
+  getExportingUserReport$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.GET_EXPORTING_USER_REPORT),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.GetExportingUserReport) =>
+          ({ action })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.getExportingDataView(data.action.payload.dataViewId)
+          .pipe(
+            map((response) => new fromDataViewActions.GetExportingUserReportSuccess(response)),
+            catchError(() => of(new fromDataViewActions.GetExportingUserReportError()))
           );
       })
     );

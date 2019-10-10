@@ -8,7 +8,7 @@ export const DELETE_NOTIFICATION = '[App Notifications / App Notifications] Dele
 export class AddNotification implements Action {
   readonly type = ADD_NOTIFICATION;
 
-  constructor(public payload: AppNotification) {}
+  constructor(public payload: AppNotification<any>) {}
 }
 
 export class DeleteNotification implements Action {

@@ -8,6 +8,7 @@ exports[`ItemFormControlComponent should show the form text 1`] = `
   communityPollResponses$={[Function Store]}
   communityPollResponsesSuccessSubscription={[Function Subscriber]}
   hasNonDismissedResponses$={[Function Store]}
+  pollsType="0"
   showNavigationArrows="false"
   store={[Function Store]}
 >

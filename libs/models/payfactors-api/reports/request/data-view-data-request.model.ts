@@ -18,28 +18,29 @@ export interface DataViewField {
   DataType: DataViewFieldDataType;
   IsSelected?: boolean;
   Order?: number;
+  IsSortable: boolean;
 }
 
 export interface DataViewFilter {
   EntitySourceName: string;
   SourceName: string;
   Operator: string;
-  Value: string;
+  Value?: string;
   Values?: string[];
   DataType?: DataViewFieldDataType;
 }
 
 export enum DataViewFieldDataType {
-  Bit,
-  DateTime,
-  Int,
-  Float,
-  String,
-  Binary,
-  Unknown
+  Bit = 'bit',
+  DateTime = 'dateTime',
+  Int = 'int',
+  Float = 'float',
+  String = 'string',
+  Binary = 'binary',
+  Unknown = 'unknown'
 }
 
 export interface DataViewSortDescriptor {
-  SortDirection: string;
+  SortDirection: 'desc' | 'asc';
   SortField: DataViewField;
 }

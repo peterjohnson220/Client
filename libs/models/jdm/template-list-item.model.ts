@@ -8,6 +8,7 @@ export interface TemplateListItem {
   EffectiveDate: Date;
   AssignedJobsCount: number;
   Status: string;
+  Version: number;
 }
 
 export function generateMockTemplateListItem(): TemplateListItem {
@@ -20,6 +21,7 @@ export function generateMockTemplateListItem(): TemplateListItem {
     LastModifiedDate: new Date('01/01/2000'),
     EffectiveDate: new Date('01/01/2000'),
     AssignedJobsCount: 1,
-    Status: 'Test Status'
+    Status: 'Test Status',
+    Version: 1
   };
 }

@@ -26,11 +26,10 @@
   </div>
   <div *ngIf="showFooter"
        class="modal-footer d-flex justify-content-between">
-    <div class="flex-column space-out-children"
-         [ngClass]="{'w-50': (size != 'sm')}">
+    <div>
       <ng-content select="[footer-left]"></ng-content>
     </div>
-    <div class="flex-grow-1 d-flex flex-row justify-content-end space-out-children">
+    <div class="flex-grow-1 d-flex justify-content-end space-out-children">
       <ng-content select="[button-container-left]"></ng-content>
       <button type="button"
               class="btn"

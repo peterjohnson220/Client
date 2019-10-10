@@ -8,34 +8,47 @@ import { GridModule, FilterMenuModule } from '@progress/kendo-angular-grid';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DragulaModule } from 'ng2-dragula';
+import { EditorModule } from 'primeng/editor';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
-import { ListAreaFilterDateComponent } from './components/list-area-filter/list-area-filter-date';
-import { ListAreaFilterNumberComponent } from './components/list-area-filter/list-area-filter-number';
-import { ListAreaFilterPillsComponent } from './components/list-area-filter/list-area-filter-pills';
-import { ListAreaFilterSidebarComponent } from './components/list-area-filter/list-area-filter-sidebar';
-import { ListAreaFilterTextComponent } from './components/list-area-filter/list-area-filter-text';
-import { StatusPillComponent } from './components/status-pill';
+import * as fromFaIcons from './fa-icons';
 import {
-  JobDescriptionAppliesToModalComponent
-} from './components/modals/job-description-applies-to';
-import { JobDescriptionInfoHeaderNoLogoComponent } from './components/info-header/job-description-info-header-no-logo.component';
-import { RouteTrackingService } from './services';
-import { ListAreaService } from './services/list-area.service';
+  JobDescriptionAppliesToModalComponent,
+  JobDescriptionInfoHeaderNoLogoComponent,
+  ListAreaFilterDateComponent,
+  ListAreaFilterNumberComponent,
+  ListAreaFilterPillsComponent,
+  ListAreaFilterSidebarComponent,
+  ListAreaFilterTextComponent,
+  StatusPillComponent,
+  ControlDataAttributeRendererComponent,
+  ControlDataRendererComponent,
+  ListEditorComponent,
+  SingleEditorComponent,
+  SmartListEditorComponent,
+  SmartListEditorDataTableComponent,
+  JobDescriptionInfoHeaderWithLogoComponent,
+  SaveErrorModalComponent,
+  ConflictErrorModalComponent
+} from './components';
+import { RouteTrackingService, ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from './services';
 import { reducers } from './reducers';
-import { JobDescriptionAppliesToEffects } from './effects/job-description-appliesto.effects';
-import { TemplateListEffects } from './effects/template-list.effects';
-import { CompanyFlsaStatusEffects } from './effects/company-flsa-status.effects';
-import { JobFamilyEffects } from './effects/job-family.effects';
 import {
-  JobDescriptionInfoHeaderWithLogoComponent
-} from './components/info-header/job-description-info-header-with-logo/job-description-info-header-with-logo.component';
-import {ControlTypesEffects} from './effects/control-types.effects';
+  CompanyFlsaStatusEffects,
+  ControlTypesEffects,
+  JobDescriptionLibraryEffects,
+  JobDescriptionAppliesToEffects,
+  JobFamilyEffects,
+  TemplateListEffects
+} from './effects';
 import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
+
 
 @NgModule({
   imports: [
@@ -49,10 +62,13 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
       JobDescriptionAppliesToEffects,
       JobFamilyEffects,
       ControlTypesEffects,
-      TemplateListEffects
+      TemplateListEffects,
+      JobDescriptionLibraryEffects
     ]),
     FontAwesomeModule,
     PfJobDescriptionManagementModule,
+    DragulaModule.forRoot(),
+    EditorModule,
 
     // Payfactors
     PfCommonModule,
@@ -72,7 +88,10 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     ListAreaFilterSidebarComponent,
     JobDescriptionAppliesToModalComponent,
     JobDescriptionInfoHeaderNoLogoComponent,
-    JobDescriptionInfoHeaderWithLogoComponent
+    JobDescriptionInfoHeaderWithLogoComponent,
+    ControlDataRendererComponent,
+    ConflictErrorModalComponent,
+    SaveErrorModalComponent
   ],
   declarations: [
     // Components
@@ -81,20 +100,34 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     ListAreaFilterPillsComponent,
     ListAreaFilterSidebarComponent,
     ListAreaFilterTextComponent,
+    ConflictErrorModalComponent,
+    SaveErrorModalComponent,
     StatusPillComponent,
     JobDescriptionAppliesToModalComponent,
     JobDescriptionInfoHeaderNoLogoComponent,
     JobDescriptionInfoHeaderWithLogoComponent,
+    ControlDataAttributeRendererComponent,
+    ControlDataRendererComponent,
+    ListEditorComponent,
+    SingleEditorComponent,
+    SmartListEditorComponent,
+    SmartListEditorDataTableComponent,
 
     // Pipes
     JobDescriptionAppliesToDisplayNamePipe
   ],
   providers: [
     RouteTrackingService,
-    ListAreaService
+    ListAreaService,
+    JobDescriptionManagementService,
+    JobDescriptionManagementDnDService
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}
 
 
 

@@ -111,6 +111,10 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/admin/../../assets/js/new-relic.js",
+                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -306,6 +310,10 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
+                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -504,6 +512,10 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/peer/../../assets/js/new-relic.js",
+                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -703,6 +715,10 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
+                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -899,6 +915,10 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/auth/../../assets/js/new-relic.js",
+                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1093,6 +1113,10 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/project/../../assets/js/new-relic.js",
+                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1287,6 +1311,10 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/community/../../assets/js/new-relic.js",
+                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1493,6 +1521,10 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
+                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1715,6 +1747,10 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/jobs/../../assets/js/new-relic.js",
+                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1910,6 +1946,10 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/comphub/../../assets/js/new-relic.js",
+                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -2082,6 +2122,10 @@
                 {
                   "replace": "apps/pf-admin/../../environments/environment.ts",
                   "with": "apps/pf-admin/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/pf-admin/../../assets/js/new-relic.js",
+                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -2099,6 +2143,10 @@
                 {
                   "replace": "apps/pf-admin/../../environments/environment.ts",
                   "with": "apps/pf-admin/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/pf-admin/../../assets/js/new-relic.js",
+                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -2271,6 +2319,10 @@
                 {
                   "replace": "apps/data-insights/../../environments/environment.ts",
                   "with": "apps/data-insights/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/data-insights/../../assets/js/new-relic.js",
+                  "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -2288,6 +2340,10 @@
                 {
                   "replace": "apps/data-insights/../../environments/environment.ts",
                   "with": "apps/data-insights/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/data-insights/../../assets/js/new-relic.js",
+                  "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -2460,6 +2516,10 @@
                 {
                   "replace": "apps/job-description-management/../../environments/environment.ts",
                   "with": "apps/job-description-management/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/job-description-management/../../assets/js/new-relic.js",
+                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -2477,6 +2537,10 @@
                 {
                   "replace": "apps/job-description-management/../../environments/environment.ts",
                   "with": "apps/job-description-management/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/job-description-management/../../assets/js/new-relic.js",
+                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -2670,6 +2734,10 @@
                 {
                   "replace": "apps/structures/../../environments/environment.ts",
                   "with": "apps/structures/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/structures/../../assets/js/new-relic.js",
+                  "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -2842,6 +2910,10 @@
                 {
                   "replace": "apps/data-management/../../environments/environment.ts",
                   "with": "apps/data-management/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/data-management/../../assets/js/new-relic.js",
+                  "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -2859,6 +2931,10 @@
                 {
                   "replace": "apps/data-management/../../environments/environment.ts",
                   "with": "apps/data-management/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/data-management/../../assets/js/new-relic.js",
+                  "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }

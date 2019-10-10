@@ -1,3 +1,5 @@
+import { SortDescriptor } from '@progress/kendo-data-query';
+
 import {
   DataViewEntityResponse,
   SaveWorkbookOrderRequest,
@@ -8,12 +10,24 @@ import {
   DataViewDataRequest,
   DataViewField,
   PagingOptions,
-  DataViewSortDescriptor
+  DataViewFilterOptionsRequest, DataViewFilter, SaveUserViewFiltersRequest
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
-
-import { DashboardView, Entity, ReportType, SaveWorkbookTagObj, UserDataView, View, Workbook, Field } from '../models';
 import { generateDefaultAsyncStateObj } from 'libs/models';
+
+import {
+  DashboardView,
+  Entity,
+  ReportType,
+  SaveWorkbookTagObj,
+  UserDataView,
+  View,
+  Workbook,
+  Field,
+  GetFilterOptionsData,
+  Filter,
+  getFilterOperatorByValue
+} from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -73,29 +87,34 @@ export class PayfactorsApiModelMapper {
 
   static mapUserDataViewResponseToUserDataView(response: UserDataViewResponse): UserDataView {
     return {
-      BaseEntityId: response.BaseEntityId,
-      Entity: response.Entity,
-      Name: response.Name,
-      Summary: response.Summary,
-      UserDataViewId: response.UserDataViewId
+      BaseEntityId: response.DataView.BaseEntityId,
+      Entity: response.DataView.Entity,
+      Name: response.DataView.Name,
+      Summary: response.DataView.Summary,
+      UserDataViewId: response.DataView.UserDataViewId,
+      SortField: response.DataView.SortField,
+      SortDir: response.DataView.SortDir
     };
   }
 
   static mapDataViewFieldsToFields(response: DataViewField[]): Field[] {
-    return response.map(f => {
-      return {
-        EntityId: f.EntityId,
-        Entity: f.Entity,
-        EntitySourceName: f.EntitySourceName,
-        DataElementId: f.DataElementId,
-        SourceName: f.SourceName,
-        DisplayName: f.DisplayName,
-        KendoGridField: `${f.EntitySourceName}_${f.SourceName}`,
-        DataType: f.DataType,
-        IsSelected: f.IsSelected,
-        Order: f.Order
-      };
-    });
+    return response.map(f => this.mapDataViewFieldToField(f));
+  }
+
+  static mapDataViewFieldToField(dataViewField: DataViewField): Field {
+    return {
+      EntityId: dataViewField.EntityId,
+      Entity: dataViewField.Entity,
+      EntitySourceName: dataViewField.EntitySourceName,
+      DataElementId: dataViewField.DataElementId,
+      SourceName: dataViewField.SourceName,
+      DisplayName: dataViewField.DisplayName,
+      KendoGridField: `${dataViewField.EntitySourceName}_${dataViewField.SourceName}`,
+      DataType: dataViewField.DataType,
+      IsSelected: dataViewField.IsSelected,
+      Order: dataViewField.Order,
+      IsSortable: dataViewField.IsSortable
+    };
   }
 
   /// OUT
@@ -107,19 +126,22 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapFieldsToDataViewFields(response: Field[]): DataViewField[] {
-    return response.map(f => {
-      return {
-        EntityId: f.EntityId,
-        Entity: f.Entity,
-        EntitySourceName: f.EntitySourceName,
-        DataElementId: f.DataElementId,
-        SourceName: f.SourceName,
-        DisplayName: f.DisplayName,
-        DataType: f.DataType,
-        IsSelected: f.IsSelected,
-        Order: f.Order
-      };
-    });
+    return response.map(f => this.mapFieldToDataViewField(f));
+  }
+
+  static mapFieldToDataViewField(field: Field): DataViewField {
+    return {
+      EntityId: field.EntityId,
+      Entity: field.Entity,
+      EntitySourceName: field.EntitySourceName,
+      DataElementId: field.DataElementId,
+      SourceName: field.SourceName,
+      DisplayName: field.DisplayName,
+      DataType: field.DataType,
+      IsSelected: field.IsSelected,
+      Order: field.Order,
+      IsSortable: field.IsSortable
+    };
   }
 
   static buildSaveWorkbookOrderRequest(workbookIds: string[], view: DashboardView,
@@ -138,16 +160,64 @@ export class PayfactorsApiModelMapper {
     dataView: UserDataView,
     fields: Field[],
     pagingOptions: PagingOptions,
-    sortDescriptor?: DataViewSortDescriptor): DataViewDataRequest {
+    sortDescriptor: SortDescriptor,
+    filters: Filter[]): DataViewDataRequest {
 
+    let dataViewSortDesc = null;
+    if (!!sortDescriptor && !!sortDescriptor.dir && !!sortDescriptor.field) {
+      const field: Field = fields.find(x => x.KendoGridField === sortDescriptor.field);
+      const dataViewField: DataViewField = !!field ? this.mapFieldToDataViewField(field) : null;
+      dataViewSortDesc = {
+        SortField: dataViewField,
+        SortDirection: sortDescriptor.dir
+      };
+    }
     return {
       BaseEntityId: dataView.BaseEntityId,
       Fields: PayfactorsApiModelMapper.mapFieldsToDataViewFields(fields),
-      Filters: [],
+      Filters: PayfactorsApiModelMapper.mapFiltersToDataViewFilters(filters),
       PagingOptions: pagingOptions,
-      SortDescriptor: sortDescriptor
+      SortDescriptor: dataViewSortDesc
     };
 
+  }
+
+  static buildDataViewFilterOptionsRequest(data: GetFilterOptionsData, baseEntityId: number): DataViewFilterOptionsRequest {
+    return {
+      BaseEntityId: baseEntityId,
+      EntitySourceName: data.EntitySourceName,
+      SourceName: data.SourceName,
+      Query: data.Query
+    };
+  }
+
+  static mapFiltersToDataViewFilters(data: Filter[]): DataViewFilter[] {
+    return data.map((filter) => {
+      return {
+        Operator: filter.Operator.Value,
+        Values: filter.SelectedOptions,
+        EntitySourceName: filter.Field.EntitySourceName,
+        SourceName: filter.Field.SourceName
+      };
+    });
+  }
+
+  static mapDataViewFiltersToFilters(data: DataViewFilter[], fields: DataViewField[]): Filter[] {
+    return data.map((filter) => {
+      return {
+        Field: fields.find(x => x.EntitySourceName === filter.EntitySourceName && x.SourceName === filter.SourceName),
+        SelectedOptions: filter.Values,
+        Operator: getFilterOperatorByValue(filter.Operator),
+        Options: []
+      };
+    });
+  }
+
+  static buildSaveFiltersRequest(filters: Filter[], userDataView: UserDataView): SaveUserViewFiltersRequest {
+    return {
+      UserDataViewId: userDataView.UserDataViewId,
+      Filters: this.mapFiltersToDataViewFilters(filters)
+    };
   }
 
 }

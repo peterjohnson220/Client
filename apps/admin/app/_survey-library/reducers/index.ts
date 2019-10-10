@@ -82,6 +82,9 @@ export const getLoadingSurveyTitlesError = createSelector(selectSurveyTitlesStat
 export const getSurveyTitles = createSelector(selectSurveyTitlesState,
   fromSurveyTitlesReducer.getTitles);
 
+export const getWarning = createSelector(selectSurveyTitlesState,
+  fromSurveyTitlesReducer.getWarning);
+
 // Survey Page
 export const getSurveyData = createSelector(selectSurveyState, fromSurveyReducer.getSurveyData);
 export const isLoadingSurveyData = createSelector(selectSurveyState, fromSurveyReducer.isLoadingSurveyData);

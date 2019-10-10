@@ -36,7 +36,12 @@
           <label class="checkbox-label d-block ellipsis-overflowing-text m-0 p-2"
             [ngClass]="highlightSelected && option.IsSelected? 'highlight' :''">
             <input type="checkbox" [(ngModel)]="option.IsSelected" class="mr-1">
-            {{ option.DisplayName || 'Loading...'}}
+            <ng-container *ngIf="option.FeaturedOption; else nonSystemSelectedOption">
+              <i> {{option.DisplayName || 'Loading...'}} </i>
+            </ng-container>
+            <ng-template #nonSystemSelectedOption>
+              {{option.DisplayName || 'Loading...'}}
+            </ng-template>
           </label>
         </ng-container>
         <label *ngIf="filteredOptions().length === 0" class="no-results font-italic text-center d-block">

@@ -4,7 +4,7 @@ import {Store} from '@ngrx/store';
 import {ControlType} from 'libs/models/common';
 import { JobDescriptionControl } from 'libs/models/jdm';
 
-import {JobDescriptionVersionCompareService} from '../../services/job-description-version-compare.service';
+import {JobDescriptionVersionCompareService} from '../../services';
 import * as fromJobDescriptionManagementSharedReducer from '../../../shared/reducers';
 
 @Component({

@@ -32,7 +32,6 @@
                   }"
                   [kendoGridSelectBy]="selectionKey"
                   filterable="menu"
-                  [rowClass]="rowClass"
                   [selectedKeys]="selections"
                   (cellClick)="handleCellClick($event)"
                   (dataStateChange)="handleDataStateChange($event)">
@@ -46,7 +45,6 @@
           </ng-template>
           <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
             <input type="checkbox"
-                   [disabled]="!dataItem.IsInMapScope"
                    [checked]="isChecked(dataItem.ExchangeJobToCompanyJobId)"
                    (click)="onCbClick(dataItem.ExchangeJobToCompanyJobId)">
           </ng-template>
@@ -64,7 +62,7 @@
             </kendo-grid-string-filter-menu>
           </ng-template>
           <ng-template kendoGridCellTemplate let-dataItem>
-            <div class="d-inline-block" [title]="getCellTitle(dataItem.IsInMapScope, dataItem.CompanyJobTitle)">
+            <div class="d-inline-block" [title]="dataItem.CompanyJobTitle">
               {{dataItem.CompanyJobTitle}}
             </div>
           </ng-template>
@@ -82,7 +80,7 @@
             </kendo-grid-string-filter-menu>
           </ng-template>
           <ng-template kendoGridCellTemplate let-dataItem>
-            <div class="d-inline-block" [title]="getCellTitle(dataItem.IsInMapScope, dataItem.CompanyJobCode)">
+            <div class="d-inline-block" [title]="dataItem.CompanyJobCode">
               {{dataItem.CompanyJobCode}}
             </div>
           </ng-template>
@@ -100,26 +98,28 @@
             </kendo-grid-string-filter-menu>
           </ng-template>
           <ng-template kendoGridCellTemplate let-dataItem>
-            <div class="d-inline-block" [title]="getCellTitle(dataItem.IsInMapScope, dataItem.CompanyJobFamily)">
+            <div class="d-inline-block" [title]="dataItem.CompanyJobFamily">
               {{dataItem.CompanyJobFamily}}
             </div>
           </ng-template>
         </kendo-grid-column>
 
         <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
-          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
-          <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
-          <kendo-pager-info></kendo-pager-info>
-          <kendo-pager-next-buttons></kendo-pager-next-buttons>
-          <kendo-dropdownlist
-            class = "page-drop-down ml-2"
-            [data]="pageSizes"
-            [textField]="'text'"
-            [valueField]="'value'"
-            [valuePrimitive]="true"
-            [value]="gridState?.take"
-            (valueChange)="handlePageDropDownChanged(gridState, $event)"></kendo-dropdownlist>
-          <span class="ml-2">items per page</span>
+          <div class="d-flex justify-content-between w-100">
+            <div class="d-flex">
+              <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+              <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+              <kendo-pager-next-buttons></kendo-pager-next-buttons>
+            </div>
+            <div class="d-flex">
+              <div class="selection-action-links space-out-children">
+                <div class="pf-link" [class.disabled]="selections.length === 0" (click)="onClearAllClick($event)"> Clear All</div>
+                <div class="vertical-separator-inset"></div>
+                <div class="pf-link" [class.disabled]="selections.length === allIds.length" (click)="onSelectAllClick($event)">Select All ({{ allIds.length }})</div>
+              </div>
+              <kendo-pager-info></kendo-pager-info>
+            </div>
+          </div>
         </ng-template>
       </kendo-grid>
 
@@ -127,6 +127,7 @@
 
     <div class="form-group hidden-form-control">
       <input type="hidden" class="form-control" name="hasSelections" formControlName="selections" [ngModel]="selections$ | async" [pfValidatable]="attemptedSubmit"/>
+      <input type="hidden" class="form-control" name="hasScopeSelections" formControlName="scopes" [ngModel]="selectedScopesToExport" [pfValidatable]="attemptedSubmit"/>
       <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
         <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
       </ng-container>
@@ -134,28 +135,31 @@
 
   </ng-container>
 
-  <ng-container button-container-left>
-
-    <div class="selection-action-links space-out-children">
-      <div class="pf-link" [class.disabled]="selections.length === 0" (click)="onClearAllClick($event)"> Clear All</div>
-      <div class="vertical-separator-inset"></div>
-      <div class="pf-link" [class.disabled]="selections.length === allIds.length" (click)="onSelectAllClick($event)">Select All ({{ allIds.length }})</div>
-    </div>
-
-  </ng-container>
-
   <ng-container footer-left>
-    <label for="ddm-rate">Rate: </label>
-    <kendo-dropdownlist id="ddm-rate"
-                        class="rates-dropdown"
-                        formControlName="selectedRate"
-                        [attr.data-qa-id]="'ddm-rate'"
-                        [data]="rates"
-                        [textField]="'Name'"
-                        [valueField]="'Value'"
-                        [ngModel]="selectedRate"
-                        (selectionChange)="handleRateSelectionChange($event)">
-    </kendo-dropdownlist>
+    <div class="d-flex align-items-center">
+      <label class="mb-0 mr-2" for="ddm-rate">Rate: </label>
+      <kendo-dropdownlist id="ddm-rate"
+                          class="rates-dropdown k-dropdown-white"
+                          formControlName="selectedRate"
+                          [attr.data-qa-id]="'ddm-rate'"
+                          [data]="rates"
+                          [textField]="'Name'"
+                          [valueField]="'Value'"
+                          [ngModel]="selectedRate"
+                          [popupSettings]="{
+                            popupClass: 'drop-up',
+                            appendTo: 'component'
+                          }"
+                          (selectionChange)="handleRateSelectionChange($event)">
+      </kendo-dropdownlist>
+      <label class="mb-0 ml-3 mr-2" for="ddm-scopes">Scopes: </label>
+      <pf-multi-select id="ddm-scopes"
+                       [attr.data-qa-id]="'ddm-rate'"
+                       [displayNamePreview]="true"
+                       [(selectedOptions)]="selectedScopesToExport"
+                       [options]="scopesToExportOptions">
+      </pf-multi-select>
+    </div>
   </ng-container>
 
 </pf-modal-form>

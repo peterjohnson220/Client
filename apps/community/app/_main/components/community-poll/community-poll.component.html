@@ -1,5 +1,5 @@
 <!--Poll question-->
-<pf-community-post-content *ngIf="hasNonDismissedResponses$ | async" class="font-weight-bold mt-2 mb-2"
+<pf-community-post-content *ngIf="type===pollTypes.DiscussionPoll || (hasNonDismissedResponses$ | async)" class="font-weight-bold mt-2 mb-2"
                            (hashTagClicked)="handleHashTagClicked($event)"
                            [content]="request.Question">
 </pf-community-post-content>

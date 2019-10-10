@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Exchange } from 'libs/models';
+import { Exchange, ExchangeScopeItem } from 'libs/models';
 import { MapComponent } from 'libs/features/peer/map/containers/map/map.component';
 import * as fromLibsPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import * as fromLibsFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
@@ -31,6 +31,8 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   numberOfSelections$: Observable<number>;
   peerMapCompaniesCount$: Observable<number>;
   exchangeJobIdsInScope$: Observable<number[]>;
+  exchangeScopes$: Observable<ExchangeScopeItem[]>;
+  selectedExchangeScope$: Observable<ExchangeScopeItem>;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,6 +47,8 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
     this.numberOfSelections$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerFilterSelectionsCount));
     this.peerMapCompaniesCount$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapCompaniesCount));
     this.exchangeJobIdsInScope$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapExchangeJobIdsFromSummary));
+    this.exchangeScopes$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getExchangeScopes));
+    this.selectedExchangeScope$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerFilterScopeSelection));
     this.exchangeId = +this.route.snapshot.params.id;
   }
 

@@ -1,0 +1,55 @@
+<div class="scroll-y column-scroll-inner">
+  <div class="card">
+    <div class="card-block">
+      <div class="table" *ngIf="templateListItems.length">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Template Name</th>
+            <th>Created By</th>
+            <th>Created Date</th>
+            <th>Last Modified By</th>
+            <th>Last Modified Date</th>
+            <th class="text-center">Assigned Jobs</th>
+            <th class="text-center">Version</th>
+            <th class="text-center">Status</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let templateListItem of templateListItems" [routerLink]="['/job-description-management/templates', templateListItem.TemplateId]">
+            <td>{{templateListItem.TemplateName}}</td>
+            <td>{{templateListItem.CreatedBy}}</td>
+            <td>{{templateListItem.CreatedDate | date:"MM/dd/yy" }}</td>
+            <td>{{templateListItem.LastModifiedBy}}</td>
+            <td>{{templateListItem.LastModifiedDate | date:"MM/dd/yy" }}</td>
+            <td class="text-center">{{templateListItem.AssignedJobsCount}}</td>
+            <td class="text-center">{{templateListItem.Version}}</td>
+            <td class="text-center">
+              <pf-status-pill [status]="templateListItem.Status"></pf-status-pill>
+            </td>
+            <td>
+              <button class="btn btn-secondary btn-sm list-button"
+                      *ngIf="templateListItem.AssignedJobsCount == 0"
+                      (click)="handleDeleteClick($event, templateListItem)">
+                <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-secondary btn-sm list-button"
+                      (click)="handleCopyClick($event, templateListItem)">
+                <fa-icon icon="copy" aria-hidden="true"></fa-icon>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="!loading && !templateListItems.length">
+        <h5>No Templates</h5>
+      </div>
+    </div>
+  </div>
+</div>
+<pf-async-container [loading]="loading"></pf-async-container>

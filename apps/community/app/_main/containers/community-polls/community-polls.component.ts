@@ -11,6 +11,7 @@ import { CommunityPollResponse } from 'libs/models/community/community-poll-resp
 import * as fromCommunityPollReducer from '../../reducers';
 import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
 import * as fromCommunityPollResponseActions from '../../actions/community-poll-response.actions';
+import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 
 @Component({
   selector: 'pf-community-polls',
@@ -30,6 +31,8 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   userSubmittedResponses: CommunityPollResponse[];
   communityPollRequests: CommunityPollRequest[];
   showNavigationArrows = false;
+
+  pollsType = CommunityPollTypeEnum.CommunityPoll;
 
   constructor(public store: Store<fromCommunityPollReducer.State>,
               config: NgbCarouselConfig) {

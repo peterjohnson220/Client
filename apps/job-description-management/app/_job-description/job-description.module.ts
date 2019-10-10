@@ -10,50 +10,57 @@ import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { DragulaModule } from 'ng2-dragula';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
+import * as fromFaIcons from './fa-icons';
 import { JobDescriptionRoutingModule } from './job-description-routing.module';
 import {
-  JobDescriptionListPageComponent, JobDescriptionVersionComparePageComponent
+  JobDescriptionJobComparePageComponent,
+  JobDescriptionListPageComponent,
+  JobDescriptionVersionComparePageComponent
 } from './containers/pages';
 import {
   AddJobModalComponent,
   AssignJobsToTemplateModalComponent,
   BulkExportPopoverComponent,
   ColumnSelectorPopoverComponent,
-  FilterSelectorPopoverComponent, JobDescriptionGridComponent, JobInformationFieldsComponent,
-  CompareVersionSelectorComponent, JobDescriptionCompareControlResultComponent, JobDescriptionCompareDataResultComponent,
-  JobDescriptionCompareSectionResultComponent, JobDescriptionSectionComponent
+  FilterSelectorPopoverComponent,
+  JobDescriptionGridComponent,
+  JobInformationFieldsComponent,
+  CompareVersionSelectorComponent,
+  JobDescriptionCompareControlResultComponent,
+  JobDescriptionCompareDataResultComponent,
+  JobDescriptionCompareSectionResultComponent,
+  JobDescriptionSectionComponent,
+  CompareJobSelectorComponent,
+  JobDescriptionControlComponent,
+  JobDescriptionHistoryModalComponent,
+  PublicViewHeaderComponent,
+  SaveFilterModalComponent
 } from './components';
-import { JobDescriptionHistoryModalComponent } from './components/modals/job-description-history/job-description-history-modal.component';
-import { SaveFilterModalComponent } from './components/modals/save-filter/save-filter-modal.component';
-import { SharedModule } from '../shared/shared.module';
-import { PublicViewHeaderComponent } from './components/public-view-header/public-view-header.component';
-import { ListAreaService } from '../shared/services/list-area.service';
 import { reducers } from './reducers';
 import {
   AddJobModalEffects,
   BulkExportPopoverEffects,
   JobDescriptionEffects,
-  JobDescriptionGridEffects, JobDescriptionHistoryListEffects,
-  JobInformationFieldsEffects, PublicViewHeaderEffects,
-  UserFilterEffects
+  JobDescriptionGridEffects,
+  JobDescriptionHistoryListEffects,
+  JobInformationFieldsEffects,
+  PublicViewHeaderEffects,
+  UserFilterEffects,
+  JobDescriptionVersionCompareEffects,
+  JobDescriptionJobCompareEffects
 } from './effects';
-import { ListAreaColumnSearchPipe } from './pipes/list-area-column-search.pipe';
-import { UserFilterSearchPipe } from './pipes';
-import {JobDescriptionVersionCompareService} from './services/job-description-version-compare.service';
-import {JobDescriptionApiService} from './services/job-description-api.service';
-import {ResolveHistoryListGuard} from './guards/resolve-history-list.guard';
-import {JobDescriptionJobCompareListResolver} from './guards/resolve-job-description-compare-list.guard';
-import * as fromFaIcons from '../../../job-description-management/app/_job-description/fa-icons';
-import { JobDescriptionVersionCompareEffects } from './effects/job-description-version-compare.effects';
-import { CompareJobSelectorComponent } from './components/job-compare/compare-job-selector.component';
-
-
+import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
+import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
+import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
+import { SharedModule } from '../shared/shared.module';
+import { ListAreaService } from '../shared/services';
 
 @NgModule({
   imports: [
@@ -71,9 +78,12 @@ import { CompareJobSelectorComponent } from './components/job-compare/compare-jo
       JobInformationFieldsEffects,
       PublicViewHeaderEffects,
       UserFilterEffects,
+      JobDescriptionJobCompareEffects,
       JobDescriptionVersionCompareEffects
     ]),
     LayoutModule,
+    SharedModule,
+    DragulaModule.forRoot(),
 
     // Routing
     JobDescriptionRoutingModule,
@@ -94,7 +104,7 @@ import { CompareJobSelectorComponent } from './components/job-compare/compare-jo
     SharedModule,
     FontAwesomeModule,
     PfJobDescriptionManagementModule,
-    NgbTabsetModule
+    NgbTabsetModule,
   ],
   declarations: [
     // Components
@@ -114,8 +124,10 @@ import { CompareJobSelectorComponent } from './components/job-compare/compare-jo
     JobDescriptionCompareControlResultComponent,
     JobDescriptionCompareDataResultComponent,
     JobDescriptionCompareSectionResultComponent,
+    JobDescriptionControlComponent,
 
     // Pages
+    JobDescriptionJobComparePageComponent,
     JobDescriptionListPageComponent,
     JobDescriptionVersionComparePageComponent,
 
@@ -124,8 +136,8 @@ import { CompareJobSelectorComponent } from './components/job-compare/compare-jo
     UserFilterSearchPipe
   ],
   providers: [
-    ListAreaService, ColumnResizingService , JobDescriptionVersionCompareService, JobDescriptionApiService,
-    ResolveHistoryListGuard, JobDescriptionJobCompareListResolver
+    ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService, JobDescriptionJobCompareService,
+    ResolveHistoryListGuard, JobDescriptionJobCompareListResolver, JobDescriptionDnDService
   ]
 })
 export class JobDescriptionModule {

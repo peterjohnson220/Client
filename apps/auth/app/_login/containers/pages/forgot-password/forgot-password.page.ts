@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import * as fromForgotPasswordActions from '../../../actions/forgot-password.act
 @Component({
   selector: 'pf-forgot-password-page',
   templateUrl: './forgot-password.page.html',
-  styleUrls: [ './forgot-password.page.scss' ]
+  styleUrls: ['./forgot-password.page.scss']
 })
 export class ForgotPasswordPageComponent implements OnInit {
 
@@ -29,7 +29,8 @@ export class ForgotPasswordPageComponent implements OnInit {
   attemptedFormSubmit = false;
   formSubmitSuccess = false;
   emailForm: FormGroup;
-  emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  emailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   constructor(public store: Store<fromForgotPasswordReducer.State>) {
 
@@ -69,7 +70,7 @@ export class ForgotPasswordPageComponent implements OnInit {
 
     this.attemptedFormSubmit = true;
     if (!this.emailForm.invalid) {
-       this.store.dispatch(new fromForgotPasswordActions.SendingPasswordReset({ email: this.email.value.toString() }));
+      this.store.dispatch(new fromForgotPasswordActions.SendingPasswordReset({email: this.email.value.toString()}));
     }
   }
 

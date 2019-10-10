@@ -10,32 +10,31 @@ import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-co
 import { JdmListFilter } from 'libs/models/user-profile';
 import { ListAreaColumn } from 'libs/models/common';
 import { UserContext } from 'libs/models/security';
+import { PermissionService } from 'libs/core/services';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionGridActions from '../../../actions/job-description-grid.actions';
-import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
+import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent } from '../../../components';
-import { AvailableJobInformationField } from '../../../../shared/models/available-job-information-field.model';
-import { CompanyJobViewListItem } from '../../../models/company-job-view-list-item.model';
-import { ControlLabel } from '../../../../shared/models/control-label.model';
-import { JobDescriptionAppliesTo } from '../../../../shared/models/job-description-applies-to.model';
+import { CompanyJobViewListItem } from '../../../models';
+import { AvailableJobInformationField, ControlLabel, JobDescriptionAppliesTo } from '../../../../shared/models';
 import {
   JobDescriptionAppliesToModalComponent
-} from '../../../../shared/components/modals/job-description-applies-to/job-description-applies-to-modal.component';
+} from '../../../../shared/components/modals/job-description-applies-to';
 import {
   JobDescriptionHistoryModalComponent
-} from '../../../components/modals/job-description-history/job-description-history-modal.component';
+} from '../../../components/modals/job-description-history';
 import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
-import { RouteTrackingService } from '../../../../shared/services/route-tracking.service';
-import { SaveFilterModalComponent } from '../../../components/modals/save-filter/save-filter-modal.component';
-import { SaveJobDescriptionTemplateIdSucessModel } from '../../../models/save-job-description-template-id-sucess.model';
+import { RouteTrackingService } from '../../../../shared/services';
+import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
+import { SaveJobDescriptionTemplateIdSucessModel } from '../../../models';
 import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
-import { AddJobModalComponent } from '../../../components/modals/add-job/add-job-modal.component';
-import { PermissionService } from '../../../../../../../libs/core/services';
-import { PermissionCheckEnum, Permissions } from '../../../../../../../libs/constants';
+import { AddJobModalComponent } from '../../../components/modals/add-job';
+
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

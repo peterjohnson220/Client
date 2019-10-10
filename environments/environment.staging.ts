@@ -1,8 +1,8 @@
 export const environment = {
-  avatarSource: 'https://b9be4ec54350b9e56da2-8e3d7b28275f3f67348d5a5232162cf7.ssl.cf5.rackcdn.com/avatars/',
-  companyLogoSource: 'https://b9be4ec54350b9e56da2-8e3d7b28275f3f67348d5a5232162cf7.ssl.cf5.rackcdn.com/company_logos/',
-  cloudFilesPublicBaseUrl: 'https://b9be4ec54350b9e56da2-8e3d7b28275f3f67348d5a5232162cf7.ssl.cf5.rackcdn.com/',
-  marketingImageSource: 'https://b9be4ec54350b9e56da2-8e3d7b28275f3f67348d5a5232162cf7.ssl.cf5.rackcdn.com/marketing_image/',
+  avatarSource: 'https://qa00filestore001.blob.core.windows.net/publicfiles/avatars/',
+  companyLogoSource: 'https://qa00filestore001.blob.core.windows.net/publicfiles/company_logos/',
+  cloudFilesPublicBaseUrl: 'https://qa00filestore001.blob.core.windows.net/publicfiles/',
+  marketingImageSource: 'https://qa00filestore001.blob.core.windows.net/publicfiles/marketing_image/',
   production: true,
   payfactorsApiUrl: '/odata/',
   payfactorsMarketDataUrl: '/marketdata/',
@@ -19,7 +19,7 @@ export const environment = {
   smallBusinessApiUrl: 'https://smallbiz.payfactors.com/api/',
   smallBusinessAppUrl: 'https://smallbiz.payfactors.com/app/',
   hostPath: 'client',
-  allowHubspotRegistration: true,
+  allowHubspotRegistration: false,
   hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data-wh',
   siteAdminUrl: '/ng/site-admin',
   companyAdminUrl: '/ng/company-admin'

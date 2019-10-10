@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import {
   CreateUserViewRequest, DataViewEntityResponse, UserDataViewResponse,
   DataViewDataRequest, DataViewField, EditUserViewRequest,
-  DuplicateUserViewRequest, UpdateDataViewFieldsRequest, DeleteUserViewRequest } from 'libs/models/payfactors-api';
+  DuplicateUserViewRequest, UpdateDataViewFieldsRequest, DeleteUserViewRequest,
+  SaveUserDataViewSortOrderRequest, DataViewFilterOptionsRequest, SaveUserViewFiltersRequest
+} from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -42,6 +44,10 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, { DataViewId : dataViewId });
   }
 
+  getExportingDataView(dataViewId: number): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetExportingDataView`, { DataViewId : dataViewId });
+  }
+
   getUserDataViewFields(dataViewId: number): Observable<DataViewField[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewFields`,
       { params: { dataViewId: dataViewId }});
@@ -53,5 +59,17 @@ export class DataViewApiService {
 
   updateDataViewFields(request: UpdateDataViewFieldsRequest): Observable<any[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdateDataViewFields`, request);
+  }
+
+  saveUserDataViewSortOrder(request: SaveUserDataViewSortOrderRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveUserDataViewSortOrder`, request);
+  }
+
+  getFilterOptions(request: DataViewFilterOptionsRequest): Observable<string[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetFilterOptions`, request);
+  }
+
+  saveFilters(request: SaveUserViewFiltersRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveFilters`, request);
   }
 }

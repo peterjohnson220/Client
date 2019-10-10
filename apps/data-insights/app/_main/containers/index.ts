@@ -5,3 +5,4 @@ export * from './data-view-grid';
 export * from './left-sidebar';
 export * from './dashboards-header';
 export * from './views';
+export * from './filters';

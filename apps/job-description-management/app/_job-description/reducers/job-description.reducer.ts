@@ -1,7 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
-import { SaveJobDescriptionTemplateIdSucessModel } from '../models/save-job-description-template-id-sucess.model';
+import { SaveJobDescriptionTemplateIdSucessModel } from '../models';
 
 export interface State {
   creatingJobDescription: boolean;

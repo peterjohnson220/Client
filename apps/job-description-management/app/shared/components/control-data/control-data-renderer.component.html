@@ -1,0 +1,33 @@
+<pf-single-editor
+  *ngIf="controlType?.EditorType === 'Single'"
+  [data]="data"
+  [attributes]="controlType.Attributes"
+  [vertical]="controlType.Vertical"
+  [readOnly]="readOnly"
+  [checkInheritedData]="checkInheritedData"
+  (dataChangesDetected)="handleDataChangesDetected($event)">
+</pf-single-editor>
+
+<pf-list-editor
+  *ngIf="controlType?.EditorType === 'List'"
+  [data]="data"
+  [attributes]="controlType.Attributes"
+  [readOnly]="readOnly"
+  [locked]="controlType?.Locked"
+  [checkInheritedData]="checkInheritedData"
+  [isCompare]="isCompare"
+  (dataChangesDetected)="handleDataChangesDetected($event)"
+  (dataRowDeleted)="handledDataRowDeleted($event)">
+</pf-list-editor>
+
+<pf-smart-list-editor
+  *ngIf="controlType?.EditorType === 'SmartList'"
+  [data]="data"
+  [attributes]="controlType.Attributes"
+  [readOnly]="readOnly"
+  [checkInheritedData]="checkInheritedData"
+  [additionalProperties]="additionalProperties"
+  (dataChangesDetected)="handleDataChangesDetected($event)"
+  (smartEditorChangesDetected)="handleSmartEditorChangesDetected($event)"
+  (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
+</pf-smart-list-editor>

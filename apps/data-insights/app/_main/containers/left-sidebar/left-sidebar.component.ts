@@ -5,9 +5,10 @@ import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
-import { Field } from '../../models';
+import { Field, Filter } from '../../models';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
+import * as fromConfigurationActions from '../../actions/configuration.actions';
 
 @Component({
   selector: 'pf-left-sidebar',
@@ -21,11 +22,17 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   selectedFields$: Observable<Field[]>;
   unselectedFields$: Observable<Field[]>;
+  activeFilters$: Observable<Filter[]>;
+  pendingFilters$: Observable<Filter[]>;
 
   dragulaSub: Subscription;
   selectedFieldsSub: Subscription;
+  activeFiltersSub: Subscription;
+  pendingFiltersSub: Subscription;
 
   selectedFields: Field[];
+  activeFilters: Filter[];
+  pendingFilters: Filter[];
   configureTabOptions: Array<string> = ['Fields', 'Filters'];
 
   constructor(
@@ -34,6 +41,8 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   ) {
     this.selectedFields$ = this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields));
     this.unselectedFields$ = this.store.pipe(select(fromDataInsightsMainReducer.getUnselectedFields));
+    this.activeFilters$ = this.store.pipe(select(fromDataInsightsMainReducer.getActiveFilters));
+    this.pendingFilters$ = this.store.pipe(select(fromDataInsightsMainReducer.getPendingFilters));
     this.dragulaSub = new Subscription();
     this.dragulaSub.add(this.dragulaService.dropModel('fields-bag').subscribe(({ sourceModel }) => {
       this.handleFieldsReordered(sourceModel);
@@ -42,10 +51,14 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedFieldsSub = this.selectedFields$.subscribe(fields => this.selectedFields = fields);
+    this.activeFiltersSub = this.activeFilters$.subscribe(filters => this.activeFilters = filters);
+    this.pendingFiltersSub = this.pendingFilters$.subscribe(filters => this.pendingFilters = filters);
   }
 
   ngOnDestroy(): void {
     this.selectedFieldsSub.unsubscribe();
+    this.activeFiltersSub.unsubscribe();
+    this.pendingFiltersSub.unsubscribe();
   }
 
   toggle() {
@@ -53,6 +66,14 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   handleFieldRemoved(fieldToBeRemoved: Field) {
+    const activeFiltersContainField = this.activeFilters.some(f => f.Field.DataElementId === fieldToBeRemoved.DataElementId);
+    const pendingFiltersContainField = this.pendingFilters.some(f => f.Field.DataElementId === fieldToBeRemoved.DataElementId);
+    if (activeFiltersContainField) {
+      this.store.dispatch(new fromConfigurationActions.RemoveActiveFiltersByField(fieldToBeRemoved));
+    }
+    if (pendingFiltersContainField) {
+      this.store.dispatch(new fromConfigurationActions.RemovePendingFiltersByField(fieldToBeRemoved));
+    }
     this.store.dispatch(new fromDataViewActions.RemoveSelectedField(fieldToBeRemoved));
   }
 
@@ -74,7 +95,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   selectTab(index: number, configureTab: string) {
     this.activeTab = configureTab;
     this.selectedTabIndex = index;
-}
+  }
 
   trackByFn(index: any, field: Field) {
     return field.DataElementId;

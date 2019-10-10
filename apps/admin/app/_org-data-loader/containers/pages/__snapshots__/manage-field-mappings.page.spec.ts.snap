@@ -100,7 +100,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
               </fa-icon>
             </button>
           </a>
-          <h3>
+          <h3
+            class="page-title"
+          >
             
             Org Data Autoloader Field Mappings
           </h3>
@@ -326,7 +328,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
               </fa-icon>
             </button>
           </a>
-          <h3>
+          <h3
+            class="page-title"
+          >
             
             Org Data Autoloader Field Mappings
           </h3>
@@ -552,7 +556,9 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
               </fa-icon>
             </button>
           </a>
-          <h3>
+          <h3
+            class="page-title"
+          >
             
             Org Data Autoloader Field Mappings
           </h3>
@@ -777,7 +783,9 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
               </fa-icon>
             </button>
           </a>
-          <h3>
+          <h3
+            class="page-title"
+          >
             
             Org Data Autoloader Field Mappings
           </h3>
@@ -913,7 +921,9 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
               </fa-icon>
             </button>
           </a>
-          <h3>
+          <h3
+            class="page-title"
+          >
             
             Org Data Autoloader Field Mappings
           </h3>
