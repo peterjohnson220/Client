@@ -58,3 +58,23 @@ $primary-button-focus: #1F2F3D;
 .flex-grow-1 {
   min-width: 0 !important;
 }
+
+/* Survey UDFs */
+pf-udf-picker {
+  button.remove svg {
+    color: #dc3545;
+  }
+  button.add-udf svg {
+    color: $primary-button;
+  }
+  kendo-dropdownlist.k-dropdown {
+    .k-dropdown-wrap, .k-dropdown-wrap:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.page-header .actions-company-searcher {
+  min-width: 400px;
+}
+/* End Survey UDFs */

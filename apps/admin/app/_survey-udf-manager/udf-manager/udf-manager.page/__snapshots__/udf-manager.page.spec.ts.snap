@@ -1,0 +1,167 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UdfManagerPageComponent hide the udf picker when no company is selected 1`] = `
+<pf-udf-manager
+  companiesList$={[Function Store]}
+  companiesListLoading$={[Function Store]}
+  companiesListLoadingError$={[Function Store]}
+  confirmSave$={[Function Store]}
+  env={[Function Object]}
+  payElements$={[Function Store]}
+  savedUdfSettings$={[Function Store]}
+  savedUdfSettingsLoading$={[Function Store]}
+  savedUdfSettingsLoadingError$={[Function Store]}
+  selectedCompany="null"
+  selectedCompany$={[Function Observable]}
+  selectedCompanySubscription={[Function Subscriber]}
+  store={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Survey Custom Field Manager 
+    
+    
+    
+    
+    <div>
+      <pf-company-searcher />
+    </div>
+    
+    <pf-modal-form
+      title="Confirm Survey Custom Fields"
+    >
+      
+      <p>
+        Custom survey fields cannot be edited or removed after saving. Would you like to proceed?
+      </p>
+    </pf-modal-form>
+  </pf-page-with-title-bar>
+</pf-udf-manager>
+`;
+
+exports[`UdfManagerPageComponent show one company searcher when a company is selected 1`] = `
+<pf-udf-manager
+  companiesList$={[Function Store]}
+  companiesListLoading$={[Function Store]}
+  companiesListLoadingError$={[Function Store]}
+  confirmSave$={[Function Store]}
+  env={[Function Object]}
+  payElements$={[Function Store]}
+  savedUdfSettings$={[Function Store]}
+  savedUdfSettingsLoading$={[Function Store]}
+  savedUdfSettingsLoadingError$={[Function Store]}
+  selectedCompany="null"
+  selectedCompany$={[Function Observable]}
+  selectedCompanySubscription={[Function Subscriber]}
+  store={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Survey Custom Field Manager 
+    
+    
+    <div
+      class="actions-company-searcher"
+    >
+      <pf-company-searcher />
+    </div>
+    
+    
+    
+    <div>
+      <pf-udf-picker />
+    </div>
+    <pf-modal-form
+      title="Confirm Survey Custom Fields"
+    >
+      
+      <p>
+        Custom survey fields cannot be edited or removed after saving. Would you like to proceed?
+      </p>
+    </pf-modal-form>
+  </pf-page-with-title-bar>
+</pf-udf-manager>
+`;
+
+exports[`UdfManagerPageComponent show one company searcher when no company is selected 1`] = `
+<pf-udf-manager
+  companiesList$={[Function Store]}
+  companiesListLoading$={[Function Store]}
+  companiesListLoadingError$={[Function Store]}
+  confirmSave$={[Function Store]}
+  env={[Function Object]}
+  payElements$={[Function Store]}
+  savedUdfSettings$={[Function Store]}
+  savedUdfSettingsLoading$={[Function Store]}
+  savedUdfSettingsLoadingError$={[Function Store]}
+  selectedCompany="null"
+  selectedCompany$={[Function Observable]}
+  selectedCompanySubscription={[Function Subscriber]}
+  store={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Survey Custom Field Manager 
+    
+    
+    
+    
+    <div>
+      <pf-company-searcher />
+    </div>
+    
+    <pf-modal-form
+      title="Confirm Survey Custom Fields"
+    >
+      
+      <p>
+        Custom survey fields cannot be edited or removed after saving. Would you like to proceed?
+      </p>
+    </pf-modal-form>
+  </pf-page-with-title-bar>
+</pf-udf-manager>
+`;
+
+exports[`UdfManagerPageComponent show the udf picker when a company is selected 1`] = `
+<pf-udf-manager
+  companiesList$={[Function Store]}
+  companiesListLoading$={[Function Store]}
+  companiesListLoadingError$={[Function Store]}
+  confirmSave$={[Function Store]}
+  env={[Function Object]}
+  payElements$={[Function Store]}
+  savedUdfSettings$={[Function Store]}
+  savedUdfSettingsLoading$={[Function Store]}
+  savedUdfSettingsLoadingError$={[Function Store]}
+  selectedCompany="null"
+  selectedCompany$={[Function Observable]}
+  selectedCompanySubscription={[Function Subscriber]}
+  store={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Survey Custom Field Manager 
+    
+    
+    <div
+      class="actions-company-searcher"
+    >
+      <pf-company-searcher />
+    </div>
+    
+    
+    
+    <div>
+      <pf-udf-picker />
+    </div>
+    <pf-modal-form
+      title="Confirm Survey Custom Fields"
+    >
+      
+      <p>
+        Custom survey fields cannot be edited or removed after saving. Would you like to proceed?
+      </p>
+    </pf-modal-form>
+  </pf-page-with-title-bar>
+</pf-udf-manager>
+`;

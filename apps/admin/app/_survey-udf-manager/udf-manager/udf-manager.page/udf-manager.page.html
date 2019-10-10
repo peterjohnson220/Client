@@ -1,0 +1,52 @@
+<pf-page-with-title-bar [absoluteUrl]="env.siteAdminUrl + '/navigation'">
+  <ng-container page-title>
+    Survey Custom Field Manager
+  </ng-container>
+
+  <ng-container page-actions>
+    <div *ngIf="(selectedCompany$ | async)" class="actions-company-searcher">
+      <pf-company-searcher
+        [companiesList]="companiesList$ | async"
+        [selectedCompany]="selectedCompany"
+        (selectCompany)="onSelectedCompany($event)"
+        (unselectCompany)="onUnselectCompany()"
+      ></pf-company-searcher>
+    </div>
+  </ng-container>
+
+  <ng-container page-content>
+    <div *ngIf="!(selectedCompany$ | async)">
+      <pf-company-searcher
+        [companiesList]="companiesList$ | async"
+        [selectedCompany]="selectedCompany"
+        (selectCompany)="onSelectedCompany($event)"
+        (unselectCompany)="onUnselectCompany()"
+      ></pf-company-searcher>
+    </div>
+
+    <div *ngIf="selectedCompany$ | async">
+      <pf-udf-picker
+        [savedUdfSettings]="savedUdfSettings$ | async"
+        [payElements]="payElements$ | async"
+        [selectedCompany]="selectedCompany$ | async"
+        [isLoading]="savedUdfSettingsLoading$ | async"
+        [isLoadingError]="savedUdfSettingsLoadingError$ | async"
+        [maxUdfs]="50"
+        (onSave)="onSaveUdfs($event)"
+      ></pf-udf-picker>
+    </div>
+
+    <pf-modal-form
+      [size]="'lg'"
+      [isOpen$]="confirmSave$"
+      [title]="'Confirm Survey Custom Fields'"
+      [primaryButtonText]="'Proceed'"
+      (onSubmit)="onSaveUdfsSubmit()"
+      (onDismiss)="onSaveUdfsDismiss()">
+      <ng-container basic-content>
+        <p>Custom survey fields cannot be edited or removed after saving. Would you like to proceed?</p>
+      </ng-container>
+    </pf-modal-form>
+  </ng-container>
+
+</pf-page-with-title-bar>

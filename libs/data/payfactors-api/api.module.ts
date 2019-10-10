@@ -37,6 +37,7 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService } from './hris-api';
 import { PfGridApiService } from './pf-grid/pf-grid-api.service';
+import { SurveyLibraryApiService } from './survey-library';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -89,6 +90,7 @@ import { PfGridApiService } from './pf-grid/pf-grid-api.service';
     DataViewApiService,
     NotificationsApiService,
     CompanyResourcesApiService,
+    SurveyLibraryApiService,
 
     // Hris Api Services
     HrisApiService,

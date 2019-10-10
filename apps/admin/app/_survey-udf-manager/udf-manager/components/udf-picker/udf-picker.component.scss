@@ -1,0 +1,31 @@
+@import '../styles';
+
+label.udf {
+  min-width: 50px;
+}
+
+.udf ~ .buttons-wrapper {
+  margin-left: 62px;
+}
+
+.buttons-wrapper button {
+  min-width: 90px;
+}
+
+kendo-numerictextbox {
+  width: 135px;
+}
+
+kendo-dropdownlist {
+  min-width: 220px;
+}
+
+button.remove, button.add-udf {
+  background-color: transparent;
+  border: 1px solid rgba(51, 51, 51, .5);
+}
+
+button.btn-primary {
+  background-color: $primary-button;
+  border-color: $primary-button;
+}

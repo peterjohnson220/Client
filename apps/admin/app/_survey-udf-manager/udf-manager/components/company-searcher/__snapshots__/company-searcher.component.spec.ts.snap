@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CompanySearcherComponent should hide the instructional message when a company is selected 1`] = `
+<pf-company-searcher
+  filteredCompaniesList={[Function Array]}
+  selectCompany={[Function EventEmitter]}
+  selectedCompany={[Function Object]}
+  unselectCompany={[Function EventEmitter]}
+>
+  <div
+    class="form-container container d-flex"
+  >
+    
+    <kendo-combobox
+      class="form-control"
+      data-qa-id="txt-company"
+    >
+      
+    </kendo-combobox>
+  </div>
+</pf-company-searcher>
+`;
+
+exports[`CompanySearcherComponent should show an instructional message when no company is selected 1`] = `
+<pf-company-searcher
+  filteredCompaniesList={[Function Array]}
+  selectCompany={[Function EventEmitter]}
+  selectedCompany="null"
+  unselectCompany={[Function EventEmitter]}
+>
+  <div
+    class="form-container container d-flex"
+  >
+    
+    <h6
+      class="select-company mt-2"
+    >
+      Please select a company
+    </h6>
+    <kendo-combobox
+      class="form-control"
+      data-qa-id="txt-company"
+    >
+      
+    </kendo-combobox>
+  </div>
+</pf-company-searcher>
+`;
