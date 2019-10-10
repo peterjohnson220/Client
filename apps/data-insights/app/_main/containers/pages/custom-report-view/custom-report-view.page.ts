@@ -10,7 +10,8 @@ import { AppNotification } from 'libs/features/app-notifications/models';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
-import * as fromConfigurationActions from '../../../actions/configuration.actions';
+import * as fromFiltersActions from '../../../actions/filters.actions';
+import * as fromFieldsActions from '../../../actions/fields.actions';
 import { SaveUserWorkbookModalData, SaveWorkbookMode, UserDataView } from '../../../models';
 import { SaveUserWorkbookModalComponent } from '../../../components/save-user-workbook-modal';
 import { DeleteUserWorkbookModalComponent } from '../../../components/delete-user-workbook-modal';
@@ -92,9 +93,9 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
 
   private loadFieldsAndData(dataViewId: number): void {
     const dataViewIdObj = { dataViewId };
-    this.store.dispatch(new fromConfigurationActions.ResetFilters());
+    this.store.dispatch(new fromFiltersActions.ResetFilters());
     this.store.dispatch(new fromDataViewActions.GetUserDataView(dataViewIdObj));
-    this.store.dispatch(new fromDataViewActions.GetReportFields(dataViewIdObj));
+    this.store.dispatch(new fromFieldsActions.GetReportFields(dataViewIdObj));
     this.store.dispatch(new fromDataViewActions.GetExportingUserReport(dataViewIdObj));
   }
 

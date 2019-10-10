@@ -5,14 +5,14 @@ import { select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, tap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { orderBy } from 'lodash';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
-import * as fromConfigurationActions from '../actions/configuration.actions';
+import * as fromFiltersActions from '../actions/filters.actions';
+import * as fromFieldsActions from '../actions/fields.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { Entity } from '../models';
 import * as fromDataViewReducer from '../reducers';
@@ -154,87 +154,12 @@ export class DataViewEffects {
               return [
                 new fromDataViewActions.GetUserDataViewSuccess(userDataView),
                 new fromDataViewGridActions.SetSortDescriptor(sortDescriptor),
-                new fromDataViewActions.SetSelectedFields(selectedFields),
-                new fromConfigurationActions.SetFilters(filters),
+                new fromFieldsActions.SetSelectedFields(selectedFields),
+                new fromFiltersActions.SetFilters(filters),
                 new fromDataViewGridActions.GetData()
               ];
             }),
             catchError(() => of(new fromDataViewActions.GetUserDataViewError()))
-          );
-      })
-    );
-
-  @Effect()
-  getReportFields$ = this.action$
-  .pipe(
-    ofType(fromDataViewActions.GET_REPORT_FIELDS),
-    switchMap((action: fromDataViewActions.GetReportFields) => {
-      return this.dataViewApiService.getUserDataViewFields(action.payload.dataViewId)
-      .pipe(
-        mergeMap((response) => [
-            new fromDataViewActions.GetReportFieldsSuccess(
-              PayfactorsApiModelMapper.mapDataViewFieldsToFields(response))
-          ]
-        ),
-        catchError(() => of(new fromDataViewActions.GetReportFieldsError()))
-      );
-    })
-  );
-
-  @Effect()
-  fieldsChanged$ = this.action$
-    .pipe(
-      ofType(
-        fromDataViewActions.REMOVE_SELECTED_FIELD,
-        fromDataViewActions.REORDER_FIELDS,
-        fromDataViewActions.ADD_SELECTED_FIELD,
-        fromDataViewActions.UPDATE_DISPLAY_NAME),
-      map(() => {
-        return new fromDataViewActions.SaveReportFields();
-      })
-    );
-
-  @Effect()
-  selectedDataChanged$ = this.action$
-    .pipe(
-      ofType(
-        fromDataViewActions.ADD_SELECTED_FIELD,
-        fromDataViewActions.REMOVE_SELECTED_FIELD),
-      map(() => {
-        return new fromDataViewGridActions.GetData();
-      })
-    );
-
-  @Effect()
-  saveReportFields$ = this.action$
-    .pipe(
-      ofType(fromDataViewActions.SAVE_REPORT_FIELDS),
-      withLatestFrom(
-        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
-        this.store.pipe(select(fromDataViewReducer.getSelectedFields)),
-        (action: fromDataViewActions.SaveReportFields, userDataView, selectedFields) =>
-          ({ userDataView, selectedFields })
-      ),
-      switchMap((data) => {
-        const selectedFields = orderBy(data.selectedFields, 'Order');
-        const fieldsToSave = selectedFields.map((f, index) => {
-          return {
-            DataElementId: f.DataElementId,
-            Order: index + 1,
-            DisplayName: f.DisplayName
-          };
-        });
-        return this.dataViewApiService.updateDataViewFields({
-          UserDataViewId: data.userDataView.obj.UserDataViewId,
-          Fields: fieldsToSave
-        })
-          .pipe(
-            map(() => {
-              return new fromDataViewActions.SaveReportFieldsSuccess();
-            }),
-            catchError(() => {
-              return of(new fromDataViewActions.SaveReportFieldsError());
-            })
           );
       })
     );

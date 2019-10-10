@@ -1,0 +1,16 @@
+<div class="actions">
+  <pf-add-report-fields
+    (fieldAdded)="handleFieldAdded($event)"
+    [fields]="unselectedFields$ | async">
+  </pf-add-report-fields>
+</div>
+<div *ngIf="!!selectedFields" class="fields-container">
+  <div perfectScrollbar class="fields" dragula="fields-bag" [(dragulaModel)]="selectedFields">
+    <pf-report-field *ngFor="let field of selectedFields; trackBy: trackByFn;"
+      [field]="field"
+      [removable]="selectedFields.length > 1"
+      (fieldRemoved)="handleFieldRemoved($event)"
+      (displayNameUpdated)="handleDisplayNameUpdated(field.DataElementId, $event)">
+    </pf-report-field>
+  </div>
+</div>

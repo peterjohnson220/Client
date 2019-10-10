@@ -12,9 +12,6 @@ export const SAVE_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Save
 export const GET_USER_DATA_VIEW = '[Data Insights / Data View] Get User Data View';
 export const GET_USER_DATA_VIEW_SUCCESS = '[Data Insights / Data View] Get User Data View Success';
 export const GET_USER_DATA_VIEW_ERROR = '[Data Insights / Data View] Get User Data View Error';
-export const GET_REPORT_FIELDS = '[Data Insights / Data View] Get Report Fields';
-export const GET_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View] Get Report Fields Success';
-export const GET_REPORT_FIELDS_ERROR = '[Data Insights / Data View] Get Report Fields Error';
 export const EDIT_USER_REPORT = '[Data Insights / Data View] Edit User Report';
 export const EDIT_USER_REPORT_SUCCESS = '[Data Insights / Data View] Edit User Report Success';
 export const EDIT_USER_REPORT_ERROR = '[Data Insights / Data View] Edit User Report Error';
@@ -23,16 +20,8 @@ export const DUPLICATE_USER_REPORT = '[Data Insights / Data View] Duplicate User
 export const DUPLICATE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Duplicate User Report Success';
 export const DUPLICATE_USER_REPORT_ERROR = '[Data Insights / Data View] Duplicate User Report Error';
 export const DUPLICATE_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Duplicate User Report Conflict';
-export const REMOVE_SELECTED_FIELD = '[Data Insights / Data View] Remove Selected Field';
-export const SAVE_REPORT_FIELDS = '[Data Insights / Data View] Save Report Fields';
-export const SAVE_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View] Save Report Fields Success';
-export const SAVE_REPORT_FIELDS_ERROR = '[Data Insights / Data View] Save Report Fields Error';
-export const REORDER_FIELDS = '[Data Insights / Data View] Reorder Fields';
-export const ADD_SELECTED_FIELD = '[Data Insights / Data View] Add Selected Field';
-export const SET_SELECTED_FIELDS = '[Data Insights / Data View] Set Selected Fields';
 export const DELETE_USER_REPORT = '[Data Insights / Data View] Delete User Report';
 export const DELETE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Delete User Report Success';
-export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View] Update Display Name';
 export const EXPORT_USER_REPORT = '[Data Insights / Data View] Export User Report';
 export const EXPORT_USER_REPORT_SUCCESS = '[Data Insights / Data View] Export User Report Success';
 export const EXPORT_USER_REPORT_ERROR = '[Data Insights / Data View] Export User Report Error';
@@ -101,24 +90,6 @@ export class GetUserDataViewError implements Action {
   constructor() {}
 }
 
-export class GetReportFields implements Action {
-  readonly type = GET_REPORT_FIELDS;
-
-  constructor(public payload: { dataViewId: number }) {}
-}
-
-export class GetReportFieldsSuccess implements Action {
-  readonly type = GET_REPORT_FIELDS_SUCCESS;
-
-  constructor(public payload: Field[]) {}
-}
-
-export class GetReportFieldsError implements Action {
-  readonly type = GET_REPORT_FIELDS_ERROR;
-
-  constructor() {}
-}
-
 export class EditUserReport implements Action {
   readonly type = EDIT_USER_REPORT;
 
@@ -167,48 +138,6 @@ export class DuplicateUserReportConflict implements Action {
   constructor() {}
 }
 
-export class RemoveSelectedField implements Action {
-  readonly type = REMOVE_SELECTED_FIELD;
-
-  constructor(public payload: Field) {}
-}
-
-export class SaveReportFields implements Action {
-  readonly type = SAVE_REPORT_FIELDS;
-
-  constructor() {}
-}
-
-export class SaveReportFieldsSuccess implements Action {
-  readonly type = SAVE_REPORT_FIELDS_SUCCESS;
-
-  constructor() {}
-}
-
-export class SaveReportFieldsError implements Action {
-  readonly type = SAVE_REPORT_FIELDS_ERROR;
-
-  constructor() {}
-}
-
-export class ReorderFields implements Action {
-  readonly type = REORDER_FIELDS;
-
-  constructor(public payload: Field[]) {}
-}
-
-export class AddSelectedField implements Action {
-  readonly type = ADD_SELECTED_FIELD;
-
-  constructor(public payload: Field) {}
-}
-
-export class SetSelectedFields implements Action {
-  readonly type = SET_SELECTED_FIELDS;
-
-  constructor(public payload: Field[]) {}
-}
-
 export class DeleteUserReport implements Action {
   readonly type = DELETE_USER_REPORT;
 
@@ -219,12 +148,6 @@ export class DeleteUserReportSuccess implements Action {
   readonly type = DELETE_USER_REPORT_SUCCESS;
 
   constructor() {}
-}
-
-export  class UpdateDisplayName implements Action {
-  readonly type = UPDATE_DISPLAY_NAME;
-
-  constructor(public payload: { newDisplayName: string, fieldDataElementId: number }) {}
 }
 
 export class ExportUserReport implements Action {
@@ -280,9 +203,6 @@ export type Actions
   | GetUserDataView
   | GetUserDataViewSuccess
   | GetUserDataViewError
-  | GetReportFields
-  | GetReportFieldsSuccess
-  | GetReportFieldsError
   | EditUserReport
   | EditUserReportSuccess
   | EditUserReportError
@@ -291,20 +211,12 @@ export type Actions
   | DuplicateUserReportSuccess
   | DuplicateUserReportError
   | DuplicateUserReportConflict
-  | RemoveSelectedField
-  | SaveReportFields
-  | SaveReportFieldsSuccess
-  | SaveReportFieldsError
-  | ReorderFields
-  | AddSelectedField
   | DeleteUserReport
   | DeleteUserReportSuccess
-  | UpdateDisplayName
   | ExportUserReport
   | ExportUserReportSuccess
   | ExportUserReportError
   | GetExportingUserReport
   | GetExportingUserReportSuccess
   | GetExportingUserReportError
-  | ExportingComplete
-  | SetSelectedFields;
+  | ExportingComplete;
