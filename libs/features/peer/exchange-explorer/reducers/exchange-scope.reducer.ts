@@ -13,6 +13,8 @@ export interface State extends EntityState<ExchangeScopeItem> {
   loadingByExchangeError: boolean;
   loadingDetails: boolean;
   loadingDetailsError: boolean;
+  upserting: boolean;
+  upsertingError: boolean;
   deletingScope: boolean;
   deletingScopeError: boolean;
   inDeleteScopeMode: boolean;
@@ -33,6 +35,8 @@ export const initialState: State = adapter.getInitialState({
   loadingByExchangeError: false,
   loadingDetails: false,
   loadingDetailsError: false,
+  upserting: false,
+  upsertingError: false,
   deletingScope: false,
   deletingScopeError: false,
   inDeleteScopeMode: false,
@@ -101,6 +105,27 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
         loadingDetailsError: true
       };
     }
+    case fromExchangeScopeActions.UPSERT_EXCHANGE_SCOPE: {
+      return {
+        ...state,
+        upserting: true,
+        upsertingError: false
+      };
+    }
+    case fromExchangeScopeActions.UPSERT_EXCHANGE_SCOPE_SUCCESS: {
+      return {
+        ...state,
+        upserting: false,
+        upsertingError: false
+      };
+    }
+    case fromExchangeScopeActions.UPSERT_EXCHANGE_SCOPE_ERROR: {
+      return {
+        ...state,
+        upserting: false,
+        upsertingError: true
+      };
+    }
     case fromExchangeScopeActions.DELETE_EXCHANGE_SCOPE: {
       return {
         ...state,
@@ -157,6 +182,8 @@ export const getLoadingByExchange = (state: State) => state.loadingByExchange;
 export const getLoadingByExchangeError = (state: State) => state.loadingByExchangeError;
 export const getLoadingDetails = (state: State) => state.loadingDetails;
 export const getLoadingDetailsError = (state: State) => state.loadingDetailsError;
+export const getUpserting = (state: State) => state.upserting;
+export const getUpsertingError = (state: State) => state.upsertingError;
 export const getDeletingScope = (state: State) => state.deletingScope;
 export const getDeletingScopeError = (state: State) => state.deletingScopeError;
 export const getInDeleteScopeMode = (state: State) => state.inDeleteScopeMode;

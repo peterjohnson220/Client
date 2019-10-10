@@ -1,0 +1,19 @@
+.rte-container, .text-area-rte-container{
+  margin-bottom: 10px;
+}
+
+.ql-editor, .ql-editor-output{
+  height: 100%;
+  padding: 0;
+}
+
+.form-check-inline {
+  display: inline-block;
+  margin-right: 0.75rem;
+}
+.form-check-inline .form-check-label {
+  vertical-align: middle;
+}
+.form-check-inline + .form-check-inline {
+  margin-left: 0rem;
+}

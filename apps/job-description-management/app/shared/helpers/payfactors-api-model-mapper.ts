@@ -155,7 +155,8 @@ export class PayfactorsApiModelMapper {
       LastModifiedDate: response.LastModifiedDate,
       EffectiveDate: null,
       AssignedJobsCount: response.AssignedJobsCount,
-      Status: response.Status
+      Status: response.Status,
+      Version: response.Version
     };
   }
 

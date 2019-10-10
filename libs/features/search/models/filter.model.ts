@@ -1,5 +1,7 @@
 import { ChangeContext, PointerType } from 'ng5-slider';
 
+import { OperatorEnum } from '../../../constants';
+
 export enum FilterType {
   Text = 'Text',
   Multi = 'Multi',
@@ -15,6 +17,7 @@ export interface Filter {
   Type: FilterType;
   CssClassName?: string;
   SaveDisabled?: boolean;
+  Operator?: OperatorEnum;
 }
 
 export interface TextFilter extends Filter {

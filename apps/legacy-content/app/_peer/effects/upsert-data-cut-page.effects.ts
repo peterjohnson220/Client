@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { map, catchError, switchMap, mergeMap, withLatestFrom, tap } from 'rxjs/operators';
 
 import * as fromLibsPeerMapActions from 'libs/features/peer/map/actions/map.actions';
+import * as fromLibsPeerExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
 import * as fromLibsPeerFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 import * as fromLibsPeerMapReducers from 'libs/features/peer/map/reducers';
 import { ExchangeCompanyApiService, ExchangeScopeApiService, ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
@@ -87,8 +88,8 @@ export class UpsertDataCutPageEffects {
 
   @Effect({ dispatch: false })
   mapLoaded$ = this.actions$.pipe(
-      ofType(fromLibsPeerMapActions.MAP_LOADED),
-      tap((action: fromLibsPeerMapActions.MapLoaded) => {
+      ofType(fromLibsPeerMapActions.MAP_LOADED, fromLibsPeerExchangeExplorerMapActions.MAP_LOADED),
+      tap((action: fromLibsPeerMapActions.MapLoaded|fromLibsPeerExchangeExplorerMapActions.MapLoaded) => {
         this.windowCommunicationService.postMessage(action.type);
       })
   );

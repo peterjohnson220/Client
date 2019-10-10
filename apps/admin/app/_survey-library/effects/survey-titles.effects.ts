@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { Action, Store } from '@ngrx/store';
@@ -45,10 +46,16 @@ export class SurveyTitlesEffects {
     ofType(fromSurveyTitlesActions.SAVE_SURVEY_TITLE),
     switchMap((action: fromSurveyTitlesActions.SaveSurveyTitle) =>
       this.surveyLibraryApiService.saveSurveyTitle(action.payload).pipe(
-        map(() => new fromSurveyTitlesActions.SaveSurveyTitleSuccess())
+        map(() => new fromSurveyTitlesActions.SaveSurveyTitleSuccess()),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 409) {
+            return of(new fromSurveyTitlesActions.TitleCodeExists());
+          } else {
+            return of(new fromSurveyTitlesActions.SaveSurveyTitleError());
+          }
+        })
       )
-    ),
-    catchError(error => of(new fromSurveyTitlesActions.SaveSurveyTitleError()))
+    )
   );
 
   constructor(

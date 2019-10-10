@@ -91,7 +91,7 @@ describe('Data Insights - Data View Grid', () => {
       dir: 'desc'
     }];
     instance.fields = [generateMockField()];
-    const sortFieldAction = new fromDataViewGridActions.SortField({ field: instance.fields[0], dir: 'desc'});
+    const sortFieldAction = new fromDataViewGridActions.SortField({ field: instance.fields[0], sortDesc: sortDesc[0] });
     spyOn(store, 'dispatch');
 
     instance.handleSortChange(sortDesc);

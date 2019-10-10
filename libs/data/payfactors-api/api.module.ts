@@ -10,7 +10,7 @@ import { ExchangeApiService, ExchangeCompanyApiService,
          ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService, JobSearchApiService, ExchangeDataSearchApiService } from './search';
-import { DashboardApiService } from './dashboard';
+import { DashboardApiService, CompanyResourcesApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
@@ -85,6 +85,7 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
     StructuresApiService,
     StructuresRangeGroupApiService,
     DataViewApiService,
+    CompanyResourcesApiService,
 
     // Hris Api Services
     HrisApiService,

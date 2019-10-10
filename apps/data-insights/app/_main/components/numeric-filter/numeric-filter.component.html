@@ -1,0 +1,19 @@
+
+<ng-container>
+  <kendo-dropdownlist
+    class="dropdown-list"
+    [attr.data-qa-id]="'ddm-numeric-filter-operators'"
+    [data]="operators"
+    (selectionChange)="handleChangeOperator($event)"
+    [ngModel]="selectedOperator ? selectedOperator : operators[0]"
+    [textField]="'Name'"
+    [valueField]="'Value'">
+  </kendo-dropdownlist>
+
+  <label for="numericTextBox"></label>
+  <input type="text"
+         id="numericTextBox"
+         [(ngModel)]="numericValue"
+         (change)="handleNumericValueChange()"
+         name="numericTextBox">
+</ng-container>

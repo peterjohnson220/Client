@@ -2,9 +2,9 @@
 @import 'peer/peer-button';
 
 .company-jobs-grid-container {
-  transition: height .4s ease-in-out;
   &.short {
     height: 250px;
+    transition: height .4s ease-in-out;
   }
 }
 

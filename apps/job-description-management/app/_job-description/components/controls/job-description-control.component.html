@@ -1,0 +1,84 @@
+<ng-template [ngIf]="controlTypesLoaded &&
+                    (controlType.ReadOnly === true || controlType.EditorType === 'Single') &&
+                    !(jobDescriptionControl.AdditionalProperties != null && showControlName)">
+  <pf-control-data-renderer
+    [class.dnd-library-accept]="!controlType.ReadOnly"
+    [attr.data-section-id]="jobDescriptionControl.SectionId"
+    [attr.data-control-id]="jobDescriptionControl.Id"
+    dragula="library-bag"
+    [controlType]="controlType"
+    [data]="jobDescriptionControl.Data"
+    [readOnly]="readOnly || controlType.ReadOnly"
+    [checkInheritedData]="true"
+    [isCompare]="isCompare"
+    (dataChangesDetected)="handleDataChangesDetected($event)"
+    (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)">
+  </pf-control-data-renderer>
+</ng-template>
+
+<ng-template [ngIf]="controlTypesLoaded &&
+                    (controlType.ReadOnly === true || controlType.EditorType === 'Single') &&
+                    (jobDescriptionControl.AdditionalProperties != null && showControlName)">
+  <div class="card my-3">
+    <div class="card-header">
+      {{jobDescriptionControl.Label}}
+      <div class="btn-group float-right">
+        <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+          <span *ngIf="hideBody"><fa-icon [icon]="['fas','caret-down']"></fa-icon></span>
+          <span *ngIf="!hideBody"><fa-icon [icon]="['fas','caret-up']"></fa-icon></span>
+        </button>
+      </div>
+    </div>
+    <div class="card-block" [hidden]="hideBody">
+      <pf-control-data-renderer
+        [class.dnd-library-accept]="!controlType.ReadOnly"
+        [attr.data-section-id]="jobDescriptionControl.SectionId"
+        [attr.data-control-id]="jobDescriptionControl.Id"
+        dragula="library-bag"
+        [controlType]="controlType"
+        [data]="jobDescriptionControl.Data"
+        [readOnly]="readOnly || controlType.ReadOnly"
+        [checkInheritedData]="true"
+        [isCompare]="isCompare"
+        (dataChangesDetected)="handleDataChangesDetected($event)"
+        (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)">
+      </pf-control-data-renderer>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [ngIf]="controlTypesLoaded && (controlType.ReadOnly !== true && controlType.EditorType !== 'Single')">
+  <div class="card my-3">
+    <div [class.card-header]="showControlName">
+      <ng-container *ngIf="showControlName">{{jobDescriptionControl.Label}}</ng-container>
+      <div class="btn-group float-right">
+        <button *ngIf="!readOnly && (controlType.EditorType === 'List' && !controlType.Locked)"
+                class="btn btn-sm btn-secondary" (click)="addDataRow(true)">
+          <fa-icon icon="plus"></fa-icon>
+        </button>
+        <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+          <span *ngIf="hideBody"><fa-icon [icon]="['fas','caret-down']"></fa-icon></span>
+          <span *ngIf="!hideBody"><fa-icon [icon]="['fas','caret-up']"></fa-icon></span>
+        </button>
+      </div>
+    </div>
+    <div class="card-block" [hidden]="hideBody">
+      <pf-control-data-renderer
+        [class.dnd-library-accept]="!controlType.ReadOnly"
+        [attr.data-section-id]="jobDescriptionControl.SectionId"
+        [attr.data-control-id]="jobDescriptionControl.Id"
+        [dragula]="isCompare ? undefined : 'library-bag'"
+        [controlType]="controlType"
+        [data]="jobDescriptionControl.Data"
+        [readOnly]="readOnly || controlType.ReadOnly"
+        [checkInheritedData]="true"
+        [additionalProperties]="jobDescriptionControl.AdditionalProperties"
+        [isCompare]="isCompare"
+        (dataChangesDetected)="handleDataChangesDetected($event)"
+        (dataRowDeleted)="handledDataRowDeleted($event)"
+        (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
+        (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
+      </pf-control-data-renderer>
+    </div>
+  </div>
+</ng-template>

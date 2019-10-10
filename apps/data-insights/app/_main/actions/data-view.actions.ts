@@ -29,12 +29,17 @@ export const SAVE_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View] Save Repo
 export const SAVE_REPORT_FIELDS_ERROR = '[Data Insights / Data View] Save Report Fields Error';
 export const REORDER_FIELDS = '[Data Insights / Data View] Reorder Fields';
 export const ADD_SELECTED_FIELD = '[Data Insights / Data View] Add Selected Field';
+export const SET_SELECTED_FIELDS = '[Data Insights / Data View] Set Selected Fields';
 export const DELETE_USER_REPORT = '[Data Insights / Data View] Delete User Report';
 export const DELETE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Delete User Report Success';
 export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View] Update Display Name';
 export const EXPORT_USER_REPORT = '[Data Insights / Data View] Export User Report';
 export const EXPORT_USER_REPORT_SUCCESS = '[Data Insights / Data View] Export User Report Success';
 export const EXPORT_USER_REPORT_ERROR = '[Data Insights / Data View] Export User Report Error';
+export const GET_EXPORTING_USER_REPORT = '[Data Insights / Data View] Get Exporting User Report';
+export const GET_EXPORTING_USER_REPORT_SUCCESS = '[Data Insights / Data View] Get Exporting User Report Success';
+export const GET_EXPORTING_USER_REPORT_ERROR = '[Data Insights / Data View] Get Exporting User Report Error';
+export const EXPORTING_COMPLETE = '[Data Insights / Data View] Exporting Complete';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -198,6 +203,12 @@ export class AddSelectedField implements Action {
   constructor(public payload: Field) {}
 }
 
+export class SetSelectedFields implements Action {
+  readonly type = SET_SELECTED_FIELDS;
+
+  constructor(public payload: Field[]) {}
+}
+
 export class DeleteUserReport implements Action {
   readonly type = DELETE_USER_REPORT;
 
@@ -225,11 +236,35 @@ export class ExportUserReport implements Action {
 export class ExportUserReportSuccess implements Action {
   readonly type = EXPORT_USER_REPORT_SUCCESS;
 
-  constructor() {}
+  constructor(public payload: any) {}
 }
 
 export class ExportUserReportError implements Action {
   readonly type = EXPORT_USER_REPORT_ERROR;
+
+  constructor() {}
+}
+
+export class GetExportingUserReport implements Action {
+  readonly type = GET_EXPORTING_USER_REPORT;
+
+  constructor(public payload: { dataViewId: number }) {}
+}
+
+export class GetExportingUserReportSuccess implements Action {
+  readonly type = GET_EXPORTING_USER_REPORT_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetExportingUserReportError implements Action {
+  readonly type = GET_EXPORTING_USER_REPORT_ERROR;
+
+  constructor() {}
+}
+
+export class ExportingComplete implements Action {
+  readonly type = EXPORTING_COMPLETE;
 
   constructor() {}
 }
@@ -267,4 +302,9 @@ export type Actions
   | UpdateDisplayName
   | ExportUserReport
   | ExportUserReportSuccess
-  | ExportUserReportError;
+  | ExportUserReportError
+  | GetExportingUserReport
+  | GetExportingUserReportSuccess
+  | GetExportingUserReportError
+  | ExportingComplete
+  | SetSelectedFields;

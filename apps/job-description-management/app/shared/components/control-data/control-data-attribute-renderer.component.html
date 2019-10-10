@@ -1,0 +1,110 @@
+<!--BEGIN ReadOnly Rendering-->
+<ng-template [ngIf]="!editable">
+
+  <ng-template [ngIf]="attribute.Type === 'RichText' ||
+                      attribute.Type === 'Textbox'  ||
+                      attribute.Type === 'Textarea' ||
+                      attribute.Type === 'Rendered'">
+    <div [class.ql-editor]="attribute.Type === 'RichText' || attribute.Type === 'Textarea'"
+         [class.ql-editor-output]="attribute.Type === 'Rendered'" class="rendered-text"
+         [innerHtml]="sanitizer.bypassSecurityTrustHtml(dataRow[attribute.Name])"></div>
+  </ng-template>
+
+  <ng-template [ngIf]="attribute.Type === 'Dropdown'">
+    <div class="rendered-text"
+         [innerHtml]=sanitizer.bypassSecurityTrustHtml(displayValueByKey(dataRow[attribute.Name]))>
+
+    </div>
+  </ng-template>
+
+  <ng-template [ngIf]="attribute.Type === 'RadioButton'">
+    <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices">
+      <label class="form-check-label">
+        <input type="radio"
+               class="form-check-input"
+               [value]="choice.value"
+               [name]="attribute.DisplayName + dataRow.Id + '_NE'"
+               [ngModel]="dataRow[attribute.Name]"
+               [disabled]="true"/>
+        {{choice.display}}
+      </label>
+    </div>
+  </ng-template>
+
+</ng-template>
+<!--END ReadOnly Rendering-->
+
+<!--BEGIN Editable Rendering-->
+<ng-template [ngIf]="editable">
+
+  <!--Rich Text Editor-->
+  <div *ngIf="attribute.Type === 'RichText'" class="rte-container">
+    <p-editor [ngModel]="dataRow[attribute.Name]" [style]="{'min-height': attribute.RTEHeight }"
+              (onTextChange)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.htmlValue || '')">
+      <p-header>
+        <select class="ql-size">
+          <option value="small"></option>
+          <!-- Note a missing, thus falsy value, is used to reset to default -->
+          <option selected></option>
+          <option value="large"></option>
+          <option value="huge"></option>
+        </select>
+        <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                </span>
+        <span class="ql-formats">
+                    <select class="ql-align"></select>
+                </span>
+        <span class="ql-formats">
+                    <select class="ql-color"></select>
+                    <select class="ql-background"></select>
+                </span>
+        <span class="ql-formats">
+                    <button class="ql-clean"></button>
+                </span>
+      </p-header>
+    </p-editor>
+  </div>
+
+  <!--DropDown-->
+  <select *ngIf="attribute.Type === 'Dropdown'" class="form-control"
+          (change)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.target.value)"
+          [ngModel]="dataRow[attribute.Name]">
+    <option></option>
+    <option *ngFor="let choice of attribute.Choices" [value]="choice.value">{{choice.display}}</option>
+  </select>
+
+  <!--Textbox-->
+  <input *ngIf="attribute.Type == 'Textbox'" type="text" class="form-control"
+         (input)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.target.value)"
+         [ngModel]="dataRow[attribute.Name]"/>
+
+  <!--Radio Button-->
+  <ng-template [ngIf]="attribute.Type == 'RadioButton'">
+    <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices">
+      <label class="form-check-label">
+        <input type="radio"
+               class="form-check-input"
+               [value]="choice.value"
+               [name]="attribute.DisplayName + dataRow.Id"
+               [ngModel]="dataRow[attribute.Name]"
+               (change)="handleDataChangesDetected(dataRow.Id, attribute.Name, choice.value)"/>
+        {{choice.display}}
+      </label>
+    </div>
+  </ng-template>
+
+  <!--Textarea-->
+  <div *ngIf="attribute.Type === 'Textarea'" class="text-area-rte-container">
+    <p-editor [ngModel]="dataRow[attribute.Name]"
+              (onTextChange)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.htmlValue || '')">
+      <p-header>
+
+      </p-header>
+    </p-editor>
+  </div>
+
+</ng-template>
+<!--END Editable Rendering-->

@@ -21,12 +21,24 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            canActivate: [ PeerTileEnabledGuard, ExchangeExistsGuard],
+            canActivate: [PeerTileEnabledGuard],
             children: [
               { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-              { path: 'dashboard', loadChildren: () => import('apps/peer/app/_dashboard/dashboard.module').then(m => m.DashboardModule) },
-              { path: 'manage', loadChildren: () => import('apps/peer/app/_manage/manage.module').then(m => m.ManageModule) },
-              { path: 'map', loadChildren: () => import('apps/peer/app/_map/map.module').then(m => m.MapModule) }
+              {
+                path: 'dashboard',
+                loadChildren: () => import('apps/peer/app/_dashboard/dashboard.module').then(m => m.DashboardModule),
+                canActivate: [ExchangeExistsGuard]
+              },
+              {
+                path: 'manage',
+                loadChildren: () => import('apps/peer/app/_manage/manage.module').then(m => m.ManageModule),
+                canActivate: [ExchangeExistsGuard]
+              },
+              {
+                path: 'map',
+                loadChildren: () => import('apps/peer/app/_map/map.module').then(m => m.MapModule),
+                canActivate: [ExchangeExistsGuard]
+              }
             ]
           }
         ]

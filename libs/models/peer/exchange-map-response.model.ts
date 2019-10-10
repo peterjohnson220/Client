@@ -2,14 +2,12 @@ import { Feature, Point } from 'geojson';
 
 export interface ExchangeMapResponse {
   MapSummary: ExchangeMapSummary;
-  MapChunks: MapChunk[];
   FeatureCollection: Feature<Point>[];
 }
 
 export function generateMockExchangeMapResponse(): ExchangeMapResponse {
   return {
     MapSummary: generateMockExchangeMapSummary(),
-    MapChunks: [generateMockMapChunk()],
     FeatureCollection: []
   };
 }
@@ -61,12 +59,14 @@ export interface AreaStats {
   CompanyCount: number;
   Companies: ExchangeStatCompanyMakeup[];
   ExchangeJobIds: number[];
+  UntaggedIncumbentCount: number;
 }
 
 export function generateMockAreaStats(): AreaStats {
   return {
     SalaryCount: 1,
     CompanyCount: 1,
+    UntaggedIncumbentCount: 0,
     Companies: [generateMockExchangeStatCompanyMakeup()],
     ExchangeJobIds: [1, 2]
   };

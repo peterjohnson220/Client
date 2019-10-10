@@ -287,6 +287,18 @@ export class CompanyPageEffects {
     )
   );
 
+  @Effect()
+  getJobPricingLimitInfo$ = this.actions$
+    .pipe(
+      ofType(fromCompanyPageActions.GET_JOB_PRICING_LIMIT_INFO),
+      switchMap((action: fromCompanyPageActions.GetJobPricingLimitInfo) =>
+        this.companyApiService.getJobPricingLimitInfoByCompanyId(action.payload.companyId)
+          .pipe(
+            map((response) => new fromCompanyPageActions.SetJobPricingLimitInfo(response))
+          )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private companyApiService: CompanyApiService,

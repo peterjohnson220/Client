@@ -1,0 +1,62 @@
+:host /deep/ .control-table {
+  margin-bottom: 0;
+}
+
+:host /deep/ .no-border td, :host /deep/ .no-border th {
+  border: none;
+}
+
+:host /deep/ .ql-editor ul,
+:host /deep/ .ql-editor ol {
+  padding-left: 0.65em;
+}
+
+:host /deep/ .ql-editor ul li:before,
+:host /deep/ .ql-editor ol li:before {
+  padding-right: 20px;
+}
+
+:host /deep/ .ql-editor-output ul,
+:host /deep/ .ql-editor-output ol {
+  margin-bottom: 0;
+}
+
+:host /deep/ .ql-editor-output ol > li {
+  list-style-type: lower-alpha;
+}
+
+:host /deep/ .ql-editor-output ol > li > ol > li,
+:host /deep/ .ql-editor-output ul > li > ol > li {
+  list-style-type: lower-roman;
+}
+
+:host /deep/ .ql-editor-output ol > li > ol > li > ol > li,
+:host /deep/ .ql-editor-output ul > li > ol > li > ol > li,
+:host /deep/ .ql-editor-output ol > li > ul > li > ol > li
+:host /deep/ .ql-editor-output ul > li > ul > li > ol > li {
+  list-style-type: decimal;
+}
+
+:host /deep/ .ql-editor-output ul > li {
+  list-style-type: none;
+  position: relative;
+}
+
+:host /deep/ .ql-editor-output ul > li::before {
+  content: '\2022';
+  position: absolute;
+  left: -0.8em;
+  font-size: 1.1em;
+}
+
+:host /deep/ .ql-editor-output .ql-size-huge {
+  font-size: 2.5em;
+}
+
+:host /deep/ .ql-editor-output .ql-size-large {
+  font-size: 1.5em;
+}
+
+:host /deep/ .ql-editor-output .ql-size-small {
+  font-size: 0.75em;
+}

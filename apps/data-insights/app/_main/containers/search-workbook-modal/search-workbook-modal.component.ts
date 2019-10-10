@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectionStrategy, Input } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
@@ -19,6 +19,8 @@ import { Workbook } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
+  @Input() thumbnailsViewSettingEnabled: boolean;
+
   @ViewChild('searchWorkbookModal', { static: true }) public searchWorkbookModal: any;
   filteredWorkbooks: Workbook[];
   allWorkbooks: Workbook[];
@@ -26,6 +28,7 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
   noSearchResults = false;
 
   companyWorkbooks$: Observable<AsyncStateObj<Workbook[]>>;
+  companyWorkbooksFromViews$: Observable<AsyncStateObj<Workbook[]>>;
   standardWorkbooks$: Observable<AsyncStateObj<Workbook[]>>;
 
   allWorkbooksSub: Subscription;
@@ -35,6 +38,7 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
     private modalService: NgbModal
   ) {
     this.companyWorkbooks$ = this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsync));
+    this.companyWorkbooksFromViews$ = this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsyncFromViews));
     this.standardWorkbooks$ = this.store.pipe(select(fromDataInsightsMainReducer.getStandardWorkbooksAsync));
   }
 
@@ -42,14 +46,17 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
     this.allWorkbooksSub = combineLatest(
       this.standardWorkbooks$,
       this.companyWorkbooks$,
-      (standardWorkbooksAsync, companyWorkbooksAsync) =>
-        ({standardWorkbooksAsync, companyWorkbooksAsync})
+      this.companyWorkbooksFromViews$,
+      (standardWorkbooksAsync, companyWorkbooksAsync, companyWorkbooksAsyncFromViews) =>
+        ({standardWorkbooksAsync, companyWorkbooksAsync, companyWorkbooksAsyncFromViews})
     ).pipe(
       map((data) => {
-        if (!data.standardWorkbooksAsync.obj || !data.companyWorkbooksAsync.obj) {
-          return [];
+        if (!!data.standardWorkbooksAsync.obj && (!!data.companyWorkbooksAsync.obj || !!data.companyWorkbooksAsyncFromViews.obj)) {
+          return this.thumbnailsViewSettingEnabled
+            ? data.standardWorkbooksAsync.obj.concat(data.companyWorkbooksAsyncFromViews.obj)
+            : data.standardWorkbooksAsync.obj.concat(data.companyWorkbooksAsync.obj);
         }
-        return data.standardWorkbooksAsync.obj.concat(data.companyWorkbooksAsync.obj);
+        return [];
       })
     ).subscribe((workbooks: Workbook[]) => {
       if (!workbooks) {

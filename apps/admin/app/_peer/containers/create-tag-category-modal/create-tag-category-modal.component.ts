@@ -30,7 +30,10 @@ export class CreateTagCategoryModalComponent {
   entityTypeEmployee: any;
 
   dataTypes: Array<string> = [TagCategoryDataTypeEnum.Text, TagCategoryDataTypeEnum.Numeric];
-  operatorEnum = OperatorEnum;
+  operatorEnum = {
+    And: OperatorEnum[OperatorEnum.And],
+    Or: OperatorEnum[OperatorEnum.Or]
+  };
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,

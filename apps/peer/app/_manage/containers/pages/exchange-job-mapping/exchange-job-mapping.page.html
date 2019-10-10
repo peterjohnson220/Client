@@ -1,6 +1,6 @@
 <pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId+'/dashboard'">
-  <ng-container page-title>
-    {{ showCompanyJobs ? 'Company to Exchange Job Match' : 'Exchange to Company Job Association' }}
+  <ng-container page-header-left>
+    <pf-exchange-switcher></pf-exchange-switcher>
   </ng-container>
 
   <ng-container page-actions>

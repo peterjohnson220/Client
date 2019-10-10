@@ -10,7 +10,7 @@ import { WindowRef } from 'libs/core/services';
 
 import * as fromReportsViewActions from '../../../actions/reports-view-page.actions';
 import * as fromDataInsightsMainReducer from '../../../reducers';
-import { ReportViewTypes } from '../../../models';
+import { ReportViewTypes, StandardReportFilter, StandardReportTitle, StandardReportSheetName } from '../../../models';
 
 @Component({
   selector: 'pf-report-view-page',
@@ -29,6 +29,8 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
   viz: any;
   vizLoading: boolean;
   currentHistoryState: any;
+  standardReportFilter: StandardReportFilter;
+  standardReportFilterApplied: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -57,6 +59,8 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
     if (!url) {
       return;
     }
+    this.standardReportFilter = this.getStandardReportFilter(url);
+    const contentUrl = this.getReportViewContentUrl(url);
     this.vizLoading = true;
     this.currentHistoryState = history.state;
     const containerDiv = document.getElementById('vizContainer');
@@ -71,15 +75,17 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
         if (history.state !== that.currentHistoryState) {
           history.replaceState(that.currentHistoryState, null);
         }
+        that.applyDefaultStandardReportFilter();
       }
     };
     if (this.viz) {
       this.viz.dispose();
     }
     const tableau = this.winRef.nativeWindow.tableau || {};
-    this.viz = new tableau.Viz(containerDiv, url, options);
+    this.viz = new tableau.Viz(containerDiv, contentUrl, options);
     this.viz.addEventListener('tabSwitch', function () {
       that.updateRoute();
+      that.applyDefaultStandardReportFilter();
     });
   }
 
@@ -137,6 +143,59 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
       return viewUrl;
     } catch (e) {
       return null;
+    }
+  }
+
+  private getReportViewContentUrl(url: string): string {
+    const urlSplits = url.split('?');
+    return urlSplits[0];
+  }
+
+  private getStandardReportFilter(url: string): StandardReportFilter {
+    const urlSplits = url.split('?');
+    if (urlSplits.length !== 2) {
+      return null;
+    }
+    const filterSplits = urlSplits[1].split('=');
+    if (filterSplits.length !== 2) {
+      return null;
+    }
+    return {
+      FieldName: decodeURI(filterSplits[0]),
+      FilterValue: filterSplits[1]
+    };
+  }
+
+  private applyDefaultStandardReportFilter(): void {
+    if (!this.standardReportFilter) {
+      return;
+    }
+    switch (this.reportTitle) {
+      case StandardReportTitle.SalaryStructures:
+        this.applyFilterBySheetName(StandardReportSheetName.SalaryStructures);
+        break;
+      case StandardReportTitle.PublishedCompositesWithEmployees:
+        this.applyFilterBySheetName(StandardReportSheetName.EmployeesAndMarketData);
+        break;
+      default:
+        break;
+    }
+  }
+
+  private applyFilterBySheetName(sheetNameToFilter: string): void {
+    if (!this.standardReportFilterApplied) {
+      try {
+        const tableau = this.winRef.nativeWindow.tableau || {};
+        const sheet = this.viz.getWorkbook().getActiveSheet();
+        const sheetName = sheet.getName().trim();
+        if (sheetName === sheetNameToFilter) {
+          const worksheet = sheet.getWorksheets()[0];
+          worksheet.applyFilterAsync(this.standardReportFilter.FieldName, this.standardReportFilter.FilterValue, tableau.FilterUpdateType.REPLACE);
+          this.standardReportFilterApplied = true;
+        }
+      } catch (e) {
+        return;
+      }
     }
   }
 }

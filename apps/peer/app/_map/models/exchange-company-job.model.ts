@@ -5,7 +5,6 @@ export interface ExchangeCompanyJob {
   CompanyJobCode: string;
   CompanyJobTitle: string;
   CompanyJobFamily: string;
-  IsInMapScope: boolean;
 }
 
 export function generateMockExchangeCompanyJob(): ExchangeCompanyJob {
@@ -15,7 +14,6 @@ export function generateMockExchangeCompanyJob(): ExchangeCompanyJob {
     CompanyJobId: 1,
     CompanyJobCode: 'MockCompanyJobCode',
     CompanyJobTitle: 'MockCompanyJobTitle',
-    CompanyJobFamily: 'MockCompanyJobFamily',
-    IsInMapScope: true
+    CompanyJobFamily: 'MockCompanyJobFamily'
   };
 }

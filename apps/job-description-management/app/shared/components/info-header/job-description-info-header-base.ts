@@ -3,7 +3,6 @@ import { Input, OnInit, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
-import {filter, take} from 'rxjs/operators';
 
 import { UserContext } from 'libs/models/index';
 import { JobDescription } from 'libs/models/jdm/job-description.model';
@@ -12,7 +11,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromJobDescriptionAppliesToReducers from '../../reducers/index';
 import * as fromJobDescriptionAppliesToActions from '../../actions/job-description-appliesto.actions';
-import { JobDescriptionAppliesToItem } from '../../models/job-description-appliesto-item.model';
+import { JobDescriptionAppliesToItem } from '../../models';
 
 export abstract class JobDescriptionInfoHeaderBase implements OnInit, OnChanges {
   jobInfoFieldRows: any;

@@ -18,6 +18,8 @@ import * as fromSurveyTitlesActions from '../../actions/survey-titles.actions';
 export class AddSurveyTitleModalComponent implements OnInit {
   @Input() surveyPublisherId;
   addSurveyTitleForm: FormGroup;
+  public surveyTitleSaveWarning: string;
+  private surveyTitleWarning$: Observable<string>;
   private saveSurveyTitleSuccess$: Observable<boolean>;
 
   constructor(private store: Store<fromSurveyLibraryReducer.State>,
@@ -28,6 +30,7 @@ export class AddSurveyTitleModalComponent implements OnInit {
       'newSurveyCode': []
     });
     this.saveSurveyTitleSuccess$ = this.store.select(fromSurveyLibraryReducer.getSavingSurveyTitlesSuccess);
+    this.surveyTitleWarning$ = this.store.select(fromSurveyLibraryReducer.getWarning);
   }
 
   ngOnInit() {
@@ -38,6 +41,9 @@ export class AddSurveyTitleModalComponent implements OnInit {
         }));
         this.handleModalDismissed();
       }
+    });
+    this.surveyTitleWarning$.subscribe(warning => {
+        this.surveyTitleSaveWarning = warning;
     });
   }
 
@@ -52,5 +58,10 @@ export class AddSurveyTitleModalComponent implements OnInit {
 
   handleModalDismissed() {
     this.state.setAddSurveyTitleModalOpen(false);
+    this.surveyTitleSaveWarning = '';
+  }
+
+  handleSurveyCodeChanged() {
+    this.surveyTitleSaveWarning = '';
   }
 }

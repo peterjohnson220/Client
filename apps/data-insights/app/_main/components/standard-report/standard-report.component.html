@@ -1,4 +1,4 @@
-<div class="standard-report d-flex flex-column">
+<div *ngIf="!!workbook" class="standard-report d-flex flex-column">
   <div class="preview d-flex justify-content-center align-items-center flex-grow-1"
   (mouseenter)="handleMouseOverWorkbookContainer()"
   (mouseleave)="handleMouseLeaveWorkbookContainer()">

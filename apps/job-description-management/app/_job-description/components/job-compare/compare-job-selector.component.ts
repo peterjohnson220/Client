@@ -5,8 +5,8 @@ import { JobDescription } from 'libs/models/jdm/job-description.model';
 
 @Component({
   selector: 'pf-compare-job-selector',
-  templateUrl: './compare-job-selector.component.html'/*,
-  styleUrls: ['./compare-job-selector.component.css']*/
+  templateUrl: './compare-job-selector.component.html',
+  styleUrls: ['./compare-job-selector.component.scss']
 })
 export class CompareJobSelectorComponent {
   @Input() jobDescriptionList: JobDescription[];
