@@ -1,2 +1,3 @@
 export * from './jobs-details/jobs-details.component';
-export * from './complex-column/complex-column.component';
+export * from './pricing-details-grid/pricing-details-grid.component';
+export * from './employees-grid/employees-grid.component';

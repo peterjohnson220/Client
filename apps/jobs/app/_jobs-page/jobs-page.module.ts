@@ -17,8 +17,7 @@ import { PfColumnChooserModule } from 'libs/ui/column-chooser/column-chooser.mod
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
 
-import { JobsDetailsComponent, ComplexColumnComponent } from './components';
-
+import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridComponent } from './components';
 
 @NgModule({
   imports: [
@@ -48,7 +47,8 @@ import { JobsDetailsComponent, ComplexColumnComponent } from './components';
 
     // Components
     JobsDetailsComponent,
-    ComplexColumnComponent
+    EmployeesGridComponent,
+    PricingDetailsGridComponent
   ]
 })
 export class JobsPageModule { }

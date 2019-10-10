@@ -14,21 +14,23 @@
         <kendo-grid-column 
           [field]="mappedColumnName(col)"
           [title]="col.DisplayName"
-          [headerStyle]="{'font-weight': 'bold'}"
-          [width]="isCompact ? null : 200"
+          [headerStyle]="{'font-weight': 'bold', 'text-align': 'center', 'vertical-align': 'middle'}"
+          [style]="{'text-align': col.TextAlign}"
+          [width]="isCompact ? null : col.Width"
           [minResizableWidth]="30">
           <ng-template kendoGridCellTemplate let-dataItem>
-            <ng-container *ngIf="!columnTemplates || !columnTemplates[col.SourceName]">
-              {{dataItem[mappedColumnName(col)]}}
+            <ng-container *ngIf="getColumnType(col) === 'dateTime'">
+              {{dataItem[mappedColumnName(col)] | date: 'MM/dd/yyyy' }}
             </ng-container>
-            <ng-container *ngIf="columnTemplates && columnTemplates[col.SourceName]" 
-              [ngTemplateOutlet]="columnTemplates[col.SourceName]"
+            <ng-container *ngIf="getColumnType(col) === 'currency'">
+              {{dataItem[mappedColumnName(col)]/1000.0 | number:'1.0-1' }}
+            </ng-container>
+            <ng-container *ngIf="getColumnType(col) === 'template'" [ngTemplateOutlet]="columnTemplates[col.SourceName]"
               [ngTemplateOutletContext]="{dataRow:dataItem}">
             </ng-container>
-            <!-- <ng-container *ngIf="col.DataType === 'template' && columnTemplates[col.SourceName]" 
-              [ngTemplateOutlet]="columnTemplates[col.SourceName]"
-              [ngTemplateOutletContext]="{parameters:getValue(dataItem, col.ChildColumns)}">
-            </ng-container> -->
+            <ng-container *ngIf="getColumnType(col) === 'default'">
+              {{dataItem[mappedColumnName(col)]}}
+            </ng-container>
           </ng-template>
         </kendo-grid-column>
       </ng-container>
