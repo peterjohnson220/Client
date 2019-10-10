@@ -3,6 +3,7 @@
 exports[`Admin - Company Admin - Users List Component Should show the users list grid when usersList is populated 1`] = `
 <pf-users-list
   router={[Function Object]}
+  sort={[Function Array]}
   usersList={[Function Array]}
 >
   <div

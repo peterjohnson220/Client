@@ -1,0 +1,39 @@
+$white: #ffffff;
+$grey: #4a4a4a;
+
+.company-resources-container {
+    background-color: $white;
+    height: 100%;
+}
+
+.content-container { 
+    max-width: 62.5em;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+.title {
+    font-size: 38.4px;
+    color: $grey;
+    letter-spacing: 0.8px;
+    line-height: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.breadcrumb {
+    background-color: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumb-item > a,  .breadcrumb-item {
+    color: $grey;
+    font-size: 12.8px;
+    letter-spacing: 1.2px;
+    line-height: 18px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+}

@@ -1,12 +1,29 @@
-<pf-modal-form [size]="'lg'" [title]="'Import Job Matches'" [subTitle]="" [primaryButtonText]="btnText"
-    [primaryButtonTextSubmitting]="'Processing...'" [submitting]="(importStatus$ | async) === importStatus.InProcess"
-    [isOpen$]="importAssociationModalOpen$" [formGroup]="exchangeJobRequestForm" (onSubmit)="handleFormSubmit()"
+<pf-modal-form
+    [size]="'lg'"
+    [title]="'Import Job Matches'"
+    [subTitle]=""
+    [primaryButtonText]="btnText"
+    [primaryButtonTextSubmitting]="'Processing...'"
+    [secondaryButtonText]="'Close'"
+    [submitting]="(importStatus$ | async) === importStatus.InProcess"
+    [isOpen$]="importAssociationModalOpen$"
+    [formGroup]="exchangeJobRequestForm"
+    (onSubmit)="handleFormSubmit()"
     (onDismiss)="handleModalDismissed()">
 
     <ng-container form-content>
-        <kendo-upload [saveUrl]="uploadSaveUrl" [ngModelOptions]="{standalone: true}" [(ngModel)]="myFiles" [removeUrl]="uploadRemoveUrl"
-            [restrictions]="uploadRestrictions" [multiple]="false" (upload)="uploadEventHandler($event)" (success)="successEventHandler($event)"
-            (error)="errorEventHandler($event)"></kendo-upload>
+        <kendo-upload
+            [saveUrl]="uploadSaveUrl"
+            [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="myFiles"
+            [removeUrl]="uploadRemoveUrl"
+            [restrictions]="uploadRestrictions"
+            [multiple]="false"
+            (upload)="uploadEventHandler($event)"
+            (success)="successEventHandler($event)"
+            (error)="errorEventHandler($event)"
+            (remove)="onFileRemove($event)">
+        </kendo-upload>
     </ng-container>
 
     <div class="alert alert-danger" role="alert" *ngIf="uploadResult && uploadResult.Errors.length > 0 " form-content>
@@ -15,8 +32,7 @@
         </ul>
     </div>
 
-    <div class="alert alert-success" role="alert" *ngIf="uploadResult && uploadResult.Errors.length === 0 "
-        form-content>
+    <div class="alert alert-success" role="alert" *ngIf="uploadResult && uploadResult.Errors.length === 0 " form-content>
         Successfully added records.
     </div>
 

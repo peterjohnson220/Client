@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeMapResponse, PeerMapScopeMapInfo, GenericKeyValue } from 'libs/models/';
+import { ExchangeMapResponse, GenericKeyValue } from 'libs/models/';
+import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
 
 export const LOAD_PEER_MAP_DATA  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Data';
 export const LOAD_PEER_MAP_DATA_SUCCESS  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Data Success';
@@ -61,13 +62,13 @@ export class ResetState implements Action {
 export class ApplyCutCriteria implements Action {
   readonly type = APPLY_CUT_CRITERIA;
 
-  constructor(public payload: PeerMapScopeMapInfo) {}
+  constructor(public payload: ExchangeExplorerScopeResponse) {}
 }
 
 export class ApplyScopeCriteria implements Action {
   readonly type = APPLY_SCOPE_CRITERIA;
 
-  constructor(public payload: any) {}
+  constructor(public payload: ExchangeExplorerScopeResponse) {}
 }
 
 export class ApplyScopeCriteriaSuccess implements Action {

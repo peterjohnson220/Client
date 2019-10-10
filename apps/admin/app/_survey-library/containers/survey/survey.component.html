@@ -44,7 +44,9 @@
             <td>
               <button type="button"
                       class="btn btn-info btn-sm"
-                      (click)="copySurvey(item.SurveyId, item.CompanyName)">
+                      (click)="copySurvey(item.SurveyId, item.CompanyName)"
+                      [disabled]="item.CompanyHasSurveyUdfs"
+                      [title]="(item.CompanyHasSurveyUdfs) ? 'Copy functionality is not available for this survey as it contains company specific custom fields' : ''">
                 Copy Survey
               </button>
               <ng-container *ngIf="isUserGroupOne()">

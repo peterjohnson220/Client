@@ -1,0 +1,63 @@
+<table class="table control-table">
+  <thead *ngIf="attributes.length > 1">
+  <tr>
+    <th width="1%" *ngIf="!readOnly"></th>
+    <th width="{{(attribute.WidthPct/106) * 100 + '%'}}" *ngFor="let attribute of attributes">
+      {{attribute.DisplayName}}
+    </th>
+    <th width="5%"></th>
+  </tr>
+  </thead>
+    <tbody dragula="control-data-reorder-bag" [(dragulaModel)]="data">
+  <!-- NO DATA -->
+  <ng-template [ngIf]="!data.length">
+    <tr>
+      <td [attr.colspan]="attributes.length + 2">No Data</td>
+    </tr>
+  </ng-template>
+
+  <ng-template [ngIf]="data.length">
+
+    <!--Data Row-->
+    <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+      <tr *ngIf="!readOnly || (readOnly && jobDescriptionManagementService.hasData(attributes, dataRow))"
+          [attr.data-index]="dataRowIndex"
+          [attr.data-data-row-id]="dataRow.Id"
+          [class.re-orderable]="!readOnly">
+
+        <td *ngIf="!readOnly" width="1%" class="dnd-control-data-reorder-handle">
+          <fa-icon icon="ellipsis-v" class="dnd-control-data-reorder-handle"></fa-icon>
+        </td>
+
+        <!--Attribute Cells-->
+        <td width="{{(attribute.WidthPct/106) * 100 + '%'}}"
+            *ngFor="let attribute of attributes">
+          <pf-control-data-attribute-renderer
+            [editable]="canEditAttribute(dataRow, attribute)"
+            [checkInheritedData]="checkInheritedData"
+            [dataRow]="dataRow"
+            [attribute]="attribute"
+            (dataChangesDetected)="handleDataChangesDetected($event)">
+          </pf-control-data-attribute-renderer>
+        </td>
+
+        <td width="5%">
+          <button *ngIf="(!readOnly && !checkInheritedData) || (checkInheritedData && !dataRow.TemplateId && !readOnly && !locked)"
+                  class="btn btn-sm btn-secondary" (click)="deleteDataRow(dataRow.Id)">
+            <fa-icon icon="trash-alt"></fa-icon>
+          </button>
+        </td>
+
+        <!-- Hidden Cell for Drag/Drop Re-Order -->
+        <td class="gu-mirror-show">
+          <div class="card">
+            <div class="card-block">{{ dataRow[attributes[0].DisplayName] | stripHtml }}</div>
+          </div>
+        </td>
+      </tr>
+
+    </ng-template>
+
+  </ng-template>
+  </tbody>
+</table>

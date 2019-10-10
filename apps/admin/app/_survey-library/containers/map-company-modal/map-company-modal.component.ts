@@ -23,6 +23,7 @@ export class MapCompanyModalComponent implements OnDestroy, OnInit {
   mappedCompanies: any = {};
   tbxSearch: string;
   selectedCompany: number;
+  hasCompanySurveyUDFs: boolean;
 
   private unsubscribe$ = new Subject();
   mapCompaniesModalOpen$: Observable<any>;
@@ -42,6 +43,7 @@ export class MapCompanyModalComponent implements OnDestroy, OnInit {
     this.modalData$.subscribe(f => {
       this.mappedCompanies = cloneDeep(f.Mapped);
       this.companiesList = f.NotMapped;
+      this.hasCompanySurveyUDFs = f.HasCompanySurveyUdfs;
     });
   }
 

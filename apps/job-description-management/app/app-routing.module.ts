@@ -17,6 +17,11 @@ export const routes: Routes = [
         path: 'job-descriptions',
         loadChildren: () => import('apps/job-description-management/app/_job-description/job-description.module')
           .then(m => m.JobDescriptionModule)
+      },
+      {
+        path: 'templates',
+        loadChildren: () => import('apps/job-description-management/app/_templates/templates.module')
+          .then(m => m.TemplatesModule)
       }
     ]
   },

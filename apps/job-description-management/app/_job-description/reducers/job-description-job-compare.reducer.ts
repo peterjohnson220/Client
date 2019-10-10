@@ -1,74 +1,185 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { JobDescription } from 'libs/models/jdm';
+import { SaveError } from 'libs/models/common/save-error';
 
 import * as fromJobDescriptionJobCompareActions from '../actions/job-description-job-compare.actions';
+import { ControlDataHelper } from '../../shared/helpers';
 
 export interface State {
   jobDescriptionList: JobDescription[];
-  jobDescriptionComparisonDiff: any;
-  loadingJobDescriptionComparisonDiff: boolean;
-  loadingJobDescriptionComparisonDiffError: boolean;
-
-  sourceJobDescription: JobDescription;
-  loadingSourceJobDescription: boolean;
-  loadingSourceJobDescriptionError: boolean;
-
-  jobDescriptionForComparison: JobDescription;
-  loadingJobDescriptionForComparison: boolean;
-  loadingJobDescriptionForComparisonError: boolean;
-
-  leftJobIsFullscreen: boolean;
-  rightJobIsFullscreen: boolean;
-
-  editingJobDescription: boolean;
+  jobDescriptionComparisonDiffAsync: AsyncStateObj<any>;
+  sourceJobDescriptionAsync: AsyncStateObj<JobDescription>;
+  jobDescriptionForComparisonAsync: AsyncStateObj<JobDescription>;
   saving: boolean;
+  saveError: SaveError;
 }
 
 export const initialState: State = {
   jobDescriptionList: [],
-  jobDescriptionComparisonDiff: null,
-  loadingJobDescriptionComparisonDiff: false,
-  loadingJobDescriptionComparisonDiffError: false,
-
-  sourceJobDescription: null,
-  loadingSourceJobDescription: false,
-  loadingSourceJobDescriptionError: false,
-
-  jobDescriptionForComparison: null,
-  loadingJobDescriptionForComparison: false,
-  loadingJobDescriptionForComparisonError: false,
-
-  leftJobIsFullscreen: false,
-  rightJobIsFullscreen: false,
-
-  editingJobDescription: false,
-  saving: false
+  jobDescriptionComparisonDiffAsync: generateDefaultAsyncStateObj<any>(null),
+  sourceJobDescriptionAsync: generateDefaultAsyncStateObj<JobDescription>(null),
+  jobDescriptionForComparisonAsync: generateDefaultAsyncStateObj<JobDescription>(null),
+  saving: false,
+  saveError: null
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionJobCompareActions.Actions): State {
   switch (action.type) {
-    case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_LIST_SUCCESS:
+    case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_LIST_SUCCESS: {
       return {
         ...state,
         jobDescriptionList: action.payload
       };
-    case fromJobDescriptionJobCompareActions.LOAD_SOURCE_JOB_DESCRIPTION_SUCCESS:
+    }
+    case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_COMPARISON_DIFF: {
+      const jobDescriptionComparisonDiffAsyncClone = cloneDeep(state.jobDescriptionComparisonDiffAsync);
+
+      jobDescriptionComparisonDiffAsyncClone.loading = true;
+      jobDescriptionComparisonDiffAsyncClone.loadingError = false;
+
       return {
         ...state,
-        loadingSourceJobDescription: false,
-        sourceJobDescription: action.payload
+        jobDescriptionComparisonDiffAsync: jobDescriptionComparisonDiffAsyncClone
       };
-    case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_FOR_COMPARISON_SUCCESS:
-      console.log(action.payload);
+    }
+    case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_COMPARISON_DIFF_SUCCESS: {
+      const jobDescriptionComparisonDiffAsyncClone = cloneDeep(state.jobDescriptionComparisonDiffAsync);
+
+      jobDescriptionComparisonDiffAsyncClone.loading = false;
+      jobDescriptionComparisonDiffAsyncClone.obj = action.payload;
+
       return {
         ...state,
-        loadingJobDescriptionForComparison: false,
-        jobDescriptionForComparison: action.payload
+        jobDescriptionComparisonDiffAsync: jobDescriptionComparisonDiffAsyncClone
       };
-    default:
+    }
+    case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_COMPARISON_DIFF_ERROR: {
+      const jobDescriptionComparisonDiffAsyncClone = cloneDeep(state.jobDescriptionComparisonDiffAsync);
+
+      jobDescriptionComparisonDiffAsyncClone.loading = false;
+      jobDescriptionComparisonDiffAsyncClone.loadingError = true;
+
+      return {
+        ...state,
+        jobDescriptionComparisonDiffAsync: jobDescriptionComparisonDiffAsyncClone
+      };
+    }
+
+
+    case fromJobDescriptionJobCompareActions.LOAD_SOURCE_JOB_DESCRIPTION: {
+      const sourceJobDescriptionAsyncClone = cloneDeep(state.sourceJobDescriptionAsync);
+
+      sourceJobDescriptionAsyncClone.loading = true;
+      sourceJobDescriptionAsyncClone.loadingError = false;
+
+      return {
+        ...state,
+        sourceJobDescriptionAsync: sourceJobDescriptionAsyncClone
+      };
+    }
+    case fromJobDescriptionJobCompareActions.LOAD_SOURCE_JOB_DESCRIPTION_SUCCESS: {
+      const sourceJobDescriptionAsyncClone = cloneDeep(state.sourceJobDescriptionAsync);
+
+      sourceJobDescriptionAsyncClone.loading = false;
+      sourceJobDescriptionAsyncClone.obj = action.payload;
+
+      return {
+        ...state,
+        sourceJobDescriptionAsync: sourceJobDescriptionAsyncClone
+      };
+    }
+    case fromJobDescriptionJobCompareActions.LOAD_SOURCE_JOB_DESCRIPTION_ERROR: {
+      const sourceJobDescriptionAsyncClone = cloneDeep(state.sourceJobDescriptionAsync);
+
+      sourceJobDescriptionAsyncClone.loading = false;
+      sourceJobDescriptionAsyncClone.loadingError = true;
+
+      return {
+        ...state,
+        sourceJobDescriptionAsync: sourceJobDescriptionAsyncClone
+      };
+    }
+    case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_FOR_COMPARISON: {
+      const jobDescriptionForComparisonAsyncClone = cloneDeep(state.jobDescriptionForComparisonAsync);
+
+      jobDescriptionForComparisonAsyncClone.loading = true;
+      jobDescriptionForComparisonAsyncClone.loadingError = false;
+
+      return {
+        ...state,
+        jobDescriptionForComparisonAsync: jobDescriptionForComparisonAsyncClone
+      };
+    }
+    case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_FOR_COMPARISON_SUCCESS: {
+      const jobDescriptionForComparisonAsyncClone = cloneDeep(state.jobDescriptionForComparisonAsync);
+
+      jobDescriptionForComparisonAsyncClone.loading = false;
+      jobDescriptionForComparisonAsyncClone.obj = action.payload;
+
+      return {
+        ...state,
+        jobDescriptionForComparisonAsync: jobDescriptionForComparisonAsyncClone
+      };
+    }
+    case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_FOR_COMPARISON_ERROR: {
+      const jobDescriptionForComparisonAsyncClone = cloneDeep(state.jobDescriptionForComparisonAsync);
+
+      jobDescriptionForComparisonAsyncClone.loading = false;
+      jobDescriptionForComparisonAsyncClone.loadingError = true;
+
+      return {
+        ...state,
+        jobDescriptionForComparisonAsync: jobDescriptionForComparisonAsyncClone
+      };
+    }
+    case fromJobDescriptionJobCompareActions.SAVE_JOB_DESCRIPTION: {
+      return {
+        ...state,
+        saving: true
+      };
+    }
+    case fromJobDescriptionJobCompareActions.SAVE_JOB_DESCRIPTION_SUCCESS: {
+      const sourceJobDescriptionAsyncClone = cloneDeep(state.sourceJobDescriptionAsync);
+
+      sourceJobDescriptionAsyncClone.obj.DraftNumber = action.payload.DraftNumber;
+      sourceJobDescriptionAsyncClone.obj.JobDescriptionStatus = action.payload.JobDescriptionStatus;
+      sourceJobDescriptionAsyncClone.obj.JobDescriptionRevision = action.payload.JobDescriptionRevision;
+
+      if (action.IsFirstSave) {
+        sourceJobDescriptionAsyncClone.obj.Name = action.payload.Name;
+        sourceJobDescriptionAsyncClone.obj.JobInformationFields = action.payload.JobInformationFields;
+      }
+
+      return {
+        ...state,
+        saving: false,
+        sourceJobDescriptionAsync: sourceJobDescriptionAsyncClone
+      };
+    }
+    case fromJobDescriptionJobCompareActions.SAVE_JOB_DESCRIPTION_ERROR: {
+      return {
+        ...state,
+        saving: false,
+        saveError: action.payload
+      };
+    }
+    case fromJobDescriptionJobCompareActions.CLEAR_SAVE_JOB_DESCRIPTION_ERROR: {
+      return {
+        ...state,
+        saveError: null
+      };
+    }
+    default: {
       return state;
+    }
   }
 }
 
 export const getJobDescriptionList = (state: State) => state.jobDescriptionList;
-export const getSourceJobDescription = (state: State) => state.sourceJobDescription;
-export const getJobDescriptionForComparison = (state: State) => state.jobDescriptionForComparison;
+export const getJobDescriptionComparisonDiffAsync = (state: State) => state.jobDescriptionComparisonDiffAsync;
+export const getSourceJobDescriptionAsync = (state: State) => state.sourceJobDescriptionAsync;
+export const getJobDescriptionForComparisonAsync = (state: State) => state.jobDescriptionForComparisonAsync;
+export const getJobDescriptionSaving = (state: State) => state.saving;
+export const getJobDescriptionSaveError = (state: State) => state.saveError;

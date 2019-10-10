@@ -9,6 +9,8 @@ import * as fromDashboardReducer from './dashboard.reducer';
 import * as fromUserVoiceReducer from './user-voice.reducer';
 import * as fromActivityTimelineReducer from './timeline-activity.reducer';
 import * as fromDashboardTCModalReducer from './dashboard-tc-modal.reducer';
+import * as fromCompanyResourcesReducer from './company-resources.reducer';
+import * as fromCompanyResourcesModalReducer from './company-resources-modal.reducer';
 
 // Feature area state
 export interface DashboardMainState {
@@ -17,6 +19,8 @@ export interface DashboardMainState {
   userVoice: fromUserVoiceReducer.State;
   activityTimeline: fromActivityTimelineReducer.State;
   tcModal: fromDashboardTCModalReducer.State;
+  companyResources: fromCompanyResourcesReducer.State;
+  companyResourcesModal: fromCompanyResourcesModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -31,6 +35,8 @@ export const reducers = {
   userVoice: fromUserVoiceReducer.reducer,
   activityTimeline: fromActivityTimelineReducer.reducer,
   tcModal: fromDashboardTCModalReducer.reducer,
+  companyResources: fromCompanyResourcesReducer.reducer,
+  companyResourcesModal: fromCompanyResourcesModalReducer.reducer
 };
 
 // Select Feature Area
@@ -42,6 +48,8 @@ export const selectFeatureState = createSelector(selectDashboardMainState, (stat
 export const selectUserVoiceState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.userVoice);
 export const selectActivityTimelineState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.activityTimeline);
 export const selectTCModalState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.tcModal);
+export const selectCompanyResourcesState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.companyResources);
+export const selectCompanyResourcesModalState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.companyResourcesModal);
 
 // Entity Adapter Selectors
 
@@ -82,6 +90,20 @@ export const getTimelineActivityHasMoreData = createSelector(selectActivityTimel
 export const getTCSubmitting = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCSubmitting);
 export const getTCSubmittingError = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCSubmittingError);
 export const getTCSubmittingSuccess = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCSubmittingSuccess);
-
 export const getTCData = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCData);
 export const hasTCData = createSelector(selectTCModalState, fromDashboardTCModalReducer.hasTCData);
+
+// company resources
+export const getCompanyResources = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResources);
+export const getCompanyResourcesLoading = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourcesLoading);
+export const getCompanyResourcesLoadingError = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourcesLoadingError);
+export const getCompanyResourceToAdd = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceToAdd);
+export const getCompanyResourceId = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceId);
+export const getCompanyResourceFolder = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceFolder);
+export const getAddingCompanyResourceFolder = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceFolder);
+export const getAddingCompanyResourceFolderSuccess = createSelector(
+  selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceFolderSuccess);
+export const getAddingCompanyResourceFolderError = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceFolderError);
+
+// company resources modals
+export const getNewFolderModalOpen = createSelector(selectCompanyResourcesModalState, fromCompanyResourcesModalReducer.getNewFolderModalOpen);

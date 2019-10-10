@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.hasUserContextSub = this.hasUserContext$.subscribe(huc => this.ready = huc);
     this.userContextSub = this.userContext$.pipe(filter(uc => !!uc)).subscribe(uc => {
-      NewRelicService.setCustomAttributes(uc.CompanyId, uc.UserId);
+      NewRelicService.setCustomAttributes(uc.CompanyId, uc.UserId, uc.IpAddress, uc.SessionId);
     });
   }
 

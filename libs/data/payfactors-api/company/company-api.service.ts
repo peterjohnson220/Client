@@ -4,8 +4,10 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CompanyDto, LegacyCompanySettingDto, CompanyFormData } from '../../../models/company';
-import { SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesResponse,
-  CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields } from '../../../models/payfactors-api';
+import {
+  SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesResponse,
+  CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields, JobPricingLimitInfoResponse
+} from '../../../models/payfactors-api';
 import { Company } from 'libs/models/company/company.model';
 
 @Injectable()
@@ -74,5 +76,10 @@ export class CompanyApiService {
 
   getCompositeFields(): Observable<ListCompositeFields[]> {
     return this.payfactorsApiService.get<ListCompositeFields[]>(`/CompositeField`);
+  }
+
+  getJobPricingLimitInfoByCompanyId(companyId: number): Observable<JobPricingLimitInfoResponse>  {
+    return this.payfactorsApiService.get<JobPricingLimitInfoResponse>(`${this.endpoint}/GetJobPricingLimitInfoByCompanyId`,
+      { params: { companyId: companyId } });
   }
 }

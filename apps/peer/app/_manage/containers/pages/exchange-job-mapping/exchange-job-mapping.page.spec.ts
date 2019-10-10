@@ -37,7 +37,12 @@ describe('Peer - Exchange Job Mapping Page', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id: 1 } } },
+          useValue: {
+            params: of({ id: 1 }),
+            snapshot: {
+              params: { id: 1 }
+            }
+          },
         },
         {
           provide: ExchangeJobMappingService,

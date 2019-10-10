@@ -1,8 +1,8 @@
 <div class="filter" [class.singled]="singled">
   <div class="header" (click)="toggle()">
-    <div class="header-left">
-      {{filter.DisplayName}}
-
+    <div [title]="filter.DisplayName" class="header-left">
+      <span class="ellipsis-overflowing-text">{{filter.DisplayName}} </span>
+      <span class="operator text-muted" *ngIf="filterOperatorLabel">{{filterOperatorLabel}}</span>
       <div class="ml-2" *ngIf="collapsed">
         <fa-icon [icon]="['far', 'angle-down']"></fa-icon>
       </div>

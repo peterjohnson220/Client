@@ -15,9 +15,10 @@
           <label for="surveyName">Survey Name</label>
           <input type="text" class="form-control" formControlName="newSurveyName" id="surveyName">
         </div>
-        <div class="form-group col-md-6">
-          <label for="surveyCode">Code</label>
-          <input type="text" class="form-control" formControlName="newSurveyCode" id="surveyCode">
+        <div class="form-group col-md-6" [class.has-danger]="surveyTitleSaveWarning">
+          <label for="surveyCode">Code </label>
+          <input type="text" class="form-control" formControlName="newSurveyCode" id="surveyCode" (keydown)="handleSurveyCodeChanged()">
+          <span class="text-danger float-right" *ngIf="surveyTitleSaveWarning"> {{surveyTitleSaveWarning}}</span>
         </div>
       </div>
     </div>

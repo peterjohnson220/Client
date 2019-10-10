@@ -1,0 +1,71 @@
+<table class="table control-table no-border">
+
+  <!--Only need a table head when we have more than 1 attribute and we are not a vertical control-->
+  <thead *ngIf="attributes.length > 1 && vertical !== true">
+  <tr>
+    <th width="{{attribute.WidthPct + '%'}}" *ngFor="let attribute of attributes">{{attribute.DisplayName}}</th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+  <ng-template [ngIf]="data.length">
+
+    <!--Vertical Rendering-->
+    <ng-template [ngIf]="vertical">
+
+      <tr *ngFor="let attribute of attributes">
+        <th class="vertical-heading">
+          {{ attribute.DisplayName }}:
+        </th>
+        <td class="vertical-data-cell">
+          <!--Data Row Loop ( Max 2 )-->
+          <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+
+            <!--TODO [BC]: Have template seeded data be inline with textbox-->
+            <pf-control-data-attribute-renderer
+              [editable]="canEditAttribute(dataRow, dataRowIndex, attribute)"
+              [checkInheritedData]="checkInheritedData"
+              [dataRow]="dataRow"
+              [attribute]="attribute"
+              (dataChangesDetected)="handleDataChangesDetected($event)">
+            </pf-control-data-attribute-renderer>
+
+          </ng-template>
+        </td>
+      </tr>
+
+    </ng-template>
+
+    <!--Non Vertical Rendering -->
+    <ng-template [ngIf]="!vertical">
+
+      <!--Data Row Loop ( Max 2 )-->
+      <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+        <!--Data Row, Only show if it has Data in read only view-->
+        <tr *ngIf="!readOnly || (readOnly && jobDescriptionManagementService.hasData(attributes, dataRow))"
+            [attr.data-index]="dataRowIndex"
+            [attr.data-data-row-id]="dataRow.Id">
+
+          <!--Attribute Cells-->
+          <td width="{{attribute.WidthPct + '%'}}" *ngFor="let attribute of attributes">
+            <pf-control-data-attribute-renderer
+              [editable]="canEditAttribute(dataRow, dataRowIndex, attribute)"
+              [checkInheritedData]="checkInheritedData"
+              [dataRow]="dataRow"
+              [attribute]="attribute"
+              (dataChangesDetected)="handleDataChangesDetected($event)">
+            </pf-control-data-attribute-renderer>
+          </td>
+
+        </tr>
+
+      </ng-template>
+
+    </ng-template>
+
+  </ng-template>
+
+  </tbody>
+
+</table>

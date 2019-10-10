@@ -120,7 +120,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
   });
 
   it('should dispatch a ExportDataCuts action when the handleFormSubmit event is triggered', () => {
-    const action = new fromExportDataCutsActions.ExportDataCuts({selectedRate: RateType.Annual});
+    const action = new fromExportDataCutsActions.ExportDataCuts({selectedRate: RateType.Annual, scopes: [], exportCurrentMap: false});
 
     instance.selections$ = of([1, 2]);
 
@@ -201,26 +201,8 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it(`should not dispatch fromGridActions.ToggleRowSelection action when the cellClick event is triggered
-   if the job is not in the map scope`, () => {
-    const expectedAction = new fromGridActions.ToggleRowSelection(
-      GridTypeEnum.ExchangeCompanyJob,
-      mockExchangeCompanyJob.ExchangeJobToCompanyJobId
-    );
-    mockExchangeCompanyJob.IsInMapScope = false;
-
-    fixture.detectChanges();
-
-    instance.handleCellClick({dataItem: mockExchangeCompanyJob});
-
-    fixture.detectChanges();
-
-    expect(store.dispatch).not.toBeCalledWith(expectedAction);
-  });
-
-  it(`should dispatch a fromGridActions.ToggleRowSelection action when the cellClick event is triggered and
-   the job is in the map scope`, () => {
-    const mockJob: ExchangeCompanyJob = {...mockExchangeCompanyJob, IsInMapScope: true};
+  it(`should dispatch a fromGridActions.ToggleRowSelection action when the cellClick event is triggered`, () => {
+    const mockJob: ExchangeCompanyJob = {...mockExchangeCompanyJob};
     const expectedAction = new fromGridActions.ToggleRowSelection(
       GridTypeEnum.ExchangeCompanyJob,
       mockJob.ExchangeJobToCompanyJobId,
@@ -252,7 +234,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
   });
 
   it(`should dispatch ToggleSelectAll action when onSelectAllChange is triggered`, () => {
-    const expectedAction = new fromGridActions.ToggleSelectAll(GridTypeEnum.ExchangeCompanyJob, instance.pageEntityIds);
+    const expectedAction = new fromGridActions.ToggleSelectAll(GridTypeEnum.ExchangeCompanyJob, [1]);
     instance.view$ = of(mockDataView);
 
     fixture.detectChanges();
@@ -262,25 +244,6 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it(`should call handleDataStateChange with appropriate state after handlePageDropDownChanged is called`, () => {
-      const mockGridState = KendoGridFilterHelper.getMockEmptyGridState();
-      const expectedState = mockGridState;
-      const dropDownValue = 25;
-
-      mockGridState.take = 50;
-      mockGridState.skip = 100;
-      expectedState.take = 25;
-      expectedState.skip = 0;
-
-      spyOn(instance, 'handleDataStateChange');
-
-      instance.handlePageDropDownChanged(mockGridState, dropDownValue);
-
-      fixture.detectChanges();
-
-      expect(instance.handleDataStateChange).toHaveBeenCalledWith(expectedState);
   });
 
   it(`should dispatch a SetSelections action when onSelectAllClick is called`, () => {

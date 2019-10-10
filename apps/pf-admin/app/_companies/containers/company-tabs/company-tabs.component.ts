@@ -13,10 +13,11 @@ import * as fromCompanyPageActions from '../../actions/company-page.actions';
 import { SecondarySurveyFieldsModalComponent } from '../../components';
 import { CustomCompanySettings, CompanyTabsContext } from '../../models';
 
+
 @Component({
   selector: 'pf-company-tabs',
   templateUrl: './company-tabs.component.html',
-  styleUrls: ['./company-tabs.component.scss']
+  styleUrls: [ './company-tabs.component.scss' ]
 })
 export class CompanyTabsComponent implements OnInit, OnDestroy {
   @Input() customCompanySettings: CustomCompanySettings;
@@ -45,7 +46,13 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
 
   companyTabsContextSubscription: Subscription;
 
-  constructor( private store: Store<fromPfAdminMainReducer.State> ) {
+  jobPricingLimitInfoSubscription: Subscription;
+  jobPricingLimitInfo$: Observable<any>;
+
+  private jobPricingLimitUsed = 0;
+  private showJobPricingLimitError = false;
+
+  constructor(private store: Store<fromPfAdminMainReducer.State>) {
     this.loadingCompanyTiles$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTiles);
     this.loadingCompanyTilesSuccess$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTilesSuccess);
     this.loadingCompanyTilesError$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTilesError);
@@ -62,6 +69,7 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
 
     this.compositeFields$ = this.store.select(fromPfAdminMainReducer.getCompositeFields);
     this.companyDataSetsEnabled$ = this.store.select(fromPfAdminMainReducer.getCompanyDataSetsEnabled);
+    this.jobPricingLimitInfo$ = this.store.select(fromPfAdminMainReducer.getJobPricingLimitInfo);
   }
 
   ngOnInit() {
@@ -69,17 +77,25 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
       this.loadingCompanySettingsSuccess$,
       this.loadingCompanyTilesSuccess$
     ).pipe(
-      map(([companyTilesLoaded, companySettingsLoaded]) => {
+      map(([ companyTilesLoaded, companySettingsLoaded ]) => {
         return {
           companyTilesLoaded,
           companySettingsLoaded
         };
       })
     ).subscribe(c => this.handleCompanyTabsContextLoaded(c));
+
+    this.jobPricingLimitInfoSubscription = this.jobPricingLimitInfo$.subscribe(value => {
+        if (value) {
+          this.jobPricingLimitUsed = value.Used;
+        }
+      }
+    );
   }
 
   ngOnDestroy() {
     this.companyTabsContextSubscription.unsubscribe();
+    this.jobPricingLimitInfoSubscription.unsubscribe();
   }
 
   handleSurveyFieldsClicked() {
@@ -100,11 +116,16 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCompanyPageActions.ToggleCompanySetting(companySetting));
   }
 
+  changeCompanySetting(companySettingKey: string, changedValue) {
+    this.store.dispatch(new fromCompanyPageActions.ChangeCompanySettingValue({companySettingKey, changedValue}));
+  }
+
   private handleCompanyTabsContextLoaded(companyTabsContext: CompanyTabsContext) {
     if (!!companyTabsContext && companyTabsContext.companySettingsLoaded && companyTabsContext.companyTilesLoaded) {
       const isEditMode = this.companyId !== -1;
       if (isEditMode) {
         this.store.dispatch(new fromCompanyPageActions.CheckJDMEnabled({ companyId: this.companyId }));
+        this.store.dispatch(new fromCompanyPageActions.GetJobPricingLimitInfo({ companyId: this.companyId }));
       }
       this.handleTabsDisplayByClientType();
     }
@@ -122,5 +143,18 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
         return;
     }
+  }
+
+  private checkMaxProjectJobCount(event,  settingKey) {
+    const maxProjectValueNum = Number(event.currentTarget.value);
+    const jobPricingLimitUsedNum = Number(this.jobPricingLimitUsed);
+
+    if (isNaN(maxProjectValueNum) || maxProjectValueNum < jobPricingLimitUsedNum) {
+      this.showJobPricingLimitError = true;
+      return;
+    }
+
+    this.showJobPricingLimitError = false;
+    this.changeCompanySetting(settingKey, maxProjectValueNum.toString());
   }
 }

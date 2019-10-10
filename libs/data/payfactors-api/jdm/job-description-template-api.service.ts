@@ -8,12 +8,25 @@ import { TemplateListItemResponse } from '../../../models/payfactors-api/job-des
 import {
   LoadTemplateListByCompanyIdRequest
 } from 'apps/job-description-management/app/shared/models/requests/load-template-list-by-company-id.request.model';
+import {Template} from 'apps/job-description-management/app/_templates/models';
 
 @Injectable()
 export class JobDescriptionTemplateApiService {
   private endpoint = 'JobDescriptionTemplate';
 
   constructor(private payfactorsApiService: PayfactorsApiService) {
+  }
+
+  copy(templateId: number, templateName: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}(${templateId})/Default.Copy`, { templateName: templateName});
+  }
+
+  delete(templateId: number) {
+    return this.payfactorsApiService.delete(`${this.endpoint}(${templateId})`);
+  }
+
+  exists(templateName: string) {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.TemplateExists?templateName=` + templateName);
   }
 
   get(): Observable<TemplateListItemResponse[]> {
@@ -27,6 +40,11 @@ export class JobDescriptionTemplateApiService {
   getByCompanyId(loadTemplateListByCompanyIdRequest: LoadTemplateListByCompanyIdRequest): Observable<TemplateListItemResponse[]> {
     return this.payfactorsApiService.get<TemplateListItemResponse[]>(this.endpoint + `/Default.GetByCompanyId`,
       {params: {...loadTemplateListByCompanyIdRequest}});
+  }
+
+  save(template: Template) {
+    return this.payfactorsApiService.post(this.endpoint + `/Default.Save`,
+      {templateJsonAsString: JSON.stringify(template)});
   }
 
   saveCompanyJobsJobDescriptionTemplateId(templateId: number, request: SaveCompanyJobsJobDescriptionTemplateIdRequest): Observable<any> {

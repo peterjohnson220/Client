@@ -1,0 +1,67 @@
+@import 'libs/styles/dragula-drag-drop';
+
+.control-table tr:first-child td, .control-table tr:first-child th, th {
+  border-top: none;
+}
+
+::ng-deep tr.re-orderable:hover td.dnd-control-data-reorder-handle svg{
+  visibility: visible;
+  color: #7d7d7d;
+}
+
+::ng-deep .dnd-control-data-reorder-handle svg{
+  visibility: hidden;
+  display: inline-block;
+}
+
+::ng-deep .dnd-control-data-reorder-handle{
+  vertical-align: middle;
+}
+
+.dnd-control-data-reorder-handle:hover{
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+
+}
+
+.dnd-control-data-reorder-handle:active{
+  cursor: move;
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.gu-mirror{
+  width: 400px !important;
+  opacity: 1;
+  cursor: move;
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+.gu-mirror td:not(.gu-mirror-show) {
+  display: none;
+}
+
+.gu-mirror-show{
+  display: none;
+}
+
+.gu-mirror .gu-mirror-show{
+  display:block;
+}
+
+.gu-mirror .card{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.gu-mirror .card-block{
+  height: 30px;
+  width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 5px 25px;
+}

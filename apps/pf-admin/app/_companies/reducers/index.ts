@@ -230,3 +230,10 @@ export const getCompany = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getCompany
 );
+
+export const getJobPricingLimitInfo = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getJobPricingLimitInfo
+);
+
+
