@@ -21,26 +21,11 @@
     </div>
 
     <div class="report-fields tab-content" [ngClass]="activeTab === 'Fields' ? 'show' : ''">
-      <div class="actions">
-        <pf-add-report-fields
-          (fieldAdded)="handleFieldAdded($event)"
-          [fields]="unselectedFields$ | async">
-        </pf-add-report-fields>
-      </div>
-      <div *ngIf="selectedFields" class="fields-container">
-        <div perfectScrollbar class="fields" dragula="fields-bag" [(dragulaModel)]="selectedFields">
-          <pf-report-field *ngFor="let field of selectedFields; trackBy: trackByFn;"
-            [field]="field"
-            [removable]="selectedFields.length > 1"
-            (fieldRemoved)="handleFieldRemoved($event)"
-            (displayNameUpdated)="handleSaveDisplayName($event)">
-          </pf-report-field>
-        </div>
-      </div>
+      <pf-data-view-fields></pf-data-view-fields>
     </div>
 
     <div class="report-filters tab-content" [ngClass]="activeTab === 'Filters' ? 'show' : ''">
-      <pf-data-view-filters [selectedFields]="selectedFields"></pf-data-view-filters>
+      <pf-data-view-filters></pf-data-view-filters>
     </div>
 
   </div>

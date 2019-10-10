@@ -4,4 +4,5 @@ export * from './report-view-page.effects';
 export * from './data-view.effects';
 export * from './data-view-grid.effects';
 export * from './views.effects';
-export * from './data-view-configuration.effects';
+export * from './filters.effects';
+export * from './fields.effects';

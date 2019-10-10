@@ -1,6 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromConfigurationActions from '../actions/configuration.actions';
+import * as fromFiltersActions from '../actions/filters.actions';
 import { Filter } from '../models';
 
 export interface State {
@@ -13,22 +13,22 @@ const initialState: State = {
   pendingFilters: []
 };
 
-export function reducer(state = initialState, action: fromConfigurationActions.Actions): State {
+export function reducer(state = initialState, action: fromFiltersActions.Actions): State {
   switch (action.type) {
-    case fromConfigurationActions.ADD_FILTER: {
+    case fromFiltersActions.ADD_FILTER: {
       return {
         ...state,
         pendingFilters: [...state.pendingFilters, action.payload]
       };
     }
-    case fromConfigurationActions.SET_FILTERS: {
+    case fromFiltersActions.SET_FILTERS: {
       return {
         ...state,
         activeFilters: action.payload,
         pendingFilters: action.payload
       };
     }
-    case fromConfigurationActions.UPDATE_FILTER: {
+    case fromFiltersActions.UPDATE_FILTER: {
       const filtersClone: Filter[] = cloneDeep(state.pendingFilters);
       const filterToUpdate = filtersClone.find((f, index) => index === action.payload.index);
       if (filterToUpdate) {
@@ -44,7 +44,7 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
         pendingFilters: filtersClone
       };
     }
-    case fromConfigurationActions.REMOVE_PENDING_FILTER_BY_INDEX: {
+    case fromFiltersActions.REMOVE_PENDING_FILTER_BY_INDEX: {
       let pendingFiltersClone: Filter[] = cloneDeep(state.pendingFilters);
       pendingFiltersClone = pendingFiltersClone.filter((f, index) => index !== action.payload.index);
       return {
@@ -52,7 +52,7 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
         pendingFilters: pendingFiltersClone
       };
     }
-    case fromConfigurationActions.REMOVE_ACTIVE_FILTER_BY_INDEX: {
+    case fromFiltersActions.REMOVE_ACTIVE_FILTER_BY_INDEX: {
       let activeFiltersClone: Filter[] = cloneDeep(state.activeFilters);
       activeFiltersClone = activeFiltersClone.filter((f, index) => index !== action.payload.index);
       return {
@@ -60,21 +60,21 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
         activeFilters: activeFiltersClone
       };
     }
-    case fromConfigurationActions.REMOVE_PENDING_FILTERS_BY_FIELD: {
+    case fromFiltersActions.REMOVE_PENDING_FILTERS_BY_FIELD: {
       const pendingFiltersClone: Filter[] = state.pendingFilters.filter(f => f.Field.DataElementId !== action.payload.DataElementId);
       return {
         ...state,
         pendingFilters: pendingFiltersClone
       };
     }
-    case fromConfigurationActions.REMOVE_ACTIVE_FILTERS_BY_FIELD: {
+    case fromFiltersActions.REMOVE_ACTIVE_FILTERS_BY_FIELD: {
       const activeFiltersClone: Filter[] = state.activeFilters.filter(f => f.Field.DataElementId !== action.payload.DataElementId);
       return {
         ...state,
         activeFilters: activeFiltersClone
       };
     }
-    case fromConfigurationActions.GET_FILTER_OPTIONS_SUCCESS: {
+    case fromFiltersActions.GET_FILTER_OPTIONS_SUCCESS: {
       const filtersClone: Filter[] = cloneDeep(state.pendingFilters);
       const filterToUpdate = filtersClone.find((f, index) => index === action.payload.index);
       if (filterToUpdate) {
@@ -86,14 +86,14 @@ export function reducer(state = initialState, action: fromConfigurationActions.A
         pendingFilters: filtersClone
       };
     }
-    case fromConfigurationActions.RESET_FILTERS: {
+    case fromFiltersActions.RESET_FILTERS: {
       return {
         ...state,
         activeFilters: [],
         pendingFilters: []
       };
     }
-    case fromConfigurationActions.APPLY_FILTERS: {
+    case fromFiltersActions.APPLY_FILTERS: {
       return {
         ...state,
         activeFilters: state.pendingFilters

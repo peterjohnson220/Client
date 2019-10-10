@@ -23,12 +23,12 @@ import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardCompone
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
   ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent,
   DateRangeFilterComponent, MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent,
-  BitFilterComponent } from './components';
+  BitFilterComponent, ConfigureSidebarComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
-  CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent,
-  DashboardsHeaderComponent, ViewsComponent, FiltersComponent } from './containers';
+  CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent,
+  DashboardsHeaderComponent, ViewsComponent, FiltersComponent, FieldsComponent } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects,
-  ViewsEffects, DataViewConfigurationEffects
+  ViewsEffects, FiltersEffects, FieldsEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -50,7 +50,8 @@ import { MainRoutingModule } from './main-routing.module';
       DataViewEffects,
       DataViewGridEffects,
       ViewsEffects,
-      DataViewConfigurationEffects
+      FiltersEffects,
+      FieldsEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
@@ -74,13 +75,14 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
-    SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
+    SearchWorkbookModalComponent, DataViewGridComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
+    FieldsComponent,
 
     // Components
     StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
     SaveUserWorkbookModalComponent, ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
     ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent, DateRangeFilterComponent,
-    MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent, BitFilterComponent
+    MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent, BitFilterComponent, ConfigureSidebarComponent
 
   ],
   providers: [

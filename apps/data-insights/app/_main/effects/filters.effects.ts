@@ -8,32 +8,32 @@ import { select, Store } from '@ngrx/store';
 import { DataViewApiService } from 'libs/data/payfactors-api';
 import { PfConstants } from 'libs/models/common';
 
-import * as fromConfigurationActions from '../actions/configuration.actions';
+import * as fromFiltersActions from '../actions/filters.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
 
 @Injectable()
-export class DataViewConfigurationEffects {
+export class FiltersEffects {
 
   @Effect()
   getFilterOptions$ = this.action$
   .pipe(
-    ofType(fromConfigurationActions.GET_FILTER_OPTIONS),
+    ofType(fromFiltersActions.GET_FILTER_OPTIONS),
     debounceTime(PfConstants.DEBOUNCE_DELAY),
     withLatestFrom(
       this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
-      (action: fromConfigurationActions.GetFilterOptions, dataView) => ({ action, dataView })
+      (action: fromFiltersActions.GetFilterOptions, dataView) => ({ action, dataView })
     ),
     switchMap((data) => {
       const request = PayfactorsApiModelMapper.buildDataViewFilterOptionsRequest(data.action.payload, data.dataView.obj.BaseEntityId);
       return this.dataViewApiService.getFilterOptions(request)
         .pipe(
-          map((response) => new fromConfigurationActions.GetFilterOptionsSuccess({
+          map((response) => new fromFiltersActions.GetFilterOptionsSuccess({
             index: data.action.payload.FilterIndex,
             options: response
           })),
-          catchError(() => of(new fromConfigurationActions.GetFilterOptionsError()))
+          catchError(() => of(new fromFiltersActions.GetFilterOptionsError()))
         );
     })
   );
@@ -42,38 +42,38 @@ export class DataViewConfigurationEffects {
   activeFiltersChanged$ = this.action$
     .pipe(
       ofType(
-        fromConfigurationActions.APPLY_FILTERS,
-        fromConfigurationActions.REMOVE_ACTIVE_FILTER_BY_INDEX
+        fromFiltersActions.APPLY_FILTERS,
+        fromFiltersActions.REMOVE_ACTIVE_FILTER_BY_INDEX
       ),
       mergeMap(() => [
-        new fromDataViewGridActions.GetData(),
-        new fromConfigurationActions.SaveFilters()
+        new fromFiltersActions.SaveFilters(),
+        new fromDataViewGridActions.GetData()
       ])
     );
 
   @Effect()
   removeActiveFiltersByField$ = this.action$
   .pipe(
-    ofType(fromConfigurationActions.REMOVE_ACTIVE_FILTERS_BY_FIELD),
-    map(() => new fromConfigurationActions.SaveFilters())
+    ofType(fromFiltersActions.REMOVE_ACTIVE_FILTERS_BY_FIELD),
+    map(() => new fromFiltersActions.SaveFilters())
   );
 
   @Effect()
   saveFilters$ = this.action$
     .pipe(
-      ofType(fromConfigurationActions.SAVE_FILTERS),
+      ofType(fromFiltersActions.SAVE_FILTERS),
       withLatestFrom(
         this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
         this.store.pipe(select(fromDataInsightsMainReducer.getActiveFilters)),
-        (action: fromConfigurationActions.SaveFilters, userDataView, filters) =>
+        (action: fromFiltersActions.SaveFilters, userDataView, filters) =>
           ({ action, userDataView, filters })
       ),
       switchMap((data) => {
         const request = PayfactorsApiModelMapper.buildSaveFiltersRequest(data.filters, data.userDataView.obj);
         return this.dataViewApiService.saveFilters(request)
           .pipe(
-            map(() => new fromConfigurationActions.SaveFiltersSuccess()),
-            catchError(() => of(new fromConfigurationActions.SaveFiltersError()))
+            map(() => new fromFiltersActions.SaveFiltersSuccess()),
+            catchError(() => of(new fromFiltersActions.SaveFiltersError()))
           );
       })
     );
