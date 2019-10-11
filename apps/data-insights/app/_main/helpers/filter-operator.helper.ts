@@ -5,7 +5,7 @@ import {
   Between, IsAfter, IsBefore, Is,
   LessThan, GreaterThan, GreaterThanOrEqual, LessThanOrEqual,
   FieldDataType,
-  IsTrueFalse
+  IsTrueFalse, Contains
 } from '../models';
 
 export class FilterOperatorHelper {
@@ -30,6 +30,9 @@ export class FilterOperatorHelper {
 
   static mapToFilterOperatorForStringDataType(dataViewFilter: DataViewFilter): FilterOperator {
     switch (dataViewFilter.Operator) {
+      case Contains.Value: {
+        return Contains;
+      }
       default: {
         return Equals;
       }
