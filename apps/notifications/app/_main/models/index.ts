@@ -1,1 +1,1 @@
-export * from './data-view-export-list-item.model';
+export * from './data-view-export.model';

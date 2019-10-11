@@ -30,7 +30,7 @@ export const selectDataViewsExportState = createSelector(
 );
 
 // Data Insights Export
-export const getDataViewsExportList = createSelector(
+export const getDataViewExports = createSelector(
   selectDataViewsExportState,
-  fromDataViewsExportReducer.getDataViewsExportList
+  fromDataViewsExportReducer.getDataViewExports
 );

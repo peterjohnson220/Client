@@ -1,29 +1,29 @@
 import { Action } from '@ngrx/store';
-import { DataViewExportListItem } from "../models";
+import { DataViewExport } from '../models';
 
-export const GET_DATA_VIEWS_EXPORT_LIST_ITEMS = '[Notifications / Data Views Export] Get Data Views Exports';
-export const GET_DATA_VIEWS_EXPORT_LIST_ITEMS_SUCCESS = '[Notifications / Data Views Export] Get Data Views Exports Success';
-export const GET_DATA_VIEWS_EXPORT_LIST_ITEMS_ERROR = '[Notifications / Data Views Export] Get Data Views Exports Error';
+export const GET_DATA_VIEW_EXPORTS = '[Notifications / Data Views Export] Get Data Views Exports';
+export const GET_DATA_VIEW_EXPORTS_SUCCESS = '[Notifications / Data Views Export] Get Data Views Exports Success';
+export const GET_DATA_VIEW_EXPORTS_ERROR = '[Notifications / Data Views Export] Get Data Views Exports Error';
 
-export class GetDataViewsExportsListItems implements Action {
-  readonly type = GET_DATA_VIEWS_EXPORT_LIST_ITEMS;
+export class GetDataViewExports implements Action {
+  readonly type = GET_DATA_VIEW_EXPORTS;
 
   constructor() {}
 }
 
-export class GetDataViewsExportsListItemsSuccess implements Action {
-  readonly type = GET_DATA_VIEWS_EXPORT_LIST_ITEMS_SUCCESS;
+export class GetDataViewExportsSuccess implements Action {
+  readonly type = GET_DATA_VIEW_EXPORTS_SUCCESS;
 
-  constructor(public payload: DataViewExportListItem[]) {}
+  constructor(public payload: DataViewExport[]) {}
 }
 
-export class GetDataViewsExportsListItemsError implements Action {
-  readonly type = GET_DATA_VIEWS_EXPORT_LIST_ITEMS_ERROR;
+export class GetDataViewExportsError implements Action {
+  readonly type = GET_DATA_VIEW_EXPORTS_ERROR;
 
   constructor() {}
 }
 
 export type Actions
-  = GetDataViewsExportsListItems
-  | GetDataViewsExportsListItemsSuccess
-  | GetDataViewsExportsListItemsError;
+  = GetDataViewExports
+  | GetDataViewExportsSuccess
+  | GetDataViewExportsError;

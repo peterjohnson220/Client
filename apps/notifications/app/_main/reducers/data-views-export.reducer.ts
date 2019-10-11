@@ -1,47 +1,47 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { DataViewExportListItem } from '../models';
 
+import { DataViewExport } from '../models';
 import * as fromDataViewsExportActions from '../actions/data-views-export.action';
 
 export interface State {
-  dataViewExportListAsync: AsyncStateObj<DataViewExportListItem[]>;
+  dataViewExportsAsync: AsyncStateObj<DataViewExport[]>;
 }
 
 export const initialState: State = {
-  dataViewExportListAsync: generateDefaultAsyncStateObj<DataViewExportListItem[]>([]),
+  dataViewExportsAsync: generateDefaultAsyncStateObj<DataViewExport[]>([]),
 };
 
 export function reducer(state = initialState, action: fromDataViewsExportActions.Actions): State {
   switch (action.type) {
-    case fromDataViewsExportActions.GET_DATA_VIEWS_EXPORT_LIST_ITEMS: {
-      const dataViewsExportAsyncClone = cloneDeep(state.dataViewExportListAsync);
+    case fromDataViewsExportActions.GET_DATA_VIEW_EXPORTS: {
+      const dataViewsExportAsyncClone = cloneDeep(state.dataViewExportsAsync);
       dataViewsExportAsyncClone.obj = [];
       dataViewsExportAsyncClone.loading = true;
 
       return {
         ...state,
-        dataViewExportListAsync: dataViewsExportAsyncClone
+        dataViewExportsAsync: dataViewsExportAsyncClone
       };
   }
-    case fromDataViewsExportActions.GET_DATA_VIEWS_EXPORT_LIST_ITEMS_ERROR: {
-      const dataViewsExportAsyncClone = cloneDeep(state.dataViewExportListAsync);
+    case fromDataViewsExportActions.GET_DATA_VIEW_EXPORTS_ERROR: {
+      const dataViewsExportAsyncClone = cloneDeep(state.dataViewExportsAsync);
       dataViewsExportAsyncClone.loading = false;
       dataViewsExportAsyncClone.loadingError = true;
       return {
         ...state,
-        dataViewExportListAsync: dataViewsExportAsyncClone
+        dataViewExportsAsync: dataViewsExportAsyncClone
       };
     }
-    case fromDataViewsExportActions.GET_DATA_VIEWS_EXPORT_LIST_ITEMS_SUCCESS:{
-      const dataViewsExportAsyncClone = cloneDeep(state.dataViewExportListAsync);
+    case fromDataViewsExportActions.GET_DATA_VIEW_EXPORTS_SUCCESS: {
+      const dataViewsExportAsyncClone = cloneDeep(state.dataViewExportsAsync);
       dataViewsExportAsyncClone.obj = action.payload;
       dataViewsExportAsyncClone.loading = false;
       dataViewsExportAsyncClone.loadingError = false;
       return {
         ...state,
-        dataViewExportListAsync: dataViewsExportAsyncClone
+        dataViewExportsAsync: dataViewsExportAsyncClone
       };
     }
     default: {
@@ -51,4 +51,4 @@ export function reducer(state = initialState, action: fromDataViewsExportActions
   }
 }
 
-export const getDataViewsExportList = (state: State) => state.dataViewExportListAsync;
+export const getDataViewExports = (state: State) => state.dataViewExportsAsync;
