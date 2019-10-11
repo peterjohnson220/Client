@@ -19,9 +19,10 @@ export interface ViewField {
   IsSelected: boolean;
   Order: number;
   SourceName: string;
-  // ChildColumns: string[];
-  // ShowInCompactView: boolean;
-  // Visible: boolean; // Is order used to determin visiblity?
+  Template: string;
+  Group: string;
+  Width: number;
+  TextAlign: string;
 }
 
 export interface SaveDataViewRequest {
@@ -44,6 +45,10 @@ export function generateMockViewField(mockNumber: number = 1): ViewField {
     IsSelectable: false,
     IsSelected: true,
     Order: null,
-    SourceName: `TestMockField${mockNumber}`
+    SourceName: `TestMockField${mockNumber}`,
+    Template: null,
+    Group: null,
+    Width: null,
+    TextAlign: null,
   };
 }

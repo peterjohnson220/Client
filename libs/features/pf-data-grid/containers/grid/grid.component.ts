@@ -93,4 +93,16 @@ export class GridComponent implements OnInit, OnChanges {
       previousNext: true
     };
   }
+
+  getColumnType(col: any): string {
+    if (this.columnTemplates && this.columnTemplates[col.SourceName]) {
+      return 'template';
+    } else if (col.Template === 'currency') {
+      return 'currency';
+    } else if (col.DataType === 'dateTime') {
+      return 'dateTime';
+    } else {
+      return 'default';
+    }
+  }
 }
