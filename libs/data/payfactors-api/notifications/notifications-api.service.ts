@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { DataViewExportResponse } from 'libs/models/payfactors-api/reports/response';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -10,7 +12,7 @@ export class NotificationsApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) {}
 
-  getDataViewsExports(): Observable<any[]> {
+  getDataViewsExports(): Observable<DataViewExportResponse[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetDataViewsExportRecords`);
   }
 }
