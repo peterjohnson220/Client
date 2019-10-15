@@ -20,10 +20,10 @@
           [minResizableWidth]="30">
           <ng-template kendoGridCellTemplate let-dataItem>
             <ng-container *ngIf="getColumnType(col) === 'dateTime'">
-              {{dataItem[mappedColumnName(col)] | date: 'MM/dd/yyyy' }}
+              {{dataItem[mappedColumnName(col)] | date: 'MM/dd/yyyy'}}
             </ng-container>
             <ng-container *ngIf="getColumnType(col) === 'currency'">
-              {{dataItem[mappedColumnName(col)]/1000.0 | number:'1.0-1' }}
+              <span [innerHTML]="dataItem[mappedColumnName(col)] | comp"></span>
             </ng-container>
             <ng-container *ngIf="getColumnType(col) === 'template'" [ngTemplateOutlet]="columnTemplates[col.SourceName]"
               [ngTemplateOutletContext]="{dataRow:dataItem}">
