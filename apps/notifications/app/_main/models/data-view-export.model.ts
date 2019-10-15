@@ -3,6 +3,7 @@ export interface DataViewExport {
   EventId: string;
   ReportName: string;
   FileName: string;
+  ExportUrl: string;
   DownloadDate: Date;
 }
 
@@ -12,6 +13,7 @@ export function generateMockDataViewExport(): DataViewExport {
     EventId: 'abc-defg',
     ReportName: 'Jobs Report',
     FileName: 'Testing File',
+    ExportUrl: 'TestUrl.com',
     DownloadDate: new Date('01/01/2000')
   };
 }

@@ -11,4 +11,5 @@ export interface DataViewExportResponse {
   CreateUser: number;
   EditDate: Date;
   EditUser: number;
+  ExportUrl: string;
 }
