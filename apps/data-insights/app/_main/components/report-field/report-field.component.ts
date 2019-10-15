@@ -2,7 +2,6 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 
 import { Field } from '../../models';
 
-
 @Component({
   selector: 'pf-report-field',
   templateUrl: './report-field.component.html',

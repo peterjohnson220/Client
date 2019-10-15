@@ -1,0 +1,17 @@
+@import 'data-insights-styles';
+@import 'libs/styles/perfect-scrollbar-overrides';
+
+.back-btn {
+  background-color: #ffffff;
+  color: $pf-brand-secondary-color;
+  margin-left: 0;
+}
+
+.fields-group-container {
+  background-color: #ffffff;
+
+  .groups {
+    position: relative;
+    max-height: calc(100vh - 350px);
+  }
+}

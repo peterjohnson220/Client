@@ -1,0 +1,22 @@
+<div class="d-flex flex-column">
+  <div class="configure-actions-bar d-flex">
+    <button class="btn back-btn configure-action-btn"
+      [attr.data-qa-id]="'btn-back'"
+      (click)="handleBackButtonClicked()">
+      <fa-icon icon="chevron-left" class="icon"></fa-icon>
+      <span class="btn-title">Back</span>
+    </button>
+  </div>
+
+  <div class="fields-group-container" *ngIf="!!groupedFields">
+    <div perfectScrollbar class="groups">
+      <div *ngFor="let group of groupedFields; trackBy: trackByFn;" class="fields-group">
+        <pf-field-group
+          [title]="group.value"
+          [fields]=group.items
+          (fieldSelected)="handleFieldSelected($event)">
+        </pf-field-group>
+      </div>
+    </div>
+  </div>
+</div>

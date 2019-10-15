@@ -17,3 +17,5 @@ export * from './numeric-filter';
 export * from './text-filter';
 export * from './bit-filter';
 export * from './configure-sidebar';
+export * from './view-all-fields';
+export * from './field-group';
