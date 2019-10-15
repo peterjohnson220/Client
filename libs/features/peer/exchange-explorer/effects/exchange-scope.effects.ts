@@ -4,32 +4,24 @@ import { Action, Store, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map, withLatestFrom, concatMap, mergeMap } from 'rxjs/operators';
-import * as cloneDeep from 'lodash.clonedeep';
 
 import { ExchangeScopeApiService } from 'libs/data/payfactors-api';
-import {
-  ExchangeMapResponse, ExchangeMapSummary,
-  ExchangeScopeItem, PeerMapScopeMapInfo,
-  UpsertExchangeExplorerScopeRequest
-} from 'libs/models/peer';
-import { MultiSelectFilter, MultiSelectOption } from 'libs/features/search/models';
+import { ExchangeScopeItem, UpsertExchangeExplorerScopeRequest } from 'libs/models/peer';
+import { MultiSelectFilter } from 'libs/features/search/models';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import {
-  ExchangeDataSearchResponse,
-  ExchangeExplorerScopeResponse
-} from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
+import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
 import * as fromLibsFeatureSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
+import { ExchangeExplorerContextService } from '../services';
 import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
 import * as fromExchangeFilterContextActions from '../actions/exchange-filter-context.actions';
 import * as fromMapActions from '../actions/map.actions';
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
 import * as fromExchangeExplorerReducers from '../reducers';
-import { ExchangeExplorerContextService } from '../services';
 
 @Injectable()
 export class ExchangeScopeEffects {
@@ -82,11 +74,13 @@ export class ExchangeScopeEffects {
       withLatestFrom(
         this.store.pipe(select(fromSearchReducer.getSearchingFilter)),
         this.store.pipe(select(fromSearchReducer.getSingledFilter)),
+        this.store.pipe(select(fromExchangeExplorerReducers.getSearchFilterMappingDataObj)),
         (
           action: fromExchangeScopeActions.LoadExchangeScopeDetailsSuccess,
           searchingFilter,
-          singledFilter
-        ) => ({response: (action.payload), searchingFilter, singledFilter})
+          singledFilter,
+          searchFilterMappingDataObj
+        ) => ({response: (action.payload), searchingFilter, singledFilter, searchFilterMappingDataObj})
       ),
       mergeMap((payload: any) => {
         const actions = [];
@@ -95,45 +89,29 @@ export class ExchangeScopeEffects {
         const searchResponse = scopeResponse.ExchangeDataSearchResponse;
         const filters: MultiSelectFilter[] = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(
           searchResponse.SearchFilters,
-          searchResponse.SearchFilterMappingDataObj
+          payload.searchFilterMappingDataObj
         ) as MultiSelectFilter[];
 
-        const filtersCopy = cloneDeep(filters);
-        const selections: MultiSelectOption[] = scopeResponse.SelectedFilterOptions;
+        const savedFilters = this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(
+          [scopeResponse.SelectedFilterOptions]
+        );
+        const selections = savedFilters[0].Filters;
+        actions.push(new fromSearchFiltersActions.ApplySavedFilters(selections));
 
-        // TODO: Find a better way to do this. Ideally we'd leverage the existing code and do this in the search reducer
-        const mergedOptions = filtersCopy.map((f: MultiSelectFilter) => {
-          const selectedOptions = selections.filter(s => s.Name === f.BackingField);
-          if (selectedOptions && selectedOptions.length) {
-            f.Options = selectedOptions.map(so => {
-              const existingOption = f.Options.find(o => o.Value === so.Value);
-              if (existingOption) {
-                return {
-                  ...existingOption,
-                  Selected: true
-                };
-              } else {
-                return {
-                  Name: so.Value,
-                  Value: so.Value,
-                  Selected: true,
-                  Count: 0
-                };
-              }
-            });
-          }
-          return f;
-        });
+        actions.push(new fromSearchFiltersActions.RefreshFilters({
+          filters: filters,
+          keepFilteredOutOptions: false
+        }));
         actions.push(new fromSearchResultsActions.GetResultsSuccess({
           totalRecordCount: searchResponse.Paging.TotalRecordCount
         }));
-        actions.push(new fromSearchFiltersActions.ReplaceFilters(mergedOptions));
 
         if (payload.searchingFilter) {
           actions.push(new fromSingledFilterActions.SearchAggregation());
         }
 
         actions.push(new fromMapActions.ApplyScopeCriteria(scopeResponse));
+
         return actions;
       })
     );

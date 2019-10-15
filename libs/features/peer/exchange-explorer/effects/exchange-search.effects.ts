@@ -46,11 +46,13 @@ export class ExchangeSearchEffects {
     withLatestFrom(
       this.store.pipe(select(fromSearchReducer.getSearchingFilter)),
       this.store.pipe(select(fromSearchReducer.getSingledFilter)),
+      this.store.pipe(select(fromExchangeExplorerReducer.getSearchFilterMappingDataObj)),
       (
         action: fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess,
         searchingFilter,
-        singledFilter
-      ) => ({payload: action.payload, searchingFilter, singledFilter})
+        singledFilter,
+        searchFilterMappingDataObj
+      ) => ({payload: action.payload, searchingFilter, singledFilter, searchFilterMappingDataObj})
     ),
     mergeMap((searchResponseContext) => {
 
@@ -63,7 +65,7 @@ export class ExchangeSearchEffects {
 
       const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(
         searchResponse.SearchFilters,
-        searchResponse.SearchFilterMappingDataObj
+        searchResponseContext.searchFilterMappingDataObj
       );
 
       actions.push(new fromSearchFiltersActions.RefreshFilters({
