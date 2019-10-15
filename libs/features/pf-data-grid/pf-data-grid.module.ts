@@ -21,7 +21,7 @@ import { PfColumnChooserModule } from 'libs/ui/column-chooser/column-chooser.mod
 
 import { PfDataGridComponent } from './pf-data-grid.component/pf-data-grid.component';
 import { ActionBarComponent, GridComponent } from './containers';
-
+import { PfGridColumnComponent } from './components';
 
 @NgModule({
   imports: [
@@ -45,7 +45,8 @@ import { ActionBarComponent, GridComponent } from './containers';
   declarations: [
     PfDataGridComponent,
     ActionBarComponent,
-    GridComponent
+    GridComponent,
+    PfGridColumnComponent
   ],
   exports: [
     PfDataGridComponent

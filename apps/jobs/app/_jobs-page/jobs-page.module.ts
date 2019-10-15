@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import * as fromFaIcons from './fa-icons';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './reducers';
@@ -30,6 +34,7 @@ import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridCompone
     EffectsModule.forFeature([
       JobsPageEffects,
     ]),
+    FontAwesomeModule,
 
     // Routing
     JobsPageRoutingModule,
@@ -51,4 +56,8 @@ import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridCompone
     PricingDetailsGridComponent
   ]
 })
-export class JobsPageModule { }
+export class JobsPageModule { 
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
+  }
+}
