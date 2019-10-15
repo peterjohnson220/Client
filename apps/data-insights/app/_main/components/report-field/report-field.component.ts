@@ -12,13 +12,11 @@ export class ReportFieldComponent {
   @Input() field: Field;
   @Input() removable: boolean;
   @Output() fieldRemoved: EventEmitter<Field> = new EventEmitter();
-  @Output() displayNameUpdated = new EventEmitter();
+  @Output() displayNameUpdated: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('inputField', {static: false}) inputField: ElementRef;
 
   isEditing: boolean;
-
-  constructor() {}
 
   handleFieldRemoved() {
     this.fieldRemoved.emit(this.field);
@@ -31,15 +29,14 @@ export class ReportFieldComponent {
     }, 0);
   }
 
-  handleDisplayNameUpdated(event, field) {
+  handleDisplayNameUpdated(event) {
     const newDisplayName = event.target.value;
-    const fieldDataElementId = field.DataElementId;
-    if (newDisplayName === field.DisplayName || newDisplayName === '') {
+    if (newDisplayName === this.field.DisplayName || newDisplayName === '') {
       this.isEditing = false;
       return;
     }
 
-    this.displayNameUpdated.emit({newDisplayName, fieldDataElementId});
+    this.displayNameUpdated.emit(newDisplayName);
     this.isEditing = false;
   }
 
