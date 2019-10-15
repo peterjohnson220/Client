@@ -20,4 +20,5 @@
 .file-name,
 .report-name {
   @extend %ellipsis-overflowing-text;
+  line-height: unset;
 }
