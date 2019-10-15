@@ -10,6 +10,7 @@ export class PayfactorsApiModelMapper {
         EventId: e.EventId,
         ReportName: e.ReportName,
         FileName: e.FileName,
+        ExportUrl: e.ExportUrl,
         DownloadDate: e.CreateDate,
       };
     });
