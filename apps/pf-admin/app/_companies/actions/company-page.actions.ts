@@ -70,6 +70,7 @@ export const PUT_SETTINGS_ERROR = '[Pf-Admin/Company Page] Put Settings Error';
 export const SELECT_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer Client Type';
 export const SELECT_PEER_AND_ANALYSIS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer And Analysis Client Type';
 export const SELECT_NON_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Non-Peer Client Type';
+export const SELECT_SMALL_BUSINESS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Small Business Client Type';
 
 export class GetCompany implements Action {
   readonly type = GET_COMPANY;
@@ -416,6 +417,12 @@ export class SelectNonPeerClientType implements Action {
   constructor() {}
 }
 
+export class SelectSmallBusinessClientType implements Action {
+  readonly type = SELECT_SMALL_BUSINESS_CLIENT_TYPE;
+
+  constructor() {}
+}
+
 export type Actions
   = GetSystemUserGroups
   | GetSystemUserGroupsSuccess
@@ -464,6 +471,7 @@ export type Actions
   | SelectPeerClientType
   | SelectPeerAndAnalysisClientType
   | SelectNonPeerClientType
+  | SelectSmallBusinessClientType
   | GetCompany
   | GetCompanySuccess
   | GetCompanyError
