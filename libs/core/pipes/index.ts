@@ -10,3 +10,4 @@ export * from './order-by.pipe';
 export * from './filter-array-by-name';
 export * from './get-file-extension-css-class.pipe';
 export * from './strip-html.pipe';
+export * from './comp.pipe';

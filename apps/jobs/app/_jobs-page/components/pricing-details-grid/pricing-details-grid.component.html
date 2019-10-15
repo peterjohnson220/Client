@@ -27,8 +27,8 @@
 
 <ng-template #baseMrpColumn let-dataRow="dataRow">
   <ng-container>
-    {{dataRow['CompanyJobs_Pricings_BaseMRP']/1000.0 | number:'1.0-1' }}
-    <small>
+    <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp"></span>
+    <small *ngIf="dataRow['CompanyJobs_Pricings_BaseMRP']">
       <em class="text-muted">                
         ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
       </em>
@@ -38,8 +38,8 @@
 
 <ng-template #baseTccColumn let-dataRow="dataRow">
   <ng-container>
-    {{dataRow['CompanyJobs_Pricings_TCCMRP']/1000.0 | number:'1.0-1' }}
-    <small>
+    <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp"></span>
+    <small *ngIf="dataRow['CompanyJobs_Pricings_TCCMRP']">
       <em class="text-muted">                
         ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
       </em>
