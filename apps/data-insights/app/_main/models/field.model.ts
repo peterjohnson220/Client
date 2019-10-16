@@ -15,6 +15,7 @@ export interface Field {
 export interface FieldListItem {
   Entity: string;
   DataElementId: string;
+  IsSelected: boolean;
   DisplayName: string;
 }
 
