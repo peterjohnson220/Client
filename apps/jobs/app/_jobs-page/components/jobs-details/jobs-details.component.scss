@@ -1,0 +1,13 @@
+@import 'colors';
+
+.close-btn {
+  cursor: pointer;
+  position: absolute;  
+  right: 5px;
+  top: 5px;
+  z-index: 900;
+}
+
+.close-btn:hover {
+  opacity: 0.5;
+}

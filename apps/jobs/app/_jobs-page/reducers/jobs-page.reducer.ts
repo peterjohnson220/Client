@@ -1,5 +1,3 @@
-import { CompanyDto } from 'libs/models/company';
-
 import * as fromJobsPageActions from '../actions';
 
 export interface State {
