@@ -1,0 +1,49 @@
+@import 'colors';
+@import 'data-insights-styles';
+
+.header {
+  padding: 0.5rem 1rem;
+  border-bottom: solid 1px #ccc;
+  cursor: pointer;
+
+  .title {
+    margin-top: 0.5rem;
+  }
+
+  .icon {
+    margin-top: 0.5rem;
+    margin-right: 1rem;
+    fa-icon {
+      color: $pf-brand-secondary-color;
+    }
+  }
+
+  &.expanded {
+    color: $pf-brand-secondary-color;
+  }
+
+}
+
+.field {
+  padding: 0.5rem 1rem;
+
+  &:hover {
+    background-color: #eaeaea;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.selected {
+    .title {
+      color: #777777;
+      font-style: italic;
+      width: 100%;
+    }
+  }
+}
+
+.fields {
+  border-bottom: solid 1px #ccc;
+}
