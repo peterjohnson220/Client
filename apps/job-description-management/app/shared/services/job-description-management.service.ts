@@ -104,4 +104,8 @@ export class JobDescriptionManagementService {
   getJobsByControlOptionValue(controlName: string, fieldName: string, choiceFieldOptionValue: string): Observable<string[]> {
     return this.jobDescriptionManagementApiService.getJobsByControlOptionValue(controlName, fieldName, choiceFieldOptionValue);
   }
+
+  getPublicJdmColumns(publicCompanyId: number) {
+    return this.jobDescriptionManagementApiService.getPublicJdmColumns(publicCompanyId);
+  }
 }

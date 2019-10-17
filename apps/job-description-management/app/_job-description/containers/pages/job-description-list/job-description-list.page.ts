@@ -19,7 +19,10 @@ import * as fromJobDescriptionGridActions from '../../../actions/job-description
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
+import * as fromRootState from 'libs/state/state';
+
 import { AssignJobsToTemplateModalComponent } from '../../../components';
+
 import { CompanyJobViewListItem } from '../../../models';
 import { AvailableJobInformationField, ControlLabel, JobDescriptionAppliesTo } from '../../../../shared/models';
 import {
@@ -88,6 +91,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public displayedListAreaColumnNames: string[];
   public tokenId: string;
   public isPublic: boolean;
+  public publicCompanyId: number;
   public listFilter: string;
   public hasManageTemplatesPermission: boolean;
   public hasManageSettingsPermission: boolean;
@@ -110,7 +114,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     private permissionService: PermissionService,
     private routeTrackingService: RouteTrackingService
   ) {
-    this.identity$ = this.userContextStore.select(fromUserContextReducer.getUserContext);
+    this.identity$ = this.store.select(fromRootState.getUserContext);
     this.gridLoading$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoading);
     this.gridDataResult$ = this.store.select(fromJobDescriptionReducers.getGridDataResult);
     this.listAreaColumns$ = this.store.select(fromJobDescriptionReducers.getListAreaColumns);
@@ -488,6 +492,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
     this.identity$.subscribe(identity => {
       this.isPublic = identity.IsPublic;
+      this.publicCompanyId = identity.CompanyId;
     });
 
     const request = {
@@ -495,7 +500,12 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       UdfType: 'jobs'
     };
 
-    this.store.dispatch(new fromJobDescriptionGridActions.LoadListAreaColumns(request));
+    if (this.isPublic) {
+      this.store.dispatch(new fromJobDescriptionGridActions.LoadPublicJdmColumns(this.publicCompanyId));
+    } else {
+      this.store.dispatch(new fromJobDescriptionGridActions.LoadListAreaColumns(request));
+    }
+
     this.populateSavedData();
     this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
     this.initFilterThrottle();
