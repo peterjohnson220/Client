@@ -12,7 +12,7 @@
     </span>
 
     <ng-template #addedFieldTemplate>
-      <div class="d-flex field selected" (click)="handleFieldClicked(field)">
+      <div [class.disabled]="!removable" class="d-flex field selected" (click)="handleFieldClicked(field)">
         <div class="title">{{field.DisplayName}}</div>
         <div class="badge badge-info mr-auto added-badge">Added</div>
       </div>

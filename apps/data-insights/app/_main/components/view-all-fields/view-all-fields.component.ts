@@ -13,6 +13,7 @@ import { Field } from '../../models';
 })
 export class ViewAllFieldsComponent implements OnChanges {
   @Input() fields: Field[];
+  @Input() removable: boolean;
   @Output() backButtonClicked: EventEmitter<any> = new EventEmitter<any>();
   @Output() fieldAdded: EventEmitter<Field> = new EventEmitter<Field>();
   @Output() fieldRemoved: EventEmitter<Field> = new EventEmitter<Field>();
