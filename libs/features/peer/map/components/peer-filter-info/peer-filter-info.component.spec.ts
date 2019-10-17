@@ -29,11 +29,12 @@ describe('Feature - Peer - Pay Market Filter Info Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it( 'should emit a resetAllFiltersClicked event when handling ResetFiltersLinkClicked', () => {
-    spyOn(instance.resetAllFiltersClicked, 'emit');
+  it( 'should emit a clearFiltersLinkClicked event when we have selections, and handling ClearFiltersLinkClicked', () => {
+    spyOn(instance.clearFiltersLinkClicked, 'emit');
+    instance.hasSelections = true;
 
-    instance.handleResetFiltersLinkClicked();
+    instance.handleClearFiltersLinkClicked();
 
-    expect(instance.resetAllFiltersClicked.emit).toHaveBeenCalled();
+    expect(instance.clearFiltersLinkClicked.emit).toHaveBeenCalled();
   });
 });

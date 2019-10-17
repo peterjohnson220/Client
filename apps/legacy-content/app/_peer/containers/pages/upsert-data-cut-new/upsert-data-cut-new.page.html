@@ -64,9 +64,8 @@
       <pf-guidelines-badge *ngIf="(initialMapMoveComplete$ | async)">
       </pf-guidelines-badge>
 
-      <div class="buttons">
-        <button type="button"
-                class="btn legacy-primary-btn au-btn-add"
+       <button type="button"
+                class="btn legacy-primary-btn au-btn-add ml-2"
                 *ngIf="(hasAcceptedPeerTerms$ | async)"
                 [disabled]="failsGuidelines || !(hasAcceptedPeerTerms$ | async) || (isEmployeeCheckLoading$ | async)"
                 (click)="upsert()">
@@ -75,9 +74,8 @@
         </button>
 
         <button type="button"
-                class="btn btn-secondary au-btn-cancel"
+                class="btn btn-secondary au-btn-cancel ml-2"
                 (click)="cancel()">Cancel</button>
-      </div>
 
     </ng-container>
 
