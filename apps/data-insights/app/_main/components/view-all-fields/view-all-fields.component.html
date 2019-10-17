@@ -14,6 +14,7 @@
         <pf-field-group
           [title]="group.value"
           [fields]=group.items
+          [removable]="removable"
           (fieldSelected)="handleFieldSelected($event)">
         </pf-field-group>
       </div>

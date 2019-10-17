@@ -30,6 +30,7 @@
 <ng-template #viewAllFieldsTemplate>
   <pf-view-all-fields
     [fields]="(allFieldsAsync$ | async)?.obj"
+    [removable]="selectedFields.length > 1"
     (backButtonClicked)="toggleViewAllFields()"
     (fieldAdded)="handleFieldAdded($event)"
     (fieldRemoved)="handleFieldRemoved($event)">

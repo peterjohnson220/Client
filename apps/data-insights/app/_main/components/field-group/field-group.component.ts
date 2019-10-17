@@ -10,6 +10,7 @@ import { Field } from '../../models';
 export class FieldGroupComponent {
   @Input() title: string;
   @Input() fields: Field[];
+  @Input() removable: boolean;
   @Output() fieldSelected: EventEmitter<Field> = new EventEmitter<Field>();
 
   showFields = false;
