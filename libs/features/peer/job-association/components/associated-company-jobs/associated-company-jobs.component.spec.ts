@@ -2,15 +2,13 @@ import { AssociatedCompanyJobsComponent } from './associated-company-jobs-compon
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { AsyncContainerComponent } from 'libs/ui/common';
-
 describe('AssociatedCompanyJobsComponent', () => {
   let component: AssociatedCompanyJobsComponent;
   let fixture: ComponentFixture<AssociatedCompanyJobsComponent>;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [AssociatedCompanyJobsComponent, AsyncContainerComponent],
+      declarations: [AssociatedCompanyJobsComponent],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

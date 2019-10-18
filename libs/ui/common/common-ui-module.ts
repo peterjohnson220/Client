@@ -17,7 +17,7 @@ import { LoadingIndicatorComponent, LoadingUserContextComponent,
 import { PageWithTitleBarComponent, PageWithTitleBarAndGridComponent } from './page-layout';
 import { TermsConditionsModalComponent } from './terms-conditions-modal';
 import { ValidationResultsComponent } from './validation';
-import { PfCommonModule } from '../../core';
+import { PfCommonModule, WindowRef } from '../../core';
 import { CardSelectorComponent } from './content/cards/card-selector';
 import { CardComponent } from './content/cards/card';
 import { AfterIfDirective, ClickElsewhereDirective } from './directives';
@@ -68,7 +68,10 @@ const components = [
     ScrollingModule
   ],
   declarations: components,
-  exports: components
+  exports: components,
+  providers: [
+    WindowRef
+  ]
 })
 export class PfCommonUIModule {
   constructor() {

@@ -32,9 +32,10 @@
           </pf-exchange-scope-selector>
 
           <pf-peer-filter-info
-            class="d-flex"
+            [hasSelections]="(selectionsCount$ | async) > 0"
             [orgCount]="(mapSummary$ | async)?.OverallMapStats.CompanyCount"
-            [incCount]="(mapSummary$ | async)?.OverallMapStats.SalaryCount">
+            [incCount]="(mapSummary$ | async)?.OverallMapStats.SalaryCount"
+            (clearFiltersLinkClicked)="handleClearFilters()">
           </pf-peer-filter-info>
 
         </div>

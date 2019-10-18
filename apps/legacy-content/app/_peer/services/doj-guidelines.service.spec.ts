@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import {
   ExchangeStatCompanyMakeup,
@@ -10,6 +11,7 @@ import {
 } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
 import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { DojGuidelinesService } from './doj-guidelines.service';
 import * as fromLegacyAddPeerDataReducer from '../reducers';
@@ -35,7 +37,11 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
       ],
       providers: [
         DojGuidelinesService,
-        { provide: ActivatedRoute, useValue: { parent: { snapshot: { params: { id: 1 } } } } }
+        { provide: ActivatedRoute, useValue: { parent: { snapshot: { params: { id: 1 } } } } },
+        {
+          provide: SettingsService,
+          useValue: { selectCompanySetting: () => of(true) }
+        }
       ]
     });
 

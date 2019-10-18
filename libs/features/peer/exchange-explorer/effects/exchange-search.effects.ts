@@ -24,6 +24,7 @@ import {
   BaseExchangeDataSearchRequest,
   ExchangeDataSearchRequest
 } from '../../../../models/payfactors-api/peer-exchange-explorer-search/request';
+import { OperatorEnum } from '../../../../constants';
 
 @Injectable()
 export class ExchangeSearchEffects {
@@ -32,13 +33,13 @@ export class ExchangeSearchEffects {
   getResults$ = this.searchExchangeData(fromSearchResultsActions.GET_RESULTS);
 
   @Effect()
-  updateFilterBounds$ = this.searchExchangeData(fromMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS, false);
+  updateFilterBounds$ = this.searchExchangeData(fromMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS, true, false);
 
   @Effect()
-  getExchangeDataSearchResults$ = this.searchExchangeData(fromExchangeSearchResultsActions.GET_EXCHANGE_DATA_RESULTS);
+  getExchangeDataSearchResults$ = this.searchExchangeData(fromExchangeSearchResultsActions.GET_EXCHANGE_DATA_RESULTS, true);
 
   @Effect()
-  initialMapMoveComplete$ = this.searchExchangeData(fromMapActions.INITIAL_MAP_MOVE_COMPLETE);
+  initialMapMoveComplete$ = this.searchExchangeData(fromMapActions.INITIAL_MAP_MOVE_COMPLETE, true);
 
   @Effect()
   getExchangeDataSearchResultsSuccess$ = this.actions$.pipe(
@@ -54,7 +55,7 @@ export class ExchangeSearchEffects {
     ),
     mergeMap((searchResponseContext) => {
 
-      const searchResponse: ExchangeDataSearchResponse = searchResponseContext.payload;
+      const searchResponse: ExchangeDataSearchResponse = searchResponseContext.payload.response;
       const actions: Action[] = [
         new fromSearchResultsActions.GetResultsSuccess({
           totalRecordCount: searchResponse.Paging.TotalRecordCount
@@ -71,7 +72,8 @@ export class ExchangeSearchEffects {
         keepFilteredOutOptions: searchResponse.KeepFilteredOutOptions
       }));
 
-      if (searchResponseContext.searchingFilter) {
+      if (searchResponseContext.searchingFilter &&
+         (searchResponseContext.payload.getSingledFilterAggregates || searchResponseContext.singledFilter.Operator === OperatorEnum.And)) {
         actions.push(new fromSingledFilterActions.SearchAggregation());
       }
 
@@ -86,7 +88,7 @@ export class ExchangeSearchEffects {
     })
   );
 
-  searchExchangeData(subscribedAction: string, keepFilteredOutOptions: boolean = true): Observable<Action> {
+  searchExchangeData(subscribedAction: string, getSingledFilterAggregates = false, keepFilteredOutOptions = true): Observable<Action> {
     return this.actions$.pipe(
       ofType(subscribedAction),
       withLatestFrom(
@@ -100,7 +102,7 @@ export class ExchangeSearchEffects {
           return this.exchangeDataSearchApiService.searchExchangeData(exchangeRequest).pipe(
               map(response => {
                 response.KeepFilteredOutOptions = keepFilteredOutOptions;
-                return new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess(response);
+                return new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess({response, getSingledFilterAggregates});
               }),
               catchError(() => of(new fromExchangeSearchResultsActions.GetExchangeDataResultsError(0)))
             );
