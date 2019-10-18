@@ -1,0 +1,25 @@
+@import 'data-insights-styles';
+
+.share-user {
+  margin: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.share-permissions {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.share-user-permission {
+  display: flex;
+  justify-content: space-between;
+
+  .btn {
+    margin-left: .25rem;
+  }
+}
+
+.share-user-name {
+  width: 65%;
+}

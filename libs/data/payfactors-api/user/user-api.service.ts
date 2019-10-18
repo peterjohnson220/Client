@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
-import { UserResponse } from 'libs/models/payfactors-api/user/response';
+import { UserResponse, ShareUserResponse } from 'libs/models/payfactors-api/user/response';
 import { UserAssignedRole, HomePageLink } from 'libs/models';
 
 @Injectable()
@@ -75,5 +75,22 @@ export class UserApiService {
 
   getPfCustomerSuccessMgrs(): Observable<UserResponse[]> {
     return this.payfactorsApiService.get<UserResponse[]>(`${this.endpoint}/Default.GetPfCustomerSuccessMgrs`);
+  }
+
+  getShareableUsers(userId: number, companyId: number): Observable<ShareUserResponse[]> {
+    return this.payfactorsApiService.get<ShareUserResponse[]>(`${this.endpoint}(${userId})/Default.GetShareableUsers`, {
+      params: {
+        companyId: companyId
+      }
+    });
+  }
+
+  getShareableUsersByTile(userId: number, companyId: number, tileName: string): Observable<ShareUserResponse[]> {
+    return this.payfactorsApiService.get<ShareUserResponse[]>(`${this.endpoint}(${userId})/Default.GetShareableUsersByTile`, {
+      params: {
+        companyId: companyId,
+        tileName: tileName
+      }
+    });
   }
 }

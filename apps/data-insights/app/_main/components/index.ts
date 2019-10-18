@@ -19,3 +19,4 @@ export * from './bit-filter';
 export * from './configure-sidebar';
 export * from './view-all-fields';
 export * from './field-group';
+export * from './share-report-modal';

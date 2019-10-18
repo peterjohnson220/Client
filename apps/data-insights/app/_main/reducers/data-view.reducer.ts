@@ -3,7 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
-import { Entity, UserDataView } from '../models';
+import { Entity, UserDataView, SharedDataViewUser } from '../models';
 
 export interface State {
   baseEntitiesAsync: AsyncStateObj<Entity[]>;
@@ -23,6 +23,7 @@ export interface State {
   deleteUserReportSuccess: boolean;
   exportingUserReport: boolean;
   exportEventId: number;
+  shareableUsersAsync: AsyncStateObj<SharedDataViewUser[]>;
 }
 
 const initialState: State = {
@@ -42,7 +43,8 @@ const initialState: State = {
   deleteUserReport: false,
   deleteUserReportSuccess: false,
   exportingUserReport: false,
-  exportEventId : null
+  exportEventId : null,
+  shareableUsersAsync: generateDefaultAsyncStateObj<SharedDataViewUser[]>([])
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -259,6 +261,37 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         exportEventId: eventIdStateClone
       };
     }
+    case fromDataViewActions.GET_SHAREABLE_USERS: {
+      const asyncStateObjClone = cloneDeep(state.shareableUsersAsync);
+
+      asyncStateObjClone.loading = true;
+      asyncStateObjClone.loadingError = false;
+      return {
+        ...state,
+        shareableUsersAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.GET_SHAREABLE_USERS_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.shareableUsersAsync);
+
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.obj = action.payload;
+      asyncStateObjClone.loadingError = false;
+      return {
+        ...state,
+        shareableUsersAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.GET_SHAREABLE_USERS_ERROR: {
+      const asyncStateObjClone = cloneDeep(state.shareableUsersAsync);
+
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.loadingError = true;
+      return {
+        ...state,
+        shareableUsersAsync: asyncStateObjClone
+      };
+    }
     default: {
       return state;
     }
@@ -280,3 +313,4 @@ export const getDuplicateUserReportConflict = (state: State) => state.duplicateU
 export const getDuplicateUserReportSuccess = (state: State) => state.duplicateUserReportSuccess;
 export const getExportingUserReport = (state: State) => state.exportingUserReport;
 export const getExportEventId = (state: State) => state.exportEventId;
+export const getShareableUsersAsync = (state: State) => state.shareableUsersAsync;

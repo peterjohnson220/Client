@@ -7,15 +7,17 @@ import { switchMap, map, catchError, tap, mergeMap, withLatestFrom } from 'rxjs/
 import { of } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { DataViewApiService } from 'libs/data/payfactors-api';
+import { DataViewApiService, UserApiService } from 'libs/data/payfactors-api';
+import { UserContext } from 'libs/models/security';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import * as fromFiltersActions from '../actions/filters.actions';
 import * as fromFieldsActions from '../actions/fields.actions';
+import * as fromDataViewReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { Entity } from '../models';
-import * as fromDataViewReducer from '../reducers';
 
 @Injectable()
 export class DataViewEffects {
@@ -229,10 +231,55 @@ export class DataViewEffects {
       })
     );
 
+  @Effect()
+  getShareableUsers$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.GET_SHAREABLE_USERS),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action: fromDataViewActions.GetShareableUsers, userContext: UserContext ) =>
+          ({ action, userContext })
+      ),
+      switchMap((data) => {
+        return this.userApiService.getShareableUsersByTile(data.userContext.UserId, data.userContext.CompanyId, 'Data Insights')
+          .pipe(
+            map((response) => new fromDataViewActions.GetShareableUsersSuccess(PayfactorsApiModelMapper.mapShareUserResponseToUser(response))),
+            catchError(() => of(new fromDataViewActions.GetShareableUsersError()))
+          );
+      })
+    );
+
+  @Effect()
+  saveSharePermissions$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.SAVE_SHARE_PERMISSIONS),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.SaveSharePermissions, userDataView ) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.shareDataView({
+          UserDataViewId: data.userDataView.obj.UserDataViewId,
+          UserPermissions: data.action.payload.map(x => {
+            return {
+              UserId: x.UserId,
+              CanEdit: x.CanEdit
+            };
+          })
+        })
+          .pipe(
+            map(() => new fromDataViewActions.SaveSharePermissionsSuccess()),
+            catchError(() => of(new fromDataViewActions.SaveSharePermissionsError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataViewReducer.State>,
     private dataViewApiService: DataViewApiService,
+    private userApiService: UserApiService,
     private router: Router
   ) {}
 }
