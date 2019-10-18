@@ -1,0 +1,86 @@
+@import 'colors';
+@import 'common/common';
+@import 'common/common-variables';
+@import 'data-insights-variables';
+
+.workbook-container {
+  border: solid 1px #d8d8d8;
+  margin-bottom: 1rem;
+  padding: 1rem 0.8rem;
+  background-color: #ffffff;
+  position: relative;
+
+  .workbook-icon {
+    margin-right: 1rem;
+    margin-left: 0.8rem;
+    font-size: 2em;
+  }
+
+  .content {
+    overflow: hidden;
+
+    span {
+      @extend %ellipsis-overflowing-text;
+    }
+
+    .tag {
+      @extend %label;
+    }
+
+    .workbook-name {
+      font-size: 16px;
+    }
+  }
+}
+
+.actions-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $actions-mask-overlay;
+  opacity: 0;
+  padding: 1rem;
+  transition: opacity 500ms ease;
+
+  &.displayed {
+    opacity: 0.8;
+  }
+}
+
+.actions {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  height: 38px;
+  top: 1.2rem;
+  right: 0.8rem;
+  left: 0.8rem;
+
+  &.displayed {
+    display: flex;
+  }
+
+  .btn {
+    margin-right: .75rem;
+    border: 1px solid transparent;
+
+    &:hover {
+      border: 1px solid #CCC;
+    }
+
+    .action-icon {
+      color:black;
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.solid-star {
+  color: $solid-star-color !important;
+}
+
+.solid-tag {
+  color: $pf-brand-secondary-color !important;
+}

@@ -143,6 +143,16 @@ export const getTagFilter = createSelector(
   fromDashboardsReducer.getTagFilter
 );
 
+export const getTagWorkbookModalOpen = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getTagWorkbookModalOpen
+);
+
+export const getActiveWorkbook = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getActiveWorkbook
+);
+
 // Data View
 export const getBaseEntitiesAsync = createSelector(
   selectDataViewState,

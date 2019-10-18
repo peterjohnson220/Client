@@ -18,7 +18,7 @@ import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
+import { StandardReportComponent, TagWorkbookModalComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, SaveUserWorkbookModalComponent,
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
   ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent,
@@ -26,7 +26,8 @@ import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardCompone
   BitFilterComponent, ConfigureSidebarComponent, ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent,
-  DashboardsHeaderComponent, ViewsComponent, FiltersComponent, FieldsComponent } from './containers';
+  DashboardsHeaderComponent, ViewsComponent, FiltersComponent, FieldsComponent,
+  WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects,
   ViewsEffects, FiltersEffects, FieldsEffects
 } from './effects';
@@ -76,10 +77,10 @@ import { MainRoutingModule } from './main-routing.module';
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
     SearchWorkbookModalComponent, DataViewGridComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
-    FieldsComponent,
+    FieldsComponent, WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent,
 
     // Components
-    StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
+    StandardReportComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
     SaveUserWorkbookModalComponent, ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
     ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent, DateRangeFilterComponent,
     MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent, BitFilterComponent, ConfigureSidebarComponent,

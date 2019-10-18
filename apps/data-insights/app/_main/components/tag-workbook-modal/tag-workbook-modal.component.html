@@ -3,7 +3,7 @@
     <div class="d-flex w-100">
       <h4 class="modal-title">Manage Tag</h4>
 
-      <button type="button" [attr.data-qa-id]="'btn-close'" class="close" aria-label="Close" (click)="modal.close('Cross click')">
+      <button type="button" [attr.data-qa-id]="'btn-close'" class="close" aria-label="Close" (click)="close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -29,7 +29,7 @@
     </div>
   </div>
   <div class="modal-footer">
-      <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary" (click)="modal.close('Close click')">
+      <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary" (click)="close()">
         Cancel
       </button>
       <button
