@@ -9,7 +9,7 @@
       [minWidth]="250"
       (valueChanged)="updateSearchTerm($event)">
     </pf-input-debounce>
-    <button (click)="handleAddButton()" class="btn btn-primary" type="submit">Add User</button>
+    <button (click)="handleAddButton()" [pfSecuredResource]="_Permissions.ADD_USER" class="btn btn-primary" type="submit">Add User</button>
   </ng-container>
 
   <ng-container page-content>
