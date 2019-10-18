@@ -11,8 +11,6 @@ import { UsersListPageComponent } from './users-list.page';
 import * as fromUsersListReducer from '../reducers';
 import * as fromUsersListAction from '../actions/users-list.actions';
 
-
-
 describe('Admin - Company-Admin - Users List Page', () => {
   let instance: UsersListPageComponent;
   let fixture: ComponentFixture<UsersListPageComponent>;

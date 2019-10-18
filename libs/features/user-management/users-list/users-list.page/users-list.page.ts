@@ -9,7 +9,8 @@ import * as fromUsersListActions from '../actions/users-list.actions';
 import * as fromUsersListReducer from '../reducers';
 
 import { UserGridItem } from '../models';
-import { UserContext } from 'libs/models';
+import { SystemPermission, UserContext } from 'libs/models';
+import { Permissions } from '../../../../constants';
 
 @Component({
   selector: 'pf-users-list-page',
@@ -18,6 +19,7 @@ import { UserContext } from 'libs/models';
 })
 export class UsersListPageComponent implements OnInit {
   companyId: number;
+  _Permissions = null;
 
   companyName$: Observable<string>;
   users$: Observable<UserGridItem[]>;
@@ -38,6 +40,7 @@ export class UsersListPageComponent implements OnInit {
     this.searchTerm$ = this.store.pipe(select(fromUsersListReducer.getUserSearchTerm));
 
     this.userContext$ = this.store.pipe(select(fromRootState.getUserContext));
+    this._Permissions = Permissions;
   }
 
   ngOnInit() {

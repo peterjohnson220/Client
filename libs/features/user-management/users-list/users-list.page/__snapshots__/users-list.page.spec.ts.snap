@@ -2,6 +2,7 @@
 
 exports[`Admin - Company-Admin - Users List Page Should show the page with search bar 1`] = `
 <pf-users-list-page
+  _Permissions={[Function Function]}
   companyId="undefined"
   companyName$={[Function Store]}
   route={[Function ActivatedRoute]}
