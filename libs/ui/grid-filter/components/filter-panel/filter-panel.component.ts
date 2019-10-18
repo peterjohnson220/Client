@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 
 import { ViewField, DataViewFilter } from 'libs/models/payfactors-api';
 import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request';
-import {FilterOperatorOptions} from '../../helpers/filter-operator-options/filter-operator-options';
+import { FilterOperatorOptions } from '../../helpers/filter-operator-options/filter-operator-options';
 
 
 @Component({
@@ -37,9 +37,9 @@ export class FilterPanelComponent implements OnChanges {
     this.close.emit();
   }
 
-  saveFilter() {
+  /*saveFilter() {
     this.saveFilterClicked.emit();
-  }
+  }*/
 
   handleFilterChange(event: DataViewFilter) {
     if ((event.Value && event.Value.length) || this.valueCanBeEmpty(event)) {

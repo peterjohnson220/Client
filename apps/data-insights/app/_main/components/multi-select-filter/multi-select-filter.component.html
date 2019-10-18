@@ -1,0 +1,30 @@
+<ng-container>
+  <kendo-dropdownlist
+    class="dropdown-list"
+    [attr.data-qa-id]="'ddm-string-filter-operators'"
+    [data]="operators"
+    [ngModel]="selectedOperator ? selectedOperator : operators[0]"
+    [textField]="'Name'"
+    [valueField]="'Value'"
+    [disabled]="'true'">
+  </kendo-dropdownlist>
+
+  <kendo-multiselect class="w-100"
+    #filterOptionsMultiSelect
+    [attr.data-qa-id]="'ddm-string-filter-options'"
+    [data]="options"
+    [(ngModel)]="selectedOptions"
+    [filterable]="true"
+    [popupSettings]="{popupClass: 'filter-options'}"
+    (open)="handleFilterOptionsMultiSelectOpen($event)"
+    (filterChange)="handleFilterChange($event)"
+    (valueChange)="handleSelectedValuesChange()">
+
+    <ng-template kendoMultiSelectItemTemplate let-dataItem>
+      <input type="checkbox" class="k-checkbox" [checked]="isOptionSelected(dataItem)">
+      <label class="k-checkbox-label" id="field-value" [title]="dataItem">{{ dataItem }}</label>
+    </ng-template>
+
+  </kendo-multiselect>
+
+</ng-container>

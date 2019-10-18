@@ -7,9 +7,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, withLatestFrom, switchMap, tap } from 'rxjs/operators';
 
 import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
-import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
-import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromExchangeCompanyJobGridActions from '../actions/exchange-company-job-grid.actions';
 import * as fromPeerMapReducer from '../reducers';
@@ -46,9 +44,8 @@ export class ExchangeCompanyJobsGridEffects {
       withLatestFrom(
         this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridState)),
         this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchangeId)),
-        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapExchangeJobIdsFromSummary)),
-        (action, listState, exchangeId, exchangeJobIds) => {
-          return {ExchangeId: exchangeId, ListState: listState, ExchangeJobIdsInScope: exchangeJobIds};
+        (action, listState, exchangeId) => {
+          return {ExchangeId: exchangeId, ListState: listState};
         }
       ),
       switchMap(payload =>

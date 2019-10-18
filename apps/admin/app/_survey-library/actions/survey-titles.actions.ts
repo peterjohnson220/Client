@@ -11,6 +11,7 @@ export const SAVE_SURVEY_TITLE_ERROR = '[Admin / Survey Library] Save Survey Tit
 export const LOADING_SURVEY_TITLES = '[Admin / Survey Library] Load Survey Titles';
 export const LOADING_SURVEY_TITLES_SUCCESS = '[Admin / Survey Library] Load Survey Titles Success';
 export const LOADING_SURVEY_TITLES_ERROR = '[Admin / Survey Library] Load Survey Titles Error';
+export const TITLE_CODE_EXISTS = '[Admin / Survey Library] Title Code Exists';
 
 export class SaveCustomTitle implements Action {
   readonly type = SAVE_CUSTOM_TITLE;
@@ -57,6 +58,10 @@ export class LoadingSurveyTitlesError implements Action {
   readonly type = LOADING_SURVEY_TITLES_ERROR;
 }
 
+export class TitleCodeExists implements Action {
+  readonly type = TITLE_CODE_EXISTS;
+}
+
 export type Actions
   = SaveCustomTitle
   | SaveCustomTitleSuccess
@@ -66,4 +71,5 @@ export type Actions
   | SaveSurveyTitleError
   | LoadingSurveyTitles
   | LoadingSurveyTitlesSuccess
-  | LoadingSurveyTitlesError;
+  | LoadingSurveyTitlesError
+  | TitleCodeExists;

@@ -16,7 +16,7 @@ export class FilterBuilderComponent {
   @Output() filterChanged = new EventEmitter<DataViewFilter>();
 
   private filterOperatorOptions = FilterOperatorOptions;
-  private dataTypes = DataViewFieldDataType;
+  public dataTypes = DataViewFieldDataType;
   public disableValue: boolean;
 
   handleFilterOperatorChanged(event) {

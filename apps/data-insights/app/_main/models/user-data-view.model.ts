@@ -4,6 +4,8 @@ export interface UserDataView {
   Entity: string;
   Name: string;
   Summary: string;
+  SortField: string;
+  SortDir: 'desc' | 'asc';
 }
 
 export function generateMockUserDataView(): UserDataView {
@@ -12,6 +14,8 @@ export function generateMockUserDataView(): UserDataView {
     BaseEntityId: 1,
     Entity: 'Jobs',
     Name: 'Jobs Report',
-    Summary: 'Job summary'
+    Summary: 'Job summary',
+    SortField: 'CompanyJobs_Job_Title',
+    SortDir: 'asc'
   };
 }

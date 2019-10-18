@@ -32,6 +32,8 @@ export const GET_COMPANY_CLIENT_TYPES_SUCCESS = '[Pf-Admin/Company Page] Get Com
 export const GET_COMPANY_CLIENT_TYPES_ERROR = '[Pf-Admin/Company Page] Get Company Client Types Error';
 export const CHECK_JDM_ENABLED = '[Pf-Admin/Company Page] Check JDM Enabled';
 export const LOAD_FORM_DATA = '[Pf-Admin/Company Page] Load Form Data';
+export const GET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Get Job Pricing Limit Info';
+export const SET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Set Job Pricing Limit Info';
 
 
 // Tabs
@@ -50,6 +52,7 @@ export const GET_COMPOSITE_FIELDS_ERROR = '[Pf-Admin/Company Page] Get Composite
 export const TOGGLE_COMPANY_TILE = '[Pf-Admin/Company Page] Toggle Company Tile';
 export const TOGGLE_COMPANY_DATA_SET = '[Pf-Admin/Company Page] Toggle Company Data Set';
 export const TOGGLE_COMPANY_SETTING = '[Pf-Admin/Company Page] Toggle Company Setting';
+export const CHANGE_COMPANY_SETTING_VALUE = '[Pf-Admin/Company Page] Change Company Setting Value';
 export const GET_COMPANY_SETTINGS = '[Pf-Admin/Company Page] Get Company Settings';
 export const GET_COMPANY_SETTINGS_SUCCESS = '[Pf-Admin/Company Page] Get Company Settings Success';
 export const GET_COMPANY_SETTINGS_ERROR = '[Pf-Admin/Company Page] Get Company Settings Error';
@@ -224,6 +227,18 @@ export class LoadFormData implements Action {
   constructor( public payload: { companyId: number } ) {}
 }
 
+export class GetJobPricingLimitInfo implements Action {
+  readonly type = GET_JOB_PRICING_LIMIT_INFO;
+
+  constructor (public payload: { companyId: number}) {}
+}
+
+export class SetJobPricingLimitInfo implements Action {
+  readonly type = SET_JOB_PRICING_LIMIT_INFO;
+
+  constructor (public payload: any) {}
+}
+
 // Tabs
 export class GetCompanyTiles implements Action {
   readonly type = GET_COMPANY_TILES;
@@ -313,6 +328,12 @@ export class ToggleCompanySetting implements Action {
   readonly type = TOGGLE_COMPANY_SETTING;
 
   constructor( public payload: CompanySetting ) {}
+}
+
+export class ChangeCompanySettingValue implements Action {
+  readonly type = CHANGE_COMPANY_SETTING_VALUE;
+
+  constructor (public payload: { companySettingKey: string, changedValue: string }) {}
 }
 
 export class GetCompanySettings implements Action {
@@ -432,6 +453,7 @@ export type Actions
   | ToggleCompanyTile
   | ToggleCompanyDataSet
   | ToggleCompanySetting
+  | ChangeCompanySettingValue
   | CreateCompany
   | SaveCompany
   | SaveCompanySuccess
@@ -449,4 +471,7 @@ export type Actions
   | GetCompanySettingsSuccess
   | GetCompanySettingsError
   | CheckJDMEnabled
-  | LoadFormData;
+  | LoadFormData
+  | GetJobPricingLimitInfo
+  | SetJobPricingLimitInfo;
+

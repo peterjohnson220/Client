@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 
 import { Observable } from 'rxjs';
 
-import {JobDescriptionApiService} from '../services/job-description-api.service';
+import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
 
 @Injectable()
 export class ResolveHistoryListGuard implements Resolve<any>  {

@@ -12,9 +12,10 @@
           <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
         </button>
       </a>
-      <h3>
+      <h3 class="page-title">
         <ng-content select="[page-title]"></ng-content>
       </h3>
+      <ng-content select="[page-header-left]"></ng-content>
     </div>
     <div class="d-flex flex-fill space-out-children">
       <ng-content select="[page-actions]"></ng-content>

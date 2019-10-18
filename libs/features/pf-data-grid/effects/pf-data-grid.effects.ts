@@ -143,6 +143,7 @@ export class PfDataGridEffects {
                 DisplayName: f.DisplayName,
                 DataType: f.DataType,
                 IsSelected: f.IsSelected,
+                IsSortable: false,
                 Order: f.Order
             };
         })

@@ -1,3 +1,6 @@
+@import 'kendo-grid';
+@import 'colors';
+
 :host ::ng-deep .modal-dialog {
   max-width: 600px;
 }
@@ -18,7 +21,7 @@
 }
 
 .grid-and-filter-container > .grid-container{
-  position: absolute;
+  position: relative;
   top: 0px;
   right: 0px;
   left: 0px;
@@ -26,9 +29,9 @@
 }
 
 .sidebar-filter-container{
-  /*min-width: 400px;*/
+  min-width: 400px;
   margin-left: 1rem;
-  background: #f7f7f9;
+  background: $data-grid-filter-panel-background-color;
 }
 
 .grid-and-filter-container > .grid-container.shift-grid-down{
@@ -36,11 +39,11 @@
 }
 
 .background-light-grey{
-  background: #f7f7f9;
+  background: $data-grid-filter-panel-background-color;
 }
 
 .column-sidebar-open{
-  background: #f7f7f9;
+  background: $data-grid-filter-panel-background-color;
   margin-top: -10px;
   padding-top: 10px;
 }

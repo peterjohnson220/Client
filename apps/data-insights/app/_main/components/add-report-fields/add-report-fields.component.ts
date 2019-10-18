@@ -50,6 +50,7 @@ export class AddReportFieldsComponent implements OnChanges, AfterViewInit, OnDes
         if (!searchTerm || searchTerm.length <= 2) {
           this.reportFieldsList.toggle(false);
         } else {
+          this.filteredFields = [];
           this.reportFieldsList.loading = true;
         }
       }),

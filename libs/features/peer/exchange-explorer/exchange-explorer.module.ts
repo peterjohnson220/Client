@@ -19,21 +19,23 @@ import { UserFilterTypeData } from '../../user-filter/models';
 import { PfPeerMapModule } from '../map';
 
 import { ExchangeExplorerComponent, ExchangeScopeSelectorComponent, ExchangeExplorerMapComponent } from './containers';
+import { AssociatedExchangeJobListComponent } from './components/associated-exchange-job-list';
 import { reducers } from './reducers';
 import {
+  ExchangeExplorerEffects,
   ExchangeFilterContextEffects,
   ExchangeScopeEffects,
   ExchangeSearchEffects,
   SingledFilterEffects
 } from './effects';
-import { ExchangeExplorerSearchFilterMappingDataObj } from './data';
 import { ExchangeExplorerContextService } from './services';
 import * as fromFaIcons from './fa-icons';
 
 const declarations = [
   ExchangeExplorerMapComponent,
   ExchangeScopeSelectorComponent,
-  ExchangeExplorerComponent
+  ExchangeExplorerComponent,
+  AssociatedExchangeJobListComponent
 ];
 
 @NgModule({
@@ -45,7 +47,7 @@ const declarations = [
     StoreModule.forFeature('feature_peer_exchangeExplorer', reducers),
     EffectsModule.forFeature([
       ExchangeScopeEffects, ExchangeFilterContextEffects,
-      ExchangeSearchEffects, SingledFilterEffects
+      ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects
     ]),
     SwitchModule,
     NgxMapboxGLModule.withConfig({accessToken: environment.mapboxAccessToken}),
@@ -59,7 +61,7 @@ const declarations = [
   ],
   providers: [
     ExchangeExplorerContextService,
-    { provide: SearchFilterMappingDataObj, useValue: ExchangeExplorerSearchFilterMappingDataObj },
+    { provide: SearchFilterMappingDataObj, useValue: {} },
     { provide: UserFilterTypeData, useValue: '' }
   ],
   declarations: declarations,

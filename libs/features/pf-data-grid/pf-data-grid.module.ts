@@ -22,7 +22,7 @@ import { PfGridFilterModule } from 'libs/ui/grid-filter/grid-filter.module';
 
 import { PfDataGridComponent } from './pf-data-grid.component/pf-data-grid.component';
 import { ActionBarComponent, GridComponent } from './containers';
-
+import { PfGridColumnComponent } from './components';
 
 @NgModule({
   imports: [
@@ -47,7 +47,8 @@ import { ActionBarComponent, GridComponent } from './containers';
   declarations: [
     PfDataGridComponent,
     ActionBarComponent,
-    GridComponent
+    GridComponent,
+    PfGridColumnComponent
   ],
   exports: [
     PfDataGridComponent

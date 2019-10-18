@@ -17,29 +17,35 @@
     <pf-async-container [loading]="isLoadingMapModalData$ | async"
                         [loadingError]="getMapModalDataFailed$ | async">
       <div class="row pt-3 ">
-        <div class="col-5
-         pb-2 pr-5">
-          <h5>Companies not Mapped:</h5>
-          <ng-container *ngIf="companiesList">
-            <div *ngIf="companiesList.length===0">No companies found</div>
-            <div class="pt-2">
-              <div *ngFor="let item of companiesList"
-                   (mouseenter)="selectedCompany = item.CompanyId"
-                   [class.selected-map-row]="item.CompanyId === selectedCompany"
-                   class="mt-1">
-                {{item.CompanyName}}
-
-                <span *ngIf="item.CompanyId === selectedCompany"
-                      class="add-map-btn float-right"
-                      (click)="shouldAdd(item.CompanyId)">
-                  Map
-                  <fa-icon icon="caret-right"
-                           size="1x"></fa-icon>
-                </span>
-              </div>
-            </div>
-          </ng-container>
+        <div *ngIf="hasCompanySurveyUDFs; else canMap"
+             class="col-5 pb-2 pr-5 text-danger" >
+          Mapping functionality is not available for this survey as it contains company specific custom fields.
         </div>
+        <ng-template #canMap>
+          <div class="col-5
+           pb-2 pr-5">
+          <h5>Companies not Mapped:</h5>
+            <ng-container *ngIf="companiesList">
+              <div *ngIf="companiesList.length===0">No companies found</div>
+              <div class="pt-2">
+                <div *ngFor="let item of companiesList"
+                     (mouseenter)="selectedCompany = item.CompanyId"
+                     [class.selected-map-row]="item.CompanyId === selectedCompany"
+                     class="mt-1">
+                  {{item.CompanyName}}
+
+                  <span *ngIf="item.CompanyId === selectedCompany"
+                        class="add-map-btn float-right"
+                        (click)="shouldAdd(item.CompanyId)">
+                    Map
+                    <fa-icon icon="caret-right"
+                             size="1x"></fa-icon>
+                  </span>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </ng-template>
         <div class="col-7 pb-2">
           <h5>Companies Mapped:
             <small

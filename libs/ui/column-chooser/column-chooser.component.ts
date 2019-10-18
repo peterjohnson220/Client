@@ -32,4 +32,9 @@ export class ColumnChooserComponent implements OnChanges {
     this.saveColumns.emit(this.listAreaColumns);
     this.p.close();
   }
+
+  onHidden() {
+    this.filter = '';
+    this.listAreaColumns = cloneDeep(this.dataFields);
+  }
 }

@@ -1,10 +1,10 @@
-export interface AppNotification {
+export interface AppNotification<T> {
   NotificationId: string;
   EnableHtml: boolean;
   From: string;
   Level: NotificationLevel;
   Type: string;
-  Payload: NotificationPayload;
+  Payload: T;
 }
 
 export enum NotificationLevel {
@@ -22,4 +22,9 @@ export enum NotificationType {
 export interface NotificationPayload {
   Title: string;
   Message: string;
+}
+
+export interface ProgressStatusPayload extends NotificationPayload {
+  IsCompleted: boolean;
+  PercentageComplete: number;
 }

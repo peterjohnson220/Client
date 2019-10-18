@@ -4,9 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
+import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
-import { SystemFilter, CompanySettingsEnum, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
+import { CompanySettingsEnum, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
@@ -34,7 +34,6 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   initialMapMoveComplete$: Observable<boolean>;
   includeUntaggedIncumbents$: Observable<boolean>;
   untaggedIncumbentCount$: Observable<number>;
-  systemFilter$: Observable<SystemFilter>;
   requestingPeerAccess$: Observable<boolean>;
   hasAcceptedPeerTerms$: Observable<boolean>;
   hasRequestedPeerAccess$: Observable<boolean>;
@@ -56,22 +55,22 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
-    private mapStore: Store<fromPeerMapReducers.State>,
+    private mapStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     private route: ActivatedRoute,
     private guidelinesService: DojGuidelinesService,
     private settingsService: SettingsService
   ) {
     this.upsertingDataCut$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCut));
     this.upsertingDataCutError$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCutError));
-    this.initialMapMoveComplete$ = this.mapStore.pipe(select(fromPeerMapReducers.getPeerMapInitialMapMoveComplete));
-    this.systemFilter$ = this.store.pipe(select(fromPeerMapReducers.getSystemFilter));
     this.upsertDataCutPageInViewInIframe$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutPageInViewInIframe));
-    this.peerMapCompanies$ = this.store.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
-    this.includeUntaggedIncumbents$ = this.store.pipe(select(fromPeerMapReducers.getPeerFilterIncludeUntaggedIncumbents));
-    this.untaggedIncumbentCount$ = this.store.pipe(select(fromPeerMapReducers.getPeerFilterCountUnGeoTaggedIncumbents));
     this.requestingPeerAccess$ = this.store.pipe(select(fromUpsertPeerDataReducers.getRequestingPeerAccess));
     this.employeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
     this.isEmployeeCheckLoading$ = this.store.pipe(select(fromUpsertPeerDataReducers.getIsEmployeeSimilarityLoading));
+
+    this.initialMapMoveComplete$ = this.mapStore.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapInitialMapMoveComplete));
+    this.peerMapCompanies$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapCompaniesFromSummary));
+    this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
+    this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
 
     this.hasRequestedPeerAccess$ = this.settingsService.selectUiPersistenceSetting<boolean>(
       FeatureAreaConstants.Project, UiPersistenceSettingConstants.PeerAccessRequested
@@ -117,12 +116,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
     this.setQueryParamMembers();
     this.setSubscriptions();
 
-    // TODO: Implement Editing of Data Cuts
-    // if (!!this.cutGuid) {
-    //   this.store.dispatch(new fromUpsertDataCutPageActions.LoadDataCutDetails(this.cutGuid));
-    // }
-
-    this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
+ this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
       {
         CompanyJobId: this.companyJobId,
         UserSessionId: this.userSessionId

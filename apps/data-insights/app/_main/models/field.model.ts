@@ -10,6 +10,7 @@ export interface Field {
   KendoGridField?: string;
   DataType?: DataViewFieldDataType;
   IsSelected?: boolean;
+  IsSortable: boolean;
   Order?: number;
 }
 
@@ -30,6 +31,7 @@ export function generateMockField(): Field {
     IsSelected: false,
     Order: 1,
     SourceName: 'Job_Title',
-    KendoGridField: 'CompanyJobs.Job_Title'
+    KendoGridField: 'CompanyJobs.Job_Title',
+    IsSortable: true
   };
 }

@@ -31,6 +31,14 @@ exports[`Features - Peer - Filter Aggregate Group Component should apply the col
         <div>
            MockLabel 
         </div>
+        <div>
+          
+          <span
+            class="text-muted"
+          >
+             (AND)
+          </span>
+        </div>
         
         <div
           class="ml-2"
@@ -90,6 +98,14 @@ exports[`Features - Peer - Filter Aggregate Group Component should show the Opti
         </div>
         <div>
            MockLabel 
+        </div>
+        <div>
+          
+          <span
+            class="text-muted"
+          >
+             (AND)
+          </span>
         </div>
         
       </div>

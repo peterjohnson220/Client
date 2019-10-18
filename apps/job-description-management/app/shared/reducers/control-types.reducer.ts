@@ -1,40 +1,49 @@
-import {ControlType} from 'libs/models/common';
+import * as cloneDeep from 'lodash.clonedeep';
+
+import { ControlType } from 'libs/models/common';
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromControlTypes from '../../shared/actions/control-types.actions';
 
 export interface State {
-  loaded: boolean;
-  loading: boolean;
-  entities: ControlType[];
+  controlTypesAsync: AsyncStateObj<ControlType[]>;
 }
 
 const initialState: State = {
-  loaded: false,
-  loading: false,
-  entities: []
+  controlTypesAsync: generateDefaultAsyncStateObj<ControlType[]>([])
 };
 
 export function reducer(state = initialState, action: fromControlTypes.Actions): State {
   switch (action.type) {
-    case fromControlTypes.LOAD_CONTROL_TYPES:
+    case fromControlTypes.LOAD_CONTROL_TYPES: {
+      const controlTypeAsyncClone = cloneDeep(state.controlTypesAsync);
+
+      controlTypeAsyncClone.loading = true;
+      controlTypeAsyncClone.loadingError = false;
+
       return {
         ...state,
-        entities: [],
-        loaded: false,
-        loading: true
+        controlTypesAsync: controlTypeAsyncClone
       };
-    case fromControlTypes.LOAD_CONTROL_TYPES_SUCCESS:
+    }
+    case fromControlTypes.LOAD_CONTROL_TYPES_SUCCESS: {
+      const controlTypeAsyncClone = cloneDeep(state.controlTypesAsync);
+
+      controlTypeAsyncClone.loading = false;
+      controlTypeAsyncClone.obj = JSON.parse(action.payload);
+
       return {
         ...state,
-        loaded: true,
-        loading: false,
-        entities: JSON.parse(action.payload)
+        controlTypesAsync: controlTypeAsyncClone
       };
+    }
     default:
       return state;
   }
 }
 
-export const getControlTypesLoaded = (state: State) => state.loaded;
-export const getControlTypeAndVersion = (state: State) =>  state.entities;
+export const getControlTypesLoaded = (state: State) => !state.controlTypesAsync.loading;
+export const getControlTypeAndVersion = (state: State) => state.controlTypesAsync.obj;
+export const getControlTypeAndVersionAsync = (state: State) => state.controlTypesAsync;
+
 

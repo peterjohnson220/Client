@@ -2,10 +2,14 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { ToastrModule } from 'ngx-toastr';
 
 import { reducers } from './reducers';
 import { AppNotificationsComponent } from './containers';
+
+import { ToastsEffects } from './effects';
+
 
 @NgModule({
   imports: [
@@ -14,6 +18,9 @@ import { AppNotificationsComponent } from './containers';
 
     // 3rd Party
     StoreModule.forFeature('feature_appnotifications', reducers),
+    EffectsModule.forFeature([
+      ToastsEffects
+    ]),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       closeButton: true

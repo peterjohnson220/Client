@@ -42,7 +42,7 @@ describe('Comphub - Main - Summary Card Component', () => {
       providers: [
         {
           provide: CurrencyPipe,
-          useValue: { transform: (x) => { return x; } }
+          useValue: { transform: (x) => x }
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]

@@ -1,9 +1,9 @@
+@import 'colors';
+
 .sidebar-container{
   position: relative;
   height: 100%;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  background: #f7f7f9;
+  background: $data-grid-filter-panel-background-color;
 }
 
 .sidebar-header{
@@ -17,7 +17,7 @@
   right: 0px;
   height: 40px;
   border-bottom: 2px solid #eceeef;
-  background: #f7f7f9;
+  background: $data-grid-filter-panel-background-color;
   font-weight: bold;
 }
 

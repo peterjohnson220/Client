@@ -15,6 +15,8 @@ export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
 export const CLEAR_ALL_FILTERS = '[PfDataGrid] Clear All Filters';
+export const TOGGLE_FILTER_PANEL = '[PfDataGrid] Toggle Filter Panel';
+export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
 
 export class LoadViewConfig implements Action {
     readonly type = LOAD_VIEW_CONFIG;
@@ -81,6 +83,16 @@ export class ClearAllFilters implements Action {
   constructor(public pageViewId: string) {}
 }
 
+export class ToggleFilterPanel implements Action {
+  readonly type = TOGGLE_FILTER_PANEL;
+  constructor(public pageViewId: string) {}
+}
+
+export class SetFilterPanelDisplay implements Action {
+  readonly type = SET_FILTER_PANEL_DISPLAY;
+  constructor(public pageViewId: string, public displayValue: boolean) {}
+}
+
 export type DataGridActions =
     | LoadViewConfig
     | LoadViewConfigSuccess
@@ -94,4 +106,6 @@ export type DataGridActions =
     | UpdateFilter
     | ClearFilter
     | ClearAllFilters
+    | ToggleFilterPanel
+    | SetFilterPanelDisplay
     | HandleApiError;

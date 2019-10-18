@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
@@ -9,7 +9,8 @@ import { ViewField } from 'libs/models/payfactors-api';
 @Component({
   selector: 'pf-grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+  styleUrls: ['./grid.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class GridComponent implements OnInit, OnChanges {
 
@@ -22,7 +23,7 @@ export class GridComponent implements OnInit, OnChanges {
   @Output() rowSelected = new EventEmitter();
 
   loading$: Observable<boolean>;
-  dataFields$: Observable<ViewField[]>;
+  dataFields$: Observable<any[]>;
   data$: Observable<GridDataResult>;
   pageSize$: Observable<number>;
   skip$: Observable<number>;
@@ -39,7 +40,7 @@ export class GridComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
       this.loading$ = this.store.select(fromReducer.getLoading, changes['pageViewId'].currentValue);
-      this.dataFields$ = this.store.select(fromReducer.getFields, changes['pageViewId'].currentValue);
+      this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
       this.data$ = this.store.select(fromReducer.getGridData, changes['pageViewId'].currentValue);
       this.pageSize$ = this.store.select(fromReducer.getPageSize, changes['pageViewId'].currentValue);
       this.skip$ = this.store.select(fromReducer.getSkip, changes['pageViewId'].currentValue);
@@ -57,7 +58,7 @@ export class GridComponent implements OnInit, OnChanges {
     return (!this.isCompact || col.IsLocked) && col.IsSelectable && col.IsSelected;
   }
 
-  mappedColumnName(col: ViewField): string {
+  mappedFieldName(col: ViewField): string {
     return (col.EntitySourceName ? col.EntitySourceName + '_' : '') + col.SourceName;
   }
 
@@ -93,4 +94,6 @@ export class GridComponent implements OnInit, OnChanges {
       previousNext: true
     };
   }
+
+ 
 }

@@ -1,31 +1,17 @@
-<button class="btn btn-primary position-absolute" style="right: 15px; z-index: 900;" (click)="close()">
-  Close
-</button>
+<div (click)="close()" class="close-btn">
+  <fa-icon icon="times" size="lg"></fa-icon>
+</div>
+
 
 <kendo-tabstrip>
-  <kendo-tabstrip-tab [title]="'Employees'" [selected]="true" data-qa-id='tab-employees'>
+  <kendo-tabstrip-tab [title]="'Pricing Details'" [selected]="true" data-qa-id='tab-pricing-details'>
     <ng-template kendoTabContent>
-      <pf-data-grid
-        [pageViewId]="'12147D19-592A-44AF-9696-7F5347873D5E'"
-        [showTitle]="false"
-        [showColumnChooser] ="false"
-        [showFilterChooser] ="false"
-        [allowExport]="false"
-        [primaryKey]="'CompanyEmployees_CompanyEmployee_ID'"
-        [columnTemplates]="colTemplates"
-        [gridGlobalActionsTemplate]="gridGlobalActions">
-      </pf-data-grid>
-
-      <ng-template #employeeColumn let-dataRow="dataRow">
-        <ng-container *ngIf="dataRow['CompanyEmployees_First_Name'] || dataRow['CompanyEmployees_Last_Name']; else noEmployeeName">
-         {{dataRow['CompanyEmployees_First_Name']}} {{dataRow['CompanyEmployees_Last_Name']}}
-          <small> <em class="text-muted">({{dataRow['CompanyEmployees_Employee_ID']}})</em></small>
-        </ng-container>
-        <ng-template #noEmployeeName>
-          {{dataRow['CompanyEmployees_Employee_ID']}}
-        </ng-template>
-      </ng-template>
+      <pf-pricing-details-grid></pf-pricing-details-grid>
     </ng-template>
-
+  </kendo-tabstrip-tab>
+  <kendo-tabstrip-tab [title]="'Employees'" [selected]="false" data-qa-id='tab-employees'>
+    <ng-template kendoTabContent>
+      <pf-employees-grid></pf-employees-grid>
+    </ng-template>
   </kendo-tabstrip-tab>
 </kendo-tabstrip>

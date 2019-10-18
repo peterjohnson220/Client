@@ -5,9 +5,13 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 
 import * as fromFaIcons from './fa-icons';
 import { DebounceClickDirective, DisableFormControlDirective } from './directives';
-import {  HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
+import {
+  HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
   NewLinePipe, JobDescriptionParserPipe, WrapSubtextWithTag, DataTypeFilterPipe,
-  OrderByPipe, FilterArrayByName, GetFileExtensionCssClassPipe } from './pipes';
+  OrderByPipe, FilterArrayByName, GetFileExtensionCssClassPipe, StripHtmlPipe, CompPipe
+} from './pipes';
+import { DragulaHelperService } from './services';
+import { DecimalPipe } from '@angular/common';
 
 const declarations = [
   // Directives
@@ -25,13 +29,21 @@ const declarations = [
   WrapSubtextWithTag,
   OrderByPipe,
   FilterArrayByName,
-  GetFileExtensionCssClassPipe
+  GetFileExtensionCssClassPipe,
+  StripHtmlPipe,
+  CompPipe
+];
+
+const providers = [
+  DragulaHelperService,
+  DecimalPipe
 ];
 
 @NgModule({
   declarations: declarations,
   exports: declarations,
-  imports: [FontAwesomeModule]
+  imports: [FontAwesomeModule],
+  providers: providers
 })
 export class PfCommonModule {
   constructor() {

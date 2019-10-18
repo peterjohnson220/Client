@@ -43,7 +43,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   ) {
     this.exchangeScopeItems$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getExchangeScopes));
     this.exchangeScopeItemsLoading$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getExchangeScopesLoadingByJobs));
-    this.systemFilterLoaded$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getSystemFilterLoaded));
+    this.systemFilterLoaded$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getHasAppliedFilterContext));
     this.selectedExchangeScopeItem$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getFilterContextScopeSelection));
     this.deletingExchangeScope$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getDeletingExchangeScope));
     this.inDeleteScopeMode$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getInDeleteExchangeScopeMode));

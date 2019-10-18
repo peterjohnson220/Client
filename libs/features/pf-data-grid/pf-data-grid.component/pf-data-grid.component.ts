@@ -31,11 +31,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   public gridFilterThrottle: Subject<any>;
   isSplitView = false;
-  displayFilterPanel = false;
 
   splitViewEmitter = new EventEmitter<string>();
   dataFields$: Observable<ViewField[]>;
   filters$: Observable<DataViewFilter[]>;
+  displayFilterPanel$: Observable<boolean>;
 
   constructor(private store: Store<fromReducer.State>) {
     this.gridFilterThrottle = new Subject();
@@ -56,6 +56,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
     this.filters$ = this.store.select(fromReducer.getFilters, this.pageViewId);
+    this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
   }
 
   ngOnDestroy() {
@@ -69,10 +70,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   toggleFilterPanel() {
-    this.displayFilterPanel = !this.displayFilterPanel;
-    if (this.displayFilterPanel) {
-      this.splitViewEmitter.emit('close');
-    }
+    this.store.dispatch(new fromActions.ToggleFilterPanel(this.pageViewId));
+  }
+
+  closeFilterPanel() {
+    this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
   }
 
   handleFilterChanged(event: DataViewFilter) {

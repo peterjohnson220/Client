@@ -1,0 +1,73 @@
+<div *ngIf="!!filter" class="filter-card card">
+  <div class="card-body">
+    <ng-container *ngIf="editMode; else displayMode">
+      <div class="filters-container">
+        <div class="filters-action-bar d-flex justify-content-end">
+          <fa-icon icon="minus" class="filter-icons mr-2" data-qa-id="btn-toggleEditMode" (click)="toggleEditMode()"></fa-icon>
+          <fa-icon icon="times" id="delete-filter" class="filter-icons" data-qa-id="btn-deleteFilter" (click)="handleDeleteFilter(filter)"></fa-icon>
+        </div>
+      </div>
+      <kendo-dropdownlist class="dropdown-list w-100"
+                          [attr.data-qa-id]="'ddm-filter-fields'"
+                          [data]="fields"
+                          [ngModel]="filter.Field"
+                          [textField]="'DisplayName'"
+                          [valueField]="'DataElementId'"
+                          (valueChange)="handleFieldChanged($event)">
+
+        <ng-template kendoDropDownListItemTemplate let-dataItem>
+          <div class="d-flex">
+            <span class="field-name" [title]="dataItem?.DisplayName">{{ dataItem?.DisplayName }}</span>
+            <span class="ml-auto field-source" title="{{dataItem?.Entity | uppercase}}">{{ dataItem?.Entity }}</span>
+          </div>
+        </ng-template>
+
+        <ng-template kendoDropDownListValueTemplate let-dataItem>
+          <div class="d-flex w-100">
+            <span class="field-name" [title]="dataItem?.DisplayName">{{ dataItem?.DisplayName }}</span>
+            <span class="ml-auto field-source" title="{{dataItem?.Entity | uppercase}}">{{ dataItem?.Entity }}</span>
+          </div>
+        </ng-template>
+      </kendo-dropdownlist>
+        <ng-container *ngIf="filter.Field?.DataType === 'string'">
+          <pf-multi-select-filter
+            [selectedOperator]="filter.Operator"
+            [options]="filter.Options"
+            [selectedOptions]="filter.SelectedOptions"
+            [filterValue]="getFilterOptionsData?.Query"
+            (filterChanged)="handleMultiSelectFilterChanged($event)"
+            (selectedValuesChanged)="handleMultiSelectSelectedValuesChange($event)">
+          </pf-multi-select-filter>
+        </ng-container>
+        <ng-container *ngIf="filter.Field?.DataType === 'dateTime'">
+          <pf-date-range-filter
+            [selectedOperator]="filter.Operator"
+            [startDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[0] : null"
+            [endDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[1] : null"
+            (selectionRangeChanged)="handleDateRangeChanged($event)">
+          </pf-date-range-filter>
+        </ng-container>
+        <ng-container *ngIf="filter.Field?.DataType === 'float' || filter.Field?.DataType === 'int'">
+          <pf-numeric-filter
+            [dataType]="filter.Field?.DataType"
+            [selectedOperator]="filter.Operator"
+            [numericValue]="filter.SelectedOptions"
+            (numericValuesChanged)="handleNumericValueChanged($event)"
+            (changeOperator)="handleOperatorChanged($event)">
+          </pf-numeric-filter>
+        </ng-container>
+      </ng-container>
+    <ng-template #displayMode>
+      <div class="d-flex justify-content-between display-mode" (click)="toggleEditMode()">
+        <div class="filter-display-name">
+          {{filter.Field?.DisplayName}}
+        </div>
+        <div class="filter-options">
+          <span class="badge badge-info"> {{selectedOptionsCount}}</span>
+        </div>
+      </div>
+    </ng-template>
+
+
+  </div>
+</div>

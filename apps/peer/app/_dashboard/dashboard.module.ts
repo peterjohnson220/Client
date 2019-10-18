@@ -18,8 +18,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 
 import {
-  ExchangeDashboardPageComponent, ExchangeSelectorComponent,
-  AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
+  ExchangeDashboardPageComponent, AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
   ExchangeRevenueChartComponent, ExchangeCompanyCountComponent, ExchangeJobCountComponent,
   ChartDetailComponent, ExchangeJobComparisonGridComponent, ExchangeDashboardTCModalComponent, UploadOrgDataModalComponent
 } from './containers';
@@ -35,6 +34,7 @@ import { NewCompanyFormComponent } from './containers/invite-company/new-company
 import { ExistingCompanySelectionFormComponent } from './containers/invite-company/existing-company-selection-form';
 
 import * as fromFaIcons from './fa-icons';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -54,7 +54,6 @@ import * as fromFaIcons from './fa-icons';
       ExchangeDashboardEffects, AccessExchangeRequestEffects, InviteCompanyEffects,
       ExchangeJobComparisonGridEffects, ExchangeEffects, ExchangeDashboardTCModalEffects, UploadOrgDataEffects
     ]),
-    NgbPopoverModule,
     FontAwesomeModule,
 
     // Routing
@@ -63,13 +62,14 @@ import * as fromFaIcons from './fa-icons';
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
-    PfCommonModule
+    PfCommonModule,
+    SharedModule,
   ],
   declarations: [
 // Containers
     ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent, ExchangeRevenueChartComponent,
     ExchangeCompanyCountComponent, ExchangeJobCountComponent, ExchangeDashboardPageComponent,
-    AccessModalComponent, ChartDetailComponent, ExchangeJobComparisonGridComponent, ExchangeSelectorComponent,
+    AccessModalComponent, ChartDetailComponent, ExchangeJobComparisonGridComponent,
     InviteCompanyModalComponent, NewCompanyFormComponent, ExistingCompanySelectionFormComponent,
     ExchangeDashboardTCModalComponent, UploadOrgDataModalComponent
   ],

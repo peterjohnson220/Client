@@ -1,0 +1,46 @@
+<table class="table control-table">
+  <thead *ngIf="attributes.length > 1">
+  <tr>
+    <th></th>
+    <th width="{{attribute.WidthPct + '%'}}" *ngFor="let attribute of attributes">{{attribute.DisplayName}}</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+  <ng-template [ngIf]="data.length">
+
+    <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+
+      <tr [attr.data-index]="dataRowIndex"
+          [attr.data-data-row-id]="dataRow.Id">
+
+        <td class="bullet-cell">
+          <span [innerHTML]="getBullet(dataRowIndex)"></span>
+        </td>
+
+        <!--Attribute Cells-->
+        <td width="{{attribute.WidthPct + '%'}}" *ngFor="let attribute of attributes">
+          <pf-control-data-attribute-renderer
+            [editable]="canEditAttribute(dataRow, attribute)"
+            [checkInheritedData]="checkInheritedData"
+            [dataRow]="dataRow"
+            [attribute]="attribute"
+            (dataChangesDetected)="handleDataChangesDetected($event)">
+          </pf-control-data-attribute-renderer>
+        </td>
+
+        <td>
+          <span *ngIf="checkInheritedData && dataRow.TemplateId && !readOnly" class="badge badge-danger">Template</span>
+        </td>
+
+      </tr>
+
+    </ng-template>
+
+  </ng-template>
+
+  </tbody>
+
+</table>

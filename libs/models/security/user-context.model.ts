@@ -20,6 +20,8 @@ export interface UserContext {
   UserIdentifier: string;
   UserPicture: string;
   WorkflowStepInfo: WorkflowStepInfo;
+  IpAddress: string;
+  SessionId: string;
 }
 
 export interface ConfigSetting {
@@ -62,6 +64,8 @@ export function generateMockUserContext(): UserContext {
     UserId: 1,
     UserIdentifier: '',
     UserPicture: 'FakePicture.Jpg',
-    WorkflowStepInfo: null
+    WorkflowStepInfo: null,
+    IpAddress: '127.0.0.1',
+    SessionId: '335f3387-77b2-4aca-95b6-2809c78c6c6a'
   };
 }

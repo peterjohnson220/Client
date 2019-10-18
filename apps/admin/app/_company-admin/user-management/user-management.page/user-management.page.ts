@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromUserReducer from '../reducers';
 import { Store } from '@ngrx/store';
@@ -8,6 +8,9 @@ import { UserAssignedRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { UserContext } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
+import { Permissions } from 'libs/constants';
 
 @Component({
   selector: 'pf-user-management-page',
@@ -24,19 +27,19 @@ export class UserManagementPageComponent implements OnInit {
   user$: Observable<UserManagementDto>;
   userRoles$: Observable<UserAssignedRole[]>;
   apiError$: Observable<string>;
+  userContext$: Observable<UserContext>;
 
   constructor(public location: Location, public route: ActivatedRoute, private store: Store<fromUserReducer.State>) {
-
     this.loading$ = this.store.select(fromUserReducer.getUserStateLoading);
     this.loaded$ = this.store.select(fromUserReducer.getUserStateLoaded);
     this.apiError$ = this.store.select(fromUserReducer.getUserStateApiError);
 
     this.user$ = this.store.select(fromUserReducer.getUserStateUser);
     this.userRoles$ = this.store.select(fromUserReducer.getUserStateRoles);
+
   }
 
   ngOnInit() {
-
     this.userId = this.route.snapshot.params.userId;
     if (this.userId) {
       this.store.dispatch(new fromUserActions.LoadUser(this.userId));

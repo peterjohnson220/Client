@@ -1,7 +1,6 @@
 @import 'legacy/legacy-variables';
 @import 'search/filters-variables';
 @import '../../styles/shared-styles.scss';
-
 .filter{
   padding-bottom: .75rem;
 }
@@ -43,8 +42,17 @@
 }
 
 .header-left{
-  display: flex;
   margin-left: .5rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+
+  .operator {
+    margin-top: .3em;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+  }
 }
 
 .header-right{
@@ -55,6 +63,7 @@
 
 .clear-link{
   @extend %text-filter-action;
+  white-space: nowrap;
 }
 
 .search{

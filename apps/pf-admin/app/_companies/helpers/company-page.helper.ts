@@ -1,4 +1,4 @@
-import { CompanyFormData, CompanySetting, CompanySettingsEnum, CompanyDto } from 'libs/models/company';
+import { CompanyDto, CompanyFormData, CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings';
 import { CompanyTilesResponse } from 'libs/models/payfactors-api';
 import { TileNames } from 'libs/constants';
@@ -159,6 +159,9 @@ export class CompanyPageHelper {
           s.Disabled = true;
           return s;
         }
+        case CompanySettingsEnum.MaxProjectJobCount: {
+          return s;
+        }
         default: {
           s.Value = 'false';
           s.Disabled = false;
@@ -208,6 +211,9 @@ export class CompanyPageHelper {
         case CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested: {
           s.Value = 'false';
           s.Disabled = true;
+          return s;
+        }
+        case CompanySettingsEnum.MaxProjectJobCount: {
           return s;
         }
         default: {

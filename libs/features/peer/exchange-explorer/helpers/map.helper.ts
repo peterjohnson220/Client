@@ -1,7 +1,8 @@
 import { FeatureCollection, Point } from 'geojson';
 import { LngLatBounds } from 'mapbox-gl';
 
-import { PeerMapScopeMapInfo, ExchangeMapSummary, GenericKeyValue } from 'libs/models/';
+import { PeerMapScopeMapInfo, ExchangeMapSummary, GenericKeyValue, ExchangeMapResponse } from 'libs/models/';
+import { ExchangeExplorerScopeResponse } from '../../../../models/payfactors-api/peer-exchange-explorer-search/response';
 
 export class MapHelper {
 
@@ -17,15 +18,13 @@ export class MapHelper {
     };
   }
 
-  static getMapDetailsFromScope(scope: PeerMapScopeMapInfo, isDataCut: boolean = false): any {
-    const scopeCriteria: PeerMapScopeMapInfo = scope;
-    const mapResponse = scopeCriteria.MapResponse;
-    const mapSummary: ExchangeMapSummary = mapResponse.MapSummary;
-    const tl = isDataCut ? mapSummary.TopLeft : scopeCriteria.ScopeTopLeft;
-    const br = isDataCut ? mapSummary.BottomRight : scopeCriteria.ScopeBottomRight;
+  static getMapDetailsFromScope(scope: ExchangeExplorerScopeResponse, isDataCut: boolean = false): any {
+    const mapSummary: ExchangeMapSummary = scope.ExchangeDataSearchResponse.MapSummary;
+    const tl = isDataCut ? mapSummary.TopLeft : scope.ScopeTopLeft;
+    const br = isDataCut ? mapSummary.BottomRight : scope.ScopeBottomRight;
     const mapCollection: FeatureCollection<Point> = {
       type: 'FeatureCollection',
-      features: mapResponse.FeatureCollection
+      features: scope.ExchangeDataSearchResponse.FeatureCollection
     };
     const boundsForOneMapCopy = [tl.Lon, br.Lat, br.Lon, tl.Lat];
     const lngLatBounds = new LngLatBounds(
@@ -37,11 +36,11 @@ export class MapHelper {
       MapSummary: mapSummary,
       MapBounds: boundsForOneMapCopy,
       Centroid: lngLatBounds.getCenter().toArray(),
-      ZoomLevel: scopeCriteria.ZoomLevel,
+      ZoomLevel: scope.ZoomLevel,
       MapFilter: {
         TopLeft: tl,
         BottomRight: br,
-        ClusterPrecision: scopeCriteria.ClusterPrecision
+        ClusterPrecision: scope.ClusterPrecision
       }
     };
   }

@@ -16,8 +16,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit {
 
   company$: Observable<string>;
 
-  // @ViewChild('complexColumn', { static: false }) complexColTemplate: ElementRef;
-  // @ViewChild('complexColumn2', { static: false }) complexColTemplate2: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
   colTemplates = {};
 

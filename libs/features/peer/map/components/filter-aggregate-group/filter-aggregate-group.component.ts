@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from 
 import { FilterAggregateGroup, FilterAggregateItem, ToggleAggregateGroupSelections } from 'libs/models/peer/aggregate-filters';
 
 import { AggregateSelectionInfo } from '../../models';
+import { OperatorEnum } from '../../../../../constants';
 
 @Component({
   selector: 'pf-filter-aggregate-group',
@@ -24,6 +25,14 @@ export class FilterAggregateGroupComponent {
 
   constructor() { }
 
+  get filterOperatorLabel(): string {
+    const operator = this.aggregateGroup.MetaData.Operator;
+    if (operator !== null && !!OperatorEnum[operator]) {
+      return ' (' + OperatorEnum[operator].toUpperCase() + ')';
+    }
+
+    return null;
+  }
   get searchingAnotherAggregate(): boolean {
     return this.searching && !this.aggregateGroup.IsSearching;
   }

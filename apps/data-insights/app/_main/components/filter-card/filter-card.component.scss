@@ -1,0 +1,53 @@
+@import 'data-insights-styles';
+@import 'data-insights-variables';
+@import 'common/common-variables';
+
+.card {
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+.filters-container {
+  position: relative;
+  bottom: 15px;
+  right: 16px;
+  width: 321px;
+  
+
+  .filters-action-bar {
+    padding: 0.5rem 1rem 0 1rem;
+
+    .filter-icons {
+      position: relative;
+      margin-left: 10px;
+      color: $dark-grey;
+      cursor: pointer;
+    }
+  }
+}
+
+.dropdown-list {
+  margin-bottom: 1rem;
+}
+
+.field-name {
+  width: 150px;
+  font-weight: 500;
+  @extend %ellipsis-overflowing-text;
+}
+
+.field-source {
+  text-transform: uppercase;
+  color: $dark-grey;
+  width: 100px;
+  text-align: right;
+  @extend %ellipsis-overflowing-text;
+}
+
+.display-mode {
+  cursor: pointer;
+}
+
+#field-value {
+  max-width: 250px;
+  @extend %ellipsis-overflowing-text;
+}

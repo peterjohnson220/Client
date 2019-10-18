@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {Store} from '@ngrx/store';
 
 import { JobDescriptionInfoHeaderBase} from '../job-description-info-header-base';
-import {JobDescriptionAppliesToItem} from '../../../models/job-description-appliesto-item.model';
+import {JobDescriptionAppliesToItem} from '../../../models';
 import * as fromJobDescriptionAppliesToReducers from '../../../reducers';
 
 @Component({

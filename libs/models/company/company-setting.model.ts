@@ -26,6 +26,7 @@ export interface CompanySetting {
   Value: string;
   Visible: boolean;
   Disabled?: boolean;
+  DataType: string;
 }
 
 export function generateMockCompanySetting(): CompanySetting {
@@ -33,6 +34,7 @@ export function generateMockCompanySetting(): CompanySetting {
     Key: CompanySettingsEnum.PeerTermsAndConditionsRequested,
     DisplayName: 'Mock Company Setting',
     Value: 'true',
-    Visible: true
+    Visible: true,
+    DataType: 'string'
   };
 }

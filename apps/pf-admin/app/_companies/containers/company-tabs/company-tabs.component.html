@@ -75,10 +75,15 @@
               [hideReloadButton]="true">
               <div *ngIf="(companySettings$ | async)?.length">
                 <div class="checkbox" *ngFor="let companySetting of (companySettings$ | async)">
-                  <label>
+                  <label *ngIf="companySetting.DataType !== 'int'">
                     <input type="checkbox" (change)="toggleCompanySetting(companySetting)" [disabled]="companySetting.Disabled"
                       [checked]="companySetting.Value === 'true'" />
                     {{companySetting.DisplayName}}
+                  </label>
+                  <label *ngIf="companySetting.Key === 'MaxProjectJobCount'">
+                    Job Pricing Limit: {{jobPricingLimitUsed}} /
+                    <input type="number" class="input-type-number p-0" [ngModel]="companySetting.Value" [disabled]="companySetting.Disabled" (change)="checkMaxProjectJobCount($event, companySetting.Key)">
+                    <p *ngIf="showJobPricingLimitError" class="alert-danger">Job Pricing Limit must be numeric and above the current number of priced jobs</p>
                   </label>
                 </div>
               </div>

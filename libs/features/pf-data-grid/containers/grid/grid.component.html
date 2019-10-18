@@ -10,25 +10,48 @@
     (pageChange)="onPageChange($event)"
     (cellClick)="onCellClick($event)">
     <ng-container *ngFor="let col of (dataFields$ | async)">
+      <ng-container *ngIf="col.Group">
+          <kendo-grid-column-group 
+            [title]="col.Group"
+            [headerClass]="'pf-data-grid-header'"
+            [locked]="false">
+              <ng-container *ngFor="let col of col.Fields">
+                  <ng-container *ngIf="showColumn(col)">
+                      <kendo-grid-column 
+                        [field]="mappedFieldName(col)"
+                        [title]="col.DisplayName"
+                        [headerClass]="'pf-data-grid-header'"
+                        [style]="{'text-align': col.TextAlign}"
+                        [width]="isCompact ? null : col.Width"
+                        [minResizableWidth]="30">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <pf-grid-column
+                            [columnTemplates]='columnTemplates'
+                            [dataItem]='dataItem'
+                            [field]= 'col'
+                            [fieldName]='mappedFieldName(col)'>
+                          </pf-grid-column>
+                        </ng-template>
+                      </kendo-grid-column>
+                    </ng-container>
+              </ng-container>
+          </kendo-grid-column-group>
+      </ng-container> 
       <ng-container *ngIf="showColumn(col)">
         <kendo-grid-column 
-          [field]="mappedColumnName(col)"
+          [field]="mappedFieldName(col)"
           [title]="col.DisplayName"
-          [headerStyle]="{'font-weight': 'bold'}"
-          [width]="isCompact ? null : 200"
+          [headerClass]="'pf-data-grid-header'"
+          [style]="{'text-align': col.TextAlign}"
+          [width]="isCompact ? null : col.Width"
           [minResizableWidth]="30">
           <ng-template kendoGridCellTemplate let-dataItem>
-            <ng-container *ngIf="!columnTemplates || !columnTemplates[col.SourceName]">
-              {{dataItem[mappedColumnName(col)]}}
-            </ng-container>
-            <ng-container *ngIf="columnTemplates && columnTemplates[col.SourceName]" 
-              [ngTemplateOutlet]="columnTemplates[col.SourceName]"
-              [ngTemplateOutletContext]="{dataRow:dataItem}">
-            </ng-container>
-            <!-- <ng-container *ngIf="col.DataType === 'template' && columnTemplates[col.SourceName]" 
-              [ngTemplateOutlet]="columnTemplates[col.SourceName]"
-              [ngTemplateOutletContext]="{parameters:getValue(dataItem, col.ChildColumns)}">
-            </ng-container> -->
+              <pf-grid-column
+                [columnTemplates]='columnTemplates'
+                [dataItem]='dataItem'
+                [field]= 'col'
+                [fieldName]='mappedFieldName(col)'>
+              </pf-grid-column>
           </ng-template>
         </kendo-grid-column>
       </ng-container>

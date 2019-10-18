@@ -4,10 +4,12 @@ import { Observable } from 'rxjs';
 
 import {
   UpsertExchangeScopeRequest, PeerMapScopeDetails, PeerMapScopeSystemDetails,
-  ExchangeScopeItem, ExchangeDataSearchFilter, ExchangeScopes
+  ExchangeScopeItem, ExchangeDataSearchFilter, ExchangeScopes, UpsertExchangeExplorerScopeRequest
 } from 'libs/models/peer';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/peer-exchange-explorer-search/request';
+import { ExchangeExplorerScopeResponse } from '../../../models/payfactors-api/peer-exchange-explorer-search/response';
 
 @Injectable()
 export class ExchangeScopeApiService {
@@ -17,6 +19,10 @@ export class ExchangeScopeApiService {
 
   upsertExchangeScope(request: UpsertExchangeScopeRequest): Observable<ExchangeScopeItem> {
     return this.payfactorsApiService.post<ExchangeScopeItem>(`${this.endpoint}/UpsertExchangeScope`, request);
+  }
+
+  upsertExchangeExplorerScope(request: UpsertExchangeExplorerScopeRequest): Observable<ExchangeScopeItem> {
+    return this.payfactorsApiService.post<ExchangeScopeItem>(`${this.endpoint}/UpsertExchangeExplorerScope`, request);
   }
 
   validateExchangeScopeName(exchangeId: number, exchangeScopeName: string): Observable<any> {
@@ -46,6 +52,12 @@ export class ExchangeScopeApiService {
   getPeerMapScope(exchangeScopeGuid: string, filterModel: ExchangeDataSearchFilter): Observable<PeerMapScopeDetails> {
     return this.payfactorsApiService.post<PeerMapScopeDetails>(`${this.endpoint}/GetPeerMapScope`,
       { ExchangeScopeGuid: exchangeScopeGuid, FilterModel: filterModel }
+    );
+  }
+
+  getExchangeScopeFilterContext(exchangeDataSearchRequest: BaseExchangeDataSearchRequest): Observable<ExchangeExplorerScopeResponse> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/GetExchangeScopeFilterContext`,
+      exchangeDataSearchRequest
     );
   }
 

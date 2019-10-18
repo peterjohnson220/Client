@@ -6,6 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
+import 'rxjs/add/observable/of';
+
 import * as fromRootState from 'libs/state/state';
 import * as fromUserReducer from '../reducers';
 import * as fromUserActions from '../actions/user-management.actions';

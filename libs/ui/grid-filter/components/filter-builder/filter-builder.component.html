@@ -1,6 +1,6 @@
 <div [ngSwitch]="type">
   <ng-template [ngSwitchCase]="dataTypes.String">
-    <div class="row p">
+    <div class="row">
       <div class="col-6">
         <kendo-dropdownlist
           [data]="filterOperatorOptions.string"
@@ -11,12 +11,13 @@
           (valueChange)="handleFilterOperatorChanged($event)"
           [style.width]="'100%'"
           [attr.data-qa-id]="'ddm-operator-'+filter.SourceName"
+          class="k-dropdown-white"
         >
         </kendo-dropdownlist>
       </div>
       <div class="col-6">
         <input type="text" class="form-control"
-         [(ngModel)]="filter.Value"
+         [ngModel]="filter.Value"
          [disabled]="disableValue"
          (ngModelChange)="handleFilterValueChanged($event)"
          [style.width]="'100%'"
@@ -36,7 +37,8 @@
           [ngModel]="filter.Operator"
           [style.width]="'100%'"
           (valueChange)="handleFilterOperatorChanged($event)"
-          [attr.data-qa-id]="'ddm-operator-'+filter.SourceName">
+          [attr.data-qa-id]="'ddm-operator-'+filter.SourceName"
+          class="k-dropdown-white">
         </kendo-dropdownlist>
       </div>
       <div class="col-6">
@@ -60,7 +62,8 @@
           [ngModel]="filter.Operator"
           [style.width]="'100%'"
           (valueChange)="handleFilterOperatorChanged($event)"
-          [attr.data-qa-id]="'ddm-operator-'+filter.SourceName">
+          [attr.data-qa-id]="'ddm-operator-'+filter.SourceName"
+          class="k-dropdown-white">
         </kendo-dropdownlist>
       </div>
       <div class="col-6">

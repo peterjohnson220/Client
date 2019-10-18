@@ -19,7 +19,7 @@ export class ActionBarComponent implements OnChanges {
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
   @Input() disableActionButtons = false;
-  @Output() onFilterSidebarToggle = new EventEmitter<boolean>();
+  @Output() onFilterSidebarToggle = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
   globalFilters$: Observable<ViewField[]>;
@@ -33,13 +33,12 @@ export class ActionBarComponent implements OnChanges {
     }
   }
 
-  updateFields(updatedFields: ViewField[]){
+  updateFields(updatedFields: ViewField[]) {
     this.store.dispatch(new fromActions.UpdateFields(this.pageViewId, updatedFields));
     this.store.dispatch(new fromActions.LoadData(this.pageViewId));
   }
 
   toggleFilterPanel() {
-    this.displayFilterSidebar = !this.displayFilterSidebar;
-    this.onFilterSidebarToggle.emit(this.displayFilterSidebar);
+    this.onFilterSidebarToggle.emit();
   }
 }
