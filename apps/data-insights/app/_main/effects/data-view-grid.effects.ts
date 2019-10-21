@@ -11,6 +11,7 @@ import { SaveUserDataViewSortOrderRequest } from 'libs/models/payfactors-api/rep
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
+import { DataViewAccessLevel } from '../models';
 
 @Injectable()
 export class DataViewGridEffects {
@@ -52,10 +53,19 @@ export class DataViewGridEffects {
   sortField$ = this.action$
   .pipe(
     ofType(fromDataViewGridActions.SORT_FIELD),
-    mergeMap((action: fromDataViewGridActions.SortField) => [
-      new fromDataViewGridActions.GetData(),
-      new fromDataViewGridActions.SaveSortDescriptor(action.payload.sortDesc)
-    ])
+    withLatestFrom(
+      this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
+      (action: fromDataViewGridActions.SortField, userDataView) =>
+        ({ action, userDataView })
+    ),
+    mergeMap(data => {
+      const actions = [];
+      actions.push(new fromDataViewGridActions.GetData());
+      if (data.userDataView.obj.AccessLevel !== DataViewAccessLevel.ReadOnly) {
+        actions.push(new fromDataViewGridActions.SaveSortDescriptor(data.action.payload.sortDesc));
+      }
+      return actions;
+    })
   );
 
   @Effect()

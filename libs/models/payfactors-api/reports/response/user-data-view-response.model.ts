@@ -14,7 +14,7 @@ export interface DataViewResponse {
   Summary: string;
   SortField: string;
   SortDir: 'desc' | 'asc';
-  DataViewAccessLevel: DataViewAccessLevel;
+  AccessLevel: DataViewAccessLevel;
 }
 
 export enum DataViewAccessLevel {

@@ -100,7 +100,7 @@ export class PayfactorsApiModelMapper {
       UserDataViewId: response.DataView.UserDataViewId,
       SortField: response.DataView.SortField,
       SortDir: response.DataView.SortDir,
-      AccessLevel: response.DataView.DataViewAccessLevel
+      AccessLevel: response.DataView.AccessLevel
     };
   }
 
