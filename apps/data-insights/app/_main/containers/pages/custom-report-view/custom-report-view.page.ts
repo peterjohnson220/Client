@@ -12,9 +12,10 @@ import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
 import * as fromFiltersActions from '../../../actions/filters.actions';
 import * as fromFieldsActions from '../../../actions/fields.actions';
-import { SaveUserWorkbookModalData, SaveWorkbookMode, UserDataView } from '../../../models';
+import { SaveUserWorkbookModalData, SaveWorkbookMode, SharedDataViewUser, UserDataView } from '../../../models';
 import { SaveUserWorkbookModalComponent } from '../../../components/save-user-workbook-modal';
 import { DeleteUserWorkbookModalComponent } from '../../../components/delete-user-workbook-modal';
+import { ShareReportModalComponent } from '../../../components/share-report-modal';
 
 @Component({
   selector: 'pf-custom-report-view-page',
@@ -25,6 +26,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   @ViewChild('editWorkbookModal', { static: false }) public editUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
   @ViewChild('duplicateWorkbookModal', { static: false }) public duplicateUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
   @ViewChild('deleteWorkbookModal', { static: false }) public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
+  @ViewChild('shareReportModal', { static: false }) public shareReportModalComponent: ShareReportModalComponent;
 
   userDataView$: Observable<AsyncStateObj<UserDataView>>;
   editingUserDataView$: Observable<boolean>;
@@ -36,6 +38,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   exportingUserDataReport$: Observable<boolean>;
   getNotification$: Observable<AppNotification<any>[]>;
   getEventId$: Observable<number>;
+  shareableUsers$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
 
   editReportSuccessSubscription: Subscription;
   duplicateReportSuccessSubscription: Subscription;
@@ -63,6 +66,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.exportingUserDataReport$ = this.store.pipe(select(fromDataInsightsMainReducer.getExportingUserReport));
     this.getNotification$ = this.appNotificationStore.pipe(select(fromAppNotificationsMainReducer.getNotifications));
     this.getEventId$ = this.store.pipe(select(fromDataInsightsMainReducer.getExportEventId));
+    this.shareableUsers$ = this.store.pipe(select(fromDataInsightsMainReducer.getShareableUsersAsync));
   }
 
   ngOnInit(): void {
@@ -152,5 +156,14 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
 
   handleExportClicked(): void {
     this.store.dispatch(new fromDataViewActions.ExportUserReport());
+  }
+
+  handleShareClicked(): void {
+    this.store.dispatch(new fromDataViewActions.GetShareableUsers());
+    this.shareReportModalComponent.open();
+  }
+
+  handleShareSavedClicked(sharedDataViewUsers: SharedDataViewUser[]): void {
+    this.store.dispatch(new fromDataViewActions.SaveSharePermissions(sharedDataViewUsers));
   }
 }

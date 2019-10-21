@@ -13,7 +13,8 @@ import {
   DataViewFilterOptionsRequest,
   DataViewFilter,
   SaveUserViewFiltersRequest,
-  DataViewFieldDataType
+  DataViewFieldDataType,
+  ShareUserResponse
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 import { generateDefaultAsyncStateObj } from 'libs/models';
@@ -29,7 +30,8 @@ import {
   Field,
   GetFilterOptionsData,
   Filter,
-  FieldDataType
+  FieldDataType,
+  SharedDataViewUser
 } from '../models';
 import { FilterOperatorHelper } from './filter-operator.helper';
 
@@ -97,7 +99,8 @@ export class PayfactorsApiModelMapper {
       Summary: response.DataView.Summary,
       UserDataViewId: response.DataView.UserDataViewId,
       SortField: response.DataView.SortField,
-      SortDir: response.DataView.SortDir
+      SortDir: response.DataView.SortDir,
+      AccessLevel: response.DataView.DataViewAccessLevel
     };
   }
 
@@ -250,6 +253,19 @@ export class PayfactorsApiModelMapper {
       UserDataViewId: userDataView.UserDataViewId,
       Filters: this.mapFiltersToDataViewFilters(filters)
     };
+  }
+
+  static mapShareUserResponseToUser(data: ShareUserResponse[]): SharedDataViewUser[] {
+    return data.map((user) => {
+      return {
+        UserId: user.UserId,
+        FirstName: user.FirstName,
+        LastName: user.LastName,
+        UserPicture: user.UserPicture,
+        Title: user.Title,
+        CanEdit: false
+      };
+    });
   }
 
 }

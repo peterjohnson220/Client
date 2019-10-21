@@ -6,7 +6,7 @@ import {
   CreateUserViewRequest, DataViewEntityResponse, UserDataViewResponse,
   DataViewDataRequest, DataViewField, EditUserViewRequest,
   DuplicateUserViewRequest, UpdateDataViewFieldsRequest, DeleteUserViewRequest,
-  SaveUserDataViewSortOrderRequest, DataViewFilterOptionsRequest, SaveUserViewFiltersRequest
+  SaveUserDataViewSortOrderRequest, DataViewFilterOptionsRequest, SaveUserViewFiltersRequest, ShareUserDataViewRequest
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -71,5 +71,9 @@ export class DataViewApiService {
 
   saveFilters(request: SaveUserViewFiltersRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveFilters`, request);
+  }
+
+  shareDataView(request: ShareUserDataViewRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ShareDataView`, request);
   }
 }

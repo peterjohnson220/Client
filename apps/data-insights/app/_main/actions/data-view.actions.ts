@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Entity, SaveUserWorkbookModalData, UserDataView, Field } from '../models';
+import { Entity, SaveUserWorkbookModalData, UserDataView, SharedDataViewUser } from '../models';
 
 export const GET_BASE_ENTITIES = '[Data Insights / Data View] Get Base Entities';
 export const GET_BASE_ENTITIES_SUCCESS = '[Data Insights / Data View] Get Base Entities Success';
@@ -29,6 +29,12 @@ export const GET_EXPORTING_USER_REPORT = '[Data Insights / Data View] Get Export
 export const GET_EXPORTING_USER_REPORT_SUCCESS = '[Data Insights / Data View] Get Exporting User Report Success';
 export const GET_EXPORTING_USER_REPORT_ERROR = '[Data Insights / Data View] Get Exporting User Report Error';
 export const EXPORTING_COMPLETE = '[Data Insights / Data View] Exporting Complete';
+export const GET_SHAREABLE_USERS = '[Data Insights / Data View] Get Shareable Users';
+export const GET_SHAREABLE_USERS_SUCCESS = '[Data Insights / Data View] Get Shareable Users Success';
+export const GET_SHAREABLE_USERS_ERROR = '[Data Insights / Data View] Get Shareable Users Error';
+export const SAVE_SHARE_PERMISSIONS = '[Data Insights / Data View] Save Share Permissions';
+export const SAVE_SHARE_PERMISSIONS_SUCCESS = '[Data Insights / Data View] Save Share Permissions Success';
+export const SAVE_SHARE_PERMISSIONS_ERROR = '[Data Insights / Data View] Save Share Permissions Error';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -192,6 +198,42 @@ export class ExportingComplete implements Action {
   constructor() {}
 }
 
+export class GetShareableUsers implements Action {
+  readonly type = GET_SHAREABLE_USERS;
+
+  constructor() {}
+}
+
+export class GetShareableUsersSuccess implements Action {
+  readonly type = GET_SHAREABLE_USERS_SUCCESS;
+
+  constructor(public payload: SharedDataViewUser[]) {}
+}
+
+export class GetShareableUsersError implements Action {
+  readonly type = GET_SHAREABLE_USERS_ERROR;
+
+  constructor() {}
+}
+
+export class SaveSharePermissions implements Action {
+  readonly type = SAVE_SHARE_PERMISSIONS;
+
+  constructor(public payload: SharedDataViewUser[]) {}
+}
+
+export class SaveSharePermissionsSuccess implements Action {
+  readonly type = SAVE_SHARE_PERMISSIONS_SUCCESS;
+
+  constructor() {}
+}
+
+export class SaveSharePermissionsError implements Action {
+  readonly type = SAVE_SHARE_PERMISSIONS_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetBaseEntities
   | GetBaseEntitiesSuccess
@@ -219,4 +261,10 @@ export type Actions
   | GetExportingUserReport
   | GetExportingUserReportSuccess
   | GetExportingUserReportError
-  | ExportingComplete;
+  | ExportingComplete
+  | GetShareableUsers
+  | GetShareableUsersSuccess
+  | GetShareableUsersError
+  | SaveSharePermissions
+  | SaveSharePermissionsError
+  | SaveSharePermissionsSuccess;

@@ -6,6 +6,7 @@ export interface UserDataView {
   Summary: string;
   SortField: string;
   SortDir: 'desc' | 'asc';
+  AccessLevel: DataViewAccessLevel;
 }
 
 export function generateMockUserDataView(): UserDataView {
@@ -16,6 +17,13 @@ export function generateMockUserDataView(): UserDataView {
     Name: 'Jobs Report',
     Summary: 'Job summary',
     SortField: 'CompanyJobs_Job_Title',
-    SortDir: 'asc'
+    SortDir: 'asc',
+    AccessLevel: DataViewAccessLevel.Owner
   };
+}
+
+export enum DataViewAccessLevel {
+  ReadOnly = 'ReadOnly',
+  Edit = 'Edit',
+  Owner = 'Owner'
 }

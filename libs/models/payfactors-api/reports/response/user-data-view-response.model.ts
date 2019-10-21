@@ -14,5 +14,11 @@ export interface DataViewResponse {
   Summary: string;
   SortField: string;
   SortDir: 'desc' | 'asc';
+  DataViewAccessLevel: DataViewAccessLevel;
 }
 
+export enum DataViewAccessLevel {
+  ReadOnly = 'ReadOnly',
+  Edit = 'Edit',
+  Owner = 'Owner'
+}

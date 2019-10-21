@@ -32,6 +32,13 @@
             <fa-icon icon="file-excel"></fa-icon>
           </button>
           <button class="btn btn-secondary"
+                  [attr.data-qa-id]="'btn-share'"
+                  (click)="handleShareClicked()"
+                  ngbTooltip="Share"
+                  container="body">
+            <fa-icon icon="share"></fa-icon>
+          </button>
+          <button class="btn btn-secondary"
                   [attr.data-qa-id]="'btn-delete'"
                   (click)="handleDeleteClicked()"
                   ngbTooltip="Delete"
@@ -77,6 +84,12 @@
     #deleteWorkbookModal
     (deleteClicked)="handleDeleteSaveClicked()">
   </pf-delete-user-workbook-modal>
+  <pf-share-report-modal
+    [users]="(shareableUsers$ | async)?.obj"
+    (shareClicked)="handleShareSavedClicked($event)"
+    #shareReportModal>
+
+  </pf-share-report-modal>
 </div>
 
 
