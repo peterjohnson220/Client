@@ -11,7 +11,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import { DashboardsComponent } from './dashboards.component';
-import { generateMockWorkbook } from '../../models';
+import { generateMockWorkbook, SaveWorkbookTagObj, generateMockSaveWorkbookTagObj } from '../../models';
 
 describe('Data Insights - Dashboards Comopnent', () => {
   let instance: DashboardsComponent;
@@ -42,26 +42,6 @@ describe('Data Insights - Dashboards Comopnent', () => {
     fixture.detectChanges();
   });
 
-  it('should dispatch AddWorkbookFavorite action when a workbook is marked as favorite', () => {
-    const workbook = generateMockWorkbook();
-    const expectedAction = new fromDashboardsActions.AddWorkbookFavorite({ workbookId: workbook.WorkbookId });
-    spyOn(store, 'dispatch');
-
-    instance.handleFavoriteClicked(workbook);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch RemoveWorkbookFavorite action when a workbook is unmarked as favorite', () => {
-    const workbook = {...generateMockWorkbook(), IsFavorite: true};
-    const expectedAction = new fromDashboardsActions.RemoveWorkbookFavorite({ workbookId: workbook.WorkbookId });
-    spyOn(store, 'dispatch');
-
-    instance.handleFavoriteClicked(workbook);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('anyFavorites should returns true when there is a favorite workbook', () => {
     const workbook = {...generateMockWorkbook(), IsFavorite: true};
     instance.filteredCompanyWorkbooks = [workbook];
@@ -74,6 +54,16 @@ describe('Data Insights - Dashboards Comopnent', () => {
     instance.filteredCompanyWorkbooks = [workbook];
 
     expect(instance.anyFavorites).toEqual(false);
+  });
+
+  it('should dispatch SaveWorkbookTag when handling save tag clicked', () => {
+    const saveObj: SaveWorkbookTagObj = generateMockSaveWorkbookTagObj();
+    const expectedAction = new fromDashboardsActions.SaveWorkbookTag(saveObj);
+    spyOn(store, 'dispatch');
+
+    instance.handleSaveTagClicked(saveObj);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
 });

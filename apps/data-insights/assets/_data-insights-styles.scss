@@ -42,3 +42,22 @@
     background-color: $pf-brand-secondary-color;
   }
 }
+
+.open-workbook {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.25rem;
+
+  a.btn {
+    text-transform: uppercase;
+    color: black;
+    font-weight: 600;
+  }
+
+  .vertical-separator {
+    margin-right: 0.5rem;
+  }
+}

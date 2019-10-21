@@ -13,9 +13,7 @@ import * as fromDataViewActions from '../../../actions/data-view.actions';
 import * as fromFiltersActions from '../../../actions/filters.actions';
 import * as fromFieldsActions from '../../../actions/fields.actions';
 import { SaveUserWorkbookModalData, SaveWorkbookMode, SharedDataViewUser, UserDataView } from '../../../models';
-import { SaveUserWorkbookModalComponent } from '../../../components/save-user-workbook-modal';
-import { DeleteUserWorkbookModalComponent } from '../../../components/delete-user-workbook-modal';
-import { ShareReportModalComponent } from '../../../components/share-report-modal';
+import { SaveUserWorkbookModalComponent, DeleteUserWorkbookModalComponent, ShareReportModalComponent } from '../../../components';
 
 @Component({
   selector: 'pf-custom-report-view-page',

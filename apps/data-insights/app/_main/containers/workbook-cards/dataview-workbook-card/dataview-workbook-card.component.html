@@ -1,0 +1,14 @@
+<pf-workbook-card *ngIf="!!workbook" [workbook]="workbook">
+
+  <ng-container custom-actions>
+    <div class="open-workbook">
+      <a class="btn"
+        title="Open Workbook"
+        [attr.data-qa-id]="'lnk-openWorkbook'"
+        [routerLink]="['/custom-report',workbook.WorkbookId]">
+        Open
+      </a>
+    </div>
+  </ng-container>
+
+</pf-workbook-card>

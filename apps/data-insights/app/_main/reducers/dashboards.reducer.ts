@@ -12,6 +12,8 @@ export interface State {
   savingTagError: boolean;
   tagFilter: string;
   dashboardView: DashboardView;
+  tagWorkbookModalOpen: boolean;
+  activeWorkbook: Workbook;
 }
 
 const initialState: State = {
@@ -19,7 +21,9 @@ const initialState: State = {
   savingTag: false,
   savingTagError: false,
   tagFilter: null,
-  dashboardView: DashboardView.All
+  dashboardView: DashboardView.All,
+  tagWorkbookModalOpen: false,
+  activeWorkbook: null
 };
 
 export function reducer(state = initialState, action: fromDashboardsActions.Actions): State {
@@ -167,9 +171,6 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
         savingTag: false
       };
     }
-    default: {
-      return state;
-    }
     case fromDashboardsActions.SET_TAGGED_FILTER: {
       return {
         ...state,
@@ -185,6 +186,24 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
         ...state,
         dashboardView: dashboardViewClone
       };
+    }
+    case fromDashboardsActions.OPEN_TAG_WORKBOOK_MODAL: {
+      const workbook = state.companyWorkbooksAsync.obj.find(w => w.WorkbookId === action.payload.workbookId);
+      return {
+        ...state,
+        tagWorkbookModalOpen: true,
+        activeWorkbook: workbook
+      };
+    }
+    case fromDashboardsActions.CLOSE_TAG_WORKBOOK_MODAL: {
+      return {
+        ...state,
+        tagWorkbookModalOpen: false,
+        activeWorkbook: null
+      };
+    }
+    default: {
+      return state;
     }
   }
 }
@@ -214,3 +233,5 @@ export const getDistinctTags = (state: State) => {
     });
 };
 export const getTagFilter = (state: State) => state.tagFilter;
+export const getTagWorkbookModalOpen = (state: State) => state.tagWorkbookModalOpen;
+export const getActiveWorkbook = (state: State) => state.activeWorkbook;
