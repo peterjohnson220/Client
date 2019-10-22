@@ -35,7 +35,6 @@ export const LOAD_FORM_DATA = '[Pf-Admin/Company Page] Load Form Data';
 export const GET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Get Job Pricing Limit Info';
 export const SET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Set Job Pricing Limit Info';
 
-
 // Tabs
 export const GET_COMPANY_TILES = '[Pf-Admin/Company Page] Get Company Tiles';
 export const GET_COMPANY_TILES_SUCCESS = '[Pf-Admin/Company Page] Get Company Tiles Success';
@@ -71,6 +70,9 @@ export const SELECT_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer Clie
 export const SELECT_PEER_AND_ANALYSIS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer And Analysis Client Type';
 export const SELECT_NON_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Non-Peer Client Type';
 export const SELECT_SMALL_BUSINESS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Small Business Client Type';
+
+// Disable Tiles
+export const DISABLE_PEER_AND_ANALYSIS_TILES = '[Pf-Admin/Company Page] Disable Peer And Analysis Company Tiles';
 
 export class GetCompany implements Action {
   readonly type = GET_COMPANY;
@@ -423,6 +425,12 @@ export class SelectSmallBusinessClientType implements Action {
   constructor() {}
 }
 
+export class DisablePeerAndAnalysisTiles implements Action {
+  readonly type = DISABLE_PEER_AND_ANALYSIS_TILES;
+
+  constructor() {}
+}
+
 export type Actions
   = GetSystemUserGroups
   | GetSystemUserGroupsSuccess
@@ -481,5 +489,6 @@ export type Actions
   | CheckJDMEnabled
   | LoadFormData
   | GetJobPricingLimitInfo
-  | SetJobPricingLimitInfo;
+  | SetJobPricingLimitInfo
+  | DisablePeerAndAnalysisTiles;
 

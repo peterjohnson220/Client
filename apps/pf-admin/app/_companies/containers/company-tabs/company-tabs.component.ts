@@ -127,8 +127,12 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
       if (isEditMode) {
         this.store.dispatch(new fromCompanyPageActions.CheckJDMEnabled({ companyId: this.companyId }));
         this.store.dispatch(new fromCompanyPageActions.GetJobPricingLimitInfo({ companyId: this.companyId }));
+        if (this.clientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS || this.clientType === CompanyClientTypeConstants.PEER) {
+          this.store.dispatch(new fromCompanyPageActions.DisablePeerAndAnalysisTiles());
+        }
+      } else {
+        this.handleTabsDisplayByGroupAndClientType();
       }
-      this.handleTabsDisplayByGroupAndClientType();
     }
   }
 
