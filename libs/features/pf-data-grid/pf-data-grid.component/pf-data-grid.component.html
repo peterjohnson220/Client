@@ -14,10 +14,10 @@
     ></pf-action-bar>
   </ng-container>
   <ng-container page-content>
-    <div class="col-12 full-height" [class.column-sidebar-open]="displayFilterPanel">
+    <div class="col-12 full-height" [class.column-sidebar-open]="displayFilterPanel$ | async">
       <div class="d-flex h-100">
         <div class="grid-and-filter-container">
-          <div *ngIf="(filters$ | async).length" class="filter-pills-container" [class.background-light-grey]="displayFilterPanel">
+          <div *ngIf="(filters$ | async).length" class="filter-pills-container" [class.background-light-grey]="displayFilterPanel$ | async">
             <pf-data-grid-filter-pills
               [listAreaColumns]="(dataFields$ | async)"
               [filters]="(filters$ | async)"
