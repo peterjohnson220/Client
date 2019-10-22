@@ -6,3 +6,13 @@ export interface SharedDataViewUser {
   Title?: string;
   CanEdit: boolean;
 }
+
+export function generateMockSharedDataViewUser(): SharedDataViewUser {
+  return {
+    UserId: 1234,
+    CanEdit: false,
+    FirstName: 'John',
+    LastName: 'Smith',
+    Title: 'CEO'
+  };
+}

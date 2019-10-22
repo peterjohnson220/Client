@@ -275,6 +275,45 @@ export class DataViewEffects {
       })
     );
 
+  @Effect()
+  getSharedUserPermissions$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.GET_SHARE_PERMISSIONS),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.GetSharePermissions, userDataView ) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.getSharePermissions(data.userDataView.obj.UserDataViewId)
+          .pipe(
+            map((response) => new fromDataViewActions.GetSharePermissionsSuccess(response)),
+            catchError(() => of(new fromDataViewActions.GetSharePermissionsError()))
+          );
+      })
+    );
+
+  @Effect()
+  removeSharedUserPermission$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.REMOVE_SHARE_PERMISSION),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.RemoveSharePermission, userDataView ) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.removeSharePermission({
+          UserDataViewId: data.userDataView.obj.UserDataViewId,
+          UserIdToRemove: data.action.payload.UserId
+        })
+          .pipe(
+            map(() => new fromDataViewActions.RemoveSharePermissionSuccess(data.action.payload)),
+            catchError(() => of(new fromDataViewActions.RemoveSharePermissionError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataViewReducer.State>,

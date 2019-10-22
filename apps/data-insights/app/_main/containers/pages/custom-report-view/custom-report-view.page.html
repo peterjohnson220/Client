@@ -91,7 +91,10 @@
   </pf-delete-user-workbook-modal>
   <pf-share-report-modal
     [users]="(shareableUsers$ | async)?.obj"
+    [sharedUserPermissions]="(sharedUserPermissions$ | async)?.obj"
+    [loadingPermissions]="(sharedUserPermissions$ | async)?.loading"
     (shareClicked)="handleShareSavedClicked($event)"
+    (userRemoved)="handleUserRemoved($event)"
     #shareReportModal>
 
   </pf-share-report-modal>

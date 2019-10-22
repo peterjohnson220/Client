@@ -2,9 +2,9 @@
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Share Report</h4>
   </div>
-  <div class=" modal-body" *ngIf="!!users && users.length">
+  <div class=" modal-body">
     <kendo-multiselect
-      [data]="users"
+      [data]="selectableUsers"
       [kendoDropDownFilter]="filterSettings"
       [textField]="'FirstName'"
       [valueField]="'UserId'"
@@ -36,10 +36,42 @@
           </button>
         </div>
       </div>
+      <div class="loading-indicator" *ngIf="loadingPermissions else existingPermissions">
+        <pf-loading-indicator></pf-loading-indicator> Loading Permissions...
+      </div>
+
+
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
-    <button type="button" class="btn light-blue-btn" (click)="share()" [disabled]="!selectedUsers.length">Share</button>
+    <button type="button" ngbAutofocus class="btn btn-secondary" (click)="close()">Cancel</button>
+    <button type="button" class="btn light-blue-btn" (click)="share()" [disabled]="!selectedUsers.length && !existingUsers.length">Share</button>
   </div>
+</ng-template>
+
+<ng-template #existingPermissions>
+  <div class="existing-permissions" *ngIf="existingUsers.length">
+    <hr />
+    <div class="existing-permissions-title">
+      Existing User Access
+    </div>
+    <div class="share-user" *ngFor="let existingUser of existingUsers; trackBy: trackByFn">
+      <div class="share-user-name">
+        {{existingUser.FirstName}} {{existingUser.LastName}}
+      </div>
+      <div class="share-user-permission">
+        <select class="form-control" [(ngModel)]="existingUser.CanEdit">
+          <option value="false">Read-Only</option>
+          <option value="true">Edit</option>
+        </select>
+        <button class="btn btn-secondary"
+                [attr.data-qa-id]="'btn-delete'"
+                (click)="deleteExistingSharePermission(existingUser)"
+                container="body">
+          <fa-icon icon="trash-alt"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
 </ng-template>
