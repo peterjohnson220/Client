@@ -475,6 +475,15 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         companySettings: companySettingsCopy
       };
     }
+    case fromCompanyPageActions.DISABLE_PEER_AND_ANALYSIS_TILES: {
+      let companyTilesCopy = cloneDeep(state.companyTiles);
+      companyTilesCopy = CompanyPageHelper.disablePeerAndAnalysisCompanyTiles(companyTilesCopy);
+      return {
+        ...state,
+        companyTiles: companyTilesCopy,
+        companyDataSetsEnabled: false
+      };
+    }
     case fromCompanyPageActions.GET_COMPANY: {
       return {
         ...state,
