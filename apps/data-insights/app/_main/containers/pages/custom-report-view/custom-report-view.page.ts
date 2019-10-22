@@ -48,7 +48,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   editWorkbookData: SaveUserWorkbookModalData;
   duplicateWorkbookData: SaveUserWorkbookModalData;
   eventIdState = null;
-  isReadOnly: boolean;
+  dataViewAccessLevel: DataViewAccessLevel;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -125,7 +125,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
           Name: 'Copy of ' + u.obj.Name,
           Summary: u.obj.Summary
         };
-        this.isReadOnly = (u.obj.AccessLevel === DataViewAccessLevel.ReadOnly);
+        this.dataViewAccessLevel = u.obj.AccessLevel;
       }
     });
   }
@@ -142,7 +142,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteClicked(): void {
-    if (this.isReadOnly) {
+    if (!this.isOwner) {
       return;
     }
     this.deleteUserWorkbookModalComponent.open();
@@ -165,7 +165,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   handleShareClicked(): void {
-    if (this.isReadOnly) {
+    if (!this.isOwner) {
       return;
     }
     this.store.dispatch(new fromDataViewActions.GetShareableUsers());
@@ -174,5 +174,13 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
 
   handleShareSavedClicked(sharedDataViewUsers: SharedDataViewUser[]): void {
     this.store.dispatch(new fromDataViewActions.SaveSharePermissions(sharedDataViewUsers));
+  }
+
+  public get isReadOnly(): boolean {
+    return this.dataViewAccessLevel === DataViewAccessLevel.ReadOnly;
+  }
+
+  public get isOwner(): boolean {
+    return this.dataViewAccessLevel === DataViewAccessLevel.Owner;
   }
 }

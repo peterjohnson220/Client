@@ -13,7 +13,7 @@ import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
 import { CustomReportViewPageComponent } from './custom-report-view.page';
 import { SaveUserWorkbookModalComponent, DeleteUserWorkbookModalComponent } from '../../../components';
-import { SaveUserWorkbookModalData, generateMockSaveUserWorkbookModalData } from '../../../models';
+import { SaveUserWorkbookModalData, generateMockSaveUserWorkbookModalData, DataViewAccessLevel } from '../../../models';
 
 describe('Data Insights - Custom Report View Comopnent', () => {
   let instance: CustomReportViewPageComponent;
@@ -67,6 +67,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   });
 
   it('should open delete workbook modal when handling delete clicked', () => {
+    instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
     spyOn(instance.deleteUserWorkbookModalComponent, 'open');
 
     instance.handleDeleteClicked();

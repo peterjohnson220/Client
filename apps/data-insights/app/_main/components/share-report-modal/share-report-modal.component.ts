@@ -1,8 +1,8 @@
 import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { orderBy } from 'lodash';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { SharedDataViewUser } from '../../models';
 
@@ -12,12 +12,11 @@ import { SharedDataViewUser } from '../../models';
   templateUrl: './share-report-modal.component.html'
 })
 export class ShareReportModalComponent {
-  @ViewChild('shareReportModal', { static: false }) public shareReportModal: any;
-  @Output() shareClicked = new EventEmitter<SharedDataViewUser[]>();
   @Input() users: SharedDataViewUser[];
+  @Output() shareClicked = new EventEmitter<SharedDataViewUser[]>();
 
+  @ViewChild('shareReportModal', { static: false }) public shareReportModal: any;
   selectedUsers: SharedDataViewUser[] = [];
-
   public filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
     operator: 'startsWith'
@@ -48,6 +47,10 @@ export class ShareReportModalComponent {
 
   deleteSharePermission(permission: SharedDataViewUser) {
     this.selectedUsers = this.selectedUsers.filter(x => x.UserId !== permission.UserId);
+  }
+
+  handleSelectedUsersChanged(users: SharedDataViewUser[]): void {
+    this.selectedUsers = cloneDeep(users);
   }
 
   private resetChanges() {
