@@ -12,7 +12,7 @@ import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
 import * as fromFiltersActions from '../../../actions/filters.actions';
 import * as fromFieldsActions from '../../../actions/fields.actions';
-import { SaveUserWorkbookModalData, SaveWorkbookMode, SharedDataViewUser, UserDataView } from '../../../models';
+import { SaveUserWorkbookModalData, SaveWorkbookMode, SharedDataViewUser, UserDataView, DataViewAccessLevel } from '../../../models';
 import { SaveUserWorkbookModalComponent, DeleteUserWorkbookModalComponent, ShareReportModalComponent } from '../../../components';
 
 @Component({
@@ -48,6 +48,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   editWorkbookData: SaveUserWorkbookModalData;
   duplicateWorkbookData: SaveUserWorkbookModalData;
   eventIdState = null;
+  isReadOnly: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -124,11 +125,15 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
           Name: 'Copy of ' + u.obj.Name,
           Summary: u.obj.Summary
         };
+        this.isReadOnly = (u.obj.AccessLevel === DataViewAccessLevel.ReadOnly);
       }
     });
   }
 
   handleEditClicked(): void {
+    if (this.isReadOnly) {
+      return;
+    }
     this.editUserWorkbookModalComponent.open();
   }
 
@@ -137,6 +142,9 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteClicked(): void {
+    if (this.isReadOnly) {
+      return;
+    }
     this.deleteUserWorkbookModalComponent.open();
   }
 
@@ -157,6 +165,9 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   handleShareClicked(): void {
+    if (this.isReadOnly) {
+      return;
+    }
     this.store.dispatch(new fromDataViewActions.GetShareableUsers());
     this.shareReportModalComponent.open();
   }
