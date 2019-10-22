@@ -17,18 +17,15 @@
       </button>
 
       <pf-column-chooser *ngIf="showColumnChooser"
-                         [dataFields]="dataFields$ | async"
-                         (saveColumns)="updateFields($event)">
+        [dataFields]="dataFields$ | async"
+        [disabled]="disableActionButtons"
+        (saveColumns)="updateFields($event)">
       </pf-column-chooser>
-      <div class="btn-group" *ngIf="showFilterChooser">
-        <button title="Filter" class="btn btn-secondary">
-          <fa-icon icon="sliders-h"></fa-icon>
-        </button>
-        <button title="Saved Filters" type="button" id="filter-popover-btn"
-                class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false" placement="bottom-right" popoverTitle="Saved Filters">
-        </button>
-      </div>
+
+      <pf-filter-chooser *ngIf="showFilterChooser"
+        [disabled]="disableActionButtons"
+        (onFilterSidebarToggle)="toggleFilterPanel($event)"
+      ></pf-filter-chooser>
     </ng-container>
   </div>
 </div>

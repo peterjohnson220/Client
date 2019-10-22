@@ -1,5 +1,6 @@
+import { cloneDeep } from 'lodash';
 import * as fromPfGridActions from '../actions';
-import { ViewField } from 'libs/models/payfactors-api';
+import { ViewField, DataViewFilter } from 'libs/models/payfactors-api';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult } from '@progress/kendo-data-query';
 
@@ -9,6 +10,8 @@ export interface DataGridState {
     baseEntityId: number;
     fields: ViewField[];
     groupedFields: any[];
+    filters: DataViewFilter[];
+    filterPanelOpen: boolean;
     data: any[];
     pageSize: number;
     skip: number;
@@ -36,7 +39,8 @@ export function reducer(state = initialState, action: fromPfGridActions.DataGrid
                         loading: true,
                         pageSize: 15,
                         skip: 0,
-                        total: 1500
+                        total: 1500,
+                        filters: []
                     }
                 }
             };
@@ -133,6 +137,72 @@ export function reducer(state = initialState, action: fromPfGridActions.DataGrid
                     }
                 }
             };
+      case fromPfGridActions.UPDATE_FILTER:
+        const newFilters = cloneDeep(state.grids[action.pageViewId].filters);
+        const filterForThisField = state.grids[action.pageViewId].filters.find(f => f.SourceName === action.payload.SourceName);
+
+        if (filterForThisField) {
+          const thisFilterIndex = state.grids[action.pageViewId].filters.findIndex(f => f.SourceName === action.payload.SourceName);
+          newFilters.splice(thisFilterIndex, 1, action.payload);
+        } else {
+          newFilters.push(action.payload);
+        }
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              filters: newFilters
+            }
+          }
+        };
+      case fromPfGridActions.CLEAR_FILTER:
+        const clonedFilters = cloneDeep(state.grids[action.pageViewId].filters);
+        const filterToRemove = state.grids[action.pageViewId].filters.find(f => f.SourceName === action.payload.SourceName);
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              filters: clonedFilters.filter(nf => nf.SourceName !== filterToRemove.SourceName)
+            }
+          }
+        };
+      case fromPfGridActions.CLEAR_ALL_FILTERS:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              filters: []
+            }
+          }
+        };
+      case fromPfGridActions.TOGGLE_FILTER_PANEL:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              filterPanelOpen: !state.grids[action.pageViewId].filterPanelOpen
+            }
+          }
+        };
+      case fromPfGridActions.SET_FILTER_PANEL_DISPLAY:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              filterPanelOpen: action.displayValue
+            }
+          }
+        }
         default:
             return state;
     }
@@ -152,6 +222,8 @@ export const getSkip = (state: DataGridStoreState, pageViewId: string) => state.
 export const getTotal = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].total : null;
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
 export const getGridData = (state: DataGridStoreState, pageViewId: string) => buildGridData(state, pageViewId);
+export const getFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filters;
+export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
 
 export function buildGroupedFilters(fields: ViewField[]): any[] {
     const groups = groupBy(fields, [{ field: 'Group' }]);

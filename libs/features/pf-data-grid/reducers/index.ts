@@ -42,3 +42,5 @@ export const getTotal = createSelector(selectPfDataGridState, fromPfDataGridRedu
 export const getSkip = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSkip);
 export const getData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getData);
 export const getGridData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGridData);
+export const getFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilters);
+export const getFilterPanelDisplay = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterPanelDisplay);

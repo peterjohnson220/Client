@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ViewField, DataViewConfig } from 'libs/models/payfactors-api';
+import { ViewField, DataViewConfig, DataViewFilter } from 'libs/models/payfactors-api';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
@@ -12,6 +12,11 @@ export const UPDATE_TOTAL_COUNT = '[PfDataGrid] Update Total Count';
 export const UPDATE_PAGE_SIZE = '[PfDataGrid] Update Page Size';
 export const UPDATE_SKIP = '[PfDataGrid] Update Skip';
 export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
+export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
+export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
+export const CLEAR_ALL_FILTERS = '[PfDataGrid] Clear All Filters';
+export const TOGGLE_FILTER_PANEL = '[PfDataGrid] Toggle Filter Panel';
+export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
 
 export class LoadViewConfig implements Action {
     readonly type = LOAD_VIEW_CONFIG;
@@ -63,6 +68,31 @@ export class HandleApiError implements Action {
     constructor(public pageViewId: string, public payload: string) { }
 }
 
+export class UpdateFilter implements Action {
+  readonly type = UPDATE_FILTER;
+  constructor(public pageViewId: string, public payload: DataViewFilter) { }
+}
+
+export class ClearFilter implements Action {
+  readonly type = CLEAR_FILTER;
+  constructor(public pageViewId: string, public payload: DataViewFilter) { }
+}
+
+export class ClearAllFilters implements Action {
+  readonly type = CLEAR_ALL_FILTERS;
+  constructor(public pageViewId: string) {}
+}
+
+export class ToggleFilterPanel implements Action {
+  readonly type = TOGGLE_FILTER_PANEL;
+  constructor(public pageViewId: string) {}
+}
+
+export class SetFilterPanelDisplay implements Action {
+  readonly type = SET_FILTER_PANEL_DISPLAY;
+  constructor(public pageViewId: string, public displayValue: boolean) {}
+}
+
 export type DataGridActions =
     | LoadViewConfig
     | LoadViewConfigSuccess
@@ -73,4 +103,9 @@ export type DataGridActions =
     | UpdateTotalCount
     | UpdatePageSize
     | UpdateSkip
+    | UpdateFilter
+    | ClearFilter
+    | ClearAllFilters
+    | ToggleFilterPanel
+    | SetFilterPanelDisplay
     | HandleApiError;
