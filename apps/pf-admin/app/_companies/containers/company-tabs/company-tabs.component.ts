@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { CompanyTilesResponse, CompanyDataSetsReponse, ListCompositeFields } from 'libs/models/payfactors-api';
 import { CompanySetting } from 'libs/models/company';
-import { CompanyClientTypeConstants } from 'libs/constants';
+import { CompanyClientTypeConstants, SystemUserGroupNames } from 'libs/constants';
 
 import * as fromPfAdminMainReducer from '../../reducers';
 import * as fromCompanyPageActions from '../../actions/company-page.actions';
@@ -23,6 +23,7 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   @Input() customCompanySettings: CustomCompanySettings;
   @Input() companyId: number;
   @Input() clientType: string;
+  @Input() groupName: string;
 
   @ViewChild(SecondarySurveyFieldsModalComponent, { static: true })
   secondarySurveyFieldsModalComponent: SecondarySurveyFieldsModalComponent;
@@ -117,7 +118,7 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   }
 
   changeCompanySetting(companySettingKey: string, changedValue) {
-    this.store.dispatch(new fromCompanyPageActions.ChangeCompanySettingValue({companySettingKey, changedValue}));
+    this.store.dispatch(new fromCompanyPageActions.ChangeCompanySettingValue({ companySettingKey, changedValue }));
   }
 
   private handleCompanyTabsContextLoaded(companyTabsContext: CompanyTabsContext) {
@@ -127,25 +128,29 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromCompanyPageActions.CheckJDMEnabled({ companyId: this.companyId }));
         this.store.dispatch(new fromCompanyPageActions.GetJobPricingLimitInfo({ companyId: this.companyId }));
       }
-      this.handleTabsDisplayByClientType();
+      this.handleTabsDisplayByGroupAndClientType();
     }
   }
 
-  private handleTabsDisplayByClientType() {
-    switch (this.clientType) {
-      case CompanyClientTypeConstants.PEER:
-        this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
-        return;
-      case CompanyClientTypeConstants.PEER_AND_ANALYSIS:
-        this.store.dispatch(new fromCompanyPageActions.SelectPeerAndAnalysisClientType());
-        return;
-      default:
-        this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
-        return;
+  private handleTabsDisplayByGroupAndClientType() {
+    if (this.groupName === SystemUserGroupNames.SmallBusiness) {
+      this.store.dispatch(new fromCompanyPageActions.SelectSmallBusinessClientType());
+    } else {
+      switch (this.clientType) {
+        case CompanyClientTypeConstants.PEER:
+          this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
+          return;
+        case CompanyClientTypeConstants.PEER_AND_ANALYSIS:
+          this.store.dispatch(new fromCompanyPageActions.SelectPeerAndAnalysisClientType());
+          return;
+        default:
+          this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
+          return;
+      }
     }
   }
 
-  private checkMaxProjectJobCount(event,  settingKey) {
+  private checkMaxProjectJobCount(event, settingKey) {
     const maxProjectValueNum = Number(event.currentTarget.value);
     const jobPricingLimitUsedNum = Number(this.jobPricingLimitUsed);
 
