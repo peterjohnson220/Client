@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
-import { NewFolderModalComponent } from './new-folder-modal.component';
 import { StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ResourceModalComponent } from './resource-modal.component';
 
 
-describe('NewFolderModalComponent', () => {
-  let fixture: ComponentFixture<NewFolderModalComponent>;
-  let component: NewFolderModalComponent;
-
+describe('ResourceModalComponent', () => {
+  let fixture: ComponentFixture<ResourceModalComponent>;
+  let component: ResourceModalComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,29 +24,29 @@ describe('NewFolderModalComponent', () => {
         NgbActiveModal
     ],
       declarations: [
-        NewFolderModalComponent
+        ResourceModalComponent
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     TestBed.overrideModule(BrowserDynamicTestingModule, {
       set: {
-        entryComponents: [NewFolderModalComponent]
+        entryComponents: [ResourceModalComponent]
       }
     });
 
-    fixture = TestBed.createComponent(NewFolderModalComponent);
+    fixture = TestBed.createComponent(ResourceModalComponent);
     component = fixture.componentInstance;
     expect(component).toBeDefined();
   });
 
-  it('should not accept null or whitespace for folder name', () => {
+  it('should not accept null or whitespace for a resource name', () => {
     component.ngOnInit();
     const folderName = new FormControl('Test');
-    expect(component.validateFolderName(folderName)).toBeNull();
+    expect(component.validateName(folderName)).toBeNull();
 
     folderName.setValue(' ');
-    const result = component.validateFolderName(folderName);
+    const result = component.validateName(folderName);
     expect(result.isNullOrWhiteSpace).toBeTruthy();
   });
 });
