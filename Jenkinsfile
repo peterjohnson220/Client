@@ -1,7 +1,7 @@
 import hudson.model.*
 import jenkins.model.*
 import groovy.io.FileType
-import groovy.json.JsonSlurper
+import groovy.json.JsonSlurperClassic
 import java.text.SimpleDateFormat
 
 nodeVersion = '10.15.0'
@@ -43,7 +43,7 @@ pipeline {
             def date = new Date()
             sdf = new SimpleDateFormat("yyMMddHHmm")
             dateVer = sdf.format(date)
-            echo dateVer
+            echo "datetime (yyMMddHHmm): " + dateVer
 
             def pkgVersionOrig = sh(returnStdout: true, script: 'node -pe "require(\'./package.json\').version"').trim()
             env.pkgVersion = pkgVersionOrig + "." + env.BUILD_NUMBER
@@ -67,6 +67,7 @@ pipeline {
               env.pkgVersion = pkgVersionOrig + "." + dateVer
 
               branchShortName = env.BRANCH_NAME.replace('hotfix/','')
+              branchShortName = branchShortName.replaceAll('[^a-zA-Z0-9 ]','')
               int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
               verDetails = "-" + branchShortName.substring(0,subStrLen) + "." + env.BUILD_NUMBER
 
@@ -78,6 +79,8 @@ pipeline {
               env.pkgVersion = pkgVersionOrig + "." + dateVer
 
               branchShortName = env.BRANCH_NAME.replace('release/RC-','')
+              branchShortName = branchShortName.replace('release/','')
+              branchShortName = branchShortName.replaceAll('[^a-zA-Z0-9 ]','')
               int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
               verDetails = "-" + branchShortName.substring(0,subStrLen) + "." + env.BUILD_NUMBER
 
@@ -93,7 +96,7 @@ pipeline {
               isPublishable = false
               env.buildConfig = '--configuration=staging'
               
-              branchShortName = env.BRANCH_NAME.replace('/','-')
+              branchShortName = env.BRANCH_NAME.replaceAll('[^a-zA-Z0-9 ]','')
               int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
               verDetails = "-" + branchShortName.substring(0,subStrLen)
             }      
@@ -125,7 +128,7 @@ pipeline {
             // Select slack channel
             configFileProvider([configFile(fileId: 'b6ff041b-b388-489a-b63b-e3389d76cea9', variable: 'slackChConfigFile')]) {
               def slackChConfigRaw = readFile slackChConfigFile
-              def slackChConfig = new JsonSlurper().parseText(slackChConfigRaw)
+              def slackChConfig = new JsonSlurperClassic().parseText(slackChConfigRaw)
               def branchShort = env.BRANCH_NAME.substring(0,4).toLowerCase()
 
               slackCh = slackChConfig[branchShort]
@@ -260,11 +263,11 @@ pipeline {
             octo create-release ^
             --server ${env.octopus_server}/ ^
             --apiKey ${env.apikey} ^
-            --project ${octoProject} ^
-            --channel ${octoChannel} ^
+            --project "${octoProject}" ^
+            --channel "${octoChannel}" ^
             --Version ${env.pkgVersion + octoVerSuffix} ^
             --packageversion ${env.pkgVersion}${suffix}${verDetails} ^
-            --deployto ${env.octoEnv} ^
+            --deployto "${env.octoEnv}" ^
             --guidedfailure=false ^
             --releasenotesfile "CHANGES" ^
             --deploymenttimeout=00:45:00 ^
