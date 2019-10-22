@@ -1,17 +1,19 @@
 <div (click)="close()" class="close-btn">
-  <fa-icon icon="times" size="lg"></fa-icon>
+  <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
 </div>
-
-
-<kendo-tabstrip>
-  <kendo-tabstrip-tab [title]="'Pricing Details'" [selected]="true" data-qa-id='tab-pricing-details'>
-    <ng-template kendoTabContent>
-      <pf-pricing-details-grid></pf-pricing-details-grid>
+<ngb-tabset>
+  <ngb-tab [title]="'Pricing Details'">
+    <ng-template ngbTabContent>
+      <div class="full-height">
+        <pf-pricing-details-grid></pf-pricing-details-grid>
+      </div>
     </ng-template>
-  </kendo-tabstrip-tab>
-  <kendo-tabstrip-tab [title]="'Employees'" [selected]="false" data-qa-id='tab-employees'>
-    <ng-template kendoTabContent>
-      <pf-employees-grid></pf-employees-grid>
+  </ngb-tab>
+  <ngb-tab [title]="'Employees'">
+    <ng-template ngbTabContent>
+      <div class="full-height">
+        <pf-employees-grid></pf-employees-grid>
+      </div>
     </ng-template>
-  </kendo-tabstrip-tab>
-</kendo-tabstrip>
+  </ngb-tab>
+</ngb-tabset>

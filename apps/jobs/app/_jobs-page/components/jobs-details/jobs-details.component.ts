@@ -1,9 +1,10 @@
-import {Component, Output, EventEmitter, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'pf-jobs-details',
   templateUrl: './jobs-details.component.html',
-  styleUrls: ['./jobs-details.component.scss']
+  styleUrls: ['./jobs-details.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class JobsDetailsComponent {
 

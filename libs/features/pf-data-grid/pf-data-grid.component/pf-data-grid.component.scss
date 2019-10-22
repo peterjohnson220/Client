@@ -1,0 +1,29 @@
+@import 'kendo-grid';
+
+.main-grid-container {
+    position: relative;
+    flex: 0 0 100%;
+}
+
+.main-grid-container-compact {
+    position: relative;
+    flex: 0 0 500px;
+}
+
+.grid-container{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+}
+
+.sub-grid-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.page-content {
+    padding: 0;
+}

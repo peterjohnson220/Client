@@ -1,6 +1,8 @@
-import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes';
+import { faTimes as farTimes } from '@fortawesome/pro-regular-svg-icons/faTimes';
+import { faTimes as falTimes} from '@fortawesome/pro-light-svg-icons/faTimes';
 
 export const faIcons = [
-  faTimes
+  falTimes,
+  farTimes
 ];
 

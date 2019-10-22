@@ -1,4 +1,4 @@
-<pf-page-with-title-bar  class="wrapper" [isFullHeader]="showTitle" [absoluteUrl]="navigationURL">
+<pf-page-with-title-bar  class="wrapper" [isFullHeader]="showTitle" [absoluteUrl]="navigationURL" [contentNoPadding]="contentNoPadding">
   <ng-container  page-title *ngIf="showTitle">
     {{title | titlecase}}
   </ng-container>
@@ -13,21 +13,25 @@
   </ng-container>
   <ng-container page-content>
     <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end pb-3">
-      <ng-container [ngTemplateOutlet]="gridActionsTemplate">
-      </ng-container>
+      <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
     </div>
-    <div class="row no-gutters">
-      <div [ngClass]="isSplitView ? 'col-3': 'col-12'">
-        <pf-grid
-          [pageViewId]="pageViewId"
-          [primaryKey]="primaryKey"
-          [columnTemplates]="columnTemplates"
-          [isCompact]="isSplitView"
-          [allowSplitView]="!!splitViewTemplate"
-          (rowSelected)="isSplitView = true"></pf-grid>
+    <div class="d-flex h-100">
+      <div class="main-grid-container" [ngClass]="isSplitView ? 'main-grid-container-compact' : 'main-grid-container'">
+        <div class="grid-container">
+            <pf-grid 
+            [pageViewId]="pageViewId"
+            [primaryKey]="primaryKey"
+            [columnTemplates]="columnTemplates"
+            [isCompact]="isSplitView"
+            [allowSplitView]="!!splitViewTemplate"
+            (rowSelected)="isSplitView = true">
+          </pf-grid>
+        </div>
       </div>
-      <div *ngIf="isSplitView" class="col-9 pl-3">
-        <ng-container [ngTemplateOutlet]="splitViewTemplate" [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter}">
+      <div *ngIf="isSplitView" class="sub-grid-container">
+          <ng-container
+          [ngTemplateOutlet]="splitViewTemplate"
+          [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter}">
         </ng-container>
       </div>
     </div>

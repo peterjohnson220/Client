@@ -7,12 +7,10 @@ import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/opera
 
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
-import { ViewField, DataViewConfig, SaveDataViewRequest } from 'libs/models/payfactors-api';
+import { ViewField, DataViewConfig, SaveDataViewRequest, DataViewEntityResponseWithCount, PagingOptions } from 'libs/models/payfactors-api';
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
-import { GridDataResult } from '@progress/kendo-angular-grid';
 import { DataViewField } from 'libs/models/payfactors-api';
-
 
 @Injectable()
 export class PfDataGridEffects {
@@ -45,20 +43,21 @@ export class PfDataGridEffects {
     @Effect()
     loadData$: Observable<Action> = this.actions$
         .pipe(
-            ofType(fromPfDataGridActions.LOAD_DATA),
+            ofType(fromPfDataGridActions.LOAD_DATA, fromPfDataGridActions.UPDATE_PAGING_OPTIONS),
             mergeMap((loadDataAction: fromPfDataGridActions.LoadData) =>
                 of(loadDataAction).pipe(
                     withLatestFrom(
-                        this.store.pipe(select(fromPfDataGridReducer.getFields, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getBaseEntityId, loadDataAction.pageViewId)),
-                        (action: fromPfDataGridActions.LoadData, fields, baseEntityId) =>
-                            ({ action, fields, baseEntityId })
+                        this.store.pipe(select(fromPfDataGridReducer.getFields, loadDataAction.pageViewId)),
+                        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
+                        (action: fromPfDataGridActions.LoadData, baseEntityId, fields, pagingOptions) =>
+                            ({ action, baseEntityId, fields, pagingOptions })
                     )
                 ),
             ),
             switchMap((data) =>
-                this.dataViewApiService.getData(PfDataGridEffects.buildDataViewDataRequest(data.fields, data.baseEntityId)).pipe(
-                    map((response: any[]) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
+                this.dataViewApiService.getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(data.baseEntityId, data.fields, data.pagingOptions)).pipe(
+                    map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
                     catchError(error => {
                         const msg = 'We encountered an error while loading your data';
                         return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
@@ -105,21 +104,15 @@ export class PfDataGridEffects {
         };
     }
 
-    static buildDataViewDataRequest(fields: ViewField[], baseEntityId: number) {
+    static buildDataViewDataRequest(baseEntityId: number, fields: ViewField[], pagingOptions: PagingOptions) {
         return {
             BaseEntityId: baseEntityId,
             Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields),
             Filters: [],
-            PagingOptions: {
-                'From': 0,
-                'Count': 2000
-            },
-            SortDescriptor: null
+            PagingOptions: pagingOptions,
+            SortDescriptor: null,
+            WithCount: true
         };
-        // dataView: UserDataView,
-        // fields: Field[],f
-        // pagingOptions: PagingOptions,
-        // sortDescriptor?: DataViewSortDescriptor): DataViewDataRequest {
     }
 
     static mapFieldsToDataViewFields(fields: ViewField[]): DataViewField[] {

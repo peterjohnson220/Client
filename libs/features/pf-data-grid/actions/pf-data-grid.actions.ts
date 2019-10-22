@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ViewField, DataViewConfig } from 'libs/models/payfactors-api';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions } from 'libs/models/payfactors-api';
 
 export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';
@@ -8,9 +7,7 @@ export const LOAD_DATA = '[PfDataGrid] Load Data';
 export const LOAD_DATA_SUCCESS = '[PfDataGrid] Load Data Success';
 export const UPDATE_FIELDS = '[PfDataGrid] Update Data Fields';
 export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
-export const UPDATE_TOTAL_COUNT = '[PfDataGrid] Update Total Count';
-export const UPDATE_PAGE_SIZE = '[PfDataGrid] Update Page Size';
-export const UPDATE_SKIP = '[PfDataGrid] Update Skip';
+export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
 export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
 
 export class LoadViewConfig implements Action {
@@ -30,7 +27,7 @@ export class LoadData implements Action {
 
 export class LoadDataSuccess implements Action {
     readonly type = LOAD_DATA_SUCCESS;
-    constructor(public pageViewId: string, public payload: any[]) { }
+    constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
 }
 
 export class UpdateFields implements Action {
@@ -43,19 +40,9 @@ export class UpdateFieldsSuccess implements Action {
     constructor(public pageViewId: string) { }
 }
 
-export class UpdateTotalCount implements Action {
-    readonly type = UPDATE_TOTAL_COUNT;
-    constructor(public pageViewId: string, public totalCount: number) { }
-}
-
-export class UpdatePageSize implements Action {
-    readonly type = UPDATE_PAGE_SIZE;
-    constructor(public pageViewId: string, public pageSize: number) { }
-}
-
-export class UpdateSkip implements Action {
-    readonly type = UPDATE_SKIP;
-    constructor(public pageViewId: string, public skip: number) { }
+export class UpdatePagingOptions implements Action {
+    readonly type = UPDATE_PAGING_OPTIONS;
+    constructor(public pageViewId: string, public pagingOptions: PagingOptions) { }
 }
 
 export class HandleApiError implements Action {
@@ -70,7 +57,5 @@ export type DataGridActions =
     | LoadDataSuccess
     | UpdateFields
     | UpdateFieldsSuccess
-    | UpdateTotalCount
-    | UpdatePageSize
-    | UpdateSkip
+    | UpdatePagingOptions
     | HandleApiError;
