@@ -17,12 +17,12 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
-import { PfColumnChooserModule } from 'libs/ui/column-chooser/column-chooser.module';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
 
 import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridComponent } from './components';
+
 
 @NgModule({
   imports: [
@@ -45,8 +45,7 @@ import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridCompone
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfDataGridModule,
-    PfColumnChooserModule
+    PfDataGridModule
   ],
   declarations: [
     // Pages

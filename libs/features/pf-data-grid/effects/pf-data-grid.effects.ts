@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
+
 import { Observable, of } from 'rxjs';
+import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
-import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
+
+import { GridDataResult } from '@progress/kendo-angular-grid';
+
+import { ViewField, DataViewConfig, SaveDataViewRequest, DataViewField, DataViewFilter } from 'libs/models/payfactors-api';
+import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
@@ -49,6 +55,7 @@ export class PfDataGridEffects {
                     withLatestFrom(
                         this.store.pipe(select(fromPfDataGridReducer.getBaseEntityId, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getFields, loadDataAction.pageViewId)),
+                        this.store.pipe(select(fromPfDataGridReducer.getFilters, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
                         (action: fromPfDataGridActions.LoadData, baseEntityId, fields, pagingOptions) =>
                             ({ action, baseEntityId, fields, pagingOptions })
@@ -94,6 +101,15 @@ export class PfDataGridEffects {
             )
         );
 
+    @Effect()
+    filterChanges$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(fromPfDataGridActions.UPDATE_FILTER, fromPfDataGridActions.CLEAR_FILTER, fromPfDataGridActions.CLEAR_ALL_FILTERS),
+        map((action: any) => {
+          return new fromPfDataGridActions.LoadData(action.pageViewId);
+        })
+      );
+
     static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number, fields: ViewField[]): SaveDataViewRequest {
         return <SaveDataViewRequest>{
             PageViewId: pageViewId,
@@ -108,7 +124,7 @@ export class PfDataGridEffects {
         return {
             BaseEntityId: baseEntityId,
             Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields),
-            Filters: [],
+            Filters: filters,
             PagingOptions: pagingOptions,
             SortDescriptor: null,
             WithCount: true

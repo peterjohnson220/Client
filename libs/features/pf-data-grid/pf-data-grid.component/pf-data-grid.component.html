@@ -9,6 +9,8 @@
                    [allowExport]="allowExport"
                    [globalFilterAlignment]="showTitle?'Right':'Left'"
                    [globalActionsTemplate]="gridGlobalActionsTemplate"
+                   [disableActionButtons]="isSplitView"
+                   (onFilterSidebarToggle)="toggleFilterPanel()"
     ></pf-action-bar>
   </ng-container>
   <ng-container page-content>
@@ -26,6 +28,23 @@
             [allowSplitView]="!!splitViewTemplate"
             (rowSelected)="isSplitView = true">
           </pf-grid>
+        </div>
+          <div *ngIf="(filters$ | async).length" class="filter-pills-container" [class.background-light-grey]="displayFilterPanel$ | async">
+            <pf-data-grid-filter-pills
+              [listAreaColumns]="(dataFields$ | async)"
+              [filters]="(filters$ | async)"
+              (clearFilter)="clearFilter($event)"
+              (clearAllFilters)="clearAllFilters()"
+            ></pf-data-grid-filter-pills>
+          </div>
+        <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container">
+          <pf-filter-panel
+            [selectedColumns]="(dataFields$ | async)"
+            [filters]="(filters$ | async)"
+            (close)="closeFilterPanel()"
+            (filterChanged)="handleFilterChanged($event)"
+            (filterCleared)="clearFilter($event)"
+          ></pf-filter-panel>
         </div>
       </div>
       <div *ngIf="isSplitView" class="sub-grid-container">
