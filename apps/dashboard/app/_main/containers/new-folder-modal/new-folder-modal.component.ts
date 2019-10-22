@@ -8,7 +8,6 @@ import * as fromCompanyResourcesFolderReducer from '../../reducers';
 import { CompanyResourceFolderPost } from '../../models';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-
 @Component({
   selector: 'pf-new-folder-modal',
   templateUrl: './new-folder-modal.component.html',

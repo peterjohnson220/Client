@@ -7,6 +7,8 @@ export interface State {
     addingCompanyResourceSuccess: boolean;
     companyResourceId: number;
     companyResourceToAdd: CompanyResourcePost;
+    deletingCompanyResource: boolean;
+    deletingCompanyResourceSuccess: boolean;
     loadingCompanyResources: boolean;
     loadingCompanyResourcesError: boolean;
   }
@@ -16,6 +18,8 @@ export interface State {
     addingCompanyResourceSuccess: false,
     companyResourceId: null,
     companyResourceToAdd: null,
+    deletingCompanyResource: null,
+    deletingCompanyResourceSuccess: false,
     loadingCompanyResources: false,
     loadingCompanyResourcesError: false
   };
@@ -66,7 +70,17 @@ export interface State {
       case fromCompanyResourcesPageActions.DELETING_COMPANY_RESOURCE: {
         return {
           ...state,
-          companyResourceId: action.payload
+          companyResourceId: action.payload,
+          deletingCompanyResource: true,
+          deletingCompanyResourceSuccess: false
+        };
+      }
+      case fromCompanyResourcesPageActions.DELETING_COMPANY_RESOURCE_SUCCESS: {
+        return {
+          ...state,
+          companyResourceId: action.payload,
+          deletingCompanyResource: false,
+          deletingCompanyResourceSuccess: true
         };
       }
       case fromCompanyResourcesPageActions.DELETING_COMPANY_RESOURCE_ERROR: {
@@ -86,4 +100,4 @@ export interface State {
   export const getCompanyResourceId = (state: State) => state.companyResourceId;
   export const getAddingCompanyResource = (state: State) => state.addingCompanyResource;
   export const getAddingCompanyResourceSuccess = (state: State) => state.addingCompanyResourceSuccess;
-
+  export const getDeletingCompanyResourceSuccess = (state: State) => state.deletingCompanyResourceSuccess;

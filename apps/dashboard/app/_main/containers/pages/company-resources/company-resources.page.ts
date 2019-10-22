@@ -60,7 +60,7 @@ export class CompanyResourcesPageComponent implements OnInit, OnDestroy {
   openNewFolderModal() {
     this.modalService.open(NewFolderModalComponent, {
       backdrop: 'static',
-      size: 'sm',
+      size: 'lg',
       centered: true
     });
   }

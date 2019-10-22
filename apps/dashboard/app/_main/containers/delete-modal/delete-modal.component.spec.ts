@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
-import { NewFolderModalComponent } from './new-folder-modal.component';
 import { StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteModalComponent } from './delete-modal.component';
+import { CompanyResourceFolder } from '../../models';
 
-describe('NewFolderModalComponent', () => {
-  let fixture: ComponentFixture<NewFolderModalComponent>;
-  let component: NewFolderModalComponent;
+describe('DeleteModalComponent', () => {
+  let fixture: ComponentFixture<DeleteModalComponent>;
+  let component: DeleteModalComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,33 +19,37 @@ describe('NewFolderModalComponent', () => {
         }),
       ],
       providers: [
-        FormBuilder,
         NgbActiveModal
     ],
       declarations: [
-        NewFolderModalComponent
+        DeleteModalComponent
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     TestBed.overrideModule(BrowserDynamicTestingModule, {
       set: {
-        entryComponents: [NewFolderModalComponent]
+        entryComponents: [DeleteModalComponent]
       }
     });
 
-    fixture = TestBed.createComponent(NewFolderModalComponent);
+    fixture = TestBed.createComponent(DeleteModalComponent);
     component = fixture.componentInstance;
     expect(component).toBeDefined();
   });
 
-  it('should not accept null or whitespace for folder name', () => {
-    component.ngOnInit();
-    const folderName = new FormControl('Test');
-    expect(component.validateFolderName(folderName)).toBeNull();
+  it('should detect resource type upon ngOnInit', () => {
+    const resource: CompanyResourceFolder = {
+      CompanyId: 1,
+      CompanyResources: [],
+      CompanyResourcesFoldersId: 1,
+      CreateDate: new Date(),
+      CreateUser: 1,
+      FolderName: 'Test Folder'
+    };
 
-    folderName.setValue(' ');
-    const result = component.validateFolderName(folderName);
-    expect(result.isNullOrWhiteSpace).toBeTruthy();
+    component.resource = resource;
+    component.ngOnInit();
+    expect(component.isFolder).toBeTruthy();
   });
 });
