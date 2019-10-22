@@ -82,8 +82,8 @@
 
     <ng-template #displayMode>
       <div class="d-flex justify-content-between display-mode" (click)="toggleEditMode()">
-        <div class="filter-display-name">
-          {{filter.Field?.DisplayName}}
+        <div class="filter-display-name" [title]="selectedField?.DisplayName">
+          {{selectedField?.DisplayName}}
         </div>
         <div class="filter-options">
           <span class="badge badge-info"> {{selectedOptionsCount}}</span>

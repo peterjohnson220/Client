@@ -53,8 +53,8 @@
   display: none;
   position: absolute;
   z-index: 1;
-  height: 38px;
-  top: 1.2rem;
+  height: 33px;
+  top: 1.4rem;
   right: 0.8rem;
   left: 0.8rem;
 
@@ -65,6 +65,7 @@
   .btn {
     margin-right: .75rem;
     border: 1px solid transparent;
+    padding: 1px 6px;
 
     &:hover {
       border: 1px solid #CCC;

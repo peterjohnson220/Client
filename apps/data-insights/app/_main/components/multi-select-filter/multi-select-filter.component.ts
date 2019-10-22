@@ -23,7 +23,8 @@ export class MultiSelectFilterComponent implements OnChanges {
   readonly MIN_QUERY_LENGTH = 1;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes && !!changes.options && !!changes.options.currentValue && !!this.filterValue) {
+    if (!!changes && !!changes.options && !!changes.options.currentValue &&
+      !!this.filterValue && !!this.filterOptionsMultiSelect) {
       this.filterOptionsMultiSelect.toggle(true);
     }
   }
