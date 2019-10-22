@@ -102,6 +102,7 @@ export const getCompanyResourceToAdd = createSelector(selectCompanyResourcesStat
 export const getCompanyResourceId = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceId);
 export const getAddingCompanyResource = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResource);
 export const getAddingCompanyResourceSuccess = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceSuccess);
+export const getDeletingCompanyResourceSuccess = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getDeletingCompanyResourceSuccess);
 
 // company folder resources
 export const { selectAll: getCompanyFolderResources } = fromCompanyResourcesFolderReducer.adapter.getSelectors(selectCompanyResourcesFolderState);

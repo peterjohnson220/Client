@@ -56,6 +56,7 @@ import { BasicListComponent } from './components';
 import { ResourcesComponent } from './containers/resources/resources.component';
 import { NewFolderModalComponent } from './containers/new-folder-modal/new-folder-modal.component';
 import { ResourceModalComponent } from './containers/resource-modal/resource-modal.component';
+import { DeleteModalComponent } from './containers/delete-modal/delete-modal.component';
 
 
 @NgModule({
@@ -116,11 +117,13 @@ import { ResourceModalComponent } from './containers/resource-modal/resource-mod
     ResourcesComponent,
     CompanyResourceListComponent,
     NewFolderModalComponent,
-    ResourceModalComponent
+    ResourceModalComponent,
+    DeleteModalComponent
   ],
   entryComponents: [
     NewFolderModalComponent,
-    ResourceModalComponent
+    ResourceModalComponent,
+    DeleteModalComponent
   ]
 })
 export class MainModule {

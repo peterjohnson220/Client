@@ -7,7 +7,6 @@ import * as fromCompanyResourcesPageActions from '../actions/company-resources.a
 import { CompanyResourcesApiService } from 'libs/data/payfactors-api';
 import { CompanyResource, CompanyResourceFolder } from '../models';
 
-
 @Injectable()
 export class CompanyResourcesPageEffects {
 
@@ -62,11 +61,15 @@ export class CompanyResourcesPageEffects {
   deletingCompanyResource$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromCompanyResourcesPageActions.DELETING_COMPANY_RESOURCE),
-      switchMap((action: fromCompanyResourcesPageActions.DeletingCompanyResource) =>
-          this.resourcesApiService.deleteCompanyResource(action.payload).pipe(
-              map(() => new fromCompanyResourcesPageActions.DeletingCompanyResourceSuccess(action.payload)),
-              catchError(error => of(new fromCompanyResourcesPageActions.DeletingCompanyResourceError(error)))
-          ))
+      switchMap((action: fromCompanyResourcesPageActions.DeletingCompanyResource) => {
+        return this.resourcesApiService.deleteCompanyResource(action.payload).pipe(
+          mergeMap(() => {
+            return [new fromCompanyResourcesPageActions.DeletingCompanyResourceSuccess(action.payload)];
+          }),
+          catchError(error => of(new fromCompanyResourcesPageActions.DeletingCompanyResourceError(error)))
+        );
+      }
+    )
     );
 
   @Effect()

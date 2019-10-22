@@ -1,17 +1,17 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CompanyResource, OrphanedCompanyResource, CompanyResourceFolder } from '../../models';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
-import * as fromCompanyResourcesActions from '../../actions/company-resources.actions';
-import * as fromCompanyResourcesReducer from '../../reducers';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-
+import * as fromCompanyResourcesPageReducer from '../../reducers';
 
 const BASE_LINK = '/odata/CloudFiles.DownloadCompanyResource?FileName=';
 const RESOURCE_TYPE = {
   link: 'Link',
   file: 'File'
 };
-
 
 @Component({
   selector: 'pf-company-resource-list',
@@ -21,13 +21,28 @@ const RESOURCE_TYPE = {
     HttpUrlEncodingCodec
   ]
 })
-export class CompanyResourceListComponent {
+export class CompanyResourceListComponent implements OnInit, OnDestroy {
 
   @Input() folderResources: CompanyResourceFolder[];
   @Input() orphanedResources: OrphanedCompanyResource[];
   folderStates = {};
+  deleteSuccess$: Observable<boolean>;
 
-  constructor(private httpUrlEncodingCodec: HttpUrlEncodingCodec, private store: Store<fromCompanyResourcesReducer.State>) {}
+  private deleteSuccessSubscription: Subscription;
+
+  constructor(
+    private httpUrlEncodingCodec: HttpUrlEncodingCodec,
+    private modalService: NgbModal,
+    private store: Store<fromCompanyResourcesPageReducer.State>) {}
+
+  ngOnInit() {
+    this.deleteSuccess$ = this.store.select(fromCompanyResourcesPageReducer.getDeletingCompanyResourceSuccess);
+    this.createSubscriptions();
+  }
+
+  ngOnDestroy() {
+    this.deleteSuccessSubscription.unsubscribe();
+  }
 
   onFolderSelect(folderId: string) {
     this.folderStates[folderId] = !this.folderStates[folderId];
@@ -57,11 +72,20 @@ export class CompanyResourceListComponent {
     return `${BASE_LINK}${this.httpUrlEncodingCodec.encodeValue(resource.FileName)}`;
   }
 
-  deleteResource(resourceId) {
-    this.store.dispatch(new fromCompanyResourcesActions.DeletingCompanyResource(resourceId));
+  openDeleteResourceModal(resource: CompanyResource) {
+    const modalRef = this.modalService.open(DeleteModalComponent, {
+      backdrop: 'static',
+      size: 'lg',
+      centered: true
+    });
+    modalRef.componentInstance.resource = resource;
   }
 
-  deleteFolder(folderId) {
-    this.store.dispatch(new fromCompanyResourcesActions.DeletingFolderFromCompanyResources(folderId));
+  private createSubscriptions() {
+    this.deleteSuccessSubscription = this.deleteSuccess$.subscribe((onSuccess) => {
+      if (onSuccess) {
+        this.modalService.dismissAll();
+      }
+    });
   }
 }

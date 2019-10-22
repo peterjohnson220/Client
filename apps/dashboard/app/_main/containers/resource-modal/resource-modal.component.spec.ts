@@ -7,7 +7,6 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ResourceModalComponent } from './resource-modal.component';
 
-
 describe('ResourceModalComponent', () => {
   let fixture: ComponentFixture<ResourceModalComponent>;
   let component: ResourceModalComponent;

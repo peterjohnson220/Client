@@ -5,9 +5,7 @@
                 <div class="folder-text" (click)="onFolderSelect('folder' + i)">
                     <span class="fa-li"><fa-icon icon="{{setFolderIcon('folder' + i)}}"></fa-icon></span>{{folderResource.FolderName}}
                 </div>
-                <button *ngIf="!folderResource.CompanyResources || folderResource.CompanyResources.length === 0" type="button" class="btn btn-danger" 
-                        (click)="deleteFolder(folderResource.CompanyResourcesFoldersId)">Delete
-                </button>
+                <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(folderResource)">Delete</button>
             </li>
             <ul [hidden]="folderStates['folder' + i]" class="resource-list">
                 <ng-container *ngIf="folderResource.CompanyResources && folderResource.CompanyResources.length > 0; then resourceItem else emptyResourceItem"></ng-container>
@@ -24,7 +22,7 @@
                         </div>
                         <div class="icon-container">
                             <fa-icon class="resource-icon" icon="{{setResourceIcon(resource)}}"></fa-icon>
-                            <button type="button" class="btn btn-danger" (click)="deleteResource(resource.CompanyResourceId)">Delete</button>
+                            <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(resource)">Delete</button>
                         </div>
                     </li>
                 </ng-template>
@@ -50,11 +48,9 @@
                 </div>
                 <div class="icon-container">
                     <fa-icon class="resource-icon" icon="{{setResourceIcon(orphanResource)}}"></fa-icon>
-                    <button type="button" class="btn btn-danger" (click)="deleteResource(orphanResource.CompanyResourceId)">Delete</button>
+                    <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(orphanResource)">Delete</button>
                 </div>
             </li>
         </ul>
     </ng-container>
 </div>
-
-

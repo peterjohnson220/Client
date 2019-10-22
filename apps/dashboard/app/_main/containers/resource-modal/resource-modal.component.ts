@@ -9,7 +9,6 @@ import * as fromCompanyResourcesReducer from '../../reducers';
 import * as fromCompanyResourcesActions from '../../actions/company-resources.actions';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-
 @Component({
   selector: 'pf-resource-modal',
   templateUrl: './resource-modal.component.html',
