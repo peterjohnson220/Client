@@ -49,7 +49,7 @@
     <tr>
       <td></td>
       <td>
-        <select id="includeDelimiters" [(ngModel)]="schedule.IncludeDelimiters">
+        <select id="includeDelimiters" [disabled]="schedule.IncludeFormatting" [(ngModel)]="schedule.IncludeDelimiters">
           <option [ngValue]="true">Yes</option>
           <option [ngValue]="false">No</option>
         </select>
@@ -61,7 +61,7 @@
     <tr>
       <td></td>
       <td>
-        <select id="includeFormatting" [(ngModel)]="schedule.IncludeFormatting">
+        <select id="includeFormatting" [disabled]="schedule.IncludeDelimiters" [(ngModel)]="schedule.IncludeFormatting">
           <option [ngValue]="true">Yes</option>
           <option [ngValue]="false">No</option>
         </select>
