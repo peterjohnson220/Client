@@ -8,8 +8,9 @@
       [kendoDropDownFilter]="filterSettings"
       [textField]="'FirstName'"
       [valueField]="'UserId'"
-      [(ngModel)]="selectedUsers"
-      [placeholder]="'Find Users to Share'">
+      [ngModel]="selectedUsers"
+      [placeholder]="'Find Users to Share'"
+      (valueChange)="handleSelectedUsersChanged($event)">
       <ng-template kendoMultiSelectItemTemplate let-user>
         {{user.FirstName}} {{user.LastName}}
       </ng-template>
@@ -23,8 +24,8 @@
           {{sharedUser.FirstName}} {{sharedUser.LastName}}
         </div>
         <div class="share-user-permission">
-          <select class="form-control" [value]="sharedUser.CanEdit" [disabled]="true">
-            <option value="false">View-Only</option>
+          <select class="form-control" [(ngModel)]="sharedUser.CanEdit">
+            <option value="false">Read-Only</option>
             <option value="true">Edit</option>
           </select>
           <button class="btn btn-secondary"

@@ -33,7 +33,7 @@
             <fa-icon icon="file-excel"></fa-icon>
           </button>
           <button class="btn btn-secondary"
-                  [disabled]="isReadOnly"
+                  [disabled]="!isOwner"
                   [attr.data-qa-id]="'btn-share'"
                   (click)="handleShareClicked()"
                   ngbTooltip="Share"
@@ -41,7 +41,7 @@
             <fa-icon icon="share"></fa-icon>
           </button>
           <button class="btn btn-secondary"
-                  [disabled]="isReadOnly"
+                  [disabled]="!isOwner"
                   [attr.data-qa-id]="'btn-delete'"
                   (click)="handleDeleteClicked()"
                   ngbTooltip="Delete"
