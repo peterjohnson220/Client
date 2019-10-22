@@ -1,13 +1,13 @@
 <pf-page-with-title-bar>
   <ng-container page-title>
-    Job Description Management <pf-public-view-header *ngIf="(identity$ | async)?.IsPublic"></pf-public-view-header>
+    Job Description Management <pf-public-view-header *ngIf="isPublic"></pf-public-view-header>
   </ng-container>
 
   <ng-container page-actions>
     <pf-input-debounce id="search-box" (valueChanged)="updateSearchFilter($event)" [delay]="400" [(ngModel)]="savedSearchTerm" [placeholderText]="'Search for a Job Code or Title...'"></pf-input-debounce>
 
     <!-- Hide from public view -->
-    <ng-container *ngIf="!(identity$ | async)?.IsPublic">
+    <ng-container *ngIf="!isPublic">
       <div *ngIf="hasManageTemplatesPermission || hasManageSettingsPermission" ngbDropdown class="d-inline-block">
         <button class="btn btn-primary" ngbDropdownToggle>Admin</button>
         <div class="dropdown-menu" ngbDropdownMenu>
@@ -35,21 +35,24 @@
             (columnModified)="handleColumnModified($event)"
             (saveColumns)="handleSaveColumns($event)">
           </pf-column-selector-popover>
-      </span>
-      <span class="user-filter-popover">
-          <pf-filter-selector-popover
-            [loading]="userFilterListLoading$ | async"
-            [deleting]="userFilterDeleting$ | async"
-            [userFilterList]="userFilterList$ | async"
-            [listAreaColumns]="listAreaColumns$ | async"
-            [customListAreaColumns]="customListAreaColumns"
-            (onFilterSidebarToggle)="showFilterSidebar = !showFilterSidebar"
-            (onFilterSelected)="handleUserFilterSelected($event)"
-            (onDeleteConfirmed)="handleUserFilterDeleteConfirmed($event)"
-            (open)="handleUserFilterListPopoverOpened($event)">
-          </pf-filter-selector-popover>
-      </span>
+      </span>     
     </ng-container>
+
+    <span class="user-filter-popover">
+      <pf-filter-selector-popover
+        [loading]="userFilterListLoading$ | async"
+        [deleting]="userFilterDeleting$ | async"
+        [userFilterList]="userFilterList$ | async"
+        [listAreaColumns]="listAreaColumns$ | async"
+        [customListAreaColumns]="customListAreaColumns"
+        [saveFiltersVisible]="!isPublic"
+        (onFilterSidebarToggle)="showFilterSidebar = !showFilterSidebar"
+        (onFilterSelected)="handleUserFilterSelected($event)"
+        (onDeleteConfirmed)="handleUserFilterDeleteConfirmed($event)"
+        (open)="handleUserFilterListPopoverOpened()">
+      </pf-filter-selector-popover>
+    </span>
+
   </ng-container>
 
   <ng-container page-content>
@@ -66,7 +69,7 @@
             <pf-list-area-filter-pills
               [listAreaColumns]="listAreaColumns$ | async"
               [customListAreaColumns]="customListAreaColumns"
-              [filters]="gridState.filter?.filters"
+              [filters]="gridState.filter?.filters"         
               (clearFilter)="handleClearFilter($event)"
               (clearAllFilters)="handleClearAllFilters($event)">
             </pf-list-area-filter-pills>
@@ -78,7 +81,7 @@
               [loading]="gridLoading$ | async"
               [listAreaColumns]="nonStaticListAreaColumns"
               [gridState]="gridState"
-              [isPublic]="(identity$ | async)?.IsPublic"
+              [isPublic]="isPublic"
               (navigateToJobDescription)="navigateToJobDescription($event)"
               (openJobDescriptionHistoryModal)="openJobDescriptionHistoryModal($event)"
               (openNewJobDescriptionModal)="openNewJobDescModal($event)"
@@ -93,6 +96,7 @@
             [filters]="gridState.filter?.filters"
             [listAreaColumns]="listAreaColumns$ | async"
             [customListAreaColumns]="customListAreaColumns"
+            [saveFiltersVisible]="!isPublic"
             (filterChanged)="handleFilterChanged($event)"
             (close)="showFilterSidebar = false"
             (saveFilterClicked)="saveFilterClicked()">

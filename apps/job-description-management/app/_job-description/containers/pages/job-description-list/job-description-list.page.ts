@@ -62,6 +62,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public selectedCompanyJobForModal: CompanyJobViewListItem;
   public userFilterList$: Observable<JdmListFilter[]>;
   public userFilterListLoading$: Observable<boolean>;
+  public userFilterDeleting$: Observable<boolean>;
 
   private savedGridState$: Observable<State>;
   private listAreaColumnsToUpdate$: Observable<ListAreaColumn[]>;
@@ -70,7 +71,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private bulkExportNoPublishedJobDescriptions$: Observable<boolean>;
   private savedSearchTerm$: Observable<string>;
   private userFilterListAdding$: Observable<boolean>;
-  private userFilterDeleting$: Observable<boolean>;
   private userFilterErrorMessage$: Observable<string>;
   private jobDescriptionListViewsLoading$: Observable<boolean>;
   private jobDescriptionListViews$: Observable<string[]>;
