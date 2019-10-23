@@ -101,7 +101,7 @@ export class GetUserDataViewSuccess implements Action {
 export class GetUserDataViewError implements Action {
   readonly type = GET_USER_DATA_VIEW_ERROR;
 
-  constructor() {}
+  constructor(public payload: any) {}
 }
 
 export class EditUserReport implements Action {
