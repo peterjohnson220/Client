@@ -114,6 +114,10 @@ export const getAddingFolderToCompanyResourcesSuccess = createSelector(selectCom
   fromCompanyResourcesFolderReducer.getAddingFolderToCompanyResourcesSuccess);
 export const getAddingFolderToCompanyResourcesError = createSelector(selectCompanyResourcesFolderState,
   fromCompanyResourcesFolderReducer.getAddingFolderToCompanyResourcesError);
+export const getDeletingFolderFromCompanyResources = createSelector(selectCompanyResourcesFolderState,
+  fromCompanyResourcesFolderReducer.getDeletingFolderFromCompanyResources);
+export const getDeletingFolderFromCompanyResourcesSuccess = createSelector(selectCompanyResourcesFolderState,
+fromCompanyResourcesFolderReducer.getDeletingFolderFromCompanyResourcesSuccess);
 
 // company orphan resources
 export const { selectAll: getCompanyOrphanResources } = fromCompanyResourcesOrphanReducer.adapter.getSelectors(selectCompanyResourcesOrphanState);
