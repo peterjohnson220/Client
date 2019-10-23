@@ -58,6 +58,8 @@ export const GET_COMPANY_SETTINGS_ERROR = '[Pf-Admin/Company Page] Get Company S
 
 // Actions bar
 export const CREATE_COMPANY = '[Pf-Admin/Company Page] Create Company';
+export const CREATE_COMPANY_SUCCESS = '[Pf-Admin/Company Page] Create Company Success';
+export const CREATE_COMPANY_ERROR = '[Pf-Admin/Company Page] Create Company Error';
 export const SAVE_COMPANY = '[Pf-Admin/Company Page] Save Company';
 export const SAVE_COMPANY_SUCCESS = '[Pf-Admin/Company Page] Save Company Success';
 export const SAVE_COMPANY_ERROR = '[Pf-Admin/Company Page] Save Company Error';
@@ -364,6 +366,18 @@ export class CreateCompany implements Action {
   constructor( public payload: CompanyFormData ) {}
 }
 
+export class CreateCompanySuccess implements Action {
+  readonly type = CREATE_COMPANY_SUCCESS;
+
+  constructor() {}
+}
+
+export class CreateCompanyError implements Action {
+  readonly type = CREATE_COMPANY_ERROR;
+
+  constructor() {}
+}
+
 export class SaveCompany implements Action {
   readonly type = SAVE_COMPANY;
 
@@ -470,6 +484,8 @@ export type Actions
   | ToggleCompanySetting
   | ChangeCompanySettingValue
   | CreateCompany
+  | CreateCompanySuccess
+  | CreateCompanyError
   | SaveCompany
   | SaveCompanySuccess
   | SaveCompanyError
