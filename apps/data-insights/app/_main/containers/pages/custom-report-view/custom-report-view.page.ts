@@ -14,7 +14,12 @@ import * as fromDataViewActions from '../../../actions/data-view.actions';
 import * as fromFiltersActions from '../../../actions/filters.actions';
 import * as fromFieldsActions from '../../../actions/fields.actions';
 import { SaveUserWorkbookModalData, SaveWorkbookMode, SharedDataViewUser, UserDataView, DataViewAccessLevel } from '../../../models';
-import { SaveUserWorkbookModalComponent, DeleteUserWorkbookModalComponent, ShareReportModalComponent } from '../../../components';
+import {
+  SaveUserWorkbookModalComponent,
+  DeleteUserWorkbookModalComponent,
+  ShareReportModalComponent,
+  ConfigureSidebarComponent
+} from '../../../components';
 
 
 @Component({
@@ -27,6 +32,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   @ViewChild('duplicateWorkbookModal', { static: false }) public duplicateUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
   @ViewChild('deleteWorkbookModal', { static: false }) public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
   @ViewChild('shareReportModal', { static: false }) public shareReportModalComponent: ShareReportModalComponent;
+  @ViewChild(ConfigureSidebarComponent, { static: false }) public configureSidebar: ConfigureSidebarComponent;
 
   userDataView$: Observable<AsyncStateObj<UserDataView>>;
   editingUserDataView$: Observable<boolean>;
@@ -199,5 +205,12 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
 
   public get isOwner(): boolean {
     return this.dataViewAccessLevel === DataViewAccessLevel.Owner;
+  }
+
+  public get configureSidebarOpen(): boolean {
+    if (this.isReadOnly) {
+      return false;
+    }
+    return this.configureSidebar ? this.configureSidebar.isOpen : true;
   }
 }

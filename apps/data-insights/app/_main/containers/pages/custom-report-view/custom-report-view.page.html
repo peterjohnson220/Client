@@ -53,7 +53,7 @@
           <ng-container *ngIf="!isReadOnly; else disabledConfigureToggleButton">
             <pf-configure-sidebar #leftSidebar></pf-configure-sidebar>
           </ng-container>
-          <div class="data-view-grid-container" [ngClass]="!isReadOnly && leftSidebar?.isOpen ? 'sidebar-open': 'sidebar-close'">
+          <div class="data-view-grid-container" [ngClass]="configureSidebarOpen ? 'sidebar-open': 'sidebar-close'">
             <pf-data-view-grid></pf-data-view-grid>
           </div>
         </div>
