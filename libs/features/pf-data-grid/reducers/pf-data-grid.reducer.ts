@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import * as fromPfGridActions from '../actions';
-import { ViewField, PagingOptions } from 'libs/models/payfactors-api';
+import { ViewField, PagingOptions, DataViewFilter } from 'libs/models/payfactors-api';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult } from '@progress/kendo-data-query';
 

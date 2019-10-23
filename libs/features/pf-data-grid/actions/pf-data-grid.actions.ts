@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions } from 'libs/models/payfactors-api';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewFilter } from 'libs/models/payfactors-api';
 
 export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';

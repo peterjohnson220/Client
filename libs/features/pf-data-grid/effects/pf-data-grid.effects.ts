@@ -6,17 +6,20 @@ import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/opera
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 
-import { GridDataResult } from '@progress/kendo-angular-grid';
-
-import { ViewField, DataViewConfig, SaveDataViewRequest, DataViewField, DataViewFilter } from 'libs/models/payfactors-api';
+import {
+    ViewField,
+    DataViewConfig,
+    SaveDataViewRequest,
+    DataViewField,
+    DataViewFilter,
+    DataViewEntityResponseWithCount,
+    PagingOptions
+} from 'libs/models/payfactors-api';
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
-import { ViewField, DataViewConfig, SaveDataViewRequest, DataViewEntityResponseWithCount, PagingOptions } from 'libs/models/payfactors-api';
-import { DataViewApiService } from 'libs/data/payfactors-api';
 
-import { DataViewField } from 'libs/models/payfactors-api';
 
 @Injectable()
 export class PfDataGridEffects {
@@ -57,19 +60,21 @@ export class PfDataGridEffects {
                         this.store.pipe(select(fromPfDataGridReducer.getFields, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getFilters, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
-                        (action: fromPfDataGridActions.LoadData, baseEntityId, fields, pagingOptions) =>
-                            ({ action, baseEntityId, fields, pagingOptions })
+                        (action: fromPfDataGridActions.LoadData, baseEntityId, fields, filters, pagingOptions) =>
+                            ({ action, baseEntityId, fields, filters, pagingOptions })
                     )
                 ),
             ),
             switchMap((data) =>
-                this.dataViewApiService.getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(data.baseEntityId, data.fields, data.pagingOptions)).pipe(
-                    map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
-                    catchError(error => {
-                        const msg = 'We encountered an error while loading your data';
-                        return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
-                    })
-                )
+                this.dataViewApiService
+                    .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(data.baseEntityId, data.fields, data.filters, data.pagingOptions))
+                    .pipe(
+                        map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
+                        catchError(error => {
+                            const msg = 'We encountered an error while loading your data';
+                            return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
+                        })
+                    )
             )
         );
 
@@ -103,12 +108,12 @@ export class PfDataGridEffects {
 
     @Effect()
     filterChanges$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(fromPfDataGridActions.UPDATE_FILTER, fromPfDataGridActions.CLEAR_FILTER, fromPfDataGridActions.CLEAR_ALL_FILTERS),
-        map((action: any) => {
-          return new fromPfDataGridActions.LoadData(action.pageViewId);
-        })
-      );
+        .pipe(
+            ofType(fromPfDataGridActions.UPDATE_FILTER, fromPfDataGridActions.CLEAR_FILTER, fromPfDataGridActions.CLEAR_ALL_FILTERS),
+            map((action: any) => {
+                return new fromPfDataGridActions.LoadData(action.pageViewId);
+            })
+        );
 
     static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number, fields: ViewField[]): SaveDataViewRequest {
         return <SaveDataViewRequest>{
@@ -120,7 +125,7 @@ export class PfDataGridEffects {
         };
     }
 
-    static buildDataViewDataRequest(baseEntityId: number, fields: ViewField[], pagingOptions: PagingOptions) {
+    static buildDataViewDataRequest(baseEntityId: number, fields: ViewField[], filters: DataViewFilter[], pagingOptions: PagingOptions) {
         return {
             BaseEntityId: baseEntityId,
             Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields),
