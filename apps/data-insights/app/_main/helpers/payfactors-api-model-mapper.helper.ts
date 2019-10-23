@@ -261,6 +261,7 @@ export class PayfactorsApiModelMapper {
         UserId: user.UserId,
         FirstName: user.FirstName,
         LastName: user.LastName,
+        EmailAddress: user.EmailAddress,
         UserPicture: user.UserPicture,
         Title: user.Title,
         CanEdit: false
