@@ -34,8 +34,8 @@
                   [primaryKey]="primaryKey"
                   [columnTemplates]="columnTemplates"
                   [isCompact]="isSplitView"
-                  [allowSplitView]="!!splitViewTemplate && !(displayFilterPanel$ | async)"
-                  (rowSelected)="isSplitView = true"></pf-grid>
+                  [allowSplitView]="!!splitViewTemplate"
+                  (rowSelected)="onRowSelect()"></pf-grid>
               </div>
               <div *ngIf="isSplitView" class="col-9 pl-3">
                 <ng-container [ngTemplateOutlet]="splitViewTemplate" [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter}">
