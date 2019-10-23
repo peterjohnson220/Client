@@ -37,10 +37,6 @@ export class FilterPanelComponent implements OnChanges {
     this.close.emit();
   }
 
-  /*saveFilter() {
-    this.saveFilterClicked.emit();
-  }*/
-
   handleFilterChange(event: DataViewFilter) {
     if ((event.Value && event.Value.length) || this.valueCanBeEmpty(event)) {
       this.filterChanged.emit(event);
@@ -76,23 +72,10 @@ export class FilterPanelComponent implements OnChanges {
   }
 
   private createEmptyFilterDescriptor(viewField: ViewField): DataViewFilter {
-    let operator = '';
-    switch (viewField.DataType) {
-      case DataViewFieldDataType.String:
-        operator = '=';
-        break;
-      case DataViewFieldDataType.Int:
-        operator = '=';
-        break;
-      case DataViewFieldDataType.DateTime:
-        operator = '>=';
-        break;
-    }
-
     return {
       EntitySourceName: viewField.EntitySourceName,
       SourceName: viewField.SourceName,
-      Operator: operator,
+      Operator: FilterOperatorOptions[viewField.DataType].find(f => f.defaultOperatorForType).value,
       Value: null,
       Values: [],
       DataType: viewField.DataType
@@ -100,18 +83,6 @@ export class FilterPanelComponent implements OnChanges {
   }
 
   private valueCanBeEmpty(filter: DataViewFilter) {
-    let canBeEmpty = false;
-    switch (filter.DataType) {
-      case DataViewFieldDataType.String:
-        canBeEmpty = !FilterOperatorOptions.string.find(f => f.value === filter.Operator).requiresValue;
-        break;
-      case DataViewFieldDataType.Int:
-        canBeEmpty = !FilterOperatorOptions.int.find(f => f.value === filter.Operator).requiresValue;
-        break;
-      case DataViewFieldDataType.DateTime:
-        canBeEmpty = !FilterOperatorOptions.dateTime.find(f => f.value === filter.Operator).requiresValue;
-        break;
-    }
-   return canBeEmpty;
+   return !FilterOperatorOptions[filter.DataType].find(f => f.value === filter.Operator).requiresValue;
   }
 }

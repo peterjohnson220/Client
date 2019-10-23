@@ -24,7 +24,7 @@ export class FilterBuilderComponent {
     this.filter.Operator = event;
     this.toggleValueInput();
 
-    if (this.disableValue || (this.filter.Value && this.filter.Value.toString().length)) {
+    if (this.disableValue || (this.filter.Value && this.filter.Value.toString().trim().length)) {
       this.filterChanged.emit(this.filter);
     }
   }

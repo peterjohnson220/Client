@@ -89,11 +89,16 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.store.dispatch(new fromActions.ClearAllFilters(this.pageViewId));
   }
 
+  onRowSelect() {
+    this.isSplitView = true;
+    this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
+  }
+
   private initGridFilterThrottle() {
     const gridThrottle$ = this.gridFilterThrottle.debounceTime(400);
 
     gridThrottle$.subscribe(filter => {
-      if (filter && filter.Value.length) {
+      if (filter && filter.Value.toString().trim().length) {
         this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, filter));
       }
     });
