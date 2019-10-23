@@ -48,8 +48,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this.selectedFieldsSub.unsubscribe();
   }
 
-  trackByFn(index: any, field: Field): number {
-    return field.DataElementId;
+  trackByFn(index: any, filter: Filter): number {
+    return filter.Field.DataElementId;
   }
 
   handleAddFilterClicked(): void {

@@ -1,1 +1,21 @@
+@import 'colors';
 @import 'data-insights-styles';
+
+.action-btn {
+  margin-right: .75rem;
+  border: 1px solid transparent;
+  padding: 1px 6px;
+
+  &:hover {
+    border: 1px solid #CCC;
+  }
+
+  .action-icon {
+    color:black;
+    font-size: 1.25rem;
+  }
+}
+
+.info-icon {
+  color: $pf-brand-secondary-color !important;
+}
