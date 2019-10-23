@@ -93,7 +93,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     const gridThrottle$ = this.gridFilterThrottle.debounceTime(400);
 
     gridThrottle$.subscribe(filter => {
-      if (filter) {
+      if (filter && filter.Value.length) {
         this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, filter));
       }
     });
