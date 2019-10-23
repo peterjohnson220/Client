@@ -62,8 +62,11 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
       class="flex-column-container"
     >
       <div
-        class="page-header d-flex justify-content-between align-items-center"
+        class="d-flex justify-content-between align-items-center page-header"
+        ng-reflect-klass="d-flex justify-content-between"
+        ng-reflect-ng-class="page-header"
       >
+        
         <div
           class="d-flex"
         >
@@ -109,6 +112,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
         </div>
         <div
           class="d-flex space-out-children"
+          ng-reflect-klass="d-flex space-out-children"
+          ng-reflect-ng-class=""
         />
       </div>
       <div
@@ -290,8 +295,11 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
       class="flex-column-container"
     >
       <div
-        class="page-header d-flex justify-content-between align-items-center"
+        class="d-flex justify-content-between align-items-center page-header"
+        ng-reflect-klass="d-flex justify-content-between"
+        ng-reflect-ng-class="page-header"
       >
+        
         <div
           class="d-flex"
         >
@@ -337,6 +345,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
         </div>
         <div
           class="d-flex space-out-children"
+          ng-reflect-klass="d-flex space-out-children"
+          ng-reflect-ng-class=""
         />
       </div>
       <div
@@ -518,8 +528,11 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
       class="flex-column-container"
     >
       <div
-        class="page-header d-flex justify-content-between align-items-center"
+        class="d-flex justify-content-between align-items-center page-header"
+        ng-reflect-klass="d-flex justify-content-between"
+        ng-reflect-ng-class="page-header"
       >
+        
         <div
           class="d-flex"
         >
@@ -565,6 +578,8 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
         </div>
         <div
           class="d-flex space-out-children"
+          ng-reflect-klass="d-flex space-out-children"
+          ng-reflect-ng-class=""
         />
       </div>
       <div
@@ -745,8 +760,11 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
       class="flex-column-container"
     >
       <div
-        class="page-header d-flex justify-content-between align-items-center"
+        class="d-flex justify-content-between align-items-center page-header"
+        ng-reflect-klass="d-flex justify-content-between"
+        ng-reflect-ng-class="page-header"
       >
+        
         <div
           class="d-flex"
         >
@@ -792,6 +810,8 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
         </div>
         <div
           class="d-flex space-out-children"
+          ng-reflect-klass="d-flex space-out-children"
+          ng-reflect-ng-class=""
         />
       </div>
       <div
@@ -883,8 +903,11 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
       class="flex-column-container"
     >
       <div
-        class="page-header d-flex justify-content-between align-items-center"
+        class="d-flex justify-content-between align-items-center page-header"
+        ng-reflect-klass="d-flex justify-content-between"
+        ng-reflect-ng-class="page-header"
       >
+        
         <div
           class="d-flex"
         >
@@ -930,6 +953,8 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
         </div>
         <div
           class="d-flex space-out-children"
+          ng-reflect-klass="d-flex space-out-children"
+          ng-reflect-ng-class=""
         />
       </div>
       <div

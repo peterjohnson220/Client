@@ -6,9 +6,9 @@ import { NgbModal, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockPfGridColumn } from 'libs/models/common/pf-grid';
+import { generateMockViewField } from 'libs/models/payfactors-api';
 import { ColumnChooserComponent } from './column-chooser.component';
-import {ColumnSearchPipe} from './pipes';
+import { ColumnSearchPipe } from './pipes';
 
 
 
@@ -28,7 +28,7 @@ describe('Common UI - PF Grid - Column Chooser Popover', () => {
       declarations: [
         ColumnChooserComponent, ColumnSearchPipe
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(ColumnChooserComponent);
@@ -41,9 +41,9 @@ describe('Common UI - PF Grid - Column Chooser Popover', () => {
     spyOn(instance.saveColumns, 'emit');
     spyOn(instance.p, 'close');
 
-    const mockedListAreaColumns = [generateMockPfGridColumn(1), generateMockPfGridColumn(2)];
+    const mockedListAreaColumns = [generateMockViewField(1), generateMockViewField(2)];
 
-    instance.ListAreaColumns = cloneDeep(mockedListAreaColumns);
+    instance.listAreaColumns = cloneDeep(mockedListAreaColumns);
     instance.p = { close: jest.fn() };
 
     instance.saveButtonClicked();

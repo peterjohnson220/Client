@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import {
   CreateUserViewRequest, DataViewEntityResponse, UserDataViewResponse,
   DataViewDataRequest, DataViewField, EditUserViewRequest,
-  DuplicateUserViewRequest, UpdateDataViewFieldsRequest, DeleteUserViewRequest,
+  DuplicateUserViewRequest, UpdateDataViewFieldsRequest, DeleteUserViewRequest, SaveDataViewRequest,
   SaveUserDataViewSortOrderRequest, DataViewFilterOptionsRequest, SaveUserViewFiltersRequest
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -37,11 +37,11 @@ export class DataViewApiService {
   }
 
   getUserDataView(dataViewId: number): Observable<UserDataViewResponse> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewInfo`, { params: { dataViewId: dataViewId }});
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewInfo`, { params: { dataViewId: dataViewId } });
   }
 
   exportUserDataView(dataViewId: number): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, { DataViewId : dataViewId });
+    return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, { DataViewId: dataViewId });
   }
 
   getExportingDataView(dataViewId: number): Observable<any> {
@@ -49,8 +49,7 @@ export class DataViewApiService {
   }
 
   getUserDataViewFields(dataViewId: number): Observable<DataViewField[]> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewFields`,
-      { params: { dataViewId: dataViewId }});
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewFields`, { params: { dataViewId: dataViewId } });
   }
 
   getData(request: DataViewDataRequest): Observable<any[]> {
@@ -71,5 +70,13 @@ export class DataViewApiService {
 
   saveFilters(request: SaveUserViewFiltersRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveFilters`, request);
+  }
+
+  getDataViewConfig(pageViewId: string) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: { pageViewId: pageViewId } });
+  }
+
+  updateDataView(request: SaveDataViewRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveView`, request);
   }
 }
