@@ -12,7 +12,7 @@
       [placeholder]="'Find Users to Share'"
       (valueChange)="handleSelectedUsersChanged($event)">
       <ng-template kendoMultiSelectItemTemplate let-user>
-        {{user.FirstName}} {{user.LastName}}
+        {{user.FirstName}} {{user.LastName}} ({{user.EmailAddress}})
       </ng-template>
       <ng-template kendoMultiSelectTagTemplate let-user>
         {{user.FirstName}} {{user.LastName}}
