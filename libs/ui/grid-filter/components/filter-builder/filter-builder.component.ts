@@ -6,7 +6,8 @@ import { FilterOperatorOptions } from '../../helpers/filter-operator-options/fil
 
 @Component({
   selector: 'pf-filter-builder',
-  templateUrl: './filter-builder.component.html'
+  templateUrl: './filter-builder.component.html',
+  styleUrls: ['./filter-builder.component.scss']
 })
 
 export class FilterBuilderComponent {
