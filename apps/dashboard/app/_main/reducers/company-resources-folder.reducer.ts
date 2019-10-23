@@ -10,7 +10,7 @@ export interface State extends EntityState<CompanyResourceFolder> {
     addingFolderToCompanyResources: boolean;
     addingFolderToCompanyResourcesSuccess: boolean;
     addingFolderToCompanyResourcesError: any;
-    deletingFolderFromCompanyResources: string;
+    deletingFolderFromCompanyResources: boolean;
     deletingFolderFromCompanyResourcesSuccess: boolean;
   }
 
@@ -91,12 +91,16 @@ export interface State extends EntityState<CompanyResourceFolder> {
       case fromCompanyResourcesPageActions.DELETING_FOLDER_FROM_COMPANY_RESOURCES: {
         return {
           ...state,
-          companyResourceId: action.payload
+          companyResourceId: action.payload,
+          deletingFolderFromCompanyResources: true,
+          deletingFolderFromCompanyResourcesSuccess: false
         };
       }
       case fromCompanyResourcesPageActions.DELETING_FOLDER_FROM_COMPANY_RESOURCES_SUCCESS: {
         return {
-          ...adapter.removeOne(action.payload, state)
+          ...adapter.removeOne(action.payload, state),
+          deletingFolderFromCompanyResources: false,
+          deletingFolderFromCompanyResourcesSuccess: true
         };
       }
       case fromCompanyResourcesPageActions.DELETING_COMPANY_RESOURCE_SUCCESS: {
@@ -129,3 +133,5 @@ export interface State extends EntityState<CompanyResourceFolder> {
   export const getAddingFolderToCompanyResources = (state: State) => state.addingFolderToCompanyResources;
   export const getAddingFolderToCompanyResourcesSuccess = (state: State) => state.addingFolderToCompanyResourcesSuccess;
   export const getAddingFolderToCompanyResourcesError = (state: State) => state.addingFolderToCompanyResourcesError;
+  export const getDeletingFolderFromCompanyResources = (state: State) => state.deletingFolderFromCompanyResources;
+  export const getDeletingFolderFromCompanyResourcesSuccess = (state: State) => state.deletingFolderFromCompanyResourcesSuccess;
