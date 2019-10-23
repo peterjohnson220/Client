@@ -359,6 +359,25 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         loadingCompositeFields: false
       };
     }
+    case fromCompanyPageActions.CREATE_COMPANY: {
+      return {
+        ...state,
+        savingCompany: true
+      };
+    }
+    case fromCompanyPageActions.CREATE_COMPANY_SUCCESS: {
+      return {
+        ...state,
+        savingCompany: false
+      };
+    }
+    case fromCompanyPageActions.CREATE_COMPANY_ERROR: {
+      return {
+        ...state,
+        savingCompany: false,
+        savingCompanyError: true
+      };
+    }
     case fromCompanyPageActions.SAVE_COMPANY: {
       return {
         ...state,
