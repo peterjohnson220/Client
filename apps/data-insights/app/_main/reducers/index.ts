@@ -239,6 +239,11 @@ export const getSharedUserPermissionsAsync = createSelector(
   fromDataViewReducer.getSharedUserPermissionsAsync
 );
 
+export const getSharedUserPermissionsLoaded = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getSharedUserPermissionsLoaded
+);
+
 // Data View Grid
 export const getReportDataAsync = createSelector(
   selectDataViewGridState,

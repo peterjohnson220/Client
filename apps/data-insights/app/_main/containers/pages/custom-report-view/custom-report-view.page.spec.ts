@@ -139,15 +139,43 @@ describe('Data Insights - Custom Report View Comopnent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch GetSharePermission action when handling share clicked', () => {
+  it('should dispatch GetSharePermission action when handling share clicked and permissions not loaded', () => {
     spyOn(instance.shareReportModalComponent, 'open');
     const expectedAction = new fromDataViewActions.GetSharePermissions();
     spyOn(store, 'dispatch');
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
+    instance.sharedUserPermissionsLoaded = false;
+    instance.shareableUsersLoaded = true;
 
     instance.handleShareClicked();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should NOT dispatch GetSharePermission action when handling share clicked and permissions loaded', () => {
+    spyOn(instance.shareReportModalComponent, 'open');
+    const expectedAction = new fromDataViewActions.GetSharePermissions();
+    spyOn(store, 'dispatch');
+    instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
+    instance.sharedUserPermissionsLoaded = true;
+    instance.shareableUsersLoaded = true;
+
+    instance.handleShareClicked();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should NOT dispatch GetSharePermission action when handling share clicked and shareable users not loaded', () => {
+    spyOn(instance.shareReportModalComponent, 'open');
+    const expectedAction = new fromDataViewActions.GetSharePermissions();
+    spyOn(store, 'dispatch');
+    instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
+    instance.sharedUserPermissionsLoaded = false;
+    instance.shareableUsersLoaded = false;
+
+    instance.handleShareClicked();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
   });
 
   it('should NOT dispatch GetSharePermission action when handling share clicked but user not owner', () => {

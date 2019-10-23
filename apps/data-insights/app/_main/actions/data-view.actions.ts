@@ -233,7 +233,7 @@ export class SaveSharePermissions implements Action {
 export class SaveSharePermissionsSuccess implements Action {
   readonly type = SAVE_SHARE_PERMISSIONS_SUCCESS;
 
-  constructor() {}
+  constructor(public payload: SharedDataViewUser[]) {}
 }
 
 export class SaveSharePermissionsError implements Action {
