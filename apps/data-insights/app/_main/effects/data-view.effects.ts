@@ -161,7 +161,7 @@ export class DataViewEffects {
                 new fromDataViewGridActions.GetData()
               ];
             }),
-            catchError(() => of(new fromDataViewActions.GetUserDataViewError()))
+            catchError(error => of (new fromDataViewActions.GetUserDataViewError(error)))
           );
       })
     );

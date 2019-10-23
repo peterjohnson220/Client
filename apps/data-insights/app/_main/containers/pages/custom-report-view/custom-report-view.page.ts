@@ -45,6 +45,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   getEventId$: Observable<number>;
   shareableUsers$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
   sharedUserPermissions$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
+  loadingErrorMessage$: Observable<string>;
 
   editReportSuccessSubscription: Subscription;
   duplicateReportSuccessSubscription: Subscription;
@@ -79,6 +80,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.getEventId$ = this.store.pipe(select(fromDataInsightsMainReducer.getExportEventId));
     this.shareableUsers$ = this.store.pipe(select(fromDataInsightsMainReducer.getShareableUsersAsync));
     this.sharedUserPermissions$ = this.store.pipe(select(fromDataInsightsMainReducer.getSharedUserPermissionsAsync));
+    this.loadingErrorMessage$ = this.store.pipe(select(fromDataInsightsMainReducer.getLoadingErrorMessage));
   }
 
   ngOnInit(): void {

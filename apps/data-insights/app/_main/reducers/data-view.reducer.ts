@@ -26,6 +26,7 @@ export interface State {
   shareableUsersAsync: AsyncStateObj<SharedDataViewUser[]>;
   sharedUserPermissionsAsync: AsyncStateObj<SharedDataViewUser[]>;
   sharedUserPermissionsLoaded: boolean;
+  loadingErrorMessage: string;
 }
 
 const initialState: State = {
@@ -48,7 +49,8 @@ const initialState: State = {
   exportEventId : null,
   shareableUsersAsync: generateDefaultAsyncStateObj<SharedDataViewUser[]>([]),
   sharedUserPermissionsAsync: generateDefaultAsyncStateObj<SharedDataViewUser[]>([]),
-  sharedUserPermissionsLoaded: false
+  sharedUserPermissionsLoaded: false,
+  loadingErrorMessage: ''
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -138,9 +140,16 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       const asyncStateObjClone = cloneDeep(state.userDataViewAsync);
       asyncStateObjClone.loading = false;
       asyncStateObjClone.loadingError = true;
+      let errorMessage = '';
+      if (action.payload.status === 401) {
+        errorMessage = 'Sorry, you do not have access to this data view'
+      } else {
+        errorMessage = 'Error loading this data view'
+      }
       return {
         ...state,
-        userDataViewAsync: asyncStateObjClone
+        userDataViewAsync: asyncStateObjClone,
+        loadingErrorMessage: errorMessage
       };
     }
     case fromDataViewActions.EDIT_USER_REPORT: {
@@ -382,3 +391,4 @@ export const getExportEventId = (state: State) => state.exportEventId;
 export const getShareableUsersAsync = (state: State) => state.shareableUsersAsync;
 export const getSharedUserPermissionsAsync = (state: State) => state.sharedUserPermissionsAsync;
 export const getSharedUserPermissionsLoaded = (state: State) => state.sharedUserPermissionsLoaded;
+export const getLoadingErrorMessage = (state: State) => state.loadingErrorMessage;

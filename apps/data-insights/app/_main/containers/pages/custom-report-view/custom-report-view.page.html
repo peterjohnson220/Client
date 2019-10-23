@@ -2,7 +2,7 @@
   <pf-async-container
     [loading]="userDataViewAsync.loading"
     [loadingError]="userDataViewAsync.loadingError"
-    [loadingErrorMessage]="'Error loading this data view'"
+    [loadingErrorMessage]="loadingErrorMessage$ | async"
     [hideReloadButton]="true">
 
     <pf-page-with-title-bar [returnUrl]="'/'">

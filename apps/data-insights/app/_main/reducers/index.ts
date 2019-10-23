@@ -244,6 +244,11 @@ export const getSharedUserPermissionsLoaded = createSelector(
   fromDataViewReducer.getSharedUserPermissionsLoaded
 );
 
+export const getLoadingErrorMessage = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getLoadingErrorMessage
+);
+
 // Data View Grid
 export const getReportDataAsync = createSelector(
   selectDataViewGridState,
