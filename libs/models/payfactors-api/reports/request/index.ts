@@ -12,3 +12,4 @@ export * from './save-user-view-sort-order.model';
 export * from './data-view-filter-options-request.model';
 export * from './save-user-view-filters-request.model';
 export * from './share-user-data-view-request.model';
+export * from './remove-share-permission-request.model';

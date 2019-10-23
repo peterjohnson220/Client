@@ -12,8 +12,14 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
 import { CustomReportViewPageComponent } from './custom-report-view.page';
-import { SaveUserWorkbookModalComponent, DeleteUserWorkbookModalComponent } from '../../../components';
-import { SaveUserWorkbookModalData, generateMockSaveUserWorkbookModalData, DataViewAccessLevel } from '../../../models';
+import { DeleteUserWorkbookModalComponent, SaveUserWorkbookModalComponent, ShareReportModalComponent } from '../../../components';
+import {
+  DataViewAccessLevel,
+  generateMockSaveUserWorkbookModalData,
+  generateMockSharedDataViewUser,
+  SaveUserWorkbookModalData,
+  SharedDataViewUser
+} from '../../../models';
 
 describe('Data Insights - Custom Report View Comopnent', () => {
   let instance: CustomReportViewPageComponent;
@@ -38,7 +44,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
           useValue: { params: of({ dataViewId : 1 }) }
         }
       ],
-      declarations: [ CustomReportViewPageComponent, SaveUserWorkbookModalComponent, DeleteUserWorkbookModalComponent ],
+      declarations: [ CustomReportViewPageComponent, SaveUserWorkbookModalComponent, DeleteUserWorkbookModalComponent, ShareReportModalComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
@@ -111,5 +117,79 @@ describe('Data Insights - Custom Report View Comopnent', () => {
     instance.handleExportClicked();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch SaveSharePermissions action when handling share save clicked', () => {
+    const sharedDataUserList = [generateMockSharedDataViewUser()];
+    const expectedAction = new fromDataViewActions.SaveSharePermissions(sharedDataUserList);
+    spyOn(store, 'dispatch');
+
+    instance.handleShareSavedClicked(sharedDataUserList);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch RemoveSharePermission action when handling user removed event', () => {
+    const sharedDataUser: SharedDataViewUser = generateMockSharedDataViewUser();
+    const expectedAction = new fromDataViewActions.RemoveSharePermission(sharedDataUser);
+    spyOn(store, 'dispatch');
+
+    instance.handleUserRemoved(sharedDataUser);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch GetSharePermission action when handling share clicked', () => {
+    spyOn(instance.shareReportModalComponent, 'open');
+    const expectedAction = new fromDataViewActions.GetSharePermissions();
+    spyOn(store, 'dispatch');
+    instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
+
+    instance.handleShareClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should NOT dispatch GetSharePermission action when handling share clicked but user not owner', () => {
+    const expectedAction = new fromDataViewActions.GetSharePermissions();
+    spyOn(store, 'dispatch');
+    instance.dataViewAccessLevel = DataViewAccessLevel.ReadOnly;
+
+    instance.handleShareClicked();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch GetShareableUsers action when handling share clicked', () => {
+    spyOn(instance.shareReportModalComponent, 'open');
+    const expectedAction = new fromDataViewActions.GetShareableUsers();
+    spyOn(store, 'dispatch');
+    instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
+
+    instance.handleShareClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should NOT dispatch GetShareableUsers action when handling share clicked but user not owner', () => {
+    const expectedAction = new fromDataViewActions.GetShareableUsers();
+    spyOn(store, 'dispatch');
+    instance.dataViewAccessLevel = DataViewAccessLevel.ReadOnly;
+
+    instance.handleShareClicked();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should NOT dispatch GetShareableUsers action when handling share clicked but users already loaded', () => {
+    spyOn(instance.shareReportModalComponent, 'open');
+    const expectedAction = new fromDataViewActions.GetShareableUsers();
+    spyOn(store, 'dispatch');
+    instance.shareableUsersLoaded = true;
+    instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
+
+    instance.handleShareClicked();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
   });
 });

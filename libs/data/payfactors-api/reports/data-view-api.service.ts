@@ -3,10 +3,20 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-  CreateUserViewRequest, DataViewEntityResponse, UserDataViewResponse,
-  DataViewDataRequest, DataViewField, EditUserViewRequest,
-  DuplicateUserViewRequest, UpdateDataViewFieldsRequest, DeleteUserViewRequest,
-  SaveUserDataViewSortOrderRequest, DataViewFilterOptionsRequest, SaveUserViewFiltersRequest, ShareUserDataViewRequest
+  CreateUserViewRequest,
+  DataViewEntityResponse,
+  UserDataViewResponse,
+  DataViewDataRequest,
+  DataViewField,
+  EditUserViewRequest,
+  DuplicateUserViewRequest,
+  UpdateDataViewFieldsRequest,
+  DeleteUserViewRequest,
+  SaveUserDataViewSortOrderRequest,
+  DataViewFilterOptionsRequest,
+  SaveUserViewFiltersRequest,
+  ShareUserDataViewRequest,
+  SharedUserPermission, RemoveSharePermissionRequest
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -75,5 +85,13 @@ export class DataViewApiService {
 
   shareDataView(request: ShareUserDataViewRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/ShareDataView`, request);
+  }
+
+  getSharePermissions(dataViewId: number): Observable<SharedUserPermission[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetSharePermissions`, { params: { dataViewId: dataViewId }});
+  }
+
+  removeSharePermission(request: RemoveSharePermissionRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/RemoveSharePermission`, request);
   }
 }
