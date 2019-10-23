@@ -35,7 +35,7 @@
             [primaryKey]="primaryKey"
             [columnTemplates]="columnTemplates"
             [isCompact]="isSplitView"
-            [allowSplitView]="!!splitViewTemplate"
+            [allowSplitView]="!!splitViewTemplate && !(displayFilterPanel$ | async)"
             (rowSelected)="isSplitView = true">
           </pf-grid>
         </div>
@@ -46,7 +46,7 @@
           [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter}">
         </ng-container>
       </div>
-      <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container pl-3">
+      <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3">
         <pf-filter-panel
           [selectedColumns]="(dataFields$ | async)"
           [filters]="(filters$ | async)"

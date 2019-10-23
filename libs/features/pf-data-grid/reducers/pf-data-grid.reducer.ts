@@ -20,11 +20,16 @@ export interface DataGridStoreState {
     grids: { [key: string]: DataGridState };
 }
 
-const initialState: DataGridStoreState = {
+const INITIAL_STATE: DataGridStoreState = {
     grids: {}
 };
 
-export function reducer(state = initialState, action: fromPfGridActions.DataGridActions): DataGridStoreState {
+export const DEFAULT_PAGING_OPTIONS: PagingOptions = {
+  From: 0,
+  Count: 20
+};
+
+export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
     switch (action.type) {
         case fromPfGridActions.LOAD_VIEW_CONFIG:
             return {
@@ -35,10 +40,7 @@ export function reducer(state = initialState, action: fromPfGridActions.DataGrid
                         ...state.grids[action.pageViewId],
                         pageViewId: action.pageViewId,
                         loading: true,
-                        pagingOptions: {
-                            From: 0,
-                            Count: 20
-                        },
+                        pagingOptions: DEFAULT_PAGING_OPTIONS,
                         filters: []
                     }
                 }

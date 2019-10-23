@@ -25,6 +25,11 @@ export class LoadViewConfigSuccess implements Action {
     constructor(public pageViewId: string, public payload: DataViewConfig) { }
 }
 
+export class UpdatePagingOptions implements Action {
+  readonly type = UPDATE_PAGING_OPTIONS;
+  constructor(public pageViewId: string, public pagingOptions: PagingOptions) { }
+}
+
 export class LoadData implements Action {
     readonly type = LOAD_DATA;
     constructor(public pageViewId: string) { }
@@ -43,16 +48,6 @@ export class UpdateFields implements Action {
 export class UpdateFieldsSuccess implements Action {
     readonly type = UPDATE_FIELDS_SUCCESS;
     constructor(public pageViewId: string) { }
-}
-
-export class UpdatePagingOptions implements Action {
-    readonly type = UPDATE_PAGING_OPTIONS;
-    constructor(public pageViewId: string, public pagingOptions: PagingOptions) { }
-}
-
-export class HandleApiError implements Action {
-    readonly type = HANDLE_API_ERROR;
-    constructor(public pageViewId: string, public payload: string) { }
 }
 
 export class UpdateFilter implements Action {
@@ -80,9 +75,15 @@ export class SetFilterPanelDisplay implements Action {
   constructor(public pageViewId: string, public displayValue: boolean) {}
 }
 
+export class HandleApiError implements Action {
+  readonly type = HANDLE_API_ERROR;
+  constructor(public pageViewId: string, public payload: string) { }
+}
+
 export type DataGridActions =
     | LoadViewConfig
     | LoadViewConfigSuccess
+    | UpdatePagingOptions
     | LoadData
     | LoadDataSuccess
     | UpdateFields
@@ -92,5 +93,4 @@ export type DataGridActions =
     | ClearAllFilters
     | ToggleFilterPanel
     | SetFilterPanelDisplay
-    | UpdatePagingOptions
     | HandleApiError;

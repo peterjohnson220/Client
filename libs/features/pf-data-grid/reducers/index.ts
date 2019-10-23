@@ -29,6 +29,9 @@ export const selectFeatureState =
 export const selectPfDataGridState =
   createSelector(selectFeatureState, (state: LibsPfDataGridState) => state.grids);
 
+// Grid constants
+export const DEFAULT_PAGING_OPTIONS = fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS;
+
 // Grid selectors
 export const getState = createSelector(selectPfDataGridState, fromPfDataGridReducer.getState);
 export const getGrid = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGrid);

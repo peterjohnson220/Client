@@ -110,8 +110,11 @@ export class PfDataGridEffects {
     filterChanges$: Observable<Action> = this.actions$
         .pipe(
             ofType(fromPfDataGridActions.UPDATE_FILTER, fromPfDataGridActions.CLEAR_FILTER, fromPfDataGridActions.CLEAR_ALL_FILTERS),
-            map((action: any) => {
-                return new fromPfDataGridActions.LoadData(action.pageViewId);
+            mergeMap((action: any) => {
+                return [
+                    new fromPfDataGridActions.UpdatePagingOptions(action.pageViewId, fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS),
+                    new fromPfDataGridActions.LoadData(action.pageViewId)
+                ];
             })
         );
 
