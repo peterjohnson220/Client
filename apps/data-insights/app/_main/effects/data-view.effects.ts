@@ -250,6 +250,15 @@ export class DataViewEffects {
     );
 
   @Effect()
+  getShareableUsersSuccess$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.GET_SHAREABLE_USERS_SUCCESS),
+      map(() =>
+        new fromDataViewActions.GetSharePermissions()
+      )
+    );
+
+  @Effect()
   saveSharePermissions$ = this.action$
     .pipe(
       ofType(fromDataViewActions.SAVE_SHARE_PERMISSIONS),
@@ -269,7 +278,7 @@ export class DataViewEffects {
           })
         })
           .pipe(
-            map(() => new fromDataViewActions.SaveSharePermissionsSuccess()),
+            map(() => new fromDataViewActions.SaveSharePermissionsSuccess(data.action.payload)),
             catchError(() => of(new fromDataViewActions.SaveSharePermissionsError()))
           );
       })

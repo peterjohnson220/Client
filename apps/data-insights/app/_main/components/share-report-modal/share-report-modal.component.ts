@@ -4,8 +4,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { SharedUserPermission } from 'libs/models/payfactors-api';
-
 import { SharedDataViewUser } from '../../models';
 
 @Component({
@@ -15,7 +13,7 @@ import { SharedDataViewUser } from '../../models';
 })
 export class ShareReportModalComponent implements OnChanges {
   @Input() users: SharedDataViewUser[];
-  @Input() sharedUserPermissions: SharedUserPermission[];
+  @Input() sharedUserPermissions: SharedDataViewUser[];
   @Input() loadingPermissions: boolean;
   @Output() shareClicked = new EventEmitter<SharedDataViewUser[]>();
   @Output() userRemoved = new EventEmitter<SharedDataViewUser>();
@@ -71,23 +69,8 @@ export class ShareReportModalComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.users || changes.sharedUserPermissions) {
       this.selectableUsers = this.getSelectableUsers();
-      this.existingUsers = this.getExistingSharedUsers();
+      this.existingUsers = cloneDeep(this.sharedUserPermissions);
     }
-  }
-
-  private getExistingSharedUsers(): SharedDataViewUser[] {
-    const existingUsers = [];
-    const that = this;
-    this.sharedUserPermissions.forEach(function(user) {
-      const matchingUser = that.users.find(x => x.UserId === user.UserId);
-      if (!!matchingUser) {
-        existingUsers.push({
-          ...matchingUser,
-          CanEdit: user.CanEdit
-        });
-      }
-    });
-    return existingUsers;
   }
 
   private getSelectableUsers(): SharedDataViewUser[] {

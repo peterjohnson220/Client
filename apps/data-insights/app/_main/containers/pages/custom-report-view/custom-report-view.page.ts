@@ -7,7 +7,6 @@ import { Observable, Subscription } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { AppNotification } from 'libs/features/app-notifications/models';
-import { SharedUserPermission } from 'libs/models/payfactors-api';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
@@ -39,7 +38,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   getNotification$: Observable<AppNotification<any>[]>;
   getEventId$: Observable<number>;
   shareableUsers$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
-  sharedUserPermissions$: Observable<AsyncStateObj<SharedUserPermission[]>>;
+  sharedUserPermissions$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
 
   editReportSuccessSubscription: Subscription;
   duplicateReportSuccessSubscription: Subscription;
@@ -47,6 +46,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   getNotificationSubscription: Subscription;
   getEventIdSubscription: Subscription;
   shareableUsersSubscription: Subscription;
+  sharedUserPermissionsLoadedSubscription: Subscription;
 
   workbookModes = SaveWorkbookMode;
   editWorkbookData: SaveUserWorkbookModalData;
@@ -54,6 +54,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   eventIdState = null;
   dataViewAccessLevel: DataViewAccessLevel;
   shareableUsersLoaded: boolean;
+  sharedUserPermissionsLoaded: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -138,6 +139,9 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.shareableUsersSubscription = this.shareableUsers$.subscribe(u => {
       this.shareableUsersLoaded = u.obj && u.obj.length > 0;
     });
+    this.sharedUserPermissionsLoadedSubscription = this.store.pipe(select(fromDataInsightsMainReducer.getSharedUserPermissionsLoaded)).subscribe(loaded => {
+      this.sharedUserPermissionsLoaded = loaded;
+    });
   }
 
   handleEditClicked(): void {
@@ -180,8 +184,9 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     }
     if (!this.shareableUsersLoaded) {
       this.store.dispatch(new fromDataViewActions.GetShareableUsers());
+    } else if (!this.sharedUserPermissionsLoaded) {
+      this.store.dispatch(new fromDataViewActions.GetSharePermissions());
     }
-    this.store.dispatch(new fromDataViewActions.GetSharePermissions());
     this.shareReportModalComponent.open();
   }
 

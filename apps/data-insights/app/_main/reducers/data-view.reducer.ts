@@ -1,7 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { SharedUserPermission } from 'libs/models/payfactors-api';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
 import { Entity, UserDataView, SharedDataViewUser } from '../models';
@@ -25,7 +24,8 @@ export interface State {
   exportingUserReport: boolean;
   exportEventId: number;
   shareableUsersAsync: AsyncStateObj<SharedDataViewUser[]>;
-  sharedUserPermissionsAsync: AsyncStateObj<SharedUserPermission[]>;
+  sharedUserPermissionsAsync: AsyncStateObj<SharedDataViewUser[]>;
+  sharedUserPermissionsLoaded: boolean;
 }
 
 const initialState: State = {
@@ -47,7 +47,8 @@ const initialState: State = {
   exportingUserReport: false,
   exportEventId : null,
   shareableUsersAsync: generateDefaultAsyncStateObj<SharedDataViewUser[]>([]),
-  sharedUserPermissionsAsync: generateDefaultAsyncStateObj<SharedUserPermission[]>([])
+  sharedUserPermissionsAsync: generateDefaultAsyncStateObj<SharedDataViewUser[]>([]),
+  sharedUserPermissionsLoaded: false
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -120,7 +121,8 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       asyncStateObjClone.loadingError = false;
       return {
         ...state,
-        userDataViewAsync: asyncStateObjClone
+        userDataViewAsync: asyncStateObjClone,
+        sharedUserPermissionsLoaded: false
       };
     }
     case fromDataViewActions.GET_USER_DATA_VIEW_SUCCESS: {
@@ -308,6 +310,27 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
     }
     case fromDataViewActions.GET_SHARE_PERMISSIONS_SUCCESS: {
       const asyncStateObjClone = cloneDeep(state.sharedUserPermissionsAsync);
+      const sharedUsers = [];
+      action.payload.forEach(function(user) {
+        const matchingUser = state.shareableUsersAsync.obj.find(x => x.UserId === user.UserId);
+        if (!!matchingUser) {
+          sharedUsers.push({
+            ...matchingUser,
+            CanEdit: user.CanEdit
+          });
+        }
+      });
+
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.obj = sharedUsers;
+      return {
+        ...state,
+        sharedUserPermissionsAsync: asyncStateObjClone,
+        sharedUserPermissionsLoaded: true
+      };
+    }
+    case fromDataViewActions.SAVE_SHARE_PERMISSIONS_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.sharedUserPermissionsAsync);
 
       asyncStateObjClone.loading = false;
       asyncStateObjClone.obj = action.payload;
@@ -358,3 +381,4 @@ export const getExportingUserReport = (state: State) => state.exportingUserRepor
 export const getExportEventId = (state: State) => state.exportEventId;
 export const getShareableUsersAsync = (state: State) => state.shareableUsersAsync;
 export const getSharedUserPermissionsAsync = (state: State) => state.sharedUserPermissionsAsync;
+export const getSharedUserPermissionsLoaded = (state: State) => state.sharedUserPermissionsLoaded;
