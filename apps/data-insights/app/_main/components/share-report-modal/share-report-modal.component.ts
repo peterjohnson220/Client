@@ -42,8 +42,8 @@ export class ShareReportModalComponent implements OnChanges {
 
   share(): void {
     this.shareClicked.emit(this.selectedUsers.concat(this.existingUsers));
-    this.resetChanges();
-    this.close();
+    this.selectedUsers = [];
+    this.modalService.dismissAll();
   }
 
   trackByFn(index: any, userPermission: SharedDataViewUser) {
@@ -64,6 +64,7 @@ export class ShareReportModalComponent implements OnChanges {
 
   private resetChanges() {
     this.selectedUsers = [];
+    this.existingUsers = cloneDeep(this.sharedUserPermissions);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
