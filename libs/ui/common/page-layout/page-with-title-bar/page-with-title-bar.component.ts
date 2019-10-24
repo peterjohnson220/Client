@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./page-with-title-bar.component.scss']
 })
 export class PageWithTitleBarComponent {
+  @Input() isFullHeader = true;
   @Input() returnUrl: string;
   @Input() absoluteUrl: string;
   @Input() contentNoPadding: boolean;

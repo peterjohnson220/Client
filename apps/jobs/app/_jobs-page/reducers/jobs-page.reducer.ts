@@ -1,18 +1,15 @@
-import { CompanyDto } from 'libs/models/company';
-
-import * as fromJobsPageActions from '../actions/jobs-page.actions';
+import * as fromJobsPageActions from '../actions';
 
 export interface State {
-  company: CompanyDto;
-  companyLoading: boolean;
-  companyLoadingError: boolean;
-  // TODO: Expand with collection of company jobs etc.
+  company: string;
+  loading: boolean;
+  loadingError: boolean;
 }
 
 export const initialState: State = {
-  company: null,
-  companyLoading: false,
-  companyLoadingError: false
+  company: '',
+  loading: false,
+  loadingError: false
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -20,23 +17,23 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.LOAD_COMPANY: {
       return {
         ...state,
-        companyLoading: true,
-        companyLoadingError: false
+        loading: true,
+        loadingError: false
       };
     }
     case fromJobsPageActions.LOAD_COMPANY_SUCCESS: {
       return {
         ...state,
         company: action.payload,
-        companyLoading: false,
-        companyLoadingError: false
+        loading: false,
+        loadingError: false
       };
     }
-    case fromJobsPageActions.LOAD_COMPANY_ERROR: {
+    case fromJobsPageActions.HANDLE_API_ERROR: {
       return {
         ...state,
-        companyLoading: false,
-        companyLoadingError: true
+        loading: false,
+        loadingError: true
       };
     }
     default: {
@@ -46,12 +43,6 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 }
 
 export const getCompany = (state: State) => state.company;
-export const getCompanyLoading = (state: State) => state.companyLoading;
-export const getCompanyLoadingError = (state: State) => state.companyLoadingError;
-
-
-
-
-
-
+export const getloading = (state: State) => state.loading;
+export const getloadingError = (state: State) => state.loadingError;
 

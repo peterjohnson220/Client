@@ -1,0 +1,60 @@
+<pf-async-container [loading]="loading$ | async">
+  <kendo-grid
+    [data]="data$ | async"
+    [pageSize]="pageSize$ | async"
+    [skip]="skip$ | async"
+    [pageable]="getPagingBarConfig()"
+    [scrollable]="isCompact ? 'none' : 'scrollable'"
+    [resizable]="isCompact ? false : true"    
+    [rowClass]="selectedRowClass"
+    (pageChange)="onPageChange($event)"
+    (cellClick)="onCellClick($event)">
+    <ng-container *ngFor="let col of (dataFields$ | async)">
+      <ng-container *ngIf="col.Group">
+          <kendo-grid-column-group 
+            [title]="col.Group"
+            [headerClass]="'pf-data-grid-header'"
+            [locked]="false">
+              <ng-container *ngFor="let col of col.Fields">
+                  <ng-container *ngIf="showColumn(col)">
+                      <kendo-grid-column 
+                        [field]="mappedFieldName(col)"
+                        [title]="col.DisplayName"
+                        [headerClass]="'pf-data-grid-header'"
+                        [style]="{'text-align': col.TextAlign}"
+                        [width]="isCompact ? null : col.Width"
+                        [minResizableWidth]="30">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <pf-grid-column
+                            [columnTemplates]='columnTemplates'
+                            [dataItem]='dataItem'
+                            [field]= 'col'
+                            [fieldName]='mappedFieldName(col)'>
+                          </pf-grid-column>
+                        </ng-template>
+                      </kendo-grid-column>
+                    </ng-container>
+              </ng-container>
+          </kendo-grid-column-group>
+      </ng-container> 
+      <ng-container *ngIf="showColumn(col)">
+        <kendo-grid-column 
+          [field]="mappedFieldName(col)"
+          [title]="col.DisplayName"
+          [headerClass]="'pf-data-grid-header'"
+          [style]="{'text-align': col.TextAlign}"
+          [width]="isCompact ? null : col.Width"
+          [minResizableWidth]="30">
+          <ng-template kendoGridCellTemplate let-dataItem>
+              <pf-grid-column
+                [columnTemplates]='columnTemplates'
+                [dataItem]='dataItem'
+                [field]= 'col'
+                [fieldName]='mappedFieldName(col)'>
+              </pf-grid-column>
+          </ng-template>
+        </kendo-grid-column>
+      </ng-container>
+    </ng-container>
+  </kendo-grid>
+</pf-async-container>

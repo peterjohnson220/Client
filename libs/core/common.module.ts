@@ -8,9 +8,10 @@ import { DebounceClickDirective, DisableFormControlDirective } from './directive
 import {
   HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
   NewLinePipe, JobDescriptionParserPipe, WrapSubtextWithTag, DataTypeFilterPipe,
-  OrderByPipe, FilterArrayByName, GetFileExtensionCssClassPipe, StripHtmlPipe
+  OrderByPipe, FilterArrayByName, GetFileExtensionCssClassPipe, StripHtmlPipe, CompPipe
 } from './pipes';
 import { DragulaHelperService } from './services';
+import { DecimalPipe } from '@angular/common';
 
 const declarations = [
   // Directives
@@ -29,11 +30,13 @@ const declarations = [
   OrderByPipe,
   FilterArrayByName,
   GetFileExtensionCssClassPipe,
-  StripHtmlPipe
+  StripHtmlPipe,
+  CompPipe
 ];
 
 const providers = [
-  DragulaHelperService
+  DragulaHelperService,
+  DecimalPipe
 ];
 
 @NgModule({

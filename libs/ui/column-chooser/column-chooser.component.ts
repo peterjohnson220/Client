@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild } from '@angular/core';
-
-import { PfGridColumnModel } from 'libs/models/common';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import * as cloneDeep from 'lodash.clonedeep';
+import { ViewField } from 'libs/models/payfactors-api';
 
 @Component({
   selector: 'pf-column-chooser',
@@ -9,18 +9,31 @@ import { PfGridColumnModel } from 'libs/models/common';
   encapsulation: ViewEncapsulation.None
 })
 
-export class ColumnChooserComponent {
-  @Input() ListAreaColumns: PfGridColumnModel[];
+export class ColumnChooserComponent implements OnChanges {
+  @Input() dataFields: ViewField[];
 
   @Output() saveColumns = new EventEmitter();
+
+  listAreaColumns = [];
 
   @ViewChild('p', { static: true }) public p: any;
 
   public filter: any;
   public loading: any;
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['dataFields']) {
+      this.listAreaColumns = cloneDeep(changes['dataFields'].currentValue);
+    }
+  }
+
   saveButtonClicked() {
-    this.saveColumns.emit(this.ListAreaColumns);
+    this.saveColumns.emit(this.listAreaColumns);
     this.p.close();
+  }
+
+  onHidden() {
+    this.filter = '';
+    this.listAreaColumns = cloneDeep(this.dataFields);
   }
 }
