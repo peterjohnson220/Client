@@ -20,24 +20,30 @@
     </div>
     
     <div class="d-flex h-100">
-      <div class="main-grid-container" [ngClass]="isSplitView ? 'main-grid-container-compact' : 'main-grid-container'">
-        <div *ngIf="(filters$ | async).length" class="filter-pills-container pl-3" [ngClass]="{'pr-3': !(displayFilterPanel$ | async)}">
-          <pf-data-grid-filter-pills
-            [listAreaColumns]="(dataFields$ | async)"
-            [filters]="(filters$ | async)"
-            (clearFilter)="clearFilter($event)"
-            (clearAllFilters)="clearAllFilters()">
-          </pf-data-grid-filter-pills>
-        </div>
-        <div class="grid-container" [ngClass]="{'grid-container-with-pills': (filters$ | async).length}">
-          <pf-grid 
-            [pageViewId]="pageViewId"
-            [primaryKey]="primaryKey"
-            [columnTemplates]="columnTemplates"
-            [isCompact]="isSplitView"
-            [allowSplitView]="!!splitViewTemplate && !(displayFilterPanel$ | async)"
-            (rowSelected)="isSplitView = true">
-          </pf-grid>
+      <div [ngClass]="isSplitView ? 'main-grid-container-compact' : 'full-size-wrapper'">
+        <div class="flex-column-container">
+          <div *ngIf="(filters$ | async).length" class="filter-pills-container pt-2 pl-3" [ngClass]="{'pr-3': !(displayFilterPanel$ | async)}">
+            <pf-data-grid-filter-pills
+              [listAreaColumns]="(dataFields$ | async)"
+              [filters]="(filters$ | async)"
+              (clearFilter)="clearFilter($event)"
+              (clearAllFilters)="clearAllFilters()">
+            </pf-data-grid-filter-pills>
+          </div>
+          <div class="d-flex h-100">
+            <div class="full-size-wrapper">
+              <div class="grid-container" [ngClass]="{'grid-container-with-pills': (filters$ | async).length}">
+                <pf-grid 
+                  [pageViewId]="pageViewId"
+                  [primaryKey]="primaryKey"
+                  [columnTemplates]="columnTemplates"
+                  [isCompact]="isSplitView"
+                  [allowSplitView]="!!splitViewTemplate && !(displayFilterPanel$ | async)"
+                  (rowSelected)="isSplitView = true">
+                </pf-grid>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div *ngIf="isSplitView" class="sub-grid-container">
