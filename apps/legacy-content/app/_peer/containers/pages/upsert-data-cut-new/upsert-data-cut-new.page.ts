@@ -93,7 +93,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   }
 
   upsert() {
-    this.store.dispatch(new fromUpsertDataCutPageActions.UpsertDataCut({
+    this.store.dispatch(new fromUpsertDataCutPageActions.UpsertDataCutNew({
       DataCutGuid: this.cutGuid,
       CompanyJobId: this.companyJobId,
       CompanyPayMarketId: this.companyPayMarketId,
@@ -116,7 +116,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
     this.setQueryParamMembers();
     this.setSubscriptions();
 
- this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
+    this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
       {
         CompanyJobId: this.companyJobId,
         UserSessionId: this.userSessionId
