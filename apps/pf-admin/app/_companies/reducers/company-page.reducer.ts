@@ -528,6 +528,11 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         jobPricingLimitInfo: action.payload
       };
     }
+    case fromCompanyPageActions.RESET: {
+      return {
+        ...initialState
+      };
+    }
     default: {
       return state;
     }

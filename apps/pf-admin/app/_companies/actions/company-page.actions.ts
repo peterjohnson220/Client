@@ -34,6 +34,7 @@ export const CHECK_JDM_ENABLED = '[Pf-Admin/Company Page] Check JDM Enabled';
 export const LOAD_FORM_DATA = '[Pf-Admin/Company Page] Load Form Data';
 export const GET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Get Job Pricing Limit Info';
 export const SET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Set Job Pricing Limit Info';
+export const RESET = '[Pf-Admin/Company Page] Reset';
 
 // Tabs
 export const GET_COMPANY_TILES = '[Pf-Admin/Company Page] Get Company Tiles';
@@ -445,6 +446,12 @@ export class DisablePeerAndAnalysisTiles implements Action {
   constructor() {}
 }
 
+export class Reset implements Action {
+  readonly type = RESET;
+
+  constructor() {}
+}
+
 export type Actions
   = GetSystemUserGroups
   | GetSystemUserGroupsSuccess
@@ -506,5 +513,6 @@ export type Actions
   | LoadFormData
   | GetJobPricingLimitInfo
   | SetJobPricingLimitInfo
-  | DisablePeerAndAnalysisTiles;
+  | DisablePeerAndAnalysisTiles
+  | Reset;
 

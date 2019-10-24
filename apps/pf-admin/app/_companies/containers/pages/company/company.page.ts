@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
@@ -56,7 +56,8 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromPfAdminMainReducer.State>,
-    private router: ActivatedRoute
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
     this.savingCompany$ = this.store.select(fromPfAdminMainReducer.getSavingCompany);
@@ -71,7 +72,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.companyId = this.router.snapshot.params.companyId || -1;
+    this.companyId = this.route.snapshot.params.companyId || -1;
     this.jdmEnabled = false;
     this.isEditMode = (this.companyId !== -1);
     this.userContextSubscription = this.userContext$.subscribe(uc => this.initAddCompanyPageData(uc));
@@ -169,5 +170,10 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     this.companyTagsModalComponent.open();
+  }
+
+  handleCancelClicked() {
+    this.router.navigate(['/companies']);
+    this.store.dispatch(new fromCompanyPageActions.Reset());
   }
 }
