@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserContextGuard } from 'libs/security';
+import { UserContextGuard, PfAdminGuard } from 'libs/security';
 import { NotFoundErrorPageComponent, AccessDeniedPageComponent } from 'libs/ui/common/error/pages';
 import { AppWrapperComponent } from 'libs/features/app-root';
 
@@ -9,9 +9,8 @@ export const routes: Routes = [
   {
     path: '',
     component: AppWrapperComponent,
-    canActivate: [UserContextGuard],
+    canActivate: [UserContextGuard, PfAdminGuard],
     children: [
-      { path: '', redirectTo: 'peer', pathMatch: 'full' },
       { path: 'peer', loadChildren: () => import('apps/admin/app/_peer/peer-admin.module').then(m => m.PeerAdminModule) },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       {
@@ -38,6 +37,10 @@ export const routes: Routes = [
         path: 'survey-library', loadChildren: () => import('apps/admin/app/_survey-library/survey-library.module')
           .then(m => m.SurveyLibraryModule)
       },
+      {
+        path: 'survey-udf-manager', loadChildren: () => import('apps/admin/app/_survey-udf-manager/survey-udf-manager.module')
+          .then(m => m.SurveyUdfManagerModule)
+      },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }
@@ -48,7 +51,3 @@ export const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
-
-
-
