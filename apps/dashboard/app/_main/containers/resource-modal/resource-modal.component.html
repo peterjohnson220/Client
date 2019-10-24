@@ -9,6 +9,10 @@
     <ng-container form-content class="form-group">
       <label class="col-form-label" for="resourceName">Resource Name*</label>
       <input id="resourceName" type="text" class="form-control" formControlName="resourceName" [maxLength]="50" required>
+      <ng-container *ngIf="resourceForm.controls['resourceName'].invalid && resourceForm.controls['resourceName'].dirty || 
+      resourceForm.controls['resourceName'].invalid && isFormSubmitted">
+        <label class="alert alert-danger">Please enter a title for this resource.</label>
+      </ng-container>
       <label class="col-form-label" for="folderName">Select Folder</label>
       <kendo-combobox class="form-control" id="folderName" formControlName="folderName" 
         [data]="folderResources"
@@ -20,7 +24,10 @@
       <hr/>
       <ng-container *ngIf="!isFileSelected">
         <label class="col-form-label" for="url-name">Add URL or File*</label>
-        <input id="url-name" type="text" class="form-control" formControlName="urlName" placeholder="i.e., www.youtube.com"> 
+        <input id="url-name" type="text" class="form-control" formControlName="urlName" placeholder="i.e., www.youtube.com">
+        <ng-container *ngIf="resourceForm.controls['urlName'].invalid && resourceForm.controls['urlName'].dirty">
+          <label class="alert alert-danger">Please enter a valid URL for this resource.</label>
+        </ng-container>
         <p class="mb-2 mt-1">or</p>
       </ng-container>
       <kendo-upload #uploadFile
@@ -45,17 +52,13 @@
           >
         </kendo-upload-messages>
       </kendo-upload>
-      <div class="alert-container">
-          <ng-container *ngIf="(resourceForm.controls['resourceName'].invalid && resourceForm.controls['resourceName'].dirty) ||
-          (resourceForm.controls['urlName'].invalid && resourceForm.controls['urlName'].dirty) && 
-          (resourceForm.controls['resourceName'].touched && resourceForm.controls['urlName'].touched)">
-            <label class="alert alert-danger">{{invalidFormMessage()}}</label>
-          </ng-container>
-      </div>
+      <ng-container *ngIf="resourceForm.controls['resourceName'].valid && resourceForm.controls['urlName'].pristine && resourceForm.controls['kendoUpload'].pristine && isFormSubmitted">
+        <label class="alert alert-danger">Please provide a URL or file for this resource.</label>
+      </ng-container>
     </ng-container>
   </div>
   <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="activeModal.close()">Cancel</button>
-      <button type="submit" [disabled]="!resourceForm.valid" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary">Save</button>
   </div>
 </form>
