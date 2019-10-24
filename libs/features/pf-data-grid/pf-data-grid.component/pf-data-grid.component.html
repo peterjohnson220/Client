@@ -38,9 +38,8 @@
                   [primaryKey]="primaryKey"
                   [columnTemplates]="columnTemplates"
                   [isCompact]="isSplitView"
+                  (rowSelected)="onRowSelect()"></pf-grid>
                   [allowSplitView]="!!splitViewTemplate && !(displayFilterPanel$ | async)"
-                  (rowSelected)="isSplitView = true">
-                </pf-grid>
               </div>
             </div>
           </div>
