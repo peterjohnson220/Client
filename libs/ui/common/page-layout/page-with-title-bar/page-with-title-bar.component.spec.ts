@@ -56,15 +56,6 @@ describe('Page With Title Bar', () => {
   });
 
 
-  it('should show the back button, when provided an locationBack parameter', () => {
-
-    instance.locationBack = true;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should show no back button when no URL is provided', () => {
 
     fixture.detectChanges();

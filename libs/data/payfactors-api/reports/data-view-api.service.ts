@@ -16,7 +16,7 @@ import {
   DataViewFilterOptionsRequest,
   SaveUserViewFiltersRequest,
   ShareUserDataViewRequest,
-  SharedUserPermission, RemoveSharePermissionRequest
+  SharedUserPermission, RemoveSharePermissionRequest, SaveDataViewRequest,
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -47,11 +47,11 @@ export class DataViewApiService {
   }
 
   getUserDataView(dataViewId: number): Observable<UserDataViewResponse> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewInfo`, { params: { dataViewId: dataViewId }});
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewInfo`, { params: { dataViewId: dataViewId } });
   }
 
   exportUserDataView(dataViewId: number): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, { DataViewId : dataViewId });
+    return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, { DataViewId: dataViewId });
   }
 
   getExportingDataView(dataViewId: number): Observable<any> {
@@ -59,8 +59,7 @@ export class DataViewApiService {
   }
 
   getUserDataViewFields(dataViewId: number): Observable<DataViewField[]> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewFields`,
-      { params: { dataViewId: dataViewId }});
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewFields`, { params: { dataViewId: dataViewId } });
   }
 
   getData(request: DataViewDataRequest): Observable<any[]> {

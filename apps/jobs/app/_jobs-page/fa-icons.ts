@@ -1,8 +1,6 @@
-import { faDownload } from '@fortawesome/pro-solid-svg-icons/faDownload';
-import { faTable } from '@fortawesome/pro-solid-svg-icons/faTable';
-import { faSlidersH } from '@fortawesome/pro-solid-svg-icons/faSlidersH';
+import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes';
 
 export const faIcons = [
-  faDownload, faTable, faSlidersH
+  faTimes
 ];
 
