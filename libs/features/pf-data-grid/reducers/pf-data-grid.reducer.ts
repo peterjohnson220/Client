@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import * as fromPfGridActions from '../actions';
-import { ViewField, DataViewFilter } from 'libs/models/payfactors-api';
+import { ViewField, PagingOptions, DataViewFilter } from 'libs/models/payfactors-api';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult } from '@progress/kendo-data-query';
 
@@ -12,21 +12,24 @@ export interface DataGridState {
     groupedFields: any[];
     filters: DataViewFilter[];
     filterPanelOpen: boolean;
-    data: any[];
-    pageSize: number;
-    skip: number;
-    total: number;
+    data: GridDataResult;
+    pagingOptions: PagingOptions;
 }
 
 export interface DataGridStoreState {
     grids: { [key: string]: DataGridState };
 }
 
-const initialState: DataGridStoreState = {
+const INITIAL_STATE: DataGridStoreState = {
     grids: {}
 };
 
-export function reducer(state = initialState, action: fromPfGridActions.DataGridActions): DataGridStoreState {
+export const DEFAULT_PAGING_OPTIONS: PagingOptions = {
+  From: 0,
+  Count: 20
+};
+
+export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
     switch (action.type) {
         case fromPfGridActions.LOAD_VIEW_CONFIG:
             return {
@@ -37,9 +40,7 @@ export function reducer(state = initialState, action: fromPfGridActions.DataGrid
                         ...state.grids[action.pageViewId],
                         pageViewId: action.pageViewId,
                         loading: true,
-                        pageSize: 15,
-                        skip: 0,
-                        total: 1500,
+                        pagingOptions: DEFAULT_PAGING_OPTIONS,
                         filters: []
                     }
                 }
@@ -76,8 +77,11 @@ export function reducer(state = initialState, action: fromPfGridActions.DataGrid
                     ...state.grids,
                     [action.pageViewId]: {
                         ...state.grids[action.pageViewId],
-                        data: action.payload,
-                        loading: false
+                        data: {
+                            data: action.payload.Data,
+                            total: action.payload.TotalCount
+                        },
+                        loading: false,
                     }
                 }
             };
@@ -93,37 +97,16 @@ export function reducer(state = initialState, action: fromPfGridActions.DataGrid
                     }
                 }
             };
-        case fromPfGridActions.UPDATE_TOTAL_COUNT:
+        case fromPfGridActions.UPDATE_PAGING_OPTIONS:
             return {
                 ...state,
                 grids: {
                     ...state.grids,
                     [action.pageViewId]: {
                         ...state.grids[action.pageViewId],
-                        total: action.totalCount,
-                    }
-                }
-            };
-        case fromPfGridActions.UPDATE_PAGE_SIZE:
-            return {
-                ...state,
-                grids: {
-                    ...state.grids,
-                    [action.pageViewId]: {
-                        ...state.grids[action.pageViewId],
-                        pageSize: action.pageSize,
-                    }
-                }
-            };
-        case fromPfGridActions.UPDATE_SKIP:
-            return {
-                ...state,
-                grids: {
-                    ...state.grids,
-                    [action.pageViewId]: {
-                        ...state.grids[action.pageViewId],
-                        skip: action.skip,
-                    }
+                        pagingOptions: action.pagingOptions,
+                        loading: true
+                    },
                 }
             };
         case fromPfGridActions.HANDLE_API_ERROR:
@@ -217,11 +200,8 @@ export const getGroupedFields = (state: DataGridStoreState, pageViewId: string) 
 export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) => {
     return state.grids[pageViewId] && state.grids[pageViewId].fields ? state.grids[pageViewId].fields.filter(f => f.IsGlobalFilter) : null;
 };
-export const getPageSize = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pageSize : null;
-export const getSkip = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].skip : null;
-export const getTotal = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].total : null;
+export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pagingOptions : null;
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
-export const getGridData = (state: DataGridStoreState, pageViewId: string) => buildGridData(state, pageViewId);
 export const getFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filters;
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
 
@@ -239,19 +219,6 @@ export function buildGroupedFilters(fields: ViewField[]): any[] {
     orderedGroups.forEach(function (group) {
         result.push(group);
     });
-    result.sort(c => c.Order);
+    result.sort((a, b) => (a.Order > b.Order) ? 1 : -1);
     return result;
 }
-
-export function buildGridData(state: DataGridStoreState, pageViewId: string): GridDataResult {
-
-    if (state.grids[pageViewId] && state.grids[pageViewId].data) {
-        const gridState = <DataGridState>state.grids[pageViewId];
-        return {
-            data: gridState.data.slice(gridState.skip, gridState.skip + gridState.pageSize),
-            total: gridState.total
-        };
-    }
-    return null;
-}
-

@@ -1,59 +1,65 @@
-<pf-page-with-title-bar  class="wrapper" [isFullHeader]="showTitle" [absoluteUrl]="navigationURL">
+<pf-page-with-title-bar  [isFullHeader]="showTitle" [absoluteUrl]="navigationURL" [contentNoPadding]="contentNoPadding">
   <ng-container  page-title *ngIf="showTitle">
     {{title | titlecase}}
   </ng-container>
   <ng-container page-actions>
-    <pf-action-bar [pageViewId]="pageViewId" class="flex-fill"
-                   [showColumnChooser]="showColumnChooser"
-                   [showFilterChooser]="showFilterChooser"
-                   [allowExport]="allowExport"
-                   [globalFilterAlignment]="showTitle?'Right':'Left'"
-                   [globalActionsTemplate]="gridGlobalActionsTemplate"
-                   [disableActionButtons]="isSplitView"
-                   (onFilterSidebarToggle)="toggleFilterPanel()"
-    ></pf-action-bar>
+    <pf-action-bar 
+      [pageViewId]="pageViewId" class="flex-fill"
+      [showColumnChooser]="showColumnChooser"
+      [showFilterChooser]="showFilterChooser"
+      [allowExport]="allowExport"
+      [globalFilterAlignment]="showTitle?'Right':'Left'"
+      [globalActionsTemplate]="gridGlobalActionsTemplate"
+      [disableActionButtons]="isSplitView"
+      (onFilterSidebarToggle)="toggleFilterPanel()">
+    </pf-action-bar>
   </ng-container>
   <ng-container page-content>
-    <div class="col-12 full-height" [class.column-sidebar-open]="displayFilterPanel$ | async">
-      <div class="d-flex h-100">
-        <div class="grid-and-filter-container">
-          <div *ngIf="(filters$ | async).length" class="filter-pills-container" [class.background-light-grey]="displayFilterPanel$ | async">
+    <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end pb-3">
+      <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
+    </div>
+    
+    <div class="d-flex h-100">
+      <div [ngClass]="isSplitView ? 'main-grid-container-compact' : 'full-size-wrapper'">
+        <div class="flex-column-container">
+          <div *ngIf="(filters$ | async).length" class="filter-pills-container pt-2 pl-3" [ngClass]="{'pr-3': !(displayFilterPanel$ | async)}">
             <pf-data-grid-filter-pills
               [listAreaColumns]="(dataFields$ | async)"
               [filters]="(filters$ | async)"
               (clearFilter)="clearFilter($event)"
-              (clearAllFilters)="clearAllFilters()"
-            ></pf-data-grid-filter-pills>
+              (clearAllFilters)="clearAllFilters()">
+            </pf-data-grid-filter-pills>
           </div>
-
-          <div class="grid-container" [class.shift-grid-down]="(filters$ | async).length">
-            <div class="row no-gutters h-100">
-              <div [ngClass]="isSplitView ? 'col-3' : 'col-12'">
-                <pf-grid
+          <div class="d-flex h-100">
+            <div class="full-size-wrapper">
+              <div class="grid-container" [ngClass]="{'grid-container-with-pills': (filters$ | async).length}">
+                <pf-grid 
                   [pageViewId]="pageViewId"
                   [primaryKey]="primaryKey"
                   [columnTemplates]="columnTemplates"
                   [isCompact]="isSplitView"
-                  [allowSplitView]="!!splitViewTemplate"
-                  (rowSelected)="onRowSelect()"></pf-grid>
-              </div>
-              <div *ngIf="isSplitView" class="col-9 pl-3">
-                <ng-container [ngTemplateOutlet]="splitViewTemplate" [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter}">
-                </ng-container>
+                  (rowSelected)="onRowSelect()"
+                  [allowSplitView]="!!splitViewTemplate && !(displayFilterPanel$ | async)">
+                </pf-grid>
               </div>
             </div>
           </div>
         </div>
-
-        <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container">
-          <pf-filter-panel
-            [selectedColumns]="(dataFields$ | async)"
-            [filters]="(filters$ | async)"
-            (close)="closeFilterPanel()"
-            (filterChanged)="handleFilterChanged($event)"
-            (filterCleared)="clearFilter($event)"
-          ></pf-filter-panel>
-        </div>
+      </div>
+      <div *ngIf="isSplitView" class="sub-grid-container">
+        <ng-container
+          [ngTemplateOutlet]="splitViewTemplate"
+          [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter}">
+        </ng-container>
+      </div>
+      <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3">
+        <pf-filter-panel
+          [selectedColumns]="(dataFields$ | async)"
+          [filters]="(filters$ | async)"
+          (close)="closeFilterPanel()"
+          (filterChanged)="handleFilterChanged($event)"
+          (filterCleared)="clearFilter($event)">
+        </pf-filter-panel>
       </div>
     </div>
   </ng-container>

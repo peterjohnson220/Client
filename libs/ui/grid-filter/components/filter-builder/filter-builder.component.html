@@ -9,10 +9,8 @@
           [valuePrimitive]="true"
           [ngModel]="filter.Operator"
           (valueChange)="handleFilterOperatorChanged($event)"
-          [style.width]="'100%'"
           [attr.data-qa-id]="'ddm-operator-'+filter.SourceName"
-          class="k-dropdown-white"
-        >
+          class="k-dropdown-white form-control">
         </kendo-dropdownlist>
       </div>
       <div class="col-6">
@@ -20,9 +18,7 @@
          [ngModel]="filter.Value"
          [disabled]="disableValue"
          (ngModelChange)="handleFilterValueChanged($event)"
-         [style.width]="'100%'"
-         [attr.data-qa-id]="'txt-value-'+filter.SourceName"
-        />
+         [attr.data-qa-id]="'txt-value-'+filter.SourceName"/>
       </div>
     </div>
   </ng-template>
@@ -35,18 +31,17 @@
           [valueField]="'value'"
           [valuePrimitive]="true"
           [ngModel]="filter.Operator"
-          [style.width]="'100%'"
           (valueChange)="handleFilterOperatorChanged($event)"
           [attr.data-qa-id]="'ddm-operator-'+filter.SourceName"
-          class="k-dropdown-white">
+          class="k-dropdown-white form-control">
         </kendo-dropdownlist>
       </div>
       <div class="col-6">
-        <kendo-datepicker [value]="filter.Value"
-                          [disabled]="disableValue"
-                          [style.width]="'100%'"
-                          (valueChange)="handleFilterValueChanged($event)"
-                          [attr.data-qa-id]="'txt-value-'+filter.SourceName">
+        <kendo-datepicker 
+          [value]="filter.Value"
+          [disabled]="disableValue"
+          (valueChange)="handleFilterValueChanged($event)"
+          [attr.data-qa-id]="'txt-value-'+filter.SourceName">
         </kendo-datepicker>
       </div>
     </div>
@@ -60,10 +55,9 @@
           [valueField]="'value'"
           [valuePrimitive]="true"
           [ngModel]="filter.Operator"
-          [style.width]="'100%'"
           (valueChange)="handleFilterOperatorChanged($event)"
           [attr.data-qa-id]="'ddm-operator-'+filter.SourceName"
-          class="k-dropdown-white">
+          class="k-dropdown-white form-control">
         </kendo-dropdownlist>
       </div>
       <div class="col-6">
@@ -73,7 +67,6 @@
           [decimals]="0"
           [min]="1"
           [disabled]="disableValue"
-          [style.width]="'100%'"
           (valueChange)="handleFilterValueChanged($event)"
           [attr.data-qa-id]="'txt-value-'+filter.SourceName">
         </kendo-numerictextbox>

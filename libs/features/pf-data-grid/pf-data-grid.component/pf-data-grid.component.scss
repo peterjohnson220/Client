@@ -1,67 +1,36 @@
 @import 'kendo-grid';
 @import 'colors';
 
-:host ::ng-deep .modal-dialog {
-  max-width: 600px;
-}
-
-.grid-and-filter-container{
+.full-size-wrapper {
   position: relative;
   width: 100%;
+  height: 100%;
 }
 
-.grid-and-filter-container > .filter-pills-container{
+.main-grid-container-compact {
+  position: relative;
+  flex: 0 0 500px;
+}
+
+.grid-container {
   position: absolute;
   top: 0px;
   right: 0px;
   left: 0px;
   bottom: 0px;
-  height: 40px;
-  padding-bottom: .5rem;
 }
 
-.grid-and-filter-container > .grid-container{
+.sub-grid-container {
   position: relative;
-  top: 0px;
-  right: 0px;
-  left: 0px;
-  bottom: 0px;
-}
-
-.sidebar-filter-container{
-  min-width: 400px;
-  margin-left: 1rem;
-  background: $data-grid-filter-panel-background-color;
-}
-
-.grid-and-filter-container > .grid-container.shift-grid-down{
-  top: 40px;
-}
-
-.background-light-grey{
-  background: $data-grid-filter-panel-background-color;
-}
-
-.column-sidebar-open{
-  background: $data-grid-filter-panel-background-color;
-  margin-top: -10px;
-  padding-top: 10px;
-}
-
-.full-height {
   height: 100%;
+  width: 100%;
 }
 
-.input-group{
-  width:100%;
-  min-width: 100%;
+.sidebar-filter-container {
+  position: relative;
+  flex: 0 0 450px;  
 }
 
-.input-group-append{
-  width: 36px !important;
-  cursor: pointer;
-}
-
-#search-box {
-  min-width: 570px;
+input[type=text]::-ms-clear{
+  display: none;
 }
