@@ -48,12 +48,12 @@ export class CompanyResourceListComponent implements OnInit, OnDestroy {
     this.deleteFolderSuccessSubscription.unsubscribe();
   }
 
-  onFolderSelect(folderId: string) {
-    this.folderStates[folderId] = !this.folderStates[folderId];
+  onFolderSelect(folderName: string) {
+    this.folderStates[folderName] = !this.folderStates[folderName];
   }
 
-  setFolderIcon(folderId: string) {
-    return this.folderStates[folderId] ? 'folder' : 'folder-open';
+  setFolderIcon(folderName: string) {
+    return this.folderStates[folderName] ? 'folder' : 'folder-open';
   }
 
   setResourceIcon(resource: CompanyResource) {
@@ -64,8 +64,8 @@ export class CompanyResourceListComponent implements OnInit, OnDestroy {
     return resource.ResourceType === RESOURCE_TYPE.link ? 'link' : 'download';
   }
 
-  setFontWeight(folderId: string) {
-    return this.folderStates[folderId] ? 'normal' : 'bold';
+  setFontWeight(folderName: string) {
+    return this.folderStates[folderName] ? 'normal' : 'bold';
   }
 
   isLink(resource: CompanyResource): boolean {
