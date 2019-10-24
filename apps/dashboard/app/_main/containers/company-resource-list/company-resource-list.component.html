@@ -1,13 +1,13 @@
 <div class="list-container">
     <ng-container *ngIf="folderResources">
-        <ul class="fa-ul" *ngFor="let folderResource of folderResources; index as i">
-            <li class="folder-item" [ngStyle]="{'font-weight': setFontWeight('folder' + i)}">
-                <div class="folder-text" (click)="onFolderSelect('folder' + i)">
-                    <span class="fa-li"><fa-icon icon="{{setFolderIcon('folder' + i)}}"></fa-icon></span>{{folderResource.FolderName}}
+        <ul class="fa-ul" *ngFor="let folderResource of folderResources">
+            <li class="folder-item" [ngStyle]="{'font-weight': setFontWeight(folderResource.FolderName)}">
+                <div class="folder-text" (click)="onFolderSelect(folderResource.FolderName)">
+                    <span class="fa-li"><fa-icon icon="{{setFolderIcon(folderResource.FolderName)}}"></fa-icon></span>{{folderResource.FolderName}}
                 </div>
                 <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(folderResource)">Delete</button>
             </li>
-            <ul [hidden]="folderStates['folder' + i]" class="resource-list">
+            <ul [hidden]="folderStates[folderResource.FolderName]" class="resource-list">
                 <ng-container *ngIf="folderResource.CompanyResources && folderResource.CompanyResources.length > 0; then resourceItem else emptyResourceItem"></ng-container>
                 <ng-template #resourceItem>
                     <li class="resource-item" *ngFor="let resource of folderResource.CompanyResources">
