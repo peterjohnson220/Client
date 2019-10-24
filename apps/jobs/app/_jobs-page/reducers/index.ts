@@ -34,9 +34,9 @@ export const getCompany = createSelector(
 );
 
 export const getCompanyLoading = createSelector(
-  selectJobsPageState, fromJobsPageReducer.getCompanyLoading
+  selectJobsPageState, fromJobsPageReducer.getloading
 );
 
 export const getCompanyLoadingError = createSelector(
-  selectJobsPageState, fromJobsPageReducer.getCompanyLoadingError
+  selectJobsPageState, fromJobsPageReducer.getloadingError
 );

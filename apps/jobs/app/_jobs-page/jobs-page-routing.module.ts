@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthorizationGuard } from 'libs/security/guards';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
-import { JobsPageComponent } from './containers';
+import { JobsPageComponent } from './jobs.page/jobs.page';
 
 const routes: Routes = [
   {

@@ -1,0 +1,48 @@
+<pf-data-grid
+  [pageViewId]="'86870F9F-C148-4626-92DE-C2B73B6E0D35'"
+  [showTitle]="false"
+  [showColumnChooser] ="false"
+  [showFilterChooser] ="false"
+  [allowExport]="false"
+  [primaryKey]="'CompanyJobs_Pricings_CompanyJobPricing_ID'"
+  [columnTemplates]="colTemplates">
+</pf-data-grid>
+
+<ng-template #payMarketColumn let-dataRow="dataRow">
+  <ng-container>
+    <b>{{dataRow['CompanyPayMarkets_PayMarket']}}</b>
+    <br>
+    <small>
+      <em class="text-muted">        
+        Industry: {{dataRow['CompanyPayMarkets_Industry_Value'] || 'N/A' }}
+        &#8226;
+        Size: {{dataRow['CompanyPayMarkets_Size_Value'] || 'N/A'}}
+        {{dataRow['CompanyPayMarkets_Size_Label'] ? ' - ' + dataRow['CompanyPayMarkets_Size_Label'] : ''}}
+        &#8226;
+        Location: {{dataRow['CompanyPayMarkets_Geo_Value'] || 'N/A'}}
+      </em>
+    </small>
+  </ng-container>
+</ng-template>
+
+<ng-template #baseMrpColumn let-dataRow="dataRow">
+  <ng-container>
+    <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp"></span>
+    <small *ngIf="dataRow['CompanyJobs_Pricings_BaseMRP']">
+      <em class="text-muted">                
+        ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
+      </em>
+    </small>
+  </ng-container>
+</ng-template>
+
+<ng-template #baseTccColumn let-dataRow="dataRow">
+  <ng-container>
+    <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp"></span>
+    <small *ngIf="dataRow['CompanyJobs_Pricings_TCCMRP']">
+      <em class="text-muted">                
+        ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
+      </em>
+    </small>
+  </ng-container>
+</ng-template>

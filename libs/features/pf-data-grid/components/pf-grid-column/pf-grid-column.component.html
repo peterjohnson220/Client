@@ -1,0 +1,13 @@
+<ng-container *ngIf="getColumnType(field) === 'dateTime'">
+  {{dataItem[fieldName] | date: 'MM/dd/yyyy'}}
+</ng-container>
+<ng-container *ngIf="getColumnType(field) === 'currency'">
+  <span [innerHTML]="dataItem[fieldName] | comp"></span>
+</ng-container>
+<ng-container *ngIf="getColumnType(field) === 'template'"
+  [ngTemplateOutlet]="columnTemplates[field.SourceName]"
+  [ngTemplateOutletContext]="{dataRow:dataItem}">
+</ng-container>
+<ng-container *ngIf="getColumnType(field) === 'default'">
+  {{dataItem[fieldName]}}
+</ng-container>

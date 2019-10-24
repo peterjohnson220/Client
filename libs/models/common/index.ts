@@ -17,4 +17,3 @@ export * from './feature-area.const';
 export * from './status.enum';
 export * from './control-type.model';
 export * from './control-type-attribute.model';
-export * from './pf-grid';

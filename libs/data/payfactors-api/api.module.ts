@@ -36,7 +36,6 @@ import { StructuresApiService, StructuresRangeGroupApiService } from './structur
 import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService } from './hris-api';
-import { PfGridApiService } from './pf-grid/pf-grid-api.service';
 import { SurveyLibraryApiService } from './survey-library';
 
 @NgModule({
@@ -97,8 +96,7 @@ import { SurveyLibraryApiService } from './survey-library';
     TransferMethodsHrisApiService,
     ProvidersHrisApiService,
     AuthenticationTypesHrisApiService,
-    ConnectionsHrisApiService,
-    PfGridApiService
+    ConnectionsHrisApiService
   ]
 })
 export class PfApiModule { }
