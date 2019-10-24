@@ -13,7 +13,7 @@
       (click)="handleSaveClicked(companyPageTabs.customCompanySettings)"
       class="btn btn-primary">{{(savingCompany$ | async) ? 'Saving' : 'Save'}}
     </button>
-    <button [disabled]="savingCompany$ | async" routerLink="/companies" class="btn btn-secondary" type="submit">Cancel</button>
+    <button [disabled]="savingCompany$ | async" (click)="handleCancelClicked()" class="btn btn-secondary">Cancel</button>
   </ng-container>
 
   <ng-container page-content>

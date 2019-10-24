@@ -252,13 +252,14 @@ export class CompanyPageEffects {
     )
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   navigateToCompanies$ = this.actions$
   .pipe(
     ofType(fromCompanyPageActions.PUT_SETTINGS_SUCCESS),
     tap(() => {
       this.router.navigate(['companies']);
-    })
+    }),
+    map(() => new fromCompanyPageActions.Reset())
   );
 
   @Effect()
