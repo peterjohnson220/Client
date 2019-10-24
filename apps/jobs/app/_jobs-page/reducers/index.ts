@@ -32,3 +32,4 @@ export const selectJobsPageState =
 export const getCompany = createSelector(selectJobsPageState, fromJobsPageReducer.getCompany);
 export const getCompanyLoading = createSelector(selectJobsPageState, fromJobsPageReducer.getloading);
 export const getCompanyLoadingError = createSelector(selectJobsPageState, fromJobsPageReducer.getloadingError);
+export const getToProjectButtonState = createSelector(selectJobsPageState, fromJobsPageReducer.getToProjectButtonState);
