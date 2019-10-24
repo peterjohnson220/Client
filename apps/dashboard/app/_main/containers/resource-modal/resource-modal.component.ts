@@ -37,7 +37,8 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
   folderResources: CompanyResourceFolder[];
   fileToUpload: FileInfo;
   isFileSelected: boolean;
-  isSubmitDisabled: boolean;
+  isFormSubmitted = false;
+  isUrlProvided = false;
   resourceForm: FormGroup;
   uploadedFileData: UploadedFile;
 
@@ -99,7 +100,6 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
   uploadEventHandler(e: UploadEvent) {
     const file = e.files[0];
     this.fileToUpload = file;
-    this.isSubmitDisabled = false;
     this.isFileSelected = true;
   }
 
@@ -120,35 +120,27 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
     this.fileToUpload = undefined;
   }
 
-  invalidFormMessage(): string {
-    if ( (this.resourceForm.controls['resourceName'].dirty && this.resourceForm.controls['resourceName'].invalid) ) {
-      return 'Please enter a title for this resource.';
-    } else if ((this.resourceForm.controls['urlName'].dirty && this.resourceForm.controls['urlName'].invalid) && this.resourceForm.controls['urlName'].value) {
-      return 'Please enter a valid URL for this resource.';
-    } else {
-      this.resourceForm.setErrors(null);
-    }
-  }
-
   onFormSubmit() {
     if (this.resourceForm.valid) {
       this.store.dispatch(new fromCompanyResourcesActions.AddingCompanyResource(this.createResource()));
+    } else {
+      this.isFormSubmitted = true;
     }
   }
 
   private createForm() {
     this.resourceForm = this.formBuilder.group({
-      'resourceName': ['', {validators: [Validators.required, Validators.maxLength(50), this.validateName], updateOn: 'blur'}],
-      'folderName': ['', {validators: [Validators.maxLength(50), this.validateName]}],
-      'urlName': ['', {validators: [this.validateUrl], updateOn: 'blur'}],
-      'kendoUpload': ['']
+      'resourceName': [undefined, {validators: [Validators.required, Validators.maxLength(50), this.validateName]}],
+      'folderName': [undefined, {validators: [Validators.maxLength(50), this.validateName]}],
+      'urlName': [undefined, {validators: [this.validateUrl], updateOn: 'blur'}],
+      'kendoUpload': [undefined]
     }, {
       validator: (formControl) => {
         const urlName = formControl.controls['urlName'];
         const kendoUpload = formControl.controls['kendoUpload'];
 
         if (urlName !== undefined && kendoUpload !== undefined) {
-          if ( !((urlName.value && urlName.value.length) || (kendoUpload.value && kendoUpload.value.length )) ) {
+          if ( !((urlName.value && urlName.value.length > 0) || (kendoUpload.value && kendoUpload.value.length )) ) {
             return {invalidUrlOrFile: true};
           }
         }
@@ -182,6 +174,6 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
   }
 
   private isHttpHttpsOrFtp(url: string): string {
-    return /^(http[s]?|ftp){0,1}$|^$/i.test(url) ? url : `https://${url}`;
+    return /^(http[s]?|ftp)|^$/i.test(url) ? url : `https://${url}`;
   }
 }
