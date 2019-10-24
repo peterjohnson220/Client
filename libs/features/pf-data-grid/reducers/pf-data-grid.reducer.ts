@@ -53,7 +53,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
                     [action.pageViewId]: {
                         ...state.grids[action.pageViewId],
                         fields: action.payload.Fields,
-                        groupedFields: buildGroupedFilters(action.payload.Fields),
+                        groupedFields: buildGroupedFields(action.payload.Fields),
                         baseEntityId: action.payload.EntityId,
                         loading: false
                     }
@@ -93,7 +93,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
                     [action.pageViewId]: {
                         ...state.grids[action.pageViewId],
                         fields: action.fields,
-                        groupedFields: buildGroupedFilters(action.fields),
+                        groupedFields: buildGroupedFields(action.fields),
                     }
                 }
             };
@@ -205,7 +205,7 @@ export const getData = (state: DataGridStoreState, pageViewId: string) => state.
 export const getFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filters;
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
 
-export function buildGroupedFilters(fields: ViewField[]): any[] {
+export function buildGroupedFields(fields: ViewField[]): any[] {
     const groups = groupBy(fields, [{ field: 'Group' }]);
     const orderedGroups = (groups as Array<GroupResult>)
         .filter(g => g.value)
@@ -219,6 +219,6 @@ export function buildGroupedFilters(fields: ViewField[]): any[] {
     orderedGroups.forEach(function (group) {
         result.push(group);
     });
-    result.sort((a, b) => (a.Order > b.Order) ? 1 : -1);
+    result.sort((a, b) => (a.Order >= b.Order) ? 1 : -1);
     return result;
 }
