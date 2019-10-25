@@ -219,6 +219,14 @@ export function buildGroupedFields(fields: ViewField[]): any[] {
     orderedGroups.forEach(function (group) {
         result.push(group);
     });
-    result.sort((a, b) => (a.Order >= b.Order) ? 1 : -1);
+    result.sort((a, b) => {
+      if (a.Order > b.Order) {
+        return 1;
+      } else if (b.Order > a.Order) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
     return result;
 }
