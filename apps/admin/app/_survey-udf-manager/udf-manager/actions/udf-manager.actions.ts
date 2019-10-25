@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { Action } from '@ngrx/store';
 import { Company } from 'libs/models/company';
 import { UdfDataResponse } from 'libs/models/payfactors-api/survey/response/udf-data-response.model';
@@ -80,6 +82,8 @@ export class SaveSurveyUdfsSuccess implements Action {
 
 export class SaveSurveyUdfsError implements Action {
   readonly type = SAVE_SURVEY_UDFS_ERROR;
+
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export type UdfManagerActions

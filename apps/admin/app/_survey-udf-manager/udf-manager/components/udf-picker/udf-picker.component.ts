@@ -18,6 +18,8 @@ export class UdfPickerComponent implements OnChanges {
   @Input() isLoading: boolean;
   @Input() isLoadingError: boolean;
   @Input() maxUdfs: number;
+  @Input() savingUdfsError: boolean;
+  @Input() savingUdfsErrorMessage: string;
 
   @Output() onSave = new EventEmitter<UdfSettingsRequestModel[]>();
 

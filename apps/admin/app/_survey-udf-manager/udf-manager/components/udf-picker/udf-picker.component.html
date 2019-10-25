@@ -41,6 +41,7 @@
             [title]="!this.udfs.valid || udfs.length <= 0 ? 'Enter a Percent(ile) and Pay Element for all available fields' : ''">
             Submit
           </button>
+          <span *ngIf="savingUdfsError" class="ml-3 save-error-message">{{savingUdfsErrorMessage}}</span>
         </div>
       </div>
     </form>

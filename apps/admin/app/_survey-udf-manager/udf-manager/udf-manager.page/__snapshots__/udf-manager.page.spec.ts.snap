@@ -11,6 +11,8 @@ exports[`UdfManagerPageComponent hide the udf picker when no company is selected
   savedUdfSettings$={[Function Store]}
   savedUdfSettingsLoading$={[Function Store]}
   savedUdfSettingsLoadingError$={[Function Store]}
+  savingUdfsError$={[Function Store]}
+  savingUdfsErrorMessage$={[Function Store]}
   selectedCompany="null"
   selectedCompany$={[Function Observable]}
   selectedCompanySubscription={[Function Subscriber]}
@@ -50,6 +52,8 @@ exports[`UdfManagerPageComponent show one company searcher when a company is sel
   savedUdfSettings$={[Function Store]}
   savedUdfSettingsLoading$={[Function Store]}
   savedUdfSettingsLoadingError$={[Function Store]}
+  savingUdfsError$={[Function Store]}
+  savingUdfsErrorMessage$={[Function Store]}
   selectedCompany="null"
   selectedCompany$={[Function Observable]}
   selectedCompanySubscription={[Function Subscriber]}
@@ -94,6 +98,8 @@ exports[`UdfManagerPageComponent show one company searcher when no company is se
   savedUdfSettings$={[Function Store]}
   savedUdfSettingsLoading$={[Function Store]}
   savedUdfSettingsLoadingError$={[Function Store]}
+  savingUdfsError$={[Function Store]}
+  savingUdfsErrorMessage$={[Function Store]}
   selectedCompany="null"
   selectedCompany$={[Function Observable]}
   selectedCompanySubscription={[Function Subscriber]}
@@ -133,6 +139,8 @@ exports[`UdfManagerPageComponent show the udf picker when a company is selected 
   savedUdfSettings$={[Function Store]}
   savedUdfSettingsLoading$={[Function Store]}
   savedUdfSettingsLoadingError$={[Function Store]}
+  savingUdfsError$={[Function Store]}
+  savingUdfsErrorMessage$={[Function Store]}
   selectedCompany="null"
   selectedCompany$={[Function Observable]}
   selectedCompanySubscription={[Function Subscriber]}

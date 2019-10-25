@@ -30,6 +30,8 @@ export class UdfManagerPageComponent implements OnDestroy, OnInit {
   savedUdfSettingsLoading$: Observable<boolean>;
   savedUdfSettingsLoadingError$: Observable<boolean>;
   payElements$: Observable<PayElement[]>;
+  savingUdfsError$: Observable<boolean>;
+  savingUdfsErrorMessage$: Observable<string>;
 
   selectedCompanySubscription: Subscription;
   constructor(private store: Store<fromUdfManagerReducer.State>) { }
@@ -45,6 +47,8 @@ export class UdfManagerPageComponent implements OnDestroy, OnInit {
     this.savedUdfSettingsLoading$ = this.store.select(fromUdfManagerReducer.getUdfSettingsLoading);
     this.savedUdfSettingsLoadingError$ = this.store.select(fromUdfManagerReducer.getUdfSettingsLoadingError);
     this.payElements$ = this.store.select(fromUdfManagerReducer.getPayElements);
+    this.savingUdfsError$ = this.store.select(fromUdfManagerReducer.getSavingUdfsError);
+    this.savingUdfsErrorMessage$ = this.store.select(fromUdfManagerReducer.getSavingUdfsErrorMessage);
 
     // Subscriptions
     this.selectedCompanySubscription = this.store.select(fromUdfManagerReducer.getSelectedCompany).subscribe(

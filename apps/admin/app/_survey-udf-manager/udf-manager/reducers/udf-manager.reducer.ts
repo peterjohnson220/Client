@@ -14,6 +14,8 @@ export interface State {
   loadingUdfsError: boolean;
   confirmSave: boolean;
   savingUdfs: boolean;
+  savingUdfsError: boolean;
+  savingUdfsErrorMessage: string;
 }
 
 const initialState: State = {
@@ -26,7 +28,9 @@ const initialState: State = {
   loadingUdfs: false,
   loadingUdfsError: false,
   confirmSave: false,
-  savingUdfs: false
+  savingUdfs: false,
+  savingUdfsError: false,
+  savingUdfsErrorMessage: ''
 };
 
 export function reducer(state = initialState, action: fromUdfManagerActions.UdfManagerActions): State {
@@ -91,7 +95,9 @@ export function reducer(state = initialState, action: fromUdfManagerActions.UdfM
       return {
         ...state,
         savingUdfs: true,
-        confirmSave: false
+        savingUdfsError: false,
+        savingUdfsErrorMessage: '',
+        confirmSave: false,
       };
     case fromUdfManagerActions.SAVE_SURVEY_UDFS_SUCCESS:
       return {
@@ -101,7 +107,9 @@ export function reducer(state = initialState, action: fromUdfManagerActions.UdfM
     case fromUdfManagerActions.SAVE_SURVEY_UDFS_ERROR:
       return {
         ...state,
-        savingUdfs: false
+        savingUdfs: false,
+        savingUdfsError: true,
+        savingUdfsErrorMessage: action.payload.error
       };
       default:
         return state;
@@ -121,3 +129,6 @@ export const getCompaniesLoadingError = (state: State) => state.loadingCompanies
 export const getCompaniesList = (state: State) => state.companiesList;
 
 export const getPayElements = (state: State) => state.payElements;
+
+export const getSavingUdfsError = (state: State) => state.savingUdfsError;
+export const getSavingUdfsErrorMessage = (state: State) => state.savingUdfsErrorMessage;
