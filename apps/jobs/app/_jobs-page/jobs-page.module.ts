@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -35,6 +36,7 @@ import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridCompone
       JobsPageEffects,
     ]),
     FontAwesomeModule,
+    NgbTabsetModule,
 
     // Routing
     JobsPageRoutingModule,
@@ -55,7 +57,7 @@ import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridCompone
     PricingDetailsGridComponent
   ]
 })
-export class JobsPageModule { 
+export class JobsPageModule {
   constructor() {
     library.add(...fromFaIcons.faIcons);
   }

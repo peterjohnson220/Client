@@ -12,6 +12,7 @@ export class FilterChooserComponent {
   @Input() deleting: boolean;
   @Input() disabled = false;
   @Output() onFilterSidebarToggle = new EventEmitter();
+  @Output() savedFiltersOpen = new EventEmitter();
 
   @ViewChild('p', { static: true }) public p: any;
 

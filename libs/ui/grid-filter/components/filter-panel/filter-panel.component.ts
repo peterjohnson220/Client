@@ -37,6 +37,10 @@ export class FilterPanelComponent implements OnChanges {
     this.close.emit();
   }
 
+  saveFilter() {
+    this.saveFilterClicked.emit();
+  }
+
   handleFilterChange(event: DataViewFilter) {
     if ((event.Value && event.Value.length) || this.valueCanBeEmpty(event)) {
       this.filterChanged.emit(event);

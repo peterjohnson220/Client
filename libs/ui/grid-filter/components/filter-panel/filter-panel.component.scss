@@ -1,33 +1,30 @@
 @import 'colors';
 
+.close-btn {
+  cursor: pointer; 
+}
+
+.close-btn:hover {
+  opacity: 0.5;
+}
+
 .sidebar-container{
-  position: relative;
-  height: 100%;
   background: $data-grid-filter-panel-background-color;
 }
 
 .sidebar-header{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 .5rem;
-  position: absolute;
   top: 0px;
   left: 0px;
   right: 0px;
   height: 40px;
   border-bottom: 2px solid #eceeef;
   background: $data-grid-filter-panel-background-color;
-  font-weight: bold;
 }
 
 .sidebar-content{
-  position: absolute;
-  padding: 1rem 0 0 .5rem;
   top: 40px;
   left: 0px;
   right: 0px;
   bottom: 0px;
-  overflow-y:auto;
   overflow-x: hidden;
 }

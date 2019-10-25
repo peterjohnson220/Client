@@ -1,10 +1,10 @@
 <pf-async-container [loading]="loading$ | async">
   <kendo-grid
     [data]="data$ | async"
-    [pageSize]="pageSize$ | async"
-    [skip]="skip$ | async"
-    [pageable]="getPagingBarConfig()"
-    [scrollable]="isCompact ? 'none' : 'scrollable'"
+    [pageSize]="(pagingOptions$ | async)?.Count"
+    [skip]="(pagingOptions$ | async)?.From"
+    [pageable]="getPagingBarConfig(gridState$ | async)"
+    [scrollable]="true"
     [resizable]="isCompact ? false : true"    
     [rowClass]="selectedRowClass"
     (pageChange)="onPageChange($event)"

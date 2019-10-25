@@ -3,7 +3,7 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import { JdmListFilter } from 'libs/models/user-profile';
+import { DataViewFilter } from '../../../../../models/payfactors-api';
 
 // import { CustomValidators } from '../../../../shared/validators/custom-validators.validator';
 
@@ -19,7 +19,7 @@ export class SaveFilterModalComponent implements OnInit {
   @Input() saving = false;
 
   @Input() errorSaving = false;
-  @Input() userFilters: JdmListFilter[] = [];
+  @Input() userFilters: DataViewFilter[] = [];
 
   public modalRef: NgbModalRef;
   public filterForm: FormGroup;

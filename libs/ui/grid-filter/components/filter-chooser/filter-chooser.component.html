@@ -20,7 +20,7 @@
   <button title="Filter" (click)="filterButtonClicked()" class="btn btn-secondary" [disabled]="disabled">
     <fa-icon icon="sliders-h"></fa-icon>
   </button>
-  <button title="Saved Filters" type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+  <button [disabled]="disabled" title="Saved Filters" type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
           placement="bottom-right"  #p="ngbPopover" popoverTitle="Saved Filters"
           [ngbPopover]="popContent" (hidden)="filter=''"

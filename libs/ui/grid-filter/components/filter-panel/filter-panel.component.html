@@ -1,14 +1,17 @@
-<div class="sidebar-container">
-  <div class="sidebar-header">
-    Filter
-    <div class="filter-buttons">
-      <button [disabled]="filters?.length < 1" (click)="saveFilter()" type="button" class="btn btn-secondary btn-sm" [attr.data-qa-id]="'save-filter-btn'">Save Filter</button>
-      <button title="Close Filter" (click)="closeSidebar()" type="button" class="btn btn-secondary btn-sm" [attr.data-qa-id]="'close-filter-panel-btn'">
-        <fa-icon icon="times"></fa-icon>
-      </button>
+<div class="sidebar-container h-100 position-relative">
+  <div class="sidebar-header position-absolute d-flex justify-content-between align-items-center p-3">
+    <strong>Filter</strong>
+    <div class="filter-buttons row">
+      <div class="pr-2">
+        <button [disabled]="filters?.length < 1" (click)="saveFilter()" type="button" class="btn btn-secondary btn-sm"
+                [attr.data-qa-id]="'save-filter-btn'">Save Filter</button>
+      </div>
+      <div (click)="closeSidebar()" class="close-btn pt-1" [attr.data-qa-id]="'close-filter-panel-btn'">
+        <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
+      </div>
     </div>
   </div>
-  <div class="sidebar-content">
+  <div class="sidebar-content position-absolute p-3">
     <div *ngFor="let listAreaColumn of selectedColumns; let i = index" class="form-group">
       <label>{{ listAreaColumn.DisplayName }}:</label>
       <pf-filter-builder
