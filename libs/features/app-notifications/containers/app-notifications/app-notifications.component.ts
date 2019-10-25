@@ -75,7 +75,7 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           that.retryCount++;
           that.startConnection(connection);
-        }, 5000);
+        }, 5000 * that.retryCount);
       });
     }
   }
