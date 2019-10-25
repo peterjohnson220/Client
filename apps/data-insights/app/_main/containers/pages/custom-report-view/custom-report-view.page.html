@@ -1,13 +1,13 @@
 <div *ngIf="(userDataView$ | async) as userDataViewAsync" class="custom-report-page">
-  <pf-async-container
-    [loading]="userDataViewAsync.loading"
-    [loadingError]="userDataViewAsync.loadingError"
-    [loadingErrorMessage]="loadingErrorMessage$ | async"
-    [hideReloadButton]="true">
-
     <pf-page-with-title-bar [returnUrl]="'/'">
       <ng-container page-title>{{userDataViewAsync?.obj?.Name}}</ng-container>
       <ng-container page-content>
+        <pf-async-container
+          [loading]="userDataViewAsync.loading"
+          [loadingError]="userDataViewAsync.loadingError"
+          [loadingErrorMessage]="loadingErrorMessage$ | async"
+          [hideReloadButton]="true">
+        </pf-async-container>
         <div class="d-flex flex-row actions">
           <button class="btn btn-secondary"
                   [disabled]="isReadOnly"
@@ -59,7 +59,6 @@
         </div>
       </ng-container>
     </pf-page-with-title-bar>
-  </pf-async-container>
 
   <pf-save-user-workbook-modal
     #editWorkbookModal
