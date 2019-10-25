@@ -59,7 +59,7 @@
       Existing User Access
     </div>
     <div class="share-user" *ngFor="let existingUser of existingUsers; trackBy: trackByFn">
-      <div class="share-user-name">
+      <div class="share-user-name" [title]="existingUser.FirstName + ' ' + existingUser.LastName">
         {{existingUser.FirstName}} {{existingUser.LastName}}
       </div>
       <div class="share-user-permission">

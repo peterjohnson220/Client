@@ -1,4 +1,5 @@
 @import 'data-insights-styles';
+@import 'common/common-variables';
 
 .share-user {
   margin: 0.8rem;
@@ -22,6 +23,7 @@
 
 .share-user-name {
   width: 65%;
+  @extend %ellipsis-overflowing-text;
 }
 
 .existing-permissions-title {
