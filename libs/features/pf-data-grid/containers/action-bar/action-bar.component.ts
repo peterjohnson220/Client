@@ -1,9 +1,10 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef} from '@angular/core';
-import { ViewField } from 'libs/models/payfactors-api';
+import { ViewField, DataViewConfig } from 'libs/models/payfactors-api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
+
 
 @Component({
   selector: 'pf-action-bar',
@@ -19,7 +20,9 @@ export class ActionBarComponent implements OnChanges {
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
   @Input() disableActionButtons = false;
+  @Input() savedViews: DataViewConfig[] = [];
   @Output() onFilterSidebarToggle = new EventEmitter();
+  @Output() savedFilterEmitter = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
   globalFilters$: Observable<ViewField[]>;
@@ -40,5 +43,13 @@ export class ActionBarComponent implements OnChanges {
 
   toggleFilterPanel() {
     this.onFilterSidebarToggle.emit();
+  }
+
+  savedFiltersClicked() {
+    this.store.dispatch(new fromActions.LoadSavedViews(this.pageViewId));
+  }
+
+  savedViewClicked(view: DataViewConfig) {
+    this.store.dispatch(new fromActions.LoadViewConfig(this.pageViewId, view.Name));
   }
 }

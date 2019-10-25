@@ -22,6 +22,7 @@ import { FilterPanelComponent } from './components/filter-panel';
 import { FilterChooserComponent } from './components/filter-chooser';
 import { FilterBuilderComponent } from './components/filter-builder';
 import { PfDataGridFilterPillsComponent } from './components/filter-pills/';
+import { PfDataGridSaveViewModalComponent } from './components/modals/save-view';
 
 @NgModule({
   imports: [
@@ -45,8 +46,8 @@ import { PfDataGridFilterPillsComponent } from './components/filter-pills/';
     PfFormsModule,
     PfCommonUIModule
   ],
-  declarations: [FilterPanelComponent, FilterChooserComponent, FilterBuilderComponent, PfDataGridFilterPillsComponent],
-  exports: [FilterPanelComponent, FilterChooserComponent, FilterBuilderComponent, PfDataGridFilterPillsComponent]
+  declarations: [FilterPanelComponent, FilterChooserComponent, FilterBuilderComponent, PfDataGridFilterPillsComponent, PfDataGridSaveViewModalComponent],
+  exports: [FilterPanelComponent, FilterChooserComponent, FilterBuilderComponent, PfDataGridFilterPillsComponent, PfDataGridSaveViewModalComponent]
 })
 export class PfGridFilterModule {
   constructor() {

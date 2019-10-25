@@ -1,8 +1,10 @@
 import { cloneDeep } from 'lodash';
+import { arraySortByString, SortDirection } from 'libs/core/functions';
 import * as fromPfGridActions from '../actions';
 import { ViewField, PagingOptions, DataViewFilter } from 'libs/models/payfactors-api';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult } from '@progress/kendo-data-query';
+import { DataViewConfig } from '../../../models/payfactors-api';
 
 export interface DataGridState {
     pageViewId: string;
@@ -12,6 +14,9 @@ export interface DataGridState {
     groupedFields: any[];
     filters: DataViewFilter[];
     filterPanelOpen: boolean;
+    saveViewModalOpen: boolean;
+    savedViews: DataViewConfig[];
+    viewIsSaving: boolean;
     data: GridDataResult;
     pagingOptions: PagingOptions;
 }
@@ -55,7 +60,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
                         fields: action.payload.Fields,
                         groupedFields: buildGroupedFields(action.payload.Fields),
                         baseEntityId: action.payload.EntityId,
-                        loading: false
+                        loading: false,
+                        filters: action.payload.Filters
                     }
                 }
             };
@@ -186,6 +192,67 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             }
           }
         }
+      case fromPfGridActions.LOAD_SAVED_VIEWS_SUCCESS:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              savedViews: action.payload
+            }
+          }
+        };
+      case fromPfGridActions.OPEN_SAVE_VIEW_MODAL:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              saveViewModalOpen: true
+            }
+          }
+        };
+
+      case fromPfGridActions.CLOSE_SAVE_VIEW_MODAL:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              saveViewModalOpen: false
+            }
+          }
+        };
+      case fromPfGridActions.SAVE_VIEW:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              viewIsSaving: true
+            }
+          }
+        };
+      case fromPfGridActions.SAVE_VIEW_SUCCESS:
+        console.log(action.payload);
+        const views = cloneDeep(state.grids[action.pageViewId].savedViews);
+        views.push(action.payload);
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              saveViewModalOpen: false,
+              viewIsSaving: false,
+              savedViews: views.sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
+            }
+          }
+        };
         default:
             return state;
     }
@@ -204,6 +271,9 @@ export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) 
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
 export const getFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filters;
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
+export const getSavedViews = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].savedViews;
+export const getSaveViewModalOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].saveViewModalOpen;
+export const getViewIsSaving = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsSaving;
 
 export function buildGroupedFields(fields: ViewField[]): any[] {
     const groups = groupBy(fields, [{ field: 'Group' }]);
@@ -219,6 +289,14 @@ export function buildGroupedFields(fields: ViewField[]): any[] {
     orderedGroups.forEach(function (group) {
         result.push(group);
     });
-    result.sort((a, b) => (a.Order >= b.Order) ? 1 : -1);
+    result.sort((a, b) => {
+      if (a.Order > b.Order) {
+        return 1;
+      } else if (b.Order > a.Order) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
     return result;
 }

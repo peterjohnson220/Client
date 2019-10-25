@@ -34,7 +34,7 @@ export class PfDataGridEffects {
             ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG),
             switchMap(
                 (action: fromPfDataGridActions.LoadViewConfig) =>
-                    this.dataViewApiService.getDataViewConfig(action.pageViewId).pipe(
+                    this.dataViewApiService.getDataViewConfig(action.pageViewId, action.name).pipe(
                         mergeMap((viewConfig: DataViewConfig) => {
                             return [
                                 new fromPfDataGridActions.LoadViewConfigSuccess(action.pageViewId, viewConfig),
@@ -79,7 +79,7 @@ export class PfDataGridEffects {
         );
 
     @Effect()
-    saveView$: Observable<Action> = this.actions$
+    updateFields$: Observable<Action> = this.actions$
         .pipe(
             ofType(fromPfDataGridActions.UPDATE_FIELDS),
             mergeMap((updateFieldsAction: fromPfDataGridActions.UpdateFields) =>
@@ -93,7 +93,7 @@ export class PfDataGridEffects {
             ),
             switchMap((data) =>
                 this.dataViewApiService.updateDataView(PfDataGridEffects
-                    .buildSaveDataViewRequest(data.action.pageViewId, data.baseEntityId, data.action.fields))
+                    .buildSaveDataViewRequest(data.action.pageViewId, data.baseEntityId, data.action.fields, [], null))
                     .pipe(
                         map((response: any[]) => {
                             return new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId);
@@ -106,25 +106,73 @@ export class PfDataGridEffects {
             )
         );
 
+  @Effect()
+  saveView$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromPfDataGridActions.SAVE_VIEW),
+      mergeMap((saveFilterAction: fromPfDataGridActions.SaveView) =>
+        of(saveFilterAction).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getBaseEntityId, saveFilterAction.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getFields, saveFilterAction.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getFilters, saveFilterAction.pageViewId)),
+            (action: fromPfDataGridActions.SaveView, baseEntityId, fields, filters) =>
+              ({ action, baseEntityId, fields, filters })
+          )
+        )
+      ),
+      switchMap((data) =>
+        this.dataViewApiService.updateDataView(PfDataGridEffects.buildSaveDataViewRequest(data.action.pageViewId, data.baseEntityId, data.fields,
+          data.filters, data.action.viewName))
+          .pipe(
+            map((response: any) => {
+              return new fromPfDataGridActions.SaveViewSuccess(data.action.pageViewId, response);
+            }),
+            catchError(error => {
+              const msg = 'We encountered an error while loading your data';
+              return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
+            })
+          )
+      )
+    );
+
+    @Effect()
+    loadSavedFilters$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(fromPfDataGridActions.LOAD_SAVED_VIEWS),
+        switchMap((action: fromPfDataGridActions.LoadSavedViews) =>
+          this.dataViewApiService.getViewsByUser(action.pageViewId).pipe(
+            map((response: DataViewConfig[]) => {
+              return new fromPfDataGridActions.LoadSavedViewsSuccess(action.pageViewId, response);
+            }),
+            catchError(error => {
+              const msg = 'We encountered an error while loading your data';
+              return of(new fromPfDataGridActions.HandleApiError(action.pageViewId, msg));
+            })
+          )
+        )
+      );
+
     @Effect()
     filterChanges$: Observable<Action> = this.actions$
         .pipe(
             ofType(fromPfDataGridActions.UPDATE_FILTER, fromPfDataGridActions.CLEAR_FILTER, fromPfDataGridActions.CLEAR_ALL_FILTERS),
             mergeMap((action: any) => {
                 return [
-                    new fromPfDataGridActions.UpdatePagingOptions(action.pageViewId, fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS),
-                    new fromPfDataGridActions.LoadData(action.pageViewId)
+                    new fromPfDataGridActions.UpdatePagingOptions(action.pageViewId, fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS)
                 ];
             })
         );
 
-    static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number, fields: ViewField[]): SaveDataViewRequest {
+    static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number, fields: ViewField[], filters: DataViewFilter[], name: string): SaveDataViewRequest {
         return <SaveDataViewRequest>{
             PageViewId: pageViewId,
             EntityId: baseEntityId,
             Elements: fields.
                 filter(e => e.IsSelected).
-                map(e => ({ ElementId: e.DataElementId }))
+                map(e => ({ ElementId: e.DataElementId })),
+            Filters: this.mapFiltersToDataViewFilters(fields, filters),
+            Name: name
         };
     }
 
@@ -155,6 +203,27 @@ export class PfDataGridEffects {
             };
         })
             : [];
+    }
+
+    static mapFiltersToDataViewFilters(fields: ViewField[], filters: DataViewFilter[]) {
+      return filters ? filters.map(f => {
+        return {
+          DataElementId: fields.find(field => field.SourceName === f.SourceName).DataElementId,
+          Operator: f.Operator,
+          Value: f.Value
+        };
+      }) : [];
+    }
+
+    static mapViewsToViewConfigs(views: any[]) {
+      return views ? views.map(v => {
+        return {
+          EntityId: v.EntityId,
+          Fields: v.Fields,
+          Filters: PfDataGridEffects.mapFiltersToDataViewFilters(v.Fields, v.Filters),
+          Name: v.Name
+        };
+      }) : [];
     }
 
 }

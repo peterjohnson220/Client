@@ -76,11 +76,15 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveFilters`, request);
   }
 
-  getDataViewConfig(pageViewId: string) {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: { pageViewId: pageViewId } });
+  getDataViewConfig(pageViewId: string, name: string) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: { pageViewId: pageViewId, viewName: name } });
   }
 
   updateDataView(request: SaveDataViewRequest) {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveView`, request);
+  }
+
+  getViewsByUser(pageViewId: string) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetViewsByUser`, { params: { pageViewId: pageViewId}});
   }
 }

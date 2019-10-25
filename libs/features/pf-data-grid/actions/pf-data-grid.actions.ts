@@ -14,10 +14,18 @@ export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
 export const CLEAR_ALL_FILTERS = '[PfDataGrid] Clear All Filters';
 export const TOGGLE_FILTER_PANEL = '[PfDataGrid] Toggle Filter Panel';
 export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
+export const LOAD_SAVED_VIEWS = '[PfDataGrid] Load Saved Filters';
+export const LOAD_SAVED_VIEWS_SUCCESS = '[PfDataGrid] Load Saved Filters Success';
+export const LOAD_SAVED_VIEWS_ERROR = '[PfDataGrid] Load Saved Filters Error';
+export const SAVE_VIEW = '[PfDataGrid] Save Filter';
+export const SAVE_VIEW_SUCCESS = '[PfDataGrid] Save Filter Success';
+export const SAVE_VIEW_ERROR = '[PfDataGrid] Save Filter Error';
+export const OPEN_SAVE_VIEW_MODAL = '[PfDataGrid] Open Save View Modal';
+export const CLOSE_SAVE_VIEW_MODAL = '[PfDataGrid] Close Save View Modal';
 
 export class LoadViewConfig implements Action {
     readonly type = LOAD_VIEW_CONFIG;
-    constructor(public pageViewId: string) { }
+    constructor(public pageViewId: string, public name: string = null) { }
 }
 
 export class LoadViewConfigSuccess implements Action {
@@ -80,6 +88,46 @@ export class HandleApiError implements Action {
   constructor(public pageViewId: string, public payload: string) { }
 }
 
+export class LoadSavedViews implements Action {
+  readonly type = LOAD_SAVED_VIEWS;
+  constructor(public pageViewId: string) {}
+}
+
+export class LoadSavedViewsSuccess implements Action {
+  readonly type = LOAD_SAVED_VIEWS_SUCCESS;
+  constructor(public pageViewId: string, public payload: DataViewConfig[]) {}
+}
+
+export class LoadSavedViewsError implements Action {
+  readonly type = LOAD_SAVED_VIEWS_ERROR;
+  constructor(public pageViewId: string, public payload: string) {}
+}
+
+export class SaveView implements Action {
+  readonly type = SAVE_VIEW;
+  constructor(public pageViewId: string, public viewName: string) {}
+}
+
+export class SaveViewSuccess implements Action {
+  readonly type = SAVE_VIEW_SUCCESS;
+  constructor(public pageViewId: string, public payload: DataViewConfig) {}
+}
+
+export class SaveViewError implements Action {
+  readonly type = SAVE_VIEW_ERROR;
+  constructor(public pageViewId: string, public payload: string) {}
+}
+
+export class OpenSaveViewModal implements Action {
+  readonly type = OPEN_SAVE_VIEW_MODAL;
+  constructor(public pageViewId: string) {}
+}
+
+export class CloseSaveViewModal implements Action {
+  readonly type = CLOSE_SAVE_VIEW_MODAL;
+  constructor(public pageViewId: string) {}
+}
+
 export type DataGridActions =
     | LoadViewConfig
     | LoadViewConfigSuccess
@@ -93,4 +141,12 @@ export type DataGridActions =
     | ClearAllFilters
     | ToggleFilterPanel
     | SetFilterPanelDisplay
-    | HandleApiError;
+    | HandleApiError
+    | LoadSavedViews
+    | LoadSavedViewsSuccess
+    | LoadSavedViewsError
+    | SaveView
+    | SaveViewSuccess
+    | SaveViewError
+    | OpenSaveViewModal
+    | CloseSaveViewModal;

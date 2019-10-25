@@ -11,6 +11,7 @@
       [globalFilterAlignment]="showTitle?'Right':'Left'"
       [globalActionsTemplate]="gridGlobalActionsTemplate"
       [disableActionButtons]="isSplitView"
+      [savedViews]="(savedViews$ | async)"
       (onFilterSidebarToggle)="toggleFilterPanel()">
     </pf-action-bar>
   </ng-container>
@@ -63,6 +64,15 @@
         </pf-filter-panel>
       </div>
     </div>
+
+    <pf-data-grid-save-view-modal
+      [savedViews]="(savedViews$ | async)"
+      [modalOpen$]="saveViewModalOpen$"
+      [saving]="(viewIsSaving$ | async)"
+      (opened)="loadSavedFilterList()"
+      (saved)="saveFilterHandler($event)"
+      (closed)="closeSaveViewModal()">
+    </pf-data-grid-save-view-modal>
   </ng-container>
 </pf-page-with-title-bar>
 

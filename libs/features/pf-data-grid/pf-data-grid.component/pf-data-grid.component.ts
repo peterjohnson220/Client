@@ -1,13 +1,15 @@
-import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
+import {Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy, ViewChild} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
 import {Observable, Subject} from 'rxjs';
 
 import { ViewField, DataViewFilter } from 'libs/models/payfactors-api';
+import { PfDataGridSaveViewModalComponent } from 'libs/ui/grid-filter/components/modals/save-view';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
+import {DataViewConfig} from '../../../models/payfactors-api/reports/request';
 
 @Component({
   selector: 'pf-data-grid',
@@ -30,6 +32,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
 
+  // @ViewChild(PfDataGridSaveViewModalComponent, { static: true }) public saveViewModalComponent: PfDataGridSaveViewModalComponent;
+
   public gridFilterThrottle: Subject<any>;
   isSplitView = false;
 
@@ -37,6 +41,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   dataFields$: Observable<ViewField[]>;
   filters$: Observable<DataViewFilter[]>;
   displayFilterPanel$: Observable<boolean>;
+  savedViews$: Observable<DataViewConfig[]>;
+  saveViewModalOpen$: Observable<boolean>;
+  viewIsSaving$: Observable<boolean>;
 
   constructor(private store: Store<fromReducer.State>) {
     this.gridFilterThrottle = new Subject();
@@ -54,10 +61,14 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     });
 
     this.initGridFilterThrottle();
+    this.loadSavedFilterList();
 
     this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
     this.filters$ = this.store.select(fromReducer.getFilters, this.pageViewId);
     this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
+    this.savedViews$ = this.store.select(fromReducer.getSavedViews, this.pageViewId);
+    this.saveViewModalOpen$ = this.store.select(fromReducer.getSaveViewModalOpen, this.pageViewId);
+    this.viewIsSaving$ = this.store.select(fromReducer.getViewIsSaving, this.pageViewId);
   }
 
   ngOnDestroy() {
@@ -96,9 +107,23 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   saveFilterClicked() {
-    // this.saveFilterModalComponent.open();
-    console.log('save filter');
+    this.loadSavedFilterList();
+    this.store.dispatch(new fromActions.OpenSaveViewModal(this.pageViewId));
   }
+
+  closeSaveViewModal() {
+    this.store.dispatch(new fromActions.CloseSaveViewModal(this.pageViewId));
+  }
+
+  loadSavedFilterList() {
+    this.store.dispatch(new fromActions.LoadSavedViews(this.pageViewId));
+  }
+
+  saveFilterHandler(filterName) {
+    this.store.dispatch(new fromActions.SaveView(this.pageViewId, filterName));
+  }
+
+  // TODO: Subscribe to save filter success action, close the modal there
 
   private initGridFilterThrottle() {
     const gridThrottle$ = this.gridFilterThrottle.debounceTime(400);
