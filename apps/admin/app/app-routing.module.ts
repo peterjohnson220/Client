@@ -9,36 +9,36 @@ export const routes: Routes = [
   {
     path: '',
     component: AppWrapperComponent,
-    canActivate: [UserContextGuard, PfAdminGuard],
+    canActivate: [UserContextGuard],
     children: [
-      { path: 'peer', loadChildren: () => import('apps/admin/app/_peer/peer-admin.module').then(m => m.PeerAdminModule) },
+      { path: 'peer', canActivate: [PfAdminGuard],  loadChildren: () => import('apps/admin/app/_peer/peer-admin.module').then(m => m.PeerAdminModule) },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       {
-        path: 'company-admin',
+        path: 'company-admin', canActivate: [PfAdminGuard],
         loadChildren: () => import('apps/admin/app/_company-admin/company-admin.module').then(m => m.CompanyAdminModule)
       },
       {
-        path: 'job-description-management',
+        path: 'job-description-management', canActivate: [PfAdminGuard],
         loadChildren: () => import('apps/admin/app/_job-description-management/bulk-export-scheduler.module')
           .then(m => m.JdmBulkExportSchedulerModule)
       },
-      { path: 'marketing', loadChildren: () => import('apps/admin/app/_marketing/marketing.module').then(m => m.MarketingModule) },
-      { path: 'community', loadChildren: () => import('apps/admin/app/_community/community.module').then(m => m.CommunityModule) },
+      { path: 'marketing', canActivate: [PfAdminGuard], loadChildren: () => import('apps/admin/app/_marketing/marketing.module').then(m => m.MarketingModule) },
+      { path: 'community', canActivate: [PfAdminGuard], loadChildren: () => import('apps/admin/app/_community/community.module').then(m => m.CommunityModule) },
       {
-        path: 'org-data-loader',
+        path: 'org-data-loader', canActivate: [PfAdminGuard],
         loadChildren: () => import('apps/admin/app/_org-data-loader/org-data-loader.module').then(m => m.OrgDataLoaderModule)
       },
       { path: 'tickets', loadChildren: () => import('apps/admin/app/_tickets/tickets.module').then(m => m.TicketsModule) },
       {
-        path: 'data-insights',
+        path: 'data-insights', canActivate: [PfAdminGuard],
         loadChildren: () => import('apps/admin/app/_data-insights/data-insights.module').then(m => m.DataInsightsModule)
       },
       {
-        path: 'survey-library', loadChildren: () => import('apps/admin/app/_survey-library/survey-library.module')
+        path: 'survey-library', canActivate: [PfAdminGuard], loadChildren: () => import('apps/admin/app/_survey-library/survey-library.module')
           .then(m => m.SurveyLibraryModule)
       },
       {
-        path: 'survey-udf-manager', loadChildren: () => import('apps/admin/app/_survey-udf-manager/survey-udf-manager.module')
+        path: 'survey-udf-manager', canActivate: [PfAdminGuard], loadChildren: () => import('apps/admin/app/_survey-udf-manager/survey-udf-manager.module')
           .then(m => m.SurveyUdfManagerModule)
       },
       { path: '**', component: NotFoundErrorPageComponent }
