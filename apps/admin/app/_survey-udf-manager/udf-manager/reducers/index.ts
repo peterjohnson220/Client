@@ -65,3 +65,11 @@ export const getPayElements = createSelector(
 export const getConfirmSave = createSelector(
   selectUdfManagerState, fromUdfManagerReducer.getConfirmSave
 );
+
+export const getSavingUdfsError = createSelector(
+  selectUdfManagerState, fromUdfManagerReducer.getSavingUdfsError
+);
+
+export const getSavingUdfsErrorMessage = createSelector(
+  selectUdfManagerState, fromUdfManagerReducer.getSavingUdfsErrorMessage
+);

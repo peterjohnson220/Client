@@ -32,6 +32,8 @@
         [isLoading]="savedUdfSettingsLoading$ | async"
         [isLoadingError]="savedUdfSettingsLoadingError$ | async"
         [maxUdfs]="50"
+        [savingUdfsError]="savingUdfsError$ | async"
+        [savingUdfsErrorMessage]="savingUdfsErrorMessage$ | async"
         (onSave)="onSaveUdfs($event)"
       ></pf-udf-picker>
     </div>

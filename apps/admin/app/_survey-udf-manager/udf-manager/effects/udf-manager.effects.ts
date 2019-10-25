@@ -52,7 +52,7 @@ export class UdfManagerEffects {
         map(() => {
           return new fromUdfManagerActions.SaveSurveyUdfsSuccess();
         }),
-        catchError(() => of(new fromUdfManagerActions.SaveSurveyUdfsError()))
+        catchError((error) => of(new fromUdfManagerActions.SaveSurveyUdfsError(error)))
       ))
     );
 
