@@ -11,6 +11,9 @@
     </ng-container> -->
     {{jobDescription?.Name}}
   </ng-container>
+  <ng-container page-actions>
+    <span (click)="toggleLibrary()">Toggle Library</span>
+  </ng-container>
 
   <!-- <ng-container page-actions>
       <ng-container *ngIf="!(jobDescriptionViewsLoading$ | async)
@@ -72,127 +75,131 @@
   </ng-container> -->
 
   <ng-container page-content>
-    <div *ngIf="!!jobDescription" class="column-scroll-container"
-      [class.col-8]="(jobDescription.JobDescriptionStatus == 'In Review' && !showLibrary) || showRoutingHistory"
-      [class.col-7]="showLibrary"
-      [class.col-12]="jobDescriptionIsFullscreen || (identity$ | async)?.IsPublic || (!showLibrary && !identityInWorkflow && jobDescription.JobDescriptionStatus != 'In Review' && !showRoutingHistory)">
-      <div class="scroll-y column-scroll-inner">
-    
-        <div [class.card]="jobDescription.JobDescriptionStatus == 'In Review'">
-          <!-- <div *ngIf="jobDescription?.JobDescriptionStatus == 'In Review'">
-            <div class="float-right">
-              <button type="button" class="btn btn-sm btn-secondary" (click)="handleExportClicked('pdf')">
-                <i class="far fa-file-pdf" aria-hidden="true"></i> Export as PDF
-              </button>
-              <button class="btn btn-sm btn-secondary" *ngIf="!(jobDescriptionIsFullscreen$ | async)"
-                (click)="handleResize()">
-                <i class="far fa-expand-alt" aria-hidden="true"></i>
-              </button>
-              <button class="btn btn-sm btn-secondary" *ngIf="jobDescriptionIsFullscreen$ | async" (click)="handleResize()">
-                <i class="far fa-compress-alt" aria-hidden="true"></i>
-              </button>
-            </div>
-          </div> -->
-    
-          <div class="card-block">
-            <!-- <ng-container *ngIf="(identityInEmployeeAcknowledgement$ | async)">
-              <div *ngIf="(employeeAcknowledgementInfo$ | async)?.HasAcknowledged" class="alert alert-success" role="alert">
-                <h5>
-                  <i class="fas fa-check-circle" aria-hidden="true"></i>
-                  This job description was acknowledged by {{(identity$ | async)?.Name}}
-                  {{((employeeAcknowledgementInfo$ | async)?.SignatureDate | amTimeAgo: true)}} ago.
-                </h5>
-              </div>
-              <div *ngIf="(employeeAcknowledgementError$ | async)" class="alert alert-danger" role="alert">
-                {{employeeAcknowledgementErrorMessage$ | async}}
-              </div>
-            </ng-container> -->
+    <div class="row pf-inner-page-content">
+      <div *ngIf="!!jobDescription" class="column-scroll-container"
+           [class.col-8]="(jobDescription.JobDescriptionStatus == 'In Review' && !showLibrary) || showRoutingHistory"
+           [class.col-7]="showLibrary"
+           [class.col-12]="jobDescriptionIsFullscreen || (identity$ | async)?.IsPublic || (!showLibrary && !identityInWorkflow && jobDescription.JobDescriptionStatus != 'In Review' && !showRoutingHistory)">
+        <div class="scroll-y column-scroll-inner">
 
-            <pf-job-description-info-header-with-logo
-              [jobDescription]="jobDescription"
-              [jobInformationFields]="jobDescription.JobInformationFields"
-              [companyName]="companyName"
-              [companyLogoPath]="companyLogoPath"
-              [showingLibrary]="showLibrary"
-              [isPublic]="(identity$ | async)?.IsPublic">
-            </pf-job-description-info-header-with-logo>
-    
-            <pf-job-description-section *ngFor="let section of jobDescription.Sections"
-              [section]="section"
-              [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
-              [readOnly]="!(hasCanEditJobDescriptionPermission) || !(editingJobDescription$ | async)"
-              (controlDataChangesDetected)="handleControlDataChanges($event)"
-              (controlBulkDataChangesDetected)="handleBulkControlDataChanges($event)"
-              (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)"
-              (controlDataRowAdded)="handleControlDataRowAdded($event)"
-              (controlDataRowDeleted)="handleControlDataRowDeleted($event)">
-            </pf-job-description-section>
+          <div [class.card]="jobDescription.JobDescriptionStatus == 'In Review'">
+            <!-- <div *ngIf="jobDescription?.JobDescriptionStatus == 'In Review'">
+              <div class="float-right">
+                <button type="button" class="btn btn-sm btn-secondary" (click)="handleExportClicked('pdf')">
+                  <i class="far fa-file-pdf" aria-hidden="true"></i> Export as PDF
+                </button>
+                <button class="btn btn-sm btn-secondary" *ngIf="!(jobDescriptionIsFullscreen$ | async)"
+                  (click)="handleResize()">
+                  <i class="far fa-expand-alt" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-sm btn-secondary" *ngIf="jobDescriptionIsFullscreen$ | async" (click)="handleResize()">
+                  <i class="far fa-compress-alt" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div> -->
+
+            <div class="card-block">
+              <!-- <ng-container *ngIf="(identityInEmployeeAcknowledgement$ | async)">
+                <div *ngIf="(employeeAcknowledgementInfo$ | async)?.HasAcknowledged" class="alert alert-success" role="alert">
+                  <h5>
+                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                    This job description was acknowledged by {{(identity$ | async)?.Name}}
+                    {{((employeeAcknowledgementInfo$ | async)?.SignatureDate | amTimeAgo: true)}} ago.
+                  </h5>
+                </div>
+                <div *ngIf="(employeeAcknowledgementError$ | async)" class="alert alert-danger" role="alert">
+                  {{employeeAcknowledgementErrorMessage$ | async}}
+                </div>
+              </ng-container> -->
+
+              <pf-job-description-info-header-with-logo
+                [jobDescription]="jobDescription"
+                [jobInformationFields]="jobDescription.JobInformationFields"
+                [companyName]="companyName"
+                [companyLogoPath]="companyLogoPath"
+                [showingLibrary]="showLibrary"
+                [isPublic]="(identity$ | async)?.IsPublic">
+              </pf-job-description-info-header-with-logo>
+
+              <pf-job-description-section *ngFor="let section of jobDescription.Sections"
+                                          [section]="section"
+                                          [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
+                                          [readOnly]="!(hasCanEditJobDescriptionPermission) || !(editingJobDescription$ | async)"
+                                          (controlDataChangesDetected)="handleControlDataChanges($event)"
+                                          (controlBulkDataChangesDetected)="handleBulkControlDataChanges($event)"
+                                          (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)"
+                                          (controlDataRowAdded)="handleControlDataRowAdded($event)"
+                                          (controlDataRowDeleted)="handleControlDataRowDeleted($event)">
+              </pf-job-description-section>
+            </div>
           </div>
         </div>
+        <pf-async-container
+          [loading]="(jobDescriptionAsync$ | async)?.loading || (jobDescriptionPublishing$ | async)"
+          [loadingError]="(jobDescriptionAsync$ | async)?.error"
+          [loadingErrorMessage]="'Error loading the job description'"
+          [hideReloadButton]="true">
+        </pf-async-container>
       </div>
-      <pf-async-container
-        [loading]="(jobDescriptionAsync$ | async)?.loading || (jobDescriptionPublishing$ | async)"
-        [loadingError]="(jobDescriptionAsync$ | async)?.error"
-        [loadingErrorMessage]="'Error loading the job description'"
-        [hideReloadButton]="true">
-      </pf-async-container>
+
+      <div *ngIf="showLibrary" class="column-scroll-container col-5">
+        <div class="scroll-y column-scroll-inner">
+          <pf-job-description-library
+            [jobTitle]="(jobDescriptionAsync$ | async)?.obj.Name"
+            [buckets]="(jobDescriptionLibraryBuckets$ | async)?.obj"
+            [results]="(jobDescriptionLibraryResults$ | async)?.obj"
+            [loadingBuckets]="(jobDescriptionLibraryBuckets$ | async)?.loading"
+            (searchChanged)="handleLibrarySearchChange($event)"
+            (tabChanged)="handleLibraryTabChange($event)"
+            (pageChanged)="handleLibraryPageChange($event)"
+            (closed)="handleShowLibrary(false)">
+          </pf-job-description-library>
+        </div>
+        <pf-async-container
+          [loading]="(jobDescriptionLibraryBuckets$ | async)?.loading"
+          [loadingError]="(jobDescriptionLibraryResults$ | async)?.loadingError"
+          [loadingErrorMessage]="'Error Loading Library'"
+          [hideReloadButton]="true">
+        </pf-async-container>
+      </div>
+
+
+      <!-- <ng-container *ngIf="!(jobDescriptionIsFullscreen$ | async) && !(identity$ | async)?.IsPublic">
+        <div *ngIf="(identityInWorkflow$ | async) && !showLibrary" class="column-scroll-container col-4">
+          <div class="scroll-y column-scroll-inner">
+            <pf-workflow-sidebar
+                [workflowStepInfo]="(identity$ | async)?.WorkflowStepInfo"
+                [jobDescription]="(jobDescription$ | async)">
+            </pf-workflow-sidebar>
+          </div>
+        </div>
+
+        <div *ngIf="!(identityInWorkflow$ | async) &&
+                    !showLibrary &&
+                    (showRoutingHistory || (jobDescription$ | async)?.JobDescriptionStatus == 'In Review')"
+              class="column-scroll-container col-4">
+          <div class="scroll-y column-scroll-inner">
+              <pf-workflow-watch-sidebar *ngIf="!(identity$ | async)?.IsPublic && (jobDescriptionExtendedInfo$ | async)?.WorkflowId"
+                                          [isSiteAdmin]="isSiteAdmin"
+                                          [isCompanyAdmin]="isCompanyAdmin"
+                                          [showSubway]="(jobDescription$ | async)?.JobDescriptionStatus == 'In Review'"
+                                          [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
+                                          [jobDescription]="(jobDescription$ | async)"
+                                          (changeApproverClicked)="openChangeApproverModal($event)"
+                                          (closed)="showRoutingHistory = false">
+              </pf-workflow-watch-sidebar>
+          </div>
+        </div>
+      </ng-container> -->
+      <!--Export Form-->
+      <!-- <form name="exportForm" [action]="exportAction" method="POST">
+          <input type="hidden" name="revisionNumber" value="{{(jobDescription$ | async)?.JobDescriptionRevision}}" />
+          <input type="hidden" name="export-uid" />
+          <input type="hidden" name="export-type" />
+          <input type="hidden" name="viewName" />
+      </form> -->
     </div>
-  
-    <!-- <div *ngIf="(editingJobDescription$ | async) && showLibrary" class="column-scroll-container col-5">
-        <div class="scroll-y column-scroll-inner">
-            <pf-job-description-library
-                [jobTitle]="(jobDescription$ | async)?.Name" 
-                [buckets]="jobDescriptionLibraryBuckets$ | async"
-                [results]="jobDescriptionLibraryResults$ | async"
-                [loadingBuckets]="loadingJobDescriptionLibraryBuckets$ | async"
-                (searchChanged)="handleLibrarySearchChange($event)"
-                (tabChanged)="handleLibraryTabChange($event)"
-                (pageChanged)="handleLibraryPageChange($event)"
-                (closed)="showLibrary = false">
-            </pf-job-description-library>
-        </div>
 
-        <pf-loading-mask *ngIf="(loadingJobDescriptionLibraryBuckets$ | async) || (jobDescriptionLibraryResultsError$ | async)"
-                          [error]="jobDescriptionLibraryResultsError$ | async"
-                          [errorMessage]="'Error Loading Library'">
-        </pf-loading-mask>
-    </div> -->
-
-
-    <!-- <ng-container *ngIf="!(jobDescriptionIsFullscreen$ | async) && !(identity$ | async)?.IsPublic">
-      <div *ngIf="(identityInWorkflow$ | async) && !showLibrary" class="column-scroll-container col-4">
-        <div class="scroll-y column-scroll-inner">
-          <pf-workflow-sidebar 
-              [workflowStepInfo]="(identity$ | async)?.WorkflowStepInfo" 
-              [jobDescription]="(jobDescription$ | async)">
-          </pf-workflow-sidebar>
-        </div>
-      </div>
-
-      <div *ngIf="!(identityInWorkflow$ | async) &&
-                  !showLibrary &&
-                  (showRoutingHistory || (jobDescription$ | async)?.JobDescriptionStatus == 'In Review')"
-            class="column-scroll-container col-4">
-        <div class="scroll-y column-scroll-inner">
-            <pf-workflow-watch-sidebar *ngIf="!(identity$ | async)?.IsPublic && (jobDescriptionExtendedInfo$ | async)?.WorkflowId"
-                                        [isSiteAdmin]="isSiteAdmin"                           
-                                        [isCompanyAdmin]="isCompanyAdmin"
-                                        [showSubway]="(jobDescription$ | async)?.JobDescriptionStatus == 'In Review'"
-                                        [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
-                                        [jobDescription]="(jobDescription$ | async)"
-                                        (changeApproverClicked)="openChangeApproverModal($event)"
-                                        (closed)="showRoutingHistory = false">
-            </pf-workflow-watch-sidebar>
-        </div>
-      </div>            
-    </ng-container> -->
-    <!--Export Form-->
-    <!-- <form name="exportForm" [action]="exportAction" method="POST">
-        <input type="hidden" name="revisionNumber" value="{{(jobDescription$ | async)?.JobDescriptionRevision}}" />
-        <input type="hidden" name="export-uid" />
-        <input type="hidden" name="export-type" />
-        <input type="hidden" name="viewName" />
-    </form> -->
   </ng-container>
 
 </pf-page-with-title-bar>

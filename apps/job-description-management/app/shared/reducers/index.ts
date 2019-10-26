@@ -185,9 +185,9 @@ export const getBucketsAsync = createSelector(
   fromJobDescriptionLibraryReducer.getBucketsAsync
 );
 
-export const getBucketsResultsAsync = createSelector(
+export const getResultsAsync = createSelector(
   selectJobDescriptionLibraryState,
-  fromJobDescriptionLibraryReducer.getBucketsResultsAsync
+  fromJobDescriptionLibraryReducer.getResultsAsync
 );
 
 export const getLoadJobDescriptionLibraryError = createSelector(

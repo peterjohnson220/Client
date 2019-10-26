@@ -11,11 +11,15 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 
+
+import { JobDescriptionManagementService } from '../../../../shared/services';
+import { ControlDataHelper } from '../../../../shared/helpers';
+import { JobDescriptionLibraryBucket, JobDescriptionLibraryResult, LibrarySearchRequest } from '../../../../shared/models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
-import { JobDescriptionManagementService } from '../../../../shared/services';
-import { ControlDataHelper } from '../../../../shared/helpers';
+import * as fromJobDescriptionLibraryActions from '../../../../shared/actions/job-description-library.actions';
+
 
 @Component({
   selector: 'pf-job-description-page',
@@ -32,6 +36,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
   editingJobDescription$: Observable<boolean>;
   savingJobDescription$: Observable<boolean>;
+  jobDescriptionLibraryBuckets$: Observable<AsyncStateObj<JobDescriptionLibraryBucket[]>>;
+  jobDescriptionLibraryResults$: Observable<AsyncStateObj<JobDescriptionLibraryResult[]>>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -76,6 +82,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       PermissionCheckEnum.Single);
     this.editingJobDescription$ = this.store.select(fromJobDescriptionReducers.getEditingJobDescription);
     this.savingJobDescription$ = this.store.select(fromJobDescriptionReducers.getSavingJobDescription);
+    this.jobDescriptionLibraryBuckets$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getBucketsAsync);
+    this.jobDescriptionLibraryResults$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getResultsAsync);
     this.saveThrottle = new Subject();
   }
 
@@ -119,6 +127,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggleLibrary() {
+    this.handleShowLibrary(!this.showLibrary);
+  }
+
   handleControlDataRowDeleted(dataRowDeletedObj: any) {
     this.removeControlDataRow(dataRowDeletedObj.jobDescriptionControl, dataRowDeletedObj.dataRowId);
 
@@ -132,6 +144,39 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       undo
     }));
     this.isFirstSave = false;
+  }
+
+  handleLibrarySearchChange(searchRequest: LibrarySearchRequest) {
+    searchRequest.JobDescriptionId = this.jobDescription.JobDescriptionId;
+    this.store.dispatch(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResultsByBucket(searchRequest));
+  }
+
+  handleLibraryPageChange(searchRequest: LibrarySearchRequest) {
+    searchRequest.JobDescriptionId = this.jobDescription.JobDescriptionId;
+    this.store.dispatch(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResults(searchRequest));
+  }
+
+  handleLibraryTabChange(searchRequest: LibrarySearchRequest) {
+    searchRequest.JobDescriptionId = this.jobDescription.JobDescriptionId;
+    this.store.dispatch(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResults(searchRequest));
+  }
+
+  handleShowLibrary(shouldShow: boolean) {
+    this.showLibrary = shouldShow;
+    if (shouldShow) {
+      this.initializeLibrary();
+    }
+  }
+
+  private initializeLibrary(): void {
+    this.store.dispatch(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResultsByBucket({
+      BucketKey: '',
+      JobDescriptionId: this.jobDescription.JobDescriptionId,
+      JobTitle: this.jobDescription.Name,
+      Keyword: '',
+      PageNumber: 1,
+      PageSize: 10
+    }));
   }
 
   private initSubscriptions(): void {

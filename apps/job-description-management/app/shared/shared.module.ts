@@ -11,6 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DragulaModule } from 'ng2-dragula';
 import { EditorModule } from 'primeng/editor';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { NgbTabsetModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -36,7 +37,8 @@ import {
   JobDescriptionInfoHeaderWithLogoComponent,
   SaveErrorModalComponent,
   ConflictErrorModalComponent,
-  SimpleYesNoModalComponent
+  SimpleYesNoModalComponent,
+  JobDescriptionLibraryComponent
 } from './components';
 import { ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from './services';
 import { reducers } from './reducers';
@@ -70,6 +72,9 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     PfJobDescriptionManagementModule,
     DragulaModule.forRoot(),
     EditorModule,
+    NgbTabsetModule,
+    NgbPaginationModule,
+    NgbTooltipModule,
 
     // Payfactors
     PfCommonModule,
@@ -93,7 +98,8 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     ControlDataRendererComponent,
     ConflictErrorModalComponent,
     SaveErrorModalComponent,
-    SimpleYesNoModalComponent
+    SimpleYesNoModalComponent,
+    JobDescriptionLibraryComponent
   ],
   declarations: [
     // Components
@@ -115,6 +121,7 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     SmartListEditorComponent,
     SmartListEditorDataTableComponent,
     SimpleYesNoModalComponent,
+    JobDescriptionLibraryComponent,
 
     // Pipes
     JobDescriptionAppliesToDisplayNamePipe
