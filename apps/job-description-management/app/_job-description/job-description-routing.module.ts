@@ -7,7 +7,8 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import {
   JobDescriptionJobComparePageComponent,
   JobDescriptionListPageComponent,
-  JobDescriptionVersionComparePageComponent
+  JobDescriptionVersionComparePageComponent,
+  JobDescriptionPageComponent
 } from './containers';
 import { JobDescriptionJobCompareListResolver, ResolveHistoryListGuard } from './guards';
 
@@ -26,6 +27,13 @@ const routes: Routes = [
   {
     path: 'compare-versions/:id',
     component: JobDescriptionVersionComparePageComponent,
+    resolve: {historyList: ResolveHistoryListGuard},
+    canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
+  },
+  {
+    path: ':id',
+    component: JobDescriptionPageComponent,
     resolve: {historyList: ResolveHistoryListGuard},
     canActivate: [AuthorizationGuard],
     data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}

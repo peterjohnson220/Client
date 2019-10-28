@@ -22,7 +22,8 @@ import { JobDescriptionRoutingModule } from './job-description-routing.module';
 import {
   JobDescriptionJobComparePageComponent,
   JobDescriptionListPageComponent,
-  JobDescriptionVersionComparePageComponent
+  JobDescriptionVersionComparePageComponent,
+  JobDescriptionPageComponent
 } from './containers/pages';
 import {
   AddJobModalComponent,
@@ -130,6 +131,7 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionJobComparePageComponent,
     JobDescriptionListPageComponent,
     JobDescriptionVersionComparePageComponent,
+    JobDescriptionPageComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,

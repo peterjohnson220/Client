@@ -59,6 +59,36 @@ export class JobDescriptionEffects {
           );
       }));
 
+  @Effect()
+  getJobDescription$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION),
+      switchMap((action: fromJobDescriptionActions.GetJobDescription) => {
+        return this.jobDescriptionApiService.getDetail(action.payload.jobDescriptionId)
+          .pipe(
+            map((response) => new fromJobDescriptionActions.GetJobDescriptionSuccess(response)),
+            catchError(() => of(new fromJobDescriptionActions.GetJobDescriptionError()))
+          );
+      })
+    );
+
+  @Effect()
+  saveJobDescription$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.SAVE_JOB_DESCRIPTION),
+      switchMap((action: fromJobDescriptionActions.SaveJobDescription) => {
+        return this.jobDescriptionApiService.save(action.payload.jobDescription, action.payload.isFirstSave)
+          .pipe(
+            map((response) => new fromJobDescriptionActions.SaveJobDescriptionSuccess({
+              jobDescription: response,
+              isFirstSave: action.payload.isFirstSave,
+              undo: action.payload.undo
+            })),
+            catchError(() => of(new fromJobDescriptionActions.SaveJobDescriptionError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,

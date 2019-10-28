@@ -226,6 +226,21 @@ export const getCompanyJobsJobDescriptionTemplateIdSavingResponse = createSelect
   fromJobDescriptionReducer.getCompanyJobsJobDescriptionTemplateIdSavingResponse
 );
 
+export const getJobDescriptionAsync = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionAsync
+);
+
+export const getEditingJobDescription = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getEditingJobDescription
+);
+
+export const getSavingJobDescription = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getSavingJobDescription
+);
+
 // Job Description Grid
 export const getJobDescriptionGridLoading = createSelector(
   selectJobDescriptionGridState,

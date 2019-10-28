@@ -99,7 +99,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
   private listAreaColumnsSubscription: Subscription;
   private routerParmsSubscription: Subscription;
-  private jobInformationFieldsSubscription: Subscription;
   private saveCompanyJobsJobDescriptionTemplateIdSubscription: Subscription;
   private createJobDescriptionDraftSubscription: Subscription;
   private createJobDescriptionSubscription: Subscription;
@@ -468,7 +467,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       this.router.navigate([`job-description-management/job-descriptions/${jobDescriptionId}`],
         { queryParams: { jwt: jwtValue, viewName: JobDescriptionViewConstants.PUBLIC_VIEW } });
     } else {
-      this.router.navigate([`job-description-management/job-descriptions/${jobDescriptionId}`]);
+      this.router.navigate(['/job-descriptions/', jobDescriptionId]);
     }
   }
 
@@ -476,7 +475,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.addUserFilterSubscription.unsubscribe();
     this.createJobDescriptionSubscription.unsubscribe();
     this.createJobDescriptionDraftSubscription.unsubscribe();
-    this.jobInformationFieldsSubscription.unsubscribe();
     this.listAreaColumnsSubscription.unsubscribe();
     this.routerParmsSubscription.unsubscribe();
     this.saveCompanyJobsJobDescriptionTemplateIdSubscription.unsubscribe();

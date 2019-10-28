@@ -11,11 +11,12 @@
             [sortable]="true"
             [sort]="gridState.sort"
             [skip]="gridState.skip"
+            [selectable]="true"
             (pageChange)="pageChanged.emit($event)"
             (dataStateChange)="dataStateChanged.emit($event)"
             (sortChange)="sortChanged.emit($event)"
             (filterChange)="filterChanged.emit($event)"
-            (rowClicked)="handleRowClick($event)">
+            (selectionChange)="handleRowClick($event)">
 
   <!--Front Static Columns-->
   <kendo-grid-column field="JobCode" title="Job Code" [width]="150"></kendo-grid-column>
