@@ -123,7 +123,7 @@ export class JobDescriptionApiService {
     return this.payfactorsApiService.get<JobDescription[]>(`${this.endpoint}(${jobDescriptionId})/Default.GetJobCompareList`);
   }
 
-  getDetail(jobDescriptionId: number, viewName: string = null) {
+  getDetail(jobDescriptionId: number, viewName: string = null): Observable<JobDescription> {
     return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetDetail`, {params: {viewName}},
       (response) => JSON.parse(response.value));
   }
