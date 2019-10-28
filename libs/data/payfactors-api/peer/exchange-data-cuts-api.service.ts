@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { UpsertDataCutRequest } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { DataCutValidationInfo, ExchangeDataCutsExportRequest, ExchangeDataSearchFilter } from '../../../models/peer';
-import {BaseExchangeDataSearchRequest} from '../../../models/payfactors-api/peer-exchange-explorer-search/request';
+import {BaseExchangeDataSearchRequest} from '../../../models/payfactors-api/peer/exchange-data-search/request';
 
 @Injectable()
 export class ExchangeDataCutsApiService {

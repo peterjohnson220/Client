@@ -31,7 +31,8 @@ export const initialState: State = {
 // Reducer
 export function reducer(state = initialState, action: fromExchangeExplorerActions.Actions): State {
   switch (action.type) {
-    case fromExchangeExplorerActions.SET_FILTER_CONTEXT: {
+    case fromExchangeExplorerActions.SET_FILTER_CONTEXT:
+    case fromExchangeExplorerActions.SET_FILTER_CONTEXT_SILENTLY: {
       const filterContext: ExchangeDataSearchFilterContext = action.payload;
       return {
         ...state,

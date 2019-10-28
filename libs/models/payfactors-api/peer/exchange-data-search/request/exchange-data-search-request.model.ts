@@ -1,5 +1,5 @@
-import { BaseSearchAggregationsRequest, BaseSearchRequest, FilterOptions, PagingOptions } from '../../search/request';
-import { ExchangeDataSearchFilterContext } from '../../../peer';
+import { BaseSearchAggregationsRequest, BaseSearchRequest, FilterOptions, PagingOptions } from '../../../search/request';
+import { ExchangeDataSearchFilterContext } from '../../../../peer';
 
 export interface BaseExchangeDataSearchRequest extends BaseSearchRequest {
   FilterContext: ExchangeDataSearchFilterContext;

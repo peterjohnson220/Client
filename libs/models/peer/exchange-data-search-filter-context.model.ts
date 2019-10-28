@@ -9,6 +9,7 @@ export interface ExchangeExplorerContextInfo {
   AssociatedExchangeJobTitleShorts: string[];
   SearchFilterMappingData: SearchFilterMappingDataObj;
 }
+
 export interface ExchangeDataSearchFilterContext extends SystemFilter {
   ScopeGUID: string;
   TopLeft: GeoCoordinates;
@@ -20,7 +21,7 @@ export interface ExchangeDataSearchFilterContext extends SystemFilter {
   IsFilteredBySimilarExchangeJobIds: boolean;
 }
 
-export function getMockExchangeDataSearchFilterContext(): ExchangeDataSearchFilterContext {
+export function generateMockExchangeDataSearchFilterContext(): ExchangeDataSearchFilterContext {
   return {
     ...generateMockSystemFilter(),
     ScopeGUID: 'MockGUID',
@@ -34,9 +35,9 @@ export function getMockExchangeDataSearchFilterContext(): ExchangeDataSearchFilt
   };
 }
 
-export function getMockExchangeExplorerContextInfo(): ExchangeExplorerContextInfo {
+export function generateMockExchangeExplorerContextInfo(): ExchangeExplorerContextInfo {
   return {
-    FilterContext: getMockExchangeDataSearchFilterContext(),
+    FilterContext: generateMockExchangeDataSearchFilterContext(),
     PayMarket: generateMockPayMarket(),
     AssociatedExchangeJobTitleShorts: [],
     SearchFilterMappingData: {}
