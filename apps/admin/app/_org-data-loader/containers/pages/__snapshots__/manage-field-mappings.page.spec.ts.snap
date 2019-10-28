@@ -55,179 +55,116 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
 >
-  <pf-page-with-title-bar
-    ng-reflect-absolute-url="/ng/site-admin/navigation"
-  >
+  <pf-page-with-title-bar>
+    
+    Org Data Autoloader Field Mappings
+    
     <div
-      class="flex-column-container"
+      class="list-group list-group-flush"
     >
       <div
-        class="d-flex justify-content-between align-items-center page-header"
-        ng-reflect-klass="d-flex justify-content-between"
-        ng-reflect-ng-class="page-header"
+        class="list-group-item"
       >
-        
-        <div
-          class="d-flex"
-        >
-          
-          
-          <a
-            href="/ng/site-admin/navigation"
-          >
-            <button
-              class="btn btn-secondary back-btn"
-            >
-              <fa-icon
-                aria-hidden="true"
-                class="ng-fa-icon"
-                icon="long-arrow-alt-left"
-                ng-reflect-icon-prop="long-arrow-alt-left"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
-                  data-icon="long-arrow-alt-left"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 448 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </fa-icon>
-            </button>
-          </a>
-          <h3
-            class="page-title"
-          >
-            
-            Org Data Autoloader Field Mappings
+        <div>
+          <h3>
+            Company
           </h3>
         </div>
-        <div
-          class="d-flex space-out-children"
-          ng-reflect-klass="d-flex space-out-children"
-          ng-reflect-ng-class=""
-        />
+        <pf-company-selector />
       </div>
+      
       <div
-        class="page-content"
+        class="list-group-item"
       >
-        
+        <h3>
+          SFTP
+        </h3>
         <div
-          class="list-group list-group-flush"
+          class="container-fluid"
+        >
+          <pf-sftp-account-status />
+        </div>
+      </div>
+      
+      <div
+        class="list-group-item"
+      >
+        <h3>
+          Mappings
+        </h3>
+        <div
+          class="container-fluid"
         >
           <div
-            class="list-group-item"
+            class="form-group row"
           >
-            <div>
-              <h3>
-                Company
-              </h3>
-            </div>
-            <pf-company-selector />
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              SFTP
-            </h3>
-            <div
-              class="container-fluid"
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
             >
-              <pf-sftp-account-status />
-            </div>
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              Mappings
-            </h3>
+              Delimiter: 
+            </label>
             <div
-              class="container-fluid"
+              class="col-sm-1"
             >
-              <div
-                class="form-group row"
-              >
-                <label
-                  class="col-sm-1 col-form-label"
-                  for="delimiter"
-                >
-                  Delimiter: 
-                </label>
-                <div
-                  class="col-sm-1"
-                >
-                  <input
-                    class="form-control ng-untouched ng-pristine ng-valid"
-                    id="delimiter"
-                    ng-reflect-model=""
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <kendo-tabstrip>
-              <kendo-tabstrip-tab
-                title="Pay Markets"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Jobs"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structures"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structure Mappings"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Employees"
-              >
-                
-              </kendo-tabstrip-tab>
-            </kendo-tabstrip>
-            <div
-              class="float-right m-2"
-            >
-              <button
-                class="btn btn-primary m-2"
-                disabled=""
-                type="button"
-              >
-                Update
-              </button>
-              <button
-                class="btn btn-secondary"
-              >
-                Email Recipients
-              </button>
+              <input
+                class="form-control"
+                id="delimiter"
+                type="text"
+              />
             </div>
           </div>
         </div>
         
-        <pf-email-recipients-modal
+        <kendo-tabstrip>
+          <kendo-tabstrip-tab
+            title="Pay Markets"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Jobs"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Structures"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Structure Mappings"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Employees"
+          >
+            
+          </kendo-tabstrip-tab>
+        </kendo-tabstrip>
+        <div
           class="float-right m-2"
-        />
+        >
+          <button
+            class="btn btn-primary m-2"
+            disabled=""
+            type="button"
+          >
+            Update
+          </button>
+          <button
+            class="btn btn-secondary"
+          >
+            Email Recipients
+          </button>
+        </div>
       </div>
     </div>
+    
+    <pf-email-recipients-modal
+      class="float-right m-2"
+    />
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
 `;
@@ -287,179 +224,116 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
 >
-  <pf-page-with-title-bar
-    ng-reflect-absolute-url="/ng/site-admin/navigation"
-  >
+  <pf-page-with-title-bar>
+    
+    Org Data Autoloader Field Mappings
+    
     <div
-      class="flex-column-container"
+      class="list-group list-group-flush"
     >
       <div
-        class="d-flex justify-content-between align-items-center page-header"
-        ng-reflect-klass="d-flex justify-content-between"
-        ng-reflect-ng-class="page-header"
+        class="list-group-item"
       >
-        
-        <div
-          class="d-flex"
-        >
-          
-          
-          <a
-            href="/ng/site-admin/navigation"
-          >
-            <button
-              class="btn btn-secondary back-btn"
-            >
-              <fa-icon
-                aria-hidden="true"
-                class="ng-fa-icon"
-                icon="long-arrow-alt-left"
-                ng-reflect-icon-prop="long-arrow-alt-left"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
-                  data-icon="long-arrow-alt-left"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 448 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </fa-icon>
-            </button>
-          </a>
-          <h3
-            class="page-title"
-          >
-            
-            Org Data Autoloader Field Mappings
+        <div>
+          <h3>
+            Company
           </h3>
         </div>
-        <div
-          class="d-flex space-out-children"
-          ng-reflect-klass="d-flex space-out-children"
-          ng-reflect-ng-class=""
-        />
+        <pf-company-selector />
       </div>
+      
       <div
-        class="page-content"
+        class="list-group-item"
       >
-        
+        <h3>
+          SFTP
+        </h3>
         <div
-          class="list-group list-group-flush"
+          class="container-fluid"
+        >
+          <pf-sftp-account-status />
+        </div>
+      </div>
+      
+      <div
+        class="list-group-item"
+      >
+        <h3>
+          Mappings
+        </h3>
+        <div
+          class="container-fluid"
         >
           <div
-            class="list-group-item"
+            class="form-group row"
           >
-            <div>
-              <h3>
-                Company
-              </h3>
-            </div>
-            <pf-company-selector />
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              SFTP
-            </h3>
-            <div
-              class="container-fluid"
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
             >
-              <pf-sftp-account-status />
-            </div>
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              Mappings
-            </h3>
+              Delimiter: 
+            </label>
             <div
-              class="container-fluid"
+              class="col-sm-1"
             >
-              <div
-                class="form-group row"
-              >
-                <label
-                  class="col-sm-1 col-form-label"
-                  for="delimiter"
-                >
-                  Delimiter: 
-                </label>
-                <div
-                  class="col-sm-1"
-                >
-                  <input
-                    class="form-control ng-untouched ng-pristine ng-valid"
-                    id="delimiter"
-                    ng-reflect-model=","
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <kendo-tabstrip>
-              <kendo-tabstrip-tab
-                title="Pay Markets"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Jobs"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structures"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structure Mappings"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Employees"
-              >
-                
-              </kendo-tabstrip-tab>
-            </kendo-tabstrip>
-            <div
-              class="float-right m-2"
-            >
-              <button
-                class="btn btn-primary m-2"
-                disabled=""
-                type="button"
-              >
-                Update
-              </button>
-              <button
-                class="btn btn-secondary"
-              >
-                Email Recipients
-              </button>
+              <input
+                class="form-control"
+                id="delimiter"
+                type="text"
+              />
             </div>
           </div>
         </div>
         
-        <pf-email-recipients-modal
+        <kendo-tabstrip>
+          <kendo-tabstrip-tab
+            title="Pay Markets"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Jobs"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Structures"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Structure Mappings"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Employees"
+          >
+            
+          </kendo-tabstrip-tab>
+        </kendo-tabstrip>
+        <div
           class="float-right m-2"
-        />
+        >
+          <button
+            class="btn btn-primary m-2"
+            disabled=""
+            type="button"
+          >
+            Update
+          </button>
+          <button
+            class="btn btn-secondary"
+          >
+            Email Recipients
+          </button>
+        </div>
       </div>
     </div>
+    
+    <pf-email-recipients-modal
+      class="float-right m-2"
+    />
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
 `;
@@ -519,178 +393,115 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
 >
-  <pf-page-with-title-bar
-    ng-reflect-absolute-url="/ng/site-admin/navigation"
-  >
+  <pf-page-with-title-bar>
+    
+    Org Data Autoloader Field Mappings
+    
     <div
-      class="flex-column-container"
+      class="list-group list-group-flush"
     >
       <div
-        class="d-flex justify-content-between align-items-center page-header"
-        ng-reflect-klass="d-flex justify-content-between"
-        ng-reflect-ng-class="page-header"
+        class="list-group-item"
       >
-        
-        <div
-          class="d-flex"
-        >
-          
-          
-          <a
-            href="/ng/site-admin/navigation"
-          >
-            <button
-              class="btn btn-secondary back-btn"
-            >
-              <fa-icon
-                aria-hidden="true"
-                class="ng-fa-icon"
-                icon="long-arrow-alt-left"
-                ng-reflect-icon-prop="long-arrow-alt-left"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
-                  data-icon="long-arrow-alt-left"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 448 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </fa-icon>
-            </button>
-          </a>
-          <h3
-            class="page-title"
-          >
-            
-            Org Data Autoloader Field Mappings
+        <div>
+          <h3>
+            Company
           </h3>
         </div>
-        <div
-          class="d-flex space-out-children"
-          ng-reflect-klass="d-flex space-out-children"
-          ng-reflect-ng-class=""
-        />
+        <pf-company-selector />
       </div>
+      
       <div
-        class="page-content"
+        class="list-group-item"
       >
-        
+        <h3>
+          SFTP
+        </h3>
         <div
-          class="list-group list-group-flush"
+          class="container-fluid"
+        >
+          <pf-sftp-account-status />
+        </div>
+      </div>
+      
+      <div
+        class="list-group-item"
+      >
+        <h3>
+          Mappings
+        </h3>
+        <div
+          class="container-fluid"
         >
           <div
-            class="list-group-item"
+            class="form-group row"
           >
-            <div>
-              <h3>
-                Company
-              </h3>
-            </div>
-            <pf-company-selector />
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              SFTP
-            </h3>
-            <div
-              class="container-fluid"
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
             >
-              <pf-sftp-account-status />
-            </div>
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              Mappings
-            </h3>
+              Delimiter: 
+            </label>
             <div
-              class="container-fluid"
+              class="col-sm-1"
             >
-              <div
-                class="form-group row"
-              >
-                <label
-                  class="col-sm-1 col-form-label"
-                  for="delimiter"
-                >
-                  Delimiter: 
-                </label>
-                <div
-                  class="col-sm-1"
-                >
-                  <input
-                    class="form-control ng-untouched ng-pristine ng-valid"
-                    id="delimiter"
-                    ng-reflect-model=","
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <kendo-tabstrip>
-              <kendo-tabstrip-tab
-                title="Pay Markets"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Jobs"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structures"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structure Mappings"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Employees"
-              >
-                
-              </kendo-tabstrip-tab>
-            </kendo-tabstrip>
-            <div
-              class="float-right m-2"
-            >
-              <button
-                class="btn btn-primary m-2"
-                type="button"
-              >
-                Update
-              </button>
-              <button
-                class="btn btn-secondary"
-              >
-                Email Recipients
-              </button>
+              <input
+                class="form-control"
+                id="delimiter"
+                type="text"
+              />
             </div>
           </div>
         </div>
         
-        <pf-email-recipients-modal
+        <kendo-tabstrip>
+          <kendo-tabstrip-tab
+            title="Pay Markets"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Jobs"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Structures"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Structure Mappings"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Employees"
+          >
+            
+          </kendo-tabstrip-tab>
+        </kendo-tabstrip>
+        <div
           class="float-right m-2"
-        />
+        >
+          <button
+            class="btn btn-primary m-2"
+            type="button"
+          >
+            Update
+          </button>
+          <button
+            class="btn btn-secondary"
+          >
+            Email Recipients
+          </button>
+        </div>
       </div>
     </div>
+    
+    <pf-email-recipients-modal
+      class="float-right m-2"
+    />
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
 `;
@@ -750,89 +561,27 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
 >
-  <pf-page-with-title-bar
-    ng-reflect-absolute-url="/ng/site-admin/navigation"
-  >
+  <pf-page-with-title-bar>
+    
+    Org Data Autoloader Field Mappings
+    
     <div
-      class="flex-column-container"
+      class="list-group list-group-flush"
     >
       <div
-        class="d-flex justify-content-between align-items-center page-header"
-        ng-reflect-klass="d-flex justify-content-between"
-        ng-reflect-ng-class="page-header"
+        class="list-group-item"
       >
-        
-        <div
-          class="d-flex"
-        >
-          
-          
-          <a
-            href="/ng/site-admin/navigation"
-          >
-            <button
-              class="btn btn-secondary back-btn"
-            >
-              <fa-icon
-                aria-hidden="true"
-                class="ng-fa-icon"
-                icon="long-arrow-alt-left"
-                ng-reflect-icon-prop="long-arrow-alt-left"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
-                  data-icon="long-arrow-alt-left"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 448 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </fa-icon>
-            </button>
-          </a>
-          <h3
-            class="page-title"
-          >
-            
-            Org Data Autoloader Field Mappings
+        <div>
+          <h3>
+            Company
           </h3>
         </div>
-        <div
-          class="d-flex space-out-children"
-          ng-reflect-klass="d-flex space-out-children"
-          ng-reflect-ng-class=""
-        />
+        <pf-company-selector />
       </div>
-      <div
-        class="page-content"
-      >
-        
-        <div
-          class="list-group list-group-flush"
-        >
-          <div
-            class="list-group-item"
-          >
-            <div>
-              <h3>
-                Company
-              </h3>
-            </div>
-            <pf-company-selector />
-          </div>
-          
-          
-        </div>
-        
-      </div>
+      
+      
     </div>
+    
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
 `;
@@ -892,178 +641,115 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
 >
-  <pf-page-with-title-bar
-    ng-reflect-absolute-url="/ng/site-admin/navigation"
-  >
+  <pf-page-with-title-bar>
+    
+    Org Data Autoloader Field Mappings
+    
     <div
-      class="flex-column-container"
+      class="list-group list-group-flush"
     >
       <div
-        class="d-flex justify-content-between align-items-center page-header"
-        ng-reflect-klass="d-flex justify-content-between"
-        ng-reflect-ng-class="page-header"
+        class="list-group-item"
       >
-        
-        <div
-          class="d-flex"
-        >
-          
-          
-          <a
-            href="/ng/site-admin/navigation"
-          >
-            <button
-              class="btn btn-secondary back-btn"
-            >
-              <fa-icon
-                aria-hidden="true"
-                class="ng-fa-icon"
-                icon="long-arrow-alt-left"
-                ng-reflect-icon-prop="long-arrow-alt-left"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
-                  data-icon="long-arrow-alt-left"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 448 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </fa-icon>
-            </button>
-          </a>
-          <h3
-            class="page-title"
-          >
-            
-            Org Data Autoloader Field Mappings
+        <div>
+          <h3>
+            Company
           </h3>
         </div>
-        <div
-          class="d-flex space-out-children"
-          ng-reflect-klass="d-flex space-out-children"
-          ng-reflect-ng-class=""
-        />
+        <pf-company-selector />
       </div>
+      
       <div
-        class="page-content"
+        class="list-group-item"
       >
-        
+        <h3>
+          SFTP
+        </h3>
         <div
-          class="list-group list-group-flush"
+          class="container-fluid"
+        >
+          <pf-sftp-account-status />
+        </div>
+      </div>
+      
+      <div
+        class="list-group-item"
+      >
+        <h3>
+          Mappings
+        </h3>
+        <div
+          class="container-fluid"
         >
           <div
-            class="list-group-item"
+            class="form-group row"
           >
-            <div>
-              <h3>
-                Company
-              </h3>
-            </div>
-            <pf-company-selector />
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              SFTP
-            </h3>
-            <div
-              class="container-fluid"
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
             >
-              <pf-sftp-account-status />
-            </div>
-          </div>
-          
-          <div
-            class="list-group-item"
-          >
-            <h3>
-              Mappings
-            </h3>
+              Delimiter: 
+            </label>
             <div
-              class="container-fluid"
+              class="col-sm-1"
             >
-              <div
-                class="form-group row"
-              >
-                <label
-                  class="col-sm-1 col-form-label"
-                  for="delimiter"
-                >
-                  Delimiter: 
-                </label>
-                <div
-                  class="col-sm-1"
-                >
-                  <input
-                    class="form-control ng-untouched ng-pristine ng-valid"
-                    id="delimiter"
-                    ng-reflect-model=","
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <kendo-tabstrip>
-              <kendo-tabstrip-tab
-                title="Pay Markets"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Jobs"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structures"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Structure Mappings"
-              >
-                
-              </kendo-tabstrip-tab>
-              <kendo-tabstrip-tab
-                title="Employees"
-              >
-                
-              </kendo-tabstrip-tab>
-            </kendo-tabstrip>
-            <div
-              class="float-right m-2"
-            >
-              <button
-                class="btn btn-primary m-2"
-                type="button"
-              >
-                Update
-              </button>
-              <button
-                class="btn btn-secondary"
-              >
-                Email Recipients
-              </button>
+              <input
+                class="form-control"
+                id="delimiter"
+                type="text"
+              />
             </div>
           </div>
         </div>
         
-        <pf-email-recipients-modal
+        <kendo-tabstrip>
+          <kendo-tabstrip-tab
+            title="Pay Markets"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Jobs"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Structures"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Structure Mappings"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Employees"
+          >
+            
+          </kendo-tabstrip-tab>
+        </kendo-tabstrip>
+        <div
           class="float-right m-2"
-        />
+        >
+          <button
+            class="btn btn-primary m-2"
+            type="button"
+          >
+            Update
+          </button>
+          <button
+            class="btn btn-secondary"
+          >
+            Email Recipients
+          </button>
+        </div>
       </div>
     </div>
+    
+    <pf-email-recipients-modal
+      class="float-right m-2"
+    />
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
 `;

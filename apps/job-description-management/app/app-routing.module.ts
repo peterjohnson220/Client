@@ -22,6 +22,11 @@ export const routes: Routes = [
         path: 'templates',
         loadChildren: () => import('apps/job-description-management/app/_templates/templates.module')
           .then(m => m.TemplatesModule)
+      },
+      {
+        path: 'settings',
+        loadChildren: () => import('apps/job-description-management/app/_settings/settings.module')
+          .then(m => m.SettingsModule)
       }
     ]
   },

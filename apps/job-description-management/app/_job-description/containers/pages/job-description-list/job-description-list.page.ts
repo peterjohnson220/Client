@@ -93,13 +93,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public isPublic: boolean;
   public publicCompanyId: number;
   public listFilter: string;
-  public hasManageTemplatesPermission: boolean;
-  public hasManageSettingsPermission: boolean;
-  public hasAddJobPermission: boolean;
+  public permissions = Permissions;
 
   private listAreaColumnsSubscription: Subscription;
   private routerParmsSubscription: Subscription;
-  private jobInformationFieldsSubscription: Subscription;
   private saveCompanyJobsJobDescriptionTemplateIdSubscription: Subscription;
   private createJobDescriptionDraftSubscription: Subscription;
   private createJobDescriptionSubscription: Subscription;
@@ -143,12 +140,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.createdJobDescriptionId$ = this.store.select(fromJobDescriptionReducers.getCreatedJobDescriptionId);
     this.savingListAreaColumnsSuccess$ = this.store.select(fromJobDescriptionReducers.getListAreaColumnsSavingSuccess);
     this.addingUserFilterSuccess$ = this.store.select(fromJobDescriptionReducers.getUserFilterAddingSuccess);
-
-    this.hasManageTemplatesPermission = this.permissionService.CheckPermission([Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES],
-      PermissionCheckEnum.Single);
-    this.hasManageSettingsPermission = this.permissionService.CheckPermission([Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES],
-      PermissionCheckEnum.Single);
-    this.hasAddJobPermission = this.permissionService.CheckPermission([Permissions.JOB_DESCRIPTIONS_ADD], PermissionCheckEnum.Single);
 
     this.filterThrottle = new Subject();
 
@@ -476,7 +467,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.addUserFilterSubscription.unsubscribe();
     this.createJobDescriptionSubscription.unsubscribe();
     this.createJobDescriptionDraftSubscription.unsubscribe();
-    this.jobInformationFieldsSubscription.unsubscribe();
     this.listAreaColumnsSubscription.unsubscribe();
     this.routerParmsSubscription.unsubscribe();
     this.saveCompanyJobsJobDescriptionTemplateIdSubscription.unsubscribe();
