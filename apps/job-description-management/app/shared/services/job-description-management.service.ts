@@ -57,14 +57,6 @@ export class JobDescriptionManagementService {
     this.store.dispatch(new fromCompanyFLSAStatusActions.LoadCompanyFlsaStatuses());
   }
 
-  getLibrarySearchResultsByBucket(searchRequest: LibrarySearchRequest) {
-    this.store.dispatch(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResultsByBucket(searchRequest));
-  }
-
-  getLibrarySearchResults(searchRequest: LibrarySearchRequest) {
-    this.store.dispatch(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResults(searchRequest));
-  }
-
   userEmailHasJobPermission(emailAddr: string, jobId: number) {
     return this.jobDescriptionManagementApiService.userEmailHasJobPermission(encodeURIComponent(emailAddr), jobId)
       .map(result => {

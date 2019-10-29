@@ -1,4 +1,4 @@
-export class LibrarySearchRequest {
+export interface LibrarySearchRequest {
   BucketKey: string;
   JobTitle: string;
   Keyword: string;

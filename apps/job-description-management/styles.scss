@@ -69,7 +69,6 @@
 }
 
 .badge {
-  min-width: 75px !important;
   display: inline-block;
   padding: 0.25em 0.4em;
   font-size: 75%;
@@ -94,9 +93,19 @@
   background-color: #5cb85c;
 }
 
+.column-scroll-container {
+  padding: 0;
+  height: 100%;
+}
+
 .column-scroll-container .column-scroll-inner {
   padding-left: 15px;
   padding-right: 15px;
+}
+
+.scroll-y {
+  height: 100%;
+  overflow-y: auto;
 }
 
 .card-block {
