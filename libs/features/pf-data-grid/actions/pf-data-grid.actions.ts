@@ -8,12 +8,15 @@ export const LOAD_DATA_SUCCESS = '[PfDataGrid] Load Data Success';
 export const UPDATE_FIELDS = '[PfDataGrid] Update Data Fields';
 export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
 export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
-export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
+export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
 export const CLEAR_ALL_FILTERS = '[PfDataGrid] Clear All Filters';
 export const TOGGLE_FILTER_PANEL = '[PfDataGrid] Toggle Filter Panel';
 export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
+export const UPDATE_SELECTED_ROW_ID = '[PfDataGrid] Set Selected Row Id';
+export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
+export const CLEAR_LOADING = '[PfDataGrid] Clear Loading';
 
 export class LoadViewConfig implements Action {
     readonly type = LOAD_VIEW_CONFIG;
@@ -50,6 +53,11 @@ export class UpdateFieldsSuccess implements Action {
     constructor(public pageViewId: string) { }
 }
 
+export class UpdateInboundFilters implements Action {
+  readonly type = UPDATE_INBOUND_FILTERS;
+  constructor(public pageViewId: string, public payload: DataViewFilter[]) { }
+}
+
 export class UpdateFilter implements Action {
   readonly type = UPDATE_FILTER;
   constructor(public pageViewId: string, public payload: DataViewFilter) { }
@@ -75,6 +83,16 @@ export class SetFilterPanelDisplay implements Action {
   constructor(public pageViewId: string, public displayValue: boolean) {}
 }
 
+export class UpdateSelectedRowId implements Action {
+  readonly type = UPDATE_SELECTED_ROW_ID;
+  constructor(public pageViewId: string, public rowId: number, public fieldName: string) {}
+}
+
+export class ClearLoading implements Action {
+  readonly type = CLEAR_LOADING;
+  constructor(public pageViewId: string) { }
+}
+
 export class HandleApiError implements Action {
   readonly type = HANDLE_API_ERROR;
   constructor(public pageViewId: string, public payload: string) { }
@@ -88,9 +106,12 @@ export type DataGridActions =
     | LoadDataSuccess
     | UpdateFields
     | UpdateFieldsSuccess
+    | UpdateInboundFilters
     | UpdateFilter
     | ClearFilter
     | ClearAllFilters
     | ToggleFilterPanel
     | SetFilterPanelDisplay
+    | UpdateSelectedRowId
+    | ClearLoading
     | HandleApiError;

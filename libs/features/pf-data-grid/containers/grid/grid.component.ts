@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
@@ -15,13 +15,12 @@ import { DataGridState } from '../../reducers/pf-data-grid.reducer';
 })
 export class GridComponent implements OnInit, OnChanges {
 
-  @Input() primaryKey: string;
+  @Input() selectionEntityName: string;
+  @Input() selectionField: string;
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
-  @Input() allowSplitView = false;
-  @Input() isCompact = false;
-
-  @Output() rowSelected = new EventEmitter();
+  @Input() selectedRowId: number;
+  @Input() allowSplitView: boolean;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -29,8 +28,6 @@ export class GridComponent implements OnInit, OnChanges {
   data$: Observable<GridDataResult>;
   pagingOptions$: Observable<PagingOptions>;
   pageCount$: Observable<number>;
-
-  selectedRowId: number;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -43,8 +40,6 @@ export class GridComponent implements OnInit, OnChanges {
       this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
       this.data$ = this.store.select(fromReducer.getData, changes['pageViewId'].currentValue);
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
-    } else if (changes['isCompact'] && !changes['isCompact'].currentValue) {
-      this.selectedRowId = null;
     }
   }
 
@@ -54,7 +49,7 @@ export class GridComponent implements OnInit, OnChanges {
   }
 
   showColumn(col: ViewField) {
-    return (!this.isCompact || col.IsLocked) && col.IsSelectable && col.IsSelected;
+    return (!this.selectedRowId || col.IsLocked) && col.IsSelectable && col.IsSelected;
   }
 
   mappedFieldName(col: ViewField): string {
@@ -66,14 +61,13 @@ export class GridComponent implements OnInit, OnChanges {
   }
 
   onCellClick({ dataItem }) {
-    if (this.allowSplitView && !getSelection().toString()) {
-      this.selectedRowId = dataItem[this.primaryKey];
-      this.rowSelected.emit();
+    if (this.allowSplitView) {
+      this.store.dispatch(new fromActions.UpdateSelectedRowId(this.pageViewId, dataItem[this.getSelectedRowIdentifier()], this.selectionField));
     }
   }
 
-  public selectedRowClass = (context: RowClassArgs) => ({
-    'k-state-selected': context.dataItem[this.primaryKey] === this.selectedRowId
+  selectedRowClass = (context: RowClassArgs) => ({
+    'k-state-selected': context.dataItem[this.getSelectedRowIdentifier()] === this.selectedRowId
   })
 
   getPagingBarConfig(state: DataGridState) {
@@ -81,7 +75,7 @@ export class GridComponent implements OnInit, OnChanges {
       return false;
     }
 
-    if (this.isCompact) {
+    if (this.selectedRowId) {
       return {
         info: true,
         type: 'input',
@@ -97,5 +91,9 @@ export class GridComponent implements OnInit, OnChanges {
         previousNext: true
       };
     }
+  }
+
+  getSelectedRowIdentifier() {
+    return `${this.selectionEntityName}_${this.selectionField}`;
   }
 }

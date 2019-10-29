@@ -2,9 +2,9 @@ import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnC
 
 import { Store } from '@ngrx/store';
 
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import { ViewField, DataViewFilter } from 'libs/models/payfactors-api';
+import { ViewField, DataViewFilter, DataViewEntity } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
@@ -24,19 +24,22 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() allowExport = true;
   @Input() showFilterChooser = true;
   @Input() contentNoPadding = false;
-  @Input() primaryKey: string;
+  @Input() selectionField: string;
   @Input() columnTemplates: any;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
+  @Input() inboundFilters: DataViewFilter[];
 
   public gridFilterThrottle: Subject<any>;
-  isSplitView = false;
 
   splitViewEmitter = new EventEmitter<string>();
+  splitViewFilters$: Observable<DataViewFilter[]>;
+  baseEntity$: Observable<DataViewEntity>;
   dataFields$: Observable<ViewField[]>;
   filters$: Observable<DataViewFilter[]>;
   displayFilterPanel$: Observable<boolean>;
+  selectedRowId$: Observable<number>;
 
   constructor(private store: Store<fromReducer.State>) {
     this.gridFilterThrottle = new Subject();
@@ -46,7 +49,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.splitViewEmitter.subscribe(res => {
       switch (res) {
         case 'close':
-          this.isSplitView = false;
+          this.store.dispatch(new fromActions.UpdateSelectedRowId(this.pageViewId, null, this.selectionField));
           break;
         default:
           break;
@@ -55,9 +58,12 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     this.initGridFilterThrottle();
 
+    this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
+    this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
     this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
     this.filters$ = this.store.select(fromReducer.getFilters, this.pageViewId);
     this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
+    this.selectedRowId$ = this.store.select(fromReducer.getSelectedRowId, this.pageViewId);
   }
 
   ngOnDestroy() {
@@ -67,6 +73,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
+    }
+
+    if (changes['inboundFilters']) {
+      this.store.dispatch(new fromActions.UpdateInboundFilters(this.pageViewId, changes['inboundFilters'].currentValue));
     }
   }
 
@@ -88,11 +98,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   clearAllFilters() {
     this.store.dispatch(new fromActions.ClearAllFilters(this.pageViewId));
-  }
-
-  onRowSelect() {
-    this.isSplitView = true;
-    this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
   }
 
   private initGridFilterThrottle() {

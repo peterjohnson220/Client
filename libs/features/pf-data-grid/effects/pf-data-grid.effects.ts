@@ -52,29 +52,40 @@ export class PfDataGridEffects {
     @Effect()
     loadData$: Observable<Action> = this.actions$
         .pipe(
-            ofType(fromPfDataGridActions.LOAD_DATA, fromPfDataGridActions.UPDATE_PAGING_OPTIONS),
+            ofType(fromPfDataGridActions.LOAD_DATA, fromPfDataGridActions.UPDATE_PAGING_OPTIONS, fromPfDataGridActions.UPDATE_INBOUND_FILTERS),
             mergeMap((loadDataAction: fromPfDataGridActions.LoadData) =>
                 of(loadDataAction).pipe(
                     withLatestFrom(
-                        this.store.pipe(select(fromPfDataGridReducer.getBaseEntityId, loadDataAction.pageViewId)),
+                        this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getFields, loadDataAction.pageViewId)),
+                        this.store.pipe(select(fromPfDataGridReducer.getInboundFilters, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getFilters, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
-                        (action: fromPfDataGridActions.LoadData, baseEntityId, fields, filters, pagingOptions) =>
-                            ({ action, baseEntityId, fields, filters, pagingOptions })
+                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, inboundFilters, filters, pagingOptions) =>
+                            ({ action, baseEntity, fields, inboundFilters, filters, pagingOptions })
                     )
                 ),
             ),
-            switchMap((data) =>
-                this.dataViewApiService
-                    .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(data.baseEntityId, data.fields, data.filters, data.pagingOptions))
-                    .pipe(
-                        map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
-                        catchError(error => {
-                            const msg = 'We encountered an error while loading your data';
-                            return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
-                        })
-                    )
+            switchMap((data) => {
+                if (data.fields) {
+                    return this.dataViewApiService
+                        .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(
+                            data.baseEntity ? data.baseEntity.Id : null,
+                            data.fields,
+                            data.filters.concat(data.inboundFilters),
+                            data.pagingOptions))
+                        .pipe(
+                            map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
+                            catchError(error => {
+                                const msg = 'We encountered an error while loading your data';
+                                return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
+                            })
+                        );
+                } else {
+                    return of(new fromPfDataGridActions.ClearLoading(data.action.pageViewId));
+                }
+            }
+
             )
         );
 
@@ -85,15 +96,15 @@ export class PfDataGridEffects {
             mergeMap((updateFieldsAction: fromPfDataGridActions.UpdateFields) =>
                 of(updateFieldsAction).pipe(
                     withLatestFrom(
-                        this.store.pipe(select(fromPfDataGridReducer.getBaseEntityId, updateFieldsAction.pageViewId)),
-                        (action: fromPfDataGridActions.UpdateFields, baseEntityId) =>
-                            ({ action, baseEntityId })
+                        this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, updateFieldsAction.pageViewId)),
+                        (action: fromPfDataGridActions.UpdateFields, baseEntity) =>
+                            ({ action, baseEntity })
                     )
                 ),
             ),
             switchMap((data) =>
                 this.dataViewApiService.updateDataView(PfDataGridEffects
-                    .buildSaveDataViewRequest(data.action.pageViewId, data.baseEntityId, data.action.fields))
+                    .buildSaveDataViewRequest(data.action.pageViewId, data.baseEntity.Id, data.action.fields))
                     .pipe(
                         map((response: any[]) => {
                             return new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId);
