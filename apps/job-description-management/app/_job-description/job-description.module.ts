@@ -23,8 +23,9 @@ import {
   JobDescriptionJobComparePageComponent,
   JobDescriptionListPageComponent,
   JobDescriptionVersionComparePageComponent,
-  JobDescriptionPageComponent
-} from './containers/pages';
+  JobDescriptionPageComponent,
+  JobDescriptionActionsComponent
+} from './containers';
 import {
   AddJobModalComponent,
   AssignJobsToTemplateModalComponent,
@@ -55,7 +56,8 @@ import {
   PublicViewHeaderEffects,
   UserFilterEffects,
   JobDescriptionVersionCompareEffects,
-  JobDescriptionJobCompareEffects
+  JobDescriptionJobCompareEffects,
+  JobMatchesEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
@@ -80,7 +82,8 @@ import { ListAreaService } from '../shared/services';
       PublicViewHeaderEffects,
       UserFilterEffects,
       JobDescriptionJobCompareEffects,
-      JobDescriptionVersionCompareEffects
+      JobDescriptionVersionCompareEffects,
+      JobMatchesEffects
     ]),
     LayoutModule,
     SharedModule,
@@ -132,6 +135,9 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionListPageComponent,
     JobDescriptionVersionComparePageComponent,
     JobDescriptionPageComponent,
+
+    // Containers
+    JobDescriptionActionsComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,

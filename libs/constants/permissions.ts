@@ -49,7 +49,7 @@ export class Permissions {
   public static DOWNLOAD_USER_RESTRICTION_REPORT	=	'Download User Restriction Report';
   public static BULK_ADD_USERS	=	'Bulk Add Users';
   public static SCHEDULE_JDM_BULK_EXPORT	=	'Schedule JDM Bulk Export';
-  public static PRICING_PROJECTS_NEW_PROJECT	=	'Pricing_Projects_New_Project';
+  public static PRICING_PROJECTS_NEW_PROJECT	=	'New Project';
   public static USER_ROLES	=	'User Roles';
   public static PEER_IMPORT_ASSOCIATIONS	=	'Peer_Import_Associations';
   public static PEER_MANAGE_JOBS	=	'Peer_Manage_Jobs';

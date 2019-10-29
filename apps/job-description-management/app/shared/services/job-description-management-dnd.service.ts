@@ -45,6 +45,8 @@ export class JobDescriptionManagementDnDService {
 
   destroyJobDescriptionManagementDnD() {
     this.dragulaService.destroy('control-data-reorder-bag');
-    this.dragulaSubscription.unsubscribe();
+    if (this.dragulaSubscription) {
+      this.dragulaSubscription.unsubscribe();
+    }
   }
 }

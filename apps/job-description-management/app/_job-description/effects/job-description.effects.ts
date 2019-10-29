@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { JobDescription } from 'libs/models/jdm';
 
-import { JobDescriptionApiService, JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
+import { JobDescriptionApiService, JobDescriptionTemplateApiService, JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
 import { CompanyDto } from 'libs/models/company';
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
-import * as fromJobDescriptionReducer from '../reducers';
+import { GetJobDescriptionData } from '../models';
 
 @Injectable()
 export class JobDescriptionEffects {
@@ -66,9 +68,22 @@ export class JobDescriptionEffects {
     .pipe(
       ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION),
       switchMap((action: fromJobDescriptionActions.GetJobDescription) => {
-        return this.jobDescriptionApiService.getDetail(action.payload.jobDescriptionId)
+        return this.jobDescriptionApiService.getDetail(
+          action.payload.JobDescriptionId,
+          action.payload.RevisionNumber,
+          action.payload.ViewName)
           .pipe(
-            map((response) => new fromJobDescriptionActions.GetJobDescriptionSuccess(response)),
+            mergeMap((response: JobDescription) => {
+              const actions = [];
+              actions.push( new fromJobDescriptionActions.GetJobDescriptionSuccess({
+                jobDescription: response,
+                requestData: action.payload
+              }));
+              if (!action.payload.RevisionNumber && !action.payload.ViewName) {
+                actions.push(new fromJobDescriptionActions.GetViews({ templateId: response.TemplateId }));
+              }
+              return actions;
+            }),
             catchError(() => of(new fromJobDescriptionActions.GetJobDescriptionError()))
           );
       })
@@ -95,20 +110,81 @@ export class JobDescriptionEffects {
   loadCompanyLogo$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.LOAD_COMPANY_LOGO),
-      switchMap((action: fromJobDescriptionActions.LoadCompanyLogo) =>
-        this.companyApiService.get(action.payload).pipe(
+      switchMap((action: fromJobDescriptionActions.LoadCompanyLogo) => {
+        return this.companyApiService.get(action.payload).pipe(
           map((response: CompanyDto) => {
             return new fromJobDescriptionActions.LoadCompanyLogoSuccess(response.CompanyLogo);
           }),
           catchError(response => of(new fromJobDescriptionActions.LoadCompanyLogoError()))
-        )
-      ));
+        );
+      })
+    );
+
+  @Effect()
+  publishJobDescription$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION),
+      switchMap((action: fromJobDescriptionActions.PublishJobDescription) => {
+        return this.jobDescriptionApiService.publish(action.payload.jobDescriptionId)
+          .pipe(
+            map((response) => new fromJobDescriptionActions.PublishJobDescriptionSuccess(response)),
+            catchError(() => of(new fromJobDescriptionActions.PublishJobDescriptionError()))
+          );
+      })
+    );
+
+  @Effect()
+  getViews$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.GET_VIEWS),
+      switchMap((action: fromJobDescriptionActions.GetViews) => {
+        return this.jobDescriptionManagementApiService.getViewNames(action.payload.templateId)
+          .pipe(
+            map((response: string[]) => new fromJobDescriptionActions.GetViewsSuccess({ views: response })),
+            catchError(() => of(new fromJobDescriptionActions.GetViewsError()))
+          );
+      })
+    );
+
+  @Effect()
+  discardDraft$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.DISCARD_DRAFT),
+      switchMap((action: fromJobDescriptionActions.DiscardDraft) => {
+        return this.jobDescriptionApiService.discardDraft(action.payload.jobDescriptionId)
+          .pipe(
+            map((response) => {
+              if (response === '') {
+                return new fromJobDescriptionActions.DiscardDraftSuccess();
+              }
+              const jobDescription: JobDescription = JSON.parse(response);
+              const requestData: GetJobDescriptionData = {
+                JobDescriptionId: action.payload.jobDescriptionId,
+                InWorkflow: action.payload.inWorkflow
+              };
+              return new fromJobDescriptionActions.GetJobDescriptionSuccess({
+                jobDescription,
+                requestData
+              });
+            }),
+            catchError(() => of(new fromJobDescriptionActions.DiscardDraftError()))
+          );
+      })
+    );
+
+  @Effect({dispatch: false})
+  discardDraftSuccess$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.DISCARD_DRAFT_SUCCESS),
+      tap(() => this.router.navigate(['']))
+    );
 
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,
     private companyApiService: CompanyApiService,
     private jobDescriptionTemplateApiService: JobDescriptionTemplateApiService,
-    private store: Store<fromJobDescriptionReducer.State>,
+    private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
+    private router: Router
   ) {}
 }

@@ -112,3 +112,29 @@
   flex: 1 1 auto;
   padding: 1.25rem;
 }
+
+.viewNamesDropdownList {
+  .k-input {
+    background-color: #fff;
+  }
+}
+
+.k-list-optionlabel.k-state-selected {
+  color: #fff !important;
+  background-color: #1872ae !important;
+}
+
+.back-btn {
+  padding: 0.375rem 0.95rem;
+  margin-right: 0.65rem;
+}
+
+pf-job-description-job-compare-page,
+pf-job-description-version-compare {
+  .page-header {
+    background-color: rgb(255, 252, 229) !important;
+    border-bottom: 1px solid #CCC !important;
+    white-space: nowrap !important;
+    height: 68px !important;
+  }
+}

@@ -77,7 +77,7 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
   }
 
   stopComparing() {
-     this.router.navigate([`job-description-management/job-descriptions/${this.route.snapshot.params.id}`]);
+     this.router.navigate([`job-descriptions/${this.route.snapshot.params.id}`]);
   }
 
   ngOnInit() {

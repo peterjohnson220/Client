@@ -8,3 +8,6 @@ export * from './job-description-history-list-item.model';
 export * from './reorder-control-data-dto.model';
 export * from './save-job-description-template-id-sucess.model';
 export * from './request';
+export * from './job-description-extended-info.model';
+export * from './job-match-result.model';
+export * from './get-job-description-data.model';

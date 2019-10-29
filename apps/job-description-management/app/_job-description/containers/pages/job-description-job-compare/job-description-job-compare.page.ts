@@ -40,12 +40,12 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
   @ViewChild('conflictErrorModal', {static: true}) public conflictErrorModal: ConflictErrorModalComponent;
   @ViewChild('saveErrorModal', {static: true}) public saveErrorModal: SaveErrorModalComponent;
 
-  private identity$: Observable<UserContext>;
-  private companyLogoSubscription: Subscription;
+  identity$: Observable<UserContext>;
+  companyLogoSubscription: Subscription;
   companyLogo$: Observable<AsyncStateObj<string>>;
-  private jobDescriptionSaveErrorSubscription: Subscription;
-  private appendToControlDataAttributeValueSubscription: Subscription;
-  private addSourcedControlDataRowSubscription: Subscription;
+  jobDescriptionSaveErrorSubscription: Subscription;
+  appendToControlDataAttributeValueSubscription: Subscription;
+  addSourcedControlDataRowSubscription: Subscription;
 
   private isFirstSave = true;
 
@@ -339,8 +339,12 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.appendToControlDataAttributeValueSubscription.unsubscribe();
-    this.addSourcedControlDataRowSubscription.unsubscribe();
+    if (this.appendToControlDataAttributeValueSubscription) {
+      this.appendToControlDataAttributeValueSubscription.unsubscribe();
+    }
+    if (this.addSourcedControlDataRowSubscription) {
+      this.addSourcedControlDataRowSubscription.unsubscribe();
+    }
     this.jobDescriptionManagementDndService.destroyJobDescriptionManagementDnD();
     this.jobDescriptionDnDService.destroyJobDescriptionPageDnD();
   }
