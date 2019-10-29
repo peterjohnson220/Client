@@ -32,7 +32,7 @@ const routes: Routes = [
     data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
   },
   {
-    path: ':id',
+    path: 'job-descriptions/:id',
     component: JobDescriptionPageComponent,
     resolve: {historyList: ResolveHistoryListGuard},
     canActivate: [AuthorizationGuard],
