@@ -5,8 +5,9 @@
   [showFilterChooser] ="false"
   [allowExport]="false"
   [contentNoPadding]="true"
-  [primaryKey]="'CompanyJobs_Pricings_CompanyJobPricing_ID'"
-  [columnTemplates]="colTemplates">
+  [selectionField]="'CompanyJobPricing_ID'"
+  [columnTemplates]="colTemplates"
+  [inboundFilters]="refinedFilters">
 </pf-data-grid>
 
 <ng-template #payMarketColumn let-dataRow="dataRow">

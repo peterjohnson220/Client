@@ -5,7 +5,7 @@
     [skip]="(pagingOptions$ | async)?.From"
     [pageable]="getPagingBarConfig(gridState$ | async)"
     [scrollable]="true"
-    [resizable]="isCompact ? false : true"    
+    [resizable]="selectedRowId ? false : true"    
     [rowClass]="selectedRowClass"
     (pageChange)="onPageChange($event)"
     (cellClick)="onCellClick($event)">
@@ -22,7 +22,7 @@
                         [title]="col.DisplayName"
                         [headerClass]="'pf-data-grid-header'"
                         [style]="{'text-align': col.TextAlign}"
-                        [width]="isCompact ? null : col.Width"
+                        [width]="selectedRowId ? null : col.Width"
                         [minResizableWidth]="30">
                         <ng-template kendoGridCellTemplate let-dataItem>
                           <pf-grid-column
@@ -43,7 +43,7 @@
           [title]="col.DisplayName"
           [headerClass]="'pf-data-grid-header'"
           [style]="{'text-align': col.TextAlign}"
-          [width]="isCompact ? null : col.Width"
+          [width]="selectedRowId ? null : col.Width"
           [minResizableWidth]="30">
           <ng-template kendoGridCellTemplate let-dataItem>
               <pf-grid-column
