@@ -20,7 +20,6 @@ import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/r
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionLibraryActions from '../../../../shared/actions/job-description-library.actions';
 
-
 @Component({
   selector: 'pf-job-description-page',
   templateUrl: './job-description.page.html',
@@ -31,7 +30,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   identityInEmployeeAcknowledgement$: Observable<boolean>;
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
-  companyLogo$: Observable<string>;
+  companyLogo$: Observable<AsyncStateObj<string>>;
   enableLibraryForRoutedJobDescriptions$: Observable<boolean>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
   editingJobDescription$: Observable<boolean>;
@@ -71,7 +70,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     private permissionService: PermissionService,
     private jobDescriptionManagementService: JobDescriptionManagementService
   ) {
-    this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogo);
+    this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogoAsync);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.enableLibraryForRoutedJobDescriptions$ = this.settingsService.selectCompanySetting<boolean>(
@@ -189,10 +188,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.companyName = userContext.CompanyName;
       this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
       this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
-        this.companyLogoPath = companyLogo
-          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo
+        this.companyLogoPath = companyLogo && companyLogo.obj
+          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo.obj
           : '';
       });
+      this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(userContext.CompanyId));
     });
     this.enableLibraryForRoutedJobDescriptionsSubscription = this.enableLibraryForRoutedJobDescriptions$.subscribe(value =>
       this.enableLibraryForRoutedJobDescriptions = value);

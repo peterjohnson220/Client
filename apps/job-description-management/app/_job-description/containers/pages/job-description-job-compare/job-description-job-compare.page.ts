@@ -18,10 +18,10 @@ import { SaveError } from 'libs/models/common/save-error';
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
 
 import * as fromJobDescriptionJobCompareActions from '../../../actions/job-description-job-compare.actions';
+import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionJobCompareReducers from '../../../reducers/index';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
-import * as fromJobDescriptionVersionCompareActions from '../../../actions/job-description-version-compare.actions';
 import { JobCompareFullscreenSender } from '../../../constants/job-compare.constants';
 import { ConflictErrorModalComponent, SaveErrorModalComponent } from '../../../../shared/components';
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService } from '../../../../shared/services';
@@ -42,7 +42,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
 
   private identity$: Observable<UserContext>;
   private companyLogoSubscription: Subscription;
-  private companyLogo$: Observable<string>;
+  companyLogo$: Observable<AsyncStateObj<string>>;
   private jobDescriptionSaveErrorSubscription: Subscription;
   private appendToControlDataAttributeValueSubscription: Subscription;
   private addSourcedControlDataRowSubscription: Subscription;
@@ -88,7 +88,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
       filter(sjda => !!sjda && !!sjda.obj),
       take(1)
     ).subscribe(jda => this.sourceJobDescription = cloneDeep(jda.obj));
-    this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogo);
+    this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogoAsync);
     this.saveThrottle = new Subject();
 
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
@@ -105,12 +105,12 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
     // Get Identity
     this.identity$.subscribe(identity => {
       this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
-        this.companyLogoPath = companyLogo
-          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo
+        this.companyLogoPath = companyLogo && companyLogo.obj
+          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo.obj
           : '';
       });
 
-      this.store.dispatch(new fromJobDescriptionVersionCompareActions.LoadCompanyLogo(identity.CompanyId));
+      this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(identity.CompanyId));
 
       // todo: move to job-description main page
       this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,

@@ -25,6 +25,7 @@ export interface State {
   publishButtonEnabled: boolean;
   jobDescriptionRecentChange: JobDescription;
   jobDescriptionChangeHistory: JobDescription[];
+  companyLogoAsync: AsyncStateObj<string>;
 }
 
 export const initialState: State = {
@@ -42,11 +43,39 @@ export const initialState: State = {
   saving: false,
   publishButtonEnabled: false,
   jobDescriptionRecentChange: null,
-  jobDescriptionChangeHistory: []
+  jobDescriptionChangeHistory: [],
+  companyLogoAsync: generateDefaultAsyncStateObj<string>(null),
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
   switch (action.type) {
+    case fromJobDescriptionActions.LOAD_COMPANY_LOGO: {
+      const companyLogoAsync = cloneDeep(state.companyLogoAsync);
+      companyLogoAsync.loading = true;
+      companyLogoAsync.error = false;
+      return {
+        ...state,
+        companyLogoAsync: companyLogoAsync
+      };
+    }
+    case fromJobDescriptionActions.LOAD_COMPANY_LOGO_ERROR: {
+      const companyLogoAsync = cloneDeep(state.companyLogoAsync);
+      companyLogoAsync.loading = false;
+      companyLogoAsync.error = true;
+      return {
+        ...state,
+        companyLogoAsync: companyLogoAsync
+      };
+    }
+    case fromJobDescriptionActions.LOAD_COMPANY_LOGO_SUCCESS: {
+      const companyLogoAsync = cloneDeep(state.companyLogoAsync);
+      companyLogoAsync.loading = false;
+      companyLogoAsync.obj = action.payload;
+      return {
+        ...state,
+        companyLogoAsync: companyLogoAsync
+      };
+    }
     case fromJobDescriptionActions.CREATE_JOB_DESCRIPTION:
       return {
         ...state,
@@ -203,3 +232,4 @@ export const getCompanyJobsJobDescriptionTemplateIdSavingResponse = (state: Stat
 export const getJobDescriptionAsync = (state: State) => state.jobDescriptionAsync;
 export const getEditingJobDescription = (state: State) => state.editing;
 export const getSavingJobDescription = (state: State) => state.saving;
+export const getCompanyLogoAsync = (state: State) => state.companyLogoAsync;
