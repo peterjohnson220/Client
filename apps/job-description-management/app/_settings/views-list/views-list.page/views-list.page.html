@@ -1,0 +1,52 @@
+<div class="flex-column-container">
+  <h4>Job Description Views</h4>
+
+  <p>
+    A Job Description View is a way to determine what sections and content controls a user is able to see while looking at a Job Description. Create and edit specific Job Description Views necessary for your organization.
+  </p>
+
+  <div class="card flex-grow-1 d-flex">
+    <div class="card-header">
+      <div class="w-25">
+        <pf-input-debounce class="w-25"
+          [id]="'viewsFilter'"
+          [placeholderText]="'Search Views'"
+          [hideClearBtn]="true"
+          (valueChanged)="handleSearchValueChanged($event)">
+        </pf-input-debounce>
+      </div>
+    </div>
+    <div class="card-body">
+      <ng-container *ngIf="(viewsListAsyncObj$ | async) as viewsAsync">
+        <pf-async-container [smartLoadingMask]="true" [loading]="viewsAsync.loading" [loadingError]="viewsAsync.loadingError">
+          <ng-container *ngIf="(viewsAsync.obj | filterArrayByName: viewsFilter) as filteredViews">
+            <table class="table table-hover" *ngIf="filteredViews.length; else noViews">
+              <tbody>
+                <tr *ngFor="let view of filteredViews; trackBy: viewsTrackByFn">
+                  <td width="96%" class="align-middle">
+                    {{view.Name}}
+                  </td>
+                  <td width="4%">
+                    <button class="btn btn-sm btn-secondary"
+                            [attr.data-qa-id]="'btn-deleteView'"
+                            [disabled]="isSystemView(view.Name)"
+                            (click)="deleteView(view.Name)">
+                      <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-template #noViews>
+            <div class="p-2">
+              No Views
+            </div>
+          </ng-template>
+        </pf-async-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<pf-simple-yes-no-modal [opts]="deleteViewModalOptions" (actionConfirmed)="handleViewDeleteConfirmed($event)"></pf-simple-yes-no-modal>

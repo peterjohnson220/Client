@@ -3,8 +3,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { SimpleYesNoModalComponent } from '../../../../shared/components/modals/simple-yes-no';
-import { SimpleYesNoModalOptions } from '../../../../shared/models/simple-yes-no-modal-options';
+import { SimpleYesNoModalComponent } from 'libs/ui/common';
+import { SimpleYesNoModalOptions } from 'libs/models/common';
+
 import { NewTemplateModalComponent } from '../../../components/modals/new-template';
 import { CopyTemplateModalComponent } from '../../../components/modals/copy-template';
 import {Template, TemplateListItem} from '../../../models';
