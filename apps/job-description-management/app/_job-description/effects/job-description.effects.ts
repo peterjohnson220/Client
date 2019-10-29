@@ -6,6 +6,8 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { JobDescriptionApiService, JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
+import { CompanyDto } from 'libs/models/company';
+import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import * as fromJobDescriptionReducer from '../reducers';
@@ -89,9 +91,23 @@ export class JobDescriptionEffects {
       })
     );
 
+  @Effect()
+  loadCompanyLogo$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.LOAD_COMPANY_LOGO),
+      switchMap((action: fromJobDescriptionActions.LoadCompanyLogo) =>
+        this.companyApiService.get(action.payload).pipe(
+          map((response: CompanyDto) => {
+            return new fromJobDescriptionActions.LoadCompanyLogoSuccess(response.CompanyLogo);
+          }),
+          catchError(response => of(new fromJobDescriptionActions.LoadCompanyLogoError()))
+        )
+      ));
+
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,
+    private companyApiService: CompanyApiService,
     private jobDescriptionTemplateApiService: JobDescriptionTemplateApiService,
     private store: Store<fromJobDescriptionReducer.State>,
   ) {}

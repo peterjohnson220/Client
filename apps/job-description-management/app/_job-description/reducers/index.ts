@@ -241,6 +241,11 @@ export const getSavingJobDescription = createSelector(
   fromJobDescriptionReducer.getSavingJobDescription
 );
 
+export const getCompanyLogoAsync = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getCompanyLogoAsync
+);
+
 // Job Description Grid
 export const getJobDescriptionGridLoading = createSelector(
   selectJobDescriptionGridState,
@@ -444,7 +449,3 @@ export const getSourceHistoryListItem = createSelector(
    fromJobDescriptionVersionCompareReducer.getSourceHistoryListItem
 );
 
-export const getCompanyLogo = createSelector(
-  selectJobDescriptionVersionCompareState,
-  fromJobDescriptionVersionCompareReducer.getCompanyLogo
-);

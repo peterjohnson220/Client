@@ -13,19 +13,22 @@ import {
 import { JobDescriptionJobCompareListResolver, ResolveHistoryListGuard } from './guards';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'job-descriptions', pathMatch: 'full' },
   {
-    path: '',
-    component: JobDescriptionListPageComponent
+    path: 'job-descriptions',
+    component: JobDescriptionListPageComponent,
+    canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
   },
   {
-    path: 'compare-jobs/:id',
+    path: 'job-descriptions/compare-jobs/:id',
     component: JobDescriptionJobComparePageComponent,
     resolve: {jobDescriptionList: JobDescriptionJobCompareListResolver},
     canActivate: [AuthorizationGuard],
     data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
   },
   {
-    path: 'compare-versions/:id',
+    path: 'job-descriptions/compare-versions/:id',
     component: JobDescriptionVersionComparePageComponent,
     resolve: {historyList: ResolveHistoryListGuard},
     canActivate: [AuthorizationGuard],
