@@ -35,7 +35,8 @@ import {
   SmartListEditorDataTableComponent,
   JobDescriptionInfoHeaderWithLogoComponent,
   SaveErrorModalComponent,
-  ConflictErrorModalComponent
+  ConflictErrorModalComponent,
+  SimpleYesNoModalComponent
 } from './components';
 import { ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from './services';
 import { reducers } from './reducers';
@@ -91,7 +92,8 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     JobDescriptionInfoHeaderWithLogoComponent,
     ControlDataRendererComponent,
     ConflictErrorModalComponent,
-    SaveErrorModalComponent
+    SaveErrorModalComponent,
+    SimpleYesNoModalComponent
   ],
   declarations: [
     // Components
@@ -112,6 +114,7 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     SingleEditorComponent,
     SmartListEditorComponent,
     SmartListEditorDataTableComponent,
+    SimpleYesNoModalComponent,
 
     // Pipes
     JobDescriptionAppliesToDisplayNamePipe

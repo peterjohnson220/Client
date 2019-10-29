@@ -93,3 +93,13 @@
 .badge-success {
   background-color: #5cb85c;
 }
+
+.column-scroll-container .column-scroll-inner {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.card-block {
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
