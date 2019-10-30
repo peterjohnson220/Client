@@ -56,7 +56,7 @@ import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridCompone
     PricingDetailsGridComponent
   ]
 })
-export class JobsPageModule { 
+export class JobsPageModule {
   constructor() {
     library.add(...fromFaIcons.faIcons);
   }

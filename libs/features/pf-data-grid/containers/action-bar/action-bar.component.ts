@@ -16,7 +16,7 @@ export class ActionBarComponent implements OnChanges {
   @Input() showFilterChooser = true;
   @Input() allowExport = true;
   @Input() pageViewId: string;
-  @Input() globalFilterAlignment:string;
+  @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
 
   dataFields$: Observable<ViewField[]>;
@@ -30,7 +30,7 @@ export class ActionBarComponent implements OnChanges {
     }
   }
 
-  updateFields(updatedFields: ViewField[]){
+  updateFields(updatedFields: ViewField[]) {
     this.store.dispatch(new fromActions.UpdateFields(this.pageViewId, updatedFields));
     this.store.dispatch(new fromActions.LoadData(this.pageViewId));
   }

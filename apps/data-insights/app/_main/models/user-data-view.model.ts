@@ -1,3 +1,9 @@
+export enum DataViewAccessLevel {
+  ReadOnly = 'ReadOnly',
+  Edit = 'Edit',
+  Owner = 'Owner'
+}
+
 export interface UserDataView {
   UserDataViewId: number;
   BaseEntityId: number;
@@ -20,10 +26,4 @@ export function generateMockUserDataView(): UserDataView {
     SortDir: 'asc',
     AccessLevel: DataViewAccessLevel.Owner
   };
-}
-
-export enum DataViewAccessLevel {
-  ReadOnly = 'ReadOnly',
-  Edit = 'Edit',
-  Owner = 'Owner'
 }
