@@ -456,7 +456,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private routeToJobDescription(jobDescriptionId: number) {
     if (this.tokenId) {
       const jwtValue = this.tokenId;
-      this.router.navigate([`job-description-management/job-descriptions/${jobDescriptionId}`],
+      this.router.navigate(['/job-descriptions/', jobDescriptionId],
         { queryParams: { jwt: jwtValue, viewName: JobDescriptionViewConstants.PUBLIC_VIEW } });
     } else {
       this.router.navigate(['/job-descriptions/', jobDescriptionId]);
