@@ -1,10 +1,13 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
+
+import { ViewField } from 'libs/models/payfactors-api';
+
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
-import { ViewField } from 'libs/models/payfactors-api';
 
 @Component({
   selector: 'pf-grid',
@@ -73,9 +76,7 @@ export class GridComponent implements OnInit, OnChanges {
     }
   }
 
-  public selectedRowClass = (context: RowClassArgs) => ({
-    'k-state-selected': context.dataItem[this.primaryKey] === this.selectedRowId
-  })
+  public selectedRowClass = (context: RowClassArgs) => ({'k-state-selected': context.dataItem[this.primaryKey] === this.selectedRowId});
 
   getPagingBarConfig() {
     if (this.isCompact) {
@@ -94,6 +95,4 @@ export class GridComponent implements OnInit, OnChanges {
       previousNext: true
     };
   }
-
- 
 }
