@@ -11,5 +11,4 @@ export * from './job-information-field.model';
 export * from './list-area-options.model';
 export * from './smart-list-hierarchy.model';
 export * from './source-detail.model';
-export * from './simple-yes-no-modal-options';
 export * from './save-error.model';
