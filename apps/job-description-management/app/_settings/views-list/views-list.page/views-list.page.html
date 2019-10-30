@@ -22,7 +22,7 @@
           <ng-container *ngIf="(viewsAsync.obj | filterArrayByName: viewsFilter) as filteredViews">
             <table class="table table-hover" *ngIf="filteredViews.length; else noViews">
               <tbody>
-                <tr *ngFor="let view of filteredViews; trackBy: viewsTrackByFn">
+                <tr (click)="handleViewClicked(view.Name)" *ngFor="let view of filteredViews; trackBy: viewsTrackByFn">
                   <td width="96%" class="align-middle">
                     {{view.Name}}
                   </td>
@@ -30,7 +30,7 @@
                     <button class="btn btn-sm btn-secondary"
                             [attr.data-qa-id]="'btn-deleteView'"
                             [disabled]="isSystemView(view.Name)"
-                            (click)="deleteView(view.Name)">
+                            (click)="handleDeleteViewClicked(view.Name, $event)">
                       <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
                     </button>
                   </td>

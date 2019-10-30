@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { map, switchMap } from 'rxjs/operators';
 
-import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm/job-description-management-api.service';
+import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api';
 
 import * as fromControlTypeActions from '../actions/control-types.actions';
 

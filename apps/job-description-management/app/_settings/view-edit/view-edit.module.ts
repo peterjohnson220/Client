@@ -11,10 +11,12 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 
-import { ViewsListEffects } from './effects';
+import { ViewEditorComponent } from './components';
+import { JobInfoViewEditorComponent } from './containers';
+import { ViewEditEffects, JobInfoViewEditorEffects } from './effects';
 import { reducers } from './reducers';
-import { ViewsListPageComponent } from './views-list.page';
-import * as fromFaIcons from './fa-icons';
+import { ViewEditPageComponent } from './view-edit.page';
+import * as fromFaIcons from '../view-edit/fa-icons';
 
 @NgModule({
   imports: [
@@ -22,8 +24,8 @@ import * as fromFaIcons from './fa-icons';
     CommonModule, FormsModule,
 
     // 3rd Party
-    StoreModule.forFeature('jobDescriptionManagement_settings_viewsList', reducers),
-    EffectsModule.forFeature([ViewsListEffects]),
+    StoreModule.forFeature('jobDescriptionManagement_settings_viewEdit', reducers),
+    EffectsModule.forFeature([ViewEditEffects, JobInfoViewEditorEffects]),
 
     // Payfactors
     PfFormsModule,
@@ -32,14 +34,20 @@ import * as fromFaIcons from './fa-icons';
     PfCommonModule
   ],
   declarations: [
+    // Components
+    ViewEditorComponent,
+
+    // Containers
+    JobInfoViewEditorComponent,
+
     // Feature
-    ViewsListPageComponent,
+    ViewEditPageComponent
   ],
   exports: [
-    ViewsListPageComponent,
+    ViewEditPageComponent,
   ]
 })
-export class ViewsListModule {
+export class ViewEditModule {
   constructor() {
     library.add(...fromFaIcons.faIcons);
   }

@@ -7,13 +7,13 @@ import * as fromRoot from 'libs/state/state';
 import * as fromViewsListReducer from './views-list.reducer';
 
 // Feature area state
-export interface JobDescriptionManagementSettingsViewListState {
+export interface JobDescriptionManagementSettingsViewsListState {
   viewsList: fromViewsListReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  jobDescriptionManagement_settings_viewList: JobDescriptionManagementSettingsViewListState;
+  jobDescriptionManagement_settings_viewsList: JobDescriptionManagementSettingsViewsListState;
 }
 
 // Feature area reducers
@@ -22,13 +22,13 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectFeatureAreaState = createFeatureSelector<JobDescriptionManagementSettingsViewListState>(
-  'jobDescriptionManagement_settings_viewList');
+export const selectFeatureAreaState = createFeatureSelector<JobDescriptionManagementSettingsViewsListState>(
+  'jobDescriptionManagement_settings_viewsList');
 
 // Feature Selectors
 export const selectViewsListState = createSelector(
   selectFeatureAreaState,
-  (state: JobDescriptionManagementSettingsViewListState) => state.viewsList
+  (state: JobDescriptionManagementSettingsViewsListState) => state.viewsList
 );
 
 // Views List
