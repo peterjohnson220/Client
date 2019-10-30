@@ -1,5 +1,5 @@
 import * as fromCompanyResourcesPageActions from '../actions/company-resources.actions';
-import { OrphanedCompanyResource, CompanyResource } from '../models';
+import { OrphanedCompanyResource } from '../models';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 

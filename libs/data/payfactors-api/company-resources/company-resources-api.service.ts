@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CompanyResources } from '../../../../apps/dashboard/app/_main/models';
-import { CompanyResourceFolderPost } from 'apps/dashboard/app/_main/models/company-resource-folder-post.model';
+import { CompanyResources, CompanyResourceFolderPost } from 'apps/resources/app/_company-resources/models';
+
 
 const endpoint = 'CompanyResources';
 

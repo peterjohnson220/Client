@@ -94,28 +94,6 @@ export class CompanyResourcesPageEffects {
         ))
     );
 
-  @Effect()
-  uploadingCompanyResource$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromCompanyResourcesPageActions.UPLOADING_COMPANY_RESOURCE),
-      switchMap((action: fromCompanyResourcesPageActions.UploadingCompanyResource) =>
-        this.resourcesApiService.uploadCompanyResource(action.payload).pipe(
-            map((response) => new fromCompanyResourcesPageActions.UploadingCompanyResourceSuccess(response)),
-            catchError(error => of(new fromCompanyResourcesPageActions.UploadingCompanyResourceError(error)))
-        ))
-    );
-
-  @Effect()
-  removingCompanyResource$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromCompanyResourcesPageActions.REMOVING_COMPANY_RESOURCE),
-      switchMap((action: fromCompanyResourcesPageActions.RemovingCompanyResource) =>
-        this.resourcesApiService.removeCompanyResource(action.payload).pipe(
-            map((response) => new fromCompanyResourcesPageActions.RemovingCompanyResourceSuccess(response)),
-            catchError(error => of(new fromCompanyResourcesPageActions.RemovingCompanyResourceError(error)))
-        ))
-    );
-
   constructor(
     private actions$: Actions,
     private resourcesApiService: CompanyResourcesApiService,

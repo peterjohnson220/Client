@@ -30,16 +30,9 @@ import { faShare } from '@fortawesome/pro-solid-svg-icons/faShare';
 import { faInfo } from '@fortawesome/pro-solid-svg-icons/faInfo';
 import { faPlus } from '@fortawesome/pro-solid-svg-icons/faPlus';
 import { faThumbtack } from '@fortawesome/pro-solid-svg-icons/faThumbtack';
-import { faFolder } from '@fortawesome/pro-solid-svg-icons/faFolder';
-import { faFolderOpen } from '@fortawesome/pro-solid-svg-icons/faFolderOpen';
-import { faUpload } from '@fortawesome/pro-solid-svg-icons/faUpload';
-import { faLink } from '@fortawesome/pro-solid-svg-icons/faLink';
-import { faDownload } from '@fortawesome/pro-solid-svg-icons/faDownload';
-import { faFolderPlus } from '@fortawesome/pro-solid-svg-icons/faFolderPlus';
 
 
 export const faIcons = [faArrowCircleLeft, faCommentAlt, faLightbulb, faChartArea, faHome, faChartBar,
   faAmbulance, faQuestionCircle, faNewspaper, faExchangeAlt, faChartPie, faBolt, faAngleDoubleLeft,
   faInfoCircle, faTimes, faPlusCircle, faCalculator, faSitemap, faListUl, faBell, faFileAlt, faUsers, faTable,
-  faSlidersH, faToggleOn, faToggleOff, faComments, faBuilding, faShare, faInfo, faPlus, faThumbtack, faFolder,
-  faFolderOpen, faUpload, faLink, faDownload, faFolderPlus];
+  faSlidersH, faToggleOn, faToggleOff, faComments, faBuilding, faShare, faInfo, faPlus, faThumbtack];

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Action } from '@ngrx/store';
-import { CompanyResources, CompanyResourceFolderPost, CompanyResourceFolder } from '../models';
+import { CompanyResources, CompanyResourceFolderPost } from '../models';
 
 
 export const GETTING_COMPANY_RESOURCES = '[Company Resources/Company Resources Page] Getting Company Resources';
@@ -21,12 +21,6 @@ export const ADDING_FOLDER_TO_COMPANY_RESOURCES_ERROR = '[Company Resources/Comp
 export const DELETING_FOLDER_FROM_COMPANY_RESOURCES = '[Company Resources/Company Resources Page] Deleting Folder From Company Resources';
 export const DELETING_FOLDER_FROM_COMPANY_RESOURCES_SUCCESS = '[Company Resources/Company Resources Page] Deleting Folder From Company Resources Success';
 export const DELETING_FOLDER_FROM_COMPANY_RESOURCES_ERROR = '[Company Resources/Company Resources Page] Deleting Folder From Company Resources Error';
-export const UPLOADING_COMPANY_RESOURCE = '[Company Resources/Company Resources Page] Uploading Company Resource';
-export const UPLOADING_COMPANY_RESOURCE_SUCCESS = '[Company Resources/Company Resources Page] Uploading Company Resource Success';
-export const UPLOADING_COMPANY_RESOURCE_ERROR = '[Company Resources/Company Resources Page] Uploading Company Resource Error';
-export const REMOVING_COMPANY_RESOURCE = '[Company Resources/Company Resources Page] Removing Company Resource';
-export const REMOVING_COMPANY_RESOURCE_SUCCESS = '[Company Resources/Company Resources Page] Removing Company Resource Success';
-export const REMOVING_COMPANY_RESOURCE_ERROR = '[Company Resources/Company Resources Page] Removing Company Resource Error';
 
 
 export class GettingCompanyResources implements Action {
@@ -60,7 +54,6 @@ export class AddingCompanyResourceToFolderSuccess implements Action {
 
   constructor(public payload) {}
 }
-
 
 export class AddingCompanyResourceOrphanSuccess implements Action {
   readonly type = ADDING_COMPANY_RESOURCE_ORPHAN_SUCCESS;
@@ -135,43 +128,6 @@ export class DeletingFolderFromCompanyResourcesError implements Action {
   constructor(public payload) {}
 }
 
-export class UploadingCompanyResource implements Action {
-  readonly type = UPLOADING_COMPANY_RESOURCE;
-
-  constructor(public payload) {}
-}
-
-export class UploadingCompanyResourceSuccess implements Action {
-  readonly type = UPLOADING_COMPANY_RESOURCE_SUCCESS;
-
-  constructor(public payload) {}
-}
-
-export class UploadingCompanyResourceError implements Action {
-  readonly type = UPLOADING_COMPANY_RESOURCE_ERROR;
-
-  constructor(public payload) {}
-}
-
-export class RemovingCompanyResource implements Action {
-  readonly type = REMOVING_COMPANY_RESOURCE;
-
-  constructor(public payload) {}
-}
-
-export class RemovingCompanyResourceSuccess implements Action {
-  readonly type = REMOVING_COMPANY_RESOURCE_SUCCESS;
-
-  constructor(public payload) {}
-}
-
-export class RemovingCompanyResourceError implements Action {
-  readonly type = REMOVING_COMPANY_RESOURCE_ERROR;
-
-  constructor(public payload) {}
-}
-
-
 export type Actions
   = GettingCompanyResources
   | GettingCompanyResourcesSuccess
@@ -190,10 +146,4 @@ export type Actions
   | AddingFolderToCompanyResourcesError
   | DeletingFolderFromCompanyResources
   | DeletingFolderFromCompanyResourcesSuccess
-  | DeletingFolderFromCompanyResourcesError
-  | UploadingCompanyResource
-  | UploadingCompanyResourceSuccess
-  | UploadingCompanyResourceError
-  | RemovingCompanyResource
-  | RemovingCompanyResourceSuccess
-  | RemovingCompanyResourceError;
+  | DeletingFolderFromCompanyResourcesError;

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CompanyResource, OrphanedCompanyResource, CompanyResourceFolder } from '../../models';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
+import { DeleteModalComponent } from '../../components/delete-modal/delete-modal.component';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromCompanyResourcesPageReducer from '../../reducers';
