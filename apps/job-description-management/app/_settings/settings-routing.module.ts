@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AuthorizationGuard } from 'libs/security/guards';
 
-import { JobDescriptionViewsListPageComponent } from './job-description-views-list';
+import { ViewsListPageComponent } from './views-list';
 import { LayoutPageComponent } from './layout';
 
 const routes: Routes = [
@@ -21,7 +21,7 @@ const routes: Routes = [
       },
       {
         path: 'job-description-views',
-        component: JobDescriptionViewsListPageComponent
+        component: ViewsListPageComponent
       }
     ]
   }

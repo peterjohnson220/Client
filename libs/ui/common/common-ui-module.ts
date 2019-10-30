@@ -24,6 +24,7 @@ import { AfterIfDirective, ClickElsewhereDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
 import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
+import { SimpleYesNoModalComponent } from './simple-yes-no';
 
 const components = [
   // Content
@@ -34,6 +35,7 @@ const components = [
   MultiSelectComponent,
   NavigationLinksComponent,
   PeerAssociationColorBlockComponent,
+  SimpleYesNoModalComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective,

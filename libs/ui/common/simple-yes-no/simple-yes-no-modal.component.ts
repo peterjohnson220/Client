@@ -2,7 +2,7 @@ import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import { SimpleYesNoModalOptions} from '../../../models/simple-yes-no-modal-options';
+import { SimpleYesNoModalOptions} from 'libs/models/common';
 
 @Component({
   selector: 'pf-simple-yes-no-modal',

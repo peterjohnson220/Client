@@ -6,3 +6,4 @@ export * from './common-ui-module';
 export * from './validation';
 export * from './terms-conditions-modal';
 export * from './directives';
+export * from './simple-yes-no';

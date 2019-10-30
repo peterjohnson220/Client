@@ -91,4 +91,8 @@ export class JobDescriptionManagementApiService {
     return this.payfactorsApiService.get(`${this.endpoint}.GetPublicJdmColumns?companyId=${companyId}`);
   }
 
+  deleteView(name: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}.DeleteView`, { Name: name });
+  }
+
 }

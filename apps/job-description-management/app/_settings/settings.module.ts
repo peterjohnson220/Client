@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { SettingsRoutingModule } from './settings-routing.module';
-import { JobDescriptionViewsListModule } from './job-description-views-list';
+import { ViewsListModule } from './views-list';
 import { LayoutModule } from './layout';
 
 
@@ -20,7 +20,7 @@ import { LayoutModule } from './layout';
     PfCommonUIModule,
 
     // Features
-    JobDescriptionViewsListModule,
+    ViewsListModule,
     LayoutModule,
   ]
 })

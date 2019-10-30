@@ -12,6 +12,10 @@ $navbar-dark-color: #FFF;
 $navbar-dark-hover-color: $navbar-dark-color;
 
 /* Style Overrides */
+.table-hover tr {
+  cursor: pointer;
+}
+
 // This will remove the outline when clicking on a close "X" in a modal.
 .modal-header {
   background: #f7f7f7;

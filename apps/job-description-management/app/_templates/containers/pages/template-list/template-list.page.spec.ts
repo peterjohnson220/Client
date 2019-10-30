@@ -11,6 +11,7 @@ import * as fromRootState from 'libs/state/state';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import {PermissionService} from 'libs/core/services';
 import {JobDescriptionTemplateApiService} from 'libs/data/payfactors-api/jdm';
+import {SimpleYesNoModalComponent} from 'libs/ui/common/simple-yes-no';
 
 import { TemplateListPageComponent } from './template-list.page';
 import * as fromTemplateListActions from '../../../actions/template-list.actions';
@@ -20,8 +21,6 @@ import {RouteTrackingService} from '../../../../shared/services';
 import {generateMockTemplateListItem, Template} from '../../../models';
 import {CopyTemplateModalComponent} from '../../../components/modals/copy-template';
 import {NewTemplateModalComponent} from '../../../components/modals/new-template';
-import {SimpleYesNoModalComponent} from '../../../../shared/components/modals/simple-yes-no';
-
 
 describe('Job Description Management - Job Description - Template List Page', () => {
   let instance: TemplateListPageComponent;
