@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewFilter } from 'libs/models/payfactors-api';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';
@@ -8,6 +9,8 @@ export const LOAD_DATA_SUCCESS = '[PfDataGrid] Load Data Success';
 export const UPDATE_FIELDS = '[PfDataGrid] Update Data Fields';
 export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
 export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
+export const UPDATE_DEFAULT_SORT_DESCRIPTOR = '[PfDataGrid] Update Default Sort Descriptor';
+export const UPDATE_SORT_DESCRIPTOR = '[PfDataGrid] Update Sort Descriptor';
 export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
@@ -15,8 +18,8 @@ export const CLEAR_ALL_FILTERS = '[PfDataGrid] Clear All Filters';
 export const TOGGLE_FILTER_PANEL = '[PfDataGrid] Toggle Filter Panel';
 export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
 export const UPDATE_SELECTED_ROW_ID = '[PfDataGrid] Set Selected Row Id';
-export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
 export const CLEAR_LOADING = '[PfDataGrid] Clear Loading';
+export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
 
 export class LoadViewConfig implements Action {
     readonly type = LOAD_VIEW_CONFIG;
@@ -31,6 +34,16 @@ export class LoadViewConfigSuccess implements Action {
 export class UpdatePagingOptions implements Action {
   readonly type = UPDATE_PAGING_OPTIONS;
   constructor(public pageViewId: string, public pagingOptions: PagingOptions) { }
+}
+
+export class UpdateDefaultSortDescriptor implements Action {
+  readonly type = UPDATE_DEFAULT_SORT_DESCRIPTOR;
+  constructor(public pageViewId: string, public sortDescriptor: SortDescriptor[]) { }
+}
+
+export class UpdateSortDescriptor implements Action {
+  readonly type = UPDATE_SORT_DESCRIPTOR;
+  constructor(public pageViewId: string, public sortDescriptor: SortDescriptor[]) { }
 }
 
 export class LoadData implements Action {
@@ -102,6 +115,8 @@ export type DataGridActions =
     | LoadViewConfig
     | LoadViewConfigSuccess
     | UpdatePagingOptions
+    | UpdateDefaultSortDescriptor
+    | UpdateSortDescriptor
     | LoadData
     | LoadDataSuccess
     | UpdateFields

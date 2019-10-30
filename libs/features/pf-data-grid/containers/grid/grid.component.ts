@@ -6,6 +6,7 @@ import * as fromActions from '../../actions';
 import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { ViewField, PagingOptions } from 'libs/models/payfactors-api';
 import { DataGridState } from '../../reducers/pf-data-grid.reducer';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-grid',
@@ -27,7 +28,7 @@ export class GridComponent implements OnInit, OnChanges {
   dataFields$: Observable<any[]>;
   data$: Observable<GridDataResult>;
   pagingOptions$: Observable<PagingOptions>;
-  pageCount$: Observable<number>;
+  sortDescriptor$: Observable<SortDescriptor[]>;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -40,6 +41,7 @@ export class GridComponent implements OnInit, OnChanges {
       this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
       this.data$ = this.store.select(fromReducer.getData, changes['pageViewId'].currentValue);
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
+      this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
     }
   }
 
@@ -60,8 +62,12 @@ export class GridComponent implements OnInit, OnChanges {
     this.store.dispatch(new fromActions.UpdatePagingOptions(this.pageViewId, { From: event.skip, Count: event.take }));
   }
 
+  onSortChange(sortDescriptor: SortDescriptor[]): void {
+    this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, sortDescriptor));
+  }
+
   onCellClick({ dataItem }) {
-    if (this.allowSplitView) {
+    if (this.allowSplitView && !getSelection().toString()) {
       this.store.dispatch(new fromActions.UpdateSelectedRowId(this.pageViewId, dataItem[this.getSelectedRowIdentifier()], this.selectionField));
     }
   }
@@ -71,26 +77,29 @@ export class GridComponent implements OnInit, OnChanges {
   })
 
   getPagingBarConfig(state: DataGridState) {
-    if (state && state.data && (state.data.total / state.pagingOptions.Count) <= 1) {
-      return false;
+    if (this.isMultiplePages(state)) {
+      if (this.selectedRowId) {
+        return {
+          info: true,
+          type: 'input',
+          pageSizes: false,
+          previousNext: true
+        };
+      } else {
+        return {
+          buttonCount: 5,
+          info: true,
+          type: 'numeric',
+          pageSizes: false,
+          previousNext: true
+        };
+      }
     }
+    return false;
+  }
 
-    if (this.selectedRowId) {
-      return {
-        info: true,
-        type: 'input',
-        pageSizes: false,
-        previousNext: true
-      };
-    } else {
-      return {
-        buttonCount: 5,
-        info: true,
-        type: 'numeric',
-        pageSizes: false,
-        previousNext: true
-      };
-    }
+  isMultiplePages(state: DataGridState) {
+    return state && state.data && (state.data.total / state.pagingOptions.Count) > 1;
   }
 
   getSelectedRowIdentifier() {

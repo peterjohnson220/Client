@@ -2,6 +2,7 @@ import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnChanges, Simp
 import { DataViewFilter } from 'libs/models/payfactors-api';
 import { JobsHelpers } from '../../helpers/jobs.helpers';
 import * as cloneDeep from 'lodash.clonedeep';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-pricing-details-grid',
@@ -18,6 +19,11 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnChanges {
 
   refinedFilters: DataViewFilter[];
   colTemplates = {};
+
+  defaultSort: SortDescriptor[] = [{
+    dir: 'asc',
+    field: 'CompanyPayMarkets_PayMarket'
+  }];
 
   constructor() { }
 

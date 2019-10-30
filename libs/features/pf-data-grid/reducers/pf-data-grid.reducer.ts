@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import * as fromPfGridActions from '../actions';
 import { ViewField, PagingOptions, DataViewFilter, DataViewFieldDataType, DataViewEntity } from 'libs/models/payfactors-api';
 import { GridDataResult } from '@progress/kendo-angular-grid';
-import { groupBy, GroupResult } from '@progress/kendo-data-query';
+import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
 export interface DataGridState {
   pageViewId: string;
@@ -14,8 +14,10 @@ export interface DataGridState {
   splitViewFilters: DataViewFilter[];
   filters: DataViewFilter[];
   filterPanelOpen: boolean;
-  data: GridDataResult;
   pagingOptions: PagingOptions;
+  defaultSortDescriptor: SortDescriptor[];
+  sortDescriptor: SortDescriptor[];
+  data: GridDataResult;
   selectedRowId: number;
 }
 
@@ -45,7 +47,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             loading: true,
             pagingOptions: DEFAULT_PAGING_OPTIONS,
             filters: [],
-            inboundFilters: []
+            inboundFilters: [],
+            data: null
           }
         }
       };
@@ -109,6 +112,31 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             pagingOptions: action.pagingOptions,
+            loading: true
+          },
+        }
+      };
+    case fromPfGridActions.UPDATE_DEFAULT_SORT_DESCRIPTOR:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            defaultSortDescriptor: action.sortDescriptor,
+            sortDescriptor: action.sortDescriptor,
+            loading: true
+          },
+        }
+      };
+    case fromPfGridActions.UPDATE_SORT_DESCRIPTOR:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            sortDescriptor: action.sortDescriptor[0].dir ? action.sortDescriptor : state.grids[action.pageViewId].defaultSortDescriptor,
             loading: true
           },
         }
@@ -242,6 +270,10 @@ export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) 
   return state.grids[pageViewId] && state.grids[pageViewId].fields ? state.grids[pageViewId].fields.filter(f => f.IsGlobalFilter) : null;
 };
 export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pagingOptions : null;
+export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].defaultSortDescriptor : null;
+};
+export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].sortDescriptor : null;
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
 export const getFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].filters : [];
