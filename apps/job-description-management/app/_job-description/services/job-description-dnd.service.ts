@@ -94,7 +94,9 @@ export class JobDescriptionDnDService {
     if (this.overSubscription) {
       this.overSubscription.unsubscribe();
     }
-    this.dropSubscription.unsubscribe();
+    if (this.dropSubscription) {
+      this.dropSubscription.unsubscribe();
+    }
   }
 
   private addSourcedDataToControl(jobDescriptionControl: JobDescriptionControl, controlType: ControlType, data: string) {

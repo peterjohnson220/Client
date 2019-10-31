@@ -1,24 +1,39 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-import { JobDescription, UserContext, CompanySettingsEnum, AsyncStateObj, ControlType, JobDescriptionControl, ControlTypeAttribute } from 'libs/models';
+import {
+  JobDescription,
+  UserContext,
+  CompanySettingsEnum,
+  AsyncStateObj,
+  ControlType,
+  JobDescriptionControl,
+  ControlTypeAttribute,
+  SimpleYesNoModalOptions
+} from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
-
+import { SimpleYesNoModalComponent } from 'libs/ui/common';
 
 import { JobDescriptionManagementService } from '../../../../shared/services';
 import { ControlDataHelper } from '../../../../shared/helpers';
-import { JobDescriptionLibraryBucket, JobDescriptionLibraryResult, LibrarySearchRequest } from '../../../../shared/models';
+import {
+  JobDescriptionLibraryBucket,
+  JobDescriptionLibraryResult,
+  LibrarySearchRequest,
+  JobDescriptionAppliesTo
+} from '../../../../shared/models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionLibraryActions from '../../../../shared/actions/job-description-library.actions';
+import { JobDescriptionActionsComponent } from '../../job-description-actions';
 
 @Component({
   selector: 'pf-job-description-page',
@@ -26,6 +41,8 @@ import * as fromJobDescriptionLibraryActions from '../../../../shared/actions/jo
   styleUrls: ['./job-description.page.scss']
 })
 export class JobDescriptionPageComponent implements OnInit, OnDestroy {
+  @ViewChild('discardDraftModal', { static: true }) public discardDraftModal: SimpleYesNoModalComponent;
+  @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   identityInEmployeeAcknowledgement$: Observable<boolean>;
   jobDescriptionPublishing$: Observable<boolean>;
@@ -55,14 +72,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   hasCanEditJobDescriptionPermission: boolean;
   identityInWorkflow: boolean;
   saving: boolean;
+  discardDraftModalOptions: SimpleYesNoModalOptions;
   showLibrary = false;
   showRoutingHistory = false;
   jobDescriptionIsFullscreen = false;
   isFirstSave = true;
   queueSave = false;
+  tokenId: string;
+  identity: UserContext;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private store: Store<fromJobDescriptionReducers.State>,
     private userContextStore: Store<fromRootState.State>,
     private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
@@ -84,6 +105,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionLibraryBuckets$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getBucketsAsync);
     this.jobDescriptionLibraryResults$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getResultsAsync);
     this.saveThrottle = new Subject();
+    this.defineDiscardDraftModalOptions();
   }
 
   ngOnInit(): void {
@@ -99,6 +121,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.enableLibraryForRoutedJobDescriptionsSubscription.unsubscribe();
     this.saveThrottleSubscription.unsubscribe();
     this.savingJobDescriptionSubscription.unsubscribe();
+  }
+
+  goBack(): void {
+    if (!!this.identity && this.identity.IsPublic) {
+      this.router.navigate(['/'], { queryParams: { jwt: this.tokenId } });
+    }
+    this.router.navigate(['/']);
   }
 
   handleControlDataChanges(changeObj: any) {
@@ -167,6 +196,75 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  handlePublishClicked(): void {
+    this.showLibrary = false;
+    this.showRoutingHistory = false;
+  }
+
+  handleRouteForApprovalClicked(): void {
+    // this.workflowSetupModal.open();
+  }
+
+  handleDiscardDraftClicked(): void {
+    this.discardDraftModal.open({});
+    this.isFirstSave = true;
+  }
+
+  handleEditClicked(): void {
+    this.showRoutingHistory = false;
+  }
+
+  handlePriceJobClicked(): void {
+    // this.jobMatchesModalComponent.open();
+  }
+
+  handleCancelApprovalClicked(): void {
+    // this.workflowCancelModal.open();
+  }
+
+  handleCopyFromClicked(): void {
+    // this.selectJobAsCopySourceModal.open();
+  }
+
+  handleFLSAClicked(): void {
+    // this.flsaQuestionnaireModal.open();
+  }
+
+  handleRoutingHistoryClicked(): void {
+    this.showRoutingHistory = true;
+    this.showLibrary = false;
+  }
+
+  handleUpdateJobInfoClicked(): void {
+    const appliesTo = new JobDescriptionAppliesTo();
+    appliesTo.AppliesToField = this.jobDescription.AppliesToField;
+    appliesTo.AppliesToValue = this.jobDescription.AppliesToValue;
+    appliesTo.JobDescriptionTitle = this.jobDescription.JobDescriptionTitle;
+
+    // this.jobDescriptionAppliesToModalComponent.open(this.jobDescription.JobDescriptionId, this.jobDescription.CompanyJobId, appliesTo);
+  }
+
+  handleExportClicked(exportType: string): void {
+    // this.exportJobDescriptionModalComponent.open(exportType);
+  }
+
+  handleDiscardDraftConfirmed(): void {
+    this.store.dispatch(new fromJobDescriptionActions.DiscardDraft({
+      jobDescriptionId: this.jobDescription.JobDescriptionId,
+      inWorkflow: this.identityInWorkflow
+    }));
+    this.showLibrary = false;
+    this.showRoutingHistory = false;
+    this.actionsComponent.resetViewName();
+  }
+
+  public get exportAction(): string {
+    if (!!this.jobDescription && !!this.identity) {
+      const tokenId = this.identity.UserId === 0 ? '?jwt=' + this.tokenId : '';
+      return `/odata/JobDescription(${this.jobDescription.JobDescriptionId})/Default.Export${tokenId}`;
+    }
+  }
+
   private initializeLibrary(): void {
     this.store.dispatch(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResultsByBucket({
       BucketKey: '',
@@ -181,10 +279,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   private initSubscriptions(): void {
     this.routerParamsSubscription = this.route.params.subscribe(params => {
       const jobDescriptionId = params['id'];
-      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({ jobDescriptionId }));
+      this.tokenId = params['jwt'];
+      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({ JobDescriptionId: jobDescriptionId }));
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => this.jobDescription = result.obj);
     this.identitySubscription = this.identity$.subscribe(userContext => {
+      this.identity = userContext;
       this.companyName = userContext.CompanyName;
       this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
       this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
@@ -291,4 +391,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   private togglePublishButton(enabled: boolean): void {
     this.store.dispatch(new fromJobDescriptionActions.TogglePublishButton({ enabled }));
   }
+
+  private defineDiscardDraftModalOptions() {
+    this.discardDraftModalOptions = {
+      Title: 'Discard Draft',
+      Body: !this.identityInWorkflow
+        ? `You have indicated you do not want this Draft any longer. By clicking Discard, all non-published content will be removed
+        . In some instances, this could result in the Job Description being placed back into a Not Started status. <br/><br/> Would you like to continue?`
+        : `Clicking Discard will reset this job description back to its original state when first received
+        . All edits up to this point will be lost. <br /><br /> Would you like to continue?`,
+      ConfirmText: 'Discard',
+      CancelText: 'No',
+      IsDelete: true
+    };
+}
 }

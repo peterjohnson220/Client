@@ -14,6 +14,7 @@ import * as fromPublicViewHeaderReducer from './public-view-header.reducer';
 import * as fromUserFilterReducer from './user-filter.reducer';
 import * as fromJobDescriptionJobCompareReducer from './job-description-job-compare.reducer';
 import * as fromJobDescriptionVersionCompareReducer from './job-description-version-compare.reducer';
+import * as fromJobMatchesReducer from './job-matches.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementJobDescriptionState {
@@ -27,6 +28,7 @@ export interface JobDescriptionManagementJobDescriptionState {
   jobDescriptionVersionCompare: fromJobDescriptionVersionCompareReducer.State;
   publicViewHeader: fromPublicViewHeaderReducer.State;
   userFilter: fromUserFilterReducer.State;
+  jobMatches: fromJobMatchesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -45,7 +47,8 @@ export const reducers = {
   publicViewHeader: fromPublicViewHeaderReducer.reducer,
   userFilter: fromUserFilterReducer.reducer,
   jobDescriptionJobCompare: fromJobDescriptionJobCompareReducer.reducer,
-  jobDescriptionVersionCompare: fromJobDescriptionVersionCompareReducer.reducer
+  jobDescriptionVersionCompare: fromJobDescriptionVersionCompareReducer.reducer,
+  jobMatches: fromJobMatchesReducer.reducer
 };
 
 // Select Feature Area
@@ -101,6 +104,11 @@ export const selectJobDescriptionVersionCompareState = createSelector(
 export const selectUserFilterState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.userFilter
+);
+
+export const selectJobMatchesState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.jobMatches
 );
 
 // Add Job Modal
@@ -244,6 +252,36 @@ export const getSavingJobDescription = createSelector(
 export const getCompanyLogoAsync = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getCompanyLogoAsync
+);
+
+export const getJobDescriptionChangeHistory = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionChangeHistory
+);
+
+export const getPublishingJobDescription = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getPublishingJobDescription
+);
+
+export const getPublishButtonEnabled = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getPublishButtonEnabled
+);
+
+export const getInHistory = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getInHistory
+);
+
+export const getJobDescriptionExtendedInfo = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionExtendedInfo
+);
+
+export const getJobDescriptionViewsAsync = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionViewsAsync
 );
 
 // Job Description Grid
@@ -449,3 +487,8 @@ export const getSourceHistoryListItem = createSelector(
    fromJobDescriptionVersionCompareReducer.getSourceHistoryListItem
 );
 
+// Job Matches
+export const getJobMatchesAsync = createSelector(
+  selectJobMatchesState,
+  fromJobMatchesReducer.getJobMatchesAsync
+);

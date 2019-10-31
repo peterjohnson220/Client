@@ -4,7 +4,7 @@ import { JobDescription } from 'libs/models/jdm';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
-import { SaveJobDescriptionTemplateIdSucessModel } from '../models';
+import { SaveJobDescriptionTemplateIdSucessModel, JobDescriptionExtendedInfo } from '../models';
 import { UndoHelper } from '../../shared/helpers';
 
 const MAX_UNDO_QUEUE_LEN = 50;
@@ -22,10 +22,14 @@ export interface State {
   jobDescriptionAsync: AsyncStateObj<JobDescription>;
   editing: boolean;
   saving: boolean;
+  publishing: boolean;
+  inHistory: boolean;
   publishButtonEnabled: boolean;
   jobDescriptionRecentChange: JobDescription;
   jobDescriptionChangeHistory: JobDescription[];
   companyLogoAsync: AsyncStateObj<string>;
+  jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
+  jobDescriptionViewsAsync: AsyncStateObj<string[]>;
 }
 
 export const initialState: State = {
@@ -41,10 +45,14 @@ export const initialState: State = {
   jobDescriptionAsync: generateDefaultAsyncStateObj<JobDescription>(null),
   editing: false,
   saving: false,
-  publishButtonEnabled: false,
+  publishing: false,
+  publishButtonEnabled: true,
+  inHistory: false,
   jobDescriptionRecentChange: null,
   jobDescriptionChangeHistory: [],
   companyLogoAsync: generateDefaultAsyncStateObj<string>(null),
+  jobDescriptionExtendedInfo: null,
+  jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([])
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
@@ -139,13 +147,25 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     case fromJobDescriptionActions.GET_JOB_DESCRIPTION_SUCCESS: {
       const asyncStateObjClone = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.loading = false;
-      asyncStateObjClone.obj = action.payload;
-      const editing: boolean = asyncStateObjClone.obj.JobDescriptionStatus === 'Draft' ||
+      asyncStateObjClone.obj = action.payload.jobDescription;
+
+      let editing: boolean = asyncStateObjClone.obj.JobDescriptionStatus === 'Draft' ||
         (asyncStateObjClone.obj.JobDescriptionStatus === 'In Review' && asyncStateObjClone.obj.identityInWorkflow);
+      let changeHistory = [];
+      let recentChange = state.jobDescriptionAsync.obj;
+      if (action.payload.requestData.InHistory) {
+        editing = false;
+        changeHistory = state.jobDescriptionChangeHistory;
+        recentChange = state.jobDescriptionRecentChange;
+      }
+
       return {
         ...state,
         jobDescriptionAsync: asyncStateObjClone,
-        editing: editing
+        editing: editing,
+        inHistory: action.payload.requestData.InHistory,
+        jobDescriptionChangeHistory: changeHistory,
+        jobDescriptionRecentChange: recentChange
       };
     }
     case fromJobDescriptionActions.GET_JOB_DESCRIPTION_ERROR: {
@@ -214,6 +234,74 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         publishButtonEnabled: action.payload.enabled
       };
     }
+    case fromJobDescriptionActions.UNDO_JOB_DESCRIPTION_CHANGES: {
+      const jobDescriptionAsyncClone = cloneDeep(state.jobDescriptionAsync);
+      if (state.jobDescriptionChangeHistory.length >= 1) {
+        let undoJd = {};
+        if (state.jobDescriptionChangeHistory.length === 1) {
+          undoJd = UndoHelper.getUndoPoint(jobDescriptionAsyncClone.obj, state.jobDescriptionChangeHistory.pop());
+        } else {
+          undoJd = state.jobDescriptionChangeHistory.pop();
+        }
+        UndoHelper.applyUndo(undoJd, jobDescriptionAsyncClone.obj);
+      }
+      return {
+        ...state,
+        jobDescriptionAsync: jobDescriptionAsyncClone
+      };
+    }
+    case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION: {
+      return {
+        ...state,
+        publishing: true
+      };
+    }
+    case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.jobDescriptionAsync);
+      asyncStateObjClone.obj = action.payload;
+      const recentChange = state.jobDescriptionAsync.obj;
+      return {
+        ...state,
+        publishing: false,
+        editing: false,
+        jobDescriptionAsync: asyncStateObjClone,
+        jobDescriptionChangeHistory: [],
+        jobDescriptionRecentChange: recentChange
+      };
+    }
+    case fromJobDescriptionActions.EDIT_JOB_DESCRIPTION: {
+      return {
+        ...state,
+        editing: true
+      };
+    }
+    case fromJobDescriptionActions.GET_VIEWS: {
+      const asyncStateObjClone = cloneDeep(state.jobDescriptionViewsAsync);
+      asyncStateObjClone.loading = true;
+      asyncStateObjClone.error = false;
+      return {
+        ...state,
+        jobDescriptionViewsAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.GET_VIEWS_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.jobDescriptionViewsAsync);
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.obj = action.payload.views;
+      return {
+        ...state,
+        jobDescriptionViewsAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.GET_VIEWS_ERROR: {
+      const asyncStateObjClone = cloneDeep(state.jobDescriptionViewsAsync);
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.error = true;
+      return {
+        ...state,
+        jobDescriptionViewsAsync: asyncStateObjClone
+      };
+    }
     default:
       return state;
   }
@@ -233,3 +321,9 @@ export const getJobDescriptionAsync = (state: State) => state.jobDescriptionAsyn
 export const getEditingJobDescription = (state: State) => state.editing;
 export const getSavingJobDescription = (state: State) => state.saving;
 export const getCompanyLogoAsync = (state: State) => state.companyLogoAsync;
+export const getJobDescriptionChangeHistory = (state: State) => state.jobDescriptionChangeHistory;
+export const getPublishingJobDescription = (state: State) => state.publishing;
+export const getPublishButtonEnabled = (state: State) => state.publishButtonEnabled;
+export const getInHistory = (state: State) => state.inHistory;
+export const getJobDescriptionExtendedInfo = (state: State) => state.jobDescriptionExtendedInfo;
+export const getJobDescriptionViewsAsync = (state: State) => state.jobDescriptionViewsAsync;

@@ -12,7 +12,8 @@ import {
 } from '../../../models/payfactors-api/job-description/request';
 import {
   CompanyJobViewListItemsResponse,
-  JobInformationFieldForBulkExportResponse
+  JobInformationFieldForBulkExportResponse,
+  JobMatchResultResponse
 } from '../../../models/payfactors-api/job-description/response';
 import {
   JobDescriptionHistoryListItemResponse
@@ -123,8 +124,15 @@ export class JobDescriptionApiService {
     return this.payfactorsApiService.get<JobDescription[]>(`${this.endpoint}(${jobDescriptionId})/Default.GetJobCompareList`);
   }
 
-  getDetail(jobDescriptionId: number, viewName: string = null): Observable<JobDescription> {
-    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetDetail`, {params: {viewName}},
+  getDetail(jobDescriptionId: number, revisionNumber: number = null, viewName: string = null): Observable<JobDescription> {
+    let params = {};
+    if (!!revisionNumber) {
+      params = Object.assign({ revisionNumber }, params);
+    }
+    if (!!viewName) {
+      params = Object.assign({ viewName }, params);
+    }
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetDetail`, { params },
       (response) => JSON.parse(response.value));
   }
 
@@ -137,8 +145,9 @@ export class JobDescriptionApiService {
       (response => JSON.parse(response.value)));
   }
 
-  publish(jobDescriptionId: number) {
-    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.Publish`, {});
+  publish(jobDescriptionId: number): Observable<JobDescription> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.Publish`, {},
+    (response) => JSON.parse(response.value));
   }
 
   getJobCompare(sourceJobDescriptionId: number, compareJobDescriptionId: number) {
@@ -153,5 +162,13 @@ export class JobDescriptionApiService {
         previousRevisionNumber
       }
     }, (response) => JSON.parse(response.value));
+  }
+
+  getJobMatches(jobDescriptionId: number): Observable<JobMatchResultResponse[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetJobMatches`);
+  }
+
+  discardDraft(jobDescriptionId: number): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.DiscardDraft`, {});
   }
 }

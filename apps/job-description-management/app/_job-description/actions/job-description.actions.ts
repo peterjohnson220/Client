@@ -8,6 +8,7 @@ import { SaveCompanyJobsJobDescriptionTemplateIdRequest } from 'libs/models/payf
 import { JobDescription } from 'libs/models';
 
 import { SaveJobDescriptionTemplateIdSucessModel } from '../models/save-job-description-template-id-sucess.model';
+import { GetJobDescriptionData } from '../models';
 
 export const CREATE_JOB_DESCRIPTION = '[job-description-management / Job Description] Create Job Description';
 export const CREATE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Create Job Description Error';
@@ -32,7 +33,17 @@ export const TOGGLE_PUBLISH_BUTTON = '[job-description-management / Job Descript
 export const LOAD_COMPANY_LOGO = '[job-description-management / Job Description] Load Company Logo';
 export const LOAD_COMPANY_LOGO_SUCCESS = '[job-description-management / Job Description] Load Company Logo Success';
 export const LOAD_COMPANY_LOGO_ERROR = '[job-description-management / Job Description] Load Company Logo Error';
-
+export const UNDO_JOB_DESCRIPTION_CHANGES = '[job-description-management / Job Description] Undo Job Description Changes';
+export const PUBLISH_JOB_DESCRIPTION = '[job-description-management / Job Description] Publish Job Description';
+export const PUBLISH_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Publish Job Description Success';
+export const PUBLISH_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Publish Job Description Error';
+export const EDIT_JOB_DESCRIPTION = '[job-description-management / Job Description] Edit Job Description';
+export const GET_VIEWS = '[job-description-management / Job Description] Get Views';
+export const GET_VIEWS_SUCCESS = '[job-description-management / Job Description] Get Views Success';
+export const GET_VIEWS_ERROR = '[job-description-management / Job Description] Get Views Error';
+export const DISCARD_DRAFT = '[job-description-management / Job Description] Discard Draft';
+export const DISCARD_DRAFT_SUCCESS = '[job-description-management / Job Description] Discard Draft Success';
+export const DISCARD_DRAFT_ERROR = '[job-description-management / Job Description] Discard Draft Error';
 
 export class CreateJobDescription implements Action {
   readonly type = CREATE_JOB_DESCRIPTION;
@@ -85,13 +96,13 @@ export class SaveCompanyJobsJobDescriptionTemplateIdSuccess implements Action {
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
 
-  constructor(public payload: { jobDescriptionId: number }) {}
+  constructor(public payload: GetJobDescriptionData) {}
 }
 
 export class GetJobDescriptionSuccess implements Action {
   readonly type = GET_JOB_DESCRIPTION_SUCCESS;
 
-  constructor(public payload: JobDescription) {}
+  constructor(public payload: { jobDescription: JobDescription, requestData: GetJobDescriptionData }) {}
 }
 
 export class GetJobDescriptionError implements Action {
@@ -134,6 +145,73 @@ export class LoadCompanyLogoSuccess implements Action {
 }
 export class LoadCompanyLogoError implements Action {
   readonly type = LOAD_COMPANY_LOGO_ERROR;
+  constructor() {}
+}
+
+export class UndoJobDescriptionChanges implements Action {
+  readonly type = UNDO_JOB_DESCRIPTION_CHANGES;
+
+  constructor() {}
+}
+
+export class PublishJobDescription implements Action {
+  readonly type = PUBLISH_JOB_DESCRIPTION;
+
+  constructor(public payload: { jobDescriptionId: number }) {}
+}
+
+export class PublishJobDescriptionSuccess implements Action {
+  readonly type = PUBLISH_JOB_DESCRIPTION_SUCCESS;
+
+  constructor(public payload: JobDescription) {}
+}
+
+export class PublishJobDescriptionError implements Action {
+  readonly type = PUBLISH_JOB_DESCRIPTION_ERROR;
+
+  constructor() {}
+}
+
+export class EditJobDescription implements Action {
+  readonly type = EDIT_JOB_DESCRIPTION;
+
+  constructor() {}
+}
+
+export class GetViews implements Action {
+  readonly type = GET_VIEWS;
+
+  constructor(public payload: { templateId: number }) {}
+}
+
+export class GetViewsSuccess implements Action {
+  readonly type = GET_VIEWS_SUCCESS;
+
+  constructor(public payload: { views: string[] }) {}
+}
+
+export class GetViewsError implements Action {
+  readonly type = GET_VIEWS_ERROR;
+
+  constructor() {}
+}
+
+export class DiscardDraft implements Action {
+  readonly type = DISCARD_DRAFT;
+
+  constructor(public payload: { jobDescriptionId: number, inWorkflow: boolean }) {}
+}
+
+export class DiscardDraftSuccess implements Action {
+  readonly type = DISCARD_DRAFT_SUCCESS;
+
+  constructor() {}
+}
+
+export class DiscardDraftError implements Action {
+  readonly type = DISCARD_DRAFT_ERROR;
+
+  constructor() {}
 }
 
 export type Actions
@@ -155,4 +233,15 @@ export type Actions
   | TogglePublishButton
   | LoadCompanyLogo
   | LoadCompanyLogoSuccess
-  | LoadCompanyLogoError;
+  | LoadCompanyLogoError
+  | UndoJobDescriptionChanges
+  | PublishJobDescription
+  | PublishJobDescriptionSuccess
+  | PublishJobDescriptionError
+  | EditJobDescription
+  | GetViews
+  | GetViewsSuccess
+  | GetViewsError
+  | DiscardDraft
+  | DiscardDraftSuccess
+  | DiscardDraftError;

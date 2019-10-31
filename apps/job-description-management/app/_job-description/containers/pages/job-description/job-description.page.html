@@ -1,78 +1,33 @@
-<pf-page-with-title-bar [returnUrl]="'/'">
+<pf-page-with-title-bar>
     
   <ng-container page-title>
-    <!-- <ng-container *ngIf="!(identityInWorkflow$ | async) && !(identityInEmployeeAcknowledgement$ | async)">
-      <button *ngIf="!(identity$ | async)?.IsPublic" routerLink="/job-description-management/job-descriptions" type="button" class="btn btn-secondary">
-          <i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i>
-      </button>     
-      <button *ngIf="(identity$ | async)?.IsPublic" routerLink="/job-description-management/job-descriptions" [queryParams]="{ jwt: tokenId}" type="button" class="btn btn-secondary">
-          <i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i>
+    <ng-container *ngIf="!identityInWorkflow && !(identityInEmployeeAcknowledgement$ | async)">
+      <button type="button" class="btn btn-secondary back-btn" (click)="goBack()">
+        <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
       </button>
-    </ng-container> -->
+    </ng-container>
     {{jobDescription?.Name}}
   </ng-container>
+
   <ng-container page-actions>
-    <span (click)="toggleLibrary()">Toggle Library</span>
+
+    <pf-job-description-actions
+      (undoClicked)="saveJobDescription(true)"
+      (publishClicked)="handlePublishClicked()"
+      (routeForApprovalClicked)="handleRouteForApprovalClicked()"
+      (discardDraftClicked)="handleDiscardDraftClicked()"
+      (editClicked)="handleEditClicked()"
+      (priceJobClicked)="handlePriceJobClicked()"
+      (cancelApprovalClicked)="handleCancelApprovalClicked()"
+      (copyFromClicked)="handleCopyFromClicked()"
+      (flsaClicked)="handleFLSAClicked()"
+      (libraryClicked)="toggleLibrary()"
+      (routingHistoryClicked)="handleRoutingHistoryClicked()"
+      (updateJobInfoClicked)="handleUpdateJobInfoClicked()"
+      (exportClicked)="handleExportClicked($event)">
+    </pf-job-description-actions>
+
   </ng-container>
-
-  <!-- <ng-container page-actions>
-      <ng-container *ngIf="!(jobDescriptionViewsLoading$ | async)
-                            && isUserDefinedViewsAvailable()
-                            && !(editingJobDescription$ | async)
-                            && (jobDescription$ | async)?.JobDescriptionStatus != 'In Review'">
-          <kendo-dropdownlist
-                  [defaultItem]="'Default'"
-                  [data]="jobDescriptionViews$ | async"
-                  (valueChange)="handleViewChanged($event)">
-          </kendo-dropdownlist>
-      </ng-container>
-
-      <pf-job-description-actions
-          [jobDescription]="jobDescription$ | async"
-          [hasCanEditJobDescriptionPermission]="hasCanEditJobDescriptionPermission$ | async"
-          [hasCanPublishJobDescriptionPermission]="hasCanPublishJobDescriptionPermission$ | async"
-          [hasCanCancelWorkflowPermission]="hasCanCancelWorkflowPermission$ | async"
-          [hasCanRouteJobDescriptionPermission]="hasCanRouteJobDescriptionPermission$ | async"
-          [editingJobDescription]="editingJobDescription$ | async"
-          [jobDescriptionHistoryListLoading]="jobDescriptionHistoryListLoading$ | async"
-          [jobDescriptionHistoryList]="jobDescriptionHistoryList$ | async"
-          [libraryShowing]="showLibrary"
-          [inHistory]="inHistory$ | async"
-          [inWorkflow]="(identityInWorkflow$ | async)"
-          [inEmployeeAcknowledgement]="(identityInEmployeeAcknowledgement$ | async)"
-          [hasAcknowledged]="(employeeAcknowledgementInfo$ | async)?.HasAcknowledged"
-          [acknowledgementDisabled]="(employeeAcknowledgementError$ | async)"
-          [isPublic]="(identity$ | async)?.IsPublic"
-          [hasRoutingHistory]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId > 0"
-          [enableLibraryForRoutedJobDescriptions]="enableLibraryForRoutedJobDescriptions"
-          [hasFilteredView]="viewName !== 'Default'"
-          [workflowStepInfo]="(identity$ | async)?.WorkflowStepInfo"
-          [jobDescriptionPublishing]="(jobDescriptionPublishing$ | async)"
-          [jobDescriptionSaving]="(jobDescriptionSaving$ | async)"
-          [publishButtonEnabled]="(publishButtonEnabled$ | async)"
-          [undoQueueAvailable]="(undoQueueAvailable$ | async)"
-          (publishClicked)="publishJobDescription()"
-          (routeForApprovalClicked)="openWorkflowSetupModal()"
-          (discardDraftClicked)="discardDraft()"
-          (editClicked)="beginEditing()"
-          (historicalJobDescriptionClicked)="handleHistoricalJobDescriptionClicked($event)"
-          (currentJobDescriptionClicked)="handleCurrentJobDescriptionClicked()"
-          (historyPopoverShown)="getJobDescriptionHistoryList()"
-          (copyFromClicked)="openCopyFromModal()"
-          (exportDocClicked)="handleExportClicked('docx')"
-          (exportPdfClicked)="handleExportClicked('pdf')"
-          (libraryClicked)="showLibrary = true; showRoutingHistory = false"
-          (updateJobInfoClicked)="updateJobInfo()"
-          (cancelApprovalClicked)="cancelApproval()"
-          (flsaClicked)="openFlsaQuestionnaireModal()"
-          (routingHistoryClicked)="showRoutingHistory = true; showLibrary = false;"
-          (compareJobsClicked)="handleCompareJobsClicked()"
-          (compareVersionsClicked)="handleCompareVersionsClicked()"
-          (jobMatchesClicked)="openJobMatchesModal()"
-          (acknowledgeClicked)="openEmployeeAcknowledgementModal()"
-          (undoClicked)="undoJobDescriptionChanges()">
-      </pf-job-description-actions>
-  </ng-container> -->
 
   <ng-container page-content>
     <div class="row pf-inner-page-content">
@@ -192,12 +147,12 @@
         </div>
       </ng-container> -->
       <!--Export Form-->
-      <!-- <form name="exportForm" [action]="exportAction" method="POST">
-          <input type="hidden" name="revisionNumber" value="{{(jobDescription$ | async)?.JobDescriptionRevision}}" />
-          <input type="hidden" name="export-uid" />
-          <input type="hidden" name="export-type" />
-          <input type="hidden" name="viewName" />
-      </form> -->
+      <form name="exportForm" [action]="exportAction" method="POST">
+        <input type="hidden" name="revisionNumber" value="{{jobDescription?.JobDescriptionRevision}}" />
+        <input type="hidden" name="export-uid" />
+        <input type="hidden" name="export-type" />
+        <input type="hidden" name="viewName" />
+      </form>
     </div>
 
   </ng-container>
@@ -231,15 +186,15 @@
 <pf-export-job-description-modal
         [jobDescriptionViews]="jobDescriptionViews$ | async"
         (export)="handleExportModalConfirmed($event)">
-</pf-export-job-description-modal>
+</pf-export-job-description-modal> -->
 
 <pf-simple-yes-no-modal
-        #discardDraftModal
-        [opts]="discardDraftModalOptions"
-        (actionConfirmed)="handleDiscardDraftConfirmed($event)">
+  #discardDraftModal
+  [opts]="discardDraftModalOptions"
+  (actionConfirmed)="handleDiscardDraftConfirmed()">
 </pf-simple-yes-no-modal>
 
-<pf-job-description-job-matches-modal
+<!-- <pf-job-description-job-matches-modal
     [loadingJobMatches]="jobMatchesLoading$ | async"
     [jobMatches]="jobMatches$ | async"
     [jobTitle]="(jobDescription$ | async)?.Name"

@@ -8,3 +8,4 @@ export * from './job-description-version-compare.effects';
 export * from './job-information-fields.effects';
 export * from './public-view-header.effects';
 export * from './user-filter.effects';
+export * from './job-matches.effects';
