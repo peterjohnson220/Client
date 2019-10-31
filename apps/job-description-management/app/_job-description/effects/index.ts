@@ -9,3 +9,4 @@ export * from './job-information-fields.effects';
 export * from './public-view-header.effects';
 export * from './user-filter.effects';
 export * from './job-matches.effects';
+export * from './workflow.effects';

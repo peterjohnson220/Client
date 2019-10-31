@@ -8,10 +8,12 @@ import { Observable, of } from 'rxjs';
 import { JobDescription } from 'libs/models/jdm';
 
 import { JobDescriptionApiService, JobDescriptionTemplateApiService, JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
+import { ExtendedInfoResponse } from 'libs/models/payfactors-api/job-description/response';
 import { CompanyDto } from 'libs/models/company';
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
+import { PayfactorsApiModelMapper } from '../../shared/helpers';
 import { GetJobDescriptionData } from '../models';
 
 @Injectable()
@@ -177,6 +179,21 @@ export class JobDescriptionEffects {
     .pipe(
       ofType(fromJobDescriptionActions.DISCARD_DRAFT_SUCCESS),
       tap(() => this.router.navigate(['']))
+    );
+
+  @Effect()
+  getJobDescriptionExtendedInfo$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO),
+      switchMap((action: fromJobDescriptionActions.GetJobDescriptionExtendedInfo) => {
+        return this.jobDescriptionApiService.getJobDescriptionExtendedInfo(action.payload.jobDescriptionId, action.payload.revision).pipe(
+            map((response: ExtendedInfoResponse) => {
+              const extendedInfo = PayfactorsApiModelMapper.mapJDExtendedInfoResponseToJDExtendedInfoItem(response);
+              return new fromJobDescriptionActions.LoadJobDescriptionExtendedInfo(extendedInfo);
+              },
+            catchError(() => of(new fromJobDescriptionActions.GetJobDescriptionExtendedInfoError()))
+          ));
+      })
     );
 
   constructor(

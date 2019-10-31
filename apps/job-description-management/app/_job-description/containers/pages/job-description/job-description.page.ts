@@ -29,6 +29,7 @@ import {
   LibrarySearchRequest,
   JobDescriptionAppliesTo
 } from '../../../../shared/models';
+import { JobDescriptionExtendedInfo } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
@@ -54,14 +55,19 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   savingJobDescription$: Observable<boolean>;
   jobDescriptionLibraryBuckets$: Observable<AsyncStateObj<JobDescriptionLibraryBucket[]>>;
   jobDescriptionLibraryResults$: Observable<AsyncStateObj<JobDescriptionLibraryResult[]>>;
+  jobDescriptionRevision$: Observable<number>;
+  jobDescriptionExtendedInfo$: Observable<JobDescriptionExtendedInfo>;
+  jobDescriptionIsFullscreen$: Observable<boolean>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
   identitySubscription: Subscription;
+  revisionSubscription: Subscription;
   companyLogoSubscription: Subscription;
   enableLibraryForRoutedJobDescriptionsSubscription: Subscription;
   saveThrottleSubscription: Subscription;
   savingJobDescriptionSubscription: Subscription;
+  jobDescriptionExtendedInfoSubscription: Subscription;
 
   saveThrottle: Subject<any>;
 
@@ -104,6 +110,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.savingJobDescription$ = this.store.select(fromJobDescriptionReducers.getSavingJobDescription);
     this.jobDescriptionLibraryBuckets$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getBucketsAsync);
     this.jobDescriptionLibraryResults$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getResultsAsync);
+    this.jobDescriptionIsFullscreen$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionIsFullscreen);
+    this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
     this.saveThrottle = new Subject();
     this.defineDiscardDraftModalOptions();
   }
@@ -121,6 +129,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.enableLibraryForRoutedJobDescriptionsSubscription.unsubscribe();
     this.saveThrottleSubscription.unsubscribe();
     this.savingJobDescriptionSubscription.unsubscribe();
+    this.jobDescriptionExtendedInfoSubscription.unsubscribe();
   }
 
   goBack(): void {
@@ -282,7 +291,20 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.tokenId = params['jwt'];
       this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({ JobDescriptionId: jobDescriptionId }));
     });
-    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => this.jobDescription = result.obj);
+
+    this.jobDescriptionExtendedInfoSubscription = this.jobDescriptionExtendedInfo$.subscribe(jdei => {
+      if (!!jdei && jdei.WorkflowId === 0) {
+        this.showRoutingHistory = false;
+      }
+    });
+
+    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
+      this.jobDescription = result.obj;
+      if (result.obj) {
+        this.store.dispatch(new fromJobDescriptionActions.GetJobDescriptionExtendedInfo(
+          {jobDescriptionId: result.obj.JobDescriptionId, revision: result.obj.JobDescriptionRevision }));
+      }
+    });
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;

@@ -10,7 +10,8 @@ import {
 import {
   CompanyJobViewListItemsResponse,
   JobInformationFieldForBulkExportResponse,
-  JobMatchResultResponse
+  JobMatchResultResponse,
+  ExtendedInfoResponse,
 } from 'libs/models/payfactors-api/job-description/response';
 import { TemplateListItemResponse } from 'libs/models/payfactors-api/job-description-template/response';
 import {
@@ -27,7 +28,7 @@ import {
 } from 'libs/models/payfactors-api/job-description/response/job-description-appliesto-item-response.model';
 import { JobDescriptionAppliesToItem } from '../models/job-description-appliesto-item.model';
 import { AppliesToAttributesExist } from '../models/applies-to-attributes-exist.model';
-import { JobDescriptionHistoryListItem, JobMatchResult } from '../../_job-description/models';
+import { JobDescriptionExtendedInfo, JobDescriptionHistoryListItem, JobMatchResult } from '../../_job-description/models';
 
 export class PayfactorsApiModelMapper {
   static mapAppliesToAttributesExistResponseToAppliesToAttributesExist(response: AppliesToAttributesExistResponse):
@@ -126,6 +127,15 @@ export class PayfactorsApiModelMapper {
   static mapJDAppliesToItemResponseListToJDAppliesToItemList(response: JobDescriptionAppliesToItemResponse[]):
     JobDescriptionAppliesToItem[] {
     return response.map(jdatir => this.mapJDAppliesToItemResponseToJDAppliesToItem(jdatir));
+  }
+
+  static mapJDExtendedInfoResponseToJDExtendedInfoItem(response: ExtendedInfoResponse):
+  JobDescriptionExtendedInfo {
+    return {
+      JobFamily: response.JobFamily,
+      TemplateId: response.TemplateId,
+      WorkflowId: response.WorkflowId
+    };
   }
 
   static mapJDHistoryListItemResponseToJDHistoryListItem(response: JobDescriptionHistoryListItemResponse):

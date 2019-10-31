@@ -15,6 +15,7 @@ import * as fromUserFilterReducer from './user-filter.reducer';
 import * as fromJobDescriptionJobCompareReducer from './job-description-job-compare.reducer';
 import * as fromJobDescriptionVersionCompareReducer from './job-description-version-compare.reducer';
 import * as fromJobMatchesReducer from './job-matches.reducer';
+import * as fromWorkflowReducer from './workflow.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementJobDescriptionState {
@@ -29,6 +30,7 @@ export interface JobDescriptionManagementJobDescriptionState {
   publicViewHeader: fromPublicViewHeaderReducer.State;
   userFilter: fromUserFilterReducer.State;
   jobMatches: fromJobMatchesReducer.State;
+  jobDescriptionWorkflow: fromWorkflowReducer.State;
 }
 
 // Extend root state with feature area state
@@ -48,7 +50,8 @@ export const reducers = {
   userFilter: fromUserFilterReducer.reducer,
   jobDescriptionJobCompare: fromJobDescriptionJobCompareReducer.reducer,
   jobDescriptionVersionCompare: fromJobDescriptionVersionCompareReducer.reducer,
-  jobMatches: fromJobMatchesReducer.reducer
+  jobMatches: fromJobMatchesReducer.reducer,
+  jobDescriptionWorkflow: fromWorkflowReducer.reducer,
 };
 
 // Select Feature Area
@@ -109,6 +112,11 @@ export const selectUserFilterState = createSelector(
 export const selectJobMatchesState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.jobMatches
+);
+
+export const selectWorkflowState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.jobDescriptionWorkflow
 );
 
 // Add Job Modal
@@ -272,6 +280,11 @@ export const getPublishButtonEnabled = createSelector(
 export const getInHistory = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getInHistory
+);
+
+export const getJobDescriptionIsFullscreen = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionIsFullscreen
 );
 
 export const getJobDescriptionExtendedInfo = createSelector(
@@ -491,4 +504,42 @@ export const getSourceHistoryListItem = createSelector(
 export const getJobMatchesAsync = createSelector(
   selectJobMatchesState,
   fromJobMatchesReducer.getJobMatchesAsync
+);
+
+// Workflow log
+export const getWorkflowLogEntries = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowLogEntries
+);
+
+export const getWorkflowLogLoading = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowLogLoading
+);
+
+// Workflow Step Summary
+export const getWorkflowStepSummaryAsync = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowStepSummaryAsync
+);
+
+export const getWorkflowStepSummaryAsyncLoading = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowStepSummaryAsyncLoading
+);
+
+// Workflow Link
+export const getWorkflowLink = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowLink
+);
+
+export const getWorkflowLinkLoading = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getLoading
+);
+
+export const getWorkflowLinkLoaded = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getLoaded
 );

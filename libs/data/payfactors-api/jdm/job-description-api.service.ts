@@ -13,7 +13,8 @@ import {
 import {
   CompanyJobViewListItemsResponse,
   JobInformationFieldForBulkExportResponse,
-  JobMatchResultResponse
+  JobMatchResultResponse,
+  ExtendedInfoResponse
 } from '../../../models/payfactors-api/job-description/response';
 import {
   JobDescriptionHistoryListItemResponse
@@ -153,6 +154,10 @@ export class JobDescriptionApiService {
   getJobCompare(sourceJobDescriptionId: number, compareJobDescriptionId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}(${sourceJobDescriptionId})/Default.GetJobDescriptionCompare`, {params: {compareJobDescriptionId}},
       (response) => JSON.parse(response.value));
+  }
+
+  getJobDescriptionExtendedInfo(jobDescriptionId: number, revisionNumber: number): Observable<ExtendedInfoResponse> {
+    return this.payfactorsApiService.get<ExtendedInfoResponse>(`${this.endpoint}(${jobDescriptionId})/Default.GetExtendedInfo`, {params: {revisionNumber}});
   }
 
   getVersionCompare(jobDescriptionId: number, revisionNumber: number, previousRevisionNumber: number) {
