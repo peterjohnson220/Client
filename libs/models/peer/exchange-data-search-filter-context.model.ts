@@ -1,12 +1,13 @@
-import { generateMockSystemFilter, SystemFilter } from './exchange-job-pay-market-filter.model';
 import { SearchFilterMappingDataObj } from '../../features/search/models';
+import { ExchangeJobExchangeDetail } from '../../features/peer/models';
 import { generateMockPayMarket, PayMarket } from '../paymarket';
+import { generateMockSystemFilter, SystemFilter } from './exchange-job-pay-market-filter.model';
 import { generateMockGeoCoordinates, GeoCoordinates } from './exchange-map-response.model';
 
 export interface ExchangeExplorerContextInfo {
   FilterContext: ExchangeDataSearchFilterContext;
   PayMarket: PayMarket;
-  AssociatedExchangeJobTitleShorts: string[];
+  AssociatedExchangeJobFilterOptions: ExchangeJobExchangeDetail[];
   SearchFilterMappingData: SearchFilterMappingDataObj;
 }
 
@@ -39,7 +40,7 @@ export function generateMockExchangeExplorerContextInfo(): ExchangeExplorerConte
   return {
     FilterContext: generateMockExchangeDataSearchFilterContext(),
     PayMarket: generateMockPayMarket(),
-    AssociatedExchangeJobTitleShorts: [],
+    AssociatedExchangeJobFilterOptions: [],
     SearchFilterMappingData: {}
   };
 }

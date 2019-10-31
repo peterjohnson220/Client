@@ -1,0 +1,90 @@
+@import '../../../../assets/scss/common/common';
+@import 'colors';
+
+.exchange-job-selector-container {
+  position: relative;
+  padding-right: 2px;
+
+  .selector {
+    width: 100%;
+    text-align: left;
+
+    .selection {
+      padding-left: .5rem;
+      padding-right: .5rem;
+      font-weight: bolder;
+      display: block;
+
+      & > * {
+        display: block;
+        @extend %ellipsis-overflowing-text;
+      }
+
+      &.no-selection {
+        font-weight: normal;
+        font-style: italic;
+      }
+    }
+
+    .selector-caret {
+      float: right;
+    }
+  }
+}
+
+.popover-content {
+  max-height: 300px;
+  min-width: 270px;
+  overflow-y: auto;
+  padding-bottom: .5rem;
+}
+
+.exchange-job-selection {
+  cursor: pointer;
+  border-bottom: 1px solid rgba(169, 169, 169, 0.35);
+  padding: .5rem .75rem;
+  &.selected-exchange-job {
+    background-color: $selected-item-background-color !important;
+  }
+  &:hover {
+    background: $selection-hover-background;
+  }
+}
+
+.popover-footer{
+  background-color: #f7f7f7;
+  height: 40px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+// Popover overrides
+.custom-modal-popover ::ng-deep .popover {
+  top: 0 !important;
+}
+
+.custom-map-popover ::ng-deep .popover {
+  top: 28px !important;
+  width: 273px;
+}
+
+.custom-modal-arrow ::ng-deep .arrow {
+  top: 1rem !important;
+}
+
+.custom-map-arrow ::ng-deep .arrow {
+  display: none;
+}
+
+:host ::ng-deep .popover {
+  font-size: 1rem;
+}
+
+:host ::ng-deep .popover-body {
+  padding: 0;
+}

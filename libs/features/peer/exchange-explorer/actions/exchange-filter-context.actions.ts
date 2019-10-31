@@ -10,6 +10,7 @@ export const SET_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Exchange Explorer] S
 export const CLEAR_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Exchange Explorer] Clear Scope Selection';
 export const SET_FILTER_CONTEXT = '[Features/Peer/Exchange Explorer] Set Filter Context';
 export const SET_FILTER_CONTEXT_SILENTLY = '[Features/Peer/Exchange Explorer] Set Filter Context Silently';
+export const SET_EXCHANGE_JOB_SELECTION = '[Features/Peer/Exchange Explorer] Set Exchange Job Selection';
 
 export class ToggleLimitToPayMarket implements Action {
   readonly type = TOGGLE_LIMIT_TO_PAYMARKET;
@@ -53,6 +54,12 @@ export class SetFilterContextSilently implements Action {
   constructor(public payload: ExchangeDataSearchFilterContext) {}
 }
 
+export class SetExchangeJobSelection implements Action {
+  readonly type = SET_EXCHANGE_JOB_SELECTION;
+
+  constructor(public payload: {exchangeJobId: number, similarExchangeJobIds: number[]}) {}
+}
+
 export type Actions
   = ToggleLimitToPayMarket
   | ToggleExcludeIndirectJobMatches
@@ -61,4 +68,5 @@ export type Actions
   | SetExchangeScopeSelection
   | SetFilterContext
   | SetFilterContextSilently
-  | ClearExchangeScopeSelection;
+  | ClearExchangeScopeSelection
+  | SetExchangeJobSelection;

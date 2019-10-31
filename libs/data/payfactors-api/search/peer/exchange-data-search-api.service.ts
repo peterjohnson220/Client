@@ -12,6 +12,7 @@ import {
   SearchExchangeAggregationsRequest,
   ExchangeDataSearchResponse
 } from 'libs/models/payfactors-api/peer/exchange-data-search';
+import {ExchangeJobExchangeDetail} from '../../../../features/peer/models';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
 
@@ -53,11 +54,9 @@ export class ExchangeDataSearchApiService {
    return this.payfactorsApiService.post(`${this.endpoint}/GetFilterAggregates`, exchangeDataSearchFilter);
   }
 
-  getAssociatedExchangeJobs(companyJobId: number): Observable<string[]> {
+  getAssociatedExchangeJobs(payload: {companyJobId: number}): Observable<ExchangeJobExchangeDetail[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetAssociatedExchangeJobs`, {
-      params: {
-        companyJobId: companyJobId
-      }
+      params: payload
     });
   }
 
