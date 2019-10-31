@@ -1,0 +1,32 @@
+<pf-workbook-card *ngIf="!!workbook"
+  [workbook]="workbook"
+  [displayActionsOverlayOverride]="showingPopover">
+
+  <ng-container custom-actions>
+    <button *ngIf="!!workbook.WorkbookDescription?.length" class="btn btn-secondary action-btn"
+      [attr.data-qa-id]="'btn-showSummary'"
+      [ngbPopover]="reportSummary"
+      [popoverClass]="'workbook-views-popover'"
+      [placement]="'bottom'"
+      [popoverTitle]="workbook.WorkbookName"
+      [autoClose]="'outside'"
+      (shown)="handlePopoverShown()"
+      (hidden)="handlePopoverHidden()">
+      <fa-icon class="action-icon info-icon" icon="info-circle"></fa-icon>
+    </button>
+
+    <div class="open-workbook">
+      <a class="btn"
+        title="Open Workbook"
+        [attr.data-qa-id]="'lnk-openWorkbook'"
+        [routerLink]="['/custom-report',workbook.WorkbookId]">
+        Open
+      </a>
+    </div>
+  </ng-container>
+
+</pf-workbook-card>
+
+<ng-template #reportSummary>
+  <p>{{workbook.WorkbookDescription}}</p>
+</ng-template>

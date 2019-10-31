@@ -1,0 +1,24 @@
+@import 'common/common-variables';
+
+.card {
+  box-shadow: 1px 1px 7px 0 #e8e8e8;
+  margin-bottom: 1rem;
+}
+
+.excel-icon {
+  color: #495057;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.file-name {
+  font-size: 14px;
+  line-height: 1.8;
+  color: black;
+}
+
+.file-name,
+.report-name {
+  @extend %ellipsis-overflowing-text;
+  line-height: unset;
+}

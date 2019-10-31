@@ -32,6 +32,7 @@
       color: $header-color;
       font-size: 2.5rem;
       font-weight: 500;
+      flex-grow: 1;
     }
 
     .actions {
@@ -121,6 +122,11 @@
     }
   }
 }
+
+#recent-download {
+  font-size: 1.25rem;
+}
+
 @media (min-width: 1300px) {
   .col-xxl-3 {
     -ms-flex: 0 0 25%;

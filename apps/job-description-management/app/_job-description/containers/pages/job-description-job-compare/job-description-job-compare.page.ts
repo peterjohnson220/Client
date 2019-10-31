@@ -24,7 +24,7 @@ import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/r
 import * as fromJobDescriptionVersionCompareActions from '../../../actions/job-description-version-compare.actions';
 import { JobCompareFullscreenSender } from '../../../constants/job-compare.constants';
 import { ConflictErrorModalComponent, SaveErrorModalComponent } from '../../../../shared/components';
-import { JobDescriptionManagementDnDService, JobDescriptionManagementService, RouteTrackingService } from '../../../../shared/services';
+import { JobDescriptionManagementDnDService, JobDescriptionManagementService } from '../../../../shared/services';
 import { ControlDataHelper } from '../../../../shared/helpers';
 import { AddSourceControlDataRowDto, AppendToControlDataAttributeValueDto, ReorderControlDataDto } from '../../../models';
 import { JobDescriptionManagementDndSource } from '../../../../shared/constants/job-description-dnd-source';
@@ -71,7 +71,6 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
               private store: Store<fromJobDescriptionReducers.State>,
               private router: Router,
               private route: ActivatedRoute,
-              private routeTrackingService: RouteTrackingService,
               private permissionService: PermissionService,
               private jobDescriptionManagementService: JobDescriptionManagementService,
               private jobDescriptionApiService: JobDescriptionApiService,

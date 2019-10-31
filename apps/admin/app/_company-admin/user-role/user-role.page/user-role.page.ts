@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { UserAssignedRole, RoleDataRestriction } from 'libs/models/security';
+import { environment } from 'environments/environment';
 
 import { UserRoleTabState, RoleApiResponse } from '../constants/user-role.constants';
 import { UserRoleService } from '../services';
@@ -11,13 +12,13 @@ import * as fromUserRoleActions from '../actions/user-role-view.action';
 import * as fromDataAccessActions from '../actions/data-access-tab.action';
 import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.action';
 
-
 @Component({
   selector: 'pf-user-role-page',
   templateUrl: './user-role.page.html',
   styleUrls: ['user-role.page.scss']
 })
 export class UserRolePageComponent implements OnDestroy {
+  env = environment;
   currentUserRoleTabState: UserRoleTabState = UserRoleTabState.FUNCTION;
   _UserRoleTabState = UserRoleTabState;
   _RoleApiResponse = RoleApiResponse;

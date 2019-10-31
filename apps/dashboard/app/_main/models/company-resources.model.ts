@@ -1,39 +1,39 @@
 export interface CompanyResources {
-    Folders: Folder[];
+    Folders: CompanyResourceFolder[];
     OrphanedCompanyResources: OrphanedCompanyResource[];
 }
 
-export interface Folder {
-    CompanyResourcesFoldersId: number;
+export interface CompanyResourceFolder {
     CompanyId: number;
-    FolderName: string;
+    CompanyResources: CompanyResource[];
+    CompanyResourcesFoldersId: number;
     CreateDate: Date;
     CreateUser: number;
-    CompanyResources: CompanyResource[];
+    FolderName: string;
 }
 
 export interface CompanyResource {
-    CompanyResourceId: number;
     CompanyId: number;
-    ResourceType: string;
-    ResourceTitle: string;
-    LinkUrl: string;
-    FileName: string;
-    FileDisplayName: string;
+    CompanyResourceId: number;
+    CompanyResourcesFoldersId: number;
     CreateDate: Date;
     CreateUser: number;
-    CompanyResourcesFoldersId: number;
+    FileDisplayName: string;
+    FileName: string;
+    LinkUrl: string;
+    ResourceTitle: string;
+    ResourceType: string;
 }
 
 export interface OrphanedCompanyResource {
-    CompanyResourceId: number;
     CompanyId: number;
-    ResourceType: string;
-    ResourceTitle: string;
-    LinkUrl: string;
-    FileName: string;
-    FileDisplayName: string;
+    CompanyResourceId: number;
+    CompanyResourcesFoldersId: number;
     CreateDate: Date;
     CreateUser: number;
-    CompanyResourcesFoldersId: number;
+    FileDisplayName: string;
+    FileName: string;
+    LinkUrl: string;
+    ResourceTitle: string;
+    ResourceType: string;
 }

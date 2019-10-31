@@ -18,6 +18,7 @@ export class TagWorkbookModalComponent {
   @Input() tags: string[];
   @Input() saving: boolean;
   @Output() saveClicked = new EventEmitter();
+  @Output() closed = new EventEmitter();
 
   saveWorkbookTagObj: SaveWorkbookTagObj;
   filterSettings: DropDownFilterSettings = {
@@ -41,6 +42,7 @@ export class TagWorkbookModalComponent {
   }
 
   close(): void {
+    this.closed.emit();
     this.modalService.dismissAll();
   }
 

@@ -141,7 +141,10 @@ export class DashboardsEffects {
   saveWorkbookTagSuccess$ = this.action$
     .pipe(
       ofType(fromAllDashboardsActions.SAVE_WORKBOOK_TAG_SUCCESS),
-      map(() => new fromAllDashboardsActions.GetCompanyWorkbooks())
+      mergeMap(() => [
+        new fromAllDashboardsActions.GetCompanyWorkbooks(),
+        new fromAllDashboardsActions.CloseTagWorkbookModal()
+      ])
     );
 
   @Effect()

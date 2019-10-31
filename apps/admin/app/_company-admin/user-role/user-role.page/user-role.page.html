@@ -1,4 +1,4 @@
-<pf-page-with-title-bar [locationBack]="true" class="wrapper">
+<pf-page-with-title-bar [absoluteUrl]="env.companyAdminUrl + '/navigation'" class="wrapper">
   <ng-container page-title>
     User Roles <span *ngIf="currentRole"> - {{currentRole.RoleName}}</span>
   </ng-container>

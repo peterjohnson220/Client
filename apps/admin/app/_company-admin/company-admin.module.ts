@@ -14,16 +14,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { UserManagementModule } from 'libs/features/user-management';
 
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
 
-import {
-  UsersListModule,
-  UserManagementModule,
-  UserRoleModule,
-  PasswordManagementModule,
-  NavigationModule
-} from './';
+import { UserRoleModule, PasswordManagementModule, NavigationModule } from './';
 
 @NgModule({
   imports: [
@@ -49,11 +44,10 @@ import {
     FontAwesomeModule,
 
     // Features
-    UsersListModule,
-    UserManagementModule,
     UserRoleModule,
     PasswordManagementModule,
-    NavigationModule
+    NavigationModule,
+    UserManagementModule
   ]
 })
 export class CompanyAdminModule {

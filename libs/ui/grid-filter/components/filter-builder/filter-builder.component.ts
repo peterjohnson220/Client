@@ -24,20 +24,20 @@ export class FilterBuilderComponent {
     this.filter.Operator = event;
     this.toggleValueInput();
 
-    if (this.disableValue || (this.filter.Value && this.filter.Value.toString().trim().length)) {
+    if (this.disableValue || (this.filter.Values[0] && this.filter.Values[0].toString().trim().length)) {
       this.filterChanged.emit(this.filter);
     }
   }
 
   handleFilterValueChanged(event) {
-    this.filter.Value = event;
+    this.filter.Values[0] = event;
     this.filterChanged.emit(this.filter);
   }
 
   private toggleValueInput() {
     const disabledValueOperators = this.filterOperatorOptions[this.type].filter(o => !o.requiresValue);
-    if (disabledValueOperators.find(d => d.value === this.filter.Operator)) {
-      this.filter.Value = '';
+    if (disabledValueOperators.find(d => d.values[0] === this.filter.Operator)) {
+      this.filter.Values[0] = '';
       this.disableValue = true;
     } else {
       this.disableValue = false;

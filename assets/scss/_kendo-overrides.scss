@@ -21,6 +21,26 @@
   }
 }
 
+:host ::ng-deep .k-dropdown.k-dropdown-with-id {
+  .k-dropdown-item{
+    width: 100%;
+    .k-item-name-display {
+      float: left;
+      width: 70%;
+    }
+
+    .k-item-id-display {
+      float: right;
+      text-align: right;
+      width: 30%;
+      color: #C3C3C3;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+
 .k-filter-menu .k-dropdown .k-dropdown-wrap {
   border-color: $border-grey;
 }

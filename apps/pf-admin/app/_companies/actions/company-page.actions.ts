@@ -34,7 +34,7 @@ export const CHECK_JDM_ENABLED = '[Pf-Admin/Company Page] Check JDM Enabled';
 export const LOAD_FORM_DATA = '[Pf-Admin/Company Page] Load Form Data';
 export const GET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Get Job Pricing Limit Info';
 export const SET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Set Job Pricing Limit Info';
-
+export const RESET = '[Pf-Admin/Company Page] Reset';
 
 // Tabs
 export const GET_COMPANY_TILES = '[Pf-Admin/Company Page] Get Company Tiles';
@@ -59,6 +59,8 @@ export const GET_COMPANY_SETTINGS_ERROR = '[Pf-Admin/Company Page] Get Company S
 
 // Actions bar
 export const CREATE_COMPANY = '[Pf-Admin/Company Page] Create Company';
+export const CREATE_COMPANY_SUCCESS = '[Pf-Admin/Company Page] Create Company Success';
+export const CREATE_COMPANY_ERROR = '[Pf-Admin/Company Page] Create Company Error';
 export const SAVE_COMPANY = '[Pf-Admin/Company Page] Save Company';
 export const SAVE_COMPANY_SUCCESS = '[Pf-Admin/Company Page] Save Company Success';
 export const SAVE_COMPANY_ERROR = '[Pf-Admin/Company Page] Save Company Error';
@@ -70,6 +72,10 @@ export const PUT_SETTINGS_ERROR = '[Pf-Admin/Company Page] Put Settings Error';
 export const SELECT_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer Client Type';
 export const SELECT_PEER_AND_ANALYSIS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer And Analysis Client Type';
 export const SELECT_NON_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Non-Peer Client Type';
+export const SELECT_SMALL_BUSINESS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Small Business Client Type';
+
+// Disable Tiles
+export const DISABLE_PEER_AND_ANALYSIS_TILES = '[Pf-Admin/Company Page] Disable Peer And Analysis Company Tiles';
 
 export class GetCompany implements Action {
   readonly type = GET_COMPANY;
@@ -361,6 +367,18 @@ export class CreateCompany implements Action {
   constructor( public payload: CompanyFormData ) {}
 }
 
+export class CreateCompanySuccess implements Action {
+  readonly type = CREATE_COMPANY_SUCCESS;
+
+  constructor() {}
+}
+
+export class CreateCompanyError implements Action {
+  readonly type = CREATE_COMPANY_ERROR;
+
+  constructor() {}
+}
+
 export class SaveCompany implements Action {
   readonly type = SAVE_COMPANY;
 
@@ -416,6 +434,24 @@ export class SelectNonPeerClientType implements Action {
   constructor() {}
 }
 
+export class SelectSmallBusinessClientType implements Action {
+  readonly type = SELECT_SMALL_BUSINESS_CLIENT_TYPE;
+
+  constructor() {}
+}
+
+export class DisablePeerAndAnalysisTiles implements Action {
+  readonly type = DISABLE_PEER_AND_ANALYSIS_TILES;
+
+  constructor() {}
+}
+
+export class Reset implements Action {
+  readonly type = RESET;
+
+  constructor() {}
+}
+
 export type Actions
   = GetSystemUserGroups
   | GetSystemUserGroupsSuccess
@@ -455,6 +491,8 @@ export type Actions
   | ToggleCompanySetting
   | ChangeCompanySettingValue
   | CreateCompany
+  | CreateCompanySuccess
+  | CreateCompanyError
   | SaveCompany
   | SaveCompanySuccess
   | SaveCompanyError
@@ -464,6 +502,7 @@ export type Actions
   | SelectPeerClientType
   | SelectPeerAndAnalysisClientType
   | SelectNonPeerClientType
+  | SelectSmallBusinessClientType
   | GetCompany
   | GetCompanySuccess
   | GetCompanyError
@@ -473,5 +512,7 @@ export type Actions
   | CheckJDMEnabled
   | LoadFormData
   | GetJobPricingLimitInfo
-  | SetJobPricingLimitInfo;
+  | SetJobPricingLimitInfo
+  | DisablePeerAndAnalysisTiles
+  | Reset;
 

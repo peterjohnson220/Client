@@ -1,0 +1,37 @@
+<div class="data-views-exports">
+  <div class="page-header d-flex align-items-center">
+    <div>
+      <fa-icon class="icon mr-3" icon="chart-pie"></fa-icon>
+      <span class="title">Data View Exports</span>
+    </div>
+  </div>
+
+  <div *ngIf="!!(dataViewsExports$ | async)?.obj?.length; else noRecentDownloads" class="row mt-4">
+    <div *ngFor="let exportRecord of (dataViewsExports$ | async)?.obj; let i = index" class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+      <pf-data-views-export-card
+        [class.d-none]="i > (displayLimit - 1) && !showAll"
+        [dataViewExport]="exportRecord">
+      </pf-data-views-export-card>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center" *ngIf="(dataViewsExports$ | async)?.obj?.length > displayLimit">
+    <div [attr.data-qa-id]="'cnt-showMore'" (click)="toggleShowAll()">
+      <ng-container *ngIf="!showAll; else showLess">
+        <div class="btn show-more-btn">
+          Show More
+        </div>
+      </ng-container>
+      <ng-template #showLess>
+        <div class="btn show-less-btn">
+          Show Less
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #noRecentDownloads>
+  <p class="no-recent-downloads">No Recent Downloads</p>
+</ng-template>

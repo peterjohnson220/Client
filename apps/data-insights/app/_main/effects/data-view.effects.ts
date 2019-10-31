@@ -5,17 +5,19 @@ import { select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, tap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { orderBy } from 'lodash';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { DataViewApiService } from 'libs/data/payfactors-api';
+import { DataViewApiService, UserApiService } from 'libs/data/payfactors-api';
+import { UserContext } from 'libs/models/security';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
-import * as fromConfigurationActions from '../actions/configuration.actions';
+import * as fromFiltersActions from '../actions/filters.actions';
+import * as fromFieldsActions from '../actions/fields.actions';
+import * as fromDataViewReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { Entity } from '../models';
-import * as fromDataViewReducer from '../reducers';
 
 @Injectable()
 export class DataViewEffects {
@@ -154,87 +156,12 @@ export class DataViewEffects {
               return [
                 new fromDataViewActions.GetUserDataViewSuccess(userDataView),
                 new fromDataViewGridActions.SetSortDescriptor(sortDescriptor),
-                new fromDataViewActions.SetSelectedFields(selectedFields),
-                new fromConfigurationActions.SetFilters(filters),
+                new fromFieldsActions.SetSelectedFields(selectedFields),
+                new fromFiltersActions.SetFilters(filters),
                 new fromDataViewGridActions.GetData()
               ];
             }),
-            catchError(() => of(new fromDataViewActions.GetUserDataViewError()))
-          );
-      })
-    );
-
-  @Effect()
-  getReportFields$ = this.action$
-  .pipe(
-    ofType(fromDataViewActions.GET_REPORT_FIELDS),
-    switchMap((action: fromDataViewActions.GetReportFields) => {
-      return this.dataViewApiService.getUserDataViewFields(action.payload.dataViewId)
-      .pipe(
-        mergeMap((response) => [
-            new fromDataViewActions.GetReportFieldsSuccess(
-              PayfactorsApiModelMapper.mapDataViewFieldsToFields(response))
-          ]
-        ),
-        catchError(() => of(new fromDataViewActions.GetReportFieldsError()))
-      );
-    })
-  );
-
-  @Effect()
-  fieldsChanged$ = this.action$
-    .pipe(
-      ofType(
-        fromDataViewActions.REMOVE_SELECTED_FIELD,
-        fromDataViewActions.REORDER_FIELDS,
-        fromDataViewActions.ADD_SELECTED_FIELD,
-        fromDataViewActions.UPDATE_DISPLAY_NAME),
-      map(() => {
-        return new fromDataViewActions.SaveReportFields();
-      })
-    );
-
-  @Effect()
-  selectedDataChanged$ = this.action$
-    .pipe(
-      ofType(
-        fromDataViewActions.ADD_SELECTED_FIELD,
-        fromDataViewActions.REMOVE_SELECTED_FIELD),
-      map(() => {
-        return new fromDataViewGridActions.GetData();
-      })
-    );
-
-  @Effect()
-  saveReportFields$ = this.action$
-    .pipe(
-      ofType(fromDataViewActions.SAVE_REPORT_FIELDS),
-      withLatestFrom(
-        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
-        this.store.pipe(select(fromDataViewReducer.getSelectedFields)),
-        (action: fromDataViewActions.SaveReportFields, userDataView, selectedFields) =>
-          ({ userDataView, selectedFields })
-      ),
-      switchMap((data) => {
-        const selectedFields = orderBy(data.selectedFields, 'Order');
-        const fieldsToSave = selectedFields.map((f, index) => {
-          return {
-            DataElementId: f.DataElementId,
-            Order: index + 1,
-            DisplayName: f.DisplayName
-          };
-        });
-        return this.dataViewApiService.updateDataViewFields({
-          UserDataViewId: data.userDataView.obj.UserDataViewId,
-          Fields: fieldsToSave
-        })
-          .pipe(
-            map(() => {
-              return new fromDataViewActions.SaveReportFieldsSuccess();
-            }),
-            catchError(() => {
-              return of(new fromDataViewActions.SaveReportFieldsError());
-            })
+            catchError(error => of (new fromDataViewActions.GetUserDataViewError(error)))
           );
       })
     );
@@ -304,10 +231,103 @@ export class DataViewEffects {
       })
     );
 
+  @Effect()
+  getShareableUsers$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.GET_SHAREABLE_USERS),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action: fromDataViewActions.GetShareableUsers, userContext: UserContext ) =>
+          ({ action, userContext })
+      ),
+      switchMap((data) => {
+        return this.userApiService.getShareableUsersByTile(data.userContext.UserId, data.userContext.CompanyId, 'Data Insights')
+          .pipe(
+            map((response) => new fromDataViewActions.GetShareableUsersSuccess(PayfactorsApiModelMapper.mapShareUserResponseToUser(response))),
+            catchError(() => of(new fromDataViewActions.GetShareableUsersError()))
+          );
+      })
+    );
+
+  @Effect()
+  getShareableUsersSuccess$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.GET_SHAREABLE_USERS_SUCCESS),
+      map(() =>
+        new fromDataViewActions.GetSharePermissions()
+      )
+    );
+
+  @Effect()
+  saveSharePermissions$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.SAVE_SHARE_PERMISSIONS),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.SaveSharePermissions, userDataView ) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.shareDataView({
+          UserDataViewId: data.userDataView.obj.UserDataViewId,
+          UserPermissions: data.action.payload.map(x => {
+            return {
+              UserId: x.UserId,
+              CanEdit: x.CanEdit
+            };
+          })
+        })
+          .pipe(
+            map(() => new fromDataViewActions.SaveSharePermissionsSuccess(data.action.payload)),
+            catchError(() => of(new fromDataViewActions.SaveSharePermissionsError()))
+          );
+      })
+    );
+
+  @Effect()
+  getSharedUserPermissions$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.GET_SHARE_PERMISSIONS),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.GetSharePermissions, userDataView ) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.getSharePermissions(data.userDataView.obj.UserDataViewId)
+          .pipe(
+            map((response) => new fromDataViewActions.GetSharePermissionsSuccess(response)),
+            catchError(() => of(new fromDataViewActions.GetSharePermissionsError()))
+          );
+      })
+    );
+
+  @Effect()
+  removeSharedUserPermission$ = this.action$
+    .pipe(
+      ofType(fromDataViewActions.REMOVE_SHARE_PERMISSION),
+      withLatestFrom(
+        this.store.pipe(select(fromDataViewReducer.getUserDataViewAsync)),
+        (action: fromDataViewActions.RemoveSharePermission, userDataView ) =>
+          ({ action, userDataView })
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.removeSharePermission({
+          UserDataViewId: data.userDataView.obj.UserDataViewId,
+          UserIdToRemove: data.action.payload.UserId
+        })
+          .pipe(
+            map(() => new fromDataViewActions.RemoveSharePermissionSuccess(data.action.payload)),
+            catchError(() => of(new fromDataViewActions.RemoveSharePermissionError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataViewReducer.State>,
     private dataViewApiService: DataViewApiService,
+    private userApiService: UserApiService,
     private router: Router
   ) {}
 }

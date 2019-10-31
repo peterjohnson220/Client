@@ -6,10 +6,10 @@
     [ngModel]="selectedOperator ? selectedOperator : operators[0]"
     [textField]="'Name'"
     [valueField]="'Value'"
-    [disabled]="'true'">
+    (selectionChange)="handleOperatorSelectionChanged($event)">
   </kendo-dropdownlist>
 
-  <kendo-daterange>
+  <kendo-daterange *ngIf="selectedOperator?.Name === betweenOperator?.Name; else datePickerTemplate">
     
     <div class="d-flex">
       <div class="d-flex flex-column">
@@ -46,3 +46,11 @@
   </kendo-daterange>
 
 </ng-container>
+
+<ng-template #datePickerTemplate>
+  <kendo-datepicker
+    [value]="selectedDate"
+    [format]="'MM/dd/yyyy'"
+    (valueChange)="handleValueChanged($event)">
+  </kendo-datepicker>
+</ng-template>

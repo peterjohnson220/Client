@@ -7,6 +7,7 @@
           <fa-icon icon="times" id="delete-filter" class="filter-icons" data-qa-id="btn-deleteFilter" (click)="handleDeleteFilter(filter)"></fa-icon>
         </div>
       </div>
+
       <kendo-dropdownlist class="dropdown-list w-100"
                           [attr.data-qa-id]="'ddm-filter-fields'"
                           [data]="fields"
@@ -29,45 +30,66 @@
           </div>
         </ng-template>
       </kendo-dropdownlist>
-        <ng-container *ngIf="filter.Field?.DataType === 'string'">
-          <pf-multi-select-filter
-            [selectedOperator]="filter.Operator"
-            [options]="filter.Options"
-            [selectedOptions]="filter.SelectedOptions"
-            [filterValue]="getFilterOptionsData?.Query"
-            (filterChanged)="handleMultiSelectFilterChanged($event)"
-            (selectedValuesChanged)="handleMultiSelectSelectedValuesChange($event)">
-          </pf-multi-select-filter>
-        </ng-container>
-        <ng-container *ngIf="filter.Field?.DataType === 'dateTime'">
-          <pf-date-range-filter
-            [selectedOperator]="filter.Operator"
-            [startDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[0] : null"
-            [endDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[1] : null"
-            (selectionRangeChanged)="handleDateRangeChanged($event)">
-          </pf-date-range-filter>
-        </ng-container>
-        <ng-container *ngIf="filter.Field?.DataType === 'float' || filter.Field?.DataType === 'int'">
-          <pf-numeric-filter
-            [dataType]="filter.Field?.DataType"
-            [selectedOperator]="filter.Operator"
-            [numericValue]="filter.SelectedOptions"
-            (numericValuesChanged)="handleNumericValueChanged($event)"
-            (changeOperator)="handleOperatorChanged($event)">
-          </pf-numeric-filter>
-        </ng-container>
+
+      <ng-container *ngIf="filter.Field?.DataType === fieldDataType.String">
+        <pf-multi-select-filter
+          [selectedOperator]="filter.Operator"
+          [options]="filter.Options"
+          [selectedOptions]="filter.SelectedOptions"
+          [filterValue]="getFilterOptionsData?.Query"
+          (filterChanged)="handleMultiSelectFilterChanged($event)"
+          (selectedValuesChanged)="handleSelectedOptionsChange($event)">
+        </pf-multi-select-filter>
       </ng-container>
+
+      <ng-container *ngIf="filter.Field?.DataType === fieldDataType.LongString">
+        <pf-text-filter
+          [selectedOperator]="filter.Operator"
+          [filterValue]="filter.SelectedOptions?.length ? filter.SelectedOptions[0] : null"
+          (valueChanged)="handleSelectedOptionsChange($event)">
+        </pf-text-filter>
+      </ng-container>
+
+      <ng-container *ngIf="filter.Field?.DataType === fieldDataType.Date">
+        <pf-date-range-filter
+          [selectedOperator]="filter.Operator"
+          [startDate]="filter?.SelectedOptions?.length > 0 ? filter.SelectedOptions[0] : null"
+          [endDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[1] : null"
+          (selectedOptionsChanged)="handleSelectedOptionsChange($event)"
+          (selectedOperatorChanged)="handleOperatorChanged($event)">
+        </pf-date-range-filter>
+      </ng-container>
+
+      <ng-container *ngIf="isNumericDataType">
+        <pf-numeric-filter
+          [dataType]="filter.Field?.DataType"
+          [selectedOperator]="filter.Operator"
+          [value]="filter.SelectedOptions?.length ? filter.SelectedOptions[0] : null"
+          (numericValuesChanged)="handleSelectedOptionsChange($event)"
+          (changeOperator)="handleOperatorChanged($event)">
+        </pf-numeric-filter>
+      </ng-container>
+
+      <ng-container *ngIf="filter.Field?.DataType === fieldDataType.Bit">
+        <pf-bit-filter
+          [selectedOperator]="filter.Operator"
+          [value]="filter.SelectedOptions?.length ? filter.SelectedOptions[0] : null"
+          (selectedValueChanged)="handleSelectedOptionsChange($event)">
+        </pf-bit-filter>
+      </ng-container>
+
+    </ng-container>
+
     <ng-template #displayMode>
       <div class="d-flex justify-content-between display-mode" (click)="toggleEditMode()">
-        <div class="filter-display-name">
-          {{filter.Field?.DisplayName}}
+        <div class="filter-display-name" [title]="selectedField?.DisplayName">
+          {{selectedField?.DisplayName}}
         </div>
         <div class="filter-options">
           <span class="badge badge-info"> {{selectedOptionsCount}}</span>
         </div>
       </div>
     </ng-template>
-
 
   </div>
 </div>

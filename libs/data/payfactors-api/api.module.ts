@@ -31,10 +31,12 @@ import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
 import { JobDescriptionTemplateApiService } from './jdm';
 import { TableauReportApiService, UserReportApiService, ReportManagementApiService, DataViewApiService } from './reports';
+import { NotificationsApiService } from './notifications';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
 import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService } from './hris-api';
+import { SurveyLibraryApiService } from './survey-library';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -85,7 +87,9 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
     StructuresApiService,
     StructuresRangeGroupApiService,
     DataViewApiService,
+    NotificationsApiService,
     CompanyResourcesApiService,
+    SurveyLibraryApiService,
 
     // Hris Api Services
     HrisApiService,

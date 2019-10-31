@@ -48,13 +48,6 @@ $group-header-bg-color: #eaeaea;
       height: 100%;
     }
   }
-
-}
-
-:host ::ng-deep .content .actions-container {
-  flex-grow: 1;
-  width: 67.5%;
-  position: unset;
 }
 
 .clear-selections{

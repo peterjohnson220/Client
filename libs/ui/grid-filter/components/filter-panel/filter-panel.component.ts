@@ -38,7 +38,7 @@ export class FilterPanelComponent implements OnChanges {
   }
 
   handleFilterChange(event: DataViewFilter) {
-    if ((event.Value && event.Value.length) || this.valueCanBeEmpty(event)) {
+    if ((event.Values && event.Values.length > 0 && event.Values[0].length) || this.valueCanBeEmpty(event)) {
       this.filterChanged.emit(event);
     } else {
       this.filterCleared.emit(event);
@@ -76,7 +76,6 @@ export class FilterPanelComponent implements OnChanges {
       EntitySourceName: viewField.EntitySourceName,
       SourceName: viewField.SourceName,
       Operator: FilterOperatorOptions[viewField.DataType].find(f => f.defaultOperatorForType).value,
-      Value: null,
       Values: [],
       DataType: viewField.DataType
     };

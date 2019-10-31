@@ -12,21 +12,24 @@ import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-boots
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { StandardReportComponent, TagWorkbookModalComponent, WorkbookCardComponent, SearchWorkbookResultComponent,
+import { StandardReportComponent, TagWorkbookModalComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, SaveUserWorkbookModalComponent,
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
   ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent,
-  DateRangeFilterComponent, MultiSelectFilterComponent, NumericFilterComponent } from './components';
+  DateRangeFilterComponent, MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent,
+  BitFilterComponent, ConfigureSidebarComponent, ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
-  CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent,
-  DashboardsHeaderComponent, ViewsComponent, FiltersComponent } from './containers';
+  CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent,
+  DashboardsHeaderComponent, ViewsComponent, FiltersComponent, FieldsComponent,
+  WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects,
-  ViewsEffects, DataViewConfigurationEffects
+  ViewsEffects, FiltersEffects, FieldsEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -48,7 +51,8 @@ import { MainRoutingModule } from './main-routing.module';
       DataViewEffects,
       DataViewGridEffects,
       ViewsEffects,
-      DataViewConfigurationEffects
+      FiltersEffects,
+      FieldsEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
@@ -59,6 +63,7 @@ import { MainRoutingModule } from './main-routing.module';
     PerfectScrollbarModule,
     NgbCollapseModule,
     DateInputsModule,
+    NumericTextBoxModule,
 
     // Routing
     MainRoutingModule,
@@ -71,14 +76,15 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
-    SearchWorkbookModalComponent, DataViewGridComponent, LeftSidebarComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
+    SearchWorkbookModalComponent, DataViewGridComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
+    FieldsComponent, WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent,
 
     // Components
-    StandardReportComponent, WorkbookCardComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
+    StandardReportComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
     SaveUserWorkbookModalComponent, ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
     ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent, DateRangeFilterComponent,
-    MultiSelectFilterComponent, NumericFilterComponent
-
+    MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent, BitFilterComponent, ConfigureSidebarComponent,
+    ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent
   ],
   providers: [
     WindowRef

@@ -222,30 +222,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     };
   }
 
-  changeRepositoryDropdown() {
-
-    const systemUserGroupsIdValue = this.repositoryControl.value;
-
-    if (systemUserGroupsIdValue === this.peerOnlySystemUserGroupId) {
-      this.clientTypeControl.setValue(CompanyClientTypeConstants.PEER);
-      this.repositoryControl.disable();
-
-      this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
-      return;
-    } else if (systemUserGroupsIdValue === this.smallBusinessSystemUserGroupId ||
-      systemUserGroupsIdValue === this.smallBusinessPaidSystemUserGroupId) {
-      this.clientTypeControl.setValue(CompanyClientTypeConstants.DATA_ONLY);
-      return;
-    }
-
-    this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
-
-    this.companyFormData.PrimarySupportUserId = null;
-    this.companyFormData.JDMSeniorAssociateUserId = null;
-    this.clientTypeControl.reset();
-  }
-
-  onClientTypeChange() {
+  onClientTypeDropdownChange() {
     const currentSystemUserGroupId = this.repositoryControl.value;
 
     if (this.clientTypeControl.value === CompanyClientTypeConstants.PEER) {
@@ -260,12 +237,41 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
 
     if (this.clientTypeControl.value === CompanyClientTypeConstants.PEER_AND_ANALYSIS) {
       this.store.dispatch(new fromCompanyPageActions.SelectPeerAndAnalysisClientType());
+    } else if (this.repositoryControl.value === this.smallBusinessSystemUserGroupId) {
+      this.store.dispatch(new fromCompanyPageActions.SelectSmallBusinessClientType());
     } else {
       this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
     }
   }
 
-  changeIndustryDropdown() {
+  onRepositoryDropdownChange() {
+
+    const systemUserGroupsIdValue = this.repositoryControl.value;
+
+    if (systemUserGroupsIdValue === this.peerOnlySystemUserGroupId) {
+      this.clientTypeControl.setValue(CompanyClientTypeConstants.PEER);
+      this.repositoryControl.disable();
+
+      this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
+      return;
+    } else if (systemUserGroupsIdValue === this.smallBusinessPaidSystemUserGroupId) {
+      this.clientTypeControl.setValue(CompanyClientTypeConstants.DATA_ONLY);
+      return;
+    } else if (systemUserGroupsIdValue === this.smallBusinessSystemUserGroupId) {
+      this.clientTypeControl.setValue(CompanyClientTypeConstants.DATA_ONLY);
+
+      this.store.dispatch(new fromCompanyPageActions.SelectSmallBusinessClientType());
+      return;
+    }
+
+    this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
+
+    this.companyFormData.PrimarySupportUserId = null;
+    this.companyFormData.JDMSeniorAssociateUserId = null;
+    this.clientTypeControl.reset();
+  }
+
+  onIndustryDropdownChange() {
     const industryValue = this.companyForm.get('industry').value;
     this.setGroupFromIndustryValue(industryValue);
   }

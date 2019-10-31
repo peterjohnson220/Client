@@ -195,7 +195,7 @@ export class CompanyPageEffects {
       this.store.select(fromPfAdminMainReducer.getSelectedCompanyTiles),
       this.store.select(fromPfAdminMainReducer.getCompanySettings),
       this.store.select(fromPfAdminMainReducer.getSelectedDataSets),
-      (action: fromCompanyPageActions.SaveCompany, tileIds, settings, countryCodes) =>
+      (action: fromCompanyPageActions.CreateCompany, tileIds, settings, countryCodes) =>
         ({ action, tileIds, settings, countryCodes })
     ),
     switchMap((data) =>
@@ -204,11 +204,11 @@ export class CompanyPageEffects {
         mergeMap((company: CompanyDto ) => {
           const putSettingsRequest = CompanyPageHelper.buildCompanySettingsSaveRequest(company.CompanyId, data.settings);
           return [
-            new fromCompanyPageActions.SaveCompanySuccess(),
+            new fromCompanyPageActions.CreateCompanySuccess(),
             new fromCompanyPageActions.PutSettings(putSettingsRequest)
           ];
         }),
-        catchError(() => of(new fromCompanyPageActions.SaveCompanyError()))
+        catchError(() => of(new fromCompanyPageActions.CreateCompanyError()))
       )
     )
   );
@@ -252,13 +252,14 @@ export class CompanyPageEffects {
     )
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   navigateToCompanies$ = this.actions$
   .pipe(
     ofType(fromCompanyPageActions.PUT_SETTINGS_SUCCESS),
     tap(() => {
       this.router.navigate(['companies']);
-    })
+    }),
+    map(() => new fromCompanyPageActions.Reset())
   );
 
   @Effect()

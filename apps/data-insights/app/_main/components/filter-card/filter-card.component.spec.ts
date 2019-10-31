@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { SelectionRange } from '@progress/kendo-angular-dateinputs';
-
-import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request';
-
 import { FilterCardComponent } from './filter-card.component';
-import { Field, generateMockField, GetFilterOptionsData, generateMockFilter } from '../../models';
+import { Field, generateMockField, GetFilterOptionsData, generateMockFilter,
+  FieldDataType, Filter, getDefaultOperatorByDataType, validateFilter
+} from '../../models';
 
 describe('Data Insights - Filter Card Component', () => {
   let instance: FilterCardComponent;
@@ -24,13 +22,21 @@ describe('Data Insights - Filter Card Component', () => {
     fixture.detectChanges();
   });
 
-  it('should emit selectedFieldChanged with correct field when handling field changed', () => {
+  it('should emit filterChanged with correct field when handling field changed', () => {
+    instance.filter = generateMockFilter();
     const field: Field = generateMockField();
-    spyOn(instance.selectedFieldChanged, 'emit');
+    const expectedFilter: Filter = {
+      Field: field,
+      Operator: getDefaultOperatorByDataType(field),
+      Options: [],
+      SelectedOptions: [],
+      IsValid: false
+    };
+    spyOn(instance.filterChanged, 'emit');
 
     instance.handleFieldChanged(field);
 
-    expect(instance.selectedFieldChanged.emit).toHaveBeenCalledWith(field);
+    expect(instance.filterChanged.emit).toHaveBeenCalledWith(expectedFilter);
   });
 
   it('should emit searchOptionChanged with correct data when handling multi select filter changed', () => {
@@ -51,13 +57,17 @@ describe('Data Insights - Filter Card Component', () => {
     expect(instance.searchOptionChanged.emit).toHaveBeenCalledWith(expectedOptionsData);
   });
 
-  it('should emit selectedValuesChanged with correct options when handling multi select filter selected options changed', () => {
+  it('should emit filterChanged with correct options when handling multi select filter selected options changed', () => {
     const selectedValues = [ 'Accountant', 'Accountant 4'];
-    spyOn(instance.selectedValuesChanged, 'emit');
+    instance.filter = generateMockFilter();
+    const expectedFilter = generateMockFilter();
+    expectedFilter.SelectedOptions = selectedValues;
+    expectedFilter.IsValid = validateFilter(expectedFilter);
+    spyOn(instance.filterChanged, 'emit');
 
-    instance.handleMultiSelectSelectedValuesChange(selectedValues);
+    instance.handleSelectedOptionsChange(selectedValues);
 
-    expect(instance.selectedValuesChanged.emit).toHaveBeenCalledWith(selectedValues);
+    expect(instance.filterChanged.emit).toHaveBeenCalledWith(expectedFilter);
   });
 
   it('should emit deleteFilter with filter index when handling delete filter', () => {
@@ -67,18 +77,6 @@ describe('Data Insights - Filter Card Component', () => {
     instance.handleDeleteFilter();
 
     expect(instance.deleteFilter.emit).toHaveBeenCalledWith(2);
-  });
-
-  it('should emit selectedValuesChanged with correct date range when handling date range changed', () => {
-    const selectionRange: SelectionRange = {
-      start: new Date('2019-09-01'),
-      end: new Date('2019-09-30')
-    };
-    spyOn(instance.selectedValuesChanged, 'emit');
-
-    instance.handleDateRangeChanged(selectionRange);
-
-    expect(instance.selectedValuesChanged.emit).toHaveBeenCalledWith(['2019-09-01', '2019-09-30']);
   });
 
   it('should change editMode correctly when toggling edit mode', () => {
@@ -94,10 +92,11 @@ describe('Data Insights - Filter Card Component', () => {
       DataElementId: 1,
       EntityId: 1,
       Entity: 'Pricings',
-      DataType: DataViewFieldDataType.DateTime,
+      DataType: FieldDataType.Date,
       DisplayName: 'Effective Date',
       EntitySourceName: 'CompanyJobs_Pricings',
       IsSelected: false,
+      IsSortable: true,
       Order: 1,
       SourceName: 'Effective_Date',
       KendoGridField: 'CompanyJobs_Pricings.Effective_Date'

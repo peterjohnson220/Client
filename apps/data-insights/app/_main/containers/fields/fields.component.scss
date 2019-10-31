@@ -1,0 +1,25 @@
+@import 'colors';
+@import 'data-insights-variables';
+@import 'libs/styles/perfect-scrollbar-overrides';
+@import 'libs/styles/dragula-drag-drop';
+
+.fields-container {
+  background-color: $background-grey;
+  height: 95%;
+}
+
+.fields {
+  background-color: $background-grey;
+  position: relative;
+  max-height: calc(100vh - 393px);
+  padding: 0 1rem 1rem;
+}
+
+.view-all-fields-btn {
+  background-color: $pf-brand-secondary-color;
+  color: #ffffff;
+}
+
+.second-actions-bar {
+  padding: 1rem 1rem 0;
+}

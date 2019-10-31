@@ -8,8 +8,6 @@ export const LOAD_COMPANIES_ERROR = '[Pf-Admin / Companies] Load Pf-Admin Compan
 export const LOAD_COMPANIES_SUCCESS = '[Pf-Admin / Companies] Load Pf-Admin Companies Success';
 export const UPDATE_SEARCH_TERM = '[Pf-Admin / Companies] Update Search Term';
 
-
-
 export class LoadCompanies implements Action {
     readonly type = LOAD_COMPANIES;
 }

@@ -1,0 +1,22 @@
+.page-header {
+  color: #495057;
+  font-size: 1.2rem;
+  height: 50px;
+
+  .title {
+    text-transform: uppercase;
+  }
+}
+
+.no-recent-downloads {
+  font-style: italic;
+  font-size: 14px;
+  margin-left: 2.2rem;
+}
+
+.show-more-btn,
+.show-less-btn {
+  color: #0883BE;
+  border: 1px solid #eaeaea;
+  font-size: 14px;
+}

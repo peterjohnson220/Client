@@ -7,7 +7,7 @@ import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-co
 import { CompanyDto } from 'libs/models/company';
 
 import * as fromPublicViewHeaderActions from '../../actions/public-view-header.actions';
-import * as fromPublicViewHeaderReducer from '../../reducers';
+import * as fromRootState from 'libs/state/state';
 
 @Component({
   selector: 'pf-public-view-header',
@@ -19,16 +19,13 @@ export class PublicViewHeaderComponent implements OnInit {
   public company$: Observable<CompanyDto>;
 
   constructor(
-    private userContextStore: Store<fromUserContextReducer.State>,
-    private publicHeaderStore: Store<fromPublicViewHeaderReducer.State>
-  ) {
-    this.identity$ = this.userContextStore.select(fromUserContextReducer.getUserContext);
-    this.company$ = this.publicHeaderStore.select(fromPublicViewHeaderReducer.getCompany);
+    private store: Store<fromUserContextReducer.State>) {
+    this.identity$ = this.store.select(fromRootState.getUserContext);
   }
 
   ngOnInit() {
     this.identity$.subscribe(i => {
-      this.publicHeaderStore.dispatch(new fromPublicViewHeaderActions.LoadCompanyInformation({ CompanyId: i.CompanyId }));
+      this.store.dispatch(new fromPublicViewHeaderActions.LoadCompanyInformation({ CompanyId: i.CompanyId }));
     });
   }
 }

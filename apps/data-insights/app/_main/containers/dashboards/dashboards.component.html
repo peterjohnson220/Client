@@ -9,27 +9,31 @@
   <pf-dashboards-header [thumbnailsViewEnabled]="false" [hasFavorites]="anyFavorites"></pf-dashboards-header>
 
   <div *ngIf="filteredCompanyWorkbooks" class="dashboards h-100 d-flex flex-column">
-
     <div class="workbooks-container row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">
+
       <ng-container *ngIf="filteredCompanyWorkbooks?.length">
         <div *ngFor="let workbook of filteredCompanyWorkbooks; trackBy: trackByFn"
-              class="col-xs-12 col-md-6 col-lg-4 col-xl-3 workbook-card">
-          <pf-workbook-card
-            [workbook]="workbook"
-            (favoriteClicked)="handleFavoriteClicked($event)"
-            (tagClicked)="handleTagWorkbookClicked($event)"
-            (openViewsClicked)="handleOpenViewsClicked($event)">
-          </pf-workbook-card>
+              class="col-xs-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 workbook-card">
+
+          <ng-container *ngIf="workbook.Type === reportTypes.TableauReport">
+            <pf-tableau-workbook-card [workbook]="workbook"></pf-tableau-workbook-card>
+          </ng-container>
+
+          <ng-container *ngIf="workbook.Type === reportTypes.DataView">
+            <pf-dataview-workbook-card [workbook]="workbook"></pf-dataview-workbook-card>
+          </ng-container>
+
         </div>
       </ng-container>
-    </div>
 
+    </div>
   </div>
 </ng-container>
 
 <pf-tag-workbook-modal
-  [selectedWorkbook]="selectedWorkbook"
+  [selectedWorkbook]="(activeWorkbook$ | async)"
   [saving]="savingTag$ | async"
   [tags]="tags$ | async"
-  (saveClicked)="handleSaveTagClicked($event)">
+  (saveClicked)="handleSaveTagClicked($event)"
+  (closed)="handleTagModalClosed()">
 </pf-tag-workbook-modal>

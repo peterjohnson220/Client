@@ -1,0 +1,33 @@
+<div class="left-sidebar-dock" [ngClass]="{'left-sidebar-open': isOpen, 'left-sidebar-close': !isOpen}">
+
+  <div class="header d-flex justify-content-between">
+    <h5 *ngIf="isOpen">Configure</h5>
+    <span (click)="toggle()">
+      <fa-icon *ngIf="!isOpen" class="icon open-icon" icon="chevron-double-right" size="lg"></fa-icon>
+      <fa-icon *ngIf="isOpen" class="icon close-icon"  icon="chevron-double-left" size="lg"></fa-icon>
+    </span>
+  </div>
+
+  <div class="content" [ngClass]="isOpen ? 'opened' : 'closed'">
+    <div class="pt-3 bg-light">
+      <ul class="configure-tabs">
+        <li *ngFor="let configureTab of configureTabOptions; let i = index"
+            (click)="selectTab(i, configureTab)"
+            [class.active]="selectedTabIndex === i"
+            class="d-inline configure-tab-item">
+          {{configureTab}}
+        </li>
+      </ul>
+    </div>
+
+    <div class="report-fields tab-content" [ngClass]="activeTab === 'Fields' ? 'show' : ''">
+      <pf-data-view-fields></pf-data-view-fields>
+    </div>
+
+    <div class="report-filters tab-content" [ngClass]="activeTab === 'Filters' ? 'show' : ''">
+      <pf-data-view-filters></pf-data-view-filters>
+    </div>
+
+  </div>
+
+</div>

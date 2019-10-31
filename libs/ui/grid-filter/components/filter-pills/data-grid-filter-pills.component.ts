@@ -35,11 +35,11 @@ export class PfDataGridFilterPillsComponent {
   private getHumanizedFilter(columns: ViewField[], filter: DataViewFilter) {
     const field = columns.find(c => c.SourceName === filter.SourceName);
     if (field === null) {
-      return `${filter.SourceName} ${filter.Operator} ${filter.Value}`;
+      return `${filter.SourceName} ${filter.Operator} ${filter.Values[0]}`;
     }
 
     const operatorDisplay = this.getOperatorDisplay(filter.Operator, field.DataType);
-    const valueDisplay = this.getValueDisplay(filter.Value, field.DataType);
+    const valueDisplay = this.getValueDisplay(filter.Values[0], field.DataType);
     return `${field.DisplayName} ${operatorDisplay} ${valueDisplay}`;
   }
 

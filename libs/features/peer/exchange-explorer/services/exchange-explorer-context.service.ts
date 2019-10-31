@@ -20,8 +20,7 @@ export class ExchangeExplorerContextService {
     const filterContext$ = this.store.pipe(select(fromExchangeExplorerReducer.getFilterContext));
     const mapFilter$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapFilter));
     const searchFilters$ = this.searchStore.pipe(select(fromSearchReducer.getFilters));
-    const searchFilterMappingDataObj$ = this.store.pipe(select(fromExchangeExplorerReducer.getSearchFilterMappingDataObj));
-    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, searchFilters$, searchFilterMappingDataObj$]);
+    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, searchFilters$]);
 
     return combinedFilterContext$.pipe(
       map((combined) => {
@@ -31,11 +30,9 @@ export class ExchangeExplorerContextService {
         };
         const searchFields = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(combined[2]);
         const filters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[2]);
-        const searchFilterMappingDataObj = combined[3];
         const exchangeDataSearchRequest: BaseExchangeDataSearchRequest = {
           FilterContext: filterContext,
           Filters: filters,
-          SearchFilterMappingData: searchFilterMappingDataObj,
           SearchFields: !!searchFields ? searchFields : []
         };
         return exchangeDataSearchRequest;

@@ -15,7 +15,7 @@ export interface DataViewField {
   DataElementId: number;
   SourceName: string;
   DisplayName: string;
-  DataType: DataViewFieldDataType;
+  DataType?: DataViewFieldDataType;
   IsSelected?: boolean;
   Order?: number;
   IsSortable: boolean;
@@ -25,7 +25,6 @@ export interface DataViewFilter {
   EntitySourceName: string;
   SourceName: string;
   Operator: string;
-  Value?: string;
   Values?: string[];
   DataType?: DataViewFieldDataType;
 }
@@ -36,6 +35,7 @@ export enum DataViewFieldDataType {
   Int = 'int',
   Float = 'float',
   String = 'string',
+  LongString = 'longString',
   Binary = 'binary',
   Unknown = 'unknown'
 }
@@ -50,8 +50,7 @@ export function getMockDataViewFilter(): DataViewFilter {
     EntitySourceName: 'CompanyJobs',
     SourceName: 'Job_Title',
     Operator: '=',
-    Value: '123',
-    Values: [],
+    Values: ['123'],
     DataType: DataViewFieldDataType.String
   };
 }
@@ -63,8 +62,7 @@ export function getMockDataViewFilterList(numFilters: number): DataViewFilter[] 
       EntitySourceName: 'CompanyJobs',
       SourceName: `Job_Title${i}`,
       Operator: '=',
-      Value: `Value${i}`,
-      Values: [],
+      Values: [`Value${i}`],
       DataType: DataViewFieldDataType.String
     };
 

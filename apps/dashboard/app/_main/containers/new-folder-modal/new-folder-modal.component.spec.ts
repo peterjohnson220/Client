@@ -1,17 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import { NewFolderModalComponent } from './new-folder-modal.component';
-import { StoreModule, Store } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
-import { ActivatedRoute } from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-
+import { FormBuilder, FormControl } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 describe('NewFolderModalComponent', () => {
   let fixture: ComponentFixture<NewFolderModalComponent>;
-  let instance: NewFolderModalComponent;
-  let store: Store<fromRootState.State>;
+  let component: NewFolderModalComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,31 +20,32 @@ describe('NewFolderModalComponent', () => {
       ],
       providers: [
         FormBuilder,
-      {
-        provide: ActivatedRoute
-      }
+        NgbActiveModal
     ],
       declarations: [
         NewFolderModalComponent
       ],
-      // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-
-    spyOn(store, 'dispatch');
+    TestBed.overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [NewFolderModalComponent]
+      }
+    });
 
     fixture = TestBed.createComponent(NewFolderModalComponent);
-    instance = fixture.componentInstance;
+    component = fixture.componentInstance;
+    expect(component).toBeDefined();
   });
 
-  it('should call createSubscriptions upon Init', () => {
-    spyOn(instance, 'createSubscriptions');
+  it('should not accept null or whitespace for folder name', () => {
+    component.ngOnInit();
+    const folderName = new FormControl('Test');
+    expect(component.validateFolderName(folderName)).toBeNull();
 
-    instance.ngOnInit();
-
-    expect(instance.createSubscriptions).toHaveBeenCalled();
+    folderName.setValue(' ');
+    const result = component.validateFolderName(folderName);
+    expect(result.isNullOrWhiteSpace).toBeTruthy();
   });
-
 });
