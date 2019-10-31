@@ -1,23 +1,24 @@
-<pf-modal-form
-  [size]="'md'"
-  [title]="'Create New Folder'"
-  [primaryButtonText]="'Save'"
-  [isOpen$]="newFolderModalOpen$"
-  [formGroup]="addNewFolderForm"
-  (onSubmit)="handleFormSubmit()"
-  (onDismiss)="handleModalDismissed()"
-  [centered]="true"
->
-  <ng-container form-content class="form-group">
-    <label class="col-form-label" for="folder-name">Folder Name</label>
-    <input id="folder-name" type="text" class="form-control" formControlName="folderName" [maxLength]="50" autofocus required>
-    <div *ngIf="addNewFolderForm" class="alert-container"> 
-      <ng-container *ngIf="addNewFolderForm.invalid && (addNewFolderForm.dirty || addNewFolderForm.touched)">
-          <label class="alert alert-danger">Folder name is required.</label>
-      </ng-container>
-      <ng-container *ngIf="folderError.isActive && addNewFolderForm.valid">
-          <label class="alert alert-danger">{{folderError.message}}</label>
-      </ng-container>
+<form [formGroup]="addNewFolderForm" (ngSubmit)="onFormSubmit()">
+  <div class="modal-header">
+      <h4 class="modal-title">Create New Folder</h4>
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </ng-container>
-</pf-modal-form>
+    <div class="modal-body">
+      <label class="col-form-label" for="folder-name">Folder Name</label>
+      <input id="folder-name" type="text" class="form-control" formControlName="folderName" [maxLength]="50" autofocus required>
+      <div *ngIf="addNewFolderForm" class="alert-container"> 
+        <ng-container *ngIf="addNewFolderForm.invalid && addNewFolderForm.dirty">
+            <label class="alert alert-danger">Folder name is required.</label>
+        </ng-container>
+        <ng-container *ngIf="addNewFolderForm.valid && folderError.message !== '' && isSubmitted">
+            <label class="alert alert-danger">{{folderError.message}}</label>
+        </ng-container>
+      </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.close()">Cancel</button>
+        <button type="submit" [disabled]="!addNewFolderForm.valid" class="btn btn-primary">Save</button>
+    </div>
+</form>

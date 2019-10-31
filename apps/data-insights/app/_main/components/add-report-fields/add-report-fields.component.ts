@@ -37,6 +37,7 @@ export class AddReportFieldsComponent implements OnChanges, AfterViewInit, OnDes
           return {
             Entity: x.Entity,
             DisplayName: x.DisplayName,
+            IsSelected: x.IsSelected,
             DataElementId: x.DataElementId.toString()
           };
         });
@@ -77,5 +78,9 @@ export class AddReportFieldsComponent implements OnChanges, AfterViewInit, OnDes
       this.fieldAdded.emit(field);
     }
     this.reportFieldsList.reset();
+  }
+
+  itemDisabled(itemArgs: {dataItem: any, index: number}) {
+    return itemArgs.dataItem.IsSelected;
   }
 }

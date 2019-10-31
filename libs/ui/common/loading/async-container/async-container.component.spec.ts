@@ -2,6 +2,8 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
+import { WindowRef } from 'libs/core/services';
+
 import { AsyncContainerComponent } from './async-container.component';
 
 // Host Component for testing transclusion
@@ -21,6 +23,16 @@ describe('Async Container', () => {
     TestBed.configureTestingModule({
       declarations: [
         AsyncContainerComponent, TestHostComponent
+      ],
+      providers: [
+        {
+          provide: WindowRef,
+          useValue: {
+            nativeWindow: {
+              location: jest.fn()
+            }
+          }
+        }
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

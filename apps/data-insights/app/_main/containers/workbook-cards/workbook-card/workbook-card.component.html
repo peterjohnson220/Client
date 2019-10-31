@@ -1,0 +1,34 @@
+<div *ngIf="!!workbook"
+  class="workbook-container d-flex flex-column"
+  (mouseover)="handleMouseOverWorkbookContainer()"
+  (mouseleave)="handleMouseLeaveWorkbookContainer()">
+
+  <div class="d-flex">
+    <ng-container *ngIf="!!workbook.IconClass?.length">
+      <fa-icon [icon]="workbook.IconClass" class="workbook-icon fa-fw"></fa-icon>
+    </ng-container>
+
+    <div class="vertical-separator"></div>
+
+    <div class="d-flex flex-column ml-3 content">
+      <span class="tag" data-toggle="tooltip" title="{{workbook.Tag || workbook.DefaultTag}}">{{workbook.Tag || workbook.DefaultTag}}</span>
+      <span class="workbook-name" data-toggle="tooltip" title="{{workbook.WorkbookName}}">{{workbook.WorkbookName}}</span>
+    </div>
+  </div>
+
+  <div class="d-flex actions-overlay" [ngClass]="displayActionsOverlay ? 'displayed' : ''"></div>
+
+  <div class="actions" [ngClass]="displayActionsOverlay ? 'displayed' : ''">
+    <button class="btn btn-secondary" [attr.data-qa-id]="'btn-favorite'" (click)="handleFavoriteClicked(workbook)">
+      <fa-icon *ngIf="workbook.IsFavorite" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
+      <fa-icon *ngIf="!workbook.IsFavorite" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
+    </button>
+    <button class="btn btn-secondary" [attr.data-qa-id]="'btn-addTag'" (click)="handleTagClicked(workbook)">
+      <fa-icon *ngIf="workbook.Tag" [icon]="['fas', 'tag']" class="action-icon solid-tag"></fa-icon>
+      <fa-icon *ngIf="!workbook.Tag" [icon]="['far', 'tag']" class="action-icon"></fa-icon>
+    </button>
+
+    <ng-content select="[custom-actions]"></ng-content>
+  </div>
+
+</div>

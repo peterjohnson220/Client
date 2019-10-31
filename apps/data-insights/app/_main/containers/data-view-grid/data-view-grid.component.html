@@ -31,8 +31,8 @@
           <span class="k-link" [class.disabled]="!field.IsSortable">{{column.title}}</span>
         </ng-template>
         <ng-template kendoGridCellTemplate let-dataItem>
-          <span *ngIf="!!dataItem[field.KendoGridField];else blankCellTemplate">
-            <ng-container *ngIf="field.DataType === dataTypes.DateTime;else defaultFieldTemplate">
+          <span *ngIf="dataItem[field.KendoGridField] !== null;else blankCellTemplate">
+            <ng-container *ngIf="field.DataType === dataTypes.Date;else defaultFieldTemplate">
               {{dataItem[field.KendoGridField] | date: 'MM/dd/yyyy'}}
             </ng-container>
             <ng-template #defaultFieldTemplate>

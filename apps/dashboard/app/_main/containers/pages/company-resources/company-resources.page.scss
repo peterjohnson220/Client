@@ -1,9 +1,16 @@
 $white: #ffffff;
 $grey: #4a4a4a;
+$blue-accent-button: #034F9E;
+$blue-primary-button: #0366CC;
+$button-shadow: rgba(0, 0, 0, 0.5);
 
 .company-resources-container {
     background-color: $white;
     height: 100%;
+}
+
+::content ::ng-deep .center-content-scroll {
+    background: $white;
 }
 
 .content-container { 
@@ -15,7 +22,6 @@ $grey: #4a4a4a;
 .title {
     font-size: 38.4px;
     color: $grey;
-    letter-spacing: 0.8px;
     line-height: 50px;
     margin-top: 30px;
     margin-bottom: 30px;
@@ -30,10 +36,45 @@ $grey: #4a4a4a;
 .breadcrumb-item > a,  .breadcrumb-item {
     color: $grey;
     font-size: 12.8px;
-    letter-spacing: 1.2px;
+    letter-spacing: 0.5px;
     line-height: 18px;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
+}
+
+.button-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-align-content: flex-end;
+    align-content: flex-end;
+
+    fa-icon {
+        margin-right: 10px;
+    }
+
+    button {
+        border-radius: 4px;
+        font-size: 16px;
+        text-align: center;
+        box-shadow: 0 0 1px 0 $button-shadow;
+    }
+
+    #new-folder-btn {
+        margin-right: 10px;
+        background: $white;
+        border: 1px solid $blue-accent-button;
+        color: $blue-accent-button;
+    }
+    
+    #upload-btn {
+        background: $blue-primary-button;
+        color: $white;
+        border: 1px solid $blue-primary-button;
+    }
 }

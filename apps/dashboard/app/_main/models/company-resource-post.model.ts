@@ -1,8 +1,12 @@
 export interface CompanyResourcePost {
-    ResourceType: string;
-    ResourceTitle: string;
-    FileName: string;
-    FileDisplayName: string;
+    CompanyId: number;
+    CompanyResourceId: number;
     CompanyResourcesFoldersId: number;
-    FolderName: string;
+    CreateDate: string;
+    CreateUser: number;
+    FileDisplayName: string;
+    FileName: string;
+    LinkUrl: string;
+    ResourceTitle: string;
+    ResourceType: string;
 }

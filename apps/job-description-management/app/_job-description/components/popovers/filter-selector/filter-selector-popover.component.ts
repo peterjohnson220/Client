@@ -20,6 +20,7 @@ export class FilterSelectorPopoverComponent {
   @Input() customListAreaColumns: ListAreaColumn[];
   @Input() loading: boolean;
   @Input() deleting: boolean;
+  @Input() saveFiltersVisible = true;
 
   @Output() onFilterSelected = new EventEmitter();
   @Output() onFilterSidebarToggle = new EventEmitter();

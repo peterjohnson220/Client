@@ -29,6 +29,8 @@ export const GET_DASHBOARD_VIEW = '[Data Insights / Dashboards] Get Dashboard Vi
 export const GET_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Dashboards] Get Dashboard View Success';
 export const GET_DASHBOARD_VIEW_ERROR = '[Data Insights / Dashboards] Get Dashboard View Error';
 export const SET_TAGGED_FILTER = '[Data Insights / Dashboards] Set Tagged Filter';
+export const OPEN_TAG_WORKBOOK_MODAL = '[Data Insights / Dashboards] Open Tag Workbook Modal';
+export const CLOSE_TAG_WORKBOOK_MODAL = '[Data Insights / Dashboards] Close Tag Workbook Modal';
 
 export class GetCompanyWorkbooks implements Action {
   readonly type = GET_COMPANY_WORKBOOKS;
@@ -173,6 +175,18 @@ export class SetTaggedFilter implements Action {
   constructor(public payload: string) {}
 }
 
+export class OpenTagWorkbookModal implements Action {
+  readonly type = OPEN_TAG_WORKBOOK_MODAL;
+
+  constructor(public payload: { workbookId: string }) {}
+}
+
+export class CloseTagWorkbookModal implements Action {
+  readonly type = CLOSE_TAG_WORKBOOK_MODAL;
+
+  constructor() {}
+}
+
 export type Actions
   = GetCompanyWorkbooks
   | GetCompanyWorkbooksSuccess
@@ -198,4 +212,6 @@ export type Actions
   | GetDashboardView
   | GetDashboardViewSuccess
   | GetDashboardViewError
-  | SetTaggedFilter;
+  | SetTaggedFilter
+  | OpenTagWorkbookModal
+  | CloseTagWorkbookModal;

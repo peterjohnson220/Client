@@ -99,7 +99,7 @@ export const getSingledFilterSelectionCount = createSelector(
   getFilters,
   (singledFilter, filters) => {
     const backingFilter = <MultiSelectFilter>filters.find(f => f.Id === singledFilter.Id);
-    return !! backingFilter ? backingFilter.Options.filter(o => o.Selected).length : 0;
+    return !!backingFilter ? backingFilter.Options.filter(o => o.Selected).length : 0;
   }
 );
 

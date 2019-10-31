@@ -28,3 +28,11 @@ export interface ProgressStatusPayload extends NotificationPayload {
   IsCompleted: boolean;
   PercentageComplete: number;
 }
+
+export interface SuccessStatusPayLoad extends NotificationPayload {
+  ExportedViewLink: string;
+}
+
+export enum NotificationSource {
+  DataInsights = 'Data Insights'
+}

@@ -1,7 +1,7 @@
 <div class="filter-sidebar">
 
   <div class="filter-header">
-     <pf-associated-exchange-job-list 
+     <pf-associated-exchange-job-list
      *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter"
       [associatedExchangeJobs]="associatedJobs$ | async">
      </pf-associated-exchange-job-list>
@@ -25,7 +25,7 @@
       [orgCount]="(mapSummary$ | async)?.OverallMapStats.CompanyCount"
       [incCount]="(mapSummary$ | async)?.OverallMapStats.SalaryCount"
       [hasSelections]="(selectionsCount$ | async) > 0"
-      (resetAllFiltersClicked)="handleClearAllSelections()">
+      (clearFiltersLinkClicked)="handleClearAllSelections()">
     </pf-peer-filter-info>
   </div>
 

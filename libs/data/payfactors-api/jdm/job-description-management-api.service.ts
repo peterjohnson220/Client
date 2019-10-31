@@ -84,4 +84,9 @@ export class JobDescriptionManagementApiService {
   inactivateControl(controlType: string) {
     return this.payfactorsApiService.post(`${this.endpoint}.InactivateControl`, {ControlType: controlType});
   }
+
+  getPublicJdmColumns(companyId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}.GetPublicJdmColumns?companyId=${companyId}`);
+  }
+
 }

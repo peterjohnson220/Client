@@ -36,6 +36,9 @@ export class SearchFiltersEffects {
   clearFilter$ = this.searchEffectsService.handleFilterRemoval(
     this.actions$.pipe(ofType(fromSearchFiltersActions.CLEAR_FILTER)));
 
+  @Effect()
+  clearFilters$ = this.searchEffectsService.handleFilterRemoval(
+    this.actions$.pipe(ofType(fromSearchFiltersActions.CLEAR_FILTERS)));
 
   @Effect()
   removeFilterValue$ = this.searchEffectsService.handleFilterRemoval(

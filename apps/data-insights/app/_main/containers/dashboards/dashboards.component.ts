@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -8,7 +8,7 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Workbook, SaveWorkbookTagObj } from '../../models';
+import { Workbook, SaveWorkbookTagObj, ReportType } from '../../models';
 import { TagWorkbookModalComponent } from '../../components/tag-workbook-modal';
 
 @Component({
@@ -24,13 +24,15 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   tags$: Observable<string[]>;
   savingTag$: Observable<boolean>;
   savingTagError$: Observable<boolean>;
+  tagWorkbookModalOpen$: Observable<boolean>;
+  activeWorkbook$: Observable<Workbook>;
 
   filteredCompanyWorkbooksSub: Subscription;
   dragulaSub: Subscription;
-  savingTagsSub: Subscription;
+  tagWorkbookModalOpenSub: Subscription;
 
   filteredCompanyWorkbooks: Workbook[];
-  selectedWorkbook: Workbook;
+  reportTypes = ReportType;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -45,12 +47,16 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.tags$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTags));
     this.savingTag$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTag));
     this.savingTagError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTagError));
+    this.tagWorkbookModalOpen$ = this.store.pipe(select(fromDataInsightsMainReducer.getTagWorkbookModalOpen));
+    this.activeWorkbook$ = this.store.pipe(select(fromDataInsightsMainReducer.getActiveWorkbook));
   }
 
   ngOnInit() {
     this.filteredCompanyWorkbooksSub = this.filteredCompanyWorkbooks$.subscribe(cw => this.filteredCompanyWorkbooks = cw);
-    this.savingTagsSub = this.savingTag$.subscribe(st => {
-      if (!st) {
+    this.tagWorkbookModalOpenSub = this.tagWorkbookModalOpen$.subscribe(open => {
+      if (open) {
+        this.tagWorkbookModalComponent.open();
+      } else {
         this.tagWorkbookModalComponent.close();
       }
     });
@@ -63,34 +69,19 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.filteredCompanyWorkbooksSub.unsubscribe();
     this.dragulaSub.unsubscribe();
-    this.savingTagsSub.unsubscribe();
+    this.tagWorkbookModalOpenSub.unsubscribe();
   }
 
   trackByFn(index: any, workbook: Workbook) {
     return workbook.WorkbookId;
   }
 
-  handleFavoriteClicked(workbook: Workbook) {
-    if (workbook.IsFavorite) {
-      this.store.dispatch(new fromDashboardsActions.RemoveWorkbookFavorite({ workbookId: workbook.WorkbookId }));
-    } else {
-      this.store.dispatch(new fromDashboardsActions.AddWorkbookFavorite({ workbookId: workbook.WorkbookId }));
-    }
-  }
-
-  handleTagWorkbookClicked(workbook: Workbook) {
-    this.selectedWorkbook = workbook;
-    this.tagWorkbookModalComponent.open();
-  }
-
-  handleOpenViewsClicked(workbook: Workbook) {
-    if (!workbook.Views || workbook.Views.loadingError) {
-      this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbookViews({workbookId: workbook.WorkbookId}));
-    }
-  }
-
   handleSaveTagClicked(saveObj: SaveWorkbookTagObj) {
     this.store.dispatch(new fromDashboardsActions.SaveWorkbookTag(saveObj));
+  }
+
+  handleTagModalClosed(): void {
+    this.store.dispatch(new fromDashboardsActions.CloseTagWorkbookModal());
   }
 
   private handleDropModel(sourceModel) {

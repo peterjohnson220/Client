@@ -35,11 +35,9 @@ import { BrowserDetectionService } from 'libs/core/services';
     PfStateModule,
     PfFormsModule,
     PfAppRootModule,
-    CompanyModule,
 
     // Routing
     AppRoutingModule
-
   ],
   bootstrap: [AppComponent],
   providers: [BrowserDetectionService]

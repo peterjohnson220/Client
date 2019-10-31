@@ -17,7 +17,7 @@ import {
   generateMockJdmListFilter
 } from 'libs/models/user-profile';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
-import { PermissionService } from 'libs/core/services';
+import { PermissionService, RouteTrackingService } from 'libs/core/services';
 
 import { JobDescriptionListPageComponent } from './job-description-list.page';
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
@@ -27,7 +27,6 @@ import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import { CompanyJobViewListItem, generateMockCompanyJobViewListItem } from '../../../models';
-import { RouteTrackingService } from '../../../../shared/services';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent } from '../../../components';
 import {
   JobDescriptionAppliesToModalComponent

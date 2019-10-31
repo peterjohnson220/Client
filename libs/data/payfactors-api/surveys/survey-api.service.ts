@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { YoyDsSurveysResponse, YoyDsToMapResponse, YoySurveyScopesResponse, YoyDsMapRequest } from '../../../models/payfactors-api';
+import { UdfDataResponse } from '../../../models/payfactors-api/survey/response/udf-data-response.model';
 
 @Injectable()
 export class SurveyApiService {
@@ -26,6 +27,11 @@ export class SurveyApiService {
   getYoySurveyScopes(surveyId: number): Observable<YoySurveyScopesResponse[]> {
     return this.payfactorsApiService.get<YoySurveyScopesResponse[]>(
       `${this.endpoint}/Default.GetListOfYoySurveyScopes`, { params: { surveyId } });
+  }
+
+  getUdfData(companyId: number): Observable<UdfDataResponse> {
+    return this.payfactorsApiService.post(
+      `${this.endpoint}/GetUdfData?companyId=${companyId}`);
   }
 
   mapDefaultScopesYoy(request: YoyDsMapRequest) {

@@ -1,0 +1,19 @@
+<ng-container>
+  <kendo-dropdownlist
+    class="dropdown-list"
+    [attr.data-qa-id]="'ddm-text-filter-operators'"
+    [data]="operators"
+    [ngModel]="selectedOperator ? selectedOperator : operators[0]"
+    [textField]="'Name'"
+    [valueField]="'Value'"
+    [disabled]="'true'">
+  </kendo-dropdownlist>
+
+  <input class="form-control"
+         data-qa-id="txt-text-filter"
+         maxlength="255"
+         type="text"
+         (change)="handleTextChanged()"
+         [(ngModel)]="value"/>
+
+</ng-container>

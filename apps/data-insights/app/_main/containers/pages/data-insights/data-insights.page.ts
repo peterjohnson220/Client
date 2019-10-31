@@ -22,6 +22,7 @@ import { SearchWorkbookModalComponent } from '../../search-workbook-modal';
 export class DataInsightsPageComponent implements OnInit, OnDestroy {
   @ViewChild(SearchWorkbookModalComponent, { static: true })
   public searchWorkbookModalComponent: SearchWorkbookModalComponent;
+  reportBuilderSettingEnabled$: Observable<boolean>;
   standardReports$: Observable<AsyncStateObj<Workbook[]>>;
   showStandardReportsSection$: Observable<boolean>;
   thumbnailsViewSettingEnabled$: Observable<boolean>;
@@ -41,6 +42,9 @@ export class DataInsightsPageComponent implements OnInit, OnDestroy {
     this.showStandardReportsSection$ = this.store.pipe(select(fromDataInsightsMainReducer.getShowStandardReportsSection));
     this.thumbnailsViewSettingEnabled$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.DataInsightsThumbnailsViewDisplay
+    );
+    this.reportBuilderSettingEnabled$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.DataInsightsReportBuilder
     );
   }
 

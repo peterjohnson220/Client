@@ -1,41 +1,61 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EqualsOperator, FilterOperator, GreaterThanOperator, GreaterThanOrEqualOperator, LessThanOperator, LessThanOrEqualOperator } from '../../models';
+import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
+
+import { Equals, FilterOperator, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, FieldDataType } from '../../models';
 
 @Component({
   selector: 'pf-numeric-filter',
   templateUrl: './numeric-filter.component.html',
-  styleUrls: ['./numeric-filter.component.scss']
+  styleUrls: ['./numeric-filter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NumericFilterComponent implements OnInit {
-  @Input() dataType: string;
-  @Input() numericValue: string;
+export class NumericFilterComponent implements OnChanges {
+  @Input() dataType: FieldDataType;
+  @Input() value: string;
   @Input() selectedOperator: FilterOperator;
   @Output() numericValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() changeOperator: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
-  operators = [EqualsOperator, GreaterThanOperator, GreaterThanOrEqualOperator, LessThanOperator, LessThanOrEqualOperator];
+  operators = [Equals, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual];
 
-  previousValue: string;
+  numberValue: number;
+  decimals: number;
+  numberFormat: string;
 
-  ngOnInit() {
-    this.previousValue = this.numericValue;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.value) {
+      this.setNumberValue();
+    }
+    if (changes.dataType) {
+      this.setInputOptions();
+    }
   }
 
-  handleNumericValueChange(): void {
-    if (isNaN(Number(this.numericValue)) || this.numericValue.length === 0) {
-      this.numericValue = this.previousValue.length !== 0 ? this.previousValue : '';
-      return;
+  handleNumericValueChange(value: number): void {
+    this.numberValue = value;
+    if (value === null) {
+      this.numericValuesChanged.emit([]);
+    } else {
+      this.numericValuesChanged.emit([this.numberValue.toString()]);
     }
-
-    if (this.dataType === 'int' && Number(this.numericValue) % 1 !== 0 ) {
-     this.numericValue = this.numericValue.split('.')[0];
-    }
-
-    this.previousValue = this.numericValue;
-    this.numericValuesChanged.emit([this.numericValue]);
   }
 
   handleChangeOperator(value: FilterOperator) {
    this.changeOperator.emit(value);
   }
 
+  private setNumberValue() {
+    if (this.value) {
+      this.numberValue = Number(this.value);
+    } else {
+      this.numberValue = null;
+    }
+  }
+
+  private setInputOptions() {
+    if (this.dataType === FieldDataType.Int) {
+      this.decimals = 0;
+    } else {
+      this.decimals = 2;
+    }
+    this.numberFormat = `n${this.decimals}`;
+  }
 }

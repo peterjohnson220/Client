@@ -4,14 +4,14 @@
     [data]="filteredFields"
     [placeholder]="'Add Report Fields'"
     [filterable]="true"
+    [itemDisabled]="itemDisabled"
     [valueField]="'DataElementId'"
     [popupSettings]="{appendTo: 'component'}"
     (valueChange)="handleValueChanged($event)">
 
     <ng-template kendoAutoCompleteItemTemplate let-dataItem>
-      <span>
-        {{dataItem.DisplayName}}
-      </span>
+      {{dataItem.DisplayName}}
+      <span *ngIf="dataItem.IsSelected" class="badge badge-info added-badge float-right">Added</span>
     </ng-template>
   </kendo-autocomplete>
 </div>

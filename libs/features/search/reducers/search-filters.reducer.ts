@@ -71,6 +71,12 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: copiedFilters
       };
     }
+    case fromSearchFiltersActions.CLEAR_FILTERS: {
+      return {
+        ...state,
+        filters: FiltersHelper.clearFilters(cloneDeep(state.filters))
+      };
+    }
     case fromSearchFiltersActions.CLEAR_SAVED_FILTERS: {
       const filtersCopy = cloneDeep(state.filters);
       const savedFilters = cloneDeep(action.payload);
