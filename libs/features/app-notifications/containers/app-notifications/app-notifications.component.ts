@@ -34,7 +34,7 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userContextSub = this.userContext$.subscribe(userContext => {
-      if (!userContext) {
+      if (!userContext || userContext.IsPublic) {
         return;
       }
       this.signalRConnectionUrl = userContext.ConfigSettings.find(c => c.Name === 'SignalR').Value;
