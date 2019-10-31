@@ -19,6 +19,7 @@ import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 
 @Injectable()
@@ -52,7 +53,11 @@ export class PfDataGridEffects {
     @Effect()
     loadData$: Observable<Action> = this.actions$
         .pipe(
-            ofType(fromPfDataGridActions.LOAD_DATA, fromPfDataGridActions.UPDATE_PAGING_OPTIONS, fromPfDataGridActions.UPDATE_INBOUND_FILTERS),
+            ofType(
+                fromPfDataGridActions.LOAD_DATA,
+                fromPfDataGridActions.UPDATE_PAGING_OPTIONS,
+                fromPfDataGridActions.UPDATE_SORT_DESCRIPTOR,
+                fromPfDataGridActions.UPDATE_INBOUND_FILTERS),
             mergeMap((loadDataAction: fromPfDataGridActions.LoadData) =>
                 of(loadDataAction).pipe(
                     withLatestFrom(
@@ -61,8 +66,9 @@ export class PfDataGridEffects {
                         this.store.pipe(select(fromPfDataGridReducer.getInboundFilters, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getFilters, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
-                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, inboundFilters, filters, pagingOptions) =>
-                            ({ action, baseEntity, fields, inboundFilters, filters, pagingOptions })
+                        this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
+                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, inboundFilters, filters, pagingOptions, sortDescriptor) =>
+                            ({ action, baseEntity, fields, inboundFilters, filters, pagingOptions, sortDescriptor })
                     )
                 ),
             ),
@@ -73,7 +79,8 @@ export class PfDataGridEffects {
                             data.baseEntity ? data.baseEntity.Id : null,
                             data.fields,
                             data.filters.concat(data.inboundFilters),
-                            data.pagingOptions))
+                            data.pagingOptions,
+                            data.sortDescriptor))
                         .pipe(
                             map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
                             catchError(error => {
@@ -139,13 +146,25 @@ export class PfDataGridEffects {
         };
     }
 
-    static buildDataViewDataRequest(baseEntityId: number, fields: ViewField[], filters: DataViewFilter[], pagingOptions: PagingOptions) {
+    static buildDataViewDataRequest(
+        baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
+        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[]) {
+
+        let singleSortDesc = null;
+        if (!!sortDescriptor && sortDescriptor.length > 0) {
+            const field: ViewField = fields.find(x => sortDescriptor[0].field === `${x.EntitySourceName}_${x.SourceName}`);
+            singleSortDesc = {
+                SortField: field,
+                SortDirection: sortDescriptor[0].dir
+            };
+        }
+
         return {
             BaseEntityId: baseEntityId,
             Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields),
             Filters: filters,
             PagingOptions: pagingOptions,
-            SortDescriptor: null,
+            SortDescriptor: singleSortDesc,
             WithCount: true
         };
     }

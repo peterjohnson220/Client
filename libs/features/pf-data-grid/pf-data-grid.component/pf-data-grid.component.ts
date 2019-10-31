@@ -8,6 +8,7 @@ import { ViewField, DataViewFilter, DataViewEntity } from 'libs/models/payfactor
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-data-grid',
@@ -30,6 +31,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
   @Input() inboundFilters: DataViewFilter[];
+  @Input() defaultSort: SortDescriptor[];
 
   public gridFilterThrottle: Subject<any>;
 
@@ -77,6 +79,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     if (changes['inboundFilters']) {
       this.store.dispatch(new fromActions.UpdateInboundFilters(this.pageViewId, changes['inboundFilters'].currentValue));
+    }
+
+    if (changes['defaultSort']) {
+      this.store.dispatch(new fromActions.UpdateDefaultSortDescriptor(this.pageViewId, changes['defaultSort'].currentValue));
     }
   }
 

@@ -5,6 +5,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { DataViewFilter } from 'libs/models/payfactors-api';
 import { JobsHelpers } from '../../helpers/jobs.helpers';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-employees-grid',
@@ -21,6 +22,11 @@ export class EmployeesGridComponent implements AfterViewInit, OnChanges {
 
   refinedFilters: DataViewFilter[];
   colTemplates = {};
+
+  defaultSort: SortDescriptor[] = [{
+    dir: 'asc',
+    field: 'CompanyEmployees_Employee'
+  }];
 
   constructor() { }
 
