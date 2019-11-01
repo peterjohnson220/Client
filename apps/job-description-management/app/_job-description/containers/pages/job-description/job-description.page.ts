@@ -13,7 +13,8 @@ import {
   ControlType,
   JobDescriptionControl,
   ControlTypeAttribute,
-  SimpleYesNoModalOptions
+  SimpleYesNoModalOptions,
+  UserAssignedRole
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -48,6 +49,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   identityInEmployeeAcknowledgement$: Observable<boolean>;
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
+  userAssignedRoles$: Observable<UserAssignedRole[]>;
   companyLogo$: Observable<AsyncStateObj<string>>;
   enableLibraryForRoutedJobDescriptions$: Observable<boolean>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
@@ -68,6 +70,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   saveThrottleSubscription: Subscription;
   savingJobDescriptionSubscription: Subscription;
   jobDescriptionExtendedInfoSubscription: Subscription;
+  userAssignedRolesSubscription: Subscription;
 
   saveThrottle: Subject<any>;
 
@@ -86,6 +89,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   queueSave = false;
   tokenId: string;
   identity: UserContext;
+  isSiteAdmin = false;
+  isCompanyAdmin = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -100,6 +105,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogoAsync);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
+    this.userAssignedRoles$ = this.userContextStore.select(fromRootState.getUserAssignedRoles);
     this.enableLibraryForRoutedJobDescriptions$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableLibraryForRoutedJobDescriptions
     );
@@ -314,7 +320,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
           ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo.obj
           : '';
       });
+      this.isSiteAdmin = userContext.AccessLevel === 'Admin';
       this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(userContext.CompanyId));
+    });
+    this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
+      if (userRoles) {
+        this.isCompanyAdmin = userRoles.some( x => x.RoleName === 'Company Admin' && x.Assigned);
+      }
     });
     this.enableLibraryForRoutedJobDescriptionsSubscription = this.enableLibraryForRoutedJobDescriptions$.subscribe(value =>
       this.enableLibraryForRoutedJobDescriptions = value);
@@ -327,6 +339,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.jobDescriptionManagementService.getControlTypes();
       }
     });
+
   }
 
   private initSaveThrottle() {
