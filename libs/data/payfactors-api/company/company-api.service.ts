@@ -8,7 +8,7 @@ import {
   SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesResponse,
   CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields, JobPricingLimitInfoResponse
 } from '../../../models/payfactors-api';
-import { Company } from 'libs/models/company/company.model';
+import { Company, CompanyBaseInformation } from 'libs/models/company/company.model';
 
 @Injectable()
 export class CompanyApiService {
@@ -42,6 +42,9 @@ export class CompanyApiService {
     return this.payfactorsApiService.get<Company[]>(`${this.endpoint}/Default.GetCompanies`);
   }
 
+  GetCompanyBaseInformation() {
+    return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`);
+  }
   getCompany() {
     return this.payfactorsApiService.get<CompanyDto>(`${this.endpoint}/Get`);
   }
