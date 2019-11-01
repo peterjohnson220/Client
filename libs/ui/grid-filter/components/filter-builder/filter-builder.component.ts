@@ -43,4 +43,8 @@ export class FilterBuilderComponent {
       this.disableValue = false;
     }
   }
+
+  getFilterValue(filter: DataViewFilter) {
+    return filter.Values && filter.Values.length > 0 ? filter.Values[0] : null;
+  }
 }
