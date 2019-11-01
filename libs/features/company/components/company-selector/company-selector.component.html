@@ -1,0 +1,14 @@
+<pf-async-container [loading]="isLoading$ | async">
+    <kendo-combobox [ngModel]="selectedCompany"
+                    (filterChange)="this.filterData($event)"
+                    [filterable]="true"
+                    [data]="filteredData"
+                    [placeholder]="'Select Company'"
+                    [suggest]="true"
+                    [textField]="'CompanyName'"
+                    [valueField]="'CompanyId'"
+                    class="form-control"
+                    id="companySearch"
+                    (valueChange)="setSelectedCompany($event)">
+    </kendo-combobox>
+</pf-async-container>

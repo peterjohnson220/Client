@@ -1,29 +1,54 @@
-<pf-page-with-title-bar [absoluteUrl]="'/client/dashboard'">
+<pf-page-with-title-bar [absoluteUrl]="returnUrl">
   <ng-container page-title>
     Data Management
   </ng-container>
   <ng-container page-content>
-    <div class="container-fluid w-100 p-0">
-      <div class="row">
-        <div class="inner-content col w-100">
-          <div>
-            <h4 class="my-2"> Load Organizational Data</h4>
-            <div class="shadow p-3 mb-5 bg-white rounded">
-              <div class="font-weight-bold pb-3">Select which organizational data entity you would like to load data
-                for:</div>
+
+    <div class=" w-100 d-flex justify-content-center">
+      <div class="w-75 ">
+        <h4 class="my-2">Load Organizational Data</h4>
+        <div class="shadow p-3 bg-white rounded container-background">
+
+          <div class="font-weight-bold pb-3">{{this.StepHeaders[this.stepIndex - 1]}}</div>
+
+          <ng-container [ngSwitch]="stepIndex">
+
+            <div id="step1"
+                 *ngSwitchCase="1">
+              <div class="form-group">
+                <label class="sr-only"
+                       for="companySearch">Company Search</label>
+                <pf-company-selector>
+                </pf-company-selector>
+
+              </div>
+            </div>
+
+            <div id=" step2"
+                 *ngSwitchCase="2">
               <div class="pl-5">
                 <pf-entity-picker [entities]="loadOptions"></pf-entity-picker>
               </div>
-              <div class="text-right">
-                <button type="button"
-                        class="btn mx-1 btn-md btn-secondary">Cancel</button>
-                <button type="button"
-                        [style.opacity]="!hasAtLeastOneChoice() ?  0.65 : 1"
-                        [ngbTooltip]="'Please select at least one entity to load data for.'"
-                        (click)="nextBtnClick()"
-                        class="btn mx-1 btn-primary">Next</button>
+            </div>
+
+            <div id="step3"
+                 *ngSwitchCase="3">
+              <div class="rounded bg-light p-4">
+                <pf-entity-upload [selectedMapping]="this.selectedMapping"></pf-entity-upload>
               </div>
             </div>
+          </ng-container>
+
+          <div class="text-right mt-3">
+            <button type="button"
+                    class="btn mx-1 btn-md btn-secondary"
+                    (click)="this.backBtnClick();">Cancel</button>
+            <button type="button"
+                    [style.opacity]="this.getNextBtnOpacity()"
+                    [ngbTooltip]="this.areStepsValid() ? '' :  this.NextBtnToolTips[this.stepIndex - 1]"
+                    placement="top"
+                    (click)="this.nextBtnClick()"
+                    class="btn mx-1 btn-primary">Next</button>
           </div>
         </div>
       </div>

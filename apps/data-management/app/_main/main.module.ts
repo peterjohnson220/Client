@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -9,8 +10,10 @@ import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonModule } from 'libs/core';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -23,13 +26,16 @@ import {
 } from './containers';
 import { TransferDataPageEffects } from './effects';
 import { MainRoutingModule } from './main-routing.module';
-import { EntityPickerComponent } from './components/';
+import { EntityPickerComponent, EntityUploadComponent } from './components/';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
 
     // Routing
     MainRoutingModule,
@@ -37,15 +43,17 @@ import { EntityPickerComponent } from './components/';
     // 3rd Party
     StoreModule.forFeature('data_management', reducers),
     EffectsModule.forFeature([
-      TransferDataPageEffects
+      TransferDataPageEffects,
     ]),
     FontAwesomeModule,
     NgbTooltipModule,
+    UploadModule,
 
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfCompanySelectorModule
   ],
   declarations: [
     // Pages
@@ -62,7 +70,8 @@ import { EntityPickerComponent } from './components/';
     WorkdayAuthenticationComponent,
     PfTestAuthenticationComponent,
     OrgDataLoadComponent,
-    EntityPickerComponent
+    EntityPickerComponent,
+    EntityUploadComponent
   ]
 })
 export class MainModule {
