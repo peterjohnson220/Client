@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { MomentModule } from 'angular2-moment';
 import { NgbDropdownModule, NgbPopoverModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnResizingService, FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
@@ -24,7 +25,8 @@ import {
   JobDescriptionListPageComponent,
   JobDescriptionVersionComparePageComponent,
   JobDescriptionPageComponent,
-  JobDescriptionActionsComponent
+  JobDescriptionActionsComponent,
+  WorkflowWatchSidebarComponent,
 } from './containers';
 import {
   AddJobModalComponent,
@@ -43,7 +45,8 @@ import {
   JobDescriptionControlComponent,
   JobDescriptionHistoryModalComponent,
   PublicViewHeaderComponent,
-  SaveFilterModalComponent
+  SaveFilterModalComponent,
+  WorkflowLogComponent,
 } from './components';
 import { reducers } from './reducers';
 import {
@@ -57,7 +60,8 @@ import {
   UserFilterEffects,
   JobDescriptionVersionCompareEffects,
   JobDescriptionJobCompareEffects,
-  JobMatchesEffects
+  JobMatchesEffects,
+  WorkflowEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
@@ -83,7 +87,8 @@ import { ListAreaService } from '../shared/services';
       UserFilterEffects,
       JobDescriptionJobCompareEffects,
       JobDescriptionVersionCompareEffects,
-      JobMatchesEffects
+      JobMatchesEffects,
+      WorkflowEffects
     ]),
     LayoutModule,
     SharedModule,
@@ -109,6 +114,7 @@ import { ListAreaService } from '../shared/services';
     FontAwesomeModule,
     PfJobDescriptionManagementModule,
     NgbTabsetModule,
+    MomentModule,
   ],
   declarations: [
     // Components
@@ -129,19 +135,21 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionCompareDataResultComponent,
     JobDescriptionCompareSectionResultComponent,
     JobDescriptionControlComponent,
+    WorkflowLogComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,
     JobDescriptionListPageComponent,
     JobDescriptionVersionComparePageComponent,
     JobDescriptionPageComponent,
+    WorkflowWatchSidebarComponent,
 
     // Containers
     JobDescriptionActionsComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,
-    UserFilterSearchPipe
+    UserFilterSearchPipe,
   ],
   providers: [
     ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService, JobDescriptionJobCompareService,

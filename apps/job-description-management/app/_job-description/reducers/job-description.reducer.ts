@@ -25,10 +25,11 @@ export interface State {
   publishing: boolean;
   inHistory: boolean;
   publishButtonEnabled: boolean;
+  jobDescriptionIsFullscreen: boolean;
+  jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
   jobDescriptionRecentChange: JobDescription;
   jobDescriptionChangeHistory: JobDescription[];
   companyLogoAsync: AsyncStateObj<string>;
-  jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
   jobDescriptionViewsAsync: AsyncStateObj<string[]>;
 }
 
@@ -48,10 +49,11 @@ export const initialState: State = {
   publishing: false,
   publishButtonEnabled: true,
   inHistory: false,
+  jobDescriptionIsFullscreen: false,
+  jobDescriptionExtendedInfo: null,
   jobDescriptionRecentChange: null,
   jobDescriptionChangeHistory: [],
   companyLogoAsync: generateDefaultAsyncStateObj<string>(null),
-  jobDescriptionExtendedInfo: null,
   jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([])
 };
 
@@ -302,6 +304,19 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionViewsAsync: asyncStateObjClone
       };
     }
+    case fromJobDescriptionActions.TOGGLE_JOB_DESCRIPTION_FULLSCREEN_STATUS: {
+      const jobDescriptionFullscreenStatus = cloneDeep(state.jobDescriptionIsFullscreen);
+      return {
+        ...state,
+        jobDescriptionIsFullscreen: !jobDescriptionFullscreenStatus
+      };
+    }
+    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_EXTENDED_INFO: {
+      return {
+        ...state,
+        jobDescriptionExtendedInfo: action.payload
+      };
+    }
     default:
       return state;
   }
@@ -327,3 +342,4 @@ export const getPublishButtonEnabled = (state: State) => state.publishButtonEnab
 export const getInHistory = (state: State) => state.inHistory;
 export const getJobDescriptionExtendedInfo = (state: State) => state.jobDescriptionExtendedInfo;
 export const getJobDescriptionViewsAsync = (state: State) => state.jobDescriptionViewsAsync;
+export const getJobDescriptionIsFullscreen = (state: State) => state.jobDescriptionIsFullscreen;

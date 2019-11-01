@@ -11,3 +11,6 @@ export * from './request';
 export * from './job-description-extended-info.model';
 export * from './job-match-result.model';
 export * from './get-job-description-data.model';
+export * from './workflow-log-entry.model';
+export * from './workflow-step-summary-item.model';
+export * from './job-description-extended-info.model';

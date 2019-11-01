@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { MomentModule } from 'angular2-moment';
 import { NgbModalModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
@@ -25,6 +26,7 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
 
     // 3rd Party
+    MomentModule,
     NgbModalModule.forRoot(),
     NgbTabsetModule.forRoot(),
     LayoutModule,

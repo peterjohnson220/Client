@@ -118,34 +118,32 @@
         </pf-async-container>
       </div>
 
+      <ng-container *ngIf="!(jobDescriptionIsFullscreen$ | async) && !(identity$ | async)?.IsPublic">
+        <!--<div *ngIf="(identityInWorkflow$ | async) && !showLibrary" class="column-scroll-container col-4">-->
+          <!--<div class="scroll-y column-scroll-inner">-->
+            <!--<pf-workflow-sidebar-->
+                <!--[workflowStepInfo]="(identity$ | async)?.WorkflowStepInfo"-->
+                <!--[jobDescription]="(jobDescription$ | async)">-->
+            <!--</pf-workflow-sidebar>-->
+          <!--</div>-->
+        <!--</div>-->
 
-      <!-- <ng-container *ngIf="!(jobDescriptionIsFullscreen$ | async) && !(identity$ | async)?.IsPublic">
-        <div *ngIf="(identityInWorkflow$ | async) && !showLibrary" class="column-scroll-container col-4">
-          <div class="scroll-y column-scroll-inner">
-            <pf-workflow-sidebar
-                [workflowStepInfo]="(identity$ | async)?.WorkflowStepInfo"
-                [jobDescription]="(jobDescription$ | async)">
-            </pf-workflow-sidebar>
-          </div>
-        </div>
-
-        <div *ngIf="!(identityInWorkflow$ | async) &&
-                    !showLibrary &&
-                    (showRoutingHistory || (jobDescription$ | async)?.JobDescriptionStatus == 'In Review')"
+        <div *ngIf="!identityInWorkflow  && !showLibrary &&
+                    (showRoutingHistory || (jobDescriptionAsync$ | async)?.obj.JobDescriptionStatus == 'In Review')"
               class="column-scroll-container col-4">
           <div class="scroll-y column-scroll-inner">
               <pf-workflow-watch-sidebar *ngIf="!(identity$ | async)?.IsPublic && (jobDescriptionExtendedInfo$ | async)?.WorkflowId"
                                           [isSiteAdmin]="isSiteAdmin"
                                           [isCompanyAdmin]="isCompanyAdmin"
-                                          [showSubway]="(jobDescription$ | async)?.JobDescriptionStatus == 'In Review'"
+                                          [showSubway]="(jobDescriptionAsync$ | async)?.obj.JobDescriptionStatus == 'In Review'"
                                           [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
-                                          [jobDescription]="(jobDescription$ | async)"
-                                          (changeApproverClicked)="openChangeApproverModal($event)"
+                                          [jobDescription]="(jobDescriptionAsync$ | async).obj"
                                           (closed)="showRoutingHistory = false">
+                <!--(changeApproverClicked)="openChangeApproverModal($event)"-->
               </pf-workflow-watch-sidebar>
           </div>
         </div>
-      </ng-container> -->
+      </ng-container>
       <!--Export Form-->
       <form name="exportForm" [action]="exportAction" method="POST">
         <input type="hidden" name="revisionNumber" value="{{jobDescription?.JobDescriptionRevision}}" />

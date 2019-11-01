@@ -1,0 +1,38 @@
+.workflow-sidebar{
+  padding: 10px 0;
+  height: 100%;
+  position: relative;
+}
+
+.workflow-sidebar > .workflow-content{
+  position: relative;
+  overflow: auto;
+  border-top: 1px solid #d7d7d7;
+}
+
+.workflow-content{
+  padding-top: 15px;
+}
+
+.workflow-sidebar > .workflow-content.no-subway{
+  position: relative;
+}
+
+.workflow-header {
+  padding-bottom: 15px;
+}
+
+.workflow-header-controls{
+  float: right;
+}
+
+.close-btn{
+  cursor: pointer;
+  color: #707070;
+}
+
+.workflow-header > .workflow-subway-container{
+  position: relative;
+  min-height: 100px;
+  padding-top: 25px;
+}

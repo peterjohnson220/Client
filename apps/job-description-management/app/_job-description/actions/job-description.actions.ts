@@ -7,8 +7,7 @@ import {
 import { SaveCompanyJobsJobDescriptionTemplateIdRequest } from 'libs/models/payfactors-api/job-description-template/request';
 import { JobDescription } from 'libs/models';
 
-import { SaveJobDescriptionTemplateIdSucessModel } from '../models/save-job-description-template-id-sucess.model';
-import { GetJobDescriptionData } from '../models';
+import { GetJobDescriptionData, SaveJobDescriptionTemplateIdSucessModel, JobDescriptionExtendedInfo } from '../models';
 
 export const CREATE_JOB_DESCRIPTION = '[job-description-management / Job Description] Create Job Description';
 export const CREATE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Create Job Description Error';
@@ -44,6 +43,11 @@ export const GET_VIEWS_ERROR = '[job-description-management / Job Description] G
 export const DISCARD_DRAFT = '[job-description-management / Job Description] Discard Draft';
 export const DISCARD_DRAFT_SUCCESS = '[job-description-management / Job Description] Discard Draft Success';
 export const DISCARD_DRAFT_ERROR = '[job-description-management / Job Description] Discard Draft Error';
+export const TOGGLE_JOB_DESCRIPTION_FULLSCREEN_STATUS = '[job-description-management / Job Description]  Toggle Job Description Fullscreen Status';
+export const GET_JOB_DESCRIPTION_EXTENDED_INFO = '[job-description-management / Job Description]  Get Job Description Extended Info';
+export const GET_JOB_DESCRIPTION_EXTENDED_INFO_SUCCESS = '[job-description-management / Job Description]  Get Job Description Extended Info Success';
+export const GET_JOB_DESCRIPTION_EXTENDED_INFO_ERROR = '[job-description-management / Job Description]  Get Job Description Extended Info Error';
+export const LOAD_JOB_DESCRIPTION_EXTENDED_INFO = '[job-description-management / Job Description]  Load Job Description Extended Info ';
 
 export class CreateJobDescription implements Action {
   readonly type = CREATE_JOB_DESCRIPTION;
@@ -172,6 +176,12 @@ export class PublishJobDescriptionError implements Action {
   constructor() {}
 }
 
+export class ToggleJobDescriptionFullscreenStatus implements Action {
+  readonly type = TOGGLE_JOB_DESCRIPTION_FULLSCREEN_STATUS;
+
+  constructor() {}
+}
+
 export class EditJobDescription implements Action {
   readonly type = EDIT_JOB_DESCRIPTION;
 
@@ -196,6 +206,18 @@ export class GetViewsError implements Action {
   constructor() {}
 }
 
+  export class GetJobDescriptionExtendedInfo {
+  readonly type = GET_JOB_DESCRIPTION_EXTENDED_INFO;
+
+  constructor(public payload: {jobDescriptionId: number, revision: number}) {}
+}
+
+export class GetJobDescriptionExtendedInfoSuccess {
+  readonly type = GET_JOB_DESCRIPTION_EXTENDED_INFO_SUCCESS;
+
+  constructor() {}
+}
+
 export class DiscardDraft implements Action {
   readonly type = DISCARD_DRAFT;
 
@@ -208,10 +230,22 @@ export class DiscardDraftSuccess implements Action {
   constructor() {}
 }
 
+  export class GetJobDescriptionExtendedInfoError {
+  readonly type = GET_JOB_DESCRIPTION_EXTENDED_INFO_ERROR;
+
+  constructor() {}
+}
+
 export class DiscardDraftError implements Action {
   readonly type = DISCARD_DRAFT_ERROR;
 
   constructor() {}
+}
+
+export class LoadJobDescriptionExtendedInfo {
+  readonly type = LOAD_JOB_DESCRIPTION_EXTENDED_INFO;
+
+  constructor(public payload: JobDescriptionExtendedInfo) {}
 }
 
 export type Actions
@@ -244,4 +278,9 @@ export type Actions
   | GetViewsError
   | DiscardDraft
   | DiscardDraftSuccess
-  | DiscardDraftError;
+  | DiscardDraftError
+  | ToggleJobDescriptionFullscreenStatus
+  | GetJobDescriptionExtendedInfo
+  | GetJobDescriptionExtendedInfoSuccess
+  | GetJobDescriptionExtendedInfoError
+  | LoadJobDescriptionExtendedInfo;

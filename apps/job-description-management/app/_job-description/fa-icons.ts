@@ -16,7 +16,12 @@ import {
   faPencilAlt,
   faPlus,
   faUndo,
-  faBolt
+  faBolt,
+  faArrowRight,
+  faCheck,
+  faBan,
+  faCircle,
+  faEllipsisHAlt
 } from '@fortawesome/pro-solid-svg-icons';
 import { faCompressAlt, faExpandAlt } from '@fortawesome/pro-regular-svg-icons';
 
@@ -49,5 +54,10 @@ export const faIcons = [
   faBolt,
   farTrashAlt,
   faFilePdf,
-  faFileWord
+  faFileWord,
+  faArrowRight,
+  faCheck,
+  faBan,
+  faCircle,
+  faEllipsisHAlt
 ];
