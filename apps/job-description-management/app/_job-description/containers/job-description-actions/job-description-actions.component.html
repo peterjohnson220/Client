@@ -11,6 +11,14 @@
     </kendo-dropdownlist>
   </ng-container>
 
+  <!-- Public Actions -->
+  <ng-container *ngIf="identity.IsPublic">
+    <button type="button"
+            class="btn btn-secondary"
+            (click)="handleExportAsPDFClicked()">
+      <fa-icon [icon]="['far', 'file-pdf']" aria-hidden="true"></fa-icon> Export as PDF
+    </button>
+  </ng-container>
   <!-- Logged in actions -->
   <div *ngIf="!identity.IsPublic && !inWorkflow" class="d-flex space-out-children">
 

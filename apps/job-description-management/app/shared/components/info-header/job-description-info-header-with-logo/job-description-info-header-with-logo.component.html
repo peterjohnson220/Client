@@ -1,13 +1,13 @@
 <div class="card mb-3">
   <div class="card-block job-info">
     <div class="row">
-      <div [class.col-4]="!isPublic" [class.col-12]="isPublic">
+      <div class="col-4">
         <div class="h-100 p-3 d-flex align-items-center justify-content-center">
           <img alt="" *ngIf="jobDescription?.CompanyLogo?.length || companyLogoPath?.length" class="company-logo-default img-fluid" [src]="jobDescription?.CompanyLogo?.length ? publicBaseUrl + jobDescription?.CompanyLogo : companyLogoPath" />
           <h3 *ngIf="!(jobDescription?.CompanyLogo?.length || companyLogoPath?.length)" >{{companyName}}</h3>
         </div>
       </div>
-      <div *ngIf="!isPublic" [class.col-8]="jobDescription?.CompanyLogo?.length || companyLogoPath?.length || !showingLibrary" [class.col-12]="!companyLogoPath?.length && !jobDescription?.CompanyLogo?.length && showingLibrary">
+      <div [class.col-8]="jobDescription?.CompanyLogo?.length || companyLogoPath?.length || !showingLibrary" [class.col-12]="!companyLogoPath?.length && !jobDescription?.CompanyLogo?.length && showingLibrary">
         <table class="table">
           <tbody>
           <tr>
