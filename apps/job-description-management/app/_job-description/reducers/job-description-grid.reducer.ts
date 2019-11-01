@@ -56,17 +56,20 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         gridDataResult: cloneDeep(action.payload)
       };
     case fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS:
+    case fromJobDescriptionGridActions.LOAD_PUBLIC_JDM_COLUMNS:
       return {
         ...state,
         loadingListAreaColumns: true
       };
     case fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS_ERROR:
+    case fromJobDescriptionGridActions.LOAD_PUBLIC_JDM_COLUMNS_ERROR:
       return {
         ...state,
         loadingListAreaColumns: false,
         loadingListAreaColumnsError: true
       };
     case fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS_SUCCESS:
+    case fromJobDescriptionGridActions.LOAD_PUBLIC_JDM_COLUMNS_SUCCESS:
       return {
         ...state,
         loadingListAreaColumns: false,

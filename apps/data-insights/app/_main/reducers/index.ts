@@ -9,7 +9,8 @@ import * as fromReportViewReducer from './reports-view-page.reducer';
 import * as fromDataViewReducer from './data-view.reducer';
 import * as fromDataViewGridReducer from './data-view-grid.reducer';
 import * as fromViewsReducer from './views.reducer';
-import * as fromConfigurationReducer from './configuration.reducer';
+import * as fromFiltersReducer from './filters.reducer';
+import * as fromFieldsReducer from './fields.reducer';
 
 // Feature area state
 export interface DataInsightsMainState {
@@ -19,7 +20,8 @@ export interface DataInsightsMainState {
   dataView: fromDataViewReducer.State;
   dataViewGrid: fromDataViewGridReducer.State;
   views: fromViewsReducer.State;
-  configuration: fromConfigurationReducer.State;
+  filters: fromFiltersReducer.State;
+  fields: fromFieldsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -35,7 +37,8 @@ export const reducers = {
   dataView: fromDataViewReducer.reducer,
   dataViewGrid: fromDataViewGridReducer.reducer,
   views: fromViewsReducer.reducer,
-  configuration: fromConfigurationReducer.reducer
+  filters: fromFiltersReducer.reducer,
+  fields: fromFieldsReducer.reducer
 };
 
 // Select Feature Area
@@ -72,9 +75,14 @@ export const selectViewsState = createSelector(
   (state: DataInsightsMainState) => state.views
 );
 
-export const selectConfigurationState = createSelector(
+export const selectFiltersState = createSelector(
   selectFeatureAreaState,
-  (state: DataInsightsMainState) => state.configuration
+  (state: DataInsightsMainState) => state.filters
+);
+
+export const selectFieldsState = createSelector(
+  selectFeatureAreaState,
+  (state: DataInsightsMainState) => state.fields
 );
 
 // Data Insights Page
@@ -133,6 +141,16 @@ export const getSavingTagError = createSelector(
 export const getTagFilter = createSelector(
   selectDashboardsState,
   fromDashboardsReducer.getTagFilter
+);
+
+export const getTagWorkbookModalOpen = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getTagWorkbookModalOpen
+);
+
+export const getActiveWorkbook = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getActiveWorkbook
 );
 
 // Data View
@@ -211,19 +229,24 @@ export const getUserDataViewAsync = createSelector(
   fromDataViewReducer.getUserDataViewAsync
 );
 
-export const getReportFieldsAsync = createSelector(
+export const getShareableUsersAsync = createSelector(
   selectDataViewState,
-  fromDataViewReducer.getReportFieldsAsync
+  fromDataViewReducer.getShareableUsersAsync
 );
 
-export const getSelectedFields = createSelector(
+export const getSharedUserPermissionsAsync = createSelector(
   selectDataViewState,
-  fromDataViewReducer.getSelectedFields
+  fromDataViewReducer.getSharedUserPermissionsAsync
 );
 
-export const getUnselectedFields = createSelector(
+export const getSharedUserPermissionsLoaded = createSelector(
   selectDataViewState,
-  fromDataViewReducer.getUnselectedFields
+  fromDataViewReducer.getSharedUserPermissionsLoaded
+);
+
+export const getLoadingErrorMessage = createSelector(
+  selectDataViewState,
+  fromDataViewReducer.getLoadingErrorMessage
 );
 
 // Data View Grid
@@ -268,23 +291,39 @@ export const getDashboardViewThumbnailEnabled = createSelector(
   fromViewsReducer.getDashboardViewThumbnailEnabled
 );
 
-// Configuration
+// Configure Filters
 export const getActiveFilters = createSelector(
-  selectConfigurationState,
-  fromConfigurationReducer.getActiveFilters
+  selectFiltersState,
+  fromFiltersReducer.getActiveFilters
 );
 
 export const getActiveFiltersCount = createSelector(
-  selectConfigurationState,
-  fromConfigurationReducer.getActiveFiltersCount
+  selectFiltersState,
+  fromFiltersReducer.getActiveFiltersCount
 );
 
 export const getPendingFiltersValid = createSelector(
-  selectConfigurationState,
-  fromConfigurationReducer.getPendingFiltersValid
+  selectFiltersState,
+  fromFiltersReducer.getPendingFiltersValid
 );
 
 export const getPendingFilters = createSelector(
-  selectConfigurationState,
-  fromConfigurationReducer.getPendingFilters
+  selectFiltersState,
+  fromFiltersReducer.getPendingFilters
+);
+
+// Configure Fields
+export const getReportFieldsAsync = createSelector(
+  selectFieldsState,
+  fromFieldsReducer.getReportFieldsAsync
+);
+
+export const getSelectedFields = createSelector(
+  selectFieldsState,
+  fromFieldsReducer.getSelectedFields
+);
+
+export const getUnselectedFields = createSelector(
+  selectFieldsState,
+  fromFieldsReducer.getUnselectedFields
 );

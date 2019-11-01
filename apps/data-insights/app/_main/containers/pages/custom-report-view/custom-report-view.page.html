@@ -1,15 +1,16 @@
 <div *ngIf="(userDataView$ | async) as userDataViewAsync" class="custom-report-page">
-  <pf-async-container
-    [loading]="userDataViewAsync.loading"
-    [loadingError]="userDataViewAsync.loadingError"
-    [loadingErrorMessage]="'Error loading this data view'"
-    [hideReloadButton]="true">
-
     <pf-page-with-title-bar [returnUrl]="'/'">
       <ng-container page-title>{{userDataViewAsync?.obj?.Name}}</ng-container>
       <ng-container page-content>
+        <pf-async-container
+          [loading]="userDataViewAsync.loading"
+          [loadingError]="userDataViewAsync.loadingError"
+          [loadingErrorMessage]="loadingErrorMessage$ | async"
+          [hideReloadButton]="true">
+        </pf-async-container>
         <div class="d-flex flex-row actions">
           <button class="btn btn-secondary"
+                  [disabled]="isReadOnly"
                   [attr.data-qa-id]="'btn-edit'"
                   (click)="handleEditClicked()"
                   ngbTooltip="Edit"
@@ -32,6 +33,15 @@
             <fa-icon icon="file-excel"></fa-icon>
           </button>
           <button class="btn btn-secondary"
+                  [disabled]="!isOwner"
+                  [attr.data-qa-id]="'btn-share'"
+                  (click)="handleShareClicked()"
+                  ngbTooltip="Share"
+                  container="body">
+            <fa-icon icon="share"></fa-icon>
+          </button>
+          <button class="btn btn-secondary"
+                  [disabled]="!isOwner"
                   [attr.data-qa-id]="'btn-delete'"
                   (click)="handleDeleteClicked()"
                   ngbTooltip="Delete"
@@ -40,14 +50,15 @@
           </button>
         </div>
         <div class="d-flex flex-row main-content">
-          <pf-left-sidebar #leftSidebar></pf-left-sidebar>
-          <div class="data-view-grid-container" [ngClass]="leftSidebar.isOpen ? 'sidebar-open': 'sidebar-close'">
+          <ng-container *ngIf="!isReadOnly; else disabledConfigureToggleButton">
+            <pf-configure-sidebar #leftSidebar></pf-configure-sidebar>
+          </ng-container>
+          <div class="data-view-grid-container" [ngClass]="configureSidebarOpen ? 'sidebar-open': 'sidebar-close'">
             <pf-data-view-grid></pf-data-view-grid>
           </div>
         </div>
       </ng-container>
     </pf-page-with-title-bar>
-  </pf-async-container>
 
   <pf-save-user-workbook-modal
     #editWorkbookModal
@@ -77,6 +88,23 @@
     #deleteWorkbookModal
     (deleteClicked)="handleDeleteSaveClicked()">
   </pf-delete-user-workbook-modal>
+  <pf-share-report-modal
+    [users]="(shareableUsers$ | async)?.obj"
+    [sharedUserPermissions]="(sharedUserPermissions$ | async)?.obj"
+    [loadingPermissions]="(sharedUserPermissions$ | async)?.loading"
+    (shareClicked)="handleShareSavedClicked($event)"
+    (userRemoved)="handleUserRemoved($event)"
+    #shareReportModal>
+
+  </pf-share-report-modal>
 </div>
+
+<ng-template #disabledConfigureToggleButton>
+  <div class="disabled-configure-btn d-flex justify-content-between">
+    <span class="disabled">
+      <fa-icon class="icon open-icon" icon="chevron-double-right" size="lg"></fa-icon>
+    </span>
+  </div>
+</ng-template>
 
 

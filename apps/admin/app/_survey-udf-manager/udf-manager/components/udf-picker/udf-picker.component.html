@@ -1,0 +1,50 @@
+<div class="position-relative">
+  <pf-async-container
+    [loading]="isLoading"
+    [loadingError]="isLoadingError"
+    [hideReloadButton]="true">
+
+    <form [formGroup]="udfForm" (ngSubmit)="onSubmit()">
+      <div formArrayName="udfs">
+        <h3 class="mt-2 mb-4">{{ selectedCompany.CompanyName }} ({{ selectedCompany.CompanyId }}) Custom Fields</h3>
+        <div *ngFor="let udf of udfs.controls; let i=index" class="udf mt-2 mb-2">
+          <div [formGroupName]="i">
+            <label class="udf" [htmlFor]="'UDF_' + (i+1)">UDF {{i+1}}</label>
+            <kendo-numerictextbox 
+              class="ml-3"
+              formControlName="Value"
+              [placeholder]="'Percent(ile), eg 62.5'"
+              [focusableId]="'UDF_' + (i+1)"
+              [spinners]="false">
+            </kendo-numerictextbox>
+            <kendo-dropdownlist class="ml-3" formControlName="PayElementId" required
+              [data]="payElements"
+              [defaultItem]="{Name: 'Select Pay Element', PayElement_ID: null}"
+              [textField]="'Name'"
+              [valueField]="'PayElement_ID'"
+              [valuePrimitive]="true">
+            </kendo-dropdownlist>
+            <button (click)="removeUdf(i)" [hidden]="udfs.at(i).disabled" class="remove btn ml-3">
+              <fa-icon icon="minus" class="mr-1"></fa-icon>Remove
+            </button>
+            {{setSurveyUdfValue(i)}}
+          </div>
+        </div>
+        <div class="buttons-wrapper mt-3">
+          <button (click)="addUdf()" [disabled]="!(udfs.length < maxUdfs)" type="button" class="add-udf btn mr-2">
+            <fa-icon icon="plus" class="mr-1"></fa-icon>Add UDF
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-2"
+            [disabled]="!this.udfs.valid || udfs.length <= 0" 
+            [title]="!this.udfs.valid || udfs.length <= 0 ? 'Enter a Percent(ile) and Pay Element for all available fields' : ''">
+            Submit
+          </button>
+          <span *ngIf="savingUdfsError" class="ml-3 save-error-message">{{savingUdfsErrorMessage}}</span>
+        </div>
+      </div>
+    </form>
+
+  </pf-async-container>
+</div>

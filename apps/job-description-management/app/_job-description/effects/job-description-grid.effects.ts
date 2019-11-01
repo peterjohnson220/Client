@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { UserProfileApiService } from 'libs/data/payfactors-api/user';
-import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
+import { JobDescriptionApiService, JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
 import { CompanyJobViewListItemsResponse } from 'libs/models/payfactors-api/job-description/response';
 import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
 
@@ -66,10 +66,25 @@ export class JobDescriptionGridEffects {
         }
       ));
 
+    @Effect()
+    getPublicJdmColumns$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionGridActions.LOAD_PUBLIC_JDM_COLUMNS),
+      switchMap((action: fromJobDescriptionGridActions.LoadPublicJdmColumns) =>
+        this.jobDescriptionManagementApiService.getPublicJdmColumns(action.payload).pipe(
+          map((response: ListAreaColumnResponse[]) => {
+            const listAreaColumnList =  MappingHelper.mapListAreaColumnResponseListToListAreaColumnList(response);
+            return new fromJobDescriptionGridActions.LoadPublicJdmColumnsSuccess(listAreaColumnList);
+          }),
+          catchError(response => of(new fromJobDescriptionGridActions.LoadPublicJdmColumnsError()))
+        )
+      ));
+
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,
     private userProfileApiService: UserProfileApiService,
-    private store: Store<fromJobDescriptionGridReducer.State>,
+    private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
+    private store: Store<fromJobDescriptionGridReducer.State>
   ) {}
 }

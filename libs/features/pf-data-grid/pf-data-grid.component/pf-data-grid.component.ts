@@ -33,7 +33,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() inboundFilters: DataViewFilter[];
   @Input() defaultSort: SortDescriptor[];
 
-  public gridFilterThrottle: Subject<any>;
+  public gridFilterThrottle: Subject<DataViewFilter>;
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<DataViewFilter[]>;
@@ -110,7 +110,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     const gridThrottle$ = this.gridFilterThrottle.debounceTime(400);
 
     gridThrottle$.subscribe(filter => {
-      if (filter && filter.Value.toString().trim().length) {
+      if (filter && filter.Values.length > 0 && filter.Values[0].toString().trim().length) {
         this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, filter));
       }
     });

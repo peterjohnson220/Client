@@ -1,7 +1,6 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'pf-delete-user-workbook-modal',
@@ -13,7 +12,7 @@ export class DeleteUserWorkbookModalComponent {
   @ViewChild('deleteUserWorkbookModal', { static: true }) public deleteUserWorkbookModal: any;
 
   constructor(
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {}
 
   open(): void {

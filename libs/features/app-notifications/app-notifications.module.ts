@@ -9,6 +9,7 @@ import { reducers } from './reducers';
 import { AppNotificationsComponent } from './containers';
 
 import { ToastsEffects } from './effects';
+import { NotificationHelper } from './models';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { ToastsEffects } from './effects';
     // Containers
     AppNotificationsComponent
   ],
-  exports: [AppNotificationsComponent]
+  exports: [AppNotificationsComponent],
+  providers: [ NotificationHelper ]
 })
 export class PfAppNotificationsModule {}

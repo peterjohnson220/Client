@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRootState from '../../state/state';
-import { NewRelicService } from '../../core/services';
+import { NewRelicService, RouteTrackingService } from '../../core/services';
 import { UserContext } from '../../models/security';
 
 @Component({
@@ -22,7 +22,9 @@ export class AppComponent implements OnInit, OnDestroy {
   userContextSub: Subscription;
 
   constructor(
-    private store: Store<fromRootState.State>
+    private store: Store<fromRootState.State>,
+    // Initializing the route tracking service to start tracking on app startup by requesting it here
+    private routeTrackingService: RouteTrackingService
   ) {
     this.hasUserContext$ = this.store.select(fromRootState.hasUserContext);
     this.userContext$ = this.store.select(fromRootState.getUserContext);

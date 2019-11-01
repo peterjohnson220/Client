@@ -4,6 +4,7 @@ export class BulkExportSchedule {
   ViewId: string;
   Filter: string;
   IncludeDelimiters: boolean;
+  IncludeFormatting: boolean;
   Format: string;
   Frequency: string;
   DayOfWeek: string;
@@ -20,6 +21,7 @@ export function generateMockBulkExportSchedule(): BulkExportSchedule {
     ViewId: 'MockViewId',
     Filter: 'MockFilter',
     IncludeDelimiters: false,
+    IncludeFormatting: false,
     Format: 'xlsx',
     Frequency: 'Weekly',
     DayOfWeek: '2,4,6',

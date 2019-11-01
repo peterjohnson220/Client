@@ -5,11 +5,10 @@ import { Store, select } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Field } from '../../models';
+import { Field, FieldDataType } from '../../models';
 
 @Component({
   selector: 'pf-data-view-grid',
@@ -36,7 +35,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     mode: 'single'
   };
   sortDesc: SortDescriptor[];
-  dataTypes = DataViewFieldDataType;
+  dataTypes = FieldDataType;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>

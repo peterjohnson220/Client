@@ -1,5 +1,3 @@
-import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request';
-
 export interface Field {
   EntityId: number;
   Entity: string;
@@ -8,7 +6,7 @@ export interface Field {
   SourceName: string;
   DisplayName: string;
   KendoGridField?: string;
-  DataType?: DataViewFieldDataType;
+  DataType?: FieldDataType;
   IsSelected?: boolean;
   IsSortable: boolean;
   Order?: number;
@@ -17,7 +15,17 @@ export interface Field {
 export interface FieldListItem {
   Entity: string;
   DataElementId: string;
+  IsSelected: boolean;
   DisplayName: string;
+}
+
+export enum FieldDataType {
+  Date = 'Date',
+  Int = 'int',
+  Float = 'float',
+  String = 'String',
+  LongString = 'longString',
+  Bit = 'bit'
 }
 
 export function generateMockField(): Field {
@@ -25,7 +33,7 @@ export function generateMockField(): Field {
     DataElementId: 1,
     EntityId: 1,
     Entity: 'Jobs',
-    DataType: DataViewFieldDataType.String,
+    DataType: FieldDataType.String,
     DisplayName: 'Job Title',
     EntitySourceName: 'CompanyJobs',
     IsSelected: false,

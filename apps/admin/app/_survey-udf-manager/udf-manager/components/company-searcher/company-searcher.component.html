@@ -1,0 +1,18 @@
+<div class="form-container container d-flex">
+  <h6 class="select-company mt-2" *ngIf="!selectedCompany">Please select a company</h6>
+  <kendo-combobox
+    [attr.data-qa-id]="'txt-company'"
+    class="form-control"
+    [data]="filteredCompaniesList"
+    [placeholder]="'Select Company'"
+    [textField]="'CompanyName'"
+    [valueField]="'CompanyId'"
+    [filterable]="true"
+    [valuePrimitive]="false"
+    (filterChange)="handleCompanyListFilter($event)"
+    (valueChange)="setSelectedCompany($event)">
+    <ng-template kendoComboBoxItemTemplate let-dataItem>
+      <span>{{ dataItem.CompanyName }} ({{ dataItem.CompanyId }})</span>
+    </ng-template>
+  </kendo-combobox>
+</div>

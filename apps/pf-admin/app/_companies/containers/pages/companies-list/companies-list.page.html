@@ -1,30 +1,32 @@
-<pf-async-container [loading]="companiesLoading$ | async"
-                    [loadingError]="companiesLoadingError$ | async"
-                    [loadingErrorMessage]="'Error Loading Companies'">
-  <pf-page-with-title-bar [returnUrl]="'/navigation'">
-    <ng-container page-title>
-      Company Management
-    </ng-container>
 
-    <ng-container page-actions>
-      <pf-input-debounce
-        id="search-box"
-        [minWidth]="250"
-        (valueChanged)="updateSearchTerm($event)">
-      </pf-input-debounce>
-      <button [routerLink]="'/companies/add'" class="btn btn-primary" type="submit">Add Company</button>
-    </ng-container>
+<pf-page-with-title-bar [returnUrl]="'/navigation'">
+  <ng-container page-title>
+    Company Management
+  </ng-container>
 
-    <ng-container page-content>
+  <ng-container page-actions>
+    <pf-input-debounce
+      id="search-box"
+      [ngModel]="searchTerm$ | async"
+      [minWidth]="250"
+      (valueChanged)="updateSearchTerm($event)">
+    </pf-input-debounce>
+    <button [routerLink]="'/companies/add'" class="btn btn-primary" type="submit">Add Company</button>
+  </ng-container>
+
+  <ng-container page-content>
+    <pf-async-container [loading]="companiesLoading$ | async"
+                        [loadingError]="companiesLoadingError$ | async"
+                        [loadingErrorMessage]="'Error Loading Companies'">
       <div class="column-scroll-container col-12">
-        <div class="column-scroll-inner scroll-y">
-          <pf-companies-list
-            [selectedRowRouterLink]="companiesEditRouterLink"
-            [companiesList]="companies$ | async"
-            [filter]="searchTerm$ | async">
-          </pf-companies-list>
-        </div>
+      <div class="column-scroll-inner scroll-y">
+        <pf-companies-list
+          [selectedRowRouterLink]="companiesEditRouterLink"
+          [companiesList]="companies$ | async"
+          [filter]="searchTerm$ | async">
+        </pf-companies-list>
       </div>
-    </ng-container>
-  </pf-page-with-title-bar>
-</pf-async-container>
+    </div>
+    </pf-async-container>
+  </ng-container>
+</pf-page-with-title-bar>

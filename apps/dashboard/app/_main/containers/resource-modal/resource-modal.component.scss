@@ -1,0 +1,26 @@
+$primary-blue: #1872ae;
+$white: #ffffff;
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.alert {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.modal-header {
+    background: $white;
+}
+
+.btn-primary {
+    background-color: $primary-blue;
+    border-color: $primary-blue;
+}

@@ -315,8 +315,7 @@ export function buildSplitViewFilters(rowId: number, baseEntityName: string, fie
       EntitySourceName: baseEntityName,
       SourceName: fieldName,
       Operator: '=',
-      Value: rowId.toString(),
-      Values: null,
+      Values: [rowId.toString()],
       DataType: DataViewFieldDataType.Int
     }];
   }

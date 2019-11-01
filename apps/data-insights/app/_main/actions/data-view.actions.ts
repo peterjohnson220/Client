@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { Entity, SaveUserWorkbookModalData, UserDataView, Field } from '../models';
+import { SharedUserPermission } from 'libs/models/payfactors-api/reports/request';
+
+import { Entity, SaveUserWorkbookModalData, UserDataView, SharedDataViewUser } from '../models';
 
 export const GET_BASE_ENTITIES = '[Data Insights / Data View] Get Base Entities';
 export const GET_BASE_ENTITIES_SUCCESS = '[Data Insights / Data View] Get Base Entities Success';
@@ -12,9 +14,6 @@ export const SAVE_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Save
 export const GET_USER_DATA_VIEW = '[Data Insights / Data View] Get User Data View';
 export const GET_USER_DATA_VIEW_SUCCESS = '[Data Insights / Data View] Get User Data View Success';
 export const GET_USER_DATA_VIEW_ERROR = '[Data Insights / Data View] Get User Data View Error';
-export const GET_REPORT_FIELDS = '[Data Insights / Data View] Get Report Fields';
-export const GET_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View] Get Report Fields Success';
-export const GET_REPORT_FIELDS_ERROR = '[Data Insights / Data View] Get Report Fields Error';
 export const EDIT_USER_REPORT = '[Data Insights / Data View] Edit User Report';
 export const EDIT_USER_REPORT_SUCCESS = '[Data Insights / Data View] Edit User Report Success';
 export const EDIT_USER_REPORT_ERROR = '[Data Insights / Data View] Edit User Report Error';
@@ -23,16 +22,8 @@ export const DUPLICATE_USER_REPORT = '[Data Insights / Data View] Duplicate User
 export const DUPLICATE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Duplicate User Report Success';
 export const DUPLICATE_USER_REPORT_ERROR = '[Data Insights / Data View] Duplicate User Report Error';
 export const DUPLICATE_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Duplicate User Report Conflict';
-export const REMOVE_SELECTED_FIELD = '[Data Insights / Data View] Remove Selected Field';
-export const SAVE_REPORT_FIELDS = '[Data Insights / Data View] Save Report Fields';
-export const SAVE_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View] Save Report Fields Success';
-export const SAVE_REPORT_FIELDS_ERROR = '[Data Insights / Data View] Save Report Fields Error';
-export const REORDER_FIELDS = '[Data Insights / Data View] Reorder Fields';
-export const ADD_SELECTED_FIELD = '[Data Insights / Data View] Add Selected Field';
-export const SET_SELECTED_FIELDS = '[Data Insights / Data View] Set Selected Fields';
 export const DELETE_USER_REPORT = '[Data Insights / Data View] Delete User Report';
 export const DELETE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Delete User Report Success';
-export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View] Update Display Name';
 export const EXPORT_USER_REPORT = '[Data Insights / Data View] Export User Report';
 export const EXPORT_USER_REPORT_SUCCESS = '[Data Insights / Data View] Export User Report Success';
 export const EXPORT_USER_REPORT_ERROR = '[Data Insights / Data View] Export User Report Error';
@@ -40,6 +31,18 @@ export const GET_EXPORTING_USER_REPORT = '[Data Insights / Data View] Get Export
 export const GET_EXPORTING_USER_REPORT_SUCCESS = '[Data Insights / Data View] Get Exporting User Report Success';
 export const GET_EXPORTING_USER_REPORT_ERROR = '[Data Insights / Data View] Get Exporting User Report Error';
 export const EXPORTING_COMPLETE = '[Data Insights / Data View] Exporting Complete';
+export const GET_SHAREABLE_USERS = '[Data Insights / Data View] Get Shareable Users';
+export const GET_SHAREABLE_USERS_SUCCESS = '[Data Insights / Data View] Get Shareable Users Success';
+export const GET_SHAREABLE_USERS_ERROR = '[Data Insights / Data View] Get Shareable Users Error';
+export const SAVE_SHARE_PERMISSIONS = '[Data Insights / Data View] Save Share Permissions';
+export const SAVE_SHARE_PERMISSIONS_SUCCESS = '[Data Insights / Data View] Save Share Permissions Success';
+export const SAVE_SHARE_PERMISSIONS_ERROR = '[Data Insights / Data View] Save Share Permissions Error';
+export const GET_SHARE_PERMISSIONS = '[Data Insights / Data View] Get Share Permissions';
+export const GET_SHARE_PERMISSIONS_SUCCESS = '[Data Insights / Data View] Get Share Permissions Success';
+export const GET_SHARE_PERMISSIONS_ERROR = '[Data Insights / Data View] Get Share Permissions Error';
+export const REMOVE_SHARE_PERMISSION = '[Data Insights / Data View] Remove Share Permission';
+export const REMOVE_SHARE_PERMISSION_SUCCESS = '[Data Insights / Data View] Remove Share Permission Success';
+export const REMOVE_SHARE_PERMISSION_ERROR = '[Data Insights / Data View] Remove Share Permission Error';
 
 export class GetBaseEntities implements Action {
   readonly type = GET_BASE_ENTITIES;
@@ -98,25 +101,7 @@ export class GetUserDataViewSuccess implements Action {
 export class GetUserDataViewError implements Action {
   readonly type = GET_USER_DATA_VIEW_ERROR;
 
-  constructor() {}
-}
-
-export class GetReportFields implements Action {
-  readonly type = GET_REPORT_FIELDS;
-
-  constructor(public payload: { dataViewId: number }) {}
-}
-
-export class GetReportFieldsSuccess implements Action {
-  readonly type = GET_REPORT_FIELDS_SUCCESS;
-
-  constructor(public payload: Field[]) {}
-}
-
-export class GetReportFieldsError implements Action {
-  readonly type = GET_REPORT_FIELDS_ERROR;
-
-  constructor() {}
+  constructor(public payload: any) {}
 }
 
 export class EditUserReport implements Action {
@@ -167,48 +152,6 @@ export class DuplicateUserReportConflict implements Action {
   constructor() {}
 }
 
-export class RemoveSelectedField implements Action {
-  readonly type = REMOVE_SELECTED_FIELD;
-
-  constructor(public payload: Field) {}
-}
-
-export class SaveReportFields implements Action {
-  readonly type = SAVE_REPORT_FIELDS;
-
-  constructor() {}
-}
-
-export class SaveReportFieldsSuccess implements Action {
-  readonly type = SAVE_REPORT_FIELDS_SUCCESS;
-
-  constructor() {}
-}
-
-export class SaveReportFieldsError implements Action {
-  readonly type = SAVE_REPORT_FIELDS_ERROR;
-
-  constructor() {}
-}
-
-export class ReorderFields implements Action {
-  readonly type = REORDER_FIELDS;
-
-  constructor(public payload: Field[]) {}
-}
-
-export class AddSelectedField implements Action {
-  readonly type = ADD_SELECTED_FIELD;
-
-  constructor(public payload: Field) {}
-}
-
-export class SetSelectedFields implements Action {
-  readonly type = SET_SELECTED_FIELDS;
-
-  constructor(public payload: Field[]) {}
-}
-
 export class DeleteUserReport implements Action {
   readonly type = DELETE_USER_REPORT;
 
@@ -219,12 +162,6 @@ export class DeleteUserReportSuccess implements Action {
   readonly type = DELETE_USER_REPORT_SUCCESS;
 
   constructor() {}
-}
-
-export  class UpdateDisplayName implements Action {
-  readonly type = UPDATE_DISPLAY_NAME;
-
-  constructor(public payload: { newDisplayName: string, fieldDataElementId: number }) {}
 }
 
 export class ExportUserReport implements Action {
@@ -269,6 +206,78 @@ export class ExportingComplete implements Action {
   constructor() {}
 }
 
+export class GetShareableUsers implements Action {
+  readonly type = GET_SHAREABLE_USERS;
+
+  constructor() {}
+}
+
+export class GetShareableUsersSuccess implements Action {
+  readonly type = GET_SHAREABLE_USERS_SUCCESS;
+
+  constructor(public payload: SharedDataViewUser[]) {}
+}
+
+export class GetShareableUsersError implements Action {
+  readonly type = GET_SHAREABLE_USERS_ERROR;
+
+  constructor() {}
+}
+
+export class SaveSharePermissions implements Action {
+  readonly type = SAVE_SHARE_PERMISSIONS;
+
+  constructor(public payload: SharedDataViewUser[]) {}
+}
+
+export class SaveSharePermissionsSuccess implements Action {
+  readonly type = SAVE_SHARE_PERMISSIONS_SUCCESS;
+
+  constructor(public payload: SharedDataViewUser[]) {}
+}
+
+export class SaveSharePermissionsError implements Action {
+  readonly type = SAVE_SHARE_PERMISSIONS_ERROR;
+
+  constructor() {}
+}
+
+export class GetSharePermissions implements Action {
+  readonly type = GET_SHARE_PERMISSIONS;
+
+  constructor() {}
+}
+
+export class GetSharePermissionsSuccess implements Action {
+  readonly type = GET_SHARE_PERMISSIONS_SUCCESS;
+
+  constructor(public payload: SharedUserPermission[]) {}
+}
+
+export class GetSharePermissionsError implements Action {
+  readonly type = GET_SHARE_PERMISSIONS_ERROR;
+
+  constructor() {}
+}
+
+export class RemoveSharePermission implements Action {
+  readonly type = REMOVE_SHARE_PERMISSION;
+
+  constructor(public payload: SharedDataViewUser) {}
+}
+
+export class RemoveSharePermissionSuccess implements Action {
+  readonly type = REMOVE_SHARE_PERMISSION_SUCCESS;
+
+  constructor(public payload: SharedDataViewUser) {}
+}
+
+export class RemoveSharePermissionError implements Action {
+  readonly type = REMOVE_SHARE_PERMISSION_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetBaseEntities
   | GetBaseEntitiesSuccess
@@ -280,9 +289,6 @@ export type Actions
   | GetUserDataView
   | GetUserDataViewSuccess
   | GetUserDataViewError
-  | GetReportFields
-  | GetReportFieldsSuccess
-  | GetReportFieldsError
   | EditUserReport
   | EditUserReportSuccess
   | EditUserReportError
@@ -291,15 +297,8 @@ export type Actions
   | DuplicateUserReportSuccess
   | DuplicateUserReportError
   | DuplicateUserReportConflict
-  | RemoveSelectedField
-  | SaveReportFields
-  | SaveReportFieldsSuccess
-  | SaveReportFieldsError
-  | ReorderFields
-  | AddSelectedField
   | DeleteUserReport
   | DeleteUserReportSuccess
-  | UpdateDisplayName
   | ExportUserReport
   | ExportUserReportSuccess
   | ExportUserReportError
@@ -307,4 +306,15 @@ export type Actions
   | GetExportingUserReportSuccess
   | GetExportingUserReportError
   | ExportingComplete
-  | SetSelectedFields;
+  | GetShareableUsers
+  | GetShareableUsersSuccess
+  | GetShareableUsersError
+  | SaveSharePermissions
+  | SaveSharePermissionsError
+  | SaveSharePermissionsSuccess
+  | GetSharePermissions
+  | GetSharePermissionsSuccess
+  | GetSharePermissionsError
+  | RemoveSharePermission
+  | RemoveSharePermissionSuccess
+  | RemoveSharePermissionError;

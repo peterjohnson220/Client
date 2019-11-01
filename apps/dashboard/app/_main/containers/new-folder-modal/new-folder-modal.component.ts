@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import * as fromCompanyResourcesModalActions from '../../actions/company-resources-modal.actions';
-import * as fromCompanyResourcesReducer from '../../reducers';
 import * as fromCompanyResourcesActions from '../../actions/company-resources.actions';
-import { CompanyResourceFolder } from '../../models/company-resource-folder.model';
-
+import * as fromCompanyResourcesReducer from '../../reducers';
+import * as fromCompanyResourcesFolderReducer from '../../reducers';
+import { CompanyResourceFolderPost } from '../../models';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'pf-new-folder-modal',
@@ -15,36 +15,31 @@ import { CompanyResourceFolder } from '../../models/company-resource-folder.mode
 })
 export class NewFolderModalComponent implements OnInit, OnDestroy {
 
-  folderSuccess: CompanyResourceFolder;
-  folderError = { code: '', message: '', isActive: false };
+  folderError = { code: '', message: ''};
+  isSubmitted = false;
   addNewFolderForm: FormGroup;
-  newFolder: CompanyResourceFolder;
+  addingFolderToCompanyResources$: Observable<boolean>;
+  addingFolderSuccess$: Observable<any>;
+  addingFolderError$: Observable<any>;
 
-  newFolderModalOpen$: Observable<boolean>;
-  addingCompanyResourceFolderSuccess$: Observable<any>;
-  addingCompanyResourceFolderError$: Observable<any>;
+  private addingFolderErrorSubscription: Subscription;
 
-  addingCompanyResourceFolderSuccessSubscription: Subscription;
-  addingCompanyResourceFolderErrorSubscription: Subscription;
-
-  constructor(private store: Store<fromCompanyResourcesReducer.State>,
-    private formBuilder: FormBuilder) {
-    this.newFolderModalOpen$ = this.store.select(fromCompanyResourcesReducer.getNewFolderModalOpen);
-    this.addingCompanyResourceFolderSuccess$ = this.store.select(fromCompanyResourcesReducer.getAddingCompanyResourceFolderSuccess);
-    this.addingCompanyResourceFolderError$ = this.store.select(fromCompanyResourcesReducer.getAddingCompanyResourceFolderError);
-
-    this.addNewFolderForm = this.formBuilder.group({
-      'folderName': ['', [Validators.required, Validators.maxLength(50), this.validateFolderName]]
-    });
-  }
+  constructor(
+    private store: Store<fromCompanyResourcesReducer.State>,
+    private formBuilder: FormBuilder,
+    public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
+    this.addingFolderSuccess$ = this.store.select(fromCompanyResourcesFolderReducer.getAddingFolderToCompanyResourcesSuccess);
+    this.addingFolderError$ = this.store.select(fromCompanyResourcesFolderReducer.getAddingFolderToCompanyResourcesError);
+    this.createForm();
     this.createSubscriptions();
   }
 
   ngOnDestroy() {
-    this.addingCompanyResourceFolderSuccessSubscription.unsubscribe();
-    this.addingCompanyResourceFolderErrorSubscription.unsubscribe();
+    this.addingFolderErrorSubscription.unsubscribe();
+    this.addNewFolderForm.reset();
+    this.isSubmitted = false;
   }
 
   validateFolderName(control: FormControl) {
@@ -60,36 +55,28 @@ export class NewFolderModalComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  handleFormSubmit() {
+  onFormSubmit() {
     const name: string = this.addNewFolderForm.controls['folderName'].value.trim();
-    const folder: CompanyResourceFolder = {
+    const folder: CompanyResourceFolderPost = {
       FolderName: name,
       CompanyId: 0,
       CompanyResourcesFoldersId: 0,
       CreateDate: null,
       CreateUser: null
     };
-
-    this.store.dispatch(new fromCompanyResourcesActions.AddingCompanyResourceFolder(folder));
+    this.isSubmitted = true;
+    this.store.dispatch(new fromCompanyResourcesActions.AddingFolderToCompanyResources(folder));
   }
 
-  handleModalDismissed() {
-    this.store.dispatch(new fromCompanyResourcesModalActions.ClosingNewFolderModal());
-  }
-
-  createSubscriptions() {
-    this.addingCompanyResourceFolderSuccessSubscription = this.addingCompanyResourceFolderSuccess$.subscribe((response) => {
-      if (response) {
-        this.store.dispatch(new fromCompanyResourcesActions.GettingCompanyResources());
-        this.folderSuccess = response;
-        this.folderError.isActive = false;
-        this.store.dispatch(new fromCompanyResourcesModalActions.ClosingNewFolderModal());
-      }
+  private createForm() {
+    this.addNewFolderForm = this.formBuilder.group({
+      'folderName': ['', [Validators.required, Validators.maxLength(50), this.validateFolderName]]
     });
+  }
 
-    this.addingCompanyResourceFolderErrorSubscription = this.addingCompanyResourceFolderError$.subscribe((response) => {
+  private createSubscriptions() {
+    this.addingFolderErrorSubscription = this.addingFolderError$.subscribe((response) => {
       if (response && response.error) {
-        this.folderError.isActive = true;
         this.folderError.code = response.error.error.code;
         this.folderError.message = response.error.error.message;
       }

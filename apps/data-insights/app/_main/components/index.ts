@@ -1,6 +1,5 @@
 export * from './standard-report';
 export * from './tag-workbook-modal';
-export * from './workbook-card';
 export * from './search-workbook-result';
 export * from './workbook-views';
 export * from './save-user-workbook-modal';
@@ -14,3 +13,9 @@ export * from './filter-card';
 export * from './date-range-filter';
 export * from './multi-select-filter';
 export * from './numeric-filter';
+export * from './text-filter';
+export * from './bit-filter';
+export * from './configure-sidebar';
+export * from './view-all-fields';
+export * from './field-group';
+export * from './share-report-modal';

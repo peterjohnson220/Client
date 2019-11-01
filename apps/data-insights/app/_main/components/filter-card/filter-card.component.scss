@@ -51,3 +51,8 @@
   max-width: 250px;
   @extend %ellipsis-overflowing-text;
 }
+
+.filter-display-name {
+  width: 250px;
+  @extend %ellipsis-overflowing-text;
+}

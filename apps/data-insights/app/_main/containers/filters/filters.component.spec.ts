@@ -6,9 +6,9 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
-import * as fromConfigurationActions from '../../actions/configuration.actions';
+import * as fromFiltersActions from '../../actions/filters.actions';
 import { FiltersComponent } from './filters.component';
-import { generateMockField, Field, Filter, getDefaultOperatorByDataType, GetFilterOptionsData } from '../../models';
+import { generateMockField, Field, Filter, getDefaultOperatorByDataType, GetFilterOptionsData, generateMockFilter } from '../../models';
 
 describe('Data Insights - Filters Comopnent', () => {
   let instance: FiltersComponent;
@@ -40,10 +40,11 @@ describe('Data Insights - Filters Comopnent', () => {
       Field: firstSelectedfield,
       Operator: getDefaultOperatorByDataType(firstSelectedfield),
       Options: [],
-      SelectedOptions: []
+      SelectedOptions: [],
+      IsValid: false
     };
     instance.selectedFields = [firstSelectedfield];
-    const expectedAction = new fromConfigurationActions.AddFilter(filter);
+    const expectedAction = new fromFiltersActions.AddFilter(filter);
     spyOn(store, 'dispatch');
 
     instance.handleAddFilterClicked();
@@ -51,17 +52,17 @@ describe('Data Insights - Filters Comopnent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch UpdateFilterSelectedField with correct data when handling selected field changed', () => {
+  it('should dispatch UpdateFilter with correct data when handling filter changed', () => {
     spyOn(store, 'dispatch');
-    const selectedField: Field = generateMockField();
+    const filter: Filter = generateMockFilter();
     const filterIndex = 2;
     const data = {
       index: filterIndex,
-      field: selectedField
+      filter
     };
-    const expectedAction = new fromConfigurationActions.UpdateFilterSelectedField(data);
+    const expectedAction = new fromFiltersActions.UpdateFilter(data);
 
-    instance.handleSelectedFieldChanged(filterIndex, selectedField);
+    instance.handleFilterChanged(filterIndex, filter);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
@@ -74,20 +75,9 @@ describe('Data Insights - Filters Comopnent', () => {
       EntitySourceName: 'CompanyJobs',
       SourceName: 'Job_Title'
     };
-    const expectedAction = new fromConfigurationActions.GetFilterOptions(data);
+    const expectedAction = new fromFiltersActions.GetFilterOptions(data);
 
     instance.handleSearchOptionChanged(data);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch UpdateFilterSelectedOptions with correct data when handling selected values changed', () => {
-    spyOn(store, 'dispatch');
-    const filterIndex = 2;
-    const selectedValues = ['Accountant', 'Accountant I'];
-    const expectedAction = new fromConfigurationActions.UpdateFilterSelectedOptions({ index: filterIndex, selectedOptions: selectedValues });
-
-    instance.handleSelectedValuesChanged(filterIndex, selectedValues);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
@@ -95,7 +85,7 @@ describe('Data Insights - Filters Comopnent', () => {
   it('should dispatch RemovePendingFilterByIndex with correct index when handling delete filter', () => {
     spyOn(store, 'dispatch');
     const filterIndex = 2;
-    const expectedAction = new fromConfigurationActions.RemovePendingFilterByIndex({ index: filterIndex });
+    const expectedAction = new fromFiltersActions.RemovePendingFilterByIndex({ index: filterIndex });
 
     instance.handleDeleteFilter(filterIndex);
 
@@ -105,7 +95,7 @@ describe('Data Insights - Filters Comopnent', () => {
   it('should dispatch RemoveActiveFilterByIndex if index is in the range when handling delete filter', () => {
     spyOn(store, 'dispatch');
     const filterIndex = 2;
-    const expectedAction = new fromConfigurationActions.RemoveActiveFilterByIndex({ index: filterIndex });
+    const expectedAction = new fromFiltersActions.RemoveActiveFilterByIndex({ index: filterIndex });
     instance.activeFiltersCount = 3;
 
     instance.handleDeleteFilter(filterIndex);
@@ -116,7 +106,7 @@ describe('Data Insights - Filters Comopnent', () => {
   it('should NOT dispatch RemoveActiveFilterByIndex if index is out of range when handling delete filter', () => {
     spyOn(store, 'dispatch');
     const filterIndex = 3;
-    const expectedAction = new fromConfigurationActions.RemoveActiveFilterByIndex({ index: filterIndex });
+    const expectedAction = new fromFiltersActions.RemoveActiveFilterByIndex({ index: filterIndex });
     instance.activeFiltersCount = 3;
 
     instance.handleDeleteFilter(filterIndex);
@@ -126,7 +116,7 @@ describe('Data Insights - Filters Comopnent', () => {
 
   it('should dispatch ApplyFilters when handling apply filters clicked', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromConfigurationActions.ApplyFilters();
+    const expectedAction = new fromFiltersActions.ApplyFilters();
 
     instance.handleApplyFilterClicked();
 

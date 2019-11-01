@@ -10,7 +10,11 @@ import {
   DataViewDataRequest,
   DataViewField,
   PagingOptions,
-  DataViewFilterOptionsRequest, DataViewFilter, SaveUserViewFiltersRequest
+  DataViewFilterOptionsRequest,
+  DataViewFilter,
+  SaveUserViewFiltersRequest,
+  DataViewFieldDataType,
+  ShareUserResponse
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 import { generateDefaultAsyncStateObj } from 'libs/models';
@@ -26,8 +30,10 @@ import {
   Field,
   GetFilterOptionsData,
   Filter,
-  getFilterOperatorByValue
+  FieldDataType,
+  SharedDataViewUser
 } from '../models';
+import { FilterOperatorHelper } from './filter-operator.helper';
 
 export class PayfactorsApiModelMapper {
 
@@ -93,7 +99,8 @@ export class PayfactorsApiModelMapper {
       Summary: response.DataView.Summary,
       UserDataViewId: response.DataView.UserDataViewId,
       SortField: response.DataView.SortField,
-      SortDir: response.DataView.SortDir
+      SortDir: response.DataView.SortDir,
+      AccessLevel: response.DataView.AccessLevel
     };
   }
 
@@ -110,11 +117,37 @@ export class PayfactorsApiModelMapper {
       SourceName: dataViewField.SourceName,
       DisplayName: dataViewField.DisplayName,
       KendoGridField: `${dataViewField.EntitySourceName}_${dataViewField.SourceName}`,
-      DataType: dataViewField.DataType,
+      DataType: this.mapDataViewFieldDataTypeToFieldDataType(dataViewField.DataType),
       IsSelected: dataViewField.IsSelected,
       Order: dataViewField.Order,
       IsSortable: dataViewField.IsSortable
     };
+  }
+
+  static mapDataViewFieldDataTypeToFieldDataType(dataViewDataType: DataViewFieldDataType): FieldDataType {
+    switch (dataViewDataType) {
+      case DataViewFieldDataType.Int: {
+        return FieldDataType.Int;
+      }
+      case DataViewFieldDataType.Float: {
+        return FieldDataType.Float;
+      }
+      case DataViewFieldDataType.String: {
+        return FieldDataType.String;
+      }
+      case DataViewFieldDataType.LongString: {
+        return FieldDataType.LongString;
+      }
+      case DataViewFieldDataType.DateTime: {
+        return FieldDataType.Date;
+      }
+      case DataViewFieldDataType.Bit: {
+        return FieldDataType.Bit;
+      }
+      default: {
+        return null;
+      }
+    }
   }
 
   /// OUT
@@ -137,7 +170,6 @@ export class PayfactorsApiModelMapper {
       DataElementId: field.DataElementId,
       SourceName: field.SourceName,
       DisplayName: field.DisplayName,
-      DataType: field.DataType,
       IsSelected: field.IsSelected,
       Order: field.Order,
       IsSortable: field.IsSortable
@@ -204,11 +236,14 @@ export class PayfactorsApiModelMapper {
 
   static mapDataViewFiltersToFilters(data: DataViewFilter[], fields: DataViewField[]): Filter[] {
     return data.map((filter) => {
+      const dataViewField = fields.find(x => x.EntitySourceName === filter.EntitySourceName && x.SourceName === filter.SourceName);
+      const field = this.mapDataViewFieldToField(dataViewField);
       return {
-        Field: fields.find(x => x.EntitySourceName === filter.EntitySourceName && x.SourceName === filter.SourceName),
+        Field: field,
         SelectedOptions: filter.Values,
-        Operator: getFilterOperatorByValue(filter.Operator),
-        Options: []
+        Operator: FilterOperatorHelper.getFilterOperatorByDataType(field.DataType, filter),
+        Options: [],
+        IsValid: true
       };
     });
   }
@@ -218,6 +253,20 @@ export class PayfactorsApiModelMapper {
       UserDataViewId: userDataView.UserDataViewId,
       Filters: this.mapFiltersToDataViewFilters(filters)
     };
+  }
+
+  static mapShareUserResponseToUser(data: ShareUserResponse[]): SharedDataViewUser[] {
+    return data.map((user) => {
+      return {
+        UserId: user.UserId,
+        FirstName: user.FirstName,
+        LastName: user.LastName,
+        EmailAddress: user.EmailAddress,
+        UserPicture: user.UserPicture,
+        Title: user.Title,
+        CanEdit: false
+      };
+    });
   }
 
 }

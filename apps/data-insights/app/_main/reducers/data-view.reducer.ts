@@ -1,10 +1,9 @@
 import * as cloneDeep from 'lodash.clonedeep';
-import { orderBy } from 'lodash';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
-import { Entity, Field, UserDataView } from '../models';
+import { Entity, UserDataView, SharedDataViewUser } from '../models';
 
 export interface State {
   baseEntitiesAsync: AsyncStateObj<Entity[]>;
@@ -12,8 +11,6 @@ export interface State {
   saveUserReportError: boolean;
   saveUserReportConflict: boolean;
   userDataViewAsync: AsyncStateObj<UserDataView>;
-  reportFieldsAsync: AsyncStateObj<Field[]>;
-  selectedReportFields: Field[];
   editingUserReport: boolean;
   editUserReportError: boolean;
   editUserReportConflict: boolean;
@@ -22,12 +19,14 @@ export interface State {
   duplicateUserReportError: boolean;
   duplicateUserReportConflict: boolean;
   duplicateUserReportSuccess: boolean;
-  savingReportFields: boolean;
-  savingReportFieldsError: boolean;
   deleteUserReport: boolean;
   deleteUserReportSuccess: boolean;
   exportingUserReport: boolean;
   exportEventId: number;
+  shareableUsersAsync: AsyncStateObj<SharedDataViewUser[]>;
+  sharedUserPermissionsAsync: AsyncStateObj<SharedDataViewUser[]>;
+  sharedUserPermissionsLoaded: boolean;
+  loadingErrorMessage: string;
 }
 
 const initialState: State = {
@@ -36,8 +35,6 @@ const initialState: State = {
   savingUserReport: false,
   saveUserReportError: false,
   userDataViewAsync: generateDefaultAsyncStateObj<UserDataView>(null),
-  reportFieldsAsync: generateDefaultAsyncStateObj<Field[]>([]),
-  selectedReportFields: [],
   editingUserReport: false,
   editUserReportError: false,
   editUserReportConflict: false,
@@ -46,12 +43,14 @@ const initialState: State = {
   duplicateUserReportError: false,
   duplicateUserReportConflict: false,
   duplicateUserReportSuccess: false,
-  savingReportFields: false,
-  savingReportFieldsError: false,
   deleteUserReport: false,
   deleteUserReportSuccess: false,
   exportingUserReport: false,
-  exportEventId : null
+  exportEventId : null,
+  shareableUsersAsync: generateDefaultAsyncStateObj<SharedDataViewUser[]>([]),
+  sharedUserPermissionsAsync: generateDefaultAsyncStateObj<SharedDataViewUser[]>([]),
+  sharedUserPermissionsLoaded: false,
+  loadingErrorMessage: ''
 };
 
 export function reducer(state = initialState, action: fromDataViewActions.Actions): State {
@@ -124,7 +123,8 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       asyncStateObjClone.loadingError = false;
       return {
         ...state,
-        userDataViewAsync: asyncStateObjClone
+        userDataViewAsync: asyncStateObjClone,
+        sharedUserPermissionsLoaded: false
       };
     }
     case fromDataViewActions.GET_USER_DATA_VIEW_SUCCESS: {
@@ -140,40 +140,16 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       const asyncStateObjClone = cloneDeep(state.userDataViewAsync);
       asyncStateObjClone.loading = false;
       asyncStateObjClone.loadingError = true;
+      let errorMessage = '';
+      if (action.payload.status === 401) {
+        errorMessage = 'Sorry, you do not have access to this data view'
+      } else {
+        errorMessage = 'Error loading this data view'
+      }
       return {
         ...state,
-        userDataViewAsync: asyncStateObjClone
-      };
-    }
-    case fromDataViewActions.GET_REPORT_FIELDS: {
-      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
-
-      asyncStateObjClone.loading = true;
-      asyncStateObjClone.loadingError = false;
-      asyncStateObjClone.obj = [];
-      return {
-        ...state,
-        reportFieldsAsync: asyncStateObjClone
-      };
-    }
-    case fromDataViewActions.GET_REPORT_FIELDS_SUCCESS: {
-      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
-      asyncStateObjClone.loading = false;
-      asyncStateObjClone.obj = action.payload;
-
-      return {
-        ...state,
-        reportFieldsAsync: asyncStateObjClone
-      };
-    }
-    case fromDataViewActions.GET_REPORT_FIELDS_ERROR: {
-      const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
-
-      asyncStateObjClone.loading = false;
-      asyncStateObjClone.loadingError = true;
-      return {
-        ...state,
-        reportFieldsAsync: asyncStateObjClone
+        userDataViewAsync: asyncStateObjClone,
+        loadingErrorMessage: errorMessage
       };
     }
     case fromDataViewActions.EDIT_USER_REPORT: {
@@ -250,42 +226,6 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         duplicateUserReportSuccess: false
       };
     }
-    case fromDataViewActions.SAVE_REPORT_FIELDS: {
-      return {
-        ...state,
-        savingReportFields: true,
-        savingReportFieldsError: false
-      };
-    }
-    case fromDataViewActions.SAVE_REPORT_FIELDS_SUCCESS: {
-      return {
-        ...state,
-        savingReportFields: false,
-        savingReportFieldsError: false
-      };
-    }
-    case fromDataViewActions.SAVE_REPORT_FIELDS_ERROR: {
-      return {
-        ...state,
-        savingReportFields: false,
-        savingReportFieldsError: true
-      };
-    }
-    case fromDataViewActions.REORDER_FIELDS: {
-      let fieldsClone = cloneDeep(state.selectedReportFields);
-      fieldsClone = fieldsClone.map(x => {
-        const newFieldIndex = action.payload.findIndex(y => y.DataElementId === x.DataElementId);
-        if (newFieldIndex !== -1) {
-          x.Order = newFieldIndex + 1;
-        }
-        return x;
-      });
-      fieldsClone = orderBy(fieldsClone, 'Order');
-      return {
-        ...state,
-        selectedReportFields: fieldsClone
-      };
-    }
     case fromDataViewActions.DELETE_USER_REPORT: {
       return {
         ...state,
@@ -298,54 +238,6 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         ...state,
         deleteUserReport: false,
         deleteUserReportSuccess: true
-      };
-    }
-    case fromDataViewActions.REMOVE_SELECTED_FIELD: {
-      let selectedFieldsClone = cloneDeep(state.selectedReportFields);
-      selectedFieldsClone = selectedFieldsClone.filter(x => x.DataElementId !== action.payload.DataElementId);
-      const reportFieldStateObjClone = cloneDeep(state.reportFieldsAsync);
-      const removedField = reportFieldStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
-      removedField.IsSelected = false;
-      return {
-        ...state,
-        selectedReportFields: selectedFieldsClone,
-        reportFieldsAsync: reportFieldStateObjClone
-      };
-    }
-    case fromDataViewActions.ADD_SELECTED_FIELD: {
-      let fieldsClone = cloneDeep(state.selectedReportFields);
-      const reportFieldStateObjClone = cloneDeep(state.reportFieldsAsync);
-      const fieldToAdd = reportFieldStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
-      const maxOrder = Math.max.apply(Math, fieldsClone.filter(f => f.IsSelected).map(function(o: Field) { return o.Order; }));
-      if (fieldToAdd) {
-        fieldToAdd.IsSelected = true;
-        fieldToAdd.Order = maxOrder + 1;
-        fieldsClone.push(fieldToAdd);
-      }
-      fieldsClone = orderBy(fieldsClone, 'Order');
-      return {
-        ...state,
-        selectedReportFields: fieldsClone,
-        reportFieldsAsync: reportFieldStateObjClone
-      };
-    }
-    case fromDataViewActions.SET_SELECTED_FIELDS: {
-      let fieldsClone = cloneDeep(state.selectedReportFields);
-      fieldsClone = action.payload;
-      return {
-        ...state,
-        selectedReportFields: fieldsClone
-      };
-    }
-    case fromDataViewActions.UPDATE_DISPLAY_NAME: {
-      const fieldsClone = cloneDeep(state.selectedReportFields);
-      const fieldToUpdate = fieldsClone.find(x => x.DataElementId === action.payload.fieldDataElementId);
-      if (fieldToUpdate) {
-        fieldToUpdate.DisplayName = action.payload.newDisplayName;
-      }
-      return {
-        ...state,
-        selectedReportFields: fieldsClone
       };
     }
     case fromDataViewActions.EXPORT_USER_REPORT: {
@@ -383,6 +275,98 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         exportEventId: eventIdStateClone
       };
     }
+    case fromDataViewActions.GET_SHAREABLE_USERS: {
+      const asyncStateObjClone = cloneDeep(state.shareableUsersAsync);
+
+      asyncStateObjClone.loading = true;
+      asyncStateObjClone.loadingError = false;
+      return {
+        ...state,
+        shareableUsersAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.GET_SHAREABLE_USERS_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.shareableUsersAsync);
+
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.obj = action.payload;
+      asyncStateObjClone.loadingError = false;
+      return {
+        ...state,
+        shareableUsersAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.GET_SHAREABLE_USERS_ERROR: {
+      const asyncStateObjClone = cloneDeep(state.shareableUsersAsync);
+
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.loadingError = true;
+      return {
+        ...state,
+        shareableUsersAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.GET_SHARE_PERMISSIONS: {
+      const asyncStateObjClone = cloneDeep(state.sharedUserPermissionsAsync);
+
+      asyncStateObjClone.loading = true;
+      asyncStateObjClone.loadingError = false;
+      asyncStateObjClone.obj = [];
+      return {
+        ...state,
+        sharedUserPermissionsAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.GET_SHARE_PERMISSIONS_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.sharedUserPermissionsAsync);
+      const sharedUsers = [];
+      action.payload.forEach(function(user) {
+        const matchingUser = state.shareableUsersAsync.obj.find(x => x.UserId === user.UserId);
+        if (!!matchingUser) {
+          sharedUsers.push({
+            ...matchingUser,
+            CanEdit: user.CanEdit
+          });
+        }
+      });
+
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.obj = sharedUsers;
+      return {
+        ...state,
+        sharedUserPermissionsAsync: asyncStateObjClone,
+        sharedUserPermissionsLoaded: true
+      };
+    }
+    case fromDataViewActions.SAVE_SHARE_PERMISSIONS_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.sharedUserPermissionsAsync);
+
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.obj = action.payload;
+      return {
+        ...state,
+        sharedUserPermissionsAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.GET_SHARE_PERMISSIONS_ERROR: {
+      const asyncStateObjClone = cloneDeep(state.sharedUserPermissionsAsync);
+
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.loadingError = true;
+      return {
+        ...state,
+        sharedUserPermissionsAsync: asyncStateObjClone
+      };
+    }
+    case fromDataViewActions.REMOVE_SHARE_PERMISSION_SUCCESS: {
+      const asyncStateObjClone = cloneDeep(state.sharedUserPermissionsAsync);
+
+      asyncStateObjClone.obj = asyncStateObjClone.obj.filter(x => x.UserId !== action.payload.UserId);
+      return {
+        ...state,
+        sharedUserPermissionsAsync: asyncStateObjClone
+      };
+    }
     default: {
       return state;
     }
@@ -394,7 +378,6 @@ export const getSavingUserReport = (state: State) => state.savingUserReport;
 export const getSaveUserReportError = (state: State) => state.saveUserReportError;
 export const getSaveUserReportConflict = (state: State) => state.saveUserReportConflict;
 export const getUserDataViewAsync = (state: State) => state.userDataViewAsync;
-export const getReportFieldsAsync = (state: State) => state.reportFieldsAsync;
 export const getEditingUserReport = (state: State) => state.editingUserReport;
 export const getEditUserReportError = (state: State) => state.editUserReportError;
 export const getEditUserReportConflict = (state: State) => state.editUserReportConflict;
@@ -405,10 +388,7 @@ export const getDuplicateUserReportConflict = (state: State) => state.duplicateU
 export const getDuplicateUserReportSuccess = (state: State) => state.duplicateUserReportSuccess;
 export const getExportingUserReport = (state: State) => state.exportingUserReport;
 export const getExportEventId = (state: State) => state.exportEventId;
-export const getSelectedFields = (state: State) => state.selectedReportFields;
-export const getUnselectedFields = (state: State) => {
-  if (state.reportFieldsAsync.obj) {
-    return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === false
-      && !state.selectedReportFields.some(y => y.DataElementId === f.DataElementId));
-  }
-};
+export const getShareableUsersAsync = (state: State) => state.shareableUsersAsync;
+export const getSharedUserPermissionsAsync = (state: State) => state.sharedUserPermissionsAsync;
+export const getSharedUserPermissionsLoaded = (state: State) => state.sharedUserPermissionsLoaded;
+export const getLoadingErrorMessage = (state: State) => state.loadingErrorMessage;

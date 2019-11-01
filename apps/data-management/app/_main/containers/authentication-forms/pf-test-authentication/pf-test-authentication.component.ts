@@ -41,7 +41,8 @@ export class PfTestAuthenticationComponent implements OnInit {
 
   initForm(): void {
     this.pfTestForm = this.formBuilder.group({
-      apiKey: ['', Validators.required ]
+      username: [ '', [ Validators.required, Validators.pattern(/^\S+@\S+$/) ] ],
+      password: [ '', Validators.required ]
     });
   }
 }

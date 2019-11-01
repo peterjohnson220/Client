@@ -6,12 +6,13 @@ export const ADD_FILTERS = '[Search/Search Filters] Add Filters';
 export const ADD_FILTER_AND_SELECT_ALL_OPTIONS = '[Search/Search Filters] Add filter and select all options';
 export const APPLY_SAVED_FILTERS = '[Search/Search Filters] Apply Saved Filters';
 export const CLEAR_FILTER = '[Search/Search Filters] Clear Filter';
+export const CLEAR_FILTERS = '[Search/Search Filters] Clear Filters';
 export const CLEAR_SAVED_FILTERS = '[Search/Search Filters] Clear Saved Filters';
 export const REFRESH_FILTERS = '[Search/Search Filters] Refresh Filters';
 export const RESET_ALL_FILTERS = '[Search/Search Filters] Reset All Filters';
 export const REMOVE_FILTER_VALUE = '[Search/Search Filters] Remove Value';
 export const REMOVE_FILTERS = '[Search/Search Filters] Remove Filters';
-export const REPLACE_FILTERS = '[Search/Search Filters] Replace Filter';
+export const REPLACE_FILTERS = '[Search/Search Filters] Replace Filters';
 export const SET_DEFAULT_VALUE = '[Search/Search Filters] Set Default Value';
 export const TOGGLE_MULTI_SELECT_OPTION = '[Search/Search Filters] Toggle Multi Select Option';
 export const UPDATE_FILTER_VALUE = '[Search/Search Filters] Update Value';
@@ -39,6 +40,12 @@ export class ClearFilter implements Action {
   readonly type = CLEAR_FILTER;
 
   constructor(public payload: {filterId: string}) {}
+}
+
+export class ClearFilters implements Action {
+  readonly type = CLEAR_FILTERS;
+
+  constructor() {}
 }
 
 export class ClearSavedFilters implements Action {
@@ -116,5 +123,6 @@ export type Actions
   | SetDefaultValue
   | RemoveFilterValue
   | ReplaceFilters
-  | AddFilterAndSelectAllOptions;
+  | AddFilterAndSelectAllOptions
+  | ClearFilters;
 

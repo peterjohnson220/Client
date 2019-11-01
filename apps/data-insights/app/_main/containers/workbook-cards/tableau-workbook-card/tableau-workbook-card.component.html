@@ -1,0 +1,33 @@
+<pf-workbook-card *ngIf="!!workbook"
+  [workbook]="workbook"
+  [displayActionsOverlayOverride]="showingViewPopover">
+
+  <ng-container custom-actions>
+    <div class="open-workbook">
+      <a class="btn"
+        title="Open Workbook"
+        [attr.data-qa-id]="'lnk-openWorkbook'"
+        [routerLink]="['/company-reports',workbook.WorkbookId]"
+        [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
+        Open
+      </a>
+      <div class="vertical-separator h-100"></div>
+      <button class="btn open-views"
+              [attr.data-qa-id]="'btn-openViews'"
+              [ngbPopover]="popContent"
+              [popoverClass]="'workbook-views-popover'"
+              [placement]="'bottom'"
+              [popoverTitle]="workbook.WorkbookName"
+              [autoClose]="'outside'"
+              (shown)="handleOpenViewsClicked()"
+              (hidden)="handleViewsHidden()">
+        <fa-icon title="Open Views" [icon]="['fas','caret-down']"></fa-icon>
+      </button>
+    </div>
+  </ng-container>
+
+</pf-workbook-card>
+
+<ng-template #popContent>
+  <pf-workbook-views [workbook]="workbook"></pf-workbook-views>
+</ng-template>

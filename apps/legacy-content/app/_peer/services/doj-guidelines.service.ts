@@ -5,10 +5,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { take } from 'rxjs/operators';
 
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
+import * as fromExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import { DataCutValidationInfo, ExchangeStatCompanyMakeup } from 'libs/models/peer';
 import { arraysEqual, checkArraysOneOff } from 'libs/core/functions';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromUpsertPeerDataReducers from '../reducers';
 import * as fromDataCutValidationActions from '../actions/data-cut-validation.actions';
@@ -40,13 +44,28 @@ export class DojGuidelinesService implements OnDestroy {
   peerMapCompaniesSubscription: Subscription;
   initialMapMoveCompleteSubscription: Subscription;
 
-  constructor(private store: Store<fromUpsertPeerDataReducers.State>,
-    private mapStore: Store<fromPeerMapReducers.State>,
-    private route: ActivatedRoute) {
-    this.peerMapCompanies$ = this.mapStore.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
+  constructor(
+    private store: Store<fromUpsertPeerDataReducers.State>,
+    private peerMapStore: Store<fromPeerMapReducers.State>,
+    private exchangeExplorerStore: Store<fromExchangeExplorerReducers.State>,
+    private settingsService: SettingsService,
+    private route: ActivatedRoute
+  ) {
+    this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.PeerExchangeExplorerEnabled).pipe(
+      take(1)
+    ).subscribe((exchangeExplorerEnabled) => {
+          this.peerMapCompanies$ = exchangeExplorerEnabled
+            ? this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducers.getPeerMapCompaniesFromSummary))
+            : this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
+          this.initialMapMoveComplete$ = exchangeExplorerEnabled
+            ? this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducers.getPeerMapInitialMapMoveComplete))
+            : this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerMapInitialMapMoveComplete));
+        }
+      );
+
     this.dataCutValidationInfo$ = this.store.pipe(select(fromUpsertPeerDataReducers.getDataCutValidationInfo));
     this.areEmployeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
-    this.initialMapMoveComplete$ = this.mapStore.pipe(select(fromPeerMapReducers.getPeerMapInitialMapMoveComplete));
+
 
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pmc => this.companies = pmc);
     this.dataCutValidationSubscription = this.dataCutValidationInfo$.subscribe(dcvi => this.dataCutValidationInfo = dcvi);
