@@ -91,7 +91,7 @@
         </div>
         <pf-async-container
           [loading]="(jobDescriptionAsync$ | async)?.loading || (jobDescriptionPublishing$ | async)"
-          [loadingError]="(jobDescriptionAsync$ | async)?.error"
+          [loadingError]="(jobDescriptionAsync$ | async)?.loadingError"
           [loadingErrorMessage]="'Error loading the job description'"
           [hideReloadButton]="true">
         </pf-async-container>
@@ -129,15 +129,15 @@
         <!--</div>-->
 
         <div *ngIf="!identityInWorkflow  && !showLibrary &&
-                    (showRoutingHistory || (jobDescriptionAsync$ | async)?.obj.JobDescriptionStatus == 'In Review')"
+                    (showRoutingHistory || jobDescription?.JobDescriptionStatus === 'In Review')"
               class="column-scroll-container col-4">
           <div class="scroll-y column-scroll-inner">
               <pf-workflow-watch-sidebar *ngIf="!(identity$ | async)?.IsPublic && (jobDescriptionExtendedInfo$ | async)?.WorkflowId"
                                           [isSiteAdmin]="isSiteAdmin"
                                           [isCompanyAdmin]="isCompanyAdmin"
-                                          [showSubway]="(jobDescriptionAsync$ | async)?.obj.JobDescriptionStatus == 'In Review'"
+                                          [showSubway]="jobDescription?.JobDescriptionStatus === 'In Review'"
                                           [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
-                                          [jobDescription]="(jobDescriptionAsync$ | async).obj"
+                                          [jobDescription]="jobDescription"
                                           (closed)="showRoutingHistory = false">
                 <!--(changeApproverClicked)="openChangeApproverModal($event)"-->
               </pf-workflow-watch-sidebar>
