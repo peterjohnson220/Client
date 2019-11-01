@@ -39,7 +39,7 @@ export class ReportViewPageComponent implements OnInit, OnDestroy {
     public winRef: WindowRef
   ) {
     this.reportTitle = this.route.snapshot.queryParamMap.get('title');
-    this.showTabs = this.route.snapshot.queryParamMap.get('showTabs') === 'true';
+    this.showTabs = true;
     this.workbookViewUrl$ = this.store.pipe(select(fromDataInsightsMainReducer.getWorkbookViewUrl));
   }
 
