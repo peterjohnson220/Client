@@ -13,6 +13,7 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import * as fromExchangeExplorerReducer from '../../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';
 import * as fromExchangeFilterContextActions from '../../actions/exchange-filter-context.actions';
+import * as fromExchangeExplorerDataCutsActions from '../../actions/exchange-data-cut.actions';
 
 @Component({
   selector: 'pf-exchange-explorer',
@@ -75,6 +76,11 @@ export class ExchangeExplorerComponent extends SearchBase {
   }
 
   onSetContext(payload: any) {
+    if (!!payload.cutGuid && payload.cutGuid !== '') {
+      const systemFilterRequest = {exchangeDataCutGuid: payload.cutGuid, companyJobId: payload.companyJobId};
+      this.store.dispatch(new fromExchangeExplorerDataCutsActions.LoadExchangeDataCut(systemFilterRequest));
+      return;
+    }
     this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
       this.exchangeId = payload.exchangeId;

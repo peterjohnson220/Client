@@ -6,8 +6,10 @@ import { NavigationApiService } from './navigation';
 import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './settings';
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
-import { ExchangeApiService, ExchangeCompanyApiService,
-         ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
+import {
+  ExchangeApiService, ExchangeCompanyApiService,
+  ExchangeScopeApiService, ExchangeDataCutsApiService, ExchangeDataFilterApiService
+} from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService, JobSearchApiService, ExchangeDataSearchApiService } from './search';
 import { DashboardApiService, CompanyResourcesApiService } from './dashboard';
@@ -45,9 +47,6 @@ import { SurveyLibraryApiService } from './survey-library';
     CompanySecurityApiService,
     DashboardApiService,
     UserApiService,
-    ExchangeApiService,
-    ExchangeCompanyApiService,
-    ExchangeDataSearchApiService,
     NavigationApiService,
     UiPersistenceSettingsApiService,
     AccountApiService,
@@ -60,10 +59,8 @@ import { SurveyLibraryApiService } from './survey-library';
     JobDescriptionApiService,
     TermsConditionsApiService,
     SurveySearchApiService,
-    ExchangeScopeApiService,
     CompanySettingsApiService,
     LoaderFieldMappingsApiService,
-    ExchangeDataCutsApiService,
     AppEnvironmentApiService,
     UserTicketApiService,
     CompanyJobApiService,
@@ -91,6 +88,14 @@ import { SurveyLibraryApiService } from './survey-library';
     NotificationsApiService,
     CompanyResourcesApiService,
     SurveyLibraryApiService,
+
+    // PEER
+    ExchangeApiService,
+    ExchangeCompanyApiService,
+    ExchangeDataSearchApiService,
+    ExchangeScopeApiService,
+    ExchangeDataFilterApiService,
+    ExchangeDataCutsApiService,
 
     // Hris Api Services
     HrisApiService,

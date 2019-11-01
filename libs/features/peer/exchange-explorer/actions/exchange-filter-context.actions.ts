@@ -1,9 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import {
-  PeerMapScopeSystemSideBarInfo,
-  ExchangeScopeItem, ExchangeDataSearchFilterContext
-} from 'libs/models/peer';
+import { ExchangeScopeItem, ExchangeDataSearchFilterContext } from 'libs/models/peer';
 
 export const TOGGLE_LIMIT_TO_PAYMARKET  = '[Features/Peer/Exchange Explorer] Toggle Limit To PayMarket';
 export const TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES  = '[Features/Peer/Exchange Explorer] Toggle Exclude Indirect Job Matches';
@@ -12,6 +9,7 @@ export const LIMIT_TO_EXCHANGE = '[Features/Peer/Exchange Explorer] Limit to Exc
 export const SET_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Exchange Explorer] Set Scope Selection';
 export const CLEAR_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Exchange Explorer] Clear Scope Selection';
 export const SET_FILTER_CONTEXT = '[Features/Peer/Exchange Explorer] Set Filter Context';
+export const SET_FILTER_CONTEXT_SILENTLY = '[Features/Peer/Exchange Explorer] Set Filter Context Silently';
 
 export class ToggleLimitToPayMarket implements Action {
   readonly type = TOGGLE_LIMIT_TO_PAYMARKET;
@@ -49,6 +47,12 @@ export class SetFilterContext implements Action {
   constructor(public payload: ExchangeDataSearchFilterContext) {}
 }
 
+export class SetFilterContextSilently implements Action {
+  readonly type = SET_FILTER_CONTEXT_SILENTLY;
+
+  constructor(public payload: ExchangeDataSearchFilterContext) {}
+}
+
 export type Actions
   = ToggleLimitToPayMarket
   | ToggleExcludeIndirectJobMatches
@@ -56,4 +60,5 @@ export type Actions
   | LimitToExchange
   | SetExchangeScopeSelection
   | SetFilterContext
+  | SetFilterContextSilently
   | ClearExchangeScopeSelection;

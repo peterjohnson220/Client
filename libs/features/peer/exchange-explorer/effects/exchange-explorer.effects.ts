@@ -28,6 +28,7 @@ export class ExchangeExplorerEffects {
             }),
             new fromExchangeFilterContextActions.SetFilterContext(response.FilterContext)
           ];
+
         }),
         catchError(() => of(new fromExchangeExplorerContextInfoActions.LoadContextInfoError))
       )
