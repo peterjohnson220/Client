@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
+import 'rxjs/add/observable/combineLatest';
 
 import {
   JobDescription,
@@ -141,8 +142,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   goBack(): void {
     if (!!this.identity && this.identity.IsPublic) {
       this.router.navigate(['/'], { queryParams: { jwt: this.tokenId } });
+    } else {
+      this.router.navigate(['/']);
     }
-    this.router.navigate(['/']);
   }
 
   handleControlDataChanges(changeObj: any) {
@@ -292,10 +294,19 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   private initSubscriptions(): void {
-    this.routerParamsSubscription = this.route.params.subscribe(params => {
+    const urlParams = Observable.combineLatest(
+      this.route.params,
+      this.route.queryParams,
+      (params, queryParams) => ({ ...params, queryParams: queryParams })
+    );
+    this.routerParamsSubscription = urlParams.subscribe(params => {
       const jobDescriptionId = params['id'];
-      this.tokenId = params['jwt'];
-      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({ JobDescriptionId: jobDescriptionId }));
+      const viewName = params.queryParams['viewName'];
+      this.tokenId = params.queryParams['jwt'];
+      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
+        JobDescriptionId: jobDescriptionId,
+        ViewName: viewName
+      }));
     });
 
     this.jobDescriptionExtendedInfoSubscription = this.jobDescriptionExtendedInfo$.subscribe(jdei => {
