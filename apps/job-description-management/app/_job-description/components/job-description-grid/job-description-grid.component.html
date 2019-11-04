@@ -28,7 +28,7 @@
                      [title]="listAreaColumn.ColumnDisplayName"
                      [width]="150">
     <ng-template *ngIf="listAreaColumn.ColumnDataType === 'date'" kendoGridCellTemplate let-dataItem>
-      {{dataItem[listAreaColumn.ColumnDatabaseName] | date:'MM/DD/YYYY'}}
+      {{dataItem[listAreaColumn.ColumnDatabaseName] | date:'MM/dd/yyyy'}}
     </ng-template>
   </kendo-grid-column>
 
