@@ -7,6 +7,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as cloneDeep from 'lodash.clonedeep';
 import { FilterDescriptor } from '@progress/kendo-data-query';
+import { of, Subject } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockListAreaColumn, generateMockListAreaColumns } from 'libs/models/common/list-area';
@@ -16,7 +17,6 @@ import {
   generateMockFilters,
   generateMockJdmListFilter
 } from 'libs/models/user-profile';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { PermissionService, RouteTrackingService } from 'libs/core/services';
 
 import { JobDescriptionListPageComponent } from './job-description-list.page';
@@ -38,7 +38,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   let fixture: ComponentFixture<JobDescriptionListPageComponent>;
   let store: Store<fromJobDescriptionReducers.State>;
   let router: Router;
-  let route: ActivatedRouteStub;
+  let route: ActivatedRoute;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,6 +56,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
         {
           provide: ActivatedRoute,
           useValue: {
+            queryParams: of({}),
             snapshot: { queryParamMap: { get: (key) => '' } }
           }
         },
@@ -94,10 +95,13 @@ describe('Job Description Management - Job Description - Job Description List Pa
     instance.saveFilterModalComponent = TestBed.createComponent(SaveFilterModalComponent).componentInstance;
 
     instance.saveFilterModalComponent.filterForm = new FormGroup({});
+    instance.filterThrottle = new Subject();
+    instance.savedGridState$ = of({ skip: 0, take: 20 });
 
     store = TestBed.get(Store);
     router = TestBed.get(Router);
     route = TestBed.get(ActivatedRoute);
+    fixture.detectChanges();
   });
 
   it('should dispatch a CreateJobDescription action, when calling appliesToFormCompleted with templateId of -1', () => {
@@ -161,7 +165,9 @@ describe('Job Description Management - Job Description - Job Description List Pa
       ListState: JSON.stringify({ skip: 0, take: 20 })
     };
 
-    expect(instance.getQueryListStateRequest()).toEqual(expectedResult);
+    const listStateRequest = instance.getQueryListStateRequest();
+
+    expect(listStateRequest).toEqual(expectedResult);
   });
 
   it('should dispatch an OpenBulkExportPopover action, when calling handleBulkExportPopoverOpened', () => {
