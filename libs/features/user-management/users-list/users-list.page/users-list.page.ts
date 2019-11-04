@@ -58,8 +58,6 @@ export class UsersListPageComponent implements OnInit {
   }
 
   handleAddButton() {
-    this.router.navigate(['company-admin', this.companyId, 'users', 'add']);
+    this.router.navigate(['add'], { relativeTo: this.route });
   }
 }
-
-
