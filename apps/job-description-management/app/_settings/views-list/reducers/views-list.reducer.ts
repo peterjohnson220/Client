@@ -1,5 +1,6 @@
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { FilterableName } from 'libs/core/interfaces';
+import { AsyncStateObjHelper } from 'libs/core/helpers';
 
 import * as fromViewsListActions from '../actions/views-list.actions';
 
@@ -13,23 +14,18 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: fromViewsListActions.Actions): State {
   switch (action.type) {
-    case fromViewsListActions.LOAD_JOB_DESCRIPTION_VIEWS:
-      return {
-        ...state,
-        viewsAsyncObj: {...state.viewsAsyncObj, loading: true, loadingError: false}
-      };
-    case fromViewsListActions.LOAD_JOB_DESCRIPTION_VIEWS_SUCCESS:
-      return {
-        ...state,
-        viewsAsyncObj: {...state.viewsAsyncObj, loading: false, obj: action.payload}
-      };
-    case fromViewsListActions.LOAD_JOB_DESCRIPTION_VIEWS_ERROR:
-      return {
-        ...state,
-        viewsAsyncObj: {...state.viewsAsyncObj, loadingError: true, loading: false}
-      };
-    default:
+    case fromViewsListActions.LOAD_JOB_DESCRIPTION_VIEWS: {
+      return AsyncStateObjHelper.loading(state, 'viewsAsyncObj');
+    }
+    case fromViewsListActions.LOAD_JOB_DESCRIPTION_VIEWS_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'viewsAsyncObj', action.payload);
+    }
+    case fromViewsListActions.LOAD_JOB_DESCRIPTION_VIEWS_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'viewsAsyncObj');
+    }
+    default: {
       return state;
+    }
   }
 }
 
