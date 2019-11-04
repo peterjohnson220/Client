@@ -10,6 +10,8 @@ import {
 } from 'apps/pf-admin/app/_utilities/models/requests/job-description-validation-request.model';
 import { LoadJobDescriptionRequest } from 'apps/pf-admin/app/_utilities/models/requests/job-description-load-request.model';
 import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket } from '../../../../apps/job-description-management/app/shared/models';
+import { UpdateViewsRequest } from '../../../models/payfactors-api/job-description-management/request';
+import { JobDescriptionViewApi } from '../../../models/payfactors-api/job-description-management/shared';
 
 @Injectable()
 export class JobDescriptionManagementApiService {
@@ -51,7 +53,7 @@ export class JobDescriptionManagementApiService {
   }
 
   getAvailableControls(): Observable<any> {
-    return this.payfactorsApiService.get(`${this.endpoint}.GetAvailableControls`);
+    return this.payfactorsApiService.get(`${this.endpoint}.GetAvailableControls`, {}, (response) => JSON.parse(response.value));
   }
 
   getLibrarySearchResultsByBucket(searchRequest: LibrarySearchRequest): Observable<JobDescriptionLibraryBucket[]> {
@@ -95,4 +97,12 @@ export class JobDescriptionManagementApiService {
     return this.payfactorsApiService.post(`${this.endpoint}.DeleteView`, { Name: name });
   }
 
+  getTemplateViews(viewName: string): Observable<JobDescriptionViewApi[]> {
+    return this.payfactorsApiService.get<JobDescriptionViewApi[]>(`${this.endpoint}.GetTemplateViews`, { params: { viewName } },
+      (response) => JSON.parse(response.value));
+  }
+
+  updateViews(request: UpdateViewsRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.UpdateViews`, request);
+  }
 }

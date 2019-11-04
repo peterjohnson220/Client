@@ -5,7 +5,9 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AuthorizationGuard } from 'libs/security/guards';
 
 import { ViewsListPageComponent } from './views-list';
+import { ViewEditPageComponent, ViewEditGuard } from './view-edit';
 import { LayoutPageComponent } from './layout';
+
 
 const routes: Routes = [
   {
@@ -22,6 +24,11 @@ const routes: Routes = [
       {
         path: 'job-description-views',
         component: ViewsListPageComponent
+      },
+      {
+        path: 'job-description-views/edit',
+        component: ViewEditPageComponent,
+        canActivate: [ViewEditGuard]
       }
     ]
   }

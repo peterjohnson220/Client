@@ -5,8 +5,8 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { ViewsListModule } from './views-list';
+import { ViewEditGuard, ViewEditModule } from './view-edit';
 import { LayoutModule } from './layout';
-
 
 @NgModule({
   imports: [
@@ -22,6 +22,10 @@ import { LayoutModule } from './layout';
     // Features
     ViewsListModule,
     LayoutModule,
+    ViewEditModule
+  ],
+  providers: [
+    ViewEditGuard
   ]
 })
 export class SettingsModule { }

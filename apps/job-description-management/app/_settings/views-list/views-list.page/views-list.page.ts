@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
+import { Observable } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 import { FilterableName } from 'libs/core/interfaces';
 import { SimpleYesNoModalComponent } from 'libs/ui/common';
 import { SimpleYesNoModalOptions } from 'libs/models/common';
 
 import { JobDescriptionViewConstants } from '../../../shared/constants/job-description-view-constants';
-
+import * as fromViewEditctions from '../../view-edit/actions/view-edit.actions';
 import * as fromViewsListActions from '../actions/views-list.actions';
 import * as fromViewsListReducer from '../reducers';
 
@@ -32,7 +33,9 @@ export class ViewsListPageComponent implements OnInit {
   };
 
   constructor(
-    private store: Store<fromViewsListReducer.State>
+    private store: Store<fromViewsListReducer.State>,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.viewsListAsyncObj$ = this.store.pipe(select(fromViewsListReducer.getViewsListAsyncObj));
   }
@@ -57,7 +60,13 @@ export class ViewsListPageComponent implements OnInit {
     this.store.dispatch(new fromViewsListActions.DeleteView({viewName}));
   }
 
-  deleteView(viewName: string) {
+  handleViewClicked(viewName: string) {
+    this.store.dispatch(new fromViewEditctions.EditView({viewName}));
+    this.router.navigate(['edit'], { relativeTo: this.route });
+  }
+
+  handleDeleteViewClicked(viewName: string, event: MouseEvent) {
+    event.stopPropagation();
     this.deleteViewModalOptions.Body = `You are about to delete the <strong>${viewName}</strong> view. This cannot be undone. Would you like to continue?`;
     this.deleteViewConfirmationModal.open(viewName);
   }
