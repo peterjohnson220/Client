@@ -5,12 +5,14 @@ import { FilterDescriptor, SortDescriptor, State } from '@progress/kendo-data-qu
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
+import * as cloneDeep from 'lodash.clonedeep';
+import { debounceTime } from 'rxjs/operators';
 
 import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-context.reducer';
 import { JdmListFilter } from 'libs/models/user-profile';
 import { ListAreaColumn } from 'libs/models/common';
 import { UserContext } from 'libs/models/security';
-import { PermissionService, RouteTrackingService } from 'libs/core/services';
+import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
@@ -64,7 +66,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public userFilterListLoading$: Observable<boolean>;
   public userFilterDeleting$: Observable<boolean>;
 
-  private savedGridState$: Observable<State>;
+  savedGridState$: Observable<State>;
   private listAreaColumnsToUpdate$: Observable<ListAreaColumn[]>;
   private bulkExportControlLabels$: Observable<ControlLabel[]>;
   private bulkExportControlLabelsLoading$: Observable<boolean>;
@@ -83,7 +85,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private addingUserFilterSuccess$: Observable<boolean>;
 
   public savedSearchTerm: string;
-  public gridState: State = { skip: 0, take: 20 };
+  public gridState: State;
   public nonStaticListAreaColumns: ListAreaColumn[];
   public customListAreaColumns: ListAreaColumn[] = [];
   public showFilterSidebar: any;
@@ -102,14 +104,14 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private createJobDescriptionSubscription: Subscription;
   private savingListAreaColumnsSuccessSubscription: Subscription;
   private addUserFilterSubscription: Subscription;
+  gridStateSubscription: Subscription;
 
   constructor(
     private userContextStore: Store<fromUserContextReducer.State>,
     private store: Store<fromJobDescriptionReducers.State>,
     private router: Router,
     private route: ActivatedRoute,
-    private permissionService: PermissionService,
-    private routeTrackingService: RouteTrackingService
+    private permissionService: PermissionService
   ) {
     this.identity$ = this.store.select(fromRootState.getUserContext);
     this.gridLoading$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoading);
@@ -350,7 +352,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   private initFilterThrottle() {
-    const filterThrottle$ = this.filterThrottle.debounceTime(400);
+    const filterThrottle$ = this.filterThrottle.pipe(debounceTime(400));
 
     filterThrottle$.subscribe(filters => {
       if (filters) {
@@ -446,11 +448,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       this.listFilter = savedSearchTerm || '';
     });
 
-    if (this.routeTrackingService.previousRoute.indexOf('/job-description-management/job-descriptions') !== -1) {
-      this.savedGridState$.subscribe(savedGridState => {
-        this.gridState = savedGridState || { skip: 0, take: 20 };
-      });
-    }
+    this.gridStateSubscription = this.savedGridState$.subscribe(savedGridState => this.gridState = cloneDeep(savedGridState));
   }
 
   private routeToJobDescription(jobDescriptionId: number) {
@@ -471,6 +469,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.routerParmsSubscription.unsubscribe();
     this.saveCompanyJobsJobDescriptionTemplateIdSubscription.unsubscribe();
     this.savingListAreaColumnsSuccessSubscription.unsubscribe();
+    this.gridStateSubscription.unsubscribe();
   }
 
   ngOnInit() {
