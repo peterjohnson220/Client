@@ -1,6 +1,7 @@
 import { JobInformationFieldForBulkExportResponse, JobDescriptionViewApi,  UpdateViewsRequest } from 'libs/models/payfactors-api';
 
-import { JobInfoViewField, JobDescriptionView } from '../models';
+import { JobInfoViewField } from '../../view-edit/models';
+import { JobDescriptionView } from '../models';
 
 export class PayfactorsApiModelMapper {
   // IN
@@ -30,14 +31,17 @@ export class PayfactorsApiModelMapper {
   }
 
   // OUT
-  static mapJobDescriptionViewsToRequestModel(jobDescriptionViews: JobDescriptionView[], selectedJobInformationFields: JobInfoViewField[]): UpdateViewsRequest {
+  static mapJobDescriptionViewsToRequestModel(jobDescriptionViews: JobDescriptionView[],
+                                              selectedJobInformationFields?: JobInfoViewField[]): UpdateViewsRequest {
     return {
       Views: jobDescriptionViews.map(v => {
         return {
           CompanyId: v.CompanyId,
           HiddenElementIds: v.HiddenElementIds,
           Id: v.Id,
-          JobInformationFields: selectedJobInformationFields.map(ji => ji.Id),
+          JobInformationFields: selectedJobInformationFields !== undefined
+                                ? selectedJobInformationFields.map(ji => ji.Id)
+                                : v.JobInformationFields,
           Name: v.Name,
           TemplateId: v.TemplateId
         };

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { ControlViewToggleObj, JobDescriptionView } from '../../models';
+import { ControlViewToggleObj } from '../../models';
+
+import { JobDescriptionView } from '../../../shared/models';
 
 @Component({
   selector: 'pf-view-editor',

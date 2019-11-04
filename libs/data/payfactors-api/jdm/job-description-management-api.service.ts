@@ -105,4 +105,8 @@ export class JobDescriptionManagementApiService {
   updateViews(request: UpdateViewsRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.UpdateViews`, request);
   }
+
+  addView(name: string, templateIds: number[]) {
+    return this.payfactorsApiService.post(`${this.endpoint}.AddView`, { Name: name, TemplateIds: templateIds });
+  }
 }

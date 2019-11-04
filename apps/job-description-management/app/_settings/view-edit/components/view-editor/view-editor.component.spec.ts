@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewEditorComponent } from './view-editor.component';
-import { generateMockJobDescriptionView } from '../../models';
+import { generateMockJobDescriptionView } from '../../../shared/models';
 
 describe('Job Description Management - Settings - View Editor', () => {
   let instance: ViewEditorComponent;

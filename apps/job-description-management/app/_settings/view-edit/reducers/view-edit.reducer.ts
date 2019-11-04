@@ -5,7 +5,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 
-import { ControlViewToggleObj, JobDescriptionView } from '../models';
+import { ControlViewToggleObj } from '../models';
+
+import { JobDescriptionView } from '../../shared/models';
 
 export interface State {
   viewName: string;
