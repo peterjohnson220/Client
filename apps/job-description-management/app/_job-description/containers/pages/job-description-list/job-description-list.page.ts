@@ -23,16 +23,13 @@ import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromRootState from 'libs/state/state';
 
-import { AssignJobsToTemplateModalComponent } from '../../../components';
+import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 
 import { CompanyJobViewListItem } from '../../../models';
 import { AvailableJobInformationField, ControlLabel, JobDescriptionAppliesTo } from '../../../../shared/models';
 import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to';
-import {
-  JobDescriptionHistoryModalComponent
-} from '../../../components/modals/job-description-history';
 import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
 import { SaveJobDescriptionTemplateIdSucessModel } from '../../../models';

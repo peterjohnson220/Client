@@ -354,16 +354,6 @@ export const getJobDescriptionHistoryList = createSelector(
   fromJobDescriptionHistoryListReducer.getJobDescriptionHistoryList
 );
 
-export const getJobDescriptionHistoryListLoading = createSelector(
-  selectJobDescriptionHistoryListState,
-  fromJobDescriptionHistoryListReducer.getJobDescriptionHistoryListLoading
-);
-
-export const getJobDescriptionHistoryListLoadingError = createSelector(
-  selectJobDescriptionHistoryListState,
-  fromJobDescriptionHistoryListReducer.getJobDescriptionHistoryListLoadingError
-);
-
 // Job Information Fields
 export const getJobInformationFieldsForBulkExportLoading = createSelector(
   selectJobInformationFieldsState,

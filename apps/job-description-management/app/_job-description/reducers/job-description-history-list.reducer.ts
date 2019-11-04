@@ -1,44 +1,51 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+
 import * as fromJobDescriptionHistoryListActions from '../actions/job-description-history-list.actions';
-import { JobDescriptionHistoryListItem } from '../models/job-description-history-list-item.model';
+import { JobDescriptionHistoryListItem } from '../models';
 
 export interface State {
-  jobDescriptionHistoryList: JobDescriptionHistoryListItem[];
-  loadingJobDescriptionHistoryList: boolean;
-  loadingJobDescriptionHistoryListError: boolean;
+  jobDescriptionHistoryListAsync: AsyncStateObj<JobDescriptionHistoryListItem[]>;
 }
 
 export const initialState: State = {
-  jobDescriptionHistoryList: [],
-  loadingJobDescriptionHistoryList: false,
-  loadingJobDescriptionHistoryListError: false
+  jobDescriptionHistoryListAsync: generateDefaultAsyncStateObj<JobDescriptionHistoryListItem[]>([])
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionHistoryListActions.Actions): State {
   switch (action.type) {
-    case fromJobDescriptionHistoryListActions.LOAD_JOB_DESCRIPTION_HISTORY_LIST_ITEMS:
+    case fromJobDescriptionHistoryListActions.LOAD_JOB_DESCRIPTION_HISTORY_LIST_ITEMS: {
+      const jobDescriptionHistoryListAsyncClone = cloneDeep(state.jobDescriptionHistoryListAsync);
+      jobDescriptionHistoryListAsyncClone.loading = true;
+      jobDescriptionHistoryListAsyncClone.loadingError = false;
       return {
         ...state,
-        loadingJobDescriptionHistoryList: true
+        jobDescriptionHistoryListAsync: jobDescriptionHistoryListAsyncClone
       };
-    case fromJobDescriptionHistoryListActions.LOAD_JOB_DESCRIPTION_HISTORY_LIST_ITEMS_ERROR:
+    }
+    case fromJobDescriptionHistoryListActions.LOAD_JOB_DESCRIPTION_HISTORY_LIST_ITEMS_ERROR: {
+      const jobDescriptionHistoryListAsyncClone = cloneDeep(state.jobDescriptionHistoryListAsync);
+      jobDescriptionHistoryListAsyncClone.loading = false;
+      jobDescriptionHistoryListAsyncClone.loadingError = true;
       return {
         ...state,
-        loadingJobDescriptionHistoryList: false,
-        loadingJobDescriptionHistoryListError: true
+        jobDescriptionHistoryListAsync: jobDescriptionHistoryListAsyncClone
       };
-    case fromJobDescriptionHistoryListActions.LOAD_JOB_DESCRIPTION_HISTORY_LIST_ITEMS_SUCCESS:
+    }
+    case fromJobDescriptionHistoryListActions.LOAD_JOB_DESCRIPTION_HISTORY_LIST_ITEMS_SUCCESS: {
+      const jobDescriptionHistoryListAsyncClone = cloneDeep(state.jobDescriptionHistoryListAsync);
+      jobDescriptionHistoryListAsyncClone.loading = false;
+      jobDescriptionHistoryListAsyncClone.obj = action.payload;
       return {
         ...state,
-        loadingJobDescriptionHistoryList: false,
-        jobDescriptionHistoryList: cloneDeep(action.payload)
+        jobDescriptionHistoryListAsync: jobDescriptionHistoryListAsyncClone
       };
-    default:
+    }
+    default: {
       return state;
+    }
   }
 }
 
-export const getJobDescriptionHistoryList = (state: State) => state.jobDescriptionHistoryList;
-export const getJobDescriptionHistoryListLoading = (state: State) => state.loadingJobDescriptionHistoryList;
-export const getJobDescriptionHistoryListLoadingError = (state: State) => state.loadingJobDescriptionHistoryListError;
+export const getJobDescriptionHistoryList = (state: State) => state.jobDescriptionHistoryListAsync;

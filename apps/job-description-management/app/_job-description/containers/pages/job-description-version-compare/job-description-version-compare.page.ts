@@ -29,7 +29,7 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
   companyLogoPath: string;
 
   sourceHistoryItem$: Observable<JobDescriptionHistoryListItem>;
-  jobDescriptionHistoryList$: Observable<JobDescriptionHistoryListItem[]>;
+  jobDescriptionHistoryList$: Observable<AsyncStateObj<JobDescriptionHistoryListItem[]>>;
   comparisonHistoryItem$: Observable<JobDescriptionHistoryListItem>;
   jobDescriptionVersionComparisonLoading$: Observable<boolean>;
   jobDescriptionVersionComparisonLoadingError$: Observable<boolean>;
