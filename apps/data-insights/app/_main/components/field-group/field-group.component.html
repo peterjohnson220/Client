@@ -7,9 +7,9 @@
 </div>
 <div *ngIf="!!fields && showFields" class="d-flex flex-column fields">
   <ng-container *ngFor="let field of fields; trackBy: trackByFn;">
-    <span *ngIf="!field.IsSelected; else addedFieldTemplate" class="field unselected" (click)="handleFieldClicked(field)">
-      {{field.DisplayName}}
-    </span>
+    <div *ngIf="!field.IsSelected; else addedFieldTemplate" class="field unselected" (click)="handleFieldClicked(field)">
+      <div class="title">{{field.DisplayName}}</div>
+    </div>
 
     <ng-template #addedFieldTemplate>
       <div [class.disabled]="!removable" class="d-flex field selected" (click)="handleFieldClicked(field)">
