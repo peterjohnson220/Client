@@ -19,7 +19,9 @@ export class JobDescriptionManagementDnDService {
   initJobDescriptionManagementDnD(fromDndSource: JobDescriptionManagementDndSource, reOrderCallbackFn: any) {
     this.dndSource = fromDndSource;
 
-    this.dragulaService.createGroup('control-data-reorder-bag', {});
+    this.dragulaService.createGroup('control-data-reorder-bag', {
+      moves: (el) => el.classList.contains('re-orderable')
+    });
 
     // Drop
     this.dragulaSubscription = this.dragulaService.dropModel('control-data-reorder-bag').subscribe(dropModel => {

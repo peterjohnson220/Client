@@ -6,6 +6,8 @@ import { Observable, Subscription, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
 
+import * as arrayMove from 'array-move';
+
 import {
   JobDescription,
   UserContext,
@@ -23,7 +25,7 @@ import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SimpleYesNoModalComponent } from 'libs/ui/common';
 
-import { JobDescriptionManagementService } from '../../../../shared/services';
+import { JobDescriptionManagementDnDService, JobDescriptionManagementService } from '../../../../shared/services';
 import { ControlDataHelper } from '../../../../shared/helpers';
 import {
   JobDescriptionLibraryBucket,
@@ -31,12 +33,15 @@ import {
   LibrarySearchRequest,
   JobDescriptionAppliesTo
 } from '../../../../shared/models';
-import { JobDescriptionExtendedInfo } from '../../../models';
+import { JobDescriptionExtendedInfo, ReorderControlDataDto } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionLibraryActions from '../../../../shared/actions/job-description-library.actions';
 import { JobDescriptionActionsComponent } from '../../job-description-actions';
+import { JobDescriptionManagementDndSource } from '../../../../shared/constants';
+import { JobDescriptionDnDService } from '../../../services';
+
 
 @Component({
   selector: 'pf-job-description-page',
@@ -101,8 +106,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
     private settingsService: SettingsService,
     private permissionService: PermissionService,
-    private jobDescriptionManagementService: JobDescriptionManagementService
-  ) {
+    private jobDescriptionManagementService: JobDescriptionManagementService,
+    private jobDescriptionManagementDndService: JobDescriptionManagementDnDService,
+    private jobDescriptionDnDService: JobDescriptionDnDService
+) {
     this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogoAsync);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
@@ -137,6 +144,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.saveThrottleSubscription.unsubscribe();
     this.savingJobDescriptionSubscription.unsubscribe();
     this.jobDescriptionExtendedInfoSubscription.unsubscribe();
+    this.jobDescriptionManagementDndService.destroyJobDescriptionManagementDnD();
+    this.jobDescriptionDnDService.destroyJobDescriptionPageDnD();
   }
 
   goBack(): void {
@@ -351,6 +360,20 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,
+      (control, oldIndex, newIndex) => {
+        this.reorderControlData({
+          jobDescriptionControl: control,
+          oldIndex: oldIndex,
+          newIndex: newIndex
+        });
+        this.saveThrottle.next(true);
+      });
+
+    this.jobDescriptionDnDService.initJobDescriptionPageDnD(
+      this.jobDescription, () => this.saveThrottle.next(true)
+    );
+
   }
 
   private initSaveThrottle() {
@@ -450,5 +473,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       CancelText: 'No',
       IsDelete: true
     };
-}
+  }
+
+  reorderControlData(reorderControlDataDto: ReorderControlDataDto) {
+    const {jobDescriptionControl, oldIndex, newIndex} = reorderControlDataDto;
+    const controlData = ControlDataHelper.getControl(this.jobDescription.Sections, jobDescriptionControl).Data;
+
+    arrayMove.mutate(controlData, oldIndex, newIndex);
+    this.saveThrottle.next(true);
+  }
 }
