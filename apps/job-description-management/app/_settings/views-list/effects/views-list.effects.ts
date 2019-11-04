@@ -6,6 +6,7 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
+import { arraySortByString, SortDirection } from 'libs/core/functions';
 
 import * as fromViewsListActions from '../actions/views-list.actions';
 
@@ -18,7 +19,9 @@ export class ViewsListEffects {
       switchMap(() =>
         this.jobDescriptionManagementApiService.getViewNames().pipe(
           map((response: string[]) => {
-            return new fromViewsListActions.LoadJobDescriptionViewsSuccess(response.map(r => ({ Name: r })));
+            return new fromViewsListActions.LoadJobDescriptionViewsSuccess(
+              response.map(r => ({ Name: r })).sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
+            );
           }),
           catchError(() => of(new fromViewsListActions.LoadJobDescriptionViewsError()))
         )
