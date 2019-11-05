@@ -6,7 +6,7 @@ import { Observable, Subscription, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
 
-import * as arrayMove from 'array-move';
+import { arrayMoveMutate } from 'libs/core/functions';
 
 import {
   JobDescription,
@@ -479,7 +479,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     const {jobDescriptionControl, oldIndex, newIndex} = reorderControlDataDto;
     const controlData = ControlDataHelper.getControl(this.jobDescription.Sections, jobDescriptionControl).Data;
 
-    arrayMove.mutate(controlData, oldIndex, newIndex);
+    arrayMoveMutate(controlData, oldIndex, newIndex);
     this.saveThrottle.next(true);
   }
 }
