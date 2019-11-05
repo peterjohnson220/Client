@@ -3,8 +3,8 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
 
 import { Observable } from 'rxjs';
 
-import { PfValidators} from 'libs/forms/validators';
-import { DataViewConfig } from 'libs/models/payfactors-api';
+import { PfValidators} from 'libs/forms/validators/index';
+import { DataViewConfig } from 'libs/models/payfactors-api/index';
 
 
 @Component({

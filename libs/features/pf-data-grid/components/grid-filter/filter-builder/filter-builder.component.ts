@@ -1,8 +1,8 @@
 import { Input, Output, EventEmitter, Component } from '@angular/core';
 
-import { DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
+import { DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api/index';
 
-import { FilterOperatorOptions } from '../../helpers/filter-operator-options/filter-operator-options';
+import { FilterOperatorOptions } from '../helpers/filter-operator-options/filter-operator-options';
 
 @Component({
   selector: 'pf-filter-builder',

@@ -1,15 +1,13 @@
-import {Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy, ViewChild} from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import { ViewField, DataViewFilter } from 'libs/models/payfactors-api';
-import { PfDataGridSaveViewModalComponent } from 'libs/ui/grid-filter/components/modals/save-view';
+import { ViewField, DataViewFilter, DataViewConfig } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
-import {DataViewConfig} from '../../../models/payfactors-api/reports/request';
 
 @Component({
   selector: 'pf-data-grid',
@@ -31,8 +29,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
-
-  // @ViewChild(PfDataGridSaveViewModalComponent, { static: true }) public saveViewModalComponent: PfDataGridSaveViewModalComponent;
 
   public gridFilterThrottle: Subject<any>;
   isSplitView = false;

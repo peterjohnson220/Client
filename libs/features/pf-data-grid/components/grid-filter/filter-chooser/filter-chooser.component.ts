@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild } from '@angular/core';
 
-import { DataViewConfig } from 'libs/models/payfactors-api';
-import { getHumanizedFilter } from '../../helpers/filter-display/filter-display-helpers';
+import { DataViewConfig } from 'libs/models/payfactors-api/index';
+import { getHumanizedFilter } from '../helpers/filter-display/filter-display-helpers';
 
 @Component({
   selector: 'pf-filter-chooser',

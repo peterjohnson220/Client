@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {DatePipe} from '@angular/common';
 
-import { ViewField, DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
-import { FilterOperatorOptions } from '../../helpers/filter-operator-options/filter-operator-options';
+import { ViewField, DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api/index';
+import { FilterOperatorOptions } from '../helpers/filter-operator-options/filter-operator-options';
 
 @Component({
   selector: 'pf-data-grid-filter-pills',
