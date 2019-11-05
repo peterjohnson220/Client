@@ -6,7 +6,6 @@ import 'rxjs/add/observable/forkJoin';
 import { filter, map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash.clonedeep';
-import * as arrayMove from 'array-move';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-context.reducer';
@@ -16,6 +15,7 @@ import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { SaveError } from 'libs/models/common/save-error';
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
+import { arrayMoveMutate } from 'libs/core/functions';
 
 import * as fromJobDescriptionJobCompareActions from '../../../actions/job-description-job-compare.actions';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
@@ -262,7 +262,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
     const {jobDescriptionControl, oldIndex, newIndex} = reorderControlDataDto;
     const controlData = ControlDataHelper.getControl(this.sourceJobDescription.Sections, jobDescriptionControl).Data;
 
-    arrayMove.mutate(controlData, oldIndex, newIndex);
+    arrayMoveMutate(controlData, oldIndex, newIndex);
     this.saveThrottle.next(true);
   }
 
