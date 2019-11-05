@@ -15,7 +15,7 @@ import { SurveySearchApiService, JobSearchApiService, ExchangeDataSearchApiServi
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
-import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowApiService } from './jdm';
+import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowApiService, JobDescriptionFooterViewApiService } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
@@ -55,6 +55,7 @@ import { CompanyResourcesApiService } from './company-resources';
     PayfactorsApiService,
     JobDescriptionManagementApiService,
     JobDescriptionWorkflowApiService,
+    JobDescriptionFooterViewApiService,
     UserProfileApiService,
     UserFilterApiService,
     JobDescriptionApiService,

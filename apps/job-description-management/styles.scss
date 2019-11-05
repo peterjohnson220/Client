@@ -39,6 +39,19 @@
   border-color: #1872ae;
 }
 
+.btn-primary:hover {
+  color: #fff;
+  background-color: #125581;
+  border-color: #114f78;
+}
+
+.btn-primary.disabled, .btn-primary:disabled{
+  background-color: #1872ae;
+  border-color: #1872ae;
+  cursor: not-allowed;
+  opacity: .65;
+}
+
 .btn-group .btn-group-vertical {
   position: relative;
   display: inline-flex;
