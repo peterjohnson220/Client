@@ -31,7 +31,7 @@ export function reducer (state = initialState, action: fromJobDescriptionVersion
       return {
         ...state,
         loadingJobDescriptionComparison: false,
-        jobDescriptionComparison: JSON.parse(action.payload)
+        jobDescriptionComparison: action.payload
       };
     case fromJobDescriptionVersionCompareActions.LOAD_JOB_DESCRIPTION_COMPARISON_ERROR:
       return {
