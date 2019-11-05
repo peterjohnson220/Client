@@ -19,6 +19,10 @@ export const SAVE_LIST_AREA_COLUMNS_SUCCESS = '[job-description-management / Job
 export const UPDATE_GRID_STATE = '[job-description-management / Job Description Grid] Update Grid State';
 export const UPDATE_LIST_AREA_COLUMN = '[job-description-management / Job Description Grid] Update List Area Column';
 export const UPDATE_SEARCH_TERM = '[job-description-management / Job Description Grid] Update Search Term';
+export const LOAD_PUBLIC_JDM_COLUMNS = '[job-description-management / Job Description Grid] Load Public JDM Columns';
+export const LOAD_PUBLIC_JDM_COLUMNS_ERROR = '[job-description-management / Job Description Grid] Load Public JDM Columns Error';
+export const LOAD_PUBLIC_JDM_COLUMNS_SUCCESS = '[job-description-management / Job Description Grid] Load Public JDM Columns Success';
+
 
 export class LoadJobDescriptionGrid implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_GRID;
@@ -86,6 +90,22 @@ export class UpdateSearchTerm implements Action {
   constructor(public payload: string) {}
 }
 
+export class LoadPublicJdmColumns implements Action {
+  readonly type = LOAD_PUBLIC_JDM_COLUMNS;
+
+  constructor(public payload: number) {}
+}
+
+export class LoadPublicJdmColumnsError implements Action {
+  readonly type = LOAD_PUBLIC_JDM_COLUMNS_ERROR;
+}
+
+export class LoadPublicJdmColumnsSuccess implements Action {
+  readonly type = LOAD_PUBLIC_JDM_COLUMNS_SUCCESS;
+
+  constructor(public payload: ListAreaColumn[]) {}
+}
+
 export type Actions
   = LoadJobDescriptionGrid
   | LoadJobDescriptionGridError
@@ -98,4 +118,7 @@ export type Actions
   | SaveListAreaColumnsSuccess
   | UpdateGridState
   | UpdateListAreaColumn
-  | UpdateSearchTerm;
+  | UpdateSearchTerm
+  | LoadPublicJdmColumns
+  | LoadPublicJdmColumnsError
+  | LoadPublicJdmColumnsSuccess;

@@ -14,3 +14,4 @@ export * from './filter.model';
 export * from './get-filter-options-data.model';
 export * from './standard-report-filter.model';
 export * from './filter-operators.model';
+export * from './user.model';

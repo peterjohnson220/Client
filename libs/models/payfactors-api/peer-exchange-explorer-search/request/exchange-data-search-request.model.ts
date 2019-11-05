@@ -1,10 +1,8 @@
 import { BaseSearchAggregationsRequest, BaseSearchRequest, FilterOptions, PagingOptions } from '../../search/request';
-import { ExchangeDataSearchFilterContext, GeoCoordinates, SystemFilter } from '../../../peer';
-import { SearchFilterMappingDataObj } from '../../../../features/search/models';
+import { ExchangeDataSearchFilterContext } from '../../../peer';
 
 export interface BaseExchangeDataSearchRequest extends BaseSearchRequest {
   FilterContext: ExchangeDataSearchFilterContext;
-  SearchFilterMappingData: SearchFilterMappingDataObj;
 }
 
 export interface ExchangeDataSearchRequest extends BaseExchangeDataSearchRequest {

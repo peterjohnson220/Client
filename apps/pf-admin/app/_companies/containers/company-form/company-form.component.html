@@ -12,7 +12,7 @@
         <label class="control-label" for="clientType">
           Client Type <span class="text-danger">*</span>
         </label>
-        <select (change)="onClientTypeChange()" formControlName="clientType" class="form-control" placeholder="Client Type"
+        <select (change)="onClientTypeDropdownChange()" formControlName="clientType" class="form-control" placeholder="Client Type"
           [ngClass]="{ 'is-invalid': !f.clientType.valid && f.clientType.touched }">
           <option></option>
           <option *ngFor="let clientType of clientTypes" [ngValue]="clientType.ClientType">
@@ -33,7 +33,7 @@
       </div>
       <div class="form-group">
         <label class="control-label" for="repository">Repository</label>
-        <select formControlName="repository" class="form-control" placeholder="Repository" (change)="changeRepositoryDropdown()">
+        <select formControlName="repository" class="form-control" placeholder="Repository" (change)="onRepositoryDropdownChange()">
           <option *ngFor="let systemUserGroup of systemUserGroups" [ngValue]="systemUserGroup.SystemUserGroupsId">
             {{systemUserGroup.DisplayName}}
           </option>
@@ -147,7 +147,7 @@
       </div>
       <div class="form-group">
         <label class="control-label" for="industry">Industry</label>
-        <select formControlName="industry" class="form-control" placeholder="Industry" (change)="changeIndustryDropdown()">
+        <select formControlName="industry" class="form-control" placeholder="Industry" (change)="onIndustryDropdownChange()">
           <option></option>
           <option *ngFor="let industry of industries" [ngValue]="industry.Industry">{{industry.Industry}}</option>
         </select>

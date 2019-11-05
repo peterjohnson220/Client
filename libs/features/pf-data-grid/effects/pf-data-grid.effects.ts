@@ -19,6 +19,7 @@ import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 
 @Injectable()
@@ -52,29 +53,46 @@ export class PfDataGridEffects {
     @Effect()
     loadData$: Observable<Action> = this.actions$
         .pipe(
-            ofType(fromPfDataGridActions.LOAD_DATA, fromPfDataGridActions.UPDATE_PAGING_OPTIONS),
+            ofType(
+                fromPfDataGridActions.LOAD_DATA,
+                fromPfDataGridActions.UPDATE_PAGING_OPTIONS,
+                fromPfDataGridActions.UPDATE_SORT_DESCRIPTOR,
+                fromPfDataGridActions.UPDATE_INBOUND_FILTERS),
             mergeMap((loadDataAction: fromPfDataGridActions.LoadData) =>
                 of(loadDataAction).pipe(
                     withLatestFrom(
-                        this.store.pipe(select(fromPfDataGridReducer.getBaseEntityId, loadDataAction.pageViewId)),
+                        this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getFields, loadDataAction.pageViewId)),
+                        this.store.pipe(select(fromPfDataGridReducer.getInboundFilters, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getFilters, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
-                        (action: fromPfDataGridActions.LoadData, baseEntityId, fields, filters, pagingOptions) =>
-                            ({ action, baseEntityId, fields, filters, pagingOptions })
+                        this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
+                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, inboundFilters, filters, pagingOptions, sortDescriptor) =>
+                            ({ action, baseEntity, fields, inboundFilters, filters, pagingOptions, sortDescriptor })
                     )
                 ),
             ),
-            switchMap((data) =>
-                this.dataViewApiService
-                    .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(data.baseEntityId, data.fields, data.filters, data.pagingOptions))
-                    .pipe(
-                        map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
-                        catchError(error => {
-                            const msg = 'We encountered an error while loading your data';
-                            return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
-                        })
-                    )
+            switchMap((data) => {
+                if (data.fields) {
+                    return this.dataViewApiService
+                        .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(
+                            data.baseEntity ? data.baseEntity.Id : null,
+                            data.fields,
+                            data.filters.concat(data.inboundFilters),
+                            data.pagingOptions,
+                            data.sortDescriptor))
+                        .pipe(
+                            map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
+                            catchError(error => {
+                                const msg = 'We encountered an error while loading your data';
+                                return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
+                            })
+                        );
+                } else {
+                    return of(new fromPfDataGridActions.ClearLoading(data.action.pageViewId));
+                }
+            }
+
             )
         );
 
@@ -85,15 +103,15 @@ export class PfDataGridEffects {
             mergeMap((updateFieldsAction: fromPfDataGridActions.UpdateFields) =>
                 of(updateFieldsAction).pipe(
                     withLatestFrom(
-                        this.store.pipe(select(fromPfDataGridReducer.getBaseEntityId, updateFieldsAction.pageViewId)),
-                        (action: fromPfDataGridActions.UpdateFields, baseEntityId) =>
-                            ({ action, baseEntityId })
+                        this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, updateFieldsAction.pageViewId)),
+                        (action: fromPfDataGridActions.UpdateFields, baseEntity) =>
+                            ({ action, baseEntity })
                     )
                 ),
             ),
             switchMap((data) =>
                 this.dataViewApiService.updateDataView(PfDataGridEffects
-                    .buildSaveDataViewRequest(data.action.pageViewId, data.baseEntityId, data.action.fields, [], null))
+                    .buildSaveDataViewRequest(data.action.pageViewId, data.baseEntity.Id, data.action.fields, [], null))
                     .pipe(
                         map((response: any[]) => {
                             return new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId);
@@ -113,16 +131,16 @@ export class PfDataGridEffects {
       mergeMap((saveFilterAction: fromPfDataGridActions.SaveView) =>
         of(saveFilterAction).pipe(
           withLatestFrom(
-            this.store.pipe(select(fromPfDataGridReducer.getBaseEntityId, saveFilterAction.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getFields, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getFilters, saveFilterAction.pageViewId)),
-            (action: fromPfDataGridActions.SaveView, baseEntityId, fields, filters) =>
-              ({ action, baseEntityId, fields, filters })
+            (action: fromPfDataGridActions.SaveView, baseEntity, fields, filters) =>
+              ({ action, baseEntity, fields, filters })
           )
         )
       ),
       switchMap((data) =>
-        this.dataViewApiService.updateDataView(PfDataGridEffects.buildSaveDataViewRequest(data.action.pageViewId, data.baseEntityId, data.fields,
+        this.dataViewApiService.updateDataView(PfDataGridEffects.buildSaveDataViewRequest(data.action.pageViewId, data.baseEntity.Id, data.fields,
           data.filters, data.action.viewName))
           .pipe(
             map((response: any) => {
@@ -176,13 +194,25 @@ export class PfDataGridEffects {
         };
     }
 
-    static buildDataViewDataRequest(baseEntityId: number, fields: ViewField[], filters: DataViewFilter[], pagingOptions: PagingOptions) {
+    static buildDataViewDataRequest(
+        baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
+        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[]) {
+
+        let singleSortDesc = null;
+        if (!!sortDescriptor && sortDescriptor.length > 0) {
+            const field: ViewField = fields.find(x => sortDescriptor[0].field === `${x.EntitySourceName}_${x.SourceName}`);
+            singleSortDesc = {
+                SortField: field,
+                SortDirection: sortDescriptor[0].dir
+            };
+        }
+
         return {
             BaseEntityId: baseEntityId,
             Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields),
             Filters: filters,
             PagingOptions: pagingOptions,
-            SortDescriptor: null,
+            SortDescriptor: singleSortDesc,
             WithCount: true
         };
     }
@@ -210,7 +240,7 @@ export class PfDataGridEffects {
         return {
           DataElementId: fields.find(field => field.SourceName === f.SourceName).DataElementId,
           Operator: f.Operator,
-          Value: f.Value
+          Values: f.Values
         };
       }) : [];
     }

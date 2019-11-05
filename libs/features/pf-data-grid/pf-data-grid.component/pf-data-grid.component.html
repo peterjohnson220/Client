@@ -10,7 +10,7 @@
       [allowExport]="allowExport"
       [globalFilterAlignment]="showTitle?'Right':'Left'"
       [globalActionsTemplate]="gridGlobalActionsTemplate"
-      [disableActionButtons]="isSplitView"
+      [disableActionButtons]="selectedRowId$ | async"
       [savedViews]="(savedViews$ | async)"
       (onFilterSidebarToggle)="toggleFilterPanel()">
     </pf-action-bar>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="d-flex h-100">
-      <div [ngClass]="isSplitView ? 'main-grid-container-compact' : 'full-size-wrapper'">
+      <div [ngClass]="(selectedRowId$ | async) ? 'main-grid-container-compact' : 'full-size-wrapper'">
         <div class="flex-column-container">
           <div *ngIf="(filters$ | async).length" class="filter-pills-container pt-2 pl-3" [ngClass]="{'pr-3': !(displayFilterPanel$ | async)}">
             <pf-data-grid-filter-pills
@@ -36,21 +36,21 @@
               <div class="grid-container" [ngClass]="{'grid-container-with-pills': (filters$ | async).length}">
                 <pf-grid
                   [pageViewId]="pageViewId"
-                  [primaryKey]="primaryKey"
+                  [selectionEntityName]="(baseEntity$ | async)?.SourceName"
+                  [selectionField]="selectionField"
+                  [allowSplitView]="splitViewTemplate"
                   [columnTemplates]="columnTemplates"
-                  [isCompact]="isSplitView"
-                  (rowSelected)="onRowSelect()"
-                  [allowSplitView]="!!splitViewTemplate">
+                  [selectedRowId]="selectedRowId$ | async">
                 </pf-grid>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="isSplitView" class="sub-grid-container">
+      <div *ngIf="selectedRowId$ | async" class="sub-grid-container">
         <ng-container
           [ngTemplateOutlet]="splitViewTemplate"
-          [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter}">
+          [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter, splitViewFilters: splitViewFilters$ | async}">
         </ng-container>
       </div>
       <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3">

@@ -10,6 +10,7 @@ import { PfAppNotificationsModule } from 'libs/features/app-notifications';
 import { AppComponent } from './app.component';
 import { AppWrapperComponent } from './app-wrapper.component';
 import { AppNoWrapperComponent } from './app-no-wrapper.component';
+import { RouteTrackingService } from '../../core/services';
 
 
 const declarations = [
@@ -28,6 +29,9 @@ const declarations = [
     PfSecurityModule,
     PfLayoutWrapperModule,
     PfAppNotificationsModule
+  ],
+  providers: [
+    RouteTrackingService
   ],
   declarations: declarations,
   exports: declarations

@@ -23,7 +23,7 @@ import { AssociatedExchangeJobListComponent } from './components/associated-exch
 import { reducers } from './reducers';
 import {
   ExchangeExplorerEffects,
-  ExchangeFilterContextEffects,
+  ExchangeFilterContextEffects, ExchangeFilterEffects,
   ExchangeScopeEffects,
   ExchangeSearchEffects,
   SingledFilterEffects
@@ -46,7 +46,7 @@ const declarations = [
     // 3rd Party
     StoreModule.forFeature('feature_peer_exchangeExplorer', reducers),
     EffectsModule.forFeature([
-      ExchangeScopeEffects, ExchangeFilterContextEffects,
+      ExchangeScopeEffects, ExchangeFilterContextEffects, ExchangeFilterEffects,
       ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects
     ]),
     SwitchModule,

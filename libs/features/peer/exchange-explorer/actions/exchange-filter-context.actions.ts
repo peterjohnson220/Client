@@ -10,6 +10,7 @@ export const TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES  = '[Features/Peer/Exchange Exp
 export const TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES = '[Features/Peer/Exchange Explorer] Toggle Include Untagged Employees';
 export const LIMIT_TO_EXCHANGE = '[Features/Peer/Exchange Explorer] Limit to Exchange';
 export const SET_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Exchange Explorer] Set Scope Selection';
+export const CLEAR_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Exchange Explorer] Clear Scope Selection';
 export const SET_FILTER_CONTEXT = '[Features/Peer/Exchange Explorer] Set Filter Context';
 
 export class ToggleLimitToPayMarket implements Action {
@@ -36,6 +37,12 @@ export class SetExchangeScopeSelection implements Action {
   constructor(public payload: ExchangeScopeItem) {}
 }
 
+export class ClearExchangeScopeSelection implements Action {
+  readonly type = CLEAR_EXCHANGE_SCOPE_SELECTION;
+
+  constructor() {}
+}
+
 export class SetFilterContext implements Action {
   readonly type = SET_FILTER_CONTEXT;
 
@@ -48,4 +55,5 @@ export type Actions
   | ToggleIncludeUntaggedEmployees
   | LimitToExchange
   | SetExchangeScopeSelection
-  | SetFilterContext;
+  | SetFilterContext
+  | ClearExchangeScopeSelection;

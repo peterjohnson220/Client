@@ -1,10 +1,20 @@
 import { DataViewFieldDataType, DataViewFilter } from './data-view-data-request.model';
 
 export interface DataViewConfig {
-  EntityId: number;
+  Entity: DataViewEntity;
   Fields: ViewField[];
   Filters: DataViewFilter[];
   Name: string;
+}
+
+export interface DataViewEntity {
+  Id: number;
+  IsBaseEntity: boolean;
+  SourceName: string;
+  CreateDate: Date;
+  EditDate: Date;
+  CreateUser: number;
+  EditUser: number;
 }
 
 export interface ViewField {

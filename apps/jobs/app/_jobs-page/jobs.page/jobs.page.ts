@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -18,6 +19,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit {
 
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
   colTemplates = {};
+
+  defaultSort: SortDescriptor[] = [{
+    dir: 'asc',
+    field: 'CompanyJobs_Job_Title'
+  }];
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.company$ = this.store.select(fromJobsPageReducer.getCompany);

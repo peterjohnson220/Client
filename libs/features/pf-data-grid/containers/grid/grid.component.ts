@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
@@ -6,6 +6,7 @@ import * as fromActions from '../../actions';
 import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { ViewField, PagingOptions } from 'libs/models/payfactors-api';
 import { DataGridState } from '../../reducers/pf-data-grid.reducer';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-grid',
@@ -15,22 +16,19 @@ import { DataGridState } from '../../reducers/pf-data-grid.reducer';
 })
 export class GridComponent implements OnInit, OnChanges {
 
-  @Input() primaryKey: string;
+  @Input() selectionEntityName: string;
+  @Input() selectionField: string;
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
-  @Input() allowSplitView = false;
-  @Input() isCompact = false;
-
-  @Output() rowSelected = new EventEmitter();
+  @Input() selectedRowId: number;
+  @Input() allowSplitView: boolean;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
   dataFields$: Observable<any[]>;
   data$: Observable<GridDataResult>;
   pagingOptions$: Observable<PagingOptions>;
-  pageCount$: Observable<number>;
-
-  selectedRowId: number;
+  sortDescriptor$: Observable<SortDescriptor[]>;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -43,8 +41,7 @@ export class GridComponent implements OnInit, OnChanges {
       this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
       this.data$ = this.store.select(fromReducer.getData, changes['pageViewId'].currentValue);
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
-    } else if (changes['isCompact'] && !changes['isCompact'].currentValue) {
-      this.selectedRowId = null;
+      this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
     }
   }
 
@@ -54,7 +51,7 @@ export class GridComponent implements OnInit, OnChanges {
   }
 
   showColumn(col: ViewField) {
-    return (!this.isCompact || col.IsLocked) && col.IsSelectable && col.IsSelected;
+    return (!this.selectedRowId || col.IsLocked) && col.IsSelectable && col.IsSelected;
   }
 
   mappedFieldName(col: ViewField): string {
@@ -65,37 +62,47 @@ export class GridComponent implements OnInit, OnChanges {
     this.store.dispatch(new fromActions.UpdatePagingOptions(this.pageViewId, { From: event.skip, Count: event.take }));
   }
 
+  onSortChange(sortDescriptor: SortDescriptor[]): void {
+    this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, sortDescriptor));
+  }
+
   onCellClick({ dataItem }) {
     if (this.allowSplitView && !getSelection().toString()) {
-      this.selectedRowId = dataItem[this.primaryKey];
-      this.rowSelected.emit();
+      this.store.dispatch(new fromActions.UpdateSelectedRowId(this.pageViewId, dataItem[this.getSelectedRowIdentifier()], this.selectionField));
     }
   }
 
-  public selectedRowClass = (context: RowClassArgs) => ({
-    'k-state-selected': context.dataItem[this.primaryKey] === this.selectedRowId
+  selectedRowClass = (context: RowClassArgs) => ({
+    'k-state-selected': context.dataItem[this.getSelectedRowIdentifier()] === this.selectedRowId
   })
 
   getPagingBarConfig(state: DataGridState) {
-    if (state && state.data && (state.data.total / state.pagingOptions.Count) <= 1) {
-      return false;
+    if (this.isMultiplePages(state)) {
+      if (this.selectedRowId) {
+        return {
+          info: true,
+          type: 'input',
+          pageSizes: false,
+          previousNext: true
+        };
+      } else {
+        return {
+          buttonCount: 5,
+          info: true,
+          type: 'numeric',
+          pageSizes: false,
+          previousNext: true
+        };
+      }
     }
+    return false;
+  }
 
-    if (this.isCompact) {
-      return {
-        info: true,
-        type: 'input',
-        pageSizes: false,
-        previousNext: true
-      };
-    } else {
-      return {
-        buttonCount: 5,
-        info: true,
-        type: 'numeric',
-        pageSizes: false,
-        previousNext: true
-      };
-    }
+  isMultiplePages(state: DataGridState) {
+    return state && state.data && (state.data.total / state.pagingOptions.Count) > 1;
+  }
+
+  getSelectedRowIdentifier() {
+    return `${this.selectionEntityName}_${this.selectionField}`;
   }
 }

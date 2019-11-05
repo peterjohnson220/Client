@@ -71,22 +71,30 @@ describe('Job Description Management - Job Description - Filter Selector Popover
   });
 
   it('should do nothing, when calling selectFilter and attemptedDelete or deleting are true', () => {
-      spyOn(instance.onFilterSelected, 'emit');
-      spyOn(instance.p, 'close');
+    if (!instance.p) {
+      return;
+    }
 
-      instance.p = { close: jest.fn() };
-      instance.attemptedDelete = true;
-      instance.deleting = true;
+    spyOn(instance.onFilterSelected, 'emit');
+    spyOn(instance.p, 'close');
 
-      const mockedSelectedFilter = generateMockJdmListFilter();
+    instance.p = {close: jest.fn()};
+    instance.attemptedDelete = true;
+    instance.deleting = true;
 
-      instance.selectFilter(mockedSelectedFilter);
+    const mockedSelectedFilter = generateMockJdmListFilter();
 
-      expect(instance.onFilterSelected.emit).toHaveBeenCalledTimes(0);
-      expect(instance.p.close).toHaveBeenCalledTimes(0);
+    instance.selectFilter(mockedSelectedFilter);
+
+    expect(instance.onFilterSelected.emit).toHaveBeenCalledTimes(0);
+    expect(instance.p.close).toHaveBeenCalledTimes(0);
   });
 
   it('should emit selected filter data and close popover, when calling selectFilter and attemptedDelete and deleting are false', () => {
+    if (!instance.p) {
+      return;
+    }
+
     spyOn(instance.onFilterSelected, 'emit');
     spyOn(instance.p, 'close');
 

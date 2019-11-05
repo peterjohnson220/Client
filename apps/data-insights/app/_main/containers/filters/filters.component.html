@@ -22,11 +22,8 @@
         [fields]="selectedFields"
         [filter]="filter"
         (deleteFilter)="handleDeleteFilter($event)"
-        (selectedFieldChanged)="handleSelectedFieldChanged(i, $event)"
-        (selectedValuesChanged)="handleSelectedValuesChanged(i, $event)"
-        (searchOptionChanged)="handleSearchOptionChanged($event)"
-        (numericValuesChanged)="handleSelectedValuesChanged(i, $event)"
-        (changeOperator)="handleOperatorChanged(i, $event)">
+        (filterChanged)="handleFilterChanged(i, $event)"
+        (searchOptionChanged)="handleSearchOptionChanged($event)">
       </pf-filter-card>
     </div>
   </div>

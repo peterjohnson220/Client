@@ -272,7 +272,14 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       };
     }
     case fromCompanyPageActions.GET_DEFAULT_SETTINGS_SUCCESS: {
-      const settings = action.payload.filter(x => x.Visible);
+      let settings = cloneDeep(action.payload.filter(x => x.Visible));
+      settings = settings.map((s) => {
+        if (s.Key === CompanySettingsEnum.MaxProjectJobCount) {
+          s.Disabled = true;
+        }
+        return s;
+      });
+
       return {
         ...state,
         loadingCompanySettings: false,
@@ -288,6 +295,14 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         x.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted && x.Value.toLowerCase() === 'true');
 
       settings = CompanyPageHelper.modifyPeerTCRequestSettingDisabled(settings, peerTermsAndCondAccepted);
+
+      settings = settings.map((s) => {
+        if (s.Key === CompanySettingsEnum.MaxProjectJobCount) {
+          s.Disabled = true;
+        }
+        return s;
+      });
+
       return {
         ...state,
         loadingCompanySettings: false,
@@ -342,6 +357,25 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       return {
         ...state,
         loadingCompositeFields: false
+      };
+    }
+    case fromCompanyPageActions.CREATE_COMPANY: {
+      return {
+        ...state,
+        savingCompany: true
+      };
+    }
+    case fromCompanyPageActions.CREATE_COMPANY_SUCCESS: {
+      return {
+        ...state,
+        savingCompany: false
+      };
+    }
+    case fromCompanyPageActions.CREATE_COMPANY_ERROR: {
+      return {
+        ...state,
+        savingCompany: false,
+        savingCompanyError: true
       };
     }
     case fromCompanyPageActions.SAVE_COMPANY: {
@@ -451,6 +485,24 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         companyDataSetsEnabled: true
       };
     }
+    case fromCompanyPageActions.SELECT_SMALL_BUSINESS_CLIENT_TYPE: {
+      let companySettingsCopy = cloneDeep(state.companySettings);
+      companySettingsCopy = CompanyPageHelper.getSmallBusinessClientTypeCompanySettings(companySettingsCopy);
+
+      return {
+        ...state,
+        companySettings: companySettingsCopy
+      };
+    }
+    case fromCompanyPageActions.DISABLE_PEER_AND_ANALYSIS_TILES: {
+      let companyTilesCopy = cloneDeep(state.companyTiles);
+      companyTilesCopy = CompanyPageHelper.disablePeerAndAnalysisCompanyTiles(companyTilesCopy);
+      return {
+        ...state,
+        companyTiles: companyTilesCopy,
+        companyDataSetsEnabled: false
+      };
+    }
     case fromCompanyPageActions.GET_COMPANY: {
       return {
         ...state,
@@ -474,6 +526,11 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       return {
         ...state,
         jobPricingLimitInfo: action.payload
+      };
+    }
+    case fromCompanyPageActions.RESET: {
+      return {
+        ...initialState
       };
     }
     default: {

@@ -1,0 +1,37 @@
+@import 'data-insights-styles';
+@import 'common/common-variables';
+
+.share-user {
+  margin: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.share-permissions {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.share-user-permission {
+  display: flex;
+  justify-content: space-between;
+
+  .btn {
+    margin-left: .25rem;
+  }
+}
+
+.share-user-name {
+  width: 65%;
+  @extend %ellipsis-overflowing-text;
+}
+
+.existing-permissions-title {
+  font-style: italic;
+  font-weight: bold;
+  margin: 0.8rem;
+}
+
+.loading-indicator {
+  margin: 0.8rem;
+}

@@ -49,7 +49,19 @@
     <tr>
       <td></td>
       <td>
-        <select id="includeDelimiters" [(ngModel)]="schedule.IncludeDelimiters">
+        <select id="includeDelimiters" [disabled]="schedule.IncludeFormatting" [(ngModel)]="schedule.IncludeDelimiters">
+          <option [ngValue]="true">Yes</option>
+          <option [ngValue]="false">No</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="indent">Include Formatting</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <select id="includeFormatting" [disabled]="schedule.IncludeDelimiters" [(ngModel)]="schedule.IncludeFormatting">
           <option [ngValue]="true">Yes</option>
           <option [ngValue]="false">No</option>
         </select>
@@ -135,6 +147,7 @@
           <p *ngIf="existingSchedule.Filter === 'All'">All Jobs</p>
           <p *ngIf="existingSchedule.Filter !== 'All'">Using {{existingSchedule.Filter}} filter</p>
           <p *ngIf="existingSchedule.IncludeDelimiters">Including Delimiters</p>
+          <p *ngIf="existingSchedule.IncludeFormatting">Including Formatting</p>
           <p *ngIf="existingSchedule.Format">Using {{existingSchedule.Format}} file format</p>
         </td>
       </tr>

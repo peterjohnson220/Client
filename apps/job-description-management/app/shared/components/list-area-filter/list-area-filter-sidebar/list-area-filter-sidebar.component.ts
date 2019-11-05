@@ -19,6 +19,7 @@ export class ListAreaFilterSidebarComponent implements OnChanges {
       this.filters = JSON.parse(JSON.stringify(value));
     }
   }
+  @Input() saveFiltersVisible = true;
 
   @Output() saveFilterClicked = new EventEmitter();
   @Output() filterChanged = new EventEmitter();

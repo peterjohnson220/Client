@@ -11,3 +11,4 @@ export * from './job-description';
 export * from './job-description-management';
 export * from './survey';
 export * from './reports';
+export * from './user';

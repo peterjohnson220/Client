@@ -8,6 +8,7 @@ import { SearchBase } from 'libs/features/search/containers/search-base';
 import { ExchangeMapSummary } from 'libs/models/peer';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 
 import * as fromExchangeExplorerReducer from '../../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';
@@ -43,8 +44,7 @@ export class ExchangeExplorerComponent extends SearchBase {
     super(store);
 
     this.pageShown$ = this.store.pipe(select(fromSearchReducer.getPageShown));
-    // TODO: Get Selection Count here instead
-    this.selectionsCount$ = this.store.pipe(select(fromSearchReducer.getSingledFilterSelectionCount));
+    this.selectionsCount$ = this.store.pipe(select(fromSearchReducer.getOverallFilterSelectionsCount));
 
     this.limitToPayMarket$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextLimitToPayMarket));
     this.excludeIndirectJobMatches$ = this.exchangeExplorerStore.pipe(
@@ -64,6 +64,9 @@ export class ExchangeExplorerComponent extends SearchBase {
     this.store.dispatch(new fromExchangeFilterContextActions.ToggleExcludeIndirectJobMatches());
   }
 
+  handleClearFilters() {
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
+  }
 
   onResetApp() {
     this.store.dispatch(new fromSearchResultsActions.ClearResults());

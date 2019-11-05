@@ -17,11 +17,7 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
     <div
       class="position-relative"
     >
-      <pf-async-container
-        ng-reflect-hide-reload-button="true"
-        ng-reflect-loading-error-message="Error loading associations"
-      >
-        
+      <pf-async-container>
         
         <div>
           <table>
@@ -105,31 +101,7 @@ exports[`AssociatedCompanyJobsComponent should render different messaging if the
     <div
       class="position-relative"
     >
-      <pf-async-container
-        ng-reflect-hide-reload-button="true"
-        ng-reflect-loading="false"
-        ng-reflect-loading-error="true"
-        ng-reflect-loading-error-message="Error loading associations"
-      >
-        
-        <div
-          class="loading-blanket no-opacity"
-          style="opacity: 0.8;"
-        >
-          <div
-            class="loading-blanket-center"
-          >
-            
-            
-            
-            <div
-              class="d-flex flex-column align-items-center alert alert-danger"
-            >
-              <pf-error-indicator />
-              
-            </div>
-          </div>
-        </div>
+      <pf-async-container>
         
       </pf-async-container>
     </div>
@@ -157,12 +129,7 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
     <div
       class="position-relative"
     >
-      <pf-async-container
-        ng-reflect-hide-reload-button="true"
-        ng-reflect-loading="false"
-        ng-reflect-loading-error-message="Error loading associations"
-      >
-        
+      <pf-async-container>
         
         <div>
           <table>
@@ -245,12 +212,7 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
     <div
       class="position-relative"
     >
-      <pf-async-container
-        ng-reflect-hide-reload-button="true"
-        ng-reflect-loading="false"
-        ng-reflect-loading-error-message="Error loading associations"
-      >
-        
+      <pf-async-container>
         
         <div>
           <table>
@@ -341,12 +303,7 @@ exports[`AssociatedCompanyJobsComponent should show No Associations instead of t
     <div
       class="position-relative"
     >
-      <pf-async-container
-        ng-reflect-hide-reload-button="true"
-        ng-reflect-loading="false"
-        ng-reflect-loading-error-message="Error loading associations"
-      >
-        
+      <pf-async-container>
         
       </pf-async-container>
     </div>
@@ -378,12 +335,7 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
     <div
       class="position-relative"
     >
-      <pf-async-container
-        ng-reflect-hide-reload-button="true"
-        ng-reflect-loading="false"
-        ng-reflect-loading-error-message="Error loading associations"
-      >
-        
+      <pf-async-container>
         
         <div>
           <table>

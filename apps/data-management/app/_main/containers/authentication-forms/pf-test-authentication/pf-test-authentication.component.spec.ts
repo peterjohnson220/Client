@@ -31,7 +31,8 @@ describe('Data Management - Main - Pf Test Authentication Form', () => {
   it('Should emit event when submit button is clicked', () => {
     spyOn(instance.submitClick, 'emit');
 
-    instance.pfTestForm.controls.apiKey.setValue('MockValue');
+    instance.pfTestForm.controls.username.setValue('MockUsername@unit.test');
+    instance.pfTestForm.controls.password.setValue('MockPassword');
 
     instance.onSubmit();
 
@@ -43,7 +44,8 @@ describe('Data Management - Main - Pf Test Authentication Form', () => {
   it('Should emit event when cancel button is clicked', () => {
     spyOn(instance.cancelClick, 'emit');
 
-    instance.pfTestForm.controls.apiKey.setValue('MockValue');
+    instance.pfTestForm.controls.username.setValue('MockUsername@unit.test');
+    instance.pfTestForm.controls.password.setValue('MockPassword');
 
     instance.cancelAuthenticationClick();
 

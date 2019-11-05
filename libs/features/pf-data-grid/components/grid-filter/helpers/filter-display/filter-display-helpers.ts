@@ -8,11 +8,11 @@ import { FilterOperatorOptions } from '../filter-operator-options/filter-operato
 export function getHumanizedFilter(columns: ViewField[], filter: DataViewFilter) {
   const field = columns.find(c => c.SourceName === filter.SourceName);
   if (field === null) {
-    return `${filter.SourceName} ${filter.Operator} ${filter.Value}`;
+    return `${filter.SourceName} ${filter.Operator} ${filter.Values[0]}`;
   }
 
   const operatorDisplay = getOperatorDisplay(filter.Operator, field.DataType);
-  const valueDisplay = getValueDisplay(filter.Value, field.DataType);
+  const valueDisplay = getValueDisplay(filter.Values[0], field.DataType);
   return `${field.DisplayName} ${operatorDisplay} ${valueDisplay}`;
 }
 

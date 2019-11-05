@@ -4,10 +4,11 @@ import { Store } from '@ngrx/store';
 
 import { Observable, Subject } from 'rxjs';
 
-import { ViewField, DataViewFilter, DataViewConfig } from 'libs/models/payfactors-api';
+import { ViewField, DataViewFilter, DataViewEntity, DataViewConfig } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-data-grid',
@@ -24,19 +25,23 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() allowExport = true;
   @Input() showFilterChooser = true;
   @Input() contentNoPadding = false;
-  @Input() primaryKey: string;
+  @Input() selectionField: string;
   @Input() columnTemplates: any;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
+  @Input() inboundFilters: DataViewFilter[];
+  @Input() defaultSort: SortDescriptor[];
 
-  public gridFilterThrottle: Subject<any>;
-  isSplitView = false;
+  public gridFilterThrottle: Subject<DataViewFilter>;
 
   splitViewEmitter = new EventEmitter<string>();
+  splitViewFilters$: Observable<DataViewFilter[]>;
+  baseEntity$: Observable<DataViewEntity>;
   dataFields$: Observable<ViewField[]>;
   filters$: Observable<DataViewFilter[]>;
   displayFilterPanel$: Observable<boolean>;
+  selectedRowId$: Observable<number>;
   savedViews$: Observable<DataViewConfig[]>;
   saveViewModalOpen$: Observable<boolean>;
   viewIsSaving$: Observable<boolean>;
@@ -49,7 +54,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.splitViewEmitter.subscribe(res => {
       switch (res) {
         case 'close':
-          this.isSplitView = false;
+          this.store.dispatch(new fromActions.UpdateSelectedRowId(this.pageViewId, null, this.selectionField));
           break;
         default:
           break;
@@ -59,12 +64,12 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.initGridFilterThrottle();
     this.loadSavedFilterList();
 
+    this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
+    this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
     this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
     this.filters$ = this.store.select(fromReducer.getFilters, this.pageViewId);
     this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
-    this.savedViews$ = this.store.select(fromReducer.getSavedViews, this.pageViewId);
-    this.saveViewModalOpen$ = this.store.select(fromReducer.getSaveViewModalOpen, this.pageViewId);
-    this.viewIsSaving$ = this.store.select(fromReducer.getViewIsSaving, this.pageViewId);
+    this.selectedRowId$ = this.store.select(fromReducer.getSelectedRowId, this.pageViewId);
   }
 
   ngOnDestroy() {
@@ -74,6 +79,14 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
+    }
+
+    if (changes['inboundFilters']) {
+      this.store.dispatch(new fromActions.UpdateInboundFilters(this.pageViewId, changes['inboundFilters'].currentValue));
+    }
+
+    if (changes['defaultSort']) {
+      this.store.dispatch(new fromActions.UpdateDefaultSortDescriptor(this.pageViewId, changes['defaultSort'].currentValue));
     }
   }
 
@@ -97,11 +110,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.store.dispatch(new fromActions.ClearAllFilters(this.pageViewId));
   }
 
-  onRowSelect() {
-    this.isSplitView = true;
-    this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
-  }
-
   saveFilterClicked() {
     this.loadSavedFilterList();
     this.store.dispatch(new fromActions.OpenSaveViewModal(this.pageViewId));
@@ -119,13 +127,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.store.dispatch(new fromActions.SaveView(this.pageViewId, filterName));
   }
 
-  // TODO: Subscribe to save filter success action, close the modal there
-
   private initGridFilterThrottle() {
     const gridThrottle$ = this.gridFilterThrottle.debounceTime(400);
 
     gridThrottle$.subscribe(filter => {
-      if (filter && filter.Value.toString().trim().length) {
+      if (filter && filter.Values.length > 0 && filter.Values[0].toString().trim().length) {
         this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, filter));
       }
     });

@@ -5,8 +5,10 @@
   [showFilterChooser] ="false"
   [allowExport]="false"
   [contentNoPadding]="true"
-  [primaryKey]="'CompanyEmployees_CompanyEmployee_ID'"
-  [columnTemplates]="colTemplates">
+  [selectionField]="'CompanyEmployee_ID'"
+  [columnTemplates]="colTemplates" 
+  [inboundFilters]="refinedFilters"
+  [defaultSort]="defaultSort">
 </pf-data-grid>
 
 <ng-template #employeeColumn let-dataRow="dataRow">

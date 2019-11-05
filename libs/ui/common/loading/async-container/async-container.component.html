@@ -1,4 +1,4 @@
-<div *ngIf="loading || loadingError"
+<div *ngIf="(smartLoadingMask && showLoadingMask) || (!smartLoadingMask && loading) || loadingError"
      class="loading-blanket"
      [style.opacity]="opacityLevel"
      [class.no-opacity]="loadingError || noOpactity">

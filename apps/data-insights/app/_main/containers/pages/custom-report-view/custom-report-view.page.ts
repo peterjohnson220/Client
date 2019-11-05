@@ -10,10 +10,16 @@ import { AppNotification } from 'libs/features/app-notifications/models';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
-import * as fromConfigurationActions from '../../../actions/configuration.actions';
-import { SaveUserWorkbookModalData, SaveWorkbookMode, UserDataView } from '../../../models';
-import { SaveUserWorkbookModalComponent } from '../../../components/save-user-workbook-modal';
-import { DeleteUserWorkbookModalComponent } from '../../../components/delete-user-workbook-modal';
+import * as fromFiltersActions from '../../../actions/filters.actions';
+import * as fromFieldsActions from '../../../actions/fields.actions';
+import { SaveUserWorkbookModalData, SaveWorkbookMode, SharedDataViewUser, UserDataView, DataViewAccessLevel } from '../../../models';
+import {
+  SaveUserWorkbookModalComponent,
+  DeleteUserWorkbookModalComponent,
+  ShareReportModalComponent,
+  ConfigureSidebarComponent
+} from '../../../components';
+
 
 @Component({
   selector: 'pf-custom-report-view-page',
@@ -24,6 +30,8 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   @ViewChild('editWorkbookModal', { static: false }) public editUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
   @ViewChild('duplicateWorkbookModal', { static: false }) public duplicateUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
   @ViewChild('deleteWorkbookModal', { static: false }) public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
+  @ViewChild('shareReportModal', { static: false }) public shareReportModalComponent: ShareReportModalComponent;
+  @ViewChild(ConfigureSidebarComponent, { static: false }) public configureSidebar: ConfigureSidebarComponent;
 
   userDataView$: Observable<AsyncStateObj<UserDataView>>;
   editingUserDataView$: Observable<boolean>;
@@ -35,17 +43,25 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   exportingUserDataReport$: Observable<boolean>;
   getNotification$: Observable<AppNotification<any>[]>;
   getEventId$: Observable<number>;
+  shareableUsers$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
+  sharedUserPermissions$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
+  loadingErrorMessage$: Observable<string>;
 
   editReportSuccessSubscription: Subscription;
   duplicateReportSuccessSubscription: Subscription;
   userDataViewSubscription: Subscription;
   getNotificationSubscription: Subscription;
   getEventIdSubscription: Subscription;
+  shareableUsersSubscription: Subscription;
+  sharedUserPermissionsLoadedSubscription: Subscription;
 
   workbookModes = SaveWorkbookMode;
   editWorkbookData: SaveUserWorkbookModalData;
   duplicateWorkbookData: SaveUserWorkbookModalData;
   eventIdState = null;
+  dataViewAccessLevel: DataViewAccessLevel;
+  shareableUsersLoaded: boolean;
+  sharedUserPermissionsLoaded: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -62,12 +78,36 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.exportingUserDataReport$ = this.store.pipe(select(fromDataInsightsMainReducer.getExportingUserReport));
     this.getNotification$ = this.appNotificationStore.pipe(select(fromAppNotificationsMainReducer.getNotifications));
     this.getEventId$ = this.store.pipe(select(fromDataInsightsMainReducer.getExportEventId));
+    this.shareableUsers$ = this.store.pipe(select(fromDataInsightsMainReducer.getShareableUsersAsync));
+    this.sharedUserPermissions$ = this.store.pipe(select(fromDataInsightsMainReducer.getSharedUserPermissionsAsync));
+    this.loadingErrorMessage$ = this.store.pipe(select(fromDataInsightsMainReducer.getLoadingErrorMessage));
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.loadFieldsAndData(params['dataViewId']);
     });
+    this.startSubscriptions();
+  }
+
+  ngOnDestroy(): void {
+    this.editReportSuccessSubscription.unsubscribe();
+    this.userDataViewSubscription.unsubscribe();
+    this.duplicateReportSuccessSubscription.unsubscribe();
+    this.getEventIdSubscription.unsubscribe();
+    this.getNotificationSubscription.unsubscribe();
+    this.shareableUsersSubscription.unsubscribe();
+  }
+
+  private loadFieldsAndData(dataViewId: number): void {
+    const dataViewIdObj = { dataViewId };
+    this.store.dispatch(new fromFiltersActions.ResetFilters());
+    this.store.dispatch(new fromDataViewActions.GetUserDataView(dataViewIdObj));
+    this.store.dispatch(new fromFieldsActions.GetReportFields(dataViewIdObj));
+    this.store.dispatch(new fromDataViewActions.GetExportingUserReport(dataViewIdObj));
+  }
+
+  private startSubscriptions(): void {
     this.getEventIdSubscription = this.getEventId$.subscribe(eventId => {
       if (eventId !== this.eventIdState) {
         this.eventIdState = eventId;
@@ -79,26 +119,6 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromDataViewActions.ExportingComplete());
       }
     });
-    this.startSubscriptions();
-  }
-
-  ngOnDestroy(): void {
-    this.editReportSuccessSubscription.unsubscribe();
-    this.userDataViewSubscription.unsubscribe();
-    this.duplicateReportSuccessSubscription.unsubscribe();
-    this.getEventIdSubscription.unsubscribe();
-    this.getNotificationSubscription.unsubscribe();
-  }
-
-  private loadFieldsAndData(dataViewId: number): void {
-    const dataViewIdObj = { dataViewId };
-    this.store.dispatch(new fromConfigurationActions.ResetFilters());
-    this.store.dispatch(new fromDataViewActions.GetUserDataView(dataViewIdObj));
-    this.store.dispatch(new fromDataViewActions.GetReportFields(dataViewIdObj));
-    this.store.dispatch(new fromDataViewActions.GetExportingUserReport(dataViewIdObj));
-  }
-
-  private startSubscriptions(): void {
     this.editReportSuccessSubscription =
       this.store.pipe(select(fromDataInsightsMainReducer.getEditUserReportSuccess)).subscribe(succeeded => {
         if (succeeded && this.editUserWorkbookModalComponent) {
@@ -121,11 +141,21 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
           Name: 'Copy of ' + u.obj.Name,
           Summary: u.obj.Summary
         };
+        this.dataViewAccessLevel = u.obj.AccessLevel;
       }
+    });
+    this.shareableUsersSubscription = this.shareableUsers$.subscribe(u => {
+      this.shareableUsersLoaded = u.obj && u.obj.length > 0;
+    });
+    this.sharedUserPermissionsLoadedSubscription = this.store.pipe(select(fromDataInsightsMainReducer.getSharedUserPermissionsLoaded)).subscribe(loaded => {
+      this.sharedUserPermissionsLoaded = loaded;
     });
   }
 
   handleEditClicked(): void {
+    if (this.isReadOnly) {
+      return;
+    }
     this.editUserWorkbookModalComponent.open();
   }
 
@@ -134,6 +164,9 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteClicked(): void {
+    if (!this.isOwner) {
+      return;
+    }
     this.deleteUserWorkbookModalComponent.open();
   }
 
@@ -151,5 +184,40 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
 
   handleExportClicked(): void {
     this.store.dispatch(new fromDataViewActions.ExportUserReport());
+  }
+
+  handleShareClicked(): void {
+    if (!this.isOwner) {
+      return;
+    }
+    if (!this.shareableUsersLoaded) {
+      this.store.dispatch(new fromDataViewActions.GetShareableUsers());
+    } else if (!this.sharedUserPermissionsLoaded) {
+      this.store.dispatch(new fromDataViewActions.GetSharePermissions());
+    }
+    this.shareReportModalComponent.open();
+  }
+
+  handleShareSavedClicked(sharedDataViewUsers: SharedDataViewUser[]): void {
+    this.store.dispatch(new fromDataViewActions.SaveSharePermissions(sharedDataViewUsers));
+  }
+
+  handleUserRemoved(user: SharedDataViewUser): void {
+    this.store.dispatch(new fromDataViewActions.RemoveSharePermission(user));
+  }
+
+  public get isReadOnly(): boolean {
+    return this.dataViewAccessLevel === DataViewAccessLevel.ReadOnly;
+  }
+
+  public get isOwner(): boolean {
+    return this.dataViewAccessLevel === DataViewAccessLevel.Owner;
+  }
+
+  public get configureSidebarOpen(): boolean {
+    if (this.isReadOnly) {
+      return false;
+    }
+    return this.configureSidebar ? this.configureSidebar.isOpen : true;
   }
 }

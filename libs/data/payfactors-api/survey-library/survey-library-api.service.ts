@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { SaveCustomCompanySurveyTitleRequestModel } from '../../../models/payfactors-api/survey-library/request';
 import { SurveyTitlesFilter } from '../../../../apps/admin/app/_survey-library/models';
+import { UdfSettingsRequestModel } from '../../../models/payfactors-api/survey/request/udf-settings-request.model';
 
 @Injectable()
 export class SurveyLibraryApiService {
@@ -95,4 +96,9 @@ export class SurveyLibraryApiService {
     });
   }
 
+  saveUdfSettings(companyId: number, udfSettings: UdfSettingsRequestModel[]) {
+    return this.payfactorsApiService.post(
+      `${this.endpoint}/SaveUdfSettings?companyId=${companyId}`, udfSettings
+    );
+  }
 }

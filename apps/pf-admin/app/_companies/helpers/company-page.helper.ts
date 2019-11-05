@@ -160,6 +160,7 @@ export class CompanyPageHelper {
           return s;
         }
         case CompanySettingsEnum.MaxProjectJobCount: {
+          s.Disabled = true;
           return s;
         }
         default: {
@@ -199,6 +200,32 @@ export class CompanyPageHelper {
     });
   }
 
+  static disablePeerAndAnalysisCompanyTiles(tiles: CompanyTilesResponse[]): CompanyTilesResponse[] {
+    return tiles.map(t => {
+      switch (t.TileName) {
+        case TileNames.NewProject:
+        case TileNames.PricingProjects:
+        case TileNames.PayMarkets:
+        case TileNames.Jobs:
+        case TileNames.Service:
+        case TileNames.Activity:
+        case TileNames.Resources:
+        case TileNames.Ideas:
+        case TileNames.Employees:
+        case TileNames.NewCommunity:
+        case TileNames.Peer:
+        case TileNames.CompanyAdmin: {
+          t.Disabled = false;
+          return t;
+        }
+        default: {
+          t.Disabled = true;
+          return t;
+        }
+      }
+    });
+  }
+
   static getPeerAndAnalysisClientTypeCompanySettings(settings: CompanySetting[]): CompanySetting[] {
     return settings.map(s => {
       switch (s.Key) {
@@ -214,6 +241,23 @@ export class CompanyPageHelper {
           return s;
         }
         case CompanySettingsEnum.MaxProjectJobCount: {
+          s.Disabled = true;
+          return s;
+        }
+        default: {
+          s.Value = 'false';
+          s.Disabled = false;
+          return s;
+        }
+      }
+    });
+  }
+
+  static getSmallBusinessClientTypeCompanySettings(settings: CompanySetting[]): CompanySetting[] {
+    return settings.map(s => {
+      switch (s.Key) {
+        case CompanySettingsEnum.MaxProjectJobCount: {
+          s.Disabled = false;
           return s;
         }
         default: {
