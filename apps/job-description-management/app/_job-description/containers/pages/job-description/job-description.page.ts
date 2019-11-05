@@ -126,6 +126,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionLibraryResults$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getResultsAsync);
     this.jobDescriptionIsFullscreen$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionIsFullscreen);
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
+    this.jobDescriptionPublishing$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescription);
     this.saveThrottle = new Subject();
     this.defineDiscardDraftModalOptions();
   }
@@ -157,24 +158,33 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleControlDataChanges(changeObj: any) {
-    this.updateControlData(changeObj);
+    this.store.dispatch(new fromJobDescriptionActions.UpdateControlData({ changeObj }));
     this.saveThrottle.next(true);
   }
 
   handleBulkControlDataChanges(bulkChangeObj: any) {
     const dataRows = this.getDataRowsForReplaceControlData(bulkChangeObj.attributes, bulkChangeObj.bulkData);
-    this.replaceControlData(bulkChangeObj, dataRows);
+    this.store.dispatch(new fromJobDescriptionActions.ReplaceControlData({
+      jobDescriptionControl: bulkChangeObj,
+      dataRows
+    }));
     this.saveThrottle.next(true);
   }
 
   handleControlAdditionalPropertiesChangesDetected(eventArgs: any) {
-    this.updateControlAdditionalProperties(eventArgs.control, eventArgs.additionalProperties);
+    this.store.dispatch(new fromJobDescriptionActions.UpdateControlAdditionalProperties({
+      jobDescriptionControl: eventArgs.control,
+      additionalProperties: eventArgs.additionalProperties
+    }));
 
     this.saveThrottle.next(true);
   }
 
   handleControlDataRowAdded(addDataRowObj: any) {
-    this.addDataRowToControl(addDataRowObj.control, this.jobDescriptionManagementService.createDataRow(addDataRowObj.attributes));
+    this.store.dispatch(new fromJobDescriptionActions.AddDataRowToControl({
+      jobDescriptionControl: addDataRowObj.control,
+      dataRow: this.jobDescriptionManagementService.createDataRow(addDataRowObj.attributes)
+    }));
 
     if (addDataRowObj.save) {
       this.saveThrottle.next(true);
@@ -186,7 +196,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleControlDataRowDeleted(dataRowDeletedObj: any) {
-    this.removeControlDataRow(dataRowDeletedObj.jobDescriptionControl, dataRowDeletedObj.dataRowId);
+    this.store.dispatch(new fromJobDescriptionActions.RemoveControlDataRow({
+      jobDescriptionControl: dataRowDeletedObj.jobDescriptionControl,
+      dataRowId: dataRowDeletedObj.dataRowId
+    }));
 
     this.saveThrottle.next(true);
   }
@@ -400,12 +413,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private updateControlData(changeObj: any) {
-    const currentDataRow = ControlDataHelper.getJobDescriptionControlDataRow(this.jobDescription.Sections, changeObj.control, changeObj.change.dataRowId);
-
-    currentDataRow[changeObj.change.attribute] = changeObj.change.newValue;
-  }
-
   private getDataRowsForReplaceControlData(attributes: ControlTypeAttribute[], bulkDataChangeObj: any): any {
     const sourcedAttribute = attributes.find(a => a.CanBeSourced);
 
@@ -423,35 +430,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
       return dataRow;
     });
-  }
-
-  private replaceControlData(jobDescriptionControl: JobDescriptionControl, dataRows: any) {
-    const control = ControlDataHelper.getControl(this.jobDescription.Sections, jobDescriptionControl);
-
-    const templateDataToKeep = control.Data.filter(d => d.TemplateId);
-    control.Data = templateDataToKeep.concat(dataRows);
-  }
-
-  private updateControlAdditionalProperties(jobDescriptionControl: JobDescriptionControl, additionalProperties: object) {
-    const control = ControlDataHelper.getControl(this.jobDescription.Sections, jobDescriptionControl);
-
-    control.AdditionalProperties = control.AdditionalProperties || {};
-    // Only set the properties we passed in so we do not overwrite any other properties that may already exist.
-    for (const additionalProperty in additionalProperties) {
-      if (additionalProperty.hasOwnProperty(additionalProperty)) {
-        control.AdditionalProperties[additionalProperty] = additionalProperties[additionalProperty];
-      }
-    }
-  }
-
-  private addDataRowToControl(jobDescriptionControl: JobDescriptionControl, dataRow: any) {
-    const control = ControlDataHelper.getControl(this.jobDescription.Sections, jobDescriptionControl);
-    control.Data = control.Data.concat([dataRow]);
-  }
-
-  private removeControlDataRow(jobDescriptionControl: JobDescriptionControl, dataRowId: number) {
-    const control = ControlDataHelper.getControl(this.jobDescription.Sections, jobDescriptionControl);
-    control.Data = control.Data.filter(d => d.Id !== dataRowId);
   }
 
   private togglePublishButton(enabled: boolean): void {

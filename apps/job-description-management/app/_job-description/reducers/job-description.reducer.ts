@@ -5,7 +5,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import { SaveJobDescriptionTemplateIdSucessModel, JobDescriptionExtendedInfo } from '../models';
-import { UndoHelper } from '../../shared/helpers';
+import { UndoHelper, ControlDataHelper } from '../../shared/helpers';
 
 const MAX_UNDO_QUEUE_LEN = 50;
 
@@ -315,6 +315,64 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       return {
         ...state,
         jobDescriptionExtendedInfo: action.payload
+      };
+    }
+    case fromJobDescriptionActions.ADD_DATA_ROW_TO_CONTROL: {
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      const control = ControlDataHelper.getControl(asyncStateObjClone.obj.Sections, action.payload.jobDescriptionControl);
+      control.Data = control.Data.concat([action.payload.dataRow]);
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.REMOVE_CONTROL_DATA_ROW: {
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      const control = ControlDataHelper.getControl(asyncStateObjClone.obj.Sections, action.payload.jobDescriptionControl);
+      control.Data.filter(d => d.Id !== action.payload.dataRowId);
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.REPLACE_CONTROL_DATA: {
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      const control = ControlDataHelper.getControl(asyncStateObjClone.obj.Sections, action.payload.jobDescriptionControl);
+      const templateDataToKeep = control.Data.filter(d => d.TemplateId);
+      control.Data = templateDataToKeep.concat(action.payload.dataRows);
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.UPDATE_CONTROL_DATA: {
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      const currentDataRow = ControlDataHelper.getJobDescriptionControlDataRow(
+        asyncStateObjClone.obj.Sections,
+        action.payload.changeObj.control,
+        action.payload.changeObj.change.dataRowId);
+      currentDataRow[action.payload.changeObj.change.attribute] = action.payload.changeObj.change.newValue;
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.UPDATE_CONTROL_ADDITIONAL_PROPERTIES: {
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      const control = ControlDataHelper.getControl(asyncStateObjClone.obj.Sections, action.payload.jobDescriptionControl);
+
+      control.AdditionalProperties = control.AdditionalProperties || {};
+      action.payload.additionalProperties.forEach(additionalProperty => {
+        control.AdditionalProperties[additionalProperty] = action.payload.additionalProperties[additionalProperty];
+      });
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
       };
     }
     default:

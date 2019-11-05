@@ -31,7 +31,10 @@ export class JobDescriptionGridComponent {
   public filterChanged: any;
 
   handleRowClick(selection) {
-    const companyJobViewListItem: CompanyJobViewListItem = this.gridDataResult.data[selection.index];
+    if (!selection || (!!selection.selectedRows && selection.selectedRows.length !== 1)) {
+      return;
+    }
+    const companyJobViewListItem: CompanyJobViewListItem = selection.selectedRows[0].dataItem;
     this.navigateToJobDescription.emit(companyJobViewListItem);
   }
 

@@ -5,7 +5,7 @@ import {
   CreateJobDescriptionRequest
 } from 'libs/models/payfactors-api/job-description/request';
 import { SaveCompanyJobsJobDescriptionTemplateIdRequest } from 'libs/models/payfactors-api/job-description-template/request';
-import { JobDescription } from 'libs/models';
+import { JobDescription, JobDescriptionControl } from 'libs/models';
 
 import { GetJobDescriptionData, SaveJobDescriptionTemplateIdSucessModel, JobDescriptionExtendedInfo } from '../models';
 
@@ -48,6 +48,11 @@ export const GET_JOB_DESCRIPTION_EXTENDED_INFO = '[job-description-management / 
 export const GET_JOB_DESCRIPTION_EXTENDED_INFO_SUCCESS = '[job-description-management / Job Description]  Get Job Description Extended Info Success';
 export const GET_JOB_DESCRIPTION_EXTENDED_INFO_ERROR = '[job-description-management / Job Description]  Get Job Description Extended Info Error';
 export const LOAD_JOB_DESCRIPTION_EXTENDED_INFO = '[job-description-management / Job Description]  Load Job Description Extended Info ';
+export const ADD_DATA_ROW_TO_CONTROL = '[job-description-management / Job Description] Add Data Row To Control';
+export const REMOVE_CONTROL_DATA_ROW = '[job-description-management / Job Description] Remove Control Data Row';
+export const REPLACE_CONTROL_DATA = '[job-description-management / Job Description] Replace Control Data';
+export const UPDATE_CONTROL_DATA = '[job-description-management / Job Description] Update Control Data';
+export const UPDATE_CONTROL_ADDITIONAL_PROPERTIES = '[job-description-management / Job Description] Update Control Additional Properties';
 
 export class CreateJobDescription implements Action {
   readonly type = CREATE_JOB_DESCRIPTION;
@@ -248,6 +253,36 @@ export class LoadJobDescriptionExtendedInfo {
   constructor(public payload: JobDescriptionExtendedInfo) {}
 }
 
+export class AddDataRowToControl implements Action {
+  readonly type = ADD_DATA_ROW_TO_CONTROL;
+
+  constructor(public payload: { jobDescriptionControl: JobDescriptionControl, dataRow: any }) {}
+}
+
+export class RemoveControlDataRow implements Action {
+  readonly type = REMOVE_CONTROL_DATA_ROW;
+
+  constructor(public payload: { jobDescriptionControl: JobDescriptionControl, dataRowId: number }) {}
+}
+
+export class ReplaceControlData implements Action {
+  readonly type = REPLACE_CONTROL_DATA;
+
+  constructor(public payload: { jobDescriptionControl: JobDescriptionControl, dataRows: any }) {}
+}
+
+export class UpdateControlData implements Action {
+  readonly type = UPDATE_CONTROL_DATA;
+
+  constructor(public payload: { changeObj: any }) {}
+}
+
+export class UpdateControlAdditionalProperties implements Action {
+  readonly type = UPDATE_CONTROL_ADDITIONAL_PROPERTIES;
+
+  constructor(public payload: { jobDescriptionControl: JobDescriptionControl, additionalProperties: any }) {}
+}
+
 export type Actions
   = CreateJobDescription
   | CreateJobDescriptionError
@@ -283,4 +318,9 @@ export type Actions
   | GetJobDescriptionExtendedInfo
   | GetJobDescriptionExtendedInfoSuccess
   | GetJobDescriptionExtendedInfoError
-  | LoadJobDescriptionExtendedInfo;
+  | LoadJobDescriptionExtendedInfo
+  | AddDataRowToControl
+  | RemoveControlDataRow
+  | ReplaceControlData
+  | UpdateControlData
+  | UpdateControlAdditionalProperties;

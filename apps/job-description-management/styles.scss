@@ -170,3 +170,14 @@ pf-job-description-version-compare {
     left: 87% !important;
   }
 }
+
+.text-area-rte-container {
+
+  .ui-editor-toolbar {
+    display: none;
+  }
+
+  .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border: 1px solid #ccc !important;
+  }
+}

@@ -30,7 +30,13 @@
   </ng-container>
 
   <ng-container page-content>
-    <div class="row pf-inner-page-content">
+    <div *ngIf="(jobDescriptionAsync$ | async) as jobDescriptionAsync" class="row pf-inner-page-content">
+      <pf-async-container
+        [loading]="jobDescriptionAsync.loading || (jobDescriptionPublishing$ | async)"
+        [loadingError]="jobDescriptionAsync.loadingError"
+        [loadingErrorMessage]="'Error loading the job description'"
+        [hideReloadButton]="true">
+      </pf-async-container>
       <div *ngIf="!!jobDescription" class="column-scroll-container"
            [class.col-8]="(jobDescription.JobDescriptionStatus == 'In Review' && !showLibrary) || showRoutingHistory"
            [class.col-7]="showLibrary"
@@ -89,18 +95,12 @@
             </div>
           </div>
         </div>
-        <pf-async-container
-          [loading]="(jobDescriptionAsync$ | async)?.loading || (jobDescriptionPublishing$ | async)"
-          [loadingError]="(jobDescriptionAsync$ | async)?.loadingError"
-          [loadingErrorMessage]="'Error loading the job description'"
-          [hideReloadButton]="true">
-        </pf-async-container>
       </div>
 
       <div *ngIf="showLibrary" class="column-scroll-container col-5">
         <div class="scroll-y column-scroll-inner">
           <pf-job-description-library
-            [jobTitle]="(jobDescriptionAsync$ | async)?.obj.Name"
+            [jobTitle]="jobDescriptionAsync?.obj.Name"
             [buckets]="(jobDescriptionLibraryBuckets$ | async)?.obj"
             [results]="(jobDescriptionLibraryResults$ | async)?.obj"
             [loadingBuckets]="(jobDescriptionLibraryBuckets$ | async)?.loading"
