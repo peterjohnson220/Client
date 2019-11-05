@@ -81,6 +81,10 @@ export class JobDescriptionEffects {
                 jobDescription: response,
                 requestData: action.payload
               }));
+              actions.push(new fromJobDescriptionActions.GetJobDescriptionExtendedInfo({
+                jobDescriptionId: response.JobDescriptionId,
+                revision: response.JobDescriptionRevision
+              }));
               if (!action.payload.RevisionNumber && !action.payload.ViewName) {
                 actions.push(new fromJobDescriptionActions.GetViews({ templateId: response.TemplateId }));
               }

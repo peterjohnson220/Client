@@ -65,14 +65,15 @@
       <fa-icon icon="times" aria-hidden="true"></fa-icon> Cancel Approval
     </button>
 
-    <!-- <span class="history-popover">
-      <pf-history-selector-popover *ngIf="jobDescription.JobDescriptionStatus !== 'In Review'"
-        [disabled]="jobDescription.JobDescriptionRevision < 2 && !(inHistory$ | async)" [loading]="jobDescriptionHistoryListLoading"
-        [historyListItems]="jobDescriptionHistoryList" [currentVersion]="jobDescription.JobDescriptionRevision"
-        (historicalJobDescriptionClicked)="historicalJobDescriptionClicked.emit($event)"
-        (currentJobDescriptionClicked)="currentJobDescriptionClicked.emit()" (shown)="historyPopoverShown.emit()">
-      </pf-history-selector-popover>
-    </span> -->
+    <button *ngIf="jobDescription.JobDescriptionStatus !== 'In Review'" type="button"
+      id="history-popover-btn" class="btn btn-secondary" placement="bottom"
+      [disabled]="jobDescription.JobDescriptionRevision < 2 && !(inHistory$ | async)"
+      [ngbPopover]="historyGridPopContent"
+      [popoverClass]="'history-popover'"
+      #p="ngbPopover"
+      popoverTitle="History">
+      <fa-icon icon="history" aria-hidden="true"></fa-icon> History
+    </button>
 
     <!--More Actions-->
     <div *ngIf="jobDescription.JobDescriptionStatus !== 'In Review'" ngbDropdown class="d-inline-block" placement="bottom">
@@ -128,3 +129,12 @@
   </div>
 
 </ng-container>
+
+<ng-template #historyGridPopContent>
+  <div class="history-list-container">
+    <pf-job-description-history-grid
+      [jobDescriptionId]="jobDescription.JobDescriptionId"
+      [currentVersion]="jobDescription.JobDescriptionRevision">
+    </pf-job-description-history-grid>
+  </div>
+</ng-template>

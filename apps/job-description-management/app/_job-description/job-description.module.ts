@@ -27,6 +27,7 @@ import {
   JobDescriptionPageComponent,
   JobDescriptionActionsComponent,
   WorkflowWatchSidebarComponent,
+  JobDescriptionHistoryGridComponent
 } from './containers';
 import {
   AddJobModalComponent,
@@ -46,7 +47,7 @@ import {
   JobDescriptionHistoryModalComponent,
   PublicViewHeaderComponent,
   SaveFilterModalComponent,
-  WorkflowLogComponent,
+  WorkflowLogComponent
 } from './components';
 import { reducers } from './reducers';
 import {
@@ -146,6 +147,7 @@ import { ListAreaService } from '../shared/services';
 
     // Containers
     JobDescriptionActionsComponent,
+    JobDescriptionHistoryGridComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,

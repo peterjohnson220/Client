@@ -10,13 +10,13 @@
     <div class="px-2 align-self-center font-weight-bold">Comparing</div>
     <pf-compare-version-selector
       [value]="sourceHistoryItem$ | async"
-      [jobDescriptionHistoryList]="jobDescriptionHistoryList$ | async"
+      [jobDescriptionHistoryList]="(jobDescriptionHistoryList$ | async)?.obj"
       (versionChanged)="handleSourceVersionChanged($event)">
     </pf-compare-version-selector>
     <div class="px-2 align-self-center font-weight-bold">to</div>
     <pf-compare-version-selector
       [value]="comparisonHistoryItem$ | async"
-      [jobDescriptionHistoryList]="jobDescriptionHistoryList$ | async"
+      [jobDescriptionHistoryList]="(jobDescriptionHistoryList$ | async)?.obj"
       (versionChanged)="handleComparisonVersionChanged($event)">
     </pf-compare-version-selector>
   </ng-container>

@@ -311,10 +311,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.routerParamsSubscription = urlParams.subscribe(params => {
       const jobDescriptionId = params['id'];
       const viewName = params.queryParams['viewName'];
+      const revisionNumber = params['versionNumber'];
       this.tokenId = params.queryParams['jwt'];
       this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
         JobDescriptionId: jobDescriptionId,
-        ViewName: viewName
+        ViewName: viewName,
+        RevisionNumber: revisionNumber,
+        InHistory: !!revisionNumber
       }));
     });
 
@@ -324,13 +327,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
-      this.jobDescription = result.obj;
-      if (result.obj) {
-        this.store.dispatch(new fromJobDescriptionActions.GetJobDescriptionExtendedInfo(
-          {jobDescriptionId: result.obj.JobDescriptionId, revision: result.obj.JobDescriptionRevision }));
-      }
-    });
+    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => this.jobDescription = result.obj);
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
