@@ -173,10 +173,12 @@
         [jobId]="(jobDescription$ | async)?.CompanyJobId">
 </pf-workflow-setup-modal>
 
+-->
 <pf-flsa-questionnaire-modal
-        [lockedJobDescription]="(inHistory$ | async) || !(hasCanEditJobDescriptionPermission$ | async)" >
+        [lockedJobDescription]="inHistory || !(hasCanEditJobDescriptionPermission)" >
 </pf-flsa-questionnaire-modal>
 
+<!--
 <pf-job-description-applies-to-modal 
     [editing]="true"
     (appliesToUpdated)="appliesToFormCompleted($event)">

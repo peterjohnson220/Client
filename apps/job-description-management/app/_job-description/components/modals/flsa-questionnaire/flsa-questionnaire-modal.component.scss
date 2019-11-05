@@ -1,0 +1,26 @@
+.question-body{
+  min-height: 375px;
+}
+
+.nav-item {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.nav-item:hover {
+  cursor: pointer;
+}
+
+.nav-link.active:hover {
+  color: #FFFFFF !important;
+}
+
+.table-responsive table{
+  border: 1px solid #ddd;
+  padding: 50px;
+}
+
+.nav-link.active {
+  background-color: #1872ae;
+}
+

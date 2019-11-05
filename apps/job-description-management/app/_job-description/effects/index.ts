@@ -11,3 +11,4 @@ export * from './user-filter.effects';
 export * from './job-matches.effects';
 export * from './workflow.effects';
 export * from './employee-acknowledgement.effects';
+export * from './flsa-questionnaire-modal.effects';

@@ -49,6 +49,7 @@ import {
   SaveFilterModalComponent,
   WorkflowLogComponent,
   EmployeeAcknowledgementModalComponent,
+  FlsaQuestionnaireModalComponent
 } from './components';
 import { reducers } from './reducers';
 import {
@@ -64,7 +65,8 @@ import {
   JobDescriptionJobCompareEffects,
   JobMatchesEffects,
   WorkflowEffects,
-  EmployeeAcknowledgementEffects
+  EmployeeAcknowledgementEffects,
+  FlsaQuestionnaireModalEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
@@ -92,7 +94,8 @@ import { ListAreaService } from '../shared/services';
       JobDescriptionVersionCompareEffects,
       JobMatchesEffects,
       WorkflowEffects,
-      EmployeeAcknowledgementEffects
+      EmployeeAcknowledgementEffects,
+      FlsaQuestionnaireModalEffects
     ]),
     LayoutModule,
     SharedModule,
@@ -141,6 +144,7 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionControlComponent,
     WorkflowLogComponent,
     EmployeeAcknowledgementModalComponent,
+    FlsaQuestionnaireModalComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,
