@@ -10,6 +10,7 @@
     {{dataItem.AppliesToField && dataItem.AppliesToValue ? (' / '+dataItem.AppliesToField+' - '+dataItem.AppliesToValue) : ''}}
     {{dataItem.JobDescriptionTitle ? (' / '+dataItem.JobDescriptionTitle) : ''}}
     / Version {{dataItem.JobDescriptionRevision}}
+    / {{dataItem.JobDescriptionStatus}}
   </ng-template>
 
   <ng-template kendoDropDownListValueTemplate let-dataItem>
@@ -17,7 +18,8 @@
     (dataItem.Name
     + (dataItem.AppliesToField && dataItem.AppliesToValue ? (' / '+dataItem.AppliesToField+' - '+dataItem.AppliesToValue) : '')
     + (dataItem.JobDescriptionTitle ? (' / '+dataItem.JobDescriptionTitle) : '')
-    + ' / Version ' + dataItem.JobDescriptionRevision)
+    + ' / Version ' + dataItem.JobDescriptionRevision
+    + ' / ' + dataItem.JobDescriptionStatus)
     : 'Select...'}}
   </ng-template>
 
