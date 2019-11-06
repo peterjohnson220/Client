@@ -6,10 +6,7 @@
     [pageable]="getPagingBarConfig(gridState$ | async)"
     [scrollable]="isMultiplePages(gridState$ | async)"    
     [resizable]="selectedRowId ? false : true"    
-    [sortable]="{ 
-      allowUnsort: 'true',
-      mode: 'single'
-    }"
+    [sortable]="isSortable()"
     [sort]="sortDescriptor$ | async"
     [rowClass]="selectedRowClass"
     (pageChange)="onPageChange($event)"
@@ -29,7 +26,7 @@
                         [headerClass]="'pf-data-grid-header'"
                         [style]="{'text-align': col.TextAlign}"
                         [width]="selectedRowId ? null : col.Width"
-                        [minResizableWidth]="30">
+                        [minResizableWidth]="30">                        
                         <ng-template kendoGridCellTemplate let-dataItem>
                           <pf-grid-column
                             [columnTemplates]='columnTemplates'
@@ -50,14 +47,7 @@
           [headerClass]="'pf-data-grid-header'"
           [style]="{'text-align': col.TextAlign}"
           [width]="selectedRowId ? null : col.Width"
-          [minResizableWidth]="30">
-          <ng-template *ngIf="(sortDescriptor$ | async) as sortDesc" kendoGridHeaderTemplate let-col >
-            <span class="k-link">{{col.title}}</span>
-            <span *ngIf="sortDesc.field === col.field" 
-              class="k-icon"
-              [ngClass]="sortDesc.dir === 'asc' ? 'k-i-sort-asc-sm' : k-i-sort-desc-sm">
-            </span>
-          </ng-template>
+          [minResizableWidth]="30">         
           <ng-template kendoGridCellTemplate let-dataItem>
               <pf-grid-column
                 [columnTemplates]='columnTemplates'
