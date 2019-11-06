@@ -100,7 +100,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
-      this.identityInEmployeeAcknowledgement = !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
+      this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
       this.inWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(asyncStateObj => {
