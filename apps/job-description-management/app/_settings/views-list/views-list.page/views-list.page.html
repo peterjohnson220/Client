@@ -34,12 +34,13 @@
                               (click)="openUpsertViewModal(false, view.Name, $event)">
                         <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
                       </button>
-                      <button class="btn btn-sm btn-secondary"
-                              [attr.data-qa-id]="'btn-deleteView'"
-                              [disabled]="isSystemView(view.Name)"
-                              (click)="handleDeleteViewClicked(view.Name, $event)">
-                        <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
-                      </button>
+                      <div (click)="handleDeleteViewClicked(view.Name, $event)">
+                        <button class="btn btn-sm btn-secondary"
+                                [attr.data-qa-id]="'btn-deleteView'"
+                                [disabled]="isSystemView(view.Name)">
+                          <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+                        </button>
+                      </div>
                     </div>
                   </td>
                 </tr>
