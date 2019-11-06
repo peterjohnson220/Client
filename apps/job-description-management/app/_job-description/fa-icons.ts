@@ -22,7 +22,8 @@ import {
   faBan,
   faCircle,
   faEllipsisHAlt,
-  faHistory
+  faHistory,
+  faCheckCircle as fasCheckCircle
 } from '@fortawesome/pro-solid-svg-icons';
 import { faCompressAlt, faExpandAlt } from '@fortawesome/pro-regular-svg-icons';
 
@@ -52,6 +53,7 @@ export const faIcons = [
   faPlus,
   faUndo,
   faCheckCircle,
+  fasCheckCircle,
   faBolt,
   farTrashAlt,
   faFilePdf,

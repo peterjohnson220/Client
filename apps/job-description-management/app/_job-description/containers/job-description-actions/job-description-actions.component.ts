@@ -12,7 +12,7 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import * as fromJobDescriptionReducers from '../../reducers';
 import * as fromJobDescriptionActions from '../../actions/job-description.actions';
 import * as fromJobMatchesActions from '../../actions/job-matches.actions';
-import { JobDescriptionExtendedInfo } from '../../models';
+import { EmployeeAcknowledgement, JobDescriptionExtendedInfo } from '../../models';
 import { JobDescriptionViewConstants } from '../../../shared/constants';
 
 @Component({
@@ -34,6 +34,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   @Output() routingHistoryClicked = new EventEmitter();
   @Output() updateJobInfoClicked = new EventEmitter();
   @Output() exportClicked: EventEmitter<string> = new EventEmitter<string>();
+  @Output() acknowledgedClicked = new EventEmitter();
 
   identity$: Observable<UserContext>;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
@@ -45,6 +46,8 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   inHistory$: Observable<boolean>;
   jobDescriptionExtendedInfo$: Observable<JobDescriptionExtendedInfo>;
   editing$: Observable<boolean>;
+  acknowledgementDisabled$: Observable<boolean>;
+  employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
 
   identitySubscription: Subscription;
@@ -64,6 +67,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   containsFLSA: boolean;
   editing: boolean;
   inHistory: boolean;
+  identityInEmployeeAcknowledgement: boolean;
   hasCanPublishJobDescriptionPermission: boolean;
   hasCanRouteJobDescriptionPermission: boolean;
   hasCanEditJobDescriptionPermission: boolean;
@@ -88,13 +92,15 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
     this.editing$ = this.store.select(fromJobDescriptionReducers.getEditingJobDescription);
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
-
+    this.acknowledgementDisabled$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementError);
+    this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.initPermissions();
   }
 
   ngOnInit(): void {
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
+      this.identityInEmployeeAcknowledgement = !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
       this.inWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(asyncStateObj => {
@@ -175,6 +181,10 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   handleEditClicked(): void {
     this.store.dispatch(new fromJobDescriptionActions.EditJobDescription());
     this.editClicked.emit();
+  }
+
+  handleAcknowledgeClicked(): void {
+    this.acknowledgedClicked.emit();
   }
 
   handlePriceJobClicked(): void {

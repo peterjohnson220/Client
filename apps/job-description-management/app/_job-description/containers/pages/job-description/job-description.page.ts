@@ -33,14 +33,16 @@ import {
   LibrarySearchRequest,
   JobDescriptionAppliesTo
 } from '../../../../shared/models';
-import { JobDescriptionExtendedInfo, ReorderControlDataDto } from '../../../models';
+import { EmployeeAcknowledgement, JobDescriptionExtendedInfo, ReorderControlDataDto } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionLibraryActions from '../../../../shared/actions/job-description-library.actions';
+import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
 import { JobDescriptionActionsComponent } from '../../job-description-actions';
 import { JobDescriptionManagementDndSource } from '../../../../shared/constants';
 import { JobDescriptionDnDService } from '../../../services';
+import { EmployeeAcknowledgementModalComponent } from '../../../components/modals';
 
 
 @Component({
@@ -51,8 +53,9 @@ import { JobDescriptionDnDService } from '../../../services';
 export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild('discardDraftModal', { static: true }) public discardDraftModal: SimpleYesNoModalComponent;
   @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
+  @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
+
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
-  identityInEmployeeAcknowledgement$: Observable<boolean>;
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
   userAssignedRoles$: Observable<UserAssignedRole[]>;
@@ -66,6 +69,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionRevision$: Observable<number>;
   jobDescriptionExtendedInfo$: Observable<JobDescriptionExtendedInfo>;
   jobDescriptionIsFullscreen$: Observable<boolean>;
+  acknowledging$: Observable<boolean>;
+  employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
+  employeeAcknowledgementErrorMessage$: Observable<string>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -77,7 +83,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   savingJobDescriptionSubscription: Subscription;
   jobDescriptionExtendedInfoSubscription: Subscription;
   userAssignedRolesSubscription: Subscription;
-
   saveThrottle: Subject<any>;
 
   companyName: string;
@@ -95,6 +100,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   queueSave = false;
   tokenId: string;
   identity: UserContext;
+  identityInEmployeeAcknowledgement: boolean;
   isSiteAdmin = false;
   isCompanyAdmin = false;
 
@@ -127,6 +133,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionIsFullscreen$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionIsFullscreen);
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
     this.jobDescriptionPublishing$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescription);
+    this.acknowledging$ = this.store.select(fromJobDescriptionReducers.getAcknowledging);
+    this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
+    this.employeeAcknowledgementErrorMessage$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementErrorMessage);
     this.saveThrottle = new Subject();
     this.defineDiscardDraftModalOptions();
   }
@@ -155,6 +164,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/']);
     }
+  }
+
+  acknowledgeJobDescription(signature: string) {
+    this.store.dispatch(new fromEmployeeAcknowledgementActions.Acknowledge({signature: signature}));
+    this.employeeAcknowledgementModal.close();
   }
 
   handleControlDataChanges(changeObj: any) {
@@ -287,6 +301,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     // this.exportJobDescriptionModalComponent.open(exportType);
   }
 
+  openEmployeeAcknowledgementModal () {
+    this.employeeAcknowledgementModal.open();
+  }
+
   handleDiscardDraftConfirmed(): void {
     this.store.dispatch(new fromJobDescriptionActions.DiscardDraft({
       jobDescriptionId: this.jobDescription.JobDescriptionId,
@@ -344,6 +362,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
+      this.identityInEmployeeAcknowledgement = !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
+      if (this.identityInEmployeeAcknowledgement) {
+        this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
+      }
       this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
       this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
         this.companyLogoPath = companyLogo && companyLogo.obj

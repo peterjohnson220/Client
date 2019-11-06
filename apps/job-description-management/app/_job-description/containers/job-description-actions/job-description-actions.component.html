@@ -13,6 +13,14 @@
 
   <!-- Public Actions -->
   <ng-container *ngIf="identity.IsPublic">
+    <button *ngIf="identityInEmployeeAcknowledgement && !(employeeAcknowledgementInfo$ | async)?.obj.HasAcknowledged"
+            type="button"
+            class="btn btn-primary"
+            id="acknowledge-btn"
+            [attr.data-qa-id]="'btn-acknowledge'"
+            [disabled]="(acknowledgementDisabled$ | async)"
+            (click)="handleAcknowledgeClicked()">Acknowledge
+    </button>
     <button type="button"
             class="btn btn-secondary"
             (click)="handleExportAsPDFClicked()">
