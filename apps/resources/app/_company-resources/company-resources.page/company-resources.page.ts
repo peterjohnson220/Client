@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { UserContext } from 'libs/models';
-import { CompanyResourceFolder, OrphanedCompanyResource } from '../../../models/company-resources.model';
-import * as fromCompanyResourcesPageActions from '../../../actions/company-resources.actions';
-import * as fromCompanyResourcesPageReducer from '../../../reducers';
+import { CompanyResourceFolder, OrphanedCompanyResource } from '../models/company-resources.model';
+import * as fromCompanyResourcesPageActions from '../actions/company-resources.actions';
+import * as fromCompanyResourcesPageReducer from '../reducers';
 import * as fromRootState from 'libs/state/state';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ResourceModalComponent } from '../../resource-modal/resource-modal.component';
-import { NewFolderModalComponent } from '../../new-folder-modal/new-folder-modal.component';
+import { ResourceModalComponent } from '../containers/resource-modal/resource-modal.component';
+import { NewFolderModalComponent } from '../containers/new-folder-modal/new-folder-modal.component';
 
 @Component({
   selector: 'pf-company-resources',

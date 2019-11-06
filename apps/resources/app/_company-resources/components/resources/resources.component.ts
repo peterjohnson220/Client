@@ -13,7 +13,7 @@ export class ResourcesComponent implements OnInit {
 
     window.onmessage = function(e) {
       if (e.data === 'MyResources') {
-        window.location.href  = '/client/dashboard/company-resources';
+        window.location.href  = '/client/resources/company-resources';
       }
     };
   }

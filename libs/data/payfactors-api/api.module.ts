@@ -12,7 +12,7 @@ import {
 } from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService, JobSearchApiService, ExchangeDataSearchApiService } from './search';
-import { DashboardApiService, CompanyResourcesApiService } from './dashboard';
+import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowApiService } from './jdm';
@@ -39,6 +39,7 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService } from './hris-api';
 import { SurveyLibraryApiService } from './survey-library';
+import { CompanyResourcesApiService } from './company-resources';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -86,8 +87,8 @@ import { SurveyLibraryApiService } from './survey-library';
     StructuresRangeGroupApiService,
     DataViewApiService,
     NotificationsApiService,
-    CompanyResourcesApiService,
     SurveyLibraryApiService,
+    CompanyResourcesApiService,
 
     // PEER
     ExchangeApiService,
