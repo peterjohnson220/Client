@@ -16,6 +16,7 @@ import * as fromJobDescriptionJobCompareReducer from './job-description-job-comp
 import * as fromJobDescriptionVersionCompareReducer from './job-description-version-compare.reducer';
 import * as fromJobMatchesReducer from './job-matches.reducer';
 import * as fromWorkflowReducer from './workflow.reducer';
+import * as fromEmployeeAcknowledgementReducer from './employee-acknowledgement.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementJobDescriptionState {
@@ -31,6 +32,7 @@ export interface JobDescriptionManagementJobDescriptionState {
   userFilter: fromUserFilterReducer.State;
   jobMatches: fromJobMatchesReducer.State;
   jobDescriptionWorkflow: fromWorkflowReducer.State;
+  employeeAcknowledgement: fromEmployeeAcknowledgementReducer.State;
 }
 
 // Extend root state with feature area state
@@ -52,6 +54,7 @@ export const reducers = {
   jobDescriptionVersionCompare: fromJobDescriptionVersionCompareReducer.reducer,
   jobMatches: fromJobMatchesReducer.reducer,
   jobDescriptionWorkflow: fromWorkflowReducer.reducer,
+  employeeAcknowledgement: fromEmployeeAcknowledgementReducer.reducer
 };
 
 // Select Feature Area
@@ -117,6 +120,11 @@ export const selectJobMatchesState = createSelector(
 export const selectWorkflowState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.jobDescriptionWorkflow
+);
+
+export const selectEmployeeAcknowledgementState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.employeeAcknowledgement
 );
 
 // Add Job Modal
@@ -532,4 +540,25 @@ export const getWorkflowLinkLoading = createSelector(
 export const getWorkflowLinkLoaded = createSelector(
   selectWorkflowState,
   fromWorkflowReducer.getLoaded
+);
+
+// Employee Acknowledgement
+export const getEmployeeAcknowledgementError = createSelector(
+  selectEmployeeAcknowledgementState,
+  fromEmployeeAcknowledgementReducer.getEmployeeAcknowledgementError
+);
+
+export const getAcknowledging = createSelector(
+  selectEmployeeAcknowledgementState,
+  fromEmployeeAcknowledgementReducer.getAcknowledging
+);
+
+export const getEmployeeAcknowledgementAsync = createSelector(
+  selectEmployeeAcknowledgementState,
+  fromEmployeeAcknowledgementReducer.getEmployeeAcknowledgementAsync
+);
+
+export const getEmployeeAcknowledgementErrorMessage = createSelector(
+  selectEmployeeAcknowledgementState,
+  fromEmployeeAcknowledgementReducer.getEmployeeAcknowledgementErrorMessage
 );

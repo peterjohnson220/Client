@@ -1,7 +1,7 @@
 <pf-page-with-title-bar>
     
   <ng-container page-title>
-    <ng-container *ngIf="!identityInWorkflow && !(identityInEmployeeAcknowledgement$ | async)">
+    <ng-container *ngIf="!identityInWorkflow && !identityInEmployeeAcknowledgement">
       <button type="button" class="btn btn-secondary back-btn" (click)="goBack()">
         <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
       </button>
@@ -24,7 +24,8 @@
       (libraryClicked)="toggleLibrary()"
       (routingHistoryClicked)="handleRoutingHistoryClicked()"
       (updateJobInfoClicked)="handleUpdateJobInfoClicked()"
-      (exportClicked)="handleExportClicked($event)">
+      (exportClicked)="handleExportClicked($event)"
+      (acknowledgedClicked)="openEmployeeAcknowledgementModal()">
     </pf-job-description-actions>
 
   </ng-container>
@@ -60,18 +61,18 @@
             </div> -->
 
             <div class="card-block">
-              <!-- <ng-container *ngIf="(identityInEmployeeAcknowledgement$ | async)">
-                <div *ngIf="(employeeAcknowledgementInfo$ | async)?.HasAcknowledged" class="alert alert-success" role="alert">
+              <ng-container *ngIf="identityInEmployeeAcknowledgement">
+                <div *ngIf="(employeeAcknowledgementInfo$ | async)?.obj.HasAcknowledged" class="alert alert-success" role="alert">
                   <h5>
-                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                    <fa-icon [icon]="['fas','check-circle']" aria-hidden="true"></fa-icon>
                     This job description was acknowledged by {{(identity$ | async)?.Name}}
-                    {{((employeeAcknowledgementInfo$ | async)?.SignatureDate | amTimeAgo: true)}} ago.
+                    {{((employeeAcknowledgementInfo$ | async)?.obj.SignatureDate | amTimeAgo: true)}} ago.
                   </h5>
                 </div>
-                <div *ngIf="(employeeAcknowledgementError$ | async)" class="alert alert-danger" role="alert">
+                <div *ngIf="(employeeAcknowledgementInfo$ | async)?.loadingError" class="alert alert-danger" role="alert">
                   {{employeeAcknowledgementErrorMessage$ | async}}
                 </div>
-              </ng-container> -->
+              </ng-container>
 
               <pf-job-description-info-header-with-logo
                 [jobDescription]="jobDescription"
@@ -192,6 +193,11 @@
   (actionConfirmed)="handleDiscardDraftConfirmed()">
 </pf-simple-yes-no-modal>
 
+<pf-employee-acknowledgement-modal
+  [acknowledging]="(acknowledging$ | async)"
+  (acknowledged)="acknowledgeJobDescription($event)">
+</pf-employee-acknowledgement-modal>
+
 <!-- <pf-job-description-job-matches-modal
     [loadingJobMatches]="jobMatchesLoading$ | async"
     [jobMatches]="jobMatches$ | async"
@@ -204,10 +210,6 @@
     (createProjectClicked)="handleCreateProjectClicked()">
 </pf-job-description-job-matches-modal>
 
-<pf-employee-acknowledgement-modal 
-    [acknowledging]="(acknowledging$ | async)" 
-    (acknowledged)="acknowledgeJobDescription($event)">
-</pf-employee-acknowledgement-modal>
 
 <pf-conflict-error-modal 
     #conflictErrorModal 

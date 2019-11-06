@@ -176,4 +176,12 @@ export class JobDescriptionApiService {
   discardDraft(jobDescriptionId: number): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.DiscardDraft`, {});
   }
+
+  acknowledge(signature: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.EmployeeAcknowledge`, {signature: signature});
+  }
+
+  getEmployeeAcknowledgementInfo(){
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetEmployeeAcknowledgementInfo`);
+  }
 }
