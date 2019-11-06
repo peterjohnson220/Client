@@ -17,6 +17,7 @@ import * as fromJobDescriptionVersionCompareReducer from './job-description-vers
 import * as fromJobMatchesReducer from './job-matches.reducer';
 import * as fromWorkflowReducer from './workflow.reducer';
 import * as fromEmployeeAcknowledgementReducer from './employee-acknowledgement.reducer';
+import * as fromFlsaQuestionnaireReducer from './job-description-flsa-questionnaire.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementJobDescriptionState {
@@ -33,6 +34,7 @@ export interface JobDescriptionManagementJobDescriptionState {
   jobMatches: fromJobMatchesReducer.State;
   jobDescriptionWorkflow: fromWorkflowReducer.State;
   employeeAcknowledgement: fromEmployeeAcknowledgementReducer.State;
+  flsaQuestionnaire: fromFlsaQuestionnaireReducer.State;
 }
 
 // Extend root state with feature area state
@@ -54,7 +56,8 @@ export const reducers = {
   jobDescriptionVersionCompare: fromJobDescriptionVersionCompareReducer.reducer,
   jobMatches: fromJobMatchesReducer.reducer,
   jobDescriptionWorkflow: fromWorkflowReducer.reducer,
-  employeeAcknowledgement: fromEmployeeAcknowledgementReducer.reducer
+  employeeAcknowledgement: fromEmployeeAcknowledgementReducer.reducer,
+  flsaQuestionnaire: fromFlsaQuestionnaireReducer.reducer
 };
 
 // Select Feature Area
@@ -125,6 +128,11 @@ export const selectWorkflowState = createSelector(
 export const selectEmployeeAcknowledgementState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.employeeAcknowledgement
+);
+
+export const selectFlsaQuestionnaireState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.flsaQuestionnaire
 );
 
 // Add Job Modal
@@ -562,3 +570,16 @@ export const getEmployeeAcknowledgementErrorMessage = createSelector(
   selectEmployeeAcknowledgementState,
   fromEmployeeAcknowledgementReducer.getEmployeeAcknowledgementErrorMessage
 );
+
+// FLSA Questionnaire
+export const getFlsaQuestionnaireAsync = createSelector(
+  selectFlsaQuestionnaireState,
+  fromFlsaQuestionnaireReducer.getFlsaQuestionnaireDetails
+);
+
+export const getSavingFlsaQuestionnaire = createSelector(
+  selectFlsaQuestionnaireState,
+  fromFlsaQuestionnaireReducer.getSavingFlsaQuestionnaireDetails
+);
+
+

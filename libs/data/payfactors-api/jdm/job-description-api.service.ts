@@ -31,6 +31,7 @@ import {
 import {
   JobDescriptionDeleteByTemplateIdRequest
 } from 'apps/pf-admin/app/_utilities/models/requests/job-description-delete-by-template-id-request.model';
+import { FlsaQuestionnaireDetails } from '../../../../apps/job-description-management/app/_job-description/models';
 
 @Injectable()
 export class JobDescriptionApiService {
@@ -175,6 +176,22 @@ export class JobDescriptionApiService {
 
   discardDraft(jobDescriptionId: number): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.DiscardDraft`, {});
+  }
+
+  getFlsaQuestionnaire(jobDescriptionId: number, jobDescriptionVersion: number, isHistorical: boolean): Observable<FlsaQuestionnaireDetails> {
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetFlsaQuestionnaire`, {
+      params: {
+        jobDescriptionVersion,
+        isHistorical
+      }
+    }, (response) => JSON.parse(response.value));
+  }
+
+  saveFlsaQuestionnaire(flsaQuestionnaireDetails: FlsaQuestionnaireDetails): Observable<any> {
+    const obj = {
+      flsaQuestionnaireJsonString: JSON.stringify(flsaQuestionnaireDetails)
+    };
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.SaveFlsaQuestionnaire`, obj);
   }
 
   acknowledge(signature: string) {

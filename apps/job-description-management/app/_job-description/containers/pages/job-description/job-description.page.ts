@@ -43,6 +43,7 @@ import { JobDescriptionActionsComponent } from '../../job-description-actions';
 import { JobDescriptionManagementDndSource } from '../../../../shared/constants';
 import { JobDescriptionDnDService } from '../../../services';
 import { EmployeeAcknowledgementModalComponent } from '../../../components/modals';
+import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa-questionnaire';
 
 
 @Component({
@@ -54,6 +55,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild('discardDraftModal', { static: true }) public discardDraftModal: SimpleYesNoModalComponent;
   @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
   @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
+  @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
@@ -103,6 +105,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   identityInEmployeeAcknowledgement: boolean;
   isSiteAdmin = false;
   isCompanyAdmin = false;
+  inHistory: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -280,7 +283,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleFLSAClicked(): void {
-    // this.flsaQuestionnaireModal.open();
+    this.flsaQuestionnaireModal.open();
   }
 
   handleRoutingHistoryClicked(): void {
@@ -344,6 +347,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       const viewName = params.queryParams['viewName'];
       const revisionNumber = params['versionNumber'];
       this.tokenId = params.queryParams['jwt'];
+      this.inHistory = !!revisionNumber;
       this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
         JobDescriptionId: jobDescriptionId,
         ViewName: viewName,
