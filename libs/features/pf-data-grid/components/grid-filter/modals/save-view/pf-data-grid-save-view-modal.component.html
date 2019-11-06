@@ -3,6 +3,7 @@
   [title]="'Save Filter'"
   [primaryButtonText]="'Save'"
   [primaryButtonTextSubmitting]="'Saving'"
+  [attr.data-qa-id]="'cnt-save-view-form'"
   [submitting]="viewSaving"
   [formGroup]="filterForm"
   [isOpen$]="modalOpen$"
@@ -19,7 +20,8 @@
              formControlName="name"
              type="text"
              class="form-control"
-             maxlength="100">
+             maxlength="100"
+             [attr.data-qa-id]="'txt-save-view-name'">
       <div [style.visibility]="filterForm.controls['name'].hasError('notBlackListed') ? 'visible' : 'hidden'" class="text-danger text-right">
         There is already a filter saved by this name.
       </div>

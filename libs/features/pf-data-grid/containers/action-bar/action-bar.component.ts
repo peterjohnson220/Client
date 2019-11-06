@@ -45,10 +45,6 @@ export class ActionBarComponent implements OnChanges {
     this.onFilterSidebarToggle.emit();
   }
 
-  savedFiltersClicked() {
-    this.store.dispatch(new fromActions.LoadSavedViews(this.pageViewId));
-  }
-
   savedViewClicked(view: DataViewConfig) {
     this.store.dispatch(new fromActions.LoadViewConfig(this.pageViewId, view.Name));
   }

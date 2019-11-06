@@ -69,7 +69,7 @@
       [savedViews]="(savedViews$ | async)"
       [modalOpen$]="saveViewModalOpen$"
       [saving]="(viewIsSaving$ | async)"
-      (opened)="loadSavedFilterList()"
+      (opened)="loadSavedViewList()"
       (saved)="saveFilterHandler($event)"
       (closed)="closeSaveViewModal()">
     </pf-data-grid-save-view-modal>

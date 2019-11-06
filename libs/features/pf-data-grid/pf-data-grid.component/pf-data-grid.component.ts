@@ -62,7 +62,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     });
 
     this.initGridFilterThrottle();
-    this.loadSavedFilterList();
+    this.loadSavedViewList();
 
     this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
     this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
@@ -70,6 +70,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.filters$ = this.store.select(fromReducer.getFilters, this.pageViewId);
     this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
     this.selectedRowId$ = this.store.select(fromReducer.getSelectedRowId, this.pageViewId);
+    this.savedViews$ = this.store.select(fromReducer.getSavedViews, this.pageViewId);
+    this.saveViewModalOpen$ = this.store.select(fromReducer.getSaveViewModalOpen, this.pageViewId);
+    this.viewIsSaving$ = this.store.select(fromReducer.getViewIsSaving, this.pageViewId);
   }
 
   ngOnDestroy() {
@@ -111,7 +114,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   saveFilterClicked() {
-    this.loadSavedFilterList();
+    this.loadSavedViewList();
     this.store.dispatch(new fromActions.OpenSaveViewModal(this.pageViewId));
   }
 
@@ -119,7 +122,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.store.dispatch(new fromActions.CloseSaveViewModal(this.pageViewId));
   }
 
-  loadSavedFilterList() {
+  loadSavedViewList() {
     this.store.dispatch(new fromActions.LoadSavedViews(this.pageViewId));
   }
 

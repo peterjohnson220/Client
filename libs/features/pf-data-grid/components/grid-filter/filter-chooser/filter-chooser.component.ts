@@ -16,7 +16,6 @@ export class FilterChooserComponent {
   @Input() disabled = false;
   @Input() savedViews: DataViewConfig[] = [];
   @Output() onFilterSidebarToggle = new EventEmitter();
-  @Output() savedFiltersOpen = new EventEmitter();
   @Output() selectView = new EventEmitter();
 
   @ViewChild('p', { static: true }) public p: any;

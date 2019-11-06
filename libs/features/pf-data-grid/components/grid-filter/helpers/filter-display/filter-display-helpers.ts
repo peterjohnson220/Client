@@ -17,21 +17,7 @@ export function getHumanizedFilter(columns: ViewField[], filter: DataViewFilter)
 }
 
 export function getOperatorDisplay(operator: string, dataType: DataViewFieldDataType) {
-  let display = '';
-  switch (dataType) {
-    case DataViewFieldDataType.String:
-      display = FilterOperatorOptions.string.find(foo => foo.value === operator).display;
-      break;
-    case DataViewFieldDataType.Int:
-      display = FilterOperatorOptions.int.find(foo => foo.value === operator).display;
-      break;
-    case DataViewFieldDataType.DateTime:
-      display = FilterOperatorOptions.dateTime.find(foo => foo.value === operator).display;
-      break;
-    default:
-      break;
-  }
-  return display;
+  return FilterOperatorOptions[dataType].find(foo => foo.value === operator).display;
 }
 
 export function getValueDisplay(value: string, dataType: DataViewFieldDataType) {

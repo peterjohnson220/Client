@@ -1,9 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
-import { ViewField, DataViewFilter } from 'libs/models/payfactors-api/index';
-import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request/index';
-import { FilterOperatorOptions } from '../helpers/filter-operator-options/filter-operator-options';
+import { ViewField, DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
+import { FilterOperatorOptions } from '../helpers/filter-operator-options/filter-operator-options';
 
 @Component({
   selector: 'pf-filter-panel',

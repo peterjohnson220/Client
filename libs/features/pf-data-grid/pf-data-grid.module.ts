@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -15,26 +17,24 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import * as fromFaIcons from './fa-icons';
 
-import { reducers } from './reducers';
-import { PfDataGridEffects } from './effects';
-
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfColumnChooserModule } from 'libs/ui/column-chooser/column-chooser.module';
 
+import { reducers } from './reducers';
+import { PfDataGridEffects } from './effects';
 import { PfDataGridComponent } from './pf-data-grid.component/pf-data-grid.component';
 import { ActionBarComponent, GridComponent } from './containers';
-import { PfGridColumnComponent } from './components';
 import {
+  PfGridColumnComponent,
   FilterPanelComponent,
   FilterChooserComponent,
   FilterBuilderComponent,
-  PfDataGridFilterPillsComponent
-} from './components/grid-filter';
-
-import {PfDataGridSaveViewModalComponent} from './components/grid-filter/modals';
-import {NgbModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+  PfDataGridFilterPillsComponent,
+  PfDataGridSaveViewModalComponent,
+  ColumnChooserComponent
+} from './components';
+import { ColumnSearchPipe } from './pipes';
 
 @NgModule({
   imports: [
@@ -46,7 +46,6 @@ import {NgbModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfColumnChooserModule,
 
     // 3rd Party
     StoreModule.forFeature('pfDataGrids', reducers),
@@ -69,7 +68,9 @@ import {NgbModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
     FilterChooserComponent,
     FilterBuilderComponent,
     PfDataGridFilterPillsComponent,
-    PfDataGridSaveViewModalComponent
+    PfDataGridSaveViewModalComponent,
+    ColumnChooserComponent,
+    ColumnSearchPipe
   ],
   exports: [
     PfDataGridComponent

@@ -66,7 +66,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             fields: action.payload.Fields,
             groupedFields: buildGroupedFields(action.payload.Fields),
             baseEntity: action.payload.Entity,
-            loading: false
+            loading: false,
+            filters: action.payload.Filters
           }
         }
       };

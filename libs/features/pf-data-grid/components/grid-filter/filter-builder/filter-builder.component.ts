@@ -1,6 +1,6 @@
 import { Input, Output, EventEmitter, Component } from '@angular/core';
 
-import { DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api/index';
+import { DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
 import { FilterOperatorOptions } from '../helpers/filter-operator-options/filter-operator-options';
 

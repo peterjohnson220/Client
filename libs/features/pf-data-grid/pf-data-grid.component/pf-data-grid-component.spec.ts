@@ -17,6 +17,7 @@ import { PfDataGridComponent } from './pf-data-grid.component';
 describe('PfDataGridComponent', () => {
   let fixture, component;
   let store: Store<fromReducer.State>;
+
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -65,10 +66,29 @@ describe('PfDataGridComponent', () => {
     const filterToModify = filterList[0];
     const newFilterValue = 'Hello World';
 
-    filterToModify.Value = newFilterValue;
+    filterToModify.Values[0] = newFilterValue;
 
     component.handleFilterChanged(filterToModify);
 
     expect(component.gridFilterThrottle.next).toHaveBeenLastCalledWith(filterToModify);
   });
+
+  it('should display the save view modal when handleSaveFilter is called', () => {
+    const loadSavedViewsAction = new fromActions.LoadSavedViews(component.pageViewId);
+    const openModalAction = new fromActions.OpenSaveViewModal(component.pageViewId);
+
+    component.saveFilterClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(loadSavedViewsAction);
+    expect(store.dispatch).toHaveBeenLastCalledWith(openModalAction);
+  });
+
+  it('should save the view with the user entered name', () => {
+    const viewName = 'Hello';
+    const expectedSaveAction = new fromActions.SaveView(component.pageViewId, viewName);
+    component.saveFilterHandler(viewName);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedSaveAction);
+  });
+
+
 });

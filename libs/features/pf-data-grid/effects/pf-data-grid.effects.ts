@@ -182,7 +182,8 @@ export class PfDataGridEffects {
             })
         );
 
-    static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number, fields: ViewField[], filters: DataViewFilter[], name: string): SaveDataViewRequest {
+    static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number,
+                                    fields: ViewField[], filters: DataViewFilter[], name: string): SaveDataViewRequest {
         return <SaveDataViewRequest>{
             PageViewId: pageViewId,
             EntityId: baseEntityId,
@@ -240,7 +241,7 @@ export class PfDataGridEffects {
         return {
           DataElementId: fields.find(field => field.SourceName === f.SourceName).DataElementId,
           Operator: f.Operator,
-          Values: f.Values
+          Value: f.Values[0]
         };
       }) : [];
     }
