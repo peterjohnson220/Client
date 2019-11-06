@@ -66,6 +66,11 @@ export class ViewsListPageComponent implements OnInit {
 
   handleDeleteViewClicked(viewName: string, event: MouseEvent) {
     event.stopPropagation();
+
+    if (this.isSystemView(viewName)) {
+      return;
+    }
+
     this.deleteViewModalOptions.Body = `You are about to delete the <strong>${viewName}</strong> view. This cannot be undone. Would you like to continue?`;
     this.deleteViewConfirmationModal.open(viewName);
   }
