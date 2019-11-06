@@ -102,6 +102,10 @@ export class GridComponent implements OnInit, OnChanges {
     return state && state.data && (state.data.total / state.pagingOptions.Count) > 1;
   }
 
+  isSortable() {
+    return this.selectedRowId ? null : `{allowUnsort: 'true', mode: 'single'}`;
+  }
+
   getSelectedRowIdentifier() {
     return `${this.selectionEntityName}_${this.selectionField}`;
   }
