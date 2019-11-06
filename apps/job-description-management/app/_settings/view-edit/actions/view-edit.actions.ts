@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { ControlViewToggleObj, JobDescriptionView } from '../models';
+import { ControlViewToggleObj } from '../models';
+
+import { JobDescriptionView } from '../../shared/models';
 
 export const EDIT_VIEW = '[Job Description Management / View Edit] Edit View';
 export const LOAD_TEMPLATE_VIEWS = '[Job Description Management / View Edit] Load Template Views';

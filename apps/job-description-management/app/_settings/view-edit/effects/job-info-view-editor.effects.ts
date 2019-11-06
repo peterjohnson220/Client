@@ -12,7 +12,7 @@ import { JobInformationFieldForBulkExportResponse } from 'libs/models/payfactors
 
 import * as fromJobInfoViewEditorActions from '../actions/job-info-view-editor.actions';
 import * as fromViewEditReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers';
+import { PayfactorsApiModelMapper } from '../../shared/helpers';
 
 @Injectable()
 export class JobInfoViewEditorEffects {

@@ -13,7 +13,7 @@ import { JobDescriptionViewApi } from 'libs/models/payfactors-api';
 import * as fromViewEditActions from '../actions/view-edit.actions';
 import * as fromJobInfoViewEditorActions from '../actions/job-info-view-editor.actions';
 import * as fromViewEditReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers';
+import { PayfactorsApiModelMapper } from '../../shared/helpers';
 
 @Injectable()
 export class ViewEditEffects {

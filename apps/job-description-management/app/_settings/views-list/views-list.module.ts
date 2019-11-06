@@ -1,29 +1,34 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 
-import { ViewsListEffects } from './effects';
+import { ViewsListEffects, UpsertViewModalEffects } from './effects';
 import { reducers } from './reducers';
 import { ViewsListPageComponent } from './views-list.page';
+import { UpsertViewModalComponent } from './containers';
 import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
     // Angular
-    CommonModule, FormsModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // 3rd Party
     StoreModule.forFeature('jobDescriptionManagement_settings_viewsList', reducers),
-    EffectsModule.forFeature([ViewsListEffects]),
+    EffectsModule.forFeature([ViewsListEffects, UpsertViewModalEffects]),
+    DropDownsModule,
 
     // Payfactors
     PfFormsModule,
@@ -34,9 +39,11 @@ import * as fromFaIcons from './fa-icons';
   declarations: [
     // Feature
     ViewsListPageComponent,
+    UpsertViewModalComponent
   ],
   exports: [
     ViewsListPageComponent,
+    UpsertViewModalComponent
   ]
 })
 export class ViewsListModule {

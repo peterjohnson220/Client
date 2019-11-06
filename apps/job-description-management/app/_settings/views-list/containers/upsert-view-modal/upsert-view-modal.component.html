@@ -1,0 +1,40 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="modalTitle"
+  [primaryButtonText]="modalPrimaryButtonText"
+  [primaryButtonTextSubmitting]="modalPrimaryButtonTextSubmitting"
+  [primaryButtonClass]="'btn-primary'"
+  [secondaryButtonText]="'Cancel'"
+  [submitting]="(upsertingView$ | async)"
+  [isOpen$]="upsertViewModalOpen$"
+  [formGroup]="upsertViewForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+    <div class="form-group">
+      <div>
+        <label class="col-form-label" for="view-name">Name your view:</label>
+        <input type="text" class="form-control" [readonly]="(upsertingView$ | async) || (isSystemView(name.value) && !addView)" formControlName="name" id="view-name" [pfValidatable]="attemptedSubmit" [autofocus]="addView">
+        <ng-container *ngIf="name.errors && attemptedSubmit">
+          <div *ngIf="name.errors.error" class="invalid-feedback">{{name.errors.error}}</div>
+        </ng-container>
+        <span *ngIf="!attemptedSubmit || !name.errors" class="pf-placeholder"></span>
+      </div>
+      <div>
+        <label class="col-form-label" for="assigned-templates">Applies to the following templates:</label>
+        <kendo-multiselect
+          formControlName="assignedTemplates"
+          id="assigned-templates"
+          [loading]="(availableTemplatesAsyncObj$ | async).loading"
+          [disabled]="(upsertingView$ | async)"
+          [data]="availableTemplates"
+          [textField]="'TemplateName'"
+          [valueField]="'TemplateId'"
+          [valuePrimitive]="true"
+        >
+        </kendo-multiselect>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>

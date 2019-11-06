@@ -6,7 +6,7 @@
   </p>
 
   <div class="card flex-grow-1 d-flex">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between">
       <div class="w-25">
         <pf-input-debounce class="w-25"
           [id]="'viewsFilter'"
@@ -15,6 +15,7 @@
           (valueChanged)="handleSearchValueChanged($event)">
         </pf-input-debounce>
       </div>
+      <button (click)="openUpsertViewModal(true, '', $event)" class="btn btn-primary align-self-center">Create View</button>
     </div>
     <div class="card-body">
       <ng-container *ngIf="(viewsListAsyncObj$ | async) as viewsAsync">
@@ -27,12 +28,19 @@
                     {{view.Name}}
                   </td>
                   <td width="4%">
-                    <button class="btn btn-sm btn-secondary"
-                            [attr.data-qa-id]="'btn-deleteView'"
-                            [disabled]="isSystemView(view.Name)"
-                            (click)="handleDeleteViewClicked(view.Name, $event)">
-                      <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
-                    </button>
+                    <div class="d-flex">
+                      <button class="btn btn-sm btn-secondary mr-2"
+                              [attr.data-qa-id]="'btn-editView'"
+                              (click)="openUpsertViewModal(false, view.Name, $event)">
+                        <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
+                      </button>
+                      <button class="btn btn-sm btn-secondary"
+                              [attr.data-qa-id]="'btn-deleteView'"
+                              [disabled]="isSystemView(view.Name)"
+                              (click)="handleDeleteViewClicked(view.Name, $event)">
+                        <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -50,3 +58,4 @@
 </div>
 
 <pf-simple-yes-no-modal [opts]="deleteViewModalOptions" (actionConfirmed)="handleViewDeleteConfirmed($event)"></pf-simple-yes-no-modal>
+<pf-upsert-view-modal [addView]="addView"></pf-upsert-view-modal>

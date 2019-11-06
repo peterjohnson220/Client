@@ -2,17 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
+
 import { AsyncStateObj } from 'libs/models/state';
 import { FilterableName } from 'libs/core/interfaces';
 import { SimpleYesNoModalComponent } from 'libs/ui/common';
 import { SimpleYesNoModalOptions } from 'libs/models/common';
 
-import { JobDescriptionViewConstants } from '../../../shared/constants/job-description-view-constants';
-import * as fromViewEditctions from '../../view-edit/actions/view-edit.actions';
+import * as fromViewEditActions from '../../view-edit/actions/view-edit.actions';
 import * as fromViewsListActions from '../actions/views-list.actions';
+import * as fromUpsertViewModalActions from '../actions/upsert-view-modal.actions';
 import * as fromViewsListReducer from '../reducers';
+import { JdmSettingsHelper } from '../../shared/helpers';
 
 @Component({
   selector: 'pf-views-list-page',
@@ -24,6 +25,7 @@ export class ViewsListPageComponent implements OnInit {
 
   viewsListAsyncObj$: Observable<AsyncStateObj<FilterableName[]>>;
   viewsFilter: string;
+  addView = true;
   deleteViewModalOptions: SimpleYesNoModalOptions = {
     Title: 'Delete View',
     Body: '',
@@ -31,6 +33,7 @@ export class ViewsListPageComponent implements OnInit {
     CancelText: 'No',
     IsDelete: true
   };
+  isSystemView = JdmSettingsHelper.isSystemView;
 
   constructor(
     private store: Store<fromViewsListReducer.State>,
@@ -48,10 +51,6 @@ export class ViewsListPageComponent implements OnInit {
     return view;
   }
 
-  isSystemView(viewName: string) {
-    return JobDescriptionViewConstants.SYSTEM_VIEWS.indexOf(viewName) > -1;
-  }
-
   handleSearchValueChanged(value: string) {
     this.viewsFilter = value;
   }
@@ -61,7 +60,7 @@ export class ViewsListPageComponent implements OnInit {
   }
 
   handleViewClicked(viewName: string) {
-    this.store.dispatch(new fromViewEditctions.EditView({viewName}));
+    this.store.dispatch(new fromViewEditActions.EditView({viewName}));
     this.router.navigate(['edit'], { relativeTo: this.route });
   }
 
@@ -69,5 +68,16 @@ export class ViewsListPageComponent implements OnInit {
     event.stopPropagation();
     this.deleteViewModalOptions.Body = `You are about to delete the <strong>${viewName}</strong> view. This cannot be undone. Would you like to continue?`;
     this.deleteViewConfirmationModal.open(viewName);
+  }
+
+  openUpsertViewModal(addView: boolean, viewName: string, event: MouseEvent) {
+    event.stopPropagation();
+    this.addView = addView;
+    this.store.dispatch(new fromUpsertViewModalActions.LoadAvailableTemplates());
+    if (!addView) {
+      this.store.dispatch(new fromUpsertViewModalActions.LoadJobDescriptionViews({ viewName: viewName }));
+      this.store.dispatch(new fromUpsertViewModalActions.SetEditingViewName({ editingViewName: viewName }));
+    }
+    this.store.dispatch(new fromUpsertViewModalActions.OpenUpsertViewModal());
   }
 }
