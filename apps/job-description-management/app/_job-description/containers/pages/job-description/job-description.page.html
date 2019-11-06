@@ -200,20 +200,13 @@
   (acknowledged)="acknowledgeJobDescription($event)">
 </pf-employee-acknowledgement-modal>
 
-<!-- <pf-job-description-job-matches-modal
-    [loadingJobMatches]="jobMatchesLoading$ | async"
-    [jobMatches]="jobMatches$ | async"
-    [jobTitle]="(jobDescription$ | async)?.Name"
-    [forbidden]="jobMatchesForbidden$ | async"
-    [creatingProject]="jobMatchesCreatingProject$ | async"
-    [jobMatchesError]="jobMatchesError$ | async"
-    [creatingProjectError]="jobMatchesCreatingProjectError$ | async"
-    (jobMatchClicked)="handleJobMatchClicked($event)"
-    (createProjectClicked)="handleCreateProjectClicked()">
-</pf-job-description-job-matches-modal>
+<pf-job-matches-modal *ngIf="!!jobDescription"
+  #jobMatchesModalComponent
+  [jobDescriptionId]="jobDescription.JobDescriptionId"
+  [jobTitle]="jobDescription.Name">
+</pf-job-matches-modal>
 
-
-<pf-conflict-error-modal 
+<!-- <pf-conflict-error-modal 
     #conflictErrorModal 
     [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage" 
     [goBackLink]="(jobDescriptionSaveError$ | async)?.GoBackLink" 

@@ -198,7 +198,11 @@ export class JobDescriptionApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.EmployeeAcknowledge`, {signature: signature});
   }
 
-  getEmployeeAcknowledgementInfo(){
+  getEmployeeAcknowledgementInfo() {
     return this.payfactorsApiService.get(`${this.endpoint}/Default.GetEmployeeAcknowledgementInfo`);
+  }
+
+  createProjectFromMatches(jobDescriptionId: number, surveyJobIds: number[], payfactorsJobIds: number[]): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.CreateProjectFromMatches`, { surveyJobIds, payfactorsJobIds });
   }
 }

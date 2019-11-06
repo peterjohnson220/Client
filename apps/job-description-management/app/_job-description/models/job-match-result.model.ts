@@ -9,4 +9,5 @@ export interface JobMatchResult {
   SurveyName: string;
   SurveyPublisher: string;
   JobDescription: string;
+  Selected?: boolean;
 }

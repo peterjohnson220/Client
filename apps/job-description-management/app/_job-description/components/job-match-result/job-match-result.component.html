@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-between">
+  <div class="job-info-container">
+    <h5>{{jobMatchResult.Name}} <small class="text-muted">({{jobMatchResult.Code}})</small></h5>
+
+    <ng-container *ngIf="jobMatchResult.IsSurvey; else payfactorsLabel">
+      <div class="text-muted">{{jobMatchResult.SurveyPublisher}}</div>
+
+      <div class="text-muted">
+        {{jobMatchResult.SurveyName}} effective {{jobMatchResult.EffectiveDate}}
+      </div>
+    </ng-container>
+
+    <ng-template #payfactorsLabel>
+      <div class="text-muted">Payfactors</div>
+    </ng-template>
+  </div>
+
+  <div class="signal-container d-flex justify-content-between" [attr.title]="jobMatchResult.MatchStrength"
+    [class.strength-2]="jobMatchResult.MatchStrength > 30 && jobMatchResult.MatchStrength < 50"
+    [class.strength-3]="jobMatchResult.MatchStrength > 50 && jobMatchResult.MatchStrength < 70"
+    [class.strength-4]="jobMatchResult.MatchStrength > 70">
+    <span><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.MatchStrength > 30"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.MatchStrength < 30"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
+    <span *ngIf="jobMatchResult.MatchStrength > 50"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.MatchStrength < 50"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
+    <span *ngIf="jobMatchResult.MatchStrength > 70"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.MatchStrength < 70"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
+  </div>
+</div>
+<div class="job-description-container">
+  <ng-container *ngIf="!showMore && jobMatchResult.JobDescription.length > 225; else fullJD">
+    {{jobMatchResult.JobDescription.substr(0, 225) + '...'}}
+  </ng-container>
+
+  <ng-template #fullJD>
+    {{jobMatchResult.JobDescription}}
+  </ng-template>
+
+  <div *ngIf="jobMatchResult.JobDescription.length > 225" class="toggle-jd-view-link"
+    (click)="toggleShowMore($event)">
+    View {{showMore ? 'Less' : 'More'}}
+  </div>
+</div>
