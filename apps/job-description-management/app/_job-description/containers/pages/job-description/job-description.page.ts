@@ -366,7 +366,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
-      this.identityInEmployeeAcknowledgement = !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
+      this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
       if (this.identityInEmployeeAcknowledgement) {
         this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
       }
