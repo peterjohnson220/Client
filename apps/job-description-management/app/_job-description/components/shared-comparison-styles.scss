@@ -20,7 +20,7 @@
 :host ::ng-deep del,
 :host ::ng-deep mod{
   padding: 0.25rem;
-  display: inline;
+  display: inline-block;
 }
 
 :host ::ng-deep .added-data, .removed-data{
