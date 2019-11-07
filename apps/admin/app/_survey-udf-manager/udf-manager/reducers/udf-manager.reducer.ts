@@ -1,4 +1,4 @@
-import { Company } from 'libs/models/company';
+import { CompanyBaseInformation } from 'libs/models/company';
 import { PayElement, UdfSetting } from 'libs/models/payfactors-api/survey/response/udf-data-response.model';
 
 import * as fromUdfManagerActions from '../actions/udf-manager.actions';
@@ -6,8 +6,8 @@ import * as fromUdfManagerActions from '../actions/udf-manager.actions';
 export interface State {
   loadingCompanies: boolean;
   loadingCompaniesError: boolean;
-  companiesList: Company[];
-  selectedCompany: Company;
+  companiesList: CompanyBaseInformation[];
+  selectedCompany: CompanyBaseInformation;
   udfSettings: UdfSetting[];
   payElements: PayElement[];
   loadingUdfs: boolean;
