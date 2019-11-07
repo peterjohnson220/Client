@@ -27,7 +27,8 @@ import {
   JobDescriptionPageComponent,
   JobDescriptionActionsComponent,
   WorkflowWatchSidebarComponent,
-  JobDescriptionHistoryGridComponent
+  JobDescriptionHistoryGridComponent,
+  JobMatchesModalComponent
 } from './containers';
 import {
   AddJobModalComponent,
@@ -49,7 +50,8 @@ import {
   SaveFilterModalComponent,
   WorkflowLogComponent,
   EmployeeAcknowledgementModalComponent,
-  FlsaQuestionnaireModalComponent
+  FlsaQuestionnaireModalComponent,
+  JobMatchResultComponent
 } from './components';
 import { reducers } from './reducers';
 import {
@@ -145,6 +147,7 @@ import { ListAreaService } from '../shared/services';
     WorkflowLogComponent,
     EmployeeAcknowledgementModalComponent,
     FlsaQuestionnaireModalComponent,
+    JobMatchResultComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,
@@ -156,6 +159,7 @@ import { ListAreaService } from '../shared/services';
     // Containers
     JobDescriptionActionsComponent,
     JobDescriptionHistoryGridComponent,
+    JobMatchesModalComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,

@@ -12,7 +12,7 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import * as fromJobDescriptionReducers from '../../reducers';
 import * as fromJobDescriptionActions from '../../actions/job-description.actions';
 import * as fromJobMatchesActions from '../../actions/job-matches.actions';
-import { EmployeeAcknowledgement, JobDescriptionExtendedInfo } from '../../models';
+import { EmployeeAcknowledgement, JobDescriptionExtendedInfo, JobMatchResult } from '../../models';
 import { JobDescriptionViewConstants } from '../../../shared/constants';
 
 @Component({
@@ -49,6 +49,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   acknowledgementDisabled$: Observable<boolean>;
   employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
+  jobMatchesAsync$: Observable<AsyncStateObj<JobMatchResult[]>>;
 
   identitySubscription: Subscription;
   jobDescriptionSubscription: Subscription;
@@ -57,6 +58,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   editingSubscription: Subscription;
   jobDescriptionViewsAsyncSubscription: Subscription;
   inHistorySubscription: Subscription;
+  jobMatchesAsyncSubscription: Subscription;
 
   jobDescription: JobDescription;
   jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
@@ -74,6 +76,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   hasNewProjectPermission: boolean;
   hasCanCancelWorkflowPermission: boolean;
   viewName = 'Default';
+  jobMatchesAsync: AsyncStateObj<JobMatchResult[]>;
 
   constructor(
     private store: Store<fromJobDescriptionReducers.State>,
@@ -94,6 +97,8 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.acknowledgementDisabled$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementError);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
+    this.jobMatchesAsync$ = this.store.select(fromJobDescriptionReducers.getJobMatchesAsync);
+
     this.initPermissions();
   }
 
@@ -107,6 +112,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       if (!!asyncStateObj && !!asyncStateObj.obj) {
         this.jobDescription = asyncStateObj.obj;
         this.containsFLSA = this.jobDescription.JobInformationFields.some(f => f.FieldName === 'FLSAStatus');
+        this.resetJobMatches();
       }
     });
     this.jobDescriptionChangeHistorySubscription = this.jobDescriptionChangeHistory$.subscribe(results => {
@@ -120,6 +126,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       }
     });
     this.inHistorySubscription = this.inHistory$.subscribe(value => this.inHistory = value);
+    this.jobMatchesAsyncSubscription = this.jobMatchesAsync$.subscribe(asyncObj => this.jobMatchesAsync = asyncObj);
   }
 
   ngOnDestroy(): void {
@@ -188,7 +195,9 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   }
 
   handlePriceJobClicked(): void {
-    this.store.dispatch(new fromJobMatchesActions.GetJobMatches({ jobDescriptionId: this.jobDescription.JobDescriptionId }));
+    if (!this.jobMatchesAsync.obj || this.jobMatchesAsync.loadingError) {
+      this.store.dispatch(new fromJobMatchesActions.GetJobMatches({ jobDescriptionId: this.jobDescription.JobDescriptionId }));
+    }
     this.priceJobClicked.emit();
   }
 
@@ -284,5 +293,9 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
 
   private isUserDefinedViewsAvailable() {
     return this.jobDescriptionViews.length > JobDescriptionViewConstants.SYSTEM_VIEWS.length - 1;
+  }
+
+  private resetJobMatches(): void {
+    this.store.dispatch(new fromJobMatchesActions.ResetJobMatches());
   }
 }

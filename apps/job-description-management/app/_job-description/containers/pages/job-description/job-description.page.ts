@@ -14,7 +14,6 @@ import {
   CompanySettingsEnum,
   AsyncStateObj,
   ControlType,
-  JobDescriptionControl,
   ControlTypeAttribute,
   SimpleYesNoModalOptions,
   UserAssignedRole
@@ -44,6 +43,7 @@ import { JobDescriptionManagementDndSource } from '../../../../shared/constants'
 import { JobDescriptionDnDService } from '../../../services';
 import { EmployeeAcknowledgementModalComponent } from '../../../components/modals';
 import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa-questionnaire';
+import { JobMatchesModalComponent } from '../../job-matches-modal';
 
 
 @Component({
@@ -56,7 +56,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
   @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
-
+  @ViewChild('jobMatchesModalComponent', { static: false }) public jobMatchesModalComponent: JobMatchesModalComponent;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
@@ -271,7 +271,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handlePriceJobClicked(): void {
-    // this.jobMatchesModalComponent.open();
+    this.jobMatchesModalComponent.open();
   }
 
   handleCancelApprovalClicked(): void {

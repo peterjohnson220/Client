@@ -7,10 +7,16 @@ import { JobMatchResult } from '../models';
 
 export interface State {
   jobMatchesAsync: AsyncStateObj<JobMatchResult[]>;
+  forbidden: boolean;
+  creatingProject: boolean;
+  creatingProjectError: boolean;
 }
 
 export const initialState: State = {
-  jobMatchesAsync: generateDefaultAsyncStateObj<JobMatchResult[]>([])
+  jobMatchesAsync: generateDefaultAsyncStateObj<JobMatchResult[]>(null),
+  forbidden: false,
+  creatingProject: false,
+  creatingProjectError: false
 };
 
 export function reducer(state = initialState, action: fromJobMatchesActions.Actions): State {
@@ -22,7 +28,8 @@ export function reducer(state = initialState, action: fromJobMatchesActions.Acti
 
       return {
         ...state,
-        jobMatchesAsync: jobMatchesAsyncClone
+        jobMatchesAsync: jobMatchesAsyncClone,
+        forbidden: false
       };
     }
     case fromJobMatchesActions.GET_JOB_MATCHES_SUCCESS: {
@@ -45,6 +52,52 @@ export function reducer(state = initialState, action: fromJobMatchesActions.Acti
         jobMatchesAsync: jobMatchesAsyncClone
       };
     }
+    case fromJobMatchesActions.GET_JOB_MATCHES_FORBIDDEN: {
+      const jobMatchesAsyncClone = cloneDeep(state.jobMatchesAsync);
+      jobMatchesAsyncClone.loading = false;
+      jobMatchesAsyncClone.error = false;
+
+      return {
+        ...state,
+        jobMatchesAsync: jobMatchesAsyncClone,
+        forbidden: true
+      };
+    }
+    case fromJobMatchesActions.TOGGLE_JOB_MATCH_SELECTED: {
+      const jobMatchesAsyncClone: AsyncStateObj<JobMatchResult[]> = cloneDeep(state.jobMatchesAsync);
+      const selectedJob = jobMatchesAsyncClone.obj.find(j => j.Id === action.payload.jobMatchResultId);
+      selectedJob.Selected = !selectedJob.Selected;
+
+      return {
+        ...state,
+        jobMatchesAsync: jobMatchesAsyncClone
+      };
+    }
+    case fromJobMatchesActions.RESET_JOB_MATCHES: {
+      const jobMatchesAsyncClone = cloneDeep(state.jobMatchesAsync);
+      jobMatchesAsyncClone.loading = false;
+      jobMatchesAsyncClone.error = false;
+      jobMatchesAsyncClone.obj = null;
+
+      return {
+        ...state,
+        jobMatchesAsync: jobMatchesAsyncClone
+      };
+    }
+    case fromJobMatchesActions.CREATE_PROJECT: {
+      return {
+        ...state,
+        creatingProject: true,
+        creatingProjectError: false
+      };
+    }
+    case fromJobMatchesActions.CREATE_PROJECT_ERROR: {
+      return {
+        ...state,
+        creatingProject: false,
+        creatingProjectError: true
+      };
+    }
     default: {
       return state;
     }
@@ -52,3 +105,6 @@ export function reducer(state = initialState, action: fromJobMatchesActions.Acti
 }
 
 export const getJobMatchesAsync = (state: State) => state.jobMatchesAsync;
+export const getJobMatchesForbidden = (state: State) => state.forbidden;
+export const getCreatingProject = (state: State) => state.creatingProject;
+export const getCreatingProjectError = (state: State) => state.creatingProjectError;
