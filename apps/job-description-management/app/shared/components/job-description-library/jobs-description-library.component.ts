@@ -87,6 +87,9 @@ export class JobDescriptionLibraryComponent implements OnChanges {
 
   private showViewMoreLink(result: any) {
     let showViewMoreLink = false;
+    if (!result.Highlights.length) {
+      return false;
+    }
     const stripHtml = new StripHtmlPipe();
     const htmlStrippedFragment = stripHtml.transform(result.Highlights[0]);
     const content = result.Content;
