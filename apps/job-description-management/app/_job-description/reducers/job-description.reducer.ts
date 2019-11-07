@@ -2,6 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { JobDescription } from 'libs/models/jdm';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { arrayMoveMutate } from 'libs/core/functions';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import { JobDescriptionExtendedInfo } from '../models';
@@ -127,7 +128,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         asyncStateObjClone.obj.JobInformationFields = action.payload.jobDescription.JobInformationFields;
       }
 
-      const jobDescriptionChangeHistoryClone = state.jobDescriptionChangeHistory;
+      const jobDescriptionChangeHistoryClone = cloneDeep(state.jobDescriptionChangeHistory);
 
       if (state.jobDescriptionRecentChange && !action.payload.undo) {
         if (jobDescriptionChangeHistoryClone.length === 0) {
@@ -169,18 +170,20 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     }
     case fromJobDescriptionActions.UNDO_JOB_DESCRIPTION_CHANGES: {
       const jobDescriptionAsyncClone = cloneDeep(state.jobDescriptionAsync);
-      if (state.jobDescriptionChangeHistory.length >= 1) {
+      const jobDescriptionChangeHistoryClone = cloneDeep(state.jobDescriptionChangeHistory);
+      if (jobDescriptionChangeHistoryClone.length >= 1) {
         let undoJd = {};
-        if (state.jobDescriptionChangeHistory.length === 1) {
-          undoJd = UndoHelper.getUndoPoint(jobDescriptionAsyncClone.obj, state.jobDescriptionChangeHistory.pop());
+        if (jobDescriptionChangeHistoryClone.length === 1) {
+          undoJd = UndoHelper.getUndoPoint(jobDescriptionAsyncClone.obj, jobDescriptionChangeHistoryClone.pop());
         } else {
-          undoJd = state.jobDescriptionChangeHistory.pop();
+          undoJd = jobDescriptionChangeHistoryClone.pop();
         }
         UndoHelper.applyUndo(undoJd, jobDescriptionAsyncClone.obj);
       }
       return {
         ...state,
-        jobDescriptionAsync: jobDescriptionAsyncClone
+        jobDescriptionAsync: jobDescriptionAsyncClone,
+        jobDescriptionChangeHistory: jobDescriptionChangeHistoryClone
       };
     }
     case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION: {
@@ -261,7 +264,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     case fromJobDescriptionActions.REMOVE_CONTROL_DATA_ROW: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       const control = ControlDataHelper.getControl(asyncStateObjClone.obj.Sections, action.payload.jobDescriptionControl);
-      control.Data.filter(d => d.Id !== action.payload.dataRowId);
+      control.Data = control.Data.filter(d => d.Id !== action.payload.dataRowId);
 
       return {
         ...state,
@@ -306,9 +309,36 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionAsync: asyncStateObjClone
       };
     }
+    case fromJobDescriptionActions.REORDER_CONTROL_DATA: {
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      const {jobDescriptionControl, oldIndex, newIndex} = action.payload;
+      const controlData = ControlDataHelper.getControl(asyncStateObjClone.obj.Sections, jobDescriptionControl).Data;
+
+      arrayMoveMutate(controlData, oldIndex, newIndex);
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
+    }
     case fromJobDescriptionActions.REPLACE_JOB_DESCRIPTION_VIA_COPY: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.obj = action.payload;
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.ADD_SOURCE_DATA_TO_CONTROL: {
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+
+      const jobDescriptionControl = ControlDataHelper.getControl(asyncStateObjClone.obj.Sections,
+        { SectionId: action.payload.dropModel.SectionId, Id: action.payload.dropModel.ControlId });
+      const controlType = action.payload.controlTypes.find( x => x.Type === jobDescriptionControl.Type
+        && x.ControlVersion === jobDescriptionControl.ControlVersion);
+      const dropContent = cloneDeep(action.payload.dropModel.DropContent);
+      ControlDataHelper.addSourcedDataToControl(asyncStateObjClone.obj.Sections, jobDescriptionControl,  controlType, dropContent);
 
       return {
         ...state,

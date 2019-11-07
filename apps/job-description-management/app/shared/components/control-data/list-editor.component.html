@@ -19,7 +19,7 @@
     <ng-template #items>
 
       <!--Data Row-->
-      <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+      <ng-container *ngFor="let dataRow of data; index as dataRowIndex; trackBy: trackByFn">
         <tr *ngIf="!readOnly || (readOnly && jobDescriptionManagementService.hasData(attributes, dataRow))"
             [attr.data-index]="dataRowIndex"
             [attr.data-data-row-id]="dataRow.Id"
@@ -31,7 +31,7 @@
 
           <!--Attribute Cells-->
           <td width="{{(attribute.WidthPct/106) * 100 + '%'}}"
-              *ngFor="let attribute of attributes">
+              *ngFor="let attribute of attributes; trackBy: trackByAttributeFn">
             <pf-control-data-attribute-renderer
               [editable]="canEditAttribute(dataRow, attribute)"
               [checkInheritedData]="checkInheritedData"
@@ -56,7 +56,7 @@
           </td>
         </tr>
 
-      </ng-template>
+      </ng-container>
 
   </ng-template>
   </tbody>

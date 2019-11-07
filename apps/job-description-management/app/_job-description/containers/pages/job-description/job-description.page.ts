@@ -5,8 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
-
-import { arrayMoveMutate } from 'libs/core/functions';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import {
   JobDescription,
@@ -16,7 +15,8 @@ import {
   ControlType,
   ControlTypeAttribute,
   SimpleYesNoModalOptions,
-  UserAssignedRole
+  UserAssignedRole,
+  JobDescriptionSection
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -25,14 +25,13 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SimpleYesNoModalComponent } from 'libs/ui/common';
 
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService } from '../../../../shared/services';
-import { ControlDataHelper } from '../../../../shared/helpers';
 import {
   JobDescriptionLibraryBucket,
   JobDescriptionLibraryResult,
   LibrarySearchRequest,
   JobDescriptionAppliesTo
 } from '../../../../shared/models';
-import { EmployeeAcknowledgement, JobDescriptionExtendedInfo, ReorderControlDataDto } from '../../../models';
+import { EmployeeAcknowledgement, JobDescriptionExtendedInfo, JobDescriptionLibraryDropModel } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
@@ -101,6 +100,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsyncSubscription: Subscription;
   editingSubscription: Subscription;
   completedStepSubscription: Subscription;
+  controlTypesSubscription: Subscription;
 
   companyName: string;
   companyLogoPath: string;
@@ -125,6 +125,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViews: string[];
   editing: boolean;
   completedStep: boolean;
+  controlTypes: ControlType[];
 
   constructor(
     private route: ActivatedRoute,
@@ -205,7 +206,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   handleBulkControlDataChanges(bulkChangeObj: any) {
     const dataRows = this.getDataRowsForReplaceControlData(bulkChangeObj.attributes, bulkChangeObj.bulkData);
     this.store.dispatch(new fromJobDescriptionActions.ReplaceControlData({
-      jobDescriptionControl: bulkChangeObj,
+      jobDescriptionControl: bulkChangeObj.control,
       dataRows
     }));
     this.saveThrottle.next(true);
@@ -300,6 +301,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   handleEditClicked(): void {
     this.showRoutingHistory = false;
+
   }
 
   handlePriceJobClicked(): void {
@@ -352,6 +354,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   handleExportModalConfirmed(modalPayload: any): void {
     const viewName = modalPayload.selectedView || 'Default';
     this.export(modalPayload.exportType, viewName);
+  }
+
+  trackByFn(index: number, section: JobDescriptionSection) {
+    return section.Id;
   }
 
   openEmployeeAcknowledgementModal () {
@@ -448,19 +454,22 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.jobDescriptionManagementService.getControlTypes();
       }
     });
+    this.controlTypesSubscription = this.controlTypesAsync$.subscribe(value => this.controlTypes = value.obj);
 
     this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,
       (control, oldIndex, newIndex) => {
-        this.reorderControlData({
+        this.store.dispatch(new fromJobDescriptionActions.ReorderControlData({
           jobDescriptionControl: control,
           oldIndex: oldIndex,
           newIndex: newIndex
-        });
+        }));
         this.saveThrottle.next(true);
       });
 
-    this.jobDescriptionDnDService.initJobDescriptionPageDnD(
-      this.jobDescription, () => this.saveThrottle.next(true)
+    this.jobDescriptionDnDService.initJobDescriptionPageDnD((jobDescriptionLibraryDrop: JobDescriptionLibraryDropModel) => {
+      this.store.dispatch(new fromJobDescriptionActions.AddSourceDataToControl({ controlTypes: this.controlTypes, dropModel: jobDescriptionLibraryDrop }));
+      this.saveThrottle.next(true);
+    }
     );
 
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
@@ -520,7 +529,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     const sourcedAttribute = attributes.find(a => a.CanBeSourced);
 
     return bulkDataChangeObj.dataVals.map((d, index) => {
-      const currentDataRow = bulkDataChangeObj.currentData.filter(cd => !cd.TemplateId)[index];
+      const currentDataRow = cloneDeep(bulkDataChangeObj.currentData.filter(cd => !cd.TemplateId)[index]);
       let dataRow;
 
       if (currentDataRow) {
@@ -553,19 +562,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     };
   }
 
-  reorderControlData(reorderControlDataDto: ReorderControlDataDto) {
-    const {jobDescriptionControl, oldIndex, newIndex} = reorderControlDataDto;
-    const controlData = ControlDataHelper.getControl(this.jobDescription.Sections, jobDescriptionControl).Data;
-
-    arrayMoveMutate(controlData, oldIndex, newIndex);
-    this.saveThrottle.next(true);
-  }
-
   private handleJobDescriptionChanged(jobDescription: JobDescription): void {
     if (!jobDescription) {
       return;
     }
-    this.jobDescription = jobDescription;
+    this.jobDescription = cloneDeep(jobDescription);
     if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {
       const jobTitleFieldName = jobDescription.JobInformationFields.find(infoField => infoField.FieldName === 'JobTitle');
       this.jobDescriptionDisplayName = !!jobTitleFieldName ? jobTitleFieldName.FieldValue : this.jobDescription.Name;
