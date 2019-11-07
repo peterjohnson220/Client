@@ -53,6 +53,7 @@ export const REMOVE_CONTROL_DATA_ROW = '[job-description-management / Job Descri
 export const REPLACE_CONTROL_DATA = '[job-description-management / Job Description] Replace Control Data';
 export const UPDATE_CONTROL_DATA = '[job-description-management / Job Description] Update Control Data';
 export const UPDATE_CONTROL_ADDITIONAL_PROPERTIES = '[job-description-management / Job Description] Update Control Additional Properties';
+export const REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Replace Job Description Via Copy';
 
 export class CreateJobDescription implements Action {
   readonly type = CREATE_JOB_DESCRIPTION;
@@ -283,6 +284,12 @@ export class UpdateControlAdditionalProperties implements Action {
   constructor(public payload: { jobDescriptionControl: JobDescriptionControl, additionalProperties: any }) {}
 }
 
+export class ReplaceJobDescriptionViaCopy implements Action {
+  readonly type = REPLACE_JOB_DESCRIPTION_VIA_COPY;
+
+  constructor(public payload: JobDescription) {}
+}
+
 export type Actions
   = CreateJobDescription
   | CreateJobDescriptionError
@@ -323,4 +330,5 @@ export type Actions
   | RemoveControlDataRow
   | ReplaceControlData
   | UpdateControlData
-  | UpdateControlAdditionalProperties;
+  | UpdateControlAdditionalProperties
+  | ReplaceJobDescriptionViaCopy;

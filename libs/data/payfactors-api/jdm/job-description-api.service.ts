@@ -14,7 +14,8 @@ import {
   CompanyJobViewListItemsResponse,
   JobInformationFieldForBulkExportResponse,
   JobMatchResultResponse,
-  ExtendedInfoResponse
+  ExtendedInfoResponse,
+  JobDescriptionSourceResponse
 } from '../../../models/payfactors-api/job-description/response';
 import {
   JobDescriptionHistoryListItemResponse
@@ -204,5 +205,21 @@ export class JobDescriptionApiService {
 
   createProjectFromMatches(jobDescriptionId: number, surveyJobIds: number[], payfactorsJobIds: number[]): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.CreateProjectFromMatches`, { surveyJobIds, payfactorsJobIds });
+  }
+
+  getJobsAsSourceForJobDescriptionCopyFrom(jobDescriptionId: number, templateId: number, jobFamily: string): Observable<JobDescriptionSourceResponse[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetJobsAsSourceForJobDescriptionCopyFrom`, {
+      params: {
+        templateId: templateId,
+        jobFamily: jobFamily
+      }
+    });
+  }
+
+  copyFrom(jobDescriptionId: number, jobDescriptionIdToCopyFrom: number, jobDescriptionStatus: string): Observable<JobDescription> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.CopyFrom`, {
+      jobDescriptionIdToCopyFrom,
+      jobDescriptionStatus
+    }, (response) => JSON.parse(response.value));
   }
 }

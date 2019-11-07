@@ -15,3 +15,4 @@ export * from './workflow-log-entry.model';
 export * from './workflow-step-summary-item.model';
 export * from './job-description-extended-info.model';
 export * from './employee-acknowledgement.model';
+export * from './job-description-source.model';
