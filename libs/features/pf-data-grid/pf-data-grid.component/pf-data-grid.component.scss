@@ -1,0 +1,41 @@
+@import 'kendo-grid';
+@import 'colors';
+
+.full-size-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.main-grid-container-compact {
+  position: relative;
+  flex: 0 0 500px;
+}
+
+.grid-container {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+}
+
+.sub-grid-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.sidebar-filter-container {
+  position: relative;
+  flex: 0 0 450px;
+  border-top: 2px solid #eceeef;
+}
+
+.filter-pills-container {
+  border-top: 2px solid #eceeef;
+}
+
+input[type=text]::-ms-clear{
+  display: none;
+}

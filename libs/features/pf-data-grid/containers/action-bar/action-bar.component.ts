@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef} from '@angular/core';
 import { ViewField } from 'libs/models/payfactors-api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -18,9 +18,12 @@ export class ActionBarComponent implements OnChanges {
   @Input() pageViewId: string;
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
+  @Input() disableActionButtons = false;
+  @Output() onFilterSidebarToggle = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
   globalFilters$: Observable<ViewField[]>;
+  displayFilterSidebar = false;
   constructor(private store: Store<fromReducer.State>) { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -33,5 +36,9 @@ export class ActionBarComponent implements OnChanges {
   updateFields(updatedFields: ViewField[]) {
     this.store.dispatch(new fromActions.UpdateFields(this.pageViewId, updatedFields));
     this.store.dispatch(new fromActions.LoadData(this.pageViewId));
+  }
+
+  toggleFilterPanel() {
+    this.onFilterSidebarToggle.emit();
   }
 }

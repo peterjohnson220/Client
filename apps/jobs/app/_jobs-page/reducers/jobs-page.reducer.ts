@@ -1,4 +1,5 @@
 import * as fromJobsPageActions from '../actions';
+import { DataViewFilter } from 'libs/models/payfactors-api';
 
 export interface State {
   company: string;
@@ -9,7 +10,7 @@ export interface State {
 export const initialState: State = {
   company: '',
   loading: false,
-  loadingError: false
+  loadingError: false,
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {

@@ -29,16 +29,23 @@ export const selectFeatureState =
 export const selectPfDataGridState =
   createSelector(selectFeatureState, (state: LibsPfDataGridState) => state.grids);
 
+// Grid constants
+export const DEFAULT_PAGING_OPTIONS = fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS;
+
 // Grid selectors
 export const getState = createSelector(selectPfDataGridState, fromPfDataGridReducer.getState);
 export const getGrid = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGrid);
 export const getLoading = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLoading);
-export const getBaseEntityId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getBaseEntityId);
+export const getBaseEntity = createSelector(selectPfDataGridState, fromPfDataGridReducer.getBaseEntity);
 export const getFields = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFields);
 export const getGroupedFields = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGroupedFields);
 export const getGlobalFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGlobalFilters);
-export const getPageSize = createSelector(selectPfDataGridState, fromPfDataGridReducer.getPageSize);
-export const getTotal = createSelector(selectPfDataGridState, fromPfDataGridReducer.getTotal);
-export const getSkip = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSkip);
+export const getPagingOptions = createSelector(selectPfDataGridState, fromPfDataGridReducer.getPagingOptions);
+export const getDefaultSortDescriptor = createSelector(selectPfDataGridState, fromPfDataGridReducer.getDefaultSortDescriptor);
+export const getSortDescriptor = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSortDescriptor);
 export const getData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getData);
-export const getGridData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGridData);
+export const getInboundFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getInboundFilters);
+export const getFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilters);
+export const getFilterPanelDisplay = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterPanelDisplay);
+export const getSelectedRowId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSelectedRowId);
+export const getSplitViewFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSplitViewFilters);
