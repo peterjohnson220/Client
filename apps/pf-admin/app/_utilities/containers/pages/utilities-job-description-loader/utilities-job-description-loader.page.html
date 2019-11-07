@@ -32,12 +32,12 @@
                     <td class="center-align">
                       <a class="btn btn-primary button-match pr-3"
                          href="/odata/JobDescriptionManagement.GenerateImportMappingFile?templateId={{templateListItem.TemplateId}}&companyId={{companyId}}"
-                         download><i class="fas fa-download pr-1" aria-hidden="true"></i> Mapping</a>
+                         download><fa-icon icon="download" class="pr-1"></fa-icon> Mapping</a>
                     </td>
                     <td class="center-align">
                       <a class="btn btn-primary button-match pr-3"
                          href="/odata/JobDescriptionManagement.DownloadJobDescriptionsForImport?templateId={{templateListItem.TemplateId}}&companyId={{companyId}}"
-                         download><i class="fas fa-download pr-1" aria-hidden="true"></i> Data</a>
+                         download><fa-icon icon="download" class="pr-1"></fa-icon> Data</a>
                     </td>
                     <td>
                       <span class="link" (click)="confirmDeleteJobDescriptions(templateListItem)">Delete Job Descriptions</span>
@@ -193,7 +193,7 @@
                   <button type="button" class="btn btn-success button-match pr-3"
                           (click)="upload()"
                           [disabled]="(jobDescriptionLoaderImporting$ | async) ||  ((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length > 0">
-                    <i class="fas fa-upload pr-1" aria-hidden="true"></i> Upload
+                    <fa-icon icon="upload" class="pr-1"></fa-icon> Upload
                   </button>
                 </div>
               </div>
