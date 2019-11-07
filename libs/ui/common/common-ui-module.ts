@@ -11,7 +11,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 
 import * as fromFaIcons from './fa-icons';
 import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
-import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent } from './error';
+import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent, TokenExpirationPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
 import { PageWithTitleBarComponent, PageWithLeftMenuComponent } from './page-layout';
@@ -41,7 +41,7 @@ const components = [
   ClickElsewhereDirective, AfterIfDirective,
 
   // Error
-  ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent,
+  ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent, TokenExpirationPageComponent,
 
   // Loading
   AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,

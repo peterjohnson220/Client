@@ -368,7 +368,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.companyName = userContext.CompanyName;
       this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
       if (this.identityInEmployeeAcknowledgement) {
-        this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
+        if (!userContext.EmployeeAcknowledgementInfo.IsLatest && !userContext.EmployeeAcknowledgementInfo.HasAcknowledged) {
+          this.router.navigate(['/token-expired']);
+        } else {
+          this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
+        }
       }
       this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
       this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {

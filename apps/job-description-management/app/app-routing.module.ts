@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppWrapperComponent } from 'libs/features/app-root';
 import { UserContextGuard } from 'libs/security';
-import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+import { AccessDeniedPageComponent, NotFoundErrorPageComponent, TokenExpirationPageComponent } from 'libs/ui/common/error/pages';
 
 export const routes: Routes = [
   {
@@ -32,6 +32,7 @@ export const routes: Routes = [
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'not-found', component: NotFoundErrorPageComponent },
+  { path: 'token-expired', component: TokenExpirationPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
 
