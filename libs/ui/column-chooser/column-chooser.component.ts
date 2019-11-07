@@ -11,6 +11,7 @@ import { ViewField } from 'libs/models/payfactors-api';
 
 export class ColumnChooserComponent implements OnChanges {
   @Input() dataFields: ViewField[];
+  @Input() disabled = false;
 
   @Output() saveColumns = new EventEmitter();
 

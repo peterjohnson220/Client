@@ -1,4 +1,4 @@
-export class WorkflowUser{
+export class WorkflowUser {
   FirstName: string;
   LastName: string;
   EmailAddress: string;

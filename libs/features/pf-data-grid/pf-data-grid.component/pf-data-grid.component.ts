@@ -1,7 +1,14 @@
 import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
+
 import { Store } from '@ngrx/store';
+
+import { Observable, Subject } from 'rxjs';
+
+import { ViewField, DataViewFilter, DataViewEntity } from 'libs/models/payfactors-api';
+
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-data-grid',
@@ -17,28 +24,48 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() showColumnChooser = true;
   @Input() allowExport = true;
   @Input() showFilterChooser = true;
-  @Input() primaryKey: string;
+  @Input() contentNoPadding = false;
+  @Input() selectionField: string;
   @Input() columnTemplates: any;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
+  @Input() inboundFilters: DataViewFilter[];
+  @Input() defaultSort: SortDescriptor[];
 
-  isSplitView = false;
+  public gridFilterThrottle: Subject<DataViewFilter>;
 
   splitViewEmitter = new EventEmitter<string>();
+  splitViewFilters$: Observable<DataViewFilter[]>;
+  baseEntity$: Observable<DataViewEntity>;
+  dataFields$: Observable<ViewField[]>;
+  filters$: Observable<DataViewFilter[]>;
+  displayFilterPanel$: Observable<boolean>;
+  selectedRowId$: Observable<number>;
 
-  constructor(private store: Store<fromReducer.State>) { }
+  constructor(private store: Store<fromReducer.State>) {
+    this.gridFilterThrottle = new Subject();
+  }
 
   ngOnInit(): void {
     this.splitViewEmitter.subscribe(res => {
       switch (res) {
         case 'close':
-          this.isSplitView = false;
+          this.store.dispatch(new fromActions.UpdateSelectedRowId(this.pageViewId, null, this.selectionField));
           break;
         default:
           break;
       }
     });
+
+    this.initGridFilterThrottle();
+
+    this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
+    this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
+    this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
+    this.filters$ = this.store.select(fromReducer.getFilters, this.pageViewId);
+    this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
+    this.selectedRowId$ = this.store.select(fromReducer.getSelectedRowId, this.pageViewId);
   }
 
   ngOnDestroy() {
@@ -49,5 +76,43 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
     }
+
+    if (changes['inboundFilters']) {
+      this.store.dispatch(new fromActions.UpdateInboundFilters(this.pageViewId, changes['inboundFilters'].currentValue));
+    }
+
+    if (changes['defaultSort']) {
+      this.store.dispatch(new fromActions.UpdateDefaultSortDescriptor(this.pageViewId, changes['defaultSort'].currentValue));
+    }
+  }
+
+  toggleFilterPanel() {
+    this.store.dispatch(new fromActions.ToggleFilterPanel(this.pageViewId));
+  }
+
+  closeFilterPanel() {
+    this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
+  }
+
+  handleFilterChanged(event: DataViewFilter) {
+    this.gridFilterThrottle.next(event);
+  }
+
+  clearFilter(event: DataViewFilter) {
+    this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, event));
+  }
+
+  clearAllFilters() {
+    this.store.dispatch(new fromActions.ClearAllFilters(this.pageViewId));
+  }
+
+  private initGridFilterThrottle() {
+    const gridThrottle$ = this.gridFilterThrottle.debounceTime(400);
+
+    gridThrottle$.subscribe(filter => {
+      if (filter && filter.Values.length > 0 && filter.Values[0].toString().trim().length) {
+        this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, filter));
+      }
+    });
   }
 }

@@ -14,7 +14,7 @@
   </div>
 </ng-template>
 <button title="Choose Columns" type="button" id="column-popover-btn" class="btn btn-secondary" placement="bottom-right" #p="ngbPopover"
-  popoverTitle="Choose Columns" [ngbPopover]="popContent" (hidden)="onHidden()" [autoClose]="'outside'">
+  popoverTitle="Choose Columns" [ngbPopover]="popContent" (hidden)="onHidden()" [autoClose]="'outside'" [disabled]="disabled">
   <fa-icon icon="table"></fa-icon>
 </button>
 
