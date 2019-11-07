@@ -16,7 +16,10 @@ import {
   DataViewFilterOptionsRequest,
   SaveUserViewFiltersRequest,
   ShareUserDataViewRequest,
-  SharedUserPermission, RemoveSharePermissionRequest, SaveDataViewRequest,
+  SharedUserPermission,
+  RemoveSharePermissionRequest,
+  SaveDataViewRequest,
+  DataViewEntityResponseWithCount,
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -64,6 +67,10 @@ export class DataViewApiService {
 
   getData(request: DataViewDataRequest): Observable<any[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetData`, request);
+  }
+
+  getDataWithCount(request: DataViewDataRequest): Observable<DataViewEntityResponseWithCount> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetDataWithCount`, request);
   }
 
   updateDataViewFields(request: UpdateDataViewFieldsRequest): Observable<any[]> {

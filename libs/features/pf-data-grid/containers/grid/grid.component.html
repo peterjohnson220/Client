@@ -1,13 +1,16 @@
 <pf-async-container [loading]="loading$ | async">
   <kendo-grid
     [data]="data$ | async"
-    [pageSize]="pageSize$ | async"
-    [skip]="skip$ | async"
-    [pageable]="getPagingBarConfig()"
-    [scrollable]="isCompact ? 'none' : 'scrollable'"
-    [resizable]="isCompact ? false : true"    
+    [pageSize]="(pagingOptions$ | async)?.Count"
+    [skip]="(pagingOptions$ | async)?.From"
+    [pageable]="getPagingBarConfig(gridState$ | async)"
+    [scrollable]="isMultiplePages(gridState$ | async)"    
+    [resizable]="selectedRowId ? false : true"    
+    [sortable]="isSortable()"
+    [sort]="sortDescriptor$ | async"
     [rowClass]="selectedRowClass"
     (pageChange)="onPageChange($event)"
+    (sortChange)="onSortChange($event)"
     (cellClick)="onCellClick($event)">
     <ng-container *ngFor="let col of (dataFields$ | async)">
       <ng-container *ngIf="col.Group">
@@ -22,8 +25,8 @@
                         [title]="col.DisplayName"
                         [headerClass]="'pf-data-grid-header'"
                         [style]="{'text-align': col.TextAlign}"
-                        [width]="isCompact ? null : col.Width"
-                        [minResizableWidth]="30">
+                        [width]="selectedRowId ? null : col.Width"
+                        [minResizableWidth]="30">                        
                         <ng-template kendoGridCellTemplate let-dataItem>
                           <pf-grid-column
                             [columnTemplates]='columnTemplates'
@@ -43,8 +46,8 @@
           [title]="col.DisplayName"
           [headerClass]="'pf-data-grid-header'"
           [style]="{'text-align': col.TextAlign}"
-          [width]="isCompact ? null : col.Width"
-          [minResizableWidth]="30">
+          [width]="selectedRowId ? null : col.Width"
+          [minResizableWidth]="30">         
           <ng-template kendoGridCellTemplate let-dataItem>
               <pf-grid-column
                 [columnTemplates]='columnTemplates'

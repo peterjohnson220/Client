@@ -4,8 +4,11 @@
   [showColumnChooser] ="false"
   [showFilterChooser] ="false"
   [allowExport]="false"
-  [primaryKey]="'CompanyJobs_Pricings_CompanyJobPricing_ID'"
-  [columnTemplates]="colTemplates">
+  [contentNoPadding]="true"
+  [selectionField]="'CompanyJobPricing_ID'"
+  [columnTemplates]="colTemplates"
+  [inboundFilters]="refinedFilters"
+  [defaultSort]="defaultSort">
 </pf-data-grid>
 
 <ng-template #payMarketColumn let-dataRow="dataRow">

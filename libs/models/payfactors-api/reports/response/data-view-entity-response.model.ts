@@ -1,3 +1,8 @@
+export interface DataViewEntityResponseWithCount {
+  TotalCount: number;
+  Data: DataViewEntityResponse[];
+}
+
 export interface DataViewEntityResponse {
   EntityId: number;
   Entity: string;

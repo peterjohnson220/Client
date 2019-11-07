@@ -29,14 +29,6 @@ export const selectJobsPageMainState =
 export const selectJobsPageState =
   createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.jobsPage);
 
-export const getCompany = createSelector(
-  selectJobsPageState, fromJobsPageReducer.getCompany
-);
-
-export const getCompanyLoading = createSelector(
-  selectJobsPageState, fromJobsPageReducer.getloading
-);
-
-export const getCompanyLoadingError = createSelector(
-  selectJobsPageState, fromJobsPageReducer.getloadingError
-);
+export const getCompany = createSelector(selectJobsPageState, fromJobsPageReducer.getCompany);
+export const getCompanyLoading = createSelector(selectJobsPageState, fromJobsPageReducer.getloading);
+export const getCompanyLoadingError = createSelector(selectJobsPageState, fromJobsPageReducer.getloadingError);

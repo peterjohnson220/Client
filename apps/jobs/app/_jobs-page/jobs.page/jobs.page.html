@@ -1,18 +1,23 @@
+
 <pf-data-grid
   [pageViewId]="'705B7FE1-42AB-4B57-A414-764E52981160'"
   [title]="getPageTitle(company$ | async)"
   [navigationURL]="'/client/dashboard'"
-  [primaryKey]="'CompanyJobs_CompanyJob_ID'"
+  [selectionField]="'CompanyJob_ID'"
   [columnTemplates]="colTemplates"
-  [showFilterChooser]="false"
+  [showFilterChooser]="true"
   [allowExport]="false"
-  [splitViewTemplate]="jobsDetails" >
+  [splitViewTemplate]="jobsDetails"
+  [defaultSort]="defaultSort" >
 </pf-data-grid>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
   {{dataRow['CompanyJobs_JobStatus'] ? 'Active' : 'Inactive'}}
 </ng-template>
 
-<ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter">
-  <pf-jobs-details (onClose)="splitViewEmitter.emit('close')"></pf-jobs-details>
+<ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
+  <pf-jobs-details 
+    [jobDetailsFilters]="splitViewFilters"
+    (onClose)="splitViewEmitter.emit('close')">
+  </pf-jobs-details>
 </ng-template>

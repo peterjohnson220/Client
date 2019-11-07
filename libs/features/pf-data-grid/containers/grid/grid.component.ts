@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
-import { ViewField } from 'libs/models/payfactors-api';
+import { ViewField, PagingOptions } from 'libs/models/payfactors-api';
+import { DataGridState } from '../../reducers/pf-data-grid.reducer';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-grid',
@@ -14,24 +16,19 @@ import { ViewField } from 'libs/models/payfactors-api';
 })
 export class GridComponent implements OnInit, OnChanges {
 
-  @Input() primaryKey: string;
+  @Input() selectionEntityName: string;
+  @Input() selectionField: string;
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
-  @Input() allowSplitView = false;
-  @Input() isCompact = false;
+  @Input() selectedRowId: number;
+  @Input() allowSplitView: boolean;
 
-  @Output() rowSelected = new EventEmitter();
-
+  gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
   dataFields$: Observable<any[]>;
   data$: Observable<GridDataResult>;
-  pageSize$: Observable<number>;
-  skip$: Observable<number>;
-
-  pageSize = 25;
-  skip = 0;
-
-  selectedRowId: number;
+  pagingOptions$: Observable<PagingOptions>;
+  sortDescriptor$: Observable<SortDescriptor[]>;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -39,13 +36,12 @@ export class GridComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
+      this.gridState$ = this.store.select(fromReducer.getGrid, changes['pageViewId'].currentValue);
       this.loading$ = this.store.select(fromReducer.getLoading, changes['pageViewId'].currentValue);
       this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
-      this.data$ = this.store.select(fromReducer.getGridData, changes['pageViewId'].currentValue);
-      this.pageSize$ = this.store.select(fromReducer.getPageSize, changes['pageViewId'].currentValue);
-      this.skip$ = this.store.select(fromReducer.getSkip, changes['pageViewId'].currentValue);
-    } else if (changes['isCompact'] && !changes['isCompact'].currentValue) {
-      this.selectedRowId = null;
+      this.data$ = this.store.select(fromReducer.getData, changes['pageViewId'].currentValue);
+      this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
+      this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
     }
   }
 
@@ -55,7 +51,7 @@ export class GridComponent implements OnInit, OnChanges {
   }
 
   showColumn(col: ViewField) {
-    return (!this.isCompact || col.IsLocked) && col.IsSelectable && col.IsSelected;
+    return (!this.selectedRowId || col.IsLocked) && col.IsSelectable && col.IsSelected;
   }
 
   mappedFieldName(col: ViewField): string {
@@ -63,37 +59,54 @@ export class GridComponent implements OnInit, OnChanges {
   }
 
   onPageChange(event: PageChangeEvent): void {
-    this.store.dispatch(new fromActions.UpdateSkip(this.pageViewId, event.skip));
+    this.store.dispatch(new fromActions.UpdatePagingOptions(this.pageViewId, { From: event.skip, Count: event.take }));
+  }
+
+  onSortChange(sortDescriptor: SortDescriptor[]): void {
+    this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, sortDescriptor));
   }
 
   onCellClick({ dataItem }) {
     if (this.allowSplitView && !getSelection().toString()) {
-      this.selectedRowId = dataItem[this.primaryKey];
-      this.rowSelected.emit();
+      this.store.dispatch(new fromActions.UpdateSelectedRowId(this.pageViewId, dataItem[this.getSelectedRowIdentifier()], this.selectionField));
     }
   }
 
-  public selectedRowClass = (context: RowClassArgs) => ({
-    'k-state-selected': context.dataItem[this.primaryKey] === this.selectedRowId
+  selectedRowClass = (context: RowClassArgs) => ({
+    'k-state-selected': context.dataItem[this.getSelectedRowIdentifier()] === this.selectedRowId
   })
 
-  getPagingBarConfig() {
-    if (this.isCompact) {
-      return {
-        info: true,
-        type: 'input',
-        pageSizes: false,
-        previousNext: true
-      };
+  getPagingBarConfig(state: DataGridState) {
+    if (this.isMultiplePages(state)) {
+      if (this.selectedRowId) {
+        return {
+          info: true,
+          type: 'input',
+          pageSizes: false,
+          previousNext: true
+        };
+      } else {
+        return {
+          buttonCount: 5,
+          info: true,
+          type: 'numeric',
+          pageSizes: false,
+          previousNext: true
+        };
+      }
     }
-    return {
-      buttonCount: 8,
-      info: true,
-      type: 'numeric',
-      pageSizes: false,
-      previousNext: true
-    };
+    return false;
   }
 
- 
+  isMultiplePages(state: DataGridState) {
+    return state && state.data && (state.data.total / state.pagingOptions.Count) > 1;
+  }
+
+  isSortable() {
+    return this.selectedRowId ? null : `{allowUnsort: 'true', mode: 'single'}`;
+  }
+
+  getSelectedRowIdentifier() {
+    return `${this.selectionEntityName}_${this.selectionField}`;
+  }
 }
