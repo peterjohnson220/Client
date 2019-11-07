@@ -33,11 +33,11 @@
   <div class="card my-3"
        [class.added]="control.Statuses && wasAdded()"
        [class.removed]="control.Statuses && wasRemoved()">
-    <div class="card-header">
+    <div [class.card-header]="control?.AdditionalProperties?.ShowControlName">
       <span *ngIf="wasMoved()" class="text-danger pl-2 pr-4"><fa-icon icon="long-arrow-alt-down" ></fa-icon></span>
       <span *ngIf="wasMoved()" class=" text-success pl-2 pr-4"><fa-icon icon="long-arrow-alt-up" ></fa-icon></span>
 
-      <span [innerHtml]="control.Label"></span>
+      <span *ngIf="control?.AdditionalProperties?.ShowControlName" [innerHtml]="control.Label"></span>
       <div class="btn-group float-right">
         <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
           <span *ngIf="hideBody"><fa-icon icon="caret-down"></fa-icon></span>
