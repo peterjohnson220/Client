@@ -49,3 +49,6 @@ export const getFilters = createSelector(selectPfDataGridState, fromPfDataGridRe
 export const getFilterPanelDisplay = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterPanelDisplay);
 export const getSelectedRowId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSelectedRowId);
 export const getSplitViewFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSplitViewFilters);
+export const getSavedViews = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSavedViews);
+export const getSaveViewModalOpen = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSaveViewModalOpen);
+export const getViewIsSaving = createSelector(selectPfDataGridState, fromPfDataGridReducer.getViewIsSaving);

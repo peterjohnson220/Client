@@ -24,7 +24,9 @@
 
       <pf-filter-chooser *ngIf="showFilterChooser"
         [disabled]="disableActionButtons"
-        (onFilterSidebarToggle)="toggleFilterPanel($event)"
+        [savedViews]="savedViews"
+        (onFilterSidebarToggle)="toggleFilterPanel()"
+        (selectView)="savedViewClicked($event)"
       ></pf-filter-chooser>
     </ng-container>
   </div>

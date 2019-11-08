@@ -1,0 +1,27 @@
+<ng-template #popContent>
+  <div class="user-filter-list-container">
+    <div class="list-group user-filter-list">
+      <div *ngIf="savedViews && !savedViews.length">
+        <h5>No Filters</h5>
+      </div>
+      <button *ngFor="let view of savedViews" class="list-group-item list-group-item-action p-2" (click)="handleViewSelected(view)">
+        <div class="user-filter">
+          <span>{{view.Name}}</span>
+          <small class="filter-desc" [title]="displayFilterDescription(view)">{{displayFilterDescription(view)}}</small>
+        </div>
+      </button>
+    </div>
+  </div>
+</ng-template>
+<div class="btn-group">
+  <button title="Filter" (click)="filterButtonClicked()" class="btn btn-secondary" [disabled]="disabled" [attr.data-qa-id]="'btn-grid-filter'">
+    <fa-icon icon="sliders-h"></fa-icon>
+  </button>
+  <button [disabled]="disabled || (savedViews && !savedViews.length)" [title]="(savedViews && !savedViews.length) ? 'No Saved Filters' : 'Saved Filters'"
+          type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          placement="bottom-right"  #p="ngbPopover" popoverTitle="Saved Filters"
+          [ngbPopover]="popContent" (hidden)="filter=''"
+          [autoClose]="'outside'" [attr.data-qa-id]="'btn-saved-filters'">
+  </button>
+</div>

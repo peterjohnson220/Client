@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { Observable, Subject } from 'rxjs';
 
-import { ViewField, DataViewFilter, DataViewEntity } from 'libs/models/payfactors-api';
+import { ViewField, DataViewFilter, DataViewEntity, DataViewConfig } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
@@ -42,6 +42,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   filters$: Observable<DataViewFilter[]>;
   displayFilterPanel$: Observable<boolean>;
   selectedRowId$: Observable<number>;
+  savedViews$: Observable<DataViewConfig[]>;
+  saveViewModalOpen$: Observable<boolean>;
+  viewIsSaving$: Observable<boolean>;
 
   constructor(private store: Store<fromReducer.State>) {
     this.gridFilterThrottle = new Subject();
@@ -59,6 +62,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     });
 
     this.initGridFilterThrottle();
+    this.loadSavedViewList();
 
     this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
     this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
@@ -66,6 +70,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.filters$ = this.store.select(fromReducer.getFilters, this.pageViewId);
     this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
     this.selectedRowId$ = this.store.select(fromReducer.getSelectedRowId, this.pageViewId);
+    this.savedViews$ = this.store.select(fromReducer.getSavedViews, this.pageViewId);
+    this.saveViewModalOpen$ = this.store.select(fromReducer.getSaveViewModalOpen, this.pageViewId);
+    this.viewIsSaving$ = this.store.select(fromReducer.getViewIsSaving, this.pageViewId);
   }
 
   ngOnDestroy() {
@@ -104,6 +111,23 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   clearAllFilters() {
     this.store.dispatch(new fromActions.ClearAllFilters(this.pageViewId));
+  }
+
+  saveFilterClicked() {
+    this.loadSavedViewList();
+    this.store.dispatch(new fromActions.OpenSaveViewModal(this.pageViewId));
+  }
+
+  closeSaveViewModal() {
+    this.store.dispatch(new fromActions.CloseSaveViewModal(this.pageViewId));
+  }
+
+  loadSavedViewList() {
+    this.store.dispatch(new fromActions.LoadSavedViews(this.pageViewId));
+  }
+
+  saveFilterHandler(filterName) {
+    this.store.dispatch(new fromActions.SaveView(this.pageViewId, filterName));
   }
 
   private initGridFilterThrottle() {

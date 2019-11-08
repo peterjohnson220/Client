@@ -1,8 +1,10 @@
-import { DataViewFieldDataType } from './data-view-data-request.model';
+import { DataViewFieldDataType, DataViewFilter } from './data-view-data-request.model';
 
 export interface DataViewConfig {
   Entity: DataViewEntity;
   Fields: ViewField[];
+  Filters: DataViewFilter[];
+  Name: string;
 }
 
 export interface DataViewEntity {
@@ -39,6 +41,15 @@ export interface SaveDataViewRequest {
   EntityId: number;
   PageViewId: string;
   Elements: any[];
+}
+
+export function generateMockViewConfig() {
+  return {
+    EntityId: 1,
+    Fields: [],
+    Filters: [],
+    Name: 'Hello'
+  };
 }
 
 export function generateMockViewField(mockNumber: number = 1): ViewField {

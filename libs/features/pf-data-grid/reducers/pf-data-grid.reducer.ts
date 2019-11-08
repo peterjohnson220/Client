@@ -1,6 +1,7 @@
 import { cloneDeep } from 'lodash';
+import { arraySortByString, SortDirection } from 'libs/core/functions';
 import * as fromPfGridActions from '../actions';
-import { ViewField, PagingOptions, DataViewFilter, DataViewFieldDataType, DataViewEntity } from 'libs/models/payfactors-api';
+import { ViewField, PagingOptions, DataViewFilter, DataViewFieldDataType, DataViewEntity, DataViewConfig } from 'libs/models/payfactors-api';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
@@ -19,6 +20,9 @@ export interface DataGridState {
   sortDescriptor: SortDescriptor[];
   data: GridDataResult;
   selectedRowId: number;
+  saveViewModalOpen: boolean;
+  savedViews: DataViewConfig[];
+  viewIsSaving: boolean;
 }
 
 export interface DataGridStoreState {
@@ -62,7 +66,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             fields: action.payload.Fields,
             groupedFields: buildGroupedFields(action.payload.Fields),
             baseEntity: action.payload.Entity,
-            loading: false
+            loading: false,
+            filters: action.payload.Filters
           }
         }
       };
@@ -255,6 +260,66 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+case fromPfGridActions.LOAD_SAVED_VIEWS_SUCCESS:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              savedViews: action.payload
+            }
+          }
+        };
+      case fromPfGridActions.OPEN_SAVE_VIEW_MODAL:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              saveViewModalOpen: true
+            }
+          }
+        };
+
+      case fromPfGridActions.CLOSE_SAVE_VIEW_MODAL:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              saveViewModalOpen: false
+            }
+          }
+        };
+      case fromPfGridActions.SAVE_VIEW:
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              viewIsSaving: true
+            }
+          }
+        };
+      case fromPfGridActions.SAVE_VIEW_SUCCESS:
+        const views = cloneDeep(state.grids[action.pageViewId].savedViews);
+        views.push(action.payload);
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              saveViewModalOpen: false,
+              viewIsSaving: false,
+              savedViews: views.sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
+            }
+          }
+        };
     default:
       return state;
   }
@@ -282,6 +347,9 @@ export const getSelectedRowId = (state: DataGridStoreState, pageViewId: string) 
 export const getSplitViewFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].splitViewFilters : null;
 };
+export const getSavedViews = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].savedViews;
+export const getSaveViewModalOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].saveViewModalOpen;
+export const getViewIsSaving = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsSaving;
 
 export function buildGroupedFields(fields: ViewField[]): any[] {
   const groups = groupBy(fields, [{ field: 'Group' }]);
