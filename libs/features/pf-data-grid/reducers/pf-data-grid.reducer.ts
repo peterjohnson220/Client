@@ -23,6 +23,8 @@ export interface DataGridState {
   saveViewModalOpen: boolean;
   savedViews: DataViewConfig[];
   viewIsSaving: boolean;
+  selectedKeys: number[];
+  selectAllState: string;
 }
 
 export interface DataGridStoreState {
@@ -52,6 +54,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             pagingOptions: DEFAULT_PAGING_OPTIONS,
             filters: [],
             inboundFilters: [],
+            selectAllState: 'unchecked',
             data: null
           }
         }
@@ -320,6 +323,48 @@ case fromPfGridActions.LOAD_SAVED_VIEWS_SUCCESS:
             }
           }
         };
+    case fromPfGridActions.UPDATE_SELECTED_KEY:
+      let newSelectAllState = 'unchecked';
+      const grid = state.grids[action.pageViewId];
+      const newSelectedKeys = cloneDeep(grid.selectedKeys) || [];
+      const index = newSelectedKeys.indexOf(action.payload);
+      index > -1 ? newSelectedKeys.splice(index, 1) : newSelectedKeys.push(action.payload);
+      if ( newSelectedKeys && (newSelectedKeys.length === grid.data.total || newSelectedKeys.length === grid.pagingOptions.Count)) {
+        newSelectAllState = 'checked';
+      } else if (newSelectedKeys.length !== 0 ) {
+        newSelectAllState = 'indeterminate';
+      }
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedKeys:  newSelectedKeys,
+            selectAllState: newSelectAllState
+          }
+        }
+      };
+    case fromPfGridActions.SELECT_ALL:
+      const selectAllState = state.grids[action.pageViewId].selectAllState === 'checked' ? 'unchecked' : 'checked';
+      let selectedKeys = [];
+      if (selectAllState === 'checked') {
+
+        selectedKeys = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
+      } else {
+        selectedKeys = null;
+      }
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedKeys: cloneDeep(selectedKeys),
+            selectAllState: selectAllState
+          }
+        }
+      };
     default:
       return state;
   }
@@ -350,6 +395,8 @@ export const getSplitViewFilters = (state: DataGridStoreState, pageViewId: strin
 export const getSavedViews = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].savedViews;
 export const getSaveViewModalOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].saveViewModalOpen;
 export const getViewIsSaving = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsSaving;
+export const getSelectedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedKeys : null;
+export const getSelectAllState = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].selectAllState;
 
 export function buildGroupedFields(fields: ViewField[]): any[] {
   const groups = groupBy(fields, [{ field: 'Group' }]);

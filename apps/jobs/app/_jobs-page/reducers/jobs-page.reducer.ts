@@ -5,12 +5,14 @@ export interface State {
   company: string;
   loading: boolean;
   loadingError: boolean;
+  addingToProject: boolean;
 }
 
 export const initialState: State = {
   company: '',
   loading: false,
   loadingError: false,
+  addingToProject : false
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -30,6 +32,12 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         loadingError: false
       };
     }
+    case fromJobsPageActions.ADD_JOBS_TO_PROJECT: {
+      return {
+        ...state,
+        addingToProject: true
+      };
+    }
     case fromJobsPageActions.HANDLE_API_ERROR: {
       return {
         ...state,
@@ -46,4 +54,5 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 export const getCompany = (state: State) => state.company;
 export const getloading = (state: State) => state.loading;
 export const getloadingError = (state: State) => state.loadingError;
+export const getToProjectButtonState = (state: State) => state.addingToProject;
 
