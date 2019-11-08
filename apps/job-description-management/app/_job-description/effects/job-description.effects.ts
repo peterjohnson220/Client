@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, mergeMap, tap } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { JobDescription } from 'libs/models/jdm';
 
+import * as fromRootState from 'libs/state/state';
 import { JobDescriptionApiService, JobDescriptionTemplateApiService, JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
 import { ExtendedInfoResponse } from 'libs/models/payfactors-api/job-description/response';
 import { CompanyDto } from 'libs/models/company';
@@ -70,23 +71,27 @@ export class JobDescriptionEffects {
   getJobDescription$ = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION),
-      switchMap((action: fromJobDescriptionActions.GetJobDescription) => {
+      withLatestFrom(
+        this.userContextStore.select(fromRootState.getUserContext),
+        (action: fromJobDescriptionActions.GetJobDescription, userContext) => ({ action, userContext })
+      ),
+      switchMap((data) => {
         return this.jobDescriptionApiService.getDetail(
-          action.payload.JobDescriptionId,
-          action.payload.RevisionNumber,
-          action.payload.ViewName)
+          data.action.payload.JobDescriptionId,
+          data.action.payload.RevisionNumber,
+          data.action.payload.ViewName)
           .pipe(
             mergeMap((response: JobDescription) => {
               const actions = [];
               actions.push( new fromJobDescriptionActions.GetJobDescriptionSuccess({
                 jobDescription: response,
-                requestData: action.payload
+                requestData: data.action.payload
               }));
               actions.push(new fromJobDescriptionActions.GetJobDescriptionExtendedInfo({
                 jobDescriptionId: response.JobDescriptionId,
                 revision: response.JobDescriptionRevision
               }));
-              if (!action.payload.RevisionNumber && !action.payload.ViewName) {
+              if (!data.action.payload.InWorkflow && !data.userContext.IsPublic && !data.action.payload.ViewName) {
                 actions.push(new fromJobDescriptionActions.GetViews({ templateId: response.TemplateId }));
               }
               return actions;
@@ -216,6 +221,7 @@ export class JobDescriptionEffects {
     private companyApiService: CompanyApiService,
     private jobDescriptionTemplateApiService: JobDescriptionTemplateApiService,
     private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
-    private router: Router
+    private router: Router,
+    private userContextStore: Store<fromRootState.State>,
   ) {}
 }

@@ -52,7 +52,8 @@ import {
   WorkflowLogComponent,
   EmployeeAcknowledgementModalComponent,
   FlsaQuestionnaireModalComponent,
-  JobMatchResultComponent
+  JobMatchResultComponent,
+  ExportJobDescriptionModalComponent
 } from './components';
 import { reducers } from './reducers';
 import {
@@ -151,6 +152,7 @@ import { ListAreaService } from '../shared/services';
     EmployeeAcknowledgementModalComponent,
     FlsaQuestionnaireModalComponent,
     JobMatchResultComponent,
+    ExportJobDescriptionModalComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,

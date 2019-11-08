@@ -1,0 +1,12 @@
+.btn-primary {
+  &:hover {
+    color: #fff;
+    background-color: #125581 !important;
+    border-color: #114f78 !important;
+  }
+
+  &:disabled {
+    background-color: #1872ae !important;
+    border-color: #1872ae !important;
+  }
+}

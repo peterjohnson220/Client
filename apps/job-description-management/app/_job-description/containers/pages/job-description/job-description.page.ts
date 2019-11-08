@@ -41,11 +41,11 @@ import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-a
 import { JobDescriptionActionsComponent } from '../../job-description-actions';
 import { JobDescriptionManagementDndSource } from '../../../../shared/constants';
 import { JobDescriptionDnDService } from '../../../services';
-import { EmployeeAcknowledgementModalComponent } from '../../../components/modals';
+import { EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent } from '../../../components/modals';
 import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa-questionnaire';
 import { JobMatchesModalComponent } from '../../job-matches-modal';
 import { CopyJobDescriptionModalComponent } from '../../copy-job-description-modal';
-
+import { JobDescriptionHelper } from '../../../helpers';
 
 @Component({
   selector: 'pf-job-description-page',
@@ -59,6 +59,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
   @ViewChild('jobMatchesModalComponent', { static: false }) public jobMatchesModalComponent: JobMatchesModalComponent;
   @ViewChild(CopyJobDescriptionModalComponent, { static: true }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
+  @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
@@ -72,10 +73,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionLibraryResults$: Observable<AsyncStateObj<JobDescriptionLibraryResult[]>>;
   jobDescriptionRevision$: Observable<number>;
   jobDescriptionExtendedInfo$: Observable<JobDescriptionExtendedInfo>;
-  jobDescriptionIsFullscreen$: Observable<boolean>;
   acknowledging$: Observable<boolean>;
   employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
   employeeAcknowledgementErrorMessage$: Observable<string>;
+  jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -88,6 +89,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionExtendedInfoSubscription: Subscription;
   userAssignedRolesSubscription: Subscription;
   saveThrottle: Subject<any>;
+  jobDescriptionViewsAsyncSubscription: Subscription;
+  editingSubscription: Subscription;
 
   companyName: string;
   companyLogoPath: string;
@@ -109,6 +112,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   isCompanyAdmin = false;
   inHistory: boolean;
   jobDescriptionDisplayName: string;
+  jobDescriptionViews: string[];
+  editing: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -136,12 +141,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.savingJobDescription$ = this.store.select(fromJobDescriptionReducers.getSavingJobDescription);
     this.jobDescriptionLibraryBuckets$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getBucketsAsync);
     this.jobDescriptionLibraryResults$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getResultsAsync);
-    this.jobDescriptionIsFullscreen$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionIsFullscreen);
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
     this.jobDescriptionPublishing$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescription);
     this.acknowledging$ = this.store.select(fromJobDescriptionReducers.getAcknowledging);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.employeeAcknowledgementErrorMessage$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementErrorMessage);
+    this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.saveThrottle = new Subject();
     this.defineDiscardDraftModalOptions();
   }
@@ -162,6 +167,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionExtendedInfoSubscription.unsubscribe();
     this.jobDescriptionManagementDndService.destroyJobDescriptionManagementDnD();
     this.jobDescriptionDnDService.destroyJobDescriptionPageDnD();
+    this.jobDescriptionViewsAsyncSubscription.unsubscribe();
+    this.editingSubscription.unsubscribe();
   }
 
   goBack(): void {
@@ -303,8 +310,22 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     // this.jobDescriptionAppliesToModalComponent.open(this.jobDescription.JobDescriptionId, this.jobDescription.CompanyJobId, appliesTo);
   }
 
-  handleExportClicked(exportType: string): void {
-    // this.exportJobDescriptionModalComponent.open(exportType);
+  handleExportAsPDFClicked(): void {
+    this.export('pdf', 'Default');
+  }
+
+  handleExportClickedFromActions(data: { exportType: string, viewName: string }): void {
+    const isUserDefinedViewsAvailable = JobDescriptionHelper.isUserDefinedViewsAvailable(this.jobDescriptionViews);
+    if (this.editing && isUserDefinedViewsAvailable ) {
+      this.exportJobDescriptionModalComponent.open(data.exportType);
+    } else {
+      this.export(data.exportType, data.viewName);
+    }
+  }
+
+  handleExportModalConfirmed(modalPayload: any): void {
+    const viewName = modalPayload.selectedView || 'Default';
+    this.export(modalPayload.exportType, viewName);
   }
 
   openEmployeeAcknowledgementModal () {
@@ -321,11 +342,25 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.actionsComponent.resetViewName();
   }
 
+  handleResize(): void {
+    this.jobDescriptionIsFullscreen = !this.jobDescriptionIsFullscreen;
+  }
+
   public get exportAction(): string {
     if (!!this.jobDescription && !!this.identity) {
       const tokenId = this.identity.UserId === 0 ? '?jwt=' + this.tokenId : '';
       return `/odata/JobDescription(${this.jobDescription.JobDescriptionId})/Default.Export${tokenId}`;
     }
+  }
+
+  private export(exportType: string, viewName: string): void {
+    const htmlDocument: any = document;
+
+    htmlDocument.exportForm.elements['export-uid'].value = Date.now();
+    htmlDocument.exportForm.elements['export-type'].value = exportType;
+    htmlDocument.exportForm.elements['viewName'].value = viewName;
+
+    htmlDocument.exportForm.submit();
   }
 
   private initializeLibrary(): void {
@@ -417,6 +452,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.jobDescription, () => this.saveThrottle.next(true)
     );
 
+    this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
+    this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
   }
 
   private initSaveThrottle() {
@@ -497,7 +534,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
     this.jobDescription = jobDescription;
     if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {
-      this.jobDescriptionDisplayName = jobDescription.JobInformationFields.find(infoField => infoField.FieldName === 'JobTitle').FieldValue;
+      const jobTitleFieldName = jobDescription.JobInformationFields.find(infoField => infoField.FieldName === 'JobTitle');
+      this.jobDescriptionDisplayName = !!jobTitleFieldName ? jobTitleFieldName.FieldValue : this.jobDescription.Name;
     } else {
       this.jobDescriptionDisplayName = jobDescription.JobDescriptionTitle;
     }
