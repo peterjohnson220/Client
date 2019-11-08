@@ -31,5 +31,3 @@ export function getValueDisplay(value: string, dataType: DataViewFieldDataType) 
   }
   return display;
 }
-
-

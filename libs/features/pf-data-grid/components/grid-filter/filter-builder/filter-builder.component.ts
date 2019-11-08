@@ -18,13 +18,11 @@ export class FilterBuilderComponent {
 
   private filterOperatorOptions = FilterOperatorOptions;
   public dataTypes = DataViewFieldDataType;
-  public disableValue: boolean;
 
   handleFilterOperatorChanged(event) {
     this.filter.Operator = event;
-    this.toggleValueInput();
 
-    if (this.disableValue || (this.filter.Values[0] && this.filter.Values[0].toString().trim().length)) {
+    if (this.valueCanBeEmpty() || (this.filter.Values[0] && this.filter.Values[0].toString().trim().length)) {
       this.filterChanged.emit(this.filter);
     }
   }
@@ -34,13 +32,13 @@ export class FilterBuilderComponent {
     this.filterChanged.emit(this.filter);
   }
 
-  private toggleValueInput() {
+  private valueCanBeEmpty() {
     const disabledValueOperators = this.filterOperatorOptions[this.type].filter(o => !o.requiresValue);
-    if (disabledValueOperators.find(d => d.values[0] === this.filter.Operator)) {
+    if (disabledValueOperators.find(d => d.value === this.filter.Operator)) {
       this.filter.Values[0] = '';
-      this.disableValue = true;
+      return true;
     } else {
-      this.disableValue = false;
+      return false;
     }
   }
 

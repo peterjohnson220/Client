@@ -4,11 +4,13 @@ import { Store } from '@ngrx/store';
 
 import { Observable, Subject } from 'rxjs';
 
+import { SortDescriptor } from '@progress/kendo-data-query';
+
 import { ViewField, DataViewFilter, DataViewEntity, DataViewConfig } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
-import { SortDescriptor } from '@progress/kendo-data-query';
+import { FilterOperatorOptions } from '../components/grid-filter/helpers/filter-operator-options/filter-operator-options';
 
 @Component({
   selector: 'pf-data-grid',
@@ -135,7 +137,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     const gridThrottle$ = this.gridFilterThrottle.debounceTime(400);
 
     gridThrottle$.subscribe(filter => {
-      if (filter && filter.Values.length > 0 && filter.Values[0].toString().trim().length) {
+      if (!FilterOperatorOptions[filter.DataType].find(foo => foo.value === filter.Operator).requiresValue ||
+        (filter && filter.Values.length > 0 && filter.Values[0].toString().trim().length)) {
         this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, filter));
       }
     });

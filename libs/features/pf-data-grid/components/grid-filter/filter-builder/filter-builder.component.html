@@ -16,7 +16,7 @@
       <div class="col-6">
         <input type="text" class="form-control"
          [ngModel]="getFilterValue(filter)"
-         [disabled]="disableValue"
+         [disabled]="valueCanBeEmpty(filter)"
          (ngModelChange)="handleFilterValueChanged($event)"
          [attr.data-qa-id]="'txt-value-'+filter.SourceName"/>
       </div>
@@ -37,9 +37,9 @@
         </kendo-dropdownlist>
       </div>
       <div class="col-6">
-        <kendo-datepicker 
+        <kendo-datepicker
           [value]="getFilterValue(filter)"
-          [disabled]="disableValue"
+          [disabled]="valueCanBeEmpty(filter)"
           (valueChange)="handleFilterValueChanged($event)"
           [attr.data-qa-id]="'txt-value-'+filter.SourceName">
         </kendo-datepicker>
@@ -66,7 +66,7 @@
           [format]="'n0'"
           [decimals]="0"
           [min]="1"
-          [disabled]="disableValue"
+          [disabled]="valueCanBeEmpty(filter)"
           (valueChange)="handleFilterValueChanged($event)"
           [attr.data-qa-id]="'txt-value-'+filter.SourceName">
         </kendo-numerictextbox>
