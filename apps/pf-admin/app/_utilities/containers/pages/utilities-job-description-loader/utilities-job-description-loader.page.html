@@ -80,8 +80,9 @@
                       <td>
                                                    <span *ngIf="mappingFile">
                                                         {{ mappingFile?.name }}
-                                                     <span (click)="remove('mappingFile',mappingFileInput)"><i
-                                                       class="fas fa-trash-alt" aria-hidden="true"></i></span>
+                                                     <span (click)="remove('mappingFile',mappingFileInput)">
+                                                       <fa-icon icon="trash-alt" class="pointer"></fa-icon>
+                                                     </span>
                                                     </span>
                       </td>
                       <td>
@@ -100,9 +101,10 @@
                       <td>
                                                   <span *ngIf="dataFile">
                                                          {{ dataFile?.name }}
-                                                    <span (click)="remove('dataFile',dataFileInput)"><i
-                                                      class="fas fa-trash-alt" aria-hidden="true"></i></span>
+                                                    <span (click)="remove('dataFile',dataFileInput)">
+                                                      <fa-icon icon="trash-alt" class="pointer"></fa-icon>
                                                     </span>
+                                                  </span>
                       </td>
                       <td>
                         <div class="fileContainer">
