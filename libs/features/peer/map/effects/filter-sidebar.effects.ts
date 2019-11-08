@@ -113,6 +113,18 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
+  setExchangeJobSelection$ = this.actions$.pipe(
+    ofType(fromFilterSidebarActions.SET_EXCHANGE_JOB_SELECTION),
+    tap(() => this.peerMapStore.dispatch(new fromPeerMapActions.ClearMapFilterBounds())),
+    mergeMap(() => {
+      return [
+        new fromFilterSidebarActions.ClearAllSelections,
+        new fromFilterSidebarActions.GetMapData
+      ];
+    })
+  );
+
+  @Effect()
   excludeIndirectJobMatchesToggled$ = this.actions$.pipe(
     ofType(fromFilterSidebarActions.TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES),
     withLatestFrom(

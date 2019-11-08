@@ -23,7 +23,7 @@ export class ExchangeExplorerEffects {
           return [
             new fromExchangeExplorerContextInfoActions.LoadContextInfoSuccess({
               payMarket: response.PayMarket,
-              exchangeJobTitlesShort: response.AssociatedExchangeJobTitleShorts,
+              exchangeJobFilterOptions: response.AssociatedExchangeJobFilterOptions,
               searchFilterMappingDataObj: response.SearchFilterMappingData
             }),
             new fromExchangeFilterContextActions.SetFilterContext(response.FilterContext)

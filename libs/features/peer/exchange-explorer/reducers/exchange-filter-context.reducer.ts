@@ -19,6 +19,8 @@ export const initialState: State = {
   TopLeft: undefined,
 
   ExchangeId: 0,
+  ExchangeJobId: 0,
+  LockedExchangeJobId: 0,
   ExchangeJobIds: [],
   IncludeUntaggedIncumbents: false,
   IsFilteredBySimilarExchangeJobIds: false,
@@ -75,6 +77,16 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
     case fromExchangeExplorerActions.CLEAR_EXCHANGE_SCOPE_SELECTION: {
       return {
         ...state,
+        selectedScope: null,
+        ScopeGUID: null
+      };
+    }
+    case fromExchangeExplorerActions.SET_EXCHANGE_JOB_SELECTION: {
+      return {
+        ...state,
+        ExchangeJobIds: [action.payload.exchangeJobId],
+        ExchangeJobId: action.payload.exchangeJobId,
+        SimilarExchangeJobIds: action.payload.similarExchangeJobIds,
         selectedScope: null,
         ScopeGUID: null
       };

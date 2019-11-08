@@ -19,7 +19,6 @@ import { UserFilterTypeData } from '../../user-filter/models';
 import { PfPeerMapModule } from '../map';
 
 import { ExchangeExplorerComponent, ExchangeScopeSelectorComponent, ExchangeExplorerMapComponent } from './containers';
-import { AssociatedExchangeJobListComponent } from './components/associated-exchange-job-list';
 import { reducers } from './reducers';
 import {
   ExchangeExplorerEffects,
@@ -34,8 +33,7 @@ import * as fromFaIcons from './fa-icons';
 const declarations = [
   ExchangeExplorerMapComponent,
   ExchangeScopeSelectorComponent,
-  ExchangeExplorerComponent,
-  AssociatedExchangeJobListComponent
+  ExchangeExplorerComponent
 ];
 
 @NgModule({
