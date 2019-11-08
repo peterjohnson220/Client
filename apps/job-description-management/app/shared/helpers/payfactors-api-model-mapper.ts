@@ -12,6 +12,7 @@ import {
   JobInformationFieldForBulkExportResponse,
   JobMatchResultResponse,
   ExtendedInfoResponse,
+  JobDescriptionSourceResponse,
 } from 'libs/models/payfactors-api/job-description/response';
 import { TemplateListItemResponse } from 'libs/models/payfactors-api/job-description-template/response';
 import {
@@ -28,7 +29,7 @@ import {
 } from 'libs/models/payfactors-api/job-description/response/job-description-appliesto-item-response.model';
 import { JobDescriptionAppliesToItem } from '../models/job-description-appliesto-item.model';
 import { AppliesToAttributesExist } from '../models/applies-to-attributes-exist.model';
-import { JobDescriptionExtendedInfo, JobDescriptionHistoryListItem, JobMatchResult } from '../../_job-description/models';
+import { JobDescriptionExtendedInfo, JobDescriptionHistoryListItem, JobMatchResult, JobDescriptionSource } from '../../_job-description/models';
 
 export class PayfactorsApiModelMapper {
   static mapAppliesToAttributesExistResponseToAppliesToAttributesExist(response: AppliesToAttributesExistResponse):
@@ -207,6 +208,26 @@ export class PayfactorsApiModelMapper {
       SurveyName: response.SurveyName,
       SurveyPublisher: response.SurveyPublisher,
       JobDescription: response.JobDescription
+    };
+  }
+
+  static mapJobDescriptionSourceResponsesToJobDescriptionSources(response: JobDescriptionSourceResponse[]): JobDescriptionSource[] {
+    return response.map(jd => {
+      return this.mapJobDescriptionSourceResponseToJobDescriptionSource(jd);
+    });
+  }
+
+  static mapJobDescriptionSourceResponseToJobDescriptionSource(response: JobDescriptionSourceResponse): JobDescriptionSource {
+    return {
+      DescriptionId: response.DescriptionId,
+      JobCode: response.JobCode,
+      JobTitle: response.JobTitle,
+      JobFamily: response.JobFamily,
+      JobLevel: response.JobLevel,
+      Status: response.Status,
+      AppliesTo: response.AppliesTo,
+      JobDescriptionTitle: response.JobDescriptionTitle,
+      Version: response.Version
     };
   }
 }

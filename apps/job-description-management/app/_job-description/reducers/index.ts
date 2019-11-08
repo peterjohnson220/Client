@@ -18,6 +18,7 @@ import * as fromJobMatchesReducer from './job-matches.reducer';
 import * as fromWorkflowReducer from './workflow.reducer';
 import * as fromEmployeeAcknowledgementReducer from './employee-acknowledgement.reducer';
 import * as fromFlsaQuestionnaireReducer from './job-description-flsa-questionnaire.reducer';
+import * as fromCopyJobDescriptionModalReducer from './copy-job-description-modal.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementJobDescriptionState {
@@ -35,6 +36,7 @@ export interface JobDescriptionManagementJobDescriptionState {
   jobDescriptionWorkflow: fromWorkflowReducer.State;
   employeeAcknowledgement: fromEmployeeAcknowledgementReducer.State;
   flsaQuestionnaire: fromFlsaQuestionnaireReducer.State;
+  copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -57,7 +59,8 @@ export const reducers = {
   jobMatches: fromJobMatchesReducer.reducer,
   jobDescriptionWorkflow: fromWorkflowReducer.reducer,
   employeeAcknowledgement: fromEmployeeAcknowledgementReducer.reducer,
-  flsaQuestionnaire: fromFlsaQuestionnaireReducer.reducer
+  flsaQuestionnaire: fromFlsaQuestionnaireReducer.reducer,
+  copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.reducer
 };
 
 // Select Feature Area
@@ -133,6 +136,11 @@ export const selectEmployeeAcknowledgementState = createSelector(
 export const selectFlsaQuestionnaireState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.flsaQuestionnaire
+);
+
+export const selectCopyJobDescriptionModalState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.copyJobDescriptionModal
 );
 
 // Add Job Modal
@@ -595,6 +603,12 @@ export const getFlsaQuestionnaireAsync = createSelector(
 export const getSavingFlsaQuestionnaire = createSelector(
   selectFlsaQuestionnaireState,
   fromFlsaQuestionnaireReducer.getSavingFlsaQuestionnaireDetails
+);
+
+// Copy Job Description Modal
+export const getJobDescriptionSourcesAsync = createSelector(
+  selectCopyJobDescriptionModalState,
+  fromCopyJobDescriptionModalReducer.getJobDescriptionSourcesAsync
 );
 
 

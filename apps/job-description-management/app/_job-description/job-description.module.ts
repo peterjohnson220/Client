@@ -28,7 +28,8 @@ import {
   JobDescriptionActionsComponent,
   WorkflowWatchSidebarComponent,
   JobDescriptionHistoryGridComponent,
-  JobMatchesModalComponent
+  JobMatchesModalComponent,
+  CopyJobDescriptionModalComponent
 } from './containers';
 import {
   AddJobModalComponent,
@@ -68,7 +69,8 @@ import {
   JobMatchesEffects,
   WorkflowEffects,
   EmployeeAcknowledgementEffects,
-  FlsaQuestionnaireModalEffects
+  FlsaQuestionnaireModalEffects,
+  CopyJobDescriptionModalEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
@@ -97,7 +99,8 @@ import { ListAreaService } from '../shared/services';
       JobMatchesEffects,
       WorkflowEffects,
       EmployeeAcknowledgementEffects,
-      FlsaQuestionnaireModalEffects
+      FlsaQuestionnaireModalEffects,
+      CopyJobDescriptionModalEffects
     ]),
     LayoutModule,
     SharedModule,
@@ -160,6 +163,7 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionActionsComponent,
     JobDescriptionHistoryGridComponent,
     JobMatchesModalComponent,
+    CopyJobDescriptionModalComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,

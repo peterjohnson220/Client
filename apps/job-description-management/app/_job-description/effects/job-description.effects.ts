@@ -13,6 +13,7 @@ import { CompanyDto } from 'libs/models/company';
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
+import * as fromCopyJobDescriptionActions from '../actions/copy-job-description-modal.actions';
 import { PayfactorsApiModelMapper } from '../../shared/helpers';
 import { GetJobDescriptionData } from '../models';
 
@@ -197,6 +198,15 @@ export class JobDescriptionEffects {
               },
             catchError(() => of(new fromJobDescriptionActions.GetJobDescriptionExtendedInfoError()))
           ));
+      })
+    );
+
+  @Effect()
+  replaceJobDescriptionViaCopySuccess$ = this.actions$
+    .pipe(
+      ofType(fromCopyJobDescriptionActions.REPLACE_JOB_DESCRIPTION_SUCCESS),
+      map((action: fromCopyJobDescriptionActions.ReplaceJobDescriptionSuccess) => {
+        return new fromJobDescriptionActions.ReplaceJobDescriptionViaCopy(action.payload);
       })
     );
 

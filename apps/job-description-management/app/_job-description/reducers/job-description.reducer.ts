@@ -375,6 +375,15 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionAsync: asyncStateObjClone
       };
     }
+    case fromJobDescriptionActions.REPLACE_JOB_DESCRIPTION_VIA_COPY: {
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      asyncStateObjClone.obj = action.payload;
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
+    }
     default:
       return state;
   }

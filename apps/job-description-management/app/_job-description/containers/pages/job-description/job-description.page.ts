@@ -44,6 +44,7 @@ import { JobDescriptionDnDService } from '../../../services';
 import { EmployeeAcknowledgementModalComponent } from '../../../components/modals';
 import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa-questionnaire';
 import { JobMatchesModalComponent } from '../../job-matches-modal';
+import { CopyJobDescriptionModalComponent } from '../../copy-job-description-modal';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
   @ViewChild('jobMatchesModalComponent', { static: false }) public jobMatchesModalComponent: JobMatchesModalComponent;
+  @ViewChild(CopyJobDescriptionModalComponent, { static: true }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
@@ -279,7 +281,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleCopyFromClicked(): void {
-    // this.selectJobAsCopySourceModal.open();
+    this.copyJobDescriptionModal.open();
   }
 
   handleFLSAClicked(): void {
