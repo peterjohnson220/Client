@@ -13,7 +13,7 @@ import * as fromJobDescriptionReducers from '../../reducers';
 import * as fromJobDescriptionActions from '../../actions/job-description.actions';
 import * as fromJobMatchesActions from '../../actions/job-matches.actions';
 import { EmployeeAcknowledgement, JobDescriptionExtendedInfo, JobMatchResult } from '../../models';
-import { JobDescriptionViewConstants } from '../../../shared/constants';
+import { JobDescriptionHelper } from '../../helpers';
 
 @Component({
   selector: 'pf-job-description-actions',
@@ -33,7 +33,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   @Output() libraryClicked = new EventEmitter();
   @Output() routingHistoryClicked = new EventEmitter();
   @Output() updateJobInfoClicked = new EventEmitter();
-  @Output() exportClicked: EventEmitter<string> = new EventEmitter<string>();
+  @Output() exportClicked: EventEmitter<{ exportType: string, viewName: string }> = new EventEmitter<{ exportType: string, viewName: string }>();
   @Output() acknowledgedClicked = new EventEmitter();
 
   identity$: Observable<UserContext>;
@@ -45,7 +45,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   editingJobDescription$: Observable<boolean>;
   inHistory$: Observable<boolean>;
   jobDescriptionExtendedInfo$: Observable<JobDescriptionExtendedInfo>;
-  editing$: Observable<boolean>;
   acknowledgementDisabled$: Observable<boolean>;
   employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
@@ -55,7 +54,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobDescriptionSubscription: Subscription;
   jobDescriptionChangeHistorySubscription: Subscription;
   jobDescriptionExtendedInfoSubscription: Subscription;
-  editingSubscription: Subscription;
   jobDescriptionViewsAsyncSubscription: Subscription;
   inHistorySubscription: Subscription;
   jobMatchesAsyncSubscription: Subscription;
@@ -67,7 +65,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   inWorkflow: boolean;
   undoQueueAvailable: boolean;
   containsFLSA: boolean;
-  editing: boolean;
   inHistory: boolean;
   identityInEmployeeAcknowledgement: boolean;
   hasCanPublishJobDescriptionPermission: boolean;
@@ -93,7 +90,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.editingJobDescription$ = this.store.select(fromJobDescriptionReducers.getEditingJobDescription);
     this.inHistory$ = this.store.select(fromJobDescriptionReducers.getInHistory);
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
-    this.editing$ = this.store.select(fromJobDescriptionReducers.getEditingJobDescription);
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.acknowledgementDisabled$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementError);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
@@ -119,7 +115,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       this.undoQueueAvailable = !!results && results.length > 0;
     });
     this.jobDescriptionExtendedInfoSubscription = this.jobDescriptionExtendedInfo$.subscribe(result => this.jobDescriptionExtendedInfo = result);
-    this.editingSubscription = this.editing$.subscribe(value => this.editing = value);
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => {
       if (!!asyncObj) {
         this.jobDescriptionViews = asyncObj.obj;
@@ -134,9 +129,9 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.jobDescriptionSubscription.unsubscribe();
     this.jobDescriptionChangeHistorySubscription.unsubscribe();
     this.jobDescriptionExtendedInfoSubscription.unsubscribe();
-    this.editingSubscription.unsubscribe();
     this.jobDescriptionViewsAsyncSubscription.unsubscribe();
     this.inHistorySubscription.unsubscribe();
+    this.jobMatchesAsyncSubscription.unsubscribe();
   }
 
   public get hasRoutingHistory(): boolean {
@@ -252,11 +247,15 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   }
 
   handleExportAsWordClicked(): void {
-    this.handleExportClicked('docx');
+    this.exportClicked.emit({ exportType: 'docx', viewName: this.viewName });
   }
 
   handleExportAsPDFClicked(): void {
-    this.handleExportClicked('pdf');
+    this.exportClicked.emit({ exportType: 'pdf', viewName: this.viewName });
+  }
+
+  public get isUserDefinedViewsAvailable(): boolean {
+    return JobDescriptionHelper.isUserDefinedViewsAvailable(this.jobDescriptionViews);
   }
 
   private initPermissions(): void {
@@ -270,29 +269,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       PermissionCheckEnum.Single);
     this.hasCanCancelWorkflowPermission = this.permissionService.CheckPermission([Permissions.CAN_CANCEL_JOB_DESCRIPTION_WORKFLOW],
       PermissionCheckEnum.Single);
-  }
-
-  private handleExportClicked(exportType: string) {
-    if (this.editing && this.isUserDefinedViewsAvailable() ) {
-      this.exportClicked.emit(exportType);
-      this.viewName = 'Default';
-    } else {
-      this.export(exportType);
-    }
-  }
-
-  private export(exportType: string): void {
-    const htmlDocument: any = document;
-
-    htmlDocument.exportForm.elements['export-uid'].value = Date.now();
-    htmlDocument.exportForm.elements['export-type'].value = exportType;
-    htmlDocument.exportForm.elements['viewName'].value = this.viewName;
-
-    htmlDocument.exportForm.submit();
-  }
-
-  private isUserDefinedViewsAvailable() {
-    return this.jobDescriptionViews.length > JobDescriptionViewConstants.SYSTEM_VIEWS.length - 1;
   }
 
   private resetJobMatches(): void {

@@ -24,7 +24,7 @@
       (libraryClicked)="toggleLibrary()"
       (routingHistoryClicked)="handleRoutingHistoryClicked()"
       (updateJobInfoClicked)="handleUpdateJobInfoClicked()"
-      (exportClicked)="handleExportClicked($event)"
+      (exportClicked)="handleExportClickedFromActions($event)"
       (acknowledgedClicked)="openEmployeeAcknowledgementModal()">
     </pf-job-description-actions>
 
@@ -44,21 +44,19 @@
            [class.col-12]="jobDescriptionIsFullscreen || (identity$ | async)?.IsPublic || (!showLibrary && !identityInWorkflow && jobDescription.JobDescriptionStatus != 'In Review' && !showRoutingHistory)">
         <div class="scroll-y column-scroll-inner">
 
-          <div [class.card]="jobDescription.JobDescriptionStatus == 'In Review'">
-            <!-- <div *ngIf="jobDescription?.JobDescriptionStatus == 'In Review'">
+          <div [class.card]="jobDescription.JobDescriptionStatus === 'In Review'">
+
+            <div *ngIf="jobDescription?.JobDescriptionStatus === 'In Review'">
               <div class="float-right">
-                <button type="button" class="btn btn-sm btn-secondary" (click)="handleExportClicked('pdf')">
-                  <i class="far fa-file-pdf" aria-hidden="true"></i> Export as PDF
+                <button type="button" class="btn btn-sm btn-secondary" (click)="handleExportAsPDFClicked()">
+                  <fa-icon [icon]="['far', 'file-pdf']" aria-hidden="true"></fa-icon> Export as PDF
                 </button>
-                <button class="btn btn-sm btn-secondary" *ngIf="!(jobDescriptionIsFullscreen$ | async)"
-                  (click)="handleResize()">
-                  <i class="far fa-expand-alt" aria-hidden="true"></i>
-                </button>
-                <button class="btn btn-sm btn-secondary" *ngIf="jobDescriptionIsFullscreen$ | async" (click)="handleResize()">
-                  <i class="far fa-compress-alt" aria-hidden="true"></i>
+                <button class="btn btn-sm btn-secondary ml-2" (click)="handleResize()">
+                  <fa-icon *ngIf="!jobDescriptionIsFullscreen" [icon]="['far', 'expand-alt']" aria-hidden="true"></fa-icon>
+                  <fa-icon *ngIf="jobDescriptionIsFullscreen" [icon]="['far', 'compress-alt']" aria-hidden="true"></fa-icon>
                 </button>
               </div>
-            </div> -->
+            </div>
 
             <div class="card-block">
               <ng-container *ngIf="identityInEmployeeAcknowledgement">
@@ -119,7 +117,7 @@
         </pf-async-container>
       </div>
 
-      <ng-container *ngIf="!(jobDescriptionIsFullscreen$ | async) && !(identity$ | async)?.IsPublic">
+      <ng-container *ngIf="!jobDescriptionIsFullscreen && !(identity$ | async)?.IsPublic">
         <!--<div *ngIf="(identityInWorkflow$ | async) && !showLibrary" class="column-scroll-container col-4">-->
           <!--<div class="scroll-y column-scroll-inner">-->
             <!--<pf-workflow-sidebar-->
@@ -180,12 +178,12 @@
 <pf-job-description-applies-to-modal 
     [editing]="true"
     (appliesToUpdated)="appliesToFormCompleted($event)">
-</pf-job-description-applies-to-modal>
+</pf-job-description-applies-to-modal>-->
 
 <pf-export-job-description-modal
-        [jobDescriptionViews]="jobDescriptionViews$ | async"
-        (export)="handleExportModalConfirmed($event)">
-</pf-export-job-description-modal> -->
+  [jobDescriptionViews]="jobDescriptionViews"
+  (export)="handleExportModalConfirmed($event)">
+</pf-export-job-description-modal> 
 
 <pf-simple-yes-no-modal
   #discardDraftModal
