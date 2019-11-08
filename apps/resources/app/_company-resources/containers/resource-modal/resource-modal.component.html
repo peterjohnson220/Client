@@ -8,8 +8,8 @@
   <div class="modal-body">
     <ng-container form-content class="form-group">
       <label class="col-form-label" for="resourceName">Resource Name*</label>
-      <input id="resourceName" type="text" class="form-control" formControlName="resourceName" [maxLength]="50" required>
-      <ng-container *ngIf="resourceForm.controls['resourceName'].invalid && resourceForm.controls['resourceName'].dirty || 
+      <input id="resourceName" type="text" class="form-control" formControlName="resourceName" [maxLength]="100" required>
+      <ng-container *ngIf="resourceForm.controls['resourceName'].invalid && resourceForm.controls['resourceName'].dirty ||
       resourceForm.controls['resourceName'].invalid && isFormSubmitted">
         <label class="alert alert-danger">Please enter a title for this resource.</label>
       </ng-container>
