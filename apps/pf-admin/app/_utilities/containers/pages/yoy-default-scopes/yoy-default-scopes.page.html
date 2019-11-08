@@ -18,6 +18,7 @@
           <pf-match-results
             [matchResultsAsync]="matchResultsAsync$ | async"
             [filteredMatchResults]="filteredMatchResults$ | async"
+            [scopeSelected]="(selectedScope$ | async) !== undefined"
             (matchResultSelected)="handleMatchResultSelected($event)"
             (applyExactMatchClicked)="handleApplyExactMatchClicked($event)"
             (filterClicked)="handleFilterMatchResultsClicked($event)">
