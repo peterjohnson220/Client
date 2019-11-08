@@ -108,6 +108,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   isSiteAdmin = false;
   isCompanyAdmin = false;
   inHistory: boolean;
+  jobDescriptionDisplayName: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -364,7 +365,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => this.jobDescription = result.obj);
+    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => this.handleJobDescriptionChanged(result.obj));
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
@@ -488,5 +489,17 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
     arrayMoveMutate(controlData, oldIndex, newIndex);
     this.saveThrottle.next(true);
+  }
+
+  private handleJobDescriptionChanged(jobDescription: JobDescription): void {
+    if (!jobDescription) {
+      return;
+    }
+    this.jobDescription = jobDescription;
+    if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {
+      this.jobDescriptionDisplayName = jobDescription.JobInformationFields.find(infoField => infoField.FieldName === 'JobTitle').FieldValue;
+    } else {
+      this.jobDescriptionDisplayName = jobDescription.JobDescriptionTitle;
+    }
   }
 }
