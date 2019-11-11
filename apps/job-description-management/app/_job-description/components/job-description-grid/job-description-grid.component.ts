@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { GridDataResult, SelectionEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
 import { ListAreaColumn } from 'libs/models/common';
@@ -30,11 +30,12 @@ export class JobDescriptionGridComponent {
   public info: any;
   public filterChanged: any;
 
-  handleRowClick(selection) {
+  handleRowClick(selection: SelectionEvent) {
     if (!selection || (!!selection.selectedRows && selection.selectedRows.length !== 1)) {
       return;
     }
     const companyJobViewListItem: CompanyJobViewListItem = selection.selectedRows[0].dataItem;
+    selection.selectedRows = [];
     this.navigateToJobDescription.emit(companyJobViewListItem);
   }
 
