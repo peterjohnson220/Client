@@ -36,5 +36,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
 }
 
 export function getMockEntityChoiceList(): EntityChoice[] {
-    return getEntityChoicesForOrgLoader();
+    const mock = getEntityChoicesForOrgLoader();
+    mock[0].isChecked = true;
+    mock[4].isChecked = true;
+    return mock;
 }
