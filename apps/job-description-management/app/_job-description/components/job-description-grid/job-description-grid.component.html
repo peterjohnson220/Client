@@ -51,7 +51,7 @@
 
   <kendo-grid-column *ngIf="!isPublic" class="cancel-row-click" [width]="50" [style]="{'text-align': 'center', 'overflow': 'inherit'}">
     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-      <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block" placement="bottom-right">
+      <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
         <button class="btn btn-secondary btn-sm" id="jd-list-view-actions-dropdown" ngbDropdownToggle>
           <fa-icon icon="ellipsis-h"></fa-icon>
         </button>
