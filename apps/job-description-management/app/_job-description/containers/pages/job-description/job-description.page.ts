@@ -453,7 +453,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
         JobDescriptionId: jobDescriptionId,
         ViewName: viewName,
-        RevisionNumber: !!this.tokenId ? this.identity.EmployeeAcknowledgementInfo.Version : revisionNumber,
+        RevisionNumber: !!this.identity.EmployeeAcknowledgementInfo ? this.identity.EmployeeAcknowledgementInfo.Version : revisionNumber,
         InHistory: !!revisionNumber
       }));
     });
