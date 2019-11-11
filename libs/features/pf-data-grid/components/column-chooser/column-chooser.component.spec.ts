@@ -9,9 +9,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockViewField } from 'libs/models/payfactors-api/index';
+import { FilterArrayByName } from 'libs/core/pipes';
 
 import { ColumnChooserComponent } from './column-chooser.component';
-import { ColumnSearchPipe } from '../../pipes';
 
 describe('Common UI - PF Grid - Column Chooser Popover', () => {
   let instance: ColumnChooserComponent;
@@ -27,7 +27,7 @@ describe('Common UI - PF Grid - Column Chooser Popover', () => {
         })
       ],
       declarations: [
-        ColumnChooserComponent, ColumnSearchPipe
+        ColumnChooserComponent, FilterArrayByName
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
