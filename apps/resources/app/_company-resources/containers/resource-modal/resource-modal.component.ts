@@ -130,7 +130,7 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
 
   private createForm() {
     this.resourceForm = this.formBuilder.group({
-      'resourceName': [undefined, {validators: [Validators.required, Validators.maxLength(50), this.validateName]}],
+      'resourceName': [undefined, {validators: [Validators.required, Validators.maxLength(100), this.validateName]}],
       'folderName': [undefined, {validators: [Validators.maxLength(50), this.validateName]}],
       'urlName': [undefined, {validators: [this.validateUrl], updateOn: 'blur'}],
       'kendoUpload': [undefined]
