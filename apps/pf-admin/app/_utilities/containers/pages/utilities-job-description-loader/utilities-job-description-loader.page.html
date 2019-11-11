@@ -81,7 +81,7 @@
                                                    <span *ngIf="mappingFile">
                                                         {{ mappingFile?.name }}
                                                      <span (click)="remove('mappingFile',mappingFileInput)">
-                                                       <fa-icon icon="trash-alt" class="pointer"></fa-icon>
+                                                       <fa-icon icon="trash-alt"></fa-icon>
                                                      </span>
                                                     </span>
                       </td>
@@ -102,7 +102,7 @@
                                                   <span *ngIf="dataFile">
                                                          {{ dataFile?.name }}
                                                     <span (click)="remove('dataFile',dataFileInput)">
-                                                      <fa-icon icon="trash-alt" class="pointer"></fa-icon>
+                                                      <fa-icon icon="trash-alt"></fa-icon>
                                                     </span>
                                                   </span>
                       </td>
@@ -135,7 +135,7 @@
                       </td>
                       <td class="center-align">
                         <div *ngIf="!(jobDescriptionLoaderValidated$ | async)">
-                          <button type="button" class="btn btn-warning button-match pr-3"
+                          <button type="button" class="btn btn-warning button-match pr-3 no-pointer"
                                   (click)="validate()"
                                   [disabled]="!this.mappingFile || !this.dataFile || (jobDescriptionLoaderValidating$ | async) ">
                             <fa-icon icon="check" class="pr-1"></fa-icon>Validate
