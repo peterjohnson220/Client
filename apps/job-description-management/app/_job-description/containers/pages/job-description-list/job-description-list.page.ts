@@ -321,8 +321,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     const request = {
       JobDescriptionId: companyJobViewListItem.JobDescriptionId,
       Request: {
-        LastPublishedVersionNumber: companyJobViewListItem.VersionNumber,
-        JobDescriptionStatus: companyJobViewListItem.JobDescriptionStatus
+        lastPublishedVersionNumber: companyJobViewListItem.VersionNumber,
+        jobDescriptionStatus: companyJobViewListItem.JobDescriptionStatus
       }
     };
 
