@@ -58,7 +58,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
   @ViewChild('jobMatchesModalComponent', { static: false }) public jobMatchesModalComponent: JobMatchesModalComponent;
-  @ViewChild(CopyJobDescriptionModalComponent, { static: true }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
+  @ViewChild(CopyJobDescriptionModalComponent, { static: false }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
@@ -375,25 +375,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   private initSubscriptions(): void {
-    const urlParams = Observable.combineLatest(
-      this.route.params,
-      this.route.queryParams,
-      (params, queryParams) => ({ ...params, queryParams: queryParams })
-    );
-    this.routerParamsSubscription = urlParams.subscribe(params => {
-      const jobDescriptionId = params['id'];
-      const viewName = params.queryParams['viewName'];
-      const revisionNumber = params['versionNumber'];
-      this.tokenId = params.queryParams['jwt'];
-      this.inHistory = !!revisionNumber;
-      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
-        JobDescriptionId: jobDescriptionId,
-        ViewName: viewName,
-        RevisionNumber: revisionNumber,
-        InHistory: !!revisionNumber
-      }));
-    });
-
     this.jobDescriptionExtendedInfoSubscription = this.jobDescriptionExtendedInfo$.subscribe(jdei => {
       if (!!jdei && jdei.WorkflowId === 0) {
         this.showRoutingHistory = false;
@@ -419,6 +400,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
           : '';
       });
       this.isSiteAdmin = userContext.AccessLevel === 'Admin';
+      this.initRouterParams();
       this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(userContext.CompanyId));
     });
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
@@ -454,6 +436,27 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
     this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
+  }
+
+  private initRouterParams(): void {
+    const urlParams = Observable.combineLatest(
+      this.route.params,
+      this.route.queryParams,
+      (params, queryParams) => ({ ...params, queryParams: queryParams })
+    );
+    this.routerParamsSubscription = urlParams.subscribe(params => {
+      const jobDescriptionId = params['id'];
+      const viewName = params.queryParams['viewName'];
+      const revisionNumber = params['versionNumber'];
+      this.tokenId = params.queryParams['jwt'];
+      this.inHistory = !!revisionNumber;
+      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
+        JobDescriptionId: jobDescriptionId,
+        ViewName: viewName,
+        RevisionNumber: !!this.tokenId ? this.identity.EmployeeAcknowledgementInfo.Version : revisionNumber,
+        InHistory: !!revisionNumber
+      }));
+    });
   }
 
   private initSaveThrottle() {
