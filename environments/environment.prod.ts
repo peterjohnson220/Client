@@ -1,8 +1,8 @@
 export const environment = {
-  avatarSource: 'https://c49e5bcd31eb4648ab13-7621f32ad8fab3cdc08ded8807f92015.ssl.cf5.rackcdn.com/avatars/',
-  companyLogoSource: 'https://c49e5bcd31eb4648ab13-7621f32ad8fab3cdc08ded8807f92015.ssl.cf5.rackcdn.com/company_logos/',
-  cloudFilesPublicBaseUrl: 'https://c49e5bcd31eb4648ab13-7621f32ad8fab3cdc08ded8807f92015.ssl.cf5.rackcdn.com/',
-  marketingImageSource: 'https://c49e5bcd31eb4648ab13-7621f32ad8fab3cdc08ded8807f92015.ssl.cf5.rackcdn.com/marketing_image/',
+  avatarSource: 'https://pr00pubstorage.blob.core.windows.net/publicfiles/avatars/',
+  companyLogoSource: 'https://pr00pubstorage.blob.core.windows.net/publicfiles/company_logos/',
+  cloudFilesPublicBaseUrl: 'https://pr00pubstorage.blob.core.windows.net/publicfiles/',
+  marketingImageSource: 'https://pr00pubstorage.blob.core.windows.net/publicfiles/marketing_image/',
   production: true,
   payfactorsApiUrl: '/odata/',
   payfactorsMarketDataUrl: '/marketdata/',
