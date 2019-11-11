@@ -157,7 +157,7 @@
 </pf-page-with-title-bar>
 
 <!--Modals-->
-<pf-copy-job-description-modal></pf-copy-job-description-modal>
+<pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic"></pf-copy-job-description-modal>
 
 <!-- <pf-workflow-cancel-modal
         (workflowCancelConfirmed)="handleCancelApprovalConfirmed($event)">
