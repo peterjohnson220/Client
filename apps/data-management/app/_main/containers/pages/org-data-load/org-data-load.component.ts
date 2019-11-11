@@ -1,10 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
-import 'rxjs/add/observable/forkJoin';
 
 import { KeyValue } from '@angular/common';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
@@ -35,7 +34,7 @@ export class OrgDataLoadComponent implements OnDestroy {
 
   // because the company selector is inside of a switch
   // the init will not fire which triggers the api call unless
-  // we have render our index.
+  // we have rendered our index.
   stepIndex: number = 1;
   companies: CompanySelectorItem[];
   selectedCompany: CompanySelectorItem = null;
@@ -77,13 +76,12 @@ export class OrgDataLoadComponent implements OnDestroy {
       take(1),
       takeUntil(this.unsubscribe$));
 
-    Observable.forkJoin({ user: userSubscription, company: companiesSubscription })
+    forkJoin({ user: userSubscription, company: companiesSubscription })
       .subscribe(f => {
         this.userContext = f.user;
         this.companies = f.company;
         this.setInitValues();
-      }
-      );
+      });
   }
 
   ngOnDestroy(): void {
