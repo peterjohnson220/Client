@@ -34,7 +34,6 @@ import {
   PfDataGridSaveViewModalComponent,
   ColumnChooserComponent
 } from './components';
-import { ColumnSearchPipe } from './pipes';
 
 @NgModule({
   imports: [
@@ -69,8 +68,7 @@ import { ColumnSearchPipe } from './pipes';
     FilterBuilderComponent,
     PfDataGridFilterPillsComponent,
     PfDataGridSaveViewModalComponent,
-    ColumnChooserComponent,
-    ColumnSearchPipe
+    ColumnChooserComponent
   ],
   exports: [
     PfDataGridComponent
