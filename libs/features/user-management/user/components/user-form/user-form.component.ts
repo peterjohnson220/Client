@@ -141,7 +141,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           Validators.minLength(this.MIN_PASSWORD_LENGTH),
           Validators.maxLength(this.MAX_PASSWORD_LENGTH)
         ])
-      ])
+      ]);
     } else {
       this.f.password.setValidators(null);
     }
@@ -170,8 +170,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
   generateUserToSave(empty: boolean) {
 
     const password = empty ? this.generateRandomPassword() : this.getPassword();
-    console.log(password);
-    console.log(password ? this.f.sendWelcomeEmail.value : false);
 
     return {
       ...this.user,
