@@ -186,3 +186,9 @@ pf-job-description-version-compare {
   color: #fff;
   background-color: #1872ae;
 }
+
+.pf-inner-page-content {
+  height: calc(100vh - 130px);
+  overflow: hidden;
+  padding: 10px 0;
+}
