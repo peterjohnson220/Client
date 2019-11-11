@@ -169,10 +169,18 @@ export const getExchangeScopes = createSelector(
   getExchangeScopesSrc,
   getExchangeJobFilterOptions,
   getSelectedExchangeJobId,
-  (scopes, exchangeJobOptions, lockedExchangeJobId) => {
-    const selectedExchangeJobExchangeDetail = exchangeJobOptions.find(ejo => ejo.ExchangeJobId === lockedExchangeJobId);
-    if (!scopes || !scopes.length || !selectedExchangeJobExchangeDetail) {
+  (scopes, exchangeJobOptions, selectedExchangeJobId) => {
+    if (!scopes || !scopes.length) {
       return [];
+    }
+
+    if (!exchangeJobOptions) {
+      return scopes;
+    }
+
+    const selectedExchangeJobExchangeDetail = exchangeJobOptions.find(ejo => ejo.ExchangeJobId === selectedExchangeJobId);
+    if (!selectedExchangeJobExchangeDetail) {
+      return scopes;
     }
 
     return scopes.filter(s => s.ExchangeId === selectedExchangeJobExchangeDetail.ExchangeId);
