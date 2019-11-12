@@ -10,7 +10,7 @@
   <main [class.main-body-scroll]="!centerContentScroll">
     <div class="left-sidebar"
          [class.left-sidebar-center-content-scroll]="centerContentScroll"
-         [class.d-none]="(userContext$ | async)?.IsPublic"
+         [class.d-none]="(userContext$ | async)?.IsPublic || (userContext$ | async)?.WorkflowStepInfo"
          (mouseenter)="leftSidebarToggleChanged(true)"
          (mouseleave)="leftSidebarToggleChanged(false)">
       <pf-layout-wrapper-left-sidebar [leftSidebarToggle]="leftSidebarToggle"></pf-layout-wrapper-left-sidebar>

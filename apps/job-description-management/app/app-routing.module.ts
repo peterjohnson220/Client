@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppWrapperComponent } from 'libs/features/app-root';
 import { UserContextGuard } from 'libs/security';
 import { AccessDeniedPageComponent, NotFoundErrorPageComponent, TokenExpirationPageComponent } from 'libs/ui/common/error/pages';
+import { WorkflowStepCompletionPageComponent } from './shared/components/workflow-step-completion';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,7 @@ export const routes: Routes = [
       }
     ]
   },
+  { path: 'workflow-complete', component: WorkflowStepCompletionPageComponent },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'not-found', component: NotFoundErrorPageComponent },
   { path: 'token-expired', component: TokenExpirationPageComponent },

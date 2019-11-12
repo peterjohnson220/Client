@@ -27,7 +27,8 @@ import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import { CompanyJobViewListItem, generateMockCompanyJobViewListItem } from '../../../models';
-import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent } from '../../../components';
+import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent,
+  WorkflowCancelModalComponent } from '../../../components';
 import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to/job-description-applies-to-modal.component';
@@ -81,7 +82,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
       ],
       declarations: [
         JobDescriptionListPageComponent, AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent,
-        JobDescriptionAppliesToModalComponent, SaveFilterModalComponent
+        JobDescriptionAppliesToModalComponent, SaveFilterModalComponent, WorkflowCancelModalComponent
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });

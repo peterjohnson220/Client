@@ -35,7 +35,7 @@ export class LoadingUserContextComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userContextSubscription = this.userContext$.subscribe(uc => {
-      if (uc && !uc.IsPublic) {
+      if (uc && !uc.IsPublic && !uc.WorkflowStepInfo) {
         this.store.dispatch(new fromUserAssignedRoleActions.GetUserAssignedRoles());
         this.store.dispatch(new fromLegacyCompanySettingsActions.GetCompanySettings());
         this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());

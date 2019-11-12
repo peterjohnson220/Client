@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { DragulaHelperService } from 'libs/core/services';
 
-import { JobDescriptionManagementDndSource } from '../constants/job-description-dnd-source';
+import { JobDescriptionManagementDndSource } from '../constants';
 
 @Injectable()
 export class JobDescriptionManagementDnDService {

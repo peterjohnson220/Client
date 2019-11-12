@@ -63,7 +63,7 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromHeaderActions.GetHeaderUserHomePageLink({
         userId: userContext.UserId
       }));
-      if (!userContext.IsPublic) {
+      if (!userContext.IsPublic && !userContext.WorkflowStepInfo) {
         this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
       }
     });

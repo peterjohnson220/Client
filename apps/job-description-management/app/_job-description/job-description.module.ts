@@ -29,7 +29,9 @@ import {
   WorkflowWatchSidebarComponent,
   JobDescriptionHistoryGridComponent,
   JobMatchesModalComponent,
-  CopyJobDescriptionModalComponent
+  CopyJobDescriptionModalComponent,
+  WorkflowSidebarComponent,
+  ChangeApproverModalComponent
 } from './containers';
 import {
   AddJobModalComponent,
@@ -50,7 +52,9 @@ import {
   PublicViewHeaderComponent,
   SaveFilterModalComponent,
   WorkflowLogComponent,
+  WorkflowProgressBarComponent,
   EmployeeAcknowledgementModalComponent,
+  WorkflowCancelModalComponent,
   FlsaQuestionnaireModalComponent,
   JobMatchResultComponent,
   ExportJobDescriptionModalComponent
@@ -152,9 +156,11 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionControlComponent,
     WorkflowLogComponent,
     EmployeeAcknowledgementModalComponent,
+    WorkflowCancelModalComponent,
     FlsaQuestionnaireModalComponent,
     JobMatchResultComponent,
     ExportJobDescriptionModalComponent,
+    WorkflowProgressBarComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,
@@ -168,10 +174,12 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionHistoryGridComponent,
     JobMatchesModalComponent,
     CopyJobDescriptionModalComponent,
+    WorkflowSidebarComponent,
+    ChangeApproverModalComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,
-    UserFilterSearchPipe,
+    UserFilterSearchPipe
   ],
   providers: [
     ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService, JobDescriptionJobCompareService,

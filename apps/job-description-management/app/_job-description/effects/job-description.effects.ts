@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -15,6 +16,7 @@ import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import * as fromCopyJobDescriptionActions from '../actions/copy-job-description-modal.actions';
+import * as fromWorkflowActions from '../actions/workflow.actions';
 import { PayfactorsApiModelMapper } from '../../shared/helpers';
 import { GetJobDescriptionData } from '../models';
 
@@ -50,7 +52,7 @@ export class JobDescriptionEffects {
               }
               return actions;
             }),
-            catchError(() => of(new fromJobDescriptionActions.GetJobDescriptionError()))
+            catchError(error => of(new fromJobDescriptionActions.GetJobDescriptionError(error)))
           );
       })
     );
@@ -146,6 +148,17 @@ export class JobDescriptionEffects {
     );
 
   @Effect()
+  handleApiError$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION_ERROR),
+      map((action: fromJobDescriptionActions.GetJobDescriptionError) => {
+          const errorMessage = this.redirectForUnauthorized(action.payload);
+          return new fromWorkflowActions.SetMessage({message: errorMessage});
+        })
+    );
+
+
+  @Effect()
   getJobDescriptionExtendedInfo$ = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO),
@@ -168,6 +181,12 @@ export class JobDescriptionEffects {
         return new fromJobDescriptionActions.ReplaceJobDescriptionViaCopy(action.payload);
       })
     );
+
+  private redirectForUnauthorized(error: HttpErrorResponse) {
+    if (error.status === 403) {
+      return error.error.error.message;
+    }
+  }
 
   constructor(
     private actions$: Actions,

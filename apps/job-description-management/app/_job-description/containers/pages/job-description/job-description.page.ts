@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { filter, first, take } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
 
 import { arrayMoveMutate } from 'libs/core/functions';
@@ -38,12 +38,15 @@ import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/r
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionLibraryActions from '../../../../shared/actions/job-description-library.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
+import * as fromWorkflowActions from '../../../actions/workflow.actions';
 import { JobDescriptionActionsComponent } from '../../job-description-actions';
 import { JobDescriptionManagementDndSource } from '../../../../shared/constants';
 import { JobDescriptionDnDService } from '../../../services';
-import { EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent } from '../../../components/modals';
+import { EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
+  WorkflowCancelModalComponent } from '../../../components/modals';
 import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa-questionnaire';
 import { JobMatchesModalComponent } from '../../job-matches-modal';
+import { ChangeApproverModalComponent } from '../../change-approver-modal';
 import { CopyJobDescriptionModalComponent } from '../../copy-job-description-modal';
 import { JobDescriptionHelper } from '../../../helpers';
 
@@ -60,6 +63,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild('jobMatchesModalComponent', { static: false }) public jobMatchesModalComponent: JobMatchesModalComponent;
   @ViewChild(CopyJobDescriptionModalComponent, { static: false }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
+  @ViewChild(WorkflowCancelModalComponent, { static: false }) public workflowCancelModal: WorkflowCancelModalComponent;
+  // @ViewChild(WorkflowSetupModalComponent, { static: false }) public workflowSetupModal: WorkflowSetupModalComponent;
+  @ViewChild(ChangeApproverModalComponent, { static: false }) public changeApproverModal: ChangeApproverModalComponent;
+
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
@@ -77,6 +84,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
   employeeAcknowledgementErrorMessage$: Observable<string>;
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
+  completedStep$: Observable<boolean>;
+
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -91,6 +100,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   saveThrottle: Subject<any>;
   jobDescriptionViewsAsyncSubscription: Subscription;
   editingSubscription: Subscription;
+  completedStepSubscription: Subscription;
 
   companyName: string;
   companyLogoPath: string;
@@ -114,6 +124,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionDisplayName: string;
   jobDescriptionViews: string[];
   editing: boolean;
+  completedStep: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -147,6 +158,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.employeeAcknowledgementErrorMessage$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementErrorMessage);
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
+    this.completedStep$ = this.store.select(fromJobDescriptionReducers.getCompletedStep);
     this.saveThrottle = new Subject();
     this.defineDiscardDraftModalOptions();
   }
@@ -169,10 +181,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionDnDService.destroyJobDescriptionPageDnD();
     this.jobDescriptionViewsAsyncSubscription.unsubscribe();
     this.editingSubscription.unsubscribe();
+    this.completedStepSubscription.unsubscribe();
   }
 
   goBack(): void {
-    if (!!this.identity && this.identity.IsPublic) {
+    if (!!this.identity && (this.identity.IsPublic || this.identity.WorkflowStepInfo)) {
       this.router.navigate(['/'], { queryParams: { jwt: this.tokenId } });
     } else {
       this.router.navigate(['/']);
@@ -216,6 +229,15 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     if (addDataRowObj.save) {
       this.saveThrottle.next(true);
     }
+  }
+
+  handleCancelApprovalConfirmed(cancelReason: string) {
+    this.jobDescriptionExtendedInfo$.pipe(first()).subscribe(jdei => {
+      this.store.dispatch(new fromWorkflowActions.CancelApproval({
+        WorkflowId: jdei.WorkflowId,
+        Comment: cancelReason
+      }));
+    });
   }
 
   toggleLibrary() {
@@ -285,7 +307,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleCancelApprovalClicked(): void {
-    // this.workflowCancelModal.open();
+    this.workflowCancelModal.open();
+  }
+
+  handleChangeApproverClicked(e: any): void {
+    this.changeApproverModal.open(e.isLastStep, e.currentStepUserName);
   }
 
   handleCopyFromClicked(): void {
@@ -381,6 +407,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.completedStepSubscription = this.completedStep$.subscribe(cs => this.completedStep = cs);
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => this.handleJobDescriptionChanged(result.obj));
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
@@ -401,7 +428,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       });
       this.isSiteAdmin = userContext.AccessLevel === 'Admin';
       this.initRouterParams();
-      this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(userContext.CompanyId));
+      if (!this.completedStep) {
+        this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(userContext.CompanyId));
+      }
     });
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
       if (userRoles) {
@@ -454,7 +483,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         JobDescriptionId: jobDescriptionId,
         ViewName: viewName,
         RevisionNumber: !!this.identity.EmployeeAcknowledgementInfo ? this.identity.EmployeeAcknowledgementInfo.Version : revisionNumber,
-        InHistory: !!revisionNumber
+        InHistory: !!revisionNumber,
+        InWorkflow: this.identityInWorkflow
       }));
     });
   }
