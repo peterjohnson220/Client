@@ -78,7 +78,7 @@ export class CompanyApiService {
   }
 
   getCompositeFields(): Observable<ListCompositeFields[]> {
-    return this.payfactorsApiService.get<ListCompositeFields[]>(`/CompositeField`);
+    return this.payfactorsApiService.get<ListCompositeFields[]>(`CompositeField`);
   }
 
   getJobPricingLimitInfoByCompanyId(companyId: number): Observable<JobPricingLimitInfoResponse>  {
