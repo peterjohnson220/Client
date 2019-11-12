@@ -20,52 +20,6 @@ import { GetJobDescriptionData } from '../models';
 
 @Injectable()
 export class JobDescriptionEffects {
-  @Effect()
-  createJobDescription$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionActions.CREATE_JOB_DESCRIPTION),
-      switchMap((action: fromJobDescriptionActions.CreateJobDescription) =>
-        this.jobDescriptionApiService.createJobDescription(action.payload).pipe(
-          map((response: number) => {
-            return new fromJobDescriptionActions.CreateJobDescriptionSuccess(response);
-          }),
-          catchError(response => of(new fromJobDescriptionActions.CreateJobDescriptionError()))
-        )
-      ));
-
-  @Effect()
-  createJobDescriptionDraft$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionActions.CREATE_JOB_DESCRIPTION_DRAFT),
-      switchMap((action: fromJobDescriptionActions.CreateJobDescriptionDraft) =>
-        this.jobDescriptionApiService.createJobDescriptionDraft(action.payload.JobDescriptionId, action.payload.Request).pipe(
-          map((response: string) => {
-            return new fromJobDescriptionActions.CreateJobDescriptionDraftSuccess(response);
-          }),
-          catchError(response => of(new fromJobDescriptionActions.CreateJobDescriptionDraftError()))
-        )
-      ));
-
-  @Effect()
-  saveCompanyJobsJobDescriptionTemplateId$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionActions.SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID),
-      switchMap((action: fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId) => {
-        const templateId = action.payload.PassThroughParameters.templateId;
-
-        return this.jobDescriptionTemplateApiService.saveCompanyJobsJobDescriptionTemplateId(templateId, action.payload.Request)
-          .pipe(
-            map((response: any) => {
-              const successPayload = {
-                Response: response,
-                PassThroughParameters: action.payload.PassThroughParameters
-              };
-
-              return new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateIdSuccess(successPayload);
-            }),
-            catchError(response => of(new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateIdError()))
-          );
-      }));
 
   @Effect()
   getJobDescription$ = this.actions$
