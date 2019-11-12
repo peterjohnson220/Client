@@ -71,7 +71,8 @@ import {
   WorkflowEffects,
   EmployeeAcknowledgementEffects,
   FlsaQuestionnaireModalEffects,
-  CopyJobDescriptionModalEffects
+  CopyJobDescriptionModalEffects,
+  JobDescriptionListEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
@@ -101,7 +102,8 @@ import { ListAreaService } from '../shared/services';
       WorkflowEffects,
       EmployeeAcknowledgementEffects,
       FlsaQuestionnaireModalEffects,
-      CopyJobDescriptionModalEffects
+      CopyJobDescriptionModalEffects,
+      JobDescriptionListEffects
     ]),
     LayoutModule,
     SharedModule,

@@ -19,6 +19,7 @@ import * as fromWorkflowReducer from './workflow.reducer';
 import * as fromEmployeeAcknowledgementReducer from './employee-acknowledgement.reducer';
 import * as fromFlsaQuestionnaireReducer from './job-description-flsa-questionnaire.reducer';
 import * as fromCopyJobDescriptionModalReducer from './copy-job-description-modal.reducer';
+import * as fromJobDescriptionListReducer from './job-description-list.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementJobDescriptionState {
@@ -37,6 +38,7 @@ export interface JobDescriptionManagementJobDescriptionState {
   employeeAcknowledgement: fromEmployeeAcknowledgementReducer.State;
   flsaQuestionnaire: fromFlsaQuestionnaireReducer.State;
   copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.State;
+  jobDescriptionList: fromJobDescriptionListReducer.State;
 }
 
 // Extend root state with feature area state
@@ -60,7 +62,8 @@ export const reducers = {
   jobDescriptionWorkflow: fromWorkflowReducer.reducer,
   employeeAcknowledgement: fromEmployeeAcknowledgementReducer.reducer,
   flsaQuestionnaire: fromFlsaQuestionnaireReducer.reducer,
-  copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.reducer
+  copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.reducer,
+  jobDescriptionList: fromJobDescriptionListReducer.reducer
 };
 
 // Select Feature Area
@@ -143,6 +146,11 @@ export const selectCopyJobDescriptionModalState = createSelector(
   (state: JobDescriptionManagementJobDescriptionState) => state.copyJobDescriptionModal
 );
 
+export const selectJobDescriptionListState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.jobDescriptionList
+);
+
 // Add Job Modal
 export const getCompanyJob = createSelector(
   selectAddJobModalState,
@@ -220,52 +228,38 @@ export const getNoPublishedJobDescriptions = createSelector(
   fromBulkExportPopoverReducer.getNoPublishedJobDescriptions
 );
 
-// Job Description
-export const getCreatedJobDescriptionId = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getCreatedJobDescriptionId
-);
-
-export const getCreatedJobDescriptionDraft = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getCreatedJobDescriptionDraft
-);
-
+// Job Description List
 export const getJobDescriptionCreating = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getJobDescriptionCreating
+  selectJobDescriptionListState,
+  fromJobDescriptionListReducer.getJobDescriptionCreating
 );
 
 export const getJobDescriptionCreatingError = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getJobDescriptionCreatingError
+  selectJobDescriptionListState,
+  fromJobDescriptionListReducer.getJobDescriptionCreatingError
 );
 
 export const getJobDescriptionDraftCreating = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getJobDescriptionDraftCreating
+  selectJobDescriptionListState,
+  fromJobDescriptionListReducer.getJobDescriptionDraftCreating
 );
 
 export const getJobDescriptionDraftCreatingError = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getJobDescriptionDraftCreatingError
+  selectJobDescriptionListState,
+  fromJobDescriptionListReducer.getJobDescriptionDraftCreatingError
 );
 
 export const getCompanyJobsJobDescriptionTemplateIdSaving = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getCompanyJobsJobDescriptionTemplateIdSaving
+  selectJobDescriptionListState,
+  fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSaving
 );
 
 export const getCompanyJobsJobDescriptionTemplateIdSavingError = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getCompanyJobsJobDescriptionTemplateIdSavingError
+  selectJobDescriptionListState,
+  fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingError
 );
 
-export const getCompanyJobsJobDescriptionTemplateIdSavingResponse = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getCompanyJobsJobDescriptionTemplateIdSavingResponse
-);
-
+// Job Description
 export const getJobDescriptionAsync = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getJobDescriptionAsync

@@ -13,3 +13,4 @@ export * from './workflow.effects';
 export * from './employee-acknowledgement.effects';
 export * from './flsa-questionnaire-modal.effects';
 export * from './copy-job-description-modal.effects';
+export * from './job-description-list.effects';
