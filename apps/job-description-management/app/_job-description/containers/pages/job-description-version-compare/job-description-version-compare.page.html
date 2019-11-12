@@ -21,25 +21,27 @@
     </pf-compare-version-selector>
   </ng-container>
   <ng-container page-content>
-    <div class="col-12 column-scroll-container">
-      <div class="scroll-y column-scroll-inner">
-        <pf-job-description-info-header-with-logo
-          [jobDescription]="jobDescriptionVersionComparison$ | async"
-          [jobInformationFields]="(jobDescriptionVersionComparison$ | async)?.JobInformationFields"
-          [companyLogoPath]="companyLogoPath">
-        </pf-job-description-info-header-with-logo>
-        <pf-job-description-compare-section-result
-          *ngFor="let section of (jobDescriptionVersionComparison$ | async)?.Sections; let i = index"
-          [section]="section"
-          [controlTypesLoaded]="controlTypesLoaded$ | async"
-          [index]="i">
-        </pf-job-description-compare-section-result>
+    <div class="row pf-inner-page-content">
+      <div class="col-12 column-scroll-container">
+        <div class="scroll-y column-scroll-inner">
+          <pf-job-description-info-header-with-logo
+            [jobDescription]="jobDescriptionVersionComparison$ | async"
+            [jobInformationFields]="(jobDescriptionVersionComparison$ | async)?.JobInformationFields"
+            [companyLogoPath]="companyLogoPath">
+          </pf-job-description-info-header-with-logo>
+          <pf-job-description-compare-section-result
+            *ngFor="let section of (jobDescriptionVersionComparison$ | async)?.Sections; let i = index"
+            [section]="section"
+            [controlTypesLoaded]="controlTypesLoaded$ | async"
+            [index]="i">
+          </pf-job-description-compare-section-result>
+        </div>
+        <pf-async-container
+          [loading]="(jobDescriptionVersionComparisonLoading$ | async) || (jobDescriptionVersionComparisonLoadingError$ | async)"
+          [loadingError]="jobDescriptionVersionComparisonLoadingError$ | async"
+          [loadingErrorMessage]="'Error comparing job description'">
+        </pf-async-container>
       </div>
-      <pf-async-container
-        [loading]="(jobDescriptionVersionComparisonLoading$ | async) || (jobDescriptionVersionComparisonLoadingError$ | async)"
-        [loadingError]="jobDescriptionVersionComparisonLoadingError$ | async"
-        [loadingErrorMessage]="'Error comparing job description'">
-      </pf-async-container>
     </div>
   </ng-container>
 </pf-page-with-title-bar>
