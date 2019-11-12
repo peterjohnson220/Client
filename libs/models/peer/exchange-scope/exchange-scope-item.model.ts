@@ -3,7 +3,6 @@ export interface ExchangeScopeItem {
   ExchangeId: number;
   Name: string;
   Description: string;
-  AssociatedToPaymarket: boolean;
   CanDelete: boolean;
 }
 
@@ -13,7 +12,6 @@ export function generateMockExchangeScopeItem(): ExchangeScopeItem {
     ExchangeId: 1,
     Name: 'MockExchangeScopeItemName',
     Description: 'MockExchangeScopeItemDescription',
-    AssociatedToPaymarket: false,
     CanDelete: true
   };
 }
