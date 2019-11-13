@@ -52,7 +52,12 @@ export class JobDescriptionEffects {
               }
               return actions;
             }),
-            catchError(error => of(new fromJobDescriptionActions.GetJobDescriptionError(error)))
+            catchError(error => {
+              if (error.status === 404) {
+                this.router.navigate(['404']);
+              }
+              return of(new fromJobDescriptionActions.GetJobDescriptionError(error));
+            })
           );
       })
     );
