@@ -17,7 +17,7 @@ export class CompanySelectorEffects {
   getCompanies$: Observable<Action> = this.actions$.pipe(
     ofType(fromCompanySelectorActions.GET_COMPANIES),
     switchMap((action: fromCompanySelectorActions.GetCompanies) =>
-      this.companyApiService.GetCompanyBaseInformation().pipe(
+      this.companyApiService.getCompanyBaseInformation().pipe(
         map((companies: CompanyBaseInformation[]) => {
           const companiesTransformed = PayfactorsApiModelMapper.mapCompaniesResponseToCompanySelector(companies);
           return new fromCompanySelectorActions.GetCompaniesSuccess(companiesTransformed);

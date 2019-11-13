@@ -42,9 +42,13 @@ export class CompanyApiService {
     return this.payfactorsApiService.get<Company[]>(`${this.endpoint}/Default.GetCompanies`);
   }
 
-  GetCompanyBaseInformation() {
+  getCompanyBaseInformation(searchTerm?: string, take?: number) {
+    if (searchTerm || take) {
+      return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`, { params: { searchTerm, take } });
+    }
     return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`);
   }
+
   getCompany() {
     return this.payfactorsApiService.get<CompanyDto>(`${this.endpoint}/Get`);
   }
