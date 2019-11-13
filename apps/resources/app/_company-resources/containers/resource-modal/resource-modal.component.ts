@@ -79,7 +79,7 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
 
   validateUrl(control: FormControl) {
     const url: string = control.value;
-    const isUrl: boolean = /^(http[s]?:\/\/|ftp:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}$|^$/i.test(url);
+    const isUrl: boolean = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/.test(url);
 
     return isUrl ? null : {isInvalidUrl: true};
   }
