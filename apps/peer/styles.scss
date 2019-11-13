@@ -74,6 +74,7 @@ pf-company-job-and-exchange-detail {
       @include peer-button($not-associated);
       svg {
         height: 1.15rem;
+        width: 20px;
       }
     }
   }
