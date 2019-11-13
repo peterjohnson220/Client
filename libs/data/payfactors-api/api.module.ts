@@ -16,7 +16,7 @@ import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowApiService,
-  JobDescriptionWorkflowTemplateApiService, JobDescriptionTemplateApiService } from './jdm';
+  JobDescriptionWorkflowTemplateApiService, JobDescriptionTemplateApiService, JobDescriptionFooterViewApiService } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
@@ -53,6 +53,7 @@ import { CompanyResourcesApiService } from './company-resources';
     AccountApiService,
     PayMarketApiService,
     PayfactorsApiService,
+    JobDescriptionFooterViewApiService,
     JobDescriptionManagementApiService,
     JobDescriptionWorkflowApiService,
     JobDescriptionWorkflowTemplateApiService,
