@@ -15,7 +15,8 @@ import { SurveySearchApiService, JobSearchApiService, ExchangeDataSearchApiServi
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
-import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowApiService, JobDescriptionFooterViewApiService } from './jdm';
+import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowApiService,
+  JobDescriptionWorkflowTemplateApiService, JobDescriptionTemplateApiService } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
@@ -31,7 +32,6 @@ import { FileApiService } from './file';
 import { TagApiService } from './tags';
 import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
-import { JobDescriptionTemplateApiService } from './jdm';
 import { TableauReportApiService, UserReportApiService, ReportManagementApiService, DataViewApiService } from './reports';
 import { NotificationsApiService } from './notifications';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
@@ -55,7 +55,8 @@ import { CompanyResourcesApiService } from './company-resources';
     PayfactorsApiService,
     JobDescriptionManagementApiService,
     JobDescriptionWorkflowApiService,
-    JobDescriptionFooterViewApiService,
+    JobDescriptionWorkflowTemplateApiService,
+    JobDescriptionTemplateApiService,
     UserProfileApiService,
     UserFilterApiService,
     JobDescriptionApiService,
@@ -79,7 +80,6 @@ import { CompanyResourcesApiService } from './company-resources';
     PermissionService,
     RemoteDataSourceService,
     TagApiService,
-    JobDescriptionTemplateApiService,
     SurveyApiService,
     TableauReportApiService,
     UserReportApiService,

@@ -13,23 +13,20 @@ import {
   JobMatchResultResponse,
   ExtendedInfoResponse,
   JobDescriptionSourceResponse,
+ JobDescriptionDataResponse
 } from 'libs/models/payfactors-api/job-description/response';
 import { TemplateListItemResponse } from 'libs/models/payfactors-api/job-description-template/response';
 import {
   AppliesToAttributesExistResponse
 } from 'libs/models/payfactors-api/job-description/response/applies-to-attributes-exist-response.model';
-import { CompositeFilterUppercase } from 'libs/models/jdm';
-import { TemplateListItem } from 'libs/models/jdm';
-
-import { ControlLabel } from '../models/control-label.model';
-import { AvailableJobInformationField } from '../models/available-job-information-field.model';
+import { CompositeFilterUppercase, TemplateListItem } from 'libs/models/jdm';
+import { ControlLabel, AvailableJobInformationField, JobDescriptionAppliesToItem, AppliesToAttributesExist } from '../models';
 
 import {
   JobDescriptionAppliesToItemResponse
 } from 'libs/models/payfactors-api/job-description/response/job-description-appliesto-item-response.model';
-import { JobDescriptionAppliesToItem } from '../models/job-description-appliesto-item.model';
-import { AppliesToAttributesExist } from '../models/applies-to-attributes-exist.model';
-import { JobDescriptionExtendedInfo, JobDescriptionHistoryListItem, JobMatchResult, JobDescriptionSource } from '../../_job-description/models';
+import { GetJobDescriptionData, JobDescriptionExtendedInfo, JobDescriptionHistoryListItem,
+  JobMatchResult, JobDescriptionSource } from '../../_job-description/models';
 
 export class PayfactorsApiModelMapper {
   static mapAppliesToAttributesExistResponseToAppliesToAttributesExist(response: AppliesToAttributesExistResponse):
@@ -128,6 +125,14 @@ export class PayfactorsApiModelMapper {
   static mapJDAppliesToItemResponseListToJDAppliesToItemList(response: JobDescriptionAppliesToItemResponse[]):
     JobDescriptionAppliesToItem[] {
     return response.map(jdatir => this.mapJDAppliesToItemResponseToJDAppliesToItem(jdatir));
+  }
+
+  static mapJDDataResponseToJDDataResponseItem(response: JobDescriptionDataResponse):
+    GetJobDescriptionData {
+    return {
+      JobDescriptionId: response.JobDescriptionId,
+      RevisionNumber: response.JobDescriptionRevision
+    };
   }
 
   static mapJDExtendedInfoResponseToJDExtendedInfoItem(response: ExtendedInfoResponse):

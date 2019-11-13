@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { JobDescription, JobDescriptionControl } from 'libs/models';
 
@@ -52,7 +53,7 @@ export class GetJobDescriptionSuccess implements Action {
 export class GetJobDescriptionError implements Action {
   readonly type = GET_JOB_DESCRIPTION_ERROR;
 
-  constructor() {}
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class SaveJobDescription implements Action {

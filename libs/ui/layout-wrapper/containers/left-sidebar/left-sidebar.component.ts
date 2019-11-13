@@ -40,7 +40,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
         this.userId = userContext.UserId;
         this.companyName = userContext.CompanyName;
-        if (!userContext.IsPublic) {
+        if (!userContext.IsPublic && !userContext.WorkflowStepInfo) {
           this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
         }
       }

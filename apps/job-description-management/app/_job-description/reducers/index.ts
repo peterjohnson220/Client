@@ -529,6 +529,21 @@ export const getCreatingProjectError = createSelector(
   fromJobMatchesReducer.getCreatingProjectError
 );
 
+// Workflow
+export const getWorkflow = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflow
+);
+
+export const getWorkflowSaveObj = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowSaveObj
+);
+
+export const getWorkflowSaving = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowSaving
+);
 // Workflow log
 export const getWorkflowLogEntries = createSelector(
   selectWorkflowState,
@@ -538,6 +553,17 @@ export const getWorkflowLogEntries = createSelector(
 export const getWorkflowLogLoading = createSelector(
   selectWorkflowState,
   fromWorkflowReducer.getWorkflowLogLoading
+);
+
+// Workflow step
+export const getWorkflowStepApproving = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowStepApproving
+);
+
+export const getWorkflowStepRejecting = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowStepRejecting
 );
 
 // Workflow Step Summary
@@ -566,6 +592,18 @@ export const getWorkflowLinkLoaded = createSelector(
   selectWorkflowState,
   fromWorkflowReducer.getLoaded
 );
+
+// Workflowstep Complete messages
+export const getMessage = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getMessage
+);
+
+export const getCompletedStep = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getCompletedStep
+);
+
 
 // Employee Acknowledgement
 export const getEmployeeAcknowledgementError = createSelector(
@@ -604,5 +642,3 @@ export const getJobDescriptionSourcesAsync = createSelector(
   selectCopyJobDescriptionModalState,
   fromCopyJobDescriptionModalReducer.getJobDescriptionSourcesAsync
 );
-
-

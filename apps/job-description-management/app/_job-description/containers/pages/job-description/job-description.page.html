@@ -5,6 +5,9 @@
       <button type="button" class="btn btn-secondary back-btn" (click)="goBack()">
         <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
       </button>
+      <button *ngIf="(identity$ | async)?.IsPublic" routerLink="/job-description-management/job-descriptions" [queryParams]="{ jwt: tokenId}" type="button" class="btn btn-secondary">
+        <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
+      </button>
     </ng-container>
     {{ jobDescriptionDisplayName }}
   </ng-container>
@@ -118,14 +121,15 @@
       </div>
 
       <ng-container *ngIf="!jobDescriptionIsFullscreen && !(identity$ | async)?.IsPublic">
-        <!--<div *ngIf="(identityInWorkflow$ | async) && !showLibrary" class="column-scroll-container col-4">-->
-          <!--<div class="scroll-y column-scroll-inner">-->
-            <!--<pf-workflow-sidebar-->
-                <!--[workflowStepInfo]="(identity$ | async)?.WorkflowStepInfo"-->
-                <!--[jobDescription]="(jobDescription$ | async)">-->
-            <!--</pf-workflow-sidebar>-->
-          <!--</div>-->
-        <!--</div>-->
+        <div *ngIf="identityInWorkflow && !showLibrary" class="column-scroll-container col-4">
+          <div class="scroll-y column-scroll-inner">
+            <pf-workflow-sidebar
+                [workflowStepInfo]="(identity$ | async)?.WorkflowStepInfo"
+                [jobDescription]="jobDescription"
+                [workflowStepCompleted]="completedStep">
+            </pf-workflow-sidebar>
+          </div>
+        </div>
 
         <div *ngIf="!identityInWorkflow  && !showLibrary &&
                     (showRoutingHistory || jobDescription?.JobDescriptionStatus === 'In Review')"
@@ -137,8 +141,8 @@
                                           [showSubway]="jobDescription?.JobDescriptionStatus === 'In Review'"
                                           [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
                                           [jobDescription]="jobDescription"
-                                          (closed)="showRoutingHistory = false">
-                <!--(changeApproverClicked)="openChangeApproverModal($event)"-->
+                                          (closed)="showRoutingHistory = false"
+                                         (changeApproverClicked)="handleChangeApproverClicked($event)">
               </pf-workflow-watch-sidebar>
           </div>
         </div>
@@ -157,19 +161,19 @@
 </pf-page-with-title-bar>
 
 <!--Modals-->
-<pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic"></pf-copy-job-description-modal>
+<pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic && !(identity$ | async)?.WorkflowStepInfo"></pf-copy-job-description-modal>
 
-<!-- <pf-workflow-cancel-modal
-        (workflowCancelConfirmed)="handleCancelApprovalConfirmed($event)">
+<!--
+<pf-workflow-setup-modal
+  [jobTitle]="(jobDescriptionAsync$ | async)?.obj?.Name"
+  [revision]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionRevision"
+  [jobId]="(jobDescriptionAsync$ | async)?.obj?.CompanyJobId">
+</pf-workflow-setup-modal> -->
+
+<pf-workflow-cancel-modal
+  (workflowCancelConfirmed)="handleCancelApprovalConfirmed($event)">
 </pf-workflow-cancel-modal>
 
-<pf-workflow-setup-modal
-        [jobTitle]="(jobDescription$ | async)?.Name"
-        [revision]="(jobDescription$ | async)?.JobDescriptionRevision"
-        [jobId]="(jobDescription$ | async)?.CompanyJobId">
-</pf-workflow-setup-modal>
-
--->
 <pf-flsa-questionnaire-modal
         [lockedJobDescription]="inHistory || !(hasCanEditJobDescriptionPermission)" >
 </pf-flsa-questionnaire-modal>
@@ -202,6 +206,12 @@
   [jobTitle]="jobDescription.Name">
 </pf-job-matches-modal>
 
+<pf-change-approver-modal
+  [jobDescriptionId]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionId"
+  [jobDescriptionRevision]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionRevision"
+  [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId">
+</pf-change-approver-modal>
+
 <!-- <pf-conflict-error-modal 
     #conflictErrorModal 
     [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage" 
@@ -216,7 +226,4 @@
     (onClose)="handleConflictOrSaveErrorModalClosed()">
 </pf-save-error-modal>
 
-<pf-change-approver-modal 
-    [jobDescription]="(jobDescription$ | async)"    
-    [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId">
-</pf-change-approver-modal> -->
+ -->

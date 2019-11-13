@@ -12,6 +12,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { EditorModule } from 'primeng/editor';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { NgbTabsetModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImgFallbackModule } from 'ngx-img-fallback';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -37,7 +38,9 @@ import {
   JobDescriptionInfoHeaderWithLogoComponent,
   SaveErrorModalComponent,
   ConflictErrorModalComponent,
-  JobDescriptionLibraryComponent
+  JobDescriptionLibraryComponent,
+  UserRoutingSelectorComponent,
+  WorkflowStepCompletionPageComponent
 } from './components';
 import { ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from './services';
 import { reducers } from './reducers';
@@ -47,10 +50,10 @@ import {
   JobDescriptionLibraryEffects,
   JobDescriptionAppliesToEffects,
   JobFamilyEffects,
-  TemplateListEffects
+  TemplateListEffects,
+  SharedWorkflowEffects
 } from './effects';
 import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
-
 
 @NgModule({
   imports: [
@@ -65,7 +68,8 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
       JobFamilyEffects,
       ControlTypesEffects,
       TemplateListEffects,
-      JobDescriptionLibraryEffects
+      JobDescriptionLibraryEffects,
+      SharedWorkflowEffects
     ]),
     FontAwesomeModule,
     PfJobDescriptionManagementModule,
@@ -74,6 +78,7 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     NgbTabsetModule,
     NgbPaginationModule,
     NgbTooltipModule,
+    ImgFallbackModule,
 
     // Payfactors
     PfCommonModule,
@@ -97,7 +102,9 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     ControlDataRendererComponent,
     ConflictErrorModalComponent,
     SaveErrorModalComponent,
-    JobDescriptionLibraryComponent
+    JobDescriptionLibraryComponent,
+    UserRoutingSelectorComponent,
+    WorkflowStepCompletionPageComponent
   ],
   declarations: [
     // Components
@@ -119,7 +126,8 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     SmartListEditorComponent,
     SmartListEditorDataTableComponent,
     JobDescriptionLibraryComponent,
-
+    UserRoutingSelectorComponent,
+    WorkflowStepCompletionPageComponent,
     // Pipes
     JobDescriptionAppliesToDisplayNamePipe
   ],
