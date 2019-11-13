@@ -48,6 +48,7 @@ import { JobMatchesModalComponent } from '../../job-matches-modal';
 import { ChangeApproverModalComponent } from '../../change-approver-modal';
 import { CopyJobDescriptionModalComponent } from '../../copy-job-description-modal';
 import { JobDescriptionHelper } from '../../../helpers';
+import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 
 @Component({
   selector: 'pf-job-description-page',
@@ -63,7 +64,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(CopyJobDescriptionModalComponent, { static: false }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
   @ViewChild(WorkflowCancelModalComponent, { static: false }) public workflowCancelModal: WorkflowCancelModalComponent;
-  // @ViewChild(WorkflowSetupModalComponent, { static: false }) public workflowSetupModal: WorkflowSetupModalComponent;
+  @ViewChild(WorkflowSetupModalComponent, { static: false }) public workflowSetupModal: WorkflowSetupModalComponent;
   @ViewChild(ChangeApproverModalComponent, { static: false }) public changeApproverModal: ChangeApproverModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
@@ -291,7 +292,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleRouteForApprovalClicked(): void {
-    // this.workflowSetupModal.open();
+    this.workflowSetupModal.open();
   }
 
   handleDiscardDraftClicked(): void {

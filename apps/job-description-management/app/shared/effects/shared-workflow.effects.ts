@@ -27,19 +27,6 @@ export class SharedWorkflowEffects {
       ));
 
   @Effect()
-  userEmailHasJobPermission: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromSharedWorkflowActions.USER_EMAIL_HAS_JOB_PERMISSION),
-      switchMap((action: fromSharedWorkflowActions.UserEmailHasJobPermission) =>
-        this.jobDescriptionManagementService.userEmailHasJobPermission(action.payload.emailAddress, action.payload.jobId).pipe(
-          map((response: any) => {
-            return new fromSharedWorkflowActions.LoadSuccess({templateList: response});
-          }),
-          catchError(() => of(new fromSharedWorkflowActions.LoadError()))
-        )
-      ));
-
-  @Effect()
   routingToNewUser$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedWorkflowActions.ROUTING_TO_NEW_USER),

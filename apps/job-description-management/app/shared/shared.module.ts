@@ -42,6 +42,9 @@ import {
   UserRoutingSelectorComponent,
   WorkflowStepCompletionPageComponent
 } from './components';
+import {
+  WorkflowConfigComponent
+} from './containers';
 import { ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from './services';
 import { reducers } from './reducers';
 import {
@@ -51,7 +54,8 @@ import {
   JobDescriptionAppliesToEffects,
   JobFamilyEffects,
   TemplateListEffects,
-  SharedWorkflowEffects
+  SharedWorkflowEffects,
+  WorkflowConfigEffects
 } from './effects';
 import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
 
@@ -69,7 +73,8 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
       ControlTypesEffects,
       TemplateListEffects,
       JobDescriptionLibraryEffects,
-      SharedWorkflowEffects
+      SharedWorkflowEffects,
+      WorkflowConfigEffects
     ]),
     FontAwesomeModule,
     PfJobDescriptionManagementModule,
@@ -104,7 +109,8 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     SaveErrorModalComponent,
     JobDescriptionLibraryComponent,
     UserRoutingSelectorComponent,
-    WorkflowStepCompletionPageComponent
+    WorkflowStepCompletionPageComponent,
+    WorkflowConfigComponent
   ],
   declarations: [
     // Components
@@ -128,6 +134,10 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     JobDescriptionLibraryComponent,
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
+
+    // Containers
+    WorkflowConfigComponent,
+
     // Pipes
     JobDescriptionAppliesToDisplayNamePipe
   ],

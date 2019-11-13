@@ -15,3 +15,4 @@ export * from './save-error.model';
 export * from './workflow-user.model';
 export * from './workflow-step.model';
 export * from './workflow-template.model';
+export * from './add-user-to-workflow-obj.model';

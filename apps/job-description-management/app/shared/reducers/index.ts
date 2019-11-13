@@ -11,6 +11,8 @@ import * as fromTemplateListReducer from './template-list.reducer';
 import * as fromControlTypesReducer from './control-types.reducer';
 import * as fromJobDescriptionLibraryReducer from './job-description-library.reducer';
 import * as fromSharedWorkflowReducer from './shared-workflow.reducer';
+import * as fromWorkflowConfigReducer from './workflow-config.reducer';
+
 // Feature area state
 export interface JobDescriptionManagementSharedState {
   controlTypes: fromControlTypesReducer.State;
@@ -20,6 +22,7 @@ export interface JobDescriptionManagementSharedState {
   templateList: fromTemplateListReducer.State;
   jobDescriptionLibrary: fromJobDescriptionLibraryReducer.State;
   sharedWorkflow: fromSharedWorkflowReducer.State;
+  workflowConfig: fromWorkflowConfigReducer.State;
 }
 
 // Extend root state with feature area state
@@ -35,7 +38,8 @@ export const reducers = {
   jobDescriptionAppliesTo: fromJobDescriptionAppliesToReducer.reducer,
   templateList: fromTemplateListReducer.reducer,
   jobDescriptionLibrary: fromJobDescriptionLibraryReducer.reducer,
-  sharedWorkflow: fromSharedWorkflowReducer.reducer
+  sharedWorkflow: fromSharedWorkflowReducer.reducer,
+  workflowConfig: fromWorkflowConfigReducer.reducer
 };
 
 // Select Feature Area
@@ -76,6 +80,11 @@ export const selectJobDescriptionLibraryState = createSelector(
 export const selectSharedWorkflowState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementSharedState) => state.sharedWorkflow
+);
+
+export const selectWorkflowConfigState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementSharedState) => state.workflowConfig
 );
 
 // Company FLSA Status
@@ -250,11 +259,6 @@ export const getWorkflowConfig = createSelector(
   fromSharedWorkflowReducer.getWorkflowConfig
 );
 
-export const getWorkflowConfigDirty = createSelector(
-  selectSharedWorkflowState,
-  fromSharedWorkflowReducer.getWorkflowConfigDirty
-);
-
 export const getWorkflowHasUsersWithoutPermission = createSelector(
   selectSharedWorkflowState,
   fromSharedWorkflowReducer.getWorkflowHasUsersWithoutPermission
@@ -269,4 +273,20 @@ export const getNewUser = createSelector(
 export const getRerouting = createSelector(
   selectSharedWorkflowState,
   fromSharedWorkflowReducer.getRerouting
+);
+
+// Workflow Config
+export const getHasUsersWithoutPermission = createSelector(
+  selectWorkflowConfigState,
+  fromWorkflowConfigReducer.getHasUsersWithoutPermission
+);
+
+export const getWorkflowStepsFromWorkflowConfig = createSelector(
+  selectWorkflowConfigState,
+  fromWorkflowConfigReducer.getWorkflowStepsFromWorkflowConfig
+);
+
+export const getWorkflowConfigDirty = createSelector(
+  selectWorkflowConfigState,
+  fromWorkflowConfigReducer.getWorkflowConfigDirty
 );
