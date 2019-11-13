@@ -91,6 +91,11 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
         ScopeGUID: null
       };
     }
+    case fromExchangeExplorerActions.RESET_STATE: {
+      return {
+        ...initialState
+      };
+    }
     default: {
       return state;
     }
