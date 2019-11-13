@@ -11,7 +11,8 @@
             [loadingError]="defaultScopeSurveysLoadingError$ | async"
             [items]="defaultScopeSurveys$ | async"
             (itemClicked)="handleSurveyClicked($event)"
-            [dataName]="'Surveys'">
+            [dataName]="'Surveys'"
+            [filterPlaceholder]="'Search for a Survey...'">
           </pf-data-list-card>
         </div>
         <div class="col-6 h-100">
