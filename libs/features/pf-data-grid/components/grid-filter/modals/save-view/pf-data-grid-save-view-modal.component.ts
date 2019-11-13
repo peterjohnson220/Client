@@ -58,7 +58,7 @@ export class PfDataGridSaveViewModalComponent implements OnInit {
   notBlackListed() {
     return function(c: FormControl) {
       const blackList = this.savedViews ? this.savedViews.map(uf => uf.Name.toLowerCase()) : [];
-      const blackListed = blackList ? !!blackList.find(bl => bl === c.value.toLowerCase()) : false;
+      const blackListed = blackList && c.value ? !!blackList.find(bl => bl === c.value.toLowerCase()) : false;
       return blackListed ? {'notBlackListed': {valid: false}} : null;
     };
   }
