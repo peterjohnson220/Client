@@ -192,11 +192,11 @@
             <div *ngIf="jobDescriptionLoaderImported$ | async">
               <div class="card-block">
                 <p class="card-title">
-                  <span *ngIf="((jobDescriptionLoaderImportResults$ | async)?.ValidationResults | validationErrors )?.length === 0">
+                  <span *ngIf="((jobDescriptionLoaderImportResults$ | async) | validationErrors )?.length === 0">
                         Upload complete <fa-icon icon="check" aria-hidden="true" class="text-success mr-2"></fa-icon>
                   </span>
                   <span
-                    *ngIf="((jobDescriptionLoaderImportResults$ | async)?.ValidationResults | validationErrors )?.length > 0">
+                    *ngIf="((jobDescriptionLoaderImportResults$ | async) | validationErrors )?.length > 0">
                         Upload failed <fa-icon icon="exclamation" aria-hidden="true" class="text-danger mr-2"></fa-icon>
                   </span>
                   <a class="results-link" (click)="isCollapsed = !isCollapsed">{{ isCollapsed ? 'See results' : 'Hide results' }}</a>
