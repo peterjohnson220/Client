@@ -1,5 +1,5 @@
-<pf-page-with-title-bar  [isFullHeader]="showTitle" [absoluteUrl]="navigationURL" [contentNoPadding]="contentNoPadding">
-  <ng-container  page-title *ngIf="showTitle">
+<pf-page-with-title-bar [isFullHeader]="showTitle" [absoluteUrl]="navigationURL" [contentNoPadding]="contentNoPadding">
+  <ng-container page-title *ngIf="showTitle">
     {{title | titlecase}}
   </ng-container>
   <ng-container page-actions>
@@ -20,18 +20,18 @@
     <div class="d-flex h-100">
       <div [ngClass]="(selectedRowId$ | async) ? 'main-grid-container-compact' : 'full-size-wrapper'">
         <div class="flex-column-container">
-          <div class="no-gutters row justify-content-between px-3">
+          <div class="no-gutters row justify-content-between pl-3 pt-1">
             <div class="flex-fill">
-            <div *ngIf="(filters$ | async).length" class="filter-pills-container pt-2">
-            <pf-data-grid-filter-pills
-              [listAreaColumns]="(dataFields$ | async)"
-              [filters]="(filters$ | async)"
-              (clearFilter)="clearFilter($event)"
-              (clearAllFilters)="clearAllFilters()">
-            </pf-data-grid-filter-pills>
-          </div>
+              <div class="h-100" *ngIf="(filters$ | async).length">
+                <pf-data-grid-filter-pills
+                  [listAreaColumns]="(dataFields$ | async)"
+                  [filters]="(filters$ | async)"
+                  (clearFilter)="clearFilter($event)"
+                  (clearAllFilters)="clearAllFilters()">
+                </pf-data-grid-filter-pills>
+              </div>
             </div>
-            <div  *ngIf="gridActionsTemplate && !(selectedRowId$ | async)" class="d-flex justify-content-end">
+            <div *ngIf="gridActionsTemplate && !(selectedRowId$ | async)" class="d-flex justify-content-end">
               <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
             </div>
           </div>
@@ -44,7 +44,7 @@
                   [selectionField]="selectionField"
                   [allowSplitView]="splitViewTemplate"
                   [columnTemplates]="columnTemplates"
-				          [enableSelection]="enableSelection && !(selectedRowId$ | async)"
+                  [enableSelection]="enableSelection && !(selectedRowId$ | async)"
                   [selectedRowId]="selectedRowId$ | async">
                 </pf-grid>
               </div>
