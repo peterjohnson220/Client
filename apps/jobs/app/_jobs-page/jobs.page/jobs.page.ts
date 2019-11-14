@@ -1,15 +1,25 @@
 import {Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
-import { cloneDeep } from 'lodash';
+
+import { Observable, Subscription } from 'rxjs';
+
 import { Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs';
+import { cloneDeep } from 'lodash';
+
+import { SortDescriptor } from '@progress/kendo-data-query';
+
+import { ViewField } from 'libs/models/payfactors-api';
+import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-import { SortDescriptor } from '@progress/kendo-data-query';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import {Subscribable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
+import {DataViewFilter} from '../../../../../libs/models/payfactors-api/reports/request/data-view-data-request.model';
+import {DataViewFieldDataType} from '../../../../../libs/models/payfactors-api/reports/request';
+
+
+
+
 
 @Component({
   selector: 'pf-jobs-page',
@@ -17,6 +27,7 @@ import {Subscription} from 'rxjs/Subscription';
 })
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
+  // TODO: Create a constants class for a lot of this
   pageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
   selectedKeys: number[];
   selectedKeysSubscription: Subscription;
@@ -24,6 +35,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   addingToProject$: Observable<boolean>;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
   colTemplates = {};
+  globalFilterSubscription: Subscription;
+  titleCodeSearchField: ViewField;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -35,6 +48,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addingToProject$ = this.store.select(fromJobsPageReducer.getToProjectButtonState);
     this.selectedKeysSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedKeys =  sk;
+    });
+    this.globalFilterSubscription = this.store.select(fromPfGridReducer.getGlobalFilters, this.pageViewId).subscribe(gf => {
+      if (gf) {
+        this.titleCodeSearchField = gf.find(f => f.SourceName === 'JobTitleCode');
+        console.log(this.titleCodeSearchField);
+      }
     });
   }
 
@@ -58,5 +77,25 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.selectedKeysSubscription.unsubscribe();
+    this.globalFilterSubscription.unsubscribe();
+  }
+
+  handleTitleCodeSearch(value: string) {
+    if (value.length) {
+      this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, this.buildTitleCodeFilter(value)));
+    } else {
+      this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, this.buildTitleCodeFilter('')));
+    }
+  }
+
+  buildTitleCodeFilter(value: string): DataViewFilter {
+    return {
+      EntitySourceName: 'CompanyJobs',
+      SourceName: 'JobTitleCode',
+      Operator: 'contains',
+      Values: [value],
+      DataType: DataViewFieldDataType.String,
+      FilterType: 'JobTitleCode'
+    };
   }
 }

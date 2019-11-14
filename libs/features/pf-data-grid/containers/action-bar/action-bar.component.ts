@@ -19,6 +19,7 @@ export class ActionBarComponent implements OnChanges {
   @Input() pageViewId: string;
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
+  @Input() globalFiltersTemplate: TemplateRef<any>;
   @Input() disableActionButtons = false;
   @Input() savedViews: DataViewConfig[] = [];
   @Output() onFilterSidebarToggle = new EventEmitter();

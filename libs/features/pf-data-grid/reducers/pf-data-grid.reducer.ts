@@ -374,7 +374,9 @@ export const getState = (state: DataGridStoreState) => state;
 export const getGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId];
 export const getLoading = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].loading : null;
 export const getBaseEntity = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntity : null;
-export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].fields : null;
+export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].fields
+  ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter)
+  : null;
 export const getGroupedFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].groupedFields : null;
 export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] && state.grids[pageViewId].fields ? state.grids[pageViewId].fields.filter(f => f.IsGlobalFilter) : null;
