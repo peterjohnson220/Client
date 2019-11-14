@@ -300,9 +300,12 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       const control = ControlDataHelper.getControl(asyncStateObjClone.obj.Sections, action.payload.jobDescriptionControl);
 
       control.AdditionalProperties = control.AdditionalProperties || {};
-      action.payload.additionalProperties.forEach(additionalProperty => {
-        control.AdditionalProperties[additionalProperty] = action.payload.additionalProperties[additionalProperty];
-      });
+
+      for (const additionalProperty in action.payload.additionalProperties) {
+        if (action.payload.additionalProperties.hasOwnProperty(additionalProperty)) {
+          control.AdditionalProperties[additionalProperty] = action.payload.additionalProperties[additionalProperty];
+        }
+      }
 
       return {
         ...state,
