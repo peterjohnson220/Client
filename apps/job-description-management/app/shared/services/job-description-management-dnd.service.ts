@@ -20,7 +20,12 @@ export class JobDescriptionManagementDnDService {
     this.dndSource = fromDndSource;
 
     this.dragulaService.createGroup('control-data-reorder-bag', {
-      moves: (el) => el.classList.contains('re-orderable')
+      accepts: function(el, target, source) {
+        return source === target;
+      },
+      moves: function (el) {
+        return el.classList.contains('re-orderable');
+      }
     });
 
     // Drop

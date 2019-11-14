@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="card-block" [hidden]="hideBody">
-    <div *ngFor="let control of section.Controls">
+    <div *ngFor="let control of section.Controls; trackBy: trackByFn">
       <pf-job-description-control
         [jobDescriptionControl]="control"
         [controlTypesLoaded]="controlTypesLoaded"

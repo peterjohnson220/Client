@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { JobDescriptionSection } from 'libs/models/jdm';
+import { JobDescriptionControl, JobDescriptionSection } from 'libs/models';
 
 @Component({
   selector: 'pf-job-description-section',
@@ -50,5 +50,9 @@ export class JobDescriptionSectionComponent {
 
   handleAdditionalPropertiesChangesDetected(eventArgs: any) {
     this.controlAdditionalPropertiesChangesDetected.emit(eventArgs);
+  }
+
+  trackByFn(index: number, control: JobDescriptionControl) {
+    return control.Id;
   }
 }

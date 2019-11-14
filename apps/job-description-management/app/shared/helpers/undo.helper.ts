@@ -25,7 +25,7 @@ export class UndoHelper {
     static applyUndo = (source, dest) => {
       for (const propName in source) {
         // CreatedDate is not relevant for undo as a save is triggered after undo operation, causing it to be generated then.
-        if (source.hasOwnProperty(propName) && propName !== 'CreatedDate') {
+        if (source.hasOwnProperty(propName) && propName !== 'CreatedDate' && typeof source[propName] !== 'undefined') {
           if (typeof (source[propName]) !== 'object') {
             dest[propName] = cloneDeep(source[propName]);
           } else if (propName === 'Controls') {

@@ -1,9 +1,15 @@
 import { Action } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { JobDescription, JobDescriptionControl } from 'libs/models';
+import { ControlType, JobDescription, JobDescriptionControl } from 'libs/models';
 
-import { GetJobDescriptionData, JobDescriptionExtendedInfo } from '../models';
+import {
+  GetJobDescriptionData,
+  SaveJobDescriptionTemplateIdSucessModel,
+  JobDescriptionExtendedInfo,
+  ReorderControlDataDto,
+  JobDescriptionLibraryDropModel
+} from '../models';
 
 export const GET_JOB_DESCRIPTION = '[job-description-management / Job Description] Get Job Description';
 export const GET_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Get Job Description Success';
@@ -37,6 +43,8 @@ export const REPLACE_CONTROL_DATA = '[job-description-management / Job Descripti
 export const UPDATE_CONTROL_DATA = '[job-description-management / Job Description] Update Control Data';
 export const UPDATE_CONTROL_ADDITIONAL_PROPERTIES = '[job-description-management / Job Description] Update Control Additional Properties';
 export const REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Replace Job Description Via Copy';
+export const REORDER_CONTROL_DATA = '[job-description-management / Job Description] Reorder Control Data';
+export const ADD_SOURCE_DATA_TO_CONTROL = '[job-description-management / Job Description] Add Source Data to Control';
 
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
@@ -222,8 +230,22 @@ export class UpdateControlAdditionalProperties implements Action {
 export class ReplaceJobDescriptionViaCopy implements Action {
   readonly type = REPLACE_JOB_DESCRIPTION_VIA_COPY;
 
+
   constructor(public payload: JobDescription) {}
 }
+
+export class ReorderControlData implements Action {
+  readonly type = REORDER_CONTROL_DATA;
+
+  constructor(public payload: ReorderControlDataDto) {}
+}
+
+export class AddSourceDataToControl implements Action {
+  readonly type = ADD_SOURCE_DATA_TO_CONTROL;
+
+  constructor(public payload: { dropModel: JobDescriptionLibraryDropModel, controlTypes: ControlType[]}) {}
+}
+
 
 export type Actions
   = GetJobDescription
@@ -257,4 +279,6 @@ export type Actions
   | ReplaceControlData
   | UpdateControlData
   | UpdateControlAdditionalProperties
-  | ReplaceJobDescriptionViaCopy;
+  | ReplaceJobDescriptionViaCopy
+  | ReorderControlData
+  | AddSourceDataToControl;
