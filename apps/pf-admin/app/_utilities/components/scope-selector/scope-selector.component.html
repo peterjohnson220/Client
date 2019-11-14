@@ -22,37 +22,42 @@
       </button>
     </ng-container>
   </div>
-  <div class="card-body overflow-y-auto">
+  <div class="card-body h-100">
     <pf-async-container
       *ngIf="!!selectedMatch"
       [loading]="surveyScopesAsync?.loading"
       [loadingError]="surveyScopesAsync?.loadingError"
       [hideReloadButton]="true">
 
-      <div *ngIf="selectedMatch.CombinedScope" class="mb-3">
-        <pf-input-debounce [placeholderText]="'Search for a Scope...'" (valueChanged)="handleSearchValueChanged($event)"></pf-input-debounce>
+      <div class="h-100 d-flex flex-column">
+        <div *ngIf="selectedMatch.CombinedScope" class="mb-3">
+          <pf-input-debounce (valueChanged)="handleSearchValueChanged($event)"
+                             [placeholderText]="'Search for a Scope...'"></pf-input-debounce>
+        </div>
+        <div class="overflow-y-auto">
+          <ng-container *ngIf="surveyScopes | filterArrayByName: filter as filteredSurveyScopes">
+            <ng-container *ngIf="filteredSurveyScopes.length else noSurveyScopes">
+              <table class="table table-hover">
+                <thead class="thead-light">
+                <tr>
+                  <th>Scope</th>
+                  <th>Weighting Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr (click)="handleSurveyScopeClicked(surveyScope)"
+                    *ngFor="let surveyScope of filteredSurveyScopes; trackBy: trackByFn"
+                    [class.selected]="surveyScope.Selected">
+                  <td>{{surveyScope.Name}}</td>
+                  <td>{{surveyScope.WeightingType}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </ng-container>
+          </ng-container>
+        </div>
       </div>
 
-      <ng-container *ngIf="surveyScopes | filterArrayByName: filter as filteredSurveyScopes">
-        <ng-container *ngIf="filteredSurveyScopes.length else noSurveyScopes">
-          <table class="table table-hover">
-            <thead class="thead-light">
-              <tr>
-                <th>Scope</th>
-                <th>Weighting Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let surveyScope of filteredSurveyScopes; trackBy: trackByFn"
-                  [class.selected]="surveyScope.Selected"
-                  (click)="handleSurveyScopeClicked(surveyScope)">
-                <td>{{surveyScope.Name}}</td>
-                <td>{{surveyScope.WeightingType}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </ng-container>
-      </ng-container>
     </pf-async-container>
 
   </div>
