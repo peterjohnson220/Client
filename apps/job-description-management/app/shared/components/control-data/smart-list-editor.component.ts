@@ -48,7 +48,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: any) {
-    if (changes.data && changes.data.currentValue.length === 0 && changes.data.previousValue.length > 0) {
+    if (changes.data && changes.data.currentValue.length === 0 && changes.data.previousValue && changes.data.previousValue.length > 0) {
       this.rteData = null;
     }
 
