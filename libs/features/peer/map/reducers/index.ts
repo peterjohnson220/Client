@@ -189,9 +189,9 @@ export const getNumberOfCompanySelections = createSelector(
   (filterSelections) => !!filterSelections['CompanyIds'] ? filterSelections['CompanyIds'].length : 0
 );
 
-export const getSystemFilterExchangeJobIds = createSelector(
-  getSystemFilter,
-  (systemFilter) => !!systemFilter ? systemFilter.ExchangeJobIds : []
+export const getAssociatedExchangeJobIds = createSelector(
+  getAssociatedExchangeJobs,
+  (exchangeJobs) => !!exchangeJobs && !!exchangeJobs.length ? exchangeJobs.map(ej => ej.ExchangeJobId) : []
 );
 
 export const getPeerMapScopeRequestPayload = createSelector(
