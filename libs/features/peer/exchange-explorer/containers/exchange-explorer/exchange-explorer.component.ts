@@ -90,7 +90,6 @@ export class ExchangeExplorerComponent extends SearchBase {
     this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
       this.exchangeId = payload.exchangeId;
-      this.store.dispatch(new fromExchangeFilterContextActions.LimitToExchange(this.exchangeId));
       this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({exchangeId: this.exchangeId}));
     } else {
       const systemFilterRequest = {

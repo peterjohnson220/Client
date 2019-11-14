@@ -60,13 +60,6 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
         IncludeUntaggedIncumbents: !state.IncludeUntaggedIncumbents
       };
     }
-    case fromExchangeExplorerActions.LIMIT_TO_EXCHANGE: {
-      return {
-        ...state,
-        IncludeUntaggedIncumbents: true,
-        ExchangeId: action.payload
-      };
-    }
     case fromExchangeExplorerActions.SET_EXCHANGE_SCOPE_SELECTION: {
       return {
         ...state,
@@ -119,5 +112,5 @@ export const getFilterContext = (state: State) => {
   const filterContext: ExchangeDataSearchFilterContext = {
     ...state
   };
-return filterContext;
+  return filterContext;
 };
