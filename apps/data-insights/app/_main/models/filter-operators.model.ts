@@ -8,6 +8,11 @@ export const Equals: FilterOperator = {
   Value: 'in'
 };
 
+export const DoesNotEqual: FilterOperator = {
+  Name: 'does not equal',
+  Value: 'notin'
+};
+
 export const Between: FilterOperator = {
   Name: 'between',
   Value: 'between'
@@ -51,6 +56,11 @@ export const Is: FilterOperator = {
 export const Contains: FilterOperator = {
   Name: 'contains',
   Value: 'contains'
+};
+
+export const DoesNotContain: FilterOperator = {
+  Name: 'does not contain',
+  Value: 'notcontains'
 };
 
 export const IsTrueFalse: FilterOperator = {
