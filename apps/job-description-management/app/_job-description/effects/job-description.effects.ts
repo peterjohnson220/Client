@@ -53,9 +53,6 @@ export class JobDescriptionEffects {
               return actions;
             }),
             catchError(error => {
-              if (error.status === 404) {
-                this.router.navigate(['404']);
-              }
               return of(new fromJobDescriptionActions.GetJobDescriptionError(error));
             })
           );
@@ -156,9 +153,15 @@ export class JobDescriptionEffects {
   handleApiError$ = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION_ERROR),
-      map((action: fromJobDescriptionActions.GetJobDescriptionError) => {
-          const errorMessage = this.redirectForUnauthorized(action.payload);
-          return new fromWorkflowActions.SetMessage({message: errorMessage});
+      mergeMap((action: fromJobDescriptionActions.GetJobDescriptionError) => {
+          const actions = [];
+          if (action.payload.status === 403) {
+            const errorMessage = this.redirectForUnauthorized(action.payload);
+            actions.push(new fromWorkflowActions.SetMessage({message: errorMessage}));
+          } else {
+            this.router.navigate(['404']);
+          }
+        return actions;
         })
     );
 
