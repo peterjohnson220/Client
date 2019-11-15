@@ -20,8 +20,11 @@ import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
+import {JobDescriptionEffects} from './effects/job-description.effects';
+
 
 import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridComponent } from './components';
+import { JobDescriptionComponent } from './components/job-description/job-description.component';
 
 
 @NgModule({
@@ -34,6 +37,7 @@ import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridCompone
     StoreModule.forFeature('jobsPageMain', reducers),
     EffectsModule.forFeature([
       JobsPageEffects,
+      JobDescriptionEffects,
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
@@ -54,7 +58,8 @@ import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridCompone
     // Components
     JobsDetailsComponent,
     EmployeesGridComponent,
-    PricingDetailsGridComponent
+    PricingDetailsGridComponent,
+    JobDescriptionComponent
   ]
 })
 export class JobsPageModule {
