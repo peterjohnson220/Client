@@ -16,8 +16,9 @@ const dateFilterOperators: FilterOperator[] = [
 
 const textFilterOperators: FilterOperator[] = [
   { display: 'Is equal to', value: '=', requiresValue: true, defaultOperatorForType: true},
-  { display: 'Is not equal to', value: '<>', requiresValue: true, defaultOperatorForType: false}
+  { display: 'Is not equal to', value: '<>', requiresValue: true, defaultOperatorForType: false},
 ];
+
 const numericFilterOperators: FilterOperator[] = [
   { display: 'Is equal to', value: '=', requiresValue: true, defaultOperatorForType: true},
   { display: 'Is not equal to', value: '<>', requiresValue: true, defaultOperatorForType: false},

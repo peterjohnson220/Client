@@ -1,5 +1,4 @@
 import * as fromJobsPageActions from '../actions';
-import { DataViewFilter } from 'libs/models/payfactors-api';
 
 export interface State {
   company: string;

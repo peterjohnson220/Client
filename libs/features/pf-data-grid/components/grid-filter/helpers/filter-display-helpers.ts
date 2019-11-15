@@ -1,18 +1,17 @@
 import { DatePipe } from '@angular/common';
 
-import { DataViewFieldDataType, DataViewFilter, ViewField } from 'libs/models/payfactors-api';
+import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 
-import { FilterOperatorOptions } from '../filter-operator-options/filter-operator-options';
+import { FilterOperatorOptions } from './filter-operator-options-helpers';
 
 
-export function getHumanizedFilter(columns: ViewField[], filter: DataViewFilter) {
-  const field = columns.find(c => c.SourceName === filter.SourceName);
+export function getHumanizedFilter(field: ViewField) {
   if (field === null) {
-    return `${filter.SourceName} ${filter.Operator} ${filter.Values[0]}`;
+    return `${field.SourceName} ${field.FilterOperator} ${field.FilterValue}`;
   }
 
-  const operatorDisplay = getOperatorDisplay(filter.Operator, field.DataType);
-  const valueDisplay = getValueDisplay(filter.Values[0], field.DataType);
+  const operatorDisplay = getOperatorDisplay(field.FilterOperator, field.DataType);
+  const valueDisplay = getValueDisplay(field.FilterValue, field.DataType);
   return `${field.DisplayName} ${operatorDisplay} ${valueDisplay}`;
 }
 
@@ -31,5 +30,4 @@ export function getValueDisplay(value: string, dataType: DataViewFieldDataType) 
   }
   return display;
 }
-
 

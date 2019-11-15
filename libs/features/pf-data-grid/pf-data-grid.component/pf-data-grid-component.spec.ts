@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { of } from 'rxjs';
 
-import { getMockDataViewFilter, getMockDataViewFilterList } from 'libs/models/payfactors-api/reports/request';
+import { getMockPfDataGridFilter, getMockPfDataGridFilterList } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
@@ -39,7 +39,7 @@ describe('PfDataGridComponent', () => {
   }));
 
   it('should remove all filters when calling clearAllFilters', () => {
-    component.filters$ = of([getMockDataViewFilter()]);
+    component.filters$ = of([getMockPfDataGridFilter()]);
 
     component.clearAllFilters();
 
@@ -49,7 +49,7 @@ describe('PfDataGridComponent', () => {
   });
 
   it('should remove the selected filter when calling clearFilter', () => {
-    const filterList = getMockDataViewFilterList(5);
+    const filterList = getMockPfDataGridFilterList(5);
     const filterToRemove = filterList[0];
     component.filters$ = of(filterList);
 
@@ -62,11 +62,11 @@ describe('PfDataGridComponent', () => {
   it('should update the modified filter when calling handleFilterChanged', () => {
     spyOn(component.gridFilterThrottle, 'next');
 
-    const filterList = getMockDataViewFilterList(5);
+    const filterList = getMockPfDataGridFilterList(5);
     const filterToModify = filterList[0];
     const newFilterValue = 'Hello World';
 
-    filterToModify.Values[0] = newFilterValue;
+    filterToModify.Value = newFilterValue;
 
     component.handleFilterChanged(filterToModify);
 

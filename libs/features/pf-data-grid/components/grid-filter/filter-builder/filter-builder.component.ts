@@ -1,8 +1,11 @@
-import { Input, Output, EventEmitter, Component } from '@angular/core';
+import { Input, Output, EventEmitter, Component, OnChanges, SimpleChanges } from '@angular/core';
 
-import { DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
+import * as cloneDeep from 'lodash.clonedeep';
 
-import { FilterOperatorOptions } from '../helpers/filter-operator-options/filter-operator-options';
+import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
+
+import { FilterOperatorOptions } from '../helpers';
+
 
 @Component({
   selector: 'pf-filter-builder',
@@ -10,41 +13,47 @@ import { FilterOperatorOptions } from '../helpers/filter-operator-options/filter
   styleUrls: ['./filter-builder.component.scss']
 })
 
-export class FilterBuilderComponent {
-  @Input() disableDropdown = false;
-  @Input() type: DataViewFieldDataType;
-  @Input() filter: DataViewFilter;
-  @Output() filterChanged = new EventEmitter<DataViewFilter>();
+export class FilterBuilderComponent implements OnChanges {
+
+
+  @Input() viewField: ViewField;
+
+  @Output() filterChanged = new EventEmitter<ViewField>();
+
+  field: ViewField;
 
   private filterOperatorOptions = FilterOperatorOptions;
   public dataTypes = DataViewFieldDataType;
   public disableValue: boolean;
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.viewField) {
+      this.field = cloneDeep(this.viewField);
+    }
+  }
+
   handleFilterOperatorChanged(event) {
-    this.filter.Operator = event;
+    this.field.FilterOperator = event;
     this.toggleValueInput();
 
-    if (this.disableValue || (this.filter.Values[0] && this.filter.Values[0].toString().trim().length)) {
-      this.filterChanged.emit(this.filter);
+    if (this.disableValue || (this.field.FilterValue && this.field.FilterValue.trim().length)) {
+      this.filterChanged.emit(this.field);
     }
   }
 
   handleFilterValueChanged(event) {
-    this.filter.Values[0] = event;
-    this.filterChanged.emit(this.filter);
+    this.field.FilterValue = event;
+    this.filterChanged.emit(this.field);
   }
 
   private toggleValueInput() {
-    const disabledValueOperators = this.filterOperatorOptions[this.type].filter(o => !o.requiresValue);
-    if (disabledValueOperators.find(d => d.values[0] === this.filter.Operator)) {
-      this.filter.Values[0] = '';
+    const disabledValueOperators = this.filterOperatorOptions[this.field.DataType].filter(o => !o.requiresValue);
+    if (disabledValueOperators.find(d => d.values[0] === this.field.FilterOperator)) {
+      this.field.FilterValue = '';
       this.disableValue = true;
     } else {
       this.disableValue = false;
     }
   }
 
-  getFilterValue(filter: DataViewFilter) {
-    return filter.Values && filter.Values.length > 0 ? filter.Values[0] : null;
-  }
 }

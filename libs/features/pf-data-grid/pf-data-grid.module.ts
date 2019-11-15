@@ -70,7 +70,7 @@ import { ColumnSearchPipe } from './pipes';
     PfDataGridFilterPillsComponent,
     PfDataGridSaveViewModalComponent,
     ColumnChooserComponent,
-    ColumnSearchPipe
+    ColumnSearchPipe,
   ],
   exports: [
     PfDataGridComponent
