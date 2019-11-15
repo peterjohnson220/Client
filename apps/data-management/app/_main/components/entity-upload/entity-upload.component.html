@@ -1,31 +1,46 @@
-<div class="row">
-  <!-- drop downs -->
-  <select class="custom-select"
-          [(ngModel)]="selectedMapping">
-    <!--TODO: | async -->
-    <option *ngFor="let mapping of this.savedMappings$"
-            [value]="mapping.MappingId"
-            [selected]="mapping.MappingId === -1">{{mapping.MappingName}}</option>
-  </select>
-</div>
-<div class="row">
+<div class="row my-2 py-3 rounded"
+     [style.background-color]="'white'"
+     *ngFor="let entity of selectedEntities()">
   <div id="column1container"
        class="col">
-    <!-- entity info -->
-    <h5 class="mb-0">Jobs</h5>
-    <div class="text-info small py-2">download sample template</div>
-    <div class="rounded p-2 template-background">
-      <b>Note:</b> File must be in csv format and the file must begin with 'jobs'.
+    <h5>{{entity.DisplayText}}</h5>
+
+    <div class="rounded px-3 py-4 template-background">
+      <b>Note:</b> File must be in csv format and the file must begin with '{{entity.FileBeginsWith}}'.
     </div>
   </div>
   <div id="column3container"
        class="col">
+    <div class="h-100 mx-2">
+      <pf-file-upload #fileUpload
+                      (onFileDropped)="entity.File = $event"
+                      (onFileRemoved)="entity.File = null"
+                      [validFileExtensions]="['.csv']"
+                      [validFileStartsWith]="entity.FileBeginsWith"></pf-file-upload>
+    </div>
+  </div>
+</div>
 
-    <kendo-upload [autoUpload]="false"
-                  [saveUrl]="uploadSaveUrl"
-                  [removeUrl]="uploadRemoveUrl">
-    </kendo-upload>
+<div class="w-50">
+  <div class="row ">
+    <div class="form-group w-100 ">
+      <label for="mappingSelector"><strong>Use a saved mapping or map fields manually in next step</strong></label>
+      <select class="form-control"
+              [(ngModel)]="selectedMapping"
+              id="mappingSelector">
+        <option *ngFor="let mapping of this.savedMappings$"
+                [value]="mapping.MappingId"
+                [selected]="mapping.MappingId === -1">{{mapping.MappingName}}</option>
+      </select>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="form-group w-100 ">
+      <label for="delimSelector"><strong>Provide a delimiter type</strong></label>
+      <input type="text"
+             class="form-control">
+    </div>
 
   </div>
 </div>

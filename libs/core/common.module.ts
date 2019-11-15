@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 
+import { DecimalPipe } from '@angular/common';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 import * as fromFaIcons from './fa-icons';
-import { DebounceClickDirective, DisableFormControlDirective } from './directives';
+import { DebounceClickDirective, DisableFormControlDirective, DragDropDirective } from './directives';
 import {
-  HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
-  NewLinePipe, JobDescriptionParserPipe, WrapSubtextWithTag, DataTypeFilterPipe,
-  OrderByPipe, FilterArrayByName, GetFileExtensionCssClassPipe, StripHtmlPipe, CompPipe
+    CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
+    JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag
 } from './pipes';
 import { DragulaHelperService } from './services';
-import { DecimalPipe } from '@angular/common';
 
 const declarations = [
   // Directives
   DebounceClickDirective,
   DisableFormControlDirective,
+  DragDropDirective,
 
   // Pipes
   HighlightTextPipe,

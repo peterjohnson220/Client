@@ -26,7 +26,8 @@ import {
 } from './containers';
 import { TransferDataPageEffects } from './effects';
 import { MainRoutingModule } from './main-routing.module';
-import { EntityPickerComponent, EntityUploadComponent } from './components/';
+import { EntityPickerComponent, EntityUploadComponent } from './components';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 @NgModule({
   imports: [
@@ -71,7 +72,8 @@ import { EntityPickerComponent, EntityUploadComponent } from './components/';
     PfTestAuthenticationComponent,
     OrgDataLoadComponent,
     EntityPickerComponent,
-    EntityUploadComponent
+    EntityUploadComponent,
+    FileUploadComponent
   ]
 })
 export class MainModule {
