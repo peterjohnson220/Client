@@ -163,12 +163,11 @@
 <!--Modals-->
 <pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic && !(identity$ | async)?.WorkflowStepInfo"></pf-copy-job-description-modal>
 
-<!--
-<pf-workflow-setup-modal
+<pf-workflow-setup-modal *ngIf="!!jobDescription"
   [jobTitle]="(jobDescriptionAsync$ | async)?.obj?.Name"
   [revision]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionRevision"
   [jobId]="(jobDescriptionAsync$ | async)?.obj?.CompanyJobId">
-</pf-workflow-setup-modal> -->
+</pf-workflow-setup-modal>
 
 <pf-workflow-cancel-modal
   (workflowCancelConfirmed)="handleCancelApprovalConfirmed($event)">

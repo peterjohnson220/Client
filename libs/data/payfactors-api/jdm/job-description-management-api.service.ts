@@ -81,8 +81,12 @@ export class JobDescriptionManagementApiService {
     });
   }
 
-  userEmailHasJobPermission(emailAddr: string, jobId: number) {
-    return this.payfactorsApiService.get(`${this.endpoint}.UserEmailHasJobPermission`, {UserEmail: emailAddr, JobId: jobId});
+  userEmailHasJobPermission(emailAddr: string, jobId: number): Observable<boolean> {
+    return this.payfactorsApiService.get<boolean>(`${this.endpoint}.UserEmailHasJobPermission`, {
+      params: {
+        UserEmail: emailAddr, JobId: jobId
+      }},
+      (response) => response.value);
   }
 
   inactivateControl(controlType: string) {

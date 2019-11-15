@@ -205,3 +205,13 @@ pf-job-description-version-compare {
   overflow: hidden;
   padding: 10px 0;
 }
+
+.route-for-approval-modal .modal-content{
+  width: 650px;
+}
+
+pf-workflow-config {
+  .dropdown-item.active, .dropdown-item:active {
+    background-color: #1872ae;
+  }
+}

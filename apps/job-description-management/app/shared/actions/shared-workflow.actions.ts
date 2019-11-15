@@ -10,16 +10,6 @@ export const SAVE_TEMPLATE_ERROR = '[job-description-management / Workflow Templ
 export const DELETE_TEMPLATE = '[job-description-management / Workflow Template List] Delete Workflow Template From List';
 export const DELETE_TEMPLATE_SUCCESS = '[job-description-management / Workflow Template List] Delete Workflow Template From List Success';
 export const DELETE_TEMPLATE_ERROR = '[job-description-management / Workflow Template List] Delete Workflow Template From List Error';
-// Workflow Config
-export const POPULATE_WORKFLOW = '[job-description-management / Workflow Config] Populate Workflow';
-export const RESET_WORKFLOW = '[job-description-management / Workflow Config] Reset Workflow';
-export const ADD_USER_TO_WORKFLOW = '[job-description-management / Workflow Config] Add User To Workflow';
-export const UPDATE_WORKFLOW_STEP_PERMISSION = '[job-description-management / Workflow Config] Update Workflow Step Permssion';
-export const DELETE_WORKFLOW_STEP = '[job-description-management / Workflow Config] Delete Workflow Step';
-export const REORDER_USERS_IN_WORKFLOW = '[job-description-management / Workflow Config] Reorder Users In Workflow';
-export const ADD_USER_TO_SAME_WORKFLOW_STEP = '[job-description-management / Workflow Config] Add User To Same Workflow Step';
-export const CHECK_EMAIL_PERMISSION = '[job-description-management / Workflow Config] Check Email Permissions';
-export const USER_EMAIL_HAS_JOB_PERMISSION = '[job-description-management / Workflow Config] User Email Has Job Permission';
 // User or Email Picker
 export const RESTRICT_WORKFLOW_TO_COMPANY_EMPLOYEES = '[job-description-management / Workflow Search Bar] Restrict Workflow To Company Employees Only';
 // Workflow User Rerouting
@@ -86,60 +76,6 @@ export class DeleteTemplateError implements Action {
   constructor() {}
 }
 
-export class PopulateWorkflow implements Action {
-  readonly type = POPULATE_WORKFLOW;
-
-  constructor(public payload: {steps: WorkflowStep[], prepopulating: boolean}) {} // should be false
-}
-
-export class ResetWorkflow implements Action {
-  readonly type = RESET_WORKFLOW;
-
-  constructor() {}
-}
-
-export class AddUserToWorkflow implements Action {
-  readonly type = ADD_USER_TO_WORKFLOW;
-
-  constructor(public payload: {user: any}) {}
-}
-
-export class UpdateWorkflowStepPermission implements Action {
-  readonly type = UPDATE_WORKFLOW_STEP_PERMISSION;
-
-  constructor(public payload: {stepIndex: number, permission: string, selected: boolean}) {}
-}
-
-export class DeleteWorkflowStep implements Action {
-  readonly type = DELETE_WORKFLOW_STEP;
-
-  constructor(public payload: {index: number}) {}
-}
-
-export class ReorderUsersInWorkflow implements Action {
-  readonly type = REORDER_USERS_IN_WORKFLOW;
-
-  constructor(public payload: {oldIndex: number, newIndex: number}) {}
-}
-
-export class AddUserToSameWorkflowStep implements Action {
-  readonly type = ADD_USER_TO_SAME_WORKFLOW_STEP;
-
-  constructor(public payload: {stepIndex: number, user: any}) {}
-}
-
-export class CheckEmailPermission implements Action {
-  readonly type = CHECK_EMAIL_PERMISSION;
-
-  constructor(public payload: {permission: boolean, user: any}) {}
-}
-
-export class UserEmailHasJobPermission implements Action {
-  readonly type = USER_EMAIL_HAS_JOB_PERMISSION;
-
-  constructor(public payload: {emailAddress: string, jobId: number}) {}
-}
-
 export class RestrictWorkflowToCompanyEmployees implements Action {
   readonly type = RESTRICT_WORKFLOW_TO_COMPANY_EMPLOYEES;
 
@@ -197,15 +133,6 @@ export type Actions
   | DeleteTemplate
   | DeleteTemplateSuccess
   | DeleteTemplateError
-  | PopulateWorkflow
-  | ResetWorkflow
-  | AddUserToWorkflow
-  | UpdateWorkflowStepPermission
-  | DeleteWorkflowStep
-  | ReorderUsersInWorkflow
-  | AddUserToSameWorkflowStep
-  | CheckEmailPermission
-  | UserEmailHasJobPermission
   | RestrictWorkflowToCompanyEmployees
   | SetNewUser
   | ResetNewUser
