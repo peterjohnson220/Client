@@ -9,6 +9,13 @@
       </div>
     </ng-template>
   </ngb-tab>
+  <ngb-tab [title]="'Job Description'">
+    <ng-template ngbTabContent>
+      <div class="full-height">
+        <pf-job-description  [filters]="jobDetailsFilters" ></pf-job-description>
+      </div>
+    </ng-template>
+  </ngb-tab>
   <ngb-tab [title]="'Employees'">
     <ng-template ngbTabContent>
       <div class="full-height">
