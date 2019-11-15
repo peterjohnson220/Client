@@ -37,6 +37,7 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService } from './hris-api';
 import { SurveyLibraryApiService } from './survey-library';
+import {JobsApiService} from './jobs';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -57,6 +58,7 @@ import { SurveyLibraryApiService } from './survey-library';
     UserProfileApiService,
     UserFilterApiService,
     JobDescriptionApiService,
+    JobsApiService,
     TermsConditionsApiService,
     SurveySearchApiService,
     ExchangeScopeApiService,

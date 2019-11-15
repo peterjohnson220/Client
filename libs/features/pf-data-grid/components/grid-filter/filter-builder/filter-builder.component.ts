@@ -24,7 +24,6 @@ export class FilterBuilderComponent implements OnChanges {
 
   private filterOperatorOptions = FilterOperatorOptions;
   public dataTypes = DataViewFieldDataType;
-  public disableValue: boolean;
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.viewField) {
@@ -52,7 +51,7 @@ export class FilterBuilderComponent implements OnChanges {
       this.field.FilterValue = '';
       this.disableValue = true;
     } else {
-      this.disableValue = false;
+      return false;
     }
   }
 

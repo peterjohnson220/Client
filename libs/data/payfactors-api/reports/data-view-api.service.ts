@@ -102,7 +102,13 @@ export class DataViewApiService {
   }
 
   getDataViewConfig(pageViewId: string, name: string) {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: { pageViewId: pageViewId, viewName: name } });
+    const params = {
+      pageViewId: pageViewId
+    };
+    if (name) {
+      params['viewName'] = name;
+    }
+    return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: params });
   }
 
   updateDataView(request: SaveDataViewRequest) {

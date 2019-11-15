@@ -87,3 +87,7 @@ tr.row-disabled {
 .search-highlight{
   background-color: #F2E366;
 }
+
+input[type=text]::-ms-clear {
+  display: none;
+}

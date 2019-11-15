@@ -30,6 +30,8 @@ export const SAVE_VIEW_SUCCESS = '[PfDataGrid] Save Filter Success';
 export const SAVE_VIEW_ERROR = '[PfDataGrid] Save Filter Error';
 export const OPEN_SAVE_VIEW_MODAL = '[PfDataGrid] Open Save View Modal';
 export const CLOSE_SAVE_VIEW_MODAL = '[PfDataGrid] Close Save View Modal';
+export const UPDATE_SELECTED_KEY =  '[PfDataGrid] Update selected key';
+export const SELECT_ALL =  '[PfDataGrid] Select All';
 
 export class LoadViewConfig implements Action {
     readonly type = LOAD_VIEW_CONFIG;
@@ -161,6 +163,16 @@ export class CloseSaveViewModal implements Action {
   constructor(public pageViewId: string) {}
 }
 
+export class  UpdateSelectedKey implements  Action {
+  readonly  type = UPDATE_SELECTED_KEY;
+  constructor(public pageViewId: string, public payload: number) { }
+}
+
+export class  SelectAll implements  Action {
+  readonly  type = SELECT_ALL;
+  constructor(public pageViewId: string, public primaryKey: string) { }
+}
+
 export type DataGridActions =
     | LoadViewConfig
     | LoadViewConfigSuccess
@@ -177,6 +189,7 @@ export type DataGridActions =
     | ClearAllFilters
     | ToggleFilterPanel
     | SetFilterPanelDisplay
+    | UpdateSelectedKey
     | UpdateSelectedRowId
     | ClearLoading
     | HandleApiError
@@ -187,4 +200,5 @@ export type DataGridActions =
     | SaveViewSuccess
     | SaveViewError
     | OpenSaveViewModal
-    | CloseSaveViewModal;
+    | CloseSaveViewModal
+    | SelectAll;

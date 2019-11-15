@@ -5,22 +5,35 @@
     [skip]="(pagingOptions$ | async)?.From"
     [pageable]="getPagingBarConfig(gridState$ | async)"
     [scrollable]="isMultiplePages(gridState$ | async)"    
-    [resizable]="selectedRowId ? false : true"    
+
+    [resizable]="selectedRowId ? false : true"
     [sortable]="isSortable()"
     [sort]="sortDescriptor$ | async"
     [rowClass]="selectedRowClass"
     (pageChange)="onPageChange($event)"
     (sortChange)="onSortChange($event)"
     (cellClick)="onCellClick($event)">
+    <kendo-grid-checkbox-column [resizable]="false" *ngIf="enableSelection" showSelectAll="true" [width]="23">
+      <ng-template kendoGridHeaderTemplate>
+        <input kendoGridSelectAllCheckbox id="selectAllCheckboxId"
+               [state]="selectAllState$ | async"
+               (selectAllChange)="onSelectAllChange($event)">
+      </ng-template>
+      <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
+        <input type="checkbox"
+               [checked]="isChecked((selectedKeys$ | async), dataItem[getSelectedRowIdentifier()])"
+               (click)="onSelectedKeysChange(dataItem[getSelectedRowIdentifier()])">
+      </ng-template>
+    </kendo-grid-checkbox-column>
     <ng-container *ngFor="let col of (dataFields$ | async)">
       <ng-container *ngIf="col.Group">
-          <kendo-grid-column-group 
+          <kendo-grid-column-group
             [title]="col.Group"
             [headerClass]="'pf-data-grid-header'"
             [locked]="false">
               <ng-container *ngFor="let col of col.Fields">
                   <ng-container *ngIf="showColumn(col)">
-                      <kendo-grid-column 
+                      <kendo-grid-column
                         [field]="mappedFieldName(col)"
                         [title]="col.DisplayName"
                         [headerClass]="'pf-data-grid-header'"
@@ -39,9 +52,11 @@
                     </ng-container>
               </ng-container>
           </kendo-grid-column-group>
-      </ng-container> 
+
+      </ng-container>
       <ng-container *ngIf="showColumn(col)">
-        <kendo-grid-column 
+
+        <kendo-grid-column
           [field]="mappedFieldName(col)"
           [title]="col.DisplayName"
           [headerClass]="'pf-data-grid-header'"

@@ -1,15 +1,18 @@
 <ng-template #popContent>
   <div class="user-filter-list-container">
+    <p>
+      <pf-input-debounce id="filter-search-box" [id]="'filter-chooser-search'" (valueChanged)="(filter = $event)" [placeholderText]="'Search for a Filter...'"></pf-input-debounce>
+    </p>
     <div class="list-group user-filter-list">
-      <div *ngIf="savedViews && !savedViews.length">
+      <div *ngIf="savedViews && !(savedViews | filterArrayByName: filter).length">
         <h5>No Filters</h5>
       </div>
-      <button *ngFor="let view of savedViews" class="list-group-item list-group-item-action p-2" (click)="handleViewSelected(view)">
+      <div *ngFor="let view of savedViews | filterArrayByName: filter" class="list-group-item p-2" (click)="handleViewSelected(view)">
         <div class="user-filter">
           <span>{{view.Name}}</span>
           <small class="filter-desc" [title]="view.Description">{{view.Description}}</small>
         </div>
-      </button>
+      </div>
     </div>
   </div>
 </ng-template>

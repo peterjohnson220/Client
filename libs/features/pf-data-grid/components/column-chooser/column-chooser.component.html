@@ -1,10 +1,10 @@
 <ng-template #popContent>
   <div class="column-list-container">
     <p>
-      <pf-input-debounce id="column-search-box" [id]="'jobs-page-column-chooser-search'" (valueChanged)="(filter = $event)"
+      <pf-input-debounce id="column-search-box" [id]="'column-chooser-search'" (valueChanged)="(filter = $event)"
         [placeholderText]="'Search for a Column...'"></pf-input-debounce>
     </p>
-    <div class="column-list" *ngIf="!loading && !(listAreaColumns | columnChooserSearch: filter).length;else column_list">
+    <div class="column-list" *ngIf="!loading && !(listAreaColumns | filterArrayByName: filter : 'DisplayName').length;else column_list">
       <h5>No Columns</h5>
     </div>
     <pf-async-container [loading]="loading"></pf-async-container>
@@ -21,7 +21,7 @@
 <ng-template #column_list>
   <div *ngIf="!loading" class="column-list">
     <ul>
-      <ng-container *ngFor="let col of listAreaColumns | columnChooserSearch: filter">
+      <ng-container *ngFor="let col of listAreaColumns | filterArrayByName: filter : 'DisplayName'">
         <li *ngIf="col.IsSelectable" class="column-item">
           <input type="checkbox" [attr.data-qa-id]="'chk-' + col.SourceName" [(ngModel)]="col.IsSelected" [disabled]="col.IsLocked">
           <span class="column-text">
