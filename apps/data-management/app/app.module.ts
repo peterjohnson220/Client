@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { JwtAuthInterceptor } from 'libs/core/services/jwt-auth-interceptor.service';
@@ -18,7 +18,6 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     // Angular
     BrowserModule,
-    HttpClientModule,
 
     // PF Modules
     PfApiModule,

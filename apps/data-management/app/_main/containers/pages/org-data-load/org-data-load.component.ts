@@ -35,7 +35,7 @@ export class OrgDataLoadComponent implements OnDestroy {
   // because the company selector is inside of a switch
   // the init will not fire which triggers the api call unless
   // we have rendered our index.
-  stepIndex: number = 1;
+  stepIndex = 1;
   companies: CompanySelectorItem[];
   selectedCompany: CompanySelectorItem = null;
   hasError = false;

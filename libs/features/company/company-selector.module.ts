@@ -8,7 +8,6 @@ import { StoreModule } from '@ngrx/store';
 
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
-import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { CompanySelectorComponent } from './components';
@@ -29,8 +28,7 @@ import { CompanySelectorEffects } from './effects';
         CommonModule,
 
         // PF
-        PfCommonUIModule,
-        PfApiModule
+        PfCommonUIModule
     ],
     declarations: [
         // Containers
