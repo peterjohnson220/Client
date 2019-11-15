@@ -17,9 +17,13 @@ export class AppComponent implements OnInit, OnDestroy {
   @HostBinding('class.ready') ready = false;
 
   hasUserContext$: Observable<boolean>;
+  forbidden$: Observable<boolean>;
   userContext$: Observable<UserContext>;
   hasUserContextSub: Subscription;
   userContextSub: Subscription;
+  forbiddenSub: Subscription;
+
+  forbidden: boolean;
 
   constructor(
     private store: Store<fromRootState.State>,
@@ -28,10 +32,17 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.hasUserContext$ = this.store.select(fromRootState.hasUserContext);
     this.userContext$ = this.store.select(fromRootState.getUserContext);
+    this.forbidden$ = this.store.select(fromRootState.getForbidden);
   }
 
   ngOnInit(): void {
     this.hasUserContextSub = this.hasUserContext$.subscribe(huc => this.ready = huc);
+    this.forbiddenSub = this.forbidden$.subscribe(f => {
+      this.forbidden = f;
+      if (this.forbidden && this.ready === false) {
+        this.ready = true;
+      }
+    });
     this.userContextSub = this.userContext$.pipe(filter(uc => !!uc)).subscribe(uc => {
       NewRelicService.setCustomAttributes(uc.CompanyId, uc.UserId, uc.IpAddress, uc.SessionId);
     });
@@ -40,5 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.hasUserContextSub.unsubscribe();
     this.userContextSub.unsubscribe();
+    this.forbiddenSub.unsubscribe();
   }
 }
