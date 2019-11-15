@@ -66,7 +66,8 @@ export class UserOrEmailPickerComponent implements OnInit {
         UserId: event.item.UserId,
         EmailAddress: event.item.EmailAddress,
         FirstName: event.item.FirstName,
-        LastName: event.item.LastName
+        LastName: event.item.LastName,
+        UserPicture: event.item.UserPicture
       };
       this.selected.emit(payload);
     }
