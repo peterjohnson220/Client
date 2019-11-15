@@ -12,7 +12,9 @@ exports[`Admin - Company Admin - Users List Component Should show the users list
     <div
       class="table-responsive"
     >
-      <kendo-grid>
+      <kendo-grid
+        class="table-hover"
+      >
         <kendo-grid-column
           field="FirstName"
           title="First Name"
