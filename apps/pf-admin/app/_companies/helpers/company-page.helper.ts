@@ -146,30 +146,31 @@ export class CompanyPageHelper {
   }
 
   static getPeerClientTypeCompanySettings(settings: CompanySetting[]): CompanySetting[] {
-    return settings.map(s => {
-      switch (s.Key) {
-        case CompanySettingsEnum.PeerTermsAndConditionsAccepted: {
-          s.Value = 'true';
-          s.Disabled = true;
-          return s;
+    return settings.filter(s => s.Visible === false).concat(
+      settings.filter(s => s.Visible === true).map(s => {
+        switch (s.Key) {
+          case CompanySettingsEnum.PeerTermsAndConditionsAccepted: {
+            s.Value = 'true';
+            s.Disabled = true;
+            return s;
+          }
+          case CompanySettingsEnum.PeerTermsAndConditionsRequested:
+          case CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested: {
+            s.Value = 'false';
+            s.Disabled = true;
+            return s;
+          }
+          case CompanySettingsEnum.MaxProjectJobCount: {
+            s.Disabled = true;
+            return s;
+          }
+          default: {
+            s.Value = 'false';
+            s.Disabled = false;
+            return s;
+          }
         }
-        case CompanySettingsEnum.PeerTermsAndConditionsRequested:
-        case CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested: {
-          s.Value = 'false';
-          s.Disabled = true;
-          return s;
-        }
-        case CompanySettingsEnum.MaxProjectJobCount: {
-          s.Disabled = true;
-          return s;
-        }
-        default: {
-          s.Value = 'false';
-          s.Disabled = false;
-          return s;
-        }
-      }
-    });
+      }));
   }
 
   static getPeerAndAnalysisClientTypeCompanyTiles(tiles: CompanyTilesResponse[]): CompanyTilesResponse[] {
@@ -227,46 +228,48 @@ export class CompanyPageHelper {
   }
 
   static getPeerAndAnalysisClientTypeCompanySettings(settings: CompanySetting[]): CompanySetting[] {
-    return settings.map(s => {
-      switch (s.Key) {
-        case CompanySettingsEnum.PeerTermsAndConditionsAccepted: {
-          s.Value = 'true';
-          s.Disabled = true;
-          return s;
+    return settings.filter(s => s.Visible === false).concat(
+      settings.filter(s => s.Visible === true).map(s => {
+        switch (s.Key) {
+          case CompanySettingsEnum.PeerTermsAndConditionsAccepted: {
+            s.Value = 'true';
+            s.Disabled = true;
+            return s;
+          }
+          case CompanySettingsEnum.PeerTermsAndConditionsRequested:
+          case CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested: {
+            s.Value = 'false';
+            s.Disabled = true;
+            return s;
+          }
+          case CompanySettingsEnum.MaxProjectJobCount: {
+            s.Disabled = true;
+            return s;
+          }
+          default: {
+            s.Value = 'false';
+            s.Disabled = false;
+            return s;
+          }
         }
-        case CompanySettingsEnum.PeerTermsAndConditionsRequested:
-        case CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested: {
-          s.Value = 'false';
-          s.Disabled = true;
-          return s;
-        }
-        case CompanySettingsEnum.MaxProjectJobCount: {
-          s.Disabled = true;
-          return s;
-        }
-        default: {
-          s.Value = 'false';
-          s.Disabled = false;
-          return s;
-        }
-      }
-    });
+      }));
   }
 
   static getSmallBusinessClientTypeCompanySettings(settings: CompanySetting[]): CompanySetting[] {
-    return settings.map(s => {
-      switch (s.Key) {
-        case CompanySettingsEnum.MaxProjectJobCount: {
-          s.Disabled = false;
-          return s;
+    return settings.filter( s => s.Visible === false).concat(
+      settings.filter(s => s.Visible === true).map(s => {
+        switch (s.Key) {
+          case CompanySettingsEnum.MaxProjectJobCount: {
+            s.Disabled = false;
+            return s;
+          }
+          default: {
+            s.Value = 'false';
+            s.Disabled = false;
+            return s;
+          }
         }
-        default: {
-          s.Value = 'false';
-          s.Disabled = false;
-          return s;
-        }
-      }
-    });
+      }));
   }
 
   static modifyPeerTCRequestSettingDisabled(settings: CompanySetting[], peerTermsAndCondAccepted: boolean): CompanySetting[] {

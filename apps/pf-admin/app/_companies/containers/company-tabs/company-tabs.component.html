@@ -75,7 +75,7 @@
               [hideReloadButton]="true">
               <div *ngIf="(companySettings$ | async)?.length">
                 <div class="checkbox" *ngFor="let companySetting of (companySettings$ | async)">
-                  <label *ngIf="companySetting.DataType !== 'int'">
+                  <label *ngIf="companySetting.DataType !== 'int' && companySetting.Visible">
                     <input type="checkbox" (change)="toggleCompanySetting(companySetting)" [disabled]="companySetting.Disabled"
                       [checked]="companySetting.Value === 'true'" />
                     {{companySetting.DisplayName}}
