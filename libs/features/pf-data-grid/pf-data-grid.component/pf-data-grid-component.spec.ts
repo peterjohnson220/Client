@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { of } from 'rxjs';
 
-import { getMockPfDataGridFilter, getMockPfDataGridFilterList } from 'libs/models/payfactors-api/reports/request';
+import { generateMockViewField, generateMockViewFieldList } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
@@ -39,7 +39,7 @@ describe('PfDataGridComponent', () => {
   }));
 
   it('should remove all filters when calling clearAllFilters', () => {
-    component.filters$ = of([getMockPfDataGridFilter()]);
+    component.userFilteredFields$ = of([generateMockViewField()]);
 
     component.clearAllFilters();
 
@@ -49,7 +49,7 @@ describe('PfDataGridComponent', () => {
   });
 
   it('should remove the selected filter when calling clearFilter', () => {
-    const filterList = getMockPfDataGridFilterList(5);
+    const filterList = generateMockViewFieldList(5);
     const filterToRemove = filterList[0];
     component.filters$ = of(filterList);
 
@@ -60,26 +60,24 @@ describe('PfDataGridComponent', () => {
   });
 
   it('should update the modified filter when calling handleFilterChanged', () => {
-    spyOn(component.gridFilterThrottle, 'next');
-
-    const filterList = getMockPfDataGridFilterList(5);
+    const filterList = generateMockViewFieldList(5);
     const filterToModify = filterList[0];
     const newFilterValue = 'Hello World';
 
-    filterToModify.Value = newFilterValue;
+    filterToModify.FilterValue = newFilterValue;
+
+    const updateFilterAction = new fromActions.UpdateFilter(component.pageViewId, filterToModify);
 
     component.handleFilterChanged(filterToModify);
 
-    expect(component.gridFilterThrottle.next).toHaveBeenLastCalledWith(filterToModify);
+    expect(store.dispatch).toHaveBeenLastCalledWith(updateFilterAction);
   });
 
   it('should display the save view modal when handleSaveFilter is called', () => {
-    const loadSavedViewsAction = new fromActions.LoadSavedViews(component.pageViewId);
     const openModalAction = new fromActions.OpenSaveViewModal(component.pageViewId);
 
     component.saveFilterClicked();
 
-    expect(store.dispatch).toHaveBeenCalledWith(loadSavedViewsAction);
     expect(store.dispatch).toHaveBeenLastCalledWith(openModalAction);
   });
 

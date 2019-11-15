@@ -21,6 +21,7 @@ import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
+import { getUserFilteredFields, isValueRequired } from '../components';
 
 
 @Injectable()
@@ -108,7 +109,7 @@ export class PfDataGridEffects {
             ),
             switchMap((data) =>
                 this.dataViewApiService.updateDataView(PfDataGridEffects
-                    .buildSaveDataViewRequest(data.action.pageViewId, data.baseEntity.Id, data.action.fields, [], null))
+                    .buildSaveDataViewRequest(data.action.pageViewId, data.baseEntity.Id, data.action.fields, null))
                     .pipe(
                         map((response: any[]) => {
                             return new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId);
@@ -130,9 +131,8 @@ export class PfDataGridEffects {
                     withLatestFrom(
                         this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, saveFilterAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getFields, saveFilterAction.pageViewId)),
-                        this.store.pipe(select(fromPfDataGridReducer.getUserFilteredFields, saveFilterAction.pageViewId)),
-                        (action: fromPfDataGridActions.SaveView, baseEntity, fields, filteredFields) =>
-                            ({ action, baseEntity, fields, filteredFields })
+                        (action: fromPfDataGridActions.SaveView, baseEntity, fields) =>
+                            ({ action, baseEntity, fields})
                     )
                 )
             ),
@@ -141,7 +141,6 @@ export class PfDataGridEffects {
                     data.action.pageViewId,
                     data.baseEntity.Id,
                     data.fields,
-                    data.filteredFields,
                     data.action.viewName))
                     .pipe(
                         map((response: any) => {
@@ -189,14 +188,14 @@ export class PfDataGridEffects {
         );
 
     static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number,
-        fields: ViewField[], filteredFields: ViewField[], name: string): SaveDataViewRequest {
+        fields: ViewField[], name: string): SaveDataViewRequest {
         return <SaveDataViewRequest>{
             PageViewId: pageViewId,
             EntityId: baseEntityId,
             Elements: fields.
                 filter(e => e.IsSelected).
                 map(e => ({ ElementId: e.DataElementId })),
-            Filters: this.mapFieldsToDataViewFilters(filteredFields),
+            Filters: this.mapFieldsToDataViewFilters(getUserFilteredFields(fields)),
             Name: name
         };
     }
@@ -254,7 +253,7 @@ export class PfDataGridEffects {
 
     static mapFieldsToFilters(fields: ViewField[]): DataViewFilter[] {
         return fields
-            .filter(field => field.FilterValue)
+            .filter(field => field.FilterValue || !isValueRequired(field))
             .map(field => <DataViewFilter>{
                 EntitySourceName: field.EntitySourceName,
                 SourceName: field.SourceName,

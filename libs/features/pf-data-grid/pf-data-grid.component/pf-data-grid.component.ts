@@ -1,15 +1,16 @@
 import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { ViewField, DataViewEntity, DataViewConfig, SimpleDataView } from 'libs/models/payfactors-api';
+import { ViewField, DataViewEntity, SimpleDataView } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
 import { PfDataGridFilter } from '../models';
+import { getUserFilteredFields } from '../components';
 
 @Component({
   selector: 'pf-data-grid',
@@ -41,12 +42,14 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   baseEntity$: Observable<DataViewEntity>;
   dataFields$: Observable<ViewField[]>;
   filterableFields$: Observable<ViewField[]>;
-  userFilteredFields$: Observable<ViewField[]>;
   displayFilterPanel$: Observable<boolean>;
   selectedRowId$: Observable<number>;
   savedViews$: Observable<SimpleDataView[]>;
   saveViewModalOpen$: Observable<boolean>;
   viewIsSaving$: Observable<boolean>;
+
+  userFilteredFieldsSubscription: Subscription;
+  userFilteredFields: ViewField[];
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -61,11 +64,14 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       }
     });
 
+    this.userFilteredFieldsSubscription = this.store.select(fromReducer.getFields, this.pageViewId).subscribe(fields => {
+      this.userFilteredFields = getUserFilteredFields(fields);
+    });
+
     this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
     this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
     this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
     this.filterableFields$ = this.store.select(fromReducer.getFilterableFields, this.pageViewId);
-    this.userFilteredFields$ = this.store.select(fromReducer.getUserFilteredFields, this.pageViewId);
     this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
     this.selectedRowId$ = this.store.select(fromReducer.getSelectedRowId, this.pageViewId);
     this.savedViews$ = this.store.select(fromReducer.getSavedViews, this.pageViewId);
@@ -75,6 +81,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.splitViewEmitter.unsubscribe();
+    this.userFilteredFieldsSubscription .unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -127,4 +134,5 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   saveFilterHandler(filterName) {
     this.store.dispatch(new fromActions.SaveView(this.pageViewId, filterName));
   }
+
 }

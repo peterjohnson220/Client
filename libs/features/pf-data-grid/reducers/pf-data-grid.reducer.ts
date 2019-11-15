@@ -8,7 +8,7 @@ import { ViewField, PagingOptions, DataViewEntity, DataViewConfig, SimpleDataVie
 
 import * as fromPfGridActions from '../actions';
 import { PfDataGridFilter } from '../models';
-import { FilterOperatorOptions, getHumanizedFilter } from '../components';
+import { FilterOperatorOptions, getHumanizedFilter, isValueRequired } from '../components';
 
 export interface DataGridState {
   pageViewId: string;
@@ -311,7 +311,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       };
     case fromPfGridActions.SAVE_VIEW_SUCCESS:
       const views = cloneDeep(state.grids[action.pageViewId].savedViews);
-      views.push(action.payload);
+      // TODO: Refactor buildFiltersView so it can work with arrays and single objects
+      views.push(buildFiltersView([action.payload])[0]);
       return {
         ...state,
         grids: {
@@ -330,9 +331,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const newSelectedKeys = cloneDeep(grid.selectedKeys) || [];
       const index = newSelectedKeys.indexOf(action.payload);
       index > -1 ? newSelectedKeys.splice(index, 1) : newSelectedKeys.push(action.payload);
-      if ( newSelectedKeys && (newSelectedKeys.length === grid.data.total || newSelectedKeys.length === grid.pagingOptions.Count)) {
+      if (newSelectedKeys && (newSelectedKeys.length === grid.data.total || newSelectedKeys.length === grid.pagingOptions.Count)) {
         newSelectAllState = 'checked';
-      } else if (newSelectedKeys.length !== 0 ) {
+      } else if (newSelectedKeys.length !== 0) {
         newSelectAllState = 'indeterminate';
       }
       return {
@@ -341,7 +342,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectedKeys:  newSelectedKeys,
+            selectedKeys: newSelectedKeys,
             selectAllState: newSelectAllState
           }
         }
@@ -385,15 +386,6 @@ export const getFilterableFields = (state: DataGridStoreState, pageViewId: strin
       .concat(state.grids[pageViewId].fields.filter(f => f.IsFilterable && f.IsSelected))
     : null;
 };
-export const getUserFilteredFields = (state: DataGridStoreState, pageViewId: string) => {
-  return state.grids[pageViewId] && state.grids[pageViewId].fields ?
-    state.grids[pageViewId].fields
-      .filter(f => f.CustomFilterStrategy)
-      .concat(state.grids[pageViewId].fields.filter(f => f.IsFilterable && f.IsSelected))
-      .filter(f => f.FilterValue)
-    : null;
-};
-
 export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pagingOptions : null;
 export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].defaultSortDescriptor : null;

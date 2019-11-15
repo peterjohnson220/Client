@@ -5,6 +5,7 @@
     <div class="col-12">
       <pf-input-debounce [attr.data-qa-id]="'txt-value-'+field.SourceName"
         [ngModel]="field.FilterValue"
+        [placeholderText]="field.FilterPlaceholder ? field.FilterPlaceholder : null"
         (valueChanged)="handleFilterValueChanged($event)"
         [delay]="400">
       </pf-input-debounce>      
@@ -32,7 +33,7 @@
           <pf-input-debounce [attr.data-qa-id]="'txt-value-'+field.SourceName"
             [ngModel]="field.FilterValue"
             (valueChanged)="handleFilterValueChanged($event)"
-            [disabled]="disableValue"
+            [disabled]="valueCanBeEmpty()"
             [delay]="400">
           </pf-input-debounce>        
         </div>
@@ -55,7 +56,7 @@
         <div class="col-6">
           <kendo-datepicker 
             [value]="field.FilterValue"
-            [disabled]="disableValue"
+            [disabled]="valueCanBeEmpty()"
             (valueChange)="handleFilterValueChanged($event)"
             [attr.data-qa-id]="'txt-value-'+field.SourceName">
           </kendo-datepicker>
@@ -82,7 +83,7 @@
             [format]="'n0'"
             [decimals]="0"
             [min]="1"
-            [disabled]="disableValue"
+            [disabled]="valueCanBeEmpty()"
             (pfDebounceValueChanged)="handleFilterValueChanged($event)"
             [attr.data-qa-id]="'txt-value-'+field.SourceName"
             class="form-control">

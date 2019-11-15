@@ -33,9 +33,8 @@ export class FilterBuilderComponent implements OnChanges {
 
   handleFilterOperatorChanged(event) {
     this.field.FilterOperator = event;
-    this.toggleValueInput();
 
-    if (this.disableValue || (this.field.FilterValue && this.field.FilterValue.trim().length)) {
+    if (this.valueCanBeEmpty() || (this.field.FilterValue && this.field.FilterValue.toString().trim().length)) {
       this.filterChanged.emit(this.field);
     }
   }
@@ -45,14 +44,13 @@ export class FilterBuilderComponent implements OnChanges {
     this.filterChanged.emit(this.field);
   }
 
-  private toggleValueInput() {
+  private valueCanBeEmpty() {
     const disabledValueOperators = this.filterOperatorOptions[this.field.DataType].filter(o => !o.requiresValue);
-    if (disabledValueOperators.find(d => d.values[0] === this.field.FilterOperator)) {
+    if (disabledValueOperators.find(d => d.value === this.field.FilterOperator)) {
       this.field.FilterValue = '';
-      this.disableValue = true;
+      return true;
     } else {
       return false;
     }
   }
-
 }

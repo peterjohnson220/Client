@@ -1,3 +1,5 @@
+import { ViewField } from 'libs/models/payfactors-api';
+
 export interface FilterOperator {
   display: string;
   value: string;
@@ -43,4 +45,10 @@ export const FilterOperatorOptions = {
   dateTime: dateFilterOperators,
   string: textFilterOperators,
   int: numericFilterOperators
-}; 
+};
+
+export function isValueRequired(field: ViewField) {
+  return field.DataType && FilterOperatorOptions[field.DataType] ?
+  FilterOperatorOptions[field.DataType].filter(o => field.FilterOperator === o.value)[0].requiresValue
+  : true;
+}

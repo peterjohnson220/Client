@@ -52,6 +52,7 @@ export interface ViewField {
   Width: number;
   TextAlign: string;
   CustomFilterStrategy: string;
+  FilterPlaceholder: string;
   FilterValue: string;
   FilterOperator: string;
 }
@@ -91,7 +92,16 @@ export function generateMockViewField(mockNumber: number = 1): ViewField {
     Width: null,
     TextAlign: null,
     CustomFilterStrategy: null,
+    FilterPlaceholder: null,
     FilterValue: null,
     FilterOperator: null
   };
+}
+
+export function generateMockViewFieldList(count: number): ViewField[] {
+  const fields: ViewField[] = [];
+  for (let i = 0; i < count; i++) {
+    fields.push(generateMockViewField(i + 1));
+  }
+  return fields;
 }
