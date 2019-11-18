@@ -16,10 +16,13 @@
 }
 
 .view-all-fields-btn {
-  background-color: $pf-brand-secondary-color;
-  color: #ffffff;
+  background-color: #FFF;
+  color: $pf-brand-secondary-color;
+  position: relative;
+  bottom: 10px;
 }
 
 .second-actions-bar {
   padding: 1rem 1rem 0;
+  background-color: lightgray;
 }
