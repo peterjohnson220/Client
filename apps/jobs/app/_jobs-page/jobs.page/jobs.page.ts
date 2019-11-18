@@ -8,6 +8,7 @@ import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { Permissions } from 'libs/constants';
 import {Subscribable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -17,6 +18,7 @@ import {Subscription} from 'rxjs/Subscription';
 })
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
+  permissions = Permissions;
   pageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
   selectedKeys: number[];
   selectedKeysSubscription: Subscription;
