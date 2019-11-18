@@ -1,0 +1,24 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [showTitle]="false"
+  [showColumnChooser] ="false"
+  [showFilterChooser] ="false"
+  [allowExport]="false"
+  [contentNoPadding]="true"
+  [selectionField]="'Min'"
+  [inboundFilters]="filters"
+  [columnTemplates]="colTemplates"
+  [defaultSort]="defaultSort">
+</pf-data-grid>
+
+<ng-template #nameColumn let-dataRow="dataRow">
+  <ng-container>
+    <span> {{dataRow['CompanyJobs_Structures_Structure_Name']}} <small> ({{dataRow['CompanyJobs_Structures_Structure_Code']}})</small>  </span>
+  </ng-container>
+</ng-template>
+
+<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container>
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Structures_Rate'] | emptyPlaceholder"></span>
+  </ng-container>
+</ng-template>

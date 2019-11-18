@@ -25,6 +25,7 @@ import {JobDescriptionEffects} from './effects/job-description.effects';
 
 import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridComponent } from './components';
 import { JobDescriptionComponent } from './components/job-description/job-description.component';
+import { StructureGridComponent } from './components/structure-grid/structure-grid.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { JobDescriptionComponent } from './components/job-description/job-descri
     JobsDetailsComponent,
     EmployeesGridComponent,
     PricingDetailsGridComponent,
-    JobDescriptionComponent
+    JobDescriptionComponent,
+    StructureGridComponent
   ]
 })
 export class JobsPageModule {
