@@ -23,7 +23,8 @@
           [companyFormData]="companyFormData"
           [companyFormContext]="companyFormContext"
           [companyLogoImgPath]="companyLogoImgPath"
-          [saving]="(savingCompany$ | async)">
+          [saving]="(savingCompany$ | async)"
+                         [userContextSystemUserGroupId]="(userContext$ | async).SystemUserGroupsId">
         </pf-company-form>
       </div>
       <div class="col-lg-3">

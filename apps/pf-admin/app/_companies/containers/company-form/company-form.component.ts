@@ -26,6 +26,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() companyFormContext: CompanyFormContext;
   @Input() saving: boolean;
   @Input() companyLogoImgPath: string;
+  @Input() userContextSystemUserGroupId: number;
 
   companyForm: FormGroup;
   clientTypes: CompanyClientTypesReponse[];
@@ -344,7 +345,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private disableRepository() {
-    if (this.buildFormData().SystemUserGroupsId !== this.getSystemUserGroupId(SystemUserGroupNames.PayfactorsServices)) {
+    if (this.userContextSystemUserGroupId !== this.getSystemUserGroupId(SystemUserGroupNames.PayfactorsServices)) {
       this.repositoryControl.disable();
     } else {
       this.disableRepositoryForPeerClientType();
