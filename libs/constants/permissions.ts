@@ -25,6 +25,7 @@ export class Permissions {
   public static IDEAS	=	'Ideas';
   public static EMPLOYEES	=	'Employees';
   public static REFERRALS	=	'Referrals';
+  public static NEW_PROJECT	=	'New Project';
   public static PAY_INTELLIGENCE	=	'Pay Intelligence';
   public static PEER	=	'Peer';
   public static COMPANY_ADMIN	=	'Company_Admin';

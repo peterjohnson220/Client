@@ -6,8 +6,8 @@
     <div class="card-block">
       <div class="flex-grow-1 d-flex flex-column form-group mb-0">
       <textarea
-        maxlength="1000"
-        class="form-control" rows="12"
+        class="form-control"
+        rows="12"
         (keyup)="changeJobDescription($event)"
         [value]="(jobDescription$ | async)?(jobDescription$ | async) :''"
         [readonly]="(saving$ | async) || (jobDescriptionManagementEnabled$ | async)"
