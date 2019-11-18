@@ -79,10 +79,10 @@
         </div>
         <div class="col-6">         
           <kendo-numerictextbox
-            [value]="field.FilterValue"
+            [value]="getNumericFieldValue()"
             [format]="'n0'"
             [decimals]="0"
-            [min]="1"
+            [min]="0"
             [disabled]="valueCanBeEmpty()"
             (pfDebounceValueChanged)="handleFilterValueChanged($event)"
             [attr.data-qa-id]="'txt-value-'+field.SourceName"

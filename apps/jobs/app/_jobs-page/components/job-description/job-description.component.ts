@@ -3,8 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import * as fromJobsPageReducer from '../../reducers';
 import * as fromJobDescriptionActions from '../../actions';
 import { Store } from '@ngrx/store';
-import * as cloneDeep from 'lodash.clonedeep';
-import { DataViewFilter } from 'libs/models/payfactors-api';
+import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
 @Component({
   selector: 'pf-job-description',
@@ -12,10 +11,9 @@ import { DataViewFilter } from 'libs/models/payfactors-api';
   styleUrls: ['./job-description.component.scss']
 })
 export class JobDescriptionComponent implements OnInit, OnChanges {
-  @Input() filters: DataViewFilter[];
+  @Input() filters: PfDataGridFilter[];
   currentJobId: number;
   jobDescription$: Observable<string>;
-  refinedFilters: DataViewFilter[];
   jobDescriptionUpdated$: Observable<boolean>;
   jobDescriptionManagementEnabled$: Observable<boolean>;
   saving$: Observable<boolean>;
@@ -32,8 +30,7 @@ export class JobDescriptionComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters']) {
-      this.refinedFilters = cloneDeep(changes['filters'].currentValue);
-      const companyJobIdFilter = this.refinedFilters.find(i => i.SourceName === 'CompanyJob_ID').Values[0];
+      const companyJobIdFilter = changes['filters'].currentValue.find(i => i.SourceName === 'CompanyJob_ID').Value;
       this.currentJobId = (<any>companyJobIdFilter) as number;
       this.store.dispatch(new fromJobDescriptionActions.LoadJobDescription(this.currentJobId));
     }

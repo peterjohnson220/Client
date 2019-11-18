@@ -14,7 +14,6 @@ const dateFilterOperators: FilterOperator[] = [
   { display: 'Is after', value: '>', requiresValue: true, defaultOperatorForType: false },
   { display: 'Is before or equal to', value: '<=', requiresValue: true, defaultOperatorForType: false },
   { display: 'Is before', value: '<', requiresValue: true, defaultOperatorForType: false },
-  { display: 'Is before', value: '<', requiresValue: true, defaultOperatorForType: false },
   { display: 'Is empty', value: 'isempty', requiresValue: false, defaultOperatorForType: false },
   { display: 'Is not empty', value: 'isnotempty', requiresValue: false, defaultOperatorForType: false }
 ];

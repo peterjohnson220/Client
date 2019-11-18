@@ -40,8 +40,12 @@ export class FilterBuilderComponent implements OnChanges {
   }
 
   handleFilterValueChanged(event) {
-    this.field.FilterValue = event;
+    this.field.FilterValue = event.toString();
     this.filterChanged.emit(this.field);
+  }
+
+  getNumericFieldValue(): number {
+    return this.field.FilterValue ? +this.field.FilterValue : null;
   }
 
   private valueCanBeEmpty() {

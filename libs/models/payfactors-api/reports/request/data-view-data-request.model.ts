@@ -27,7 +27,7 @@ export interface DataViewFilter {
   Operator: string;
   Values?: string[];
   DataType?: DataViewFieldDataType;
-  FilterType: string;
+  FilterType?: string;
 }
 
 export enum DataViewFieldDataType {
