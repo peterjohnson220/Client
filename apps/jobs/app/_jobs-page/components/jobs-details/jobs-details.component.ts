@@ -1,5 +1,5 @@
-import { Component, Output, EventEmitter, ViewEncapsulation, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { DataViewFilter } from 'libs/models/payfactors-api';
+import { Component, Output, EventEmitter, ViewEncapsulation, Input } from '@angular/core';
+import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
 @Component({
   selector: 'pf-jobs-details',
@@ -9,7 +9,7 @@ import { DataViewFilter } from 'libs/models/payfactors-api';
 })
 export class JobsDetailsComponent {
 
-  @Input() jobDetailsFilters: DataViewFilter[];
+  @Input() jobDetailsFilters: PfDataGridFilter[];
 
   @Output() onClose = new EventEmitter();
 

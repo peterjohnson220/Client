@@ -10,7 +10,7 @@
       <div *ngFor="let view of savedViews | filterArrayByName: filter" class="list-group-item p-2" (click)="handleViewSelected(view)">
         <div class="user-filter">
           <span>{{view.Name}}</span>
-          <small class="filter-desc" [title]="displayFilterDescription(view)">{{displayFilterDescription(view)}}</small>
+          <small class="filter-desc" [title]="view.Description">{{view.Description}}</small>
         </div>
       </div>
     </div>

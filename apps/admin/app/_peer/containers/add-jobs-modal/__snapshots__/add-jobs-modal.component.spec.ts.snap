@@ -61,9 +61,9 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
               type="text"
             />
             <div
-              class="input-group-append action-item undefined-clear"
+              class="input-group-append action-item"
               ng-reflect-klass="input-group-append action-item"
-              ng-reflect-ng-class="undefined-clear"
+              ng-reflect-ng-class="[object Object]"
             >
               <span
                 class="input-group-text"

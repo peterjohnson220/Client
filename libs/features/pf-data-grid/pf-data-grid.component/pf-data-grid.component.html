@@ -10,8 +10,6 @@
       [allowExport]="allowExport"
       [globalFilterAlignment]="showTitle?'Right':'Left'"
       [globalActionsTemplate]="gridGlobalActionsTemplate"
-      [disableActionButtons]="(selectedRowId$ | async)"
-      [savedViews]="(savedViews$ | async)"
       (onFilterSidebarToggle)="toggleFilterPanel()">
     </pf-action-bar>
   </ng-container>
@@ -19,13 +17,12 @@
 
     <div class="d-flex h-100">
       <div [ngClass]="(selectedRowId$ | async) ? 'main-grid-container-compact' : 'full-size-wrapper'">
-        <div class="flex-column-container">
+        <div class="flex-column-container">          
           <div class="no-gutters row justify-content-between pl-3 pt-1">
             <div class="flex-fill">
-              <div class="h-100" *ngIf="(filters$ | async).length">
+              <div class="h-100" *ngIf="userFilteredFields?.length">
                 <pf-data-grid-filter-pills
-                  [listAreaColumns]="(dataFields$ | async)"
-                  [filters]="(filters$ | async)"
+                  [fields]="userFilteredFields"
                   (clearFilter)="clearFilter($event)"
                   (clearAllFilters)="clearAllFilters()">
                 </pf-data-grid-filter-pills>
@@ -37,7 +34,7 @@
           </div>
           <div class="d-flex h-100">
             <div class="full-size-wrapper">
-              <div class="grid-container" [ngClass]="{'grid-container-with-pills': (filters$ | async).length}">
+              <div class="grid-container">
                 <pf-grid
                   [pageViewId]="pageViewId"
                   [selectionEntityName]="(baseEntity$ | async)?.SourceName"
@@ -60,14 +57,13 @@
       </div>
       <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3">
         <pf-filter-panel
-          [selectedColumns]="(dataFields$ | async)"
-          [filters]="(filters$ | async)"
+          [fields]="filterableFields$ | async"
           (close)="closeFilterPanel()"
           (filterChanged)="handleFilterChanged($event)"
 
           (filterCleared)="clearFilter($event)"
           (saveFilterClicked)="saveFilterClicked()">
-        </pf-filter-panel>
+        </pf-filter-panel>        
       </div>
     </div>
 
@@ -75,7 +71,6 @@
       [savedViews]="(savedViews$ | async)"
       [modalOpen$]="saveViewModalOpen$"
       [saving]="(viewIsSaving$ | async)"
-      (opened)="loadSavedViewList()"
       (saved)="saveFilterHandler($event)"
       (closed)="closeSaveViewModal()">
     </pf-data-grid-save-view-modal>

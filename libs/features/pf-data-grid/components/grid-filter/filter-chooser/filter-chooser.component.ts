@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild } from '@angular/core';
 
-import { DataViewConfig } from 'libs/models/payfactors-api/index';
-import { getHumanizedFilter } from '../helpers/filter-display/filter-display-helpers';
+import { DataViewConfig, SimpleDataView } from 'libs/models/payfactors-api/index';
 
 @Component({
   selector: 'pf-filter-chooser',
@@ -11,10 +10,8 @@ import { getHumanizedFilter } from '../helpers/filter-display/filter-display-hel
 })
 
 export class FilterChooserComponent {
-  @Input() loading: boolean;
-  @Input() deleting: boolean;
   @Input() disabled = false;
-  @Input() savedViews: DataViewConfig[] = [];
+  @Input() savedViews: SimpleDataView[] = [];
   @Output() onFilterSidebarToggle = new EventEmitter();
   @Output() selectView = new EventEmitter();
 
@@ -28,20 +25,6 @@ export class FilterChooserComponent {
 
   filterButtonClicked() {
     this.onFilterSidebarToggle.emit();
-  }
-
-  displayFilterDescription(config: any) {
-    const filters = config.Filters;
-
-    if (!config.Fields) {
-      return '';
-    }
-
-    const humanizedFilters: string[] = filters ? filters.filter(f =>
-      !!config.Fields.find(c => c.SourceName === f.SourceName)).map(f =>
-      getHumanizedFilter(config.Fields, f)) : [];
-
-    return humanizedFilters.join(' • ');
   }
 
   handleViewSelected(view: DataViewConfig) {

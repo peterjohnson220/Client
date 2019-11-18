@@ -1,11 +1,9 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import * as fromJobsPageReducer from '../../reducers';
 import * as fromJobDescriptionActions from '../../actions';
-import {Store} from '@ngrx/store';
-import {JobsHelpers} from '../../helpers/jobs.helpers';
-import * as cloneDeep from 'lodash.clonedeep';
-import {DataViewFilter} from 'libs/models/payfactors-api';
+import { Store } from '@ngrx/store';
+import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
 @Component({
   selector: 'pf-job-description',
@@ -13,10 +11,9 @@ import {DataViewFilter} from 'libs/models/payfactors-api';
   styleUrls: ['./job-description.component.scss']
 })
 export class JobDescriptionComponent implements OnInit, OnChanges {
-  @Input() filters: DataViewFilter[];
+  @Input() filters: PfDataGridFilter[];
   currentJobId: number;
   jobDescription$: Observable<string>;
-  refinedFilters: DataViewFilter[];
   jobDescriptionUpdated$: Observable<boolean>;
   jobDescriptionManagementEnabled$: Observable<boolean>;
   saving$: Observable<boolean>;
@@ -33,8 +30,7 @@ export class JobDescriptionComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters']) {
-      this.refinedFilters = cloneDeep(changes['filters'].currentValue);
-      const companyJobIdFilter = this.refinedFilters.find(i => i.SourceName === 'CompanyJob_ID').Values[0];
+      const companyJobIdFilter = changes['filters'].currentValue.find(i => i.SourceName === 'CompanyJob_ID').Value;
       this.currentJobId = (<any>companyJobIdFilter) as number;
       this.store.dispatch(new fromJobDescriptionActions.LoadJobDescription(this.currentJobId));
     }
@@ -45,7 +41,7 @@ export class JobDescriptionComponent implements OnInit, OnChanges {
     this.store.dispatch(new fromJobDescriptionActions.ChangeJobDescription(this.updatedJobDescription));
   }
   saveJobDescription() {
-    this.store.dispatch(new fromJobDescriptionActions.SaveJobDescription( {jobId: this.currentJobId, jobDescription: this.updatedJobDescription}));
+    this.store.dispatch(new fromJobDescriptionActions.SaveJobDescription({ jobId: this.currentJobId, jobDescription: this.updatedJobDescription }));
   }
 
 }

@@ -1,36 +1,24 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { ViewField, DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
+import { ViewField } from 'libs/models/payfactors-api';
 
-import { FilterOperatorOptions } from '../helpers/filter-operator-options/filter-operator-options';
+import { FilterOperatorOptions } from '../helpers';
 
 @Component({
   selector: 'pf-filter-panel',
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.scss']
 })
-export class FilterPanelComponent implements OnChanges {
-  @Input('selectedColumns') set _selectedColumns(columns: ViewField[]) {
-    this.selectedColumns = columns.filter(c => c.IsSelected);
-  }
-  @Input() nonSelectableFilterableColumns: ViewField[];
-  @Input('filters') set _filters(value: DataViewFilter[]) {
-    if (value) {
-      this.filters = JSON.parse(JSON.stringify(value));
-    }
-  }
+export class FilterPanelComponent {
+
+  @Input() fields: ViewField[];
 
   @Output() saveFilterClicked = new EventEmitter();
-  @Output() filterChanged = new EventEmitter<DataViewFilter>();
-  @Output() filterCleared = new EventEmitter<DataViewFilter>();
+  @Output() filterChanged = new EventEmitter<ViewField>();
+  @Output() filterCleared = new EventEmitter<ViewField>();
   @Output() close = new EventEmitter();
 
-  public selectedColumns: ViewField[];
-  public filters: DataViewFilter[];
-
-  private standardColumnFilters = [];
-
-  constructor() {}
+  constructor() { }
 
   closeSidebar() {
     this.close.emit();
@@ -40,51 +28,24 @@ export class FilterPanelComponent implements OnChanges {
     this.saveFilterClicked.emit();
   }
 
-  handleFilterChange(event: DataViewFilter) {
-    if ((event.Values && event.Values.length > 0 && event.Values[0].length) || this.valueCanBeEmpty(event)) {
-      this.filterChanged.emit(event);
+  handleFilterChange(field: ViewField) {
+    if (field.FilterValue || this.valueCanBeEmpty(field)) {
+      this.filterChanged.emit(field);
     } else {
-      this.filterCleared.emit(event);
+      this.filterCleared.emit(field);
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.standardColumnFilters = [];
-    if (this.selectedColumns) {
-      for (const column of this.selectedColumns) {
-        this.standardColumnFilters.push(this.getFilterByListAreaColumn(column));
-      }
-    }
+  hasFilters(): boolean {
+    return this.fields.filter(f => f.FilterValue).length > 0;
   }
 
-  private getFilterByListAreaColumn(viewField: ViewField) {
-    const emptyFilter = this.createEmptyFilterDescriptor(viewField);
-    let currentFilter;
-
-    if (this.filters) {
-      currentFilter = this.filters.find(f => f.SourceName === viewField.SourceName);
-
-      // Since we break the binding of filters using a deep clone using JSON parse, JSON stringify
-      // need to update any date fields values back to date objects.
-      if (viewField.DataType === DataViewFieldDataType.DateTime && currentFilter && currentFilter.value) {
-        currentFilter.value = new Date(currentFilter.value);
-      }
-    }
-
-    return currentFilter || emptyFilter;
+  trackByField(index, field: ViewField) {
+    return field ? field.DataElementId : null;
   }
 
-  private createEmptyFilterDescriptor(viewField: ViewField): DataViewFilter {
-    return {
-      EntitySourceName: viewField.EntitySourceName,
-      SourceName: viewField.SourceName,
-      Operator: FilterOperatorOptions[viewField.DataType].find(f => f.defaultOperatorForType).value,
-      Values: [],
-      DataType: viewField.DataType
-    };
+  private valueCanBeEmpty(field: ViewField) {
+    return !FilterOperatorOptions[field.DataType].find(f => f.value === field.FilterOperator).requiresValue;
   }
 
-  private valueCanBeEmpty(filter: DataViewFilter) {
-   return !FilterOperatorOptions[filter.DataType].find(f => f.value === filter.Operator).requiresValue;
-  }
 }

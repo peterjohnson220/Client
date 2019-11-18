@@ -68,7 +68,7 @@ import {
     FilterBuilderComponent,
     PfDataGridFilterPillsComponent,
     PfDataGridSaveViewModalComponent,
-    ColumnChooserComponent
+    ColumnChooserComponent,
   ],
   exports: [
     PfDataGridComponent

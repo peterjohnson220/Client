@@ -27,6 +27,7 @@ export interface DataViewFilter {
   Operator: string;
   Values?: string[];
   DataType?: DataViewFieldDataType;
+  FilterType?: string;
 }
 
 export enum DataViewFieldDataType {
@@ -51,7 +52,8 @@ export function getMockDataViewFilter(): DataViewFilter {
     SourceName: 'Job_Title',
     Operator: '=',
     Values: ['123'],
-    DataType: DataViewFieldDataType.String
+    DataType: DataViewFieldDataType.String,
+    FilterType: ''
   };
 }
 
@@ -63,7 +65,8 @@ export function getMockDataViewFilterList(numFilters: number): DataViewFilter[] 
       SourceName: `Job_Title${i}`,
       Operator: '=',
       Values: [`Value${i}`],
-      DataType: DataViewFieldDataType.String
+      DataType: DataViewFieldDataType.String,
+      FilterType: ''
     };
 
     filters.push(filter);

@@ -8,23 +8,25 @@
   [formGroup]="filterForm"
   [isOpen$]="modalOpen$"
   (onSubmit)="save()"
-  (onDismiss)="close()"
->
+  (onDismiss)="close()">
+
   <ng-container form-content>
     <div>
       <label for="filter-name" class="control-label">Filter Name: </label>
-      <input id="filter-name"
-             [readonly]="saving"
-             [pfFocus]="true"
-             [pfFocusElementShowing]="(modalOpen$ | async)"
-             formControlName="name"
-             type="text"
-             class="form-control"
-             maxlength="100"
-             [attr.data-qa-id]="'txt-save-view-name'">
+      <input 
+        id="filter-name"
+        [readonly]="saving"
+        [pfFocus]="true"
+        [pfFocusElementShowing]="(modalOpen$ | async)"
+        formControlName="name"
+        type="text"
+        class="form-control"
+        maxlength="100"
+        [attr.data-qa-id]="'txt-save-view-name'">
       <div [style.visibility]="filterForm.controls['name'].hasError('notBlackListed') ? 'visible' : 'hidden'" class="text-danger text-right">
         There is already a filter saved by this name.
       </div>
     </div>
   </ng-container>
+  
 </pf-modal-form>
