@@ -339,7 +339,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private getSystemUserGroupId(groupName: string): number {
-    const systemUserGroup = this.systemUserGroups.find(sug => sug.GroupName === groupName);
+    const systemUserGroup = this.systemUserGroups.find(sug => sug.GroupName.toLowerCase() === groupName.toLowerCase());
     return !!systemUserGroup ? systemUserGroup.SystemUserGroupsId : -1;
   }
 
