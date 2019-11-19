@@ -14,6 +14,7 @@ export interface State {
   dashboardView: DashboardView;
   tagWorkbookModalOpen: boolean;
   activeWorkbook: Workbook;
+  allViewsLoadedAsync: AsyncStateObj<boolean>;
 }
 
 const initialState: State = {
@@ -23,20 +24,24 @@ const initialState: State = {
   tagFilter: null,
   dashboardView: DashboardView.All,
   tagWorkbookModalOpen: false,
-  activeWorkbook: null
+  activeWorkbook: null,
+  allViewsLoadedAsync: generateDefaultAsyncStateObj<boolean>(false)
 };
 
 export function reducer(state = initialState, action: fromDashboardsActions.Actions): State {
   switch (action.type) {
     case fromDashboardsActions.GET_COMPANY_WORKBOOKS: {
       const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
+      const allViewsAsyncClone = cloneDeep(state.allViewsLoadedAsync);
 
       companyWorkbooksAsyncClone.loading = true;
       companyWorkbooksAsyncClone.loadingError = false;
+      allViewsAsyncClone.obj = false;
 
       return {
         ...state,
         companyWorkbooksAsync: companyWorkbooksAsyncClone,
+        allViewsLoadedAsync: allViewsAsyncClone
       };
     }
     case fromDashboardsActions.GET_COMPANY_WORKBOOKS_SUCCESS: {
@@ -202,6 +207,39 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
         activeWorkbook: null
       };
     }
+    case fromDashboardsActions.GET_ALL_COMPANY_WORKBOOK_VIEWS: {
+      const allViewsAsyncClone = cloneDeep(state.allViewsLoadedAsync);
+      allViewsAsyncClone.loading = true;
+      return {
+        ...state,
+        allViewsLoadedAsync: allViewsAsyncClone
+      };
+    }
+    case fromDashboardsActions.GET_ALL_COMPANY_WORKBOOK_VIEWS_ERROR: {
+      const allViewsAsyncClone = cloneDeep(state.allViewsLoadedAsync);
+      allViewsAsyncClone.loading = false;
+      allViewsAsyncClone.loadingError = true;
+      return {
+        ...state,
+        allViewsLoadedAsync: allViewsAsyncClone
+      };
+    }
+    case fromDashboardsActions.GET_ALL_COMPANY_WORKBOOK_VIEWS_SUCCESS: {
+      const allViewsAsyncClone = cloneDeep(state.allViewsLoadedAsync);
+      const companyWorkbooksAsyncClone = cloneDeep(state.companyWorkbooksAsync);
+      allViewsAsyncClone.loading = false;
+      allViewsAsyncClone.loadingError = false;
+      allViewsAsyncClone.obj = true;
+      companyWorkbooksAsyncClone.obj.forEach(w => {
+        w.Views = generateDefaultAsyncStateObj<View[]>([]);
+        w.Views.obj = action.payload.filter(v => v.WorkbookId === w.WorkbookId);
+      });
+      return {
+        ...state,
+        allViewsLoadedAsync: allViewsAsyncClone,
+        companyWorkbooksAsync: companyWorkbooksAsyncClone
+      };
+    }
     default: {
       return state;
     }
@@ -235,3 +273,4 @@ export const getDistinctTags = (state: State) => {
 export const getTagFilter = (state: State) => state.tagFilter;
 export const getTagWorkbookModalOpen = (state: State) => state.tagWorkbookModalOpen;
 export const getActiveWorkbook = (state: State) => state.activeWorkbook;
+export const getAllViewsLoadedAsync = (state: State) => state.allViewsLoadedAsync;

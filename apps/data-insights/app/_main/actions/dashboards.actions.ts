@@ -31,6 +31,9 @@ export const GET_DASHBOARD_VIEW_ERROR = '[Data Insights / Dashboards] Get Dashbo
 export const SET_TAGGED_FILTER = '[Data Insights / Dashboards] Set Tagged Filter';
 export const OPEN_TAG_WORKBOOK_MODAL = '[Data Insights / Dashboards] Open Tag Workbook Modal';
 export const CLOSE_TAG_WORKBOOK_MODAL = '[Data Insights / Dashboards] Close Tag Workbook Modal';
+export const GET_ALL_COMPANY_WORKBOOK_VIEWS = '[Data Insights / Dashboards] Get All Company Workbook Views';
+export const GET_ALL_COMPANY_WORKBOOK_VIEWS_SUCCESS = '[Data Insights / Dashboards] Get All Company Workbook Views Success';
+export const GET_ALL_COMPANY_WORKBOOK_VIEWS_ERROR = '[Data Insights / Dashboards] Get All Company Workbook Views Error';
 
 export class GetCompanyWorkbooks implements Action {
   readonly type = GET_COMPANY_WORKBOOKS;
@@ -187,6 +190,23 @@ export class CloseTagWorkbookModal implements Action {
   constructor() {}
 }
 
+export class GetAllCompanyWorkbookViews implements Action {
+  readonly type = GET_ALL_COMPANY_WORKBOOK_VIEWS;
+
+  constructor() {}
+}
+
+export class GetAllCompanyWorkbookViewsSuccess implements Action {
+  readonly type = GET_ALL_COMPANY_WORKBOOK_VIEWS_SUCCESS;
+
+  constructor(public payload: View[]) {}
+}
+
+export class GetAllCompanyWorkbookViewsError implements Action {
+  readonly type = GET_ALL_COMPANY_WORKBOOK_VIEWS_ERROR;
+
+  constructor() {}
+}
 export type Actions
   = GetCompanyWorkbooks
   | GetCompanyWorkbooksSuccess
@@ -214,4 +234,7 @@ export type Actions
   | GetDashboardViewError
   | SetTaggedFilter
   | OpenTagWorkbookModal
-  | CloseTagWorkbookModal;
+  | CloseTagWorkbookModal
+  | GetAllCompanyWorkbookViews
+  | GetAllCompanyWorkbookViewsError
+  | GetAllCompanyWorkbookViewsSuccess;
