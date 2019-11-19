@@ -20,7 +20,7 @@
         <div class="flex-column-container">          
           <div class="no-gutters row justify-content-between pl-3 pt-1">
             <div class="flex-fill">
-              <div class="h-100" *ngIf="userFilteredFields?.length">
+              <div class="h-100" *ngIf="userFilteredFields.length > 0">
                 <pf-data-grid-filter-pills
                   [fields]="userFilteredFields"
                   (clearFilter)="clearFilter($event)"

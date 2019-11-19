@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ViewField } from 'libs/models/payfactors-api';
 
-import { FilterOperatorOptions } from '../helpers';
+import { FilterOperatorOptions, getUserFilteredFields } from '../helpers';
 
 @Component({
   selector: 'pf-filter-panel',
@@ -37,7 +37,7 @@ export class FilterPanelComponent {
   }
 
   hasFilters(): boolean {
-    return this.fields.filter(f => f.FilterValue).length > 0;
+    return getUserFilteredFields(this.fields).length > 0;
   }
 
   trackByField(index, field: ViewField) {

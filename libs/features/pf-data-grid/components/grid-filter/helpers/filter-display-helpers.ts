@@ -38,5 +38,5 @@ export function getUserFilteredFields(fields: ViewField[]): ViewField[] {
     .filter(f => f.CustomFilterStrategy)
     .concat(fields.filter(f => f.IsFilterable && f.IsSelectable))
     .filter(f => f.FilterValue || !isValueRequired(f))
-    : null;
+    : [];
 }
