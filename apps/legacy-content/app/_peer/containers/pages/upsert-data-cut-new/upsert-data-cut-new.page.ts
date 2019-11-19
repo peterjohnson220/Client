@@ -179,7 +179,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
 
   setSubscriptions(): void {
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
-      this.guidelinesService.validateDataCut(pms, this.companyJobId, this.userSessionId);
+      this.guidelinesService.validateDataCut(pms, this.companyJobId, this.userSessionId, true);
     });
 
   }
