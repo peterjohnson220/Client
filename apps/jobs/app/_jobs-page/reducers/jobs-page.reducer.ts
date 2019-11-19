@@ -1,5 +1,4 @@
 import * as fromJobsPageActions from '../actions';
-import { DataViewFilter } from 'libs/models/payfactors-api';
 
 export interface State {
   company: string;
@@ -21,7 +20,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       return {
         ...state,
         loading: true,
-        loadingError: false
+        loadingError: false,
       };
     }
     case fromJobsPageActions.LOAD_COMPANY_SUCCESS: {
@@ -29,7 +28,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         ...state,
         company: action.payload,
         loading: false,
-        loadingError: false
+        loadingError: false,
       };
     }
     case fromJobsPageActions.ADD_JOBS_TO_PROJECT: {

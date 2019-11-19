@@ -1,77 +1,97 @@
-<div [ngSwitch]="type">
-  <ng-template [ngSwitchCase]="dataTypes.String">
-    <div class="row">
-      <div class="col-6">
-        <kendo-dropdownlist
-          [data]="filterOperatorOptions.string"
-          [textField]="'display'"
-          [valueField]="'value'"
-          [valuePrimitive]="true"
-          [ngModel]="filter.Operator"
-          (valueChange)="handleFilterOperatorChanged($event)"
-          [attr.data-qa-id]="'ddm-operator-'+filter.SourceName"
-          class="k-dropdown-white form-control">
-        </kendo-dropdownlist>
-      </div>
-      <div class="col-6">
-        <input type="text" class="form-control"
-         [ngModel]="getFilterValue(filter)"
-         [disabled]="valueCanBeEmpty(filter)"
-         (ngModelChange)="handleFilterValueChanged($event)"
-         [attr.data-qa-id]="'txt-value-'+filter.SourceName"/>
-      </div>
+<label>{{ field.DisplayName }}:</label>
+
+<ng-container *ngIf="field.CustomFilterStrategy; else simpleFilter" >
+  <div class="row">
+    <div class="col-12">
+      <pf-input-debounce [attr.data-qa-id]="'txt-value-'+field.SourceName"
+        [ngModel]="field.FilterValue"
+        [placeholderText]="field.FilterPlaceholder ? field.FilterPlaceholder : null"
+        (valueChanged)="handleFilterValueChanged($event)"
+        [delay]="400">
+      </pf-input-debounce>      
     </div>
-  </ng-template>
-  <ng-template [ngSwitchCase]="dataTypes.DateTime">
-    <div class="row">
-      <div class="col-6">
-        <kendo-dropdownlist
-          [data]="filterOperatorOptions.dateTime"
-          [textField]="'display'"
-          [valueField]="'value'"
-          [valuePrimitive]="true"
-          [ngModel]="filter.Operator"
-          (valueChange)="handleFilterOperatorChanged($event)"
-          [attr.data-qa-id]="'ddm-operator-'+filter.SourceName"
-          class="k-dropdown-white form-control">
-        </kendo-dropdownlist>
+  </div>
+</ng-container>
+
+<ng-template #simpleFilter>
+  <div [ngSwitch]="field.DataType">
+    <ng-template [ngSwitchCase]="dataTypes.String">
+      <div class="row">
+        <div class="col-6">
+          <kendo-dropdownlist
+            [data]="filterOperatorOptions.string"
+            [textField]="'display'"
+            [valueField]="'value'"
+            [valuePrimitive]="true"
+            [ngModel]="field.FilterOperator"
+            (valueChange)="handleFilterOperatorChanged($event)"
+            [attr.data-qa-id]="'ddm-operator-'+field.SourceName"
+            class="k-dropdown-white form-control">
+          </kendo-dropdownlist>
+        </div>
+        <div class="col-6">
+          <pf-input-debounce [attr.data-qa-id]="'txt-value-'+field.SourceName"
+            [ngModel]="field.FilterValue"
+            (valueChanged)="handleFilterValueChanged($event)"
+            [disabled]="valueCanBeEmpty()"
+            [delay]="400">
+          </pf-input-debounce>        
+        </div>
       </div>
-      <div class="col-6">
-        <kendo-datepicker
-          [value]="getFilterValue(filter)"
-          [disabled]="valueCanBeEmpty(filter)"
-          (valueChange)="handleFilterValueChanged($event)"
-          [attr.data-qa-id]="'txt-value-'+filter.SourceName">
-        </kendo-datepicker>
+    </ng-template>
+    <ng-template [ngSwitchCase]="dataTypes.DateTime">
+      <div class="row">
+        <div class="col-6">
+          <kendo-dropdownlist
+            [data]="filterOperatorOptions.dateTime"
+            [textField]="'display'"
+            [valueField]="'value'"
+            [valuePrimitive]="true"
+            [ngModel]="field.FilterOperator"
+            (valueChange)="handleFilterOperatorChanged($event)"
+            [attr.data-qa-id]="'ddm-operator-'+field.SourceName"
+            class="k-dropdown-white form-control">
+          </kendo-dropdownlist>
+        </div>
+        <div class="col-6">
+          <kendo-datepicker 
+            [value]="field.FilterValue"
+            [disabled]="valueCanBeEmpty()"
+            (valueChange)="handleFilterValueChanged($event)"
+            [attr.data-qa-id]="'txt-value-'+field.SourceName">
+          </kendo-datepicker>
+        </div>
       </div>
-    </div>
-  </ng-template>
-  <ng-template [ngSwitchCase]="dataTypes.Int">
-    <div class="row">
-      <div class="col-6">
-        <kendo-dropdownlist
-          [data]="filterOperatorOptions.int"
-          [textField]="'display'"
-          [valueField]="'value'"
-          [valuePrimitive]="true"
-          [ngModel]="filter.Operator"
-          (valueChange)="handleFilterOperatorChanged($event)"
-          [attr.data-qa-id]="'ddm-operator-'+filter.SourceName"
-          class="k-dropdown-white form-control">
-        </kendo-dropdownlist>
+    </ng-template>
+    <ng-template [ngSwitchCase]="dataTypes.Int">
+      <div class="row">
+        <div class="col-6">
+          <kendo-dropdownlist
+            [data]="filterOperatorOptions.int"
+            [textField]="'display'"
+            [valueField]="'value'"
+            [valuePrimitive]="true"
+            [ngModel]="field.FilterOperator"
+            (valueChange)="handleFilterOperatorChanged($event)"
+            [attr.data-qa-id]="'ddm-operator-'+field.SourceName"
+            class="k-dropdown-white form-control">
+          </kendo-dropdownlist>
+        </div>
+        <div class="col-6">         
+          <kendo-numerictextbox
+            [value]="getNumericFieldValue()"
+            [format]="'n0'"
+            [decimals]="0"
+            [min]="0"
+            [disabled]="valueCanBeEmpty()"
+            (pfDebounceValueChanged)="handleFilterValueChanged($event)"
+            [attr.data-qa-id]="'txt-value-'+field.SourceName"
+            class="form-control">
+          </kendo-numerictextbox>
+        </div>
       </div>
-      <div class="col-6">
-        <kendo-numerictextbox
-          [value]="getFilterValue(filter)"
-          [format]="'n0'"
-          [decimals]="0"
-          [min]="1"
-          [disabled]="valueCanBeEmpty(filter)"
-          (valueChange)="handleFilterValueChanged($event)"
-          [attr.data-qa-id]="'txt-value-'+filter.SourceName">
-        </kendo-numerictextbox>
-      </div>
-    </div>
-  </ng-template>
-</div>
+    </ng-template>
+  </div>      
+</ng-template>
+
 

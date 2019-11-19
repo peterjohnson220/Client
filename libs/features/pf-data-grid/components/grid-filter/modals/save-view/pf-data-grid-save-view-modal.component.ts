@@ -4,7 +4,7 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
 
 import { PfValidators} from 'libs/forms/validators';
-import { DataViewConfig } from 'libs/models/payfactors-api';
+import { DataViewConfig, SimpleDataView } from 'libs/models/payfactors-api';
 
 @Component({
   selector: 'pf-data-grid-save-view-modal',
@@ -17,7 +17,7 @@ export class PfDataGridSaveViewModalComponent implements OnInit {
   @Input() saving = false;
 
   @Input() errorSaving = false;
-  @Input() savedViews: DataViewConfig[];
+  @Input() savedViews: SimpleDataView[];
   @Input() modalOpen$: Observable<boolean>;
   @Input() viewSaving: boolean;
 
@@ -31,11 +31,6 @@ export class PfDataGridSaveViewModalComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-  }
-
-  open() {
-    this.opened.emit();
-    this.attemptedSave = false;
   }
 
   close() {

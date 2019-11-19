@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef} from '@angular/core';
-import { ViewField, DataViewConfig } from 'libs/models/payfactors-api';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { ViewField, SimpleDataView } from 'libs/models/payfactors-api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
@@ -20,20 +20,19 @@ export class ActionBarComponent implements OnChanges {
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
   @Input() globalFiltersTemplate: TemplateRef<any>;
-  @Input() disableActionButtons = false;
-  @Input() savedViews: DataViewConfig[] = [];
   @Output() onFilterSidebarToggle = new EventEmitter();
-  @Output() savedFilterEmitter = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
-  globalFilters$: Observable<ViewField[]>;
-  displayFilterSidebar = false;
+  savedViews$: Observable<SimpleDataView[]>;
+  selectedRowId$: Observable<number>;
+
   constructor(private store: Store<fromReducer.State>) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
       this.dataFields$ = this.store.select(fromReducer.getFields, changes['pageViewId'].currentValue);
-      this.globalFilters$ = this.store.select(fromReducer.getGlobalFilters, changes['pageViewId'].currentValue);
+      this.savedViews$ = this.store.select(fromReducer.getSavedViews, changes['pageViewId'].currentValue);
+      this.selectedRowId$ = this.store.select(fromReducer.getSelectedRowId, this.pageViewId);
     }
   }
 
@@ -46,7 +45,7 @@ export class ActionBarComponent implements OnChanges {
     this.onFilterSidebarToggle.emit();
   }
 
-  savedViewClicked(view: DataViewConfig) {
+  savedViewClicked(view: SimpleDataView) {
     this.store.dispatch(new fromActions.LoadViewConfig(this.pageViewId, view.Name));
   }
 }

@@ -9,17 +9,13 @@ import { cloneDeep } from 'lodash';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { ViewField } from 'libs/models/payfactors-api';
+
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-import {DataViewFilter} from '../../../../../libs/models/payfactors-api/reports/request/data-view-data-request.model';
-import {DataViewFieldDataType} from '../../../../../libs/models/payfactors-api/reports/request';
-
-
-
-
+import { Permissions } from 'libs/constants';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -27,7 +23,7 @@ import {DataViewFieldDataType} from '../../../../../libs/models/payfactors-api/r
 })
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
-  // TODO: Create a constants class for a lot of this
+  permissions = Permissions;
   pageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
   selectedKeys: number[];
   selectedKeysSubscription: Subscription;
@@ -88,14 +84,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  buildTitleCodeFilter(value: string): DataViewFilter {
+  buildTitleCodeFilter(value: string): ViewField {
     return {
-      EntitySourceName: 'CompanyJobs',
-      SourceName: 'JobTitleCode',
-      Operator: 'contains',
-      Values: [value],
-      DataType: DataViewFieldDataType.String,
-      FilterType: 'JobTitleCode'
+      ...this.titleCodeSearchField,
+      FilterOperator: 'contains',
+      FilterValue: value
     };
   }
 }

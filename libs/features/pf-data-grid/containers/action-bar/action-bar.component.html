@@ -5,9 +5,7 @@
   </div>
   <div class="d-flex space-out-children">
     <ng-container>
-      <ng-container class="d-flex " *ngIf="globalActionsTemplate"
-                    [ngTemplateOutlet]="globalActionsTemplate">
-      </ng-container>
+      <ng-container class="d-flex " *ngIf="globalActionsTemplate" [ngTemplateOutlet]="globalActionsTemplate"></ng-container>
 
       <button *ngIf="allowExport" type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
               placement="bottom-right" popoverTitle="Choose Content to Export">
@@ -16,13 +14,13 @@
 
       <pf-column-chooser *ngIf="showColumnChooser"
         [dataFields]="dataFields$ | async"
-        [disabled]="disableActionButtons"
+        [disabled]="selectedRowId$ | async"
         (saveColumns)="updateFields($event)">
       </pf-column-chooser>
 
       <pf-filter-chooser *ngIf="showFilterChooser"
-        [disabled]="disableActionButtons"
-        [savedViews]="savedViews"
+        [disabled]="selectedRowId$ | async"
+        [savedViews]="savedViews$ | async"
         (onFilterSidebarToggle)="toggleFilterPanel()"
         (selectView)="savedViewClicked($event)"
       ></pf-filter-chooser>

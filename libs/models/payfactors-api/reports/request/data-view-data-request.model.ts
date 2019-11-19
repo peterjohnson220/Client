@@ -53,7 +53,7 @@ export function getMockDataViewFilter(): DataViewFilter {
     Operator: '=',
     Values: ['123'],
     DataType: DataViewFieldDataType.String,
-    FilterType: null
+    FilterType: ''
   };
 }
 
@@ -66,7 +66,7 @@ export function getMockDataViewFilterList(numFilters: number): DataViewFilter[] 
       Operator: '=',
       Values: [`Value${i}`],
       DataType: DataViewFieldDataType.String,
-      FilterType: null
+      FilterType: ''
     };
 
     filters.push(filter);
