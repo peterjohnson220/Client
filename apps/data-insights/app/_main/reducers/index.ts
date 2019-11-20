@@ -153,6 +153,11 @@ export const getActiveWorkbook = createSelector(
   fromDashboardsReducer.getActiveWorkbook
 );
 
+export const getAllViewsLoadedAsync = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getAllViewsLoadedAsync
+);
+
 // Data View
 export const getBaseEntitiesAsync = createSelector(
   selectDataViewState,

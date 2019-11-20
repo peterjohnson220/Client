@@ -15,3 +15,4 @@ export * from './get-filter-options-data.model';
 export * from './standard-report-filter.model';
 export * from './filter-operators.model';
 export * from './user.model';
+export * from './search-result.model';

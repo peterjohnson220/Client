@@ -68,4 +68,8 @@ export class TableauReportApiService {
   removeViewFavorite(viewId: string): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.RemoveViewFavorite`, { ViewId: viewId });
   }
+
+  getCompanyViews(): Observable<TableauReportViewsResponse[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetCompanyViews`);
+  }
 }

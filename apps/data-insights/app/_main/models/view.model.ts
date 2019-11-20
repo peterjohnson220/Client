@@ -6,6 +6,7 @@ export interface View {
   IsFavorite?: boolean;
   ViewsOrder?: number;
   FavoritesOrder?: number;
+  WorkbookId: string;
 }
 
 export function generateMockView(): View {
@@ -13,6 +14,7 @@ export function generateMockView(): View {
     ViewName: 'Some View',
     ViewId: 'viewId',
     ContentUrl: 'Workbook/ViewUrl',
-    ViewThumbnail: 'thumbnail.png'
+    ViewThumbnail: 'thumbnail.png',
+    WorkbookId: 'workbookId'
   };
 }

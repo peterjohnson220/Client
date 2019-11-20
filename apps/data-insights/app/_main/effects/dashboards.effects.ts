@@ -185,6 +185,21 @@ export class DashboardsEffects {
       })
     );
 
+  @Effect()
+  getAllCompanyViews$ = this.action$
+    .pipe(
+      ofType(fromAllDashboardsActions.GET_ALL_COMPANY_WORKBOOK_VIEWS),
+      switchMap((action: fromAllDashboardsActions.GetAllCompanyWorkbookViews) => {
+        return this.tableauReportApiService.getCompanyViews()
+          .pipe(
+            map((response) => new fromAllDashboardsActions.GetAllCompanyWorkbookViewsSuccess(
+              PayfactorsApiModelMapper.mapTableauReportViewsResponsesToViews(response)
+            )),
+            catchError(() => of(new fromAllDashboardsActions.GetAllCompanyWorkbookViewsError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataInsightsMainReducer.State>,
