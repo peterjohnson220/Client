@@ -4,10 +4,13 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { SettingsService } from 'libs/state/app-context/services';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Workbook, SaveReportOrderData, View } from '../../models';
+import { Workbook, SaveReportOrderData, View, DashboardView } from '../../models';
+import { DashboardsHeaderHelper } from '../../helpers';
 
 @Component({
   selector: 'pf-views',
@@ -17,31 +20,39 @@ import { Workbook, SaveReportOrderData, View } from '../../models';
 export class ViewsComponent implements OnInit, OnDestroy {
   companyWorkbooksAsync$: Observable<AsyncStateObj<Workbook[]>>;
   favoriteViews$: Observable<View[]>;
-  dashboardView$: Observable<string>;
+  dashboardViewSetting$: Observable<string>;
+  dashboardView$: Observable<DashboardView>;
 
   companyWorkbooksAsyncSub: Subscription;
   favoriteViewsSub: Subscription;
+  dashboardViewSettingSubscription: Subscription;
 
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;
   favoriteViews: View[];
+  dashboardViews: string[] = ['All Views', 'Favorites'];
 
   constructor(
-    private store: Store<fromDataInsightsMainReducer.State>
+    private store: Store<fromDataInsightsMainReducer.State>,
+    private settingsService: SettingsService
   ) {
     this.companyWorkbooksAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsyncFromViews));
     this.favoriteViews$ = this.store.pipe(select(fromDataInsightsMainReducer.getFavoriteViews));
     this.dashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardViewThumbnailEnabled));
+    this.dashboardViewSetting$ = this.settingsService.selectUiPersistenceSetting<string>(
+      FeatureAreaConstants.DataInsights, UiPersistenceSettingConstants.DashboardViewThumbnailEnabled, 'string'
+    );
   }
 
   ngOnInit(): void {
     this.companyWorkbooksAsyncSub = this.companyWorkbooksAsync$.subscribe(asyncObj => this.companyWorkbooksAsync = asyncObj);
     this.favoriteViewsSub = this.favoriteViews$.subscribe(cw => this.favoriteViews = cw);
-    this.store.dispatch(new fromViewsActions.GetDashboardView());
+    this.dashboardViewSettingSubscription = this.dashboardViewSetting$.subscribe(value => this.handleDashboardViewSettingChanged(value));
   }
 
   ngOnDestroy(): void {
     this.companyWorkbooksAsyncSub.unsubscribe();
     this.favoriteViewsSub.unsubscribe();
+    this.dashboardViewSettingSubscription.unsubscribe();
   }
 
   get anyFavorites() {
@@ -72,6 +83,17 @@ export class ViewsComponent implements OnInit, OnDestroy {
       return;
     }
     this.store.dispatch(new fromViewsActions.SaveReportOrder(saveReportOrderData));
+  }
+
+  handleSelectedDashboardViewChanged(view: DashboardView): void {
+    this.store.dispatch(new fromViewsActions.ToggleDashboardView({ view }));
+  }
+
+  handleDashboardViewSettingChanged(value: string): void {
+    if (!!value && !!value.length) {
+      const dashboardView: DashboardView = DashboardsHeaderHelper.getDashboardViewByValue(value) || DashboardView.Views;
+      this.store.dispatch(new fromViewsActions.SetDashboardView(dashboardView));
+    }
   }
 
 }

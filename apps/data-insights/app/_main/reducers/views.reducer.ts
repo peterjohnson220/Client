@@ -86,14 +86,10 @@ export function reducer(state = initialState, action: fromViewsActions.Actions):
         companyWorkbooksAsync: companyWorkbooksAsyncClone
       };
     }
-    case fromViewsActions.GET_DASHBOARD_VIEW_SUCCESS: {
-      let dashboardViewClone = cloneDeep(state.dashboardView);
-      if (action.payload && typeof action.payload === 'string') {
-        dashboardViewClone = action.payload;
-      }
+    case fromViewsActions.SET_DASHBOARD_VIEW: {
       return {
         ...state,
-        dashboardView: dashboardViewClone
+        dashboardView: action.payload
       };
     }
     case fromViewsActions.TOGGLE_DASHBOARD_VIEW: {

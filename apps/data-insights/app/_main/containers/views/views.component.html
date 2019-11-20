@@ -6,7 +6,14 @@
     [hideReloadButton]="true">
   </pf-async-container>
 
-  <pf-dashboards-header [thumbnailsViewEnabled]="true" [hasFavorites]="anyFavorites"></pf-dashboards-header>
+  <pf-dashboards-header
+    [title]="'All Views'"
+    [dashboardViews]="dashboardViews"
+    [selectedDashboardView]="(dashboardView$ | async)"
+    [hasFavorites]="anyFavorites"
+    [tagsEnabled]="false"
+    (selectedDashboardViewChanged)="handleSelectedDashboardViewChanged($event)">
+  </pf-dashboards-header>
 
   <ng-container *ngIf="companyWorkbooksAsync?.obj?.length && (dashboardView$ | async) !== 'Favorites'">
     <ng-container *ngFor="let workbook of companyWorkbooksAsync.obj; trackBy: trackByFn">

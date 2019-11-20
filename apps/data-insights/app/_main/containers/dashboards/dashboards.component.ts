@@ -5,11 +5,14 @@ import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { SettingsService } from 'libs/state/app-context/services';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Workbook, SaveWorkbookTagObj, ReportType } from '../../models';
+import { Workbook, SaveWorkbookTagObj, ReportType, DashboardView } from '../../models';
 import { TagWorkbookModalComponent } from '../../components/tag-workbook-modal';
+import { DashboardsHeaderHelper } from '../../helpers';
 
 @Component({
   selector: 'pf-dashboards',
@@ -26,17 +29,22 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   savingTagError$: Observable<boolean>;
   tagWorkbookModalOpen$: Observable<boolean>;
   activeWorkbook$: Observable<Workbook>;
+  dashboardViewSetting$: Observable<string>;
+  selectedDashboardView$: Observable<DashboardView>;
 
   filteredCompanyWorkbooksSub: Subscription;
   dragulaSub: Subscription;
   tagWorkbookModalOpenSub: Subscription;
+  dashboardViewSettingSubscription: Subscription;
 
   filteredCompanyWorkbooks: Workbook[];
   reportTypes = ReportType;
+  dashboardViews: Array<string> = ['All Dashboards', 'Favorites'];
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private settingsService: SettingsService
   ) {
     this.dragulaSub = new Subscription();
     this.dragulaSub.add(this.dragulaService.dropModel('workbooks').subscribe(({ sourceModel }) => {
@@ -49,6 +57,10 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.savingTagError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingTagError));
     this.tagWorkbookModalOpen$ = this.store.pipe(select(fromDataInsightsMainReducer.getTagWorkbookModalOpen));
     this.activeWorkbook$ = this.store.pipe(select(fromDataInsightsMainReducer.getActiveWorkbook));
+    this.dashboardViewSetting$ = this.settingsService.selectUiPersistenceSetting<string>(
+      FeatureAreaConstants.DataInsights, UiPersistenceSettingConstants.DashboardView, 'string'
+    );
+    this.selectedDashboardView$ = this.store.select(fromDataInsightsMainReducer.getDashboardView);
   }
 
   ngOnInit() {
@@ -60,6 +72,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
         this.tagWorkbookModalComponent.close();
       }
     });
+    this.dashboardViewSettingSubscription = this.dashboardViewSetting$.subscribe(value => this.handleDashboardViewSettingChanged(value));
   }
 
   get anyFavorites() {
@@ -70,6 +83,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.filteredCompanyWorkbooksSub.unsubscribe();
     this.dragulaSub.unsubscribe();
     this.tagWorkbookModalOpenSub.unsubscribe();
+    this.dashboardViewSettingSubscription.unsubscribe();
   }
 
   trackByFn(index: any, workbook: Workbook) {
@@ -82,6 +96,17 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
   handleTagModalClosed(): void {
     this.store.dispatch(new fromDashboardsActions.CloseTagWorkbookModal());
+  }
+
+  handleSelectedDashboardViewChanged(view: DashboardView): void {
+    this.store.dispatch(new fromDashboardsActions.ToggleDashboardView({ view }));
+  }
+
+  handleDashboardViewSettingChanged(value: string): void {
+    if (!!value && !!value.length) {
+      const dashboardView: DashboardView = DashboardsHeaderHelper.getDashboardViewByValue(value) || DashboardView.All;
+      this.store.dispatch(new fromDashboardsActions.SetDashboardView(dashboardView));
+    }
   }
 
   private handleDropModel(sourceModel) {

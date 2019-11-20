@@ -182,14 +182,10 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
         tagFilter: action.payload
       };
     }
-    case fromDashboardsActions.GET_DASHBOARD_VIEW_SUCCESS: {
-      let dashboardViewClone = cloneDeep(state.dashboardView);
-      if (action.payload && typeof action.payload === 'string') {
-        dashboardViewClone = action.payload;
-      }
+    case fromDashboardsActions.SET_DASHBOARD_VIEW: {
       return {
         ...state,
-        dashboardView: dashboardViewClone
+        dashboardView: action.payload
       };
     }
     case fromDashboardsActions.OPEN_TAG_WORKBOOK_MODAL: {
