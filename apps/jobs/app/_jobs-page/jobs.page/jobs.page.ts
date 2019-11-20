@@ -9,13 +9,13 @@ import { cloneDeep } from 'lodash';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { ViewField } from 'libs/models/payfactors-api';
+import { Permissions } from 'libs/constants';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-import { Permissions } from 'libs/constants';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -48,7 +48,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.globalFilterSubscription = this.store.select(fromPfGridReducer.getGlobalFilters, this.pageViewId).subscribe(gf => {
       if (gf) {
         this.titleCodeSearchField = gf.find(f => f.SourceName === 'JobTitleCode');
-        console.log(this.titleCodeSearchField);
       }
     });
   }
@@ -77,11 +76,16 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handleTitleCodeSearch(value: string) {
+    this.closeSplitView();
     if (value.length) {
       this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, this.buildTitleCodeFilter(value)));
     } else {
       this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, this.buildTitleCodeFilter('')));
     }
+  }
+
+  closeSplitView() {
+    this.store.dispatch(new fromPfGridActions.UpdateSelectedRowId(this.pageViewId, null, null));
   }
 
   buildTitleCodeFilter(value: string): ViewField {

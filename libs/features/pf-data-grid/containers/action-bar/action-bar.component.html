@@ -11,15 +11,13 @@
               placement="bottom-right" popoverTitle="Choose Content to Export">
         <fa-icon icon="download"></fa-icon>
       </button>
-
+      
       <pf-column-chooser *ngIf="showColumnChooser"
         [dataFields]="dataFields$ | async"
-        [disabled]="selectedRowId$ | async"
         (saveColumns)="updateFields($event)">
       </pf-column-chooser>
 
       <pf-filter-chooser *ngIf="showFilterChooser"
-        [disabled]="selectedRowId$ | async"
         [savedViews]="savedViews$ | async"
         (onFilterSidebarToggle)="toggleFilterPanel()"
         (selectView)="savedViewClicked($event)"

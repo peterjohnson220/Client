@@ -111,6 +111,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             fields: action.fields,
             groupedFields: buildGroupedFields(action.fields),
+            selectedRowId: null,
+            splitViewFilters: []
           }
         }
       };
@@ -214,7 +216,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            filterPanelOpen: !state.grids[action.pageViewId].filterPanelOpen
+            filterPanelOpen: !state.grids[action.pageViewId].filterPanelOpen,
+            selectedRowId: null,
+            splitViewFilters: []
           }
         }
       };
