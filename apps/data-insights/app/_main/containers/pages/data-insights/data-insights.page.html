@@ -4,7 +4,7 @@
       Data Insights
     </div>
 
-    <a *ngIf="(reportBuilderSettingEnabled$ | async) && !thumbnailsViewSettingEnabled"
+    <a *ngIf="(reportBuilderSettingEnabled$ | async)"
        id="recent-download"
        [attr.data-qa-id]="lnk-recentDownloads"
        target="_blank"
