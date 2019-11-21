@@ -23,11 +23,13 @@ import { StandardReportComponent, TagWorkbookModalComponent, SearchWorkbookResul
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
   ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent,
   DateRangeFilterComponent, MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent,
-  BitFilterComponent, ConfigureSidebarComponent, ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent } from './components';
+  BitFilterComponent, ConfigureSidebarComponent, ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent
+} from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent,
   DashboardsHeaderComponent, ViewsComponent, FiltersComponent, FieldsComponent,
-  WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent } from './containers';
+  WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateFormulaFieldModalComponent
+} from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects,
   ViewsEffects, FiltersEffects, FieldsEffects
 } from './effects';
@@ -77,7 +79,7 @@ import { MainRoutingModule } from './main-routing.module';
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
     SearchWorkbookModalComponent, DataViewGridComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
-    FieldsComponent, WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent,
+    FieldsComponent, WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateFormulaFieldModalComponent,
 
     // Components
     StandardReportComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
