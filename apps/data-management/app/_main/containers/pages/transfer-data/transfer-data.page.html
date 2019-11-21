@@ -40,13 +40,7 @@
       </pf-hris-authentication-card>
     </div>
     <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.Mappings">
-        <h4>
-          Map Fields
-        </h4>
-        Add new component stuff here...
-        <div class="p-2">
-          <button type="button" class="btn btn-primary" (click)="cancelTransferDataWorkflow()">Cancel</button>
-        </div>
-      </div>
+      <pf-field-mappings-card></pf-field-mappings-card>
+    </div>
   </div>
 </pf-async-container>

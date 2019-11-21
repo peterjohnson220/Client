@@ -11,6 +11,7 @@ import { TransferMethodsHrisApiService, ProvidersHrisApiService,
 import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse } from 'libs/models/hris-api';
 
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
+import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromDataManagementMainReducer from '../reducers';
 
 import { PayfactorsApiModelMapper } from '../helpers';
@@ -148,6 +149,26 @@ export class TransferDataPageEffects {
           );
       })
     );
+
+  @Effect()
+  CreateConnectionSuccess$: Observable<Action> = this.actions$
+  .pipe(
+    ofType<fromTransferDataPageActions.CreateConnectionSuccess>(fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS),
+    withLatestFrom(this.store.select(fromDataManagementMainReducer.getSelectedEntities),
+    (action, selectedEntities) => {
+      return {
+        action,
+        selectedEntities
+      };
+    }),
+    switchMap((obj) => {
+      return [
+        new fromFieldMappingActions.InitFieldMappingCard({
+          entities: obj.selectedEntities,
+        })
+      ];
+    })
+  );
 
   constructor(
     private actions$: Actions,
