@@ -1,57 +1,24 @@
-.user-filter-list {
-  overflow-y: auto;
-  max-height: 300px;
-  min-height: 300px;
-}
-.user-filter-list-container{
-  width: 240px;
-}
-.footer{
-  border-top: 1px solid #CCC;
-  background: #f7f7f7
-}
-.footer .alert {
-  text-align: center;
-}
-.user-filter-popover .popover{
-  font-size: 13px;
-}
-.user-filter-popover .popover.popover-bottom{
-  left: inherit !important;
-  right: 0 !important;
-}
-.user-filter-popover .popover.popover-bottom:before,
-.user-filter-popover .popover.popover-bottom:after{
-  left: 94% !important;
-}
-.user-filter-list .list-group-item:not(.disabled):not(.list-group-item-danger) {
+@import 'libs/styles/ngbootstrap-popover-overrides';
+
+.list-group .filter-item:not(.disabled) {
   cursor: pointer;
 }
-.user-filter-list .list-group-item {
+
+.list-group .filter-item {
   min-height: fit-content;
-  border-width: 1px 0 1px 0;
+  border: 1px solid rgba(0,0,0,.125);
+  border-width: 1px 0 0 0;
 }
-.user-filter-list .list-group-item:first-child {
+
+.list-group .filter-item:first-child {
   border-top: none;
 }
-.user-filter-list .list-group-item-danger {
-  cursor: not-allowed;
-}
-.user-filter {
-  width: 80%;
-}
-.user-filter .filter-desc {
+
+.filter-desc {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-style: italic;
   color: #888e92;
-}
-button.btn.btn-secondary.btn-sm.user-filter-delete-btn {
-  margin-left: auto;
-}
-.delete-filter-btns {
-  width: 100%;
-  text-align: right;
 }

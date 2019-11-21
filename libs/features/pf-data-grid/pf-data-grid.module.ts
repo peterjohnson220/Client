@@ -34,7 +34,6 @@ import {
   PfDataGridSaveViewModalComponent,
   ColumnChooserComponent
 } from './components';
-import { PfDataGridColType } from './enums';
 
 @NgModule({
   imports: [
