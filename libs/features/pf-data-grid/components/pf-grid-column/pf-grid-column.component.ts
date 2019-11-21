@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ViewField } from 'libs/models/payfactors-api';
+import { PfDataGridColType } from '../../enums';
 
 @Component({
   selector: 'pf-grid-column',
@@ -13,19 +14,19 @@ export class PfGridColumnComponent {
   @Input() fieldName: string;
   @Input() field: ViewField;
 
+  colType = PfDataGridColType;
+
   constructor() { }
 
   getColumnType(col: any): string {
     if (this.columnTemplates && this.columnTemplates[col.SourceName]) {
-      return 'template';
-    } else if (col.Template === 'currency') {
-      return 'currency';
-    } else if (col.DataType === 'dateTime') {
-      return 'dateTime';
+      return PfDataGridColType.template;
+    } else if (this.columnTemplates && this.columnTemplates[PfDataGridColType.currency] && col.Template === PfDataGridColType.currency) {
+      return PfDataGridColType.currency;
+    } else if (col.DataType === PfDataGridColType.dateTime) {
+      return PfDataGridColType.dateTime;
     } else {
-      return 'default';
+      return PfDataGridColType.default;
     }
   }
-
-
 }
