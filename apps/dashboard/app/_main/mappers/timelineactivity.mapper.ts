@@ -164,7 +164,7 @@ export class TimelineActivityMapper {
   }
 
   static generateSubjectForResource(dto: TimelineActivityDto): string {
-    const resourcesFeatureUrl = this.BASE_URL + '/marketdata/resources.asp';
+    const resourcesFeatureUrl = this.BASE_URL + '/client/resources';
     const fetchResourceBaseUrl = this.BASE_URL +  '/marketdata/getcontent.asp?f=';
     const fetchCompanyResourceBaseUrl = this.BASE_URL +  '/odata/CloudFiles.DownloadCompanyResource?FileName=';
     const resourceUrl = dto.Links[0].Url;
