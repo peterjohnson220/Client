@@ -68,15 +68,17 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
         versionNumberCheck: [null],
         pageNumberCheck: [null],
         customTextCheck: [null],
-        customTextValue: ['', Validators.maxLength(40)]},
+        customTextValue: ['', [Validators.maxLength(40)]]},
         { validator: this.maxCheckBoxCountValidator }
       );
+
+      this.jdmFooterForm.valueChanges.subscribe((v) => this.savingSuccess = false);
   }
 
   submit() {
-      if (this.jdmFooterForm.valid) {
-        this.store.dispatch(new fromFooterViewAction.SaveFooterViewAction(this.getFooterViewFormData()));
-      }
+    if (this.jdmFooterForm.valid) {
+      this.store.dispatch(new fromFooterViewAction.SaveFooterViewAction(this.getFooterViewFormData()));
+    }
   }
 
   private getFooterViewFormData(): FooterViewModel {
@@ -109,7 +111,7 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
     checkCount = control.get('pageNumberCheck').value === true ? checkCount + 1 : checkCount;
     checkCount = control.get('customTextCheck').value === true ? checkCount + 1 : checkCount;
     if (checkCount > 3) {
-        return { 'valid': false };
+        return { 'customValidationError': true };
     } else {
         return null;
     }

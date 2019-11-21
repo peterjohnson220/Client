@@ -39,11 +39,16 @@
                 class="btn btn-primary disabled">
                 Save
             </button>
-            
-            <span class="help-block text-danger" *ngIf="!jdmFooterForm.valid">Only 3 fields can be added to the footer.</span>
+
             <span class="help-block text-danger" *ngIf="loadingError">Error loading footer view.</span>
             <span class="help-block text-danger" *ngIf="savingError">Error saving footer view.</span>
             <span class="help-block text-success" *ngIf="savingSuccess">Footer view saved successfully!</span>
+
+            <span class="help-block text-danger" *ngIf="jdmFooterForm.hasError('customValidationError')">Only 3 fields can be added to the footer.</span>
+            <span class="help-block text-danger" *ngIf="customTextValue.hasError('maxlength')">
+                Exceeds {{customTextValue.errors.maxlength.requiredLength}} characters: 
+                {{customTextValue.errors.maxlength.actualLength}}
+            </span>
         </div>		
     </form>
 
