@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { TemplateListItem } from 'libs/models/jdm';
-import { LoadTemplateListRequest } from '../models/requests/load-template-list-request.model';
-import { LoadTemplateListByCompanyIdRequest } from '../models/requests/load-template-list-by-company-id.request.model';
+import { LoadTemplateListRequest, LoadTemplateListByCompanyIdRequest } from '../models/requests';
 
 export const LOAD_TEMPLATE_LIST = '[job-description-management / Template List] Load Template List';
 export const LOAD_TEMPLATE_LIST_ERROR = '[job-description-management / Template List] Load Template List Error';

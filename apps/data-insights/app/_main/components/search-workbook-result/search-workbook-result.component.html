@@ -1,31 +1,41 @@
-<div *ngIf="workbook" class="search-result-container d-flex flex-column" [ngClass]="openViews ? 'expanded' : ''">
+<div *ngIf="result" class="search-result-container d-flex flex-column">
   <div class="d-flex flex-row justify-content-between header">
     <div class="workbook-name">
-      <a class="btn" title="Open Workbook"
-         *ngIf="workbook.Type === reportTypes.TableauReport;else openCustomReport"
-        [attr.data-qa-id]="'lnk-openWorkbook'"
-        [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
-        [queryParams]="{showTabs: true, title: workbook.WorkbookName}">
-        {{workbook.WorkbookName}}
-      </a>
-      <ng-template #openCustomReport>
-        <a class="btn" title="Open Workbook"
+      <ng-container *ngIf="result.Type === reportTypes.TableauReport; else openCustomReport">
+        <a class="workbook-view" title="Open Workbook"
+           *ngIf="result.IsWorkbook; else openView"
            [attr.data-qa-id]="'lnk-openWorkbook'"
-           [routerLink]="['/custom-report',workbook.WorkbookId]">
-          {{workbook.WorkbookName}}
+           [routerLink]="[result.Url]"
+           [queryParams]="{showTabs: true, title: result.WorkbookName}">
+          <div class="name">
+            {{result.WorkbookName}}
+          </div>
+          <div class="badge badge-info mr-auto">Workbook</div>
+        </a>
+        <ng-template #openView>
+          <a class="workbook-view" title="Open View"
+             [attr.data-qa-id]="'lnk-openView'"
+             [routerLink]="[result.Url]"
+             [queryParams]="{showTabs: true, title: result.WorkbookName + ' - ' + result.ViewName}">
+            <div class="name">
+              {{result.ViewName}}
+            </div>
+            <div class="workbook-source"> {{result.WorkbookName}}</div>
+          </a>
+        </ng-template>
+      </ng-container>
+
+      <ng-template #openCustomReport>
+        <a class="workbook-view" title="Open Workbook"
+           *ngIf="result.IsWorkbook"
+           [attr.data-qa-id]="'lnk-openWorkbook'"
+           [routerLink]="[result.Url]">
+          <div class="name">
+            {{result.WorkbookName}}
+          </div>
+          <div class="badge badge-info mr-auto">Workbook</div>
         </a>
       </ng-template>
     </div>
-    <div *ngIf="!workbook.IsStandard && workbook.Type === reportTypes.TableauReport" class="icon" [attr.data-qa-id]="'cnt-openViews'" (click)="handleOpenViewsClicked()" title="Open Views">
-      <fa-icon *ngIf="!openViews" icon="caret-right" size="2x"></fa-icon>
-      <fa-icon *ngIf="openViews" icon="caret-down" size="2x"></fa-icon>
-    </div>
-  </div>
-
-  <div *ngIf="workbook.Views && openViews">
-    <pf-workbook-views
-      [workbook]="workbook"
-      [searchEnabled]="false">
-    </pf-workbook-views>
   </div>
 </div>

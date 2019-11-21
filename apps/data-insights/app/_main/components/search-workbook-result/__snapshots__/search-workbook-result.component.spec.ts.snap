@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Data Insights - Search Workbook Result Component should emit openViewsClicked when open views icon toggled to open 1`] = `
+<pf-search-workbook-result
+  reportTypes={[Function Object]}
+  result={[Function Object]}
+>
+  
+</pf-search-workbook-result>
+`;

@@ -138,7 +138,8 @@
                           <button type="button" class="btn btn-warning button-match pr-3 no-pointer"
                                   (click)="validate()"
                                   [disabled]="!this.mappingFile || !this.dataFile || (jobDescriptionLoaderValidating$ | async) ">
-                            <fa-icon icon="check" class="pr-1"></fa-icon>Validate
+                            <fa-icon icon="check" class="pr-1"></fa-icon>
+                            Validate
                           </button>
                         </div>
                       </td>
@@ -168,16 +169,44 @@
 
             <div
               *ngIf="(jobDescriptionLoaderValidated$ | async) && !(jobDescriptionLoaderValidating$ | async) && !((jobDescriptionLoaderImporting$ | async) || (jobDescriptionLoaderImported$ | async))">
-              <pf-validation-results
-                [validationResults]="(jobDescriptionLoaderValidationResults$ | async)?.ValidationResults"
-                [title]="'Validation'">
-              </pf-validation-results>
+
+
+              <div class="card-block">
+                <p class="card-title">
+                  <span *ngIf="((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length === 0">
+                    Validation complete <fa-icon icon="check" aria-hidden="true" class="text-success mr-2"></fa-icon>
+                  </span>
+                  <span
+                    *ngIf="((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length > 0">
+                    Validation failed <fa-icon icon="exclamation" aria-hidden="true" class="text-danger mr-2"></fa-icon>
+                  </span>
+                  <a class="results-link" (click)="isCollapsed = !isCollapsed">{{ isCollapsed ? 'See results' : 'Hide results' }}</a>
+                </p>
+                <div class="collapse-container" *ngIf="!isCollapsed">
+                  <pf-validation-results
+                    [validationResults]="(jobDescriptionLoaderValidationResults$ | async)?.ValidationResults">
+                  </pf-validation-results>
+                </div>
+              </div>
             </div>
             <div *ngIf="jobDescriptionLoaderImported$ | async">
-              <pf-validation-results
-                [validationResults]="jobDescriptionLoaderImportResults$ | async"
-                [title]="'Upload'">
-              </pf-validation-results>
+              <div class="card-block">
+                <p class="card-title">
+                  <span *ngIf="((jobDescriptionLoaderImportResults$ | async) | validationErrors )?.length === 0">
+                        Upload complete <fa-icon icon="check" aria-hidden="true" class="text-success mr-2"></fa-icon>
+                  </span>
+                  <span
+                    *ngIf="((jobDescriptionLoaderImportResults$ | async) | validationErrors )?.length > 0">
+                        Upload failed <fa-icon icon="exclamation" aria-hidden="true" class="text-danger mr-2"></fa-icon>
+                  </span>
+                  <a class="results-link" (click)="isCollapsed = !isCollapsed">{{ isCollapsed ? 'See results' : 'Hide results' }}</a>
+                </p>
+                <div class="collapse-container" *ngIf="!isCollapsed">
+                  <pf-validation-results
+                    [validationResults]="jobDescriptionLoaderImportResults$ | async">
+                  </pf-validation-results>
+                </div>
+              </div>
             </div>
 
             <div class="row">
@@ -192,7 +221,7 @@
               <div class="col-md-4 offset-md-8 grid-bottom">
                 <div
                   *ngIf="(jobDescriptionLoaderValidated$ | async) && !(jobDescriptionLoaderImported$ | async) && ((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length === 0">
-                  <button type="button" class="btn btn-success button-match pr-3"
+                  <button type="button" class="btn btn-primary button-match pr-3"
                           (click)="upload()"
                           [disabled]="(jobDescriptionLoaderImporting$ | async) ||  ((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length > 0">
                     <fa-icon icon="upload" class="pr-1"></fa-icon> Upload

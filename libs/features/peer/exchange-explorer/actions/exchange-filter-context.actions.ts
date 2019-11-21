@@ -5,12 +5,12 @@ import { ExchangeScopeItem, ExchangeDataSearchFilterContext } from 'libs/models/
 export const TOGGLE_LIMIT_TO_PAYMARKET  = '[Features/Peer/Exchange Explorer] Toggle Limit To PayMarket';
 export const TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES  = '[Features/Peer/Exchange Explorer] Toggle Exclude Indirect Job Matches';
 export const TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES = '[Features/Peer/Exchange Explorer] Toggle Include Untagged Employees';
-export const LIMIT_TO_EXCHANGE = '[Features/Peer/Exchange Explorer] Limit to Exchange';
 export const SET_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Exchange Explorer] Set Scope Selection';
 export const CLEAR_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Exchange Explorer] Clear Scope Selection';
 export const SET_FILTER_CONTEXT = '[Features/Peer/Exchange Explorer] Set Filter Context';
 export const SET_FILTER_CONTEXT_SILENTLY = '[Features/Peer/Exchange Explorer] Set Filter Context Silently';
 export const SET_EXCHANGE_JOB_SELECTION = '[Features/Peer/Exchange Explorer] Set Exchange Job Selection';
+export const RESET_STATE = '[Features/Peer/Exchange Explorer] Reset State';
 
 export class ToggleLimitToPayMarket implements Action {
   readonly type = TOGGLE_LIMIT_TO_PAYMARKET;
@@ -22,12 +22,6 @@ export class ToggleExcludeIndirectJobMatches implements Action {
 
 export class ToggleIncludeUntaggedEmployees implements Action {
   readonly type = TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES;
-}
-
-export class LimitToExchange implements Action {
-  readonly type = LIMIT_TO_EXCHANGE;
-
-  constructor(public payload: number) { }
 }
 
 export class SetExchangeScopeSelection implements Action {
@@ -60,13 +54,17 @@ export class SetExchangeJobSelection implements Action {
   constructor(public payload: {exchangeJobId: number, similarExchangeJobIds: number[]}) {}
 }
 
+export class ResetState implements Action {
+  readonly type = RESET_STATE;
+}
+
 export type Actions
   = ToggleLimitToPayMarket
   | ToggleExcludeIndirectJobMatches
   | ToggleIncludeUntaggedEmployees
-  | LimitToExchange
   | SetExchangeScopeSelection
   | SetFilterContext
   | SetFilterContextSilently
   | ClearExchangeScopeSelection
-  | SetExchangeJobSelection;
+  | SetExchangeJobSelection
+  | ResetState;

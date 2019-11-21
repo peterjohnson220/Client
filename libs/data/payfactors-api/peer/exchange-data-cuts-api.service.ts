@@ -40,5 +40,14 @@ export class ExchangeDataCutsApiService {
         CurrentFilters: searchFilter, DataCutGuid: dataCutGuid
       }, (success: boolean) => success);
   }
-
+  validateCutEmployeeSimilarityNew(searchFilter: BaseExchangeDataSearchRequest,
+                                companyJobId: number,
+                                userSessionId: number,
+                                dataCutGuid: string): Observable<boolean> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ValidateCutEmployeeSimilarityNew`,
+      {
+        CompanyJobId: companyJobId, UserSessionId: userSessionId,
+        CurrentFilters: searchFilter, DataCutGuid: dataCutGuid
+      }, (success: boolean) => success);
+  }
 }

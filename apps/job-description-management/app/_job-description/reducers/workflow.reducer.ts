@@ -1,8 +1,10 @@
 import * as cloneDeep from 'lodash.clonedeep';
+
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { Permissions } from 'libs/constants';
 
 import * as fromWorkflowActions from '../actions/workflow.actions';
-import { WorkflowLogEntry, WorkflowStepSummaryItem } from '../models';
+import { Workflow, WorkflowLogEntry, WorkflowStepSummaryItem } from '../models';
 
 export interface State {
   workflowLogEntriesAsync: AsyncStateObj<WorkflowLogEntry[]>;
@@ -12,6 +14,11 @@ export interface State {
   workflowLinkLoading: boolean;
   workflowLinkLoaded: boolean;
   workflowLink: string;
+  workflow: Workflow;
+  workFlowSaveObj: any;
+  saving: boolean;
+  message: string;
+  completedStep: boolean;
 }
 
 export const initialState: State = {
@@ -21,7 +28,12 @@ export const initialState: State = {
   rejecting: false,
   workflowLinkLoading: false,
   workflowLinkLoaded: false,
-  workflowLink: ''
+  workflowLink: '',
+  workflow: null,
+  workFlowSaveObj: null,
+  saving: false,
+  message: '',
+  completedStep: false
 };
 
 export function reducer(state = initialState, action: fromWorkflowActions.Actions): State {
@@ -77,6 +89,7 @@ export function reducer(state = initialState, action: fromWorkflowActions.Action
       };
     }
     case fromWorkflowActions.COMPLETE_WORKFLOW_STEP_SUCCESS: {
+
       return {
         ...state,
         approving: false,
@@ -97,11 +110,83 @@ export function reducer(state = initialState, action: fromWorkflowActions.Action
         workflowLink: action.payload
       };
     }
+    case fromWorkflowActions.SAVING_WORKFLOW: {
+      return {
+        ...state,
+        saving: true
+      };
+    }
+    case fromWorkflowActions.SAVING_WORKFLOW_SUCCESS: {
+      return {
+        ...state,
+        saving: false
+      };
+    }
+    case fromWorkflowActions.SAVING_WORKFLOW_ERROR: {
+      const workflowSaveObjClone = cloneDeep(state.workFlowSaveObj);
+      workflowSaveObjClone.loadingError = true;
+      return {
+        ...state,
+        workFlowSaveObj: workflowSaveObjClone
+      };
+    }
+    case fromWorkflowActions.CREATE_WORKFLOW: {
+      const workflowClone = cloneDeep(state.workflow);
+      workflowClone.EntityType = 'JobDescription';
+      workflowClone.EntityId = action.payload.entityId;
+      workflowClone.EntityTitle = action.payload.entityTitle;
+      workflowClone.WorkflowUrl = action.payload.workflowUrl;
+      workflowClone.Revision = action.payload.revision;
+      workflowClone.WorkflowSteps = [];
+      workflowClone.InitiationComment = '';
+      workflowClone.AllAvailablePermissions = [ Permissions.JOB_DESCRIPTIONS, Permissions.CAN_EDIT_JOB_DESCRIPTION ];
+      return {
+        ...state,
+        workflow: workflowClone
+      };
+    }
+    case fromWorkflowActions.UPDATE_WORKFLOW_INITIATION_COMMENT: {
+      const workflowClone = cloneDeep(state.workflow);
+      workflowClone.InitiationComment = action.payload.comment;
+      return {
+        ...state,
+        workflow: workflowClone
+      };
+    }
+    case fromWorkflowActions.UPDATE_WORKFLOW_STEPS: {
+      const workflowClone = cloneDeep(state.workflow);
+      workflowClone.WorkflowSteps = action.payload.steps;
+      return {
+        ...state,
+        workflow: workflowClone
+      };
+    }
+    case fromWorkflowActions.BUILD_WORKFLOW_SAVE_OBJ: {
+      let workflowStateObjClone = cloneDeep(state.workFlowSaveObj);
+      workflowStateObjClone = JSON.parse(JSON.stringify(state.workflow));
+      workflowStateObjClone.WorkflowSteps.map(step => {
+        delete step['UserPicture'];
+        step.Permissions = step.Permissions.filter(p => p.selected).map(p => p.permission);
+        return step;
+      });
+      return {
+        ...state,
+        workFlowSaveObj: workflowStateObjClone
+      };
+    }
+    case fromWorkflowActions.SET_MESSAGE: {
+      return {
+        ...state,
+        message: action.payload.message,
+        completedStep: true
+      };
+    }
     default: {
       return state;
     }
   }
 }
+
 export const getWorkflowLogEntries = (state: State) => state.workflowLogEntriesAsync;
 export const getWorkflowLogLoading = (state: State) => state.workflowLogEntriesAsync.loading;
 export const getWorkflowStepSummaryAsync = (state: State) => state.workflowStepSummaryAsync;
@@ -111,3 +196,8 @@ export const getWorkflowStepRejecting = (state: State) => state.rejecting;
 export const getWorkflowLink = (state: State) => state.workflowLink;
 export const getLoading = (state: State) => state.workflowLinkLoading;
 export const getLoaded = (state: State) => state.workflowLinkLoaded;
+export const getWorkflow = (state: State) => state.workflow;
+export const getWorkflowSaveObj = (state: State) => state.workFlowSaveObj;
+export const getWorkflowSaving = (state: State) => state.saving;
+export const getMessage = (state: State) => state.message;
+export const getCompletedStep = (state: State) => state.completedStep;

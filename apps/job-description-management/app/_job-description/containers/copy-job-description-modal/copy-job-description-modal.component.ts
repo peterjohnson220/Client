@@ -4,7 +4,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { AsyncStateObj, JobDescription } from 'libs/models';
+import { AsyncStateObj, JobDescription, UserContext, WorkflowStepInfo } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
+
 
 import * as fromJobDescriptionManagementReducer from '../../reducers';
 import * as fromJobDescriptionSharedReducer from '../../../shared/reducers';
@@ -24,10 +26,12 @@ export class CopyJobDescriptionModalComponent implements OnInit, OnDestroy {
   extendedInfo$: Observable<JobDescriptionExtendedInfo>;
   jobDescriptionSourcesAsync$: Observable<AsyncStateObj<JobDescriptionSource[]>>;
   jobFamilies$: Observable<string[]>;
+  identity$: Observable<UserContext>;
 
   jobDescriptionAsyncSubscription: Subscription;
   extendedInfoSubscription: Subscription;
   jobDescriptionSourcesAsyncSubscription: Subscription;
+  identitySubscription: Subscription;
 
   jobDescription: JobDescription;
   selectedFamily: string;
@@ -37,16 +41,20 @@ export class CopyJobDescriptionModalComponent implements OnInit, OnDestroy {
   selectedStatus: string;
   allJobDescriptionSources: JobDescriptionSource[];
   filteredJobDescriptionSources: JobDescriptionSource[];
+  workflowStepInfo: WorkflowStepInfo;
 
   constructor(
     private modalService: NgbModal,
     private store: Store<fromJobDescriptionManagementReducer.State>,
-    private sharedStore: Store<fromJobDescriptionSharedReducer.State>
+    private sharedStore: Store<fromJobDescriptionSharedReducer.State>,
+    private userContextStore: Store<fromRootState.State>,
   ) {
     this.jobDescriptionAsync$ = this.store.pipe(select(fromJobDescriptionManagementReducer.getJobDescriptionAsync));
     this.extendedInfo$ = this.store.pipe(select(fromJobDescriptionManagementReducer.getJobDescriptionExtendedInfo));
     this.jobDescriptionSourcesAsync$ = this.store.pipe(select(fromJobDescriptionManagementReducer.getJobDescriptionSourcesAsync));
     this.jobFamilies$ = this.sharedStore.pipe(select(fromJobDescriptionSharedReducer.getJobFamilies));
+    this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
+
   }
 
   ngOnInit(): void {
@@ -57,6 +65,7 @@ export class CopyJobDescriptionModalComponent implements OnInit, OnDestroy {
         this.initModal();
       }
     });
+    this.identitySubscription = this.identity$.subscribe(uc => this.workflowStepInfo = uc.WorkflowStepInfo);
     this.jobDescriptionSourcesAsyncSubscription = this.jobDescriptionSourcesAsync$.subscribe(asyncObj => {
       if (!!asyncObj) {
         this.allJobDescriptionSources = asyncObj.obj;
@@ -69,6 +78,7 @@ export class CopyJobDescriptionModalComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.jobDescriptionAsyncSubscription.unsubscribe();
     this.extendedInfoSubscription.unsubscribe();
+    this.identitySubscription.unsubscribe();
   }
 
   open(): void {
@@ -114,7 +124,7 @@ export class CopyJobDescriptionModalComponent implements OnInit, OnDestroy {
   }
 
   private initModal(): void {
-    if (!!this.extendedInfo) {
+    if (!!this.extendedInfo && !this.workflowStepInfo) {
       this.selectedFamily = this.extendedInfo.JobFamily;
       this.loadJobDescriptionSources(this.extendedInfo.JobFamily);
     }

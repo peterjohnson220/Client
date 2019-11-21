@@ -9,7 +9,7 @@
 
     <div class="d-flex flex-column h-100">
       <div class="mb-3">
-        <pf-input-debounce [ngModel]="filter" (valueChanged)="handleSearchTermChanged($event)"></pf-input-debounce>
+        <pf-input-debounce [ngModel]="filter" (valueChanged)="handleSearchTermChanged($event)" [placeholderText]="filterPlaceholder"></pf-input-debounce>
       </div>
 
       <div class="mr--3 pr-3" [ngClass]="{ 'overflow-y-auto': !loading, 'overflow-hidden': loading }">

@@ -42,9 +42,13 @@ export class CompanyApiService {
     return this.payfactorsApiService.get<Company[]>(`${this.endpoint}/Default.GetCompanies`);
   }
 
-  GetCompanyBaseInformation() {
+  getCompanyBaseInformation(searchTerm?: string, take?: number) {
+    if (searchTerm || take) {
+      return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`, { params: { searchTerm, take } });
+    }
     return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`);
   }
+
   getCompany() {
     return this.payfactorsApiService.get<CompanyDto>(`${this.endpoint}/Get`);
   }
@@ -78,7 +82,7 @@ export class CompanyApiService {
   }
 
   getCompositeFields(): Observable<ListCompositeFields[]> {
-    return this.payfactorsApiService.get<ListCompositeFields[]>(`/CompositeField`);
+    return this.payfactorsApiService.get<ListCompositeFields[]>(`CompositeField`);
   }
 
   getJobPricingLimitInfoByCompanyId(companyId: number): Observable<JobPricingLimitInfoResponse>  {

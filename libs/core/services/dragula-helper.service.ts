@@ -10,7 +10,7 @@ export class DragulaHelperService {
     return {
       name: value.name,
       element: value.el,
-      target: value.container,
+      target: value.target,
       source: value.source,
     };
   }

@@ -1,26 +1,15 @@
 import { Action } from '@ngrx/store';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { ControlType, JobDescription, JobDescriptionControl } from 'libs/models';
 
 import {
-  CreateJobDescriptionDraftRequest,
-  CreateJobDescriptionRequest
-} from 'libs/models/payfactors-api/job-description/request';
-import { SaveCompanyJobsJobDescriptionTemplateIdRequest } from 'libs/models/payfactors-api/job-description-template/request';
-import { JobDescription, JobDescriptionControl } from 'libs/models';
-
-import { GetJobDescriptionData, SaveJobDescriptionTemplateIdSucessModel, JobDescriptionExtendedInfo } from '../models';
-
-export const CREATE_JOB_DESCRIPTION = '[job-description-management / Job Description] Create Job Description';
-export const CREATE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Create Job Description Error';
-export const CREATE_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Create Job Description Success';
-export const CREATE_JOB_DESCRIPTION_DRAFT = '[job-description-management / Job Description] Create Job Description Draft';
-export const CREATE_JOB_DESCRIPTION_DRAFT_ERROR = '[job-description-management / Job Description] Create Job Description Draft Error';
-export const CREATE_JOB_DESCRIPTION_DRAFT_SUCCESS = '[job-description-management / Job Description] Create Job Description Draft Success';
-export const SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID =
-  '[job-description-management / Job Description] Save Company Jobs Job Description Template Id';
-export const SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_ERROR =
-  '[job-description-management / Job Description] Save Company Jobs Job Description Template Id Error';
-export const SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_SUCCESS =
-  '[job-description-management / Job Description] Save Company Jobs Job Description Template Id Success';
+  GetJobDescriptionData,
+  SaveJobDescriptionTemplateIdSucessModel,
+  JobDescriptionExtendedInfo,
+  ReorderControlDataDto,
+  JobDescriptionLibraryDropModel
+} from '../models';
 
 export const GET_JOB_DESCRIPTION = '[job-description-management / Job Description] Get Job Description';
 export const GET_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Get Job Description Success';
@@ -54,54 +43,8 @@ export const REPLACE_CONTROL_DATA = '[job-description-management / Job Descripti
 export const UPDATE_CONTROL_DATA = '[job-description-management / Job Description] Update Control Data';
 export const UPDATE_CONTROL_ADDITIONAL_PROPERTIES = '[job-description-management / Job Description] Update Control Additional Properties';
 export const REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Replace Job Description Via Copy';
-
-export class CreateJobDescription implements Action {
-  readonly type = CREATE_JOB_DESCRIPTION;
-
-  constructor(public payload: CreateJobDescriptionRequest) {}
-}
-
-export class CreateJobDescriptionError implements Action {
-  readonly type = CREATE_JOB_DESCRIPTION_ERROR;
-}
-
-export class CreateJobDescriptionSuccess implements Action {
-  readonly type = CREATE_JOB_DESCRIPTION_SUCCESS;
-
-  constructor(public payload: number) {}
-}
-
-export class CreateJobDescriptionDraft implements Action {
-  readonly type = CREATE_JOB_DESCRIPTION_DRAFT;
-
-  constructor(public payload: { JobDescriptionId: number, Request: CreateJobDescriptionDraftRequest }) {}
-}
-
-export class CreateJobDescriptionDraftError implements Action {
-  readonly type = CREATE_JOB_DESCRIPTION_DRAFT_ERROR;
-}
-
-export class CreateJobDescriptionDraftSuccess implements Action {
-  readonly type = CREATE_JOB_DESCRIPTION_DRAFT_SUCCESS;
-
-  constructor(public payload: any) {}
-}
-
-export class SaveCompanyJobsJobDescriptionTemplateId implements Action {
-  readonly type = SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID;
-
-  constructor(public payload: { Request: SaveCompanyJobsJobDescriptionTemplateIdRequest, PassThroughParameters: any } ) {}
-}
-
-export class SaveCompanyJobsJobDescriptionTemplateIdError implements Action {
-  readonly type = SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_ERROR;
-}
-
-export class SaveCompanyJobsJobDescriptionTemplateIdSuccess implements Action {
-  readonly type = SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_SUCCESS;
-
-  constructor(public payload: SaveJobDescriptionTemplateIdSucessModel) {}
-}
+export const REORDER_CONTROL_DATA = '[job-description-management / Job Description] Reorder Control Data';
+export const ADD_SOURCE_DATA_TO_CONTROL = '[job-description-management / Job Description] Add Source Data to Control';
 
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
@@ -118,7 +61,7 @@ export class GetJobDescriptionSuccess implements Action {
 export class GetJobDescriptionError implements Action {
   readonly type = GET_JOB_DESCRIPTION_ERROR;
 
-  constructor() {}
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class SaveJobDescription implements Action {
@@ -287,20 +230,25 @@ export class UpdateControlAdditionalProperties implements Action {
 export class ReplaceJobDescriptionViaCopy implements Action {
   readonly type = REPLACE_JOB_DESCRIPTION_VIA_COPY;
 
+
   constructor(public payload: JobDescription) {}
 }
 
+export class ReorderControlData implements Action {
+  readonly type = REORDER_CONTROL_DATA;
+
+  constructor(public payload: ReorderControlDataDto) {}
+}
+
+export class AddSourceDataToControl implements Action {
+  readonly type = ADD_SOURCE_DATA_TO_CONTROL;
+
+  constructor(public payload: { dropModel: JobDescriptionLibraryDropModel, controlTypes: ControlType[]}) {}
+}
+
+
 export type Actions
-  = CreateJobDescription
-  | CreateJobDescriptionError
-  | CreateJobDescriptionSuccess
-  | CreateJobDescriptionDraft
-  | CreateJobDescriptionDraftError
-  | CreateJobDescriptionDraftSuccess
-  | SaveCompanyJobsJobDescriptionTemplateId
-  | SaveCompanyJobsJobDescriptionTemplateIdError
-  | SaveCompanyJobsJobDescriptionTemplateIdSuccess
-  | GetJobDescription
+  = GetJobDescription
   | GetJobDescriptionSuccess
   | GetJobDescriptionError
   | SaveJobDescription
@@ -331,4 +279,6 @@ export type Actions
   | ReplaceControlData
   | UpdateControlData
   | UpdateControlAdditionalProperties
-  | ReplaceJobDescriptionViaCopy;
+  | ReplaceJobDescriptionViaCopy
+  | ReorderControlData
+  | AddSourceDataToControl;

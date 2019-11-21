@@ -12,6 +12,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { environment } from 'environments/environment';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
+import { PfFormsModule } from 'libs/forms';
 
 import { PfSearchModule } from '../../search';
 import { SearchFilterMappingDataObj } from '../../search/models';
@@ -55,7 +56,8 @@ const declarations = [
     // PF Modules
     PfCommonUIModule,
     PfPeerMapModule,
-    PfSearchModule
+    PfSearchModule,
+    PfFormsModule
   ],
   providers: [
     ExchangeExplorerContextService,

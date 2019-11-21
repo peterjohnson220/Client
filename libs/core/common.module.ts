@@ -9,7 +9,8 @@ import * as fromFaIcons from './fa-icons';
 import { DebounceClickDirective, DisableFormControlDirective, DragDropDirective } from './directives';
 import {
     CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
-    JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag
+    JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag, 
+  ValidationErrorsPipe
 } from './pipes';
 import { DragulaHelperService } from './services';
 
@@ -32,7 +33,8 @@ const declarations = [
   FilterArrayByName,
   GetFileExtensionCssClassPipe,
   StripHtmlPipe,
-  CompPipe
+  CompPipe,
+  ValidationErrorsPipe
 ];
 
 const providers = [

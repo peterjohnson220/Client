@@ -1,4 +1,4 @@
-export class WorkflowUser {
+export interface WorkflowUser {
   FirstName: string;
   LastName: string;
   EmailAddress: string;

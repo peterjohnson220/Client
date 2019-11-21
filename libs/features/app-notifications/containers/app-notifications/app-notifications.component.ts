@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import * as signalR from '@aspnet/signalr';
+import { LogLevel } from '@aspnet/signalr';
 
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
@@ -34,7 +35,7 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userContextSub = this.userContext$.subscribe(userContext => {
-      if (!userContext || userContext.IsPublic) {
+      if (!userContext || userContext.IsPublic || !!userContext.WorkflowStepInfo ) {
         return;
       }
       this.signalRConnectionUrl = userContext.ConfigSettings.find(c => c.Name === 'SignalR').Value;
@@ -53,6 +54,7 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
   private initHubConnection(): void {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(this.signalRConnectionUrl)
+      .configureLogging(LogLevel.None)
       .build();
 
     this.startConnection(connection);

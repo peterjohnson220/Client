@@ -32,7 +32,7 @@
                   <th>Content</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody [dragula]="'library-bag'">
                   <ng-container *ngIf="jobLibraryResults.length > 0 else noResultsTemplate">
                     <tr class="dnd-library-draggable" [attr.data-content]="result.Content" *ngFor="let result of jobLibraryResults">
                       <td width="25%">{{result.JobTitle}}</td>
@@ -51,7 +51,7 @@
                       </td>
                       <td class="gu-mirror-show">
                         <div class="card">
-                          <div class="card-block">{{result.Highlights.length ? result.Highlights[0] : '' | stripHtml}}</div>
+                          <div class="card-block">{{(result.Highlights.length ? result.Highlights[0] : '') | stripHtml}}</div>
                         </div>
                       </td>
                     </tr>

@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action } from '@ngrx/store';
-import { Company } from 'libs/models/company';
+import { CompanyBaseInformation } from 'libs/models/company';
 import { UdfDataResponse } from 'libs/models/payfactors-api/survey/response/udf-data-response.model';
 import { UdfSettingsRequestModel } from 'libs/models/payfactors-api/survey/request/udf-settings-request.model';
 
@@ -24,12 +24,14 @@ export const SAVE_SURVEY_UDFS_ERROR = '[Site Admin - Survey Custom Field Manager
 
 export class LoadUdfCompanies implements Action {
   readonly type = LOAD_UDF_COMPANIES;
+
+  constructor (public payload?: any) {}
 }
 
 export class LoadUdfCompaniesSuccess implements Action {
   readonly type = LOAD_UDF_COMPANIES_SUCCESS;
 
-  constructor (public payload: Company[]) {}
+  constructor (public payload: CompanyBaseInformation[]) {}
 }
 
 export class LoadUdfCompaniesError implements Action {
@@ -39,7 +41,7 @@ export class LoadUdfCompaniesError implements Action {
 export class SetSelectedCompany implements Action {
   readonly type = SET_SELECTED_COMPANY;
 
-  constructor (public payload: Company) {}
+  constructor (public payload: CompanyBaseInformation) {}
 }
 
 export class UnselectCompany implements Action {

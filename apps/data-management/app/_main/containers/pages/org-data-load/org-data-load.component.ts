@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
+import { environment } from 'environments/environment';
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
 import { CompanySelectorItem } from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
@@ -40,13 +41,12 @@ export class OrgDataLoadComponent implements OnDestroy {
   // we have rendered our index.
   stepIndex: OrgUploadStep = OrgUploadStep.Company;
   stepEnum = OrgUploadStep;
+
   companies: CompanySelectorItem[];
   selectedCompany: CompanySelectorItem = null;
   hasError = false;
   selectedMapping: number;
-
-  // TODO: before this is finalized find a better way than hardcoding this, DB?
-  returnUrl = '/client/pf-admin/navigation';
+  env = environment;
 
   StepHeaders: string[] = [
     'Select a company:',
@@ -111,9 +111,13 @@ export class OrgDataLoadComponent implements OnDestroy {
   goBack() {
 
     this.clearSelections();
-    if (this.stepIndex === OrgUploadStep.Company || (this.stepIndex === OrgUploadStep.Entity && this.userContext.AccessLevel !== 'Admin')) {
-      // redirect to company admin page
-      window.location.href = this.returnUrl;
+    if (this.stepIndex === OrgUploadStep.Company) {
+      window.location.href = this.env.siteAdminUrl;
+      return;
+    }
+
+    if (this.stepIndex === OrgUploadStep.Entity && this.userContext.AccessLevel !== 'Admin') {
+      window.location.href = this.env.companyAdminUrl;
       return;
     }
 
@@ -174,7 +178,9 @@ export class OrgDataLoadComponent implements OnDestroy {
       return true;
     }
 
-    // TODO: when we have requirements for step 3 add here
+    if (this.stepIndex === OrgUploadStep.Files) {
+      // TODO: when we have requirements for step 3 add here
+    }
 
     return false;
   }

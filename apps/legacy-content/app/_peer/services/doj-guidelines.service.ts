@@ -127,7 +127,7 @@ export class DojGuidelinesService implements OnDestroy {
     this.employeeValidSubscription.unsubscribe();
   }
 
-  validateDataCut(mapCompanies: any, companyJobId: number, userSessionId: number) {
+  validateDataCut(mapCompanies: any, companyJobId: number, userSessionId: number, isFromExchangeExplorer: boolean = false) {
     if (!this.initialMapMoveComplete || !this.hasMinimumCompanies || !this.hasNoHardDominatingData) { return; }
 
     const validationInfo = this.dataCutValidationInfo;
@@ -163,8 +163,10 @@ export class DojGuidelinesService implements OnDestroy {
 
     // we've passed on company now lets check the employees
     if (this.companyValidationPass) {
-      this.store.dispatch(new fromDataCutValidationActions.ValidateDataCutEmployees(
-        companyJobId, userSessionId, guid));
+      const action = isFromExchangeExplorer ?
+        new fromDataCutValidationActions.ValidateDataCutEmployeesNew(companyJobId, userSessionId, guid) :
+        new fromDataCutValidationActions.ValidateDataCutEmployees(companyJobId, userSessionId, guid);
+      this.store.dispatch(action);
     }
   }
 }

@@ -37,7 +37,7 @@ export abstract class JobDescriptionInfoHeaderBase implements OnInit, OnChanges 
 
   ngOnInit() {
     this.userContext$.subscribe(uc => {
-      if (!uc.IsPublic) {
+      if (!uc.IsPublic && !uc.WorkflowStepInfo) {
         this.store.dispatch(new fromJobDescriptionAppliesToActions.LoadJobDescriptionAppliesTo());
       }
     });

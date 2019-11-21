@@ -8,15 +8,15 @@
             </span>
     </div>
 
-    <!--<div *ngIf="showSubway" class="workflow-subway-container">-->
-      <!--<pf-workflow-progress-bar [workflowStepSummary]="workflowStepSummary$ | async"-->
-                                <!--[loading]="workflowStepSummaryLoading$ | async"-->
-                                <!--[isSiteAdmin]="isSiteAdmin"-->
-                                <!--[isCompanyAdmin]="isCompanyAdmin"-->
-                                <!--(changeApproverClicked)="changeApproverClicked.emit($event)"-->
-                                <!--(copyWorkflowLinkClicked)="copyWorkflowLink()">-->
-      <!--</pf-workflow-progress-bar>-->
-    <!--</div>-->
+    <div *ngIf="showSubway" class="workflow-subway-container">
+      <pf-workflow-progress-bar [workflowStepSummary]="(workflowStepSummary$ | async)?.obj"
+                                [loading]="(workflowStepSummaryLoading$ | async)?.loading"
+                                [isSiteAdmin]="isSiteAdmin"
+                                [isCompanyAdmin]="isCompanyAdmin"
+                                (changeApproverClicked)="changeApproverClicked.emit($event)"
+                                (copyWorkflowLinkClicked)="copyWorkflowLink()">
+      </pf-workflow-progress-bar>
+    </div>
 
   </div>
 

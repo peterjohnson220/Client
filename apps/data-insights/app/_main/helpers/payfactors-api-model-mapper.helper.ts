@@ -76,7 +76,8 @@ export class PayfactorsApiModelMapper {
         ViewThumbnail: r.ViewThumbnail,
         IsFavorite: r.IsFavorite,
         ViewsOrder: r.ViewsOrder,
-        FavoritesOrder: r.FavoritesOrder
+        FavoritesOrder: r.FavoritesOrder,
+        WorkbookId: r.WorkbookId
       };
     });
   }

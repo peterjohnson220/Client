@@ -1,7 +1,11 @@
-import { JobInformationFieldForBulkExportResponse, JobDescriptionViewApi,  UpdateViewsRequest } from 'libs/models/payfactors-api';
+import { JobInformationFieldForBulkExportResponse,
+  JobDescriptionViewApi,
+  UpdateViewsRequest,
+  FooterViewRequest } from 'libs/models/payfactors-api';
 
 import { JobInfoViewField } from '../../view-edit/models';
 import { JobDescriptionView } from '../models';
+import { FooterViewModel } from '../../footer-view/models';
 
 export class PayfactorsApiModelMapper {
   // IN
@@ -46,6 +50,17 @@ export class PayfactorsApiModelMapper {
           TemplateId: v.TemplateId
         };
       })
+    };
+  }
+
+  static mapFooterViewModelToRequest(footerViewModel: FooterViewModel): FooterViewRequest {
+    return {
+      CreatedByField: footerViewModel.CreatedByField,
+      CreatedDateField: footerViewModel.CreatedDateField,
+      VersionNumberField: footerViewModel.VersionNumberField,
+      PageNumberField: footerViewModel.PageNumberField,
+      CustomTextField: footerViewModel.CustomTextField,
+      CustomTextValueField: footerViewModel.CustomTextValueField
     };
   }
 }

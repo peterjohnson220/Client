@@ -3,13 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import * as fromCompanyReducer from 'libs/features/company/reducers';
 import { generateMockUserContext } from 'libs/models';
-import * as fromRootState from 'libs/state/state';
 
 import { OrgDataLoadComponent } from './';
+import { EntityUploadComponent } from '../../../components/entity-upload/entity-upload.component';
 import { getEntityChoicesForOrgLoader } from '../../../models';
 
 describe('OrgDataLoadComponent', () => {
@@ -18,16 +19,12 @@ describe('OrgDataLoadComponent', () => {
   let store: Store<fromCompanyReducer.State>;
   const companies = [{ CompanyId: 1, CompanyName: 'Test1' }, { CompanyId: 2, CompanyName: 'abc2' }];
 
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRootState.reducers,
-          feature_companyselector: combineReducers(fromCompanyReducer.reducers)
-        }),
-        RouterTestingModule
-      ],
-      declarations: [OrgDataLoadComponent],
+      imports: [RouterTestingModule],
+      declarations: [OrgDataLoadComponent, EntityUploadComponent],
+      providers: [provideMockStore({})],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -79,7 +76,7 @@ describe('OrgDataLoadComponent', () => {
 
   });
 
-  it('should show company selector for admins', () => {
+  it('should show company selector page for admins', () => {
     instance.userContext = generateMockUserContext();
 
     instance.setInitValues();
@@ -99,11 +96,21 @@ describe('OrgDataLoadComponent', () => {
     expect(instance.selectedCompany).toBe(companies[1]);
   });
 
-  it('should redirect when clicking back from root', () => {
-    instance.stepIndex = 2;
+  it('should step back when clicking button', () => {
     instance.userContext = generateMockUserContext();
-    instance.backBtnClick();
+    instance.loadOptions = getEntityChoicesForOrgLoader();
+
+    instance.stepIndex = 2;
+    instance.goBack();
     expect(instance.stepIndex).toBe(1);
+
+    instance.uploadComponent = {
+      ClearAllFiles: jest.fn()
+    };
+
+    instance.stepIndex = 3;
+    instance.goBack();
+    expect(instance.stepIndex).toBe(2);
   });
 
 });

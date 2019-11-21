@@ -18,10 +18,10 @@ export class ExchangeScopeEffects {
   @Effect()
   loadExchangeScopesByJobs: Observable<Action> = this.actions$.pipe(
     ofType(fromLibsExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS)).pipe(
-      withLatestFrom(this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getSystemFilterExchangeJobIds)),
-        (action, systemFilterExchangeJobIds) => systemFilterExchangeJobIds),
-      switchMap((systemFilterExchangeJobIds: number[]) =>
-        this.exchangeScopeApiService.getExchangeScopesByJobs(systemFilterExchangeJobIds).pipe(
+      withLatestFrom(this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getAssociatedExchangeJobIds)),
+        (action, associatedExchangeJobIds) => associatedExchangeJobIds),
+      switchMap((associatedExchangeJobIds: number[]) =>
+        this.exchangeScopeApiService.getExchangeScopesByJobs(associatedExchangeJobIds).pipe(
           map((exchangeScopeItems: ExchangeScopeItem[]) => new fromLibsExchangeScopeActions
             .LoadExchangeScopesByJobsSuccess(exchangeScopeItems)),
           catchError(() => of(new fromLibsExchangeScopeActions.LoadExchangeScopesByJobsError))

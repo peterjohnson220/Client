@@ -115,10 +115,18 @@ export const getExchangeScopes = createSelector(
   getExchangeScopesSrc,
   getAssociatedExchangeJobs,
   getSelectedExchangeJobId,
-  (scopes, exchangeJobOptions, lockedExchangeJobId) => {
-    const selectedExchangeJobExchangeDetail = exchangeJobOptions.find(ejo => ejo.ExchangeJobId === lockedExchangeJobId);
-    if (!scopes || !scopes.length || !selectedExchangeJobExchangeDetail) {
+  (scopes, exchangeJobOptions, selectedExchangeJobId) => {
+    if (!scopes || !scopes.length) {
       return [];
+    }
+
+    if (!exchangeJobOptions) {
+      return scopes;
+    }
+
+    const selectedExchangeJobExchangeDetail = exchangeJobOptions.find(ejo => ejo.ExchangeJobId === selectedExchangeJobId);
+    if (!selectedExchangeJobExchangeDetail) {
+      return scopes;
     }
 
     return scopes.filter(s => s.ExchangeId === selectedExchangeJobExchangeDetail.ExchangeId);
@@ -181,9 +189,9 @@ export const getNumberOfCompanySelections = createSelector(
   (filterSelections) => !!filterSelections['CompanyIds'] ? filterSelections['CompanyIds'].length : 0
 );
 
-export const getSystemFilterExchangeJobIds = createSelector(
-  getSystemFilter,
-  (systemFilter) => !!systemFilter ? systemFilter.ExchangeJobIds : []
+export const getAssociatedExchangeJobIds = createSelector(
+  getAssociatedExchangeJobs,
+  (exchangeJobs) => !!exchangeJobs && !!exchangeJobs.length ? exchangeJobs.map(ej => ej.ExchangeJobId) : []
 );
 
 export const getPeerMapScopeRequestPayload = createSelector(

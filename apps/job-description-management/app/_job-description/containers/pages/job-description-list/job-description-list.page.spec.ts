@@ -21,13 +21,14 @@ import { PermissionService, RouteTrackingService } from 'libs/core/services';
 
 import { JobDescriptionListPageComponent } from './job-description-list.page';
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
-import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
+import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
 import * as fromJobDescriptionGridActions from '../../../actions/job-description-grid.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import { CompanyJobViewListItem, generateMockCompanyJobViewListItem } from '../../../models';
-import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent } from '../../../components';
+import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent,
+  WorkflowCancelModalComponent } from '../../../components';
 import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to/job-description-applies-to-modal.component';
@@ -81,7 +82,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
       ],
       declarations: [
         JobDescriptionListPageComponent, AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent,
-        JobDescriptionAppliesToModalComponent, SaveFilterModalComponent
+        JobDescriptionAppliesToModalComponent, SaveFilterModalComponent, WorkflowCancelModalComponent
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -113,14 +114,13 @@ describe('Job Description Management - Job Description - Job Description List Pa
       jobDescriptionAppliesTo: null
     };
 
-    const expectedRequest = {
-      companyJobId: 1,
-      appliesToField: '',
-      appliesToValue: '',
-      jobDescriptionTitle: '',
-    };
+    const companyJobViewListItem = new CompanyJobViewListItem();
+    companyJobViewListItem.CompanyJobId = 1;
 
-    const expectedAction = new fromJobDescriptionActions.CreateJobDescription(expectedRequest);
+    const expectedAction = new fromJobDescriptionListActions.CreateJobDescription({
+      companyJobViewListItem,
+      appliesTo: mockedSelected.jobDescriptionAppliesTo
+    });
 
     instance.appliesToFormCompleted(mockedSelected);
 
@@ -139,19 +139,16 @@ describe('Job Description Management - Job Description - Job Description List Pa
     const mockedNewJobDescription = new CompanyJobViewListItem();
     mockedNewJobDescription.CompanyJobId = mockedSelected.companyJobId;
 
-    const expectedRequest = {
-      Request: {
-        companyJobIdsToAssign: [mockedNewJobDescription.CompanyJobId],
-        companyJobIdsToUnassign: []
-      },
-      PassThroughParameters: {
-        newJobDescription: mockedNewJobDescription,
-        jobDescriptionAppliesTo: mockedSelected.jobDescriptionAppliesTo,
-        templateId: 1
-      }
+    const companyJobIdsToAssign = [mockedNewJobDescription.CompanyJobId];
+    const passThroughParameters = {
+      newJobDescription: mockedNewJobDescription,
+      jobDescriptionAppliesTo: mockedSelected.jobDescriptionAppliesTo,
+      templateId: 1
     };
 
-    const expectedAction = new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId(expectedRequest);
+    const expectedAction = new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateId({
+      companyJobIdsToAssign, passThroughParameters
+    });
 
     instance.appliesToFormCompleted(mockedSelected);
 
@@ -250,14 +247,13 @@ describe('Job Description Management - Job Description - Job Description List Pa
       companyJobId: 1
     };
 
-    const expectedRequest = {
-      companyJobId: 1,
-      appliesToField: '',
-      appliesToValue: '',
-      jobDescriptionTitle: '',
-    };
+    const companyJobViewListItem = new CompanyJobViewListItem();
+    companyJobViewListItem.CompanyJobId = mockedComplete.companyJobId;
+    companyJobViewListItem.JobDescriptionStatus = 'Not Started';
 
-    const expectedAction = new fromJobDescriptionActions.CreateJobDescription(expectedRequest);
+    const expectedAction = new fromJobDescriptionListActions.CreateJobDescription({
+      companyJobViewListItem
+    });
 
     instance.handleCreateCompanyJobComplete(mockedComplete);
 
@@ -349,15 +345,13 @@ describe('Job Description Management - Job Description - Job Description List Pa
 
     instance.handleTemplateAssignedToJob(mockedAssignTemplateToJobObj);
 
-    const expectedRequest = {
-      Request: {
-        companyJobIdsToAssign: [1],
-        companyJobIdsToUnassign: []
-      },
-      PassThroughParameters: cloneDeep(mockedAssignTemplateToJobObj)
-    };
+    const companyJobIdsToAssign = [1];
+    const passThroughParameters = cloneDeep(mockedAssignTemplateToJobObj);
 
-    const expectedAction = new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId(expectedRequest);
+    const expectedAction = new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateId({
+      companyJobIdsToAssign,
+      passThroughParameters
+    });
 
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
   });

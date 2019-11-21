@@ -15,7 +15,8 @@ import {
   JobInformationFieldForBulkExportResponse,
   JobMatchResultResponse,
   ExtendedInfoResponse,
-  JobDescriptionSourceResponse
+  JobDescriptionSourceResponse,
+  CreateJobDescriptionResponse
 } from '../../../models/payfactors-api/job-description/response';
 import {
   JobDescriptionHistoryListItemResponse
@@ -59,11 +60,13 @@ export class JobDescriptionApiService {
   }
 
   createJobDescription(request: CreateJobDescriptionRequest): Observable<number> {
-    return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.Create`, request);
+    return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.Create`, request,
+      (response) => response.value);
   }
 
-  createJobDescriptionDraft(jobDescriptionId: number, request: CreateJobDescriptionDraftRequest): Observable<string> {
-    return this.payfactorsApiService.post<string>(`${this.endpoint}(${jobDescriptionId})/Default.CreateDraft`, request);
+  createJobDescriptionDraft(jobDescriptionId: number, request: CreateJobDescriptionDraftRequest): Observable<CreateJobDescriptionResponse> {
+    return this.payfactorsApiService.post<CreateJobDescriptionResponse>(`${this.endpoint}(${jobDescriptionId})/Default.CreateDraft`, request,
+      (response) => JSON.parse(response.value));
   }
 
   getAppliesTo(): Observable<JobDescriptionAppliesToItemResponse[]> {

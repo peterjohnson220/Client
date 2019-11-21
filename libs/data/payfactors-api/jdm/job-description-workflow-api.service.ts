@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { WorkflowUser } from 'apps/job-description-management/app/shared/models';
 
 
 @Injectable()
@@ -21,5 +22,23 @@ export class JobDescriptionWorkflowApiService {
       { params: { entityId, revisionNumber, entityType }
       });
   }
+
+  cancel(workflowId: number, comment: string) {
+    return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.Cancel`, {comment: comment},
+      (response) => JSON.parse(response.value));
+  }
+
+  create(workflow: any) {
+    return this.payfactorsApiService.post(`${this.apiUrl}/Default.Create`, { workflow: workflow });
+  }
+
+  completeStep(workflowId: number, willProceed: boolean, comment: string) {
+    return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.CompleteStep`, { willProceed: willProceed, comment: comment });
+  }
+
+  routeStepToNewUser(workflowId: number, newUser: WorkflowUser, comment: string) {
+    return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.RerouteStep`, { newUser: newUser, comment: comment });
+  }
+
 }
 

@@ -124,18 +124,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
         });
 
       // todo: move to job-description main page
-      this.jobDescriptionDnDService.initJobDescriptionPageDnD(
-        this.sourceJobDescription, () => this.saveThrottle.next(true)
-      );
-
-      this.appendToControlDataAttributeValueSubscription =
-        this.jobDescriptionDnDService.appendToControlDataAttributeValue$.subscribe(appendToControlAttributeValueDto => {
-          this.appendToControlDataAttributeValue(appendToControlAttributeValueDto);
-        });
-
-      this.addSourcedControlDataRowSubscription = this.jobDescriptionDnDService.addSourcedControlDataRow$.subscribe(addSourceControlDataRowDto => {
-        this.handleAddSourcedControlDataRow(addSourceControlDataRowDto);
-      });
+      this.jobDescriptionDnDService.initJobDescriptionPageDnD(() => this.saveThrottle.next(true));
     });
 
     this.controlTypesAsync$.pipe(

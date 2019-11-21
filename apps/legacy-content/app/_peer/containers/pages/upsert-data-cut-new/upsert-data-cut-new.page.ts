@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
-import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
+import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import { CompanySettingsEnum, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
@@ -89,7 +89,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   }
 
   handleUntaggedIncumbentsChecked(): void {
-    this.store.dispatch(new fromFilterSidebarActions.ToggleIncludeUntaggedEmployees);
+    this.store.dispatch(new fromLibsExchangeExplorerFilterContextActions.ToggleIncludeUntaggedEmployees);
   }
 
   upsert() {
@@ -179,7 +179,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
 
   setSubscriptions(): void {
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
-      this.guidelinesService.validateDataCut(pms, this.companyJobId, this.userSessionId);
+      this.guidelinesService.validateDataCut(pms, this.companyJobId, this.userSessionId, true);
     });
 
   }

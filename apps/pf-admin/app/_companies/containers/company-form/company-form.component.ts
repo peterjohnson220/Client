@@ -334,13 +334,21 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.get('companyColorPicker').setValue(CompanyColor);
     this.companyForm.get('companyColorText').setValue(CompanyColor);
 
-    this.disableRepositoryForPeerClientType();
+    this.disableRepository();
     this.companyForm.markAsTouched();
   }
 
   private getSystemUserGroupId(groupName: string): number {
-    const systemUserGroup = this.systemUserGroups.find(sug => sug.GroupName === groupName);
+    const systemUserGroup = this.systemUserGroups.find(sug => sug.GroupName.toLowerCase() === groupName.toLowerCase());
     return !!systemUserGroup ? systemUserGroup.SystemUserGroupsId : -1;
+  }
+
+  private disableRepository() {
+    if (this.buildFormData().SystemUserGroupsId !== this.getSystemUserGroupId(SystemUserGroupNames.PayfactorsServices)) {
+      this.repositoryControl.disable();
+    } else {
+      this.disableRepositoryForPeerClientType();
+    }
   }
 
   private disableRepositoryForPeerClientType() {

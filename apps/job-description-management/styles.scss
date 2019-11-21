@@ -39,6 +39,19 @@
   border-color: #1872ae;
 }
 
+.btn-primary:hover {
+  color: #fff;
+  background-color: #125581;
+  border-color: #114f78;
+}
+
+.btn-primary.disabled, .btn-primary:disabled{
+  background-color: #1872ae;
+  border-color: #1872ae;
+  cursor: not-allowed;
+  opacity: .65;
+}
+
 .btn-group .btn-group-vertical {
   position: relative;
   display: inline-flex;
@@ -191,4 +204,14 @@ pf-job-description-version-compare {
   height: calc(100vh - 130px);
   overflow: hidden;
   padding: 10px 0;
+}
+
+.route-for-approval-modal .modal-content{
+  width: 650px;
+}
+
+pf-workflow-config {
+  .dropdown-item.active, .dropdown-item:active {
+    background-color: #1872ae;
+  }
 }

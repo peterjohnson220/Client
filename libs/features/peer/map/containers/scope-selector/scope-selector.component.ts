@@ -124,9 +124,7 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.systemFilterLoadedSubscription = this.systemFilterLoaded$.subscribe(loaded => {
       if (loaded) {
-        if (this.addDataModal) {
-          this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopesByJobs);
-        } else {
+        if (!this.addDataModal) {
           this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopesByExchange(this.exchangeId));
         }
       }

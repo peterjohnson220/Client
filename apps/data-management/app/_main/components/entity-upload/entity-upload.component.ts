@@ -24,17 +24,17 @@ export class EntityUploadComponent {
     // TODO: Wire me up on constructor
     this.savedMappings$ = [
       { MappingId: -1, MappingName: 'Add New Mapping' },
-      { MappingId: 1, MappingName: 'Manual Mapping' }
+      { MappingId: 1, MappingName: 'Saved Manual Mapping' }
     ];
   }
 
-  public ClearAllFiles() {
+  public ClearAllFiles(): void {
     this.uploadComponents.forEach((child) => {
       child.ClearFile();
     });
   }
 
-  selectedEntities() {
+  selectedEntities(): EntityChoice[] {
     if (!this.entities) {
       return [];
     }

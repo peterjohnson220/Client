@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -15,57 +16,12 @@ import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import * as fromCopyJobDescriptionActions from '../actions/copy-job-description-modal.actions';
+import * as fromWorkflowActions from '../actions/workflow.actions';
 import { PayfactorsApiModelMapper } from '../../shared/helpers';
 import { GetJobDescriptionData } from '../models';
 
 @Injectable()
 export class JobDescriptionEffects {
-  @Effect()
-  createJobDescription$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionActions.CREATE_JOB_DESCRIPTION),
-      switchMap((action: fromJobDescriptionActions.CreateJobDescription) =>
-        this.jobDescriptionApiService.createJobDescription(action.payload).pipe(
-          map((response: number) => {
-            return new fromJobDescriptionActions.CreateJobDescriptionSuccess(response);
-          }),
-          catchError(response => of(new fromJobDescriptionActions.CreateJobDescriptionError()))
-        )
-      ));
-
-  @Effect()
-  createJobDescriptionDraft$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionActions.CREATE_JOB_DESCRIPTION_DRAFT),
-      switchMap((action: fromJobDescriptionActions.CreateJobDescriptionDraft) =>
-        this.jobDescriptionApiService.createJobDescriptionDraft(action.payload.JobDescriptionId, action.payload.Request).pipe(
-          map((response: string) => {
-            return new fromJobDescriptionActions.CreateJobDescriptionDraftSuccess(response);
-          }),
-          catchError(response => of(new fromJobDescriptionActions.CreateJobDescriptionDraftError()))
-        )
-      ));
-
-  @Effect()
-  saveCompanyJobsJobDescriptionTemplateId$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionActions.SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID),
-      switchMap((action: fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId) => {
-        const templateId = action.payload.PassThroughParameters.templateId;
-
-        return this.jobDescriptionTemplateApiService.saveCompanyJobsJobDescriptionTemplateId(templateId, action.payload.Request)
-          .pipe(
-            map((response: any) => {
-              const successPayload = {
-                Response: response,
-                PassThroughParameters: action.payload.PassThroughParameters
-              };
-
-              return new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateIdSuccess(successPayload);
-            }),
-            catchError(response => of(new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateIdError()))
-          );
-      }));
 
   @Effect()
   getJobDescription$ = this.actions$
@@ -96,7 +52,9 @@ export class JobDescriptionEffects {
               }
               return actions;
             }),
-            catchError(() => of(new fromJobDescriptionActions.GetJobDescriptionError()))
+            catchError(error => {
+              return of(new fromJobDescriptionActions.GetJobDescriptionError(error));
+            })
           );
       })
     );
@@ -192,6 +150,23 @@ export class JobDescriptionEffects {
     );
 
   @Effect()
+  handleApiError$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION_ERROR),
+      mergeMap((action: fromJobDescriptionActions.GetJobDescriptionError) => {
+          const actions = [];
+          if (action.payload.status === 403) {
+            const errorMessage = this.redirectForUnauthorized(action.payload);
+            actions.push(new fromWorkflowActions.SetMessage({message: errorMessage}));
+          } else {
+            this.router.navigate(['404']);
+          }
+        return actions;
+        })
+    );
+
+
+  @Effect()
   getJobDescriptionExtendedInfo$ = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO),
@@ -214,6 +189,12 @@ export class JobDescriptionEffects {
         return new fromJobDescriptionActions.ReplaceJobDescriptionViaCopy(action.payload);
       })
     );
+
+  private redirectForUnauthorized(error: HttpErrorResponse) {
+    if (error.status === 403) {
+      return error.error.error.message;
+    }
+  }
 
   constructor(
     private actions$: Actions,

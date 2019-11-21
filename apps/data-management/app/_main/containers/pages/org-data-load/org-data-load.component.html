@@ -55,7 +55,7 @@
                     [style.opacity]="this.getNextBtnOpacity()"
                     [ngbTooltip]="this.areStepsValid() ? '' :  this.NextBtnToolTips[this.stepIndex - 1]"
                     placement="top"
-                    (click)="nextBtnClick(true)"
+                    (click)="nextBtnClick()"
                     class="btn mx-1 pf-primary-btn">Next</button>
           </div>
         </div>

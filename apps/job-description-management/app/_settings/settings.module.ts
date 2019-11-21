@@ -7,6 +7,7 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { ViewsListModule } from './views-list';
 import { ViewEditGuard, ViewEditModule } from './view-edit';
 import { LayoutModule } from './layout';
+import { FooterViewModule } from './footer-view';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { LayoutModule } from './layout';
     // Features
     ViewsListModule,
     LayoutModule,
-    ViewEditModule
+    ViewEditModule,
+    FooterViewModule
   ],
   providers: [
     ViewEditGuard

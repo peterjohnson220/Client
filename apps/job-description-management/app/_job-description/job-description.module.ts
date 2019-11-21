@@ -29,7 +29,10 @@ import {
   WorkflowWatchSidebarComponent,
   JobDescriptionHistoryGridComponent,
   JobMatchesModalComponent,
-  CopyJobDescriptionModalComponent
+  CopyJobDescriptionModalComponent,
+  WorkflowSidebarComponent,
+  ChangeApproverModalComponent,
+  WorkflowSetupModalComponent
 } from './containers';
 import {
   AddJobModalComponent,
@@ -50,7 +53,9 @@ import {
   PublicViewHeaderComponent,
   SaveFilterModalComponent,
   WorkflowLogComponent,
+  WorkflowProgressBarComponent,
   EmployeeAcknowledgementModalComponent,
+  WorkflowCancelModalComponent,
   FlsaQuestionnaireModalComponent,
   JobMatchResultComponent,
   ExportJobDescriptionModalComponent
@@ -71,7 +76,9 @@ import {
   WorkflowEffects,
   EmployeeAcknowledgementEffects,
   FlsaQuestionnaireModalEffects,
-  CopyJobDescriptionModalEffects
+  CopyJobDescriptionModalEffects,
+  JobDescriptionListEffects,
+  WorkflowSetupModalEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
@@ -101,7 +108,9 @@ import { ListAreaService } from '../shared/services';
       WorkflowEffects,
       EmployeeAcknowledgementEffects,
       FlsaQuestionnaireModalEffects,
-      CopyJobDescriptionModalEffects
+      CopyJobDescriptionModalEffects,
+      JobDescriptionListEffects,
+      WorkflowSetupModalEffects
     ]),
     LayoutModule,
     SharedModule,
@@ -150,9 +159,11 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionControlComponent,
     WorkflowLogComponent,
     EmployeeAcknowledgementModalComponent,
+    WorkflowCancelModalComponent,
     FlsaQuestionnaireModalComponent,
     JobMatchResultComponent,
     ExportJobDescriptionModalComponent,
+    WorkflowProgressBarComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,
@@ -166,10 +177,13 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionHistoryGridComponent,
     JobMatchesModalComponent,
     CopyJobDescriptionModalComponent,
+    WorkflowSidebarComponent,
+    ChangeApproverModalComponent,
+    WorkflowSetupModalComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,
-    UserFilterSearchPipe,
+    UserFilterSearchPipe
   ],
   providers: [
     ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService, JobDescriptionJobCompareService,
