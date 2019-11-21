@@ -10,9 +10,11 @@
     [data]="jobDescriptionControl.Data"
     [readOnly]="readOnly || controlType.ReadOnly"
     [checkInheritedData]="true"
+    [additionalProperties]="jobDescriptionControl.AdditionalProperties"
     [isCompare]="isCompare"
     (dataChangesDetected)="handleDataChangesDetected($event)"
-    (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)">
+    (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
+    (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
   </pf-control-data-renderer>
 </ng-template>
 
@@ -39,9 +41,11 @@
         [data]="jobDescriptionControl.Data"
         [readOnly]="readOnly || controlType.ReadOnly"
         [checkInheritedData]="true"
+        [additionalProperties]="jobDescriptionControl.AdditionalProperties"
         [isCompare]="isCompare"
         (dataChangesDetected)="handleDataChangesDetected($event)"
-        (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)">
+        (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
+        (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
       </pf-control-data-renderer>
     </div>
   </div>
