@@ -1,14 +1,16 @@
-import { generateMockSystemFilter, SystemFilter } from './exchange-job-pay-market-filter.model';
 import { SearchFilterMappingDataObj } from '../../features/search/models';
+import { ExchangeJobExchangeDetail } from '../../features/peer/models';
 import { generateMockPayMarket, PayMarket } from '../paymarket';
+import { generateMockSystemFilter, SystemFilter } from './exchange-job-pay-market-filter.model';
 import { generateMockGeoCoordinates, GeoCoordinates } from './exchange-map-response.model';
 
 export interface ExchangeExplorerContextInfo {
   FilterContext: ExchangeDataSearchFilterContext;
   PayMarket: PayMarket;
-  AssociatedExchangeJobTitleShorts: string[];
+  AssociatedExchangeJobFilterOptions: ExchangeJobExchangeDetail[];
   SearchFilterMappingData: SearchFilterMappingDataObj;
 }
+
 export interface ExchangeDataSearchFilterContext extends SystemFilter {
   ScopeGUID: string;
   TopLeft: GeoCoordinates;
@@ -20,7 +22,7 @@ export interface ExchangeDataSearchFilterContext extends SystemFilter {
   IsFilteredBySimilarExchangeJobIds: boolean;
 }
 
-export function getMockExchangeDataSearchFilterContext(): ExchangeDataSearchFilterContext {
+export function generateMockExchangeDataSearchFilterContext(): ExchangeDataSearchFilterContext {
   return {
     ...generateMockSystemFilter(),
     ScopeGUID: 'MockGUID',
@@ -34,11 +36,11 @@ export function getMockExchangeDataSearchFilterContext(): ExchangeDataSearchFilt
   };
 }
 
-export function getMockExchangeExplorerContextInfo(): ExchangeExplorerContextInfo {
+export function generateMockExchangeExplorerContextInfo(): ExchangeExplorerContextInfo {
   return {
-    FilterContext: getMockExchangeDataSearchFilterContext(),
+    FilterContext: generateMockExchangeDataSearchFilterContext(),
     PayMarket: generateMockPayMarket(),
-    AssociatedExchangeJobTitleShorts: [],
+    AssociatedExchangeJobFilterOptions: [],
     SearchFilterMappingData: {}
   };
 }

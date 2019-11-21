@@ -180,7 +180,7 @@ pipeline {
         }
         failure {
           script { 
-            sendSlackFail(env.changeAuthorList)
+            sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
       }

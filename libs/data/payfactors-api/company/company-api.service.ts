@@ -8,7 +8,7 @@ import {
   SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesResponse,
   CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields, JobPricingLimitInfoResponse
 } from '../../../models/payfactors-api';
-import { Company } from 'libs/models/company/company.model';
+import { Company, CompanyBaseInformation } from 'libs/models/company/company.model';
 
 @Injectable()
 export class CompanyApiService {
@@ -40,6 +40,13 @@ export class CompanyApiService {
 
   getCompanies() {
     return this.payfactorsApiService.get<Company[]>(`${this.endpoint}/Default.GetCompanies`);
+  }
+
+  getCompanyBaseInformation(searchTerm?: string, take?: number) {
+    if (searchTerm || take) {
+      return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`, { params: { searchTerm, take } });
+    }
+    return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`);
   }
 
   getCompany() {
@@ -75,7 +82,7 @@ export class CompanyApiService {
   }
 
   getCompositeFields(): Observable<ListCompositeFields[]> {
-    return this.payfactorsApiService.get<ListCompositeFields[]>(`/CompositeField`);
+    return this.payfactorsApiService.get<ListCompositeFields[]>(`CompositeField`);
   }
 
   getJobPricingLimitInfoByCompanyId(companyId: number): Observable<JobPricingLimitInfoResponse>  {

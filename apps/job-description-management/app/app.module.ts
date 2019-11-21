@@ -1,7 +1,9 @@
 import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { MomentModule } from 'angular2-moment';
 import { NgbModalModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
@@ -11,9 +13,11 @@ import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
+import { JwtQueryStringAuthInterceptor } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
+
 
 @NgModule({
   imports: [
@@ -22,6 +26,7 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
 
     // 3rd Party
+    MomentModule,
     NgbModalModule.forRoot(),
     NgbTabsetModule.forRoot(),
     LayoutModule,
@@ -37,6 +42,13 @@ import { SharedModule } from './shared/shared.module';
 
     // Routing
     AppRoutingModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtQueryStringAuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

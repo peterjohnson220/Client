@@ -1,0 +1,148 @@
+<ng-container *ngIf="!!identity && !!jobDescription">
+
+  <ng-container *ngIf="!(jobDescriptionViewsAsync$ | async)?.loading
+      && isUserDefinedViewsAvailable
+      && !(editingJobDescription$ | async)
+      && jobDescription.JobDescriptionStatus !== 'In Review'">
+    <kendo-dropdownlist class="viewNamesDropdownList"
+      [defaultItem]="'Default'"
+      [data]="jobDescriptionViews"
+      (valueChange)="handleViewChanged($event)">
+    </kendo-dropdownlist>
+  </ng-container>
+
+  <!-- Public Actions -->
+  <ng-container *ngIf="identity.IsPublic">
+    <button *ngIf="identityInEmployeeAcknowledgement && !(employeeAcknowledgementInfo$ | async)?.obj.HasAcknowledged"
+            type="button"
+            class="btn btn-primary"
+            id="acknowledge-btn"
+            [attr.data-qa-id]="'btn-acknowledge'"
+            [disabled]="(acknowledgementDisabled$ | async)"
+            (click)="handleAcknowledgeClicked()">Acknowledge
+    </button>
+    <button type="button"
+            class="btn btn-secondary"
+            (click)="handleExportAsPDFClicked()">
+      <fa-icon [icon]="['far', 'file-pdf']" aria-hidden="true"></fa-icon> Export as PDF
+    </button>
+  </ng-container>
+  <!-- Logged in actions -->
+  <div *ngIf="!identity.IsPublic && !inWorkflow" class="d-flex space-out-children">
+
+    <button *ngIf="jobDescription.JobDescriptionStatus === 'Draft'" type="button" class="btn btn-secondary"
+      [disabled]="!undoQueueAvailable || (savingJobDescription$ | async) || (publishingJobDescription$ | async)"
+      (click)="handleUndoClicked()">
+      <fa-icon icon="undo" aria-hidden="true"></fa-icon> Undo
+    </button>
+
+    <button *ngIf="jobDescription.JobDescriptionStatus === 'Draft' && hasCanPublishJobDescriptionPermission" type="button"
+      class="btn btn-success"
+      [disabled]="(publishingJobDescription$ | async) || (savingJobDescription$ | async) || !(publishButtonEnabled$ | async)"
+      (click)="handlePublishClicked()">
+      <fa-icon [icon]="['far','check-circle']" aria-hidden="true"></fa-icon> Publish
+    </button>
+
+    <button *ngIf="jobDescription.JobDescriptionStatus === 'Draft' && hasCanRouteJobDescriptionPermission" type="button" class="btn"
+      [class.btn-primary]="!hasCanPublishJobDescriptionPermission"
+      [class.btn-secondary]="hasCanPublishJobDescriptionPermission"
+      (click)="handleRouteForApprovalClicked()">
+      <fa-icon icon="random" aria-hidden="true"></fa-icon> Route for Approval
+    </button>
+
+    <button *ngIf="jobDescription.JobDescriptionStatus === 'Draft' && hasCanEditJobDescriptionPermission" type="button" class="btn btn-secondary"
+      (click)="handleDiscardDraftClicked()">
+      <fa-icon [icon]="['far','trash-alt']" aria-hidden="true"></fa-icon> Discard Draft
+    </button>
+
+    <button
+      *ngIf="!(editingJobDescription$ | async) && !(inHistory$ | async) && jobDescription.JobDescriptionStatus !== 'In Review' && hasCanEditJobDescriptionPermission"
+      type="button" class="btn btn-secondary" [disabled]="hasFilteredView" (click)="handleEditClicked()">
+      <fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon> Edit
+    </button>
+
+    <button
+      *ngIf="hasNewProjectPermission && !(editingJobDescription$ | async) && jobDescription.JobDescriptionStatus === 'Published'"
+      type="button" class="btn btn-secondary" (click)="handlePriceJobClicked()">
+      <fa-icon icon="bolt" aria-hidden="true"></fa-icon>
+      Price Job
+    </button>
+
+    <button *ngIf="jobDescription.JobDescriptionStatus === 'In Review' && hasCanCancelWorkflowPermission" type="button"
+      class="btn btn-secondary" (click)="handleCancelApprovalClicked()">
+      <fa-icon icon="times" aria-hidden="true"></fa-icon> Cancel Approval
+    </button>
+
+    <button *ngIf="jobDescription.JobDescriptionStatus !== 'In Review'" type="button"
+      id="history-popover-btn" class="btn btn-secondary" placement="bottom"
+      [disabled]="jobDescription.JobDescriptionRevision < 2 && !(inHistory$ | async)"
+      [ngbPopover]="historyGridPopContent"
+      [popoverClass]="'history-popover'"
+      #p="ngbPopover"
+      popoverTitle="History">
+      <fa-icon icon="history" aria-hidden="true"></fa-icon> History
+    </button>
+
+    <!--More Actions-->
+    <div *ngIf="jobDescription.JobDescriptionStatus !== 'In Review'" ngbDropdown class="d-inline-block" placement="bottom">
+      <button class="btn btn-secondary" id="job-description-actions-dropdown" ngbDropdownToggle>
+        <fa-icon icon="ellipsis-h" aria-hidden="true"></fa-icon>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="job-description-actions-dropdown" ngbDropdownMenu>
+        <button class="dropdown-item" (click)="handleCompareJobsClicked()">
+          Compare Jobs
+        </button>
+
+        <button class="dropdown-item" (click)="handleCompareVersionsClicked()"
+          [disabled]="jobDescription.JobDescriptionRevision < 2"
+          [class.disabled]="jobDescription.JobDescriptionRevision < 2">
+          Compare Versions
+        </button>
+
+        <button class="dropdown-item" *ngIf="(editingJobDescription$ | async) && hasCanEditJobDescriptionPermission"
+          (click)="handleCopyFromClicked()">
+          Copy From
+        </button>
+
+        <button *ngIf="containsFLSA" class="dropdown-item" (click)="handleFLSAClicked()">
+          FLSA
+        </button>
+
+        <button class="dropdown-item" *ngIf="(editingJobDescription$ | async) && hasCanEditJobDescriptionPermission"
+          (click)="handleLibraryClicked()">
+          Library
+        </button>
+
+        <button class="dropdown-item" [class.disabled]="!hasRoutingHistory" [disabled]="!hasRoutingHistory"
+          (click)="handleRoutingHistoryClicked()">
+          Routing History
+        </button>
+
+        <button class="dropdown-item" *ngIf="(editingJobDescription$ | async) && hasCanEditJobDescriptionPermission"
+          (click)="handleUpdateJobInfoClicked()">
+          Update Job Info
+        </button>
+
+        <div class="dropdown-divider"></div>
+
+        <button class="dropdown-item" (click)="handleExportAsWordClicked()">
+          <fa-icon [icon]="['far', 'file-word']" aria-hidden="true"></fa-icon> Export as Word
+        </button>
+        <button class="dropdown-item" (click)="handleExportAsPDFClicked()">
+          <fa-icon [icon]="['far', 'file-pdf']" aria-hidden="true"></fa-icon> Export as PDF
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+</ng-container>
+
+<ng-template #historyGridPopContent>
+  <div class="history-list-container">
+    <pf-job-description-history-grid
+      [jobDescriptionId]="jobDescription.JobDescriptionId"
+      [currentVersion]="jobDescription.JobDescriptionRevision">
+    </pf-job-description-history-grid>
+  </div>
+</ng-template>

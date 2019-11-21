@@ -1,0 +1,62 @@
+<div class="flex-column-container">
+  <h4>Job Description Views</h4>
+
+  <p>
+    A Job Description View is a way to determine what sections and content controls a user is able to see while looking at a Job Description. Create and edit specific Job Description Views necessary for your organization.
+  </p>
+
+  <div class="card flex-grow-1 d-flex">
+    <div class="card-header d-flex justify-content-between">
+      <div class="w-25">
+        <pf-input-debounce class="w-25"
+          [id]="'viewsFilter'"
+          [placeholderText]="'Search Views'"
+          [hideClearBtn]="true"
+          (valueChanged)="handleSearchValueChanged($event)">
+        </pf-input-debounce>
+      </div>
+      <button (click)="openUpsertViewModal(true, '', $event)" class="btn btn-primary align-self-center">Create View</button>
+    </div>
+    <div class="card-body">
+      <ng-container *ngIf="(viewsListAsyncObj$ | async) as viewsAsync">
+        <pf-async-container [smartLoadingMask]="true" [loading]="viewsAsync.loading" [loadingError]="viewsAsync.loadingError">
+          <ng-container *ngIf="(viewsAsync.obj | filterArrayByName: viewsFilter) as filteredViews">
+            <table class="table table-hover" *ngIf="filteredViews.length; else noViews">
+              <tbody>
+                <tr (click)="handleViewClicked(view.Name)" *ngFor="let view of filteredViews; trackBy: viewsTrackByFn">
+                  <td width="96%" class="align-middle">
+                    {{view.Name}}
+                  </td>
+                  <td width="4%">
+                    <div class="d-flex">
+                      <button class="btn btn-sm btn-secondary mr-2"
+                              [attr.data-qa-id]="'btn-editView'"
+                              (click)="openUpsertViewModal(false, view.Name, $event)">
+                        <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
+                      </button>
+                      <div (click)="handleDeleteViewClicked(view.Name, $event)">
+                        <button class="btn btn-sm btn-secondary"
+                                [attr.data-qa-id]="'btn-deleteView'"
+                                [disabled]="isSystemView(view.Name)">
+                          <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-template #noViews>
+            <div class="p-2">
+              No Views
+            </div>
+          </ng-template>
+        </pf-async-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<pf-simple-yes-no-modal [opts]="deleteViewModalOptions" (actionConfirmed)="handleViewDeleteConfirmed($event)"></pf-simple-yes-no-modal>
+<pf-upsert-view-modal [addView]="addView"></pf-upsert-view-modal>

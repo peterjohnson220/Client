@@ -2,33 +2,31 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
 
 import { JdmListFilter } from 'libs/models/user-profile';
-import { ListAreaColumnResponse, UserFilterResponse } from 'libs/models/payfactors-api/user-profile/response';
+import { UserFilterResponse } from 'libs/models/payfactors-api/user-profile/response';
 import {
   ControlLabelResponse,
   JobDescriptionHistoryListItemResponse
 } from 'libs/models/payfactors-api/job-description-management/response';
 import {
   CompanyJobViewListItemsResponse,
-  JobInformationFieldForBulkExportResponse
+  JobInformationFieldForBulkExportResponse,
+  JobMatchResultResponse,
+  ExtendedInfoResponse,
+  JobDescriptionSourceResponse,
+ JobDescriptionDataResponse
 } from 'libs/models/payfactors-api/job-description/response';
-import { ListAreaColumn } from 'libs/models/common';
 import { TemplateListItemResponse } from 'libs/models/payfactors-api/job-description-template/response';
 import {
   AppliesToAttributesExistResponse
 } from 'libs/models/payfactors-api/job-description/response/applies-to-attributes-exist-response.model';
-import { ListAreaColumnRequest } from 'libs/models/payfactors-api/user-profile/request/list-area-column-request.model';
-import { CompositeFilterUppercase } from 'libs/models/jdm';
-import { TemplateListItem } from 'libs/models/jdm';
-
-import { ControlLabel } from '../models/control-label.model';
-import { AvailableJobInformationField } from '../models/available-job-information-field.model';
+import { CompositeFilterUppercase, TemplateListItem } from 'libs/models/jdm';
+import { ControlLabel, AvailableJobInformationField, JobDescriptionAppliesToItem, AppliesToAttributesExist } from '../models';
 
 import {
   JobDescriptionAppliesToItemResponse
 } from 'libs/models/payfactors-api/job-description/response/job-description-appliesto-item-response.model';
-import { JobDescriptionAppliesToItem } from '../models/job-description-appliesto-item.model';
-import { AppliesToAttributesExist } from '../models/applies-to-attributes-exist.model';
-import { JobDescriptionHistoryListItem } from '../../_job-description/models';
+import { GetJobDescriptionData, JobDescriptionExtendedInfo, JobDescriptionHistoryListItem,
+  JobMatchResult, JobDescriptionSource } from '../../_job-description/models';
 
 export class PayfactorsApiModelMapper {
   static mapAppliesToAttributesExistResponseToAppliesToAttributesExist(response: AppliesToAttributesExistResponse):
@@ -129,6 +127,23 @@ export class PayfactorsApiModelMapper {
     return response.map(jdatir => this.mapJDAppliesToItemResponseToJDAppliesToItem(jdatir));
   }
 
+  static mapJDDataResponseToJDDataResponseItem(response: JobDescriptionDataResponse):
+    GetJobDescriptionData {
+    return {
+      JobDescriptionId: response.JobDescriptionId,
+      RevisionNumber: response.JobDescriptionRevision
+    };
+  }
+
+  static mapJDExtendedInfoResponseToJDExtendedInfoItem(response: ExtendedInfoResponse):
+  JobDescriptionExtendedInfo {
+    return {
+      JobFamily: response.JobFamily,
+      TemplateId: response.TemplateId,
+      WorkflowId: response.WorkflowId
+    };
+  }
+
   static mapJDHistoryListItemResponseToJDHistoryListItem(response: JobDescriptionHistoryListItemResponse):
     JobDescriptionHistoryListItem {
     return {
@@ -178,5 +193,46 @@ export class PayfactorsApiModelMapper {
     return response.map(ufr => {
       return this.mapUserFilterResponseToJdmListFilter(ufr);
     });
+  }
+
+  static mapJobMatchResultResponsesToJobMatchResults(response: JobMatchResultResponse[]): JobMatchResult[] {
+    return response.map(j => {
+      return this.mapJobMatchResultResponseToJobMatchResult(j);
+    });
+  }
+
+  static mapJobMatchResultResponseToJobMatchResult(response: JobMatchResultResponse): JobMatchResult {
+    return {
+      Code: response.Code,
+      EffectiveDate: response.EffectiveDate,
+      Id: response.Id,
+      IsSurvey: response.IsSurvey,
+      MatchStrength: response.MatchStrength,
+      Name: response.Name,
+      SurveyId: response.SurveyId,
+      SurveyName: response.SurveyName,
+      SurveyPublisher: response.SurveyPublisher,
+      JobDescription: response.JobDescription
+    };
+  }
+
+  static mapJobDescriptionSourceResponsesToJobDescriptionSources(response: JobDescriptionSourceResponse[]): JobDescriptionSource[] {
+    return response.map(jd => {
+      return this.mapJobDescriptionSourceResponseToJobDescriptionSource(jd);
+    });
+  }
+
+  static mapJobDescriptionSourceResponseToJobDescriptionSource(response: JobDescriptionSourceResponse): JobDescriptionSource {
+    return {
+      DescriptionId: response.DescriptionId,
+      JobCode: response.JobCode,
+      JobTitle: response.JobTitle,
+      JobFamily: response.JobFamily,
+      JobLevel: response.JobLevel,
+      Status: response.Status,
+      AppliesTo: response.AppliesTo,
+      JobDescriptionTitle: response.JobDescriptionTitle,
+      Version: response.Version
+    };
   }
 }

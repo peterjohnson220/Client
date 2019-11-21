@@ -5,11 +5,18 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map, withLatestFrom, concatMap, mergeMap } from 'rxjs/operators';
 
-import { ExchangeScopeApiService } from 'libs/data/payfactors-api';
-import { ExchangeScopeItem, UpsertExchangeExplorerScopeRequest } from 'libs/models/peer';
+import { ExchangeScopeApiService, ExchangeDataFilterApiService } from 'libs/data/payfactors-api/peer';
+import {
+  ExchangeExplorerContextInfo,
+  ExchangeScopeItem,
+  UpsertExchangeExplorerScopeRequest
+} from 'libs/models/peer';
+import {
+  ExchangeExplorerDataCutResponse,
+  ExchangeExplorerScopeResponse
+} from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 import { MultiSelectFilter } from 'libs/features/search/models';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
 import * as fromLibsFeatureSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
@@ -21,7 +28,9 @@ import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
 import * as fromExchangeFilterContextActions from '../actions/exchange-filter-context.actions';
 import * as fromMapActions from '../actions/map.actions';
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
+import * as fromExchangeDataCutActions from '../actions/exchange-data-cut.actions';
 import * as fromExchangeExplorerReducers from '../reducers';
+import * as fromExchangeExplorerContextInfoActions from '../actions/exchange-explorer-context-info.actions';
 
 @Injectable()
 export class ExchangeScopeEffects {
@@ -29,7 +38,7 @@ export class ExchangeScopeEffects {
   @Effect()
   loadExchangeScopesByJobs: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS)).pipe(
-      withLatestFrom(this.store.pipe(select(fromExchangeExplorerReducers.getSystemFilterExchangeJobIds)),
+      withLatestFrom(this.store.pipe(select(fromExchangeExplorerReducers.getAssociatedExchangeJobIds)),
         (action, systemFilterExchangeJobIds) => systemFilterExchangeJobIds),
       switchMap((systemFilterExchangeJobIds: number[]) =>
         this.exchangeScopeApiService.getExchangeScopesByJobs(systemFilterExchangeJobIds).pipe(
@@ -54,13 +63,37 @@ export class ExchangeScopeEffects {
     );
 
   @Effect()
+  loadExchangeDataCut: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeDataCutActions.LOAD_EXCHANGE_DATA_CUT)).pipe(
+    map((action: fromExchangeDataCutActions.LoadExchangeDataCut) => action.payload),
+    switchMap(payload =>
+      this.exchangeDataFilterApiService.getExchangeDataCutFilterContext(payload).pipe(
+        mergeMap((response: ExchangeExplorerDataCutResponse) => {
+          const exchangeExplorerContextInfo: ExchangeExplorerContextInfo = response.ExchangeExplorerContextInfo;
+          const scopeContext: ExchangeExplorerScopeResponse = response.DataCutScope;
+          return [
+            new fromExchangeExplorerContextInfoActions.LoadContextInfoSuccess({
+              payMarket: exchangeExplorerContextInfo.PayMarket,
+              exchangeJobFilterOptions: exchangeExplorerContextInfo.AssociatedExchangeJobFilterOptions,
+              searchFilterMappingDataObj: exchangeExplorerContextInfo.SearchFilterMappingData
+            }),
+            new fromExchangeFilterContextActions.SetFilterContextSilently(exchangeExplorerContextInfo.FilterContext),
+            new fromExchangeDataCutActions.LoadExchangeDataCutSuccess(scopeContext)
+          ];
+        }),
+        catchError(() => of(new fromExchangeDataCutActions.LoadExchangeDataCutError))
+      )
+    )
+  );
+
+  @Effect()
   loadExchangeScopeDetails: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS)).pipe(
       withLatestFrom(
         this.exchangeExplorerContextService.selectFilterContext(),
         (action, filterContext) => filterContext),
       switchMap(payload =>
-        this.exchangeScopeApiService.getExchangeScopeFilterContext(payload).pipe(
+        this.exchangeDataFilterApiService.getExchangeScopeFilterContext(payload).pipe(
           map((peerMapScopeDetails: ExchangeExplorerScopeResponse) => new fromExchangeScopeActions
             .LoadExchangeScopeDetailsSuccess(peerMapScopeDetails)),
           catchError(() => of(new fromExchangeScopeActions.LoadExchangeScopeDetailsError))
@@ -70,17 +103,23 @@ export class ExchangeScopeEffects {
 
   @Effect()
   loadExchangeScopeDetailsSuccess$: Observable<Action> = this.actions$.pipe(
-    ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS)).pipe(
+    ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS, fromExchangeDataCutActions.LOAD_EXCHANGE_DATA_CUT_SUCCESS)).pipe(
       withLatestFrom(
         this.store.pipe(select(fromSearchReducer.getSearchingFilter)),
         this.store.pipe(select(fromSearchReducer.getSingledFilter)),
         this.store.pipe(select(fromExchangeExplorerReducers.getSearchFilterMappingDataObj)),
         (
-          action: fromExchangeScopeActions.LoadExchangeScopeDetailsSuccess,
+          action: fromExchangeScopeActions.LoadExchangeScopeDetailsSuccess|fromExchangeDataCutActions.LoadExchangeDataCutSuccess,
           searchingFilter,
           singledFilter,
           searchFilterMappingDataObj
-        ) => ({response: (action.payload), searchingFilter, singledFilter, searchFilterMappingDataObj})
+        ) => ({
+          response: (action.payload),
+          searchingFilter,
+          singledFilter,
+          searchFilterMappingDataObj,
+          isDataCut: action.type === fromExchangeDataCutActions.LOAD_EXCHANGE_DATA_CUT_SUCCESS
+        })
       ),
       mergeMap((payload: any) => {
         const actions = [];
@@ -110,7 +149,10 @@ export class ExchangeScopeEffects {
           actions.push(new fromSingledFilterActions.SearchAggregation());
         }
 
-        actions.push(new fromMapActions.ApplyScopeCriteria(scopeResponse));
+        const applyAction = payload.isDataCut ?
+          new fromMapActions.ApplyCutCriteria(scopeResponse) :
+          new fromMapActions.ApplyScopeCriteria(scopeResponse);
+        actions.push(applyAction);
 
         return actions;
       })
@@ -176,6 +218,7 @@ export class ExchangeScopeEffects {
     private actions$: Actions,
     private store: Store<fromExchangeExplorerReducers.State>,
     private exchangeScopeApiService: ExchangeScopeApiService,
+    private exchangeDataFilterApiService: ExchangeDataFilterApiService,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper
   ) {}

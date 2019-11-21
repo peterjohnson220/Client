@@ -90,7 +90,7 @@ export const getPeerMapAutoZooming = createSelector(selectMapState, fromMapReduc
 
 // Exchange Scope Selectors
 export const {
-  selectAll: getExchangeScopes
+  selectAll: getExchangeScopesSrc
 } = fromExchangeScopeReducer.adapter.getSelectors(selectExchangeScopeState);
 export const getExchangeScopesLoadingByJobs = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByJobs);
 export const getExchangeScopesLoadingByJobsError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByJobsError);
@@ -119,9 +119,9 @@ export const getSearchFilterMappingDataObj = createSelector(
   selectExchangeExplorerContextInfo,
   fromExchangeExplorerContextInfoReducer.getSearchFilterMappingDataObj
 );
-export const getFilterContextExchangeJobTitles = createSelector(
+export const getExchangeJobFilterOptions = createSelector(
   selectExchangeExplorerContextInfo,
-  fromExchangeExplorerContextInfoReducer.getExchangeJobTitlesShort
+  fromExchangeExplorerContextInfoReducer.getExchangeJobFilterOptions
 );
 
 // Exchange Filter Context Selectors
@@ -144,14 +144,45 @@ export const getFilterContextIncludeUntaggedIncumbents = createSelector(
 export const getFilterContextScopeSelection = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getScopeSelection);
 
 export const getFilterContext = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getFilterContext);
-
+export const getSelectedExchangeJobId = createSelector(
+  getFilterContext,
+  (filterContext) => {
+    if (!filterContext) {
+      return 0;
+    }
+    const exchangeJobId = !!filterContext.LockedExchangeJobId ? filterContext.LockedExchangeJobId : filterContext.ExchangeJobId;
+    return !!exchangeJobId ? exchangeJobId : 0;
+  }
+);
 
 // MISC
-export const getSystemFilterExchangeJobIds = createSelector(
-  selectFilterContextState,
-  (filterContext) => filterContext.ExchangeJobIds
+export const getAssociatedExchangeJobIds = createSelector(
+  getExchangeJobFilterOptions,
+  (exchangeJobs) => !!exchangeJobs && !!exchangeJobs.length ? exchangeJobs.map(ej => ej.ExchangeJobId) : []
 );
 export const getHasAppliedFilterContext = createSelector(
   selectFilterContextState,
   fromExchangeFilterContextReducer.getHasAppliedContext
+);
+
+export const getExchangeScopes = createSelector(
+  getExchangeScopesSrc,
+  getExchangeJobFilterOptions,
+  getSelectedExchangeJobId,
+  (scopes, exchangeJobOptions, selectedExchangeJobId) => {
+    if (!scopes || !scopes.length) {
+      return [];
+    }
+
+    if (!exchangeJobOptions) {
+      return scopes;
+    }
+
+    const selectedExchangeJobExchangeDetail = exchangeJobOptions.find(ejo => ejo.ExchangeJobId === selectedExchangeJobId);
+    if (!selectedExchangeJobExchangeDetail) {
+      return scopes;
+    }
+
+    return scopes.filter(s => s.ExchangeId === selectedExchangeJobExchangeDetail.ExchangeId);
+  }
 );

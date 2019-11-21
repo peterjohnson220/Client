@@ -37,4 +37,12 @@ export class ListEditorComponent {
     return (!this.readOnly && !this.checkInheritedData) ||
       (!this.readOnly && this.checkInheritedData && (!dataRow.TemplateId || attribute.CanEditTemplateData));
   }
+
+  trackByFn(index: number, dataRow: any) {
+    return dataRow.Id;
+  }
+
+  trackByAttributeFn(index: number, row: ControlTypeAttribute) {
+    return index + '_' + row.Name;
+  }
 }

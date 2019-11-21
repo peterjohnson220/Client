@@ -20,6 +20,3 @@ export * from './tile-type';
 export * from './tile-types';
 export * from './timeline-activity.model';
 export * from './timeline-activity-filter.model';
-export * from './company-resource-post.model';
-export * from './company-resources.model';
-export * from './company-resource-folder-post.model';

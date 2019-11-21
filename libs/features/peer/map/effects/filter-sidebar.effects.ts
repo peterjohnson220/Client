@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, mergeMap, switchMap, map, withLatestFrom, tap } from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, map, withLatestFrom, tap, concatMap} from 'rxjs/operators';
 
 import { PayMarketApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api';
 import { FilterAggregateGroup, SystemFilter, ExchangeScopeItem } from 'libs/models/peer';
@@ -11,6 +11,7 @@ import { FilterAggregateGroup, SystemFilter, ExchangeScopeItem } from 'libs/mode
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerMapActions from '../actions/map.actions';
 import * as fromPeerMapReducers from '../reducers';
+import * as fromLibsExchangeScopeActions from '../actions/exchange-scope.actions';
 
 @Injectable()
 export class FilterSidebarEffects {
@@ -51,7 +52,10 @@ export class FilterSidebarEffects {
       map((action: fromFilterSidebarActions.LoadAssociatedExchangeJobs) => action.payload),
       switchMap((payload) => {
         return this.exchangeDataSearchApiService.getAssociatedExchangeJobs(payload).pipe(
-          map((response) => new fromFilterSidebarActions.LoadAssociatedExchangeJobsSuccess(response))
+          concatMap((response) => [
+            new fromFilterSidebarActions.LoadAssociatedExchangeJobsSuccess(response),
+            new fromLibsExchangeScopeActions.LoadExchangeScopesByJobs()
+          ])
         );
       })
     );
@@ -111,6 +115,18 @@ export class FilterSidebarEffects {
         return obs;
       })
     );
+
+  @Effect()
+  setExchangeJobSelection$ = this.actions$.pipe(
+    ofType(fromFilterSidebarActions.SET_EXCHANGE_JOB_SELECTION),
+    tap(() => this.peerMapStore.dispatch(new fromPeerMapActions.ClearMapFilterBounds())),
+    mergeMap(() => {
+      return [
+        new fromFilterSidebarActions.ClearAllSelections,
+        new fromFilterSidebarActions.GetMapData
+      ];
+    })
+  );
 
   @Effect()
   excludeIndirectJobMatchesToggled$ = this.actions$.pipe(

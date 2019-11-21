@@ -2,7 +2,7 @@
   <div *ngIf="!isPublic">
     <table class="table">
       <tbody>
-      <tr>
+        <tr *ngIf="!isPublic">
         <th class="job-info-heading">Status:</th>
         <td>
           <pf-status-pill [status]="jobDescription?.JobDescriptionStatus"></pf-status-pill>
@@ -10,7 +10,7 @@
         <th class="job-info-heading">Version:</th>
         <td>{{jobDescription?.JobDescriptionRevision}}</td>
       </tr>
-      <tr>
+      <tr *ngIf="!isPublic">
         <th class="job-info-heading">Created By:</th>
         <td>{{jobDescription?.CreatedBy}}</td>
         <th class="job-info-heading">Created Date:</th>
@@ -23,7 +23,7 @@
           <td>{{jobInformationField.DisplayName === 'Last Updated Date' ? (jobInformationField.FieldValue | date:'short') : jobInformationField.FieldValue}}</td>
         </ng-template>
       </tr>
-      <tr *ngIf="jobDescription?.AppliesToField || jobDescription?.JobDescriptionTitle">
+      <tr *ngIf="!isPublic && (jobDescription?.AppliesToField || jobDescription?.JobDescriptionTitle)">
         <th class="job-info-heading">Job Description Title:</th>
         <td>{{jobDescription?.JobDescriptionTitle}}</td>
         <th class="job-info-heading">Applies To:</th>

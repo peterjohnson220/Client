@@ -1,0 +1,80 @@
+<div class="jd-library">
+  <div class="jd-library-head">
+    <strong>Job Description Library</strong>
+
+    <div class="jd-library-head-controls">
+      <span (click)="close()">
+        <fa-icon icon="times" class="fa-lg"></fa-icon>
+      </span>
+    </div>
+
+    <div class="jd-library-search-form">
+      <div class="form-group">
+        <pf-input-debounce [placeholderText]="'Job Title'" [delay]="600" [hideClearBtn]="true" [ngModel]="jobTitle" (valueChanged)="handleJobTitleChange($event)"></pf-input-debounce>
+      </div>
+      <div class="form-group">
+        <pf-input-debounce [placeholderText]="'Keyword'" [delay]="600" [hideClearBtn]="true" [ngModel]="keyword" (valueChanged)="handleKeywordChange($event)"></pf-input-debounce>
+      </div>
+    </div>
+  </div>
+  <div class="jd-library-content">
+    <div class="jd-library-results">
+      <ngb-tabset (tabChange)="handleTabChange($event.nextId)">
+        <ngb-tab *ngFor="let bucket of buckets" [id]="bucket.Key">
+          <ng-template ngbTabTitle>{{bucket.Label}} <span [ngClass]="bucket.Key === 'jobmatches' ? 'badge badge-pill badge-primary' : 'badge badge-pill badge-default'">{{bucket.DocumentCount}}</span></ng-template>
+          <ng-template ngbTabContent>
+            <div class="jd-library-results-table">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th>Job Title</th>
+                  <th>Source</th>
+                  <th>Content</th>
+                </tr>
+                </thead>
+                <tbody [dragula]="'library-bag'">
+                  <ng-container *ngIf="jobLibraryResults.length > 0 else noResultsTemplate">
+                    <tr class="dnd-library-draggable" [attr.data-content]="result.Content" *ngFor="let result of jobLibraryResults">
+                      <td width="25%">{{result.JobTitle}}</td>
+                      <td width="15%" *ngIf="result.Source !== 'Survey Library'">{{result.Source}}</td>
+                      <td width="15%" *ngIf="result.Source === 'Survey Library'">
+                        <span class="source-detail" placement="bottom"container="body" [ngbTooltip]="result.SourceDetail.Identifier2 + ' ' + (result.SourceDetail.Identifier3 | date)" >
+                          {{result.SourceDetail.Identifier1}}
+                        </span>
+                      </td>
+                      <td width="60%">
+                        <p *ngIf="!result.ShowFull" [innerHtml]="sanitizer.bypassSecurityTrustHtml(result.Highlights.length ? result.Highlights[0] : '')"></p>
+                        <p *ngIf="result.ShowFull" [innerHtml]="sanitizer.bypassSecurityTrustHtml(result.Content)"></p>
+                        <div class="view-more-link">
+                          <span (click)="result.ShowFull = !result.ShowFull" *ngIf="showViewMoreLink(result)">View {{result.ShowFull ? 'Less' : 'More'}}</span>
+                        </div>
+                      </td>
+                      <td class="gu-mirror-show">
+                        <div class="card">
+                          <div class="card-block">{{(result.Highlights.length ? result.Highlights[0] : '') | stripHtml}}</div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+  <ng-template #noResultsTemplate>
+    <tr><td colspan="3">No Results</td></tr>
+  </ng-template>
+
+  <div class="jd-library-footer d-flex justify-content-end">
+    <ngb-pagination
+      (pageChange)="handlePageChange($event)"
+      [collectionSize]="activeBucket?.DocumentCount"
+      [(page)]="pageNumber"
+      [maxSize]="5"
+      [boundaryLinks]="false">
+    </ngb-pagination>
+  </div>
+</div>

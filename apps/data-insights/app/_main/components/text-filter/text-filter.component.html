@@ -3,10 +3,10 @@
     class="dropdown-list"
     [attr.data-qa-id]="'ddm-text-filter-operators'"
     [data]="operators"
+    (selectionChange)="handleChangeOperator($event)"
     [ngModel]="selectedOperator ? selectedOperator : operators[0]"
     [textField]="'Name'"
-    [valueField]="'Value'"
-    [disabled]="'true'">
+    [valueField]="'Value'">
   </kendo-dropdownlist>
 
   <input class="form-control"

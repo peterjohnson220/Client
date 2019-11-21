@@ -1,3 +1,4 @@
+import { ExchangeJobExchangeDetail, generateMockExchangeJobExchangeDetail } from '../../../features/peer/models';
 import { generateMockPayMarket, PayMarket } from '../../paymarket';
 import { generateMockSystemFilter, SystemFilter } from '../exchange-job-pay-market-filter.model';
 import { generateMockPeerMapScopeSideBarInfo, PeerMapScopeSideBarInfo } from './peer-map-scope-side-bar-info.model';
@@ -8,6 +9,7 @@ export interface PeerMapScopeSystemSideBarInfo extends PeerMapScopeSideBarInfo {
   LimitToPayMarket: boolean;
   PayMarket: PayMarket;
   SystemFilter: SystemFilter;
+  LockedExchangeJobExchangeDetail: ExchangeJobExchangeDetail;
 }
 
 export function generateMockPeerMapScopeSystemSideBarInfo(): PeerMapScopeSystemSideBarInfo {
@@ -17,6 +19,7 @@ export function generateMockPeerMapScopeSystemSideBarInfo(): PeerMapScopeSystemS
     IsFilteredBySimilarExchangeJobIds: false,
     LimitToPayMarket: false,
     PayMarket: generateMockPayMarket(),
-    SystemFilter: generateMockSystemFilter()
+    SystemFilter: generateMockSystemFilter(),
+    LockedExchangeJobExchangeDetail: generateMockExchangeJobExchangeDetail()
   };
 }

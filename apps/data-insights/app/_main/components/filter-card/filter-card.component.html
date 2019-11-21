@@ -38,7 +38,8 @@
           [selectedOptions]="filter.SelectedOptions"
           [filterValue]="getFilterOptionsData?.Query"
           (filterChanged)="handleMultiSelectFilterChanged($event)"
-          (selectedValuesChanged)="handleSelectedOptionsChange($event)">
+          (selectedValuesChanged)="handleSelectedOptionsChange($event)"
+          (changeOperator)="handleOperatorChanged($event)">
         </pf-multi-select-filter>
       </ng-container>
 
@@ -46,7 +47,8 @@
         <pf-text-filter
           [selectedOperator]="filter.Operator"
           [filterValue]="filter.SelectedOptions?.length ? filter.SelectedOptions[0] : null"
-          (valueChanged)="handleSelectedOptionsChange($event)">
+          (valueChanged)="handleSelectedOptionsChange($event)"
+          (changeOperator)="handleOperatorChanged($event)">
         </pf-text-filter>
       </ng-container>
 

@@ -1,0 +1,28 @@
+<div class="d-flex h-100">
+  <div class="inner-nav">
+    <div class="inner-nav-heading">
+      <ng-content select="[menu-title]"></ng-content>
+    </div>
+    <ul class="nav flex-column">
+      <li *ngFor="let navLink of navLinks" class="nav-item" routerLinkActive="selected">
+        <a class="nav-link d-flex justify-content-between" [routerLink]="navLink.route">
+          <div>
+            <fa-icon *ngIf="!!navLink.icon" [icon]="navLink.icon"></fa-icon>
+            {{navLink.name}}
+          </div>
+          <div>
+            <ng-container *ngIf="!!navLink.count">
+              {{navLink.count}}
+            </ng-container>
+            <ng-container *ngIf="navLink.count$ | async as count">
+              <ng-container *ngIf="count > 0">{{count}}</ng-container>
+            </ng-container>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="inner-content">
+    <ng-content select="[content]"></ng-content>
+  </div>
+</div>

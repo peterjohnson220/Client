@@ -1,0 +1,19 @@
+<ng-template #jobDescriptionHistoryModal>
+  <div class="modal-header">
+    <h4 class="modal-title">History - {{ jobTitle }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="history-list-modal-container">
+      <pf-job-description-history-grid
+        [jobDescriptionId]="jobDescriptionId"
+        (historyListItemClicked)="close()">
+      </pf-job-description-history-grid>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+  </div>
+</ng-template>

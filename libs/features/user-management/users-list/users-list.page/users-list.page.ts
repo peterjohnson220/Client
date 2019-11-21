@@ -20,6 +20,7 @@ import { Permissions } from '../../../../constants';
 export class UsersListPageComponent implements OnInit {
   companyId: number;
   _Permissions = null;
+  returnUrl: string;
 
   companyName$: Observable<string>;
   users$: Observable<UserGridItem[]>;
@@ -41,6 +42,7 @@ export class UsersListPageComponent implements OnInit {
 
     this.userContext$ = this.store.pipe(select(fromRootState.getUserContext));
     this._Permissions = Permissions;
+    this.returnUrl = this.route.snapshot.data.ReturnUrl;
   }
 
   ngOnInit() {
@@ -56,8 +58,6 @@ export class UsersListPageComponent implements OnInit {
   }
 
   handleAddButton() {
-    this.router.navigate(['company-admin', this.companyId, 'users', 'add']);
+    this.router.navigate(['add'], { relativeTo: this.route });
   }
 }
-
-

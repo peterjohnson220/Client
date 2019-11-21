@@ -9,9 +9,9 @@ import {
   JobDescriptionValidationRequest
 } from 'apps/pf-admin/app/_utilities/models/requests/job-description-validation-request.model';
 import { LoadJobDescriptionRequest } from 'apps/pf-admin/app/_utilities/models/requests/job-description-load-request.model';
-import { LibrarySearchRequest } from '../../../../apps/job-description-management/app/shared/models/requests/library-search-request.model';
-import { JobDescriptionLibraryResult } from '../../../../apps/job-description-management/app/shared/models/job-description-library-result.model';
-import { LibrarySearchBucketResponse } from '../../../../apps/job-description-management/app/shared/models/responses/library-search-bucket-response.model';
+import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket } from '../../../../apps/job-description-management/app/shared/models';
+import { UpdateViewsRequest } from '../../../models/payfactors-api/job-description-management/request';
+import { JobDescriptionViewApi } from '../../../models/payfactors-api/job-description-management/shared';
 
 @Injectable()
 export class JobDescriptionManagementApiService {
@@ -53,32 +53,40 @@ export class JobDescriptionManagementApiService {
   }
 
   getAvailableControls(): Observable<any> {
-    return this.payfactorsApiService.get(`${this.endpoint}.GetAvailableControls`);
+    return this.payfactorsApiService.get(`${this.endpoint}.GetAvailableControls`, {}, (response) => JSON.parse(response.value));
   }
 
-  getLibrarySearchResultsByBucket(searchRequest: LibrarySearchRequest): Observable<LibrarySearchBucketResponse> {
+  getLibrarySearchResultsByBucket(searchRequest: LibrarySearchRequest): Observable<JobDescriptionLibraryBucket[]> {
     return this.payfactorsApiService.get(`${this.endpoint}.GetLibrarySearchResultsByBucket`, {
-      selectedBucket: searchRequest.BucketKey,
-      jobTitle: searchRequest.JobTitle,
-      keyword: searchRequest.Keyword,
-      pageSize: searchRequest.PageSize,
-      jobDescriptionId: searchRequest.JobDescriptionId
+      params: {
+        selectedBucket: searchRequest.BucketKey,
+        jobTitle: searchRequest.JobTitle,
+        keyword: searchRequest.Keyword,
+        pageSize: searchRequest.PageSize,
+        jobDescriptionId: searchRequest.JobDescriptionId
+      }
     });
   }
 
   getLibrarySearchResults(searchRequest: LibrarySearchRequest): Observable<JobDescriptionLibraryResult[]> {
     return this.payfactorsApiService.get(`${this.endpoint}.GetLibrarySearchResults`, {
-      bucket: searchRequest.BucketKey,
-      jobTitle: searchRequest.JobTitle,
-      keyword: searchRequest.Keyword,
-      pageSize: searchRequest.PageSize,
-      pageNumber: searchRequest.PageNumber,
-      jobDescriptionId: searchRequest.JobDescriptionId
+      params: {
+        bucket: searchRequest.BucketKey,
+        jobTitle: searchRequest.JobTitle,
+        keyword: searchRequest.Keyword,
+        pageSize: searchRequest.PageSize,
+        pageNumber: searchRequest.PageNumber,
+        jobDescriptionId: searchRequest.JobDescriptionId
+      }
     });
   }
 
-  userEmailHasJobPermission(emailAddr: string, jobId: number) {
-    return this.payfactorsApiService.get(`${this.endpoint}.UserEmailHasJobPermission`, {UserEmail: emailAddr, JobId: jobId});
+  userEmailHasJobPermission(emailAddr: string, jobId: number): Observable<boolean> {
+    return this.payfactorsApiService.get<boolean>(`${this.endpoint}.UserEmailHasJobPermission`, {
+      params: {
+        UserEmail: emailAddr, JobId: jobId
+      }},
+      (response) => response.value);
   }
 
   inactivateControl(controlType: string) {
@@ -89,4 +97,20 @@ export class JobDescriptionManagementApiService {
     return this.payfactorsApiService.get(`${this.endpoint}.GetPublicJdmColumns?companyId=${companyId}`);
   }
 
+  deleteView(name: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}.DeleteView`, { Name: name });
+  }
+
+  getTemplateViews(viewName: string): Observable<JobDescriptionViewApi[]> {
+    return this.payfactorsApiService.get<JobDescriptionViewApi[]>(`${this.endpoint}.GetTemplateViews`, { params: { viewName } },
+      (response) => JSON.parse(response.value));
+  }
+
+  updateViews(request: UpdateViewsRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.UpdateViews`, request);
+  }
+
+  addView(name: string, templateIds: number[]) {
+    return this.payfactorsApiService.post(`${this.endpoint}.AddView`, { Name: name, TemplateIds: templateIds });
+  }
 }

@@ -5,35 +5,33 @@ import { FilterDescriptor, SortDescriptor, State } from '@progress/kendo-data-qu
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
+import * as cloneDeep from 'lodash.clonedeep';
+import { debounceTime } from 'rxjs/operators';
 
 import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-context.reducer';
 import { JdmListFilter } from 'libs/models/user-profile';
 import { ListAreaColumn } from 'libs/models/common';
 import { UserContext } from 'libs/models/security';
-import { PermissionService, RouteTrackingService } from 'libs/core/services';
+import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
-import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
+import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
 import * as fromJobDescriptionGridActions from '../../../actions/job-description-grid.actions';
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromRootState from 'libs/state/state';
 
-import { AssignJobsToTemplateModalComponent } from '../../../components';
+import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 
 import { CompanyJobViewListItem } from '../../../models';
 import { AvailableJobInformationField, ControlLabel, JobDescriptionAppliesTo } from '../../../../shared/models';
 import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to';
-import {
-  JobDescriptionHistoryModalComponent
-} from '../../../components/modals/job-description-history';
 import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
-import { SaveJobDescriptionTemplateIdSucessModel } from '../../../models';
 import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
 import { AddJobModalComponent } from '../../../components/modals/add-job';
 
@@ -64,7 +62,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public userFilterListLoading$: Observable<boolean>;
   public userFilterDeleting$: Observable<boolean>;
 
-  private savedGridState$: Observable<State>;
+  savedGridState$: Observable<State>;
   private listAreaColumnsToUpdate$: Observable<ListAreaColumn[]>;
   private bulkExportControlLabels$: Observable<ControlLabel[]>;
   private bulkExportControlLabelsLoading$: Observable<boolean>;
@@ -76,14 +74,11 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private jobDescriptionListViews$: Observable<string[]>;
   private jobInformationFields$: Observable<AvailableJobInformationField[]>;
   private jobInformationFieldsLoading$: Observable<boolean>;
-  private savingCompanyJobsJobDescriptionTemplateIdResponse$: Observable<any>;
-  private createdJobDescriptionDraft$: Observable<string>;
-  private createdJobDescriptionId$: Observable<number>;
   private savingListAreaColumnsSuccess$: Observable<boolean>;
   private addingUserFilterSuccess$: Observable<boolean>;
 
   public savedSearchTerm: string;
-  public gridState: State = { skip: 0, take: 20 };
+  public gridState: State;
   public nonStaticListAreaColumns: ListAreaColumn[];
   public customListAreaColumns: ListAreaColumn[] = [];
   public showFilterSidebar: any;
@@ -93,26 +88,20 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public isPublic: boolean;
   public publicCompanyId: number;
   public listFilter: string;
-  public hasManageTemplatesPermission: boolean;
-  public hasManageSettingsPermission: boolean;
-  public hasAddJobPermission: boolean;
+  public permissions = Permissions;
 
   private listAreaColumnsSubscription: Subscription;
   private routerParmsSubscription: Subscription;
-  private jobInformationFieldsSubscription: Subscription;
-  private saveCompanyJobsJobDescriptionTemplateIdSubscription: Subscription;
-  private createJobDescriptionDraftSubscription: Subscription;
-  private createJobDescriptionSubscription: Subscription;
   private savingListAreaColumnsSuccessSubscription: Subscription;
   private addUserFilterSubscription: Subscription;
+  gridStateSubscription: Subscription;
 
   constructor(
     private userContextStore: Store<fromUserContextReducer.State>,
     private store: Store<fromJobDescriptionReducers.State>,
     private router: Router,
     private route: ActivatedRoute,
-    private permissionService: PermissionService,
-    private routeTrackingService: RouteTrackingService
+    private permissionService: PermissionService
   ) {
     this.identity$ = this.store.select(fromRootState.getUserContext);
     this.gridLoading$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoading);
@@ -137,18 +126,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       fromJobDescriptionReducers.getJobInformationFieldsForBulkExportLoading);
     this.jobInformationFields$ = this.store.select(
       fromJobDescriptionReducers.getJobInformationFieldsForBulkExport);
-    this.savingCompanyJobsJobDescriptionTemplateIdResponse$ = this.store.select(
-      fromJobDescriptionReducers.getCompanyJobsJobDescriptionTemplateIdSavingResponse);
-    this.createdJobDescriptionDraft$ = this.store.select(fromJobDescriptionReducers.getCreatedJobDescriptionDraft);
-    this.createdJobDescriptionId$ = this.store.select(fromJobDescriptionReducers.getCreatedJobDescriptionId);
     this.savingListAreaColumnsSuccess$ = this.store.select(fromJobDescriptionReducers.getListAreaColumnsSavingSuccess);
     this.addingUserFilterSuccess$ = this.store.select(fromJobDescriptionReducers.getUserFilterAddingSuccess);
-
-    this.hasManageTemplatesPermission = this.permissionService.CheckPermission([Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES],
-      PermissionCheckEnum.Single);
-    this.hasManageSettingsPermission = this.permissionService.CheckPermission([Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES],
-      PermissionCheckEnum.Single);
-    this.hasAddJobPermission = this.permissionService.CheckPermission([Permissions.JOB_DESCRIPTIONS_ADD], PermissionCheckEnum.Single);
 
     this.filterThrottle = new Subject();
 
@@ -174,21 +153,21 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     newJobDescription.CompanyJobId = selected.companyJobId;
 
     if (selected.templateId === -1) {
-      this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
+      this.store.dispatch(new fromJobDescriptionListActions.CreateJobDescription({
+        companyJobViewListItem: newJobDescription,
+        appliesTo: selected.jobDescriptionAppliesTo
+      }));
     } else {
-      const request = {
-        Request: {
-          companyJobIdsToAssign: [newJobDescription.CompanyJobId],
-          companyJobIdsToUnassign: []
-        },
-        PassThroughParameters: {
-          templateId: selected.templateId,
-          newJobDescription: newJobDescription,
-          jobDescriptionAppliesTo: selected.jobDescriptionAppliesTo
-        }
+      const passThroughParameters = {
+        templateId: selected.templateId,
+        newJobDescription: newJobDescription,
+        jobDescriptionAppliesTo: selected.jobDescriptionAppliesTo
       };
 
-      this.store.dispatch(new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId(request));
+      this.store.dispatch(new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateId({
+        companyJobIdsToAssign: [newJobDescription.CompanyJobId],
+        passThroughParameters
+      }));
     }
   }
 
@@ -229,7 +208,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       newJobDescription.CompanyJobId = complete.companyJobId;
       newJobDescription.JobDescriptionStatus = 'Not Started';
 
-      this.createJobDescriptionAndNavigate(newJobDescription);
+      this.store.dispatch(new fromJobDescriptionListActions.CreateJobDescription({ companyJobViewListItem: newJobDescription }));
     } else {
       this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
     }
@@ -258,15 +237,12 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   handleTemplateAssignedToJob(assignTemplateToJobObj: any) {
-    const request = {
-      Request: {
-        companyJobIdsToAssign: [assignTemplateToJobObj.selectedCompanyJob.CompanyJobId],
-        companyJobIdsToUnassign: []
-      },
-      PassThroughParameters: assignTemplateToJobObj
-    };
-
-    this.store.dispatch(new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId(request));
+    const companyJobIdsToAssign = [assignTemplateToJobObj.selectedCompanyJob.CompanyJobId];
+    const passThroughParameters = assignTemplateToJobObj;
+    this.store.dispatch(new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateId({
+      companyJobIdsToAssign,
+      passThroughParameters
+    }));
   }
 
   handleUserFilterDeleteConfirmed(id: string) {
@@ -327,39 +303,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
   }
 
-  private createDraftAndNavigate(companyJobViewListItem: CompanyJobViewListItem) {
-    const request = {
-      JobDescriptionId: companyJobViewListItem.JobDescriptionId,
-      Request: {
-        LastPublishedVersionNumber: companyJobViewListItem.VersionNumber,
-        JobDescriptionStatus: companyJobViewListItem.JobDescriptionStatus
-      }
-    };
-
-    this.store.dispatch(new fromJobDescriptionActions.CreateJobDescriptionDraft(request));
-  }
-
-  private createJobDescriptionAndNavigate(companyJobViewListItem: CompanyJobViewListItem, appliesTo?: JobDescriptionAppliesTo) {
-    if (appliesTo == null) {
-      appliesTo = {
-        AppliesToField: '',
-        AppliesToValue: '',
-        JobDescriptionTitle: ''
-      };
-    }
-
-    const request = {
-      companyJobId: companyJobViewListItem.CompanyJobId,
-      appliesToField: appliesTo.AppliesToField,
-      appliesToValue: appliesTo.AppliesToValue,
-      jobDescriptionTitle: appliesTo.JobDescriptionTitle,
-    };
-
-    this.store.dispatch(new fromJobDescriptionActions.CreateJobDescription(request));
-  }
-
   private initFilterThrottle() {
-    const filterThrottle$ = this.filterThrottle.debounceTime(400);
+    const filterThrottle$ = this.filterThrottle.pipe(debounceTime(400));
 
     filterThrottle$.subscribe(filters => {
       if (filters) {
@@ -383,39 +328,12 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.createJobDescriptionSubscription = this.createdJobDescriptionId$.subscribe(jobDescriptionId => {
-      if (jobDescriptionId) {
-        this.routeToJobDescription(jobDescriptionId);
-      }
-    });
-
-    this.createJobDescriptionDraftSubscription = this.createdJobDescriptionDraft$.subscribe((jobDescription: any) => {
-      if (jobDescription) {
-        this.routeToJobDescription(jobDescription.JobDescriptionId);
-      }
-    });
-
     this.listAreaColumnsSubscription = this.listAreaColumns$.subscribe(lac => {
       if (lac) {
         this.displayedListAreaColumnNames = lac.map(l => l.ColumnDatabaseName);
         this.nonStaticListAreaColumns = lac.filter(l => !l.Required);
       }
     });
-
-    this.saveCompanyJobsJobDescriptionTemplateIdSubscription = this.savingCompanyJobsJobDescriptionTemplateIdResponse$.subscribe(
-      (payload: SaveJobDescriptionTemplateIdSucessModel) => {
-        if (payload) {
-          if (payload.PassThroughParameters.selectedCompanyJob &&
-            payload.PassThroughParameters.selectedCompanyJob.JobDescriptionStatus === 'Not Started') {
-            this.createJobDescriptionAndNavigate(payload.PassThroughParameters.selectedCompanyJob);
-          } else if (payload.PassThroughParameters.jobDescriptionAppliesTo) {
-            this.createJobDescriptionAndNavigate(payload.PassThroughParameters.newJobDescription,
-              payload.PassThroughParameters.jobDescriptionAppliesTo);
-          } else {
-            this.createDraftAndNavigate(payload.PassThroughParameters.selectedCompanyJob);
-          }
-        }
-      });
 
     this.savingListAreaColumnsSuccessSubscription = this.savingListAreaColumnsSuccess$.subscribe((isSuccess) => {
       if (isSuccess) {
@@ -432,7 +350,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     if (canEditJobDescription && companyJobViewListItem.JobDescriptionStatus === 'Not Started' &&
       companyJobViewListItem.CompanyJobDescriptionTemplateId &&
       !companyJobViewListItem.JobDescriptionId) {
-      this.createJobDescriptionAndNavigate(companyJobViewListItem);
+      this.store.dispatch(new fromJobDescriptionListActions.CreateJobDescription({ companyJobViewListItem }));
       return;
     }
 
@@ -455,32 +373,25 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       this.listFilter = savedSearchTerm || '';
     });
 
-    if (this.routeTrackingService.previousRoute.indexOf('/job-description-management/job-descriptions') !== -1) {
-      this.savedGridState$.subscribe(savedGridState => {
-        this.gridState = savedGridState || { skip: 0, take: 20 };
-      });
-    }
+    this.gridStateSubscription = this.savedGridState$.subscribe(savedGridState => this.gridState = cloneDeep(savedGridState));
   }
 
   private routeToJobDescription(jobDescriptionId: number) {
     if (this.tokenId) {
       const jwtValue = this.tokenId;
-      this.router.navigate([`job-description-management/job-descriptions/${jobDescriptionId}`],
+      this.router.navigate([`job-descriptions/${jobDescriptionId}`],
         { queryParams: { jwt: jwtValue, viewName: JobDescriptionViewConstants.PUBLIC_VIEW } });
     } else {
-      this.router.navigate([`job-description-management/job-descriptions/${jobDescriptionId}`]);
+      this.router.navigate([`job-descriptions/${jobDescriptionId}`]);
     }
   }
 
   ngOnDestroy() {
     this.addUserFilterSubscription.unsubscribe();
-    this.createJobDescriptionSubscription.unsubscribe();
-    this.createJobDescriptionDraftSubscription.unsubscribe();
-    this.jobInformationFieldsSubscription.unsubscribe();
     this.listAreaColumnsSubscription.unsubscribe();
     this.routerParmsSubscription.unsubscribe();
-    this.saveCompanyJobsJobDescriptionTemplateIdSubscription.unsubscribe();
     this.savingListAreaColumnsSuccessSubscription.unsubscribe();
+    this.gridStateSubscription.unsubscribe();
   }
 
   ngOnInit() {

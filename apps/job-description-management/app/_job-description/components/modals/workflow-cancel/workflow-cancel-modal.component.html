@@ -1,0 +1,23 @@
+<ng-template #cancelWorkflowModal let-c="close" let-d="dismiss">
+  <form [formGroup]="cancelReasonForm" (ngSubmit)="submit()">
+    <div class="modal-header">
+      <h4 class="modal-title">Cancel Approval</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>By canceling the approval routing, edits and approvals made during the routing will be lost. <br /><br /> Would you like to continue?</p>
+      <label for="cancel-reason">Please provide comments on why you are cancelling this workflow:</label>
+      <textarea class="form-control" rows="5" placeholder="Comment" formControlName="cancelReason"></textarea>
+      <div *ngIf="cancelReasonForm.controls['cancelReason'].hasError('maxlength')" class="text-danger text-right">
+        Exceeds {{ cancelReasonForm.controls.cancelReason.errors.maxlength.requiredLength }} characters:
+        {{ cancelReasonForm.controls.cancelReason.errors.maxlength.actualLength}}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">No</button>
+      <button type="button" class="btn btn-danger" [disabled]="cancelReasonForm.invalid" (click)="confirmed()">Yes</button>
+    </div>
+  </form>
+</ng-template>

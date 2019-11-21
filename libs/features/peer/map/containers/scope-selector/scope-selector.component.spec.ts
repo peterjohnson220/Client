@@ -142,19 +142,6 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
     expect(store.dispatch).not.toHaveBeenCalledWith(expectAction);
   });
 
-  it('should dispatch a LoadExchangeScopesByJobs action on init if the systemFilter has been loaded and we are in the ' +
-           'add data cuts modal', () => {
-    const expectAction = new fromLibsExchangeScopeActions.LoadExchangeScopesByJobs();
-    instance.systemFilterLoaded$ = of(true);
-    instance.addDataModal = true;
-
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectAction);
-  });
-
   it('should dispatch a LoadExchangeScopesByExchange action on init if the systemFilter has been loaded and we are not in the' +
            'add data cuts modal', () => {
     const exchangeId = 1;

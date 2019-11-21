@@ -1,0 +1,123 @@
+<ng-template #copyJobDescriptionModal>
+
+  <div class="modal-header">
+    <h4 class="modal-title">Select Job Description To Copy From</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" [class.pb-0]="selectedJobDescription?.Status === 'Draft'">
+
+    <div id="info-header">
+      <table>
+        <tr>
+          <td>
+            <label>Job Family: </label>
+            <select (change)="handleSelectedJobFamilyChange($event.target.value)"
+              [(ngModel)]="selectedFamily" class="form-control" id="job-family-dropdown">
+              <option value="">All jobs, all families</option>
+              <option *ngFor="let family of (jobFamilies$ | async)" [value]="family">{{family}}</option>
+            </select>
+          </td>
+          <td>
+            <pf-input-debounce id="search-box"
+              (valueChanged)="handleSearchTermChanged($event)"
+              [delay]="400"
+              [ngModel]="searchTerm"
+              [ngModelOptions]="{standalone: true}"
+              [placeholderText]="'Search for a Job Code or Title...'">
+            </pf-input-debounce>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="inner-modal-content pb-3">
+      <ng-container *ngIf="(jobDescriptionSourcesAsync$ | async) as jobDescriptionSourcesAsync">
+
+        <pf-async-container [loading]="jobDescriptionSourcesAsync.loading"
+          [loadingError]="jobDescriptionSourcesAsync.loadingError"
+          [loadingErrorMessage]="'Error Loading Jobs.'">
+        </pf-async-container>
+
+        <ng-container *ngIf="!!filteredJobDescriptionSources">
+          <div *ngIf="!jobDescriptionSourcesAsync.loading && !!filteredJobDescriptionSources.length">
+            <div id="job-list" class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="header-row">Job Code</th>
+                    <th class="header-row">Job Title</th>
+                    <th class="header-row">Job Family</th>
+                    <th class="header-row">Job Level</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="selectable"
+                    *ngFor="let companyJob of filteredJobDescriptionSources"
+                    (click)="selectJobDescription(companyJob)"
+                    [ngClass]="{'bg-primary text-white' : selectedJobDescription?.DescriptionId === companyJob.DescriptionId}">
+                    <td>{{companyJob.JobCode}}</td>
+                    <td>{{companyJob.JobTitle}}
+                      <div
+                        [ngClass]="{'text-muted' : selectedJobDescription?.DescriptionId !== companyJob.DescriptionId, 'text-nowrap': true, 'small' : true}">
+                        <div *ngIf="companyJob.AppliesTo" class="pt-2">Applies To: {{companyJob.AppliesTo}}</div>
+                        <div *ngIf="companyJob.JobDescriptionTitle" class="pb-1">Job Description Title:
+                          {{companyJob.JobDescriptionTitle}}</div>
+                      </div>
+                    </td>
+                    <td>{{companyJob.JobFamily}}</td>
+                    <td>{{companyJob.JobLevel}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+  
+          <div class="centered-text"
+            *ngIf="!filteredJobDescriptionSources.length && !jobDescriptionSourcesAsync.loading">
+            <h5>There are no job descriptions that match the search criteria.</h5>
+          </div>
+        </ng-container>
+
+      </ng-container>
+    </div>
+
+    <div *ngIf="selectedJobDescription?.Status === 'Draft' && selectedJobDescription?.Version > 1 " class="container px-0 py-4">
+      <div class="row alert alert-info mb-0" role="alert">
+        <div class="col-8 pl-0">
+          <p>The latest version of this job description is in a draft status, would you like to copy the draft or the
+            last published version?
+          </p>
+        </div>
+        <div class="col-4">
+          <div class="row justify-content-end">
+            <div class="col-6">
+              <label>
+                <input type="radio" name="selectedStatus" [(ngModel)]="selectedStatus" value="Draft"> Draft
+              </label>
+            </div>
+          </div>
+          <div class="row justify-content-end">
+            <div class="col-6">
+              <label>
+                <input type="radio" name="selectedStatus" [(ngModel)]="selectedStatus" value="Published"> Published
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+    <button class="btn btn-primary" (click)="replaceJobDescription()"
+      [disabled]="!selectedJobDescription || (selectedJobDescription?.Status === 'Draft' && selectedStatus === null) ">Copy</button>
+  </div>
+
+</ng-template>
+
+<!--<pf-confirm-job-description-overwrite-modal (jobDescriptionOverwriteConfirmed)="handleOverwriteConfirmed()"></pf-confirm-job-description-overwrite-modal>-->
