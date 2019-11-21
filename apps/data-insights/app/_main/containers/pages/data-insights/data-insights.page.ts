@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 import { Workbook } from '../../../models';
 import * as fromDataInsightsPageActions from '../../../actions/data-insights-page.actions';
@@ -39,12 +40,14 @@ export class DataInsightsPageComponent implements OnInit, OnDestroy {
     private settingsService: SettingsService
   ) {
     this.standardReports$ = this.store.pipe(select(fromDataInsightsMainReducer.getStandardWorkbooksAsync));
-    this.showStandardReportsSection$ = this.store.pipe(select(fromDataInsightsMainReducer.getShowStandardReportsSection));
     this.thumbnailsViewSettingEnabled$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.DataInsightsThumbnailsViewDisplay
     );
     this.reportBuilderSettingEnabled$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.DataInsightsReportBuilder
+    );
+    this.showStandardReportsSection$ = this.settingsService.selectUiPersistenceSetting<boolean>(
+      FeatureAreaConstants.DataInsights, UiPersistenceSettingConstants.ShowStandardReportsSection
     );
   }
 
@@ -59,7 +62,6 @@ export class DataInsightsPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
       }
     });
-    this.store.dispatch(new fromDataInsightsPageActions.GetStandardReportsDisplaySetting());
     this.store.dispatch(new fromDataInsightsPageActions.GetStandardReports());
   }
 

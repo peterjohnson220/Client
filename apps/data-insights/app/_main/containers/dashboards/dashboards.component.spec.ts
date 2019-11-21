@@ -11,7 +11,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import { DashboardsComponent } from './dashboards.component';
-import { generateMockWorkbook, SaveWorkbookTagObj, generateMockSaveWorkbookTagObj } from '../../models';
+import { generateMockWorkbook, SaveWorkbookTagObj, generateMockSaveWorkbookTagObj, DashboardView } from '../../models';
 
 describe('Data Insights - Dashboards Comopnent', () => {
   let instance: DashboardsComponent;
@@ -62,6 +62,26 @@ describe('Data Insights - Dashboards Comopnent', () => {
     spyOn(store, 'dispatch');
 
     instance.handleSaveTagClicked(saveObj);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch SetDashboardView with correct dashboard view', () => {
+    const dashboardViewSettingValue = 'Favorites';
+    const expectedAction = new fromDashboardsActions.SetDashboardView(DashboardView.Favorites);
+    spyOn(store, 'dispatch');
+
+    instance.handleDashboardViewSettingChanged(dashboardViewSettingValue);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch SetDashboardView with default dashboard view if the setting value does not match', () => {
+    const dashboardViewSettingValue = 'Random View';
+    const expectedAction = new fromDashboardsActions.SetDashboardView(DashboardView.All);
+    spyOn(store, 'dispatch');
+
+    instance.handleDashboardViewSettingChanged(dashboardViewSettingValue);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

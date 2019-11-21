@@ -17,9 +17,7 @@ export const REMOVE_VIEW_FAVORITE_ERROR = '[Data Insights / Views] Remove View F
 export const SAVE_REPORT_ORDER = '[Data Insights / Views] Save Report Order';
 export const SAVE_REPORT_ORDER_SUCCESS = '[Data Insights / Views] Save Report Order Success';
 export const SAVE_REPORT_ORDER_ERROR = '[Data Insights / Views] Save Report Order Error';
-export const GET_DASHBOARD_VIEW = '[Data Insights / Views] Get Dashboard View]';
-export const GET_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Views] Get Dashboard View Success';
-export const GET_DASHBOARD_VIEW_ERROR = '[Data Insights / Views] Get Dashboard View Error';
+export const SET_DASHBOARD_VIEW = '[Data Insights / Views] Set Dashboard View';
 export const TOGGLE_DASHBOARD_VIEW = '[Data Insights / Views] Toggle Dashboard View]';
 export const PERSIST_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Views] Persist Dashboard View Success';
 export const PERSIST_DASHBOARD_VIEW_ERROR = '[Data Insights / Views] Persist Dashboard View Error';
@@ -114,22 +112,10 @@ export class SaveReportOrderError implements Action {
   constructor() {}
 }
 
-export class GetDashboardView implements Action {
-  readonly type = GET_DASHBOARD_VIEW;
+export class SetDashboardView implements Action {
+  readonly type = SET_DASHBOARD_VIEW;
 
-  constructor() {}
-}
-
-export class GetDashboardViewSuccess implements Action {
-  readonly type = GET_DASHBOARD_VIEW_SUCCESS;
-
-  constructor(public payload: string) {}
-}
-
-export class GetDashboardViewError implements Action {
-  readonly type = GET_DASHBOARD_VIEW_ERROR;
-
-  constructor() {}
+  constructor(public payload: DashboardView) {}
 }
 
 export class ToggleDashboardView implements Action {
@@ -164,9 +150,7 @@ export type Actions
   | SaveReportOrder
   | SaveReportOrderSuccess
   | SaveReportOrderError
-  | GetDashboardView
-  | GetDashboardViewSuccess
-  | GetDashboardViewError
+  | SetDashboardView
   | ToggleDashboardView
   | PersistDashboardViewSuccess
   | PersistDashboardViewError;
