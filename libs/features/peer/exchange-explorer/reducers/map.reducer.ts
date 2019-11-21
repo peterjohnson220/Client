@@ -80,7 +80,8 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         loading: false,
         loadingError: false,
         mapFilter: mapFilter,
-        isInitialLoad: false
+        isInitialLoad: false,
+        autoZooming: false
       };
 
       MapHelper.setBounds(mapSummary, state, newState);
