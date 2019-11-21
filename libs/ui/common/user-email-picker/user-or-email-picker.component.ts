@@ -31,6 +31,8 @@ export class UserOrEmailPickerComponent implements OnInit {
   @Input() companyId: number;
   @Input() nameToExclude: string;
   @Input() loaderType: string;
+  @Input() jobId: number;
+  @Input() workflow: boolean;
   @Output() selected = new EventEmitter();
 
   identity$: Observable<UserContext>;
@@ -38,6 +40,7 @@ export class UserOrEmailPickerComponent implements OnInit {
   model: any;
   searching = false;
   searchFailed = false;
+
 
   constructor(private companyApiService: CompanyApiService,
               private userApiService: UserApiService,
@@ -63,7 +66,8 @@ export class UserOrEmailPickerComponent implements OnInit {
         UserId: event.item.UserId,
         EmailAddress: event.item.EmailAddress,
         FirstName: event.item.FirstName,
-        LastName: event.item.LastName
+        LastName: event.item.LastName,
+        UserPicture: event.item.UserPicture
       };
       this.selected.emit(payload);
     }
@@ -74,7 +78,8 @@ export class UserOrEmailPickerComponent implements OnInit {
       return of([]);
     }
 
-    return this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType).map((results: any) => {
+    return !this.workflow ? this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType) : this.userApiService.picker(term)
+      .map((results: any) => {
       let returnVal = [{}];
 
       if (results.length) {

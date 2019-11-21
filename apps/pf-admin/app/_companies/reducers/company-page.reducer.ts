@@ -272,7 +272,7 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       };
     }
     case fromCompanyPageActions.GET_DEFAULT_SETTINGS_SUCCESS: {
-      let settings = cloneDeep(action.payload.filter(x => x.Visible));
+      let settings = cloneDeep(action.payload);
       settings = settings.map((s) => {
         if (s.Key === CompanySettingsEnum.MaxProjectJobCount) {
           s.Disabled = true;
@@ -290,7 +290,6 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
     }
     case fromCompanyPageActions.GET_COMPANY_SETTINGS_SUCCESS: {
       let settings = cloneDeep(action.payload);
-      settings = settings.filter((x: CompanySetting) => x.Visible);
       const peerTermsAndCondAccepted = settings.some((x: CompanySetting) =>
         x.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted && x.Value.toLowerCase() === 'true');
 

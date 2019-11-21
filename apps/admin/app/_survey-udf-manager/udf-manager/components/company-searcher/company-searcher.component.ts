@@ -1,46 +1,42 @@
-import { Component, EventEmitter, Input, OnInit, OnChanges, SimpleChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Company } from 'libs/models/company';
+import { BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
+import { CompanyBaseInformation } from 'libs/models/company';
+
+const take = 100;
 
 @Component({
   selector: 'pf-company-searcher',
   templateUrl: './company-searcher.component.html',
   styleUrls: ['./company-searcher.component.scss']
 })
-export class CompanySearcherComponent implements OnInit, OnChanges {
+export class CompanySearcherComponent {
 
   @Input() loadingCompaniesList: boolean;
-  @Input() companiesList: Company[];
-  @Input() selectedCompany: Company;
+  @Input() companiesList: CompanyBaseInformation[];
+  @Input() selectedCompany: CompanyBaseInformation;
 
-  @Output() selectCompany = new EventEmitter<Company>();
+  @Output() selectCompany = new EventEmitter<CompanyBaseInformation>();
   @Output() unselectCompany = new EventEmitter();
+  @Output() filterCompanies = new EventEmitter<{ searchTerm: string, take: number }>();
 
-  filteredCompaniesList: Company[] = [];
+  searchTermChanged$ = new BehaviorSubject<string>('');
 
-  constructor() { }
-
-  ngOnInit() { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    const companies = changes.companiesList as any;
-    if (!this.filteredCompaniesList.length && companies && companies.currentValue && companies.currentValue.length) {
-      this.filteredCompaniesList = companies.currentValue;
-    }
+  constructor() {
+    this.searchTermChanged$.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    )
+    .subscribe(searchTerm => this.filterCompanies.emit({ searchTerm, take }));
   }
 
   handleCompanyListFilter(searchTerm: string) {
-    this.filteredCompaniesList = this.companiesList.filter((c) => {
-      const isNameMatch = c.CompanyName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
-
-      const searchTermAsNumber = parseInt(searchTerm, 10);
-      const isIdMatch = isNaN(searchTermAsNumber) ? false : c.CompanyId === searchTermAsNumber;
-
-      return isNameMatch || isIdMatch;
-    });
+    this.searchTermChanged$.next(!searchTerm ? '' : searchTerm);
   }
 
-  setSelectedCompany(company: Company) {
+  setSelectedCompany(company: CompanyBaseInformation) {
     if (company) {
       this.selectCompany.emit(company);
     } else {

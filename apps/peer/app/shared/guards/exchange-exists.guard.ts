@@ -33,7 +33,7 @@ export class ExchangeExistsGuard implements CanActivate, CanActivateChild {
     return this.exchangeApiService.getExchange(exchangeId).pipe(
       map((exchange: Exchange) => {
         if (!!exchange) {
-          return new fromExchangeActions.LoadExchangeSuccess({ exchange, path })
+          return new fromExchangeActions.LoadExchangeSuccess({ exchange, path });
         } else {
           this.exchangeNotFound();
         }

@@ -11,7 +11,7 @@
 
   <ng-template [ngIf]="data.length">
 
-    <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+    <ng-container *ngFor="let dataRow of data; index as dataRowIndex; trackBy: trackByFn">
 
       <tr [attr.data-index]="dataRowIndex"
           [attr.data-data-row-id]="dataRow.Id">
@@ -21,7 +21,7 @@
         </td>
 
         <!--Attribute Cells-->
-        <td width="{{attribute.WidthPct + '%'}}" *ngFor="let attribute of attributes">
+        <td width="{{attribute.WidthPct + '%'}}" *ngFor="let attribute of attributes; trackBy: trackByAttributeFn">
           <pf-control-data-attribute-renderer
             [editable]="canEditAttribute(dataRow, attribute)"
             [checkInheritedData]="checkInheritedData"
@@ -37,7 +37,7 @@
 
       </tr>
 
-    </ng-template>
+    </ng-container>
 
   </ng-template>
 

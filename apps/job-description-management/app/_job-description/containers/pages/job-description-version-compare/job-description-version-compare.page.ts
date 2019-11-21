@@ -6,9 +6,10 @@ import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 import 'rxjs-compat/add/operator/take';
 
-import {UserContext} from 'libs/models/security';
+import { UserContext } from 'libs/models/security';
 import { ControlType } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
+import { AsyncStateObj } from 'libs/models/state';
 
 import {JobDescriptionHistoryListItem} from '../../../models';
 import * as fromJobDescriptionReducer from '../../../reducers';
@@ -16,6 +17,8 @@ import * as fromJobDescriptionVersionCompareActions from '../../../actions/job-d
 import * as fromJobDescriptionHistoryListActions from '../../../actions/job-description-history-list.actions';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromControlTypeActions from '../../../../shared/actions/control-types.actions';
+import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
+
 
 @Component({
   selector: 'pf-job-description-version-compare.page',
@@ -26,13 +29,13 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
   companyLogoPath: string;
 
   sourceHistoryItem$: Observable<JobDescriptionHistoryListItem>;
-  jobDescriptionHistoryList$: Observable<JobDescriptionHistoryListItem[]>;
+  jobDescriptionHistoryList$: Observable<AsyncStateObj<JobDescriptionHistoryListItem[]>>;
   comparisonHistoryItem$: Observable<JobDescriptionHistoryListItem>;
   jobDescriptionVersionComparisonLoading$: Observable<boolean>;
   jobDescriptionVersionComparisonLoadingError$: Observable<boolean>;
   jobDescriptionVersionComparison$: Observable<any>;
   controlTypesLoaded$: Observable<any>;
-  companyLogo$: Observable<string>;
+  companyLogo$: Observable<AsyncStateObj<string>>;
   controlTypes$: Observable<ControlType[]>;
 
   identity$: Observable<UserContext>;
@@ -56,7 +59,7 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
     this.jobDescriptionVersionComparison$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionComparison);
     this.jobDescriptionVersionComparisonLoading$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionComparisonLoading);
     this.jobDescriptionVersionComparisonLoadingError$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionComparisonLoadingError);
-    this.companyLogo$ = this.store.select(fromJobDescriptionReducer.getCompanyLogo);
+    this.companyLogo$ = this.store.select(fromJobDescriptionReducer.getCompanyLogoAsync);
     this.controlTypes$ = this.store.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersion);
 
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
@@ -74,7 +77,7 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
   }
 
   stopComparing() {
-     this.router.navigate([`job-description-management/job-descriptions/${this.route.snapshot.params.id}`]);
+     this.router.navigate([`job-descriptions/${this.route.snapshot.params.id}`]);
   }
 
   ngOnInit() {
@@ -89,12 +92,12 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
     // Get Identity
     this.identity$.subscribe(identity => {
       this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
-        this.companyLogoPath = companyLogo
-          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo
+        this.companyLogoPath = companyLogo && companyLogo.obj
+          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo.obj
           : '';
       });
 
-      this.store.dispatch(new fromJobDescriptionVersionCompareActions.LoadCompanyLogo(identity.CompanyId));
+      this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(identity.CompanyId));
     });
 
     // Get all control types

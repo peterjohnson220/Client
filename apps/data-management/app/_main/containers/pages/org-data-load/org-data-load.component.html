@@ -1,0 +1,57 @@
+<pf-page-with-title-bar [absoluteUrl]="returnUrl">
+  <ng-container page-title>
+    Data Management
+  </ng-container>
+  <ng-container page-content>
+
+    <div class=" w-100 d-flex justify-content-center">
+      <div class="w-75 ">
+        <h4 class="my-2">Load Organizational Data</h4>
+        <div class="shadow p-3 bg-white rounded container-background">
+
+          <div class="font-weight-bold pb-3">{{this.StepHeaders[this.stepIndex - 1]}}</div>
+
+          <ng-container [ngSwitch]="stepIndex">
+
+            <div id="step1"
+                 *ngSwitchCase="1">
+              <div class="form-group">
+                <label class="sr-only"
+                       for="companySearch">Company Search</label>
+                <pf-company-selector>
+                </pf-company-selector>
+
+              </div>
+            </div>
+
+            <div id=" step2"
+                 *ngSwitchCase="2">
+              <div class="pl-5">
+                <pf-entity-picker [entities]="loadOptions"></pf-entity-picker>
+              </div>
+            </div>
+
+            <div id="step3"
+                 *ngSwitchCase="3">
+              <div class="rounded bg-light p-4">
+                <pf-entity-upload [selectedMapping]="this.selectedMapping"></pf-entity-upload>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="text-right mt-3">
+            <button type="button"
+                    class="btn mx-1 btn-md btn-secondary"
+                    (click)="this.backBtnClick();">Cancel</button>
+            <button type="button"
+                    [style.opacity]="this.getNextBtnOpacity()"
+                    [ngbTooltip]="this.areStepsValid() ? '' :  this.NextBtnToolTips[this.stepIndex - 1]"
+                    placement="top"
+                    (click)="this.nextBtnClick()"
+                    class="btn mx-1 btn-primary">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>

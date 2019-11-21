@@ -6,7 +6,7 @@
 
     <form [formGroup]="udfForm" (ngSubmit)="onSubmit()">
       <div formArrayName="udfs">
-        <h3 class="mt-2 mb-4">{{ selectedCompany.CompanyName }} ({{ selectedCompany.CompanyId }}) Custom Fields</h3>
+        <h3 class="mt-2 mb-4">{{ selectedCompany.Name }} ({{ selectedCompany.CompanyId }}) Custom Fields</h3>
         <div *ngFor="let udf of udfs.controls; let i=index" class="udf mt-2 mb-2">
           <div [formGroupName]="i">
             <label class="udf" [htmlFor]="'UDF_' + (i+1)">UDF {{i+1}}</label>

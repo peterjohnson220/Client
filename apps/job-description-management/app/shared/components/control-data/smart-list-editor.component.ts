@@ -48,22 +48,20 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: any) {
+    if (changes.data && changes.data.currentValue.length === 0 && changes.data.previousValue && changes.data.previousValue.length > 0) {
+      this.rteData = null;
+    }
 
-    if (!this.firstChange) {
+    if (changes.data && changes.data.currentValue.length) {
+      const currentData = changes.data.currentValue;
+      const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
+      for (let i = 0; i < currentData.length; i++) {
+        const currentSourcedValue = currentData[i][sourcedAttributeName];
 
-      if (changes.data && changes.data.currentValue.length === 0 && changes.data.previousValue.length > 0) {
-        this.rteData = null;
-      }
-    } else {
-      if (changes.data && changes.data.currentValue.length) {
-        const currentData = changes.data.currentValue;
-        const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
-        for (let i = 0; i < currentData.length; i++) {
-          const currentSourcedValue = currentData[i][sourcedAttributeName];
-
-          if (currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) {
-            currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
-            this.rebuildQuillHtmlFromSavedData();
+        if (currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) {
+          currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
+          this.rebuildQuillHtmlFromSavedData();
+          if (this.firstChange) {
             this.focusRTE();
           }
         }

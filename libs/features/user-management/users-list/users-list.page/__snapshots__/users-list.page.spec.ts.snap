@@ -5,6 +5,7 @@ exports[`Admin - Company-Admin - Users List Page Should show the page with searc
   _Permissions={[Function Function]}
   companyId="undefined"
   companyName$={[Function Store]}
+  returnUrl="undefined"
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   searchTerm$={[Function Store]}

@@ -1,0 +1,53 @@
+<div class="audit-trail-entry-container">
+  <div class="audit-trail-entry-inner">
+    <div class="audit-trail-entry-wrapper" *ngFor="let workflowLogEntry of workflowLogEntries">
+
+      <!--User Entry-->
+      <ng-container *ngIf="workflowLogEntry.Type == 'USER'">
+        <img class="audit-trail-entry-avatar" [src]="workflowLogEntry.AvatarUrl" width="45" />
+
+        <div class="audit-trail-entry-user card">
+          <h3 class="card-header">
+            <h6 class="row mb-0">
+              <div class="col p-0 workflow-icon">
+                <span *ngIf="workflowLogEntry.Action == 'START'"><fa-icon icon="arrow-right" class="text-info" aria-hidden="true"></fa-icon></span>
+                <span *ngIf="workflowLogEntry.Action == 'REROUTE'"><fa-icon icon="random" class="text-info" aria-hidden="true"></fa-icon></span>
+                <span *ngIf="workflowLogEntry.Action == 'APPROVAL'"><fa-icon icon="check" class="text-success" aria-hidden="true"></fa-icon></span>
+                <span *ngIf="workflowLogEntry.Action == 'REJECTION'"><fa-icon icon="times" class="text-danger" aria-hidden="true"></fa-icon></span>
+                <span *ngIf="workflowLogEntry.Action == 'CANCELLED'"><fa-icon icon="ban" class="text-danger" aria-hidden="true"></fa-icon></span>
+              </div>
+              <div class="col-10 pl-2 pr-0">
+                {{workflowLogEntry.AuthorName}}&nbsp;<span class="text-muted">{{workflowLogEntry.Title}}</span>
+              </div>
+              <div class="col p-0 timestamp">
+                <small title="{{(workflowLogEntry.Timestamp | amFromUnix) | amDateFormat:'LLL'}}" class="time-ago text-muted">{{(workflowLogEntry.Timestamp | amFromUnix) | amTimeAgo:true}} ago</small>
+              </div>
+            </h6>
+          </h3>
+          <div class="card-block">
+            <p class="card-text">
+              <span *ngIf="workflowLogEntry.Comment" [innerHtml]="workflowLogEntry.Comment"></span>
+              <span *ngIf="!workflowLogEntry.Comment" class="text-muted">No comment provided.</span>
+            </p>
+          </div>
+        </div>
+      </ng-container>
+
+      <!--System Entry-->
+      <ng-container *ngIf="workflowLogEntry.Type == 'SYSTEM'">
+        <div class="audit-trail-entry-system">
+          <h6>
+						<span *ngIf="workflowLogEntry.Action == 'ROUTE'" class="fa-2x">
+							<fa-layers [fixedWidth]="true">
+								<fa-icon icon="circle" class="circle"></fa-icon>
+								<fa-icon icon="random" [inverse]="true" transform="shrink-6"></fa-icon>
+							</fa-layers>
+						</span>
+            <span class="text-muted" id="shift-text-up">{{workflowLogEntry.Title}}</span>
+          </h6>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+</div>

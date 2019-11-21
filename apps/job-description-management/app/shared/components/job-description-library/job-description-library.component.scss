@@ -1,0 +1,159 @@
+@import 'libs/styles/dragula-drag-drop';
+
+.jd-library{
+  padding: 10px 0;
+  height: 100%;
+}
+
+.jd-library-head{
+  padding-top: 5px;
+  height: 125px;
+  border-bottom: 1px solid #dddddd;
+}
+
+.jd-library-head-controls{
+  float: right;
+}
+
+.jd-library-head-controls {
+  fa-icon {
+    cursor: pointer;
+    color: #707070;
+  }
+}
+
+.jd-library-search-form{
+  padding-top:10px;
+}
+
+.jd-library-content{
+  overflow: auto;
+  padding:10px 0;
+  margin-bottom: 40px;
+  height: calc(100vh - 314px)
+}
+
+.jd-library-footer{
+  position: absolute;
+  bottom: 0px;
+  height: 39px;
+  left: 0px;
+  right: 0px;
+}
+
+.jd-libary-footer .pagination{
+  margin: 0;
+}
+
+.card{
+  margin-bottom: 10px;
+}
+
+.card-block{
+  padding: 7px 15px;
+}
+
+.jd-library-results-table td{
+  min-width: 100px;
+}
+
+.jd-library-results-table tr{
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.jd-library-results-table tr:active{
+  cursor: move;
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+
+.view-more-link{
+  cursor: pointer;
+  display: inline-block;
+  color: #1872ae;
+}
+
+/*Hide mirror image from drag*/
+.gu-transit{
+  display: none;
+}
+
+.gu-mirror{
+  width: 400px !important;
+  opacity: 1;
+  cursor: move;
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+.gu-mirror td:not(.gu-mirror-show) {
+  display: none;
+}
+
+.gu-mirror-show{
+  display: none;
+}
+
+.gu-mirror .gu-mirror-show{
+  display:block;
+}
+
+.gu-mirror .card{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.gu-mirror .card-block{
+  height: 30px;
+  width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 5px 25px;
+}
+
+.loading-blanket{
+  background-color: #fff;
+  bottom: 0;
+  font-size: 30px;
+  left: 0;
+  opacity: 0.8;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 5;
+}
+
+.loading-blanket-center{
+  font-size: 20px;
+  margin: 50px auto;
+  width: 50%;
+  text-align: center;
+}
+.jd-library-content .source-detail:hover {
+  text-decoration: underline;
+}
+
+.badge-default {
+  background-color: #636c72;
+}
+
+.badge-primary {
+  background-color: #1872ae;
+}
+
+.badge-pill {
+  padding-right: 0.6em;
+  padding-left: 0.6em;
+  border-radius: 10rem;
+}
+::ng-deep {
+  .page-item.active .page-link {
+    background-color: #1872ae;
+    border-color: #1872ae;
+  }
+}

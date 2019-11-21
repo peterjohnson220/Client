@@ -12,7 +12,11 @@ import {
 } from '../../../models/payfactors-api/job-description/request';
 import {
   CompanyJobViewListItemsResponse,
-  JobInformationFieldForBulkExportResponse
+  JobInformationFieldForBulkExportResponse,
+  JobMatchResultResponse,
+  ExtendedInfoResponse,
+  JobDescriptionSourceResponse,
+  CreateJobDescriptionResponse
 } from '../../../models/payfactors-api/job-description/response';
 import {
   JobDescriptionHistoryListItemResponse
@@ -29,6 +33,7 @@ import {
 import {
   JobDescriptionDeleteByTemplateIdRequest
 } from 'apps/pf-admin/app/_utilities/models/requests/job-description-delete-by-template-id-request.model';
+import { FlsaQuestionnaireDetails } from '../../../../apps/job-description-management/app/_job-description/models';
 
 @Injectable()
 export class JobDescriptionApiService {
@@ -55,11 +60,13 @@ export class JobDescriptionApiService {
   }
 
   createJobDescription(request: CreateJobDescriptionRequest): Observable<number> {
-    return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.Create`, request);
+    return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.Create`, request,
+      (response) => response.value);
   }
 
-  createJobDescriptionDraft(jobDescriptionId: number, request: CreateJobDescriptionDraftRequest): Observable<string> {
-    return this.payfactorsApiService.post<string>(`${this.endpoint}(${jobDescriptionId})/Default.CreateDraft`, request);
+  createJobDescriptionDraft(jobDescriptionId: number, request: CreateJobDescriptionDraftRequest): Observable<CreateJobDescriptionResponse> {
+    return this.payfactorsApiService.post<CreateJobDescriptionResponse>(`${this.endpoint}(${jobDescriptionId})/Default.CreateDraft`, request,
+      (response) => JSON.parse(response.value));
   }
 
   getAppliesTo(): Observable<JobDescriptionAppliesToItemResponse[]> {
@@ -123,8 +130,15 @@ export class JobDescriptionApiService {
     return this.payfactorsApiService.get<JobDescription[]>(`${this.endpoint}(${jobDescriptionId})/Default.GetJobCompareList`);
   }
 
-  getDetail(jobDescriptionId: number, viewName: string = null) {
-    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetDetail`, {params: {viewName}},
+  getDetail(jobDescriptionId: number, revisionNumber: number = null, viewName: string = null): Observable<JobDescription> {
+    let params = {};
+    if (!!revisionNumber) {
+      params = Object.assign({ revisionNumber }, params);
+    }
+    if (!!viewName) {
+      params = Object.assign({ viewName }, params);
+    }
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetDetail`, { params },
       (response) => JSON.parse(response.value));
   }
 
@@ -137,13 +151,18 @@ export class JobDescriptionApiService {
       (response => JSON.parse(response.value)));
   }
 
-  publish(jobDescriptionId: number) {
-    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.Publish`, {});
+  publish(jobDescriptionId: number): Observable<JobDescription> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.Publish`, {},
+    (response) => JSON.parse(response.value));
   }
 
   getJobCompare(sourceJobDescriptionId: number, compareJobDescriptionId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}(${sourceJobDescriptionId})/Default.GetJobDescriptionCompare`, {params: {compareJobDescriptionId}},
       (response) => JSON.parse(response.value));
+  }
+
+  getJobDescriptionExtendedInfo(jobDescriptionId: number, revisionNumber: number): Observable<ExtendedInfoResponse> {
+    return this.payfactorsApiService.get<ExtendedInfoResponse>(`${this.endpoint}(${jobDescriptionId})/Default.GetExtendedInfo`, {params: {revisionNumber}});
   }
 
   getVersionCompare(jobDescriptionId: number, revisionNumber: number, previousRevisionNumber: number) {
@@ -152,6 +171,58 @@ export class JobDescriptionApiService {
         revisionNumber,
         previousRevisionNumber
       }
+    }, (response) => JSON.parse(response.value));
+  }
+
+  getJobMatches(jobDescriptionId: number): Observable<JobMatchResultResponse[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetJobMatches`);
+  }
+
+  discardDraft(jobDescriptionId: number): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.DiscardDraft`, {});
+  }
+
+  getFlsaQuestionnaire(jobDescriptionId: number, jobDescriptionVersion: number, isHistorical: boolean): Observable<FlsaQuestionnaireDetails> {
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetFlsaQuestionnaire`, {
+      params: {
+        jobDescriptionVersion,
+        isHistorical
+      }
+    }, (response) => JSON.parse(response.value));
+  }
+
+  saveFlsaQuestionnaire(flsaQuestionnaireDetails: FlsaQuestionnaireDetails): Observable<any> {
+    const obj = {
+      flsaQuestionnaireJsonString: JSON.stringify(flsaQuestionnaireDetails)
+    };
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.SaveFlsaQuestionnaire`, obj);
+  }
+
+  acknowledge(signature: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.EmployeeAcknowledge`, {signature: signature});
+  }
+
+  getEmployeeAcknowledgementInfo() {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetEmployeeAcknowledgementInfo`);
+  }
+
+  createProjectFromMatches(jobDescriptionId: number, surveyJobIds: number[], payfactorsJobIds: number[]): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.CreateProjectFromMatches`, { surveyJobIds, payfactorsJobIds });
+  }
+
+  getJobsAsSourceForJobDescriptionCopyFrom(jobDescriptionId: number, templateId: number, jobFamily: string): Observable<JobDescriptionSourceResponse[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetJobsAsSourceForJobDescriptionCopyFrom`, {
+      params: {
+        templateId: templateId,
+        jobFamily: jobFamily
+      }
+    });
+  }
+
+  copyFrom(jobDescriptionId: number, jobDescriptionIdToCopyFrom: number, jobDescriptionStatus: string): Observable<JobDescription> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.CopyFrom`, {
+      jobDescriptionIdToCopyFrom,
+      jobDescriptionStatus
     }, (response) => JSON.parse(response.value));
   }
 }

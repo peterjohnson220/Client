@@ -9,9 +9,6 @@ import * as fromDashboardReducer from './dashboard.reducer';
 import * as fromUserVoiceReducer from './user-voice.reducer';
 import * as fromActivityTimelineReducer from './timeline-activity.reducer';
 import * as fromDashboardTCModalReducer from './dashboard-tc-modal.reducer';
-import * as fromCompanyResourcesReducer from './company-resources.reducer';
-import * as fromCompanyResourcesFolderReducer from './company-resources-folder.reducer';
-import * as fromCompanyResourcesOrphanReducer from './company-resources-orphan.reducer';
 
 // Feature area state
 export interface DashboardMainState {
@@ -20,9 +17,6 @@ export interface DashboardMainState {
   userVoice: fromUserVoiceReducer.State;
   activityTimeline: fromActivityTimelineReducer.State;
   tcModal: fromDashboardTCModalReducer.State;
-  companyResources: fromCompanyResourcesReducer.State;
-  folderResources: fromCompanyResourcesFolderReducer.State;
-  orphanResources: fromCompanyResourcesOrphanReducer.State;
 }
 
 // Extend root state with feature area state
@@ -36,10 +30,7 @@ export const reducers = {
   tileGrid: fromTileGridReducer.reducer,
   userVoice: fromUserVoiceReducer.reducer,
   activityTimeline: fromActivityTimelineReducer.reducer,
-  tcModal: fromDashboardTCModalReducer.reducer,
-  companyResources: fromCompanyResourcesReducer.reducer,
-  folderResources: fromCompanyResourcesFolderReducer.reducer,
-  orphanResources: fromCompanyResourcesOrphanReducer.reducer
+  tcModal: fromDashboardTCModalReducer.reducer
 };
 
 // Select Feature Area
@@ -51,9 +42,6 @@ export const selectFeatureState = createSelector(selectDashboardMainState, (stat
 export const selectUserVoiceState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.userVoice);
 export const selectActivityTimelineState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.activityTimeline);
 export const selectTCModalState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.tcModal);
-export const selectCompanyResourcesState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.companyResources);
-export const selectCompanyResourcesFolderState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.folderResources);
-export const selectCompanyResourcesOrphanState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.orphanResources);
 
 // Feature
 export const {
@@ -94,31 +82,3 @@ export const getTCSubmittingError = createSelector(selectTCModalState, fromDashb
 export const getTCSubmittingSuccess = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCSubmittingSuccess);
 export const getTCData = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCData);
 export const hasTCData = createSelector(selectTCModalState, fromDashboardTCModalReducer.hasTCData);
-
-// company resources
-export const getCompanyResourcesLoading = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourcesLoading);
-export const getCompanyResourcesLoadingError = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourcesLoadingError);
-export const getCompanyResourceToAdd = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceToAdd);
-export const getCompanyResourceId = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceId);
-export const getAddingCompanyResource = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResource);
-export const getAddingCompanyResourceSuccess = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceSuccess);
-export const getDeletingCompanyResourceSuccess = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getDeletingCompanyResourceSuccess);
-
-// company folder resources
-export const { selectAll: getCompanyFolderResources } = fromCompanyResourcesFolderReducer.adapter.getSelectors(selectCompanyResourcesFolderState);
-export const getFolderResources = createSelector(selectCompanyResourcesFolderState, fromCompanyResourcesFolderReducer.getFolderResources);
-export const getCompanyResourceFolder = createSelector(selectCompanyResourcesFolderState, fromCompanyResourcesFolderReducer.getCompanyResourceFolder);
-export const getAddingFolderToCompanyResources = createSelector(selectCompanyResourcesFolderState,
-  fromCompanyResourcesFolderReducer.getAddingFolderToCompanyResources);
-export const getAddingFolderToCompanyResourcesSuccess = createSelector(selectCompanyResourcesFolderState,
-  fromCompanyResourcesFolderReducer.getAddingFolderToCompanyResourcesSuccess);
-export const getAddingFolderToCompanyResourcesError = createSelector(selectCompanyResourcesFolderState,
-  fromCompanyResourcesFolderReducer.getAddingFolderToCompanyResourcesError);
-export const getDeletingFolderFromCompanyResources = createSelector(selectCompanyResourcesFolderState,
-  fromCompanyResourcesFolderReducer.getDeletingFolderFromCompanyResources);
-export const getDeletingFolderFromCompanyResourcesSuccess = createSelector(selectCompanyResourcesFolderState,
-fromCompanyResourcesFolderReducer.getDeletingFolderFromCompanyResourcesSuccess);
-
-// company orphan resources
-export const { selectAll: getCompanyOrphanResources } = fromCompanyResourcesOrphanReducer.adapter.getSelectors(selectCompanyResourcesOrphanState);
-export const getOrphanedResources = createSelector(selectCompanyResourcesOrphanState, fromCompanyResourcesOrphanReducer.getOrphanedResources);

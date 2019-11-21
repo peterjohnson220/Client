@@ -5,7 +5,7 @@ import { Action, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
-import { Company } from 'libs/models/company';
+import { CompanyBaseInformation } from 'libs/models/company';
 
 import * as fromReducers from '../reducers';
 import * as fromCompanySelectorActions from '../actions/company-selector.actions';
@@ -17,8 +17,8 @@ export class CompanySelectorEffects {
   getCompanies$: Observable<Action> = this.actions$.pipe(
     ofType(fromCompanySelectorActions.GET_COMPANIES),
     switchMap((action: fromCompanySelectorActions.GetCompanies) =>
-      this.companyApiService.getCompanies().pipe(
-        map((companies: Company[]) => {
+      this.companyApiService.getCompanyBaseInformation().pipe(
+        map((companies: CompanyBaseInformation[]) => {
           const companiesTransformed = PayfactorsApiModelMapper.mapCompaniesResponseToCompanySelector(companies);
           return new fromCompanySelectorActions.GetCompaniesSuccess(companiesTransformed);
         }),

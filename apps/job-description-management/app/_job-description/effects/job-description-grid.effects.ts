@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -15,6 +16,7 @@ import * as fromJobDescriptionGridActions from '../actions/job-description-grid.
 import * as fromJobDescriptionGridReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../../shared/helpers';
 import { MappingHelper } from 'libs/core/helpers';
+
 
 @Injectable()
 export class JobDescriptionGridEffects {
@@ -44,7 +46,12 @@ export class JobDescriptionGridEffects {
             const gridDataResult = PayfactorsApiModelMapper.mapCompanyJobViewListItemsResponseToGridDataResult(response);
             return new fromJobDescriptionGridActions.LoadJobDescriptionGridSuccess(gridDataResult);
           }),
-          catchError(response => of(new fromJobDescriptionGridActions.SaveListAreaColumnsError()))
+          catchError(response => {
+            if (response.status === 404) {
+               this.router.navigate(['404']);
+            }
+            return of(new fromJobDescriptionGridActions.SaveListAreaColumnsError());
+          })
         );
       }
       ));
@@ -58,7 +65,7 @@ export class JobDescriptionGridEffects {
           newRequest.Columns = MappingHelper.mapListAreaColumnListToListAreaColumnRequestList(newRequest.Columns);
 
           return this.userProfileApiService.saveListAreaColumns(newRequest).pipe(
-            map((response: number) => {
+            map(() => {
               return new fromJobDescriptionGridActions.SaveListAreaColumnsSuccess({ ListAreaColumns: action.payload.Columns });
             }),
             catchError(response => of(new fromJobDescriptionGridActions.SaveListAreaColumnsError()))
@@ -85,6 +92,7 @@ export class JobDescriptionGridEffects {
     private jobDescriptionApiService: JobDescriptionApiService,
     private userProfileApiService: UserProfileApiService,
     private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
-    private store: Store<fromJobDescriptionGridReducer.State>
+    private store: Store<fromJobDescriptionGridReducer.State>,
+    private router: Router
   ) {}
 }

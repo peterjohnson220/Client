@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
-import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
+import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import { CompanySettingsEnum, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
@@ -89,11 +89,11 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   }
 
   handleUntaggedIncumbentsChecked(): void {
-    this.store.dispatch(new fromFilterSidebarActions.ToggleIncludeUntaggedEmployees);
+    this.store.dispatch(new fromLibsExchangeExplorerFilterContextActions.ToggleIncludeUntaggedEmployees);
   }
 
   upsert() {
-    this.store.dispatch(new fromUpsertDataCutPageActions.UpsertDataCut({
+    this.store.dispatch(new fromUpsertDataCutPageActions.UpsertDataCutNew({
       DataCutGuid: this.cutGuid,
       CompanyJobId: this.companyJobId,
       CompanyPayMarketId: this.companyPayMarketId,
@@ -116,7 +116,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
     this.setQueryParamMembers();
     this.setSubscriptions();
 
- this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
+    this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
       {
         CompanyJobId: this.companyJobId,
         UserSessionId: this.userSessionId

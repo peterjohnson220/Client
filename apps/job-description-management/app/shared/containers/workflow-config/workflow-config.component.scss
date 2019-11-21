@@ -1,0 +1,77 @@
+@import 'libs/styles/dragula-drag-drop';
+
+.text-right{
+  text-align: right;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.workflow-step{
+  margin: 5px 0;
+}
+
+.permission-container, .action-container{
+  margin-top:5px;
+}
+.multiple-users-one-step{
+  margin-top:10px;
+}
+.multiple-users-one-step button{
+  width: 25px;
+  height: 25px;
+}
+
+.truncate  {
+ text-overflow: ellipsis;
+ white-space: nowrap;
+ overflow: hidden; 
+}
+
+.truncate:hover{
+  overflow: visible;
+  z-index: 100;
+  white-space: normal;
+}
+
+.delete-step-frame{
+  width: 40px;
+  margin-top: 5px;
+}
+
+.delete-step-container{
+  width: 100%;
+}
+
+.delete-step-btn{
+  width: 25px;
+  height: 25px;
+}
+
+.invisible{
+  display: none;
+}
+
+.add-more-users-to-step{
+  padding-top: 3px;
+}
+
+.workflow-user-container{
+  padding-top: 5px;
+}
+
+.workflow-user-forbidden {
+  color: red;
+}
+
+.custom-control-label {
+  vertical-align: top;
+}
+
+.grabbable {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}

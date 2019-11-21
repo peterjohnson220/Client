@@ -1,0 +1,26 @@
+<div class="card h-100">
+  <div class="card-header font-weight-bold">
+    {{templateView.Template.TemplateName}}
+  </div>
+  <div class="card-block">
+    <ul>
+      <li *ngFor="let section of templateView.Template.Sections">
+        <div class="selection-container section-container">
+          {{section.Name}}
+        </div>
+        <ul>
+          <li *ngFor="let control of section.Controls">
+            <div class="selection-container control-container"
+                 (click)="handleControlClicked(control.Id)"
+                 [class.hidden-control]="isHiddenControl(control.Id)"
+                 [style.border-left-color]="!!control.Color ? control.Color: 'transparent'">
+                <div>
+                  {{control.Label}}
+                </div>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

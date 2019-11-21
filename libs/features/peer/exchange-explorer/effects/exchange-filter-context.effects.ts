@@ -74,10 +74,22 @@ export class ExchangeFilterContextEffects {
   );
 
   @Effect()
+  setExchangeJobSelection$ = this.actions$.pipe(
+    ofType(fromExchangeFilterContextActions.SET_EXCHANGE_JOB_SELECTION),
+    tap(() => this.store.dispatch(new fromPeerMapActions.ClearMapFilterBounds())),
+    mergeMap(() => {
+      return [
+        new fromLibsFeatureSearchFiltersActions.ResetAllFilters(),
+        new fromExchangeSearchResultsActions.GetExchangeDataResults()
+      ];
+    })
+  );
+
+  @Effect()
   includeUntaggedEmployeesToggled$ = this.actions$.pipe(
     ofType(fromExchangeFilterContextActions.TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES),
     mergeMap(() => [
-      new fromExchangeSearchResultsActions.GetExchangeDataResults
+      new fromExchangeSearchResultsActions.GetExchangeDataResults()
     ])
   );
 

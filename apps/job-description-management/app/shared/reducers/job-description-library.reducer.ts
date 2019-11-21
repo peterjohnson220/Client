@@ -34,12 +34,7 @@ export function reducer(state = initialState, action: fromJobDescriptionLibraryA
       const {buckets, selectedBucket} = action.payload;
 
       bucketsAsyncClone.loading = false;
-      bucketsAsyncClone.obj = action.payload;
-
-      bucketsAsyncClone.obj = bucketsAsyncClone.obj.length > 0 ? bucketsAsyncClone.map(b => {
-        b.DocumentCount = buckets.find(bp => bp.Key === b.Key).DocumentCount;
-        return b;
-      }) : buckets;
+      bucketsAsyncClone.obj = action.payload.buckets;
 
       resultsAsyncClone.obj = selectedBucket ? buckets.find(b => b.Key === selectedBucket).Results : buckets[0].Results;
 
@@ -99,5 +94,5 @@ export function reducer(state = initialState, action: fromJobDescriptionLibraryA
 }
 
 export const getBucketsAsync = (state: State) => state.bucketsAsync;
-export const getBucketsResultsAsync = (state: State) => state.resultsAsync;
+export const getResultsAsync = (state: State) => state.resultsAsync;
 export const getLoadJobDescriptionLibraryError = (state: State) => state.bucketsAsync.loadingError || state.resultsAsync.loadingError;

@@ -1,0 +1,72 @@
+.modal-dialog{
+  height: 550px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.modal-content{
+  height:605px;
+}
+#job-list{
+  padding-top:10px;
+}
+#job-list table{
+  width:100%;
+}
+.header-row{
+  width: 25%;
+  text-align: left;
+}
+#modal-actions{
+  text-align: right;
+  padding-top: 10px;
+}
+#info-header{
+  padding-bottom:10px;
+}
+#info-header table{
+  width:100%
+}
+.labelcell{
+  width:110px;
+}
+.inner-modal-content{
+  height: 300px;
+  overflow: auto;
+}
+#job-family-dropdown{
+  width: 60%;
+  display: inline-block;
+  margin-left:10px;
+}
+#modal-actions span{
+  padding-right: 10px;
+}
+
+.centered-text {
+  text-align: center;
+}
+
+.selectable {
+  cursor: pointer
+}
+
+.bg-primary {
+  background-color: #1872ae !important;
+}
+
+.btn-primary {
+  &:hover {
+    color: #fff;
+    background-color: #125581 !important;
+    border-color: #114f78 !important;
+  }
+
+  &:disabled {
+    background-color: #1872ae !important;
+    border-color: #1872ae !important;
+  }
+}
