@@ -51,4 +51,9 @@ export class JobDescriptionTemplateApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}(${templateId})/Default.SaveCompanyJobsJobDescriptionTemplateId`,
       request);
   }
+
+  getTemplatesWithControlType(controlType: string) {
+      return this.payfactorsApiService.get(`${this.endpoint}/Default.GetTemplatesWithControlType?controlType=${controlType}`);
+  }
+
 }

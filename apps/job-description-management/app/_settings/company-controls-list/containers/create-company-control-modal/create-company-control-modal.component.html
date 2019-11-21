@@ -1,0 +1,30 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Create New Control'"
+  [primaryButtonText]="'Create'"
+  [primaryButtonTextSubmitting]="'Creating...'"
+  [primaryButtonClass]="'btn-primary'"
+  [secondaryButtonText]="'Cancel'"
+  [submitting]="(creatingControl$ | async)"
+  [isOpen$]="createControlModalOpen$"
+  [formGroup]="createNewControlForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+    <div class="form-group">
+        <label for="control-name" class="col-form-label">Please name your Control:</label>
+        <input 
+            type="text" 
+            class="form-control" 
+            [readonly]="(creatingControl$ | async)"
+            formControlName="name" 
+            id="control-name"
+            [pfValidatable]="true"
+            [autofocus]="true" />
+            <ng-container *ngIf="name.errors">
+                <div *ngIf="name.errors.error" class="invalid-feedback">{{name.errors.error}}</div>
+            </ng-container>
+    </div>
+  </ng-container>
+</pf-modal-form>
