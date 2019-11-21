@@ -4,3 +4,8 @@ export interface Company {
   CompanyNameShort: string;
   Status: string;
 }
+
+export interface CompanyBaseInformation {
+  CompanyId: number;
+  Name: string;
+}

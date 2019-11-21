@@ -1,5 +1,5 @@
 import { ExchangeDataSearchFilter, generateMockExchangeDataSearchFilter } from '../exchange-data-search-filter.model';
-import { BaseExchangeDataSearchRequest } from '../../payfactors-api/peer-exchange-explorer-search/request';
+import { BaseExchangeDataSearchRequest } from '../../payfactors-api/peer/exchange-data-search/request';
 export interface ExchangeScopeDetails {
   ExchangeScopeGuid: string;
   ExchangeScopeName: string;

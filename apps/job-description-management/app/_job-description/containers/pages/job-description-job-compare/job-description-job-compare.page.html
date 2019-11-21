@@ -19,138 +19,140 @@
   ​
   ​
   <ng-container page-content>
-    <div class="col-12 column-scroll-container">
-      <div class="scroll-y column-scroll-inner">
-        <div class="row">
-          <div [ngClass]="{'col-6': (!leftJobDescriptionIsFullscreen && (jobDescriptionForComparisonAsync$ | async)?.obj),
-          'col-12': (leftJobDescriptionIsFullscreen || !(jobDescriptionForComparisonAsync$ | async)?.obj)}"
-               [hidden]="rightJobDescriptionIsFullscreen">
-            <div class="card">
-              <div class="card-header2">
-                <div class="btn-group float-right" *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj">
-                  <button *ngIf="!leftJobDescriptionIsFullscreen"
-                          class="btn btn-sm btn-secondary"
-                          (click)="handleResize(_JobCompareFullscreenSender.LEFT)">
-                    <fa-icon [icon]="['far','expand-alt']"></fa-icon>
-                  </button>
-                  <button *ngIf="leftJobDescriptionIsFullscreen"
-                          class="btn btn-sm btn-secondary"
-                          (click)="handleResize(_JobCompareFullscreenSender.LEFT)">
-                    <fa-icon [icon]="['far','compress-alt']"></fa-icon>
-                  </button>
+    <div class="row pf-inner-page-content">
+      <div class="col-12 column-scroll-container">
+        <div class="scroll-y column-scroll-inner">
+          <div class="row">
+            <div [ngClass]="{'col-6': (!leftJobDescriptionIsFullscreen && (jobDescriptionForComparisonAsync$ | async)?.obj),
+            'col-12': (leftJobDescriptionIsFullscreen || !(jobDescriptionForComparisonAsync$ | async)?.obj)}"
+                [hidden]="rightJobDescriptionIsFullscreen">
+              <div class="card">
+                <div class="card-header2">
+                  <div class="btn-group float-right" *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj">
+                    <button *ngIf="!leftJobDescriptionIsFullscreen"
+                            class="btn btn-sm btn-secondary"
+                            (click)="handleResize(_JobCompareFullscreenSender.LEFT)">
+                      <fa-icon [icon]="['far','expand-alt']"></fa-icon>
+                    </button>
+                    <button *ngIf="leftJobDescriptionIsFullscreen"
+                            class="btn btn-sm btn-secondary"
+                            (click)="handleResize(_JobCompareFullscreenSender.LEFT)">
+                      <fa-icon [icon]="['far','compress-alt']"></fa-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-block">
+                  <pf-job-description-info-header-with-logo
+                    *ngIf="!(jobDescriptionForComparisonAsync$ | async)?.obj"
+                    [jobDescription]="sourceJobDescription"
+                    [jobInformationFields]="(sourceJobDescriptionAsync$ | async)?.obj?.JobInformationFields"
+                    [companyLogoPath]="companyLogoPath">
+                  </pf-job-description-info-header-with-logo>
+
+                  <pf-job-description-info-header-no-logo
+                    *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj"
+                    [jobDescription]="sourceJobDescription"
+                    [jobInformationFields]="(sourceJobDescriptionAsync$ | async)?.obj?.JobInformationFields">
+                  </pf-job-description-info-header-no-logo>
+                  <div class="edit-button">
+                    <button
+                      *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj &&
+                      hasCanEditJobDescriptionPermission"
+                      [hidden]="editingJobDescription"
+                      type="button" class="btn btn-secondary"
+                      (click)="beginEditing()">
+                      <fa-icon [icon]="['fas','pencil-alt']"></fa-icon>
+                      Edit
+                    </button>
+                    <button
+                      *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj &&
+                      hasCanEditJobDescriptionPermission"
+                      [hidden]="!editingJobDescription"
+                      type="button" class="btn btn-secondary"
+                      (click)="finishEditing()">
+                      Compare Changes
+                    </button>
+                  </div>
+
+                  <pf-job-description-section
+                    *ngFor="let section of sourceJobDescription?.Sections"
+                    [section]="section"
+                    [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
+                    [readOnly]="!editingJobDescription"
+                    [hidden]="(jobDescriptionForComparisonAsync$ | async)?.obj && !editingJobDescription"
+                    [isCompare]="true"
+                    [saveThrottle]="saveThrottle"
+                    (controlDataChangesDetected)="handleControlDataChanges($event)"
+                    (controlBulkDataChangesDetected)="handleBulkControlDataChanges($event)"
+                    (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)"
+                    (controlDataRowAdded)="handleControlDataRowAdded($event)"
+                    (controlDataRowDeleted)="handleControlDataRowDeleted($event)">
+                  </pf-job-description-section>
+
+                  <ng-container *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj">
+                    <pf-job-description-compare-section-result
+                      *ngFor="let section of (jobDescriptionComparisonDiffAsync$ | async)?.obj?.Sections; let i = index"
+                      [section]="section"
+                      [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
+                      [index]="i"
+                      [hidden]="editingJobDescription">
+                    </pf-job-description-compare-section-result>
+                  </ng-container>
+                  <pf-async-container
+                    [loading]="(sourceJobDescriptionAsync$ | async)?.loading
+                                  || (sourceJobDescriptionAsync$ | async)?.loadingError
+                                  || ((jobDescriptionForComparisonAsync$ | async)?.loading && !editingJobDescription)"
+                    [loadingError]="(sourceJobDescriptionAsync$ | async)?.loadingError"
+                    [loadingErrorMessage]="'Error loading the job description to be compared'">
+                  </pf-async-container>
                 </div>
               </div>
-              <div class="card-block">
-                <pf-job-description-info-header-with-logo
-                  *ngIf="!(jobDescriptionForComparisonAsync$ | async)?.obj"
-                  [jobDescription]="sourceJobDescription"
-                  [jobInformationFields]="(sourceJobDescriptionAsync$ | async)?.obj?.JobInformationFields"
-                  [companyLogoPath]="companyLogoPath">
-                </pf-job-description-info-header-with-logo>
+            </div>
 
-                <pf-job-description-info-header-no-logo
-                  *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj"
-                  [jobDescription]="sourceJobDescription"
-                  [jobInformationFields]="(sourceJobDescriptionAsync$ | async)?.obj?.JobInformationFields">
-                </pf-job-description-info-header-no-logo>
-                <div class="edit-button">
-                  <button
-                    *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj &&
-                    hasCanEditJobDescriptionPermission"
-                    [hidden]="editingJobDescription"
-                    type="button" class="btn btn-secondary"
-                    (click)="beginEditing()">
-                    <fa-icon [icon]="['fas','pencil-alt']"></fa-icon>
-                    Edit
-                  </button>
-                  <button
-                    *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj &&
-                    hasCanEditJobDescriptionPermission"
-                    [hidden]="!editingJobDescription"
-                    type="button" class="btn btn-secondary"
-                    (click)="finishEditing()">
-                    Compare Changes
-                  </button>
+            <div [ngClass]="{'col-6': !rightJobDescriptionIsFullscreen,
+            'col-12': (rightJobDescriptionIsFullscreen)}"
+                [hidden]="leftJobDescriptionIsFullscreen" *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj">
+              <div class="card">
+                <div class="card-header2">
+                  <div class="btn-group float-right">
+                    <button *ngIf="!rightJobDescriptionIsFullscreen"
+                            class="btn btn-sm btn-secondary"
+                            (click)="handleResize(_JobCompareFullscreenSender.RIGHT)">
+                      <fa-icon [icon]="['far','expand-alt']"></fa-icon>
+                    </button>
+                    <button *ngIf="rightJobDescriptionIsFullscreen"
+                            class="btn btn-sm btn-secondary"
+                            (click)="handleResize(_JobCompareFullscreenSender.RIGHT)">
+                      <fa-icon [icon]="['far','compress-alt']"></fa-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-block">
+                  <pf-job-description-info-header-no-logo
+                    [jobDescription]="(jobDescriptionForComparisonAsync$ | async)?.obj"
+                    [jobInformationFields]="(jobDescriptionForComparisonAsync$ | async)?.obj?.JobInformationFields">
+                  </pf-job-description-info-header-no-logo>
                 </div>
 
                 <pf-job-description-section
-                  *ngFor="let section of sourceJobDescription?.Sections"
+                  *ngFor="let section of (jobDescriptionForComparisonAsync$ | async)?.obj?.Sections"
                   [section]="section"
                   [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
-                  [readOnly]="!editingJobDescription"
-                  [hidden]="(jobDescriptionForComparisonAsync$ | async)?.obj && !editingJobDescription"
-                  [isCompare]="true"
-                  [saveThrottle]="saveThrottle"
-                  (controlDataChangesDetected)="handleControlDataChanges($event)"
-                  (controlBulkDataChangesDetected)="handleBulkControlDataChanges($event)"
-                  (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)"
-                  (controlDataRowAdded)="handleControlDataRowAdded($event)"
-                  (controlDataRowDeleted)="handleControlDataRowDeleted($event)">
+                  [readOnly]="true"
+                  [isCompare]="true">
                 </pf-job-description-section>
-
-                <ng-container *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj">
-                  <pf-job-description-compare-section-result
-                    *ngFor="let section of (jobDescriptionComparisonDiffAsync$ | async)?.obj?.Sections; let i = index"
-                    [section]="section"
-                    [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
-                    [index]="i"
-                    [hidden]="editingJobDescription">
-                  </pf-job-description-compare-section-result>
-                </ng-container>
-                <pf-async-container
-                  [loading]="(sourceJobDescriptionAsync$ | async)?.loading
-                                || (sourceJobDescriptionAsync$ | async)?.loadingError
-                                || ((jobDescriptionForComparisonAsync$ | async)?.loading && !editingJobDescription)"
-                  [loadingError]="(sourceJobDescriptionAsync$ | async)?.loadingError"
-                  [loadingErrorMessage]="'Error loading the job description to be compared'">
-                </pf-async-container>
               </div>
+
+              <pf-async-container
+                [loading]="(jobDescriptionForComparisonAsync$ | async)?.loading || (jobDescriptionForComparisonAsync$ | async)?.loadingError"
+                [loadingError]="(jobDescriptionForComparisonAsync$ | async)?.loadingError"
+                [loadingErrorMessage]="'Error loading the job description for comparison'">
+              </pf-async-container>
             </div>
-          </div>
-
-          <div [ngClass]="{'col-6': !rightJobDescriptionIsFullscreen,
-          'col-12': (rightJobDescriptionIsFullscreen)}"
-               [hidden]="leftJobDescriptionIsFullscreen" *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj">
-            <div class="card">
-              <div class="card-header2">
-                <div class="btn-group float-right">
-                  <button *ngIf="!rightJobDescriptionIsFullscreen"
-                          class="btn btn-sm btn-secondary"
-                          (click)="handleResize(_JobCompareFullscreenSender.RIGHT)">
-                    <fa-icon [icon]="['far','expand-alt']"></fa-icon>
-                  </button>
-                  <button *ngIf="rightJobDescriptionIsFullscreen"
-                          class="btn btn-sm btn-secondary"
-                          (click)="handleResize(_JobCompareFullscreenSender.RIGHT)">
-                    <fa-icon [icon]="['far','compress-alt']"></fa-icon>
-                  </button>
-                </div>
-              </div>
-              <div class="card-block">
-                <pf-job-description-info-header-no-logo
-                  [jobDescription]="(jobDescriptionForComparisonAsync$ | async)?.obj"
-                  [jobInformationFields]="(jobDescriptionForComparisonAsync$ | async)?.obj?.JobInformationFields">
-                </pf-job-description-info-header-no-logo>
-              </div>
-
-              <pf-job-description-section
-                *ngFor="let section of (jobDescriptionForComparisonAsync$ | async)?.obj?.Sections"
-                [section]="section"
-                [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
-                [readOnly]="true"
-                [isCompare]="true">
-              </pf-job-description-section>
-            </div>
-
-            <pf-async-container
-              [loading]="(jobDescriptionForComparisonAsync$ | async)?.loading || (jobDescriptionForComparisonAsync$ | async)?.loadingError"
-              [loadingError]="(jobDescriptionForComparisonAsync$ | async)?.loadingError"
-              [loadingErrorMessage]="'Error loading the job description for comparison'">
-            </pf-async-container>
           </div>
         </div>
+        ​
       </div>
-      ​
     </div>
   </ng-container>
   ​

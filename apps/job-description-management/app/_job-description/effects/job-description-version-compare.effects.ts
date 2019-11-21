@@ -5,26 +5,12 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Action} from '@ngrx/store';
 
-import { CompanyDto } from 'libs/models/company';
-import { CompanyApiService } from 'libs/data/payfactors-api/company';
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
 
 import * as fromJobDescriptionVersionCompareActions from '../actions/job-description-version-compare.actions';
 
 @Injectable()
 export class JobDescriptionVersionCompareEffects {
-  @Effect()
-  loadCompanyLogo$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionVersionCompareActions.LOAD_COMPANY_LOGO),
-      switchMap((action: fromJobDescriptionVersionCompareActions.LoadCompanyLogo) =>
-        this.companyApiService.get(action.payload).pipe(
-          map((response: CompanyDto) => {
-            return new fromJobDescriptionVersionCompareActions.LoadCompanyLogoSuccess(response.CompanyLogo);
-          }),
-          catchError(response => of(new fromJobDescriptionVersionCompareActions.LoadCompanyLogoError()))
-        )
-      ));
 
   @Effect()
   loadJobDescriptionComparison$: Observable<Action> = this.actions$
@@ -44,7 +30,6 @@ export class JobDescriptionVersionCompareEffects {
 
   constructor(
     private actions$: Actions,
-    private companyApiService: CompanyApiService,
     private jobDescriptionApiService: JobDescriptionApiService
   ) {}
 }

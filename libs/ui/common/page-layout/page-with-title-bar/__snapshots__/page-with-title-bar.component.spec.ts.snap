@@ -3,6 +3,9 @@
 exports[`Page With Title Bar should show no back button when no URL is provided 1`] = `
 <pf-page-with-title-bar
   isFullHeader={[Function Boolean]}
+  route={[Function ActivatedRoute]}
+  routeTrackingService={[Function Object]}
+  router={[Function Router]}
 >
   <div
     class="flex-column-container"
@@ -39,6 +42,9 @@ exports[`Page With Title Bar should show the back button, when provided a return
 <pf-page-with-title-bar
   isFullHeader={[Function Boolean]}
   returnUrl={[Function String]}
+  route={[Function ActivatedRoute]}
+  routeTrackingService={[Function Object]}
+  router={[Function Router]}
 >
   <div
     class="flex-column-container"
@@ -55,8 +61,6 @@ exports[`Page With Title Bar should show the back button, when provided a return
         
         <button
           class="btn btn-secondary back-btn"
-          ng-reflect-router-link="/returnToThis/Path"
-          tabindex="0"
         >
           <fa-icon
             aria-hidden="true"
@@ -85,6 +89,9 @@ exports[`Page With Title Bar should show the back button, when provided an absol
 <pf-page-with-title-bar
   absoluteUrl={[Function String]}
   isFullHeader={[Function Boolean]}
+  route={[Function ActivatedRoute]}
+  routeTrackingService={[Function Object]}
+  router={[Function Router]}
 >
   <div
     class="flex-column-container"

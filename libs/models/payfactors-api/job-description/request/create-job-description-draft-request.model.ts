@@ -1,4 +1,4 @@
 export interface CreateJobDescriptionDraftRequest {
-  LastPublishedVersionNumber: number;
-  JobDescriptionStatus: string;
+  lastPublishedVersionNumber: number;
+  jobDescriptionStatus: string;
 }

@@ -8,8 +8,6 @@ import {
 } from 'libs/models/peer';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/peer-exchange-explorer-search/request';
-import { ExchangeExplorerScopeResponse } from '../../../models/payfactors-api/peer-exchange-explorer-search/response';
 
 @Injectable()
 export class ExchangeScopeApiService {
@@ -52,12 +50,6 @@ export class ExchangeScopeApiService {
   getPeerMapScope(exchangeScopeGuid: string, filterModel: ExchangeDataSearchFilter): Observable<PeerMapScopeDetails> {
     return this.payfactorsApiService.post<PeerMapScopeDetails>(`${this.endpoint}/GetPeerMapScope`,
       { ExchangeScopeGuid: exchangeScopeGuid, FilterModel: filterModel }
-    );
-  }
-
-  getExchangeScopeFilterContext(exchangeDataSearchRequest: BaseExchangeDataSearchRequest): Observable<ExchangeExplorerScopeResponse> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/GetExchangeScopeFilterContext`,
-      exchangeDataSearchRequest
     );
   }
 

@@ -59,6 +59,6 @@ export function generateMockViewField(mockNumber: number = 1): ViewField {
     Template: null,
     Group: null,
     Width: null,
-    TextAlign: null,
+    TextAlign: null
   };
 }

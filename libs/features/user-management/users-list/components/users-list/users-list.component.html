@@ -5,6 +5,7 @@
     <kendo-grid [data]="gridView"
                 [selectable]="true"
                 [sort]="sort"
+                class="table-hover"
     (selectionChange)="userSelectionChange($event)">
           <kendo-grid-column field="FirstName" title="First Name" [width]="150">
           </kendo-grid-column>

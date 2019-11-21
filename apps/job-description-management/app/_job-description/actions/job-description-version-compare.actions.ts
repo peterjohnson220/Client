@@ -4,9 +4,6 @@ import { LoadJobDescriptionComparisonRequest } from 'libs/models/payfactors-api/
 
 import { JobDescriptionHistoryListItem } from '../models';
 
-export const LOAD_COMPANY_LOGO = '[JobDescription/JobDescriptionVersionCompare] Load Company Logo';
-export const LOAD_COMPANY_LOGO_SUCCESS = '[JobDescription/JobDescriptionVersionCompare] Load Company Logo Success';
-export const LOAD_COMPANY_LOGO_ERROR = '[JobDescription/JobDescriptionVersionCompare] Load Company Logo Error';
 export const LOAD_JOB_DESCRIPTION_COMPARISON =
   '[JobDescription/JobDescriptionVersionCompare] Loading Job Description Comparison';
 export const LOAD_JOB_DESCRIPTION_COMPARISON_SUCCESS =
@@ -18,17 +15,7 @@ export const SET_SELECTED_SOURCE_HISTORY_LIST_ITEM = '[JobDescription/JobDescrip
 export const SET_SELECTED_COMPARISON_HISTORY_LIST_ITEM =
   '[JobDescription/JobDescriptionVersionCompare] Set Selected Comparison History List Item';
 
-export class LoadCompanyLogo implements Action {
-  readonly type = LOAD_COMPANY_LOGO;
-  constructor(public payload: number) {}
-}
-export class LoadCompanyLogoSuccess implements Action {
-  readonly type = LOAD_COMPANY_LOGO_SUCCESS;
-  constructor(public payload: string) {}
-}
-export class LoadCompanyLogoError implements Action {
-  readonly type = LOAD_COMPANY_LOGO_ERROR;
-}
+
 export class LoadJobDescriptionComparison implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_COMPARISON;
   constructor(public payload: LoadJobDescriptionComparisonRequest) { }
@@ -54,10 +41,7 @@ export class SetSelectedComparisonHistoryListItem implements Action {
 }
 
 export type Actions
-  = LoadCompanyLogo
-  | LoadCompanyLogoSuccess
-  | LoadCompanyLogoError
-  | LoadJobDescriptionComparison
+  = LoadJobDescriptionComparison
   | LoadJobDescriptionComparisonSuccess
   | LoadJobDescriptionComparisonError
   | LoadJobDescriptionHistoryListSuccess

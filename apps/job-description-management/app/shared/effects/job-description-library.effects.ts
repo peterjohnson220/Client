@@ -9,8 +9,7 @@ import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api';
 
 import * as fromJobDescriptionLibraryActions from '../../shared/actions/job-description-library.actions';
-import { LibrarySearchBucketResponse } from '../models/responses';
-import { JobDescriptionLibraryResult } from '../models';
+import { JobDescriptionLibraryBucket, JobDescriptionLibraryResult } from '../models';
 
 @Injectable()
 export class JobDescriptionLibraryEffects {
@@ -20,8 +19,11 @@ export class JobDescriptionLibraryEffects {
       ofType(fromJobDescriptionLibraryActions.LOAD_JOB_DESCRIPTION_LIBRARY_RESULTS_BY_BUCKET),
       switchMap((action: fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResultsByBucket) =>
         this.jobDescriptionManagementApiService.getLibrarySearchResultsByBucket(action.payload).pipe(
-          map((response: LibrarySearchBucketResponse) => {
-            return new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResultsByBucketSuccess(response);
+          map((response: JobDescriptionLibraryBucket[]) => {
+            return new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResultsByBucketSuccess({
+              buckets: response,
+              selectedBucket: action.payload.BucketKey
+            });
           }),
           catchError(response => of(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResultsByBucketError()))
         )

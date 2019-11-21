@@ -6,7 +6,6 @@ import 'rxjs/add/observable/forkJoin';
 import { filter, map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash.clonedeep';
-import * as arrayMove from 'array-move';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-context.reducer';
@@ -16,12 +15,13 @@ import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { SaveError } from 'libs/models/common/save-error';
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
+import { arrayMoveMutate } from 'libs/core/functions';
 
 import * as fromJobDescriptionJobCompareActions from '../../../actions/job-description-job-compare.actions';
+import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionJobCompareReducers from '../../../reducers/index';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
-import * as fromJobDescriptionVersionCompareActions from '../../../actions/job-description-version-compare.actions';
 import { JobCompareFullscreenSender } from '../../../constants/job-compare.constants';
 import { ConflictErrorModalComponent, SaveErrorModalComponent } from '../../../../shared/components';
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService } from '../../../../shared/services';
@@ -40,12 +40,12 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
   @ViewChild('conflictErrorModal', {static: true}) public conflictErrorModal: ConflictErrorModalComponent;
   @ViewChild('saveErrorModal', {static: true}) public saveErrorModal: SaveErrorModalComponent;
 
-  private identity$: Observable<UserContext>;
-  private companyLogoSubscription: Subscription;
-  private companyLogo$: Observable<string>;
-  private jobDescriptionSaveErrorSubscription: Subscription;
-  private appendToControlDataAttributeValueSubscription: Subscription;
-  private addSourcedControlDataRowSubscription: Subscription;
+  identity$: Observable<UserContext>;
+  companyLogoSubscription: Subscription;
+  companyLogo$: Observable<AsyncStateObj<string>>;
+  jobDescriptionSaveErrorSubscription: Subscription;
+  appendToControlDataAttributeValueSubscription: Subscription;
+  addSourcedControlDataRowSubscription: Subscription;
 
   private isFirstSave = true;
 
@@ -88,7 +88,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
       filter(sjda => !!sjda && !!sjda.obj),
       take(1)
     ).subscribe(jda => this.sourceJobDescription = cloneDeep(jda.obj));
-    this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogo);
+    this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogoAsync);
     this.saveThrottle = new Subject();
 
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
@@ -105,12 +105,12 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
     // Get Identity
     this.identity$.subscribe(identity => {
       this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
-        this.companyLogoPath = companyLogo
-          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo
+        this.companyLogoPath = companyLogo && companyLogo.obj
+          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo.obj
           : '';
       });
 
-      this.store.dispatch(new fromJobDescriptionVersionCompareActions.LoadCompanyLogo(identity.CompanyId));
+      this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(identity.CompanyId));
 
       // todo: move to job-description main page
       this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,
@@ -124,18 +124,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
         });
 
       // todo: move to job-description main page
-      this.jobDescriptionDnDService.initJobDescriptionPageDnD(
-        this.sourceJobDescription, () => this.saveThrottle.next(true)
-      );
-
-      this.appendToControlDataAttributeValueSubscription =
-        this.jobDescriptionDnDService.appendToControlDataAttributeValue$.subscribe(appendToControlAttributeValueDto => {
-          this.appendToControlDataAttributeValue(appendToControlAttributeValueDto);
-        });
-
-      this.addSourcedControlDataRowSubscription = this.jobDescriptionDnDService.addSourcedControlDataRow$.subscribe(addSourceControlDataRowDto => {
-        this.handleAddSourcedControlDataRow(addSourceControlDataRowDto);
-      });
+      this.jobDescriptionDnDService.initJobDescriptionPageDnD(() => this.saveThrottle.next(true));
     });
 
     this.controlTypesAsync$.pipe(
@@ -262,7 +251,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
     const {jobDescriptionControl, oldIndex, newIndex} = reorderControlDataDto;
     const controlData = ControlDataHelper.getControl(this.sourceJobDescription.Sections, jobDescriptionControl).Data;
 
-    arrayMove.mutate(controlData, oldIndex, newIndex);
+    arrayMoveMutate(controlData, oldIndex, newIndex);
     this.saveThrottle.next(true);
   }
 
@@ -339,8 +328,12 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.appendToControlDataAttributeValueSubscription.unsubscribe();
-    this.addSourcedControlDataRowSubscription.unsubscribe();
+    if (this.appendToControlDataAttributeValueSubscription) {
+      this.appendToControlDataAttributeValueSubscription.unsubscribe();
+    }
+    if (this.addSourcedControlDataRowSubscription) {
+      this.addSourcedControlDataRowSubscription.unsubscribe();
+    }
     this.jobDescriptionManagementDndService.destroyJobDescriptionManagementDnD();
     this.jobDescriptionDnDService.destroyJobDescriptionPageDnD();
   }

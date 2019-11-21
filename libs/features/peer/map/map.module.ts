@@ -20,18 +20,18 @@ import {
   FilterAggregateGroupComponent,
   ExcludeIndirectMatchesFilterComponent,
   PayMarketBoundsFilterComponent,
-  AssociatedExchangeJobListComponent,
   PeerFilterInfoComponent
 } from './components';
 import { FilterSidebarComponent, MapComponent, ScopeSelectorComponent } from './containers';
 import { FilterSidebarEffects, MapEffects, ExchangeScopeEffects } from './effects';
 import { reducers } from './reducers';
 import * as fromFaIcons from './fa-icons';
+import {ExchangeJobSelectorComponent} from '../exchange-job-selector';
 
 const declarations = [
   // Components
   FilterAggregateComponent, FilterAggregateGroupComponent, PayMarketBoundsFilterComponent, PeerFilterInfoComponent,
-  ExcludeIndirectMatchesFilterComponent, AssociatedExchangeJobListComponent,
+  ExcludeIndirectMatchesFilterComponent, ExchangeJobSelectorComponent,
 
   // Containers
   FilterSidebarComponent, MapComponent, ScopeSelectorComponent

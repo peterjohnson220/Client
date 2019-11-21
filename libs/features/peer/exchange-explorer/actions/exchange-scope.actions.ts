@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
 import { ExchangeScopeDetails } from 'libs/models/peer/requests';
-import { ExchangeExplorerScopeResponse } from '../../../../models/payfactors-api/peer-exchange-explorer-search/response';
+import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 
 export const LOAD_EXCHANGE_SCOPES_BY_JOBS  =
   '[Features/Peer/Exchange Explorer/Exchange Scopes] Load Exchange Scopes By Jobs';

@@ -1,19 +1,19 @@
 import { ExchangeDataSearchFilter, generateMockExchangeDataSearchFilter } from '../exchange-data-search-filter.model';
 import { ExchangeStatCompanyMakeup, generateMockExchangeStatCompanyMakeup } from '../exchange-map-response.model';
 
-export interface UpsertDataCutRequest {
+export interface UpsertDataCutRequest<TFilterContext> {
   DataCutGuid: string;
   CompanyJobId: number | null;
   UserSessionId: number | null;
   CompanyPayMarketId: number;
   IsPayMarketOverride: boolean;
-  Filter: ExchangeDataSearchFilter;
+  Filter: TFilterContext;
   ZoomLevel: number;
   PayMarketName: string;
   Companies: ExchangeStatCompanyMakeup[];
 }
 
-export function generateMockUpsertDataCutRequest(): UpsertDataCutRequest {
+export function generateMockUpsertDataCutRequest(): UpsertDataCutRequest<ExchangeDataSearchFilter> {
   return {
     DataCutGuid: 'MockGUID',
     CompanyJobId: null,

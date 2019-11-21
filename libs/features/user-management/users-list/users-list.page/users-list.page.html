@@ -1,4 +1,4 @@
-<pf-page-with-title-bar [returnUrl]="'../../'">
+<pf-page-with-title-bar [returnUrl]="returnUrl">
   <ng-container page-title>
     User Management - {{(companyName$ | async)}}
   </ng-container>
@@ -7,6 +7,7 @@
     <pf-input-debounce
       id="search-box"
       [minWidth]="250"
+      [value]="searchTerm$ | async"
       (valueChanged)="updateSearchTerm($event)">
     </pf-input-debounce>
     <button (click)="handleAddButton()" [pfSecuredResource]="_Permissions.ADD_USER" class="btn btn-primary" type="submit">Add User</button>

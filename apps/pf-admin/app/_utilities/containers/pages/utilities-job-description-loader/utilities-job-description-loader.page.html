@@ -32,12 +32,12 @@
                     <td class="center-align">
                       <a class="btn btn-primary button-match pr-3"
                          href="/odata/JobDescriptionManagement.GenerateImportMappingFile?templateId={{templateListItem.TemplateId}}&companyId={{companyId}}"
-                         download><i class="fas fa-download pr-1" aria-hidden="true"></i> Mapping</a>
+                         download><fa-icon icon="download" class="pr-1"></fa-icon> Mapping</a>
                     </td>
                     <td class="center-align">
                       <a class="btn btn-primary button-match pr-3"
                          href="/odata/JobDescriptionManagement.DownloadJobDescriptionsForImport?templateId={{templateListItem.TemplateId}}&companyId={{companyId}}"
-                         download><i class="fas fa-download pr-1" aria-hidden="true"></i> Data</a>
+                         download><fa-icon icon="download" class="pr-1"></fa-icon> Data</a>
                     </td>
                     <td>
                       <span class="link" (click)="confirmDeleteJobDescriptions(templateListItem)">Delete Job Descriptions</span>
@@ -80,8 +80,9 @@
                       <td>
                                                    <span *ngIf="mappingFile">
                                                         {{ mappingFile?.name }}
-                                                     <span (click)="remove('mappingFile',mappingFileInput)"><i
-                                                       class="fas fa-trash-alt" aria-hidden="true"></i></span>
+                                                     <span (click)="remove('mappingFile',mappingFileInput)">
+                                                       <fa-icon icon="trash-alt"></fa-icon>
+                                                     </span>
                                                     </span>
                       </td>
                       <td>
@@ -100,9 +101,10 @@
                       <td>
                                                   <span *ngIf="dataFile">
                                                          {{ dataFile?.name }}
-                                                    <span (click)="remove('dataFile',dataFileInput)"><i
-                                                      class="fas fa-trash-alt" aria-hidden="true"></i></span>
+                                                    <span (click)="remove('dataFile',dataFileInput)">
+                                                      <fa-icon icon="trash-alt"></fa-icon>
                                                     </span>
+                                                  </span>
                       </td>
                       <td>
                         <div class="fileContainer">
@@ -133,10 +135,11 @@
                       </td>
                       <td class="center-align">
                         <div *ngIf="!(jobDescriptionLoaderValidated$ | async)">
-                          <button type="button" class="btn btn-warning button-match pr-3"
+                          <button type="button" class="btn btn-warning button-match pr-3 no-pointer"
                                   (click)="validate()"
                                   [disabled]="!this.mappingFile || !this.dataFile || (jobDescriptionLoaderValidating$ | async) ">
-                            <fa-icon icon="check" class="pr-1"></fa-icon>Validate
+                            <fa-icon icon="check" class="pr-1"></fa-icon>
+                            Validate
                           </button>
                         </div>
                       </td>
@@ -166,16 +169,44 @@
 
             <div
               *ngIf="(jobDescriptionLoaderValidated$ | async) && !(jobDescriptionLoaderValidating$ | async) && !((jobDescriptionLoaderImporting$ | async) || (jobDescriptionLoaderImported$ | async))">
-              <pf-validation-results
-                [validationResults]="(jobDescriptionLoaderValidationResults$ | async)?.ValidationResults"
-                [title]="'Validation'">
-              </pf-validation-results>
+
+
+              <div class="card-block">
+                <p class="card-title">
+                  <span *ngIf="((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length === 0">
+                    Validation complete <fa-icon icon="check" aria-hidden="true" class="text-success mr-2"></fa-icon>
+                  </span>
+                  <span
+                    *ngIf="((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length > 0">
+                    Validation failed <fa-icon icon="exclamation" aria-hidden="true" class="text-danger mr-2"></fa-icon>
+                  </span>
+                  <a class="results-link" (click)="isCollapsed = !isCollapsed">{{ isCollapsed ? 'See results' : 'Hide results' }}</a>
+                </p>
+                <div class="collapse-container" *ngIf="!isCollapsed">
+                  <pf-validation-results
+                    [validationResults]="(jobDescriptionLoaderValidationResults$ | async)?.ValidationResults">
+                  </pf-validation-results>
+                </div>
+              </div>
             </div>
             <div *ngIf="jobDescriptionLoaderImported$ | async">
-              <pf-validation-results
-                [validationResults]="jobDescriptionLoaderImportResults$ | async"
-                [title]="'Upload'">
-              </pf-validation-results>
+              <div class="card-block">
+                <p class="card-title">
+                  <span *ngIf="((jobDescriptionLoaderImportResults$ | async) | validationErrors )?.length === 0">
+                        Upload complete <fa-icon icon="check" aria-hidden="true" class="text-success mr-2"></fa-icon>
+                  </span>
+                  <span
+                    *ngIf="((jobDescriptionLoaderImportResults$ | async) | validationErrors )?.length > 0">
+                        Upload failed <fa-icon icon="exclamation" aria-hidden="true" class="text-danger mr-2"></fa-icon>
+                  </span>
+                  <a class="results-link" (click)="isCollapsed = !isCollapsed">{{ isCollapsed ? 'See results' : 'Hide results' }}</a>
+                </p>
+                <div class="collapse-container" *ngIf="!isCollapsed">
+                  <pf-validation-results
+                    [validationResults]="jobDescriptionLoaderImportResults$ | async">
+                  </pf-validation-results>
+                </div>
+              </div>
             </div>
 
             <div class="row">
@@ -190,10 +221,10 @@
               <div class="col-md-4 offset-md-8 grid-bottom">
                 <div
                   *ngIf="(jobDescriptionLoaderValidated$ | async) && !(jobDescriptionLoaderImported$ | async) && ((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length === 0">
-                  <button type="button" class="btn btn-success button-match pr-3"
+                  <button type="button" class="btn btn-primary button-match pr-3"
                           (click)="upload()"
                           [disabled]="(jobDescriptionLoaderImporting$ | async) ||  ((jobDescriptionLoaderValidationResults$ | async)?.ValidationResults | validationErrors )?.length > 0">
-                    <i class="fas fa-upload pr-1" aria-hidden="true"></i> Upload
+                    <fa-icon icon="upload" class="pr-1"></fa-icon> Upload
                   </button>
                 </div>
               </div>
