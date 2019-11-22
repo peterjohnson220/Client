@@ -19,3 +19,5 @@ export * from './configure-sidebar';
 export * from './view-all-fields';
 export * from './field-group';
 export * from './share-report-modal';
+export * from './data-view-reports';
+export * from './data-view-report-card';

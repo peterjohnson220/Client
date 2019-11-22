@@ -43,7 +43,7 @@ describe('Data Insights - Views Component', () => {
   it('anyFavorites should returns true when there is a favorite view', () => {
     const view = {...generateMockView(), IsFavorite: true};
     const workbook = {...generateMockWorkbook(), Views: generateDefaultAsyncStateObj([view])};
-    instance.companyWorkbooksAsync = generateDefaultAsyncStateObj([workbook]);
+    instance.tableauReports = [workbook];
 
     expect(instance.anyFavorites).toEqual(true);
   });

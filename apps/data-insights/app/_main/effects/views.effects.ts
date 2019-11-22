@@ -92,6 +92,32 @@ export class ViewsEffects {
   );
 
   @Effect()
+  addDataViewFavorite$ = this.action$
+    .pipe(
+      ofType(fromViewsActions.ADD_DATA_VIEW_REPORT_FAVORITE),
+      switchMap((action: fromViewsActions.AddDataViewReportFavorite) => {
+        return this.tableauReportApiService.addWorkbookFavorite(action.payload.workbookId)
+          .pipe(
+            map(() => new fromViewsActions.AddDataViewReportFavoriteSuccess()),
+            catchError(() => of(new fromViewsActions.AddDataViewReportFavoriteError()))
+          );
+      })
+    );
+
+  @Effect()
+  removeDataViewFavorite$ = this.action$
+    .pipe(
+      ofType(fromViewsActions.REMOVE_DATA_VIEW_REPORT_FAVORITE),
+      switchMap((action: fromViewsActions.RemoveDataViewReportFavorite) => {
+        return this.tableauReportApiService.removeWorkbookFavorite(action.payload.workbookId)
+          .pipe(
+            map(() => new fromViewsActions.RemoveViewFavoriteSuccess()),
+            catchError(() => of(new fromViewsActions.RemoveDataViewReportFavoriteError()))
+          );
+      })
+    );
+
+  @Effect()
   saveViewOrder$ = this.action$
   .pipe(
     ofType(fromViewsActions.SAVE_REPORT_ORDER),
@@ -114,17 +140,17 @@ export class ViewsEffects {
     .pipe(
       ofType(fromViewsActions.REMOVE_VIEW_FAVORITE_SUCCESS),
       withLatestFrom(
-        this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsyncFromViews)),
+        this.store.pipe(select(fromDataInsightsMainReducer.getTableauReportsFromViews)),
+        this.store.pipe(select(fromDataInsightsMainReducer.getDataViewReportsFromViews)),
         this.store.pipe(select(fromDataInsightsMainReducer.getDashboardViewThumbnailEnabled)),
-        (action, workbooksAsyncFromViews, dashboardView) => ({ workbooksAsyncFromViews, dashboardView })
+        (action, tableauReportsFromViews, dataViewReportsFromViews, dashboardView) => ({ tableauReportsFromViews, dataViewReportsFromViews, dashboardView })
       ),
       mergeMap((data) => {
         const actions = [];
-        const favoriteViews = ViewsHelper.getFavoriteViews(data.workbooksAsyncFromViews.obj);
-        if (favoriteViews.length === 0 && data.dashboardView === DashboardView.Favorites) {
-
+        const favoriteTableauReports = ViewsHelper.getFavoriteTableauReports(data.tableauReportsFromViews);
+        const favoriteDataViewReports = ViewsHelper.getFavoriteDataViewReports(data.dataViewReportsFromViews);
+        if (favoriteTableauReports.length === 0 && favoriteDataViewReports.length === 0 && data.dashboardView === DashboardView.Favorites) {
             actions.push(new fromViewsActions.ToggleDashboardView({view: DashboardView.Views}));
-
         }
         return actions;
       })

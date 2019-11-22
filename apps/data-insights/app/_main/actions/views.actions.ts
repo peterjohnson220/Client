@@ -14,6 +14,12 @@ export const ADD_VIEW_FAVORITE_ERROR = '[Data Insights / Views] Add View Favorit
 export const REMOVE_VIEW_FAVORITE = '[Data Insights / Views] Remove View Favorite';
 export const REMOVE_VIEW_FAVORITE_SUCCESS = '[Data Insights / Views] Remove View Favorite Success';
 export const REMOVE_VIEW_FAVORITE_ERROR = '[Data Insights / Views] Remove View Favorite Error';
+export const ADD_DATA_VIEW_REPORT_FAVORITE = '[Data Insights / Views] Add DataView Report Favorite';
+export const ADD_DATA_VIEW_REPORT_FAVORITE_SUCCESS = '[Data Insights / Views] Add DataView Report Favorite Success';
+export const ADD_DATA_VIEW_REPORT_FAVORITE_ERROR = '[Data Insights / Views] Add DataView Report Favorite Error';
+export const REMOVE_DATA_VIEW_REPORT_FAVORITE = '[Data Insights / Views] Remove DataView Report Favorite';
+export const REMOVE_DATA_VIEW_REPORT_FAVORITE_SUCCESS = '[Data Insights / Views] Remove DataView Report Favorite Success';
+export const REMOVE_DATA_VIEW_REPORT_FAVORITE_ERROR = '[Data Insights / Views] Remove DataView Report Favorite Error';
 export const SAVE_REPORT_ORDER = '[Data Insights / Views] Save Report Order';
 export const SAVE_REPORT_ORDER_SUCCESS = '[Data Insights / Views] Save Report Order Success';
 export const SAVE_REPORT_ORDER_ERROR = '[Data Insights / Views] Save Report Order Error';
@@ -94,6 +100,43 @@ export class RemoveViewFavoriteError implements Action {
   constructor() {}
 }
 
+export class AddDataViewReportFavorite implements Action {
+  readonly type = ADD_DATA_VIEW_REPORT_FAVORITE;
+
+  constructor(public payload: { workbookId: string}) {}
+}
+
+
+export class AddDataViewReportFavoriteSuccess implements Action {
+  readonly type = ADD_DATA_VIEW_REPORT_FAVORITE_SUCCESS;
+
+  constructor() {}
+}
+
+export class AddDataViewReportFavoriteError implements Action {
+  readonly type = ADD_DATA_VIEW_REPORT_FAVORITE_ERROR;
+
+  constructor() {}
+}
+
+export class RemoveDataViewReportFavorite implements Action {
+  readonly type = REMOVE_DATA_VIEW_REPORT_FAVORITE;
+
+  constructor(public payload: { workbookId: string }) {}
+}
+
+export class RemoveDataViewReportFavoriteSuccess implements Action {
+  readonly type = REMOVE_DATA_VIEW_REPORT_FAVORITE_SUCCESS;
+
+  constructor() {}
+}
+
+export class RemoveDataViewReportFavoriteError implements Action {
+  readonly type = REMOVE_DATA_VIEW_REPORT_FAVORITE_ERROR;
+
+  constructor() {}
+}
+
 export class SaveReportOrder implements Action {
   readonly type = SAVE_REPORT_ORDER;
 
@@ -147,6 +190,12 @@ export type Actions
   | RemoveViewFavorite
   | RemoveViewFavoriteSuccess
   | RemoveViewFavoriteError
+  | AddDataViewReportFavorite
+  | AddDataViewReportFavoriteSuccess
+  | AddDataViewReportFavoriteError
+  | RemoveDataViewReportFavorite
+  | RemoveDataViewReportFavoriteSuccess
+  | RemoveDataViewReportFavoriteError
   | SaveReportOrder
   | SaveReportOrderSuccess
   | SaveReportOrderError
