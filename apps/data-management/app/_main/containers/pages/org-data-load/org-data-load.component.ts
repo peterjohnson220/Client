@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 
 import { KeyValue } from '@angular/common';
 
@@ -6,21 +6,25 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
+import { environment } from 'environments/environment';
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
 import { CompanySelectorItem } from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
-import { EntityChoice, getEntityChoicesForOrgLoader } from '../../../models';
+import { EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
+import { EntityUploadComponent } from '../../../components';
 
 @Component({
   selector: 'pf-org-data-load',
   templateUrl: './org-data-load.component.html',
   styleUrls: ['./org-data-load.component.scss']
 })
+
 export class OrgDataLoadComponent implements OnDestroy {
 
+  @ViewChild('entityUpload', { static: false }) uploadComponent: EntityUploadComponent;
   loadOptions: EntityChoice[];
 
   userMappings: KeyValue<number, string>[];
@@ -35,13 +39,14 @@ export class OrgDataLoadComponent implements OnDestroy {
   // because the company selector is inside of a switch
   // the init will not fire which triggers the api call unless
   // we have rendered our index.
-  stepIndex = 1;
+  stepIndex: OrgUploadStep = OrgUploadStep.Company;
+  stepEnum = OrgUploadStep;
+
   companies: CompanySelectorItem[];
   selectedCompany: CompanySelectorItem = null;
   hasError = false;
   selectedMapping: number;
-
-  returnUrl = '/client/pf-admin/navigation';
+  env = environment;
 
   StepHeaders: string[] = [
     'Select a company:',
@@ -52,11 +57,10 @@ export class OrgDataLoadComponent implements OnDestroy {
   NextBtnToolTips: string[] = [
     'You must choose a company',
     'Please select at least one entity to load data for.',
-    'todo (verify msg text?)'
+    'Please choose a file for each entity type'
   ];
 
   constructor(private store: Store<fromCompanyReducer.State>) {
-
 
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.companies$ = this.store.select(fromCompanyReducer.getCompanies);
@@ -91,37 +95,64 @@ export class OrgDataLoadComponent implements OnDestroy {
   setInitValues() {
     if (this.userContext.AccessLevel === 'Admin') {
       this.selectedCompany = null;
-      this.stepIndex = 1;
+      this.stepIndex = OrgUploadStep.Company;
     } else {
       this.selectedCompany = this.companies.find(f => f.CompanyId === this.userContext.CompanyId);
       this.store.dispatch(new fromCompanySelectorActions.SetSelectedCompany(this.selectedCompany));
-      this.stepIndex = 2;
+      this.stepIndex = OrgUploadStep.Entity;
     }
 
     // reset any checked loads
     this.loadOptions = getEntityChoicesForOrgLoader();
 
-    // TODO: reset page 3 variables always;
     this.selectedMapping = -1;
   }
 
-  backBtnClick() {
-    if (this.stepIndex === 1 || (this.stepIndex === 2 && this.userContext.AccessLevel !== 'Admin')) {
-      // redirect to company admin page
-      window.location.href = this.returnUrl;
+  goBack() {
+
+    this.clearSelections();
+    if (this.stepIndex === OrgUploadStep.Company) {
+      window.location.href = this.env.siteAdminUrl;
       return;
     }
 
-    if (this.stepIndex === 2) {
-      this.loadOptions = getEntityChoicesForOrgLoader();
-    }
-
-    if (this.stepIndex === 3) {
-      // TODO: reset step 3 here
-      this.selectedMapping = -1;
+    if (this.stepIndex === OrgUploadStep.Entity && this.userContext.AccessLevel !== 'Admin') {
+      window.location.href = this.env.companyAdminUrl;
+      return;
     }
 
     this.stepIndex -= 1;
+  }
+
+  clearSelections() {
+
+    switch (this.stepIndex) {
+      case OrgUploadStep.Company:
+        this.selectedCompany = null;
+        break;
+
+      case OrgUploadStep.Entity:
+        this.loadOptions.forEach(element => {
+          element.isChecked = false;
+        });
+        break;
+
+      case OrgUploadStep.Files:
+        this.loadOptions.forEach(element => {
+          element.File = null;
+        });
+
+        this.uploadComponent.ClearAllFiles();
+        break;
+
+      case OrgUploadStep.FieldMapping:
+
+        // TODO placeholder for next story
+        break;
+
+      default:
+        break;
+    }
   }
 
   hasAtLeastOneChoice(): boolean {
@@ -139,20 +170,20 @@ export class OrgDataLoadComponent implements OnDestroy {
   }
 
   areStepsValid(): boolean {
-    if (this.stepIndex === 1 && (this.selectedCompany && this.selectedCompany !== null)) {
+    if (this.stepIndex === OrgUploadStep.Company && (this.selectedCompany && this.selectedCompany !== null)) {
       return true;
     }
 
-    if (this.stepIndex === 2 && this.hasAtLeastOneChoice()) {
+    if (this.stepIndex === OrgUploadStep.Entity && this.hasAtLeastOneChoice()) {
       return true;
     }
 
-    // TODO: when we have requirements for step 3 add here
+    if (this.stepIndex === OrgUploadStep.Files) {
+      // TODO: when we have requirements for step 3 add here
+    }
 
     return false;
   }
-
-
 
   nextBtnClick() {
     if (this.areStepsValid()) {
