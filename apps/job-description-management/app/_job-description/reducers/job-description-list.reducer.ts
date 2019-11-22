@@ -9,6 +9,7 @@ export interface State {
   creatingJobDescriptionDraftError: boolean;
   savingCompanyJobsJobDescriptionTemplateId: boolean;
   savingCompanyJobsJobDescriptionTemplateIdError: boolean;
+  savingCompanyJobsJobDescriptionTemplateIdSuccess: boolean;
 }
 
 export const initialState: State = {
@@ -18,6 +19,7 @@ export const initialState: State = {
   creatingJobDescriptionDraftError: false,
   savingCompanyJobsJobDescriptionTemplateId: false,
   savingCompanyJobsJobDescriptionTemplateIdError: false,
+  savingCompanyJobsJobDescriptionTemplateIdSuccess: false,
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionListActions.Actions): State {
@@ -60,19 +62,23 @@ export function reducer(state = initialState, action: fromJobDescriptionListActi
     case fromJobDescriptionListActions.SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID:
       return {
         ...state,
-        savingCompanyJobsJobDescriptionTemplateId: true
+        savingCompanyJobsJobDescriptionTemplateId: true,
+        savingCompanyJobsJobDescriptionTemplateIdError: false,
+        savingCompanyJobsJobDescriptionTemplateIdSuccess: false
       };
     case fromJobDescriptionListActions.SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_ERROR:
       return {
         ...state,
         savingCompanyJobsJobDescriptionTemplateId: false,
-        savingCompanyJobsJobDescriptionTemplateIdError: true
+        savingCompanyJobsJobDescriptionTemplateIdError: true,
+        savingCompanyJobsJobDescriptionTemplateIdSuccess: false,
       };
     case fromJobDescriptionListActions.SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_SUCCESS:
       return {
         ...state,
         savingCompanyJobsJobDescriptionTemplateId: false,
-        savingCompanyJobsJobDescriptionTemplateIdError: false
+        savingCompanyJobsJobDescriptionTemplateIdError: false,
+        savingCompanyJobsJobDescriptionTemplateIdSuccess: true
       };
     default:
       return state;
@@ -85,3 +91,4 @@ export const getJobDescriptionDraftCreating = (state: State) => state.creatingJo
 export const getJobDescriptionDraftCreatingError = (state: State) => state.creatingJobDescriptionDraftError;
 export const getCompanyJobsJobDescriptionTemplateIdSaving = (state: State) => state.savingCompanyJobsJobDescriptionTemplateId;
 export const getCompanyJobsJobDescriptionTemplateIdSavingError = (state: State) => state.savingCompanyJobsJobDescriptionTemplateIdError;
+export const getCompanyJobsJobDescriptionTemplateIdSavingSuccess = (state: State) => state.savingCompanyJobsJobDescriptionTemplateIdSuccess;
