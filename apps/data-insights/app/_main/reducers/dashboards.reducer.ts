@@ -236,6 +236,16 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
         companyWorkbooksAsync: companyWorkbooksAsyncClone
       };
     }
+    case fromDashboardsActions.SET_ALL_VIEWS_LOADED: {
+      const allViewsAsyncClone = cloneDeep(state.allViewsLoadedAsync);
+      allViewsAsyncClone.loading = false;
+      allViewsAsyncClone.loadingError = false;
+      allViewsAsyncClone.obj = action.payload;
+      return {
+        ...state,
+        allViewsLoadedAsync: allViewsAsyncClone
+      };
+    }
     default: {
       return state;
     }
