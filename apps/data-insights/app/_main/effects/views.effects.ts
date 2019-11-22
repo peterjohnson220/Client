@@ -13,6 +13,7 @@ import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/action
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 import * as fromViewsActions from '../actions/views.actions';
+import * as fromDashboardActions from '../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
 import { PayfactorsApiModelMapper, ViewsHelper } from '../helpers';
 import { DashboardView } from '../models';
@@ -51,9 +52,14 @@ export class ViewsEffects {
     switchMap((data) => {
       return this.tableauReportApiService.getAllCompanyReportsViews()
         .pipe(
-          map((response) => new fromViewsActions.GetAllCompanyReportsViewsSuccess(
-            PayfactorsApiModelMapper.mapTableauReportResponsesToWorkbooks(response, data.userContext.CompanyName)
-          )),
+          mergeMap((response) => {
+            const actions = [];
+            actions.push(new fromViewsActions.GetAllCompanyReportsViewsSuccess(
+              PayfactorsApiModelMapper.mapTableauReportResponsesToWorkbooks(response, data.userContext.CompanyName)
+            ));
+            actions.push(new fromDashboardActions.SetAllViewsLoaded(true));
+            return actions;
+          }),
           catchError(() => of(new fromViewsActions.GetAllCompanyReportsViewsError()))
         );
     })
