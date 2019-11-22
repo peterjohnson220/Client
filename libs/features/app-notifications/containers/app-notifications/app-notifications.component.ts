@@ -74,7 +74,7 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
       connection.start().then(function () {
         that.retryCount = 0;
       }).catch(function (error) {
-        if (error.statusCode !== 401) {
+        if (error && error.statusCode !== 401) {
           setTimeout(() => {
             that.retryCount++;
             that.startConnection(connection);

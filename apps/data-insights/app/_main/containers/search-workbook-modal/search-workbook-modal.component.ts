@@ -149,6 +149,9 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
   }
 
   private getViewUrl(view: View, workbook: Workbook): string {
+    if (this.thumbnailsViewSettingEnabled) {
+      return `${workbook.SourceUrl}/${workbook.ContentUrl}/${view.ContentUrl}`;
+    }
     return `${workbook.SourceUrl}/${view.ContentUrl}`;
   }
 }
