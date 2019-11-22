@@ -40,6 +40,7 @@ export function reducer(state = initialState, action: fromViewsActions.Actions):
       let dataViewReportsClone = cloneDeep(state.dataViewReports);
 
       companyWorkbooksAsyncClone.loading = false;
+      companyWorkbooksAsyncClone.obj = action.payload;
       tableauReportWorkbooksClone = action.payload.filter(tr => tr.Type === 'TableauReport');
       tableauReportWorkbooksClone = ViewsHelper.orderWorkbooksViews(tableauReportWorkbooksClone);
       dataViewReportsClone = action.payload.filter(dw => dw.Type === 'DataView');
