@@ -52,7 +52,9 @@ export class DataInsightsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.showStandardReportsSectionSub = this.showStandardReportsSection$.subscribe(result => this.showStandardReportsSection = result);
+    this.showStandardReportsSectionSub = this.showStandardReportsSection$.subscribe(result => {
+      this.showStandardReportsSection = result !== null ? result : true;
+    });
     this.thumbnailsViewSettingEnabledSub = this.thumbnailsViewSettingEnabled$.subscribe(settingEnabled => {
       this.thumbnailsViewSettingEnabled = settingEnabled;
       if (settingEnabled) {
