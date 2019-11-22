@@ -281,9 +281,24 @@ export const getCompanyWorkbooksAsyncFromViews = createSelector(
   fromViewsReducer.getCompanyWorkbooksAsyncFromViews
 );
 
+export const getDataViewReportsFromViews = createSelector(
+  selectViewsState,
+  fromViewsReducer.getDataViewReportsFromViews
+);
+
+export const getTableauReportsFromViews = createSelector(
+  selectViewsState,
+  fromViewsReducer.getTableauReportsFromViews
+);
+
 export const getFavoriteViews = createSelector(
   selectViewsState,
   fromViewsReducer.getFavoriteViews
+);
+
+export const getFavoriteDataViewReports = createSelector(
+  selectViewsState,
+  fromViewsReducer.getFavoriteDataViewReports
 );
 
 export const getDashboardViewThumbnailEnabled = createSelector(

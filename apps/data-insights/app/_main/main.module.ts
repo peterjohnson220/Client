@@ -23,7 +23,8 @@ import { StandardReportComponent, TagWorkbookModalComponent, SearchWorkbookResul
   ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
   ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent,
   DateRangeFilterComponent, MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent,
-  BitFilterComponent, ConfigureSidebarComponent, ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent
+  BitFilterComponent, ConfigureSidebarComponent, ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent,
+  DataViewReportsComponent, DataViewReportCardComponent
 } from './components';
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent,
@@ -86,7 +87,7 @@ import { MainRoutingModule } from './main-routing.module';
     SaveUserWorkbookModalComponent, ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
     ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent, DateRangeFilterComponent,
     MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent, BitFilterComponent, ConfigureSidebarComponent,
-    ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent
+    ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent, DataViewReportsComponent, DataViewReportCardComponent
   ],
   providers: [
     WindowRef

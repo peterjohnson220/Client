@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { View } from '../../models';
+import { View, Workbook } from '../../models';
 
 @Component({
   selector: 'pf-favorite-views',
@@ -9,9 +9,11 @@ import { View } from '../../models';
 })
 export class FavoriteViewsComponent {
 
-  @Input() favoriteViews: View;
+  @Input() favoriteTableauViews: View;
+  @Input() favoriteDataViewReports: Workbook;
   @Output() favoriteClicked: EventEmitter<{ workbookId: string, view: View }> =
     new EventEmitter<{ workbookId: string, view: View }>();
+  @Output() favoriteDataViewReportClicked: EventEmitter<Workbook> = new EventEmitter<Workbook>();
 
   trackByFn(index: any, view: View) {
     return view.ViewId;
@@ -19,6 +21,10 @@ export class FavoriteViewsComponent {
 
   handleFavoriteClicked(obj: {workbookId: string, view: View}) {
     this.favoriteClicked.emit(obj);
+  }
+
+  handleFavoriteDataViewReportClicked(obj: Workbook) {
+    this.favoriteDataViewReportClicked.emit(obj);
   }
 
 }

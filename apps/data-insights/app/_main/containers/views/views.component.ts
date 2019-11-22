@@ -19,16 +19,25 @@ import { DashboardsHeaderHelper } from '../../helpers';
 })
 export class ViewsComponent implements OnInit, OnDestroy {
   companyWorkbooksAsync$: Observable<AsyncStateObj<Workbook[]>>;
-  favoriteViews$: Observable<View[]>;
+  tableauReports$: Observable<Workbook[]>;
+  dataViewReports$: Observable<Workbook[]>;
+  favoriteTableauViews$: Observable<View[]>;
+  favoriteDataViewReports$: Observable<Workbook[]>;
   dashboardViewSetting$: Observable<string>;
   dashboardView$: Observable<DashboardView>;
 
   companyWorkbooksAsyncSub: Subscription;
-  favoriteViewsSub: Subscription;
+  tableauReportSub: Subscription;
+  dataViewReportsSub: Subscription;
+  favoriteTableauViewsSub: Subscription;
+  favoriteDataViewReportsSub: Subscription;
   dashboardViewSettingSubscription: Subscription;
 
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;
-  favoriteViews: View[];
+  tableauReports: Workbook[];
+  dataViewReports: Workbook[];
+  favoriteTableauViews: View[];
+  favoriteDataViewReports: Workbook[];
   dashboardViews: string[] = ['All Views', 'Favorites'];
 
   constructor(
@@ -36,7 +45,10 @@ export class ViewsComponent implements OnInit, OnDestroy {
     private settingsService: SettingsService
   ) {
     this.companyWorkbooksAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsyncFromViews));
-    this.favoriteViews$ = this.store.pipe(select(fromDataInsightsMainReducer.getFavoriteViews));
+    this.tableauReports$ = this.store.pipe(select(fromDataInsightsMainReducer.getTableauReportsFromViews));
+    this.dataViewReports$ = this.store.pipe(select(fromDataInsightsMainReducer.getDataViewReportsFromViews));
+    this.favoriteTableauViews$ = this.store.pipe(select(fromDataInsightsMainReducer.getFavoriteViews));
+    this.favoriteDataViewReports$ = this.store.pipe(select(fromDataInsightsMainReducer.getFavoriteDataViewReports));
     this.dashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardViewThumbnailEnabled));
     this.dashboardViewSetting$ = this.settingsService.selectUiPersistenceSetting<string>(
       FeatureAreaConstants.DataInsights, UiPersistenceSettingConstants.DashboardViewThumbnailEnabled, 'string'
@@ -45,20 +57,27 @@ export class ViewsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.companyWorkbooksAsyncSub = this.companyWorkbooksAsync$.subscribe(asyncObj => this.companyWorkbooksAsync = asyncObj);
-    this.favoriteViewsSub = this.favoriteViews$.subscribe(cw => this.favoriteViews = cw);
+    this.favoriteTableauViewsSub = this.favoriteTableauViews$.subscribe(cw => this.favoriteTableauViews = cw);
+    this.favoriteDataViewReportsSub = this.favoriteDataViewReports$.subscribe(wb => this.favoriteDataViewReports = wb);
     this.dashboardViewSettingSubscription = this.dashboardViewSetting$.subscribe(value => this.handleDashboardViewSettingChanged(value));
+    this.tableauReportSub = this.tableauReports$.subscribe(wb => this.tableauReports = wb);
+    this.dataViewReportsSub = this.dataViewReports$.subscribe(wb => this.dataViewReports = wb);
   }
 
   ngOnDestroy(): void {
     this.companyWorkbooksAsyncSub.unsubscribe();
-    this.favoriteViewsSub.unsubscribe();
+    this.tableauReportSub.unsubscribe();
+    this.dataViewReportsSub.unsubscribe();
+    this.favoriteDataViewReportsSub.unsubscribe();
+    this.favoriteTableauViewsSub.unsubscribe();
     this.dashboardViewSettingSubscription.unsubscribe();
   }
 
   get anyFavorites() {
     return !!this.companyWorkbooksAsync &&
     !!this.companyWorkbooksAsync.obj &&
-    this.companyWorkbooksAsync.obj.some(w => w.Views.obj.some(v => v.IsFavorite === true));
+    (this.tableauReports.some(w => w.Views.obj.some(v => v.IsFavorite === true)) ||
+    this.dataViewReports.some(w => w.IsFavorite === true));
   }
 
   trackByFn(index: any, workbook: Workbook) {
@@ -75,6 +94,17 @@ export class ViewsComponent implements OnInit, OnDestroy {
       }));
     } else {
       this.store.dispatch(new fromViewsActions.AddViewFavorite({ workbookId: obj.workbookId, viewId: obj.view.ViewId }));
+    }
+  }
+
+  handleDataViewReportFavoriteClicked(obj: Workbook) {
+    if (!obj || !obj.WorkbookId) {
+      return;
+    }
+    if (obj.IsFavorite) {
+      this.store.dispatch(new fromViewsActions.RemoveDataViewReportFavorite({workbookId: obj.WorkbookId}));
+    } else {
+      this.store.dispatch(new fromViewsActions.AddDataViewReportFavorite({workbookId: obj.WorkbookId}));
     }
   }
 
