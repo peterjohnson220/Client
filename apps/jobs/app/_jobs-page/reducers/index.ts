@@ -44,4 +44,6 @@ export const getJobDescription = createSelector(selectJobDescriptionState, fromJ
 export const getJobDescriptionManagementEnabled = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionManagementEnabled);
 export const getJobDescriptionUpdated = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionUpdated);
 export const getSavingState = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getSavingState);
+export const getJobDescriptionLoaded = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionLoaded);
+
 
