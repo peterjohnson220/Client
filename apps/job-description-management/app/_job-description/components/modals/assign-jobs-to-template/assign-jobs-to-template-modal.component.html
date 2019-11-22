@@ -19,17 +19,18 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="templateListInput" class="col-4 col-form-label">Template Name:</label>
-      <div class="col-8">
+      <label for="templateListInput" class="col-4 col-form-label">Template Name: {{errorMessage}}</label>
+      <div class="col-8" [class.has-danger]="errorMessage">
         <select id="templateListInput" class="form-control" [disabled]="templateListLoading$ | async" [(ngModel)]="templateId">
           <option [value]="-1"></option>
           <option *ngFor="let template of templateListItems$ | async" [value]="template.TemplateId">{{template.TemplateName}}</option>
         </select>
+        <span *ngIf="errorMessage" class="text-danger float-right">Job already assigned to template please refresh page</span>
       </div>
     </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="templateId == -1 || (templateListLoading$ | async)">Assign</button>
+    <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="templateId == -1 || (templateListLoading$ | async) || errorMessage">Assign</button>
   </div>
 </ng-template>

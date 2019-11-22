@@ -82,7 +82,7 @@ export class JobDescriptionListEffects {
 
               return new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateIdSuccess(successPayload);
             }),
-            catchError(() => of(new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateIdError()))
+            catchError(response => of(new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateIdError(response)))
           );
       }));
 
@@ -107,6 +107,7 @@ export class JobDescriptionListEffects {
         return actions;
       })
     );
+
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,
