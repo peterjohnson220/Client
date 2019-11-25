@@ -3,7 +3,7 @@ import { orderBy } from 'lodash';
 
 import { ReportOrderType } from 'libs/constants';
 
-import { View, Workbook, DashboardView } from '../models';
+import { View, Workbook } from '../models';
 
 export class ViewsHelper {
   static getOrderByFn(type: ReportOrderType, views: View[]): View[] {
@@ -21,6 +21,10 @@ export class ViewsHelper {
     }
 
     return orderByFn;
+  }
+
+  static orderDataViewReports(workbooks: Workbook[]): Workbook[] {
+    return orderBy(workbooks, ['DashboardsOrder', (x: Workbook) => x.WorkbookName.toLowerCase()], 'asc');
   }
 
   static orderWorkbooksViews(workbooks: Workbook[]): Workbook[] {

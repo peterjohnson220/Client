@@ -115,6 +115,11 @@ export class ViewsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromViewsActions.SaveReportOrder(saveReportOrderData));
   }
 
+  handleDataViewReportsOrderUpdated(obj: string[]): void {
+    if (!obj) { return; }
+    this.store.dispatch(new fromViewsActions.SaveDataViewReportsOrder({workbookIds: obj}));
+  }
+
   handleSelectedDashboardViewChanged(view: DashboardView): void {
     this.store.dispatch(new fromViewsActions.ToggleDashboardView({ view }));
   }

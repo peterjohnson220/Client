@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { of } from 'rxjs';
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { TableauReportApiService, UserReportApiService } from 'libs/data/payfactors-api';
 import { UserContext } from 'libs/models/security';
+import { WorkbookOrderType } from 'libs/constants';
 import * as fromRootState from 'libs/state/state';
 import { SaveReportOrderRequest } from 'libs/models/payfactors-api';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
@@ -134,6 +135,23 @@ export class ViewsEffects {
         );
     })
   );
+
+  @Effect()
+  saveDataViewReportsOrder$ = this.action$
+    .pipe(
+      ofType(fromViewsActions.SAVE_DATA_VIEW_REPORTS_ORDER),
+      switchMap((action: fromViewsActions.SaveDataViewReportsOrder) => {
+        const request = PayfactorsApiModelMapper.buildSaveWorkbookOrderRequest(
+          action.payload.workbookIds,
+          DashboardView.All,
+          WorkbookOrderType.DashboardsOrdering);
+        return this.userReportApiService.saveWorkbookOrder(request)
+          .pipe(
+            map(() => new fromViewsActions.SaveDataViewReportsOrderSuccess()),
+            catchError(() => of(new fromViewsActions.SaveDataViewReportsOrderError()))
+          );
+      })
+    );
 
   @Effect()
   removeViewFavoriteSuccess$ = this.action$
