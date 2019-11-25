@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
+import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -20,10 +21,12 @@ import { UserFilterTypeData } from '../../user-filter/models';
 import { PfPeerMapModule } from '../map';
 
 import { ExchangeExplorerComponent, ExchangeScopeSelectorComponent, ExchangeExplorerMapComponent } from './containers';
+import { WeightingTypeDropdownComponent } from './components';
 import { reducers } from './reducers';
 import {
   ExchangeExplorerEffects,
-  ExchangeFilterContextEffects, ExchangeFilterEffects,
+  ExchangeFilterContextEffects,
+  ExchangeFilterEffects,
   ExchangeScopeEffects,
   ExchangeSearchEffects,
   SingledFilterEffects,
@@ -35,7 +38,8 @@ import * as fromFaIcons from './fa-icons';
 const declarations = [
   ExchangeExplorerMapComponent,
   ExchangeScopeSelectorComponent,
-  ExchangeExplorerComponent
+  ExchangeExplorerComponent,
+  WeightingTypeDropdownComponent
 ];
 
 @NgModule({
@@ -50,6 +54,7 @@ const declarations = [
       ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects, ExchangeExplorerMapEffects
     ]),
     SwitchModule,
+    DropDownListModule,
     NgxMapboxGLModule.withConfig({accessToken: environment.mapboxAccessToken}),
     NgbPopoverModule,
     FontAwesomeModule,

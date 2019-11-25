@@ -2,6 +2,8 @@ import { ExchangeDataSearchFilterContext, ExchangeScopeItem } from 'libs/models'
 
 import * as fromExchangeExplorerActions from '../actions/exchange-filter-context.actions';
 
+import { WeightingType } from 'libs/constants/weighting-type';
+
 // Extended entity state
 export interface State extends Partial<ExchangeDataSearchFilterContext> {
   hasBeenSet: boolean;
@@ -21,7 +23,8 @@ export const initialState: State = {
   LimitToPayMarket: false,
   PayMarketLocation: null,
   ScopeGUID: null,
-  SimilarExchangeJobIds: []
+  SimilarExchangeJobIds: [],
+  WeightingType: WeightingType.INC
 };
 
 // Reducer
@@ -82,6 +85,12 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
         ...initialState
       };
     }
+    case fromExchangeExplorerActions.SET_WEIGHTING_TYPE: {
+      return {
+        ...state,
+        WeightingType: action.payload.weightingType
+      };
+    }
     default: {
       return state;
     }
@@ -111,3 +120,4 @@ export const getFilterContext = (state: State) => {
   };
   return filterContext;
 };
+export const getWeightingType = (state: State) => state.WeightingType;

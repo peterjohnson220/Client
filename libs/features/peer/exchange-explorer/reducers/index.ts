@@ -155,6 +155,7 @@ export const getSelectedExchangeJobId = createSelector(
     return !!exchangeJobId ? exchangeJobId : 0;
   }
 );
+export const getWeightingType = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getWeightingType);
 
 // MISC
 export const getAssociatedExchangeJobIds = createSelector(
