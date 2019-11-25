@@ -5,9 +5,6 @@
       <button type="button" class="btn btn-secondary back-btn" (click)="goBack()">
         <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
       </button>
-      <button *ngIf="(identity$ | async)?.IsPublic" routerLink="/job-description-management/job-descriptions" [queryParams]="{ jwt: tokenId}" type="button" class="btn btn-secondary">
-        <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
-      </button>
     </ng-container>
     {{ jobDescriptionDisplayName }}
   </ng-container>
