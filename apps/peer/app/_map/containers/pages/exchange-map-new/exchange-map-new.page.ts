@@ -30,7 +30,6 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
 
   exchangeId: number;
   exchange$: Observable<Exchange>;
-  initialMapMoveComplete$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
   numberOfCompanySelections$: Observable<number>;
   numberOfSelections$: Observable<number>;
@@ -47,7 +46,6 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
     private exchangeExplorerContextService: ExchangeExplorerContextService
   ) {
     this.exchange$ = this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchange));
-    this.initialMapMoveComplete$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapInitialMapMoveComplete));
     this.peerMapLoadingError$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapLoadingError));
     this.numberOfCompanySelections$ = this.exchangeExplorerContextService.selectCountOfCompanyFiltersSelected();
     this.numberOfSelections$ = this.sharedPeerStore.pipe(select(fromLibsSearchReducer.getOverallFilterSelectionsCount));

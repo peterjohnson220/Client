@@ -1,6 +1,6 @@
 import { FeatureCollection, Point } from 'geojson';
 
-import { ExchangeMapSummary, GenericKeyValue } from 'libs/models';
+import { ExchangeMapSummary, MapGeoData } from 'libs/models';
 
 import * as fromPeerMapActions from '../actions/map.actions';
 import { MapHelper } from '../helpers';
@@ -9,20 +9,21 @@ export interface State {
   mapCollection: FeatureCollection<Point>;
   mapSummary: ExchangeMapSummary;
   mapFilter: any;
-  mapBounds: number[];
   loading: boolean;
   loadingError: boolean;
   shouldUpdateBounds: boolean;
-  isInitialLoad: boolean;
-  initialMapMoveComplete: boolean;
   maxZoom: number;
   autoZooming: boolean;
+
+  applyingScope: boolean;
+
+  // Map State
+  zoom: number;
   initialZoom: number;
   initialMapCentroid: number[];
-  applyingScope: boolean;
-  zoomPrecisionDictionary: GenericKeyValue<number, number>[];
-  zoomPrecisionDictionaryLoading: boolean;
-  zoomPrecisionDictionaryLoadingError: boolean;
+  initialMapBounds: number[];
+  initialZoomComplete: boolean;
+  mapLoaded: boolean;
 }
 
 // Initial State
@@ -30,27 +31,23 @@ export const initialState: State = {
   mapCollection: null,
 
   // TODO: This should live and be pulled from the exchange-filter-context reducer
-  mapFilter: {
-    TopLeft: null,
-    BottomRight: null,
-    ClusterPrecision: 2,
-    Centroid: [-98, 38.88]
-  },
+  mapFilter: {},
   mapSummary: null,
-  mapBounds: [-180, -65, 100, 85],
   loading: false,
   loadingError: false,
   shouldUpdateBounds: true,
-  isInitialLoad: true,
-  initialMapMoveComplete: false,
   maxZoom: 7,
-  autoZooming: false,
+  autoZooming: true,
+  initialMapBounds: [-180, -65, 100, 85],
   initialZoom: 3,
   initialMapCentroid: [-98, 38.88],
   applyingScope: false,
-  zoomPrecisionDictionary: null,
-  zoomPrecisionDictionaryLoading: false,
-  zoomPrecisionDictionaryLoadingError: false
+  initialZoomComplete: false,
+  mapLoaded: false,
+
+
+  // Map State
+  zoom: 0
 };
 
 // Reducer
@@ -79,12 +76,8 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapSummary: mapSummary,
         loading: false,
         loadingError: false,
-        mapFilter: mapFilter,
-        isInitialLoad: false,
-        autoZooming: false
+        mapFilter: mapFilter
       };
-
-      MapHelper.setBounds(mapSummary, state, newState);
 
       return newState;
     }
@@ -95,14 +88,6 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         loadingError: true
       };
     }
-    case fromPeerMapActions.INITIAL_MAP_MOVE_COMPLETE: {
-      return {
-        ...state,
-        mapFilter: MapHelper.buildMapFilter(state, action.payload),
-        initialMapMoveComplete: true,
-        autoZooming: true
-      };
-    }
     case fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS: {
       return {
         ...state,
@@ -111,8 +96,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
     }
     case fromPeerMapActions.RESET_STATE: {
       return {
-        ...initialState,
-        zoomPrecisionDictionary: state.zoomPrecisionDictionary
+        ...initialState
       };
     }
     case fromPeerMapActions.APPLY_CUT_CRITERIA: {
@@ -121,26 +105,19 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         ...state,
         mapCollection: mapDetails.MapCollection,
         mapSummary: mapDetails.MapSummary,
-        mapBounds: mapDetails.MapBounds,
-        initialZoom: mapDetails.ZoomLevel,
-        initialMapCentroid: mapDetails.Centroid,
-        mapFilter: mapDetails.MapFilter,
-        applyingScope: true,
-        initialMapMoveComplete: true,
-        isInitialLoad: false
+        applyingScope: true
       };
     }
     case fromPeerMapActions.APPLY_SCOPE_CRITERIA: {
       const mapDetails = MapHelper.getMapDetailsFromScope(action.payload);
+
       return {
         ...state,
         mapCollection: mapDetails.MapCollection,
         mapSummary: mapDetails.MapSummary,
-        mapBounds: mapDetails.MapBounds,
+        initialMapBounds: mapDetails.InitialMapBounds,
         mapFilter: mapDetails.MapFilter,
-        applyingScope: true,
-        initialMapMoveComplete: true,
-        isInitialLoad: false
+        applyingScope: true
       };
     }
     case fromPeerMapActions.APPLY_SCOPE_CRITERIA_SUCCESS: {
@@ -156,29 +133,8 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapFilter: {
           ...initialState.mapFilter
         },
-        isInitialLoad: true,
         maxZoom: initialState.maxZoom,
         autoZooming: true
-      };
-    }
-    case fromPeerMapActions.LOAD_ZOOM_PRECISION_DICTIONARY: {
-      return {
-        ...state,
-        zoomPrecisionDictionaryLoading: true
-      };
-    }
-    case fromPeerMapActions.LOAD_ZOOM_PRECISION_DICTIONARY_SUCCESS: {
-      return {
-        ...state,
-        zoomPrecisionDictionary: action.payload,
-        zoomPrecisionDictionaryLoading: false
-      };
-    }
-    case fromPeerMapActions.LOAD_ZOOM_PRECISION_DICTIONARY_ERROR: {
-      return {
-        ...state,
-        zoomPrecisionDictionaryLoadingError: true,
-        zoomPrecisionDictionaryLoading: false
       };
     }
     case fromPeerMapActions.AUTO_ZOOM_COMPLETE: {
@@ -189,50 +145,33 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       }
       return newState;
     }
-    case fromPeerMapActions.LOAD_PEER_MAP_BOUNDS: {
-      return {
-        ...state,
-        loading: true,
-        loadingError: false
-      };
-    }
-    case fromPeerMapActions.LOAD_PEER_MAP_BOUNDS_SUCCESS: {
-      const mapSummary: ExchangeMapSummary = action.payload.MapSummary;
+    case fromPeerMapActions.SET_PEER_MAP_BOUNDS: {
+      const mapGeoData: MapGeoData = action.payload;
       const mapFilter = {
         ...state.mapFilter
       };
-      const newState = {
-        ...state,
-        loading: false,
-        loadingError: false,
-        mapFilter: mapFilter,
-        isInitialLoad: false
-      };
+      const newState = {...state, mapFilter};
 
-      MapHelper.setBounds(mapSummary, state, newState);
-
-      if (!MapHelper.MapSummaryHasBounds(mapSummary)) {
-         // if we tried to get bounds and have none there is no data, we need to wipe out
-         // the previous map items so they no longer show
-         const mapCollection: FeatureCollection<Point> = {
-          type: 'FeatureCollection',
-          features: []
-        };
-
-        newState.mapCollection = mapCollection;
-        newState.mapFilter = null;
-
-         if (!!newState.mapSummary) {
-           newState.mapSummary = mapSummary;
-         }
-      }
+      MapHelper.setBounds(mapGeoData, state, newState);
+      
       return newState;
     }
-    case fromPeerMapActions.LOAD_PEER_MAP_BOUNDS_ERROR: {
+    case fromPeerMapActions.MOVE_END: {
       return {
         ...state,
-        loading: false,
-        loadingError: true
+        zoom: action.payload.zoom
+      };
+    }
+    case fromPeerMapActions.INITIAL_ZOOM_COMPLETE: {
+      return {
+        ...state,
+        initialZoomComplete: true
+      };
+    }
+    case fromPeerMapActions.MAP_LOADED: {
+      return {
+        ...state,
+        mapLoaded: true
       };
     }
     default: {
@@ -247,13 +186,15 @@ export const getMapFilter = (state: State) => state.mapFilter;
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getMapCollection = (state: State) => state.mapCollection;
-export const getMapBounds = (state: State) => state.mapBounds;
+export const getInitialMapBounds = (state: State) => state.initialMapBounds;
 export const getMaxZoom = (state: State) => state.maxZoom;
-export const getInitialMapMoveComplete = (state: State) => state.initialMapMoveComplete;
 export const getInitialZoomLevel = (state: State) => state.initialZoom;
 export const getMapCentroid = (state: State) => state.initialMapCentroid;
-export const canLoadMap = (state: State) => !state.isInitialLoad && !state.loading;
-export const showNoData = (state: State) => !state.loading && !state.isInitialLoad &&
+export const canLoadMap = (state: State) => !state.loading;
+export const showNoData = (state: State) => !state.loading &&
 (!state.mapCollection || state.mapCollection.features.length === 0);
 export const getApplyingScope = (state: State) => state.applyingScope;
 export const getAutoZooming = (state: State) => state.autoZooming;
+export const getZoom = (state: State) => state.zoom;
+export const getInitialZoomComplete = (state: State) => state.initialZoomComplete;
+export const getMapLoaded = (state: State) => state.mapLoaded;

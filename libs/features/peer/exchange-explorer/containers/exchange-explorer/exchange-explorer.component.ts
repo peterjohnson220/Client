@@ -74,7 +74,6 @@ export class ExchangeExplorerComponent extends SearchBase {
 
   onResetApp() {
     this.store.dispatch(new fromSearchResultsActions.ClearResults());
-    // TODO: Other stuff?
   }
 
   handleExchangeJobSelected(payload: {exchangeJobId: number, similarExchangeJobIds: number[]}): void {

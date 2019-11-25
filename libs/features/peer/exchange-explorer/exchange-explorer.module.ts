@@ -26,7 +26,8 @@ import {
   ExchangeFilterContextEffects, ExchangeFilterEffects,
   ExchangeScopeEffects,
   ExchangeSearchEffects,
-  SingledFilterEffects
+  SingledFilterEffects,
+  ExchangeExplorerMapEffects
 } from './effects';
 import { ExchangeExplorerContextService } from './services';
 import * as fromFaIcons from './fa-icons';
@@ -46,7 +47,7 @@ const declarations = [
     StoreModule.forFeature('feature_peer_exchangeExplorer', reducers),
     EffectsModule.forFeature([
       ExchangeScopeEffects, ExchangeFilterContextEffects, ExchangeFilterEffects,
-      ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects
+      ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects, ExchangeExplorerMapEffects
     ]),
     SwitchModule,
     NgxMapboxGLModule.withConfig({accessToken: environment.mapboxAccessToken}),

@@ -12,16 +12,27 @@ export function generateMockExchangeMapResponse(): ExchangeMapResponse {
   };
 }
 
-export interface ExchangeMapSummary {
-  OverallMapStats: AreaStats;
+export interface MapGeoData {
   TopLeft: GeoCoordinates;
   BottomRight: GeoCoordinates;
   Centroid: GeoCoordinates;
 }
 
+export interface ExchangeMapSummary extends MapGeoData {
+  OverallMapStats: AreaStats;
+}
+
 export function generateMockExchangeMapSummary(): ExchangeMapSummary {
   return {
     OverallMapStats: generateMockAreaStats(),
+    TopLeft: generateMockGeoCoordinates(),
+    BottomRight: generateMockGeoCoordinates(),
+    Centroid: generateMockGeoCoordinates()
+  };
+}
+
+export function generateMockMapGeoData(): MapGeoData {
+  return {
     TopLeft: generateMockGeoCoordinates(),
     BottomRight: generateMockGeoCoordinates(),
     Centroid: generateMockGeoCoordinates()
