@@ -28,7 +28,8 @@
   <ng-container *ngIf="dataViewReports?.length && (dashboardView$ | async) !== 'Favorites'">
     <pf-data-view-reports
       [dataViewReports]="dataViewReports"
-      (favoriteClicked)="handleDataViewReportFavoriteClicked($event)">
+      (favoriteClicked)="handleDataViewReportFavoriteClicked($event)"
+      (dataViewReportsOrderUpdated)="handleDataViewReportsOrderUpdated($event)">
     </pf-data-view-reports>
   </ng-container>
 

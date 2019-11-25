@@ -23,6 +23,9 @@ export const REMOVE_DATA_VIEW_REPORT_FAVORITE_ERROR = '[Data Insights / Views] R
 export const SAVE_REPORT_ORDER = '[Data Insights / Views] Save Report Order';
 export const SAVE_REPORT_ORDER_SUCCESS = '[Data Insights / Views] Save Report Order Success';
 export const SAVE_REPORT_ORDER_ERROR = '[Data Insights / Views] Save Report Order Error';
+export const SAVE_DATA_VIEW_REPORTS_ORDER = '[Data Insights / Views] Save DataView Reports Order';
+export const SAVE_DATA_VIEW_REPORTS_ORDER_SUCCESS = '[Data Insights / Views] Save DataView Reports Order Success';
+export const SAVE_DATA_VIEW_REPORTS_ORDER_ERROR = '[Data Insights / Views] Save DataView Reports Order Error';
 export const SET_DASHBOARD_VIEW = '[Data Insights / Views] Set Dashboard View';
 export const TOGGLE_DASHBOARD_VIEW = '[Data Insights / Views] Toggle Dashboard View]';
 export const PERSIST_DASHBOARD_VIEW_SUCCESS = '[Data Insights / Views] Persist Dashboard View Success';
@@ -155,6 +158,24 @@ export class SaveReportOrderError implements Action {
   constructor() {}
 }
 
+export class SaveDataViewReportsOrder implements Action {
+  readonly type = SAVE_DATA_VIEW_REPORTS_ORDER;
+
+  constructor(public payload: {workbookIds: string[]}) {}
+}
+
+export class SaveDataViewReportsOrderSuccess implements Action {
+  readonly type = SAVE_DATA_VIEW_REPORTS_ORDER_SUCCESS;
+
+  constructor() {}
+}
+
+export class SaveDataViewReportsOrderError implements Action {
+  readonly type = SAVE_DATA_VIEW_REPORTS_ORDER_ERROR;
+
+  constructor() {}
+}
+
 export class SetDashboardView implements Action {
   readonly type = SET_DASHBOARD_VIEW;
 
@@ -199,6 +220,9 @@ export type Actions
   | SaveReportOrder
   | SaveReportOrderSuccess
   | SaveReportOrderError
+  | SaveDataViewReportsOrder
+  | SaveDataViewReportsOrderSuccess
+  | SaveDataViewReportsOrderError
   | SetDashboardView
   | ToggleDashboardView
   | PersistDashboardViewSuccess

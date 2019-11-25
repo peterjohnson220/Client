@@ -44,6 +44,7 @@ export function reducer(state = initialState, action: fromViewsActions.Actions):
       tableauReportWorkbooksClone = action.payload.filter(tr => tr.Type === 'TableauReport');
       tableauReportWorkbooksClone = ViewsHelper.orderWorkbooksViews(tableauReportWorkbooksClone);
       dataViewReportsClone = action.payload.filter(dw => dw.Type === 'DataView');
+      dataViewReportsClone = ViewsHelper.orderDataViewReports(dataViewReportsClone);
 
       return {
         ...state,
