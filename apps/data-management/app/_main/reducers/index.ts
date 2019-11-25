@@ -4,9 +4,11 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
+import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
+  organizationalDataPage: fromOrganizationalDataPageReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -14,7 +16,8 @@ export interface State extends fromRoot.State {
 }
 
 export const reducers = {
-  transferDataPage: fromTransferDataPageReducer.reducer
+  transferDataPage: fromTransferDataPageReducer.reducer,
+  organizationalDataPage: fromOrganizationalDataPageReducer.reducer
 };
 
 // Select Feature Area
@@ -25,7 +28,10 @@ export const selectTransferDataPageState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.transferDataPage
 );
-
+export const selectOrganizationalDataPageState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.organizationalDataPage
+);
 
 // Transfer Data Page
 export const getTransferMethods = createSelector(
@@ -71,4 +77,10 @@ export const getWorkflowStep = createSelector(
 export const getShowAuthenticatingModal = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getShowAuthenticatingModal
+);
+
+// Organizational Data Page
+export const getOrganizationalHeadersLink = createSelector(
+  selectOrganizationalDataPageState,
+  fromOrganizationalDataPageReducer.getOrganizationalHeadersLink
 );

@@ -18,7 +18,12 @@
 
           <div class="font-weight-bold pb-3">{{this.StepHeaders[this.stepIndex - 1]}}
             <span *ngIf="stepIndex === stepEnum.Files"
-                  class="text-info float-right small py-2">download sample template</span>
+                  class="text-info float-right small py-2">
+              <a href="#"
+                 (click)="download($event)"
+                 id="data">Download Data</a> - <a href="{{organizationalDataTemplateLink}}"
+                 id="template">Field Descriptions</a>
+            </span>
           </div>
 
           <ng-container [ngSwitch]="stepIndex">
@@ -40,7 +45,8 @@
             <div *ngSwitchCase="stepEnum.Files"
                  class="px-5">
               <pf-entity-upload #entityUpload
-                                [entities]="loadOptions"></pf-entity-upload>
+                                [entities]="loadOptions">
+              </pf-entity-upload>
             </div>
 
           </ng-container>
@@ -61,6 +67,12 @@
         </div>
       </div>
     </div>
+
+    <!--Export Form-->
+    <form name="OrgDataExportForm"
+          [action]="orgDataExportAction()"
+          method="POST">
+    </form>
 
   </ng-container>
 </pf-page-with-title-bar>

@@ -40,6 +40,8 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   ConnectionsHrisApiService } from './hris-api';
 import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
+import {OrganizationalDataApiService} from './organizational-data';
+
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -91,6 +93,7 @@ import { CompanyResourcesApiService } from './company-resources';
     NotificationsApiService,
     SurveyLibraryApiService,
     CompanyResourcesApiService,
+    OrganizationalDataApiService,
 
     // PEER
     ExchangeApiService,
