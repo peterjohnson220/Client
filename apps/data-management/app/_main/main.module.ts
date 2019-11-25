@@ -16,17 +16,17 @@ import { PfCompanySelectorModule } from 'libs/features/company/company-selector.
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import * as fromFaIcons from './fa-icons';
-import { reducers } from './reducers';
+import { EntityPickerComponent, EntityUploadComponent } from './components';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import {
     DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, HrisAuthenticationCardComponent,
     ManageDataPageComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent,
     TransferMethodDropdownComponent, WorkdayAuthenticationComponent
 } from './containers';
-import { TransferDataPageEffects } from './effects';
+import { OrganizationalDataPageEffects, TransferDataPageEffects } from './effects';
+import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
-import { EntityPickerComponent, EntityUploadComponent } from './components';
-import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { reducers } from './reducers';
 
 @NgModule({
   imports: [
@@ -42,6 +42,7 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
     StoreModule.forFeature('data_management', reducers),
     EffectsModule.forFeature([
       TransferDataPageEffects,
+      OrganizationalDataPageEffects
     ]),
     FontAwesomeModule,
     NgbTooltipModule,

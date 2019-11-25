@@ -9,9 +9,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
 import { generateMockUserContext } from 'libs/models';
 
-import { OrgDataLoadComponent } from './';
+import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
 import { EntityUploadComponent } from '../../../components/entity-upload/entity-upload.component';
 import { getEntityChoicesForOrgLoader } from '../../../models';
+import { OrgDataLoadComponent } from './';
 
 describe('OrgDataLoadComponent', () => {
   let instance: OrgDataLoadComponent;
@@ -111,6 +112,12 @@ describe('OrgDataLoadComponent', () => {
     instance.stepIndex = 3;
     instance.goBack();
     expect(instance.stepIndex).toBe(2);
+  });
+
+  it('should dispatch a GetOrganizationalHeadersLink on onInit', () => {
+    instance.ngOnInit();
+    const action = new fromOrganizationalDataActions.GetOrganizationalHeadersLink();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
 });

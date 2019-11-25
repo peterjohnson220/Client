@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { KeyValue } from '@angular/common';
 
@@ -13,8 +13,10 @@ import * as fromCompanyReducer from 'libs/features/company/reducers';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
-import { EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
+import * as fromDataManagementMainReducer from '../../../reducers';
+import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
 import { EntityUploadComponent } from '../../../components';
+import { EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
 
 @Component({
   selector: 'pf-org-data-load',
@@ -22,7 +24,7 @@ import { EntityUploadComponent } from '../../../components';
   styleUrls: ['./org-data-load.component.scss']
 })
 
-export class OrgDataLoadComponent implements OnDestroy {
+export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   @ViewChild('entityUpload', { static: false }) uploadComponent: EntityUploadComponent;
   loadOptions: EntityChoice[];
@@ -32,6 +34,7 @@ export class OrgDataLoadComponent implements OnDestroy {
   private unsubscribe$ = new Subject();
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
+  private organizationalDataTemplateLink$: Observable<string>;
   userContext$: Observable<UserContext>;
 
   userContext: UserContext;
@@ -41,12 +44,12 @@ export class OrgDataLoadComponent implements OnDestroy {
   // we have rendered our index.
   stepIndex: OrgUploadStep = OrgUploadStep.Company;
   stepEnum = OrgUploadStep;
-
   companies: CompanySelectorItem[];
   selectedCompany: CompanySelectorItem = null;
   hasError = false;
   selectedMapping: number;
   env = environment;
+  organizationalDataTemplateLink: string;
 
   StepHeaders: string[] = [
     'Select a company:',
@@ -60,11 +63,13 @@ export class OrgDataLoadComponent implements OnDestroy {
     'Please choose a file for each entity type'
   ];
 
-  constructor(private store: Store<fromCompanyReducer.State>) {
+  constructor(private store: Store<fromCompanyReducer.State>,
+    private mainStore: Store<fromDataManagementMainReducer.State>) {
 
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.companies$ = this.store.select(fromCompanyReducer.getCompanies);
     this.selectedCompany$ = this.store.select(fromCompanyReducer.getSelectedCompany);
+    this.organizationalDataTemplateLink$ = this.mainStore.select(fromDataManagementMainReducer.getOrganizationalHeadersLink);
 
     this.selectedCompany$.subscribe(f => this.selectedCompany = f);
 
@@ -80,12 +85,22 @@ export class OrgDataLoadComponent implements OnDestroy {
       take(1),
       takeUntil(this.unsubscribe$));
 
-    forkJoin({ user: userSubscription, company: companiesSubscription })
+    const organizationalDataTemplateSubscription = this.organizationalDataTemplateLink$.pipe(
+      filter(uc => !!uc),
+      take(1),
+      takeUntil(this.unsubscribe$));
+
+    forkJoin({ user: userSubscription, company: companiesSubscription, organizationalDataTemplateLink: organizationalDataTemplateSubscription })
       .subscribe(f => {
         this.userContext = f.user;
         this.companies = f.company;
+        this.organizationalDataTemplateLink = f.organizationalDataTemplateLink;
         this.setInitValues();
       });
+  }
+
+  ngOnInit(): void {
+    this.mainStore.dispatch(new fromOrganizationalDataActions.GetOrganizationalHeadersLink());
   }
 
   ngOnDestroy(): void {
@@ -190,4 +205,19 @@ export class OrgDataLoadComponent implements OnDestroy {
       this.stepIndex += 1;
     }
   }
+
+  orgDataExportAction() {
+    if (this.selectedCompany) {
+      return `/odata/OrganizationalData/GetOrganizationalDataCsv?companyId=${this.selectedCompany.CompanyId}`;
+    }
+  }
+
+  download(event) {
+    if (event.target.id === 'data') {
+      document.forms['OrgDataExportForm'].submit();
+    }
+    event.preventDefault();
+  }
+
+
 }
