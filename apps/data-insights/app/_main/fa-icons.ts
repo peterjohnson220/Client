@@ -30,6 +30,7 @@ import { faListUl } from '@fortawesome/pro-light-svg-icons/faListUl';
 import { faChartBar } from '@fortawesome/pro-light-svg-icons/faChartBar';
 import { faUsers } from '@fortawesome/pro-light-svg-icons/faUsers';
 import { faTable } from '@fortawesome/pro-light-svg-icons/faTable';
+import { faFileSpreadsheet } from '@fortawesome/pro-light-svg-icons/faFileSpreadsheet';
 
 // Regular
 import { faTag } from '@fortawesome/pro-regular-svg-icons/faTag';
@@ -41,4 +42,4 @@ import { faLongArrowDown } from '@fortawesome/pro-regular-svg-icons/faLongArrowD
 export const faIcons = [ faChartBar, faSitemap, faUsers, faListUl, falStar, faStar, faTag, fasTag, faCaretDown,
   faSearch, faCaretRight, faTags, faChevronDoubleDown, faChevronDoubleUp, faChevronDoubleRight, faChevronDoubleLeft, faExclamationTriangle,
   faEdit, faClone,  faTimes, faTable, faChartLine, faTrashAlt, faPlus, faPencil, faAnalytics, faLongArrowUp, faLongArrowDown, faFileExcel,
-  faCheck, faMinus, faChevronLeft, faShare, faInfoCircle ];
+  faCheck, faMinus, faChevronLeft, faShare, faInfoCircle, faFileSpreadsheet ];
