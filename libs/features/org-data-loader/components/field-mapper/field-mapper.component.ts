@@ -10,14 +10,14 @@ import {
   ORG_DATA_REMOVE_URL,
   ORG_DATA_UPLOAD_URL,
   LoaderType,
-} from '../../constants';
+} from 'libs/features/org-data-loader/constans';
 
 import {
   DateFormatItem,
   LoaderFieldSet,
   LoaderEntityStatus,
   FilenamePattern
-} from '../../models';
+} from 'libs/features/org-data-loader/models';
 
 @Component({
   selector: 'pf-field-mapper',
