@@ -18,13 +18,15 @@ export class LoginEffects {
     .pipe(
       ofType(fromLoginAction.LOGIN),
       switchMap((action: fromLoginAction.Login) =>
-        this.accountApiService.login({ email: action.payload.Email, password: action.payload.Password }).pipe(
+        this.accountApiService.login(
+          { email: action.payload.Email, password: action.payload.Password,
+            clientCaptchaSiteKey: action.payload.ClientCaptchaSiteKey, clientCaptchaToken: action.payload.ClientCaptchaToken }).pipe(
           map((response: any) => {
             if (response !== null && response.first_login === 'true') {
               return new fromLoginAction.LoginSuccess(environment.firstTimeLoginPage);
             } else if (response !== null && response.password_expired === true) {
               return new fromLoginAction.PasswordExpired;
-            }  else if (action.payload.UserVoiceNextPage != null) {
+            } else if (action.payload.UserVoiceNextPage != null) {
               return new fromLoginAction.LoginSuccessRouteToUserVoice(response.user_id);
             } else {
               return new fromLoginAction.LoginSuccess(action.payload.NextPage);

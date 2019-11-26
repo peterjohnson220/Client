@@ -11,7 +11,7 @@ export const initialState: State = {
   login: false,
   loginSuccess: false,
   loginError: false,
-  passwordExpired: false,
+  passwordExpired: false
 };
 
 export function reducer(state = initialState, action: fromLoginActions.Actions): State {
@@ -35,7 +35,7 @@ export function reducer(state = initialState, action: fromLoginActions.Actions):
         ...state,
         login: false,
         loginSuccess: false,
-        loginError: true,
+        loginError: true
       };
     }
     case fromLoginActions.PASSWORD_EXPIRED: {

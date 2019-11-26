@@ -5,6 +5,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
+import { environment } from 'environments/environment';
 import * as fromRootState from 'libs/state/state';
 import * as fromForgotPasswordActions from '../../../actions/forgot-password.actions';
 import { ForgotPasswordPageComponent } from '../forgot-password/forgot-password.page';
@@ -103,7 +104,9 @@ describe('Auth - Forgot Password', () => {
     instance.submitError$ = of(false);
 
     const clientSettingRequest = {
-      email: testEmail
+      email: testEmail,
+      clientCaptchaToken: '',
+      clientCaptchaSiteKey: environment.reCaptchaV3SiteKey
     };
 
     const action = new fromForgotPasswordActions.SendingPasswordReset(clientSettingRequest);

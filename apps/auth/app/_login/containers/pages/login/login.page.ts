@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -13,6 +12,9 @@ import * as fromLoginReducer from '../../../reducers';
 import * as fromLoginActions from '../../../actions/login.actions';
 
 import { environment } from 'environments/environment';
+
+declare var grecaptcha: any;
+declare var initializeRecaptcha: any;
 
 @Component({
   selector: 'pf-login-page',
@@ -85,6 +87,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.loginSuccess = value;
       this.loginError = false;
     });
+
+    if (typeof initializeRecaptcha !== 'undefined') {
+      initializeRecaptcha(environment.reCaptchaV3SiteKey);
+    }
   }
 
   ngOnDestroy() {
@@ -101,10 +107,31 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    try {
+      grecaptcha.ready(() => {
+        grecaptcha.execute(environment.reCaptchaV3SiteKey, { action: 'login' }).then((token) => {
+          this.login(token);
+        }, executeErr => {
+          console.error(`grecaptcha.execute error: ${executeErr}`);
+          this.login();
+        });
+      });
+    } catch (readyErr) {
+      console.error(`grecaptcha.ready error: ${readyErr}`);
+      this.login();
+    }
+  }
+
+  login(captchaToken = '') {
     if (!this.loginForm.invalid) {
       this.loginStore.dispatch(new fromLoginActions.Login(
-        { Email: this.getValue('email'), Password: this.getValue('password'),
-          NextPage: this.nextPage, UserVoiceNextPage: this.userVoiceNextPage }));
+        {
+          Email: this.getValue('email'),
+          Password: this.getValue('password'),
+          ClientCaptchaToken: captchaToken,
+          ClientCaptchaSiteKey: environment.reCaptchaV3SiteKey,
+          NextPage: this.nextPage, UserVoiceNextPage: this.userVoiceNextPage
+        }));
     } else {
       this.loginError = true;
     }
