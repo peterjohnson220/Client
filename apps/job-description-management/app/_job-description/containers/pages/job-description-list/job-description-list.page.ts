@@ -6,14 +6,18 @@ import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeWhile, filter } from 'rxjs/operators';
 
 import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-context.reducer';
+import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import { JdmListFilter } from 'libs/models/user-profile';
 import { ListAreaColumn } from 'libs/models/common';
 import { UserContext } from 'libs/models/security';
+import { CompanySettingsEnum } from 'libs/models';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { SettingsService } from 'libs/state/app-context/services';
+import { environment } from 'environments/environment';
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
 import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
@@ -76,6 +80,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private jobInformationFieldsLoading$: Observable<boolean>;
   private savingListAreaColumnsSuccess$: Observable<boolean>;
   private addingUserFilterSuccess$: Observable<boolean>;
+  private enablePublicViewsInClient$: Observable<boolean>;
 
   public savedSearchTerm: string;
   public gridState: State;
@@ -101,7 +106,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     private store: Store<fromJobDescriptionReducers.State>,
     private router: Router,
     private route: ActivatedRoute,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private settingsService: SettingsService
   ) {
     this.identity$ = this.store.select(fromRootState.getUserContext);
     this.gridLoading$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoading);
@@ -128,6 +134,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       fromJobDescriptionReducers.getJobInformationFieldsForBulkExport);
     this.savingListAreaColumnsSuccess$ = this.store.select(fromJobDescriptionReducers.getListAreaColumnsSavingSuccess);
     this.addingUserFilterSuccess$ = this.store.select(fromJobDescriptionReducers.getUserFilterAddingSuccess);
+    this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMPublicViewsUseClient);
 
     this.filterThrottle = new Subject();
 
@@ -144,9 +151,9 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     });
   }
 
-   addJobClicked() {
+  addJobClicked() {
     this.addJobModalComponent.open();
-   }
+  }
 
   appliesToFormCompleted(selected: any) {
     const newJobDescription = new CompanyJobViewListItem();
@@ -188,10 +195,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
   }
 
-  handleClearFilter(filter: FilterDescriptor) {
+  handleClearFilter(filterDescriptor: FilterDescriptor) {
     const currentFilters: Array<any> = this.gridState.filter.filters;
 
-    this.filterThrottle.next(currentFilters.filter(f => f.field !== filter.field));
+    this.filterThrottle.next(currentFilters.filter(f => f.field !== filterDescriptor.field));
   }
 
   handleColumnModified(listAreaColumnModifiedObj: any) {
@@ -285,11 +292,11 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   saveFilterHandler(filterName) {
-    const filter = this.gridState.filter;
+    const gridFilter = this.gridState.filter;
     const request = {
       Id: null,
       Name: filterName,
-      CompositeFilter: PayfactorsApiModelMapper.mapCompositeFilterToCompositeUppercase(filter)
+      CompositeFilter: PayfactorsApiModelMapper.mapCompositeFilterToCompositeUppercase(gridFilter)
     };
 
     this.store.dispatch(new fromUserFilterActions.AddUserFilter(request));
@@ -413,6 +420,15 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
     if (this.isPublic) {
       this.store.dispatch(new fromJobDescriptionGridActions.LoadPublicJdmColumns(this.publicCompanyId));
+
+      // settings aren't loaded in public views, so initiate that here, then redirect to the NG implementation if the client specific setting is off
+      this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
+
+      this.enablePublicViewsInClient$.pipe(
+        takeWhile((setting) => setting !== true),
+        filter(setting => setting === false)
+      ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
+
     } else {
       this.store.dispatch(new fromJobDescriptionGridActions.LoadListAreaColumns(request));
     }

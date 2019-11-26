@@ -18,6 +18,7 @@ import {
   generateMockJdmListFilter
 } from 'libs/models/user-profile';
 import { PermissionService, RouteTrackingService } from 'libs/core/services';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { JobDescriptionListPageComponent } from './job-description-list.page';
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
@@ -49,7 +50,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
           jobdescriptonmanagement_jobdescription: combineReducers(fromJobDescriptionReducers.reducers),
         })
       ],
-      providers: [
+      providers: [SettingsService,
         {
           provide: Router,
           useValue: { navigate: jest.fn() },

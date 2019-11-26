@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
-import { filter, first, take } from 'rxjs/operators';
+import { filter, first, take, takeWhile } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
 import * as cloneDeep from 'lodash.clonedeep';
 
@@ -23,6 +23,8 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SimpleYesNoModalComponent } from 'libs/ui/common';
+import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
+import { environment } from 'environments/environment';
 
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService } from '../../../../shared/services';
 import {
@@ -73,6 +75,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   userAssignedRoles$: Observable<UserAssignedRole[]>;
   companyLogo$: Observable<AsyncStateObj<string>>;
   enableLibraryForRoutedJobDescriptions$: Observable<boolean>;
+  enablePublicViewsInClient$: Observable<boolean>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
   editingJobDescription$: Observable<boolean>;
   savingJobDescription$: Observable<boolean>;
@@ -147,6 +150,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.enableLibraryForRoutedJobDescriptions$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableLibraryForRoutedJobDescriptions
     );
+    this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.JDMPublicViewsUseClient
+    );
     this.controlTypesAsync$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersionAsync);
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
       PermissionCheckEnum.Single);
@@ -168,6 +174,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initSubscriptions();
     this.initSaveThrottle();
+
+    // we need the setting to check if we should redirect back to NG, but that call isn't made in public views, so fire an action to do that
+    if (this.identity.IsPublic) {
+      this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
+    }
   }
 
   ngOnDestroy(): void {
@@ -446,6 +457,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
     this.enableLibraryForRoutedJobDescriptionsSubscription = this.enableLibraryForRoutedJobDescriptions$.subscribe(value =>
       this.enableLibraryForRoutedJobDescriptions = value);
+
+    // if the setting to enable public views in this repo is disabled redirect back to the NG implementation
+    this.enablePublicViewsInClient$.pipe(
+      takeWhile(() => this.identity.IsPublic),
+      filter(setting => setting === false)
+    ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
 
     this.controlTypesAsync$.pipe(
       filter(cts => !!cts && !!cts.obj),
