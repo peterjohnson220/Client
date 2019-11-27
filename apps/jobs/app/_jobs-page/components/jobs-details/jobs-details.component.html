@@ -23,4 +23,11 @@
       </div>
     </ng-template>
   </ngb-tab>
+  <ngb-tab [title]="'Structures'">
+    <ng-template ngbTabContent>
+      <div class="full-height">
+        <pf-structure-grid [filters]="jobDetailsFilters"></pf-structure-grid>
+      </div>
+    </ng-template>
+  </ngb-tab>
 </ngb-tabset>
