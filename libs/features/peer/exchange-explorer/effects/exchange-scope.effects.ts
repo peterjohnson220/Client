@@ -132,7 +132,7 @@ export class ExchangeScopeEffects {
         ) as MultiSelectFilter[];
 
         const savedFilters = this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(
-          [scopeResponse.SelectedFilterOptions]
+          [scopeResponse.SelectedFilterOptions], payload.searchFilterMappingDataObj
         );
         const selections = savedFilters[0].Filters;
         actions.push(new fromSearchFiltersActions.ApplySavedFilters(selections));

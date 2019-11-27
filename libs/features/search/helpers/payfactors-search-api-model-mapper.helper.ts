@@ -33,7 +33,7 @@ export class PayfactorsSearchApiModelMapper {
     return searchFilters.map(sf => this.mapSearchFilterToFilter(sf));
   }
 
-   mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[]): MultiSelectFilter[] {
+   mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[], mappingDataObject: SearchFilterMappingDataObj = null): MultiSelectFilter[] {
     return searchFilters.map(sf => this.mapSearchFilterToMultiFilter(sf));
   }
 
@@ -48,7 +48,12 @@ export class PayfactorsSearchApiModelMapper {
     }
   }
 
-   mapSearchSavedFilterResponseToSavedFilter(surveySavedFilterResponse: SearchSavedFilterResponse[]): SavedFilter[] {
+   mapSearchSavedFilterResponseToSavedFilter(
+     surveySavedFilterResponse: SearchSavedFilterResponse[],
+     mappingDataObject: SearchFilterMappingDataObj = null): SavedFilter[] {
+     if (mappingDataObject !== null) {
+       this.searchFilterMappingData = mappingDataObject;
+     }
     return surveySavedFilterResponse.map(ssfr => {
       return {
         Id: ssfr.Id,
