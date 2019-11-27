@@ -1,6 +1,6 @@
 import { FlsaExemptionAndQuestions } from './flsa-exemption-and-questions.model';
 
-export class FlsaQuestionnaireDetails {
+export interface FlsaQuestionnaireDetails {
   FlsaQuestionnaireVersion: number;
   JobDescriptionId: number;
   JobDescriptionVersion: number;

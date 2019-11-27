@@ -7,13 +7,17 @@ export interface State {
   gettingUserContextError: boolean;
   gettingUserContextAttempted: boolean;
   userContext: UserContext;
+  errorMessage: string;
+  forbidden: boolean;
 }
 
 export const initialState: State = {
   gettingUserContext: false,
   gettingUserContextError: false,
   gettingUserContextAttempted: false,
-  userContext: null
+  userContext: null,
+  errorMessage: '',
+  forbidden: false
 };
 
 export function reducer(state = initialState, action: userContextActions.Actions): State {
@@ -42,6 +46,14 @@ export function reducer(state = initialState, action: userContextActions.Actions
         gettingUserContextError: true
       };
     }
+
+    case userContextActions.GET_USER_CONTEXT_403_ERROR: {
+      return {
+        ...state,
+        forbidden: true,
+        errorMessage: action.payload.errorMessage
+      };
+    }
     default: {
       return state;
     }
@@ -53,3 +65,5 @@ export const getGettingUserContextError = (state: State) => state.gettingUserCon
 export const getGettingUserContextAttempted = (state: State) => state.gettingUserContextAttempted;
 export const getUserContext = (state: State) => state.userContext;
 export const hasUserContext = (state: State) => !!state.userContext;
+export const getErrorMessage = (state: State) => state.errorMessage;
+export const getForbidden = (state: State) => state.forbidden;

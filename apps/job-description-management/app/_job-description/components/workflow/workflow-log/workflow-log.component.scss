@@ -1,0 +1,84 @@
+.audit-trail-entry-container{
+  height: 100%;
+}
+
+.audit-trail-entry-inner{
+  position: relative;
+}
+
+.audit-trail-entry-inner:before{
+  position: absolute;
+  top: 30px;
+  left: 79px;
+  bottom: 0;
+  z-index: -1;
+  display: block;
+  width: 2px;
+  content: "";
+  background-color: #f3f3f3;
+}
+
+
+.audit-trail-entry-inner > .audit-trail-entry-wrapper:last-child{
+  padding-bottom: 0px;
+}
+
+.audit-trail-entry-wrapper{
+  padding: 8px 0px 8px 60px;
+}
+
+.audit-trail-entry-system{
+  padding-left: 7px;
+}
+
+.audit-trail-entry-avatar{
+  margin-left: -60px;
+  float: left;
+}
+
+.audit-trail-entry-wrapper > .card::before, .audit-trail-entry-wrapper > .card::after{
+  position: absolute;
+  top: 11px;
+  right: 100%;
+  left: -16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-color: transparent;
+  border-style: solid solid outset;
+}
+
+.audit-trail-entry-wrapper > .card::before{
+  border-width: 8px;
+  border-right-color: #ddd;
+}
+
+.audit-trail-entry-wrapper > .card::after{
+  margin-top: 1px;
+  margin-left: 2px;
+  border-width: 7px;
+  border-right-color: #f7f7f7;
+}
+
+.time-ago{
+  float: right;
+}
+
+.workflow-icon{
+  max-width: 30px;
+}
+
+.timestamp{
+  min-width: 60px;
+}
+
+#shift-text-up {
+  position: relative;
+  bottom: 5px;
+}
+
+.circle {
+ color: #1872ae !important;
+}

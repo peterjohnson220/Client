@@ -6,14 +6,15 @@ import {
   ExchangeDataSearchFilter, ExchangeMapResponse, SystemFilterRequest, SystemFilter,
   FilterAggregateGroup, ExchangeExplorerContextInfo
 } from 'libs/models/peer';
-
-import { PayfactorsApiService } from '../../payfactors-api.service';
-import {SearchFilter} from '../../../../models/payfactors-api/search/response';
+import { SearchFilter } from 'libs/models/payfactors-api/search/response';
 import {
   ExchangeDataSearchRequest,
-  SearchExchangeAggregationsRequest
-} from '../../../../models/payfactors-api/peer-exchange-explorer-search/request';
-import {ExchangeDataSearchResponse} from '../../../../models/payfactors-api/peer-exchange-explorer-search/response';
+  SearchExchangeAggregationsRequest,
+  ExchangeDataSearchResponse
+} from 'libs/models/payfactors-api/peer/exchange-data-search';
+import {ExchangeJobExchangeDetail} from '../../../../features/peer/models';
+
+import { PayfactorsApiService } from '../../payfactors-api.service';
 
 @Injectable()
 export class ExchangeDataSearchApiService {
@@ -30,7 +31,8 @@ export class ExchangeDataSearchApiService {
     });
   }
 
-  getExchangeExplorerContextInfo(payload: {companyJobId?: number, companyPayMarketId?: number}|{exchangeId: number}): Observable<ExchangeExplorerContextInfo> {
+  getExchangeExplorerContextInfo(payload: {companyJobId?: number, companyPayMarketId?: number}|{exchangeId: number}):
+    Observable<ExchangeExplorerContextInfo> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo`, {
       params: payload
     });
@@ -52,11 +54,9 @@ export class ExchangeDataSearchApiService {
    return this.payfactorsApiService.post(`${this.endpoint}/GetFilterAggregates`, exchangeDataSearchFilter);
   }
 
-  getAssociatedExchangeJobs(companyJobId: number): Observable<string[]> {
+  getAssociatedExchangeJobs(payload: {companyJobId: number}): Observable<ExchangeJobExchangeDetail[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetAssociatedExchangeJobs`, {
-      params: {
-        companyJobId: companyJobId
-      }
+      params: payload
     });
   }
 

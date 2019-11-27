@@ -30,7 +30,7 @@ export function reducer(state = initialState, action: fromControlTypes.Actions):
       const controlTypeAsyncClone = cloneDeep(state.controlTypesAsync);
 
       controlTypeAsyncClone.loading = false;
-      controlTypeAsyncClone.obj = JSON.parse(action.payload);
+      controlTypeAsyncClone.obj = action.payload;
 
       return {
         ...state,

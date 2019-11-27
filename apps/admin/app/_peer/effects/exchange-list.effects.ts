@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Action } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, catchError, map, tap, concatMap } from 'rxjs/operators';
+import { switchMap, catchError, map, tap, concatMap, withLatestFrom } from 'rxjs/operators';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
 import { ExchangeListItem } from 'libs/models';
+import * as fromPeerAdminReducer from '../reducers';
 import * as fromExchangeListActions from '../actions/exchange-list.actions';
 
 
@@ -48,11 +49,17 @@ export class ExchangeListEffects {
     .pipe(
       ofType(fromExchangeListActions.DELETE_EXCHANGE),
       map((action: fromExchangeListActions.DeleteExchange) => action.payload),
+      withLatestFrom(
+        this.store.pipe(select(fromPeerAdminReducer.getExchangeListSearchQuery)),
+        (payload, searchQuery) => {
+          return {exchangeId: payload, searchQuery: searchQuery};
+        }
+      ),
       switchMap(payload =>
-        this.exchangeApiService.deleteExchange(payload).pipe(
+        this.exchangeApiService.deleteExchange(payload.exchangeId).pipe(
           concatMap(() => {
             return [
-              new fromExchangeListActions.LoadExchanges(''),
+              new fromExchangeListActions.LoadExchanges(payload.searchQuery),
               new fromExchangeListActions.DeleteExchangeSuccess()
             ];
           }),
@@ -73,9 +80,8 @@ export class ExchangeListEffects {
 
   constructor(
     private actions$: Actions,
+    private store: Store<fromPeerAdminReducer.State>,
     private exchangeApiService: ExchangeApiService,
     private router: Router
   ) { }
 }
-
-

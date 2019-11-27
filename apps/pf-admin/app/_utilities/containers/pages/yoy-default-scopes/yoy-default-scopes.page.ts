@@ -25,6 +25,7 @@ export class YoyDefaultScopesPageComponent implements OnInit {
   selectedMatchResult$: Observable<MatchResult>;
   filteredMatchResults$: Observable<MatchResult[]>;
   surveyScopesAsync$: Observable<AsyncStateObj<SurveyScope[]>>;
+  selectedScope$: Observable<SurveyScope>;
 
   constructor(
     private store: Store<fromUtilitiesReducer.State>,
@@ -38,6 +39,7 @@ export class YoyDefaultScopesPageComponent implements OnInit {
     this.selectedMatchResult$ = this.store.pipe(select(fromUtilitiesReducer.getSelectedMatchResult));
     this.filteredMatchResults$ = this.store.pipe(select(fromUtilitiesReducer.getFilteredMatchResults));
     this.surveyScopesAsync$ = this.store.pipe(select(fromUtilitiesReducer.getSurveyScopesAsync));
+    this.selectedScope$ = this.store.pipe(select(fromUtilitiesReducer.getSelectedScope));
   }
 
   ngOnInit(): void {

@@ -12,7 +12,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { WindowCommunicationService } from 'libs/core/services';
-import { PfPeerMapModule, ExchangeSelectorComponent } from 'libs/features/peer/';
+import {PfPeerMapModule, ExchangeSelectorComponent, ExchangeJobSelectorComponent} from 'libs/features/peer/';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/';
 import { PfCommonModule } from 'libs/core';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
@@ -81,6 +81,9 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     UpsertDataCutPageComponent,
     TaggingEntitiesPageComponent,
     UpsertDataCutNewPageComponent
+  ],
+  exports: [
+    ExchangeJobSelectorComponent
   ],
   providers: [
     WindowCommunicationService, DojGuidelinesService, CompanyJobApiService

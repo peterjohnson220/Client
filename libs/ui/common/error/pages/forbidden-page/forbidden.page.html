@@ -1,0 +1,4 @@
+<div class="alert alert-danger" role="alert">
+  <span *ngIf="(errorMessage$ | async)?.length">{{ errorMessage$ | async }}</span>
+  <span *ngIf="!((errorMessage$ | async)?.length)">Forbidden</span>
+</div>

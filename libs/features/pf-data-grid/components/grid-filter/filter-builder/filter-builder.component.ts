@@ -40,7 +40,7 @@ export class FilterBuilderComponent implements OnChanges {
   }
 
   handleFilterValueChanged(event) {
-    this.field.FilterValue = event.toString();
+    this.field.FilterValue = event === null ? event : event.toString();
     this.filterChanged.emit(this.field);
   }
 

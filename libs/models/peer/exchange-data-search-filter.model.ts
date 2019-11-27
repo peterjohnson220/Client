@@ -44,6 +44,7 @@ export function generateMockExchangeDataSearchFilter(): ExchangeDataSearchFilter
     BottomRight: generateMockGeoCoordinates(),
     ClusterPrecision: 12,
     IsFilteredBySimilarExchangeJobIds: false,
-    SelectedExchangeScopeId: null
+    SelectedExchangeScopeId: null,
+    LockedExchangeJobId: 1
   };
 }

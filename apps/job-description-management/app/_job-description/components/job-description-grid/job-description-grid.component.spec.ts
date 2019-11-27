@@ -53,7 +53,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
 
     instance.gridDataResult = { data: [cloneDeep(mockedCompanyJobViewListItem1), cloneDeep(mockedCompanyJobViewListItem2)], total: 2 };
 
-    instance.handleRowClick(1);
+    instance.handleRowClick({index: 1, selectedRows: [{ dataItem: mockedCompanyJobViewListItem2 }]});
 
     expect(instance.navigateToJobDescription.emit).toHaveBeenLastCalledWith(mockedCompanyJobViewListItem2);
   });

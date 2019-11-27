@@ -3,13 +3,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { Company } from 'libs/models/company';
+import { CompanyBaseInformation } from 'libs/models/company';
 import { PayElement, UdfSetting } from 'libs/models/payfactors-api/survey/response/udf-data-response.model';
 import { UdfSettingsRequestModel } from 'libs/models/payfactors-api/survey/request/udf-settings-request.model';
 import { environment } from 'environments/environment';
 
 import * as fromUdfManagerActions from '../actions/udf-manager.actions';
 import * as fromUdfManagerReducer from '../reducers';
+
+const take = 100;
 
 @Component({
   selector: 'pf-udf-manager',
@@ -18,13 +20,13 @@ import * as fromUdfManagerReducer from '../reducers';
 })
 export class UdfManagerPageComponent implements OnDestroy, OnInit {
   env = environment;
-  selectedCompany: Company;
+  selectedCompany: CompanyBaseInformation;
   udfValues: UdfSettingsRequestModel[];
 
-  companiesList$: Observable<Company[]>;
+  companiesList$: Observable<CompanyBaseInformation[]>;
   companiesListLoading$: Observable<boolean>;
   companiesListLoadingError$: Observable<boolean>;
-  selectedCompany$: Observable<Company>;
+  selectedCompany$: Observable<CompanyBaseInformation>;
   confirmSave$: Observable<boolean>;
   savedUdfSettings$: Observable<UdfSetting[]>;
   savedUdfSettingsLoading$: Observable<boolean>;
@@ -34,6 +36,7 @@ export class UdfManagerPageComponent implements OnDestroy, OnInit {
   savingUdfsErrorMessage$: Observable<string>;
 
   selectedCompanySubscription: Subscription;
+
   constructor(private store: Store<fromUdfManagerReducer.State>) { }
 
   ngOnInit(): void {
@@ -54,21 +57,23 @@ export class UdfManagerPageComponent implements OnDestroy, OnInit {
     this.selectedCompanySubscription = this.store.select(fromUdfManagerReducer.getSelectedCompany).subscribe(
       company => this.selectedCompany = company
     );
-
-    this.store.dispatch(new fromUdfManagerActions.LoadUdfCompanies());
   }
 
   ngOnDestroy(): void {
     this.selectedCompanySubscription.unsubscribe();
   }
 
-  onSelectedCompany(company: Company) {
+  onSelectedCompany(company: CompanyBaseInformation) {
     this.store.dispatch(new fromUdfManagerActions.SetSelectedCompany(company));
     this.store.dispatch(new fromUdfManagerActions.GetSurveyUdfs(company.CompanyId));
   }
 
   onUnselectCompany() {
     this.store.dispatch(new fromUdfManagerActions.UnselectCompany());
+  }
+
+  onFilterCompanies(filterRequest: { searchTerm: string, take: number }) {
+    this.store.dispatch(new fromUdfManagerActions.LoadUdfCompanies(filterRequest));
   }
 
   onSaveUdfs(model: UdfSettingsRequestModel[]) {

@@ -36,6 +36,7 @@
                 </div>
                 <button
                   *ngIf="match.IsExactMatch"
+                  [disabled]="match.Selected && scopeSelected"
                   (click)="handleApplyExactMatchClicked(match, $event)"
                   class="btn btn-sm btn-secondary">
                   Apply Exact Match

@@ -1,0 +1,29 @@
+<div class="form-group ml-4 mt-3">
+  <div class="form-check" (click)="showFields = !showFields">
+    <input class="form-check-input"
+           type="checkbox"
+           [(ngModel)]="selectAll"
+           (click)="handleSelectAllClicked($event)">
+    <label class="form-check-label pl-1">
+      Job Information
+      <fa-icon *ngIf="!showFields" [icon]="'caret-right'"></fa-icon>
+      <fa-icon *ngIf="showFields" [icon]="'caret-down'"></fa-icon>
+    </label>
+  </div>
+
+  <div class="ml-3" *ngIf="showFields">
+    <div class="form-check"
+         *ngFor="let jobInfoViewField of jobInfoFieldsAsyncObj.obj"
+         (click)="handleJobInfoViewFieldClicked(jobInfoViewField)">
+      <input class="form-check-input"
+             type="checkbox"
+             [ngModel]="jobInfoViewField.Checked"
+             [disabled]="jobInfoViewField.Locked"
+             [readOnly]="jobInfoViewField.Locked">
+      <label class="form-check-label pl-1">
+        {{jobInfoViewField.Name}}
+      </label>
+    </div>
+  </div>
+</div>
+

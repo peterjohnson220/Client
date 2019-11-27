@@ -1,6 +1,7 @@
 @import 'colors';
 @import 'data-insights-variables';
 @import 'data-insights-styles';
+@import 'common/common-variables';
 
 .add-report-fields {
   background-color: lightgray;
@@ -16,4 +17,14 @@
 .add-icon {
   color: $dark-grey;
   padding-right: .3rem;
+}
+
+.field {
+  .title {
+    @extend %ellipsis-overflowing-text;
+
+    &.selected {
+      width: 100%;
+    }
+  }
 }

@@ -10,7 +10,7 @@ import { TemplateListItemResponse } from 'libs/models/payfactors-api/job-descrip
 
 import * as fromTemplateListActions from '../actions/template-list.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
-import { LoadTemplateListByCompanyIdRequest } from '../models/requests/load-template-list-by-company-id.request.model';
+import { LoadTemplateListByCompanyIdRequest } from '../models/requests';
 
 @Injectable()
 export class TemplateListEffects {

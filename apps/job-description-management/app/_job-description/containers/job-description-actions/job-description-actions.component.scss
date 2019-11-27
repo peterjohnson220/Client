@@ -1,0 +1,57 @@
+#job-description-actions-dropdown:after{
+  display: none;
+}
+
+:host {
+  display: flex;
+}
+
+.btn:disabled, .dropdown-item.disabled, .dropdown-item:disabled {
+  cursor: not-allowed;
+}
+
+.show > .dropdown-menu {
+  display: block;
+}
+
+.show > .btn-secondary.dropdown-toggle {
+  color: #292b2c;
+  background-color: #e6e6e6;
+  background-image: none;
+  border-color: #adadad;
+}
+
+.dropdown-menu-right {
+  right: 0 !important;
+  left: auto !important;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  margin: 0.125rem 0 0;
+  font-size: 1rem;
+  color: #292b2c;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+}
+
+#acknowledge-btn {
+  position: relative;
+  right: 0.5rem;
+}
+
+.btn-primary:hover {
+  background-color: #125581;
+}
+

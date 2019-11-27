@@ -142,9 +142,9 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       asyncStateObjClone.loadingError = true;
       let errorMessage = '';
       if (action.payload.status === 401) {
-        errorMessage = 'Sorry, you do not have access to this data view'
+        errorMessage = 'Sorry, you do not have access to this data view';
       } else {
-        errorMessage = 'Error loading this data view'
+        errorMessage = 'Error loading this data view';
       }
       return {
         ...state,

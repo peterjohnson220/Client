@@ -1,0 +1,43 @@
+<div class="exchange-job-selector-container custom-modal-popover custom-modal-arrow">
+  <button type="button"
+          class="btn btn-secondary selector"
+          popoverTitle="Select an Exchange Job"
+          placement="right"
+          [disabled]="!selectorEnabled"
+          [ngbPopover]="popContent"
+          #p="ngbPopover">
+
+    <span class="selector-caret" *ngIf="selectorEnabled">
+      <fa-icon icon="caret-right"></fa-icon>
+    </span>
+
+    <span class="selection" [title]="jobTitle(selection)" [class.no-selection]="!selection">
+      <span class="ellipsis-overflowing-text">
+        {{jobTitle(selection)}}
+      </span>
+      <i class="ellipsis-overflowing-text text-muted">{{getExchangeLabel()}}</i>
+    </span>
+
+  </button>
+
+</div>
+
+<ng-template #popContent>
+  <div class="d-flex flex-column h-100">
+    <div class="popover-content">
+      <div *ngFor="let exchangeJobSelectorItem of exchangeJobSelectorItems"
+          (click)="handleExchangeJobClicked($event, exchangeJobSelectorItem)"
+          class="exchange-job-selection"
+          [class.selected-exchange-job]="isSelected(exchangeJobSelectorItem.ExchangeJobId)">
+
+        <div class="d-flex justify-content-between pl-2">
+          <div [title]="jobTitle(exchangeJobSelectorItem)">
+            <div class="ellipsis-overflowing-text">{{jobTitle(exchangeJobSelectorItem)}}</div>
+            <i class="ellipsis-overflowing-text text-muted">{{getExchangeLabel(exchangeJobSelectorItem)}}</i>
+          </div>
+       </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

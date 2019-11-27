@@ -1,6 +1,7 @@
 import * as fromExchangeExplorerContextInfoActions from '../actions/exchange-explorer-context-info.actions';
 import { PayMarket } from '../../../../models/paymarket';
 import { SearchFilterMappingDataObj } from '../../../search/models';
+import { ExchangeJobExchangeDetail } from '../../models';
 
 // Extended entity state
 export interface State {
@@ -8,7 +9,7 @@ export interface State {
   loadingError: boolean;
 
   payMarket: PayMarket;
-  exchangeJobTitlesShort: string[];
+  exchangeJobFilterOptions: ExchangeJobExchangeDetail[];
   searchFilterMappingDataObj: SearchFilterMappingDataObj;
 
   // TODO: Currently not using these but may be a good place for them at some point.
@@ -22,7 +23,7 @@ export const initialState: State = {
   loadingError: false,
 
   payMarket: null,
-  exchangeJobTitlesShort: [],
+  exchangeJobFilterOptions: [],
   searchFilterMappingDataObj: {},
 
   companyJobId: 0,
@@ -39,13 +40,13 @@ export function reducer(state = initialState, action: fromExchangeExplorerContex
       };
     }
     case fromExchangeExplorerContextInfoActions.LOAD_CONTEXT_INFO_SUCCESS: {
-      const payload: any = action.payload;
+      const payload = action.payload;
 
       return {
         ...state,
         loading: false,
         payMarket: payload.payMarket,
-        exchangeJobTitlesShort: payload.exchangeJobTitlesShort,
+        exchangeJobFilterOptions: payload.exchangeJobFilterOptions,
         searchFilterMappingDataObj: payload.searchFilterMappingDataObj
       };
     }
@@ -66,5 +67,5 @@ export function reducer(state = initialState, action: fromExchangeExplorerContex
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getPayMarket = (state: State) => state.payMarket;
-export const getExchangeJobTitlesShort = (state: State) => state.exchangeJobTitlesShort;
+export const getExchangeJobFilterOptions = (state: State) => state.exchangeJobFilterOptions;
 export const getSearchFilterMappingDataObj = (state: State) => state.searchFilterMappingDataObj;

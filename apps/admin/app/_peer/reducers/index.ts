@@ -516,6 +516,10 @@ export const {
   selectAll: getExchangeListItems,
 } = fromExchangeListReducer.adapter.getSelectors(selectExchangeListState);
 
+export const getExchangeListSearchQuery = createSelector(
+  selectExchangeListState, fromExchangeListReducer.getSearchQuery
+);
+
 export const getExchangeListLoading = createSelector(
   selectExchangeListState, fromExchangeListReducer.getLoading
 );

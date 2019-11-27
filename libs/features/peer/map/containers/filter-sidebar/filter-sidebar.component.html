@@ -1,10 +1,13 @@
 <div class="filter-sidebar">
 
   <div class="filter-header">
-     <pf-associated-exchange-job-list
-     *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter"
-      [associatedExchangeJobs]="associatedJobs$ | async">
-     </pf-associated-exchange-job-list>
+     <pf-exchange-job-selector
+     *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter && !!(associatedJobs$ | async)?.length"
+     [shouldDisplayJobTitleShort]="!(excludeIndirectJobMatches$ | async)"
+     [exchangeJobSelectorItems]="associatedJobs$ | async"
+     [selectedExchangeJobId]="selectedExchangeJobId$ | async"
+     (exchangeJobSelected)="handleExchangeJobSelected($event)">
+     </pf-exchange-job-selector>
     <pf-pay-market-bounds-filter
       *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter"
       [enabled]="limitToPayMarket$ | async"

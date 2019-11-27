@@ -301,4 +301,50 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
   //
   //   expect(highlight).toBe(true);
   // });
+
+  it('should set the filtered exchange scopes to be the full list of exchange scopes, when showing the popover', () => {
+    instance.exchangeScopeItems = [
+      {...generateMockExchangeScopeItem(), Id: 'FullListItem1'},
+      {...generateMockExchangeScopeItem(), Id: 'FullListItem2'}
+    ];
+    instance.filteredExchangeScopeItems = [
+      {...generateMockExchangeScopeItem(), Id: 'FilteredListItem1'}
+    ];
+
+    instance.handlePopoverShown();
+
+    expect(instance.filteredExchangeScopeItems).toHaveLength(2);
+    expect(instance.filteredExchangeScopeItems[0].Id).toBe('FullListItem1');
+    expect(instance.filteredExchangeScopeItems[1].Id).toBe('FullListItem2');
+  });
+
+  it('should filter the exchange scope items by the name containing the search value, when the search value changes', () => {
+    instance.exchangeScopeItems = [
+      {...generateMockExchangeScopeItem(), Id: 'FullListItem1', Name: 'ItemOneItem'},
+      {...generateMockExchangeScopeItem(), Id: 'FullListItem2', Name: 'ItemTwoItem'}
+    ];
+
+    instance.handleSearchValueChanged('Two');
+
+    expect(instance.filteredExchangeScopeItems).toHaveLength(1);
+    expect(instance.filteredExchangeScopeItems[0].Id).toBe('FullListItem2');
+  });
+
+  it('should filter the exchange scope items case insensitively, when the search value changes', () => {
+    instance.exchangeScopeItems = [
+      {...generateMockExchangeScopeItem(), Id: 'FullListItem1', Name: 'ItemONEItem'},
+      {...generateMockExchangeScopeItem(), Id: 'FullListItem2', Name: 'ItemTWOItem'}
+    ];
+
+    instance.handleSearchValueChanged('one');
+
+    expect(instance.filteredExchangeScopeItems).toHaveLength(1);
+    expect(instance.filteredExchangeScopeItems[0].Id).toBe('FullListItem1');
+  });
+
+  it('should track by the exchange scope item id', () => {
+    const result = instance.trackByFn(generateMockExchangeScopeItem());
+
+    expect(result).toBe('MockExchangeScopeItemId');
+  });
 });

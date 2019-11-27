@@ -3,6 +3,7 @@
   <ng-container page-title>
     Manage Exchange - {{ (exchange$ | async).ExchangeName }}
   </ng-container>
+
   <ng-container page-actions>
     <div class="switch-wrapper"
          *ngIf="!(loadingExchange$ | async)"
@@ -19,86 +20,14 @@
   </ng-container>
 
   <ng-container page-content>
-    <div class="d-flex h-100 w-100">
-      <div class="inner-nav">
-        <div class="inner-nav-heading">
-          Settings
-        </div>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <div>
-              <a class="nav-link" [routerLink]="['companies']" [routerLinkActive]="['selected']">
-                <fa-icon icon="building"></fa-icon>
-                  Companies
-                <span class="counts" *ngIf="totalExchangeCompanies$ | async as companies">{{companies}}</span>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div>
-              <a class="nav-link" [routerLink]="['jobs']" [routerLinkActive]="['selected']">
-                <fa-icon icon="briefcase"></fa-icon>
-                  Jobs
-                <span class="counts" *ngIf="totalExchangeJobs$ | async as jobs">{{jobs}}</span>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div>
-              <a class="nav-link" [routerLink]="['accessrequests']" [routerLinkActive]="['selected']">
-                <fa-icon icon="unlock-alt"></fa-icon>
-                Access Requests
-                <span class="counts" *ngIf="totalExchangeAccessRequests$ | async as accessRequests">{{accessRequests}}</span>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div>
-              <a class="nav-link" [routerLink]="['companyinvitations']" [routerLinkActive]="['selected']">
-                <fa-icon icon="envelope"></fa-icon>
-                Company Invitations
-                <span class="counts" *ngIf="totalPayfactorsCompanyExchangeInvitations$ | async as companyInvitations">{{ companyInvitations }}</span>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div>
-              <a class="nav-link" [routerLink]="['companyreferrals']" [routerLinkActive]="['selected']">
-                <fa-icon icon="address-card" class="font-a-icon-close" aria-hidden="true"></fa-icon>
-                Company Referrals
-                <span class="counts" *ngIf="totalNewCompanyExchangeInvitations$ | async as companyReferrals">{{ companyReferrals }}</span>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div>
-              <a class="nav-link" [routerLink]="['jobrequests']" [routerLinkActive]="['selected']">
-                <span class="fa-layers fa-fw font-a-icon-close">
-                  <fa-icon icon="briefcase" data-fa-transform="shrink-1 down-2 left-2"></fa-icon>
-                  <fa-icon icon="clock" data-fa-transform="shrink-5 up-5 right-6"></fa-icon>
-                </span>
-                Job Requests
-                <span class="counts" *ngIf="totalExchangeJobRequests$ | async as jobRequests">{{ jobRequests }}</span>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div>
-              <a class="nav-link" [routerLink]="['exchangefilters']" [routerLinkActive]="['selected']">
-                <fa-icon icon="filter"></fa-icon>
-                Exchange Filters
-                <span class="counts" *ngIf="totalExchangeFilters$ | async as exchangeFilters">{{ exchangeFilters }}</span>
-              </a>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="inner-content">
-        <div class="d-flex content-container">
-          <router-outlet></router-outlet>
-        </div>
-      </div>
-    </div>
+    <pf-page-with-left-menu [navLinks]="navLinks">
+      <ng-container menu-title>
+        Settings
+      </ng-container>
+      <ng-container content>
+        <router-outlet></router-outlet>
+      </ng-container>
+    </pf-page-with-left-menu>
   </ng-container>
 
 </pf-page-with-title-bar>

@@ -1,0 +1,16 @@
+<pf-page-with-title-bar [returnUrl]="'/'">
+  <ng-container page-title>
+    Job Description Settings
+  </ng-container>
+
+  <ng-container page-content>
+    <pf-page-with-left-menu [navLinks]="navLinks">
+      <ng-container menu-title>
+        Settings
+      </ng-container>
+      <ng-container content>
+        <router-outlet></router-outlet>
+      </ng-container>
+    </pf-page-with-left-menu>
+  </ng-container>
+</pf-page-with-title-bar>

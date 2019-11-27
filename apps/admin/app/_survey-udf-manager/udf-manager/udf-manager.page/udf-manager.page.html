@@ -7,9 +7,11 @@
     <div *ngIf="(selectedCompany$ | async)" class="actions-company-searcher">
       <pf-company-searcher
         [companiesList]="companiesList$ | async"
+        [loadingCompaniesList]="companiesListLoading$ | async"
         [selectedCompany]="selectedCompany"
         (selectCompany)="onSelectedCompany($event)"
         (unselectCompany)="onUnselectCompany()"
+        (filterCompanies)="onFilterCompanies($event)"
       ></pf-company-searcher>
     </div>
   </ng-container>
@@ -18,9 +20,11 @@
     <div *ngIf="!(selectedCompany$ | async)">
       <pf-company-searcher
         [companiesList]="companiesList$ | async"
+        [loadingCompaniesList]="companiesListLoading$ | async"
         [selectedCompany]="selectedCompany"
         (selectCompany)="onSelectedCompany($event)"
         (unselectCompany)="onUnselectCompany()"
+        (filterCompanies)="onFilterCompanies($event)"
       ></pf-company-searcher>
     </div>
 

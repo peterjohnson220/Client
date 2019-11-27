@@ -13,6 +13,8 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import * as fromExchangeExplorerReducer from '../../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';
 import * as fromExchangeFilterContextActions from '../../actions/exchange-filter-context.actions';
+import * as fromExchangeExplorerDataCutsActions from '../../actions/exchange-data-cut.actions';
+import { ExchangeJobExchangeDetail } from '../../../models';
 
 @Component({
   selector: 'pf-exchange-explorer',
@@ -33,7 +35,8 @@ export class ExchangeExplorerComponent extends SearchBase {
   payMarket$: Observable<PayMarket>;
   mapSummary$: Observable<ExchangeMapSummary>;
   selectionsCount$: Observable<number>;
-  exchangeJobTitles$: Observable<string[]>;
+  exchangeJobFilterOptions$: Observable<ExchangeJobExchangeDetail[]>;
+  selectedExchangeJobId$: Observable<number>;
 
   exchangeId: number;
 
@@ -53,7 +56,8 @@ export class ExchangeExplorerComponent extends SearchBase {
     this.hasAdditionalJobLevels$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextHasSimilarJobLevels));
     this.payMarket$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getExchangeExplorerPayMarket));
     this.mapSummary$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getPeerMapSummary));
-    this.exchangeJobTitles$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextExchangeJobTitles));
+    this.exchangeJobFilterOptions$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getExchangeJobFilterOptions));
+    this.selectedExchangeJobId$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getSelectedExchangeJobId));
   }
 
   handleLimitToPayMarketToggled() {
@@ -71,14 +75,21 @@ export class ExchangeExplorerComponent extends SearchBase {
   onResetApp() {
     this.store.dispatch(new fromSearchResultsActions.ClearResults());
     // TODO: Other stuff?
+  }
 
+  handleExchangeJobSelected(payload: {exchangeJobId: number, similarExchangeJobIds: number[]}): void {
+    this.store.dispatch(new fromExchangeFilterContextActions.SetExchangeJobSelection(payload));
   }
 
   onSetContext(payload: any) {
+    if (!!payload.cutGuid && payload.cutGuid !== '') {
+      const systemFilterRequest = {exchangeDataCutGuid: payload.cutGuid, companyJobId: payload.companyJobId};
+      this.store.dispatch(new fromExchangeExplorerDataCutsActions.LoadExchangeDataCut(systemFilterRequest));
+      return;
+    }
     this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
       this.exchangeId = payload.exchangeId;
-      this.store.dispatch(new fromExchangeFilterContextActions.LimitToExchange(this.exchangeId));
       this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({exchangeId: this.exchangeId}));
     } else {
       const systemFilterRequest = {

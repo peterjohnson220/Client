@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { orderBy } from 'lodash';
 import { select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, mergeMap, catchError, withLatestFrom, map } from 'rxjs/operators';
+import { switchMap, mergeMap, catchError, withLatestFrom, map, debounceTime, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
+import { PfConstants } from 'libs/models/common';
 
 import * as fromDataInsightsMainReducer from '../reducers';
 import * as fromFieldsActions from '../actions/fields.actions';
@@ -38,13 +39,14 @@ export class FieldsEffects {
   saveReportFields$ = this.action$
     .pipe(
       ofType(fromFieldsActions.SAVE_REPORT_FIELDS),
+      debounceTime(PfConstants.DEBOUNCE_DELAY),
       withLatestFrom(
         this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
         this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields)),
         (action: fromFieldsActions.SaveReportFields, userDataView, selectedFields) =>
           ({ userDataView, selectedFields })
       ),
-      switchMap((data) => {
+      concatMap((data) => {
         const selectedFields = orderBy(data.selectedFields, 'Order');
         const fieldsToSave = selectedFields.map((f, index) => {
           return {

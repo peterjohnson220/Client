@@ -9,6 +9,7 @@ import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions'
 import * as fromPeerMapReducer from '../../reducers';
 import * as fromFilterSidebarReducer from '../../reducers';
 import { AggregateSelectionInfo } from '../../models';
+import { ExchangeJobExchangeDetail } from '../../../models';
 
 @Component({
   selector: 'pf-peer-data-cut-filter-sidebar',
@@ -33,8 +34,9 @@ export class FilterSidebarComponent implements OnInit {
   previewLimit$: Observable<number>;
   mapSummary$: Observable<ExchangeMapSummary>;
   selectionsCount$: Observable<number>;
-  associatedJobs$: Observable<string[]>;
+  associatedJobs$: Observable<ExchangeJobExchangeDetail[]>;
   searchingAggregate$: Observable<boolean>;
+  selectedExchangeJobId$: Observable<number>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.filterAggregateGroups$ = this.store.pipe(select(fromPeerMapReducer.getFilterAggregateGroups));
@@ -49,6 +51,7 @@ export class FilterSidebarComponent implements OnInit {
     this.selectionsCount$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterSelectionsCount));
     this.associatedJobs$ = this.store.pipe(select(fromFilterSidebarReducer.getAssociatedExchangeJobs));
     this.searchingAggregate$ = this.store.pipe(select(fromFilterSidebarReducer.getSearchingAggregate));
+    this.selectedExchangeJobId$ = this.store.pipe(select(fromFilterSidebarReducer.getSelectedExchangeJobId));
   }
 
   trackByFilterProp(index: number, filterAggregateGroup: FilterAggregateGroup): string {
@@ -85,6 +88,9 @@ export class FilterSidebarComponent implements OnInit {
     this.store.dispatch(new fromFilterSidebarActions.ToggleAggregateSearch(null));
   }
 
+  handleExchangeJobSelected(payload: {exchangeJobId: number, similarExchangeJobIds: number[]}): void {
+    this.store.dispatch(new fromFilterSidebarActions.SetExchangeJobSelection(payload));
+  }
 
   ngOnInit() {
     if (this.companyPayMarketId) {
@@ -92,7 +98,7 @@ export class FilterSidebarComponent implements OnInit {
     }
 
     if (this.companyJobId) {
-      this.store.dispatch(new fromFilterSidebarActions.LoadAssociatedExchangeJobs(this.companyJobId));
+      this.store.dispatch(new fromFilterSidebarActions.LoadAssociatedExchangeJobs({companyJobId: this.companyJobId}));
     }
   }
 }

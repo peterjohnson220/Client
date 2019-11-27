@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { ExchangeMapResponse, GenericKeyValue } from 'libs/models/';
-import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
+import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 
 export const LOAD_PEER_MAP_DATA  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Data';
 export const LOAD_PEER_MAP_DATA_SUCCESS  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Data Success';

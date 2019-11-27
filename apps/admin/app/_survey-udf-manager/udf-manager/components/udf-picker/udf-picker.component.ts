@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { PayElement, UdfSetting,  } from 'libs/models/payfactors-api/survey/response/udf-data-response.model';
 import { UdfSettingsRequestModel } from 'libs/models/payfactors-api/survey/request/udf-settings-request.model';
-import { Company } from 'libs/models/company';
+import { CompanyBaseInformation } from 'libs/models/company';
 
 @Component({
   selector: 'pf-udf-picker',
@@ -14,7 +14,7 @@ export class UdfPickerComponent implements OnChanges {
 
   @Input() savedUdfSettings: UdfSetting[];
   @Input() payElements: PayElement[];
-  @Input() selectedCompany: Company;
+  @Input() selectedCompany: CompanyBaseInformation;
   @Input() isLoading: boolean;
   @Input() isLoadingError: boolean;
   @Input() maxUdfs: number;

@@ -44,7 +44,7 @@ export function reducer(state, action) {
         }
         case fromExchangeCompanyJobActions.LOAD_EXCHANGE_COMPANY_JOBS_SUCCESS: {
           const exchangeJobMappings: ExchangeCompanyJob[] = featureAction.payload.data;
-          
+
           return {
             ...adapter.removeAll(featureState),
             ...adapter.addAll(exchangeJobMappings, featureState),

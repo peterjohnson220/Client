@@ -1,5 +1,6 @@
 @import 'colors';
 @import 'data-insights-styles';
+@import 'common/common-variables';
 
 .header {
   padding: 0.5rem 1rem;
@@ -26,6 +27,10 @@
 
 .field {
   padding: 0.5rem 1rem;
+
+  .title {
+    @extend %ellipsis-overflowing-text;
+  }
 
   &:hover {
     background-color: #eaeaea;

@@ -1,6 +1,4 @@
-export class JobDescriptionControl {
-  Id: number;
-  SectionId: number;
+export interface JobDescriptionControl extends JobDescriptionControlId {
   Label: string;
   Type: string;
   EditorType: string;
@@ -8,4 +6,9 @@ export class JobDescriptionControl {
   Data: any[];
   AdditionalProperties?: any;
   Statuses: string[];
+}
+
+export interface JobDescriptionControlId {
+  Id: number;
+  SectionId: number;
 }

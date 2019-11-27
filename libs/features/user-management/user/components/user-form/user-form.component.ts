@@ -1,16 +1,18 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { PfValidators, PfEmailValidators, PfEmailTakenValidator } from 'libs/forms';
 import { UserAssignedRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserApiService } from 'libs/data/payfactors-api';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'pf-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss']
 })
-export class UserFormComponent {
+export class UserFormComponent implements OnInit, OnDestroy {
+
 
   readonly MAX_NAME_LENGTH = 50;
   readonly MAX_EMAIL_LENGTH = 100;
@@ -21,6 +23,8 @@ export class UserFormComponent {
 
   readonly DEFAULT_USER_ROLE = 2;
   readonly DEFAULT_STATUS = true;
+
+  private passwordValidatorSubscription: ISubscription;
 
   userForm: FormGroup;
   newUser: UserManagementDto = {
@@ -95,6 +99,27 @@ export class UserFormComponent {
     this.showPassword = true;
   }
 
+  ngOnInit() {
+    this.passwordValidatorSubscription = this.userForm.valueChanges.distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)).subscribe( _ => {
+      if (!this.showPassword || (this.f.password.value == '' && this.f.status.value.toString() == 'false' && this.showPassword)) {
+        this.f.password.setValidators(null);
+      } else {
+        this.f.password.setValidators([
+          Validators.compose([
+            PfValidators.required,
+            Validators.minLength(this.MIN_PASSWORD_LENGTH),
+            Validators.maxLength(this.MAX_PASSWORD_LENGTH)
+          ])
+        ]);
+      }
+      this.f.password.updateValueAndValidity();
+    })
+  }
+
+  ngOnDestroy() {
+    this.passwordValidatorSubscription.unsubscribe();
+  }
+
   populateForm(user: UserManagementDto) {
     this.userForm.patchValue({
       firstName: user.FirstName,
@@ -109,7 +134,7 @@ export class UserFormComponent {
   }
 
   setPasswordValidator(value: boolean) {
-    if (value) {
+    if (value && this.f.status.value.toString() == 'true') {
       this.f.password.setValidators([
         Validators.compose([
           PfValidators.required,
@@ -130,15 +155,21 @@ export class UserFormComponent {
 
   onSave() {
     this.userForm.markAllAsTouched();
+
+    var empty = false;
+    if (this.f.password.value == '' && this.showPassword && this.f.status.value.toString() == 'false') {
+      empty = true;
+    }
+
     if (this.userForm.valid) {
-      const userToSave = this.generateUserToSave();
+      const userToSave = this.generateUserToSave(empty);
       this.saveUser.emit(userToSave);
     }
   }
 
-  generateUserToSave() {
+  generateUserToSave(empty: boolean) {
 
-    const password = this.getPassword();
+    const password = empty ? this.generateRandomPassword() : this.getPassword();
 
     return {
       ...this.user,

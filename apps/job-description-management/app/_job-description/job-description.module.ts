@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { MomentModule } from 'angular2-moment';
 import { NgbDropdownModule, NgbPopoverModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnResizingService, FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
@@ -22,8 +23,17 @@ import { JobDescriptionRoutingModule } from './job-description-routing.module';
 import {
   JobDescriptionJobComparePageComponent,
   JobDescriptionListPageComponent,
-  JobDescriptionVersionComparePageComponent
-} from './containers/pages';
+  JobDescriptionVersionComparePageComponent,
+  JobDescriptionPageComponent,
+  JobDescriptionActionsComponent,
+  WorkflowWatchSidebarComponent,
+  JobDescriptionHistoryGridComponent,
+  JobMatchesModalComponent,
+  CopyJobDescriptionModalComponent,
+  WorkflowSidebarComponent,
+  ChangeApproverModalComponent,
+  WorkflowSetupModalComponent
+} from './containers';
 import {
   AddJobModalComponent,
   AssignJobsToTemplateModalComponent,
@@ -41,7 +51,14 @@ import {
   JobDescriptionControlComponent,
   JobDescriptionHistoryModalComponent,
   PublicViewHeaderComponent,
-  SaveFilterModalComponent
+  SaveFilterModalComponent,
+  WorkflowLogComponent,
+  WorkflowProgressBarComponent,
+  EmployeeAcknowledgementModalComponent,
+  WorkflowCancelModalComponent,
+  FlsaQuestionnaireModalComponent,
+  JobMatchResultComponent,
+  ExportJobDescriptionModalComponent
 } from './components';
 import { reducers } from './reducers';
 import {
@@ -54,7 +71,14 @@ import {
   PublicViewHeaderEffects,
   UserFilterEffects,
   JobDescriptionVersionCompareEffects,
-  JobDescriptionJobCompareEffects
+  JobDescriptionJobCompareEffects,
+  JobMatchesEffects,
+  WorkflowEffects,
+  EmployeeAcknowledgementEffects,
+  FlsaQuestionnaireModalEffects,
+  CopyJobDescriptionModalEffects,
+  JobDescriptionListEffects,
+  WorkflowSetupModalEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
@@ -79,7 +103,14 @@ import { ListAreaService } from '../shared/services';
       PublicViewHeaderEffects,
       UserFilterEffects,
       JobDescriptionJobCompareEffects,
-      JobDescriptionVersionCompareEffects
+      JobDescriptionVersionCompareEffects,
+      JobMatchesEffects,
+      WorkflowEffects,
+      EmployeeAcknowledgementEffects,
+      FlsaQuestionnaireModalEffects,
+      CopyJobDescriptionModalEffects,
+      JobDescriptionListEffects,
+      WorkflowSetupModalEffects
     ]),
     LayoutModule,
     SharedModule,
@@ -105,6 +136,7 @@ import { ListAreaService } from '../shared/services';
     FontAwesomeModule,
     PfJobDescriptionManagementModule,
     NgbTabsetModule,
+    MomentModule,
   ],
   declarations: [
     // Components
@@ -125,11 +157,29 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionCompareDataResultComponent,
     JobDescriptionCompareSectionResultComponent,
     JobDescriptionControlComponent,
+    WorkflowLogComponent,
+    EmployeeAcknowledgementModalComponent,
+    WorkflowCancelModalComponent,
+    FlsaQuestionnaireModalComponent,
+    JobMatchResultComponent,
+    ExportJobDescriptionModalComponent,
+    WorkflowProgressBarComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,
     JobDescriptionListPageComponent,
     JobDescriptionVersionComparePageComponent,
+    JobDescriptionPageComponent,
+    WorkflowWatchSidebarComponent,
+
+    // Containers
+    JobDescriptionActionsComponent,
+    JobDescriptionHistoryGridComponent,
+    JobMatchesModalComponent,
+    CopyJobDescriptionModalComponent,
+    WorkflowSidebarComponent,
+    ChangeApproverModalComponent,
+    WorkflowSetupModalComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,

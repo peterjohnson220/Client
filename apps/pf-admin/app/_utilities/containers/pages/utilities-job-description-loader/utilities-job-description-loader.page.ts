@@ -26,6 +26,7 @@ export class JobDescriptionLoaderPageComponent implements OnInit {
 
   public isMappingCollapsed = false;
   public isFileUploadCollapsed = false;
+  public isCollapsed = false;
 
   templateListItems$: Observable<TemplateListItem[]>;
   templateListLoading$: Observable<boolean>;

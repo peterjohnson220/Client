@@ -11,8 +11,6 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { UploadModule } from '@progress/kendo-angular-upload';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import * as fromFaIcons from './fa-icons';
 
 // PF
@@ -27,8 +25,7 @@ import { DashboardEffects,
   UserVoiceEffects,
   TimelineActivityEffects,
   DashboardTcModalEffects,
-  CompositeSummaryDownloadEffects,
-  CompanyResourcesPageEffects } from './effects';
+  CompositeSummaryDownloadEffects } from './effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -37,7 +34,7 @@ import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 
 // Containers
-import { DashboardPageComponent, CompanyResourcesPageComponent, CompanyResourceListComponent } from './containers';
+import { DashboardPageComponent } from './containers';
 import { TileGridComponent } from './containers';
 import { TimelineActivityComponent } from './containers';
 import { UserVoiceIndicatorComponent } from './containers';
@@ -53,10 +50,6 @@ import { TilePreviewListComponent } from './components';
 import { TilePreviewPlaceHolderComponent } from './components';
 import { CompositeSummaryDownloadComponent } from './components';
 import { BasicListComponent } from './components';
-import { ResourcesComponent } from './containers/resources/resources.component';
-import { NewFolderModalComponent } from './containers/new-folder-modal/new-folder-modal.component';
-import { ResourceModalComponent } from './containers/resource-modal/resource-modal.component';
-import { DeleteModalComponent } from './containers/delete-modal/delete-modal.component';
 
 
 @NgModule({
@@ -75,15 +68,12 @@ import { DeleteModalComponent } from './containers/delete-modal/delete-modal.com
       DashboardEffects,
       TimelineActivityEffects,
       DashboardTcModalEffects,
-      CompositeSummaryDownloadEffects,
-      CompanyResourcesPageEffects
+      CompositeSummaryDownloadEffects
     ]),
     ChartsModule,
     DateInputsModule,
     FontAwesomeModule,
     NgbModule.forRoot(),
-    UploadModule,
-    DropDownsModule,
 
     // Routing
     MainRoutingModule,
@@ -97,7 +87,6 @@ import { DeleteModalComponent } from './containers/delete-modal/delete-modal.com
   declarations: [
     // Pages
     DashboardPageComponent,
-    CompanyResourcesPageComponent,
 
     // Components
     TileComponent,
@@ -113,17 +102,7 @@ import { DeleteModalComponent } from './containers/delete-modal/delete-modal.com
     UserVoiceIndicatorComponent,
     DashboardTCModalComponent,
     CompositeSummaryDownloadComponent,
-    BasicListComponent,
-    ResourcesComponent,
-    CompanyResourceListComponent,
-    NewFolderModalComponent,
-    ResourceModalComponent,
-    DeleteModalComponent
-  ],
-  entryComponents: [
-    NewFolderModalComponent,
-    ResourceModalComponent,
-    DeleteModalComponent
+    BasicListComponent
   ]
 })
 export class MainModule {

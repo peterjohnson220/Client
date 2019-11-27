@@ -20,7 +20,7 @@
         </th>
         <td class="vertical-data-cell">
           <!--Data Row Loop ( Max 2 )-->
-          <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+          <ng-container *ngFor="let dataRow of data; index as dataRowIndex; trackBy: trackByFn">
 
             <!--TODO [BC]: Have template seeded data be inline with textbox-->
             <pf-control-data-attribute-renderer
@@ -31,7 +31,7 @@
               (dataChangesDetected)="handleDataChangesDetected($event)">
             </pf-control-data-attribute-renderer>
 
-          </ng-template>
+          </ng-container>
         </td>
       </tr>
 
@@ -41,14 +41,14 @@
     <ng-template [ngIf]="!vertical">
 
       <!--Data Row Loop ( Max 2 )-->
-      <ng-template ngFor let-dataRow let-dataRowIndex="index" [ngForOf]="data">
+      <ng-container *ngFor="let dataRow of data; index as dataRowIndex; trackBy: trackByFn">
         <!--Data Row, Only show if it has Data in read only view-->
         <tr *ngIf="!readOnly || (readOnly && jobDescriptionManagementService.hasData(attributes, dataRow))"
             [attr.data-index]="dataRowIndex"
             [attr.data-data-row-id]="dataRow.Id">
 
           <!--Attribute Cells-->
-          <td width="{{attribute.WidthPct + '%'}}" *ngFor="let attribute of attributes">
+          <td width="{{attribute.WidthPct + '%'}}" *ngFor="let attribute of attributes; trackBy: trackByAttributeFn">
             <pf-control-data-attribute-renderer
               [editable]="canEditAttribute(dataRow, dataRowIndex, attribute)"
               [checkInheritedData]="checkInheritedData"
@@ -60,7 +60,7 @@
 
         </tr>
 
-      </ng-template>
+      </ng-container>
 
     </ng-template>
 

@@ -6,7 +6,7 @@ import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
-import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer-exchange-explorer-search/response';
+import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { ExchangeMapResponse } from 'libs/models/peer';
 import * as fromSearchReducer from 'libs/features/search/reducers';
@@ -23,7 +23,7 @@ import { ExchangeExplorerContextService } from '../services';
 import {
   BaseExchangeDataSearchRequest,
   ExchangeDataSearchRequest
-} from '../../../../models/payfactors-api/peer-exchange-explorer-search/request';
+} from '../../../../models/payfactors-api/peer/exchange-data-search/request';
 import { OperatorEnum } from '../../../../constants';
 
 @Injectable()

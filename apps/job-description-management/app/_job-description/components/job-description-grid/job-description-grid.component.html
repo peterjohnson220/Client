@@ -11,11 +11,12 @@
             [sortable]="true"
             [sort]="gridState.sort"
             [skip]="gridState.skip"
+            [selectable]="true"
             (pageChange)="pageChanged.emit($event)"
             (dataStateChange)="dataStateChanged.emit($event)"
             (sortChange)="sortChanged.emit($event)"
             (filterChange)="filterChanged.emit($event)"
-            (rowClicked)="handleRowClick($event)">
+            (selectionChange)="handleRowClick($event)">
 
   <!--Front Static Columns-->
   <kendo-grid-column field="JobCode" title="Job Code" [width]="150"></kendo-grid-column>
@@ -27,7 +28,7 @@
                      [title]="listAreaColumn.ColumnDisplayName"
                      [width]="150">
     <ng-template *ngIf="listAreaColumn.ColumnDataType === 'date'" kendoGridCellTemplate let-dataItem>
-      {{dataItem[listAreaColumn.ColumnDatabaseName] | date:'MM/DD/YYYY'}}
+      {{dataItem[listAreaColumn.ColumnDatabaseName] | date:'MM/dd/yyyy'}}
     </ng-template>
   </kendo-grid-column>
 
@@ -50,7 +51,7 @@
 
   <kendo-grid-column *ngIf="!isPublic" class="cancel-row-click" [width]="50" [style]="{'text-align': 'center', 'overflow': 'inherit'}">
     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-      <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block" placement="bottom-right">
+      <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
         <button class="btn btn-secondary btn-sm" id="jd-list-view-actions-dropdown" ngbDropdownToggle>
           <fa-icon icon="ellipsis-h"></fa-icon>
         </button>

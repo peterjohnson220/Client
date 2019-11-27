@@ -64,14 +64,6 @@ describe('Manage Exchange Page', () => {
     instance.exchangeId = routeIdParam;
   });
 
-  it('should pass the exchange name to the page title transclusion area', () => {
-    instance.exchange$ = of(generateMockExchange());
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should dispatch a loadExchangeJobs, loadExchangeCompanies, loadExchangeAccessRequests,' +
     'loadPayfactorsCompanyExchangeInvitations and loadNewCompanyExchangeInvitations action with exchange id on init', () => {
     instance.exchange$ = of(generateMockExchange());

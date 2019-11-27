@@ -8,7 +8,11 @@
     </div>
   </header>
   <main [class.main-body-scroll]="!centerContentScroll">
-    <div class="left-sidebar" [class.left-sidebar-center-content-scroll]="centerContentScroll" (mouseenter)="leftSidebarToggleChanged(true)" (mouseleave)="leftSidebarToggleChanged(false)">
+    <div class="left-sidebar"
+         [class.left-sidebar-center-content-scroll]="centerContentScroll"
+         [class.d-none]="(userContext$ | async)?.IsPublic || (userContext$ | async)?.WorkflowStepInfo"
+         (mouseenter)="leftSidebarToggleChanged(true)"
+         (mouseleave)="leftSidebarToggleChanged(false)">
       <pf-layout-wrapper-left-sidebar [leftSidebarToggle]="leftSidebarToggle"></pf-layout-wrapper-left-sidebar>
     </div>
     <div class="center-content"

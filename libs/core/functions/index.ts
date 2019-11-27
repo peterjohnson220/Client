@@ -11,3 +11,4 @@ export * from './get-value-for-sort-by-field';
 export * from './get-file-extension-type';
 export * from './get-file-extension-css-class';
 export * from './add-jwt-auth-interceptor-header';
+export * from './array-move';

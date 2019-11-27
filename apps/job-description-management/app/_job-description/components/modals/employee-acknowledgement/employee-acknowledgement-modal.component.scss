@@ -1,0 +1,11 @@
+.btn-primary:disabled {
+  background: #1872ae;
+  border-color: #1872ae;
+  cursor: not-allowed;
+}
+
+.btn-primary:not(:disabled):hover {
+    background-color: #125581;
+    border-color: #114f78;
+}
+

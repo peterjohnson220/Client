@@ -48,12 +48,14 @@ export function reducer(state = initialState, action: fromUsersListActions.Actio
       };
     }
     case fromUsersListActions.LOAD_USERS_SUCCESS: {
+      const userSearchTermLowerCase = state.userSearchTerm ? state.userSearchTerm.toLowerCase() : '';
       return {
         ...state,
         usersLoading: false,
         loading: state.companyLoading,
         loadingError: false,
-        users: action.payload,
+        users: action.payload.filter(ue => ue.FirstName.toLowerCase().startsWith(userSearchTermLowerCase)
+          || ue.LastName.toLowerCase().startsWith(userSearchTermLowerCase)),
         allUsers: action.payload
       };
     }

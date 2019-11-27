@@ -1,9 +1,9 @@
-import { Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { TemplateListItem } from 'libs/models/jdm';
@@ -20,7 +20,7 @@ import { AppliesToAttributesExist } from '../../../models/applies-to-attributes-
   selector: 'pf-job-description-applies-to-modal',
   templateUrl: './job-description-applies-to-modal.component.html'
 })
-export class JobDescriptionAppliesToModalComponent implements OnInit {
+export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy {
   @ViewChild('jobDescriptionAppliesToModal', { static: true }) public jobDescriptionAppliesToModal: any;
 
   @Input() selectedCompanyJob: CompanyJobViewListItem;
@@ -37,7 +37,6 @@ export class JobDescriptionAppliesToModalComponent implements OnInit {
   private jobDescriptionAppliesToValuesLoading$: Observable<boolean>;
   private appliesToAttributesExist$: Observable<AppliesToAttributesExist>;
 
-  private modalRef: NgbModalRef;
   private appliesToField: string;
   private appliesToValue: string;
   private jobDescriptionTitle: string;
@@ -83,6 +82,10 @@ export class JobDescriptionAppliesToModalComponent implements OnInit {
       fromJobDescriptionAppliesToReducers.getAppliesToAttributesExist);
   }
 
+  ngOnDestroy(): void {
+    this.appliesToAttributesExistSubscription.unsubscribe();
+  }
+
   open(jobDescriptionId: number, companyJobId: number, appliesTo?: JobDescriptionAppliesTo) {
     this.jobDescriptionId = jobDescriptionId;
     this.companyJobId = companyJobId;
@@ -96,7 +99,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit {
     this.store.dispatch(new fromTemplateListActions.LoadTemplateList({ publishedOnly: true }));
 
     this.templateId = -1;
-    this.modalRef = this.modalService.open(this.jobDescriptionAppliesToModal, { backdrop: 'static' });
+    this.modalService.open(this.jobDescriptionAppliesToModal, { backdrop: 'static' });
   }
 
 
@@ -167,7 +170,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit {
         this.data = this.source.slice();
       }
     });
-
+    this.store.dispatch(new fromJobDescriptionAppliesToActions.ResetAppliesToAttributeExist());
     this.initializeSubscriptions();
   }
 
@@ -210,7 +213,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit {
   }
 
   initializeSubscriptions() {
-    this.appliesToAttributesExist$.subscribe((result: AppliesToAttributesExist) => {
+    this.appliesToAttributesExistSubscription = this.appliesToAttributesExist$.subscribe((result: AppliesToAttributesExist) => {
       if (result) {
         this.canRemoveValues = result.CanRemoveValues;
 
@@ -233,7 +236,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit {
                 templateId: this.templateId
               });
 
-            this.modalRef.close();
+            this.modalService.dismissAll();
           }
         } else {
           this.requiredFieldsFilledIn = false;

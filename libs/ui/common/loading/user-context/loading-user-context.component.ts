@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
 import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';
@@ -19,7 +19,10 @@ declare var initializePendo: any;
   selector: 'pf-loading-user-context',
   templateUrl: './loading-user-context.component.html'
 })
-export class LoadingUserContextComponent implements OnInit {
+export class LoadingUserContextComponent implements OnInit, OnDestroy {
+
+  userContextSubscription: Subscription;
+
   gettingUserContext$: Observable<boolean>;
   userContext$: Observable<UserContext>;
 
@@ -31,11 +34,15 @@ export class LoadingUserContextComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userContextSubscription = this.userContext$.subscribe(uc => {
+      if (uc && !uc.IsPublic && !uc.WorkflowStepInfo) {
+        this.store.dispatch(new fromUserAssignedRoleActions.GetUserAssignedRoles());
+        this.store.dispatch(new fromLegacyCompanySettingsActions.GetCompanySettings());
+        this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
+        this.store.dispatch(new fromUiPersistenceSettingsActions.GetUiPersistenceSettings());
+      }
+    });
     this.store.dispatch(new fromUserContextActions.GetUserContext());
-    this.store.dispatch(new fromUserAssignedRoleActions.GetUserAssignedRoles());
-    this.store.dispatch(new fromLegacyCompanySettingsActions.GetCompanySettings());
-    this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
-    this.store.dispatch(new fromUiPersistenceSettingsActions.GetUiPersistenceSettings());
 
     // TODO: this initialize pendo code should be moved to the app-wrapper component when the app wrappers are consolidated
     this.userContext$.pipe(
@@ -46,5 +53,11 @@ export class LoadingUserContextComponent implements OnInit {
         initializePendo(uc);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.userContextSubscription) {
+      this.userContextSubscription.unsubscribe();
+    }
   }
 }

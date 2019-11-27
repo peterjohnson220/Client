@@ -1,4 +1,4 @@
-export class FlsaQuestion {
+export interface FlsaQuestion {
   Selected: boolean;
   Question: string;
 }

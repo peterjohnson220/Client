@@ -6,14 +6,17 @@ import { NavigationApiService } from './navigation';
 import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './settings';
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
-import { ExchangeApiService, ExchangeCompanyApiService,
-         ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
+import {
+  ExchangeApiService, ExchangeCompanyApiService,
+  ExchangeScopeApiService, ExchangeDataCutsApiService, ExchangeDataFilterApiService
+} from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService, JobSearchApiService, ExchangeDataSearchApiService } from './search';
-import { DashboardApiService, CompanyResourcesApiService } from './dashboard';
+import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
-import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
+import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowApiService,
+  JobDescriptionWorkflowTemplateApiService, JobDescriptionTemplateApiService, JobDescriptionFooterViewApiService } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
@@ -29,7 +32,6 @@ import { FileApiService } from './file';
 import { TagApiService } from './tags';
 import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
-import { JobDescriptionTemplateApiService } from './jdm';
 import { TableauReportApiService, UserReportApiService, ReportManagementApiService, DataViewApiService } from './reports';
 import { NotificationsApiService } from './notifications';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
@@ -37,6 +39,7 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService } from './hris-api';
 import { SurveyLibraryApiService } from './survey-library';
+import { CompanyResourcesApiService } from './company-resources';
 import {JobsApiService} from './jobs';
 
 @NgModule({
@@ -46,25 +49,24 @@ import {JobsApiService} from './jobs';
     CompanySecurityApiService,
     DashboardApiService,
     UserApiService,
-    ExchangeApiService,
-    ExchangeCompanyApiService,
-    ExchangeDataSearchApiService,
     NavigationApiService,
     UiPersistenceSettingsApiService,
     AccountApiService,
     PayMarketApiService,
     PayfactorsApiService,
+    JobDescriptionFooterViewApiService,
     JobDescriptionManagementApiService,
+    JobDescriptionWorkflowApiService,
+    JobDescriptionWorkflowTemplateApiService,
+    JobDescriptionTemplateApiService,
     UserProfileApiService,
     UserFilterApiService,
     JobDescriptionApiService,
     JobsApiService,
     TermsConditionsApiService,
     SurveySearchApiService,
-    ExchangeScopeApiService,
     CompanySettingsApiService,
     LoaderFieldMappingsApiService,
-    ExchangeDataCutsApiService,
     AppEnvironmentApiService,
     UserTicketApiService,
     CompanyJobApiService,
@@ -81,7 +83,6 @@ import {JobsApiService} from './jobs';
     PermissionService,
     RemoteDataSourceService,
     TagApiService,
-    JobDescriptionTemplateApiService,
     SurveyApiService,
     TableauReportApiService,
     UserReportApiService,
@@ -90,8 +91,16 @@ import {JobsApiService} from './jobs';
     StructuresRangeGroupApiService,
     DataViewApiService,
     NotificationsApiService,
-    CompanyResourcesApiService,
     SurveyLibraryApiService,
+    CompanyResourcesApiService,
+
+    // PEER
+    ExchangeApiService,
+    ExchangeCompanyApiService,
+    ExchangeDataSearchApiService,
+    ExchangeScopeApiService,
+    ExchangeDataFilterApiService,
+    ExchangeDataCutsApiService,
 
     // Hris Api Services
     HrisApiService,

@@ -9,6 +9,7 @@ exports[`User Menu should show homepage link, when provided 1`] = `
   <nav
     class="navbar navbar-expand navbar-dark fixed-top"
   >
+    
     <a
       class="navbar-brand mr-auto"
       href="url"
@@ -18,6 +19,7 @@ exports[`User Menu should show homepage link, when provided 1`] = `
         src="Img Src"
       />
     </a>
+    
     <pf-layout-wrapper-user-menu />
   </nav>
 </pf-layout-wrapper-header>
@@ -31,6 +33,7 @@ exports[`User Menu should show the header 1`] = `
   <nav
     class="navbar navbar-expand navbar-dark fixed-top"
   >
+    
     <a
       class="navbar-brand mr-auto"
       href=""
@@ -40,6 +43,7 @@ exports[`User Menu should show the header 1`] = `
         src="null"
       />
     </a>
+    
     <pf-layout-wrapper-user-menu />
   </nav>
 </pf-layout-wrapper-header>

@@ -11,20 +11,22 @@
             [loadingError]="defaultScopeSurveysLoadingError$ | async"
             [items]="defaultScopeSurveys$ | async"
             (itemClicked)="handleSurveyClicked($event)"
-            [dataName]="'Surveys'">
+            [dataName]="'Surveys'"
+            [filterPlaceholder]="'Search for a Survey...'">
           </pf-data-list-card>
         </div>
         <div class="col-6 h-100">
           <pf-match-results
             [matchResultsAsync]="matchResultsAsync$ | async"
             [filteredMatchResults]="filteredMatchResults$ | async"
+            [scopeSelected]="(selectedScope$ | async) !== undefined"
             (matchResultSelected)="handleMatchResultSelected($event)"
             (applyExactMatchClicked)="handleApplyExactMatchClicked($event)"
             (filterClicked)="handleFilterMatchResultsClicked($event)">
           </pf-match-results>
         </div>
       </div>
-      <div class="row flex-grow-1">
+      <div class="row flex-grow-1 h-100">
         <div class="col-12 h-100">
           <pf-scope-selector
             [surveyScopesAsync]="surveyScopesAsync$ | async"

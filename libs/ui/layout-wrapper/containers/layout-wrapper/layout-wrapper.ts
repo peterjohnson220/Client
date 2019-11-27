@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import * as fromRootState from '../../../../state/state';
@@ -14,7 +14,7 @@ import * as fromLayoutReducer from '../../reducers';
   templateUrl: './layout-wrapper.html',
   styleUrls: [ './layout-wrapper.scss' ]
 })
-export class LayoutWrapperComponent implements OnInit {
+export class LayoutWrapperComponent implements OnInit, OnDestroy {
   userContext$: Observable<UserContext>;
   currentYear: number;
 
@@ -25,6 +25,8 @@ export class LayoutWrapperComponent implements OnInit {
   getGettingHomePageLink$: Observable<boolean>;
   getGettingHomePageLinkError$: Observable<boolean>;
   homePageLink$: Observable<HomePageLink>;
+
+  userContextSubscription: Subscription;
 
   @Input() displayRightSideBar: boolean;
   @Input() rightSideBarFontAwesomeOpenIcon = 'fa-plus';
@@ -57,12 +59,20 @@ export class LayoutWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userContext$.subscribe(userContext => {
+    this.userContextSubscription = this.userContext$.subscribe(userContext => {
       this.store.dispatch(new fromHeaderActions.GetHeaderUserHomePageLink({
         userId: userContext.UserId
       }));
+      if (!userContext.IsPublic && !userContext.WorkflowStepInfo) {
+        this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
+      }
     });
-    this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
+  }
+
+  ngOnDestroy(): void {
+    if (this.userContextSubscription) {
+      this.userContextSubscription.unsubscribe();
+    }
   }
 
   rightSidebarToggle(isOpen: boolean) {

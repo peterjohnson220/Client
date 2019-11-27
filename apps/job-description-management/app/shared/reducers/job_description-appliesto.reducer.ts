@@ -81,6 +81,12 @@ export function reducer(state = initialState, action: fromJobDescriptionAppliesT
         loadingJobDescriptionAppliesToValues: false,
         jobDescriptionAppliesToValues: cloneDeep(action.payload)
       };
+    case fromJobDescriptionAppliesToActions.RESET_APPLIES_TO_ATTRIBUTES_EXIST: {
+      return {
+        ...state,
+        appliesToAttributesExist: null
+      };
+    }
     default:
       return state;
   }

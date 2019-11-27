@@ -1,0 +1,50 @@
+<div class="flex-column-container">
+  
+  <h4>Footer View</h4>
+
+  <p>A Footer View is a way to determine sections and content controls a user is able to see while looking at a PDF footer. Choose up to 3 selections.</p>
+    
+    <form [formGroup]="jdmFooterForm" (ngSubmit)="submit()">
+        <div class="form-group">
+            <label for="createdByCheck">
+                <input type="checkbox" id="createdByCheck" formControlName="createdByCheck" class="mr-3"/>
+                Created By
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="createdDateCheck">
+                <input type="checkbox" id="createdDateCheck" formControlName="createdDateCheck" class="mr-3"/> 
+                Created Date
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="versionNumberCheck">
+                <input type="checkbox" id="versionNumberCheck" formControlName="versionNumberCheck" class="mr-3"/> 
+                Version Number
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="pageNumberCheck">
+                <input type="checkbox" id="pageNumberCheck" formControlName="pageNumberCheck" class="mr-3"/> 
+                Page Number
+            </label>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" id="customTextCheck"  formControlName="customTextCheck" class="mr-3"/>
+            <input type="text" formControlName="customTextValue" class="w-50" placeholder="Custom Text, Limit 40 Characters" maxlength="40"/>
+        </div>
+        <div class="d-flex pt-2 justify-content-between border-top">
+            <button type="submit" 
+                [ngClass]="{'disabled': !jdmFooterForm.valid || loadingError || savingError}" 
+                class="btn btn-primary disabled">
+                Save
+            </button>
+            
+            <span class="help-block text-danger" *ngIf="!jdmFooterForm.valid">Only 3 fields can be added to the footer.</span>
+            <span class="help-block text-danger" *ngIf="loadingError">Error loading footer view.</span>
+            <span class="help-block text-danger" *ngIf="savingError">Error saving footer view.</span>
+            <span class="help-block text-success" *ngIf="savingSuccess">Footer view saved successfully!</span>
+        </div>		
+    </form>
+
+</div>

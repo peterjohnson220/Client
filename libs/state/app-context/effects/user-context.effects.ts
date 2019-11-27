@@ -33,13 +33,14 @@ export class UserContextEffects {
       ofType(userContextActions.GET_USER_CONTEXT_ERROR),
       map((action: userContextActions.GetUserContextError) => action.errorContext),
       map(errorContext => {
-          if (errorContext.error.status === 401) {
-            return new userContextActions.GetUserContext401Error(errorContext.redirectUrl);
-          } else if (errorContext.error.status === 404) {
-            return new userContextActions.GetUserContext404Error();
-          }
+        if (errorContext.error.status === 401) {
+          return new userContextActions.GetUserContext401Error(errorContext.redirectUrl);
+        } else if (errorContext.error.status === 404) {
+          return new userContextActions.GetUserContext404Error();
+        } else if (errorContext.error.status === 403) {
+          return new userContextActions.GetUserContext403Error({errorMessage: errorContext.error.error.error.message});
         }
-      )
+      })
     );
 
   @Effect({ dispatch: false })
@@ -51,6 +52,18 @@ export class UserContextEffects {
             window.location.href = `/?redirect=` + encodeURIComponent(action.redirect);
           }
           return null;
+        }
+      )
+    );
+
+  @Effect({ dispatch: false })
+  getUserContext403Error$ = this.actions$
+    .pipe(
+      ofType(userContextActions.GET_USER_CONTEXT_403_ERROR),
+      tap((action: userContextActions.GetUserContext403Error) => {
+          if (isPlatformBrowser(this.platformId)) {
+            this.router.navigate(['/forbidden']);
+          }
         }
       )
     );

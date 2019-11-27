@@ -5,6 +5,7 @@ exports[`Loading User Context should show a router outlet, when we are not getti
   gettingUserContext$={[Function Observable]}
   store={[Function Store]}
   userContext$={[Function Store]}
+  userContextSubscription={[Function Subscriber]}
 >
   <router-outlet />
 </pf-loading-user-context>

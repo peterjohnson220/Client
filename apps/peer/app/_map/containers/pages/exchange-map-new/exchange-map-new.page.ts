@@ -8,8 +8,8 @@ import { Exchange, ExchangeScopeItem } from 'libs/models';
 import { MapComponent } from 'libs/features/peer/map/containers/map/map.component';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
-import * as fromLibsPeerExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
 import * as fromLibsPeerExchangeExplorerExchangeScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
+import * as fromLibsPeerExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
 import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsSearchReducer from 'libs/features/search/reducers';
 import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
@@ -76,7 +76,7 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.libsExchangeExplorerStore.dispatch(new fromLibsPeerExchangeExplorerMapActions.ResetState());
+    this.libsExchangeExplorerStore.dispatch(new fromLibsPeerExchangeExplorerActions.ResetExchangeExplorerState());
   }
 
   ngOnInit() {

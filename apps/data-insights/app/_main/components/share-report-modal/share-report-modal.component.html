@@ -23,7 +23,7 @@
     </kendo-multiselect>
     <div class="share-permissions">
       <div class="share-user" *ngFor="let sharedUser of selectedUsers; trackBy: trackByFn">
-        <div class="share-user-name">
+        <div class="share-user-name" [title]="sharedUser.FirstName + ' ' + sharedUser.LastName">
           {{sharedUser.FirstName}} {{sharedUser.LastName}}
         </div>
         <div class="share-user-permission">

@@ -1,7 +1,7 @@
-<ul class="navbar-nav">
+<ul class="navbar-nav" [class.d-none]="userContext.IsPublic || !!userContext.WorkflowStepInfo">
   <li class="nav-item" ngbDropdown placement="bottom-right">
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>
-      <span class="text-white pr-1">{{ userContext.FirstName }} {{ userContext.LastName }} 
+      <span class="text-white pr-1">{{ userContext.FirstName }} {{ userContext.LastName }}
         <span *ngIf="userContext.ImpersonatorId > 0">({{ userContext.CompanyName }})</span>
       </span>
       <pf-layout-wrapper-user-menu-avatar

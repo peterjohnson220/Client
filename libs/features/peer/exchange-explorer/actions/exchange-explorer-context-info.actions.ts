@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { SearchFilterMappingDataObj } from '../../../search/models';
 import { PayMarket } from '../../../../models/paymarket';
+import { ExchangeJobExchangeDetail } from '../../models';
 
 export const LOAD_CONTEXT_INFO = '[Features/Peer/ExchangeExplorer/ContextInfo] Load Context Info';
 export const LOAD_CONTEXT_INFO_SUCCESS = '[Features/Peer/ExchangeExplorer/ContextInfo] Load Context Info Success';
@@ -18,7 +19,7 @@ export class LoadContextInfoSuccess implements Action {
 
   constructor(public payload: {
     payMarket: PayMarket,
-    exchangeJobTitlesShort: string[],
+    exchangeJobFilterOptions: ExchangeJobExchangeDetail[],
     searchFilterMappingDataObj: SearchFilterMappingDataObj
   }) {}
 }

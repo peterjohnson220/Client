@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { JwtAuthInterceptor } from 'libs/core/services/jwt-auth-interceptor.service';
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { AppComponent, PfAppRootModule } from 'libs/features/app-root';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
-import { JwtAuthInterceptor } from 'libs/core/services/jwt-auth-interceptor.service';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -17,7 +18,6 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     // Angular
     BrowserModule,
-    HttpClientModule,
 
     // PF Modules
     PfApiModule,
@@ -26,12 +26,13 @@ import { AppRoutingModule } from './app-routing.module';
     PfLayoutWrapperModule,
     PfSecurityModule,
     PfStateModule,
+    PfCompanySelectorModule,
 
     // Routing
     AppRoutingModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtAuthInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: JwtAuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

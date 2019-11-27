@@ -6,6 +6,7 @@ import * as fromExchangeListActions from '../actions/exchange-list.actions';
 
 // Extended entity state
 export interface State extends EntityState<ExchangeListItem> {
+  searchQuery: string;
   loading: boolean;
   loadingError: boolean;
   upserting: boolean;
@@ -25,6 +26,7 @@ export const adapter: EntityAdapter<ExchangeListItem> = createEntityAdapter<Exch
 
 // Initial State
 export const initialState: State = adapter.getInitialState({
+  searchQuery: '',
   loading: false,
   loadingError: false,
   upserting: false,
@@ -46,6 +48,7 @@ export function reducer(
     case fromExchangeListActions.LOAD_EXCHANGES: {
       return {
         ...state,
+        searchQuery: action.payload,
         loading: true,
         loadingError: false
       };
@@ -140,6 +143,7 @@ export function reducer(
 }
 
 // Selector Functions
+export const getSearchQuery = (state: State) => state.searchQuery;
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getUpserting = (state: State) => state.upserting;

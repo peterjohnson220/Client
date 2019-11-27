@@ -1,0 +1,43 @@
+.workflow-sidebar{
+  padding: 10px 0;
+  height: 100%;
+  position: relative;
+}
+
+@supports(-moz-appearance: none){
+  .workflow-sidebar > .workflow-content {
+    top: 180px !important ;
+  }
+  .workflow-sidebar > .workflow-header {
+    height: 180px !important;
+  }
+}
+
+.workflow-sidebar > .workflow-header{
+  position: absolute;
+  height: 185px;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.workflow-sidebar > .workflow-header .btn{
+  float:right;
+  margin-left: 5px;
+}
+
+.workflow-sidebar > .workflow-content{
+  position: absolute;
+  top: 185px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}
+
+.form-control-feedback{
+  color: #d9534f;
+  float: left;
+}

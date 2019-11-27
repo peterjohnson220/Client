@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Store, select } from '@ngrx/store';
@@ -15,8 +15,7 @@ import * as fromLibsExchangeScopeActions from '../../actions/exchange-scope.acti
   selector: 'pf-exchange-scope-selector',
   templateUrl: './exchange-scope-selector.component.html',
   styleUrls: ['./exchange-scope-selector.component.scss'],
-  preserveWhitespaces: true,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  preserveWhitespaces: true
 })
 
 export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
@@ -30,13 +29,19 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   deletingExchangeScope$: Observable<boolean>;
   exchangeScopeItems$: Observable<ExchangeScopeItem[]>;
   selectedExchangeScopeItem$: Observable<ExchangeScopeItem>;
-  systemFilterLoadedSubscription: Subscription;
   inDeleteScopeMode$: Observable<boolean>;
+
   inDeleteModeSubscription: Subscription;
+  scopeToDeleteSubscription: Subscription;
+  systemFilterLoadedSubscription: Subscription;
+  exchangeScopeItemsSubscription: Subscription;
+
   deleteMode = false;
   scopeToDelete$: Observable<ExchangeScopeItem>;
-  scopeToDeleteSubscription: Subscription;
   scopeToDelete: ExchangeScopeItem = null;
+  exchangeScopeItems: ExchangeScopeItem[];
+  filteredExchangeScopeItems: ExchangeScopeItem[];
+  scopeFilter: string;
 
   constructor(
     private store: Store<fromLibsExchangeExplorerReducers.State>
@@ -93,6 +98,28 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   deleteScope(buttonClickEvent: any): void {
     buttonClickEvent.stopPropagation();
     this.store.dispatch(new fromLibsExchangeScopeActions.DeleteExchangeScope(this.scopeToDelete.Id));
+    this.store.dispatch(new fromLibsExchangeFilterContextActions.ClearExchangeScopeSelection());
+  }
+
+  handleSearchValueChanged(value: string) {
+    this.scopeFilter = value.toLowerCase();
+    this.applyFilterToScopeList();
+  }
+
+  applyFilterToScopeList(): void {
+    if (!!this.scopeFilter && !!this.scopeFilter.length) {
+      this.filteredExchangeScopeItems = this.exchangeScopeItems.filter(esi => esi.Name.toLowerCase().includes(this.scopeFilter));
+    } else {
+      this.filteredExchangeScopeItems = this.exchangeScopeItems;
+    }
+  }
+
+  handlePopoverShown() {
+    this.filteredExchangeScopeItems = this.exchangeScopeItems;
+  }
+
+  trackByFn(scopeItem: ExchangeScopeItem) {
+    return scopeItem.Id;
   }
 
   // Lifecycle
@@ -106,11 +133,11 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
         }
       }
     });
-    this.inDeleteModeSubscription = this.inDeleteScopeMode$.subscribe(dsm => {
-      this.deleteMode = dsm;
-    });
-    this.scopeToDeleteSubscription = this.scopeToDelete$.subscribe(std => {
-      this.scopeToDelete = std;
+    this.inDeleteModeSubscription = this.inDeleteScopeMode$.subscribe(dsm => this.deleteMode = dsm);
+    this.scopeToDeleteSubscription = this.scopeToDelete$.subscribe(std => this.scopeToDelete = std);
+    this.exchangeScopeItemsSubscription = this.exchangeScopeItems$.subscribe(esi => {
+      this.exchangeScopeItems = esi;
+      this.applyFilterToScopeList();
     });
   }
 
@@ -118,5 +145,6 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
     this.systemFilterLoadedSubscription.unsubscribe();
     this.inDeleteModeSubscription.unsubscribe();
     this.scopeToDeleteSubscription.unsubscribe();
+    this.exchangeScopeItemsSubscription.unsubscribe();
   }
 }

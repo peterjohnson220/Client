@@ -1,0 +1,27 @@
+<div class="workflow-sidebar">
+
+  <div class="workflow-header">
+    <div *ngIf="!showSubway">
+      <strong>Routing History</strong>
+      <span class="workflow-header-controls" [attr.data-qa-id]="'btn-close'" (click)="close()">
+                <fa-icon icon="times" size="lg" class="close-btn" aria-hidden="true"></fa-icon>
+            </span>
+    </div>
+
+    <div *ngIf="showSubway" class="workflow-subway-container">
+      <pf-workflow-progress-bar [workflowStepSummary]="(workflowStepSummary$ | async)?.obj"
+                                [loading]="(workflowStepSummaryLoading$ | async)?.loading"
+                                [isSiteAdmin]="isSiteAdmin"
+                                [isCompanyAdmin]="isCompanyAdmin"
+                                (changeApproverClicked)="changeApproverClicked.emit($event)"
+                                (copyWorkflowLinkClicked)="copyWorkflowLink()">
+      </pf-workflow-progress-bar>
+    </div>
+
+  </div>
+
+  <div class="workflow-content" [class.no-subway]="!showSubway">
+    <pf-workflow-log [workflowLogEntries]="(workflowLogEntriesAsync$ | async)?.obj" [loading]="workflowLogLoading$ | async"></pf-workflow-log>
+  </div>
+
+</div>

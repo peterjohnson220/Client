@@ -20,6 +20,8 @@ import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
+import { JobDescriptionComponent } from './components/job-description/job-description.component';
+import { StructureGridComponent } from './components/structure-grid/structure-grid.component';
 
 import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridComponent, JobDescriptionComponent } from './components';
 import { reducers } from './reducers';
@@ -58,7 +60,8 @@ import { JobsPageEffects, JobDescriptionEffects } from './effects';
     JobsDetailsComponent,
     EmployeesGridComponent,
     PricingDetailsGridComponent,
-    JobDescriptionComponent
+    JobDescriptionComponent,
+    StructureGridComponent
   ]
 })
 export class JobsPageModule {

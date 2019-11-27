@@ -23,6 +23,7 @@ export const LOAD_JOB_DESCRIPTION_APPLIESTO_VALUES_ERROR =
   '[job-description-management / Job Description Applies To] Load Job Description Applies To Error Values';
 export const LOAD_JOB_DESCRIPTION_APPLIESTO_VALUES_SUCCESS =
   '[job-description-management / Job Description Applies To] Load Job Description Applies To Success Values';
+export const RESET_APPLIES_TO_ATTRIBUTES_EXIST = '[job-description-management / Job Description Applies To] Reset Applies To Attributes Exist';
 
 export class GetAppliesToAttributesExist implements Action {
   readonly type = GET_APPLIES_TO_ATTRIBUTES_EXIST;
@@ -70,6 +71,12 @@ export class LoadJobDescriptionAppliesToValuesSuccess implements Action {
   constructor(public payload: string[]) {}
 }
 
+export class ResetAppliesToAttributeExist implements Action {
+  readonly type = RESET_APPLIES_TO_ATTRIBUTES_EXIST;
+
+  constructor() {}
+}
+
 export type Actions
   = GetAppliesToAttributesExist
   | GetAppliesToAttributesExistError
@@ -79,4 +86,5 @@ export type Actions
   | LoadJobDescriptionAppliesToSuccess
   | LoadJobDescriptionAppliesToValues
   | LoadJobDescriptionAppliesToValuesError
-  | LoadJobDescriptionAppliesToValuesSuccess;
+  | LoadJobDescriptionAppliesToValuesSuccess
+  | ResetAppliesToAttributeExist;

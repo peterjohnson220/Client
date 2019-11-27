@@ -113,6 +113,7 @@ describe('Admin - Company Admin - User Component', () => {
     instance.setPasswordValidator(false);
 
     form.get('password').setValue('');
+    form.get('status').setValue(false);
     expect(form.get('password').valid).toEqual(true);
 
     expect(form.valid).toEqual(true);

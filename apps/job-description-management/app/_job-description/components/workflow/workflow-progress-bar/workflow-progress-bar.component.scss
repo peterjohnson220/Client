@@ -1,0 +1,121 @@
+.step-summary-item{
+  padding: 0;
+}
+
+.step-summary-container .step-summary-item .progress-container{
+  position: relative;
+  height: 8px;
+  margin-bottom:20px;
+}
+.step-summary-container .step-summary-item:first-child .progress-container{
+  left:50%;
+  width: 50%;
+}
+
+.step-summary-container .step-summary-item:last-child .progress-container{
+  width: 50%;
+  border-radius: 0px;
+}
+
+.step-summary-container .step-summary-item .progress-container .progress{
+  position:relative;
+  height:100%;
+}
+
+.step-summary-container .step-summary-item .progress-container .progress .progress-bar{
+  position:relative;
+  height:100%;
+}
+
+.step-summary-container .step-summary-item .dot{
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  display: block;
+  background: #75b5e0;
+  top: 7px;
+  left: 50%;
+  margin-top: -15px;
+  margin-left: -15px;
+  border-radius: 50%;
+}
+
+.step-summary-container .step-summary-item .dot:after{
+  content: ' ';
+  width: 12px;
+  height: 12px;
+  background: #1872ae;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.step-summary-container .step-summary-item.disabled .dot{
+  background: #eee;
+}
+
+.step-summary-container .step-summary-item.disabled .dot:after{
+  opacity: 0;
+}
+
+.step-summary-container .step-summary-item.active .dot:after{
+  background-color: #eeeeee;
+}
+
+.step-summary-container .step-summary-item.rejected .dot:after{
+  background-color: #eeeeee;
+}
+
+.step-summary-container .step-summary-item .owner-name{
+  color:#818a91;
+  white-space: nowrap;
+  width: 80%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  position: absolute;
+}
+.step-summary-container .step-summary-item .owner-name:hover{
+  overflow: visible;
+  z-index: 100;
+  white-space: normal;
+}
+
+.step-summary-container .step-summary-item.active .owner-name{
+  color:#373a3c;
+}
+
+.step-summary-container .step-summary-item.rejected .dot{
+  background: #d9534f;
+}
+
+.progress{
+  border-radius: 0;
+}
+
+.progress-bar {
+  background-color: #75b5e0;
+}
+
+.progress-bar.progress-rejected {
+  background-color: #d9534f;
+}
+
+#change-approver-btn {
+  color: #1872AE;
+  font-weight: bold;
+}
+
+#change-approver-btn:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#copy-link-btn {
+  color: #1872AE;
+}
+
+#copy-link-btn:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

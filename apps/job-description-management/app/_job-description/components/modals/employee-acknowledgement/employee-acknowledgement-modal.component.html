@@ -1,0 +1,33 @@
+<ng-template #employeeAcknowledgementModal let-c="close" let-d="dismiss">
+  <form [formGroup]="signatureForm" (ngSubmit)="submit()">
+    <div class="modal-header">
+      <h4 class="modal-title">Employee Acknowledgement</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Please type your full name to acknowledge that you have read and agree with this job description. If you have any questions regarding this job description, please talk with your manager for clarification before signing.</p>
+      <input id="signature"
+             [readonly]="acknowledging"
+             formControlName="signature"
+             type="text"
+             class="form-control"
+             placeholder="Signature">
+      <div *ngIf="signatureForm.controls['signature'].hasError('maxlength')" class="text-danger text-right">
+        Exceeds {{ signatureForm.controls.signature.errors.maxlength.requiredLength }} characters:
+        {{ signatureForm.controls.signature.errors.maxlength.actualLength}}
+      </div>
+      <div *ngIf="signatureForm.controls['signature'].hasError('required') && attemptedAcknowledge" class="text-danger text-right">
+        Signature required
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+      <button type="button" class="btn btn-primary" [disabled]="signatureForm.invalid || acknowledging" (click)="acknowledge()">
+        <span *ngIf="acknowledging"><pf-loading-indicator></pf-loading-indicator> Acknowledging...</span>
+        <span *ngIf="!acknowledging">Acknowledge</span>
+      </button>
+    </div>
+  </form>
+</ng-template>

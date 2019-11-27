@@ -4,3 +4,5 @@ export * from './job-description-appliesto.effects';
 export * from './job-description-library.effects';
 export * from './job-family.effects';
 export * from './template-list.effects';
+export * from './shared-workflow.effects';
+export * from './workflow-config.effects';

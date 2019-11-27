@@ -2,7 +2,8 @@
 
 exports[`CompanySearcherComponent should hide the instructional message when a company is selected 1`] = `
 <pf-company-searcher
-  filteredCompaniesList={[Function Array]}
+  filterCompanies={[Function EventEmitter]}
+  searchTermChanged$={[Function BehaviorSubject]}
   selectCompany={[Function EventEmitter]}
   selectedCompany={[Function Object]}
   unselectCompany={[Function EventEmitter]}
@@ -23,7 +24,8 @@ exports[`CompanySearcherComponent should hide the instructional message when a c
 
 exports[`CompanySearcherComponent should show an instructional message when no company is selected 1`] = `
 <pf-company-searcher
-  filteredCompaniesList={[Function Array]}
+  filterCompanies={[Function EventEmitter]}
+  searchTermChanged$={[Function BehaviorSubject]}
   selectCompany={[Function EventEmitter]}
   selectedCompany="null"
   unselectCompany={[Function EventEmitter]}

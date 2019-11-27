@@ -1,0 +1,47 @@
+<ng-template #routeForApprovalModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Route for Approval</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="(workflowTemplatesAsync$ | async) as workflowTemplatesAsync">
+      <div *ngIf="workflowTemplatesAsync.obj?.length" class="form-group">
+        <div *ngIf="hasFilteredTemplates" class="template-filter-info">Not all routing groups are available due to user restrictions on this job</div>
+        <kendo-combobox
+          class="form-control"
+          [(ngModel)]="selectedTemplateName"
+          [textField]="'Name'"
+          [valueField]="'Id'"
+          [disabled]="workflowTemplatesAsync.loading"
+          [data]="accessibleTemplates"
+          [clearButton]="false"
+          [suggest]="true"
+          [filterable]="true"
+          [valuePrimitive]="true"
+          [placeholder]="'Route Group'"
+          (filterChange)="handleFilter($event)"
+          (valueChange)="handleSelectedTemplateChanged($event)">
+        </kendo-combobox>
+      </div>
+    </ng-container>
+
+    <pf-workflow-config [jobId]="jobId"></pf-workflow-config>
+
+    <div class="form-group mt-3">
+      <textarea class="form-control" rows="5" placeholder="Comment" [(ngModel)]="workflowInitiationComment"></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" [disabled]="(workflowSaving$ | async)" class="btn btn-secondary" (click)="close()">Cancel</button>
+    <button class="btn btn-primary"
+      [disabled]="(!stepsDirty && !selectedTemplateName) || (workflowSteps$ | async)?.length < 1 || (workflowSaving$ | async) || hasForbiddenUsers"
+      (click)="createWorkflow()">
+      <span *ngIf="(workflowSaving$ | async)">
+        <pf-loading-indicator></pf-loading-indicator> Routing...
+      </span>
+      <span *ngIf="!(workflowSaving$ | async)">Route</span>
+    </button>
+  </div>
+</ng-template>

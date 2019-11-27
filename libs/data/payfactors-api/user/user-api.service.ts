@@ -93,4 +93,12 @@ export class UserApiService {
       }
     });
   }
+
+  picker(searchTerm: string) {
+    return this.payfactorsApiService.get(this.endpoint + '/Default.Picker', {
+      params: {
+        search: searchTerm
+      }
+    });
+  }
 }

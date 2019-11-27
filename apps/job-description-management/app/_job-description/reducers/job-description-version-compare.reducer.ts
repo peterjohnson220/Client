@@ -8,9 +8,6 @@ export interface State {
   loadingJobDescriptionComparison: boolean;
   jobDescriptionComparison: any;
   loadingJobDescriptionComparisonError: boolean;
-  loadingCompanyLogo: boolean;
-  loadingCompanyLogoError: boolean;
-  companyLogo: string;
 }
 
 export const initialState: State = {
@@ -19,31 +16,11 @@ export const initialState: State = {
   comparisonHistoryListItem: null,
   loadingJobDescriptionComparison: false,
   jobDescriptionComparison: null,
-  loadingJobDescriptionComparisonError: false,
-  loadingCompanyLogo: false,
-  loadingCompanyLogoError: false,
-  companyLogo: null
+  loadingJobDescriptionComparisonError: false
 };
 
 export function reducer (state = initialState, action: fromJobDescriptionVersionCompareActions.Actions): State {
   switch (action.type) {
-    case fromJobDescriptionVersionCompareActions.LOAD_COMPANY_LOGO:
-      return {
-        ...state,
-        loadingCompanyLogo: true
-      };
-    case fromJobDescriptionVersionCompareActions.LOAD_COMPANY_LOGO_ERROR:
-      return {
-        ...state,
-        loadingCompanyLogo: false,
-        loadingCompanyLogoError: true
-      };
-    case fromJobDescriptionVersionCompareActions.LOAD_COMPANY_LOGO_SUCCESS:
-      return {
-        ...state,
-        loadingCompanyLogo: false,
-        companyLogo: action.payload
-      };
     case fromJobDescriptionVersionCompareActions.LOAD_JOB_DESCRIPTION_COMPARISON:
       return {
         ...state,
@@ -54,7 +31,7 @@ export function reducer (state = initialState, action: fromJobDescriptionVersion
       return {
         ...state,
         loadingJobDescriptionComparison: false,
-        jobDescriptionComparison: JSON.parse(action.payload)
+        jobDescriptionComparison: action.payload
       };
     case fromJobDescriptionVersionCompareActions.LOAD_JOB_DESCRIPTION_COMPARISON_ERROR:
       return {
@@ -91,6 +68,5 @@ export const getJobDescriptionComparisonLoading = (state: State) => state.loadin
 export const getJobDescriptionComparisonLoadingError =
   (state: State) => state.loadingJobDescriptionComparisonError;
 export const getJobDescriptionComparison = (state: State) => state.jobDescriptionComparison;
-export const getCompanyLogo = (state: State) => state.companyLogo;
 
 

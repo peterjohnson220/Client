@@ -1,5 +1,22 @@
+tr {
+  line-height: 8px;
+  min-height: 8px;
+  height: 8px;
+}
+
+.vertical-center {
+  vertical-align: middle;
+  float: none;
+}
+
 .validation-results {
   max-height: 400px;
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+#validation-results-list-container{
+  overflow-y: scroll;
+}
+
+

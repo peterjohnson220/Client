@@ -24,7 +24,6 @@ import {SharedModule} from '../shared/shared.module';
 import {TemplateListComponent} from './components/template-list';
 import {CopyTemplateModalComponent} from './components/modals/copy-template';
 import {NewTemplateModalComponent} from './components/modals/new-template';
-import {SimpleYesNoModalComponent} from '../shared/components/modals/simple-yes-no';
 import * as fromFaIcons from '../_templates/fa-icons';
 import {ErrorGenerationService} from '../shared/services';
 
@@ -62,7 +61,6 @@ import {ErrorGenerationService} from '../shared/services';
     CopyTemplateModalComponent,
     NewTemplateModalComponent,
     TemplateListComponent,
-    SimpleYesNoModalComponent,
 
     // Pages
     TemplateListPageComponent

@@ -1,0 +1,28 @@
+.card-block > ul{
+  padding-left: 5px;
+}
+
+ul{
+  list-style: none;
+}
+
+.selection-container {
+  border: 1px solid #CCCCCC;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-container{
+  background-color: #f7f7f9;
+}
+
+.control-container{
+  border-left: 8px solid;
+  cursor: pointer;
+}
+
+.hidden-control{
+  text-decoration: line-through;
+  background: #fff4f3;
+}

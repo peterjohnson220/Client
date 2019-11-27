@@ -8,6 +8,7 @@ import {
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import { FilterSidebarHelper } from '../helpers';
+import { ExchangeJobExchangeDetail } from '../../models';
 
 // Extended entity state
 export interface State {
@@ -23,7 +24,8 @@ export interface State {
   scopeSelection: ExchangeScopeItem;
   includeUntaggedEmployees: boolean;
   excludeIndirectJobMatches: boolean;
-  associatedExchangeJobs: string[];
+  associatedExchangeJobs: ExchangeJobExchangeDetail[];
+  lockedExchangeJobExchangeDetail: ExchangeJobExchangeDetail;
   searchingAggregate: boolean;
 }
 
@@ -42,7 +44,8 @@ export const initialState: State = {
   includeUntaggedEmployees: false,
   excludeIndirectJobMatches: true,
   associatedExchangeJobs: [],
-  searchingAggregate: false
+  searchingAggregate: false,
+  lockedExchangeJobExchangeDetail: null
 };
 
 // Reducer
@@ -171,7 +174,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents,
         excludeIndirectJobMatches: !cutCriteria.IsFilteredBySimilarExchangeJobIds,
         searchingAggregate: false,
-        scopeSelection: cutCriteria.SelectedExchangeScope
+        scopeSelection: cutCriteria.SelectedExchangeScope,
+        lockedExchangeJobExchangeDetail: !!systemFilter.LockedExchangeJobId ? cutCriteria.LockedExchangeJobExchangeDetail : null
       };
     }
     case fromFilterSidebarActions.APPLY_SCOPE_CRITERIA: {
@@ -192,6 +196,19 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       return {
         ...state,
         scopeSelection: action.payload
+      };
+    }
+    case fromFilterSidebarActions.SET_EXCHANGE_JOB_SELECTION: {
+      const systemFilter = {
+        ...state.systemFilter,
+        ExchangeJobIds: [action.payload.exchangeJobId],
+        ExchangeJobId: action.payload.exchangeJobId,
+        SimilarExchangeJobIds: action.payload.similarExchangeJobIds,
+        SelectedExchangeScope: null
+      };
+      return {
+        ...state,
+        systemFilter: systemFilter
       };
     }
     case fromFilterSidebarActions.TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES: {
@@ -253,5 +270,8 @@ export const getIncludeUntaggedIncumbents = (state: State) => state.includeUntag
 export const getExcludeIndirectJobMatches = (state: State) => state.excludeIndirectJobMatches;
 export const getHasSimilarJobLevels = (state: State) => state.systemFilter && state.systemFilter.SimilarExchangeJobIds
   && state.systemFilter.SimilarExchangeJobIds.some(x => !(state.systemFilter.ExchangeJobIds.indexOf(x) > -1));
-export const getAssociatedExchangeJobs = (state: State) => state.associatedExchangeJobs;
+export const getAssociatedExchangeJobs = (state: State) => {
+  const isLockedToExchangeJob = !!state.systemFilter && !!state.systemFilter.LockedExchangeJobId && !!state.lockedExchangeJobExchangeDetail;
+  return isLockedToExchangeJob ? [state.lockedExchangeJobExchangeDetail] : state.associatedExchangeJobs;
+};
 export const getSearchingAggregate = (state: State) => state.searchingAggregate;

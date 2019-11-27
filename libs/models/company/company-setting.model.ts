@@ -17,7 +17,8 @@ export enum CompanySettingsEnum {
   PasswordHistoryNumber = 'PasswordHistoryNumber',
   DataInsightsReportBuilder = 'DataInsightsReportBuilder',
   PeerExchangeExplorerEnabled = 'PeerExchangeExplorerEnabled',
-  DataInsightsThumbnailsViewDisplay = 'DataInsightsThumbnailsViewDisplay'
+  DataInsightsThumbnailsViewDisplay = 'DataInsightsThumbnailsViewDisplay',
+  EnableLibraryForRoutedJobDescriptions = 'EnableLibraryForRoutedJobDescriptions'
 }
 
 export interface CompanySetting {

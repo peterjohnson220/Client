@@ -3,6 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { PageWithTitleBarComponent } from './page-with-title-bar.component';
+import { RouteTrackingService } from '../../../../core/services';
 
 // Host Component for testing transclusion
 @Component({
@@ -28,6 +29,14 @@ describe('Page With Title Bar', () => {
       ],
       declarations: [
         PageWithTitleBarComponent, TestHostComponent
+      ],
+      providers: [
+        {
+          provide: RouteTrackingService,
+          useValue: {
+            goBack: jest.fn()
+          }
+        }
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

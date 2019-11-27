@@ -4,6 +4,7 @@ import { SystemFilter, SystemFilterRequest, PeerMapScopeSystemSideBarInfo,
   ExchangeScopeItem, ToggleAggregateGroupSelections } from 'libs/models/peer';
 
 import { AggregateSelectionInfo } from '../models';
+import {ExchangeJobExchangeDetail} from '../../models';
 
 export const LOAD_FILTER_AGGREGATES  = '[Features/Peer/Sidebar] Load Filter Aggregates';
 export const LOAD_FILTER_AGGREGATES_SUCCESS  = '[Features/Peer/Sidebar] Load Filter Aggregates Success';
@@ -23,6 +24,7 @@ export const RESET_STATE = '[Features/Peer/Sidebar] Reset State';
 export const APPLY_CUT_CRITERIA = '[Features/Peer/Sidebar] Apply Cut Criteria';
 export const APPLY_SCOPE_CRITERIA = '[Features/Peer/Sidebar] Apply Scope Criteria';
 export const SET_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Sidebar] Set Scope Selection';
+export const SET_EXCHANGE_JOB_SELECTION = '[Features/Peer/Sidebar] Set Exchange Job Selection';
 export const TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES = '[Features/Peer/Sidebar] Toggle Include Untagged Employees';
 export const LOAD_ASSOCIATED_EXCHANGE_JOBS =  '[Features/Peer/Sidebar] Load Associated Exchange Jobs';
 export const LOAD_ASSOCIATED_EXCHANGE_JOBS_SUCCESS =  '[Features/Peer/Sidebar] Load Associated Exchange Jobs Success';
@@ -124,6 +126,12 @@ export class SetExchangeScopeSelection implements Action {
   constructor(public payload: ExchangeScopeItem) {}
 }
 
+export class SetExchangeJobSelection implements Action {
+  readonly type = SET_EXCHANGE_JOB_SELECTION;
+
+  constructor(public payload: {exchangeJobId: number, similarExchangeJobIds: number[]}) {}
+}
+
 export class ToggleIncludeUntaggedEmployees implements Action {
   readonly type = TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES;
 }
@@ -131,13 +139,13 @@ export class ToggleIncludeUntaggedEmployees implements Action {
 export class LoadAssociatedExchangeJobs implements Action {
   readonly type = LOAD_ASSOCIATED_EXCHANGE_JOBS;
 
-  constructor(public payload: number) { }
+  constructor(public payload: {companyJobId: number}) { }
 }
 
 export class LoadAssociatedExchangeJobsSuccess implements Action {
   readonly type = LOAD_ASSOCIATED_EXCHANGE_JOBS_SUCCESS;
 
-  constructor(public payload: string[]) { }
+  constructor(public payload: ExchangeJobExchangeDetail[]) { }
 }
 
 export class ToggleAggregateSearch implements Action {
@@ -164,6 +172,7 @@ export type Actions
   | ApplyCutCriteria
   | ApplyScopeCriteria
   | SetExchangeScopeSelection
+  | SetExchangeJobSelection
   | ToggleIncludeUntaggedEmployees
   | LoadAssociatedExchangeJobs
   | LoadAssociatedExchangeJobsSuccess

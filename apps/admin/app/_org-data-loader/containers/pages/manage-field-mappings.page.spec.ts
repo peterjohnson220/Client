@@ -1,5 +1,4 @@
 import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
@@ -7,7 +6,6 @@ import { NotificationService, NotificationSettings } from '@progress/kendo-angul
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { PfCommonUIModule } from 'libs/ui/common';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 
 import { MappingModel, LoaderEntityStatus } from '../../models';
@@ -58,7 +56,7 @@ describe('ManageFieldMapperPageComponent', () => {
           ...fromRootState.reducers,
           orgDataLoader: combineReducers(fromOrgDataLoaderReducer.reducers)
         }),
-        FormsModule, PfCommonUIModule, RouterTestingModule
+        RouterTestingModule
       ],
       declarations: [ ManageFieldMappingsPageComponent ],
       providers: [

@@ -30,7 +30,7 @@
 
 <ng-template #baseMrpColumn let-dataRow="dataRow">
   <ng-container>
-    <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp"></span>
+    <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
     <small *ngIf="dataRow['CompanyJobs_Pricings_BaseMRP']">
       <em class="text-muted">                
         ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
@@ -41,7 +41,7 @@
 
 <ng-template #baseTccColumn let-dataRow="dataRow">
   <ng-container>
-    <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp"></span>
+    <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
     <small *ngIf="dataRow['CompanyJobs_Pricings_TCCMRP']">
       <em class="text-muted">                
         ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
@@ -49,3 +49,12 @@
     </small>
   </ng-container>
 </ng-template>
+
+
+<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <!-- TODO: Extract this template into a separate component  -->
+  <ng-container>
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>    
+  </ng-container>
+</ng-template>
+

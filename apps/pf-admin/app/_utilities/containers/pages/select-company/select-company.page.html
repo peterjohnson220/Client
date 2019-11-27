@@ -10,7 +10,8 @@
       [filter]="companyFilter$ | async"
       (itemClicked)="handleCompanyClicked($event)"
       (filterChanged)="handleFilterChanged($event)"
-      [dataName]="'Companies'">
+      [dataName]="'Companies'"
+      [filterPlaceholder]="'Search for a Company...'">
     </pf-data-list-card>
   </ng-container>
 </pf-page-with-title-bar>

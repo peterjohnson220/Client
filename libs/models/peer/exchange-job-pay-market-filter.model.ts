@@ -3,6 +3,8 @@ import { generateMockPayMarketLocation, PayMarketLocationModel } from './pay-mar
 export interface SystemFilter {
   ExchangeJobIds: number[];
   SimilarExchangeJobIds: number[];
+  ExchangeJobId?: number;
+  LockedExchangeJobId?: number;
   PayMarketLocation: PayMarketLocationModel;
   ExchangeId: number;
 }
@@ -10,8 +12,10 @@ export interface SystemFilter {
 export function getDefaultSystemFilter(): SystemFilter {
   return {
     ExchangeId: null,
+    ExchangeJobId: null,
     ExchangeJobIds: null,
     SimilarExchangeJobIds: null,
+    LockedExchangeJobId: null,
     PayMarketLocation: null
   };
 }
@@ -21,6 +25,8 @@ export function generateMockSystemFilter(): SystemFilter {
     ExchangeJobIds: [1, 2, 4],
     SimilarExchangeJobIds: [1, 2, 4],
     PayMarketLocation: generateMockPayMarketLocation(),
-    ExchangeId: 1
+    ExchangeId: 1,
+    ExchangeJobId: 1,
+    LockedExchangeJobId: 1
   };
 }

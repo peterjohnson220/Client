@@ -37,4 +37,12 @@ export class SingleEditorComponent {
     }
     return canEdit;
   }
+
+  trackByFn(index: number, dataRow: any) {
+    return dataRow.Id;
+  }
+
+  trackByAttributeFn(index: number, row: ControlTypeAttribute) {
+    return index + '_' + row.Name;
+  }
 }

@@ -1,0 +1,228 @@
+<pf-page-with-title-bar>
+    
+  <ng-container page-title>
+    <ng-container *ngIf="!identityInWorkflow && !identityInEmployeeAcknowledgement">
+      <button type="button" class="btn btn-secondary back-btn" (click)="goBack()">
+        <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
+      </button>
+      <button *ngIf="(identity$ | async)?.IsPublic" routerLink="/job-description-management/job-descriptions" [queryParams]="{ jwt: tokenId}" type="button" class="btn btn-secondary">
+        <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
+      </button>
+    </ng-container>
+    {{ jobDescriptionDisplayName }}
+  </ng-container>
+
+  <ng-container page-actions>
+
+    <pf-job-description-actions
+      (undoClicked)="saveJobDescription(true)"
+      (publishClicked)="handlePublishClicked()"
+      (routeForApprovalClicked)="handleRouteForApprovalClicked()"
+      (discardDraftClicked)="handleDiscardDraftClicked()"
+      (editClicked)="handleEditClicked()"
+      (priceJobClicked)="handlePriceJobClicked()"
+      (cancelApprovalClicked)="handleCancelApprovalClicked()"
+      (copyFromClicked)="handleCopyFromClicked()"
+      (flsaClicked)="handleFLSAClicked()"
+      (libraryClicked)="toggleLibrary()"
+      (routingHistoryClicked)="handleRoutingHistoryClicked()"
+      (updateJobInfoClicked)="handleUpdateJobInfoClicked()"
+      (exportClicked)="handleExportClickedFromActions($event)"
+      (acknowledgedClicked)="openEmployeeAcknowledgementModal()">
+    </pf-job-description-actions>
+
+  </ng-container>
+
+  <ng-container page-content>
+    <div *ngIf="(jobDescriptionAsync$ | async) as jobDescriptionAsync" class="row pf-inner-page-content">
+      <pf-async-container
+        [loading]="jobDescriptionAsync.loading || (jobDescriptionPublishing$ | async)"
+        [loadingError]="jobDescriptionAsync.loadingError"
+        [loadingErrorMessage]="'Error loading the job description'"
+        [hideReloadButton]="true">
+      </pf-async-container>
+      <div *ngIf="!!jobDescription" class="column-scroll-container"
+           [class.col-8]="(jobDescription.JobDescriptionStatus == 'In Review' && !showLibrary) || showRoutingHistory"
+           [class.col-7]="showLibrary"
+           [class.col-12]="jobDescriptionIsFullscreen || (identity$ | async)?.IsPublic || (!showLibrary && !identityInWorkflow && jobDescription.JobDescriptionStatus != 'In Review' && !showRoutingHistory)">
+        <div class="scroll-y column-scroll-inner">
+
+          <div [class.card]="jobDescription.JobDescriptionStatus === 'In Review'">
+
+            <div *ngIf="jobDescription?.JobDescriptionStatus === 'In Review'">
+              <div class="float-right">
+                <button type="button" class="btn btn-sm btn-secondary" (click)="handleExportAsPDFClicked()">
+                  <fa-icon [icon]="['far', 'file-pdf']" aria-hidden="true"></fa-icon> Export as PDF
+                </button>
+                <button class="btn btn-sm btn-secondary ml-2" (click)="handleResize()">
+                  <fa-icon *ngIf="!jobDescriptionIsFullscreen" [icon]="['far', 'expand-alt']" aria-hidden="true"></fa-icon>
+                  <fa-icon *ngIf="jobDescriptionIsFullscreen" [icon]="['far', 'compress-alt']" aria-hidden="true"></fa-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="card-block">
+              <ng-container *ngIf="identityInEmployeeAcknowledgement">
+                <div *ngIf="(employeeAcknowledgementInfo$ | async)?.obj.HasAcknowledged" class="alert alert-success" role="alert">
+                  <h5>
+                    <fa-icon [icon]="['fas','check-circle']" aria-hidden="true"></fa-icon>
+                    This job description was acknowledged by {{(identity$ | async)?.Name}}
+                    {{((employeeAcknowledgementInfo$ | async)?.obj.SignatureDate | amTimeAgo: true)}} ago.
+                  </h5>
+                </div>
+                <div *ngIf="(employeeAcknowledgementInfo$ | async)?.loadingError" class="alert alert-danger" role="alert">
+                  {{employeeAcknowledgementErrorMessage$ | async}}
+                </div>
+              </ng-container>
+
+              <pf-job-description-info-header-with-logo
+                [jobDescription]="jobDescription"
+                [jobInformationFields]="jobDescription.JobInformationFields"
+                [companyName]="companyName"
+                [companyLogoPath]="companyLogoPath"
+                [showingLibrary]="showLibrary"
+                [isPublic]="(identity$ | async)?.IsPublic">
+              </pf-job-description-info-header-with-logo>
+
+              <pf-job-description-section *ngFor="let section of jobDescription.Sections; trackBy: trackByFn"
+                                          [section]="section"
+                                          [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
+                                          [readOnly]="!(hasCanEditJobDescriptionPermission) || !(editingJobDescription$ | async)"
+                                          (controlDataChangesDetected)="handleControlDataChanges($event)"
+                                          (controlBulkDataChangesDetected)="handleBulkControlDataChanges($event)"
+                                          (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)"
+                                          (controlDataRowAdded)="handleControlDataRowAdded($event)"
+                                          (controlDataRowDeleted)="handleControlDataRowDeleted($event)">
+              </pf-job-description-section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showLibrary" class="column-scroll-container col-5">
+        <div class="scroll-y column-scroll-inner">
+          <pf-job-description-library
+            [jobTitle]="jobDescriptionAsync?.obj.Name"
+            [buckets]="(jobDescriptionLibraryBuckets$ | async)?.obj"
+            [results]="(jobDescriptionLibraryResults$ | async)?.obj"
+            [loadingBuckets]="(jobDescriptionLibraryBuckets$ | async)?.loading"
+            (searchChanged)="handleLibrarySearchChange($event)"
+            (tabChanged)="handleLibraryTabChange($event)"
+            (pageChanged)="handleLibraryPageChange($event)"
+            (closed)="handleShowLibrary(false)">
+          </pf-job-description-library>
+        </div>
+        <pf-async-container
+          [loading]="(jobDescriptionLibraryBuckets$ | async)?.loading"
+          [loadingError]="(jobDescriptionLibraryResults$ | async)?.loadingError"
+          [loadingErrorMessage]="'Error Loading Library'"
+          [hideReloadButton]="true">
+        </pf-async-container>
+      </div>
+
+      <ng-container *ngIf="!jobDescriptionIsFullscreen && !(identity$ | async)?.IsPublic">
+        <div *ngIf="identityInWorkflow && !showLibrary" class="column-scroll-container col-4">
+          <div class="scroll-y column-scroll-inner">
+            <pf-workflow-sidebar
+                [workflowStepInfo]="(identity$ | async)?.WorkflowStepInfo"
+                [jobDescription]="jobDescription"
+                [workflowStepCompleted]="completedStep">
+            </pf-workflow-sidebar>
+          </div>
+        </div>
+
+        <div *ngIf="!identityInWorkflow  && !showLibrary &&
+                    (showRoutingHistory || jobDescription?.JobDescriptionStatus === 'In Review')"
+              class="column-scroll-container col-4">
+          <div class="scroll-y column-scroll-inner">
+              <pf-workflow-watch-sidebar *ngIf="!(identity$ | async)?.IsPublic && (jobDescriptionExtendedInfo$ | async)?.WorkflowId"
+                                          [isSiteAdmin]="isSiteAdmin"
+                                          [isCompanyAdmin]="isCompanyAdmin"
+                                          [showSubway]="jobDescription?.JobDescriptionStatus === 'In Review'"
+                                          [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
+                                          [jobDescription]="jobDescription"
+                                          (closed)="showRoutingHistory = false"
+                                         (changeApproverClicked)="handleChangeApproverClicked($event)">
+              </pf-workflow-watch-sidebar>
+          </div>
+        </div>
+      </ng-container>
+      <!--Export Form-->
+      <form name="exportForm" [action]="exportAction" method="POST">
+        <input type="hidden" name="revisionNumber" value="{{jobDescription?.JobDescriptionRevision}}" />
+        <input type="hidden" name="export-uid" />
+        <input type="hidden" name="export-type" />
+        <input type="hidden" name="viewName" />
+      </form>
+    </div>
+
+  </ng-container>
+
+</pf-page-with-title-bar>
+
+<!--Modals-->
+<pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic && !(identity$ | async)?.WorkflowStepInfo"></pf-copy-job-description-modal>
+
+<pf-workflow-setup-modal *ngIf="!!jobDescription"
+  [jobTitle]="(jobDescriptionAsync$ | async)?.obj?.Name"
+  [revision]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionRevision"
+  [jobId]="(jobDescriptionAsync$ | async)?.obj?.CompanyJobId">
+</pf-workflow-setup-modal>
+
+<pf-workflow-cancel-modal
+  (workflowCancelConfirmed)="handleCancelApprovalConfirmed($event)">
+</pf-workflow-cancel-modal>
+
+<pf-flsa-questionnaire-modal
+        [lockedJobDescription]="inHistory || !(hasCanEditJobDescriptionPermission)" >
+</pf-flsa-questionnaire-modal>
+
+<!--
+<pf-job-description-applies-to-modal 
+    [editing]="true"
+    (appliesToUpdated)="appliesToFormCompleted($event)">
+</pf-job-description-applies-to-modal>-->
+
+<pf-export-job-description-modal
+  [jobDescriptionViews]="jobDescriptionViews"
+  (export)="handleExportModalConfirmed($event)">
+</pf-export-job-description-modal> 
+
+<pf-simple-yes-no-modal
+  #discardDraftModal
+  [opts]="discardDraftModalOptions"
+  (actionConfirmed)="handleDiscardDraftConfirmed()">
+</pf-simple-yes-no-modal>
+
+<pf-employee-acknowledgement-modal
+  [acknowledging]="(acknowledging$ | async)"
+  (acknowledged)="acknowledgeJobDescription($event)">
+</pf-employee-acknowledgement-modal>
+
+<pf-job-matches-modal *ngIf="!!jobDescription"
+  #jobMatchesModalComponent
+  [jobDescriptionId]="jobDescription.JobDescriptionId"
+  [jobTitle]="jobDescription.Name">
+</pf-job-matches-modal>
+
+<pf-change-approver-modal *ngIf="!!((jobDescriptionAsync$ | async)?.obj)"
+  [jobDescriptionId]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionId"
+  [jobDescriptionRevision]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionRevision"
+  [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId">
+</pf-change-approver-modal>
+
+<!-- <pf-conflict-error-modal 
+    #conflictErrorModal 
+    [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage" 
+    [goBackLink]="(jobDescriptionSaveError$ | async)?.GoBackLink" 
+    (onClose)="handleConflictOrSaveErrorModalClosed()">
+</pf-conflict-error-modal>
+
+<pf-save-error-modal 
+    #saveErrorModal 
+    [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage" 
+    [goBackLink]="(jobDescriptionSaveError$ | async)?.GoBackLink" 
+    (onClose)="handleConflictOrSaveErrorModalClosed()">
+</pf-save-error-modal>
+
+ -->

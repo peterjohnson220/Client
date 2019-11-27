@@ -36,7 +36,7 @@ interface EmployeeAcknowledgementInfo {
   HasAcknowledged: boolean;
 }
 
-interface WorkflowStepInfo {
+export interface WorkflowStepInfo {
   WorkflowId: number;
   IsResubmission: boolean;
   IsFirstStep: boolean;

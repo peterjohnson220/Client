@@ -1,7 +1,12 @@
 <nav class="navbar navbar-expand navbar-dark fixed-top">
-  <a href="{{ homePageLink?.Url }}" class="navbar-brand mr-auto">
+  <a href="{{ homePageLink?.Url }}" class="navbar-brand mr-auto" *ngIf="userContext && !userContext.IsPublic && !userContext.WorkflowStepInfo else publicHeaderImage">
     <img class="logo-style" [src]="homePageLink?.LogoImgSrc" />
   </a>
+  <ng-template #publicHeaderImage>
+    <span class="navbar-brand mr-auto">
+      <img class="logo-style" [src]="homePageLink?.LogoImgSrc" />
+    </span>
+  </ng-template>
   <pf-layout-wrapper-user-menu
     [dropdownNavigationLinks]="dropdownNavigationLinks"
     [userContext]="userContext">

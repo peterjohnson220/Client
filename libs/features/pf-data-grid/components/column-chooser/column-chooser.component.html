@@ -1,15 +1,25 @@
 <ng-template #popContent>
-  <div class="column-list-container">
+  <div class="popover-body-container">
     <p>
-      <pf-input-debounce id="column-search-box" [id]="'column-chooser-search'" (valueChanged)="(filter = $event)"
-        [placeholderText]="'Search for a Column...'"></pf-input-debounce>
+      <pf-input-debounce id="column-search-box" [id]="'column-chooser-search'" (valueChanged)="(filter = $event)" [placeholderText]="'Search for a Column...'"></pf-input-debounce>
     </p>
-    <div class="column-list" *ngIf="!loading && !(listAreaColumns | filterArrayByName: filter : 'DisplayName').length;else column_list">
-      <h5>No Columns</h5>
+    <div class="popover-body-content">
+      <pf-async-container [loading]="loading"></pf-async-container>
+      <div *ngIf="!loading" class="list-group">
+        <h5 *ngIf="!(listAreaColumns | filterArrayByName: filter : 'DisplayName').length">No Columns</h5>
+        <ng-container *ngFor="let col of listAreaColumns | filterArrayByName: filter : 'DisplayName'">
+          <div *ngIf="col.IsSelectable" class="px-2 py-1">
+            <input type="checkbox" [attr.data-qa-id]="'chk-' + col.SourceName" [(ngModel)]="col.IsSelected" [disabled]="col.IsLocked">
+            <span class="pl-2">
+              {{col.Group ? col.Group + ' ': ''}}
+              {{col.DisplayName}}
+            </span>
+          </div>
+        </ng-container>
+      </div>
     </div>
-    <pf-async-container [loading]="loading"></pf-async-container>
   </div>
-  <div class="footer d-flex justify-content-end p-2">
+  <div class="popover-body-footer d-flex justify-content-end p-2">
     <button [attr.data-qa-id]="'btn-columnChooserSave'" (click)="saveButtonClicked()" class="btn btn-primary">Save</button>
   </div>
 </ng-template>
@@ -17,19 +27,3 @@
   popoverTitle="Choose Columns" [ngbPopover]="popContent" (hidden)="onHidden()" [autoClose]="'outside'" [disabled]="disabled">
   <fa-icon icon="table"></fa-icon>
 </button>
-
-<ng-template #column_list>
-  <div *ngIf="!loading" class="column-list">
-    <ul>
-      <ng-container *ngFor="let col of listAreaColumns | filterArrayByName: filter : 'DisplayName'">
-        <li *ngIf="col.IsSelectable" class="column-item">
-          <input type="checkbox" [attr.data-qa-id]="'chk-' + col.SourceName" [(ngModel)]="col.IsSelected" [disabled]="col.IsLocked">
-          <span class="column-text">
-            {{col.Group ? col.Group + ' ': ''}}
-            {{col.DisplayName}}
-          </span>
-        </li>
-      </ng-container>
-    </ul>
-  </div>
-</ng-template>

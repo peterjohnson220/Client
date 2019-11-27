@@ -1,0 +1,35 @@
+.signal-container{
+  min-width: 50px;
+}
+
+.job-description-container{
+  padding: 0.45rem 0;
+}
+
+.outline-square{
+  font-size: 85%;
+}
+
+.solid-square{
+  color: #dc3545;
+  font-size: 85%;
+}
+
+.strength-2 .solid-square{
+  color: #dc3545;
+}
+
+.strength-3 .solid-square{
+  color: #ffc107;
+}
+
+.strength-4 .solid-square{
+  color: #28a745;
+}
+
+.toggle-jd-view-link{
+  cursor: pointer;
+  color: #1872ae;
+  width: 75px;
+  padding: 0.25rem 0.5rem 0 0;
+}

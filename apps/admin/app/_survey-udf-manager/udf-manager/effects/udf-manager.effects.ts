@@ -8,7 +8,7 @@ import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { CompanyApiService } from 'libs/data/payfactors-api/company/company-api.service';
 import { SurveyApiService } from 'libs/data/payfactors-api/surveys/survey-api.service';
 import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
-import { Company } from 'libs/models/company';
+import { CompanyBaseInformation } from 'libs/models/company';
 import { UdfDataResponse } from 'libs/models/payfactors-api/survey/response/udf-data-response.model';
 
 import * as fromUdfManagerActions from '../actions/udf-manager.actions';
@@ -21,10 +21,8 @@ export class UdfManagerEffects {
     .pipe(
       ofType(fromUdfManagerActions.LOAD_UDF_COMPANIES),
       switchMap((action: fromUdfManagerActions.LoadUdfCompanies) =>
-        this.companyApiService.getCompanies().pipe(
-          map((response: Company[]) => {
-            return new fromUdfManagerActions.LoadUdfCompaniesSuccess(response);
-          }),
+        this.companyApiService.getCompanyBaseInformation(action.payload.searchTerm, action.payload.take).pipe(
+          map((response: CompanyBaseInformation[]) => new fromUdfManagerActions.LoadUdfCompaniesSuccess(response)),
           catchError(error => of(new fromUdfManagerActions.LoadUdfCompaniesError()))
         )
       )

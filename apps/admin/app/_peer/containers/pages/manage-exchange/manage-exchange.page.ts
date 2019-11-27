@@ -35,6 +35,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   isValidExchangeSubcription: Subscription;
 
   exchangeId: number;
+  navLinks: any[];
 
   constructor(private store: Store<fromPeerAdminReducer.State>,
               private activeRoute: ActivatedRoute,
@@ -78,6 +79,16 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
     this.gridHelperService.loadNewCompanyExchangeInvitations(this.exchangeId);
     this.gridHelperService.loadExchangeJobRequests(this.exchangeId);
     this.gridHelperService.loadExchangeFilters(this.exchangeId, '');
+
+    this.navLinks = [
+      { name: 'Companies', route: 'companies', icon: 'building', count$: this.totalExchangeCompanies$ },
+      { name: 'Jobs', route: 'jobs', icon: 'briefcase', count$: this.totalExchangeJobs$ },
+      { name: 'Access Requests', route: 'accessrequests', icon: 'unlock-alt', count$: this.totalExchangeAccessRequests$ },
+      { name: 'Company Invitations', route: 'companyinvitations', icon: 'envelope', count$: this.totalPayfactorsCompanyExchangeInvitations$ },
+      { name: 'Company Referrals', route: 'companyreferrals', icon: 'address-card', count$: this.totalNewCompanyExchangeInvitations$ },
+      { name: 'Job Requests', route: 'jobrequests', icon: 'tasks', count$: this.totalExchangeJobRequests$ },
+      { name: 'Exchange Filters', route: 'exchangefilters', icon: 'filter', count$: this.totalExchangeFilters$ }
+    ];
   }
 
   ngOnDestroy() {

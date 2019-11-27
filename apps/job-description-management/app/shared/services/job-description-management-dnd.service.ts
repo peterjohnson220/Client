@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { DragulaHelperService } from 'libs/core/services';
 
-import { JobDescriptionManagementDndSource } from '../constants/job-description-dnd-source';
+import { JobDescriptionManagementDndSource } from '../constants';
 
 @Injectable()
 export class JobDescriptionManagementDnDService {
@@ -19,7 +19,14 @@ export class JobDescriptionManagementDnDService {
   initJobDescriptionManagementDnD(fromDndSource: JobDescriptionManagementDndSource, reOrderCallbackFn: any) {
     this.dndSource = fromDndSource;
 
-    this.dragulaService.createGroup('control-data-reorder-bag', {});
+    this.dragulaService.createGroup('control-data-reorder-bag', {
+      accepts: function(el, target, source) {
+        return source === target;
+      },
+      moves: function (el) {
+        return el.classList.contains('re-orderable');
+      }
+    });
 
     // Drop
     this.dragulaSubscription = this.dragulaService.dropModel('control-data-reorder-bag').subscribe(dropModel => {
@@ -45,6 +52,8 @@ export class JobDescriptionManagementDnDService {
 
   destroyJobDescriptionManagementDnD() {
     this.dragulaService.destroy('control-data-reorder-bag');
-    this.dragulaSubscription.unsubscribe();
+    if (this.dragulaSubscription) {
+      this.dragulaSubscription.unsubscribe();
+    }
   }
 }

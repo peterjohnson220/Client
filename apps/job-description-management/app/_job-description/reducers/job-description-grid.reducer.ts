@@ -23,7 +23,7 @@ export interface State {
 
 export const initialState: State = {
   gridDataResult: null,
-  gridState: null,
+  gridState: { skip: 0, take: 20 },
   listAreaColumns: [],
   listAreaColumnsToUpdate: [],
   loadingJobDescriptionGrid: false,

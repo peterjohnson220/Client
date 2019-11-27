@@ -1,0 +1,66 @@
+<div class="step-summary-container">
+  <div class="row">
+    <div *ngFor="let workflowStepSummaryItem of workflowStepSummary; let i = index"
+         class="col text-center step-summary-item"
+         [class.disabled]="workflowStepSummaryItem.Status == 'Pending'"
+         [class.active]="workflowStepSummaryItem.Status == 'In Progress'"
+         [class.complete]="workflowStepSummaryItem.Status == 'Complete'"
+         [class.rejected]="workflowStepSummaryItem.Status == 'Rejected'"
+         [style.width]="100/workflowStepSummary.length + '%'">
+      <div class="progress-container">
+        <!--Pending-->
+        <ng-template [ngIf]="workflowStepSummaryItem.Status == 'Pending'">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar"></div>
+          </div>
+        </ng-template>
+
+        <!--Rejected-->
+        <ng-template [ngIf]="workflowStepSummaryItem.Status == 'Rejected'">
+          <div class="progress">
+            <div class="progress-bar progress-rejected" role="progressbar" [style.width]="((i + 1) == workflowStepSummary.length || workflowStepSummary[i + 1]?.Status == 'Rejected') ? '100%' : '50%'"></div>
+          </div>
+        </ng-template>
+
+        <!--In Progress -->
+        <ng-template [ngIf]="workflowStepSummaryItem.Status == 'In Progress'">
+
+          <!--Next Step was rejected-->
+          <ng-template [ngIf]="workflowStepSummary[i + 1]?.Status == 'Rejected'">
+            <div class="progress">
+              <div *ngIf="i != 0" class="progress-bar" role="progressbar" [style.width]="'50%'"></div>
+              <div class="progress-bar progress-rejected" role="progressbar" [style.width]="i == 0 ? '100%' : '50%'"></div>
+            </div>
+          </ng-template>
+
+          <!--Next step is not rejected-->
+          <ng-template [ngIf]="workflowStepSummary[i + 1]?.Status != 'Rejected'">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" [style.width]="(i == 0 || (i + 1) == workflowStepSummary.length) ? '100%' : '50%'"></div>
+            </div>
+          </ng-template>
+        </ng-template>
+
+        <!--Complete-->
+        <ng-template [ngIf]="workflowStepSummaryItem.Status == 'Complete'">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" [style.width]="'100%'"></div>
+          </div>
+        </ng-template>
+      </div>
+      <span class="dot"></span>
+      <div *ngIf="workflowStepSummaryItem.Status == 'In Progress' && (isSiteAdmin || isCompanyAdmin) && workflowStepSummaryItem.OwnersCount==1" class="owner-name">
+        <a id="change-approver-btn" (click)="changeApproverClicked.emit({isLastStep:(i == (workflowStepSummary.length -1)), currentStepUserName: workflowStepSummaryItem.Owner})">
+          {{ workflowStepSummaryItem.Owner }}
+        </a>
+        <br />
+        <a *ngIf="!linkCopied" id="copy-link-btn" (click)="copyWorkflowLink()">Copy Link</a>
+        <span *ngIf="linkCopied" class="text-muted">Link Copied</span>
+      </div>
+      <div *ngIf="workflowStepSummaryItem.Status != 'In Progress' || !(isSiteAdmin || isCompanyAdmin) || workflowStepSummaryItem.OwnersCount != 1" class="owner-name">
+        {{ workflowStepSummaryItem.Owner }}
+      </div>
+    </div>
+  </div>
+
+</div>

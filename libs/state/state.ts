@@ -53,6 +53,8 @@ export const getGettingUserContextAttempted =
   createSelector(getUserContextState, fromUserContextReducer.getGettingUserContextAttempted);
 export const getIsAdmin = createSelector(getUserContext, (f) => f.AccessLevel === 'Admin');
 export const hasUserContext = createSelector(getUserContextState, fromUserContextReducer.hasUserContext);
+export const getErrorMessage = createSelector(getUserContextState, fromUserContextReducer.getErrorMessage);
+export const getForbidden = createSelector(getUserContextState, fromUserContextReducer.getForbidden);
 
 /**
  * Legacy Company Settings Reducers

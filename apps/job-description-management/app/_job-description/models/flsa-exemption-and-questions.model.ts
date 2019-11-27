@@ -1,6 +1,6 @@
 import { FlsaQuestion } from './flsa-question.model';
 
-export class FlsaExemptionAndQuestions {
+export interface FlsaExemptionAndQuestions {
   Exemption: string;
   Description: string;
   FooterDescription: string;

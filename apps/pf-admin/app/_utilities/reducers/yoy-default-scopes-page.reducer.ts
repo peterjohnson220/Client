@@ -82,7 +82,8 @@ export function reducer(state = initialState, action: fromYoyDefaultScopesPageAc
 
       return {
         ...state,
-        defaultScopeSurveys: newDefaultScopeSurveys
+        defaultScopeSurveys: newDefaultScopeSurveys,
+        surveyScopesAsync: generateDefaultAsyncStateObj<SurveyScope[]>([])
       };
     }
     case fromYoyDefaultScopesPageActions.LOAD_MATCH_RESULTS: {
@@ -131,7 +132,8 @@ export function reducer(state = initialState, action: fromYoyDefaultScopesPageAc
     case fromYoyDefaultScopesPageActions.FILTER_MATCH_RESULTS: {
       return {
         ...state,
-        filteredMatchResults: state.matchResultsAsync.obj.filter(filterByTypeFn(action.payload.type))
+        filteredMatchResults: state.matchResultsAsync.obj.filter(filterByTypeFn(action.payload.type)),
+        surveyScopesAsync: generateDefaultAsyncStateObj<SurveyScope[]>([])
       };
     }
     case fromYoyDefaultScopesPageActions.LOAD_SURVEY_SCOPES: {

@@ -1,0 +1,123 @@
+<pf-user-or-email-picker 
+  *ngIf="!showNameForm"
+  (selected)="handlePickerSelection($event)"
+  [jobId]="jobId"
+  [workflow]="true">
+</pf-user-or-email-picker>
+
+<form *ngIf="showNameForm" [formGroup]="addNonPfUserForm" (ngSubmit)="nonPfUserFormSubmit()">
+	<label>{{currentEmail}}</label>
+	
+	<div class="form-group" [class.has-danger]="addNonPfUserForm.controls.firstname.errors && nonPfUserFormSubmitted">
+		<input 
+			type="text" 
+			class="form-control" 
+			formControlName="firstname" 
+			placeholder="First Name"
+			[class.form-control-danger]="addNonPfUserForm.controls.firstname.errors && nonPfUserFormSubmitted">
+	</div>
+	<div class="form-group" [class.has-danger]="addNonPfUserForm.controls.lastname.errors && nonPfUserFormSubmitted">
+		<input 
+			type="text" 
+			class="form-control"				
+			formControlName="lastname" 
+			placeholder="Last Name"
+			[class.form-control-danger]="addNonPfUserForm.controls.lastname.errors && nonPfUserFormSubmitted">
+	</div>
+	<div class="form-group text-right">
+		<button class="btn btn-secondary" (click)="cancelNonPfUserAdd()">Cancel</button>
+		<button class="btn btn-secondary ml-2" type="submit">Add</button>
+	</div>
+</form>
+
+<div *ngIf="!!workflowSteps?.length" class="card card-block mb-3">
+	<div id="workflow-user-list-section" [dragula]="'workflow-user-reorder-bag'" [(dragulaModel)]="workflowSteps">
+		<ng-container *ngFor="let workflowStep of workflowSteps; let i = index">
+			<div class="workflow-step dnd-workflow-user-reorder"  [attr.data-index]="i">
+				<div class="container px-0">
+					<div class="row px-3">
+            <div>
+              {{i+1}}.
+              <img [src]="avatarUrl + workflowSteps[i].WorkflowStepUsers[0].UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" width="30" height="30">
+            </div>
+
+            <div class="col-6 pr-1 workflow-user-container truncate"
+              [ngClass]="{'dnd-workflow-user-reorder-handle grabbable' : workflowSteps.length > 1 && (!stepWithMultipleUsersBeingAdded && !stepAddingNonPfUsers)}">
+              <span *ngFor="let stepUser of workflowStep.WorkflowStepUsers; let idx = index">
+                <span [ngClass]="{'workflow-user-forbidden' : stepUser.Permissions?.length === 0}">
+                  {{stepUser.FirstName}} {{stepUser.LastName}}
+                </span>
+                <span *ngIf="idx !== workflowStep.WorkflowStepUsers.length - 1">,</span>
+              </span>
+						</div>
+
+            <div class="col-1 action-container d-flex justify-content-end add-more-users-to-step"
+              [ngClass]="{'invisible' : (!!stepWithMultipleUsersBeingAdded && !!stepAddingNonPfUsers)}"
+              (click)="addMultipleUsersToLevel(i)">
+							<fa-icon icon="plus" aria-hidden="true"></fa-icon>
+						</div>
+
+						<div class="col-3 px-1 permission-container d-flex">
+							<ng-container *ngFor="let permission of workflowStep.Permissions; let pi = index">
+								<div class="custom-control custom-checkbox mr-4 mt-1">
+									<input class="custom-control-input" type="checkbox" id="customCheckbox-{{i}}-{{pi}}"
+										   [ngModel]="permission.selected"
+										   [disabled]="permission.disabled"
+                       (change)="updateWorkflowStepPermission(i, permission.permission, $event.target.checked)">
+                  <label class="custom-control-label" for="customCheckbox-{{i}}-{{pi}}">{{permission.display}}</label>
+                </div>
+							</ng-container>
+            </div>
+            
+						<div class="col-1 delete-step-frame">
+							<button class="btn btn-sm btn-secondary" (click)="deleteWorkflowStep(i)">
+                <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
+              </button>
+						</div>
+					</div>
+					<div class="container multiple-users-one-step">
+						<div class="row" *ngIf="stepWithMultipleUsersBeingAdded === i">
+							<div class="col-10 px-3">
+								<pf-user-or-email-picker [jobId]="jobId" [workflow]="true" (selected)="handleMultipleUserPerLevelSelection($event, i)"></pf-user-or-email-picker>
+							</div>
+							<div class="col-2 action-container justify-content-end text-center">
+								<button class="btn btn-sm btn-secondary" (click)="resetMultiUserStepTracking()">
+                  <fa-icon icon="times" aria-hidden="true"></fa-icon>
+                </button>
+							</div>
+						</div>
+					</div>
+					<div *ngIf="stepAddingNonPfUsers === i">
+						<form [formGroup]="addNonPfUserSameStepForm" (ngSubmit)="nonPfUserSameLevelFormSubmit(i)">
+							<label>{{sameStepEmail}}</label>
+							<div class="form-group" [class.has-danger]="addNonPfUserSameStepForm.controls.firstname.errors && nonPfUserSameStepFormSubmitted">
+								<input
+										type="text"
+										class="form-control"
+										formControlName="firstname"
+										placeholder="First Name"
+										[class.form-control-danger]="addNonPfUserSameStepForm.controls.firstname.errors && nonPfUserSameStepFormSubmitted">
+							</div>
+							<div class="form-group" [class.has-danger]="addNonPfUserSameStepForm.controls.lastname.errors && nonPfUserSameStepFormSubmitted">
+								<input
+										type="text"
+										class="form-control"
+										formControlName="lastname"
+										placeholder="Last Name"
+										[class.form-control-danger]="addNonPfUserSameStepForm.controls.lastname.errors && nonPfUserSameStepFormSubmitted">
+							</div>
+							<div class="form-group text-right">
+								<button class="btn btn-secondary" (click)="cancelNonPfUserSameLevelAdd(i)">Cancel</button>
+								<button class="btn btn-secondary ml-2" type="submit">Add</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+</div>
+<div *ngIf="!!publisherName?.length" class="alert alert-info mb-0" role="alert">
+    <span *ngIf="!hasForbiddenUsers">As the last approver, <strong>{{publisherName}}</strong> will be able to Publish this Job Description.</span>
+    <span *ngIf="hasForbiddenUsers">User(s) added as reviewers do not have access to this job. Remove users without permission for this job to continue.</span>
+</div>

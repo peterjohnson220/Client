@@ -7,6 +7,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as cloneDeep from 'lodash.clonedeep';
 import { FilterDescriptor } from '@progress/kendo-data-query';
+import { of, Subject } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockListAreaColumn, generateMockListAreaColumns } from 'libs/models/common/list-area';
@@ -16,18 +17,18 @@ import {
   generateMockFilters,
   generateMockJdmListFilter
 } from 'libs/models/user-profile';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { PermissionService, RouteTrackingService } from 'libs/core/services';
 
 import { JobDescriptionListPageComponent } from './job-description-list.page';
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
-import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
+import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
 import * as fromJobDescriptionGridActions from '../../../actions/job-description-grid.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import { CompanyJobViewListItem, generateMockCompanyJobViewListItem } from '../../../models';
-import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent } from '../../../components';
+import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent,
+  WorkflowCancelModalComponent } from '../../../components';
 import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to/job-description-applies-to-modal.component';
@@ -38,7 +39,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   let fixture: ComponentFixture<JobDescriptionListPageComponent>;
   let store: Store<fromJobDescriptionReducers.State>;
   let router: Router;
-  let route: ActivatedRouteStub;
+  let route: ActivatedRoute;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,6 +57,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
         {
           provide: ActivatedRoute,
           useValue: {
+            queryParams: of({}),
             snapshot: { queryParamMap: { get: (key) => '' } }
           }
         },
@@ -80,7 +82,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
       ],
       declarations: [
         JobDescriptionListPageComponent, AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent,
-        JobDescriptionAppliesToModalComponent, SaveFilterModalComponent
+        JobDescriptionAppliesToModalComponent, SaveFilterModalComponent, WorkflowCancelModalComponent
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -94,10 +96,13 @@ describe('Job Description Management - Job Description - Job Description List Pa
     instance.saveFilterModalComponent = TestBed.createComponent(SaveFilterModalComponent).componentInstance;
 
     instance.saveFilterModalComponent.filterForm = new FormGroup({});
+    instance.filterThrottle = new Subject();
+    instance.savedGridState$ = of({ skip: 0, take: 20 });
 
     store = TestBed.get(Store);
     router = TestBed.get(Router);
     route = TestBed.get(ActivatedRoute);
+    fixture.detectChanges();
   });
 
   it('should dispatch a CreateJobDescription action, when calling appliesToFormCompleted with templateId of -1', () => {
@@ -109,14 +114,13 @@ describe('Job Description Management - Job Description - Job Description List Pa
       jobDescriptionAppliesTo: null
     };
 
-    const expectedRequest = {
-      companyJobId: 1,
-      appliesToField: '',
-      appliesToValue: '',
-      jobDescriptionTitle: '',
-    };
+    const companyJobViewListItem = new CompanyJobViewListItem();
+    companyJobViewListItem.CompanyJobId = 1;
 
-    const expectedAction = new fromJobDescriptionActions.CreateJobDescription(expectedRequest);
+    const expectedAction = new fromJobDescriptionListActions.CreateJobDescription({
+      companyJobViewListItem,
+      appliesTo: mockedSelected.jobDescriptionAppliesTo
+    });
 
     instance.appliesToFormCompleted(mockedSelected);
 
@@ -135,19 +139,16 @@ describe('Job Description Management - Job Description - Job Description List Pa
     const mockedNewJobDescription = new CompanyJobViewListItem();
     mockedNewJobDescription.CompanyJobId = mockedSelected.companyJobId;
 
-    const expectedRequest = {
-      Request: {
-        companyJobIdsToAssign: [mockedNewJobDescription.CompanyJobId],
-        companyJobIdsToUnassign: []
-      },
-      PassThroughParameters: {
-        newJobDescription: mockedNewJobDescription,
-        jobDescriptionAppliesTo: mockedSelected.jobDescriptionAppliesTo,
-        templateId: 1
-      }
+    const companyJobIdsToAssign = [mockedNewJobDescription.CompanyJobId];
+    const passThroughParameters = {
+      newJobDescription: mockedNewJobDescription,
+      jobDescriptionAppliesTo: mockedSelected.jobDescriptionAppliesTo,
+      templateId: 1
     };
 
-    const expectedAction = new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId(expectedRequest);
+    const expectedAction = new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateId({
+      companyJobIdsToAssign, passThroughParameters
+    });
 
     instance.appliesToFormCompleted(mockedSelected);
 
@@ -161,7 +162,9 @@ describe('Job Description Management - Job Description - Job Description List Pa
       ListState: JSON.stringify({ skip: 0, take: 20 })
     };
 
-    expect(instance.getQueryListStateRequest()).toEqual(expectedResult);
+    const listStateRequest = instance.getQueryListStateRequest();
+
+    expect(listStateRequest).toEqual(expectedResult);
   });
 
   it('should dispatch an OpenBulkExportPopover action, when calling handleBulkExportPopoverOpened', () => {
@@ -244,14 +247,13 @@ describe('Job Description Management - Job Description - Job Description List Pa
       companyJobId: 1
     };
 
-    const expectedRequest = {
-      companyJobId: 1,
-      appliesToField: '',
-      appliesToValue: '',
-      jobDescriptionTitle: '',
-    };
+    const companyJobViewListItem = new CompanyJobViewListItem();
+    companyJobViewListItem.CompanyJobId = mockedComplete.companyJobId;
+    companyJobViewListItem.JobDescriptionStatus = 'Not Started';
 
-    const expectedAction = new fromJobDescriptionActions.CreateJobDescription(expectedRequest);
+    const expectedAction = new fromJobDescriptionListActions.CreateJobDescription({
+      companyJobViewListItem
+    });
 
     instance.handleCreateCompanyJobComplete(mockedComplete);
 
@@ -343,15 +345,13 @@ describe('Job Description Management - Job Description - Job Description List Pa
 
     instance.handleTemplateAssignedToJob(mockedAssignTemplateToJobObj);
 
-    const expectedRequest = {
-      Request: {
-        companyJobIdsToAssign: [1],
-        companyJobIdsToUnassign: []
-      },
-      PassThroughParameters: cloneDeep(mockedAssignTemplateToJobObj)
-    };
+    const companyJobIdsToAssign = [1];
+    const passThroughParameters = cloneDeep(mockedAssignTemplateToJobObj);
 
-    const expectedAction = new fromJobDescriptionActions.SaveCompanyJobsJobDescriptionTemplateId(expectedRequest);
+    const expectedAction = new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateId({
+      companyJobIdsToAssign,
+      passThroughParameters
+    });
 
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
   });

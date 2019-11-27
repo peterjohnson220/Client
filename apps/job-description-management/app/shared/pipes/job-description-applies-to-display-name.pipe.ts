@@ -9,7 +9,7 @@ export class JobDescriptionAppliesToDisplayNamePipe implements PipeTransform {
             const result: any = listOfColumns.filter(cj => cj.ColumnName === columnName);
             return result;
         } else {
-            return new JobDescriptionAppliesToItem();
+            return [new JobDescriptionAppliesToItem()];
         }
     }
 }

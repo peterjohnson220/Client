@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 @Component({
   selector: 'pf-pricing-details-grid',
@@ -14,6 +15,7 @@ export class PricingDetailsGridComponent implements AfterViewInit {
   @ViewChild('payMarketColumn', { static: false }) payMarketColumn: ElementRef;
   @ViewChild('baseMrpColumn', { static: false }) baseMrpColumn: ElementRef;
   @ViewChild('baseTccColumn', { static: false }) baseTccColumn: ElementRef;
+  @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
 
   colTemplates = {};
 
@@ -28,7 +30,8 @@ export class PricingDetailsGridComponent implements AfterViewInit {
     this.colTemplates = {
       'PayMarket': this.payMarketColumn,
       'BaseMRP': this.baseMrpColumn,
-      'TCCMRP': this.baseTccColumn
+      'TCCMRP': this.baseTccColumn,
+      [PfDataGridColType.currency]: this.currencyColumn
     };
   }
 }

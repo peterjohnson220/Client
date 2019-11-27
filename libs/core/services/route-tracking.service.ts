@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import 'rxjs/add/operator/pairwise';
+import { Router, NavigationEnd } from '@angular/router';
+
+import { filter, pairwise, startWith } from 'rxjs/operators';
 
 @Injectable()
 export class RouteTrackingService {
@@ -9,13 +9,14 @@ export class RouteTrackingService {
   currentRoute = '';
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {
     this.router.events
-      .pipe(filter(e => e instanceof RoutesRecognized))
-      .pairwise()
-      .subscribe((e: any[]) => {
+      .pipe(
+        startWith(new NavigationEnd(0, '/', '/')),
+        filter(e => e instanceof NavigationEnd),
+        pairwise()
+      ).subscribe((e: any) => {
         this.previousRoute = e[0].url;
         this.currentRoute = e[1].url;
       });
@@ -23,9 +24,10 @@ export class RouteTrackingService {
 
   goBack() {
     const previousRoute = this.previousRoute;
+    const fallBackRoute = this.currentRoute.substring(0, this.currentRoute.lastIndexOf('/'));
 
-    !!previousRoute
+    !!previousRoute && previousRoute !== '/'
       ? this.router.navigate([previousRoute])
-      : this.router.navigate(['../'], { relativeTo: this.route });
+      : this.router.navigate([fallBackRoute]);
   }
 }

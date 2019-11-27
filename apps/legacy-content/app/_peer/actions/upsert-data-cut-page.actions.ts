@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import { PeerMapScopeSystemDetails } from 'libs/models/peer/exchange-scope/peer-map-scope-system-details.model';
 
 export const UPSERT_DATA_CUT  = '[Legacy Content/Upsert Data Cut Page] Upsert Data Cut';
+export const UPSERT_DATA_CUT_NEW  = '[Legacy Content/Upsert Data Cut Page New] Upsert Data Cut New';
 export const UPSERT_DATA_CUT_SUCCESS  = '[Legacy Content/Upsert Data Cut Page] Upsert Data Cut Success';
 export const UPSERT_DATA_CUT_ERROR  = '[Legacy Content/Upsert Data Cut Page] Upsert Data Cut Error';
 export const CANCEL_UPSERT_DATA_CUT = '[Legacy Content/Upsert Data Cut Page] Cancel Upsert Data Cut';
@@ -13,6 +14,12 @@ export const LOAD_DATA_CUT_DETAILS_ERROR = '[Legacy Content/Upsert Data Cut Page
 
 export class UpsertDataCut implements Action {
   readonly type = UPSERT_DATA_CUT;
+
+  constructor(public payload: any) {}
+}
+
+export class UpsertDataCutNew implements Action {
+  readonly type = UPSERT_DATA_CUT_NEW;
 
   constructor(public payload: any) {}
 }
@@ -53,6 +60,7 @@ export class LoadDataCutDetailsError implements Action {
 
 export type Actions
   = UpsertDataCut
+  | UpsertDataCutNew
   | UpsertDataCutSuccess
   | UpsertDataCutError
   | CancelUpsertDataCut

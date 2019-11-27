@@ -19,7 +19,7 @@
 
 
 .fileContainer [type=file] {
-  cursor: pointer;
+  //cursor: pointer;
   display: block;
   font-size: 999px;
   filter: alpha(opacity=0);
@@ -56,6 +56,32 @@ label:hover {
   border: #1872ae;
 }
 
+.btn-primary:hover {
+  color: #fff;
+  background-color: #125581;
+  border-color: #114f78;
+}
+
 .card-block {
   padding: 1.25rem;
+}
+
+.no-pointer {
+  cursor: default !important;
+}
+
+p.card-title {
+  font-size: 1.5rem;
+}
+
+a:not([href]) {
+  font-size: 1rem;
+  color: #3572b0;
+}
+
+a:hover{
+  font-size: 1rem;
+  color: #3572b0;
+  cursor: pointer;
+  text-decoration: underline !important;
 }

@@ -27,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: ':companyId/users', component: UsersListPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard],
-    data: { Permissions: [Permissions.USERS], Check: PermissionCheckEnum.Single }
+    data: { Permissions: [Permissions.USERS], Check: PermissionCheckEnum.Single, ReturnUrl: 'company-admin/navigation' }
   },
   {
     path: ':companyId/users/add', component: UserPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard],

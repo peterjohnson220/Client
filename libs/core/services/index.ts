@@ -7,3 +7,4 @@ export * from './remote-data-source.service';
 export * from './window-communication.service';
 export * from './window-ref';
 export * from './route-tracking.service';
+export * from './jwt-querystring-auth-interceptor.service';

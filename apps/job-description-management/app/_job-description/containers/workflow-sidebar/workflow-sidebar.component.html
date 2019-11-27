@@ -1,0 +1,41 @@
+<div class="workflow-sidebar">
+  <div class="workflow-header">
+    <form [formGroup]="workflowStepCommentForm" (ngSubmit)="rejectWorkflowStep()">
+      <div class="form-group" [class.has-danger]="workflowStepCommentForm?.controls?.comment?.errors && commentFormSubmitted">
+        <textarea class="form-control" rows="6" placeholder="Comment" formControlName="comment"></textarea>
+      </div>
+      <div *ngIf="workflowStepCommentForm?.controls?.comment?.errors && commentFormSubmitted" class="form-control-feedback">
+        Comment Required for Rejection
+      </div>
+
+      <button *ngIf="workflowStepInfo.IsFirstStep" type="submit" class="btn btn-secondary" [disabled]="(workflowStepApproving$ | async) || (workflowStepRejecting$ | async)">
+        <span *ngIf="workflowStepRejecting$ | async"><pf-loading-indicator></pf-loading-indicator> Cancelling Approval...</span>
+        <span *ngIf="!(workflowStepRejecting$ | async)"><fa-icon icon="times" aria-hidden="true"></fa-icon> Cancel Approval</span>
+      </button>
+
+      <button *ngIf="!workflowStepInfo.IsFirstStep" type="submit" class="btn btn-secondary" [disabled]="(workflowStepApproving$ | async) || (workflowStepRejecting$ | async)">
+        <span *ngIf="workflowStepRejecting$ | async"><pf-loading-indicator></pf-loading-indicator> Rejecting...</span>
+        <span *ngIf="!(workflowStepRejecting$ | async)"><fa-icon icon="times" aria-hidden="true"></fa-icon> Reject</span>
+      </button>
+
+      <button *ngIf="workflowStepInfo.IsResubmission" type="button" class="btn btn-secondary" (click)="approveWorkflowStep()" [disabled]="(workflowStepApproving$ | async) || (workflowStepRejecting$ | async)">
+        <span *ngIf="workflowStepApproving$ | async"><pf-loading-indicator></pf-loading-indicator> Resubmitting for Approval...</span>
+        <span *ngIf="!(workflowStepApproving$ | async)"><fa-icon icon="arrow-right" aria-hidden="true"></fa-icon> Resubmit for Approval</span>
+      </button>
+
+      <button *ngIf="workflowStepInfo.IsLastStep" type="button" class="btn btn-success" (click)="approveWorkflowStep()" [disabled]="(workflowStepApproving$ | async) || (workflowStepRejecting$ | async)">
+        <span *ngIf="workflowStepApproving$ | async"><pf-loading-indicator></pf-loading-indicator> Approving and Publishing...</span>
+        <span *ngIf="!(workflowStepApproving$ | async)"><fa-icon icon="check" aria-hidden="true"></fa-icon> Approve and Publish</span>
+      </button>
+
+      <button *ngIf="!workflowStepInfo.IsLastStep && !workflowStepInfo.IsResubmission" type="button" class="btn btn-secondary" (click)="approveWorkflowStep()" [disabled]="(workflowStepApproving$ | async) || (workflowStepRejecting$ | async)">
+        <span *ngIf="workflowStepApproving$ | async"><pf-loading-indicator></pf-loading-indicator> Approving...</span>
+        <span *ngIf="!(workflowStepApproving$ | async)"><fa-icon icon="check" aria-hidden="true"></fa-icon> Approve</span>
+      </button>
+
+    </form>
+  </div>
+  <div class="workflow-content">
+    <pf-workflow-log [workflowLogEntries]="(workflowLogEntriesAsync$ | async)?.obj" [loading]="workflowLogLoading$ | async"></pf-workflow-log>
+  </div>
+</div>

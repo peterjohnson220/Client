@@ -37,16 +37,20 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
         this.userId = userContext.UserId;
         this.companyName = userContext.CompanyName;
+        if (!userContext.IsPublic && !userContext.WorkflowStepInfo) {
+          this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
+        }
       }
     );
   }
 
   ngOnDestroy() {
-    this.userContextSubscription.unsubscribe();
+    if (this.userContextSubscription) {
+      this.userContextSubscription.unsubscribe();
+    }
   }
 
   getSidebarHref(sidebarLink: SidebarLink) {

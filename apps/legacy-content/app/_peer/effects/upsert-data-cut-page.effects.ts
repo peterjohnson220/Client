@@ -9,9 +9,11 @@ import * as fromLibsPeerMapActions from 'libs/features/peer/map/actions/map.acti
 import * as fromLibsPeerExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
 import * as fromLibsPeerFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 import * as fromLibsPeerMapReducers from 'libs/features/peer/map/reducers';
+import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import { ExchangeCompanyApiService, ExchangeScopeApiService, ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
 import { WindowCommunicationService } from 'libs/core/services';
 import { PeerMapScopeSystemDetails } from 'libs/models/peer/';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 
 import * as fromUpsertDataCutPageActions from '../actions/upsert-data-cut-page.actions';
 
@@ -21,29 +23,57 @@ export class UpsertDataCutPageEffects {
   @Effect()
   upsertDataCut$ = this.actions$.pipe(
     ofType(fromUpsertDataCutPageActions.UPSERT_DATA_CUT),
-      map((action: fromUpsertDataCutPageActions.UpsertDataCut) => action.payload),
-      withLatestFrom(
-        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getUpsertDataCutRequestData)),
-        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getPeerMapSummary)),
-        (action, exchangeDataCutRequestData, mapSummaryData) => ({action, exchangeDataCutRequestData, mapSummaryData})
-      ),
-      switchMap((latest) => {
-        return this.exchangeDataCutsApiService.upsertDataCut({
-          DataCutGuid: latest.action.DataCutGuid,
-          CompanyJobId: latest.action.CompanyJobId,
-          UserSessionId: latest.action.UserSessionId,
-          ZoomLevel: latest.action.ZoomLevel,
-          IsPayMarketOverride: latest.action.IsPayMarketOverride,
-          CompanyPayMarketId: latest.exchangeDataCutRequestData.PayMarketDetails.CompanyPayMarketId,
-          Filter: latest.exchangeDataCutRequestData.FilterDetails,
-          PayMarketName: latest.exchangeDataCutRequestData.PayMarketDetails.PayMarketName,
-          Companies: latest.mapSummaryData.OverallMapStats.Companies
-        }).pipe(
-          map((userJobMatchId) => new fromUpsertDataCutPageActions.UpsertDataCutSuccess(userJobMatchId)),
-          catchError(() => of(new fromUpsertDataCutPageActions.UpsertDataCutError()))
-        );
-      })
-    );
+    map((action: fromUpsertDataCutPageActions.UpsertDataCut) => action.payload),
+    withLatestFrom(
+      this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getUpsertDataCutRequestData)),
+      this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getPeerMapSummary)),
+      (action, exchangeDataCutRequestData, mapSummaryData) => ({action, exchangeDataCutRequestData, mapSummaryData})
+    ),
+    switchMap((latest) => {
+      return this.exchangeDataCutsApiService.upsertDataCut({
+        DataCutGuid: latest.action.DataCutGuid,
+        CompanyJobId: latest.action.CompanyJobId,
+        UserSessionId: latest.action.UserSessionId,
+        ZoomLevel: latest.action.ZoomLevel,
+        IsPayMarketOverride: latest.action.IsPayMarketOverride,
+        CompanyPayMarketId: latest.exchangeDataCutRequestData.PayMarketDetails.CompanyPayMarketId,
+        Filter: latest.exchangeDataCutRequestData.FilterDetails,
+        PayMarketName: latest.exchangeDataCutRequestData.PayMarketDetails.PayMarketName,
+        Companies: latest.mapSummaryData.OverallMapStats.Companies
+      }).pipe(
+        map((userJobMatchId) => new fromUpsertDataCutPageActions.UpsertDataCutSuccess(userJobMatchId)),
+        catchError(() => of(new fromUpsertDataCutPageActions.UpsertDataCutError()))
+      );
+    })
+  );
+
+  @Effect()
+  upsertDataCutNew$ = this.actions$.pipe(
+    ofType(fromUpsertDataCutPageActions.UPSERT_DATA_CUT_NEW),
+    map((action: fromUpsertDataCutPageActions.UpsertDataCutNew) => action.payload),
+    withLatestFrom(
+      this.exchangeExplorerContextService.selectFilterContext(),
+      this.libsExchangeExplorerStore.pipe(select(fromLibsExchangeExplorerReducers.getPeerMapCompaniesFromSummary)),
+      this.libsExchangeExplorerStore.pipe(select(fromLibsExchangeExplorerReducers.getExchangeExplorerPayMarket)),
+      (action, exchangeExplorerFilterContext, companies, paymarket) => ({action, exchangeExplorerFilterContext, companies, paymarket})
+    ),
+    switchMap((latest) => {
+      return this.exchangeDataCutsApiService.upsertDataCutNew({
+        DataCutGuid: latest.action.DataCutGuid,
+        CompanyJobId: latest.action.CompanyJobId,
+        UserSessionId: latest.action.UserSessionId,
+        ZoomLevel: latest.action.ZoomLevel,
+        IsPayMarketOverride: latest.action.IsPayMarketOverride,
+        CompanyPayMarketId: latest.paymarket.CompanyPayMarketId,
+        Filter: latest.exchangeExplorerFilterContext,
+        PayMarketName: latest.paymarket.PayMarket,
+        Companies: latest.companies
+      }).pipe(
+        map((userJobMatchId) => new fromUpsertDataCutPageActions.UpsertDataCutSuccess(userJobMatchId)),
+        catchError(() => of(new fromUpsertDataCutPageActions.UpsertDataCutError()))
+      );
+    })
+  );
 
   @Effect()
   loadDataCutDetails$ = this.actions$.pipe(
@@ -96,6 +126,8 @@ export class UpsertDataCutPageEffects {
 
   constructor(
     private actions$: Actions,
+    private libsExchangeExplorerStore: Store<fromLibsExchangeExplorerReducers.State>,
+    private exchangeExplorerContextService: ExchangeExplorerContextService,
     private libsPeerMapStore: Store<fromLibsPeerMapReducers.State>,
     private exchangeDataCutsApiService: ExchangeDataCutsApiService,
     private exchangeCompanyApiService: ExchangeCompanyApiService,

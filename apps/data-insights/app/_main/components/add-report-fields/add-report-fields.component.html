@@ -10,8 +10,10 @@
     (valueChange)="handleValueChanged($event)">
 
     <ng-template kendoAutoCompleteItemTemplate let-dataItem>
-      {{dataItem.DisplayName}}
-      <span *ngIf="dataItem.IsSelected" class="badge badge-info added-badge float-right">Added</span>
+      <div class="d-flex field">
+        <span class="title" [class.selected]="dataItem.IsSelected">{{dataItem.DisplayName}}</span>
+        <span *ngIf="dataItem.IsSelected" class="badge badge-info added-badge">Added</span>
+      </div>
     </ng-template>
   </kendo-autocomplete>
 </div>

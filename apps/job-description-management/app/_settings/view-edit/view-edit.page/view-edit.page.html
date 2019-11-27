@@ -1,0 +1,39 @@
+<div class="flex-column-container">
+  <div class="d-flex justify-content-between pb-3 border-bottom align-items-center flex-shrink-0">
+    <h3 class="mb-0">{{viewName$ | async}}</h3>
+    <div>
+      <button class="btn btn-secondary" [attr.data-qa-id]="'btn-cancel'" (click)="handleCancelClicked()">Cancel</button>
+      <button [disabled]="(saving$ | async)" class="btn btn-primary ml-2" [attr.data-qa-id]="'btn-save'" (click)="handleSaveClicked()">
+        Save
+      </button>
+    </div>
+  </div>
+
+  <div class="views-container">
+    <ng-container *ngIf="(templateViewsAsyncObj$ | async) as templateViewsAsync">
+      <pf-async-container
+        class="w-100"
+        [smartLoadingMask]="true"
+        [loading]="templateViewsAsync.loading"
+        [loadingError]="templateViewsAsync.loadingError"
+        [hideReloadButton]="true">
+
+        <div class="container-fluid px-0" *ngIf="templateViewsAsync.obj.length">
+          <pf-job-info-view-editor></pf-job-info-view-editor>
+
+          <div class="row">
+            <ng-container *ngFor="let templateView of templateViewsAsync.obj">
+              <div class="col-6 px-0 pr-4 mt-3">
+                <pf-view-editor
+                  [templateView]="templateView"
+                  (addHiddenElementId)="handleHiddenElementIdAdded($event)"
+                  (removeHiddenElementId)="handleHiddenElementIdRemoved($event)">
+                </pf-view-editor>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </pf-async-container>
+    </ng-container>
+  </div>
+</div>

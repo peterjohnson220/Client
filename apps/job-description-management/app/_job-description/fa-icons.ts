@@ -11,11 +11,29 @@ import {
   faRandom,
   faLongArrowAltDown,
   faLongArrowAltUp,
+  faLongArrowAltLeft,
   faTimesCircle,
   faPencilAlt,
-  faPlus
+  faPlus,
+  faUndo,
+  faBolt,
+  faArrowRight,
+  faCheck,
+  faBan,
+  faCircle,
+  faEllipsisHAlt,
+  faHistory,
+  faCheckCircle as fasCheckCircle,
+  faSquare
 } from '@fortawesome/pro-solid-svg-icons';
 import { faCompressAlt, faExpandAlt } from '@fortawesome/pro-regular-svg-icons';
+
+// Regular
+import { faCheckCircle } from '@fortawesome/pro-regular-svg-icons/faCheckCircle';
+import { faTrashAlt as farTrashAlt } from '@fortawesome/pro-regular-svg-icons/faTrashAlt';
+import { faFilePdf } from '@fortawesome/pro-regular-svg-icons/faFilePdf';
+import { faFileWord } from '@fortawesome/pro-regular-svg-icons/faFileWord';
+import { faSquare as farSquare } from '@fortawesome/pro-regular-svg-icons/faSquare';
 
 export const faIcons = [
   faCaretUp,
@@ -29,9 +47,25 @@ export const faIcons = [
   faRandom,
   faLongArrowAltDown,
   faLongArrowAltUp,
+  faLongArrowAltLeft,
   faTimesCircle,
   faCompressAlt,
   faExpandAlt,
   faPencilAlt,
-  faPlus
+  faPlus,
+  faUndo,
+  faCheckCircle,
+  fasCheckCircle,
+  faBolt,
+  farTrashAlt,
+  faFilePdf,
+  faFileWord,
+  faArrowRight,
+  faCheck,
+  faBan,
+  faCircle,
+  faEllipsisHAlt,
+  faHistory,
+  faSquare,
+  farSquare
 ];

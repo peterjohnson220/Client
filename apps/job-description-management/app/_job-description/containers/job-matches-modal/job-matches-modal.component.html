@@ -1,0 +1,94 @@
+<ng-template #jobMatchesModal>
+
+  <ng-container *ngIf="(jobMatchesAsync$ | async) as jobMatchesAsync">
+
+    <div class="modal-header">
+      <div class="d-flex flex-column">
+        <h4 class="modal-title">Semantic Job Matches <small class="text-muted">({{ jobTitle }})</small></h4>
+        <h5>
+          <small class="text-muted">
+            Based on this job description, Payfactors algorithmically searches the Survey Library
+            and Payfactors jobs to produce a list of strength weighted job matches. Please choose the best
+            matches and click Create Project to market price the job.
+          </small>
+        </h5>
+      </div>
+      <div class="align-self-start">
+        <button type="button" class="close" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-body" [class.shrink]="forbidden || jobMatchesAsync.loadingError || creatingProjectError">
+
+      <ng-container *ngIf="!forbidden; else forbiddenTemplate">
+
+        <ng-container *ngIf="!creatingProjectError; else creatingProjectErrorTemplate">
+
+          <pf-async-container [loading]="jobMatchesAsync.loading"
+            [loadingError]="jobMatchesAsync.loadingError"
+            [loadingErrorMessage]="'There was an error retrieving matches. Please contact your services associate for assistance.'">
+          </pf-async-container>
+  
+          <ng-container *ngIf="!jobMatchesAsync.loading">
+            <ng-container *ngIf="jobMatchesAsync?.obj?.length; else noResults">
+              <div *ngFor="let jobMatch of jobMatchesAsync.obj; trackBy: trackByFn;"
+                class="card job-match mb-1"
+                [class.selected]="jobMatch.Selected"
+                (click)="handleJobMatchClicked(jobMatch)">
+      
+                <div class="card-block">
+                  <pf-job-match-result [jobMatchResult]="jobMatch"></pf-job-match-result>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+
+        </ng-container>
+
+      </ng-container>
+
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" [disabled]="creatingProject" (click)="close()">Cancel</button>
+      <button *ngIf="!forbidden && !jobMatchesAsync.loadingError && !creatingProjectError"
+        [disabled]="creatingProject" type="button"
+        class="btn btn-primary" (click)="handleCreateProjectClicked()">
+        <span *ngIf="creatingProject">
+          <pf-loading-indicator></pf-loading-indicator> Creating Project...
+        </span>
+        <span *ngIf="!creatingProject">Create Project</span>
+      </button>
+    </div>
+
+  </ng-container>
+
+</ng-template>
+
+<ng-template #forbiddenTemplate>
+  <div class="d-flex h-100">
+    <div class="alert alert-warning align-self-center w-100 mb-0" role="alert">
+      To view suggested job matches, you need to have access to <strong>Pricing Projects</strong> and a
+      <strong>Job Summary</strong> content control present in the job description.
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #noResults>
+  <div class="d-flex justify-content-center flex-column h-100">
+    <h5 class="align-self-center">No Results</h5>
+    <h5 class="align-self-center"><small class="text-muted">Please modify or add content to the job description
+        and try again.</small></h5>
+  </div>
+</ng-template>
+
+<ng-template #creatingProjectErrorTemplate>
+  <div class="d-flex h-100">
+    <div class="alert alert-danger align-self-center w-100 mb-0" role="alert">
+      There seems to be an error preventing us from creating your project. Please contact your services
+      associate for assistance.
+    </div>
+  </div>
+</ng-template>

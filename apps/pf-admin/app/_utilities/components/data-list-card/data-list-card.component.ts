@@ -13,6 +13,7 @@ export class DataListCardComponent {
   @Input() loadingError: boolean;
   @Input() filter: string;
   @Input() dataName: string;
+  @Input() filterPlaceholder: string;
 
   @Output() itemClicked = new EventEmitter();
   @Output() filterChanged = new EventEmitter();

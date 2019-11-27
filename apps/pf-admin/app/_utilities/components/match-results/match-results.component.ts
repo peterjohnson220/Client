@@ -13,6 +13,7 @@ import { MatchResult } from '../../models';
 export class MatchResultsComponent {
   @Input() matchResultsAsync: AsyncStateObj<MatchResult[]>;
   @Input() filteredMatchResults: MatchResult[];
+  @Input() scopeSelected: boolean;
   @Output() matchResultSelected = new EventEmitter<MatchResult>();
   @Output() filterClicked = new EventEmitter<string>();
   @Output() applyExactMatchClicked = new EventEmitter<MatchResult>();

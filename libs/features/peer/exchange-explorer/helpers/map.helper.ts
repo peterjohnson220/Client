@@ -1,8 +1,8 @@
 import { FeatureCollection, Point } from 'geojson';
 import { LngLatBounds } from 'mapbox-gl';
 
-import { PeerMapScopeMapInfo, ExchangeMapSummary, GenericKeyValue, ExchangeMapResponse } from 'libs/models/';
-import { ExchangeExplorerScopeResponse } from '../../../../models/payfactors-api/peer-exchange-explorer-search/response';
+import { ExchangeMapSummary, GenericKeyValue } from 'libs/models/';
+import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 
 export class MapHelper {
 

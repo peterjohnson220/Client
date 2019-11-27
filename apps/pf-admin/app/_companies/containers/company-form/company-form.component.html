@@ -5,7 +5,7 @@
         <label class="control-label" for="companyName">Company Name <span class="text-danger">*</span></label>
         <input [readonly]="saving" formControlName="companyName" type="text" class="form-control" placeholder="Company Name" maxlength="255"
           [ngClass]="{ 'is-invalid': !f.companyName.valid && f.companyName.touched }">
-        <span *ngIf="f.companyName.errors?.required" class="invalid-feedback">Company Name is required</span>        
+        <span *ngIf="f.companyName.errors?.required" class="invalid-feedback">Company Name is required</span>
         <span *ngIf="f.companyName.errors?.maxlength" class="invalid-feedback">Company Name cannot be longer than 255 characters</span>
       </div>
       <div *ngIf="isClientTypeSystemUserGroup" class="form-group">
@@ -19,7 +19,7 @@
             {{clientType.ClientType}}
           </option>
         </select>
-        <span *ngIf="f.clientType.errors?.required" class="invalid-feedback">Client Type is required</span>        
+        <span *ngIf="f.clientType.errors?.required" class="invalid-feedback">Client Type is required</span>
       </div>
       <div class="form-group">
         <label class="control-label" for="status">Status</label>
@@ -37,12 +37,12 @@
           <option *ngFor="let systemUserGroup of systemUserGroups" [ngValue]="systemUserGroup.SystemUserGroupsId">
             {{systemUserGroup.DisplayName}}
           </option>
-        </select>        
+        </select>
       </div>
       <div class="form-group">
         <label class="control-label" for="assets">Assets</label>
         <input [readonly]="saving" formControlName="assets" type="text" class="form-control" placeholder="Assets"
-          [ngClass]="{ 'is-invalid': !f.assets.valid && f.assets.touched }">          
+          [ngClass]="{ 'is-invalid': !f.assets.valid && f.assets.touched }">
         <span *ngIf="f.assets.errors?.isNotNumeric" class="invalid-feedback">Assets must be numeric</span>
       </div>
       <div class="form-group">
@@ -79,14 +79,14 @@
         <label class="control-label">Company Color</label>
         <div *ngIf="!checkBrowserIsIE" class="input-w">
             <label for="companyColorPicker">RGB:</label>
-            <input [readonly]="saving" formControlName="companyColorPicker" type="color" class="form-control w-50 ml-2">
+            <input [readonly]="saving" formControlName="companyColorPicker" type="color" class="input-color form-control w-50 ml-2">
         </div>
         <div class="input-w mt-2">
             <label for="companyColorText">HEX:</label>
             <input [readonly]="saving" formControlName="companyColorText" type="text" placeholder="#FFFFFF" class="form-control w-50 ml-2"
             [ngClass]="{ 'is-invalid': !f.companyColorText.valid && f.companyColorText.touched }">
           <span *ngIf="f.companyColorText.errors?.pattern" class="invalid-feedback">Please enter correct HEX format</span>
-        </div>     
+        </div>
       </div>
     </div>
     <div class="col-6">
@@ -107,7 +107,7 @@
             {{servicesRep.FirstName}} {{servicesRep.LastName}}
           </option>
         </select>
-        <span *ngIf="f.servicesRep.errors?.required" class="invalid-feedback">Sr. Associate, Compensation is required</span>        
+        <span *ngIf="f.servicesRep.errors?.required" class="invalid-feedback">Sr. Associate, Compensation is required</span>
       </div>
       <div class="form-group">
         <label class="control-label" for="jdmSrAssociate">
@@ -155,7 +155,7 @@
       <div class="form-group" *ngIf="(groupVal === RETAILING) || (groupVal === HEALTHCARE)"
         [class.has-danger]="!f.customFieldValue.valid">
         <label class="control-label" for="customFieldValue">{{companyFormData.CustomFieldName}}</label>
-        <input [readonly]="saving" formControlName="customFieldValue" type="text" class="form-control" 
+        <input [readonly]="saving" formControlName="customFieldValue" type="text" class="form-control"
           placeholder="{{companyFormData.CustomFieldName}}" maxlength="50"
           [ngClass]="{ 'is-invalid': !f.customFieldValue.valid && f.customFieldValue.touched }">
         <span *ngIf="f.customFieldValue.errors?.maxlength" class="invalid-feedback">{{companyFormData.CustomFieldName}} cannot be longer than 50 characters</span>

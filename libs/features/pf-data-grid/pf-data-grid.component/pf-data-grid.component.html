@@ -18,9 +18,9 @@
 
     <div class="d-flex h-100">
       <div [ngClass]="(selectedRowId$ | async) ? 'main-grid-container-compact' : 'full-size-wrapper'">
-        <div class="flex-column-container">          
-          <div class="no-gutters row justify-content-between pl-3 pt-1">
-            <div class="flex-fill">
+        <div class="flex-column-container">
+          <div *ngIf="gridActionsTemplate || userFilteredFields.length>0" class="no-gutters row justify-content-between pl-2 border border-top-1 gridActionTemplate">
+            <div class="flex-fill p-1">
               <div class="h-100" *ngIf="userFilteredFields.length > 0">
                 <pf-data-grid-filter-pills
                   [fields]="userFilteredFields"
@@ -56,7 +56,7 @@
           [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter, splitViewFilters: splitViewFilters$ | async}">
         </ng-container>
       </div>
-      <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3">
+      <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3 border border-top-1">
         <pf-filter-panel
           [fields]="filterableFields$ | async"
           (close)="closeFilterPanel()"
@@ -64,7 +64,7 @@
 
           (filterCleared)="clearFilter($event)"
           (saveFilterClicked)="saveFilterClicked()">
-        </pf-filter-panel>        
+        </pf-filter-panel>
       </div>
     </div>
 

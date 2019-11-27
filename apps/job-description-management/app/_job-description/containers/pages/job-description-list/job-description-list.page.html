@@ -8,14 +8,14 @@
 
     <!-- Hide from public view -->
     <ng-container *ngIf="!isPublic">
-      <div *ngIf="hasManageTemplatesPermission || hasManageSettingsPermission" ngbDropdown class="d-inline-block">
+      <div [pfSecuredResource]="[permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES, permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS]" ngbDropdown class="d-inline-block">
         <button class="btn btn-primary" ngbDropdownToggle>Admin</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-          <button *ngIf="hasManageTemplatesPermission" routerLink="/templates" class="dropdown-item">Template Management</button>
-          <button *ngIf="hasManageSettingsPermission" routerLink="/job-description-management/settings" class="dropdown-item">Settings</button>
+          <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES" routerLink="/templates" class="dropdown-item">Template Management</button>
+          <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS" routerLink="/settings" class="dropdown-item">Settings</button>
         </div>
       </div>
-      <button *ngIf="hasAddJobPermission" class="btn btn-secondary" type="submit" (click)="addJobClicked()">Add Job</button>
+      <button [pfSecuredResource]="permissions.JOB_DESCRIPTIONS_ADD" class="btn btn-secondary" type="submit" (click)="addJobClicked()">Add Job</button>
       <pf-bulk-export-popover
         [controlLabels]="bulkExportControlLabels$ | async"
         [controlLabelsLoading]="bulkExportControlLabelsLoading$ | async"
@@ -35,7 +35,7 @@
             (columnModified)="handleColumnModified($event)"
             (saveColumns)="handleSaveColumns($event)">
           </pf-column-selector-popover>
-      </span>     
+      </span>
     </ng-container>
 
     <span class="user-filter-popover">
@@ -69,7 +69,7 @@
             <pf-list-area-filter-pills
               [listAreaColumns]="listAreaColumns$ | async"
               [customListAreaColumns]="customListAreaColumns"
-              [filters]="gridState.filter?.filters"         
+              [filters]="gridState.filter?.filters"
               (clearFilter)="handleClearFilter($event)"
               (clearAllFilters)="handleClearAllFilters($event)">
             </pf-list-area-filter-pills>

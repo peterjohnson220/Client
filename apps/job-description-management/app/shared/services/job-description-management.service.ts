@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as cloneDeep from 'lodash.clonedeep';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
@@ -10,12 +9,11 @@ import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm
 import { Permissions } from 'libs/constants';
 import { SaveError } from 'libs/models/common/save-error';
 
-import * as fromJobDescriptionLibraryActions from '../actions/job-description-library.actions';
 import * as fromCompanyFLSAStatusActions from '../actions/company-flsa-status.actions';
 import * as fromJobDescriptionManagementSharedReducer from '../../shared/reducers';
 import * as fromJobFamilyActions from '../actions/job-family.actions';
 import * as fromControlTypesActions from '../actions/control-types.actions';
-import { LibrarySearchRequest } from '../models/requests';
+import { ControlDataHelper } from '../helpers';
 
 @Injectable()
 export class JobDescriptionManagementService {
@@ -36,13 +34,7 @@ export class JobDescriptionManagementService {
   // Create a data row from control type attributes, and if data is passed in then
   // set the data attribute value if it can be sourced
   createDataRow(attributes: ControlTypeAttribute[], data?: string) {
-    const dataRow = {Id: Date.now().toString()};
-
-    attributes.forEach(a => {
-      (data && a.CanBeSourced) ? dataRow[a.Name] = data : dataRow[a.Name] = '';
-    });
-
-    return dataRow;
+    return ControlDataHelper.createDataRow(attributes, data);
   }
 
   getControlTypes() {
@@ -55,14 +47,6 @@ export class JobDescriptionManagementService {
 
   getJobFLSAStatuses() {
     this.store.dispatch(new fromCompanyFLSAStatusActions.LoadCompanyFlsaStatuses());
-  }
-
-  getLibrarySearchResultsByBucket(searchRequest: LibrarySearchRequest) {
-    this.store.dispatch(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResultsByBucket(searchRequest));
-  }
-
-  getLibrarySearchResults(searchRequest: LibrarySearchRequest) {
-    this.store.dispatch(new fromJobDescriptionLibraryActions.LoadJobDescriptionLibraryResults(searchRequest));
   }
 
   userEmailHasJobPermission(emailAddr: string, jobId: number) {

@@ -10,3 +10,5 @@ export * from './job-information-fields';
 export * from './modals';
 export * from './popovers';
 export * from './public-view-header';
+export * from './workflow';
+export * from './job-match-result';

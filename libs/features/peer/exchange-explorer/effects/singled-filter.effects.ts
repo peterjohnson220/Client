@@ -8,7 +8,7 @@ import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SearchFilter } from 'libs/models/payfactors-api';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { MultiSelectFilter } from 'libs/features/search/models';
-import { SearchExchangeAggregationsRequest } from 'libs/models/payfactors-api/peer-exchange-explorer-search/request';
+import { SearchExchangeAggregationsRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';

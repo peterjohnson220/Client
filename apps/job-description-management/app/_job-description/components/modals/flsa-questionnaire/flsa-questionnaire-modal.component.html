@@ -1,0 +1,84 @@
+<ng-template #flsaQuestionnaireModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">FLSA Questionnaire <pf-status-pill *ngIf="lockedJobDescription" [status]="jobDescription.JobDescriptionStatus"></pf-status-pill></h4>
+
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p *ngIf="!(flsaQuestionnaireDetails$ | async)?.loading && (flsaQuestionnaireDetails$ | async)?.obj" [innerHTML]="flsaQuestionnaireDetails?.Header"></p>
+    <div class="row" *ngIf="!(flsaQuestionnaireDetails$ | async)?.loading && (flsaQuestionnaireDetails$ | async)?.obj">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+            <tr>
+              <th>Status:</th>
+              <td><pf-status-pill [status]="flsaQuestionnaireDetails?.FlsaQuestionnaireStatus"></pf-status-pill></td>
+              <th>FLSA Version:</th>
+              <td>{{ flsaQuestionnaireDetails?.FlsaQuestionnaireVersion }}</td>
+            </tr>
+            <tr>
+              <th>Created By:</th>
+              <td>{{ flsaQuestionnaireDetails?.CreateUser }}</td>
+              <th>Created Date:</th>
+              <td><div *ngIf="flsaQuestionnaireDetails?.CreateDate">{{ flsaQuestionnaireDetails?.CreateDate | date:'short' }}</div></td>
+            </tr>
+            <tr>
+              <th>Modified By:</th>
+              <td>{{ flsaQuestionnaireDetails?.EditUser }}</td>
+              <th>Modified Date:</th>
+              <td><div *ngIf="flsaQuestionnaireDetails?.EditDate">{{ flsaQuestionnaireDetails?.EditDate | date:'short' }}</div></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-3 px-0">
+            <ul class="nav nav-pills flex-column">
+              <li class="nav-item mb-1"  *ngFor="let exemptionAndQuestions of (flsaQuestionnaireDetails$ | async)?.obj?.ExemptionAndQuestions">
+                <a class="nav-link" [ngClass]="{'active': (exemptionAndQuestions?.Exemption == flsaExemptionAndQuestions?.Exemption)}" (click)="getQuestions(exemptionAndQuestions)" [innerHTML]="exemptionAndQuestions?.Exemption"></a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-9 question-body">
+            <h3>{{ flsaExemptionAndQuestions?.Exemption }}</h3>
+            <div *ngIf="flsaExemptionAndQuestions?.Description" [innerHTML]="flsaExemptionAndQuestions?.Description"></div>
+            <br>
+            <div *ngFor="let question of (flsaExemptionAndQuestions)?.Questions; let i = index">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input #exemptionQuestion type="checkbox"
+                         [ngModel]="question.Selected"
+                         (change)="selectQuestion(flsaExemptionAndQuestions?.Exemption, question.Question, $event.currentTarget.checked)"
+                         [disabled]="lockedJobDescription"
+                         class="form-check-input" />
+                  <span [innerHtml]="question.Question"></span>
+                </label>
+              </div>
+            </div>
+            <div *ngIf="flsaExemptionAndQuestions?.FooterDescription" [innerHTML]="flsaExemptionAndQuestions?.FooterDescription"></div>
+          </div>
+        </div>
+        <div class="row" *ngIf="flsaQuestionnaireDetails?.Disclaimer">
+          <br>
+          <div [innerHTML]="flsaQuestionnaireDetails?.Disclaimer"></div>
+        </div>
+      </div>
+      <div *ngIf="(flsaQuestionnaireDetails$ | async)?.loading">
+        <h5>
+          <pf-loading-indicator></pf-loading-indicator> Loading FLSA...
+        </h5>
+      </div>
+      <div class="text-center" *ngIf="!(flsaQuestionnaireDetails$ | async)?.loading && !(flsaQuestionnaireDetails$ | async)?.obj">
+        <h5>There is no FLSA Questionnaire for this historical Job Description.</h5>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+    <button class="btn btn-primary" (click)="saveFlsaQuestionnaire()" *ngIf="!(lockedJobDescription || jobDescription.JobDescriptionStatus == 'Published')" >Save</button>
+  </div>
+</ng-template>

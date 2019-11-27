@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppWrapperComponent } from 'libs/features/app-root';
 import { UserContextGuard } from 'libs/security';
-import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+import { AccessDeniedPageComponent, NotFoundErrorPageComponent, TokenExpirationPageComponent, ForbiddenPageComponent } from 'libs/ui/common/error/pages';
+import { WorkflowStepCompletionPageComponent } from './shared/components/workflow-step-completion';
 
 export const routes: Routes = [
   {
@@ -22,11 +23,19 @@ export const routes: Routes = [
         path: 'templates',
         loadChildren: () => import('apps/job-description-management/app/_templates/templates.module')
           .then(m => m.TemplatesModule)
+      },
+      {
+        path: 'settings',
+        loadChildren: () => import('apps/job-description-management/app/_settings/settings.module')
+          .then(m => m.SettingsModule)
       }
     ]
   },
+  { path: 'workflow-complete', component: WorkflowStepCompletionPageComponent },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'not-found', component: NotFoundErrorPageComponent },
+  { path: 'token-expired', component: TokenExpirationPageComponent },
+  { path: 'forbidden', component: ForbiddenPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
 

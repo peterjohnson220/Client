@@ -31,6 +31,7 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
   hideBody = false;
   controlType: ControlType;
   controlTypeSubscription: Subscription;
+  changesSubscription: Subscription;
   changesSubject: Subject<any>;
   bulkChangesSubject: Subject<any>;
 
@@ -107,10 +108,8 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
   }
 
   private watchForControlValueChanges() {
-    const RTEWithDataCount = this.getRTEWithDataCount();
 
-    const controlDataChanges$ = RTEWithDataCount > 0 ? this.changesSubject.pipe(skip(RTEWithDataCount)) : this.changesSubject;
-    controlDataChanges$.subscribe(dataRowChangeObj => this.dataChangesDetected.emit(dataRowChangeObj));
+    this.changesSubscription = this.changesSubject.subscribe(dataRowChangeObj => this.dataChangesDetected.emit(dataRowChangeObj));
 
     this.bulkChangesSubject.pipe(
       skip(this.jobDescriptionControl.Data.length ? 1 : 0)
@@ -139,5 +138,8 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.controlTypeSubscription.unsubscribe();
+    if (this.changesSubscription) {
+      this.changesSubscription.unsubscribe();
+    }
   }
 }

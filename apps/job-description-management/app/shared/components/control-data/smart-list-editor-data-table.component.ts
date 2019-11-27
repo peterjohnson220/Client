@@ -33,4 +33,12 @@ export class SmartListEditorDataTableComponent {
   getBullet(index: number) {
     return this.additionalProperties && this.additionalProperties.ListType === 'OL' ? `${index + 1}.` : '&bull;';
   }
+
+  trackByFn(index: number, dataRow: any) {
+    return dataRow.Id;
+  }
+
+  trackByAttributeFn(index: number, row: ControlTypeAttribute) {
+    return index + '_' + row.Name;
+  }
 }
