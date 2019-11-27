@@ -19,7 +19,7 @@
   </div>
   <div class="d-flex justify-content-end"   *ngIf="!(jobDescriptionManagementEnabled$ | async)">
     <button class="btn btn-primary"
-            [disabled]="!(jobDescriptionUpdated$ | async) || (saving$ | async)"
+            [disabled]="(updatedJobDescription?.length < 10 && !((jobDescriptionUpdated$ | async) && updatedJobDescription?.length===0) ) || !(jobDescriptionUpdated$ | async)  || (saving$ | async)"
             [innerText]="(saving$ | async)?'Saving': 'Save'"
             (click)="saveJobDescription()">
     </button>
