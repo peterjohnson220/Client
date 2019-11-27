@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { of } from 'rxjs';
 
-import { getMockDataViewFilter, getMockDataViewFilterList } from 'libs/models/payfactors-api/reports/request';
+import { generateMockViewField, generateMockViewFieldList } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
@@ -17,6 +17,7 @@ import { PfDataGridComponent } from './pf-data-grid.component';
 describe('PfDataGridComponent', () => {
   let fixture, component;
   let store: Store<fromReducer.State>;
+
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -38,7 +39,7 @@ describe('PfDataGridComponent', () => {
   }));
 
   it('should remove all filters when calling clearAllFilters', () => {
-    component.filters$ = of([getMockDataViewFilter()]);
+    component.userFilteredFields$ = of([generateMockViewField()]);
 
     component.clearAllFilters();
 
@@ -48,7 +49,7 @@ describe('PfDataGridComponent', () => {
   });
 
   it('should remove the selected filter when calling clearFilter', () => {
-    const filterList = getMockDataViewFilterList(5);
+    const filterList = generateMockViewFieldList(5);
     const filterToRemove = filterList[0];
     component.filters$ = of(filterList);
 
@@ -59,16 +60,33 @@ describe('PfDataGridComponent', () => {
   });
 
   it('should update the modified filter when calling handleFilterChanged', () => {
-    spyOn(component.gridFilterThrottle, 'next');
-
-    const filterList = getMockDataViewFilterList(5);
+    const filterList = generateMockViewFieldList(5);
     const filterToModify = filterList[0];
     const newFilterValue = 'Hello World';
 
-    filterToModify.Value = newFilterValue;
+    filterToModify.FilterValue = newFilterValue;
+
+    const updateFilterAction = new fromActions.UpdateFilter(component.pageViewId, filterToModify);
 
     component.handleFilterChanged(filterToModify);
 
-    expect(component.gridFilterThrottle.next).toHaveBeenLastCalledWith(filterToModify);
+    expect(store.dispatch).toHaveBeenLastCalledWith(updateFilterAction);
   });
+
+  it('should display the save view modal when handleSaveFilter is called', () => {
+    const openModalAction = new fromActions.OpenSaveViewModal(component.pageViewId);
+
+    component.saveFilterClicked();
+
+    expect(store.dispatch).toHaveBeenLastCalledWith(openModalAction);
+  });
+
+  it('should save the view with the user entered name', () => {
+    const viewName = 'Hello';
+    const expectedSaveAction = new fromActions.SaveView(component.pageViewId, viewName);
+    component.saveFilterHandler(viewName);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedSaveAction);
+  });
+
+
 });

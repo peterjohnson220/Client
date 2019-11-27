@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
+import {GridDataResult, PageChangeEvent, RowClassArgs} from '@progress/kendo-angular-grid';
 import { ViewField, PagingOptions } from 'libs/models/payfactors-api';
 import { DataGridState } from '../../reducers/pf-data-grid.reducer';
 import { SortDescriptor } from '@progress/kendo-data-query';
@@ -22,6 +22,7 @@ export class GridComponent implements OnInit, OnChanges {
   @Input() columnTemplates: any;
   @Input() selectedRowId: number;
   @Input() allowSplitView: boolean;
+  @Input() enableSelection = false;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -30,6 +31,8 @@ export class GridComponent implements OnInit, OnChanges {
   pagingOptions$: Observable<PagingOptions>;
   sortDescriptor$: Observable<SortDescriptor[]>;
 
+  selectAllState$: Observable<string>;
+  selectedKeys$: Observable<number[]>;
   constructor(private store: Store<fromReducer.State>) { }
 
   ngOnInit() { }
@@ -42,6 +45,8 @@ export class GridComponent implements OnInit, OnChanges {
       this.data$ = this.store.select(fromReducer.getData, changes['pageViewId'].currentValue);
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
       this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
+      this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
+      this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
     }
   }
 
@@ -108,5 +113,17 @@ export class GridComponent implements OnInit, OnChanges {
 
   getSelectedRowIdentifier() {
     return `${this.selectionEntityName}_${this.selectionField}`;
+  }
+
+  onSelectedKeysChange(selectedKey: number) {
+    this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, selectedKey));
+  }
+
+  isChecked(selectedKeys, id) {
+    return (selectedKeys && selectedKeys.indexOf(id) > -1 );
+  }
+
+  onSelectAllChange() {
+    this.store.dispatch(new fromActions.SelectAll(this.pageViewId, this.getSelectedRowIdentifier()));
   }
 }

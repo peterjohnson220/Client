@@ -40,6 +40,7 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   ConnectionsHrisApiService } from './hris-api';
 import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
+import {JobsApiService} from './jobs';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -61,6 +62,7 @@ import { CompanyResourcesApiService } from './company-resources';
     UserProfileApiService,
     UserFilterApiService,
     JobDescriptionApiService,
+    JobsApiService,
     TermsConditionsApiService,
     SurveySearchApiService,
     CompanySettingsApiService,

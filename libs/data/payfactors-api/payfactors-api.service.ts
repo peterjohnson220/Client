@@ -26,6 +26,14 @@ export class PayfactorsApiService {
     );
   }
 
+  patch<T>(url: string, body: any = {}, mappingFn = this.extractValueFromOdata): Observable<T> {
+    return this.http.patch<T>(`${environment.payfactorsApiUrl}${url}`, body).pipe(
+      map(mappingFn)
+    );
+  }
+
+
+
   postWithHeader<T>(url: string, body: any = {}, headers: any): Observable<T> {
     return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, body, { headers: headers }).pipe(
     );

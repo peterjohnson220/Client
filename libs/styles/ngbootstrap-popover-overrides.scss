@@ -1,0 +1,28 @@
+.popover {
+  font-size: 13px;
+}
+
+.popover-body {
+  padding: 0;
+}
+
+.popover-body-container {
+  padding: 0.5rem 0.75rem;
+  width: 260px;  
+}
+
+.popover-body-content {
+  overflow-y: auto;
+  max-height: 300px;
+  min-height: 300px;
+}
+
+.popover-body-content ul {
+  list-style: none;
+  -webkit-padding-start: 0px;
+}
+
+.popover-body-footer {
+  border-top: 1px solid #CCC;
+  background: #f7f7f7
+}

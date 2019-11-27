@@ -50,5 +50,14 @@ export class CompanyJobApiService {
     createCompanyJob(request: CompanyJob): Observable<CompanyJob> {
       return this.payfactorsApiService.post<CompanyJob>(`${this.endpoint}/`, request);
     }
+
+  getJobSummary(companyJobId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}(${companyJobId})/Default.GetJobSummary`);
+  }
+
+  patchCompanyJob(request: CompanyJob): Observable<CompanyJob> {
+    return this.payfactorsApiService.patch<CompanyJob>(`${this.endpoint}(${request.CompanyJobId})/`, request);
+  }
+
 }
 

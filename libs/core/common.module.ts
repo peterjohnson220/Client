@@ -8,7 +8,7 @@ import { DebounceClickDirective, DisableFormControlDirective } from './directive
 import {
   HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
   NewLinePipe, JobDescriptionParserPipe, WrapSubtextWithTag, DataTypeFilterPipe,
-  OrderByPipe, FilterArrayByName, GetFileExtensionCssClassPipe, StripHtmlPipe, CompPipe, ValidationErrorsPipe
+  OrderByPipe, FilterArrayByName, GetFileExtensionCssClassPipe, StripHtmlPipe, CompPipe, EmptyPlaceholderPipe, ValidationErrorsPipe
 } from './pipes';
 import { DragulaHelperService } from './services';
 import { DecimalPipe } from '@angular/common';
@@ -32,6 +32,7 @@ const declarations = [
   GetFileExtensionCssClassPipe,
   StripHtmlPipe,
   CompPipe,
+  EmptyPlaceholderPipe,
   ValidationErrorsPipe
 ];
 

@@ -96,7 +96,7 @@ describe('User Filter Feature - Saved Filters Popover', () => {
     expect(instance.trackByFilterId(0, savedFilter)).toBe(savedFilter.Id);
   });
 
-  it('should dispatch a SaveFilter action with a saveFilterObj, when handling a save filter event', () => {
+  it('should dispatch a SaveView action with a saveFilterObj, when handling a save filter event', () => {
     spyOn(store, 'dispatch');
     const saveFilterObj = {
       Name: 'Mercer 2018 Surveys',

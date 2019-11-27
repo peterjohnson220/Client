@@ -1,44 +1,47 @@
-<pf-page-with-title-bar  [isFullHeader]="showTitle" [absoluteUrl]="navigationURL" [contentNoPadding]="contentNoPadding">
-  <ng-container  page-title *ngIf="showTitle">
+<pf-page-with-title-bar [isFullHeader]="showTitle" [absoluteUrl]="navigationURL" [contentNoPadding]="contentNoPadding">
+  <ng-container page-title *ngIf="showTitle">
     {{title | titlecase}}
   </ng-container>
   <ng-container page-actions>
-    <pf-action-bar 
+    <pf-action-bar
       [pageViewId]="pageViewId" class="flex-fill"
       [showColumnChooser]="showColumnChooser"
       [showFilterChooser]="showFilterChooser"
       [allowExport]="allowExport"
       [globalFilterAlignment]="showTitle?'Right':'Left'"
       [globalActionsTemplate]="gridGlobalActionsTemplate"
-      [disableActionButtons]="selectedRowId$ | async"
       (onFilterSidebarToggle)="toggleFilterPanel()">
     </pf-action-bar>
   </ng-container>
   <ng-container page-content>
-    <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end pb-3">
-      <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
-    </div>
-    
+
     <div class="d-flex h-100">
       <div [ngClass]="(selectedRowId$ | async) ? 'main-grid-container-compact' : 'full-size-wrapper'">
-        <div class="flex-column-container">
-          <div *ngIf="(filters$ | async).length" class="filter-pills-container pt-2 pl-3" [ngClass]="{'pr-3': !(displayFilterPanel$ | async)}">
-            <pf-data-grid-filter-pills
-              [listAreaColumns]="(dataFields$ | async)"
-              [filters]="(filters$ | async)"
-              (clearFilter)="clearFilter($event)"
-              (clearAllFilters)="clearAllFilters()">
-            </pf-data-grid-filter-pills>
+        <div class="flex-column-container">          
+          <div class="no-gutters row justify-content-between pl-3 pt-1">
+            <div class="flex-fill">
+              <div class="h-100" *ngIf="userFilteredFields.length > 0">
+                <pf-data-grid-filter-pills
+                  [fields]="userFilteredFields"
+                  (clearFilter)="clearFilter($event)"
+                  (clearAllFilters)="clearAllFilters()">
+                </pf-data-grid-filter-pills>
+              </div>
+            </div>
+            <div *ngIf="gridActionsTemplate && !(selectedRowId$ | async)" class="d-flex justify-content-end">
+              <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
+            </div>
           </div>
           <div class="d-flex h-100">
             <div class="full-size-wrapper">
-              <div class="grid-container" [ngClass]="{'grid-container-with-pills': (filters$ | async).length}">
-                <pf-grid 
+              <div class="grid-container">
+                <pf-grid
                   [pageViewId]="pageViewId"
                   [selectionEntityName]="(baseEntity$ | async)?.SourceName"
                   [selectionField]="selectionField"
                   [allowSplitView]="splitViewTemplate"
                   [columnTemplates]="columnTemplates"
+                  [enableSelection]="enableSelection && !(selectedRowId$ | async)"
                   [selectedRowId]="selectedRowId$ | async">
                 </pf-grid>
               </div>
@@ -54,14 +57,23 @@
       </div>
       <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3">
         <pf-filter-panel
-          [selectedColumns]="(dataFields$ | async)"
-          [filters]="(filters$ | async)"
+          [fields]="filterableFields$ | async"
           (close)="closeFilterPanel()"
           (filterChanged)="handleFilterChanged($event)"
-          (filterCleared)="clearFilter($event)">
-        </pf-filter-panel>
+
+          (filterCleared)="clearFilter($event)"
+          (saveFilterClicked)="saveFilterClicked()">
+        </pf-filter-panel>        
       </div>
     </div>
+
+    <pf-data-grid-save-view-modal
+      [savedViews]="(savedViews$ | async)"
+      [modalOpen$]="saveViewModalOpen$"
+      [saving]="(viewIsSaving$ | async)"
+      (saved)="saveFilterHandler($event)"
+      (closed)="closeSaveViewModal()">
+    </pf-data-grid-save-view-modal>
   </ng-container>
 </pf-page-with-title-bar>
 
