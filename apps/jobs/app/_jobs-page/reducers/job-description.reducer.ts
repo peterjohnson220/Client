@@ -44,7 +44,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     case fromJobDescriptionActions.SAVE_JOB_DESCRIPTION_SUCCESS: {
       return {
         ...state,
-        updatedJobDescription: state.jobDescription,
+        jobDescription: state.updatedJobDescription,
         saving: false,
       };
     }

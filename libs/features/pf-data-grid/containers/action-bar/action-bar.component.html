@@ -1,6 +1,7 @@
 <div class="d-flex  justify-content-between">
   <div class="d-flex space-out-children">
-    <!-- Global Filters Placeholder -->    
+    <ng-container *ngIf="globalFiltersTemplate" [ngTemplateOutlet]="globalFiltersTemplate">
+    </ng-container>
   </div>
   <div class="d-flex space-out-children">
     <ng-container>
@@ -10,15 +11,13 @@
               placement="bottom-right" popoverTitle="Choose Content to Export">
         <fa-icon icon="download"></fa-icon>
       </button>
-
+      
       <pf-column-chooser *ngIf="showColumnChooser"
         [dataFields]="dataFields$ | async"
-        [disabled]="selectedRowId$ | async"
         (saveColumns)="updateFields($event)">
       </pf-column-chooser>
 
       <pf-filter-chooser *ngIf="showFilterChooser"
-        [disabled]="selectedRowId$ | async"
         [savedViews]="savedViews$ | async"
         (onFilterSidebarToggle)="toggleFilterPanel()"
         (selectView)="savedViewClicked($event)"
