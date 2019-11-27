@@ -10,7 +10,8 @@
   [allowExport]="false"
   [defaultSort]="defaultSort"
   [enableSelection]="true"
-  [splitViewTemplate]="jobsDetails" >
+  [splitViewTemplate]="jobsDetails"
+  [gridGlobalFiltersTemplate]="globalFilters">
 </pf-data-grid>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
@@ -55,3 +56,13 @@
     </h4>
   </ng-container>
 </pf-modal-form>
+
+<ng-template #globalFilters>
+  <pf-input-debounce
+    [placeholderText]="'Search for a ' + titleCodeSearchField?.DisplayName + '...'"
+    [hideClearBtn]="false"
+    [minWidth]="titleCodeSearchField?.Width"
+    [delay]="400"
+    [ngModel]="titleCodeSearchField?.FilterValue"
+    (valueChanged)="handleTitleCodeSearch($event)"></pf-input-debounce>
+</ng-template>
