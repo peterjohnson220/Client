@@ -1,14 +1,16 @@
 
 <pf-data-grid
-  [pageViewId]="'705B7FE1-42AB-4B57-A414-764E52981160'"
+  [pageViewId]="pageViewId"
   [title]="getPageTitle(company$ | async)"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
+  [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
   [showFilterChooser]="true"
   [allowExport]="false"
-  [splitViewTemplate]="jobsDetails"
-  [defaultSort]="defaultSort" >
+  [defaultSort]="defaultSort"
+  [enableSelection]="true"
+  [splitViewTemplate]="jobsDetails" >
 </pf-data-grid>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
@@ -16,8 +18,40 @@
 </ng-template>
 
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
-  <pf-jobs-details 
+  <pf-jobs-details
     [jobDetailsFilters]="splitViewFilters"
     (onClose)="splitViewEmitter.emit('close')">
   </pf-jobs-details>
 </ng-template>
+
+<ng-template #gridActions>
+  <button [pfSecuredResource]="permissions.NEW_PROJECT" [attr.data-qa-id]="'btn-addJobsToProject'" type="button" [disabled]="!selectedKeys || selectedKeys.length==0"  (click)="addJobsToProject()" class="btn btn-link">
+  <span *ngIf="!(addingToProject$ | async)">
+  <fa-icon icon="calculator"></fa-icon>
+    Add
+    <span *ngIf="selectedKeys?.length == 1"> Job</span>
+    <span *ngIf="selectedKeys?.length > 1"> ({{selectedKeys?.length}}) Jobs</span>
+    to Project
+  </span>
+  </button>
+</ng-template>
+
+<pf-modal-form
+  [modalId]="'au-modal-add-jobs-to-project'"
+  [isOpen$]="addingToProject$"
+  [size]="'md'"
+  [submitting]="false"
+  [showFooter]="false"
+  [centered]="true"
+  [title]="'Add Jobs to Project'"
+  >
+   <ng-container basic-content>
+    <h4 class="text-center pb-3 pt-3">
+        <fa-icon icon="spinner" spin="true"> </fa-icon>
+        We are adding the selected
+      <span *ngIf="selectedKeys?.length == 1"> job</span>
+      <span *ngIf="selectedKeys?.length > 1"> jobs</span>
+      to a Project
+    </h4>
+  </ng-container>
+</pf-modal-form>

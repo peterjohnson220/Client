@@ -41,6 +41,7 @@ import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
 import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
 import {OrganizationalDataApiService} from './organizational-data';
+import {JobsApiService} from './jobs';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import {OrganizationalDataApiService} from './organizational-data';
     UserProfileApiService,
     UserFilterApiService,
     JobDescriptionApiService,
+    JobsApiService,
     TermsConditionsApiService,
     SurveySearchApiService,
     CompanySettingsApiService,

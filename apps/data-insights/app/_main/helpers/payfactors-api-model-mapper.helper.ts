@@ -230,7 +230,9 @@ export class PayfactorsApiModelMapper {
         Operator: filter.Operator.Value,
         Values: filter.SelectedOptions,
         EntitySourceName: filter.Field.EntitySourceName,
-        SourceName: filter.Field.SourceName
+        SourceName: filter.Field.SourceName,
+        FilterType: null,
+        DisplayName: null
       };
     });
   }

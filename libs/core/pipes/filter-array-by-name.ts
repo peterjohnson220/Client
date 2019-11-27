@@ -9,10 +9,11 @@ import { FilterableName } from '../interfaces/FilterableName';
 */
 @Pipe({ name: 'filterArrayByName' })
 export class FilterArrayByName implements PipeTransform {
-  transform(items: FilterableName[], filter: string): any[] {
+  transform(items: FilterableName[], filter: string, property: string = null): any[] {
     if (!items) { return []; }
     if (!filter) { return items; }
 
-    return items.filter(i => i.Name.toLowerCase().includes(filter.toLowerCase()));
+    return property ? items.filter(i => i[property].toString().toLowerCase().includes(filter.toLowerCase())) :
+    items.filter(i => i.Name.toLowerCase().includes(filter.toLowerCase()));
   }
 }

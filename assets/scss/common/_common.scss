@@ -120,3 +120,7 @@ tr.row-disabled {
     color: $pf-secondary-text-disabled;
   }
 }
+
+input[type=text]::-ms-clear {
+  display: none;
+}

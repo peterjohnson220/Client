@@ -10,7 +10,7 @@ import { DebounceClickDirective, DisableFormControlDirective, DragDropDirective 
 import {
     CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
     JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag, 
-  ValidationErrorsPipe
+  EmptyPlaceholderPipe, ValidationErrorsPipe
 } from './pipes';
 import { DragulaHelperService } from './services';
 
@@ -34,6 +34,7 @@ const declarations = [
   GetFileExtensionCssClassPipe,
   StripHtmlPipe,
   CompPipe,
+  EmptyPlaceholderPipe,
   ValidationErrorsPipe
 ];
 

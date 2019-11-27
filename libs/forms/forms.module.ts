@@ -7,7 +7,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromFaIcons from './fa-icons';
-import { FocusDirective, PfValidatableDirective, PfSecuredResourceDirective } from './directives';
+import { FocusDirective, PfValidatableDirective, PfSecuredResourceDirective, PfDebounceValueChangedDirective } from './directives';
 import { ConfirmPasswordComponent, InputDebounceComponent, PfModalFormComponent,
   LocationSearchComponent, ActionButtonComponent, TypeaheadComponent } from './components';
 import { PfCommonUIModule } from '../ui/common';
@@ -17,6 +17,7 @@ const declarations = [
   PfValidatableDirective,
   FocusDirective,
   PfSecuredResourceDirective,
+  PfDebounceValueChangedDirective,
   // declarations
   ConfirmPasswordComponent,
   PfModalFormComponent,

@@ -101,11 +101,21 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/RemoveSharePermission`, request);
   }
 
-  getDataViewConfig(pageViewId: string) {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: { pageViewId: pageViewId } });
+  getDataViewConfig(pageViewId: string, name: string) {
+    const params = {
+      pageViewId: pageViewId
+    };
+    if (name) {
+      params['viewName'] = name;
+    }
+    return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: params });
   }
 
   updateDataView(request: SaveDataViewRequest) {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveView`, request);
+  }
+
+  getViewsByUser(pageViewId: string) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetViewsByUser`, { params: { pageViewId: pageViewId}});
   }
 }
