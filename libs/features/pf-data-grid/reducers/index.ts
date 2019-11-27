@@ -39,6 +39,7 @@ export const getLoading = createSelector(selectPfDataGridState, fromPfDataGridRe
 export const getBaseEntity = createSelector(selectPfDataGridState, fromPfDataGridReducer.getBaseEntity);
 export const getFields = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFields);
 export const getGroupedFields = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGroupedFields);
+export const getGlobalFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGlobalFilters);
 export const getFilterableFields = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterableFields);
 export const getPagingOptions = createSelector(selectPfDataGridState, fromPfDataGridReducer.getPagingOptions);
 export const getDefaultSortDescriptor = createSelector(selectPfDataGridState, fromPfDataGridReducer.getDefaultSortDescriptor);

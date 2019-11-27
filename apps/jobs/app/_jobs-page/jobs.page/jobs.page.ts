@@ -1,16 +1,21 @@
 import {Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
-import { cloneDeep } from 'lodash';
+
+import { Observable, Subscription } from 'rxjs';
+
 import { Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs';
+import { cloneDeep } from 'lodash';
+
+import { SortDescriptor } from '@progress/kendo-data-query';
+
+import { ViewField } from 'libs/models/payfactors-api';
+import { Permissions } from 'libs/constants';
+
+import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-import { SortDescriptor } from '@progress/kendo-data-query';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import { Permissions } from 'libs/constants';
-import {Subscribable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -26,6 +31,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   addingToProject$: Observable<boolean>;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
   colTemplates = {};
+  globalFilterSubscription: Subscription;
+  titleCodeSearchField: ViewField;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -37,6 +44,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addingToProject$ = this.store.select(fromJobsPageReducer.getToProjectButtonState);
     this.selectedKeysSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedKeys =  sk;
+    });
+    this.globalFilterSubscription = this.store.select(fromPfGridReducer.getGlobalFilters, this.pageViewId).subscribe(gf => {
+      if (gf) {
+        this.titleCodeSearchField = gf.find(f => f.SourceName === 'JobTitleCode');
+      }
     });
   }
 
@@ -60,5 +72,27 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.selectedKeysSubscription.unsubscribe();
+    this.globalFilterSubscription.unsubscribe();
+  }
+
+  handleTitleCodeSearch(value: string) {
+    this.closeSplitView();
+    if (value.length) {
+      this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, this.buildTitleCodeFilter(value)));
+    } else {
+      this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, this.buildTitleCodeFilter('')));
+    }
+  }
+
+  closeSplitView() {
+    this.store.dispatch(new fromPfGridActions.UpdateSelectedRowId(this.pageViewId, null, null));
+  }
+
+  buildTitleCodeFilter(value: string): ViewField {
+    return {
+      ...this.titleCodeSearchField,
+      FilterOperator: 'contains',
+      FilterValue: value
+    };
   }
 }
