@@ -1,0 +1,29 @@
+<ng-template #popContent>
+  <div class="popover-body-container">
+    <p>
+      <pf-input-debounce id="column-search-box" [id]="'column-chooser-search'" (valueChanged)="(filter = $event)" [placeholderText]="'Search for a Column...'"></pf-input-debounce>
+    </p>
+    <div class="popover-body-content">
+      <pf-async-container [loading]="loading"></pf-async-container>
+      <div *ngIf="!loading" class="list-group">
+        <h5 *ngIf="!(listAreaColumns | filterArrayByName: filter : 'DisplayName').length">No Columns</h5>
+        <ng-container *ngFor="let col of listAreaColumns | filterArrayByName: filter : 'DisplayName'">
+          <div *ngIf="col.IsSelectable" class="px-2 py-1">
+            <input type="checkbox" [attr.data-qa-id]="'chk-' + col.SourceName" [(ngModel)]="col.IsSelected" [disabled]="col.IsLocked">
+            <span class="pl-2">
+              {{col.Group ? col.Group + ' ': ''}}
+              {{col.DisplayName}}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="popover-body-footer d-flex justify-content-end p-2">
+    <button [attr.data-qa-id]="'btn-columnChooserSave'" (click)="saveButtonClicked()" class="btn btn-primary">Save</button>
+  </div>
+</ng-template>
+<button title="Choose Columns" type="button" id="column-popover-btn" class="btn btn-secondary" placement="bottom-right" #p="ngbPopover"
+  popoverTitle="Choose Columns" [ngbPopover]="popContent" (hidden)="onHidden()" [autoClose]="'outside'" [disabled]="disabled">
+  <fa-icon icon="table"></fa-icon>
+</button>

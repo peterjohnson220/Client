@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-between align-items-center h-100">
+  <div>
+    <div class="badge badge-pill" *ngFor="let field of fields" (click)="pillClicked(field)">
+      {{ getPillDisplay(field) }}
+      <fa-icon icon="times" aria-hidden="true"></fa-icon>
+    </div>
+  </div>
+  <div>
+    <button (click)="clearAll()" class="btn btn-secondary btn-sm">
+      Clear All Filters
+    </button>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<ng-template #popContent>
+  <div class="popover-body-container">
+    <p>
+      <pf-input-debounce id="filter-search-box" [id]="'filter-chooser-search'" (valueChanged)="(filter = $event)" [placeholderText]="'Search for a Filter...'">
+      </pf-input-debounce>
+    </p>
+    <div class="popover-body-content">
+      <div class="list-group">
+        <div *ngIf="savedViews && !(savedViews | filterArrayByName: filter).length">
+          <h5>No Filters</h5>
+        </div>
+        <div *ngFor="let view of savedViews | filterArrayByName: filter" class="p-2 filter-item" (click)="handleViewSelected(view)">
+          <span>{{view.Name}}</span>
+          <small class="filter-desc" [title]="view.Description">{{view.Description}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<div class="btn-group">
+  <button title="Filter" (click)="filterButtonClicked()" class="btn btn-secondary" [disabled]="disabled" [attr.data-qa-id]="'btn-grid-filter'">
+    <fa-icon icon="sliders-h"></fa-icon>
+  </button>
+  <button [disabled]="disabled || (savedViews && !savedViews.length)" [title]="(savedViews && !savedViews.length) ? 'No Saved Filters' : 'Saved Filters'"
+    type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="false" placement="bottom-right" #p="ngbPopover" popoverTitle="Saved Filters" [ngbPopover]="popContent" (hidden)="filter=''"
+    [autoClose]="'outside'" [attr.data-qa-id]="'btn-saved-filters'">
+  </button>
+</div>

@@ -65,9 +65,11 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   }
 
   clearValue() {
-    this.innerValue = '';
-    this.clearEvent.next('');
-    this.clearClicked.emit();
+    if (!this.disabled) {
+      this.innerValue = '';
+      this.clearEvent.next('');
+      this.clearClicked.emit();
+    }
   }
 
   onKey() {
