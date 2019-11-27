@@ -23,7 +23,7 @@ import { JobsPageRoutingModule } from './jobs-page-routing.module';
 import { JobDescriptionComponent } from './components/job-description/job-description.component';
 import { StructureGridComponent } from './components/structure-grid/structure-grid.component';
 
-import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridComponent, JobDescriptionComponent } from './components';
+import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridComponent } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
 
