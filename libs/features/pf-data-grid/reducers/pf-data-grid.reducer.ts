@@ -8,7 +8,7 @@ import { ViewField, PagingOptions, DataViewEntity, DataViewConfig, SimpleDataVie
 
 import * as fromPfGridActions from '../actions';
 import { PfDataGridFilter } from '../models';
-import { FilterOperatorOptions, getHumanizedFilter, isValueRequired } from '../components';
+import { getHumanizedFilter, getDefaultFilterOeprator } from '../components';
 
 export interface DataGridState {
   pageViewId: string;
@@ -70,7 +70,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             fields: updateFieldsWithFilters(action.payload.Fields, action.payload.Filters, state.grids[action.pageViewId].inboundFilters),
-            groupedFields: buildGroupedFields(resetFieldOperator(action.payload.Fields)),
+            groupedFields: buildGroupedFields(resetFieldOperators(action.payload.Fields)),
             baseEntity: action.payload.Entity,
             loading: false
           }
@@ -184,7 +184,11 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       };
     case fromPfGridActions.CLEAR_FILTER:
       const clearedFilterFields = cloneDeep(state.grids[action.pageViewId].fields);
-      const clearedFilterField = clearedFilterFields.find(f => f.DataElementId === action.payload.DataElementId);
+      const clearedFilterField = clearedFilterFields.find(f => f.DataElementId === action.field.DataElementId);
+
+      if (clearedFilterField && action.resetOperator) {
+        clearedFilterField.FilterOperator = getDefaultFilterOeprator(clearedFilterField);
+      }
 
       clearedFilterField.FilterValue = null;
 
@@ -205,7 +209,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: resetFieldOperator(state.grids[action.pageViewId].fields)
+            fields: resetFieldOperators(state.grids[action.pageViewId].fields)
           }
         }
       };
@@ -439,16 +443,13 @@ export function buildGroupedFields(fields: ViewField[]): any[] {
   return result;
 }
 
-
-export function resetFieldOperator(fields: ViewField[]): ViewField[] {
+export function resetFieldOperators(fields: ViewField[]): ViewField[] {
   return cloneDeep(fields).map(
     field => {
       return {
         ...field,
         FilterValue: null,
-        FilterOperator: FilterOperatorOptions[field.DataType] ?
-          FilterOperatorOptions[field.DataType].find(f => f.defaultOperatorForType).value :
-          null
+        FilterOperator: getDefaultFilterOeprator(field)
       };
     }
   );
@@ -456,10 +457,10 @@ export function resetFieldOperator(fields: ViewField[]): ViewField[] {
 
 export function updateFieldsWithFilters(fields: ViewField[], filters: DataViewFilter[], inboundFilters: PfDataGridFilter[]): ViewField[] {
 
-  let updatedFields = resetFieldOperator(fields);
+  let updatedFields = resetFieldOperators(fields);
 
   filters.forEach(filter => {
-    const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.EntitySourceName === filter.EntitySourceName)
+    const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.EntitySourceName === filter.EntitySourceName);
     fieldToUpdate.FilterOperator = filter.Operator;
     fieldToUpdate.FilterValue = filter.Values[0];
   });

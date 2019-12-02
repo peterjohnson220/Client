@@ -51,3 +51,9 @@ export function isValueRequired(field: ViewField) {
   FilterOperatorOptions[field.DataType].filter(o => field.FilterOperator === o.value)[0].requiresValue
   : true;
 }
+
+export function getDefaultFilterOeprator(field: ViewField){
+  return FilterOperatorOptions[field.DataType] ?
+  FilterOperatorOptions[field.DataType].find(f => f.defaultOperatorForType).value :
+  null;
+}

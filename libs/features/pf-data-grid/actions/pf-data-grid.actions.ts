@@ -90,7 +90,7 @@ export class UpdateFilter implements Action {
 
 export class ClearFilter implements Action {
   readonly type = CLEAR_FILTER;
-  constructor(public pageViewId: string, public payload: ViewField) { }
+  constructor(public pageViewId: string, public field: ViewField, public resetOperator = false) { }
 }
 
 export class ClearAllFilters implements Action {
