@@ -74,5 +74,8 @@
         </kendo-grid-column>
       </ng-container>
     </ng-container>
+    <ng-template *ngIf="noRecordsFound" kendoGridNoRecordsTemplate>
+      {{noRecordsFound}}
+    </ng-template>
   </kendo-grid>
 </pf-async-container>

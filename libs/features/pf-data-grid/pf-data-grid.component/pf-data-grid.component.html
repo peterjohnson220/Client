@@ -43,6 +43,7 @@
                   [allowSplitView]="splitViewTemplate"
                   [columnTemplates]="columnTemplates"
                   [enableSelection]="enableSelection && !(selectedRowId$ | async)"
+                  [noRecordsFound]="noRecordsFound"
                   [selectedRowId]="selectedRowId$ | async">
                 </pf-grid>
               </div>
