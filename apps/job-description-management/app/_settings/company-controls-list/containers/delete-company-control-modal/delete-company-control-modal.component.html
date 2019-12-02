@@ -9,26 +9,28 @@
     <ng-container *ngIf="(templatesWithControlType$ | async) as templates">
         <div class="modal-body">
             <pf-async-container [smartLoadingMask]="true" [loading]="templates.loading" [loadingError]="templates.loadingError">
-                <ng-container *ngIf="templates.obj.length">
-                    This content control is being used by the following templates and cannot be deleted:
-                    <table class="table mt-3">
-                        <thead>
-                            <th>Template Name</th>
-                            <th>Template Status</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let template of templates.obj">
-                                <td>{{template.TemplateName}}</td>
-                                <td>
-                                    <pf-status-pill [status]="template.TemplateStatus"></pf-status-pill></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <ng-container *ngIf="!templates.loading">
+                    <ng-container *ngIf="templates.obj.length">
+                        This content control is being used by the following templates and cannot be deleted:
+                        <table class="table mt-3">
+                            <thead>
+                                <th>Template Name</th>
+                                <th>Template Status</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let template of templates.obj">
+                                    <td>{{template.TemplateName}}</td>
+                                    <td>
+                                        <pf-status-pill [status]="template.TemplateStatus"></pf-status-pill></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-container>
+                    <ng-container *ngIf="!templates.obj.length">
+                        Are you sure you want to delete the <strong>{{companyControl.Name}}</strong> content control?
+                    </ng-container>
+                    <span class="help-block text-danger" *ngIf="(deleteControlError$ | async)">{{( deleteControlErrorMessage$ | async)}}</span>
                 </ng-container>
-                <ng-container *ngIf="!templates.obj.length">
-                    Are you sure you want to delete the <strong>{{companyControl.Name}}</strong> content control?
-                </ng-container>
-                <span class="help-block text-danger" *ngIf="(deleteControlError$ | async)">{{( deleteControlErrorMessage$ | async)}}</span>
             </pf-async-container>
         </div>
 

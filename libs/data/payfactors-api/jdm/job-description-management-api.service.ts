@@ -124,7 +124,8 @@ export class JobDescriptionManagementApiService {
   }
 
   controlNameExists(controlName: string) {
-    return this.payfactorsApiService.get(`${this.endpoint}.ControlExists?controlName=${controlName}`);
+    const params = { params: { controlName } };
+    return this.payfactorsApiService.get(`${this.endpoint}.ControlExists`, params);
   }
 
   saveControl(controlType: ControlType) {
