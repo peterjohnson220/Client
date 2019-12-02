@@ -2,16 +2,16 @@ import { RateType } from 'libs/data/data-sets';
 
 import { ExchangeDataSearchFilter, generateMockExchangeDataSearchFilter } from '../exchange-data-search-filter.model';
 
-export interface ExchangeDataCutsExportRequest {
+export interface ExchangeDataCutsExportRequest<TFilterType> {
   ExchangeId: number;
   ExchangeName: string;
   ExchangeJobToCompanyJobIds: number[];
-  FilterModel: ExchangeDataSearchFilter;
+  FilterModel: TFilterType;
   SelectedRate: string;
   SelectedExchangeScopeGuids: string[];
 }
 
-export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExportRequest {
+export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExportRequest<ExchangeDataSearchFilter> {
   return {
     ExchangeId: 44,
     ExchangeName: 'MockExchange',

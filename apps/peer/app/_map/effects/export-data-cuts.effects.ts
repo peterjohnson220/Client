@@ -9,6 +9,9 @@ import { ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
 import { ExchangeDataCutsExportRequest } from 'libs/models/peer/requests';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api/settings';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+import { ExchangeDataSearchFilter } from 'libs/models/peer';
 import * as fromLibsPeerMapReducers from 'libs/features/peer/map/reducers';
 
 import * as fromPeerMapReducer from '../reducers/';
@@ -36,7 +39,7 @@ export class ExportDataCutsEffects {
             SelectedExchangeScopeGuids: action.payload.scopes
           };
       }),
-      switchMap((payload: ExchangeDataCutsExportRequest) => {
+      switchMap((payload: ExchangeDataCutsExportRequest<ExchangeDataSearchFilter>) => {
         return this.exchangeDataCutsApiService.exportExchangeDataCuts(payload).pipe(
           map(() => {
             return new fromExportDataCutsActions.ExportDataCutsSuccess;
@@ -45,6 +48,33 @@ export class ExportDataCutsEffects {
         );
       })
     );
+
+  @Effect()
+  exportDataCutsNew$: Observable<Action> = this.actions$.pipe(
+    ofType(fromExportDataCutsActions.EXPORT_DATA_CUTS_NEW),
+    withLatestFrom(
+      this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchangeName)),
+      this.exchangeExplorerContextService.selectFilterContext(),
+      this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections)),
+      (action: fromExportDataCutsActions.ExportDataCuts, exchangeName, filterContext, gridSelections) => {
+        return {
+          ExchangeId: filterContext.FilterContext.ExchangeId,
+          ExchangeName: exchangeName,
+          ExchangeJobToCompanyJobIds: gridSelections,
+          FilterModel: action.payload.exportCurrentMap ? filterContext : null,
+          SelectedRate: action.payload.selectedRate,
+          SelectedExchangeScopeGuids: action.payload.scopes
+        };
+      }),
+    switchMap((payload: ExchangeDataCutsExportRequest<BaseExchangeDataSearchRequest>) => {
+      return this.exchangeDataCutsApiService.exportExchangeDataCutsNew(payload).pipe(
+        map(() => {
+          return new fromExportDataCutsActions.ExportDataCutsSuccess;
+        }),
+        catchError(() => of(new fromExportDataCutsActions.ExportDataCutsError()))
+      );
+    })
+  );
 
   @Effect()
   selectRateForExport$ = this.actions$
@@ -68,6 +98,7 @@ export class ExportDataCutsEffects {
     private store: Store<fromPeerMapReducer.State>,
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
     private libsPeerMapStore: Store<fromLibsPeerMapReducers.State>,
+    private exchangeExplorerContextService: ExchangeExplorerContextService,
     private exchangeDataCutsApiService: ExchangeDataCutsApiService,
     private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService
   ) {}
