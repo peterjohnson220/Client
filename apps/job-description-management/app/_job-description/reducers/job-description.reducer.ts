@@ -84,7 +84,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       asyncStateObjClone.obj = action.payload.jobDescription;
 
       let editing: boolean = asyncStateObjClone.obj.JobDescriptionStatus === 'Draft' ||
-        (asyncStateObjClone.obj.JobDescriptionStatus === 'In Review' && asyncStateObjClone.obj.identityInWorkflow);
+        (asyncStateObjClone.obj.JobDescriptionStatus === 'In Review' && action.payload.requestData.InWorkflow);
       let changeHistory = [];
       let recentChange = state.jobDescriptionAsync.obj;
       if (action.payload.requestData.InHistory) {
