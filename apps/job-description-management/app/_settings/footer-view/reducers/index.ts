@@ -32,6 +32,9 @@ export const footerViewState = createSelector(
 );
 
 export const getFooterViewObj =  createSelector(footerViewState, fromFooterViewListReducer.getJdmFooterViewObj);
+export const getLoading =  createSelector(footerViewState, fromFooterViewListReducer.getLoading);
+export const getSaving =  createSelector(footerViewState, fromFooterViewListReducer.getSaving);
 export const getLoadingError =  createSelector(footerViewState, fromFooterViewListReducer.getLoadingError);
 export const getSavingError =  createSelector(footerViewState, fromFooterViewListReducer.getSavingError);
 export const getSavingSuccess =  createSelector(footerViewState, fromFooterViewListReducer.getSavingSuccess);
+export const getLoadingSuccess =  createSelector(footerViewState, fromFooterViewListReducer.getLoadingSuccess);
