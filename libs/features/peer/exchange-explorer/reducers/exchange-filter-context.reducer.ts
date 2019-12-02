@@ -97,7 +97,7 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
 
 // Selector Functions
 export const getHasAppliedContext = (state: State) => state.hasBeenSet;
-export const getScopeSelection = (state: State) => state.selectedScope;
+export const getScopeGuid = (state: State) => state.ScopeGUID;
 export const getLimitToPayMarket = (state: State) => state.LimitToPayMarket;
 export const getIncludeUntaggedIncumbents = (state: State) => state.IncludeUntaggedIncumbents;
 export const getExcludeIndirectJobMatches = (state: State) => !state.IsFilteredBySimilarExchangeJobIds;
