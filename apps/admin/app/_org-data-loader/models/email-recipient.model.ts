@@ -7,6 +7,7 @@ export interface EmailRecipientModel {
   LastName: string;
   LoaderType: string;
   IsCompanyServicesRep: boolean;
+  UserPicture: string;
 }
 
 export function GenerateMockEmailRecipient(): EmailRecipientModel {
@@ -18,6 +19,7 @@ export function GenerateMockEmailRecipient(): EmailRecipientModel {
     FirstName: 'Mock',
     LastName: 'Recipient',
     LoaderType: 'OrgData',
-    IsCompanyServicesRep: false
+    IsCompanyServicesRep: false,
+    UserPicture: 'default_user.png'
   };
 }
