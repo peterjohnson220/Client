@@ -3,7 +3,7 @@ import { ViewField } from 'libs/models/payfactors-api';
 export interface FilterOperator {
   display: string;
   value: string;
-  requiresValue: boolean; // used for operators like is empty, is not empty, etc. 
+  requiresValue: boolean; // used for operators like is empty, is not empty, etc.
   defaultOperatorForType: boolean;
 }
 

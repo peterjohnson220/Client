@@ -32,6 +32,8 @@ export const OPEN_SAVE_VIEW_MODAL = '[PfDataGrid] Open Save View Modal';
 export const CLOSE_SAVE_VIEW_MODAL = '[PfDataGrid] Close Save View Modal';
 export const UPDATE_SELECTED_KEY =  '[PfDataGrid] Update selected key';
 export const SELECT_ALL =  '[PfDataGrid] Select All';
+export const HANDLE_SAVED_VIEW_CLICKED = '[PfDataGrid] Handle Saved View Clicked';
+export const CLOSE_SPLIT_VIEW = '[PfDataGrid] Close Split View';
 
 export class LoadViewConfig implements Action {
     readonly type = LOAD_VIEW_CONFIG;
@@ -168,9 +170,19 @@ export class  UpdateSelectedKey implements  Action {
   constructor(public pageViewId: string, public payload: number) { }
 }
 
-export class  SelectAll implements  Action {
+export class SelectAll implements  Action {
   readonly  type = SELECT_ALL;
   constructor(public pageViewId: string, public primaryKey: string) { }
+}
+
+export class HandleSavedViewClicked implements Action {
+  readonly type = HANDLE_SAVED_VIEW_CLICKED;
+  constructor(public pageViewId: string, public viewName: string) { }
+}
+
+export class CloseSplitView implements Action {
+  readonly type = CLOSE_SPLIT_VIEW;
+  constructor(public pageViewId: string) { }
 }
 
 export type DataGridActions =
@@ -201,4 +213,6 @@ export type DataGridActions =
     | SaveViewError
     | OpenSaveViewModal
     | CloseSaveViewModal
-    | SelectAll;
+    | SelectAll
+    | HandleSavedViewClicked
+    | CloseSplitView;

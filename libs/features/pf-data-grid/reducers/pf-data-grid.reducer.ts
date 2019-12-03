@@ -371,6 +371,18 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.CLOSE_SPLIT_VIEW:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedRowId: null,
+            splitViewFilters: []
+          }
+        }
+      };
     default:
       return state;
   }
@@ -459,7 +471,7 @@ export function updateFieldsWithFilters(fields: ViewField[], filters: DataViewFi
   let updatedFields = resetFieldOperator(fields);
 
   filters.forEach(filter => {
-    const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.EntitySourceName === filter.EntitySourceName)
+    const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.EntitySourceName === filter.EntitySourceName);
     fieldToUpdate.FilterOperator = filter.Operator;
     fieldToUpdate.FilterValue = filter.Values[0];
   });

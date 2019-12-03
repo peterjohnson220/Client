@@ -1,4 +1,3 @@
-
 <pf-data-grid
   [pageViewId]="pageViewId"
   [title]="getPageTitle(company$ | async)"
@@ -46,11 +45,11 @@
   [centered]="true"
   [allowDismiss]="false"
   [title]="'Add Jobs to Project'"
-  >
-   <ng-container basic-content>
+>
+  <ng-container basic-content>
     <h4 class="text-center pb-3 pt-3">
-        <fa-icon icon="spinner" spin="true"> </fa-icon>
-        We are adding the selected
+      <fa-icon icon="spinner" spin="true"> </fa-icon>
+      We are adding the selected
       <span *ngIf="selectedKeys?.length == 1"> job</span>
       <span *ngIf="selectedKeys?.length > 1"> jobs</span>
       to a Project
@@ -60,9 +59,9 @@
 
 <ng-template #globalFilters>
   <pf-input-debounce
-    [placeholderText]="'Search for a ' + titleCodeSearchField?.DisplayName + '...'"
+    [placeholderText]="'Search for a Job Title or Code...'"
     [hideClearBtn]="false"
-    [minWidth]="titleCodeSearchField?.Width"
+    [minWidth]="300"
     [delay]="400"
     [ngModel]="titleCodeSearchField?.FilterValue"
     (valueChanged)="handleTitleCodeSearch($event)"></pf-input-debounce>
