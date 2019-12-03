@@ -24,7 +24,7 @@
               <div class="h-100" *ngIf="userFilteredFields.length > 0">
                 <pf-data-grid-filter-pills
                   [fields]="userFilteredFields"
-                  (clearFilter)="clearFilter($event)"
+                  (clearFilter)="clearFilter($event, true)"
                   (clearAllFilters)="clearAllFilters()">
                 </pf-data-grid-filter-pills>
               </div>

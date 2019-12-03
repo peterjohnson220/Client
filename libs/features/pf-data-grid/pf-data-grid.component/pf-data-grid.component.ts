@@ -116,8 +116,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, field));
   }
 
-  clearFilter(field: ViewField) {
-    this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, field));
+  clearFilter(field: ViewField, resetOperator = false) {
+    this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, field, resetOperator));
   }
 
   clearAllFilters() {
