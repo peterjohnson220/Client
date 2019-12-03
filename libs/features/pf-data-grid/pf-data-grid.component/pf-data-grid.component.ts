@@ -82,7 +82,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.splitViewEmitter.unsubscribe();
-    this.userFilteredFieldsSubscription .unsubscribe();
+    this.userFilteredFieldsSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
