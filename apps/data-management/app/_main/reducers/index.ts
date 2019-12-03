@@ -84,3 +84,13 @@ export const getOrganizationalHeadersLink = createSelector(
   selectOrganizationalDataPageState,
   fromOrganizationalDataPageReducer.getOrganizationalHeadersLink
 );
+
+export const getOrganizationalHeadersLinkError = createSelector(
+  selectOrganizationalDataPageState,
+  fromOrganizationalDataPageReducer.getOrganizationalHeadersLinkError
+);
+
+export const getModalStateOpen = createSelector(
+  selectOrganizationalDataPageState,
+  fromOrganizationalDataPageReducer.getModalStateOpen
+);

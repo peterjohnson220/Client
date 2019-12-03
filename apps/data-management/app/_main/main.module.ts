@@ -8,7 +8,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonModule } from 'libs/core';
@@ -46,6 +46,7 @@ import { reducers } from './reducers';
     ]),
     FontAwesomeModule,
     NgbTooltipModule,
+    NgbAlertModule,
     UploadModule,
 
     // Payfactors

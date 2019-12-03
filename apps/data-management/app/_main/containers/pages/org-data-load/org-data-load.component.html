@@ -11,17 +11,23 @@
   </ng-container>
   <ng-container page-content>
 
+
     <div class=" w-100 d-flex justify-content-center">
       <div class="w-75 ">
         <h4 class="my-2">Load Organizational Data</h4>
         <div class="shadow p-3 rounded container-background">
 
+          <ngb-alert *ngIf="isModalOpen$ | async"
+                     [type]="'danger'"
+                     (close)="setModalOpen(false)">Unable to download template file. Please contact services.
+          </ngb-alert>
           <div class="font-weight-bold pb-3">{{this.StepHeaders[this.stepIndex - 1]}}
             <span *ngIf="stepIndex === stepEnum.Files"
                   class="text-info float-right small py-2">
               <a href="#"
                  (click)="download($event)"
-                 id="data">Download Data</a> - <a href="{{organizationalDataTemplateLink}}"
+                 id="data">Download Data</a> - <a href="#"
+                 (click)="goToLink(this.organizationalDataTemplateLink)"
                  id="template">Field Descriptions</a>
             </span>
           </div>
