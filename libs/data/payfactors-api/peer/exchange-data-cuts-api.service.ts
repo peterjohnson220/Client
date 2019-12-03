@@ -31,7 +31,7 @@ export class ExchangeDataCutsApiService {
   }
 
   exportExchangeDataCutsNew(payload: ExchangeDataCutsExportRequest<BaseExchangeDataSearchRequest>): Observable<any> {
-    return this.payfactorsApiService.downloadFile(`${this.endpoint}/ExportExchangeDataCutsNew`, payload);
+    return this.payfactorsApiService.post(`${this.endpoint}/ExportExchangeDataCutsNew`, payload);
   }
 
   validateCutEmployeeSimilarity(searchFilter: ExchangeDataSearchFilter,
