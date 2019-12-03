@@ -12,4 +12,5 @@ export class UiPersistenceSettingConstants {
   static readonly ShowStandardReportsSection = 'ShowStandardReportsSection';
   static readonly DashboardView = 'DashboardView';
   static readonly DashboardViewThumbnailEnabled = 'DashboardViewThumbnailEnabled';
+  static readonly ExchangeDataCutsExportWeightingTypeSelection = 'ExchangeDataCutsExportWeightingTypeSelection';
 }

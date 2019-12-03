@@ -8,17 +8,19 @@ export const OPEN_EXPORT_DATA_CUTS_MODAL = '[Peer Main/Map/Export Data Cuts] Ope
 export const CLOSE_EXPORT_DATA_CUTS_MODAL = '[Peer Main/Map/Export Data Cuts] Close Export Data Cuts Modal';
 export const SELECT_RATE = '[Peer Main/Map/Export Data Cuts] Select Rate';
 export const SELECTED_RATE_PERSISTED = '[Peer Main/Map/Export Data Cuts] Selected Rate Persisted';
+export const SELECT_WEIGHTING_TYPE = '[Peer Main/Map/Export Data Cuts] Select Weighting Type';
+export const SELECTED_WEIGHTING_TYPE_PERSISTED = '[Peer Main/Map/Export Data Cuts] Selected Weighting Type Persisted';
 
 export class ExportDataCuts implements Action {
   readonly type = EXPORT_DATA_CUTS;
 
-  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean}) {}
+  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean, selectedWeightingType: string}) {}
 }
 
 export class ExportDataCutsNew implements Action {
   readonly type = EXPORT_DATA_CUTS_NEW;
 
-  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean}) {}
+  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean, selectedWeightingType: string}) {}
 }
 
 export class ExportDataCutsSuccess implements Action {
@@ -47,6 +49,16 @@ export class SelectedRatePersisted implements Action {
   readonly type = SELECTED_RATE_PERSISTED;
 }
 
+export class SelectWeightingType implements Action {
+  readonly type = SELECT_WEIGHTING_TYPE;
+
+  constructor(public payload: {newWeightingType: string}) {}
+}
+
+export class SelectedWeightingTypePersisted implements Action {
+  readonly type = SELECTED_WEIGHTING_TYPE_PERSISTED;
+}
+
 export type Actions
   = ExportDataCuts
   | ExportDataCutsNew
@@ -55,4 +67,6 @@ export type Actions
   | OpenExportDataCutsModal
   | CloseExportDataCutsModal
   | SelectRate
-  | SelectedRatePersisted;
+  | SelectedRatePersisted
+  | SelectWeightingType
+  | SelectedWeightingTypePersisted;

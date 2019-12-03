@@ -1,8 +1,12 @@
 <label *ngIf="includeLabel" for="weights-dropdown">Weight: </label>
-<kendo-dropdownlist class="weighting-type-dropdown-width"
+<kendo-dropdownlist class="weighting-type-dropdown-width k-dropdown-white"
                     id="weights-dropdown"
                     [data]="weights"
                     [ngModel]="selectedWeightingType"
+                    [popupSettings]="{
+                            popupClass: 'drop-up',
+                            appendTo: 'component'
+                          }"
                     [textField]="'Name'"
                     [valueField]="'Value'"
                     (selectionChange)="handleDropdownValueChanged($event)">

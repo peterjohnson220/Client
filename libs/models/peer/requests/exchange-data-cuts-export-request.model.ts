@@ -1,4 +1,5 @@
 import { RateType } from 'libs/data/data-sets';
+import { WeightingType } from 'libs/constants/weighting-type';
 
 import { ExchangeDataSearchFilter, generateMockExchangeDataSearchFilter } from '../exchange-data-search-filter.model';
 
@@ -9,6 +10,7 @@ export interface ExchangeDataCutsExportRequest<TFilterType> {
   FilterModel: TFilterType;
   SelectedRate: string;
   SelectedExchangeScopeGuids: string[];
+  SelectedWeightingType: string;
 }
 
 export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExportRequest<ExchangeDataSearchFilter> {
@@ -18,6 +20,7 @@ export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExp
     ExchangeJobToCompanyJobIds: [1, 2],
     FilterModel: generateMockExchangeDataSearchFilter(),
     SelectedRate: RateType.Annual,
-    SelectedExchangeScopeGuids: ['1234567890']
+    SelectedExchangeScopeGuids: ['1234567890'],
+    SelectedWeightingType: WeightingType.INC
   };
 }

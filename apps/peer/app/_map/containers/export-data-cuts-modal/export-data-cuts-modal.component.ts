@@ -11,9 +11,11 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { FeatureAreaConstants, GenericMenuItem, GridTypeEnum, UiPersistenceSettingConstants } from 'libs/models/common';
 import { PfValidators } from 'libs/forms/validators';
 import { KendoDropDownItem } from 'libs/models/kendo';
+import { WeightingType } from 'libs/constants/weighting-type';
 import { Rates, RateType } from 'libs/data/data-sets';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 
 import * as fromExchangeCompanyJobGridActions from '../../actions/exchange-company-job-grid.actions';
 import * as fromExportDataCutsActions from '../../actions/export-data-cuts.actions';
@@ -40,9 +42,11 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   selectAllState$: Observable<SelectAllCheckboxState>;
   allIds$: Observable<number[]>;
   persistedRateForExport$: Observable<string>;
+  persistedWeightingTypeForExport$: Observable<string>;
 
   exportDataCutsModalOpenSubscription: Subscription;
   persistedRateForExportSubscription: Subscription;
+  persistedWeightingTypeForExportSubscription: Subscription;
   exportingJobsErrorSubscription: Subscription;
   gridDataResultSubscription: Subscription;
   gridStateSubscription: Subscription;
@@ -61,6 +65,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
   scopesToExportOptions: GenericMenuItem[] = [];
   selectedScopesToExport: GenericMenuItem[] = [];
+  selectedWeightingType = WeightingType.INC_WEIGHTED;
   readonly currentMapViewOptionValue = 'Current Map View';
 
   constructor(
@@ -82,6 +87,11 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.persistedRateForExport$ = this.settingsService.selectUiPersistenceSetting(
       FeatureAreaConstants.PeerManageScopes,
       UiPersistenceSettingConstants.ExchangeDataCutsExportRateSelection,
+      'string'
+    );
+    this.persistedWeightingTypeForExport$ = this.settingsService.selectUiPersistenceSetting(
+      FeatureAreaConstants.PeerManageScopes,
+      UiPersistenceSettingConstants.ExchangeDataCutsExportWeightingTypeSelection,
       'string'
     );
 
@@ -115,10 +125,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
+    const weightingType = this.selectedWeightingType === WeightingType.INC_WEIGHTED ? WeightingType.INC : WeightingType.ORG;
     const payload = {
         selectedRate: this.selectedRate.Value,
         scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => s.Value),
-        exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue)
+        exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue),
+        selectedWeightingType: weightingType
       };
     const action = this.isFromNewMap ?
       new fromExportDataCutsActions.ExportDataCutsNew(payload) :
@@ -186,11 +198,21 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExportDataCutsActions.SelectRate({newRate: item.Value}));
   }
 
+  handleWeightingTypeChanged(selectedWeightingType: string) {
+    this.selectedWeightingType = selectedWeightingType === WeightingType.INC ? WeightingType.INC_WEIGHTED : WeightingType.ORG_WEIGHTED;
+    this.store.dispatch(new fromExportDataCutsActions.SelectWeightingType({newWeightingType: this.selectedWeightingType}));
+  }
+
   // Lifecycle
   ngOnInit() {
     this.persistedRateForExportSubscription = this.persistedRateForExport$.subscribe(rate => {
       if (!!rate) {
         this.selectedRate = Rates.find(r => r.Value === rate);
+      }
+    });
+    this.persistedWeightingTypeForExportSubscription = this.persistedWeightingTypeForExport$.subscribe(weightingType => {
+      if (!!weightingType) {
+        this.selectedWeightingType = weightingType;
       }
     });
     this.exportDataCutsModalOpenSubscription = this.exportDataCutsModalOpen$.subscribe(isOpen => {
@@ -232,6 +254,8 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.gridStateSubscription.unsubscribe();
     this.gridDataResultSubscription.unsubscribe();
     this.allIdsSubscription.unsubscribe();
+    this.persistedWeightingTypeForExportSubscription.unsubscribe();
+    this.persistedRateForExportSubscription.unsubscribe();
   }
 
   // Helper methods

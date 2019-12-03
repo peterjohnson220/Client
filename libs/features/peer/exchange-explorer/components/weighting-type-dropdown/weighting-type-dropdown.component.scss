@@ -1,5 +1,11 @@
 .weighting-type-dropdown-width {
-  width: 115px;
+  width: 125px;
+}
+
+::ng-deep .drop-up {
+  top: -106px;
+  width: 100%;
+  position: absolute;
 }
 
 label {

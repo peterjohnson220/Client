@@ -7,7 +7,7 @@ exports[`Weighting Type Toggle should load the dropdown with default options 1`]
   weights={[Function Array]}
 >
   <kendo-dropdownlist
-    class="weighting-type-dropdown-width"
+    class="weighting-type-dropdown-width k-dropdown-white"
     id="weights-dropdown"
   />
 </pf-weighting-type-dropdown>

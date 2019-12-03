@@ -36,7 +36,8 @@ export class ExportDataCutsEffects {
             ExchangeJobToCompanyJobIds: gridSelections,
             FilterModel: action.payload.exportCurrentMap ? filterModel : null,
             SelectedRate: action.payload.selectedRate,
-            SelectedExchangeScopeGuids: action.payload.scopes
+            SelectedExchangeScopeGuids: action.payload.scopes,
+            SelectedWeightingType: action.payload.selectedWeightingType
           };
       }),
       switchMap((payload: ExchangeDataCutsExportRequest<ExchangeDataSearchFilter>) => {
@@ -63,7 +64,8 @@ export class ExportDataCutsEffects {
           ExchangeJobToCompanyJobIds: gridSelections,
           FilterModel: action.payload.exportCurrentMap ? filterContext : null,
           SelectedRate: action.payload.selectedRate,
-          SelectedExchangeScopeGuids: action.payload.scopes
+          SelectedExchangeScopeGuids: action.payload.scopes,
+          SelectedWeightingType: action.payload.selectedWeightingType
         };
       }),
     switchMap((payload: ExchangeDataCutsExportRequest<BaseExchangeDataSearchRequest>) => {
@@ -88,6 +90,23 @@ export class ExportDataCutsEffects {
         })
           .pipe(
             map(() => new fromExportDataCutsActions.SelectedRatePersisted()),
+            catchError(() => of())
+          );
+      })
+    );
+
+  @Effect()
+  selectWeightingTypeForExport = this.actions$
+    .pipe(
+      ofType(fromExportDataCutsActions.SELECT_WEIGHTING_TYPE),
+      switchMap((action: fromExportDataCutsActions.SelectWeightingType) => {
+        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
+          FeatureArea: FeatureAreaConstants.PeerManageScopes,
+          SettingName: UiPersistenceSettingConstants.ExchangeDataCutsExportWeightingTypeSelection,
+          SettingValue: action.payload.newWeightingType
+        })
+          .pipe(
+            map(() => new fromExportDataCutsActions.SelectedWeightingTypePersisted()),
             catchError(() => of())
           );
       })
