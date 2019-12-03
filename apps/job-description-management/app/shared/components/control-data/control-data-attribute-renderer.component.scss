@@ -11,9 +11,11 @@
   display: inline-block;
   margin-right: 0.75rem;
 }
+
 .form-check-inline .form-check-label {
   vertical-align: middle;
 }
+
 .form-check-inline + .form-check-inline {
   margin-left: 0rem;
 }
@@ -21,4 +23,8 @@
 .form-check-label {
   padding-left: 0;
   padding-right: 1.25rem;
+}
+
+:host /deep/ .ql-editor  {
+  min-height: inherit;
 }
