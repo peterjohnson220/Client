@@ -121,7 +121,8 @@ export class PayfactorsApiModelMapper {
       DataType: this.mapDataViewFieldDataTypeToFieldDataType(dataViewField.DataType),
       IsSelected: dataViewField.IsSelected,
       Order: dataViewField.Order,
-      IsSortable: dataViewField.IsSortable
+      IsSortable: dataViewField.IsSortable,
+      DataElementOrder: dataViewField.DataElementOrder
     };
   }
 
