@@ -10,7 +10,8 @@
   [defaultSort]="defaultSort"
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
-  [gridGlobalFiltersTemplate]="globalFilters">
+  [gridGlobalFiltersTemplate]="globalFilters"
+  [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'">
 </pf-data-grid>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
