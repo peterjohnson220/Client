@@ -46,6 +46,6 @@ export class ActionBarComponent implements OnChanges {
   }
 
   savedViewClicked(view: SimpleDataView) {
-    this.store.dispatch(new fromActions.LoadViewConfig(this.pageViewId, view.Name));
+    this.store.dispatch(new fromActions.HandleSavedViewClicked(this.pageViewId, view.Name));
   }
 }

@@ -187,6 +187,18 @@ export class PfDataGridEffects {
             })
         );
 
+    @Effect()
+    handleSavedViewClicked$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(fromPfDataGridActions.HANDLE_SAVED_VIEW_CLICKED),
+        mergeMap((action: any) => {
+          return [
+            new fromPfDataGridActions.CloseSplitView(action.pageViewId),
+            new fromPfDataGridActions.LoadViewConfig(action.pageViewId, action.viewName)
+          ];
+        })
+      );
+
     static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number,
         fields: ViewField[], name: string): SaveDataViewRequest {
         return <SaveDataViewRequest>{

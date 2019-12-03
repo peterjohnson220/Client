@@ -375,6 +375,18 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.CLOSE_SPLIT_VIEW:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedRowId: null,
+            splitViewFilters: []
+          }
+        }
+      };
     default:
       return state;
   }
