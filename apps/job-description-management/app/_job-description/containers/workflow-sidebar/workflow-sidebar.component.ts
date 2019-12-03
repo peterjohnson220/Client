@@ -1,8 +1,9 @@
-import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { filter, distinctUntilChanged } from 'rxjs/operators';
 
 import { JobDescription } from 'libs/models/jdm/index';
 import { WorkflowStepInfo } from 'libs/models/security/index';
@@ -19,9 +20,8 @@ import { WorkflowLogEntry } from '../../models';
   templateUrl: './workflow-sidebar.component.html',
   styleUrls: ['./workflow-sidebar.component.scss']
 })
-export class WorkflowSidebarComponent implements OnChanges {
+export class WorkflowSidebarComponent implements OnInit, OnDestroy {
   @Input() workflowStepInfo: WorkflowStepInfo;
-  @Input() jobDescription: JobDescription;
   @Input() workflowStepCompleted: boolean;
 
 
@@ -29,8 +29,10 @@ export class WorkflowSidebarComponent implements OnChanges {
   workflowLogLoading$: Observable<boolean>;
   workflowStepApproving$: Observable<boolean>;
   workflowStepRejecting$: Observable<boolean>;
+  jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   workflowStepCommentForm: FormGroup;
   commentFormSubmitted: boolean;
+  jobDescriptionSubscription: Subscription;
 
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>,
@@ -40,16 +42,28 @@ export class WorkflowSidebarComponent implements OnChanges {
     this.workflowLogLoading$ = this.store.select(fromWorkflowReducer.getWorkflowLogLoading);
     this.workflowStepApproving$ = this.store.select(fromWorkflowReducer.getWorkflowStepApproving);
     this.workflowStepRejecting$ = this.store.select(fromWorkflowReducer.getWorkflowStepRejecting);
+    this.jobDescriptionAsync$ = this.store.select(fromWorkflowReducer.getJobDescriptionAsync);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.jobDescription.currentValue !== undefined && !this.workflowStepCompleted) {
-      this.store.dispatch(new fromWorkflowActions.LoadWorkflowLogEntries({
-        jobDescriptionId: this.jobDescription.JobDescriptionId, jobDescriptionRevision: this.jobDescription.JobDescriptionRevision}));
-    }
+  ngOnInit() {
+    this.jobDescriptionSubscription = this.jobDescriptionAsync$
+      .pipe(filter(jd => jd.obj !== null && jd.obj !== undefined),
+        distinctUntilChanged((previous, current) => previous.obj.JobDescriptionId === current.obj.JobDescriptionId))
+      .subscribe( jd => {
+        if (jd.obj.JobDescriptionId !== null && !this.workflowStepCompleted) {
+          this.store.dispatch(new fromWorkflowActions.LoadWorkflowLogEntries({
+            jobDescriptionId: jd.obj.JobDescriptionId, jobDescriptionRevision: jd.obj.JobDescriptionRevision
+          }));
+        }
+      });
+
     this.workflowStepCommentForm = this.formBuilder.group({
       comment: ['', Validators.required]
     });
+  }
+
+  ngOnDestroy(): void {
+    this.jobDescriptionSubscription.unsubscribe();
   }
 
   approveWorkflowStep() {
