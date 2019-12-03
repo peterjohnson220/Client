@@ -62,7 +62,6 @@
           [fields]="filterableFields$ | async"
           (close)="closeFilterPanel()"
           (filterChanged)="handleFilterChanged($event)"
-
           (filterCleared)="clearFilter($event)"
           (saveFilterClicked)="saveFilterClicked()">
         </pf-filter-panel>

@@ -8,7 +8,7 @@ import { ViewField, PagingOptions, DataViewEntity, DataViewConfig, SimpleDataVie
 
 import * as fromPfGridActions from '../actions';
 import { PfDataGridFilter } from '../models';
-import { getHumanizedFilter, getDefaultFilterOeprator } from '../components';
+import { getHumanizedFilter, getDefaultFilterOeprator, getUserFilteredFields } from '../components';
 
 export interface DataGridState {
   pageViewId: string;
@@ -70,7 +70,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             fields: updateFieldsWithFilters(action.payload.Fields, action.payload.Filters, state.grids[action.pageViewId].inboundFilters),
-            groupedFields: buildGroupedFields(resetFieldOperators(action.payload.Fields)),
+            groupedFields: buildGroupedFields(resetFilters(action.payload.Fields)),
             baseEntity: action.payload.Entity,
             loading: false
           }
@@ -209,7 +209,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: resetFieldOperators(state.grids[action.pageViewId].fields)
+            fields: resetFiltersForFilterableFields(state, action.pageViewId)
           }
         }
       };
@@ -222,7 +222,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             filterPanelOpen: !state.grids[action.pageViewId].filterPanelOpen,
             selectedRowId: null,
-            splitViewFilters: []
+            splitViewFilters: [],
+            fields: resetOperatorsForEmptyFilters(state, action.pageViewId)
           }
         }
       };
@@ -455,7 +456,7 @@ export function buildGroupedFields(fields: ViewField[]): any[] {
   return result;
 }
 
-export function resetFieldOperators(fields: ViewField[]): ViewField[] {
+export function resetFilters(fields: ViewField[]): ViewField[] {
   return cloneDeep(fields).map(
     field => {
       return {
@@ -467,9 +468,38 @@ export function resetFieldOperators(fields: ViewField[]): ViewField[] {
   );
 }
 
+export function resetFiltersForFilterableFields(state: DataGridStoreState, pageViewId: string): ViewField[] {
+  const fields: ViewField[] = cloneDeep(getFields(state, pageViewId));
+  const filterableFields: ViewField[] = getFilterableFields(state, pageViewId);
+
+  const fieldsToReset: ViewField[] = fields.filter(field => filterableFields.findIndex(f => f.DataElementId === field.DataElementId) >= 0);
+
+  fieldsToReset.forEach(field => {
+    field.FilterValue = null;
+    field.FilterOperator = getDefaultFilterOeprator(field);
+  });
+  return fields;
+}
+
+function resetOperatorsForEmptyFilters(state: DataGridStoreState, pageViewId: string): ViewField[] {
+
+  const fields: ViewField[] = cloneDeep(getFields(state, pageViewId));
+  const filterableFields: ViewField[] = getFilterableFields(state, pageViewId);
+  const userFilteredFields: ViewField[] = getUserFilteredFields(filterableFields);
+
+  const fieldsToReset: ViewField[] = fields.filter(field =>
+    filterableFields.findIndex(f => f.DataElementId === field.DataElementId) >= 0 &&
+    userFilteredFields.findIndex(f => f.DataElementId === field.DataElementId) < 0);
+
+  fieldsToReset.forEach(field => {
+    field.FilterOperator = getDefaultFilterOeprator(field);
+  });
+  return fields;
+}
+
 export function updateFieldsWithFilters(fields: ViewField[], filters: DataViewFilter[], inboundFilters: PfDataGridFilter[]): ViewField[] {
 
-  let updatedFields = resetFieldOperators(fields);
+  let updatedFields = resetFilters(fields);
 
   filters.forEach(filter => {
     const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.EntitySourceName === filter.EntitySourceName);
