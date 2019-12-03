@@ -196,13 +196,13 @@
   (acknowledged)="acknowledgeJobDescription($event)">
 </pf-employee-acknowledgement-modal>
 
-<pf-job-matches-modal *ngIf="!!jobDescription"
+<pf-job-matches-modal *ngIf="(jobDescriptionAsync$ | async)?.obj"
   #jobMatchesModalComponent
   [jobDescriptionId]="jobDescription.JobDescriptionId"
   [jobTitle]="jobDescription.Name">
 </pf-job-matches-modal>
 
-<pf-change-approver-modal *ngIf="!!((jobDescriptionAsync$ | async)?.obj)"
+<pf-change-approver-modal *ngIf="(jobDescriptionAsync$ | async)?.obj"
   [jobDescriptionId]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionId"
   [jobDescriptionRevision]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionRevision"
   [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId">
