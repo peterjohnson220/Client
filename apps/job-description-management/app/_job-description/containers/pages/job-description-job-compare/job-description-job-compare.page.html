@@ -17,7 +17,6 @@
     </pf-compare-job-selector>
   </ng-container>
   ​
-  ​
   <ng-container page-content>
     <div class="row pf-inner-page-content">
       <div class="col-12 column-scroll-container">
@@ -54,6 +53,7 @@
                     [jobDescription]="sourceJobDescription"
                     [jobInformationFields]="(sourceJobDescriptionAsync$ | async)?.obj?.JobInformationFields">
                   </pf-job-description-info-header-no-logo>
+
                   <div class="edit-button">
                     <button
                       *ngIf="(jobDescriptionForComparisonAsync$ | async)?.obj &&
@@ -132,15 +132,15 @@
                     [jobDescription]="(jobDescriptionForComparisonAsync$ | async)?.obj"
                     [jobInformationFields]="(jobDescriptionForComparisonAsync$ | async)?.obj?.JobInformationFields">
                   </pf-job-description-info-header-no-logo>
-                </div>
 
-                <pf-job-description-section
-                  *ngFor="let section of (jobDescriptionForComparisonAsync$ | async)?.obj?.Sections"
-                  [section]="section"
-                  [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
-                  [readOnly]="true"
-                  [isCompare]="true">
-                </pf-job-description-section>
+                  <pf-job-description-section
+                    *ngFor="let section of (jobDescriptionForComparisonAsync$ | async)?.obj?.Sections"
+                    [section]="section"
+                    [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
+                    [readOnly]="true"
+                    [isCompare]="true">
+                  </pf-job-description-section>
+                </div>
               </div>
 
               <pf-async-container
@@ -151,7 +151,6 @@
             </div>
           </div>
         </div>
-        ​
       </div>
     </div>
   </ng-container>
