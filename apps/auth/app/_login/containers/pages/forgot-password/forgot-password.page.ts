@@ -6,6 +6,10 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromForgotPasswordReducer from '../../../reducers';
 import * as fromForgotPasswordActions from '../../../actions/forgot-password.actions';
+import { environment } from 'environments/environment';
+
+declare var grecaptcha: any;
+declare var initializeRecaptcha: any;
 
 @Component({
   selector: 'pf-forgot-password-page',
@@ -64,14 +68,34 @@ export class ForgotPasswordPageComponent implements OnInit {
         this.formSubmitSuccess = true;
       }
     });
+
+    if (typeof initializeRecaptcha !== 'undefined') {
+      initializeRecaptcha(environment.reCaptchaV3SiteKey);
+    }
   }
 
   submit() {
-
-    this.attemptedFormSubmit = true;
+   this.attemptedFormSubmit = true;
     if (!this.emailForm.invalid) {
-      this.store.dispatch(new fromForgotPasswordActions.SendingPasswordReset({email: this.email.value.toString()}));
+      try {
+        grecaptcha.ready(() => {
+          grecaptcha.execute(environment.reCaptchaV3SiteKey, { action: 'forgot_password' }).then((token) => {
+            this.sendPasswordResetEmail(token);
+          }, executeErr => {
+            console.error(`grecaptcha.execute error: ${executeErr}`);
+           this.sendPasswordResetEmail();
+          });
+        });
+      } catch (readyErr) {
+        console.error(`grecaptcha.ready error: ${readyErr}`);
+        this.sendPasswordResetEmail();
+      }
     }
+  }
+
+  sendPasswordResetEmail(token = '') {
+    this.store.dispatch(new fromForgotPasswordActions.SendingPasswordReset({email: this.email.value.toString(),
+      clientCaptchaToken: token, clientCaptchaSiteKey: environment.reCaptchaV3SiteKey}));
   }
 
   get email() {
