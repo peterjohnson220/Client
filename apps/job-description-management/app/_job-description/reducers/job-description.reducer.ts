@@ -122,10 +122,11 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       asyncStateObjClone.obj.DraftNumber = action.payload.jobDescription.DraftNumber;
       asyncStateObjClone.obj.JobDescriptionStatus = action.payload.jobDescription.JobDescriptionStatus;
       asyncStateObjClone.obj.JobDescriptionRevision = action.payload.jobDescription.JobDescriptionRevision;
+      asyncStateObjClone.obj.JobInformationFields = action.payload.jobDescription.JobInformationFields;
       asyncStateObjClone.obj.CreatedDate = action.payload.jobDescription.CreatedDate;
+
       if (action.payload.isFirstSave) {
         asyncStateObjClone.obj.Name = action.payload.jobDescription.Name;
-        asyncStateObjClone.obj.JobInformationFields = action.payload.jobDescription.JobInformationFields;
       }
 
       const jobDescriptionChangeHistoryClone = cloneDeep(state.jobDescriptionChangeHistory);
