@@ -120,4 +120,20 @@ describe('OrgDataLoadComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should dispatch an action to open message on link on without URL', () => {
+    instance.goToLink(null);
+    const action = new fromOrganizationalDataActions.SetModalStateOpen(true);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should open new window with link if has url', () => {
+    spyOn(window, 'open');
+
+    const url = 'www.google.com';
+    instance.goToLink(url);
+    fixture.detectChanges();
+    expect(window.open).toHaveBeenCalledWith(url, '_blank');
+
+  });
+
 });

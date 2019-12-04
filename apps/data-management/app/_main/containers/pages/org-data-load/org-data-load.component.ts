@@ -35,6 +35,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
   private organizationalDataTemplateLink$: Observable<string>;
+  public isModalOpen$: Observable<boolean>;
   userContext$: Observable<UserContext>;
 
   userContext: UserContext;
@@ -70,6 +71,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.companies$ = this.store.select(fromCompanyReducer.getCompanies);
     this.selectedCompany$ = this.store.select(fromCompanyReducer.getSelectedCompany);
     this.organizationalDataTemplateLink$ = this.mainStore.select(fromDataManagementMainReducer.getOrganizationalHeadersLink);
+    this.isModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getModalStateOpen);
 
     this.selectedCompany$.subscribe(f => this.selectedCompany = f);
 
@@ -88,13 +90,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     const organizationalDataTemplateSubscription = this.organizationalDataTemplateLink$.pipe(
       filter(uc => !!uc),
       take(1),
-      takeUntil(this.unsubscribe$));
+      takeUntil(this.unsubscribe$)).subscribe(f => this.organizationalDataTemplateLink = f);
 
-    forkJoin({ user: userSubscription, company: companiesSubscription, organizationalDataTemplateLink: organizationalDataTemplateSubscription })
+    forkJoin({ user: userSubscription, company: companiesSubscription })
       .subscribe(f => {
         this.userContext = f.user;
         this.companies = f.company;
-        this.organizationalDataTemplateLink = f.organizationalDataTemplateLink;
         this.setInitValues();
       });
   }
@@ -106,6 +107,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next(true);
   }
+
 
   setInitValues() {
     if (this.userContext.AccessLevel === 'Admin') {
@@ -210,6 +212,18 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     if (this.selectedCompany) {
       return `/odata/OrganizationalData/GetOrganizationalDataCsv?companyId=${this.selectedCompany.CompanyId}`;
     }
+  }
+
+  goToLink(url: string) {
+    if (url && url.length > 0) {
+      window.open(url, "_blank");
+    } else {
+      this.setModalOpen(true);
+    }
+  }
+
+  public setModalOpen(isOpen: boolean) {
+    this.mainStore.dispatch(new fromOrganizationalDataActions.SetModalStateOpen(isOpen));
   }
 
   download(event) {
