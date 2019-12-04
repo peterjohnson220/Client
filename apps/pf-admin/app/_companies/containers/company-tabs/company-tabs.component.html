@@ -73,20 +73,22 @@
             <pf-async-container [loading]="loadingCompanySettings$ | async"
               [loadingError]="loadingCompanySettingsError$ | async" [loadingErrorMessage]="'Error.'"
               [hideReloadButton]="true">
-              <div *ngIf="(companySettings$ | async)?.length">
-                <div class="checkbox" *ngFor="let companySetting of (companySettings$ | async)">
-                  <label *ngIf="companySetting.DataType !== 'int' && companySetting.Visible">
-                    <input type="checkbox" (change)="toggleCompanySetting(companySetting)" [disabled]="companySetting.Disabled"
-                      [checked]="companySetting.Value === 'true'" />
-                    {{companySetting.DisplayName}}
-                  </label>
-                  <label *ngIf="companySetting.Key === 'MaxProjectJobCount'">
-                    Job Pricing Limit: {{jobPricingLimitUsed}} /
-                    <input type="number" class="input-type-number p-0" [ngModel]="companySetting.Value" [disabled]="companySetting.Disabled" (change)="checkMaxProjectJobCount($event, companySetting.Key)">
-                    <p *ngIf="showJobPricingLimitError" class="alert-danger">Job Pricing Limit must be numeric and above the current number of priced jobs</p>
-                  </label>
-                </div>
-              </div>
+              <ng-container *ngIf="(companySettings$ | async)?.length">
+                <ng-container *ngFor="let companySetting of (companySettings$ | async)">
+                    <div class="checkbox" *ngIf="isConfigurableSetting(companySetting)">
+                      <label>
+                        <input type="checkbox" (change)="toggleCompanySetting(companySetting)" [disabled]="companySetting.Disabled" [checked]="companySetting.Value === 'true'">
+                        {{companySetting.Key}}
+                      </label>
+                    </div>
+                    <div *ngIf="displayJobPricingLimiter(companySetting)" class="checkbox">
+                      <label >Job Pricing Limit: {{jobPricingLimitUsed}} /
+                        <input type="number" class="input-type-number p-0" [ngModel]="companySetting.Value" [disabled]="!enableJobPricingLimiter" (change)="checkMaxProjectJobCount($event, companySetting.Key)">
+                        <p *ngIf="showJobPricingLimitError" class="alert-danger">Job Pricing Limit must be numeric and above the current number of priced jobs</p>
+                      </label>
+                    </div>
+                </ng-container>
+              </ng-container>
             </pf-async-container>
           </div>
         </ng-template>

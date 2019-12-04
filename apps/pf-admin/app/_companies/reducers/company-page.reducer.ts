@@ -5,7 +5,7 @@ import { SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesRespon
 import { SortDirection, arraySortByString } from 'libs/core/functions';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
 import { CompanySetting, CompanyDto, CompanySettingsEnum } from 'libs/models/company';
-
+import { SystemUserGroupNames } from 'libs/constants';
 import * as fromCompanyPageActions from '../actions/company-page.actions';
 import { CompanyPageHelper } from '../helpers';
 
@@ -47,6 +47,7 @@ export interface State {
   company: CompanyDto;
   peerTermsAndCondAccepted: boolean;
   jobPricingLimitInfo: any;
+  enableJobPricingLimiter: boolean;
 }
 
 const initialState: State = {
@@ -86,7 +87,8 @@ const initialState: State = {
   initialCompanySettings: [],
   company: null,
   peerTermsAndCondAccepted: false,
-  jobPricingLimitInfo: null
+  jobPricingLimitInfo: null,
+  enableJobPricingLimiter: false
 };
 
 export function reducer(state = initialState, action: fromCompanyPageActions.Actions) {
@@ -272,20 +274,11 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       };
     }
     case fromCompanyPageActions.GET_DEFAULT_SETTINGS_SUCCESS: {
-      let settings = cloneDeep(action.payload);
-      settings = settings.map((s) => {
-        if (s.Key === CompanySettingsEnum.MaxProjectJobCount) {
-          s.Disabled = true;
-        }
-        return s;
-      });
-
       return {
         ...state,
         loadingCompanySettings: false,
         loadingCompanySettingsSuccess: true,
-        companySettings: settings,
-        initialCompanySettings: settings
+        companySettings: cloneDeep(action.payload)
       };
     }
     case fromCompanyPageActions.GET_COMPANY_SETTINGS_SUCCESS: {
@@ -293,14 +286,9 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       const peerTermsAndCondAccepted = settings.some((x: CompanySetting) =>
         x.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted && x.Value.toLowerCase() === 'true');
 
-      settings = CompanyPageHelper.modifyPeerTCRequestSettingDisabled(settings, peerTermsAndCondAccepted);
-
-      settings = settings.map((s) => {
-        if (s.Key === CompanySettingsEnum.MaxProjectJobCount) {
-          s.Disabled = true;
-        }
-        return s;
-      });
+      if (peerTermsAndCondAccepted) {
+        settings = CompanyPageHelper.modifyPeerTCRequestSettingDisabled(settings);
+      }
 
       return {
         ...state,
@@ -480,7 +468,6 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       return {
         ...state,
         companyTiles: companyTilesCopy,
-        companySettings: state.initialCompanySettings,
         companyDataSetsEnabled: true
       };
     }
@@ -512,7 +499,8 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       return {
         ...state,
         loadingCompany: false,
-        company: action.payload
+        company: action.payload,
+        enableJobPricingLimiter: action.payload.GroupName === SystemUserGroupNames.SmallBusiness
       };
     }
     case fromCompanyPageActions.GET_COMPANY_ERROR: {
@@ -530,6 +518,12 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
     case fromCompanyPageActions.RESET: {
       return {
         ...initialState
+      };
+    }
+    case fromCompanyPageActions.ENABLE_JOB_PRICING_LIMITER: {
+      return {
+        ...state,
+        enableJobPricingLimiter: action.payload
       };
     }
     default: {
@@ -572,3 +566,4 @@ export const getCompanyDataSetsEnabled = (state: State) => state.companyDataSets
 export const getLoadingCompany = (state: State) => state.loadingCompany;
 export const getCompany = (state: State) => state.company;
 export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInfo;
+export const getEnableJobPricingLimiter = (state: State) => state.enableJobPricingLimiter;
