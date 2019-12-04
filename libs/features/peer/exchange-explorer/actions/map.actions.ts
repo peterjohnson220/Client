@@ -1,26 +1,24 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeMapResponse, GenericKeyValue } from 'libs/models/';
+import { ExchangeMapResponse, MapGeoData } from 'libs/models/';
 import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
+import { LngLatBounds } from 'mapbox-gl';
 
 export const LOAD_PEER_MAP_DATA  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Data';
 export const LOAD_PEER_MAP_DATA_SUCCESS  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Data Success';
 export const LOAD_PEER_MAP_DATA_ERROR  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Data Error';
 export const UPDATE_PEER_MAP_FILTER_BOUNDS = '[Features/Peer/ExchangeExplorer/Map] Update Peer Map Filter Bounds';
-export const INITIAL_MAP_MOVE_COMPLETE = '[Features/Peer/ExchangeExplorer/Map] Initial Map Move Complete';
 export const MAP_LOADED = '[Features/Peer/ExchangeExplorer/Map] Map Loaded';
 export const RESET_STATE = '[Features/Peer/ExchangeExplorer/Map] Reset State';
 export const APPLY_CUT_CRITERIA = '[Features/Peer/ExchangeExplorer/Map] Apply Cut Criteria';
 export const APPLY_SCOPE_CRITERIA = '[Features/Peer/ExchangeExplorer/Map] Apply Scope Criteria';
 export const APPLY_SCOPE_CRITERIA_SUCCESS = '[Features/Peer/ExchangeExplorer/Map] Apply Scope Criteria Success';
 export const CLEAR_MAP_FILTER_BOUNDS = '[Features/Peer/ExchangeExplorer/Map] Clear Map Filter Bounds';
-export const LOAD_ZOOM_PRECISION_DICTIONARY = '[Features/Peer/ExchangeExplorer/Map] Load Zoom Precision Dictionary';
-export const LOAD_ZOOM_PRECISION_DICTIONARY_SUCCESS = '[Features/Peer/ExchangeExplorer/Map] Load Zoom Precision Dictionary Success';
-export const LOAD_ZOOM_PRECISION_DICTIONARY_ERROR = '[Features/Peer/ExchangeExplorer/Map] Load Zoom Precision Dictionary Error';
 export const AUTO_ZOOM_COMPLETE = '[Features/Peer/ExchangeExplorer/Map] Auto Zoom Complete';
-export const LOAD_PEER_MAP_BOUNDS  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Bounds';
-export const LOAD_PEER_MAP_BOUNDS_SUCCESS  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Bounds Success';
-export const LOAD_PEER_MAP_BOUNDS_ERROR  = '[Features/Peer/ExchangeExplorer/Map] Load Peer Map Bounds Error';
+
+export const SET_PEER_MAP_BOUNDS = '[Features/Peer/ExchangeExplorer/Map] Set Peer Map Bounds';
+export const MOVE_END = '[Features/Peer/ExchangeExplorer/Map] Move End';
+export const INITIAL_ZOOM_COMPLETE = '[Features/Peer/ExchangeExplorer/Map] Initial Zoom Complete';
 
 
 export class LoadPeerMapData implements Action {
@@ -41,12 +39,6 @@ export class LoadPeerMapDataError implements Action {
 
 export class UpdatePeerMapFilterBounds implements Action {
   readonly type = UPDATE_PEER_MAP_FILTER_BOUNDS;
-
-  constructor(public payload: any) { }
-}
-
-export class InitialMapMoveComplete implements Action {
-  readonly type = INITIAL_MAP_MOVE_COMPLETE;
 
   constructor(public payload: any) { }
 }
@@ -79,56 +71,41 @@ export class ClearMapFilterBounds implements Action {
   readonly type = CLEAR_MAP_FILTER_BOUNDS;
 }
 
-export class LoadZoomPrecisionDictionary implements Action {
-  readonly type = LOAD_ZOOM_PRECISION_DICTIONARY;
-}
-
-export class LoadZoomPrecisionDictionarySuccess implements Action {
-  readonly type = LOAD_ZOOM_PRECISION_DICTIONARY_SUCCESS;
-
-  constructor(public payload: GenericKeyValue<number, number>[]) {}
-}
-
-export class LoadZoomPrecisionDictionaryError implements Action {
-  readonly type = LOAD_ZOOM_PRECISION_DICTIONARY_ERROR;
-}
-
 export class AutoZoomComplete implements Action {
   readonly type = AUTO_ZOOM_COMPLETE;
 }
 
-export class LoadPeerMapBounds implements Action {
-  readonly type = LOAD_PEER_MAP_BOUNDS;
-  readonly payload = null;
+export class SetPeerMapBounds implements Action {
+  readonly type = SET_PEER_MAP_BOUNDS;
+
+  constructor(public payload: MapGeoData) {}
 }
 
-export class LoadPeerMapBoundsSuccess implements Action {
-  readonly type = LOAD_PEER_MAP_BOUNDS_SUCCESS;
+export class MoveEnd implements Action {
+  readonly type = MOVE_END;
 
-  constructor(public payload: ExchangeMapResponse) {}
+  constructor(public payload: { bounds: LngLatBounds, zoom: number }) {}
 }
 
-export class LoadPeerMapBoundsError implements Action {
-  readonly type = LOAD_PEER_MAP_BOUNDS_ERROR;
-  readonly payload = null;
+export class InitialZoomComplete implements Action {
+  readonly type = INITIAL_ZOOM_COMPLETE;
+
+  constructor() {}
 }
+
 
 export type Actions
   = LoadPeerMapData
   | LoadPeerMapDataSuccess
   | LoadPeerMapDataError
   | UpdatePeerMapFilterBounds
-  | InitialMapMoveComplete
+  | InitialZoomComplete
   | MapLoaded
   | ResetState
   | ApplyCutCriteria
   | ApplyScopeCriteria
   | ApplyScopeCriteriaSuccess
   | ClearMapFilterBounds
-  | LoadZoomPrecisionDictionary
-  | LoadZoomPrecisionDictionarySuccess
-  | LoadZoomPrecisionDictionaryError
   | AutoZoomComplete
-  | LoadPeerMapBounds
-  | LoadPeerMapBoundsSuccess
-  | LoadPeerMapBoundsError;
+  | SetPeerMapBounds
+  | MoveEnd;

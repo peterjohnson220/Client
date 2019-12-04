@@ -10,6 +10,8 @@ import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer/exch
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { ExchangeMapResponse } from 'libs/models/peer';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import { ExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+import { OperatorEnum } from 'libs/constants';
 
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
 import * as fromExchangeExplorerReducer from '../reducers';
@@ -18,13 +20,7 @@ import * as fromSearchResultsActions from '../../../search/actions/search-result
 import * as fromSearchFiltersActions from '../../../search/actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../../search/actions/singled-filter.actions';
 import * as fromMapActions from '../actions/map.actions';
-
 import { ExchangeExplorerContextService } from '../services';
-import {
-  BaseExchangeDataSearchRequest,
-  ExchangeDataSearchRequest
-} from '../../../../models/payfactors-api/peer/exchange-data-search/request';
-import { OperatorEnum } from '../../../../constants';
 
 @Injectable()
 export class ExchangeSearchEffects {
@@ -33,13 +29,7 @@ export class ExchangeSearchEffects {
   getResults$ = this.searchExchangeData(fromSearchResultsActions.GET_RESULTS);
 
   @Effect()
-  updateFilterBounds$ = this.searchExchangeData(fromMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS, true, false);
-
-  @Effect()
-  getExchangeDataSearchResults$ = this.searchExchangeData(fromExchangeSearchResultsActions.GET_EXCHANGE_DATA_RESULTS, true);
-
-  @Effect()
-  initialMapMoveComplete$ = this.searchExchangeData(fromMapActions.INITIAL_MAP_MOVE_COMPLETE, true);
+  getExchangeDataSearchResults$ = this.searchExchangeData(fromExchangeSearchResultsActions.GET_EXCHANGE_DATA_RESULTS);
 
   @Effect()
   getExchangeDataSearchResultsSuccess$ = this.actions$.pipe(
@@ -75,7 +65,7 @@ export class ExchangeSearchEffects {
       }));
 
       if (searchResponseContext.searchingFilter &&
-         (searchResponseContext.payload.getSingledFilterAggregates || searchResponseContext.singledFilter.Operator === OperatorEnum.And)) {
+         (searchResponseContext.payload.getSingledFilteredAggregates || searchResponseContext.singledFilter.Operator === OperatorEnum.And)) {
         actions.push(new fromSingledFilterActions.SearchAggregation());
       }
 
@@ -86,25 +76,43 @@ export class ExchangeSearchEffects {
 
       actions.push(new fromMapActions.LoadPeerMapDataSuccess(exchangeMapResponse));
 
+      if (searchResponseContext.payload.resetInitialBounds) {
+        actions.push(new fromMapActions.SetPeerMapBounds(exchangeMapResponse.MapSummary));
+      }
+
       return actions;
     })
   );
 
-  searchExchangeData(subscribedAction: string, getSingledFilterAggregates = false, keepFilteredOutOptions = true): Observable<Action> {
+  searchExchangeData(subscribedAction: string): Observable<Action> {
     return this.actions$.pipe(
       ofType(subscribedAction),
       withLatestFrom(
         this.exchangeExplorerContextService.selectFilterContext(),
-        (action, filterContext) => filterContext
+        (action, filterContext) => ({action, filterContext})
       ),
-      mergeMap((data: BaseExchangeDataSearchRequest) => {
+      mergeMap((data: any) => {
           const exchangeRequest: ExchangeDataSearchRequest = {
-            ...data
+            ...data.filterContext
           };
           return this.exchangeDataSearchApiService.searchExchangeData(exchangeRequest).pipe(
               map(response => {
-                response.KeepFilteredOutOptions = keepFilteredOutOptions;
-                return new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess({response, getSingledFilterAggregates});
+                let successPayload = {
+                  response: response
+                };
+
+                if (data.action.payload) {
+                  response.KeepFilteredOutOptions = data.action.payload.keepFilteredOutOptions;
+                  successPayload = {
+                    ...successPayload,
+                    ...{
+                      getSingledFilteredAggregates: data.action.payload.getSingledFilteredAggregates,
+                      resetInitialBounds: data.action.payload.resetInitialBounds
+                    }
+                  };
+                }
+
+                return new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess(successPayload);
               }),
               catchError(() => of(new fromExchangeSearchResultsActions.GetExchangeDataResultsError(0)))
             );

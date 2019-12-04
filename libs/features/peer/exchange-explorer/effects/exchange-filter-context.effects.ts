@@ -15,37 +15,31 @@ import * as fromPeerMapActions from '../actions/map.actions';
 @Injectable()
 export class ExchangeFilterContextEffects {
   @Effect()
-  loadFilterContext$ = this.actions$.pipe(
-    ofType(fromExchangeFilterContextActions.SET_FILTER_CONTEXT),
-    map(() => new fromExchangeSearchResultsActions.GetExchangeDataResults)
-  );
-
-  @Effect()
   limitToPayMarketToggled$ = this.actions$.pipe(
     ofType(fromExchangeFilterContextActions.TOGGLE_LIMIT_TO_PAYMARKET),
     withLatestFrom(
       this.store.pipe(select(fromExchangeExplorerReducers.getFilterContextScopeSelection)),
       (action, scopeSelection) => !!scopeSelection
     ),
-    // TODO: Bounds shouldn't live here anymore, this should be updated when we move it over to the filter context reducer
     tap(() => this.store.dispatch(new fromPeerMapActions.ClearMapFilterBounds())),
     mergeMap((scopeSelected: boolean) => {
       let obs;
       // Only clear selections on paymarket toggle if a scope is not selected
       if (scopeSelected) {
         obs = [
-          new fromExchangeSearchResultsActions.GetExchangeDataResults()
+          new fromExchangeSearchResultsActions.GetExchangeDataResults({resetInitialBounds: true})
         ];
       } else {
         obs = [
           new fromLibsFeatureSearchFiltersActions.ResetAllFilters(),
-          new fromExchangeSearchResultsActions.GetExchangeDataResults()
+          new fromExchangeSearchResultsActions.GetExchangeDataResults({resetInitialBounds: true})
         ];
       }
 
       return obs;
     })
   );
+
 
   @Effect()
   excludeIndirectJobMatchesToggled$ = this.actions$.pipe(
@@ -60,18 +54,19 @@ export class ExchangeFilterContextEffects {
       // Only clear selections on paymarket toggle if a scope is not selected
       if (scopeSelected) {
         obs = [
-          new fromExchangeSearchResultsActions.GetExchangeDataResults()
+          new fromExchangeSearchResultsActions.GetExchangeDataResults({ resetInitialBounds: true})
         ];
       } else {
         obs = [
           new fromLibsFeatureSearchFiltersActions.ResetAllFilters(),
-          new fromExchangeSearchResultsActions.GetExchangeDataResults()
+          new fromExchangeSearchResultsActions.GetExchangeDataResults({ resetInitialBounds: true})
         ];
       }
 
       return obs;
     })
   );
+
 
   @Effect()
   setExchangeJobSelection$ = this.actions$.pipe(
@@ -80,10 +75,11 @@ export class ExchangeFilterContextEffects {
     mergeMap(() => {
       return [
         new fromLibsFeatureSearchFiltersActions.ResetAllFilters(),
-        new fromExchangeSearchResultsActions.GetExchangeDataResults()
+        new fromExchangeSearchResultsActions.GetExchangeDataResults({ resetInitialBounds: true})
       ];
     })
   );
+
 
   @Effect()
   includeUntaggedEmployeesToggled$ = this.actions$.pipe(

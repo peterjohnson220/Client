@@ -3,7 +3,7 @@ import { ExchangeDataSearchFilterContext, ExchangeScopeItem } from 'libs/models'
 import * as fromExchangeExplorerActions from '../actions/exchange-filter-context.actions';
 
 // Extended entity state
-export interface State extends ExchangeDataSearchFilterContext {
+export interface State extends Partial<ExchangeDataSearchFilterContext> {
   hasBeenSet: boolean;
   selectedScope: ExchangeScopeItem;
 }
@@ -12,12 +12,6 @@ export interface State extends ExchangeDataSearchFilterContext {
 export const initialState: State = {
   hasBeenSet: false,
   selectedScope: null,
-
-  ClusterPrecision: 0,
-  ZoomLevel: 0,
-  BottomRight: undefined,
-  TopLeft: undefined,
-
   ExchangeId: 0,
   ExchangeJobId: 0,
   LockedExchangeJobId: 0,
@@ -33,8 +27,7 @@ export const initialState: State = {
 // Reducer
 export function reducer(state = initialState, action: fromExchangeExplorerActions.Actions): State {
   switch (action.type) {
-    case fromExchangeExplorerActions.SET_FILTER_CONTEXT:
-    case fromExchangeExplorerActions.SET_FILTER_CONTEXT_SILENTLY: {
+    case fromExchangeExplorerActions.SET_FILTER_CONTEXT: {
       const filterContext: ExchangeDataSearchFilterContext = action.payload;
       return {
         ...state,
@@ -109,7 +102,7 @@ export const getHasSimilarJobLevels = (state: State) => {
   return state.SimilarExchangeJobIds.some(x => !!state.ExchangeJobIds && !state.ExchangeJobIds.includes(x));
 };
 export const getFilterContext = (state: State) => {
-  const filterContext: ExchangeDataSearchFilterContext = {
+  const filterContext: Partial<ExchangeDataSearchFilterContext> = {
     ...state
   };
   return filterContext;

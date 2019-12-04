@@ -31,7 +31,6 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   employeesValid$: Observable<boolean>;
   upsertingDataCut$: Observable<boolean>;
   upsertingDataCutError$: Observable<boolean>;
-  initialMapMoveComplete$: Observable<boolean>;
   includeUntaggedIncumbents$: Observable<boolean>;
   untaggedIncumbentCount$: Observable<number>;
   requestingPeerAccess$: Observable<boolean>;
@@ -67,7 +66,6 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
     this.employeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
     this.isEmployeeCheckLoading$ = this.store.pipe(select(fromUpsertPeerDataReducers.getIsEmployeeSimilarityLoading));
 
-    this.initialMapMoveComplete$ = this.mapStore.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapInitialMapMoveComplete));
     this.peerMapCompanies$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapCompaniesFromSummary));
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));

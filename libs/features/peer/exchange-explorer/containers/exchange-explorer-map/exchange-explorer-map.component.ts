@@ -1,12 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { FeatureCollection, Point } from 'geojson';
 import * as mapboxgl from 'mapbox-gl';
 
 import { ExchangeMapSummary } from 'libs/models/peer';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromMapActions from '../../actions/map.actions';
 import * as fromExchangeExplorerReducer from '../../reducers';
@@ -16,45 +17,41 @@ import * as fromExchangeExplorerReducer from '../../reducers';
   templateUrl: './exchange-explorer-map.component.html',
   styleUrls: ['./exchange-explorer-map.component.scss']
 })
-export class ExchangeExplorerMapComponent implements OnInit {
-  // Conditionally allow the exchange-explorer-map to fit to the provided bounds.
-  @Input() canFitBounds: boolean;
-
+export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
   selectedPoint: any = null;
   cursorStyle: string;
   satelliteStyleEnabled = false;
   map: mapboxgl.Map;
+  ignoreNextMoveEnd = false;
+  peerMapSummary: ExchangeMapSummary;
 
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
-  peerMapFilter$: Observable<any>;
-  peerMapLoading$: Observable<boolean>;
+  dataLoading$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
-  peerMapBounds$: Observable<number[]>;
   peerMapCentroid$: Observable<number[]>;
-  canLoadPeerMap$: Observable<boolean>;
   peerMapShowNoData$: Observable<boolean>;
   peerMapMaxZoom$: Observable<number>;
-  peerMapInitialMapMoveComplete$: Observable<boolean>;
+  peerInitialMapBounds$: Observable<number[]>;
   peerMapInitialZoomLevel$: Observable<number>;
-  peerMapApplyingScope$: Observable<boolean>;
   peerMapAutoZooming$: Observable<boolean>;
+  peerMapInitialZoomComplete$: Observable<boolean>;
+  peerMapLoaded$: Observable<boolean>;
+  peerMapSummarySub: Subscription;
 
   constructor(private store: Store<fromExchangeExplorerReducer.State>) {
     this.peerMapSummary$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapSummary));
-    this.peerMapFilter$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapFilter));
-    this.peerMapLoading$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapLoading));
+    this.dataLoading$ = this.store.pipe(select(fromSearchReducer.getLoadingResults));
     this.peerMapLoadingError$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapLoadingError));
     this.peerMapCollection$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapCollection));
-    this.peerMapBounds$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapBounds));
-    this.canLoadPeerMap$ = this.store.pipe(select(fromExchangeExplorerReducer.canLoadPeerMap));
     this.peerMapShowNoData$ = this.store.pipe(select(fromExchangeExplorerReducer.peerMapShowNoData));
     this.peerMapMaxZoom$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapMaxZoom));
-    this.peerMapInitialMapMoveComplete$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapInitialMapMoveComplete));
+    this.peerInitialMapBounds$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerInitialMapBounds));
     this.peerMapInitialZoomLevel$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapInitialZoomLevel));
     this.peerMapCentroid$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapCentroid));
-    this.peerMapApplyingScope$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapApplyingScope));
     this.peerMapAutoZooming$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapAutoZooming));
+    this.peerMapInitialZoomComplete$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapInitialZoomComplete));
+    this.peerMapLoaded$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapLoaded));
   }
 
   get satelliteStyleEnabledText(): string {
@@ -78,12 +75,14 @@ export class ExchangeExplorerMapComponent implements OnInit {
     return JSON.parse(this.selectedPoint.properties.Companies).slice(0, 10);
   }
 
-  getZoomLevel(): number {
-    return this.map.getZoom();
-  }
-
   // Map events
   handleZoomEnd(e: any) {
+    this.peerMapInitialZoomComplete$.pipe(take(1)).subscribe(iz => {
+      if (!iz) {
+        this.store.dispatch(new fromMapActions.InitialZoomComplete());
+      }
+    });
+
     this.peerMapAutoZooming$.pipe(take(1)).subscribe(az => {
       if (!!az) {
         this.store.dispatch(new fromMapActions.AutoZoomComplete);
@@ -96,36 +95,19 @@ export class ExchangeExplorerMapComponent implements OnInit {
     this.store.dispatch(new fromMapActions.MapLoaded());
   }
 
+  handleResizeEvent() {
+    this.ignoreNextMoveEnd = true;
+  }
+
   handleMoveEndEvent(e: any) {
-    if (!!e.skipMapRefresh) {
-      return;
-    }
-    let scopeApplied = false;
-    this.peerMapApplyingScope$.pipe(take(1)).subscribe(as => {
-      if (!!as) {
-        this.peerMapBounds$.pipe(take(1)).subscribe(b => {
-          this.map.fitBounds([[b[0], b[1]], [b[2], b[3]]], {padding: 50}, {skipMapRefresh: true} as any);
-        });
-        this.store.dispatch(new fromMapActions.ApplyScopeCriteriaSuccess);
-        scopeApplied = true;
-      }
-    });
-    if (scopeApplied) {
-      return;
+    if (!this.ignoreNextMoveEnd) {
+      this.store.dispatch(new fromMapActions.MoveEnd({
+        bounds: e.target.getBounds(),
+        zoom: e.target.getZoom()
+      }));
     }
 
-    const filterVars = {
-      bounds: e.target.getBounds(),
-      zoom: e.target.getZoom()
-    };
-
-    this.peerMapInitialMapMoveComplete$.pipe(take(1)).subscribe(initialMapMoveComplete => {
-      if (!initialMapMoveComplete) {
-        this.store.dispatch(new fromMapActions.InitialMapMoveComplete(filterVars));
-      } else {
-        this.refreshMap(filterVars);
-      }
-    });
+    this.ignoreNextMoveEnd = false;
   }
 
   // Map layer events
@@ -144,14 +126,11 @@ export class ExchangeExplorerMapComponent implements OnInit {
     this.satelliteStyleEnabled = !this.satelliteStyleEnabled;
   }
 
-  // Helper functions
-  refreshMap(filterVars: any) {
-    this.canLoadPeerMap$.pipe(filter(canLoad => !!canLoad), take(1)).subscribe(() => {
-      this.store.dispatch(new fromMapActions.UpdatePeerMapFilterBounds(filterVars));
-    });
+  ngOnInit(): void {
+    this.peerMapSummarySub = this.peerMapSummary$.subscribe(pms => this.peerMapSummary = pms);
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(new fromMapActions.LoadZoomPrecisionDictionary());
+  ngOnDestroy() {
+    this.peerMapSummarySub.unsubscribe();
   }
 }

@@ -1,7 +1,7 @@
 import { FeatureCollection, Point } from 'geojson';
 import { LngLatBounds } from 'mapbox-gl';
 
-import { ExchangeMapSummary, GenericKeyValue } from 'libs/models/';
+import { ExchangeMapSummary, GenericKeyValue, MapGeoData } from 'libs/models/';
 import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 
 export class MapHelper {
@@ -14,7 +14,7 @@ export class MapHelper {
       ...currentState.mapFilter,
       TopLeft: swappedBounds.TopLeft,
       BottomRight: swappedBounds.BottomRight,
-      ClusterPrecision: this.getClusterPrecision(mapProps.zoom, currentState.zoomPrecisionDictionary)
+      ZoomLevel: mapProps.zoom
     };
   }
 
@@ -34,28 +34,27 @@ export class MapHelper {
     return {
       MapCollection: mapCollection,
       MapSummary: mapSummary,
-      MapBounds: boundsForOneMapCopy,
+      InitialMapBounds: boundsForOneMapCopy,
       Centroid: lngLatBounds.getCenter().toArray(),
       ZoomLevel: scope.ZoomLevel,
       MapFilter: {
         TopLeft: tl,
-        BottomRight: br,
-        ClusterPrecision: scope.ClusterPrecision
+        BottomRight: br
       }
     };
   }
 
- public static MapSummaryHasBounds(mapSummary: ExchangeMapSummary): boolean {
+ public static MapGeoDataHasBounds(mapSummary: MapGeoData): boolean {
     const hasNewTLBounds = !!mapSummary.TopLeft && !!mapSummary.TopLeft.Lat && !!mapSummary.TopLeft.Lon;
     const hasNewBRBounds = !!mapSummary.BottomRight && !!mapSummary.BottomRight.Lat && !!mapSummary.BottomRight.Lon;
     return hasNewTLBounds && hasNewBRBounds;
   }
 
-  static setBounds(mapSummary: ExchangeMapSummary, currentState: any, newState: any): any {
-    if (currentState.isInitialLoad && MapHelper.MapSummaryHasBounds(mapSummary)) {
-      const newTL = mapSummary.TopLeft;
-      const newBR = mapSummary.BottomRight;
-      newState.mapBounds = [newTL.Lon, newBR.Lat, newBR.Lon, newTL.Lat];
+  static setBounds(mapGeoData: MapGeoData, currentState: any, newState: any): any {
+    if (MapHelper.MapGeoDataHasBounds(mapGeoData)) {
+      const newTL = mapGeoData.TopLeft;
+      const newBR = mapGeoData.BottomRight;
+      newState.initialMapBounds = [newTL.Lon, newBR.Lat, newBR.Lon, newTL.Lat];
       newState.mapFilter.TopLeft = newTL;
       newState.mapFilter.BottomRight = newBR;
     }
@@ -80,52 +79,5 @@ export class MapHelper {
 
   private static enforceBoundsLimit(coordinate: number) {
     return coordinate > 180 ? 180 : coordinate < -180 ? -180 : coordinate;
-  }
-
-  private static getClusterPrecision(zoomLevel: number, zoomPrecisionDictionary: GenericKeyValue<number, number>[] | null) {
-    if (zoomPrecisionDictionary === null) {
-      return this.getDefaultClusterPrecision(zoomLevel);
-    }
-
-    const minPrecision = 1;
-    const maxPrecision = 12;
-
-    const nextIndex = zoomPrecisionDictionary.findIndex(zp => zp.Key > zoomLevel);
-    if (nextIndex <= 0) {
-      return nextIndex < 0 ? maxPrecision : minPrecision;
-    }
-
-    const prevValFromDictionary = zoomPrecisionDictionary[nextIndex - 1].Value;
-    const val = prevValFromDictionary > maxPrecision ? maxPrecision : prevValFromDictionary;
-    return val < minPrecision ? minPrecision : val;
-  }
-
-  private static getDefaultClusterPrecision(zoomLevel: number): 1|2|3|4|5|6|7 {
-    const zoomToGeoHashPrecision = {
-      0: 0,
-      1: 1,
-      2: 2,
-      3: 2,
-      4: 3,
-      5: 3,
-      6: 3,
-      7: 4,
-      8: 5,
-      9: 5,
-      10: 5,
-      11: 6,
-      12: 6,
-      13: 6,
-      14: 7,
-      15: 7,
-      16: 7,
-      17: 7,
-      18: 7,
-      19: 7,
-      20: 7,
-      21: 7
-    };
-
-    return zoomToGeoHashPrecision[Math.round(zoomLevel)];
   }
 }

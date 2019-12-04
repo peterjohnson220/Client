@@ -28,9 +28,9 @@ export class ExchangeExplorerEffects {
               exchangeJobFilterOptions: response.AssociatedExchangeJobFilterOptions,
               searchFilterMappingDataObj: response.SearchFilterMappingData
             }),
+            new fromExchangeExplorerMapActions.SetPeerMapBounds(response.InitialMapGeoData),
             new fromExchangeFilterContextActions.SetFilterContext(response.FilterContext)
           ];
-
         }),
         catchError(() => of(new fromExchangeExplorerContextInfoActions.LoadContextInfoError))
       )

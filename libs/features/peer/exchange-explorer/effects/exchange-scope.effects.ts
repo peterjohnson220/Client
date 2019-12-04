@@ -31,6 +31,7 @@ import * as fromExchangeSearchResultsActions from '../actions/exchange-search-re
 import * as fromExchangeDataCutActions from '../actions/exchange-data-cut.actions';
 import * as fromExchangeExplorerReducers from '../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../actions/exchange-explorer-context-info.actions';
+import * as fromExchangeExplorerMapActions from '../actions/map.actions';
 
 @Injectable()
 export class ExchangeScopeEffects {
@@ -77,7 +78,8 @@ export class ExchangeScopeEffects {
               exchangeJobFilterOptions: exchangeExplorerContextInfo.AssociatedExchangeJobFilterOptions,
               searchFilterMappingDataObj: exchangeExplorerContextInfo.SearchFilterMappingData
             }),
-            new fromExchangeFilterContextActions.SetFilterContextSilently(exchangeExplorerContextInfo.FilterContext),
+            new fromExchangeExplorerMapActions.SetPeerMapBounds(exchangeExplorerContextInfo.FilterContext),
+            new fromExchangeFilterContextActions.SetFilterContext(exchangeExplorerContextInfo.FilterContext),
             new fromExchangeDataCutActions.LoadExchangeDataCutSuccess(scopeContext)
           ];
         }),
@@ -94,8 +96,16 @@ export class ExchangeScopeEffects {
         (action, filterContext) => filterContext),
       switchMap(payload =>
         this.exchangeDataFilterApiService.getExchangeScopeFilterContext(payload).pipe(
-          map((peerMapScopeDetails: ExchangeExplorerScopeResponse) => new fromExchangeScopeActions
-            .LoadExchangeScopeDetailsSuccess(peerMapScopeDetails)),
+          mergeMap((peerMapScopeDetails: ExchangeExplorerScopeResponse) => {
+            const geoMapBounds = {
+              BottomRight: peerMapScopeDetails.ScopeBottomRight,
+              TopLeft: peerMapScopeDetails.ScopeTopLeft,
+              Centroid: peerMapScopeDetails.ExchangeDataSearchResponse.MapSummary.Centroid
+            };
+            return [
+              new fromExchangeScopeActions.LoadExchangeScopeDetailsSuccess(peerMapScopeDetails),
+            ];
+          }),
           catchError(() => of(new fromExchangeScopeActions.LoadExchangeScopeDetailsError))
         )
       )
@@ -132,7 +142,7 @@ export class ExchangeScopeEffects {
         ) as MultiSelectFilter[];
 
         const savedFilters = this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(
-          [scopeResponse.SelectedFilterOptions], payload.searchFilterMappingDataObj
+          [scopeResponse.SelectedFilterOptions]
         );
         const selections = savedFilters[0].Filters;
         actions.push(new fromSearchFiltersActions.ApplySavedFilters(selections));
@@ -157,6 +167,12 @@ export class ExchangeScopeEffects {
         return actions;
       })
     );
+
+  @Effect()
+  applyScopeCriteriaSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType(fromMapActions.APPLY_CUT_CRITERIA, fromMapActions.APPLY_SCOPE_CRITERIA),
+    map(() => new fromMapActions.ApplyScopeCriteriaSuccess())
+  );
 
   @Effect()
   upsertExchangeScope$: Observable<Action> = this.actions$.pipe(
