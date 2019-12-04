@@ -1,0 +1,53 @@
+<div class="row mt-5">
+  <div class="col-sm-4">
+    <h5>Import Fields</h5>
+    <div class="w-75">
+      <pf-input-debounce [minWidth]="300"
+                          [id]="'providerEntitySearch-' + entity"
+                          [delay]="400"
+                          (valueChanged)="handleSearchTermChanged($event, 'provider')"
+                          [placeholderText]="'Search...'"
+                          pfClickElsewhere>
+      </pf-input-debounce>
+    </div>
+    <div class="row my-4 provider-field-list">
+      <div class="col">
+        <div class="">
+          <div *ngFor="let field of filteredProviderFields" class="my-3 provider-field-list-item">
+            <label class="mx-3 p-2 my-0">{{field.FieldName}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-auto"> </div>
+  <div class="col-sm-7">
+    <h5>Payfactors Fields</h5>
+    <div class="w-50">
+      <pf-input-debounce [minWidth]="300"
+                        [id]="'payfactorsEntitySearch-' + entity"
+                        [delay]="400"
+                        (valueChanged)="handleSearchTermChanged($event, 'payfactors')"
+                        [placeholderText]="'Search...'"
+                        pfClickElsewhere>
+      </pf-input-debounce>
+    </div>
+    <div class="container-fluid my-4 border rounded pf-entity-table">
+      <div class="row p-3 border-bottom sticky-top pf-entity-table-header">
+        <h5>FIELD NAME</h5>
+      </div>
+      <div class="">
+        <div class="row py-3 {{ !isFirst ? 'border-top': ''}}" *ngFor="let field of filteredPayfactorsFields; first as isFirst">
+          <div class="d-flex p-2">
+            <div class="d-inline-flex align-items-center">
+              <fa-icon icon="info-circle" placement="left" ngbTooltip="Lorem Ipsum" class="mx-2"
+                style="font-size: 1.6rem;"></fa-icon>
+              <h5 class="{{field.IsRequired ? 'font-weight-bold' : ''}} mb-0">{{field.FieldName}}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <label><b>Bolded</b> fields are required</label>
+  </div>
+</div>

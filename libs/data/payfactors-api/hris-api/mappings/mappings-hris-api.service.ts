@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ProviderResponse } from 'libs/models/hris-api/provider';
+import { PayfactorsEntityFieldsResponse } from 'libs/models/hris-api/mapping';
 import { UserContext } from 'libs/models/security';
 
 import { HrisApiService } from '../hris-api.service';
@@ -8,14 +8,14 @@ import { HrisApiService } from '../hris-api.service';
 const UTILITIES_SUB_DOMAIN_CONFIG_NAME = 'UtilitiesSubDomain';
 
 @Injectable()
-export class ProvidersHrisApiService {
-  private endpoint = 'providers';
+export class MappingsHrisApiService {
+  private endpoint = 'mappings';
 
   constructor(private hrisApiService: HrisApiService) {
 
   }
 
-  getProvidersByTransferMethodId(userContext: UserContext, transferMethodId: number) {
+  getPayfactorsFields(userContext: UserContext, entity: string) {
     const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
     if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
@@ -23,10 +23,10 @@ export class ProvidersHrisApiService {
 
     const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
-    return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}?transferMethodId=${transferMethodId}`);
+    return this.hrisApiService.get<PayfactorsEntityFieldsResponse>(`${host}${this.endpoint}/${userContext.CompanyId}/payfactorsfields/${entity}`);
   }
 
-  getProviderById(userContext: UserContext, providerId: number) {
+  getProviderFields(userContext: UserContext, entity: string) {
     const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
     if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
@@ -34,6 +34,6 @@ export class ProvidersHrisApiService {
 
     const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
-    return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}/${providerId}`);
+    return this.hrisApiService.get<any>(`${host}${this.endpoint}/${userContext.CompanyId}/providerfields/${entity}`);
   }
 }

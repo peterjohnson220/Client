@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { DragulaModule } from 'ng2-dragula';
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -19,11 +21,11 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { EntityPickerComponent, EntityUploadComponent } from './components';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import {
-    DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, HrisAuthenticationCardComponent,
-    ManageDataPageComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent,
-    TransferMethodDropdownComponent, WorkdayAuthenticationComponent
+  DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, FieldMappingCardComponent,
+  HrisAuthenticationCardComponent, ManageDataPageComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent,
+  TransferDataPageComponent, TransferMethodDropdownComponent, WorkdayAuthenticationComponent, EntityMappingComponent
 } from './containers';
-import { OrganizationalDataPageEffects, TransferDataPageEffects } from './effects';
+import { OrganizationalDataPageEffects, TransferDataPageEffects, FieldMappingEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
@@ -39,12 +41,15 @@ import { reducers } from './reducers';
     MainRoutingModule,
 
     // 3rd Party
+    // DragulaModule.forRoot(),
     StoreModule.forFeature('data_management', reducers),
     EffectsModule.forFeature([
       TransferDataPageEffects,
-      OrganizationalDataPageEffects
+      OrganizationalDataPageEffects,
+      FieldMappingEffects
     ]),
     FontAwesomeModule,
+    NgbTabsetModule,
     NgbTooltipModule,
     NgbAlertModule,
     UploadModule,
@@ -72,7 +77,9 @@ import { reducers } from './reducers';
     OrgDataLoadComponent,
     EntityPickerComponent,
     EntityUploadComponent,
-    FileUploadComponent
+    FieldMappingCardComponent,
+    FileUploadComponent,
+    EntityMappingComponent
   ]
 })
 export class MainModule {

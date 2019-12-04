@@ -5,9 +5,11 @@ import * as fromRoot from 'libs/state/state';
 
 import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
 import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
+import * as fromFieldMappingReducer from './field-mapping.reducer';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
+  fieldMappingPage: fromFieldMappingReducer.State;
   organizationalDataPage: fromOrganizationalDataPageReducer.State;
 }
 
@@ -17,7 +19,8 @@ export interface State extends fromRoot.State {
 
 export const reducers = {
   transferDataPage: fromTransferDataPageReducer.reducer,
-  organizationalDataPage: fromOrganizationalDataPageReducer.reducer
+  organizationalDataPage: fromOrganizationalDataPageReducer.reducer,
+  fieldMappingPage: fromFieldMappingReducer.reducer
 };
 
 // Select Feature Area
@@ -27,6 +30,10 @@ export const selectFeatureAreaState = createFeatureSelector<DataManagementMainSt
 export const selectTransferDataPageState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.transferDataPage
+);
+export const selectFieldMappingState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.fieldMappingPage
 );
 export const selectOrganizationalDataPageState = createSelector(
   selectFeatureAreaState,
@@ -93,4 +100,28 @@ export const getOrganizationalHeadersLinkError = createSelector(
 export const getModalStateOpen = createSelector(
   selectOrganizationalDataPageState,
   fromOrganizationalDataPageReducer.getModalStateOpen
+);
+
+
+export const getSelectedEntities = createSelector(
+  selectTransferDataPageState,
+  fromTransferDataPageReducer.getSelectedEntities
+);
+
+// Field Mapping Card
+export const getFieldMappingCardLoading = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.getFieldMappingCardLoading
+);
+export const getFieldMappingCardLoadingError = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.getFieldMappingCardLoadingError
+);
+export const getProviderFields = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.getProviderFields
+);
+export const getPayfactorsFields = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.getPayfactorsFields
 );
