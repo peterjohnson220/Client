@@ -26,7 +26,7 @@
             <ng-container *ngIf="(controlsAsync.obj | filterArrayByName: nameFilter) as filteredControls">
               <table class="table table-hover" *ngIf="filteredControls.length; else noCompanyControls">
                 <tbody>
-                  <tr (click)="handleControlClick(control.Name)" *ngFor="let control of filteredControls; trackBy: trackByFunction">
+                  <tr (click)="handleControlClick(control)" *ngFor="let control of filteredControls; trackBy: trackByFunction">
                     <td width="96%" class="align-middle">
                         <span class="control-border" [style.border-left-color]="control.Color">
                             <span class="pl-2">{{control.Name}}</span>

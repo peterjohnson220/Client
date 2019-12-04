@@ -1,0 +1,46 @@
+<div data-qa-id='cnt-settingsPageContainer' class="column-scroll-inner scroll-y settings-page">
+  <div data-qa-id='cnt-headerContainer' class="edit-page-header">
+      <div class="d-flex justify-content-between">
+          <h3 data-qa-id='lbl-controlTitle'>
+              {{ (controlType$ | async)?.Name }}     
+          </h3>
+          <div data-qa-id='lbl-errorMessage' class="text-danger"> {{ errorMessage }} </div>
+          <div data-qa-id='cnt-headerButtonContainer' class="edit-page-button-area">
+              <button data-qa-id='btn-cancel' *ngIf="!readOnly" (click)="close()" class="btn btn-secondary ml-1">Cancel</button>
+              <button data-qa-id='btn-close' *ngIf="readOnly" (click)="close()" class="btn btn-secondary ml-1">Close</button>
+              <button data-qa-id='btn-save' *ngIf="readOnly && editable" (click)="saveEditedControl()" [disabled]="loading$ | async" class="btn btn-primary ml-1">Save</button>
+              <button data-qa-id='btn-create' *ngIf="!readOnly" (click)="createNewControl()" [disabled]="loading$ | async" class="btn btn-primary ml-1">Create</button>
+              <button data-qa-id='btn-copy' *ngIf="readOnly" (click)="copyControl()" [disabled]="loading$ | async" class="btn btn-secondary ml-1">Copy</button>    
+          </div>
+      </div>
+  </div>
+  <div class="view-editor-container">
+    <pf-async-container class="w-100" [smartLoadingMask]="true" 
+      [loading]="(saving$ | async) || (loading$ | async)" 
+      [loadingError]="unhandledError$ | async" [hideReloadButton]="true">
+      <pf-company-control-form
+          [readOnly]="readOnly"
+          [editable]="editable"
+          [errorMessage]="errorMessage"
+          [controlType]="controlType$ | async"
+          (controlOptionDeleteClick)="handleControlOptionDeleteClick($event)"
+          (controlSubmitted)="handleControlSubmitted($event)">
+      </pf-company-control-form>
+    </pf-async-container>
+  </div>
+
+  <!-- Modal -->
+  <pf-confirm-edit-company-control-modal 
+      [controlName]="(controlType$ | async)?.Name" 
+      [affectedJobs]="affectedJobs"
+      [affectedTemplateNames]="affectedTemplateNames" 
+      (editCompanyControlConfirmed)="handleEditCompanyControlConfirmed()">
+  </pf-confirm-edit-company-control-modal>
+
+  <pf-delete-control-option-modal
+      [affectedJobs]="affectedJobsToDisplay">
+  </pf-delete-control-option-modal>
+
+   <!-- <pf-copy-control-modal (copyControlComplete)="handleCopyCompanyControl($event)"></pf-copy-control-modal> -->
+
+</div>

@@ -124,3 +124,9 @@ tr.row-disabled {
 input[type=text]::-ms-clear {
   display: none;
 }
+
+input[type="radio"], input[type="checkbox"] {
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

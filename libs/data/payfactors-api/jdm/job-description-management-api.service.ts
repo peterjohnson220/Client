@@ -28,11 +28,8 @@ export class JobDescriptionManagementApiService {
   }
 
   getJobsByControlOptionValue(type: string, fieldName: string, fieldOptionValue: string): Observable<string[]> {
-    return this.payfactorsApiService.get(`${this.endpoint}.GetJobsByControlOptionValue`, {
-      type: type,
-      fieldName: fieldName,
-      fieldOptionValue: fieldOptionValue
-    });
+    return this.payfactorsApiService
+    .get(`${this.endpoint}.GetJobsByControlOptionValue?type=${type}&fieldName=${fieldName}&fieldOptionValue=${fieldOptionValue}`);
   }
 
   getViewNames(templateId: number = null): Observable<string[]> {
@@ -120,7 +117,7 @@ export class JobDescriptionManagementApiService {
   }
 
   isControlEditable(controlType: string) {
-      return this.payfactorsApiService.get( `${this.endpoint}.IsControlEditable`, { controlType: controlType });
+      return this.payfactorsApiService.get( `${this.endpoint}.IsControlEditable?controlType=${controlType}`);
   }
 
   controlNameExists(controlName: string) {
@@ -140,5 +137,10 @@ export class JobDescriptionManagementApiService {
           controlJsonAsString: JSON.stringify(controlType)
       };
       return this.payfactorsApiService.put(`${this.endpoint}.SaveControl`, obj);
+  }
+
+  getControlByTypeAndVersion(type: string, version: number) {
+    return this.payfactorsApiService
+    .get(`${this.endpoint}.GetCompanyControlByTypeAndVersion?type=${type}&version=${version}`, {}, (response) => JSON.parse(response.value));
   }
 }

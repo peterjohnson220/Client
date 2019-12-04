@@ -52,6 +52,10 @@
   opacity: .65;
 }
 
+.has-danger .form-control {
+  border-color: #d9534f;
+}
+
 .btn-group .btn-group-vertical {
   position: relative;
   display: inline-flex;

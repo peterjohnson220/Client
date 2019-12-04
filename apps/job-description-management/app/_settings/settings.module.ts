@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { SharedModule } from '../shared/shared.module';
-
 import { SettingsRoutingModule } from './settings-routing.module';
 import { ViewsListModule } from './views-list';
 import { ViewEditGuard, ViewEditModule } from './view-edit';

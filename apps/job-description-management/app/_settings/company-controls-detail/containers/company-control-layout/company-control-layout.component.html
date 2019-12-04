@@ -1,0 +1,179 @@
+<form [formGroup]="controlLayoutForm">  
+    <div class="card my-2 attribute-section">
+        <div class="card-header">
+        Control Layout 
+            <div *ngIf="!readOnly && attributesArray.length < maxAttributes" class="float-right">  
+                <button [disabled]="!editorType"  type="button" class="btn btn-secondary btn-sm" (click)="onAddNewAttribute()">
+                    <fa-icon icon="plus"></fa-icon> Add
+                </button>
+            </div>
+        </div>
+        <div class="card-block">   
+        <div class="row">
+            <div class="col-3 px-0">
+                <ul formArrayName="Attributes" class="nav nav-pills flex-column nav-override" role="tablist">
+                    <div  *ngFor="let attribute of attributesArray.controls; let i = index" class="">
+                        <li [ngClass]="{'active':(i==activeTab), 'nav-item': true, 'top-border': (i==0) }">
+                            <div class="row" [formGroupName]="i">
+                                
+                                <div class="col-10 px-0">             
+                                <a class="nav-link" [ngClass]="{'active':(i==activeTab)}" (click)="setActiveTab(i)"> 
+                                    {{ attributes.controls[i].controls.DisplayName.value }}
+                                </a> 
+                                </div>
+
+                                <div class="col-2 d-flex justify-content-end align-items-center pl-0 pr-2" [ngClass]="{'active':(i==activeTab)}">                  
+                                    <button *ngIf="!readOnly && attributes.length > 1 && (i==activeTab) " (click)="onRemoveAttribute(i)">
+                                        <fa-icon icon="trash-alt"></fa-icon>
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </li>
+                    </div>
+                    <span *ngIf="attributes.hasError('duplicateAttributeNames')" class="text-danger float-right">Field names must be unique</span>
+                </ul>
+            </div>
+            <div class="col-9 pr-0" formArrayName="Attributes" [ngClass]="{'attribute-body':(attributesArray.length > 0)}">
+                <div *ngFor="let attribute of attributesArray.controls; let i = index" class="attribute-list">
+                    <div [formGroupName]="i">
+            
+                        <div *ngIf="i==activeTab">
+
+                            <div class="row">
+                                <div class="col-6 pt-3">
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                                <label for="attributeName" class="control-label pr-1">Name:</label>
+                                        </div>
+                                        <div class="form-group input-group col-8" [ngClass]="{'disabled': readOnly}">
+                                            <kendo-maskedtextbox  class="form-control" formControlName="DisplayName"
+                                                [prompt]="emptyPrompt"
+                                                [mask]="attributeNameMask"
+                                                [maskValidation]="maskValidationFlag"
+                                                [rules]="attributeNameRules">                                                              
+                                            </kendo-maskedtextbox>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                                <label for="attributeWidth" class="control-label">Width:</label>
+                                        </div>
+                                        <div class="form-group input-group col-8  attribute-input" [ngClass]="{'disabled': readOnly}">
+                                            <kendo-numerictextbox  class="form-control" formControlName="WidthPct"
+                                                [format]="'n'"
+                                                [spinners]="false"
+                                                [decimals]="0"
+                                                [max]="100"
+                                                [min]="1"
+                                                [autoCorrect]="true"
+                                            ></kendo-numerictextbox>
+                                            <span class="d-flex align-items-center pl-1">%</span>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="!(attributes.controls[i].controls.Type.value  === 'Rendered')" >
+
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label for="control-name" class="control-label pr-4">Type:</label>
+                                            </div>
+                                            <div class="form-group input-group col-8" [ngClass]="{'disabled': readOnly}">
+                                                <kendo-dropdownlist 
+                                                    formControlName="Type"
+                                                    class="form-control"
+                                                    [data]="types"
+                                                    [textField]="'text'"
+                                                    [valueField]="'value'"
+                                                    [valuePrimitive]="true"
+                                                    (valueChange)="onHandleAttributeTypeChanged($event, i)">
+                                                </kendo-dropdownlist>   
+                                                <!-- <span *ngIf="submitted && attributes.controls[i].controls.Type.hasError('required')" class="text-danger float-right">Required</span>                                             -->
+                                            </div>
+                                            </div>
+                                        <div class="row"></div>
+                                    </div>
+                                    <div *ngIf="(!readOnly || editable) && (attributes.controls[i].controls.Type.value  === 'Dropdown' || attributes.controls[i].controls.Type.value  ==='RadioButton')">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label for="choice-input" class="control-label pr-1">Options:</label>
+                                            </div>
+                                            <div class="input-group col-8 pb-2">
+                                                <input #choiceInput  type="text" class="form-control" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-secondary btn-sm" (click)="onAddNewOption(i, choiceInput, attributes.controls[i].controls.Choices)">
+                                                        <fa-icon icon="plus"></fa-icon>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="!canEditTemplateData" class="row">
+                                        <div class="form-check col-12">
+                                            <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" formControlName="CanEditTemplateData">
+                                            Can Edit Template Data
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="!(attributes.controls[i].controls.Type.value  === 'Dropdown') && !(attributes.controls[i].controls.Type.value  === 'RadioButton')">
+                                        <div class="row">
+                                            <div class="form-check col-12">
+                                                <label class="form-check-label">                                                  
+                                                    <input type="checkbox" class="form-check-input" formControlName="CanBeSourced" (change)="onUpdateSourcedAttribute(i)">
+                                                    Can Be Sourced
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">                                            
+                                            <span *ngIf="controlLayoutForm.hasError('missingRenderedType')" class="text-danger float-right">SmartList must have one field that Can Be Sourced.</span>
+                                        </div>
+                                    </div>
+
+                                </div> 
+
+                                <div class="col-6 pt-3 pr-0" [ngClass]="{'choice-list-border':(attributes.controls[i].controls.Choices.length > 0) }">
+                                    
+                                    <div *ngIf="attributes.controls[i].controls.Type.value  === 'Dropdown' || attributes.controls[i].controls.Type.value  ==='RadioButton'">
+                                        
+                                        <div formArrayName="Choices">
+
+                                            <div *ngIf="attributes.controls[i].controls.Choices.length > 0">
+                                                <label class="control-label">Selections: </label>
+                                                <div id="choice-list-section" [dragula]="'choice-list-reorder-bag'" [(dragulaModel)]="attributes.controls[i].controls.Choices.controls">
+                                                    <div *ngFor="let choice of attributes.controls[i].controls.Choices.controls; let choiceIndex = index" class="choice-list-container" [attr.data-index]="choiceIndex" [attr.data-attribute-index]="i">
+                                                        <div [formGroupName]="choiceIndex" class="input-group dnd-choice-reorder pr-2">
+                                                            <div *ngIf="(!readOnly || editable) && attributes.controls[i].controls.Choices.length > 1" width="1%" class="dnd-choice-reorder-handle p-1">
+                                                                <fa-icon icon="ellipsis-v"></fa-icon>
+                                                            </div>
+
+                                                            <input type="text" data-qa-id='txt-textFormControlOption' formControlName="display" class="form-control pl-2" />
+                                                            <span class="input-group-btn">
+                                                                <button *ngIf="(!readOnly || editable)" data-qa-id='btn-deleteFormControlOptionValueBtn' type="button" class="btn btn-secondary btn-sm" (click)="checkForValuesInUse(i, choiceIndex, choice.value.value, attributes.controls[i].controls.Name.value)">
+                                                                    <fa-icon icon="trash-alt"></fa-icon>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>                                           
+
+                                    </div> 
+
+                                </div> 
+                                
+                            </div>                                       
+
+                        </div> 
+                    
+                    </div> 
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</form>
