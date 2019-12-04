@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FooterViewEffects } from './effects';
 import { reducers } from './reducers';
 import { FooterViewPageComponent } from './footer-view.page/footer-view.page';
+import { PfCommonUIModule } from 'libs/ui/common';
 
 @NgModule({
   imports: [
@@ -18,7 +19,10 @@ import { FooterViewPageComponent } from './footer-view.page/footer-view.page';
 
     // 3rd Party
     StoreModule.forFeature('jobDescriptionManagement_settings_footerView', reducers),
-    EffectsModule.forFeature([FooterViewEffects])
+    EffectsModule.forFeature([FooterViewEffects]),
+
+    // Payfactors
+    PfCommonUIModule
   ],
   declarations: [
     // Components

@@ -16,17 +16,20 @@ import { FooterViewModel } from '../models';
 export class FooterViewPageComponent implements OnInit, OnDestroy {
 
   private jdmFooterView$: Observable<FooterViewModel>;
-  private loadingError$: Observable<boolean>;
-  private savingError$: Observable<boolean>;
-  private savingSuccess$: Observable<boolean>;
+  public loading$: Observable<boolean>;
+  public saving$: Observable<boolean>;
+  private loadingSuccess$: Observable<boolean>;
+  public loadingError$: Observable<boolean>;
+  public savingError$: Observable<boolean>;
+  public savingSuccess$: Observable<boolean>;
   private jdmFooterViewSubscription: Subscription;
   private loadingErrorSubscription: Subscription;
-  private savingErrorSubscription: Subscription;
   private savingSuccessSubscription: Subscription;
+  private loadingSuccessSubscription: Subscription;
   public jdmFooterForm: FormGroup;
+  public loadingSuccess: boolean = false;
   public loadingError: boolean = false;
-  public savingError: boolean = false;
-  public savingSuccess: boolean = false;
+  public placeholderText: string = '';
 
   get createdByCheck() { return this.jdmFooterForm.controls['createdByCheck']; }
   get createdDateCheck() { return this.jdmFooterForm.controls['createdDateCheck']; }
@@ -38,26 +41,33 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromFooterViewReducer.State>, private formBuilder: FormBuilder) {
       this.buildForm();
       this.jdmFooterView$ = this.store.select(fromFooterViewReducer.getFooterViewObj);
+      this.loading$ = this.store.select(fromFooterViewReducer.getLoading);
+      this.saving$ = this.store.select(fromFooterViewReducer.getSaving);
       this.loadingError$ = this.store.select(fromFooterViewReducer.getLoadingError);
       this.savingError$ = this.store.select(fromFooterViewReducer.getSavingError);
       this.savingSuccess$ = this.store.select(fromFooterViewReducer.getSavingSuccess);
+      this.loadingSuccess$ = this.store.select(fromFooterViewReducer.getLoadingSuccess);
   }
 
   ngOnInit() {
       this.store.dispatch(new fromFooterViewAction.LoadFooterViewAction());
 
-      this.jdmFooterViewSubscription = this.jdmFooterView$.subscribe(payload => {
-        this.setFooterViewFormData(payload);
-      });
+      this.loadingSuccessSubscription = this.loadingSuccess$.subscribe(le => this.loadingSuccess = le);
       this.loadingErrorSubscription = this.loadingError$.subscribe(le => this.loadingError = le);
-      this.savingErrorSubscription = this.savingError$.subscribe(se => this.savingError = se);
-      this.savingSuccessSubscription = this.savingSuccess$.subscribe(ss => this.savingSuccess = ss);
+      this.savingSuccessSubscription = this.savingSuccess$.subscribe(ss => {
+        this.jdmFooterForm.markAsPristine();
+      });
+
+      this.jdmFooterViewSubscription = this.jdmFooterView$.subscribe(payload => {
+        if (this.loadingSuccess && !this.loadingError) {
+          this.setFooterViewFormData(payload);
+        }
+      });
   }
 
   ngOnDestroy() {
     this.jdmFooterViewSubscription.unsubscribe();
     this.loadingErrorSubscription.unsubscribe();
-    this.savingErrorSubscription.unsubscribe();
     this.savingSuccessSubscription.unsubscribe();
   }
 
@@ -71,8 +81,6 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
         customTextValue: ['', [Validators.maxLength(40)]]},
         { validator: this.maxCheckBoxCountValidator }
       );
-
-      this.jdmFooterForm.valueChanges.subscribe((v) => this.savingSuccess = false);
   }
 
   submit() {
@@ -100,6 +108,7 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
       this.pageNumberCheck.setValue(payload.PageNumberField);
       this.customTextCheck.setValue(payload.CustomTextField);
       this.customTextValue.setValue(payload.CustomTextValueField);
+      this.placeholderText = payload.CustomTextValueField === '' ? 'Custom Text, Limit 40 Characters' : '';
     }
   }
 

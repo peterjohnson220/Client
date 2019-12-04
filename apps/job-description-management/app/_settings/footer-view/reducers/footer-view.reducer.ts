@@ -3,6 +3,9 @@ import * as JdmFooterViewSettingsActions from '../actions';
 
 export interface State {
     jdmFooterView: FooterViewModel;
+    loading: boolean;
+    saving: boolean;
+    loadingSuccess: boolean;
     loadingError: boolean;
     savingSuccess: boolean;
     savingError: boolean;
@@ -17,18 +20,12 @@ const initialState: State = {
       CustomTextField: false,
       CustomTextValueField: ''
     },
+    loading: false,
+    saving: false,
     loadingError: false,
     savingSuccess: false,
-    savingError: false
-};
-
-const emptyFooterView: FooterViewModel = {
-  CreatedByField: false,
-    CreatedDateField: false,
-    VersionNumberField: false,
-    PageNumberField: false,
-    CustomTextField: false,
-    CustomTextValueField: ''
+    savingError: false,
+    loadingSuccess: false
 };
 
 export function reducer (state = initialState, action: JdmFooterViewSettingsActions.Actions): State {
@@ -36,21 +33,26 @@ export function reducer (state = initialState, action: JdmFooterViewSettingsActi
       case JdmFooterViewSettingsActions.LOAD_FOOTER_VIEW:
           return {
             ...state,
+            loading: true
           };
       case JdmFooterViewSettingsActions.LOAD_FOOTER_VIEW_SUCCESS:
           return {
             ...state,
             jdmFooterView: action.payload,
+            loadingSuccess: true,
+            loading: false
           };
       case JdmFooterViewSettingsActions.LOAD_FOOTER_VIEW_ERROR:
           return {
             ...state,
-            jdmFooterView: emptyFooterView,
-            loadingError: true
+            loadingError: true,
+            loadingSuccess: false,
+            loading: false
           };
       case JdmFooterViewSettingsActions.SAVE_FOOTER_VIEW:
           return {
             ...state,
+            saving: true,
             savingSuccess: false,
             savingError: false
           };
@@ -58,12 +60,14 @@ export function reducer (state = initialState, action: JdmFooterViewSettingsActi
           return {
             ...state,
             jdmFooterView: action.payload,
+            saving: false,
             savingSuccess: true,
             savingError: false
           };
       case JdmFooterViewSettingsActions.SAVE_FOOTER_VIEW_ERROR:
           return {
             ...state,
+            saving: false,
             savingSuccess: false,
             savingError: true
           };
@@ -73,6 +77,9 @@ export function reducer (state = initialState, action: JdmFooterViewSettingsActi
 }
 
 export const getJdmFooterViewObj = (state: State) => state.jdmFooterView;
+export const getLoading = (state: State) => state.loading;
+export const getSaving = (state: State) => state.saving;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getSavingError = (state: State) => state.savingError;
 export const getSavingSuccess = (state: State) => state.savingSuccess;
+export const getLoadingSuccess = (state: State) => state.loadingSuccess;

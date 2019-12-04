@@ -4,6 +4,7 @@
 
   <p>A Footer View is a way to determine sections and content controls a user is able to see while looking at a PDF or Word footer. Choose up to 3 selections.</p>
     
+  <pf-async-container [smartLoadingMask]="true" [loading]="(loading$ | async)" [loadingError]="(loadingError$ | async)" [hideReloadButton]="true">
     <form [formGroup]="jdmFooterForm" (ngSubmit)="submit()">
         <div class="form-group">
             <label for="createdByCheck">
@@ -31,18 +32,20 @@
         </div>
         <div class="form-group">
             <input type="checkbox" id="customTextCheck"  formControlName="customTextCheck" class="mr-3"/>
-            <input type="text" formControlName="customTextValue" class="w-50" placeholder="Custom Text, Limit 40 Characters" maxlength="40"/>
+            <input type="text" formControlName="customTextValue" class="w-50" placeholder="{{placeholderText}}" maxlength="40"/>
         </div>
         <div class="d-flex pt-2 justify-content-between border-top">
             <button type="submit" 
-                [ngClass]="{'disabled': !jdmFooterForm.valid || loadingError || savingError}" 
-                class="btn btn-primary disabled">
-                Save
+            [ngClass]="{'disabled': !jdmFooterForm.valid || (loadingError$ | async) || (savingError$ | async)}" 
+            class="btn btn-primary disabled">
+                <span *ngIf="(saving$ | async)">
+                    <pf-loading-indicator></pf-loading-indicator> Saving...
+                  </span>
+                  <span *ngIf="!(saving$ | async)">Save</span>
             </button>
 
-            <span class="help-block text-danger" *ngIf="loadingError">Error loading footer view.</span>
-            <span class="help-block text-danger" *ngIf="savingError">Error saving footer view.</span>
-            <span class="help-block text-success" *ngIf="savingSuccess">Footer view saved successfully!</span>
+            <span class="help-block text-danger" *ngIf="(savingError$ | async)">Error saving footer view.</span>
+            <span class="help-block text-success" *ngIf="(savingSuccess$ | async) && jdmFooterForm.pristine">Footer view saved successfully!</span>
 
             <span class="help-block text-danger" *ngIf="jdmFooterForm.hasError('customValidationError')">Only 3 fields can be added to the footer.</span>
             <span class="help-block text-danger" *ngIf="customTextValue.hasError('maxlength')">
@@ -51,5 +54,5 @@
             </span>
         </div>		
     </form>
-
+</pf-async-container>
 </div>
