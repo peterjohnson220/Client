@@ -45,11 +45,14 @@
         <ng-template #blankCellTemplate>
           <div class="empty-row">N/A</div>
         </ng-template>
-
       </kendo-grid-column>
     </kendo-grid>
   </div>
-  <div class="loading-more-row" *ngIf="loadingMoreData$ | async">
-    <pf-loading-indicator></pf-loading-indicator> Loading more results...
+  <div class="d-flex">
+    <div class="loading-more-row" *ngIf="loadingMoreData$| async">
+      <pf-loading-indicator></pf-loading-indicator> Loading more results...
+    </div>
+    <p class="ml-auto" id="total-count">Count: <span class="font-weight-bold">{{totalCount$ | async | number}}</span></p>
   </div>
 </div>
+
