@@ -22,6 +22,10 @@ describe('FieldMapperComponent', () => {
     fixture = TestBed.createComponent(FieldMapperComponent);
     component = fixture.componentInstance;
     component.loaderType = LoaderType.Structures;
+    component.visibleLoaderOptions = {
+      clientFileName: true,
+      selectFile: true
+    };
     component.fieldMappings$ = of([{
       CompanyId: 13,
       LoaderType: LoaderType.Jobs,

@@ -11,6 +11,7 @@ import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loa
 import { LoaderTypes } from 'libs/constants/loader-types';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import { ConfigSetting } from 'libs/models/security';
+import { VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 
@@ -91,6 +92,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   };
   sftpDomainConfig$: Observable<ConfigSetting>;
   sftpPortConfig$: Observable<ConfigSetting>;
+  visibleLoaderOptions: VisibleLoaderOptionModel;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -188,6 +190,10 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.isEmployeesFullReplace = true;
     this.isStructureMappingsFullReplace = true;
     this.existingCompanyLoaderSettings = [];
+    this.visibleLoaderOptions = {
+      clientFileName: true,
+      selectFile: true
+    };
 
     this.saveMappingsSuccess$
       .pipe(

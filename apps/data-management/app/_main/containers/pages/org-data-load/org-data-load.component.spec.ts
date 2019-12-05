@@ -10,7 +10,7 @@ import * as fromCompanyReducer from 'libs/features/company/reducers';
 import { generateMockUserContext } from 'libs/models';
 
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
-import { EntityUploadComponent } from '../../../components/entity-upload/entity-upload.component';
+import { EntityUploadComponent } from '../../../components';
 import { getEntityChoicesForOrgLoader } from '../../../models';
 import { OrgDataLoadComponent } from './';
 
