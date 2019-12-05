@@ -25,6 +25,12 @@
             <ng-container *ngIf="name.errors">
                 <div *ngIf="name.errors.error" class="invalid-feedback">{{name.errors.error}}</div>
             </ng-container>
+            <span *ngIf="!name.pristine && name.hasError('required')" class="text-danger float-right">Required</span>
+            <span *ngIf="!name.pristine && name.hasError('minLength')" class="text-danger float-right">Required</span>
+            <span *ngIf="name.hasError('maxlength')" class="text-danger float-right">
+                        Exceeds {{name.errors.maxlength.requiredLength}} characters: 
+                        {{name.errors.maxlength.actualLength}}
+            </span>
     </div>
   </ng-container>
 </pf-modal-form>
