@@ -19,6 +19,7 @@ export class ActionBarComponent implements OnChanges {
   @Input() pageViewId: string;
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
+  @Input() globalFiltersTemplate: TemplateRef<any>;
   @Output() onFilterSidebarToggle = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
@@ -45,6 +46,6 @@ export class ActionBarComponent implements OnChanges {
   }
 
   savedViewClicked(view: SimpleDataView) {
-    this.store.dispatch(new fromActions.LoadViewConfig(this.pageViewId, view.Name));
+    this.store.dispatch(new fromActions.HandleSavedViewClicked(this.pageViewId, view.Name));
   }
 }

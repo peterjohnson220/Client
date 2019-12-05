@@ -6,6 +6,7 @@ export interface State {
   jobDescription: string;
   updatedJobDescription: string;
   saving: boolean;
+  jobDescriptionLoaded: boolean;
 }
 
 export const initialState: State = {
@@ -14,6 +15,7 @@ export const initialState: State = {
   jobDescription: null,
   updatedJobDescription: null,
   saving: false,
+  jobDescriptionLoaded: false
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.JobDescriptionActions): State {
@@ -24,6 +26,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionManagementEnabled: action.payload.JobDescriptionManagementEnabled,
         jobDescription: action.payload.JobSummary,
         updatedJobDescription: action.payload.JobSummary,
+        jobDescriptionLoaded: true,
       };
     }
     case fromJobDescriptionActions.CHANGE_JOB_DESCRIPTION: {
@@ -32,10 +35,16 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         updatedJobDescription: action.payload
       };
     }
+    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION: {
+      return {
+        ...state,
+        jobDescriptionLoaded: false,
+      };
+    }
     case fromJobDescriptionActions.SAVE_JOB_DESCRIPTION_SUCCESS: {
       return {
         ...state,
-        updatedJobDescription: state.jobDescription,
+        jobDescription: state.updatedJobDescription,
         saving: false,
       };
     }
@@ -55,6 +64,8 @@ export const getJobDescriptionManagementEnabled = (state: State) => state.jobDes
 export const getJobDescription = (state: State) => state.jobDescription;
 export const getJobDescriptionUpdated = (state: State) => state.jobDescription !== state.updatedJobDescription;
 export const getSavingState = (state: State) => state.saving;
+export const getJobDescriptionLoaded = (state: State) => state.jobDescriptionLoaded;
+
 
 
 
