@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
 import { SaveUserDataViewSortOrderRequest } from 'libs/models/payfactors-api/reports/request';
+import { DataViewEntityResponseWithCount } from 'libs/models/payfactors-api/reports/response';
 
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
@@ -34,14 +35,14 @@ export class DataViewGridEffects {
     ),
     switchMap((data) => {
       const request = PayfactorsApiModelMapper.buildDataViewDataRequest(
-        data.dataViewAsync.obj, data.fields, data.pagingOptions, data.sortDescriptor, data.filters);
-      return this.dataViewApiService.getData(request)
+        data.dataViewAsync.obj, data.fields, data.pagingOptions, data.sortDescriptor, data.filters, data.pagingOptions.From === 0);
+      return this.dataViewApiService.getDataWithCount(request)
       .pipe(
-        map((response: any[]) => {
+        map((response: DataViewEntityResponseWithCount) => {
           if (data.pagingOptions.From > 0) {
-            return new fromDataViewGridActions.GetMoreDataSuccess(response);
+            return new fromDataViewGridActions.GetMoreDataSuccess(response.Data);
           } else {
-            return new fromDataViewGridActions.GetDataSuccess(response);
+            return new fromDataViewGridActions.GetDataSuccess({data: response.Data, totalCount: response.TotalCount});
           }
         }),
         catchError(() => of(new fromDataViewGridActions.GetDataError()))
