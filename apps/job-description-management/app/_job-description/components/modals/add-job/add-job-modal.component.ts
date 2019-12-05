@@ -76,7 +76,7 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
   }
 
   handleTemplateChanged(value: any) {
-    if (value === -1) {
+    if (!value || value === -1) {
       this.addAndAssign = false;
     } else {
       this.addAndAssign = true;
