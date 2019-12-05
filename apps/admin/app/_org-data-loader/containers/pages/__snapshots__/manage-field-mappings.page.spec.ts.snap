@@ -54,6 +54,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
     
@@ -223,6 +224,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
     
@@ -392,6 +394,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
     
@@ -560,6 +563,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
     
@@ -640,6 +644,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
     

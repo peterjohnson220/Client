@@ -6,11 +6,13 @@ import * as fromRoot from 'libs/state/state';
 import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
 import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
 import * as fromFieldMappingReducer from './field-mapping.reducer';
+import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
   fieldMappingPage: fromFieldMappingReducer.State;
   organizationalDataPage: fromOrganizationalDataPageReducer.State;
+  orgDataFieldMappings: fromOrgDataFieldMappingsReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -20,7 +22,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   transferDataPage: fromTransferDataPageReducer.reducer,
   organizationalDataPage: fromOrganizationalDataPageReducer.reducer,
-  fieldMappingPage: fromFieldMappingReducer.reducer
+  fieldMappingPage: fromFieldMappingReducer.reducer,
+  orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer
 };
 
 // Select Feature Area
@@ -39,6 +42,11 @@ export const selectOrganizationalDataPageState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.organizationalDataPage
 );
+export const selectOrgDataFieldMappingsState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.orgDataFieldMappings
+);
+
 
 // Transfer Data Page
 export const getTransferMethods = createSelector(
@@ -125,3 +133,11 @@ export const getPayfactorsFields = createSelector(
   selectFieldMappingState,
   fromFieldMappingReducer.getPayfactorsFields
 );
+// Organizational Field Mapping
+export const {
+  selectAll: getFieldMappings
+} = fromOrgDataFieldMappingsReducer.adapter.getSelectors(selectOrgDataFieldMappingsState);
+export const getLoadingFieldMappings =
+  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappings);
+export const getLoadingFieldMappingsError =
+  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappingsError);

@@ -179,6 +179,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  hasUploadedFiles(): boolean {
+    if (this.loadOptions.find(f => f.isChecked && f.File !== null)) {
+      return true;
+    }
+    return false;
+  }
+
   getNextBtnOpacity(): number {
     if (!this.areStepsValid()) {
       return .65;
@@ -195,8 +202,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return true;
     }
 
-    if (this.stepIndex === OrgUploadStep.Files) {
-      // TODO: when we have requirements for step 3 add here
+    if (this.stepIndex === OrgUploadStep.Files && this.hasUploadedFiles()) {
+      return true;
     }
 
     return false;

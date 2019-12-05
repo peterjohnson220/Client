@@ -49,6 +49,7 @@
                   [fieldMappings$]="companyMappings$"
                   [fieldMappingsLoading]="companyMappingsLoading$ | async"
                   [loadEnabled]="isPaymarketsLoadEnabled"
+                  [visibleLoaderOptions] = "visibleLoaderOptions"
                   (mappingComplete)="onPaymarketMappingComplete($event)"></pf-field-mapper>
               </ng-template>
             </kendo-tabstrip-tab>
@@ -62,6 +63,7 @@
                   [fieldMappings$]="companyMappings$"
                   [fieldMappingsLoading]="companyMappingsLoading$ | async"
                   [loadEnabled]="isJobsLoadEnabled"
+                  [visibleLoaderOptions] = "visibleLoaderOptions"
                   (mappingComplete)="onJobMappingComplete($event)"></pf-field-mapper>
               </ng-template>
             </kendo-tabstrip-tab>
@@ -75,6 +77,7 @@
                   [fieldMappings$]="companyMappings$"
                   [fieldMappingsLoading]="companyMappingsLoading$ | async"
                   [loadEnabled]="isStructuresLoadEnabled"
+                  [visibleLoaderOptions] = "visibleLoaderOptions"
                   (mappingComplete)="onStructureMappingComplete($event)"></pf-field-mapper>
               </ng-template>
             </kendo-tabstrip-tab>
@@ -89,6 +92,7 @@
                   [fieldMappingsLoading]="companyMappingsLoading$ | async"
                   [isFullReplace]="isStructureMappingsFullReplace"
                   [loadEnabled]="isStructureMappingsLoadEnabled"
+                  [visibleLoaderOptions] = "visibleLoaderOptions"
                   (mappingComplete)="onStructureMappingMappingComplete($event)"></pf-field-mapper>
               </ng-template>
             </kendo-tabstrip-tab>
@@ -104,6 +108,7 @@
                   [fieldMappingsLoading]="companyMappingsLoading$ | async"
                   [isFullReplace]="isEmployeesFullReplace"
                   [loadEnabled]="isEmployeesLoadEnabled"
+                  [visibleLoaderOptions] = "visibleLoaderOptions"
                   (mappingComplete)="onEmployeeMappingComplete($event)"></pf-field-mapper>
               </ng-template>
             </kendo-tabstrip-tab>

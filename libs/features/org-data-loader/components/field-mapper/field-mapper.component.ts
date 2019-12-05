@@ -14,10 +14,11 @@ import {
 
 import {
   DateFormatItem,
-  LoaderFieldSet,
   LoaderEntityStatus,
-  FilenamePattern
+  FilenamePattern,
+  VisibleLoaderOptionModel
 } from 'libs/features/org-data-loader/models';
+import { LoaderFieldSet } from 'libs/models/data-loads';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -49,6 +50,7 @@ export class FieldMapperComponent implements OnInit {
   @Input() isFullReplace: boolean;
   @Input() loadEnabled: boolean;
   @Input() filenamePattern: FilenamePattern;
+  @Input() visibleLoaderOptions: VisibleLoaderOptionModel;
   @Output() mappingComplete = new EventEmitter<any>();
 
   constructor() {
