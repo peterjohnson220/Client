@@ -23,6 +23,7 @@ export class GridComponent implements OnInit, OnChanges {
   @Input() selectedRowId: number;
   @Input() allowSplitView: boolean;
   @Input() enableSelection = false;
+  @Input() noRecordsFound: string;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;

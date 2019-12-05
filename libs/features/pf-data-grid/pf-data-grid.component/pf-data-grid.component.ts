@@ -32,10 +32,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
+  @Input() gridGlobalFiltersTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
   @Input() defaultSort: SortDescriptor[];
-
+  @Input() noRecordsFound: string;
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;
@@ -81,7 +82,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.splitViewEmitter.unsubscribe();
-    this.userFilteredFieldsSubscription .unsubscribe();
+    this.userFilteredFieldsSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -115,8 +116,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, field));
   }
 
-  clearFilter(field: ViewField) {
-    this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, field));
+  clearFilter(field: ViewField, resetOperator = false) {
+    this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, field, resetOperator));
   }
 
   clearAllFilters() {

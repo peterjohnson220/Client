@@ -35,7 +35,7 @@ export function getValueDisplay(value: string, dataType: DataViewFieldDataType) 
 // ExpressionChangedAfterItHasBeenCheckedError console errors when opening the split view template
 export function getUserFilteredFields(fields: ViewField[]): ViewField[] {
   return fields && fields.length > 0 ? fields
-    .filter(f => f.CustomFilterStrategy)
+    .filter(f => f.CustomFilterStrategy && !f.IsGlobalFilter)
     .concat(fields.filter(f => f.IsFilterable && f.IsSelectable))
     .filter(f => f.FilterValue || !isValueRequired(f))
     : [];

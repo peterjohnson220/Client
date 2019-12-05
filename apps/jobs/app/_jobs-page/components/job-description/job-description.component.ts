@@ -17,11 +17,13 @@ export class JobDescriptionComponent implements OnInit, OnChanges {
   jobDescriptionUpdated$: Observable<boolean>;
   jobDescriptionManagementEnabled$: Observable<boolean>;
   saving$: Observable<boolean>;
+  jobDescriptionLoaded$: Observable<boolean>;
   updatedJobDescription: string = null;
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.jobDescriptionManagementEnabled$ = store.select(fromJobsPageReducer.getJobDescriptionManagementEnabled);
     this.jobDescription$ = store.select(fromJobsPageReducer.getJobDescription);
     this.jobDescriptionUpdated$ = store.select(fromJobsPageReducer.getJobDescriptionUpdated);
+    this.jobDescriptionLoaded$ = store.select(fromJobsPageReducer.getJobDescriptionLoaded);
     this.saving$ = store.select(fromJobsPageReducer.getSavingState);
   }
 
