@@ -30,6 +30,13 @@
                               (submitClick)="submitFormEvent($event)"
                               [validated]="validatedCredentials">
       </pf-test-authentication>
+
+      <pf-workdaymock-authentication *ngIf="provider?.ProviderCode === 'WDMOCK'"
+                              (cancelClick)="cancelAuthClick()"
+                              (submitClick)="submitFormEvent($event)"
+                              [validated]="validatedCredentials">
+      </pf-workdaymock-authentication>
+
       <div *ngIf="validatedCredentials">
         <div class="pb-1 d-flex justify-content-end">
           <div class="p-2">
@@ -44,7 +51,7 @@
   </div>
 </div>
 
-<pf-modal-form 
+<pf-modal-form
   [modalId]="'authenticatingModal'"
   [size]="'md'"
   [showFooter]="false"

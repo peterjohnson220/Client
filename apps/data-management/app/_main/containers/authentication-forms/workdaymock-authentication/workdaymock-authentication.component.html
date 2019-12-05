@@ -1,0 +1,62 @@
+<div class="w-100">
+  <form [formGroup]="workdayMockForm" (ngSubmit)="onSubmit()" class="needs-validation">
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column">
+        <label class="text-uppercase font-weight-bold" for="domain">
+          Domain
+        </label>
+        <div class="form-group pb-2">
+          <input id="Domain"
+                name="domain"
+                type="text"
+                class="form-control mb-1"
+                [ngClass]="{ 'is-invalid': submitted && workdayMockForm.controls.domain.errors }"
+                [pfDisableFormControl]="validated"
+                formControlName="domain" autofocus>
+          <div *ngIf="submitted && workdayMockForm.controls.domain.errors" class="invalid-feedback">
+              <div *ngIf="workdayMockForm.controls.domain.errors.required">Domain is required</div>
+          </div>
+        </div>
+        <label class="text-uppercase font-weight-bold" for="username">
+          Username
+        </label>
+        <div class="form-group pb-2">
+          <input id="username"
+                name="username"
+                type="text"
+                class="form-control mb-1"
+                [ngClass]="{ 'is-invalid': submitted && workdayMockForm.controls.username.errors }"
+                [pfDisableFormControl]="validated"
+                formControlName="username">
+          <div *ngIf="submitted && workdayMockForm.controls.username.errors" class="invalid-feedback">
+              <div *ngIf="workdayMockForm.controls.username.errors.required">Username is required</div>
+              <div *ngIf="workdayMockForm.controls.username.errors.pattern">Username is not in correct format</div>
+          </div>
+        </div>
+        <label class="text-uppercase font-weight-bold" for="password">
+          Password
+        </label>
+        <div class="form-group pb-2">
+          <input id="password"
+                  name="password"
+                  type="password"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && workdayMockForm.controls.password.errors }"
+                  [pfDisableFormControl]="validated"
+                  formControlName="password">
+          <div *ngIf="submitted && workdayMockForm.controls.password.errors" class="invalid-feedback">
+            <div *ngIf="workdayMockForm.controls.password.errors.required">Password is required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pb-1 d-flex justify-content-end" *ngIf="!validated">
+      <div class="p-2">
+        <button id="cancel" type="button" class="btn btn-primary" (click)="cancelAuthenticationClick()">Cancel</button>
+      </div>
+      <div class="p-2">
+        <button id="authenticate" class="btn btn-primary">Authenticate</button>
+      </div>
+    </div>
+  </form>
+</div>

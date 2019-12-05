@@ -23,7 +23,8 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 import {
   DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, FieldMappingCardComponent,
   HrisAuthenticationCardComponent, ManageDataPageComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent,
-  TransferDataPageComponent, TransferMethodDropdownComponent, WorkdayAuthenticationComponent, EntityMappingComponent
+  TransferDataPageComponent, TransferMethodDropdownComponent, WorkdayAuthenticationComponent, EntityMappingComponent,
+  WorkdayMockAuthenticationComponent
 } from './containers';
 import { OrganizationalDataPageEffects, TransferDataPageEffects, FieldMappingEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
@@ -73,6 +74,7 @@ import { reducers } from './reducers';
     ProviderCardComponent,
     HrisAuthenticationCardComponent,
     WorkdayAuthenticationComponent,
+    WorkdayMockAuthenticationComponent,
     PfTestAuthenticationComponent,
     OrgDataLoadComponent,
     EntityPickerComponent,
