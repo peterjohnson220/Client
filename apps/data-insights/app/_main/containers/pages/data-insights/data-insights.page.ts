@@ -56,6 +56,9 @@ export class DataInsightsPageComponent implements OnInit, OnDestroy {
       this.showStandardReportsSection = result !== null ? result : true;
     });
     this.thumbnailsViewSettingEnabledSub = this.thumbnailsViewSettingEnabled$.subscribe(settingEnabled => {
+      if (settingEnabled === null || settingEnabled === undefined) {
+        return;
+      }
       this.thumbnailsViewSettingEnabled = settingEnabled;
       if (settingEnabled) {
         this.store.dispatch(new fromViewsActions.RefreshTableauReports());
