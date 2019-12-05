@@ -99,6 +99,10 @@ export const getHasSimilarJobLevels = (state: State) => {
     return false;
   }
 
+  if (!!state.ExchangeJobId) {
+    return state.SimilarExchangeJobIds.some(x => x !== state.ExchangeJobId);
+  }
+  // TODO: ExchangeJobIds should be deprecated in favor of ExchangeJobId [JP]
   return state.SimilarExchangeJobIds.some(x => !!state.ExchangeJobIds && !state.ExchangeJobIds.includes(x));
 };
 export const getFilterContext = (state: State) => {
