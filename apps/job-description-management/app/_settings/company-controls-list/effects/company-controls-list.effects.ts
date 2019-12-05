@@ -21,7 +21,10 @@ export class CompanyControlsListEffects {
         this.jobDescriptionManagementApiService.getLatestControls().pipe(
           map((response: ControlType[]) => {
             return new fromCompanyControlsListActions.LoadCompanyControlsSuccess(
-              response.map(r => r).sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
+              response
+              // Filter out system content controls
+              .filter(c => c.CompanyId)
+              .sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
             );
           }),
           catchError(() => of(new fromCompanyControlsListActions.LoadCompanyControlsError()))
