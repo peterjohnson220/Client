@@ -275,11 +275,6 @@ export const getSortDescriptor = createSelector(
   fromDataViewGridReducer.getSortDescriptor
 );
 
-export const getTotalCount = createSelector(
-  selectDataViewGridState,
-  fromDataViewGridReducer.getTotalCount
-);
-
 // All Views
 export const getCompanyWorkbooksAsyncFromViews = createSelector(
   selectViewsState,
