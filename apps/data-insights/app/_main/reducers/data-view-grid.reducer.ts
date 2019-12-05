@@ -13,7 +13,6 @@ export interface State {
   pagingOptions: PagingOptions;
   hasMoreDataOnServer: boolean;
   sortDescriptor: SortDescriptor;
-  totalCount: number;
 }
 
 const initialState: State = {
@@ -24,8 +23,7 @@ const initialState: State = {
     Count: 25
   },
   hasMoreDataOnServer: true,
-  sortDescriptor: null,
-  totalCount: 0
+  sortDescriptor: null
 };
 
 export function reducer(state = initialState, action: fromDataViewGridActions.Actions): State {
@@ -45,12 +43,11 @@ export function reducer(state = initialState, action: fromDataViewGridActions.Ac
     case fromDataViewGridActions.GET_DATA_SUCCESS: {
       const asyncStateObjClone = cloneDeep(state.dataAsync);
       asyncStateObjClone.loading = false;
-      asyncStateObjClone.obj = action.payload.data;
+      asyncStateObjClone.obj = action.payload;
 
       return {
         ...state,
-        dataAsync: asyncStateObjClone,
-        totalCount: action.payload.totalCount
+        dataAsync: asyncStateObjClone
       };
     }
     case fromDataViewGridActions.GET_DATA_ERROR: {
@@ -106,4 +103,3 @@ export const getPagingOptions = (state: State) => state.pagingOptions;
 export const getLoadingMoreData = (state: State) => state.loadingMoreData;
 export const getHasMoreDataOnServer = (state: State) => state.hasMoreDataOnServer;
 export const getSortDescriptor = (state: State) => state.sortDescriptor;
-export const getTotalCount = (state: State) => state.totalCount;

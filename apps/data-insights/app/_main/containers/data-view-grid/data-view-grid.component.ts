@@ -21,7 +21,6 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   loadingMoreData$: Observable<boolean>;
   hasMoreDataOnServer$: Observable<boolean>;
   sortDescriptor$: Observable<SortDescriptor>;
-  totalCount$: Observable<number>;
 
   loadingMoreDataSub: Subscription;
   hasMoreDataOnServerSub: Subscription;
@@ -46,7 +45,6 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     this.loadingMoreData$ = this.store.pipe(select(fromDataInsightsMainReducer.getLoadingMoreData));
     this.hasMoreDataOnServer$ = this.store.pipe(select(fromDataInsightsMainReducer.getHasMoreDataOnServer));
     this.sortDescriptor$ = this.store.pipe(select(fromDataInsightsMainReducer.getSortDescriptor));
-    this.totalCount$ = this.store.pipe(select(fromDataInsightsMainReducer.getTotalCount));
   }
 
   ngOnInit(): void {

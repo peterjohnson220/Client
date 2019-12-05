@@ -24,7 +24,7 @@ export class GetData implements Action {
 export class GetDataSuccess implements Action {
   readonly type = GET_DATA_SUCCESS;
 
-  constructor(public payload: {data: any[], totalCount: number}) {}
+  constructor(public payload: any[]) {}
 }
 
 export class GetDataError implements Action {
