@@ -45,7 +45,7 @@
                    formControlName="password">
           </div>
           <div class="pb-1 d-flex align-self-center">
-            <button id="Login" type="submit" class="btn login-button" [disabled]="loggingIn || loginSuccess"
+            <button id="Login" type="submit" class="btn login-button" [disabled]="loggingIn || loginSuccess || !loginSettingsSuccess"
                     [class.disabled]="loggingIn || loginSuccess">
               <span *ngIf="!loginSuccess">LOG IN</span>
               <span *ngIf="loginSuccess">LOGGING IN...</span>

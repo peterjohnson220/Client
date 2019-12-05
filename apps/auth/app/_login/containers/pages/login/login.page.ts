@@ -33,6 +33,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   login$: Observable<boolean>;
   loginError$: Observable<boolean>;
   loginSuccess$: Observable<boolean>;
+  loginSettings$: Observable<any>;
   passwordExpired$: Observable<boolean>;
   loginSubscription: Subscription;
   loginSuccessSubscription: Subscription;
@@ -43,6 +44,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   loginSuccess = false;
   loginError = false;
   allowSelfRegistration = environment.allowSelfRegistration;
+  reCaptchaV3SiteKey: string;
+  loginSettingsSuccess = false;
 
   constructor(private fb: FormBuilder,
               public loginStore: Store<fromLoginReducer.State>,
@@ -57,6 +60,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.gettingMarketingImage$ = this.store.select(fromMarketingReducer.getGettingMarketingImage);
     this.gettingMarketingImageError$ = this.store.select(fromMarketingReducer.getGettingMarketingImageError);
     this.gettingMarketingImageSuccess$ = this.store.select(fromMarketingReducer.getGettingMarketingImageSuccess);
+
+    this.loginSettings$ = this.store.select(fromLoginReducer.getLoginSettings);
   }
 
   ngOnInit() {
@@ -66,12 +71,26 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.loginError = true;
       }
     });
+
+    this.store.dispatch(new fromLoginActions.GetLoginSettings());
     this.store.dispatch(new fromMarketingActions.GetMarketingImage());
 
     this.marketingImage$.subscribe(image => {
       if (image) {
         this.imageLocation = image.Location;
         this.redirectUrl = image.RedirectUrl;
+      }
+    });
+
+    this.loginSettings$.subscribe(settings => {
+      if (settings) {
+        this.reCaptchaV3SiteKey = settings.ReCaptchaV3SiteKey;
+
+        if (typeof initializeRecaptcha !== 'undefined') {
+          initializeRecaptcha(this.reCaptchaV3SiteKey);
+        }
+
+        this.loginSettingsSuccess = true;
       }
     });
 
@@ -88,9 +107,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.loginError = false;
     });
 
-    if (typeof initializeRecaptcha !== 'undefined') {
-      initializeRecaptcha(environment.reCaptchaV3SiteKey);
-    }
   }
 
   ngOnDestroy() {
@@ -109,7 +125,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   onSubmit() {
     try {
       grecaptcha.ready(() => {
-        grecaptcha.execute(environment.reCaptchaV3SiteKey, { action: 'login' }).then((token) => {
+        grecaptcha.execute(this.reCaptchaV3SiteKey, { action: 'login' }).then((token) => {
           this.login(token);
         }, executeErr => {
           console.error(`grecaptcha.execute error: ${executeErr}`);
@@ -129,7 +145,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           Email: this.getValue('email'),
           Password: this.getValue('password'),
           ClientCaptchaToken: captchaToken,
-          ClientCaptchaSiteKey: environment.reCaptchaV3SiteKey,
+          ClientCaptchaSiteKey: this.reCaptchaV3SiteKey,
           NextPage: this.nextPage, UserVoiceNextPage: this.userVoiceNextPage
         }));
     } else {

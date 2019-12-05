@@ -106,7 +106,7 @@ describe('Auth - Forgot Password', () => {
     const clientSettingRequest = {
       email: testEmail,
       clientCaptchaToken: '',
-      clientCaptchaSiteKey: environment.reCaptchaV3SiteKey
+      clientCaptchaSiteKey: undefined
     };
 
     const action = new fromForgotPasswordActions.SendingPasswordReset(clientSettingRequest);

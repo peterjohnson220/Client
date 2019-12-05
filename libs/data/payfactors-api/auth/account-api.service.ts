@@ -34,6 +34,10 @@ export class AccountApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.Login`, loginParms );
   }
 
+  getLoginSettings(): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}.GetLoginSettings`);
+  }
+
   submitSelfRegistrationRequest(selfRegistrationForm: RegistrationForm): Observable<any> {
     const payload = { Request: { ...selfRegistrationForm } };
     return this.payfactorsApiService.post<any>(`${this.endpoint}.SelfRegistrationRequest`, payload);
