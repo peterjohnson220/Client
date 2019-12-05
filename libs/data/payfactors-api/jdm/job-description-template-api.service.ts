@@ -53,7 +53,8 @@ export class JobDescriptionTemplateApiService {
   }
 
   getTemplatesWithControlType(controlType: string) {
-      return this.payfactorsApiService.get(`${this.endpoint}/Default.GetTemplatesWithControlType?controlType=${controlType}`);
+      const params = { params: { controlType } };
+      return this.payfactorsApiService.get(`${this.endpoint}/Default.GetTemplatesWithControlType`, params);
   }
 
 }
