@@ -14,6 +14,8 @@ exports[`Auth - Login should disable and show correct login button text when log
   loginErrorSubscription={[Function Subscriber]}
   loginForm={[Function FormGroup]}
   loginLogo={[Function String]}
+  loginSettings$={[Function Store]}
+  loginSettingsSuccess="false"
   loginStore={[Function Store]}
   loginSubscription={[Function Subscriber]}
   loginSuccess={[Function Boolean]}
@@ -162,6 +164,8 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
   loginErrorSubscription={[Function Subscriber]}
   loginForm={[Function FormGroup]}
   loginLogo={[Function String]}
+  loginSettings$={[Function Store]}
+  loginSettingsSuccess="false"
   loginStore={[Function Store]}
   loginSubscription={[Function Subscriber]}
   loginSuccess="false"
@@ -255,6 +259,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
           >
             <button
               class="btn login-button"
+              disabled=""
               id="Login"
               type="submit"
             >
@@ -309,6 +314,8 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
   loginErrorSubscription={[Function Subscriber]}
   loginForm={[Function FormGroup]}
   loginLogo={[Function String]}
+  loginSettings$={[Function Store]}
+  loginSettingsSuccess="false"
   loginStore={[Function Store]}
   loginSubscription={[Function Subscriber]}
   loginSuccess="false"
@@ -402,6 +409,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
           >
             <button
               class="btn login-button"
+              disabled=""
               id="Login"
               type="submit"
             >
@@ -456,6 +464,8 @@ exports[`Auth - Login should show password expired notification on submitError 1
   loginErrorSubscription={[Function Subscriber]}
   loginForm={[Function FormGroup]}
   loginLogo={[Function String]}
+  loginSettings$={[Function Store]}
+  loginSettingsSuccess="false"
   loginStore={[Function Store]}
   loginSubscription={[Function Subscriber]}
   loginSuccess="false"
@@ -556,6 +566,7 @@ exports[`Auth - Login should show password expired notification on submitError 1
           >
             <button
               class="btn login-button"
+              disabled=""
               id="Login"
               type="submit"
             >

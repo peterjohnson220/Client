@@ -8,6 +8,8 @@ export const LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE = '[Auth/Login] Validate Login Suc
 export const LOGIN_SUCCESS_ROUTE_TO_USER_VOICE = '[Auth/Login] Validate Login Success Route To User Voice';
 export const LOGIN_401_ERROR = '[Auth/Login] Validate Login 401 Error';
 export const PASSWORD_EXPIRED = '[Auth/Login] Password expired';
+export const GET_LOGIN_SETTINGS = '[Auth/Login] Get Login Settings';
+export const GET_LOGIN_SETTINGS_SUCCESS = '[Auth/Login] Get Login Settings Success';
 
 export class Login implements Action {
   readonly type = LOGIN;
@@ -49,6 +51,16 @@ export class PasswordExpired implements Action {
   constructor() {}
 }
 
+export class GetLoginSettings implements Action {
+  readonly type = GET_LOGIN_SETTINGS;
+  constructor() {}
+}
+
+export class GetLoginSettingsSuccess implements Action {
+  readonly type = GET_LOGIN_SETTINGS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export type Actions
   = Login
   | LoginSuccess
@@ -57,4 +69,6 @@ export type Actions
   | LoginSuccessRouteToNextPage
   | LoginSuccessRouteToUserVoice
   | Login401Error
-  | PasswordExpired;
+  | PasswordExpired
+  | GetLoginSettings
+  | GetLoginSettingsSuccess;

@@ -25,5 +25,4 @@ export const environment = {
   siteAdminUrl: '/client/pf-admin',
   // /client/admin/company-admin ### /ng/company-admin
   companyAdminUrl: '/client/admin/company-admin',
-  reCaptchaV3SiteKey: '6LfpysMUAAAAAD0gF6kO4idsRAdASCt474q6yrCd'
 };
