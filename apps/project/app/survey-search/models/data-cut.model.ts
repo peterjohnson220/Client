@@ -25,6 +25,7 @@ export interface DataCutDetails {
   Base50th?: number;
   TCC50th?: number;
   ServerInfo?: ServerInfo;
+  CutFilterId?: string;
 }
 
 interface ServerInfo {
