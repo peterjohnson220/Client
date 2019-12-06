@@ -164,6 +164,17 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
     this.dragulaSub.add(this.dragulaService.dropModel('workflow-user-reorder-bag').subscribe(({ sourceModel }) => {
       this.reorderWorkflowSteps(sourceModel);
     }));
+    this.dragulaService.createGroup('workflow-user-reorder-bag', {
+      revertOnSpill: true,
+      moves: function (el, container, handle) {
+        return handle.classList.contains('dnd-workflow-user-reorder-handle') &&
+        handle.classList.contains('grabbable');
+      },
+      accepts: function (el, target, source) {
+        return source.id === target.id;
+      }
+    });
+
   }
 
   private reorderWorkflowSteps(sourceModel: any[]) {
