@@ -139,7 +139,7 @@
         {{dataItem[exchangeBaseAverageField] != null ? (dataItem[exchangeBaseAverageField] | number: digitsInfo) : '- -'}}
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="ExchangeIndex" title="Market Index" width="10" class="text-right" headerClass="text-right">
+    <kendo-grid-column [field]="exchangeIndexField" title="Market Index" width="10" class="text-right" headerClass="text-right">
       <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
         <span title="{{column.title}}">{{column.title}}</span>
       </ng-template>
@@ -154,8 +154,8 @@
         </kendo-grid-numeric-filter-menu>
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
-        <span *ngIf="dataItem.ExchangeIndex" [ngClass]="getExchangeIndexFontColorClass(dataItem.ExchangeIndex)">
-          {{getExchangeIndexValue(dataItem.ExchangeIndex)}}
+        <span *ngIf="dataItem[exchangeIndexField]" [ngClass]="getExchangeIndexFontColorClass(dataItem[exchangeIndexField])">
+          {{getExchangeIndexValue(dataItem[exchangeIndexField])}}
         </span>
         <ng-container *ngIf="!dataItem.ExchangeIndex">
           - -
@@ -208,7 +208,13 @@
                             (selectionChange)="handleRateSelectionChange($event)">
         </kendo-dropdownlist>
       </div>
-
+      <div class="footer-filter">
+        <pf-weighting-type-dropdown
+          [selectedWeightingType]="selectedWeight"
+          [includeLabel]="true"
+          (weightingTypeChanged)="handleWeightingTypeChanged($event)">
+        </pf-weighting-type-dropdown>
+      </div>
     </ng-template>
   </kendo-grid>
 </pf-async-container>

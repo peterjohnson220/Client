@@ -84,6 +84,23 @@ export class ExchangeJobComparisonGridEffects {
       })
     );
 
+  @Effect()
+  selectWeightingType$ = this.actions$
+    .pipe(
+      ofType(fromExchangeJobComparisonGridActions.SELECT_WEIGHT),
+      switchMap((action: fromExchangeJobComparisonGridActions.SelectWeight) => {
+        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting( {
+          FeatureArea: FeatureAreaConstants.PeerDashboard,
+          SettingName: UiPersistenceSettingConstants.ComparisonWeightSelection,
+          SettingValue: action.payload.newWeight
+        })
+          .pipe(
+            map(() => new fromExchangeJobComparisonGridActions.SelectedWeightPersisted()),
+            catchError(() => of())
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private exchangeCompanyApiService: ExchangeCompanyApiService,

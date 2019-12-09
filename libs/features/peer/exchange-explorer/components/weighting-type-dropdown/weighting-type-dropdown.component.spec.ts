@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WeightingTypeDropdownComponent } from './weighting-type-dropdown.component';
 
-import { WeightingType } from 'libs/constants/weighting-type';
+import { WeightType, WeightTypeDisplayLabeled } from '../../../../../data/data-sets';
 
 describe('Weighting Type Toggle', () => {
   let fixture: ComponentFixture<WeightingTypeDropdownComponent>;
@@ -32,16 +32,16 @@ describe('Weighting Type Toggle', () => {
   it('should emit a weightingTypeChanged event with incWeighted value true when handleSwitchValueChanged is called', () => {
     spyOn(instance.weightingTypeChanged, 'emit');
 
-    instance.handleDropdownValueChanged(WeightingType.INC_WEIGHTED);
+    instance.handleDropdownValueChanged({ Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc });
 
-    expect(instance.weightingTypeChanged.emit).toHaveBeenCalledWith(WeightingType.INC);
+    expect(instance.weightingTypeChanged.emit).toHaveBeenCalledWith({ Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc });
   });
 
   it('should emit a weightingTypeChanged event with incWeighted value false when handleSwitchValueChanged is called', () => {
     spyOn(instance.weightingTypeChanged, 'emit');
 
-    instance.handleDropdownValueChanged(WeightingType.ORG_WEIGHTED);
+    instance.handleDropdownValueChanged({ Name: WeightTypeDisplayLabeled.Org, Value: WeightType.Org });
 
-    expect(instance.weightingTypeChanged.emit).toHaveBeenCalledWith(WeightingType.ORG);
+    expect(instance.weightingTypeChanged.emit).toHaveBeenCalledWith({ Name: WeightTypeDisplayLabeled.Org, Value: WeightType.Org });
   });
 });

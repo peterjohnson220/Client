@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { KendoDropDownItem } from '../../../../../models';
+import { Weights, WeightsLabeled, WeightTypeDisplay } from '../../../../../data/data-sets';
 
-import { WeightingType } from 'libs/constants/weighting-type';
+
 
 @Component ({
   selector: 'pf-weighting-type-dropdown',
@@ -9,18 +11,14 @@ import { WeightingType } from 'libs/constants/weighting-type';
 })
 
 export class WeightingTypeDropdownComponent {
-  @Input() selectedWeightingType = WeightingType.INC_WEIGHTED;
+  @Input() selectedWeightingType = WeightTypeDisplay.Inc;
+  @Input() includeLabel;
   @Output() weightingTypeChanged = new EventEmitter();
 
-  availableWeightingTypes = [WeightingType.INC_WEIGHTED, WeightingType.ORG_WEIGHTED];
+  weights: KendoDropDownItem[] = this.includeLabel ? WeightsLabeled : Weights;
 
   constructor() {}
-
-  handleDropdownValueChanged(selectedWeightingType: string) {
-    if (selectedWeightingType === WeightingType.INC_WEIGHTED) {
-      this.weightingTypeChanged.emit(WeightingType.INC);
-    } else {
-      this.weightingTypeChanged.emit(WeightingType.ORG);
-    }
+  handleDropdownValueChanged(item: KendoDropDownItem) {
+      this.weightingTypeChanged.emit(item);
   }
 }
