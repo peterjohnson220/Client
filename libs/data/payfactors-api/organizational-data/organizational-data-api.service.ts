@@ -18,4 +18,5 @@ export class OrganizationalDataApiService {
   getOrganizationalHeadersLink() {
     return this.payfactorsApiService.get(`${this.endpoint}/GetOrganizationalHeadersLink`);
   }
+
 }

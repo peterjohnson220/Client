@@ -14,9 +14,11 @@
     <div class="h-100 mx-2">
       <pf-file-upload #fileUpload
                       (onFileDropped)="entity.File = $event"
+                      (onColumnNamesRetrieved)="entity.columnNames = $event"
                       (onFileRemoved)="entity.File = null"
                       [validFileExtensions]="['.csv']"
-                      [validFileStartsWith]="entity.FileBeginsWith"></pf-file-upload>
+                      [validFileStartsWith]="entity.FileBeginsWith"
+                      [delimiter]="selectedDelimiter"></pf-file-upload>
     </div>
   </div>
 </div>
@@ -39,7 +41,7 @@
     <div class="form-group w-100 ">
       <label for="delimSelector"><strong>Provide a delimiter type</strong></label>
       <input type="text"
-             class="form-control">
+             class="form-control" [(ngModel)]="selectedDelimiter">
     </div>
 
   </div>
