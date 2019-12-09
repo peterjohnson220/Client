@@ -11,6 +11,7 @@ import { LayoutModule } from './layout';
 import { FooterViewModule } from './footer-view';
 import { CompanyControlsListModule } from './company-controls-list';
 import { CompanyControlsDetailModule } from './company-controls-detail';
+import { RoutingWorkflowsModule } from './routing-workflows';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { CompanyControlsDetailModule } from './company-controls-detail';
     ViewEditModule,
     FooterViewModule,
     CompanyControlsListModule,
-    CompanyControlsDetailModule
+    CompanyControlsDetailModule,
+    RoutingWorkflowsModule
   ],
   providers: [
     ViewEditGuard

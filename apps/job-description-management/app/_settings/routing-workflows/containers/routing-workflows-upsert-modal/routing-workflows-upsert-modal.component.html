@@ -1,0 +1,31 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="modalTitle"
+  [primaryButtonText]="modalPrimaryButtonText"
+  [primaryButtonTextSubmitting]="modalPrimaryButtonTextSubmitting"
+  [primaryButtonClass]="'btn-primary'"
+  [secondaryButtonText]="'Cancel'"
+  [submitting]="(saving$ | async)"
+  [isOpen$]="upsertModalOpen$"
+  [formGroup]="upsertModalForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+    <div class="form-group">
+      <label for="workflow-name" class="control-label">Workflow Name: </label>
+      <input 
+        type="text" 
+        class="form-control"
+        formControlName="workflowName"  
+        id="workflow-name" 
+        [pfValidatable]="true"
+        [autofocus]="true" >
+      <span *ngIf="workflowName.errors?.notBlackListed" class="text-danger d-flex justify-content-end">Workflow Name is required and must be unique.</span>      
+      <span *ngIf="!workflowName.pristine && workflowName.hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
+    </div>
+    <span *ngIf="attemptedSave && stepsRequired" class="text-danger d-flex justify-content-end">Name or Email Required</span>
+    <span *ngIf="workflowName.errors?.error" class="text-danger d-flex justify-content-end">{{workflowName.errors.error}}</span>
+    <pf-workflow-config></pf-workflow-config>
+  </ng-container>
+</pf-modal-form>

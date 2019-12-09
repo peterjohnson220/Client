@@ -82,7 +82,7 @@ export class JobDescriptionManagementApiService {
     });
   }
 
-  userEmailHasJobPermission(emailAddr: string, jobId: number): Observable<boolean> {
+  userEmailHasJobPermission(emailAddr: string, jobId: number = -1): Observable<boolean> {
     return this.payfactorsApiService.get<boolean>(`${this.endpoint}.UserEmailHasJobPermission`, {
       params: {
         UserEmail: emailAddr, JobId: jobId

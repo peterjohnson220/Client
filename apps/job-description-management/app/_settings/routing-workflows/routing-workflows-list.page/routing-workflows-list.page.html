@@ -1,0 +1,55 @@
+<div class="flex-column-container">
+  <h4> Routing Workflows </h4>
+  <p> Build and manage custom "Routing" workflows to better streamline the routing and approval process. </p>
+
+  <div class="card flex-grow-1 d-flex">
+    <div class="card-header">
+      <div class="d-flex justify-content-between">
+        <pf-input-debounce [id]="'filter'" [placeholderText]="'Search Workflows'" [hideClearBtn]="true" (valueChanged)="handleSearchValueChanged($event)">
+        </pf-input-debounce>
+
+        <button (click)="createWorkflow()" class="btn btn-primary align-self-center">Create Workflow</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <ng-container *ngIf="(workflowTemplates$ | async) as workflowTemplatesAsync">
+        <pf-async-container [smartLoadingMask]="true" [hideReloadButton]="true"
+          [loading]="workflowTemplatesAsync.loading" [loadingError]="workflowTemplatesAsync.loadingError">
+            <ng-container *ngIf="(workflowTemplatesAsync.obj | filterArrayByName: filter) as filteredWorkflowTemplates">
+                <table class="table table-hover" *ngIf="filteredWorkflowTemplates.length; else noWorkflowTemplates">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Users in Workflow</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let workflowTemplate of filteredWorkflowTemplates; trackBy: trackByFunction">
+                          <td>{{workflowTemplate.Name}}</td>
+                          <td width="60%"><span [innerHTML]="sanitizer.bypassSecurityTrustHtml(getUserList(workflowTemplate.Steps))"></span></td>
+                          <td width="4%">
+                              <div class="d-flex">
+                                  <button (click)="editWorkflow(workflowTemplate)" title="Edit Workflow" class="btn btn-sm btn-secondary mr-2">
+                                      <fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon>
+                                  </button>
+                                  <button (click)="deleteWorkflow(workflowTemplate)" title="Delete Workflow" class="btn btn-sm btn-secondary">
+                                      <fa-icon icon="trash" aria-hidden="true"></fa-icon>
+                                  </button>
+                              </div>
+                          </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
+            <ng-template #noWorkflowTemplates>
+                No Workflows
+            </ng-template>
+        </pf-async-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<pf-routing-workflows-delete-modal></pf-routing-workflows-delete-modal>
+<pf-routing-workflows-upsert-modal></pf-routing-workflows-upsert-modal>
