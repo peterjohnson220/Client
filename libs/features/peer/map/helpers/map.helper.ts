@@ -87,16 +87,21 @@ export class MapHelper {
     if (zoomPrecisionDictionary === null) {
       return this.getDefaultClusterPrecision(zoomLevel);
     }
-
+    const castedZoomPrecisionDictionary = Object.keys(zoomPrecisionDictionary).map(function(key) {
+      return {
+        Key: Number(key),
+        Value: Number(zoomPrecisionDictionary[key])
+      };
+    });
     const minPrecision = 1;
     const maxPrecision = 12;
 
-    const nextIndex = zoomPrecisionDictionary.findIndex(zp => zp.Key > zoomLevel);
+    const nextIndex = castedZoomPrecisionDictionary.findIndex(zp => zp.Key > zoomLevel);
     if (nextIndex <= 0) {
       return nextIndex < 0 ? maxPrecision : minPrecision;
     }
 
-    const prevValFromDictionary = zoomPrecisionDictionary[nextIndex - 1].Value;
+    const prevValFromDictionary = castedZoomPrecisionDictionary[nextIndex - 1].Value;
     const val = prevValFromDictionary > maxPrecision ? maxPrecision : prevValFromDictionary;
     return val < minPrecision ? minPrecision : val;
   }
