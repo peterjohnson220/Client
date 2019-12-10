@@ -1,5 +1,6 @@
+import { LoaderType } from 'libs/features/org-data-loader/constants';
+
 import { LoaderFieldMapping } from './loader-field-mapping.model';
-import { LoaderType } from 'libs/constants';
 
 export interface LoaderFieldSet {
   CompanyId: number;

@@ -1,5 +1,6 @@
+import { LoaderSetting, LoaderSettingsDTO } from 'apps/admin/app/_org-data-loader/models/index';
+
 import { Action } from '@ngrx/store';
-import { LoaderSetting, LoaderSettingsDTO, LoaderSaveCoordination } from '../models/index';
 
 export const LOADING_LOADER_SETTINGS = '[Org Data Loader/Loader Settings] Loading Loader Settings';
 export const LOADING_LOADER_SETTINGS_SUCCESS = '[Org Data Loader/Loader Settings] Loading Loader Settings Success';
@@ -11,12 +12,12 @@ export const SAVING_LOADER_SETTINGS_ERROR = '[Org Data Loader/Loader Settings] S
 export class LoadingLoaderSettings implements Action {
   readonly type = LOADING_LOADER_SETTINGS;
 
-  constructor(public payload: number) {}
+  constructor(public companyId: number, public configGroupId: number = null) { }
 }
 export class LoadingLoaderSettingsSuccess implements Action {
   readonly type = LOADING_LOADER_SETTINGS_SUCCESS;
 
-  constructor(public payload: LoaderSetting[]) {}
+  constructor(public payload: LoaderSetting[]) { }
 }
 export class LoadingLoaderSettingsError implements Action {
   readonly type = LOADING_LOADER_SETTINGS_ERROR;
@@ -26,7 +27,7 @@ export class LoadingLoaderSettingsError implements Action {
 export class SavingLoaderSettings implements Action {
   readonly type = SAVING_LOADER_SETTINGS;
 
-  constructor(public payload: LoaderSettingsDTO) {}
+  constructor(public payload: LoaderSettingsDTO) { }
 }
 
 export class SavingLoaderSettingsSuccess implements Action {

@@ -1,5 +1,10 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import * as fromRootState from 'libs/state/state';
 
 import { EntityUploadComponent } from './entity-upload.component';
 import { getEntityChoicesForOrgLoader } from '../../models';
@@ -7,19 +12,19 @@ import { getEntityChoicesForOrgLoader } from '../../models';
 describe('EntityUploadComponent', () => {
   let component: EntityUploadComponent;
   let fixture: ComponentFixture<EntityUploadComponent>;
+  let mainStore: MockStore<fromRootState.State>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EntityUploadComponent],
+      providers: [provideMockStore({})],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(EntityUploadComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    mainStore = TestBed.get(Store);
   });
 
   it('should create', () => {
@@ -33,6 +38,6 @@ describe('EntityUploadComponent', () => {
     const selected = component.selectedEntities();
     expect(selected).toHaveLength(1);
     expect(selected[0].DisplayText).toBe('Jobs');
-
   });
+
 });

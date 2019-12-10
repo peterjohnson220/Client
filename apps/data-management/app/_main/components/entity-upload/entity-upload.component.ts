@@ -1,6 +1,6 @@
-import { Component, Input, QueryList, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 
-import { EntityChoice } from '../../models';
+import { ConfigurationGroup, EntityChoice } from '../../models';
 import { FileUploadComponent } from '../file-upload/';
 
 @Component({
@@ -9,29 +9,25 @@ import { FileUploadComponent } from '../file-upload/';
   styleUrls: ['./entity-upload.component.scss']
 })
 export class EntityUploadComponent {
-
-  @Input() entities: EntityChoice[];
-
   @ViewChildren('fileUpload') uploadComponents: QueryList<FileUploadComponent>;
 
-  savedMappings$: any;
-  showUpload = true;
-  selectedMapping: any;
-  selectedDelimiter: any;
+  @Input() entities: EntityChoice[];
+  @Input() selectedDelimiter: string;
 
-  constructor() {
-    this.selectedDelimiter = '';
-    // TODO: Wire me up on constructor
-    this.savedMappings$ = [
-      { MappingId: -1, MappingName: 'Add New Mapping' },
-      { MappingId: 1, MappingName: 'Saved Manual Mapping' }
-    ];
-  }
+  @Input() selectedMapping: ConfigurationGroup;
+  @Input() mappingOptions: ConfigurationGroup[] = [];
+  @Output() onMappingChange: EventEmitter<ConfigurationGroup> = new EventEmitter<ConfigurationGroup>();
+
+  constructor() { }
 
   public ClearAllFiles(): void {
     this.uploadComponents.forEach((child) => {
       child.ClearFile();
     });
+  }
+
+  public mappingChange($event: any) {
+    this.onMappingChange.emit($event);
   }
 
   selectedEntities(): EntityChoice[] {

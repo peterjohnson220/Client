@@ -16,6 +16,7 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
 import { FieldMapperComponent } from 'libs/features/org-data-loader/components';
+import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -27,7 +28,9 @@ import {
     PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
     WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent
 } from './containers';
-import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects, FileUploadEffects } from './effects';
+import {
+    FieldMappingEffects, FileUploadEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects
+} from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
@@ -51,7 +54,8 @@ import { reducers } from './reducers';
       OrganizationalDataPageEffects,
       FieldMappingEffects,
       OrgDataFieldMappingsEffects,
-      FileUploadEffects
+      FileUploadEffects,
+      LoaderSettingsEffects
     ]),
     FontAwesomeModule,
     NgbTabsetModule,

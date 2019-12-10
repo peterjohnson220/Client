@@ -1,12 +1,15 @@
+import { enableProdMode, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {enableProdMode, NO_ERRORS_SCHEMA} from '@angular/core';
+
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
 import * as fromRootState from 'libs/state/state';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
-import {FileMappingComponent} from '../../components';
-import {EntityChoice, getEntityChoicesForOrgLoader} from '../../models';
+import { FileMappingComponent } from '../../components';
+import { EntityChoice, getEntityChoicesForOrgLoader } from '../../models';
 
 describe('FileMappingComponent', () => {
   let component: FileMappingComponent;
@@ -22,8 +25,8 @@ describe('FileMappingComponent', () => {
         }),
         RouterTestingModule
       ],
-      declarations: [ FileMappingComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      declarations: [FileMappingComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   }));
@@ -34,7 +37,7 @@ describe('FileMappingComponent', () => {
     fixture = TestBed.createComponent(FileMappingComponent);
     component = fixture.componentInstance;
     component.entities = getEntityChoicesForOrgLoader();
-    component.selectedCompany = {CompanyId: 1, CompanyName: 'test'};
+    component.selectedCompany = { CompanyId: 1, CompanyName: 'test' };
     fixture.detectChanges();
     spyOn(store, 'dispatch');
   });

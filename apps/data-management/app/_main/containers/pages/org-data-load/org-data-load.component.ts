@@ -1,22 +1,26 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import {KeyValue} from '@angular/common';
+import { KeyValue } from '@angular/common';
 
-import {Store} from '@ngrx/store';
-import {forkJoin, Observable, Subject} from 'rxjs';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { forkJoin, Observable, Subject } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
-import {environment} from 'environments/environment';
+import { environment } from 'environments/environment';
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
-import {CompanySelectorItem} from 'libs/features/company/models';
+import { CompanySelectorItem } from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
-import {UserContext} from 'libs/models/security';
+import { OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
+import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
+import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+import { LoaderSetting } from 'libs/models/data-loads';
+import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
-import {EntityUploadComponent} from '../../../components';
-import {EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep} from '../../../models';
+import { EntityUploadComponent } from '../../../components';
+import { ConfigurationGroup, EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
 
 @Component({
   selector: 'pf-org-data-load',
@@ -35,11 +39,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
   private organizationalDataTemplateLink$: Observable<string>;
+  private configGroup$: Observable<ConfigurationGroup>;
   public isModalOpen$: Observable<boolean>;
   userContext$: Observable<UserContext>;
+  loaderSettings$: Observable<LoaderSetting[]>;
 
-  userContext: UserContext;
-
+  public selectedMapping: ConfigurationGroup;
+  public mappingOptions: ConfigurationGroup[] = [];
   // because the company selector is inside of a switch
   // the init will not fire which triggers the api call unless
   // we have rendered our index.
@@ -48,9 +54,14 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   companies: CompanySelectorItem[];
   selectedCompany: CompanySelectorItem = null;
   hasError = false;
-  selectedMapping: number;
   env = environment;
   organizationalDataTemplateLink: string;
+  selectedDelimiter: string;
+  userContext: UserContext;
+  loaderSetting: ILoadSettings;
+  private configGroupSeed: ConfigurationGroup = {
+    LoaderConfigurationGroupId: -1, GroupName: 'Add New Mapping', CompanyId: -1
+  };
 
   StepHeaders: string[] = [
     'Select a company:',
@@ -67,13 +78,34 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromCompanyReducer.State>,
     private mainStore: Store<fromDataManagementMainReducer.State>) {
 
+    this.AddAndSetSelectedMapping(this.configGroupSeed);
+
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.companies$ = this.store.select(fromCompanyReducer.getCompanies);
     this.selectedCompany$ = this.store.select(fromCompanyReducer.getSelectedCompany);
     this.organizationalDataTemplateLink$ = this.mainStore.select(fromDataManagementMainReducer.getOrganizationalHeadersLink);
     this.isModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getModalStateOpen);
+    this.loaderSettings$ = this.mainStore.select(fromDataManagementMainReducer.getLoaderSettings);
+    this.configGroup$ = this.mainStore.select(fromDataManagementMainReducer.getConfigurationGroup);
 
-    this.selectedCompany$.subscribe(f => this.selectedCompany = f);
+
+    this.selectedCompany$.pipe(
+      filter(uc => !!uc),
+      take(1),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.selectedCompany = f;
+      this.store.dispatch(new fromOrganizationalDataActions.GetConfigGroup(f.CompanyId));
+    });
+
+    this.loaderSettings$.pipe(
+      filter(uc => !!uc),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      const resp = OrgDataLoadHelper.parseSettingResponse(f);
+      this.loaderSetting = resp;
+      this.selectedDelimiter = resp.delimiter;
+    });
 
     const userSubscription = this.userContext$
       .pipe(
@@ -91,6 +123,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       filter(uc => !!uc),
       take(1),
       takeUntil(this.unsubscribe$)).subscribe(f => this.organizationalDataTemplateLink = f);
+
+    this.configGroup$.pipe(
+      filter(uc => !!uc),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.getSettings(f);
+    });
 
     forkJoin({ user: userSubscription, company: companiesSubscription })
       .subscribe(f => {
@@ -121,8 +160,38 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
     // reset any checked loads
     this.loadOptions = getEntityChoicesForOrgLoader();
+  }
 
-    this.selectedMapping = -1;
+  public AddAndSetSelectedMapping(configGroup: ConfigurationGroup) {
+    if (!configGroup) { return; }
+
+    const existing = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === configGroup.LoaderConfigurationGroupId);
+
+    if (!existing) {
+      this.mappingOptions.push(configGroup);
+      this.selectedMapping = configGroup;
+    } else {
+      this.selectedMapping = existing;
+    }
+
+    if (this.selectedMapping.LoaderConfigurationGroupId <= 0) {
+      this.selectedDelimiter = ',';
+    } else {
+      if (this.loaderSetting) {
+        this.selectedDelimiter = this.loaderSetting.delimiter;
+      }
+    }
+  }
+
+  public getSettings(newValue: ConfigurationGroup) {
+    this.AddAndSetSelectedMapping(newValue);
+    if (this.selectedMapping.LoaderConfigurationGroupId > 0) {
+      this.mainStore.dispatch(
+        new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany.CompanyId, this.selectedMapping.LoaderConfigurationGroupId)
+      );
+    } else {
+      this.selectedDelimiter = ',';
+    }
   }
 
   goBack() {

@@ -1,4 +1,5 @@
-import * as fromLoaderSettingsActions from '../actions/loader-settings.actions';
+import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+
 import { OrgDataFilenamePatternSetFactory } from '../helpers/org-data-filename-pattern-set-factory';
 import { LoaderSetting, OrgDataFilenamePatternSet } from '../models';
 
@@ -25,7 +26,7 @@ function getState(currentState: State, settings: LoaderSetting[]): State {
 export function reducer(
   state = initialState,
   action: fromLoaderSettingsActions.Actions
-  ): State {
+): State {
   switch (action.type) {
     case fromLoaderSettingsActions.LOADING_LOADER_SETTINGS_SUCCESS: {
       return getState(state, action.payload);

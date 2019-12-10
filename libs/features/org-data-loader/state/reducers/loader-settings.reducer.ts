@@ -1,5 +1,7 @@
+import { LoaderSetting } from 'apps/admin/app/_org-data-loader/models/index';
+
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { LoaderSetting } from '../models/index';
+
 import * as fromLoaderSettingsActions from '../actions/loader-settings.actions';
 
 export interface State extends EntityState<LoaderSetting> {
@@ -22,10 +24,7 @@ export const initialState: State = adapter.getInitialState({
   savingError: false
 });
 
-export function reducer(
-  state = initialState,
-  action: fromLoaderSettingsActions.Actions
-): State {
+export function reducer(state = initialState, action: fromLoaderSettingsActions.Actions): State {
   switch (action.type) {
     case fromLoaderSettingsActions.LOADING_LOADER_SETTINGS: {
       return {
