@@ -20,7 +20,7 @@ export class EntityUploadComponent {
   selectedDelimiter: any;
 
   constructor() {
-
+    this.selectedDelimiter = '';
     // TODO: Wire me up on constructor
     this.savedMappings$ = [
       { MappingId: -1, MappingName: 'Add New Mapping' },

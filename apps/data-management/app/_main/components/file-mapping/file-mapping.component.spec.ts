@@ -31,12 +31,12 @@ describe('FileMappingComponent', () => {
   beforeEach(() => {
     store = TestBed.get(Store);
 
-    spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(FileMappingComponent);
     component = fixture.componentInstance;
     component.entities = getEntityChoicesForOrgLoader();
     component.selectedCompany = {CompanyId: 1, CompanyName: 'test'};
     fixture.detectChanges();
+    spyOn(store, 'dispatch');
   });
 
   it('should create', () => {

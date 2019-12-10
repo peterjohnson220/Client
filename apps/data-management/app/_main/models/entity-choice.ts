@@ -10,6 +10,7 @@ export interface EntityChoice {
   templateReferenceConstants: LoaderType;
   payfactorsDataFields: string[];
   loaderEnabled: boolean;
+  columnNames: string[];
 }
 
 export function getEntityChoicesForOrgLoader(): EntityChoice[] {
@@ -23,7 +24,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
           isSelectedTab: false,
           templateReferenceConstants: LoaderType.PayMarkets,
           payfactorsDataFields: null,
-          loaderEnabled: false
+          loaderEnabled: false,
+          columnNames: null
         },
         {
           isChecked: false,
@@ -34,7 +36,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
           isSelectedTab: false,
           templateReferenceConstants: LoaderType.Jobs,
           payfactorsDataFields: null,
-          loaderEnabled: false
+          loaderEnabled: false,
+          columnNames: null
         },
         {
           isChecked: false,
@@ -45,7 +48,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
           isSelectedTab: false,
           templateReferenceConstants: LoaderType.Structures,
           payfactorsDataFields: null,
-          loaderEnabled: false
+          loaderEnabled: false,
+          columnNames: null
         },
         {
           isChecked: false,
@@ -56,7 +60,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
           isSelectedTab: false,
           templateReferenceConstants: LoaderType.StructureMapping,
           payfactorsDataFields: null,
-          loaderEnabled: false
+          loaderEnabled: false,
+          columnNames: null
         },
         {
           isChecked: false,
@@ -68,7 +73,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
           isSelectedTab: false,
           templateReferenceConstants: LoaderType.Employees,
           payfactorsDataFields: null,
-          loaderEnabled: false
+          loaderEnabled: false,
+          columnNames: null
         }
     ];
 }

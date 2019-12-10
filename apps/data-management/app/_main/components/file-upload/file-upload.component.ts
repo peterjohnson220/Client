@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewChildren} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
+import {props, Store} from '@ngrx/store';
+import * as fromFileUploadReducer from '../../reducers';
+import * as fromFileUploadActions from '../../actions/file-upload.actions';
+import {FileUploadHeaderRequestModel} from 'libs/features/org-data-loader/models';
+import {ColumnNameRequestModel} from '../../models';
+
 
 @Component({
   selector: 'pf-file-upload',
@@ -8,12 +15,30 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class FileUploadComponent {
 
   @Output() onFileDropped = new EventEmitter<any>();
+  @Output() onColumnNamesRetrieved = new EventEmitter<any>();
   @Output() onFileRemoved = new EventEmitter();
   @Input() validFileExtensions: string[] = [];
   @Input() validFileStartsWith = '';
+  @Input() delimiter: string;
 
+  @ViewChildren('fileInput') fileInput;
+
+  private fileUploadColumnNames$: Observable<ColumnNameRequestModel>;
+  fileUploadRequest: FileUploadHeaderRequestModel;
   selectedFile: File = null;
   errorMessage = '';
+
+  constructor(private store: Store<fromFileUploadReducer.State>)  {
+    this.fileUploadColumnNames$ = this.store.select(fromFileUploadReducer.getColumnNames);
+    this.fileUploadColumnNames$.subscribe(f => {
+      if (f !== null) {
+        if (this.validFileStartsWith === f.entity) {
+          this.onColumnNamesRetrieved.emit(f.columnNames);
+        }
+      }
+    });
+  }
+
 
   onFileDrop(event) {
     this.runValidation(event);
@@ -24,28 +49,45 @@ export class FileUploadComponent {
     this.runValidation(file);
   }
 
+  GetColumnNames(file) {
+    if (this.errorMessage.trim().length === 0) {
+      this.fileUploadRequest = {delimiter: this.delimiter, file: file};
+      this.store.dispatch(new fromFileUploadActions.GetColumnNames({columnNamesFile: this.fileUploadRequest, columnNames: null, entity: this.validFileStartsWith}));
+    }
+  }
+
   runValidation(file: File) {
 
     let msg = '';
-    if (!this.validateFileExtension(file)) {
-      if (this.validFileExtensions.length === 1) {
-        msg += `Valid file extensions: ${this.validFileExtensions.join(',')}`;
+    if (file !== undefined) {
+      if (!this.validateFileExtension(file)) {
+        if (this.validFileExtensions.length === 1) {
+          msg += `Valid file extensions: ${this.validFileExtensions.join(',')}`;
+        }
+        this.errorMessage = msg;
+        this.ClearFile();
+        return;
       }
-      this.errorMessage = msg;
-      this.ClearFile();
-      return;
-    }
 
-    if (!this.validateFileStartsWith(file)) {
-      msg = `File name must begin with "${this.validFileStartsWith}" `;
-      this.errorMessage = msg;
-      this.ClearFile();
-      return;
-    }
+      if (!this.validateFileStartsWith(file)) {
+        msg = `File name must begin with "${this.validFileStartsWith}" `;
+        this.errorMessage = msg;
+        this.ClearFile();
+        return;
+      }
 
-    this.errorMessage = msg;
-    this.selectedFile = file;
-    this.onFileDropped.emit(file);
+      if (this.delimiter.toString().trim().length === 0 ) {
+        msg = 'Provide delimiter before continuing';
+        this.errorMessage = msg;
+        this.ClearFile();
+        return;
+      }
+
+      this.errorMessage = msg;
+      this.selectedFile = file;
+      this.GetColumnNames(file);
+      this.onFileDropped.emit(file);
+    }
   }
 
   validateFileStartsWith(file: File): boolean {
@@ -79,5 +121,8 @@ export class FileUploadComponent {
   public ClearFile() {
     this.onFileRemoved.emit();
     this.selectedFile = null;
+    if (this.fileInput.first !== undefined) {
+      this.fileInput.first.nativeElement.value = '';
+    }
   }
 }

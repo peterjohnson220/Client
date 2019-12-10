@@ -1,22 +1,22 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import { KeyValue } from '@angular/common';
+import {KeyValue} from '@angular/common';
 
-import { Store } from '@ngrx/store';
-import { forkJoin, Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import {forkJoin, Observable, Subject} from 'rxjs';
+import {filter, take, takeUntil} from 'rxjs/operators';
 
-import { environment } from 'environments/environment';
+import {environment} from 'environments/environment';
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
-import { CompanySelectorItem } from 'libs/features/company/models';
+import {CompanySelectorItem} from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
-import { UserContext } from 'libs/models/security';
+import {UserContext} from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
-import { EntityUploadComponent } from '../../../components';
-import { EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
+import {EntityUploadComponent} from '../../../components';
+import {EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep} from '../../../models';
 
 @Component({
   selector: 'pf-org-data-load',
@@ -180,7 +180,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   hasUploadedFiles(): boolean {
-    if (this.loadOptions.find(f => f.isChecked && f.File !== null)) {
+    if (!this.loadOptions.find(f => f.isChecked && f.File === null)) {
       return true;
     }
     return false;

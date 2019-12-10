@@ -7,12 +7,14 @@ import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
 import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
 import * as fromFieldMappingReducer from './field-mapping.reducer';
 import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
+import * as fromFileUploadReducer from './file-upload.reducer';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
   fieldMappingPage: fromFieldMappingReducer.State;
   organizationalDataPage: fromOrganizationalDataPageReducer.State;
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.State;
+  fileUploadPage: fromFileUploadReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -23,7 +25,8 @@ export const reducers = {
   transferDataPage: fromTransferDataPageReducer.reducer,
   organizationalDataPage: fromOrganizationalDataPageReducer.reducer,
   fieldMappingPage: fromFieldMappingReducer.reducer,
-  orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer
+  orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
+  fileUploadPage: fromFileUploadReducer.reducer
 };
 
 // Select Feature Area
@@ -46,7 +49,10 @@ export const selectOrgDataFieldMappingsState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.orgDataFieldMappings
 );
-
+export const selectOrgDataFileUploadState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.fileUploadPage
+);
 
 // Transfer Data Page
 export const getTransferMethods = createSelector(
@@ -141,3 +147,15 @@ export const getLoadingFieldMappings =
   createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappings);
 export const getLoadingFieldMappingsError =
   createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappingsError);
+
+// File Upload
+
+export const getColumnNames = createSelector(
+  selectOrgDataFileUploadState,
+  fromFileUploadReducer.GetColumnNames
+);
+
+export const getColumnNamesError = createSelector(
+  selectOrgDataFileUploadState,
+  fromFileUploadReducer.GetColumnNamesError
+);
