@@ -39,7 +39,7 @@ export class ExchangeExplorerMapEffects {
 
       return [
         new fromExchangeExplorerMapActions.UpdatePeerMapFilterBounds(data.action.payload),
-        new fromExchangeSearchResultsActions.GetExchangeDataResults()
+        new fromExchangeSearchResultsActions.GetExchangeDataResults({getSingledFilteredAggregates: true})
       ];
     }),
   );

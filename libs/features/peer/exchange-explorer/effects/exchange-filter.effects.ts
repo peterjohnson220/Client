@@ -17,7 +17,7 @@ export class ExchangeFilterEffects {
 
   @Effect()
   clearFilters$ = this.actions$.pipe(
-    ofType(fromSearchFiltersActions.CLEAR_FILTERS),
+    ofType(fromSearchFiltersActions.CLEAR_FILTERS, fromSearchFiltersActions.CLEAR_FILTER),
     map(() => new fromExchangeFilterContextActions.ClearExchangeScopeSelection()));
 
   constructor(
