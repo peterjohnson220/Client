@@ -1,15 +1,16 @@
 import { ExchangeExplorerContextInfo, generateMockExchangeExplorerContextInfo } from 'libs/models/peer';
-
-import { ExchangeExplorerScopeResponse, generateMockExchangeExplorerScopeResponse } from './exchange-explorer-scope-response.model';
+import { ExchangeExplorerScopeResponseContext,
+         generateMockExchangeExplorerScopeResponseContext
+} from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 
 export interface ExchangeExplorerDataCutResponse {
   ExchangeExplorerContextInfo: ExchangeExplorerContextInfo;
-  DataCutScope: ExchangeExplorerScopeResponse;
+  ScopeContext: ExchangeExplorerScopeResponseContext;
 }
 
 export function generateMockExchangeExplorerDataCutResponse(): ExchangeExplorerDataCutResponse {
   return {
     ExchangeExplorerContextInfo: generateMockExchangeExplorerContextInfo(),
-    DataCutScope: generateMockExchangeExplorerScopeResponse()
+    ScopeContext: generateMockExchangeExplorerScopeResponseContext()
   };
 }

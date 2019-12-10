@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 
 export const LOAD_EXCHANGE_DATA_CUT = '[Features/Peer/ExchangeExplorer/Exchange Data Cut] Load Exchange Data Cut';

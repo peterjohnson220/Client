@@ -1,24 +1,15 @@
-import { generateMockGeoCoordinates, GeoCoordinates } from 'libs/models/peer';
-
-import { generateMockSearchSavedFilterResponse, SearchSavedFilterResponse } from '../../../user-filter/response';
-import { ExchangeDataSearchResponse, generateMockExchangeDataSearchResponse } from '../../exchange-data-search/response';
+import { ExchangeDataSearchFilterContext, generateMockExchangeDataSearchFilterContext } from 'libs/models/peer';
+import { ExchangeExplorerScopeResponseContext,
+         generateMockExchangeExplorerScopeResponseContext } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 
 export interface ExchangeExplorerScopeResponse {
-  ExchangeDataSearchResponse: ExchangeDataSearchResponse;
-  SelectedFilterOptions: SearchSavedFilterResponse;
-  ClusterPrecision: number;
-  ZoomLevel: number;
-  ScopeTopLeft: GeoCoordinates;
-  ScopeBottomRight: GeoCoordinates;
+  FilterContext: ExchangeDataSearchFilterContext;
+  ScopeContext: ExchangeExplorerScopeResponseContext;
 }
 
 export function generateMockExchangeExplorerScopeResponse(): ExchangeExplorerScopeResponse {
   return {
-    ExchangeDataSearchResponse: generateMockExchangeDataSearchResponse(),
-    SelectedFilterOptions: generateMockSearchSavedFilterResponse(),
-    ClusterPrecision: 0,
-    ScopeBottomRight: generateMockGeoCoordinates(),
-    ScopeTopLeft: generateMockGeoCoordinates(),
-    ZoomLevel: 0
+    FilterContext: generateMockExchangeDataSearchFilterContext(),
+    ScopeContext: generateMockExchangeExplorerScopeResponseContext()
   };
 }
