@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
@@ -91,7 +91,7 @@ export class ExchangeSearchEffects {
         this.exchangeExplorerContextService.selectFilterContext(),
         (action, filterContext) => ({action, filterContext})
       ),
-      mergeMap((data: any) => {
+      switchMap((data: any) => {
           const exchangeRequest: ExchangeDataSearchRequest = {
             ...data.filterContext
           };
