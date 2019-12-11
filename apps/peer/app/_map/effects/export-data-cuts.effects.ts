@@ -96,7 +96,7 @@ export class ExportDataCutsEffects {
     );
 
   @Effect()
-  selectWeightingTypeForExport = this.actions$
+  selectWeightingTypeForExport$ = this.actions$
     .pipe(
       ofType(fromExportDataCutsActions.SELECT_WEIGHTING_TYPE),
       switchMap((action: fromExportDataCutsActions.SelectWeightingType) => {

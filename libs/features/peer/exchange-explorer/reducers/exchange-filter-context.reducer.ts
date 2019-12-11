@@ -1,8 +1,7 @@
 import { ExchangeDataSearchFilterContext, ExchangeScopeItem } from 'libs/models';
+import { WeightType } from 'libs/data/data-sets';
 
 import * as fromExchangeExplorerActions from '../actions/exchange-filter-context.actions';
-
-import { WeightingType } from 'libs/constants/weighting-type';
 
 // Extended entity state
 export interface State extends Partial<ExchangeDataSearchFilterContext> {
@@ -24,7 +23,7 @@ export const initialState: State = {
   PayMarketLocation: null,
   ScopeGUID: null,
   SimilarExchangeJobIds: [],
-  WeightingType: WeightingType.INC
+  WeightingType: WeightType.Inc
 };
 
 // Reducer

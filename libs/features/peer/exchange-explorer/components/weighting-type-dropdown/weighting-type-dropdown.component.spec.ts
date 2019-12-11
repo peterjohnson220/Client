@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WeightingTypeDropdownComponent } from './weighting-type-dropdown.component';
 
-import { WeightType, WeightTypeDisplayLabeled } from '../../../../../data/data-sets';
+import { WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 
 describe('Weighting Type Toggle', () => {
   let fixture: ComponentFixture<WeightingTypeDropdownComponent>;

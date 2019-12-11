@@ -13,8 +13,8 @@ import { PfCommonModule, KendoGridFilterHelper } from 'libs/core';
 import { PfValidatableDirective } from 'libs/forms/directives';
 import { generateMockDataStateChangeEvent } from 'libs/extensions/kendo/mocks';
 import { SettingsService } from 'libs/state/app-context/services';
-import { RateType } from 'libs/data/data-sets';
-import { WeightingType } from 'libs/constants/weighting-type';
+import { RateType, WeightType } from 'libs/data/data-sets';
+
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
@@ -78,7 +78,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
     instance.selections$ = of([]);
     instance.exportDataCutsModalOpen$ = of(true);
     instance.persistedRateForExport$ = of(RateType.Annual);
-    instance.persistedWeightingTypeForExport$ = of(WeightingType.INC_WEIGHTED);
+    instance.persistedWeightingTypeForExport$ = of(WeightType.Inc);
   });
 
   it('should dispatch LoadExchangeCompanyJobs action when loadExchangeCompanyJobs is called', () => {
@@ -123,7 +123,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
 
   it('should dispatch a ExportDataCuts action when the handleFormSubmit event is triggered', () => {
     const action = new fromExportDataCutsActions.ExportDataCuts({selectedRate: RateType.Annual, scopes: [], exportCurrentMap: false,
-                                                                        selectedWeightingType: WeightingType.INC});
+                                                                        selectedWeightingType: WeightType.Inc});
 
     instance.selections$ = of([1, 2]);
 

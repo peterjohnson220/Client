@@ -13,4 +13,5 @@ export class UiPersistenceSettingConstants {
   static readonly DashboardView = 'DashboardView';
   static readonly DashboardViewThumbnailEnabled = 'DashboardViewThumbnailEnabled';
   static readonly ExchangeDataCutsExportWeightingTypeSelection = 'ExchangeDataCutsExportWeightingTypeSelection';
+  static readonly PeerAddDataModalWeightingTypeSelection = 'PeerAddDataModalWeightingTypeSelection';
 }

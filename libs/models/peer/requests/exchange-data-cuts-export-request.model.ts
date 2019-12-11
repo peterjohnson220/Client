@@ -1,5 +1,4 @@
-import { RateType } from 'libs/data/data-sets';
-import { WeightingType } from 'libs/constants/weighting-type';
+import { RateType, WeightType } from 'libs/data/data-sets';
 
 import { ExchangeDataSearchFilter, generateMockExchangeDataSearchFilter } from '../exchange-data-search-filter.model';
 
@@ -21,6 +20,6 @@ export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExp
     FilterModel: generateMockExchangeDataSearchFilter(),
     SelectedRate: RateType.Annual,
     SelectedExchangeScopeGuids: ['1234567890'],
-    SelectedWeightingType: WeightingType.INC
+    SelectedWeightingType: WeightType.Inc
   };
 }

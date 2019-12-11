@@ -157,6 +157,7 @@
                                   class="ml-3"
                                   [attr.data-qa-id]="'ddm-weightingType'"
                                   [selectedWeightingType]="selectedWeightingType"
+                                  [includeLabel]="false"
                                   (weightingTypeChanged)="handleWeightingTypeChanged($event)"
                                   *ngIf="isFromNewMap">
       </pf-weighting-type-dropdown>

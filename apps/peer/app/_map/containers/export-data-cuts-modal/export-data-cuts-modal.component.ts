@@ -11,11 +11,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { FeatureAreaConstants, GenericMenuItem, GridTypeEnum, UiPersistenceSettingConstants } from 'libs/models/common';
 import { PfValidators } from 'libs/forms/validators';
 import { KendoDropDownItem } from 'libs/models/kendo';
-import { WeightingType } from 'libs/constants/weighting-type';
-import { Rates, RateType } from 'libs/data/data-sets';
+import { Rates, RateType, Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
-import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 
 import * as fromExchangeCompanyJobGridActions from '../../actions/exchange-company-job-grid.actions';
 import * as fromExportDataCutsActions from '../../actions/export-data-cuts.actions';
@@ -65,7 +63,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
   scopesToExportOptions: GenericMenuItem[] = [];
   selectedScopesToExport: GenericMenuItem[] = [];
-  selectedWeightingType = WeightingType.INC_WEIGHTED;
+  selectedWeightingType: KendoDropDownItem = { Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc };
   readonly currentMapViewOptionValue = 'Current Map View';
 
   constructor(
@@ -125,12 +123,11 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    const weightingType = this.selectedWeightingType === WeightingType.INC_WEIGHTED ? WeightingType.INC : WeightingType.ORG;
     const payload = {
         selectedRate: this.selectedRate.Value,
         scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => s.Value),
         exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue),
-        selectedWeightingType: weightingType
+        selectedWeightingType: this.selectedWeightingType.Value
       };
     const action = this.isFromNewMap ?
       new fromExportDataCutsActions.ExportDataCutsNew(payload) :
@@ -198,9 +195,9 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExportDataCutsActions.SelectRate({newRate: item.Value}));
   }
 
-  handleWeightingTypeChanged(selectedWeightingType: string) {
-    this.selectedWeightingType = selectedWeightingType === WeightingType.INC ? WeightingType.INC_WEIGHTED : WeightingType.ORG_WEIGHTED;
-    this.store.dispatch(new fromExportDataCutsActions.SelectWeightingType({newWeightingType: this.selectedWeightingType}));
+  handleWeightingTypeChanged(item: KendoDropDownItem) {
+    this.selectedWeightingType = item;
+    this.store.dispatch(new fromExportDataCutsActions.SelectWeightingType({newWeightingType: item.Value}));
   }
 
   // Lifecycle
@@ -212,7 +209,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     });
     this.persistedWeightingTypeForExportSubscription = this.persistedWeightingTypeForExport$.subscribe(weightingType => {
       if (!!weightingType) {
-        this.selectedWeightingType = weightingType;
+        this.selectedWeightingType = Weights.find(w => w.Value === weightingType);
       }
     });
     this.exportDataCutsModalOpenSubscription = this.exportDataCutsModalOpen$.subscribe(isOpen => {

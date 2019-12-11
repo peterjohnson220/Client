@@ -117,7 +117,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   handlePopoverShown() {
     this.scopeFilter = '';
     this.filteredExchangeScopeItems = this.exchangeScopeItems;
-  } 
+  }
 
   trackByFn(scopeItem: ExchangeScopeItem) {
     return scopeItem.Id;
