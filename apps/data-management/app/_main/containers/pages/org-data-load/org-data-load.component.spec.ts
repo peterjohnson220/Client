@@ -121,16 +121,19 @@ describe('OrgDataLoadComponent', () => {
   });
 
   it('should dispatch an action to open message on link on without URL', () => {
-    instance.goToLink(null);
+    const openEvent: Event = new Event('open');
+    spyOn(openEvent, 'preventDefault');
+    instance.goToLink(openEvent, null);
     const action = new fromOrganizationalDataActions.SetModalStateOpen(true);
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should open new window with link if has url', () => {
+    const openEvent: Event = new Event('open');
+    spyOn(openEvent, 'preventDefault');
     spyOn(window, 'open');
-
     const url = 'www.google.com';
-    instance.goToLink(url);
+    instance.goToLink(openEvent, url);
     fixture.detectChanges();
     expect(window.open).toHaveBeenCalledWith(url, '_blank');
 
