@@ -1,14 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromFieldsActions from '../../actions/fields.actions';
 import { Field } from '../../models';
+import { CreateFormulaFieldModalComponent } from '../create-formula-field-modal';
 
 @Component({
   selector: 'pf-data-view-fields',
@@ -16,9 +19,11 @@ import { Field } from '../../models';
   styleUrls: ['./fields.component.scss']
 })
 export class FieldsComponent implements OnInit, OnDestroy {
+  @ViewChild(CreateFormulaFieldModalComponent, { static: true }) public createFormulaFieldModal: CreateFormulaFieldModalComponent;
   allFieldsAsync$: Observable<AsyncStateObj<Field[]>>;
   selectedFields$: Observable<Field[]>;
   unselectedFields$: Observable<Field[]>;
+  formulaBuilderEnabled$: Observable<boolean>;
 
   dragulaSub: Subscription;
   selectedFieldsSub: Subscription;
@@ -28,7 +33,8 @@ export class FieldsComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private settingService: SettingsService
   ) {
     this.allFieldsAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getReportFieldsAsync));
     this.selectedFields$ = this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields));
@@ -38,6 +44,9 @@ export class FieldsComponent implements OnInit, OnDestroy {
       this.handleFieldsReordered(sourceModel);
     }));
     this.viewAllFields = false;
+    this.formulaBuilderEnabled$ = this.settingService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.DataInsightsFormulaBuilder
+    );
   }
 
   ngOnInit(): void {
@@ -73,5 +82,9 @@ export class FieldsComponent implements OnInit, OnDestroy {
 
   toggleViewAllFields() {
     this.viewAllFields = !this.viewAllFields;
+  }
+
+  handleCreateFormulaFieldClicked(): void {
+    this.createFormulaFieldModal.open();
   }
 }

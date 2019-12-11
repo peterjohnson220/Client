@@ -35,6 +35,7 @@ export const LOAD_FORM_DATA = '[Pf-Admin/Company Page] Load Form Data';
 export const GET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Get Job Pricing Limit Info';
 export const SET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Set Job Pricing Limit Info';
 export const RESET = '[Pf-Admin/Company Page] Reset';
+export const ENABLE_JOB_PRICING_LIMITER = '[Pf-Admin/Company Page] Enable Job Pricing Limiter';
 
 // Tabs
 export const GET_COMPANY_TILES = '[Pf-Admin/Company Page] Get Company Tiles';
@@ -452,6 +453,12 @@ export class Reset implements Action {
   constructor() {}
 }
 
+export class EnableJobPricingLimiter implements Action {
+  readonly type = ENABLE_JOB_PRICING_LIMITER;
+
+  constructor(public payload: boolean) {}
+}
+
 export type Actions
   = GetSystemUserGroups
   | GetSystemUserGroupsSuccess
@@ -514,5 +521,6 @@ export type Actions
   | GetJobPricingLimitInfo
   | SetJobPricingLimitInfo
   | DisablePeerAndAnalysisTiles
-  | Reset;
+  | Reset
+  | EnableJobPricingLimiter;
 

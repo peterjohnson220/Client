@@ -8,4 +8,7 @@ export class UiPersistenceSettingConstants {
   static readonly ComparisonMarketSelection = 'ComparisonMarketSelection';
   static readonly ComparisonRateSelection = 'ComparisonRateSelection';
   static readonly ExchangeDataCutsExportRateSelection = 'ExchangeDataCutsExportRateSelection';
+  static readonly ShowStandardReportsSection = 'ShowStandardReportsSection';
+  static readonly DashboardView = 'DashboardView';
+  static readonly DashboardViewThumbnailEnabled = 'DashboardViewThumbnailEnabled';
 }

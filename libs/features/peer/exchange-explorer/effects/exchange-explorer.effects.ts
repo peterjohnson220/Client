@@ -12,6 +12,7 @@ import * as fromExchangeFilterContextActions from '../actions/exchange-filter-co
 import * as fromExchangeExplorerContextInfoActions from '../actions/exchange-explorer-context-info.actions';
 import * as fromExchangeExplorerActions from '../actions/exchange-explorer.actions';
 import * as fromExchangeExplorerMapActions from '../actions/map.actions';
+import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
 
 @Injectable()
 export class ExchangeExplorerEffects {
@@ -22,15 +23,24 @@ export class ExchangeExplorerEffects {
     switchMap((payload) =>
       this.exchangeDataSearchApiService.getExchangeExplorerContextInfo(payload).pipe(
         mergeMap((response) => {
-          return [
+          const actions: any[] = [
             new fromExchangeExplorerContextInfoActions.LoadContextInfoSuccess({
               payMarket: response.PayMarket,
               exchangeJobFilterOptions: response.AssociatedExchangeJobFilterOptions,
               searchFilterMappingDataObj: response.SearchFilterMappingData
             }),
+            new fromExchangeExplorerMapActions.SetPeerMapBounds(response.InitialMapGeoData),
             new fromExchangeFilterContextActions.SetFilterContext(response.FilterContext)
           ];
+          const hasNoInitialMapGeoData = response.InitialMapGeoData.TopLeft.Lat === null ||
+            response.InitialMapGeoData.BottomRight.Lat === null;
 
+          // If we don't have any initial map bounds, the map won't move and thus will never call GetResults [JP]
+          if (hasNoInitialMapGeoData) {
+            actions.push(new fromExchangeSearchResultsActions.GetExchangeDataResults());
+          }
+
+          return actions;
         }),
         catchError(() => of(new fromExchangeExplorerContextInfoActions.LoadContextInfoError))
       )

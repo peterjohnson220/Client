@@ -91,11 +91,6 @@ export const getStandardWorkbooksAsync = createSelector(
   fromDataInsightsPageReducer.getStandardWorkbooksAsync
 );
 
-export const getShowStandardReportsSection = createSelector(
-  selectDataInsightsPageState,
-  fromDataInsightsPageReducer.getShowStandardReportsSection
-);
-
 // Report View Page
 export const getWorkbookViewUrl = createSelector(
   selectReportViewPageState,
@@ -151,6 +146,11 @@ export const getTagWorkbookModalOpen = createSelector(
 export const getActiveWorkbook = createSelector(
   selectDashboardsState,
   fromDashboardsReducer.getActiveWorkbook
+);
+
+export const getAllViewsLoadedAsync = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getAllViewsLoadedAsync
 );
 
 // Data View
@@ -281,9 +281,24 @@ export const getCompanyWorkbooksAsyncFromViews = createSelector(
   fromViewsReducer.getCompanyWorkbooksAsyncFromViews
 );
 
+export const getDataViewReportsFromViews = createSelector(
+  selectViewsState,
+  fromViewsReducer.getDataViewReportsFromViews
+);
+
+export const getTableauReportsFromViews = createSelector(
+  selectViewsState,
+  fromViewsReducer.getTableauReportsFromViews
+);
+
 export const getFavoriteViews = createSelector(
   selectViewsState,
   fromViewsReducer.getFavoriteViews
+);
+
+export const getFavoriteDataViewReports = createSelector(
+  selectViewsState,
+  fromViewsReducer.getFavoriteDataViewReports
 );
 
 export const getDashboardViewThumbnailEnabled = createSelector(

@@ -1,0 +1,43 @@
+@import 'data-insights-styles';
+@import 'data-insights-variables';
+
+.modal-header {
+  background: none;
+  border-bottom: none;
+  h4 {
+    font-weight: 400;
+  }
+}
+
+.modal-body {
+  padding-top: 0;
+}
+
+.instructions {
+  height: 100px;
+  padding: 1rem;
+  background-color: $baby-blue;
+  margin-bottom: 1.2rem;
+}
+
+.field-name-label {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.formula {
+  resize: none;
+  height: 150px;
+  width: 100%;
+  border: 1px solid #ced4da;
+  padding: 1rem;
+
+  &:focus {
+    outline-color: $background-grey;
+  }
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.05rem rgba(31, 47, 61, 0.25);
+  border-color: $background-grey;
+}

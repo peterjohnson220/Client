@@ -13,13 +13,12 @@
   <ng-template [ngIf]="attribute.Type === 'Dropdown'">
     <div class="rendered-text"
          [innerHtml]=sanitizer.bypassSecurityTrustHtml(displayValueByKey(dataRow[attribute.Name]))>
-
     </div>
   </ng-template>
 
   <ng-template [ngIf]="attribute.Type === 'RadioButton'">
     <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices">
-      <label class="form-check-label">
+      <label class="form-check-label form-check-label-disabled">
         <input type="radio"
                class="form-check-input"
                [value]="choice.value"

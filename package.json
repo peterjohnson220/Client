@@ -123,7 +123,8 @@
     },
     "moduleNameMapper": {
       "^environments/(.*)": "<rootDir>/environments/$1",
-      "^libs/(.*)": "<rootDir>/libs/$1"
+      "^libs/(.*)": "<rootDir>/libs/$1",
+      "^assets\/(.*)": "<rootDir>/assets/$1"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/setupJest.ts",
     "modulePathIgnorePatterns": [

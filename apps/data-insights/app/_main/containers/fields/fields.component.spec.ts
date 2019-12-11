@@ -5,6 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromFieldsActions from '../../actions/fields.actions';
@@ -26,7 +27,10 @@ describe('Data Insights - Fields Comopnent', () => {
         DragulaModule.forRoot()
       ],
       declarations: [ FieldsComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        { provide: SettingsService, useClass: SettingsService }
+      ]
     });
 
     fixture = TestBed.createComponent(FieldsComponent);

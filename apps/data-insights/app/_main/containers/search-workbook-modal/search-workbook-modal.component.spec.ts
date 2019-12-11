@@ -5,12 +5,10 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
-import { generateDefaultAsyncStateObj } from 'libs/models/state/async-state-obj';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
-import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import { SearchWorkbookModalComponent } from './search-workbook-modal.component';
-import { generateMockWorkbook, generateMockView, View } from '../../models';
+import { generateMockSearchResult, generateMockWorkbook } from '../../models';
 
 describe('Data Insights - Search Workbook Modal Component', () => {
   let instance: SearchWorkbookModalComponent;
@@ -60,16 +58,21 @@ describe('Data Insights - Search Workbook Modal Component', () => {
   });
 
   it('should return workbooks contains search value when search value changed', () => {
-    const workbook1 = { ...generateMockWorkbook(), WorkbookName: 'Salary Structures' };
-    const workbook2 = { ...generateMockWorkbook(), WorkbookName: 'Geographic References' };
-    const expectedFilteredWorkbooks = [ workbook1 ];
+    const workbook1 = { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Salary Structures' };
+    const workbook2 = { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Geographic References' };
+    const expectedFilteredWorkbooks = [
+      {
+        ...generateMockSearchResult(),
+        WorkbookName: 'Salary Structures',
+        Url: `/company-reports/${workbook1.WorkbookId}`
+      }];
     instance.searchValue = 'salary';
     instance.allWorkbooks = [ workbook1, workbook2 ];
     instance.handleSearchValueChanged(instance.searchValue);
 
     fixture.detectChanges();
 
-    expect(instance.filteredWorkbooks).toEqual(expectedFilteredWorkbooks);
+    expect(instance.searchResults).toEqual(expectedFilteredWorkbooks);
     expect(instance.noSearchResults).toEqual(false);
   });
 
@@ -83,54 +86,43 @@ describe('Data Insights - Search Workbook Modal Component', () => {
 
     fixture.detectChanges();
 
-    expect(instance.filteredWorkbooks).toEqual(expectedFilteredWorkbooks);
+    expect(instance.searchResults).toEqual(expectedFilteredWorkbooks);
     expect(instance.noSearchResults).toEqual(true);
   });
 
-  it('should return top 5 workbooks in alphabetical order when matching found', () => {
+  it('should return top 10 results in alphabetical order when matching found', () => {
     instance.allWorkbooks = [
-      { ...generateMockWorkbook(), WorkbookName: 'Wage Gap Analysis' },
-      { ...generateMockWorkbook(), WorkbookName: '13 test API' },
-      { ...generateMockWorkbook(), WorkbookName: 'Published Composites with Employees' },
-      { ...generateMockWorkbook(), WorkbookName: '1. Published Market Pricing' },
-      { ...generateMockWorkbook(), WorkbookName: 'Geographic Referfences' },
-      { ...generateMockWorkbook(), WorkbookName: 'Published Jobs' }
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Wage Gap Analysis' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: '13 test API' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Published Composites with Employees' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: '1. Published Market Pricing' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Geographic Referfences' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Published Jobs' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Zap' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Zip' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Wip' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Wop' },
+      { ...generateMockWorkbook(), SourceUrl: '/company-reports', WorkbookName: 'Zing Pong' }
     ];
     instance.searchValue = 'P';
 
     const expectedFilteredWorkbooks = [
-      { ...generateMockWorkbook(), WorkbookName: '1. Published Market Pricing' },
-      { ...generateMockWorkbook(), WorkbookName: '13 test API' },
-      { ...generateMockWorkbook(), WorkbookName: 'Geographic Referfences' },
-      { ...generateMockWorkbook(), WorkbookName: 'Published Composites with Employees' },
-      { ...generateMockWorkbook(), WorkbookName: 'Published Jobs' }
+      { ...generateMockSearchResult(), WorkbookName: '1. Published Market Pricing' },
+      { ...generateMockSearchResult(), WorkbookName: '13 test API' },
+      { ...generateMockSearchResult(), WorkbookName: 'Geographic Referfences' },
+      { ...generateMockSearchResult(), WorkbookName: 'Published Composites with Employees' },
+      { ...generateMockSearchResult(), WorkbookName: 'Published Jobs' },
+      { ...generateMockSearchResult(), WorkbookName: 'Wage Gap Analysis' },
+      { ...generateMockSearchResult(), WorkbookName: 'Wip' },
+      { ...generateMockSearchResult(), WorkbookName: 'Wop' },
+      { ...generateMockSearchResult(), WorkbookName: 'Zap' },
+      { ...generateMockSearchResult(), WorkbookName: 'Zing Pong' }
     ];
+
     instance.handleSearchValueChanged(instance.searchValue);
     fixture.detectChanges();
 
-    expect(instance.filteredWorkbooks).toEqual(expectedFilteredWorkbooks);
-  });
-
-  it('should dispatch GetCompanyWorkbookViews when open views clicked and views has not been loaded', () => {
-    spyOn(store, 'dispatch');
-    const workbook = generateMockWorkbook();
-    const getViewsAction = new fromDashboardsActions.GetCompanyWorkbookViews({ workbookId: workbook.WorkbookId });
-
-    instance.handleOpenViewsClicked(workbook);
-
-    expect(store.dispatch).toHaveBeenCalledWith(getViewsAction);
-  });
-
-  it('should NOT dispatch GetCompanyWorkbookViews when open views clicked and views already loaded', () => {
-    spyOn(store, 'dispatch');
-    const workbook = generateMockWorkbook();
-    const view = generateMockView();
-    workbook.Views = generateDefaultAsyncStateObj<View[]>([view]);
-    const getViewsAction = new fromDashboardsActions.GetCompanyWorkbookViews({ workbookId: workbook.WorkbookId });
-
-    instance.handleOpenViewsClicked(workbook);
-
-    expect(store.dispatch).not.toHaveBeenCalledWith(getViewsAction);
+    expect(instance.searchResults).toEqual(expectedFilteredWorkbooks);
   });
 
 });

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 
-import { LoaderType } from '../../constants/index';
+import { LoaderType } from 'libs/constants/index';
 import { FieldMapperComponent } from './field-mapper.component';
 import { LoaderEntityStatus } from '../../models';
 
@@ -22,6 +22,10 @@ describe('FieldMapperComponent', () => {
     fixture = TestBed.createComponent(FieldMapperComponent);
     component = fixture.componentInstance;
     component.loaderType = LoaderType.Structures;
+    component.visibleLoaderOptions = {
+      clientFileName: true,
+      selectFile: true
+    };
     component.fieldMappings$ = of([{
       CompanyId: 13,
       LoaderType: LoaderType.Jobs,

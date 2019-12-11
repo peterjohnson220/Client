@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { ReportType, Workbook } from '../../models';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ReportType, SearchResult } from '../../models';
 
 @Component({
   selector: 'pf-search-workbook-result',
@@ -8,20 +8,10 @@ import { ReportType, Workbook } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchWorkbookResultComponent {
-  @Input() workbook: Workbook;
-  @Output() openViewsClicked: EventEmitter<Workbook> = new EventEmitter();
-  openViews: boolean;
+  @Input() result: SearchResult;
 
   reportTypes = ReportType;
 
-  constructor() {
-    this.openViews = false;
-  }
+  constructor() {}
 
-  handleOpenViewsClicked() {
-    this.openViews = !this.openViews;
-    if (this.openViews) {
-      this.openViewsClicked.emit(this.workbook);
-    }
-  }
 }

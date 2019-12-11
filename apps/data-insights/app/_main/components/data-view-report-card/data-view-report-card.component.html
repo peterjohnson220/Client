@@ -1,0 +1,45 @@
+<div *ngIf="!!dataViewReport" class="card view-card" [title]="dataViewReport.WorkbookName"
+     (mouseover)="handleMouseOverViewContainer()"
+     (mouseleave)="handleMouseLeaveViewContainer()">
+
+  <fa-icon class="card-img-top" id="table-icon" [icon]="['fal' ,'file-spreadsheet']"></fa-icon>
+
+  <div class="card-body view-content">
+
+    <div class="actions-container" [ngClass]="displayActionsOverlay ? 'displayed' : ''">
+      <button class="btn action-button" [attr.data-qa-id]="'btn-favorite'" (click)="handleFavoriteClicked(dataViewReport)">
+        <fa-icon *ngIf="dataViewReport.IsFavorite" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
+        <fa-icon *ngIf="!dataViewReport.IsFavorite" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
+      </button>
+
+      <button *ngIf="!!dataViewReport.WorkbookDescription?.length" class="btn btn-secondary action-btn"
+              [attr.data-qa-id]="'btn-showSummary'"
+              [ngbPopover]="reportSummary"
+              [popoverClass]="'workbook-views-popover'"
+              [placement]="'bottom'"
+              [popoverTitle]="dataViewReport.WorkbookName"
+              [autoClose]="'outside'"
+              (shown)="handlePopoverShown()"
+              (hidden)="handlePopoverHidden()">
+        <fa-icon class="action-icon info-icon" icon="info-circle"></fa-icon>
+      </button>
+
+      <div class="open-workbook">
+        <a class="btn"
+           title="Open Workbook"
+           [attr.data-qa-id]="'lnk-openWorkbook'"
+           [routerLink]="['/custom-report', dataViewReport.WorkbookId]">
+          Open
+        </a>
+      </div>
+    </div>
+    <div class="d-flex actions-overlay" [ngClass]="displayActionsOverlay ? 'displayed' : ''"></div>
+
+    <p class="card-text">{{dataViewReport.WorkbookName}}</p>
+  </div>
+
+</div>
+
+<ng-template #reportSummary>
+  <p>{{dataViewReport.WorkbookDescription}}</p>
+</ng-template>

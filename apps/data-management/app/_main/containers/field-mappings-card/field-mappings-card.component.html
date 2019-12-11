@@ -1,0 +1,34 @@
+<pf-async-container [loading]="fieldMappingCardLoading$"
+                    [loadingError]="fieldMappingCardLoadingError$ | async"
+                    [loadingErrorMessage]="'Error Loading Field Mapping Card'">
+  <div class="p-3">
+    <h4>Map Fields</h4>
+    <div class="my-4">
+      <ngb-tabset [destroyOnHide]="false">
+        <ngb-tab *ngFor="let entity of selectedEntities" 
+                  [id]="'tab-'+ entity.EntityName.toLowerCase()">
+          <ng-template ngbTabTitle>
+              <h4 class="font-weight-lighter">{{entity.EntityName}}</h4>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <div *ngIf="this.providerFields && this.payfactorsFields">
+              <pf-entity-mapping 
+                  [entity]="entity.EntityName.toLowerCase()"
+                  [providerFields]="this.providerFields[entity.EntityName]"
+                  [payfactorsFields]="this.payfactorsFields[entity.EntityName]">
+              </pf-entity-mapping>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+      <div class="d-flex justify-content-end">
+          <div class="p-2">
+            <button type="button" class="btn btn-primary">Cancel</button>
+          </div>
+          <div class="p-2">
+            <button type="button" class="btn btn-primary">Save</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</pf-async-container>

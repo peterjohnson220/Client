@@ -56,6 +56,8 @@ export class SaveCompanyJobsJobDescriptionTemplateId implements Action {
 
 export class SaveCompanyJobsJobDescriptionTemplateIdError implements Action {
   readonly type = SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_ERROR;
+
+  constructor(public payload: any) {}
 }
 
 export class SaveCompanyJobsJobDescriptionTemplateIdSuccess implements Action {

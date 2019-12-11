@@ -23,10 +23,16 @@ export class ViewsHelper {
     return orderByFn;
   }
 
+  static orderDataViewReports(workbooks: Workbook[]): Workbook[] {
+    return orderBy(workbooks, ['DashboardsOrder', (x: Workbook) => x.WorkbookName.toLowerCase()], 'asc');
+  }
+
   static orderWorkbooksViews(workbooks: Workbook[]): Workbook[] {
     return workbooks.map((w: Workbook) => {
       const viewsAsyncClone = cloneDeep(w.Views);
-      viewsAsyncClone.obj = ViewsHelper.getOrderByFn(ReportOrderType.Custom, viewsAsyncClone.obj);
+      if (!!viewsAsyncClone) {
+        viewsAsyncClone.obj = ViewsHelper.getOrderByFn(ReportOrderType.Custom, viewsAsyncClone.obj);
+      }
       return {
         ...w,
         Views: viewsAsyncClone
@@ -34,7 +40,7 @@ export class ViewsHelper {
     });
   }
 
-  static getFavoriteViews(workbooks: Workbook[]): View[] {
+  static getFavoriteTableauReports(workbooks: Workbook[]): View[] {
     const favoriteViews = [];
     workbooks.forEach(function (workbook) {
       workbook.Views.obj.forEach(function (view) {
@@ -50,6 +56,16 @@ export class ViewsHelper {
       });
     });
     return favoriteViews;
+  }
+
+  static getFavoriteDataViewReports(workbooks: Workbook[]): Workbook[] {
+    const favoriteDataViewReports = [];
+    workbooks.forEach(function (workbook) {
+      if (workbook.IsFavorite) {
+        favoriteDataViewReports.push(workbook);
+      }
+    });
+    return favoriteDataViewReports;
   }
 
   static applyViewOrderByType(views: View[], orderedViewIds: string[], type: ReportOrderType): View[] {

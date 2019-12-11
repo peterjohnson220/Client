@@ -78,15 +78,17 @@ export const getPeerMapOrgCount = createSelector(
 );
 export const getPeerMapFilter = createSelector(selectMapState, fromMapReducer.getMapFilter);
 export const getPeerMapCollection = createSelector(selectMapState, fromMapReducer.getMapCollection);
-export const getPeerMapBounds = createSelector(selectMapState, fromMapReducer.getMapBounds);
+export const getPeerInitialMapBounds = createSelector(selectMapState, fromMapReducer.getInitialMapBounds);
 export const getPeerMapMaxZoom = createSelector(selectMapState, fromMapReducer.getMaxZoom);
-export const getPeerMapInitialMapMoveComplete = createSelector(selectMapState, fromMapReducer.getInitialMapMoveComplete);
 export const getPeerMapInitialZoomLevel = createSelector(selectMapState, fromMapReducer.getInitialZoomLevel);
 export const getPeerMapCentroid = createSelector(selectMapState, fromMapReducer.getMapCentroid);
 export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canLoadMap);
 export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
 export const getPeerMapApplyingScope = createSelector(selectMapState, fromMapReducer.getApplyingScope);
 export const getPeerMapAutoZooming = createSelector(selectMapState, fromMapReducer.getAutoZooming);
+export const getPeerMapZoom = createSelector(selectMapState, fromMapReducer.getZoom);
+export const getPeerMapInitialZoomComplete = createSelector(selectMapState, fromMapReducer.getInitialZoomComplete);
+export const getPeerMapLoaded = createSelector(selectMapState, fromMapReducer.getMapLoaded);
 
 // Exchange Scope Selectors
 export const {
@@ -141,8 +143,7 @@ export const getFilterContextIncludeUntaggedIncumbents = createSelector(
   selectFilterContextState,
   fromExchangeFilterContextReducer.getIncludeUntaggedIncumbents
 );
-export const getFilterContextScopeSelection = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getScopeSelection);
-
+export const getFilterContextScopeGuid = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getScopeGuid);
 export const getFilterContext = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getFilterContext);
 export const getSelectedExchangeJobId = createSelector(
   getFilterContext,
@@ -186,3 +187,14 @@ export const getExchangeScopes = createSelector(
     return scopes.filter(s => s.ExchangeId === selectedExchangeJobExchangeDetail.ExchangeId);
   }
 );
+
+
+export const getFilterContextScopeSelection = createSelector(
+  getExchangeScopes,
+  getFilterContextScopeGuid,
+  (scopes, selectedGuid) => {
+    if (!scopes || !scopes.length || !selectedGuid) {
+      return null;
+    }
+    return scopes.find(s => s.Id === selectedGuid);
+  });

@@ -37,10 +37,12 @@ import { NotificationsApiService } from './notifications';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
 import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
   AuthenticationTypesHrisApiService,
-  ConnectionsHrisApiService } from './hris-api';
+  ConnectionsHrisApiService, MappingsHrisApiService } from './hris-api';
 import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
+import {OrganizationalDataApiService} from './organizational-data';
 import {JobsApiService} from './jobs';
+
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -93,6 +95,7 @@ import {JobsApiService} from './jobs';
     NotificationsApiService,
     SurveyLibraryApiService,
     CompanyResourcesApiService,
+    OrganizationalDataApiService,
 
     // PEER
     ExchangeApiService,
@@ -107,7 +110,8 @@ import {JobsApiService} from './jobs';
     TransferMethodsHrisApiService,
     ProvidersHrisApiService,
     AuthenticationTypesHrisApiService,
-    ConnectionsHrisApiService
+    ConnectionsHrisApiService,
+    MappingsHrisApiService
   ]
 })
 export class PfApiModule { }

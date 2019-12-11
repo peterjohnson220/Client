@@ -99,7 +99,7 @@ export class UpsertDataCutPageEffects {
       })
     );
 
-  // Window Communication
+  // // Window Communication
   @Effect({ dispatch: false })
   upsertDataCutSuccess$ = this.actions$.pipe(
       ofType(fromUpsertDataCutPageActions.UPSERT_DATA_CUT_SUCCESS),

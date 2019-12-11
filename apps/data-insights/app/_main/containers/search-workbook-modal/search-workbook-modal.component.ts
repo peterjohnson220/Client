@@ -1,7 +1,7 @@
-import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { orderBy } from 'lodash';
@@ -10,7 +10,7 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
-import { Workbook } from '../../models';
+import { ReportType, SearchResult, View, Workbook } from '../../models';
 
 @Component({
   selector: 'pf-search-workbook-modal',
@@ -22,7 +22,7 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
   @Input() thumbnailsViewSettingEnabled: boolean;
 
   @ViewChild('searchWorkbookModal', { static: true }) public searchWorkbookModal: any;
-  filteredWorkbooks: Workbook[];
+  searchResults: SearchResult[];
   allWorkbooks: Workbook[];
   searchValue: string;
   noSearchResults = false;
@@ -30,8 +30,12 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
   companyWorkbooks$: Observable<AsyncStateObj<Workbook[]>>;
   companyWorkbooksFromViews$: Observable<AsyncStateObj<Workbook[]>>;
   standardWorkbooks$: Observable<AsyncStateObj<Workbook[]>>;
+  allViewsLoaded$: Observable<AsyncStateObj<boolean>>;
 
   allWorkbooksSub: Subscription;
+  allViewsLoadedSub: Subscription;
+
+  allViewsLoaded: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -40,6 +44,7 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
     this.companyWorkbooks$ = this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsync));
     this.companyWorkbooksFromViews$ = this.store.pipe(select(fromDataInsightsMainReducer.getCompanyWorkbooksAsyncFromViews));
     this.standardWorkbooks$ = this.store.pipe(select(fromDataInsightsMainReducer.getStandardWorkbooksAsync));
+    this.allViewsLoaded$ = this.store.pipe(select(fromDataInsightsMainReducer.getAllViewsLoadedAsync));
   }
 
   ngOnInit() {
@@ -65,25 +70,33 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
       this.allWorkbooks = workbooks;
       this.handleSearchValueChanged(this.searchValue);
     });
+
+    this.allViewsLoadedSub = this.allViewsLoaded$.subscribe(l => {
+      this.allViewsLoaded = l.obj;
+    });
   }
 
   ngOnDestroy() {
     this.allWorkbooksSub.unsubscribe();
+    this.allViewsLoadedSub.unsubscribe();
     this.close();
   }
 
-  trackByFn(index: any, workbook: Workbook) {
-    return workbook.WorkbookId ;
+  trackByFn(index: any, searchResult: SearchResult) {
+    return searchResult.Id;
   }
 
   open(): void {
+    if (!this.allViewsLoaded) {
+      this.store.dispatch(new fromDashboardsActions.GetAllCompanyWorkbookViews());
+    }
     this.modalService.open(this.searchWorkbookModal, { backdrop: 'static', windowClass: 'search-modal' });
   }
 
   close(): void {
     this.modalService.dismissAll();
     this.searchValue = '';
-    this.filteredWorkbooks = [];
+    this.searchResults = [];
     this.noSearchResults = false;
   }
 
@@ -92,20 +105,53 @@ export class SearchWorkbookModalComponent implements OnInit, OnDestroy {
       return;
     }
     if (!this.searchValue) {
-      this.filteredWorkbooks = [];
+      this.searchResults = [];
       this.noSearchResults = false;
       return;
     }
-    const orderedWorkbooks = orderBy(this.allWorkbooks, ['WorkbookName'], 'asc');
-    this.filteredWorkbooks = orderedWorkbooks
-      .filter((w: Workbook) => w.WorkbookName.toLowerCase().includes(value.toLowerCase()))
-      .slice(0, 5);
-    this.noSearchResults = this.filteredWorkbooks.length === 0;
+
+    const results = this.getMatchingResults(value);
+    this.searchResults = orderBy(results, ['WorkbookName', (x: SearchResult) => !x.IsWorkbook, 'ViewName'], 'asc').slice(0, 10);
+    this.noSearchResults = this.searchResults.length === 0;
   }
 
-  handleOpenViewsClicked(workbook: Workbook) {
-    if (!workbook.Views || workbook.Views.loadingError) {
-      this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbookViews({workbookId: workbook.WorkbookId}));
+  private getMatchingResults(searchTerm: string): SearchResult[] {
+    const results: SearchResult[] = [];
+    this.allWorkbooks.forEach(workbook => {
+      if (workbook.WorkbookName.toLowerCase().includes(searchTerm.toLowerCase())) {
+        results.push({
+          WorkbookName: workbook.WorkbookName,
+          IsWorkbook: true,
+          Type: workbook.Type,
+          Url: this.getWorkbookUrl(workbook),
+          Id: workbook.WorkbookId
+        });
+      }
+      if (workbook.Views && workbook.Views.obj) {
+        workbook.Views.obj.forEach(view => {
+          if (view.ViewName.toLowerCase().includes(searchTerm.toLowerCase())) {
+            results.push({
+              WorkbookName: workbook.WorkbookName,
+              ViewName: view.ViewName,
+              IsWorkbook: false,
+              Type: workbook.Type,
+              Url: this.getViewUrl(view, workbook),
+              Id: `${workbook.WorkbookId}_${view.ViewId}`
+            });
+          }
+        });
+      }
+    });
+    return results;
+  }
+  private getWorkbookUrl(workbook: Workbook): string {
+    return workbook.Type === ReportType.TableauReport ? `${workbook.SourceUrl}/${workbook.WorkbookId}` : `/custom-report/${workbook.WorkbookId}`;
+  }
+
+  private getViewUrl(view: View, workbook: Workbook): string {
+    if (this.thumbnailsViewSettingEnabled) {
+      return `${workbook.SourceUrl}/${workbook.ContentUrl}/${view.ContentUrl}`;
     }
+    return `${workbook.SourceUrl}/${view.ContentUrl}`;
   }
 }

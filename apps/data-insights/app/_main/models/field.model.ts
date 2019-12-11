@@ -10,6 +10,7 @@ export interface Field {
   IsSelected?: boolean;
   IsSortable: boolean;
   Order?: number;
+  DataElementOrder?: number;
 }
 
 export interface FieldListItem {

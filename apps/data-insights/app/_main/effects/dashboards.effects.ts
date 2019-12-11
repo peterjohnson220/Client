@@ -5,10 +5,12 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 
-import { TableauReportApiService, UserReportApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
+import { TableauReportApiService, UserReportApiService } from 'libs/data/payfactors-api';
 import { UserContext } from 'libs/models/security';
 import { WorkbookOrderType } from 'libs/constants';
 import * as fromRootState from 'libs/state/state';
+import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 import * as fromAllDashboardsActions from '../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
@@ -43,29 +45,12 @@ export class DashboardsEffects {
   updateDashboardView$ = this.action$
     .pipe(
       ofType(fromAllDashboardsActions.TOGGLE_DASHBOARD_VIEW),
-      switchMap((action: fromAllDashboardsActions.ToggleDashboardView) => {
-        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
-            FeatureArea: 'DataInsights',
-            SettingName: 'DashboardView',
-            SettingValue: action.payload.view
-          })
-          .pipe(
-            map(() => new fromAllDashboardsActions.PersistDashboardViewSuccess()),
-            catchError(() => of(new fromAllDashboardsActions.PersistDashboardViewError()))
-          );
-      })
-    );
-
-  @Effect()
-  getDashboardView$ = this.action$
-    .pipe(
-      ofType(fromAllDashboardsActions.GET_DASHBOARD_VIEW),
-      switchMap(() => {
-        return this.uiPersistenceSettingsApiService.getUiPersistenceSetting('DataInsights', 'DashboardView')
-          .pipe(
-            map((response) => new fromAllDashboardsActions.GetDashboardViewSuccess(response)),
-            catchError(() => of(new fromAllDashboardsActions.GetDashboardViewError()))
-          );
+      map((action: fromAllDashboardsActions.ToggleDashboardView) => {
+        return new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
+          FeatureArea: FeatureAreaConstants.DataInsights,
+          SettingName: UiPersistenceSettingConstants.DashboardView,
+          SettingValue: action.payload.view
+        });
       })
     );
 
@@ -185,11 +170,25 @@ export class DashboardsEffects {
       })
     );
 
+  @Effect()
+  getAllCompanyViews$ = this.action$
+    .pipe(
+      ofType(fromAllDashboardsActions.GET_ALL_COMPANY_WORKBOOK_VIEWS),
+      switchMap((action: fromAllDashboardsActions.GetAllCompanyWorkbookViews) => {
+        return this.tableauReportApiService.getCompanyViews()
+          .pipe(
+            map((response) => new fromAllDashboardsActions.GetAllCompanyWorkbookViewsSuccess(
+              PayfactorsApiModelMapper.mapTableauReportViewsResponsesToViews(response)
+            )),
+            catchError(() => of(new fromAllDashboardsActions.GetAllCompanyWorkbookViewsError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromDataInsightsMainReducer.State>,
     private tableauReportApiService: TableauReportApiService,
-    private userReportApiService: UserReportApiService,
-    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService
+    private userReportApiService: UserReportApiService
   ) {}
 }

@@ -88,6 +88,39 @@ tr.row-disabled {
   background-color: #F2E366;
 }
 
+
+.pf-primary-btn, %pf-primary-btn {
+  background-color: $pf-primary-blue;
+  border: 1px solid $pf-primary-blue;
+  color: white;
+
+  &:hover, &:not(:disabled):not(.disabled):active{
+    background-color: darken($pf-primary-blue, 5%);
+    border-color: darken($pf-primary-blue, 5%);
+  }
+
+  &:disabled {
+    background-color: rgba($pf-primary-blue, .65);
+    border-color: rgba($pf-primary-blue, .65);
+  }
+}
+
+.pf-secondary-btn {
+  background-color: $pf-secondary-background;
+  border: 1px solid $pf-secondary-border;
+  color: $pf-secondary-text;
+
+  &:hover, &:not(:disabled):not(.disabled):active{
+    background-color: $pf-secondary-background-hover;
+  }
+
+  &:disabled {
+    background-color: $pf-secondary-background;
+    border-color: $pf-secondary-border-disabled;
+    color: $pf-secondary-text-disabled;
+  }
+}
+
 input[type=text]::-ms-clear {
   display: none;
 }

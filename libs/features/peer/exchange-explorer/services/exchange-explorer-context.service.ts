@@ -19,17 +19,19 @@ export class ExchangeExplorerContextService {
   selectFilterContext(): Observable<BaseExchangeDataSearchRequest> {
     const filterContext$ = this.store.pipe(select(fromExchangeExplorerReducer.getFilterContext));
     const mapFilter$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapFilter));
+    const mapZoom$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapZoom));
     const searchFilters$ = this.searchStore.pipe(select(fromSearchReducer.getFilters));
-    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, searchFilters$]);
+    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, mapZoom$, searchFilters$]);
 
     return combinedFilterContext$.pipe(
       map((combined) => {
         const filterContext: ExchangeDataSearchFilterContext = {
           ...combined[0],
-          ...combined[1]
+          ...combined[1],
+          ZoomLevel: combined[2]
         };
-        const searchFields = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(combined[2]);
-        const filters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[2]);
+        const searchFields = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(combined[3]);
+        const filters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[3]);
         const exchangeDataSearchRequest: BaseExchangeDataSearchRequest = {
           FilterContext: filterContext,
           Filters: filters,

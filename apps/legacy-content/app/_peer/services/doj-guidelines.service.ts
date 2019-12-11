@@ -23,7 +23,6 @@ export class DojGuidelinesService implements OnDestroy {
   // Private Properties
   private readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25, DominatingPercentageHard: .5 };
   private previousMapCompanies: number[] = [];
-  private initialMapMoveComplete = false;
 
   // Public Properties
   public companyValidationPass = true;
@@ -36,13 +35,11 @@ export class DojGuidelinesService implements OnDestroy {
   peerMapCompanies$: Observable<ExchangeStatCompanyMakeup[]>;
   dataCutValidationInfo$: Observable<DataCutValidationInfo[]>;
   areEmployeesValid$: Observable<boolean>;
-  initialMapMoveComplete$: Observable<boolean>;
 
   // Subscriptions
   employeeValidSubscription: Subscription;
   dataCutValidationSubscription: Subscription;
   peerMapCompaniesSubscription: Subscription;
-  initialMapMoveCompleteSubscription: Subscription;
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
@@ -57,9 +54,6 @@ export class DojGuidelinesService implements OnDestroy {
           this.peerMapCompanies$ = exchangeExplorerEnabled
             ? this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducers.getPeerMapCompaniesFromSummary))
             : this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
-          this.initialMapMoveComplete$ = exchangeExplorerEnabled
-            ? this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducers.getPeerMapInitialMapMoveComplete))
-            : this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerMapInitialMapMoveComplete));
         }
       );
 
@@ -73,9 +67,6 @@ export class DojGuidelinesService implements OnDestroy {
       this.employeeValidationPass = validEmployees;
     }
     );
-    this.initialMapMoveCompleteSubscription = this.initialMapMoveComplete$.subscribe(mm => {
-      this.initialMapMoveComplete = mm;
-    });
   }
 
   get validDataCut(): boolean {
@@ -121,14 +112,13 @@ export class DojGuidelinesService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.initialMapMoveCompleteSubscription.unsubscribe();
     this.peerMapCompaniesSubscription.unsubscribe();
     this.dataCutValidationSubscription.unsubscribe();
     this.employeeValidSubscription.unsubscribe();
   }
 
-  validateDataCut(mapCompanies: any, companyJobId: number, userSessionId: number) {
-    if (!this.initialMapMoveComplete || !this.hasMinimumCompanies || !this.hasNoHardDominatingData) { return; }
+  validateDataCut(mapCompanies: any, companyJobId: number, userSessionId: number, isFromExchangeExplorer: boolean = false) {
+    if (!this.hasMinimumCompanies || !this.hasNoHardDominatingData) { return; }
 
     const validationInfo = this.dataCutValidationInfo;
     const guid = this.route.snapshot.queryParamMap.get('dataCutGuid') || null;
@@ -163,8 +153,10 @@ export class DojGuidelinesService implements OnDestroy {
 
     // we've passed on company now lets check the employees
     if (this.companyValidationPass) {
-      this.store.dispatch(new fromDataCutValidationActions.ValidateDataCutEmployees(
-        companyJobId, userSessionId, guid));
+      const action = isFromExchangeExplorer ?
+        new fromDataCutValidationActions.ValidateDataCutEmployeesNew(companyJobId, userSessionId, guid) :
+        new fromDataCutValidationActions.ValidateDataCutEmployees(companyJobId, userSessionId, guid);
+      this.store.dispatch(action);
     }
   }
 }

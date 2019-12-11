@@ -5,7 +5,7 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { CompanyTilesResponse, CompanyDataSetsReponse, ListCompositeFields } from 'libs/models/payfactors-api';
-import { CompanySetting } from 'libs/models/company';
+import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { CompanyClientTypeConstants, SystemUserGroupNames } from 'libs/constants';
 
 import * as fromPfAdminMainReducer from '../../reducers';
@@ -50,8 +50,12 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   jobPricingLimitInfoSubscription: Subscription;
   jobPricingLimitInfo$: Observable<any>;
 
-  private jobPricingLimitUsed = 0;
-  private showJobPricingLimitError = false;
+  enableJobPricingLimiterSubscription: Subscription;
+  enableJobPricingLimiter$: Observable<boolean>;
+  enableJobPricingLimiter: boolean;
+
+  jobPricingLimitUsed = 0;
+  showJobPricingLimitError = false;
 
   constructor(private store: Store<fromPfAdminMainReducer.State>) {
     this.loadingCompanyTiles$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTiles);
@@ -71,6 +75,7 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
     this.compositeFields$ = this.store.select(fromPfAdminMainReducer.getCompositeFields);
     this.companyDataSetsEnabled$ = this.store.select(fromPfAdminMainReducer.getCompanyDataSetsEnabled);
     this.jobPricingLimitInfo$ = this.store.select(fromPfAdminMainReducer.getJobPricingLimitInfo);
+    this.enableJobPricingLimiter$ = this.store.select(fromPfAdminMainReducer.getEnableJobPricingLimiter);
   }
 
   ngOnInit() {
@@ -92,6 +97,10 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.enableJobPricingLimiterSubscription = this.enableJobPricingLimiter$.subscribe(response => {
+        this.enableJobPricingLimiter = response;
+    });
   }
 
   ngOnDestroy() {
@@ -119,6 +128,28 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
 
   changeCompanySetting(companySettingKey: string, changedValue) {
     this.store.dispatch(new fromCompanyPageActions.ChangeCompanySettingValue({ companySettingKey, changedValue }));
+  }
+
+  checkMaxProjectJobCount(event, settingKey) {
+    const maxProjectValueNum = Number(event.currentTarget.value);
+    const jobPricingLimitUsedNum = Number(this.jobPricingLimitUsed);
+
+    if (isNaN(maxProjectValueNum) || maxProjectValueNum < jobPricingLimitUsedNum) {
+      this.showJobPricingLimitError = true;
+      return;
+    }
+
+    this.showJobPricingLimitError = false;
+    this.changeCompanySetting(settingKey, maxProjectValueNum.toString());
+  }
+
+  isConfigurableSetting(setting: CompanySetting): boolean {
+    return (setting.DataType !== 'int') && (setting.Visible) && (setting.Key !== CompanySettingsEnum.MaxProjectJobCount);
+  }
+
+  displayJobPricingLimiter(setting: CompanySetting): boolean {
+    const value: boolean = setting.Key === CompanySettingsEnum.MaxProjectJobCount && this.enableJobPricingLimiter;
+    return value;
   }
 
   private handleCompanyTabsContextLoaded(companyTabsContext: CompanyTabsContext) {
@@ -154,16 +185,5 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private checkMaxProjectJobCount(event, settingKey) {
-    const maxProjectValueNum = Number(event.currentTarget.value);
-    const jobPricingLimitUsedNum = Number(this.jobPricingLimitUsed);
 
-    if (isNaN(maxProjectValueNum) || maxProjectValueNum < jobPricingLimitUsedNum) {
-      this.showJobPricingLimitError = true;
-      return;
-    }
-
-    this.showJobPricingLimitError = false;
-    this.changeCompanySetting(settingKey, maxProjectValueNum.toString());
-  }
 }

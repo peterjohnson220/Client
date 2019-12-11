@@ -24,6 +24,14 @@
         </pf-report-field>
       </div>
     </div>
+
+    <div class="bottom-actions-bar">
+      <button *ngIf="!!(formulaBuilderEnabled$ | async)" type="button" class="btn create-formula-field-btn"
+        [attr.data-qa-id]="'btn-create-formula-field'"
+        (click)="handleCreateFormulaFieldClicked()">
+        Create Formula Field
+      </button>
+    </div>
   </div>
 </ng-container>
 
@@ -36,3 +44,5 @@
     (fieldRemoved)="handleFieldRemoved($event)">
   </pf-view-all-fields>
 </ng-template>
+
+<pf-create-formula-field-modal></pf-create-formula-field-modal>

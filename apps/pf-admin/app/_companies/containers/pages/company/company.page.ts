@@ -38,6 +38,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   companyLogoImgPath: string;
   companyFormContext: CompanyFormContext;
   isCompanyFormContextLoaded: boolean;
+  enableJobPricingLimiter: boolean;
 
   savingCompany$: Observable<boolean>;
   savingCompanyError$: Observable<boolean>;
@@ -49,10 +50,12 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   pfCustomerSuccessMgrs$: Observable<UserResponse[]>;
   industries$: Observable<CompanyIndustriesResponse[]>;
   clientTypes$: Observable<CompanyClientTypesReponse[]>;
+  enableJobPricingLimiter$: Observable<boolean>;
 
   userContextSubscription: Subscription;
   companySubscription: Subscription;
   companyFormContextSubscription: Subscription;
+  enableJobPricingLimiterSubscription: Subscription;
 
   constructor(
     private store: Store<fromPfAdminMainReducer.State>,
@@ -69,6 +72,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     this.pfCustomerSuccessMgrs$ = this.store.select(fromPfAdminMainReducer.getPfCustomerSuccessManagers);
     this.industries$ = this.store.select(fromPfAdminMainReducer.getCompanyIndustries);
     this.clientTypes$ = this.store.select(fromPfAdminMainReducer.getCompanyClientTypes);
+    this.enableJobPricingLimiter$ = this.store.select(fromPfAdminMainReducer.getEnableJobPricingLimiter);
   }
 
   ngOnInit() {
@@ -77,6 +81,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     this.isEditMode = (this.companyId !== -1);
     this.userContextSubscription = this.userContext$.subscribe(uc => this.initAddCompanyPageData(uc));
     this.companySubscription = this.company$.subscribe(c => this.initEditCompanyPageData(c));
+    this.enableJobPricingLimiterSubscription = this.enableJobPricingLimiter$.subscribe(response => this.enableJobPricingLimiter = response);
     this.companyFormContextSubscription = combineLatest(
       this.clientTypes$,
       this.systemUserGroups$,
@@ -112,6 +117,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     this.userContextSubscription.unsubscribe();
     this.companySubscription.unsubscribe();
     this.companyFormContextSubscription.unsubscribe();
+    this.enableJobPricingLimiterSubscription.unsubscribe();
   }
 
   get submitDisabled(): boolean {

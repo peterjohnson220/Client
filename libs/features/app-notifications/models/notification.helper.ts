@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { AppNotification, NotificationPayload, NotificationSource, ProgressStatusPayload } from './notification.model';
 import { DataInsightsMessageFormatter } from './data-insights-message-formatter.model';
+import { ExchangeDataCutsMessageFormatter } from './exchange-data-cuts-message-formatter';
 
 @Injectable()
 export class NotificationHelper {
@@ -14,6 +15,10 @@ export class NotificationHelper {
     switch (notification.From) {
       case NotificationSource.DataInsights: {
         message = DataInsightsMessageFormatter.getEventMessage(notification.Level, notification.Payload);
+        break;
+      }
+      case NotificationSource.ExchangeDataCutsExport: {
+        message = ExchangeDataCutsMessageFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
       }
       default: {
@@ -29,6 +34,12 @@ export class NotificationHelper {
       case NotificationSource.DataInsights: {
         const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
         message = DataInsightsMessageFormatter.getProgressMessage(notification.Payload.Message);
+        message = message + progressBar;
+        break;
+      }
+      case NotificationSource.ExchangeDataCutsExport: {
+        const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
+        message = ExchangeDataCutsMessageFormatter.getProgressMessage(notification.Payload.Message);
         message = message + progressBar;
         break;
       }

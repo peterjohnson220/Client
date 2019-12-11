@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -9,7 +9,6 @@ import { CompanySettingsEnum } from 'libs/models';
 
 import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
-import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { DashboardView, Entity, SaveUserWorkbookModalData } from '../../models';
 import { SaveUserWorkbookModalComponent } from '../../components';
@@ -20,11 +19,14 @@ import { SaveUserWorkbookModalComponent } from '../../components';
   styleUrls: ['./dashboards-header.component.scss']
 })
 export class DashboardsHeaderComponent implements OnInit, OnDestroy {
-  @Input() thumbnailsViewEnabled: boolean;
   @Input() hasFavorites: boolean;
+  @Input() title: string;
+  @Input() dashboardViews: string[];
+  @Input() selectedDashboardView: DashboardView;
+  @Input() tagsEnabled: boolean;
 
-  dashboardView$: Observable<string>;
-  thumbnailEnabledDashboardView$: Observable<string>;
+  @Output() selectedDashboardViewChanged: EventEmitter<DashboardView> = new EventEmitter<DashboardView>();
+
   distinctTagsByView$: Observable<string[]>;
   tags$: Observable<string[]>;
   tagFilter$: Observable<string>;
@@ -37,16 +39,12 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
   reportBuilderSettingEnabledSub: Subscription;
 
   @ViewChild(SaveUserWorkbookModalComponent, { static: false }) public saveUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
-  dashboardViews: Array<string> = ['All Dashboards', 'Favorites'];
-  thumbnailEnabledDashboardViews: Array<string> = ['All Views', 'Favorites'];
   reportBuilderSettingEnabled: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
     private settingsService: SettingsService
   ) {
-    this.dashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardView));
-    this.thumbnailEnabledDashboardView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDashboardViewThumbnailEnabled));
     this.distinctTagsByView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTagsByView));
     this.tags$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTags));
     this.tagFilter$ = this.store.pipe(select(fromDataInsightsMainReducer.getTagFilter));
@@ -66,7 +64,6 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromDataViewActions.GetBaseEntities());
       }
     });
-    this.store.dispatch(new fromDashboardsActions.GetDashboardView());
   }
 
   ngOnDestroy(): void {
@@ -74,11 +71,7 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
   }
 
   handleViewChanged(view: DashboardView) {
-    if (!this.thumbnailsViewEnabled) {
-      this.store.dispatch(new fromDashboardsActions.ToggleDashboardView({ view }));
-    } else {
-      this.store.dispatch(new fromViewsActions.ToggleDashboardView({ view }));
-    }
+    this.selectedDashboardViewChanged.emit(view);
   }
 
   handleTagChanged(tag: string) {

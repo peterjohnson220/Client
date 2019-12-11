@@ -1,0 +1,26 @@
+fa-icon {
+  color: #398ced;
+}
+
+.pf-entity-table {
+  max-height: 400px;
+  overflow-y: auto;
+
+  .pf-entity-table-header {
+    background-color: #fff;
+  }
+}
+
+.provider-field-list {
+  max-height: 400px;
+  overflow-y: auto;
+
+  .provider-field-list-item {
+    font-size: 1.2rem;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 0.25rem;
+    border: 1px solid;
+    border-color: rgba(0,0,0,0.08);
+    color: #000;
+  }
+}
