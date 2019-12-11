@@ -1,9 +1,10 @@
-import { KendoDropDownItem } from '../../models/kendo';
+import { KendoDropDownItem } from 'libs/models/kendo';
 
 export enum WeightType {
   Inc = 'I',
   Org = 'O'
 }
+
 export enum WeightTypeDisplay {
   Inc = 'Inc',
   Org = 'Org'
@@ -22,7 +23,7 @@ export const Weights: KendoDropDownItem[] = [
 export const WeightsLabeled: KendoDropDownItem[] = [
   { Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc },
   { Name: WeightTypeDisplayLabeled.Org, Value: WeightType.Org }
-]
+];
 
 export function generateMockWeightOption(): KendoDropDownItem {
   return {

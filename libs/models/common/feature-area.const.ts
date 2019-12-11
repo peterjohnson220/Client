@@ -5,4 +5,5 @@ export class FeatureAreaConstants {
   static readonly PeerManageScopes = 'PeerManageScopes';
   static readonly CompHub = 'CompHub';
   static readonly DataInsights = 'DataInsights';
+  static readonly PeerDataCuts = 'PeerDataCuts';
 }

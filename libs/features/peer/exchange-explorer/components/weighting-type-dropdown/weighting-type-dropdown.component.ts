@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { KendoDropDownItem } from '../../../../../models';
-import { Weights, WeightsLabeled, WeightTypeDisplay } from '../../../../../data/data-sets';
 
-
+import { KendoDropDownItem } from 'libs/models';
+import { Weights, WeightsLabeled, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 
 @Component ({
   selector: 'pf-weighting-type-dropdown',
@@ -11,13 +10,20 @@ import { Weights, WeightsLabeled, WeightTypeDisplay } from '../../../../../data/
 })
 
 export class WeightingTypeDropdownComponent {
-  @Input() selectedWeightingType = WeightTypeDisplay.Inc;
-  @Input() includeLabel;
+  @Input() selectedWeightingType: KendoDropDownItem;
+  @Input() includeLabel: boolean;
+  @Input() inComponent = true;
   @Output() weightingTypeChanged = new EventEmitter();
 
-  weights: KendoDropDownItem[] = this.includeLabel ? WeightsLabeled : Weights;
+  get weights(): KendoDropDownItem[] {
+    return this.includeLabel ?  Weights : WeightsLabeled;
+  }
+  get popupSettings() {
+    return this.inComponent ? { popupClass: 'drop-up', appendTo: 'component'} : {};
+  }
 
   constructor() {}
+
   handleDropdownValueChanged(item: KendoDropDownItem) {
       this.weightingTypeChanged.emit(item);
   }

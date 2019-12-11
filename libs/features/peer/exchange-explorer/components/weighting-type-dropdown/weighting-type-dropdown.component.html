@@ -3,10 +3,7 @@
                     id="weights-dropdown"
                     [data]="weights"
                     [ngModel]="selectedWeightingType"
-                    [popupSettings]="{
-                            popupClass: 'drop-up',
-                            appendTo: 'component'
-                          }"
+                    [popupSettings]="popupSettings"
                     [textField]="'Name'"
                     [valueField]="'Value'"
                     (selectionChange)="handleDropdownValueChanged($event)">

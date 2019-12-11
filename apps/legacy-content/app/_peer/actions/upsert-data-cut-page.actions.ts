@@ -11,6 +11,8 @@ export const PAGE_IN_VIEW_IN_IFRAME = '[Legacy Content/Upsert Data Cut Page] Pag
 export const LOAD_DATA_CUT_DETAILS = '[Legacy Content/Upsert Data Cut Page] Load Data Cut Details';
 export const LOAD_DATA_CUT_DETAILS_SUCCESS = '[Legacy Content/Upsert Data Cut Page] Load Data Cut Details Success';
 export const LOAD_DATA_CUT_DETAILS_ERROR = '[Legacy Content/Upsert Data Cut Page] Load Data Cut Details Error';
+export const SELECT_WEIGHTING_TYPE = '[Legacy Content/Upsert Data Cut Page] Select Weighting Type';
+export const SELECTED_WEIGHTING_TYPE_PERSISTED = '[Legacy Content/Upsert Data Cut Page] Selected Weighting Type Persisted';
 
 export class UpsertDataCut implements Action {
   readonly type = UPSERT_DATA_CUT;
@@ -58,6 +60,16 @@ export class LoadDataCutDetailsError implements Action {
   readonly type = LOAD_DATA_CUT_DETAILS_ERROR;
 }
 
+export class SelectWeightingType implements Action {
+  readonly type = SELECT_WEIGHTING_TYPE;
+
+  constructor(public payload: {newWeightingType: string}) {}
+}
+
+export class SelectedWeightingTypePersisted implements Action {
+  readonly type = SELECTED_WEIGHTING_TYPE_PERSISTED;
+}
+
 export type Actions
   = UpsertDataCut
   | UpsertDataCutNew
@@ -67,4 +79,6 @@ export type Actions
   | PageInViewInIframe
   | LoadDataCutDetails
   | LoadDataCutDetailsSuccess
-  | LoadDataCutDetailsError;
+  | LoadDataCutDetailsError
+  | SelectWeightingType
+  | SelectedWeightingTypePersisted;
