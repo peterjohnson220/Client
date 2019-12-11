@@ -94,4 +94,9 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
       this.sortDesc = [sort];
     }
   }
+
+  isNumericDataType(fieldDataType: FieldDataType): boolean {
+    return !!fieldDataType && (
+      fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float);
+  }
 }

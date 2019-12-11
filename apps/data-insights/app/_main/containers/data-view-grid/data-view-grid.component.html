@@ -23,24 +23,27 @@
                          width="150">
 
         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-          <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'desc'"
-                   class="sort-icon" [icon]="['far', 'long-arrow-down']">
-          </fa-icon>
-          <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'asc'"
-                   class="sort-icon" [icon]="['far', 'long-arrow-up']">
-          </fa-icon>
-          <span class="k-link" [class.disabled]="!field.IsSortable">{{column.title}}</span>
+          <div [class.text-align-right]="isNumericDataType(field.DataType)">
+            <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'desc'"
+              class="sort-icon" [icon]="['far', 'long-arrow-down']">
+            </fa-icon>
+            <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'asc'"
+                      class="sort-icon" [icon]="['far', 'long-arrow-up']">
+            </fa-icon>
+            <span class="k-link" [class.disabled]="!field.IsSortable">{{column.title}}</span>
+          </div>
         </ng-template>
         <ng-template kendoGridCellTemplate let-dataItem>
-          <span *ngIf="dataItem[field.KendoGridField] !== null;else blankCellTemplate">
-            <ng-container *ngIf="field.DataType === dataTypes.Date;else defaultFieldTemplate">
-              {{dataItem[field.KendoGridField] | date: 'MM/dd/yyyy'}}
-            </ng-container>
-            <ng-template #defaultFieldTemplate>
-              {{dataItem[field.KendoGridField]}}
-            </ng-template>
-
-          </span>
+          <div [class.text-align-right]="isNumericDataType(field.DataType)">
+            <span *ngIf="dataItem[field.KendoGridField] !== null;else blankCellTemplate">
+              <ng-container *ngIf="field.DataType === dataTypes.Date;else defaultFieldTemplate">
+                {{dataItem[field.KendoGridField] | date: 'MM/dd/yyyy'}}
+              </ng-container>
+              <ng-template #defaultFieldTemplate>
+                {{dataItem[field.KendoGridField]}}
+              </ng-template>
+            </span>
+          </div>
         </ng-template>
         <ng-template #blankCellTemplate>
           <div class="empty-row">N/A</div>
