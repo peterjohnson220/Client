@@ -56,6 +56,8 @@ export class UserTileToTileMapper {
         return TileTypes.Ideas;
       case 'Quick Price':
         return TileTypes.QuickPrice;
+      case 'Total Rewards':
+        return TileTypes.TotalRewards;
       default:
         return TileTypes.Unknown;
     }
@@ -193,6 +195,10 @@ export class UserTileToTileMapper {
 
       case TileTypes.Ideas:
           tile.CssClass = 'tile-lightblue';
+          break;
+
+      case TileTypes.TotalRewards:
+          tile.CssClass = 'tile-blue';
           break;
 
       default:
