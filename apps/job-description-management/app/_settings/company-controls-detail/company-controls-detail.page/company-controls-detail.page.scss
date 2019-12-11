@@ -1,0 +1,23 @@
+.settings-page {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.edit-page-header {
+  border-bottom: 1px solid #CCC;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.edit-page-button-area {
+  white-space: nowrap;
+}
+
+.view-editor-container {
+  overflow-y: auto;
+}
+
+.view-editor-container .row {
+  margin-left: -15px;
+}

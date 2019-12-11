@@ -1,0 +1,88 @@
+@import 'libs/styles/dragula-drag-drop';
+
+.attribute-section{
+	height: 290px;
+}
+
+#choice-list-section{
+  max-height:145px;
+  overflow-y:auto;
+}
+
+.attribute-body{
+	min-height: 200px;
+	background-color:  #f6f7f9;
+}
+
+.nav-link{
+	color: #292b2c;
+}
+
+.nav.nav-pills li {
+  color: #b1b1b1;
+  border-bottom: 1px solid #b1b1b1;
+  border-radius: 0;
+  border-width: thin;
+}
+
+.nav.nav-pills li.top-border, .attribute-body {
+   border-top: 1px solid #b1b1b1;
+   border-radius: 0;
+   border-width: thin;
+}
+
+.nav.nav-pills a.active, .nav.nav-pills div.active {
+  color: #292b2c;
+	background-color: #f6f7f9;
+}
+
+.choice-list-border {
+  border-left: 1px solid #dcdcdc;
+  border-radius: 0;
+  border-width: thin;
+}
+
+div.dnd-choice-reorder:hover svg {
+    visibility: visible;
+    color: #7d7d7d;
+}
+
+.nav-override {
+   display: block; /*workaround for issue with chrome and flex, TODO: convert bootstrap nav to angular powered bootstrap ; */
+}
+
+.card-header:first-child {
+  border-radius: 0;
+}
+
+.dnd-choice-reorder-handle svg {
+    visibility: hidden;
+    display: inline-block;
+}
+
+.dnd-choice-reorder-handle {
+    vertical-align: middle;
+}
+
+.dnd-choice-reorder-handle:hover {
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.dnd-choice-reorder-handle:active {
+    cursor: move;
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #fff;
+}
+
+.read-only {
+  cursor: not-allowed;
+}
+
