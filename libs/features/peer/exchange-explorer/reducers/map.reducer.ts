@@ -153,7 +153,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       const newState = {...state, mapFilter};
 
       MapHelper.setBounds(mapGeoData, state, newState);
-      
+
       return newState;
     }
     case fromPeerMapActions.MOVE_END: {
