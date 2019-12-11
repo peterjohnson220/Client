@@ -221,12 +221,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  goToLink(url: string) {
+  goToLink(event, url: string) {
     if (url && url.length > 0) {
-      window.open(url, "_blank");
+      window.open(url, '_blank');
     } else {
       this.setModalOpen(true);
     }
+    event.preventDefault();
   }
 
   public setModalOpen(isOpen: boolean) {
