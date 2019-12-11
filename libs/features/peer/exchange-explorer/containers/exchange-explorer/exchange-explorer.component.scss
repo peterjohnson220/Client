@@ -11,6 +11,7 @@ $group-header-bg-color: #eaeaea;
 
   display: flex;
   flex-direction: column;
+  min-width:253px !important;
 
   pf-single-filter {
     height: 100%;
