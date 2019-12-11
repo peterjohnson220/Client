@@ -10,6 +10,7 @@
         [fieldMappingsLoading]="companyMappingsLoading$ | async"
         [loadEnabled]="entity.loaderEnabled"
         [visibleLoaderOptions] = "visibleLoaderOptions"
+        [columnNames] = "entity.columnNames"
         (mappingComplete)="onMappingComplete($event)"></pf-field-mapper>
     </ng-template>
   </kendo-tabstrip-tab>

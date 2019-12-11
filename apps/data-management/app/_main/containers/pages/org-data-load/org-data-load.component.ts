@@ -1,26 +1,28 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import { KeyValue } from '@angular/common';
+import {KeyValue} from '@angular/common';
 
-import { Store } from '@ngrx/store';
-import { forkJoin, Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import {forkJoin, Observable, Subject} from 'rxjs';
+import {filter, take, takeUntil} from 'rxjs/operators';
 
-import { environment } from 'environments/environment';
+import {environment} from 'environments/environment';
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
-import { CompanySelectorItem } from 'libs/features/company/models';
+import {CompanySelectorItem} from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
-import { OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
-import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
+import {OrgDataLoadHelper} from 'libs/features/org-data-loader/helpers';
+import {ILoadSettings} from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import { LoaderSetting } from 'libs/models/data-loads';
-import { UserContext } from 'libs/models/security';
+import {LoaderSetting} from 'libs/models/data-loads';
+import {UserContext} from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
-import { EntityUploadComponent } from '../../../components';
-import { ConfigurationGroup, EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
+import {EntityUploadComponent} from '../../../components';
+import {ConfigurationGroup, EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep} from '../../../models';
+import * as fromCustomFieldsActions from '../../../actions/custom-fields.actions';
+import {LoaderType} from 'libs/features/org-data-loader/constants';
 
 @Component({
   selector: 'pf-org-data-load',
@@ -40,7 +42,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private selectedCompany$: Observable<CompanySelectorItem>;
   private organizationalDataTemplateLink$: Observable<string>;
   private configGroup$: Observable<ConfigurationGroup>;
+  private customJobFields$: Observable<any>;
+  private customEmployeeFields$: Observable<any>;
   public isModalOpen$: Observable<boolean>;
+
   userContext$: Observable<UserContext>;
   loaderSettings$: Observable<LoaderSetting[]>;
 
@@ -87,6 +92,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.isModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getModalStateOpen);
     this.loaderSettings$ = this.mainStore.select(fromDataManagementMainReducer.getLoaderSettings);
     this.configGroup$ = this.mainStore.select(fromDataManagementMainReducer.getConfigurationGroup);
+    this.customJobFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomJobField);
+    this.customEmployeeFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomEmployeeField);
 
     this.selectedCompany$.pipe(
       filter(uc => !!uc),
@@ -94,6 +101,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     ).subscribe(f => {
       this.selectedCompany = f;
       this.store.dispatch(new fromOrganizationalDataActions.GetConfigGroup(f.CompanyId));
+      this.getPayfactorCustomFields(f.CompanyId);
     });
 
     this.loaderSettings$.pipe(
@@ -116,6 +124,20 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
       this.getSettings(f);
+    });
+
+    this.customJobFields$.pipe(
+      filter(uc => !!uc),
+      take(1),
+      takeUntil(this.unsubscribe$)).subscribe(jobs => {
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.Jobs).customFields.Jobs = jobs;
+    });
+
+    this.customEmployeeFields$.pipe(
+      filter(uc => !!uc),
+      take(1),
+      takeUntil(this.unsubscribe$)).subscribe(employees => {
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.Employees).customFields.Employees = employees;
     });
 
 
@@ -160,6 +182,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
     // reset any checked loads
     this.loadOptions = getEntityChoicesForOrgLoader();
+  }
+
+  getPayfactorCustomFields(companyId) {
+    this.store.dispatch(new fromCustomFieldsActions.GetCustomJobFields(companyId));
+    this.store.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(companyId));
   }
 
   public AddAndSetSelectedMapping(configGroup: ConfigurationGroup) {
