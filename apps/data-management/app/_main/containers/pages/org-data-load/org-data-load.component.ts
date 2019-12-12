@@ -56,7 +56,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   hasError = false;
   env = environment;
   organizationalDataTemplateLink: string;
-  selectedDelimiter: string;
+  selectedDelimiter = ',';
   userContext: UserContext;
   loaderSetting: ILoadSettings;
   private configGroupSeed: ConfigurationGroup = {
@@ -99,7 +99,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     });
 
     this.loaderSettings$.pipe(
-      filter(uc => !!uc),
+      filter(uc => !!uc && uc.length > 0),
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
       const resp = OrgDataLoadHelper.parseSettingResponse(f);
@@ -177,7 +177,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     if (this.selectedMapping.LoaderConfigurationGroupId <= 0) {
       this.selectedDelimiter = ',';
     } else {
-      if (this.loaderSetting) {
+      if (this.loaderSetting && this.loaderSetting.delimiter) {
         this.selectedDelimiter = this.loaderSetting.delimiter;
       }
     }

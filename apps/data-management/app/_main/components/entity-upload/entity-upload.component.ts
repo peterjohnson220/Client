@@ -12,7 +12,7 @@ export class EntityUploadComponent {
   @ViewChildren('fileUpload') uploadComponents: QueryList<FileUploadComponent>;
 
   @Input() entities: EntityChoice[];
-  @Input() selectedDelimiter: string;
+  @Input() selectedDelimiter = ',';
 
   @Input() selectedMapping: ConfigurationGroup;
   @Input() mappingOptions: ConfigurationGroup[] = [];
