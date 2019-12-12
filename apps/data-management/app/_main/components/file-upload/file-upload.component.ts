@@ -1,11 +1,13 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewChildren} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {props, Store} from '@ngrx/store';
+import { Component, EventEmitter, Input, Output, ViewChildren } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { FileUploadHeaderRequestModel } from 'libs/features/org-data-loader/models';
+
 import * as fromFileUploadReducer from '../../reducers';
 import * as fromFileUploadActions from '../../actions/file-upload.actions';
-import {FileUploadHeaderRequestModel} from 'libs/features/org-data-loader/models';
-import {ColumnNameRequestModel} from '../../models';
-
+import { ColumnNameRequestModel } from '../../models';
 
 @Component({
   selector: 'pf-file-upload',
@@ -28,7 +30,7 @@ export class FileUploadComponent {
   selectedFile: File = null;
   errorMessage = '';
 
-  constructor(private store: Store<fromFileUploadReducer.State>)  {
+  constructor(private store: Store<fromFileUploadReducer.State>) {
     this.fileUploadColumnNames$ = this.store.select(fromFileUploadReducer.getColumnNames);
     this.fileUploadColumnNames$.subscribe(f => {
       if (f !== null) {
@@ -51,8 +53,10 @@ export class FileUploadComponent {
 
   GetColumnNames(file) {
     if (this.errorMessage.trim().length === 0) {
-      this.fileUploadRequest = {delimiter: this.delimiter, file: file};
-      this.store.dispatch(new fromFileUploadActions.GetColumnNames({columnNamesFile: this.fileUploadRequest, columnNames: null, entity: this.validFileStartsWith}));
+      this.fileUploadRequest = { delimiter: this.delimiter, file: file };
+      this.store.dispatch(new fromFileUploadActions.GetColumnNames(
+        { columnNamesFile: this.fileUploadRequest, columnNames: null, entity: this.validFileStartsWith }
+      ));
     }
   }
 
@@ -76,7 +80,7 @@ export class FileUploadComponent {
         return;
       }
 
-      if (this.delimiter.toString().trim().length === 0 ) {
+      if (!this.delimiter || this.delimiter.toString().length === 0) {
         msg = 'Provide delimiter before continuing';
         this.errorMessage = msg;
         this.ClearFile();
