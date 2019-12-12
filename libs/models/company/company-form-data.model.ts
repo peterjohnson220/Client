@@ -2,7 +2,12 @@ export interface CompanyFormData {
   CompanyId: number;
   CompanyName: string;
   CompanyNameShort: string;
+  City: string;
+  State: string;
+  Zip: string;
   Status: string;
+  Website: string;
+  Domain: string;
   PrimarySupportUserId?: string;
   JDMSeniorAssociateUserId?: string;
   SystemUserGroupsId: number;
@@ -11,10 +16,13 @@ export interface CompanyFormData {
   FTEs?: string;
   Assets?: string;
   Revenue?: string;
+  UserIdToTableau: boolean;
   EnablePricingReview: boolean;
   CompanyLogo: string;
   CustomerSuccessMgrUserId?: string;
+  DataInsightsAssociateUserId?: number;
   ParticipateInPeerDataExchange: boolean;
+  EnableWebLogin: boolean;
   EnableLibraryForRoutedJobDescriptions: boolean;
   EnableEmployeeAcknowledgement: boolean;
   EnableWorkflowEmployeeResults: boolean;
@@ -27,4 +35,5 @@ export interface CompanyFormData {
   PasswordLengthRequirement: number;
   GroupName?: string;
   CompanyColor: string;
+  OrgDataAutoloaderApiKey: string;
 }

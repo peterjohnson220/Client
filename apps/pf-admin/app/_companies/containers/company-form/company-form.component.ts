@@ -195,7 +195,12 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       CompanyId: this.companyFormData.CompanyId,
       CompanyName: this.companyForm.get('companyName').value,
       CompanyNameShort: this.companyForm.get('companyNameShort').value,
+      City: this.companyFormData.City,
+      State: this.companyFormData.State,
+      Zip: this.companyFormData.Zip,
       Status: this.companyForm.get('status').value,
+      Website: this.companyFormData.Website,
+      Domain: this.companyFormData.Domain,
       PrimarySupportUserId: !!primarySupportUserId ? primarySupportUserId.toString() : null,
       JDMSeniorAssociateUserId: !!jdmSrAssociatesUserId ? jdmSrAssociatesUserId.toString() : null,
       SystemUserGroupsId: Number(this.repositoryControl.value),
@@ -206,10 +211,13 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       Revenue: !!revenue ? revenue.toString() : null,
       CompanyLogo: this.companyLogo,
       CustomerSuccessMgrUserId: !!customerSuccessMgrUserId ? customerSuccessMgrUserId.toString() : null,
+      DataInsightsAssociateUserId: this.companyFormData.DataInsightsAssociateUserId,
       PasswordLengthRequirement: this.passwordLengthControl.value,
       CustomFieldName: this.companyFormData.CustomFieldName,
       CustomFieldValue: this.companyForm.get('customFieldValue').value,
       GroupName: null,
+      UserIdToTableau: this.companyFormData.UserIdToTableau,
+      EnableWebLogin: this.companyFormData.EnableWebLogin,
       EnablePricingReview: false,
       ParticipateInPeerDataExchange: true,
       EnableLibraryForRoutedJobDescriptions: true,
@@ -219,7 +227,8 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       HideSecondarySurveyDataFields: true,
       EnableLiveChat: false,
       EnableIntervalAgingFactor: false,
-      CompanyColor: this.companyForm.get('companyColorText').value
+      CompanyColor: this.companyForm.get('companyColorText').value,
+      OrgDataAutoloaderApiKey: this.companyFormData.OrgDataAutoloaderApiKey
     };
   }
 
