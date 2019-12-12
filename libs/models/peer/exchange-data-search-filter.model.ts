@@ -45,6 +45,7 @@ export function generateMockExchangeDataSearchFilter(): ExchangeDataSearchFilter
     ClusterPrecision: 12,
     IsFilteredBySimilarExchangeJobIds: false,
     SelectedExchangeScopeId: null,
-    LockedExchangeJobId: 1
+    LockedExchangeJobId: 1,
+    WeightingType: 'I'
   };
 }

@@ -7,6 +7,7 @@ export interface SystemFilter {
   LockedExchangeJobId?: number;
   PayMarketLocation: PayMarketLocationModel;
   ExchangeId: number;
+  WeightingType: string;
 }
 
 export function getDefaultSystemFilter(): SystemFilter {
@@ -16,7 +17,8 @@ export function getDefaultSystemFilter(): SystemFilter {
     ExchangeJobIds: null,
     SimilarExchangeJobIds: null,
     LockedExchangeJobId: null,
-    PayMarketLocation: null
+    PayMarketLocation: null,
+    WeightingType: 'I'
   };
 }
 
@@ -27,6 +29,7 @@ export function generateMockSystemFilter(): SystemFilter {
     PayMarketLocation: generateMockPayMarketLocation(),
     ExchangeId: 1,
     ExchangeJobId: 1,
-    LockedExchangeJobId: 1
+    LockedExchangeJobId: 1,
+    WeightingType: 'I'
   };
 }

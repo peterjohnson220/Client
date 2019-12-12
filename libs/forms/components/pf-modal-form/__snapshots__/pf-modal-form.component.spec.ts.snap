@@ -23,6 +23,7 @@ exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
   submitting="false"
   templateRef={[Function TemplateRef_]}
   title={[Function String]}
+  windowClass="null"
 >
   <div
     class="modal-container"
@@ -55,6 +56,7 @@ exports[`Pf Modal Form should show subTitle in modal header if a subTitle is pro
   submitting="false"
   templateRef={[Function TemplateRef_]}
   title={[Function String]}
+  windowClass="null"
 >
   <div
     class="modal-container"

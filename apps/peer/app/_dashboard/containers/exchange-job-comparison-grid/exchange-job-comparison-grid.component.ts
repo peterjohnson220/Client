@@ -17,7 +17,7 @@ import {
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
-import { Rates, RateType } from 'libs/data/data-sets';
+import { Rates, RateType, Weights, WeightType } from 'libs/data/data-sets';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -37,19 +37,23 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   exchangeJobOrgsDetailVisible$: Observable<boolean>;
   persistedComparisonGridMarket$: Observable<string>;
   persistedComparisonGridRate$: Observable<string>;
+  persistedComparisonGridWeightType$: Observable<string>;
   companyContext$: Observable<any>;
 
   exchangeJobOrgsDetailVisibleSubscription: Subscription;
   exchangeJobComparisonGridStateSubscription: Subscription;
   persistedComparisonGridMarketSubscription: Subscription;
   persistedComparisonGridRateSubscription: Subscription;
+  persistedComparisonGridWeightTypeSubscription: Subscription;
 
   exchangeJobComparisonGridState: State;
   marketFilterOptions: GenericKeyValue<string, string>[] = [{Key: 'USA', Value: 'USA'}, {Key: 'ALL', Value: 'Global'}];
   selectedMarket = 'USA';
   selectedKeys: number[] = [];
   rates: KendoDropDownItem[] = Rates;
+  weights: KendoDropDownItem[] = Weights;
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
+  selectedWeight: KendoDropDownItem = { Name: WeightType.Inc, Value: WeightType.Inc };
 
   constructor(
     private store: Store<fromDashboardReducer.State>,
@@ -71,10 +75,19 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
       UiPersistenceSettingConstants.ComparisonRateSelection,
       'string'
     );
+    this.persistedComparisonGridWeightType$ = this.settingsService.selectUiPersistenceSetting(
+      FeatureAreaConstants.PeerDashboard,
+      UiPersistenceSettingConstants.ComparisonWeightSelection,
+      'string'
+    );
   }
 
   get isAnnualRate(): boolean {
     return this.selectedRate.Value === RateType.Annual;
+  }
+
+  get isIncWeighted(): boolean {
+    return this.selectedWeight.Value === WeightType.Inc;
   }
 
   get companyBaseAverageField(): string {
@@ -82,7 +95,12 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   }
 
   get exchangeBaseAverageField(): string {
-    return this.isAnnualRate ? 'ExchangeBaseAverage' : 'HourlyExchangeBaseAverage';
+    const exchangeBaseAverage: string = this.isAnnualRate ? 'ExchangeBaseAverage' : 'HourlyExchangeBaseAverage';
+    return this.isIncWeighted ? exchangeBaseAverage : exchangeBaseAverage + 'Org';
+  }
+
+  get exchangeIndexField(): string {
+    return this.isIncWeighted ? 'ExchangeIndex' : 'ExchangeIndexOrg';
   }
 
   get digitsInfo(): string {
@@ -144,11 +162,26 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     }));
   }
 
+  handleWeightingTypeChanged(item: KendoDropDownItem) {
+    this.selectedWeight = Weights.find(w => w.Value === item.Value);
+    this.store.dispatch(new fromExchangeJobComparisonGridActions.SelectWeight({newWeight: item.Value}));
+    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobComparison));
+    this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({
+      countryCode: this.selectedMarket
+    }));
+  }
+
   // Lifecycle
   ngOnInit() {
     this.persistedComparisonGridRateSubscription = this.persistedComparisonGridRate$.subscribe(rate => {
       if (!!rate) {
         this.selectedRate = Rates.find(r => r.Value === rate);
+      }
+    });
+
+    this.persistedComparisonGridWeightTypeSubscription = this.persistedComparisonGridWeightType$.subscribe( weight => {
+      if (!!weight) {
+        this.selectedWeight = Weights.find(w => w.Value === weight);
       }
     });
 

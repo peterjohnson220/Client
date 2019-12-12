@@ -10,6 +10,8 @@ export const SELECT_COMPARISON_MARKET = '[Peer Main/Exchange Job Comparisons] Se
 export const SELECTED_COMPARISON_MARKET_PERSISTED = '[Peer Main/Exchange Job Comparisons] Selected Comparison Market Persisted';
 export const SELECT_RATE = '[Peer Main/Exchange Job Comparisons] Select Rate';
 export const SELECTED_RATE_PERSISTED = '[Peer Main/Exchange Job Comparisons] Selected Rate Persisted';
+export const SELECT_WEIGHT = '[Peer Main/Exchange Job Comparisons] Select Weight';
+export const SELECTED_WEIGHT_PERSISTED = '[Peer Main/Exchange Job Comparisons] Select Weight Persisted';
 
 export class LoadExchangeJobComparisons implements Action {
   readonly type = LOAD_EXCHANGE_JOB_COMPARISONS;
@@ -47,6 +49,16 @@ export class SelectedRatePersisted implements Action {
   readonly type = SELECTED_RATE_PERSISTED;
 }
 
+export class SelectWeight implements Action {
+  readonly type = SELECT_WEIGHT;
+
+  constructor(public payload: {newWeight: string}) {}
+}
+
+export class SelectedWeightPersisted implements Action {
+  readonly type = SELECTED_WEIGHT_PERSISTED;
+}
+
 export type Actions
   = LoadExchangeJobComparisons
   | LoadExchangeJobComparisonsSuccess
@@ -54,4 +66,6 @@ export type Actions
   | SelectComparisonMarket
   | SelectedComparisonMarketPersisted
   | SelectRate
-  | SelectedRatePersisted;
+  | SelectedRatePersisted
+  | SelectWeight
+  | SelectedWeightPersisted;
