@@ -5,7 +5,7 @@ import { FooterViewRequest } from 'libs/models/payfactors-api';
 
 @Injectable()
 export class JobDescriptionFooterViewApiService {
-    private apiUrl: string = 'JobDescriptionFooterView';
+    private apiUrl = 'JobDescriptionFooterView';
 
     constructor(private apiService: PayfactorsApiService) { }
 

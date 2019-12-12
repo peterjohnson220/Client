@@ -17,10 +17,12 @@ import { SharedModule } from '../../shared/shared.module';
 import { CompanyControlsDndService } from './services';
 import { reducers } from './reducers';
 import { CompanyControlDetailEffects, CompanyControlCopyEffects } from './effects';
-import { CompanyControlLayoutComponent } from './containers/company-control-layout';
 import { CompanyControlsDetailPageComponent } from './company-controls-detail.page';
-import { ConfirmEditCompanyControlModalComponent, DeleteCompanyControlOptionModalComponent, CompanyControlHeaderComponent } from './components';
-import { CompanyControlFormComponent, CompanyControlCopyModalComponent } from './containers';
+import { ConfirmEditCompanyControlModalComponent,
+         DeleteCompanyControlOptionModalComponent,
+         CompanyControlHeaderComponent,
+         CompanyControlPreviewComponent } from './components';
+import { CompanyControlLayoutComponent, CompanyControlFormComponent, CompanyControlCopyModalComponent } from './containers';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { CompanyControlFormComponent, CompanyControlCopyModalComponent } from '.
     ConfirmEditCompanyControlModalComponent,
     DeleteCompanyControlOptionModalComponent,
     CompanyControlHeaderComponent,
-    CompanyControlCopyModalComponent],
+    CompanyControlCopyModalComponent,
+    CompanyControlPreviewComponent],
   imports: [
     CommonModule,
     FormsModule,

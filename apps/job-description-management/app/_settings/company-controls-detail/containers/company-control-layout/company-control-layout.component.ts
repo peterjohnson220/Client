@@ -6,8 +6,8 @@ import { Subscription } from 'rxjs';
 import { ControlTypeAttribute, ControlType } from 'libs/models';
 
 import { CompanyControlsDndService } from '../../services';
-import { AttributeNamesAreUnique, EditorTypeSmartListMissingRenderedType } from '../../validators';
 import { JobDescriptionManagementService } from '../../../../shared/services';
+import { AttributeNamesAreUnique, EditorTypeSmartListMissingRenderedType } from '../../validators';
 
 
 
@@ -22,6 +22,7 @@ export class CompanyControlLayoutComponent implements OnInit, OnDestroy, OnChang
     @Input() editorType: string;
     @Input() editable: boolean;
     @Output() controlOptionDeleteClick = new EventEmitter<{affectedJobs: string[]}>();
+    @Output() handleChange = new EventEmitter();
 
     types: Array<{ text: string, value: string }> = [
         { text: 'Textbox', value: 'Textbox' },
@@ -61,13 +62,18 @@ export class CompanyControlLayoutComponent implements OnInit, OnDestroy, OnChang
         private formBuilder: FormBuilder,
         private companyControlsDndService: CompanyControlsDndService,
         private jobDescriptionManagementService: JobDescriptionManagementService) {
-            this.buildForm();
+
+        this.buildForm();
+        this.controlLayoutForm.valueChanges.subscribe((change) => {
+            if (change.Attributes) {
+                this.handleChange.emit();
+            }
+        });
     }
 
     buildForm() {
-        this.controlLayoutForm = this.formBuilder.group({
-            'Attributes': this.formBuilder.array([], AttributeNamesAreUnique())
-            },
+        this.controlLayoutForm = this.formBuilder.group(
+            {'Attributes': this.formBuilder.array([], AttributeNamesAreUnique())},
             { validator: EditorTypeSmartListMissingRenderedType(this.editorType).bind(this) }
         );
     }

@@ -27,9 +27,9 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
   private savingSuccessSubscription: Subscription;
   private loadingSuccessSubscription: Subscription;
   public jdmFooterForm: FormGroup;
-  public loadingSuccess: boolean = false;
-  public loadingError: boolean = false;
-  public placeholderText: string = '';
+  public loadingSuccess = false;
+  public loadingError = false;
+  public placeholderText = '';
 
   get createdByCheck() { return this.jdmFooterForm.controls['createdByCheck']; }
   get createdDateCheck() { return this.jdmFooterForm.controls['createdDateCheck']; }
