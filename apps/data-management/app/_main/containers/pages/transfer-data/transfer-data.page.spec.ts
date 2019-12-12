@@ -1,7 +1,8 @@
-import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
+
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -27,7 +28,7 @@ describe('Data Management - Main - Transfer Data Page', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(TransferDataPageComponent);
     instance = fixture.componentInstance;

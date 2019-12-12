@@ -11,7 +11,7 @@ import { generateMockUserContext } from 'libs/models';
 
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
 import { EntityUploadComponent } from '../../../components';
-import { getEntityChoicesForOrgLoader } from '../../../models';
+import { ConfigurationGroup, getEntityChoicesForOrgLoader } from '../../../models';
 import { OrgDataLoadComponent } from './';
 
 describe('OrgDataLoadComponent', () => {
@@ -137,6 +137,12 @@ describe('OrgDataLoadComponent', () => {
     fixture.detectChanges();
     expect(window.open).toHaveBeenCalledWith(url, '_blank');
 
+  });
+
+  it('should add and selected mapping correctly', () => {
+    const configGroupd: ConfigurationGroup = { GroupName: 'abc', CompanyId: 13, LoaderConfigurationGroupId: 34 };
+    instance.AddAndSetSelectedMapping(configGroupd);
+    expect(instance.selectedMapping.LoaderConfigurationGroupId).toEqual(configGroupd.LoaderConfigurationGroupId);
   });
 
 });

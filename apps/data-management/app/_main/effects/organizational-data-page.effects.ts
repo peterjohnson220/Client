@@ -5,10 +5,10 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { OrganizationalDataApiService } from 'libs/data/payfactors-api/organizational-data';
-
+import { ConfigurationGroupApiService, OrganizationalDataApiService } from 'libs/data/payfactors-api/organizational-data';
 
 import * as fromOrganizationalDataActions from '../actions/organizational-data-page.action';
+import { ConfigurationGroup } from '../models';
 
 @Injectable()
 export class OrganizationalDataPageEffects {
@@ -25,9 +25,23 @@ export class OrganizationalDataPageEffects {
     )
   );
 
+  @Effect()
+  getConfigurationGroup$: Observable<Action> = this.actions$.pipe(
+    ofType(fromOrganizationalDataActions.GET_CONFIGURATION_GROUP),
+    switchMap((action: fromOrganizationalDataActions.GetConfigGroup) =>
+      this.configurationGroupApiService.getConfigurationGroup(action.companyId).pipe(
+        map((configGroup: ConfigurationGroup) => {
+          return new fromOrganizationalDataActions.GetConfigGroupSuccess(configGroup);
+        }),
+        catchError(error => of(new fromOrganizationalDataActions.GetConfigGroupFailed()))
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
-    private organizationalDataApiService: OrganizationalDataApiService
+    private organizationalDataApiService: OrganizationalDataApiService,
+    private configurationGroupApiService: ConfigurationGroupApiService,
   ) { }
 }
 

@@ -1,23 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
+
 import { isEmpty, isString } from 'lodash';
+
+import { Observable } from 'rxjs';
 
 import { FileRestrictions } from '@progress/kendo-angular-upload';
 
 import {
-  DATE_FORMATS,
-  ORG_DATA_CLIENTFIELDS_INDEX_RESET,
-  ORG_DATA_REMOVE_URL,
-  ORG_DATA_UPLOAD_URL,
-  LoaderType,
-} from 'libs/features/org-data-loader/constans';
-
-import {
-  DateFormatItem,
-  LoaderEntityStatus,
-  FilenamePattern,
-  VisibleLoaderOptionModel
-} from 'libs/features/org-data-loader/models';
+    DATE_FORMATS, LoaderType, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL, ORG_DATA_UPLOAD_URL
+} from 'libs/features/org-data-loader/constants';
+import { DateFormatItem, FilenamePattern, LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import { LoaderFieldSet } from 'libs/models/data-loads';
 
 @Component({
@@ -35,8 +27,8 @@ export class FieldMapperComponent implements OnInit {
   mappedFields: string[];
   selectedMapping: string;
   payfactorsDataFieldsForReset: string[];
-  dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
-  dateFormatsFilteredData: Array<{ text: string, value: string}>;
+  dateFormats: Array<{ text: string, value: string }> = DATE_FORMATS;
+  dateFormatsFilteredData: Array<{ text: string, value: string }>;
   templateReferenceConstants = {
     LoaderType,
   };
@@ -56,7 +48,7 @@ export class FieldMapperComponent implements OnInit {
   constructor() {
     this.uploadSaveUrl = ORG_DATA_UPLOAD_URL;
     this.removeUrl = ORG_DATA_REMOVE_URL;
-    this.fileRestrictions  = {
+    this.fileRestrictions = {
       allowedExtensions: ['csv']
     };
     this.mappedFields = [];
@@ -84,7 +76,7 @@ export class FieldMapperComponent implements OnInit {
     this.fireCompleteEvent();
   }
 
-  successEventHandler = function($event) {
+  successEventHandler = function ($event) {
     if ($event.response.body) {
       this.clientFields = $event.response.body.value;
       this.mapSimilarFields();
@@ -92,12 +84,12 @@ export class FieldMapperComponent implements OnInit {
     }
   };
 
-  uploadEventHandler = function($event) {
+  uploadEventHandler = function ($event) {
     this.resetMapping();
-    $event.data = {delimiter: this.delimiter};
+    $event.data = { delimiter: this.delimiter };
   };
 
-  removeEventHandler = function() {
+  removeEventHandler = function () {
     this.resetMapping();
     this.fireCompleteEvent();
   };

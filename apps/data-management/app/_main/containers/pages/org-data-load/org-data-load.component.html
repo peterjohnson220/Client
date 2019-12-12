@@ -51,15 +51,18 @@
             <div *ngSwitchCase="stepEnum.Files"
                  class="px-5">
               <pf-entity-upload #entityUpload
-                                [entities]="loadOptions">
+                                [entities]="loadOptions"
+                                [selectedDelimiter]="selectedDelimiter"
+                                [selectedMapping]="selectedMapping"
+                                [mappingOptions]="mappingOptions"
+                                (onMappingChange)="AddAndSetSelectedMapping($event)">
               </pf-entity-upload>
             </div>
 
             <div *ngSwitchCase="stepEnum.FieldMapping"
                  class="px-5">
-              <pf-file-mapping
-                [entities]="loadOptions"
-                [selectedCompany] = "selectedCompany">
+              <pf-file-mapping [entities]="loadOptions"
+                               [selectedCompany]="selectedCompany">
               </pf-file-mapping>
             </div>
 

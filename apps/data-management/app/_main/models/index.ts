@@ -6,3 +6,4 @@ export * from './entity-field.model';
 export * from './entity-data-field.model';
 export * from './manual-upload-step.enum';
 export * from './column-name-request.model';
+export * from './configuration-group-model'

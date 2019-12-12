@@ -1,13 +1,14 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
-import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
-import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
 import * as fromFieldMappingReducer from './field-mapping.reducer';
-import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
 import * as fromFileUploadReducer from './file-upload.reducer';
+import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
+import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
+import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
@@ -15,6 +16,7 @@ export interface DataManagementMainState {
   organizationalDataPage: fromOrganizationalDataPageReducer.State;
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.State;
   fileUploadPage: fromFileUploadReducer.State;
+  loaderSettings: fromLoaderSettingsReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -26,7 +28,8 @@ export const reducers = {
   organizationalDataPage: fromOrganizationalDataPageReducer.reducer,
   fieldMappingPage: fromFieldMappingReducer.reducer,
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
-  fileUploadPage: fromFileUploadReducer.reducer
+  fileUploadPage: fromFileUploadReducer.reducer,
+  loaderSettings: fromLoaderSettingsReducer.reducer
 };
 
 // Select Feature Area
@@ -51,7 +54,11 @@ export const selectOrgDataFieldMappingsState = createSelector(
 );
 export const selectOrgDataFileUploadState = createSelector(
   selectFeatureAreaState,
-  (state: DataManagementMainState) => state.fileUploadPage
+  (state: DataManagementMainState) => state.fileUploadPage);
+
+export const selectLoaderSettingState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.loaderSettings
 );
 
 // Transfer Data Page
@@ -116,6 +123,15 @@ export const getModalStateOpen = createSelector(
   fromOrganizationalDataPageReducer.getModalStateOpen
 );
 
+export const getHasError = createSelector(
+  selectOrganizationalDataPageState,
+  fromOrganizationalDataPageReducer.getHasError
+);
+
+export const getConfigurationGroup = createSelector(
+  selectOrganizationalDataPageState,
+  fromOrganizationalDataPageReducer.getConfigurationGroup
+);
 
 export const getSelectedEntities = createSelector(
   selectTransferDataPageState,
@@ -140,13 +156,14 @@ export const getPayfactorsFields = createSelector(
   fromFieldMappingReducer.getPayfactorsFields
 );
 // Organizational Field Mapping
-export const {
-  selectAll: getFieldMappings
-} = fromOrgDataFieldMappingsReducer.adapter.getSelectors(selectOrgDataFieldMappingsState);
-export const getLoadingFieldMappings =
-  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappings);
-export const getLoadingFieldMappingsError =
-  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappingsError);
+export const { selectAll: getFieldMappings } = fromOrgDataFieldMappingsReducer.adapter.getSelectors(selectOrgDataFieldMappingsState);
+
+export const getLoadingFieldMappings = createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappings);
+export const getLoadingFieldMappingsError = createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappingsError);
+export const getLoadingLoaderSettings = createSelector(selectLoaderSettingState, fromLoaderSettingsReducer.getLoadingLoaderSettings);
+export const getLoadingLoaderSettingsError = createSelector(selectLoaderSettingState, fromLoaderSettingsReducer.getLoadingLoaderSettingsError);
+export const { selectAll: getLoaderSettings } = fromLoaderSettingsReducer.adapter.getSelectors(selectLoaderSettingState);
+
 
 // File Upload
 

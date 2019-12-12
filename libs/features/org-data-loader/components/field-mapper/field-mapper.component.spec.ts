@@ -1,8 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { of } from 'rxjs';
 
-import { LoaderType } from 'libs/constants/index';
+import { LoaderType } from 'libs/features/org-data-loader/constants';
+
 import { FieldMapperComponent } from './field-mapper.component';
 import { LoaderEntityStatus } from '../../models';
 
@@ -12,10 +14,10 @@ describe('FieldMapperComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FieldMapperComponent ],
+      declarations: [FieldMapperComponent],
       schemas: [NO_ERRORS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -121,33 +123,33 @@ describe('FieldMapperComponent', () => {
 
   it('should add a mapping to the list of mappings, ' +
     'and remove the fields from the Payfactors/CLient collections when ApplyMapping is called', () => {
-    component.selectedPfField = 'Job_Code';
-    component.selectedClientField = 'Job Code';
-    component.clientFields = ['Job Code', 'Job Title'];
-    component.payfactorsDataFields = ['Job_Code', 'Job_Title'];
+      component.selectedPfField = 'Job_Code';
+      component.selectedClientField = 'Job Code';
+      component.clientFields = ['Job Code', 'Job Title'];
+      component.payfactorsDataFields = ['Job_Code', 'Job_Title'];
 
-    component.ApplyMapping();
-    fixture.detectChanges();
+      component.ApplyMapping();
+      fixture.detectChanges();
 
-    expect(component.mappedFields).toContain('Job_Code__Job Code');
-    expect(component.clientFields).not.toContain('Job Code');
-    expect(component.payfactorsDataFields).not.toContain('Job_Code');
-  });
+      expect(component.mappedFields).toContain('Job_Code__Job Code');
+      expect(component.clientFields).not.toContain('Job Code');
+      expect(component.payfactorsDataFields).not.toContain('Job_Code');
+    });
 
   it('should remove a mapping ' +
     'and add the fields back to the client/payfactors collections where RemoveMapping is called', () => {
-    component.mappedFields = ['Job_Code__Job Code', 'Job_Title__Job Title'];
-    component.clientFields = [];
-    component.payfactorsDataFields = [];
-    component.selectedMapping = 'Job_Code__Job Code';
+      component.mappedFields = ['Job_Code__Job Code', 'Job_Title__Job Title'];
+      component.clientFields = [];
+      component.payfactorsDataFields = [];
+      component.selectedMapping = 'Job_Code__Job Code';
 
-    component.RemoveMapping();
-    fixture.detectChanges();
+      component.RemoveMapping();
+      fixture.detectChanges();
 
-    expect(component.mappedFields).not.toContain('Job_Code__Job Code');
-    expect(component.clientFields).toContain('Job Code');
-    expect(component.payfactorsDataFields).toContain('Job_Code');
-  });
+      expect(component.mappedFields).not.toContain('Job_Code__Job Code');
+      expect(component.clientFields).toContain('Job Code');
+      expect(component.payfactorsDataFields).toContain('Job_Code');
+    });
 
   it('should format a mapping with a caret for display instead of double underscores', () => {
     const field = 'Job_Code__Job Code';
@@ -158,7 +160,7 @@ describe('FieldMapperComponent', () => {
   });
 
   it('should automatically map similar fields on a successful upload', () => {
-    const evt = {response: {body: {value: ['Job Code', 'Job Title']}}};
+    const evt = { response: { body: { value: ['Job Code', 'Job Title'] } } };
     component.payfactorsDataFields = ['Job_Code', 'Job_Title'];
     component.successEventHandler(evt);
 
@@ -433,10 +435,10 @@ describe('FieldMapperComponent', () => {
           InternalField: 'GradeCode',
           ClientField: 'Grade'
         },
-          {
-            InternalField: 'Min',
-            ClientField: 'Minimum'
-          }]
+        {
+          InternalField: 'Min',
+          ClientField: 'Minimum'
+        }]
       }]);
       fixture.detectChanges();
 

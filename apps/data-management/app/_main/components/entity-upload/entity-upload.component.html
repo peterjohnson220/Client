@@ -28,11 +28,11 @@
     <div class="form-group w-100 ">
       <label for="mappingSelector"><strong>Use a saved mapping or map fields manually in next step</strong></label>
       <select class="form-control"
-              [(ngModel)]="selectedMapping"
+              (ngModelChange)="mappingChange($event)"
+              [ngModel]="selectedMapping"
               id="mappingSelector">
-        <option *ngFor="let mapping of this.savedMappings$"
-                [value]="mapping.MappingId"
-                [selected]="mapping.MappingId === -1">{{mapping.MappingName}}</option>
+        <option *ngFor="let mapping of this.mappingOptions"
+                [ngValue]="mapping">{{mapping.GroupName}}</option>
       </select>
     </div>
   </div>
@@ -41,8 +41,10 @@
     <div class="form-group w-100 ">
       <label for="delimSelector"><strong>Provide a delimiter type</strong></label>
       <input type="text"
-             class="form-control" [(ngModel)]="selectedDelimiter">
+             id="delimSelector"
+             name="delimSelector"
+             class="form-control"
+             [(ngModel)]="selectedDelimiter">
     </div>
-
   </div>
 </div>

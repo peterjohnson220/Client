@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PayfactorsApiService } from '../payfactors-api.service';
-import { LoaderSettingsDTO } from 'libs/models/data-loads/request/loader-settings.dto';
+
 import { LoaderSetting } from 'libs/models/data-loads/loader-setting.model';
+import { LoaderSettingsDTO } from 'libs/models/data-loads/request/loader-settings.dto';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
 export class LoaderSettingsApiService {
@@ -10,8 +12,8 @@ export class LoaderSettingsApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  getCompanyLoaderSettings(companyId: number) {
-    return this.payfactorsApiService.get<LoaderSetting[]>(`${this.endpoint}.GetCompanyLoaderSettings?companyId=${companyId}`);
+  getCompanyLoaderSettings(companyId: number, configGroupId: number = null) {
+    return this.payfactorsApiService.get<LoaderSetting[]>(`${this.endpoint}.GetCompanyLoaderSettings?companyId=${companyId}&configGroupId=${configGroupId}`);
   }
 
   saveOrUpdate(data: LoaderSettingsDTO) {

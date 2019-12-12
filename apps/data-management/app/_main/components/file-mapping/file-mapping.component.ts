@@ -1,21 +1,19 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { CompanySelectorItem } from 'libs/features/company/models';
 import {
-  LoaderType,
-  ORG_DATA_PF_EMPLOYEE_FIELDS,
-  ORG_DATA_PF_JOB_FIELDS,
-  ORG_DATA_PF_PAYMARKET_FIELDS,
-  ORG_DATA_PF_STRUCTURE_FIELDS,
-  ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
-} from 'libs/features/org-data-loader/constans';
-import {LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
+    LoaderType, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
+    ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
+} from 'libs/features/org-data-loader/constants';
+import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import { LoaderFieldSet } from 'libs/models/data-loads';
-import {CompanySelectorItem} from 'libs/features/company/models';
+
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/organizational-data-field-mapping.actions';
-import {EntityChoice} from '../../models';
-
+import { EntityChoice } from '../../models';
 
 @Component({
   selector: 'pf-file-mapping',
@@ -44,7 +42,7 @@ export class FileMappingComponent implements OnInit {
   companyMappingsLoading$: Observable<boolean>;
   selected: boolean;
 
-  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>) {
+  constructor(private store: Store<fromOrgDataAutoloaderReducer.State>) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
@@ -101,7 +99,7 @@ export class FileMappingComponent implements OnInit {
     });
   }
   enabledTabs(loaderType: string) {
-    return  this.entities.find(e => e.FileBeginsWith === loaderType.toLowerCase()).isChecked;
+    return this.entities.find(e => e.FileBeginsWith === loaderType.toLowerCase()).isChecked;
   }
 
   selectedTab(loaderType: string) {
@@ -170,14 +168,14 @@ export class FileMappingComponent implements OnInit {
   }
 
   onEmployeeMappingComplete($event: LoaderEntityStatus) {
-  //   this.employeeMappingComplete = $event.complete;
-  //   this.isEmployeesLoadEnabled = $event.loadEnabled;
-  //   if (this.employeeMappingComplete) {
-  //     this.addOrReplaceMappings('Employees', $event.mappings);
-  //   }
-  //   if ($event.dateFormat) {
-  //     this.dateFormat = $event.dateFormat;
-  //   }
-  //   this.isEmployeesFullReplace = $event.isFullReplace;
+    //   this.employeeMappingComplete = $event.complete;
+    //   this.isEmployeesLoadEnabled = $event.loadEnabled;
+    //   if (this.employeeMappingComplete) {
+    //     this.addOrReplaceMappings('Employees', $event.mappings);
+    //   }
+    //   if ($event.dateFormat) {
+    //     this.dateFormat = $event.dateFormat;
+    //   }
+    //   this.isEmployeesFullReplace = $event.isFullReplace;
   }
 }

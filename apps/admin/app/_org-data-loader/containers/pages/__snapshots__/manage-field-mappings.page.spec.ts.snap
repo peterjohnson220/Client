@@ -25,7 +25,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
-  noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
@@ -49,7 +48,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
-  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
@@ -195,7 +193,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
-  noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
@@ -219,7 +216,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
-  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
@@ -365,7 +361,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
-  noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
@@ -389,7 +384,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
-  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
@@ -534,7 +528,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
-  noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
@@ -558,7 +551,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
-  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
@@ -615,7 +607,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
-  noopStringTransform={[Function Function]}
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
@@ -639,7 +630,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
-  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
