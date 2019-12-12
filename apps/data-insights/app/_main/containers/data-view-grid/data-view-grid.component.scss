@@ -1,4 +1,5 @@
 @import 'kendo-grid';
+@import 'common/common-variables';
 
 .data-view-grid {
   height: calc(100vh - 164px);
@@ -32,4 +33,8 @@
 
 .text-align-right {
   text-align: right;
+}
+
+.ellipsis-text {
+  @extend %ellipsis-overflowing-text;
 }

@@ -23,7 +23,7 @@
                          width="150">
 
         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-          <div [class.text-align-right]="isNumericDataType(field.DataType)">
+          <div [class.text-align-right]="isNumericDataType(field.DataType)" class="ellipsis-text">
             <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'desc'"
               class="sort-icon" [icon]="['far', 'long-arrow-down']">
             </fa-icon>
