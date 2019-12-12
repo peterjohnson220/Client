@@ -85,6 +85,11 @@ export class CompanyControlFormComponent implements OnInit, OnDestroy {
         this.controlOptionDeleteClick.emit($event);
     }
 
+    enabledForms() {
+        this.headerControl.headerForm.enable();
+        this.layoutControl.layoutForm.enable();
+    }
+
     ngOnDestroy() {
         this.errorMessageSubscription.unsubscribe();
     }
