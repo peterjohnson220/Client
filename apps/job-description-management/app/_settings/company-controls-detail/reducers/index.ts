@@ -5,10 +5,12 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromCompanyControlsReducer from './company-controls-detail.reducers';
+import * as fromCopyReducer from './company-controls-copy.reducers';
 
 // Feature area state
 export interface JobDescriptionManagementSettingsCompanyControlsDetailState {
   companyControlDetail: fromCompanyControlsReducer.State;
+  copyCompanyControl: fromCopyReducer.State;
 }
 
 // Extend root state with feature area state
@@ -18,7 +20,8 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-    companyControlDetail: fromCompanyControlsReducer.reducer
+    companyControlDetail: fromCompanyControlsReducer.reducer,
+    copyCompanyControl: fromCopyReducer.reducer
 };
 
 // Select Feature Area
@@ -29,6 +32,11 @@ export const selectFeatureAreaState = createFeatureSelector<JobDescriptionManage
 export const selectCompanyControlDetailState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementSettingsCompanyControlsDetailState) => state.companyControlDetail
+);
+
+export const selectCompanyControlCopyState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementSettingsCompanyControlsDetailState) => state.copyCompanyControl
 );
 
 // Company Controls Detail
@@ -70,4 +78,26 @@ export const getSavingErrorMessage = createSelector(
 export const getUnhandledrror = createSelector(
     selectCompanyControlDetailState,
   fromCompanyControlsReducer.getUnhandledrror
+);
+
+// Copy
+
+export const getCopying = createSelector(
+  selectCompanyControlCopyState,
+  fromCopyReducer.getCopying
+);
+
+export const getCopyingError = createSelector(
+  selectCompanyControlCopyState,
+  fromCopyReducer.getCopyingError
+);
+
+export const getCopyingErrorMessage = createSelector(
+  selectCompanyControlCopyState,
+  fromCopyReducer.getCopyingErrorMessage
+);
+
+export const getCopyingSuccess = createSelector(
+  selectCompanyControlCopyState,
+  fromCopyReducer.getCopyingSuccess
 );

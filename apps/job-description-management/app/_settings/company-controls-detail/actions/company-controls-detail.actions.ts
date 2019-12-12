@@ -23,6 +23,9 @@ export const SAVE_EDITED_CONTROL = '[Settings/Company Controls/Detail] Save Edit
 export const UNHANDLED_ERROR = '[Settings/Company Controls/Detail] Save Control Type Unhandled Error';
 export const CLOSE_COMPANY_CONTROLS_DETAIL_VIEW = '[Settings/Company Controls/Detail] Leave Control Detail View';
 
+// Copy
+export const CHANGE_CONTROL_NAME = '[Settings/Company Controls/Detail] Change Control Name';
+
 export class CreateControl implements Action {
     readonly type = CREATE_CONTROL;
 
@@ -99,6 +102,12 @@ export class CloseCompanyControlsDetailView implements Action {
     readonly type = CLOSE_COMPANY_CONTROLS_DETAIL_VIEW;
 }
 
+export class ChangeControlName implements Action {
+    readonly type = CHANGE_CONTROL_NAME;
+
+    constructor(public payload: {controlName: string}) {}
+}
+
 export type DetailActions
   = LoadCompanyControlByTypeAndVersion
   | LoadCompanyControlByTypeAndVersionSuccess
@@ -113,4 +122,5 @@ export type DetailActions
   | SaveEditedControlType
   | IsControlEditable
   | IsControlEditableSuccess
-  | CloseCompanyControlsDetailView;
+  | CloseCompanyControlsDetailView
+  | ChangeControlName;

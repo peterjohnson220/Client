@@ -1,4 +1,5 @@
 import { ControlType } from 'libs/models';
+import * as cloneDeep from 'lodash.clonedeep';
 import { CompanyControlEditableInfo, generateDefaultCompanyControlEditableInfo } from '../../shared/models';
 import * as fromCompanyControlActions from '../actions';
 
@@ -102,6 +103,15 @@ export function reducer(state = initialState, action: fromCompanyControlActions.
           savingError: true,
           savingErrorMessage: action.payload.errorMessage
         };
+    }
+    case fromCompanyControlActions.CHANGE_CONTROL_NAME: {
+          const newControlBeingViewed = cloneDeep(state.controlBeingViewed);
+          newControlBeingViewed.Name = action.payload.controlName;
+          return {
+            ...state,
+            controlBeingViewed: newControlBeingViewed,
+            readonly: false
+          };
     }
     case fromCompanyControlActions.UNHANDLED_ERROR: {
         return {

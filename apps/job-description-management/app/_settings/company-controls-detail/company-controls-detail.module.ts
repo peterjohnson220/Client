@@ -14,13 +14,13 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { SharedModule } from '../../shared/shared.module';
-import { reducers } from './reducers';
-import { CompanyControlDetailEffects } from './effects';
-import { CompanyControlFormComponent } from './containers';
-import { CompanyControlLayoutComponent } from './containers/company-control-layout';
 import { CompanyControlsDndService } from './services';
+import { reducers } from './reducers';
+import { CompanyControlDetailEffects, CompanyControlCopyEffects } from './effects';
+import { CompanyControlLayoutComponent } from './containers/company-control-layout';
 import { CompanyControlsDetailPageComponent } from './company-controls-detail.page';
 import { ConfirmEditCompanyControlModalComponent, DeleteCompanyControlOptionModalComponent, CompanyControlHeaderComponent } from './components';
+import { CompanyControlFormComponent, CompanyControlCopyModalComponent } from './containers';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import { ConfirmEditCompanyControlModalComponent, DeleteCompanyControlOptionModa
     CompanyControlLayoutComponent,
     ConfirmEditCompanyControlModalComponent,
     DeleteCompanyControlOptionModalComponent,
-    CompanyControlHeaderComponent],
+    CompanyControlHeaderComponent,
+    CompanyControlCopyModalComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -41,7 +42,7 @@ import { ConfirmEditCompanyControlModalComponent, DeleteCompanyControlOptionModa
     MaskedTextBoxModule,
     NumericTextBoxModule,
     StoreModule.forFeature('jobDescriptionManagement_settings_companyControlDetail', reducers),
-    EffectsModule.forFeature([CompanyControlDetailEffects]),
+    EffectsModule.forFeature([CompanyControlDetailEffects, CompanyControlCopyEffects]),
 
     // Payfactors
     PfCommonUIModule,

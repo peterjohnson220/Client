@@ -5,11 +5,13 @@ import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import { ControlType } from 'libs/models';
+
 import * as fromCompanyControlDetailReducer from '../reducers';
 import * as fromCompanyControlDetailAction from '../actions';
 import { CompanyControlFormComponent } from '../containers';
 import { CompanyControlEditableInfo } from '../../shared/models';
 import { ConfirmEditCompanyControlModalComponent, DeleteCompanyControlOptionModalComponent } from '../components';
+import { CompanyControlCopyModalComponent } from '../containers/company-control-copy-modal';
 
 @Component({
   selector: 'pf-company-controls-detail',
@@ -17,9 +19,10 @@ import { ConfirmEditCompanyControlModalComponent, DeleteCompanyControlOptionModa
   styleUrls: ['./company-controls-detail.page.scss']
 })
 export class CompanyControlsDetailPageComponent implements OnInit, OnDestroy {
-    @ViewChild(CompanyControlFormComponent, { static: true }) public companyControlForm: CompanyControlFormComponent;
-    @ViewChild(ConfirmEditCompanyControlModalComponent, { static: true }) public confirmEditCompanyControlModal: ConfirmEditCompanyControlModalComponent;
-    @ViewChild(DeleteCompanyControlOptionModalComponent, { static: true }) public deleteOptionModal: DeleteCompanyControlOptionModalComponent;
+    @ViewChild(CompanyControlFormComponent, {static: true}) public companyControlForm: CompanyControlFormComponent;
+    @ViewChild(ConfirmEditCompanyControlModalComponent, {static: true}) public confirmEditCompanyControlModal: ConfirmEditCompanyControlModalComponent;
+    @ViewChild(DeleteCompanyControlOptionModalComponent, {static: true}) public deleteOptionModal: DeleteCompanyControlOptionModalComponent;
+    @ViewChild(CompanyControlCopyModalComponent, {static: true}) public copyControlModal: CompanyControlCopyModalComponent;
 
     readOnly = true;
     editable = true;
@@ -102,15 +105,21 @@ export class CompanyControlsDetailPageComponent implements OnInit, OnDestroy {
     }
 
     copyControl() {
-        // Will be implemented in ARCH-83
+        this.copyControlModal.open();
     }
 
     handleCopyCompanyControl(newControlName: string) {
-        // Will be implemented in ARCH-83
+        this.readOnly = false;
+        this.editable = true;
+        this.errorMessage = '';
+        this.affectedJobs = 0;
+        this.affectedTemplateNames = null;
+
+        this.companyControlForm.enabledForms();
+        this.store.dispatch(new fromCompanyControlDetailAction.ChangeControlName({controlName: newControlName}));
     }
 
     handleControlOptionDeleteClick($event) {
         this.showConfirmDeleteControlOptionModal();
     }
-
 }
