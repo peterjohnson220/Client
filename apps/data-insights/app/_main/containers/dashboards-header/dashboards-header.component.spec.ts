@@ -42,14 +42,13 @@ describe('Data Insights - Dashboards Comopnent', () => {
     fixture.detectChanges();
   });
 
-  it('should dispatch ToggleDashboardView action with correct selected view', () => {
+  it('should emit selectedDashboardViewChanged with correct selected view', () => {
     const view = DashboardView.All;
-    const expectedAction = new fromDashboardsActions.ToggleDashboardView({ view });
-    spyOn(store, 'dispatch');
+    spyOn(instance.selectedDashboardViewChanged, 'emit');
 
     instance.handleViewChanged(view);
 
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(instance.selectedDashboardViewChanged.emit).toHaveBeenCalledWith(view);
   });
 
   it('should dispatch SaveUserReport action with save user report view clicked', () => {

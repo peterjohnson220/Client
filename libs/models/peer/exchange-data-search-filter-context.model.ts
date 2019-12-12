@@ -2,19 +2,23 @@ import { SearchFilterMappingDataObj } from '../../features/search/models';
 import { ExchangeJobExchangeDetail } from '../../features/peer/models';
 import { generateMockPayMarket, PayMarket } from '../paymarket';
 import { generateMockSystemFilter, SystemFilter } from './exchange-job-pay-market-filter.model';
-import { generateMockGeoCoordinates, GeoCoordinates } from './exchange-map-response.model';
+import {
+  generateMockGeoCoordinates,
+  generateMockMapGeoData,
+  GeoCoordinates,
+  MapGeoData
+} from './exchange-map-response.model';
 
 export interface ExchangeExplorerContextInfo {
   FilterContext: ExchangeDataSearchFilterContext;
   PayMarket: PayMarket;
   AssociatedExchangeJobFilterOptions: ExchangeJobExchangeDetail[];
   SearchFilterMappingData: SearchFilterMappingDataObj;
+  InitialMapGeoData: MapGeoData;
 }
 
-export interface ExchangeDataSearchFilterContext extends SystemFilter {
+export interface ExchangeDataSearchFilterContext extends SystemFilter, MapGeoData {
   ScopeGUID: string;
-  TopLeft: GeoCoordinates;
-  BottomRight: GeoCoordinates;
   ClusterPrecision: number;
   ZoomLevel: number;
   LimitToPayMarket: boolean;
@@ -25,9 +29,8 @@ export interface ExchangeDataSearchFilterContext extends SystemFilter {
 export function generateMockExchangeDataSearchFilterContext(): ExchangeDataSearchFilterContext {
   return {
     ...generateMockSystemFilter(),
+    ...generateMockMapGeoData(),
     ScopeGUID: 'MockGUID',
-    TopLeft: generateMockGeoCoordinates(),
-    BottomRight: generateMockGeoCoordinates(),
     ClusterPrecision: 0,
     ZoomLevel: 0.1,
     LimitToPayMarket: true,
@@ -41,6 +44,7 @@ export function generateMockExchangeExplorerContextInfo(): ExchangeExplorerConte
     FilterContext: generateMockExchangeDataSearchFilterContext(),
     PayMarket: generateMockPayMarket(),
     AssociatedExchangeJobFilterOptions: [],
-    SearchFilterMappingData: {}
+    SearchFilterMappingData: {},
+    InitialMapGeoData: generateMockMapGeoData()
   };
 }

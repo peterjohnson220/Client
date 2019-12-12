@@ -7,12 +7,10 @@ import { Workbook } from '../models';
 
 export interface State {
   standardWorkbooksAsync: AsyncStateObj<Workbook[]>;
-  showStandardReportsSection: boolean;
 }
 
 const initialState: State = {
-  standardWorkbooksAsync: generateDefaultAsyncStateObj<Workbook[]>([]),
-  showStandardReportsSection: false
+  standardWorkbooksAsync: generateDefaultAsyncStateObj<Workbook[]>([])
 };
 
 export function reducer(state = initialState, action: fromDataInsightsPageActions.Actions): State {
@@ -50,18 +48,6 @@ export function reducer(state = initialState, action: fromDataInsightsPageAction
         standardWorkbooksAsync: standardWorkbooksAsyncClone
       };
     }
-    case fromDataInsightsPageActions.GET_STANDARD_REPORTS_DISPLAY_SETTING_SUCCESS: {
-      return {
-        ...state,
-        showStandardReportsSection: action.payload.settingValue
-      };
-    }
-    case fromDataInsightsPageActions.GET_STANDARD_REPORTS_DISPLAY_SETTING_ERROR: {
-      return {
-        ...state,
-        showStandardReportsSection: true
-      };
-    }
     default: {
       return state;
     }
@@ -69,4 +55,3 @@ export function reducer(state = initialState, action: fromDataInsightsPageAction
 }
 
 export const getStandardWorkbooksAsync = (state: State) => state.standardWorkbooksAsync;
-export const getShowStandardReportsSection = (state: State) => state.showStandardReportsSection;

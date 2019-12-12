@@ -1,0 +1,11 @@
+:host ::ng-deep .nav-link {
+  border: 0;
+  color: #495057;
+  &.active {
+    border-bottom: 3px solid #0366CC;
+  }
+}
+
+:host ::ng-deep .loading-blanket {
+  z-index: 1021;
+}

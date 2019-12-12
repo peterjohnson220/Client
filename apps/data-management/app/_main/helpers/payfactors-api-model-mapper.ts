@@ -1,8 +1,11 @@
-import { TransferMethodResponse, ProviderResponse,
-  AuthenticationTypeResponse, CredentialsPackage, ConnectionPostRequest } from 'libs/models/hris-api';
-import { TransferMethodTypes } from 'libs/constants/hris-api';
-import { TransferMethod, Provider, AuthenticationType } from '../models';
+import { OrgDataEntityType, TransferMethodTypes } from 'libs/constants/hris-api';
+import {
+  AuthenticationTypeResponse, ConnectionPostRequest, CredentialsPackage, ProviderResponse, TransferMethodResponse
+} from 'libs/models/hris-api';
 
+import {
+  AuthenticationType, generateMockPayfactorsEntityFields, generateMockProviderEntityFields, Provider, TransferMethod
+} from '../models';
 
 export class PayfactorsApiModelMapper {
   static mapTransferMethodResponseToTransferMethod(response: TransferMethodResponse[]): TransferMethod[] {
@@ -43,7 +46,8 @@ export class PayfactorsApiModelMapper {
       UserName: request.username ? request.username : null,
       Password: request.password ? request.password : null,
       Domain: request.domain ? request.domain : null,
-      ProviderCode: providerCode
+      ProviderCode: providerCode,
+      SyncEmployees: true // TODO: This will need to be driven based on a new component for selecting what entities will be mapped
     };
   }
 
@@ -56,5 +60,13 @@ export class PayfactorsApiModelMapper {
       },
       credentialsPackage: request
     };
+  }
+
+  static createProviderEntityFields(response: OrgDataEntityType): any[] {
+    return generateMockProviderEntityFields(response);
+  }
+
+  static createPayfactorsEntityFields(response: OrgDataEntityType): any[] {
+    return generateMockPayfactorsEntityFields(response);
   }
 }

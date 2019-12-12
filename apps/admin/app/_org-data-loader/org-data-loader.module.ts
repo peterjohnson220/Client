@@ -18,15 +18,16 @@ import * as fromFaIcons from './fa-icons';
 
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
-import { FieldMapperComponent } from './containers/field-mapper/field-mapper.component';
+
 import { reducers } from './reducers';
-import { CompanySelectorEffects } from './effects/company-selector.effects';
-import { CompanySelectorComponent } from './containers/company-selector/company-selector.component';
-import { OrgDataFieldMappingsEffects } from './effects/org-data-field-mappings.effects';
-import { EmailRecipientsComponent } from './containers/email-recipients/email-recipients.component';
-import { OrgDataEmailRecipientsEffects } from './effects/email-recipients.effects';
-import { LoaderSettingsEffects } from './effects/loader-settings.effects';
-import { SftpAccountStatusComponent } from './containers/sftp-account-status/sftp-account-status.component';
+import { CompanySelectorEffects } from './effects';
+import { CompanySelectorComponent } from './containers';
+import { OrgDataFieldMappingsEffects } from './effects';
+import { EmailRecipientsComponent } from './containers';
+import { OrgDataEmailRecipientsEffects } from './effects';
+import { LoaderSettingsEffects } from './effects';
+import { SftpAccountStatusComponent } from './containers';
+import {FieldMapperComponent} from 'libs/features/org-data-loader/components';
 
 
 @NgModule({

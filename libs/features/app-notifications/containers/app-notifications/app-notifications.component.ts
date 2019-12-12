@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import * as signalR from '@aspnet/signalr';
+import { LogLevel } from '@aspnet/signalr';
 
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
@@ -53,6 +54,7 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
   private initHubConnection(): void {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(this.signalRConnectionUrl)
+      .configureLogging(LogLevel.None)
       .build();
 
     this.startConnection(connection);
@@ -72,7 +74,7 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
       connection.start().then(function () {
         that.retryCount = 0;
       }).catch(function (error) {
-        if (error.statusCode !== 401) {
+        if (error && error.statusCode !== 401) {
           setTimeout(() => {
             that.retryCount++;
             that.startConnection(connection);

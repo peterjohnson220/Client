@@ -52,7 +52,8 @@ export function reducer(state = initialState, action: fromDataCutValidationActio
         loadingError: true
       };
     }
-    case fromDataCutValidationActions.VALIDATE_DATA_CUT_EMPLOYEES: {
+    case fromDataCutValidationActions.VALIDATE_DATA_CUT_EMPLOYEES:
+    case fromDataCutValidationActions.VALIDATE_DATA_CUT_EMPLOYEES_NEW: {
       return {
         ...state,
         validatingEmployeeSimilarity: true,

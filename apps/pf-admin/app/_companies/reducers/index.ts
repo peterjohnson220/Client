@@ -236,4 +236,7 @@ export const getJobPricingLimitInfo = createSelector(
   fromCompanyPageReducer.getJobPricingLimitInfo
 );
 
-
+export const getEnableJobPricingLimiter = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getEnableJobPricingLimiter
+);

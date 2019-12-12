@@ -35,7 +35,7 @@ export class JobDescriptionDnDService {
     this.dropSubscription = this.dragulaService.drop('library-bag').subscribe(value => {
       const dropModel = DragulaHelperService.getDropModel(value);
 
-      if (!dropModel) {
+      if (!dropModel || !dropModel.target) {
         return;
       }
 

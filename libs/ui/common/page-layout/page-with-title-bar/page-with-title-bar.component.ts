@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { RouteTrackingService } from 'libs/core/services';
@@ -20,7 +21,7 @@ export class PageWithTitleBarComponent {
     private routeTrackingService: RouteTrackingService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   goBack() {
     this.goBackToPreviousRoute

@@ -1,0 +1,23 @@
+@import 'common/common';
+@import 'data-insights-variables';
+@import 'libs/styles/dragula-drag-drop';
+
+.views-card {
+  padding: 1rem;
+  margin-bottom: 1rem;
+
+  .card-title {
+    color: $card-header-grey;
+  }
+
+  .collapse-btn {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .collapse-icon {
+    margin-left: 0.5rem;
+  }
+
+}

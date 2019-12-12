@@ -1,6 +1,7 @@
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import { TransferMethod, Provider } from '../models';
 import { TransferDataWorkflowStep } from '../data';
+import { OrgDataEntityType } from 'libs/constants';
 
 
 export interface State {
@@ -13,18 +14,25 @@ export interface State {
   workflowStep: TransferDataWorkflowStep;
   validationErrors: string[];
   showAuthenticationModal: boolean;
+  selectedEntities: any; // TODO: change this to be some datamodel type and add selecting entity page
 }
 
 const initialState: State = {
-  loading: true,
+  loading: false, // Change back after testing
   loadingError: false,
   transferMethods: null,
   providers: null,
   selectedTransferMethod: null,
   selectedProvider: null,
   validationErrors: null,
-  workflowStep: TransferDataWorkflowStep.SelectTransferMethod,
-  showAuthenticationModal: false
+  workflowStep: TransferDataWorkflowStep.SelectTransferMethod, // change back to first workflowstep
+  showAuthenticationModal: false,
+  selectedEntities: [ // TODO: change this to be an empty collection or whatever the data model should be for this.
+    {
+      EntityType: OrgDataEntityType.Employees,
+      EntityName: 'Employees'
+    }
+  ]
 };
 
 export function reducer(state: State = initialState, action: fromTransferDataPageActions.Actions) {
@@ -138,3 +146,4 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getValidationErrors = (state: State) => state.validationErrors;
 export const getWorkflowStep = (state: State) => state.workflowStep;
 export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
+export const getSelectedEntities = (state: State) => state.selectedEntities;

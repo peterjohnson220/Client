@@ -1,4 +1,4 @@
-import { OrgDataFilenamePatternSet } from '../models/org-data-filename-pattern-set.model';
+import { OrgDataFilenamePatternSet } from '../models';
 
 export const enum FilenamePatternStartsWithConvention {
   PayMarkets = 'paymarkets',

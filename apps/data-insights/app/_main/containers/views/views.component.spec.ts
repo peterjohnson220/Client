@@ -6,11 +6,12 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 import { ReportOrderType } from 'libs/constants';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { ViewsComponent } from './views.component';
-import { generateMockView, generateMockWorkbook, SaveReportOrderData } from '../../models';
+import { generateMockView, generateMockWorkbook, SaveReportOrderData, DashboardView } from '../../models';
 
 describe('Data Insights - Views Component', () => {
   let instance: ViewsComponent;
@@ -26,7 +27,10 @@ describe('Data Insights - Views Component', () => {
         })
       ],
       declarations: [ ViewsComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        { provide: SettingsService, useClass: SettingsService }
+      ]
     });
 
     fixture = TestBed.createComponent(ViewsComponent);
@@ -39,7 +43,7 @@ describe('Data Insights - Views Component', () => {
   it('anyFavorites should returns true when there is a favorite view', () => {
     const view = {...generateMockView(), IsFavorite: true};
     const workbook = {...generateMockWorkbook(), Views: generateDefaultAsyncStateObj([view])};
-    instance.companyWorkbooksAsync = generateDefaultAsyncStateObj([workbook]);
+    instance.tableauReports = [workbook];
 
     expect(instance.anyFavorites).toEqual(true);
   });
@@ -84,6 +88,26 @@ describe('Data Insights - Views Component', () => {
     spyOn(store, 'dispatch');
 
     instance.handleViewsOrderUpdated(data);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch SetDashboardView with correct dashboard view', () => {
+    const dashboardViewSettingValue = 'All Views';
+    const expectedAction = new fromViewsActions.SetDashboardView(DashboardView.Views);
+    spyOn(store, 'dispatch');
+
+    instance.handleDashboardViewSettingChanged(dashboardViewSettingValue);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch SetDashboardView with default dashboard view if the setting value does not match', () => {
+    const dashboardViewSettingValue = 'Random View';
+    const expectedAction = new fromViewsActions.SetDashboardView(DashboardView.Views);
+    spyOn(store, 'dispatch');
+
+    instance.handleDashboardViewSettingChanged(dashboardViewSettingValue);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

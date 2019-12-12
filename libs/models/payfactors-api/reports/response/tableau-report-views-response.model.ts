@@ -6,4 +6,5 @@ export interface TableauReportViewsResponse {
   IsFavorite?: boolean;
   ViewsOrder?: number;
   FavoritesOrder?: number;
+  WorkbookId: string;
 }

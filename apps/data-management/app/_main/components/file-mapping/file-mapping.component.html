@@ -1,0 +1,16 @@
+<kendo-tabstrip>
+  <kendo-tabstrip-tab title="{{entity.DisplayText}}"
+                      [selected]="entity.isSelectedTab"
+                      *ngFor="let entity of selectedEntities()">
+    <ng-template kendoTabContent>
+      <pf-field-mapper
+        [payfactorsDataFields]="entity.payfactorsDataFields"
+        [loaderType]="entity.templateReferenceConstants"
+        [fieldMappings$]="companyMappings$"
+        [fieldMappingsLoading]="companyMappingsLoading$ | async"
+        [loadEnabled]="entity.loaderEnabled"
+        [visibleLoaderOptions] = "visibleLoaderOptions"
+        (mappingComplete)="onMappingComplete($event)"></pf-field-mapper>
+    </ng-template>
+  </kendo-tabstrip-tab>
+</kendo-tabstrip>

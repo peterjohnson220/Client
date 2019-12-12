@@ -229,6 +229,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.clientTypeControl.value === CompanyClientTypeConstants.PEER) {
       this.repositoryControl.setValue(this.peerOnlySystemUserGroupId);
       this.repositoryControl.disable();
+      this.store.dispatch(new fromCompanyPageActions.EnableJobPricingLimiter(false));
       this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
       return;
     } else if (currentSystemUserGroupId === this.peerOnlySystemUserGroupId) {
@@ -246,8 +247,11 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onRepositoryDropdownChange() {
-
     const systemUserGroupsIdValue = this.repositoryControl.value;
+
+    if (systemUserGroupsIdValue !== this.smallBusinessSystemUserGroupId) {
+      this.store.dispatch(new fromCompanyPageActions.EnableJobPricingLimiter(false));
+    }
 
     if (systemUserGroupsIdValue === this.peerOnlySystemUserGroupId) {
       this.clientTypeControl.setValue(CompanyClientTypeConstants.PEER);
@@ -260,12 +264,10 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       return;
     } else if (systemUserGroupsIdValue === this.smallBusinessSystemUserGroupId) {
       this.clientTypeControl.setValue(CompanyClientTypeConstants.DATA_ONLY);
-
+      this.store.dispatch(new fromCompanyPageActions.EnableJobPricingLimiter(true));
       this.store.dispatch(new fromCompanyPageActions.SelectSmallBusinessClientType());
       return;
     }
-
-    this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
 
     this.companyFormData.PrimarySupportUserId = null;
     this.companyFormData.JDMSeniorAssociateUserId = null;

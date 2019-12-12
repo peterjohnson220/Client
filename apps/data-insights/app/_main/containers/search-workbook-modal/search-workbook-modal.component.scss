@@ -3,12 +3,11 @@
 .modal-body {
 
   .search-results {
-    background: #eaeaea;
+    background: #ffffff;
   }
 
   .no-results-message {
     font-size: 16px;
-    border-top: 1px solid #e9ecef;
     padding: 1.5rem 1rem;
   }
 
@@ -18,5 +17,6 @@
       font-size: 1.25em;
       padding: 1.5rem;
     }
+    border-bottom: 1px solid #e9ecef;
   }
 }

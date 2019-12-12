@@ -1,8 +1,8 @@
 <mgl-map
   [style]="mapStyle"
   [attributionControl]="false"
-  [fitBoundsOptions]="{padding: 50}"
-  [fitBounds]="canFitBounds ? (peerMapBounds$ | async) : null"
+  [fitBounds]="peerInitialMapBounds$ | async"
+  [fitBoundsOptions]="{padding: 50, duration: 500 }"
   [center]="peerMapCentroid$ | async"
   [zoom]="peerMapInitialZoomLevel$ | async"
   [maxZoom]="peerMapMaxZoom$ | async"
@@ -12,6 +12,7 @@
   (moveEnd)="handleMoveEndEvent($event)"
   (load)="handleLoadEvent($event)"
   (zoomEnd)="handleZoomEnd($event)"
+  (resize)="handleResizeEvent()"
   [ngClass]="{'map-no-data': (peerMapShowNoData$ | async)}"
 >
 
@@ -129,7 +130,7 @@
 
   <!--No Data Popup-->
   <mgl-popup
-    *ngIf="(peerMapShowNoData$ | async) && !(peerMapAutoZooming$ | async)"
+    *ngIf="(peerMapShowNoData$ | async) && !(peerMapAutoZooming$ | async) && (peerMapLoaded$ | async) && !(dataLoading$ | async)"
     [lngLat]="center"
     [closeOnClick]="false"
     [closeButton]="false"

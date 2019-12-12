@@ -19,6 +19,7 @@
                          [sortable]="field.IsSortable"
                          [title]="field.DisplayName"
                          [headerClass]="'grid-header'"
+                         [headerStyle]="{'font-size': '14px', 'font-weight': '300'}"
                          width="150">
 
         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
@@ -44,11 +45,11 @@
         <ng-template #blankCellTemplate>
           <div class="empty-row">N/A</div>
         </ng-template>
-
       </kendo-grid-column>
     </kendo-grid>
   </div>
-  <div class="loading-more-row" *ngIf="loadingMoreData$ | async">
-    <pf-loading-indicator></pf-loading-indicator> Loading more results...
-  </div>
+    <div class="loading-more-row" *ngIf="loadingMoreData$| async">
+      <pf-loading-indicator></pf-loading-indicator> Loading more results...
+    </div>
 </div>
+

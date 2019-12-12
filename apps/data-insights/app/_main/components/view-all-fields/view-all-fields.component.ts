@@ -22,7 +22,7 @@ export class ViewAllFieldsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes && !!changes.fields && !!changes.fields.currentValue) {
-      const orderedFields = orderBy(this.fields, ['DisplayName', (f: Field) => f.DisplayName.toLowerCase()]);
+      const orderedFields = orderBy(this.fields, ['DataElementOrder', (f: Field) => f.DisplayName.toLowerCase()], 'asc');
       this.groupedFields = groupBy(orderedFields, [{field: 'Entity'}]);
       this.groupedFields = orderBy(this.groupedFields, ['value', (g: any) => g.value.toLowerCase()]);
     }

@@ -10,10 +10,6 @@ export const SAVE_STANDARD_REPORTS_DISPLAY_SETTING_SUCCESS =
   '[Data Insights / Data Insights Page] Save Standard Reports Display Setting Success';
 export const SAVE_STANDARD_REPORTS_DISPLAY_SETTING_ERROR =
   '[Data Insights / Data Insights Page] Save Standard Reports Display Setting Error';
-export const GET_STANDARD_REPORTS_DISPLAY_SETTING = '[Data Insights / Data Insights Page] Get Standard Reports Display Setting';
-export const GET_STANDARD_REPORTS_DISPLAY_SETTING_SUCCESS =
-  '[Data Insights / Data Insights Page] Get Standard Reports Display Setting Success';
-export const GET_STANDARD_REPORTS_DISPLAY_SETTING_ERROR = '[Data Insights / Data Insights Page] Get Standard Reports Display Setting Error';
 
 export class GetStandardReports implements Action {
   readonly type = GET_STANDARD_REPORTS;
@@ -49,31 +45,10 @@ export class SaveStandardReportsDisplaySettingError implements Action {
   constructor() {}
 }
 
-export class GetStandardReportsDisplaySetting implements Action {
-  readonly type = GET_STANDARD_REPORTS_DISPLAY_SETTING;
-
-  constructor() {}
-}
-
-export class GetStandardReportsDisplaySettingSuccess implements Action {
-  readonly type = GET_STANDARD_REPORTS_DISPLAY_SETTING_SUCCESS;
-
-  constructor(public payload: { settingValue: boolean }) {}
-}
-
-export class GetStandardReportsDisplaySettingError implements Action {
-  readonly type = GET_STANDARD_REPORTS_DISPLAY_SETTING_ERROR;
-
-  constructor() {}
-}
-
 export type Actions
   = GetStandardReports
   | GetStandardReportsSuccess
   | GetStandardReportsError
   | SaveStandardReportsDisplaySetting
   | SaveStandardReportsDisplaySettingSuccess
-  | SaveStandardReportsDisplaySettingError
-  | GetStandardReportsDisplaySetting
-  | GetStandardReportsDisplaySettingSuccess
-  | GetStandardReportsDisplaySettingError;
+  | SaveStandardReportsDisplaySettingError;

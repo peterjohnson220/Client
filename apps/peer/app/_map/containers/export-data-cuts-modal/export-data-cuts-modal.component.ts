@@ -27,6 +27,7 @@ import { ExportDataCutsContext } from '../../models';
 })
 export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   @Input() context: ExportDataCutsContext;
+  @Input() isFromNewMap = false;
 
   exchangeCompanyJobsLoading$: Observable<boolean>;
   exchangeCompanyJobsLoadingError$: Observable<boolean>;
@@ -114,13 +115,16 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    this.store.dispatch(new fromExportDataCutsActions.ExportDataCuts(
-      {
+    const payload = {
         selectedRate: this.selectedRate.Value,
         scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => s.Value),
         exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue)
-      }
-    ));
+      };
+    const action = this.isFromNewMap ?
+      new fromExportDataCutsActions.ExportDataCutsNew(payload) :
+      new fromExportDataCutsActions.ExportDataCuts(payload);
+
+    this.store.dispatch(action);
   }
 
   handleModalDismissed(): void {

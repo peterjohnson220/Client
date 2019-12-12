@@ -1,0 +1,107 @@
+@import 'common/common';
+@import 'data-insights-variables';
+
+.view-card {
+  margin-left: 2.2rem;
+  margin-bottom: 2rem;
+  width: 234px;
+  height: 274px;
+
+  &:hover {
+    box-shadow: 1px 1px 7px 0 #cccccc;
+  }
+
+  .view-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+  }
+}
+
+.card-text {
+  font-size: 1.25rem;
+  @extend %ellipsis-overflowing-text;
+}
+
+.actions-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: $actions-mask-overlay;
+  opacity: 0;
+  padding: 1rem;
+  transition: opacity 500ms ease;
+}
+
+.actions-overlay.displayed {
+  opacity: 0.8;
+}
+
+.actions-container {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  bottom: 20px;
+  right: 0.8rem;
+  left: 0.8rem;
+
+  .action-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    margin: 0 0.7rem 0 0;
+
+    .action-icon {
+      font-size: 1.5rem;
+
+      &.brand-secondary {
+        color: $pf-brand-secondary-color;
+      }
+    }
+
+    .solid-star {
+      color: $solid-star-color;
+    }
+  }
+
+  button:focus {
+    box-shadow: 0 0 0 0.1rem $actions-mask-overlay;
+  }
+
+  .open-workbook {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.25rem;
+
+    a.btn {
+      text-transform: uppercase;
+      color: black;
+      font-weight: 600;
+    }
+
+  }
+}
+
+.actions-container.displayed {
+  display: flex;
+}
+
+.info-icon {
+  color: $pf-brand-secondary-color !important;
+  font-size: 20px;
+}
+
+
+#table-icon {
+  font-size: 110px;
+  text-align: center;
+  color: #88929F;
+}

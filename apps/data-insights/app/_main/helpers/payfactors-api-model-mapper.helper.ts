@@ -76,7 +76,8 @@ export class PayfactorsApiModelMapper {
         ViewThumbnail: r.ViewThumbnail,
         IsFavorite: r.IsFavorite,
         ViewsOrder: r.ViewsOrder,
-        FavoritesOrder: r.FavoritesOrder
+        FavoritesOrder: r.FavoritesOrder,
+        WorkbookId: r.WorkbookId
       };
     });
   }
@@ -120,7 +121,8 @@ export class PayfactorsApiModelMapper {
       DataType: this.mapDataViewFieldDataTypeToFieldDataType(dataViewField.DataType),
       IsSelected: dataViewField.IsSelected,
       Order: dataViewField.Order,
-      IsSortable: dataViewField.IsSortable
+      IsSortable: dataViewField.IsSortable,
+      DataElementOrder: dataViewField.DataElementOrder
     };
   }
 
@@ -211,7 +213,6 @@ export class PayfactorsApiModelMapper {
       PagingOptions: pagingOptions,
       SortDescriptor: dataViewSortDesc
     };
-
   }
 
   static buildDataViewFilterOptionsRequest(data: GetFilterOptionsData, baseEntityId: number): DataViewFilterOptionsRequest {

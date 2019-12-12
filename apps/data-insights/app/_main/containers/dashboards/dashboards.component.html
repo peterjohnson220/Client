@@ -6,7 +6,14 @@
     [hideReloadButton]="true">
   </pf-async-container>
 
-  <pf-dashboards-header [thumbnailsViewEnabled]="false" [hasFavorites]="anyFavorites"></pf-dashboards-header>
+  <pf-dashboards-header
+    [title]="'All Dashboards'"
+    [dashboardViews]="dashboardViews"
+    [selectedDashboardView]="(selectedDashboardView$ | async)"
+    [hasFavorites]="anyFavorites"
+    [tagsEnabled]="true"
+    (selectedDashboardViewChanged)="handleSelectedDashboardViewChanged($event)">
+  </pf-dashboards-header>
 
   <div *ngIf="filteredCompanyWorkbooks" class="dashboards h-100 d-flex flex-column">
     <div class="workbooks-container row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">

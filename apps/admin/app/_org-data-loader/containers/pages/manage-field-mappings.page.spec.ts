@@ -84,6 +84,10 @@ describe('ManageFieldMapperPageComponent', () => {
     fixture = TestBed.createComponent(ManageFieldMappingsPageComponent);
     component = fixture.componentInstance;
     component.selectedCompany = 13;
+    component.visibleLoaderOptions = {
+      clientFileName: true,
+      selectFile: true
+    };
     fixture.detectChanges();
   });
 
@@ -105,7 +109,6 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should show the field mapper when a company has been selected', () => {
     component.selectedCompany = 13;
-
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();

@@ -4,19 +4,18 @@
       <pf-input-debounce class="w-100"
         [attr.data-qa-id]="'txt-searchWorkbook'"
         [delay]="200"
-        [placeholderText]="'Search Workbook...'"
+        [placeholderText]="'Search Reports...'"
         [(ngModel)]="searchValue"
         (valueChanged)="handleSearchValueChanged($event)">
       </pf-input-debounce>
       <fa-icon class="search-icon" icon="search"></fa-icon>
     </div>
-    <div *ngIf="filteredWorkbooks?.length" class="search-results">
-      <pf-search-workbook-result *ngFor="let workbook of filteredWorkbooks; trackBy: trackByFn"
-        [workbook]="workbook"
-        (openViewsClicked)="handleOpenViewsClicked($event)">
+    <div *ngIf="searchResults?.length" class="search-results">
+      <pf-search-workbook-result *ngFor="let result of searchResults; trackBy: trackByFn"
+        [result]="result">
       </pf-search-workbook-result>
     </div>
-    <div *ngIf="noSearchResults" class="no-results-message">No Matching Workbooks Found</div>
+    <div *ngIf="noSearchResults" class="no-results-message">No Matching Reports Found</div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light" [attr.data-qa-id]="'btn-close'" (click)="close()">Close</button>

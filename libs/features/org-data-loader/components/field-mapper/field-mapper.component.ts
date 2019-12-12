@@ -10,14 +10,15 @@ import {
   ORG_DATA_REMOVE_URL,
   ORG_DATA_UPLOAD_URL,
   LoaderType,
-} from '../../constants';
+} from 'libs/features/org-data-loader/constans';
 
 import {
   DateFormatItem,
-  LoaderFieldSet,
   LoaderEntityStatus,
-  FilenamePattern
-} from '../../models';
+  FilenamePattern,
+  VisibleLoaderOptionModel
+} from 'libs/features/org-data-loader/models';
+import { LoaderFieldSet } from 'libs/models/data-loads';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -49,6 +50,7 @@ export class FieldMapperComponent implements OnInit {
   @Input() isFullReplace: boolean;
   @Input() loadEnabled: boolean;
   @Input() filenamePattern: FilenamePattern;
+  @Input() visibleLoaderOptions: VisibleLoaderOptionModel;
   @Output() mappingComplete = new EventEmitter<any>();
 
   constructor() {

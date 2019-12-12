@@ -2,12 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PfCommonUIModule } from 'libs/ui/common';
+import { SharedModule } from '../shared/shared.module';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { ViewsListModule } from './views-list';
 import { ViewEditGuard, ViewEditModule } from './view-edit';
 import { LayoutModule } from './layout';
 import { FooterViewModule } from './footer-view';
+import { CompanyControlsListModule } from './company-controls-list';
+import { CompanyControlsDetailModule } from './company-controls-detail';
 
 @NgModule({
   imports: [
@@ -19,12 +22,15 @@ import { FooterViewModule } from './footer-view';
 
     // Payfactors
     PfCommonUIModule,
+    SharedModule,
 
     // Features
     ViewsListModule,
     LayoutModule,
     ViewEditModule,
-    FooterViewModule
+    FooterViewModule,
+    CompanyControlsListModule,
+    CompanyControlsDetailModule
   ],
   providers: [
     ViewEditGuard

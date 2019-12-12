@@ -83,7 +83,6 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
         this.selectedTemplateName = undefined;
       }
     });
-    this.store.dispatch(new fromWorkflowTemplateListActions.Load(this.jobId));
   }
 
   ngOnDestroy(): void {
@@ -95,6 +94,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
 
   open(): void {
     this.selectedTemplateName = undefined;
+    this.store.dispatch(new fromWorkflowTemplateListActions.Load(this.jobId));
     this.workflowInitiationComment = '';
     this.modalService.open(this.routeForApprovalModal, { backdrop: 'static', windowClass: 'route-for-approval-modal' });
   }

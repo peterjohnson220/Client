@@ -30,7 +30,7 @@ export class JobDescriptionManagementDnDService {
 
     // Drop
     this.dragulaSubscription = this.dragulaService.dropModel('control-data-reorder-bag').subscribe(dropModel => {
-      if (!dropModel) {
+      if (!dropModel || !dropModel.target) {
         return;
       }
 

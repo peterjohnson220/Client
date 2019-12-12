@@ -18,7 +18,9 @@ export enum CompanySettingsEnum {
   DataInsightsReportBuilder = 'DataInsightsReportBuilder',
   PeerExchangeExplorerEnabled = 'PeerExchangeExplorerEnabled',
   DataInsightsThumbnailsViewDisplay = 'DataInsightsThumbnailsViewDisplay',
-  EnableLibraryForRoutedJobDescriptions = 'EnableLibraryForRoutedJobDescriptions'
+  EnableLibraryForRoutedJobDescriptions = 'EnableLibraryForRoutedJobDescriptions',
+  DataInsightsFormulaBuilder = 'DataInsightsFormulaBuilder',
+  JDMPublicViewsUseClient = 'JDMPublicViewsUseClient'
 }
 
 export interface CompanySetting {

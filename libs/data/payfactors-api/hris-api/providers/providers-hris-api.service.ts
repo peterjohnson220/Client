@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { HrisApiService } from '../hris-api.service';
-import { UserContext } from 'libs/models/security';
 import { ProviderResponse } from 'libs/models/hris-api/provider';
+import { UserContext } from 'libs/models/security';
+
+import { HrisApiService } from '../hris-api.service';
 
 const UTILITIES_SUB_DOMAIN_CONFIG_NAME = 'UtilitiesSubDomain';
 

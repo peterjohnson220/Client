@@ -4,6 +4,7 @@ export interface CredentialsPackage {
   UserName: string;
   Password: string;
   ProviderCode: string;
+  SyncEmployees: boolean;
 }
 
 export function generateMockCredentialsPackage(): CredentialsPackage {
@@ -12,6 +13,7 @@ export function generateMockCredentialsPackage(): CredentialsPackage {
     Domain: 'MockDomain',
     UserName: 'MockUserName',
     Password: 'MockPassword',
-    ProviderCode: 'MOCKCODE'
+    ProviderCode: 'MOCKCODE',
+    SyncEmployees: true
   };
 }

@@ -11,15 +11,34 @@
 .fields {
   background-color: $background-grey;
   position: relative;
-  max-height: calc(100vh - 393px);
+  max-height: calc(100vh - 410px);
   padding: 0 1rem 1rem;
 }
 
 .view-all-fields-btn {
-  background-color: $pf-brand-secondary-color;
-  color: #ffffff;
+  background-color: #FFF;
+  color: $pf-brand-secondary-color;
+  &:focus {
+    box-shadow: 0 0 0 0.05rem rgba(31, 47, 61, 0.25);
+  }
 }
 
 .second-actions-bar {
-  padding: 1rem 1rem 0;
+  padding: 0 1rem 0.8rem;
+  background-color: lightgray;
+}
+
+.bottom-actions-bar {
+  height: 50px;
+  background-color: $background-grey;
+  text-align: center;
+  padding: 0.8rem 1rem;
+}
+
+.create-formula-field-btn {
+  background-color: $background-grey;
+  color: $pf-brand-secondary-color;
+  &:focus {
+    box-shadow: none;
+  }
 }

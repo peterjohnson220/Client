@@ -18,19 +18,23 @@ export class LoginEffects {
     .pipe(
       ofType(fromLoginAction.LOGIN),
       switchMap((action: fromLoginAction.Login) =>
-        this.accountApiService.login({ email: action.payload.Email, password: action.payload.Password }).pipe(
+        this.accountApiService.login(
+          {
+            email: action.payload.Email, password: action.payload.Password,
+            clientCaptchaSiteKey: action.payload.ClientCaptchaSiteKey, clientCaptchaToken: action.payload.ClientCaptchaToken
+          }).pipe(
           map((response: any) => {
             if (response !== null && response.first_login === 'true') {
               return new fromLoginAction.LoginSuccess(environment.firstTimeLoginPage);
             } else if (response !== null && response.password_expired === true) {
               return new fromLoginAction.PasswordExpired;
-            }  else if (action.payload.UserVoiceNextPage != null) {
+            } else if (action.payload.UserVoiceNextPage != null) {
               return new fromLoginAction.LoginSuccessRouteToUserVoice(response.user_id);
             } else {
               return new fromLoginAction.LoginSuccess(action.payload.NextPage);
             }
           }),
-          catchError(error => of (new fromLoginAction.LoginError(error)))
+          catchError(error => of(new fromLoginAction.LoginError(error)))
         )
       )
     );
@@ -66,7 +70,7 @@ export class LoginEffects {
     .pipe(
       ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE),
       map((action: fromLoginAction.LoginSuccessRouteToNextPage) => {
-        this.routeToNextPage(action.payload);
+          this.routeToNextPage(action.payload);
         }
       )
     );
@@ -76,7 +80,7 @@ export class LoginEffects {
     .pipe(
       ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_USER_VOICE),
       map((action: fromLoginAction.LoginSuccessRouteToUserVoice) => {
-        this.routeToUserVoice(action.payload);
+          this.routeToUserVoice(action.payload);
         }
       )
     );
@@ -94,6 +98,19 @@ export class LoginEffects {
       )
     );
 
+  @Effect()
+  GetLoginSettings$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromLoginAction.GET_LOGIN_SETTINGS),
+      switchMap((action: fromLoginAction.GetLoginSettings) =>
+        this.accountApiService.getLoginSettings().pipe(
+          map((settings: any) => {
+            return new fromLoginAction.GetLoginSettingsSuccess(settings);
+          })
+        )
+      )
+    );
+
   routeToHomePage(url: string) {
     if (url !== undefined && url != null) {
       window.location.href = url + '?login=true';
@@ -101,13 +118,17 @@ export class LoginEffects {
       window.location.href = environment.defaultHomePage;
     }
   }
+
   routeToNextPage(nextPage: string) {
-      window.location.href = nextPage;
+    window.location.href = nextPage;
   }
+
   routeToUserVoice(userId: string) {
     window.location.href = `${environment.userVoiceLoginRedirect}?userId=${userId}`;
   }
+
   constructor(private actions$: Actions,
-      private accountApiService: AccountApiService,
-      private userApiService: UserApiService) { }
+              private accountApiService: AccountApiService,
+              private userApiService: UserApiService) {
+  }
 }

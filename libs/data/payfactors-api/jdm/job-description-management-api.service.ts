@@ -12,6 +12,7 @@ import { LoadJobDescriptionRequest } from 'apps/pf-admin/app/_utilities/models/r
 import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket } from '../../../../apps/job-description-management/app/shared/models';
 import { UpdateViewsRequest } from '../../../models/payfactors-api/job-description-management/request';
 import { JobDescriptionViewApi } from '../../../models/payfactors-api/job-description-management/shared';
+import { ControlType } from 'libs/models';
 
 @Injectable()
 export class JobDescriptionManagementApiService {
@@ -112,5 +113,32 @@ export class JobDescriptionManagementApiService {
 
   addView(name: string, templateIds: number[]) {
     return this.payfactorsApiService.post(`${this.endpoint}.AddView`, { Name: name, TemplateIds: templateIds });
+  }
+
+  getLatestControls() {
+      return this.payfactorsApiService.get(`${this.endpoint}.GetLatestControls`, {}, (response) => JSON.parse(response.value));
+  }
+
+  isControlEditable(controlType: string) {
+      return this.payfactorsApiService.get( `${this.endpoint}.IsControlEditable`, { controlType: controlType });
+  }
+
+  controlNameExists(controlName: string) {
+    const params = { params: { controlName } };
+    return this.payfactorsApiService.get(`${this.endpoint}.ControlExists`, params);
+  }
+
+  saveControl(controlType: ControlType) {
+      const obj = {
+          controlJsonAsString: JSON.stringify(controlType)
+      };
+      return this.payfactorsApiService.post(`${this.endpoint}.SaveControl`, obj);
+  }
+
+  saveEditedControl(controlType: ControlType) {
+      const obj = {
+          controlJsonAsString: JSON.stringify(controlType)
+      };
+      return this.payfactorsApiService.put(`${this.endpoint}.SaveControl`, obj);
   }
 }

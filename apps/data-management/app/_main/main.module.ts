@@ -8,24 +8,29 @@ import { StoreModule } from '@ngrx/store';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
+import { FieldMapperComponent } from 'libs/features/org-data-loader/components';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import * as fromFaIcons from './fa-icons';
-import { reducers } from './reducers';
+import { EntityPickerComponent, EntityUploadComponent, FileMappingComponent } from './components';
+import { FileUploadComponent } from './components/file-upload';
 import {
-    DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, HrisAuthenticationCardComponent,
-    ManageDataPageComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent,
-    TransferMethodDropdownComponent, WorkdayAuthenticationComponent
+    DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, EntityMappingComponent,
+    FieldMappingCardComponent, HrisAuthenticationCardComponent, ManageDataPageComponent, OrgDataLoadComponent,
+    PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
+    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent
 } from './containers';
-import { TransferDataPageEffects } from './effects';
+import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects } from './effects';
+import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
-import { EntityPickerComponent, EntityUploadComponent } from './components/';
+import { reducers } from './reducers';
 
 @NgModule({
   imports: [
@@ -33,18 +38,26 @@ import { EntityPickerComponent, EntityUploadComponent } from './components/';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    DropDownsModule,
 
     // Routing
     MainRoutingModule,
 
     // 3rd Party
+
     StoreModule.forFeature('data_management', reducers),
     EffectsModule.forFeature([
       TransferDataPageEffects,
+      OrganizationalDataPageEffects,
+      FieldMappingEffects,
+      OrgDataFieldMappingsEffects
     ]),
     FontAwesomeModule,
+    NgbTabsetModule,
     NgbTooltipModule,
+    NgbAlertModule,
     UploadModule,
+    LayoutModule,
 
     // Payfactors
     PfCommonModule,
@@ -65,10 +78,16 @@ import { EntityPickerComponent, EntityUploadComponent } from './components/';
     ProviderCardComponent,
     HrisAuthenticationCardComponent,
     WorkdayAuthenticationComponent,
+    WorkdayMockAuthenticationComponent,
     PfTestAuthenticationComponent,
     OrgDataLoadComponent,
     EntityPickerComponent,
-    EntityUploadComponent
+    EntityUploadComponent,
+    FieldMappingCardComponent,
+    FileUploadComponent,
+    EntityMappingComponent,
+    FieldMapperComponent,
+    FileMappingComponent
   ]
 })
 export class MainModule {

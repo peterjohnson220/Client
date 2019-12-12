@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { UpsertDataCutRequest } from '../../../models';
+import { UpsertDataCutRequest, DataCutValidationInfo, ExchangeDataCutsExportRequest, ExchangeDataSearchFilter } from 'libs/models';
+import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { DataCutValidationInfo, ExchangeDataCutsExportRequest, ExchangeDataSearchFilter } from '../../../models/peer';
-import {BaseExchangeDataSearchRequest} from '../../../models/payfactors-api/peer/exchange-data-search/request';
 
 @Injectable()
 export class ExchangeDataCutsApiService {
@@ -26,8 +26,12 @@ export class ExchangeDataCutsApiService {
       { params: { companyJobId: payload.CompanyJobId, userSessionId: payload.UserSessionId } });
   }
 
-  exportExchangeDataCuts(payload: ExchangeDataCutsExportRequest): Observable<any> {
+  exportExchangeDataCuts(payload: ExchangeDataCutsExportRequest<ExchangeDataSearchFilter>): Observable<any> {
     return this.payfactorsApiService.downloadFile(`${this.endpoint}/ExportExchangeDataCuts`, payload);
+  }
+
+  exportExchangeDataCutsNew(payload: ExchangeDataCutsExportRequest<BaseExchangeDataSearchRequest>): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ExportExchangeDataCutsNew`, payload);
   }
 
   validateCutEmployeeSimilarity(searchFilter: ExchangeDataSearchFilter,
@@ -40,5 +44,14 @@ export class ExchangeDataCutsApiService {
         CurrentFilters: searchFilter, DataCutGuid: dataCutGuid
       }, (success: boolean) => success);
   }
-
+  validateCutEmployeeSimilarityNew(searchFilter: BaseExchangeDataSearchRequest,
+                                companyJobId: number,
+                                userSessionId: number,
+                                dataCutGuid: string): Observable<boolean> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ValidateCutEmployeeSimilarityNew`,
+      {
+        CompanyJobId: companyJobId, UserSessionId: userSessionId,
+        CurrentFilters: searchFilter, DataCutGuid: dataCutGuid
+      }, (success: boolean) => success);
+  }
 }

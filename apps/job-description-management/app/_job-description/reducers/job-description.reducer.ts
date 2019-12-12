@@ -45,23 +45,23 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     case fromJobDescriptionActions.LOAD_COMPANY_LOGO: {
       const companyLogoAsync = cloneDeep(state.companyLogoAsync);
       companyLogoAsync.loading = true;
-      companyLogoAsync.error = false;
+      companyLogoAsync.loadingError = false;
       return {
         ...state,
         companyLogoAsync: companyLogoAsync
       };
     }
     case fromJobDescriptionActions.LOAD_COMPANY_LOGO_ERROR: {
-      const companyLogoAsync = cloneDeep(state.companyLogoAsync);
+      const companyLogoAsync: AsyncStateObj<string> = cloneDeep(state.companyLogoAsync);
       companyLogoAsync.loading = false;
-      companyLogoAsync.error = true;
+      companyLogoAsync.loadingError = true;
       return {
         ...state,
         companyLogoAsync: companyLogoAsync
       };
     }
     case fromJobDescriptionActions.LOAD_COMPANY_LOGO_SUCCESS: {
-      const companyLogoAsync = cloneDeep(state.companyLogoAsync);
+      const companyLogoAsync: AsyncStateObj<string> = cloneDeep(state.companyLogoAsync);
       companyLogoAsync.loading = false;
       companyLogoAsync.obj = action.payload;
       return {
@@ -70,21 +70,21 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       };
     }
     case fromJobDescriptionActions.GET_JOB_DESCRIPTION: {
-      const asyncStateObjClone = cloneDeep(state.jobDescriptionAsync);
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.loading = true;
-      asyncStateObjClone.error = false;
+      asyncStateObjClone.loadingError = false;
       return {
         ...state,
         jobDescriptionAsync: asyncStateObjClone
       };
     }
     case fromJobDescriptionActions.GET_JOB_DESCRIPTION_SUCCESS: {
-      const asyncStateObjClone = cloneDeep(state.jobDescriptionAsync);
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.loading = false;
       asyncStateObjClone.obj = action.payload.jobDescription;
 
       let editing: boolean = asyncStateObjClone.obj.JobDescriptionStatus === 'Draft' ||
-        (asyncStateObjClone.obj.JobDescriptionStatus === 'In Review' && asyncStateObjClone.obj.identityInWorkflow);
+        (asyncStateObjClone.obj.JobDescriptionStatus === 'In Review' && action.payload.requestData.InWorkflow);
       let changeHistory = [];
       let recentChange = state.jobDescriptionAsync.obj;
       if (action.payload.requestData.InHistory) {
@@ -122,10 +122,11 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       asyncStateObjClone.obj.DraftNumber = action.payload.jobDescription.DraftNumber;
       asyncStateObjClone.obj.JobDescriptionStatus = action.payload.jobDescription.JobDescriptionStatus;
       asyncStateObjClone.obj.JobDescriptionRevision = action.payload.jobDescription.JobDescriptionRevision;
+      asyncStateObjClone.obj.JobInformationFields = action.payload.jobDescription.JobInformationFields;
       asyncStateObjClone.obj.CreatedDate = action.payload.jobDescription.CreatedDate;
+
       if (action.payload.isFirstSave) {
         asyncStateObjClone.obj.Name = action.payload.jobDescription.Name;
-        asyncStateObjClone.obj.JobInformationFields = action.payload.jobDescription.JobInformationFields;
       }
 
       const jobDescriptionChangeHistoryClone = cloneDeep(state.jobDescriptionChangeHistory);

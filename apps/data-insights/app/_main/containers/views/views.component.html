@@ -6,22 +6,39 @@
     [hideReloadButton]="true">
   </pf-async-container>
 
-  <pf-dashboards-header [thumbnailsViewEnabled]="true" [hasFavorites]="anyFavorites"></pf-dashboards-header>
+  <pf-dashboards-header
+    [title]="'All Views'"
+    [dashboardViews]="dashboardViews"
+    [selectedDashboardView]="(dashboardView$ | async)"
+    [hasFavorites]="anyFavorites"
+    [tagsEnabled]="false"
+    (selectedDashboardViewChanged)="handleSelectedDashboardViewChanged($event)">
+  </pf-dashboards-header>
 
-  <ng-container *ngIf="companyWorkbooksAsync?.obj?.length && (dashboardView$ | async) !== 'Favorites'">
-    <ng-container *ngFor="let workbook of companyWorkbooksAsync.obj; trackBy: trackByFn">
+  <ng-container *ngIf="tableauReports.length && (dashboardView$ | async) !== 'Favorites'">
+    <ng-container *ngFor="let tableauReport of tableauReports; trackBy: trackByFn">
       <pf-workbook-views-card
-        [workbook]="workbook"
+        [workbook]="tableauReport"
         (favoriteClicked)="handleFavoriteClicked($event)"
         (viewsOrderUpdated)="handleViewsOrderUpdated($event)">
       </pf-workbook-views-card>
     </ng-container>
   </ng-container>
 
-  <ng-container *ngIf="companyWorkbooksAsync?.obj?.length && (dashboardView$ | async) == 'Favorites'">
+  <ng-container *ngIf="dataViewReports?.length && (dashboardView$ | async) !== 'Favorites'">
+    <pf-data-view-reports
+      [dataViewReports]="dataViewReports"
+      (favoriteClicked)="handleDataViewReportFavoriteClicked($event)"
+      (dataViewReportsOrderUpdated)="handleDataViewReportsOrderUpdated($event)">
+    </pf-data-view-reports>
+  </ng-container>
+
+  <ng-container *ngIf="tableauReports?.length && (dashboardView$ | async) == 'Favorites'">
     <pf-favorite-views
-      [favoriteViews]="favoriteViews"
-      (favoriteClicked)="handleFavoriteClicked($event)">
+      [favoriteTableauViews]="favoriteTableauViews"
+      [favoriteDataViewReports]="favoriteDataViewReports"
+      (favoriteClicked)="handleFavoriteClicked($event)"
+      (favoriteDataViewReportClicked)="handleDataViewReportFavoriteClicked($event)">
     </pf-favorite-views>
   </ng-container>
 

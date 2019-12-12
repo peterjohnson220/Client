@@ -7,6 +7,7 @@ import { map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
 import { DataCutValidationInfo } from 'libs/models/peer';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers/';
 
 import * as fromDataCutValidationActions from '../actions/data-cut-validation.actions';
@@ -41,9 +42,26 @@ export class DataCutValidationEffects {
     })
   );
 
+  @Effect()
+  validateCutEmployeeSimilarityNew$ = this.actions$.pipe(
+    ofType(fromDataCutValidationActions.VALIDATE_DATA_CUT_EMPLOYEES_NEW),
+    withLatestFrom(
+      this.exchangeExplorerContextService.selectFilterContext(),
+      (action: fromDataCutValidationActions.ValidateDataCutEmployeesNew, filters) =>
+        ({ action, filters })),
+    switchMap((data) => {
+      return this.exchangeDataCutsApiService.validateCutEmployeeSimilarityNew(data.filters,
+        data.action.companyJobId, data.action.userSessionId, data.action.dataCutGuid).pipe(
+        map((response: boolean) => new fromDataCutValidationActions.ValidateDataCutEmployeesSuccess(response)),
+        catchError(() => of(new fromDataCutValidationActions.ValidateDataCutEmployeesError))
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private exchangeDataCutsApiService: ExchangeDataCutsApiService,
+    private exchangeExplorerContextService: ExchangeExplorerContextService,
     private peerMapStore: Store<fromPeerMapReducers.State>
   ) { }
 }

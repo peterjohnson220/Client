@@ -1,7 +1,7 @@
 import { CompanyDto, CompanyFormData, CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings';
 import { CompanyTilesResponse } from 'libs/models/payfactors-api';
-import { TileNames } from 'libs/constants';
+import { TileNames, CompanyClientTypeConstants } from 'libs/constants';
 
 import { CustomCompanySettings } from '../models';
 
@@ -89,7 +89,7 @@ export class CompanyPageHelper {
       RestrictWorkflowToCompanyEmployeesOnly: false,
       HideSecondarySurveyDataFields: true,
       EnableLiveChat: false,
-      EnableIntervalAgingFactor: false,
+      EnableIntervalAgingFactor: false
     };
   }
 
@@ -257,7 +257,7 @@ export class CompanyPageHelper {
 
   static getSmallBusinessClientTypeCompanySettings(settings: CompanySetting[]): CompanySetting[] {
     return settings.filter( s => s.Visible === false).concat(
-      settings.filter(s => s.Visible === true).map(s => {
+      settings.map(s => {
         switch (s.Key) {
           case CompanySettingsEnum.MaxProjectJobCount: {
             s.Disabled = false;
@@ -272,17 +272,15 @@ export class CompanyPageHelper {
       }));
   }
 
-  static modifyPeerTCRequestSettingDisabled(settings: CompanySetting[], peerTermsAndCondAccepted: boolean): CompanySetting[] {
+  static modifyPeerTCRequestSettingDisabled(settings: CompanySetting[]): CompanySetting[] {
     // Disable Peer T&C request settings
-    if (peerTermsAndCondAccepted) {
-      settings = settings.map((s) => {
-        if (s.Key === CompanySettingsEnum.PeerTermsAndConditionsRequested ||
-          s.Key === CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested) {
-          s.Disabled = true;
-        }
-        return s;
-      });
-    }
+    settings = settings.map((s) => {
+      if (s.Key === CompanySettingsEnum.PeerTermsAndConditionsRequested ||
+        s.Key === CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested) {
+        s.Disabled = true;
+      }
+      return s;
+    });
 
     return settings;
   }

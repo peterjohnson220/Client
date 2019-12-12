@@ -36,7 +36,7 @@
   [exchange]="exchange$ | async"
   (upsertExchangeScopeEvent)="handleUpsertExchangeScopeEvent($event)">
 </pf-save-exchange-scope-modal-new>
-<pf-export-data-cuts-modal [context]="{
-  exchangeScopeItems: exchangeScopeItems$ | async,
-  selectedExchangeScope: selectedExchangeScope$ | async
-}"></pf-export-data-cuts-modal>
+<pf-export-data-cuts-modal
+  [context]="{exchangeScopeItems: exchangeScopeItems$ | async, selectedExchangeScope: selectedExchangeScope$ | async}"
+  [isFromNewMap]="true">
+</pf-export-data-cuts-modal>

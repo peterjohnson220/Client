@@ -113,3 +113,9 @@ export const getLoginError =
   createSelector(loginState, fromLoginReducer.getLoginError);
 export const getPasswordExpired =
   createSelector(loginState, fromLoginReducer.getPasswordExpired);
+
+// login settings
+export const getLoginSettingsSuccess =
+  createSelector(loginState, fromLoginReducer.getLoginSettingsSuccess);
+export const getLoginSettings =
+  createSelector(loginState, fromLoginReducer.getLoginSettings);
