@@ -78,7 +78,8 @@ export class PfDataGridEffects {
                             data.fields,
                             PfDataGridEffects.mapFieldsToFilters(data.fields),
                             data.pagingOptions,
-                            data.sortDescriptor))
+                            data.sortDescriptor,
+                            data.pagingOptions.From === 0))
                         .pipe(
                             map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
                             catchError(error => {
@@ -214,7 +215,7 @@ export class PfDataGridEffects {
 
     static buildDataViewDataRequest(
         baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
-        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[]) {
+        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[],withCount: boolean) {
 
         let singleSortDesc = null;
         if (!!sortDescriptor && sortDescriptor.length > 0) {
@@ -231,7 +232,7 @@ export class PfDataGridEffects {
             Filters: filters,
             PagingOptions: pagingOptions,
             SortDescriptor: singleSortDesc,
-            WithCount: true
+            WithCount: withCount
         };
     }
 

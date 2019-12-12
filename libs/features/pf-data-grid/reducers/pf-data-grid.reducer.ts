@@ -96,7 +96,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             data: {
               data: action.payload.Data,
-              total: action.payload.TotalCount
+              total: state.grids[action.pageViewId].pagingOptions.From === 0 ? action.payload.TotalCount : state.grids[action.pageViewId].data.total
             },
             loading: false,
           }
