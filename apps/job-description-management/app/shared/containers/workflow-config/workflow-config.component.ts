@@ -73,8 +73,10 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.destroyDragula();
     this.hasForbiddenUsersSubscription.unsubscribe();
     this.workflowStepsSubscription.unsubscribe();
+    this.identitySubscription.unsubscribe();
   }
 
   nonPfUserFormSubmit(): void {
@@ -175,6 +177,11 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
       }
     });
 
+  }
+
+  private destroyDragula() {
+    this.dragulaSub.unsubscribe();
+    this.dragulaService.destroy('workflow-user-reorder-bag');
   }
 
   private reorderWorkflowSteps(sourceModel: any[]) {
