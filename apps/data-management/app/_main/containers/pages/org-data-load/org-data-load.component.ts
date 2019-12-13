@@ -88,10 +88,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.loaderSettings$ = this.mainStore.select(fromDataManagementMainReducer.getLoaderSettings);
     this.configGroup$ = this.mainStore.select(fromDataManagementMainReducer.getConfigurationGroup);
 
-
     this.selectedCompany$.pipe(
       filter(uc => !!uc),
-      take(1),
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
       this.selectedCompany = f;
@@ -107,17 +105,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.selectedDelimiter = resp.delimiter;
     });
 
-    const userSubscription = this.userContext$
-      .pipe(
-        filter(uc => !!uc),
-        take(1),
-        takeUntil(this.unsubscribe$)
-      );
-
-    const companiesSubscription = this.companies$.pipe(
-      filter(uc => !!uc),
-      take(1),
-      takeUntil(this.unsubscribe$));
 
     const organizationalDataTemplateSubscription = this.organizationalDataTemplateLink$.pipe(
       filter(uc => !!uc),
@@ -130,6 +117,19 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     ).subscribe(f => {
       this.getSettings(f);
     });
+
+
+    const userSubscription = this.userContext$
+      .pipe(
+        filter(uc => !!uc),
+        take(1),
+        takeUntil(this.unsubscribe$)
+      );
+
+    const companiesSubscription = this.companies$.pipe(
+      filter(uc => !!uc),
+      take(1),
+      takeUntil(this.unsubscribe$));
 
     forkJoin({ user: userSubscription, company: companiesSubscription })
       .subscribe(f => {
@@ -183,14 +183,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getSettings(newValue: ConfigurationGroup) {
+  private getSettings(newValue: ConfigurationGroup) {
     this.AddAndSetSelectedMapping(newValue);
     if (this.selectedMapping.LoaderConfigurationGroupId > 0) {
       this.mainStore.dispatch(
         new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany.CompanyId, this.selectedMapping.LoaderConfigurationGroupId)
       );
-    } else {
-      this.selectedDelimiter = ',';
     }
   }
 
