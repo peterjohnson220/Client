@@ -22,12 +22,12 @@ export class FileUploadComponent {
   @Input() validFileExtensions: string[] = [];
   @Input() validFileStartsWith = '';
   @Input() delimiter: string;
+  @Input() selectedFile: File = null;
 
   @ViewChildren('fileInput') fileInput;
 
   private fileUploadColumnNames$: Observable<ColumnNameRequestModel>;
   fileUploadRequest: FileUploadHeaderRequestModel;
-  selectedFile: File = null;
   errorMessage = '';
 
   constructor(private store: Store<fromFileUploadReducer.State>) {
@@ -96,7 +96,7 @@ export class FileUploadComponent {
 
   validateFileStartsWith(file: File): boolean {
     const startsWith = this.validFileStartsWith.trim();
-    if (startsWith.length <= 0 || file.name.startsWith(startsWith)) {
+    if (startsWith.length <= 0 || file.name.toLowerCase().startsWith(startsWith.toLowerCase())) {
       return true;
     }
 
@@ -114,7 +114,7 @@ export class FileUploadComponent {
         ext = '.' + ext;
       }
 
-      if (file.name.endsWith(ext)) {
+      if (file.name.toLowerCase().endsWith(ext.toLowerCase())) {
         return true;
       }
     }

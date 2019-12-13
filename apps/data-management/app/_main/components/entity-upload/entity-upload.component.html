@@ -16,6 +16,7 @@
                       (onFileDropped)="entity.File = $event"
                       (onColumnNamesRetrieved)="entity.columnNames = $event"
                       (onFileRemoved)="entity.File = null"
+                      [selectedFile]="entity.File"
                       [validFileExtensions]="['.csv']"
                       [validFileStartsWith]="entity.FileBeginsWith"
                       [delimiter]="selectedDelimiter"></pf-file-upload>
