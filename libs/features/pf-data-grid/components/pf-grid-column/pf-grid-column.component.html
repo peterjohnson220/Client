@@ -3,11 +3,11 @@
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.currency"
   [ngTemplateOutlet]="columnTemplates[colType.currency]"
-  [ngTemplateOutletContext]="{dataRow: dataItem, fieldName: fieldName}">  
+  [ngTemplateOutletContext]="{dataRow: dataItem, fieldName: fieldName}">
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.template"
   [ngTemplateOutlet]="columnTemplates[field.SourceName]"
-  [ngTemplateOutletContext]="{dataRow:dataItem}">
+  [ngTemplateOutletContext]="{dataRow:dataItem, rowIndex: rowIndex}">
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.default">
   {{dataItem[fieldName]}}

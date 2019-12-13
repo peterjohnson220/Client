@@ -4,7 +4,7 @@
     [pageSize]="(pagingOptions$ | async)?.Count"
     [skip]="(pagingOptions$ | async)?.From"
     [pageable]="getPagingBarConfig(gridState$ | async)"
-    [scrollable]="isMultiplePages(gridState$ | async)"    
+    [scrollable]="isMultiplePages(gridState$ | async)"
 
     [resizable]="selectedRowId ? false : true"
     [sortable]="isSortable()"
@@ -39,11 +39,12 @@
                         [headerClass]="'pf-data-grid-header'"
                         [style]="{'text-align': col.TextAlign}"
                         [width]="selectedRowId ? null : col.Width"
-                        [minResizableWidth]="30">                        
-                        <ng-template kendoGridCellTemplate let-dataItem>
+                        [minResizableWidth]="30">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                           <pf-grid-column
                             [columnTemplates]='columnTemplates'
                             [dataItem]='dataItem'
+                            [rowIndex]='rowIndex'
                             [field]= 'col'
                             [fieldName]='mappedFieldName(col)'>
                           </pf-grid-column>
@@ -62,11 +63,12 @@
           [headerClass]="'pf-data-grid-header'"
           [style]="{'text-align': col.TextAlign}"
           [width]="selectedRowId ? null : col.Width"
-          [minResizableWidth]="30">         
-          <ng-template kendoGridCellTemplate let-dataItem>
+          [minResizableWidth]="30">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <pf-grid-column
                 [columnTemplates]='columnTemplates'
                 [dataItem]='dataItem'
+                [rowIndex]='rowIndex'
                 [field]= 'col'
                 [fieldName]='mappedFieldName(col)'>
               </pf-grid-column>
