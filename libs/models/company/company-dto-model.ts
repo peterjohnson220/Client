@@ -15,7 +15,7 @@ export interface CompanyDto extends Company {
   EnablePricingReview: boolean;
   CompanyLogo: string;
   CustomerSuccessMgrUserId: number;
-  UserIdToTableau: boolean;
+  UserIdToTableau: number;
   ParticipateInPeerDataExchange: boolean;
   EnableLibraryForRoutedJobDescriptions: boolean;
   EnableEmployeeAcknowledgement: boolean;
