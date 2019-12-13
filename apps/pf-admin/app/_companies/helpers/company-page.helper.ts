@@ -30,7 +30,7 @@ export class CompanyPageHelper {
       CustomerSuccessMgrUserId: null,
       DataInsightsAssociateUserId: null,
       ParticipateInPeerDataExchange: true,
-      UserIdToTableau: false,
+      UserIdToTableau: 0,
       EnableWebLogin: true,
       EnableLibraryForRoutedJobDescriptions: true,
       EnableEmployeeAcknowledgement: false,

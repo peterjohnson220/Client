@@ -16,7 +16,7 @@ export interface CompanyFormData {
   FTEs?: string;
   Assets?: string;
   Revenue?: string;
-  UserIdToTableau: boolean;
+  UserIdToTableau: number;
   EnablePricingReview: boolean;
   CompanyLogo: string;
   CustomerSuccessMgrUserId?: string;
