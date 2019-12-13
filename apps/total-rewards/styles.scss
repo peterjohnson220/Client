@@ -1,1 +1,69 @@
-@import '_colors';
+@import 'colors';
+
+pf-total-rewards-page {
+  .page-title {
+    svg {
+      color: $pf-brand-primary-color;
+    }
+  }
+
+  pf-create-new-statement-modal {
+    .validation-container {
+      pf-loading-indicator {
+        opacity: .6;
+      }
+    }
+    .valid-name {
+      svg {
+        color: var(--success);
+      }
+    }
+  }
+
+  pf-statements-grid {
+    kendo-grid.k-grid {
+      td {
+        border: none;
+      }
+      th.k-header {
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+      .actions {
+        z-index: 100;
+        margin-top: -10px;
+        right: 10px;
+        transition: all .25s cubic-bezier(0.22, 0.61, 0.36, 1);
+        background-color: #fff;
+        border: 1px solid $border-grey;
+        transform: scale(0, 0);
+        opacity: 0;
+        &.open {
+          transform: scale(1, 1);
+          opacity: 1;
+        }
+      }
+      .ellipsis-menu {
+        font-size: 1.4rem;
+        opacity: .7;
+      }
+      .grid-action-link {
+        transition: opacity .3s cubic-bezier(0.22, 0.61, 0.36, 1);
+        opacity: .8;
+        &:hover {
+          opacity: 1;
+        }
+        label {
+          font-size: 1.05rem;
+          font-weight: 500;
+          // keep the hover event up on the anchors so we get the right cursor
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  .loading-blanket + .k-grid .k-grid-norecords {
+    display: none;
+  }
+}
