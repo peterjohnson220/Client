@@ -8,7 +8,7 @@ import { ViewField, PagingOptions, DataViewEntity, DataViewConfig, SimpleDataVie
 
 import * as fromPfGridActions from '../actions';
 import { PfDataGridFilter } from '../models';
-import { getHumanizedFilter, getDefaultFilterOeprator, getUserFilteredFields } from '../components';
+import { getHumanizedFilter, getDefaultFilterOperator, getUserFilteredFields } from '../components';
 
 export interface DataGridState {
   pageViewId: string;
@@ -187,7 +187,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const clearedFilterField = clearedFilterFields.find(f => f.DataElementId === action.field.DataElementId);
 
       if (clearedFilterField && action.resetOperator) {
-        clearedFilterField.FilterOperator = getDefaultFilterOeprator(clearedFilterField);
+        clearedFilterField.FilterOperator = getDefaultFilterOperator(clearedFilterField);
       }
 
       clearedFilterField.FilterValue = null;
@@ -462,7 +462,7 @@ export function resetFilters(fields: ViewField[]): ViewField[] {
       return {
         ...field,
         FilterValue: null,
-        FilterOperator: getDefaultFilterOeprator(field)
+        FilterOperator: getDefaultFilterOperator(field)
       };
     }
   );
@@ -476,7 +476,7 @@ export function resetFiltersForFilterableFields(state: DataGridStoreState, pageV
 
   fieldsToReset.forEach(field => {
     field.FilterValue = null;
-    field.FilterOperator = getDefaultFilterOeprator(field);
+    field.FilterOperator = getDefaultFilterOperator(field);
   });
   return fields;
 }
@@ -492,7 +492,7 @@ function resetOperatorsForEmptyFilters(state: DataGridStoreState, pageViewId: st
     userFilteredFields.findIndex(f => f.DataElementId === field.DataElementId) < 0);
 
   fieldsToReset.forEach(field => {
-    field.FilterOperator = getDefaultFilterOeprator(field);
+    field.FilterOperator = getDefaultFilterOperator(field);
   });
   return fields;
 }
@@ -513,7 +513,6 @@ export function updateFieldsWithFilters(fields: ViewField[], filters: DataViewFi
 }
 
 export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataGridFilter[]): ViewField[] {
-
   if (fields && fields.length > 0 && inboundFilters && inboundFilters.length > 0) {
     const updatedFields = cloneDeep(fields);
 

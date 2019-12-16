@@ -30,4 +30,11 @@
       </div>
     </ng-template>
   </ngb-tab>
+  <ngb-tab [title]="'Projects'">
+    <ng-template ngbTabContent>
+      <div class="full-height">
+        <pf-project-details [filters]="jobDetailsFilters"></pf-project-details>
+      </div>
+    </ng-template>
+  </ngb-tab>
 </ngb-tabset>
