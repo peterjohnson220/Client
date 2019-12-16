@@ -1,6 +1,6 @@
-import { UserTileDto } from 'libs/models';
+import {UserTileDto} from 'libs/models';
 
-import { Tile, TilePreviewChartTypes, TilePreviewTypes, TileTypes } from '../models';
+import {Tile, TilePreviewChartTypes, TilePreviewTypes, TileTypes} from '../models';
 
 export class UserTileToTileMapper {
 
@@ -58,6 +58,8 @@ export class UserTileToTileMapper {
         return TileTypes.QuickPrice;
       case 'Total Rewards':
         return TileTypes.TotalRewards;
+      case 'Data Management':
+        return TileTypes.DataManagement;
       default:
         return TileTypes.Unknown;
     }
