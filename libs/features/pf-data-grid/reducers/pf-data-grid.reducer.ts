@@ -23,7 +23,10 @@ export interface DataGridState {
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
   data: GridDataResult;
-  selectedRowId: number;
+  selectedRecordId: number;
+  // This array does not control which Rows are expanded, that's controlled by the kendo grid
+  // We need the array to track which rows have been expanded to se can trigger a collapse on row click by the user
+  expandedRows: number[];
   saveViewModalOpen: boolean;
   savedViews: SimpleDataView[];
   viewIsSaving: boolean;
@@ -57,8 +60,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             loading: true,
             pagingOptions: DEFAULT_PAGING_OPTIONS,
             inboundFilters: [],
+            expandedRows: [],
             selectAllState: 'unchecked',
-            data: null
+            data: null,
           }
         }
       };
@@ -96,7 +100,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             data: {
               data: action.payload.Data,
-              total: state.grids[action.pageViewId].pagingOptions.From === 0 ? action.payload.TotalCount : state.grids[action.pageViewId].data.total
+              total: getTotalCount(state.grids[action.pageViewId], action.payload.TotalCount)
             },
             loading: false,
           }
@@ -111,7 +115,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             fields: action.fields,
             groupedFields: buildGroupedFields(action.fields),
-            selectedRowId: null,
+            selectedRecordId: null,
+            expandedRows: null,
             splitViewFilters: []
           }
         }
@@ -161,7 +166,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             inboundFilters: action.payload,
-            fields: applyInboundFilters(state.grids[action.pageViewId].fields, action.payload)
+            fields: applyInboundFilters(state.grids[action.pageViewId].fields, action.payload),
+            expandedRows: []
           }
         }
       };
@@ -221,7 +227,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             filterPanelOpen: !state.grids[action.pageViewId].filterPanelOpen,
-            selectedRowId: null,
+            selectedRecordId: null,
             splitViewFilters: [],
             fields: resetOperatorsForEmptyFilters(state, action.pageViewId)
           }
@@ -238,16 +244,40 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
-    case fromPfGridActions.UPDATE_SELECTED_ROW_ID:
+    case fromPfGridActions.UPDATE_SELECTED_RECORD_ID:
       return {
         ...state,
         grids: {
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectedRowId: action.rowId,
+            selectedRecordId: action.recordId,
             filterPanelOpen: false,
-            splitViewFilters: buildSplitViewFilters(action.rowId, action.fieldName)
+            splitViewFilters: action.recordId ? [buildExternalFilter(action.recordId.toString(), action.fieldName)] : []
+          }
+        }
+      };
+    case fromPfGridActions.EXPAND_ROW:
+      const newExpandedRows = [...(state.grids[action.pageViewId].expandedRows)];
+      newExpandedRows.push(action.rowIndex);
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            expandedRows: newExpandedRows
+          }
+        }
+      };
+    case fromPfGridActions.COLLAPSE_ROW:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            expandedRows: [...state.grids[action.pageViewId].expandedRows].filter(r => r !== action.rowIndex)
           }
         }
       };
@@ -383,7 +413,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectedRowId: null,
+            selectedRecordId: null,
             splitViewFilters: []
           }
         }
@@ -420,7 +450,8 @@ export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string)
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
-export const getSelectedRowId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRowId : null;
+export const getSelectedRecordId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRecordId : null;
+export const getExpandedRows = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].expandedRows : null;
 export const getSplitViewFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].splitViewFilters : null;
 };
@@ -528,17 +559,13 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
   return fields;
 }
 
-export function buildSplitViewFilters(rowId: number, fieldName: string): PfDataGridFilter[] {
-  if (rowId) {
-    return [{
-      SourceName: fieldName,
-      Operator: '=',
-      Value: rowId.toString(),
-    }];
-  }
-  return [];
+export function buildExternalFilter(value: string, fieldName: string): PfDataGridFilter {
+  return {
+    SourceName: fieldName,
+    Operator: '=',
+    Value: value
+  };
 }
-
 
 export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
   return views.map(view => ({
@@ -556,4 +583,14 @@ export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
       .map(field => getHumanizedFilter(field))
       .join(' • ')
   }));
+}
+
+export function getTotalCount(state: DataGridState, totalCount: number) {
+  if (state.pagingOptions && state.pagingOptions.From === 0) {
+    return totalCount;
+  } else if (state.data) {
+    return state.data.total;
+  } else {
+    return null;
+  }
 }

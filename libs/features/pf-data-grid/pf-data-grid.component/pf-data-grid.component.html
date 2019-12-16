@@ -17,7 +17,7 @@
   <ng-container page-content>
 
     <div class="d-flex h-100">
-      <div [ngClass]="(selectedRowId$ | async) ? 'main-grid-container-compact' : 'full-size-wrapper'">
+      <div [ngClass]="isSplitView() ? 'main-grid-container-compact' : 'full-size-wrapper'">
         <div class="flex-column-container">
           <div *ngIf="gridActionsTemplate || userFilteredFields.length>0" class="no-gutters row justify-content-between pl-2 border border-top-1 gridActionTemplate">
             <div class="flex-fill p-1">
@@ -29,29 +29,33 @@
                 </pf-data-grid-filter-pills>
               </div>
             </div>
-            <div *ngIf="gridActionsTemplate && !(selectedRowId$ | async)" class="d-flex justify-content-end">
+            <div *ngIf="gridActionsTemplate && !isSplitView()" class="d-flex justify-content-end">
               <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
             </div>
           </div>
           <div class="d-flex h-100">
             <div class="full-size-wrapper">
-              <div class="grid-container">
+              <div [ngClass]="{'grid-container' : !compactGrid}">
                 <pf-grid
                   [pageViewId]="pageViewId"
                   [selectionEntityName]="(baseEntity$ | async)?.SourceName"
                   [selectionField]="selectionField"
-                  [allowSplitView]="splitViewTemplate"
+                  [allowSplitView]="splitViewTemplate"                  
                   [columnTemplates]="columnTemplates"
-                  [enableSelection]="enableSelection && !(selectedRowId$ | async)"
+                  [expandedRowTemplate]="expandedRowTemplate"
+                  [customHeaderTemplate]="customHeaderTemplate"
+                  [enableSelection]="enableSelection && !isSplitView()"
                   [noRecordsFound]="noRecordsFound"
-                  [selectedRowId]="selectedRowId$ | async">
+                  [selectedRecordId]="selectedRecordId"
+                  [compactGrid]="compactGrid"
+                  [backgroundColor]="backgroundColor">
                 </pf-grid>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="selectedRowId$ | async" class="sub-grid-container">
+      <div *ngIf="isSplitView()" class="sub-grid-container">
         <ng-container
           [ngTemplateOutlet]="splitViewTemplate"
           [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter, splitViewFilters: splitViewFilters$ | async}">
