@@ -4,9 +4,9 @@
       Data Insights
     </div>
 
-    <a *ngIf="(reportBuilderSettingEnabled$ | async)"
+    <a [pfSecuredResource]="permissions.TABULAR_REPORT_BUILDER"
        id="recent-download"
-       [attr.data-qa-id]="lnk-recentDownloads"
+       [attr.data-qa-id]="'lnk-recentDownloads'"
        target="_blank"
        href="/client/notifications">Recent Downloads</a>
 
