@@ -20,7 +20,6 @@ export class MapHelper {
 
   static getMapDetailsFromScope(scope: ExchangeExplorerScopeResponse, isDataCut: boolean = false): any {
     const scopeContext = scope.ScopeContext;
-    const filterContext = scope.FilterContext;
     const mapSummary: ExchangeMapSummary = scopeContext.ExchangeDataSearchResponse.MapSummary;
     const tl = isDataCut ? mapSummary.TopLeft : scopeContext.ScopeTopLeft;
     const br = isDataCut ? mapSummary.BottomRight : scopeContext.ScopeBottomRight;
@@ -41,8 +40,7 @@ export class MapHelper {
       ZoomLevel: scopeContext.ZoomLevel,
       MapFilter: {
         TopLeft: tl,
-        BottomRight: br,
-        IncludeUntaggedIncumbents: filterContext.IncludeUntaggedIncumbents
+        BottomRight: br
       }
     };
   }
