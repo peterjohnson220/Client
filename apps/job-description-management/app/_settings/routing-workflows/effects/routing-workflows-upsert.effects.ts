@@ -6,28 +6,12 @@ import { switchMap, map, catchError, concatMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { JobDescriptionWorkflowTemplateApiService } from 'libs/data/payfactors-api';
-import * as fromSharedWorkflowConfigAction from '../../../shared/actions/workflow-config.actions';
 
+import * as fromSharedWorkflowConfigAction from '../../../shared/actions';
 import * as fromWorkflowActions from '../actions';
 
 @Injectable()
 export class RoutingWorkflowsUpsertEffects {
-
-    @Effect()
-    editWorkflowTemplate$: Observable<Action> = this.actions$
-    .pipe(
-        ofType(fromWorkflowActions.OPEN_UPSERT_WORKFLOW_TEMPLATE_MODAL),
-        map((action: fromWorkflowActions.OpenUpsertWorkflowTemplateModal) => {
-          if (action.payload !== null) {
-            return new fromSharedWorkflowConfigAction.PopulateWorkflow({
-                workflowSteps: action.payload.Steps,
-                prepopulating: false
-              });
-          } else {
-            return new fromSharedWorkflowConfigAction.ResetWorkflow();
-          }
-          })
-    );
 
     @Effect()
     saveWorkflowTemplate$: Observable<Action> = this.actions$

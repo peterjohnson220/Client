@@ -1,6 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromWorkflowConfigActions from '../actions/workflow-config.actions';
+import * as fromWorkflowConfigActions from '../actions';
 import { WorkflowStep } from '../models';
 import { WorkflowConfigHelper } from '../helpers';
 
@@ -20,7 +20,7 @@ export const initialState: State = {
   hasUsersWithoutPermission: false
 };
 
-export function reducer(state = initialState, action: fromWorkflowConfigActions.Actions): State {
+export function reducer(state = initialState, action: fromWorkflowConfigActions.WorkflowConfigActions): State {
   switch (action.type) {
     case fromWorkflowConfigActions.POPULATE_WORKFLOW: {
       const workflowSteps: WorkflowStep[] = cloneDeep(action.payload.workflowSteps);

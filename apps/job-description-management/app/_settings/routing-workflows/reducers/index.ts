@@ -90,10 +90,6 @@ export const getTemplateToBeDeleted = createSelector(
 );
 
 // Upsert Modal
-export const getUpsertModalOpen = createSelector(
-    selectUpsertModal,
-    fromWorkflowUpsertReducer.getUpsertModalOpen
-);
 
 export const getTemplateBeingEdited = createSelector(
     selectUpsertModal,

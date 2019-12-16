@@ -1,7 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 import { Permissions } from 'libs/constants';
-import { WorkflowTemplate } from '../../../shared';
 
+import { WorkflowTemplate } from '../../../shared';
 import * as fromWorkflowUpsertActions from '../actions';
 
 
@@ -13,7 +13,6 @@ const initialWorkflowTemplate: WorkflowTemplate = {
 };
 
 export interface State {
-    upsertModalOpen: boolean;
     template: WorkflowTemplate;
     templateSaveObj: any;
     saving: boolean;
@@ -23,7 +22,6 @@ export interface State {
 }
 
 export const initialState: State = {
-    upsertModalOpen: false,
     templateSaveObj: null,
     template: initialWorkflowTemplate,
     saving: false,
@@ -89,11 +87,10 @@ export function reducer(state = initialState, action: fromWorkflowUpsertActions.
           savingErrorMessage: action.payload.errorMessage
         };
     }
-    case fromWorkflowUpsertActions.OPEN_UPSERT_WORKFLOW_TEMPLATE_MODAL: {
+    case fromWorkflowUpsertActions.POPULATE_WORKFLOW_TEMPLATE: {
         return {
           ...state,
-          upsertModalOpen: true,
-          template: action.payload ? action.payload : initialWorkflowTemplate
+          template: action.payload
         };
     }
     case fromWorkflowUpsertActions.CLOSE_UPSERT_WORKFLOW_TEMPLATE_MODAL: {
@@ -105,7 +102,6 @@ export function reducer(state = initialState, action: fromWorkflowUpsertActions.
   }
 }
 
-export const getUpsertModalOpen = (state: State) => state.upsertModalOpen;
 export const getSaving = (state: State) => state.saving;
 export const getSavingSuccess = (state: State) => state.savingSuccess;
 export const getSavingError = (state: State) => state.savingError;
