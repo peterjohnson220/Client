@@ -15,6 +15,7 @@ export interface CompanyDto extends Company {
   EnablePricingReview: boolean;
   CompanyLogo: string;
   CustomerSuccessMgrUserId: number;
+  UserIdToTableau: number;
   ParticipateInPeerDataExchange: boolean;
   EnableLibraryForRoutedJobDescriptions: boolean;
   EnableEmployeeAcknowledgement: boolean;
@@ -38,4 +39,5 @@ export interface CompanyDto extends Company {
   Website: string;
   Domain: string;
   CompanyColor: string;
+  OrgDataAutoloaderApiKey: string;
 }

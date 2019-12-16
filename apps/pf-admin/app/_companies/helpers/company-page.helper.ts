@@ -1,7 +1,7 @@
 import { CompanyDto, CompanyFormData, CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings';
 import { CompanyTilesResponse } from 'libs/models/payfactors-api';
-import { TileNames, CompanyClientTypeConstants } from 'libs/constants';
+import { TileNames } from 'libs/constants';
 
 import { CustomCompanySettings } from '../models';
 
@@ -11,6 +11,11 @@ export class CompanyPageHelper {
       CompanyId: -1,
       CompanyName: '',
       CompanyNameShort: '',
+      City: null,
+      State: null,
+      Zip: null,
+      Website: null,
+      Domain: null,
       Status: 'Active',
       PrimarySupportUserId: null,
       JDMSeniorAssociateUserId: null,
@@ -23,7 +28,10 @@ export class CompanyPageHelper {
       EnablePricingReview: false,
       CompanyLogo: '',
       CustomerSuccessMgrUserId: null,
+      DataInsightsAssociateUserId: null,
       ParticipateInPeerDataExchange: true,
+      UserIdToTableau: 0,
+      EnableWebLogin: true,
       EnableLibraryForRoutedJobDescriptions: true,
       EnableEmployeeAcknowledgement: false,
       EnableWorkflowEmployeeResults: false,
@@ -35,7 +43,8 @@ export class CompanyPageHelper {
       EnableIntervalAgingFactor: false,
       PasswordLengthRequirement: 8,
       GroupName: null,
-      CompanyColor: null
+      CompanyColor: null,
+      OrgDataAutoloaderApiKey: null
     };
   }
 
@@ -44,7 +53,12 @@ export class CompanyPageHelper {
       CompanyId: company.CompanyId,
       CompanyName: company.CompanyName,
       CompanyNameShort: company.CompanyNameShort,
+      City: company.City,
+      State: company.State,
+      Zip: company.Zip,
       Status: company.Status,
+      Website: company.Website,
+      Domain: company.Domain,
       PrimarySupportUserId: !!company.PrimarySupportUserId ? company.PrimarySupportUserId.toString() : '',
       JDMSeniorAssociateUserId: !!company.JDMSeniorAssociateUserId ? company.JDMSeniorAssociateUserId.toString() : '',
       SystemUserGroupsId: company.SystemUserGroupsId,
@@ -55,10 +69,13 @@ export class CompanyPageHelper {
       Revenue: !!company.Revenue ? company.Revenue.toString() : '',
       CompanyLogo: company.CompanyLogo,
       CustomerSuccessMgrUserId: !!company.CustomerSuccessMgrUserId ? company.CustomerSuccessMgrUserId.toString() : '',
+      DataInsightsAssociateUserId: company.DataInsightsAssociateUserId,
       CustomFieldName: company.CustomFieldName,
       CustomFieldValue: company.CustomFieldValue,
       PasswordLengthRequirement: company.PasswordLengthRequirement,
       GroupName: company.GroupName,
+      UserIdToTableau: company.UserIdToTableau,
+      EnableWebLogin: company.EnableWebLogin,
       EnablePricingReview: company.EnablePricingReview,
       ParticipateInPeerDataExchange: company.ParticipateInPeerDataExchange,
       EnableLibraryForRoutedJobDescriptions: company.EnableLibraryForRoutedJobDescriptions,
@@ -68,7 +85,8 @@ export class CompanyPageHelper {
       HideSecondarySurveyDataFields: company.HideSecondarySurveyDataFields,
       EnableLiveChat: company.EnableLiveChat,
       EnableIntervalAgingFactor: company.EnableIntervalAgingFactor,
-      CompanyColor: company.CompanyColor
+      CompanyColor: company.CompanyColor,
+      OrgDataAutoloaderApiKey: company.OrgDataAutoloaderApiKey
     };
   }
 
