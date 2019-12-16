@@ -20,7 +20,7 @@
           [field]="field"
           [removable]="selectedFields.length > 1"
           (fieldRemoved)="handleFieldRemoved($event)"
-          (displayNameUpdated)="handleDisplayNameUpdated(field.DataElementId, $event)">
+          (displayNameUpdated)="handleDisplayNameUpdated(field, $event)">
         </pf-report-field>
       </div>
     </div>
@@ -45,4 +45,8 @@
   </pf-view-all-fields>
 </ng-template>
 
-<pf-create-formula-field-modal></pf-create-formula-field-modal>
+<pf-formula-field-modal
+  [baseEntityId]="(dataView$ | async)?.obj?.BaseEntityId"
+  [fieldSuggestions]="fieldsForFormula"
+  [modalData]="formulaFieldModalObj">
+</pf-formula-field-modal>

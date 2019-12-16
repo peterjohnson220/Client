@@ -181,3 +181,20 @@
     font-size: 100%;
   }
 }
+
+// Formula editor
+.formula-suggestions {
+  .k-dropdown .k-state-focused {
+    box-shadow: none !important;
+  }
+
+  .k-dropdown .k-dropdown-wrap {
+    border-color: #ffffff;
+    background-color: transparent;
+  }
+
+  .k-dropdown .k-input,
+  .k-dropdown .k-select {
+    color: #ffffff;
+  }
+}

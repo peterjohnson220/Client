@@ -27,7 +27,7 @@ describe('Data Insights - Add Report Field Component', () => {
     instance.fields = [ generateMockField() ];
     spyOn(instance.fieldAdded, 'emit');
 
-    instance.handleValueChanged('1');
+    instance.handleValueChanged('DataElement_1');
 
     expect(instance.fieldAdded.emit).toHaveBeenCalledWith(instance.fields[0]);
   });

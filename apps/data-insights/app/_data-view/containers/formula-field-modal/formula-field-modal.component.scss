@@ -13,6 +13,10 @@
   padding-top: 0;
 }
 
+.modal-footer {
+  z-index: 5;
+}
+
 .instructions {
   height: 100px;
   padding: 1rem;
@@ -23,18 +27,6 @@
 .field-name-label {
   font-size: 16px;
   font-weight: 300;
-}
-
-.formula {
-  resize: none;
-  height: 150px;
-  width: 100%;
-  border: 1px solid #ced4da;
-  padding: 1rem;
-
-  &:focus {
-    outline-color: $background-grey;
-  }
 }
 
 .form-control:focus {

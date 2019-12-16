@@ -20,6 +20,9 @@ import {
   RemoveSharePermissionRequest,
   SaveDataViewRequest,
   DataViewEntityResponseWithCount,
+  ValidateFormulaResponse,
+  ValidateFormulaRequest,
+  UpsertFormulaFieldRequest
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -117,5 +120,13 @@ export class DataViewApiService {
 
   getViewsByUser(pageViewId: string) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetViewsByUser`, { params: { pageViewId: pageViewId}});
+  }
+
+  validateFormula(request: ValidateFormulaRequest): Observable<ValidateFormulaResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ValidateFormula`, request);
+  }
+
+  upsertFormulaField(request: UpsertFormulaFieldRequest): Observable<DataViewField> {
+    return this.payfactorsApiService.post(`${this.endpoint}/UpsertFormulaField`, request);
   }
 }

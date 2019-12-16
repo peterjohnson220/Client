@@ -10,8 +10,9 @@ import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromFieldsActions from '../../actions/fields.actions';
-import { Field } from '../../models';
-import { CreateFormulaFieldModalComponent } from '../create-formula-field-modal';
+import { Field, UserDataView, FieldType } from '../../models';
+import { FormulaFieldModalComponent } from '../../../_data-view/containers';
+import { FormulaFieldModalObj } from '../../../_data-view/models';
 
 @Component({
   selector: 'pf-data-view-fields',
@@ -19,17 +20,21 @@ import { CreateFormulaFieldModalComponent } from '../create-formula-field-modal'
   styleUrls: ['./fields.component.scss']
 })
 export class FieldsComponent implements OnInit, OnDestroy {
-  @ViewChild(CreateFormulaFieldModalComponent, { static: true }) public createFormulaFieldModal: CreateFormulaFieldModalComponent;
+  @ViewChild(FormulaFieldModalComponent, { static: true }) public formulaFieldModal: FormulaFieldModalComponent;
   allFieldsAsync$: Observable<AsyncStateObj<Field[]>>;
   selectedFields$: Observable<Field[]>;
   unselectedFields$: Observable<Field[]>;
   formulaBuilderEnabled$: Observable<boolean>;
+  dataView$: Observable<AsyncStateObj<UserDataView>>;
 
   dragulaSub: Subscription;
   selectedFieldsSub: Subscription;
+  allFieldsSubscription: Subscription;
 
   selectedFields: Field[];
   viewAllFields: boolean;
+  formulaFieldModalObj: FormulaFieldModalObj;
+  fieldsForFormula: string[];
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -47,10 +52,12 @@ export class FieldsComponent implements OnInit, OnDestroy {
     this.formulaBuilderEnabled$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.DataInsightsFormulaBuilder
     );
+    this.dataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
   }
 
   ngOnInit(): void {
     this.selectedFieldsSub = this.selectedFields$.subscribe(fields => this.selectedFields = fields);
+    this.allFieldsSubscription = this.allFieldsAsync$.subscribe(asyncStateObj => this.updateFieldsForFormula(asyncStateObj));
   }
 
   ngOnDestroy(): void {
@@ -76,8 +83,8 @@ export class FieldsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromFieldsActions.ReorderFields(sourceModel));
   }
 
-  handleDisplayNameUpdated(dataElementId: number, displayName: string): void {
-    this.store.dispatch(new fromFieldsActions.UpdateDisplayName({ dataElementId, displayName }));
+  handleDisplayNameUpdated(field: Field, displayName: string): void {
+    this.store.dispatch(new fromFieldsActions.UpdateDisplayName({ field, displayName }));
   }
 
   toggleViewAllFields() {
@@ -85,6 +92,19 @@ export class FieldsComponent implements OnInit, OnDestroy {
   }
 
   handleCreateFormulaFieldClicked(): void {
-    this.createFormulaFieldModal.open();
+    this.formulaFieldModalObj = {
+      Title: 'Create Formula Field',
+      FieldName: '',
+      Formula: ''
+    };
+    this.formulaFieldModal.open();
+  }
+
+  private updateFieldsForFormula(asyncStateObj: AsyncStateObj<Field[]>): void {
+    if (!!asyncStateObj && !!asyncStateObj.obj) {
+      this.fieldsForFormula = asyncStateObj.obj
+        .filter((f) => f.FieldType === FieldType.DataElement)
+        .map(f => `${f.Entity}.${f.SourceName}`);
+    }
   }
 }

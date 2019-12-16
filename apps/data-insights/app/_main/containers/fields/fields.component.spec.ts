@@ -71,12 +71,12 @@ describe('Data Insights - Fields Comopnent', () => {
   });
 
   it('should dispatch UpdateDisplayName with correct data when handling display name updated', () => {
-    const dataElementId = 1;
-    const displayName = 'Job Title';
-    const expectedAction = new fromFieldsActions.UpdateDisplayName({ dataElementId, displayName });
+    const field = generateMockField();
+    const displayName = 'Job Title Update';
+    const expectedAction = new fromFieldsActions.UpdateDisplayName({ field, displayName });
 
     spyOn(store, 'dispatch');
-    instance.handleDisplayNameUpdated(dataElementId, displayName);
+    instance.handleDisplayNameUpdated(field, displayName);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

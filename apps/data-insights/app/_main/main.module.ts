@@ -29,7 +29,7 @@ import { StandardReportComponent, TagWorkbookModalComponent, SearchWorkbookResul
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent,
   DashboardsHeaderComponent, ViewsComponent, FiltersComponent, FieldsComponent,
-  WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateFormulaFieldModalComponent
+  WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent
 } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects,
   ViewsEffects, FiltersEffects, FieldsEffects
@@ -37,6 +37,7 @@ import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, Data
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
+import { DataViewModule } from '../_data-view';
 
 @NgModule({
   imports: [
@@ -74,13 +75,16 @@ import { MainRoutingModule } from './main-routing.module';
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+
+    // Data Insights
+    DataViewModule
   ],
   declarations: [
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
     SearchWorkbookModalComponent, DataViewGridComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
-    FieldsComponent, WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateFormulaFieldModalComponent,
+    FieldsComponent, WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent,
 
     // Components
     StandardReportComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,

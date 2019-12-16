@@ -1,6 +1,6 @@
-<ng-template #createFormulaFieldModal>
+<ng-template #formulaFieldModal>
   <div class="modal-header">
-    <h4>Create Formula Field</h4>
+    <h4>{{title}}</h4>
   </div>
 
   <div class="modal-body d-flex flex-column">
@@ -8,15 +8,15 @@
       Instructions
     </div>
 
-    <form [formGroup]="createFormulaFieldForm">
+    <form [formGroup]="formulaFieldForm">
       <div class="form-group">
         <label class="field-name-label">Custom Formula Field Name</label>
         <input type="text" class="form-control"
           [attr.data-qa-id]="'txt-fieldName'"
           [placeholder]="'Field Name...'"
           [value]="fieldName"
-          ngbAutoFocus
           [maxlength]="maxFieldNameLength"
+          ngbAutoFocus
           formControlName="fieldName"
           name="fieldName" #formFieldName/>
         <div class="text-danger mt-2" *ngIf="formFieldName.value.length > maxFieldNameLength">
@@ -25,12 +25,21 @@
       </div>
 
       <div class="form-group">
-        <textarea class="formula" [placeholder]="'Formula'"></textarea>
+        <pf-formula-editor
+          [initialFormula]="modalData?.Formula"
+          [fieldSuggestions]="fieldSuggestions"
+          [validating]="validating"
+          [isValid]="isValidFormula"
+          (formulaChanged)="handleFormulaChanged($event)">
+        </pf-formula-editor>
       </div>
     </form>
   </div>
 
   <div class="modal-footer">
+    <ng-container *ngIf="showErrorMessages && !saving">
+      <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>
+    </ng-container>
     <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary" (click)="close()">Cancel</button>
     <button type="button" [attr.data-qa-id]="'btn-save'" class="btn light-blue-btn"
       [disabled]="saveDisabled"
