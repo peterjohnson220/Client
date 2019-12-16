@@ -1,16 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import { isEmpty, isString } from 'lodash';
+import {isEmpty, isString} from 'lodash';
 
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 
-import { FileRestrictions } from '@progress/kendo-angular-upload';
+import {FileRestrictions} from '@progress/kendo-angular-upload';
 
 import {
-    DATE_FORMATS, LoaderType, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL, ORG_DATA_UPLOAD_URL
+  DATE_FORMATS,
+  LoaderType,
+  ORG_DATA_CLIENTFIELDS_INDEX_RESET,
+  ORG_DATA_REMOVE_URL,
+  ORG_DATA_UPLOAD_URL
 } from 'libs/features/org-data-loader/constants';
-import { DateFormatItem, FilenamePattern, LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
-import { LoaderFieldSet } from 'libs/models/data-loads';
+import {DateFormatItem, FilenamePattern, LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
+import {LoaderFieldSet} from 'libs/models/data-loads';
+import {EntityCustomFieldsModel} from '../../models/entity-custom-fields.model';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -33,6 +38,7 @@ export class FieldMapperComponent implements OnInit {
     LoaderType,
   };
 
+
   @Input() fieldMappings$: Observable<LoaderFieldSet[]>;
   @Input() fieldMappingsLoading: boolean;
   @Input() payfactorsDataFields: string[];
@@ -43,6 +49,7 @@ export class FieldMapperComponent implements OnInit {
   @Input() loadEnabled: boolean;
   @Input() filenamePattern: FilenamePattern;
   @Input() visibleLoaderOptions: VisibleLoaderOptionModel;
+  @Input() columnNames: string[];
   @Output() mappingComplete = new EventEmitter<any>();
 
   constructor() {
@@ -54,6 +61,7 @@ export class FieldMapperComponent implements OnInit {
     this.mappedFields = [];
     this.clientFields = [];
     this.dateFormatsFilteredData = this.dateFormats.slice();
+
   }
 
   ngOnInit() {
@@ -67,6 +75,12 @@ export class FieldMapperComponent implements OnInit {
             this.addMappingWithoutCompleteEvent(mapping.InternalField, mapping.ClientField);
           }
         }
+      }
+      if (this.columnNames !== null && this.columnNames !== undefined) {
+        this.resetMapping();
+        this.clientFields = this.columnNames;
+        this.mapSimilarFields();
+        this.fireCompleteEvent();
       }
     });
   }

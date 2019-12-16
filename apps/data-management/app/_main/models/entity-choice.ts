@@ -1,4 +1,7 @@
 import { LoaderType } from 'libs/features/org-data-loader/constants';
+import {Observable} from 'rxjs';
+import {EntityCustomFieldsModel} from 'libs/features/org-data-loader/models/entity-custom-fields.model';
+
 
 export interface EntityChoice {
   isChecked: boolean;
@@ -11,6 +14,7 @@ export interface EntityChoice {
   payfactorsDataFields: string[];
   loaderEnabled: boolean;
   columnNames: string[];
+  customFields: EntityCustomFieldsModel;
 }
 
 export function getEntityChoicesForOrgLoader(): EntityChoice[] {
@@ -25,7 +29,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       templateReferenceConstants: LoaderType.PayMarkets,
       payfactorsDataFields: null,
       loaderEnabled: false,
-      columnNames: null
+      columnNames: null,
+      customFields: {Employees: null, Jobs: null}
     },
     {
       isChecked: false,
@@ -37,7 +42,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       templateReferenceConstants: LoaderType.Jobs,
       payfactorsDataFields: null,
       loaderEnabled: false,
-      columnNames: null
+      columnNames: null,
+      customFields: {Employees: null, Jobs: null}
     },
     {
       isChecked: false,
@@ -49,7 +55,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       templateReferenceConstants: LoaderType.Structures,
       payfactorsDataFields: null,
       loaderEnabled: false,
-      columnNames: null
+      columnNames: null,
+      customFields: {Employees: null, Jobs: null}
     },
     {
       isChecked: false,
@@ -61,7 +68,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       templateReferenceConstants: LoaderType.StructureMapping,
       payfactorsDataFields: null,
       loaderEnabled: false,
-      columnNames: null
+      columnNames: null,
+      customFields: {Employees: null, Jobs: null}
     },
     {
       isChecked: false,
@@ -74,7 +82,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       templateReferenceConstants: LoaderType.Employees,
       payfactorsDataFields: null,
       loaderEnabled: false,
-      columnNames: null
+      columnNames: null,
+      customFields: {Employees: null, Jobs: null}
     }
   ];
 }

@@ -28,9 +28,8 @@ import {
     PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
     WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent
 } from './containers';
-import {
-    FieldMappingEffects, FileUploadEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects
-} from './effects';
+import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
+  FileUploadEffects, CustomFieldsEffect } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
@@ -55,7 +54,8 @@ import { reducers } from './reducers';
       FieldMappingEffects,
       OrgDataFieldMappingsEffects,
       FileUploadEffects,
-      LoaderSettingsEffects
+      LoaderSettingsEffects,
+      CustomFieldsEffect
     ]),
     FontAwesomeModule,
     NgbTabsetModule,

@@ -4,11 +4,12 @@ import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
-import * as fromFieldMappingReducer from './field-mapping.reducer';
-import * as fromFileUploadReducer from './file-upload.reducer';
-import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
-import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
 import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
+import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
+import * as fromFieldMappingReducer from './field-mapping.reducer';
+import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
+import * as fromFileUploadReducer from './file-upload.reducer';
+import * as fromCustomFieldsReducer from './custom-fields.reducer';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
@@ -17,6 +18,7 @@ export interface DataManagementMainState {
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.State;
   fileUploadPage: fromFileUploadReducer.State;
   loaderSettings: fromLoaderSettingsReducer.State;
+  customFieldsData: fromCustomFieldsReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -29,7 +31,8 @@ export const reducers = {
   fieldMappingPage: fromFieldMappingReducer.reducer,
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
   fileUploadPage: fromFileUploadReducer.reducer,
-  loaderSettings: fromLoaderSettingsReducer.reducer
+  loaderSettings: fromLoaderSettingsReducer.reducer,
+  customFieldsData: fromCustomFieldsReducer.reducer
 };
 
 // Select Feature Area
@@ -61,6 +64,10 @@ export const selectLoaderSettingState = createSelector(
   (state: DataManagementMainState) => state.loaderSettings
 );
 
+export const selectOrgDataCustomFieldsState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.customFieldsData
+);
 // Transfer Data Page
 export const getTransferMethods = createSelector(
   selectTransferDataPageState,
@@ -175,4 +182,17 @@ export const getColumnNames = createSelector(
 export const getColumnNamesError = createSelector(
   selectOrgDataFileUploadState,
   fromFileUploadReducer.GetColumnNamesError
+);
+// Custom Fields
+export const getCustomJobField =
+  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFields
+);
+export const getCustomJobFieldError =
+  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFieldsError
+);
+export const getCustomEmployeeField =
+  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeField
+);
+export const getCustomEmployeeFieldError =
+  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeFieldError
 );
