@@ -6,6 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { AsyncStateObj } from 'libs/models/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models';
+import { Permissions } from 'libs/constants';
 
 import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
@@ -37,6 +38,7 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
   savingUserDataViewError$: Observable<boolean>;
 
   reportBuilderSettingEnabledSub: Subscription;
+  permissions = Permissions;
 
   @ViewChild(SaveUserWorkbookModalComponent, { static: false }) public saveUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
   reportBuilderSettingEnabled: boolean;
