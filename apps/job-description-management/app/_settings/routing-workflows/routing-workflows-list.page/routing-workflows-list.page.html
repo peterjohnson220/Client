@@ -16,7 +16,7 @@
         <pf-async-container [smartLoadingMask]="true" [hideReloadButton]="true"
           [loading]="workflowTemplatesAsync.loading" [loadingError]="workflowTemplatesAsync.loadingError">
             <ng-container *ngIf="(workflowTemplatesAsync.obj | filterArrayByName: filter) as filteredWorkflowTemplates">
-                <table class="table table-hover" *ngIf="filteredWorkflowTemplates.length; else noWorkflowTemplates">
+                <table class="table" *ngIf="filteredWorkflowTemplates.length; else noWorkflowTemplates">
                     <thead>
                         <tr>
                             <th>Name</th>
