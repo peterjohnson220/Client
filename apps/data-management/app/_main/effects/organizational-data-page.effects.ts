@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from 'libs/data/payfactors-api/organizational-data';
+import {DataImportApiService} from 'libs/data/payfactors-api/integration/data-import';
 
 import * as fromOrganizationalDataActions from '../actions/organizational-data-page.action';
 import { ConfigurationGroup } from '../models';
@@ -38,10 +39,24 @@ export class OrganizationalDataPageEffects {
     )
   );
 
+  @Effect()
+  uploadData$: Observable<Action> = this.actions$.pipe(
+    ofType(fromOrganizationalDataActions.UPLOAD_DATA),
+    switchMap((action: fromOrganizationalDataActions.UploadData) =>
+      this.dataImportApiService.sendFiles(action.payload.companyId, action.payload.fileUpload).pipe(
+        map((response: any) => {
+          return new fromOrganizationalDataActions.UploadDataSuccess(true);
+        }),
+        catchError(error => of(new fromOrganizationalDataActions.UploadDataFailed()))
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private organizationalDataApiService: OrganizationalDataApiService,
     private configurationGroupApiService: ConfigurationGroupApiService,
+    private dataImportApiService: DataImportApiService
   ) { }
 }
 

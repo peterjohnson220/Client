@@ -11,4 +11,4 @@ export * from './entity-type.model';
 export * from './workdayrest-credentialspackage-model';
 export * from './pftest-credentialspackage-model';
 export * from './workday-credentialspackage-model';
-
+export * from './file-upload-data.model';
