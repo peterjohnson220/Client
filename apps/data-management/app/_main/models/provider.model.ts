@@ -10,7 +10,7 @@ export function generateMockProvider(): Provider {
   return {
     ProviderId: 1,
     ProviderName: 'MockProviderName',
-    ProviderCode: 'MOCKCODE',
+    ProviderCode: 'PFTEST',
     ImageUrl: 'MockImageUrl',
     AuthenticationTypeId: 1
   };

@@ -1,5 +1,5 @@
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
-import { TransferMethod, Provider } from '../models';
+import { TransferMethod, Provider, EntityTypeModel } from '../models';
 import { TransferDataWorkflowStep } from '../data';
 import { OrgDataEntityType } from 'libs/constants';
 
@@ -14,7 +14,7 @@ export interface State {
   workflowStep: TransferDataWorkflowStep;
   validationErrors: string[];
   showAuthenticationModal: boolean;
-  selectedEntities: any; // TODO: change this to be some datamodel type and add selecting entity page
+  selectedEntities: EntityTypeModel[];
 }
 
 const initialState: State = {
@@ -27,7 +27,7 @@ const initialState: State = {
   validationErrors: null,
   workflowStep: TransferDataWorkflowStep.SelectTransferMethod, // change back to first workflowstep
   showAuthenticationModal: false,
-  selectedEntities: [ // TODO: change this to be an empty collection or whatever the data model should be for this.
+  selectedEntities: [
     {
       EntityType: OrgDataEntityType.Employees,
       EntityName: 'Employees'
