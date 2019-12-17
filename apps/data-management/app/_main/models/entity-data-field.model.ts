@@ -3,7 +3,10 @@ import { OrgDataEntityType } from 'libs/constants';
 export interface EntityDataField {
   EntityType: OrgDataEntityType;
   FieldName: string;
-  IsRequired: boolean;
+  IsRequired?: boolean;
+  AssociatedEntity?: EntityDataField[];
+  HasDescription?: boolean;
+  Description?: string;
 }
 
 export function generateMockProviderEntityFields(entityType: OrgDataEntityType): EntityDataField[] {
