@@ -45,7 +45,8 @@
              id="delimSelector"
              name="delimSelector"
              class="form-control"
-             [(ngModel)]="selectedDelimiter">
+             [ngModel]="selectedDelimiter"
+             (ngModelChange)="delimiterChange($event)">
     </div>
   </div>
 </div>
