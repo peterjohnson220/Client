@@ -26,7 +26,7 @@ import {
     DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, EntityMappingComponent,
     FieldMappingCardComponent, HrisAuthenticationCardComponent, ManageDataPageComponent, OrgDataLoadComponent,
     PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
-    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent
+    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
 } from './containers';
 import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
   FileUploadEffects, CustomFieldsEffect } from './effects';
@@ -84,6 +84,7 @@ import { reducers } from './reducers';
     HrisAuthenticationCardComponent,
     WorkdayAuthenticationComponent,
     WorkdayMockAuthenticationComponent,
+    WorkdayRestAuthenticationComponent,
     PfTestAuthenticationComponent,
     OrgDataLoadComponent,
     EntityPickerComponent,
