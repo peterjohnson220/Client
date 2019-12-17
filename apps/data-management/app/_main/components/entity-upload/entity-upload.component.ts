@@ -17,6 +17,7 @@ export class EntityUploadComponent {
   @Input() selectedMapping: ConfigurationGroup;
   @Input() mappingOptions: ConfigurationGroup[] = [];
   @Output() onMappingChange: EventEmitter<ConfigurationGroup> = new EventEmitter<ConfigurationGroup>();
+  @Output() onDelimiterChange: EventEmitter<String> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -28,6 +29,10 @@ export class EntityUploadComponent {
 
   public mappingChange($event: any) {
     this.onMappingChange.emit($event);
+  }
+
+  public delimiterChange($event: string) {
+    this.onDelimiterChange.emit($event);
   }
 
   selectedEntities(): EntityChoice[] {

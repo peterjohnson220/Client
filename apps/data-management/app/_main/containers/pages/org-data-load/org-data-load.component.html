@@ -55,7 +55,8 @@
                                 [selectedDelimiter]="selectedDelimiter"
                                 [selectedMapping]="selectedMapping"
                                 [mappingOptions]="mappingOptions"
-                                (onMappingChange)="AddAndSetSelectedMapping($event)">
+                                (onMappingChange)="AddAndSetSelectedMapping($event)"
+                                (onDelimiterChange)="onDelimiterChange($event)">
               </pf-entity-upload>
             </div>
 
@@ -70,7 +71,7 @@
 
           <div class="text-right mt-3">
             <button type="button"
-                    *ngIf="this.stepIndex !== stepEnum.Company"
+                    *ngIf="this.stepIndex !== stepEnum.Company && this.stepIndex !== stepEnum.FieldMapping"
                     class="btn mx-1 btn-md pf-secondary-btn"
                     (click)="clearSelections(false)">Clear</button>
             <button type="
