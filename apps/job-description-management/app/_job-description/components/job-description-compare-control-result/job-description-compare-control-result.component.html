@@ -1,13 +1,22 @@
 <ng-template [ngIf]="controlTypesLoaded && (controlType.ReadOnly === true || controlType.EditorType === 'Single')">
-  <div *ngIf="wasMoved()" class="card my-3">
-    <div [class.card-block]="wasMoved()" class="d-flex">
-            <span  *ngIf="wasMoved()" class="text-danger readonly-single-control-moved-arrow">
-                <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
-            </span>
+  <div class="card my-3">
+    <div [class.card-header]="showHeader === true">
+      <span *ngIf="wasMoved()" class="text-danger readonly-single-control-moved-arrow">
+        <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
+      </span>
       <span *ngIf="wasMoved()" class="text-success readonly-single-control-moved-arrow">
-                <i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i>
-            </span>
+        <i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i>
+      </span>
 
+      <span *ngIf="showHeader === true" [innerHtml]="control.Label"></span>
+      <div class="btn-group float-right">
+        <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+          <span *ngIf="hideBody"><fa-icon icon="caret-down"></fa-icon></span>
+          <span *ngIf="!hideBody"><fa-icon icon="caret-up"></fa-icon></span>
+        </button>
+      </div>
+    </div>
+    <div class="card-block" [class.added-single-control]="wasAdded()" [class.removed-single-control]="wasRemoved()" *ngIf="!hideBody">
       <pf-job-description-compare-data-result
         [data]="control.Data"
         [attributes]="controlType.Attributes"
@@ -16,28 +25,17 @@
       </pf-job-description-compare-data-result>
     </div>
   </div>
-
-  <div [class.added-single-control]="wasAdded()" [class.removed-single-control]="wasRemoved()">
-    <pf-job-description-compare-data-result
-      *ngIf="!wasMoved()"
-      [data]="control.Data"
-      [attributes]="controlType.Attributes"
-      [controlType]="controlType"
-      [additionalProperties]="control.AdditionalProperties">
-    </pf-job-description-compare-data-result>
-  </div>
-
 </ng-template>
 
 <ng-template [ngIf]="controlTypesLoaded && (controlType.ReadOnly !== true && controlType.EditorType !== 'Single')">
   <div class="card my-3"
        [class.added]="control.Statuses && wasAdded()"
        [class.removed]="control.Statuses && wasRemoved()">
-    <div class="card-header">
+    <div [class.card-header]="showHeader === true">
       <span *ngIf="wasMoved()" class="text-danger pl-2 pr-4"><fa-icon icon="long-arrow-alt-down" ></fa-icon></span>
       <span *ngIf="wasMoved()" class=" text-success pl-2 pr-4"><fa-icon icon="long-arrow-alt-up" ></fa-icon></span>
 
-      <span [innerHtml]="control.Label"></span>
+      <span *ngIf="showHeader === true" [innerHtml]="control.Label"></span>
       <div class="btn-group float-right">
         <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
           <span *ngIf="hideBody"><fa-icon icon="caret-down"></fa-icon></span>
