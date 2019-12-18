@@ -17,6 +17,7 @@ export class CompanyControlHeaderComponent implements OnChanges {
 
     @Output() editorTypeChanged = new EventEmitter();
     @Output() canEditTemplateDataChanged = new EventEmitter();
+    @Output() handleChange = new EventEmitter();
 
     public companyControlHeaderForm: FormGroup;
     public canEditTemplateData = false;
@@ -62,6 +63,12 @@ export class CompanyControlHeaderComponent implements OnChanges {
 
   constructor(private formBuilder: FormBuilder) {
         this.buildForm();
+
+        this.companyControlHeaderForm.valueChanges.subscribe((change) => {
+            if (change) {
+                this.handleChange.emit();
+            }
+        });
   }
 
   ngOnChanges(changes) {

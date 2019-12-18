@@ -1,17 +1,15 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import { ControlType } from 'libs/models';
 
+import { CompanyControlEditableInfo } from '../../shared/models';
 import * as fromCompanyControlDetailReducer from '../reducers';
 import * as fromCompanyControlDetailAction from '../actions';
-import { CompanyControlFormComponent } from '../containers';
-import { CompanyControlEditableInfo } from '../../shared/models';
+import { CompanyControlFormComponent, CompanyControlCopyModalComponent } from '../containers';
 import { ConfirmEditCompanyControlModalComponent, DeleteCompanyControlOptionModalComponent } from '../components';
-import { CompanyControlCopyModalComponent } from '../containers/company-control-copy-modal';
 
 @Component({
   selector: 'pf-company-controls-detail',

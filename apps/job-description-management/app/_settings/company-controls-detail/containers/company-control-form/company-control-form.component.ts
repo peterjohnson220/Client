@@ -1,13 +1,14 @@
-import { Component, ViewChild, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core';
 
 import { Subscription } from 'rxjs/Subscription';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { ControlType } from 'libs/models';
+
 import * as fromCompanyControlDetailReducer from '../../reducers';
-import { CompanyControlLayoutComponent } from '../../containers/company-control-layout';
 import { CompanyControlHeaderComponent } from '../../components';
+import { CompanyControlLayoutComponent } from '../company-control-layout';
 
 @Component({
     selector: 'pf-company-control-form',
@@ -15,7 +16,7 @@ import { CompanyControlHeaderComponent } from '../../components';
     styleUrls: ['./company-control-form.component.scss']
 
 })
-export class CompanyControlFormComponent implements OnInit, OnDestroy {
+export class CompanyControlFormComponent implements OnInit, OnDestroy, OnChanges {
     @ViewChild(CompanyControlLayoutComponent, { static: true }) public layoutControl: CompanyControlLayoutComponent;
     @ViewChild(CompanyControlHeaderComponent, { static: true }) public headerControl: CompanyControlHeaderComponent;
 
@@ -30,13 +31,17 @@ export class CompanyControlFormComponent implements OnInit, OnDestroy {
 
     private errorMessageSubscription: Subscription;
 
-    private controlSaveObj: ControlType;
+    public controlSaveObj: ControlType;
     isNew: boolean;
 
-    constructor(
-        private store: Store<fromCompanyControlDetailReducer.State>
-    ) {
+    constructor(private store: Store<fromCompanyControlDetailReducer.State>) {
         this.savingErrorMessage$ = this.store.pipe(select(fromCompanyControlDetailReducer.getSavingErrorMessage));
+    }
+
+    ngOnChanges(changes) {
+        if (changes.controlType && changes.controlType.currentValue) {
+            this.updateControlTypeAndAttributes();
+        }
     }
 
     ngOnInit() {
@@ -73,6 +78,11 @@ export class CompanyControlFormComponent implements OnInit, OnDestroy {
         this.controlSaveObj.ControlVersion = this.controlSaveObj.ControlVersion + 1;
     }
 
+    updateControlTypeAndAttributes() {
+        this.controlSaveObj = this.headerControl.formValue;
+        this.controlSaveObj.Attributes = this.layoutControl.formValue;
+    }
+
     handleEditorTypeChange(editorType: string) {
         this.layoutControl.handleEditorTypeChange(editorType);
     }
@@ -83,6 +93,14 @@ export class CompanyControlFormComponent implements OnInit, OnDestroy {
 
     handleControlOptionDeleteClick($event) {
         this.controlOptionDeleteClick.emit($event);
+    }
+
+    handleControlTypeChange() {
+        this.updateControlTypeAndAttributes();
+    }
+
+    handleAttributeChange() {
+        this.updateControlTypeAndAttributes();
     }
 
     enabledForms() {

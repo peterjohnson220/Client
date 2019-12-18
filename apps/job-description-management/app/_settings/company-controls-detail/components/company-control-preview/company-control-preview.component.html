@@ -1,0 +1,44 @@
+<div class="card my-2 preview-section">
+    <div class="card-header">Preview</div>
+    <div class="card-block">
+        <ng-template [ngIf]="controlType?.ReadOnly === true || controlType?.EditorType === 'Single'">
+            <pf-control-data-renderer
+                [controlType]="controlType"
+                [data]="data"
+                [readOnly]="readOnly"
+                [checkInheritedData]="true">
+            </pf-control-data-renderer>
+        </ng-template>
+
+        <ng-template [ngIf]="controlType?.ReadOnly !== true && ( controlType?.EditorType === 'List' || controlType?.EditorType === 'SmartList')">
+            <div class="card my-3">
+                <div class="card-header">
+                    {{ controlType.Name }}
+                    <div class="btn-group float-right">
+                        <button type="button" *ngIf="!readOnly && controlType.EditorType === 'List'" class="btn btn-sm btn-secondary" (click)="addDataRow($event)">
+                            <fa-icon icon="plus" aria-hidden="true"></fa-icon>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary" (click)="toggleBody()">
+                            <span *ngIf="hideBody">
+                                <fa-icon icon="caret-down" aria-hidden="true"></fa-icon>
+                            </span>
+                            <span *ngIf="!hideBody">
+                                <fa-icon icon="caret-up" aria-hidden="true"></fa-icon>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-block" [hidden]="hideBody">
+                    <pf-control-data-renderer
+                        [controlType]="controlType"
+                        [data]="data"
+                        [readOnly]="readOnly"
+                        [checkInheritedData]="true"
+                        (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
+                        (dataRowDeleted)="handleControlDataRowDeleted($event)">
+                    </pf-control-data-renderer>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>
