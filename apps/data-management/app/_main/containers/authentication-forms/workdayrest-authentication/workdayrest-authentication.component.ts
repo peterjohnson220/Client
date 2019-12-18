@@ -101,7 +101,7 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedEntities.currentValue && !changes.selectedEntities.isFirstChange()) {
+    if (changes.selectedEntities && changes.selectedEntities.currentValue && !changes.selectedEntities.isFirstChange()) {
       this.refreshControls();
     }
   }
