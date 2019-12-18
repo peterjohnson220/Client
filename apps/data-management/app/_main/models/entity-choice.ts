@@ -15,6 +15,7 @@ export interface EntityChoice {
   loaderEnabled: boolean;
   columnNames: string[];
   customFields: EntityCustomFieldsModel;
+  dbName?: string;
 }
 
 export function getEntityChoicesForOrgLoader(): EntityChoice[] {

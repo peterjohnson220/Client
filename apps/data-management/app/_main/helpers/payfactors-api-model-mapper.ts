@@ -4,7 +4,8 @@ import {
   ConnectionPostRequest,
   CredentialsPackage,
   ProviderResponse,
-  TransferMethodResponse
+  TransferMethodResponse,
+  ProviderSupportedEntityDTO
 } from 'libs/models/hris-api';
 
 import {
@@ -14,7 +15,8 @@ import {
   generateMockProviderEntityFields, PfTestCredentialsPackage,
   Provider,
   TransferMethod,
-  WorkdayRestCredentialsPackage, WorkdaySoapCredentialsPackage
+  WorkdayRestCredentialsPackage, WorkdaySoapCredentialsPackage,
+  EntityChoice
 } from '../models';
 
 export class PayfactorsApiModelMapper {
@@ -106,5 +108,52 @@ export class PayfactorsApiModelMapper {
 
   static createPayfactorsEntityFields(response: OrgDataEntityType): any[] {
     return generateMockPayfactorsEntityFields(response);
+  }
+
+  static mapEntitySelectionResponseToEntitySelection(response: ProviderSupportedEntityDTO[]): EntityChoice[] {
+    return response.map(p => {
+      return {
+        isChecked: false,
+        DisplayText: p.entityMappingTypeName,
+        ToolTip: p.description,
+        FileBeginsWith: null,
+        File: null,
+        isSelectedTab: null,
+        templateReferenceConstants: null,
+        payfactorsDataFields: null,
+        loaderEnabled: null,
+        columnNames: null,
+        customFields: null,
+        dbName: p.entityMappingTypeCode
+      };
+    });
+  }
+
+  static mapEntityChoiceToEntityTypeModel(providerSupportedEntities): EntityTypeModel[] {
+    return providerSupportedEntities.filter(p => p.isChecked).map(x => {
+      let type;
+      switch (x.dbName) {
+        case OrgDataEntityType.Employees:
+            type = OrgDataEntityType.Employees;
+            break;
+        case OrgDataEntityType.Jobs:
+            type = OrgDataEntityType.Jobs;
+            break;
+        case OrgDataEntityType.StructureMappings:
+            type = OrgDataEntityType.StructureMappings;
+            break;
+        case OrgDataEntityType.Structures:
+          type = OrgDataEntityType.Structures;
+          break;
+        case OrgDataEntityType.PayMarkets:
+            type = OrgDataEntityType.PayMarkets;
+            break;
+        default: type = null;
+      }
+      return {
+        EntityType: type,
+        EntityName: x.DisplayText
+      };
+    });
   }
 }

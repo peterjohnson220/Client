@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CredentialsPackage } from 'libs/models';
-import { TransferMethod, Provider } from '../models';
+import { TransferMethod, Provider, EntityChoice } from '../models';
 
 export const INIT = '[Data Management/Transfer Data Page] Init Transfer Data Page';
 export const LOAD_AUTHENTICATION_FORM = '[Data Management/Transfer Data Page] Load Authentication Form';
@@ -22,6 +22,10 @@ export const VALIDATE_SUCCESS = '[Data Management/Transfer Data Page] Validate C
 export const CREATE_CONNECTION = '[Data Management/Transfer Data Page] Create Connection';
 export const CREATE_CONNECTION_ERROR = '[Data Management/Transfer Data Page] Create Connection Error';
 export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] Create Connection Success';
+export const LOAD_ENTITY_SELECTION = '[Data Management/Transfer Data Page] Load Entity Selection';
+export const LOAD_ENTITY_SELECTION_ERROR = '[Data Management/Transfer Data Page] Load Entity Selection Error';
+export const LOAD_ENTITY_SELECTION_SUCCESS = '[Data Management/Transfer Data Page] Load Entity Selection Success';
+export const PROCEED_TO_AUTHENTICATION = '[Data Management/Transfer Data Page] Proceed to Authentication';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -120,6 +124,32 @@ export class CreateConnectionSuccess implements Action {
 
   constructor() {}
 }
+
+export class LoadEntitySelection implements Action {
+  readonly type = LOAD_ENTITY_SELECTION;
+
+  constructor() {}
+}
+
+export class LoadEntitySelectionError implements Action {
+  readonly type = LOAD_ENTITY_SELECTION_ERROR;
+
+  constructor() {}
+}
+
+export class LoadEntitySelectionSuccess implements Action {
+  readonly type = LOAD_ENTITY_SELECTION_SUCCESS;
+
+  constructor(public payload: EntityChoice[]) {}
+}
+
+export class ProceedToAuthentication implements Action {
+  readonly type = PROCEED_TO_AUTHENTICATION;
+
+  constructor(public payload: EntityChoice[]) {}
+}
+
+
 export type Actions
   = Init
   | CreateConnection
@@ -139,4 +169,8 @@ export type Actions
   | ResetTransferDataPageWorkflow
   | Validate
   | ValidateError
-  | ValidateSuccess;
+  | ValidateSuccess
+  | LoadEntitySelection
+  | LoadEntitySelectionError
+  | LoadEntitySelectionSuccess
+  | ProceedToAuthentication;

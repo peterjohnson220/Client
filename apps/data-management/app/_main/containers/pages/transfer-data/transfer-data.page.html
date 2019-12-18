@@ -15,7 +15,7 @@
         </div>
         <div class="row mb-3">
           <div class="card-deck">
-            <pf-provider-card *ngFor="let provider of providers$ | async" 
+            <pf-provider-card *ngFor="let provider of providers$ | async"
               [provider]="provider"
               [selectedProvider]="selectedProvider?.ProviderId"
               (providerSelected)="setSelectedProvider($event)">
@@ -27,8 +27,23 @@
               <button type="button" class="btn btn-primary" (click)="cancelTransferDataWorkflow()">Cancel</button>
             </div>
             <div class="p-2">
-              <button type="button" class="btn btn-primary" [disabled]="!selectedProvider" (click)="proceedToAuthentication($event)">Next</button>
+              <button type="button" class="btn btn-primary" [disabled]="!selectedProvider" (click)="proceedToEntitySelection(selectedProvider?.ProviderId)">Next</button>
             </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.EntitySelection">
+        <h4>HRIS Integration</h4><br>
+        <h5>Select which organizational data entity you would like to load data for:</h5>
+      <pf-entity-picker
+        [(entities)] = "providerSupportedEntities">
+      </pf-entity-picker>
+      <div *ngIf="providers$ | async" class="d-flex justify-content-end">
+        <div class="p-2">
+          <button type="button" class="btn btn-primary" (click)="cancelTransferDataWorkflow()">Cancel</button>
+        </div>
+        <div class="p-2">
+          <button type="button" class="btn btn-primary" [disabled]="!checkForSelectedEntity()" (click)="proceedToAuthentication()">Next</button>
         </div>
       </div>
     </div>
