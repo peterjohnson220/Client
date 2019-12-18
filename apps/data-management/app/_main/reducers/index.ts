@@ -145,6 +145,11 @@ export const getSelectedEntities = createSelector(
   fromTransferDataPageReducer.getSelectedEntities
 );
 
+export const getProviderSupportedEntities = createSelector(
+  selectTransferDataPageState,
+  fromTransferDataPageReducer.getProviderSupportedEntities
+);
+
 // Field Mapping Card
 export const getFieldMappingCardLoading = createSelector(
   selectFieldMappingState,
