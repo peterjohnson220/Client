@@ -6,6 +6,7 @@ import { UpdateCompanyStructureRangeGroupNameDto } from 'libs/models/structures/
 
 export const GET_MODEL_DATA = '[Structures/Job Range Modeling Page] Get Model Data';
 export const GET_MODEL_DATA_SUCCESS = '[Structures/Job Range Modeling Page] Get Model Data Success';
+export const SET_CURRENT_MODEL = '[Structures/Job Range Modeling Page] Set Current Model';
 export const GET_STRUCTURE_DATA = '[Structures/Job Range Modeling Page] Get Structure Data';
 export const GET_STRUCTURE_DATA_SUCCESS = '[Structures/Job Range Modeling Page] Get Structure Data Success';
 export const SET_CURRENT_STRUCTURE = '[Structures/Job Range Modeling Page] Set Current Structure';
@@ -26,6 +27,13 @@ export class GetModelData implements Action {
 
 export class GetModelDataSuccess implements Action {
   readonly type = GET_MODEL_DATA_SUCCESS;
+
+  constructor(public payload: CompanyStructureRangeGroup) {
+  }
+}
+
+export class SetCurrentModel implements Action {
+  readonly type = SET_CURRENT_MODEL;
 
   constructor(public payload: CompanyStructureRangeGroup) {
   }
@@ -83,6 +91,7 @@ export class ClearEditModelNameError implements Action {
 export type Actions
   = GetModelData
   | GetModelDataSuccess
+  | SetCurrentModel
   | GetStructureData
   | GetStructureDataSuccess
   | SetCurrentStructure

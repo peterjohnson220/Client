@@ -33,6 +33,12 @@ export function reducer(state: State = initialState, action: fromJobRangeModelin
         currentModel: action.payload
       };
     }
+    case fromJobRangeModelingPageActions.SET_CURRENT_MODEL: {
+      return {
+        ...state,
+        currentModel: action.payload
+      };
+    }
     case fromJobRangeModelingPageActions.GET_STRUCTURE_DATA: {
       return {
         ...state

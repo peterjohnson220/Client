@@ -23,7 +23,7 @@ import * as fromJobDescriptionListReducer from '../../../reducers';
 })
 
 export class AssignJobsToTemplateModalComponent implements OnInit, OnDestroy {
-  @ViewChild('assignJobsToTemplateModal', { static: true }) public assignJobsToTemplateModal: any;
+  @ViewChild('assignJobsToTemplateModal', {static: true}) public assignJobsToTemplateModal: any;
 
   @Input() selectedCompanyJob: CompanyJobViewListItem;
   @Output() templateAssignedToJob = new EventEmitter();
@@ -38,7 +38,7 @@ export class AssignJobsToTemplateModalComponent implements OnInit, OnDestroy {
 
   public templateId = -1;
   public modalRef: NgbModalRef;
-  errorMessage =  false;
+  errorMessage = false;
 
   constructor(
     private store: Store<fromTemplateListReducer.State>,
@@ -59,7 +59,7 @@ export class AssignJobsToTemplateModalComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.assigningTemplateErrorSubscription = this.assigningTemplateError$.subscribe((error)=> {
+    this.assigningTemplateErrorSubscription = this.assigningTemplateError$.subscribe((error) => {
       if (error) {
         this.errorMessage = true;
       }
@@ -72,13 +72,13 @@ export class AssignJobsToTemplateModalComponent implements OnInit, OnDestroy {
   }
 
   open() {
-    this.store.dispatch(new fromTemplateListActions.LoadTemplateList({ publishedOnly: true }));
+    this.store.dispatch(new fromTemplateListActions.LoadTemplateList({publishedOnly: true}));
     this.templateId = -1;
-    this.modalRef = this.modalService.open(this.assignJobsToTemplateModal, { backdrop: 'static' });
+    this.modalRef = this.modalService.open(this.assignJobsToTemplateModal, {backdrop: 'static'});
   }
 
   submit() {
-    this.templateAssignedToJob.emit({ selectedCompanyJob: this.selectedCompanyJob, templateId: this.templateId });
+    this.templateAssignedToJob.emit({selectedCompanyJob: this.selectedCompanyJob, templateId: this.templateId});
 
   }
 }
