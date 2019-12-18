@@ -1,25 +1,29 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, timer } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-import { CompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
-import { CompanyStructure } from 'libs/models/structures/company-structure.model';
+import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
+import { CompanyStructure, generateMockCompanyStructure } from 'libs/models/structures/company-structure.model';
+import { AddJobsStructuresModelingModalComponent } from 'libs/features/project/components/add-jobs-structures-modeling/modals/add-jobs-structures-modeling';
+import * as fromProjectReducer from 'libs/features/project/reducers';
+import * as fromProjectActions from 'libs/features/project/actions';
 
 import * as fromStructuresMainReducer from '../../../reducers';
 import * as fromJobRangeModelingActions from '../../../actions/job-range-modeling-page.actions';
 import { JobRangeModelingConstants } from '../../../constants/structures.constants';
-import { EditGridColumnsModalComponent } from '../../../components/modals/edit-grid-columns-modal.component';
+import { EditGridColumnsModalComponent } from '../../../components/modals';
 
 @Component({
   selector: 'pf-job-range-modeling-page',
   templateUrl: './job-range-modeling.page.html',
   styleUrls: ['./job-range-modeling.page.scss']
 })
-export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
+export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(EditGridColumnsModalComponent, {static: true}) public editGridColumnsModalComponent: EditGridColumnsModalComponent;
+  @ViewChild(AddJobsStructuresModelingModalComponent, {static: false}) public addJobsModalComponent: AddJobsStructuresModelingModalComponent;
 
   // todo: replace temp Ids with routing parameters
   private readonly temp_companyStructureRangeGroupId = 609;
@@ -39,8 +43,14 @@ export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
 
   public companyStructuresAsyncSubscription: Subscription;
 
+  public addJobsModalIsSaving$: Observable<boolean>;
+  public addJobsModalOpen$: Observable<boolean>;
+  public routeStructureName: string;
+  public routeModelName: string;
+
   constructor(public route: ActivatedRoute,
-              private store: Store<fromStructuresMainReducer.State>) {
+              private store: Store<fromStructuresMainReducer.State>,
+              private projectStore: Store<fromProjectReducer.State>) {
     this.currentModelSubscription = this.store.select(fromStructuresMainReducer.getCurrentModel).subscribe(
       emittedModel => {
         this.currentModel = emittedModel;
@@ -95,6 +105,11 @@ export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.addJobsModalOpen$ = this.projectStore.select(fromProjectReducer.getAddJobsModalOpen);
+
+    this.routeStructureName = this.route.snapshot.queryParams['structure-name'] as string;
+    this.routeModelName = this.route.snapshot.queryParams['model-name'] as string;
   }
 
   editColumnsClicked() {
@@ -105,9 +120,30 @@ export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
     const modelId: number = this.temp_companyStructureRangeGroupId;
     const structureId: number = this.routeCompanyStructureId;
 
-    this.store.dispatch(new fromJobRangeModelingActions.GetModelData(modelId));
+    if (modelId) {
+      this.store.dispatch(new fromJobRangeModelingActions.GetModelData(modelId));
+    }
+
     if (structureId) {
       this.store.dispatch(new fromJobRangeModelingActions.GetStructureData(structureId));
+    }
+
+    if (this.routeStructureName && this.routeModelName) {
+      const currentModel = generateMockCompanyStructureRangeGroup();
+      currentModel.RangeGroupName = this.routeModelName;
+      const currentStructure = generateMockCompanyStructure();
+      currentStructure.StructureName = this.routeStructureName;
+
+      this.store.dispatch(new fromJobRangeModelingActions.SetCurrentModel(currentModel));
+      this.store.dispatch(new fromJobRangeModelingActions.SetCurrentStructure(currentStructure));
+      this.updateModelName(currentModel.RangeGroupName);
+      this.updateNewModelName(currentModel.RangeGroupName);
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.routeStructureName && this.routeModelName) {
+      this.showAddJobsModal();
     }
   }
 
@@ -128,6 +164,19 @@ export class JobRangeModelingPageComponent implements OnInit, OnDestroy {
     if (modelName) {
       this.currentModelName = modelName;
     }
+  }
+
+  // modal functions
+  showAddJobsModal() {
+    this.projectStore.dispatch(new fromProjectActions.OpenAddJobsModal());
+  }
+
+  addJobsModalSaveHandler(data) {
+    console.log(`saving add jobs structures modeling modal ${data}`);
+  }
+
+  closeAddJobsModal() {
+    this.store.dispatch(new fromProjectActions.CloseAddJobsModal());
   }
 
   ngOnDestroy(): void {

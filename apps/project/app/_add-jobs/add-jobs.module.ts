@@ -17,6 +17,8 @@ import { JobLimitCounterComponent } from 'libs/features/smallbiz';
 
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
+import { SavedFiltersHelper } from 'libs/features/project/helpers';
+import { JobSearchUserFilterType, SearchFilterMappingData } from 'libs/features/project/data';
 
 import * as fromFaIcons from './fa-icons';
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
@@ -25,8 +27,6 @@ import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects, Singled
          CreateNewJobPageEffects, JobSearchUserFilterEffects } from './effects';
 import { AddJobsPageComponent, SearchResultsComponent, PaymarketsComponent, CreateNewJobPageComponent } from './containers';
 import { JobResultComponent } from './components';
-import { SearchFilterMappingData, JobSearchUserFilterType } from './data';
-import { SavedFiltersHelper } from './helpers';
 
 @NgModule({
   imports: [
