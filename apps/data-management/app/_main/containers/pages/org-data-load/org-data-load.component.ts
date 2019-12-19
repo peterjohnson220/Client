@@ -58,7 +58,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   stepIndex: OrgUploadStep = OrgUploadStep.Company;
   stepEnum = OrgUploadStep;
   companies: CompanySelectorItem[];
-  selectedCompany: CompanySelectorItem = null;
+  public selectedCompany: CompanySelectorItem = null;
   hasError = false;
   env = environment;
   organizationalDataTemplateLink: string;
