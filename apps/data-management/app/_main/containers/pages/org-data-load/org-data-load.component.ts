@@ -80,7 +80,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   NextBtnToolTips: string[] = [
     'You must choose a company',
     'Please select at least one entity to load data for.',
-    'Please choose a file for each entity type'
+    'Please choose a file for each entity type and select a delimiter'
   ];
 
   constructor(private store: Store<fromCompanyReducer.State>,
@@ -311,7 +311,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return true;
     }
 
-    if (this.stepIndex === OrgUploadStep.Files && this.hasUploadedFiles()) {
+    if (this.stepIndex === OrgUploadStep.Files && this.hasUploadedFiles() && this.selectedDelimiter && this.selectedDelimiter.length > 0) {
       return true;
     }
 
