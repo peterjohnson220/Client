@@ -13,7 +13,8 @@ export class LoaderSettingsApiService {
   }
 
   getCompanyLoaderSettings(companyId: number, configGroupId: number = null) {
-    return this.payfactorsApiService.get<LoaderSetting[]>(`${this.endpoint}.GetCompanyLoaderSettings?companyId=${companyId}&configGroupId=${configGroupId}`);
+    return this.payfactorsApiService.get<LoaderSetting[]>(`${this.endpoint}.GetCompanyLoaderSettings?companyId=${companyId}` +
+    `&loaderConfigurationGroupId=${configGroupId}`);
   }
 
   saveOrUpdate(data: LoaderSettingsDTO) {

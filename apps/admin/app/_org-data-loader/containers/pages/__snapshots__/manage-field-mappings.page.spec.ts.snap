@@ -2,7 +2,6 @@
 
 exports[`ManageFieldMapperPageComponent should disable the save button when no delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
-  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -170,7 +169,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
 
 exports[`ManageFieldMapperPageComponent should disable the save button when not all mappings are complete 1`] = `
 <pf-autoloader-field-mapping-page
-  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -338,7 +336,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 
 exports[`ManageFieldMapperPageComponent should enable the save button when all mappings are complete AND a delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
-  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -505,7 +502,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
 
 exports[`ManageFieldMapperPageComponent should hide the field mapper when a company has not been selected 1`] = `
 <pf-autoloader-field-mapping-page
-  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -584,7 +580,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 
 exports[`ManageFieldMapperPageComponent should show the field mapper when a company has been selected 1`] = `
 <pf-autoloader-field-mapping-page
-  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}

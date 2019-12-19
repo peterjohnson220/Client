@@ -49,8 +49,9 @@ export class FieldMapperComponent implements OnInit {
   @Input() loadEnabled: boolean;
   @Input() filenamePattern: FilenamePattern;
   @Input() visibleLoaderOptions: VisibleLoaderOptionModel;
-  @Input() columnNames: string[];
+  @Input() suppliedClientFields: string[] = [];
   @Output() mappingComplete = new EventEmitter<any>();
+  private mappingErrorMessage = false;
 
   constructor() {
     this.uploadSaveUrl = ORG_DATA_UPLOAD_URL;
@@ -68,21 +69,36 @@ export class FieldMapperComponent implements OnInit {
     this.payfactorsDataFieldsForReset = this.payfactorsDataFields;
     this.fieldMappings$.subscribe(mappings => {
       if (mappings.length > 0) {
-        this.mappedFields = [];
-        const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
-        if (entityMapping) {
-          for (const mapping of entityMapping.LoaderFieldMappings) {
-            this.addMappingWithoutCompleteEvent(mapping.InternalField, mapping.ClientField);
+        this.resetMapping();
+        if (this.suppliedClientFields.length === 0) {
+          this.addSavedMappings(mappings);
+        } else {
+          if (this.clientFieldsMatchSavedMappings(mappings)) {
+            this.addSavedMappings(mappings);
+          } else {
+            this.mappingErrorMessage = true;
+            this.clientFields = this.suppliedClientFields;
+            this.mapSimilarFields();
           }
         }
-      }
-      if (this.columnNames !== null && this.columnNames !== undefined) {
-        this.resetMapping();
-        this.clientFields = this.columnNames;
-        this.mapSimilarFields();
-        this.fireCompleteEvent();
+      } else {
+        if (this.suppliedClientFields.length !== 0) {
+          this.resetMapping();
+          this.clientFields = this.suppliedClientFields;
+          this.mapSimilarFields();
+        }
       }
     });
+  }
+
+  private addSavedMappings(mappings) {
+    this.mappedFields = [];
+    const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
+    if (entityMapping) {
+      for (const mapping of entityMapping.LoaderFieldMappings) {
+        this.addMappingWithoutCompleteEvent(mapping.InternalField, mapping.ClientField);
+      }
+    }
   }
 
   changeIsFullReplace(isFullReplace: boolean) {
@@ -229,5 +245,21 @@ export class FieldMapperComponent implements OnInit {
     this.mappedFields = [];
     this.payfactorsDataFields = this.payfactorsDataFieldsForReset;
     this.fireCompleteEvent();
+  }
+
+  private clientFieldsMatchSavedMappings(mappings: LoaderFieldSet[]) {
+    const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
+    let areHeadersValid = true;
+
+    if (!entityMapping) {
+      return false;
+    }
+    this.suppliedClientFields.forEach(field => {
+      if (!entityMapping.LoaderFieldMappings.find(mapping => mapping.ClientField === field)) {
+        areHeadersValid = false;
+      }
+    });
+
+    return areHeadersValid;
   }
 }

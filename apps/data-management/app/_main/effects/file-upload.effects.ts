@@ -15,7 +15,9 @@ export class FileUploadEffects {
     switchMap((action: fromFileUploadActions.GetColumnNames) =>
       this.loaderFieldMappingsApiService.getFileUploadColumnNames(action.payload.columnNamesFile).pipe(
         map((columnNames: string[]) => {
-          return new fromFileUploadActions.GetColumnNamesSuccess({columnNames: columnNames, columnNamesFile:  action.payload.columnNamesFile, entity: action.payload.entity});
+          return new fromFileUploadActions.GetColumnNamesSuccess({
+            columnNames: columnNames, columnNamesFile:  action.payload.columnNamesFile, entity: action.payload.entity
+          });
         }),
         catchError(error => of(new fromFileUploadActions.GetColumnNamesError()))
       )

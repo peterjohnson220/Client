@@ -12,7 +12,9 @@ export const GET_CONFIGURATION_GROUP_FAILED = '[Data Management / Org Data Load 
 export const UPLOAD_DATA = '[Data Management / Org Data Load Page] Upload Data Mapping';
 export const UPLOAD_DATA_SUCCESS = '[Data Management / Org Data Load Page] Upload Data Success';
 export const UPLOAD_DATA_FAILED = '[Data Management / Org Data Load Page] Upload Data Failed';
-
+export const SAVE_CONFIGURATION_GROUP = '[Data Management / Org Data Load Page] Save Manual Mapping';
+export const SAVE_CONFIGURATION_GROUP_SUCCESS = '[Data Management / Org Data Load Page] Save Manual Mapping Success';
+export const SAVE_CONFIGURATION_GROUP_FAILED = '[Data Management / Org Data Load Page] Save Manual Mapping Failed';
 
 export class GetOrganizationalHeadersLink implements Action {
   readonly type = GET_ORGANIZATIONAL_HEADERS_LINK;
@@ -61,6 +63,20 @@ export class UploadDataFailed implements Action {
   readonly type = UPLOAD_DATA_FAILED;
 }
 
+export class SaveConfigGroup implements Action {
+  readonly type = SAVE_CONFIGURATION_GROUP;
+  constructor(public payload: ConfigurationGroup) { }
+}
+
+export class SaveConfigGroupSuccess implements Action {
+  readonly type = SAVE_CONFIGURATION_GROUP_SUCCESS;
+  constructor(public payload: ConfigurationGroup) { }
+}
+
+export class SaveConfigGroupFailed implements Action {
+  readonly type = SAVE_CONFIGURATION_GROUP_FAILED;
+}
+
 export type Actions
   = GetOrganizationalHeadersLink
   | GetOrganizationalHeadersLinkSuccess
@@ -71,4 +87,7 @@ export type Actions
   | GetConfigGroupFailed
   | UploadData
   | UploadDataSuccess
-  | UploadDataFailed;
+  | UploadDataFailed
+  | SaveConfigGroup
+  | SaveConfigGroupSuccess
+  |SaveConfigGroupFailed;

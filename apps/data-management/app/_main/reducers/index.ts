@@ -140,6 +140,11 @@ export const getConfigurationGroup = createSelector(
   fromOrganizationalDataPageReducer.getConfigurationGroup
 );
 
+export const getSavedConfigurationGroup = createSelector(
+  selectOrganizationalDataPageState,
+  fromOrganizationalDataPageReducer.getSavedConfigurationGroup
+);
+
 export const getSelectedEntities = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getSelectedEntities

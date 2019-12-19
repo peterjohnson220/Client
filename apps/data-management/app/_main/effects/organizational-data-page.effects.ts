@@ -10,6 +10,7 @@ import {DataImportApiService} from 'libs/data/payfactors-api/integration/data-im
 
 import * as fromOrganizationalDataActions from '../actions/organizational-data-page.action';
 import { ConfigurationGroup } from '../models';
+import * as fromOrgDataFieldMappingsActions from '../actions/organizational-data-field-mapping.actions';
 
 @Injectable()
 export class OrganizationalDataPageEffects {
@@ -51,6 +52,20 @@ export class OrganizationalDataPageEffects {
       )
     )
   );
+
+  @Effect()
+  SaveConfigurationGroup$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromOrganizationalDataActions.SAVE_CONFIGURATION_GROUP),
+      map((action: fromOrganizationalDataActions.SaveConfigGroup) => action.payload),
+      switchMap(configurationGroup => {
+        return this.configurationGroupApiService.saveConfigurationGroup(configurationGroup).pipe(
+          map((response: ConfigurationGroup) => new fromOrganizationalDataActions.SaveConfigGroupSuccess(response)),
+          catchError(error => of(new fromOrganizationalDataActions.SaveConfigGroupFailed()))
+        );
+      })
+    );
+
 
   constructor(
     private actions$: Actions,
