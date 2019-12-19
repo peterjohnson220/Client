@@ -17,11 +17,9 @@ import * as fromWorkflowAction from '../../actions';
 })
 export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
 
-  attemptedSave = false;
   upsertModalForm: FormGroup;
   templateBeingEdited: WorkflowTemplate = null;
   templateSaveObj: WorkflowTemplate = null;
-  stepsRequired = false;
   errorMessage: string;
   errorOccurred = false;
   private stepsDirty = false;
@@ -33,7 +31,6 @@ export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
   templateBeingEdited$: Observable<WorkflowTemplate>;
   templateSaveObj$: Observable<WorkflowTemplate>;
   saving$: Observable<boolean>;
-  savingSuccess$: Observable<boolean>;
   savingError$: Observable<boolean>;
   savingErrorMessage$: Observable<string>;
   private workflowTemplateNames$: Observable<string[]>;
@@ -45,7 +42,6 @@ export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
   private templateToBeEditedSubscription: Subscription;
   private stepsSubscription: Subscription;
   private stepsDirtySubscription: Subscription;
-  private savingSuccessSubscription: Subscription;
   private savingErrorSubscription: Subscription;
   private savingErrorMessageSubscription: Subscription;
 
@@ -72,7 +68,6 @@ export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
     this.templateBeingEdited$ = this.store.pipe(select(fromWorkflowReducer.getTemplateBeingEdited));
     this.workflowTemplateNames$ = this.store.pipe(select(fromWorkflowReducer.getWorkflowTemplateNames));
     this.saving$ = this.store.pipe(select(fromWorkflowReducer.getWorkflowTemplateSaving));
-    this.savingSuccess$ = this.store.pipe(select(fromWorkflowReducer.getWorkflowTemplateSavingSuccess));
     this.savingError$ = this.store.pipe(select(fromWorkflowReducer.getWorkflowTemplateSavingError));
     this.savingErrorMessage$ = this.store.pipe(select(fromWorkflowReducer.getWorkflowTemplateSavingErrorMessage));
 
@@ -86,7 +81,6 @@ export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
     this.templateSaveObjSubscription = this.templateSaveObj$.subscribe((template) => this.templateSaveObj = template);
     this.workflowTemplateNames$.subscribe((t) => this.workflowTemplateNames = t);
     this.stepsDirtySubscription = this.stepsDirty$.subscribe(d => this.stepsDirty = d);
-    this.savingSuccessSubscription = this.savingSuccess$.subscribe((s) => this.attemptedSave = s);
     this.savingErrorMessageSubscription = this.savingErrorMessage$.subscribe((em) => this.errorMessage = em);
 
     this.templateToBeEditedSubscription = this.templateBeingEdited$.subscribe((template) => {
@@ -95,11 +89,13 @@ export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
     });
     this.stepsSubscription = this.steps$.subscribe((steps) => {
       this.steps = steps;
-      this.stepsRequired = this.steps && this.steps.length > 0 ? false : true;
       if (this.templateBeingEdited.Id !== null &&
          (this.templateBeingEdited.Name !== this.workflowName.value || this.stepsDirty)) {
         // Enable Update button if the name or steps changed
         this.markFormGroupAsValid(this.upsertModalForm);
+      }
+      if (this.templateBeingEdited.Id === null) {
+        this.validateWorkflowConfig();
       }
     });
     this.savingErrorSubscription = this.savingError$.subscribe((e) => {
@@ -114,7 +110,6 @@ export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
     this.templateToBeEditedSubscription.unsubscribe();
     this.stepsDirtySubscription.unsubscribe();
     this.stepsSubscription.unsubscribe();
-    this.savingSuccessSubscription.unsubscribe();
     this.savingErrorSubscription.unsubscribe();
     this.savingErrorMessageSubscription.unsubscribe();
   }
@@ -123,11 +118,24 @@ export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
     this.upsertModalForm = this.formBuilder.group({
       'workflowName': ['', [Validators.required, this.notBlackListed().bind(this)]]}
     );
+
+    this.upsertModalForm.valueChanges.subscribe((c) => {
+      if (this.templateBeingEdited.Id === null) {
+        this.validateWorkflowConfig();
+      }
+    });
+  }
+
+  private validateWorkflowConfig() {
+    if ((this.steps === undefined || this.steps.length === 0)) {
+      this.upsertModalForm.setErrors({ 'error': 'Name or Email Required' });
+    } else {
+      this.upsertModalForm.setErrors(null);
+    }
   }
 
   handleFormSubmit() {
-    this.attemptedSave = true;
-    if (this.upsertModalForm.valid && !this.stepsRequired) {
+    if (this.upsertModalForm.valid) {
       this.store.dispatch(new fromWorkflowAction.UpdateWorkflowTemplate({name: this.workflowName.value, steps: this.steps}));
       this.store.dispatch(new fromWorkflowAction.BuildWorkflowTemplateSaveObj());
       this.store.dispatch(new fromWorkflowAction.SaveWorkflowTemplate({template: this.templateSaveObj}));
