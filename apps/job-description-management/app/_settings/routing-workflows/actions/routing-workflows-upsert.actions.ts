@@ -7,7 +7,7 @@ export const UPDATE_WORKFLOW_TEMPLATE = '[Settings/WorkflowTemplateList/Upsert] 
 export const SAVE_WORKFLOW_TEMPLATE = '[Settings/WorkflowTemplateList/Upsert] Save Workflow Template';
 export const SAVE_WORKFLOW_TEMPLATE_SUCCESS = '[Settings/WorkflowTemplateList/Upsert] Save Workflow Template Success';
 export const SAVE_WORKFLOW_TEMPLATE_ERROR = '[Settings/WorkflowTemplateList/Upsert] Save Workflow Template Error';
-export const OPEN_UPSERT_WORKFLOW_TEMPLATE_MODAL = '[Settings/WorkflowTemplateList/Upsert] Open Upsert Workflow Template Modal';
+export const POPULATE_WORKFLOW_TEMPLATE = '[Settings/WorkflowTemplateList/Upsert] Populate Workflow Template';
 export const CLOSE_UPSERT_WORKFLOW_TEMPLATE_MODAL = '[Settings/WorkflowTemplateList/Upsert] Close Upsert Workflow Template Modal';
 
 export class BuildWorkflowTemplateSaveObj implements Action {
@@ -36,21 +36,20 @@ export class SaveWorkflowTemplateError implements Action {
     constructor(public payload: {errorMessage: string}) {}
 }
 
-export class OpenUpsertWorkflowTemplateModal implements Action {
-  readonly type = OPEN_UPSERT_WORKFLOW_TEMPLATE_MODAL;
+export class PopulateWorkflowTemplate implements Action {
+  readonly type = POPULATE_WORKFLOW_TEMPLATE;
 
-  constructor(public payload: WorkflowTemplate = null) {}
+  constructor(public payload: WorkflowTemplate) {}
 }
 
 export class CloseUpsertWorkflowTemplateModal implements Action {
   readonly type = CLOSE_UPSERT_WORKFLOW_TEMPLATE_MODAL;
 }
-
 export type UpsertActions
   = BuildWorkflowTemplateSaveObj
   | UpdateWorkflowTemplate
   | SaveWorkflowTemplate
   | SaveWorkflowTemplateSuccess
   | SaveWorkflowTemplateError
-  | OpenUpsertWorkflowTemplateModal
+  | PopulateWorkflowTemplate
   | CloseUpsertWorkflowTemplateModal;

@@ -1,30 +1,27 @@
-<pf-modal-form
-  [size]="'lg'"
-  [title]="modalTitle"
-  [primaryButtonText]="modalPrimaryButtonText"
-  [primaryButtonTextSubmitting]="modalPrimaryButtonTextSubmitting"
-  [primaryButtonClass]="'btn-primary'"
-  [secondaryButtonText]="'Cancel'"
-  [submitting]="(saving$ | async)"
-  [isOpen$]="upsertModalOpen$"
-  [formGroup]="upsertModalForm"
-  (onSubmit)="handleFormSubmit()"
-  (onDismiss)="handleModalDismissed()">
-
-  <ng-container form-content>
-    <div class="form-group">
-      <label for="workflow-name" class="control-label">Workflow Name: </label>
-      <input 
-        type="text" 
-        class="form-control"
-        formControlName="workflowName"  
-        id="workflow-name" 
-        [pfValidatable]="true"
-        [autofocus]="true" >
-      <span *ngIf="workflowName.errors?.notBlackListed" class="text-danger d-flex justify-content-end">Workflow Name is required and must be unique.</span>      
-      <span *ngIf="!workflowName.pristine && workflowName.hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
-    </div>
-    <span *ngIf="workflowName.errors?.error" class="text-danger d-flex justify-content-end">{{workflowName.errors.error}}</span>
-    <pf-workflow-config></pf-workflow-config>
-  </ng-container>
-</pf-modal-form>
+<ng-template #saveWorkflowTemplateModal>
+	<div class="modal-header">
+		<h4 class="modal-title">{{editing ? "Edit" : "Create"}} Workflow</h4>
+		<button type="button" class="close" aria-label="Close" (click)="close()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form [formGroup]="workflowTemplateForm">
+			<div class="form-group" [class.has-danger]="!workflowName.pristine && workflowName.errors">
+				<label for="workflow-name" class="control-label">Workflow Name: </label>
+				<input id="workflow-name" class="form-control" type="text" formControlName="workflowName" [autofocus]="true" [class.form-control-danger]="!workflowName.pristine && workflowName.errors">
+        <span *ngIf="!workflowName.pristine && workflowName.hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
+        <span *ngIf="workflowName.errors?.notBlackListed" class="text-danger d-flex justify-content-end">Workflow Name is required and must be unique.</span>      
+			</div>
+    </form>
+		<pf-workflow-config></pf-workflow-config>
+	</div>
+	<div class="modal-footer">
+    <span *ngIf="workflowTemplateForm.errors?.error" class="text-danger d-flex justify-content-end">{{workflowTemplateForm.errors.error}}</span>
+		<button type="button" [disabled]="(saving$ | async)" class="btn btn-secondary" (click)="close()">Cancel</button>
+		<button class="btn btn-primary" [disabled]="(!editing && !stepsDirty) || (editing && !stepsDirty && !workflowTemplateForm.dirty) || (saving$ | async) || !workflowTemplateForm.valid || workflowName.value === ''" (click)="saveWorkflowTemplate()">
+			<span *ngIf="(saving$ | async)"><pf-loading-indicator></pf-loading-indicator> Saving...</span>
+			<span *ngIf="!(saving$ | async)">Save</span>
+		</button>
+	</div>
+</ng-template>

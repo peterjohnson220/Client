@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import { AsyncStateObj } from 'libs/models';
-import { WorkflowTemplate, WorkflowStep } from 'apps/job-description-management/app/shared/models';
 
 import * as fromWorkflowReducer from '../reducers';
 import * as fromWorkflowAction from '../actions';
+import { RoutingWorkflowsUpsertModalComponent } from '../containers';
+import { WorkflowTemplate, WorkflowStep } from '../../../shared/models';
 
 @Component({
   selector: 'pf-routing-workflows',
@@ -16,15 +17,18 @@ import * as fromWorkflowAction from '../actions';
   styleUrls: ['./routing-workflows-list.page.scss']
 })
 export class RoutingWorkflowsPageComponent implements OnInit {
+  @ViewChild(RoutingWorkflowsUpsertModalComponent, {static: true}) saveWorkflowModalComponent: RoutingWorkflowsUpsertModalComponent;
 
   filter: string;
 
   workflowTemplates$: Observable<AsyncStateObj<WorkflowTemplate[]>>;
+  workflowTemplateNames$: Observable<string[]>;
 
   constructor(
     private sanitizer: DomSanitizer,
     private store: Store<fromWorkflowReducer.State>) {
     this.workflowTemplates$ = this.store.pipe(select(fromWorkflowReducer.getWorkflowTemplateList));
+    this.workflowTemplateNames$ = this.store.pipe(select(fromWorkflowReducer.getWorkflowTemplateNames));
   }
 
   ngOnInit() {
@@ -32,11 +36,11 @@ export class RoutingWorkflowsPageComponent implements OnInit {
   }
 
   createWorkflow() {
-    this.store.dispatch(new fromWorkflowAction.OpenUpsertWorkflowTemplateModal());
+    this.saveWorkflowModalComponent.open();
   }
 
   editWorkflow(workflowTemplate: WorkflowTemplate) {
-    this.store.dispatch(new fromWorkflowAction.OpenUpsertWorkflowTemplateModal(workflowTemplate));
+    this.saveWorkflowModalComponent.open(workflowTemplate);
   }
 
   deleteWorkflow(workflowTemplate: WorkflowTemplate) {
