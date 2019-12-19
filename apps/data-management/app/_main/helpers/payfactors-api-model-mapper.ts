@@ -1,8 +1,11 @@
-import {OrgDataEntityType, TransferMethodTypes} from 'libs/constants/hris-api';
+import { ImportDataType, OrgDataEntityType, TransferMethodTypes} from 'libs/constants/hris-api';
 import {
   AuthenticationTypeResponse,
   ConnectionPostRequest,
   CredentialsPackage,
+  MappingPackage,
+  PayfactorsEntityFieldsResponse,
+  ProviderEntitiyFieldsResponse,
   ProviderResponse,
   TransferMethodResponse,
   ProviderSupportedEntityDTO
@@ -11,8 +14,8 @@ import {
 import {
   AuthenticationType,
   EntityTypeModel,
-  generateMockPayfactorsEntityFields,
-  generateMockProviderEntityFields, PfTestCredentialsPackage,
+  EntityDataField,
+  PfTestCredentialsPackage,
   Provider,
   TransferMethod,
   WorkdayRestCredentialsPackage, WorkdaySoapCredentialsPackage,
@@ -102,12 +105,50 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static createProviderEntityFields(response: OrgDataEntityType): any[] {
-    return generateMockProviderEntityFields(response);
+  static mapPayfactorsEntityFieldsResponseToEntityDataField(response: PayfactorsEntityFieldsResponse, entityType: OrgDataEntityType): EntityDataField[] {
+    return response.payfactorsEntityFields.map( pef => {
+      return {
+        EntityType: entityType,
+        FieldName: pef.fieldName,
+        IsRequired: pef.requiredField,
+        HasDescription: pef.hasDescription,
+        Description: pef.description,
+        AssociatedEntity: []
+      };
+    });
   }
 
-  static createPayfactorsEntityFields(response: OrgDataEntityType): any[] {
-    return generateMockPayfactorsEntityFields(response);
+  static mapProviderEntityFieldsResponseToEntityDataField(response: ProviderEntitiyFieldsResponse, entityType: OrgDataEntityType): EntityDataField[] {
+    return response.fields.map( pef => {
+      return {
+        EntityType: entityType,
+        FieldName: pef.name
+      };
+    });
+  }
+
+  static createMappingPackage(request: any, entityType: OrgDataEntityType): MappingPackage {
+    return {
+      MappingPayload: {
+        Items: [
+          {
+            OrgDataEntityType: entityType,
+            Mappings: [
+              {
+                DestinationField: '',
+                SourceField: '',
+                SourceMetadata: {
+                  DataType: ImportDataType.String,
+                  IsArray: false,
+                  Name: '',
+                  MetaData: ''
+                }
+              }
+            ]
+          }
+        ]
+      }
+    };
   }
 
   static mapEntitySelectionResponseToEntitySelection(response: ProviderSupportedEntityDTO[]): EntityChoice[] {

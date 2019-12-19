@@ -2,12 +2,8 @@
   <div class="col-sm-4">
     <h5>Import Fields</h5>
     <div class="w-75">
-      <pf-input-debounce [minWidth]="300"
-                          [id]="'providerEntitySearch-' + entity"
-                          [delay]="400"
-                          (valueChanged)="handleSearchTermChanged($event, 'provider')"
-                          [placeholderText]="'Search...'"
-                          pfClickElsewhere>
+      <pf-input-debounce [minWidth]="300" [id]="'providerEntitySearch-' + entity" [delay]="400"
+        (valueChanged)="handleSearchTermChanged($event, 'provider')" [placeholderText]="'Search...'" pfClickElsewhere>
       </pf-input-debounce>
     </div>
     <div class="row my-4 provider-field-list">
@@ -24,12 +20,8 @@
   <div class="col-sm-7">
     <h5>Payfactors Fields</h5>
     <div class="w-50">
-      <pf-input-debounce [minWidth]="300"
-                        [id]="'payfactorsEntitySearch-' + entity"
-                        [delay]="400"
-                        (valueChanged)="handleSearchTermChanged($event, 'payfactors')"
-                        [placeholderText]="'Search...'"
-                        pfClickElsewhere>
+      <pf-input-debounce [minWidth]="300" [id]="'payfactorsEntitySearch-' + entity" [delay]="400"
+        (valueChanged)="handleSearchTermChanged($event, 'payfactors')" [placeholderText]="'Search...'" pfClickElsewhere>
       </pf-input-debounce>
     </div>
     <div class="container-fluid my-4 border rounded pf-entity-table">
@@ -37,12 +29,21 @@
         <h5>FIELD NAME</h5>
       </div>
       <div class="">
-        <div class="row py-3 {{ !isFirst ? 'border-top': ''}}" *ngFor="let field of filteredPayfactorsFields; first as isFirst">
+        <div class="row py-3 {{ !isFirst ? 'border-top': ''}}"
+          *ngFor="let field of filteredPayfactorsFields; first as isFirst">
           <div class="d-flex p-2">
             <div class="d-inline-flex align-items-center">
-              <fa-icon icon="info-circle" placement="left" ngbTooltip="Lorem Ipsum" class="mx-2"
-                style="font-size: 1.6rem;"></fa-icon>
+              <div style=" width: 21px; height: 31px;" class="mx-2" *ngIf="!field.HasDescription">&nbsp;</div>
+              <fa-icon icon="info-circle" placement="left" ngbTooltip="{{field.Description}}" class="mx-2"
+                style="font-size: 1.6rem;" *ngIf="field.HasDescription"></fa-icon>
               <h5 class="{{field.IsRequired ? 'font-weight-bold' : ''}} mb-0">{{field.FieldName}}</h5>
+            </div>
+          </div>
+          <div class="d-flex p-2 w-100">
+            <div class="d-inline-flex align-items-center" >
+              <div *ngFor="let associatedField of field.AssociatedEntity">
+                {{associatedField.FieldName}}
+              </div>
             </div>
           </div>
         </div>
