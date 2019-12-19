@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
@@ -9,7 +9,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -27,7 +27,7 @@ import { PfConstants } from '../../../models/common';
   styleUrls: [ './user-or-email-picker.component.scss' ]
 })
 
-export class UserOrEmailPickerComponent implements OnInit {
+export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
   @Input() companyId: number;
   @Input() nameToExclude: string;
   @Input() loaderType: string;
@@ -36,6 +36,8 @@ export class UserOrEmailPickerComponent implements OnInit {
   @Output() selected = new EventEmitter();
 
   identity$: Observable<UserContext>;
+  identitySubscription: Subscription;
+
   avatarUrl: string;
   model: any;
   searching = false;
@@ -49,11 +51,15 @@ export class UserOrEmailPickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.identity$.subscribe(i => {
+    this.identitySubscription = this.identity$.subscribe(i => {
       if (i) {
         this.avatarUrl = i.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/avatars/';
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.identitySubscription.unsubscribe();
   }
 
   handleItemSelected(event: NgbTypeaheadSelectItemEvent) {
