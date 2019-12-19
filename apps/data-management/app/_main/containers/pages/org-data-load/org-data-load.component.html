@@ -14,7 +14,8 @@
 
     <div class=" w-100 d-flex justify-content-center">
       <div class="w-100">
-        <h4 class="my-2">Load Organizational Data</h4>
+        <h4 class="my-2">Load Organizational Data <span *ngIf="this.selectedCompany"> -
+            {{this.selectedCompany.CompanyName}}</span></h4>
         <div class="shadow p-3 rounded container-background">
 
           <ngb-alert *ngIf="isModalOpen$ | async"
