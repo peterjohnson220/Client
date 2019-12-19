@@ -65,6 +65,17 @@ describe('OrgDataLoadComponent', () => {
     expect(instance.stepIndex).toBe(2);
   });
 
+  it('should not increment step on btn click with invalid delimiter info for step 3', () => {
+    instance.stepIndex = 3;
+    instance.loadOptions = getEntityChoicesForOrgLoader();
+    instance.selectedDelimiter = null;
+    const ret = instance.areStepsValid();
+    expect(ret).toBe(false);
+    instance.nextBtnClick();
+    expect(instance.stepIndex).toBe(3);
+  });
+
+
   it('should  increment step on btn click with valid info for step 2', () => {
     instance.stepIndex = 2;
     instance.loadOptions = getEntityChoicesForOrgLoader();
