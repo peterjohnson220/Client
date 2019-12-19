@@ -8,11 +8,12 @@ import { Subscription } from 'rxjs/Subscription';
 import { take } from 'rxjs/operators';
 
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
-import * as fromExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
+import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import { DataCutValidationInfo, ExchangeStatCompanyMakeup } from 'libs/models/peer';
 import { arraysEqual, checkArraysOneOff } from 'libs/core/functions';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
+import { WeightType } from 'libs/data/data-sets';
 
 import * as fromUpsertPeerDataReducers from '../reducers';
 import * as fromDataCutValidationActions from '../actions/data-cut-validation.actions';
@@ -28,6 +29,7 @@ export class DojGuidelinesService implements OnDestroy {
   public companyValidationPass = true;
   public employeeValidationPass = true;
 
+  isOrgWeighted = false;
   dataCutValidationInfo: DataCutValidationInfo[];
   companies: ExchangeStatCompanyMakeup[];
 
@@ -35,16 +37,18 @@ export class DojGuidelinesService implements OnDestroy {
   peerMapCompanies$: Observable<ExchangeStatCompanyMakeup[]>;
   dataCutValidationInfo$: Observable<DataCutValidationInfo[]>;
   areEmployeesValid$: Observable<boolean>;
+  weightingType$: Observable<string>;
 
   // Subscriptions
   employeeValidSubscription: Subscription;
   dataCutValidationSubscription: Subscription;
   peerMapCompaniesSubscription: Subscription;
+  weightingTypeSubscription: Subscription;
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
     private peerMapStore: Store<fromPeerMapReducers.State>,
-    private exchangeExplorerStore: Store<fromExchangeExplorerReducers.State>,
+    private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     private settingsService: SettingsService,
     private route: ActivatedRoute
   ) {
@@ -52,13 +56,14 @@ export class DojGuidelinesService implements OnDestroy {
       take(1)
     ).subscribe((exchangeExplorerEnabled) => {
           this.peerMapCompanies$ = exchangeExplorerEnabled
-            ? this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducers.getPeerMapCompaniesFromSummary))
+            ? this.exchangeExplorerStore.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapCompaniesFromSummary))
             : this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
         }
       );
 
     this.dataCutValidationInfo$ = this.store.pipe(select(fromUpsertPeerDataReducers.getDataCutValidationInfo));
     this.areEmployeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
+    this.weightingType$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getWeightingType));
 
 
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pmc => this.companies = pmc);
@@ -67,6 +72,9 @@ export class DojGuidelinesService implements OnDestroy {
       this.employeeValidationPass = validEmployees;
     }
     );
+    this.weightingTypeSubscription = this.weightingType$.subscribe(wt => {
+      this.isOrgWeighted = wt === WeightType.Org;
+    });
   }
 
   get validDataCut(): boolean {
@@ -83,11 +91,19 @@ export class DojGuidelinesService implements OnDestroy {
   }
 
   get hasNoDominatingData(): boolean {
+    if (this.isOrgWeighted) {
+      return true;
+    }
+
     return this.hasNoHardDominatingData &&
       !this.companies.some(c => c.Percentage > this.guidelineLimits.DominatingPercentage);
   }
 
   get hasNoHardDominatingData(): boolean {
+    if (this.isOrgWeighted) {
+      return true;
+    }
+
     return this.hasCompaniesAndLimits &&
       !this.companies.some(c => c.Percentage >= this.guidelineLimits.DominatingPercentageHard);
   }
@@ -115,6 +131,7 @@ export class DojGuidelinesService implements OnDestroy {
     this.peerMapCompaniesSubscription.unsubscribe();
     this.dataCutValidationSubscription.unsubscribe();
     this.employeeValidSubscription.unsubscribe();
+    this.weightingTypeSubscription.unsubscribe();
   }
 
   validateDataCut(mapCompanies: any, companyJobId: number, userSessionId: number, isFromExchangeExplorer: boolean = false) {
