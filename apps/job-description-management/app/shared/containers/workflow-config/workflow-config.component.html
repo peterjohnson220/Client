@@ -41,16 +41,14 @@
               <img [src]="avatarUrl + workflowSteps[i].WorkflowStepUsers[0].UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" width="30" height="30">
             </div>
 
-            <div class="col-6 pr-1 workflow-user-container truncate">
+			<div class="col-6 pr-1 workflow-user-container truncate">
               <span *ngFor="let stepUser of workflowStep.WorkflowStepUsers; let idx = index">
-                <span [ngClass]="{'workflow-user-forbidden' : stepUser.Permissions?.length === 0}">
-					<div [ngClass]="{'dnd-workflow-user-reorder-handle grabbable' : workflowSteps.length > 1 && (!stepWithMultipleUsersBeingAdded && !stepAddingNonPfUsers)}">
-						{{stepUser.FirstName}} {{stepUser.LastName}}
-					</div>
+                <span [ngClass]="{'workflow-user-forbidden' : stepUser.Permissions?.length === 0, 'dnd-workflow-user-reorder-handle grabbable' : workflowSteps.length > 1 && (!stepWithMultipleUsersBeingAdded && !stepAddingNonPfUsers)}">
+					{{stepUser.FirstName}} {{stepUser.LastName}}
                 </span>
                 <span *ngIf="idx !== workflowStep.WorkflowStepUsers.length - 1">,</span>
               </span>
-						</div>
+			</div>
 
             <div class="col-1 action-container d-flex justify-content-end add-more-users-to-step"
               [ngClass]="{'invisible' : (!!stepWithMultipleUsersBeingAdded && !!stepAddingNonPfUsers)}"
