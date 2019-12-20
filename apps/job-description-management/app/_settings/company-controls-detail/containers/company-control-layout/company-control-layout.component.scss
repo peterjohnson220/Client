@@ -42,7 +42,7 @@
   border-width: thin;
 }
 
-div.dnd-choice-reorder:hover svg {
+div.dnd-choice-reorder:hover fa-icon {
     visibility: visible;
     color: #7d7d7d;
 }
@@ -55,7 +55,7 @@ div.dnd-choice-reorder:hover svg {
   border-radius: 0;
 }
 
-.dnd-choice-reorder-handle svg {
+.dnd-choice-reorder-handle fa-icon {
     visibility: hidden;
     display: inline-block;
 }
