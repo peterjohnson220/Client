@@ -27,6 +27,12 @@ export class EntityUploadComponent {
     });
   }
 
+  public ClearAllErrorMessages(): void {
+    this.uploadComponents.forEach((child) => {
+      child.ClearErrorMessage();
+    });
+  }
+
   public mappingChange($event: any) {
     this.onMappingChange.emit($event);
   }

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {KeyValue} from '@angular/common';
+
+import { KeyValue } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, Subject } from 'rxjs';
@@ -12,21 +13,21 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
 import { CompanySelectorItem } from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
-import { LoaderType, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
-import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
+import { LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
+import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
+import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
-import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
 import * as fromCustomFieldsActions from '../../../actions/custom-fields.actions';
 import * as fromOrgDataFieldMappingsActions from '../../../actions/organizational-data-field-mapping.actions';
-import {EntityUploadComponent} from '../../../components';
-import {ConfigurationGroup, EntityChoice, FileUploadDataModel, getEntityChoicesForOrgLoader, OrgUploadStep} from '../../../models';
+import { EntityUploadComponent } from '../../../components';
+import { ConfigurationGroup, EntityChoice, FileUploadDataModel, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
 
 @Component({
   selector: 'pf-org-data-load',
@@ -400,6 +401,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         });
 
         this.uploadComponent.ClearAllFiles();
+        this.uploadComponent.ClearAllErrorMessages();
 
         if (this.loaderConfigGroup) {
           this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.loaderConfigGroup.LoaderConfigurationGroupId);
@@ -529,8 +531,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       }
     });
 
-    filesDataRequest = {loaderConfigurationGroupId: loaderConfigurationGroupId, files: files};
-    this.fileUploadData = {companyId: this.selectedCompany.CompanyId, fileUpload: filesDataRequest};
+    filesDataRequest = { loaderConfigurationGroupId: loaderConfigurationGroupId, files: files };
+    this.fileUploadData = { companyId: this.selectedCompany.CompanyId, fileUpload: filesDataRequest };
     this.mainStore.dispatch(new fromOrganizationalDataActions.UploadData(this.fileUploadData));
   }
 
@@ -597,15 +599,15 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   onEmployeeMappingComplete($event: LoaderEntityStatus) {
-      this.employeeMappingComplete = $event.complete;
-      this.isEmployeesLoadEnabled = $event.loadEnabled;
-      if (this.employeeMappingComplete) {
-        this.addOrReplaceMappings('Employees', $event.mappings);
-      }
-      if ($event.dateFormat) {
-        this.dateFormat = $event.dateFormat;
-      }
-      this.isEmployeesFullReplace = $event.isFullReplace;
+    this.employeeMappingComplete = $event.complete;
+    this.isEmployeesLoadEnabled = $event.loadEnabled;
+    if (this.employeeMappingComplete) {
+      this.addOrReplaceMappings('Employees', $event.mappings);
+    }
+    if ($event.dateFormat) {
+      this.dateFormat = $event.dateFormat;
+    }
+    this.isEmployeesFullReplace = $event.isFullReplace;
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {
