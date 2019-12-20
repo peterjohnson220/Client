@@ -144,11 +144,20 @@ export const getSelectedEntities = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getSelectedEntities
 );
-
 export const getProviderSupportedEntities = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getProviderSupportedEntities
 );
+export const fileUploadData = createSelector(
+  selectOrganizationalDataPageState,
+  fromOrganizationalDataPageReducer.fileUploadData
+);
+
+export const fileUploadDataFailed = createSelector(
+  selectOrganizationalDataPageState,
+  fromOrganizationalDataPageReducer.fileUploadDataFailed
+);
+
 
 // Field Mapping Card
 export const getFieldMappingCardLoading = createSelector(
@@ -200,4 +209,10 @@ export const getCustomEmployeeField =
 );
 export const getCustomEmployeeFieldError =
   createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeFieldError
+);
+
+// Notification
+export const isProcessingMapping = createSelector(
+  selectOrganizationalDataPageState,
+  fromOrganizationalDataPageReducer.isProcessingMapping
 );

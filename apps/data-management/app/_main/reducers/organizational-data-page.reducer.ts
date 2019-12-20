@@ -1,5 +1,5 @@
 import * as fromOrganizationalDataPageActions from '../actions/organizational-data-page.action';
-import { ConfigurationGroup } from '../models';
+import {ConfigurationGroup} from '../models';
 
 export interface State {
   organizationalDataTemplateLink: string;
@@ -8,6 +8,8 @@ export interface State {
   isLoading: boolean;
   hasError: boolean;
   configurationGroup: ConfigurationGroup;
+  hasUploadedFiles: boolean;
+  isProcessingMapping: boolean;
 }
 
 export const initialState: State = {
@@ -16,7 +18,9 @@ export const initialState: State = {
   isModalOpen: false,
   isLoading: false,
   hasError: false,
-  configurationGroup: null
+  configurationGroup: null,
+  hasUploadedFiles: false,
+  isProcessingMapping: false,
 };
 
 export function reducer(state = initialState, action: fromOrganizationalDataPageActions.Actions): State {
@@ -69,6 +73,30 @@ export function reducer(state = initialState, action: fromOrganizationalDataPage
         hasError: true
       };
     }
+    case fromOrganizationalDataPageActions.UPLOAD_DATA: {
+      return {
+        ...state,
+        hasUploadedFiles: false,
+        isProcessingMapping: true,
+        hasError: false
+      };
+    }
+    case fromOrganizationalDataPageActions.UPLOAD_DATA_SUCCESS: {
+      return {
+        ...state,
+        hasUploadedFiles: true,
+        isProcessingMapping: false,
+        hasError: false
+      };
+    }
+    case fromOrganizationalDataPageActions.UPLOAD_DATA_FAILED: {
+      return {
+        ...state,
+        hasUploadedFiles: false,
+        isProcessingMapping: false,
+        hasError: true
+      };
+    }
     default:
       return state;
   }
@@ -79,3 +107,6 @@ export const getOrganizationalHeadersLinkError = (state: State) => state.organiz
 export const getModalStateOpen = (state: State) => state.isModalOpen;
 export const getConfigurationGroup = (state: State) => state.configurationGroup;
 export const getHasError = (state: State) => state.hasError;
+export const fileUploadData = (state: State) => state.hasUploadedFiles;
+export const fileUploadDataFailed = (state: State) => state.hasError;
+export const isProcessingMapping = (state: State) => state.isProcessingMapping;

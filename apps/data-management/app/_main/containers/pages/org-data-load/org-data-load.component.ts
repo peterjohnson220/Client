@@ -1,28 +1,32 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import { KeyValue } from '@angular/common';
+import {KeyValue} from '@angular/common';
 
-import { Store } from '@ngrx/store';
-import { forkJoin, Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import {forkJoin, Observable, Subject} from 'rxjs';
+import {filter, take, takeUntil} from 'rxjs/operators';
 
-import { environment } from 'environments/environment';
+import {environment} from 'environments/environment';
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
-import { CompanySelectorItem } from 'libs/features/company/models';
+import {CompanySelectorItem} from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
-import { LoaderType } from 'libs/features/org-data-loader/constants';
-import { OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
-import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
+import {LoaderType} from 'libs/features/org-data-loader/constants';
+import {OrgDataLoadHelper} from 'libs/features/org-data-loader/helpers';
+import {ILoadSettings} from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import { LoaderSetting } from 'libs/models/data-loads';
-import { UserContext } from 'libs/models/security';
+import {LoaderSetting} from 'libs/models/data-loads';
+import {UserContext} from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
-import { EntityUploadComponent } from '../../../components';
-import { ConfigurationGroup, EntityChoice, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
+import {EntityUploadComponent} from '../../../components';
+import {ConfigurationGroup, EntityChoice, FileUploadDataModel, getEntityChoicesForOrgLoader, OrgUploadStep} from '../../../models';
 import * as fromCustomFieldsActions from '../../../actions/custom-fields.actions';
+import {FileUploadDataRequestModel} from 'libs/features/org-data-loader/models';
+import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import {AppNotification, NotificationLevel, NotificationPayload, NotificationType} from 'libs/features/app-notifications/models';
 
 @Component({
   selector: 'pf-org-data-load',
@@ -45,7 +49,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private configGroup$: Observable<ConfigurationGroup>;
   private customJobFields$: Observable<any>;
   private customEmployeeFields$: Observable<any>;
+  private fileUploadData$: Observable<any>;
+  private fileUploadDataFailed$: Observable<any>;
   public isModalOpen$: Observable<boolean>;
+  public isProcessingMapping$: Observable<boolean>;
 
   userContext$: Observable<UserContext>;
   loaderSettings$: Observable<LoaderSetting[]>;
@@ -70,7 +77,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private configGroupSeed: ConfigurationGroup = {
     LoaderConfigurationGroupId: -1, GroupName: 'Add New Mapping', CompanyId: -1
   };
-
+  private fileUploadData: FileUploadDataModel;
   StepHeaders: string[] = [
     'Select a company:',
     'Select which organizational data entity you would like to load data for:',
@@ -83,8 +90,34 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     'Please choose a file for each entity type and select a delimiter'
   ];
 
+  notification: { success: AppNotification<NotificationPayload>, error: AppNotification<NotificationPayload> } = {
+    success : {
+      NotificationId: '',
+      Level: NotificationLevel.Info,
+      From: 'Organizational Data Loader',
+      Payload: {
+        Title: 'Organizational Data Loader',
+        Message: 'The organization load has been successfully queued for processing. Please check your email for updates.'
+      },
+      EnableHtml: true,
+      Type: NotificationType.Event
+    },
+    error : {
+      NotificationId: '',
+      Level: NotificationLevel.Error,
+      From: 'Organizational Data Loader',
+      Payload: {
+        Title: 'Organizational Data Loader',
+        Message: 'Your file upload has failed. Please contact free@payfactors.com'
+      },
+      EnableHtml: true,
+      Type: NotificationType.Event
+    }
+  };
+
   constructor(private store: Store<fromCompanyReducer.State>,
-    private mainStore: Store<fromDataManagementMainReducer.State>) {
+    private mainStore: Store<fromDataManagementMainReducer.State>,
+    private notificationStore: Store<fromAppNotificationsMainReducer.State>) {
 
     this.AddAndSetSelectedMapping(this.configGroupSeed);
 
@@ -97,6 +130,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.configGroup$ = this.mainStore.select(fromDataManagementMainReducer.getConfigurationGroup);
     this.customJobFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomJobField);
     this.customEmployeeFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomEmployeeField);
+    this.fileUploadData$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadData);
+    this.fileUploadDataFailed$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadDataFailed);
+    this.isProcessingMapping$ = this.mainStore.select(fromDataManagementMainReducer.isProcessingMapping);
 
     this.selectedCompany$.pipe(
       filter(uc => !!uc),
@@ -132,18 +168,33 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
     this.customJobFields$.pipe(
       filter(uc => !!uc),
-      take(1),
       takeUntil(this.unsubscribe$)).subscribe(jobs => {
         this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.Jobs).customFields.Jobs = jobs;
       });
 
     this.customEmployeeFields$.pipe(
       filter(uc => !!uc),
-      take(1),
       takeUntil(this.unsubscribe$)).subscribe(employees => {
         this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.Employees).customFields.Employees = employees;
-      });
+    });
 
+    this.fileUploadData$.pipe(
+      filter(uc => !!uc),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      if (f) {
+        this.setNewStart(this.notification.success);
+      }
+    });
+
+    this.fileUploadDataFailed$.pipe(
+      filter(uc => !!uc),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      if (f) {
+        this.setNewStart(this.notification.error);
+      }
+    });
 
     const userSubscription = this.userContext$
       .pipe(
@@ -173,6 +224,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next(true);
   }
 
+  setNewStart(notification) {
+    this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
+    this.setInitValues();
+  }
 
   setInitValues() {
     if (this.userContext.AccessLevel === 'Admin') {
@@ -183,7 +238,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromCompanySelectorActions.SetSelectedCompany(this.selectedCompany));
       this.stepIndex = OrgUploadStep.Entity;
     }
-
     // reset any checked loads
     this.loadOptions = getEntityChoicesForOrgLoader();
   }
@@ -265,11 +319,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
         if (this.loaderConfigGroup) {
           this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.loaderConfigGroup.LoaderConfigurationGroupId);
-          this.selectedDelimiter = this.loaderSetting.delimiter;
         } else {
           this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.configGroupSeed.LoaderConfigurationGroupId);
-          this.selectedDelimiter = this.defaultDelimiter;
         }
+        this.selectedDelimiter = this.loaderSetting !== null && this.loaderSetting !== undefined ? this.loaderSetting.delimiter : this.defaultDelimiter;
+
         break;
 
       case OrgUploadStep.FieldMapping:
@@ -350,5 +404,16 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     event.preventDefault();
   }
 
-
+  processBtnClick() {
+    let files: File[] = [];
+    let filesDataRequest: FileUploadDataRequestModel;
+    this.loadOptions.forEach((l) => {
+      if (l.isChecked) {
+        files.push(l.File);
+      }
+    });
+    filesDataRequest = {loaderConfigurationGroupId: this.selectedMapping.LoaderConfigurationGroupId, files: files};
+    this.fileUploadData = {companyId: this.selectedCompany.CompanyId, fileUpload: filesDataRequest};
+    this.mainStore.dispatch( new fromOrganizationalDataActions.UploadData(this.fileUploadData));
+  }
 }

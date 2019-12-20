@@ -43,6 +43,7 @@ import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
 import { JobsApiService } from './jobs';
+import {DataImportApiService} from './integration/data-import';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -97,6 +98,7 @@ import { JobsApiService } from './jobs';
     CompanyResourcesApiService,
     OrganizationalDataApiService,
     ConfigurationGroupApiService,
+    DataImportApiService,
 
     // PEER
     ExchangeApiService,
