@@ -18,7 +18,7 @@ export class CompanySelectorComponent implements OnInit, OnDestroy {
 
   selectedCompany: CompanySelectorItem;
 
-  data: CompanySelectorItem[];
+  companies: CompanySelectorItem[];
   filteredData: CompanySelectorItem[];
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
@@ -26,7 +26,9 @@ export class CompanySelectorComponent implements OnInit, OnDestroy {
   public isLoading$: Observable<boolean>;
 
   ngOnInit(): void {
-    this.store.dispatch(new fromCompanySelectorActions.GetCompanies());
+    if (!this.companies || this.companies.length === 0) {
+      this.store.dispatch(new fromCompanySelectorActions.GetCompanies());
+    }
   }
 
   constructor(private store: Store<fromCompanyReducer.State>) {
@@ -34,19 +36,21 @@ export class CompanySelectorComponent implements OnInit, OnDestroy {
     this.isLoading$ = store.select(fromCompanyReducer.getCompaniesLoading);
     this.selectedCompany$ = store.select(fromCompanyReducer.getSelectedCompany);
 
-    this.selectedCompany$.subscribe(f => this.selectedCompany = f);
+    this.selectedCompany$.subscribe(f => {
+      this.selectedCompany = f;
+    });
 
     this.companies$.pipe(
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$))
       .subscribe(f => {
-        this.data = f;
-        this.filteredData = this.data.slice(0, 20);
+        this.companies = f;
+        this.filteredData = this.companies.slice(0, 20);
       });
   }
 
   public filterData(filterValue: string) {
-    this.filteredData = this.data.filter((s) => s.CompanyName.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1).slice(0, 20);
+    this.filteredData = this.companies.filter((s) => s.CompanyName.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1).slice(0, 20);
   }
 
   public setSelectedCompany(selectedCompany: CompanySelectorItem) {
