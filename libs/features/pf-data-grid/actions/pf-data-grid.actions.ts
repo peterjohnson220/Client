@@ -19,8 +19,11 @@ export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
 export const CLEAR_ALL_FILTERS = '[PfDataGrid] Clear All Filters';
 export const TOGGLE_FILTER_PANEL = '[PfDataGrid] Toggle Filter Panel';
 export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
-export const UPDATE_SELECTED_ROW_ID = '[PfDataGrid] Set Selected Row Id';
+export const UPDATE_SELECTED_RECORD_ID = '[PfDataGrid] Update Selected Record Id';
+export const EXPAND_ROW = '[PfDataGrid] Expand Row';
+export const COLLAPSE_ROW = '[PfDataGrid] Collapse Row';
 export const CLEAR_LOADING = '[PfDataGrid] Clear Loading';
+export const DO_NOTHING = '[PfDataGrid] Do Nothing';
 export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
 export const LOAD_SAVED_VIEWS = '[PfDataGrid] Load Saved Views';
 export const LOAD_SAVED_VIEWS_SUCCESS = '[PfDataGrid] Load Saved Views Success';
@@ -110,13 +113,28 @@ export class SetFilterPanelDisplay implements Action {
   constructor(public pageViewId: string, public displayValue: boolean) {}
 }
 
-export class UpdateSelectedRowId implements Action {
-  readonly type = UPDATE_SELECTED_ROW_ID;
-  constructor(public pageViewId: string, public rowId: number, public fieldName: string) {}
+export class UpdateSelectedRecordId implements Action {
+  readonly type = UPDATE_SELECTED_RECORD_ID;
+  constructor(public pageViewId: string, public recordId: number, public fieldName: string) {}
+}
+
+export class ExpandRow implements Action {
+  readonly type = EXPAND_ROW;
+  constructor(public pageViewId: string, public rowIndex: number) {}
+}
+
+export class CollapseRow implements Action {
+  readonly type = COLLAPSE_ROW;
+  constructor(public pageViewId: string, public rowIndex: number) {}
 }
 
 export class ClearLoading implements Action {
   readonly type = CLEAR_LOADING;
+  constructor(public pageViewId: string) { }
+}
+
+export class DoNothing implements Action {
+  readonly type = DO_NOTHING;
   constructor(public pageViewId: string) { }
 }
 
@@ -202,7 +220,9 @@ export type DataGridActions =
     | ToggleFilterPanel
     | SetFilterPanelDisplay
     | UpdateSelectedKey
-    | UpdateSelectedRowId
+    | UpdateSelectedRecordId
+    | ExpandRow
+    | CollapseRow
     | ClearLoading
     | HandleApiError
     | LoadSavedViews

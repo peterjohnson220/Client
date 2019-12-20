@@ -7,54 +7,50 @@
   [contentNoPadding]="true"
   [selectionField]="'CompanyJobPricing_ID'"
   [columnTemplates]="colTemplates"
+  [expandedRowTemplate]="pricingMatchesGrid"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort">
 </pf-data-grid>
 
+<ng-template #pricingMatchesGrid let-dataRow="dataRow">
+  <pf-pricing-matches-grid [pricingInfo]="dataRow"></pf-pricing-matches-grid>   
+</ng-template>
+
 <ng-template #payMarketColumn let-dataRow="dataRow">
-  <ng-container>
-    <b>{{dataRow['CompanyPayMarkets_PayMarket']}}</b>
-    <br>
-    <small>
-      <em class="text-muted">        
-        Industry: {{dataRow['CompanyPayMarkets_Industry_Value'] || 'N/A' }}
-        &#8226;
-        Size: {{dataRow['CompanyPayMarkets_Size_Value'] || 'N/A'}}
-        {{dataRow['CompanyPayMarkets_Size_Label'] ? ' - ' + dataRow['CompanyPayMarkets_Size_Label'] : ''}}
-        &#8226;
-        Location: {{dataRow['CompanyPayMarkets_Geo_Value'] || 'N/A'}}
-      </em>
-    </small>
-  </ng-container>
+  <b>{{dataRow['CompanyPayMarkets_PayMarket']}}</b>
+  <br>
+  <small>
+    <em class="text-muted">        
+      Industry: {{dataRow['CompanyPayMarkets_Industry_Value'] || 'N/A' }}
+      &#8226;
+      Size: {{dataRow['CompanyPayMarkets_Size_Value'] || 'N/A'}}
+      {{dataRow['CompanyPayMarkets_Size_Label'] ? ' - ' + dataRow['CompanyPayMarkets_Size_Label'] : ''}}
+      &#8226;
+      Location: {{dataRow['CompanyPayMarkets_Geo_Value'] || 'N/A'}}
+    </em>
+  </small>
 </ng-template>
 
 <ng-template #baseMrpColumn let-dataRow="dataRow">
-  <ng-container>
-    <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
-    <small *ngIf="dataRow['CompanyJobs_Pricings_BaseMRP']">
-      <em class="text-muted">                
-        ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
-      </em>
-    </small>
-  </ng-container>
+  <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+  <small *ngIf="dataRow['CompanyJobs_Pricings_BaseMRP']">
+    <em class="text-muted">                
+      ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
+    </em>
+  </small>
 </ng-template>
 
 <ng-template #baseTccColumn let-dataRow="dataRow">
-  <ng-container>
-    <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
-    <small *ngIf="dataRow['CompanyJobs_Pricings_TCCMRP']">
-      <em class="text-muted">                
-        ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
-      </em>
-    </small>
-  </ng-container>
+  <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+  <small *ngIf="dataRow['CompanyJobs_Pricings_TCCMRP']">
+    <em class="text-muted">                
+      ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
+    </em>
+  </small>
 </ng-template>
 
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <!-- TODO: Extract this template into a separate component  -->
-  <ng-container>
-    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>    
-  </ng-container>
+  <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>    
 </ng-template>
 
