@@ -17,7 +17,7 @@ export class PricingMatchesJobTitleComponent implements OnInit {
   }
 
   getJobTitle(): string {
-    return `${this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title']} ${this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code']}`;
+    return `${this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title']} (${this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code']})`;
   }
 
   getScope(): string {
