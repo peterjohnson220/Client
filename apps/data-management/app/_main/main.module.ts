@@ -15,8 +15,8 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
-import { FieldMapperComponent } from 'libs/features/org-data-loader/components';
 import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
+import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -68,7 +68,8 @@ import { reducers } from './reducers';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfCompanySelectorModule
+    PfCompanySelectorModule,
+    PfFieldMapperModule
   ],
   declarations: [
     // Pages
@@ -92,7 +93,6 @@ import { reducers } from './reducers';
     FieldMappingCardComponent,
     FileUploadComponent,
     EntityMappingComponent,
-    FieldMapperComponent,
     FileMappingComponent
   ]
 })

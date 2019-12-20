@@ -31,7 +31,7 @@ describe('FileMappingComponent', () => {
     fixture = TestBed.createComponent(FileMappingComponent);
     component = fixture.componentInstance;
     component.entities = getEntityChoicesForOrgLoader();
-    component.entities.forEach(e => { e.customFields.Jobs = customFields, e.customFields.Employees = customFields});
+    component.entities.forEach(e => { e.customFields.Jobs = customFields, e.customFields.Employees = customFields; });
     component.selectedCompany = {CompanyId: 1, CompanyName: 'test'};
     fixture.detectChanges();
     store = TestBed.get(Store);

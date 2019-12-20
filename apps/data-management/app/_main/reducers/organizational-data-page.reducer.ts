@@ -7,6 +7,7 @@ export interface State {
   isModalOpen: boolean;
   isLoading: boolean;
   hasError: boolean;
+  savedConfigurationGroup: ConfigurationGroup;
   configurationGroup: ConfigurationGroup;
   hasUploadedFiles: boolean;
   isProcessingMapping: boolean;
@@ -21,6 +22,7 @@ export const initialState: State = {
   configurationGroup: null,
   hasUploadedFiles: false,
   isProcessingMapping: false,
+  savedConfigurationGroup: null
 };
 
 export function reducer(state = initialState, action: fromOrganizationalDataPageActions.Actions): State {
@@ -97,6 +99,27 @@ export function reducer(state = initialState, action: fromOrganizationalDataPage
         hasError: true
       };
     }
+    case fromOrganizationalDataPageActions.SAVE_CONFIGURATION_GROUP: {
+      return {
+        ...state,
+        isLoading: true,
+        hasError: false
+      };
+    }
+    case fromOrganizationalDataPageActions.SAVE_CONFIGURATION_GROUP_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        savedConfigurationGroup: action.payload
+      };
+    }
+    case fromOrganizationalDataPageActions.SAVE_CONFIGURATION_GROUP_FAILED: {
+      return {
+        ...state,
+        isLoading: false,
+        hasError: true
+      };
+    }
     default:
       return state;
   }
@@ -106,6 +129,7 @@ export const getOrganizationalHeadersLink = (state: State) => state.organization
 export const getOrganizationalHeadersLinkError = (state: State) => state.organizationalDataTemplateLinkError;
 export const getModalStateOpen = (state: State) => state.isModalOpen;
 export const getConfigurationGroup = (state: State) => state.configurationGroup;
+export const getSavedConfigurationGroup = (state: State) => state.savedConfigurationGroup;
 export const getHasError = (state: State) => state.hasError;
 export const fileUploadData = (state: State) => state.hasUploadedFiles;
 export const fileUploadDataFailed = (state: State) => state.hasError;

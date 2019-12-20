@@ -12,11 +12,11 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
-import { FieldMapperComponent } from 'libs/features/org-data-loader/components';
 import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
 import { PfFormsModule } from 'libs/forms';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 
 import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
@@ -51,7 +51,8 @@ import { CompanySelectorComponent, EmailRecipientsComponent, SftpAccountStatusCo
 
     // Payfactors
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfFieldMapperModule
   ],
   providers: [
     ConfigSettingsSelectorFactory
@@ -59,7 +60,6 @@ import { CompanySelectorComponent, EmailRecipientsComponent, SftpAccountStatusCo
   declarations: [
     // Components
     SftpAccountStatusComponent,
-    FieldMapperComponent,
     CompanySelectorComponent,
     EmailRecipientsComponent,
 

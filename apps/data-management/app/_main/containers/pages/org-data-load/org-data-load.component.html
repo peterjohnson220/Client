@@ -62,12 +62,14 @@
                 </pf-entity-upload>
               </div>
 
-              <div *ngSwitchCase="stepEnum.FieldMapping"
-                   class="px-5">
-                <pf-file-mapping [entities]="loadOptions"
-                                 [selectedCompany]="selectedCompany">
-                </pf-file-mapping>
-              </div>
+            <div *ngSwitchCase="stepEnum.FieldMapping"
+                 class="px-5">
+              <pf-file-mapping [entities]="loadOptions"
+                               [selectedCompany]="selectedCompany"
+                               [loaderConfigurationGroupId]="selectedMapping.LoaderConfigurationGroupId"
+                               (mappingComplete)="onMappingComplete($event)">
+              </pf-file-mapping>
+            </div>
 
             </ng-container>
 
@@ -87,6 +89,7 @@
                       *ngIf="this.stepIndex === stepEnum.FieldMapping"
                       [disabled]="isProcessingMapping$ | async"
                       [style.opacity]="this.getNextBtnOpacity()"
+                      [ngbTooltip]="this.showFieldMapperTooltip ? this.NextBtnToolTips[this.stepIndex - 1] : ''"
                       placement="top"
                       (click)="processBtnClick()"
                       class="btn mx-1 pf-primary-btn">Process</button>

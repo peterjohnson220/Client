@@ -11,7 +11,7 @@ export const SAVING_FIELD_MAPPINGS_SUCCESS = '[Org Data Autoloader/Field Mapping
 export class LoadingFieldMappings implements Action {
   readonly type = LOADING_FIELD_MAPPINGS;
 
-  constructor(public payload: number) {}
+  constructor(public companyId: number, public loaderConfigurationGroupId: number) {}
 }
 
 export class LoadingFieldMappingsError implements Action {

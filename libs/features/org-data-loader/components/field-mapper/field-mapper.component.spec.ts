@@ -28,7 +28,6 @@ describe('FieldMapperComponent', () => {
       clientFileName: true,
       selectFile: true
     };
-    component.customFields$ = of ({companyId: 1, customFields: [{Key: 'test', Value: '1'}], entity: LoaderType.Jobs});
     component.fieldMappings$ = of([{
       CompanyId: 13,
       LoaderType: LoaderType.Jobs,

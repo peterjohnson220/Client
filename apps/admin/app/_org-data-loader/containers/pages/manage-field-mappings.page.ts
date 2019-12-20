@@ -12,7 +12,7 @@ import { environment } from 'environments/environment';
 import { LoaderTypes } from 'libs/constants/loader-types';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 import { LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
-import { OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
+import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { Company } from 'libs/models/company/company.model';
@@ -356,63 +356,21 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
 
   private getLoaderSettingsToSave() {
-    return [
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsActive,
-        this.booleanSettingToStringTransform(this.isActive),
-      ),
-      this.getSettingIfChanged(LoaderSettingsKeys.Delimiter, this.delimiter),
-      this.getSettingIfChanged(LoaderSettingsKeys.DateFormat, this.dateFormat),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsEmployeesLoadEnabled,
-        this.booleanSettingToStringTransform(this.isEmployeesLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsJobsLoadEnabled,
-        this.booleanSettingToStringTransform(this.isJobsLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsPaymarketsLoadEnabled,
-        this.booleanSettingToStringTransform(this.isPaymarketsLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsStructuresLoadEnabled,
-        this.booleanSettingToStringTransform(this.isStructuresLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
-        this.booleanSettingToStringTransform(this.isStructureMappingsLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsEmployeesFullReplace,
-        this.booleanSettingToStringTransform(this.isEmployeesFullReplace),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsStructureMappingsFullReplace,
-        this.booleanSettingToStringTransform(this.isStructureMappingsFullReplace),
-      ),
-    ].filter(setting => isObject(setting));
-  }
+    const newLoaderSettings = new LoaderSettings();
 
-  private booleanSettingToStringTransform = (value: boolean) => value ? 'true' : 'false';
+    newLoaderSettings.isActive = this.isActive;
+    newLoaderSettings.isCompanyOnAutoloader = this.isCompanyOnAutoloader;
+    newLoaderSettings.delimiter = this.delimiter;
+    newLoaderSettings.dateFormat = this.dateFormat;
+    newLoaderSettings.isEmployeesLoadEnabled = this.isEmployeesLoadEnabled;
+    newLoaderSettings.isJobsLoadEnabled = this.isJobsLoadEnabled;
+    newLoaderSettings.isPaymarketsLoadEnabled = this.isPaymarketsLoadEnabled;
+    newLoaderSettings.isStructuresLoadEnabled = this.isStructuresLoadEnabled;
+    newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
+    newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
+    newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
 
-  private getSettingIfChanged(keyName: string, keyValue: string) {
-    const existingSettingValue = this.existingCompanyLoaderSettings.find(setting => setting.KeyName === keyName);
-
-    if (
-      (!existingSettingValue && keyValue) ||
-      (existingSettingValue && keyValue !== existingSettingValue.KeyValue)
-    ) {
-      return this.getSettingToSave(keyName, keyValue);
-    }
-  }
-
-  private getSettingToSave(keyName: string, keyValue: string) {
-    return <LoaderSetting>{
-      LoaderSettingsId: undefined,
-      KeyName: keyName,
-      KeyValue: keyValue
-    };
+    return OrgDataLoadHelper.getLoaderSettingsToSave(newLoaderSettings, this.existingCompanyLoaderSettings);
   }
 
   /**

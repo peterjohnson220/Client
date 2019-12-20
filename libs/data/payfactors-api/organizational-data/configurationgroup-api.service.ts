@@ -18,4 +18,8 @@ export class ConfigurationGroupApiService {
     getConfigurationGroup(companyId: number): Observable<ConfigurationGroup> {
         return this.payfactorsApiService.get(`${this.endpoint}/GetManualOrgConfigGroup/${companyId}`);
     }
+
+    saveConfigurationGroup(configurationGroup: ConfigurationGroup) {
+      return this.payfactorsApiService.post(`${this.endpoint}/SaveConfigGroup`, configurationGroup);
+    }
 }

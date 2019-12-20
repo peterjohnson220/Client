@@ -1,5 +1,4 @@
 import { LoaderType } from 'libs/features/org-data-loader/constants';
-import {Observable} from 'rxjs';
 import {EntityCustomFieldsModel} from 'libs/features/org-data-loader/models/entity-custom-fields.model';
 
 
@@ -16,6 +15,8 @@ export interface EntityChoice {
   columnNames: string[];
   customFields: EntityCustomFieldsModel;
   dbName?: string;
+  isFullReplace: boolean;
+  dateFormat: string;
 }
 
 export function getEntityChoicesForOrgLoader(): EntityChoice[] {
@@ -31,7 +32,9 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       payfactorsDataFields: null,
       loaderEnabled: false,
       columnNames: null,
-      customFields: {Employees: null, Jobs: null}
+      customFields: {Employees: null, Jobs: null},
+      isFullReplace: null,
+      dateFormat: null
     },
     {
       isChecked: false,
@@ -44,7 +47,9 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       payfactorsDataFields: null,
       loaderEnabled: false,
       columnNames: null,
-      customFields: {Employees: null, Jobs: null}
+      customFields: {Employees: null, Jobs: null},
+      isFullReplace: null,
+      dateFormat: null
     },
     {
       isChecked: false,
@@ -57,7 +62,9 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       payfactorsDataFields: null,
       loaderEnabled: false,
       columnNames: null,
-      customFields: {Employees: null, Jobs: null}
+      customFields: {Employees: null, Jobs: null},
+      isFullReplace: null,
+      dateFormat: null
     },
     {
       isChecked: false,
@@ -70,7 +77,9 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       payfactorsDataFields: null,
       loaderEnabled: false,
       columnNames: null,
-      customFields: {Employees: null, Jobs: null}
+      customFields: {Employees: null, Jobs: null},
+      isFullReplace: null,
+      dateFormat: null
     },
     {
       isChecked: false,
@@ -84,7 +93,9 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       payfactorsDataFields: null,
       loaderEnabled: false,
       columnNames: null,
-      customFields: {Employees: null, Jobs: null}
+      customFields: {Employees: null, Jobs: null},
+      isFullReplace: null,
+      dateFormat: null
     }
   ];
 }

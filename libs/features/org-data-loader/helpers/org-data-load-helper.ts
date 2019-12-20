@@ -1,3 +1,5 @@
+import { isObject } from 'lodash';
+
 import { LoaderSetting } from 'libs/models/data-loads';
 
 import { LoaderSettingsKeys } from '../constants/';
@@ -16,7 +18,7 @@ export interface ILoadSettings {
     isStructureMappingsFullReplace: boolean;
 
 }
-class LoaderSettings implements ILoadSettings {
+export class LoaderSettings implements ILoadSettings {
     isActive: boolean;
     isCompanyOnAutoloader: boolean;
     delimiter: string;
@@ -96,5 +98,71 @@ export class OrgDataLoadHelper {
         );
 
         return loadSettings;
+    }
+
+    static getLoaderSettingsToSave(newLoaderSettings: LoaderSettings, existingLoaderSettings: LoaderSetting[]) {
+      return [
+        this.getSettingIfChanged(
+          LoaderSettingsKeys.IsActive,
+          this.booleanSettingToStringTransform(newLoaderSettings.isActive),
+          existingLoaderSettings
+        ),
+        this.getSettingIfChanged(LoaderSettingsKeys.Delimiter, newLoaderSettings.delimiter, existingLoaderSettings),
+        this.getSettingIfChanged(LoaderSettingsKeys.DateFormat, newLoaderSettings.dateFormat, existingLoaderSettings),
+        this.getSettingIfChanged(
+          LoaderSettingsKeys.IsEmployeesLoadEnabled,
+          this.booleanSettingToStringTransform(newLoaderSettings.isEmployeesLoadEnabled),
+          existingLoaderSettings
+        ),
+        this.getSettingIfChanged(
+          LoaderSettingsKeys.IsJobsLoadEnabled,
+          this.booleanSettingToStringTransform(newLoaderSettings.isJobsLoadEnabled),
+          existingLoaderSettings
+        ),
+        this.getSettingIfChanged(
+          LoaderSettingsKeys.IsPaymarketsLoadEnabled,
+          this.booleanSettingToStringTransform(newLoaderSettings.isPaymarketsLoadEnabled),
+          existingLoaderSettings
+        ),
+        this.getSettingIfChanged(
+          LoaderSettingsKeys.IsStructuresLoadEnabled,
+          this.booleanSettingToStringTransform(newLoaderSettings.isStructuresLoadEnabled),
+          existingLoaderSettings
+        ),
+        this.getSettingIfChanged(
+          LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
+          this.booleanSettingToStringTransform(newLoaderSettings.isStructureMappingsLoadEnabled),
+          existingLoaderSettings
+        ),
+        this.getSettingIfChanged(
+          LoaderSettingsKeys.IsEmployeesFullReplace,
+          this.booleanSettingToStringTransform(newLoaderSettings.isEmployeesFullReplace),
+          existingLoaderSettings
+        ),
+        this.getSettingIfChanged(
+          LoaderSettingsKeys.IsStructureMappingsFullReplace,
+          this.booleanSettingToStringTransform(newLoaderSettings.isStructureMappingsFullReplace),
+          existingLoaderSettings
+        ),
+      ].filter(setting => isObject(setting));
+    }
+
+    private static getSettingIfChanged(keyName: string, keyValue: string, existingLoaderSettings: LoaderSetting[]) {
+      const existingSettingValue = existingLoaderSettings.find(setting => setting.KeyName === keyName);
+
+      if (
+        (!existingSettingValue && keyValue) ||
+        (existingSettingValue && keyValue !== existingSettingValue.KeyValue)
+      ) {
+        return this.getSettingToSave(keyName, keyValue);
+      }
+    }
+
+    private static getSettingToSave(keyName: string, keyValue: string) {
+      return <LoaderSetting>{
+        LoaderSettingsId: undefined,
+        KeyName: keyName,
+        KeyValue: keyValue
+      };
     }
 }

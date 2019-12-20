@@ -25,9 +25,9 @@ export class LoaderFieldMappingsApiService {
     });
   }
 
-  getCompanyFieldMappings(companyId: number) {
+  getCompanyFieldMappings(companyId: number, loaderConfigurationGroupId?: number) {
     return this.payfactorsApiService.get<LoaderFieldSet[]>(`${this.endpoint}/GetCompanyFieldMappings`, {
-      params: {companyId: companyId}
+      params: {companyId: companyId, loaderConfigurationGroupId: loaderConfigurationGroupId}
     });
   }
 
