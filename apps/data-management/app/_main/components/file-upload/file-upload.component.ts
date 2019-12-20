@@ -129,4 +129,8 @@ export class FileUploadComponent {
       this.fileInput.first.nativeElement.value = '';
     }
   }
+
+  public ClearErrorMessage() {
+    this.errorMessage = '';
+  }
 }

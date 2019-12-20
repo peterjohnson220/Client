@@ -117,7 +117,8 @@ describe('OrgDataLoadComponent', () => {
     expect(instance.stepIndex).toBe(1);
 
     instance.uploadComponent = {
-      ClearAllFiles: jest.fn()
+      ClearAllFiles: jest.fn(),
+      ClearAllErrorMessages: jest.fn()
     };
 
     instance.stepIndex = 3;
