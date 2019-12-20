@@ -9,7 +9,7 @@ import { ViewEditGuard, ViewEditModule } from './view-edit';
 import { LayoutModule } from './layout';
 import { FooterViewModule } from './footer-view';
 import { CompanyControlsListModule } from './company-controls-list';
-import { CompanyControlsDetailModule } from './company-controls-detail';
+import { CompanyControlsDetailModule, CompanyControlsDetailViewGuard } from './company-controls-detail';
 import { RoutingWorkflowsModule } from './routing-workflows';
 
 @NgModule({
@@ -34,7 +34,8 @@ import { RoutingWorkflowsModule } from './routing-workflows';
     RoutingWorkflowsModule
   ],
   providers: [
-    ViewEditGuard
+    ViewEditGuard,
+    CompanyControlsDetailViewGuard
   ]
 })
 export class SettingsModule { }

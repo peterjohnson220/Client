@@ -7,3 +7,4 @@ export * from './reducers';
 export * from './effects';
 export * from './services';
 export * from './validators';
+export * from './guards';

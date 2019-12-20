@@ -9,7 +9,7 @@ import { ViewEditPageComponent, ViewEditGuard } from './view-edit';
 import { LayoutPageComponent } from './layout';
 import { FooterViewPageComponent } from './footer-view';
 import { CompanyControlsListPageComponent } from './company-controls-list';
-import { CompanyControlsDetailPageComponent } from './company-controls-detail';
+import { CompanyControlsDetailPageComponent, CompanyControlsDetailViewGuard } from './company-controls-detail';
 import { RoutingWorkflowsPageComponent } from './routing-workflows';
 
 
@@ -44,7 +44,8 @@ const routes: Routes = [
       },
       {
         path: 'company-controls/detail',
-        component: CompanyControlsDetailPageComponent
+        component: CompanyControlsDetailPageComponent,
+        canActivate: [CompanyControlsDetailViewGuard]
       },
       {
         path: 'workflows',
