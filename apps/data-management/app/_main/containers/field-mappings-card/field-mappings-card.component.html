@@ -11,13 +11,12 @@
               <h4 class="font-weight-lighter">{{entity.EntityName}}</h4>
           </ng-template>
           <ng-template ngbTabContent>
-            <div *ngIf="this.providerFields && this.payfactorsFields">
+            
               <pf-entity-mapping 
-                  [entity]="entity.EntityName.toLowerCase()"
-                  [providerFields]="this.providerFields[entity.EntityName]"
-                  [payfactorsFields]="this.payfactorsFields[entity.EntityName]">
+                  [entityType]="entity.EntityName"
+                  [entityGroupName]="entity.EntityName.toLowerCase() + '-associated-bag'">
               </pf-entity-mapping>
-            </div>
+            
           </ng-template>
         </ngb-tab>
       </ngb-tabset>

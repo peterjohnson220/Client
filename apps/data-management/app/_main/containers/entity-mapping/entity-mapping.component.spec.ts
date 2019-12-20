@@ -1,30 +1,84 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
+
+import { DragulaModule } from 'ng2-dragula';
+
+import * as fromRootState from 'libs/state/state';
+
+import * as fromFieldMappingReducer from '../../reducers';
+import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
 import { EntityMappingComponent } from './entity-mapping.component';
+import { generateMockProviderEntityFields, generateMockPayfactorsEntityFields } from '../../models';
+import { OrgDataEntityType } from 'libs/constants';
 
 describe('Data Management - Main - Entity Mapping Component', () => {
   let instance: EntityMappingComponent;
   let fixture: ComponentFixture<EntityMappingComponent>;
+  let store: Store<fromFieldMappingReducer.State>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers,
+          fieldMappingPage: combineReducers(fromFieldMappingReducer.reducers),
+        }),
+        DragulaModule.forRoot()
       ],
       declarations: [
         EntityMappingComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+    }).compileComponents();
 
+    store = TestBed.get(Store);
     fixture = TestBed.createComponent(EntityMappingComponent);
     instance = fixture.componentInstance;
+
+    instance.entityType = OrgDataEntityType.Employees;
+    instance.providerFields = generateMockProviderEntityFields(OrgDataEntityType.Employees);
+    instance.payfactorsFields = generateMockPayfactorsEntityFields(OrgDataEntityType.Employees);
 
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(instance).toBeTruthy();
+  it('should filter provider list when searching and not payfactors list', () => {
+
+    instance.handleSearchTermChanged('name', 'provider');
+
+    expect(instance.filteredProviderFields.length).toBeGreaterThan(0);
+    expect(instance.filteredPayfactorsFields.length).toEqual(0);
+  });
+
+  it('should filter payfactors list when searching and not providers list', () => {
+
+    instance.handleSearchTermChanged('name', 'payfactors');
+
+    expect(instance.filteredPayfactorsFields.length).toBeGreaterThan(0);
+    expect(instance.filteredProviderFields.length).toEqual(0);
+  });
+
+  it('should dispatch an action when removing an association from a payfactors entity', () => {
+    const entityToRemove = instance.providerFields[0];
+    const expectedAction = new fromFieldMappingActions.RemoveAssociatedEntity({entity: entityToRemove, entityType: 'Employees', payfactorsEntityIndex: 0});
+
+    spyOn(store, 'dispatch');
+
+    instance.removeAssociatedItem(0, entityToRemove);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch an action when adding an association to a payfactors entity', () => {
+    const entityToAdd = instance.providerFields[0];
+    const expectedAction = new fromFieldMappingActions.AddAssociatedEntity({entity: entityToAdd, entityType: 'Employees', payfactorsEntityId: 0});
+
+    spyOn(store, 'dispatch');
+
+    instance.addAssociatedItem(0, entityToAdd);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

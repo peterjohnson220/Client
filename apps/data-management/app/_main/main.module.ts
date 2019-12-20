@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { DragulaModule } from 'ng2-dragula';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { NgbAlertModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
@@ -46,7 +47,7 @@ import { reducers } from './reducers';
     MainRoutingModule,
 
     // 3rd Party
-
+    DragulaModule.forRoot(),
     StoreModule.forFeature('data_management', reducers),
     EffectsModule.forFeature([
       TransferDataPageEffects,

@@ -108,6 +108,7 @@ export class PayfactorsApiModelMapper {
   static mapPayfactorsEntityFieldsResponseToEntityDataField(response: PayfactorsEntityFieldsResponse, entityType: OrgDataEntityType): EntityDataField[] {
     return response.payfactorsEntityFields.map( pef => {
       return {
+        EntityFieldId: pef.entityField_ID,
         EntityType: entityType,
         FieldName: pef.fieldName,
         IsRequired: pef.requiredField,
@@ -122,7 +123,8 @@ export class PayfactorsApiModelMapper {
     return response.fields.map( pef => {
       return {
         EntityType: entityType,
-        FieldName: pef.name
+        FieldName: pef.name,
+        HasAssociation: false
       };
     });
   }
