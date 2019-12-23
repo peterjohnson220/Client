@@ -160,11 +160,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
       this.selectedCompany = f;
+      this.clearSelections();
       if (f) {
         this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroup(f.CompanyId));
         this.getPayfactorCustomFields(f.CompanyId);
-      } else {
-        this.clearSelections();
       }
     });
 
@@ -174,6 +173,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     ).subscribe(f => {
       const resp = OrgDataLoadHelper.parseSettingResponse(f);
       this.existingLoaderSettings = f;
+      this.loaderSetting = resp;
 
       this.isActive = resp.isActive;
       this.isCompanyOnAutoloader = resp.isCompanyOnAutoloader;
