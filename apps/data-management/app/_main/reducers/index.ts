@@ -193,6 +193,11 @@ export const { selectAll: getLoaderSettings } = fromLoaderSettingsReducer.adapte
 
 // File Upload
 
+export const getGettingColumnNames = createSelector(
+  selectOrgDataFileUploadState,
+  fromFileUploadReducer.GetGettingColumnNames
+);
+
 export const getColumnNames = createSelector(
   selectOrgDataFileUploadState,
   fromFileUploadReducer.GetColumnNames

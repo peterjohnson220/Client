@@ -55,6 +55,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private savedConfigurationGroup$: Observable<ConfigurationGroup>;
   public isModalOpen$: Observable<boolean>;
   public isProcessingMapping$: Observable<boolean>;
+  private gettingColumnNames$: Observable<boolean>;
 
   userContext$: Observable<UserContext>;
   loaderSettings$: Observable<LoaderSetting[]>;
@@ -136,6 +137,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       Type: NotificationType.Event
     }
   };
+  private gettingColumnNames: boolean;
 
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
@@ -156,6 +158,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.fileUploadDataFailed$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadDataFailed);
     this.isProcessingMapping$ = this.mainStore.select(fromDataManagementMainReducer.isProcessingMapping);
     this.savedConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getSavedConfigurationGroup);
+    this.gettingColumnNames$ = this.mainStore.select(fromDataManagementMainReducer.getGettingColumnNames);
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
@@ -165,6 +168,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroup(f.CompanyId));
         this.getPayfactorCustomFields(f.CompanyId);
       }
+    });
+
+    this.gettingColumnNames$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.gettingColumnNames = f;
     });
 
     this.loaderSettings$.pipe(
@@ -447,7 +456,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return true;
     }
 
-    if (this.stepIndex === OrgUploadStep.Files && this.hasUploadedFiles() && this.selectedDelimiter && this.selectedDelimiter.length > 0) {
+    if (this.stepIndex === OrgUploadStep.Files && this.hasUploadedFiles() && this.selectedDelimiter && this.selectedDelimiter.length > 0
+      && !this.gettingColumnNames) {
       return true;
     }
 
