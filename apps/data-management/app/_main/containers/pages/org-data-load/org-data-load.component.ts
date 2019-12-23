@@ -306,7 +306,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   setInitValues() {
     if (this.userContext.AccessLevel === 'Admin') {
-      this.selectedCompany = null;
+      this.mainStore.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
       this.stepIndex = OrgUploadStep.Company;
     } else {
       this.selectedCompany = this.companies.find(f => f.CompanyId === this.userContext.CompanyId);
