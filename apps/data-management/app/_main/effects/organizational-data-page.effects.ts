@@ -44,7 +44,7 @@ export class OrganizationalDataPageEffects {
   uploadData$: Observable<Action> = this.actions$.pipe(
     ofType(fromOrganizationalDataActions.UPLOAD_DATA),
     switchMap((action: fromOrganizationalDataActions.UploadData) =>
-      this.dataImportApiService.sendFiles(action.payload.companyId, action.payload.fileUpload).pipe(
+      this.dataImportApiService.sendFiles(action.payload.companyId, action.payload.fileUpload, action.payload.userContext).pipe(
         map((response: any) => {
           return new fromOrganizationalDataActions.UploadDataSuccess(true);
         }),

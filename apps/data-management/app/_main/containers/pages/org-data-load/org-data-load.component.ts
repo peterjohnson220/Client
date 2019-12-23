@@ -542,7 +542,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     });
 
     filesDataRequest = { loaderConfigurationGroupId: loaderConfigurationGroupId, files: files };
-    this.fileUploadData = { companyId: this.selectedCompany.CompanyId, fileUpload: filesDataRequest };
+    this.fileUploadData = { companyId: this.selectedCompany.CompanyId, userContext: this.userContext, fileUpload: filesDataRequest };
     this.mainStore.dispatch(new fromOrganizationalDataActions.UploadData(this.fileUploadData));
   }
 

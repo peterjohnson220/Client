@@ -12,11 +12,11 @@ export class DataImportApiService {
 
   }
 
-  sendFiles(companyId: number, filesUploadData: FileUploadDataRequestModel) {
+  sendFiles(companyId: number, filesUploadData: FileUploadDataRequestModel, userContext) {
     const url = `/${this.service}/company/${companyId}/DataImport/File/CSV`;
     return  this.integrationApiService.fetchAuthToken().pipe(
       switchMap(token => {
-        return this.integrationApiService.putFormData(url, token, filesUploadData);
+        return this.integrationApiService.putFormData(url, token, userContext, filesUploadData);
       }),
     );
   }
