@@ -46,6 +46,11 @@ export class CompanySelectorComponent implements OnInit, OnDestroy {
       .subscribe(f => {
         this.companies = f;
         this.filteredData = this.companies.slice(0, 20);
+        // DKG - we need the selected company in the sub-list so that the reference is held
+        // and the selected company appears when the drop down isn't open
+        if (this.selectedCompany && this.filteredData.findIndex(a => a.CompanyId === this.selectedCompany.CompanyId) < 0) {
+          this.filteredData.push(this.selectedCompany);
+        }
       });
   }
 
