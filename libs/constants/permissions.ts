@@ -58,7 +58,7 @@ export class Permissions {
   public static DATA_MANAGEMENT = 'Data Management';
 
   // DKG: Note there are two similar Org Loader permissions for different tiles, one for Company-Admin and one for Data-Management
-  public static DATAMANAGEMENT_ORG_DATA_LOAD = 'Load Organization Data';
+  public static DATAMANAGEMENT_ORG_DATA_LOAD = 'Load Organizational Data';
   public static TABULAR_REPORT_BUILDER = 'Tabular_Report_Builder';
 }
 
