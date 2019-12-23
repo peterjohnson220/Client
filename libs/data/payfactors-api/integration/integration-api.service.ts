@@ -55,7 +55,13 @@ export class IntegrationApiService {
     return this.payfactorsApiService.get('Integration.GetAuthToken');
   }
 
-  putFormData(url: string, token: any, formDataParams?: any): Observable<any> {
+  putFormData(url: string, token: any, userContext: any, formDataParams?: any): Observable<any> {
+    const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
+    if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
+      throw new Error('Configuration error: Missing utilities subdomain configuration');
+    }
+
+    const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com`;
 
     const formData = this.buildFormData(formDataParams);
 
@@ -63,7 +69,7 @@ export class IntegrationApiService {
       headers: new HttpHeaders().append('Accept', 'application/json')
         .append('Authorization', `Bearer ${token}`)
     };
-    return this.http.put(`${url}`, formData, options).pipe(
+    return this.http.put(`${host}${url}`, formData, options).pipe(
       map((response: any) => response)
     );
   }
