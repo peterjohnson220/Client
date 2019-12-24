@@ -139,4 +139,13 @@ export class CreateTagCategoryModalComponent {
         }));
     };
   }
+
+  onSwitchChange($event: any) {
+    if ($event === true) {
+      this.categoryOperator.setValue(this.operatorEnum.Or);
+      this.categoryOperator.disable();
+    } else {
+      this.categoryOperator.enable();
+    }
+  }
 }

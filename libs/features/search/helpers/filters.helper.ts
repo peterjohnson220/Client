@@ -108,9 +108,15 @@ export class FiltersHelper {
       (f.SelectedMinValue != null && f.SelectedMaxValue != null));
   }
 
-  static selectAll(filters: MultiSelectFilter[]): MultiSelectFilter[] {
-    filters.map((filter: MultiSelectFilter) => {
-      filter.Options.map(o => o.Selected = true);
+  static selectAll(filters: Filter[]): Filter[] {
+    filters.map((filter: Filter) => {
+      if (isMultiFilter(filter)) {
+        (filter as MultiSelectFilter).Options.map(o => o.Selected = true);
+      }
+      if (isRangeFilter(filter)) {
+        (filter as RangeFilter).SelectedMinValue = filter.MinimumValue;
+        (filter as RangeFilter).SelectedMaxValue = filter.MaximumValue;
+      }
     });
 
     return filters;
