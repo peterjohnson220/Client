@@ -1,0 +1,31 @@
+<pf-modal-form
+  [size]="'lg'"
+  [isOpen$]="isOpen$"
+  [title]="'Create New Statement'"
+  [primaryButtonText]="'Create'"
+  [formGroup]="formGroup"
+  [submitting]="isCreating$ | async"
+  (onSubmit)="onCreateNewStatement()"
+  (onDismiss)="onDismissModal()">
+  <ng-container form-content>
+    <div class="form-group" [formGroup]="formGroup">
+      <label>Name*</label>
+      <span *ngIf="(isValidatingName$ | async) && (name$ | async)" class="validation-container ml-2">
+        <pf-loading-indicator title="Validating..."></pf-loading-indicator>
+      </span>
+      <span *ngIf="(name$ | async) && !(isValidatingName$ | async) && !(isValidName$ | async)" class="invalid-container ml-2">
+        <label class="text-danger font-italic">
+          <span class="font-weight-bold">{{ name$ | async }}</span> already in use
+        </label>
+      </span>
+      <fa-icon *ngIf="(name$ | async) && !(isValidatingName$ | async) && (isValidName$ | async)" [icon]="'check'" aria-hidden="true" class="valid-name ml-2"></fa-icon>
+      <input type="text" class="form-control" formControlName="Name" maxlength="50" />
+      <label class="mt-4">Template*</label>
+      <select class="form-control" formControlName="Template">
+        <option value="1">Starter</option>
+        <option value="2">Sampler</option>
+        <option value="3">The Works</option>
+      </select>
+    </div>
+  </ng-container>
+</pf-modal-form>

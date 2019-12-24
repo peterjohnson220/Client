@@ -1,12 +1,31 @@
-<div class="flex-column-container">
-  <div class="page-header d-flex justify-content-between align-items-center">
-    <div class="d-flex">
-      <h1><span class="header-bold">Total Rewards App</span></h1>
-    </div>
-  </div>
-  <div class="page-content">
-    <div>
-      Congratulations - your new Client app is working!
-    </div>
-  </div>
-</div>
+<pf-page-with-title-bar>
+
+  <ng-container page-title>
+    <fa-icon class="mr-2" [icon]="'dollar-sign'" aria-hidden="true"></fa-icon>Total Rewards Statements
+  </ng-container>
+
+  <ng-container page-actions>
+    <pf-input-debounce
+      class="mr-2"
+      (valueChanged)="onSearchTermChange($event)" 
+      [placeholderText]="'Search...'"
+      [automationClassName]="'au-tb-search'">
+    </pf-input-debounce>
+    <button (click)="onNewStatementClick()" class="btn btn-primary">
+      <fa-icon class="mr-2" [icon]="'plus'" aria-hidden="true"></fa-icon>New Statement
+    </button>
+  </ng-container>
+
+  <ng-container page-content>
+    <pf-create-new-statement-banner 
+      *ngIf="!(statements$ | async)?.length && !(searchTerm$ | async) && !(loadingStatements$ | async); else grid"
+      (createNewClicked)="onNewStatementClick()">
+    </pf-create-new-statement-banner>
+    <ng-template #grid>
+      <pf-statements-grid></pf-statements-grid>
+    </ng-template>
+    
+    <pf-create-new-statement-modal></pf-create-new-statement-modal>
+  </ng-container>
+
+</pf-page-with-title-bar>

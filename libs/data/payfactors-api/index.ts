@@ -23,3 +23,4 @@ export * from './survey-library';
 export * from './notifications';
 export * from './company-resources';
 export * from './jobs';
+export * from './total-rewards';

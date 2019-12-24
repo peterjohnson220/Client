@@ -44,6 +44,7 @@ import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
 import { JobsApiService } from './jobs';
 import {DataImportApiService} from './integration/data-import';
+import { TotalRewardsApiService } from './total-rewards';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -99,6 +100,7 @@ import {DataImportApiService} from './integration/data-import';
     OrganizationalDataApiService,
     ConfigurationGroupApiService,
     DataImportApiService,
+    TotalRewardsApiService,
 
     // PEER
     ExchangeApiService,
