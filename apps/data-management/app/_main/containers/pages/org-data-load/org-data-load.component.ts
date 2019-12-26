@@ -120,7 +120,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       From: 'Organizational Data Loader',
       Payload: {
         Title: 'Organizational Data Loader',
-        Message: 'The organization load has been successfully queued for processing. Please check your email for updates.'
+        Message: 'File(s) are being uploaded, you will receive an email when processing is complete.'
       },
       EnableHtml: true,
       Type: NotificationType.Event
