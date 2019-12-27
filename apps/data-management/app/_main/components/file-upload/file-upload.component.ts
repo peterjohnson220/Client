@@ -26,7 +26,7 @@ export class FileUploadComponent {
 
   @ViewChildren('fileInput') fileInput;
 
-  private fileUploadColumnNames$: Observable<ColumnNameRequestModel>;
+  private fileUploadColumnNames$: Observable<ColumnNameRequestModel[]>;
   fileUploadRequest: FileUploadHeaderRequestModel;
   fileUploading = false;
   errorMessage = '';
@@ -35,9 +35,11 @@ export class FileUploadComponent {
     this.fileUploadColumnNames$ = this.store.select(fromFileUploadReducer.getColumnNames);
     this.fileUploadColumnNames$.subscribe(f => {
       if (f !== null) {
-        this.fileUploading = false;
-        if (this.validFileStartsWith === f.entity) {
-          this.onColumnNamesRetrieved.emit(f.columnNames);
+        const entityColumnNames = f.find(item => item.entity === this.validFileStartsWith);
+        if (entityColumnNames) {
+          this.fileUploading = false;
+          this.onFileDropped.emit(this.selectedFile);
+          this.onColumnNamesRetrieved.emit(entityColumnNames.columnNames);
         }
       }
     });
@@ -92,7 +94,6 @@ export class FileUploadComponent {
       this.errorMessage = msg;
       this.selectedFile = file;
       this.GetColumnNames(file);
-      this.onFileDropped.emit(file);
       this.fileUploading = true;
     }
   }
