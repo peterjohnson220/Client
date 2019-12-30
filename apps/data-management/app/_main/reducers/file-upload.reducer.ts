@@ -3,7 +3,7 @@ import {ColumnNameRequestModel} from '../models';
 
 export interface State {
   gettingColumnNames: boolean;
-  fileUploadColumnNames: ColumnNameRequestModel ;
+  fileUploadColumnNames: ColumnNameRequestModel[];
   fileUploadColumnNamesError: boolean;
 }
 
@@ -13,13 +13,21 @@ export const initialState: State = {
   fileUploadColumnNamesError: false
 };
 
+function addToFileUploadColumnNames(payload: ColumnNameRequestModel, state: State) {
+  let fileUploadColumnNames = [];
+  if (state.fileUploadColumnNames !== null) {
+    fileUploadColumnNames = state.fileUploadColumnNames.filter(item => item.entity !== payload.entity);
+  }
+  fileUploadColumnNames.push(payload);
+  return fileUploadColumnNames;
+}
+
 export function reducer(state = initialState, action: fromFileUploadActions.Actions): State {
   switch (action.type) {
     case fromFileUploadActions.GET_COLUMN_NAMES: {
       return {
         ...state,
         gettingColumnNames: true,
-        fileUploadColumnNames: null,
         fileUploadColumnNamesError: false
       };
     }
@@ -27,7 +35,7 @@ export function reducer(state = initialState, action: fromFileUploadActions.Acti
       return {
         ...state,
         gettingColumnNames: false,
-        fileUploadColumnNames: action.payload,
+        fileUploadColumnNames: addToFileUploadColumnNames(action.payload, state),
         fileUploadColumnNamesError: false
       };
     }
@@ -35,7 +43,6 @@ export function reducer(state = initialState, action: fromFileUploadActions.Acti
       return {
         ...state,
         gettingColumnNames: false,
-        fileUploadColumnNames: null,
         fileUploadColumnNamesError: true
       };
     }

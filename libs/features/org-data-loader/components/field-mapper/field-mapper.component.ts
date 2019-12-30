@@ -15,7 +15,6 @@ import {
 } from 'libs/features/org-data-loader/constants';
 import {DateFormatItem, FilenamePattern, LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
 import {LoaderFieldSet} from 'libs/models/data-loads';
-import {EntityCustomFieldsModel} from '../../models/entity-custom-fields.model';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -73,10 +72,11 @@ export class FieldMapperComponent implements OnInit {
         if (this.suppliedClientFields.length === 0) {
           this.addSavedMappings(mappings);
         } else {
-          if (this.clientFieldsMatchSavedMappings(mappings)) {
+          const entityMappings = mappings.find(item => item.LoaderType === this.loaderType);
+          if (this.clientFieldsMatchSavedMappings(entityMappings)) {
             this.addSavedMappings(mappings);
           } else {
-            this.mappingErrorMessage = true;
+            entityMappings ? this.mappingErrorMessage = true : this.mappingErrorMessage = false;
             this.clientFields = this.suppliedClientFields;
             this.mapSimilarFields();
           }
@@ -247,8 +247,7 @@ export class FieldMapperComponent implements OnInit {
     this.fireCompleteEvent();
   }
 
-  private clientFieldsMatchSavedMappings(mappings: LoaderFieldSet[]) {
-    const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
+  private clientFieldsMatchSavedMappings(entityMapping: LoaderFieldSet) {
     let areHeadersValid = true;
 
     if (!entityMapping) {
