@@ -1,5 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+
+import { Observable } from 'rxjs';
 
 import { ControlType } from 'libs/models/common';
 
@@ -17,6 +19,7 @@ export class ControlDataRendererComponent {
   @Input() checkInheritedData: boolean;
   @Input() additionalProperties: object;
   @Input() isCompare = false;
+  @Input() undoChanges$: Observable<boolean>;
 
   @Output() dataChangesDetected = new EventEmitter();
   @Output() dataRowDeleted = new EventEmitter();

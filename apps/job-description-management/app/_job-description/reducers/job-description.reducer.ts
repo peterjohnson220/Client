@@ -23,6 +23,7 @@ export interface State {
   jobDescriptionChangeHistory: JobDescription[];
   companyLogoAsync: AsyncStateObj<string>;
   jobDescriptionViewsAsync: AsyncStateObj<string[]>;
+  undoChangesComplete: boolean;
 }
 
 export const initialState: State = {
@@ -37,7 +38,8 @@ export const initialState: State = {
   jobDescriptionRecentChange: null,
   jobDescriptionChangeHistory: [],
   companyLogoAsync: generateDefaultAsyncStateObj<string>(null),
-  jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([])
+  jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([]),
+  undoChangesComplete: false
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
@@ -80,13 +82,16 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     }
     case fromJobDescriptionActions.GET_JOB_DESCRIPTION_SUCCESS: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+
       asyncStateObjClone.loading = false;
       asyncStateObjClone.obj = action.payload.jobDescription;
 
       let editing: boolean = asyncStateObjClone.obj.JobDescriptionStatus === 'Draft' ||
         (asyncStateObjClone.obj.JobDescriptionStatus === 'In Review' && action.payload.requestData.InWorkflow);
       let changeHistory = [];
-      let recentChange = state.jobDescriptionAsync.obj;
+
+      let recentChange = asyncStateObjClone.obj;
+
       if (action.payload.requestData.InHistory) {
         editing = false;
         changeHistory = state.jobDescriptionChangeHistory;
@@ -129,7 +134,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         asyncStateObjClone.obj.Name = action.payload.jobDescription.Name;
       }
 
-      const jobDescriptionChangeHistoryClone = cloneDeep(state.jobDescriptionChangeHistory);
+      const jobDescriptionChangeHistoryClone = Object.assign([], state.jobDescriptionChangeHistory);
 
       if (state.jobDescriptionRecentChange && !action.payload.undo) {
         if (jobDescriptionChangeHistoryClone.length === 0) {
@@ -146,21 +151,23 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
           }
         }
       }
-      const jobDescriptionRecentChange = state.jobDescriptionAsync.obj;
+      const jobDescriptionRecentChange = asyncStateObjClone.obj;
       return {
         ...state,
         saving: false,
         jobDescriptionAsync: asyncStateObjClone,
         jobDescriptionRecentChange: jobDescriptionRecentChange,
         jobDescriptionChangeHistory: jobDescriptionChangeHistoryClone,
-        publishButtonEnabled: true
+        publishButtonEnabled: true,
+        undoChangesComplete: !!action.payload.undo
       };
     }
     case fromJobDescriptionActions.SAVE_JOB_DESCRIPTION_ERROR: {
       return {
         ...state,
         saving: false,
-        publishButtonEnabled: true
+        publishButtonEnabled: true,
+        undoChangesComplete: false
       };
     }
     case fromJobDescriptionActions.TOGGLE_PUBLISH_BUTTON: {
@@ -171,7 +178,8 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     }
     case fromJobDescriptionActions.UNDO_JOB_DESCRIPTION_CHANGES: {
       const jobDescriptionAsyncClone = cloneDeep(state.jobDescriptionAsync);
-      const jobDescriptionChangeHistoryClone = cloneDeep(state.jobDescriptionChangeHistory);
+      const jobDescriptionChangeHistoryClone = Object.assign([], state.jobDescriptionChangeHistory);
+
       if (jobDescriptionChangeHistoryClone.length >= 1) {
         let undoJd = {};
         if (jobDescriptionChangeHistoryClone.length === 1) {
@@ -184,7 +192,8 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       return {
         ...state,
         jobDescriptionAsync: jobDescriptionAsyncClone,
-        jobDescriptionChangeHistory: jobDescriptionChangeHistoryClone
+        jobDescriptionChangeHistory: jobDescriptionChangeHistoryClone,
+        undoChangesComplete: false
       };
     }
     case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION: {
@@ -365,3 +374,5 @@ export const getInHistory = (state: State) => state.inHistory;
 export const getJobDescriptionExtendedInfo = (state: State) => state.jobDescriptionExtendedInfo;
 export const getJobDescriptionViewsAsync = (state: State) => state.jobDescriptionViewsAsync;
 export const getJobDescriptionIsFullscreen = (state: State) => state.jobDescriptionIsFullscreen;
+export const getUndoJobDescriptionChangesComplete = (state: State) => state.undoChangesComplete;
+
