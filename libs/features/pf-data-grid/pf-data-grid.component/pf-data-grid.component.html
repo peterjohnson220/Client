@@ -44,7 +44,9 @@
                   [columnTemplates]="columnTemplates"
                   [enableSelection]="enableSelection && !(selectedRowId$ | async)"
                   [noRecordsFound]="noRecordsFound"
-                  [selectedRowId]="selectedRowId$ | async">
+                  [selectedRowId]="selectedRowId$ | async"
+                  [allowSort]="allowSort"
+                >
                 </pf-grid>
               </div>
             </div>

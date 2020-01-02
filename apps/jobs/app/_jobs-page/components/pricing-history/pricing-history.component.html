@@ -1,0 +1,30 @@
+<pf-data-grid
+  [pageViewId]="'c4c03aff-4164-4a47-800f-97f0fee46623'"
+  [showTitle]="false"
+  [showColumnChooser] ="false"
+  [showFilterChooser] ="false"
+  [allowExport]="false"
+  [contentNoPadding]="true"
+  [selectionField]="'CompanyJobPricing_ID'"
+  [columnTemplates]="colTemplates"
+  [inboundFilters]="filters"
+  [defaultSort]="defaultSort"
+  [allowSort]="false"
+  [noRecordsFound]="'This job has not been priced and doesn\'t have any pricing history.'">
+</pf-data-grid>
+
+
+<ng-template kendoGridCellTemplate #viewPricingColumn let-dataRow="dataRow" let-rowIndex="rowIndex">
+  <ng-container>
+    <a [attr.data-qa-id]="'lnk-view-pricing-' + dataRow['CompanyJobs_Pricings_CompanyJobPricing_ID']" class="view-pricing-link">View Pricing</a>
+  </ng-container>
+</ng-template>
+
+<ng-template #createUserColumn let-dataRow="dataRow">
+  <ng-container *ngIf="dataRow['Users_First_Name'] && dataRow['Users_Last_Name']; else pfAdmin">
+    {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
+  </ng-container>
+  <ng-template #pfAdmin>
+    Payfactors Admin
+  </ng-template>
+</ng-template>

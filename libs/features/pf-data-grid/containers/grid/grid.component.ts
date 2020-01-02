@@ -24,6 +24,7 @@ export class GridComponent implements OnInit, OnChanges {
   @Input() allowSplitView: boolean;
   @Input() enableSelection = false;
   @Input() noRecordsFound: string;
+  @Input() allowSort = true;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -109,7 +110,7 @@ export class GridComponent implements OnInit, OnChanges {
   }
 
   isSortable() {
-    return this.selectedRowId ? null : `{allowUnsort: 'true', mode: 'single'}`;
+    return this.allowSort ? this.selectedRowId ? null : `{allowUnsort: 'true', mode: 'single'}` : null;
   }
 
   getSelectedRowIdentifier() {
