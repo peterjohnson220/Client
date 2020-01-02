@@ -132,7 +132,9 @@ export function reducer(state = initialState, action: fromSharedWorkflowActions.
     }
     case fromSharedWorkflowActions.SET_NEW_USER: {
       const newUserClone = cloneDeep(action.payload.user);
-      newUserClone.Permissions = JobDescriptionManagementService.getDefaultPermissions();
+      if (newUserClone) {
+        newUserClone.Permissions = JobDescriptionManagementService.getDefaultPermissions();
+      }
       return {
         ...state,
         newUser: newUserClone
