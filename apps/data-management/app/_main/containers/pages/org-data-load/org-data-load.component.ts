@@ -305,8 +305,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   setInitValues() {
+    this.mainStore.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
     if (this.userContext.AccessLevel === 'Admin') {
-      this.mainStore.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
       this.stepIndex = OrgUploadStep.Company;
     } else {
       this.selectedCompany = this.companies.find(f => f.CompanyId === this.userContext.CompanyId);
@@ -342,15 +342,16 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     } else {
       if (this.existingLoaderSettings && this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.Delimiter)) {
         this.selectedDelimiter = this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.Delimiter).KeyValue;
-        const existingDateFormatValue = this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.DateFormat).KeyValue;
-        const existingIsEmpFullReplaceValue =
-          this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsEmployeesFullReplace).KeyValue;
-        const existingIsStructureMappingFullReplaceValue =
-          this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsStructureMappingsFullReplace).KeyValue;
+        const existingDateFormatSetting = this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.DateFormat);
+        const existingIsEmpFullReplaceSetting =
+          this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsEmployeesFullReplace);
+        const existingIsStructureMappingFullReplaceSetting =
+          this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsStructureMappingsFullReplace);
 
-        this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatValue;
-        this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceValue === 'true';
-        this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = existingIsStructureMappingFullReplaceValue === 'true';
+        this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
+        this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceSetting ? existingIsEmpFullReplaceSetting.KeyValue === 'true' : null;
+        this.getEntityChoice(LoaderType.StructureMapping).isFullReplace =
+          existingIsStructureMappingFullReplaceSetting ? existingIsStructureMappingFullReplaceSetting.KeyValue === 'true' : null;
       }
     }
 
