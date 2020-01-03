@@ -1,0 +1,38 @@
+
+<div class="border">
+  <pf-data-grid
+    [pageViewId]="getPageViewId()"
+    [showTitle]="false"
+    [showColumnChooser] ="false"
+    [showFilterChooser] ="false"
+    [allowExport]="false"
+    [contentNoPadding]="true"
+    [columnTemplates]="colTemplates"
+    [customHeaderTemplate]="pricingMatchesHeader"
+    [inboundFilters]="[filter]"
+    [defaultSort]="defaultSort"
+    [pagingOptions]="defaultPagingOptions"
+    [compactGrid]="true"
+    [backgroundColor]="'#F7F7F9'"
+    [noRecordsFound]="'This prcing has no data cuts.'">
+  </pf-data-grid>
+</div>
+
+
+<ng-template #pricingMatchesHeader>
+  <div class="row no-gutters text-center py-1" style="background-color: #F7F7F9">
+    <span style="width: 3.5%">Wtg.</span>
+    |
+    <span style="width: 3.5%">Adj.</span>
+    <span style="width: 93%"></span>
+  </div>  
+</ng-template>
+
+<ng-template #jobTitleColumn let-dataRow="dataRow">
+  <pf-pricing-matches-job-title [dataRow]="dataRow"></pf-pricing-matches-job-title>  
+</ng-template>
+
+<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>    
+</ng-template>
+

@@ -22,11 +22,18 @@ import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
 
 import {
-  JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridComponent,
-  ProjectDetailsComponent, PricingHistoryComponent, JobDescriptionComponent, StructureGridComponent
+  JobsDetailsComponent,
+  EmployeesGridComponent,
+  PricingDetailsGridComponent,
+  JobDescriptionComponent,
+  StructureGridComponent,
+  PricingMatchesGridComponent,
+  ProjectDetailsComponent,
+  PricingHistoryComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
+import { PricingMatchesJobTitleComponent } from './grid-column-templates';
 
 @NgModule({
   imports: [
@@ -61,10 +68,14 @@ import { JobsPageEffects, JobDescriptionEffects } from './effects';
     JobsDetailsComponent,
     EmployeesGridComponent,
     PricingDetailsGridComponent,
+    PricingMatchesGridComponent,
     JobDescriptionComponent,
     StructureGridComponent,
     ProjectDetailsComponent,
     PricingHistoryComponent,
+
+    // Column Templates
+    PricingMatchesJobTitleComponent
   ]
 })
 export class JobsPageModule {

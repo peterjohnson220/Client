@@ -13,13 +13,9 @@
 </pf-data-grid>
 
 <ng-template #nameColumn let-dataRow="dataRow">
-  <ng-container>
-    <span> {{dataRow['CompanyJobs_Structures_Structure_Name']}} <small> ({{dataRow['CompanyJobs_Structures_Structure_Code']}})</small>  </span>
-  </ng-container>
+  <span> {{dataRow['CompanyJobs_Structures_Structure_Name']}} <small> ({{dataRow['CompanyJobs_Structures_Structure_Code']}})</small>  </span>
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container>
-    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Structures_Rate'] | emptyPlaceholder"></span>
-  </ng-container>
+  <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Structures_Rate'] | emptyPlaceholder"></span>
 </ng-template>
