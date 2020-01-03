@@ -4,7 +4,7 @@
   [showColumnChooser] ="false"
   [showFilterChooser] ="false"
   [allowExport]="false"
-  [contentNoPadding]="true"  
+  [contentNoPadding]="true"
   [columnTemplates]="colTemplates"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
@@ -12,14 +12,13 @@
 </pf-data-grid>
 
 <ng-template kendoGridCellTemplate #projectAccessColumn let-dataRow="dataRow" let-rowIndex="rowIndex">
-  <ng-container *ngIf="dataRow['UserSessionMap_HasProjectAccess']; else noAccess">
-    <a 
+  <ng-container *ngIf="dataRow['UserSessions_HasProjectAccess']; else noAccess">
+    <a
       [attr.data-qa-id]="'lnk-access-project-' + rowIndex"
-      class="access-project-link" 
+      class="access-project-link"
       href="../../../../marketdata/marketdata.asp?usersession_id={{dataRow['UserSessions_UserSession_ID']}}">
       Access Project
     </a>
-    {{dataRow['CompanyEmployees_First_Name']}} {{dataRow['CompanyEmployees_Last_Name']}}
   </ng-container>
   <ng-template #noAccess>
     Owned by {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
