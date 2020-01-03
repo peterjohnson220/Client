@@ -12,7 +12,7 @@ export const routes: Routes = [
     path: '',
     component: AppWrapperComponent,
     canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions, Permissions.DATAMANAGEMENT_ORG_DATA_LOAD], Check: PermissionCheckEnum.Any },
+    data: { Permissions:  [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD, Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any },
     children: [
       { path: '', loadChildren: () => import('apps/data-management/app/_main/main.module').then(m => m.MainModule) }
     ]
