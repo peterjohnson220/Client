@@ -31,13 +31,13 @@ export class EntityMappingComponent implements OnChanges {
   }
 
   handleSearchTermChanged(searchTerm: string, type: string): void {
-    if (type === 'provider') {
+    if (type === 'provider' && this.providerFields && this.providerFields.length) {
       this.filteredProviderFields = this.providerFields.filter( pf =>
         pf.FieldName.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
       );
     }
 
-    if (type === 'payfactors') {
+    if (type === 'payfactors' && this.payfactorsFields && this.payfactorsFields.length) {
       this.filteredPayfactorsFields = this.payfactorsFields.filter( pf =>
         pf.FieldName.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
       );

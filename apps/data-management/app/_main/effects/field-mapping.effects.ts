@@ -28,7 +28,7 @@ export class FieldMappingEffects {
           userContext
       };
     }),
-    switchMap(obj => {
+    mergeMap(obj => {
       const actions = [];
       obj.action.payload.entities.forEach(entity => {
         const entityType = OrgDataEntityType[entity.EntityType];
@@ -52,7 +52,7 @@ export class FieldMappingEffects {
           userContext
       };
     }),
-    switchMap(obj => {
+    mergeMap(obj => {
       return this.mappingsHrisApiService.getProviderFields(obj.userContext, obj.action.payload.entity)
         .pipe(
           mergeMap((response: ProviderEntitiyFieldsResponse) => {
@@ -77,7 +77,7 @@ export class FieldMappingEffects {
           userContext
       };
     }),
-    switchMap(obj => {
+    mergeMap(obj => {
       return this.mappingsHrisApiService.getPayfactorsFields(obj.userContext, obj.action.payload.entity)
         .pipe(
           mergeMap((response: any) => {
