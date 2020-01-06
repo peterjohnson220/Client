@@ -1,5 +1,5 @@
 <pf-data-grid
-  [pageViewId]="'c4c03aff-4164-4a47-800f-97f0fee46623'"
+  [pageViewId]="pageViewId"
   [showTitle]="false"
   [showColumnChooser] ="false"
   [showFilterChooser] ="false"
@@ -10,7 +10,8 @@
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [allowSort]="false"
-  [noRecordsFound]="'This job has not been priced and doesn\'t have any pricing history.'">
+  [noRecordsFound]="'This job has not been priced and doesn\'t have any pricing history.'"
+  [rowActionTemplate]="rowActions">
 </pf-data-grid>
 
 
@@ -28,3 +29,21 @@
     Payfactors Admin
   </ng-template>
 </ng-template>
+
+<ng-template #rowActions let-dataRow="dataRow">
+    <button (click)="onRemove(dataRow)"><fa-icon icon="trash-alt"></fa-icon></button>
+</ng-template>
+
+<pf-modal-form
+  [modalId]="'au-delete-pricing'"
+  [isOpen$]="false"
+  [size]="'md'"
+  [centered]="true"
+  [title]="'Delete Pricing'"
+  [primaryButtonClass]="'delete'"
+  [primaryButtonText]="'Delete'"
+>
+  <ng-container basic-content>
+    This action will permanently delete this pricing. Would you like to continue?
+  </ng-container>
+</pf-modal-form>

@@ -17,6 +17,8 @@ export class PricingHistoryComponent implements AfterViewInit {
 
   colTemplates = {};
 
+  pageViewId = 'c4c03aff-4164-4a47-800f-97f0fee46623';
+
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'CompanyPayMarkets_PayMarket'
@@ -29,5 +31,9 @@ export class PricingHistoryComponent implements AfterViewInit {
       'CompanyJobPricing_ID': this.viewPricingColumn,
       'Create_User': this.createUserColumn
     };
+  }
+
+  onRemove(event: any) {
+    console.log(event);
   }
 }
