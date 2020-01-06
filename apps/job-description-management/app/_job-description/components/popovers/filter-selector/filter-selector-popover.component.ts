@@ -27,7 +27,7 @@ export class FilterSelectorPopoverComponent {
   @Output() onDeleteConfirmed = new EventEmitter();
   @Output() open = new EventEmitter();
 
-  @ViewChild('p', { static: true }) public p: any;
+  @ViewChild('p', { static: false }) public p: any;
 
   public filter: any;
   public filterSearchTerm: any;

@@ -43,6 +43,10 @@ export class ListAreaFilterSidebarComponent implements OnChanges {
       if (listAreaColumn.ColumnDataType === 'date' && currentFilter && currentFilter.value) {
         currentFilter.value = new Date(currentFilter.value);
       }
+
+      if (listAreaColumn.ColumnDataType === 'numeric' && currentFilter && currentFilter.value) {
+        currentFilter.value = Number(currentFilter.value);
+      }
     }
 
     return currentFilter || emptyFilter;

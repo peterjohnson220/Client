@@ -423,24 +423,14 @@ export const getUserFilterAdding = createSelector(
   fromUserFilterReducer.getUserFilterAdding
 );
 
-export const getUserFilterAddingError = createSelector(
+export const getUserFilterError = createSelector(
   selectUserFilterState,
-  fromUserFilterReducer.getUserFilterAddingError
-);
-
-export const getUserFilterAddingSuccess = createSelector(
-  selectUserFilterState,
-  fromUserFilterReducer.getUserFilterAddingSuccess
+  fromUserFilterReducer.getUserFilterError
 );
 
 export const getUserFilterDeleting = createSelector(
   selectUserFilterState,
   fromUserFilterReducer.getUserFilterDeleting
-);
-
-export const getUserFilterDeletingError = createSelector(
-  selectUserFilterState,
-  fromUserFilterReducer.getUserFilterDeletingError
 );
 
 export const getUserFilterList = createSelector(
@@ -453,14 +443,9 @@ export const getUserFilterLoading = createSelector(
   fromUserFilterReducer.getUserFilterLoading
 );
 
-export const getUserFilterLoadingError = createSelector(
+export const getUserFilterErrorMessage = createSelector(
   selectUserFilterState,
-  fromUserFilterReducer.getUserFilterLoadingError
-);
-
-export const getUserFilterLoadingErrorMessage = createSelector(
-  selectUserFilterState,
-  fromUserFilterReducer.getUserFilterLoadingErrorMessage
+  fromUserFilterReducer.getUserFilterErrorMessage
 );
 
 // JDM Job Compare

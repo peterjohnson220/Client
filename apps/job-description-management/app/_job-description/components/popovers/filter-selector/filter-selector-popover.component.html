@@ -7,7 +7,7 @@
       <h5>No Filters</h5>
     </div>
     <div *ngIf="!loading" class="list-group user-filter-list">
-      <button *ngFor="let filter of userFilterList | userFilterSearch: filter" class="list-group-item list-group-item-action p-2" [ngClass]="{'list-group-item-danger': isDeleting(filter.Id), 'disabled': !isDeleting(filter.Id) && (attemptedDelete || deleting)}" (click)="selectFilter(filter)">
+      <button *ngFor="let filter of userFilterList | userFilterSearch: filter" class="list-group-item list-group-item-action p-2 d-flex" [ngClass]="{'list-group-item-danger': isDeleting(filter.Id), 'disabled': !isDeleting(filter.Id) && (attemptedDelete || deleting)}" (click)="selectFilter(filter)">
         <div class="user-filter">
           <span>{{filter.Name}}</span>
           <small class="filter-desc" [title]="displayFilterDescription(filter.CompositeFilter)">{{displayFilterDescription(filter.CompositeFilter)}}</small>

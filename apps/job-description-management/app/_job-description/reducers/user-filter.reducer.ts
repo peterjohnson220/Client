@@ -8,25 +8,19 @@ import { MessageHelper } from '../../shared/helpers/message-helper';
 
 export interface State {
   addingUserFilter: boolean;
-  addingUserFilterError: boolean;
-  addingUserFilterSuccess: boolean;
   deletingUserFilter: boolean;
-  deletingUserFilterError: boolean;
   loadingUserFilterList: boolean;
-  loadingUserFilterListError: boolean;
-  loadingUserFilterListErrorMessage: string;
   userFilterList: JdmListFilter[];
+  error: boolean;
+  errorMessage: string;
 }
 
 export const initialState: State = {
   addingUserFilter: false,
-  addingUserFilterError: false,
-  addingUserFilterSuccess: false,
+  error: false,
   deletingUserFilter: false,
-  deletingUserFilterError: false,
   loadingUserFilterList: false,
-  loadingUserFilterListError: false,
-  loadingUserFilterListErrorMessage: null,
+  errorMessage: null,
   userFilterList: []
 };
 
@@ -41,7 +35,8 @@ export function reducer(state = initialState, action: fromUserFilterActions.Acti
       return {
         ...state,
         addingUserFilter: false,
-        addingUserFilterError: true
+        error: true,
+        errorMessage: MessageHelper.buildErrorMessage('There was an error saving this filter.')
       };
     case fromUserFilterActions.ADD_USER_FILTER_SUCCESS:
       const newUserFilterList = cloneDeep(state.userFilterList);
@@ -52,8 +47,8 @@ export function reducer(state = initialState, action: fromUserFilterActions.Acti
       return {
         ...state,
         addingUserFilter: false,
-        addingUserFilterSuccess: true,
-        userFilterList: newUserFilterList
+        userFilterList: newUserFilterList,
+        error: false
       };
     case fromUserFilterActions.DELETE_USER_FILTER:
       return {
@@ -64,13 +59,15 @@ export function reducer(state = initialState, action: fromUserFilterActions.Acti
       return {
         ...state,
         deletingUserFilter: false,
-        deletingUserFilterError: true
+        error: true,
+        errorMessage: MessageHelper.buildErrorMessage('There was an error deleting this filter.')
       };
     case fromUserFilterActions.DELETE_USER_FILTER_SUCCESS:
       return {
         ...state,
         deletingUserFilter: false,
-        userFilterList: state.userFilterList.filter(lf => lf.Id !== action.payload)
+        userFilterList: state.userFilterList.filter(lf => lf.Id !== action.payload),
+        error: false
       };
     case fromUserFilterActions.LOAD_USER_FILTER_LIST:
       return {
@@ -81,14 +78,15 @@ export function reducer(state = initialState, action: fromUserFilterActions.Acti
       return {
         ...state,
         loadingUserFilterList: false,
-        loadingUserFilterListError: true,
-        loadingUserFilterListErrorMessage: MessageHelper.buildErrorMessage('There was an error loading your saved filters.')
+        error: true,
+        errorMessage: MessageHelper.buildErrorMessage('There was an error loading your saved filters.')
       };
     case fromUserFilterActions.LOAD_USER_FILTER_LIST_SUCCESS:
       return {
         ...state,
         loadingUserFilterList: false,
-        userFilterList: cloneDeep(action.payload)
+        userFilterList: cloneDeep(action.payload),
+        error: false
       };
     default:
       return state;
@@ -96,11 +94,8 @@ export function reducer(state = initialState, action: fromUserFilterActions.Acti
 }
 
 export const getUserFilterAdding = (state: State) => state.addingUserFilter;
-export const getUserFilterAddingError = (state: State) => state.addingUserFilterError;
-export const getUserFilterAddingSuccess = (state: State) => state.addingUserFilterSuccess;
 export const getUserFilterDeleting = (state: State) => state.deletingUserFilter;
-export const getUserFilterDeletingError = (state: State) => state.deletingUserFilterError;
 export const getUserFilterList = (state: State) => state.userFilterList;
 export const getUserFilterLoading = (state: State) => state.loadingUserFilterList;
-export const getUserFilterLoadingError = (state: State) => state.loadingUserFilterListError;
-export const getUserFilterLoadingErrorMessage = (state: State) => state.loadingUserFilterListErrorMessage;
+export const getUserFilterError = (state: State) => state.error;
+export const getUserFilterErrorMessage = (state: State) => state.errorMessage;
