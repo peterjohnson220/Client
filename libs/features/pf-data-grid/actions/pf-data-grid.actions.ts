@@ -13,6 +13,7 @@ export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
 export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
 export const UPDATE_DEFAULT_SORT_DESCRIPTOR = '[PfDataGrid] Update Default Sort Descriptor';
 export const UPDATE_SORT_DESCRIPTOR = '[PfDataGrid] Update Sort Descriptor';
+export const UPDATE_APPLY_DEFAULT_FILTERS = '[PfDataGrid] Update Apply Default Filters';
 export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
@@ -61,6 +62,11 @@ export class UpdateDefaultSortDescriptor implements Action {
 export class UpdateSortDescriptor implements Action {
   readonly type = UPDATE_SORT_DESCRIPTOR;
   constructor(public pageViewId: string, public sortDescriptor: SortDescriptor[]) { }
+}
+
+export class UpdateApplyDefaultFilters implements Action {
+  readonly type = UPDATE_APPLY_DEFAULT_FILTERS;
+  constructor(public pageViewId: string, public value: boolean) { }
 }
 
 export class LoadData implements Action {
@@ -209,6 +215,7 @@ export type DataGridActions =
     | UpdatePagingOptions
     | UpdateDefaultSortDescriptor
     | UpdateSortDescriptor
+    | UpdateApplyDefaultFilters
     | LoadData
     | LoadDataSuccess
     | UpdateFields

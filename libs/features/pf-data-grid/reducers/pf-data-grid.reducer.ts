@@ -20,12 +20,13 @@ export interface DataGridState {
   splitViewFilters: PfDataGridFilter[];
   filterPanelOpen: boolean;
   pagingOptions: PagingOptions;
+  applyDefaultFilters: boolean;
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
   data: GridDataResult;
   selectedRecordId: number;
-  // This array does not control which Rows are expanded, that's controlled by the kendo grid
-  // We need the array to track which rows have been expanded to se can trigger a collapse on row click by the user
+  // The Kendo grid does not provide api access to know which rows are expanded
+  // We need to keep track of the expandedRows separately from the Kendo Grid to in order to trigger collapse of a row by clicking on it
   expandedRows: number[];
   saveViewModalOpen: boolean;
   savedViews: SimpleDataView[];
@@ -63,6 +64,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             expandedRows: [],
             selectAllState: 'unchecked',
             data: null,
+            applyDefaultFilters: true
           }
         }
       };
@@ -155,6 +157,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             sortDescriptor: action.sortDescriptor[0].dir ? action.sortDescriptor : state.grids[action.pageViewId].defaultSortDescriptor,
             loading: true
+          },
+        }
+      };
+    case fromPfGridActions.UPDATE_APPLY_DEFAULT_FILTERS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            applyDefaultFilters: action.value,
           },
         }
       };
@@ -448,6 +461,9 @@ export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: 
 };
 export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].sortDescriptor : null;
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
+export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
+};
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
 export const getSelectedRecordId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRecordId : null;
