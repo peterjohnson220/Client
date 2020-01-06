@@ -42,6 +42,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() noRecordsFound: string;
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
+  @Input() applyDefaultFilters: boolean;
 
 
   splitViewEmitter = new EventEmitter<string>();
@@ -113,6 +114,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     if (changes['pagingOptions']) {
       this.store.dispatch(new fromActions.UpdatePagingOptions(this.pageViewId, changes['pagingOptions'].currentValue));
+    }
+
+    if (changes['applyDefaultFilters']) {
+      this.store.dispatch(new fromActions.UpdateApplyDefaultFilters(this.pageViewId, changes['applyDefaultFilters'].currentValue));
     }
   }
 

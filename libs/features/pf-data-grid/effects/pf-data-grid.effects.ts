@@ -65,8 +65,9 @@ export class PfDataGridEffects {
                         this.store.pipe(select(fromPfDataGridReducer.getFields, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
-                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor) =>
-                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor})
+                        this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, loadDataAction.pageViewId)),
+                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
+                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters})
                     )
                 ),
             ),
@@ -79,7 +80,8 @@ export class PfDataGridEffects {
                             PfDataGridEffects.mapFieldsToFilters(data.fields),
                             data.pagingOptions,
                             data.sortDescriptor,
-                            data.pagingOptions && data.pagingOptions.From === 0))
+                            data.pagingOptions && data.pagingOptions.From === 0,
+                            data.applyDefaultFilters))
                         .pipe(
                             map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
                             catchError(error => {
@@ -225,7 +227,7 @@ export class PfDataGridEffects {
 
     static buildDataViewDataRequest(
         baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
-        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean) {
+        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean, applyDefaultFilters: boolean) {
 
         let singleSortDesc = null;
         if (!!sortDescriptor && sortDescriptor.length > 0) {
@@ -243,6 +245,7 @@ export class PfDataGridEffects {
             PagingOptions: pagingOptions,
             SortDescriptor: singleSortDesc,
             WithCount: withCount,
+            ApplyDefaultFilters: applyDefaultFilters,
         };
     }
 
