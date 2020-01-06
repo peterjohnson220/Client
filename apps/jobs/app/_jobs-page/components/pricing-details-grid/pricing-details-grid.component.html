@@ -18,6 +18,12 @@
 
 <ng-template #payMarketColumn let-dataRow="dataRow">
   <b>{{dataRow['CompanyPayMarkets_PayMarket']}}</b>
+
+  <span placement="right" *ngIf="dataRow['CompanyPayMarkets_Linked_PayMarket_Name']" data-html="true"
+        ngbTooltip="This pay market is linked to {{dataRow['CompanyPayMarkets_Linked_PayMarket_Name']}} with a {{dataRow['CompanyPayMarkets_Linked_AdjPct']}}% adjustment.">
+    <fa-icon class="pl-2" icon="link">
+    </fa-icon>
+  </span>
   <br>
   <small>
     <em class="text-muted">        

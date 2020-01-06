@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
-
+import {NgbTooltipModule, NgbDropdownModule, NgbTabsetModule,} from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import * as fromFaIcons from './fa-icons';
@@ -43,6 +42,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
 
     // 3rd Party
     LayoutModule,
+    NgbTooltipModule,
     StoreModule.forFeature('jobsPageMain', reducers),
     EffectsModule.forFeature([
       JobsPageEffects,
