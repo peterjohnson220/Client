@@ -14,13 +14,6 @@
   [rowActionTemplate]="rowActions">
 </pf-data-grid>
 
-
-<ng-template kendoGridCellTemplate #viewPricingColumn let-dataRow="dataRow" let-rowIndex="rowIndex">
-  <ng-container>
-    <a [attr.data-qa-id]="'lnk-view-pricing-' + dataRow['CompanyJobs_Pricings_CompanyJobPricing_ID']" class="view-pricing-link">View Pricing</a>
-  </ng-container>
-</ng-template>
-
 <ng-template #createUserColumn let-dataRow="dataRow">
   <ng-container *ngIf="dataRow['Users_First_Name'] && dataRow['Users_Last_Name']; else pfAdmin">
     {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
@@ -31,17 +24,19 @@
 </ng-template>
 
 <ng-template #rowActions let-dataRow="dataRow">
-    <button (click)="onRemove(dataRow)"><fa-icon icon="trash-alt"></fa-icon></button>
+    <button (click)="confirmDeletePricingModal(dataRow)"><fa-icon icon="trash-alt"></fa-icon></button>
 </ng-template>
 
 <pf-modal-form
   [modalId]="'au-delete-pricing'"
-  [isOpen$]="false"
+  [isOpen$]="pricingIdToBeDeleted$"
   [size]="'md'"
   [centered]="true"
   [title]="'Delete Pricing'"
-  [primaryButtonClass]="'delete'"
+  [primaryButtonClass]="'btn-danger'"
   [primaryButtonText]="'Delete'"
+  (onSubmit)="deletePricing()"
+  (onDismiss)="cancelDeletePricing()"
 >
   <ng-container basic-content>
     This action will permanently delete this pricing. Would you like to continue?

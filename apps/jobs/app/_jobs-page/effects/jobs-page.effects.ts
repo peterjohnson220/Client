@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+
+import {catchError, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { CompanyApiService, JobsApiService } from 'libs/data/payfactors-api';
+import { CompanyApiService, JobsApiService, PricingApiService } from 'libs/data/payfactors-api';
+import { UserContext, CompanyDto } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';
-import { UserContext, CompanyDto } from 'libs/models';
-
-import * as fromRootState from 'libs/state/state';
-
 
 @Injectable()
 export class JobsPageEffects {
@@ -21,6 +21,7 @@ export class JobsPageEffects {
         private actions$: Actions,
         private companyApiService: CompanyApiService,
         private jobsApiService: JobsApiService,
+        private pricingApiService: PricingApiService,
         private store: Store<fromJobsReducer.State>
     ) { }
 
@@ -60,6 +61,17 @@ export class JobsPageEffects {
       })
     );
 
-
+    @Effect()
+    deletePricing$: Observable<Action> = this.actions$.pipe(
+      ofType(fromJobsPageActions.DELETE_PRICING_FROM_GRID),
+      switchMap((action: any) => {
+        return this.pricingApiService.deletePricing(action.payload).pipe(
+          mergeMap(() => [
+            new fromJobsPageActions.DeletePricingSuccess(),
+            new fromPfDataGridActions.LoadData(action.pageViewId)
+          ])
+        );
+      })
+    );
 }
 
