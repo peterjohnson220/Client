@@ -16,7 +16,7 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 
 import * as fromFaIcons from './fa-icons';
-import { AddJobsStructuresModelingModalComponent } from './components';
+import { JobBasedRangesAddJobsModalComponent } from './components';
 import { JobSearchUserFilterType, SearchFilterMappingData } from './data';
 import { SavedFiltersHelper } from './helpers';
 import { reducers } from './reducers';
@@ -32,7 +32,7 @@ import { reducers } from './reducers';
     NgbProgressbarModule,
     NgbTooltipModule,
     FontAwesomeModule,
-    StoreModule.forFeature('projects_state', reducers),
+    StoreModule.forFeature('add_jobs_state', reducers),
 
     // Payfactors
     PfSearchModule,
@@ -41,13 +41,12 @@ import { reducers } from './reducers';
   ],
   declarations: [
     // Components
-    AddJobsStructuresModelingModalComponent
+    JobBasedRangesAddJobsModalComponent
 
     // Containers
-
   ],
   exports: [
-    AddJobsStructuresModelingModalComponent
+    JobBasedRangesAddJobsModalComponent
   ],
   providers: [
     SavedFiltersHelper,
@@ -55,7 +54,7 @@ import { reducers } from './reducers';
     {provide: UserFilterTypeData, useValue: JobSearchUserFilterType}
   ]
 })
-export class PfProjectModule {
+export class PfAddJobsModule {
   constructor() {
     library.add(...fromFaIcons.faIcons);
   }

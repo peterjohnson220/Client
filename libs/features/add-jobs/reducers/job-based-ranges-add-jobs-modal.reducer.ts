@@ -1,4 +1,4 @@
-import * as fromAddJobsStructuresModelingActions from '../actions';
+import * as fromJobBasedRangesAddJobsModalActions from '../actions/job-based-ranges-add-jobs-modal.actions';
 
 export interface State {
   addJobsModalOpen: boolean;
@@ -16,15 +16,15 @@ export const initialState: State = {
   savingErrorMessage: ''
 };
 
-export function reducer(state = initialState, action: fromAddJobsStructuresModelingActions.AddJobsStructuresModelingActions): State {
+export function reducer(state = initialState, action: fromJobBasedRangesAddJobsModalActions.JobBasedRangesAddJobsModalActions): State {
   switch (action.type) {
-    case fromAddJobsStructuresModelingActions.OPEN_ADD_JOBS_MODAL: {
+    case fromJobBasedRangesAddJobsModalActions.OPEN_ADD_JOBS_MODAL: {
       return {
         ...state,
         addJobsModalOpen: true
       };
     }
-    case fromAddJobsStructuresModelingActions.CLOSE_ADD_JOBS_MODAL: {
+    case fromJobBasedRangesAddJobsModalActions.CLOSE_ADD_JOBS_MODAL: {
       return {
         ...state,
         addJobsModalOpen: false
