@@ -16,8 +16,7 @@ import * as fromJobsPageReducer from '../../reducers';
 
 @Component({
   selector: 'pf-pricing-history',
-  templateUrl: './pricing-history.component.html',
-  styleUrls: ['./pricing-history.component.scss']
+  templateUrl: './pricing-history.component.html'
 })
 export class PricingHistoryComponent implements AfterViewInit {
   @Input() filters: PfDataGridFilter[];

@@ -148,7 +148,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   })
 
   isSortable() {
-    return this.selectedRecordId ? null : `{allowUnsort: 'true', mode: 'single'}`;
+    return this.allowSort ? this.selectedRecordId ? null : `{allowUnsort: 'true', mode: 'single'}` : null;
   }
 
   getPagingBarConfig(state: DataGridState) {

@@ -11,7 +11,8 @@
   [defaultSort]="defaultSort"
   [allowSort]="false"
   [noRecordsFound]="'This job has not been priced and doesn\'t have any pricing history.'"
-  [rowActionTemplate]="rowActions">
+  [rowActionTemplate]="rowActions"
+  [applyDefaultFilters]="false">
 </pf-data-grid>
 
 <ng-template #createUserColumn let-dataRow="dataRow">
@@ -24,14 +25,13 @@
 </ng-template>
 
 <ng-template #rowActions let-dataRow="dataRow">
-    <button (click)="confirmDeletePricingModal(dataRow)"><fa-icon icon="trash-alt"></fa-icon></button>
+    <div class="text-right pr-3" (click)="confirmDeletePricingModal(dataRow)"><fa-icon icon="trash-alt"></fa-icon></div>
 </ng-template>
 
 <pf-modal-form
   [modalId]="'au-delete-pricing'"
   [isOpen$]="pricingIdToBeDeleted$"
   [size]="'md'"
-  [centered]="true"
   [title]="'Delete Pricing'"
   [primaryButtonClass]="'btn-danger'"
   [primaryButtonText]="'Delete'"
