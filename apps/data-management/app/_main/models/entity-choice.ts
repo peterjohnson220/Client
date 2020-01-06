@@ -17,6 +17,7 @@ export interface EntityChoice {
   dbName?: string;
   isFullReplace: boolean;
   dateFormat: string;
+  isLoadingFinish: boolean;
 }
 
 export function getEntityChoicesForOrgLoader(): EntityChoice[] {
@@ -34,7 +35,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       columnNames: null,
       customFields: {Employees: null, Jobs: null},
       isFullReplace: null,
-      dateFormat: null
+      dateFormat: null,
+      isLoadingFinish: true
     },
     {
       isChecked: false,
@@ -49,7 +51,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       columnNames: null,
       customFields: {Employees: null, Jobs: null},
       isFullReplace: null,
-      dateFormat: null
+      dateFormat: null,
+      isLoadingFinish: true
     },
     {
       isChecked: false,
@@ -64,7 +67,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       columnNames: null,
       customFields: {Employees: null, Jobs: null},
       isFullReplace: null,
-      dateFormat: null
+      dateFormat: null,
+      isLoadingFinish: true
     },
     {
       isChecked: false,
@@ -79,7 +83,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       columnNames: null,
       customFields: {Employees: null, Jobs: null},
       isFullReplace: null,
-      dateFormat: null
+      dateFormat: null,
+      isLoadingFinish: true
     },
     {
       isChecked: false,
@@ -95,7 +100,8 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       columnNames: null,
       customFields: {Employees: null, Jobs: null},
       isFullReplace: null,
-      dateFormat: null
+      dateFormat: null,
+      isLoadingFinish: true
     }
   ];
 }

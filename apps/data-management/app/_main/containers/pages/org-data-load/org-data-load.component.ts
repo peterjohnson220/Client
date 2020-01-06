@@ -675,4 +675,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     return !this.paymarketMappingComplete || !this.jobMappingComplete || !this.structureMappingComplete ||
       !this.structureMappingMappingComplete || !this.employeeMappingComplete;
   }
+
+  disabledClear() {
+    return this.loadOptions.filter(l => l.isLoadingFinish === false).length > 0;
+  }
 }
