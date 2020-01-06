@@ -1,15 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 import { Observable } from 'rxjs';
 
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PfValidators } from 'libs/forms/validators';
-
 @Component({
-  selector: 'pf-add-jobs-structures-modeling-modal',
-  templateUrl: './add-jobs-structures-modeling-modal.component.html',
-  styleUrls: ['./add-jobs-structures-modeling-modal.component.scss']
+  selector: 'pf-jobs-based-ranges-add-jobs-modal',
+  templateUrl: './job-based-ranges-add-jobs-modal.component.html',
+  styleUrls: ['./job-based-ranges-add-jobs-modal.component.scss']
 })
-export class AddJobsStructuresModelingModalComponent implements OnInit {
+export class JobBasedRangesAddJobsModalComponent implements OnInit {
   @Output() saved = new EventEmitter();
   @Output() closed = new EventEmitter();
   @Output() opened = new EventEmitter();

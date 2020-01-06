@@ -7,9 +7,9 @@ import { filter, take } from 'rxjs/operators';
 
 import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
 import { CompanyStructure, generateMockCompanyStructure } from 'libs/models/structures/company-structure.model';
-import { AddJobsStructuresModelingModalComponent } from 'libs/features/project/components/add-jobs-structures-modeling/modals/add-jobs-structures-modeling';
-import * as fromProjectReducer from 'libs/features/project/reducers';
-import * as fromProjectActions from 'libs/features/project/actions';
+import { JobBasedRangesAddJobsModalComponent } from 'libs/features/add-jobs/components';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+import * as fromJobBasedRangesAddJobsModalActions from 'libs/features/add-jobs/actions/job-based-ranges-add-jobs-modal.actions';
 
 import * as fromStructuresMainReducer from '../../../reducers';
 import * as fromJobRangeModelingActions from '../../../actions/job-range-modeling-page.actions';
@@ -23,7 +23,7 @@ import { EditGridColumnsModalComponent } from '../../../components/modals';
 })
 export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(EditGridColumnsModalComponent, {static: true}) public editGridColumnsModalComponent: EditGridColumnsModalComponent;
-  @ViewChild(AddJobsStructuresModelingModalComponent, {static: false}) public addJobsModalComponent: AddJobsStructuresModelingModalComponent;
+  @ViewChild(JobBasedRangesAddJobsModalComponent, {static: false}) public jobsBasedRangesAddJobsModalComponent: JobBasedRangesAddJobsModalComponent;
 
   // todo: replace temp Ids with routing parameters
   private readonly temp_companyStructureRangeGroupId = 609;
@@ -47,10 +47,11 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   public addJobsModalOpen$: Observable<boolean>;
   public routeStructureName: string;
   public routeModelName: string;
+  public routePayMarketId: number;
 
   constructor(public route: ActivatedRoute,
               private store: Store<fromStructuresMainReducer.State>,
-              private projectStore: Store<fromProjectReducer.State>) {
+              private addJobsStore: Store<fromAddJobsReducer.State>) {
     this.currentModelSubscription = this.store.select(fromStructuresMainReducer.getCurrentModel).subscribe(
       emittedModel => {
         this.currentModel = emittedModel;
@@ -106,10 +107,12 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
       }
     );
 
-    this.addJobsModalOpen$ = this.projectStore.select(fromProjectReducer.getAddJobsModalOpen);
+    this.addJobsModalOpen$ = this.addJobsStore.select(fromAddJobsReducer.getAddJobsModalOpen);
 
     this.routeStructureName = this.route.snapshot.queryParams['structure-name'] as string;
     this.routeModelName = this.route.snapshot.queryParams['model-name'] as string;
+    // tslint:disable-next-line:no-bitwise
+    this.routePayMarketId = (+this.route.snapshot.queryParams['paymarket']) | 0;
   }
 
   editColumnsClicked() {
@@ -142,7 +145,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   }
 
   ngAfterViewInit() {
-    if (this.routeStructureName && this.routeModelName) {
+    if (this.routeStructureName && this.routeModelName && this.routePayMarketId > 0) {
       this.showAddJobsModal();
     }
   }
@@ -168,7 +171,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
 
   // modal functions
   showAddJobsModal() {
-    this.projectStore.dispatch(new fromProjectActions.OpenAddJobsModal());
+    this.addJobsStore.dispatch(new fromJobBasedRangesAddJobsModalActions.OpenAddJobsModal());
   }
 
   addJobsModalSaveHandler(data) {
@@ -176,7 +179,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   }
 
   closeAddJobsModal() {
-    this.store.dispatch(new fromProjectActions.CloseAddJobsModal());
+    this.store.dispatch(new fromJobBasedRangesAddJobsModalActions.CloseAddJobsModal());
   }
 
   ngOnDestroy(): void {
