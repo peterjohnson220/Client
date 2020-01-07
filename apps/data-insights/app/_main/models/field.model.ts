@@ -11,13 +11,15 @@ export interface Field {
   IsSortable: boolean;
   Order?: number;
   DataElementOrder?: number;
+  FormulaId?: number;
+  FieldType: FieldType;
 }
 
 export interface FieldListItem {
   Entity: string;
-  DataElementId: string;
   IsSelected: boolean;
   DisplayName: string;
+  FieldListItemId: string;
 }
 
 export enum FieldDataType {
@@ -27,6 +29,11 @@ export enum FieldDataType {
   String = 'String',
   LongString = 'longString',
   Bit = 'bit'
+}
+
+export enum FieldType {
+  DataElement = 'DataElement',
+  Formula = 'Formula'
 }
 
 export function generateMockField(): Field {
@@ -41,6 +48,7 @@ export function generateMockField(): Field {
     Order: 1,
     SourceName: 'Job_Title',
     KendoGridField: 'CompanyJobs.Job_Title',
-    IsSortable: true
+    IsSortable: true,
+    FieldType: FieldType.DataElement
   };
 }

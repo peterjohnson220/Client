@@ -14,7 +14,8 @@ import {
   DataViewFilter,
   SaveUserViewFiltersRequest,
   DataViewFieldDataType,
-  ShareUserResponse
+  ShareUserResponse,
+  DataViewFieldType
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 import { generateDefaultAsyncStateObj } from 'libs/models';
@@ -31,7 +32,8 @@ import {
   GetFilterOptionsData,
   Filter,
   FieldDataType,
-  SharedDataViewUser
+  SharedDataViewUser,
+  FieldType
 } from '../models';
 import { FilterOperatorHelper } from './filter-operator.helper';
 
@@ -122,7 +124,9 @@ export class PayfactorsApiModelMapper {
       IsSelected: dataViewField.IsSelected,
       Order: dataViewField.Order,
       IsSortable: dataViewField.IsSortable,
-      DataElementOrder: dataViewField.DataElementOrder
+      DataElementOrder: dataViewField.DataElementOrder,
+      FormulaId: dataViewField.FormulaId,
+      FieldType: this.mapDataViewFieldTypeToFieldType(dataViewField.FieldType)
     };
   }
 
@@ -152,6 +156,20 @@ export class PayfactorsApiModelMapper {
     }
   }
 
+  static mapDataViewFieldTypeToFieldType(dataViewFieldType: DataViewFieldType): FieldType {
+    switch (dataViewFieldType) {
+      case DataViewFieldType.DataElement: {
+        return FieldType.DataElement;
+      }
+      case DataViewFieldType.Formula: {
+        return FieldType.Formula;
+      }
+      default: {
+        return null;
+      }
+    }
+  }
+
   /// OUT
   static mapSaveWorkbookTagObjToUpsertUserReportTag(saveWorkbookTagObj: SaveWorkbookTagObj): UpsertUserReportTag {
     return  {
@@ -174,8 +192,24 @@ export class PayfactorsApiModelMapper {
       DisplayName: field.DisplayName,
       IsSelected: field.IsSelected,
       Order: field.Order,
-      IsSortable: field.IsSortable
+      IsSortable: field.IsSortable,
+      FormulaId: field.FormulaId,
+      FieldType: this.mapFieldTypeToDataViewFieldType(field.FieldType)
     };
+  }
+
+  static mapFieldTypeToDataViewFieldType(fieldType: FieldType): DataViewFieldType {
+    switch (fieldType) {
+      case FieldType.DataElement: {
+        return DataViewFieldType.DataElement;
+      }
+      case FieldType.Formula: {
+        return DataViewFieldType.Formula;
+      }
+      default: {
+        return null;
+      }
+    }
   }
 
   static buildSaveWorkbookOrderRequest(workbookIds: string[], view: DashboardView,

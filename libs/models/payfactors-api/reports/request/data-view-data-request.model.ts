@@ -21,6 +21,8 @@ export interface DataViewField {
   Order?: number;
   IsSortable: boolean;
   DataElementOrder?: number;
+  FormulaId?: number;
+  FieldType: DataViewFieldType;
 }
 
 export interface DataViewFilter {
@@ -41,6 +43,11 @@ export enum DataViewFieldDataType {
   LongString = 'longString',
   Binary = 'binary',
   Unknown = 'unknown'
+}
+
+export enum DataViewFieldType {
+  DataElement = 'dataElement',
+  Formula = 'formula'
 }
 
 export interface DataViewSortDescriptor {

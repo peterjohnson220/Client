@@ -14,3 +14,5 @@ export * from './data-view-filter-options-request.model';
 export * from './save-user-view-filters-request.model';
 export * from './share-user-data-view-request.model';
 export * from './remove-share-permission-request.model';
+export * from './validate-formula-request.model';
+export * from './upsert-formula-field-request.model';

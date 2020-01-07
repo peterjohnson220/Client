@@ -13,6 +13,7 @@ export const SAVE_REPORT_FIELDS_ERROR = '[Data Insights / Data View Fields] Save
 export const REORDER_FIELDS = '[Data Insights / Data View Fields] Reorder Fields';
 export const SET_SELECTED_FIELDS = '[Data Insights / Data View Fields] Set Selected Fields';
 export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View Fields] Update Display Name';
+export const ADD_NEW_FORMULA_FIELD = '[Data Insights / Data View Fields] Add New Formula Field';
 
 export class GetReportFields implements Action {
   readonly type = GET_REPORT_FIELDS;
@@ -77,7 +78,13 @@ export class SetSelectedFields implements Action {
 export  class UpdateDisplayName implements Action {
   readonly type = UPDATE_DISPLAY_NAME;
 
-  constructor(public payload: { dataElementId: number, displayName: string }) {}
+  constructor(public payload: { field: Field, displayName: string }) {}
+}
+
+export class AddNewFormulaField implements Action {
+  readonly type = ADD_NEW_FORMULA_FIELD;
+
+  constructor(public payload: Field) {}
 }
 
 export type Actions
@@ -91,4 +98,5 @@ export type Actions
   | ReorderFields
   | AddSelectedField
   | SetSelectedFields
-  | UpdateDisplayName;
+  | UpdateDisplayName
+  | AddNewFormulaField;

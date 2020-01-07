@@ -4,7 +4,8 @@ export interface UpdateDataViewFieldsRequest {
 }
 
 export interface UserDataElement {
-  DataElementId: number;
+  DataElementId?: number;
   DisplayName: string;
   Order: number;
+  FormulaId?: number;
 }

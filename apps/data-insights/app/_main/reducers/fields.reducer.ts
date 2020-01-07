@@ -5,6 +5,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromDataViewFieldsActions from '../actions/fields.actions';
 import { Field } from '../models';
+import { FieldsHelper } from '../helpers';
 
 export interface State {
   reportFieldsAsync: AsyncStateObj<Field[]>;
@@ -77,7 +78,7 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
     case fromDataViewFieldsActions.REORDER_FIELDS: {
       let fieldsClone = cloneDeep(state.selectedReportFields);
       fieldsClone = fieldsClone.map(x => {
-        const newFieldIndex = action.payload.findIndex(y => y.DataElementId === x.DataElementId);
+        const newFieldIndex = FieldsHelper.findFieldIndex(action.payload, x);
         if (newFieldIndex !== -1) {
           x.Order = newFieldIndex + 1;
         }
@@ -90,10 +91,10 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
       };
     }
     case fromDataViewFieldsActions.REMOVE_SELECTED_FIELD: {
-      let selectedFieldsClone = cloneDeep(state.selectedReportFields);
-      selectedFieldsClone = selectedFieldsClone.filter(x => x.DataElementId !== action.payload.DataElementId);
+      let selectedFieldsClone: Field[] = cloneDeep(state.selectedReportFields);
+      selectedFieldsClone = FieldsHelper.excludeFilter(selectedFieldsClone, action.payload);
       const reportFieldStateObjClone = cloneDeep(state.reportFieldsAsync);
-      const removedField = reportFieldStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
+      const removedField = FieldsHelper.findField(reportFieldStateObjClone.obj, action.payload);
       removedField.IsSelected = false;
       return {
         ...state,
@@ -104,7 +105,7 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
     case fromDataViewFieldsActions.ADD_SELECTED_FIELD: {
       let fieldsClone = cloneDeep(state.selectedReportFields);
       const reportFieldStateObjClone = cloneDeep(state.reportFieldsAsync);
-      const fieldToAdd = reportFieldStateObjClone.obj.find(x => x.DataElementId === action.payload.DataElementId);
+      const fieldToAdd = FieldsHelper.findField(reportFieldStateObjClone.obj, action.payload);
       const maxOrder = Math.max.apply(Math, fieldsClone.filter(f => f.IsSelected).map(function(o: Field) { return o.Order; }));
       if (fieldToAdd) {
         fieldToAdd.IsSelected = true;
@@ -128,13 +129,21 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
     }
     case fromDataViewFieldsActions.UPDATE_DISPLAY_NAME: {
       const fieldsClone = cloneDeep(state.selectedReportFields);
-      const fieldToUpdate = fieldsClone.find(x => x.DataElementId === action.payload.dataElementId);
+      const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload.field);
       if (fieldToUpdate) {
         fieldToUpdate.DisplayName = action.payload.displayName;
       }
       return {
         ...state,
         selectedReportFields: fieldsClone
+      };
+    }
+    case fromDataViewFieldsActions.ADD_NEW_FORMULA_FIELD: {
+      const reportFieldStateObjClone: AsyncStateObj<Field[]> = cloneDeep(state.reportFieldsAsync);
+      reportFieldStateObjClone.obj.push(action.payload);
+      return {
+        ...state,
+        reportFieldsAsync: reportFieldStateObjClone
       };
     }
     default: {
@@ -148,6 +157,6 @@ export const getSelectedFields = (state: State) => state.selectedReportFields;
 export const getUnselectedFields = (state: State) => {
   if (state.reportFieldsAsync.obj) {
     return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === false
-      && !state.selectedReportFields.some(y => y.DataElementId === f.DataElementId));
+      && !FieldsHelper.fieldExists(state.selectedReportFields, f));
   }
 };
