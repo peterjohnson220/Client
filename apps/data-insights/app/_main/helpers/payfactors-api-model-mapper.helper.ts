@@ -126,7 +126,8 @@ export class PayfactorsApiModelMapper {
       IsSortable: dataViewField.IsSortable,
       DataElementOrder: dataViewField.DataElementOrder,
       FormulaId: dataViewField.FormulaId,
-      FieldType: this.mapDataViewFieldTypeToFieldType(dataViewField.FieldType)
+      FieldType: this.mapDataViewFieldTypeToFieldType(dataViewField.FieldType),
+      Format: dataViewField.Format
     };
   }
 
@@ -194,7 +195,8 @@ export class PayfactorsApiModelMapper {
       Order: field.Order,
       IsSortable: field.IsSortable,
       FormulaId: field.FormulaId,
-      FieldType: this.mapFieldTypeToDataViewFieldType(field.FieldType)
+      FieldType: this.mapFieldTypeToDataViewFieldType(field.FieldType),
+      Format: field.Format
     };
   }
 

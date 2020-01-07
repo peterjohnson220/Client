@@ -72,7 +72,9 @@ export class FieldsEffects {
   @Effect()
   addSelectedField$ = this.action$
     .pipe(
-      ofType(fromFieldsActions.ADD_SELECTED_FIELD),
+      ofType(
+        fromFieldsActions.ADD_SELECTED_FIELD,
+        fromFieldsActions.SET_NUMBER_FORMAT_ON_SELECTED_FIELD),
       mergeMap(() => {
         return [
           new fromFieldsActions.SaveReportFields(),

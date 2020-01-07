@@ -73,6 +73,11 @@
   }
 }
 
+.k-grid-columnmenu-popup {
+  width: 10rem;
+  text-align: center;
+}
+
 .tag-modal {
   .modal-dialog {
     width: 400px;
@@ -148,7 +153,6 @@
 }
 
 .data-view-grid {
-
   .k-grid {
     tr {
       height: 41px;
@@ -170,7 +174,7 @@
     background-color: #ffffff;
     color: #404040;
   }
-  
+
   .k-checkbox:checked + .k-checkbox-label::before {
     background-color: #0883BE !important;
     color: #404040;

@@ -83,7 +83,8 @@ export class FieldsHelper {
         DataElementId: f.DataElementId,
         FormulaId: f.FormulaId,
         Order: index + 1,
-        DisplayName: f.DisplayName
+        DisplayName: f.DisplayName,
+        Format: f.Format
       };
     });
     return {
