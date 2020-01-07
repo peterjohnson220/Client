@@ -8,11 +8,10 @@ import { filter, take } from 'rxjs/operators';
 import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
 import { CompanyStructure, generateMockCompanyStructure } from 'libs/models/structures/company-structure.model';
 import { JobBasedRangesAddJobsModalComponent } from 'libs/features/add-jobs/components';
-import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
-import * as fromJobBasedRangesAddJobsModalActions from 'libs/features/add-jobs/actions/job-based-ranges-add-jobs-modal.actions';
 
 import * as fromStructuresMainReducer from '../../../reducers';
 import * as fromJobRangeModelingActions from '../../../actions/job-range-modeling-page.actions';
+import * as fromJobBasedRangesAddJobsModalActions from '../../../actions/job-based-ranges-add-jobs-modal.actions';
 import { JobRangeModelingConstants } from '../../../constants/structures.constants';
 import { EditGridColumnsModalComponent } from '../../../components/modals';
 
@@ -50,8 +49,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   public routePayMarketId: number;
 
   constructor(public route: ActivatedRoute,
-              private store: Store<fromStructuresMainReducer.State>,
-              private addJobsStore: Store<fromAddJobsReducer.State>) {
+              private store: Store<fromStructuresMainReducer.State>) {
     this.currentModelSubscription = this.store.select(fromStructuresMainReducer.getCurrentModel).subscribe(
       emittedModel => {
         this.currentModel = emittedModel;
@@ -107,7 +105,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
       }
     );
 
-    this.addJobsModalOpen$ = this.addJobsStore.select(fromAddJobsReducer.getAddJobsModalOpen);
+    this.addJobsModalOpen$ = this.store.select(fromStructuresMainReducer.getAddJobsModalOpen);
 
     this.routeStructureName = this.route.snapshot.queryParams['structure-name'] as string;
     this.routeModelName = this.route.snapshot.queryParams['model-name'] as string;
@@ -171,7 +169,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
 
   // modal functions
   showAddJobsModal() {
-    this.addJobsStore.dispatch(new fromJobBasedRangesAddJobsModalActions.OpenAddJobsModal());
+    this.store.dispatch(new fromJobBasedRangesAddJobsModalActions.OpenAddJobsModal());
   }
 
   addJobsModalSaveHandler(data) {
