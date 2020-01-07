@@ -57,6 +57,7 @@ import {
   WorkflowConfigEffects
 } from './effects';
 import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
+import { PeditorAutoFocusFixDirective } from './directives';
 
 @NgModule({
   imports: [
@@ -138,7 +139,10 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
     WorkflowConfigComponent,
 
     // Pipes
-    JobDescriptionAppliesToDisplayNamePipe
+    JobDescriptionAppliesToDisplayNamePipe,
+
+    // Directives
+    PeditorAutoFocusFixDirective
   ],
   providers: [
     ListAreaService,
