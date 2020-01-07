@@ -8,6 +8,7 @@ import * as fromStructuresReducer from './structures.reducer';
 import * as fromJobRangeModelingReducer from './job-range-modeling-page.reducer';
 import * as fromJobBasedRangeAllStructuresReducer from './job-based-range-all-structures.reducer';
 import * as fromJobRangeModelingGridReducer from './job-range-modeling-grid.reducer';
+import * as fromJobBasedRangesAddJobsModalReducer from './job-based-ranges-add-jobs-modal.reducer';
 
 // Feature area state
 export interface StructuresMainState {
@@ -15,6 +16,7 @@ export interface StructuresMainState {
   jobRangeModelingPage: fromJobRangeModelingReducer.State;
   jobBasedRangeAllStructuresComponent: fromJobBasedRangeAllStructuresReducer.State;
   jobRangeModelingGrid: fromJobRangeModelingGridReducer.State;
+  jobsBasedRangesAddJobsModal: fromJobBasedRangesAddJobsModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,7 +29,8 @@ export const reducers = {
   structuresPage: fromStructuresReducer.reducer,
   jobRangeModelingPage: fromJobRangeModelingReducer.reducer,
   jobBasedRangeAllStructuresComponent: fromJobBasedRangeAllStructuresReducer.reducer,
-  jobRangeModelingGrid: fromJobRangeModelingGridReducer.reducer
+  jobRangeModelingGrid: fromJobRangeModelingGridReducer.reducer,
+  jobsBasedRangesAddJobsModal: fromJobBasedRangesAddJobsModalReducer.reducer
 };
 
 // Select Feature Area
@@ -47,6 +50,11 @@ export const selectJobRangeModelingPageState = createSelector(
 export const selectJobBasedRangeAllStructuresComponentState = createSelector(
   selectFeatureAreaState,
   (state: StructuresMainState) => state.jobBasedRangeAllStructuresComponent
+);
+
+export const selectJobsBasedRangesAddJobsModalState = createSelector(
+  selectFeatureAreaState,
+  (state: StructuresMainState) => state.jobsBasedRangesAddJobsModal
 );
 
 // Structures Page
@@ -136,4 +144,10 @@ export const getListAreaColumnsSavingAsync = createSelector(
 export const getListAreaColumnsVisible = createSelector(
   selectJobRangeModelingGridState,
   fromJobRangeModelingGridReducer.getListAreaColumnsVisible
+);
+
+// Add Jobs Structures Modeling Modal
+export const getAddJobsModalOpen = createSelector(
+  selectJobsBasedRangesAddJobsModalState,
+  fromJobBasedRangesAddJobsModalReducer.getAddJobsModalOpen
 );
