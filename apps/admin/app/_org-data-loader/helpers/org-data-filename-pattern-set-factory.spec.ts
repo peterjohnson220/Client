@@ -1,6 +1,8 @@
+import { LoaderSetting } from 'libs/models/data-loads';
+
 import { LoaderSettingsFilenamePatternOverrideKey, OrgDataFilenamePatternSetConvention } from '../constants';
-import { OrgDataFilenamePatternSetFactory } from '../helpers/org-data-filename-pattern-set-factory';
-import { LoaderSetting, OrgDataFilenamePatternSet } from '../models';
+import { OrgDataFilenamePatternSetFactory } from './org-data-filename-pattern-set-factory';
+import { OrgDataFilenamePatternSet } from '../models';
 
 describe('OrgDataFilenamePatternSetFactory', () => {
   let sut: OrgDataFilenamePatternSetFactory;

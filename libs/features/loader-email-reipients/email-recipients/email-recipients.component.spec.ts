@@ -1,27 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { UserApiService } from 'libs/data/payfactors-api/user';
 
 import { EmailRecipientsComponent } from './email-recipients.component';
-import { GenerateMockEmailRecipient } from '../../models/email-recipient.model';
-import * as fromOrgDataLoaderReducer from '../../reducers';
-import * as fromEmailRecipientsActions from '../../actions/email-recipients.actions';
+import { GenerateMockEmailRecipient } from '../../../models/data-loads';
+import * as fromEmailRecipientsActions from '../state/actions/email-recipients.actions';
 
 describe('EmailRecipientsComponent', () => {
   let component: EmailRecipientsComponent;
   let fixture: ComponentFixture<EmailRecipientsComponent>;
-  let store: Store<fromOrgDataLoaderReducer.State>;
+  let store: Store<any>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRootState.reducers,
-          orgDataLoader: combineReducers(fromOrgDataLoaderReducer.reducers)
+          ...fromRootState.reducers
         })
       ],
       declarations: [ EmailRecipientsComponent ],
@@ -40,6 +39,9 @@ describe('EmailRecipientsComponent', () => {
     fixture = TestBed.createComponent(EmailRecipientsComponent);
     component = fixture.componentInstance;
     component.recipients = [GenerateMockEmailRecipient()];
+    component.savingError$ = of(false);
+    component.removingError$ = of(false);
+    component.emailRecipientsModalOpen$ = of(false);
     fixture.detectChanges();
   });
 

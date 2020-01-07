@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
+import * as fromEmailRecipientsReducer from 'libs/features/loader-email-reipients/state/reducers/email-recipients.reducer';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
@@ -19,6 +20,7 @@ export interface DataManagementMainState {
   fileUploadPage: fromFileUploadReducer.State;
   loaderSettings: fromLoaderSettingsReducer.State;
   customFieldsData: fromCustomFieldsReducer.State;
+  emailRecipients: fromEmailRecipientsReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -32,7 +34,8 @@ export const reducers = {
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
   fileUploadPage: fromFileUploadReducer.reducer,
   loaderSettings: fromLoaderSettingsReducer.reducer,
-  customFieldsData: fromCustomFieldsReducer.reducer
+  customFieldsData: fromCustomFieldsReducer.reducer,
+  emailRecipients: fromEmailRecipientsReducer.reducer
 };
 
 // Select Feature Area
@@ -68,6 +71,9 @@ export const selectOrgDataCustomFieldsState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.customFieldsData
 );
+
+export const selectEmailRecipientsState =
+  createSelector(selectFeatureAreaState, (state: DataManagementMainState) => state.emailRecipients);
 // Transfer Data Page
 export const getTransferMethods = createSelector(
   selectTransferDataPageState,
@@ -226,3 +232,44 @@ export const isProcessingMapping = createSelector(
   selectOrganizationalDataPageState,
   fromOrganizationalDataPageReducer.isProcessingMapping
 );
+
+// Email Recipients
+export const {
+  selectAll: getEmailRecipients
+} = fromEmailRecipientsReducer.adapter.getSelectors(selectEmailRecipientsState);
+
+export const getLoadingRecipients = createSelector(
+  selectEmailRecipientsState,
+  fromEmailRecipientsReducer.getLoadingEmailRecipients
+);
+
+export const getLoadingRecipientsError = createSelector(
+  selectEmailRecipientsState,
+  fromEmailRecipientsReducer.getLoadingEmailRecipientsError
+);
+
+export const getSavingRecipient = createSelector(
+  selectEmailRecipientsState,
+  fromEmailRecipientsReducer.getSavingEmailRecipients
+);
+
+export const getSavingRecipientError = createSelector(
+  selectEmailRecipientsState,
+  fromEmailRecipientsReducer.getSavingEmailRecipientsError
+);
+
+export const getRemovingRecipient = createSelector(
+  selectEmailRecipientsState,
+  fromEmailRecipientsReducer.getRemovingEmailRecipients
+);
+
+export const getRemovingRecipientError = createSelector(
+  selectEmailRecipientsState,
+  fromEmailRecipientsReducer.getRemovingEmailRecipientsError
+);
+
+export const getEmailRecipientsModalOpen = createSelector(
+  selectEmailRecipientsState,
+  fromEmailRecipientsReducer.getEmailRecipientsModalOpen
+);
+

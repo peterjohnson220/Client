@@ -1,6 +1,5 @@
-import { LoaderSetting, LoaderSettingsDTO } from 'apps/admin/app/_org-data-loader/models/index';
-
 import { Action } from '@ngrx/store';
+import { LoaderSetting, LoaderSettingsDTO } from 'libs/models/data-loads';
 
 export const LOADING_LOADER_SETTINGS = '[Org Data Loader/Loader Settings] Loading Loader Settings';
 export const LOADING_LOADER_SETTINGS_SUCCESS = '[Org Data Loader/Loader Settings] Loading Loader Settings Success';

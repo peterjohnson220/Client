@@ -1,8 +1,9 @@
-import { LoaderSetting } from 'apps/admin/app/_org-data-loader/models/index';
+
 
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as fromLoaderSettingsActions from '../actions/loader-settings.actions';
+import { LoaderSetting } from 'libs/models/data-loads';
 
 export interface State extends EntityState<LoaderSetting> {
   loading: boolean;

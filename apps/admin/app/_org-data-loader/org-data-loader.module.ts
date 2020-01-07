@@ -16,13 +16,15 @@ import { PfFormsModule } from 'libs/forms';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
+import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 
 import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
 import { reducers } from './reducers';
-import { CompanySelectorEffects, OrgDataEmailRecipientsEffects, OrgDataFieldMappingsEffects } from './effects';
-import { CompanySelectorComponent, EmailRecipientsComponent, SftpAccountStatusComponent } from './containers';
+import { CompanySelectorEffects, OrgDataFieldMappingsEffects } from './effects';
+import { CompanySelectorComponent, SftpAccountStatusComponent } from './containers';
+
 
 @NgModule({
   imports: [
@@ -37,7 +39,6 @@ import { CompanySelectorComponent, EmailRecipientsComponent, SftpAccountStatusCo
     EffectsModule.forFeature([
       CompanySelectorEffects,
       OrgDataFieldMappingsEffects,
-      OrgDataEmailRecipientsEffects,
       LoaderSettingsEffects]),
 
     // 3rd Party
@@ -51,7 +52,8 @@ import { CompanySelectorComponent, EmailRecipientsComponent, SftpAccountStatusCo
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
-    PfFieldMapperModule
+    PfFieldMapperModule,
+    PfEmailRecipientsModule
   ],
   providers: [
     ConfigSettingsSelectorFactory
@@ -60,7 +62,6 @@ import { CompanySelectorComponent, EmailRecipientsComponent, SftpAccountStatusCo
     // Components
     SftpAccountStatusComponent,
     CompanySelectorComponent,
-    EmailRecipientsComponent,
 
     // Pages
     ManageFieldMappingsPageComponent

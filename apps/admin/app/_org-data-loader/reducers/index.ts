@@ -1,13 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
+import * as fromOrgDataEmailRecipientsReducer from 'libs/features/loader-email-reipients/state/reducers/email-recipients.reducer';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromCompanySelectorReducer from './company-selector.reducer';
 import * as fromOrgDataFieldMappingsReducer from './org-data-field-mappings.reducer';
-import * as fromOrgDataEmailRecipientsReducer from './email-recipients.reducer';
 import * as fromOrgDataFilenamePatternsReducer from './org-data-filename-patterns.reducer';
 
 // Feature area state

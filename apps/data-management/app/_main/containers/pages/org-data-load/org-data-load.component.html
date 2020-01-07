@@ -93,6 +93,7 @@
                       placement="top"
                       (click)="processBtnClick()"
                       class="btn mx-1 pf-primary-btn">Process</button>
+              <button class="btn mx-1 btn-md pf-secondary-btn" *ngIf="stepIndex === stepEnum.FieldMapping" (click)="openEmailRecipientsModal()">Email Recipients</button>
             </div>
           </div>
         </div>
@@ -103,6 +104,16 @@
             [action]="orgDataExportAction()"
             method="POST">
       </form>
+
+      <pf-email-recipients-modal
+        class="float-right m-2"
+        *ngIf="selectedCompany && stepIndex === stepEnum.FieldMapping"
+        [companyId]="selectedCompany.CompanyId"
+        [savingError$]="emailRecipientsSavingError$"
+        [removingError$]="emailRecipientsRemovingError$"
+        [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"
+        [recipients]="emailRecipients$ | async">
+      </pf-email-recipients-modal>
 
     </ng-container>
   </pf-page-with-title-bar>

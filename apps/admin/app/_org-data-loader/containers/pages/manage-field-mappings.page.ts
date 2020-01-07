@@ -4,22 +4,22 @@ import { delay, isNumber, isObject } from 'lodash';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter} from 'rxjs/operators';
 
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
 import { environment } from 'environments/environment';
 import { LoaderTypes } from 'libs/constants/loader-types';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
-import { LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
-import { VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
+import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { Company } from 'libs/models/company/company.model';
 import { ConfigSetting } from 'libs/models/security';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
+import { EmailRecipientModel, LoaderFieldSet, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 
-import * as fromEmailRecipientsActions from '../../actions/email-recipients.actions';
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -27,9 +27,7 @@ import {
     LoaderType, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
     ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
 } from '../../constants';
-import {
-    EmailRecipientModel, LoaderEntityStatus, LoaderFieldSet, LoaderSaveCoordination, LoaderSetting, MappingModel, OrgDataFilenamePatternSet
-} from '../../models';
+import { OrgDataFilenamePatternSet } from '../../models';
 
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
@@ -81,6 +79,9 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   sftpDomainConfig$: Observable<ConfigSetting>;
   sftpPortConfig$: Observable<ConfigSetting>;
   visibleLoaderOptions: VisibleLoaderOptionModel;
+  emailRecipientsSavingError$: Observable<boolean>;
+  emailRecipientsRemovingError$: Observable<boolean>;
+  emailRecipientsModalOpen$: Observable<boolean>;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -156,6 +157,9 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.saveMappingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsSuccess);
     this.saveMappingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsError);
     this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
+    this.emailRecipientsSavingError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingRecipientError);
+    this.emailRecipientsRemovingError$ = this.store.select(fromOrgDataAutoloaderReducer.getRemovingRecipientError);
+    this.emailRecipientsModalOpen$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipientsModalOpen);
     this.loaderSettings$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettings);
     this.loaderSettingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettings);
     this.saveLoaderSettingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettingsSavingSuccess);
