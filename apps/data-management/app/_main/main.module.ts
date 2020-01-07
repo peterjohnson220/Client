@@ -19,6 +19,7 @@ import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effec
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 
 import { EntityPickerComponent, EntityUploadComponent, FileMappingComponent } from './components';
 import { FileUploadComponent } from './components/file-upload';
@@ -69,7 +70,8 @@ import { reducers } from './reducers';
     PfCommonUIModule,
     PfFormsModule,
     PfCompanySelectorModule,
-    PfFieldMapperModule
+    PfFieldMapperModule,
+    PfEmailRecipientsModule
   ],
   declarations: [
     // Pages

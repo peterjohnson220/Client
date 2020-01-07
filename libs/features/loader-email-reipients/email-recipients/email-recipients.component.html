@@ -13,7 +13,7 @@
         (selected)="onRecipientSelected($event)">
       </pf-user-or-email-picker>
 
-      <div class="card card-block mb-3" *ngIf="recipients.length > 0">
+      <div class="card card-block mb-3" *ngIf="recipients && recipients.length > 0">
         <div id="recipient-list-section">
           <div class="recipient" *ngFor="let recipient of recipients">
             <div class="container px-0">

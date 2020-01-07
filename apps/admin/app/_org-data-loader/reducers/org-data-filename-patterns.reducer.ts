@@ -1,7 +1,8 @@
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+import { LoaderSetting } from 'libs/models/data-loads';
 
 import { OrgDataFilenamePatternSetFactory } from '../helpers/org-data-filename-pattern-set-factory';
-import { LoaderSetting, OrgDataFilenamePatternSet } from '../models';
+import { OrgDataFilenamePatternSet } from '../models';
 
 export interface State {
   OrgDataFilenamePatternSet: OrgDataFilenamePatternSet;

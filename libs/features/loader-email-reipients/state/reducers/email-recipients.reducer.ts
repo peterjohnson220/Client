@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as fromOrgDataEmailRecipientsActions from '../actions/email-recipients.actions';
-import { EmailRecipientModel } from '../models/email-recipient.model';
+import { EmailRecipientModel } from 'libs/models/data-loads';
 
 export interface State extends EntityState<EmailRecipientModel> {
   loading: boolean;
@@ -24,7 +24,6 @@ export const initialState: State = adapter.getInitialState({
   savingError: false,
   removing: false,
   removingError: false,
-  emailRecipients: null,
   emailRecipientsModalOpen: false
 });
 
