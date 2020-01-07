@@ -5,8 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -52,7 +51,7 @@ import { SavedFiltersHelper } from './helpers';
   ]
 })
 export class PfAddJobsModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

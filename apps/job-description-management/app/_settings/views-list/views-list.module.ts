@@ -4,8 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfFormsModule } from 'libs/forms';
@@ -47,7 +46,7 @@ import * as fromFaIcons from './fa-icons';
   ]
 })
 export class ViewsListModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

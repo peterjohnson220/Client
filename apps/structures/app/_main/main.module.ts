@@ -14,8 +14,7 @@ import {
   NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
@@ -94,7 +93,7 @@ import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, Jo
   ]
 })
 export class MainModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

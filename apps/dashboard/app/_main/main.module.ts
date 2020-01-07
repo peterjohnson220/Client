@@ -9,8 +9,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
 
 // PF
@@ -106,7 +105,7 @@ import { BasicListComponent } from './components';
   ]
 })
 export class MainModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

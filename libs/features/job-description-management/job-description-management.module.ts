@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import * as fromFaIcons from './fa-icons';
 
@@ -12,7 +11,7 @@ import * as fromFaIcons from './fa-icons';
   exports: []
 })
 export class PfJobDescriptionManagementModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

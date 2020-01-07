@@ -9,8 +9,7 @@ import { ColumnResizingService, FilterMenuModule, GridModule } from '@progress/k
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DragulaModule } from 'ng2-dragula';
 
 import { PfCommonModule } from 'libs/core';
@@ -191,8 +190,8 @@ import { ListAreaService } from '../shared/services';
   ]
 })
 export class JobDescriptionModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }
 
