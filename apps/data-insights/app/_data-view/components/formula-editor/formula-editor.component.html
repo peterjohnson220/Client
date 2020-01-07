@@ -1,7 +1,8 @@
 <div class="d-flex flex-column">
   <div class="formula-container mb-3">
-    <div class="d-flex popup-anchor formula-suggestions">
-      <span #popupAnchor>
+    <div class="popup-anchor formula-suggestions">
+      <span>{{beforeMarkerValues}}</span>
+      <span>
         {{markerValue}}
         <kendo-dropdownlist #suggestionList
           [style.visibility]="showPopup ? 'visible' : 'hidden'"
@@ -11,8 +12,9 @@
           (valueChange)="handleSuggestionClicked($event)">
         </kendo-dropdownlist>
       </span>
+      <span>{{afterMarkerValues}}</span>
     </div>
-    <textarea #editor pfClickElsewhere class="formula" spellcheck="false" tabindex="-1"
+    <textarea #editor pfClickElsewhere class="formula" spellcheck="false" tabindex="-1" id="dsFormulaEditor"
       [maxlength]="formulaMaxLength"
       [attr.data-qa-id]="'txt-formula-editor'"
       [placeholder]="'Formula'"

@@ -1,9 +1,9 @@
-import { SpecialCharacters, FunctionName, Function } from '../models';
+import { SpecialCharacter, FunctionName, Function, SuggestionIndicator } from '../models';
 
 export class FormulaHelper {
 
   static getFormattedField(selectedFieldName: string, selectionStartCharacter: string): string {
-    const closedBracketExists: boolean = selectionStartCharacter === SpecialCharacters.ClosedBracket;
+    const closedBracketExists: boolean = selectionStartCharacter === SpecialCharacter.ClosedBracket;
     return closedBracketExists ? `[${selectedFieldName}` : `[${selectedFieldName}]`;
   }
 
@@ -16,5 +16,14 @@ export class FormulaHelper {
         return '';
       }
     }
+  }
+
+  static buildSuggestionIndicator(): SuggestionIndicator {
+    return {
+      Type: null,
+      Index: -1,
+      Character: null,
+      Entered: false
+    };
   }
 }

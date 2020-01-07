@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { Subject } from 'rxjs/Subject';
 
 import { FormulaEditorComponent } from './formula-editor.component';
-import { SuggestionIndicatorType, Function } from '../../models';
-import { By } from '@angular/platform-browser';
+import { SuggestionIndicatorType, Function, SpecialCharacter } from '../../models';
 
 describe('Data Insights - Data View - Formula Editor', () => {
   let instance: FormulaEditorComponent;
@@ -14,13 +14,19 @@ describe('Data Insights - Data View - Formula Editor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ FormulaEditorComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ],
-      imports: [ DropDownsModule ]
+      schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     fixture = TestBed.createComponent(FormulaEditorComponent);
     instance = fixture.componentInstance;
     instance.fieldSuggestions = ['Employees.Base', 'Structures.Mid'];
+    instance.suggestionList = {
+      filterChange: new Subject(),
+      reset: jest.fn(),
+      writeValue: function(val: string) { this.value = val; },
+      value: '',
+      toggle: jest.fn()
+    } as any;
 
     fixture.detectChanges();
   });
@@ -39,7 +45,7 @@ describe('Data Insights - Data View - Formula Editor', () => {
 
     instance.handleInputValueChanged(instance.inputValue);
 
-    expect(instance.suggestionIndicatorType).toEqual(SuggestionIndicatorType.Field);
+    expect(instance.suggestionIndicator.Type).toEqual(SuggestionIndicatorType.Field);
   });
 
   it('should set selectedSuggestionType to Function if previous character is dollar sign', () => {
@@ -48,14 +54,15 @@ describe('Data Insights - Data View - Formula Editor', () => {
 
     instance.handleInputValueChanged(instance.inputValue);
 
-    expect(instance.suggestionIndicatorType).toEqual(SuggestionIndicatorType.Function);
+    expect(instance.suggestionIndicator.Type).toEqual(SuggestionIndicatorType.Function);
   });
 
   it('should display popup with suggestions if matched results found', () => {
     const editor = fixture.debugElement.query(By.css('.formula')).nativeElement;
     const filteredSuggestions = ['Employees.Base'];
-    instance.suggestionIndicatorIndex = 0;
-    instance.suggestionIndicatorEntered = true;
+    instance.suggestionIndicator.Index = 0;
+    instance.suggestionIndicator.Entered = true;
+    instance.suggestionIndicator.Character = SpecialCharacter.OpenBracket;
     instance.suggestions = instance.fieldSuggestions;
     instance.showPopup = false;
     instance.inputValue = '[B';
@@ -71,8 +78,9 @@ describe('Data Insights - Data View - Formula Editor', () => {
   it('should NOT display popup if NONE matched results found', () => {
     const editor = fixture.debugElement.query(By.css('.formula')).nativeElement;
     const filteredSuggestions = [];
-    instance.suggestionIndicatorIndex = 0;
-    instance.suggestionIndicatorEntered = true;
+    instance.suggestionIndicator.Index = 0;
+    instance.suggestionIndicator.Entered = true;
+    instance.suggestionIndicator.Character = SpecialCharacter.OpenBracket;
     instance.suggestions = instance.fieldSuggestions;
     instance.showPopup = false;
     instance.inputValue = '[Bonus';
@@ -87,9 +95,9 @@ describe('Data Insights - Data View - Formula Editor', () => {
 
   it('should insert correct field format when handling field suggestion clicked', () => {
     const editor = fixture.debugElement.query(By.css('.formula')).nativeElement;
-    instance.suggestionIndicatorIndex = 0;
-    instance.suggestionIndicatorEntered = true;
-    instance.suggestionIndicatorType = SuggestionIndicatorType.Field;
+    instance.suggestionIndicator.Index = 0;
+    instance.suggestionIndicator.Entered = true;
+    instance.suggestionIndicator.Type = SuggestionIndicatorType.Field;
     instance.inputValue = '[B';
     editor.setSelectionRange(2, 2);
     fixture.detectChanges();
@@ -101,9 +109,10 @@ describe('Data Insights - Data View - Formula Editor', () => {
 
   it('should insert correct function format when handling function suggestion clicked', () => {
     const editor = fixture.debugElement.query(By.css('.formula')).nativeElement;
-    instance.suggestionIndicatorIndex = 0;
-    instance.suggestionIndicatorEntered = true;
-    instance.suggestionIndicatorType = SuggestionIndicatorType.Function;
+    instance.suggestionIndicator.Index = 0;
+    instance.suggestionIndicator.Entered = true;
+    instance.suggestionIndicator.Character = SpecialCharacter.DollarSign;
+    instance.suggestionIndicator.Type = SuggestionIndicatorType.Function;
     instance.inputValue = '$I';
     editor.setSelectionRange(2, 2);
     fixture.detectChanges();
