@@ -116,7 +116,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             fields: action.fields,
             groupedFields: buildGroupedFields(action.fields),
             selectedRecordId: null,
-            expandedRows: null,
+            expandedRows: [],
             splitViewFilters: []
           }
         }
