@@ -30,7 +30,7 @@
     "@angular/platform-server": "8.0.0",
     "@angular/router": "8.0.0",
     "@aspnet/signalr": "1.1.4",
-    "@fortawesome/angular-fontawesome": "0.3.0",
+    "@fortawesome/angular-fontawesome": "0.5.0",
     "@fortawesome/fontawesome-svg-core": "1.2.18",
     "@fortawesome/pro-light-svg-icons": "5.8.2",
     "@fortawesome/pro-regular-svg-icons": "5.8.2",

@@ -14,8 +14,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import * as fromFaIcons from './fa-icons';
 
@@ -194,7 +193,7 @@ const components = [
   ]
 })
 export class MainModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

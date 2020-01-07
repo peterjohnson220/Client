@@ -7,10 +7,9 @@ import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { GridModule, FilterMenuModule } from '@progress/kendo-angular-grid';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DragulaModule } from 'ng2-dragula';
 import { EditorModule } from 'primeng/editor';
-import { library } from '@fortawesome/fontawesome-svg-core';
 import { NgbTabsetModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 
@@ -148,8 +147,8 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
   ]
 })
 export class SharedModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }
 

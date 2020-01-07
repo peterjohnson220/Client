@@ -5,8 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
 
 import { StoreModule } from '@ngrx/store';
@@ -65,7 +64,7 @@ import { JobsPageEffects, JobDescriptionEffects } from './effects';
   ]
 })
 export class JobsPageModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }
