@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
 import { FilterDescriptor } from '@progress/kendo-data-query';
 
@@ -12,24 +12,29 @@ import { DateOperatorOptions, NumericOperatorOptions, TextOperatorOptions } from
   styleUrls: ['./list-area-filter-sidebar.component.scss']
 })
 export class ListAreaFilterSidebarComponent implements OnChanges {
-  @Input() listAreaColumns: ListAreaColumn[];
   @Input() customListAreaColumns: ListAreaColumn[];
   @Input('filters') set _filters(value: FilterDescriptor[]) {
     if (value) {
       this.filters = JSON.parse(JSON.stringify(value));
     }
   }
+  @Input() listAreaColumns: ListAreaColumn[];
   @Input() saveFiltersVisible = true;
 
   @Output() saveFilterClicked = new EventEmitter();
   @Output() filterChanged = new EventEmitter();
   @Output() close = new EventEmitter();
 
-  private listAreaColumnAssociatedFilter;
-  private listAreaColumnCustomAssociatedFilter;
   public filters: FilterDescriptor[];
+  public listAreaColumnAssociatedFilter;
+  public listAreaColumnCustomAssociatedFilter;
 
   constructor() {}
+
+  ngOnChanges() {
+      this.listAreaColumnCustomAssociatedFilter = this.customListAreaColumns.map(x => this.getFilterByListAreaColumn(x));
+      this.listAreaColumnAssociatedFilter = this.listAreaColumns.map(x => this.getFilterByListAreaColumn(x));
+  }
 
   getFilterByListAreaColumn(listAreaColumn: ListAreaColumn) {
     const emptyFilter = this.createEmptyFilterDescriptor(listAreaColumn);
@@ -63,6 +68,9 @@ export class ListAreaFilterSidebarComponent implements OnChanges {
         op = 'gte';
         break;
       case 'numeric':
+        op = 'eq';
+        break;
+      case 'boolean':
         op = 'eq';
         break;
     }
@@ -127,23 +135,5 @@ export class ListAreaFilterSidebarComponent implements OnChanges {
     }
 
     return isValueCanBeEmptyOperator;
-  }
-
-  // Lifecycle
-  ngOnChanges(changes: SimpleChanges) {
-    this.listAreaColumnAssociatedFilter = [];
-    this.listAreaColumnCustomAssociatedFilter = [];
-
-    if (this.customListAreaColumns) {
-      for (const custom of this.customListAreaColumns) {
-        this.listAreaColumnCustomAssociatedFilter.push(this.getFilterByListAreaColumn(custom));
-      }
-    }
-
-    if (this.listAreaColumns) {
-      for (const column of this.listAreaColumns) {
-        this.listAreaColumnAssociatedFilter.push(this.getFilterByListAreaColumn(column));
-      }
-    }
   }
 }

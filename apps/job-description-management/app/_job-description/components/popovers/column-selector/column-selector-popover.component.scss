@@ -1,46 +1,32 @@
-.column-item{
-  padding-bottom: 3px;
-}
-
-.column-list{
+.column-list {
   overflow-y: auto;
   min-height: 300px;
   max-height: 300px;
-}
-
-.column-list ul {
   list-style: none;
   -webkit-padding-start: 0px;
+  font-size: 13px;
 }
 
-.column-list-container{
+.column-list-container {
   padding: 9px 14px;
   width: 260px;
 }
 
-.column-text{
-  vertical-align: middle;
+.column-item {
+  padding-bottom: 3px;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+
+  input, .column-text {
+    vertical-align: middle;
+  }
+
+  .column-text {
+    padding-left: 3px;
+  }
 }
 
-.footer{
+.footer {
   border-top: 1px solid #CCC;
   background: #f7f7f7
 }
-
-input[type="checkbox"]{
-  vertical-align: middle;
-}
-
-.column-popover .popover{
-  font-size: 13px;
-}
-
-//.column-popover .popover.popover-bottom{
-//  left: inherit !important;
-//  right: 89px !important;
-//}
-//
-//.column-popover .popover.popover-bottom:before,
-//.column-popover .popover.popover-bottom:after{
-//  left: 94% !important;
-//}

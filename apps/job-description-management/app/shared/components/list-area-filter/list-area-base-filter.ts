@@ -23,8 +23,10 @@ export abstract class ListAreaBaseFilter implements OnChanges {
   }
 
   handleFilterValueChanged(event) {
-    this.filter.value = event;
-    this.filterChanged.emit(this.filter);
+    if (event) {
+      this.filter.value = event;
+      this.filterChanged.emit(this.filter);
+    }
   }
 
   ngOnChanges(changes) {

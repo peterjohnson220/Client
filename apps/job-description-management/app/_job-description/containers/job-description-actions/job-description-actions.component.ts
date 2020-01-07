@@ -22,6 +22,7 @@ import { JobDescriptionHelper } from '../../helpers';
   styleUrls: ['./job-description-actions.component.scss']
 })
 export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
+  @Input() hasFilteredView: boolean;
   @Output() undoClicked = new EventEmitter();
   @Output() publishClicked = new EventEmitter();
   @Output() routeForApprovalClicked = new EventEmitter();

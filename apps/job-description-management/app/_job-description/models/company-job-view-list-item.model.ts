@@ -7,6 +7,7 @@ export class CompanyJobViewListItem {
   JobTitle: string;
   VersionNumber: number;
   JobDescriptionStatus: string;
+  PublicView: boolean;
 }
 
 export function generateMockCompanyJobViewListItem(mockNumber: number = 1): CompanyJobViewListItem {
@@ -18,6 +19,7 @@ export function generateMockCompanyJobViewListItem(mockNumber: number = 1): Comp
     JobCode: `Test Job Code ${mockNumber}`,
     JobTitle: `Test Job Title ${mockNumber}`,
     VersionNumber: 1,
-    JobDescriptionStatus: `Test Job Description Status ${mockNumber}`
+    JobDescriptionStatus: `Test Job Description Status ${mockNumber}`,
+    PublicView: true
   };
 }

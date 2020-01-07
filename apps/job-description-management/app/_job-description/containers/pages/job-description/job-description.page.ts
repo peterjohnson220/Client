@@ -52,6 +52,7 @@ import { ChangeApproverModalComponent } from '../../change-approver-modal';
 import { CopyJobDescriptionModalComponent } from '../../copy-job-description-modal';
 import { JobDescriptionHelper } from '../../../helpers';
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
+import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
 
 @Component({
   selector: 'pf-job-description-page',
@@ -60,15 +61,16 @@ import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 })
 export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild('discardDraftModal', { static: true }) public discardDraftModal: SimpleYesNoModalComponent;
-  @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
-  @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
-  @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
   @ViewChild('jobMatchesModalComponent', { static: false }) public jobMatchesModalComponent: JobMatchesModalComponent;
+  @ViewChild(ChangeApproverModalComponent, { static: false }) public changeApproverModal: ChangeApproverModalComponent;
   @ViewChild(CopyJobDescriptionModalComponent, { static: false }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
+  @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
+  @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
+  @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
+  @ViewChild(JobDescriptionAppliesToModalComponent, { static: false }) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
   @ViewChild(WorkflowCancelModalComponent, { static: false }) public workflowCancelModal: WorkflowCancelModalComponent;
   @ViewChild(WorkflowSetupModalComponent, { static: false }) public workflowSetupModal: WorkflowSetupModalComponent;
-  @ViewChild(ChangeApproverModalComponent, { static: false }) public changeApproverModal: ChangeApproverModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
@@ -191,6 +193,21 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionViewsAsyncSubscription.unsubscribe();
     this.editingSubscription.unsubscribe();
     this.completedStepSubscription.unsubscribe();
+  }
+
+  appliesToFormCompleted(selected: any) {
+    // const newJobDescription = new CompanyJobViewListItem();
+    // newJobDescription.CompanyJobId = selected.companyJobId;
+    // var companyJobToAssign = newJobDescription.CompanyJobId;
+    // var companyJobToUnassign = [];
+    // if(selected.templateId == -1) {
+    //     this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
+    // } else {
+    //     this.templateService.saveCompanyJobsJobDescriptionTemplateId(selected.templateId,[companyJobToAssign],companyJobToUnassign).subscribe( () => {
+    //         this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
+    //     });
+
+    // }
   }
 
   goBack(): void {
@@ -344,7 +361,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     appliesTo.AppliesToValue = this.jobDescription.AppliesToValue;
     appliesTo.JobDescriptionTitle = this.jobDescription.JobDescriptionTitle;
 
-    // this.jobDescriptionAppliesToModalComponent.open(this.jobDescription.JobDescriptionId, this.jobDescription.CompanyJobId, appliesTo);
+    this.jobDescriptionAppliesToModalComponent.open(this.jobDescription.JobDescriptionId, this.jobDescription.CompanyJobId, appliesTo);
   }
 
   handleExportAsPDFClicked(): void {

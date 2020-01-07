@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Action, Store } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
 
@@ -56,22 +56,22 @@ export class JobDescriptionGridEffects {
       }
       ));
 
-  @Effect()
-  saveListAreaColumns$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS),
-      switchMap((action: fromJobDescriptionGridActions.SaveListAreaColumns) => {
-          const newRequest = cloneDeep(action.payload);
-          newRequest.Columns = MappingHelper.mapListAreaColumnListToListAreaColumnRequestList(newRequest.Columns);
+    @Effect()
+    saveListAreaColumns$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS),
+        switchMap((action: fromJobDescriptionGridActions.SaveListAreaColumns) => {
+            const newRequest = cloneDeep(action.payload);
+            newRequest.Columns = MappingHelper.mapListAreaColumnListToListAreaColumnRequestList(newRequest.Columns);
 
-          return this.userProfileApiService.saveListAreaColumns(newRequest).pipe(
-            map(() => {
-              return new fromJobDescriptionGridActions.SaveListAreaColumnsSuccess({ ListAreaColumns: action.payload.Columns });
-            }),
-            catchError(response => of(new fromJobDescriptionGridActions.SaveListAreaColumnsError()))
-          );
-        }
-      ));
+            return this.userProfileApiService.saveListAreaColumns(newRequest).pipe(
+              map(() => {
+                return new fromJobDescriptionGridActions.SaveListAreaColumnsSuccess({ ListAreaColumns: action.payload.Columns });
+              }),
+              catchError(response => of(new fromJobDescriptionGridActions.SaveListAreaColumnsError()))
+            );
+          }
+        ));
 
     @Effect()
     getPublicJdmColumns$: Observable<Action> = this.actions$
@@ -86,6 +86,23 @@ export class JobDescriptionGridEffects {
           catchError(response => of(new fromJobDescriptionGridActions.LoadPublicJdmColumnsError()))
         )
       ));
+
+    @Effect()
+    updatePublicView$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(fromJobDescriptionGridActions.UPDATE_PUBLIC_VIEW),
+        switchMap((action: fromJobDescriptionGridActions.UpdatePublicView) => {
+            const clonedPayload = cloneDeep(action.payload);
+            clonedPayload.PublicView = !clonedPayload.PublicView;
+
+            return this.jobDescriptionApiService.updatePublicView(clonedPayload.CompanyId, clonedPayload.JobDescriptionId, clonedPayload.PublicView).pipe(
+              map(() => {
+                return new fromJobDescriptionGridActions.UpdatePublicViewSuccess(clonedPayload);
+              }),
+              catchError(response => of(new fromJobDescriptionGridActions.UpdatePublicViewError()))
+            );
+          }
+        ));
 
   constructor(
     private actions$: Actions,

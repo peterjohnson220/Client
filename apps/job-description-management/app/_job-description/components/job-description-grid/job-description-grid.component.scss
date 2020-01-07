@@ -1,16 +1,19 @@
 @import 'kendo-grid';
 
-/* Styles to remain here */
+.dropdown-item {
+  width: inherit;
+}
+
 #jd-list-view-actions-dropdown svg {
   font-size:  0.875rem;
   color: #ffffff;
 }
 
-#jd-list-view-actions-dropdown:after{
+#jd-list-view-actions-dropdown:after {
   display: none;
 }
 
-#jd-list-view-actions-dropdown{
+#jd-list-view-actions-dropdown {
   border-color: rgba(0, 0, 0, 0);
   background-color: rgba(0, 0, 0, 0);
 }
@@ -44,11 +47,54 @@
   color: #292b2c;
 }
 
-/*Dropdown item inside grid causes horizontal scroll because of 100% width*/
-.dropdown-item{
-  width: inherit;
-}
-
 :host ::ng-deep .k-grid tbody tr:hover {
   cursor: pointer;
+}
+
+#public-icon-stack {
+  color: #1b1e21;
+  transition: 0.3s;
+}
+
+#public-eye { 
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+#public-circle { 
+  opacity: 0.0; 
+  color: #383d41; 
+  transition: 0.3s;
+}
+
+#public-icon-stack:hover > #public-circle { 
+  opacity: 0.2; 
+}
+
+#public-icon-stack:hover > #public-eye {
+  opacity: 1 
+}
+
+#private-icon-stack {
+  color: #636c72;
+  transition: 0.3s;
+}
+
+#private-eye { 
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+#private-circle { 
+  opacity: 0.0; 
+  color: #383d41; 
+  transition: 0.3s;
+}
+
+#private-icon-stack:hover > #private-circle { 
+  opacity: 0.2; 
+}
+
+#private-icon-stack:hover > #private-eye {
+  opacity: 0.8; 
 }

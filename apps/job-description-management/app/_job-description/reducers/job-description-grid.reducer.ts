@@ -10,7 +10,6 @@ export interface State {
   gridDataResult: GridDataResult;
   gridState: KendoState;
   listAreaColumns: ListAreaColumn[];
-  listAreaColumnsToUpdate: ListAreaColumn[];
   loadingJobDescriptionGrid: boolean;
   loadingJobDescriptionGridError: boolean;
   loadingListAreaColumns: boolean;
@@ -25,7 +24,6 @@ export const initialState: State = {
   gridDataResult: null,
   gridState: { skip: 0, take: 20 },
   listAreaColumns: [],
-  listAreaColumnsToUpdate: [],
   loadingJobDescriptionGrid: false,
   loadingJobDescriptionGridError: false,
   loadingListAreaColumns: false,
@@ -49,12 +47,12 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         loadingJobDescriptionGrid: false,
         loadingJobDescriptionGridError: true
       };
-    case fromJobDescriptionGridActions.LOAD_JOB_DESCRIPTION_GRID_SUCCESS:
-      return {
-        ...state,
-        loadingJobDescriptionGrid: false,
-        gridDataResult: cloneDeep(action.payload)
-      };
+      case fromJobDescriptionGridActions.LOAD_JOB_DESCRIPTION_GRID_SUCCESS:
+        return {
+          ...state,
+          loadingJobDescriptionGrid: false,
+          gridDataResult: cloneDeep(action.payload)
+        };
     case fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS:
     case fromJobDescriptionGridActions.LOAD_PUBLIC_JDM_COLUMNS:
       return {
@@ -69,18 +67,28 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         loadingListAreaColumnsError: true
       };
     case fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS_SUCCESS:
-    case fromJobDescriptionGridActions.LOAD_PUBLIC_JDM_COLUMNS_SUCCESS:
       return {
         ...state,
-        loadingListAreaColumns: false,
-        loadingListAreaColumnsError: false,
-        listAreaColumns: action.payload.filter(c => c.Visible), // Only visible columns needed in the display page
-        listAreaColumnsToUpdate: cloneDeep(action.payload)
+        listAreaColumns: action.payload
       };
+      case fromJobDescriptionGridActions.LOAD_PUBLIC_JDM_COLUMNS_SUCCESS:
+        return {
+          ...state,
+          loadingListAreaColumns: false,
+          loadingListAreaColumnsError: false,
+          listAreaColumns: action.payload
+        };
     case fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS:
       return {
         ...state,
         savingListAreaColumns: true
+      };
+    case fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS_SUCCESS:
+      return {
+        ...state,
+        listAreaColumns: action.payload.ListAreaColumns,
+        savingListAreaColumns: false,
+        savingListAreaColumnsSuccess: true
       };
     case fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS_ERROR:
       return {
@@ -88,32 +96,32 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         savingListAreaColumns: false,
         savingListAreaColumnsError: true
       };
-    case fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS_SUCCESS:
-      return {
-        ...state,
-        savingListAreaColumns: false,
-        savingListAreaColumnsSuccess: true,
-        listAreaColumns: state.listAreaColumnsToUpdate.filter(c => c.Visible)
-      };
     case fromJobDescriptionGridActions.UPDATE_GRID_STATE:
       return {
         ...state,
-        gridState: cloneDeep(action.payload)
-      };
-    case fromJobDescriptionGridActions.UPDATE_LIST_AREA_COLUMN:
-      const newListAreaColumnsToUpdate = cloneDeep(state.listAreaColumnsToUpdate);
-      const column = newListAreaColumnsToUpdate.find(ce => ce.ColumnDatabaseName === action.payload.ListAreaColumn.ColumnDatabaseName);
-
-      column.Visible = action.payload.Checked;
-
-      return {
-        ...state,
-        listAreaColumnsToUpdate: newListAreaColumnsToUpdate
+        gridState: action.payload
       };
     case fromJobDescriptionGridActions.UPDATE_SEARCH_TERM:
       return {
         ...state,
         searchTerm: action.payload
+      };
+    case fromJobDescriptionGridActions.UPDATE_PUBLIC_VIEW_SUCCESS:
+      const clonedGridDataResult = cloneDeep(state.gridDataResult);
+      const gridResultData = clonedGridDataResult.data.map(cjd => {
+        if (cjd.JobDescriptionId === action.payload.JobDescriptionId) {
+          cjd = {
+            ...cjd,
+            PublicView: action.payload.PublicView
+          };
+        }
+        return cjd;
+      });
+
+      clonedGridDataResult.data = gridResultData;
+      return {
+        ...state,
+        gridDataResult: clonedGridDataResult
       };
     default:
       return state;
@@ -128,5 +136,4 @@ export const getListAreaColumns = (state: State) => state.listAreaColumns;
 export const getListAreaColumnsSaving = (state: State) => state.savingListAreaColumns;
 export const getListAreaColumnsSavingError = (state: State) => state.savingListAreaColumnsError;
 export const getListAreaColumnsSavingSuccess = (state: State) => state.savingListAreaColumnsSuccess;
-export const getListAreaColumnsToUpdate = (state: State) => state.listAreaColumnsToUpdate;
 export const getSearchTerm = (state: State) => state.searchTerm;

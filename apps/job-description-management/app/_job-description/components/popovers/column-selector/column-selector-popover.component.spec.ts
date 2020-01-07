@@ -40,31 +40,13 @@ describe('Job Description Management - Job Description - Column Selector Popover
     modal = TestBed.get(NgbModal);
   });
 
-  it('should emit checked column data, when calling columnChecked', () => {
-    spyOn(instance.columnModified, 'emit');
-
-    const mockedListAreaColumn = generateMockListAreaColumn();
-    const mockedChecked = false;
-
-    instance.columnChecked(mockedListAreaColumn, mockedChecked);
-
-    const expectedEmitData = { listAreaColumn: mockedListAreaColumn, checked: mockedChecked };
-
-    expect(instance.columnModified.emit).toHaveBeenLastCalledWith(expectedEmitData);
-  });
-
-  it('should emit array of List Area Columns and close the popover, when calling saveButtonClicked', () => {
-    spyOn(instance.saveColumns, 'emit');
-    spyOn(instance.p, 'close');
-
+  it('should dispatch unSavedColumns and close the popover, when calling saveButtonClicked', () => {
     const mockedListAreaColumns = [generateMockListAreaColumn(1), generateMockListAreaColumn(2)];
-
-    instance.ListAreaColumns = cloneDeep(mockedListAreaColumns);
-    instance.p = { close: jest.fn() };
+    instance.listAreaColumns = cloneDeep(mockedListAreaColumns);
+    instance.columnPopover = { close: jest.fn() };
 
     instance.saveButtonClicked();
 
-    expect(instance.saveColumns.emit).toHaveBeenLastCalledWith(mockedListAreaColumns);
-    expect(instance.p.close).toHaveBeenCalled();
+    expect(instance.columnPopover.close).toHaveBeenCalled();
   });
 });
