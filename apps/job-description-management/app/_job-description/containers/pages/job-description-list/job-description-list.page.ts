@@ -79,7 +79,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private jobInformationFields$: Observable<AvailableJobInformationField[]>;
   private jobInformationFieldsLoading$: Observable<boolean>;
   private savingListAreaColumnsSuccess$: Observable<boolean>;
-  private addingUserFilterSuccess$: Observable<boolean>;
   private enablePublicViewsInClient$: Observable<boolean>;
 
   public savedSearchTerm: string;
@@ -98,7 +97,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private listAreaColumnsSubscription: Subscription;
   private routerParmsSubscription: Subscription;
   private savingListAreaColumnsSuccessSubscription: Subscription;
-  private addUserFilterSubscription: Subscription;
   gridStateSubscription: Subscription;
 
   constructor(
@@ -124,8 +122,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.userFilterListLoading$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoading);
     this.userFilterDeleting$ = this.store.select(fromJobDescriptionReducers.getUserFilterDeleting);
     this.userFilterListAdding$ = this.store.select(fromJobDescriptionReducers.getUserFilterAdding);
-    this.userFilterError$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoadingError);
-    this.userFilterErrorMessage$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoadingErrorMessage);
+    this.userFilterError$ = this.store.select(fromJobDescriptionReducers.getUserFilterError);
+    this.userFilterErrorMessage$ = this.store.select(fromJobDescriptionReducers.getUserFilterErrorMessage);
     this.jobDescriptionListViews$ = this.store.select(fromJobDescriptionReducers.getViewNames);
     this.jobDescriptionListViewsLoading$ = this.store.select(fromJobDescriptionReducers.getViewNamesLoading);
     this.jobInformationFieldsLoading$ = this.store.select(
@@ -133,7 +131,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.jobInformationFields$ = this.store.select(
       fromJobDescriptionReducers.getJobInformationFieldsForBulkExport);
     this.savingListAreaColumnsSuccess$ = this.store.select(fromJobDescriptionReducers.getListAreaColumnsSavingSuccess);
-    this.addingUserFilterSuccess$ = this.store.select(fromJobDescriptionReducers.getUserFilterAddingSuccess);
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMPublicViewsUseClient);
 
     this.filterThrottle = new Subject();
@@ -300,6 +297,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     };
 
     this.store.dispatch(new fromUserFilterActions.AddUserFilter(request));
+    this.saveFilterModalComponent.close();
   }
 
   updateSearchFilter(newSearchTerm: string) {
@@ -329,11 +327,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   private initializeSubscriptions() {
-    this.addUserFilterSubscription = this.addingUserFilterSuccess$.subscribe((isSuccess) => {
-      if (isSuccess) {
-        this.saveFilterModalComponent.close();
-      }
-    });
 
     this.listAreaColumnsSubscription = this.listAreaColumns$.subscribe(lac => {
       if (lac) {
@@ -394,7 +387,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.addUserFilterSubscription.unsubscribe();
     this.listAreaColumnsSubscription.unsubscribe();
     this.routerParmsSubscription.unsubscribe();
     this.savingListAreaColumnsSuccessSubscription.unsubscribe();
