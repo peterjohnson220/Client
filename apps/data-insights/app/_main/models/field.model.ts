@@ -13,6 +13,7 @@ export interface Field {
   DataElementOrder?: number;
   FormulaId?: number;
   FieldType: FieldType;
+  Format?: string;
 }
 
 export interface FieldListItem {
@@ -49,6 +50,7 @@ export function generateMockField(): Field {
     SourceName: 'Job_Title',
     KendoGridField: 'CompanyJobs.Job_Title',
     IsSortable: true,
-    FieldType: FieldType.DataElement
+    FieldType: FieldType.DataElement,
+    Format: 'N1'
   };
 }

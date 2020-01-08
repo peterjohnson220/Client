@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -7,8 +7,10 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
+import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { Field, FieldDataType } from '../../models';
+import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 
 @Component({
   selector: 'pf-data-view-grid',
@@ -16,6 +18,8 @@ import { Field, FieldDataType } from '../../models';
   styleUrls: ['./data-view-grid.component.scss']
 })
 export class DataViewGridComponent implements OnInit, OnDestroy {
+  @ViewChild('numericFieldFormattingModal', { static: true }) public numericFieldFormattingModalComponent: NumericFieldFormattingModalComponent;
+
   fields$: Observable<Field[]>;
   dataAsync$: Observable<AsyncStateObj<any[]>>;
   loadingMoreData$: Observable<boolean>;
@@ -98,5 +102,17 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   isNumericDataType(fieldDataType: FieldDataType): boolean {
     return !!fieldDataType && (
       fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float);
+  }
+
+  handleNumberFormatModalClicked(field: Field, format?: string): void {
+    this.numericFieldFormattingModalComponent.open(field, format);
+  }
+
+  handleSaveClicked(field: Field): void {
+    this.store.dispatch(new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: field.Format}));
+  }
+
+  handleClearFormatClicked(field: Field): void {
+    this.store.dispatch(new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: null}));
   }
 }

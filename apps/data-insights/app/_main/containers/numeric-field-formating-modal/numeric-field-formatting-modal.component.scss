@@ -1,0 +1,17 @@
+.numeric-field-format-modal {
+  padding: 1rem 1rem 3rem 3rem;
+}
+
+.numeric-textbox {
+  position: relative;
+  left: 20px;
+}
+
+button.btn-primary {
+  background-color: #0099cc;
+  border-color: #0099cc;
+
+  &:hover {
+    background-color: #0883BE;
+  }
+}

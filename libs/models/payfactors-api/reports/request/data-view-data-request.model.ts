@@ -23,6 +23,7 @@ export interface DataViewField {
   DataElementOrder?: number;
   FormulaId?: number;
   FieldType: DataViewFieldType;
+  Format?: string;
 }
 
 export interface DataViewFilter {

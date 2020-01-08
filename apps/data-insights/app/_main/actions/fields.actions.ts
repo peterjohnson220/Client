@@ -14,6 +14,7 @@ export const REORDER_FIELDS = '[Data Insights / Data View Fields] Reorder Fields
 export const SET_SELECTED_FIELDS = '[Data Insights / Data View Fields] Set Selected Fields';
 export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View Fields] Update Display Name';
 export const ADD_NEW_FORMULA_FIELD = '[Data Insights / Data View Fields] Add New Formula Field';
+export const SET_NUMBER_FORMAT_ON_SELECTED_FIELD = '[Data Insights / Data View Fields] Set Number Format On Selected Field';
 
 export class GetReportFields implements Action {
   readonly type = GET_REPORT_FIELDS;
@@ -87,6 +88,12 @@ export class AddNewFormulaField implements Action {
   constructor(public payload: Field) {}
 }
 
+export  class SetNumberFormatOnSelectedField implements Action {
+  readonly type = SET_NUMBER_FORMAT_ON_SELECTED_FIELD;
+
+  constructor(public payload: { field: Field, numberFormat: string }) {}
+}
+
 export type Actions
   = GetReportFields
   | GetReportFieldsSuccess
@@ -99,4 +106,5 @@ export type Actions
   | AddSelectedField
   | SetSelectedFields
   | UpdateDisplayName
-  | AddNewFormulaField;
+  | AddNewFormulaField
+  | SetNumberFormatOnSelectedField;

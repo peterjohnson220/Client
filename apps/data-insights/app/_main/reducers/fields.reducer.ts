@@ -146,6 +146,17 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
         reportFieldsAsync: reportFieldStateObjClone
       };
     }
+    case fromDataViewFieldsActions.SET_NUMBER_FORMAT_ON_SELECTED_FIELD: {
+      const fieldsClone = cloneDeep(state.selectedReportFields);
+      const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload.field);
+      if (fieldToUpdate) {
+        fieldToUpdate.Format = action.payload.numberFormat;
+      }
+      return {
+        ...state,
+        selectedReportFields: fieldsClone
+      };
+    }
     default: {
       return state;
     }

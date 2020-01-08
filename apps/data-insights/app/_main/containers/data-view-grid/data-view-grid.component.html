@@ -10,6 +10,7 @@
       *ngIf="!dataAsync.loading"
       [kendoGridBinding]="dataAsync.obj"
       [sortable]="sortableConfig"
+      [columnMenu]="true"
       [sort]="sortDesc"
       [resizable]="true"
       (scrollBottom)="handleScrollBottom()"
@@ -18,10 +19,17 @@
                          [field]="field.KendoGridField"
                          [sortable]="field.IsSortable"
                          [title]="field.DisplayName"
+                         [columnMenu]="isNumericDataType(field.DataType)"
                          [headerClass]="'grid-header'"
                          [headerStyle]="{'font-size': '14px', 'font-weight': '300'}"
                          width="150">
-
+        <ng-template kendoGridColumnMenuTemplate let-service="service">
+          <span class="highlight-format-action" *ngIf="!field.Format" (click)="handleNumberFormatModalClicked(field)">Field Formatting</span>
+          <ng-container *ngIf="field.Format">
+            <span class="highlight-format-action" (click)="handleNumberFormatModalClicked(field, field.Format)">Edit Formatting</span>
+            <span class="highlight-format-action" (click)="handleClearFormatClicked(field)">Clear Formatting</span>
+          </ng-container>
+        </ng-template>
         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
           <div [class.text-align-right]="isNumericDataType(field.DataType)" class="ellipsis-text">
             <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'desc'"
@@ -58,4 +66,9 @@
     <p class="ml-auto" id="total-count">Count: <span class="font-weight-bold">{{totalCount$ | async | number}}</span></p>
   </div>
 </div>
+
+<pf-numeric-field-formatting-modal
+  #numericFieldFormattingModal
+  (saveClicked)="handleSaveClicked($event)">
+</pf-numeric-field-formatting-modal>
 
