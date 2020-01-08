@@ -12,6 +12,18 @@ export class FormulaHelper {
       case FunctionName.IF: {
         return Function.IF;
       }
+      case FunctionName.AND: {
+        return Function.AND;
+      }
+      case FunctionName.OR: {
+        return Function.OR;
+      }
+      case FunctionName.NOT: {
+        return Function.NOT;
+      }
+      case FunctionName.SWITCH: {
+        return Function.SWITCH;
+      }
       default: {
         return '';
       }
