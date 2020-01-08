@@ -3,6 +3,7 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy, ChangeDetectionStra
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { AvailableJobInformationField } from '../../../shared/models/available-job-information-field.model';
 import * as fromJobInformationFieldsReducer from '../../reducers';
@@ -79,7 +80,8 @@ export class JobInformationFieldsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.jobInformationFieldsSubscription = this.jobInformationFields$.subscribe(jifs => {
       if (jifs) {
-        this.jobInformationFields = jifs;
+        // had to add cloneDeep here in order to allow the fields to be altered, such as Checked.
+        this.jobInformationFields = cloneDeep(jifs);
         this.updateJobInformationFieldSelected();
       }
     });
