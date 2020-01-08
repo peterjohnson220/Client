@@ -369,6 +369,11 @@ export const getListAreaColumnsSavingSuccess = createSelector(
   fromJobDescriptionGridReducer.getListAreaColumnsSavingSuccess
 );
 
+export const getBulkExportError = createSelector(
+  selectBulkExportPopoverState,
+  fromBulkExportPopoverReducer.getBulkExportError
+);
+
 export const getListAreaColumnsToUpdate = createSelector(
   selectJobDescriptionGridState,
   fromJobDescriptionGridReducer.getListAreaColumnsToUpdate

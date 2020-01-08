@@ -1,10 +1,12 @@
 import { Component, Input, Output, EventEmitter, ViewChild, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import { State } from '@progress/kendo-data-query';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { ControlLabel } from '../../../../shared/models/control-label.model';
 import { AvailableJobInformationField } from '../../../../shared/models/available-job-information-field.model';
 import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
+import { JobDescriptionBulkExportPayload } from '../../../models/job-description-bulk-export-payload.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,6 +27,10 @@ export class BulkExportPopoverComponent implements OnChanges {
   public jobInformationFieldsDisplay = false;
   public selectedJobInformationFieldsAsString: string;
   public jobInformationFieldSelected = false;
+  public selectedStatusesToExport: string[];
+  public includeHtmlFormatting = false;
+  public jobDescriptionBulkExportPayload: JobDescriptionBulkExportPayload;
+
 
   @Input() controlLabels: ControlLabel[];
   @Input() controlLabelsLoading: boolean;
@@ -38,10 +44,27 @@ export class BulkExportPopoverComponent implements OnChanges {
 
   @Output() open = new EventEmitter();
   @Output() viewSelectionChanged = new EventEmitter();
+  @Output() exported = new EventEmitter();
+
+
 
   export() {
-    document.forms['bulkExportForm'].submit();
+    this.exportLogic();
     this.p.close();
+  }
+
+  exportLogic() {
+    this.jobDescriptionBulkExportPayload = {
+      Query: this.listFilterValue,
+      ViewName: this.viewNameString,
+      IncludeHtmlFormatting: this.includeHtmlFormatting,
+      Controls: this.selectedControlLabels,
+      ListState: JSON.parse(this.gridStateAsString),
+      AvailableJobInformationFields: JSON.parse(this.selectedJobInformationFieldsAsString),
+      Statuses: this.selectedStatusesToExport
+    };
+
+    this.exported.emit(this.jobDescriptionBulkExportPayload);
   }
 
   toggleControlLabel(event) {
@@ -66,6 +89,8 @@ export class BulkExportPopoverComponent implements OnChanges {
     this.gridStateAsString = this.stringify(this.gridState);
     this.viewSelected = false;
     this.viewNameString = '';
+    this.jobInformationFieldsLoading = true;
+    this.selectedStatusesToExport = ['Published'];
   }
 
   handleViewChanged(view: string) {
@@ -84,6 +109,13 @@ export class BulkExportPopoverComponent implements OnChanges {
     return this.jobDescriptionListViews.length > JobDescriptionViewConstants.SYSTEM_VIEWS.length - 1;
   }
 
+  isExportButtonDisabled(): boolean {
+      return !this.selectedControlLabels.length && !this.viewSelected ||
+      (this.viewSelected && !this.controlLabels.length) ||
+      (!this.selectedJobInformationFieldsAsString || this.selectedJobInformationFieldsAsString.length === 0) ||
+      (!this.selectedStatusesToExport.length);
+  }
+
   ngOnChanges(changes: any) {
     if (changes.controlLabels && changes.controlLabels.currentValue) {
       if (this.viewSelected) {
@@ -95,4 +127,16 @@ export class BulkExportPopoverComponent implements OnChanges {
   selectedJobInformationFieldsString(jobInfo: string) {
     this.selectedJobInformationFieldsAsString = jobInfo;
   }
+
+  handleExportStatusClick({ target }) {
+    // this is to avoid an "object is not extensible" error that pops up on occasion
+    // this.selectedStatusesToExport = cloneDeep(this.selectedStatusesToExport);
+    if (target.checked) {
+      this.selectedStatusesToExport.push(target.value);
+    } else {
+      this.selectedStatusesToExport = this.selectedStatusesToExport.filter(x => x !== target.value);
+    }
+  }
+
+
 }

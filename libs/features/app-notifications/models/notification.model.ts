@@ -36,5 +36,6 @@ export interface SuccessStatusPayLoad extends NotificationPayload {
 export enum NotificationSource {
   DataInsights = 'Data Insights',
   ExchangeDataCutsExport = 'Exchange Data Cuts Exporter',
-  OrgDataLoader = 'Organizational Data Loader'
+  OrgDataLoader = 'Organizational Data Loader',
+  JobDescriptionBulkExport = 'Job Description Bulk Exporter'
 }

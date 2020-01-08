@@ -66,6 +66,19 @@ export class BulkExportPopoverEffects {
         )
       ));
 
+  @Effect()
+  bulkExport$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromBulkExportPopoverActions.BULK_EXPORT),
+      switchMap((action: fromBulkExportPopoverActions.BulkExport) =>
+        this.jobDescriptionApiService.bulkExport(action.payload).pipe(
+          map((response: any) => {
+            return new fromBulkExportPopoverActions.BulkExportSuccess();
+          }),
+          catchError(error => of(new fromBulkExportPopoverActions.BulkExportError(error)))
+        )
+      ));
+
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,

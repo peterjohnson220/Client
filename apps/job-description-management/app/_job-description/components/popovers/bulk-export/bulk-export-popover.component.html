@@ -1,4 +1,20 @@
 <ng-template #popContent>
+  <div class="export-status-container p-3 space-out-children">
+    <h6>Status</h6>
+    <input id="export-status-published" type="checkbox" value="Published" (change)="handleExportStatusClick($event)" checked="checked">
+    <label for="export-status-published">Published</label>
+
+    <input id="export-status-review" type="checkbox" value="In Review" (change)="handleExportStatusClick($event)">
+    <label for="export-status-review">In Review</label>
+
+    <input id="export-status-draft" type="checkbox" value="Draft" (change)="handleExportStatusClick($event)">
+    <label for="export-status-draft">Draft</label>
+
+    <br />
+
+    <input type="checkbox" id="includeHtmlFormatting" name="includeHtmlFormatting" [(ngModel)]="includeHtmlFormatting">
+    <label for="includeHtmlFormatting">Include Formatting</label>
+  </div>
   <ng-container *ngIf="isUserDefinedViewsAvailable()">
     <kendo-dropdownlist class="view-dropdown p-3"
                         [defaultItem]="'Default'"
@@ -26,7 +42,7 @@
     </div>
   </div>
   <div class="footer d-flex justify-content-end p-2">
-    <button [disabled]="!selectedControlLabels.length && !viewSelected || (viewSelected && !controlLabels?.length) || (!selectedJobInformationFieldsAsString || selectedJobInformationFieldsAsString.length == 0)"
+    <button [disabled]="isExportButtonDisabled()"
             (click)="export()" class="btn btn-primary">
       Export
     </button>
@@ -45,12 +61,3 @@
         [autoClose]="'outside'">
   <fa-icon icon="download"></fa-icon>
 </button>
-
-<!--Export Form-->
-<form name="bulkExportForm" [action]="'/odata/JobDescription/Default.BulkExport'" method="POST">
-  <input type="hidden" name="viewName" value="{{viewNameString}}">
-  <input type="hidden" name="controlsToInclude" value="{{selectedControlLabelsAsString}}">
-  <input type="hidden" name="query" value="{{listFilterValue}}">
-  <input type="hidden" name="listState" value="{{gridStateAsString}}">
-  <input type="hidden" name="jobInformationFieldsToInclude" value="{{selectedJobInformationFieldsAsString}}">
-</form>
