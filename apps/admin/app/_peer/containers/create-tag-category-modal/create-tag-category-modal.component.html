@@ -91,6 +91,7 @@
             <label class="col-form-label">Display filter as slider:</label>
             <div>
               <kendo-switch formControlName="useSlider"
+                            (valueChange)="onSwitchChange($event)"
                             [onLabel]="'Yes'"
                             [offLabel]="'No'">
               </kendo-switch>

@@ -16,7 +16,7 @@ import {
   ExchangeExplorerScopeResponse,
   ExchangeExplorerScopeResponseContext
 } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
-import { MultiSelectFilter } from 'libs/features/search/models';
+import {Filter, MultiSelectFilter} from 'libs/features/search/models';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import * as fromLibsFeatureSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
@@ -135,13 +135,14 @@ export class ExchangeScopeEffects {
         const scopeResponse: ExchangeExplorerScopeResponse = payload.response;
         const scopeContext: ExchangeExplorerScopeResponseContext = scopeResponse.ScopeContext;
         const searchResponse = scopeContext.ExchangeDataSearchResponse;
-        const filters: MultiSelectFilter[] = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(
+        const filters: Filter[] = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(
           searchResponse.SearchFilters,
           payload.searchFilterMappingDataObj
-        ) as MultiSelectFilter[];
+        ) as Filter[];
 
         const savedFilters = this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(
-          [scopeContext.SelectedFilterOptions]
+          [scopeContext.SelectedFilterOptions],
+          payload.searchFilterMappingDataObj
         );
         const selections = savedFilters[0].Filters;
         actions.push(new fromSearchFiltersActions.ApplySavedFilters(selections));

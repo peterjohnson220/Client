@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { Filter, FilterType, MultiSelectFilter } from '../models';
+import {Filter, FilterType, MultiSelectFilter, RangeFilter} from '../models';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 // Import feature reducers
@@ -64,12 +64,20 @@ export const getOverallFilterSelectionsCount = createSelector(
   getFilters,
   (filters: Filter[]) => {
     const multiSelectFilters = filters.filter(f => f.Type === FilterType.Multi);
+    const RangeSelectFilter = filters.filter(f => f.Type === FilterType.Range);
 
-    return multiSelectFilters.reduce<number>((overallCount: number, currentFilter: MultiSelectFilter) => {
+    let returnCount = multiSelectFilters.reduce<number>((overallCount: number, currentFilter: MultiSelectFilter) => {
       const selections = currentFilter.Options.filter(o => o.Selected);
       const selectionCount = !!selections ? selections.length : 0;
       return overallCount += selectionCount;
     }, 0);
+
+    returnCount += RangeSelectFilter.reduce<number>((overallCount: number, currentFilter: RangeFilter) => {
+      const selectionCount = (currentFilter.SelectedMinValue !== null && currentFilter.SelectedMinValue !== currentFilter.MinimumValue) ||
+                             (currentFilter.SelectedMaxValue !== null && currentFilter.SelectedMaxValue !== currentFilter.MaximumValue) ? 1 : 0;
+      return overallCount += selectionCount;
+    }, 0);
+    return returnCount;
   }
 );
 

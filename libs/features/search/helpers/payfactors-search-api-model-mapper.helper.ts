@@ -59,7 +59,7 @@ export class PayfactorsSearchApiModelMapper {
         Id: ssfr.Id,
         Name: ssfr.Name,
         MetaInfo: ssfr.MetaInfo,
-        Filters: FiltersHelper.selectAll(this.mapSearchFiltersToMultiSelectFilters(ssfr.Filters)),
+        Filters: FiltersHelper.selectAll(this.mapSearchFiltersToFilters(ssfr.Filters)),
         Selected: false
       };
     });
@@ -110,6 +110,7 @@ export class PayfactorsSearchApiModelMapper {
   private mapRangeFilterToSearchFilter(rangeFilter: RangeFilter): SearchFilter {
     return {
       Name: rangeFilter.BackingField,
+      DisplayName: rangeFilter.DisplayName,
       Options: [{
         Name: 'min',
         Value: rangeFilter.SelectedMinValue
@@ -123,6 +124,7 @@ export class PayfactorsSearchApiModelMapper {
   private mapMultiSelectFilterToSearchFilter(filter: MultiSelectFilter): SearchFilter {
     return {
       Name: filter.BackingField,
+      DisplayName: filter.DisplayName,
       Options: this.mapMultiSelectOptionsToSearchFilterOptions(filter.Options)
     };
   }
@@ -196,7 +198,7 @@ export class PayfactorsSearchApiModelMapper {
   }
 
   private getMappingData(searchFilterName: string) {
-    return Object.keys(this.searchFilterMappingData).map(e => this.searchFilterMappingData[e])
+      return Object.keys(this.searchFilterMappingData).map(e => this.searchFilterMappingData[e])
       .find(sfmd => sfmd.BackingField === searchFilterName);
   }
 }

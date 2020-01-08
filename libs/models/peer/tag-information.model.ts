@@ -1,4 +1,6 @@
 import { generateMockTag, Tag } from './tag.model';
+import { FilterType } from '../../features/search/models';
+import {TagCategoryDataTypeEnum} from './tag-category-data-type.enum';
 
 export interface TagInformation {
   TagCategoryId: number;
@@ -6,6 +8,7 @@ export interface TagInformation {
   Tags: Tag[];
   IsCategoryInExchange: boolean;
   SelectedTags: Tag[];
+  DataType: TagCategoryDataTypeEnum;
 }
 
 export function generateMockTagInformation(): TagInformation {
@@ -14,6 +17,7 @@ export function generateMockTagInformation(): TagInformation {
     DisplayName: 'Display Name',
     Tags: [ generateMockTag() ],
     IsCategoryInExchange: true,
-    SelectedTags: [ generateMockTag() ]
+    SelectedTags: [ generateMockTag() ],
+    DataType: TagCategoryDataTypeEnum.Text
   };
 }
