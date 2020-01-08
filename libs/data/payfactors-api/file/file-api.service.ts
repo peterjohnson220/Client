@@ -62,14 +62,14 @@ export class FileApiService {
       navigator.msSaveBlob(blob, fileName);
       success = true;
     } else if (link.download !== undefined) {
-      const downloadLink = URL.createObjectURL(blob);
+      const downloadLink = encodeURI(URL.createObjectURL(blob));
       link.setAttribute('href', downloadLink);
       link.style.visibility = 'hidden';
 
       if (openInNewTab) {
         link.setAttribute('target', '_blank');
       } else {
-        link.setAttribute('download', fileName);
+        link.setAttribute('download', encodeURI(fileName));
       }
 
       document.body.appendChild(link);
