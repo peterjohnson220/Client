@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DropDownListComponent } from '@progress/kendo-angular-dropdowns';
 
-import { SpecialCharacters, functionNames, SuggestionIndicatorType } from '../../models';
+import { SuggestionIndicator, functionNames, SuggestionIndicatorType, SpecialCharacter } from '../../models';
 import { FormulaHelper } from '../../helpers';
 
 @Component({
@@ -19,8 +19,8 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
   @Input() isValid: boolean;
   @Output() formulaChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  @ViewChild('editor', {static: true}) editor: ElementRef;
-  @ViewChild('suggestionList', { static: false }) suggestionList: DropDownListComponent;
+  @ViewChild('editor', { static: true }) editor: ElementRef;
+  @ViewChild('suggestionList', { static: true }) suggestionList: DropDownListComponent;
   inputValueChanged: Subject<string> = new Subject<string>();
 
   inputValueChangedSubscription: Subscription;
@@ -37,13 +37,13 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
   filteredSuggestions: string[];
   inputValue: string;
   searchTerm: string;
+  beforeMarkerValues: string;
   markerValue: string;
+  afterMarkerValues: string;
   showPopup: boolean;
   isTyping: boolean;
   isInsertingFunctionTemplate: boolean;
-  suggestionIndicatorIndex: number;
-  suggestionIndicatorEntered: boolean;
-  suggestionIndicatorType: SuggestionIndicatorType;
+  suggestionIndicator: SuggestionIndicator;
 
   ngOnInit(): void {
     this.inputValueChangedSubscription = this.inputValueChanged
@@ -62,7 +62,8 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
     this.inputValueChanged.next(value);
     this.updatePopupMarkerValue();
     this.resetEditorIfInputValueIsEmpty();
-    if (this.suggestionIndicatorEntered) {
+    this.resetSuggestionIndicatorIfIndicatorRemoved();
+    if (this.suggestionIndicator.Entered) {
       this.showPopupIfSuggestionsFound();
     } else {
       this.checkIfSuggestionIndicatorEntered();
@@ -70,6 +71,10 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
   }
 
   handleEditorKeyDown(event: any): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      return;
+    }
     if ((event.key === 'ArrowDown' || event.key === 'Down') && this.showPopup && !this.suggestionList.isFocused) {
       event.preventDefault();
       this.suggestionList.focus();
@@ -82,12 +87,13 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
   }
 
   handleSuggestionClicked(suggestion: string): void {
-    const fromIndex: number = this.suggestionIndicatorIndex;
+    const fromIndex: number = this.suggestionIndicator.Index;
     const toIndex: number = this.editor.nativeElement.selectionStart;
     const textToInsert = this.getFormattedSelectedSuggestion(suggestion, toIndex);
     this.insertSelectedSuggestionIntoEditor(fromIndex, toIndex, textToInsert);
     this.resetSuggestionIndicator();
     this.suggestionList.reset();
+    this.setEditorFocus();
   }
 
   handleClickElsewhere(): void {
@@ -104,7 +110,7 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
     this.suggestions = [];
     this.searchTerm = '';
     this.showPopup = false;
-    this.suggestionIndicatorEntered = false;
+    this.suggestionIndicator = FormulaHelper.buildSuggestionIndicator();
   }
 
   private handleInputValueChangedAfterDebounceTime(value: string): void {
@@ -119,11 +125,13 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
     const lastCharacterIndex: number = this.editor.nativeElement.selectionStart - 1;
     const lastCharacter = this.inputValue.charAt(lastCharacterIndex);
     switch (lastCharacter) {
-      case SpecialCharacters.OpenBracket: {
+      case SpecialCharacter.OpenBracket: {
+        this.suggestionIndicator.Character = SpecialCharacter.OpenBracket;
         this.updateSuggestions(lastCharacterIndex, SuggestionIndicatorType.Field, this.fieldSuggestions);
         break;
       }
-      case SpecialCharacters.DollarSign: {
+      case SpecialCharacter.DollarSign: {
+        this.suggestionIndicator.Character = SpecialCharacter.DollarSign;
         this.updateSuggestions(lastCharacterIndex, SuggestionIndicatorType.Function, functionNames);
         break;
       }
@@ -134,15 +142,16 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
   }
 
   private updateSuggestions(suggestionIndicatorIndex: number, type: SuggestionIndicatorType, suggestions: string[]): void {
-    this.suggestionIndicatorEntered = true;
-    this.suggestionIndicatorIndex = suggestionIndicatorIndex;
-    this.suggestionIndicatorType = type;
+    this.suggestionIndicator.Entered = true;
+    this.suggestionIndicator.Index = suggestionIndicatorIndex;
+    this.suggestionIndicator.Type = type;
     this.suggestions = suggestions;
   }
 
   private resetEditorIfInputValueIsEmpty(): void {
     if (this.inputValue.length === 0) {
       this.showPopup = false;
+      this.suggestionList.toggle(false);
       this.initEditorData('');
       return;
     }
@@ -150,7 +159,7 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
 
   private getFormattedSelectedSuggestion(suggestion: string, selectionStartIndex: number): string {
     let textToInsert = '';
-    switch (this.suggestionIndicatorType) {
+    switch (this.suggestionIndicator.Type) {
       case SuggestionIndicatorType.Field: {
         const selectionStartCharacter: string = this.inputValue.charAt(selectionStartIndex);
         textToInsert = FormulaHelper.getFormattedField(suggestion, selectionStartCharacter);
@@ -167,15 +176,28 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
     return textToInsert;
   }
 
+  private resetSuggestionIndicatorIfIndicatorRemoved(): void {
+    if (this.suggestionIndicator.Index === -1) {
+      return;
+    }
+    const suggestionIndicatorRemoved: boolean = this.inputValue.charAt(this.suggestionIndicator.Index) !== this.suggestionIndicator.Character;
+    if (suggestionIndicatorRemoved) {
+      this.resetSuggestionIndicator();
+      this.suggestionList.toggle(false);
+    }
+  }
+
   private resetSuggestionIndicator(): void {
-    this.suggestionIndicatorEntered = false;
-    this.suggestionIndicatorType = null;
-    this.suggestionIndicatorIndex = -1;
+    this.suggestionIndicator.Entered = false;
+    this.suggestionIndicator.Type = null;
+    this.suggestionIndicator.Index = -1;
+    this.suggestionIndicator.Character = null;
     this.searchTerm = '';
+    this.filteredSuggestions = [];
   }
 
   private insertSelectedSuggestionIntoEditor(fromIndex: number, toIndex: number, textToInsert: string): void {
-    this.isInsertingFunctionTemplate = (this.suggestionIndicatorType === SuggestionIndicatorType.Function);
+    this.isInsertingFunctionTemplate = (this.suggestionIndicator.Type === SuggestionIndicatorType.Function);
     this.editor.nativeElement.focus();
     this.editor.nativeElement.setRangeText(textToInsert, fromIndex, toIndex, 'end');
     this.inputValue = this.editor.nativeElement.value;
@@ -184,7 +206,7 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
 
   private showPopupIfSuggestionsFound(): void {
     const currentPosition: number = this.editor.nativeElement.selectionStart;
-    this.searchTerm = this.inputValue.substring(this.suggestionIndicatorIndex + 1, currentPosition);
+    this.searchTerm = this.inputValue.substring(this.suggestionIndicator.Index + 1, currentPosition);
     if (!!this.searchTerm && this.searchTerm.length >= this.MIN_QUERY_LENGTH) {
       this.filteredSuggestions = this.suggestions.filter((s) => s.toLowerCase().indexOf(this.searchTerm.toLowerCase()) !== -1);
       this.showPopup = (this.filteredSuggestions.length !== 0);
@@ -194,9 +216,17 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
     }
   }
 
+  private setEditorFocus(): void {
+    setTimeout(() => {
+      document.getElementById('dsFormulaEditor').focus();
+    }, 100);
+  }
+
   private updatePopupMarkerValue(): void {
     const currentPosition: number = this.editor.nativeElement.selectionStart;
-    this.markerValue = this.inputValue.substring(0, currentPosition);
+    this.beforeMarkerValues = this.inputValue.substring(0, this.suggestionIndicator.Index);
+    this.markerValue = this.inputValue.substring(this.suggestionIndicator.Index, currentPosition);
+    this.afterMarkerValues = this.inputValue.substring(currentPosition, this.inputValue.length);
   }
 
 }
