@@ -43,11 +43,14 @@
         </ng-template>
         <ng-template kendoGridCellTemplate let-dataItem>
           <div [class.text-align-right]="isNumericDataType(field.DataType)">
-            <span *ngIf="dataItem[field.KendoGridField] !== null;else blankCellTemplate">
-              <ng-container *ngIf="field.DataType === dataTypes.Date;else defaultFieldTemplate">
+            <span [ngSwitch]="true" *ngIf="dataItem[field.KendoGridField] !== null;else blankCellTemplate">
+              <ng-container *ngSwitchCase="field.DataType === dataTypes.Date">
                 {{dataItem[field.KendoGridField] | date: 'MM/dd/yyyy'}}
               </ng-container>
-              <ng-template #defaultFieldTemplate>
+              <ng-container *ngSwitchCase="isNumericDataTypeAndHasFormat(field.DataType, field.Format)">
+                {{dataItem[field.KendoGridField] | number: field.Format}}
+              </ng-container>
+              <ng-template ngSwitchDefault>
                 {{dataItem[field.KendoGridField]}}
               </ng-template>
             </span>

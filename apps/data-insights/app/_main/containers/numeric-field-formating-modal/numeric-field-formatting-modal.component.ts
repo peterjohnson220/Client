@@ -27,7 +27,7 @@ export class NumericFieldFormattingModalComponent {
     this.modalService.open(this.numericFieldFormatModal, {backdrop: 'static', centered: true});
     this.field = cloneDeep(field);
     if (!!format) {
-      const parsedFormat = format.charAt(format.length - 1);
+      const parsedFormat = format.charAt(2);
       this.decimals = parseInt(parsedFormat, 0);
       this.value = this.decimals;
     }
@@ -40,7 +40,7 @@ export class NumericFieldFormattingModalComponent {
   }
 
   save(): void {
-    this.numberFormat = `N${this.decimals}`;
+    this.numberFormat = `1.${this.decimals}-${this.decimals}`;
     this.field.Format = this.numberFormat;
     this.saveClicked.emit(this.field);
     this.decimals = 0;

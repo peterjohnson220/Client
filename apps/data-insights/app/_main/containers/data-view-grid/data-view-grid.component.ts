@@ -104,6 +104,11 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
       fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float);
   }
 
+  isNumericDataTypeAndHasFormat(fieldDataType: FieldDataType, hasFormat: string): boolean {
+    return !!fieldDataType && (
+      fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float) && !!hasFormat;
+  }
+
   handleNumberFormatModalClicked(field: Field, format?: string): void {
     this.numericFieldFormattingModalComponent.open(field, format);
   }
