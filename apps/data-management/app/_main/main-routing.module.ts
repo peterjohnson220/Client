@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {PermissionCheckEnum, Permissions} from 'libs/constants';
 import {AuthorizationGuard} from 'libs/security/guards';
 
-import { DataAlertsPageComponent, DataManagementHomePageComponent, ManageDataPageComponent, TransferDataPageComponent,
+import { DataManagementHomePageComponent, TransferDataPageComponent,
   OrgDataLoadComponent } from './containers';
 
 const routes: Routes = [
@@ -20,14 +20,6 @@ const routes: Routes = [
     component: DataManagementHomePageComponent,
     // TODO: Need to determine subpermissions and consolidate pages
     children: [
-      {
-        path: 'data-alerts',
-        component: DataAlertsPageComponent
-      },
-      {
-        path: 'manage-data',
-        component: ManageDataPageComponent
-      },
       {
         path: 'transfer-data',
         component: TransferDataPageComponent
