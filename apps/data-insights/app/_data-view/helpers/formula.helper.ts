@@ -1,4 +1,4 @@
-import { SpecialCharacter, FunctionName, Function, SuggestionIndicator } from '../models';
+import { SpecialCharacter, SuggestionIndicator, functionDictionary } from '../models';
 
 export class FormulaHelper {
 
@@ -8,26 +8,7 @@ export class FormulaHelper {
   }
 
   static getFormattedFunction(functionName: string): string {
-    switch (functionName) {
-      case FunctionName.IF: {
-        return Function.IF;
-      }
-      case FunctionName.AND: {
-        return Function.AND;
-      }
-      case FunctionName.OR: {
-        return Function.OR;
-      }
-      case FunctionName.NOT: {
-        return Function.NOT;
-      }
-      case FunctionName.SWITCH: {
-        return Function.SWITCH;
-      }
-      default: {
-        return '';
-      }
-    }
+    return functionDictionary[functionName] || '';
   }
 
   static buildSuggestionIndicator(): SuggestionIndicator {
