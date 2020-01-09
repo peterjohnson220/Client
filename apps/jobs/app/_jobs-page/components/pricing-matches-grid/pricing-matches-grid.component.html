@@ -36,3 +36,11 @@
   <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>    
 </ng-template>
 
+<ng-template #wtgColumn let-dataRow="dataRow">
+  {{dataRow['CompanyJobs_PricingsMatches_Match_Weight'] | number: '1.2-2'}}
+</ng-template>
+
+<ng-template #adjColumn let-dataRow="dataRow">
+  {{dataRow['CompanyJobs_PricingsMatches_Match_Adjustment'] | number: '1.2-2'}}
+</ng-template>
+

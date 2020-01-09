@@ -27,9 +27,9 @@ export class ProjectDetailsComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'HasProjectAccess': this.projectAccessColumn,
-      'Session_Name': this.projectNameColumn,
-      'Create_User': this.projectOwnerColumn
+      'HasProjectAccess': { Template: this.projectAccessColumn },
+      'Session_Name': { Template: this.projectNameColumn },
+      'Create_User': { Template: this.projectOwnerColumn }
     };
   }
 
