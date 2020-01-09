@@ -1,1 +1,1 @@
-export * from './company-controls-detail.page.component';
+export * from './company-controls-detail.page';

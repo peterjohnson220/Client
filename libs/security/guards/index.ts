@@ -7,4 +7,4 @@ export * from './tile-enabled.guard';
 export * from './peer-exchange-explorer-enabled.guard';
 export * from './load-user.guard';
 export * from './load-company.guard';
-
+export * from './tabular-report-builder.guard';

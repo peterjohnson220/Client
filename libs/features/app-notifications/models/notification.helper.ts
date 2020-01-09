@@ -1,14 +1,16 @@
-import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
+
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { AppNotification, NotificationPayload, NotificationSource, ProgressStatusPayload } from './notification.model';
 import { DataInsightsMessageFormatter } from './data-insights-message-formatter.model';
 import { ExchangeDataCutsMessageFormatter } from './exchange-data-cuts-message-formatter';
+import { OrgDataLoadMessageFormatter } from './org-data-load-message-formatter';
 
 @Injectable()
 export class NotificationHelper {
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) { }
 
   getEventMessage(notification: AppNotification<NotificationPayload>): string {
     let message = '';
@@ -19,6 +21,10 @@ export class NotificationHelper {
       }
       case NotificationSource.ExchangeDataCutsExport: {
         message = ExchangeDataCutsMessageFormatter.getEventMessage(notification.Level, notification.Payload);
+        break;
+      }
+      case NotificationSource.OrgDataLoader: {
+        message = OrgDataLoadMessageFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
       }
       default: {

@@ -101,7 +101,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.passwordValidatorSubscription = this.userForm.valueChanges.distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)).subscribe( _ => {
-      if (!this.showPassword || (this.f.password.value == '' && this.f.status.value.toString() == 'false' && this.showPassword)) {
+      if (!this.showPassword || (this.f.password.value === '' && this.f.status.value.toString() === 'false' && this.showPassword)) {
         this.f.password.setValidators(null);
       } else {
         this.f.password.setValidators([
@@ -113,7 +113,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         ]);
       }
       this.f.password.updateValueAndValidity();
-    })
+    });
   }
 
   ngOnDestroy() {
@@ -134,7 +134,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   setPasswordValidator(value: boolean) {
-    if (value && this.f.status.value.toString() == 'true') {
+    if (value && this.f.status.value.toString() === 'true') {
       this.f.password.setValidators([
         Validators.compose([
           PfValidators.required,
@@ -156,8 +156,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   onSave() {
     this.userForm.markAllAsTouched();
 
-    var empty = false;
-    if (this.f.password.value == '' && this.showPassword && this.f.status.value.toString() == 'false') {
+    let empty = false;
+    if (this.f.password.value === '' && this.showPassword && this.f.status.value.toString() === 'false') {
       empty = true;
     }
 

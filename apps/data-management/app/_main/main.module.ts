@@ -15,7 +15,8 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
-import { FieldMapperComponent } from 'libs/features/org-data-loader/components';
+import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
+import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -25,9 +26,10 @@ import {
     DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, EntityMappingComponent,
     FieldMappingCardComponent, HrisAuthenticationCardComponent, ManageDataPageComponent, OrgDataLoadComponent,
     PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
-    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent
+    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
 } from './containers';
-import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects } from './effects';
+import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
+  FileUploadEffects, CustomFieldsEffect } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
@@ -50,7 +52,10 @@ import { reducers } from './reducers';
       TransferDataPageEffects,
       OrganizationalDataPageEffects,
       FieldMappingEffects,
-      OrgDataFieldMappingsEffects
+      OrgDataFieldMappingsEffects,
+      FileUploadEffects,
+      LoaderSettingsEffects,
+      CustomFieldsEffect
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
@@ -63,7 +68,8 @@ import { reducers } from './reducers';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfCompanySelectorModule
+    PfCompanySelectorModule,
+    PfFieldMapperModule
   ],
   declarations: [
     // Pages
@@ -79,6 +85,7 @@ import { reducers } from './reducers';
     HrisAuthenticationCardComponent,
     WorkdayAuthenticationComponent,
     WorkdayMockAuthenticationComponent,
+    WorkdayRestAuthenticationComponent,
     PfTestAuthenticationComponent,
     OrgDataLoadComponent,
     EntityPickerComponent,
@@ -86,7 +93,6 @@ import { reducers } from './reducers';
     FieldMappingCardComponent,
     FileUploadComponent,
     EntityMappingComponent,
-    FieldMapperComponent,
     FileMappingComponent
   ]
 })

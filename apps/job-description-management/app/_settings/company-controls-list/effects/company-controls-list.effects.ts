@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, concatMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
+import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm/job-description-management-api.service';
 import { ControlType } from 'libs/models';
-import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
-import { arraySortByString, SortDirection } from 'libs/core/functions';
+import { SortDirection, arraySortByString } from 'libs/core/functions';
 
-import * as fromCompanyControlsListActions from '../actions/company-controls-list.actions';
+import * as fromCompanyControlsListActions from '../actions';
+import * as fromCompanyControlsDetailActions from '../../company-controls-detail/actions';
 
 @Injectable()
 export class CompanyControlsListEffects {
@@ -33,6 +34,6 @@ export class CompanyControlsListEffects {
 
   constructor(
     private actions$: Actions,
-    private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
+    private jobDescriptionManagementApiService: JobDescriptionManagementApiService
   ) {}
 }

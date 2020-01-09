@@ -11,7 +11,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { GridTypeEnum, ExchangeJobComparison, generateMockExchangeJobComparison } from 'libs/models';
 import { generateMockDataStateChangeEvent, generateMockSelectionEvent } from 'libs/extensions/kendo/mocks';
 import { SettingsService } from 'libs/state/app-context/services';
-import { generateMockRateOption, RateType } from 'libs/data/data-sets';
+import { generateMockRateOption, generateMockWeightOption, RateType } from 'libs/data/data-sets';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -55,6 +55,7 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     instance.exchangeJobOrgsDetailVisible$ = of(false);
     instance.persistedComparisonGridMarket$ = of('USA');
     instance.persistedComparisonGridRate$ = of(generateMockRateOption().Value);
+    instance.persistedComparisonGridWeightType$ = of(generateMockWeightOption().Value);
 
     fixture.detectChanges();
   });

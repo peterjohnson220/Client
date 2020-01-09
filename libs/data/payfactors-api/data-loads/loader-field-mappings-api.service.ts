@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { LoaderFieldSet, FieldMappingsDTO } from 'libs/models/data-loads/index';
+import {FileUploadHeaderRequestModel} from 'libs/features/org-data-loader/models';
+
 
 @Injectable()
 export class LoaderFieldMappingsApiService {
@@ -23,13 +25,17 @@ export class LoaderFieldMappingsApiService {
     });
   }
 
-  getCompanyFieldMappings(companyId: number) {
+  getCompanyFieldMappings(companyId: number, loaderConfigurationGroupId?: number) {
     return this.payfactorsApiService.get<LoaderFieldSet[]>(`${this.endpoint}/GetCompanyFieldMappings`, {
-      params: {companyId: companyId}
+      params: {companyId: companyId, loaderConfigurationGroupId: loaderConfigurationGroupId}
     });
   }
 
   saveFieldMappings(mappingsDto: FieldMappingsDTO) {
     return this.payfactorsApiService.post(`${this.endpoint}.SaveFieldMappings`, mappingsDto);
+  }
+
+  getFileUploadColumnNames(fileUpload: FileUploadHeaderRequestModel) {
+    return this.payfactorsApiService.postFormData(`${this.endpoint}.UploadAndGetColumnNames`, fileUpload);
   }
 }

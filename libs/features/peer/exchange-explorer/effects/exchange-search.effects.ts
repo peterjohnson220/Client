@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
@@ -87,6 +87,7 @@ export class ExchangeSearchEffects {
   searchExchangeData(subscribedAction: string): Observable<Action> {
     return this.actions$.pipe(
       ofType(subscribedAction),
+      tap(action => this.store.dispatch(new fromMapActions.LoadPeerMapData())),
       withLatestFrom(
         this.exchangeExplorerContextService.selectFilterContext(),
         (action, filterContext) => ({action, filterContext})

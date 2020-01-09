@@ -40,6 +40,8 @@ export class UserFeatureDtoToFeatureMapper {
         return FeatureTypes.Structures;
       case 'Surveys':
         return FeatureTypes.Surveys;
+      case 'Total Rewards':
+        return FeatureTypes.TotalRewards;
       default:
         return FeatureTypes.Unknown;
     }

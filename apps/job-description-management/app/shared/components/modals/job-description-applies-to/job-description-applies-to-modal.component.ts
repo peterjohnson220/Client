@@ -44,6 +44,8 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
   private jobDescriptionTitleExists: boolean;
   private appliesToValueInvalid: boolean;
   private requiredFieldsFilledIn = true;
+  private requiredAppliesToValueFilledIn: boolean;
+  private requiredAppliesToFieldFilledIn: boolean;
   private canRemoveValues: boolean;
   private appliesToExists: boolean;
   private jobDescriptionId: number;
@@ -201,6 +203,8 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
 
   resetFlags(reset: string) {
     this.requiredFieldsFilledIn = true;
+    this.requiredAppliesToValueFilledIn = true;
+    this.requiredAppliesToFieldFilledIn = true;
 
     if (reset === 'All' || reset === 'AppliesTo') {
       this.appliesToExists = false;
@@ -216,13 +220,32 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
     this.appliesToAttributesExistSubscription = this.appliesToAttributesExist$.subscribe((result: AppliesToAttributesExist) => {
       if (result) {
         this.canRemoveValues = result.CanRemoveValues;
+        const jobDescriptionTitle = result.JobDescriptionAppliesTo.JobDescriptionTitle;
+        const appliesToField = result.JobDescriptionAppliesTo.AppliesToField;
+        const appliesToValue = result.JobDescriptionAppliesTo.AppliesToValue;
+
+        if ((jobDescriptionTitle && appliesToField && appliesToValue) || (jobDescriptionTitle && !appliesToField) || (appliesToField && appliesToValue)) {
+            this.requiredAppliesToValueFilledIn = true;
+            this.requiredFieldsFilledIn = true;
+            this.requiredAppliesToFieldFilledIn = true;
+            this.appliesToform.setErrors({'invalid': false});
+        } else if (appliesToField && !appliesToValue) {
+            this.requiredAppliesToValueFilledIn = false;
+            this.appliesToform.setErrors({'invalid': true});
+        } else if (!appliesToField && appliesToValue) {
+            this.requiredAppliesToFieldFilledIn = false;
+            this.appliesToform.setErrors({'invalid': true});
+        } else {
+            this.requiredFieldsFilledIn = false;
+            this.appliesToform.setErrors({'invalid': true});
+        }
 
         if ((!this.editing &&
-          (result.JobDescriptionAppliesTo.JobDescriptionTitle || result.JobDescriptionAppliesTo.AppliesToValue)) ||
+          (this.requiredFieldsFilledIn && this.requiredAppliesToValueFilledIn)) ||
           (this.editing &&
             (this.canRemoveValues ||
-              (result.JobDescriptionAppliesTo.JobDescriptionTitle ||
-                result.JobDescriptionAppliesTo.AppliesToValue)))) {
+              (this.requiredFieldsFilledIn &&
+                this.requiredAppliesToValueFilledIn)))) {
           this.jobDescriptionTitleExists = result.JobDescriptionTitleExists;
           this.appliesToExists = result.AppliesToExists;
           this.appliesToValueInvalid = result.AppliesToValueInvalid;
@@ -238,8 +261,6 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
 
             this.modalService.dismissAll();
           }
-        } else {
-          this.requiredFieldsFilledIn = false;
         }
       }
     });

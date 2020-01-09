@@ -1,37 +1,32 @@
 import { NgModule } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { LayoutModule } from '@progress/kendo-angular-layout';
 import { EffectsModule } from '@ngrx/effects';
-import { UploadModule } from '@progress/kendo-angular-upload';
 import { StoreModule } from '@ngrx/store';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { LayoutModule } from '@progress/kendo-angular-layout';
+import { UploadModule } from '@progress/kendo-angular-upload';
 
-import { PfCommonUIModule } from 'libs/ui/common';
+import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
 import { PfFormsModule } from 'libs/forms';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
-import * as fromFaIcons from './fa-icons';
+import { PfCommonUIModule } from 'libs/ui/common';
+import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 
+import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
-
 import { reducers } from './reducers';
-import { CompanySelectorEffects } from './effects';
-import { CompanySelectorComponent } from './containers';
-import { OrgDataFieldMappingsEffects } from './effects';
-import { EmailRecipientsComponent } from './containers';
-import { OrgDataEmailRecipientsEffects } from './effects';
-import { LoaderSettingsEffects } from './effects';
-import { SftpAccountStatusComponent } from './containers';
-import {FieldMapperComponent} from 'libs/features/org-data-loader/components';
-
+import { CompanySelectorEffects, OrgDataEmailRecipientsEffects, OrgDataFieldMappingsEffects } from './effects';
+import { CompanySelectorComponent, EmailRecipientsComponent, SftpAccountStatusComponent } from './containers';
 
 @NgModule({
-  imports:      [
+  imports: [
     // Angular
     CommonModule,
     FormsModule,
@@ -56,7 +51,8 @@ import {FieldMapperComponent} from 'libs/features/org-data-loader/components';
 
     // Payfactors
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfFieldMapperModule
   ],
   providers: [
     ConfigSettingsSelectorFactory
@@ -64,7 +60,6 @@ import {FieldMapperComponent} from 'libs/features/org-data-loader/components';
   declarations: [
     // Components
     SftpAccountStatusComponent,
-    FieldMapperComponent,
     CompanySelectorComponent,
     EmailRecipientsComponent,
 

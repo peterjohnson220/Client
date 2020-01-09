@@ -6,10 +6,11 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
-import { CompanySettingsEnum, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
+import { CompanySettingsEnum, FeatureAreaConstants, KendoDropDownItem, UiPersistenceSettingConstants } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
+import { Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 
 import * as fromUpsertDataCutPageActions from '../../../actions/upsert-data-cut-page.actions';
 import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
@@ -37,9 +38,13 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   hasAcceptedPeerTerms$: Observable<boolean>;
   hasRequestedPeerAccess$: Observable<boolean>;
   isEmployeeCheckLoading$: Observable<boolean>;
+  weightingType$: Observable<string>;
+  persistedWeightingTypeForDataCuts$: Observable<string>;
 
   // Subscriptions
   peerMapCompaniesSubscription: Subscription;
+  weightingTypeSubscription: Subscription;
+  persistedWeightingTypeForDataCutsSubscription: Subscription;
 
   companyJobId: number;
   companyPayMarketId: number;
@@ -51,6 +56,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   will reach out to get you started with Peer.`;
   accessRequestedMessage = `Thank you for requesting access to Peer. A Payfactors representative will be in
   touch shortly to discuss the details of Peer and how you can become an active member of Peer.`;
+  selectedWeightingType: KendoDropDownItem = { Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc };
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
@@ -69,12 +75,18 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
     this.peerMapCompanies$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapCompaniesFromSummary));
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
+    this.weightingType$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getWeightingType));
 
     this.hasRequestedPeerAccess$ = this.settingsService.selectUiPersistenceSetting<boolean>(
       FeatureAreaConstants.Project, UiPersistenceSettingConstants.PeerAccessRequested
     );
     this.hasAcceptedPeerTerms$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
+    );
+    this.persistedWeightingTypeForDataCuts$ = this.settingsService.selectUiPersistenceSetting(
+      FeatureAreaConstants.PeerDataCuts,
+      UiPersistenceSettingConstants.PeerAddDataModalWeightingTypeSelection,
+      'string'
     );
   }
 
@@ -88,6 +100,14 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
 
   handleUntaggedIncumbentsChecked(): void {
     this.store.dispatch(new fromLibsExchangeExplorerFilterContextActions.ToggleIncludeUntaggedEmployees);
+  }
+
+  handleWeightingTypeChanged(item: KendoDropDownItem) {
+    this.selectedWeightingType = item;
+    this.store.dispatch(new fromLibsExchangeExplorerFilterContextActions.SetWeightingType({ weightingType: item.Value }));
+    if (this.cutGuid === null) {
+      this.store.dispatch(new fromUpsertDataCutPageActions.SelectWeightingType({newWeightingType: item.Value}));
+    }
   }
 
   upsert() {
@@ -124,6 +144,8 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.peerMapCompaniesSubscription.unsubscribe();
+    this.weightingTypeSubscription.unsubscribe();
+    this.persistedWeightingTypeForDataCutsSubscription.unsubscribe();
   }
 
   // Add Data cut page within marketdata.asp specific code
@@ -179,6 +201,17 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
       this.guidelinesService.validateDataCut(pms, this.companyJobId, this.userSessionId, true);
     });
-
+    this.weightingTypeSubscription = this.weightingType$.subscribe(wts => {
+      if (this.cutGuid !== null) {
+        this.selectedWeightingType = Weights.find(w => w.Value === wts);
+      }
+    });
+    this.persistedWeightingTypeForDataCutsSubscription = this.persistedWeightingTypeForDataCuts$.subscribe(weightingType => {
+      if (!!weightingType && this.cutGuid === null) {
+        this.selectedWeightingType = Weights.find(w => w.Value === weightingType);
+        this.store.dispatch(new fromLibsExchangeExplorerFilterContextActions
+          .SetWeightingType({ weightingType: this.selectedWeightingType.Value }));
+      }
+    });
   }
 }

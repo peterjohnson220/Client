@@ -241,7 +241,7 @@ export class DataViewEffects {
           ({ action, userContext })
       ),
       switchMap((data) => {
-        return this.userApiService.getShareableUsersByTile(data.userContext.UserId, data.userContext.CompanyId, 'Data Insights')
+        return this.userApiService.getShareableUsersByTile(data.userContext.UserId, data.userContext.CompanyId, 'Tabular_Report_Builder')
           .pipe(
             map((response) => new fromDataViewActions.GetShareableUsersSuccess(PayfactorsApiModelMapper.mapShareUserResponseToUser(response))),
             catchError(() => of(new fromDataViewActions.GetShareableUsersError()))

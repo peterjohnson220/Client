@@ -16,6 +16,7 @@ import 'hammerjs';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
+import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 
 import {
   ExchangeDashboardPageComponent, AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
@@ -64,6 +65,7 @@ import { SharedModule } from '../shared/shared.module';
     PfFormsModule,
     PfCommonModule,
     SharedModule,
+    PfExchangeExplorerModule
   ],
   declarations: [
 // Containers

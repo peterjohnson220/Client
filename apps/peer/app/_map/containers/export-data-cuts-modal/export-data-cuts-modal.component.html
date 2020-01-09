@@ -7,6 +7,7 @@
   [submitting]="exportingDataCuts$ | async"
   [isOpen$]="exportDataCutsModalOpen$"
   [formGroup]="exportDataCutsForm"
+  [windowClass]="'modal-xlg'"
   (onSubmit)="handleFormSubmit()"
   (onDismiss)="handleModalDismissed()">
 
@@ -152,9 +153,17 @@
                           }"
                           (selectionChange)="handleRateSelectionChange($event)">
       </kendo-dropdownlist>
+      <pf-weighting-type-dropdown id="ddm-weightingType"
+                                  class="ml-3"
+                                  [attr.data-qa-id]="'ddm-weightingType'"
+                                  [selectedWeightingType]="selectedWeightingType"
+                                  [includeLabel]="false"
+                                  (weightingTypeChanged)="handleWeightingTypeChanged($event)"
+                                  *ngIf="isFromNewMap">
+      </pf-weighting-type-dropdown>
       <label class="mb-0 ml-3 mr-2" for="ddm-scopes">Scopes: </label>
       <pf-multi-select id="ddm-scopes"
-                       [attr.data-qa-id]="'ddm-rate'"
+                       [attr.data-qa-id]="'ddm-scopes'"
                        [displayNamePreview]="true"
                        [(selectedOptions)]="selectedScopesToExport"
                        [options]="scopesToExportOptions">

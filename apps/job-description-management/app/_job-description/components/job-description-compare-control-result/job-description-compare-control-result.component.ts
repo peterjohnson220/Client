@@ -13,6 +13,7 @@ import * as fromJobDescriptionManagementSharedReducer from '../../../shared/redu
   styleUrls: ['./job-description-compare-control-result.component.scss']
 })
 export class JobDescriptionCompareControlResultComponent implements OnInit {
+  showHeader = true;
   hideBody = true;
   controlType: ControlType;
 
@@ -49,5 +50,6 @@ export class JobDescriptionCompareControlResultComponent implements OnInit {
     if (this.control.Statuses) {
       this.hideBody = !this.control.Statuses.some(s => s === 'ChildrenChanged');
     }
+    this.showHeader = this.control.AdditionalProperties.ShowControlName;
   }
 }

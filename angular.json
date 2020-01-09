@@ -339,8 +339,7 @@
             "polyfills": "apps/admin/polyfills.ts",
             "tsConfig": "apps/admin/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -539,8 +538,7 @@
             "tsConfig": "apps/dashboard/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/drift.js",
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -740,8 +738,7 @@
             "polyfills": "apps/peer/polyfills.ts",
             "tsConfig": "apps/peer/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -943,8 +940,7 @@
             "polyfills": "apps/legacy-content/polyfills.ts",
             "tsConfig": "apps/legacy-content/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1144,8 +1140,7 @@
             "polyfills": "apps/auth/polyfills.ts",
             "tsConfig": "apps/auth/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1639,8 +1634,7 @@
               "node_modules/@progress/kendo-theme-default/dist/all.css"
             ],
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ]
           },
           "configurations": {
@@ -1780,8 +1774,7 @@
             "polyfills": "apps/smallbiz/polyfills.ts",
             "tsConfig": "apps/smallbiz/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "apps/smallbiz/styles.scss"
@@ -1976,8 +1969,7 @@
             "polyfills": "apps/jobs/polyfills.ts",
             "tsConfig": "apps/jobs/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -2175,8 +2167,7 @@
             "polyfills": "apps/comphub/polyfills.ts",
             "tsConfig": "apps/comphub/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -2569,8 +2560,7 @@
             "polyfills": "apps/data-insights/polyfills.ts",
             "tsConfig": "apps/data-insights/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -2766,8 +2756,7 @@
             "polyfills": "apps/job-description-management/polyfills.ts",
             "tsConfig": "apps/job-description-management/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -2963,8 +2952,7 @@
             "polyfills": "apps/structures/polyfills.ts",
             "tsConfig": "apps/structures/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -3260,8 +3248,7 @@
               "apps/resources/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ]
           },
           "configurations": {
@@ -3357,8 +3344,7 @@
             "polyfills": "apps/resources/polyfills.ts",
             "tsConfig": "apps/resources/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/pendo.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -3406,9 +3392,203 @@
           }
         }
       }
+    },
+    "total-rewards": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/total-rewards",
+            "index": "apps/total-rewards/index.html",
+            "main": "apps/total-rewards/main.ts",
+            "tsConfig": "apps/total-rewards/tsconfig.app.json",
+            "polyfills": "apps/total-rewards/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/total-rewards/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/total-rewards/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/total-rewards",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/total-rewards",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/total-rewards/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/total-rewards/../../environments/environment.ts",
+                  "with": "apps/total-rewards/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/total-rewards/../../environments/environment.ts",
+                  "with": "apps/total-rewards/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/total-rewards/../../assets/js/new-relic.js",
+                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/total-rewards/../../environments/environment.ts",
+                  "with": "apps/total-rewards/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/total-rewards/../../assets/js/new-relic.js",
+                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "total-rewards:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "total-rewards:build:staging"
+            },
+            "production": {
+              "browserTarget": "total-rewards:build:production"
+            },
+            "sales": {
+              "browserTarget": "total-rewards:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "total-rewards:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/total-rewards/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/total-rewards/polyfills.ts",
+            "tsConfig": "apps/total-rewards/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/total-rewards/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/total-rewards/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/total-rewards",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/total-rewards",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
-
-
   },
   "defaultProject": "admin",
   "schematics": {

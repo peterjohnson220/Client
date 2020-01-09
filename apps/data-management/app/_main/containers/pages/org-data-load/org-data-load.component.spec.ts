@@ -11,7 +11,7 @@ import { generateMockUserContext } from 'libs/models';
 
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
 import { EntityUploadComponent } from '../../../components';
-import { getEntityChoicesForOrgLoader } from '../../../models';
+import { ConfigurationGroup, getEntityChoicesForOrgLoader } from '../../../models';
 import { OrgDataLoadComponent } from './';
 
 describe('OrgDataLoadComponent', () => {
@@ -65,6 +65,17 @@ describe('OrgDataLoadComponent', () => {
     expect(instance.stepIndex).toBe(2);
   });
 
+  it('should not increment step on btn click with invalid delimiter info for step 3', () => {
+    instance.stepIndex = 3;
+    instance.loadOptions = getEntityChoicesForOrgLoader();
+    instance.selectedDelimiter = null;
+    const ret = instance.areStepsValid();
+    expect(ret).toBe(false);
+    instance.nextBtnClick();
+    expect(instance.stepIndex).toBe(3);
+  });
+
+
   it('should  increment step on btn click with valid info for step 2', () => {
     instance.stepIndex = 2;
     instance.loadOptions = getEntityChoicesForOrgLoader();
@@ -106,7 +117,8 @@ describe('OrgDataLoadComponent', () => {
     expect(instance.stepIndex).toBe(1);
 
     instance.uploadComponent = {
-      ClearAllFiles: jest.fn()
+      ClearAllFiles: jest.fn(),
+      ClearAllErrorMessages: jest.fn()
     };
 
     instance.stepIndex = 3;
@@ -121,19 +133,28 @@ describe('OrgDataLoadComponent', () => {
   });
 
   it('should dispatch an action to open message on link on without URL', () => {
-    instance.goToLink(null);
+    const openEvent: Event = new Event('open');
+    spyOn(openEvent, 'preventDefault');
+    instance.goToLink(openEvent, null);
     const action = new fromOrganizationalDataActions.SetModalStateOpen(true);
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should open new window with link if has url', () => {
+    const openEvent: Event = new Event('open');
+    spyOn(openEvent, 'preventDefault');
     spyOn(window, 'open');
-
     const url = 'www.google.com';
-    instance.goToLink(url);
+    instance.goToLink(openEvent, url);
     fixture.detectChanges();
     expect(window.open).toHaveBeenCalledWith(url, '_blank');
 
+  });
+
+  it('should add and selected mapping correctly', () => {
+    const configGroupd: ConfigurationGroup = { GroupName: 'abc', CompanyId: 13, LoaderConfigurationGroupId: 34 };
+    instance.AddAndSetSelectedMapping(configGroupd);
+    expect(instance.selectedMapping.LoaderConfigurationGroupId).toEqual(configGroupd.LoaderConfigurationGroupId);
   });
 
 });

@@ -1,47 +1,50 @@
-<div class="border rounded px-5 py-2 h-100"
-     pfDragDrop
-     (onFileDropped)="onFileDrop($event)">
+<pf-async-container
+    [loading]="fileUploading">
+  <div class="border rounded px-5 py-2 h-100"
+       pfDragDrop
+       (onFileDropped)="onFileDrop($event)">
 
-  <div *ngIf="!selectedFile || selectedFile === null"
-       class="w-100 d-flex flex-column"
-       (click)="fileInput.click()">
-    <div class="d-flex justify-content-center">
-      <button type="button"
-              class="btn btn-primary"
-              [style.opacity]="1">
-        <h5 [style.display]="'inline'">
-          <fa-icon class="mr-2"
-                   [icon]="['fa', 'upload']"></fa-icon> Browse
-        </h5>
-      </button>
+    <div *ngIf="!selectedFile || selectedFile === null"
+         class="w-100 d-flex flex-column"
+         (click)="fileInput.click()">
+      <div class="d-flex justify-content-center">
+        <button type="button"
+                class="btn btn-primary"
+                [style.opacity]="1">
+          <h5 [style.display]="'inline'">
+            <fa-icon class="mr-2"
+                     [icon]="['fa', 'upload']"></fa-icon> Browse
+          </h5>
+        </button>
 
-      <input hidden
-             type="file"
-             #fileInput
-             (change)="onFileChange($event)">
+        <input hidden
+               type="file"
+               #fileInput
+               (change)="onFileChange($event)">
+      </div>
+      <div class="d-flex justify-content-center text-center">
+        Or<br />
+        Drag and drop file here
+      </div>
     </div>
-    <div class="d-flex justify-content-center text-center">
-      Or<br />
-      Drag and drop file here
+
+    <div *ngIf="errorMessage.trim().length > 0"
+         class="alert alert-danger text-center"
+         role="alert">
+      <strong>Error:</strong> {{errorMessage}}
+    </div>
+
+    <div *ngIf="selectedFile && selectedFile !== null"
+         class="d-flex align-items-center  h-100">
+      <div class=" w-100">
+        <fa-icon class="fa-lg thumbs-up-icon mr-3"
+                 [icon]="['fas', 'thumbs-up']"></fa-icon>{{selectedFile.name}} uploaded successfully
+      </div>
+      <div class=" h-100 d-flex align-items-start">
+        <fa-icon [icon]="['fas', 'times']"
+                 [style.cursor]="'pointer'"
+                 (click)="ClearFile()"></fa-icon>
+      </div>
     </div>
   </div>
-
-  <div *ngIf="errorMessage.trim().length > 0"
-       class="alert alert-danger text-center"
-       role="alert">
-    <strong>Error:</strong> {{errorMessage}}
-  </div>
-
-  <div *ngIf="selectedFile && selectedFile !== null"
-       class="d-flex align-items-center  h-100">
-    <div class=" w-100">
-      <fa-icon class="fa-lg thumbs-up-icon mr-3"
-               [icon]="['fas', 'thumbs-up']"></fa-icon>{{selectedFile.name}} uploaded successfully
-    </div>
-    <div class=" h-100 d-flex align-items-start">
-      <fa-icon [icon]="['fas', 'times']"
-               [style.cursor]="'pointer'"
-               (click)="ClearFile()"></fa-icon>
-    </div>
-  </div>
-</div>
+</pf-async-container>

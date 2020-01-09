@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-.k-dropdown-wrap {
-  border-color: #cccccc !important;
+.k-dropdown .k-dropdown-wrap {
+  border-color: #cccccc;
 }
 
 .k-pager-numbers .k-state-selected {
@@ -50,6 +50,10 @@
   border-color: #1872ae;
   cursor: not-allowed;
   opacity: .65;
+}
+
+.has-danger .form-control {
+  border-color: #d9534f;
 }
 
 .btn-group .btn-group-vertical {

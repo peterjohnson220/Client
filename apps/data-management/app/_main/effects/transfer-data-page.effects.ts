@@ -8,7 +8,7 @@ import { mergeMap, switchMap, map, withLatestFrom, catchError, delay } from 'rxj
 import * as fromRootState from 'libs/state/state';
 import { TransferMethodsHrisApiService, ProvidersHrisApiService,
   ConnectionsHrisApiService} from 'libs/data/payfactors-api/hris-api';
-import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse } from 'libs/models/hris-api';
+import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse, ProviderSupportedEntityDTO } from 'libs/models/hris-api';
 
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
@@ -169,6 +169,32 @@ export class TransferDataPageEffects {
       ];
     })
   );
+
+  @Effect()
+  loadSelectedEntities$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTransferDataPageActions.LOAD_ENTITY_SELECTION),
+      withLatestFrom(
+        this.store.select(fromDataManagementMainReducer.getSelectedProvider),
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action, selectedProvider, userContext) => {
+          return {
+            action,
+            selectedProvider,
+            userContext
+          };
+        }
+      ),
+      switchMap((obj) => {
+        return this.providersHrisApiService.getEntitySelectionByProvider(obj.userContext, obj.selectedProvider.ProviderId)
+          .pipe(
+            map((response: ProviderSupportedEntityDTO[]) => {
+              const entities = PayfactorsApiModelMapper.mapEntitySelectionResponseToEntitySelection(response);
+              return new fromTransferDataPageActions.LoadEntitySelectionSuccess(entities);
+          })
+        );
+      })
+    );
 
   constructor(
     private actions$: Actions,
