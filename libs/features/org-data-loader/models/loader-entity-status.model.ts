@@ -1,4 +1,4 @@
-import { LoaderType } from 'libs/constants';
+import { LoaderType } from 'libs/features/org-data-loader/constants';
 
 export interface LoaderEntityStatus {
   complete: boolean;

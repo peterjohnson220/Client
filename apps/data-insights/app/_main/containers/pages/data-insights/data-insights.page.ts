@@ -7,6 +7,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { Permissions } from 'libs/constants';
 
 import { Workbook } from '../../../models';
 import * as fromDataInsightsPageActions from '../../../actions/data-insights-page.actions';
@@ -31,6 +32,7 @@ export class DataInsightsPageComponent implements OnInit, OnDestroy {
   showStandardReportsSectionSub: Subscription;
   thumbnailsViewSettingEnabledSub: Subscription;
 
+  permissions = Permissions;
   showAllStandardReports: boolean;
   showStandardReportsSection: boolean;
   thumbnailsViewSettingEnabled: boolean;

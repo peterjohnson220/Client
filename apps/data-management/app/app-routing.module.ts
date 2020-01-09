@@ -12,8 +12,7 @@ export const routes: Routes = [
     path: '',
     component: AppWrapperComponent,
     canActivate: [AuthorizationGuard],
-    // TODO: when this is exposed to clients we need to figure out permissions.
-    // data: { Permissions: [Permissions, Permissions.DATAMANAGEMENT_ORG_DATA_LOAD], Check: PermissionCheckEnum.Any },
+    data: { Permissions: [Permissions, Permissions.DATAMANAGEMENT_ORG_DATA_LOAD], Check: PermissionCheckEnum.Any },
     children: [
       { path: '', loadChildren: () => import('apps/data-management/app/_main/main.module').then(m => m.MainModule) }
     ]

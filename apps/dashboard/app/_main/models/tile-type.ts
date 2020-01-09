@@ -19,6 +19,7 @@ export class TileType {
   NewCommunity = TileTypes.NewCommunity;
   QuickPrice = TileTypes.QuickPrice;
   Ideas = TileTypes.Ideas;
+  TotalRewards = TileTypes.TotalRewards;
 
   constructor() {
     this.AllTypes = [
@@ -37,7 +38,8 @@ export class TileType {
       TileTypes.Community,
       TileTypes.NewCommunity,
       TileTypes.QuickPrice,
-      TileTypes.Ideas
+      TileTypes.Ideas,
+      TileTypes.TotalRewards
     ];
   }
 }

@@ -1,0 +1,36 @@
+<ng-template #copyControlModal let-c="close" let-d="dismiss">
+  <form [formGroup]="copyControlForm" (ngSubmit)="submit()">
+      <div class="modal-header">
+          <h4 class="modal-title">Copy Control</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group" [class.has-danger]="!controlName.pristine && (controlName.invalid)" >
+              <label for="control-name" class="control-label">Please name your Control:</label>
+              <span *ngIf="controlName.errors?.error" class="text-danger float-right">{{controlName.errors.error}}</span>            
+              <span *ngIf="!controlName.pristine && controlName.hasError('required')" class="text-danger float-right">Required</span>
+              <span *ngIf="!controlName.pristine && controlName.hasError('minLength')" class="text-danger float-right">Required</span>
+              <span *ngIf="controlName.hasError('maxlength')" class="text-danger float-right">
+                          Exceeds {{controlName.errors.maxlength.requiredLength}} characters:
+                  {{controlName.errors.maxlength.actualLength}}
+              </span>
+              <input
+                      type="text"
+                      class="form-control"
+                      formControlName="controlName"
+                      [autofocus]="true"/>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+          <button type="submit" [disabled]="copyControlForm.invalid" class="btn btn-primary">
+            <span *ngIf="(copying$ | async)">
+            <pf-loading-indicator></pf-loading-indicator> Creating...
+            </span>
+              <span *ngIf="!(copying$ | async)">Create</span>
+          </button>
+      </div>
+  </form>
+</ng-template>

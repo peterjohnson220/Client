@@ -195,7 +195,8 @@ export class PayfactorsApiModelMapper {
     fields: Field[],
     pagingOptions: PagingOptions,
     sortDescriptor: SortDescriptor,
-    filters: Filter[]): DataViewDataRequest {
+    filters: Filter[],
+    withCount: boolean): DataViewDataRequest {
 
     let dataViewSortDesc = null;
     if (!!sortDescriptor && !!sortDescriptor.dir && !!sortDescriptor.field) {
@@ -211,7 +212,8 @@ export class PayfactorsApiModelMapper {
       Fields: PayfactorsApiModelMapper.mapFieldsToDataViewFields(fields),
       Filters: PayfactorsApiModelMapper.mapFiltersToDataViewFilters(filters),
       PagingOptions: pagingOptions,
-      SortDescriptor: dataViewSortDesc
+      SortDescriptor: dataViewSortDesc,
+      WithCount: withCount
     };
   }
 

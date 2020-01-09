@@ -11,7 +11,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { FeatureAreaConstants, GenericMenuItem, GridTypeEnum, UiPersistenceSettingConstants } from 'libs/models/common';
 import { PfValidators } from 'libs/forms/validators';
 import { KendoDropDownItem } from 'libs/models/kendo';
-import { Rates, RateType } from 'libs/data/data-sets';
+import { Rates, RateType, Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
@@ -40,9 +40,11 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   selectAllState$: Observable<SelectAllCheckboxState>;
   allIds$: Observable<number[]>;
   persistedRateForExport$: Observable<string>;
+  persistedWeightingTypeForExport$: Observable<string>;
 
   exportDataCutsModalOpenSubscription: Subscription;
   persistedRateForExportSubscription: Subscription;
+  persistedWeightingTypeForExportSubscription: Subscription;
   exportingJobsErrorSubscription: Subscription;
   gridDataResultSubscription: Subscription;
   gridStateSubscription: Subscription;
@@ -61,6 +63,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
   scopesToExportOptions: GenericMenuItem[] = [];
   selectedScopesToExport: GenericMenuItem[] = [];
+  selectedWeightingType: KendoDropDownItem = { Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc };
   readonly currentMapViewOptionValue = 'Current Map View';
 
   constructor(
@@ -82,6 +85,11 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.persistedRateForExport$ = this.settingsService.selectUiPersistenceSetting(
       FeatureAreaConstants.PeerManageScopes,
       UiPersistenceSettingConstants.ExchangeDataCutsExportRateSelection,
+      'string'
+    );
+    this.persistedWeightingTypeForExport$ = this.settingsService.selectUiPersistenceSetting(
+      FeatureAreaConstants.PeerManageScopes,
+      UiPersistenceSettingConstants.ExchangeDataCutsExportWeightingTypeSelection,
       'string'
     );
 
@@ -118,7 +126,8 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     const payload = {
         selectedRate: this.selectedRate.Value,
         scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => s.Value),
-        exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue)
+        exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue),
+        selectedWeightingType: this.selectedWeightingType.Value
       };
     const action = this.isFromNewMap ?
       new fromExportDataCutsActions.ExportDataCutsNew(payload) :
@@ -186,11 +195,21 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExportDataCutsActions.SelectRate({newRate: item.Value}));
   }
 
+  handleWeightingTypeChanged(item: KendoDropDownItem) {
+    this.selectedWeightingType = item;
+    this.store.dispatch(new fromExportDataCutsActions.SelectWeightingType({newWeightingType: item.Value}));
+  }
+
   // Lifecycle
   ngOnInit() {
     this.persistedRateForExportSubscription = this.persistedRateForExport$.subscribe(rate => {
       if (!!rate) {
         this.selectedRate = Rates.find(r => r.Value === rate);
+      }
+    });
+    this.persistedWeightingTypeForExportSubscription = this.persistedWeightingTypeForExport$.subscribe(weightingType => {
+      if (!!weightingType) {
+        this.selectedWeightingType = Weights.find(w => w.Value === weightingType);
       }
     });
     this.exportDataCutsModalOpenSubscription = this.exportDataCutsModalOpen$.subscribe(isOpen => {
@@ -232,6 +251,8 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.gridStateSubscription.unsubscribe();
     this.gridDataResultSubscription.unsubscribe();
     this.allIdsSubscription.unsubscribe();
+    this.persistedWeightingTypeForExportSubscription.unsubscribe();
+    this.persistedRateForExportSubscription.unsubscribe();
   }
 
   // Helper methods

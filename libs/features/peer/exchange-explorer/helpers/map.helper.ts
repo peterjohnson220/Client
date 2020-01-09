@@ -1,7 +1,7 @@
 import { FeatureCollection, Point } from 'geojson';
 import { LngLatBounds } from 'mapbox-gl';
 
-import { ExchangeMapSummary, GenericKeyValue, MapGeoData } from 'libs/models/';
+import { ExchangeMapSummary, MapGeoData } from 'libs/models/';
 import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 
 export class MapHelper {
@@ -19,12 +19,13 @@ export class MapHelper {
   }
 
   static getMapDetailsFromScope(scope: ExchangeExplorerScopeResponse, isDataCut: boolean = false): any {
-    const mapSummary: ExchangeMapSummary = scope.ExchangeDataSearchResponse.MapSummary;
-    const tl = isDataCut ? mapSummary.TopLeft : scope.ScopeTopLeft;
-    const br = isDataCut ? mapSummary.BottomRight : scope.ScopeBottomRight;
+    const scopeContext = scope.ScopeContext;
+    const mapSummary: ExchangeMapSummary = scopeContext.ExchangeDataSearchResponse.MapSummary;
+    const tl = isDataCut ? mapSummary.TopLeft : scopeContext.ScopeTopLeft;
+    const br = isDataCut ? mapSummary.BottomRight : scopeContext.ScopeBottomRight;
     const mapCollection: FeatureCollection<Point> = {
       type: 'FeatureCollection',
-      features: scope.ExchangeDataSearchResponse.FeatureCollection
+      features: scopeContext.ExchangeDataSearchResponse.FeatureCollection
     };
     const boundsForOneMapCopy = [tl.Lon, br.Lat, br.Lon, tl.Lat];
     const lngLatBounds = new LngLatBounds(
@@ -36,7 +37,7 @@ export class MapHelper {
       MapSummary: mapSummary,
       InitialMapBounds: boundsForOneMapCopy,
       Centroid: lngLatBounds.getCenter().toArray(),
-      ZoomLevel: scope.ZoomLevel,
+      ZoomLevel: scopeContext.ZoomLevel,
       MapFilter: {
         TopLeft: tl,
         BottomRight: br

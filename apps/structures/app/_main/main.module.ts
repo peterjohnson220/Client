@@ -17,10 +17,11 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
-import { PfCommonModule } from 'libs/core';
+import { PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfProjectModule } from 'libs/features/project';
 
 import * as fromFaIcons from './fa-icons';
 import { JobBasedRangeAllStructuresEffects, JobRangeModelingPageEffects } from './effects';
@@ -70,7 +71,8 @@ import { JobRangeModelingGridEffects } from './effects/job-range-modeling-grid.e
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfProjectModule
   ],
   declarations: [
     // Components
@@ -88,7 +90,8 @@ import { JobRangeModelingGridEffects } from './effects/job-range-modeling-grid.e
     JobRangeModelingGridComponent
   ],
   providers: [
-    WindowRef
+    WindowRef,
+    WindowCommunicationService
   ]
 })
 export class MainModule {

@@ -1,19 +1,19 @@
 export interface CredentialsPackage {
-  APIKey: string;
-  Domain: string;
-  UserName: string;
-  Password: string;
   ProviderCode: string;
   SyncEmployees: boolean;
+  SyncJobs: boolean;
+  SyncPaymarkets: boolean;
+  SyncStructures: boolean;
+  SyncStructureMappings: boolean;
 }
 
 export function generateMockCredentialsPackage(): CredentialsPackage {
   return {
-    APIKey: 'MockApiKey',
-    Domain: 'MockDomain',
-    UserName: 'MockUserName',
-    Password: 'MockPassword',
-    ProviderCode: 'MOCKCODE',
-    SyncEmployees: true
+    ProviderCode: 'PFTEST',
+    SyncEmployees: true,
+    SyncJobs: false,
+    SyncPaymarkets: false,
+    SyncStructures: false,
+    SyncStructureMappings: false
   };
 }

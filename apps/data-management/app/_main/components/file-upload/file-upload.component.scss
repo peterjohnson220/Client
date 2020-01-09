@@ -1,3 +1,15 @@
+
+$blue-primary-button: #0366CC;
+$white: #ffffff;
+$button-shadow: rgba(0, 0, 0, 0.5);
+
 .thumbs-up-icon {
     color: #6EAC27;
+}
+
+.btn-primary {
+    background: $blue-primary-button !important;
+    border: 1px solid $blue-primary-button !important;
+    box-shadow: 0 2px 4px 0 $button-shadow;
+    color: $white;
 }

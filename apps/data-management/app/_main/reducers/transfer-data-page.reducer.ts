@@ -1,8 +1,11 @@
-import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
-import { TransferMethod, Provider } from '../models';
-import { TransferDataWorkflowStep } from '../data';
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { OrgDataEntityType } from 'libs/constants';
 
+import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
+import { TransferDataWorkflowStep } from '../data';
+import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import { EntityChoice, EntityTypeModel, Provider, TransferMethod } from '../models';
 
 export interface State {
   loading: boolean;
@@ -14,7 +17,8 @@ export interface State {
   workflowStep: TransferDataWorkflowStep;
   validationErrors: string[];
   showAuthenticationModal: boolean;
-  selectedEntities: any; // TODO: change this to be some datamodel type and add selecting entity page
+  selectedEntities: EntityTypeModel[];
+  providerSupportedEntities: EntityChoice[];
 }
 
 const initialState: State = {
@@ -27,12 +31,13 @@ const initialState: State = {
   validationErrors: null,
   workflowStep: TransferDataWorkflowStep.SelectTransferMethod, // change back to first workflowstep
   showAuthenticationModal: false,
-  selectedEntities: [ // TODO: change this to be an empty collection or whatever the data model should be for this.
+  selectedEntities: [
     {
       EntityType: OrgDataEntityType.Employees,
       EntityName: 'Employees'
     }
-  ]
+  ],
+  providerSupportedEntities: []
 };
 
 export function reducer(state: State = initialState, action: fromTransferDataPageActions.Actions) {
@@ -132,6 +137,29 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
         workflowStep: TransferDataWorkflowStep.Mappings
       };
     }
+    case fromTransferDataPageActions.LOAD_ENTITY_SELECTION: {
+      return {
+        ...state,
+        workflowStep: TransferDataWorkflowStep.EntitySelection,
+        loading: true
+      };
+    }
+    case fromTransferDataPageActions.LOAD_ENTITY_SELECTION_SUCCESS: {
+      return {
+        ...state,
+        providerSupportedEntities: action.payload,
+        loading: false
+      };
+    }
+    case fromTransferDataPageActions.PROCEED_TO_AUTHENTICATION: {
+      let selectedEntitiesClone = cloneDeep(state.selectedEntities);
+      selectedEntitiesClone = PayfactorsApiModelMapper.mapEntityChoiceToEntityTypeModel(action.payload);
+      return {
+        ...state,
+        workflowStep: TransferDataWorkflowStep.Authentication,
+        selectedEntities: selectedEntitiesClone
+      };
+    }
     default:
       return state;
   }
@@ -147,3 +175,4 @@ export const getValidationErrors = (state: State) => state.validationErrors;
 export const getWorkflowStep = (state: State) => state.workflowStep;
 export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
 export const getSelectedEntities = (state: State) => state.selectedEntities;
+export const getProviderSupportedEntities = (state: State) => state.providerSupportedEntities;

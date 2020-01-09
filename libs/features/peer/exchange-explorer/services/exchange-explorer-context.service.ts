@@ -47,7 +47,7 @@ export class ExchangeExplorerContextService {
 
     return searchFilters$.pipe(
       map((filters: Filter[]) => {
-        return filters.filter((f: Filter) => f.BackingField === 'company_id').reduce<number>((val, f: MultiSelectFilter) => {
+        return filters.filter((f: Filter) => f.BackingField === 'company_name').reduce<number>((val, f: MultiSelectFilter) => {
           const selectedOptions = f.Options.filter(o => o.Selected);
           const selectionCount = !!selectedOptions ? selectedOptions.length : 0;
           return val += selectionCount;

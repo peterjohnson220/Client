@@ -21,4 +21,10 @@
   </div>
 </div>
 
+<pf-add-jobs-structures-modeling-modal
+  [modalOpen$]="addJobsModalOpen$"
+  [saving]="(addJobsModalIsSaving$ | async)"
+  (saved)="addJobsModalSaveHandler($event)"
+  (closed)="closeAddJobsModal()">
+</pf-add-jobs-structures-modeling-modal>
 <pf-edit-grid-columns-modal></pf-edit-grid-columns-modal>

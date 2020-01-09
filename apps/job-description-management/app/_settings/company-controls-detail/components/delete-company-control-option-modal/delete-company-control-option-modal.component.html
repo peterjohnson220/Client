@@ -1,0 +1,27 @@
+<ng-template #deleteControlOptionModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Delete Control Option</h4>
+        <button data-qa-id="btn-closeDeleteControlOptionModal" type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <pf-async-container [smartLoadingMask]="true" [loading]="loading" [hideReloadButton]="true">
+          <ng-template [ngIf]="!loading">
+              <div *ngIf="affectedJobs != null && affectedJobs.length > 0" class="modal-body">
+                  <p>This option cannot be deleted as it is currently selected in the following job descriptions:</p>
+                  <div class="div-scroll">
+                      <ul data-qa-id="ul-affectedJobList">
+                          <li *ngFor="let job of affectedJobs" data-qa-id="li-affectedJobName">
+                              <strong>{{ job }}</strong>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </ng-template>
+        </pf-async-container>
+    </div>
+    <div class="modal-footer">
+        <button data-qa-id='btn-deleteCompanyControlOptionModalOk' type="button" class="btn" (click)="c('Close click')">Ok</button>
+    </div>
+</ng-template>

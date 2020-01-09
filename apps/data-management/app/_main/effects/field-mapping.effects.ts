@@ -5,12 +5,13 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { MappingsHrisApiService } from 'libs/data/payfactors-api/hris-api';
 import * as fromRootState from 'libs/state/state';
+import { MappingsHrisApiService } from 'libs/data/payfactors-api/hris-api';
+import { OrgDataEntityType } from 'libs/constants';
+import { ProviderEntitiyFieldsResponse } from 'libs/models';
 
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromReducers from '../reducers';
-import { OrgDataEntityType } from 'libs/constants';
 import { PayfactorsApiModelMapper } from '../helpers';
 
 @Injectable()
@@ -54,8 +55,8 @@ export class FieldMappingEffects {
     switchMap(obj => {
       return this.mappingsHrisApiService.getProviderFields(obj.userContext, obj.action.payload.entity)
         .pipe(
-          mergeMap((response: any) => {
-            const fields = PayfactorsApiModelMapper.createProviderEntityFields(OrgDataEntityType[obj.action.payload.entity]);
+          mergeMap((response: ProviderEntitiyFieldsResponse) => {
+            const fields = PayfactorsApiModelMapper.mapProviderEntityFieldsResponseToEntityDataField(response, OrgDataEntityType[obj.action.payload.entity]);
             return [
               new fromFieldMappingActions.LoadProviderFieldsByEntitySuccess({entity: obj.action.payload.entity, providerEntityFields: fields})
             ];
@@ -77,10 +78,10 @@ export class FieldMappingEffects {
       };
     }),
     switchMap(obj => {
-      return this.mappingsHrisApiService.getProviderFields(obj.userContext, obj.action.payload.entity)
+      return this.mappingsHrisApiService.getPayfactorsFields(obj.userContext, obj.action.payload.entity)
         .pipe(
           mergeMap((response: any) => {
-            const fields = PayfactorsApiModelMapper.createPayfactorsEntityFields(OrgDataEntityType[obj.action.payload.entity]);
+            const fields = PayfactorsApiModelMapper.mapPayfactorsEntityFieldsResponseToEntityDataField(response, OrgDataEntityType[obj.action.payload.entity]);
             return [
               new fromFieldMappingActions.LoadPayfactorsFieldsByEntitySuccess({ entity: obj.action.payload.entity, payfactorsEntityFields: fields})
             ];

@@ -1,0 +1,27 @@
+<div pfClickElsewhere (clickElsewhere)="onClickElsewhere()">
+  <a href="javascript:void(0)" (click)="onEllipsisClick(statement.Id)" class="open-actions" title="Actions">
+    <fa-icon [icon]="'ellipsis-h'" aria-hidden="true" class="ellipsis-menu"></fa-icon>
+  </a>
+  <div [class.open]="isOpen" class="actions position-absolute shadow-sm p-3">
+    <a href="javascript:void(0)" (click)="onEditClick(statement)" class="grid-action-link d-block" >
+      <fa-icon [icon]="'pencil'" aria-hidden="true" class="grid-action-icon"></fa-icon>
+      <label class="ml-2">Edit</label>
+    </a>
+    <a *ngIf="statement?.Status === 'Active'" href="javascript:void(0)" (click)="onRunStatementClick(statement)" class="grid-action-link d-block">
+      <fa-icon [icon]="'play'" aria-hidden="true" class="grid-action-icon run"></fa-icon>
+      <label class="ml-2">Run Statement</label>
+    </a>
+    <a *ngIf="statement?.LastRunDate" href="javascript:void(0)" (click)="onViewHistoryClick(statement)" class="grid-action-link d-block">
+      <fa-icon [icon]="'history'" aria-hidden="true" class="grid-action-icon"></fa-icon>
+      <label class="ml-2">View History</label>
+    </a>
+    <a href="javascript:void(0)" (click)="onCopyClick(statement)" class="grid-action-link d-block" >
+      <fa-icon [icon]="'copy'" aria-hidden="true" class="grid-action-icon"></fa-icon>
+      <label class="ml-2">Copy</label>
+    </a>
+    <a href="javascript:void(0)" (click)="onDeleteClick(statement)" class="grid-action-link d-block" >
+      <fa-icon [icon]="'trash'" aria-hidden="true" class="grid-action-icon text-danger"></fa-icon>
+      <label class="ml-2 mb-0 text-danger">Delete</label>
+    </a>
+  </div>
+</div>

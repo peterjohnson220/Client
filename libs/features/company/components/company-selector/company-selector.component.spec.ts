@@ -47,7 +47,7 @@ describe('CompanySelectorComponent', () => {
   });
 
   it('should filter companies for drop down', () => {
-    instance.data = companies;
+    instance.companies = companies;
     instance.filterData('ab');
     expect(instance.filteredData).toEqual([companies[1]]);
 

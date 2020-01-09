@@ -1,24 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
-import { isEmpty, isString } from 'lodash';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import { FileRestrictions } from '@progress/kendo-angular-upload';
+import {isEmpty, isString} from 'lodash';
+
+import {Observable} from 'rxjs';
+
+import {FileRestrictions} from '@progress/kendo-angular-upload';
 
 import {
   DATE_FORMATS,
+  LoaderType,
   ORG_DATA_CLIENTFIELDS_INDEX_RESET,
   ORG_DATA_REMOVE_URL,
-  ORG_DATA_UPLOAD_URL,
-  LoaderType,
-} from 'libs/features/org-data-loader/constans';
-
-import {
-  DateFormatItem,
-  LoaderEntityStatus,
-  FilenamePattern,
-  VisibleLoaderOptionModel
-} from 'libs/features/org-data-loader/models';
-import { LoaderFieldSet } from 'libs/models/data-loads';
+  ORG_DATA_UPLOAD_URL
+} from 'libs/features/org-data-loader/constants';
+import {DateFormatItem, FilenamePattern, LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
+import {LoaderFieldSet} from 'libs/models/data-loads';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -35,11 +31,12 @@ export class FieldMapperComponent implements OnInit {
   mappedFields: string[];
   selectedMapping: string;
   payfactorsDataFieldsForReset: string[];
-  dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
-  dateFormatsFilteredData: Array<{ text: string, value: string}>;
+  dateFormats: Array<{ text: string, value: string }> = DATE_FORMATS;
+  dateFormatsFilteredData: Array<{ text: string, value: string }>;
   templateReferenceConstants = {
     LoaderType,
   };
+
 
   @Input() fieldMappings$: Observable<LoaderFieldSet[]>;
   @Input() fieldMappingsLoading: boolean;
@@ -51,32 +48,57 @@ export class FieldMapperComponent implements OnInit {
   @Input() loadEnabled: boolean;
   @Input() filenamePattern: FilenamePattern;
   @Input() visibleLoaderOptions: VisibleLoaderOptionModel;
+  @Input() suppliedClientFields: string[] = [];
   @Output() mappingComplete = new EventEmitter<any>();
+  private mappingErrorMessage = false;
 
   constructor() {
     this.uploadSaveUrl = ORG_DATA_UPLOAD_URL;
     this.removeUrl = ORG_DATA_REMOVE_URL;
-    this.fileRestrictions  = {
+    this.fileRestrictions = {
       allowedExtensions: ['csv']
     };
     this.mappedFields = [];
     this.clientFields = [];
     this.dateFormatsFilteredData = this.dateFormats.slice();
+
   }
 
   ngOnInit() {
     this.payfactorsDataFieldsForReset = this.payfactorsDataFields;
     this.fieldMappings$.subscribe(mappings => {
       if (mappings.length > 0) {
-        this.mappedFields = [];
-        const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
-        if (entityMapping) {
-          for (const mapping of entityMapping.LoaderFieldMappings) {
-            this.addMappingWithoutCompleteEvent(mapping.InternalField, mapping.ClientField);
+        this.resetMapping();
+        if (this.suppliedClientFields.length === 0) {
+          this.addSavedMappings(mappings);
+        } else {
+          const entityMappings = mappings.find(item => item.LoaderType === this.loaderType);
+          if (this.clientFieldsMatchSavedMappings(entityMappings)) {
+            this.addSavedMappings(mappings);
+          } else {
+            entityMappings ? this.mappingErrorMessage = true : this.mappingErrorMessage = false;
+            this.clientFields = this.suppliedClientFields;
+            this.mapSimilarFields();
           }
+        }
+      } else {
+        if (this.suppliedClientFields.length !== 0) {
+          this.resetMapping();
+          this.clientFields = this.suppliedClientFields;
+          this.mapSimilarFields();
         }
       }
     });
+  }
+
+  private addSavedMappings(mappings) {
+    this.mappedFields = [];
+    const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
+    if (entityMapping) {
+      for (const mapping of entityMapping.LoaderFieldMappings) {
+        this.addMappingWithoutCompleteEvent(mapping.InternalField, mapping.ClientField);
+      }
+    }
   }
 
   changeIsFullReplace(isFullReplace: boolean) {
@@ -84,7 +106,7 @@ export class FieldMapperComponent implements OnInit {
     this.fireCompleteEvent();
   }
 
-  successEventHandler = function($event) {
+  successEventHandler = function ($event) {
     if ($event.response.body) {
       this.clientFields = $event.response.body.value;
       this.mapSimilarFields();
@@ -92,12 +114,12 @@ export class FieldMapperComponent implements OnInit {
     }
   };
 
-  uploadEventHandler = function($event) {
+  uploadEventHandler = function ($event) {
     this.resetMapping();
-    $event.data = {delimiter: this.delimiter};
+    $event.data = { delimiter: this.delimiter };
   };
 
-  removeEventHandler = function() {
+  removeEventHandler = function () {
     this.resetMapping();
     this.fireCompleteEvent();
   };
@@ -223,5 +245,20 @@ export class FieldMapperComponent implements OnInit {
     this.mappedFields = [];
     this.payfactorsDataFields = this.payfactorsDataFieldsForReset;
     this.fireCompleteEvent();
+  }
+
+  private clientFieldsMatchSavedMappings(entityMapping: LoaderFieldSet) {
+    let areHeadersValid = true;
+
+    if (!entityMapping) {
+      return false;
+    }
+    this.suppliedClientFields.forEach(field => {
+      if (!entityMapping.LoaderFieldMappings.find(mapping => mapping.ClientField === field)) {
+        areHeadersValid = false;
+      }
+    });
+
+    return areHeadersValid;
   }
 }

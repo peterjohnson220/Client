@@ -3,9 +3,7 @@ import { ExchangeJobExchangeDetail } from '../../features/peer/models';
 import { generateMockPayMarket, PayMarket } from '../paymarket';
 import { generateMockSystemFilter, SystemFilter } from './exchange-job-pay-market-filter.model';
 import {
-  generateMockGeoCoordinates,
   generateMockMapGeoData,
-  GeoCoordinates,
   MapGeoData
 } from './exchange-map-response.model';
 

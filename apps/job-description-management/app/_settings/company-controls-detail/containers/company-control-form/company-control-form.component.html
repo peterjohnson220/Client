@@ -1,0 +1,37 @@
+<form (ngSubmit)="onSubmit(isNew)">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <pf-company-control-header
+                    [readOnly]="readOnly"
+                    [editable]="editable"
+                    [errorMessage]="errorMessage"
+                    [controlType]="controlType"
+                    (handleChange)="handleControlTypeChange()"
+                    (editorTypeChanged)="handleEditorTypeChange($event)"
+                    (canEditTemplateDataChanged)="handleCanEditTemplateDataChanged($event)">
+                </pf-company-control-header>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <pf-company-control-layout
+                    [readOnly]="readOnly"
+                    [editable]="editable"
+                    [editorType]="controlType?.EditorType"
+                    [controlType]="controlType"
+                    (handleChange)="handleAttributeChange()"
+                    (controlOptionDeleteClick)="handleControlOptionDeleteClick($event)">
+                </pf-company-control-layout>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <pf-company-control-preview
+                    [controlType]="controlSaveObj"
+                    [readOnly]="false">
+                </pf-company-control-preview>
+            </div>
+        </div>        
+    </div>     
+</form>

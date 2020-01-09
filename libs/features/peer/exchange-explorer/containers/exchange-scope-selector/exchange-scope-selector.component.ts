@@ -115,6 +115,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   }
 
   handlePopoverShown() {
+    this.scopeFilter = '';
     this.filteredExchangeScopeItems = this.exchangeScopeItems;
   }
 
@@ -146,5 +147,6 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
     this.inDeleteModeSubscription.unsubscribe();
     this.scopeToDeleteSubscription.unsubscribe();
     this.exchangeScopeItemsSubscription.unsubscribe();
+    this.scopeFilter = '';
   }
 }

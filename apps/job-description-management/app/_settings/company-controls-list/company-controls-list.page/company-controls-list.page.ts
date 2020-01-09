@@ -9,6 +9,7 @@ import { AsyncStateObj, ControlType } from 'libs/models';
 import * as fromCompanyControlsListReducer from '../reducers';
 import * as fromCompanyControlsListAction from '../actions';
 import * as fromCompanyControlsInsertAction from '../actions';
+import * as fromCompanyControlsDetailActions from '../../company-controls-detail/actions';
 import { CreateCompanyControlModalComponent, DeleteCompanyControlModalComponent } from '../containers';
 
 @Component({
@@ -20,9 +21,10 @@ export class CompanyControlsListPageComponent implements OnInit {
   @ViewChild(DeleteCompanyControlModalComponent, {static: true}) public deleteCompanyControlModal: DeleteCompanyControlModalComponent;
   @ViewChild(CreateCompanyControlModalComponent, {static: true}) public createNewControlModal: CreateCompanyControlModalComponent;
 
+  nameFilter: string;
+
   // Observables
   companyControls$: Observable<AsyncStateObj<ControlType[]>>;
-  nameFilter: string;
 
   constructor(
     private store: Store<fromCompanyControlsListReducer.State>,
@@ -42,11 +44,13 @@ export class CompanyControlsListPageComponent implements OnInit {
   }
 
   deleteCompanyControl(item: ControlType) {
+    event.stopPropagation();
     this.deleteCompanyControlModal.open(item);
   }
 
   handleControlClick(item: ControlType) {
-    // Will be implemented
+    event.stopPropagation();
+    this.store.dispatch(new fromCompanyControlsDetailActions.OpenCompanyControlsDetailView(item));
   }
 
   handleSearchValueChanged(value: string) {

@@ -1,11 +1,8 @@
 import {
-  LoadingLoaderSettings,
-  LoadingLoaderSettingsError,
-  LoadingLoaderSettingsSuccess,
-  SavingLoaderSettings,
-  SavingLoaderSettingsError,
-  SavingLoaderSettingsSuccess
- } from '../actions/loader-settings.actions';
+    LoadingLoaderSettings, LoadingLoaderSettingsError, LoadingLoaderSettingsSuccess, SavingLoaderSettings, SavingLoaderSettingsError,
+    SavingLoaderSettingsSuccess
+} from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+
 import { OrgDataFilenamePatternSetFactory } from '../helpers/org-data-filename-pattern-set-factory';
 import { LoaderSetting } from '../models';
 import { initialState, reducer } from './org-data-filename-patterns.reducer';

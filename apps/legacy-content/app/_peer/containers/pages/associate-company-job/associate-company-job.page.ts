@@ -124,12 +124,13 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
         if (this.exchangeJobQuery.length <= 0 && this.exchangeDescriptionQuery.length <= 0 && !!this.companyJobInfo) {
             titleQuery = this.companyJobInfo.JobTitle;
         }
-
-        this.store.dispatch(new fromAssociateAction.LoadExchangeJobs({
+        if (this.exchangeId) {
+          this.store.dispatch(new fromAssociateAction.LoadExchangeJobs({
             exchangeId: this.exchangeId,
             titleQuery: titleQuery,
             exchangeDescriptionQuery: this.exchangeDescriptionQuery
-        }));
+          }));
+        }
     }
 
     buildNoResultsString(): string {

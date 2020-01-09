@@ -36,15 +36,14 @@ export class ControlDataHelper {
     }
 
     // Append the data to existing Row if it is a Editor Type of Single or If the last row has No Data in it
-    if (controlType.EditorType === 'Single' ||
-      (jobDescriptionControl.Data.length && !this.hasData(controlType.Attributes, jobDescriptionControl.Data[jobDescriptionControl.Data.length - 1]))) {
-      const hasTemplateDataRow = this.hasTemplateDataRow(jobDescriptionControl);
-      const rteWrappedData = `${jobDescriptionControl.Data[hasTemplateDataRow ? 1 : 0][sourcedAttribute.Name].length ? '<p><br></p>' : ''}<p>${data}</p>`;
+    if ((controlType.EditorType === 'Single' && !this.hasTemplateDataRow(jobDescriptionControl)) ||
+        (jobDescriptionControl.Data.length && !this.hasData(controlType.Attributes, jobDescriptionControl.Data[jobDescriptionControl.Data.length - 1]))) {
+      const rteWrappedData = `${jobDescriptionControl.Data[0][sourcedAttribute.Name].length ? '<p><br></p>' : ''}<p>${data}</p>`;
       const appendData = sourcedAttribute.Type === 'RichText' ? rteWrappedData : data;
       const dataRow = jobDescriptionControl.Data[jobDescriptionControl.Data.length - 1];
 
       this.updateControlAttribute(sections, jobDescriptionControl, dataRow.Id, sourcedAttribute.Name, appendData);
-    } else {
+    } else if (!(controlType.EditorType === 'Single' && this.hasTemplateDataRow( jobDescriptionControl))) {
       this.addControlDataRow(sections, jobDescriptionControl, this.createDataRow(controlType.Attributes, data));
     }
   }

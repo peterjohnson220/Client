@@ -11,10 +11,13 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -23,6 +26,9 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     
     <div
@@ -152,10 +158,13 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -164,6 +173,9 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     
     <div
@@ -293,10 +305,13 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -305,6 +320,9 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     
     <div
@@ -431,12 +449,15 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   selectedClientField={[Function String]}
   selectedPfField=""
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -445,6 +466,9 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     
     <div
@@ -553,11 +577,14 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   selectedMapping=""
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -566,6 +593,9 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     
     <div
@@ -674,12 +704,15 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   selectedClientField={[Function String]}
   selectedPfField={[Function String]}
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -688,6 +721,9 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     
     <div
@@ -795,11 +831,14 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   selectedMapping={[Function String]}
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -808,6 +847,9 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     
     <div
@@ -915,10 +957,13 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -927,6 +972,9 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     <div
       class="row mt-3"
@@ -1097,10 +1145,13 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -1109,6 +1160,9 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     <div
       class="row mt-3"
@@ -1258,10 +1312,13 @@ exports[`FieldMapperComponent should show a date format selector when the loader
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
@@ -1270,6 +1327,9 @@ exports[`FieldMapperComponent should show a date format selector when the loader
   <div
     class="container-fluid"
   >
+    <div>
+      
+    </div>
     
     <div
       class="row mt-3"
@@ -1441,10 +1501,13 @@ exports[`FieldMapperComponent should show a spinner when the company's mappings 
   loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
+  mappingErrorMessage="false"
+  payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
   removeEventHandler={[Function Function]}
   removeUrl={[Function String]}
   successEventHandler={[Function Function]}
+  suppliedClientFields={[Function Array]}
   templateReferenceConstants={[Function Object]}
   uploadEventHandler={[Function Function]}
   uploadSaveUrl={[Function String]}
