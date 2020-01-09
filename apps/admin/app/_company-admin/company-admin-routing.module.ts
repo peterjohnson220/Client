@@ -8,8 +8,10 @@ import { UsersListPageComponent, UserPageComponent } from 'libs/features/user-ma
 import {
   NavigationPageComponent,
   PasswordManagementPageComponent,
-  UserRolePageComponent
+  UserRolePageComponent,
+  BulkAddUsersPageComponent
 } from './';
+
 
 
 const routes: Routes = [
@@ -36,6 +38,10 @@ const routes: Routes = [
   {
     path: ':companyId/users/:userId', component: UserPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard, LoadUserGuard],
     data: { Permissions: [Permissions.USERS], Check: PermissionCheckEnum.Single }
+  },
+  {
+    path: ':companyId/bulkAdd', component: BulkAddUsersPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard],
+    data: { Permissions: [Permissions.BULK_ADD_USERS], Check: PermissionCheckEnum.Single }
   },
   { path: '', redirectTo: 'navigation', pathMatch: 'full' },
 ];

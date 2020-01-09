@@ -1,0 +1,50 @@
+<div class="card ">
+    <div class="card-header" (click)="handleHeaderClick()">
+      <div class="row">
+        <div class="col">Validating</div>
+        <div class="col-auto" [ngClass]="{'hidden': !loaderStepComplete}" >
+            <fa-icon icon="check-circle" class="pull-right survey-import-panel-icon success-green" aria-hidden="true"></fa-icon>
+        </div>
+      </div>
+    </div>
+    <div class="card-block" [@toggleState]="isToggled">
+    <ul class="iconList">
+        <li><ng-container [ngTemplateOutlet]="validationStateIcon" [ngTemplateOutletContext]="{validationStep:headers_ValidationState}"></ng-container>
+             Validating Headers</li>
+        <li> <ng-container [ngTemplateOutlet]="validationStateIcon" [ngTemplateOutletContext]="{validationStep:fields_ValidationState}"></ng-container>
+            Validating Required Fields</li>
+        <li><ng-container [ngTemplateOutlet]="validationStateIcon" [ngTemplateOutletContext]="{validationStep:email_ValidationState}"></ng-container>
+            Validating Required Email</li>
+        <li><ng-container [ngTemplateOutlet]="validationStateIcon" [ngTemplateOutletContext]="{validationStep:password_ValidationState}"></ng-container>
+            Validating Password Requirements</li>
+        <li><ng-container [ngTemplateOutlet]="validationStateIcon" [ngTemplateOutletContext]="{validationStep:userrole_ValidationState}"></ng-container>
+            Validating User Roles</li>
+    </ul>
+    </div>
+        <div class="card-footer align-right" [@toggleState]="isToggled"  [ngClass]="{'hidden': loaderStepComplete}">
+            <div>
+                <ul class="iconList" [ngClass]="{'hidden': (!isServerError)}" >
+                    <li class="alert-danger"><span><fa-icon icon="exclamation-circle" class="pull-right survey-import-panel-icon failure-red" aria-hidden="true"></fa-icon></span>
+                        Session error, please try again.</li>
+                </ul>
+            </div>
+                <div *ngIf="panelState == _panelState.Error" class="button-panel space-out-children">
+                        <button class="btn btn-primary"
+                                [disabled]="isServerError || isDownloadErrorsPressed"
+                                (click)="downloadErrors()">Download Errors</button>
+                        <button class="btn btn-primary" (click)="cancel()"><span><fa-icon icon="level-up" aria-hidden="true"></fa-icon></span> Re-Upload</button>
+                        <button (click)="exit()" class="btn btn-secondary">Exit</button>
+                </div>
+               <span  *ngIf="panelState == _panelState.Complete" class="button-panel space-out-children">
+                    <button class="btn btn-secondary" (click)="cancel()"><span><fa-icon icon="undo" aria-hidden="true"></fa-icon></span> Cancel</button>
+                    <button class="btn btn-primary" (click)="loadDataFile()">Load Data File</button>
+               </span>
+    </div>
+</div>
+
+<ng-template #validationStateIcon let-validationStep = 'validationStep' >
+        <span *ngIf="validationStep == _validationState.Success"><fa-icon icon="check-circle" class="pull-right survey-import-panel-icon success-green" aria-hidden="true"></fa-icon></span>
+        <span *ngIf="validationStep == _validationState.Error"><fa-icon icon="exclamation-circle" class="pull-right survey-import-panel-icon failure-red" aria-hidden="true"></fa-icon></span>
+        <span *ngIf="validationStep == _validationState.Running"><fa-icon icon="spinner" spin="true" class="pull-right survey-import-panel-icon" aria-hidden="true"></fa-icon></span>
+        <span *ngIf="validationStep == _validationState.Default"><i class="fa pull-right survey-import-panel-icon"></i></span>
+</ng-template>
