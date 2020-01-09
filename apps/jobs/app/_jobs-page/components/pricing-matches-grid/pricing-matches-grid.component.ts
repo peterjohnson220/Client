@@ -14,9 +14,9 @@ export class PricingMatchesGridComponent implements AfterViewInit, OnChanges {
   @Input() pricingInfo: any[];
 
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
-  @ViewChild('baseMrpColumn', { static: false }) baseMrpColumn: ElementRef;
-  @ViewChild('baseTccColumn', { static: false }) baseTccColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
+  @ViewChild('wtgColumn', { static: false }) wtgColumn: ElementRef;
+  @ViewChild('adjColumn', { static: false }) adjColumn: ElementRef;
 
   colTemplates = {};
 
@@ -48,8 +48,16 @@ export class PricingMatchesGridComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'Job_Title': this.jobTitleColumn,
-      [PfDataGridColType.currency]: this.currencyColumn
+      'Job_Title': { Template: this.jobTitleColumn },
+      'Match_Weight': {
+        Template: this.wtgColumn,
+        IsCompact: true
+      },
+      'Match_Adjustment': {
+        Template: this.adjColumn,
+        IsCompact: true
+      },
+      [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
 

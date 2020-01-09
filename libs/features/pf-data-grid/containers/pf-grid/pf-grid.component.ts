@@ -144,6 +144,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.getSelectedRowPrimaryKey()] === this.selectedRecordId)
   })
 
+  getColumnClasses(col: ViewField) {
+    return this.columnTemplates && this.columnTemplates[col.SourceName] && this.columnTemplates[col.SourceName].IsCompact ? 'pf-data-grid-compact-cell' : '';
+  }
+
   isSortable() {
     return this.selectedRecordId ? null : `{allowUnsort: 'true', mode: 'single'}`;
   }

@@ -37,7 +37,8 @@
                         [field]="mappedFieldName(col)"
                         [title]="col.DisplayName"
                         [headerClass]="getHeaderClass()"
-                        [style]="{'text-align': getAlignment(col), 'background-color': backgroundColor ? backgroundColor : ''}"  
+                        [style]="{'text-align': getAlignment(col), 'background-color': backgroundColor ? backgroundColor : '', 'padding': '0.25rem 0.25rem'}"  
+                        [class]="getColumnClasses(col)"
                         [width]="selectedRecordId ? null : col.Width"
                         [minResizableWidth]="30">                        
                         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
@@ -62,6 +63,7 @@
           [title]="col.DisplayName"
           [headerClass]="getHeaderClass()"
           [style]="{'text-align': getAlignment(col), 'background-color': backgroundColor ? backgroundColor : ''}"
+          [class]="getColumnClasses(col)"
           [width]="selectedRecordId ? null : col.Width"
           [minResizableWidth]="30">         
           <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">

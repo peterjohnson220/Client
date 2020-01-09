@@ -10,7 +10,7 @@
       </em>
     </small>
   </div>
-  <div *ngIf="!isCollapsed || checkOverflow(jobTitleText) || checkOverflow(detailsText)" class="ml-auto">
+  <div *ngIf="!isCollapsed || isOverflow" class="ml-auto">
     <button type="button" class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed">
       <small>
         {{isCollapsed ? 'More' : 'Less'}}
@@ -18,5 +18,3 @@
     </button>
   </div>
 </div>
-
-
