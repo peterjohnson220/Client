@@ -8,7 +8,7 @@
         [placeholderText]="field.FilterPlaceholder ? field.FilterPlaceholder : null"
         (valueChanged)="handleFilterValueChanged($event)"
         [delay]="400">
-      </pf-input-debounce>      
+      </pf-input-debounce>
     </div>
   </div>
 </ng-container>
@@ -30,12 +30,13 @@
           </kendo-dropdownlist>
         </div>
         <div class="col-6">
-          <pf-input-debounce [attr.data-qa-id]="'txt-value-'+field.SourceName"
+          <pf-input-debounce
+            [id]="field.SourceName"
             [ngModel]="field.FilterValue"
             (valueChanged)="handleFilterValueChanged($event)"
             [disabled]="valueCanBeEmpty()"
             [delay]="400">
-          </pf-input-debounce>        
+          </pf-input-debounce>
         </div>
       </div>
     </ng-template>
@@ -54,7 +55,7 @@
           </kendo-dropdownlist>
         </div>
         <div class="col-6">
-          <kendo-datepicker 
+          <kendo-datepicker
             [value]="field.FilterValue"
             [disabled]="valueCanBeEmpty()"
             (valueChange)="handleFilterValueChanged($event)"
@@ -77,7 +78,7 @@
             class="k-dropdown-white form-control">
           </kendo-dropdownlist>
         </div>
-        <div class="col-6">         
+        <div class="col-6">
           <kendo-numerictextbox
             [value]="getNumericFieldValue()"
             [format]="'n0'"
@@ -91,7 +92,7 @@
         </div>
       </div>
     </ng-template>
-  </div>      
+  </div>
 </ng-template>
 
 

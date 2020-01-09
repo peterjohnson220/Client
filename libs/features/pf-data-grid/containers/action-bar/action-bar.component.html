@@ -11,7 +11,7 @@
               placement="bottom-right" popoverTitle="Choose Content to Export">
         <fa-icon icon="download"></fa-icon>
       </button>
-      
+
       <pf-column-chooser *ngIf="showColumnChooser"
         [dataFields]="dataFields$ | async"
         (saveColumns)="updateFields($event)">
@@ -19,8 +19,13 @@
 
       <pf-filter-chooser *ngIf="showFilterChooser"
         [savedViews]="savedViews$ | async"
+        [viewDeleting]="(viewDeleting$ | async)"
+        [viewNameToBeDeleted]="(viewNameToBeDeleted$ | async)"
         (onFilterSidebarToggle)="toggleFilterPanel()"
         (selectView)="savedViewClicked($event)"
+        (prepareViewForDelete)="prepareViewForDelete($event)"
+        (deleteViewEvent)="deleteView($event)"
+        (cancelDeleteEvent)="cancelDelete()"
       ></pf-filter-chooser>
     </ng-container>
   </div>

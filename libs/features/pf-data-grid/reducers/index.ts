@@ -55,3 +55,5 @@ export const getSelectAllState = createSelector(selectPfDataGridState, fromPfDat
 export const getSavedViews = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSavedViews);
 export const getSaveViewModalOpen = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSaveViewModalOpen);
 export const getViewIsSaving = createSelector(selectPfDataGridState, fromPfDataGridReducer.getViewIsSaving);
+export const getViewIsDeleting = createSelector(selectPfDataGridState, fromPfDataGridReducer.getViewIsDeleting);
+export const getViewNameToBeDeleted = createSelector(selectPfDataGridState, fromPfDataGridReducer.getViewNameToBeDeleted);

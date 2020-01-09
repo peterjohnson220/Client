@@ -30,6 +30,8 @@ export interface DataGridState {
   saveViewModalOpen: boolean;
   savedViews: SimpleDataView[];
   viewIsSaving: boolean;
+  viewIsDeleting: boolean;
+  viewNameToBeDeleted: string;
   selectedKeys: number[];
   selectAllState: string;
 }
@@ -418,6 +420,52 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.DELETE_SAVED_VIEW:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            viewIsDeleting: true
+          }
+        }
+      };
+    case fromPfGridActions.DELETE_SAVED_VIEW_SUCCESS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            viewIsDeleting: false,
+            viewNameToBeDeleted: null
+          }
+        }
+      };
+    case fromPfGridActions.PREPARE_VIEW_FOR_DELETE:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            viewNameToBeDeleted: action.viewName
+          }
+        }
+      };
+    case fromPfGridActions.CANCEL_VIEW_DELETE:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            viewNameToBeDeleted: null,
+            viewIsDeleting: false
+          }
+        }
+      };
     default:
       return state;
   }
@@ -460,6 +508,8 @@ export const getSaveViewModalOpen = (state: DataGridStoreState, pageViewId: stri
 export const getViewIsSaving = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsSaving;
 export const getSelectedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedKeys : null;
 export const getSelectAllState = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].selectAllState;
+export const getViewIsDeleting = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsDeleting;
+export const getViewNameToBeDeleted = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewNameToBeDeleted;
 
 export function buildGroupedFields(fields: ViewField[]): any[] {
   const groups = groupBy(fields, [{ field: 'Group' }]);
