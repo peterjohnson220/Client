@@ -81,7 +81,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private jobInformationFieldsLoading$: Observable<boolean>;
   private savingListAreaColumnsSuccess$: Observable<boolean>;
 
-  private bulkExportError$: Observable<string>;
+  private bulkExportError$: Observable<boolean>;
   private enablePublicViewsInClient$: Observable<boolean>;
 
   public savedSearchTerm: string;
@@ -366,8 +366,9 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     });
 
     this.bulkExportErrorSubscription = this.bulkExportError$.subscribe((error) => {
-      if (error !== '') {
+      if (error) {
         this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(this.notification.error));
+        this.store.dispatch(new fromBulkExportPopoverActions.ResetBulkExportError());
       }
     });
   }
