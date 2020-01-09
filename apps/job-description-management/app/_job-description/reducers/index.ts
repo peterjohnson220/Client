@@ -318,6 +318,11 @@ export const getJobDescriptionIsFullscreen = createSelector(
   fromJobDescriptionReducer.getJobDescriptionIsFullscreen
 );
 
+export const getUndoJobDescriptionChangesComplete = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getUndoJobDescriptionChangesComplete
+);
+
 export const getJobDescriptionExtendedInfo = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getJobDescriptionExtendedInfo

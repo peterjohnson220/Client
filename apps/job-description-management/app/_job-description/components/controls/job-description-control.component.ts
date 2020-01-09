@@ -4,11 +4,13 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { filter, skip } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { ControlType } from 'libs/models/common';
 import { JobDescriptionControl } from 'libs/models/jdm';
 
 import * as fromJobDescriptionManagementSharedReducer from '../../../shared/reducers';
+import * as fromJobDescriptionReducers from '../../reducers';
 
 @Component({
   selector: 'pf-job-description-control',
@@ -34,11 +36,14 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
   changesSubscription: Subscription;
   changesSubject: Subject<any>;
   bulkChangesSubject: Subject<any>;
+  undoChanges$: Observable<boolean>;
 
   constructor(
-    private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>) {
+    private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
+    private store: Store<fromJobDescriptionReducers.State>) {
     this.changesSubject = new Subject();
     this.bulkChangesSubject = new Subject();
+    this.undoChanges$ = this.store.select(fromJobDescriptionReducers.getUndoJobDescriptionChangesComplete);
   }
 
   ngOnInit() {
