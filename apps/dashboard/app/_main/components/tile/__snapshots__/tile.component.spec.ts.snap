@@ -2,6 +2,7 @@
 
 exports[`Tile should show tile preview chart when that type is given 1`] = `
 <pf-tile
+  highlightMarketingContent="false"
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
   tile={[Function Object]}
@@ -14,21 +15,25 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
     ng-reflect-ng-class="test cssClass"
     ng-reflect-ng-switch="Chart"
   >
+    <h4>
+      test tile
+    </h4>
     <a
       class="tile-anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
-    <h4>
-      test tile
-    </h4>
     
-    <pf-tile-preview-chart />
-    
-    
-    
-    
-    
+    <div>
+      
+      <pf-tile-preview-chart />
+      
+      
+      
+      
+      
+      
+    </div>
     
   </div>
 </pf-tile>
@@ -36,6 +41,7 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
 
 exports[`Tile should show tile preview icon when that type is given 1`] = `
 <pf-tile
+  highlightMarketingContent="false"
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
   tile={[Function Object]}
@@ -48,21 +54,25 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
     ng-reflect-ng-class="test cssClass"
     ng-reflect-ng-switch="Icon"
   >
+    <h4>
+      test tile
+    </h4>
     <a
       class="tile-anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
-    <h4>
-      test tile
-    </h4>
     
-    
-    <pf-tile-preview-icon />
-    
-    
-    
-    
+    <div>
+      
+      
+      <pf-tile-preview-icon />
+      
+      
+      
+      
+      
+    </div>
     
   </div>
 </pf-tile>
@@ -70,6 +80,7 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
 
 exports[`Tile should show tile preview list when that type is given 1`] = `
 <pf-tile
+  highlightMarketingContent="false"
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
   tile={[Function Object]}
@@ -82,21 +93,25 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
     ng-reflect-ng-class="test cssClass"
     ng-reflect-ng-switch="List"
   >
+    <h4>
+      test tile
+    </h4>
     <a
       class="tile-anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
-    <h4>
-      test tile
-    </h4>
     
-    
-    
-    <pf-tile-preview-list />
-    
-    
-    
+    <div>
+      
+      
+      
+      <pf-tile-preview-list />
+      
+      
+      
+      
+    </div>
     
   </div>
 </pf-tile>

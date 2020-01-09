@@ -16,4 +16,5 @@ export interface UserTileDto {
   NgAppLink: boolean;
   TilePreviewData: any;
   ChartType: string;
+  MarketingEnabled: boolean;
 }

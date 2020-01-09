@@ -2,6 +2,7 @@
 @import 'styles';
 
 .tile {
+  position: relative;
   border-radius: 2px;
   border: solid 2px rgba(0, 0, 0, 0);
   height: 200px;
@@ -36,3 +37,31 @@
 h1{
   font-size: 2rem;
 }
+
+.marketing-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  outline: solid 2px $tile-marketing-overlay-color;
+  background-color: $tile-marketing-overlay-color;
+  opacity: 0.8;
+  z-index: 2;
+}
+
+.marketing-overlay-context 
+{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-marketing {
+  position: absolute;
+  bottom: 20px;
+  width: 100px;
+  left: 50%;
+  margin-left: -50px;
+}
+

@@ -1,6 +1,7 @@
 import {UserTileDto} from 'libs/models';
 
 import {Tile, TilePreviewChartTypes, TilePreviewTypes, TileTypes} from '../models';
+import { MarketingTileDescriptions } from '../models/marketing-tile-descriptions';
 
 export class UserTileToTileMapper {
 
@@ -18,7 +19,10 @@ export class UserTileToTileMapper {
       ChartType: undefined,
       ChartLabel: undefined,
       CssClass: undefined,
-      NgAppLink: dashboardTile.NgAppLink
+      NgAppLink: dashboardTile.NgAppLink,
+      MarketingEnabled: dashboardTile.MarketingEnabled,
+      MarketingDescription: '',
+      MarketingButtonText: ''
     });
   }
 
@@ -88,11 +92,14 @@ export class UserTileToTileMapper {
     switch (tile.Type) {
       case TileTypes.DataInsights:
         tile.CssClass = 'tile-green';
+        tile.MarketingDescription = MarketingTileDescriptions.DataInsights;
+        tile.MarketingButtonText = 'EXPLORE';
         break;
 
       case TileTypes.Employees:
-
         tile.CssClass = 'tile-blue';
+        tile.MarketingDescription = MarketingTileDescriptions.Employees;
+        tile.MarketingButtonText = 'TAKE A LOOK';
 
         if (tile.TilePreviewData == null || tile.TilePreviewData[ 0 ] == null) {
           tile.PreviewType = TilePreviewTypes.Icon;
@@ -114,6 +121,8 @@ export class UserTileToTileMapper {
         tile.ChartType = TilePreviewChartTypes.Donut;
         tile.ChartLabel = 'Job Description Status';
         tile.ShouldLimitLegendText = false;
+        tile.MarketingDescription = MarketingTileDescriptions.JobDescriptions;
+        tile.MarketingButtonText = 'TAKE A LOOK';
 
         this.SetChartLegendColor(tile, 'Not Started', '#4472C3');
         this.SetChartLegendColor(tile, 'Draft', '#A3A3A3');
@@ -126,6 +135,8 @@ export class UserTileToTileMapper {
         tile.ChartType = TilePreviewChartTypes.Donut;
         tile.ChartLabel = 'jobs';
         tile.Size = 2;
+        tile.MarketingDescription = MarketingTileDescriptions.Jobs;
+        tile.MarketingButtonText = 'EXPLORE';
 
         const NotPricedCategory = tile.TilePreviewData.length > 0
           ? tile.TilePreviewData[ 0 ].TileRightPart.ChartData.filter(x => x.Key === 'Not Priced') : null;
@@ -146,14 +157,20 @@ export class UserTileToTileMapper {
       case TileTypes.PayMarkets:
         tile.CssClass = 'tile-blue';
         tile.IconClass = 'fas fa-home';
+        tile.MarketingDescription = MarketingTileDescriptions.PayMarkets;
+        tile.MarketingButtonText = 'LEARN MORE';
         break;
 
       case TileTypes.Peer:
         tile.CssClass = 'tile-blue';
+        tile.MarketingDescription = MarketingTileDescriptions.Peer;
+        tile.MarketingButtonText = 'EXPLORE';
         break;
 
       case TileTypes.PricingProjects:
         tile.CssClass = 'tile-lightblue';
+        tile.MarketingDescription = MarketingTileDescriptions.PricingProjects;
+        tile.MarketingButtonText = 'CHECK IT OUT';
         tile.Size = 2;
         break;
 
@@ -167,11 +184,14 @@ export class UserTileToTileMapper {
 
       case TileTypes.Structures:
         tile.CssClass = 'tile-green';
+        tile.MarketingDescription = MarketingTileDescriptions.Structures;
+        tile.MarketingButtonText = 'EXPLORE';
         break;
 
       case TileTypes.Surveys:
-
         tile.CssClass = 'tile-blue';
+        tile.MarketingDescription = MarketingTileDescriptions.SurveyManagement;
+        tile.MarketingButtonText = 'CHECK IT OUT';
 
         if (tile.TilePreviewData == null || tile.TilePreviewData[ 0 ] == null) {
           tile.PreviewType = TilePreviewTypes.Icon;
@@ -206,8 +226,8 @@ export class UserTileToTileMapper {
       default:
         tile.CssClass = 'tile-green';
         tile.Size = 1;
-
     }
+
     return tile;
   }
 
