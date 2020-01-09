@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
-import { ViewField, SimpleDataView } from 'libs/models/payfactors-api';
+import {ViewField, SimpleDataView, DataViewFieldDataType} from 'libs/models/payfactors-api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-
 
 @Component({
   selector: 'pf-action-bar',
@@ -20,6 +19,7 @@ export class ActionBarComponent implements OnChanges {
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
   @Input() globalFiltersTemplate: TemplateRef<any>;
+  @Input() globalFilters: ViewField[];
   @Output() onFilterSidebarToggle = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
@@ -42,9 +42,22 @@ export class ActionBarComponent implements OnChanges {
 
   updateFields(updatedFields: ViewField[]) {
     this.store.dispatch(new fromActions.UpdateFields(this.pageViewId, updatedFields));
-    this.store.dispatch(new fromActions.LoadData(this.pageViewId));
   }
 
+  handleGlobalFilterValueChanged(field: ViewField, value: any) {
+    const newField =  {...field};
+    switch (field.DataType) {
+      case DataViewFieldDataType.String:
+        newField.FilterOperator = 'contains';
+        newField.FilterValue = value;
+        break;
+      case DataViewFieldDataType.Bit:
+        newField.FilterOperator = '=';
+        newField.FilterValue = value;
+        break;
+    }
+    this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, newField));
+  }
   toggleFilterPanel() {
     this.onFilterSidebarToggle.emit();
   }
@@ -63,5 +76,8 @@ export class ActionBarComponent implements OnChanges {
 
   cancelDelete() {
     this.store.dispatch(new fromActions.CancelViewDelete(this.pageViewId));
+  }
+  trackByFn(index, item: ViewField) {
+    return item.DataElementId;
   }
 }

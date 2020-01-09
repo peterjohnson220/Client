@@ -40,10 +40,15 @@ const numericFilterOperators: FilterOperator[] = [
   { display: 'Is not empty', value: 'isnotempty', requiresValue: false, defaultOperatorForType: false }
 ];
 
+const booleanFilterOperators: FilterOperator[] = [
+  { display: 'Is equal to', value: '=', requiresValue: true, defaultOperatorForType: true }
+]
+
 export const FilterOperatorOptions = {
   dateTime: dateFilterOperators,
   string: textFilterOperators,
-  int: numericFilterOperators
+  int: numericFilterOperators,
+  bit: booleanFilterOperators
 };
 
 export function isValueRequired(field: ViewField) {

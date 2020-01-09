@@ -3,7 +3,6 @@ import { DataViewFieldDataType, DataViewFilter } from './data-view-data-request.
 export interface DataViewConfig {
   Entity: DataViewEntity;
   Fields: ViewField[];
-  Filters: DataViewFilter[];
   Name: string;
 }
 
