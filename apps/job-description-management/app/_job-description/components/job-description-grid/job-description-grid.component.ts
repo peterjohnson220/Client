@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { GridDataResult, SelectionEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
@@ -6,6 +6,11 @@ import { State } from '@progress/kendo-data-query';
 import { ListAreaColumn } from 'libs/models/common';
 
 import { CompanyJobViewListItem } from '../../models';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating } from '../../reducers';
+
 
 @Component({
   selector: 'pf-job-description-grid',
@@ -13,7 +18,7 @@ import { CompanyJobViewListItem } from '../../models';
   styleUrls: ['./job-description-grid.component.scss']
 })
 
-export class JobDescriptionGridComponent {
+export class JobDescriptionGridComponent implements OnInit {
   @Input() gridDataResult: GridDataResult;
   @Input() listAreaColumns: ListAreaColumn[];
   @Input() loading: boolean;
@@ -29,6 +34,20 @@ export class JobDescriptionGridComponent {
 
   public info: any;
   public filterChanged: any;
+  creatingJobDescription$: Observable<boolean>;
+  creatingJobDescription: boolean;
+
+  constructor(
+    private store: Store<JobDescriptionManagementJobDescriptionState>
+  ) {
+    this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
+  }
+
+  ngOnInit() {
+    this.creatingJobDescription$.subscribe((creatingJobDescription) => {
+      this.creatingJobDescription = creatingJobDescription;
+    });
+  }
 
   handleRowClick(selection: SelectionEvent) {
     if (!selection || (!!selection.selectedRows && selection.selectedRows.length !== 1)) {
@@ -36,7 +55,9 @@ export class JobDescriptionGridComponent {
     }
     const companyJobViewListItem: CompanyJobViewListItem = selection.selectedRows[0].dataItem;
     selection.selectedRows = [];
-    this.navigateToJobDescription.emit(companyJobViewListItem);
+    if (!this.creatingJobDescription) {
+      this.navigateToJobDescription.emit(companyJobViewListItem);
+    }
   }
 
   handleJobDescriptionHistoryClick(jobDescriptionId: number, jobTitle: string) {
