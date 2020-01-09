@@ -17,6 +17,7 @@ export const OPEN_BULK_EXPORT_POPOVER_ERROR = '[job-description-management / Bul
 export const BULK_EXPORT = '[job-description-management / Bulk Export Popover] Bulk Export';
 export const BULK_EXPORT_SUCCESS = '[job-description-management / Bulk Export Popover] Bulk Export Success';
 export const BULK_EXPORT_ERROR = '[job-description-management / Bulk Export Popover] Bulk Export Error';
+export const RESET_BULK_EXPORT_ERROR = '[job-description-management / Bulk Export Popover] Bulk Export Error Reset';
 
 export class BulkExport implements Action {
   readonly type = BULK_EXPORT;
@@ -32,6 +33,10 @@ export class BulkExportError implements Action {
   readonly type = BULK_EXPORT_ERROR;
 
   constructor(public error: any) {}
+}
+
+export class ResetBulkExportError implements Action {
+  readonly type = RESET_BULK_EXPORT_ERROR;
 }
 
 export class LoadControlLabels implements Action {
@@ -94,4 +99,5 @@ export type Actions
   | OpenBulkExportPopoverError
   | BulkExport
   | BulkExportSuccess
-  | BulkExportError;
+  | BulkExportError
+  | ResetBulkExportError;

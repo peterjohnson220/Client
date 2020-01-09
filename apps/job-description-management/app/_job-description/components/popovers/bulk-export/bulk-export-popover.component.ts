@@ -120,6 +120,7 @@ export class BulkExportPopoverComponent implements OnChanges {
     if (changes.controlLabels && changes.controlLabels.currentValue) {
       if (this.viewSelected) {
         this.selectedControlLabelsAsString = this.stringify(this.controlLabels);
+        this.selectedControlLabels = this.controlLabels;
       }
     }
   }

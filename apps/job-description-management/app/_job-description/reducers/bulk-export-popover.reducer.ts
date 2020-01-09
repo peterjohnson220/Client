@@ -16,7 +16,7 @@ export interface State {
   viewNames: string[];
   bulkExporting: boolean;
   bulkExportPayload: JobDescriptionBulkExportPayload;
-  bulkExportError: string;
+  bulkExportError: boolean;
 }
 
 export const initialState: State = {
@@ -31,7 +31,7 @@ export const initialState: State = {
   viewNames: [],
   bulkExporting: false,
   bulkExportPayload: null,
-  bulkExportError: ''
+  bulkExportError: false
 };
 
 export function reducer(state = initialState, action: fromBulkExportPopoverActions.Actions): State {
@@ -93,21 +93,28 @@ export function reducer(state = initialState, action: fromBulkExportPopoverActio
         ...state,
         bulkExporting: true,
         bulkExportPayload: action.payload,
-        bulkExportError: ''
+        bulkExportError: false
       };
     case fromBulkExportPopoverActions.BULK_EXPORT_ERROR:
       return {
         ...state,
         bulkExporting: false,
         bulkExportPayload: null,
-        bulkExportError: action.error.error.Message
+        bulkExportError: true
       };
     case fromBulkExportPopoverActions.BULK_EXPORT_SUCCESS:
       return {
         ...state,
         bulkExporting: false,
         bulkExportPayload: null,
-        bulkExportError: ''
+        bulkExportError: false
+      };
+    case fromBulkExportPopoverActions.RESET_BULK_EXPORT_ERROR:
+      return {
+        ...state,
+        bulkExporting: false,
+        bulkExportPayload: null,
+        bulkExportError: false
       };
     default:
       return state;
