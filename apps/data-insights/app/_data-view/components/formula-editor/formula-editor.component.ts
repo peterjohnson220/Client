@@ -1,7 +1,5 @@
 import { Component, Input, ViewChild, ElementRef, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
-import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DropDownListComponent } from '@progress/kendo-angular-dropdowns';
 
 import { SuggestionIndicator, functionNames, SuggestionIndicatorType, SpecialCharacter } from '../../models';
@@ -12,21 +10,19 @@ import { FormulaHelper } from '../../helpers';
   templateUrl: './formula-editor.component.html',
   styleUrls: ['./formula-editor.component.scss']
 })
-export class FormulaEditorComponent implements OnInit, OnDestroy {
+export class FormulaEditorComponent implements OnInit {
   @Input() initialFormula: string;
   @Input() fieldSuggestions: string[];
   @Input() validating: boolean;
   @Input() isValid: boolean;
+  @Input() disabled: boolean;
+  @Input() isWaitingForValidation: boolean;
   @Output() formulaChanged: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('editor', { static: true }) editor: ElementRef;
   @ViewChild('suggestionList', { static: true }) suggestionList: DropDownListComponent;
-  inputValueChanged: Subject<string> = new Subject<string>();
-
-  inputValueChangedSubscription: Subscription;
 
   readonly MIN_QUERY_LENGTH = 1;
-  readonly VALIDATE_DEBOUNCE_TIME = 2000;
   readonly formulaMaxLength = 5000;
   readonly popupSettings = {
     width: 'auto',
@@ -41,25 +37,15 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
   markerValue: string;
   afterMarkerValues: string;
   showPopup: boolean;
-  isTyping: boolean;
   isInsertingFunctionTemplate: boolean;
   suggestionIndicator: SuggestionIndicator;
 
   ngOnInit(): void {
-    this.inputValueChangedSubscription = this.inputValueChanged
-      .pipe(
-        debounceTime(this.VALIDATE_DEBOUNCE_TIME),
-        distinctUntilChanged())
-          .subscribe((value) => this.handleInputValueChangedAfterDebounceTime(value));
     this.initEditorData(this.initialFormula);
   }
 
-  ngOnDestroy(): void {
-    this.inputValueChangedSubscription.unsubscribe();
-  }
-
   handleInputValueChanged(value: string): void {
-    this.inputValueChanged.next(value);
+    this.formulaChanged.emit(value);
     this.updatePopupMarkerValue();
     this.resetEditorIfInputValueIsEmpty();
     this.resetSuggestionIndicatorIfIndicatorRemoved();
@@ -82,7 +68,6 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
   }
 
   handleEditorKeyUp(event: any): void {
-    this.isTyping = true;
     this.isInsertingFunctionTemplate = false;
   }
 
@@ -101,7 +86,7 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
   }
 
   public get hideValidatingMessage(): boolean {
-    return (!this.inputValue || this.inputValue.length === 0 || this.isTyping || this.isInsertingFunctionTemplate);
+    return (!this.inputValue || this.inputValue.length === 0 || this.isInsertingFunctionTemplate || this.isWaitingForValidation);
   }
 
   private initEditorData(formula: string): void {
@@ -111,14 +96,6 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
     this.searchTerm = '';
     this.showPopup = false;
     this.suggestionIndicator = FormulaHelper.buildSuggestionIndicator();
-  }
-
-  private handleInputValueChangedAfterDebounceTime(value: string): void {
-    if (this.isInsertingFunctionTemplate) {
-      return;
-    }
-    this.formulaChanged.emit(value);
-    this.isTyping = false;
   }
 
   private checkIfSuggestionIndicatorEntered(): void {
@@ -201,7 +178,9 @@ export class FormulaEditorComponent implements OnInit, OnDestroy {
     this.editor.nativeElement.focus();
     this.editor.nativeElement.setRangeText(textToInsert, fromIndex, toIndex, 'end');
     this.inputValue = this.editor.nativeElement.value;
-    this.inputValueChanged.next(this.inputValue);
+    if (!this.isInsertingFunctionTemplate) {
+      this.formulaChanged.emit(this.inputValue);
+    }
   }
 
   private showPopupIfSuggestionsFound(): void {

@@ -19,6 +19,7 @@
       [attr.data-qa-id]="'txt-formula-editor'"
       [placeholder]="'Formula'"
       [(ngModel)]="inputValue"
+      [disabled]="disabled ? 'true' : 'false'"
       (ngModelChange)="handleInputValueChanged($event)"
       (clickElsewhere)="handleClickElsewhere()"
       (keyup)="handleEditorKeyUp($event)"

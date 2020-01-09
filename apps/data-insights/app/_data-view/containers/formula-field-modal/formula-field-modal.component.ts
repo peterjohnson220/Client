@@ -4,8 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PfValidators } from 'libs/forms/validators';
 
 import { Store, select } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromFormulaFieldActions from '../../actions/formula-field-modal.actions';
@@ -28,6 +29,9 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   savingSuccess$: Observable<boolean>;
   savingError$: Observable<boolean>;
   savingErrorMessage$: Observable<string>;
+  formulaChanged: Subject<string> = new Subject<string>();
+
+  formulaChangedSubscription: Subscription;
 
   formulaValidSubscription: Subscription;
   validatingSubscription: Subscription;
@@ -38,6 +42,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   @ViewChild('formulaFieldModal', { static: true }) public formulaFieldModal: any;
   @ViewChild(FormulaEditorComponent, { static: true }) public formulaEditor: FormulaEditorComponent;
   readonly maxFieldNameLength = 500;
+  readonly VALIDATE_DEBOUNCE_TIME = 2000;
   saving: boolean;
   savingSuccess: boolean;
   formulaFieldForm: FormGroup;
@@ -47,6 +52,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   isValidFormula: boolean;
   validating: boolean;
   showErrorMessages: boolean;
+  isWaitingForValidation: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -73,6 +79,11 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.savingSubscription = this.saving$.subscribe(result => this.saving = result);
     this.savingSuccessSubscription = this.savingSuccess$.subscribe(result => this.handleSavingSuccess(result));
     this.savingErrorSubscription = this.savingError$.subscribe(result => this.handleSavingError(result));
+    this.formulaChangedSubscription = this.formulaChanged
+      .pipe(
+        debounceTime(this.VALIDATE_DEBOUNCE_TIME),
+        distinctUntilChanged())
+          .subscribe((value) => this.handleFormulaChangedAfterDebounceTime(value));
     this.createForm();
   }
 
@@ -82,6 +93,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.savingSubscription.unsubscribe();
     this.savingSuccessSubscription.unsubscribe();
     this.savingErrorSubscription.unsubscribe();
+    this.formulaChangedSubscription.unsubscribe();
   }
 
   open(): void {
@@ -90,6 +102,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
 
   close(): void {
     this.modalService.dismissAll();
+    this.formulaChanged.next(null);
   }
 
   handleSaveClicked(): void {
@@ -102,11 +115,8 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   handleFormulaChanged(value: string): void {
-    this.showErrorMessages = false;
-    this.formula = value;
-    if (this.formula.length !== 0) {
-      this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: value, baseEntityId: this.baseEntityId }));
-    }
+    this.isWaitingForValidation = true;
+    this.formulaChanged.next(value);
   }
 
   public get saveDisabled(): boolean {
@@ -114,12 +124,18 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
       return this.saving;
     }
 
-    return this.saving || !this.formulaFieldForm.valid || !this.isValidFormula;
+    return this.saving || !this.formulaFieldForm.valid || !this.isValidFormula || this.isWaitingForValidation;
+  }
+
+  public get isEditable(): boolean {
+    return !!this.modalData && this.modalData.IsEditable;
   }
 
   private createForm(): void {
     this.formulaFieldForm = this.formBuilder.group({
-      fieldName: [this.fieldName, [PfValidators.required, Validators.maxLength(this.maxFieldNameLength)]]
+      fieldName: [
+        { value: this.fieldName, disabled: !this.isEditable },
+        [PfValidators.required, Validators.maxLength(this.maxFieldNameLength)]]
     });
   }
 
@@ -128,9 +144,10 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.fieldName = this.modalData ? this.modalData.FieldName : '';
     this.saving = false;
     if (!!this.modalData && !!this.formulaFieldForm) {
-      this.formulaFieldForm.patchValue({
-        fieldName: this.fieldName
+      this.formulaFieldForm.reset({
+        fieldName: { value: this.fieldName, disabled: !this.isEditable }
       });
+      this.handleFormulaChanged(this.modalData.Formula);
     }
   }
 
@@ -142,6 +159,20 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
 
   private handleSavingError(result: boolean) {
     this.showErrorMessages = result;
+  }
+
+  private handleFormulaChangedAfterDebounceTime(value: string): void {
+    if (!value) {
+      return;
+    }
+    this.showErrorMessages = false;
+    this.formula = value;
+    if (this.formula.length !== 0) {
+      this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: value, baseEntityId: this.baseEntityId }));
+      this.isWaitingForValidation = false;
+    } else {
+      this.isWaitingForValidation = true;
+    }
   }
 
 }

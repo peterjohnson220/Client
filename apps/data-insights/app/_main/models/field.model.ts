@@ -14,6 +14,9 @@ export interface Field {
   FormulaId?: number;
   FieldType: FieldType;
   Format?: string;
+  IsEditable?: boolean;
+  Formula?: string;
+  FormulaName?: string;
 }
 
 export interface FieldListItem {

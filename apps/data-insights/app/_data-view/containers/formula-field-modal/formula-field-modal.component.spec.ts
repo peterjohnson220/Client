@@ -78,15 +78,14 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch ValidateFormula with formula when formula IS NOT empty', () => {
-    spyOn(store, 'dispatch');
+  it('should emit formulaChanged with correct value when handling formula changed', () => {
+    spyOn(instance.formulaChanged, 'next');
     const formula = '[Base]/[Mid]';
     instance.baseEntityId = 1;
-    const expectedAction = new fromFormulaFieldActions.ValidateFormula({ formula, baseEntityId: instance.baseEntityId });
 
     instance.handleFormulaChanged(formula);
 
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(instance.formulaChanged.next).toHaveBeenCalledWith(formula);
   });
 
   it('should NOT dispatch ValidateFormula with formula when formula IS empty', () => {
