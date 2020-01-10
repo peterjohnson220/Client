@@ -73,6 +73,10 @@
   border-left-width: 1px;
 }
 
+.k-grid-header .k-with-icon, .k-grid-header .k-filterable {
+  padding-right: calc(2px + 0.75rem + 1.5em + 0.5rem);
+}
+
 
 kendo-tabstrip.tabstrip-no-borders > .k-content {
   border-width: 0;

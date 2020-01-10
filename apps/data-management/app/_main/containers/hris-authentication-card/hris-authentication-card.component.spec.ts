@@ -1,15 +1,15 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockCredentialsPackage } from 'libs/models';
 
 import * as fromDataManagementMainReducer from '../../reducers';
+import {generateMockEntityTypeModel, generateMockProvider, PfTestCredentialsPackage} from '../../models';
 import * as fromTransferDataPageActions from '../../actions/transfer-data-page.actions';
 import { HrisAuthenticationCardComponent } from './hris-authentication-card.component';
-import { generateMockProvider } from '../../models';
-import { generateMockCredentialsPackage } from 'libs/models';
 
 describe('Data Management - Main - Hris Authentication Card', () => {
   let instance: HrisAuthenticationCardComponent;
@@ -41,10 +41,11 @@ describe('Data Management - Main - Hris Authentication Card', () => {
   it('should dispath an action when form is submitted', () => {
     spyOn(store, 'dispatch');
     instance.provider = generateMockProvider();
-    const mockCredsPackage = generateMockCredentialsPackage();
+    instance.selectedEntities = [generateMockEntityTypeModel()];
+    const mockCredsPackage = generateMockCredentialsPackage() as PfTestCredentialsPackage;
+    mockCredsPackage.UserName = 'MockUserName';
+    mockCredsPackage.Password = 'MockPassword';
     const mockFormValues = {
-      apiKey: 'MockApiKey',
-      domain: 'MockDomain',
       username: 'MockUserName',
       password: 'MockPassword'
     };

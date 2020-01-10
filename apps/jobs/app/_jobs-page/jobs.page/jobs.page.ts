@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -45,7 +45,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.company$ = this.store.select(fromJobsPageReducer.getCompany);
     this.addingToProject$ = this.store.select(fromJobsPageReducer.getToProjectButtonState);
     this.selectedKeysSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
-      this.selectedKeys =  sk;
+      this.selectedKeys = sk;
     });
     this.globalFilterSubscription = this.store.select(fromPfGridReducer.getGlobalFilters, this.pageViewId).subscribe(gf => {
       if (gf) {
@@ -60,7 +60,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'JobStatus': this.jobStatusColumn
+      'JobStatus': { Template: this.jobStatusColumn }
     };
   }
 

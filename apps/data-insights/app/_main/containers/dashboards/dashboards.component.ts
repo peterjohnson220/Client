@@ -36,6 +36,8 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   dragulaSub: Subscription;
   tagWorkbookModalOpenSub: Subscription;
   dashboardViewSettingSubscription: Subscription;
+  dashboardViewSubscription: Subscription;
+  selectedDashboardView: DashboardView;
 
   filteredCompanyWorkbooks: Workbook[];
   reportTypes = ReportType;
@@ -64,7 +66,12 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.filteredCompanyWorkbooksSub = this.filteredCompanyWorkbooks$.subscribe(cw => this.filteredCompanyWorkbooks = cw);
+    this.filteredCompanyWorkbooksSub = this.filteredCompanyWorkbooks$.subscribe(cw => {
+      this.filteredCompanyWorkbooks = cw;
+      if ((this.filteredCompanyWorkbooks && !this.filteredCompanyWorkbooks.length) && this.selectedDashboardView === DashboardView.Favorites) {
+        this.store.dispatch(new fromDashboardsActions.SetDashboardView(DashboardView.All));
+      }
+    });
     this.tagWorkbookModalOpenSub = this.tagWorkbookModalOpen$.subscribe(open => {
       if (open) {
         this.tagWorkbookModalComponent.open();
@@ -73,6 +80,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
       }
     });
     this.dashboardViewSettingSubscription = this.dashboardViewSetting$.subscribe(value => this.handleDashboardViewSettingChanged(value));
+    this.dashboardViewSubscription = this.selectedDashboardView$.subscribe(sdv => this.selectedDashboardView = sdv);
   }
 
   get anyFavorites() {
@@ -84,6 +92,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.dragulaSub.unsubscribe();
     this.tagWorkbookModalOpenSub.unsubscribe();
     this.dashboardViewSettingSubscription.unsubscribe();
+    this.dashboardViewSubscription.unsubscribe();
   }
 
   trackByFn(index: any, workbook: Workbook) {

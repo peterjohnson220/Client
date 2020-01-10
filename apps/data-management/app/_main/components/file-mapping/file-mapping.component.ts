@@ -1,6 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import * as cloneDeep from 'lodash.clonedeep';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 import {
   LoaderType,
   ORG_DATA_PF_EMPLOYEE_FIELDS,
@@ -8,13 +10,16 @@ import {
   ORG_DATA_PF_PAYMARKET_FIELDS,
   ORG_DATA_PF_STRUCTURE_FIELDS,
   ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
-} from 'libs/features/org-data-loader/constans';
+} from 'libs/features/org-data-loader/constants';
 import {LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
 import { LoaderFieldSet } from 'libs/models/data-loads';
 import {CompanySelectorItem} from 'libs/features/company/models';
+import { ILoadSettings } from 'libs/features/org-data-loader/helpers';
+
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/organizational-data-field-mapping.actions';
 import {EntityChoice} from '../../models';
+
 
 
 @Component({
@@ -24,7 +29,10 @@ import {EntityChoice} from '../../models';
 })
 export class FileMappingComponent implements OnInit {
   @Input() entities: EntityChoice[];
+  @Input() existingCompanyLoaderSettings: ILoadSettings;
   @Input() selectedCompany: CompanySelectorItem;
+  @Input() loaderConfigurationGroupId: number;
+  @Output() mappingComplete = new EventEmitter();
 
   payfactorsPaymarketDataFields: string[];
   payfactorsJobDataFields: string[];
@@ -42,6 +50,7 @@ export class FileMappingComponent implements OnInit {
   visibleLoaderOptions: VisibleLoaderOptionModel;
   companyMappings$: Observable<LoaderFieldSet[]>;
   companyMappingsLoading$: Observable<boolean>;
+
   selected: boolean;
 
   constructor (private store: Store<fromOrgDataAutoloaderReducer.State>) {
@@ -66,7 +75,7 @@ export class FileMappingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany.CompanyId));
+    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany.CompanyId, this.loaderConfigurationGroupId));
     this.updateEntities();
   }
 
@@ -82,7 +91,12 @@ export class FileMappingComponent implements OnInit {
           e.loaderEnabled = this.isPaymarketsLoadEnabled;
           break;
         case LoaderType.Jobs:
-          e.payfactorsDataFields = this.payfactorsJobDataFields;
+          e.payfactorsDataFields = cloneDeep(this.payfactorsJobDataFields);
+          if (e.customFields !== null) {
+            e.customFields.Jobs.forEach((j) => {
+              e.payfactorsDataFields.push(j.Value);
+            });
+          }
           e.loaderEnabled = this.isJobsLoadEnabled;
           break;
         case LoaderType.Structures:
@@ -94,14 +108,19 @@ export class FileMappingComponent implements OnInit {
           e.loaderEnabled = this.isStructureMappingsLoadEnabled;
           break;
         case LoaderType.Employees:
-          e.payfactorsDataFields = this.payfactorsEmployeeDataFields;
+          e.payfactorsDataFields = cloneDeep(this.payfactorsEmployeeDataFields);
+          if (e.customFields !== null) {
+            e.customFields.Employees.forEach((em) => {
+              e.payfactorsDataFields.push(em.Value);
+            });
+          }
           e.loaderEnabled = this.isEmployeesLoadEnabled;
           break;
       }
     });
   }
   enabledTabs(loaderType: string) {
-    return  this.entities.find(e => e.FileBeginsWith === loaderType.toLowerCase()).isChecked;
+    return this.entities.find(e => e.FileBeginsWith === loaderType.toLowerCase()).isChecked;
   }
 
   selectedTab(loaderType: string) {
@@ -116,68 +135,6 @@ export class FileMappingComponent implements OnInit {
   }
 
   onMappingComplete($event: LoaderEntityStatus) {
-
-    switch ($event.loaderType) {
-      case LoaderType.PayMarkets:
-        this.onPaymarketMappingComplete($event);
-        break;
-      case LoaderType.Jobs:
-        this.onJobMappingComplete($event);
-        break;
-      case LoaderType.Structures:
-        this.onStructureMappingComplete($event);
-        break;
-      case LoaderType.StructureMapping:
-        this.onStructureMappingMappingComplete($event);
-        break;
-      case LoaderType.Employees:
-        this.onEmployeeMappingComplete($event);
-        break;
-    }
-  }
-
-  onPaymarketMappingComplete($event: LoaderEntityStatus) {
-    // this.paymarketMappingComplete = $event.complete;
-    // this.isPaymarketsLoadEnabled = $event.loadEnabled;
-    // if (this.paymarketMappingComplete) {
-    //   this.addOrReplaceMappings('PayMarkets', $event.mappings);
-    // }
-  }
-
-  onJobMappingComplete($event: LoaderEntityStatus) {
-    // this.jobMappingComplete = $event.complete;
-    // this.isJobsLoadEnabled = $event.loadEnabled;
-    // if (this.jobMappingComplete) {
-    //   this.addOrReplaceMappings('Jobs', $event.mappings);
-    // }
-  }
-
-  onStructureMappingComplete($event: LoaderEntityStatus) {
-    // this.structureMappingComplete = $event.complete;
-    // this.isStructuresLoadEnabled = $event.loadEnabled;
-    // if (this.structureMappingComplete) {
-    //   this.addOrReplaceMappings('Structures', $event.mappings);
-    // }
-  }
-
-  onStructureMappingMappingComplete($event: LoaderEntityStatus) {
-    // this.structureMappingMappingComplete = $event.complete;
-    // this.isStructureMappingsLoadEnabled = $event.loadEnabled;
-    // if (this.structureMappingMappingComplete) {
-    //   this.addOrReplaceMappings('StructureMapping', $event.mappings);
-    // }
-    // this.isStructureMappingsFullReplace = $event.isFullReplace;
-  }
-
-  onEmployeeMappingComplete($event: LoaderEntityStatus) {
-  //   this.employeeMappingComplete = $event.complete;
-  //   this.isEmployeesLoadEnabled = $event.loadEnabled;
-  //   if (this.employeeMappingComplete) {
-  //     this.addOrReplaceMappings('Employees', $event.mappings);
-  //   }
-  //   if ($event.dateFormat) {
-  //     this.dateFormat = $event.dateFormat;
-  //   }
-  //   this.isEmployeesFullReplace = $event.isFullReplace;
+    this.mappingComplete.emit($event);
   }
 }

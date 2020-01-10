@@ -13,7 +13,8 @@ import {
 } from 'libs/models/peer';
 import {
   ExchangeExplorerDataCutResponse,
-  ExchangeExplorerScopeResponse
+  ExchangeExplorerScopeResponse,
+  ExchangeExplorerScopeResponseContext
 } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 import { MultiSelectFilter } from 'libs/features/search/models';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
@@ -71,7 +72,8 @@ export class ExchangeScopeEffects {
       this.exchangeDataFilterApiService.getExchangeDataCutFilterContext(payload).pipe(
         mergeMap((response: ExchangeExplorerDataCutResponse) => {
           const exchangeExplorerContextInfo: ExchangeExplorerContextInfo = response.ExchangeExplorerContextInfo;
-          const scopeContext: ExchangeExplorerScopeResponse = response.DataCutScope;
+          const scopeContext: ExchangeExplorerScopeResponse = { ScopeContext: response.ScopeContext,
+            FilterContext: exchangeExplorerContextInfo.FilterContext};
           return [
             new fromExchangeExplorerContextInfoActions.LoadContextInfoSuccess({
               payMarket: exchangeExplorerContextInfo.PayMarket,
@@ -97,13 +99,9 @@ export class ExchangeScopeEffects {
       switchMap(payload =>
         this.exchangeDataFilterApiService.getExchangeScopeFilterContext(payload).pipe(
           mergeMap((peerMapScopeDetails: ExchangeExplorerScopeResponse) => {
-            const geoMapBounds = {
-              BottomRight: peerMapScopeDetails.ScopeBottomRight,
-              TopLeft: peerMapScopeDetails.ScopeTopLeft,
-              Centroid: peerMapScopeDetails.ExchangeDataSearchResponse.MapSummary.Centroid
-            };
             return [
-              new fromExchangeScopeActions.LoadExchangeScopeDetailsSuccess(peerMapScopeDetails),
+              new fromExchangeFilterContextActions.SetFilterContext(peerMapScopeDetails.FilterContext),
+              new fromExchangeScopeActions.LoadExchangeScopeDetailsSuccess(peerMapScopeDetails)
             ];
           }),
           catchError(() => of(new fromExchangeScopeActions.LoadExchangeScopeDetailsError))
@@ -135,14 +133,15 @@ export class ExchangeScopeEffects {
         const actions = [];
 
         const scopeResponse: ExchangeExplorerScopeResponse = payload.response;
-        const searchResponse = scopeResponse.ExchangeDataSearchResponse;
+        const scopeContext: ExchangeExplorerScopeResponseContext = scopeResponse.ScopeContext;
+        const searchResponse = scopeContext.ExchangeDataSearchResponse;
         const filters: MultiSelectFilter[] = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(
           searchResponse.SearchFilters,
           payload.searchFilterMappingDataObj
         ) as MultiSelectFilter[];
 
         const savedFilters = this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(
-          [scopeResponse.SelectedFilterOptions]
+          [scopeContext.SelectedFilterOptions]
         );
         const selections = savedFilters[0].Filters;
         actions.push(new fromSearchFiltersActions.ApplySavedFilters(selections));

@@ -21,10 +21,10 @@
 
 <ng-template #pricingMatchesHeader>
   <div class="row no-gutters text-center py-1" style="background-color: #F7F7F9">
-    <span style="width: 3.5%">Wtg.</span>
+    <span style="width: 4.5%">Wtg.</span>
     |
-    <span style="width: 3.5%">Adj.</span>
-    <span style="width: 93%"></span>
+    <span style="width: 4.5%">Adj. %</span>
+    <span style="width: 99%"></span>
   </div>  
 </ng-template>
 
@@ -34,5 +34,13 @@
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>    
+</ng-template>
+
+<ng-template #wtgColumn let-dataRow="dataRow">
+  {{dataRow['CompanyJobs_PricingsMatches_Match_Weight'] | number: '1.2-2'}}
+</ng-template>
+
+<ng-template #adjColumn let-dataRow="dataRow">
+  {{dataRow['CompanyJobs_PricingsMatches_Match_Adjustment'] | number: '1.2-2'}}
 </ng-template>
 

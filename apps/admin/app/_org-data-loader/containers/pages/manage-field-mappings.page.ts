@@ -1,46 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService, NotificationSettings, NotificationRef } from '@progress/kendo-angular-notification';
+
 import { delay, isNumber, isObject } from 'lodash';
 
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Company } from 'libs/models/company/company.model';
-import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
-import { LoaderTypes } from 'libs/constants/loader-types';
-import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
-import { ConfigSetting } from 'libs/models/security';
-import { VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
+import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
-import * as fromOrgDataAutoloaderReducer from '../../reducers';
-
-import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
-import * as fromEmailRecipientsActions from '../../actions/email-recipients.actions';
-import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
-import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
-import { OpenEmailRecipientsModal } from '../../actions/email-recipients.actions';
-
-import {
-  ORG_DATA_PF_EMPLOYEE_FIELDS,
-  ORG_DATA_PF_JOB_FIELDS,
-  ORG_DATA_PF_PAYMARKET_FIELDS,
-  ORG_DATA_PF_STRUCTURE_FIELDS,
-  ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS,
-  LoaderType,
-  LoaderSettingsKeys,
-} from '../../constants';
-
-import {
-  EmailRecipientModel,
-  LoaderEntityStatus,
-  LoaderFieldSet,
-  LoaderSetting,
-  MappingModel,
-  OrgDataFilenamePatternSet,
-  LoaderSaveCoordination
-} from '../../models';
 import { environment } from 'environments/environment';
+import { LoaderTypes } from 'libs/constants/loader-types';
+import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
+import { LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
+import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
+import { VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
+import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+import { Company } from 'libs/models/company/company.model';
+import { ConfigSetting } from 'libs/models/security';
+import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+
+import * as fromEmailRecipientsActions from '../../actions/email-recipients.actions';
+import * as fromOrgDataAutoloaderReducer from '../../reducers';
+import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
+import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
+import {
+    LoaderType, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
+    ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
+} from '../../constants';
+import {
+    EmailRecipientModel, LoaderEntityStatus, LoaderFieldSet, LoaderSaveCoordination, LoaderSetting, MappingModel, OrgDataFilenamePatternSet
+} from '../../models';
 
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
@@ -50,7 +39,6 @@ import { environment } from 'environments/environment';
 export class ManageFieldMappingsPageComponent implements OnInit {
 
   env = environment;
-
   payfactorsPaymarketDataFields: string[];
   payfactorsJobDataFields: string[];
   payfactorsStructureDataFields: string[];
@@ -143,7 +131,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
   private loaderSaveCoordination: LoaderSaveCoordination;
 
-  constructor (
+  constructor(
     private store: Store<fromOrgDataAutoloaderReducer.State>,
     private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
     private notificationService: NotificationService,
@@ -217,53 +205,21 @@ export class ManageFieldMappingsPageComponent implements OnInit {
       .subscribe(settings => {
         this.existingCompanyLoaderSettings = settings;
 
-        this.isActive = this.getLoaderSettingValueIfSet<boolean>(
-          LoaderSettingsKeys.IsActive,
-          true,
-          this.stringSettingToBooleanTransform,
-        );
-        this.isCompanyOnAutoloader = this.getLoaderSettingValueIfSet<boolean>(
-          LoaderSettingsKeys.IsActive,
-          false,
-          this.stringSettingToBooleanTransform
-        );
-        this.delimiter = this.getLoaderSettingValueIfSet<string>(LoaderSettingsKeys.Delimiter, null, this.noopStringTransform);
-        this.dateFormat = this.getLoaderSettingValueIfSet<string>(LoaderSettingsKeys.DateFormat, null, this.noopStringTransform);
-        this.isEmployeesLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          LoaderSettingsKeys.IsEmployeesLoadEnabled,
-          false,
-          this.stringSettingToBooleanTransform,
-        );
-        this.isJobsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          LoaderSettingsKeys.IsJobsLoadEnabled,
-          false,
-          this.stringSettingToBooleanTransform,
-        );
-        this.isPaymarketsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          LoaderSettingsKeys.IsPaymarketsLoadEnabled,
-          false,
-          this.stringSettingToBooleanTransform,
-        );
-        this.isStructuresLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          LoaderSettingsKeys.IsStructuresLoadEnabled,
-          false,
-          this.stringSettingToBooleanTransform,
-        );
-        this.isStructureMappingsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
-          false,
-          this.stringSettingToBooleanTransform,
-        );
-        this.isEmployeesFullReplace = this.getLoaderSettingValueIfSet<boolean>(
-          LoaderSettingsKeys.IsEmployeesFullReplace,
-          true,
-          this.stringSettingToBooleanTransform,
-        );
-        this.isStructureMappingsFullReplace = this.getLoaderSettingValueIfSet<boolean>(
-          LoaderSettingsKeys.IsStructureMappingsFullReplace,
-          true,
-          this.stringSettingToBooleanTransform,
-        );
+
+        const resp = OrgDataLoadHelper.parseSettingResponse(settings);
+
+        this.isActive = resp.isActive;
+        this.isCompanyOnAutoloader = resp.isCompanyOnAutoloader;
+
+        this.delimiter = resp.delimiter;
+        this.dateFormat = resp.dateFormat;
+        this.isEmployeesLoadEnabled = resp.isEmployeesLoadEnabled;
+        this.isJobsLoadEnabled = resp.isJobsLoadEnabled;
+        this.isPaymarketsLoadEnabled = resp.isPaymarketsLoadEnabled;
+        this.isStructuresLoadEnabled = resp.isStructuresLoadEnabled;
+        this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
+        this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
+        this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
       });
 
     this.saveLoaderSettingsSuccess$
@@ -397,72 +353,24 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.mappings.push(mappingsModel);
   }
 
-  private getLoaderSettingValueIfSet<T>(keyName: string, defaultValue: T, transform: (value: string) => T) {
-    const setting = this.existingCompanyLoaderSettings.find(x => x.KeyName === keyName);
-    return setting ? transform(setting.KeyValue) : defaultValue;
-  }
+
 
   private getLoaderSettingsToSave() {
-    return [
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsActive,
-        this.booleanSettingToStringTransform(this.isActive),
-      ),
-      this.getSettingIfChanged(LoaderSettingsKeys.Delimiter, this.delimiter),
-      this.getSettingIfChanged(LoaderSettingsKeys.DateFormat, this.dateFormat),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsEmployeesLoadEnabled,
-        this.booleanSettingToStringTransform(this.isEmployeesLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsJobsLoadEnabled,
-        this.booleanSettingToStringTransform(this.isJobsLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsPaymarketsLoadEnabled,
-        this.booleanSettingToStringTransform(this.isPaymarketsLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsStructuresLoadEnabled,
-        this.booleanSettingToStringTransform(this.isStructuresLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
-        this.booleanSettingToStringTransform(this.isStructureMappingsLoadEnabled),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsEmployeesFullReplace,
-        this.booleanSettingToStringTransform(this.isEmployeesFullReplace),
-      ),
-      this.getSettingIfChanged(
-        LoaderSettingsKeys.IsStructureMappingsFullReplace,
-        this.booleanSettingToStringTransform(this.isStructureMappingsFullReplace),
-      ),
-    ].filter(setting => isObject(setting));
-  }
+    const newLoaderSettings = new LoaderSettings();
 
-  private booleanSettingToStringTransform = (value: boolean) => value ? 'true' : 'false';
-  private stringSettingToBooleanTransform = (value: string) => /^true$/i.test(value);
+    newLoaderSettings.isActive = this.isActive;
+    newLoaderSettings.isCompanyOnAutoloader = this.isCompanyOnAutoloader;
+    newLoaderSettings.delimiter = this.delimiter;
+    newLoaderSettings.dateFormat = this.dateFormat;
+    newLoaderSettings.isEmployeesLoadEnabled = this.isEmployeesLoadEnabled;
+    newLoaderSettings.isJobsLoadEnabled = this.isJobsLoadEnabled;
+    newLoaderSettings.isPaymarketsLoadEnabled = this.isPaymarketsLoadEnabled;
+    newLoaderSettings.isStructuresLoadEnabled = this.isStructuresLoadEnabled;
+    newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
+    newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
+    newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
 
-  private noopStringTransform = (value: string) => value;
-
-  private getSettingIfChanged(keyName: string, keyValue: string) {
-    const existingSettingValue = this.existingCompanyLoaderSettings.find(setting => setting.KeyName === keyName);
-
-    if (
-      (!existingSettingValue && keyValue) ||
-      (existingSettingValue && keyValue !== existingSettingValue.KeyValue)
-    ) {
-      return this.getSettingToSave(keyName, keyValue);
-    }
-  }
-
-  private getSettingToSave(keyName: string, keyValue: string) {
-    return <LoaderSetting> {
-      LoaderSettingsId: undefined,
-      KeyName: keyName,
-      KeyValue: keyValue
-    };
+    return OrgDataLoadHelper.getLoaderSettingsToSave(newLoaderSettings, this.existingCompanyLoaderSettings);
   }
 
   /**
@@ -529,7 +437,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
          * wrap in try-catch block to swallow the error and get around this nonsense
          */
         this.toastReference.hide();
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // delay to emphasize that this is a new toast message in the event that the text content is the same
@@ -540,6 +448,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   openEmailRecipientsModal() {
-    this.store.dispatch(new OpenEmailRecipientsModal());
+    this.store.dispatch(new fromEmailRecipientsActions.OpenEmailRecipientsModal());
   }
 }

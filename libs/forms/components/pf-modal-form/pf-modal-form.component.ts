@@ -34,6 +34,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() allowDismiss = true;
   @Input() backdrop: boolean | 'static' = 'static';
   @Input() resetFormOnClose = true;
+  @Input() windowClass: string = null;
   @Output() onSubmit = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
   @ViewChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;
@@ -83,13 +84,17 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
       if (!open) {
         this.cleanUpModal();
       } else {
-        this.activeModal = this.modalService.open(this.templateRef, <NgbModalOptions>{
+        const ngbModalOptions = <NgbModalOptions>{
           backdrop: this.backdrop,
           backdropClass: this.backdropClass,
           container: `#${this.modalId}.modal-container`,
           size: this.size,
           centered: this.centered
-        });
+        };
+        if (this.windowClass !== null) {
+          ngbModalOptions.windowClass = this.windowClass;
+        }
+        this.activeModal = this.modalService.open(this.templateRef, ngbModalOptions);
         this.activeModal.result.then(() => {
           if (this.attemptedSubmit) {
             this.attemptedSubmit = false;

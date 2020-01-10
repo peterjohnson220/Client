@@ -1,4 +1,4 @@
-<kendo-tabstrip>
+<kendo-tabstrip [keepTabContent]="true">
   <kendo-tabstrip-tab title="{{entity.DisplayText}}"
                       [selected]="entity.isSelectedTab"
                       *ngFor="let entity of selectedEntities()">
@@ -10,6 +10,9 @@
         [fieldMappingsLoading]="companyMappingsLoading$ | async"
         [loadEnabled]="entity.loaderEnabled"
         [visibleLoaderOptions] = "visibleLoaderOptions"
+        [isFullReplace]="entity.isFullReplace"
+        [dateFormat]="entity.dateFormat"
+        [suppliedClientFields]="entity.columnNames"
         (mappingComplete)="onMappingComplete($event)"></pf-field-mapper>
     </ng-template>
   </kendo-tabstrip-tab>

@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { SharedModule } from '../shared/shared.module';
-
 import { SettingsRoutingModule } from './settings-routing.module';
 import { ViewsListModule } from './views-list';
 import { ViewEditGuard, ViewEditModule } from './view-edit';
 import { LayoutModule } from './layout';
 import { FooterViewModule } from './footer-view';
 import { CompanyControlsListModule } from './company-controls-list';
-import { CompanyControlsDetailModule } from './company-controls-detail';
+import { CompanyControlsDetailModule, CompanyControlsDetailViewGuard } from './company-controls-detail';
+import { RoutingWorkflowsModule } from './routing-workflows';
 
 @NgModule({
   imports: [
@@ -30,10 +30,12 @@ import { CompanyControlsDetailModule } from './company-controls-detail';
     ViewEditModule,
     FooterViewModule,
     CompanyControlsListModule,
-    CompanyControlsDetailModule
+    CompanyControlsDetailModule,
+    RoutingWorkflowsModule
   ],
   providers: [
-    ViewEditGuard
+    ViewEditGuard,
+    CompanyControlsDetailViewGuard
   ]
 })
 export class SettingsModule { }

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import * as fromFooterViewReducer from '../reducers';
 import * as fromFooterViewAction from '../actions';
@@ -27,9 +27,9 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
   private savingSuccessSubscription: Subscription;
   private loadingSuccessSubscription: Subscription;
   public jdmFooterForm: FormGroup;
-  public loadingSuccess: boolean = false;
-  public loadingError: boolean = false;
-  public placeholderText: string = '';
+  public loadingSuccess = false;
+  public loadingError = false;
+  public placeholderText = '';
 
   get createdByCheck() { return this.jdmFooterForm.controls['createdByCheck']; }
   get createdDateCheck() { return this.jdmFooterForm.controls['createdDateCheck']; }

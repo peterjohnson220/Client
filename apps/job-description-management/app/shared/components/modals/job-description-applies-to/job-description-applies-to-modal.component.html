@@ -74,15 +74,21 @@
 	             	</span>
         </div>
       </div>
-      <div *ngIf="!requiredFieldsFilledIn">
-				<span class="text-danger">
-            	Please enter either Job Description Title or Applies To Values              
+      <div *ngIf="appliesToform.invalid">
+				<span *ngIf="!requiredFieldsFilledIn" class="text-danger">
+            	Please enter either Job Description Title or Applies To Values
+          		</span>
+        <span *ngIf="!requiredAppliesToValueFilledIn" class="text-danger">
+            	Please enter an Applies To Value
+          		</span>
+        <span *ngIf="!requiredAppliesToFieldFilledIn" class="text-danger">
+            	Please select an Applies To Field
           		</span>
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-      <button type="submit" [disabled]="appliesToform.invalid" class="btn btn-primary">{{ this.editing ? 'Save' : 'Create' }}</button>
+      <button type="submit" [disabled]="appliesToform.invalid " class="btn btn-primary">{{ this.editing ? 'Save' : 'Create' }}</button>
 
     </div>
   </form>

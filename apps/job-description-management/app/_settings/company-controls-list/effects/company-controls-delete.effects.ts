@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -56,7 +55,6 @@ export class CompanyControlsDeleteEffects {
   constructor(
     private actions$: Actions,
     private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
-    private jobDescriptionTemplateApiService: JobDescriptionTemplateApiService,
-    private router: Router
+    private jobDescriptionTemplateApiService: JobDescriptionTemplateApiService
   ) {}
 }

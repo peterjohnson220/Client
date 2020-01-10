@@ -54,9 +54,6 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   getSidebarHref(sidebarLink: SidebarLink) {
-    if (sidebarLink.Name === 'Ideas') {
-      return userVoiceUrl(sidebarLink.Url, this.userId);
-    }
     return sidebarLink.NgAppLink ? this.ngAppRoot + sidebarLink.Url : sidebarLink.Url;
   }
 

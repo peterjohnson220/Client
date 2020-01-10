@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatementsGridComponent should render a kendo grid with columns 1`] = `
+<pf-statements-grid
+  openActionMenuStatementId$={[Function Store]}
+  statementsGridData$={[Function Store]}
+  statementsGridState$={[Function Store]}
+  statementsLoading$={[Function Store]}
+  statementsLoadingError$={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="p-relative h-100"
+  >
+    <pf-async-container>
+      <kendo-grid
+        class="h-100"
+      >
+        <kendo-grid-column
+          field="Name"
+          title="Statement Name"
+        />
+        <kendo-grid-column
+          field="Status"
+          title="Status"
+        />
+        <kendo-grid-column
+          field="Employees"
+          title="Employees"
+        />
+        <kendo-grid-column
+          field="CreatedBy"
+          title="Created By"
+        />
+        <kendo-grid-column
+          field="CreatedDate"
+          title="Created Date"
+        >
+          
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="LastRunBy"
+          title="Last Run By"
+        />
+        <kendo-grid-column
+          field="LastRunDate"
+          title="Last Run Date"
+        >
+          
+        </kendo-grid-column>
+        <kendo-grid-column
+          width="40"
+        >
+          
+        </kendo-grid-column>
+      </kendo-grid>
+    </pf-async-container>
+  </div>
+</pf-statements-grid>
+`;

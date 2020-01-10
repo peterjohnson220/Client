@@ -123,6 +123,13 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
     expect(service.companyValidationPass).toBe(true);
   });
 
+  it('should return true for hasDominatingData when there are companies >= dominatingPercentage if is Org Weighted ', () => {
+    service.isOrgWeighted = true;
+    service.companies = [{ ...generateMockExchangeStatCompanyMakeup(), Percentage: .5 }];
+
+    expect(service.hasNoDominatingData).toBe(true);
+  });
+
   // DKG - tried to work with Brandon on this but there is something in unit testing services with
   // observables where dispatching the action or setting an observable doens't work. He suggested
   // the effort of fixing wasn't worth it so we should comment this out with a note.

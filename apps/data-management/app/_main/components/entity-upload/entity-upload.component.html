@@ -6,7 +6,7 @@
     <h5>{{entity.DisplayText}}</h5>
 
     <div class="rounded px-3 py-4 template-background">
-      <b>Note:</b> File must be in csv format and the file must begin with '{{entity.FileBeginsWith}}'.
+      <b>Note:</b> File must be in csv format and file name must begin with '{{entity.FileBeginsWith}}'.
     </div>
   </div>
   <div id="column3container"
@@ -14,9 +14,12 @@
     <div class="h-100 mx-2">
       <pf-file-upload #fileUpload
                       (onFileDropped)="entity.File = $event"
+                      (onColumnNamesRetrieved)="entity.columnNames = $event"
                       (onFileRemoved)="entity.File = null"
+                      [selectedFile]="entity.File"
                       [validFileExtensions]="['.csv']"
-                      [validFileStartsWith]="entity.FileBeginsWith"></pf-file-upload>
+                      [validFileStartsWith]="entity.FileBeginsWith"
+                      [delimiter]="selectedDelimiter"></pf-file-upload>
     </div>
   </div>
 </div>
@@ -26,11 +29,11 @@
     <div class="form-group w-100 ">
       <label for="mappingSelector"><strong>Use a saved mapping or map fields manually in next step</strong></label>
       <select class="form-control"
-              [(ngModel)]="selectedMapping"
+              (ngModelChange)="mappingChange($event)"
+              [ngModel]="selectedMapping"
               id="mappingSelector">
-        <option *ngFor="let mapping of this.savedMappings$"
-                [value]="mapping.MappingId"
-                [selected]="mapping.MappingId === -1">{{mapping.MappingName}}</option>
+        <option *ngFor="let mapping of this.mappingOptions"
+                [ngValue]="mapping">{{mapping.GroupName}}</option>
       </select>
     </div>
   </div>
@@ -39,8 +42,12 @@
     <div class="form-group w-100 ">
       <label for="delimSelector"><strong>Provide a delimiter type</strong></label>
       <input type="text"
-             class="form-control">
+             maxlength="1"
+             id="delimSelector"
+             name="delimSelector"
+             class="form-control"
+             [ngModel]="selectedDelimiter"
+             (ngModelChange)="delimiterChange($event)">
     </div>
-
   </div>
 </div>

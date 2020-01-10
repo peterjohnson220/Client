@@ -13,8 +13,8 @@ import * as fromUserFilterReducer from 'libs/features/user-filter/reducers';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { UserFilterApiService } from 'libs/data/payfactors-api';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
+import { SavedFiltersHelper } from 'libs/features/project/helpers';
 
-import { SavedFiltersHelper } from '../helpers';
 
 @Injectable()
 export class JobSearchUserFilterEffects {

@@ -14,5 +14,6 @@ export enum GridTypeEnum {
   JobAssociationModalCompanyJobs = 'JOB_ASSOCIATION_MODAL_COMPANY_JOBS',
   ExchangeFilters = 'EXCHANGE_FILTERS',
   TagCategories = 'TAG_CATEGORIES',
-  PeerManageCompanyJobs = 'PEER_MANAGE_COMPANY_JOBS'
+  PeerManageCompanyJobs = 'PEER_MANAGE_COMPANY_JOBS',
+  TotalRewardsStatements = 'TOTAL_REWARDS_STATEMENTS'
 }

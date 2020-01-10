@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { TabularReportBuilderGuard } from 'libs/security/guards';
+
 import { CustomReportViewPageComponent, DataInsightsPageComponent, ReportViewPageComponent } from './containers/pages';
 import { ReportViewTypes } from './models';
 
@@ -12,7 +15,12 @@ const routes: Routes = [
   { path: 'company-reports/:workbookName/:viewName', component: ReportViewPageComponent,
     data: { viewType: ReportViewTypes.CompanyWorkbookSheet } },
   { path: 'company-reports/:workbookId', component: ReportViewPageComponent, data: { viewType: ReportViewTypes.CompanyWorkbook } },
-  { path: 'custom-report/:dataViewId', component: CustomReportViewPageComponent }
+  {
+    path: 'custom-report/:dataViewId',
+    component: CustomReportViewPageComponent,
+    canActivate: [TabularReportBuilderGuard],
+    data: {Permissions: [Permissions.TABULAR_REPORT_BUILDER], Check: PermissionCheckEnum.Single}
+  }
 ];
 
 @NgModule({

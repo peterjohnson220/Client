@@ -1,53 +1,55 @@
 import { NgModule } from '@angular/core';
+
 import { HttpClientModule } from '@angular/common/http';
 
 import { PayfactorsApiService } from './payfactors-api.service';
 import { NavigationApiService } from './navigation';
-import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './settings';
-import { AccountApiService} from './auth';
-import { PayMarketApiService } from './paymarket';
+import { CompanySettingsApiService, UiPersistenceSettingsApiService } from './settings';
+import { AccountApiService } from './auth';
+import { MarketDataScopeApiService, PayMarketApiService } from './paymarket';
 import {
-  ExchangeApiService, ExchangeCompanyApiService,
-  ExchangeScopeApiService, ExchangeDataCutsApiService, ExchangeDataFilterApiService
+    ExchangeApiService, ExchangeCompanyApiService, ExchangeDataCutsApiService, ExchangeDataFilterApiService, ExchangeScopeApiService
 } from './peer';
 import { CompanySecurityApiService } from './security';
-import { SurveySearchApiService, JobSearchApiService, ExchangeDataSearchApiService } from './search';
+import { ExchangeDataSearchApiService, JobSearchApiService, SurveySearchApiService } from './search';
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
-import { CompanyApiService } from './company';
-import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowApiService,
-  JobDescriptionWorkflowTemplateApiService, JobDescriptionTemplateApiService, JobDescriptionFooterViewApiService } from './jdm';
+import { CompanyApiService, CompanyJobApiService } from './company';
+import {
+    JobDescriptionApiService, JobDescriptionFooterViewApiService, JobDescriptionManagementApiService, JobDescriptionTemplateApiService,
+    JobDescriptionWorkflowApiService, JobDescriptionWorkflowTemplateApiService
+} from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
-import { CompanyJobApiService } from './company';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
 import { RolesApiService } from './company-admin';
-import { LoaderFieldMappingsApiService, DataLoadEmailRecipientsApiService, LoaderSettingsApiService } from './data-loads';
+import { DataLoadEmailRecipientsApiService, LoaderFieldMappingsApiService, LoaderSettingsApiService } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
 import { ComphubApiService } from './comphub';
-import { MarketDataScopeApiService } from './paymarket';
 import { FileApiService } from './file';
 import { TagApiService } from './tags';
 import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
-import { TableauReportApiService, UserReportApiService, ReportManagementApiService, DataViewApiService } from './reports';
+import { DataViewApiService, ReportManagementApiService, TableauReportApiService, UserReportApiService } from './reports';
 import { NotificationsApiService } from './notifications';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
-import { HrisApiService, ProvidersHrisApiService, TransferMethodsHrisApiService,
-  AuthenticationTypesHrisApiService,
-  ConnectionsHrisApiService, MappingsHrisApiService } from './hris-api';
+import {
+    AuthenticationTypesHrisApiService, ConnectionsHrisApiService, HrisApiService, MappingsHrisApiService, ProvidersHrisApiService,
+    TransferMethodsHrisApiService
+} from './hris-api';
 import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
-import {OrganizationalDataApiService} from './organizational-data';
-import {JobsApiService} from './jobs';
+import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
+import { JobsApiService } from './jobs';
+import {DataImportApiService} from './integration/data-import';
+import { TotalRewardsApiService } from './total-rewards';
 import {PricingApiService} from './pricings';
 
-
 @NgModule({
-  imports:      [ HttpClientModule ],
-  providers:    [
+  imports: [HttpClientModule],
+  providers: [
     CompanyApiService,
     CompanySecurityApiService,
     DashboardApiService,
@@ -97,6 +99,9 @@ import {PricingApiService} from './pricings';
     SurveyLibraryApiService,
     CompanyResourcesApiService,
     OrganizationalDataApiService,
+    ConfigurationGroupApiService,
+    DataImportApiService,
+    TotalRewardsApiService,
     PricingApiService,
 
     // PEER

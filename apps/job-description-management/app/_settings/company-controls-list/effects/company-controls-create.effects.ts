@@ -9,6 +9,8 @@ import { Observable, of } from 'rxjs';
 import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api';
 
 import * as fromCompanyControlsCreateActions from '../actions';
+import * as fromCompanyControlsDetailActions from '../../company-controls-detail/actions';
+import { CompanyControlConstants } from '../../shared/helpers';
 
 @Injectable()
 export class CompanyControlsCreateEffects {
@@ -22,16 +24,16 @@ export class CompanyControlsCreateEffects {
         concatMap((response) => {
           if (response === false) {
             return [
-              // Other actions will be added
-              new fromCompanyControlsCreateActions.CreateControlSuccess()
+              new fromCompanyControlsCreateActions.CreateControlSuccess(),
+              new fromCompanyControlsDetailActions.CreateControl({controlName: action.payload.controlName})
             ];
           } else {
             return [
-              new fromCompanyControlsCreateActions.CreateControlError('Control name is not available.')
+              new fromCompanyControlsCreateActions.CreateControlError(CompanyControlConstants.ControlNameExists)
             ];
           }
         }),
-        catchError((error) => of(new fromCompanyControlsCreateActions.CreateControlError('Error creating control.')))
+        catchError((error) => of(new fromCompanyControlsCreateActions.CreateControlError(CompanyControlConstants.SaveError)))
       );
     })
   );

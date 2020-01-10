@@ -4,11 +4,13 @@
       Data Insights
     </div>
 
-    <a *ngIf="(reportBuilderSettingEnabled$ | async)"
-       id="recent-download"
-       [attr.data-qa-id]="lnk-recentDownloads"
-       target="_blank"
-       href="/client/notifications">Recent Downloads</a>
+    <span *ngIf="(reportBuilderSettingEnabled$ | async)">
+      <a [pfSecuredResource]="permissions.TABULAR_REPORT_BUILDER"
+         id="recent-download"
+         [attr.data-qa-id]="'lnk-recentDownloads'"
+         target="_blank"
+         href="/client/notifications">Recent Downloads</a>
+    </span>
 
     <div class="actions d-flex space-out-children">
       <div class="search d-flex flex-nowrap" [attr.data-qa-id]="'cnt-search'"

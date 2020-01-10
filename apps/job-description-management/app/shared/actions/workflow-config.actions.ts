@@ -66,7 +66,7 @@ export class ResetWorkflow implements Action {
   constructor() {}
 }
 
-export type Actions
+export type WorkflowConfigActions
   = PopulateWorkflow
   | AddNonPfUserToWorkflow
   | AddNonPfUserToWorkflowError

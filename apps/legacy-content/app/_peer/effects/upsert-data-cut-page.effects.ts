@@ -14,6 +14,9 @@ import { ExchangeCompanyApiService, ExchangeScopeApiService, ExchangeDataCutsApi
 import { WindowCommunicationService } from 'libs/core/services';
 import { PeerMapScopeSystemDetails } from 'libs/models/peer/';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api/settings';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+
 
 import * as fromUpsertDataCutPageActions from '../actions/upsert-data-cut-page.actions';
 
@@ -124,6 +127,23 @@ export class UpsertDataCutPageEffects {
       })
   );
 
+  @Effect()
+  selectWeightingTypeForAddDataCuts$ = this.actions$
+    .pipe(
+      ofType(fromUpsertDataCutPageActions.SELECT_WEIGHTING_TYPE),
+      switchMap((action: fromUpsertDataCutPageActions.SelectWeightingType) => {
+        return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
+          FeatureArea: FeatureAreaConstants.PeerDataCuts,
+          SettingName: UiPersistenceSettingConstants.PeerAddDataModalWeightingTypeSelection,
+          SettingValue: action.payload.newWeightingType
+        })
+          .pipe(
+            map(() => new fromUpsertDataCutPageActions.SelectedWeightingTypePersisted()),
+            catchError(() => of())
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private libsExchangeExplorerStore: Store<fromLibsExchangeExplorerReducers.State>,
@@ -132,6 +152,7 @@ export class UpsertDataCutPageEffects {
     private exchangeDataCutsApiService: ExchangeDataCutsApiService,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
     private exchangeScopeApiService: ExchangeScopeApiService,
-    private windowCommunicationService: WindowCommunicationService
+    private windowCommunicationService: WindowCommunicationService,
+    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService
   ) {}
 }

@@ -9,6 +9,7 @@ export * from './settings';
 export * from './company';
 export * from './job-description';
 export * from './job-description-management';
+export * from './job-description-template';
 export * from './survey';
 export * from './reports';
 export * from './user';

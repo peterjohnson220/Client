@@ -1,0 +1,70 @@
+<form [formGroup]="companyControlHeaderForm">
+    <div class="row">                  
+        <label for="controlType-name"  class="col-2 control-label">Name:</label>
+        <div class="form-group col-4"  [class.has-danger]="!name.pristine && name.invalid">
+            <input type="text" id="controlType-name" name="controlType-name" class="form-control" formControlName="Name" [autofocus]="true" />
+            <span *ngIf="name.hasError('error')" class="text-danger float-right">{{name.errors.error}}</span>
+            <span *ngIf="!name.pristine && name.hasError('required')" class="text-danger float-right">Required</span>
+            <span *ngIf="!name.pristine && name.hasError('minlength')" class="text-danger float-right">Must be at least {{companyControlHeaderForm.controls.Name.errors.minlength.requiredLength}} characters</span>
+            <span *ngIf="!name.pristine && name.hasError('maxlength')" class="text-danger float-right">
+                    Exceeds {{companyControlHeaderForm.controls.Name.errors.maxlength.requiredLength}} characters: 
+                    {{companyControlHeaderForm.controls.Name.errors.maxlength.actualLength}}
+            </span>
+        </div>
+        <label for="control-name" class="col-2 control-label">Color:</label>
+        <div class="form-group col-4" [ngClass]="{'read-only': readOnly}">
+              <kendo-dropdownlist 
+                #kendoColor
+                isRequired="true"
+                formControlName="Color"
+                class="form-control"
+                [data]="colors"
+                [textField]="'text'"
+                [valueField]="'value'"
+                [valuePrimitive]="true"
+                >
+            </kendo-dropdownlist>
+            <span *ngIf="submitted && color.hasError('required')" class="text-danger float-right">Required</span>
+        </div>
+    </div>
+    <div class="row">
+        <label for="control-name" class="col-2 control-label">Type:</label>
+        <div class="form-group col-4" [ngClass]="{'read-only': readOnly}"> 
+          <kendo-dropdownlist 
+                formControlName="EditorType"
+                class="form-control"
+                [data]="editorTypes"
+                [textField]="'text'"
+                [valueField]="'value'"
+                [valuePrimitive]="true"
+                (valueChange)="handleEditorTypeChange($event)">
+            </kendo-dropdownlist>
+            <span *ngIf="submitted && editorType.hasError('required')" class="text-danger float-right">Required</span>
+        </div>
+        <label for="control-name" class="col-2 control-label">Properties:</label> 
+        <div class="col-4 input-group">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" formControlName="ReadOnly" (click)="handleReadOnly()">
+                  Read Only
+                </label>
+            </div>
+              <div *ngIf="companyControlHeaderForm.controls.EditorType.value  === 'Single'">
+                <div class="form-check form-check-inline pl-2">
+                      <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input" formControlName="Vertical">
+                      Vertical
+                    </label>
+                </div>
+            </div>
+            <div *ngIf="companyControlHeaderForm.controls.EditorType.value  === 'List'">
+                <div class="form-check form-check-inline pl-2">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" formControlName="Locked">
+                        Locked
+                    </label>
+                </div>
+            </div>
+        </div> 
+    </div> 
+</form>

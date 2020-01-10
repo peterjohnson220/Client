@@ -1,0 +1,28 @@
+<ng-template #confirmEditCompanyControlModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit {{controlName}} Company Control</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="affectedTemplateNames != null && affectedTemplateNames.length > 0" class="modal-body">
+        <p>Editing this control will affect the templates listed below that use the associated control.</p>
+        <div class="overflow-auto">
+            <ul>
+                <li *ngFor="let templateName of affectedTemplateNames">
+                    {{ templateName }}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div *ngIf="affectedJobs > 0" class="modal-body">
+        <p>Editing this control will affect the <strong>{{affectedJobs}}</strong> job(s) associated to the template(s) using this control.</p>
+    </div>
+    <div class="modal-body">
+        <p>Would you like to continue?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="editConfirmed()">Continue</button>
+    </div>
+</ng-template>

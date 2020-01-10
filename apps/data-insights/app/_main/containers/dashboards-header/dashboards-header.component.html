@@ -33,9 +33,12 @@
               </ng-template>
             </kendo-dropdownlist>
           </div>
-
           <div *ngIf="reportBuilderSettingEnabled && (baseEntitiesAsync$ | async)?.obj?.length" class="new">
-            <button type="button" class="btn light-blue-btn" [attr.data-qa-id]="'btn-new'" (click)="handleNewReportClicked()">New</button>
+            <button
+              [pfSecuredResource]="permissions.TABULAR_REPORT_BUILDER"
+              type="button" class="new btn light-blue-btn"
+              [attr.data-qa-id]="'btn-new'"
+              (click)="handleNewReportClicked()">New</button>
           </div>
         </div>
 

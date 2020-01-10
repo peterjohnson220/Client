@@ -12,5 +12,6 @@ export enum FeatureTypes {
   Resources = 'Resources',
   Service = 'Service',
   Structures = 'Structures',
-  Surveys = 'Surveys'
+  Surveys = 'Surveys',
+  TotalRewards = 'TotalRewards'
 }

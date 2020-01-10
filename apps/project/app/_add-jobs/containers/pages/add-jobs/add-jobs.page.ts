@@ -13,14 +13,12 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBase } from 'libs/features/search/containers/search-base';
 import { UserContext } from 'libs/models/security';
 import { CompanySettingsEnum } from 'libs/models/company';
+import { staticFilters } from 'libs/features/project/data';
 
 import * as fromAddJobsPageActions from '../../../actions/add-jobs-page.actions';
 import * as fromAddJobsSearchResultsActions from '../../../actions/search-results.actions';
 import * as fromPaymarketActions from '../../../actions/paymarkets.actions';
 import * as fromAddJobsReducer from '../../../reducers';
-import { staticFilters } from '../../../data';
-
-
 
 @Component({
   selector: 'pf-add-jobs-page',

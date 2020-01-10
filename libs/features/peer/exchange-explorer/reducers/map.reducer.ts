@@ -24,6 +24,7 @@ export interface State {
   initialMapBounds: number[];
   initialZoomComplete: boolean;
   mapLoaded: boolean;
+  initialLoadComplete: boolean;
 }
 
 // Initial State
@@ -44,7 +45,7 @@ export const initialState: State = {
   applyingScope: false,
   initialZoomComplete: false,
   mapLoaded: false,
-
+  initialLoadComplete: false,
 
   // Map State
   zoom: 0
@@ -76,6 +77,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapSummary: mapSummary,
         loading: false,
         loadingError: false,
+        initialLoadComplete: true,
         mapFilter: mapFilter
       };
 
@@ -153,7 +155,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       const newState = {...state, mapFilter};
 
       MapHelper.setBounds(mapGeoData, state, newState);
-      
+
       return newState;
     }
     case fromPeerMapActions.MOVE_END: {
@@ -191,7 +193,7 @@ export const getMaxZoom = (state: State) => state.maxZoom;
 export const getInitialZoomLevel = (state: State) => state.initialZoom;
 export const getMapCentroid = (state: State) => state.initialMapCentroid;
 export const canLoadMap = (state: State) => !state.loading;
-export const showNoData = (state: State) => !state.loading &&
+export const showNoData = (state: State) => !state.loading && state.initialLoadComplete &&
 (!state.mapCollection || state.mapCollection.features.length === 0);
 export const getApplyingScope = (state: State) => state.applyingScope;
 export const getAutoZooming = (state: State) => state.autoZooming;

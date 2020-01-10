@@ -1,0 +1,22 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete Workflow'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonTextSubmitting]="'Deleting...'"
+  [primaryButtonClass]="'btn-primary'"
+  [secondaryButtonText]="'No'"
+  [submitting]="(deleting$ | async)"
+  [isOpen$]="deleteModalOpen$"
+  [formGroup]="deleteTemplateForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+    <div class="form-group">
+        <label>
+          You are about to delete the <strong>{{(templateToBeDeleted$ | async)?.Name}}</strong> workflow. This cannot be undone. Would you like to continue?
+        </label>
+        <span class="help-block text-danger" *ngIf="deleteTemplateForm.errors">{{deleteTemplateForm.errors.error}}</span>
+    </div>
+  </ng-container>
+</pf-modal-form>

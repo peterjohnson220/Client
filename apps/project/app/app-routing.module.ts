@@ -10,10 +10,10 @@ export const routes: Routes = [
     component: AppNoWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', redirectTo: 'add-data', pathMatch: 'full' },
-      { path: 'add-data', loadChildren: () => import('apps/project/app/_add-data/add-data.module').then(m => m.AddDataModule) },
-      { path: 'add-jobs', loadChildren: () => import('apps/project/app/_add-jobs/add-jobs.module').then(m => m.AddJobsModule) },
-      { path: 'multi-match', loadChildren: () => import('apps/project/app/_multi-match/multi-match.module').then(m => m.MultiMatchModule) }
+      {path: '', redirectTo: 'add-data', pathMatch: 'full'},
+      {path: 'add-data', loadChildren: () => import('apps/project/app/_add-data/add-data.module').then(m => m.AddDataModule)},
+      {path: 'add-jobs', loadChildren: () => import('apps/project/app/_add-jobs/add-jobs.module').then(m => m.AddJobsModule)},
+      {path: 'multi-match', loadChildren: () => import('apps/project/app/_multi-match/multi-match.module').then(m => m.MultiMatchModule)}
     ]
   }
 ];
@@ -22,4 +22,5 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

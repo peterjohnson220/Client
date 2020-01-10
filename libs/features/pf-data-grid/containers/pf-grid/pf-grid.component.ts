@@ -130,7 +130,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   getAlignment(col: ViewField): string {
     if (col.Template === PfDataGridColType.currency) {
-      return 'right';
+      return 'center';
     } else {
       return col.TextAlign;
     }
@@ -143,9 +143,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   getRowClasses = (context: RowClassArgs) => ({
     'pf-data-grid-clickable-row': this.selectionField,
     'pf-data-grid-non-clickable-row': this.compactGrid,
-    'pf-data-grid-compact-padding': this.compactGrid,
     'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.getSelectedRowPrimaryKey()] === this.selectedRecordId)
   })
+
+  getColumnClasses(col: ViewField) {
+    return this.columnTemplates && this.columnTemplates[col.SourceName] && this.columnTemplates[col.SourceName].IsCompact ? 'pf-data-grid-compact-cell' : '';
+  }
 
   isSortable() {
     return this.allowSort ? this.selectedRecordId ? null : `{allowUnsort: 'true', mode: 'single'}` : null;

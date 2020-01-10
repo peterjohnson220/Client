@@ -37,6 +37,13 @@
                               [validated]="validatedCredentials">
       </pf-workdaymock-authentication>
 
+      <pf-workdayrest-authentication *ngIf="provider?.ProviderCode === 'WDRESTRPT'"
+                                     [selectedEntities]="selectedEntities$ | async"
+                                     (cancelClick)="cancelAuthClick()"
+                                     (submitClick)="submitFormEvent($event)"
+                                     [validated]="validatedCredentials">
+      </pf-workdayrest-authentication>
+
       <div *ngIf="validatedCredentials">
         <div class="pb-1 d-flex justify-content-end">
           <div class="p-2">

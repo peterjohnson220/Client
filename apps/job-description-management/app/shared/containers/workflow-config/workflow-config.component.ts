@@ -73,8 +73,10 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.destroyDragula();
     this.hasForbiddenUsersSubscription.unsubscribe();
     this.workflowStepsSubscription.unsubscribe();
+    this.identitySubscription.unsubscribe();
   }
 
   nonPfUserFormSubmit(): void {
@@ -164,6 +166,22 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
     this.dragulaSub.add(this.dragulaService.dropModel('workflow-user-reorder-bag').subscribe(({ sourceModel }) => {
       this.reorderWorkflowSteps(sourceModel);
     }));
+    this.dragulaService.createGroup('workflow-user-reorder-bag', {
+      revertOnSpill: true,
+      moves: function (el, container, handle) {
+        return handle.classList.contains('dnd-workflow-user-reorder-handle') &&
+        handle.classList.contains('grabbable');
+      },
+      accepts: function (el, target, source) {
+        return source.id === target.id;
+      }
+    });
+
+  }
+
+  private destroyDragula() {
+    this.dragulaSub.unsubscribe();
+    this.dragulaService.destroy('workflow-user-reorder-bag');
   }
 
   private reorderWorkflowSteps(sourceModel: any[]) {
