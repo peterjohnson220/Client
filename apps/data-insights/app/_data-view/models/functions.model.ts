@@ -8,7 +8,18 @@ export enum FunctionName {
   CEILING = 'CEILING',
   FLOOR = 'FLOOR',
   ROUND = 'ROUND',
-  SUM = 'SUM'
+  SUM = 'SUM',
+  DATE = 'DATE',
+  DATEDIF = 'DATEDIF',
+  DAY = 'DAY',
+  DAYS = 'DAYS',
+  HOUR = 'HOUR',
+  MINUTE = 'MINUTE',
+  MONTH = 'MONTH',
+  NOW = 'NOW',
+  SECOND = 'SECOND',
+  TODAY = 'TODAY',
+  YEAR = 'YEAR'
 }
 
 export enum Function {
@@ -21,7 +32,18 @@ export enum Function {
   CEILING = 'CEILING(number, significance)',
   FLOOR = 'FLOOR(number, significance)',
   ROUND = 'ROUND(number, num_digits)',
-  SUM = 'SUM(value1, value2, value3...)'
+  SUM = 'SUM(value1, value2, value3...)',
+  DATE = 'DATE(year, month, day)',
+  DATEDIF = 'DATEDIF(start_date, end_date, unit_as_Y_or_M_or_D)',
+  DAY = 'DAY(date)',
+  DAYS = 'DAYS(end_date, start_date)',
+  HOUR = 'HOUR(date)',
+  MINUTE = 'MINUTE(date)',
+  MONTH = 'MONTH(date)',
+  NOW = 'NOW()',
+  SECOND = 'SECOND(date)',
+  TODAY = 'TODAY()',
+  YEAR = 'YEAR(date)'
 }
 
 export const functionDictionary = {
@@ -34,6 +56,17 @@ export const functionDictionary = {
   [FunctionName.CEILING]: [Function.CEILING],
   [FunctionName.FLOOR]: [Function.FLOOR],
   [FunctionName.ROUND]: [Function.ROUND],
-  [FunctionName.SUM]: [Function.SUM]
+  [FunctionName.SUM]: [Function.SUM],
+  [FunctionName.DATE]: [Function.DATE],
+  [FunctionName.DATEDIF]: [Function.DATEDIF],
+  [FunctionName.DAY]: [Function.DAY],
+  [FunctionName.DAYS]: [Function.DAYS],
+  [FunctionName.MINUTE]: [Function.MINUTE],
+  [FunctionName.HOUR]: [Function.HOUR],
+  [FunctionName.MONTH]: [Function.MONTH],
+  [FunctionName.SECOND]: [Function.SECOND],
+  [FunctionName.TODAY]: [Function.TODAY],
+  [FunctionName.NOW]: [Function.NOW],
+  [FunctionName.YEAR]: [Function.YEAR]
 };
 export const functionNames = Object.keys(functionDictionary);
