@@ -20,7 +20,17 @@ export enum FunctionName {
   SECOND = 'SECOND',
   TODAY = 'TODAY',
   YEAR = 'YEAR',
-  ISBLANK = 'ISBLANK'
+  ISBLANK = 'ISBLANK',
+  UPPER = 'UPPER',
+  LOWER = 'LOWER',
+  TRIM = 'TRIM',
+  RIGHT = 'RIGHT',
+  LEFT = 'LEFT',
+  REPT = 'REPT',
+  LEN = 'LEN',
+  MID = 'MID',
+  CONCAT = 'CONCAT',
+  SUBSTITUTE = 'SUBSTITUTE'
 }
 
 export enum Function {
@@ -45,7 +55,17 @@ export enum Function {
   SECOND = 'SECOND(date)',
   TODAY = 'TODAY()',
   YEAR = 'YEAR(date)',
-  ISBLANK = 'ISBLANK(value)'
+  ISBLANK = 'ISBLANK(value)',
+  UPPER = 'UPPER(text)',
+  LOWER = 'LOWER(text)',
+  TRIM = 'TRIM(text)',
+  RIGHT = 'RIGHT(text, number_of_chars)',
+  LEFT = 'LEFT(text, number_of_chars)',
+  REPT = 'REPT(text, number_of_times)',
+  LEN = 'LEN(text)',
+  MID = 'MID(text, start_number, number_of_chars)',
+  CONCAT = 'CONCAT(text1, text2, ...)',
+  SUBSTITUTE = 'SUBSTITUTE(text, old_text, new_text)'
 }
 
 export const functionDictionary = {
@@ -70,6 +90,16 @@ export const functionDictionary = {
   [FunctionName.TODAY]: [Function.TODAY],
   [FunctionName.NOW]: [Function.NOW],
   [FunctionName.YEAR]: [Function.YEAR],
-  [FunctionName.ISBLANK]: [Function.ISBLANK]
+  [FunctionName.ISBLANK]: [Function.ISBLANK],
+  [FunctionName.UPPER]: [Function.UPPER],
+  [FunctionName.LOWER]: [Function.LOWER],
+  [FunctionName.TRIM]: [Function.TRIM],
+  [FunctionName.RIGHT]: [Function.RIGHT],
+  [FunctionName.LEFT]: [Function.LEFT],
+  [FunctionName.REPT]: [Function.REPT],
+  [FunctionName.LEN]: [Function.LEN],
+  [FunctionName.MID]: [Function.MID],
+  [FunctionName.CONCAT]: [Function.CONCAT],
+  [FunctionName.SUBSTITUTE]: [Function.SUBSTITUTE]
 };
 export const functionNames = Object.keys(functionDictionary);
