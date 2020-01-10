@@ -19,7 +19,8 @@ export enum FunctionName {
   NOW = 'NOW',
   SECOND = 'SECOND',
   TODAY = 'TODAY',
-  YEAR = 'YEAR'
+  YEAR = 'YEAR',
+  ISBLANK = 'ISBLANK'
 }
 
 export enum Function {
@@ -43,7 +44,8 @@ export enum Function {
   NOW = 'NOW()',
   SECOND = 'SECOND(date)',
   TODAY = 'TODAY()',
-  YEAR = 'YEAR(date)'
+  YEAR = 'YEAR(date)',
+  ISBLANK = 'ISBLANK(value)'
 }
 
 export const functionDictionary = {
@@ -67,6 +69,7 @@ export const functionDictionary = {
   [FunctionName.SECOND]: [Function.SECOND],
   [FunctionName.TODAY]: [Function.TODAY],
   [FunctionName.NOW]: [Function.NOW],
-  [FunctionName.YEAR]: [Function.YEAR]
+  [FunctionName.YEAR]: [Function.YEAR],
+  [FunctionName.ISBLANK]: [Function.ISBLANK]
 };
 export const functionNames = Object.keys(functionDictionary);
