@@ -32,6 +32,7 @@ export class ViewsComponent implements OnInit, OnDestroy {
   favoriteTableauViewsSub: Subscription;
   favoriteDataViewReportsSub: Subscription;
   dashboardViewSettingSubscription: Subscription;
+  dashboardViewSubscription: Subscription;
 
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;
   tableauReports: Workbook[];
@@ -39,6 +40,7 @@ export class ViewsComponent implements OnInit, OnDestroy {
   favoriteTableauViews: View[];
   favoriteDataViewReports: Workbook[];
   dashboardViews: string[] = ['All Views', 'Favorites'];
+  selectedDashboardView: DashboardView;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -57,11 +59,12 @@ export class ViewsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.companyWorkbooksAsyncSub = this.companyWorkbooksAsync$.subscribe(asyncObj => this.companyWorkbooksAsync = asyncObj);
-    this.favoriteTableauViewsSub = this.favoriteTableauViews$.subscribe(cw => this.favoriteTableauViews = cw);
+    this.favoriteTableauViewsSub = this.favoriteTableauViews$.subscribe(cw => this.handleFavoriteViewsChanged(cw));
     this.favoriteDataViewReportsSub = this.favoriteDataViewReports$.subscribe(wb => this.favoriteDataViewReports = wb);
     this.dashboardViewSettingSubscription = this.dashboardViewSetting$.subscribe(value => this.handleDashboardViewSettingChanged(value));
     this.tableauReportSub = this.tableauReports$.subscribe(wb => this.tableauReports = wb);
     this.dataViewReportsSub = this.dataViewReports$.subscribe(wb => this.dataViewReports = wb);
+    this.dashboardViewSubscription = this.dashboardView$.subscribe(value => this.selectedDashboardView = value);
   }
 
   ngOnDestroy(): void {
@@ -71,6 +74,7 @@ export class ViewsComponent implements OnInit, OnDestroy {
     this.favoriteDataViewReportsSub.unsubscribe();
     this.favoriteTableauViewsSub.unsubscribe();
     this.dashboardViewSettingSubscription.unsubscribe();
+    this.dashboardViewSubscription.unsubscribe();
   }
 
   get anyFavorites() {
@@ -128,6 +132,13 @@ export class ViewsComponent implements OnInit, OnDestroy {
     if (!!value && !!value.length) {
       const dashboardView: DashboardView = DashboardsHeaderHelper.getDashboardViewByValue(value) || DashboardView.Views;
       this.store.dispatch(new fromViewsActions.SetDashboardView(dashboardView));
+    }
+  }
+
+  handleFavoriteViewsChanged(views: View[]): void {
+    this.favoriteTableauViews = views;
+    if ((this.favoriteDataViewReports && !this.favoriteTableauViews.length) && this.selectedDashboardView === DashboardView.Favorites) {
+      this.store.dispatch(new fromViewsActions.SetDashboardView(DashboardView.Views));
     }
   }
 
