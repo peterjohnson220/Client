@@ -24,8 +24,8 @@ import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { EntityPickerComponent, EntityUploadComponent, FileMappingComponent } from './components';
 import { FileUploadComponent } from './components/file-upload';
 import {
-    DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, EntityMappingComponent,
-    FieldMappingCardComponent, HrisAuthenticationCardComponent, ManageDataPageComponent, OrgDataLoadComponent,
+    DataManagementHomePageComponent, EntityMappingComponent,
+    FieldMappingCardComponent, HrisAuthenticationCardComponent, OrgDataLoadComponent,
     PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
     WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
 } from './containers';
@@ -77,11 +77,8 @@ import { reducers } from './reducers';
     // Pages
     DataManagementHomePageComponent,
     TransferDataPageComponent,
-    ManageDataPageComponent,
-    DataAlertsPageComponent,
 
     // Components
-    DataManagementSidebarComponent,
     TransferMethodDropdownComponent,
     ProviderCardComponent,
     HrisAuthenticationCardComponent,
