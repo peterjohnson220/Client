@@ -1,4 +1,6 @@
-import {Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import { GridDataResult, SelectionEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
@@ -6,6 +8,8 @@ import { State } from '@progress/kendo-data-query';
 import { ListAreaColumn } from 'libs/models/common';
 
 import { CompanyJobViewListItem } from '../../models';
+import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating } from '../../reducers';
+
 
 @Component({
   selector: 'pf-job-description-grid',
@@ -13,7 +17,7 @@ import { CompanyJobViewListItem } from '../../models';
   styleUrls: ['./job-description-grid.component.scss']
 })
 
-export class JobDescriptionGridComponent {
+export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Input() gridDataResult: GridDataResult;
   @Input() listAreaColumns: ListAreaColumn[];
   @Input() loading: boolean;
@@ -29,6 +33,25 @@ export class JobDescriptionGridComponent {
 
   public info: any;
   public filterChanged: any;
+  creatingJobDescription$: Observable<boolean>;
+  creatingJobDescription: boolean;
+  creatingJobDescriptionSubscription: Subscription;
+
+  constructor(
+    private store: Store<JobDescriptionManagementJobDescriptionState>
+  ) {
+    this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
+  }
+
+  ngOnInit() {
+    this.creatingJobDescriptionSubscription = this.creatingJobDescription$.subscribe((creatingJobDescription) => {
+      this.creatingJobDescription = creatingJobDescription;
+    });
+  }
+
+  ngOnDestroy() {
+    this.creatingJobDescriptionSubscription.unsubscribe();
+  }
 
   handleRowClick(selection: SelectionEvent) {
     if (!selection || (!!selection.selectedRows && selection.selectedRows.length !== 1)) {
@@ -36,7 +59,9 @@ export class JobDescriptionGridComponent {
     }
     const companyJobViewListItem: CompanyJobViewListItem = selection.selectedRows[0].dataItem;
     selection.selectedRows = [];
-    this.navigateToJobDescription.emit(companyJobViewListItem);
+    if (!this.creatingJobDescription) {
+      this.navigateToJobDescription.emit(companyJobViewListItem);
+    }
   }
 
   handleJobDescriptionHistoryClick(jobDescriptionId: number, jobTitle: string) {
