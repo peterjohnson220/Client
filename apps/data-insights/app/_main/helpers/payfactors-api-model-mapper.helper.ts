@@ -127,7 +127,10 @@ export class PayfactorsApiModelMapper {
       DataElementOrder: dataViewField.DataElementOrder,
       FormulaId: dataViewField.FormulaId,
       FieldType: this.mapDataViewFieldTypeToFieldType(dataViewField.FieldType),
-      Format: dataViewField.Format
+      Format: dataViewField.Format,
+      IsEditable: dataViewField.IsEditable,
+      Formula: dataViewField.Formula,
+      FormulaName: dataViewField.FormulaName
     };
   }
 

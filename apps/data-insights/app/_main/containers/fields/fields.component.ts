@@ -10,7 +10,7 @@ import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromFieldsActions from '../../actions/fields.actions';
-import { Field, UserDataView, FieldType } from '../../models';
+import { Field, UserDataView } from '../../models';
 import { FormulaFieldModalComponent } from '../../../_data-view/containers';
 import { FormulaFieldModalObj } from '../../../_data-view/models';
 
@@ -26,15 +26,14 @@ export class FieldsComponent implements OnInit, OnDestroy {
   unselectedFields$: Observable<Field[]>;
   formulaBuilderEnabled$: Observable<boolean>;
   dataView$: Observable<AsyncStateObj<UserDataView>>;
+  formulaFieldSuggestions$: Observable<string[]>;
 
   dragulaSub: Subscription;
   selectedFieldsSub: Subscription;
-  allFieldsSubscription: Subscription;
 
   selectedFields: Field[];
   viewAllFields: boolean;
   formulaFieldModalObj: FormulaFieldModalObj;
-  fieldsForFormula: string[];
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -53,11 +52,11 @@ export class FieldsComponent implements OnInit, OnDestroy {
       CompanySettingsEnum.DataInsightsFormulaBuilder
     );
     this.dataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
+    this.formulaFieldSuggestions$ = this.store.pipe(select(fromDataInsightsMainReducer.getFormulaFieldSuggestions));
   }
 
   ngOnInit(): void {
     this.selectedFieldsSub = this.selectedFields$.subscribe(fields => this.selectedFields = fields);
-    this.allFieldsSubscription = this.allFieldsAsync$.subscribe(asyncStateObj => this.updateFieldsForFormula(asyncStateObj));
   }
 
   ngOnDestroy(): void {
@@ -95,16 +94,10 @@ export class FieldsComponent implements OnInit, OnDestroy {
     this.formulaFieldModalObj = {
       Title: 'Create Formula Field',
       FieldName: '',
-      Formula: ''
+      Formula: '',
+      IsEditable: true
     };
     this.formulaFieldModal.open();
   }
 
-  private updateFieldsForFormula(asyncStateObj: AsyncStateObj<Field[]>): void {
-    if (!!asyncStateObj && !!asyncStateObj.obj) {
-      this.fieldsForFormula = asyncStateObj.obj
-        .filter((f) => f.FieldType === FieldType.DataElement)
-        .map(f => `${f.Entity}.${f.SourceName}`);
-    }
-  }
 }

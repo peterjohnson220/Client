@@ -4,7 +4,7 @@ import { orderBy } from 'lodash';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromDataViewFieldsActions from '../actions/fields.actions';
-import { Field } from '../models';
+import { Field, FieldType } from '../models';
 import { FieldsHelper } from '../helpers';
 
 export interface State {
@@ -157,6 +157,25 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
         selectedReportFields: fieldsClone
       };
     }
+    case fromDataViewFieldsActions.SAVE_UPDATED_FORMULA_FIELD: {
+      const reportFieldStateObjClone: AsyncStateObj<Field[]> = cloneDeep(state.reportFieldsAsync);
+      const fieldToUpdate = FieldsHelper.findField(reportFieldStateObjClone.obj, action.payload);
+      if (fieldToUpdate) {
+        fieldToUpdate.FormulaName = action.payload.FormulaName;
+        fieldToUpdate.Formula = action.payload.Formula;
+      }
+      const fieldsClone = cloneDeep(state.selectedReportFields);
+      const selectedFieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload);
+      if (selectedFieldToUpdate) {
+        selectedFieldToUpdate.FormulaName = action.payload.FormulaName;
+        selectedFieldToUpdate.Formula = action.payload.Formula;
+      }
+      return {
+        ...state,
+        reportFieldsAsync: reportFieldStateObjClone,
+        selectedReportFields: fieldsClone
+      };
+    }
     default: {
       return state;
     }
@@ -169,5 +188,12 @@ export const getUnselectedFields = (state: State) => {
   if (state.reportFieldsAsync.obj) {
     return state.reportFieldsAsync.obj.filter((f: Field) => f.IsSelected === false
       && !FieldsHelper.fieldExists(state.selectedReportFields, f));
+  }
+};
+export const getFormulaFieldSuggestions = (state: State) => {
+  if (state.reportFieldsAsync.obj) {
+    return state.reportFieldsAsync.obj
+    .filter((f) => f.FieldType === FieldType.DataElement)
+    .map(f => `${f.Entity}.${f.SourceName}`);
   }
 };

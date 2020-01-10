@@ -24,6 +24,9 @@ export interface DataViewField {
   FormulaId?: number;
   FieldType: DataViewFieldType;
   Format?: string;
+  IsEditable?: boolean;
+  Formula?: string;
+  FormulaName?: string;
 }
 
 export interface DataViewFilter {

@@ -23,6 +23,10 @@
   &:focus {
     outline-color: $background-grey;
   }
+
+  &:disabled {
+    background-color: #e9ecef;
+  }
 }
 
 .popup-anchor {

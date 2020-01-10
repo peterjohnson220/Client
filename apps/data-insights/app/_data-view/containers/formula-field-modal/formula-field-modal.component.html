@@ -30,6 +30,8 @@
           [fieldSuggestions]="fieldSuggestions"
           [validating]="validating"
           [isValid]="isValidFormula"
+          [disabled]="!isEditable"
+          [isWaitingForValidation]="isWaitingForValidation"
           (formulaChanged)="handleFormulaChanged($event)">
         </pf-formula-editor>
       </div>
@@ -41,7 +43,7 @@
       <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>
     </ng-container>
     <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary" (click)="close()">Cancel</button>
-    <button type="button" [attr.data-qa-id]="'btn-save'" class="btn light-blue-btn"
+    <button *ngIf="isEditable" type="button" [attr.data-qa-id]="'btn-save'" class="btn light-blue-btn"
       [disabled]="saveDisabled"
       (click)="handleSaveClicked()">
       <span *ngIf="!saving">Save</span>

@@ -74,7 +74,8 @@ export class FieldsEffects {
     .pipe(
       ofType(
         fromFieldsActions.ADD_SELECTED_FIELD,
-        fromFieldsActions.SET_NUMBER_FORMAT_ON_SELECTED_FIELD),
+        fromFieldsActions.SET_NUMBER_FORMAT_ON_SELECTED_FIELD,
+        fromFieldsActions.SAVE_UPDATED_FORMULA_FIELD),
       mergeMap(() => {
         return [
           new fromFieldsActions.SaveReportFields(),
@@ -116,6 +117,7 @@ export class FieldsEffects {
       ofType(fromFormulaFieldModalActions.CREATE_FORMULA_FIELD_SUCCESS),
       map((action: fromFormulaFieldModalActions.CreateFormulaFieldSuccess) => {
         const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(action.payload);
+        field.IsEditable = true;
         return new fromFieldsActions.AddNewFormulaField(field);
       })
     );
@@ -125,6 +127,16 @@ export class FieldsEffects {
     .pipe(
       ofType(fromFieldsActions.ADD_NEW_FORMULA_FIELD),
       map((action: fromFieldsActions.AddNewFormulaField) => new fromFieldsActions.AddSelectedField(action.payload))
+    );
+
+  @Effect()
+  updateFormulaFieldSuccess$ = this.action$
+    .pipe(
+      ofType(fromFormulaFieldModalActions.UPDATE_FORMULA_FIELD_SUCCESS),
+      map((action: fromFormulaFieldModalActions.UpdateFormulaFieldSuccess) => {
+        const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(action.payload);
+        return new fromFieldsActions.SaveUpdatedFormulaField(field);
+      })
     );
 
   constructor(
