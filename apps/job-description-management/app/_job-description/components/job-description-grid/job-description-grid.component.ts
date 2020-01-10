@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import { GridDataResult, SelectionEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
@@ -6,9 +8,6 @@ import { State } from '@progress/kendo-data-query';
 import { ListAreaColumn } from 'libs/models/common';
 
 import { CompanyJobViewListItem } from '../../models';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-
 import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating } from '../../reducers';
 
 
@@ -18,7 +17,7 @@ import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating 
   styleUrls: ['./job-description-grid.component.scss']
 })
 
-export class JobDescriptionGridComponent implements OnInit {
+export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Input() gridDataResult: GridDataResult;
   @Input() listAreaColumns: ListAreaColumn[];
   @Input() loading: boolean;
@@ -36,6 +35,7 @@ export class JobDescriptionGridComponent implements OnInit {
   public filterChanged: any;
   creatingJobDescription$: Observable<boolean>;
   creatingJobDescription: boolean;
+  creatingJobDescriptionSubscription: Subscription;
 
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>
@@ -44,9 +44,13 @@ export class JobDescriptionGridComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.creatingJobDescription$.subscribe((creatingJobDescription) => {
+    this.creatingJobDescriptionSubscription = this.creatingJobDescription$.subscribe((creatingJobDescription) => {
       this.creatingJobDescription = creatingJobDescription;
     });
+  }
+
+  ngOnDestroy() {
+    this.creatingJobDescriptionSubscription.unsubscribe();
   }
 
   handleRowClick(selection: SelectionEvent) {
