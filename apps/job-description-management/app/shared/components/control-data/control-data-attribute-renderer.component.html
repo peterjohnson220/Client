@@ -38,7 +38,7 @@
 
   <!--Rich Text Editor-->
   <div *ngIf="attribute.Type === 'RichText'" class="rte-container">
-    <p-editor [ngModel]="dataRow[attribute.Name]" [style]="{'min-height': attribute.RTEHeight }"
+    <p-editor [pfEditorModel]="dataRow[attribute.Name]" [ngModel]="dataRow[attribute.Name]" [style]="{'min-height': attribute.RTEHeight }"
               (onTextChange)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.htmlValue || '')">
       <p-header>
         <select class="ql-size">
@@ -97,7 +97,7 @@
 
   <!--Textarea-->
   <div *ngIf="attribute.Type === 'Textarea'" class="text-area-rte-container">
-    <p-editor [ngModel]="dataRow[attribute.Name]"
+    <p-editor [pfEditorModel]="dataRow[attribute.Name]" [ngModel]="dataRow[attribute.Name]"
               (onTextChange)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.htmlValue || '')">
       <p-header>
 
