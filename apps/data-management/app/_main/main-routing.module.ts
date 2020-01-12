@@ -7,6 +7,7 @@ import {AuthorizationGuard} from 'libs/security/guards';
 
 import {
   DataManagementHomePageComponent,
+  DataManagementLandingPageComponent,
   OrgDataLoadComponent,
   TransferDataPageComponent,
   TransferSchedulePageComponent
@@ -26,6 +27,11 @@ const routes: Routes = [
     data: { Permissions: [Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any },
     // TODO: Need to determine subpermissions and consolidate pages
     children: [
+      {
+        path: '',
+        component: DataManagementLandingPageComponent,
+        data: { FullPage: true }
+      },
       {
         path: 'transfer-data',
         component: TransferDataPageComponent

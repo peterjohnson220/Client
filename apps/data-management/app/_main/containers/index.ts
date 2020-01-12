@@ -8,3 +8,6 @@ export * from './entity-mapping';
 export * from './transfer-schedule-summary';
 export * from './transfer-schedule-card';
 export * from './transfer-schedule-cron';
+export * from './hris-integration-panel';
+export * from './hris-integration-status';
+export * from './hris-integration-sidebar';

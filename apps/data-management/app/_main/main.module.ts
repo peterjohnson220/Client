@@ -29,7 +29,8 @@ import {
     PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
     WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent,
     TransferSchedulePageComponent, TransferScheduleSummaryComponent, TransferScheduleCardComponent,
-    TransferScheduleCronComponent
+    TransferScheduleCronComponent, DataManagementLandingPageComponent, HrisIntegrationPanelComponent,
+    HrisIntegrationStatusComponent, HrisIntegrationSidebarComponent
 } from './containers';
 import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
   FileUploadEffects, CustomFieldsEffect, TransferScheduleEffects } from './effects';
@@ -103,7 +104,11 @@ import {GetSupportedSchedulesPipe} from './pipes';
     TransferSchedulePageComponent,
     TransferScheduleSummaryComponent,
     TransferScheduleCardComponent,
-    TransferScheduleCronComponent
+    TransferScheduleCronComponent,
+    DataManagementLandingPageComponent,
+    HrisIntegrationPanelComponent,
+    HrisIntegrationStatusComponent,
+    HrisIntegrationSidebarComponent
   ]
 })
 export class MainModule {

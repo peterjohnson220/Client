@@ -5,6 +5,7 @@ import { faThumbsUp } from '@fortawesome/pro-solid-svg-icons/faThumbsUp';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes';
 import { faUpload } from '@fortawesome/pro-solid-svg-icons/faUpload';
 import { faPencilAlt} from '@fortawesome/pro-solid-svg-icons';
+import { faCalendarAlt} from '@fortawesome/pro-solid-svg-icons';
 
 export const faIcons = [
     faCheckSquare,
@@ -13,4 +14,5 @@ export const faIcons = [
     faThumbsUp,
     faTimes,
     faUpload,
-    faPencilAlt];
+    faPencilAlt,
+    faCalendarAlt];
