@@ -1,5 +1,5 @@
 <pf-async-container [loading]="loading$ | async">
-  <ng-container *ngIf="customHeaderTemplate" [ngTemplateOutlet]="customHeaderTemplate"></ng-container>  
+  <ng-container *ngIf="customHeaderTemplate" [ngTemplateOutlet]="customHeaderTemplate"></ng-container>
   <kendo-grid
     [data]="data"
     [pageSize]="(pagingOptions$ | async)?.Count"
@@ -37,10 +37,10 @@
                         [field]="mappedFieldName(col)"
                         [title]="col.DisplayName"
                         [headerClass]="getHeaderClass()"
-                        [style]="{'text-align': getAlignment(col), 'background-color': backgroundColor ? backgroundColor : '', 'padding': '0.25rem 0.25rem'}"  
+                        [style]="{'text-align': getAlignment(col), 'background-color': backgroundColor ? backgroundColor : '', 'padding': '0.25rem 0.25rem'}"
                         [class]="getColumnClasses(col)"
                         [width]="selectedRecordId ? null : col.Width"
-                        [minResizableWidth]="30">                        
+                        [minResizableWidth]="30">
                         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                           <pf-grid-column
                             [columnTemplates]='columnTemplates'
@@ -65,7 +65,7 @@
           [style]="{'text-align': getAlignment(col), 'background-color': backgroundColor ? backgroundColor : ''}"
           [class]="getColumnClasses(col)"
           [width]="selectedRecordId ? null : col.Width"
-          [minResizableWidth]="30">         
+          [minResizableWidth]="30">
           <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <pf-grid-column
                 [columnTemplates]='columnTemplates'
@@ -80,14 +80,23 @@
     </ng-container>
     <ng-template *ngIf="noRecordsFound" kendoGridNoRecordsTemplate>
       {{noRecordsFound}}
-    </ng-template>    
+    </ng-template>
     <div *ngIf="expandedRowTemplate">
       <div *kendoGridDetailTemplate="let dataItem">
         <ng-container
           [ngTemplateOutlet]="expandedRowTemplate"
-          [ngTemplateOutletContext]="{dataRow: dataItem}">  
+          [ngTemplateOutletContext]="{dataRow: dataItem}">
         </ng-container>
       </div>
     </div>
+    <kendo-grid-command-column *ngIf="rowActionTemplate">
+      <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+        <ng-container [ngTemplateOutlet]="rowActionTemplate"
+                      [ngTemplateOutletContext]="{dataRow: dataItem}"
+        >
+        </ng-container>
+      </ng-template>
+    </kendo-grid-command-column>
+
   </kendo-grid>
 </pf-async-container>

@@ -37,4 +37,11 @@
       </div>
     </ng-template>
   </ngb-tab>
+  <ngb-tab [title]="'History'">
+    <ng-template ngbTabContent>
+      <div class="full-height">
+        <pf-pricing-history [filters]="jobDetailsFilters"></pf-pricing-history>
+      </div>
+    </ng-template>
+  </ngb-tab>
 </ngb-tabset>

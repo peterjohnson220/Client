@@ -23,12 +23,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() columnTemplates: any;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() customHeaderTemplate: TemplateRef<any>;
+  @Input() rowActionTemplate: TemplateRef<any>;
   @Input() allowSplitView: boolean;
   @Input() selectedRecordId: number;
   @Input() enableSelection = false;
   @Input() noRecordsFound: string;
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
+  @Input() allowSort = true;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -149,7 +151,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   isSortable() {
-    return this.selectedRecordId ? null : `{allowUnsort: 'true', mode: 'single'}`;
+    return this.allowSort ? this.selectedRecordId ? null : `{allowUnsort: 'true', mode: 'single'}` : null;
   }
 
   getPagingBarConfig(state: DataGridState) {

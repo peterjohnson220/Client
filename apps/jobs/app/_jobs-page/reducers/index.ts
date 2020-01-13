@@ -45,5 +45,6 @@ export const getJobDescriptionManagementEnabled = createSelector(selectJobDescri
 export const getJobDescriptionUpdated = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionUpdated);
 export const getSavingState = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getSavingState);
 export const getJobDescriptionLoaded = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionLoaded);
+export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingIdToBeDeleted);
 
 
