@@ -118,4 +118,12 @@ export class DataViewApiService {
   getViewsByUser(pageViewId: string) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetViewsByUser`, { params: { pageViewId: pageViewId}});
   }
+
+  deleteView(pageViewId: string, viewName: string) {
+    const request = {
+      PageViewId: pageViewId,
+      ViewName: viewName
+    };
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteView`, request);
+  }
 }

@@ -202,6 +202,20 @@ export class PfDataGridEffects {
             })
         );
 
+    @Effect()
+    deleteView$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(fromPfDataGridActions.DELETE_SAVED_VIEW),
+        switchMap((action: any) => {
+          return this.dataViewApiService.deleteView(action.pageViewId, action.viewName).pipe(
+            mergeMap(() => [
+              new fromPfDataGridActions.DeleteSavedViewSuccess(action.pageViewId),
+              new fromPfDataGridActions.LoadSavedViews(action.pageViewId),
+            ])
+          );
+        })
+      );
+
     // TODO: We don't have a robust solution to display grids with the same PageViewId on the same page.
     // The PageViewID is the unique identifier in the NGRX state but we might have two different grids with the same PageViewID on the same page
     // To support this we append an ID to the PageViewId. This function stripps out the appened ID when we interact with the backend.

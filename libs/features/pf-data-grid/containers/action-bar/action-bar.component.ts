@@ -25,6 +25,8 @@ export class ActionBarComponent implements OnChanges {
   dataFields$: Observable<ViewField[]>;
   savedViews$: Observable<SimpleDataView[]>;
   selectedRecordId$: Observable<number>;
+  viewDeleting$: Observable<boolean>;
+  viewNameToBeDeleted$: Observable<string>;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -33,6 +35,8 @@ export class ActionBarComponent implements OnChanges {
       this.dataFields$ = this.store.select(fromReducer.getFields, changes['pageViewId'].currentValue);
       this.savedViews$ = this.store.select(fromReducer.getSavedViews, changes['pageViewId'].currentValue);
       this.selectedRecordId$ = this.store.select(fromReducer.getSelectedRecordId, this.pageViewId);
+      this.viewDeleting$ = this.store.select(fromReducer.getViewIsDeleting, this.pageViewId);
+      this.viewNameToBeDeleted$ = this.store.select(fromReducer.getViewNameToBeDeleted, this.pageViewId);
     }
   }
 
@@ -47,5 +51,17 @@ export class ActionBarComponent implements OnChanges {
 
   savedViewClicked(view: SimpleDataView) {
     this.store.dispatch(new fromActions.HandleSavedViewClicked(this.pageViewId, view.Name));
+  }
+
+  prepareViewForDelete(viewName: string) {
+    this.store.dispatch(new fromActions.PrepareViewForDelete(this.pageViewId, viewName));
+  }
+
+  deleteView(viewName: string) {
+    this.store.dispatch(new fromActions.DeleteSavedView(this.pageViewId, viewName));
+  }
+
+  cancelDelete() {
+    this.store.dispatch(new fromActions.CancelViewDelete(this.pageViewId));
   }
 }
