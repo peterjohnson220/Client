@@ -41,7 +41,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
 
   @ViewChild('formulaFieldModal', { static: true }) public formulaFieldModal: any;
   @ViewChild(FormulaEditorComponent, { static: true }) public formulaEditor: FormulaEditorComponent;
-  readonly maxFieldNameLength = 500;
+  readonly maxFieldNameLength = 255;
   readonly VALIDATE_DEBOUNCE_TIME = 2000;
   saving: boolean;
   savingSuccess: boolean;
