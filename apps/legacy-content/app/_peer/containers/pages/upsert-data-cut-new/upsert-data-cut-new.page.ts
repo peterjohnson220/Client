@@ -45,10 +45,12 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   peerMapCompaniesSubscription: Subscription;
   weightingTypeSubscription: Subscription;
   persistedWeightingTypeForDataCutsSubscription: Subscription;
+  untaggedIncumbentCountSubscription : Subscription;
 
   companyJobId: number;
   companyPayMarketId: number;
   userSessionId: number;
+  untaggedIncumbentCount: number;
   isPayMarketOverride: boolean;
   cutGuid: string;
   requestPeerAccessMessage = `Thank you for your interest in Peer. Peer allows you to market price with unmatched
@@ -57,6 +59,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   accessRequestedMessage = `Thank you for requesting access to Peer. A Payfactors representative will be in
   touch shortly to discuss the details of Peer and how you can become an active member of Peer.`;
   selectedWeightingType: KendoDropDownItem = { Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc };
+
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
@@ -213,5 +216,16 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
           .SetWeightingType({ weightingType: this.selectedWeightingType.Value }));
       }
     });
+
+    this.untaggedIncumbentCountSubscription = this.untaggedIncumbentCount$.subscribe( untaggedIncumbentCount => {
+      this.untaggedIncumbentCount = untaggedIncumbentCount;
+    });
+  }
+
+  get untaggedIncumbentMessage(): string {
+    if (this.untaggedIncumbentCount === 1) {
+      return `Include ${this.untaggedIncumbentCount} incumbent that does not have location data`;
+    }
+    return `Include ${this.untaggedIncumbentCount} incumbents that do not have location data`;
   }
 }

@@ -47,7 +47,7 @@
 
       <div class="d-flex" *ngIf="((untaggedIncumbentCount$ | async) > 0)">
         <label for="include-untagged-incs">
-          Include {{untaggedIncumbentCount$ | async | number}} employees that do not have location data?
+          {{untaggedIncumbentMessage}}
           <input id="include-untagged-incs"
                  type="checkbox"
                  [ngModel]="includeUntaggedIncumbents$ | async"
@@ -57,7 +57,6 @@
       <div class="d-flex flex-grow-1 justify-content-end">
       </div>
     </ng-container>
-
 
     <ng-container action-buttons>
 

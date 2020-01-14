@@ -84,6 +84,7 @@ export const getPeerMapInitialZoomLevel = createSelector(selectMapState, fromMap
 export const getPeerMapCentroid = createSelector(selectMapState, fromMapReducer.getMapCentroid);
 export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canLoadMap);
 export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
+export const peerMapHasUntaggedIncumbents = createSelector(selectMapState, fromMapReducer.hasUntaggedIncumbents);
 export const getPeerMapApplyingScope = createSelector(selectMapState, fromMapReducer.getApplyingScope);
 export const getPeerMapAutoZooming = createSelector(selectMapState, fromMapReducer.getAutoZooming);
 export const getPeerMapZoom = createSelector(selectMapState, fromMapReducer.getZoom);
