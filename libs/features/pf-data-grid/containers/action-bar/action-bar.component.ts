@@ -24,7 +24,7 @@ export class ActionBarComponent implements OnChanges {
 
   dataFields$: Observable<ViewField[]>;
   savedViews$: Observable<SimpleDataView[]>;
-  selectedRowId$: Observable<number>;
+  selectedRecordId$: Observable<number>;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -32,7 +32,7 @@ export class ActionBarComponent implements OnChanges {
     if (changes['pageViewId']) {
       this.dataFields$ = this.store.select(fromReducer.getFields, changes['pageViewId'].currentValue);
       this.savedViews$ = this.store.select(fromReducer.getSavedViews, changes['pageViewId'].currentValue);
-      this.selectedRowId$ = this.store.select(fromReducer.getSelectedRowId, this.pageViewId);
+      this.selectedRecordId$ = this.store.select(fromReducer.getSelectedRecordId, this.pageViewId);
     }
   }
 

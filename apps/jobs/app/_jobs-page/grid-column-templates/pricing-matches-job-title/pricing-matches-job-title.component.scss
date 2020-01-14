@@ -1,0 +1,7 @@
+div.collapsed {
+  display: -webkit-inline-box;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,39 @@
+<pf-data-grid
+  [pageViewId]="'C029F3C2-0FBC-4E1F-96A1-611879E2B2A2'"
+  [showTitle]="false"
+  [showColumnChooser] ="false"
+  [showFilterChooser] ="false"
+  [allowExport]="false"
+  [contentNoPadding]="true"
+  [columnTemplates]="colTemplates"
+  [inboundFilters]="filters"
+  [defaultSort]="defaultSort"
+  [noRecordsFound]="'This job has not been added to any projects.'">
+</pf-data-grid>
+
+<ng-template kendoGridCellTemplate #projectAccessColumn let-dataRow="dataRow" let-rowIndex="rowIndex">
+  <ng-container *ngIf="dataRow['UserSessions_HasProjectAccess']; else noAccess">
+    <a
+      [attr.data-qa-id]="'lnk-access-project-' + rowIndex"
+      class="access-project-link"
+      href="../../../../marketdata/marketdata.asp?usersession_id={{dataRow['UserSessions_UserSession_ID']}}">
+      Access Project
+    </a>
+  </ng-container>
+  <ng-template #noAccess>
+    Owned by {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
+  </ng-template>
+</ng-template>
+
+<ng-template #projectNameColumn let-dataRow="dataRow">
+  <ng-container *ngIf="dataRow['UserSessions_Session_Name']; else createDate">
+    {{dataRow['UserSessions_Session_Name']}}
+  </ng-container>
+  <ng-template #createDate>
+    {{dataRow['UserSessions_Create_Date'] | date: 'MM/dd/yyyy'}}
+  </ng-template>
+</ng-template>
+
+<ng-template #projectOwnerColumn let-dataRow="dataRow">
+  {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
+</ng-template>

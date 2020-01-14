@@ -11,6 +11,7 @@ export class PfGridColumnComponent {
 
   @Input() columnTemplates: any;
   @Input() dataItem: any[];
+  @Input() rowIndex: number;
   @Input() fieldName: string;
   @Input() field: ViewField;
 

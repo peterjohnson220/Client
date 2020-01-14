@@ -23,7 +23,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { reducers } from './reducers';
 import { PfDataGridEffects } from './effects';
 import { PfDataGridComponent } from './pf-data-grid.component/pf-data-grid.component';
-import { ActionBarComponent, GridComponent } from './containers';
+import { ActionBarComponent, PfGridComponent } from './containers';
 import {
   PfGridColumnComponent,
   FilterPanelComponent,
@@ -60,7 +60,7 @@ import {
   declarations: [
     PfDataGridComponent,
     ActionBarComponent,
-    GridComponent,
+    PfGridComponent,
     PfGridColumnComponent,
     FilterPanelComponent,
     FilterChooserComponent,

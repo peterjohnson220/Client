@@ -25,7 +25,7 @@ export class EmployeesGridComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'Employee': this.employeeColumn
+      'Employee': { Template: this.employeeColumn }
     };
   }
 
