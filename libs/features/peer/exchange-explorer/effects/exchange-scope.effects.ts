@@ -213,17 +213,9 @@ export class ExchangeScopeEffects {
       switchMap(payload =>
         this.exchangeScopeApiService.deleteExchangeScope(payload.action).pipe(
           concatMap(() => {
-            if (!!payload.selectedScope && payload.selectedScope.Id === payload.action) {
-              return [
-                new fromExchangeScopeActions.DeleteExchangeScopeSuccess(payload.action),
-                new fromLibsFeatureSearchFiltersActions.ResetAllFilters(),
-                new fromExchangeSearchResultsActions.GetExchangeDataResults()
-              ];
-            } else {
-              return [
-                new fromExchangeScopeActions.DeleteExchangeScopeSuccess(payload.action)
-              ];
-            }
+            return [
+              new fromExchangeScopeActions.DeleteExchangeScopeSuccess(payload.action)
+            ];
           }),
           catchError(() => of(new fromExchangeScopeActions.DeleteExchangeScopeError))
         )
