@@ -9,35 +9,37 @@
                [formGroup]="addSurveyForm">
 
   <ng-container form-content>
-    <div class="form-row">
-      <div class="form-group col-6">
-        <label for="companySelect">Survey</label>
-        <select class="form-control "
-                formControlName="newCompany"
-                (change)="getSelectedCompanyName()"
-                name="companySelect">
-          <option *ngFor="let company of companies"
-                  [value]="company.CompanyId">{{company.CompanyName}}</option>
-        </select>
-      </div>
+    <pf-async-container [loading]="isGettingCompanies">
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label for="companySelect">Survey</label>
+          <select class="form-control "
+                  formControlName="newCompany"
+                  (change)="getSelectedCompanyName()"
+                  name="companySelect">
+            <option *ngFor="let company of companies"
+                    [value]="company.CompanyId">{{company.CompanyName}}</option>
+          </select>
+        </div>
 
-      <div class="form-group col-3"
-           *ngIf="showAgingAndCost">
-        <label for="cost">Cost ($)</label>
-        <input type="text"
-               class="form-control"
-               formControlName="newCost"
-               id="cost">
-      </div>
+        <div class="form-group col-3"
+             *ngIf="showAgingAndCost">
+          <label for="cost">Cost ($)</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="newCost"
+                 id="cost">
+        </div>
 
-      <div class="form-group col-3"
-           *ngIf="showAgingAndCost">
-        <label for="aging">Aging Factor (%)</label>
-        <input type="text"
-               class="form-control"
-               formControlName="newAging"
-               id="aging">
+        <div class="form-group col-3"
+             *ngIf="showAgingAndCost">
+          <label for="aging">Aging Factor (%)</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="newAging"
+                 id="aging">
+        </div>
       </div>
-    </div>
+    </pf-async-container>
   </ng-container>
 </pf-modal-form>
