@@ -2,12 +2,12 @@
   {{dataItem[fieldName] | date: 'MM/dd/yyyy'}}
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.currency"
-  [ngTemplateOutlet]="columnTemplates[colType.currency]"
-  [ngTemplateOutletContext]="{dataRow: dataItem, fieldName: fieldName}">  
+  [ngTemplateOutlet]="columnTemplates[colType.currency].Template"
+  [ngTemplateOutletContext]="{dataRow: dataItem, fieldName: fieldName}">
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.template"
-  [ngTemplateOutlet]="columnTemplates[field.SourceName]"
-  [ngTemplateOutletContext]="{dataRow:dataItem}">
+  [ngTemplateOutlet]="columnTemplates[field.SourceName].Template"
+  [ngTemplateOutletContext]="{dataRow:dataItem, rowIndex: rowIndex}">
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.default">
   {{dataItem[fieldName]}}

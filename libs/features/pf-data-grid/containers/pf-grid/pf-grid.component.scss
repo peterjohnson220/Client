@@ -1,0 +1,51 @@
+.pf-data-grid-header {
+  font-weight: bold !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  background-color: white !important;
+}
+
+.pf-data-grid-no-header {
+  display: none !important;
+}
+
+.pf-data-grid-clickable-row:hover {
+  cursor: pointer;
+}
+
+.pf-data-grid-non-clickable-row:hover {
+  background: transparent !important;
+}
+
+.pf-data-grid-compact-cell {
+  padding: 0.25rem 0.25rem !important;
+}
+
+.k-grid {
+  border: 0;
+}
+
+.k-grid .k-hierarchy-cell {
+  width: 0;
+}
+
+.k-grid .k-header.k-hierarchy-cell {
+  border: none;
+}
+
+.k-grid .k-hierarchy-cell .k-icon {
+  display: none;
+}
+
+.k-grid .k-hierarchy-col {
+  width: 0px;
+}
+
+html .k-grid tr:hover {
+  background: transparent;
+}
+
+.k-detail-cell {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}

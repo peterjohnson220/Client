@@ -1,15 +1,15 @@
 <pf-async-container [loading]="loading$ | async">
+  <ng-container *ngIf="customHeaderTemplate" [ngTemplateOutlet]="customHeaderTemplate"></ng-container>  
   <kendo-grid
-    [data]="data$ | async"
+    [data]="data"
     [pageSize]="(pagingOptions$ | async)?.Count"
     [skip]="(pagingOptions$ | async)?.From"
     [pageable]="getPagingBarConfig(gridState$ | async)"
-    [scrollable]="isMultiplePages(gridState$ | async)"    
-
-    [resizable]="selectedRowId ? false : true"
+    [scrollable]="compactGrid ? 'none': ''"
+    [resizable]="selectedRecordId ? false : true"
     [sortable]="isSortable()"
     [sort]="sortDescriptor$ | async"
-    [rowClass]="selectedRowClass"
+    [rowClass]="getRowClasses"
     (pageChange)="onPageChange($event)"
     (sortChange)="onSortChange($event)"
     (cellClick)="onCellClick($event)">
@@ -21,29 +21,31 @@
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
         <input type="checkbox"
-               [checked]="isChecked((selectedKeys$ | async), dataItem[getSelectedRowIdentifier()])"
-               (click)="onSelectedKeysChange(dataItem[getSelectedRowIdentifier()])">
+               [checked]="isChecked((selectedKeys$ | async), dataItem[getSelectedRowPrimaryKey()])"
+               (click)="onSelectedKeysChange(dataItem[getSelectedRowPrimaryKey()])">
       </ng-template>
     </kendo-grid-checkbox-column>
     <ng-container *ngFor="let col of (dataFields$ | async)">
       <ng-container *ngIf="col.Group">
           <kendo-grid-column-group
             [title]="col.Group"
-            [headerClass]="'pf-data-grid-header'"
+            [headerClass]="getHeaderClass()"
             [locked]="false">
               <ng-container *ngFor="let col of col.Fields">
                   <ng-container *ngIf="showColumn(col)">
                       <kendo-grid-column
                         [field]="mappedFieldName(col)"
                         [title]="col.DisplayName"
-                        [headerClass]="'pf-data-grid-header'"
-                        [style]="{'text-align': col.TextAlign}"
-                        [width]="selectedRowId ? null : col.Width"
+                        [headerClass]="getHeaderClass()"
+                        [style]="{'text-align': getAlignment(col), 'background-color': backgroundColor ? backgroundColor : '', 'padding': '0.25rem 0.25rem'}"  
+                        [class]="getColumnClasses(col)"
+                        [width]="selectedRecordId ? null : col.Width"
                         [minResizableWidth]="30">                        
-                        <ng-template kendoGridCellTemplate let-dataItem>
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                           <pf-grid-column
                             [columnTemplates]='columnTemplates'
                             [dataItem]='dataItem'
+                            [rowIndex]='rowIndex'
                             [field]= 'col'
                             [fieldName]='mappedFieldName(col)'>
                           </pf-grid-column>
@@ -59,14 +61,16 @@
         <kendo-grid-column
           [field]="mappedFieldName(col)"
           [title]="col.DisplayName"
-          [headerClass]="'pf-data-grid-header'"
-          [style]="{'text-align': col.TextAlign}"
-          [width]="selectedRowId ? null : col.Width"
+          [headerClass]="getHeaderClass()"
+          [style]="{'text-align': getAlignment(col), 'background-color': backgroundColor ? backgroundColor : ''}"
+          [class]="getColumnClasses(col)"
+          [width]="selectedRecordId ? null : col.Width"
           [minResizableWidth]="30">         
-          <ng-template kendoGridCellTemplate let-dataItem>
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <pf-grid-column
                 [columnTemplates]='columnTemplates'
                 [dataItem]='dataItem'
+                [rowIndex]='rowIndex'
                 [field]= 'col'
                 [fieldName]='mappedFieldName(col)'>
               </pf-grid-column>
@@ -76,6 +80,14 @@
     </ng-container>
     <ng-template *ngIf="noRecordsFound" kendoGridNoRecordsTemplate>
       {{noRecordsFound}}
-    </ng-template>
+    </ng-template>    
+    <div *ngIf="expandedRowTemplate">
+      <div *kendoGridDetailTemplate="let dataItem">
+        <ng-container
+          [ngTemplateOutlet]="expandedRowTemplate"
+          [ngTemplateOutletContext]="{dataRow: dataItem}">  
+        </ng-container>
+      </div>
+    </div>
   </kendo-grid>
 </pf-async-container>

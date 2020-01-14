@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import {NgbTooltipModule, NgbDropdownModule, NgbTabsetModule,} from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import * as fromFaIcons from './fa-icons';
 
 import { StoreModule } from '@ngrx/store';
@@ -19,12 +19,19 @@ import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
-import { JobDescriptionComponent } from './components/job-description/job-description.component';
-import { StructureGridComponent } from './components/structure-grid/structure-grid.component';
 
-import { JobsDetailsComponent, EmployeesGridComponent, PricingDetailsGridComponent } from './components';
+import {
+  JobsDetailsComponent,
+  EmployeesGridComponent,
+  PricingDetailsGridComponent,
+  JobDescriptionComponent,
+  StructureGridComponent,
+  PricingMatchesGridComponent,
+  ProjectDetailsComponent
+} from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
+import { PricingMatchesJobTitleComponent } from './grid-column-templates';
 
 @NgModule({
   imports: [
@@ -34,6 +41,7 @@ import { JobsPageEffects, JobDescriptionEffects } from './effects';
 
     // 3rd Party
     LayoutModule,
+    NgbTooltipModule,
     StoreModule.forFeature('jobsPageMain', reducers),
     EffectsModule.forFeature([
       JobsPageEffects,
@@ -59,12 +67,17 @@ import { JobsPageEffects, JobDescriptionEffects } from './effects';
     JobsDetailsComponent,
     EmployeesGridComponent,
     PricingDetailsGridComponent,
+    PricingMatchesGridComponent,
     JobDescriptionComponent,
-    StructureGridComponent
+    StructureGridComponent,
+    ProjectDetailsComponent,
+
+    // Column Templates
+    PricingMatchesJobTitleComponent
   ]
 })
 export class JobsPageModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(...fromFaIcons.faIcons);
+  constructor() {
+    library.add(...fromFaIcons.faIcons);
   }
 }

@@ -1,10 +1,8 @@
-import {Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-
-import { cloneDeep } from 'lodash';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -26,13 +24,17 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   permissions = Permissions;
   pageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
   selectedKeys: number[];
+  titleCodeSearchField: ViewField;
+
   selectedKeysSubscription: Subscription;
+  globalFilterSubscription: Subscription;
+
   company$: Observable<string>;
   addingToProject$: Observable<boolean>;
-  @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
+
   colTemplates = {};
-  globalFilterSubscription: Subscription;
-  titleCodeSearchField: ViewField;
+
+  @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -43,7 +45,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.company$ = this.store.select(fromJobsPageReducer.getCompany);
     this.addingToProject$ = this.store.select(fromJobsPageReducer.getToProjectButtonState);
     this.selectedKeysSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
-      this.selectedKeys =  sk;
+      this.selectedKeys = sk;
     });
     this.globalFilterSubscription = this.store.select(fromPfGridReducer.getGlobalFilters, this.pageViewId).subscribe(gf => {
       if (gf) {
@@ -58,7 +60,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'JobStatus': this.jobStatusColumn
+      'JobStatus': { Template: this.jobStatusColumn }
     };
   }
 
@@ -85,7 +87,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeSplitView() {
-    this.store.dispatch(new fromPfGridActions.UpdateSelectedRowId(this.pageViewId, null, null));
+    this.store.dispatch(new fromPfGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
   }
 
   buildTitleCodeFilter(value: string): ViewField {
