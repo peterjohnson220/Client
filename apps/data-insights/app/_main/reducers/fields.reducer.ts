@@ -163,12 +163,14 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
       if (fieldToUpdate) {
         fieldToUpdate.FormulaName = action.payload.FormulaName;
         fieldToUpdate.Formula = action.payload.Formula;
+        fieldToUpdate.IsSortable = action.payload.IsSortable;
       }
       const fieldsClone = cloneDeep(state.selectedReportFields);
       const selectedFieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload);
       if (selectedFieldToUpdate) {
         selectedFieldToUpdate.FormulaName = action.payload.FormulaName;
         selectedFieldToUpdate.Formula = action.payload.Formula;
+        selectedFieldToUpdate.IsSortable = action.payload.IsSortable;
       }
       return {
         ...state,
