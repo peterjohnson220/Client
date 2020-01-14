@@ -37,7 +37,7 @@ export class PfDataGridEffects {
             ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG),
             switchMap(
                 (action: fromPfDataGridActions.LoadViewConfig) =>
-                    this.dataViewApiService.getDataViewConfig(action.pageViewId, action.name).pipe(
+                    this.dataViewApiService.getDataViewConfig(PfDataGridEffects.parsePageViewId(action.pageViewId), action.name).pipe(
                         mergeMap((viewConfig: DataViewConfig) => {
                             return [
                                 new fromPfDataGridActions.LoadViewConfigSuccess(action.pageViewId, viewConfig),
@@ -66,7 +66,7 @@ export class PfDataGridEffects {
                         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
                         (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor) =>
-                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor })
+                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor})
                     )
                 ),
             ),
@@ -78,7 +78,8 @@ export class PfDataGridEffects {
                             data.fields,
                             PfDataGridEffects.mapFieldsToFilters(data.fields),
                             data.pagingOptions,
-                            data.sortDescriptor))
+                            data.sortDescriptor,
+                            data.pagingOptions && data.pagingOptions.From === 0))
                         .pipe(
                             map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
                             catchError(error => {
@@ -87,7 +88,7 @@ export class PfDataGridEffects {
                             })
                         );
                 } else {
-                    return of(new fromPfDataGridActions.ClearLoading(data.action.pageViewId));
+                    return of(new fromPfDataGridActions.DoNothing(data.action.pageViewId));
                 }
             }
 
@@ -109,7 +110,7 @@ export class PfDataGridEffects {
             ),
             switchMap((data) =>
                 this.dataViewApiService.updateDataView(PfDataGridEffects
-                    .buildSaveDataViewRequest(data.action.pageViewId, data.baseEntity.Id, data.action.fields, null))
+                    .buildSaveDataViewRequest(PfDataGridEffects.parsePageViewId(data.action.pageViewId), data.baseEntity.Id, data.action.fields, null))
                     .pipe(
                         map((response: any[]) => {
                             return new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId);
@@ -132,13 +133,13 @@ export class PfDataGridEffects {
                         this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, saveFilterAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getFields, saveFilterAction.pageViewId)),
                         (action: fromPfDataGridActions.SaveView, baseEntity, fields) =>
-                            ({ action, baseEntity, fields})
+                            ({ action, baseEntity, fields })
                     )
                 )
             ),
             switchMap((data) =>
                 this.dataViewApiService.updateDataView(PfDataGridEffects.buildSaveDataViewRequest(
-                    data.action.pageViewId,
+                    PfDataGridEffects.parsePageViewId(data.action.pageViewId),
                     data.baseEntity.Id,
                     data.fields,
                     data.action.viewName))
@@ -159,7 +160,7 @@ export class PfDataGridEffects {
         .pipe(
             ofType(fromPfDataGridActions.LOAD_SAVED_VIEWS),
             switchMap((action: fromPfDataGridActions.LoadSavedViews) =>
-                this.dataViewApiService.getViewsByUser(action.pageViewId).pipe(
+                this.dataViewApiService.getViewsByUser(PfDataGridEffects.parsePageViewId(action.pageViewId)).pipe(
                     map((response: DataViewConfig[]) => {
                         return new fromPfDataGridActions.LoadSavedViewsSuccess(action.pageViewId, response);
                     }),
@@ -189,15 +190,25 @@ export class PfDataGridEffects {
 
     @Effect()
     handleSavedViewClicked$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(fromPfDataGridActions.HANDLE_SAVED_VIEW_CLICKED),
-        mergeMap((action: any) => {
-          return [
-            new fromPfDataGridActions.CloseSplitView(action.pageViewId),
-            new fromPfDataGridActions.LoadViewConfig(action.pageViewId, action.viewName)
-          ];
-        })
-      );
+        .pipe(
+            ofType(fromPfDataGridActions.HANDLE_SAVED_VIEW_CLICKED),
+            mergeMap((action: any) => {
+                return [
+                    new fromPfDataGridActions.CloseSplitView(action.pageViewId),
+                    new fromPfDataGridActions.LoadViewConfig(action.pageViewId, action.viewName)
+                ];
+            })
+        );
+
+    // TODO: We don't have a robust solution to display grids with the same PageViewId on the same page.
+    // The PageViewID is the unique identifier in the NGRX state but we might have two different grids with the same PageViewID on the same page
+    // To support this we append an ID to the PageViewId. This function stripps out the appened ID when we interact with the backend.
+    // Grids which have an ID appended to their PageViewID do not support changing of visible columns and saved filters.
+    // To support this properly we most likely need to change the PageViewId be a combination of GUID and an optional Id Filter.
+    // However this is a major refactor of the PfDataGrid which we are not ready to undertake at this time.
+    static parsePageViewId(pageViewId: string) {
+        return pageViewId.split('_')[0];
+    }
 
     static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number,
         fields: ViewField[], name: string): SaveDataViewRequest {
@@ -214,7 +225,7 @@ export class PfDataGridEffects {
 
     static buildDataViewDataRequest(
         baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
-        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[]) {
+        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean) {
 
         let singleSortDesc = null;
         if (!!sortDescriptor && sortDescriptor.length > 0) {
@@ -231,7 +242,7 @@ export class PfDataGridEffects {
             Filters: filters,
             PagingOptions: pagingOptions,
             SortDescriptor: singleSortDesc,
-            WithCount: true
+            WithCount: withCount,
         };
     }
 

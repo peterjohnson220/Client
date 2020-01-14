@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {SortDescriptor} from '@progress/kendo-data-query';
-import {PfDataGridColType} from 'libs/features/pf-data-grid/enums';
-import {PfDataGridFilter} from 'libs/features/pf-data-grid/models';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { SortDescriptor } from '@progress/kendo-data-query';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
 @Component({
   selector: 'pf-structure-grid',
@@ -27,15 +27,15 @@ export class StructureGridComponent implements OnChanges, AfterViewInit {
       const jobFilter = newFilter.find(f => f.SourceName === 'CompanyJob_ID');
       if (jobFilter) {
         newFilter.splice(this.filters.indexOf(jobFilter), 1);
-        newFilter.push({...jobFilter, SourceName: 'CompanyJobId'});
+        newFilter.push({ ...jobFilter, SourceName: 'CompanyJobId' });
         this.filters = newFilter;
       }
     }
   }
   ngAfterViewInit() {
     this.colTemplates = {
-      'Structure_Name': this.nameColumn,
-      [PfDataGridColType.currency]: this.currencyColumn
+      'Structure_Name': { Template: this.nameColumn },
+      [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
 

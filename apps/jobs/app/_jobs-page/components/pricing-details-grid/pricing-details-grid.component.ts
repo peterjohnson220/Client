@@ -28,10 +28,10 @@ export class PricingDetailsGridComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'PayMarket': this.payMarketColumn,
-      'BaseMRP': this.baseMrpColumn,
-      'TCCMRP': this.baseTccColumn,
-      [PfDataGridColType.currency]: this.currencyColumn
+      'PayMarket': { Template: this.payMarketColumn },
+      'BaseMRP': { Template: this.baseMrpColumn },
+      'TCCMRP': { Template: this.baseTccColumn },
+      [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
 }
