@@ -69,7 +69,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     this.filteredCompanyWorkbooksSub = this.filteredCompanyWorkbooks$.subscribe(cw => {
       this.filteredCompanyWorkbooks = cw;
       if ((this.filteredCompanyWorkbooks && !this.filteredCompanyWorkbooks.length) && this.selectedDashboardView === DashboardView.Favorites) {
-        this.store.dispatch(new fromDashboardsActions.SetDashboardView(DashboardView.All));
+        this.store.dispatch(new fromDashboardsActions.ToggleDashboardView(DashboardView.All));
       }
     });
     this.tagWorkbookModalOpenSub = this.tagWorkbookModalOpen$.subscribe(open => {
@@ -108,7 +108,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
   }
 
   handleSelectedDashboardViewChanged(view: DashboardView): void {
-    this.store.dispatch(new fromDashboardsActions.ToggleDashboardView({ view }));
+    this.store.dispatch(new fromDashboardsActions.ToggleDashboardView(view));
   }
 
   handleDashboardViewSettingChanged(value: string): void {

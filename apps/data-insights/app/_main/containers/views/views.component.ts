@@ -58,8 +58,8 @@ export class ViewsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.companyWorkbooksAsyncSub = this.companyWorkbooksAsync$.subscribe(asyncObj => this.companyWorkbooksAsync = asyncObj);
-    this.favoriteTableauViewsSub = this.favoriteTableauViews$.subscribe(cw => this.handleFavoriteViewsChanged(cw));
+    this.companyWorkbooksAsyncSub = this.companyWorkbooksAsync$.subscribe(asyncObj => this.handleCompanyWorkbooksAsyncChanged(asyncObj));
+    this.favoriteTableauViewsSub = this.favoriteTableauViews$.subscribe(cw => this.favoriteTableauViews = cw);
     this.favoriteDataViewReportsSub = this.favoriteDataViewReports$.subscribe(wb => this.favoriteDataViewReports = wb);
     this.dashboardViewSettingSubscription = this.dashboardViewSetting$.subscribe(value => this.handleDashboardViewSettingChanged(value));
     this.tableauReportSub = this.tableauReports$.subscribe(wb => this.tableauReports = wb);
@@ -125,7 +125,7 @@ export class ViewsComponent implements OnInit, OnDestroy {
   }
 
   handleSelectedDashboardViewChanged(view: DashboardView): void {
-    this.store.dispatch(new fromViewsActions.ToggleDashboardView({ view }));
+    this.store.dispatch(new fromViewsActions.ToggleDashboardView(view));
   }
 
   handleDashboardViewSettingChanged(value: string): void {
@@ -135,10 +135,19 @@ export class ViewsComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleFavoriteViewsChanged(views: View[]): void {
-    this.favoriteTableauViews = views;
-    if ((this.favoriteDataViewReports && !this.favoriteTableauViews.length) && this.selectedDashboardView === DashboardView.Favorites) {
-      this.store.dispatch(new fromViewsActions.SetDashboardView(DashboardView.Views));
+  handleCompanyWorkbooksAsyncChanged(asyncObj: AsyncStateObj<Workbook[]>): void {
+    this.companyWorkbooksAsync = asyncObj;
+    if (!!asyncObj && !asyncObj.loading && !!asyncObj.obj.length) {
+      const tableauReports = asyncObj.obj.filter(tr => tr.Type === 'TableauReport');
+      const dataViewReports = asyncObj.obj.filter(tr => tr.Type === 'DataView');
+      const hasFavorites = (
+        tableauReports.some(w => w.Views.obj.some(v => v.IsFavorite === true)) ||
+        dataViewReports.some(w => w.IsFavorite === true)
+      );
+
+      if (!hasFavorites && this.selectedDashboardView === DashboardView.Favorites) {
+        this.store.dispatch(new fromViewsActions.ToggleDashboardView(DashboardView.Views));
+      }
     }
   }
 
