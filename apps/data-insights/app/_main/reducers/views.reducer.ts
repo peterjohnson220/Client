@@ -122,16 +122,11 @@ export function reducer(state = initialState, action: fromViewsActions.Actions):
         tableauReportWorkbooks: tableauReportWorkbooksClone
       };
     }
-    case fromViewsActions.SET_DASHBOARD_VIEW: {
-      return {
-        ...state,
-        dashboardView: action.payload
-      };
-    }
+    case fromViewsActions.SET_DASHBOARD_VIEW:
     case fromViewsActions.TOGGLE_DASHBOARD_VIEW: {
       return {
         ...state,
-        dashboardView: action.payload.view
+        dashboardView: action.payload
       };
     }
     default: {
@@ -150,6 +145,6 @@ export const getFavoriteViews = (state: State) => {
   return favoriteTableauReports;
 };
 export const getFavoriteDataViewReports = (state: State) => {
-  return ViewsHelper.getFavoriteDataViewReports(state.dataViewReports.filter(wb => wb.IsFavorite === true));
+  return state.dataViewReports.filter(wb => wb.IsFavorite === true);
 } ;
 export const getDashboardViewThumbnailEnabled = (state: State) => state.dashboardView;

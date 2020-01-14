@@ -91,7 +91,7 @@ export class RemoveWorkbookFavoriteError implements Action {
 export class ToggleDashboardView implements Action {
   readonly type = TOGGLE_DASHBOARD_VIEW;
 
-  constructor(public payload: { view: DashboardView }) {}
+  constructor(public payload: DashboardView) {}
 }
 
 export class SaveWorkbookTag implements Action {
