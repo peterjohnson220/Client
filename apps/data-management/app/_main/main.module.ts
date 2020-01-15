@@ -27,13 +27,16 @@ import {
     DataManagementHomePageComponent, EntityMappingComponent,
     FieldMappingCardComponent, HrisAuthenticationCardComponent, OrgDataLoadComponent,
     PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
-    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
+    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent,
+    TransferSchedulePageComponent, TransferScheduleSummaryComponent, TransferScheduleCardComponent,
+    TransferScheduleCronComponent
 } from './containers';
 import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
-  FileUploadEffects, CustomFieldsEffect } from './effects';
+  FileUploadEffects, CustomFieldsEffect, TransferScheduleEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
+import {GetSupportedSchedulesPipe} from './pipes';
 
 @NgModule({
   imports: [
@@ -56,7 +59,8 @@ import { reducers } from './reducers';
       OrgDataFieldMappingsEffects,
       FileUploadEffects,
       LoaderSettingsEffects,
-      CustomFieldsEffect
+      CustomFieldsEffect,
+      TransferScheduleEffects
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
@@ -74,6 +78,9 @@ import { reducers } from './reducers';
     PfEmailRecipientsModule
   ],
   declarations: [
+    // Pipes
+    GetSupportedSchedulesPipe,
+
     // Pages
     DataManagementHomePageComponent,
     TransferDataPageComponent,
@@ -92,7 +99,11 @@ import { reducers } from './reducers';
     FieldMappingCardComponent,
     FileUploadComponent,
     EntityMappingComponent,
-    FileMappingComponent
+    FileMappingComponent,
+    TransferSchedulePageComponent,
+    TransferScheduleSummaryComponent,
+    TransferScheduleCardComponent,
+    TransferScheduleCronComponent
   ]
 })
 export class MainModule {

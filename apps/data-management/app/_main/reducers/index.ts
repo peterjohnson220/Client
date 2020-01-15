@@ -11,6 +11,7 @@ import * as fromFieldMappingReducer from './field-mapping.reducer';
 import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
 import * as fromFileUploadReducer from './file-upload.reducer';
 import * as fromCustomFieldsReducer from './custom-fields.reducer';
+import * as fromTransferScheduleReducer from './transfer-schedule.reducer';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
@@ -21,6 +22,7 @@ export interface DataManagementMainState {
   loaderSettings: fromLoaderSettingsReducer.State;
   customFieldsData: fromCustomFieldsReducer.State;
   emailRecipients: fromEmailRecipientsReducer.State;
+  transferSchedule: fromTransferScheduleReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -34,8 +36,9 @@ export const reducers = {
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
   fileUploadPage: fromFileUploadReducer.reducer,
   loaderSettings: fromLoaderSettingsReducer.reducer,
+  emailRecipients: fromEmailRecipientsReducer.reducer,
   customFieldsData: fromCustomFieldsReducer.reducer,
-  emailRecipients: fromEmailRecipientsReducer.reducer
+  transferSchedule: fromTransferScheduleReducer.reducer
 };
 
 // Select Feature Area
@@ -61,12 +64,10 @@ export const selectOrgDataFieldMappingsState = createSelector(
 export const selectOrgDataFileUploadState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.fileUploadPage);
-
 export const selectLoaderSettingState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.loaderSettings
 );
-
 export const selectOrgDataCustomFieldsState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.customFieldsData
@@ -74,6 +75,11 @@ export const selectOrgDataCustomFieldsState = createSelector(
 
 export const selectEmailRecipientsState =
   createSelector(selectFeatureAreaState, (state: DataManagementMainState) => state.emailRecipients);
+export const selectTransferScheduleState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.transferSchedule
+);
+
 // Transfer Data Page
 export const getTransferMethods = createSelector(
   selectTransferDataPageState,
@@ -273,3 +279,11 @@ export const getEmailRecipientsModalOpen = createSelector(
   fromEmailRecipientsReducer.getEmailRecipientsModalOpen
 );
 
+
+// Transfer Schedule
+export const getTransferScheduleSummary = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getTransferScheduleSummary);
+export const getTransferScheduleSummaryLoading = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getLoading);
+export const getTransferScheduleSummaryError = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getLoadingError);
+export const getTransferScheduleSummarySavingScheduleId = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getSavingScheduleId);
+export const getTransferScheduleSummarySaving = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getSaving);
+export const getTransferScheduleSummarySavingError = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getSavingError);

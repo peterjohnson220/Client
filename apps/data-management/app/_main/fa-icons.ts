@@ -1,10 +1,10 @@
-
 import { faSquare } from '@fortawesome/pro-regular-svg-icons/faSquare';
 import { faCheckSquare } from '@fortawesome/pro-solid-svg-icons/faCheckSquare';
 import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons/faInfoCircle';
 import { faThumbsUp } from '@fortawesome/pro-solid-svg-icons/faThumbsUp';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes';
 import { faUpload } from '@fortawesome/pro-solid-svg-icons/faUpload';
+import { faPencilAlt} from '@fortawesome/pro-solid-svg-icons';
 
 export const faIcons = [
     faCheckSquare,
@@ -12,4 +12,5 @@ export const faIcons = [
     faInfoCircle,
     faThumbsUp,
     faTimes,
-    faUpload];
+    faUpload,
+    faPencilAlt];

@@ -1,0 +1,19 @@
+<div class="card mb-3 shadow-sm p-3">
+  <div class="card-body">
+    <fa-icon icon="pencil-alt" size="lg" class="pencil-top-right blue" *ngIf="canEdit()" (click)="setEditMode()"></fa-icon>
+    <h4 class="card-title">{{ transferSchedule.entityMappingTypeName }}</h4>
+    <pf-transfer-schedule-cron
+      [id]="transferSchedule.entityMappingType_ID"
+      [cronExpression]="transferSchedule.expression"
+      (cronExpressionChanges)="setCronExpression($event)"
+      [editMode]="editMode"
+      [disabled]="!active"
+      [lastRunDate]="transferSchedule.lastSync_Date"
+    ></pf-transfer-schedule-cron>
+    <div class="text-right" [class.hide-buttons]="!editMode">
+      <a href="javascript:void(0);" class="btn btn-outline-danger" *ngIf="active" (click)="toggleSchedule()">Disable</a>
+      <a href="javascript:void(0);" class="btn btn-primary" *ngIf="!active" (click)="toggleSchedule()">Enable</a>
+      <a href="javascript:void(0);" class="btn btn-primary" [ngClass]="{'btn-disabled disabled btn-light':!isDirty || !transferSchedule.supported }" (click)="save()">Save</a>
+    </div>
+  </div>
+</div>

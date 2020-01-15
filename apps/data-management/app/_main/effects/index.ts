@@ -4,3 +4,4 @@ export * from './field-mapping.effects';
 export * from './organizational-data-field-mapping.effects';
 export * from './file-upload.effects';
 export * from './custom-fields.effect';
+export * from './transfer-schedule.effects';
