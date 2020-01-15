@@ -182,6 +182,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new fromJobDescriptionActions.ClearJobDescription());
     this.routerParamsSubscription.unsubscribe();
     this.jobDescriptionSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
