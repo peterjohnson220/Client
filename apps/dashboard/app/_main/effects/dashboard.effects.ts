@@ -27,6 +27,18 @@ export class DashboardEffects {
       )
     );
 
+  @Effect()
+  sendPendoInAppMarketingEmail$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromDashboardActions.SENDING_IN_APP_MARKETING_EMAIL),
+      switchMap((action: fromDashboardActions.SendingInAppMarketingEmail) =>
+        this.dashboardApiService.sendInAppMarketingEmail(action.payload).pipe(
+          map((response) => new fromDashboardActions.SendingInAppMarketingEmailSuccess(response)),
+          catchError(error => of (new fromDashboardActions.SendingInAppMarketingEmailError(error)))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private dashboardApiService: DashboardApiService
