@@ -86,3 +86,14 @@ div.dnd-choice-reorder:hover fa-icon {
   cursor: not-allowed;
 }
 
+.input-group-btn, .input-group .form-control {
+  display: flex;
+}
+
+.input-group-btn > .btn {
+  flex: 1;
+  z-index: 2;
+  margin-left: -2px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
