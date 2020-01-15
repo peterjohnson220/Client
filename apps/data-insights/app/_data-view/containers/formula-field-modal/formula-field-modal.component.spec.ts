@@ -66,12 +66,12 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
     const fieldName = 'Compa-Ratio';
     instance.formulaFieldForm.patchValue( { fieldName });
     instance.formula = '[Base]/[Mid]';
-    const payload: FormulaFieldModalObj = {
+    const formula: FormulaFieldModalObj = {
       FieldName: fieldName,
       Formula: instance.formula,
       FormulaId: null
     };
-    const expectedAction = new fromFormulaFieldActions.SaveFormulaField(payload);
+    const expectedAction = new fromFormulaFieldActions.SaveFormulaField({ formula, baseEntityId: instance.baseEntityId });
 
     instance.handleSaveClicked();
 

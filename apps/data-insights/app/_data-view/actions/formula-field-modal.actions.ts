@@ -33,7 +33,7 @@ export class ValidateFormulaError implements Action {
 export class SaveFormulaField implements Action {
   readonly type = SAVE_FORMULA_FIELD;
 
-  constructor(public payload: FormulaFieldModalObj) {}
+  constructor(public payload: { formula: FormulaFieldModalObj, baseEntityId: number }) {}
 }
 
 export class CreateFormulaFieldSuccess implements Action {
