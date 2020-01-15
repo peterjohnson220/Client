@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/co
 import {Store} from '@ngrx/store';
 
 import {Observable, Subscription} from 'rxjs';
-
+import { fill, cloneDeep } from 'lodash';
 import {TransferScheduleSummary} from 'libs/models/hris-api/sync-schedule/response';
 
 import * as fromTransferScheduleActions from '../../../actions/transfer-schedule.actions';
@@ -21,6 +21,9 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   transferScheduleSummarySaving$: Observable<boolean>;
   transferScheduleSummaryError$: Observable<boolean>;
   transferScheduleSummary: TransferScheduleSummary[] = [];
+  transferScheduleSummaryBackup: TransferScheduleSummary[] = [];
+
+  editStates: boolean[] = [];
   transferScheduleSummarySubscription: Subscription;
 
   constructor(private store: Store<fromDataManagementMainReducer.State>) {
@@ -28,9 +31,12 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummarySaving$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummarySaving);
     this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
-
     this.transferScheduleSummarySubscription = this.transferScheduleSummary$.subscribe(s => {
       this.transferScheduleSummary = new GetSupportedSchedulesPipe().transform(s);
+      this.transferScheduleSummaryBackup = cloneDeep(this.transferScheduleSummary);
+      if (this.transferScheduleSummary.length) {
+        this.editStates = fill(Array(this.transferScheduleSummary.length), false);
+      }
     });
   }
 
@@ -58,6 +64,11 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     if (!this.transferScheduleSummary || !this.transferScheduleSummary.length) {
       return false;
     }
-    return this.transferScheduleSummary.filter(s => s.syncSchedule_ID > 0).length === this.transferScheduleSummary.length;
+    return this.editStates.filter(x => !x).length === this.transferScheduleSummary.length &&
+           this.transferScheduleSummary.filter(s => s.syncSchedule_ID > 0).length === this.transferScheduleSummary.length;
+  }
+
+  updateCanFinish(i: number, $event: boolean) {
+    this.editStates[i] = $event;
   }
 }

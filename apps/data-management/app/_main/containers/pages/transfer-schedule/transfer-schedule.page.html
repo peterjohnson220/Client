@@ -9,7 +9,8 @@
       <ng-container *ngFor="let item of transferScheduleSummary; let i = index">
         <div class="col-sm-4">
           <pf-transfer-schedule-card
-            [transferSchedule]="item">
+            [transferSchedule]="item"
+            (changesPending)="updateCanFinish(i, $event)">
           </pf-transfer-schedule-card>
         </div>
       </ng-container>

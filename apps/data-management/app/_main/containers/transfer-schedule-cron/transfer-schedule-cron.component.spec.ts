@@ -93,7 +93,7 @@ describe('TransferScheduleCronComponent', () => {
     expect(component.cronExpressionChanges.emit).toHaveBeenNthCalledWith(1, { expression: '0 0 * * *', force: false});
   });
 
-  it('should not emit a daily cron expression when weekly button is clicked and no selection made', () => {
+  it('should emit an incomplete cron expression when weekly button is clicked and no selection made', () => {
     spyOn(component.cronExpressionChanges, 'emit');
 
     component.setWeekly();
@@ -101,7 +101,7 @@ describe('TransferScheduleCronComponent', () => {
     expect(component.weeklyChecked).toBe(true);
     expect(component.monthlyChecked).toBe(false);
 
-    expect(component.cronExpressionChanges.emit).toHaveBeenCalledTimes(0);
+    expect(component.cronExpressionChanges.emit).toHaveBeenNthCalledWith(1, { expression: '0 0 * * ', force: false});
   });
 
   it('should emit a weekly cron expression when weekly button is clicked and selection made', () => {
@@ -114,7 +114,8 @@ describe('TransferScheduleCronComponent', () => {
     expect(component.monthlyChecked).toBe(false);
     expect(component.dayValue).toBe('2');
 
-    expect(component.cronExpressionChanges.emit).toHaveBeenNthCalledWith(1, { expression: '0 0 * * 2', force: false });
+    expect(component.cronExpressionChanges.emit).toHaveBeenNthCalledWith(1, { expression: '0 0 * * ', force: false});
+    expect(component.cronExpressionChanges.emit).toHaveBeenNthCalledWith(2, { expression: '0 0 * * 2', force: false });
   });
 
   it('should emit a monthly cron expression when monthly fields are passed', () => {

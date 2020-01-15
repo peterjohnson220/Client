@@ -125,8 +125,8 @@ export class TransferScheduleCronComponent implements OnChanges {
     this.cronArray = ['0', '0', '*', '*', null];
     if (this.dayValue) {
       this.cronArray[4] = this.dayValue;
-      this.emitChange(false);
     }
+    this.emitChange(false);
   }
 
   setMonthly() {
