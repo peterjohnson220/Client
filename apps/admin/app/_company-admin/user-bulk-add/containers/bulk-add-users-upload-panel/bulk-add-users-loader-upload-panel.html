@@ -1,0 +1,50 @@
+<div class="card">
+    <div class="card-header" (click)="handleHeaderClick()">
+      <div class="row">
+        <div class="col">Upload Users</div>
+        <div class="col-auto" [ngClass]="{'hidden': !loaderStepComplete}" >
+            <fa-icon icon="check-circle" class="pull-right survey-import-panel-icon success-green" aria-hidden="true"></fa-icon>
+        </div>
+      </div>
+    </div>
+    <div class="card-block" [@toggleState]="isToggled">
+        <form role="form" enctype="multipart/form-data" target="Upload/Save">
+            <div class="form-group">
+                <kendo-upload
+                    [autoUpload]="true"
+                    [saveUrl]="uploadUrl"
+                    [multiple]="false"
+                    [showFileList]="true"
+                    (upload)="uploadEventHandler($event)"
+                    saveField="files"
+                    (success)="successEventHandler($event)"
+                    (error)="errorEventHandler($event)"
+                    [restrictions]="excelRestrictions"
+                    [(ngModel)]="myFiles"
+                    name="uploader">
+                    <kendo-upload-messages select="Choose File">
+                    </kendo-upload-messages>
+                </kendo-upload>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer text-muted" [@toggleState]="isToggled" [ngClass]="{'hidden': loaderStepComplete}">
+        <div>
+            <ul class="iconList" *ngIf="panelState == _panelState.Error" >
+                <li class="alert-danger"><span><fa-icon icon="exclamation-circle" class="pull-right survey-import-panel-icon failure-red" aria-hidden="true"></fa-icon></span>
+                    Upload failed, please verify user data in spreadsheet and try again.</li>
+            </ul>
+            <ul>
+                <li>First Name, Last Name, Email address, and Password are required fields.</li>
+                <li>Passwords must be at least {{passwordRequirement}} characters, with 1 special character, 1 number, 1 lowercase letter and 1 uppercase letter, and cannot contain username.</li>
+                <li>Emails will not be automatically sent to users with login credentials.</li>
+            </ul>
+        </div>
+        <div>
+             <span  *ngIf="panelState == _panelState.Error" class="button-panel">
+                    <button class="btn btn-secondary" (click)="reupload()"><span><fa-icon icon="level-up" aria-hidden="true"></fa-icon></span> Re-Upload</button>
+               </span>
+        </div>
+
+    </div>
+</div>

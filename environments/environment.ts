@@ -25,4 +25,5 @@ export const environment = {
   siteAdminUrl: '/client/pf-admin',
   // /client/admin/company-admin ### /ng/company-admin
   companyAdminUrl: '/client/admin/company-admin',
+  payfactorsFrontEndApiUrl: '/Payfactors/',
 };

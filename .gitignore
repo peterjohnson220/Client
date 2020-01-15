@@ -23,6 +23,7 @@
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/extensions.json
+.vs/*
 
 # misc
 /.sass-cache
@@ -43,3 +44,5 @@ Thumbs.db
 
 #Jenkins
 /output
+
+

@@ -1,0 +1,37 @@
+.success-green {
+    color: #5CB85C;
+}
+
+.failure-red {
+    color: #D9534F;
+}
+
+.warning-orange {
+    color: #F0AD4E;
+}
+
+.hidden {
+    display: none;
+}
+
+.iconList {
+    list-style: none;
+    padding: 0;
+}
+
+.card-header {
+    cursor: pointer;
+}
+
+.btn-info {
+    cursor: pointer;
+}
+
+.button-panel {
+    float: right;
+}
+
+.card-block {
+  margin-left: 10px;
+  margin-top: 5px;
+}

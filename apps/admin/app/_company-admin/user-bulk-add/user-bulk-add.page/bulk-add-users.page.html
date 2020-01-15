@@ -1,0 +1,68 @@
+<pf-page-with-title-bar [returnUrl]="'company-admin/navigation'" class="wrapper">
+  <ng-container page-title>
+      Bulk Add Users
+  </ng-container>
+
+  <ng-container page-actions>
+      <a class="btn btn-primary" href="/payfactors/BulkAddUsersLoadExcel/DownloadTemplate">Download Template</a>
+      <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+  </ng-container>
+  <ng-container page-content>
+      <div class="col-12 column-scroll-container">
+          <div class="scroll-y">
+              <div class="row justify-content-center">
+                  <div class="col-11" *ngIf="loaderState; else loading">
+                    <p *ngIf="loaderState == _loaderStates.Loading">Loading...</p>
+
+                    <pf-bulk-add-users-loader-upload-panel
+                      [ngClass]="{'hidden': (loaderState < _loaderStates.UploadPanel)}"
+                      [attr.disabled]="loaderState  != _loaderStates.UploadPanel ? 'disabled' : null"
+                      (notifyComplete)="panelComplete($event)"
+                      (notifyCancel)="panelCancel($event)"
+                      [isToggled]="loaderState  === _loaderStates.UploadPanel"
+                      [panelId]="_loaderStates.UploadPanel"
+                      [loaderStepComplete]="loaderState  > _loaderStates.UploadPanel"
+                      [companyId]="companyId" >
+                    </pf-bulk-add-users-loader-upload-panel>
+
+                    <pf-bulk-add-users-loader-validation-panel
+                      [ngClass]="{'hidden': (loaderState < _loaderStates.ImportValidation)}"
+                      [attr.disabled]="loaderState  != _loaderStates.ImportValidation ? 'disabled' : null"
+                      (notifyComplete)="panelComplete($event)"
+                      (notifyCancel)="panelCancel($event)"
+                      [isToggled]="loaderState  === _loaderStates.ImportValidation"
+                      [panelId]="_loaderStates.ImportValidation"
+                      [loaderStepComplete]="loaderState  > _loaderStates.ImportValidation"
+                      [companyId]="companyId"
+                      [userWorksheet]="userWorksheet">
+                    </pf-bulk-add-users-loader-validation-panel>
+
+                    <pf-bulk-add-users-loader-import-summary-panel
+                      [ngClass]="{'hidden': (loaderState < _loaderStates.ImportSummary)}"
+                      [attr.disabled]="loaderState  != _loaderStates.ImportSummary ? 'disabled' : null"
+                      (notifyComplete)="panelComplete($event)"
+                      [isToggled]="loaderState  === _loaderStates.ImportSummary"
+                      [panelId]="_loaderStates.ImportSummary"
+                      [loaderStepComplete]="loaderState  > _loaderStates.ImportSummary">
+                    </pf-bulk-add-users-loader-import-summary-panel>
+
+                    <pf-bulk-add-users-loader-import-panel
+                      [ngClass]="{'hidden': (loaderState < _loaderStates.ImportPanel)}"
+                      [attr.disabled]="loaderState  != _loaderStates.ImportPanel ? 'disabled' : null"
+                      (notifyComplete)="panelComplete($event)"
+                      [isToggled]="loaderState  === _loaderStates.ImportPanel"
+                      [panelId]="_loaderStates.ImportPanel"
+                      [loaderStepComplete]="loaderState  > _loaderStates.ImportPanel"
+                      [companyId]="companyId"
+                      [userWorksheet]="userWorksheet">
+                    </pf-bulk-add-users-loader-import-panel>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </ng-container>
+</pf-page-with-title-bar>
+
+<ng-template #loading>
+    <p>Loading...</p>
+</ng-template>

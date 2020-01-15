@@ -23,4 +23,5 @@ export const environment = {
   hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data',
   siteAdminUrl: '/client/pf-admin',
   companyAdminUrl: '/client/admin/company-admin',
+  payfactorsFrontEndApiUrl: '/Payfactors/',
 };

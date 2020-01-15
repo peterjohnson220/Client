@@ -23,7 +23,7 @@ import { TermsConditionsApiService } from './terms-conditions';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
-import { RolesApiService } from './company-admin';
+import { RolesApiService, BulkAddUsersApiService } from './company-admin';
 import { DataLoadEmailRecipientsApiService, LoaderFieldMappingsApiService, LoaderSettingsApiService } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
@@ -80,6 +80,7 @@ import { TotalRewardsApiService } from './total-rewards';
     UserTicketApiService,
     CompanyJobApiService,
     RolesApiService,
+    BulkAddUsersApiService,
     CompanyJobPricingMatchApiService,
     DataLoadEmailRecipientsApiService,
     JobSearchApiService,
