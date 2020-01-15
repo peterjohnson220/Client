@@ -9,6 +9,9 @@
           [value]="searchTerm"
           [data]="filteredSuggestions"
           [popupSettings]="popupSettings"
+          [textField]="'Name'"
+          [valueField]="'Value'"
+          [valuePrimitive]="true"
           (valueChange)="handleSuggestionClicked($event)">
         </kendo-dropdownlist>
       </span>

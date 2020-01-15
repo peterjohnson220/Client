@@ -1,3 +1,5 @@
+import { Suggestion } from './suggestion.model';
+
 export enum FunctionName {
   IF = 'IF',
   AND = 'AND',
@@ -102,4 +104,9 @@ export const functionDictionary = {
   [FunctionName.CONCAT]: [Function.CONCAT],
   [FunctionName.SUBSTITUTE]: [Function.SUBSTITUTE]
 };
-export const functionNames = Object.keys(functionDictionary);
+export const functionNames: Suggestion[] = Object.keys(functionDictionary).map(f => {
+  return {
+    Name: f,
+    Value: f
+  };
+});

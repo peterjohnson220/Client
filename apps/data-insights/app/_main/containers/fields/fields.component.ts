@@ -12,7 +12,7 @@ import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromFieldsActions from '../../actions/fields.actions';
 import { Field, UserDataView } from '../../models';
 import { FormulaFieldModalComponent } from '../../../_data-view/containers';
-import { FormulaFieldModalObj } from '../../../_data-view/models';
+import { FormulaFieldModalObj, Suggestion } from '../../../_data-view/models';
 
 @Component({
   selector: 'pf-data-view-fields',
@@ -26,7 +26,7 @@ export class FieldsComponent implements OnInit, OnDestroy {
   unselectedFields$: Observable<Field[]>;
   formulaBuilderEnabled$: Observable<boolean>;
   dataView$: Observable<AsyncStateObj<UserDataView>>;
-  formulaFieldSuggestions$: Observable<string[]>;
+  formulaFieldSuggestions$: Observable<Suggestion[]>;
 
   dragulaSub: Subscription;
   selectedFieldsSub: Subscription;
