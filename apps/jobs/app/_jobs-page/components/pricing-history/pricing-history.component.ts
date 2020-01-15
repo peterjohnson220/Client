@@ -8,6 +8,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
+import { Permissions } from 'libs/constants';
 
 import * as fromJobsPageActions from '../../actions';
 import * as fromJobsPageReducer from '../../reducers';
@@ -34,9 +35,11 @@ export class PricingHistoryComponent implements AfterViewInit {
 
   deletePricingRequest: DeletePricingRequest;
   pricingIdToBeDeleted$: Observable<number>;
+  _Permissions = null;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.pricingIdToBeDeleted$ = store.select(fromJobsPageReducer.getPricingIdToBeDeleted);
+    this._Permissions = Permissions;
   }
 
   ngAfterViewInit() {
