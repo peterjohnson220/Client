@@ -145,6 +145,12 @@ export const getSelectedCompanyTiles = createSelector(
   }
 );
 
+export const getSelectedCompanyMarketingTiles = createSelector(
+  getCompanyTiles, tiles => {
+    return tiles.filter(x => x.MarketingEnabled).map(t => t.TileId);
+  }
+);
+
 export const getLoadingCompanySettings = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getLoadingCompanySettings

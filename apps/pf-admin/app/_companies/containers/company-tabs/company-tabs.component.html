@@ -112,6 +112,25 @@
           </div>
         </ng-template>
       </ngb-tab>
+      <ngb-tab title="In-App Marketing" *ngIf="(isUserAdmin() && env.allowMarketingAdmin && isPayfactorsServices)">
+        <ng-template ngbTabContent>
+          <div class="pt-2">
+            <pf-async-container [loading]="loadingCompanyTiles$ | async"
+                                [loadingError]="loadingCompanyTilesError$ | async" [loadingErrorMessage]="'Error.'"
+                                [hideReloadButton]="true">
+              <ng-container *ngIf="(companyTiles$ | async)?.length">
+                <div class="checkbox" *ngFor="let marketingTile of marketingTileFilter((companyTiles$ | async))">
+                  <label>
+                    <input type="checkbox"
+                           (change)="toggleMarketingTile(marketingTile)" [checked]="marketingTile.MarketingEnabled" [disabled]="marketingTile.Checked" />
+                    {{marketingTile.TileName}}
+                  </label>
+                </div>
+              </ng-container>
+            </pf-async-container>
+          </div>
+        </ng-template>
+      </ngb-tab>
     </ngb-tabset>
   </div>
 </div>
