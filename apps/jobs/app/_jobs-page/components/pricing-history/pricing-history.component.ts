@@ -41,7 +41,7 @@ export class PricingHistoryComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'Create_User': this.createUserColumn
+      'Create_User': { Template: this.createUserColumn}
     };
   }
 
