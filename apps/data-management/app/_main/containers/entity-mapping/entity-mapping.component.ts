@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { DragulaService } from 'ng2-dragula';
+import { orderBy } from 'lodash';
 
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
 import * as fromFieldMappingReducer from '../../reducers';
@@ -55,7 +56,7 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     this.payfactorFieldsSubscription = this.payfactorFields$
     .subscribe(v => {
       if (v) {
-        this.payfactorsFields = v[this.entityType];
+        this.payfactorsFields = orderBy(v[this.entityType], ['IsRequired', 'FieldName'], ['desc', 'asc']);
         this.filteredPayfactorsFields = this.payfactorsFields.filter( pf =>
           pf.FieldName.toLocaleLowerCase().includes(this.payfactorsSearchTerm.toLocaleLowerCase())
         );
