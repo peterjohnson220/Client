@@ -8,7 +8,8 @@ export const ORG_DATA_PF_PAYMARKET_FIELDS = [
   'Country_Code',
   'Currency_Code',
   'Linked_PayMarket',
-  'Linked_AdjPct'
+  'Linked_AdjPct',
+  'ShowInLinkedStructure'
 ];
 
 export const ORG_DATA_PF_JOB_FIELDS = [
