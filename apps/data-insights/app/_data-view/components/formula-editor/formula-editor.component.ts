@@ -176,7 +176,13 @@ export class FormulaEditorComponent implements OnInit {
   private insertSelectedSuggestionIntoEditor(fromIndex: number, toIndex: number, textToInsert: string): void {
     this.isInsertingFunctionTemplate = (this.suggestionIndicator.Type === SuggestionIndicatorType.Function);
     this.editor.nativeElement.focus();
-    this.editor.nativeElement.setRangeText(textToInsert, fromIndex, toIndex, 'end');
+    if (typeof this.editor.nativeElement.setRangeText === 'function') {
+      this.editor.nativeElement.setRangeText(textToInsert, fromIndex, toIndex, 'end');
+    } else {
+      const currentValue = this.editor.nativeElement.value;
+      this.editor.nativeElement.value = currentValue.slice(0, fromIndex) + textToInsert + currentValue.slice(toIndex);
+      this.editor.nativeElement.setSelectionRange(fromIndex + textToInsert.length, fromIndex + textToInsert.length);
+    }
     this.inputValue = this.editor.nativeElement.value;
     if (!this.isInsertingFunctionTemplate) {
       this.formulaChanged.emit(this.inputValue);

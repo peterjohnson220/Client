@@ -8,7 +8,7 @@ export class FormulaHelper {
   }
 
   static getFormattedFunction(functionName: string): string {
-    return functionDictionary[functionName] || '';
+    return functionDictionary[functionName].toString() || '';
   }
 
   static buildSuggestionIndicator(): SuggestionIndicator {
