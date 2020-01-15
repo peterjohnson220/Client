@@ -2,14 +2,19 @@ import { PipeTransform, Pipe, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { icon } from '@fortawesome/fontawesome-svg-core';
+import { faIdCard } from '@fortawesome/pro-solid-svg-icons/faIdCard';
+import { faTasks } from '@fortawesome/pro-solid-svg-icons/faTasks';
+import { faGraduationCap } from '@fortawesome/pro-solid-svg-icons/faGraduationCap';
+import { faUserAlt } from '@fortawesome/pro-solid-svg-icons/faUserAlt';
+import { faUniversity } from '@fortawesome/pro-solid-svg-icons/faUniversity';
 
 @Pipe({ name: 'jobDescriptionParser' })
 export class JobDescriptionParserPipe implements PipeTransform {
-  faIdCard = icon({ prefix: 'fas', iconName: 'id-card'});
-  faTasks = icon({ prefix: 'fas', iconName: 'tasks'});
-  faGraduationCap = icon({ prefix: 'fas', iconName: 'graduation-cap'});
-  faUserAlt = icon({ prefix: 'fas', iconName: 'user-alt'});
-  faUniversity = icon({ prefix: 'fas', iconName: 'university'});
+  faIdCard = icon(faIdCard);
+  faTasks = icon(faTasks);
+  faGraduationCap = icon(faGraduationCap);
+  faUserAlt = icon(faUserAlt);
+  faUniversity = icon(faUniversity);
 
   sections = [];
 
