@@ -36,8 +36,13 @@ import { DataViewApiService, ReportManagementApiService, TableauReportApiService
 import { NotificationsApiService } from './notifications';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
 import {
-    AuthenticationTypesHrisApiService, ConnectionsHrisApiService, HrisApiService, MappingsHrisApiService, ProvidersHrisApiService,
-    TransferMethodsHrisApiService
+  AuthenticationTypesHrisApiService,
+  ConnectionsHrisApiService,
+  HrisApiService,
+  MappingsHrisApiService,
+  ProvidersHrisApiService,
+  SyncScheduleHrisApiService,
+  TransferMethodsHrisApiService
 } from './hris-api';
 import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
@@ -116,7 +121,8 @@ import { TotalRewardsApiService } from './total-rewards';
     ProvidersHrisApiService,
     AuthenticationTypesHrisApiService,
     ConnectionsHrisApiService,
-    MappingsHrisApiService
+    MappingsHrisApiService,
+    SyncScheduleHrisApiService
   ]
 })
 export class PfApiModule { }

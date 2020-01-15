@@ -1,0 +1,167 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransferScheduleCronComponent should have a good default state if a daily expression is passed 1`] = `
+<pf-transfer-schedule-cron
+  cronArray={[Function Array]}
+  cronExpression={[Function String]}
+  cronExpressionChanges={[Function EventEmitter]}
+  dailyChecked={[Function Boolean]}
+  daysOfWeek={[Function Array]}
+  defaultDay={[Function Object]}
+  id={[Function Number]}
+  monthlyChecked="false"
+  weeklyChecked="false"
+  weeksOfMonth={[Function Array]}
+>
+  <div>
+    <div
+      class="summary"
+    >
+      
+      
+      <div>
+        
+        <div>
+          <b>
+            Daily
+          </b>
+        </div>
+        
+        
+        
+        
+        <div
+          class="sync-info"
+        >
+           Never Synchronized 
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-transfer-schedule-cron>
+`;
+
+exports[`TransferScheduleCronComponent should have a good default state if a monthly expression is passed 1`] = `
+<pf-transfer-schedule-cron
+  cronArray={[Function Array]}
+  cronExpression={[Function String]}
+  cronExpressionChanges={[Function EventEmitter]}
+  dailyChecked="false"
+  daysOfWeek={[Function Array]}
+  defaultDay={[Function Object]}
+  defaultDayOfWeek={[Function Object]}
+  defaultWeekOfMonth={[Function Object]}
+  id={[Function Number]}
+  monthlyChecked={[Function Boolean]}
+  monthlyDayValue={[Function String]}
+  monthlyWeekOfMonthValue={[Function String]}
+  weeklyChecked="false"
+  weeksOfMonth={[Function Array]}
+>
+  <div>
+    <div
+      class="summary"
+    >
+      
+      
+      <div>
+        
+        
+        
+        <div>
+           Every 
+          <b>
+            2nd
+              Monday
+          </b>
+           of the month 
+        </div>
+        
+        
+        <div
+          class="sync-info"
+        >
+           Never Synchronized 
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-transfer-schedule-cron>
+`;
+
+exports[`TransferScheduleCronComponent should have a good default state if a weekly expression is passed 1`] = `
+<pf-transfer-schedule-cron
+  cronArray={[Function Array]}
+  cronExpression={[Function String]}
+  cronExpressionChanges={[Function EventEmitter]}
+  dailyChecked="false"
+  dayValue={[Function String]}
+  daysOfWeek={[Function Array]}
+  defaultDay={[Function Object]}
+  id={[Function Number]}
+  monthlyChecked="false"
+  weeklyChecked={[Function Boolean]}
+  weeksOfMonth={[Function Array]}
+>
+  <div>
+    <div
+      class="summary"
+    >
+      
+      
+      <div>
+        
+        
+        <div>
+           Weekly on 
+          <b>
+            Tuesdays
+          </b>
+        </div>
+        
+        
+        
+        <div
+          class="sync-info"
+        >
+           Never Synchronized 
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-transfer-schedule-cron>
+`;
+
+exports[`TransferScheduleCronComponent should have a good default state if no expression is passed 1`] = `
+<pf-transfer-schedule-cron
+  cronArray={[Function Array]}
+  cronExpressionChanges={[Function EventEmitter]}
+  dailyChecked="false"
+  daysOfWeek={[Function Array]}
+  defaultDay={[Function Object]}
+  monthlyChecked="false"
+  weeklyChecked="false"
+  weeksOfMonth={[Function Array]}
+>
+  <div>
+    <div
+      class="summary"
+    >
+      
+      
+      <div>
+        
+        
+        
+        
+        
+        <div
+          class="sync-info"
+        >
+           Never Synchronized 
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-transfer-schedule-cron>
+`;

@@ -1,12 +1,16 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { RouterModule, Routes } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 import {PermissionCheckEnum, Permissions} from 'libs/constants';
 import {AuthorizationGuard} from 'libs/security/guards';
 
-import { DataManagementHomePageComponent, TransferDataPageComponent,
-  OrgDataLoadComponent } from './containers';
+import {
+  DataManagementHomePageComponent,
+  OrgDataLoadComponent,
+  TransferDataPageComponent,
+  TransferSchedulePageComponent
+} from './containers';
 
 const routes: Routes = [
   {
@@ -18,11 +22,18 @@ const routes: Routes = [
   {
     path: '',
     component: DataManagementHomePageComponent,
+    canActivate: [AuthorizationGuard],
+    data: { Permissions: [Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any },
     // TODO: Need to determine subpermissions and consolidate pages
     children: [
       {
         path: 'transfer-data',
         component: TransferDataPageComponent
+      },
+      {
+        path: 'transfer-schedule',
+        component: TransferSchedulePageComponent,
+        data: { FullPage: true }
       }
     ]
   }
