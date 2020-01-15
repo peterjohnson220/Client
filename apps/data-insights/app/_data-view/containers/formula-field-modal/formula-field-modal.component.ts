@@ -106,12 +106,12 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   handleSaveClicked(): void {
-    const payload: FormulaFieldModalObj = {
+    const formulaInfo: FormulaFieldModalObj = {
       FieldName: this.formulaFieldForm.value.fieldName,
       Formula: this.formula,
       FormulaId: this.modalData ? this.modalData.FormulaId : null
     };
-    this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField(payload));
+    this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: formulaInfo, baseEntityId: this.baseEntityId }));
   }
 
   handleFormulaChanged(value: string): void {

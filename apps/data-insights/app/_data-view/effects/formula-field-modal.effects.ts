@@ -35,14 +35,15 @@ export class FormulaFieldModalEffects {
       ofType(fromFormulaFieldActions.SAVE_FORMULA_FIELD),
       switchMap((action: fromFormulaFieldActions.SaveFormulaField) => {
         const request: UpsertFormulaFieldRequest = {
-          Name: action.payload.FieldName,
-          Formula: action.payload.Formula,
-          FormulaId: action.payload.FormulaId
+          Name: action.payload.formula.FieldName,
+          Formula: action.payload.formula.Formula,
+          FormulaId: action.payload.formula.FormulaId,
+          BaseEntityId: action.payload.baseEntityId
         };
         return this.dataViewApiService.upsertFormulaField(request)
           .pipe(
             map((response) => {
-              return action.payload.FormulaId
+              return action.payload.formula.FormulaId
                 ? new fromFormulaFieldActions.UpdateFormulaFieldSuccess(response)
                 : new fromFormulaFieldActions.CreateFormulaFieldSuccess(response);
             }),
