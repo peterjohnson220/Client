@@ -193,6 +193,19 @@ export const getPayfactorsFields = createSelector(
   selectFieldMappingState,
   fromFieldMappingReducer.getPayfactorsFields
 );
+export const canSaveMappings = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.canSaveMappings
+);
+export const savingMappings = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.savingMappings
+);
+export const savingMappingsError = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.savingMappingsError
+);
+
 // Organizational Field Mapping
 export const { selectAll: getFieldMappings } = fromOrgDataFieldMappingsReducer.adapter.getSelectors(selectOrgDataFieldMappingsState);
 

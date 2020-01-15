@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, mergeMap, withLatestFrom, tap, map } from 'rxjs/operators';
 
-import * as fromRootState from 'libs/state/state';
 import { MappingsHrisApiService } from 'libs/data/payfactors-api/hris-api';
 import { OrgDataEntityType } from 'libs/constants';
 import { ProviderEntitiyFieldsResponse } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
 
+import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromReducers from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers';
 
 @Injectable()
 export class FieldMappingEffects {
@@ -91,9 +92,43 @@ export class FieldMappingEffects {
     catchError((error) => of(new fromFieldMappingActions.LoadPayfactorsFieldsByEntityError()))
   );
 
+  @Effect()
+  saveMappings$: Observable<Action> = this.actions$.pipe(
+    ofType<fromFieldMappingActions.SaveMapping>(fromFieldMappingActions.SAVE_MAPPING),
+    withLatestFrom(
+      this.store.pipe(select(fromRootState.getUserContext)),
+      this.store.pipe(select(fromReducers.getPayfactorsFields)),
+      (action, userContext, payfactorsFields) => {
+        return {
+          action,
+          userContext,
+          payfactorsFields
+      };
+    }),
+    mergeMap(obj => {
+      const mappingPackage = PayfactorsApiModelMapper.createMappingPackage(obj.payfactorsFields);
+      return this.mappingsHrisApiService.saveMappingFields(obj.userContext, mappingPackage)
+        .pipe(
+          map((response: any) => {
+            return new fromFieldMappingActions.SaveMappingSuccess();
+          })
+        );
+    }),
+    catchError((error) => of(new fromFieldMappingActions.SaveMappingError()))
+  );
+
+  @Effect({ dispatch: false })
+  saveMappingSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<fromFieldMappingActions.SaveMappingSuccess>(fromFieldMappingActions.SAVE_MAPPING_SUCCESS),
+    tap(() => {
+      this.router.navigate(['/', 'transfer-schedule']);
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromReducers.State>,
-    private mappingsHrisApiService: MappingsHrisApiService
+    private mappingsHrisApiService: MappingsHrisApiService,
+    private router: Router
   ) {}
 }

@@ -92,6 +92,7 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     this.payfactorFieldsSubscription.unsubscribe();
     this.providerFieldsSubscription.unsubscribe();
     this.dragulaSub.unsubscribe();
+    this.dragulaService.destroy(this.entityGroupName);
   }
 
   handleSearchTermChanged(searchTerm: string, type: string): void {
