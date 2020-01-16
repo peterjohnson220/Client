@@ -1,31 +1,35 @@
-<pf-async-container [loading]="fieldMappingCardLoading$"
+<pf-async-container [loading]="fieldMappingCardLoading$ | async"
                     [loadingError]="fieldMappingCardLoadingError$ | async"
                     [loadingErrorMessage]="'Error Loading Field Mapping Card'">
   <div class="p-3">
     <h4>Map Fields</h4>
     <div class="my-4">
+      <div class="alert alert-danger my-4" *ngIf="errorSavingMapping$ | async">
+        <h5 class="alert-heading mb-0">Something went wrong, please try again.</h5>
+      </div>
       <ngb-tabset [destroyOnHide]="false">
-        <ngb-tab *ngFor="let entity of selectedEntities"
+        <ngb-tab *ngFor="let entity of selectedEntities" 
                   [id]="'tab-'+ entity.EntityName.toLowerCase()">
           <ng-template ngbTabTitle>
               <h4 class="font-weight-lighter">{{entity.EntityName}}</h4>
           </ng-template>
           <ng-template ngbTabContent>
-
-              <pf-entity-mapping
-                  [entityType]="entity.EntityName"
-                  [entityGroupName]="entity.EntityName.toLowerCase() + '-associated-bag'">
-              </pf-entity-mapping>
-
+            <pf-entity-mapping 
+                [entityType]="entity.EntityName"
+                [entityGroupName]="entity.EntityName.toLowerCase() + '-associated-bag'">
+            </pf-entity-mapping>
           </ng-template>
         </ngb-tab>
       </ngb-tabset>
       <div class="d-flex justify-content-end">
           <div class="p-2">
-            <button type="button" class="btn btn-primary">Cancel</button>
+            <button type="button" class="btn btn-outline-danger px-3" (click)="cancelFieldMappingWorkflow()" [disabled]="(savingMappings$ | async)">Cancel</button>
           </div>
           <div class="p-2">
-            <button type="button" class="btn btn-primary" routerLink="/transfer-schedule">Save</button>
+            <button type="button" class="btn btn-secondary px-4" [disabled]="(savingMappings$ | async)">Back</button>
+          </div>
+          <div class="p-2">
+            <button type="button" class="btn btn-primary px-4" (click)="saveMappings()" [disabled]="!(canSaveMappings$ | async) || (savingMappings$ | async)">Save</button>
           </div>
       </div>
     </div>

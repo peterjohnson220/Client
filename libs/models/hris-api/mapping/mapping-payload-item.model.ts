@@ -3,7 +3,7 @@ import { OrgDataEntityType } from 'libs/constants';
 import { MappingPayloadMapping, generateMockMappingPayloadMapping } from './mapping-payload-mapping.model';
 
 export interface MappingPayloadItem {
-  OrgDataEntityType: OrgDataEntityType;
+  OrgDataEntityType: string;
   Mappings: MappingPayloadMapping[];
 }
 

@@ -8,7 +8,9 @@ import {
   ProviderEntitiyFieldsResponse,
   ProviderResponse,
   TransferMethodResponse,
-  ProviderSupportedEntityDTO
+  ProviderSupportedEntityDTO,
+  MappingPayloadItem,
+  MappingPayloadMapping
 } from 'libs/models/hris-api';
 
 import {
@@ -19,7 +21,8 @@ import {
   Provider,
   TransferMethod,
   WorkdayRestCredentialsPackage, WorkdaySoapCredentialsPackage,
-  EntityChoice
+  EntityChoice,
+  EntityField
 } from '../models';
 
 export class PayfactorsApiModelMapper {
@@ -114,7 +117,8 @@ export class PayfactorsApiModelMapper {
         IsRequired: pef.requiredField,
         HasDescription: pef.hasDescription,
         Description: pef.description,
-        AssociatedEntity: []
+        AssociatedEntity: [],
+        DataType: ImportDataType[pef.dataType]
       };
     });
   }
@@ -124,32 +128,36 @@ export class PayfactorsApiModelMapper {
       return {
         EntityType: entityType,
         FieldName: pef.name,
-        HasAssociation: false
+        HasAssociation: false,
+        DataType: ImportDataType[pef.dataType]
       };
     });
   }
 
-  static createMappingPackage(request: any, entityType: OrgDataEntityType): MappingPackage {
+  static createMappingPackage(request: EntityField): MappingPackage {
     return {
       MappingPayload: {
-        Items: [
-          {
-            OrgDataEntityType: entityType,
-            Mappings: [
-              {
-                DestinationField: '',
-                SourceField: '',
-                SourceMetadata: {
-                  DataType: ImportDataType.String,
-                  IsArray: false,
-                  Name: '',
-                  MetaData: ''
-                }
-              }
-            ]
-          }
-        ]
+        Items: Object.entries(request)
+          .map(([entityType, fields]) => this.getMappingsForEntity(entityType, fields))
+          .filter( mpi => mpi.Mappings.length > 0)
       }
+    };
+  }
+
+  static getMappingsForEntity(entityType: string , fields: EntityDataField[]): MappingPayloadItem {
+    return {
+      OrgDataEntityType: entityType,
+      Mappings: fields.filter(field => field.AssociatedEntity && field.AssociatedEntity.length > 0)
+      .map(field => ({
+        DestinationField: field.FieldName,
+        SourceField: field.AssociatedEntity[0].FieldName,
+        SourceMetadata: {
+          DataType: field.AssociatedEntity[0].DataType,
+          IsArray: false,
+          MetaData: {},
+          Name: field.AssociatedEntity[0].FieldName
+        }
+      }))
     };
   }
 

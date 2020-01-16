@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { EntityField, EntityDataField } from '../models';
+
+import { EntityDataField } from '../models';
 
 export const INIT_FIELD_MAPPING_CARD = '[Data Management/Field Mappings] Init Field Mapping Card';
 export const INIT_FIELD_MAPPING_CARD_ERROR = '[Data Management/Field Mappings] Init Field Mapping Card Error';
@@ -15,6 +16,12 @@ export const LOAD_PAYFACTORS_FIELDS_BY_ENTITY_SUCCESS = '[Data Management/Field 
 
 export const ADD_ASSOCIATED_ENTITY = '[Data Management/Field Mappings] Add Associated Entity to Payfactors Entity';
 export const REMOVE_ASSOCIATED_ENTITY = '[Data Management/Field Mappings] Remove Associated Entity from Payfactors Entity';
+
+export const SAVE_MAPPING = '[Data Management/Field Mappings] Save Mappings';
+export const SAVE_MAPPING_ERROR = '[Data Management/Field Mappings] Save Mappings Error';
+export const SAVE_MAPPING_SUCCESS = '[Data Management/Field Mappings] Save Mappings Success';
+
+export const CANCEL_MAPPING = '[Data Management/Field Mappings] Cancel Mapping Workflow';
 
 export class InitFieldMappingCard implements Action {
   readonly type = INIT_FIELD_MAPPING_CARD;
@@ -78,6 +85,30 @@ export class RemoveAssociatedEntity implements Action {
   constructor(public payload: {entity: EntityDataField, payfactorsEntityIndex: number, entityType: string}) {}
 }
 
+export class SaveMapping implements Action {
+  readonly type = SAVE_MAPPING;
+
+  constructor() {}
+}
+
+export class SaveMappingError implements Action {
+  readonly type = SAVE_MAPPING_ERROR;
+
+  constructor() {}
+}
+
+export class SaveMappingSuccess implements Action {
+  readonly type = SAVE_MAPPING_SUCCESS;
+
+  constructor() {}
+}
+
+export class CancelMapping implements Action {
+  readonly type = CANCEL_MAPPING;
+
+  constructor() {}
+}
+
 export type Actions
  = InitFieldMappingCard
  | InitFieldMappingCardError
@@ -89,4 +120,8 @@ export type Actions
  | LoadPayfactorsFieldsByEntityError
  | LoadPayfactorsFieldsByEntitySuccess
  | AddAssociatedEntity
- | RemoveAssociatedEntity;
+ | RemoveAssociatedEntity
+ | SaveMapping
+ | SaveMappingError
+ | SaveMappingSuccess
+ | CancelMapping;

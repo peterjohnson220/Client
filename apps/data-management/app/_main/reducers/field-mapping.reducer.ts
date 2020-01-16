@@ -1,8 +1,8 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
+import { EntityMappingHelper } from '../helpers';
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import { EntityField } from '../models/entity-field.model';
-import * as cloneDeep from 'lodash.clonedeep';
-import { EntityDataField } from '../models';
-import { EntityMappingHelper } from '../helpers';
 
 export interface State {
   loading: boolean;
@@ -10,6 +10,8 @@ export interface State {
   selectedEntities: string[];
   providerFields: EntityField;
   payfactorsFields: EntityField;
+  saving: boolean;
+  savingError: false;
 }
 
 const initialState: State = {
@@ -18,6 +20,8 @@ const initialState: State = {
   selectedEntities: null,
   providerFields: new EntityField(),
   payfactorsFields: new EntityField(),
+  saving: false,
+  savingError: false
 };
 
 export function reducer(state: State = initialState, action: fromFieldMappingActions.Actions) {
@@ -123,6 +127,28 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
         providerFields: updatedProviderFields
       };
     }
+    case fromFieldMappingActions.SAVE_MAPPING: {
+      return {
+        ...state,
+        saving: true,
+      };
+    }
+    case fromFieldMappingActions.SAVE_MAPPING_ERROR: {
+      return {
+        ...state,
+        saving: false,
+        savingError: true,
+      };
+    }
+    case fromFieldMappingActions.SAVE_MAPPING_SUCCESS: {
+      return {
+        ...state,
+        saving: false
+      };
+    }
+    case fromFieldMappingActions.CANCEL_MAPPING: {
+      return state = initialState;
+    }
     default:
       return state;
   }
@@ -133,3 +159,10 @@ export const getFieldMappingCardLoadingError = (state: State) => state.loadingEr
 export const getSelectedEntities = (state: State) => state.selectedEntities;
 export const getProviderFields = (state: State) => state.providerFields;
 export const getPayfactorsFields = (state: State) => state.payfactorsFields;
+export const savingMappings = (state: State) => state.saving;
+export const savingMappingsError = (state: State) => state.savingError;
+export const canSaveMappings = (state: State) => {
+  return Object.entries(state.payfactorsFields).every(([entityType, fields]) =>
+    fields.every(field => (field.IsRequired && field.AssociatedEntity && field.AssociatedEntity.length > 0) || !field.IsRequired)
+  );
+};
