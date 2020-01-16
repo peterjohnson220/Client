@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Store} from '@ngrx/store';
 
 import {isObject} from 'util';
@@ -16,6 +16,7 @@ import * as fromTransferScheduleActions from '../../actions/transfer-schedule.ac
 })
 export class TransferScheduleCardComponent implements OnChanges {
   @Input() transferSchedule: TransferScheduleSummary;
+  @Output() changesPending = new EventEmitter();
   isDirty: boolean;
   active = true;
   editMode = true;
@@ -32,13 +33,15 @@ export class TransferScheduleCardComponent implements OnChanges {
       if (this.transferSchedule.active !== null) {
         this.active = this.transferSchedule.active !== 0;
         this.editMode = false;
+        this.changesPending.emit(false);
       }
     }
   }
 
   setCronExpression(v: { expression: string, force: boolean }) {
+    const valid = v.expression && v.expression.split(' ').filter(x => x).length === 5;
     this.newExpression = v.expression;
-    this.isDirty = v.force ||  v.expression !== this.transferSchedule.expression;
+    this.isDirty = valid && (v.force || v.expression !== this.transferSchedule.expression);
   }
 
   toggleSchedule() {
@@ -47,11 +50,12 @@ export class TransferScheduleCardComponent implements OnChanges {
 
     this.active = !this.active;
     // if we are toggling with a schedule that does not exist yet...
-    if (!this.newExpression || !this.transferSchedule) {
+    if (!this.newExpression || !this.transferSchedule.syncSchedule_ID) {
       if (!this.active && !this.transferSchedule.expression) {
         this.newExpression = junkExpression;
         this.isDirty = true;
         this.editMode = false;
+        this.changesPending.emit(false);
         this.save();
         return;
       }
@@ -62,6 +66,7 @@ export class TransferScheduleCardComponent implements OnChanges {
 
     if (!this.active) {
       this.editMode = false;
+      this.changesPending.emit(false);
     }
 
     if (!shouldDispatch) {
@@ -94,5 +99,6 @@ export class TransferScheduleCardComponent implements OnChanges {
     if (this.editMode && !this.active) {
       this.active = true;
     }
+    this.changesPending.emit(this.editMode);
   }
 }
