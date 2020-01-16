@@ -52,13 +52,15 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   baseEntity$: Observable<DataViewEntity>;
   dataFields$: Observable<ViewField[]>;
   filterableFields$: Observable<ViewField[]>;
+  globalFilterableFields$: Observable<ViewField[]>;
   displayFilterPanel$: Observable<boolean>;
   savedViews$: Observable<SimpleDataView[]>;
   saveViewModalOpen$: Observable<boolean>;
   viewIsSaving$: Observable<boolean>;
-
+  globalFilterableFields: ViewField[];
   userFilteredFieldsSubscription: Subscription;
   selectedRecordIdSubscription: Subscription;
+  globalFilterableFieldsSubscription: Subscription;
 
   userFilteredFields: ViewField[];
   selectedRecordId: number;
@@ -84,6 +86,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       this.selectedRecordId = recordId;
     });
 
+    this.globalFilterableFieldsSubscription = this.store.select(fromReducer.getGlobalFilters, this.pageViewId).subscribe(gl => {
+      this.globalFilterableFields = gl;
+    });
+
     this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
     this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
     this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
@@ -98,6 +104,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.splitViewEmitter.unsubscribe();
     this.userFilteredFieldsSubscription.unsubscribe();
     this.selectedRecordIdSubscription.unsubscribe();
+    this.globalFilterableFieldsSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {

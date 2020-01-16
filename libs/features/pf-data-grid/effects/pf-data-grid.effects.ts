@@ -73,6 +73,7 @@ export class PfDataGridEffects {
             ),
             switchMap((data) => {
                 if (data.fields) {
+                    new fromPfDataGridActions.CloseSplitView(data.action.pageViewId);
                     return this.dataViewApiService
                         .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(
                             data.baseEntity ? data.baseEntity.Id : null,
@@ -233,8 +234,7 @@ export class PfDataGridEffects {
             EntityId: baseEntityId,
             Elements: fields.
                 filter(e => e.IsSelected).
-                map(e => ({ ElementId: e.DataElementId })),
-            Filters: this.mapFieldsToDataViewFilters(getUserFilteredFields(fields)),
+                map(e => ({ ElementId: e.DataElementId, Operator: e.FilterOperator, Value: e.FilterValue })),
             Name: name
         };
     }
@@ -293,7 +293,7 @@ export class PfDataGridEffects {
 
     static mapFieldsToFilters(fields: ViewField[]): DataViewFilter[] {
         return fields
-            .filter(field => field.FilterValue || !isValueRequired(field))
+            .filter(field => field.FilterValue !== null || !isValueRequired(field))
             .map(field => <DataViewFilter>{
                 EntitySourceName: field.EntitySourceName,
                 SourceName: field.SourceName,

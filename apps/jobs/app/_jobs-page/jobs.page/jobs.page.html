@@ -10,7 +10,6 @@
   [defaultSort]="defaultSort"
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
-  [gridGlobalFiltersTemplate]="globalFilters"
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'">
 </pf-data-grid>
 
@@ -57,14 +56,3 @@
     </h4>
   </ng-container>
 </pf-modal-form>
-
-<ng-template #globalFilters>
-  <pf-input-debounce
-    [placeholderText]="'Search for a Job Title or Code...'"
-    [hideClearBtn]="false"
-    [minWidth]="300"
-    [delay]="400"
-    [ngModel]="titleCodeSearchField?.FilterValue"
-    (valueChanged)="handleTitleCodeSearch($event)"
-    [id]="'txt-job-title-code'"></pf-input-debounce>
-</ng-template>

@@ -24,10 +24,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   permissions = Permissions;
   pageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
   selectedKeys: number[];
-  titleCodeSearchField: ViewField;
 
   selectedKeysSubscription: Subscription;
-  globalFilterSubscription: Subscription;
 
   company$: Observable<string>;
   addingToProject$: Observable<boolean>;
@@ -46,11 +44,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addingToProject$ = this.store.select(fromJobsPageReducer.getToProjectButtonState);
     this.selectedKeysSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedKeys = sk;
-    });
-    this.globalFilterSubscription = this.store.select(fromPfGridReducer.getGlobalFilters, this.pageViewId).subscribe(gf => {
-      if (gf) {
-        this.titleCodeSearchField = gf.find(f => f.SourceName === 'JobTitleCode');
-      }
     });
   }
 
@@ -74,27 +67,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.selectedKeysSubscription.unsubscribe();
-    this.globalFilterSubscription.unsubscribe();
   }
-
-  handleTitleCodeSearch(value: string) {
-    this.closeSplitView();
-    if (value.length) {
-      this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, this.buildTitleCodeFilter(value)));
-    } else {
-      this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, this.buildTitleCodeFilter('')));
-    }
-  }
-
   closeSplitView() {
     this.store.dispatch(new fromPfGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
-  }
-
-  buildTitleCodeFilter(value: string): ViewField {
-    return {
-      ...this.titleCodeSearchField,
-      FilterOperator: 'contains',
-      FilterValue: value
-    };
   }
 }

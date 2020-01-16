@@ -77,7 +77,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: updateFieldsWithFilters(action.payload.Fields, action.payload.Filters, state.grids[action.pageViewId].inboundFilters),
+            fields: updateFieldsWithFilters(action.payload.Fields, state.grids[action.pageViewId].inboundFilters),
             groupedFields: buildGroupedFields(resetFilters(action.payload.Fields)),
             baseEntity: action.payload.Entity,
             loading: false
@@ -490,8 +490,7 @@ export const getGrid = (state: DataGridStoreState, pageViewId: string) => state.
 export const getLoading = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].loading : null;
 export const getBaseEntity = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntity : null;
 export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].fields
-  ? state.grids[pageViewId].fields // .filter(f => !f.IsGlobalFilter)
-  : null;
+  ? state.grids[pageViewId].fields : null;
 export const getGroupedFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].groupedFields : null;
 export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] && state.grids[pageViewId].fields ? state.grids[pageViewId].fields.filter(f => f.IsGlobalFilter) : null;
@@ -594,14 +593,13 @@ function resetOperatorsForEmptyFilters(state: DataGridStoreState, pageViewId: st
   return fields;
 }
 
-export function updateFieldsWithFilters(fields: ViewField[], filters: DataViewFilter[], inboundFilters: PfDataGridFilter[]): ViewField[] {
+export function updateFieldsWithFilters(fields: ViewField[], inboundFilters: PfDataGridFilter[]): ViewField[] {
 
   let updatedFields = resetFilters(fields);
-
-  filters.forEach(filter => {
+  fields.filter(f => f.FilterValue !== null && f.FilterOperator).forEach(filter => {
     const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.EntitySourceName === filter.EntitySourceName);
-    fieldToUpdate.FilterOperator = filter.Operator;
-    fieldToUpdate.FilterValue = filter.Values[0];
+    fieldToUpdate.FilterOperator = filter.FilterOperator;
+    fieldToUpdate.FilterValue = filter.FilterValue;
   });
 
   updatedFields = applyInboundFilters(updatedFields, inboundFilters);
@@ -637,13 +635,12 @@ export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
   return views.map(view => ({
     Name: view.Name,
     Description: view.Fields
-      .filter(field => view.Filters.find(filter => filter.SourceName === field.SourceName))
+      .filter(field => field.FilterOperator && field.FilterValue !== null)
       .map(field => {
-        const curfilter = view.Filters.find(filter => filter.SourceName === field.SourceName);
         return ({
           ...field,
-          FilterValue: curfilter ? curfilter.Values[0] : null,
-          FilterOperator: curfilter ? curfilter.Operator : null
+          FilterValue: field.FilterValue,
+          FilterOperator: field.FilterOperator
         });
       })
       .map(field => getHumanizedFilter(field))
