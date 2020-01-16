@@ -39,6 +39,11 @@ export class TransferScheduleCronComponent implements OnChanges {
     if (isObject(changes.disabled) && !changes.disabled.isFirstChange()) {
       this.enableExistingExpression();
     }
+    if (isObject(changes.editMode) && !changes.editMode.isFirstChange()) {
+      if (changes.editMode.currentValue === false) {
+        this.parseCronExpression();
+      }
+    }
   }
 
   enableExistingExpression() {
@@ -61,6 +66,10 @@ export class TransferScheduleCronComponent implements OnChanges {
       this.createNewCronExpression();
       return;
     }
+
+    this.dailyChecked = false;
+    this.weeklyChecked = false;
+    this.monthlyChecked = false;
 
     // check for daily
     if (fromCronHelpers.dailyCronExpression.test(this.cronExpression)) {
