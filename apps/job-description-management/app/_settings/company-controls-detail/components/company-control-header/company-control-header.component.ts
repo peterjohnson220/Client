@@ -1,14 +1,18 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
+import { Observable, Subscription } from 'rxjs';
+
 import { ControlType } from 'libs/models';
+
+import { SmartListValidationService } from '../../services';
 
 @Component({
   selector: 'pf-company-control-header',
   templateUrl: './company-control-header.component.html',
   styleUrls: ['./company-control-header.component.scss']
 })
-export class CompanyControlHeaderComponent implements OnChanges {
+export class CompanyControlHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() controlType: ControlType;
     @Input() readOnly: boolean;
@@ -22,6 +26,8 @@ export class CompanyControlHeaderComponent implements OnChanges {
     public companyControlHeaderForm: FormGroup;
     public canEditTemplateData = false;
     public submitted = false;
+    public smartListValidationObservable$: Observable<boolean>;
+    public smartListValidationSubscription: Subscription;
 
     colors: Array<{ text: string, value: string }> = [
       { text: 'AntiqueWhite', value: '#FAEBD7' },
@@ -61,14 +67,27 @@ export class CompanyControlHeaderComponent implements OnChanges {
   // https://github.com/angular/angular/issues/18678
   get isValid() { return !this.companyControlHeaderForm.invalid; }
 
-  constructor(private formBuilder: FormBuilder) {
-        this.buildForm();
+  constructor(
+      private formBuilder: FormBuilder,
+      private smartListValidationService: SmartListValidationService) {
 
+        this.buildForm();
+        this.smartListValidationObservable$ = this.smartListValidationService.getValidationResult();
         this.companyControlHeaderForm.valueChanges.subscribe((change) => {
             if (change) {
                 this.handleChange.emit();
             }
         });
+  }
+
+  ngOnInit() {
+      this.smartListValidationSubscription = this.smartListValidationObservable$.subscribe((validationResult) => {
+          if (validationResult) {
+            this.companyControlHeaderForm.setErrors({'missingRenderedType': 'true'});
+          } else {
+            this.companyControlHeaderForm.setErrors(null);
+          }
+      });
   }
 
   ngOnChanges(changes) {
@@ -100,6 +119,10 @@ export class CompanyControlHeaderComponent implements OnChanges {
               this.companyControlHeaderForm.disable();
           }
       }
+  }
+
+  ngOnDestroy() {
+    this.smartListValidationSubscription.unsubscribe();
   }
 
   buildForm() {
