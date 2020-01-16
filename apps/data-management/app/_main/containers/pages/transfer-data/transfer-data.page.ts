@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -38,7 +39,7 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
 
   workflowStep = TransferDataWorkflowStep;
 
-  constructor(private store: Store<fromDataManagementMainReducer.State>) {
+  constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
     this.transferMethods$ = this.store.select(fromDataManagementMainReducer.getTransferMethods);
     this.providers$ = this.store.select(fromDataManagementMainReducer.getProviders);
     this.selectedProvider$ = this.store.select(fromDataManagementMainReducer.getSelectedProvider);
@@ -68,6 +69,7 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
 
   cancelTransferDataWorkflow() {
     this.store.dispatch(new fromTransferDataPageActions.ResetTransferDataPageWorkflow());
+    this.router.navigate(['/']);
   }
 
   setSelectedTransferMethod(transferMethodId: number) {

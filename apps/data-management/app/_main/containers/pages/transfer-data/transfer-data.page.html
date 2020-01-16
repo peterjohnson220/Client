@@ -1,11 +1,10 @@
 <pf-async-container [loading]="transferDataPageLoading$ | async"
                     [loadingError]="transferDataPageLoadingError$ | async"
                     [loadingErrorMessage]="'Error Loading Transfer Data Page'">
-  <div >
-    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.SelectTransferMethod">
-      <h4>Select Method of Transfer</h4>
-      <div class="mx-5 p-3">
-        <div class="row">
+    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.SelectTransferMethod" class="my-4 mx-3">
+      <h4>HRIS Integration</h4>
+      <div class="mx-5 my-5">
+        <div class="row" style="display:none;">
           <div class="col-4 mb-4 p-0">
             <pf-transfer-method-dropdown
               [transferMethods]="transferMethods$ | async"
@@ -13,7 +12,10 @@
             </pf-transfer-method-dropdown>
           </div>
         </div>
-        <div class="row mb-3">
+        <div class="row">
+          <div class="mb-4">
+            <h5>Select an HRIS vendor from the list below.</h5>
+          </div>
           <div class="card-deck">
             <pf-provider-card *ngFor="let provider of providers$ | async"
               [provider]="provider"
@@ -24,22 +26,22 @@
         </div>
         <div *ngIf="providers$ | async" class="d-flex justify-content-end">
             <div class="p-2">
-              <button type="button" class="btn btn-primary" (click)="cancelTransferDataWorkflow()">Cancel</button>
+              <button type="button" class="btn btn-outline-danger px-4" (click)="cancelTransferDataWorkflow()">Cancel</button>
             </div>
             <div class="p-2">
-              <button type="button" class="btn btn-primary" [disabled]="!selectedProvider" (click)="proceedToEntitySelection(selectedProvider?.ProviderId)">Next</button>
+              <button type="button" class="btn btn-primary px-4" [disabled]="!selectedProvider" (click)="proceedToEntitySelection(selectedProvider?.ProviderId)">Next</button>
             </div>
         </div>
       </div>
     </div>
     <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.EntitySelection">
-        <h4 class="mt-4 ml-2">Select entities to transfer</h4>
-        <div class="ml-5">
-          <h6 class="mt-4">Select which organizational data entity you would like to load data for:</h6>
-          <pf-entity-picker
-            [(entities)] = "providerSupportedEntities">
-          </pf-entity-picker>
-        </div>
+      <h4 class="mt-4 ml-2">Select entities to transfer</h4>
+      <div class="ml-5">
+        <h6 class="mt-4">Select which organizational data entity you would like to load data for:</h6>
+        <pf-entity-picker
+          [(entities)] = "providerSupportedEntities">
+        </pf-entity-picker>
+      </div>
       <div *ngIf="providers$ | async" class="d-flex justify-content-end">
         <div class="p-2">
           <button type="button" class="btn btn-outline-danger" (click)="cancelTransferDataWorkflow()">Cancel</button>
@@ -48,7 +50,7 @@
           <button type="button" class="btn btn-info" [disabled]="!checkForSelectedEntity()" (click)="proceedToAuthentication()">Next</button>
         </div>
       </div>
-      </div>
+    </div>
     <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.Authentication || (currentWorkflowStep$ | async) === workflowStep.Validated">
       <pf-hris-authentication-card
         [provider]="selectedProvider"
@@ -59,5 +61,4 @@
     <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.Mappings">
       <pf-field-mappings-card (resetWorkflow)="cancelTransferDataWorkflow()"></pf-field-mappings-card>
     </div>
-  </div>
 </pf-async-container>
