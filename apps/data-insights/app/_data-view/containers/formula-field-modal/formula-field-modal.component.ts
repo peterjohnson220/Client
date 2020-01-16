@@ -81,8 +81,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.savingErrorSubscription = this.savingError$.subscribe(result => this.handleSavingError(result));
     this.formulaChangedSubscription = this.formulaChanged
       .pipe(
-        debounceTime(this.VALIDATE_DEBOUNCE_TIME),
-        distinctUntilChanged())
+        debounceTime(this.VALIDATE_DEBOUNCE_TIME))
           .subscribe((value) => this.handleFormulaChangedAfterDebounceTime(value));
     this.createForm();
   }
@@ -124,7 +123,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
       return this.saving;
     }
 
-    return this.saving || !this.formulaFieldForm.valid || !this.isValidFormula || this.isWaitingForValidation;
+    return this.saving || !this.formulaFieldForm.valid || !this.isValidFormula || this.isWaitingForValidation || this.validating;
   }
 
   public get isEditable(): boolean {
