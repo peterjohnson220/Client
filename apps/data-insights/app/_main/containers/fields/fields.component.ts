@@ -95,7 +95,8 @@ export class FieldsComponent implements OnInit, OnDestroy {
       Title: 'Create Formula Field',
       FieldName: '',
       Formula: '',
-      IsEditable: true
+      IsEditable: true,
+      DuplicateAllowed: false
     };
     this.formulaFieldModal.open();
   }

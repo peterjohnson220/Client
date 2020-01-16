@@ -6,7 +6,7 @@ import { PfValidators } from 'libs/forms/validators';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromFormulaFieldActions from '../../actions/formula-field-modal.actions';
@@ -104,6 +104,15 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.formulaChanged.next(null);
   }
 
+  duplicate(): void {
+    this.modalData.Title = 'Create Formula Field';
+    this.modalData.FieldName = 'Copy of ' + this.modalData.FieldName;
+    this.modalData.FormulaId = null;
+    this.modalData.IsEditable = true;
+    this.modalData.DuplicateAllowed = false;
+    this.updateForm();
+  }
+
   handleSaveClicked(): void {
     const formulaInfo: FormulaFieldModalObj = {
       FieldName: this.formulaFieldForm.value.fieldName,
@@ -128,6 +137,10 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
 
   public get isEditable(): boolean {
     return !!this.modalData && this.modalData.IsEditable;
+  }
+
+  public get duplicateAllowed(): boolean {
+    return this.modalData.DuplicateAllowed ;
   }
 
   private createForm(): void {

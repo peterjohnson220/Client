@@ -9,7 +9,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Field, FieldDataType, FieldType, UserDataView } from '../../models';
+import { Field, FieldDataType, FieldType, UserDataView, DataViewAccessLevel } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 import { FormulaFieldModalComponent } from '../../../_data-view/containers';
 import { FormulaFieldModalObj, Suggestion } from '../../../_data-view/models';
@@ -36,6 +36,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   hasMoreDataOnServerSub: Subscription;
   fieldsSub: Subscription;
   sortDescriptorSub: Subscription;
+  dataViewSub: Subscription;
 
   loadingMoreData: boolean;
   hasMoreDataOnServer: boolean;
@@ -47,6 +48,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   sortDesc: SortDescriptor[];
   dataTypes = FieldDataType;
   formulaFieldModalObj: FormulaFieldModalObj;
+  dataViewAccessLevel: DataViewAccessLevel;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
@@ -66,6 +68,11 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     this.hasMoreDataOnServerSub = this.hasMoreDataOnServer$.subscribe(result => this.hasMoreDataOnServer = result);
     this.fieldsSub = this.fields$.subscribe(results => this.fields = results);
     this.sortDescriptorSub = this.sortDescriptor$.subscribe(sort => this.updateSortDescriptor(sort));
+    this.dataViewSub = this.dataView$.subscribe(result => {
+      if (!!result.obj) {
+        this.dataViewAccessLevel = result.obj.AccessLevel;
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -143,7 +150,8 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
       FieldName: field.FormulaName,
       Formula: field.Formula,
       IsEditable: field.IsEditable,
-      FormulaId: field.FormulaId
+      FormulaId: field.FormulaId,
+      DuplicateAllowed: this.dataViewAccessLevel !== DataViewAccessLevel.ReadOnly
     };
     this.formulaFieldModal.open();
   }
