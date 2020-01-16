@@ -129,13 +129,14 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
       };
     }
     case fromDataViewFieldsActions.UPDATE_DISPLAY_NAME: {
+      const reportFieldStateObjClone: AsyncStateObj<Field[]> = cloneDeep(state.reportFieldsAsync);
+      FieldsHelper.updateFieldDisplayName(reportFieldStateObjClone.obj, action.payload.field, action.payload.displayName);
+
       const fieldsClone = cloneDeep(state.selectedReportFields);
-      const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload.field);
-      if (fieldToUpdate) {
-        fieldToUpdate.DisplayName = action.payload.displayName;
-      }
+      FieldsHelper.updateFieldDisplayName(fieldsClone, action.payload.field, action.payload.displayName);
       return {
         ...state,
+        reportFieldsAsync: reportFieldStateObjClone,
         selectedReportFields: fieldsClone
       };
     }
@@ -160,19 +161,10 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
     }
     case fromDataViewFieldsActions.SAVE_UPDATED_FORMULA_FIELD: {
       const reportFieldStateObjClone: AsyncStateObj<Field[]> = cloneDeep(state.reportFieldsAsync);
-      const fieldToUpdate = FieldsHelper.findField(reportFieldStateObjClone.obj, action.payload);
-      if (fieldToUpdate) {
-        fieldToUpdate.FormulaName = action.payload.FormulaName;
-        fieldToUpdate.Formula = action.payload.Formula;
-        fieldToUpdate.IsSortable = action.payload.IsSortable;
-      }
+      FieldsHelper.updateFormulaField(reportFieldStateObjClone.obj, action.payload);
+
       const fieldsClone = cloneDeep(state.selectedReportFields);
-      const selectedFieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload);
-      if (selectedFieldToUpdate) {
-        selectedFieldToUpdate.FormulaName = action.payload.FormulaName;
-        selectedFieldToUpdate.Formula = action.payload.Formula;
-        selectedFieldToUpdate.IsSortable = action.payload.IsSortable;
-      }
+      FieldsHelper.updateFormulaField(fieldsClone, action.payload);
       return {
         ...state,
         reportFieldsAsync: reportFieldStateObjClone,
