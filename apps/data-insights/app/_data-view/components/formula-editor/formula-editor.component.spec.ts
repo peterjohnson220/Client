@@ -133,4 +133,52 @@ describe('Data Insights - Data View - Formula Editor', () => {
 
     expect(instance.showPopup).toEqual(false);
   });
+
+  it('should not emit formulaChanged when inserting template function', () => {
+    const editor = fixture.debugElement.query(By.css('.formula')).nativeElement;
+    instance.suggestionIndicator.Index = 0;
+    instance.suggestionIndicator.Entered = true;
+    instance.suggestionIndicator.Character = SpecialCharacter.DollarSign;
+    instance.suggestionIndicator.Type = SuggestionIndicatorType.Function;
+    instance.inputValue = '$I';
+    editor.setSelectionRange(2, 2);
+    fixture.detectChanges();
+    spyOn(instance.formulaChanged, 'emit');
+
+    instance.handleSuggestionClicked('IF');
+
+    expect(instance.formulaChanged.emit).not.toHaveBeenCalled();
+  });
+
+  it('should emit formulaChanged when inserting function without parameters', () => {
+    const editor = fixture.debugElement.query(By.css('.formula')).nativeElement;
+    instance.suggestionIndicator.Index = 0;
+    instance.suggestionIndicator.Entered = true;
+    instance.suggestionIndicator.Character = SpecialCharacter.DollarSign;
+    instance.suggestionIndicator.Type = SuggestionIndicatorType.Function;
+    instance.inputValue = '$I';
+    editor.setSelectionRange(2, 2);
+    fixture.detectChanges();
+    spyOn(instance.formulaChanged, 'emit');
+
+    instance.handleSuggestionClicked('NOW');
+
+    expect(instance.formulaChanged.emit).toHaveBeenCalled();
+  })
+
+  it('should emit formulaChanged when inserting TODAY function', () => {
+    const editor = fixture.debugElement.query(By.css('.formula')).nativeElement;
+    instance.suggestionIndicator.Index = 0;
+    instance.suggestionIndicator.Entered = true;
+    instance.suggestionIndicator.Character = SpecialCharacter.DollarSign;
+    instance.suggestionIndicator.Type = SuggestionIndicatorType.Function;
+    instance.inputValue = '$I';
+    editor.setSelectionRange(2, 2);
+    fixture.detectChanges();
+    spyOn(instance.formulaChanged, 'emit');
+
+    instance.handleSuggestionClicked('TODAY');
+
+    expect(instance.formulaChanged.emit).toHaveBeenCalled();
+  });
 });
