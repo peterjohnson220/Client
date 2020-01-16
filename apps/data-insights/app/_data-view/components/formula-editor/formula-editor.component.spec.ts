@@ -19,7 +19,9 @@ describe('Data Insights - Data View - Formula Editor', () => {
 
     fixture = TestBed.createComponent(FormulaEditorComponent);
     instance = fixture.componentInstance;
-    instance.fieldSuggestions = ['Employees.Base', 'Structures.Mid'];
+    instance.fieldSuggestions = [
+      { Name: 'Employees.Base', Value: 'Employees.Base' },
+      { Name: 'Structures.Mid', Value: 'Structures.Mid' }];
     instance.suggestionList = {
       filterChange: new Subject(),
       reset: jest.fn(),
@@ -59,7 +61,9 @@ describe('Data Insights - Data View - Formula Editor', () => {
 
   it('should display popup with suggestions if matched results found', () => {
     const editor = fixture.debugElement.query(By.css('.formula')).nativeElement;
-    const filteredSuggestions = ['Employees.Base'];
+    const filteredSuggestions = [
+      { Name: 'Employees.Base', Value: 'Employees.Base' }
+    ];
     instance.suggestionIndicator.Index = 0;
     instance.suggestionIndicator.Entered = true;
     instance.suggestionIndicator.Character = SpecialCharacter.OpenBracket;

@@ -36,7 +36,8 @@ export function reducer(state = initialState, action: fromFormulaFieldActions.Ac
     case fromFormulaFieldActions.VALIDATE_FORMULA_ERROR: {
       return {
         ...state,
-        validating: false
+        validating: false,
+        formulaValid: false
       };
     }
     case fromFormulaFieldActions.SAVE_FORMULA_FIELD: {

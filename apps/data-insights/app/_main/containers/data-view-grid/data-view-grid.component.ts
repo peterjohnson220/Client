@@ -12,7 +12,7 @@ import * as fromDataInsightsMainReducer from '../../reducers';
 import { Field, FieldDataType, FieldType, UserDataView } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 import { FormulaFieldModalComponent } from '../../../_data-view/containers';
-import { FormulaFieldModalObj } from '../../../_data-view/models';
+import { FormulaFieldModalObj, Suggestion } from '../../../_data-view/models';
 
 @Component({
   selector: 'pf-data-view-grid',
@@ -30,7 +30,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   sortDescriptor$: Observable<SortDescriptor>;
   totalCount$: Observable<number>;
   dataView$: Observable<AsyncStateObj<UserDataView>>;
-  formulaFieldSuggestions$: Observable<string[]>;
+  formulaFieldSuggestions$: Observable<Suggestion[]>;
 
   loadingMoreDataSub: Subscription;
   hasMoreDataOnServerSub: Subscription;

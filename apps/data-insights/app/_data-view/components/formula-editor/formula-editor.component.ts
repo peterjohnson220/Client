@@ -2,7 +2,7 @@ import { Component, Input, ViewChild, ElementRef, Output, EventEmitter, OnInit, 
 
 import { DropDownListComponent } from '@progress/kendo-angular-dropdowns';
 
-import { SuggestionIndicator, functionNames, SuggestionIndicatorType, SpecialCharacter } from '../../models';
+import { SuggestionIndicator, functionNames, SuggestionIndicatorType, SpecialCharacter, Suggestion } from '../../models';
 import { FormulaHelper } from '../../helpers';
 
 @Component({
@@ -12,7 +12,7 @@ import { FormulaHelper } from '../../helpers';
 })
 export class FormulaEditorComponent implements OnInit {
   @Input() initialFormula: string;
-  @Input() fieldSuggestions: string[];
+  @Input() fieldSuggestions: Suggestion[];
   @Input() validating: boolean;
   @Input() isValid: boolean;
   @Input() disabled: boolean;
@@ -29,8 +29,8 @@ export class FormulaEditorComponent implements OnInit {
     anchorAlign: { horizontal: 'right', vertical: 'bottom' },
     popupAlign: { horizontal: 'left', vertical: 'top' }
   };
-  suggestions: string[];
-  filteredSuggestions: string[];
+  suggestions: Suggestion[];
+  filteredSuggestions: Suggestion[];
   inputValue: string;
   searchTerm: string;
   beforeMarkerValues: string;
@@ -72,6 +72,9 @@ export class FormulaEditorComponent implements OnInit {
   }
 
   handleSuggestionClicked(suggestion: string): void {
+    if (this.suggestionIndicator.Index === -1) {
+      return;
+    }
     const fromIndex: number = this.suggestionIndicator.Index;
     const toIndex: number = this.editor.nativeElement.selectionStart;
     const textToInsert = this.getFormattedSelectedSuggestion(suggestion, toIndex);
@@ -118,7 +121,7 @@ export class FormulaEditorComponent implements OnInit {
     }
   }
 
-  private updateSuggestions(suggestionIndicatorIndex: number, type: SuggestionIndicatorType, suggestions: string[]): void {
+  private updateSuggestions(suggestionIndicatorIndex: number, type: SuggestionIndicatorType, suggestions: Suggestion[]): void {
     this.suggestionIndicator.Entered = true;
     this.suggestionIndicator.Index = suggestionIndicatorIndex;
     this.suggestionIndicator.Type = type;
@@ -193,7 +196,7 @@ export class FormulaEditorComponent implements OnInit {
     const currentPosition: number = this.editor.nativeElement.selectionStart;
     this.searchTerm = this.inputValue.substring(this.suggestionIndicator.Index + 1, currentPosition);
     if (!!this.searchTerm && this.searchTerm.length >= this.MIN_QUERY_LENGTH) {
-      this.filteredSuggestions = this.suggestions.filter((s) => s.toLowerCase().indexOf(this.searchTerm.toLowerCase()) !== -1);
+      this.filteredSuggestions = this.suggestions.filter((s) => s.Name.toLowerCase().indexOf(this.searchTerm.toLowerCase()) !== -1);
       this.showPopup = (this.filteredSuggestions.length !== 0);
       this.suggestionList.toggle(this.showPopup);
     } else {

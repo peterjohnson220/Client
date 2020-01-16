@@ -6,6 +6,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import * as fromDataViewFieldsActions from '../actions/fields.actions';
 import { Field, FieldType } from '../models';
 import { FieldsHelper } from '../helpers';
+import { Suggestion } from '../../_data-view/models';
 
 export interface State {
   reportFieldsAsync: AsyncStateObj<Field[]>;
@@ -196,6 +197,13 @@ export const getFormulaFieldSuggestions = (state: State) => {
   if (state.reportFieldsAsync.obj) {
     return state.reportFieldsAsync.obj
     .filter((f) => f.FieldType === FieldType.DataElement)
-    .map(f => `${f.Entity}.${f.SourceName}`);
+    .map(f => {
+      const isUDF: boolean = f.SourceName.startsWith('UDF_');
+      const suggestion: Suggestion = {
+        Name: isUDF ? `${f.Entity}.${f.DisplayName} (${f.SourceName})` : `${f.Entity}.${f.SourceName}`,
+        Value: `${f.Entity}.${f.SourceName}`
+      };
+      return suggestion;
+    });
   }
 };
