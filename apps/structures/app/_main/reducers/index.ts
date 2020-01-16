@@ -9,6 +9,7 @@ import * as fromJobRangeModelingReducer from './job-range-modeling-page.reducer'
 import * as fromJobBasedRangeAllStructuresReducer from './job-based-range-all-structures.reducer';
 import * as fromJobRangeModelingGridReducer from './job-range-modeling-grid.reducer';
 import * as fromJobBasedRangesAddJobsModalReducer from './job-based-ranges-add-jobs-modal.reducer';
+import * as fromJobBasedRangesSearchResultsReducer from './job-based-ranges-search-results.reducer';
 
 // Feature area state
 export interface StructuresMainState {
@@ -17,6 +18,7 @@ export interface StructuresMainState {
   jobBasedRangeAllStructuresComponent: fromJobBasedRangeAllStructuresReducer.State;
   jobRangeModelingGrid: fromJobRangeModelingGridReducer.State;
   jobsBasedRangesAddJobsModal: fromJobBasedRangesAddJobsModalReducer.State;
+  jobBasedRangesSearchResults: fromJobBasedRangesSearchResultsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -30,7 +32,8 @@ export const reducers = {
   jobRangeModelingPage: fromJobRangeModelingReducer.reducer,
   jobBasedRangeAllStructuresComponent: fromJobBasedRangeAllStructuresReducer.reducer,
   jobRangeModelingGrid: fromJobRangeModelingGridReducer.reducer,
-  jobsBasedRangesAddJobsModal: fromJobBasedRangesAddJobsModalReducer.reducer
+  jobsBasedRangesAddJobsModal: fromJobBasedRangesAddJobsModalReducer.reducer,
+  jobBasedRangesSearchResults: fromJobBasedRangesSearchResultsReducer.reducer
 };
 
 // Select Feature Area
@@ -55,6 +58,11 @@ export const selectJobBasedRangeAllStructuresComponentState = createSelector(
 export const selectJobsBasedRangesAddJobsModalState = createSelector(
   selectFeatureAreaState,
   (state: StructuresMainState) => state.jobsBasedRangesAddJobsModal
+);
+
+export const selectJobBasedRangesSearchResultsState = createSelector(
+  selectFeatureAreaState,
+  (state: StructuresMainState) => state.jobBasedRangesSearchResults
 );
 
 // Structures Page
@@ -150,4 +158,40 @@ export const getListAreaColumnsVisible = createSelector(
 export const getAddJobsModalOpen = createSelector(
   selectJobsBasedRangesAddJobsModalState,
   fromJobBasedRangesAddJobsModalReducer.getAddJobsModalOpen
+);
+
+export const getContext = createSelector(
+  selectJobsBasedRangesAddJobsModalState,
+  fromJobBasedRangesAddJobsModalReducer.getContext
+);
+
+export const getAddingData = createSelector(
+  selectJobsBasedRangesAddJobsModalState,
+  fromJobBasedRangesAddJobsModalReducer.getAddingData
+);
+
+export const getAddingDataError = createSelector(
+  selectJobsBasedRangesAddJobsModalState,
+  fromJobBasedRangesAddJobsModalReducer.getAddingDataError
+);
+
+export const getAddingDataErrorMessage = createSelector(
+  selectJobsBasedRangesAddJobsModalState,
+  fromJobBasedRangesAddJobsModalReducer.getAddingDataErrorMessage
+);
+
+// Search Results Selectors
+export const getJobs = createSelector(
+  selectJobBasedRangesSearchResultsState,
+  fromJobBasedRangesSearchResultsReducer.getJobs
+);
+
+export const getSelectedJobIds = createSelector(
+  selectJobBasedRangesSearchResultsState,
+  fromJobBasedRangesSearchResultsReducer.getSelectedJobIds
+);
+
+export const getSelectedPayfactorsJobCodes = createSelector(
+  selectJobBasedRangesSearchResultsState,
+  fromJobBasedRangesSearchResultsReducer.getSelectedPayfactorsJobCodes
 );

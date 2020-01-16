@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {PfAdminGuard} from '../../../../libs/security/guards';
+
+import {PfAdminGuard} from 'libs/security/guards';
+
 import { MarketingImageComponent } from './containers';
 
 

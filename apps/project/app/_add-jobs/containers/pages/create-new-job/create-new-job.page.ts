@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import { PfValidators } from 'libs/forms/validators';
+import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
 
 import * as fromCreateNewJobPageActions from '../../../actions/create-new-job-page.actions';
 import * as fromAddJobsReducer from '../../../reducers';
@@ -46,7 +47,7 @@ export class CreateNewJobPageComponent implements OnInit, OnDestroy {
     this.jdmEnabled$ = this.store.select(fromAddJobsReducer.getJdmEnabled);
     this.jobFamilies$ = this.store.select(fromAddJobsReducer.getJobFamilies);
     this.jobFamiliesLoading$ = this.store.select(fromAddJobsReducer.getLoadingJobFamilies);
-    this.selectedPaymarketIds$ = this.store.select(fromAddJobsReducer.getSelectedPaymarkets);
+    this.selectedPaymarketIds$ = this.store.select(fromPaymarketReducer.getSelectedPaymarkets);
     this.creatingJob$ = this.store.select(fromAddJobsReducer.getCreatingJob);
     this.jobCodeExists$ = this.store.select(fromAddJobsReducer.getJobCodeExists);
     this.creatingJobError$ = this.store.select(fromAddJobsReducer.getCreatingJobError);

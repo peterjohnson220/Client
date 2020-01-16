@@ -12,6 +12,7 @@ import { orderBy, cloneDeep } from 'lodash';
 import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
+import {KendoGridFilterHelper} from 'libs/core/helpers';
 
 import { TicketFieldType } from '../../constants/tickets-constants';
 import { SearchRequestFilterMapper, PickerHelper } from '../../helpers';
@@ -23,8 +24,6 @@ import * as fromTicketSharedActions from '../../actions/ticket-shared.actions';
 import * as fromTicketReducer from '../../reducers';
 
 import { PfServicesRep, UserTicketState, UserTicketTabItem, UserTicketType } from '../../models';
-import {KendoGridFilterHelper} from '../../../../../../libs/core/helpers';
-
 
 @Component({
   selector: 'pf-ticket-list',
