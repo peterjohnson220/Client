@@ -11,6 +11,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromSurveyActions from '../../actions/survey-actions';
 import * as fromSurveyState from '../../reducers';
+import { EnumSurveyDelete } from '../../constants/survey-delete-enum';
 
 @Component({
   selector: 'pf-survey',
@@ -32,6 +33,11 @@ export class SurveyComponent implements OnInit {
   public systemUserGroupsId = -1;
   public selectedSurveyId: number;
   public selectedCompany: string;
+  public enumSurveyDelete = EnumSurveyDelete;
+  public deleteFailed = false;
+  public selectedItemMatchCount = 0;
+
+  public loadingErrorMessage = 'Failed to get survey data';
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -96,22 +102,40 @@ export class SurveyComponent implements OnInit {
     this.store.dispatch(new fromSurveyActions.SetAddSurveyModalOpen(true));
   }
 
-  deleteSurvey(surveyId: number) {
-    const confirmed = confirm('Are you sure you want to delete this survey?');
-    if (confirmed) {
-      this.surveyApi.deleteSurvey(surveyId).subscribe(f =>
-        this.getSurveys()
+
+  deleteSurvey(surveyId: number, step: EnumSurveyDelete) {
+
+    this.selectedSurveyId = surveyId;
+
+    let msg = '';
+    switch (step) {
+      case EnumSurveyDelete.PUBLISHED_MATCHES:
+        this.store.dispatch(new fromSurveyActions.SetDeleteConfirmationModalOpen(true));
+        return;
+      case EnumSurveyDelete.SURVEY_DATA:
+        msg = 'Are you sure you want to delete the associated jobs and cuts?';
+        break;
+      case EnumSurveyDelete.SURVEY:
+        msg = 'Are you sure you want to delete this survey?';
+        break;
+      default:
+        throw new Error('EnumSurveyDelete case not supported');
+    }
+
+    if (confirm(msg)) {
+      this.surveyApi.deleteSurveyAndChildren(surveyId, step).subscribe(f =>
+        this.getSurveys(), (err) => {
+          this.deleteFailed = true;
+          this.loadingErrorMessage = 'Failed to delete the survey or it\'s related records.';
+        }
       );
     }
   }
 
-  deleteSurveyData(surveyId: number) {
-    const confirmed = confirm('Are you sure you want to delete the associated jobs and cuts?');
-    if (confirmed) {
-      this.surveyApi.deleteSurveyData(surveyId).subscribe(
-        f => this.getSurveys()
-      );
-    }
+  deletePublishedMatches(item: any) {
+    this.selectedItemMatchCount = item.PublishMatchCount;
+    this.selectedSurveyId = item.SurveyId;
+    this.deleteSurvey(item.SurveyId, EnumSurveyDelete.PUBLISHED_MATCHES)
   }
 
   copySurvey(surveyId: number, company: string) {
