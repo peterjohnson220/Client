@@ -43,7 +43,7 @@
     <ng-container *ngIf="showErrorMessages && !saving">
       <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>
     </ng-container>
-    <button *ngIf="duplicateAllowed" type="button" [attr.data-qa-id]="'btn-duplicate'" id="duplicate-btn" class="btn btn-secondary" (click)="duplicate()">Duplicate</button>
+    <button *ngIf="duplicateAllowed" type="button" [attr.data-qa-id]="'btn-duplicate'" [disabled]="saveDisabled" id="duplicate-btn" class="btn btn-secondary" (click)="duplicate()">Duplicate</button>
     <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary p-2" (click)="close()">Cancel</button>
     <button *ngIf="isEditable" type="button" [attr.data-qa-id]="'btn-save'" class="btn light-blue-btn"
       [disabled]="saveDisabled"
