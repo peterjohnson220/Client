@@ -14,6 +14,16 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
 >
   <pf-async-container>
     <div>
+      <div
+        class="float-right"
+      >
+        <h5
+          class="pt-4 pb-1 font-weight-bold"
+          style="opacity: 0.6;"
+        >
+          STEP 5/5
+        </h5>
+      </div>
       <h4>
         Transfer Schedule
       </h4>
@@ -72,6 +82,16 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
 >
   <pf-async-container>
     <div>
+      <div
+        class="float-right"
+      >
+        <h5
+          class="pt-4 pb-1 font-weight-bold"
+          style="opacity: 0.6;"
+        >
+          STEP 5/5
+        </h5>
+      </div>
       <h4>
         Transfer Schedule
       </h4>

@@ -2,9 +2,9 @@
                     [loadingError]="transferScheduleSummaryError$ | async"
                     [loadingErrorMessage]="'Error loading Transfer Schedule'">
   <div>
+    <div class="float-right"><h5 class="pt-4 pb-1 font-weight-bold" style="opacity: 0.6;">STEP 5/5</h5></div>
     <h4>Transfer Schedule</h4>
     <h5>Let us know how often you would like to refresh your company data.</h5>
-
     <div class="row mb-3">
       <ng-container *ngFor="let item of transferScheduleSummary; let i = index">
         <div class="col-sm-4">
