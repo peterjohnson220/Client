@@ -192,8 +192,10 @@ export const getFormulaFieldSuggestions = (state: State) => {
     .map(f => {
       const isUDF: boolean = f.SourceName.startsWith('UDF_');
       const suggestion: Suggestion = {
-        Name: isUDF ? `${f.Entity}.${f.DisplayName} (${f.SourceName})` : `${f.Entity}.${f.SourceName}`,
-        Value: `${f.Entity}.${f.SourceName}`
+        displayText: isUDF
+          ? `[${f.Entity}.${f.DisplayName} (${f.SourceName})]`
+          : `[${f.Entity}.${f.SourceName}]`,
+        text: `[${f.Entity}.${f.SourceName}]`
       };
       return suggestion;
     });

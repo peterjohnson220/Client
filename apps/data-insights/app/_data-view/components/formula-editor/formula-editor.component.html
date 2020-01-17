@@ -1,37 +1,15 @@
 <div class="d-flex flex-column">
   <div class="formula-container mb-3">
-    <div class="popup-anchor formula-suggestions">
-      <span>{{beforeMarkerValues}}</span>
-      <span>
-        {{markerValue}}
-        <kendo-dropdownlist #suggestionList
-          [style.visibility]="showPopup ? 'visible' : 'hidden'"
-          [value]="searchTerm"
-          [data]="filteredSuggestions"
-          [popupSettings]="popupSettings"
-          [textField]="'Name'"
-          [valueField]="'Value'"
-          [valuePrimitive]="true"
-          (valueChange)="handleSuggestionClicked($event)">
-        </kendo-dropdownlist>
-      </span>
-      <span>{{afterMarkerValues}}</span>
-    </div>
-    <textarea #editor pfClickElsewhere class="formula" spellcheck="false" tabindex="-1" id="dsFormulaEditor"
-      [maxlength]="formulaMaxLength"
+    <ngx-codemirror #codeMirror class="CodeMirror-empty" [class.CodeMirror-readonly]="disabled"
       [attr.data-qa-id]="'txt-formula-editor'"
-      [placeholder]="'Formula'"
       [(ngModel)]="inputValue"
-      [disabled]="disabled ? 'true' : 'false'"
-      (ngModelChange)="handleInputValueChanged($event)"
-      (clickElsewhere)="handleClickElsewhere()"
-      (keyup)="handleEditorKeyUp($event)"
-      (keydown)="handleEditorKeyDown($event)">
-    </textarea>
+      [options]="codeMirrorConfig"
+      (ngModelChange)="handleInputValueChanged($event)">
+    </ngx-codemirror>
   </div>
 
   <div class="message-container">
-    <div *ngIf="validating" class="validating-message">
+    <div *ngIf="validating" class="validating-message" [style.visibility]="isInsertingFunctionTemplate ? 'hidden' : 'visible'">
       <fa-icon class="loading-icon" icon="circle-notch" spin="true"></fa-icon>
       <span>Validating...</span>
     </div>

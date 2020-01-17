@@ -104,9 +104,9 @@ export const functionDictionary = {
   [FunctionName.CONCAT]: [Function.CONCAT],
   [FunctionName.SUBSTITUTE]: [Function.SUBSTITUTE]
 };
-export const functionNames: Suggestion[] = Object.keys(functionDictionary).map(f => {
+export const functionSuggestionList: Suggestion[] = Object.keys(functionDictionary).map(key => {
   return {
-    Name: f,
-    Value: f
+    text: functionDictionary[key],
+    displayText: key
   };
 });

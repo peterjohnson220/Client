@@ -10,7 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromFormulaFieldActions from '../../actions/formula-field-modal.actions';
-import { FormulaFieldModalObj } from '../../models';
+import { FormulaFieldModalObj, Suggestion, functionSuggestionList } from '../../models';
 import { FormulaEditorComponent } from '../../components';
 
 @Component({
@@ -53,6 +53,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   validating: boolean;
   showErrorMessages: boolean;
   isWaitingForValidation: boolean;
+  functionSuggestions: Suggestion[] = functionSuggestionList;
 
   constructor(
     private modalService: NgbModal,
