@@ -1,9 +1,24 @@
-.active {
-  border: 1px solid rgba(31, 47, 61, 0.5);
-  box-shadow: 0 0 0 0.2rem rgba(31, 47, 61, 0.5);
+.selected-badge {
+  &.active {
+    display: block;
+  }
+  display: none;
+  position: absolute;
+  right: 0;
+  font-size: 2rem;
+  color: #B2E5F9;
+}
+
+.active-background {
+  box-shadow: 0 0 1rem 0 #B2E5F9;
+}
+
+.card {
+  border: 1px solid rgba(207,216,225,0.8);
+  border-radius: 0.5rem;
 }
 
 .provider-img {
-  height: 8rem;
-  min-width: 12.5rem;
+  height: 9rem;
+  min-width: 21rem;
 }
