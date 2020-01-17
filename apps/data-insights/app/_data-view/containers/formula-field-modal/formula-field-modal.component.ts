@@ -108,6 +108,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.modalData.Title = 'Create Formula Field';
     this.modalData.FieldName = 'Copy of ' + this.modalData.FieldName;
     this.modalData.FormulaId = null;
+    this.modalData.Formula = this.formula;
     this.modalData.IsEditable = true;
     this.modalData.DuplicateAllowed = false;
     this.updateForm();
