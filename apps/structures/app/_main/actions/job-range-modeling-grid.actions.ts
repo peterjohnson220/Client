@@ -6,19 +6,19 @@ import { State as KendoState } from '@progress/kendo-data-query';
 import { GetListAreaColumnsRequest, SaveListAreaColumnsRequest } from 'libs/models/payfactors-api/user-profile/request';
 import { ListAreaColumn } from 'libs/models/common';
 
-export const LOAD_JOB_RANGE_MODELING_GRID = '[structures / Job Range Modeling Grid] Load Job Range Modeling Grid';
-export const LOAD_JOB_RANGE_MODELING_GRID_ERROR = '[structures / Job Range Modeling Grid] Load Job Range Modeling Grid Error';
-export const LOAD_JOB_RANGE_MODELING_GRID_SUCCESS = '[structures / Job Range Modeling Grid] Load Job Range Modeling Grid Success';
-export const LOAD_LIST_AREA_COLUMNS = '[structures / Job Range Modeling Grid] Load List Area Columns';
-export const LOAD_LIST_AREA_COLUMNS_ERROR = '[structures / Job Range Modeling Grid] Load List Area Columns Error';
-export const LOAD_LIST_AREA_COLUMNS_SUCCESS = '[structures / Job Range Modeling Grid] Load List Area Columns Success';
-export const REORDER_LIST_AREA_COLUMNS = '[structures / Job Range Modeling Grid] Reorder List Area Columns';
-export const REORDER_LIST_AREA_COLUMNS_SUCCESS = '[structures / Job Range Modeling Grid] Reorder List Area Columns Success';
-export const SAVE_LIST_AREA_COLUMNS = '[structures / Job Range Modeling Grid] Save List Area Columns';
-export const SAVE_LIST_AREA_COLUMNS_ERROR = '[structures / Job Range Modeling Grid] Save List Area Columns Error';
-export const SAVE_LIST_AREA_COLUMNS_SUCCESS = '[structures / Job Range Modeling Grid] Save List Area Columns Success';
-export const UPDATE_GRID_STATE = '[structures / Job Range Modeling Grid] Update Grid State';
-export const UPDATE_LIST_AREA_COLUMN = '[structures / Job Range Modeling Grid] Update List Area Column';
+export const LOAD_JOB_RANGE_MODELING_GRID = '[Structures / Job Range Modeling Grid] Load Job Range Modeling Grid';
+export const LOAD_JOB_RANGE_MODELING_GRID_ERROR = '[Structures / Job Range Modeling Grid] Load Job Range Modeling Grid Error';
+export const LOAD_JOB_RANGE_MODELING_GRID_SUCCESS = '[Structures / Job Range Modeling Grid] Load Job Range Modeling Grid Success';
+export const LOAD_LIST_AREA_COLUMNS = '[Structures / Job Range Modeling Grid] Load List Area Columns';
+export const LOAD_LIST_AREA_COLUMNS_ERROR = '[Structures / Job Range Modeling Grid] Load List Area Columns Error';
+export const LOAD_LIST_AREA_COLUMNS_SUCCESS = '[Structures / Job Range Modeling Grid] Load List Area Columns Success';
+export const REORDER_LIST_AREA_COLUMNS = '[Structures / Job Range Modeling Grid] Reorder List Area Columns';
+export const REORDER_LIST_AREA_COLUMNS_SUCCESS = '[Structures / Job Range Modeling Grid] Reorder List Area Columns Success';
+export const SAVE_LIST_AREA_COLUMNS = '[Structures / Job Range Modeling Grid] Save List Area Columns';
+export const SAVE_LIST_AREA_COLUMNS_ERROR = '[Structures / Job Range Modeling Grid] Save List Area Columns Error';
+export const SAVE_LIST_AREA_COLUMNS_SUCCESS = '[Structures / Job Range Modeling Grid] Save List Area Columns Success';
+export const UPDATE_GRID_STATE = '[Structures / Job Range Modeling Grid] Update Grid State';
+export const UPDATE_LIST_AREA_COLUMN = '[Structures / Job Range Modeling Grid] Update List Area Column';
 
 export class LoadJobRangeModelingGrid implements Action {
   readonly type = LOAD_JOB_RANGE_MODELING_GRID;

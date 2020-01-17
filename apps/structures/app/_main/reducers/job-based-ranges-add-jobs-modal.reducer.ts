@@ -6,6 +6,10 @@ export interface State {
   savingSuccess: boolean;
   savingError: boolean;
   savingErrorMessage: string;
+  context: { PayMarketId: number, ProjectId: number};
+  addingData: boolean;
+  addingDataError: boolean;
+  addingDataErrorMessage: any;
 }
 
 export const initialState: State = {
@@ -13,7 +17,11 @@ export const initialState: State = {
   saving: false,
   savingSuccess: false,
   savingError: false,
-  savingErrorMessage: ''
+  savingErrorMessage: '',
+  context: null,
+  addingData: false,
+  addingDataError: false,
+  addingDataErrorMessage: null
 };
 
 export function reducer(state = initialState, action: fromJobBasedRangesAddJobsModalActions.JobBasedRangesAddJobsModalActions): State {
@@ -30,10 +38,45 @@ export function reducer(state = initialState, action: fromJobBasedRangesAddJobsM
         addJobsModalOpen: false
       };
     }
+    case fromJobBasedRangesAddJobsModalActions.SET_CONTEXT: {
+      return {
+        ...state,
+        context: action.payload
+      };
+    }
+    case fromJobBasedRangesAddJobsModalActions.ADD_SELECTED_JOBS: {
+      return {
+        ...state,
+        addingData: true,
+        addingDataError: false,
+        addingDataErrorMessage: null
+      };
+    }
+    case fromJobBasedRangesAddJobsModalActions.ADD_SELECTED_JOBS_SUCCESS: {
+      return {
+        ...state,
+        addingData: false,
+        addingDataError: false,
+        addingDataErrorMessage: null
+      };
+    }
+    case fromJobBasedRangesAddJobsModalActions.ADD_SELECTED_JOBS_ERROR: {
+      return {
+        ...state,
+        addingData: false,
+        addingDataError: true,
+        addingDataErrorMessage: action.error
+      };
+    }
     default: {
       return state;
     }
   }
 }
 
+// Selector functions
 export const getAddJobsModalOpen = (state: State) => state.addJobsModalOpen;
+export const getContext = (state: State) => state.context;
+export const getAddingData = (state: State) => state.addingData;
+export const getAddingDataError = (state: State) => state.addingDataError;
+export const getAddingDataErrorMessage = (state: State) => state.addingDataErrorMessage;

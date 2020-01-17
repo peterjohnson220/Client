@@ -20,10 +20,17 @@ import { PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfAddJobsModule } from 'libs/features/add-jobs/add-jobs.module';
+import { PfAddJobsModule } from 'libs/features/add-jobs';
+import { PfSearchModule } from 'libs/features/search';
 
 import * as fromFaIcons from './fa-icons';
-import { JobBasedRangeAllStructuresEffects, JobRangeModelingPageEffects, JobRangeModelingGridEffects } from './effects';
+import {
+  JobBasedRangeAllStructuresEffects,
+  JobRangeModelingPageEffects,
+  JobRangeModelingGridEffects,
+  JobBasedRangesAddJobsModalEffects,
+  JobBasedRangesSearchResultsEffects
+} from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 import {
@@ -35,7 +42,13 @@ import {
   EditGridColumnsModalComponent,
   StructureFavoriteHexagonComponent
 } from './components';
-import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, JobRangeModelingGridComponent } from './containers';
+import {
+  JobBasedRangeStructuresPageComponent,
+  JobRangeModelingPageComponent,
+  JobRangeModelingGridComponent,
+  JobBasedRangesAddJobsModalComponent,
+  JobBasedRangesSearchResultsComponent
+} from './containers';
 
 @NgModule({
   imports: [
@@ -48,6 +61,8 @@ import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, Jo
     StoreModule.forFeature('structures_main', reducers),
     EffectsModule.forFeature([
       JobRangeModelingPageEffects,
+      JobBasedRangesAddJobsModalEffects,
+      JobBasedRangesSearchResultsEffects,
       JobBasedRangeAllStructuresEffects,
       JobRangeModelingGridEffects
     ]),
@@ -70,7 +85,8 @@ import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, Jo
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfAddJobsModule
+    PfAddJobsModule,
+    PfSearchModule
   ],
   declarations: [
     // Components
@@ -85,7 +101,9 @@ import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, Jo
     // Containers
     JobRangeModelingPageComponent,
     JobBasedRangeStructuresPageComponent,
-    JobRangeModelingGridComponent
+    JobRangeModelingGridComponent,
+    JobBasedRangesAddJobsModalComponent,
+    JobBasedRangesSearchResultsComponent
   ],
   providers: [
     WindowRef,

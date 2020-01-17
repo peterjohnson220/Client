@@ -1,7 +1,7 @@
 import { ChartItem, ExchangeJobComparison } from 'libs/models';
+import {ExchangeChartTypeEnum} from 'libs/models/peer/exchange-chart-type.enum';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
-import {ExchangeChartTypeEnum} from '../../../../../libs/models/peer/exchange-chart-type.enum';
 
 export interface State {
   loadingCompanyChart: boolean;

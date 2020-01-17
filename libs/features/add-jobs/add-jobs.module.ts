@@ -6,6 +6,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -14,9 +16,13 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 
 import * as fromFaIcons from './fa-icons';
-import { JobBasedRangesAddJobsModalComponent } from './components';
+import { JobResultComponent } from './components';
 import { JobSearchUserFilterType, SearchFilterMappingData } from './data';
 import { SavedFiltersHelper } from './helpers';
+import { reducers } from './reducers';
+import { JobSearchUserFilterEffects, PaymarketEffects } from './effects';
+import { PaymarketsComponent } from './containers/paymarkets';
+import { JobLimitCounterComponent } from '../smallbiz/job-limit-counter';
 
 @NgModule({
   imports: [
@@ -24,6 +30,11 @@ import { SavedFiltersHelper } from './helpers';
     CommonModule, FormsModule, ReactiveFormsModule,
 
     // 3rd Party
+    StoreModule.forFeature('addJobs_reducers', reducers),
+    EffectsModule.forFeature([
+      PaymarketEffects,
+      JobSearchUserFilterEffects
+    ]),
     InfiniteScrollModule,
     DropDownsModule,
     NgbProgressbarModule,
@@ -37,12 +48,16 @@ import { SavedFiltersHelper } from './helpers';
   ],
   declarations: [
     // Components
-    JobBasedRangesAddJobsModalComponent
+    JobResultComponent,
+    JobLimitCounterComponent,
 
     // Containers
+    PaymarketsComponent
   ],
   exports: [
-    JobBasedRangesAddJobsModalComponent
+    JobResultComponent,
+    PaymarketsComponent,
+    JobLimitCounterComponent
   ],
   providers: [
     SavedFiltersHelper,

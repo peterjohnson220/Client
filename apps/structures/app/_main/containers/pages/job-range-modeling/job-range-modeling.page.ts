@@ -7,13 +7,13 @@ import { filter, take } from 'rxjs/operators';
 
 import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
 import { CompanyStructure, generateMockCompanyStructure } from 'libs/models/structures/company-structure.model';
-import { JobBasedRangesAddJobsModalComponent } from 'libs/features/add-jobs/components';
 
 import * as fromStructuresMainReducer from '../../../reducers';
 import * as fromJobRangeModelingActions from '../../../actions/job-range-modeling-page.actions';
 import * as fromJobBasedRangesAddJobsModalActions from '../../../actions/job-based-ranges-add-jobs-modal.actions';
 import { JobRangeModelingConstants } from '../../../constants/structures.constants';
 import { EditGridColumnsModalComponent } from '../../../components/modals';
+import { JobBasedRangesAddJobsModalComponent } from '../../job-based-ranges-add-jobs-modal';
 
 @Component({
   selector: 'pf-job-range-modeling-page',
@@ -47,6 +47,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   public routeStructureName: string;
   public routeModelName: string;
   public routePayMarketId: number;
+  private readonly routeProjectId: number = 382652;
 
   constructor(public route: ActivatedRoute,
               private store: Store<fromStructuresMainReducer.State>) {
@@ -111,6 +112,13 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
     this.routeModelName = this.route.snapshot.queryParams['model-name'] as string;
     // tslint:disable-next-line:no-bitwise
     this.routePayMarketId = (+this.route.snapshot.queryParams['paymarket']) | 0;
+
+    // todo: remove this when job range underlying architecture set
+    // tslint:disable-next-line:no-bitwise
+    const projectId = (+this.route.snapshot.queryParams['projectId']);
+    if (projectId) {
+      this.routeProjectId = projectId;
+    }
   }
 
   editColumnsClicked() {
@@ -129,7 +137,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
       this.store.dispatch(new fromJobRangeModelingActions.GetStructureData(structureId));
     }
 
-    if (this.routeStructureName && this.routeModelName) {
+    if (this.routeStructureName && this.routeModelName && this.routePayMarketId > 0) {
       const currentModel = generateMockCompanyStructureRangeGroup();
       currentModel.RangeGroupName = this.routeModelName;
       const currentStructure = generateMockCompanyStructure();
@@ -170,6 +178,12 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   // modal functions
   showAddJobsModal() {
     this.store.dispatch(new fromJobBasedRangesAddJobsModalActions.OpenAddJobsModal());
+    // note: ProjectId => UserSession_ID in [dbo].[UserSession]
+    const jobBasedRangesAddJobsModalContext = {
+      PayMarketId: this.routePayMarketId,
+      ProjectId: this.routeProjectId
+    };
+    this.jobsBasedRangesAddJobsModalComponent.onSetContext(jobBasedRangesAddJobsModalContext);
   }
 
   addJobsModalSaveHandler(data) {

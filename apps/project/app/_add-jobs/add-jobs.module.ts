@@ -12,20 +12,23 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
-import { JobLimitCounterComponent } from 'libs/features/smallbiz';
 
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { SavedFiltersHelper } from 'libs/features/add-jobs/helpers';
 import { JobSearchUserFilterType, SearchFilterMappingData } from 'libs/features/add-jobs/data';
+import { PfAddJobsModule } from 'libs/features/add-jobs';
 
 import * as fromFaIcons from './fa-icons';
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
 import { reducers } from './reducers';
-import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects, SingledFilterEffects, PaymarketEffects,
-         CreateNewJobPageEffects, JobSearchUserFilterEffects } from './effects';
-import { AddJobsPageComponent, SearchResultsComponent, PaymarketsComponent, CreateNewJobPageComponent } from './containers';
-import { JobResultComponent } from './components';
+import {
+  AddJobsPageEffects,
+  CreateNewJobPageEffects,
+  SearchFiltersEffects,
+  SingledFilterEffects
+} from './effects';
+import { AddJobsPageComponent, SearchResultsComponent, CreateNewJobPageComponent } from './containers';
 
 @NgModule({
   imports: [
@@ -37,11 +40,8 @@ import { JobResultComponent } from './components';
     EffectsModule.forFeature([
       AddJobsPageEffects,
       CreateNewJobPageEffects,
-      SearchResultsEffects,
       SearchFiltersEffects,
-      SingledFilterEffects,
-      PaymarketEffects,
-      JobSearchUserFilterEffects
+      SingledFilterEffects
     ]),
     InfiniteScrollModule,
     DropDownsModule,
@@ -55,24 +55,20 @@ import { JobResultComponent } from './components';
     // Payfactors
     PfSearchModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfAddJobsModule
   ],
   declarations: [
     // Components
     SearchResultsComponent,
-    JobLimitCounterComponent,
-    JobResultComponent,
-
-    // Containers
-    PaymarketsComponent,
 
     // Pages
     AddJobsPageComponent, CreateNewJobPageComponent
   ],
   providers: [
     SavedFiltersHelper,
-    { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },
-    { provide: UserFilterTypeData, useValue: JobSearchUserFilterType }
+    {provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData},
+    {provide: UserFilterTypeData, useValue: JobSearchUserFilterType}
   ]
 })
 export class AddJobsModule {
