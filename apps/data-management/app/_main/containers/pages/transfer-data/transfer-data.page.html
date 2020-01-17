@@ -2,6 +2,7 @@
                     [loadingError]="transferDataPageLoadingError$ | async"
                     [loadingErrorMessage]="'Error Loading Transfer Data Page'">
     <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.SelectTransferMethod" class="my-4 mx-3">
+      <div class="float-right"><h5 style="opacity: 0.6;">STEP 1/5</h5></div>
       <h4>HRIS Integration</h4>
       <div class="mx-5 my-5">
         <div class="row" style="display:none;">
@@ -35,6 +36,7 @@
       </div>
     </div>
     <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.EntitySelection">
+      <div class="float-right"><h5 style="opacity: 0.6;">STEP 2/5</h5></div>
       <h4 class="mt-4 ml-2">Select entities to transfer</h4>
       <div class="ml-5">
         <h6 class="mt-4">Select which organizational data entity you would like to load data for:</h6>
