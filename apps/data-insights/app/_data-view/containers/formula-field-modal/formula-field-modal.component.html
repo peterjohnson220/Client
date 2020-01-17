@@ -39,12 +39,13 @@
     </form>
   </div>
 
-  <div class="modal-footer">
+  <div class="modal-footer d-flex">
     <ng-container *ngIf="showErrorMessages && !saving">
       <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>
     </ng-container>
-    <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary" (click)="close()">Cancel</button>
-    <button *ngIf="isEditable" type="button" [attr.data-qa-id]="'btn-save'" class="btn light-blue-btn"
+    <button *ngIf="duplicateAllowed" type="button" [attr.data-qa-id]="'btn-duplicate'" class="btn btn-secondary mr-auto p-2" (click)="duplicate()">Duplicate</button>
+    <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary p-2" (click)="close()">Cancel</button>
+    <button *ngIf="isEditable" type="button" [attr.data-qa-id]="'btn-save'" class="btn light-blue-btn p-2"
       [disabled]="saveDisabled"
       (click)="handleSaveClicked()">
       <span *ngIf="!saving">Save</span>

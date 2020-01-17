@@ -4,4 +4,5 @@ export interface FormulaFieldModalObj {
   FormulaId?: number;
   Title?: string;
   IsEditable?: boolean;
+  DuplicateAllowed?: boolean;
 }
