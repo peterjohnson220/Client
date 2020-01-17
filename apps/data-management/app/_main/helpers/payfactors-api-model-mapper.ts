@@ -177,7 +177,8 @@ export class PayfactorsApiModelMapper {
         customFields: null,
         dbName: p.entityMappingTypeCode,
         isFullReplace: null,
-        dateFormat: null
+        dateFormat: null,
+        isLoadingFinish: true
       };
     });
   }
