@@ -93,4 +93,21 @@ export class FieldsHelper {
     };
   }
 
+  static updateFormulaField(fields: Field[], targetField: Field): void {
+    const fieldToUpdate = FieldsHelper.findField(fields, targetField);
+    if (fieldToUpdate) {
+      fieldToUpdate.DisplayName = fieldToUpdate.FormulaName === fieldToUpdate.DisplayName ? targetField.FormulaName : fieldToUpdate.DisplayName;
+      fieldToUpdate.FormulaName = targetField.FormulaName;
+      fieldToUpdate.Formula = targetField.Formula;
+      fieldToUpdate.IsSortable = targetField.IsSortable;
+    }
+  }
+
+  static updateFieldDisplayName(fields: Field[], targetField: Field, displayName: string): void {
+    const fieldToUpdate = FieldsHelper.findField(fields, targetField);
+    if (fieldToUpdate) {
+      fieldToUpdate.DisplayName = displayName;
+    }
+  }
+
 }
