@@ -27,10 +27,10 @@ export interface FieldListItem {
 }
 
 export enum FieldDataType {
-  Date = 'Date',
+  Date = 'dateTime',
   Int = 'int',
   Float = 'float',
-  String = 'String',
+  String = 'string',
   LongString = 'longString',
   Bit = 'bit'
 }

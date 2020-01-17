@@ -12,6 +12,7 @@ import * as fromDataViewMainReducer from '../../reducers';
 import * as fromFormulaFieldActions from '../../actions/formula-field-modal.actions';
 import { FormulaFieldModalObj, Suggestion, functionSuggestionList } from '../../models';
 import { FormulaEditorComponent } from '../../components';
+import { FieldDataType } from '../../../_main/models';
 
 @Component({
   selector: 'pf-formula-field-modal',
@@ -24,6 +25,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   @Input() modalData: FormulaFieldModalObj;
 
   formulaValid$: Observable<boolean>;
+  formulaDataType$: Observable<FieldDataType>;
   validating$: Observable<boolean>;
   saving$: Observable<boolean>;
   savingSuccess$: Observable<boolean>;
@@ -34,6 +36,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   formulaChangedSubscription: Subscription;
 
   formulaValidSubscription: Subscription;
+  formulaDataTypeSubscription: Subscription;
   validatingSubscription: Subscription;
   savingSubscription: Subscription;
   savingSuccessSubscription: Subscription;
@@ -54,6 +57,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   showErrorMessages: boolean;
   isWaitingForValidation: boolean;
   functionSuggestions: Suggestion[] = functionSuggestionList;
+  dataType: FieldDataType;
 
   constructor(
     private modalService: NgbModal,
@@ -62,6 +66,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   ) {
     this.validating$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaValidating));
     this.formulaValid$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaValid));
+    this.formulaDataType$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaDataType));
     this.saving$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaSaving));
     this.savingSuccess$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaSavingSuccess));
     this.savingError$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaSavingError));
@@ -76,6 +81,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
 
   ngOnInit(): void {
     this.formulaValidSubscription = this.formulaValid$.subscribe(result => this.isValidFormula = result);
+    this.formulaDataTypeSubscription = this.formulaDataType$.subscribe(result => this.dataType = result);
     this.validatingSubscription = this.validating$.subscribe(result => this.validating = result);
     this.savingSubscription = this.saving$.subscribe(result => this.saving = result);
     this.savingSuccessSubscription = this.savingSuccess$.subscribe(result => this.handleSavingSuccess(result));
@@ -94,6 +100,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.savingSuccessSubscription.unsubscribe();
     this.savingErrorSubscription.unsubscribe();
     this.formulaChangedSubscription.unsubscribe();
+    this.formulaDataTypeSubscription.unsubscribe();
   }
 
   open(): void {
@@ -119,7 +126,8 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     const formulaInfo: FormulaFieldModalObj = {
       FieldName: this.formulaFieldForm.value.fieldName,
       Formula: this.formula,
-      FormulaId: this.modalData ? this.modalData.FormulaId : null
+      FormulaId: this.modalData ? this.modalData.FormulaId : null,
+      DataType: this.dataType
     };
     this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: formulaInfo, baseEntityId: this.baseEntityId }));
   }
@@ -143,6 +151,10 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
 
   public get duplicateAllowed(): boolean {
     return this.modalData.DuplicateAllowed ;
+  }
+
+  public get typeChangeDetected(): boolean {
+    return !!this.modalData && (this.modalData.DataType !== this.dataType && !!this.modalData.FormulaId);
   }
 
   private createForm(): void {

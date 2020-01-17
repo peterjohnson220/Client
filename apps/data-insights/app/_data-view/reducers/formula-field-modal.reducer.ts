@@ -1,4 +1,5 @@
 import * as fromFormulaFieldActions from '../actions/formula-field-modal.actions';
+import { FieldDataType } from '../../_main/models';
 
 export interface State {
   validating: boolean;
@@ -7,6 +8,7 @@ export interface State {
   savingSuccess: boolean;
   savingError: boolean;
   savingErrorMessage: string;
+  formulaDataType: FieldDataType;
 }
 
 const initialState: State = {
@@ -15,7 +17,8 @@ const initialState: State = {
   saving: false,
   savingSuccess: false,
   savingError: false,
-  savingErrorMessage: ''
+  savingErrorMessage: '',
+  formulaDataType: null
 };
 
 export function reducer(state = initialState, action: fromFormulaFieldActions.Actions): State {
@@ -30,14 +33,16 @@ export function reducer(state = initialState, action: fromFormulaFieldActions.Ac
       return {
         ...state,
         validating: false,
-        formulaValid: action.payload.result
+        formulaValid: action.payload.result,
+        formulaDataType: action.payload.dataType
       };
     }
     case fromFormulaFieldActions.VALIDATE_FORMULA_ERROR: {
       return {
         ...state,
         validating: false,
-        formulaValid: false
+        formulaValid: false,
+        formulaDataType: null
       };
     }
     case fromFormulaFieldActions.SAVE_FORMULA_FIELD: {
@@ -77,3 +82,4 @@ export const getSaving = (state: State) => state.saving;
 export const getSavingSuccess = (state: State) => state.savingSuccess;
 export const getSavingError = (state: State) => state.savingError;
 export const getSavingErrorMessage = (state: State) => state.savingErrorMessage;
+export const getFormulaDataType = (state: State) => state.formulaDataType;

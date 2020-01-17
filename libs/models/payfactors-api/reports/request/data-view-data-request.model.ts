@@ -29,9 +29,17 @@ export interface DataViewField {
   FormulaName?: string;
 }
 
-export interface DataViewFilter {
+export interface DataViewFilter extends BaseFilter {
   EntitySourceName: string;
   SourceName: string;
+}
+
+export interface DataViewFilterIdentifier extends BaseFilter {
+  DataElementId?: number;
+  UserFormulaId?: number;
+}
+
+export interface BaseFilter {
   Operator: string;
   Values?: string[];
   DataType?: DataViewFieldDataType;

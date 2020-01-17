@@ -48,6 +48,13 @@
             [disabled]="!isValidFormula"
             (click)="duplicate()">Duplicate</button>
     <div class="savings-container space-out-children">
+      <div class="warning-icon" *ngIf="isEditable && !saveDisabled && typeChangeDetected"
+          [ngbPopover]="popContent"
+           container="body"
+           triggers="mouseenter:mouseleave"
+           popoverTitle="Warning">
+        <fa-icon icon="exclamation-circle"></fa-icon>
+      </div>
       <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary p-2" (click)="close()">Cancel</button>
       <button *ngIf="isEditable" type="button" [attr.data-qa-id]="'btn-save'" class="btn light-blue-btn"
         [disabled]="saveDisabled"
@@ -57,4 +64,7 @@
       </button>
     </div>
   </div>
+  <ng-template #popContent>
+    You are changing the field type. If you save your changes, it will remove your filters on the formula field.
+  </ng-template>
 </ng-template>

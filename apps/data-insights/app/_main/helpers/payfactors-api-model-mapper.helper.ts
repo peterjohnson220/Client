@@ -15,7 +15,8 @@ import {
   SaveUserViewFiltersRequest,
   DataViewFieldDataType,
   ShareUserResponse,
-  DataViewFieldType
+  DataViewFieldType,
+  DataViewFilterIdentifier
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 import { generateDefaultAsyncStateObj } from 'libs/models';
@@ -278,6 +279,19 @@ export class PayfactorsApiModelMapper {
     });
   }
 
+  static mapFiltersToDataViewFilterIdentifier(data: Filter[]): DataViewFilterIdentifier[] {
+    return data.map((filter) => {
+      return {
+        Operator: filter.Operator.Value,
+        Values: filter.SelectedOptions,
+        DataElementId: filter.Field.DataElementId,
+        UserFormulaId: filter.Field.FormulaId,
+        FilterType: null,
+        DisplayName: null
+      };
+    });
+  }
+
   static mapDataViewFiltersToFilters(data: DataViewFilter[], fields: DataViewField[]): Filter[] {
     return data.map((filter) => {
       const dataViewField = fields.find(x => x.EntitySourceName === filter.EntitySourceName && x.SourceName === filter.SourceName);
@@ -295,7 +309,7 @@ export class PayfactorsApiModelMapper {
   static buildSaveFiltersRequest(filters: Filter[], userDataView: UserDataView): SaveUserViewFiltersRequest {
     return {
       UserDataViewId: userDataView.UserDataViewId,
-      Filters: this.mapFiltersToDataViewFilters(filters)
+      Filters: this.mapFiltersToDataViewFilterIdentifier(filters)
     };
   }
 

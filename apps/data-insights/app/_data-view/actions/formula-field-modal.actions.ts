@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import { DataViewField } from 'libs/models/payfactors-api';
 
 import { FormulaFieldModalObj } from '../models';
+import { FieldDataType } from '../../_main/models';
 
 export const VALIDATE_FORMULA = '[Data Insights / Formula Field Modal] Validate Formula';
 export const VALIDATE_FORMULA_SUCCESS = '[Data Insights / Formula Field Modal] Validate Formula Success';
@@ -21,7 +22,7 @@ export class ValidateFormula implements Action {
 export class ValidateFormulaSuccess implements Action {
   readonly type = VALIDATE_FORMULA_SUCCESS;
 
-  constructor(public payload: { result: boolean }) {}
+  constructor(public payload: { result: boolean, dataType: FieldDataType }) {}
 }
 
 export class ValidateFormulaError implements Action {
