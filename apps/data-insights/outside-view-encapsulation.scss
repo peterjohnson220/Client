@@ -202,3 +202,42 @@
     color: transparent;
   }
 }
+
+pf-formula-editor {
+  .CodeMirror {
+    padding: 1rem;
+    font-size: 16px;
+    font-weight: 300;
+    position: absolute;
+    height: 150px;
+    width: calc(100% - 2rem);
+    resize: none;
+    border: 1px solid #ced4da;
+    background-color: transparent;
+  
+    &:focus {
+      outline-color: $background-grey;
+    }
+  
+    &:disabled {
+      background-color: #e9ecef;
+    }
+  }
+
+  .CodeMirror-placeholder.CodeMirror-line-like {
+    color: grey;
+  }
+
+  .CodeMirror-readonly {
+    .CodeMirror {
+      background-color: #e9ecef;
+    }
+    .CodeMirror-cursor {
+      visibility: hidden !important;
+    }
+  }
+}
+
+.CodeMirror-hints {
+  z-index: 1000000;
+}
