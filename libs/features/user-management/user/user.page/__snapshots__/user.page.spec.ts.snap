@@ -4,6 +4,7 @@ exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
 <pf-user-page
   apiError$={[Function Store]}
   companyId={[Function Number]}
+  companySubsidiaryInfo$={[Function Store]}
   loaded$={[Function Store]}
   loading$={[Function Store]}
   route={[Function Object]}
@@ -72,6 +73,7 @@ exports[`Admin - Company Admin - User Page Should show the edit user page 1`] = 
 <pf-user-page
   apiError$={[Function Store]}
   companyId={[Function Number]}
+  companySubsidiaryInfo$={[Function Store]}
   loaded$={[Function Store]}
   loading$={[Function Store]}
   route={[Function Object]}

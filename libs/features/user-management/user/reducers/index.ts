@@ -54,3 +54,7 @@ export const getUserStateLoaded = createSelector(
 export const getUserStateApiError = createSelector(
   selectUserFormState, fromUserManagementReducer.getUserApiError
 );
+
+export const getCompanySubsidiaryInfo = createSelector(
+  selectUserFormState, fromUserManagementReducer.getCompanySubsidiaryInfo
+);
