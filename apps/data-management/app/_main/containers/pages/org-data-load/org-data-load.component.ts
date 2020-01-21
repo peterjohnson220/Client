@@ -18,10 +18,10 @@ import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import { EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
+import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
-import { LoaderTypes } from 'libs/constants';
+import { LoaderTypes, LoadTypes } from 'libs/constants';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
@@ -29,7 +29,7 @@ import * as fromOrganizationalDataActions from '../../../actions/organizational-
 import * as fromCustomFieldsActions from '../../../actions/custom-fields.actions';
 import * as fromOrgDataFieldMappingsActions from '../../../actions/organizational-data-field-mapping.actions';
 import { EntityUploadComponent } from '../../../components';
-import { ConfigurationGroup, EntityChoice, FileUploadDataModel, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
+import { EntityChoice, FileUploadDataModel, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
 
 @Component({
   selector: 'pf-org-data-load',
@@ -49,7 +49,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
   private organizationalDataTemplateLink$: Observable<string>;
-  private configGroup$: Observable<ConfigurationGroup>;
+  private configGroups$: Observable<ConfigurationGroup[]>;
   private customJobFields$: Observable<any>;
   private customEmployeeFields$: Observable<any>;
   private fileUploadData$: Observable<any>;
@@ -85,7 +85,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   existingLoaderSettings: LoaderSetting[];
   private configGroupSeed: ConfigurationGroup = {
-    LoaderConfigurationGroupId: -1, GroupName: 'Add New Mapping', CompanyId: -1
+    LoaderConfigurationGroupId: -1, GroupName: 'Add New Mapping', CompanyId: -1, LoadType: LoadTypes.Manual
   };
   private fileUploadData: FileUploadDataModel;
   StepHeaders: string[] = [
@@ -157,7 +157,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.organizationalDataTemplateLink$ = this.mainStore.select(fromDataManagementMainReducer.getOrganizationalHeadersLink);
     this.isModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getModalStateOpen);
     this.loaderSettings$ = this.mainStore.select(fromDataManagementMainReducer.getLoaderSettings);
-    this.configGroup$ = this.mainStore.select(fromDataManagementMainReducer.getConfigurationGroup);
+    this.configGroups$ = this.mainStore.select(fromDataManagementMainReducer.getConfigurationGroups);
     this.customJobFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomJobField);
     this.customEmployeeFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomEmployeeField);
     this.fileUploadData$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadData);
@@ -176,7 +176,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.selectedCompany = f;
       this.clearSelections();
       if (f) {
-        this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroup(f.CompanyId));
+        this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, LoadTypes.Manual));
         this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
           companyId: this.selectedCompany.CompanyId,
           loaderType: LoaderTypes.OrgData
@@ -224,12 +224,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       take(1),
       takeUntil(this.unsubscribe$)).subscribe(f => this.organizationalDataTemplateLink = f);
 
-    this.configGroup$.pipe(
-      filter(uc => !!uc),
+    this.configGroups$.pipe(
+      filter(configGroups => configGroups.length > 0),
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
-      this.getSettings(f);
-      this.loaderConfigGroup = f;
+      this.getSettings(f[0]);
+      this.loaderConfigGroup = f[0];
     });
 
     this.customJobFields$.pipe(
@@ -543,7 +543,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       const newConfigGroup: ConfigurationGroup = {
         CompanyId: this.selectedCompany.CompanyId,
         GroupName: 'Saved Manual Mappings',
-        LoaderConfigurationGroupId: null
+        LoaderConfigurationGroupId: null,
+        LoadType: LoadTypes.Manual
       };
       this.mainStore.dispatch(new fromOrganizationalDataActions.SaveConfigGroup(newConfigGroup));
     }
