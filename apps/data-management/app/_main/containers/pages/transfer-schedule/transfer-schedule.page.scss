@@ -47,3 +47,18 @@
 :host ::ng-deep .blue {
   color: rgb(0, 170, 255)
 }
+
+// Success modal alert
+:host ::ng-deep.modal-header {
+  display: none;
+}
+
+:host .setup-complete-modal-header {
+  font-weight: 500;
+}
+
+:host div.alert-success {
+  border-width: 0 0 0 1rem;
+  color: #203A02;
+  border-color: #6EAC27;
+}

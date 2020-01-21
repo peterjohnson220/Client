@@ -21,6 +21,8 @@ export const SAVE_ALL_TRANSFER_SCHEDULES = '[Data Management / Transfer Schedule
 export const SAVE_ALL_TRANSFER_SCHEDULES_ERROR = '[Data Management / Transfer Schedule] Save All Transfer Schedules Error';
 export const SAVE_ALL_TRANSFER_SCHEDULES_SUCCESS = '[Data Management / Transfer Schedule] Save All Transfer Schedules Success';
 
+export const SHOW_INTEGRATION_SETUP_COMPLETED_MODAL = '[Data Management / Transfer Schedule] Show Setup Integration Complete Modal';
+
 export class GetTransferSummary implements Action {
   readonly type = GET_TRANSFER_SUMMARY;
 }
@@ -93,6 +95,12 @@ export class SaveAllTransferSchedulesSuccess implements Action {
   constructor(public payload: TransferScheduleSummary[]) {}
 }
 
+export class ShowIntegrationSetupCompletedModal implements Action {
+  readonly type = SHOW_INTEGRATION_SETUP_COMPLETED_MODAL;
+
+  constructor(public payload: boolean) {}
+}
+
 export type Actions
   = GetTransferSummary
   | GetTransferSummaryError
@@ -108,4 +116,5 @@ export type Actions
   | SaveAllTransferSchedulesSuccess
   | SaveTransferSchedule
   | SaveTransferScheduleError
-  | SaveTransferScheduleSuccess;
+  | SaveTransferScheduleSuccess
+  | ShowIntegrationSetupCompletedModal;
