@@ -32,7 +32,7 @@ export class ActionBarComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
-      this.dataFields$ = this.store.select(fromReducer.getFields, changes['pageViewId'].currentValue);
+      this.dataFields$ = this.store.select(fromReducer.getSelectableFields, changes['pageViewId'].currentValue);
       this.savedViews$ = this.store.select(fromReducer.getSavedViews, changes['pageViewId'].currentValue);
       this.selectedRecordId$ = this.store.select(fromReducer.getSelectedRecordId, this.pageViewId);
       this.viewDeleting$ = this.store.select(fromReducer.getViewIsDeleting, this.pageViewId);
