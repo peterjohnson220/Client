@@ -237,7 +237,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   handleControlDataRowAdded(addDataRowObj: any) {
     this.store.dispatch(new fromJobDescriptionActions.AddDataRowToControl({
       jobDescriptionControl: addDataRowObj.control,
-      dataRow: this.jobDescriptionManagementService.createDataRow(addDataRowObj.attributes)
+      dataRow: this.jobDescriptionManagementService.createDataRow(addDataRowObj.attributes),
+      save: addDataRowObj.save
     }));
 
     if (addDataRowObj.save) {

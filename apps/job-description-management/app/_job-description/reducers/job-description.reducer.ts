@@ -275,9 +275,15 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       const control = ControlDataHelper.getControl(asyncStateObjClone.obj.Sections, action.payload.jobDescriptionControl);
       control.Data = control.Data.concat([action.payload.dataRow]);
 
+      let recentChange = state.jobDescriptionRecentChange;
+      if (!action.payload.save) {
+        recentChange = asyncStateObjClone.obj;
+      }
+
       return {
         ...state,
-        jobDescriptionAsync: asyncStateObjClone
+        jobDescriptionAsync: asyncStateObjClone,
+        jobDescriptionRecentChange: recentChange
       };
     }
     case fromJobDescriptionActions.REMOVE_CONTROL_DATA_ROW: {
