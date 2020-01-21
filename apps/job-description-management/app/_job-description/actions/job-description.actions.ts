@@ -205,7 +205,7 @@ export class LoadJobDescriptionExtendedInfo {
 export class AddDataRowToControl implements Action {
   readonly type = ADD_DATA_ROW_TO_CONTROL;
 
-  constructor(public payload: { jobDescriptionControl: JobDescriptionControl, dataRow: any }) {}
+  constructor(public payload: { jobDescriptionControl: JobDescriptionControl, dataRow: any, save: boolean }) {}
 }
 
 export class RemoveControlDataRow implements Action {

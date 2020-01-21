@@ -14,11 +14,11 @@ export class UndoHelper {
       }
     }
     return false;
-  };
+  }
 
   static getUndoPoint = (source, dest) => {
     return deepCompareWithExclusions(source, dest);
-  };
+  }
 
   // Elements in source are considered changes in dest object. Everything found in source will be treated as an add, remove, or update for dest.
   // Undefined in arrays are considered deletion operations. Elements of arrays passed in will be considered additions. Values will be considered updates.
@@ -38,7 +38,7 @@ export class UndoHelper {
         }
       }
     }
-  };
+  }
 }
 
 const ignoredColumns = [ 'PublishDate', 'CreatedDate', 'LastUpdatedDate', 'JobDescriptionRevision', 'JobDescriptionStatus', 'DraftNumber' ];
