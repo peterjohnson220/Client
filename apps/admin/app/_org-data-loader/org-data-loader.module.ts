@@ -22,7 +22,7 @@ import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
 import { reducers } from './reducers';
-import { CompanySelectorEffects, OrgDataFieldMappingsEffects } from './effects';
+import { CompanySelectorEffects, OrgDataFieldMappingsEffects, LoaderConfigurationGroupsEffects } from './effects';
 import { CompanySelectorComponent, SftpAccountStatusComponent } from './containers';
 
 
@@ -39,7 +39,8 @@ import { CompanySelectorComponent, SftpAccountStatusComponent } from './containe
     EffectsModule.forFeature([
       CompanySelectorEffects,
       OrgDataFieldMappingsEffects,
-      LoaderSettingsEffects]),
+      LoaderSettingsEffects,
+      LoaderConfigurationGroupsEffects]),
 
     // 3rd Party
     LayoutModule,

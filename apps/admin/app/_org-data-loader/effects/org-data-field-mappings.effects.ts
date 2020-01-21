@@ -17,7 +17,7 @@ export class OrgDataFieldMappingsEffects {
     .pipe(
       ofType(fromOrgDataFieldMappingsActions.LOADING_FIELD_MAPPINGS),
       switchMap((action: fromOrgDataFieldMappingsActions.LoadingFieldMappings) =>
-        this.loaderFieldMappingsApiService.getCompanyFieldMappings(action.payload).pipe(
+        this.loaderFieldMappingsApiService.getCompanyFieldMappings(action.companyId, action.configGroupId).pipe(
           map((fieldMappings: LoaderFieldSet[]) => {
             return new fromOrgDataFieldMappingsActions.LoadingFieldMappingsSuccess(fieldMappings);
           }),

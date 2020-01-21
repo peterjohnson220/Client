@@ -1,20 +1,22 @@
 import { Action } from '@ngrx/store';
 
-import { ConfigurationGroup, FileUploadDataModel } from '../models';
+import { ConfigurationGroup } from 'libs/models/data-loads';
+
+import { FileUploadDataModel } from '../models';
 
 export const GET_ORGANIZATIONAL_HEADERS_LINK = '[Data Management / Org Data Load Page] Get Organizational Headers Link';
 export const GET_ORGANIZATIONAL_HEADERS_LINK_SUCCESS = '[Data Management / Org Data Load Page] Get Organizational Headers Link Success';
 export const GET_ORGANIZATIONAL_HEADERS_LINK_ERROR = '[Data Management / Org Data Load Page] Get Organizational Headers Link Error';
 export const SET_MODAL_STATE_OPEN = '[Data Management / Org Data Load Page] Set Modal State';
-export const GET_CONFIGURATION_GROUP = '[Data Management / Org Data Load Page] Get Manual Mapping';
-export const GET_CONFIGURATION_GROUP_SUCCESS = '[Data Management / Org Data Load Page] Get Manual Mapping Success';
-export const GET_CONFIGURATION_GROUP_FAILED = '[Data Management / Org Data Load Page] Get Manual Mapping Failed';
-export const UPLOAD_DATA = '[Data Management / Org Data Load Page] Upload Data Mapping';
+export const GET_CONFIGURATION_GROUPS = '[Data Management / Org Data Load Page] Get Configuration Groups';
+export const GET_CONFIGURATION_GROUPS_SUCCESS = '[Data Management / Org Data Load Page] Get Configuration Groups Success';
+export const GET_CONFIGURATION_GROUPS_FAILED = '[Data Management / Org Data Load Page] Get Configuration Groups Failed';
+export const UPLOAD_DATA = '[Data Management / Org Data Load Page] Upload Data';
 export const UPLOAD_DATA_SUCCESS = '[Data Management / Org Data Load Page] Upload Data Success';
 export const UPLOAD_DATA_FAILED = '[Data Management / Org Data Load Page] Upload Data Failed';
-export const SAVE_CONFIGURATION_GROUP = '[Data Management / Org Data Load Page] Save Manual Mapping';
-export const SAVE_CONFIGURATION_GROUP_SUCCESS = '[Data Management / Org Data Load Page] Save Manual Mapping Success';
-export const SAVE_CONFIGURATION_GROUP_FAILED = '[Data Management / Org Data Load Page] Save Manual Mapping Failed';
+export const SAVE_CONFIGURATION_GROUP = '[Data Management / Org Data Load Page] Save Configuration Group';
+export const SAVE_CONFIGURATION_GROUP_SUCCESS = '[Data Management / Org Data Load Page] Save Configuration Group Success';
+export const SAVE_CONFIGURATION_GROUP_FAILED = '[Data Management / Org Data Load Page] Save Configuration Group Failed';
 
 export class GetOrganizationalHeadersLink implements Action {
   readonly type = GET_ORGANIZATIONAL_HEADERS_LINK;
@@ -35,18 +37,18 @@ export class SetModalStateOpen implements Action {
   constructor(public payload: boolean) { }
 }
 
-export class GetConfigGroup implements Action {
-  readonly type = GET_CONFIGURATION_GROUP;
-  constructor(public companyId: number) { }
+export class GetConfigGroups implements Action {
+  readonly type = GET_CONFIGURATION_GROUPS;
+  constructor(public companyId: number, public loadType: string) { }
 }
 
-export class GetConfigGroupSuccess implements Action {
-  readonly type = GET_CONFIGURATION_GROUP_SUCCESS;
-  constructor(public payload: ConfigurationGroup) { }
+export class GetConfigGroupsSuccess implements Action {
+  readonly type = GET_CONFIGURATION_GROUPS_SUCCESS;
+  constructor(public payload: ConfigurationGroup[]) { }
 }
 
-export class GetConfigGroupFailed implements Action {
-  readonly type = GET_CONFIGURATION_GROUP_FAILED;
+export class GetConfigGroupsFailed implements Action {
+  readonly type = GET_CONFIGURATION_GROUPS_FAILED;
 }
 
 export class UploadData implements Action {
@@ -82,9 +84,9 @@ export type Actions
   | GetOrganizationalHeadersLinkSuccess
   | GetOrganizationalHeadersLinkError
   | SetModalStateOpen
-  | GetConfigGroup
-  | GetConfigGroupSuccess
-  | GetConfigGroupFailed
+  | GetConfigGroups
+  | GetConfigGroupsSuccess
+  | GetConfigGroupsFailed
   | UploadData
   | UploadDataSuccess
   | UploadDataFailed
