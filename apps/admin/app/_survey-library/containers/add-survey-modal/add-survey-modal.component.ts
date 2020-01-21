@@ -24,6 +24,7 @@ export class AddSurveyModalComponent implements OnInit {
   public showAgingAndCost = false;
   companies: any;
   isSubmitting = false;
+  isGettingCompanies = false;
 
   constructor(
     private surveyApi: SurveyLibraryApiService,
@@ -43,9 +44,13 @@ export class AddSurveyModalComponent implements OnInit {
     this.isModalOpen$.subscribe(isOpen => {
       if (isOpen) {
         this.isSubmitting = false;
+        this.showAgingAndCost = false;
+        this.isGettingCompanies = true;
         this.surveyApi.getAddSurveyPopup(this.surveyYearId).subscribe(f => {
           this.companies = [{ CompanyId: '', CompanyName: 'Seed' }, ...f];
-
+          this.addSurveyForm.controls['newCompany'].setValue('');
+          this.addSurveyForm.markAsTouched();
+          this.isGettingCompanies = false;
         });
       } else {
         this.companies = [];
