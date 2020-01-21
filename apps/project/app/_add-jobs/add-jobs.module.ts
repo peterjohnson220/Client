@@ -26,6 +26,7 @@ import {
   AddJobsPageEffects,
   CreateNewJobPageEffects,
   SearchFiltersEffects,
+  SearchResultsEffects,
   SingledFilterEffects
 } from './effects';
 import { AddJobsPageComponent, SearchResultsComponent, CreateNewJobPageComponent } from './containers';
@@ -41,6 +42,7 @@ import { AddJobsPageComponent, SearchResultsComponent, CreateNewJobPageComponent
       AddJobsPageEffects,
       CreateNewJobPageEffects,
       SearchFiltersEffects,
+      SearchResultsEffects,
       SingledFilterEffects
     ]),
     InfiniteScrollModule,
