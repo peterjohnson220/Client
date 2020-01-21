@@ -9,6 +9,7 @@ import {
   DataManagementHomePageComponent,
   DataManagementLandingPageComponent,
   OrgDataLoadComponent,
+  ResetIntegrationPageComponent,
   TransferDataPageComponent,
   TransferSchedulePageComponent
 } from './containers';
@@ -40,6 +41,10 @@ const routes: Routes = [
         path: 'transfer-schedule',
         component: TransferSchedulePageComponent,
         data: { FullPage: true }
+      },
+      {
+        path: 'reset',
+        component: ResetIntegrationPageComponent
       }
     ]
   }

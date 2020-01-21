@@ -24,16 +24,18 @@ import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { EntityPickerComponent, EntityUploadComponent, FileMappingComponent } from './components';
 import { FileUploadComponent } from './components/file-upload';
 import {
-    DataManagementHomePageComponent, EntityMappingComponent,
-    FieldMappingCardComponent, HrisAuthenticationCardComponent, OrgDataLoadComponent,
-    PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
-    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent,
-    TransferSchedulePageComponent, TransferScheduleSummaryComponent, TransferScheduleCardComponent,
-    TransferScheduleCronComponent, DataManagementLandingPageComponent, HrisIntegrationPanelComponent,
-    HrisIntegrationStatusComponent, HrisIntegrationSidebarComponent
+  DataManagementHomePageComponent, EntityMappingComponent,
+  FieldMappingCardComponent, HrisAuthenticationCardComponent, OrgDataLoadComponent,
+  PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
+  WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent,
+  TransferSchedulePageComponent, TransferScheduleSummaryComponent, TransferScheduleCardComponent,
+  TransferScheduleCronComponent, DataManagementLandingPageComponent, HrisIntegrationPanelComponent,
+  HrisIntegrationStatusComponent, HrisIntegrationSidebarComponent, ResetIntegrationPageComponent
 } from './containers';
-import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
-  FileUploadEffects, CustomFieldsEffect, TransferScheduleEffects } from './effects';
+import {
+  FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
+  FileUploadEffects, CustomFieldsEffect, TransferScheduleEffects, HrisConnectionEffects
+} from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
@@ -61,7 +63,8 @@ import {GetSupportedSchedulesPipe} from './pipes';
       FileUploadEffects,
       LoaderSettingsEffects,
       CustomFieldsEffect,
-      TransferScheduleEffects
+      TransferScheduleEffects,
+      HrisConnectionEffects
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
@@ -108,7 +111,8 @@ import {GetSupportedSchedulesPipe} from './pipes';
     DataManagementLandingPageComponent,
     HrisIntegrationPanelComponent,
     HrisIntegrationStatusComponent,
-    HrisIntegrationSidebarComponent
+    HrisIntegrationSidebarComponent,
+    ResetIntegrationPageComponent
   ]
 })
 export class MainModule {

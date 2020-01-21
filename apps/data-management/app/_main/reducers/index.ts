@@ -12,6 +12,7 @@ import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-ma
 import * as fromFileUploadReducer from './file-upload.reducer';
 import * as fromCustomFieldsReducer from './custom-fields.reducer';
 import * as fromTransferScheduleReducer from './transfer-schedule.reducer';
+import * as fromHrisConnectionReducer from './hris-connection.reducer';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
@@ -23,6 +24,7 @@ export interface DataManagementMainState {
   customFieldsData: fromCustomFieldsReducer.State;
   emailRecipients: fromEmailRecipientsReducer.State;
   transferSchedule: fromTransferScheduleReducer.State;
+  hrisConnection: fromHrisConnectionReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -38,7 +40,8 @@ export const reducers = {
   loaderSettings: fromLoaderSettingsReducer.reducer,
   emailRecipients: fromEmailRecipientsReducer.reducer,
   customFieldsData: fromCustomFieldsReducer.reducer,
-  transferSchedule: fromTransferScheduleReducer.reducer
+  transferSchedule: fromTransferScheduleReducer.reducer,
+  hrisConnection: fromHrisConnectionReducer.reducer
 };
 
 // Select Feature Area
@@ -72,12 +75,15 @@ export const selectOrgDataCustomFieldsState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.customFieldsData
 );
-
 export const selectEmailRecipientsState =
   createSelector(selectFeatureAreaState, (state: DataManagementMainState) => state.emailRecipients);
 export const selectTransferScheduleState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.transferSchedule
+);
+export const selectHrisConnectionState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.hrisConnection
 );
 
 // Transfer Data Page
@@ -300,3 +306,11 @@ export const getTransferScheduleSummaryError = createSelector(selectTransferSche
 export const getTransferScheduleSummarySavingScheduleId = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getSavingScheduleId);
 export const getTransferScheduleSummarySaving = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getSaving);
 export const getTransferScheduleSummarySavingError = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getSavingError);
+
+// Hris Connection
+export const getHrisActiveConnection = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getConnection);
+export const getHrisActiveConnectionLoading = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getLoading);
+export const getHrisActiveConnectionLoadingError = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getLoadingError);
+export const getHrisActiveConnectionSaving = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getSaving);
+export const getHrisActiveConnectionSavingError = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getSavingError);
+export const getHrisActiveConnectionDeleteCompleted = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getDeleteCompleted);
