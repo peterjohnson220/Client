@@ -4,7 +4,7 @@ export enum MarketingTileDescriptions {
     Peer = 'The comp industry\'s only real-time data exchange, giving you fresh, reliable data tailored to your industry, zip code, and job skills.',
     PricingProjects = 'Market price all your jobs — including hot jobs — with our database covering thousands of benchmark jobs.',
     Structures = 'Model salary grades and explore "what-if" scenarios—you can even build ranges at the job level.',
-    SurveyManagement = 'Manage your salary surveys and automate annual participation—then market price with just a few * clicks.',
+    SurveyManagement = 'Manage your salary surveys and automate annual participation—then market price with just a few clicks.',
     PayMarkets = 'Get a true picture of your labor market with custom pay variations, geo-differentials, and multi-market analysis built in.',
     Employees = 'Take an employee point-of-view into your company and quickly benchmark against the market to ensure pay equity.',
     Jobs = 'A central repository for all your jobs, displaying pay markets, data cuts, and employees associated with each position.'
