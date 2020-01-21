@@ -53,6 +53,18 @@
     </select>
     <span *ngIf="f.userRole.errors?.required" class="invalid-feedback">User Role is required</span>
   </div>
+  <div class="form-group" *ngIf="(companySubsidiaries$ | async)?.length > 0">
+    <label class="control-label" for="subsidiary-multi-select">Subsidiaries</label>
+    <pf-multi-select
+      id="subsidiary-multi-select"
+      [attr.data-qa-id]="'ddm-subsidiary-multi-select'"
+      [options]="companySubsidiaries"
+      [(selectedOptions)]="selectedCompanySubsidiaries"
+      [(selectedValues)]="selectedValues"
+      [displayNamePreview]="true"
+    >
+    </pf-multi-select>
+  </div>
   <div class="form-group">
     <label class="control-label" for="ssoId">SSO ID</label>
     <input id="user-form-ssoid" type="text" class="form-control" formControlName="ssoId" placeholder="SSO ID" [maxlength]="MAX_NAME_LENGTH"

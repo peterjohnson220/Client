@@ -9,8 +9,8 @@ import * as fromUsersListActions from '../actions/users-list.actions';
 import * as fromUsersListReducer from '../reducers';
 
 import { UserGridItem } from '../models';
-import { SystemPermission, UserContext } from 'libs/models';
-import { Permissions } from '../../../../constants';
+import { UserContext } from 'libs/models';
+import { Permissions } from 'libs/constants';
 
 @Component({
   selector: 'pf-users-list-page',

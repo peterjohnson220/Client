@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { UserAssignedRole } from 'libs/models';
+
+import { SubsidiaryInfo, UserAssignedRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 
 export const LOAD_ROLES = '[UserManagement] Load Roles';
@@ -10,6 +11,10 @@ export const RESET_USER = '[UserManagement] Reset User';
 export const SAVE_USER = '[UserManagement] Save User';
 export const SAVE_USER_SUCCESS = '[UserManagement] Save User Success';
 export const HANDLE_API_ERROR = '[UserManagement] Handle API Error';
+export const LOAD_COMPANY_SUBSIDIARY_INFO = '[UserManagement] Load Company Subsidiary Info';
+export const LOAD_COMPANY_SUBSIDIARY_INFO_SUCCESS = '[UserManagement] Load Company Subsidiary Info Success';
+export const LOAD_COMPANY_SUBSIDIARY_INFO_ERROR = '[UserManagement] Load Company Subsidiary Info Error';
+export const RESET_STATE = '[UserManagement] Reset State';
 
 export class LoadRoles implements Action {
     readonly type = LOAD_ROLES;
@@ -51,12 +56,36 @@ export class HandleApiError implements Action {
     constructor(public payload: string) { }
 }
 
+export class LoadCompanySubsidiaryInfo implements Action {
+  readonly type = LOAD_COMPANY_SUBSIDIARY_INFO;
+
+  constructor(public payload: { CompanyId: number }) {}
+}
+
+export class LoadCompanySubsidiaryInfoSuccess implements Action {
+  readonly type = LOAD_COMPANY_SUBSIDIARY_INFO_SUCCESS;
+
+  constructor(public payload: { SubsidiaryInfo: SubsidiaryInfo[] }) {}
+}
+
+export class LoadCompanySubsidiaryInfoError implements Action {
+  readonly type = LOAD_COMPANY_SUBSIDIARY_INFO_ERROR;
+}
+
+export class ResetState implements Action {
+  readonly type = RESET_STATE;
+}
+
 export type UserManagementActions =
-    | LoadRoles
-    | LoadRolesSuccess
-    | LoadUser
-    | LoadUserSuccess
-    | ResetUser
-    | SaveUser
-    | SaveUserSuccess
-    | HandleApiError;
+  | LoadRoles
+  | LoadRolesSuccess
+  | LoadUser
+  | LoadUserSuccess
+  | ResetUser
+  | SaveUser
+  | SaveUserSuccess
+  | HandleApiError
+  | LoadCompanySubsidiaryInfo
+  | LoadCompanySubsidiaryInfoSuccess
+  | LoadCompanySubsidiaryInfoError
+  | ResetState;

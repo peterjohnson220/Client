@@ -10,11 +10,16 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
   MAX_TITLE_LENGTH={[Function Number]}
   MIN_PASSWORD_LENGTH={[Function Number]}
   _showPassword={[Function Boolean]}
+  companySubsidiaries={[Function Array]}
+  companySubsidiaries$={[Function Observable]}
   formBuilder={[Function FormBuilder]}
   newUser={[Function Object]}
   passwordValidatorSubscription={[Function Subscriber]}
   saveUser={[Function EventEmitter]}
+  selectedCompanySubsidiaries={[Function Array]}
+  selectedValues={[Function Array]}
   user={[Function Object]}
+  user$={[Function Observable]}
   userApiService="undefined"
   userForm={[Function FormGroup]}
 >
@@ -218,6 +223,21 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         
       </select>
       
+    </div>
+    
+    <div
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="subsidiary-multi-select"
+      >
+        Subsidiaries
+      </label>
+      <pf-multi-select
+        data-qa-id="ddm-subsidiary-multi-select"
+        id="subsidiary-multi-select"
+      />
     </div>
     <div
       class="form-group"
