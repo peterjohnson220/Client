@@ -1,0 +1,19 @@
+<pf-async-container [loading]="(loading$ | async) || (saving$ | async)"
+                    [loadingError]="(loadingError$ | async) || (savingError$ | async)"
+                    [loadingErrorMessage]="'Error loading active HRIS connection'">
+  <div *ngIf="(activeConnection$ | async) !== null">
+    <h4>Reset Integration</h4>
+    <h5>Press the "reset" button to clear out all data for your company.</h5>
+
+    <div class="row">
+      <div class="col-sm-12">
+        Active Connection: {{ (activeConnection$ | async)?.providerCode }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <a href="javascript:void(0)" class="btn btn-primary" [ngClass]="{ disabled: (saving$ | async) === true }" (click)="doReset()">Reset</a>
+      </div>
+    </div>
+  </div>
+</pf-async-container>

@@ -36,8 +36,8 @@ export function getMonthlyShortSummaryFromExpression(expression: string): string
   if (!x || x.length !== 2) {
     return '';
   }
-  return `${this.weeksOfMonth.find(d => d.value === x[1]).text}
-            ${this.daysOfWeek.find(d => d.value === x[0]).text}s`;
+  return `${weeksOfMonth.find(d => d.value === x[1]).text}
+            ${daysOfWeek.find(d => d.value === x[0]).text}s`;
 }
 
 export {
