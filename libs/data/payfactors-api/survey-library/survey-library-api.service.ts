@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { EnumSurveyDelete } from 'apps/admin/app/_survey-library/constants/survey-delete-enum';
 
 import { Observable } from 'rxjs';
 
@@ -55,12 +56,9 @@ export class SurveyLibraryApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveSurveyTitle`, request);
   }
 
-  deleteSurvey(surveyId: number) {
-    return this.payfactorsApiService.post(`${this.endpoint}/DeleteSurvey/${surveyId}`);
-  }
-
-  deleteSurveyData(surveyId: number) {
-    return this.payfactorsApiService.post(`${this.endpoint}/DeleteSurveyData/${surveyId}`);
+  deleteSurveyAndChildren(surveyId: number, step: EnumSurveyDelete) {
+    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/DeleteSurveyAndChildren/${surveyId}`
+      , JSON.stringify(step), this.headers);
   }
 
   copySurvey(surveyId: number, companyId: number) {

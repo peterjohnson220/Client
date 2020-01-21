@@ -4,14 +4,14 @@
   </ng-container>
 
   <ng-container page-content>
-    <pf-input-debounce [delay]="400"
-                       [(ngModel)]="tbxSearch"
-                       (valueChanged)="handleSearchChanged()"
-                       (clearClicked)="tbxSearch = ''">
-    </pf-input-debounce>
     <pf-async-container [loading]="isLoadingData$ | async"
-                        [loadingError]="hasLoadingError$ | async"
-                        [loadingErrorMessage]="'Failed to get survey data'">
+                        [loadingError]="(hasLoadingError$ | async) || deleteFailed "
+                        [loadingErrorMessage]="loadingErrorMessage">
+      <pf-input-debounce [delay]="400"
+                         [(ngModel)]="tbxSearch"
+                         (valueChanged)="handleSearchChanged()"
+                         (clearClicked)="tbxSearch = ''">
+      </pf-input-debounce>
 
 
       <table class="table table-hover">
@@ -49,19 +49,25 @@
                       [title]="(item.CompanyHasSurveyUdfs) ? 'Copy functionality is not available for this survey as it contains company specific custom fields' : ''">
                 Copy Survey
               </button>
-              <ng-container *ngIf="isUserGroupOne()">
-                &nbsp;
+              &nbsp;
+              <ng-container *ngIf="isUserGroupOne() && item.CompanyCount <= 1">
                 <button type="button"
                         class="btn btn-danger btn-sm"
-                        *ngIf="item.PublishMatchCount === 0 && item.ProjectMatchCount === 0 && item.JobCount > 0"
-                        (click)="deleteSurveyData(item.SurveyId)">
+                        *ngIf="item.PublishMatchCount > 0 || item.ProjectMatchCount > 0"
+                        (click)="deletePublishedMatches(item)">
+                  Delete Published Matches
+                </button>
+                <button type="button"
+                        class="btn btn-danger btn-sm"
+                        *ngIf="item.PublishMatchCount === 0 && item.ProjectMatchCount === 0 && (item.JobCount > 0 || item.CutCount > 0)"
+                        (click)="deleteSurvey(item.SurveyId, enumSurveyDelete.SURVEY_DATA)">
                   Delete Data Cuts
                 </button>
                 &nbsp;
                 <button type="button"
                         class="btn btn-danger btn-sm"
-                        *ngIf="item.JobCount === 0 && item.CutCount === 0"
-                        (click)="deleteSurvey(item.SurveyId)">
+                        *ngIf="item.PublishMatchCount === 0 && item.ProjectMatchCount === 0 && item.JobCount === 0 && item.CutCount === 0"
+                        (click)="deleteSurvey(item.SurveyId, enumSurveyDelete.SURVEY)">
                   Delete Survey
                 </button>
               </ng-container>
@@ -69,16 +75,16 @@
           </tr>
         </tbody>
       </table>
-    </pf-async-container>
-    <button *ngIf="isUserGroupOne()"
-            type="button"
-            class="btn btn-sm"
-            (click)="addSurvey()">Add Survey</button>
-    &nbsp;
-    <button type="button"
-            class="btn btn-sm"
-            (click)="backToSurveyYear()">Back to Survey Years</button>
+      <button *ngIf="isUserGroupOne()"
+              type="button"
+              class="btn btn-sm"
+              (click)="addSurvey()">Add Survey</button>
+      &nbsp;
+      <button type="button"
+              class="btn btn-sm"
+              (click)="backToSurveyYear()">Back to Survey Years</button>
 
+    </pf-async-container>
   </ng-container>
 </pf-page-with-title-bar>
 <pf-add-survey-modal [surveyYearId]="surveyYearId">
@@ -88,3 +94,5 @@
 <pf-copy-survey-modal [surveyId]="selectedSurveyId"
                       [SelectedSurveyCompany]="selectedCompany">
 </pf-copy-survey-modal>
+<pf-delete-confirmation-modal [publishedMatchCount]="selectedItemMatchCount"
+                              [surveyId]="selectedSurveyId"></pf-delete-confirmation-modal>
