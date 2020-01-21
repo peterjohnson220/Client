@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -30,6 +30,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   company$: Observable<string>;
   addingToProject$: Observable<boolean>;
 
+  addingNewJob = false;
+
   colTemplates = {};
 
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
@@ -48,6 +50,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));
     this.store.dispatch(new fromJobsPageActions.LoadCompany());
   }
 
@@ -55,6 +58,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.colTemplates = {
       'JobStatus': { Template: this.jobStatusColumn }
     };
+  }
+
+  ngOnDestroy() {
+    this.selectedKeysSubscription.unsubscribe();
   }
 
   addJobsToProject() {
@@ -65,9 +72,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return companyName ? `${companyName} Jobs` : '';
   }
 
-  ngOnDestroy() {
-    this.selectedKeysSubscription.unsubscribe();
-  }
   closeSplitView() {
     this.store.dispatch(new fromPfGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
   }
