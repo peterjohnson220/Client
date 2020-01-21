@@ -15,9 +15,12 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
     ng-reflect-ng-class="test cssClass"
     ng-reflect-ng-switch="Chart"
   >
-    <h4>
-      test tile
-    </h4>
+    
+    <div>
+      <h4>
+        test tile
+      </h4>
+    </div>
     <a
       class="tile-anchor-overlay"
       href="test tile url"
@@ -54,9 +57,12 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
     ng-reflect-ng-class="test cssClass"
     ng-reflect-ng-switch="Icon"
   >
-    <h4>
-      test tile
-    </h4>
+    
+    <div>
+      <h4>
+        test tile
+      </h4>
+    </div>
     <a
       class="tile-anchor-overlay"
       href="test tile url"
@@ -93,9 +99,12 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
     ng-reflect-ng-class="test cssClass"
     ng-reflect-ng-switch="List"
   >
-    <h4>
-      test tile
-    </h4>
+    
+    <div>
+      <h4>
+        test tile
+      </h4>
+    </div>
     <a
       class="tile-anchor-overlay"
       href="test tile url"
