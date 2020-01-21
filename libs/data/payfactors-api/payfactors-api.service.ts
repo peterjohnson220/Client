@@ -37,8 +37,8 @@ export class PayfactorsApiService implements OnDestroy {
   }
 
   post<T>(url: string, body: any = {}, mappingFn = this.extractValueFromOdata,
-          baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
-    return this.http.post<T>(this.formatUrl(baseUrlLocation, url, useUtilities), body).pipe(
+          baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false, options: any = {}): Observable<T> {
+    return this.http.post<T>(this.formatUrl(baseUrlLocation, url, useUtilities), body, options).pipe(
       map(mappingFn)
     );
   }
@@ -59,10 +59,11 @@ export class PayfactorsApiService implements OnDestroy {
   }
 
   // tslint:disable-next-line:max-line-length
-  downloadFile(url: string, body: any = {}, headers: HttpHeaders = null, openInNewTab = false, baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<boolean> {
+  downloadFile(url: string, body: any = {}, headers: HttpHeaders = null, openInNewTab = false, baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false, withCredentials: boolean = false): Observable<boolean> {
     const options: any = {
       responseType: 'blob',
-      observe: 'response'
+      observe: 'response',
+      withCredentials: withCredentials ? true : null
     };
 
     if (headers) {
