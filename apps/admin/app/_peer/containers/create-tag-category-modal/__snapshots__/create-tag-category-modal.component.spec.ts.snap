@@ -76,6 +76,17 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
               Employee
             </label>
           </div>
+          <div>
+            <input
+              formcontrolname="entityTypeSubsidiary"
+              type="checkbox"
+            />
+            <label
+              class="checkbox-label"
+            >
+              Subsidiary
+            </label>
+          </div>
         </div>
         <hr />
         <div

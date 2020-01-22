@@ -28,6 +28,7 @@ export class CreateTagCategoryModalComponent {
   entityTypeCompany: any;
   entityTypeJob: any;
   entityTypeEmployee: any;
+  entityTypeSubsidiary: any;
 
   dataTypes: Array<string> = [TagCategoryDataTypeEnum.Text, TagCategoryDataTypeEnum.Numeric];
   operatorEnum = {
@@ -54,6 +55,7 @@ export class CreateTagCategoryModalComponent {
   get entityTypeCompanyControl() { return this.createTagCategoryForm.get('entityTypeCompany'); }
   get entityTypeJobControl() { return this.createTagCategoryForm.get('entityTypeJob'); }
   get entityTypeEmployeeControl() { return this.createTagCategoryForm.get('entityTypeEmployee'); }
+  get entityTypeSubsidiaryControl() { return this.createTagCategoryForm.get('entityTypeSubsidiary'); }
   get description() { return this.createTagCategoryForm.get('description'); }
   get dataType() { return this.createTagCategoryForm.get('dataType'); }
   get useSlider() { return this.createTagCategoryForm.get('useSlider'); }
@@ -66,6 +68,7 @@ export class CreateTagCategoryModalComponent {
       'entityTypeCompany': [''],
       'entityTypeJob': [''],
       'entityTypeEmployee': [''],
+      'entityTypeSubsidiary': [''],
       'dataType': [TagCategoryDataTypeEnum.Text, [PfValidators.required]],
       'useSlider': [{value: false, disabled: true}],
       'description': [''],
@@ -84,11 +87,13 @@ export class CreateTagCategoryModalComponent {
     this.entityTypeCompany = this.entityTypeCompanyControl.value;
     this.entityTypeJob = this.entityTypeJobControl.value;
     this.entityTypeEmployee = this.entityTypeEmployeeControl.value;
+    this.entityTypeSubsidiary = this.entityTypeSubsidiaryControl.value;
     let entityTypes: any = EntityTypesFlag.None;
 
     if (this.entityTypeCompany) { entityTypes |= EntityTypesFlag.Company; }
     if (this.entityTypeJob) { entityTypes |= EntityTypesFlag.Job; }
     if (this.entityTypeEmployee) { entityTypes |= EntityTypesFlag.Employee; }
+    if (this.entityTypeSubsidiary) { entityTypes |= EntityTypesFlag.Subsidiary; }
 
     if (this.description.value == null) { this.description.setValue(''); }
 
