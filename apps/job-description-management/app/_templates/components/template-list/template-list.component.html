@@ -18,7 +18,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let templateListItem of templateListItems" [routerLink]="['/job-description-management/templates', templateListItem.TemplateId]">
+            <tr *ngFor="let templateListItem of templateListItems" [routerLink]="['/templates', templateListItem.TemplateId]">
             <td>{{templateListItem.TemplateName}}</td>
             <td>{{templateListItem.CreatedBy}}</td>
             <td>{{templateListItem.CreatedDate | date:"MM/dd/yy" }}</td>

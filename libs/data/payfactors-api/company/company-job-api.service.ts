@@ -59,5 +59,15 @@ export class CompanyJobApiService {
     return this.payfactorsApiService.patch<CompanyJob>(`${this.endpoint}(${request.CompanyJobId})/`, request);
   }
 
+
+  getJobsByFamilyNotAssignedToTemplate(jobFamily: string, templateId: Number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetJobsByFamilyNotAssignedToTemplate`,
+      {params: {jobFamily: jobFamily, templateId: templateId}});
+  }
+
+  getJobsByFamilyWithTemplate(jobFamily: string, templateId: Number) {
+      return this.payfactorsApiService.get(`${this.endpoint}/Default.GetJobsByFamilyWithTemplate`,
+        {params: {jobFamily: jobFamily, templateId: templateId}});
+  }
 }
 

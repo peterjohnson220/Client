@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 
 import * as fromJobFamilyActions from '../../shared/actions/job-family.actions';
+import { MessageHelper } from '../helpers';
 
 @Injectable()
 export class JobFamilyEffects {
@@ -20,7 +21,9 @@ export class JobFamilyEffects {
           map((response: string[]) => {
             return new fromJobFamilyActions.LoadJobFamiliesSuccess(response);
           }),
-          catchError(response => of(new fromJobFamilyActions.LoadJobFamiliesError()))
+          catchError(response => of(new fromJobFamilyActions.LoadJobFamiliesError({
+            errorMessage: MessageHelper.buildErrorMessage('Error loading job families.')
+          })))
         )
       ));
 

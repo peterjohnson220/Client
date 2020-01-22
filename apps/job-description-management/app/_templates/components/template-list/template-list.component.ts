@@ -1,6 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
 import { TemplateListItem } from '../../models';
+import * as fromTemplateActions from '../../actions';
+import * as fromTemplateReducers from '../../reducers';
 
 @Component({
   selector: 'pf-template-list',
@@ -8,7 +12,7 @@ import { TemplateListItem } from '../../models';
    styleUrls: ['./template-list.component.scss']
 })
 export class TemplateListComponent {
-  constructor() { }
+  constructor(private store: Store<fromTemplateReducers.State>) { }
 
   @Input() templateListItems: TemplateListItem[];
   @Input() loading: boolean;

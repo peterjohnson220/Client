@@ -4,14 +4,20 @@ import { Routes, RouterModule } from '@angular/router';
 import {AuthorizationGuard} from 'libs/security/guards';
 import {PermissionCheckEnum, Permissions} from 'libs/constants';
 
-import { TemplateListPageComponent } from './containers/pages';
+import { TemplateListPageComponent, TemplatePageComponent } from './containers/pages';
 
 const routes: Routes = [
   {
     path: '',
     component: TemplateListPageComponent,
     canActivate: [AuthorizationGuard],
-    data: {Permissions: [Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES, Permissions.CAN_EDIT_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
+    data: {Permissions: [Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES, Permissions.CAN_EDIT_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any},
+  },
+  {
+    path: ':id',
+    component: TemplatePageComponent,
+    canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES, Permissions.CAN_EDIT_JOB_DESCRIPTION], Check: PermissionCheckEnum.Single},
   }
 ];
 
