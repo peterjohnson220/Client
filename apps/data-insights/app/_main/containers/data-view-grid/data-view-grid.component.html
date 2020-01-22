@@ -25,20 +25,19 @@
                          width="150">
 
         <ng-template kendoGridColumnMenuTemplate let-service="service">
-          <ng-container *ngIf="!isFormulaField(field); else formulaFieldColumnMenu">
+          <ng-container *ngIf="isNumericDataType(field.DataType)">
             <span class="highlight-format-action" *ngIf="!field.Format" (click)="handleNumberFormatModalClicked(field)">Field Formatting</span>
             <ng-container *ngIf="field.Format">
               <span class="highlight-format-action" (click)="handleNumberFormatModalClicked(field, field.Format)">Edit Formatting</span>
               <span class="highlight-format-action" (click)="handleClearFormatClicked(field)">Clear Formatting</span>
             </ng-container>
           </ng-container>
-
-          <ng-template #formulaFieldColumnMenu>
+          <ng-container *ngIf="isFormulaField(field)">
             <span class="highlight-format-action" (click)="handleEditFormulaClick(field)">
               <span *ngIf="field.IsEditable">Edit Formula</span>
               <span *ngIf="!field.IsEditable">View Formula</span>
             </span>
-          </ng-template>
+          </ng-container>
         </ng-template>
 
         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">

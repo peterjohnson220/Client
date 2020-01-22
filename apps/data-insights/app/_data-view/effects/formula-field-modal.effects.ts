@@ -8,6 +8,8 @@ import { DataViewApiService } from 'libs/data/payfactors-api';
 import { ValidateFormulaResponse, ValidateFormulaRequest, UpsertFormulaFieldRequest } from 'libs/models/payfactors-api/reports';
 
 import * as fromFormulaFieldActions from '../actions/formula-field-modal.actions';
+import { PayfactorsApiModelMapper } from '../../_main/helpers';
+
 
 @Injectable()
 export class FormulaFieldModalEffects {
@@ -23,7 +25,10 @@ export class FormulaFieldModalEffects {
         };
         return this.dataViewApiService.validateFormula(request)
           .pipe(
-            map((response: ValidateFormulaResponse) => new fromFormulaFieldActions.ValidateFormulaSuccess({ result: response.IsValid })),
+            map((response: ValidateFormulaResponse) => new fromFormulaFieldActions.ValidateFormulaSuccess({
+              result: response.IsValid,
+              dataType: PayfactorsApiModelMapper.mapDataViewFieldDataTypeToFieldDataType(response.DataType)
+            })),
             catchError(() => of(new fromFormulaFieldActions.ValidateFormulaError()))
           );
       })
@@ -38,7 +43,8 @@ export class FormulaFieldModalEffects {
           Name: action.payload.formula.FieldName,
           Formula: action.payload.formula.Formula,
           FormulaId: action.payload.formula.FormulaId,
-          BaseEntityId: action.payload.baseEntityId
+          BaseEntityId: action.payload.baseEntityId,
+          DataType: action.payload.formula.DataType
         };
         return this.dataViewApiService.upsertFormulaField(request)
           .pipe(

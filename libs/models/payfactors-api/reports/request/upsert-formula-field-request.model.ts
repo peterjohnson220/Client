@@ -3,4 +3,5 @@ export interface UpsertFormulaFieldRequest {
   Formula: string;
   FormulaId?: number;
   BaseEntityId: number;
+  DataType: string;
 }

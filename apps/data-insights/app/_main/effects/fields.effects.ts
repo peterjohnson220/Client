@@ -133,9 +133,27 @@ export class FieldsEffects {
   updateFormulaFieldSuccess$ = this.action$
     .pipe(
       ofType(fromFormulaFieldModalActions.UPDATE_FORMULA_FIELD_SUCCESS),
-      map((action: fromFormulaFieldModalActions.UpdateFormulaFieldSuccess) => {
-        const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(action.payload);
-        return new fromFieldsActions.SaveUpdatedFormulaField(field);
+      withLatestFrom(
+        this.store.pipe(select(fromDataInsightsMainReducer.getActiveFilters)),
+        this.store.pipe(select(fromDataInsightsMainReducer.getPendingFilters)),
+        this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields)),
+        (action: fromFormulaFieldModalActions.UpdateFormulaFieldSuccess, activeFilters, pendingFilters, selectedFields) =>
+          ({ action, activeFilters, pendingFilters, selectedFields })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(data.action.payload);
+        const existingField = FieldsHelper.findField(data.selectedFields, field);
+        if (!!existingField && existingField.DataType !== field.DataType) {
+          if (FieldsHelper.fieldExistsInFilters(data.activeFilters, existingField)) {
+            actions.push(new fromFiltersActions.RemoveActiveFiltersByField(existingField));
+          }
+          if (FieldsHelper.fieldExistsInFilters(data.pendingFilters, existingField)) {
+            actions.push(new fromFiltersActions.RemovePendingFiltersByField(existingField));
+          }
+        }
+        actions.push(new fromFieldsActions.SaveUpdatedFormulaField(field));
+        return actions;
       })
     );
 

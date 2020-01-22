@@ -76,6 +76,20 @@ export class FieldsHelper {
     }
   }
 
+  static removeFiltersMatchingField(filters: Filter[], field: Field): Filter[] {
+    switch (field.FieldType) {
+      case FieldType.DataElement: {
+        return filters.filter(x => x.Field.DataElementId !== field.DataElementId);
+      }
+      case FieldType.Formula: {
+        return filters.filter(x => x.Field.FormulaId !== field.FormulaId);
+      }
+      default: {
+        return filters;
+      }
+    }
+  }
+
   static buildUpdateDataViewFieldsRequest(fields: Field[], userDataView: UserDataView): UpdateDataViewFieldsRequest {
     const selectedFields: Field[] = orderBy(fields, 'Order');
     const fieldsToSave: UserDataElement[] = selectedFields.map((f, index) => {
@@ -100,6 +114,7 @@ export class FieldsHelper {
       fieldToUpdate.FormulaName = targetField.FormulaName;
       fieldToUpdate.Formula = targetField.Formula;
       fieldToUpdate.IsSortable = targetField.IsSortable;
+      fieldToUpdate.DataType = targetField.DataType;
     }
   }
 

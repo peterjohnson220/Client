@@ -59,3 +59,8 @@ export const getFormulaSavingErrorMessage = createSelector(
   selectFormulaFieldModalState,
   fromFormulaFieldModalReducer.getSavingErrorMessage
 );
+
+export const getFormulaDataType = createSelector(
+  selectFormulaFieldModalState,
+  fromFormulaFieldModalReducer.getFormulaDataType
+);

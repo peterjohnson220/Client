@@ -40,6 +40,17 @@
   box-shadow: 0 0 0 0.05rem rgba(31, 47, 61, 0.25);
   border-color: $background-grey;
 }
+
 .header-info {
   color: #1A5972;
 }
+
+.warning-icon {
+  margin-right: 0.75rem;
+  display: inline;
+  fa-icon[icon="exclamation-circle"] {
+    color: darken(red, 2%);
+  }
+}
+
+
