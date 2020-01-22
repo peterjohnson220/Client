@@ -29,6 +29,13 @@ export interface DataViewField {
   FormulaName?: string;
 }
 
+export interface BaseFilter {
+  Operator: string;
+  Values?: string[];
+  DataType?: DataViewFieldDataType;
+  FilterType?: string;
+}
+
 export interface DataViewFilter extends BaseFilter {
   EntitySourceName: string;
   SourceName: string;
@@ -37,13 +44,6 @@ export interface DataViewFilter extends BaseFilter {
 export interface DataViewFilterIdentifier extends BaseFilter {
   DataElementId?: number;
   UserFormulaId?: number;
-}
-
-export interface BaseFilter {
-  Operator: string;
-  Values?: string[];
-  DataType?: DataViewFieldDataType;
-  FilterType?: string;
 }
 
 export enum DataViewFieldDataType {

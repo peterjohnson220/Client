@@ -145,12 +145,16 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     return this.saving || !this.formulaFieldForm.valid || !this.isValidFormula || this.isWaitingForValidation || this.validating;
   }
 
+  public get duplicateDisabled(): boolean {
+    return !this.isValidFormula || this.isWaitingForValidation || this.validating;
+  }
+
   public get isEditable(): boolean {
     return !!this.modalData && this.modalData.IsEditable;
   }
 
   public get duplicateAllowed(): boolean {
-    return this.modalData.DuplicateAllowed ;
+    return this.modalData.DuplicateAllowed;
   }
 
   public get typeChangeDetected(): boolean {
