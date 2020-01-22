@@ -171,8 +171,12 @@ export class TransferScheduleCronComponent implements OnChanges {
   }
 
   monthChangeHandler() {
-    this.defaultDayOfWeek = this.daysOfWeek.find(d => d.value === '1');
-    this.defaultWeekOfMonth = this.daysOfWeek.find(d => d.value === '1');
+    if (!this.defaultDayOfWeek) {
+      this.defaultDayOfWeek = this.daysOfWeek.find(d => d.value === '1');
+    }
+    if (!this.defaultWeekOfMonth) {
+      this.defaultWeekOfMonth = this.daysOfWeek.find(d => d.value === '1');
+    }
 
     const dv = this.monthlyDayValue ? this.monthlyDayValue : this.defaultDayOfWeek.value;
     const wv = this.monthlyWeekOfMonthValue ? this.monthlyWeekOfMonthValue : this.defaultWeekOfMonth.value;

@@ -37,7 +37,7 @@ export function getMonthlyShortSummaryFromExpression(expression: string): string
     return '';
   }
   return `${weeksOfMonth.find(d => d.value === x[1]).text}
-            ${daysOfWeek.find(d => d.value === x[0]).text}s`;
+            ${daysOfWeek.find(d => d.value === x[0]).text}`;
 }
 
 export {
