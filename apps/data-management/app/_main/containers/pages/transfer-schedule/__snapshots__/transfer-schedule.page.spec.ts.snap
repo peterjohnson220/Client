@@ -3,10 +3,11 @@
 exports[`TransferSchedulePageComponent should show only supported entities 1`] = `
 <pf-transfer-schedule
   editStates={[Function Array]}
+  restoreCompletedSubscription={[Function Subscriber]}
   store={[Function MockStore]}
+  syncSchedulesBackup={[Function Array]}
   transferScheduleSummary={[Function Array]}
   transferScheduleSummary$={[Function Observable]}
-  transferScheduleSummaryBackup={[Function Array]}
   transferScheduleSummaryError$={[Function Store]}
   transferScheduleSummaryLoading$={[Function Store]}
   transferScheduleSummarySaving$={[Function Store]}
@@ -71,10 +72,11 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
 exports[`TransferSchedulePageComponent should show only supported entities and overflow correctly 1`] = `
 <pf-transfer-schedule
   editStates={[Function Array]}
+  restoreCompletedSubscription={[Function Subscriber]}
   store={[Function MockStore]}
+  syncSchedulesBackup={[Function Array]}
   transferScheduleSummary={[Function Array]}
   transferScheduleSummary$={[Function Observable]}
-  transferScheduleSummaryBackup={[Function Array]}
   transferScheduleSummaryError$={[Function Store]}
   transferScheduleSummaryLoading$={[Function Store]}
   transferScheduleSummarySaving$={[Function Store]}

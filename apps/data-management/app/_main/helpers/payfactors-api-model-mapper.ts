@@ -8,7 +8,7 @@ import {
   ProviderEntitiyFieldsResponse,
   ProviderResponse,
   TransferMethodResponse,
-  ProviderSupportedEntityDTO,
+  ProviderSupportedEntityDTO, TransferScheduleSummary, SyncScheduleDtoModel,
   MappingPayloadItem,
   MappingPayloadMapping
 } from 'libs/models/hris-api';
@@ -207,6 +207,17 @@ export class PayfactorsApiModelMapper {
       return {
         EntityType: type,
         EntityName: x.DisplayText
+      };
+    });
+  }
+
+  static mapTransferScheduleSummariesToSyncScheduleDto(transferScheduleSummary: TransferScheduleSummary[]): SyncScheduleDtoModel[] {
+    return transferScheduleSummary.map(t => {
+      return {
+        Expression: t.expression,
+        EntityMappingType_ID: t.entityMappingType_ID,
+        Active: t.active === 1,
+        SyncSchedule_ID: t.syncSchedule_ID ? t.syncSchedule_ID : 0
       };
     });
   }

@@ -12,6 +12,7 @@ export interface State {
   savingExpression: string;
   savingActive: boolean;
   savingDtos: SyncScheduleDtoModel[];
+  restoreCompleted: boolean;
 }
 
 export const initialState: State = {
@@ -23,7 +24,8 @@ export const initialState: State = {
   savingScheduleId: null,
   savingExpression: null,
   savingActive: null,
-  savingDtos: []
+  savingDtos: [],
+  restoreCompleted: false
 };
 
 export function reducer(state: State = initialState, action: fromTransferScheduleActions.Actions) {
@@ -32,7 +34,8 @@ export function reducer(state: State = initialState, action: fromTransferSchedul
       return {
         ...state,
         loading: true,
-        loadingError: false
+        loadingError: false,
+        restoreCompleted: false,
       };
     }
     case fromTransferScheduleActions.GET_TRANSFER_SUMMARY_ERROR: {
@@ -96,7 +99,8 @@ export function reducer(state: State = initialState, action: fromTransferSchedul
         ...state,
         saving: true,
         savingError: false,
-        savingDtos: action.payload
+        savingDtos: action.payload,
+        restoreCompleted: false
       };
     }
     case fromTransferScheduleActions.SAVE_TRANSFER_SCHEDULE_SUCCESS: {
@@ -119,7 +123,8 @@ export function reducer(state: State = initialState, action: fromTransferSchedul
         saving: false,
         savingError: false,
         savingDtos: [],
-        transferScheduleSummaries: action.payload
+        transferScheduleSummaries: action.payload,
+        restoreCompleted: true
       };
     }
     case fromTransferScheduleActions.SAVE_TRANSFER_SCHEDULE_ERROR:
@@ -142,3 +147,4 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getSaving = (state: State) => state.saving;
 export const getSavingError = (state: State) => state.savingError;
 export const getSavingScheduleId = (state: State) => state.savingScheduleId;
+export const getRestoreCompleted = (state: State) => state.restoreCompleted;

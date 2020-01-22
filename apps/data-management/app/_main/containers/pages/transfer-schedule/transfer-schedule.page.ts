@@ -2,9 +2,11 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/co
 import {Store} from '@ngrx/store';
 
 import {Observable, Subscription} from 'rxjs';
-import { fill, cloneDeep } from 'lodash';
-import {TransferScheduleSummary} from 'libs/models/hris-api/sync-schedule/response';
+import {filter, skip} from 'rxjs/operators';
+import { fill } from 'lodash';
+import {TransferScheduleSummary, SyncScheduleDtoModel} from 'libs/models/hris-api/sync-schedule';
 
+import { PayfactorsApiModelMapper } from '../../../helpers';
 import * as fromTransferScheduleActions from '../../../actions/transfer-schedule.actions';
 import * as fromDataManagementMainReducer from '../../../reducers';
 import {GetSupportedSchedulesPipe} from '../../../pipes';
@@ -20,24 +22,40 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   transferScheduleSummaryLoading$: Observable<boolean>;
   transferScheduleSummarySaving$: Observable<boolean>;
   transferScheduleSummaryError$: Observable<boolean>;
-  transferScheduleSummary: TransferScheduleSummary[] = [];
-  transferScheduleSummaryBackup: TransferScheduleSummary[] = [];
-
-  editStates: boolean[] = [];
   transferScheduleSummarySubscription: Subscription;
+  restoreCompletedSubscription: Subscription;
+
+  transferScheduleSummary: TransferScheduleSummary[] = [];
+  syncSchedulesBackup: SyncScheduleDtoModel[] = [];
+  backupExists: boolean;
+  editStates: boolean[] = [];
+  wasEdited: boolean;
+  shouldGoBack: boolean;
 
   constructor(private store: Store<fromDataManagementMainReducer.State>) {
     this.transferScheduleSummary$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummary);
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummarySaving$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummarySaving);
     this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
-    this.transferScheduleSummarySubscription = this.transferScheduleSummary$.subscribe(s => {
+    this.transferScheduleSummarySubscription = this.transferScheduleSummary$.pipe(skip(1)).subscribe(s => {
       this.transferScheduleSummary = new GetSupportedSchedulesPipe().transform(s);
-      this.transferScheduleSummaryBackup = cloneDeep(this.transferScheduleSummary);
+      if (!this.wasEdited && !this.backupExists) {
+        this.syncSchedulesBackup = PayfactorsApiModelMapper
+          .mapTransferScheduleSummariesToSyncScheduleDto(this.transferScheduleSummary)
+          // Null expressions are not a backup.  It indicates that a schedule has never been set
+          .filter(d => d.Expression !== null);
+        this.backupExists = true;
+      }
       if (this.transferScheduleSummary.length) {
         this.editStates = fill(Array(this.transferScheduleSummary.length), false);
       }
     });
+    this.restoreCompletedSubscription = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryRestoreCompleted)
+      .pipe(filter(x => x === true)).subscribe(s => {
+        if (this.shouldGoBack) {
+          console.log('go back to the mapping page from here');
+        }
+      });
   }
 
   ngOnInit() {
@@ -46,14 +64,22 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.transferScheduleSummarySubscription.unsubscribe();
+    this.restoreCompletedSubscription.unsubscribe();
   }
 
   onCancel() {
-
+    if (this.wasEdited) {
+      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
+    }
   }
 
   goBack() {
-
+    if (this.wasEdited) {
+      this.shouldGoBack = true;
+      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
+    } else {
+      console.log('go back to the mapping page from here');
+    }
   }
 
   onFinish() {
@@ -69,6 +95,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   }
 
   updateCanFinish(i: number, $event: boolean) {
+    this.wasEdited = this.wasEdited || $event;
     this.editStates[i] = $event;
   }
 }

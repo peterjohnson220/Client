@@ -42,7 +42,7 @@ export class TransferScheduleEffects {
     );
 
   @Effect()
-  disableTransferSchedule: Observable<Action> = this.actions$
+  disableTransferSchedule$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromTransferScheduleActions.DISABLE_TRANSFER_SCHEDULE),
       withLatestFrom(
@@ -68,7 +68,7 @@ export class TransferScheduleEffects {
     );
 
   @Effect()
-  enableTransferSchedule: Observable<Action> = this.actions$
+  enableTransferSchedule$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromTransferScheduleActions.ENABLE_TRANSFER_SCHEDULE),
       withLatestFrom(
@@ -94,7 +94,7 @@ export class TransferScheduleEffects {
     );
 
   @Effect()
-  saveTransferSchedule: Observable<Action> = this.actions$
+  saveTransferSchedule$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromTransferScheduleActions.SAVE_TRANSFER_SCHEDULE),
       withLatestFrom(
@@ -113,6 +113,30 @@ export class TransferScheduleEffects {
               return new fromTransferScheduleActions.SaveTransferScheduleSuccess(response);
             }),
             catchError(e => of(new fromTransferScheduleActions.SaveTransferScheduleError()))
+          );
+      })
+    );
+
+  @Effect()
+  saveAllTransferSchedule$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTransferScheduleActions.SAVE_ALL_TRANSFER_SCHEDULES),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action: fromTransferScheduleActions.SaveAllTransferSchedules, userContext) => {
+          return {
+            action,
+            userContext
+          };
+        }
+      ),
+      switchMap((obj) => {
+        return this.syncScheduleHrisApiService.bulkUpsertTransferSchedule(obj.userContext, obj.action.payload)
+          .pipe(
+            map((response: TransferScheduleSummary[]) => {
+              return new fromTransferScheduleActions.SaveAllTransferSchedulesSuccess(response);
+            }),
+            catchError(e => of(new fromTransferScheduleActions.SaveAllTransferSchedulesError()))
           );
       })
     );
