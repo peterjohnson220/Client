@@ -233,8 +233,7 @@ export class PfDataGridEffects {
             PageViewId: pageViewId,
             EntityId: baseEntityId,
             Elements: fields.
-                filter(e => e.IsSelected).
-                map(e => ({ ElementId: e.DataElementId, FilterOperator: e.FilterOperator, FilterValue: e.FilterValue })),
+                map(e => ({ ElementId: e.DataElementId, FilterOperator: e.FilterOperator, FilterValue: e.FilterValue, IsSelected: e.IsSelected })),
             Name: name
         };
     }
