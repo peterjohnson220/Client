@@ -12,6 +12,7 @@ export const SAVE_FORMULA_FIELD = '[Data Insights / Formula Field Modal] Save Fo
 export const CREATE_FORMULA_FIELD_SUCCESS = '[Data Insights / Formula Field Modal] Create Formula Field Success';
 export const UPDATE_FORMULA_FIELD_SUCCESS = '[Data Insights / Formula Field Modal] Update Formula Field Success';
 export const SAVE_FORMULA_FIELD_ERROR = '[Data Insights / Formula Field Modal] Save Formula Field Error';
+export const RESET_MODAL = '[Data Insights / Formula Field Modal] Reset Modal';
 
 export class ValidateFormula implements Action {
   readonly type = VALIDATE_FORMULA;
@@ -55,6 +56,12 @@ export class SaveFormulaFieldError implements Action {
   constructor(public payload: { message: string }) {}
 }
 
+export class ResetModal implements Action {
+  readonly type = RESET_MODAL;
+
+  constructor() {}
+}
+
 export type Actions
   = ValidateFormula
   | ValidateFormulaSuccess
@@ -62,4 +69,5 @@ export type Actions
   | SaveFormulaField
   | CreateFormulaFieldSuccess
   | UpdateFormulaFieldSuccess
-  | SaveFormulaFieldError;
+  | SaveFormulaFieldError
+  | ResetModal;
