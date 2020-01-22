@@ -34,6 +34,11 @@ export class SyncScheduleHrisApiService {
     return this.hrisApiService.post<TransferScheduleSummary>(`${host}${this.endpoint}/${userContext.CompanyId}`, payload);
   }
 
+  bulkUpsertTransferSchedule(userContext: UserContext, payload: SyncScheduleDtoModel[]) {
+    const host = this.getHost(userContext);
+    return this.hrisApiService.post<TransferScheduleSummary[]>(`${host}${this.endpoint}/${userContext.CompanyId}/fullreplace`, payload);
+  }
+
   private getHost(userContext: UserContext): string {
     const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
     if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {

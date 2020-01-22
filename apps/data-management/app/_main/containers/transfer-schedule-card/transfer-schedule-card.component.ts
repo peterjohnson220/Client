@@ -34,6 +34,9 @@ export class TransferScheduleCardComponent implements OnChanges {
         this.active = this.transferSchedule.active !== 0;
         this.editMode = false;
         this.changesPending.emit(false);
+      } else {
+        this.editMode = true;
+        this.changesPending.emit(true);
       }
     }
   }

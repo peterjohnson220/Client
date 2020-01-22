@@ -306,6 +306,7 @@ export const getTransferScheduleSummaryError = createSelector(selectTransferSche
 export const getTransferScheduleSummarySavingScheduleId = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getSavingScheduleId);
 export const getTransferScheduleSummarySaving = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getSaving);
 export const getTransferScheduleSummarySavingError = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getSavingError);
+export const getTransferScheduleSummaryRestoreCompleted = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getRestoreCompleted);
 
 // Hris Connection
 export const getHrisActiveConnection = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getConnection);
