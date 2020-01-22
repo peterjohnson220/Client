@@ -45,7 +45,7 @@
       <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>
     </ng-container>
     <button *ngIf="duplicateAllowed" type="button" [attr.data-qa-id]="'btn-duplicate'" class="btn btn-secondary"
-            [disabled]="!isValidFormula"
+            [disabled]="duplicateDisabled"
             (click)="duplicate()">Duplicate</button>
     <div class="savings-container space-out-children">
       <div class="warning-icon" *ngIf="isEditable && !saveDisabled && typeChangeDetected"

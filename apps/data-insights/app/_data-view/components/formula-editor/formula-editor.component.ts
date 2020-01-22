@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import { EditorFromTextArea } from 'codemirror';
@@ -10,7 +10,7 @@ import { Suggestion } from '../../models';
   templateUrl: './formula-editor.component.html',
   styleUrls: ['./formula-editor.component.scss']
 })
-export class FormulaEditorComponent implements OnInit, AfterViewInit {
+export class FormulaEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() initialFormula: string;
   @Input() fieldSuggestions: Suggestion[];
   @Input() functionSuggestions: Suggestion[];
@@ -37,6 +37,13 @@ export class FormulaEditorComponent implements OnInit, AfterViewInit {
     this.codeMirror = this.codeMirrorComponent.codeMirror;
     this.codeMirror.on('beforeChange', (cm, changeObj) => this.checkFormulaLength(changeObj));
     this.codeMirror.on('inputRead', () => this.handleInputRead());
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!this.codeMirror && !!changes && !!changes.disabled
+      && changes.disabled.currentValue !== changes.disabled.previousValue) {
+      this.codeMirror.setOption('readOnly', this.disabled);
+    }
   }
 
   initCodemirror(): void {
