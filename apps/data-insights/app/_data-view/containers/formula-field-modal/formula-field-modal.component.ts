@@ -110,6 +110,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   close(): void {
     this.modalService.dismissAll();
     this.formulaChanged.next(null);
+    this.store.dispatch(new fromFormulaFieldActions.ResetModal());
   }
 
   duplicate(): void {

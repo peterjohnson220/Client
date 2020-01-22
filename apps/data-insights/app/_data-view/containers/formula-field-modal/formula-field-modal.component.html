@@ -41,13 +41,13 @@
   </div>
 
   <div class="modal-footer">
-    <ng-container *ngIf="showErrorMessages && !saving">
-      <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>
-    </ng-container>
     <button *ngIf="duplicateAllowed" type="button" [attr.data-qa-id]="'btn-duplicate'" class="btn btn-secondary"
             [disabled]="duplicateDisabled"
             (click)="duplicate()">Duplicate</button>
     <div class="savings-container space-out-children">
+      <ng-container *ngIf="showErrorMessages && !saving">
+        <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>
+      </ng-container>
       <div class="warning-icon" *ngIf="isEditable && !saveDisabled && typeChangeDetected"
           [ngbPopover]="popContent"
            container="body"

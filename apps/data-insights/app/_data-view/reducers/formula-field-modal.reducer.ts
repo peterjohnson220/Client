@@ -70,6 +70,12 @@ export function reducer(state = initialState, action: fromFormulaFieldActions.Ac
         savingErrorMessage: action.payload.message
       };
     }
+    case fromFormulaFieldActions.RESET_MODAL: {
+      return {
+        ...state,
+        savingErrorMessage: ''
+      };
+    }
     default: {
       return state;
     }
