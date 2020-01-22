@@ -5,6 +5,14 @@
   font-weight: 400;
 }
 
+:host h4 span {
+  position: absolute;
+  text-align: right;
+  right: 3rem;
+  text-transform: none;
+  color: black;
+}
+
 table {
   color: grey;
 }
