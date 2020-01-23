@@ -76,7 +76,8 @@ export class FormulasComponent implements OnInit, OnDestroy {
       Formula: field.Formula,
       IsEditable: field.IsEditable,
       FormulaId: field.FormulaId,
-      DuplicateAllowed: this.dataViewAccessLevel !== DataViewAccessLevel.ReadOnly
+      DuplicateAllowed: this.dataViewAccessLevel !== DataViewAccessLevel.ReadOnly,
+      DataType: field.DataType
     };
     this.formulaFieldModal.open();
   }
