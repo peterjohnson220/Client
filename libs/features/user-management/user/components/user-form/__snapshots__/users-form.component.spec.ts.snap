@@ -16,7 +16,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
   newUser={[Function Object]}
   passwordValidatorSubscription={[Function Subscriber]}
   saveUser={[Function EventEmitter]}
-  selectedCompanySubsidiaries={[Function Array]}
   selectedValues={[Function Array]}
   user={[Function Object]}
   user$={[Function Observable]}

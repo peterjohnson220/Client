@@ -49,7 +49,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
   user: UserManagementDto = this.newUser;
 
   companySubsidiaries: GenericMenuItem[] = [];
-  selectedCompanySubsidiaries: GenericMenuItem[] = [];
   selectedValues: string[] = [];
 
   private _showPassword = false;
@@ -252,7 +251,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
       const genericMenuItem = {DisplayName: x.SubsidiaryName, Value: subsidiaryIdStr, IsSelected: isSelected};
       this.companySubsidiaries.push(genericMenuItem);
       if (isSelected) {
-        this.selectedCompanySubsidiaries.push(genericMenuItem);
         this.selectedValues.push(subsidiaryIdStr);
       }
     });
