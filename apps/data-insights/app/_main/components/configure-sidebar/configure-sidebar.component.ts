@@ -15,7 +15,7 @@ export class ConfigureSidebarComponent implements OnChanges {
   configureTabOptions: Array<string> = ['Fields', 'Filters'];
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!!changes && !!changes.formulaBuilderEnable && changes.formulaBuilderEnabled.currentValue === true) {
+    if (!!changes && !!changes.formulaBuilderEnabled && changes.formulaBuilderEnabled.currentValue === true) {
       this.configureTabOptions.push('Formulas');
     }
   }
