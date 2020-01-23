@@ -15,6 +15,8 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
 
+import * as cloneDeep from 'lodash.clonedeep';
+
 @Component({
   selector: 'pf-jobs-page',
   templateUrl: './jobs.page.html'
@@ -24,15 +26,30 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   permissions = Permissions;
   pageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
   selectedKeys: number[];
+  peerField: ViewField;
+  peerFilterOptions = [{
+      display: '',
+      value: null
+    }, {
+      display: 'Yes',
+      value: 'Yes'
+    }, {
+      display: 'No',
+      value: 'No'
+    }];
 
   selectedKeysSubscription: Subscription;
+  gridFieldSubscription: Subscription;
 
   company$: Observable<string>;
   addingToProject$: Observable<boolean>;
 
   colTemplates = {};
+  filterTemplates = {};
 
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
+  @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
+  @ViewChild('peerFilter', {static: false}) peerFilter: ElementRef;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -45,6 +62,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedKeysSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedKeys = sk;
     });
+    this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
+      if (fields) {
+        this.peerField = fields.find(f => f.SourceName === 'Exchange_ID');
+      }
+    });
   }
 
   ngOnInit() {
@@ -53,7 +75,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'JobStatus': { Template: this.jobStatusColumn }
+      'JobStatus': { Template: this.jobStatusColumn },
+      'Exchange_ID': {Template: this.hasPeerDataColumn}
+    };
+
+    this.filterTemplates = {
+      'Peer': { Template: this.peerFilter }
     };
   }
 
@@ -67,8 +94,20 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.selectedKeysSubscription.unsubscribe();
+    this.gridFieldSubscription.unsubscribe();
   }
   closeSplitView() {
     this.store.dispatch(new fromPfGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
+  }
+
+  handlePeerFilterChanged(value: any) {
+    const field = cloneDeep(this.peerField);
+    field.FilterValue = value;
+
+    if (field.FilterValue) {
+      this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, field));
+    } else {
+      this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
+    }
   }
 }

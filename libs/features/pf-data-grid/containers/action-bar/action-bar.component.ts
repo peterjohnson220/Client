@@ -42,6 +42,7 @@ export class ActionBarComponent implements OnChanges {
 
   updateFields(updatedFields: ViewField[]) {
     this.store.dispatch(new fromActions.UpdateFields(this.pageViewId, updatedFields));
+    this.store.dispatch(new fromActions.LoadData(this.pageViewId));
   }
 
   handleGlobalFilterValueChanged(field: ViewField, value: any) {

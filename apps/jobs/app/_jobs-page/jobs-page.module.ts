@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
 import { SwitchModule } from '@progress/kendo-angular-inputs';
-
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 
-import { NgbTooltipModule, NgbDropdownModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import * as fromFaIcons from './fa-icons';
@@ -36,6 +37,7 @@ import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
 import { PricingMatchesJobTitleComponent } from './grid-column-templates';
 
+
 @NgModule({
   imports: [
     // Angular
@@ -44,7 +46,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
 
     // 3rd Party
     LayoutModule,
-	SwitchModule,
+	  SwitchModule,
     NgbTooltipModule,
     StoreModule.forFeature('jobsPageMain', reducers),
     EffectsModule.forFeature([
@@ -53,6 +55,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
+    DropDownListModule,
 
     // Routing
     JobsPageRoutingModule,
