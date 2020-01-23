@@ -54,6 +54,7 @@ export function generateMockField(): Field {
     KendoGridField: 'CompanyJobs.Job_Title',
     IsSortable: true,
     FieldType: FieldType.DataElement,
-    Format: 'N1'
+    Format: 'N1',
+    FormulaName: 'Formula Name'
   };
 }

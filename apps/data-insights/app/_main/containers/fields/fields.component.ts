@@ -24,7 +24,6 @@ export class FieldsComponent implements OnInit, OnDestroy {
   allFieldsAsync$: Observable<AsyncStateObj<Field[]>>;
   selectedFields$: Observable<Field[]>;
   unselectedFields$: Observable<Field[]>;
-  formulaBuilderEnabled$: Observable<boolean>;
   dataView$: Observable<AsyncStateObj<UserDataView>>;
   formulaFieldSuggestions$: Observable<Suggestion[]>;
 
@@ -48,9 +47,6 @@ export class FieldsComponent implements OnInit, OnDestroy {
       this.handleFieldsReordered(sourceModel);
     }));
     this.viewAllFields = false;
-    this.formulaBuilderEnabled$ = this.settingService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.DataInsightsFormulaBuilder
-    );
     this.dataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
     this.formulaFieldSuggestions$ = this.store.pipe(select(fromDataInsightsMainReducer.getFormulaFieldSuggestions));
   }

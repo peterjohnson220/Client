@@ -352,3 +352,8 @@ export const getFormulaFieldSuggestions = createSelector(
   selectFieldsState,
   fromFieldsReducer.getFormulaFieldSuggestions
 );
+
+export const getUserFormulas = createSelector(
+  selectFieldsState,
+  fromFieldsReducer.getUserFormulas
+);

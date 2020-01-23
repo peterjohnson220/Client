@@ -1,0 +1,26 @@
+<div class="top-actions-bar d-flex justify-content-center">
+  <button class="btn add-formula-btn action-btn"
+          [attr.data-qa-id]="'btn-add-formula'"
+          (click)="handleCreateFormulaFieldClicked()">
+    <fa-icon icon="plus" class="icon"></fa-icon>
+    <span class="btn-title">Create Formula</span>
+  </button>
+</div>
+
+<div class="user-formula-container">
+  <div perfectScrollbar class="user-formula" *ngIf="!!userFormulas">
+    <div *ngFor="let userFormula of (userForumla$ | async); trackBy: trackByFn">
+      <pf-user-formula-card
+        [field]="userFormula"
+        (editFormulaClicked)="handleEditFormulaClicked($event)">
+      </pf-user-formula-card>
+    </div>
+  </div>
+</div>
+
+<pf-formula-field-modal
+  #editFormulaModal
+  [baseEntityId]="(dataView$ | async)?.obj?.BaseEntityId"
+  [fieldSuggestions]="formulaFieldSuggestions$ | async"
+  [modalData]="formulaFieldModalObj">
+</pf-formula-field-modal>

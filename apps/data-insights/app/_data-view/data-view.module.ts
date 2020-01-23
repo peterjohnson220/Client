@@ -12,8 +12,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { FormulaEditorComponent } from './components';
-import { FormulaFieldModalComponent } from './containers';
+import { FormulaEditorComponent, FormulaCardComponent } from './components';
+import { FormulaFieldModalComponent, FormulasComponent } from './containers';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -42,8 +42,20 @@ import { FormulaFieldModalEffects } from './effects';
     PfCommonUIModule
   ],
 
-  declarations: [ FormulaEditorComponent, FormulaFieldModalComponent ],
-  exports: [ FormulaFieldModalComponent, FormulaEditorComponent ]
+  declarations: [
+    // Components
+    FormulaEditorComponent, FormulaCardComponent,
+
+    // Containers
+    FormulaFieldModalComponent, FormulasComponent
+  ],
+  exports: [
+    // Components
+    FormulaEditorComponent, FormulaCardComponent,
+
+    // Containers
+    FormulaFieldModalComponent, FormulasComponent
+  ]
 })
 export class DataViewModule {
   constructor(library: FaIconLibrary) {
