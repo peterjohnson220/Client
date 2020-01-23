@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'pf-configure-sidebar',
   templateUrl: './configure-sidebar.component.html',
   styleUrls: ['./configure-sidebar.component.scss']
 })
-export class ConfigureSidebarComponent implements OnInit {
+export class ConfigureSidebarComponent implements OnChanges {
   @Input() formulaBuilderEnabled: boolean;
 
   isOpen = true;
@@ -14,8 +14,8 @@ export class ConfigureSidebarComponent implements OnInit {
 
   configureTabOptions: Array<string> = ['Fields', 'Filters'];
 
-  ngOnInit() {
-    if (this.formulaBuilderEnabled) {
+  ngOnChanges(changes: SimpleChanges) {
+    if (!!changes && !!changes.formulaBuilderEnable && changes.formulaBuilderEnabled.currentValue === true) {
       this.configureTabOptions.push('Formulas');
     }
   }
