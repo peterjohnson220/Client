@@ -8,6 +8,8 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -36,6 +38,7 @@ import { FormulaFieldModalEffects } from './effects';
     DropDownsModule,
     CodemirrorModule,
     NgbPopoverModule,
+    PerfectScrollbarModule,
 
     // Payfactors
     PfCommonModule,
