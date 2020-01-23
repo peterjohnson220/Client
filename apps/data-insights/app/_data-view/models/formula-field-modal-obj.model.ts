@@ -1,4 +1,4 @@
-import { FieldDataType } from '../../_main/models';
+import { FieldDataType } from './field.model';
 
 export interface FormulaFieldModalObj {
   FieldName: string;

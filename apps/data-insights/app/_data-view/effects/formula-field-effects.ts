@@ -8,7 +8,7 @@ import { DataViewApiService } from 'libs/data/payfactors-api';
 import { ValidateFormulaResponse, ValidateFormulaRequest, UpsertFormulaFieldRequest, DeleteUserFormulaRequest } from 'libs/models/payfactors-api/reports';
 
 import * as fromFormulaFieldActions from '../actions/formula-field.actions';
-import { PayfactorsApiModelMapper } from '../../_main/helpers';
+import { PayfactorsApiModelMapper } from '../helpers';
 
 
 @Injectable()

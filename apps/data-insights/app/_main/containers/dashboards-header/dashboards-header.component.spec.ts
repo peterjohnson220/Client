@@ -8,11 +8,9 @@ import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
-import * as fromDashboardsActions from '../../actions/dashboards.actions';
-import * as fromDataViewActions from '../../actions/data-view.actions';
 
 import { DashboardsHeaderComponent } from './dashboards-header.component';
-import { DashboardView, generateMockSaveUserWorkbookModalData } from '../../models';
+import { DashboardView } from '../../models';
 
 describe('Data Insights - Dashboards Comopnent', () => {
   let instance: DashboardsHeaderComponent;
@@ -51,13 +49,4 @@ describe('Data Insights - Dashboards Comopnent', () => {
     expect(instance.selectedDashboardViewChanged.emit).toHaveBeenCalledWith(view);
   });
 
-  it('should dispatch SaveUserReport action with save user report view clicked', () => {
-    const workbookData = generateMockSaveUserWorkbookModalData();
-    const expectedAction = new fromDataViewActions.SaveUserReport(workbookData);
-    spyOn(store, 'dispatch');
-
-    instance.handleSaveUserDataViewClicked(workbookData);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
 });

@@ -1,0 +1,35 @@
+<ng-template #duplicateDataViewModal let-modal>
+  <form [formGroup]="baseDataViewForm">
+    <pf-base-data-view-modal
+      [baseEntities]="baseEntities"
+      [reportName]="reportName"
+      [summary]="summary"
+      [baseDataViewForm]="baseDataViewForm"
+      [showErrorMessages]="showErrorMessages"
+      [saving]="(saving$ | async)"
+      [savingConflict]="(savingConflict$ | async)"
+      [savingError]="(savingError$ | async)"
+      [saveDisabled]="saveDisabled"
+      (saveClicked)="save()"
+      (cancelClicked)="close()">
+
+      <ng-container title>
+        <h4 class="title">Duplicate Report</h4>
+      </ng-container>
+
+      <ng-container dataSource>
+        <input
+          type="text"
+          class="form-control"
+          [value]="userDataView?.Entity?.Name"
+          readonly="readonly"
+          disabled="disabled" />
+      </ng-container>
+
+      <ng-container saveButtonName>
+        <span>Duplicate</span>
+      </ng-container>
+
+    </pf-base-data-view-modal>
+  </form>
+</ng-template>
