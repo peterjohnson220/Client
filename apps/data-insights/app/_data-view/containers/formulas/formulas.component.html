@@ -8,7 +8,7 @@
 </div>
 
 <div class="user-formula-container">
-  <div perfectScrollbar class="user-formula" *ngIf="!!userFormulas">
+  <div perfectScrollbar class="formula" *ngIf="!!userFormulas">
     <div *ngFor="let userFormula of (userForumla$ | async); trackBy: trackByFn">
       <pf-user-formula-card
         [field]="userFormula"
