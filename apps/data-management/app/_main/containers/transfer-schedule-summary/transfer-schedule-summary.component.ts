@@ -44,19 +44,19 @@ export class TransferScheduleSummaryComponent implements OnInit, OnDestroy {
 
   getSchedule(item: TransferScheduleSummary): string {
     if (item.expression === null) {
-      return 'Not Scheduled';
+      return 'not scheduled';
     }
     if (item.active === 0) {
-      return 'Disabled';
+      return 'disabled';
     }
     if (fromCronHelpers.dailyCronExpression.test(item.expression)) {
-      return 'Daily';
+      return 'daily';
     }
     if (fromCronHelpers.weeklyCronExpression.test(item.expression)) {
-      return fromCronHelpers.getWeeklyShortSummaryFromExpression(item.expression);
+      return 'every ' + fromCronHelpers.getWeeklyShortSummaryFromExpression(item.expression);
     }
     if (fromCronHelpers.monthlyCronExpression.test(item.expression)) {
-      return fromCronHelpers.getMonthlyShortSummaryFromExpression(item.expression);
+      return fromCronHelpers.getMonthlyShortSummaryFromExpression(item.expression) + ' of every month';
     }
   }
 }
