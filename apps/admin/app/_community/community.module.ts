@@ -56,6 +56,6 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
       CommunityPollsComponent,
       CommunityPollModalComponent
   ],
-  providers: [ CommunityPollAdminApiService ]
+providers: [ CommunityPollAdminApiService ]
 })
 export class CommunityModule { }
