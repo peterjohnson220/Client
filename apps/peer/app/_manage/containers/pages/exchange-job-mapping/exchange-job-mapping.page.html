@@ -1,9 +1,10 @@
 <pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId+'/dashboard'">
-  <ng-container page-header-left>
-    <pf-exchange-switcher></pf-exchange-switcher>
+  <ng-container page-title>
+    Manage Jobs
   </ng-container>
 
   <ng-container page-actions>
+    <pf-exchange-switcher></pf-exchange-switcher>
     <div class="omni-box">
       <!-- company jobs search box -->
       <pf-input-debounce
