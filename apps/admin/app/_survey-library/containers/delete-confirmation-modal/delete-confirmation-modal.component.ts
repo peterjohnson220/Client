@@ -42,11 +42,8 @@ export class DeleteConfirmationModalComponent {
         );
     }
 
-    handleModalDismissed() {
-        this.closeModal();
-    }
-
     closeModal() {
+        this.textConfirm = '';
         this.store.dispatch(new fromSurveyActions.SetDeleteConfirmationModalOpen(false));
     }
 }
