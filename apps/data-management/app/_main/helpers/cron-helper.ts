@@ -24,7 +24,7 @@ export function getWeeklyShortSummaryFromExpression(expression: string): string 
   if (!cronArray || cronArray.length !== 5) {
     return '';
   }
-  return `${daysOfWeek.find(d => d.value === cronArray[4]).text}s`;
+  return `${daysOfWeek.find(d => d.value === cronArray[4]).text}`;
 }
 
 export function getMonthlyShortSummaryFromExpression(expression: string): string {
