@@ -29,8 +29,9 @@ import {
   JobBasedRangeAllStructuresEffects,
   JobRangeModelingPageEffects,
   JobRangeModelingGridEffects,
-  JobBasedRangesAddJobsModalEffects,
-  JobBasedRangesSearchResultsEffects
+  JobBasedRangesAddJobsModalPageEffects,
+  JobBasedRangesSearchResultsEffects,
+  JobRangeModelingModalEffects
 } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -38,7 +39,6 @@ import {
   JobBasedRangeAllStructuresComponent,
   JobBasedRangeStructureFavoriteComponent,
   ModelNameInputComponent,
-  ModelingSettingsComponent,
   StructureCardComponent,
   EditGridColumnsModalComponent,
   StructureFavoriteHexagonComponent
@@ -47,10 +47,12 @@ import {
   JobBasedRangeStructuresPageComponent,
   JobRangeModelingPageComponent,
   JobRangeModelingGridComponent,
-  JobBasedRangesAddJobsModalComponent,
-  JobBasedRangesSearchResultsComponent
+  JobBasedRangesAddJobsModalPageComponent,
+  JobBasedRangesSearchResultsComponent,
+  ModelingSettingsModalPageComponent,
+  JobRangeModelingModalComponent
 } from './containers';
-import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data/job-based-ranges-add-jobs-user-filter-popover-config';
+import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data';
 
 @NgModule({
   imports: [
@@ -63,10 +65,11 @@ import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data/job-based-r
     StoreModule.forFeature('structures_main', reducers),
     EffectsModule.forFeature([
       JobRangeModelingPageEffects,
-      JobBasedRangesAddJobsModalEffects,
+      JobBasedRangesAddJobsModalPageEffects,
       JobBasedRangesSearchResultsEffects,
       JobBasedRangeAllStructuresEffects,
-      JobRangeModelingGridEffects
+      JobRangeModelingGridEffects,
+      JobRangeModelingModalEffects
     ]),
     PerfectScrollbarModule,
     FontAwesomeModule,
@@ -95,7 +98,7 @@ import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data/job-based-r
     JobBasedRangeAllStructuresComponent,
     JobBasedRangeStructureFavoriteComponent,
     ModelNameInputComponent,
-    ModelingSettingsComponent,
+    ModelingSettingsModalPageComponent,
     StructureCardComponent,
     EditGridColumnsModalComponent,
     StructureFavoriteHexagonComponent,
@@ -104,8 +107,10 @@ import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data/job-based-r
     JobRangeModelingPageComponent,
     JobBasedRangeStructuresPageComponent,
     JobRangeModelingGridComponent,
-    JobBasedRangesAddJobsModalComponent,
-    JobBasedRangesSearchResultsComponent
+    JobBasedRangesAddJobsModalPageComponent,
+    JobBasedRangesSearchResultsComponent,
+    ModelingSettingsModalPageComponent,
+    JobRangeModelingModalComponent
   ],
   providers: [
     WindowRef,

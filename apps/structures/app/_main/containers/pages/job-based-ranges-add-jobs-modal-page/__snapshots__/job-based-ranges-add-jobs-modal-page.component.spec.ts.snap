@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Structures - Job Based Ranges Add Jobs - Modal should not display GUI features related to job count in non small biz companies, and should display the "normal" result count  1`] = `
-<pf-jobs-based-ranges-add-jobs-modal
+<pf-jobs-based-ranges-add-jobs-modal-page
   _Permissions={[Function Function]}
   addJobsForm="undefined"
   addingData$={[Function Store]}
@@ -14,6 +14,7 @@ exports[`Structures - Job Based Ranges Add Jobs - Modal should not display GUI f
   formBuilder={[Function Object]}
   isSmallBiz="false"
   maxAllowedJobsSetting="0"
+  modalContextSubscription={[Function Subscriber]}
   numberOfResults$={[Function Observable]}
   numberOfSearchResults$={[Function Store]}
   opened={[Function EventEmitter]}
@@ -30,48 +31,41 @@ exports[`Structures - Job Based Ranges Add Jobs - Modal should not display GUI f
   store={[Function Store]}
   userContext={[Function Observable]}
 >
-  <pf-modal-form
-    data-qa-id="job-based-ranges-add-jobs-modal"
-    title="Add Jobs"
-  >
+  <pf-search-layout>
+    
+    <pf-search-filters />
     
     
-    <pf-search-layout>
-      
-      <pf-search-filters />
-      
-      
-      <pf-results-header />
-      <pf-job-based-ranges-search-results />
-      
-      
-      
-      <span>
-        <button
-          class="btn btn-sm btn-secondary mr-3 clear-selections"
-          data-qa-id="btn-clearSelections"
-        >
-           Clear Selections 
-        </button>
-        <button
-          class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
-          data-qa-id="btn-addJobs"
-        >
-          
-          
-           Add 
-          
-          
-        </button>
-        <button
-          class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
-          data-qa-id="btn-cancelAddJobs"
-        >
-           Cancel 
-        </button>
-      </span>
-      
-    </pf-search-layout>
-  </pf-modal-form>
-</pf-jobs-based-ranges-add-jobs-modal>
+    <pf-results-header />
+    <pf-job-based-ranges-search-results />
+    
+    
+    
+    <span>
+      <button
+        class="btn btn-sm btn-secondary mr-3 clear-selections"
+        data-qa-id="btn-clearSelections"
+      >
+         Clear Selections 
+      </button>
+      <button
+        class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+        data-qa-id="btn-addJobs"
+      >
+        
+        
+         Add 
+        
+        
+      </button>
+      <button
+        class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
+        data-qa-id="btn-cancelAddJobs"
+      >
+         Cancel 
+      </button>
+    </span>
+    
+  </pf-search-layout>
+</pf-jobs-based-ranges-add-jobs-modal-page>
 `;

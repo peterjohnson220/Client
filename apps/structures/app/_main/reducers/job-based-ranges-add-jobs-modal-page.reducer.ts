@@ -1,19 +1,19 @@
-import * as fromJobBasedRangesAddJobsModalActions from '../actions/job-based-ranges-add-jobs-modal.actions';
+import * as fromJobBasedRangesAddJobsModalPageActions from '../actions/job-based-ranges-add-jobs-modal-page.actions';
 
 export interface State {
-  addJobsModalOpen: boolean;
+  addJobsModalPageOpen: boolean;
   saving: boolean;
   savingSuccess: boolean;
   savingError: boolean;
   savingErrorMessage: string;
-  context: { PayMarketId: number, ProjectId: number};
+  context: { PayMarketId: number, ProjectId: number, IsFromAddStructureModal: boolean };
   addingData: boolean;
   addingDataError: boolean;
   addingDataErrorMessage: any;
 }
 
 export const initialState: State = {
-  addJobsModalOpen: false,
+  addJobsModalPageOpen: false,
   saving: false,
   savingSuccess: false,
   savingError: false,
@@ -24,27 +24,27 @@ export const initialState: State = {
   addingDataErrorMessage: null
 };
 
-export function reducer(state = initialState, action: fromJobBasedRangesAddJobsModalActions.JobBasedRangesAddJobsModalActions): State {
+export function reducer(state = initialState, action: fromJobBasedRangesAddJobsModalPageActions.JobBasedRangesAddJobsModalPageActions): State {
   switch (action.type) {
-    case fromJobBasedRangesAddJobsModalActions.OPEN_ADD_JOBS_MODAL: {
+    case fromJobBasedRangesAddJobsModalPageActions.OPEN_ADD_JOBS_MODAL_PAGE: {
       return {
         ...state,
-        addJobsModalOpen: true
+        addJobsModalPageOpen: true
       };
     }
-    case fromJobBasedRangesAddJobsModalActions.CLOSE_ADD_JOBS_MODAL: {
+    case fromJobBasedRangesAddJobsModalPageActions.CLOSE_ADD_JOBS_MODAL_PAGE: {
       return {
         ...state,
-        addJobsModalOpen: false
+        addJobsModalPageOpen: false
       };
     }
-    case fromJobBasedRangesAddJobsModalActions.SET_CONTEXT: {
+    case fromJobBasedRangesAddJobsModalPageActions.SET_CONTEXT: {
       return {
         ...state,
         context: action.payload
       };
     }
-    case fromJobBasedRangesAddJobsModalActions.ADD_SELECTED_JOBS: {
+    case fromJobBasedRangesAddJobsModalPageActions.ADD_SELECTED_JOBS: {
       return {
         ...state,
         addingData: true,
@@ -52,7 +52,7 @@ export function reducer(state = initialState, action: fromJobBasedRangesAddJobsM
         addingDataErrorMessage: null
       };
     }
-    case fromJobBasedRangesAddJobsModalActions.ADD_SELECTED_JOBS_SUCCESS: {
+    case fromJobBasedRangesAddJobsModalPageActions.ADD_SELECTED_JOBS_SUCCESS: {
       return {
         ...state,
         addingData: false,
@@ -60,7 +60,7 @@ export function reducer(state = initialState, action: fromJobBasedRangesAddJobsM
         addingDataErrorMessage: null
       };
     }
-    case fromJobBasedRangesAddJobsModalActions.ADD_SELECTED_JOBS_ERROR: {
+    case fromJobBasedRangesAddJobsModalPageActions.ADD_SELECTED_JOBS_ERROR: {
       return {
         ...state,
         addingData: false,
@@ -75,7 +75,7 @@ export function reducer(state = initialState, action: fromJobBasedRangesAddJobsM
 }
 
 // Selector functions
-export const getAddJobsModalOpen = (state: State) => state.addJobsModalOpen;
+export const getAddJobsModalPageOpen = (state: State) => state.addJobsModalPageOpen;
 export const getContext = (state: State) => state.context;
 export const getAddingData = (state: State) => state.addingData;
 export const getAddingDataError = (state: State) => state.addingDataError;
