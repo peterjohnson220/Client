@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 
+export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
 export const LOAD_COMPANY = '[Jobs Page] Load Company';
 export const LOAD_COMPANY_ERROR = '[Jobs Page] Load Company Error';
 export const LOAD_COMPANY_SUCCESS = '[Jobs Page] Load Company Success';
@@ -11,6 +12,11 @@ export const CONFIRM_DELETE_PRICING_FROM_GRID = '[Jobs Page] Confirm Delete Pric
 export const DELETE_PRICING_FROM_GRID = '[Jobs Page] Delete Pricing From Grid';
 export const DELETE_PRICING_SUCCESS = '[Jobs Page] Delete Pricing Success';
 export const CANCEL_DELETE_PRICING = '[Jobs Page] Cancel Delete Pricing';
+
+export class SetJobsPageId implements Action {
+  readonly type = SET_JOBS_PAGE_ID;
+  constructor(public payload: string) {}
+}
 
 export class LoadCompany implements Action {
   readonly type = LOAD_COMPANY;
@@ -53,7 +59,8 @@ export class CancelDeletePricing implements Action {
 }
 
 export type JobsPageActions
-  = LoadCompany
+  = SetJobsPageId
+  | LoadCompany
   | LoadCompanySuccess
   | HandleApiError
   | AddJobsToProject

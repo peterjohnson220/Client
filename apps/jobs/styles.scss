@@ -1,6 +1,7 @@
 @import '~dragula/dist/dragula.min.css';
 
-html, body {
+html,
+body {
   background-color: #FFFFFF !important;
 }
 
@@ -18,7 +19,7 @@ html, body {
   padding: 5px;
 }
 
-div.matches-list-container > div:nth-of-type(odd) {
+div.matches-list-container>div:nth-of-type(odd) {
   background-color: #DDDDDD;
 }
 
@@ -34,4 +35,13 @@ div.matches-list-container > div:nth-of-type(odd) {
 .page-content {
   padding: 0;
   background-color: #f7f7f9 !important;
+}
+
+// TODO: Discuss if these should be global for the whole company
+.toast-container .toast-close-button {
+  top: 0.1em !important;
+}
+
+.toast-container .toast-title {
+  padding: 10px 30px 10px 10px !important;
 }

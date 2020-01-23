@@ -25,9 +25,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     // after ngIf directives on the containing template and executed
     // As a result the get the ExpressionChangedAfterItHasBeenCheckedError
     // The solution is to wait for the dom to render and set a local isOverflow property to check if the text overflows
-    // setTimeout(() => {
       this.isOverflow = this.checkOverflow(this.jobTitleText.nativeElement) || this.checkOverflow(this.detailsText.nativeElement);
-    // });
   }
 
   getJobTitle(): string {
@@ -49,7 +47,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   }
 
   checkOverflow (element) {
-    //debugger;
     // IE hack because IE calculates offsets differently
     return element.offsetHeight + 1 < element.scrollHeight || element.offsetWidth + 1 < element.scrollWidth;
   }

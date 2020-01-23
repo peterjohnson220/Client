@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-import { UserEffects } from './effects/user-management.effects';
+import { JobManagementEffects } from './effects/job-management.effects';
 import { reducers } from './reducers';
 
-import { UserFormComponent } from './components/user-form';
-import { UserPageComponent } from './user.page/user.page';
+import { JobManagementComponent } from './job-management/job-management.component';
+import { JobFormComponent } from './containers';
 
 @NgModule({
   imports: [
@@ -23,13 +24,13 @@ import { UserPageComponent } from './user.page/user.page';
     CommonModule, FormsModule, ReactiveFormsModule,
 
     // 3rd Party
-    StoreModule.forFeature('feature_usermanagement_user', reducers),
+    StoreModule.forFeature('feature_job_management', reducers),
     EffectsModule.forFeature([
-      UserEffects,
+      JobManagementEffects,
     ]),
     GridModule,
     LayoutModule,
-    FontAwesomeModule,
+    DropDownsModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -37,15 +38,14 @@ import { UserPageComponent } from './user.page/user.page';
   ],
   declarations: [
     // Feature
-    UserPageComponent,
+    JobManagementComponent,
 
     // Components
-    UserFormComponent
+    JobFormComponent
   ],
   exports: [
-    UserPageComponent,
+    JobManagementComponent,
   ]
 })
-export class UserModule {
-  constructor() { }
-}
+
+export class JobManagementModule { }
