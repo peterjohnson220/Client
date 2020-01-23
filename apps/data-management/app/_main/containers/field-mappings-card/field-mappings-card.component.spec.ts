@@ -37,7 +37,7 @@ describe('Data Management - Main - Field Mappings Card Component', () => {
   });
 
   it('should dispatch an action when clicking the save button', () => {
-    const expectedAction = new fromFieldMappingActions.SaveMapping();
+    const expectedAction = new fromFieldMappingActions.TrySaveMapping();
 
     spyOn(store, 'dispatch');
 

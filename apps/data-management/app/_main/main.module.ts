@@ -21,7 +21,12 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 
-import { EntityPickerComponent, EntityUploadComponent, FileMappingComponent } from './components';
+import {
+  EntityPickerComponent,
+  EntityUploadComponent,
+  FileMappingComponent,
+  DefaultPaymarketConfirmationModalComponent,
+} from './components';
 import { FileUploadComponent } from './components/file-upload';
 import {
   DataManagementHomePageComponent, EntityMappingComponent,
@@ -30,7 +35,7 @@ import {
   WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent,
   TransferSchedulePageComponent, TransferScheduleSummaryComponent, TransferScheduleCardComponent,
   TransferScheduleCronComponent, DataManagementLandingPageComponent, HrisIntegrationPanelComponent,
-  HrisIntegrationStatusComponent, HrisIntegrationSidebarComponent, ResetIntegrationPageComponent
+  HrisIntegrationStatusComponent, HrisIntegrationSidebarComponent, ResetIntegrationPageComponent,
 } from './containers';
 import {
   FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
@@ -112,7 +117,8 @@ import {GetSupportedSchedulesPipe} from './pipes';
     HrisIntegrationPanelComponent,
     HrisIntegrationStatusComponent,
     HrisIntegrationSidebarComponent,
-    ResetIntegrationPageComponent
+    ResetIntegrationPageComponent,
+    DefaultPaymarketConfirmationModalComponent,
   ]
 })
 export class MainModule {
