@@ -1,5 +1,10 @@
-import * as fromFormulaFieldActions from '../actions/formula-field-modal.actions';
+import * as cloneDeep from 'lodash.clonedeep';
+
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+
+import * as fromFormulaFieldActions from '../actions/formula-field.actions';
 import { FieldDataType } from '../../_main/models';
+
 
 export interface State {
   validating: boolean;
@@ -9,6 +14,7 @@ export interface State {
   savingError: boolean;
   savingErrorMessage: string;
   formulaDataType: FieldDataType;
+  formulaViewCount: AsyncStateObj<number>;
 }
 
 const initialState: State = {
@@ -18,7 +24,8 @@ const initialState: State = {
   savingSuccess: false,
   savingError: false,
   savingErrorMessage: '',
-  formulaDataType: null
+  formulaDataType: null,
+  formulaViewCount: generateDefaultAsyncStateObj<number>(0)
 };
 
 export function reducer(state = initialState, action: fromFormulaFieldActions.Actions): State {
@@ -76,6 +83,34 @@ export function reducer(state = initialState, action: fromFormulaFieldActions.Ac
         savingErrorMessage: ''
       };
     }
+    case fromFormulaFieldActions.GET_FORMULA_FIELD_VIEW_COUNT: {
+      const viewCountAsyncClone = cloneDeep(state.formulaViewCount);
+      viewCountAsyncClone.loading = true;
+      viewCountAsyncClone.loadingError = false;
+      viewCountAsyncClone.obj = 0;
+      return {
+        ...state,
+        formulaViewCount: viewCountAsyncClone
+      };
+    }
+    case fromFormulaFieldActions.GET_FORMULA_FIELD_VIEW_COUNT_ERROR: {
+      const viewCountAsyncClone = cloneDeep(state.formulaViewCount);
+      viewCountAsyncClone.loading = false;
+      viewCountAsyncClone.loadingError = true;
+      return {
+        ...state,
+        formulaViewCount: viewCountAsyncClone
+      };
+    }
+    case fromFormulaFieldActions.GET_FORMULA_FIELD_VIEW_COUNT_SUCCESS: {
+      const viewCountAsyncClone = cloneDeep(state.formulaViewCount);
+      viewCountAsyncClone.loading = false;
+      viewCountAsyncClone.obj = action.payload;
+      return {
+        ...state,
+        formulaViewCount: viewCountAsyncClone
+      };
+    }
     default: {
       return state;
     }
@@ -89,3 +124,4 @@ export const getSavingSuccess = (state: State) => state.savingSuccess;
 export const getSavingError = (state: State) => state.savingError;
 export const getSavingErrorMessage = (state: State) => state.savingErrorMessage;
 export const getFormulaDataType = (state: State) => state.formulaDataType;
+export const getFormulaViewCount = (state: State) => state.formulaViewCount;

@@ -7,7 +7,7 @@
         </div>
         <div class="formula-actions">
           <span class="editable-icon" title="Edit Formula" [attr.data-qa-id]="'edit-formula'"> <fa-icon icon="pencil" (click)="handleEditFormulaClick(field)"> </fa-icon> </span>
-          <span class="delete-icon"> <fa-icon icon="trash-alt"> </fa-icon> </span>
+          <span class="delete-icon" title="Delete Formula" [attr.data-qa-id]="'delete-formula'"> <fa-icon icon="trash-alt" (click)="handleDeleteFormulaClick(field)"> </fa-icon> </span>
         </div>
       </div>
     </div>

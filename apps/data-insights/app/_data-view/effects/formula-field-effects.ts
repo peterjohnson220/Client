@@ -5,14 +5,14 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
-import { ValidateFormulaResponse, ValidateFormulaRequest, UpsertFormulaFieldRequest } from 'libs/models/payfactors-api/reports';
+import { ValidateFormulaResponse, ValidateFormulaRequest, UpsertFormulaFieldRequest, DeleteUserFormulaRequest } from 'libs/models/payfactors-api/reports';
 
-import * as fromFormulaFieldActions from '../actions/formula-field-modal.actions';
+import * as fromFormulaFieldActions from '../actions/formula-field.actions';
 import { PayfactorsApiModelMapper } from '../../_main/helpers';
 
 
 @Injectable()
-export class FormulaFieldModalEffects {
+export class FormulaFieldEffects {
 
   @Effect()
   validateFormula$ = this.actions$
@@ -59,6 +59,35 @@ export class FormulaFieldModalEffects {
                 : 'Error Saving Formula.';
               return of(new fromFormulaFieldActions.SaveFormulaFieldError({ message }));
             })
+          );
+      })
+    );
+
+  @Effect()
+  getFormulaViewCount$ = this.actions$
+    .pipe(
+      ofType(fromFormulaFieldActions.GET_FORMULA_FIELD_VIEW_COUNT),
+      switchMap((action: fromFormulaFieldActions.GetFormulaFieldViewCount) => {
+        return this.dataViewApiService.getDataViewCountForFormula(action.payload)
+          .pipe(
+            map((response: number) => new fromFormulaFieldActions.GetFormulaFieldViewCountSuccess(response)),
+            catchError(() => of(new fromFormulaFieldActions.GetFormulaFieldViewCountError()))
+          );
+      })
+    );
+
+  @Effect()
+  deleteFormulaField$ = this.actions$
+    .pipe(
+      ofType(fromFormulaFieldActions.DELETE_FORMULA_FIELD),
+      switchMap((action: fromFormulaFieldActions.DeleteFormulaField) => {
+        const request: DeleteUserFormulaRequest = {
+          FormulaId: action.payload.FormulaId
+        };
+        return this.dataViewApiService.deleteFormulaField(request)
+          .pipe(
+            map(() => new fromFormulaFieldActions.DeleteFormulaFieldSuccess(action.payload)),
+            catchError(() => of(new fromFormulaFieldActions.DeleteFormulaFieldError()))
           );
       })
     );

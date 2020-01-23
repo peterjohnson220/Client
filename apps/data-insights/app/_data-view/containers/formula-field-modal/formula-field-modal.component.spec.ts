@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataViewMainReducer from '../../reducers';
-import * as fromFormulaFieldActions from '../../actions/formula-field-modal.actions';
+import * as fromFormulaFieldActions from '../../actions/formula-field.actions';
 import { FormulaFieldModalComponent } from './formula-field-modal.component';
 import { FormulaFieldModalObj } from '../../models';
 

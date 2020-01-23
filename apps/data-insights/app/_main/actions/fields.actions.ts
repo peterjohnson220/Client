@@ -16,6 +16,7 @@ export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View Fields] Update Di
 export const ADD_NEW_FORMULA_FIELD = '[Data Insights / Data View Fields] Add New Formula Field';
 export const SET_NUMBER_FORMAT_ON_SELECTED_FIELD = '[Data Insights / Data View Fields] Set Number Format On Selected Field';
 export const SAVE_UPDATED_FORMULA_FIELD = '[Data Insights / Data View Fields] Save Updated Formula Field';
+export const REMOVE_FORMULA_FIELD = '[Data Insights / Data View Fields] Remove Formula Field';
 
 export class GetReportFields implements Action {
   readonly type = GET_REPORT_FIELDS;
@@ -101,6 +102,13 @@ export class SaveUpdatedFormulaField implements Action {
   constructor(public payload: Field) {}
 }
 
+export class RemoveFormulaField implements Action {
+  readonly type = REMOVE_FORMULA_FIELD;
+
+  constructor(public payload: Field) {}
+}
+
+
 export type Actions
   = GetReportFields
   | GetReportFieldsSuccess
@@ -115,4 +123,5 @@ export type Actions
   | UpdateDisplayName
   | AddNewFormulaField
   | SetNumberFormatOnSelectedField
-  | SaveUpdatedFormulaField;
+  | SaveUpdatedFormulaField
+  | RemoveFormulaField;

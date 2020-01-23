@@ -171,6 +171,14 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
         selectedReportFields: fieldsClone
       };
     }
+    case fromDataViewFieldsActions.REMOVE_FORMULA_FIELD: {
+      const reportFieldStateObjClone: AsyncStateObj<Field[]> = cloneDeep(state.reportFieldsAsync);
+      reportFieldStateObjClone.obj = reportFieldStateObjClone.obj.filter(x => x !== FieldsHelper.findField(reportFieldStateObjClone.obj, action.payload));
+      return {
+        ...state,
+        reportFieldsAsync: reportFieldStateObjClone
+      };
+    }
     default: {
       return state;
     }

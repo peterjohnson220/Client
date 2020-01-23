@@ -10,10 +10,15 @@ import { Field } from '../../../_main/models';
 export class FormulaCardComponent {
   @Input() field: Field;
   @Output() editFormulaClicked = new EventEmitter<Field>();
+  @Output() deleteClicked = new EventEmitter<Field>();
 
   constructor() { }
 
   handleEditFormulaClick(field: Field): void {
     this.editFormulaClicked.emit(field);
+  }
+
+  handleDeleteFormulaClick(field: Field): void {
+    this.deleteClicked.emit(field);
   }
 }

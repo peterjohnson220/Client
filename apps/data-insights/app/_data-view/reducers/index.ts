@@ -3,64 +3,69 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
-import * as fromFormulaFieldModalReducer from './formula-field-modal.reducer';
+import * as fromFormulaFieldReducer from './formula-field.reducer';
 
 // Feature area state
 export interface DataViewMainState {
-  formulaFieldModal: fromFormulaFieldModalReducer.State;
+  formulaField: fromFormulaFieldReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  formulaFieldModal_main: DataViewMainState;
+  formulaField_main: DataViewMainState;
 }
 
 // Feature area reducers
 export const reducers = {
-  formulaFieldModal: fromFormulaFieldModalReducer.reducer
+  formulaField: fromFormulaFieldReducer.reducer
 };
 
 // Select Feature Area
 export const selectFeatureAreaState = createFeatureSelector<DataViewMainState>('dataView_main');
 
 // Feature Selectors
-export const selectFormulaFieldModalState = createSelector(
+export const selectFormulaFieldState = createSelector(
   selectFeatureAreaState,
-  (state: DataViewMainState) => state.formulaFieldModal
+  (state: DataViewMainState) => state.formulaField
 );
 
 // Formula Field Modal
 export const getFormulaValidating = createSelector(
-  selectFormulaFieldModalState,
-  fromFormulaFieldModalReducer.getValidating
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getValidating
 );
 
 export const getFormulaValid = createSelector(
-  selectFormulaFieldModalState,
-  fromFormulaFieldModalReducer.getFormulaValid
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getFormulaValid
 );
 
 export const getFormulaSaving = createSelector(
-  selectFormulaFieldModalState,
-  fromFormulaFieldModalReducer.getSaving
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getSaving
 );
 
 export const getFormulaSavingSuccess = createSelector(
-  selectFormulaFieldModalState,
-  fromFormulaFieldModalReducer.getSavingSuccess
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getSavingSuccess
 );
 
 export const getFormulaSavingError = createSelector(
-  selectFormulaFieldModalState,
-  fromFormulaFieldModalReducer.getSavingError
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getSavingError
 );
 
 export const getFormulaSavingErrorMessage = createSelector(
-  selectFormulaFieldModalState,
-  fromFormulaFieldModalReducer.getSavingErrorMessage
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getSavingErrorMessage
 );
 
 export const getFormulaDataType = createSelector(
-  selectFormulaFieldModalState,
-  fromFormulaFieldModalReducer.getFormulaDataType
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getFormulaDataType
+);
+
+export const getFormulaViewCount = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getFormulaViewCount
 );

@@ -5,9 +5,12 @@ import { Observable, Subscription } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromDataInsightsMainReducer from '../../../_main/reducers/index';
+import * as fromDataViewMainReducer from '../../reducers';
 import { FormulaFieldModalObj, Suggestion } from '../../models';
 import { DataViewAccessLevel, Field, UserDataView } from '../../../_main/models';
 import { FormulaFieldModalComponent } from '../formula-field-modal';
+import { DeleteUserFormulaModalComponent } from '../../components/delete-user-formula-modal';
+import * as fromFormulaFieldActions from '../../actions/formula-field.actions';
 
 
 @Component({
@@ -17,9 +20,11 @@ import { FormulaFieldModalComponent } from '../formula-field-modal';
 })
 export class FormulasComponent implements OnInit, OnDestroy {
   @ViewChild(FormulaFieldModalComponent, { static: true }) public formulaFieldModal: FormulaFieldModalComponent;
+  @ViewChild(DeleteUserFormulaModalComponent, { static: true }) public deleteFormulaFieldModal: DeleteUserFormulaModalComponent;
   dataView$: Observable<AsyncStateObj<UserDataView>>;
   formulaFieldSuggestions$: Observable<Suggestion[]>;
   userForumla$: Observable<Field[]>;
+  formulaViewCount$: Observable<AsyncStateObj<number>>;
 
   userFormulaSub: Subscription;
   dataViewSub: Subscription;
@@ -27,13 +32,16 @@ export class FormulasComponent implements OnInit, OnDestroy {
   userFormulas: Field[];
   formulaFieldModalObj: FormulaFieldModalObj;
   dataViewAccessLevel: DataViewAccessLevel;
+  formulaToDelete: Field;
 
   constructor(
-    private store: Store<fromDataInsightsMainReducer.State>
+    private store: Store<fromDataInsightsMainReducer.State>,
+    private dataViewStore: Store<fromDataViewMainReducer.State>
   ) {
     this.userForumla$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserFormulas));
     this.dataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
     this.formulaFieldSuggestions$ = this.store.pipe(select(fromDataInsightsMainReducer.getFormulaFieldSuggestions));
+    this.formulaViewCount$ = this.dataViewStore.pipe(select(fromDataViewMainReducer.getFormulaViewCount));
   }
 
   ngOnInit() {
@@ -80,6 +88,16 @@ export class FormulasComponent implements OnInit, OnDestroy {
       DataType: field.DataType
     };
     this.formulaFieldModal.open();
+  }
+
+  handleDeleteFormulaClicked(field: Field): void {
+    this.formulaToDelete = field;
+    this.dataViewStore.dispatch(new fromFormulaFieldActions.GetFormulaFieldViewCount(field.FormulaId));
+    this.deleteFormulaFieldModal.open();
+  }
+
+  handleDeleteConfirmClicked(field: Field): void {
+    this.dataViewStore.dispatch(new fromFormulaFieldActions.DeleteFormulaField(field));
   }
 
 }

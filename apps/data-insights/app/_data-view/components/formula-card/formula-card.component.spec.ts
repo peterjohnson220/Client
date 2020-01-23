@@ -27,4 +27,13 @@ describe('FormulaCardComponent', () => {
 
     expect(instance.editFormulaClicked.emit).toHaveBeenCalledWith(field);
   });
+
+  it('should emit deleteFormulaClick when handling delete formula', () => {
+    const field = generateMockField();
+    spyOn(instance.deleteClicked, 'emit');
+
+    instance.handleDeleteFormulaClick(field);
+
+    expect(instance.deleteClicked.emit).toHaveBeenCalledWith(field);
+  });
 });
