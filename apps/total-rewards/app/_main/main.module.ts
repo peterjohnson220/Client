@@ -20,6 +20,8 @@ import { reducers } from './reducers';
 import { StatementsEffects, CreateNewStatementEffects } from './effects';
 import { CreateNewStatementBannerComponent } from './components/create-new-statement-banner/create-new-statement-banner.component';
 import { GridActionMenuComponent } from './components/grid-action-menu/grid-action-menu.component';
+import { SharedModule } from '../shared/shared.module';
+import { EditTemplatePageComponent } from './containers/pages/edit-template';
 
 @NgModule({
   imports: [
@@ -40,11 +42,13 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    SharedModule
   ],
   declarations: [
     // Pages
     TotalRewardsPageComponent,
+    EditTemplatePageComponent,
 
     // Containers
     StatementsGridComponent,
