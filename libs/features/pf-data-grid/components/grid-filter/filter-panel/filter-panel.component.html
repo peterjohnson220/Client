@@ -13,7 +13,7 @@
   </div>
   <div class="sidebar-content position-absolute p-3">
     <div *ngFor="let field of fields; trackBy: trackByField" class="form-group">
-      <pf-filter-builder [viewField]="field" (filterChanged)="handleFilterChange($event)"></pf-filter-builder>
-    </div>    
+      <pf-filter-builder [viewField]="field" [filterTemplate]="filterTemplates[field.DisplayName]" (filterChanged)="handleFilterChange($event)"></pf-filter-builder>
+    </div>
   </div>
 </div>

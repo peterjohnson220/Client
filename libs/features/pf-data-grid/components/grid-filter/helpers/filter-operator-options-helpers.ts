@@ -42,7 +42,7 @@ const numericFilterOperators: FilterOperator[] = [
 
 const booleanFilterOperators: FilterOperator[] = [
   { display: 'Is equal to', value: '=', requiresValue: true, defaultOperatorForType: true }
-]
+];
 
 export const FilterOperatorOptions = {
   dateTime: dateFilterOperators,

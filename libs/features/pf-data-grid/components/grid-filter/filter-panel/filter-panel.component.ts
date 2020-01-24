@@ -12,6 +12,7 @@ import { FilterOperatorOptions, getUserFilteredFields } from '../helpers';
 export class FilterPanelComponent {
 
   @Input() fields: ViewField[];
+  @Input() filterTemplates: any;
 
   @Output() saveFilterClicked = new EventEmitter();
   @Output() filterChanged = new EventEmitter<ViewField>();

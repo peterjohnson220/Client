@@ -6,6 +6,7 @@
   [gridGlobalActionsTemplate]="gridGlobalActions"
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
+  [filterPanelTemplate]="filterTemplates"
   [showFilterChooser]="true"
   [allowExport]="false"
   [defaultSort]="defaultSort"
@@ -16,6 +17,10 @@
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
   {{dataRow['CompanyJobs_JobStatus'] ? 'Active' : 'Inactive'}}
+</ng-template>
+
+<ng-template #hasPeerDataColumn let-dataRow="dataRow">
+  <fa-icon icon="exchange-alt" *ngIf="dataRow['CompanyJobs_Exchange_ID']"></fa-icon>
 </ng-template>
 
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
@@ -79,3 +84,23 @@
   [showJobForm]="addingNewJob"
   (cancelChanges)="addingNewJob = false">
 </pf-job-management>
+
+<ng-template #peerFilter>
+  <div class="row">
+    <div class="col-6">
+      Peer Matches:
+    </div>
+    <div class="col-6">
+      <kendo-dropdownlist
+        [data]="peerFilterOptions"
+        [textField]="'display'"
+        [valueField]="'value'"
+        [valuePrimitive]="true"
+        [ngModel]="peerField.FilterValue"
+        (valueChange)="handlePeerFilterChanged($event)"
+        [attr.data-qa-id]="'ddm-operator-'+peerField.SourceName"
+        class="k-dropdown-white form-control">
+      </kendo-dropdownlist>
+    </div>
+  </div>
+</ng-template>
