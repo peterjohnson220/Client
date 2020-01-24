@@ -8,6 +8,7 @@ import { CompanyJobUdf } from 'libs/models';
 import * as fromJobManagementActions from '../../actions';
 import * as fromJobManagementReducer from '../../reducers';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
+import { PfValidators } from 'libs/forms';
 
 @Component({
   selector: 'pf-job-form',
@@ -59,10 +60,13 @@ export class JobFormComponent implements OnInit, OnDestroy {
     this.jobUserDefinedFields$ = this.store.select(fromJobManagementReducer.getCompanyJobUdfs);
 
     this.jobForm = formBuilder.group({
-      JobCode: ['', [Validators.required, Validators.maxLength(this.JOB_CODE_MAX_LENGTH), this.validateDuplicateJobCode.bind(this)]],
+      JobCode: ['', [
+        PfValidators.required,
+        PfValidators.maxLengthTrimWhitespace(this.JOB_CODE_MAX_LENGTH),
+        this.validateDuplicateJobCode.bind(this)]],
       JobFamily: '',
-      JobTitle: ['', [Validators.required, Validators.maxLength(this.DEFAULT_MAX_LENGTH)]],
-      JobLevel: ['', Validators.maxLength(this.DEFAULT_MAX_LENGTH)],
+      JobTitle: ['', [PfValidators.required, PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)]],
+      JobLevel: ['', PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)],
       FLSAStatus: '',
       JobStatus: true,
     });
@@ -73,7 +77,9 @@ export class JobFormComponent implements OnInit, OnDestroy {
 
     this.udfsSubscription = this.jobUserDefinedFields$.subscribe(userDefinedFields => {
       for (const userDefinedField of userDefinedFields) {
-        this.jobForm.addControl(userDefinedField.ColumnName, new FormControl('', Validators.maxLength(this.DEFAULT_MAX_LENGTH)));
+        this.jobForm.addControl(
+          userDefinedField.ColumnName,
+          new FormControl('', PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)));
       }
     });
 

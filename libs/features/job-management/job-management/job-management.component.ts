@@ -22,6 +22,14 @@ export class JobManagementComponent implements OnInit, OnChanges {
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
 
+  /* TODO
+    This component can be extended with a display-type property which determines how to show the AddJob form
+	    As a Modal
+	    As an embedded component withing a page
+	    As a Payfactors standalone page
+    Modify the job-management-component so we can edit jobs along with adding new jobs
+    Replace all Add Job modals & componenets with the generic job-management-component
+  */
   constructor(private store: Store<fromJobManagementReducer.State>) {
     this.showJobForm$ = this.store.select(fromJobManagementReducer.getShowJobForm);
     this.loading$ = this.store.select(fromJobManagementReducer.getLoading);

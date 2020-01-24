@@ -56,8 +56,8 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
       return {
         ...state,
         loading: false,
-        jobFamilies: action.jobFamilies,
-        companyFlsaStatuses: action.companyFlsaStatuses,
+        jobFamilies: action.jobFamilies.filter(e => e.length > 0),
+        companyFlsaStatuses: action.companyFlsaStatuses.filter(e => e.length > 0),
         companyJobUdfs: action.companyJobUdfs
       };
     case fromJobManagementActions.UPDATE_COMPANY_JOB:
