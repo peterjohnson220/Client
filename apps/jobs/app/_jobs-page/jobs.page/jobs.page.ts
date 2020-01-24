@@ -87,10 +87,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  ngOnDestroy() {
-    this.selectedKeysSubscription.unsubscribe();
-  }
-
   addJobsToProject() {
     return this.store.dispatch(new fromJobsPageActions.AddJobsToProject(this.selectedKeys));
   }

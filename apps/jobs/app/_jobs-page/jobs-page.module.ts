@@ -47,7 +47,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
 
     // 3rd Party
     LayoutModule,
-	  SwitchModule,
+    SwitchModule,
     NgbTooltipModule,
     StoreModule.forFeature('jobsPageMain', reducers),
     EffectsModule.forFeature([
