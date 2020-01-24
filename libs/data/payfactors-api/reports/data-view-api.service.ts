@@ -22,7 +22,8 @@ import {
   DataViewEntityResponseWithCount,
   ValidateFormulaResponse,
   ValidateFormulaRequest,
-  UpsertFormulaFieldRequest
+  UpsertFormulaFieldRequest,
+  DeleteUserFormulaRequest
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -128,5 +129,17 @@ export class DataViewApiService {
 
   upsertFormulaField(request: UpsertFormulaFieldRequest): Observable<DataViewField> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpsertFormulaField`, request);
+  }
+
+  deleteFormulaField(request: DeleteUserFormulaRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteUserFormula`, request);
+  }
+
+  getDataViewCountForFormula(formulaId: number): Observable<number> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetDataViewCount`, { params: { formulaId: formulaId } }, this.extractRawResponse);
+  }
+
+  private extractRawResponse(response: any) {
+    return response;
   }
 }

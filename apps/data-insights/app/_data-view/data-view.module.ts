@@ -14,12 +14,12 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { FormulaEditorComponent, FormulaCardComponent } from './components';
+import { FormulaEditorComponent, FormulaCardComponent, DeleteUserFormulaModalComponent } from './components';
 import { FormulaFieldModalComponent, FormulasComponent } from './containers';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
-import { FormulaFieldModalEffects } from './effects';
+import { FormulaFieldEffects } from './effects';
 
 
 @NgModule({
@@ -32,7 +32,7 @@ import { FormulaFieldModalEffects } from './effects';
     // 3rd Party
     StoreModule.forFeature('dataView_main', reducers),
     EffectsModule.forFeature([
-      FormulaFieldModalEffects
+      FormulaFieldEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
@@ -47,7 +47,7 @@ import { FormulaFieldModalEffects } from './effects';
 
   declarations: [
     // Components
-    FormulaEditorComponent, FormulaCardComponent,
+    FormulaEditorComponent, FormulaCardComponent, DeleteUserFormulaModalComponent,
 
     // Containers
     FormulaFieldModalComponent, FormulasComponent

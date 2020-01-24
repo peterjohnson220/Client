@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime } from 'rxjs/operators';
 
 import * as fromDataViewMainReducer from '../../reducers';
-import * as fromFormulaFieldActions from '../../actions/formula-field-modal.actions';
+import * as fromFormulaFieldActions from '../../actions/formula-field.actions';
 import { FormulaFieldModalObj, Suggestion, functionSuggestionList } from '../../models';
 import { FormulaEditorComponent } from '../../components';
 import { FieldDataType } from '../../../_main/models';

@@ -13,7 +13,7 @@ import * as fromDataInsightsMainReducer from '../reducers';
 import * as fromFieldsActions from '../actions/fields.actions';
 import * as fromFiltersActions from '../actions/filters.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
-import * as fromFormulaFieldModalActions from '../../_data-view/actions/formula-field-modal.actions';
+import * as fromFormulaFieldModalActions from '../../_data-view/actions/formula-field.actions';
 import { PayfactorsApiModelMapper, FieldsHelper } from '../helpers';
 import { Field } from '../models';
 
@@ -153,6 +153,26 @@ export class FieldsEffects {
           }
         }
         actions.push(new fromFieldsActions.SaveUpdatedFormulaField(field));
+        return actions;
+      })
+    );
+
+  @Effect()
+  removeFormulaField$ = this.action$
+    .pipe(
+      ofType(fromFormulaFieldModalActions.DELETE_FORMULA_FIELD_SUCCESS),
+      withLatestFrom(
+        this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields)),
+        (action: fromFormulaFieldModalActions.DeleteFormulaFieldSuccess, selectedFields) =>
+          ({ action, selectedFields })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        const existingField = FieldsHelper.findField(data.selectedFields, data.action.payload);
+        if (!!existingField) {
+          actions.push(new fromFieldsActions.RemoveSelectedField(existingField));
+        }
+        actions.push(new fromFieldsActions.RemoveFormulaField(data.action.payload));
         return actions;
       })
     );

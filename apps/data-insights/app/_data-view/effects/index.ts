@@ -1,1 +1,1 @@
-export * from './formula-field-modal.effects';
+export * from './formula-field-effects';

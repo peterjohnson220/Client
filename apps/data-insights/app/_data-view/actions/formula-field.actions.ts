@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { DataViewField } from 'libs/models/payfactors-api';
 
 import { FormulaFieldModalObj } from '../models';
-import { FieldDataType } from '../../_main/models';
+import { Field, FieldDataType } from '../../_main/models';
 
 export const VALIDATE_FORMULA = '[Data Insights / Formula Field Modal] Validate Formula';
 export const VALIDATE_FORMULA_SUCCESS = '[Data Insights / Formula Field Modal] Validate Formula Success';
@@ -13,6 +13,12 @@ export const CREATE_FORMULA_FIELD_SUCCESS = '[Data Insights / Formula Field Moda
 export const UPDATE_FORMULA_FIELD_SUCCESS = '[Data Insights / Formula Field Modal] Update Formula Field Success';
 export const SAVE_FORMULA_FIELD_ERROR = '[Data Insights / Formula Field Modal] Save Formula Field Error';
 export const RESET_MODAL = '[Data Insights / Formula Field Modal] Reset Modal';
+export const GET_FORMULA_FIELD_VIEW_COUNT = '[Data Insights / Formula Field Modal] Get Formula Field View Count';
+export const GET_FORMULA_FIELD_VIEW_COUNT_SUCCESS = '[Data Insights / Formula Field Modal] Get Formula Field View Count Success';
+export const GET_FORMULA_FIELD_VIEW_COUNT_ERROR = '[Data Insights / Formula Field Modal] Get Formula Field View Count Error';
+export const DELETE_FORMULA_FIELD = '[Data Insights / Formula Field Modal] Delete Formula Field';
+export const DELETE_FORMULA_FIELD_SUCCESS = '[Data Insights / Formula Field Modal] Delete Formula Field Success';
+export const DELETE_FORMULA_FIELD_ERROR = '[Data Insights / Formula Field Modal] Delete Formula Field Error';
 
 export class ValidateFormula implements Action {
   readonly type = VALIDATE_FORMULA;
@@ -62,6 +68,42 @@ export class ResetModal implements Action {
   constructor() {}
 }
 
+export class DeleteFormulaField implements Action {
+  readonly type = DELETE_FORMULA_FIELD;
+
+  constructor(public payload: Field) {}
+}
+
+export class DeleteFormulaFieldSuccess implements Action {
+  readonly type = DELETE_FORMULA_FIELD_SUCCESS;
+
+  constructor(public payload: Field) {}
+}
+
+export class DeleteFormulaFieldError implements Action {
+  readonly type = DELETE_FORMULA_FIELD_ERROR;
+
+  constructor() {}
+}
+
+export class GetFormulaFieldViewCount implements Action {
+  readonly type = GET_FORMULA_FIELD_VIEW_COUNT;
+
+  constructor(public payload: number) {}
+}
+
+export class GetFormulaFieldViewCountSuccess implements Action {
+  readonly type = GET_FORMULA_FIELD_VIEW_COUNT_SUCCESS;
+
+  constructor(public payload: number) {}
+}
+
+export class GetFormulaFieldViewCountError implements Action {
+  readonly type = GET_FORMULA_FIELD_VIEW_COUNT_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = ValidateFormula
   | ValidateFormulaSuccess
@@ -70,4 +112,10 @@ export type Actions
   | CreateFormulaFieldSuccess
   | UpdateFormulaFieldSuccess
   | SaveFormulaFieldError
-  | ResetModal;
+  | ResetModal
+  | DeleteFormulaField
+  | DeleteFormulaFieldSuccess
+  | DeleteFormulaFieldError
+  | GetFormulaFieldViewCount
+  | GetFormulaFieldViewCountSuccess
+  | GetFormulaFieldViewCountError;
