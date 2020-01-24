@@ -4,6 +4,7 @@ export interface Provider {
   ProviderCode: string;
   ImageUrl: string;
   AuthenticationTypeId: number;
+  Active: boolean;
 }
 
 export function generateMockProvider(): Provider {
@@ -12,7 +13,8 @@ export function generateMockProvider(): Provider {
     ProviderName: 'MockProviderName',
     ProviderCode: 'PFTEST',
     ImageUrl: 'MockImageUrl',
-    AuthenticationTypeId: 1
+    AuthenticationTypeId: 1,
+    Active: true,
   };
 }
 
@@ -23,21 +25,24 @@ export function generateMockProviderList(): Provider[] {
       ProviderName: 'MockProviderName1',
       ProviderCode: 'MOCKCODE1',
       ImageUrl: 'MockImageUrl1',
-      AuthenticationTypeId: 1
+      AuthenticationTypeId: 1,
+      Active: true,
     },
     {
       ProviderId: 2,
       ProviderName: 'MockProviderName2',
       ProviderCode: 'MOCKCODE2',
       ImageUrl: 'MockImageUrl2',
-      AuthenticationTypeId: 1
+      AuthenticationTypeId: 1,
+      Active: true,
     },
     {
       ProviderId: 3,
       ProviderName: 'MockProviderName3',
       ProviderCode: 'MOCKCODE3',
       ImageUrl: 'MockImageUrl3',
-      AuthenticationTypeId: 2
+      AuthenticationTypeId: 2,
+      Active: false,
     }
   ];
 }

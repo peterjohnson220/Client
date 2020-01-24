@@ -22,3 +22,16 @@
   height: 9rem;
   min-width: 21rem;
 }
+
+.provider {
+  cursor: pointer;
+}
+
+.inactive-provider {
+  background-color: #C0C0C0;
+  cursor: not-allowed;
+
+  img {
+    opacity: 0.8;
+  }
+}
