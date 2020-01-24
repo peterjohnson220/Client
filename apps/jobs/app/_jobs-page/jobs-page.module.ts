@@ -19,6 +19,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
+import { JobManagementModule } from 'libs/features/job-management/job-management.module';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
@@ -64,7 +65,8 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfDataGridModule
+    PfDataGridModule,
+    JobManagementModule
   ],
   declarations: [
     // Pages

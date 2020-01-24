@@ -1,0 +1,20 @@
+<pf-modal-form
+  [modalId]="'au-modal-new-job'"
+  [isOpen$]="showJobForm$"
+  [size]="'lg'"
+  [submitting]="saving$ | async"
+  [showFooter]="!(loading$ | async)"
+  [centered]="false"
+  [allowDismiss]="true"
+  [primaryButtonText]="'Save'"
+  [primaryButtonTextSubmitting]="'Saving'"
+  [title]="'Add New Job'"
+  (onDismiss)="onCancelChanges()"
+  (onSubmit)="jobForm.submit()"
+>
+  <ng-container basic-content>
+    <div class="container" [style.max-height]="'450px'" [style.overflow]="'auto'">
+      <pf-job-form #jobForm></pf-job-form>
+    </div>
+  </ng-container>
+</pf-modal-form>

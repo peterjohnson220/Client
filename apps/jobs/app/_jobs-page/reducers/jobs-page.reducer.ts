@@ -2,6 +2,7 @@ import * as fromJobsPageActions from '../actions';
 
 export interface State {
   company: string;
+  jobsPageId: string;
   loading: boolean;
   loadingError: boolean;
   addingToProject: boolean;
@@ -11,13 +12,20 @@ export interface State {
 export const initialState: State = {
   company: '',
   loading: false,
+  jobsPageId: '',
   loadingError: false,
   addingToProject : false,
-  pricingIdToBeDeleted: undefined
+  pricingIdToBeDeleted: undefined,
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
   switch (action.type) {
+    case fromJobsPageActions.SET_JOBS_PAGE_ID: {
+      return {
+        ...state,
+        jobsPageId: action.payload,
+      };
+    }
     case fromJobsPageActions.LOAD_COMPANY: {
       return {
         ...state,
@@ -66,8 +74,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 }
 
 export const getCompany = (state: State) => state.company;
+export const getJobsPageId = (state: State) => state.jobsPageId;
 export const getloading = (state: State) => state.loading;
 export const getloadingError = (state: State) => state.loadingError;
 export const getToProjectButtonState = (state: State) => state.addingToProject;
 export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDeleted;
-

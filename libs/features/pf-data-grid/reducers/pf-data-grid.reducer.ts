@@ -491,6 +491,8 @@ export const getLoading = (state: DataGridStoreState, pageViewId: string) => sta
 export const getBaseEntity = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntity : null;
 export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
   ? state.grids[pageViewId].fields : null;
+export const getSelectableFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].fields
+  ? state.grids[pageViewId].fields.filter(f => f.IsSelectable) : null;
 export const getGroupedFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].groupedFields : null;
 export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] && state.grids[pageViewId].fields ? state.grids[pageViewId].fields.filter(f => f.IsGlobalFilter) : null;
@@ -635,7 +637,7 @@ export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
   return views.map(view => ({
     Name: view.Name,
     Description: view.Fields
-      .filter(field => field.FilterOperator && field.FilterValue !== null)
+      .filter(field => field.FilterOperator && field.FilterValue !== null && !field.IsGlobalFilter)
       .map(field => {
         return ({
           ...field,

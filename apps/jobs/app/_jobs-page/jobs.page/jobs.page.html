@@ -3,6 +3,7 @@
   [title]="getPageTitle(company$ | async)"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
+  [gridGlobalActionsTemplate]="gridGlobalActions"
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
   [filterPanelTemplate]="filterTemplates"
@@ -30,14 +31,31 @@
 </ng-template>
 
 <ng-template #gridActions>
-  <button [pfSecuredResource]="permissions.NEW_PROJECT" [attr.data-qa-id]="'btn-addJobsToProject'" type="button" [disabled]="!selectedKeys || selectedKeys.length==0"  (click)="addJobsToProject()" class="btn btn-link">
-  <span *ngIf="!(addingToProject$ | async)">
-  <fa-icon icon="calculator"></fa-icon>
-    Add
-    <span *ngIf="selectedKeys?.length == 1"> Job</span>
-    <span *ngIf="selectedKeys?.length > 1"> ({{selectedKeys?.length}}) Jobs</span>
-    to Project
-  </span>
+  <button
+    [pfSecuredResource]="permissions.NEW_PROJECT" 
+    [attr.data-qa-id]="'btn-addJobsToProject'"
+    type="button"
+    [disabled]="!selectedKeys || selectedKeys.length==0"
+    (click)="addJobsToProject()"
+    class="btn btn-link">
+    <span *ngIf="!(addingToProject$ | async)">
+    <fa-icon icon="calculator"></fa-icon>
+      Add
+      <span *ngIf="selectedKeys?.length == 1"> Job</span>
+      <span *ngIf="selectedKeys?.length > 1"> ({{selectedKeys?.length}}) Jobs</span>
+      to Project
+    </span>
+  </button>
+</ng-template>
+
+<ng-template #gridGlobalActions>
+  <button
+    [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+    [attr.data-qa-id]="'btn-newJob'"
+    type="button"
+    (click)="addingNewJob = true"
+    class="btn btn-primary">
+    New Job
   </button>
 </ng-template>
 
@@ -61,6 +79,11 @@
     </h4>
   </ng-container>
 </pf-modal-form>
+
+<pf-job-management 
+  [showJobForm]="addingNewJob"
+  (cancelChanges)="addingNewJob = false">
+</pf-job-management>
 
 <ng-template #peerFilter>
   <div class="row">

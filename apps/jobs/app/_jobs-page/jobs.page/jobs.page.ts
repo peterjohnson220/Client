@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -44,6 +44,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   company$: Observable<string>;
   addingToProject$: Observable<boolean>;
 
+  addingNewJob = false;
+
   colTemplates = {};
   filterTemplates = {};
 
@@ -70,6 +72,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));
     this.store.dispatch(new fromJobsPageActions.LoadCompany());
   }
 
@@ -82,6 +85,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterTemplates = {
       'Peer': { Template: this.peerFilter }
     };
+  }
+
+  ngOnDestroy() {
+    this.selectedKeysSubscription.unsubscribe();
   }
 
   addJobsToProject() {
