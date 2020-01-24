@@ -212,6 +212,24 @@ export const savingMappingsError = createSelector(
   fromFieldMappingReducer.savingMappingsError
 );
 
+// Default Paymarkets for Employee field mappings
+export const getDefaultPaymarket = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.getDefaultPaymarket
+);
+export const getDefaultPaymarketLoading = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.getDefaultPaymarketLoading
+);
+export const getDefaultPaymarketLoadingError = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.getDefaultPaymarketLoadingError
+);
+export const getDefaultPaymarketModalOpen = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.getDefaultPaymarketModalOpen
+);
+
 // Organizational Field Mapping
 export const { selectAll: getFieldMappings } = fromOrgDataFieldMappingsReducer.adapter.getSelectors(selectOrgDataFieldMappingsState);
 

@@ -12,6 +12,10 @@ export interface State {
   payfactorsFields: EntityField;
   saving: boolean;
   savingError: false;
+  defaultPaymarket: string;
+  defaultPaymarketLoading: boolean;
+  defaultPaymarketLoadingError: boolean;
+  defaultPaymarketModalOpen: boolean;
 }
 
 const initialState: State = {
@@ -21,7 +25,11 @@ const initialState: State = {
   providerFields: new EntityField(),
   payfactorsFields: new EntityField(),
   saving: false,
-  savingError: false
+  savingError: false,
+  defaultPaymarket: null,
+  defaultPaymarketLoading: false,
+  defaultPaymarketLoadingError: false,
+  defaultPaymarketModalOpen: false,
 };
 
 export function reducer(state: State = initialState, action: fromFieldMappingActions.Actions) {
@@ -149,6 +157,42 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
     case fromFieldMappingActions.CANCEL_MAPPING: {
       return state = initialState;
     }
+    case fromFieldMappingActions.LOAD_DEFAULT_PAYMARKET: {
+      return {
+        ...state,
+        defaultPaymarket: null,
+        defaultPaymarketLoading: true,
+        defaultPaymarketLoadingError: false,
+      };
+    }
+    case fromFieldMappingActions.LOAD_DEFAULT_PAYMARKET_ERROR: {
+      return {
+        ...state,
+        defaultPaymarket: null,
+        defaultPaymarketLoading: false,
+        defaultPaymarketLoadingError: true,
+      };
+    }
+    case fromFieldMappingActions.LOAD_DEFAULT_PAYMARKET_SUCCESS: {
+      return {
+        ...state,
+        defaultPaymarket: action.payload.defaultPaymarket,
+        defaultPaymarketLoading: false,
+        defaultPaymarketLoadingError: false,
+      };
+    }
+    case fromFieldMappingActions.OPEN_DEFAULT_PAYMARKET_MODAL: {
+      return {
+        ...state,
+        defaultPaymarketModalOpen: true,
+      };
+    }
+    case fromFieldMappingActions.DISMISS_DEFAULT_PAYMARKET_MODAL: {
+      return {
+        ...state,
+        defaultPaymarketModalOpen: false,
+      };
+    }
     default:
       return state;
   }
@@ -166,3 +210,7 @@ export const canSaveMappings = (state: State) => {
     fields.every(field => (field.IsRequired && field.AssociatedEntity && field.AssociatedEntity.length > 0) || !field.IsRequired)
   );
 };
+export const getDefaultPaymarket = (state: State) => state.defaultPaymarket;
+export const getDefaultPaymarketLoading = (state: State) => state.defaultPaymarketLoading;
+export const getDefaultPaymarketLoadingError = (state: State) => state.defaultPaymarketLoadingError;
+export const getDefaultPaymarketModalOpen = (state: State) => state.defaultPaymarketModalOpen;

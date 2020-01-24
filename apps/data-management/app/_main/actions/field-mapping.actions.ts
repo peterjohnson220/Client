@@ -17,11 +17,18 @@ export const LOAD_PAYFACTORS_FIELDS_BY_ENTITY_SUCCESS = '[Data Management/Field 
 export const ADD_ASSOCIATED_ENTITY = '[Data Management/Field Mappings] Add Associated Entity to Payfactors Entity';
 export const REMOVE_ASSOCIATED_ENTITY = '[Data Management/Field Mappings] Remove Associated Entity from Payfactors Entity';
 
+export const TRY_SAVE_MAPPING = '[Data Management/Field Mappings] Try Save Mappings';
 export const SAVE_MAPPING = '[Data Management/Field Mappings] Save Mappings';
 export const SAVE_MAPPING_ERROR = '[Data Management/Field Mappings] Save Mappings Error';
 export const SAVE_MAPPING_SUCCESS = '[Data Management/Field Mappings] Save Mappings Success';
 
 export const CANCEL_MAPPING = '[Data Management/Field Mappings] Cancel Mapping Workflow';
+
+export const LOAD_DEFAULT_PAYMARKET = '[Data Management/Field Mappings] Load Default Paymarket';
+export const LOAD_DEFAULT_PAYMARKET_ERROR = '[Data Management/Field Mappings] Load Default Paymarket Error';
+export const LOAD_DEFAULT_PAYMARKET_SUCCESS = '[Data Management/Field Mappings] Load Default Paymarket Success';
+export const OPEN_DEFAULT_PAYMARKET_MODAL = '[Data Management/Field Mappings] Open Default Paymarket Modal';
+export const DISMISS_DEFAULT_PAYMARKET_MODAL = '[Data Management/Field Mappings] Dismiss Default Paymarket Modal';
 
 export class InitFieldMappingCard implements Action {
   readonly type = INIT_FIELD_MAPPING_CARD;
@@ -85,6 +92,12 @@ export class RemoveAssociatedEntity implements Action {
   constructor(public payload: {entity: EntityDataField, payfactorsEntityIndex: number, entityType: string}) {}
 }
 
+export class TrySaveMapping implements Action {
+  readonly type = TRY_SAVE_MAPPING;
+
+  constructor() {}
+}
+
 export class SaveMapping implements Action {
   readonly type = SAVE_MAPPING;
 
@@ -109,6 +122,36 @@ export class CancelMapping implements Action {
   constructor() {}
 }
 
+export class LoadDefaultPaymarket implements Action {
+  readonly type = LOAD_DEFAULT_PAYMARKET;
+
+  constructor() {}
+}
+
+export class LoadDefaultPaymarketError implements Action {
+  readonly type = LOAD_DEFAULT_PAYMARKET_ERROR;
+
+  constructor() {}
+}
+
+export class LoadDefaultPaymarketSuccess implements Action {
+  readonly type = LOAD_DEFAULT_PAYMARKET_SUCCESS;
+
+  constructor(public payload: { defaultPaymarket: string }) {}
+}
+
+export class OpenDefaultPaymarketModal implements Action {
+  readonly type = OPEN_DEFAULT_PAYMARKET_MODAL;
+
+  constructor() {}
+}
+
+export class DismissDefaultPaymarketModal implements Action {
+  readonly type = DISMISS_DEFAULT_PAYMARKET_MODAL;
+
+  constructor(public payload: { saveDefaultPaymarket: boolean }) {}
+}
+
 export type Actions
  = InitFieldMappingCard
  | InitFieldMappingCardError
@@ -124,4 +167,9 @@ export type Actions
  | SaveMapping
  | SaveMappingError
  | SaveMappingSuccess
- | CancelMapping;
+ | CancelMapping
+ | LoadDefaultPaymarket
+ | LoadDefaultPaymarketError
+ | LoadDefaultPaymarketSuccess
+ | OpenDefaultPaymarketModal
+ | DismissDefaultPaymarketModal;

@@ -31,7 +31,6 @@ export class FieldMappingCardComponent implements OnDestroy {
   selectedEntities: EntityTypeModel[];
 
   constructor(private store: Store<fromFieldMappingReducer.State>) {
-
     this.fieldMappingCardLoading$ = this.store.select(fromFieldMappingReducer.getFieldMappingCardLoading);
     this.fieldMappingCardLoadingError$ = this.store.select(fromFieldMappingReducer.getFieldMappingCardLoadingError);
     this.canSaveMappings$ = this.store.select(fromFieldMappingReducer.canSaveMappings);
@@ -55,6 +54,6 @@ export class FieldMappingCardComponent implements OnDestroy {
   }
 
   saveMappings() {
-    this.store.dispatch(new fromFieldMappingActions.SaveMapping());
+    this.store.dispatch(new fromFieldMappingActions.TrySaveMapping());
   }
 }
