@@ -310,8 +310,9 @@ export const getTransferScheduleSummaryRestoreCompleted = createSelector(selectT
 
 // Hris Connection
 export const getHrisActiveConnection = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getConnection);
-export const getHrisActiveConnectionLoading = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getLoading);
-export const getHrisActiveConnectionLoadingError = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getLoadingError);
+export const getHrisConnectionLoading = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getLoading);
+export const getHrisConnectionLoadingError = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getLoadingError);
 export const getHrisActiveConnectionSaving = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getSaving);
 export const getHrisActiveConnectionSavingError = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getSavingError);
 export const getHrisActiveConnectionDeleteCompleted = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getDeleteCompleted);
+export const getHrisConnectionSummary = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getConnectionSummary);

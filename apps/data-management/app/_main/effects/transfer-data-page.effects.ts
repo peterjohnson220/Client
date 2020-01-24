@@ -85,7 +85,7 @@ export class TransferDataPageEffects {
         return this.providersHrisApiService.getProvidersByTransferMethodId(obj.userContext, obj.selectedTransferMethod)
           .pipe(
             map((response: ProviderResponse[]) => {
-              const providers = PayfactorsApiModelMapper.mapProviderResponseToProvider(response);
+              const providers = PayfactorsApiModelMapper.mapProviderResponsesToProviders(response);
               return new fromTransferDataPageActions.LoadProvidersSuccess(providers);
           })
         );

@@ -16,3 +16,18 @@ a.btn.btn-outline-primary {
   border: 1px solid lightgrey;
   margin-left: 1rem;
 }
+
+:host span.integration-status {
+  right: 1rem;
+  top: 1.25rem;
+}
+
+:host span.integration-status-good {
+  color: rgb(102, 119, 82);
+  font-weight: 500;
+}
+
+:host .good-icon {
+  color: rgb(195, 220, 168);
+}
+

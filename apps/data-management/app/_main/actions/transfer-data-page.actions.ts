@@ -26,6 +26,7 @@ export const LOAD_ENTITY_SELECTION = '[Data Management/Transfer Data Page] Load 
 export const LOAD_ENTITY_SELECTION_ERROR = '[Data Management/Transfer Data Page] Load Entity Selection Error';
 export const LOAD_ENTITY_SELECTION_SUCCESS = '[Data Management/Transfer Data Page] Load Entity Selection Success';
 export const PROCEED_TO_AUTHENTICATION = '[Data Management/Transfer Data Page] Proceed to Authentication';
+export const PROCEED_TO_MAPPING = '[Data Management/Transfer Data Page] Proceed to Mapping';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -149,6 +150,11 @@ export class ProceedToAuthentication implements Action {
   constructor(public payload: EntityChoice[]) {}
 }
 
+export class ProceedToMapping implements Action {
+  readonly type = PROCEED_TO_MAPPING;
+
+  constructor() {}
+}
 
 export type Actions
   = Init
@@ -173,4 +179,5 @@ export type Actions
   | LoadEntitySelection
   | LoadEntitySelectionError
   | LoadEntitySelectionSuccess
-  | ProceedToAuthentication;
+  | ProceedToAuthentication
+  | ProceedToMapping;
