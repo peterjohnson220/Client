@@ -44,7 +44,7 @@ export class UpsertDataCutPageEffects {
         PayMarketName: latest.exchangeDataCutRequestData.PayMarketDetails.PayMarketName,
         Companies: latest.mapSummaryData.OverallMapStats.Companies
       }).pipe(
-        map((userJobMatchId) => new fromUpsertDataCutPageActions.UpsertDataCutSuccess(userJobMatchId)),
+        map((userJobMatchId) => new fromUpsertDataCutPageActions.UpsertDataCutSuccess({UserJobMatchId: userJobMatchId, IsUpdate: false})),
         catchError(() => of(new fromUpsertDataCutPageActions.UpsertDataCutError()))
       );
     })
@@ -72,7 +72,7 @@ export class UpsertDataCutPageEffects {
         PayMarketName: latest.paymarket.PayMarket,
         Companies: latest.companies
       }).pipe(
-        map((userJobMatchId) => new fromUpsertDataCutPageActions.UpsertDataCutSuccess(userJobMatchId)),
+        map((payload) => new fromUpsertDataCutPageActions.UpsertDataCutSuccess({UserJobMatchId: payload.Key, IsUpdate: payload.Value})),
         catchError(() => of(new fromUpsertDataCutPageActions.UpsertDataCutError()))
       );
     })

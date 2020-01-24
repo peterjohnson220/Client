@@ -2,7 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { UpsertDataCutRequest, DataCutValidationInfo, ExchangeDataCutsExportRequest, ExchangeDataSearchFilter } from 'libs/models';
+import {
+  UpsertDataCutRequest,
+  DataCutValidationInfo,
+  ExchangeDataCutsExportRequest,
+  ExchangeDataSearchFilter,
+  GenericKeyValue
+} from 'libs/models';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -16,8 +22,8 @@ export class ExchangeDataCutsApiService {
   upsertDataCut(upsertDataCutRequest: UpsertDataCutRequest<ExchangeDataSearchFilter>): Observable<number> {
     return this.payfactorsApiService.post<number>(`${this.endpoint}/UpsertDataCut`, upsertDataCutRequest);
   }
-  upsertDataCutNew(upsertDataCutRequest: UpsertDataCutRequest<BaseExchangeDataSearchRequest>): Observable<number> {
-    return this.payfactorsApiService.post<number>(`${this.endpoint}/UpsertDataCutNew`, upsertDataCutRequest);
+  upsertDataCutNew(upsertDataCutRequest: UpsertDataCutRequest<BaseExchangeDataSearchRequest>): Observable<GenericKeyValue<number, boolean>> {
+    return this.payfactorsApiService.post<GenericKeyValue<number, boolean>>(`${this.endpoint}/UpsertDataCutNew`, upsertDataCutRequest);
   }
 
 
