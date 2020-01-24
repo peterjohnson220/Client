@@ -71,6 +71,7 @@ export class JobManagementEffects {
         const newCompanyJob = cloneDeep(data.companyJob);
         newCompanyJob.CompanyId = data.userContext.CompanyId;
         newCompanyJob.JobStatus = true;
+        this.trimValues(newCompanyJob);
         return this.companyJobApiService
           .createCompanyJob(newCompanyJob)
           .pipe(
@@ -92,5 +93,9 @@ export class JobManagementEffects {
     <div class="message-container"><div class="alert-triangle-icon mr-3"></div>${message}</div>`;
     this.toastr.error(toastContent, title, this.toastrOverrides);
     return of(new fromJobManagementActions.HandleApiError(message));
+  }
+
+  private trimValues(job: CompanyJob) {
+    Object.keys(job).forEach(key => { job[key] = typeof job[key] === 'string' || job[key] instanceof String ? job[key].trim() : job[key]; });
   }
 }

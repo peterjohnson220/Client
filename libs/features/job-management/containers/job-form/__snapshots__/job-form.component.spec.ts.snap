@@ -100,7 +100,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         <label
           class="col-2 col-form-label"
         >
-          Job Family:
+          Job Family
         </label>
         <div
           class="col-4"
@@ -114,7 +114,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         <label
           class="col-2 col-form-label"
         >
-          Level:
+          Level
         </label>
         <div
           class="col-4"
@@ -136,7 +136,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         <label
           class="col-2 col-form-label"
         >
-          FLSA Status:
+          FLSA Status
         </label>
         <div
           class="col-4"
