@@ -130,7 +130,8 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
         loading: true
       };
     }
-    case fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS: {
+    case fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS:
+    case fromTransferDataPageActions.PROCEED_TO_MAPPING: {
       return {
         ...state,
         loading: false,

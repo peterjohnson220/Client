@@ -10,7 +10,8 @@ import {
   TransferMethodResponse,
   ProviderSupportedEntityDTO, TransferScheduleSummary, SyncScheduleDtoModel,
   MappingPayloadItem,
-  MappingPayloadMapping
+  MappingPayloadMapping,
+  ConnectionSummaryResponse
 } from 'libs/models/hris-api';
 
 import {
@@ -22,7 +23,8 @@ import {
   TransferMethod,
   WorkdayRestCredentialsPackage, WorkdaySoapCredentialsPackage,
   EntityChoice,
-  EntityField
+  EntityField,
+  ConnectionSummary
 } from '../models';
 
 export class PayfactorsApiModelMapper {
@@ -38,16 +40,18 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  static mapProviderResponseToProvider(response: ProviderResponse[]): Provider[] {
-    return response.map(p => {
-      return {
-        ProviderId: p.provider_ID,
-        ProviderName: p.providerName,
-        ProviderCode: p.providerCode,
-        ImageUrl: p.providerImageUrl,
-        AuthenticationTypeId: p.authenticationType_ID
-      };
-    });
+  static mapProviderResponseToProvider(response: ProviderResponse): Provider {
+    return {
+      ProviderId: response.provider_ID,
+      ProviderName: response.providerName,
+      ProviderCode: response.providerCode,
+      ImageUrl: response.providerImageUrl,
+      AuthenticationTypeId: response.authenticationType_ID
+    };
+  }
+
+  static mapProviderResponsesToProviders(response: ProviderResponse[]): Provider[] {
+    return response.map(p => this.mapProviderResponseToProvider(p));
   }
 
   static mapAuthenticationTypeResponseToAuthenticationType(response: AuthenticationTypeResponse): AuthenticationType {
@@ -220,5 +224,15 @@ export class PayfactorsApiModelMapper {
         SyncSchedule_ID: t.syncSchedule_ID ? t.syncSchedule_ID : 0
       };
     });
+  }
+
+  static mapConnectionSummaryResponseToConnectionSummaryDto(connectionSummary: ConnectionSummaryResponse): ConnectionSummary {
+    return {
+      provider: connectionSummary.provider ? this.mapProviderResponseToProvider(connectionSummary.provider) : null,
+      canEditConnection: connectionSummary.canEditConnection,
+      hasConnection: connectionSummary.hasConnection,
+      canEditMappings: connectionSummary.canEditMappings,
+      statuses: connectionSummary.statuses
+    };
   }
 }

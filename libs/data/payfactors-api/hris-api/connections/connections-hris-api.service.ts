@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { UserContext } from 'libs/models/security';
-import { ValidateCredentialsResponse, CredentialsPackage, ConnectionPostRequest } from 'libs/models';
+import {ValidateCredentialsResponse, CredentialsPackage,
+  ConnectionPostRequest, ConnectionSummaryResponse} from 'libs/models';
 
 import { HrisApiService } from '../hris-api.service';
 
@@ -33,6 +34,11 @@ export class ConnectionsHrisApiService {
   delete(userContext: UserContext) {
     const host = this.getHost(userContext);
     return this.hrisApiService.delete(`${host}${this.endpoint}/${userContext.CompanyId}`);
+  }
+
+  getSummary(userContext: UserContext) {
+    const host = this.getHost(userContext);
+    return this.hrisApiService.get<ConnectionSummaryResponse>(`${host}${this.endpoint}/${userContext.CompanyId}/summary`);
   }
 
   private getHost(userContext: UserContext): string {
