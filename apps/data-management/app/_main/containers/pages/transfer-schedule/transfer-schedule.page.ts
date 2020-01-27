@@ -1,9 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
-import {Observable, Subscription} from 'rxjs';
-import {filter, skip} from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, skip } from 'rxjs/operators';
 import { fill } from 'lodash';
+
 import {TransferScheduleSummary, SyncScheduleDtoModel} from 'libs/models/hris-api/sync-schedule';
 
 import { PayfactorsApiModelMapper } from '../../../helpers';
@@ -32,7 +34,9 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   wasEdited: boolean;
   shouldGoBack: boolean;
 
-  constructor(private store: Store<fromDataManagementMainReducer.State>) {
+  showIntegrationFinishedModal$: Observable<boolean>;
+
+  constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
     this.transferScheduleSummary$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummary);
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummarySaving$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummarySaving);
@@ -56,6 +60,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
           console.log('go back to the mapping page from here');
         }
       });
+    this.showIntegrationFinishedModal$ = this.store.select(fromDataManagementMainReducer.getShowSetupCompleteModal);
   }
 
   ngOnInit() {
@@ -83,7 +88,12 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   }
 
   onFinish() {
+    this.store.dispatch(new fromTransferScheduleActions.ShowIntegrationSetupCompletedModal(true));
+  }
 
+  onOk() {
+    this.store.dispatch(new fromTransferScheduleActions.ShowIntegrationSetupCompletedModal(false));
+    this.router.navigate(['/']);
   }
 
   canFinish(): boolean {

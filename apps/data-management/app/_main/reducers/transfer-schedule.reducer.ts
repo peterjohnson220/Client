@@ -13,6 +13,7 @@ export interface State {
   savingActive: boolean;
   savingDtos: SyncScheduleDtoModel[];
   restoreCompleted: boolean;
+  showSetupCompleteModal: boolean;
 }
 
 export const initialState: State = {
@@ -25,7 +26,8 @@ export const initialState: State = {
   savingExpression: null,
   savingActive: null,
   savingDtos: [],
-  restoreCompleted: false
+  restoreCompleted: false,
+  showSetupCompleteModal: false
 };
 
 export function reducer(state: State = initialState, action: fromTransferScheduleActions.Actions) {
@@ -136,6 +138,12 @@ export function reducer(state: State = initialState, action: fromTransferSchedul
         savingDtos: []
       };
     }
+    case fromTransferScheduleActions.SHOW_INTEGRATION_SETUP_COMPLETED_MODAL: {
+      return {
+        ...state,
+        showSetupCompleteModal: action.payload
+      };
+    }
     default:
       return state;
   }
@@ -148,3 +156,4 @@ export const getSaving = (state: State) => state.saving;
 export const getSavingError = (state: State) => state.savingError;
 export const getSavingScheduleId = (state: State) => state.savingScheduleId;
 export const getRestoreCompleted = (state: State) => state.restoreCompleted;
+export const getShowSetupCompleteModal = (state: State) => state.showSetupCompleteModal;

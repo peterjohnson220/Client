@@ -4,6 +4,8 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
 <pf-transfer-schedule
   editStates={[Function Array]}
   restoreCompletedSubscription={[Function Subscriber]}
+  router={[Function Object]}
+  showIntegrationFinishedModal$={[Function Store]}
   store={[Function MockStore]}
   syncSchedulesBackup={[Function Array]}
   transferScheduleSummary={[Function Array]}
@@ -65,6 +67,28 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         </div>
       </div>
     </div>
+    <pf-modal-form>
+      
+      <h5
+        class="mb-3 setup-complete-modal-header"
+      >
+        Integration Setup Complete!
+      </h5>
+      <div
+        class="alert alert-success pb-5"
+      >
+         Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
+      </div>
+      <div
+        class=""
+      >
+        <button
+          class="btn btn-primary px-4 float-right"
+        >
+          Ok
+        </button>
+      </div>
+    </pf-modal-form>
   </pf-async-container>
 </pf-transfer-schedule>
 `;
@@ -73,6 +97,8 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
 <pf-transfer-schedule
   editStates={[Function Array]}
   restoreCompletedSubscription={[Function Subscriber]}
+  router={[Function Object]}
+  showIntegrationFinishedModal$={[Function Store]}
   store={[Function MockStore]}
   syncSchedulesBackup={[Function Array]}
   transferScheduleSummary={[Function Array]}
@@ -134,6 +160,28 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         </div>
       </div>
     </div>
+    <pf-modal-form>
+      
+      <h5
+        class="mb-3 setup-complete-modal-header"
+      >
+        Integration Setup Complete!
+      </h5>
+      <div
+        class="alert alert-success pb-5"
+      >
+         Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
+      </div>
+      <div
+        class=""
+      >
+        <button
+          class="btn btn-primary px-4 float-right"
+        >
+          Ok
+        </button>
+      </div>
+    </pf-modal-form>
   </pf-async-container>
 </pf-transfer-schedule>
 `;
