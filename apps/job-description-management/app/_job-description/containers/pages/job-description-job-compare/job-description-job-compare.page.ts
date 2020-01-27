@@ -9,7 +9,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-context.reducer';
-import { AsyncStateObj, ControlType, ControlTypeAttribute, JobDescriptionControl, UserContext } from 'libs/models';
+import { AsyncStateObj, CompanyDto, ControlType, ControlTypeAttribute, JobDescriptionControl, UserContext } from 'libs/models';
 import { JobDescription } from 'libs/models/jdm';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
@@ -41,8 +41,8 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
   @ViewChild('saveErrorModal', {static: true}) public saveErrorModal: SaveErrorModalComponent;
 
   identity$: Observable<UserContext>;
-  companyLogoSubscription: Subscription;
-  companyLogo$: Observable<AsyncStateObj<string>>;
+  companySubscription: Subscription;
+  company$: Observable<AsyncStateObj<CompanyDto>>;
   jobDescriptionSaveErrorSubscription: Subscription;
   appendToControlDataAttributeValueSubscription: Subscription;
   addSourcedControlDataRowSubscription: Subscription;
@@ -88,7 +88,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
       filter(sjda => !!sjda && !!sjda.obj),
       take(1)
     ).subscribe(jda => this.sourceJobDescription = cloneDeep(jda.obj));
-    this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogoAsync);
+    this.company$ = this.store.select(fromJobDescriptionReducers.getCompanyAsync);
     this.saveThrottle = new Subject();
 
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
@@ -104,13 +104,13 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
 
     // Get Identity
     this.identity$.subscribe(identity => {
-      this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
-        this.companyLogoPath = companyLogo && companyLogo.obj
-          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo.obj
+      this.companySubscription = this.company$.subscribe((company) => {
+        this.companyLogoPath = company && company.obj
+          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.obj.CompanyLogo
           : '';
       });
 
-      this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(identity.CompanyId));
+      this.store.dispatch(new fromJobDescriptionActions.LoadCompany(identity.CompanyId));
 
       // todo: move to job-description main page
       this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,
@@ -336,5 +336,6 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
     }
     this.jobDescriptionManagementDndService.destroyJobDescriptionManagementDnD();
     this.jobDescriptionDnDService.destroyJobDescriptionPageDnD();
+    this.companySubscription.unsubscribe();
   }
 }

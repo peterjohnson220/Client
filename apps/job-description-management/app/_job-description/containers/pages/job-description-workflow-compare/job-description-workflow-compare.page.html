@@ -1,0 +1,52 @@
+<pf-page-with-title-bar>
+  <ng-container page-title>
+    <button class="btn btn-danger" (click)="stopComparing()">
+      <fa-icon icon="times-circle"></fa-icon> Stop Comparing
+    </button>
+  </ng-container>
+  <ng-container page-actions>
+    <div class="px-2 align-self-center font-weight-bold">Comparing</div>
+    <kendo-dropdownlist [data]="jobDescriptionCompareList$ | async"
+                        [style.width]="'205px'"
+                        [textField]="'Name'"
+                        [valueField]="'StepNumber'"
+                        [ngModel]="sourceCompareItem$ | async"
+                        (valueChange)="handleSourceVersionChanged($event)">
+    </kendo-dropdownlist>
+
+    <div class="px-2 align-self-center font-weight-bold">to</div>
+
+    <kendo-dropdownlist [data]="jobDescriptionCompareList$ | async"
+                        [style.width]="'205px'"
+                        [textField]="'Name'"
+                        [valueField]="'StepNumber'"
+                        [ngModel]="comparisonCompareItem$ | async"
+                        (valueChange)="handleComparisonVersionChanged($event)">
+    </kendo-dropdownlist>
+  </ng-container>
+  <ng-container page-content>
+    <div class="row pf-inner-page-content">
+      <div class="col-12 column-scroll-container">
+        <div class="scroll-y column-scroll-inner">
+          <pf-job-description-info-header-with-logo
+            [jobDescription]="jobDescriptionComparison$ | async"
+            [jobInformationFields]="(jobDescriptionComparison$ | async)?.JobInformationFields"
+            [companyLogoPath]="companyLogoPath"
+            [companyName]="companyName">
+          </pf-job-description-info-header-with-logo>
+          <pf-job-description-compare-section-result
+            *ngFor="let section of (jobDescriptionComparison$ | async)?.Sections; let i = index"
+            [section]="section"
+            [controlTypesLoaded]="controlTypesLoaded$ | async"
+            [index]="i">
+          </pf-job-description-compare-section-result>
+        </div>
+        <pf-async-container
+          [loading]="(jobDescriptionComparisonLoading$ | async) || (jobDescriptionComparisonLoadingError$ | async)"
+          [loadingError]="jobDescriptionComparisonLoadingError$ | async"
+          [loadingErrorMessage]="'Error comparing job description'">
+        </pf-async-container>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>

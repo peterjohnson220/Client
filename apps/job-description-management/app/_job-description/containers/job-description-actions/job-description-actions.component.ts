@@ -1,13 +1,14 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
 import * as fromRootState from 'libs/state/state';
-import { AsyncStateObj, JobDescription, UserContext } from 'libs/models';
+import { AsyncStateObj, CompanyDto, CompanySettingsEnum, JobDescription, UserContext } from 'libs/models';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromJobDescriptionReducers from '../../reducers';
 import * as fromJobDescriptionActions from '../../actions/job-description.actions';
@@ -49,6 +50,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   jobMatchesAsync$: Observable<AsyncStateObj<JobMatchResult[]>>;
+  company$: Observable<AsyncStateObj<CompanyDto>>;
 
   identitySubscription: Subscription;
   jobDescriptionSubscription: Subscription;
@@ -57,12 +59,14 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsyncSubscription: Subscription;
   inHistorySubscription: Subscription;
   jobMatchesAsyncSubscription: Subscription;
+  companySubscription: Subscription;
 
   jobDescription: JobDescription;
   jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
   jobDescriptionViews: string[];
   identity: UserContext;
   inWorkflow: boolean;
+  isFirstRecipient: boolean;
   undoQueueAvailable: boolean;
   containsFLSA: boolean;
   inHistory: boolean;
@@ -74,12 +78,14 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   hasCanCancelWorkflowPermission: boolean;
   viewName = 'Default';
   jobMatchesAsync: AsyncStateObj<JobMatchResult[]>;
+  enableLibraryForRoutedJobDescriptions: boolean;
 
   constructor(
     private store: Store<fromJobDescriptionReducers.State>,
     private userContextStore: Store<fromRootState.State>,
     private permissionService: PermissionService,
-    private router: Router
+    private router: Router,
+    private settingsService: SettingsService
   ) {
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
@@ -94,15 +100,22 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.acknowledgementDisabled$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementError);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.jobMatchesAsync$ = this.store.select(fromJobDescriptionReducers.getJobMatchesAsync);
+    this.company$ = this.store.select(fromJobDescriptionReducers.getCompanyAsync);
 
     this.initPermissions();
   }
 
   ngOnInit(): void {
+
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
+
       this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
       this.inWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
+      if (this.inWorkflow) {
+        this.store.dispatch(new fromJobDescriptionActions.LoadCompany(userContext.CompanyId));
+      }
+      this.isFirstRecipient = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.IsFirstRecipient;
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(asyncStateObj => {
       if (!!asyncStateObj && !!asyncStateObj.obj) {
@@ -122,6 +135,11 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     });
     this.inHistorySubscription = this.inHistory$.subscribe(value => this.inHistory = value);
     this.jobMatchesAsyncSubscription = this.jobMatchesAsync$.subscribe(asyncObj => this.jobMatchesAsync = asyncObj);
+    this.companySubscription = this.company$.subscribe((company) => {
+      if (company.obj) {
+        this.enableLibraryForRoutedJobDescriptions = company.obj.EnableLibraryForRoutedJobDescriptions;
+      }
+    });
   }
 
   ngOnDestroy(): void {

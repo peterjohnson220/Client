@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -7,11 +7,9 @@ import { AsyncStateObj } from 'libs/models/state';
 import { copyTextToClipboard } from 'libs/core/functions';
 import { JobDescription } from 'libs/models/jdm';
 
-
 import * as fromWorkflowReducer from '../../../reducers';
 import { JobDescriptionManagementJobDescriptionState } from '../../../reducers';
 import * as fromWorkflowActions from '../../../actions/workflow.actions';
-
 import { WorkflowLogEntry, WorkflowStepSummaryItem } from '../../../models';
 
 @Component({
@@ -19,7 +17,7 @@ import { WorkflowLogEntry, WorkflowStepSummaryItem } from '../../../models';
   templateUrl: './workflow-watch-sidebar.component.html',
   styleUrls: ['./workflow-watch-sidebar.component.scss']
 })
-export class WorkflowWatchSidebarComponent implements OnChanges, OnInit {
+export class WorkflowWatchSidebarComponent implements OnChanges, OnInit, OnDestroy {
   @Input() workflowId: number;
   @Input() jobDescription: JobDescription;
   @Input() showSubway: true;
@@ -68,5 +66,9 @@ export class WorkflowWatchSidebarComponent implements OnChanges, OnInit {
       this.store.dispatch(new fromWorkflowActions.LoadWorkflowLogEntries(
         {jobDescriptionId: this.jobDescription.JobDescriptionId, jobDescriptionRevision: this.jobDescription.JobDescriptionRevision}));
     }
+  }
+
+  ngOnDestroy(): void {
+    this.workflowLinkSub.unsubscribe();
   }
 }

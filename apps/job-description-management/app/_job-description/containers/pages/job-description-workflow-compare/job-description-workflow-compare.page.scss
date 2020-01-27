@@ -1,0 +1,80 @@
+::ng-deep .page-header div h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  padding-top: .5rem;
+  padding-left: .5rem;
+}
+
+::ng-deep .btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d9534f !important;
+}
+
+::ng-deep .btn {
+  display: inline-block;
+  font-weight: normal;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+  cursor: default !important;
+}
+
+::ng-deep .k-dropdown .k-dropdown-wrap {
+  color: #292b2c;
+  background-color: #fff;
+  border-color: #cccccc;
+  cursor: default !important;
+}
+
+::ng-deep .k-list .k-item .k-state-selected {
+  color: #fff;
+  background-color: #1872ae;
+}
+
+::ng-deep .k-widget {
+  color: #292b2c;
+  background-color: #fff;
+  border-color: #e0e0e0;
+}
+
+::ng-deep .k-dropdown .k-state-focused {
+  box-shadow: 0 0 0 2px rgba(204, 204, 204, .5);
+}
+
+::ng-deep .k-dropdown > :hover {
+  color: #292b2c !important;
+  background-color: #e6e6e6 !important;
+  border-color: #adadad !important;
+}
+
+::ng-deep .k-list .k-item.k-state-selected {
+  color: #fff !important;
+  background-color: #1872ae !important;
+}
+
+::ng-deep .btn-secondary {
+  color: #292b2c;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+::ng-deep .card-block {
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+
+::ng-deep .btn-sm, .btn-group-sm > .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+}
