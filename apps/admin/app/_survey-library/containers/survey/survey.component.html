@@ -50,10 +50,10 @@
                 Copy Survey
               </button>
               &nbsp;
-              <ng-container *ngIf="isUserGroupOne() && item.CompanyCount <= 1">
+              <ng-container *ngIf="isUserGroupOne()">
                 <button type="button"
                         class="btn btn-danger btn-sm"
-                        *ngIf="item.PublishMatchCount > 0 || item.ProjectMatchCount > 0"
+                        *ngIf="(item.PublishMatchCount > 0 || item.ProjectMatchCount > 0) &&  item.CompanyCount <= 1"
                         (click)="deletePublishedMatches(item)">
                   Delete Published Matches
                 </button>

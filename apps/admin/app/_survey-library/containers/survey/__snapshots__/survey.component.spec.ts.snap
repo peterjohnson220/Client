@@ -107,6 +107,12 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
               </button>
                  
               
+              
+              
+              
+                 
+              
+              
             </td>
           </tr>
         </tbody>
@@ -235,6 +241,12 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
                  Copy Survey 
               </button>
                  
+              
+              
+              
+              
+                 
+              
               
             </td>
           </tr>
