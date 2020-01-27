@@ -50,7 +50,7 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.controlTypeSubscription = this.sharedStore
-      .select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersion).pipe(
+      .select(fromJobDescriptionManagementSharedReducer.getControlTypes).pipe(
         filter(cts => !!cts)
       ).subscribe(cts => {
         const ct = cts.find(control => control.Type === this.jobDescriptionControl.Type

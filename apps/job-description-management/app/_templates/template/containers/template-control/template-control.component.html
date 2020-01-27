@@ -1,0 +1,41 @@
+<div class="card mb-3">
+  <div class="card-header" [class.control-drag-handle]="!readOnly" [style.border-left-color]="controlType?.Color">
+      {{templateControl.Label}} 
+      <div class="btn-group float-right">
+          <button *ngIf="editingTemplateSettings && controlSetting?.ShowLabelOnExport" class="btn btn-sm btn-secondary text-success" (click)="hideOnExport()">
+            <fa-icon icon="eye" aria-hidden="true"></fa-icon> Header
+          </button>
+          <button *ngIf="editingTemplateSettings && !controlSetting?.ShowLabelOnExport" class="btn btn-sm btn-secondary text-danger" (click)="showOnExport()">
+            <fa-icon icon="eye-slash" aria-hidden="true"></fa-icon> Header
+          </button>   
+          <button *ngIf="controlType?.EditorType === 'List' && !readOnly" class="btn btn-sm btn-secondary" (click)="addDataRow(true)">
+            <fa-icon icon="plus" aria-hidden="true"></fa-icon>
+          </button>
+          <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+              <span *ngIf="hideBody"><fa-icon icon="caret-down" aria-hidden="true"></fa-icon></span>
+              <span *ngIf="!hideBody"><fa-icon icon="caret-up" aria-hidden="true"></fa-icon></span>
+          </button>
+          <button *ngIf="!readOnly" class="btn btn-sm btn-secondary" (click)="editControlLabel()">
+            <fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon>
+          </button>
+          <button *ngIf="!readOnly" class="btn btn-sm btn-secondary" (click)="deleteControl()">
+            <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
+          </button>
+      </div>
+  </div>
+  <div class="card-block" [hidden]="hideBody">
+     <pf-control-data-renderer
+              [attr.data-section-id]="templateControl.SectionId"
+              [attr.data-control-id]="templateControl.Id"
+              [controlType]="controlType"
+              [data]="templateControl.Data"
+              [readOnly]="readOnly"
+              [checkInheritedData]="false"
+              [additionalProperties]="templateControl.AdditionalProperties"
+              (dataChangesDetected)="handleDataChangesDetected($event)"
+              (dataRowDeleted)="handledDataRowDeleted($event)"
+              (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
+              (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
+      </pf-control-data-renderer>
+  </div>
+</div>

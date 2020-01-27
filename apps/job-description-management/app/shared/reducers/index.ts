@@ -12,6 +12,7 @@ import * as fromControlTypesReducer from './control-types.reducer';
 import * as fromJobDescriptionLibraryReducer from './job-description-library.reducer';
 import * as fromSharedWorkflowReducer from './shared-workflow.reducer';
 import * as fromWorkflowConfigReducer from './workflow-config.reducer';
+import * as fromCompanyLogoReducer from './company-logo.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementSharedState {
@@ -23,6 +24,7 @@ export interface JobDescriptionManagementSharedState {
   jobDescriptionLibrary: fromJobDescriptionLibraryReducer.State;
   sharedWorkflow: fromSharedWorkflowReducer.State;
   workflowConfig: fromWorkflowConfigReducer.State;
+  companyLogo: fromCompanyLogoReducer.State;
 }
 
 // Extend root state with feature area state
@@ -39,7 +41,8 @@ export const reducers = {
   templateList: fromTemplateListReducer.reducer,
   jobDescriptionLibrary: fromJobDescriptionLibraryReducer.reducer,
   sharedWorkflow: fromSharedWorkflowReducer.reducer,
-  workflowConfig: fromWorkflowConfigReducer.reducer
+  workflowConfig: fromWorkflowConfigReducer.reducer,
+  companyLogo: fromCompanyLogoReducer.reducer
 };
 
 // Select Feature Area
@@ -85,6 +88,42 @@ export const selectSharedWorkflowState = createSelector(
 export const selectWorkflowConfigState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementSharedState) => state.workflowConfig
+);
+
+export const selectCompanyLogoState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementSharedState) => state.companyLogo
+);
+
+// Company Logo
+export const getCompanyLogo = createSelector(
+  selectCompanyLogoState,
+  fromCompanyLogoReducer.getCompanyLogoAsync
+);
+
+export const getCompany = createSelector(
+  selectCompanyLogoState,
+  fromCompanyLogoReducer.getCompany
+);
+
+export const getCompanyLogos = createSelector(
+  selectCompanyLogoState,
+  fromCompanyLogoReducer.getCompanyLogos
+);
+
+export const getCompanyLogosLoading = createSelector(
+  selectCompanyLogoState,
+  fromCompanyLogoReducer.getCompanyLogosLoading
+);
+
+export const getCompanyLogosLoadingError = createSelector(
+  selectCompanyLogoState,
+  fromCompanyLogoReducer.getCompanyLogosLoadingError
+);
+
+export const getCompanyLogosLoadingErrorMessage = createSelector(
+  selectCompanyLogoState,
+  fromCompanyLogoReducer.getCompanyLogosLoadingErrorMessage
 );
 
 // Company FLSA Status
@@ -191,14 +230,24 @@ export const getControlTypesLoaded = createSelector(
   fromControlTypesReducer.getControlTypesLoaded
 );
 
-export const getControlTypeAndVersion = createSelector(
-  selectControlTypesState,
-  fromControlTypesReducer.getControlTypeAndVersion
-);
-
 export const getControlTypeAndVersionAsync = createSelector(
   selectControlTypesState,
-  fromControlTypesReducer.getControlTypeAndVersionAsync
+  fromControlTypesReducer.getControlTypesAsync
+);
+
+export const getControlTypesLoading = createSelector(
+  selectControlTypesState,
+  fromControlTypesReducer.getControlTypesLoading
+);
+
+export const getControlTypes = createSelector(
+  selectControlTypesState,
+  fromControlTypesReducer.getControlTypes
+);
+
+export const getLatestControlTypes = createSelector(
+  selectControlTypesState,
+  fromControlTypesReducer.getLatestControlTypes
 );
 
 // Job Description Library

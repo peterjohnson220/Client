@@ -11,10 +11,12 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromJobDescriptionReducers from '../../reducers';
+import * as fromCompanyLogoActions from '../../../shared/actions/company-logo.actions';
 import * as fromJobDescriptionActions from '../../actions/job-description.actions';
 import * as fromJobMatchesActions from '../../actions/job-matches.actions';
 import { EmployeeAcknowledgement, JobDescriptionExtendedInfo, JobMatchResult } from '../../models';
 import { JobDescriptionHelper } from '../../helpers';
+import * as fromJobDescriptionManagementSharedReducer from '../../../shared/reducers';
 
 @Component({
   selector: 'pf-job-description-actions',
@@ -50,7 +52,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   jobMatchesAsync$: Observable<AsyncStateObj<JobMatchResult[]>>;
-  company$: Observable<AsyncStateObj<CompanyDto>>;
+  company$: Observable<CompanyDto>;
 
   identitySubscription: Subscription;
   jobDescriptionSubscription: Subscription;
@@ -82,6 +84,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   enableLibraryForRoutedJobDescriptions: boolean;
 
   constructor(
+    private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
     private store: Store<fromJobDescriptionReducers.State>,
     private userContextStore: Store<fromRootState.State>,
     private permissionService: PermissionService,
@@ -101,7 +104,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.acknowledgementDisabled$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementError);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.jobMatchesAsync$ = this.store.select(fromJobDescriptionReducers.getJobMatchesAsync);
-    this.company$ = this.store.select(fromJobDescriptionReducers.getCompanyAsync);
+    this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
 
     this.initPermissions();
   }
@@ -114,7 +117,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
       this.inWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
       if (this.inWorkflow) {
-        this.store.dispatch(new fromJobDescriptionActions.LoadCompany(userContext.CompanyId));
+        this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
       }
       this.isFirstRecipient = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.IsFirstRecipient;
     });
@@ -137,8 +140,8 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.inHistorySubscription = this.inHistory$.subscribe(value => this.inHistory = value);
     this.jobMatchesAsyncSubscription = this.jobMatchesAsync$.subscribe(asyncObj => this.jobMatchesAsync = asyncObj);
     this.companySubscription = this.company$.subscribe((company) => {
-      if (company.obj) {
-        this.enableLibraryForRoutedJobDescriptions = company.obj.EnableLibraryForRoutedJobDescriptions;
+      if (company) {
+        this.enableLibraryForRoutedJobDescriptions = company.EnableLibraryForRoutedJobDescriptions;
       }
     });
     this.isFilteredView = this.viewName !== 'Default';

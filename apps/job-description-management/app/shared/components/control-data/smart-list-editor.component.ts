@@ -3,6 +3,8 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { ControlTypeAttribute } from 'libs/models/common';
 
 import { BulletType, SmartListHierarchy } from '../../models';
@@ -394,7 +396,8 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   setListType(listType: string) {
-    this.additionalProperties = this.additionalProperties || {};
+    this.additionalProperties = this.additionalProperties ? cloneDeep(this.additionalProperties) : {};
+
     if (this.additionalProperties.ListType !== listType) {
       this.additionalProperties.ListType = listType;
       this.additionalPropertiesChangesDetected.emit({ ListType: listType });

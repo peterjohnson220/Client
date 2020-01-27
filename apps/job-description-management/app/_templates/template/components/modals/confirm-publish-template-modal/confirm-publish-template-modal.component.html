@@ -1,0 +1,22 @@
+<ng-template #confirmPublishTemplateModal>
+  <div class="modal-header">
+      <h4 class="modal-title">Publish {{templateName}} Template</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div *ngIf="!templateAssignmentSummary.AssignedJobsInReview" class="modal-body">
+      <p>Publishing these changes will affect the <strong>{{templateAssignmentSummary.AssignedJobs}}</strong> job(s) associated to this template.</p>
+      <p>Would you like to continue?</p>
+  </div>
+  <div *ngIf="templateAssignmentSummary.AssignedJobsInReview" class="modal-body">
+      <p>Template locked from Publishing. <strong>{{templateAssignmentSummary.AssignedJobsInReview}}</strong> Job Description(s) associated to this template are in a review status. Edits made to the template are saved, but cannot be Published at this time.
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">
+          <span *ngIf="!templateAssignmentSummary.AssignedJobsInReview">Cancel</span>
+          <span *ngIf="templateAssignmentSummary.AssignedJobsInReview">Close</span>
+      </button>
+      <button *ngIf="!templateAssignmentSummary.AssignedJobsInReview" type="button" class="btn btn-success" [disabled]="templatePublishing" (click)="publishConfirmed()">Publish</button>
+  </div>
+</ng-template>

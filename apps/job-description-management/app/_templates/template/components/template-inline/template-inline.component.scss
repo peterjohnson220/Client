@@ -1,0 +1,35 @@
+.edit-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.edit-link-hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.edit-link-error {
+    font-size: 14px;
+    margin-left: 3px;
+}
+
+.btn {
+    margin-right: 0px;
+}
+.inlineEditWrapper {
+    display: inline-block;
+}
+
+.inlineEditor {
+    display: inline-block;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.inlineEditor input, select {
+    display: inline;
+}
+
+[hidden] {
+    display: none;
+}

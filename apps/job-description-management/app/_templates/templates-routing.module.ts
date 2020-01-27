@@ -4,7 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {AuthorizationGuard} from 'libs/security/guards';
 import {PermissionCheckEnum, Permissions} from 'libs/constants';
 
-import { TemplateListPageComponent, TemplatePageComponent } from './containers/pages';
+import { TemplateListPageComponent } from './template-list';
+import { TemplatePageComponent } from './template';
 
 const routes: Routes = [
   {
