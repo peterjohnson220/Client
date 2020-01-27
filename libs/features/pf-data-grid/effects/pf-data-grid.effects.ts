@@ -73,7 +73,6 @@ export class PfDataGridEffects {
             ),
             switchMap((data) => {
                 if (data.fields) {
-                  this.store.dispatch(new fromPfDataGridActions.CloseSplitView(data.action.pageViewId));
                     return this.dataViewApiService
                         .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(
                             data.baseEntity ? data.baseEntity.Id : null,
@@ -186,6 +185,7 @@ export class PfDataGridEffects {
                 fromPfDataGridActions.UPDATE_SORT_DESCRIPTOR),
             mergeMap((action: any) => {
                 return [
+                    new fromPfDataGridActions.CloseSplitView(action.pageViewId),
                     new fromPfDataGridActions.UpdatePagingOptions(action.pageViewId, fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS)
                 ];
             })
