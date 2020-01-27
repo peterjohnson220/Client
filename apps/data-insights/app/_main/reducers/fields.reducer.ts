@@ -196,7 +196,7 @@ export const getUnselectedFields = (state: State) => {
 export const getUserFormulas = (state: State) => {
   if (state.reportFieldsAsync.obj) {
     const formulaFields = state.reportFieldsAsync.obj.filter((f: Field) => f.FieldType === FieldType.Formula && f.IsEditable === true);
-    return orderBy(formulaFields, [(x: Field) => x.DisplayName.toLowerCase()], 'asc');
+    return orderBy(formulaFields, [(x: Field) => x.FormulaName.toLowerCase()], 'asc');
   }
 };
 export const getFormulaFieldSuggestions = (state: State) => {
