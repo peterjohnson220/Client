@@ -32,7 +32,7 @@
 
 <ng-template #gridActions>
   <button
-    [pfSecuredResource]="permissions.NEW_PROJECT" 
+    [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-addJobsToProject'"
     type="button"
     [disabled]="!selectedKeys || selectedKeys.length==0"
@@ -80,7 +80,7 @@
   </ng-container>
 </pf-modal-form>
 
-<pf-job-management 
+<pf-job-management
   [showJobForm]="addingNewJob"
   (cancelChanges)="addingNewJob = false">
 </pf-job-management>
@@ -88,19 +88,19 @@
 <ng-template #peerFilter>
   <div class="row">
     <div class="col-6">
-      Peer Matches:
-    </div>
-    <div class="col-6">
-      <kendo-dropdownlist
-        [data]="peerFilterOptions"
-        [textField]="'display'"
-        [valueField]="'value'"
-        [valuePrimitive]="true"
-        [ngModel]="peerField.FilterValue"
-        (valueChange)="handlePeerFilterChanged($event)"
-        [attr.data-qa-id]="'ddm-operator-'+peerField.SourceName"
-        class="k-dropdown-white form-control">
-      </kendo-dropdownlist>
+      <label>Peer:</label>
+      <div>
+        <kendo-dropdownlist
+          [data]="peerFilterOptions"
+          [textField]="'display'"
+          [valueField]="'value'"
+          [valuePrimitive]="true"
+          [ngModel]="peerField.FilterValue"
+          (valueChange)="handlePeerFilterChanged($event)"
+          [attr.data-qa-id]="'ddm-operator-'+peerField.SourceName"
+          class="k-dropdown-white form-control">
+        </kendo-dropdownlist>
+      </div>
     </div>
   </div>
 </ng-template>
