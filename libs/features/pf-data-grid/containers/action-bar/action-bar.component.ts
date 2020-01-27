@@ -20,6 +20,7 @@ export class ActionBarComponent implements OnChanges {
   @Input() globalActionsTemplate: TemplateRef<any>;
   @Input() globalFiltersTemplate: TemplateRef<any>;
   @Input() globalFilters: ViewField[];
+  @Input() showActionBar = false;
   @Output() onFilterSidebarToggle = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;

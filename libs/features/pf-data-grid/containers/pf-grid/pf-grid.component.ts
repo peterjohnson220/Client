@@ -31,6 +31,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
   @Input() allowSort = true;
+  @Input() customHeaderClass: string;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -137,7 +138,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   getHeaderClass() {
-    return this.compactGrid ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
+    const headerClass = this.compactGrid ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
+    return `${this.customHeaderClass || ''} ${headerClass}`.trim();
   }
 
   getRowClasses = (context: RowClassArgs) => ({

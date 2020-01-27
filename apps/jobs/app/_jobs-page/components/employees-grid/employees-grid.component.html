@@ -4,10 +4,13 @@
   [showColumnChooser] ="false"
   [showFilterChooser] ="false"
   [allowExport]="false"
-  [contentNoPadding]="true"  
-  [columnTemplates]="colTemplates" 
+  [contentNoPadding]="true"
+  [columnTemplates]="colTemplates"
   [inboundFilters]="filters"
-  [defaultSort]="defaultSort">
+  [defaultSort]="defaultSort"
+  [showActionBar]="true"
+  [actionBarClassName]="'employee-grid-action-bar'"
+  [headerClassName]="'employee-grid-header'">
 </pf-data-grid>
 
 <ng-template #employeeColumn let-dataRow="dataRow">
