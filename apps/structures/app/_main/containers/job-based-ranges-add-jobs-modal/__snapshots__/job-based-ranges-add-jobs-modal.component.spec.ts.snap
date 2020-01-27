@@ -38,24 +38,11 @@ exports[`Structures - Job Based Ranges Add Jobs - Modal should not display GUI f
     
     <pf-search-layout>
       
-      
-      <div
-        class="create-new-job disabledButton"
-        data-qa-id="btn-createNewJobNav"
-      >
-        <div
-          class="search-action"
-        >
-          <fa-icon />
-           Create New Job 
-        </div>
-      </div>
       <pf-search-filters />
       
       
       <pf-results-header />
       <pf-job-based-ranges-search-results />
-      <pf-paymarkets />
       
       
       
@@ -69,7 +56,6 @@ exports[`Structures - Job Based Ranges Add Jobs - Modal should not display GUI f
         <button
           class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
           data-qa-id="btn-addJobs"
-          disabled=""
         >
           
           

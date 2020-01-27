@@ -22,6 +22,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfAddJobsModule } from 'libs/features/add-jobs';
 import { PfSearchModule } from 'libs/features/search';
+import { UserFilterPopoverConfig } from 'libs/features/user-filter/models';
 
 import * as fromFaIcons from './fa-icons';
 import {
@@ -49,6 +50,7 @@ import {
   JobBasedRangesAddJobsModalComponent,
   JobBasedRangesSearchResultsComponent
 } from './containers';
+import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data/job-based-ranges-add-jobs-user-filter-popover-config';
 
 @NgModule({
   imports: [
@@ -107,7 +109,8 @@ import {
   ],
   providers: [
     WindowRef,
-    WindowCommunicationService
+    WindowCommunicationService,
+    {provide: UserFilterPopoverConfig, useValue: JobBasedRangesAddJobsUserFilterPopoverConfig}
   ]
 })
 export class MainModule {

@@ -2853,7 +2853,8 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/structures/styles.scss"
+              "apps/structures/styles.scss",
+              "apps/structures/outside-view-encapsulation.scss"
             ],
             "scripts": [
               "assets/js/pendo.js"

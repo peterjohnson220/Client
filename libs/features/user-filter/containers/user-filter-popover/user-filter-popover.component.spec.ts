@@ -13,7 +13,7 @@ import * as fromUserFilterPopoverActions from '../../actions/user-filter-popover
 import * as fromUserFilterActions from '../../actions/user-filter.actions';
 import * as fromUserFilterReducer from '../../reducers';
 import { UserFilterPopoverComponent } from './user-filter-popover.component';
-import { generateMockSavedFilter } from '../../models';
+import { UserFilterPopoverConfig, generateMockSavedFilter } from '../../models';
 
 describe('User Filter Feature - Saved Filters Popover', () => {
   let fixture: ComponentFixture<UserFilterPopoverComponent>;
@@ -31,6 +31,9 @@ describe('User Filter Feature - Saved Filters Popover', () => {
       ],
       declarations: [
         UserFilterPopoverComponent
+      ],
+      providers: [
+        {provide: UserFilterPopoverConfig, useValue: {}}
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

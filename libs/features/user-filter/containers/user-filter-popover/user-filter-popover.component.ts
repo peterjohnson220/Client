@@ -14,6 +14,7 @@ import * as fromUserFilterPopoverActions from '../../actions/user-filter-popover
 import * as fromUserFilterReducer from '../../reducers';
 
 import {
+  UserFilterPopoverConfig,
   SavedFilter,
   SaveFilterModalData
 } from '../../models';
@@ -52,7 +53,8 @@ export class UserFilterPopoverComponent implements OnInit, OnDestroy {
   hasSelectedSavedFilter: boolean;
 
   constructor(
-    private store: Store<fromUserFilterReducer.State>
+    private store: Store<fromUserFilterReducer.State>,
+    public userFilterPopoverConfig: UserFilterPopoverConfig
   ) {
     this.loading$ = this.store.select(fromUserFilterReducer.getLoading);
     this.error$ = this.store.select(fromUserFilterReducer.getLoadingError);
