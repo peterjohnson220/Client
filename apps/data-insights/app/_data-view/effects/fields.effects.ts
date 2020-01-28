@@ -15,7 +15,7 @@ import * as fromFiltersActions from '../actions/filters.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import * as fromFormulaFieldModalActions from '../../_data-view/actions/formula-field.actions';
 import { PayfactorsApiModelMapper, FieldsHelper } from '../helpers';
-import { Field } from '../models';
+import { DataViewAccessLevel, Field } from '../models';
 
 @Injectable()
 export class FieldsEffects {
@@ -173,6 +173,25 @@ export class FieldsEffects {
           actions.push(new fromFieldsActions.RemoveSelectedField(existingField));
         }
         actions.push(new fromFieldsActions.RemoveFormulaField(data.action.payload));
+        return actions;
+      })
+    );
+
+  @Effect()
+  sortField$ = this.action$
+    .pipe(
+      ofType(fromFieldsActions.SORT_FIELD),
+      withLatestFrom(
+        this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync)),
+        (action: fromFieldsActions.SortField, userDataView) =>
+          ({ action, userDataView })
+      ),
+      mergeMap(data => {
+        const actions = [];
+        actions.push(new fromDataViewGridActions.GetData());
+        if (data.userDataView.obj.AccessLevel !== DataViewAccessLevel.ReadOnly) {
+          actions.push(new fromFieldsActions.SaveReportFields());
+        }
         return actions;
       })
     );

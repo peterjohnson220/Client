@@ -5,7 +5,6 @@ export interface DataViewDataRequest {
   Fields: DataViewField[];
   Filters: DataViewFilter[];
   PagingOptions: PagingOptions;
-  SortDescriptor?: DataViewSortDescriptor;
   WithCount: boolean;
 }
 
@@ -27,6 +26,8 @@ export interface DataViewField {
   IsEditable?: boolean;
   Formula?: string;
   FormulaName?: string;
+  SortOrder?: number;
+  SortDirection?: 'asc' | 'desc';
 }
 
 export interface BaseFilter {
@@ -60,11 +61,6 @@ export enum DataViewFieldDataType {
 export enum DataViewFieldType {
   DataElement = 'dataElement',
   Formula = 'formula'
-}
-
-export interface DataViewSortDescriptor {
-  SortDirection: 'desc' | 'asc';
-  SortField: DataViewField;
 }
 
 export function getMockDataViewFilter(): DataViewFilter {

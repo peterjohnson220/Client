@@ -297,16 +297,6 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
         duplicateUserReportSuccess: false
       };
     }
-    case fromDataViewActions.UPDATE_DATA_VIEW_SORT_DESCRIPTOR: {
-      const asyncStateObjClone: AsyncStateObj<UserDataView> = cloneDeep(state.userDataViewAsync);
-      asyncStateObjClone.obj.SortField = action.payload.sortField;
-      asyncStateObjClone.obj.SortDir = action.payload.sortDir;
-
-      return {
-        ...state,
-        userDataViewAsync: asyncStateObjClone
-      };
-    }
     default: {
       return state;
     }

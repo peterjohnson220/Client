@@ -9,7 +9,6 @@ export * from './duplicate-user-view-request.model';
 export * from './update-data-view-fields-request.model';
 export * from './delete-user-view-request.model';
 export * from './save-report-order-request.model';
-export * from './save-user-view-sort-order.model';
 export * from './data-view-filter-options-request.model';
 export * from './save-user-view-filters-request.model';
 export * from './share-user-data-view-request.model';

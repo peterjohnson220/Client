@@ -7,5 +7,7 @@ export interface UserDataElement {
   DataElementId?: number;
   DisplayName: string;
   Order: number;
-  FormulaId?: number;
+  UserFormulaId?: number;
+  SortOrder?: number;
+  SortDirection?: string;
 }

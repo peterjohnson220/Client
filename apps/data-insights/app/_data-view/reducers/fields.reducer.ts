@@ -179,6 +179,26 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
         reportFieldsAsync: reportFieldStateObjClone
       };
     }
+    case fromDataViewFieldsActions.SORT_FIELD: {
+      let fieldsClone = cloneDeep(state.selectedReportFields);
+      fieldsClone = fieldsClone.map(f => {
+        f.SortOrder = null;
+        f.SortDirection = null;
+        return f;
+      });
+      if (!!action.payload.field && !!action.payload.sortDirection) {
+        const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload.field);
+        if (fieldToUpdate) {
+          fieldToUpdate.SortOrder = 0;
+          fieldToUpdate.SortDirection = action.payload.sortDirection;
+        }
+      }
+
+      return {
+        ...state,
+        selectedReportFields: fieldsClone
+      };
+    }
     default: {
       return state;
     }

@@ -36,8 +36,6 @@ export class PayfactorsApiModelMapper {
       Name: response.DataView.Name,
       Summary: response.DataView.Summary,
       UserDataViewId: response.DataView.UserDataViewId,
-      SortField: response.DataView.SortField,
-      SortDir: response.DataView.SortDir,
       AccessLevel: response.DataView.AccessLevel
     };
   }
@@ -73,7 +71,9 @@ export class PayfactorsApiModelMapper {
       Format: dataViewField.Format,
       IsEditable: dataViewField.IsEditable,
       Formula: dataViewField.Formula,
-      FormulaName: dataViewField.FormulaName
+      FormulaName: dataViewField.FormulaName,
+      SortDirection: dataViewField.SortDirection,
+      SortOrder: dataViewField.SortOrder
     };
   }
 
@@ -135,7 +135,9 @@ export class PayfactorsApiModelMapper {
       IsSortable: field.IsSortable,
       FormulaId: field.FormulaId,
       FieldType: this.mapFieldTypeToDataViewFieldType(field.FieldType),
-      Format: field.Format
+      Format: field.Format,
+      SortDirection: field.SortDirection,
+      SortOrder: field.SortOrder
     };
   }
 
@@ -160,22 +162,11 @@ export class PayfactorsApiModelMapper {
     sortDescriptor: SortDescriptor,
     filters: Filter[],
     withCount: boolean): DataViewDataRequest {
-
-    let dataViewSortDesc = null;
-    if (!!sortDescriptor && !!sortDescriptor.dir && !!sortDescriptor.field) {
-      const field: Field = fields.find(x => x.KendoGridField === sortDescriptor.field);
-      const dataViewField: DataViewField = !!field ? this.mapFieldToDataViewField(field) : null;
-      dataViewSortDesc = {
-        SortField: dataViewField,
-        SortDirection: sortDescriptor.dir
-      };
-    }
     return {
       BaseEntityId: dataView.Entity.Id,
       Fields: PayfactorsApiModelMapper.mapFieldsToDataViewFields(fields),
       Filters: PayfactorsApiModelMapper.mapFiltersToDataViewFilters(filters),
       PagingOptions: pagingOptions,
-      SortDescriptor: dataViewSortDesc,
       WithCount: withCount
     };
   }
@@ -254,9 +245,7 @@ export class PayfactorsApiModelMapper {
     return {
       UserDataViewId: data.UserDataViewId,
       Name: data.Name,
-      Summary: data.Summary,
-      SortField: data.SortField,
-      SortDir: data.SortDir
+      Summary: data.Summary
     };
   }
 

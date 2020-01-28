@@ -58,9 +58,7 @@ export class DuplicateDataViewModalComponent extends AbstractBaseDataViewModal {
     return {
       ...this.userDataView,
       Name: this.baseDataViewForm.value.name,
-      Summary: this.baseDataViewForm.value.summary,
-      SortField: this.userDataView.SortField,
-      SortDir: this.userDataView.SortDir
+      Summary: this.baseDataViewForm.value.summary
     };
   }
 
