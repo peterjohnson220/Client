@@ -10,16 +10,21 @@
     </div>
     <div class="row my-3 provider-field-list" *ngIf="filteredProviderFields.length > 0">
       <div class="col pr-0">
-        <div class="" dragula="{{entityGroupName}}" [dragulaModel]="filteredProviderFields" id="provider-entity">
-          <div *ngFor="let field of filteredProviderFields" class="my-3 provider-field-list-item">
-            <label class="mx-3 p-2 my-0 entity">{{field.FieldName}}</label>
+        <div class="" [dragula]="entityGroupName" [dragulaModel]="filteredProviderFields" id="provider-entity">
+          <div *ngFor="let field of filteredProviderFields" class="w-100 px-4 my-3 provider-field-list-item">
+            <label
+              class="m-0 entity w-100 ellipsis-overflowing-text" 
+              [ngbTooltip]="field.FieldName"
+              placement="top-left"
+              container="body"
+            >{{field.FieldName}}</label>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-sm-1"> </div>
-  <div class="col">
+  <div class="col-sm-7">
     <h5>Payfactors Fields</h5>
     <div class="row">
       <div class="col-sm-5">
@@ -33,27 +38,50 @@
         <h5>FIELD NAME</h5>
       </div>
       <div class="pf-entity-table-body">
-        <div class="row py-3 {{ !isFirst ? 'border-top': ''}} payfactors-field-list-item"
-          *ngFor="let field of filteredPayfactorsFields; index as i; first as isFirst">
-          <div class="col-sm-3 p-2">
-            <div class="d-flex d-inline-flex align-items-center">
+        <div
+          class="row py-3 payfactors-field-list-item"
+          [class.border-top]="!isFirst"
+          *ngFor="let field of filteredPayfactorsFields; index as i; first as isFirst"
+          [dragula]="entityGroupName"
+          [dragulaModel]="field.AssociatedEntity"
+          [attr.payfactors-entity-id]="field.EntityFieldId"
+        >
+          <div
+            class="p-2"
+            [class.col]="field.AssociatedEntity.length === 0"
+            [class.col-sm-5]="field.AssociatedEntity.length > 0"
+          >
+            <div class="w-100 d-flex d-inline-flex align-items-center">
               <div style=" width: 21px; height: 31px;" class="mx-2" *ngIf="!field.HasDescription">&nbsp;</div>
-              <fa-icon icon="info-circle" placement="left" ngbTooltip="{{field.Description}}" class="mx-2" container="body"
+              <fa-icon icon="info-circle" placement="left" [ngbTooltip]="field.Description" class="mx-2" container="body"
                 style="font-size: 1.6rem;" *ngIf="field.HasDescription"></fa-icon>
-              <label class="{{field.IsRequired ? 'font-weight-bold' : ''}} mb-0">{{field.FieldName}}</label>
+              <label
+                class="w-100 mb-0 ellipsis-overflowing-text"
+                [class.font-weight-bold]="field.IsRequired"
+                [ngbTooltip]="field.FieldName"
+                placement="top-left"
+                container="body"
+              >{{field.FieldName}}</label>
             </div>
           </div>
-        <div id="associated-entity" class="col-sm-6 p-2 {{ field.AssociatedEntity.length > 0 ? 'associated-field-item': '' }}" 
-            dragula="{{entityGroupName}}" 
-            [attr.payfactors-entity-id]="filteredPayfactorsFields[i].EntityFieldId" 
-            [dragulaModel]="filteredPayfactorsFields[i].AssociatedEntity">
-            <div class="d-flex flex-row align-items-center">
-              <div class="mr-auto py-1" *ngFor="let associatedField of field.AssociatedEntity">
-                {{associatedField.FieldName}}
+          <div
+            *ngIf="field.AssociatedEntity.length > 0"
+            id="associated-entity"
+            class="col-sm-7 p-2 associated-field-item"
+          >
+            <div class="w-100 d-flex flex-row align-items-center">
+              <div
+                class="mr-auto py-1 flex-grow-1 min-width-1"
+                *ngFor="let associatedField of field.AssociatedEntity"
+              >
+                <label
+                  class="w-100 mb-0 ellipsis-overflowing-text"
+                  [ngbTooltip]="associatedField.FieldName"
+                  placement="top-left"
+                  container="body"
+                >{{associatedField.FieldName}}</label>
               </div>
-              <div *ngIf="field.AssociatedEntity.length > 0" class="p-0">
-                <button type="button" class="btn btn-outline-danger btn-remove-associated-entity px-4 py-1" (click)="removeAssociatedItem(field.EntityFieldId, field.AssociatedEntity[0])">REMOVE</button>
-              </div>
+              <button type="button" class="btn btn-outline-danger btn-remove-associated-entity px-4 py-1" (click)="removeAssociatedItem(field.EntityFieldId, field.AssociatedEntity[0])">REMOVE</button>
             </div>
           </div>
         </div>
