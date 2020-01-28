@@ -4,7 +4,9 @@
   </ng-container>
   <ng-container page-actions>
     <pf-action-bar
-      [pageViewId]="pageViewId" class="flex-fill"
+      class="flex-fill"
+      [ngClass]="actionBarClassName != null ? actionBarClassName : ''"
+      [pageViewId]="pageViewId"
       [showColumnChooser]="showColumnChooser"
       [showFilterChooser]="showFilterChooser"
       [allowExport]="allowExport"
@@ -12,7 +14,8 @@
       [globalFilterAlignment]="showTitle?'Right':'Left'"
       [globalActionsTemplate]="gridGlobalActionsTemplate"
       [globalFiltersTemplate]="gridGlobalFiltersTemplate"
-      (onFilterSidebarToggle)="toggleFilterPanel()">
+      (onFilterSidebarToggle)="toggleFilterPanel()"
+      [showActionBar]="showActionBar">
     </pf-action-bar>
   </ng-container>
   <ng-container page-content>
@@ -52,7 +55,8 @@
                     [compactGrid]="compactGrid"
                     [backgroundColor]="backgroundColor"
 		                [allowSort]="allowSort"
-                    [rowActionTemplate]="rowActionTemplate">
+                    [rowActionTemplate]="rowActionTemplate"
+                    [customHeaderClass]="headerClassName">
                   </pf-grid>
                 </div>
               </div>

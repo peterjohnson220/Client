@@ -46,6 +46,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
   @Input() allowSort = true;
+  @Input() showActionBar = false;
+  @Input() actionBarClassName: string;
+  @Input() headerClassName: string;
 
 
   splitViewEmitter = new EventEmitter<string>();
