@@ -17,8 +17,6 @@
   <ng-template #noResultsMessage>
     <div *ngIf="!(loadingResults$ | async)" class="no-results-message-container">
       No results. Please change your filter criteria and search again.
-
-      <h3>Job Results: {{jobResults$ | async}}</h3>
     </div>
   </ng-template>
 

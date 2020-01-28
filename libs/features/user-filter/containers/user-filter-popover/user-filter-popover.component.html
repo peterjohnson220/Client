@@ -6,11 +6,11 @@
   </div>
   <div class="search-action au-btn-view-filters"
        [ngbPopover]="popContent"
-       [popoverClass]="'saved-filters-popover'"
-       [container]="'body'"
-       [placement]="'bottom'"
-       [popoverTitle]="'Saved Filters'"
-       [autoClose]="'outside'"
+       [popoverClass]="userFilterPopoverConfig.popoverClass || 'saved-filters-popover'"
+       [container]="userFilterPopoverConfig.container || null"
+       [placement]="userFilterPopoverConfig.placement || 'bottom'"
+       [popoverTitle]="userFilterPopoverConfig.popoverTitle || 'Saved Filters'"
+       [autoClose]="userFilterPopoverConfig.autoClose || 'outside'"
        (shown)="handlePopoverShown()">
     Filters <fa-icon icon="caret-down"></fa-icon>
   </div>
