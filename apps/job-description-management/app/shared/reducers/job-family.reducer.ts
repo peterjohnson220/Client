@@ -6,12 +6,14 @@ export interface State {
   jobFamilies: string[];
   loadingJobFamilies: boolean;
   loadingJobFamiliesError: boolean;
+  errorMessage: string;
 }
 
 export const initialState: State = {
   jobFamilies: [],
   loadingJobFamilies: false,
-  loadingJobFamiliesError: false
+  loadingJobFamiliesError: false,
+  errorMessage: ''
 };
 
 export function reducer(state = initialState, action: fromJobFamilyActions.Actions): State {
@@ -25,13 +27,15 @@ export function reducer(state = initialState, action: fromJobFamilyActions.Actio
       return {
         ...state,
         loadingJobFamilies: false,
-        loadingJobFamiliesError: true
+        loadingJobFamiliesError: true,
+        errorMessage: action.payload.errorMessage
       };
     case fromJobFamilyActions.LOAD_JOB_FAMILIES_SUCCESS:
       return {
         ...state,
         loadingJobFamilies: false,
         loadingJobFamiliesError: false,
+        errorMessage: '',
         jobFamilies: cloneDeep(action.payload)
       };
     default:
@@ -42,3 +46,4 @@ export function reducer(state = initialState, action: fromJobFamilyActions.Actio
 export const getJobFamilies = (state: State) => state.jobFamilies;
 export const getJobFamiliesLoading = (state: State) => state.loadingJobFamilies;
 export const getJobFamiliesLoadingError = (state: State) => state.loadingJobFamiliesError;
+export const getJobFamiliesLoadingErrorMessage = (state: State) => state.errorMessage;

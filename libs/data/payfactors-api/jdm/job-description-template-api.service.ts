@@ -57,4 +57,12 @@ export class JobDescriptionTemplateApiService {
       return this.payfactorsApiService.get(`${this.endpoint}/Default.GetTemplatesWithControlType`, params);
   }
 
+  getDetail(templateId: number): Observable<Template> {
+      return this.payfactorsApiService.get(`${this.endpoint}(${templateId})/Default.GetDetail`, {}, (response) => JSON.parse(response.value));
+  }
+
+  getTemplateAssignmentSummary(templateId: number) {
+      return this.payfactorsApiService.get(`${this.endpoint}(${templateId})/Default.GetTemplateAssignmentSummary`);
+  }
+
 }

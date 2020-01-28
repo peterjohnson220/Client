@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
 })
 export class LoadingIndicatorComponent {
   @Input() spinnerType = 'SVG';
+  @Input() message: string;
 
   spinnerGifUrl = '../../marketdata/images/waittrans.gif';
 

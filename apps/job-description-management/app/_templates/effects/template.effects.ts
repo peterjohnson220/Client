@@ -8,7 +8,7 @@ import {Observable, of} from 'rxjs';
 
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 
-import * as fromTemplateActions from '../actions/template.actions';
+import * as fromTemplateActions from '../actions';
 import {ErrorGenerationService} from '../../shared/services';
 
 
@@ -51,6 +51,52 @@ export class TemplateEffects {
           map((response: string) => {
             return new fromTemplateActions.CopyTemplateSuccess({template: response});
           })
+        )
+      ));
+
+  @Effect()
+  loadTemplate$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTemplateActions.LOAD_TEMPLATE),
+      switchMap((action: fromTemplateActions.LoadTemplate) =>
+        this.templateApiService.getDetail(action.payload.templateId).pipe(
+          map((response: any) => {
+            return new fromTemplateActions.LoadTemplateSuccess(response);
+          }),
+          catchError(response => of(new fromTemplateActions.LoadTemplateError({errorMessage: 'Error Loading Template'})))
+        )
+      ));
+
+  @Effect({dispatch: false})
+  loadTemplateSuccess$ = this.actions$
+    .pipe(
+      ofType(fromTemplateActions.LOAD_TEMPLATE_SUCCESS),
+      map((action: fromTemplateActions.LoadTemplateSuccess) => {
+        this.router.navigate([`/templates/${action.payload.TemplateId}`]);
+      })
+    );
+
+  // In ARCH-121 I will change this and display an error message instead
+  @Effect({dispatch: false})
+  loadTemplateError$ = this.actions$
+    .pipe(
+      ofType(fromTemplateActions.LOAD_TEMPLATE_ERROR),
+      map(() => {
+        this.router.navigate(['/404']);
+      })
+    );
+
+
+  @Effect()
+  loadTemplateAssignmentSummary$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTemplateActions.LOAD_TEMPLATE_ASSIGNMENT_SUMMARY),
+      switchMap((action: fromTemplateActions.LoadTemplateAssignmentSummary) =>
+        this.templateApiService.getTemplateAssignmentSummary(action.payload.templateId).pipe(
+          map((response: any) => {
+            return new fromTemplateActions.LoadTemplateAssignmentSummarySuccess(response);
+          }),
+          catchError(response => of(new fromTemplateActions.LoadTemplateAssignmentSummaryError({errorMessage: 'Error Loading Template Assignment Summary'})))
         )
       ));
 

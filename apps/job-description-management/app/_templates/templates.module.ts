@@ -5,6 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {FontAwesomeModule, FaIconLibrary} from '@fortawesome/angular-fontawesome';
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -12,19 +13,25 @@ import { PfJobDescriptionManagementModule } from 'libs/features/job-description-
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 import {PfFormsModule} from 'libs/forms';
 
+import {SharedModule} from '../shared/shared.module';
+import * as fromFaIcons from '../_templates/fa-icons';
+import {ErrorGenerationService} from '../shared/services';
 import {TemplatesRoutingModule} from './templates-routing.module';
-import {TemplateListPageComponent} from './containers/pages/template-list';
+import { TemplatePageComponent, TemplateListPageComponent } from './containers';
+import {
+  TemplateListComponent,
+  TemplateActionsComponent,
+  CopyTemplateModalComponent,
+  AssignTemplateToJobModalComponent,
+  NewTemplateModalComponent } from './components';
 import { reducers } from './reducers';
 import {
   TemplateListEffects,
-  TemplateEffects
+  TemplateEffects,
+  CompanyJobAssignmentEffects
 } from './effects';
-import {SharedModule} from '../shared/shared.module';
-import {TemplateListComponent} from './components/template-list';
-import {CopyTemplateModalComponent} from './components/modals/copy-template';
-import {NewTemplateModalComponent} from './components/modals/new-template';
-import * as fromFaIcons from '../_templates/fa-icons';
-import {ErrorGenerationService} from '../shared/services';
+import { CompanyJobSearchPipe } from './pipes';
+
 
 @NgModule({
   imports: [
@@ -32,11 +39,12 @@ import {ErrorGenerationService} from '../shared/services';
     CommonModule,
 
     // 3rd Party
-    StoreModule.forFeature('jobDescriptionManagement_jobDescriptionTemplates',
-      reducers),
+    NgbTabsetModule,
+    StoreModule.forFeature('jobDescriptionManagement_jobDescriptionTemplates', reducers),
     EffectsModule.forFeature([
       TemplateEffects,
-      TemplateListEffects
+      TemplateListEffects,
+      CompanyJobAssignmentEffects
     ]),
 
     // Routing
@@ -62,11 +70,21 @@ import {ErrorGenerationService} from '../shared/services';
     TemplateListComponent,
 
     // Pages
-    TemplateListPageComponent
+    TemplateListPageComponent,
+    AssignTemplateToJobModalComponent,
+    TemplatePageComponent,
+    TemplateActionsComponent,
+
+    // Pipes
+    CompanyJobSearchPipe
   ],
   providers: [
+    // Services
     JobDescriptionTemplateApiService,
-    ErrorGenerationService
+    ErrorGenerationService,
+  ],
+  exports: [
+    TemplatePageComponent
   ]
 })
 export class TemplatesModule {

@@ -119,6 +119,11 @@ export const getJobFamiliesLoadingError = createSelector(
   fromJobFamilyReducer.getJobFamiliesLoadingError
 );
 
+export const getJobFamiliesLoadingErrorMessage = createSelector(
+  selectJobFamilyState,
+  fromJobFamilyReducer.getJobFamiliesLoadingErrorMessage
+);
+
 // Job Description Applies To
 export const getAppliesToAttributesExist = createSelector(
   selectJobDescriptionAppliesToState,

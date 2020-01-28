@@ -6,13 +6,26 @@ import { Template } from '../models';
   export const SAVE_TEMPLATE = '[JobDescription/Template] Save Template';
   export const SAVE_TEMPLATE_SUCCESS = '[JobDescription/Template] Save Template Success';
   export const SAVE_TEMPLATE_ERROR = '[JobDescription/Template] Save Template Error';
+
   export const CLEAR_SAVE_TEMPLATE_ERROR = '[JobDescription/Template] Clear Save Template Error';
+
   export const COPY_TEMPLATE = '[JobDescription/Template] Copy Template';
   export const COPY_TEMPLATE_SUCCESS = '[JobDescription/Template] Copy Template Success';
+
   export const DELETE_TEMPLATE = '[JobDescription/Template] Delete Template';
   export const DELETE_TEMPLATE_SUCCESS = '[JobDescription/Template] Delete Template Success';
   export const DELETE_TEMPLATE_ERROR = '[JobDescription/Template] Delete Template Error';
 
+  export const LOAD_TEMPLATE = '[JobDescription/Template] Load Template';
+  export const LOAD_TEMPLATE_SUCCESS = '[JobDescription/Template] Load Template Success';
+  export const LOAD_TEMPLATE_ERROR = '[JobDescription/Template] Load Template Error';
+
+  export const LOAD_TEMPLATE_ASSIGNMENT_SUMMARY = '[JobDescription/Template] Load Template Assignment Summary';
+  export const LOAD_TEMPLATE_ASSIGNMENT_SUMMARY_SUCCESS = '[JobDescription/Template] Load Template Assignment Summary Success';
+  export const LOAD_TEMPLATE_ASSIGNMENT_SUMMARY_ERROR = '[JobDescription/Template] Load Template Assignment Summary Error';
+
+  export const CLEAN_TEMPLATE_STATE = '[JobDescription/Template] Clean Template State';
+ 
   export class SaveTemplate implements Action {
     readonly type = SAVE_TEMPLATE;
 
@@ -61,7 +74,47 @@ import { Template } from '../models';
     readonly type = DELETE_TEMPLATE_ERROR;
   }
 
-  export type Actions
+  export class LoadTemplate implements Action {
+    readonly type = LOAD_TEMPLATE;
+
+    constructor(public payload: {templateId: number}) {}
+  }
+
+  export class LoadTemplateSuccess implements Action {
+    readonly type = LOAD_TEMPLATE_SUCCESS;
+
+    constructor(public payload: any) {}
+  }
+
+  export class LoadTemplateError implements Action {
+    readonly type = LOAD_TEMPLATE_ERROR;
+
+    constructor(public payload: {errorMessage: string}) {}
+  }
+
+  export class LoadTemplateAssignmentSummary implements Action {
+    readonly type = LOAD_TEMPLATE_ASSIGNMENT_SUMMARY;
+
+    constructor(public payload: {templateId: number}) {}
+  }
+
+  export class LoadTemplateAssignmentSummarySuccess implements Action {
+    readonly type = LOAD_TEMPLATE_ASSIGNMENT_SUMMARY_SUCCESS;
+
+    constructor(public payload: any) {}
+  }
+
+  export class LoadTemplateAssignmentSummaryError implements Action {
+    readonly type = LOAD_TEMPLATE_ASSIGNMENT_SUMMARY_ERROR;
+
+    constructor(public payload: {errorMessage: string}) {}
+  }
+
+  export class CleanTemplateState implements Action {
+    readonly type = CLEAN_TEMPLATE_STATE;
+  }
+
+  export type TemplateActions
   = SaveTemplate
   | SaveTemplateSuccess
   | SaveTemplateError
@@ -70,5 +123,11 @@ import { Template } from '../models';
   | CopyTemplateSuccess
   | DeleteTemplate
   | DeleteTemplateSuccess
-  | DeleteTemplateError;
-
+  | DeleteTemplateError
+  | LoadTemplate
+  | LoadTemplateSuccess
+  | LoadTemplateError
+  | LoadTemplateAssignmentSummary
+  | LoadTemplateAssignmentSummarySuccess
+  | LoadTemplateAssignmentSummaryError
+  | CleanTemplateState;
