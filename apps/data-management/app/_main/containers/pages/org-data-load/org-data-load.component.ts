@@ -7,12 +7,16 @@ import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
+import { LoaderTypes, LoadTypes } from 'libs/constants';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
-import { AppNotification, NotificationLevel, NotificationPayload, NotificationType } from 'libs/features/app-notifications/models';
+import {
+    AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
+} from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
 import { CompanySelectorItem } from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
+import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
@@ -21,8 +25,6 @@ import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/
 import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
-import { LoaderTypes, LoadTypes } from 'libs/constants';
-import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -75,7 +77,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   stepEnum = OrgUploadStep;
   companies: CompanySelectorItem[];
   public selectedCompany: CompanySelectorItem = null;
-  hasError = false;
   env = environment;
   organizationalDataTemplateLink: string;
   selectedDelimiter = this.defaultDelimiter;
@@ -123,7 +124,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     success: {
       NotificationId: '',
       Level: NotificationLevel.Info,
-      From: 'Organizational Data Loader',
+      From: NotificationSource.GenericNotificationMessage,
       Payload: {
         Title: 'Organizational Data Loader',
         Message: 'File(s) are being uploaded, you will receive an email when processing is complete.'
@@ -134,7 +135,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     error: {
       NotificationId: '',
       Level: NotificationLevel.Error,
-      From: 'Organizational Data Loader',
+      From: NotificationSource.GenericNotificationMessage,
       Payload: {
         Title: 'Organizational Data Loader',
         Message: 'Your file upload has failed. Please contact free@payfactors.com'
@@ -493,9 +494,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  orgDataExportAction() {
+  public orgDataExportAction() {
     if (this.selectedCompany) {
-      return `/odata/OrganizationalData/GetOrganizationalDataCsv?companyId=${this.selectedCompany.CompanyId}`;
+      this.mainStore.dispatch(new fromOrganizationalDataActions.PublishDownloadOrgDataMessage(this.selectedCompany.CompanyId));
     }
   }
 
@@ -510,13 +511,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   public setModalOpen(isOpen: boolean) {
     this.mainStore.dispatch(new fromOrganizationalDataActions.SetModalStateOpen(isOpen));
-  }
-
-  download(event) {
-    if (event.target.id === 'data') {
-      document.forms['OrgDataExportForm'].submit();
-    }
-    event.preventDefault();
   }
 
 

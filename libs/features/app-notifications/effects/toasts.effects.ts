@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { ActiveToast, IndividualConfig, ToastrService } from 'ngx-toastr';
+
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { tap } from 'rxjs/operators';
 
-import { ActiveToast, ToastrService } from 'ngx-toastr';
-
 import * as fromAppNotificationsActions from '../actions/app-notifications.actions';
-
-import { AppNotification, NotificationLevel, NotificationPayload, NotificationType, ProgressStatusPayload, NotificationHelper } from '../models';
+import {
+    AppNotification, NotificationHelper, NotificationLevel, NotificationPayload, NotificationSource, NotificationType,
+    NotificationWithFilePayload, ProgressStatusPayload
+} from '../models';
 
 @Injectable()
 export class ToastsEffects {
@@ -38,21 +40,57 @@ export class ToastsEffects {
     }
   }
 
+  private getNotificationDetails(notification: AppNotification<NotificationPayload>): any {
+    let toastHasFile = false;
+    let isGenericNotification = false;
+    if (notification.From === NotificationSource.GenericNotificationMessage) {
+      isGenericNotification = true;
+      const messagePayload = notification.Payload as NotificationWithFilePayload;
+      if (messagePayload.FileDownloadLink && messagePayload.FileDownloadLink.length > 0) {
+        toastHasFile = true;
+      }
+    }
+
+    return { toastHasFile: toastHasFile, isGenericNotification: isGenericNotification };
+
+  }
+
   private handleEventNotification(notification: AppNotification<NotificationPayload>): void {
     const eventMessage = this.notificationHelper.getEventMessage(notification);
+
+    const notificationDetail = this.getNotificationDetails(notification);
+
     switch (notification.Level) {
       case NotificationLevel.Success: {
         this.closeProgressNotification(notification);
-        this.toastr.success(eventMessage, notification.Payload.Title, {
+
+        const toastConfig = {
           enableHtml: notification.EnableHtml,
-          disableTimeOut: true
-        });
+          disableTimeOut: true,
+          tapToDismiss: true,
+        };
+
+        // for a generic message with download link we want to prevent misclicks so they get the file
+        if (notificationDetail.toastHasFile) {
+          toastConfig.tapToDismiss = false;
+        }
+
+        this.toastr.success(eventMessage, notification.Payload.Title, toastConfig);
         break;
       }
       case NotificationLevel.Info: {
-        this.toastr.info(eventMessage, notification.Payload.Title, {
-          enableHtml: notification.EnableHtml
-        });
+
+        const toastConfig = {
+          enableHtml: notification.EnableHtml,
+          timeOut: 5000
+        };
+
+        if (notificationDetail.isGenericNotification) {
+          // request from PO to show for longer
+          toastConfig.timeOut = 30000;
+        }
+
+        this.toastr.info(eventMessage, notification.Payload.Title, toastConfig);
         break;
       }
       case NotificationLevel.Warning: {
@@ -106,5 +144,5 @@ export class ToastsEffects {
     private action$: Actions,
     private toastr: ToastrService,
     private notificationHelper: NotificationHelper
-  ) {}
+  ) { }
 }

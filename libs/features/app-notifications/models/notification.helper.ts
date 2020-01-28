@@ -5,7 +5,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AppNotification, NotificationPayload, NotificationSource, ProgressStatusPayload } from './notification.model';
 import { DataInsightsMessageFormatter } from './data-insights-message-formatter.model';
 import { ExchangeDataCutsMessageFormatter } from './exchange-data-cuts-message-formatter';
-import { OrgDataLoadMessageFormatter } from './org-data-load-message-formatter';
+import { GenericMessageFormatter } from './generic-message-formatter';
 import { JobDescriptionBulkExportFormatter } from './job-description-bulk-export-formatter';
 
 @Injectable()
@@ -24,8 +24,8 @@ export class NotificationHelper {
         message = ExchangeDataCutsMessageFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
       }
-      case NotificationSource.OrgDataLoader: {
-        message = OrgDataLoadMessageFormatter.getEventMessage(notification.Level, notification.Payload);
+      case NotificationSource.GenericNotificationMessage: {
+        message = GenericMessageFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
       }
       case NotificationSource.JobDescriptionBulkExport: {

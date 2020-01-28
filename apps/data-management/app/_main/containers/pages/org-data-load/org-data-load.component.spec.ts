@@ -29,6 +29,7 @@ describe('OrgDataLoadComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
+
     store = TestBed.get(Store);
     fixture = TestBed.createComponent(OrgDataLoadComponent);
     instance = fixture.componentInstance;
@@ -46,7 +47,7 @@ describe('OrgDataLoadComponent', () => {
     let ret = instance.areStepsValid();
     expect(ret).toBe(false);
 
-    instance.selectedCompany = { CompanyId: 13, CompanyName: 'test' };
+    instance.selectedCompany = companies[0];
     ret = instance.areStepsValid();
     expect(ret).toBe(true);
 
@@ -155,6 +156,14 @@ describe('OrgDataLoadComponent', () => {
     const configGroupd: ConfigurationGroup = { GroupName: 'abc', CompanyId: 13, LoaderConfigurationGroupId: 34 };
     instance.AddAndSetSelectedMapping(configGroupd);
     expect(instance.selectedMapping.LoaderConfigurationGroupId).toEqual(configGroupd.LoaderConfigurationGroupId);
+  });
+
+  it('should dispatch action on click with valid company', () => {
+    instance.selectedCompany = companies[0];
+    instance.orgDataExportAction();
+    const action = new fromOrganizationalDataActions.PublishDownloadOrgDataMessage(companies[0].CompanyId);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+
   });
 
 });

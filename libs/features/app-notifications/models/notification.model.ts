@@ -24,6 +24,10 @@ export interface NotificationPayload {
   Message: string;
 }
 
+export interface NotificationWithFilePayload extends NotificationPayload {
+  FileDownloadLink: string;
+}
+
 export interface ProgressStatusPayload extends NotificationPayload {
   IsCompleted: boolean;
   PercentageComplete: number;
@@ -36,6 +40,6 @@ export interface SuccessStatusPayLoad extends NotificationPayload {
 export enum NotificationSource {
   DataInsights = 'Data Insights',
   ExchangeDataCutsExport = 'Exchange Data Cuts Exporter',
-  OrgDataLoader = 'Organizational Data Loader',
+  GenericNotificationMessage = 'Generic Notification Message',
   JobDescriptionBulkExport = 'Job Description Bulk Exporter'
 }
