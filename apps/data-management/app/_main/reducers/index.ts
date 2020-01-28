@@ -153,9 +153,9 @@ export const getHasError = createSelector(
   fromOrganizationalDataPageReducer.getHasError
 );
 
-export const getConfigurationGroup = createSelector(
+export const getConfigurationGroups = createSelector(
   selectOrganizationalDataPageState,
-  fromOrganizationalDataPageReducer.getConfigurationGroup
+  fromOrganizationalDataPageReducer.getConfigurationGroups
 );
 
 export const getSavedConfigurationGroup = createSelector(

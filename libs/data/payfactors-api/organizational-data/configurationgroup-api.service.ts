@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { ConfigurationGroup } from 'apps/data-management/app/_main/models';
-
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { ConfigurationGroup } from 'libs/models/data-loads';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable()
 
@@ -15,8 +15,9 @@ export class ConfigurationGroupApiService {
         private payfactorsApiService: PayfactorsApiService
     ) { }
 
-    getConfigurationGroup(companyId: number): Observable<ConfigurationGroup> {
-        return this.payfactorsApiService.get(`${this.endpoint}/GetManualOrgConfigGroup/${companyId}`);
+    getConfigurationGroups(companyId: number, loadType: string): Observable<ConfigurationGroup[]> {
+      const params = new HttpParams().set('loadType', loadType);
+      return this.payfactorsApiService.get(`${this.endpoint}/GetLoaderConfigurationGroups/${companyId}`, {params});
     }
 
     saveConfigurationGroup(configurationGroup: ConfigurationGroup) {
