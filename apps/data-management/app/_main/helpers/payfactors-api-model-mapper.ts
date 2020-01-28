@@ -46,7 +46,8 @@ export class PayfactorsApiModelMapper {
       ProviderName: response.providerName,
       ProviderCode: response.providerCode,
       ImageUrl: response.providerImageUrl,
-      AuthenticationTypeId: response.authenticationType_ID
+      AuthenticationTypeId: response.authenticationType_ID,
+      Active: response.active,
     };
   }
 
