@@ -5,14 +5,31 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
+import { DataImportApiService } from 'libs/data/payfactors-api/integration/data-import';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from 'libs/data/payfactors-api/organizational-data';
-import {DataImportApiService} from 'libs/data/payfactors-api/integration/data-import';
 import { ConfigurationGroup } from 'libs/models/data-loads';
 
 import * as fromOrganizationalDataActions from '../actions/organizational-data-page.action';
 
 @Injectable()
 export class OrganizationalDataPageEffects {
+
+
+  @Effect()
+  downloadOrgData$: Observable<Action> = this.actions$.pipe(
+    ofType(fromOrganizationalDataActions.PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA),
+    switchMap((action: fromOrganizationalDataActions.PublishDownloadOrgDataMessage) =>
+      this.organizationalDataApiService.downloadOrganizationalData(action.companyId).pipe(
+        map(() => {
+          return new fromOrganizationalDataActions.PublishDownloadOrgDataMessageSuccess(true);
+        }),
+        // API exceptions are handled via the API and send failure toast notifications so this
+        // should not be necessary, leaving for completeness if something needs it in the future
+        catchError(error => of(new fromOrganizationalDataActions.PublishDownloadOrgDataMessageError()))
+      )
+    )
+  );
+
   @Effect()
   getOrganizationalHeadersLink$: Observable<Action> = this.actions$.pipe(
     ofType(fromOrganizationalDataActions.GET_ORGANIZATIONAL_HEADERS_LINK),

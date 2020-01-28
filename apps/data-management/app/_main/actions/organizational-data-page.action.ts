@@ -17,6 +17,24 @@ export const UPLOAD_DATA_FAILED = '[Data Management / Org Data Load Page] Upload
 export const SAVE_CONFIGURATION_GROUP = '[Data Management / Org Data Load Page] Save Configuration Group';
 export const SAVE_CONFIGURATION_GROUP_SUCCESS = '[Data Management / Org Data Load Page] Save Configuration Group Success';
 export const SAVE_CONFIGURATION_GROUP_FAILED = '[Data Management / Org Data Load Page] Save Configuration Group Failed';
+export const PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA = '[Data Management / Org Data Load Page] Publish Download Org Data Message';
+export const PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_SUCCESS = '[Data Management / Org Data Load Page] Publish Download Org Data Message Success';
+export const PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_ERROR = '[Data Management / Org Data Load Page] Publish Download Org Data Message Error';
+
+
+export class PublishDownloadOrgDataMessage implements Action {
+  readonly type = PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA;
+  constructor(public companyId: number) { }
+}
+
+export class PublishDownloadOrgDataMessageSuccess implements Action {
+  readonly type = PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_SUCCESS;
+  constructor(public payload: boolean) { }
+}
+
+export class PublishDownloadOrgDataMessageError implements Action {
+  readonly type = PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_ERROR;
+}
 
 export class GetOrganizationalHeadersLink implements Action {
   readonly type = GET_ORGANIZATIONAL_HEADERS_LINK;
@@ -92,4 +110,7 @@ export type Actions
   | UploadDataFailed
   | SaveConfigGroup
   | SaveConfigGroupSuccess
-  |SaveConfigGroupFailed;
+  | SaveConfigGroupFailed
+  | PublishDownloadOrgDataMessage
+  | PublishDownloadOrgDataMessageError
+  | PublishDownloadOrgDataMessageSuccess;

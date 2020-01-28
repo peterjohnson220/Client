@@ -4,3 +4,10 @@
     background-color: #F1F1F1 !important;
 }
 
+.org-data-link {
+    cursor: pointer;
+    color: #006699;
+    &:hover {
+        text-decoration: underline;
+    }
+}
