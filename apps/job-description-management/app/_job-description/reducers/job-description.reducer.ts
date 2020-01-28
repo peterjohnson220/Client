@@ -3,6 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { JobDescription } from 'libs/models/jdm';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { arrayMoveMutate } from 'libs/core/functions';
+import { CompanyDto } from 'libs/models/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import { JobDescriptionExtendedInfo } from '../models';
@@ -21,7 +22,7 @@ export interface State {
   jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
   jobDescriptionRecentChange: JobDescription;
   jobDescriptionChangeHistory: JobDescription[];
-  companyLogoAsync: AsyncStateObj<string>;
+  companyAsync: AsyncStateObj<CompanyDto>;
   jobDescriptionViewsAsync: AsyncStateObj<string[]>;
   undoChangesComplete: boolean;
 }
@@ -37,38 +38,38 @@ export const initialState: State = {
   jobDescriptionExtendedInfo: null,
   jobDescriptionRecentChange: null,
   jobDescriptionChangeHistory: [],
-  companyLogoAsync: generateDefaultAsyncStateObj<string>(null),
+  companyAsync: generateDefaultAsyncStateObj<CompanyDto>(null),
   jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([]),
   undoChangesComplete: false
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
   switch (action.type) {
-    case fromJobDescriptionActions.LOAD_COMPANY_LOGO: {
-      const companyLogoAsync = cloneDeep(state.companyLogoAsync);
-      companyLogoAsync.loading = true;
-      companyLogoAsync.loadingError = false;
+    case fromJobDescriptionActions.LOAD_COMPANY: {
+      const companyAsync = cloneDeep(state.companyAsync);
+      companyAsync.loading = true;
+      companyAsync.loadingError = false;
       return {
         ...state,
-        companyLogoAsync: companyLogoAsync
+        companyAsync: companyAsync
       };
     }
-    case fromJobDescriptionActions.LOAD_COMPANY_LOGO_ERROR: {
-      const companyLogoAsync: AsyncStateObj<string> = cloneDeep(state.companyLogoAsync);
-      companyLogoAsync.loading = false;
-      companyLogoAsync.loadingError = true;
+    case fromJobDescriptionActions.LOAD_COMPANY_ERROR: {
+      const companyAsync: AsyncStateObj<CompanyDto> = cloneDeep(state.companyAsync);
+      companyAsync.loading = false;
+      companyAsync.loadingError = true;
       return {
         ...state,
-        companyLogoAsync: companyLogoAsync
+        companyAsync: companyAsync
       };
     }
-    case fromJobDescriptionActions.LOAD_COMPANY_LOGO_SUCCESS: {
-      const companyLogoAsync: AsyncStateObj<string> = cloneDeep(state.companyLogoAsync);
-      companyLogoAsync.loading = false;
-      companyLogoAsync.obj = action.payload;
+    case fromJobDescriptionActions.LOAD_COMPANY_SUCCESS: {
+      const companyAsync: AsyncStateObj<CompanyDto> = cloneDeep(state.companyAsync);
+      companyAsync.loading = false;
+      companyAsync.obj = action.payload;
       return {
         ...state,
-        companyLogoAsync: companyLogoAsync
+        companyAsync: companyAsync
       };
     }
     case fromJobDescriptionActions.GET_JOB_DESCRIPTION: {
@@ -381,7 +382,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
 export const getJobDescriptionAsync = (state: State) => state.jobDescriptionAsync;
 export const getEditingJobDescription = (state: State) => state.editing;
 export const getSavingJobDescription = (state: State) => state.saving;
-export const getCompanyLogoAsync = (state: State) => state.companyLogoAsync;
+export const getCompanyAsync = (state: State) => state.companyAsync;
 export const getJobDescriptionChangeHistory = (state: State) => state.jobDescriptionChangeHistory;
 export const getPublishingJobDescription = (state: State) => state.publishing;
 export const getPublishButtonEnabled = (state: State) => state.publishButtonEnabled;

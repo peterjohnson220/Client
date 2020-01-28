@@ -1,10 +1,10 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import {Subscription} from 'rxjs/Subscription';
-import {Store} from '@ngrx/store';
+import { Subscription } from 'rxjs/Subscription';
+import { Store } from '@ngrx/store';
 
-import { JobDescriptionInfoHeaderBase} from '../job-description-info-header-base';
-import {JobDescriptionAppliesToItem} from '../../../models';
+import { JobDescriptionInfoHeaderBase } from '../job-description-info-header-base';
+import { JobDescriptionAppliesToItem } from '../../../models';
 import * as fromJobDescriptionAppliesToReducers from '../../../reducers';
 
 @Component({
@@ -16,6 +16,7 @@ export class JobDescriptionInfoHeaderWithLogoComponent extends JobDescriptionInf
   appliesToItemsSubscription: Subscription;
   jobDescriptionAppliesToItems: JobDescriptionAppliesToItem[];
   publicBaseUrl: string;
+  imageError: boolean;
 
   constructor(
     private noLogoStore: Store<fromJobDescriptionAppliesToReducers.State>
@@ -37,6 +38,12 @@ export class JobDescriptionInfoHeaderWithLogoComponent extends JobDescriptionInf
     this.appliesToItemsSubscription = this.jobDescriptionAppliesToItems$.subscribe(items => {
       this.jobDescriptionAppliesToItems = items;
     });
+
+    this.imageError = false;
+  }
+
+  onImageError() {
+    this.imageError = true;
   }
 
   ngOnDestroy() {

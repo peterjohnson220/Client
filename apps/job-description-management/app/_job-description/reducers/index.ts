@@ -21,6 +21,7 @@ import * as fromFlsaQuestionnaireReducer from './job-description-flsa-questionna
 import * as fromCopyJobDescriptionModalReducer from './copy-job-description-modal.reducer';
 import * as fromJobDescriptionListReducer from './job-description-list.reducer';
 import * as fromWorkflowSetupModalReducer from './workflow-setup-modal.reducer';
+import * as fromJobDescriptionWorkflowCompareReducer from './job-description-workflow-compare.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementJobDescriptionState {
@@ -32,6 +33,7 @@ export interface JobDescriptionManagementJobDescriptionState {
   jobInformationFields: fromJobInformationFieldsReducer.State;
   jobDescriptionJobCompare: fromJobDescriptionJobCompareReducer.State;
   jobDescriptionVersionCompare: fromJobDescriptionVersionCompareReducer.State;
+  jobDescriptionWorkflowCompare: fromJobDescriptionWorkflowCompareReducer.State;
   publicViewHeader: fromPublicViewHeaderReducer.State;
   userFilter: fromUserFilterReducer.State;
   jobMatches: fromJobMatchesReducer.State;
@@ -66,7 +68,8 @@ export const reducers = {
   flsaQuestionnaire: fromFlsaQuestionnaireReducer.reducer,
   copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.reducer,
   jobDescriptionList: fromJobDescriptionListReducer.reducer,
-  workflowSetupModal: fromWorkflowSetupModalReducer.reducer
+  workflowSetupModal: fromWorkflowSetupModalReducer.reducer,
+  jobDescriptionWorkflowCompare: fromJobDescriptionWorkflowCompareReducer.reducer
 };
 
 // Select Feature Area
@@ -117,6 +120,11 @@ export const selectJobDescriptionJobCompareState = createSelector(
 export const selectJobDescriptionVersionCompareState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.jobDescriptionVersionCompare
+);
+
+export const selectJobDescriptionWorkflowCompareState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.jobDescriptionWorkflowCompare
 );
 
 export const selectUserFilterState = createSelector(
@@ -288,9 +296,9 @@ export const getSavingJobDescription = createSelector(
   fromJobDescriptionReducer.getSavingJobDescription
 );
 
-export const getCompanyLogoAsync = createSelector(
+export const getCompanyAsync = createSelector(
   selectJobDescriptionState,
-  fromJobDescriptionReducer.getCompanyLogoAsync
+  fromJobDescriptionReducer.getCompanyAsync
 );
 
 export const getJobDescriptionChangeHistory = createSelector(
@@ -660,4 +668,45 @@ export const getWorkflowSetupSaving = createSelector(
 export const getWorkflowSetupSavingSuccess = createSelector(
   selectWorkflowSetupModalState,
   fromWorkflowSetupModalReducer.getWorkflowSetupSavingSuccess
+);
+
+// JDM Workflow Compare
+export const getComparisonWorkflowListItem = createSelector(
+  selectJobDescriptionWorkflowCompareState,
+  fromJobDescriptionWorkflowCompareReducer.getJobDescriptionWorkflowList
+);
+
+export const getJobDescriptionWorkflowComparisonLoading = createSelector(
+  selectJobDescriptionWorkflowCompareState,
+  fromJobDescriptionWorkflowCompareReducer.getJobDescriptionComparisonLoading
+);
+
+export const getJobDescriptionWorkflowComparisonLoadingError = createSelector(
+  selectJobDescriptionWorkflowCompareState,
+  fromJobDescriptionWorkflowCompareReducer.getJobDescriptionComparisonLoadingError
+);
+
+export const getJobDescriptionWorkflowComparison = createSelector(
+  selectJobDescriptionWorkflowCompareState,
+  fromJobDescriptionWorkflowCompareReducer.getJobDescriptionComparison
+);
+
+export const getSourceCompareListItem = createSelector(
+  selectJobDescriptionWorkflowCompareState,
+  fromJobDescriptionWorkflowCompareReducer.getSourceCompareItem
+);
+
+export const getComparisonCompareListItem = createSelector(
+  selectJobDescriptionWorkflowCompareState,
+  fromJobDescriptionWorkflowCompareReducer.getComparisonCompareItem
+);
+
+export const getCompareListLoading = createSelector(
+  selectJobDescriptionWorkflowCompareState,
+  fromJobDescriptionWorkflowCompareReducer.getCompareListLoading
+);
+
+export const getCompareListError = createSelector(
+  selectJobDescriptionWorkflowCompareState,
+  fromJobDescriptionWorkflowCompareReducer.getCompareListError
 );

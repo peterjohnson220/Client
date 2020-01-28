@@ -31,7 +31,8 @@ import {
   CopyJobDescriptionModalComponent,
   WorkflowSidebarComponent,
   ChangeApproverModalComponent,
-  WorkflowSetupModalComponent
+  WorkflowSetupModalComponent,
+  JobDescriptionWorkflowComparePageComponent
 } from './containers';
 import {
   AddJobModalComponent,
@@ -77,7 +78,8 @@ import {
   FlsaQuestionnaireModalEffects,
   CopyJobDescriptionModalEffects,
   JobDescriptionListEffects,
-  WorkflowSetupModalEffects
+  WorkflowSetupModalEffects,
+  JobDescriptionWorkflowCompareEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
@@ -109,7 +111,8 @@ import { ListAreaService } from '../shared/services';
       FlsaQuestionnaireModalEffects,
       CopyJobDescriptionModalEffects,
       JobDescriptionListEffects,
-      WorkflowSetupModalEffects
+      WorkflowSetupModalEffects,
+      JobDescriptionWorkflowCompareEffects
     ]),
     LayoutModule,
     SharedModule,
@@ -170,6 +173,7 @@ import { ListAreaService } from '../shared/services';
     JobDescriptionVersionComparePageComponent,
     JobDescriptionPageComponent,
     WorkflowWatchSidebarComponent,
+    JobDescriptionWorkflowComparePageComponent,
 
     // Containers
     JobDescriptionActionsComponent,

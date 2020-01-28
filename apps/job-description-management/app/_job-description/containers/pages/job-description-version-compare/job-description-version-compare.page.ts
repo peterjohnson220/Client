@@ -1,4 +1,4 @@
-import { OnInit, Component} from '@angular/core';
+import { OnInit, Component, OnDestroy } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import { forkJoin, Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { UserContext } from 'libs/models/security';
 import { ControlType } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
 import { AsyncStateObj } from 'libs/models/state';
+import { CompanyDto } from 'libs/models/company';
 
 import {JobDescriptionHistoryListItem} from '../../../models';
 import * as fromJobDescriptionReducer from '../../../reducers';
@@ -20,12 +21,13 @@ import * as fromControlTypeActions from '../../../../shared/actions/control-type
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 
 
+
 @Component({
   selector: 'pf-job-description-version-compare.page',
   templateUrl: './job-description-version-compare.page.html',
   styleUrls: ['./job-description-version-compare.page.scss']
 })
-export class JobDescriptionVersionComparePageComponent implements OnInit {
+export class JobDescriptionVersionComparePageComponent implements OnInit, OnDestroy {
   companyLogoPath: string;
 
   sourceHistoryItem$: Observable<JobDescriptionHistoryListItem>;
@@ -35,7 +37,7 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
   jobDescriptionVersionComparisonLoadingError$: Observable<boolean>;
   jobDescriptionVersionComparison$: Observable<any>;
   controlTypesLoaded$: Observable<any>;
-  companyLogo$: Observable<AsyncStateObj<string>>;
+  company$: Observable<AsyncStateObj<CompanyDto>>;
   controlTypes$: Observable<ControlType[]>;
 
   identity$: Observable<UserContext>;
@@ -59,7 +61,7 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
     this.jobDescriptionVersionComparison$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionComparison);
     this.jobDescriptionVersionComparisonLoading$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionComparisonLoading);
     this.jobDescriptionVersionComparisonLoadingError$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionComparisonLoadingError);
-    this.companyLogo$ = this.store.select(fromJobDescriptionReducer.getCompanyLogoAsync);
+    this.company$ = this.store.select(fromJobDescriptionReducer.getCompanyAsync);
     this.controlTypes$ = this.store.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersion);
 
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
@@ -91,13 +93,13 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
 
     // Get Identity
     this.identity$.subscribe(identity => {
-      this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
-        this.companyLogoPath = companyLogo && companyLogo.obj
-          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo.obj
+      this.companyLogoSubscription = this.company$.subscribe((company) => {
+        this.companyLogoPath = company && company.obj
+          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.obj.CompanyLogo
           : '';
       });
 
-      this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(identity.CompanyId));
+      this.store.dispatch(new fromJobDescriptionActions.LoadCompany(identity.CompanyId));
     });
 
     // Get all control types
@@ -133,6 +135,10 @@ export class JobDescriptionVersionComparePageComponent implements OnInit {
 
     // TODO[BC]: This causes the history list resolve guard to be fired again. Research how to avoid it.
     this.router.navigateByUrl(updatedUrl);
+  }
+
+  ngOnDestroy(): void {
+    this.companyLogoSubscription.unsubscribe();
   }
 
 }

@@ -16,7 +16,8 @@ import {
   ControlTypeAttribute,
   SimpleYesNoModalOptions,
   UserAssignedRole,
-  JobDescriptionSection
+  JobDescriptionSection,
+  CompanyDto
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -73,8 +74,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
   userAssignedRoles$: Observable<UserAssignedRole[]>;
-  companyLogo$: Observable<AsyncStateObj<string>>;
-  enableLibraryForRoutedJobDescriptions$: Observable<boolean>;
+  company$: Observable<AsyncStateObj<CompanyDto>>;
   enablePublicViewsInClient$: Observable<boolean>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
   editingJobDescription$: Observable<boolean>;
@@ -94,8 +94,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   routerParamsSubscription: Subscription;
   identitySubscription: Subscription;
   revisionSubscription: Subscription;
-  companyLogoSubscription: Subscription;
-  enableLibraryForRoutedJobDescriptionsSubscription: Subscription;
+  companySubscription: Subscription;
   saveThrottleSubscription: Subscription;
   savingJobDescriptionSubscription: Subscription;
   jobDescriptionExtendedInfoSubscription: Subscription;
@@ -143,13 +142,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     private jobDescriptionManagementDndService: JobDescriptionManagementDnDService,
     private jobDescriptionDnDService: JobDescriptionDnDService
 ) {
-    this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogoAsync);
+    this.company$ = this.store.select(fromJobDescriptionReducers.getCompanyAsync);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.userAssignedRoles$ = this.userContextStore.select(fromRootState.getUserAssignedRoles);
-    this.enableLibraryForRoutedJobDescriptions$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.EnableLibraryForRoutedJobDescriptions
-    );
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMPublicViewsUseClient
     );
@@ -186,8 +182,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.routerParamsSubscription.unsubscribe();
     this.jobDescriptionSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
-    this.companyLogoSubscription.unsubscribe();
-    this.enableLibraryForRoutedJobDescriptionsSubscription.unsubscribe();
+    this.companySubscription.unsubscribe();
     this.saveThrottleSubscription.unsubscribe();
     this.savingJobDescriptionSubscription.unsubscribe();
     this.jobDescriptionExtendedInfoSubscription.unsubscribe();
@@ -441,15 +436,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         }
       }
       this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
-      this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
-        this.companyLogoPath = companyLogo && companyLogo.obj
-          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo.obj
+      this.companySubscription = this.company$.subscribe((company) => {
+        this.companyLogoPath = company && company.obj
+          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.obj.CompanyLogo
           : '';
+        if (company && company.obj) {
+          this.companyName = company.obj.CompanyName;
+        }
       });
       this.isSiteAdmin = userContext.AccessLevel === 'Admin';
       this.initRouterParams();
       if (!this.completedStep) {
-        this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(userContext.CompanyId));
+        this.store.dispatch(new fromJobDescriptionActions.LoadCompany(userContext.CompanyId));
       }
     });
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
@@ -457,8 +455,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.isCompanyAdmin = userRoles.some( x => x.RoleName === 'Company Admin' && x.Assigned);
       }
     });
-    this.enableLibraryForRoutedJobDescriptionsSubscription = this.enableLibraryForRoutedJobDescriptions$.subscribe(value =>
-      this.enableLibraryForRoutedJobDescriptions = value);
+
 
     // if the setting to enable public views in this repo is disabled redirect back to the NG implementation
     this.enablePublicViewsInClient$.pipe(

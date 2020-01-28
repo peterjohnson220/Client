@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { ControlType, JobDescription, JobDescriptionControl } from 'libs/models';
+import { CompanyDto, ControlType, JobDescription, JobDescriptionControl } from 'libs/models';
 
 import {
   GetJobDescriptionData,
@@ -19,9 +19,9 @@ export const SAVE_JOB_DESCRIPTION = '[job-description-management / Job Descripti
 export const SAVE_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Save Job Description Success';
 export const SAVE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Save Job Description Error';
 export const TOGGLE_PUBLISH_BUTTON = '[job-description-management / Job Description] Toggle Publish Button';
-export const LOAD_COMPANY_LOGO = '[job-description-management / Job Description] Load Company Logo';
-export const LOAD_COMPANY_LOGO_SUCCESS = '[job-description-management / Job Description] Load Company Logo Success';
-export const LOAD_COMPANY_LOGO_ERROR = '[job-description-management / Job Description] Load Company Logo Error';
+export const LOAD_COMPANY = '[job-description-management / Job Description] Load Company';
+export const LOAD_COMPANY_SUCCESS = '[job-description-management / Job Description] Load Company Success';
+export const LOAD_COMPANY_ERROR = '[job-description-management / Job Description] Load Company Error';
 export const UNDO_JOB_DESCRIPTION_CHANGES = '[job-description-management / Job Description] Undo Job Description Changes';
 export const PUBLISH_JOB_DESCRIPTION = '[job-description-management / Job Description] Publish Job Description';
 export const PUBLISH_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Publish Job Description Success';
@@ -93,16 +93,16 @@ export class TogglePublishButton implements Action {
   constructor(public payload: { enabled: boolean }) {}
 }
 
-export class LoadCompanyLogo implements Action {
-  readonly type = LOAD_COMPANY_LOGO;
+export class LoadCompany implements Action {
+  readonly type = LOAD_COMPANY;
   constructor(public payload: number) {}
 }
-export class LoadCompanyLogoSuccess implements Action {
-  readonly type = LOAD_COMPANY_LOGO_SUCCESS;
-  constructor(public payload: string) {}
+export class LoadCompanySuccess implements Action {
+  readonly type = LOAD_COMPANY_SUCCESS;
+  constructor(public payload: CompanyDto) {}
 }
-export class LoadCompanyLogoError implements Action {
-  readonly type = LOAD_COMPANY_LOGO_ERROR;
+export class LoadCompanyError implements Action {
+  readonly type = LOAD_COMPANY_ERROR;
   constructor() {}
 }
 
@@ -261,9 +261,9 @@ export type Actions
   | SaveJobDescriptionSuccess
   | SaveJobDescriptionError
   | TogglePublishButton
-  | LoadCompanyLogo
-  | LoadCompanyLogoSuccess
-  | LoadCompanyLogoError
+  | LoadCompany
+  | LoadCompanySuccess
+  | LoadCompanyError
   | UndoJobDescriptionChanges
   | PublishJobDescription
   | PublishJobDescriptionSuccess

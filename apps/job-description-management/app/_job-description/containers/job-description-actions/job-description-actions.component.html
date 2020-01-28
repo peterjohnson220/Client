@@ -136,6 +136,17 @@
     </div>
   </div>
 
+  <div *ngIf="inWorkflow" class="d-flex space-out-children">
+    <button *ngIf="!(isFirstRecipient && jobDescription.JobDescriptionRevision === 1)" (click)="handleCompareVersionsClicked()" class="btn btn-secondary">
+      <fa-icon [icon]="['far','clone']" aria-hidden="true"></fa-icon> Compare Versions
+    </button>
+
+    <ng-container *ngIf="hasCanEditJobDescriptionPermission">
+      <button *ngIf="enableLibraryForRoutedJobDescriptions" class="btn btn-secondary" (click)="handleLibraryClicked()"><fa-icon [icon]="['fas', 'book']" aria-hidden="true"></fa-icon> Library</button>
+      <button class="btn btn-secondary" (click)="handleDiscardDraftClicked()"><fa-icon [icon]="['far', 'trash-alt']" aria-hidden="true"></fa-icon> Discard Edits</button>
+    </ng-container>
+  </div>
+
 </ng-container>
 
 <ng-template #historyGridPopContent>
