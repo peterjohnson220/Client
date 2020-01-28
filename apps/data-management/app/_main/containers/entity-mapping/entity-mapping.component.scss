@@ -85,3 +85,8 @@ fa-icon {
 .gu-mirror .gu-mirror-show{
   display: none;
 }
+
+.min-width-1 {
+  /* required to make ellipsis work with flex boxes */
+  min-width: 1rem;
+}
