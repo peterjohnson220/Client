@@ -1,0 +1,52 @@
+@import '../../../../../../../libs/features/search/styles/shared-variables';
+@import '../../../../../../../libs/features/search/styles/shared-styles';
+
+.page {
+  height: 100%;
+}
+
+::ng-deep pf-search-results .results {
+  width: 100%;
+}
+
+pf-paymarkets {
+  @extend %position-below-results-header;
+  width: 32.5% !important;
+  right: 0;
+}
+
+::ng-deep .content .actions-container {
+  width: 67.5%;
+}
+
+.clear-selections{
+  position: absolute;
+  left: 0;
+  margin-left: 1rem;
+}
+
+.error-adding-jobs {
+  font-weight: bold;
+}
+
+::ng-deep .modal-body {
+  padding: 0 0 0 0.15rem;
+}
+
+::ng-deep .modal-lg{
+  .modal-content {
+    height: 90%;
+    min-width: 1000px;
+    min-height: 492px;
+
+    .modal-backdrop.light-backdrop {
+      display: none;
+    }
+
+    .modal-content {
+      height: auto;
+      min-width: 0;
+      min-height: 0;
+    }
+  }
+}

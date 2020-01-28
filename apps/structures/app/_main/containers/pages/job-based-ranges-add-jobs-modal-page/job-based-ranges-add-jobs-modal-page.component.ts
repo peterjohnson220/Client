@@ -19,23 +19,23 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import * as fromPaymarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
 import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
 
-import * as fromStructuresReducer from '../../reducers';
-import * as fromJobBasedRangesAddJobsModalActions from '../../actions/job-based-ranges-add-jobs-modal.actions';
-import * as fromJobBasedRangesSearchResultsActions from '../../actions/job-based-ranges-search-results.actions';
+import * as fromStructuresReducer from '../../../reducers';
+import * as fromJobBasedRangesAddJobsModalPageActions from '../../../actions/job-based-ranges-add-jobs-modal-page.actions';
+import * as fromJobBasedRangesSearchResultsActions from '../../../actions/job-based-ranges-search-results.actions';
+import * as fromJobRangeModelingModalActions from '../../../actions/job-range-modeling-modal.actions';
 
 @Component({
-  selector: 'pf-jobs-based-ranges-add-jobs-modal',
-  templateUrl: './job-based-ranges-add-jobs-modal.component.html',
-  styleUrls: ['./job-based-ranges-add-jobs-modal.component.scss']
+  selector: 'pf-jobs-based-ranges-add-jobs-modal-page',
+  templateUrl: './job-based-ranges-add-jobs-modal-page.component.html',
+  styleUrls: ['./job-based-ranges-add-jobs-modal-page.component.scss']
 })
-export class JobBasedRangesAddJobsModalComponent extends SearchBase implements OnInit, OnDestroy {
+export class JobBasedRangesAddJobsModalPageComponent extends SearchBase implements OnInit, OnDestroy {
   @Output() saved = new EventEmitter();
   @Output() closed = new EventEmitter();
   @Output() opened = new EventEmitter();
 
   @Input() saving = false;
   @Input() errorSaving = false;
-  @Input() modalOpen$: Observable<boolean>;
   @Input() addJobsSaving: boolean;
 
   // Observables
@@ -52,6 +52,7 @@ export class JobBasedRangesAddJobsModalComponent extends SearchBase implements O
   // Subscriptions
   selectedJobIdsSubscription: Subscription;
   selectedPayfactorsJobCodesSubscription: Subscription;
+  modalContextSubscription: Subscription;
 
   // Local variables
   maxAllowedJobsSetting = 0;
@@ -80,10 +81,12 @@ export class JobBasedRangesAddJobsModalComponent extends SearchBase implements O
     this.addingDataErrorMessage$ = this.store.select(fromStructuresReducer.getAddingDataErrorMessage);
     this.userContext = store.select(fromRootState.getUserContext);
     this._Permissions = Permissions;
+
+    this.store.dispatch(new fromJobRangeModelingModalActions.UpdateTitle('Add Jobs'));
   }
 
   onSetContext(payload: any): void {
-    this.store.dispatch(new fromJobBasedRangesAddJobsModalActions.SetContext(payload));
+    this.store.dispatch(new fromJobBasedRangesAddJobsModalPageActions.SetContext(payload));
     this.store.dispatch(new fromSearchFiltersActions.AddFilters(staticFilters));
 
     this.store.dispatch(new fromPaymarketActions.SetDefaultPaymarket(Number(payload.PayMarketId)));
@@ -99,7 +102,7 @@ export class JobBasedRangesAddJobsModalComponent extends SearchBase implements O
   }
 
   handleAddClicked(): void {
-    this.store.dispatch(new fromJobBasedRangesAddJobsModalActions.AddSelectedJobs());
+    this.store.dispatch(new fromJobBasedRangesAddJobsModalPageActions.AddSelectedJobs());
   }
 
   handleClearSelectionsClicked(): void {
@@ -144,6 +147,8 @@ export class JobBasedRangesAddJobsModalComponent extends SearchBase implements O
       .subscribe(jobIds => this.selectedJobIdCount = jobIds.length);
     this.selectedPayfactorsJobCodesSubscription = this.store.select(fromStructuresReducer.getSelectedPayfactorsJobCodes)
       .subscribe(jobCodes => this.selectedJobCodeCount = jobCodes.length);
+
+    this.modalContextSubscription = this.store.select(fromStructuresReducer.getContext).subscribe(context => this.onSetContext(context));
   }
 
   close() {
@@ -161,5 +166,6 @@ export class JobBasedRangesAddJobsModalComponent extends SearchBase implements O
   ngOnDestroy() {
     this.selectedJobIdsSubscription.unsubscribe();
     this.selectedPayfactorsJobCodesSubscription.unsubscribe();
+    this.modalContextSubscription.unsubscribe();
   }
 }

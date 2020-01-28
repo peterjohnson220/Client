@@ -13,14 +13,14 @@ import { generateMockUserContext } from 'libs/models/security';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromPaymarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
 
-import { JobBasedRangesAddJobsModalComponent} from './job-based-ranges-add-jobs-modal.component';
-import * as fromJobBasedRangesAddJobsModalActions from '../../actions/job-based-ranges-add-jobs-modal.actions';
-import * as fromJobBasedRangesSearchResultsActions from '../../actions/job-based-ranges-search-results.actions';
-import * as fromStructuresReducer from '../../reducers';
+import { JobBasedRangesAddJobsModalPageComponent} from './job-based-ranges-add-jobs-modal-page.component';
+import * as fromJobBasedRangesAddJobsModalActions from '../../../actions/job-based-ranges-add-jobs-modal-page.actions';
+import * as fromJobBasedRangesSearchResultsActions from '../../../actions/job-based-ranges-search-results.actions';
+import * as fromStructuresReducer from '../../../reducers';
 
 describe('Structures - Job Based Ranges Add Jobs - Modal', () => {
-  let fixture: ComponentFixture<JobBasedRangesAddJobsModalComponent>;
-  let instance: JobBasedRangesAddJobsModalComponent;
+  let fixture: ComponentFixture<JobBasedRangesAddJobsModalPageComponent>;
+  let instance: JobBasedRangesAddJobsModalPageComponent;
   let store: Store<fromStructuresReducer.State>;
   let router: Router;
   let route: ActivatedRoute;
@@ -36,7 +36,7 @@ describe('Structures - Job Based Ranges Add Jobs - Modal', () => {
         NgbProgressbarModule
       ],
       declarations: [
-        JobBasedRangesAddJobsModalComponent
+        JobBasedRangesAddJobsModalPageComponent
       ],
       providers: [
         {
@@ -64,14 +64,15 @@ describe('Structures - Job Based Ranges Add Jobs - Modal', () => {
     router = TestBed.get(Router);
     route = TestBed.get(ActivatedRoute);
 
-    fixture = TestBed.createComponent(JobBasedRangesAddJobsModalComponent);
+    fixture = TestBed.createComponent(JobBasedRangesAddJobsModalPageComponent);
     instance = fixture.componentInstance;
   });
 
   it('should dispatch a set context action onSetContext', () => {
     const payload = {
       PayMarketId: 123,
-      ProjectId: 1
+      ProjectId: 1,
+      IsFromAddStructureModal: false
     };
     const expectedAction = new fromJobBasedRangesAddJobsModalActions.SetContext(payload);
 

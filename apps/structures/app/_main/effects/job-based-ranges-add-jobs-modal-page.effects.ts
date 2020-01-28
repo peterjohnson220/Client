@@ -12,15 +12,17 @@ import * as fromCompanySettingsActions from 'libs/state/app-context/actions/comp
 import { ProjectApiService } from 'libs/data/payfactors-api/project';
 import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
 
-import * as fromJobBasedRangesAddJobsModalActions from '../actions/job-based-ranges-add-jobs-modal.actions';
+import * as fromJobBasedRangesAddJobsModalPageActions from '../actions/job-based-ranges-add-jobs-modal-page.actions';
+import * as fromJobRangeModelingModalActions from '../actions/job-range-modeling-modal.actions';
 import * as fromStructuresReducer from '../reducers';
+import { JobRangeModelingModalPage } from '../constants/structures.constants';
 
 @Injectable()
-export class JobBasedRangesAddJobsModalEffects {
+export class JobBasedRangesAddJobsModalPageEffects {
   @Effect()
   setContext$ = this.actions$
     .pipe(
-      ofType(fromJobBasedRangesAddJobsModalActions.SET_CONTEXT),
+      ofType(fromJobBasedRangesAddJobsModalPageActions.SET_CONTEXT),
       mergeMap(() =>
         [new fromUserFilterActions.Init()]
       ));
@@ -28,13 +30,13 @@ export class JobBasedRangesAddJobsModalEffects {
   @Effect()
   addJobs$ = this.actions$
     .pipe(
-      ofType(fromJobBasedRangesAddJobsModalActions.ADD_SELECTED_JOBS),
+      ofType(fromJobBasedRangesAddJobsModalPageActions.ADD_SELECTED_JOBS),
       withLatestFrom(
         this.store.select(fromStructuresReducer.getContext),
         this.store.select(fromPaymarketReducer.getSelectedPaymarkets),
         this.store.select(fromStructuresReducer.getSelectedJobIds),
         this.store.select(fromStructuresReducer.getSelectedPayfactorsJobCodes),
-        (action: fromJobBasedRangesAddJobsModalActions.AddSelectedJobs, context, payMarkets, selectedJobIds, selectedJobCodes) =>
+        (action: fromJobBasedRangesAddJobsModalPageActions.AddSelectedJobs, context, payMarkets, selectedJobIds, selectedJobCodes) =>
           ({action, context, payMarkets, selectedJobIds, selectedJobCodes})
       ),
       switchMap((contextData) => {
@@ -46,11 +48,11 @@ export class JobBasedRangesAddJobsModalEffects {
           })
             .pipe(
               mergeMap(() => [
-                  new fromJobBasedRangesAddJobsModalActions.AddSelectedJobsSuccess(),
+                  new fromJobBasedRangesAddJobsModalPageActions.AddSelectedJobsSuccess(),
                   new fromSearchPageActions.CloseSearchPage()
                 ]
               ),
-              catchError(error => of(new fromJobBasedRangesAddJobsModalActions.AddSelectedJobsError(error)))
+              catchError(error => of(new fromJobBasedRangesAddJobsModalPageActions.AddSelectedJobsError(error)))
             );
         }
       )
@@ -59,8 +61,8 @@ export class JobBasedRangesAddJobsModalEffects {
   @Effect({dispatch: false})
   addProjectJobsSuccess$ = this.actions$
     .pipe(
-      ofType(fromJobBasedRangesAddJobsModalActions.ADD_SELECTED_JOBS_SUCCESS),
-      tap((action: fromJobBasedRangesAddJobsModalActions.AddSelectedJobsSuccess) => {
+      ofType(fromJobBasedRangesAddJobsModalPageActions.ADD_SELECTED_JOBS_SUCCESS),
+      tap((action: fromJobBasedRangesAddJobsModalPageActions.AddSelectedJobsSuccess) => {
         this.windowCommunicationService.postMessage(action.type);
       }),
       map(() => new fromCompanySettingsActions.LoadCompanySettings())
@@ -71,8 +73,34 @@ export class JobBasedRangesAddJobsModalEffects {
     .pipe(
       ofType(fromSearchPageActions.CLOSE_SEARCH_PAGE),
       mergeMap(() =>
-        [new fromJobBasedRangesAddJobsModalActions.CloseAddJobsModal()]
-      ));
+        [new fromJobBasedRangesAddJobsModalPageActions.CloseAddJobsModalPage()]
+      )
+    );
+
+  @Effect()
+  closeAddJobsModalPage$ = this.actions$
+    .pipe(
+      ofType(fromJobBasedRangesAddJobsModalPageActions.CLOSE_ADD_JOBS_MODAL_PAGE),
+      withLatestFrom(
+        this.store.select(fromStructuresReducer.getContext),
+        (action, context) => {
+          return {
+            action,
+            context
+          };
+        }
+      ),
+      mergeMap(obj => {
+        const actions = [];
+
+        if (obj.context.IsFromAddStructureModal) {
+          actions.push(new fromJobRangeModelingModalActions.ChangePage(JobRangeModelingModalPage.ModelSettings));
+        } else {
+          actions.push(new fromJobRangeModelingModalActions.CloseModal());
+        }
+
+        return actions;
+      }));
 
   constructor(
     private actions$: Actions,

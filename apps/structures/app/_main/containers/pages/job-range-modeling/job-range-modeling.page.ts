@@ -10,10 +10,10 @@ import { CompanyStructure, generateMockCompanyStructure } from 'libs/models/stru
 
 import * as fromStructuresMainReducer from '../../../reducers';
 import * as fromJobRangeModelingActions from '../../../actions/job-range-modeling-page.actions';
-import * as fromJobBasedRangesAddJobsModalActions from '../../../actions/job-based-ranges-add-jobs-modal.actions';
-import { JobRangeModelingConstants } from '../../../constants/structures.constants';
+import * as fromJobRangeModelingModalActions from '../../../actions/job-range-modeling-modal.actions';
+import * as fromJobBasedRangesAddJobsModalPageActions from '../../../actions/job-based-ranges-add-jobs-modal-page.actions';
+import { JobRangeModelingConstants, JobRangeModelingModalPage } from '../../../constants/structures.constants';
 import { EditGridColumnsModalComponent } from '../../../components/modals';
-import { JobBasedRangesAddJobsModalComponent } from '../../job-based-ranges-add-jobs-modal';
 
 @Component({
   selector: 'pf-job-range-modeling-page',
@@ -22,7 +22,6 @@ import { JobBasedRangesAddJobsModalComponent } from '../../job-based-ranges-add-
 })
 export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(EditGridColumnsModalComponent, {static: true}) public editGridColumnsModalComponent: EditGridColumnsModalComponent;
-  @ViewChild(JobBasedRangesAddJobsModalComponent, {static: false}) public jobsBasedRangesAddJobsModalComponent: JobBasedRangesAddJobsModalComponent;
 
   // todo: replace temp Ids with routing parameters
   private readonly temp_companyStructureRangeGroupId = 609;
@@ -42,11 +41,11 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
 
   public companyStructuresAsyncSubscription: Subscription;
 
-  public addJobsModalIsSaving$: Observable<boolean>;
-  public addJobsModalOpen$: Observable<boolean>;
   public routeStructureName: string;
   public routeModelName: string;
   public routePayMarketId: number;
+  public jobRangeModelingPage = JobRangeModelingModalPage;
+
   private readonly routeProjectId: number = 382652;
 
   constructor(public route: ActivatedRoute,
@@ -106,8 +105,6 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
       }
     );
 
-    this.addJobsModalOpen$ = this.store.select(fromStructuresMainReducer.getAddJobsModalOpen);
-
     this.routeStructureName = this.route.snapshot.queryParams['structure-name'] as string;
     this.routeModelName = this.route.snapshot.queryParams['model-name'] as string;
     // tslint:disable-next-line:no-bitwise
@@ -151,9 +148,12 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   }
 
   ngAfterViewInit() {
-    if (this.routeStructureName && this.routeModelName && this.routePayMarketId > 0) {
-      this.showAddJobsModal();
-    }
+    setTimeout(() => {
+      if (this.routeStructureName && this.routeModelName && this.routePayMarketId > 0) {
+        this.showGenericModalWithAddJobsAsStart(true);
+      }
+    }, 1);
+
   }
 
   updateModelName(modelName: string) {
@@ -176,22 +176,22 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   }
 
   // modal functions
-  showAddJobsModal() {
-    this.store.dispatch(new fromJobBasedRangesAddJobsModalActions.OpenAddJobsModal());
+  showGenericModal(startPage: JobRangeModelingModalPage) {
+    this.store.dispatch(new fromJobRangeModelingModalActions.OpenModal(startPage));
+  }
+
+  showGenericModalWithAddJobsAsStart(isFromAddStructureModal: boolean = false) {
+    this.showGenericModal(JobRangeModelingModalPage.AddJobs);
+
     // note: ProjectId => UserSession_ID in [dbo].[UserSession]
-    const jobBasedRangesAddJobsModalContext = {
+    const jobBasedRangesAddJobsModalPageContext = {
       PayMarketId: this.routePayMarketId,
-      ProjectId: this.routeProjectId
+      ProjectId: this.routeProjectId,
+      IsFromAddStructureModal: isFromAddStructureModal
     };
-    this.jobsBasedRangesAddJobsModalComponent.onSetContext(jobBasedRangesAddJobsModalContext);
-  }
 
-  addJobsModalSaveHandler(data) {
-    console.log(`saving add jobs structures modeling modal ${data}`);
-  }
-
-  closeAddJobsModal() {
-    this.store.dispatch(new fromJobBasedRangesAddJobsModalActions.CloseAddJobsModal());
+    this.store.dispatch(new fromJobBasedRangesAddJobsModalPageActions.OpenAddJobsModalPage());
+    this.store.dispatch(new fromJobBasedRangesAddJobsModalPageActions.SetContext(jobBasedRangesAddJobsModalPageContext));
   }
 
   ngOnDestroy(): void {
