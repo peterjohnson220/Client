@@ -59,7 +59,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
           <span
             class="invalid-feedback"
           >
-            Job code is required
+            Job Code is required
           </span>
           
           
@@ -89,7 +89,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
           <span
             class="invalid-feedback"
           >
-            Job title is required
+            Job Title is required
           </span>
           
         </div>
