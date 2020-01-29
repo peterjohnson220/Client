@@ -85,15 +85,22 @@ describe('Job Management Feature - Job Form', () => {
     const form = instance.jobForm;
     const c = instance.jobForm.controls;
 
-    const tooLongValueJobCode = Array(instance.JOB_CODE_MAX_LENGTH).fill('a').join();
+    const tooLongValueJobCodeFSLA = Array(instance.JOB_CODE_FLSA_MAX_LENGTH).fill('a').join();
     const tooLongValue = Array(instance.DEFAULT_MAX_LENGTH).fill('a').join();
 
     // JobCode
     expect(c.JobCode.valid).toEqual(false);
-    c.JobCode.setValue(tooLongValueJobCode);
+    c.JobCode.setValue(tooLongValueJobCodeFSLA);
     expect(c.JobCode.valid).toEqual(false);
     c.JobCode.setValue('1111');
     expect(c.JobCode.valid).toEqual(true);
+
+    // FSLA Status
+    expect(c.FLSAStatus.valid).toEqual(true);
+    c.FLSAStatus.setValue(tooLongValueJobCodeFSLA);
+    expect(c.FLSAStatus.valid).toEqual(false);
+    c.FLSAStatus.setValue('Exempt');
+    expect(c.FLSAStatus.valid).toEqual(true);
 
     // JobTitle
     expect(c.JobTitle.valid).toEqual(false);
@@ -108,6 +115,13 @@ describe('Job Management Feature - Job Form', () => {
     expect(c.JobTitle.valid).toEqual(false);
     c.JobTitle.setValue('Level 3');
     expect(c.JobTitle.valid).toEqual(true);
+
+    // JobLevel
+    expect(c.JobFamily.valid).toEqual(true);
+    c.JobFamily.setValue(tooLongValue);
+    expect(c.JobFamily.valid).toEqual(false);
+    c.JobFamily.setValue('Accounting');
+    expect(c.JobFamily.valid).toEqual(true);
 
     // UDF1
     expect(c.UDF1.valid).toEqual(true);

@@ -4,11 +4,11 @@
     <div class="form-group row">
       <label class="col-2 col-form-label">Job Code <span class="text-danger">*</span></label>
       <div class="col-4">
-        <input data-qa-id="txt-job-form-job-code" type="text" class="form-control" formControlName="JobCode" [maxlength]="JOB_CODE_MAX_LENGTH"
+        <input data-qa-id="txt-job-form-job-code" type="text" class="form-control" formControlName="JobCode" [maxlength]="JOB_CODE_FLSA_MAX_LENGTH"
           [ngClass]="{ 'is-invalid': !f.JobCode.valid && f.JobCode.touched }">
         <span *ngIf="f.JobCode.errors?.required" class="invalid-feedback">Job code is required</span>
         <span *ngIf="f.JobCode.errors?.duplicateJobCode" class="invalid-feedback">Job codes must be unique</span>
-        <span *ngIf="f.JobCode.errors?.maxLengthTrimmed" class="invalid-feedback">Job code cannot be longer than {{JOB_CODE_MAX_LENGTH}} characters</span>
+        <span *ngIf="f.JobCode.errors?.maxLengthTrimmed" class="invalid-feedback">Job code cannot be longer than {{JOB_CODE_FLSA_MAX_LENGTH}} characters</span>
       </div>
       <label class="col-2 col-form-label">Job Title <span class="text-danger">*</span></label>
       <div class="col-4">
@@ -28,8 +28,10 @@
           [clearButton]="true"
           [kendoDropDownFilter]="filterSettings"
           [data]="jobFamilies$ | async"
-          [allowCustom]="true">
+          [allowCustom]="true"
+          [ngClass]="{ 'is-invalid': !f.JobFamily.valid && f.JobFamily.touched }">
         </kendo-combobox>
+        <span *ngIf="f.JobFamily.errors?.maxLengthTrimmed" class="invalid-feedback">Job Family cannot be longer than {{DEFAULT_MAX_LENGTH}} characters</span>        
       </div>
       <label class="col-2 col-form-label">Level</label>
       <div class="col-4">
@@ -48,8 +50,10 @@
           [clearButton]="true"
           [kendoDropDownFilter]="filterSettings"
           [data]="jobFlsaStatuses$ | async"
-          [allowCustom]="true">
-        </kendo-combobox>      
+          [allowCustom]="true"
+          [ngClass]="{ 'is-invalid': !f.FLSAStatus.valid && f.FLSAStatus.touched }">
+        </kendo-combobox>
+        <span *ngIf="f.FLSAStatus.errors?.maxLengthTrimmed" class="invalid-feedback">FLSA Status cannot be longer than {{JOB_CODE_FLSA_MAX_LENGTH}} characters</span>
       </div>
     </div>
     <div *ngIf="(jobUserDefinedFields$ | async).length">
