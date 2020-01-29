@@ -2,7 +2,7 @@
 
 .close-btn {
   cursor: pointer;
-  position: absolute;  
+  position: absolute;
   right: 10px;
   top: 10px;
   z-index: 900;
@@ -17,7 +17,7 @@
   top: 41px;
   bottom: 0;
   left: 0;
-  right: 0;  
+  right: 0;
 }
 
 .nav-link {
@@ -30,8 +30,16 @@
 }
 
 .nav-tabs .nav-link.active {
-  border-bottom: 2px solid $link-color !important;  
+  border-bottom: 2px solid $link-color !important;
   z-index: 999;
   font-weight: bold;
   background-color: inherit;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid rgb(222,226,230);
+}
+
+.job-details-container {
+  background-color: #ffffff;
 }
