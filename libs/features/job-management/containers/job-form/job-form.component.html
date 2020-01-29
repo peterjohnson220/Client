@@ -6,16 +6,16 @@
       <div class="col-4">
         <input data-qa-id="txt-job-form-job-code" type="text" class="form-control" formControlName="JobCode" [maxlength]="JOB_CODE_FLSA_MAX_LENGTH"
           [ngClass]="{ 'is-invalid': !f.JobCode.valid && f.JobCode.touched }">
-        <span *ngIf="f.JobCode.errors?.required" class="invalid-feedback">Job code is required</span>
-        <span *ngIf="f.JobCode.errors?.duplicateJobCode" class="invalid-feedback">Job codes must be unique</span>
-        <span *ngIf="f.JobCode.errors?.maxLengthTrimmed" class="invalid-feedback">Job code cannot be longer than {{JOB_CODE_FLSA_MAX_LENGTH}} characters</span>
+        <span *ngIf="f.JobCode.errors?.required" class="invalid-feedback">Job Code is required</span>
+        <span *ngIf="f.JobCode.errors?.duplicateJobCode" class="invalid-feedback">Job Codes must be unique</span>
+        <span *ngIf="f.JobCode.errors?.maxLengthTrimmed" class="invalid-feedback">Job Code cannot be longer than {{JOB_CODE_FLSA_MAX_LENGTH}} characters</span>
       </div>
       <label class="col-2 col-form-label">Job Title <span class="text-danger">*</span></label>
       <div class="col-4">
         <input data-qa-id="txt-job-form-job-title" type="text" class="form-control" formControlName="JobTitle" [maxlength]="DEFAULT_MAX_LENGTH"
           [ngClass]="{ 'is-invalid': !f.JobTitle.valid && f.JobTitle.touched }">
-        <span *ngIf="f.JobTitle.errors?.required" class="invalid-feedback">Job title is required</span>
-        <span *ngIf="f.JobTitle.errors?.maxLengthTrimmed" class="invalid-feedback">Job title cannot be longer than {{DEFAULT_MAX_LENGTH}} characters</span>
+        <span *ngIf="f.JobTitle.errors?.required" class="invalid-feedback">Job Title is required</span>
+        <span *ngIf="f.JobTitle.errors?.maxLengthTrimmed" class="invalid-feedback">Job Title cannot be longer than {{DEFAULT_MAX_LENGTH}} characters</span>
       </div>        
     </div>
     <div class="form-group row">
@@ -37,7 +37,7 @@
       <div class="col-4">
         <input data-qa-id="txt-job-form-job-level" type="text" class="form-control" formControlName="JobLevel" [maxlength]="DEFAULT_MAX_LENGTH"
           [ngClass]="{ 'is-invalid': !f.JobLevel.valid && f.JobLevel.touched }">
-        <span *ngIf="f.JobLevel.errors?.maxLengthTrimmed" class="invalid-feedback">Job level cannot be longer than {{DEFAULT_MAX_LENGTH}} characters</span>        
+        <span *ngIf="f.JobLevel.errors?.maxLengthTrimmed" class="invalid-feedback">Job Level cannot be longer than {{DEFAULT_MAX_LENGTH}} characters</span>        
       </div>
     </div>
     <div class="form-group row">
