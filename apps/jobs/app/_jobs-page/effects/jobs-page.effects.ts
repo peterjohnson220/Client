@@ -79,19 +79,17 @@ export class JobsPageEffects {
   );
 
   @Effect()
-  saveCompanyJobSuccess$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobManagementActions.SAVE_COMPANY_JOB_SUCCESS),
-      mergeMap((saveCompanyJobSuccessAction: fromJobManagementActions.SaveCompanyJobSuccess) =>
-        of(saveCompanyJobSuccessAction).pipe(
-          withLatestFrom(
-            this.store.pipe(select(fromJobsReducer.getJobsPageId)),
-            (action: fromJobManagementActions.SaveCompanyJobSuccess, jobsPageId) =>
-              ({ action, jobsPageId })
-          )
-        ),
-      ),
-      switchMap((data) => of(new fromPfDataGridActions.LoadData(data.jobsPageId)))
-    );
+  saveCompanyJobSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobManagementActions.SAVE_COMPANY_JOB_SUCCESS),
+    withLatestFrom(
+      this.store.pipe(select(fromJobsReducer.getJobsPageId)),
+      (action: fromJobManagementActions.SaveCompanyJobSuccess, jobsPageId) =>
+        ({ action, jobsPageId })
+    ),
+    switchMap(data => [
+      new fromPfDataGridActions.LoadData(data.jobsPageId),
+      new fromPfDataGridActions.CloseSplitView(data.jobsPageId)
+    ])
+  );
 }
 

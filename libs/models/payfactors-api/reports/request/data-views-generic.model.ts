@@ -29,6 +29,8 @@ export interface DataViewEntity {
 
   Is_selected + Is_Selectable = Column is visible
   Is_selected + Is_Filterable = Column is shows in the side Filters
+  Is_Selected + NOT is_Selectable = Column is retrieved from the DB but not shown
+	  ex: ID columns or columns used as composite for other columns Scope, Rate, Geo_Value, Industry_Value
 
   NOT Is_Selected + NOT Is_Selectable + CustomFilterStrategy = Custom Filter Column not retrieved from the DB (ex: Search Employees)
 */

@@ -35,7 +35,7 @@ export class JobFormComponent implements OnInit, OnDestroy {
   jobForm: FormGroup;
   duplicateJobCodeError = false;
 
-  readonly JOB_CODE_MAX_LENGTH = 50;
+  readonly JOB_CODE_FLSA_MAX_LENGTH = 50;
   readonly DEFAULT_MAX_LENGTH = 255;
 
   // convenience getter for easy access to form fields
@@ -62,12 +62,12 @@ export class JobFormComponent implements OnInit, OnDestroy {
     this.jobForm = formBuilder.group({
       JobCode: ['', [
         PfValidators.required,
-        PfValidators.maxLengthTrimWhitespace(this.JOB_CODE_MAX_LENGTH),
+        PfValidators.maxLengthTrimWhitespace(this.JOB_CODE_FLSA_MAX_LENGTH),
         this.validateDuplicateJobCode.bind(this)]],
-      JobFamily: '',
+      JobFamily: ['', PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)],
       JobTitle: ['', [PfValidators.required, PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)]],
       JobLevel: ['', PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)],
-      FLSAStatus: '',
+      FLSAStatus: ['', PfValidators.maxLengthTrimWhitespace(this.JOB_CODE_FLSA_MAX_LENGTH)],
       JobStatus: true,
     });
   }
