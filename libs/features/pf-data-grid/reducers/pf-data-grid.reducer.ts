@@ -223,7 +223,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
-    case fromPfGridActions.CLEAR_ALL_FILTERS:
+    case fromPfGridActions.CLEAR_ALL_NON_GLOBAL_FILTERS:
       return {
         ...state,
         grids: {
@@ -231,6 +231,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             fields: resetFiltersForFilterableFields(state, action.pageViewId)
+          }
+        }
+      };
+    case fromPfGridActions.CLEAR_ALL_FILTERS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fields: resetAllFilters(state, action.pageViewId)
           }
         }
       };
@@ -573,6 +584,16 @@ export function resetFiltersForFilterableFields(state: DataGridStoreState, pageV
   const fieldsToReset: ViewField[] = fields.filter(field => filterableFields.findIndex(f => f.DataElementId === field.DataElementId) >= 0);
 
   fieldsToReset.forEach(field => {
+    field.FilterValue = null;
+    field.FilterOperator = getDefaultFilterOperator(field);
+  });
+  return fields;
+}
+
+function resetAllFilters(state: DataGridStoreState, pageViewId: string): ViewField[] {
+  const fields: ViewField[] = cloneDeep(getFields(state, pageViewId));
+
+  fields.forEach(field => {
     field.FilterValue = null;
     field.FilterOperator = getDefaultFilterOperator(field);
   });

@@ -181,7 +181,7 @@ export class PfDataGridEffects {
                 fromPfDataGridActions.UPDATE_INBOUND_FILTERS,
                 fromPfDataGridActions.UPDATE_FILTER,
                 fromPfDataGridActions.CLEAR_FILTER,
-                fromPfDataGridActions.CLEAR_ALL_FILTERS,
+                fromPfDataGridActions.CLEAR_ALL_NON_GLOBAL_FILTERS,
                 fromPfDataGridActions.UPDATE_SORT_DESCRIPTOR),
             mergeMap((action: any) => {
                 return [

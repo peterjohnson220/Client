@@ -113,4 +113,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
     }
   }
+
+  splitViewTabChange(tabPageViewId: string) {
+    this.store.dispatch(new fromPfGridActions.ClearAllFilters(tabPageViewId));
+  }
 }

@@ -155,7 +155,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   clearAllFilters() {
-    this.store.dispatch(new fromActions.ClearAllFilters(this.pageViewId));
+    this.store.dispatch(new fromActions.ClearAllNonGlobalFilters(this.pageViewId));
   }
 
   saveFilterClicked() {

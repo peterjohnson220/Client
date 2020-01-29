@@ -17,6 +17,7 @@ export const UPDATE_APPLY_DEFAULT_FILTERS = '[PfDataGrid] Update Apply Default F
 export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
+export const CLEAR_ALL_NON_GLOBAL_FILTERS = '[PfDataGrid] Clear All Non Global Filters';
 export const CLEAR_ALL_FILTERS = '[PfDataGrid] Clear All Filters';
 export const TOGGLE_FILTER_PANEL = '[PfDataGrid] Toggle Filter Panel';
 export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
@@ -106,6 +107,11 @@ export class UpdateFilter implements Action {
 export class ClearFilter implements Action {
   readonly type = CLEAR_FILTER;
   constructor(public pageViewId: string, public field: ViewField, public resetOperator = false) { }
+}
+
+export class ClearAllNonGlobalFilters implements Action {
+  readonly type = CLEAR_ALL_NON_GLOBAL_FILTERS;
+  constructor(public pageViewId: string) {}
 }
 
 export class ClearAllFilters implements Action {
@@ -247,6 +253,7 @@ export type DataGridActions =
     | UpdateInboundFilters
     | UpdateFilter
     | ClearFilter
+    | ClearAllNonGlobalFilters
     | ClearAllFilters
     | ToggleFilterPanel
     | SetFilterPanelDisplay
