@@ -2,9 +2,11 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { OrgDataEntityType } from 'libs/constants';
 
+import { CredentialsPackage } from 'libs/models';
+
+import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import { TransferDataWorkflowStep } from '../data';
-import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import { EntityChoice, EntityTypeModel, Provider, TransferMethod } from '../models';
 
 export interface State {
@@ -19,6 +21,7 @@ export interface State {
   showAuthenticationModal: boolean;
   selectedEntities: EntityTypeModel[];
   providerSupportedEntities: EntityChoice[];
+  activeConnection: CredentialsPackage;
 }
 
 const initialState: State = {
@@ -37,7 +40,8 @@ const initialState: State = {
       EntityName: 'Employees'
     }
   ],
-  providerSupportedEntities: []
+  providerSupportedEntities: [],
+  activeConnection: null
 };
 
 export function reducer(state: State = initialState, action: fromTransferDataPageActions.Actions) {
@@ -80,12 +84,13 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
     case fromTransferDataPageActions.RESET_TRANSFER_DATA_PAGE_WORKFLOW: {
       return {
         ...state,
-        selectedProvider: null,
-        authenticationType: null,
-        validationErrors: null,
-        workflowStep: TransferDataWorkflowStep.SelectTransferMethod,
-        isValidCredentials: false,
-        isConnectionEstablished: false
+        // TODO: fix this for MVP
+        // selectedProvider: null,
+        // authenticationType: null,
+        // validationErrors: null,
+        // workflowStep: TransferDataWorkflowStep.SelectTransferMethod,
+        // isValidCredentials: false,
+        // isConnectionEstablished: false
       };
     }
     case fromTransferDataPageActions.LOAD_AUTHENTICATION_FORM_SUCCESS: {
@@ -130,12 +135,12 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
         loading: true
       };
     }
-    case fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS:
-    case fromTransferDataPageActions.PROCEED_TO_MAPPING: {
+    case fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS: {
       return {
         ...state,
         loading: false,
-        workflowStep: TransferDataWorkflowStep.Mappings
+        workflowStep: TransferDataWorkflowStep.Mappings,
+        activeConnection: action.payload
       };
     }
     case fromTransferDataPageActions.LOAD_ENTITY_SELECTION: {
@@ -161,6 +166,19 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
         selectedEntities: selectedEntitiesClone
       };
     }
+    case fromTransferDataPageActions.UPDATE_WORKFLOWSTEP: {
+      return {
+        ...state,
+        workflowStep: action.payload
+      };
+    }
+    case fromTransferDataPageActions.PROCEED_TO_MAPPING: {
+      return {
+        ...state,
+        loading: false,
+        workflowStep: TransferDataWorkflowStep.Mappings
+      };
+    }
     default:
       return state;
   }
@@ -177,3 +195,4 @@ export const getWorkflowStep = (state: State) => state.workflowStep;
 export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
 export const getSelectedEntities = (state: State) => state.selectedEntities;
 export const getProviderSupportedEntities = (state: State) => state.providerSupportedEntities;
+export const getActiveConnection = (state: State) => state.activeConnection;

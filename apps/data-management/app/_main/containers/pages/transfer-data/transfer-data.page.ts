@@ -91,4 +91,8 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
   checkForSelectedEntity() {
     return this.providerSupportedEntities.filter(p => p.isChecked).length > 0;
   }
+
+  proceedBackToProviderSelection() {
+    this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.SelectTransferMethod));
+  }
 }

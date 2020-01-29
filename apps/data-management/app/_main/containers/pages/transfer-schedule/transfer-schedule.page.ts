@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { Observable, Subscription } from 'rxjs';
 import { filter, skip } from 'rxjs/operators';
@@ -57,7 +57,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.restoreCompletedSubscription = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryRestoreCompleted)
       .pipe(filter(x => x === true)).subscribe(s => {
         if (this.shouldGoBack) {
-          console.log('go back to the mapping page from here');
+          this.router.navigate(['/', 'transfer-data']); // TODO: update to be mapping page
         }
       });
     this.showIntegrationFinishedModal$ = this.store.select(fromDataManagementMainReducer.getShowSetupCompleteModal);
@@ -76,6 +76,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     if (this.wasEdited) {
       this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
     }
+    this.router.navigate(['/']);
   }
 
   goBack() {
@@ -83,7 +84,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
       this.shouldGoBack = true;
       this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
     } else {
-      console.log('go back to the mapping page from here');
+      this.router.navigate(['/', 'transfer-data']); // TODO: update to be mapping page
     }
   }
 

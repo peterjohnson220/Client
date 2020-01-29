@@ -132,6 +132,11 @@ export const getShowAuthenticatingModal = createSelector(
   fromTransferDataPageReducer.getShowAuthenticatingModal
 );
 
+export const getTransferDataPageActiveConnection = createSelector(
+  selectTransferDataPageState,
+  fromTransferDataPageReducer.getActiveConnection
+);
+
 // Organizational Data Page
 export const getOrganizationalHeadersLink = createSelector(
   selectOrganizationalDataPageState,

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -8,6 +9,7 @@ import { CredentialsPackage } from 'libs/models';
 
 import * as fromTransferDataPageActions from '../../actions/transfer-data-page.actions';
 import * as fromDataManagementMainReducer from '../../reducers';
+import { TransferDataWorkflowStep } from '../../data';
 import { PayfactorsApiModelMapper } from '../../helpers';
 import {EntityTypeModel, Provider} from '../../models';
 
@@ -34,7 +36,7 @@ export class HrisAuthenticationCardComponent implements OnDestroy {
   private creds: CredentialsPackage = null;
   private unsubscribe$ = new Subject();
 
-  constructor(private store: Store<fromDataManagementMainReducer.State>) {
+  constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
     this.validationErrors$ = this.store.select(fromDataManagementMainReducer.getValidationErrors);
     this.showAuthenticatingModal$ = this.store.select(fromDataManagementMainReducer.getShowAuthenticatingModal);
     this.selectedEntities$ = this.store.select(fromDataManagementMainReducer.getSelectedEntities);
@@ -51,6 +53,11 @@ export class HrisAuthenticationCardComponent implements OnDestroy {
   cancelAuthClick() {
     this.creds = null;
     this.store.dispatch(new fromTransferDataPageActions.ResetTransferDataPageWorkflow());
+    this.router.navigate(['/']);
+  }
+
+  proceedBackToEntitySelection() {
+    this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.EntitySelection));
   }
 
   createConnectionClick() {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { isEmpty, isObject } from 'lodash';
+import { isEmpty, isObject, values } from 'lodash';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -20,19 +20,31 @@ import { PayMarketApiService } from 'libs/data/payfactors-api';
 @Injectable()
 export class FieldMappingEffects {
 
+  // TODO: Clean this up to make a call to getmapings to check for an existing mapping, if one doesn't exist continue with the same logic
   @Effect()
   initFieldMappings$: Observable<Action> = this.actions$.pipe(
     ofType<fromFieldMappingActions.InitFieldMappingCard>(fromFieldMappingActions.INIT_FIELD_MAPPING_CARD),
     withLatestFrom(
       this.store.pipe(select(fromRootState.getUserContext)),
-      (action, userContext) => {
+      this.store.pipe(select(fromReducers.getPayfactorsFields)),
+      this.store.pipe(select(fromReducers.getProviderFields)),
+      (action, userContext, payFactorsFields, providerFields) => {
         return {
           action,
-          userContext
+          userContext,
+          payFactorsFields,
+          providerFields
       };
     }),
     mergeMap(obj => {
       const actions = [];
+      // TODO: stop gap for sales demo
+      if (!values(obj.providerFields).every(x => isEmpty(x)) && !values(obj.payFactorsFields).every(x => isEmpty(x))) {
+        return [
+          new fromFieldMappingActions.InitFieldMappingCardSuccess()
+        ];
+      }
+
       obj.action.payload.entities.forEach(entity => {
         const entityType = OrgDataEntityType[entity.EntityType];
         actions.push(new fromFieldMappingActions.LoadProviderFieldsByEntity({ entity: entityType}));

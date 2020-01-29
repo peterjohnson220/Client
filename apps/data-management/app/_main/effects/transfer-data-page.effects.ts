@@ -8,7 +8,7 @@ import { mergeMap, switchMap, map, withLatestFrom, catchError, delay } from 'rxj
 import * as fromRootState from 'libs/state/state';
 import { TransferMethodsHrisApiService, ProvidersHrisApiService,
   ConnectionsHrisApiService} from 'libs/data/payfactors-api/hris-api';
-import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse, ProviderSupportedEntityDTO } from 'libs/models/hris-api';
+import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse, ProviderSupportedEntityDTO, CredentialsPackage } from 'libs/models/hris-api';
 
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
@@ -124,26 +124,42 @@ export class TransferDataPageEffects {
       })
     );
 
+  // TODO: Refactor to remove this and move to hris-connection-effects for splitting out to individual pages
   @Effect()
     CreateConnection$: Observable<Action> = this.actions$
     .pipe(
       ofType<fromTransferDataPageActions.CreateConnection>(fromTransferDataPageActions.CREATE_CONNECTION),
-      withLatestFrom(this.store.select(fromDataManagementMainReducer.getSelectedProvider),
-      this.store.pipe(select(fromRootState.getUserContext)),
-      (action, provider, userContext) => {
+      withLatestFrom(
+        this.store.select(fromDataManagementMainReducer.getSelectedProvider),
+        this.store.pipe(select(fromDataManagementMainReducer.getTransferDataPageActiveConnection)),
+        this.store.pipe(select(fromRootState.getUserContext)),
+      (action, provider, activeConnection, userContext) => {
         return {
           action,
           provider,
+          activeConnection,
           userContext
         };
       }),
       switchMap((obj) => {
+        if (obj.activeConnection) {
+          return [
+            new fromTransferDataPageActions.CreateConnectionSuccess(obj.activeConnection)
+          ];
+        }
+
         const connectionPostModel =
           PayfactorsApiModelMapper.createConnectionPostRequest(obj.action.payload, obj.userContext.CompanyId, obj.provider.ProviderId);
         return this.connectionsHrisApiService.connect(obj.userContext, connectionPostModel)
           .pipe(
-            map((response: any) => {
-              return new fromTransferDataPageActions.CreateConnectionSuccess();
+            switchMap((response: any) => {
+              return this.connectionsHrisApiService.get(obj.userContext)
+                .pipe(
+                  map((newConnection: CredentialsPackage) => {
+                    return new fromTransferDataPageActions.CreateConnectionSuccess(newConnection);
+                  }),
+                  catchError(error => of(new fromTransferDataPageActions.CreateConnectionError()))
+                );
             }),
             catchError(error => of(new fromTransferDataPageActions.CreateConnectionError()))
           );

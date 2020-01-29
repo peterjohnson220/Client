@@ -48,6 +48,13 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
         selectedEntities: action.payload.entities,
       };
     }
+    case fromFieldMappingActions.INIT_FIELD_MAPPING_CARD_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: false
+      };
+    }
     case fromFieldMappingActions.LOAD_PAYFACTORS_FIELDS_BY_ENTITY: {
       return {
         ...state,
@@ -154,9 +161,6 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
         saving: false
       };
     }
-    case fromFieldMappingActions.CANCEL_MAPPING: {
-      return state = initialState;
-    }
     case fromFieldMappingActions.LOAD_DEFAULT_PAYMARKET: {
       return {
         ...state,
@@ -193,6 +197,7 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
         defaultPaymarketModalOpen: false,
       };
     }
+    case fromFieldMappingActions.CANCEL_MAPPING: // TODO: stop gap for sales demo. Fix this when we move to MVP
     default:
       return state;
   }

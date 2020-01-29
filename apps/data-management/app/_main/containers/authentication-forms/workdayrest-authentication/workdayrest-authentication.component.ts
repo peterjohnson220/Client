@@ -18,6 +18,7 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
 
   @Output() submitClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();
+  @Output() backClick = new EventEmitter();
 
   private employeeReportUrl = 'employeeReportUrl';
   private jobReportUrl = 'jobReportUrl';
@@ -98,6 +99,10 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
         ctrl.updateValueAndValidity();
       }
     });
+  }
+
+  backBtnClick() {
+    this.backClick.emit();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

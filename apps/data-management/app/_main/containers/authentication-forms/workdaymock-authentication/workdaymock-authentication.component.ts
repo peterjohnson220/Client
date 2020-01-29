@@ -14,6 +14,7 @@ export class WorkdayMockAuthenticationComponent implements OnInit {
 
   @Output() submitClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();
+  @Output() backClick = new EventEmitter();
 
   workdayMockForm: FormGroup;
   submitted = false;
@@ -39,6 +40,10 @@ export class WorkdayMockAuthenticationComponent implements OnInit {
   cancelAuthenticationClick() {
     this.workdayMockForm.reset();
     this.cancelClick.emit();
+  }
+
+  backBtnClick() {
+    this.backClick.emit();
   }
 
   initForm(): void {

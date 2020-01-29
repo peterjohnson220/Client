@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
-
+import * as fromTransferDataPageActions from '../../actions/transfer-data-page.actions';
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
 import * as fromFieldMappingReducer from '../../reducers';
 import { EntityTypeModel } from '../../models';
@@ -55,5 +55,10 @@ export class FieldMappingCardComponent implements OnDestroy {
 
   saveMappings() {
     this.store.dispatch(new fromFieldMappingActions.TrySaveMapping());
+  }
+
+  // TODO: use routeLink when we split to paged approach
+  goBackToAuthentication() {
+    this.store.dispatch(new fromTransferDataPageActions.LoadAuthenticationFormSuccess());
   }
 }
