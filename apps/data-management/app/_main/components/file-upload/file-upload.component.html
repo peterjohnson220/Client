@@ -1,5 +1,4 @@
-<pf-async-container
-    [loading]="fileUploading">
+<pf-async-container [loading]="fileUploading">
   <div class="border rounded px-5 py-2 h-100"
        pfDragDrop
        (onFileDropped)="onFileDrop($event)">
@@ -13,7 +12,7 @@
                 [style.opacity]="1">
           <h5 [style.display]="'inline'">
             <fa-icon class="mr-2"
-                     [icon]="['fa', 'upload']"></fa-icon> Browse
+                     icon="upload"></fa-icon> Browse
           </h5>
         </button>
 
