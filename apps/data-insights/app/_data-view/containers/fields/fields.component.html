@@ -36,9 +36,3 @@
     (fieldRemoved)="handleFieldRemoved($event)">
   </pf-view-all-fields>
 </ng-template>
-
-<pf-formula-field-modal
-  [baseEntityId]="(dataView$ | async)?.obj?.BaseEntityId"
-  [fieldSuggestions]="formulaFieldSuggestions$ | async"
-  [modalData]="formulaFieldModalObj">
-</pf-formula-field-modal>

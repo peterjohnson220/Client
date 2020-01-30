@@ -89,7 +89,7 @@
 
 <pf-formula-field-modal
   #editFormulaModal
-  [baseEntityId]="(dataView$ | async)?.obj?.BaseEntityId"
+  [baseEntityId]="(dataView$ | async)?.obj?.Entity?.Id"
   [fieldSuggestions]="formulaFieldSuggestions$ | async"
   [modalData]="formulaFieldModalObj">
 </pf-formula-field-modal>

@@ -1,17 +1,14 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromFieldsActions from '../../actions/fields.actions';
-import { Field, UserDataView, FormulaFieldModalObj, Suggestion } from '../../models';
-import { FormulaFieldModalComponent } from '../formula-field-modal';
+import { Field, UserDataView, Suggestion } from '../../models';
 
 @Component({
   selector: 'pf-data-view-fields',
@@ -19,7 +16,6 @@ import { FormulaFieldModalComponent } from '../formula-field-modal';
   styleUrls: ['./fields.component.scss']
 })
 export class FieldsComponent implements OnInit, OnDestroy {
-  @ViewChild(FormulaFieldModalComponent, { static: true }) public formulaFieldModal: FormulaFieldModalComponent;
   allFieldsAsync$: Observable<AsyncStateObj<Field[]>>;
   selectedFields$: Observable<Field[]>;
   unselectedFields$: Observable<Field[]>;
@@ -31,12 +27,10 @@ export class FieldsComponent implements OnInit, OnDestroy {
 
   selectedFields: Field[];
   viewAllFields: boolean;
-  formulaFieldModalObj: FormulaFieldModalObj;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
-    private dragulaService: DragulaService,
-    private settingService: SettingsService
+    private dragulaService: DragulaService
   ) {
     this.allFieldsAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getReportFieldsAsync));
     this.selectedFields$ = this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields));
@@ -83,17 +77,6 @@ export class FieldsComponent implements OnInit, OnDestroy {
 
   toggleViewAllFields() {
     this.viewAllFields = !this.viewAllFields;
-  }
-
-  handleCreateFormulaFieldClicked(): void {
-    this.formulaFieldModalObj = {
-      Title: 'Create Formula Field',
-      FieldName: '',
-      Formula: '',
-      IsEditable: true,
-      DuplicateAllowed: false
-    };
-    this.formulaFieldModal.open();
   }
 
 }
