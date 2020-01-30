@@ -14,6 +14,7 @@ export class PfTestAuthenticationComponent implements OnInit {
 
   @Output() submitClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();
+  @Output() backClick = new EventEmitter();
 
   pfTestForm: FormGroup;
   submitted = false;
@@ -38,6 +39,11 @@ export class PfTestAuthenticationComponent implements OnInit {
     this.pfTestForm.reset();
     this.cancelClick.emit();
   }
+
+  backBtnClick() {
+    this.backClick.emit();
+  }
+
 
   initForm(): void {
     this.pfTestForm = this.formBuilder.group({

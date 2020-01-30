@@ -67,7 +67,9 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         </div>
       </div>
     </div>
-    <pf-modal-form>
+    <pf-modal-form
+      title="Integration Setup Complete"
+    >
       
       <h5
         class="mb-3 setup-complete-modal-header"
@@ -160,7 +162,9 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         </div>
       </div>
     </div>
-    <pf-modal-form>
+    <pf-modal-form
+      title="Integration Setup Complete"
+    >
       
       <h5
         class="mb-3 setup-complete-modal-header"

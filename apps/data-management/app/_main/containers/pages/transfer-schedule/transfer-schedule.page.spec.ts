@@ -13,6 +13,7 @@ import * as fromTransferScheduleReducers from '../../../reducers/transfer-schedu
 import {GetSupportedSchedulesPipe} from '../../../pipes';
 
 import { TransferSchedulePageComponent } from './transfer-schedule.page';
+import { Router } from '@angular/router';
 
 describe('TransferSchedulePageComponent', () => {
   let instance: TransferSchedulePageComponent;

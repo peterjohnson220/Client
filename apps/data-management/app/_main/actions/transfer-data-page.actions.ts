@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { CredentialsPackage } from 'libs/models';
 import { TransferMethod, Provider, EntityChoice } from '../models';
+import { TransferDataWorkflowStep } from '../data';
 
 export const INIT = '[Data Management/Transfer Data Page] Init Transfer Data Page';
 export const LOAD_AUTHENTICATION_FORM = '[Data Management/Transfer Data Page] Load Authentication Form';
@@ -27,6 +28,7 @@ export const LOAD_ENTITY_SELECTION_ERROR = '[Data Management/Transfer Data Page]
 export const LOAD_ENTITY_SELECTION_SUCCESS = '[Data Management/Transfer Data Page] Load Entity Selection Success';
 export const PROCEED_TO_AUTHENTICATION = '[Data Management/Transfer Data Page] Proceed to Authentication';
 export const PROCEED_TO_MAPPING = '[Data Management/Transfer Data Page] Proceed to Mapping';
+export const UPDATE_WORKFLOWSTEP = '[Data Management/Transfer Data Page] Update Workfow Step';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -123,7 +125,7 @@ export class CreateConnectionError implements Action {
 export class CreateConnectionSuccess implements Action {
   readonly type = CREATE_CONNECTION_SUCCESS;
 
-  constructor() {}
+  constructor(public payload: CredentialsPackage) {}
 }
 
 export class LoadEntitySelection implements Action {
@@ -148,6 +150,12 @@ export class ProceedToAuthentication implements Action {
   readonly type = PROCEED_TO_AUTHENTICATION;
 
   constructor(public payload: EntityChoice[]) {}
+}
+
+export class UpdateWorkflowstep implements Action {
+  readonly type = UPDATE_WORKFLOWSTEP;
+
+  constructor(public payload: TransferDataWorkflowStep) {}
 }
 
 export class ProceedToMapping implements Action {
@@ -180,4 +188,5 @@ export type Actions
   | LoadEntitySelectionError
   | LoadEntitySelectionSuccess
   | ProceedToAuthentication
-  | ProceedToMapping;
+  | ProceedToMapping
+  | UpdateWorkflowstep;
