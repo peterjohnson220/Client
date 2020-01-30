@@ -12,7 +12,6 @@ import {
   DuplicateUserViewRequest,
   UpdateDataViewFieldsRequest,
   DeleteUserViewRequest,
-  SaveUserDataViewSortOrderRequest,
   DataViewFilterOptionsRequest,
   SaveUserViewFiltersRequest,
   ShareUserDataViewRequest,
@@ -79,10 +78,6 @@ export class DataViewApiService {
 
   updateDataViewFields(request: UpdateDataViewFieldsRequest): Observable<any[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdateDataViewFields`, request);
-  }
-
-  saveUserDataViewSortOrder(request: SaveUserDataViewSortOrderRequest): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/SaveUserDataViewSortOrder`, request);
   }
 
   getFilterOptions(request: DataViewFilterOptionsRequest): Observable<string[]> {

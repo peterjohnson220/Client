@@ -95,10 +95,12 @@ export class FieldsHelper {
     const fieldsToSave: UserDataElement[] = selectedFields.map((f, index) => {
       return {
         DataElementId: f.DataElementId,
-        FormulaId: f.FormulaId,
+        UserFormulaId: f.FormulaId,
         Order: index + 1,
         DisplayName: f.DisplayName,
-        Format: f.Format
+        Format: f.Format,
+        SortDirection: f.SortDirection,
+        SortOrder: f.SortOrder
       };
     });
     return {

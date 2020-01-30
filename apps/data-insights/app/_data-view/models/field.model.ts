@@ -17,6 +17,8 @@ export interface Field {
   IsEditable?: boolean;
   Formula?: string;
   FormulaName?: string;
+  SortOrder?: number;
+  SortDirection?: 'asc' | 'desc';
 }
 
 export interface FieldListItem {

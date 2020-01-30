@@ -36,7 +36,6 @@ export const DUPLICATE_USER_REPORT = '[Data Insights / Data View] Duplicate User
 export const DUPLICATE_USER_REPORT_SUCCESS = '[Data Insights / Data View] Duplicate User Report Success';
 export const DUPLICATE_USER_REPORT_ERROR = '[Data Insights / Data View] Duplicate User Report Error';
 export const DUPLICATE_USER_REPORT_CONFLICT_ERROR = '[Data Insights / Data View] Duplicate User Report Conflict';
-export const UPDATE_DATA_VIEW_SORT_DESCRIPTOR = '[Data Insights / Data View] Update Data View Sort Descriptor';
 
 export class GetUserDataView implements Action {
   readonly type = GET_USER_DATA_VIEW;
@@ -230,12 +229,6 @@ export class DuplicateUserReportConflict implements Action {
   constructor() {}
 }
 
-export class UpdateDataViewSortDescriptor implements Action {
-  readonly type = UPDATE_DATA_VIEW_SORT_DESCRIPTOR;
-
-  constructor(public payload: { sortField: string, sortDir: 'desc' | 'asc' }) {}
-}
-
 export type Actions
   = GetUserDataView
   | GetUserDataViewSuccess
@@ -268,5 +261,4 @@ export type Actions
   | DuplicateUserReport
   | DuplicateUserReportSuccess
   | DuplicateUserReportError
-  | DuplicateUserReportConflict
-  | UpdateDataViewSortDescriptor;
+  | DuplicateUserReportConflict;

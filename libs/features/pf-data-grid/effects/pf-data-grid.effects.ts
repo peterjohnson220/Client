@@ -228,21 +228,11 @@ export class PfDataGridEffects {
         baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
         pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean) {
 
-        let singleSortDesc = null;
-        if (!!sortDescriptor && sortDescriptor.length > 0) {
-            const field: ViewField = fields.find(x => sortDescriptor[0].field === `${x.EntitySourceName}_${x.SourceName}`);
-            singleSortDesc = {
-                SortField: field,
-                SortDirection: sortDescriptor[0].dir
-            };
-        }
-
         return {
             BaseEntityId: baseEntityId,
-            Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields),
+            Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields, sortDescriptor),
             Filters: filters,
             PagingOptions: pagingOptions,
-            SortDescriptor: singleSortDesc,
             WithCount: withCount,
         };
     }
@@ -255,10 +245,11 @@ export class PfDataGridEffects {
         }));
     }
 
-    static mapFieldsToDataViewFields(fields: ViewField[]): DataViewField[] {
+    static mapFieldsToDataViewFields(fields: ViewField[], sortDescriptor: SortDescriptor[]): DataViewField[] {
         return fields ? fields
             .filter(f => f.IsSelected)
             .map(f => {
+                const sortInfo = this.getSortInformation(f, sortDescriptor);
                 return {
                     EntityId: f.EntityId,
                     Entity: null,
@@ -270,10 +261,27 @@ export class PfDataGridEffects {
                     IsSelected: f.IsSelected,
                     IsSortable: false,
                     Order: f.Order,
-                    FieldType: DataViewFieldType.DataElement
+                    FieldType: DataViewFieldType.DataElement,
+                    SortOrder: !!sortInfo ? sortInfo.SortOrder : null,
+                    SortDirection: !!sortInfo ? sortInfo.SortDirection : null
                 };
             })
             : [];
+    }
+
+    private static getSortInformation(field: ViewField, sortDescriptor: SortDescriptor[]) {
+      if (!!sortDescriptor && sortDescriptor.length > 0) {
+        const sortInfo = sortDescriptor.find(x => x.field === `${field.EntitySourceName}_${field.SourceName}`);
+        if (!!sortInfo) {
+          return {
+            SortDirection: sortInfo.dir,
+            SortOrder: sortDescriptor.indexOf(sortInfo)
+          };
+        } else {
+          return null;
+        }
+      }
+      return null;
     }
 
     static mapFieldsToFilters(fields: ViewField[]): DataViewFilter[] {

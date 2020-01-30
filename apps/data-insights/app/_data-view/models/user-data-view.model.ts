@@ -8,8 +8,6 @@ export enum DataViewAccessLevel {
 
 export interface UserDataView extends BaseDataView {
   UserDataViewId: number;
-  SortField: string;
-  SortDir: 'desc' | 'asc';
   AccessLevel: DataViewAccessLevel;
 }
 
@@ -19,8 +17,6 @@ export function generateMockUserDataView(): UserDataView {
     Summary: 'Test summary',
     Name: 'New Name',
     UserDataViewId: 1,
-    SortField: 'CompanyJobs_Job_Title',
-    SortDir: 'asc',
     AccessLevel: DataViewAccessLevel.Owner
   };
 }

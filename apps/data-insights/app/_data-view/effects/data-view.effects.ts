@@ -32,10 +32,11 @@ export class DataViewEffects {
               const userDataView = PayfactorsApiModelMapper.mapUserDataViewResponseToUserDataView(response);
               const selectedFields = PayfactorsApiModelMapper.mapDataViewFieldsToFields(response.Fields);
               const filters = PayfactorsApiModelMapper.mapDataViewFiltersToFilters(response.Filters, response.Fields);
-              const sortDescriptor: SortDescriptor = {
-                field: userDataView.SortField,
-                dir: userDataView.SortDir
-              };
+              const sortedField = selectedFields.find(f => f.SortOrder >= 0);
+              const sortDescriptor: SortDescriptor = !!sortedField ? {
+                field: sortedField.KendoGridField,
+                dir: sortedField.SortDirection
+              } : null;
               return [
                 new fromDataViewActions.GetUserDataViewSuccess(userDataView),
                 new fromDataViewGridActions.SetSortDescriptor(sortDescriptor),
@@ -203,18 +204,6 @@ export class DataViewEffects {
             map(() => new fromDataViewActions.RemoveSharePermissionSuccess(data.action.payload)),
             catchError(() => of(new fromDataViewActions.RemoveSharePermissionError()))
           );
-      })
-    );
-
-  @Effect()
-  saveSortDescriptorSuccess$ = this.action$
-    .pipe(
-      ofType(fromDataViewGridActions.SAVE_SORT_DESCRIPTOR_SUCCESS),
-      map((action: fromDataViewGridActions.SaveSortDescriptorSuccess) => {
-        return new fromDataViewActions.UpdateDataViewSortDescriptor({
-          sortField: action.payload.field,
-          sortDir: action.payload.dir
-        });
       })
     );
 
