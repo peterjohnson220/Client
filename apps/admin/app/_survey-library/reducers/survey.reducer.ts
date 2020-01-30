@@ -3,6 +3,7 @@ import * as fromSurveyActions from '../actions/survey-actions';
 export interface State {
     isMapCompaniesModalOpen: boolean;
     isCopySurveyModalOpen: boolean;
+    isDeleteConfirmationModalOpen: boolean;
     mapCompaniesModalData: any;
     isLoadingMapModalData: boolean;
     getMapModalDataFailed: boolean;
@@ -16,6 +17,7 @@ export interface State {
 export const initialState: State = {
     isMapCompaniesModalOpen: false,
     isCopySurveyModalOpen: false,
+    isDeleteConfirmationModalOpen: false,
     mapCompaniesModalData: {},
     isLoadingMapModalData: false,
     getMapModalDataFailed: false,
@@ -40,7 +42,12 @@ export function reducer(state = initialState, action: fromSurveyActions.Actions)
                 isCopySurveyModalOpen: action.isOpen
             };
         }
-
+        case fromSurveyActions.SET_DELETE_CONFIRMATION_MODAL_OPEN: {
+            return {
+                ...state,
+                isDeleteConfirmationModalOpen: action.isOpen
+            };
+        }
         case fromSurveyActions.GET_MAP_COMPANIES_MODAL_DATA: {
             return {
                 ...state,
@@ -112,6 +119,7 @@ export function reducer(state = initialState, action: fromSurveyActions.Actions)
 
 export const isMapCompaniesModalOpen = (state: State) => state.isMapCompaniesModalOpen;
 export const isCopySurveyModalOpen = (state: State) => state.isCopySurveyModalOpen;
+export const isDeleteConfirmationModalOpen = (state: State) => state.isDeleteConfirmationModalOpen;
 export const mapCompaniesModalData = (state: State) => state.mapCompaniesModalData;
 export const isLoadingMapModalData = (state: State) => state.isLoadingMapModalData;
 export const getMapModalDataFailed = (state: State) => state.getMapModalDataFailed;

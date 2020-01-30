@@ -1,0 +1,70 @@
+<ng-template #formulaFieldModal>
+  <div class="modal-header">
+    <h4>{{title}}</h4>
+  </div>
+
+  <div class="modal-body d-flex flex-column">
+    <div class="instructions">
+      <h5 id="header-info">Instructions</h5>
+      Use <b>[</b> to find and insert existing fields in your formula. Use <b>$</b> to view formula syntax. To view a complete list of all supported formulas with descriptions, <a href="javascript:void(0)">click here</a>
+    </div>
+
+    <form [formGroup]="formulaFieldForm">
+      <div class="form-group">
+        <label class="field-name-label">Custom Formula Field Name</label>
+        <input type="text" class="form-control"
+          [attr.data-qa-id]="'txt-fieldName'"
+          [placeholder]="'Field Name...'"
+          [value]="fieldName"
+          [maxlength]="maxFieldNameLength"
+          ngbAutoFocus
+          formControlName="fieldName"
+          name="fieldName" #formFieldName/>
+        <div class="text-danger mt-2" *ngIf="formFieldName.value.length > maxFieldNameLength">
+          Field name must be no longer than {{maxFieldNameLength}} characters.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <pf-formula-editor
+          [initialFormula]="modalData?.Formula"
+          [fieldSuggestions]="fieldSuggestions"
+          [functionSuggestions]="functionSuggestions"
+          [validating]="validating"
+          [isValid]="isValidFormula"
+          [disabled]="!isEditable"
+          [isWaitingForValidation]="isWaitingForValidation"
+          (formulaChanged)="handleFormulaChanged($event)">
+        </pf-formula-editor>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button *ngIf="duplicateAllowed" type="button" [attr.data-qa-id]="'btn-duplicate'" class="btn btn-secondary"
+            [disabled]="duplicateDisabled"
+            (click)="duplicate()">Duplicate</button>
+    <div class="savings-container space-out-children">
+      <ng-container *ngIf="showErrorMessages && !saving">
+        <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>
+      </ng-container>
+      <div class="warning-icon" *ngIf="isEditable && !saveDisabled && typeChangeDetected"
+          [ngbPopover]="popContent"
+           container="body"
+           triggers="mouseenter:mouseleave"
+           popoverTitle="Warning">
+        <fa-icon icon="exclamation-circle"></fa-icon>
+      </div>
+      <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary p-2" (click)="close()">Cancel</button>
+      <button *ngIf="isEditable" type="button" [attr.data-qa-id]="'btn-save'" class="btn light-blue-btn"
+        [disabled]="saveDisabled"
+        (click)="handleSaveClicked()">
+        <span *ngIf="!saving">Save</span>
+        <span *ngIf="saving"><pf-loading-indicator></pf-loading-indicator> Saving...</span>
+      </button>
+    </div>
+  </div>
+  <ng-template #popContent>
+    You are changing the field type. If you save your changes, it will remove your filters on the formula field.
+  </ng-template>
+</ng-template>

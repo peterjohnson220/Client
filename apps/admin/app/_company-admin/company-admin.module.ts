@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -8,7 +7,6 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { NotificationModule } from '@progress/kendo-angular-notification';
-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonModule } from 'libs/core';
@@ -17,8 +15,8 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { UserManagementModule } from 'libs/features/user-management';
 
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
+import { UserRoleModule, PasswordManagementModule, NavigationModule, UserBulkAddModule } from './';
 
-import { UserRoleModule, PasswordManagementModule, NavigationModule } from './';
 
 @NgModule({
   imports: [
@@ -47,7 +45,9 @@ import { UserRoleModule, PasswordManagementModule, NavigationModule } from './';
     UserRoleModule,
     PasswordManagementModule,
     NavigationModule,
-    UserManagementModule
+    UserManagementModule,
+    UserBulkAddModule
+
   ]
 })
 export class CompanyAdminModule {

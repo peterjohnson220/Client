@@ -1,0 +1,18 @@
+:host h4.card-title {
+  font-size: 1.15rem;
+  color: grey;
+  margin-left: -1.25rem;
+  font-weight: 400;
+}
+
+:host h4 span {
+  position: absolute;
+  text-align: right;
+  right: 3rem;
+  text-transform: none;
+  color: black;
+}
+
+table {
+  color: grey;
+}

@@ -1,68 +1,60 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, ViewChild, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { NgbTabChangeEvent, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
+
+import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
 import * as fromFieldMappingReducer from '../../reducers';
-import { EntityField } from '../../models';
+import { EntityTypeModel } from '../../models';
 
 @Component({
   selector: 'pf-field-mappings-card',
   templateUrl: './field-mappings-card.component.html',
   styleUrls: ['./field-mappings-card.component.scss']
 })
-export class FieldMappingCardComponent implements OnInit, OnDestroy {
+export class FieldMappingCardComponent implements OnDestroy {
+  @Output() resetWorkflow = new EventEmitter();
+  @ViewChild(NgbTabset, { static: true }) tabSet: NgbTabset;
 
   fieldMappingCardLoading$: Observable<boolean>;
   fieldMappingCardLoadingError$: Observable<boolean>;
+  canSaveMappings$: Observable<boolean>;
+  errorSavingMapping$: Observable<boolean>;
+  savingMappings$: Observable<boolean>;
+  selectedEntities$: Observable<EntityTypeModel[]>;
 
-  selectedEntities$: Observable<any>;
-  providerFields$: Observable<EntityField>;
-  payfactorFields$: Observable<EntityField>;
-
-  providerFieldsSubscription: Subscription;
-  payfactorFieldsSubscription: Subscription;
   selectedEntitiesSubscription: Subscription;
 
-  selectedEntities: any[];
-  providerFields: EntityField;
-  payfactorsFields: EntityField;
-
-  @ViewChild(NgbTabset, { static: true }) tabSet: NgbTabset;
+  selectedEntities: EntityTypeModel[];
 
   constructor(private store: Store<fromFieldMappingReducer.State>) {
 
-    this.selectedEntities$ = this.store.select(fromFieldMappingReducer.getFieldMappingCardLoading);
-    this.selectedEntities$ = this.store.select(fromFieldMappingReducer.getFieldMappingCardLoadingError);
-
+    this.fieldMappingCardLoading$ = this.store.select(fromFieldMappingReducer.getFieldMappingCardLoading);
+    this.fieldMappingCardLoadingError$ = this.store.select(fromFieldMappingReducer.getFieldMappingCardLoadingError);
+    this.canSaveMappings$ = this.store.select(fromFieldMappingReducer.canSaveMappings);
     this.selectedEntities$ = this.store.select(fromFieldMappingReducer.getSelectedEntities);
-    this.payfactorFields$ = this.store.select(fromFieldMappingReducer.getPayfactorsFields);
-    this.providerFields$ = this.store.select(fromFieldMappingReducer.getProviderFields);
+    this.savingMappings$ = this.store.select(fromFieldMappingReducer.savingMappings);
+    this.errorSavingMapping$ = this.store.select(fromFieldMappingReducer.savingMappingsError);
 
     this.selectedEntitiesSubscription = this.selectedEntities$
     .subscribe(v => {
       this.selectedEntities = v;
     });
-
-    this.providerFieldsSubscription = this.providerFields$
-      .subscribe(v => {
-        this.providerFields = v;
-      });
-
-    this.payfactorFieldsSubscription = this.payfactorFields$
-      .subscribe(v => {
-        this.payfactorsFields = v;
-      });
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy() {
-    this.providerFieldsSubscription.unsubscribe();
-    this.payfactorFieldsSubscription.unsubscribe();
     this.selectedEntitiesSubscription.unsubscribe();
+  }
+
+  cancelFieldMappingWorkflow() {
+    this.store.dispatch(new fromFieldMappingActions.CancelMapping());
+    this.resetWorkflow.emit('');
+  }
+
+  saveMappings() {
+    this.store.dispatch(new fromFieldMappingActions.SaveMapping());
   }
 }

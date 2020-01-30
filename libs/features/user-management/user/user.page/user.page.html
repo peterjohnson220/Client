@@ -12,7 +12,14 @@
     <pf-async-container [loading]="loading$ | async" [loadingError]="apiError$ | async" [loadingErrorMessage]="apiError$ | async" (reload)="reloadPage()">
       <div class="row no-gutters">
         <div class="col-lg-6 px-3">
-          <pf-user-form #userForm [userRoles]="userRoles$ | async" [user]="user$ | async" [companyId]="companyId" (saveUser)="save($event)"></pf-user-form>
+          <pf-user-form #userForm
+                        [userRoles]="userRoles$ | async"
+                        [user$]="user$"
+                        [companyId]="companyId"
+                        [userId]="userId"
+                        [companySubsidiaries$]="companySubsidiaryInfo$"
+                        (saveUser)="save($event)">
+          </pf-user-form>
         </div>
         <div class="col-lg-6 px-3 mt-4">
           <div class="card">

@@ -52,7 +52,7 @@ export class PayfactorsApiModelMapper {
         return {
           Field: f.field,
           Operator: f.operator,
-          Value: f.value,
+          Value: f.value.toString(),
           IgnoreCase: f.ignoreCase
         };
       })

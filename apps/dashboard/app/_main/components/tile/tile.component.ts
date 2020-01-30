@@ -24,6 +24,7 @@ export class TileComponent implements OnInit {
   tilePreviewType: TilePreviewType = new TilePreviewType();
   ngAppRoot = environment.ngAppRoot;
   previewModel: TilePreviewBase;
+  highlightMarketingContent = false;
 
   static generatePreviewModel(tile: Tile): TilePreviewBase {
     switch (tile.PreviewType) {
@@ -46,6 +47,18 @@ export class TileComponent implements OnInit {
           PreviewType: TilePreviewTypes.Unknown,
           IconClass: tile.IconClass
         };
+    }
+  }
+
+  onMouseOver() {
+    if (this.tile.MarketingEnabled) {
+        this.highlightMarketingContent = true;
+    }
+  }
+
+  onMouseLeave() {
+    if (this.tile.MarketingEnabled) {
+      this.highlightMarketingContent = false;
     }
   }
 

@@ -20,6 +20,10 @@ export class JobSearchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
+  getModelBasedJobResults(searchRequest: JobSearchRequest): Observable<JobSearchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetJobResults`, searchRequest);
+  }
+
   getJobResults(searchRequest: JobSearchRequest): Observable<JobSearchResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetJobResults`, searchRequest);
   }

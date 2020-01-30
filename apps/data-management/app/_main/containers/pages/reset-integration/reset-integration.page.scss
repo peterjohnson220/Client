@@ -1,0 +1,24 @@
+:host h4 {
+  padding-top: 1.5rem;
+  padding-bottom: .75rem;
+  font-weight: 400;
+}
+
+:host h5 {
+  padding-bottom: 1.5rem;
+  font-weight: 400;
+}
+
+:host ::ng-deep a.btn {
+  min-width: 5rem;
+}
+
+:host ::ng-deep a.btn.btn-primary:not(.btn-disabled) {
+  background-color: rgb(0, 170, 255);
+  color: white;
+  border: none;
+}
+
+:host div.row {
+  margin-bottom: 1rem;
+}

@@ -105,7 +105,7 @@ export class TransferDataPageEffects {
       }),
       switchMap((obj) => {
         let delayTime = 0;
-        if (obj.action.payload.ProviderCode === 'PFTEST') {
+        if (obj.action.payload.providerCode === 'PFTEST') {
           delayTime = 5000;
         }
         return this.connectionsHrisApiService.validateConnection(obj.userContext, obj.action.payload)

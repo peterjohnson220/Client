@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Router } from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -23,12 +23,17 @@ describe('Data Management - Main - Transfer Data Page', () => {
           transferDataMain: combineReducers(fromDataManagementMainReducer.reducers),
         })
       ],
+      providers: [
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() },
+        }
+      ],
       declarations: [
         TransferDataPageComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TransferDataPageComponent);
     instance = fixture.componentInstance;

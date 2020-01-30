@@ -8,9 +8,11 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
+import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { DataViewGridComponent } from './data-view-grid.component';
 import { generateMockField } from '../../models';
+import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 
 describe('Data Insights - Data View Grid', () => {
   let fixture: ComponentFixture<DataViewGridComponent>;
@@ -26,7 +28,7 @@ describe('Data Insights - Data View Grid', () => {
           dataInsights_main: combineReducers(fromDataInsightsMainReducer.reducers)
         })
       ],
-      declarations: [ DataViewGridComponent ],
+      declarations: [ DataViewGridComponent, NumericFieldFormattingModalComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
         {
@@ -98,4 +100,34 @@ describe('Data Insights - Data View Grid', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(sortFieldAction);
   });
+
+  it('should open number format modal when handleNumberFormatModalClicked', () => {
+    const field = generateMockField();
+    spyOn(instance.numericFieldFormattingModalComponent, 'open');
+
+    instance.handleNumberFormatModalClicked(field);
+
+    expect(instance.numericFieldFormattingModalComponent.open).toHaveBeenCalled();
+  });
+
+  it('should dispatch SetNumberFormatOnSelectedField number format modal when handleSaveClicked', () => {
+    const field = generateMockField();
+    const expectedAction = new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: field.Format});
+    spyOn(store, 'dispatch');
+
+    instance.handleSaveClicked(field);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch SetNumberFormatOnSelectedField number format modal when handleClearFormatClicked', () => {
+    const field = generateMockField();
+    const expectedAction = new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: null});
+    spyOn(store, 'dispatch');
+
+    instance.handleClearFormatClicked(field);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
 });
+

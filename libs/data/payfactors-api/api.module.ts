@@ -23,7 +23,7 @@ import { TermsConditionsApiService } from './terms-conditions';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
-import { RolesApiService } from './company-admin';
+import { RolesApiService, BulkAddUsersApiService } from './company-admin';
 import { DataLoadEmailRecipientsApiService, LoaderFieldMappingsApiService, LoaderSettingsApiService } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
@@ -36,8 +36,13 @@ import { DataViewApiService, ReportManagementApiService, TableauReportApiService
 import { NotificationsApiService } from './notifications';
 import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
 import {
-    AuthenticationTypesHrisApiService, ConnectionsHrisApiService, HrisApiService, MappingsHrisApiService, ProvidersHrisApiService,
-    TransferMethodsHrisApiService
+  AuthenticationTypesHrisApiService,
+  ConnectionsHrisApiService,
+  HrisApiService,
+  MappingsHrisApiService,
+  ProvidersHrisApiService,
+  SyncScheduleHrisApiService,
+  TransferMethodsHrisApiService
 } from './hris-api';
 import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
@@ -75,6 +80,7 @@ import { TotalRewardsApiService } from './total-rewards';
     UserTicketApiService,
     CompanyJobApiService,
     RolesApiService,
+    BulkAddUsersApiService,
     CompanyJobPricingMatchApiService,
     DataLoadEmailRecipientsApiService,
     JobSearchApiService,
@@ -116,7 +122,8 @@ import { TotalRewardsApiService } from './total-rewards';
     ProvidersHrisApiService,
     AuthenticationTypesHrisApiService,
     ConnectionsHrisApiService,
-    MappingsHrisApiService
+    MappingsHrisApiService,
+    SyncScheduleHrisApiService
   ]
 })
 export class PfApiModule { }

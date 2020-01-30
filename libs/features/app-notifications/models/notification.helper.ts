@@ -6,6 +6,7 @@ import { AppNotification, NotificationPayload, NotificationSource, ProgressStatu
 import { DataInsightsMessageFormatter } from './data-insights-message-formatter.model';
 import { ExchangeDataCutsMessageFormatter } from './exchange-data-cuts-message-formatter';
 import { OrgDataLoadMessageFormatter } from './org-data-load-message-formatter';
+import { JobDescriptionBulkExportFormatter } from './job-description-bulk-export-formatter';
 
 @Injectable()
 export class NotificationHelper {
@@ -27,6 +28,10 @@ export class NotificationHelper {
         message = OrgDataLoadMessageFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
       }
+      case NotificationSource.JobDescriptionBulkExport: {
+        message = JobDescriptionBulkExportFormatter.getEventMessage(notification.Level, notification.Payload);
+        break;
+      }
       default: {
         break;
       }
@@ -46,6 +51,12 @@ export class NotificationHelper {
       case NotificationSource.ExchangeDataCutsExport: {
         const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
         message = ExchangeDataCutsMessageFormatter.getProgressMessage(notification.Payload.Message);
+        message = message + progressBar;
+        break;
+      }
+      case NotificationSource.JobDescriptionBulkExport: {
+        const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
+        message = JobDescriptionBulkExportFormatter.getProgressMessage(notification.Payload.Message);
         message = message + progressBar;
         break;
       }

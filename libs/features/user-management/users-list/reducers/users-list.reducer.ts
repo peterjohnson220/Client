@@ -24,7 +24,7 @@ const initialState: State = {
   allUsers: [],
   userSearchTerm: null,
   usersLoading: false,
-  companyLoading: false,
+  companyLoading: false
 };
 
 

@@ -20,6 +20,7 @@ exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
   secondaryButtonText={[Function String]}
   showFooter={[Function Boolean]}
   size={[Function String]}
+  submitEnabled={[Function Boolean]}
   submitting="false"
   templateRef={[Function TemplateRef_]}
   title={[Function String]}
@@ -53,6 +54,7 @@ exports[`Pf Modal Form should show subTitle in modal header if a subTitle is pro
   showFooter={[Function Boolean]}
   size={[Function String]}
   subTitle={[Function String]}
+  submitEnabled={[Function Boolean]}
   submitting="false"
   templateRef={[Function TemplateRef_]}
   title={[Function String]}

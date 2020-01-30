@@ -1,10 +1,11 @@
 <pf-page-with-title-bar>
 
-  <ng-container page-header-left>
-    <pf-exchange-switcher></pf-exchange-switcher>
+  <ng-container page-title>
+    Peer
   </ng-container>
 
   <ng-container page-actions>
+    <pf-exchange-switcher></pf-exchange-switcher>
     <button type="button" class="btn btn-secondary"
             [attr.data-qa-id]="'btn-inviteCompany'"
             (click)="referCompanyClick()">

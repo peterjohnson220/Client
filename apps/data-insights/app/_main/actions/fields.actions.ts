@@ -13,6 +13,9 @@ export const SAVE_REPORT_FIELDS_ERROR = '[Data Insights / Data View Fields] Save
 export const REORDER_FIELDS = '[Data Insights / Data View Fields] Reorder Fields';
 export const SET_SELECTED_FIELDS = '[Data Insights / Data View Fields] Set Selected Fields';
 export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View Fields] Update Display Name';
+export const ADD_NEW_FORMULA_FIELD = '[Data Insights / Data View Fields] Add New Formula Field';
+export const SET_NUMBER_FORMAT_ON_SELECTED_FIELD = '[Data Insights / Data View Fields] Set Number Format On Selected Field';
+export const SAVE_UPDATED_FORMULA_FIELD = '[Data Insights / Data View Fields] Save Updated Formula Field';
 
 export class GetReportFields implements Action {
   readonly type = GET_REPORT_FIELDS;
@@ -77,7 +80,25 @@ export class SetSelectedFields implements Action {
 export  class UpdateDisplayName implements Action {
   readonly type = UPDATE_DISPLAY_NAME;
 
-  constructor(public payload: { dataElementId: number, displayName: string }) {}
+  constructor(public payload: { field: Field, displayName: string }) {}
+}
+
+export class AddNewFormulaField implements Action {
+  readonly type = ADD_NEW_FORMULA_FIELD;
+
+  constructor(public payload: Field) {}
+}
+
+export  class SetNumberFormatOnSelectedField implements Action {
+  readonly type = SET_NUMBER_FORMAT_ON_SELECTED_FIELD;
+
+  constructor(public payload: { field: Field, numberFormat: string }) {}
+}
+
+export class SaveUpdatedFormulaField implements Action {
+  readonly type = SAVE_UPDATED_FORMULA_FIELD;
+
+  constructor(public payload: Field) {}
 }
 
 export type Actions
@@ -91,4 +112,7 @@ export type Actions
   | ReorderFields
   | AddSelectedField
   | SetSelectedFields
-  | UpdateDisplayName;
+  | UpdateDisplayName
+  | AddNewFormulaField
+  | SetNumberFormatOnSelectedField
+  | SaveUpdatedFormulaField;

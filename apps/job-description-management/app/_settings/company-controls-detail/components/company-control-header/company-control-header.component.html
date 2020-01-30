@@ -40,18 +40,19 @@
                 (valueChange)="handleEditorTypeChange($event)">
             </kendo-dropdownlist>
             <span *ngIf="submitted && editorType.hasError('required')" class="text-danger float-right">Required</span>
+            <span *ngIf="companyControlHeaderForm.hasError('missingRenderedType')" class="text-danger float-right">SmartList must have one field that Can Be Sourced.</span>
         </div>
         <label for="control-name" class="col-2 control-label">Properties:</label> 
         <div class="col-4 input-group">
             <div class="form-check form-check-inline">
-                <label class="form-check-label">
+                <label class="form-check-label pl-0">
                   <input type="checkbox" class="form-check-input" formControlName="ReadOnly" (click)="handleReadOnly()">
                   Read Only
                 </label>
             </div>
               <div *ngIf="companyControlHeaderForm.controls.EditorType.value  === 'Single'">
-                <div class="form-check form-check-inline pl-2">
-                      <label class="form-check-label">
+                <div class="form-check form-check-inline">
+                      <label class="form-check-label pl-0">
                       <input type="checkbox" class="form-check-input" formControlName="Vertical">
                       Vertical
                     </label>

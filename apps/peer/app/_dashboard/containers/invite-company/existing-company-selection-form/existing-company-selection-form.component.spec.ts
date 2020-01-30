@@ -8,13 +8,13 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum } from 'libs/models/index';
+import {HumanizeNumberPipe} from 'libs/core/pipes';
 
 import * as fromSharedPeerReducer from '../../../../shared/reducers/index';
 import * as fromPeerDashboardReducer from '../../../reducers/index';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import { generateMockExistingCompany} from '../../../models';
 import { ExistingCompanySelectionFormComponent } from './existing-company-selection-form.component';
-import {HumanizeNumberPipe} from '../../../../../../../libs/core/pipes';
 
 describe('Peer - Dashboard - Invite Company - Existing Company Selection Form', () => {
   let fixture: ComponentFixture<ExistingCompanySelectionFormComponent>;

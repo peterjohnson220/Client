@@ -3,6 +3,7 @@
 exports[`Page With Title Bar should show no back button when no URL is provided 1`] = `
 <pf-page-with-title-bar
   isFullHeader={[Function Boolean]}
+  location={[Function SpyLocation]}
   route={[Function ActivatedRoute]}
   routeTrackingService={[Function Object]}
   router={[Function Router]}
@@ -41,6 +42,7 @@ exports[`Page With Title Bar should show no back button when no URL is provided 
 exports[`Page With Title Bar should show the back button, when provided a return Url 1`] = `
 <pf-page-with-title-bar
   isFullHeader={[Function Boolean]}
+  location={[Function SpyLocation]}
   returnUrl={[Function String]}
   route={[Function ActivatedRoute]}
   routeTrackingService={[Function Object]}
@@ -89,6 +91,7 @@ exports[`Page With Title Bar should show the back button, when provided an absol
 <pf-page-with-title-bar
   absoluteUrl={[Function String]}
   isFullHeader={[Function Boolean]}
+  location={[Function SpyLocation]}
   route={[Function ActivatedRoute]}
   routeTrackingService={[Function Object]}
   router={[Function Router]}

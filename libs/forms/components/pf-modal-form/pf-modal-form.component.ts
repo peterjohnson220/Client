@@ -1,11 +1,10 @@
-import {
-  Component, Input, OnDestroy, OnInit, Output,
-  EventEmitter, TemplateRef, ViewChild
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+
 import { FormGroup } from '@angular/forms';
 
+import { Observable, Subscription } from 'rxjs';
+
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'pf-modal-form',
@@ -35,6 +34,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() backdrop: boolean | 'static' = 'static';
   @Input() resetFormOnClose = true;
   @Input() windowClass: string = null;
+  @Input() submitEnabled = true;
   @Output() onSubmit = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
   @ViewChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;
@@ -42,7 +42,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
 
   get submitDisabled(): boolean {
     if (!this.formGroup) {
-      return this.submitting;
+      return !this.submitEnabled || this.submitting;
     }
 
     return this.submitting || !this.formGroup.valid || !(this.formGroup.dirty || this.formGroup.touched);

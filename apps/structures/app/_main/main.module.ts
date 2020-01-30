@@ -14,17 +14,23 @@ import {
   NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfProjectModule } from 'libs/features/project';
+import { PfAddJobsModule } from 'libs/features/add-jobs';
+import { PfSearchModule } from 'libs/features/search';
 
 import * as fromFaIcons from './fa-icons';
-import { JobBasedRangeAllStructuresEffects, JobRangeModelingPageEffects } from './effects';
+import {
+  JobBasedRangeAllStructuresEffects,
+  JobRangeModelingPageEffects,
+  JobRangeModelingGridEffects,
+  JobBasedRangesAddJobsModalEffects,
+  JobBasedRangesSearchResultsEffects
+} from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 import {
@@ -36,8 +42,13 @@ import {
   EditGridColumnsModalComponent,
   StructureFavoriteHexagonComponent
 } from './components';
-import { JobBasedRangeStructuresPageComponent, JobRangeModelingPageComponent, JobRangeModelingGridComponent } from './containers';
-import { JobRangeModelingGridEffects } from './effects/job-range-modeling-grid.effects';
+import {
+  JobBasedRangeStructuresPageComponent,
+  JobRangeModelingPageComponent,
+  JobRangeModelingGridComponent,
+  JobBasedRangesAddJobsModalComponent,
+  JobBasedRangesSearchResultsComponent
+} from './containers';
 
 @NgModule({
   imports: [
@@ -50,6 +61,8 @@ import { JobRangeModelingGridEffects } from './effects/job-range-modeling-grid.e
     StoreModule.forFeature('structures_main', reducers),
     EffectsModule.forFeature([
       JobRangeModelingPageEffects,
+      JobBasedRangesAddJobsModalEffects,
+      JobBasedRangesSearchResultsEffects,
       JobBasedRangeAllStructuresEffects,
       JobRangeModelingGridEffects
     ]),
@@ -72,7 +85,8 @@ import { JobRangeModelingGridEffects } from './effects/job-range-modeling-grid.e
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfProjectModule
+    PfAddJobsModule,
+    PfSearchModule
   ],
   declarations: [
     // Components
@@ -87,7 +101,9 @@ import { JobRangeModelingGridEffects } from './effects/job-range-modeling-grid.e
     // Containers
     JobRangeModelingPageComponent,
     JobBasedRangeStructuresPageComponent,
-    JobRangeModelingGridComponent
+    JobRangeModelingGridComponent,
+    JobBasedRangesAddJobsModalComponent,
+    JobBasedRangesSearchResultsComponent
   ],
   providers: [
     WindowRef,
@@ -95,7 +111,7 @@ import { JobRangeModelingGridEffects } from './effects/job-range-modeling-grid.e
   ]
 })
 export class MainModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

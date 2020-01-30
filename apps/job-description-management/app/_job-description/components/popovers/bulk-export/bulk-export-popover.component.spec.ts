@@ -39,15 +39,15 @@ describe('Job Description Management - Job Description - Bulk Export Popover', (
     modal = TestBed.get(NgbModal);
   });
 
-  it('should submit bulkExportForm and then close the popover, when calling export', () => {
-    spyOn(document.forms['bulkExportForm'], 'submit').and.callFake(jest.fn());
+  it('should call exportLogic and then close the popover, when calling export', () => {
+    spyOn(instance, 'exportLogic').and.callFake(jest.fn());
     spyOn(instance.p, 'close');
 
     instance.p = { close: jest.fn() };
 
     instance.export();
 
-    expect(document.forms['bulkExportForm'].submit).toHaveBeenCalled();
+    expect(instance.exportLogic).toHaveBeenCalled();
     expect(instance.p.close).toHaveBeenCalled();
   });
 

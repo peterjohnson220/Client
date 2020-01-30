@@ -1,50 +1,65 @@
 <div class="w-100">
   <form [formGroup]="pfTestForm" (ngSubmit)="onSubmit()" class="needs-validation">
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row w-100">
       <div class="error-spacer">
       </div>
-      <div class="d-flex flex-column">
-        <label class="text-uppercase font-weight-bold" for="username">
-          Username
-        </label>
-        <div class="form-group pb-2">
-          <input id="username"
-            name="username"
-            type="text"
-            class="form-control mb-1"
-            [ngClass]="{ 'is-invalid': submitted && pfTestForm.controls.username.errors }"
-            [pfDisableFormControl]="validated"
-            formControlName="username"
-          />
-          <div *ngIf="submitted && pfTestForm.controls.username.errors" class="invalid-feedback">
-            <div *ngIf="pfTestForm.controls.username.errors.required">Username is required</div>
-            <div *ngIf="pfTestForm.controls.username.errors.pattern">Username is not in correct format</div>
+      <div class="d-flex flex-column w-100">
+        <div class="d-flex flex-row p-1 w-50">
+          <div class="col-3">
+            <label class="mr-2" for="username">
+              Username*
+            </label>
+          </div>
+          <div class="col-9">
+            <div class="form-group pb-2 ml-auto w-100">
+              <input id="username"
+                name="username"
+                type="text"
+                class="form-control mb-1 w-100"
+                [ngClass]="{ 'is-invalid': submitted && pfTestForm.controls.username.errors }"
+                [pfDisableFormControl]="validated"
+                formControlName="username"
+              />
+              <div *ngIf="submitted && pfTestForm.controls.username.errors" class="invalid-feedback">
+                <div *ngIf="pfTestForm.controls.username.errors.required">Username is required</div>
+                <div *ngIf="pfTestForm.controls.username.errors.pattern">Username is not in correct format</div>
+              </div>
+            </div>
           </div>
         </div>
-        <label class="text-uppercase font-weight-bold" for="password">
-          Password
-        </label>
-        <div class="form-group pb-2">
-          <input id="password"
-            name="password"
-            type="password"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && pfTestForm.controls.password.errors }"
-            [pfDisableFormControl]="validated"
-            formControlName="password"
-          />
-          <div *ngIf="submitted && pfTestForm.controls.password.errors" class="invalid-feedback">
-            <div *ngIf="pfTestForm.controls.password.errors.required">Password is required</div>
+        <div class="d-flex flex-row p-1 w-50">
+          <div class="col-3">
+            <label class="mr-2" for="password">
+              Password*
+            </label>
+          </div>
+          <div class="col-9">
+            <div class="form-group pb-2 ml-auto w-100">
+              <input id="password"
+                name="password"
+                type="password"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && pfTestForm.controls.password.errors }"
+                [pfDisableFormControl]="validated"
+                formControlName="password"
+              />
+              <div *ngIf="submitted && pfTestForm.controls.password.errors" class="invalid-feedback">
+                <div *ngIf="pfTestForm.controls.password.errors.required">Password is required</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="pb-1 d-flex justify-content-end" *ngIf="!validated">
       <div class="p-2">
-        <button id="cancel" type="button" class="btn btn-primary" (click)="cancelAuthenticationClick()">Cancel</button>
+        <button id="cancel" type="button" class="btn btn-outline-danger px-4" (click)="cancelAuthenticationClick()">Cancel</button>
       </div>
       <div class="p-2">
-        <button id="authenticate" class="btn btn-primary">Authenticate</button>
+        <button id="back" class="btn btn-secondary px-4">Back</button>
+      </div>
+      <div class="p-2">
+        <button id="authenticate" class="btn btn-primary px-4">Next</button>
       </div>
     </div>
   </form>

@@ -14,7 +14,8 @@
     [isCompare]="isCompare"
     (dataChangesDetected)="handleDataChangesDetected($event)"
     (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
-    (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
+    (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
+    [undoChanges$]="undoChanges$">
   </pf-control-data-renderer>
 </ng-template>
 
@@ -45,7 +46,8 @@
         [isCompare]="isCompare"
         (dataChangesDetected)="handleDataChangesDetected($event)"
         (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
-        (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
+        (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
+        [undoChanges$]="undoChanges$">
       </pf-control-data-renderer>
     </div>
   </div>
@@ -81,7 +83,8 @@
         (dataChangesDetected)="handleDataChangesDetected($event)"
         (dataRowDeleted)="handledDataRowDeleted($event)"
         (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
-        (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
+        (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
+        [undoChanges$]="undoChanges$">
       </pf-control-data-renderer>
     </div>
   </div>

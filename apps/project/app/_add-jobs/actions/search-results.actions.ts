@@ -1,9 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { JobSearchPricingDataResponse } from 'libs/models/payfactors-api';
-
-import { JobResult } from '../models';
-
+import { JobResult } from 'libs/features/add-jobs/models';
 
 export const TOGGLE_JOB_SELECTION = '[Project Add Jobs/Search Results] Toggle Job Selection';
 export const REPLACE_JOB_RESULTS = '[Project Add Jobs/Search Results] Replace Job Results';

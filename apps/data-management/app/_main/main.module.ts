@@ -6,8 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { DragulaModule } from 'ng2-dragula';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { NgbAlertModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -19,20 +19,27 @@ import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effec
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 
 import { EntityPickerComponent, EntityUploadComponent, FileMappingComponent } from './components';
 import { FileUploadComponent } from './components/file-upload';
 import {
-    DataAlertsPageComponent, DataManagementHomePageComponent, DataManagementSidebarComponent, EntityMappingComponent,
-    FieldMappingCardComponent, HrisAuthenticationCardComponent, ManageDataPageComponent, OrgDataLoadComponent,
-    PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
-    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
+  DataManagementHomePageComponent, EntityMappingComponent,
+  FieldMappingCardComponent, HrisAuthenticationCardComponent, OrgDataLoadComponent,
+  PfTestAuthenticationComponent, ProviderCardComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
+  WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent,
+  TransferSchedulePageComponent, TransferScheduleSummaryComponent, TransferScheduleCardComponent,
+  TransferScheduleCronComponent, DataManagementLandingPageComponent, HrisIntegrationPanelComponent,
+  HrisIntegrationStatusComponent, HrisIntegrationSidebarComponent, ResetIntegrationPageComponent
 } from './containers';
-import { FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
-  FileUploadEffects, CustomFieldsEffect } from './effects';
+import {
+  FieldMappingEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects,
+  FileUploadEffects, CustomFieldsEffect, TransferScheduleEffects, HrisConnectionEffects
+} from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
+import {GetSupportedSchedulesPipe} from './pipes';
 
 @NgModule({
   imports: [
@@ -46,7 +53,7 @@ import { reducers } from './reducers';
     MainRoutingModule,
 
     // 3rd Party
-
+    DragulaModule.forRoot(),
     StoreModule.forFeature('data_management', reducers),
     EffectsModule.forFeature([
       TransferDataPageEffects,
@@ -55,7 +62,9 @@ import { reducers } from './reducers';
       OrgDataFieldMappingsEffects,
       FileUploadEffects,
       LoaderSettingsEffects,
-      CustomFieldsEffect
+      CustomFieldsEffect,
+      TransferScheduleEffects,
+      HrisConnectionEffects
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
@@ -69,17 +78,18 @@ import { reducers } from './reducers';
     PfCommonUIModule,
     PfFormsModule,
     PfCompanySelectorModule,
-    PfFieldMapperModule
+    PfFieldMapperModule,
+    PfEmailRecipientsModule
   ],
   declarations: [
+    // Pipes
+    GetSupportedSchedulesPipe,
+
     // Pages
     DataManagementHomePageComponent,
     TransferDataPageComponent,
-    ManageDataPageComponent,
-    DataAlertsPageComponent,
 
     // Components
-    DataManagementSidebarComponent,
     TransferMethodDropdownComponent,
     ProviderCardComponent,
     HrisAuthenticationCardComponent,
@@ -93,11 +103,20 @@ import { reducers } from './reducers';
     FieldMappingCardComponent,
     FileUploadComponent,
     EntityMappingComponent,
-    FileMappingComponent
+    FileMappingComponent,
+    TransferSchedulePageComponent,
+    TransferScheduleSummaryComponent,
+    TransferScheduleCardComponent,
+    TransferScheduleCronComponent,
+    DataManagementLandingPageComponent,
+    HrisIntegrationPanelComponent,
+    HrisIntegrationStatusComponent,
+    HrisIntegrationSidebarComponent,
+    ResetIntegrationPageComponent
   ]
 })
 export class MainModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

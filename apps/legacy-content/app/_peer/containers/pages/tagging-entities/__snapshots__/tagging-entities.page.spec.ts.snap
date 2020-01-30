@@ -8,6 +8,7 @@ exports[`Legacy Content - Tags - Tagging Entities should match snapshot of page 
   entityId={[Function Number]}
   entityType={[Function String]}
   filterSettings={[Function Object]}
+  ignoreKeyValidation="false"
   loadingTagInformation$={[Function Store]}
   loadingTagInformationError$={[Function Store]}
   priorityCategories={[Function Array]}

@@ -1,0 +1,23 @@
+<ng-template #numericFieldFormatModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Field Formatting - {{field.DisplayName}}</h4>
+  </div>
+  <div class="numeric-field-format-modal modal-body">
+    <span>Decimal places: </span>
+    <kendo-numerictextbox
+      class="numeric-textbox"
+      (valueChange)="handleNumericValueChange($event)"
+      [format]="'n0'"
+      [value]="value"
+      [min]="0"
+      [max]="3"
+      [style.width]="'100px'"
+      [autoCorrect]="true">
+    </kendo-numerictextbox>
+  </div>
+  <div class="modal-footer">
+    <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary" (click)="close()">Cancel</button>
+    <button type="button" [attr.data-qa-id]="'btn-save'" class="btn btn-primary" (click)="save()">Save</button>
+  </div>
+</ng-template>
+

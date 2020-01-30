@@ -195,6 +195,7 @@ export const getMapCentroid = (state: State) => state.initialMapCentroid;
 export const canLoadMap = (state: State) => !state.loading;
 export const showNoData = (state: State) => !state.loading && state.initialLoadComplete &&
 (!state.mapCollection || state.mapCollection.features.length === 0);
+export const hasUntaggedIncumbents = (state: State) => state.mapSummary.OverallMapStats.UntaggedIncumbentCount > 0;
 export const getApplyingScope = (state: State) => state.applyingScope;
 export const getAutoZooming = (state: State) => state.autoZooming;
 export const getZoom = (state: State) => state.zoom;

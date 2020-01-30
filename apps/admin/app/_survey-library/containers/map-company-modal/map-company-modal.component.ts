@@ -3,8 +3,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 
 import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 

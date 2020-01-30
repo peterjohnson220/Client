@@ -34,6 +34,9 @@ import {
   JobDescriptionDeleteByTemplateIdRequest
 } from 'apps/pf-admin/app/_utilities/models/requests/job-description-delete-by-template-id-request.model';
 import { FlsaQuestionnaireDetails } from '../../../../apps/job-description-management/app/_job-description/models';
+import {
+  JobDescriptionBulkExportPayload
+} from '../../../../apps/job-description-management/app/_job-description/models/job-description-bulk-export-payload.model';
 
 @Injectable()
 export class JobDescriptionApiService {
@@ -224,5 +227,9 @@ export class JobDescriptionApiService {
       jobDescriptionIdToCopyFrom,
       jobDescriptionStatus
     }, (response) => JSON.parse(response.value));
+  }
+
+  bulkExport(jdmExportPayload: JobDescriptionBulkExportPayload) {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.BulkExportNew`, { jdmExportPayload: JSON.stringify(jdmExportPayload) });
   }
 }

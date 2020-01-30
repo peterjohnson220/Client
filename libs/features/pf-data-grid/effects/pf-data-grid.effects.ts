@@ -15,7 +15,8 @@ import {
     DataViewField,
     DataViewFilter,
     DataViewEntityResponseWithCount,
-    PagingOptions
+    PagingOptions,
+    DataViewFieldType
 } from 'libs/models/payfactors-api';
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
@@ -268,7 +269,8 @@ export class PfDataGridEffects {
                     DataType: f.DataType,
                     IsSelected: f.IsSelected,
                     IsSortable: false,
-                    Order: f.Order
+                    Order: f.Order,
+                    FieldType: DataViewFieldType.DataElement
                 };
             })
             : [];

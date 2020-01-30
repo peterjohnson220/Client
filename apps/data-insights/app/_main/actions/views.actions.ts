@@ -185,7 +185,7 @@ export class SetDashboardView implements Action {
 export class ToggleDashboardView implements Action {
   readonly type = TOGGLE_DASHBOARD_VIEW;
 
-  constructor(public payload: { view: DashboardView }) {}
+  constructor(public payload: DashboardView) {}
 }
 
 export class PersistDashboardViewSuccess implements Action {

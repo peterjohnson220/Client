@@ -7,4 +7,4 @@ export * from './views';
 export * from './filters';
 export * from './fields';
 export * from './workbook-cards';
-export * from './create-formula-field-modal';
+export * from './numeric-field-formating-modal';

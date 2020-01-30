@@ -11,8 +11,10 @@ import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loa
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
+import { LoaderEntityStatus } from 'libs/features/org-data-loader/models';
+import { MappingModel } from 'libs/models/data-loads';
 
-import { LoaderEntityStatus, MappingModel } from '../../models';
+
 import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import { ManageFieldMappingsPageComponent } from './manage-field-mappings.page';

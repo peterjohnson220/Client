@@ -8,7 +8,9 @@ import {
   ProviderEntitiyFieldsResponse,
   ProviderResponse,
   TransferMethodResponse,
-  ProviderSupportedEntityDTO
+  ProviderSupportedEntityDTO, TransferScheduleSummary, SyncScheduleDtoModel,
+  MappingPayloadItem,
+  MappingPayloadMapping
 } from 'libs/models/hris-api';
 
 import {
@@ -19,7 +21,8 @@ import {
   Provider,
   TransferMethod,
   WorkdayRestCredentialsPackage, WorkdaySoapCredentialsPackage,
-  EntityChoice
+  EntityChoice,
+  EntityField
 } from '../models';
 
 export class PayfactorsApiModelMapper {
@@ -57,12 +60,12 @@ export class PayfactorsApiModelMapper {
 
   static mapFormValuesToCredentialsPackage(request: any, providerCode: string, selectedEntities: EntityTypeModel[]): CredentialsPackage {
     const c = {
-      ProviderCode: providerCode,
-      SyncEmployees: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.Employees) > -1,
-      SyncJobs: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.Jobs) > -1,
-      SyncPaymarkets: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.PayMarkets) > -1,
-      SyncStructures: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.Structures) > -1,
-      SyncStructureMappings: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.StructureMappings) > -1
+      providerCode: providerCode,
+      syncEmployees: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.Employees) > -1,
+      syncJobs: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.Jobs) > -1,
+      syncPaymarkets: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.PayMarkets) > -1,
+      syncStructures: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.Structures) > -1,
+      syncStructureMappings: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.StructureMappings) > -1
     } as CredentialsPackage;
 
     switch (providerCode) {
@@ -108,12 +111,14 @@ export class PayfactorsApiModelMapper {
   static mapPayfactorsEntityFieldsResponseToEntityDataField(response: PayfactorsEntityFieldsResponse, entityType: OrgDataEntityType): EntityDataField[] {
     return response.payfactorsEntityFields.map( pef => {
       return {
+        EntityFieldId: pef.entityField_ID,
         EntityType: entityType,
         FieldName: pef.fieldName,
         IsRequired: pef.requiredField,
         HasDescription: pef.hasDescription,
         Description: pef.description,
-        AssociatedEntity: []
+        AssociatedEntity: [],
+        DataType: ImportDataType[pef.dataType]
       };
     });
   }
@@ -122,32 +127,37 @@ export class PayfactorsApiModelMapper {
     return response.fields.map( pef => {
       return {
         EntityType: entityType,
-        FieldName: pef.name
+        FieldName: pef.name,
+        HasAssociation: false,
+        DataType: ImportDataType[pef.dataType]
       };
     });
   }
 
-  static createMappingPackage(request: any, entityType: OrgDataEntityType): MappingPackage {
+  static createMappingPackage(request: EntityField): MappingPackage {
     return {
       MappingPayload: {
-        Items: [
-          {
-            OrgDataEntityType: entityType,
-            Mappings: [
-              {
-                DestinationField: '',
-                SourceField: '',
-                SourceMetadata: {
-                  DataType: ImportDataType.String,
-                  IsArray: false,
-                  Name: '',
-                  MetaData: ''
-                }
-              }
-            ]
-          }
-        ]
+        Items: Object.entries(request)
+          .map(([entityType, fields]) => this.getMappingsForEntity(entityType, fields))
+          .filter( mpi => mpi.Mappings.length > 0)
       }
+    };
+  }
+
+  static getMappingsForEntity(entityType: string , fields: EntityDataField[]): MappingPayloadItem {
+    return {
+      OrgDataEntityType: entityType,
+      Mappings: fields.filter(field => field.AssociatedEntity && field.AssociatedEntity.length > 0)
+      .map(field => ({
+        DestinationField: field.FieldName,
+        SourceField: field.AssociatedEntity[0].FieldName,
+        SourceMetadata: {
+          DataType: field.AssociatedEntity[0].DataType,
+          IsArray: false,
+          MetaData: {},
+          Name: field.AssociatedEntity[0].FieldName
+        }
+      }))
     };
   }
 
@@ -167,7 +177,8 @@ export class PayfactorsApiModelMapper {
         customFields: null,
         dbName: p.entityMappingTypeCode,
         isFullReplace: null,
-        dateFormat: null
+        dateFormat: null,
+        isLoadingFinish: true
       };
     });
   }
@@ -196,6 +207,17 @@ export class PayfactorsApiModelMapper {
       return {
         EntityType: type,
         EntityName: x.DisplayText
+      };
+    });
+  }
+
+  static mapTransferScheduleSummariesToSyncScheduleDto(transferScheduleSummary: TransferScheduleSummary[]): SyncScheduleDtoModel[] {
+    return transferScheduleSummary.map(t => {
+      return {
+        Expression: t.expression,
+        EntityMappingType_ID: t.entityMappingType_ID,
+        Active: t.active === 1,
+        SyncSchedule_ID: t.syncSchedule_ID ? t.syncSchedule_ID : 0
       };
     });
   }

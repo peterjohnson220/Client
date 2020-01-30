@@ -4,7 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { SurveyLibraryApiService } from '../../../../../../libs/data/payfactors-api/survey-library';
+import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 
 import { MapCompanyModalComponent } from './map-company-modal.component';
 import * as fromSurveyLibraryReducer from '../../reducers';
@@ -21,9 +21,9 @@ describe('Custom Survey Title Component', () => {
           ...fromRootState.reducers
         })
       ],
-      declarations: [ MapCompanyModalComponent ],
+      declarations: [MapCompanyModalComponent],
       providers: [{provide: SurveyLibraryApiService}],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     });
   });
 
@@ -51,7 +51,5 @@ describe('Custom Survey Title Component', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-
-
 
 });

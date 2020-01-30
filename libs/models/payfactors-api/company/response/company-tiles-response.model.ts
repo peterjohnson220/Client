@@ -7,4 +7,6 @@ export interface CompanyTilesResponse {
   TileId: number;
   TileName: string;
   Disabled?: boolean;
+  IsMarketingTile?: boolean;
+  MarketingEnabled?: boolean;
 }

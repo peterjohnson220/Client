@@ -16,6 +16,11 @@ export class ExchangeFilterEffects {
     map(() => new fromExchangeFilterContextActions.ClearExchangeScopeSelection()));
 
   @Effect()
+  updateRangefilter$ = this.actions$.pipe(
+    ofType(fromSearchFiltersActions.UPDATE_RANGE_FILTER),
+    map(() => new fromExchangeFilterContextActions.ClearExchangeScopeSelection()));
+
+  @Effect()
   clearFilters$ = this.actions$.pipe(
     ofType(fromSearchFiltersActions.CLEAR_FILTERS, fromSearchFiltersActions.CLEAR_FILTER),
     map(() => new fromExchangeFilterContextActions.ClearExchangeScopeSelection()));

@@ -1,7 +1,10 @@
 import { isNullOrUndefined } from 'libs/core/functions/';
+import { LoaderSetting } from 'libs/models/data-loads';
+import { FilenamePattern } from 'libs/features/org-data-loader/models';
 
 import { LoaderSettingsFilenamePatternOverrideKey, OrgDataFilenamePatternSetConvention } from '../constants';
-import { FilenamePattern, LoaderSetting, OrgDataFilenamePatternSet } from '../models';
+import { OrgDataFilenamePatternSet } from '../models';
+
 
 export class OrgDataFilenamePatternSetFactory {
   private readonly STARTS_WITH_PATTERN = '^';

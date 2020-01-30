@@ -10,7 +10,7 @@
 
   <div class="content" [ngClass]="isOpen ? 'opened' : 'closed'">
     <div class="pt-3 bg-light">
-      <ul class="configure-tabs">
+      <ul class="configure-tabs d-flex justify-content-center">
         <li *ngFor="let configureTab of configureTabOptions; let i = index"
             (click)="selectTab(i, configureTab)"
             [class.active]="selectedTabIndex === i"
@@ -26,6 +26,10 @@
 
     <div class="report-filters tab-content" [ngClass]="activeTab === 'Filters' ? 'show' : ''">
       <pf-data-view-filters></pf-data-view-filters>
+    </div>
+
+    <div class="formula tab-content" [ngClass]="activeTab === 'Formulas' ? 'show' : ''">
+      <pf-data-view-formulas></pf-data-view-formulas>
     </div>
 
   </div>

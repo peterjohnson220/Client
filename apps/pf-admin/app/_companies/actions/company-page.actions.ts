@@ -51,6 +51,7 @@ export const GET_COMPOSITE_FIELDS = '[Pf-Admin/Company Page] Get Composite Field
 export const GET_COMPOSITE_FIELDS_SUCCESS = '[Pf-Admin/Company Page] Get Composite Fields Success';
 export const GET_COMPOSITE_FIELDS_ERROR = '[Pf-Admin/Company Page] Get Composite Fields Error';
 export const TOGGLE_COMPANY_TILE = '[Pf-Admin/Company Page] Toggle Company Tile';
+export const TOGGLE_COMPANY_MARKETING_TILE = '[Pf-Admin/Company Page] Toggle Company Marketing Tile';
 export const TOGGLE_COMPANY_DATA_SET = '[Pf-Admin/Company Page] Toggle Company Data Set';
 export const TOGGLE_COMPANY_SETTING = '[Pf-Admin/Company Page] Toggle Company Setting';
 export const CHANGE_COMPANY_SETTING_VALUE = '[Pf-Admin/Company Page] Change Company Setting Value';
@@ -325,6 +326,12 @@ export class ToggleCompanyTile implements Action {
   constructor( public payload: CompanyTilesResponse ) {}
 }
 
+export class ToggleCompanyMarketingTile implements Action {
+  readonly  type = TOGGLE_COMPANY_MARKETING_TILE;
+
+  constructor(public payload: CompanyTilesResponse) {}
+}
+
 export class ToggleCompanyDataSet implements Action {
   readonly type = TOGGLE_COMPANY_DATA_SET;
 
@@ -494,6 +501,7 @@ export type Actions
   | GetCompositeFieldsSuccess
   | GetCompositeFieldsError
   | ToggleCompanyTile
+  | ToggleCompanyMarketingTile
   | ToggleCompanyDataSet
   | ToggleCompanySetting
   | ChangeCompanySettingValue

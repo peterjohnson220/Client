@@ -18,6 +18,10 @@ import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { SettingsService } from 'libs/state/app-context/services';
 import { environment } from 'environments/environment';
+import * as fromRootState from 'libs/state/state';
+import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import { AppNotification, NotificationLevel, NotificationPayload, NotificationType } from 'libs/features/app-notifications/models';
+import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
 import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
@@ -25,20 +29,17 @@ import * as fromJobDescriptionGridActions from '../../../actions/job-description
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
-import * as fromRootState from 'libs/state/state';
-
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
-
 import { CompanyJobViewListItem } from '../../../models';
-import { AvailableJobInformationField, ControlLabel, JobDescriptionAppliesTo } from '../../../../shared/models';
-import {
-  JobDescriptionAppliesToModalComponent
-} from '../../../../shared/components/modals/job-description-applies-to';
+import { AvailableJobInformationField, ControlLabel } from '../../../../shared/models';
 import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
 import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
 import { AddJobModalComponent } from '../../../components/modals/add-job';
-
+import { JobDescriptionBulkExportPayload } from '../../../models/job-description-bulk-export-payload.model';
+import {
+  JobDescriptionAppliesToModalComponent
+} from '../../../../shared/components/modals/job-description-applies-to';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,7 +80,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private jobInformationFields$: Observable<AvailableJobInformationField[]>;
   private jobInformationFieldsLoading$: Observable<boolean>;
   private savingListAreaColumnsSuccess$: Observable<boolean>;
-  private addingUserFilterSuccess$: Observable<boolean>;
+
+  private bulkExportError$: Observable<boolean>;
   private enablePublicViewsInClient$: Observable<boolean>;
 
   public savedSearchTerm: string;
@@ -98,8 +100,22 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private listAreaColumnsSubscription: Subscription;
   private routerParmsSubscription: Subscription;
   private savingListAreaColumnsSuccessSubscription: Subscription;
-  private addUserFilterSubscription: Subscription;
   gridStateSubscription: Subscription;
+  private bulkExportErrorSubscription: Subscription;
+
+  notification: { error: AppNotification<NotificationPayload> } = {
+    error: {
+      NotificationId: '',
+      Level: NotificationLevel.Error,
+      From: 'Job Description Bulk Exporter',
+      Payload: {
+        Title: 'Job Description Bulk Export Failure',
+        Message: 'Your bulk export has failed. If this error persists, please contact Payfactors support for assistance.'
+      },
+      EnableHtml: true,
+      Type: NotificationType.Event
+    }
+  };
 
   constructor(
     private userContextStore: Store<fromUserContextReducer.State>,
@@ -107,7 +123,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private permissionService: PermissionService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private notificationStore: Store<fromAppNotificationsMainReducer.State>
   ) {
     this.identity$ = this.store.select(fromRootState.getUserContext);
     this.gridLoading$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoading);
@@ -124,8 +141,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.userFilterListLoading$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoading);
     this.userFilterDeleting$ = this.store.select(fromJobDescriptionReducers.getUserFilterDeleting);
     this.userFilterListAdding$ = this.store.select(fromJobDescriptionReducers.getUserFilterAdding);
-    this.userFilterError$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoadingError);
-    this.userFilterErrorMessage$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoadingErrorMessage);
+    this.userFilterError$ = this.store.select(fromJobDescriptionReducers.getUserFilterError);
+    this.userFilterErrorMessage$ = this.store.select(fromJobDescriptionReducers.getUserFilterErrorMessage);
     this.jobDescriptionListViews$ = this.store.select(fromJobDescriptionReducers.getViewNames);
     this.jobDescriptionListViewsLoading$ = this.store.select(fromJobDescriptionReducers.getViewNamesLoading);
     this.jobInformationFieldsLoading$ = this.store.select(
@@ -133,7 +150,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.jobInformationFields$ = this.store.select(
       fromJobDescriptionReducers.getJobInformationFieldsForBulkExport);
     this.savingListAreaColumnsSuccess$ = this.store.select(fromJobDescriptionReducers.getListAreaColumnsSavingSuccess);
-    this.addingUserFilterSuccess$ = this.store.select(fromJobDescriptionReducers.getUserFilterAddingSuccess);
+    this.bulkExportError$ = this.store.select(fromJobDescriptionReducers.getBulkExportError);
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMPublicViewsUseClient);
 
     this.filterThrottle = new Subject();
@@ -273,6 +290,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobInformationFieldsActions.LoadJobInformationFieldsForBulkExport(viewName));
   }
 
+  handleExported(payload: JobDescriptionBulkExportPayload) {
+    this.store.dispatch(new fromBulkExportPopoverActions.BulkExport(payload));
+  }
+
   openAssignJobModal(selectedCompanyJob: CompanyJobViewListItem) {
     this.selectedCompanyJobForModal = selectedCompanyJob;
     this.assignJobToTemplateModalComponent.open();
@@ -300,6 +321,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     };
 
     this.store.dispatch(new fromUserFilterActions.AddUserFilter(request));
+    this.saveFilterModalComponent.close();
   }
 
   updateSearchFilter(newSearchTerm: string) {
@@ -329,11 +351,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   private initializeSubscriptions() {
-    this.addUserFilterSubscription = this.addingUserFilterSuccess$.subscribe((isSuccess) => {
-      if (isSuccess) {
-        this.saveFilterModalComponent.close();
-      }
-    });
 
     this.listAreaColumnsSubscription = this.listAreaColumns$.subscribe(lac => {
       if (lac) {
@@ -345,6 +362,13 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.savingListAreaColumnsSuccessSubscription = this.savingListAreaColumnsSuccess$.subscribe((isSuccess) => {
       if (isSuccess) {
         this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
+      }
+    });
+
+    this.bulkExportErrorSubscription = this.bulkExportError$.subscribe((error) => {
+      if (error) {
+        this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(this.notification.error));
+        this.store.dispatch(new fromBulkExportPopoverActions.ResetBulkExportError());
       }
     });
   }
@@ -394,11 +418,11 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.addUserFilterSubscription.unsubscribe();
     this.listAreaColumnsSubscription.unsubscribe();
     this.routerParmsSubscription.unsubscribe();
     this.savingListAreaColumnsSuccessSubscription.unsubscribe();
     this.gridStateSubscription.unsubscribe();
+    this.bulkExportErrorSubscription.unsubscribe();
   }
 
   ngOnInit() {

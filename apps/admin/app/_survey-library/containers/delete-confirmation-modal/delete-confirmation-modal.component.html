@@ -1,0 +1,26 @@
+<pf-modal-form (onDismiss)="closeModal()"
+               (onSubmit)="acceptWarning()"
+               [isOpen$]="isModalOpen$"
+               [primaryButtonText]="'Delete Published Matches'"
+               [submitEnabled]="textConfirm === textConfirmFull"
+               [showFooter]="true"
+               [title]="'Delete Published Matches'"
+               size="lg">
+    <ng-container basic-content>
+        <pf-async-container [loading]="isDeleting"
+                            [loadingError]="deleteFailed"
+                            [loadingErrorMessage]="'Failed to delete the survey or it\'s related records.'">
+            <div class="form-group">
+                There are {{publishedMatchCount}} published matches tied to this survey. Deleting these will remove them
+                from client pricings. If you wish to continue please type "I am about to delete client pricings" in the
+                text box below
+                <br />
+                <br />
+                <input class="form-control"
+                       type="text"
+                       [(ngModel)]="textConfirm"
+                       placeholder="I am about to delete client pricings">
+            </div>
+        </pf-async-container>
+    </ng-container>
+</pf-modal-form>

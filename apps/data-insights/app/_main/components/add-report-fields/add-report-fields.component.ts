@@ -10,7 +10,7 @@ import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
 import { PfConstants } from 'libs/models/common';
 
-import { Field, FieldListItem } from '../../models';
+import { Field, FieldListItem, FieldType } from '../../models';
 
 @Component({
   selector: 'pf-add-report-fields',
@@ -38,7 +38,7 @@ export class AddReportFieldsComponent implements OnChanges, AfterViewInit, OnDes
             Entity: x.Entity,
             DisplayName: x.DisplayName,
             IsSelected: x.IsSelected,
-            DataElementId: x.DataElementId.toString()
+            FieldListItemId: this.buildFieldListItemId(x)
           };
         });
       }
@@ -72,8 +72,8 @@ export class AddReportFieldsComponent implements OnChanges, AfterViewInit, OnDes
     this.filterChangeSubscription.unsubscribe();
   }
 
-  handleValueChanged(dataElementId: string) {
-    const field = this.fields.find(f => f.DataElementId === Number(dataElementId));
+  handleValueChanged(fieldListItemId: string) {
+    const field = this.findFieldByFieldListItemId(fieldListItemId);
     if (field) {
       this.fieldAdded.emit(field);
     }
@@ -82,5 +82,29 @@ export class AddReportFieldsComponent implements OnChanges, AfterViewInit, OnDes
 
   itemDisabled(itemArgs: {dataItem: any, index: number}) {
     return itemArgs.dataItem.IsSelected;
+  }
+
+  private findFieldByFieldListItemId(fieldListItemId: string): Field {
+    const itemIdParser = fieldListItemId.split('_');
+    if (itemIdParser.length !== 2) {
+      return null;
+    }
+    let field: Field = null;
+    if (itemIdParser[0] === FieldType.DataElement) {
+      field = this.fields.find(f => f.DataElementId === Number(itemIdParser[1]));
+    } else if (itemIdParser[0] === FieldType.Formula) {
+      field = this.fields.find(f => f.FormulaId === Number(itemIdParser[1]));
+    }
+    return field;
+  }
+
+  private buildFieldListItemId(field: Field): string {
+    let fieldId = '';
+    if (field.DataElementId) {
+      fieldId = `${FieldType.DataElement}_${field.DataElementId.toString()}`;
+    } else if (field.FormulaId) {
+      fieldId = `${FieldType.Formula}_${field.FormulaId.toString()}`;
+    }
+    return fieldId;
   }
 }

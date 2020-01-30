@@ -58,16 +58,6 @@ export class ViewsHelper {
     return favoriteViews;
   }
 
-  static getFavoriteDataViewReports(workbooks: Workbook[]): Workbook[] {
-    const favoriteDataViewReports = [];
-    workbooks.forEach(function (workbook) {
-      if (workbook.IsFavorite) {
-        favoriteDataViewReports.push(workbook);
-      }
-    });
-    return favoriteDataViewReports;
-  }
-
   static applyViewOrderByType(views: View[], orderedViewIds: string[], type: ReportOrderType): View[] {
     orderedViewIds.map((id: string, index: number) => {
       const view = views.find((x: View) => x.ViewId === id);

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CompanyDto, LegacyCompanySettingDto, CompanyFormData } from '../../../models/company';
+import { CompanyDto, LegacyCompanySettingDto, CompanyFormData } from 'libs/models/company';
 import {
   SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesResponse,
   CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields, JobPricingLimitInfoResponse
-} from '../../../models/payfactors-api';
+} from 'libs/models/payfactors-api';
 import { Company, CompanyBaseInformation } from 'libs/models/company/company.model';
+import { SubsidiaryInfo } from 'libs/models/subsidiary';
 
 @Injectable()
 export class CompanyApiService {
@@ -22,15 +23,15 @@ export class CompanyApiService {
     return this.payfactorsApiService.get<CompanyDto>(this.endpoint + `(${companyId})`);
   }
 
-  insert(company: CompanyFormData, tileIds: number[], countryCodes: string[]) {
+  insert(company: CompanyFormData, tileIds: number[], marketingTileIds: number[], countryCodes: string[]) {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.Insert`,
-      { Company: company, TileIds: tileIds, DataSetCountryCodes: countryCodes }
+      { Company: company, TileIds: tileIds, MarketingTileIds: marketingTileIds, DataSetCountryCodes: countryCodes }
     );
   }
 
-  update(company: CompanyFormData, tileIds: number[], countryCodes: string[]) {
+  update(company: CompanyFormData, tileIds: number[], marketingTileIds: number[], countryCodes: string[]) {
     return this.payfactorsApiService.post(`${this.endpoint}(${company.CompanyId})/Default.Update`,
-      { Company: company, TileIds: tileIds, DataSetCountryCodes: countryCodes }
+      { Company: company, TileIds: tileIds, MarketingTileIds: marketingTileIds, DataSetCountryCodes: countryCodes }
     );
   }
 
@@ -88,5 +89,10 @@ export class CompanyApiService {
   getJobPricingLimitInfoByCompanyId(companyId: number): Observable<JobPricingLimitInfoResponse>  {
     return this.payfactorsApiService.get<JobPricingLimitInfoResponse>(`${this.endpoint}/GetJobPricingLimitInfoByCompanyId`,
       { params: { companyId: companyId } });
+  }
+
+  getCompanySubsidiaryInfo(companyId: number): Observable<SubsidiaryInfo[]> {
+    return this.payfactorsApiService.get<SubsidiaryInfo[]>(`${this.endpoint}/GetCompanySubsidiaryInfo`,
+      { params: {companyId: companyId } });
   }
 }

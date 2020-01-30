@@ -1,0 +1,85 @@
+<div *ngIf="editMode">
+  <div class="form-check">
+    <input class="form-check-input" type="radio"
+           [name]="'interval' + this.id"
+           [id]="'intervalDaily' + this.id"
+           [checked]="dailyChecked"
+           (click)="handleClick('daily')" />
+    <label class="form-check-label" [for]="'intervalDaily' + this.id">
+      Daily
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio"
+           [name]="'interval' + this.id"
+           [id]="'intervalWeekly' + this.id"
+           [checked]="weeklyChecked"
+           (click)="handleClick('weekly')" />
+    <label class="form-check-label" [for]="'intervalWeekly' + this.id">
+      Weekly
+    </label>
+  </div>
+  <div class="form-group" [hidden]="!weeklyChecked">
+    <kendo-dropdownlist
+      [data]="daysOfWeek"
+      [textField]="'text'"
+      [valueField]="'value'"
+      [defaultItem]="defaultDay"
+      [itemDisabled]="itemDisabled"
+      (valueChange)="dayOfWeekChange($event)">
+    </kendo-dropdownlist>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio"
+           [name]="'interval' + this.id"
+           [id]="'intervalMonthly' + this.id"
+           [checked]="monthlyChecked"
+           (click)="handleClick('monthly')" />
+    <label class="form-check-label" [for]="'intervalMonthly' + this.id">
+      Monthly
+    </label>
+  </div>
+  <div class="form-group" [hidden]="!monthlyChecked">
+    <kendo-dropdownlist
+      [data]="weeksOfMonth"
+      [textField]="'text'"
+      [valueField]="'value'"
+      [value]="defaultWeekOfMonth"
+      style="width: 6rem;"
+      (valueChange)="weekOfMonthChange($event)"
+    ></kendo-dropdownlist>
+    <kendo-dropdownlist
+      [data]="daysOfWeek"
+      [textField]="'text'"
+      [valueField]="'value'"
+      [value]="defaultDayOfWeek"
+      style="width: 8rem;"
+      (valueChange)="dayOfMonthChange($event)"
+    ></kendo-dropdownlist>
+    of each month
+  </div>
+</div>
+<div *ngIf="!editMode">
+  <div class="summary">
+    <div *ngIf="this.disabled">
+      Disabled
+    </div>
+    <div *ngIf="!this.disabled">
+      <div *ngIf="this.dailyChecked">
+        <b>Daily</b>
+      </div>
+      <div *ngIf="this.weeklyChecked">
+        Weekly on <b>{{ getWeeklyScheduleDetails() }}s</b>
+      </div>
+      <div *ngIf="this.monthlyChecked">
+        Every <b>{{ getMonthlyScheduleDetails() }}</b> of the month
+      </div>
+      <div *ngIf="lastRunDate" class="sync-info">
+        Last Received on {{ formatDate(lastRunDate) }}
+      </div>
+      <div *ngIf="!lastRunDate" class="sync-info">
+        Never Synchronized
+      </div>
+    </div>
+  </div>
+</div>

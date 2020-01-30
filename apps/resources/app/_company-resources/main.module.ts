@@ -9,8 +9,7 @@ import { PfFormsModule } from 'libs/forms';
 // Third party
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { EffectsModule } from '@ngrx/effects';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { UploadModule } from '@progress/kendo-angular-upload';
@@ -67,8 +66,8 @@ import { ResourcesComponent } from './components/resources/resources.component';
   ]
 })
 export class MainModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }
 
