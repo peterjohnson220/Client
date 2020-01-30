@@ -30,9 +30,10 @@ import { faShare } from '@fortawesome/pro-solid-svg-icons/faShare';
 import { faInfo } from '@fortawesome/pro-solid-svg-icons/faInfo';
 import { faPlus } from '@fortawesome/pro-solid-svg-icons/faPlus';
 import { faThumbtack } from '@fortawesome/pro-solid-svg-icons/faThumbtack';
+import { faSyncAlt } from '@fortawesome/pro-regular-svg-icons/faSyncAlt';
 
 
 export const faIcons = [faArrowCircleLeft, faCommentAlt, faLightbulb, faChartArea, faHome, faChartBar,
   faAmbulance, faQuestionCircle, faNewspaper, faExchangeAlt, faChartPie, faBolt, faAngleDoubleLeft,
   faInfoCircle, faTimes, faPlusCircle, faCalculator, faSitemap, faListUl, faBell, faFileAlt, faUsers, faTable,
-  faSlidersH, faToggleOn, faToggleOff, faComments, faBuilding, faShare, faInfo, faPlus, faThumbtack];
+  faSlidersH, faToggleOn, faToggleOff, faComments, faBuilding, faShare, faInfo, faPlus, faThumbtack, faSyncAlt];

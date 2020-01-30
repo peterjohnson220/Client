@@ -25,8 +25,9 @@ import { faAngleDoubleLeft } from '@fortawesome/pro-light-svg-icons/faAngleDoubl
 import { faAngleDoubleRight } from '@fortawesome/pro-light-svg-icons/faAngleDoubleRight';
 import { faNewspaper } from '@fortawesome/pro-light-svg-icons/faNewspaper';
 import { faBolt } from '@fortawesome/pro-light-svg-icons/faBolt';
+import { faSyncAlt } from '@fortawesome/pro-regular-svg-icons/faSyncAlt';
 
 export const faIcons = [faTimes, faComments, faSignOut, faAmbulance, faUsers, faExchangeAlt, faPlusCircle,
   faCalculator, faChartArea, faSitemap, faListUl, faChartPie,
   faQuestionCircle, faBell, faChartBar, faFileAlt, faLightbulb, faCommentAlt, faTachometerAlt,
-  faTable, faAngleDoubleLeft, faAngleDoubleRight, faNewspaper, faBolt, faDollarSign];
+  faTable, faAngleDoubleLeft, faAngleDoubleRight, faNewspaper, faBolt, faDollarSign, faSyncAlt];
