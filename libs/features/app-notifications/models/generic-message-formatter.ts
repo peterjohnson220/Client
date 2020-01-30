@@ -27,7 +27,7 @@ export class GenericMessageFormatter {
         const shouldAddLink = (level === NotificationLevel.Success && messagePayload.FileDownloadLink.length > 0);
         display += `</div><div class="col pr-0 pl-2">`;
         if (shouldAddLink) {
-            display += `<u><a href="${encodeURI(messagePayload.FileDownloadLink)}">`;
+            display += `<u><a href="${messagePayload.FileDownloadLink}">`;
         }
         display += escape(messagePayload.Message);
         if (shouldAddLink) {
