@@ -9,11 +9,12 @@ import { DashboardApiService, CompanyJobApiService, ProjectApiService } from 'li
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import { AddProjectJobsResponse } from 'libs/models/payfactors-api/project/response';
 import { WindowCommunicationService } from 'libs/core/services';
+import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
+import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
 
 import * as fromCreateNewJobPageActions from '../actions/create-new-job-page.actions';
 import * as fromAddJobsReducer from '../reducers';
 import { Store } from '@ngrx/store';
-import { PayfactorsAddJobsApiModelMapper } from '../helpers';
 
 @Injectable()
 export class CreateNewJobPageEffects {
@@ -52,7 +53,7 @@ export class CreateNewJobPageEffects {
       ofType(fromCreateNewJobPageActions.CREATE_JOB),
       withLatestFrom(
         this.store.select(fromAddJobsReducer.getContext),
-        this.store.select(fromAddJobsReducer.getSelectedPaymarkets),
+        this.store.select(fromPaymarketReducer.getSelectedPaymarkets),
         (action: fromCreateNewJobPageActions.CreateJob, context, selectedPayMarkets) => ({ action, context, selectedPayMarkets})
       ),
       switchMap(data => {

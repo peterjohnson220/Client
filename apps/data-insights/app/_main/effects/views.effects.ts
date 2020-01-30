@@ -158,17 +158,15 @@ export class ViewsEffects {
     .pipe(
       ofType(fromViewsActions.REMOVE_VIEW_FAVORITE_SUCCESS),
       withLatestFrom(
-        this.store.pipe(select(fromDataInsightsMainReducer.getTableauReportsFromViews)),
-        this.store.pipe(select(fromDataInsightsMainReducer.getDataViewReportsFromViews)),
+        this.store.pipe(select(fromDataInsightsMainReducer.getFavoriteViews)),
+        this.store.pipe(select(fromDataInsightsMainReducer.getFavoriteDataViewReports)),
         this.store.pipe(select(fromDataInsightsMainReducer.getDashboardViewThumbnailEnabled)),
-        (action, tableauReportsFromViews, dataViewReportsFromViews, dashboardView) => ({ tableauReportsFromViews, dataViewReportsFromViews, dashboardView })
+        (action, favoriteTableauReports, favoriteDataViewReports, dashboardView) => ({ favoriteTableauReports, favoriteDataViewReports, dashboardView })
       ),
       mergeMap((data) => {
         const actions = [];
-        const favoriteTableauReports = ViewsHelper.getFavoriteTableauReports(data.tableauReportsFromViews);
-        const favoriteDataViewReports = ViewsHelper.getFavoriteDataViewReports(data.dataViewReportsFromViews);
-        if (favoriteTableauReports.length === 0 && favoriteDataViewReports.length === 0 && data.dashboardView === DashboardView.Favorites) {
-            actions.push(new fromViewsActions.ToggleDashboardView({view: DashboardView.Views}));
+        if (data.favoriteTableauReports.length === 0 && data.favoriteDataViewReports.length === 0 && data.dashboardView === DashboardView.Favorites) {
+          actions.push(new fromViewsActions.ToggleDashboardView(DashboardView.Views));
         }
         return actions;
       })
@@ -182,7 +180,7 @@ export class ViewsEffects {
         return new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
           FeatureArea: FeatureAreaConstants.DataInsights,
           SettingName: UiPersistenceSettingConstants.DashboardViewThumbnailEnabled,
-          SettingValue: action.payload.view
+          SettingValue: action.payload
         });
       })
     );

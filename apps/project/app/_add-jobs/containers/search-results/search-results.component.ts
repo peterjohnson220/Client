@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import { JobResult } from 'libs/features/add-jobs/models';
 
 import * as fromAddJobsReducer from '../../reducers';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
-import { JobResult } from '../../models';
 
 @Component({
   selector: 'pf-job-search-results',

@@ -6,7 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { TagInformation, TagInformationRequest, Tag, SaveTagInformationRequest, TagEntityTypeEnum } from 'libs/models/peer';
+import { TagInformation, TagInformationRequest, Tag, SaveTagInformationRequest, TagEntityTypeEnum, TagCategoryDataTypeEnum } from 'libs/models/peer';
+import {RegexStrings, KeyboardKeys} from 'libs/constants';
 
 import * as fromTaggingEntitiesActions from '../../../actions/tagging-entities.actions';
 import * as fromTaggingEntitiesReducer from '../../../reducers';
@@ -42,6 +43,7 @@ export class TaggingEntitiesPageComponent implements OnInit, OnDestroy {
 
   entityType: TagEntityTypeEnum;
   entityId: number;
+  ignoreKeyValidation = false;
 
   public filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
@@ -58,7 +60,6 @@ export class TaggingEntitiesPageComponent implements OnInit, OnDestroy {
     this.saving$ = store.pipe(select(fromTaggingEntitiesReducer.getSavingTagInformation));
     this.addedTags$ = store.pipe(select(fromTaggingEntitiesReducer.getAddedTags));
     this.removedTags$ = store.pipe(select(fromTaggingEntitiesReducer.getRemovedTags));
-
     this.entityId = +this.route.snapshot.queryParams.id;
     this.entityType = this.route.snapshot.queryParams.et;
   }
@@ -166,5 +167,58 @@ export class TaggingEntitiesPageComponent implements OnInit, OnDestroy {
     this.tagInformationSubscription.unsubscribe();
     this.addedTagsSubscription.unsubscribe();
     this.removedTagsSubscription.unsubscribe();
+  }
+
+  onKeyDown($event: KeyboardEvent, dataType: string) {
+    if (dataType === TagCategoryDataTypeEnum.Numeric) {
+      this.validateNumeric($event);
+    }
+  }
+
+  onKeyUp($event: KeyboardEvent) {
+    if ($event.key === KeyboardKeys.CONTROL) {
+      $event.target['ignoreKeyValidation'] = false;
+    }
+  }
+
+  onRightClick($event: MouseEvent, dataType: string) {
+    if (dataType === TagCategoryDataTypeEnum.Numeric) {
+      $event.preventDefault();
+    }
+  }
+
+  validateNumeric($event: KeyboardEvent) {
+    const specialKeys = [
+      KeyboardKeys.BACKSPACE,
+      KeyboardKeys.TAB,
+      KeyboardKeys.HOME,
+      KeyboardKeys.END,
+      KeyboardKeys.DELETE,
+      KeyboardKeys.ARROW_LEFT,
+      KeyboardKeys.ARROW_RIGHT,
+      KeyboardKeys.ARROW_UP,
+      KeyboardKeys.ARROW_DOWN,
+    ];
+
+    // if user is holding down control, allow the next key
+    if ($event.key === KeyboardKeys.CONTROL) {
+      $event.target['ignoreKeyValidation'] = true;
+      return;
+    }
+
+    // 'v' key excluded explicitly to prevent pasting
+    if (specialKeys.findIndex(x => x.toString() === $event.key) !== -1 ||
+      ($event.target['ignoreKeyValidation'] && $event.key.toLocaleLowerCase() !== 'v' )) { return ; }
+
+    const previousVal = ($event.target as HTMLTextAreaElement).value.substring(-1);
+    const canAddDecimal = previousVal.indexOf('.') === -1;
+
+    if (!this.isValidKey($event.key, canAddDecimal)) {
+      $event.preventDefault();
+    }
+  }
+
+  isValidKey(key: string, canAddDecimal: boolean): boolean {
+    return (key.match(RegexStrings.DIGIT) !== null || ((key === KeyboardKeys.PERIOD) && canAddDecimal));
   }
 }

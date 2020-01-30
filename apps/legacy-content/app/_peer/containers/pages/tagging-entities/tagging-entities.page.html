@@ -9,6 +9,9 @@
       <label class="multiselect-label mt-2">{{tc.DisplayName}}</label>
       <kendo-multiselect (removeTag)="onRemoveTag($event)"
                          (valueChange)="onValueChange($event, tc.TagCategoryId)"
+                         (keydown)="onKeyDown($event, tc.DataType)"
+                         (keyup)="onKeyUp($event)"
+                         (contextmenu)="onRightClick($event, tc.DataType)"
                          [allowCustom]="true"
                          [clearButton]="false"
                          [data]="tc.Tags"

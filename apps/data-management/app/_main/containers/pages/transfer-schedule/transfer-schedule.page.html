@@ -1,0 +1,26 @@
+<pf-async-container [loading]="(transferScheduleSummaryLoading$ | async) || (transferScheduleSummarySaving$ | async)"
+                    [loadingError]="transferScheduleSummaryError$ | async"
+                    [loadingErrorMessage]="'Error loading Transfer Schedule'">
+  <div>
+    <div class="float-right"><h5 class="pt-4 pb-1 font-weight-bold" style="opacity: 0.6;">STEP 5/5</h5></div>
+    <h4>Transfer Schedule</h4>
+    <h5>Let us know how often you would like to refresh your company data.</h5>
+    <div class="row mb-3">
+      <ng-container *ngFor="let item of transferScheduleSummary; let i = index">
+        <div class="col-sm-4">
+          <pf-transfer-schedule-card
+            [transferSchedule]="item"
+            (changesPending)="updateCanFinish(i, $event)">
+          </pf-transfer-schedule-card>
+        </div>
+      </ng-container>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-12 text-right">
+        <a href="javascript:void(0);" class="btn btn-outline-danger" (click)="onCancel()">Cancel</a>
+        <a href="javascript:void(0);" class="btn" (click)="goBack()">Back</a>
+        <a href="javascript:void(0);" class="btn btn-primary" [ngClass]="{'btn-disabled disabled btn-light':!canFinish() }" (click)="onFinish()">Finish</a>
+      </div>
+    </div>
+  </div>
+</pf-async-container>

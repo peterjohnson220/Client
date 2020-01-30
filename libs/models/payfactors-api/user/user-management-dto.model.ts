@@ -12,6 +12,7 @@ export interface UserManagementDto {
     SsoId: string;
     SendWelcomeEmail: boolean;
     RoleId: number;
+    UserSubsidiaryIds: string[];
 }
 
 export function generateMockUserManagementDto(): UserManagementDto {
@@ -28,6 +29,7 @@ export function generateMockUserManagementDto(): UserManagementDto {
         LastLogin: new Date(2019, 4, 25),
         SsoId: 'MockSso',
         SendWelcomeEmail: false,
-        RoleId: 1
+        RoleId: 1,
+        UserSubsidiaryIds: ['1', '2', '3']
     };
 }

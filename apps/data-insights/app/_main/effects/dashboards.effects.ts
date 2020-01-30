@@ -49,7 +49,7 @@ export class DashboardsEffects {
         return new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
           FeatureArea: FeatureAreaConstants.DataInsights,
           SettingName: UiPersistenceSettingConstants.DashboardView,
-          SettingValue: action.payload.view
+          SettingValue: action.payload
         });
       })
     );
@@ -95,7 +95,7 @@ export class DashboardsEffects {
         const workbookIds = favoriteWorkbooks.map(w => w.WorkbookId);
         if (favoriteWorkbooks.length === 0) {
           if (data.dashboardView === DashboardView.Favorites) {
-            actions.push(new fromAllDashboardsActions.ToggleDashboardView({view: DashboardView.All}));
+            actions.push(new fromAllDashboardsActions.ToggleDashboardView(DashboardView.All));
           }
         } else {
           actions.push(new fromAllDashboardsActions.SaveWorkbookOrder({

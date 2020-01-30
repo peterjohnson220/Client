@@ -1,0 +1,23 @@
+:host ::ng-deep pf-transfer-schedule-cron > div{
+  min-height: 135px;
+}
+
+:host h4 {
+  font-weight: 400;
+}
+
+:host h4.card-title {
+  margin-left: -1rem;
+  margin-top: -1rem;
+  padding-bottom: 1rem;
+}
+
+.pencil-top-right {
+  position: absolute;
+  right: 1rem;
+  top: 1.5rem;
+}
+
+.hide-buttons {
+  visibility: hidden;
+}

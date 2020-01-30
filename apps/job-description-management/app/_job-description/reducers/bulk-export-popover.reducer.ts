@@ -2,6 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromBulkExportPopoverActions from '../actions/bulk-export-popover.actions';
 import { ControlLabel } from '../../shared/models/control-label.model';
+import { JobDescriptionBulkExportPayload } from '../models/job-description-bulk-export-payload.model';
 
 export interface State {
   controlLabels: ControlLabel[];
@@ -13,6 +14,9 @@ export interface State {
   openingBulkExportPopover: boolean;
   openingBulkExportPopoverError: boolean;
   viewNames: string[];
+  bulkExporting: boolean;
+  bulkExportPayload: JobDescriptionBulkExportPayload;
+  bulkExportError: boolean;
 }
 
 export const initialState: State = {
@@ -24,7 +28,10 @@ export const initialState: State = {
   noPublishedJobDescriptions: false,
   openingBulkExportPopover: false,
   openingBulkExportPopoverError: false,
-  viewNames: []
+  viewNames: [],
+  bulkExporting: false,
+  bulkExportPayload: null,
+  bulkExportError: false
 };
 
 export function reducer(state = initialState, action: fromBulkExportPopoverActions.Actions): State {
@@ -81,6 +88,34 @@ export function reducer(state = initialState, action: fromBulkExportPopoverActio
         openingBulkExportPopover: false,
         openingBulkExportPopoverError: true
       };
+    case fromBulkExportPopoverActions.BULK_EXPORT:
+      return {
+        ...state,
+        bulkExporting: true,
+        bulkExportPayload: action.payload,
+        bulkExportError: false
+      };
+    case fromBulkExportPopoverActions.BULK_EXPORT_ERROR:
+      return {
+        ...state,
+        bulkExporting: false,
+        bulkExportPayload: null,
+        bulkExportError: true
+      };
+    case fromBulkExportPopoverActions.BULK_EXPORT_SUCCESS:
+      return {
+        ...state,
+        bulkExporting: false,
+        bulkExportPayload: null,
+        bulkExportError: false
+      };
+    case fromBulkExportPopoverActions.RESET_BULK_EXPORT_ERROR:
+      return {
+        ...state,
+        bulkExporting: false,
+        bulkExportPayload: null,
+        bulkExportError: false
+      };
     default:
       return state;
   }
@@ -93,3 +128,4 @@ export const getViewNamesLoading = (state: State) => state.loadingViewNames;
 export const getViewNamesLoadingError = (state: State) => state.loadingViewNamesError;
 export const getViewNames = (state: State) => state.viewNames;
 export const getNoPublishedJobDescriptions = (state: State) => state.noPublishedJobDescriptions;
+export const getBulkExportError = (state: State) => state.bulkExportError;

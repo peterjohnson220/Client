@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { UserAssignedRole, UserContext } from 'libs/models';
+import { SubsidiaryInfo, UserAssignedRole, UserContext } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { RouteTrackingService } from 'libs/core';
 
@@ -16,8 +16,7 @@ import * as fromUserReducer from '../reducers';
   templateUrl: './user.page.html',
   styleUrls: ['./user.page.scss']
 })
-export class UserPageComponent implements OnInit {
-
+export class UserPageComponent implements OnInit, OnDestroy {
   userId: number;
   companyId: number;
 
@@ -27,6 +26,7 @@ export class UserPageComponent implements OnInit {
   userRoles$: Observable<UserAssignedRole[]>;
   apiError$: Observable<string>;
   userContext$: Observable<UserContext>;
+  companySubsidiaryInfo$: Observable<SubsidiaryInfo[]>;
 
   constructor(
     public router: Router,
@@ -40,6 +40,8 @@ export class UserPageComponent implements OnInit {
 
     this.user$ = this.store.select(fromUserReducer.getUserStateUser);
     this.userRoles$ = this.store.select(fromUserReducer.getUserStateRoles);
+
+    this.companySubsidiaryInfo$ = this.store.select(fromUserReducer.getCompanySubsidiaryInfo);
   }
 
   ngOnInit() {
@@ -52,6 +54,11 @@ export class UserPageComponent implements OnInit {
 
     this.companyId = this.route.snapshot.params.companyId;
     this.store.dispatch(new fromUserActions.LoadRoles(this.companyId));
+    this.store.dispatch(new fromUserActions.LoadCompanySubsidiaryInfo({CompanyId: this.companyId}));
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new fromUserActions.ResetState());
   }
 
   save(user: UserManagementDto) {
@@ -65,5 +72,4 @@ export class UserPageComponent implements OnInit {
   reloadPage() {
     window.location.reload();
   }
-
 }

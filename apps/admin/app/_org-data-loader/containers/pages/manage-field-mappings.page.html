@@ -132,6 +132,9 @@
         class="float-right m-2"
         *ngIf="selectedCompany"
         [companyId]="selectedCompany"
+        [savingError$]="emailRecipientsSavingError$"
+        [removingError$]="emailRecipientsRemovingError$"
+        [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"
         [recipients]="emailRecipients$ | async">
       </pf-email-recipients-modal>
 

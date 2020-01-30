@@ -1,11 +1,10 @@
 import * as cloneDeep from 'lodash.clonedeep';
-import { State as KendoState } from '@progress/kendo-data-query';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ListAreaColumn } from 'libs/models/common';
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromJobRangeModelingGridActions from '../actions/job-range-modeling-grid.actions';
-import { AsyncStateObj, generateDefaultAsyncStateObj } from '../../../../../libs/models/state';
 
 export interface State {
   gridDataResultAsync: AsyncStateObj<GridDataResult>;

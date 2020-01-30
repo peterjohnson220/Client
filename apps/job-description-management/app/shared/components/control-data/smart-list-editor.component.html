@@ -1,6 +1,6 @@
 <div class="control-table">
     <p-editor *ngIf="!readOnly" [style]="attributes.length === 1 ? {'min-height':'200px'} : {'height': '200px'}"
-            [(ngModel)]="rteData" (onTextChange)="parseQuillHtmlIntoRealHtml($event.htmlValue)">
+              [pfEditorModel]="rteData" [(ngModel)]="rteData" (onTextChange)="parseQuillHtmlIntoRealHtml($event.htmlValue)">
     <p-header>
       <select class="ql-size">
         <option value="small"></option>

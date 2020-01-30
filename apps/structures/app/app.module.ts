@@ -8,7 +8,6 @@ import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
-import { PfProjectModule } from 'libs/features/project';
 
 import { AppRoutingModule } from './app-routing.module';
 

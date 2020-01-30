@@ -1,15 +1,18 @@
 @import 'colors';
 @import 'styles';
 
+$tile-border-thickness: 2px;
+
 .tile {
-  border-radius: 2px;
-  border: solid 2px rgba(0, 0, 0, 0);
+  position: relative;
+  border-radius: $tile-border-thickness;
+  border: solid $tile-border-thickness rgba(0, 0, 0, 0);
   height: 200px;
   text-align: left;
 }
 
 .tile:hover {
-  border: solid 2px #c7c2c2;
+  border: solid $tile-border-thickness #c7c2c2;
 }
 
 .tile-blue {
@@ -36,3 +39,31 @@
 h1{
   font-size: 2rem;
 }
+
+.marketing-overlay {
+  position: absolute;
+  top: -$tile-border-thickness;
+  left: -$tile-border-thickness;
+  right: -$tile-border-thickness;
+  bottom: -$tile-border-thickness;
+  background-color: $tile-marketing-overlay-color;
+  opacity: 0.7;
+  z-index: 2;
+}
+
+
+.marketing-overlay-context 
+{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-marketing {
+  position: absolute;
+  bottom: 20px;
+  width: 100px;
+  left: 50%;
+  margin-left: -50px;
+}
+

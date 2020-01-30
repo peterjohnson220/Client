@@ -18,9 +18,11 @@ import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import { LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
+import { EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
+import { LoaderTypes } from 'libs/constants';
+import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -56,6 +58,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   public isModalOpen$: Observable<boolean>;
   public isProcessingMapping$: Observable<boolean>;
   private gettingColumnNames$: Observable<boolean>;
+  emailRecipients$: Observable<EmailRecipientModel[]>;
+  emailRecipientsSavingError$: Observable<boolean>;
+  emailRecipientsRemovingError$: Observable<boolean>;
+  emailRecipientsModalOpen$: Observable<boolean>;
 
   userContext$: Observable<UserContext>;
   loaderSettings$: Observable<LoaderSetting[]>;
@@ -159,6 +165,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.isProcessingMapping$ = this.mainStore.select(fromDataManagementMainReducer.isProcessingMapping);
     this.savedConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getSavedConfigurationGroup);
     this.gettingColumnNames$ = this.mainStore.select(fromDataManagementMainReducer.getGettingColumnNames);
+    this.emailRecipients$ = this.mainStore.select(fromDataManagementMainReducer.getEmailRecipients);
+    this.emailRecipientsSavingError$ = this.mainStore.select(fromDataManagementMainReducer.getSavingRecipientError);
+    this.emailRecipientsRemovingError$ = this.mainStore.select(fromDataManagementMainReducer.getRemovingRecipientError);
+    this.emailRecipientsModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getEmailRecipientsModalOpen);
+
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
@@ -166,6 +177,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.clearSelections();
       if (f) {
         this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroup(f.CompanyId));
+        this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
+          companyId: this.selectedCompany.CompanyId,
+          loaderType: LoaderTypes.OrgData
+        }));
         this.getPayfactorCustomFields(f.CompanyId);
       }
     });
@@ -408,6 +423,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       case OrgUploadStep.Files:
         this.loadOptions.forEach(element => {
           element.File = null;
+          element.isSelectedTab = false;
         });
 
         this.uploadComponent.ClearAllFiles();
@@ -667,12 +683,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     return OrgDataLoadHelper.getLoaderSettingsToSave(newLoaderSettings, this.existingLoaderSettings);
   }
 
-  shouldNextButtonBeDisabled() {
-    return this.stepIndex === OrgUploadStep.FieldMapping && this.mappingsAreNotComplete();
+  openEmailRecipientsModal() {
+    this.mainStore.dispatch(new fromEmailRecipientsActions.OpenEmailRecipientsModal());
   }
 
-  private mappingsAreNotComplete() {
-    return !this.paymarketMappingComplete || !this.jobMappingComplete || !this.structureMappingComplete ||
-      !this.structureMappingMappingComplete || !this.employeeMappingComplete;
+  disabledClear() {
+    return this.loadOptions.filter(l => l.isLoadingFinish === false).length > 0;
   }
 }

@@ -1,6 +1,6 @@
 <div *ngIf="field" class="d-flex justify-content-between field-container">
   <div class="d-flex field-text-container" *ngIf="!isEditing" (click)="toggleEdit()">
-    <span title="{{field.SourceName}}" class="field-text editable">{{field.DisplayName}}</span>
+    <span title="{{ field.FormulaName || field.SourceName}}" class="field-text editable">{{field.DisplayName}}</span>
     <span title="Click to Edit Display Name" class="editable-icon"><fa-icon icon="pencil"></fa-icon></span>
   </div>
   <div class="form-group">

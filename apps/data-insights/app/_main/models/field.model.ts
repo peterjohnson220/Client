@@ -11,22 +11,33 @@ export interface Field {
   IsSortable: boolean;
   Order?: number;
   DataElementOrder?: number;
+  FormulaId?: number;
+  FieldType: FieldType;
+  Format?: string;
+  IsEditable?: boolean;
+  Formula?: string;
+  FormulaName?: string;
 }
 
 export interface FieldListItem {
   Entity: string;
-  DataElementId: string;
   IsSelected: boolean;
   DisplayName: string;
+  FieldListItemId: string;
 }
 
 export enum FieldDataType {
-  Date = 'Date',
+  Date = 'dateTime',
   Int = 'int',
   Float = 'float',
-  String = 'String',
+  String = 'string',
   LongString = 'longString',
   Bit = 'bit'
+}
+
+export enum FieldType {
+  DataElement = 'DataElement',
+  Formula = 'Formula'
 }
 
 export function generateMockField(): Field {
@@ -41,6 +52,9 @@ export function generateMockField(): Field {
     Order: 1,
     SourceName: 'Job_Title',
     KendoGridField: 'CompanyJobs.Job_Title',
-    IsSortable: true
+    IsSortable: true,
+    FieldType: FieldType.DataElement,
+    Format: 'N1',
+    FormulaName: 'Formula Name'
   };
 }

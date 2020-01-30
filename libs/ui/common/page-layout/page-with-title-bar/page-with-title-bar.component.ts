@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { RouteTrackingService } from 'libs/core/services';
@@ -17,13 +17,22 @@ export class PageWithTitleBarComponent {
   @Input() absoluteUrl: string;
   @Input() contentNoPadding: boolean;
 
+  // Application will be reloaded when the goBackUsingBrowserHistory
+  // is used to navigate back to the previous view
+  @Input() goBackUsingBrowserHistory: boolean;
+
   constructor(
     private routeTrackingService: RouteTrackingService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) { }
 
   goBack() {
+    if (this.goBackUsingBrowserHistory) {
+      this.location.back();
+    }
+
     this.goBackToPreviousRoute
       ? this.routeTrackingService.goBack()
       : this.router.navigate([this.returnUrl], this.relativeReturn ? { relativeTo: this.route } : {});

@@ -35,8 +35,7 @@ import {
   AssociationImportModalComponent
 } from './containers/association-import-modal/association-import-modal.component';
 import { CompanyJobsGridComponent } from './containers/company-jobs-grid/company-jobs-grid.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import * as fromFaIcons from './fa-icons';
 import {
@@ -100,5 +99,7 @@ import { SharedModule } from '../shared/shared.module';
   ]
 })
 export class ManageModule {
-  constructor() { library.add(...fromFaIcons.faIcons); }
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
 }

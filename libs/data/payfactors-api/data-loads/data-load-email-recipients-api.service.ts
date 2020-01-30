@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { EmailRecipientModel } from '../../../../apps/admin/app/_org-data-loader/models/email-recipient.model';
+import { EmailRecipientModel } from '../../../models/data-loads/email-recipient.model';
 
 
 @Injectable()

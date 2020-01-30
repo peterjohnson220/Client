@@ -1,8 +1,8 @@
-<div class="card text-center bg-light mb-3 {{provider.ProviderId === selectedProvider ? 'active' : ''}}" 
-  style="max-width: 18rem;" 
+<div class="card mb-3 {{provider.ProviderId === selectedProvider ? 'active-background' : ''}}" 
+  style="max-width: 21rem;" 
   (click)="selectProviderClick($event)">
-  <img class="card-img-top provider-img" src="{{provider.ImageUrl}}" alt="{{provider.ProviderName}}" />
-  <div class="card-body">
-      <h4 class="card-title">{{provider.ProviderName}}</h4>
+  <div class="px-2 selected-badge {{provider.ProviderId === selectedProvider ? 'active' : ''}}">
+    <fa-icon icon="check-circle" class="ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></fa-icon>
   </div>
+  <img class="provider-img p-4" src="{{provider.ImageUrl}}" alt="{{provider.ProviderName}}" />
 </div>

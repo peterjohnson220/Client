@@ -14,7 +14,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { SharedModule } from '../../shared/shared.module';
-import { CompanyControlsDndService } from './services';
+import { CompanyControlsDndService, SmartListValidationService } from './services';
 import { reducers } from './reducers';
 import { CompanyControlDetailEffects, CompanyControlCopyEffects } from './effects';
 import { CompanyControlsDetailPageComponent } from './company-controls-detail.page';
@@ -53,7 +53,7 @@ import { CompanyControlLayoutComponent, CompanyControlFormComponent, CompanyCont
     FontAwesomeModule,
     SharedModule
   ],
-  providers: [ ColumnResizingService, CompanyControlsDndService ],
+  providers: [ ColumnResizingService, CompanyControlsDndService, SmartListValidationService ],
   exports: [CompanyControlsDetailPageComponent]
 })
 export class CompanyControlsDetailModule { }

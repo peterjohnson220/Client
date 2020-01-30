@@ -38,3 +38,11 @@
 .ellipsis-text {
   @extend %ellipsis-overflowing-text;
 }
+
+.highlight-format-action {
+  cursor: pointer;
+  padding-left: 1rem;
+  &:hover {
+    background-color: #e6e6e6;
+  }
+}

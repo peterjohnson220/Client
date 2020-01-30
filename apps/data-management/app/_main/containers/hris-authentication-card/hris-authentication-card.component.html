@@ -1,11 +1,9 @@
 <div>
   <div>
-    <h4>Method of Transfer: {{transferMethod}}, {{provider?.ProviderName}}</h4>
+    <div class="float-right"><h5 class="font-weight-bold" style="opacity: 0.6;">STEP 3/5</h5></div>
+    <h4 class="mt-2">Authentication</h4>
   </div>
   <div>
-    <h5>
-      HRIS Authentication
-    </h5>
     <div class="mx-5 p-3">
       <div class="error-group mb-3" *ngIf="validationErrors$ | async">
         <div class="alert alert-danger">
@@ -47,10 +45,10 @@
       <div *ngIf="validatedCredentials">
         <div class="pb-1 d-flex justify-content-end">
           <div class="p-2">
-            <button id="cancel" type="button" class="btn btn-primary" (click)="cancelAuthClick()">Cancel</button>
+            <button id="cancel" type="button" class="btn btn-outline-danger px-4" (click)="cancelAuthClick()">Cancel</button>
           </div>
           <div class="p-2">
-            <button id="connect" class="btn btn-primary" (click)="createConnectionClick()">Next</button>
+            <button id="connect" class="btn btn-primary px-4" (click)="createConnectionClick()">Next</button>
           </div>
         </div>
       </div>

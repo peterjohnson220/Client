@@ -2,8 +2,11 @@ import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
+import { environment } from 'environments/environment';
+
+import { UserContext } from 'libs/models/security';
 import { CompanyTilesResponse, CompanyDataSetsReponse, ListCompositeFields } from 'libs/models/payfactors-api';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { CompanyClientTypeConstants, SystemUserGroupNames } from 'libs/constants';
@@ -12,6 +15,7 @@ import * as fromPfAdminMainReducer from '../../reducers';
 import * as fromCompanyPageActions from '../../actions/company-page.actions';
 import { SecondarySurveyFieldsModalComponent } from '../../components';
 import { CustomCompanySettings, CompanyTabsContext } from '../../models';
+import * as fromRootState from 'libs/state/state';
 
 
 @Component({
@@ -28,6 +32,7 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   @ViewChild(SecondarySurveyFieldsModalComponent, { static: true })
   secondarySurveyFieldsModalComponent: SecondarySurveyFieldsModalComponent;
 
+  userContext$: Observable<UserContext>;
   loadingCompanyTiles$: Observable<boolean>;
   loadingCompanyTilesSuccess$: Observable<boolean>;
   loadingCompanyTilesError$: Observable<boolean>;
@@ -49,6 +54,7 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
 
   jobPricingLimitInfoSubscription: Subscription;
   jobPricingLimitInfo$: Observable<any>;
+  userContextSubscription: Subscription;
 
   enableJobPricingLimiterSubscription: Subscription;
   enableJobPricingLimiter$: Observable<boolean>;
@@ -56,8 +62,11 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
 
   jobPricingLimitUsed = 0;
   showJobPricingLimitError = false;
+  env = environment;
+  isPayfactorsServices: boolean;
 
   constructor(private store: Store<fromPfAdminMainReducer.State>) {
+    this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.loadingCompanyTiles$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTiles);
     this.loadingCompanyTilesSuccess$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTilesSuccess);
     this.loadingCompanyTilesError$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTilesError);
@@ -78,7 +87,28 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
     this.enableJobPricingLimiter$ = this.store.select(fromPfAdminMainReducer.getEnableJobPricingLimiter);
   }
 
+  isUserAdmin(): boolean {
+    let isSystemAdmin: boolean;
+
+    this.store.select(fromRootState.getIsAdmin).pipe(
+      take(1)
+    ).subscribe(r => isSystemAdmin = r);
+
+    return isSystemAdmin;
+  }
+
+  marketingTileFilter(companyTiles): any[] {
+    return companyTiles.filter(companyTile => companyTile.IsMarketingTile === true);
+  }
+
   ngOnInit() {
+    this.userContextSubscription = this.userContext$.subscribe(uc => {
+      if (uc) {
+        const payfactorsServicesGroupName: string = SystemUserGroupNames.PayfactorsServices;
+        this.isPayfactorsServices = (uc.CompanySystemUserGroupsGroupName.toLowerCase() === payfactorsServicesGroupName.toLowerCase());
+      }
+    });
+
     this.companyTabsContextSubscription = combineLatest(
       this.loadingCompanySettingsSuccess$,
       this.loadingCompanyTilesSuccess$
@@ -106,6 +136,7 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.companyTabsContextSubscription.unsubscribe();
     this.jobPricingLimitInfoSubscription.unsubscribe();
+    this.userContextSubscription.unsubscribe();
   }
 
   handleSurveyFieldsClicked() {
@@ -116,6 +147,10 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
 
   toggleCompanyTile(companyTile: CompanyTilesResponse) {
     this.store.dispatch(new fromCompanyPageActions.ToggleCompanyTile(companyTile));
+  }
+
+  toggleMarketingTile(companyTile: CompanyTilesResponse) {
+     this.store.dispatch(new fromCompanyPageActions.ToggleCompanyMarketingTile(companyTile));
   }
 
   toggleCompanyDataSet(companyDataSet: CompanyDataSetsReponse) {

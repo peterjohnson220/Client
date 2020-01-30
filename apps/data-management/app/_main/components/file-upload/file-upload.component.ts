@@ -19,6 +19,7 @@ export class FileUploadComponent {
   @Output() onFileDropped = new EventEmitter<any>();
   @Output() onColumnNamesRetrieved = new EventEmitter<any>();
   @Output() onFileRemoved = new EventEmitter();
+  @Output() onLoadingFinished = new EventEmitter<any>();
   @Input() validFileExtensions: string[] = [];
   @Input() validFileStartsWith = '';
   @Input() delimiter: string;
@@ -40,6 +41,7 @@ export class FileUploadComponent {
           this.fileUploading = false;
           this.onFileDropped.emit(this.selectedFile);
           this.onColumnNamesRetrieved.emit(entityColumnNames.columnNames);
+          this.onLoadingFinished.emit(true);
         }
       }
     });
@@ -58,6 +60,7 @@ export class FileUploadComponent {
   GetColumnNames(file) {
     if (this.errorMessage.trim().length === 0) {
       this.fileUploadRequest = { delimiter: this.delimiter, file: file };
+      this.onLoadingFinished.emit(false);
       this.store.dispatch(new fromFileUploadActions.GetColumnNames(
         { columnNamesFile: this.fileUploadRequest, columnNames: null, entity: this.validFileStartsWith }
       ));

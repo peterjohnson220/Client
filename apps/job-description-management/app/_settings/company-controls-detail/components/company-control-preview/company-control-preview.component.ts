@@ -18,8 +18,7 @@ export class CompanyControlPreviewComponent implements OnChanges {
   public data: any[];
 
   constructor(
-    private jobDescriptionManagementService: JobDescriptionManagementService
- ) { }
+    private jobDescriptionManagementService: JobDescriptionManagementService) { }
 
     toggleBody() {
         this.hideBody = !this.hideBody;
@@ -41,7 +40,7 @@ export class CompanyControlPreviewComponent implements OnChanges {
             let dataRow;
 
             if (currentDataRow) {
-                currentDataRow[sourcedAttribute.DisplayName] = d;
+                currentDataRow[sourcedAttribute.Name] = d;
                 dataRow = currentDataRow;
             } else {
                 dataRow = this.jobDescriptionManagementService.createDataRow(this.controlType.Attributes, d);
@@ -55,14 +54,23 @@ export class CompanyControlPreviewComponent implements OnChanges {
     }
 
     ngOnChanges(changes) {
-        this.controlType = changes.controlType.currentValue;
-        const value = changes.controlType.currentValue;
-            this.data = [];
-            if (value.Attributes !== null && value.Attributes.length > 0) {
-                if (value.EditorType !== 'SmartList') {
-                    this.data.push(this.jobDescriptionManagementService.createDataRow(value.Attributes));
+
+        if (changes.controlType) {
+            this.controlType = changes.controlType.currentValue;
+            const previousControlValue = changes.controlType.previousValue;
+
+            if (changes.controlType.firstChange ||
+                (previousControlValue && this.controlType.EditorType !== previousControlValue.EditorType)) {
+                this.data = [];
+            }
+
+            if (this.controlType.Attributes !== null && this.controlType.Attributes.length > 0) {
+                if (this.controlType.EditorType !== 'SmartList') {
+                    this.data = [];
+                    this.data.push(this.jobDescriptionManagementService.createDataRow(this.controlType.Attributes));
                 }
             }
+        }
     }
 
 }

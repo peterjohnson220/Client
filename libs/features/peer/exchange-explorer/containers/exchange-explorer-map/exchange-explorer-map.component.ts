@@ -31,6 +31,7 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
   peerMapLoadingError$: Observable<boolean>;
   peerMapCentroid$: Observable<number[]>;
   peerMapShowNoData$: Observable<boolean>;
+  peerMapHasUntaggedIncumbents$: Observable<boolean>;
   peerMapMaxZoom$: Observable<number>;
   peerInitialMapBounds$: Observable<number[]>;
   peerMapInitialZoomLevel$: Observable<number>;
@@ -45,6 +46,7 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
     this.peerMapLoadingError$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapLoadingError));
     this.peerMapCollection$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapCollection));
     this.peerMapShowNoData$ = this.store.pipe(select(fromExchangeExplorerReducer.peerMapShowNoData));
+    this.peerMapHasUntaggedIncumbents$ = this.store.pipe(select(fromExchangeExplorerReducer.peerMapHasUntaggedIncumbents));
     this.peerMapMaxZoom$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapMaxZoom));
     this.peerInitialMapBounds$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerInitialMapBounds));
     this.peerMapInitialZoomLevel$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapInitialZoomLevel));

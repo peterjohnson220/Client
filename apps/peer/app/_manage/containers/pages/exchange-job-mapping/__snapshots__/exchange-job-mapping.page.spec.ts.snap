@@ -24,8 +24,9 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
 >
   <pf-page-with-title-bar>
     
-    <pf-exchange-switcher />
+     Manage Jobs 
     
+    <pf-exchange-switcher />
     <div
       class="omni-box"
     >
@@ -117,8 +118,9 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
 >
   <pf-page-with-title-bar>
     
-    <pf-exchange-switcher />
+     Manage Jobs 
     
+    <pf-exchange-switcher />
     <div
       class="omni-box"
     >
@@ -206,8 +208,9 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
 >
   <pf-page-with-title-bar>
     
-    <pf-exchange-switcher />
+     Manage Jobs 
     
+    <pf-exchange-switcher />
     <div
       class="omni-box"
     >

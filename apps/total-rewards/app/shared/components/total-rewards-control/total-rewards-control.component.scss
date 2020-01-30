@@ -1,0 +1,12 @@
+.logo {
+  max-width: 250px;
+}
+p {
+  font-size: 14px;
+}
+
+@media print {
+  .printClass {
+    page-break-after: avoid;
+  }
+}
