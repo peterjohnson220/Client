@@ -18,25 +18,21 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { StandardReportComponent, TagWorkbookModalComponent, SearchWorkbookResultComponent,
-  WorkbookViewsComponent, SaveUserWorkbookModalComponent,
-  ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
-  ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent,
-  DateRangeFilterComponent, MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent,
-  BitFilterComponent, ConfigureSidebarComponent, ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent,
+  WorkbookViewsComponent, ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent,
   DataViewReportsComponent, DataViewReportCardComponent
 } from './components';
+
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
-  CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent,
-  DashboardsHeaderComponent, ViewsComponent, FiltersComponent, FieldsComponent,
-  WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, NumericFieldFormattingModalComponent
+  SearchWorkbookModalComponent, DashboardsHeaderComponent, ViewsComponent, WorkbookCardComponent,
+  TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateDataViewModalComponent
 } from './containers';
-import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects,
-  ViewsEffects, FiltersEffects, FieldsEffects
-} from './effects';
+
+import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, ViewsEffects, DataViewEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
-import { DataViewModule } from '../_data-view';
+import { DataInsightsSharedModule } from '../_shared/shared.module';
+import { AbstractBaseDataViewModal } from '../_shared/containers';
 
 @NgModule({
   imports: [
@@ -51,11 +47,8 @@ import { DataViewModule } from '../_data-view';
       DataInsightsPageEffects,
       DashboardsEffects,
       ReportViewPageEffects,
-      DataViewEffects,
-      DataViewGridEffects,
       ViewsEffects,
-      FiltersEffects,
-      FieldsEffects
+      DataViewEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
@@ -77,20 +70,18 @@ import { DataViewModule } from '../_data-view';
     PfFormsModule,
 
     // Data Insights
-    DataViewModule
+    DataInsightsSharedModule
   ],
   declarations: [
     // Containers
-    DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
-    SearchWorkbookModalComponent, DataViewGridComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
-    FieldsComponent, WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, NumericFieldFormattingModalComponent,
+    DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, TagWorkbookModalComponent,
+    SearchWorkbookModalComponent, DashboardsHeaderComponent, ViewsComponent, WorkbookCardComponent,
+    TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateDataViewModalComponent,
 
     // Components
     StandardReportComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
-    SaveUserWorkbookModalComponent, ReportFieldComponent, DeleteUserWorkbookModalComponent, AddReportFieldsComponent,
-    ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, FilterCardComponent, DateRangeFilterComponent,
-    MultiSelectFilterComponent, NumericFilterComponent, TextFilterComponent, BitFilterComponent, ConfigureSidebarComponent,
-    ViewAllFieldsComponent, FieldGroupComponent, ShareReportModalComponent, DataViewReportsComponent, DataViewReportCardComponent
+    ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, DataViewReportsComponent,
+    DataViewReportCardComponent
   ],
   providers: [
     WindowRef

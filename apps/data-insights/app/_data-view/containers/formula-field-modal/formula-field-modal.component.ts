@@ -10,9 +10,8 @@ import { debounceTime } from 'rxjs/operators';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromFormulaFieldActions from '../../actions/formula-field.actions';
-import { FormulaFieldModalObj, Suggestion, functionSuggestionList } from '../../models';
+import { FormulaFieldModalObj, Suggestion, functionSuggestionList, FieldDataType } from '../../models';
 import { FormulaEditorComponent } from '../../components';
-import { FieldDataType } from '../../../_main/models';
 
 @Component({
   selector: 'pf-formula-field-modal',

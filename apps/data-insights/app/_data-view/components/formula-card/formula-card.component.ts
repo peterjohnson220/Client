@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Field } from '../../../_main/models';
+import { Field } from '../../models';
 
 @Component({
   selector: 'pf-user-formula-card',

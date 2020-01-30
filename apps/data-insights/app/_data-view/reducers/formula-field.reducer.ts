@@ -3,7 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromFormulaFieldActions from '../actions/formula-field.actions';
-import { FieldDataType } from '../../_main/models';
+import { FieldDataType } from '../models';
 
 
 export interface State {
