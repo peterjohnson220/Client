@@ -159,7 +159,6 @@ export class PayfactorsApiModelMapper {
     dataView: UserDataView,
     fields: Field[],
     pagingOptions: PagingOptions,
-    sortDescriptor: SortDescriptor,
     filters: Filter[],
     withCount: boolean): DataViewDataRequest {
     return {

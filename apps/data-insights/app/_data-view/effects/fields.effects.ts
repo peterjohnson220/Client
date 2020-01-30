@@ -79,7 +79,8 @@ export class FieldsEffects {
       mergeMap(() => {
         return [
           new fromFieldsActions.SaveReportFields(),
-          new fromDataViewGridActions.GetData()
+          new fromDataViewGridActions.GetData(),
+          new fromDataViewGridActions.GetDataCount()
         ];
       })
     );
@@ -107,6 +108,7 @@ export class FieldsEffects {
         }
         actions.push(new fromFieldsActions.SaveReportFields());
         actions.push(new fromDataViewGridActions.GetData());
+        actions.push(new fromDataViewGridActions.GetDataCount());
         return actions;
       })
     );

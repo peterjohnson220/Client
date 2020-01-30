@@ -14,6 +14,9 @@ export const SAVE_SORT_DESCRIPTOR = '[Data Insights / Data View Grid] Save Sort 
 export const SAVE_SORT_DESCRIPTOR_SUCCESS = '[Data Insights / Data View Grid] Save Sort Descriptor Success';
 export const SAVE_SORT_DESCRIPTOR_ERROR = '[Data Insights / Data View Grid] Save Sort Descriptor Error';
 export const SET_SORT_DESCRIPTOR = '[Data Insights / Data View Grid] Set Sort Descriptor';
+export const GET_DATA_COUNT = '[Data Insights / Data View Grid] Get Total Count';
+export const GET_DATA_COUNT_SUCCESS = '[Data Insights / Data View Grid] Get Total Count Success';
+export const GET_DATA_COUNT_ERROR = '[Data Insights / Data View Grid] Get Total Count Error';
 
 export class GetData implements Action {
   readonly type = GET_DATA;
@@ -24,7 +27,7 @@ export class GetData implements Action {
 export class GetDataSuccess implements Action {
   readonly type = GET_DATA_SUCCESS;
 
-  constructor(public payload: {data: any[], totalCount: number}) {}
+  constructor(public payload: {data: any[]}) {}
 }
 
 export class GetDataError implements Action {
@@ -75,6 +78,24 @@ export class SetSortDescriptor implements Action {
   constructor(public payload: SortDescriptor) {}
 }
 
+export class GetDataCount implements Action {
+  readonly type = GET_DATA_COUNT;
+
+  constructor() {}
+}
+
+export class GetDataCountSuccess implements Action {
+  readonly type = GET_DATA_COUNT_SUCCESS;
+
+  constructor(public payload: { totalCount: number }) {}
+}
+
+export class GetDataCountError implements Action {
+  readonly type = GET_DATA_COUNT_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = GetData
   | GetDataSuccess
@@ -85,4 +106,7 @@ export type Actions
   | SaveSortDescriptor
   | SaveSortDescriptorSuccess
   | SaveSortDescriptorError
-  | SetSortDescriptor;
+  | SetSortDescriptor
+  | GetDataCount
+  | GetDataCountSuccess
+  | GetDataCountError;

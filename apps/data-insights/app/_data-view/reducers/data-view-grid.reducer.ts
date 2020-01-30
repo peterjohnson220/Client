@@ -13,7 +13,7 @@ export interface State {
   pagingOptions: PagingOptions;
   hasMoreDataOnServer: boolean;
   sortDescriptor: SortDescriptor;
-  totalCount: number;
+  totalCount: AsyncStateObj<number>;
 }
 
 const initialState: State = {
@@ -25,7 +25,7 @@ const initialState: State = {
   },
   hasMoreDataOnServer: true,
   sortDescriptor: null,
-  totalCount: 0
+  totalCount: generateDefaultAsyncStateObj<number>(0)
 };
 
 export function reducer(state = initialState, action: fromDataViewGridActions.Actions): State {
@@ -49,8 +49,7 @@ export function reducer(state = initialState, action: fromDataViewGridActions.Ac
 
       return {
         ...state,
-        dataAsync: asyncStateObjClone,
-        totalCount: action.payload.totalCount
+        dataAsync: asyncStateObjClone
       };
     }
     case fromDataViewGridActions.GET_DATA_ERROR: {
@@ -95,6 +94,34 @@ export function reducer(state = initialState, action: fromDataViewGridActions.Ac
         sortDescriptor: action.payload
       };
     }
+    case fromDataViewGridActions.GET_DATA_COUNT: {
+      const totalCountClone: AsyncStateObj<number> = cloneDeep(state.totalCount);
+      totalCountClone.loading = true;
+      totalCountClone.loadingError = false;
+      return {
+        ...state,
+        totalCount: totalCountClone
+      };
+    }
+    case fromDataViewGridActions.GET_DATA_COUNT_SUCCESS: {
+      const totalCountClone: AsyncStateObj<number> = cloneDeep(state.totalCount);
+      totalCountClone.loading = false;
+      totalCountClone.loadingError = false;
+      totalCountClone.obj = action.payload.totalCount;
+      return {
+        ...state,
+        totalCount: totalCountClone
+      };
+    }
+    case fromDataViewGridActions.GET_DATA_COUNT_ERROR: {
+      const totalCountClone: AsyncStateObj<number> = cloneDeep(state.totalCount);
+      totalCountClone.loading = false;
+      totalCountClone.loadingError = true;
+      return {
+        ...state,
+        totalCount: totalCountClone
+      };
+    }
     default: {
       return state;
     }
@@ -106,4 +133,4 @@ export const getPagingOptions = (state: State) => state.pagingOptions;
 export const getLoadingMoreData = (state: State) => state.loadingMoreData;
 export const getHasMoreDataOnServer = (state: State) => state.hasMoreDataOnServer;
 export const getSortDescriptor = (state: State) => state.sortDescriptor;
-export const getTotalCount = (state: State) => state.totalCount;
+export const getTotalCountAsync = (state: State) => state.totalCount;

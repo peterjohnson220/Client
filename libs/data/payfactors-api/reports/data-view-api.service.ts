@@ -134,6 +134,10 @@ export class DataViewApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetDataViewCount`, { params: { formulaId: formulaId } }, this.extractRawResponse);
   }
 
+  getDataCount(request: DataViewDataRequest): Observable<number> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetDataCount`, request);
+  }
+
   private extractRawResponse(response: any) {
     return response;
   }
