@@ -99,7 +99,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     'You must choose a company',
     'Please select at least one entity to load data for.',
     'Please choose a file for each entity type and select a delimiter',
-    'Please fully map each selected Entity'
+    'Please fully map each field and select the date format if applicable'
   ];
   private paymarketMappingComplete: boolean;
   private isPaymarketsLoadEnabled: boolean;
