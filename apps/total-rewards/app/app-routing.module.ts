@@ -2,17 +2,18 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppWrapperComponent } from 'libs/features/app-root';
-import { UserContextGuard } from 'libs/security';
+import { AuthorizationGuard, UserContextGuard } from 'libs/security';
 import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 
 export const routes: Routes = [
+  { path: '', pathMatch: 'full', canActivate: [UserContextGuard], redirectTo: 'main' },
   {
-    path: '',
-    component: AppWrapperComponent,
-    canActivate: [UserContextGuard],
-    children: [
-      { path: '', loadChildren: () => import('apps/total-rewards/app/_main/main.module').then(m => m.MainModule) }
-    ]
+    path: 'main', canActivate: [AuthorizationGuard], component: AppWrapperComponent,
+    loadChildren: () => import('apps/total-rewards/app/_main/main.module').then(m => m.MainModule)
+  },
+  {
+    path: 'print',
+    loadChildren: () => import('apps/total-rewards/app/_print/print.module').then(m => m.PrintModule)
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'not-found', component: NotFoundErrorPageComponent },

@@ -1,10 +1,14 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+
+import { forkJoin, Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
+import { ISubscription } from 'rxjs/Subscription';
+
 import { PfValidators, PfEmailValidators, PfEmailTakenValidator } from 'libs/forms';
-import { UserAssignedRole } from 'libs/models';
+import { GenericMenuItem, SubsidiaryInfo, UserAssignedRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserApiService } from 'libs/data/payfactors-api';
-import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'pf-user-form',
@@ -12,8 +16,6 @@ import { ISubscription } from 'rxjs/Subscription';
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit, OnDestroy {
-
-
   readonly MAX_NAME_LENGTH = 50;
   readonly MAX_EMAIL_LENGTH = 100;
   readonly MAX_TITLE_LENGTH = 255;
@@ -27,6 +29,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   private passwordValidatorSubscription: ISubscription;
 
   userForm: FormGroup;
+
   newUser: UserManagementDto = {
     UserId: null,
     CompanyId: null,
@@ -40,9 +43,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
     LastLogin: null,
     SsoId: null,
     SendWelcomeEmail: null,
-    RoleId: null
+    RoleId: null,
+    UserSubsidiaryIds: []
   };
-  user = this.newUser;
+  user: UserManagementDto = this.newUser;
+
+  companySubsidiaries: GenericMenuItem[] = [];
+  selectedValues: string[] = [];
 
   private _showPassword = false;
   get showPassword(): boolean {
@@ -55,17 +62,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.setPasswordValidator(this._showPassword);
   }
 
-  @Input('user') set _user(value: UserManagementDto) {
-    if (value) {
-      this.user = value;
-      this.populateForm(this.user);
-      this.showPassword = !this.user.LastLogin;
-      this.setEmailExistsValidator(this.user.EmailAddress);
-    } else {
-      this.user = this.newUser;
-    }
-  }
+  @Input() companySubsidiaries$: Observable<SubsidiaryInfo[]>;
+  @Input() user$: Observable<UserManagementDto>;
 
+  @Input() userId: number;
   @Input() companyId: number;
   @Input() userRoles: UserAssignedRole[];
 
@@ -114,6 +114,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
       }
       this.f.password.updateValueAndValidity();
     });
+
+    this.setupUserAndSubsidiaries();
   }
 
   ngOnDestroy() {
@@ -168,7 +170,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   generateUserToSave(empty: boolean) {
-
     const password = empty ? this.generateRandomPassword() : this.getPassword();
 
     return {
@@ -183,7 +184,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
       SsoId: this.f.ssoId.value,
       RoleId: this.f.userRole.value,
       Password: password,
-      SendWelcomeEmail: password ? this.f.sendWelcomeEmail.value : false
+      SendWelcomeEmail: password ? this.f.sendWelcomeEmail.value : false,
+      UserSubsidiaryIds: this.selectedValues
     };
   }
 
@@ -203,5 +205,54 @@ export class UserFormComponent implements OnInit, OnDestroy {
       randomString += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return randomString;
+  }
+
+  setupUserAndSubsidiaries() {
+    if (this.userId) {
+      forkJoin([this.getUserLoaded(), this.getCompanySubsidiariesLoaded()])
+        .subscribe(([user, companySubsidiaries]) => {
+          this.setupUser(user);
+          this.setupSubsidiariesMultiSelect(companySubsidiaries, user);
+        });
+    } else {
+      this.getCompanySubsidiariesLoaded().subscribe((companySubsidiaries) => {
+        this.setupSubsidiariesMultiSelect(companySubsidiaries, this.user);
+      });
+    }
+  }
+
+  getUserLoaded(): Observable<UserManagementDto> {
+    return this.user$.pipe(
+      filter(f => !!f),
+      take(1)
+    );
+  }
+
+  getCompanySubsidiariesLoaded(): Observable<SubsidiaryInfo[]> {
+    return this.companySubsidiaries$.pipe(
+      filter(l => !!l),
+      take(1)
+    );
+  }
+
+  setupUser(value: UserManagementDto) {
+    if (value) {
+      this.user = value;
+      this.populateForm(this.user);
+      this.showPassword = !this.user.LastLogin;
+      this.setEmailExistsValidator(this.user.EmailAddress);
+    }
+  }
+
+  setupSubsidiariesMultiSelect(companySubsidiaries: SubsidiaryInfo[], user: UserManagementDto) {
+    companySubsidiaries.forEach(x => {
+      const subsidiaryIdStr = x.SubsidiaryId.toString();
+      const isSelected = user.UserSubsidiaryIds.includes(subsidiaryIdStr);
+      const genericMenuItem = {DisplayName: x.SubsidiaryName, Value: subsidiaryIdStr, IsSelected: isSelected};
+      this.companySubsidiaries.push(genericMenuItem);
+      if (isSelected) {
+        this.selectedValues.push(subsidiaryIdStr);
+      }
+    });
   }
 }

@@ -50,4 +50,11 @@ export class DashboardApiService {
   getIsJdmEnabled(): Observable<boolean> {
     return this.payfactorsApiService.get<boolean>(`${this.endpoint}.IsJdmEnabled`);
   }
+
+  sendInAppMarketingEmail(tileName: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.SendInAppMarketingEmail`,
+      {
+        tileType: tileName
+      });
+  }
 }

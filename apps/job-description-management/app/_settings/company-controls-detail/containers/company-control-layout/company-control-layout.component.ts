@@ -5,9 +5,9 @@ import { Subscription } from 'rxjs';
 
 import { ControlTypeAttribute, ControlType } from 'libs/models';
 
-import { CompanyControlsDndService } from '../../services';
+import { CompanyControlsDndService, SmartListValidationService } from '../../services';
 import { JobDescriptionManagementService } from '../../../../shared/services';
-import { AttributeNamesAreUnique, EditorTypeSmartListMissingRenderedType } from '../../validators';
+import { AttributeNamesAreUnique } from '../../validators';
 
 
 
@@ -61,7 +61,8 @@ export class CompanyControlLayoutComponent implements OnInit, OnDestroy, OnChang
     constructor(
         private formBuilder: FormBuilder,
         private companyControlsDndService: CompanyControlsDndService,
-        private jobDescriptionManagementService: JobDescriptionManagementService) {
+        private jobDescriptionManagementService: JobDescriptionManagementService,
+        private smartListValidationService: SmartListValidationService) {
 
         this.buildForm();
         this.controlLayoutForm.valueChanges.subscribe((change) => {
@@ -74,7 +75,7 @@ export class CompanyControlLayoutComponent implements OnInit, OnDestroy, OnChang
     buildForm() {
         this.controlLayoutForm = this.formBuilder.group(
             {'Attributes': this.formBuilder.array([], AttributeNamesAreUnique())},
-            { validator: EditorTypeSmartListMissingRenderedType(this.editorType).bind(this) }
+            { validator: this.smartListValidationService.Validator(this.editorType).bind(this) }
         );
     }
 
@@ -155,7 +156,7 @@ export class CompanyControlLayoutComponent implements OnInit, OnDestroy, OnChang
     onHandleAttributeTypeChanged(attributeType: string, index: number) {
         if (attributeType === 'Dropdown'  || attributeType === 'RadioButton') {
             const controlArray = <FormArray>this.layoutForm.controls['Attributes'];
-            const item = <FormGroup>controlArray.at(0);
+            const item = <FormGroup>controlArray.at(index);
             (<FormControl>item.controls['CanBeSourced']).setValue(false);
         } else {
             const choiceArray = this.getChoiceArray(index);
@@ -206,7 +207,7 @@ export class CompanyControlLayoutComponent implements OnInit, OnDestroy, OnChang
     handleEditorTypeChange(editorType: string) {
         this.resetAttributes();
         this.editorType = editorType;
-        this.layoutForm.setValidators(EditorTypeSmartListMissingRenderedType(this.editorType));
+        this.layoutForm.setValidators(this.smartListValidationService.Validator(this.editorType));
         const controlArray = <FormArray>this.layoutForm.controls['Attributes'];
         if (controlArray.length === 0 ) {
             if (editorType === 'SmartList') {

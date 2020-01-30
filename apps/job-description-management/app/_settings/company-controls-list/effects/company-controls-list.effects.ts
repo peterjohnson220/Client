@@ -25,7 +25,6 @@ export class CompanyControlsListEffects {
               response
               // Filter out system content controls
               .filter(c => c.CompanyId)
-              .sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
             );
           }),
           catchError(() => of(new fromCompanyControlsListActions.LoadCompanyControlsError()))

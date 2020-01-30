@@ -1,14 +1,17 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
-import * as fromStructures from '../../../../../structures/app/_main/reducers';
-import * as fromJobRangeModelingActions from '../../actions/job-range-modeling-grid.actions';
 import { FormBuilder } from '@angular/forms';
-import {select, Store} from '@ngrx/store';
+
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {ListAreaColumn} from '../../../../../../libs/models/common/list-area';
-import { AsyncStateObj } from 'libs/models/state';
 import {take} from 'rxjs/operators';
+import {Observable, Subscription} from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
+import {select, Store} from '@ngrx/store';
+
+import {ListAreaColumn} from 'libs/models/common/list-area';
+import { AsyncStateObj } from 'libs/models/state';
+
+import * as fromStructures from '../../reducers';
+import * as fromJobRangeModelingActions from '../../actions/job-range-modeling-grid.actions';
 
 @Component({
   selector: 'pf-edit-grid-columns-modal',

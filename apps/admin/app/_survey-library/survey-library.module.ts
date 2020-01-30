@@ -6,8 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
@@ -30,6 +29,7 @@ import { CollapserDirective } from './directives';
 import { reducers } from './reducers';
 import { CompanySelectorEffects, SurveyEffects, SurveyTitlesEffects } from './effects';
 import { CopySurveyModalComponent } from './containers/copy-survey-modal/copy-survey-modal.component';
+import { DeleteConfirmationModalComponent } from './containers/delete-confirmation-modal/delete-confirmation-modal.component';
 
 @NgModule({
   imports: [
@@ -74,6 +74,7 @@ import { CopySurveyModalComponent } from './containers/copy-survey-modal/copy-su
     SurveyTitleCompaniesListComponent,
     ExpandCollapseIconComponent,
     CopySurveyModalComponent,
+    DeleteConfirmationModalComponent,
 
     // Directives
     CollapserDirective
@@ -85,7 +86,7 @@ import { CopySurveyModalComponent } from './containers/copy-survey-modal/copy-su
 })
 
 export class SurveyLibraryModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

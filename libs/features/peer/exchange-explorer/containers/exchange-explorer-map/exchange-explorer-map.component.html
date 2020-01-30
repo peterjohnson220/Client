@@ -135,9 +135,15 @@
     [closeOnClick]="false"
     [closeButton]="false"
   >
-    <div class="map-no-data-message">
-      <fa-icon [icon]="['far','exclamation-triangle']" class="text-danger"></fa-icon>
-      No results. Refine the filter criteria to show results.
+    <div class="map-no-data-message" [ngSwitch]="(peerMapHasUntaggedIncumbents$ | async)">
+      <div *ngSwitchCase="false">
+        <fa-icon [icon]="['far','exclamation-triangle']" class="text-danger"></fa-icon>
+        No results. Refine the filter criteria to show results.
+      </div>
+      <div *ngSwitchCase="true">
+        <fa-icon [icon]="['far','exclamation-triangle']" class="text-warning"></fa-icon>
+        Results only contain incumbents without location data.
+      </div>
     </div>
   </mgl-popup>
 </mgl-map>

@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
-import { LoaderFieldSet } from '../models';
-import { FieldMappingsDTO } from 'libs/models/data-loads/index';
+import { FieldMappingsDTO, LoaderFieldSet } from 'libs/models/data-loads';
 
 export const LOADING_FIELD_MAPPINGS = '[Org Data Autoloader/Field Mappings] Loading Field Mappings';
 export const LOADING_FIELD_MAPPINGS_ERROR = '[Org Data Autoloader/Field Mappings] Loading Field Mappings Error';

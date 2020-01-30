@@ -1,41 +1,62 @@
+
 <div id="{{ tile.Label | stringReplace:' ': '-' | lowercase }}-tile"
-     class="tile m-0 p-1"
-     [ngSwitch]="tile.PreviewType"
-     [ngClass]="tile.CssClass"
->
+  class="tile m-0 p-1"
+  [ngSwitch]="tile.PreviewType"
+  [ngClass]="tile.CssClass">
+
+  <div *ngIf="!highlightMarketingContent">
+    <h4>{{ tile.Label }}</h4>
+  </div>
+
   <a id="{{ tile.Label | stringReplace:' ': '-' | lowercase }}-tile-link"
-     class="tile-anchor-overlay"
-     [href]="getTileHref(tile)"></a>
-  <h4>{{ tile.Label }}</h4>
+  class="tile-anchor-overlay"
+  [href]="getTileHref(tile)"></a>
 
   <!-- Tile Inner Content -->
-  <pf-tile-preview-chart *ngSwitchCase="tilePreviewType.Chart"
-                         [model]="previewModel">
-  </pf-tile-preview-chart>
+  <div *ngIf="!highlightMarketingContent">
+    <pf-tile-preview-chart *ngSwitchCase="tilePreviewType.Chart"
+                          [model]="previewModel">
+    </pf-tile-preview-chart>
 
-  <pf-tile-preview-icon *ngSwitchCase="tilePreviewType.Icon"
-                        [model]="previewModel">
-  </pf-tile-preview-icon>
+    <pf-tile-preview-icon *ngSwitchCase="tilePreviewType.Icon"
+                          [model]="previewModel">
+    </pf-tile-preview-icon>
 
-  <pf-tile-preview-list *ngSwitchCase="tilePreviewType.List"
-                        [model]="previewModel">
-  </pf-tile-preview-list>
+    <pf-tile-preview-list *ngSwitchCase="tilePreviewType.List"
+                          [model]="previewModel">
+    </pf-tile-preview-list>
 
-  <pf-tile-preview-place-holder *ngSwitchCase="tilePreviewType.PlaceHolder"
-                                [model]="previewModel">
-  </pf-tile-preview-place-holder>
-
-  <pf-tile-preview-calendar-with-chart *ngSwitchCase="tilePreviewType.ChartWithCalendar"
-                                       [model]="previewModel">
-  </pf-tile-preview-calendar-with-chart>
-
-  <pf-tile-preview-chart-with-list *ngSwitchCase="tilePreviewType.ChartWithList"
+    <pf-tile-preview-place-holder *ngSwitchCase="tilePreviewType.PlaceHolder"
                                   [model]="previewModel">
+    </pf-tile-preview-place-holder>
 
-  </pf-tile-preview-chart-with-list>
+    <pf-tile-preview-calendar-with-chart *ngSwitchCase="tilePreviewType.ChartWithCalendar"
+                                        [model]="previewModel">
+    </pf-tile-preview-calendar-with-chart>
 
-  <pf-basic-list *ngSwitchCase="tilePreviewType.BasicList"
-                 [model]="previewModel">
-  </pf-basic-list>
+    <pf-tile-preview-chart-with-list *ngSwitchCase="tilePreviewType.ChartWithList"
+                                    [model]="previewModel">
+
+    </pf-tile-preview-chart-with-list>
+
+    <pf-basic-list *ngSwitchCase="tilePreviewType.BasicList"
+                  [model]="previewModel">
+    </pf-basic-list>
+  </div>
+
+  <div #makretingTileOverlay *ngIf="tile.MarketingEnabled" 
+    class='marketing-overlay'
+    (mouseover)="onMouseOver()"
+    (mouseleave)="onMouseLeave()">
+
+    <div *ngIf="highlightMarketingContent" 
+      class="marketing-overlay-context p-2"
+      [ngClass]="tile.CssClass">
+      <h4>{{ tile.Label }}</h4> 
+      <div class="pt-2 mx-3">{{tile.MarketingDescription}}</div>
+      <button id="id_btn_{{tile.Type}}" 
+          class="btn btn-primary btn-marketing">{{tile.MarketingButtonText}}</button> 
+    </div>
+  </div>
 
 </div>

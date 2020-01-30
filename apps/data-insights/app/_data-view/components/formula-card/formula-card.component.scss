@@ -1,0 +1,23 @@
+@import 'data-insights-variables';
+@import 'common/common-variables';
+
+.card {
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.user-formula-display-name {
+  width: 224px;
+  @extend %ellipsis-overflowing-text;
+}
+
+.formula-actions {
+  cursor: pointer;
+  color: $dark-grey;
+
+  .editable-icon {
+    position: relative;
+    right: 19px;
+  }
+}
+

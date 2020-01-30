@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Structures - Job Based Ranges Add Jobs - Modal should not display GUI features related to job count in non small biz companies, and should display the "normal" result count  1`] = `
+<pf-jobs-based-ranges-add-jobs-modal
+  _Permissions={[Function Function]}
+  addJobsForm="undefined"
+  addingData$={[Function Store]}
+  addingDataError$={[Function Store]}
+  addingDataErrorMessage$={[Function Store]}
+  attemptedSave="false"
+  closed={[Function EventEmitter]}
+  currentJobCountSetting="0"
+  errorSaving="false"
+  formBuilder={[Function Object]}
+  isSmallBiz="false"
+  maxAllowedJobsSetting="0"
+  numberOfResults$={[Function Observable]}
+  numberOfSearchResults$={[Function Store]}
+  opened={[Function EventEmitter]}
+  pageShown$={[Function Observable]}
+  route={[Function Object]}
+  router={[Function Object]}
+  saved={[Function EventEmitter]}
+  saving="false"
+  searchingFilter$={[Function Store]}
+  selectedJobIdsSubscription={[Function Subscriber]}
+  selectedPayfactorsJobCodesSubscription={[Function Subscriber]}
+  selectedPaymarkets$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  store={[Function Store]}
+  userContext={[Function Observable]}
+>
+  <pf-modal-form
+    data-qa-id="job-based-ranges-add-jobs-modal"
+    title="Add Jobs"
+  >
+    
+    
+    <pf-search-layout>
+      
+      
+      <div
+        class="create-new-job disabledButton"
+        data-qa-id="btn-createNewJobNav"
+      >
+        <div
+          class="search-action"
+        >
+          <fa-icon />
+           Create New Job 
+        </div>
+      </div>
+      <pf-search-filters />
+      
+      
+      <pf-results-header />
+      <pf-job-based-ranges-search-results />
+      <pf-paymarkets />
+      
+      
+      
+      <span>
+        <button
+          class="btn btn-sm btn-secondary mr-3 clear-selections"
+          data-qa-id="btn-clearSelections"
+        >
+           Clear Selections 
+        </button>
+        <button
+          class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+          data-qa-id="btn-addJobs"
+          disabled=""
+        >
+          
+          
+           Add 
+          
+          
+        </button>
+        <button
+          class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
+          data-qa-id="btn-cancelAddJobs"
+        >
+           Cancel 
+        </button>
+      </span>
+      
+    </pf-search-layout>
+  </pf-modal-form>
+</pf-jobs-based-ranges-add-jobs-modal>
+`;

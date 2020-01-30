@@ -10,8 +10,9 @@ import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromFieldsActions from '../../actions/fields.actions';
-import { Field } from '../../models';
-import { CreateFormulaFieldModalComponent } from '../create-formula-field-modal';
+import { Field, UserDataView } from '../../models';
+import { FormulaFieldModalComponent } from '../../../_data-view/containers';
+import { FormulaFieldModalObj, Suggestion } from '../../../_data-view/models';
 
 @Component({
   selector: 'pf-data-view-fields',
@@ -19,17 +20,19 @@ import { CreateFormulaFieldModalComponent } from '../create-formula-field-modal'
   styleUrls: ['./fields.component.scss']
 })
 export class FieldsComponent implements OnInit, OnDestroy {
-  @ViewChild(CreateFormulaFieldModalComponent, { static: true }) public createFormulaFieldModal: CreateFormulaFieldModalComponent;
+  @ViewChild(FormulaFieldModalComponent, { static: true }) public formulaFieldModal: FormulaFieldModalComponent;
   allFieldsAsync$: Observable<AsyncStateObj<Field[]>>;
   selectedFields$: Observable<Field[]>;
   unselectedFields$: Observable<Field[]>;
-  formulaBuilderEnabled$: Observable<boolean>;
+  dataView$: Observable<AsyncStateObj<UserDataView>>;
+  formulaFieldSuggestions$: Observable<Suggestion[]>;
 
   dragulaSub: Subscription;
   selectedFieldsSub: Subscription;
 
   selectedFields: Field[];
   viewAllFields: boolean;
+  formulaFieldModalObj: FormulaFieldModalObj;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -44,9 +47,8 @@ export class FieldsComponent implements OnInit, OnDestroy {
       this.handleFieldsReordered(sourceModel);
     }));
     this.viewAllFields = false;
-    this.formulaBuilderEnabled$ = this.settingService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.DataInsightsFormulaBuilder
-    );
+    this.dataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
+    this.formulaFieldSuggestions$ = this.store.pipe(select(fromDataInsightsMainReducer.getFormulaFieldSuggestions));
   }
 
   ngOnInit(): void {
@@ -76,8 +78,8 @@ export class FieldsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromFieldsActions.ReorderFields(sourceModel));
   }
 
-  handleDisplayNameUpdated(dataElementId: number, displayName: string): void {
-    this.store.dispatch(new fromFieldsActions.UpdateDisplayName({ dataElementId, displayName }));
+  handleDisplayNameUpdated(field: Field, displayName: string): void {
+    this.store.dispatch(new fromFieldsActions.UpdateDisplayName({ field, displayName }));
   }
 
   toggleViewAllFields() {
@@ -85,6 +87,14 @@ export class FieldsComponent implements OnInit, OnDestroy {
   }
 
   handleCreateFormulaFieldClicked(): void {
-    this.createFormulaFieldModal.open();
+    this.formulaFieldModalObj = {
+      Title: 'Create Formula Field',
+      FieldName: '',
+      Formula: '',
+      IsEditable: true,
+      DuplicateAllowed: false
+    };
+    this.formulaFieldModal.open();
   }
+
 }

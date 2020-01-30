@@ -10,10 +10,10 @@ import { of } from 'rxjs/index';
 import * as fromRootState from 'libs/state/state';
 import { generateMockUserContext } from 'libs/models/security';
 import { SettingsService } from 'libs/state/app-context/services';
+import * as fromPaymarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
 
 import { AddJobsPageComponent } from './add-jobs.page';
 import * as fromAddJobsPageActions from '../../../actions/add-jobs-page.actions';
-import * as fromPaymarketActions from '../../../actions/paymarkets.actions';
 import * as fromAddJobsSearchResultsActions from '../../../actions/search-results.actions';
 import * as fromAddJobsReducer from '../../../reducers';
 

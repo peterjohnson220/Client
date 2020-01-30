@@ -1,0 +1,51 @@
+<div *ngIf="control.controlType === 'TextBox'">
+  <div class="col-12 printClass">
+    <h1 *ngIf="control.showTitle">{{control.controlName}}</h1>
+    <p>{{control.controlData}}</p>
+  </div>
+</div>
+
+<div *ngIf="control.controlType === 'Image'">
+  <div class="col-12">
+    <img [attr.src]="employee.logoPath" class="logo">
+  </div>
+</div>
+
+<div *ngIf="control.controlType === 'List'">
+  <div class="col-12">
+    <h1>{{control.controlName}}</h1>
+    <ul *ngFor="let listItem of control.controlData"
+    style="list-style-type: none;">
+      <li style="text-align: left">{{listItem}}</li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="control.controlType === 'Chart'">
+  <h1>{{control.controlName}}</h1>
+  <kendo-chart [seriesColors]="companyColors" style="height: 250px">
+    <kendo-chart-area background=""></kendo-chart-area>
+    <kendo-chart-series>
+      <kendo-chart-series-item
+        [autoFit]="true"
+        type="donut"
+        [data]="employee.compensationData"
+        categoryField="category"
+        field="value">
+        <kendo-chart-series-item-labels
+          position="outsideEnd"
+          color="#000"
+          [content]="labelContent">
+        </kendo-chart-series-item-labels>
+      </kendo-chart-series-item>
+    </kendo-chart-series>
+  </kendo-chart>
+</div>
+
+<div *ngIf="control.controlType === 'Calc'">
+  <h1>{{control.controlName}}</h1>
+  <ul *ngFor="let listItem of control.controlData"
+      style="list-style-type: none;">
+    <li style="text-align: left"> {{listItem.value}}k - {{listItem.category}}</li>
+  </ul>
+</div>

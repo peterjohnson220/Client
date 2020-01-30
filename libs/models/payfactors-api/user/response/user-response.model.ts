@@ -15,6 +15,7 @@ export interface UserResponse {
   LastLogin?: Date;
   SsoId: string;
   ImpersonatorId?: number;
+  UserSubsidiaryIds: string[];
 }
 
 export function generateMockUserResponse(): UserResponse {
@@ -34,6 +35,7 @@ export function generateMockUserResponse(): UserResponse {
     PfServicesRep: true,
     LastLogin: new Date(2019, 4, 25),
     SsoId: 'MockSso',
-    ImpersonatorId: null
+    ImpersonatorId: null,
+    UserSubsidiaryIds: ['1', '2', '3']
   };
 }

@@ -1,25 +1,55 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {TestBed, ComponentFixture, async, fakeAsync} from '@angular/core/testing';
-
+import { Injectable, NO_ERRORS_SCHEMA } from '@angular/core';
+import {TestBed, ComponentFixture, fakeAsync, tick} from '@angular/core/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
+import { provideMockStore } from '@ngrx/store/testing';
+
+import { RemoteDataSourceService } from 'libs/core/services';
 
 import { MultiSelectComponent } from './multi-select.component';
-import {RemoteDataSourceService} from 'libs/core/services';
-import {PayfactorsApiService} from '../../../../data/payfactors-api/payfactors-api.service';
-import {HttpClient, HttpHandler} from '@angular/common/http';
-import {FileApiService} from '../../../../data/payfactors-api/file';
-import {ScrollingModule} from '@angular/cdk/scrolling';
+import { PayfactorsApiService } from '../../../../data/payfactors-api/payfactors-api.service';
+import { FileApiService } from '../../../../data/payfactors-api/file';
+import { ConfigSetting, UserContext } from '../../../../models/security';
 
 describe('UI/Common/Content - Multi Select', () => {
   let fixture: ComponentFixture<MultiSelectComponent>;
   let component: MultiSelectComponent;
+  // this is just to provide the new root store requirement for the payfactorsAPI
+  let userContext: UserContext;
+  userContext = new class implements UserContext {
+    AccessLevel: string;
+    CompanyId: number;
+    CompanyName: string;
+    CompanySystemUserGroupsGroupName: string;
+    CompanySystemUserGroupsId: number;
+    ConfigSettings: ConfigSetting[];
+    EmailAddress: string;
+    EmployeeAcknowledgementInfo: any;
+    FirstName: string;
+    ImpersonatorId: number;
+    IpAddress: string;
+    IsPublic: boolean;
+    LastName: string;
+    Name: string;
+    Permissions: string[];
+    SessionId: string;
+    SystemUserGroupsId: number;
+    UserId: number;
+    UserIdentifier: string;
+    UserPicture: string;
+    WorkflowStepInfo: any;
+  };
+
+  const initialState = { userContext: userContext };
 
   // Configure Testing Module for before each test
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [ NgbTooltipModule, ScrollingModule ],
       declarations: [ MultiSelectComponent ],
-      providers: [FileApiService, HttpHandler, HttpClient, PayfactorsApiService, RemoteDataSourceService ],
+      providers: [FileApiService, HttpHandler, HttpClient, PayfactorsApiService, RemoteDataSourceService, provideMockStore({initialState}) ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -35,7 +65,6 @@ describe('UI/Common/Content - Multi Select', () => {
     component.isExpanded = false;
 
     fixture.detectChanges();
-
     expect(fixture).toMatchSnapshot();
   });
 

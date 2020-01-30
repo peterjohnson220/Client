@@ -8,8 +8,7 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { environment } from 'environments/environment';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
@@ -74,7 +73,7 @@ const declarations = [
   exports: declarations
 })
 export class PfExchangeExplorerModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

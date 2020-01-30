@@ -1,0 +1,56 @@
+@import 'data-insights-styles';
+@import 'data-insights-variables';
+
+.modal-header {
+  background: none;
+  border-bottom: none;
+  h4 {
+    font-weight: 400;
+  }
+}
+
+.modal-body {
+  padding-top: 0;
+}
+
+.modal-footer {
+  z-index: 5;
+}
+
+.savings-container {
+  text-align: right;
+  width: 100%;
+}
+
+.instructions {
+  height: 100px;
+  padding: 1rem;
+  border-left: 8px solid #47A8CD;
+  background-color: #DAEDF5;
+  margin-bottom: 1.2rem;
+  color: #1C5A73;
+}
+
+.field-name-label {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.05rem rgba(31, 47, 61, 0.25);
+  border-color: $background-grey;
+}
+
+.header-info {
+  color: #1A5972;
+}
+
+.warning-icon {
+  margin-right: 0.75rem;
+  display: inline;
+  fa-icon[icon="exclamation-circle"] {
+    color: darken(red, 2%);
+  }
+}
+
+

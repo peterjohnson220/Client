@@ -12,11 +12,10 @@ import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { JobSearchPricingDataResponse, JobSearchRequest, JobSearchResponse } from 'libs/models/payfactors-api/job-search';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
 
 import * as fromAddJobsReducer from '../reducers';
 import * as fromAddJobsSearchResultsActions from '../actions/search-results.actions';
-import { PayfactorsAddJobsApiModelMapper } from '../helpers';
-
 
 @Injectable()
 export class SearchResultsEffects {

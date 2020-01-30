@@ -9,6 +9,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter=""
   emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
@@ -176,6 +179,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
   employeeMappingComplete="false"
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
@@ -343,6 +349,9 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
@@ -509,6 +518,9 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
@@ -587,6 +599,9 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}

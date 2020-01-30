@@ -385,11 +385,24 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       };
     }
     case fromCompanyPageActions.TOGGLE_COMPANY_TILE: {
+    const selectedCompanyTile = action.payload;
+    const companyTilesCopy =  cloneDeep(state.companyTiles);
+    const companyTile = companyTilesCopy.find((t: CompanyTilesResponse) => t.TileId === selectedCompanyTile.TileId);
+    if (companyTile) {
+      companyTile.Checked = !companyTile.Checked;
+      companyTile.MarketingEnabled = false;
+    }
+    return {
+      ...state,
+      companyTiles: companyTilesCopy
+    };
+  }
+    case fromCompanyPageActions.TOGGLE_COMPANY_MARKETING_TILE: {
       const selectedCompanyTile = action.payload;
       const companyTilesCopy =  cloneDeep(state.companyTiles);
       const companyTile = companyTilesCopy.find((t: CompanyTilesResponse) => t.TileId === selectedCompanyTile.TileId);
       if (companyTile) {
-        companyTile.Checked = !companyTile.Checked;
+        companyTile.MarketingEnabled = !companyTile.MarketingEnabled;
       }
       return {
         ...state,

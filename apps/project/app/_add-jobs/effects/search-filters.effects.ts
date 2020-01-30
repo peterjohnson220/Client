@@ -5,9 +5,9 @@ import { mergeMap } from 'rxjs/operators';
 
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import * as fromPayMarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
 
 import * as fromJobSearchResultsActions from '../actions/search-results.actions';
-import * as fromPayMarketActions from '../actions/paymarkets.actions';
 
 @Injectable()
 export class SearchFiltersEffects {

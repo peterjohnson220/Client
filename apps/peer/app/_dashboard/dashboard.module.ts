@@ -9,8 +9,7 @@ import { ChartModule } from '@progress/kendo-angular-charts';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import 'hammerjs';
 
 import { PfFormsModule } from 'libs/forms';
@@ -80,5 +79,7 @@ import { SharedModule } from '../shared/shared.module';
   ]
 })
 export class DashboardModule {
-  constructor() { library.add(...fromFaIcons.faIcons); }
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
 }

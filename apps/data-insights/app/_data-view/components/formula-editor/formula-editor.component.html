@@ -1,0 +1,29 @@
+<div class="d-flex flex-column">
+  <div class="formula-container mb-3">
+    <ngx-codemirror #codeMirror class="CodeMirror-empty" [class.CodeMirror-readonly]="disabled"
+      [attr.data-qa-id]="'txt-formula-editor'"
+      [(ngModel)]="inputValue"
+      [options]="codeMirrorConfig"
+      (ngModelChange)="handleInputValueChanged($event)">
+    </ngx-codemirror>
+  </div>
+
+  <div class="message-container">
+    <div *ngIf="validating" class="validating-message" [style.visibility]="isInsertingFunctionTemplate ? 'hidden' : 'visible'">
+      <fa-icon class="loading-icon" icon="circle-notch" spin="true"></fa-icon>
+      <span>Validating...</span>
+    </div>
+  
+    <div *ngIf="!validating" [style.visibility]="hideValidatingMessage ? 'hidden' : 'visible'">
+      <div *ngIf="!isValid" class="validating-message text-danger">
+        <fa-icon class="invalid-icon" icon="times-circle"></fa-icon>
+        <span>Formula Error</span>
+      </div>
+    
+      <div *ngIf="isValid" class="validating-message text-success">
+        <fa-icon class="valid-icon" icon="check-circle"></fa-icon>
+        <span>Formula Validated</span>
+      </div>
+    </div>
+  </div>
+</div>

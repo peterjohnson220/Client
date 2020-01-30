@@ -1,11 +1,13 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, async, tick, fakeAsync } from '@angular/core/testing';
 
+import { of } from 'rxjs';
+
 import { UserFormComponent } from './user-form.component';
 import { generateMockUserManagementDto } from 'libs/models/payfactors-api/user';
+import { generateMockSubsidiaryInfo } from 'libs/models/subsidiary';
 import { PfFormsModule } from 'libs/forms';
 import { UserApiService } from 'libs/data/payfactors-api';
-import { of } from 'rxjs';
 
 class MockUserService extends UserApiService {
   emailExists() {
@@ -19,6 +21,7 @@ describe('Admin - Company Admin - User Component', () => {
 
   const mockUser = generateMockUserManagementDto();
   const mockUserService = new MockUserService(null);
+  const mockSubsidiaryInfo = generateMockSubsidiaryInfo();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,6 +44,8 @@ describe('Admin - Company Admin - User Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserFormComponent);
     instance = fixture.componentInstance;
+    instance.companySubsidiaries$ = of([mockSubsidiaryInfo]);
+    instance.user$ = of(mockUser);
     fixture.detectChanges();
   });
 
@@ -51,7 +56,10 @@ describe('Admin - Company Admin - User Component', () => {
 
   it('Should populate user form with mock data', fakeAsync(() => {
     fixture.detectChanges();
-    instance._user = mockUser;
+    instance.userId = 1;
+    instance.companySubsidiaries$ = of([mockSubsidiaryInfo]);
+    instance.user$ = of(mockUser);
+    instance.ngOnInit();
     tick();
     expect(instance.user).toBe(mockUser);
   }));

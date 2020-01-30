@@ -8,6 +8,8 @@ import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import { SettingsService } from 'libs/state/app-context/services';
+
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
@@ -42,6 +44,10 @@ describe('Data Insights - Custom Report View Comopnent', () => {
         {
           provide: ActivatedRoute,
           useValue: { params: of({ dataViewId : 1 }) }
+        },
+        {
+          provide: SettingsService,
+          useClass: SettingsService
         }
       ],
       declarations: [ CustomReportViewPageComponent, SaveUserWorkbookModalComponent, DeleteUserWorkbookModalComponent, ShareReportModalComponent ],

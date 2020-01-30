@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransferScheduleCardComponent should show a saveable form if the summary has been saved before 1`] = `
+<pf-transfer-schedule-card
+  active={[Function Boolean]}
+  changesPending={[Function EventEmitter]}
+  editMode={[Function Boolean]}
+  store={[Function MockStore]}
+  transferSchedule={[Function Object]}
+>
+  <div
+    class="card mb-3 shadow-sm p-3"
+  >
+    <div
+      class="card-body"
+    >
+      
+      <fa-icon
+        class="pencil-top-right blue"
+        icon="pencil-alt"
+        size="lg"
+      />
+      <h4
+        class="card-title"
+      >
+        Employees
+      </h4>
+      <pf-transfer-schedule-cron
+        id="1"
+      />
+      <div
+        class="text-right"
+      >
+        
+        <a
+          class="btn btn-outline-danger"
+          href="javascript:void(0);"
+        >
+          Disable
+        </a>
+        
+        <a
+          class="btn btn-primary btn-disabled disabled btn-light"
+          href="javascript:void(0);"
+          ng-reflect-klass="btn btn-primary"
+          ng-reflect-ng-class="[object Object]"
+        >
+          Save
+        </a>
+      </div>
+    </div>
+  </div>
+</pf-transfer-schedule-card>
+`;
+
+exports[`TransferScheduleCardComponent should show an empty form if summary has never been saved 1`] = `
+<pf-transfer-schedule-card
+  active={[Function Boolean]}
+  changesPending={[Function EventEmitter]}
+  editMode={[Function Boolean]}
+  store={[Function MockStore]}
+  transferSchedule={[Function Object]}
+>
+  <div
+    class="card mb-3 shadow-sm p-3"
+  >
+    <div
+      class="card-body"
+    >
+      
+      <h4
+        class="card-title"
+      >
+        Employees
+      </h4>
+      <pf-transfer-schedule-cron
+        id="1"
+      />
+      <div
+        class="text-right"
+      >
+        
+        <a
+          class="btn btn-outline-danger"
+          href="javascript:void(0);"
+        >
+          Disable
+        </a>
+        
+        <a
+          class="btn btn-primary btn-disabled disabled btn-light"
+          href="javascript:void(0);"
+          ng-reflect-klass="btn btn-primary"
+          ng-reflect-ng-class="[object Object]"
+        >
+          Save
+        </a>
+      </div>
+    </div>
+  </div>
+</pf-transfer-schedule-card>
+`;

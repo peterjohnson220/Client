@@ -9,6 +9,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { FilterDescriptor } from '@progress/kendo-data-query';
 import { of, Subject } from 'rxjs';
 
+
 import * as fromRootState from 'libs/state/state';
 import { generateMockListAreaColumn, generateMockListAreaColumns } from 'libs/models/common/list-area';
 import {
@@ -34,6 +35,7 @@ import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to/job-description-applies-to-modal.component';
 import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
+
 
 describe('Job Description Management - Job Description - Job Description List Page', () => {
   let instance: JobDescriptionListPageComponent;

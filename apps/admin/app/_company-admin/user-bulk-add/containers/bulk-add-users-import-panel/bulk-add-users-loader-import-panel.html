@@ -1,0 +1,25 @@
+<div class="card ">
+    <div class="card-header" (click)="handleHeaderClick()">
+        <div class="row">
+          <div class="col">Importing</div>
+          <div class="col-auto"  [ngClass]="{'hidden': !loaderStepComplete}"  >
+              <fa-icon icon="check-circle" class="pull-right survey-import-panel-icon success-green" aria-hidden="true"></fa-icon>
+          </div>
+        </div>
+    </div>
+    <div class="card-block" [@toggleState]="isToggled">
+    <ul class="iconList">
+            <li><ng-container [ngTemplateOutlet]="importStateIcon" ></ng-container>
+                Importing Users</li>
+    </ul>
+    </div>
+    <div class="card-footer align-right" [@toggleState]="isToggled">
+        <button (click)='exit()' class="btn btn-secondary button-panel">Exit</button>
+    </div>
+</div>
+
+<ng-template #importStateIcon >
+        <span *ngIf="panelState == _panelState.Complete"><fa-icon icon="check-circle" class="pull-right survey-import-panel-icon success-green" aria-hidden="true"></fa-icon></span>
+        <span *ngIf="panelState == _panelState.Error"><fa-icon icon="exclamation-circle" class="pull-right survey-import-panel-icon failure-red" aria-hidden="true"></fa-icon></span>
+        <span *ngIf="panelState == _panelState.Default"><fa-icon icon="spinner" spin="true" class="pull-right survey-import-panel-icon" aria-hidden="true"></fa-icon></span>
+</ng-template>

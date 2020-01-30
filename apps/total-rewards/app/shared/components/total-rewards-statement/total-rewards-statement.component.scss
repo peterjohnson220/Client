@@ -1,0 +1,40 @@
+.container {
+  border: #ffb300 solid 2px;
+  background: white;
+  max-width: 9.5in;
+}
+
+.column {
+  border: lightgrey dashed 2px;
+}
+
+.tr-control {
+  padding: 4px;
+}
+
+@media print {
+  @page {
+    //margin: .25cm;
+  }
+
+  .page-break	{ display: block; page-break-before: always; }
+
+  .container {
+    border: none;
+    background: white;
+  }
+
+  .column {
+    border: none;
+  }
+
+
+}
+
+@media screen {
+  .page-break	{ display: block; page-break-before: always; }
+
+  .container {
+    background: white;
+  }
+}

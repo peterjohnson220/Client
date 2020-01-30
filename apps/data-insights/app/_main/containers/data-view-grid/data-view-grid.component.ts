@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -7,8 +7,12 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
+import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Field, FieldDataType } from '../../models';
+import { Field, FieldDataType, FieldType, UserDataView, DataViewAccessLevel } from '../../models';
+import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
+import { FormulaFieldModalComponent } from '../../../_data-view/containers';
+import { FormulaFieldModalObj, Suggestion } from '../../../_data-view/models';
 
 @Component({
   selector: 'pf-data-view-grid',
@@ -16,17 +20,23 @@ import { Field, FieldDataType } from '../../models';
   styleUrls: ['./data-view-grid.component.scss']
 })
 export class DataViewGridComponent implements OnInit, OnDestroy {
+  @ViewChild('numericFieldFormattingModal', { static: true }) public numericFieldFormattingModalComponent: NumericFieldFormattingModalComponent;
+  @ViewChild(FormulaFieldModalComponent, { static: true }) public formulaFieldModal: FormulaFieldModalComponent;
+
   fields$: Observable<Field[]>;
   dataAsync$: Observable<AsyncStateObj<any[]>>;
   loadingMoreData$: Observable<boolean>;
   hasMoreDataOnServer$: Observable<boolean>;
   sortDescriptor$: Observable<SortDescriptor>;
   totalCount$: Observable<number>;
+  dataView$: Observable<AsyncStateObj<UserDataView>>;
+  formulaFieldSuggestions$: Observable<Suggestion[]>;
 
   loadingMoreDataSub: Subscription;
   hasMoreDataOnServerSub: Subscription;
   fieldsSub: Subscription;
   sortDescriptorSub: Subscription;
+  dataViewSub: Subscription;
 
   loadingMoreData: boolean;
   hasMoreDataOnServer: boolean;
@@ -37,6 +47,8 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   };
   sortDesc: SortDescriptor[];
   dataTypes = FieldDataType;
+  formulaFieldModalObj: FormulaFieldModalObj;
+  dataViewAccessLevel: DataViewAccessLevel;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
@@ -47,6 +59,8 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     this.hasMoreDataOnServer$ = this.store.pipe(select(fromDataInsightsMainReducer.getHasMoreDataOnServer));
     this.sortDescriptor$ = this.store.pipe(select(fromDataInsightsMainReducer.getSortDescriptor));
     this.totalCount$ = this.store.pipe(select(fromDataInsightsMainReducer.getTotalCount));
+    this.dataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
+    this.formulaFieldSuggestions$ = this.store.pipe(select(fromDataInsightsMainReducer.getFormulaFieldSuggestions));
   }
 
   ngOnInit(): void {
@@ -54,6 +68,11 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     this.hasMoreDataOnServerSub = this.hasMoreDataOnServer$.subscribe(result => this.hasMoreDataOnServer = result);
     this.fieldsSub = this.fields$.subscribe(results => this.fields = results);
     this.sortDescriptorSub = this.sortDescriptor$.subscribe(sort => this.updateSortDescriptor(sort));
+    this.dataViewSub = this.dataView$.subscribe(result => {
+      if (!!result.obj) {
+        this.dataViewAccessLevel = result.obj.AccessLevel;
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -98,5 +117,43 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   isNumericDataType(fieldDataType: FieldDataType): boolean {
     return !!fieldDataType && (
       fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float);
+  }
+
+  isNumericDataTypeAndHasFormat(fieldDataType: FieldDataType, hasFormat: string): boolean {
+    return !!fieldDataType && (
+      fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float) && !!hasFormat;
+  }
+
+  handleNumberFormatModalClicked(field: Field, format?: string): void {
+    this.numericFieldFormattingModalComponent.open(field, format);
+  }
+
+  handleSaveClicked(field: Field): void {
+    this.store.dispatch(new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: field.Format}));
+  }
+
+  handleClearFormatClicked(field: Field): void {
+    this.store.dispatch(new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: null}));
+  }
+
+  columnMenuEnabled(field: Field): boolean {
+    return this.isNumericDataType(field.DataType) || this.isFormulaField(field);
+  }
+
+  isFormulaField(field: Field): boolean {
+    return field.FieldType === FieldType.Formula;
+  }
+
+  handleEditFormulaClick(field: Field): void {
+    this.formulaFieldModalObj = {
+      Title: field.IsEditable ? 'Edit Formula Field' : 'View Formula Field',
+      FieldName: field.FormulaName,
+      Formula: field.Formula,
+      IsEditable: field.IsEditable,
+      FormulaId: field.FormulaId,
+      DuplicateAllowed: this.dataViewAccessLevel !== DataViewAccessLevel.ReadOnly,
+      DataType: field.DataType
+    };
+    this.formulaFieldModal.open();
   }
 }

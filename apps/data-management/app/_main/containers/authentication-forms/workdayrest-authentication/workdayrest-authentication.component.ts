@@ -26,11 +26,11 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
   private structureMappingReportUrl = 'structureMappingReportUrl';
 
   enabledControls = [
-    { FieldName: this.employeeReportUrl, FieldValue: 'Employee' },
-    { FieldName: this.jobReportUrl, FieldValue: 'Job' },
-    { FieldName: this.paymarketReportUrl, FieldValue: 'Paymarket' },
-    { FieldName: this.structureReportUrl, FieldValue: 'Structure' },
-    { FieldName: this.structureMappingReportUrl, FieldValue: 'Structure Mapping' },
+    { FieldName: this.employeeReportUrl, FieldValue: 'Employees' },
+    { FieldName: this.jobReportUrl, FieldValue: 'Jobs' },
+    { FieldName: this.paymarketReportUrl, FieldValue: 'Paymarkets' },
+    { FieldName: this.structureReportUrl, FieldValue: 'Structures' },
+    { FieldName: this.structureMappingReportUrl, FieldValue: 'Structure Mappings' },
   ];
 
   ctrlVisibility = {

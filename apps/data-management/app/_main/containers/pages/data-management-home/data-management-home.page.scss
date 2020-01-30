@@ -4,3 +4,28 @@
 .column-scroll-container {
   padding-left: 0;
 }
+
+:host ::ng-deep .page-content {
+  background-color: #F6F9FC !important;
+}
+
+.data-management-page {
+
+  .inner-content {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    border-radius: 3px;
+    background-color: #FFFFFF;
+  }
+}
+
+@media (min-width: 992px) {
+  .flexible-width {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .flexible-width {
+    width: 75% !important;
+  }
+}

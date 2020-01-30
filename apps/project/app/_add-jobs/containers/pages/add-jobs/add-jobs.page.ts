@@ -13,11 +13,12 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBase } from 'libs/features/search/containers/search-base';
 import { UserContext } from 'libs/models/security';
 import { CompanySettingsEnum } from 'libs/models/company';
-import { staticFilters } from 'libs/features/project/data';
+import { staticFilters } from 'libs/features/add-jobs/data';
+import * as fromPaymarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
+import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
 
 import * as fromAddJobsPageActions from '../../../actions/add-jobs-page.actions';
 import * as fromAddJobsSearchResultsActions from '../../../actions/search-results.actions';
-import * as fromPaymarketActions from '../../../actions/paymarkets.actions';
 import * as fromAddJobsReducer from '../../../reducers';
 
 @Component({
@@ -57,7 +58,7 @@ export class AddJobsPageComponent extends SearchBase implements OnInit, OnDestro
     super(store);
     this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
     this.numberOfSearchResults$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);
-    this.selectedPaymarkets$ = this.store.select(fromAddJobsReducer.getSelectedPaymarkets);
+    this.selectedPaymarkets$ = this.store.select(fromPaymarketReducer.getSelectedPaymarkets);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.addingData$ = this.store.select(fromAddJobsReducer.getAddingData);
     this.addingDataError$ = this.store.select(fromAddJobsReducer.getAddingDataError);

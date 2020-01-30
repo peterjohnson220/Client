@@ -4,9 +4,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockPayFactorsJobResult, JobResult } from 'libs/features/add-jobs/models';
 
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
-import { JobResult, generateMockPayFactorsJobResult } from '../../models';
 import { SearchResultsComponent } from './search-results.component';
 import * as fromAddJobsReducer from '../../reducers';
 

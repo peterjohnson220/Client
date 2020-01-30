@@ -5,10 +5,10 @@ import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
-import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
+import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads';
+import { LoaderFieldSet } from 'libs/models/data-loads';
 
 import * as fromOrgDataFieldMappingsActions from '../actions/org-data-field-mappings.actions';
-import {LoaderFieldSet} from '../models';
 
 @Injectable()
 export class OrgDataFieldMappingsEffects {

@@ -7,6 +7,8 @@ import { Observable, Subscription } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { AppNotification } from 'libs/features/app-notifications/models';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDataViewActions from '../../../actions/data-view.actions';
@@ -46,6 +48,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   shareableUsers$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
   sharedUserPermissions$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
   loadingErrorMessage$: Observable<string>;
+  formulaBuilderEnabled$: Observable<boolean>;
 
   editReportSuccessSubscription: Subscription;
   duplicateReportSuccessSubscription: Subscription;
@@ -66,6 +69,7 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private settingService: SettingsService,
     private route: ActivatedRoute
   ) {
     this.userDataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
@@ -81,6 +85,9 @@ export class CustomReportViewPageComponent implements OnInit, OnDestroy {
     this.shareableUsers$ = this.store.pipe(select(fromDataInsightsMainReducer.getShareableUsersAsync));
     this.sharedUserPermissions$ = this.store.pipe(select(fromDataInsightsMainReducer.getSharedUserPermissionsAsync));
     this.loadingErrorMessage$ = this.store.pipe(select(fromDataInsightsMainReducer.getLoadingErrorMessage));
+    this.formulaBuilderEnabled$ = this.settingService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.DataInsightsFormulaBuilder
+    );
   }
 
   ngOnInit(): void {

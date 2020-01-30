@@ -29,5 +29,6 @@
   [additionalProperties]="additionalProperties"
   (dataChangesDetected)="handleDataChangesDetected($event)"
   (smartEditorChangesDetected)="handleSmartEditorChangesDetected($event)"
-  (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
+  (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
+  [undoChanges$]="undoChanges$">
 </pf-smart-list-editor>

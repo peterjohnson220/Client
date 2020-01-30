@@ -67,3 +67,12 @@ pf-total-rewards-page {
     display: none;
   }
 }
+
+@media print {
+  @page {
+    size: letter portrait;
+    //margin: 0;
+    margin-left: .1in;
+    margin-right: .1in;
+  }
+}

@@ -27,7 +27,8 @@
         [jobInformationFields]="jobInformationFields$ | async"
         [jobInformationFieldsLoading]="jobInformationFieldsLoading$ | async"
         (open)="handleBulkExportPopoverOpened($event)"
-        (viewSelectionChanged)="handleViewSelectionChangedOnBulkExport($event)">
+        (viewSelectionChanged)="handleViewSelectionChangedOnBulkExport($event)"
+        (exported)="handleExported($event)">
       </pf-bulk-export-popover>
       <span class="column-popover">
           <pf-column-selector-popover

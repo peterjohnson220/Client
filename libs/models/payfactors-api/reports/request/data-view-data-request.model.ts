@@ -22,15 +22,29 @@ export interface DataViewField {
   Order?: number;
   IsSortable: boolean;
   DataElementOrder?: number;
+  FormulaId?: number;
+  FieldType: DataViewFieldType;
+  Format?: string;
+  IsEditable?: boolean;
+  Formula?: string;
+  FormulaName?: string;
 }
 
-export interface DataViewFilter {
-  EntitySourceName: string;
-  SourceName: string;
+export interface BaseFilter {
   Operator: string;
   Values?: string[];
   DataType?: DataViewFieldDataType;
   FilterType?: string;
+}
+
+export interface DataViewFilter extends BaseFilter {
+  EntitySourceName: string;
+  SourceName: string;
+}
+
+export interface DataViewFilterIdentifier extends BaseFilter {
+  DataElementId?: number;
+  UserFormulaId?: number;
 }
 
 export enum DataViewFieldDataType {
@@ -42,6 +56,11 @@ export enum DataViewFieldDataType {
   LongString = 'longString',
   Binary = 'binary',
   Unknown = 'unknown'
+}
+
+export enum DataViewFieldType {
+  DataElement = 'dataElement',
+  Formula = 'formula'
 }
 
 export interface DataViewSortDescriptor {

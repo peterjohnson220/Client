@@ -1,5 +1,6 @@
+import { LoaderFieldSet } from 'libs/models/data-loads';
+
 import * as fromOrgDataFieldMappingsActions from '../actions/org-data-field-mappings.actions';
-import {LoaderFieldSet} from '../models';
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 
 export interface State extends EntityState<LoaderFieldSet> {

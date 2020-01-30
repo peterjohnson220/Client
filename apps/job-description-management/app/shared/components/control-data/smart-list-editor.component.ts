@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener, ElementRef } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { ControlTypeAttribute } from 'libs/models/common';
 
 import { BulletType, SmartListHierarchy } from '../../models';
@@ -10,7 +12,7 @@ declare var Quill: any;
 @Component({
   selector: 'pf-smart-list-editor',
   templateUrl: 'smart-list-editor.component.html',
-  styleUrls: ['./smart-list-editor.component.scss']
+  styleUrls: [ './smart-list-editor.component.scss' ]
 })
 
 export class SmartListEditorComponent implements OnInit, OnChanges {
@@ -19,6 +21,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
   @Input() readOnly: boolean;
   @Input() checkInheritedData: boolean;
   @Input() additionalProperties: any;
+  @Input() undoChanges$: Observable<boolean>;
 
   @Output() dataChangesDetected = new EventEmitter();
   @Output() smartEditorChangesDetected = new EventEmitter();
@@ -45,6 +48,14 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
     if (this.attributes.length > 1) {
       this.showDataTable = true;
     }
+
+    if (this.undoChanges$) {
+      this.undoChanges$.subscribe(val => {
+        if (val) {
+          this.rebuildQuillHtmlFromSavedData();
+        }
+      });
+    }
   }
 
   ngOnChanges(changes: any) {
@@ -56,10 +67,10 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
       const currentData = changes.data.currentValue;
       const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
       for (let i = 0; i < currentData.length; i++) {
-        const currentSourcedValue = currentData[i][sourcedAttributeName];
+        const currentSourcedValue = currentData[ i ][ sourcedAttributeName ];
 
         if (currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) {
-          currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
+          currentData[ i ][ sourcedAttributeName ] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
           this.rebuildQuillHtmlFromSavedData();
           if (this.firstChange) {
             this.focusRTE();
@@ -105,7 +116,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
       const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
       this.data.forEach(dataItem => {
         if ((this.checkInheritedData && !dataItem.TemplateId) || !this.checkInheritedData) {
-          realHtmlStructure += `<li>${dataItem[sourcedAttributeName]}</li>`;
+          realHtmlStructure += `<li>${dataItem[ sourcedAttributeName ]}</li>`;
         }
       });
       realHtmlStructure += `</${listType}>`;
@@ -139,6 +150,8 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
         }
       });
       this.rteData = target.html();
+    } else {
+      this.rteData = '';
     }
   }
 
@@ -151,7 +164,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
     const startingBulletMatch = startsWithBulletRegex.exec(data);
     if (startingBulletMatch != null) {
       // Trim the match incase it contained whitespace from word formatting
-      const trimmedMatch = startingBulletMatch[1].trim();
+      const trimmedMatch = startingBulletMatch[ 1 ].trim();
       // Get the top level bullet that we will split this data on
       const numericRegex = new RegExp(/^[0-9]+/);
       const letterRegex = new RegExp(/^[a-zA-Z]+/);
@@ -193,16 +206,16 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
           // If it does contain a list, set the data to the data found before the list, and call this function for the child lists;
           thisLevel.Items.push({
             Data: split.substring(0, listMatch.index),
-            Children: this.buildHierarchyFromPasteData(split.substring(split.indexOf(listMatch[1])))
+            Children: this.buildHierarchyFromPasteData(split.substring(split.indexOf(listMatch[ 1 ])))
           });
         } else {
-          thisLevel.Items.push({Data: split, Children: null});
+          thisLevel.Items.push({ Data: split, Children: null });
         }
       }
     } else {
       const newLineSplitData = data.split(/\r\n?|\n/);
       for (const newLineData of newLineSplitData) {
-        thisLevel.Items.push({Data: newLineData, Children: null});
+        thisLevel.Items.push({ Data: newLineData, Children: null });
       }
     }
     return thisLevel;
@@ -227,7 +240,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
     return listString;
   }
 
-  @HostListener('paste', ['$event'])
+  @HostListener('paste', [ '$event' ])
   handlePaste(event) {
     // Prevent default pasting behavior.
     event.preventDefault();
@@ -281,7 +294,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
       const listItemClass = listItem.attr('class');
       const indentRegex = new RegExp(/ql-indent-(.+)/);
       const indentMatch = indentRegex.exec(listItemClass);
-      const listItemIndentLevel = indentMatch != null ? +indentMatch[1] : 0;
+      const listItemIndentLevel = indentMatch != null ? +indentMatch[ 1 ] : 0;
 
       // If we are increasing the level, we need to create a new list.
       if (listItemIndentLevel > currentListLevel) {
@@ -324,7 +337,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
       this.setListType(listType);
     }
 
-    this.smartEditorChangesDetected.emit({dataVals: dataVals, currentData: this.data});
+    this.smartEditorChangesDetected.emit({ dataVals: dataVals, currentData: this.data });
   }
 
   getListType(): string {
@@ -336,7 +349,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
     this.additionalProperties = this.additionalProperties || {};
     if (this.additionalProperties.ListType !== listType) {
       this.additionalProperties.ListType = listType;
-      this.additionalPropertiesChangesDetected.emit({ListType: listType});
+      this.additionalPropertiesChangesDetected.emit({ ListType: listType });
     }
   }
 }

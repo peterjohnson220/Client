@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { EffectsModule } from '@ngrx/effects';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -46,5 +45,7 @@ import { NoExchangesPageComponent, RedirectToExchangeComponent, ExchangeSwitcher
   ]
 })
 export class SharedModule {
-  constructor() { library.add(...fromFaIcons.faIcons); }
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
 }

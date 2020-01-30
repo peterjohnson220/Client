@@ -3,9 +3,13 @@
 exports[`Add Survey Titles modal should show a disabled copy button when the survey company has survey UDFs 1`] = `
 <pf-survey
   activeRoute={[Function Object]}
+  deleteFailed="false"
+  enumSurveyDelete={[Function Object]}
   hasLoadingError$={[Function Store]}
   isLoadingData$={[Function Store]}
+  loadingErrorMessage={[Function String]}
   rootStore={[Function Store]}
+  selectedItemMatchCount="0"
   shouldRefreshGrid$={[Function Store]}
   store={[Function Store]}
   surveyApi={[Function Object]}
@@ -19,8 +23,8 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
     
       
     
-    <pf-input-debounce />
     <pf-async-container>
+      <pf-input-debounce />
       <table
         class="table table-hover"
       >
@@ -101,9 +105,10 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
               >
                  Copy Survey 
               </button>
-              
-              
                  
+              
+              
+              
               
                  
               
@@ -112,31 +117,35 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
           </tr>
         </tbody>
       </table>
+      
+      <button
+        class="btn btn-sm"
+        type="button"
+      >
+        Add Survey
+      </button>
+         
+      <button
+        class="btn btn-sm"
+        type="button"
+      >
+        Back to Survey Years
+      </button>
     </pf-async-container>
-    
-    <button
-      class="btn btn-sm"
-      type="button"
-    >
-      Add Survey
-    </button>
-       
-    <button
-      class="btn btn-sm"
-      type="button"
-    >
-      Back to Survey Years
-    </button>
-  </pf-page-with-title-bar><pf-add-survey-modal /><pf-map-company-modal /><pf-copy-survey-modal />
+  </pf-page-with-title-bar><pf-add-survey-modal /><pf-map-company-modal /><pf-copy-survey-modal /><pf-delete-confirmation-modal />
 </pf-survey>
 `;
 
 exports[`Add Survey Titles modal should show an enabled copy button when the survey company does not have survey UDFs 1`] = `
 <pf-survey
   activeRoute={[Function Object]}
+  deleteFailed="false"
+  enumSurveyDelete={[Function Object]}
   hasLoadingError$={[Function Store]}
   isLoadingData$={[Function Store]}
+  loadingErrorMessage={[Function String]}
   rootStore={[Function Store]}
+  selectedItemMatchCount="0"
   shouldRefreshGrid$={[Function Store]}
   store={[Function Store]}
   surveyApi={[Function Object]}
@@ -150,8 +159,8 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
     
       
     
-    <pf-input-debounce />
     <pf-async-container>
+      <pf-input-debounce />
       <table
         class="table table-hover"
       >
@@ -231,9 +240,10 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
               >
                  Copy Survey 
               </button>
-              
-              
                  
+              
+              
+              
               
                  
               
@@ -242,21 +252,21 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
           </tr>
         </tbody>
       </table>
+      
+      <button
+        class="btn btn-sm"
+        type="button"
+      >
+        Add Survey
+      </button>
+         
+      <button
+        class="btn btn-sm"
+        type="button"
+      >
+        Back to Survey Years
+      </button>
     </pf-async-container>
-    
-    <button
-      class="btn btn-sm"
-      type="button"
-    >
-      Add Survey
-    </button>
-       
-    <button
-      class="btn btn-sm"
-      type="button"
-    >
-      Back to Survey Years
-    </button>
-  </pf-page-with-title-bar><pf-add-survey-modal /><pf-map-company-modal /><pf-copy-survey-modal />
+  </pf-page-with-title-bar><pf-add-survey-modal /><pf-map-company-modal /><pf-copy-survey-modal /><pf-delete-confirmation-modal />
 </pf-survey>
 `;

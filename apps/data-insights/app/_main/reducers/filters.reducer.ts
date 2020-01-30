@@ -2,6 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromFiltersActions from '../actions/filters.actions';
 import { Filter } from '../models';
+import { FieldsHelper } from '../helpers';
 
 export interface State {
   activeFilters: Filter[];
@@ -61,14 +62,14 @@ export function reducer(state = initialState, action: fromFiltersActions.Actions
       };
     }
     case fromFiltersActions.REMOVE_PENDING_FILTERS_BY_FIELD: {
-      const pendingFiltersClone: Filter[] = state.pendingFilters.filter(f => f.Field.DataElementId !== action.payload.DataElementId);
+      const pendingFiltersClone: Filter[] = FieldsHelper.removeFiltersMatchingField(state.pendingFilters, action.payload);
       return {
         ...state,
         pendingFilters: pendingFiltersClone
       };
     }
     case fromFiltersActions.REMOVE_ACTIVE_FILTERS_BY_FIELD: {
-      const activeFiltersClone: Filter[] = state.activeFilters.filter(f => f.Field.DataElementId !== action.payload.DataElementId);
+      const activeFiltersClone: Filter[] = FieldsHelper.removeFiltersMatchingField(state.activeFilters, action.payload);
       return {
         ...state,
         activeFilters: activeFiltersClone

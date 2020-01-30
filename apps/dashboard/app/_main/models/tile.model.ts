@@ -17,6 +17,9 @@ export interface Tile {
   Order: number;
   Url: string;
   NgAppLink: boolean;
+  MarketingEnabled: boolean;
+  MarketingDescription: string;
+  MarketingButtonText: string;
 }
 
 export function generateMockChartTile(): Tile {
@@ -31,7 +34,10 @@ export function generateMockChartTile(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    TilePreviewData: undefined
+    TilePreviewData: undefined,
+    MarketingEnabled: false,
+    MarketingDescription: '',
+    MarketingButtonText: ''
   };
 }
 
@@ -47,7 +53,10 @@ export function generateMockIconTile(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    TilePreviewData: undefined
+    TilePreviewData: undefined,
+    MarketingEnabled: false,
+    MarketingDescription: '',
+    MarketingButtonText: ''
   };
 }
 
@@ -63,6 +72,9 @@ export function generateMockListTile(showColumnHeadings: boolean, mainButtonUrl:
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
+    MarketingEnabled: false,
+    MarketingDescription: '',
+    MarketingButtonText: '',
     TilePreviewData: [ {
       MainButtonText: 'test button text',
       MainButtonIcon: 'test button icon',
@@ -110,6 +122,9 @@ export function generateMockIconTileWithPayload(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
+    MarketingEnabled: false,
+    MarketingDescription: '',
+    MarketingButtonText: '',
     TilePreviewData: [ {
       Title: 'Boston',
       SubTitle: 'Default Market',

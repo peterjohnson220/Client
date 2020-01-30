@@ -13,7 +13,9 @@ import * as fromDataInsightsMainReducer from '../reducers';
 import * as fromFieldsActions from '../actions/fields.actions';
 import * as fromFiltersActions from '../actions/filters.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
-import { PayfactorsApiModelMapper } from '../helpers';
+import * as fromFormulaFieldModalActions from '../../_data-view/actions/formula-field-modal.actions';
+import { PayfactorsApiModelMapper, FieldsHelper } from '../helpers';
+import { Field } from '../models';
 
 @Injectable()
 export class FieldsEffects {
@@ -47,25 +49,11 @@ export class FieldsEffects {
           ({ userDataView, selectedFields })
       ),
       concatMap((data) => {
-        const selectedFields = orderBy(data.selectedFields, 'Order');
-        const fieldsToSave = selectedFields.map((f, index) => {
-          return {
-            DataElementId: f.DataElementId,
-            Order: index + 1,
-            DisplayName: f.DisplayName
-          };
-        });
-        return this.dataViewApiService.updateDataViewFields({
-          UserDataViewId: data.userDataView.obj.UserDataViewId,
-          Fields: fieldsToSave
-        })
+        const request = FieldsHelper.buildUpdateDataViewFieldsRequest(data.selectedFields, data.userDataView.obj);
+        return this.dataViewApiService.updateDataViewFields(request)
           .pipe(
-            map(() => {
-              return new fromFieldsActions.SaveReportFieldsSuccess();
-            }),
-            catchError(() => {
-              return of(new fromFieldsActions.SaveReportFieldsError());
-            })
+            map(() => new fromFieldsActions.SaveReportFieldsSuccess()),
+            catchError(() => of(new fromFieldsActions.SaveReportFieldsError()))
           );
       })
     );
@@ -84,7 +72,10 @@ export class FieldsEffects {
   @Effect()
   addSelectedField$ = this.action$
     .pipe(
-      ofType(fromFieldsActions.ADD_SELECTED_FIELD),
+      ofType(
+        fromFieldsActions.ADD_SELECTED_FIELD,
+        fromFieldsActions.SET_NUMBER_FORMAT_ON_SELECTED_FIELD,
+        fromFieldsActions.SAVE_UPDATED_FORMULA_FIELD),
       mergeMap(() => {
         return [
           new fromFieldsActions.SaveReportFields(),
@@ -106,8 +97,8 @@ export class FieldsEffects {
       mergeMap((data) => {
         const actions = [];
         const fieldToBeRemoved = data.action.payload;
-        const activeFiltersContainField = data.activeFilters.some(f => f.Field.DataElementId === fieldToBeRemoved.DataElementId);
-        const pendingFiltersContainField = data.pendingFilters.some(f => f.Field.DataElementId === fieldToBeRemoved.DataElementId);
+        const activeFiltersContainField = FieldsHelper.fieldExistsInFilters(data.activeFilters, fieldToBeRemoved);
+        const pendingFiltersContainField = FieldsHelper.fieldExistsInFilters(data.pendingFilters, fieldToBeRemoved);
         if (activeFiltersContainField) {
           actions.push(new fromFiltersActions.RemoveActiveFiltersByField(fieldToBeRemoved));
         }
@@ -116,6 +107,52 @@ export class FieldsEffects {
         }
         actions.push(new fromFieldsActions.SaveReportFields());
         actions.push(new fromDataViewGridActions.GetData());
+        return actions;
+      })
+    );
+
+  @Effect()
+  createFormulaFieldSuccess$ = this.action$
+    .pipe(
+      ofType(fromFormulaFieldModalActions.CREATE_FORMULA_FIELD_SUCCESS),
+      map((action: fromFormulaFieldModalActions.CreateFormulaFieldSuccess) => {
+        const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(action.payload);
+        field.IsEditable = true;
+        return new fromFieldsActions.AddNewFormulaField(field);
+      })
+    );
+
+  @Effect()
+  addNewFormulaField$ = this.action$
+    .pipe(
+      ofType(fromFieldsActions.ADD_NEW_FORMULA_FIELD),
+      map((action: fromFieldsActions.AddNewFormulaField) => new fromFieldsActions.AddSelectedField(action.payload))
+    );
+
+  @Effect()
+  updateFormulaFieldSuccess$ = this.action$
+    .pipe(
+      ofType(fromFormulaFieldModalActions.UPDATE_FORMULA_FIELD_SUCCESS),
+      withLatestFrom(
+        this.store.pipe(select(fromDataInsightsMainReducer.getActiveFilters)),
+        this.store.pipe(select(fromDataInsightsMainReducer.getPendingFilters)),
+        this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields)),
+        (action: fromFormulaFieldModalActions.UpdateFormulaFieldSuccess, activeFilters, pendingFilters, selectedFields) =>
+          ({ action, activeFilters, pendingFilters, selectedFields })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(data.action.payload);
+        const existingField = FieldsHelper.findField(data.selectedFields, field);
+        if (!!existingField && existingField.DataType !== field.DataType) {
+          if (FieldsHelper.fieldExistsInFilters(data.activeFilters, existingField)) {
+            actions.push(new fromFiltersActions.RemoveActiveFiltersByField(existingField));
+          }
+          if (FieldsHelper.fieldExistsInFilters(data.pendingFilters, existingField)) {
+            actions.push(new fromFiltersActions.RemovePendingFiltersByField(existingField));
+          }
+        }
+        actions.push(new fromFieldsActions.SaveUpdatedFormulaField(field));
         return actions;
       })
     );

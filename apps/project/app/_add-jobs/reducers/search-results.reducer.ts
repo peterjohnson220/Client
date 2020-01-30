@@ -1,8 +1,9 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { toggleJobSelection, updateSelectedJobCodes, updateSelectedJobIds } from 'libs/features/add-jobs/helpers';
+import { JobResult } from 'libs/features/add-jobs/models';
+
 import * as fromSearchResultsActions from '../actions/search-results.actions';
-import { JobResult } from '../models';
-import { toggleJobSelection, updateSelectedJobIds, updateSelectedJobCodes } from '../helpers';
 
 export interface State {
   jobs: JobResult[];

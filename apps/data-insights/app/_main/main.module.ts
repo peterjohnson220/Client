@@ -4,8 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DragulaModule } from 'ng2-dragula';
 import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
@@ -29,7 +28,7 @@ import { StandardReportComponent, TagWorkbookModalComponent, SearchWorkbookResul
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
   CustomReportViewPageComponent, SearchWorkbookModalComponent, DataViewGridComponent,
   DashboardsHeaderComponent, ViewsComponent, FiltersComponent, FieldsComponent,
-  WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateFormulaFieldModalComponent
+  WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, NumericFieldFormattingModalComponent
 } from './containers';
 import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, DataViewEffects, DataViewGridEffects,
   ViewsEffects, FiltersEffects, FieldsEffects
@@ -37,6 +36,7 @@ import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, Data
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
+import { DataViewModule } from '../_data-view';
 
 @NgModule({
   imports: [
@@ -74,13 +74,16 @@ import { MainRoutingModule } from './main-routing.module';
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+
+    // Data Insights
+    DataViewModule
   ],
   declarations: [
     // Containers
     DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent, CustomReportViewPageComponent, TagWorkbookModalComponent,
     SearchWorkbookModalComponent, DataViewGridComponent, DashboardsHeaderComponent, ViewsComponent, FiltersComponent,
-    FieldsComponent, WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateFormulaFieldModalComponent,
+    FieldsComponent, WorkbookCardComponent, TableauWorkbookCardComponent, DataViewWorkbookCardComponent, NumericFieldFormattingModalComponent,
 
     // Components
     StandardReportComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
@@ -94,7 +97,7 @@ import { MainRoutingModule } from './main-routing.module';
   ]
 })
 export class MainModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

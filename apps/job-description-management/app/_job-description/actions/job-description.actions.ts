@@ -14,6 +14,7 @@ import {
 export const GET_JOB_DESCRIPTION = '[job-description-management / Job Description] Get Job Description';
 export const GET_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Get Job Description Success';
 export const GET_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Get Job Description Error';
+export const CLEAR_JOB_DESCRIPTION = '[job-description-management / Job Description] Clear Job Description';
 export const SAVE_JOB_DESCRIPTION = '[job-description-management / Job Description] Save Job Description';
 export const SAVE_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Save Job Description Success';
 export const SAVE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Save Job Description Error';
@@ -62,6 +63,10 @@ export class GetJobDescriptionError implements Action {
   readonly type = GET_JOB_DESCRIPTION_ERROR;
 
   constructor(public payload: HttpErrorResponse) {}
+}
+
+export class ClearJobDescription implements Action {
+  readonly type = CLEAR_JOB_DESCRIPTION;
 }
 
 export class SaveJobDescription implements Action {
@@ -200,7 +205,7 @@ export class LoadJobDescriptionExtendedInfo {
 export class AddDataRowToControl implements Action {
   readonly type = ADD_DATA_ROW_TO_CONTROL;
 
-  constructor(public payload: { jobDescriptionControl: JobDescriptionControl, dataRow: any }) {}
+  constructor(public payload: { jobDescriptionControl: JobDescriptionControl, dataRow: any, save: boolean }) {}
 }
 
 export class RemoveControlDataRow implements Action {
@@ -251,6 +256,7 @@ export type Actions
   = GetJobDescription
   | GetJobDescriptionSuccess
   | GetJobDescriptionError
+  | ClearJobDescription
   | SaveJobDescription
   | SaveJobDescriptionSuccess
   | SaveJobDescriptionError

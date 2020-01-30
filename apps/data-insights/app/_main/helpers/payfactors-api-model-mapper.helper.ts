@@ -14,7 +14,9 @@ import {
   DataViewFilter,
   SaveUserViewFiltersRequest,
   DataViewFieldDataType,
-  ShareUserResponse
+  ShareUserResponse,
+  DataViewFieldType,
+  DataViewFilterIdentifier
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
 import { generateDefaultAsyncStateObj } from 'libs/models';
@@ -31,7 +33,8 @@ import {
   GetFilterOptionsData,
   Filter,
   FieldDataType,
-  SharedDataViewUser
+  SharedDataViewUser,
+  FieldType
 } from '../models';
 import { FilterOperatorHelper } from './filter-operator.helper';
 
@@ -122,7 +125,13 @@ export class PayfactorsApiModelMapper {
       IsSelected: dataViewField.IsSelected,
       Order: dataViewField.Order,
       IsSortable: dataViewField.IsSortable,
-      DataElementOrder: dataViewField.DataElementOrder
+      DataElementOrder: dataViewField.DataElementOrder,
+      FormulaId: dataViewField.FormulaId,
+      FieldType: this.mapDataViewFieldTypeToFieldType(dataViewField.FieldType),
+      Format: dataViewField.Format,
+      IsEditable: dataViewField.IsEditable,
+      Formula: dataViewField.Formula,
+      FormulaName: dataViewField.FormulaName
     };
   }
 
@@ -152,6 +161,20 @@ export class PayfactorsApiModelMapper {
     }
   }
 
+  static mapDataViewFieldTypeToFieldType(dataViewFieldType: DataViewFieldType): FieldType {
+    switch (dataViewFieldType) {
+      case DataViewFieldType.DataElement: {
+        return FieldType.DataElement;
+      }
+      case DataViewFieldType.Formula: {
+        return FieldType.Formula;
+      }
+      default: {
+        return null;
+      }
+    }
+  }
+
   /// OUT
   static mapSaveWorkbookTagObjToUpsertUserReportTag(saveWorkbookTagObj: SaveWorkbookTagObj): UpsertUserReportTag {
     return  {
@@ -174,8 +197,25 @@ export class PayfactorsApiModelMapper {
       DisplayName: field.DisplayName,
       IsSelected: field.IsSelected,
       Order: field.Order,
-      IsSortable: field.IsSortable
+      IsSortable: field.IsSortable,
+      FormulaId: field.FormulaId,
+      FieldType: this.mapFieldTypeToDataViewFieldType(field.FieldType),
+      Format: field.Format
     };
+  }
+
+  static mapFieldTypeToDataViewFieldType(fieldType: FieldType): DataViewFieldType {
+    switch (fieldType) {
+      case FieldType.DataElement: {
+        return DataViewFieldType.DataElement;
+      }
+      case FieldType.Formula: {
+        return DataViewFieldType.Formula;
+      }
+      default: {
+        return null;
+      }
+    }
   }
 
   static buildSaveWorkbookOrderRequest(workbookIds: string[], view: DashboardView,
@@ -239,6 +279,19 @@ export class PayfactorsApiModelMapper {
     });
   }
 
+  static mapFiltersToDataViewFilterIdentifier(data: Filter[]): DataViewFilterIdentifier[] {
+    return data.map((filter) => {
+      return {
+        Operator: filter.Operator.Value,
+        Values: filter.SelectedOptions,
+        DataElementId: filter.Field.DataElementId,
+        UserFormulaId: filter.Field.FormulaId,
+        FilterType: null,
+        DisplayName: null
+      };
+    });
+  }
+
   static mapDataViewFiltersToFilters(data: DataViewFilter[], fields: DataViewField[]): Filter[] {
     return data.map((filter) => {
       const dataViewField = fields.find(x => x.EntitySourceName === filter.EntitySourceName && x.SourceName === filter.SourceName);
@@ -256,7 +309,7 @@ export class PayfactorsApiModelMapper {
   static buildSaveFiltersRequest(filters: Filter[], userDataView: UserDataView): SaveUserViewFiltersRequest {
     return {
       UserDataViewId: userDataView.UserDataViewId,
-      Filters: this.mapFiltersToDataViewFilters(filters)
+      Filters: this.mapFiltersToDataViewFilterIdentifier(filters)
     };
   }
 

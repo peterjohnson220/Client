@@ -193,13 +193,14 @@ export class CompanyPageEffects {
     ofType(fromCompanyPageActions.CREATE_COMPANY),
     withLatestFrom(
       this.store.select(fromPfAdminMainReducer.getSelectedCompanyTiles),
+      this.store.select(fromPfAdminMainReducer.getSelectedCompanyMarketingTiles),
       this.store.select(fromPfAdminMainReducer.getCompanySettings),
       this.store.select(fromPfAdminMainReducer.getSelectedDataSets),
-      (action: fromCompanyPageActions.CreateCompany, tileIds, settings, countryCodes) =>
-        ({ action, tileIds, settings, countryCodes })
+      (action: fromCompanyPageActions.CreateCompany, tileIds, marketingTileIds, settings, countryCodes) =>
+        ({ action, tileIds, marketingTileIds, settings, countryCodes })
     ),
     switchMap((data) =>
-      this.companyApiService.insert(data.action.payload, data.tileIds, data.countryCodes)
+      this.companyApiService.insert(data.action.payload, data.tileIds, data.marketingTileIds, data.countryCodes)
       .pipe(
         mergeMap((company: CompanyDto ) => {
           const putSettingsRequest = CompanyPageHelper.buildCompanySettingsSaveRequest(company.CompanyId, data.settings);
@@ -219,13 +220,14 @@ export class CompanyPageEffects {
     ofType(fromCompanyPageActions.SAVE_COMPANY),
     withLatestFrom(
       this.store.select(fromPfAdminMainReducer.getSelectedCompanyTiles),
+      this.store.select(fromPfAdminMainReducer.getSelectedCompanyMarketingTiles),
       this.store.select(fromPfAdminMainReducer.getCompanySettings),
       this.store.select(fromPfAdminMainReducer.getSelectedDataSets),
-      (action: fromCompanyPageActions.SaveCompany, tileIds, settings, countryCodes) =>
-        ({ action, tileIds, settings, countryCodes })
+      (action: fromCompanyPageActions.SaveCompany, tileIds, marketingTileIds, settings, countryCodes) =>
+        ({ action, tileIds, marketingTileIds, settings, countryCodes })
     ),
     switchMap((data) =>
-      this.companyApiService.update(data.action.payload, data.tileIds, data.countryCodes)
+      this.companyApiService.update(data.action.payload, data.tileIds, data.marketingTileIds, data.countryCodes)
       .pipe(
         mergeMap((company: CompanyDto ) => {
           const putSettingsRequest = CompanyPageHelper.buildCompanySettingsSaveRequest(company.CompanyId, data.settings);

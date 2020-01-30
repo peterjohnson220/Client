@@ -97,7 +97,7 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
     case fromDashboardsActions.TOGGLE_DASHBOARD_VIEW: {
       return {
         ...state,
-        dashboardView: action.payload.view,
+        dashboardView: action.payload,
         tagFilter: null
       };
     }
