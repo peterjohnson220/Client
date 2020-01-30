@@ -95,7 +95,7 @@ export class FieldsHelper {
     const fieldsToSave: UserDataElement[] = selectedFields.map((f, index) => {
       return {
         DataElementId: f.DataElementId,
-        UserFormulaId: f.FormulaId,
+        UserFormulasId: f.FormulaId,
         Order: index + 1,
         DisplayName: f.DisplayName,
         Format: f.Format,
