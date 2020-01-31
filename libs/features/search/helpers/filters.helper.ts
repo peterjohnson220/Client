@@ -1,7 +1,19 @@
 import * as isEqual from 'lodash.isequal';
 
-import { Filter, Filters, FilterType, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, MultiSelectOption,
-         RangeFilter, TextFilter } from '../models';
+import {
+  Filter,
+  FilterableMultiSelectFilter,
+  Filters,
+  FilterType,
+  isFilterableMultiFilter,
+  isMultiFilter,
+  isRangeFilter,
+  isTextFilter,
+  MultiSelectFilter,
+  MultiSelectOption,
+  RangeFilter,
+  TextFilter
+} from '../models';
 
 export class FiltersHelper {
   static multiSelectToNotRefresh = f => isMultiFilter(f) && (!f.RefreshOptionsFromServer || f.Locked);
@@ -96,6 +108,10 @@ export class FiltersHelper {
 
   static getMultiSelectFiltersWithSelections(filters: Filter[]): MultiSelectFilter[] {
     return <MultiSelectFilter[]>filters.filter(f => isMultiFilter(f) && f.Options.some(o => o.Selected));
+  }
+
+  static getFilterableMultiSelectFiltersWithSelections(filters: Filter[]): FilterableMultiSelectFilter[] {
+    return <FilterableMultiSelectFilter[]>filters.filter(f => isFilterableMultiFilter(f) && f.Options.some(o => o.Selected));
   }
 
   static getMultiSelectFilterSelectedOptions(multiSelectFilter: MultiSelectFilter): MultiSelectOption[] {

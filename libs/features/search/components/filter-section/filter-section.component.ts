@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { ClientServerFilterHelper } from '../../helpers';
-import { Filter, FilterType, isMultiFilter, isRangeFilter, isTextFilter } from '../../models';
+import {Filter, FilterType, isFilterableMultiFilter, isMultiFilter, isRangeFilter, isTextFilter} from '../../models';
 import { OperatorEnum } from '../../../../constants';
 
 @Component({
@@ -51,11 +51,11 @@ export class FilterSectionComponent {
   }
 
   get selectableOptionCount(): number {
-    return isMultiFilter(this.filter) ? this.filter.Options.filter(o => o.Count > 0).length : 0;
+    return (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter)) ? this.filter.Options.filter(o => o.Count > 0).length : 0;
   }
 
   get optionCount(): number {
-    return isMultiFilter(this.filter) ? this.filter.Options.length : 0;
+    return (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter)) ? this.filter.Options.length : 0;
   }
 
   get hasText(): boolean {
@@ -75,14 +75,14 @@ export class FilterSectionComponent {
   }
 
   get allowedToSearch(): boolean {
-    return this.filter.Type === this.filterTypes.Multi &&
+    return (this.filter.Type === this.filterTypes.Multi || this.filter.Type === this.filterTypes.FilterableMulti) &&
             !this.singled &&
             this.selectableOptionCount >= this.maxOptions &&
             !this.filter.Locked;
   }
 
   get showAllOptions(): boolean {
-    return isMultiFilter(this.filter) && this.filter.ShowAllOptions;
+    return (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter)) && this.filter.ShowAllOptions;
   }
 
   get displayShowMore(): boolean {

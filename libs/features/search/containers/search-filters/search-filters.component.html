@@ -42,6 +42,14 @@
         </pf-multi-select-filter>
       </ng-container>
 
+      <ng-container *ngSwitchCase="filterTypes.FilterableMulti">
+        <pf-filterable-multi-select-filter
+          [filter]="filter"
+          (optionSelected)="handleMultiSelectOptionSelected($event)"
+          (subFilterSelected)="handleFilterableMultiSubFilterSelected($event)">
+        </pf-filterable-multi-select-filter>
+      </ng-container>
+
       <!--Range Filters-->
       <ng-container *ngSwitchCase="filterTypes.Range">
         <pf-range-filter

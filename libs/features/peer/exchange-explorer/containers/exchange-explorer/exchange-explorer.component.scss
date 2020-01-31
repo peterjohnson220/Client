@@ -60,3 +60,13 @@ $group-header-bg-color: #eaeaea;
 .error-adding-jobs {
   font-weight: bold;
 }
+
+.child-filters-sidebar{
+  min-height: 30%;
+  min-width: 243px;
+  position: absolute;
+  top:0;
+  left:0;
+  z-index:1;
+  background-color:rgba(255,255,255,.95);
+}

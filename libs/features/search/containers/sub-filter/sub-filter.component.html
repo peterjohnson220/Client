@@ -1,13 +1,8 @@
-<div class="single-filter">
-
-  <div class="back-to-all-filters" (click)="backToAllFilters()">
-    < Back To All Filters
-  </div>
+<div class="sub-filter">
 
   <pf-filter-section
     class="filter-section"
-    [filter]="singledFilter$ | async"
-    [ngSwitch]="(singledFilter$| async)?.Type"
+    [filter]="filter$ | async"
     [overriddenSelectionCount]="selectionCount$ | async"
     [singled]="true"
     [searchValue]="searchValue$ | async"
@@ -22,21 +17,10 @@
       [hideReloadButton]="true"
       [smartLoadingMask]="true">
 
-      <ng-container *ngSwitchCase="filterTypes.Multi">
-
       <pf-multi-select-filter
-        [filter]="singledFilter$ | async"
+        [filter]="filter$ | async"
         (optionSelected)="handleMultiSelectOptionSelected($event)">
       </pf-multi-select-filter>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="filterTypes.FilterableMulti">
-        <pf-filterable-multi-select-filter
-          [filter]="singledFilter$ | async"
-          (optionSelected)="handleMultiSelectOptionSelected($event)"
-          (subFilterSelected)="handleFilterableMultiSubFilterSelected($event)">
-        </pf-filterable-multi-select-filter>
-      </ng-container>
 
     </pf-async-container>
 

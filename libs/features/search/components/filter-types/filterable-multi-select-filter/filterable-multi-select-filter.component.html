@@ -1,0 +1,27 @@
+<ng-container *ngIf="filter.Options.length;else noOptions">
+
+  <ng-container *ngFor="let option of filter.Options">
+    <div class="option alt-color"
+         [title]="option.Name"
+         [class.selected]="option.Selected"
+         [class.disabled]="optionDisabled(option)"
+         [class.locked]="filter.Locked"
+         (click)="handleFilterableOptionSelected(filter, option, false)"
+         [ngClass]="'au-chk-'+filter.CssClassName">
+      <div class="option-check">
+        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" /> {{option.Name}}
+      </div>
+      <fa-icon [icon]="faFilter" (click)="handleFilterableOptionSelected(filter, option, true);$event.stopPropagation()"></fa-icon>
+
+      <div *ngIf="!filter.OptionCountDisabled" class="option-count">
+        {{option.Count}}
+      </div>
+
+    </div>
+  </ng-container>
+
+</ng-container>
+
+<ng-template #noOptions>
+  <div class="no-data">No Data</div>
+</ng-template>

@@ -1,21 +1,22 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { PagingOptions, SearchField, SearchFilter, SearchFilterOption } from 'libs/models/payfactors-api';
-import { SearchSavedFilterResponse } from 'libs/models/payfactors-api/user-filter/response';
-import { SavedFilter } from 'libs/features/user-filter/models';
+import {PagingOptions, SearchField, SearchFilter, SearchFilterOption} from 'libs/models/payfactors-api';
+import {SearchSavedFilterResponse} from 'libs/models/payfactors-api/user-filter/response';
+import {SavedFilter} from 'libs/features/user-filter/models';
 
 import {
   Filter,
+  FilterableMultiSelectFilter, FilterableMultiSelectOption,
   FilterType,
   MultiSelectFilter,
   MultiSelectOption,
   RangeFilter,
   ResultsPagingOptions,
+  SearchFilterMappingDataObj,
   TextFilter
 } from '../models';
 
-import { FiltersHelper } from './filters.helper';
-import { SearchFilterMappingDataObj } from '../models';
+import {FiltersHelper} from './filters.helper';
 
 
 @Injectable()
@@ -41,6 +42,8 @@ export class PayfactorsSearchApiModelMapper {
     switch (this.getMappingData(searchFilter.Name).Type) {
       case FilterType.Multi:
         return this.mapSearchFilterToMultiFilter(searchFilter);
+      case FilterType.FilterableMulti:
+        return this.mapSearchFilterToFilterableMultiFilter(searchFilter);
       case FilterType.Range:
         return this.mapSearchFilterToRangeFilter(searchFilter);
       default:
@@ -76,6 +79,19 @@ export class PayfactorsSearchApiModelMapper {
     });
   }
 
+  mapSearchFilterOptionsToFilterableMultiSelectOptions(searchFilter: SearchFilter, sfo: SearchFilterOption[]): FilterableMultiSelectOption[] {
+    return sfo.map((o: SearchFilterOption): FilterableMultiSelectOption => {
+      return {
+        Name: o.Name,
+        Value: o.Value,
+        Count: o.Count,
+        Selected: false,
+        SubAggregationCount: 2,
+        SelectionsCount: 0
+      };
+    });
+  }
+
   ///
   /// OUT
   ///
@@ -94,6 +110,10 @@ export class PayfactorsSearchApiModelMapper {
 
    mapMultiSelectFiltersToSearchFilters(multiSelectFilters: MultiSelectFilter[]): SearchFilter[] {
     return multiSelectFilters.map(msf => this.mapMultiSelectFilterToSearchFilter(msf));
+  }
+
+  mapFilterableMultiSelectFiltersToSearchFilters(filterableMultiSelectFilters: FilterableMultiSelectFilter[]): SearchFilter[] {
+    return filterableMultiSelectFilters.map(fmsf => this.mapFilterableMultiSelectFilterToSearchFilter(fmsf));
   }
 
   mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: ResultsPagingOptions): PagingOptions {
@@ -129,7 +149,24 @@ export class PayfactorsSearchApiModelMapper {
     };
   }
 
+  private mapFilterableMultiSelectFilterToSearchFilter(filter: FilterableMultiSelectFilter): SearchFilter {
+    return {
+      Name: filter.BackingField,
+      DisplayName: filter.DisplayName,
+      Options: this.mapFilterableMultiSelectOptionsToSearchFilterOptions(filter.Options)
+    };
+  }
+
   private mapMultiSelectOptionsToSearchFilterOptions(multiSelectOptions: MultiSelectOption[]): SearchFilterOption[] {
+    return multiSelectOptions.filter(mso => mso.Selected).map(mso => {
+      return {
+        Name: mso.Name,
+        Value: mso.Value
+      };
+    });
+  }
+
+  private mapFilterableMultiSelectOptionsToSearchFilterOptions(multiSelectOptions: FilterableMultiSelectOption[]): SearchFilterOption[] {
     return multiSelectOptions.filter(mso => mso.Selected).map(mso => {
       return {
         Name: mso.Name,
@@ -152,7 +189,27 @@ export class PayfactorsSearchApiModelMapper {
       CssClassName: mappingData.DisplayName.toLowerCase().replace(/[\s]/g, '-'),
       DefaultSelections: [],
       SaveDisabled: mappingData.SaveDisabled,
-      Operator: mappingData.Operator
+      Operator: mappingData.Operator,
+      ParentBackingField : mappingData.ParentBackingField
+    };
+  }
+
+  private mapSearchFilterToFilterableMultiFilter(searchFilter: SearchFilter): FilterableMultiSelectFilter {
+    const mappingData = this.getMappingData(searchFilter.Name);
+    return {
+      Id: searchFilter.Name.split('_').join(''),
+      BackingField: mappingData.BackingField,
+      DisplayName: mappingData.DisplayName,
+      Options: this.mapSearchFilterOptionsToFilterableMultiSelectOptions(searchFilter, searchFilter.Options),
+      Type: FilterType.FilterableMulti,
+      RefreshOptionsFromServer: mappingData.RefreshOptionsFromServer,
+      Order: mappingData.Order,
+      OptionCountDisabled: mappingData.OptionCountDisabled,
+      CssClassName: mappingData.DisplayName.toLowerCase().replace(/[\s]/g, '-'),
+      DefaultSelections: [],
+      SaveDisabled: mappingData.SaveDisabled,
+      Operator: mappingData.Operator,
+      ParentBackingField: mappingData.ParentBackingField
     };
   }
 

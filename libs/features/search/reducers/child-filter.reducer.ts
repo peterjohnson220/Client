@@ -1,43 +1,28 @@
 import * as cloneDeep from 'lodash.clonedeep';
-import * as isEqual from 'lodash.isequal';
-
+import {Filter} from '../models';
+import * as fromChildFilterActions from '../actions/child-filter.actions';
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
-import { Filter } from '../models';
 
 export interface State {
   loadingOptions: boolean;
   loadingOptionsError: boolean;
   filter: Filter;
   searchValue: string;
+  parentOptionValue: string;
 }
 
-const initialState: State = {
+const initialState = {
   loadingOptions: false,
   loadingOptionsError: false,
   filter: null,
-  searchValue: ''
+  searchValue: '',
+  parentOptionValue : ''
 };
 
-// Reducer function
-export function reducer(state = initialState, action: fromSingledFilterActions.Actions): State {
+export function reducer(state = initialState, action: fromChildFilterActions.Actions): State {
   switch (action.type) {
-    case fromSingledFilterActions.APPLY_SELECTIONS: {
-      const filterCopy = cloneDeep(state.filter);
 
-      if (action.payload.length) {
-        filterCopy.Options.map(fo => {
-          fo.Selected = action.payload.some(po => isEqual(fo.Value, po.Value));
-        });
-      } else {
-        filterCopy.Options.map(fo => fo.Selected = false);
-      }
-
-      return {
-        ...state,
-        filter: filterCopy
-      };
-    }
-    case fromSingledFilterActions.CLEAR_SELECTIONS: {
+    case fromChildFilterActions.CLEAR_SELECTIONS: {
       const filterCopy = cloneDeep(state.filter);
 
       if (filterCopy) {
@@ -49,21 +34,21 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
         filter: filterCopy
       };
     }
-    case fromSingledFilterActions.SEARCH_AGGREGATION: {
+    case fromChildFilterActions.SEARCH_AGGREGATION: {
       return {
         ...state,
         loadingOptions: true,
         loadingOptionsError: false
       };
     }
-    case fromSingledFilterActions.SEARCH_AGGREGATION_ERROR: {
+    case fromChildFilterActions.SEARCH_AGGREGATION_ERROR: {
       return {
         ...state,
         loadingOptions: false,
         loadingOptionsError: true
       };
     }
-    case fromSingledFilterActions.SEARCH_AGGREGATION_SUCCESS: {
+    case fromChildFilterActions.SEARCH_AGGREGATION_SUCCESS: {
       const filterCopy = cloneDeep(state.filter);
       filterCopy.Options = cloneDeep(action.payload.newOptions);
 
@@ -78,38 +63,21 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
         filter: filterCopy
       };
     }
-    case fromSingledFilterActions.SET_SEARCH_VALUE: {
+    case fromChildFilterActions.SET_SEARCH_VALUE: {
       return {
         ...state,
         searchValue: action.payload
       };
     }
-    case fromSingledFilterActions.SET_SINGLED_FILTER: {
+    case fromChildFilterActions.SET_CHILD_FILTER: {
       return {
         ...state,
-        filter: action.payload,
+        filter: action.payload.filter,
+        parentOptionValue: action.payload.parentOptionValue,
         searchValue: ''
       };
     }
-
-    case fromSingledFilterActions.REMOVE_FILTER_VALUE: {
-      const filterCopy = cloneDeep(state.filter);
-      let optionToRemove;
-
-      if (filterCopy) {
-        optionToRemove = filterCopy.Options.find(o => isEqual(o.Value, action.payload.value));
-      }
-
-      if (optionToRemove) {
-        optionToRemove.Selected = false;
-      }
-
-      return {
-        ...state,
-        filter: filterCopy
-      };
-    }
-    case fromSingledFilterActions.TOGGLE_MULTI_SELECT_OPTION: {
+    case fromChildFilterActions.TOGGLE_MULTI_SELECT_OPTION: {
       const filterCopy = cloneDeep(state.filter);
       const filterOption = filterCopy.Options
         .find(o => o.Value === action.payload.option.Value);
@@ -121,15 +89,21 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
         filter: filterCopy
       };
     }
-
+    case fromChildFilterActions.CLEAR_CHILD_FILTER: {
+      return {
+        ...state,
+        filter: null,
+        parentOptionValue: ''
+      };
+    }
     default: {
       return state;
     }
   }
 }
 
-// Selector functions
 export const getFilter = (state: State) => state.filter;
 export const getLoadingOptions = (state: State) => state.loadingOptions;
 export const getLoadingOptionsError = (state: State) => state.loadingOptionsError;
 export const getSearchValue = (state: State) => state.searchValue;
+export const getParentOptionValue = (state: State) => state.parentOptionValue;

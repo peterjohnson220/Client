@@ -15,12 +15,14 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 export abstract class SearchBase {
   numberOfResults$: Observable<number>;
   searchingFilter$: Observable<boolean>;
+  searchingChildFilters$: Observable<boolean>;
 
   protected constructor(
     protected store: Store<fromSearchReducer.State>
   ) {
     this.numberOfResults$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);
     this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
+    this.searchingChildFilters$ = this.store.select(fromSearchReducer.getSearchingChildFilter);
   }
 
   // Listen for messages to the window

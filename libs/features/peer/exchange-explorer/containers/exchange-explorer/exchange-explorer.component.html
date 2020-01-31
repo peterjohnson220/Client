@@ -54,6 +54,9 @@
   </ng-container>
 
   <ng-container content>
+    <div class="child-filters-sidebar" *ngIf="!!(searchingChildFilters$ | async)">
+      <pf-sub-filter></pf-sub-filter>
+    </div>
 
    <pf-exchange-explorer-map></pf-exchange-explorer-map>
 

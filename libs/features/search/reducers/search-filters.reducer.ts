@@ -2,7 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import { Filter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
+import {Filter, isFilterableMultiFilter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter} from '../models';
 import { ClientServerFilterHelper, FiltersHelper } from '../helpers';
 
 export interface State {
@@ -111,7 +111,15 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         }
       );
 
-      const allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
+      const newFilterableMultiSelectFilters = ClientServerFilterHelper.mergeClientWithServerFilterableMultiSelectFilters(
+        {
+          serverFilters: serverFilters.filter(f => isFilterableMultiFilter(f) && !clientFiltersNotBeingRefreshed.some(cf => cf.Id === f.Id)),
+          clientFilters: clientFilters.filter(f => !FiltersHelper.filterToNotRefresh(f)),
+          keepFilteredOutOptions: action.payload.keepFilteredOutOptions
+        }
+      );
+
+      const allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters).concat(newFilterableMultiSelectFilters);
 
       allFilters.sort((a, b) => a.Order - b.Order);
 
@@ -225,4 +233,5 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 }
 
 // Selector functions
-export const getFilters = (state: State) => state.filters;
+export const getFilters = (state: State) => state.filters.filter( f => f.ParentBackingField === null);
+export const getSubFilters = (state: State) => state.filters.filter( f => f.ParentBackingField !== null);
