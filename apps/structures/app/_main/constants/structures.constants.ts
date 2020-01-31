@@ -14,6 +14,6 @@ export class JobRangeModelingConstants {
 }
 
 export enum JobRangeModelingModalPage {
-  AddJobs,
-  ModelSettings
+  AddJobs = 'Add Jobs',
+  ModelSettings = 'Model Settings'
 }
