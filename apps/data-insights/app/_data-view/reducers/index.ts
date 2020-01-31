@@ -163,9 +163,9 @@ export const getSortDescriptor = createSelector(
   fromDataViewGridReducer.getSortDescriptor
 );
 
-export const getTotalCount = createSelector(
+export const getTotalCountAsync = createSelector(
   selectDataViewGridState,
-  fromDataViewGridReducer.getTotalCount
+  fromDataViewGridReducer.getTotalCountAsync
 );
 
 // Configure Filters

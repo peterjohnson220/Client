@@ -27,7 +27,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   loadingMoreData$: Observable<boolean>;
   hasMoreDataOnServer$: Observable<boolean>;
   sortDescriptor$: Observable<SortDescriptor>;
-  totalCount$: Observable<number>;
+  totalCount$: Observable<AsyncStateObj<number>>;
   dataView$: Observable<AsyncStateObj<UserDataView>>;
   formulaFieldSuggestions$: Observable<Suggestion[]>;
 
@@ -57,7 +57,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     this.loadingMoreData$ = this.store.pipe(select(fromDataInsightsMainReducer.getLoadingMoreData));
     this.hasMoreDataOnServer$ = this.store.pipe(select(fromDataInsightsMainReducer.getHasMoreDataOnServer));
     this.sortDescriptor$ = this.store.pipe(select(fromDataInsightsMainReducer.getSortDescriptor));
-    this.totalCount$ = this.store.pipe(select(fromDataInsightsMainReducer.getTotalCount));
+    this.totalCount$ = this.store.pipe(select(fromDataInsightsMainReducer.getTotalCountAsync));
     this.dataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
     this.formulaFieldSuggestions$ = this.store.pipe(select(fromDataInsightsMainReducer.getFormulaFieldSuggestions));
   }

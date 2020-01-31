@@ -78,7 +78,21 @@
     <div class="loading-more-row" *ngIf="loadingMoreData$| async">
       <pf-loading-indicator></pf-loading-indicator> Loading more results...
     </div>
-    <p class="ml-auto" id="total-count">Count: <span class="font-weight-bold">{{totalCount$ | async | number}}</span></p>
+    <div *ngIf="!dataAsync.loading && !!dataAsync.obj" class="ml-auto total-count">
+      <ng-container *ngIf="(totalCount$ | async) as totalCountAsync">
+        <div *ngIf="totalCountAsync.loading; else displayTotalCount">
+          <pf-loading-indicator></pf-loading-indicator> Loading count...
+        </div>
+        <ng-template #displayTotalCount>
+          <div *ngIf="!totalCountAsync.loadingError && !!totalCountAsync.obj">
+            Count: <span class="font-weight-bold">{{totalCountAsync.obj | number}}</span>
+          </div>
+          <div *ngIf="totalCountAsync.loadingError">
+            Count: <fa-icon class="text-danger" icon="exclamation-circle"></fa-icon>
+          </div>
+        </ng-template>
+      </ng-container>
+    </div>
   </div>
 </div>
 

@@ -47,7 +47,8 @@ export class FiltersEffects {
       ),
       mergeMap(() => [
         new fromFiltersActions.SaveFilters(),
-        new fromDataViewGridActions.GetData()
+        new fromDataViewGridActions.GetData(),
+        new fromDataViewGridActions.GetDataCount()
       ])
     );
 

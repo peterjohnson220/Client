@@ -42,7 +42,8 @@ export class DataViewEffects {
                 new fromDataViewGridActions.SetSortDescriptor(sortDescriptor),
                 new fromFieldsActions.SetSelectedFields(selectedFields),
                 new fromFiltersActions.SetFilters(filters),
-                new fromDataViewGridActions.GetData()
+                new fromDataViewGridActions.GetData(),
+                new fromDataViewGridActions.GetDataCount()
               ];
             }),
             catchError(error => of (new fromDataViewActions.GetUserDataViewError(error)))
