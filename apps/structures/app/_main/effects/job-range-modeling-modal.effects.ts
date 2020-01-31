@@ -12,8 +12,16 @@ export class JobRangeModelingModalEffects {
   openModal$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobRangeModelingModalActions.OPEN_MODAL),
-      mergeMap((action: fromJobRangeModelingModalActions.ChangePage) =>
+      mergeMap((action: fromJobRangeModelingModalActions.OpenModal) =>
         [new fromJobRangeModelingModalActions.ChangePage(action.payload)]
+      ));
+
+  @Effect()
+  changePage$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobRangeModelingModalActions.CHANGE_PAGE),
+      mergeMap((action: fromJobRangeModelingModalActions.ChangePage) =>
+        [new fromJobRangeModelingModalActions.UpdateTitle(action.payload)]
       ));
 
   constructor(

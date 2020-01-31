@@ -81,8 +81,6 @@ export class JobBasedRangesAddJobsModalPageComponent extends SearchBase implemen
     this.addingDataErrorMessage$ = this.store.select(fromStructuresReducer.getAddingDataErrorMessage);
     this.userContext = store.select(fromRootState.getUserContext);
     this._Permissions = Permissions;
-
-    this.store.dispatch(new fromJobRangeModelingModalActions.UpdateTitle('Add Jobs'));
   }
 
   onSetContext(payload: any): void {
