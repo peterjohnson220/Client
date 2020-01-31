@@ -78,7 +78,7 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
         versionNumberCheck: [null],
         pageNumberCheck: [null],
         customTextCheck: [null],
-        customTextValue: ['', [Validators.maxLength(40)]]},
+        customTextValue: ['', [Validators.maxLength(250)]]},
         { validator: this.maxCheckBoxCountValidator }
       );
   }
