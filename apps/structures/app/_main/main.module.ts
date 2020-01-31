@@ -31,7 +31,8 @@ import {
   JobRangeModelingGridEffects,
   JobBasedRangesAddJobsModalPageEffects,
   JobBasedRangesSearchResultsEffects,
-  JobRangeModelingModalEffects
+  JobRangeModelingModalEffects,
+  SingledFilterEffects
 } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -69,7 +70,8 @@ import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data';
       JobBasedRangesSearchResultsEffects,
       JobBasedRangeAllStructuresEffects,
       JobRangeModelingGridEffects,
-      JobRangeModelingModalEffects
+      JobRangeModelingModalEffects,
+      SingledFilterEffects
     ]),
     PerfectScrollbarModule,
     FontAwesomeModule,
