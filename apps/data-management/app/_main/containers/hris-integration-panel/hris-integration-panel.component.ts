@@ -26,7 +26,4 @@ export class HrisIntegrationPanelComponent {
            this.connectionSummary.statuses.find(s => s === status);
   }
 
-  goToDataMapping() {
-    this.onMappingButtonClicked.emit(this.transferMethodType);
-  }
 }

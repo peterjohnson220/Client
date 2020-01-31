@@ -1,12 +1,12 @@
 import { generateMockMappingPayloadItem, MappingPayloadItem } from './mapping-payload-item.model';
 
 export interface MappingPayload {
-  Items: MappingPayloadItem[];
+  items: MappingPayloadItem[];
 }
 
 export function generateMockMappingPayload(): MappingPayload {
   return {
-    Items: [
+    items: [
       generateMockMappingPayloadItem(),
     ]
   };

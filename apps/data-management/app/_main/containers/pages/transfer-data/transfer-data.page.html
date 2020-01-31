@@ -63,7 +63,4 @@
         [validatedCredentials]="(currentWorkflowStep$ | async) === workflowStep.Validated">
       </pf-hris-authentication-card>
     </div>
-    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.Mappings">
-      <pf-field-mappings-card (resetWorkflow)="cancelTransferDataWorkflow()"></pf-field-mappings-card>
-    </div>
 </pf-async-container>

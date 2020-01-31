@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { PayfactorsApiService } from '../payfactors-api.service';
-import { LoaderFieldSet, FieldMappingsDTO } from 'libs/models/data-loads/index';
-import {FileUploadHeaderRequestModel} from 'libs/features/org-data-loader/models';
+import { of, Observable } from 'rxjs';
 import { OrgDataEntityType } from 'libs/constants';
-import { of } from 'rxjs';
+import {FileUploadHeaderRequestModel} from 'libs/features/org-data-loader/models';
+import { LoaderFieldSet, FieldMappingsDTO } from 'libs/models/data-loads/index';
 
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
 export class LoaderFieldMappingsApiService {
@@ -42,13 +43,22 @@ export class LoaderFieldMappingsApiService {
   }
 
   getCustomFieldsByEntity(entity: string, companyId: number) {
+    let result: Observable<any[]>;
     switch (entity) {
-      case OrgDataEntityType.Employees:
-        return this.getCustomEmployeeFields(companyId);
-      case OrgDataEntityType.Jobs:
-        return this.getCustomJobFields(companyId);
-      default:
-        return of([]);
+      case OrgDataEntityType.Employees: {
+        result = this.getCustomEmployeeFields(companyId);
+        break;
+      }
+      case OrgDataEntityType.Jobs: {
+        result = this.getCustomJobFields(companyId);
+        break;
+      }
+      default: {
+        result =  of([]);
+        break;
+      }
     }
+
+    return result;
   }
 }

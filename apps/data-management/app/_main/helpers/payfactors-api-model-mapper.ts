@@ -10,7 +10,6 @@ import {
   TransferMethodResponse,
   ProviderSupportedEntityDTO, TransferScheduleSummary, SyncScheduleDtoModel,
   MappingPayloadItem,
-  MappingPayloadMapping,
   ConnectionSummaryResponse
 } from 'libs/models/hris-api';
 
@@ -143,26 +142,26 @@ export class PayfactorsApiModelMapper {
 
   static createMappingPackage(request: EntityField): MappingPackage {
     return {
-      MappingPayload: {
-        Items: Object.entries(request)
+      mappingPayload: {
+        items: Object.entries(request)
           .map(([entityType, fields]) => this.getMappingsForEntity(entityType, fields))
-          .filter( mpi => mpi.Mappings.length > 0)
+          .filter( mpi => mpi.mappings.length > 0)
       }
     };
   }
 
   static getMappingsForEntity(entityType: string , fields: EntityDataField[]): MappingPayloadItem {
     return {
-      OrgDataEntityType: entityType,
-      Mappings: fields.filter(field => field.AssociatedEntity && field.AssociatedEntity.length > 0)
+      orgDataEntityType: entityType,
+      mappings: fields.filter(field => field.AssociatedEntity && field.AssociatedEntity.length > 0)
       .map(field => ({
-        DestinationField: field.FieldName,
-        SourceField: field.AssociatedEntity[0].FieldName,
-        SourceMetadata: {
-          DataType: field.AssociatedEntity[0].DataType,
-          IsArray: false,
-          MetaData: {},
-          Name: field.AssociatedEntity[0].FieldName
+        destinationField: field.FieldName,
+        sourceField: field.AssociatedEntity[0].FieldName,
+        sourceMetadata: {
+          dataType: field.AssociatedEntity[0].DataType,
+          isArray: false,
+          metaData: {},
+          name: field.AssociatedEntity[0].FieldName
         }
       }))
     };

@@ -139,7 +139,6 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
       return {
         ...state,
         loading: false,
-        workflowStep: TransferDataWorkflowStep.Mappings,
         activeConnection: action.payload
       };
     }
@@ -170,13 +169,6 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
       return {
         ...state,
         workflowStep: action.payload
-      };
-    }
-    case fromTransferDataPageActions.PROCEED_TO_MAPPING: {
-      return {
-        ...state,
-        loading: false,
-        workflowStep: TransferDataWorkflowStep.Mappings
       };
     }
     default:

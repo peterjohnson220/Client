@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Store, Action, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { mergeMap, switchMap, map, withLatestFrom, catchError, delay } from 'rxjs/operators';
+import { mergeMap, switchMap, map, withLatestFrom, catchError, delay, tap } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { TransferMethodsHrisApiService, ProvidersHrisApiService,
@@ -11,10 +13,9 @@ import { TransferMethodsHrisApiService, ProvidersHrisApiService,
 import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse, ProviderSupportedEntityDTO, CredentialsPackage } from 'libs/models/hris-api';
 
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
-import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromDataManagementMainReducer from '../reducers';
-
 import { PayfactorsApiModelMapper } from '../helpers';
+
 
 @Injectable()
 export class TransferDataPageEffects {
@@ -166,24 +167,11 @@ export class TransferDataPageEffects {
       })
     );
 
-  @Effect()
+  @Effect({dispatch: false})
   CreateConnectionSuccess$: Observable<Action> = this.actions$
   .pipe(
     ofType<fromTransferDataPageActions.CreateConnectionSuccess>(fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS),
-    withLatestFrom(this.store.select(fromDataManagementMainReducer.getSelectedEntities),
-    (action, selectedEntities) => {
-      return {
-        action,
-        selectedEntities
-      };
-    }),
-    switchMap((obj) => {
-      return [
-        new fromFieldMappingActions.InitFieldMappingCard({
-          entities: obj.selectedEntities,
-        })
-      ];
-    })
+    tap(() => this.router.navigate(['/', 'field-mapping']))
   );
 
   @Effect()
@@ -217,6 +205,7 @@ export class TransferDataPageEffects {
     private store: Store<fromDataManagementMainReducer.State>,
     private transferMethodsHrisApiService: TransferMethodsHrisApiService,
     private providersHrisApiService: ProvidersHrisApiService,
-    private connectionsHrisApiService: ConnectionsHrisApiService
+    private connectionsHrisApiService: ConnectionsHrisApiService,
+    private router: Router
   ) {}
 }

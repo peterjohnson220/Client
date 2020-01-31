@@ -5,3 +5,4 @@ export * from './transfer-schedule';
 export * from './data-management-landing';
 export * from './reset-integration';
 export * from './custom-employee-identifier';
+export * from './field-mapping';

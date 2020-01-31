@@ -27,7 +27,6 @@ export const LOAD_ENTITY_SELECTION = '[Data Management/Transfer Data Page] Load 
 export const LOAD_ENTITY_SELECTION_ERROR = '[Data Management/Transfer Data Page] Load Entity Selection Error';
 export const LOAD_ENTITY_SELECTION_SUCCESS = '[Data Management/Transfer Data Page] Load Entity Selection Success';
 export const PROCEED_TO_AUTHENTICATION = '[Data Management/Transfer Data Page] Proceed to Authentication';
-export const PROCEED_TO_MAPPING = '[Data Management/Transfer Data Page] Proceed to Mapping';
 export const UPDATE_WORKFLOWSTEP = '[Data Management/Transfer Data Page] Update Workfow Step';
 
 export class Init implements Action {
@@ -158,11 +157,6 @@ export class UpdateWorkflowstep implements Action {
   constructor(public payload: TransferDataWorkflowStep) {}
 }
 
-export class ProceedToMapping implements Action {
-  readonly type = PROCEED_TO_MAPPING;
-
-  constructor() {}
-}
 
 export type Actions
   = Init
@@ -188,5 +182,4 @@ export type Actions
   | LoadEntitySelectionError
   | LoadEntitySelectionSuccess
   | ProceedToAuthentication
-  | ProceedToMapping
   | UpdateWorkflowstep;

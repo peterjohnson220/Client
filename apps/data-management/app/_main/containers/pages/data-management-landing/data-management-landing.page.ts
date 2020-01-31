@@ -46,7 +46,6 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   }
 
   goToMappingPage($event: any) {
-    this.store.dispatch(new fromTransferDataPageActions.ProceedToMapping());
-    this.router.navigate(['/transfer-data']);
+    this.router.navigate(['', '/field-mapping']);
   }
 }

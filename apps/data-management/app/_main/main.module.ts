@@ -27,8 +27,8 @@ import {
 import { FileUploadComponent } from './components/file-upload';
 import {
     CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent, EntityMappingComponent,
-    FieldMappingCardComponent, HrisAuthenticationCardComponent, HrisIntegrationPanelComponent, HrisIntegrationSidebarComponent,
-    HrisIntegrationStatusComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent,
+    FieldMappingPageComponent, FieldMappingCardComponent, HrisAuthenticationCardComponent, HrisIntegrationPanelComponent,
+    HrisIntegrationSidebarComponent, HrisIntegrationStatusComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent,
     ResetIntegrationPageComponent, TransferDataPageComponent, TransferMethodDropdownComponent, TransferScheduleCardComponent,
     TransferScheduleCronComponent, TransferSchedulePageComponent, TransferScheduleSummaryComponent, WorkdayAuthenticationComponent,
     WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
@@ -117,7 +117,8 @@ import { GetSupportedSchedulesPipe } from './pipes';
     ResetIntegrationPageComponent,
     DefaultPaymarketConfirmationModalComponent,
     CustomEmployeeIdentifierComponent,
-    PfCheckboxComponent
+    PfCheckboxComponent,
+    FieldMappingPageComponent
   ]
 })
 export class MainModule {
