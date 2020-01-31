@@ -8,14 +8,12 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DragulaModule } from 'ng2-dragula';
 import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { GridModule } from '@progress/kendo-angular-grid';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+
+import { DataInsightsSharedModule } from '../_shared/shared.module';
 
 import { StandardReportComponent, TagWorkbookModalComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent,
@@ -31,8 +29,6 @@ import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, View
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
-import { DataInsightsSharedModule } from '../_shared/shared.module';
-import { AbstractBaseDataViewModal } from '../_shared/containers';
 
 @NgModule({
   imports: [
@@ -55,11 +51,7 @@ import { AbstractBaseDataViewModal } from '../_shared/containers';
     DragulaModule.forRoot(),
     NgbPopoverModule.forRoot(),
     NgbTooltipModule,
-    GridModule,
-    PerfectScrollbarModule,
     NgbCollapseModule,
-    DateInputsModule,
-    NumericTextBoxModule,
 
     // Routing
     MainRoutingModule,
