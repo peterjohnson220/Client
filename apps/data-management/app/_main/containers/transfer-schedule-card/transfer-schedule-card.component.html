@@ -1,7 +1,7 @@
 <div class="card mb-3 shadow-sm p-3">
   <div class="card-body">
     <fa-icon icon="pencil-alt" size="lg" class="pencil-top-right blue" *ngIf="canEdit()" (click)="setEditMode()"></fa-icon>
-    <h4 class="card-title">{{ transferSchedule.entityMappingTypeName }}</h4>
+    <h4 class="card-title pb-3">{{ transferSchedule.entityMappingTypeName }}</h4>
     <pf-transfer-schedule-cron
       [id]="transferSchedule.entityMappingType_ID"
       [cronExpression]="transferSchedule.expression"
@@ -10,10 +10,16 @@
       [disabled]="!active"
       [lastRunDate]="transferSchedule.lastSync_Date"
     ></pf-transfer-schedule-cron>
-    <div class="text-right" [class.hide-buttons]="!editMode">
-      <a href="javascript:void(0);" class="btn btn-outline-danger" *ngIf="active" (click)="toggleSchedule()">Disable</a>
-      <a href="javascript:void(0);" class="btn btn-primary" *ngIf="!active" (click)="toggleSchedule()">Enable</a>
-      <a href="javascript:void(0);" class="btn btn-primary" [ngClass]="{'btn-disabled disabled btn-light':!isDirty || !transferSchedule.supported }" (click)="save()">Save</a>
+    <div class="d-flex justify-content-end" [class.hide-buttons]="!editMode">
+      <div class="p-2">
+        <button type="button" class="btn btn-outline-danger" *ngIf="active" (click)="toggleSchedule()">Disable</button>
+      </div>
+      <div class="p-2" *ngIf="!active">
+        <button type="button" class="btn btn-primary" (click)="toggleSchedule()">Enable</button>
+      </div>
+      <div class="p-2">
+        <button type="button" class="btn btn-primary" [disabled]="!isDirty || !transferSchedule.supported" (click)="save()">Save</button>
+      </div>
     </div>
   </div>
 </div>

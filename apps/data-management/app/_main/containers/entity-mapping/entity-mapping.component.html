@@ -9,11 +9,11 @@
       </div>
     </div>
     <div class="row my-3 provider-field-list" *ngIf="filteredProviderFields.length > 0">
-      <div class="col pr-0">
+      <div class="col">
         <div class="" [dragula]="entityGroupName" [dragulaModel]="filteredProviderFields" id="provider-entity">
           <div *ngFor="let field of filteredProviderFields" class="w-100 px-4 my-3 provider-field-list-item">
             <label
-              class="m-0 entity w-100 ellipsis-overflowing-text" 
+              class="p-2 m-0 entity w-100 ellipsis-overflowing-text align-middle" 
               [ngbTooltip]="field.FieldName"
               placement="top-left"
               container="body"
@@ -23,11 +23,10 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-1"> </div>
-  <div class="col-sm-7">
+  <div class="col-sm-8">
     <h5>Payfactors Fields</h5>
     <div class="row">
-      <div class="col-sm-5">
+      <div class="col">
         <pf-input-debounce [id]="'payfactorsEntitySearch-' + entityType.toLowerCase()" [delay]="400"
           (valueChanged)="handleSearchTermChanged($event, 'payfactors')" [placeholderText]="'Search'" pfClickElsewhere>
         </pf-input-debounce>
