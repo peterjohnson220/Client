@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Optional, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash.clonedeep';
@@ -54,7 +54,7 @@ export class UserFilterPopoverComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromUserFilterReducer.State>,
-    public userFilterPopoverConfig: UserFilterPopoverConfig
+    @Optional() public userFilterPopoverConfig: UserFilterPopoverConfig
   ) {
     this.loading$ = this.store.select(fromUserFilterReducer.getLoading);
     this.error$ = this.store.select(fromUserFilterReducer.getLoadingError);
