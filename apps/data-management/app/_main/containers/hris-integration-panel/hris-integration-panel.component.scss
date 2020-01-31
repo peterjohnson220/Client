@@ -1,20 +1,6 @@
-:host h4 {
-  font-weight: 400;
-}
-
 :host h4.card-title {
   margin-left: -1rem;
   margin-top: -1rem;
-  padding-bottom: 1rem;
-}
-
-div.row.p-top-2 {
-  padding-top: 2rem !important;
-}
-
-a.btn.btn-outline-primary {
-  border: 1px solid lightgrey;
-  margin-left: 1rem;
 }
 
 :host span.integration-status {
@@ -30,4 +16,3 @@ a.btn.btn-outline-primary {
 :host .good-icon {
   color: rgb(195, 220, 168);
 }
-

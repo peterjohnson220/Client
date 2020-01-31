@@ -46,7 +46,7 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     this.providerFieldsSubscription = this.providerFields$
     .subscribe(v => {
       if (v) {
-        this.providerFields = v[this.entityType];
+        this.providerFields = orderBy(v[this.entityType], ['FieldName'], ['asc']);
         this.filteredProviderFields = this.providerFields.filter( pf =>
           pf.FieldName.toLocaleLowerCase().includes(this.providerSearchTerm) && !pf.HasAssociation
         );

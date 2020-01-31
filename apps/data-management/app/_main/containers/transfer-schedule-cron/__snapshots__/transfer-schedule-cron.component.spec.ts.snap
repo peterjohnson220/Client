@@ -15,16 +15,20 @@ exports[`TransferScheduleCronComponent should have a good default state if a dai
 >
   <div>
     <div
-      class="summary"
+      class="summary text-center"
     >
       
       
       <div>
         
         <div>
-          <b>
-            Daily
-          </b>
+          <h4
+            class="font-weight-light"
+          >
+            <b>
+              Daily
+            </b>
+          </h4>
         </div>
         
         
@@ -33,7 +37,11 @@ exports[`TransferScheduleCronComponent should have a good default state if a dai
         <div
           class="sync-info"
         >
-           Never Synchronized 
+          <h5
+            class="font-weight-light font-italic"
+          >
+            Never Synchronized
+          </h5>
         </div>
       </div>
     </div>
@@ -60,7 +68,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a mon
 >
   <div>
     <div
-      class="summary"
+      class="summary text-center"
     >
       
       
@@ -69,19 +77,27 @@ exports[`TransferScheduleCronComponent should have a good default state if a mon
         
         
         <div>
-           Every 
-          <b>
-            2nd
+          <h4
+            class="font-weight-light"
+          >
+            Every 
+            <b>
+              2nd
               Monday
-          </b>
-           of the month 
+            </b>
+             of the month
+          </h4>
         </div>
         
         
         <div
           class="sync-info"
         >
-           Never Synchronized 
+          <h5
+            class="font-weight-light font-italic"
+          >
+            Never Synchronized
+          </h5>
         </div>
       </div>
     </div>
@@ -105,7 +121,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
 >
   <div>
     <div
-      class="summary"
+      class="summary text-center"
     >
       
       
@@ -113,10 +129,14 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
         
         
         <div>
-           Weekly on 
-          <b>
-            Tuesdays
-          </b>
+          <h4
+            class="font-weight-light"
+          >
+            Weekly on 
+            <b>
+              Tuesdays
+            </b>
+          </h4>
         </div>
         
         
@@ -124,7 +144,11 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
         <div
           class="sync-info"
         >
-           Never Synchronized 
+          <h5
+            class="font-weight-light font-italic"
+          >
+            Never Synchronized
+          </h5>
         </div>
       </div>
     </div>
@@ -145,7 +169,7 @@ exports[`TransferScheduleCronComponent should have a good default state if no ex
 >
   <div>
     <div
-      class="summary"
+      class="summary text-center"
     >
       
       
@@ -158,7 +182,11 @@ exports[`TransferScheduleCronComponent should have a good default state if no ex
         <div
           class="sync-info"
         >
-           Never Synchronized 
+          <h5
+            class="font-weight-light font-italic"
+          >
+            Never Synchronized
+          </h5>
         </div>
       </div>
     </div>
