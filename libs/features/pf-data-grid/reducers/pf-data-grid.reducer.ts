@@ -181,7 +181,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             inboundFilters: action.payload,
-            fields: applyInboundFilters(state.grids[action.pageViewId].fields, action.payload),
+            fields: applyInboundFilters(resetAllFilters(state, action.pageViewId), action.payload),
             expandedRows: []
           }
         }
@@ -592,6 +592,9 @@ export function resetFiltersForFilterableFields(state: DataGridStoreState, pageV
 
 function resetAllFilters(state: DataGridStoreState, pageViewId: string): ViewField[] {
   const fields: ViewField[] = cloneDeep(getFields(state, pageViewId));
+  if(!fields) {
+    return;
+  }
 
   fields.forEach(field => {
     field.FilterValue = null;

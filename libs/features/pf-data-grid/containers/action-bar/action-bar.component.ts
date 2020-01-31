@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, Templ
 import {ViewField, SimpleDataView, DataViewFieldDataType} from 'libs/models/payfactors-api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+
+import * as cloneDeep from 'lodash.clonedeep';
+
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 
@@ -81,5 +84,9 @@ export class ActionBarComponent implements OnChanges {
   }
   trackByFn(index, item: ViewField) {
     return item.DataElementId;
+  }
+
+  getNgModel(field: ViewField) {
+    return cloneDeep(field);
   }
 }
