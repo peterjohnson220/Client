@@ -141,4 +141,12 @@ export class DataViewApiService {
   private extractRawResponse(response: any) {
     return response;
   }
+
+  deleteView(pageViewId: string, viewName: string) {
+    const request = {
+      PageViewId: pageViewId,
+      ViewName: viewName
+    };
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteView`, request);
+  }
 }

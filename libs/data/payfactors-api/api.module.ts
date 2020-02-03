@@ -51,6 +51,7 @@ import { JobsApiService } from './jobs';
 import {DataImportApiService} from './integration/data-import';
 import { TotalRewardsApiService } from './total-rewards';
 import { SsoConfigApiService } from './sso';
+import {PricingApiService} from './pricings';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -109,6 +110,7 @@ import { SsoConfigApiService } from './sso';
     DataImportApiService,
     TotalRewardsApiService,
     SsoConfigApiService,
+    PricingApiService,
 
     // PEER
     ExchangeApiService,

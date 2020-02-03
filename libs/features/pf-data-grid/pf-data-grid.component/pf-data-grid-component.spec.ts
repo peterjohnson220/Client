@@ -43,7 +43,7 @@ describe('PfDataGridComponent', () => {
 
     component.clearAllFilters();
 
-    const expectedClearAllAction = new fromActions.ClearAllFilters(component.pageViewId);
+    const expectedClearAllAction = new fromActions.ClearAllNonGlobalFilters(component.pageViewId);
 
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedClearAllAction);
   });

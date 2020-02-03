@@ -2,20 +2,30 @@ import * as fromJobsPageActions from '../actions';
 
 export interface State {
   company: string;
+  jobsPageId: string;
   loading: boolean;
   loadingError: boolean;
   addingToProject: boolean;
+  pricingIdToBeDeleted: number;
 }
 
 export const initialState: State = {
   company: '',
   loading: false,
+  jobsPageId: '',
   loadingError: false,
-  addingToProject : false
+  addingToProject : false,
+  pricingIdToBeDeleted: undefined,
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
   switch (action.type) {
+    case fromJobsPageActions.SET_JOBS_PAGE_ID: {
+      return {
+        ...state,
+        jobsPageId: action.payload,
+      };
+    }
     case fromJobsPageActions.LOAD_COMPANY: {
       return {
         ...state,
@@ -44,6 +54,19 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         loadingError: true
       };
     }
+    case fromJobsPageActions.CONFIRM_DELETE_PRICING_FROM_GRID: {
+      return {
+        ...state,
+        pricingIdToBeDeleted: action.payload.CompanyJobPricingId
+      };
+    }
+    case fromJobsPageActions.CANCEL_DELETE_PRICING:
+    case fromJobsPageActions.DELETE_PRICING_SUCCESS: {
+      return {
+        ...state,
+        pricingIdToBeDeleted: undefined
+      };
+    }
     default: {
       return state;
     }
@@ -51,7 +74,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 }
 
 export const getCompany = (state: State) => state.company;
+export const getJobsPageId = (state: State) => state.jobsPageId;
 export const getloading = (state: State) => state.loading;
 export const getloadingError = (state: State) => state.loadingError;
 export const getToProjectButtonState = (state: State) => state.addingToProject;
-
+export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDeleted;

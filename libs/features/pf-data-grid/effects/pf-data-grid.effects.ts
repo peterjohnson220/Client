@@ -66,8 +66,9 @@ export class PfDataGridEffects {
                         this.store.pipe(select(fromPfDataGridReducer.getFields, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
-                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor) =>
-                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor})
+                        this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, loadDataAction.pageViewId)),
+                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
+                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters})
                     )
                 ),
             ),
@@ -80,7 +81,8 @@ export class PfDataGridEffects {
                             PfDataGridEffects.mapFieldsToFilters(data.fields),
                             data.pagingOptions,
                             data.sortDescriptor,
-                            data.pagingOptions && data.pagingOptions.From === 0))
+                            data.pagingOptions && data.pagingOptions.From === 0,
+                            data.applyDefaultFilters))
                         .pipe(
                             map((response: DataViewEntityResponseWithCount) => new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
                             catchError(error => {
@@ -180,10 +182,11 @@ export class PfDataGridEffects {
                 fromPfDataGridActions.UPDATE_INBOUND_FILTERS,
                 fromPfDataGridActions.UPDATE_FILTER,
                 fromPfDataGridActions.CLEAR_FILTER,
-                fromPfDataGridActions.CLEAR_ALL_FILTERS,
+                fromPfDataGridActions.CLEAR_ALL_NON_GLOBAL_FILTERS,
                 fromPfDataGridActions.UPDATE_SORT_DESCRIPTOR),
             mergeMap((action: any) => {
                 return [
+                    new fromPfDataGridActions.CloseSplitView(action.pageViewId),
                     new fromPfDataGridActions.UpdatePagingOptions(action.pageViewId, fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS)
                 ];
             })
@@ -201,6 +204,20 @@ export class PfDataGridEffects {
             })
         );
 
+    @Effect()
+    deleteView$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(fromPfDataGridActions.DELETE_SAVED_VIEW),
+        switchMap((action: any) => {
+          return this.dataViewApiService.deleteView(action.pageViewId, action.viewName).pipe(
+            mergeMap(() => [
+              new fromPfDataGridActions.DeleteSavedViewSuccess(action.pageViewId),
+              new fromPfDataGridActions.LoadSavedViews(action.pageViewId),
+            ])
+          );
+        })
+      );
+
     // TODO: We don't have a robust solution to display grids with the same PageViewId on the same page.
     // The PageViewID is the unique identifier in the NGRX state but we might have two different grids with the same PageViewID on the same page
     // To support this we append an ID to the PageViewId. This function stripps out the appened ID when we interact with the backend.
@@ -217,16 +234,15 @@ export class PfDataGridEffects {
             PageViewId: pageViewId,
             EntityId: baseEntityId,
             Elements: fields.
-                filter(e => e.IsSelected).
-                map(e => ({ ElementId: e.DataElementId })),
-            Filters: this.mapFieldsToDataViewFilters(getUserFilteredFields(fields)),
+                map(e => ({ ElementId: e.DataElementId, FilterOperator: e.FilterOperator,
+              FilterValue: e.IsGlobalFilter === false ? e.FilterValue : null, IsSelected: e.IsSelected })),
             Name: name
         };
     }
 
     static buildDataViewDataRequest(
         baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
-        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean) {
+        pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean, applyDefaultFilters: boolean) {
 
         return {
             BaseEntityId: baseEntityId,
@@ -234,6 +250,7 @@ export class PfDataGridEffects {
             Filters: filters,
             PagingOptions: pagingOptions,
             WithCount: withCount,
+            ApplyDefaultFilters: applyDefaultFilters,
         };
     }
 
@@ -286,7 +303,7 @@ export class PfDataGridEffects {
 
     static mapFieldsToFilters(fields: ViewField[]): DataViewFilter[] {
         return fields
-            .filter(field => field.FilterValue || !isValueRequired(field))
+            .filter(field => field.FilterValue !== null || !isValueRequired(field))
             .map(field => <DataViewFilter>{
                 EntitySourceName: field.EntitySourceName,
                 SourceName: field.SourceName,

@@ -6,6 +6,7 @@ export interface DataViewDataRequest {
   Filters: DataViewFilter[];
   PagingOptions: PagingOptions;
   WithCount: boolean;
+  ApplyDefaultFilters?: boolean;
 }
 
 export interface DataViewField {

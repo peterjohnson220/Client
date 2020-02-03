@@ -89,3 +89,8 @@ kendo-tabstrip.bold-tabs .k-tabstrip-items {
 .k-grid.no-grid-data tbody tr:hover {
   background: white;
 }
+
+/* This is a fix for when bootstrap overrides kendo input defaults and the rule below ends up not being applied */
+.k-combobox-clearable .k-input {
+  padding-right: calc( 16px + 1rem) !important;
+}

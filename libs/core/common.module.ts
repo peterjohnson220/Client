@@ -8,7 +8,7 @@ import * as fromFaIcons from './fa-icons';
 import { DebounceClickDirective, DisableFormControlDirective, DragDropDirective } from './directives';
 import {
     CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
-    JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag, 
+    JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag,
   EmptyPlaceholderPipe, ValidationErrorsPipe
 } from './pipes';
 import { DragulaHelperService } from './services';

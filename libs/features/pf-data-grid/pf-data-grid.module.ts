@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -56,6 +57,7 @@ import {
     DatePickerModule,
     NumericTextBoxModule,
     FontAwesomeModule,
+    SwitchModule,
   ],
   declarations: [
     PfDataGridComponent,
