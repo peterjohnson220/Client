@@ -1,40 +1,52 @@
-<div (click)="close()" class="close-btn">
-  <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
+<div class="job-details-container">
+  <div (click)="close()" class="close-btn">
+    <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
+  </div>
+  <ngb-tabset
+    (tabChange)="tabChange($event)"
+  >
+    <ngb-tab [title]="'Pricing Details'" [id]="'PricingDetails'">
+      <ng-template ngbTabContent>
+        <div class="full-height">
+          <pf-pricing-details-grid [filters]="jobDetailsFilters"></pf-pricing-details-grid>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab [title]="'Job Description'" [id]="'JobDescription'">
+      <ng-template ngbTabContent>
+        <div class="full-height">
+          <pf-job-description  [filters]="jobDetailsFilters" ></pf-job-description>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab [title]="'Employees'" [id]="'Employees'">
+      <ng-template ngbTabContent>
+        <div class="full-height">
+          <pf-employees-grid [filters]="jobDetailsFilters"></pf-employees-grid>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab [title]="'Structures'" [id]="'Structures'">
+      <ng-template ngbTabContent>
+        <div class="full-height">
+          <pf-structure-grid [filters]="jobDetailsFilters"></pf-structure-grid>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab [title]="'Projects'" [id]="'Projects'">
+      <ng-template ngbTabContent>
+        <div class="full-height">
+          <pf-project-details [filters]="jobDetailsFilters"></pf-project-details>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab [title]="'History'" [id]="'History'">
+      <ng-template ngbTabContent>
+        <div class="full-height">
+          <pf-pricing-history [filters]="jobDetailsFilters"></pf-pricing-history>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
 </div>
-<ngb-tabset>
-  <ngb-tab [title]="'Pricing Details'">
-    <ng-template ngbTabContent>
-      <div class="full-height">
-        <pf-pricing-details-grid [filters]="jobDetailsFilters"></pf-pricing-details-grid>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab [title]="'Job Description'">
-    <ng-template ngbTabContent>
-      <div class="full-height">
-        <pf-job-description  [filters]="jobDetailsFilters" ></pf-job-description>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab [title]="'Employees'">
-    <ng-template ngbTabContent>
-      <div class="full-height">
-        <pf-employees-grid [filters]="jobDetailsFilters"></pf-employees-grid>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab [title]="'Structures'">
-    <ng-template ngbTabContent>
-      <div class="full-height">
-        <pf-structure-grid [filters]="jobDetailsFilters"></pf-structure-grid>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab [title]="'Projects'">
-    <ng-template ngbTabContent>
-      <div class="full-height">
-        <pf-project-details [filters]="jobDetailsFilters"></pf-project-details>
-      </div>
-    </ng-template>
-  </ngb-tab>
-</ngb-tabset>
+

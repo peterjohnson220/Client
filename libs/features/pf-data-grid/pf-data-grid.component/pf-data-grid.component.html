@@ -4,14 +4,18 @@
   </ng-container>
   <ng-container page-actions>
     <pf-action-bar
-      [pageViewId]="pageViewId" class="flex-fill"
+      class="flex-fill"
+      [ngClass]="actionBarClassName != null ? actionBarClassName : ''"
+      [pageViewId]="pageViewId"
       [showColumnChooser]="showColumnChooser"
       [showFilterChooser]="showFilterChooser"
       [allowExport]="allowExport"
+      [globalFilters]= "globalFilterableFields"
       [globalFilterAlignment]="showTitle?'Right':'Left'"
       [globalActionsTemplate]="gridGlobalActionsTemplate"
       [globalFiltersTemplate]="gridGlobalFiltersTemplate"
-      (onFilterSidebarToggle)="toggleFilterPanel()">
+      (onFilterSidebarToggle)="toggleFilterPanel()"
+      [showActionBar]="showActionBar">
     </pf-action-bar>
   </ng-container>
   <ng-container page-content>
@@ -49,7 +53,10 @@
                     [noRecordsFound]="noRecordsFound"
                     [selectedRecordId]="selectedRecordId"
                     [compactGrid]="compactGrid"
-                    [backgroundColor]="backgroundColor">
+                    [backgroundColor]="backgroundColor"
+		                [allowSort]="allowSort"
+                    [rowActionTemplate]="rowActionTemplate"
+                    [customHeaderClass]="headerClassName">
                   </pf-grid>
                 </div>
               </div>
@@ -65,6 +72,7 @@
         <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3 border border-top-1">
           <pf-filter-panel
             [fields]="filterableFields$ | async"
+            [filterTemplates]="filterPanelTemplate"
             (close)="closeFilterPanel()"
             (filterChanged)="handleFilterChanged($event)"
             (filterCleared)="clearFilter($event)"

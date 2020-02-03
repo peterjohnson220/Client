@@ -20,16 +20,19 @@ export interface DataGridState {
   splitViewFilters: PfDataGridFilter[];
   filterPanelOpen: boolean;
   pagingOptions: PagingOptions;
+  applyDefaultFilters: boolean;
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
   data: GridDataResult;
   selectedRecordId: number;
-  // This array does not control which Rows are expanded, that's controlled by the kendo grid
-  // We need the array to track which rows have been expanded to se can trigger a collapse on row click by the user
+  // The Kendo grid does not provide api access to know which rows are expanded
+  // We need to keep track of the expandedRows separately from the Kendo Grid to in order to trigger collapse of a row by clicking on it
   expandedRows: number[];
   saveViewModalOpen: boolean;
   savedViews: SimpleDataView[];
   viewIsSaving: boolean;
+  viewIsDeleting: boolean;
+  viewNameToBeDeleted: string;
   selectedKeys: number[];
   selectAllState: string;
 }
@@ -63,6 +66,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             expandedRows: [],
             selectAllState: 'unchecked',
             data: null,
+            applyDefaultFilters: true
           }
         }
       };
@@ -73,7 +77,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: updateFieldsWithFilters(action.payload.Fields, action.payload.Filters, state.grids[action.pageViewId].inboundFilters),
+            fields: updateFieldsWithFilters(action.payload.Fields, state.grids[action.pageViewId].inboundFilters),
             groupedFields: buildGroupedFields(resetFilters(action.payload.Fields)),
             baseEntity: action.payload.Entity,
             loading: false
@@ -158,6 +162,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           },
         }
       };
+    case fromPfGridActions.UPDATE_APPLY_DEFAULT_FILTERS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            applyDefaultFilters: action.value,
+          },
+        }
+      };
     case fromPfGridActions.UPDATE_INBOUND_FILTERS:
       return {
         ...state,
@@ -166,7 +181,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             inboundFilters: action.payload,
-            fields: applyInboundFilters(state.grids[action.pageViewId].fields, action.payload),
+            fields: applyInboundFilters(resetAllFilters(state, action.pageViewId), action.payload),
             expandedRows: []
           }
         }
@@ -208,7 +223,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
-    case fromPfGridActions.CLEAR_ALL_FILTERS:
+    case fromPfGridActions.CLEAR_ALL_NON_GLOBAL_FILTERS:
       return {
         ...state,
         grids: {
@@ -216,6 +231,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             fields: resetFiltersForFilterableFields(state, action.pageViewId)
+          }
+        }
+      };
+    case fromPfGridActions.CLEAR_ALL_FILTERS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fields: resetAllFilters(state, action.pageViewId)
           }
         }
       };
@@ -418,6 +444,52 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.DELETE_SAVED_VIEW:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            viewIsDeleting: true
+          }
+        }
+      };
+    case fromPfGridActions.DELETE_SAVED_VIEW_SUCCESS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            viewIsDeleting: false,
+            viewNameToBeDeleted: null
+          }
+        }
+      };
+    case fromPfGridActions.PREPARE_VIEW_FOR_DELETE:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            viewNameToBeDeleted: action.viewName
+          }
+        }
+      };
+    case fromPfGridActions.CANCEL_VIEW_DELETE:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            viewNameToBeDeleted: null,
+            viewIsDeleting: false
+          }
+        }
+      };
     default:
       return state;
   }
@@ -428,9 +500,10 @@ export const getState = (state: DataGridStoreState) => state;
 export const getGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId];
 export const getLoading = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].loading : null;
 export const getBaseEntity = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntity : null;
-export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].fields
-  ? state.grids[pageViewId].fields // .filter(f => !f.IsGlobalFilter)
-  : null;
+export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
+  ? state.grids[pageViewId].fields : null;
+export const getSelectableFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].fields
+  ? state.grids[pageViewId].fields.filter(f => f.IsSelectable) : null;
 export const getGroupedFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].groupedFields : null;
 export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] && state.grids[pageViewId].fields ? state.grids[pageViewId].fields.filter(f => f.IsGlobalFilter) : null;
@@ -448,6 +521,9 @@ export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: 
 };
 export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].sortDescriptor : null;
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
+export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
+};
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
 export const getSelectedRecordId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRecordId : null;
@@ -460,6 +536,8 @@ export const getSaveViewModalOpen = (state: DataGridStoreState, pageViewId: stri
 export const getViewIsSaving = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsSaving;
 export const getSelectedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedKeys : null;
 export const getSelectAllState = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].selectAllState;
+export const getViewIsDeleting = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsDeleting;
+export const getViewNameToBeDeleted = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewNameToBeDeleted;
 
 export function buildGroupedFields(fields: ViewField[]): any[] {
   const groups = groupBy(fields, [{ field: 'Group' }]);
@@ -512,6 +590,19 @@ export function resetFiltersForFilterableFields(state: DataGridStoreState, pageV
   return fields;
 }
 
+function resetAllFilters(state: DataGridStoreState, pageViewId: string): ViewField[] {
+  const fields: ViewField[] = cloneDeep(getFields(state, pageViewId));
+  if(!fields) {
+    return;
+  }
+
+  fields.forEach(field => {
+    field.FilterValue = null;
+    field.FilterOperator = getDefaultFilterOperator(field);
+  });
+  return fields;
+}
+
 function resetOperatorsForEmptyFilters(state: DataGridStoreState, pageViewId: string): ViewField[] {
 
   const fields: ViewField[] = cloneDeep(getFields(state, pageViewId));
@@ -528,14 +619,13 @@ function resetOperatorsForEmptyFilters(state: DataGridStoreState, pageViewId: st
   return fields;
 }
 
-export function updateFieldsWithFilters(fields: ViewField[], filters: DataViewFilter[], inboundFilters: PfDataGridFilter[]): ViewField[] {
+export function updateFieldsWithFilters(fields: ViewField[], inboundFilters: PfDataGridFilter[]): ViewField[] {
 
   let updatedFields = resetFilters(fields);
-
-  filters.forEach(filter => {
+  fields.filter(f => f.FilterValue !== null && f.FilterOperator).forEach(filter => {
     const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.EntitySourceName === filter.EntitySourceName);
-    fieldToUpdate.FilterOperator = filter.Operator;
-    fieldToUpdate.FilterValue = filter.Values[0];
+    fieldToUpdate.FilterOperator = filter.FilterOperator;
+    fieldToUpdate.FilterValue = filter.FilterValue;
   });
 
   updatedFields = applyInboundFilters(updatedFields, inboundFilters);
@@ -571,13 +661,12 @@ export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
   return views.map(view => ({
     Name: view.Name,
     Description: view.Fields
-      .filter(field => view.Filters.find(filter => filter.SourceName === field.SourceName))
+      .filter(field => field.FilterOperator && field.FilterValue !== null && !field.IsGlobalFilter)
       .map(field => {
-        const curfilter = view.Filters.find(filter => filter.SourceName === field.SourceName);
         return ({
           ...field,
-          FilterValue: curfilter ? curfilter.Values[0] : null,
-          FilterOperator: curfilter ? curfilter.Operator : null
+          FilterValue: field.FilterValue,
+          FilterOperator: field.FilterOperator
         });
       })
       .map(field => getHumanizedFilter(field))

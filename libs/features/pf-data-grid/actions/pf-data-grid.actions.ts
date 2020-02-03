@@ -13,9 +13,11 @@ export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
 export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
 export const UPDATE_DEFAULT_SORT_DESCRIPTOR = '[PfDataGrid] Update Default Sort Descriptor';
 export const UPDATE_SORT_DESCRIPTOR = '[PfDataGrid] Update Sort Descriptor';
+export const UPDATE_APPLY_DEFAULT_FILTERS = '[PfDataGrid] Update Apply Default Filters';
 export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
+export const CLEAR_ALL_NON_GLOBAL_FILTERS = '[PfDataGrid] Clear All Non Global Filters';
 export const CLEAR_ALL_FILTERS = '[PfDataGrid] Clear All Filters';
 export const TOGGLE_FILTER_PANEL = '[PfDataGrid] Toggle Filter Panel';
 export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
@@ -37,6 +39,10 @@ export const UPDATE_SELECTED_KEY =  '[PfDataGrid] Update selected key';
 export const SELECT_ALL =  '[PfDataGrid] Select All';
 export const HANDLE_SAVED_VIEW_CLICKED = '[PfDataGrid] Handle Saved View Clicked';
 export const CLOSE_SPLIT_VIEW = '[PfDataGrid] Close Split View';
+export const DELETE_SAVED_VIEW = '[PfDataGrid] Delete Saved View';
+export const DELETE_SAVED_VIEW_SUCCESS = '[PfDataGrid] Delete Saved View Success';
+export const PREPARE_VIEW_FOR_DELETE = '[PfDataGrid] Prepare View for Delete';
+export const CANCEL_VIEW_DELETE = '[PfDataGrid] Cancel View Delete';
 
 export class LoadViewConfig implements Action {
     readonly type = LOAD_VIEW_CONFIG;
@@ -61,6 +67,11 @@ export class UpdateDefaultSortDescriptor implements Action {
 export class UpdateSortDescriptor implements Action {
   readonly type = UPDATE_SORT_DESCRIPTOR;
   constructor(public pageViewId: string, public sortDescriptor: SortDescriptor[]) { }
+}
+
+export class UpdateApplyDefaultFilters implements Action {
+  readonly type = UPDATE_APPLY_DEFAULT_FILTERS;
+  constructor(public pageViewId: string, public value: boolean) { }
 }
 
 export class LoadData implements Action {
@@ -96,6 +107,11 @@ export class UpdateFilter implements Action {
 export class ClearFilter implements Action {
   readonly type = CLEAR_FILTER;
   constructor(public pageViewId: string, public field: ViewField, public resetOperator = false) { }
+}
+
+export class ClearAllNonGlobalFilters implements Action {
+  readonly type = CLEAR_ALL_NON_GLOBAL_FILTERS;
+  constructor(public pageViewId: string) {}
 }
 
 export class ClearAllFilters implements Action {
@@ -203,12 +219,33 @@ export class CloseSplitView implements Action {
   constructor(public pageViewId: string) { }
 }
 
+export class DeleteSavedView implements Action {
+  readonly type = DELETE_SAVED_VIEW;
+  constructor(public pageViewId: string, public viewName: string) { }
+}
+
+export class DeleteSavedViewSuccess implements Action {
+  readonly type = DELETE_SAVED_VIEW_SUCCESS;
+  constructor(public pageViewId: string) { }
+}
+
+export class PrepareViewForDelete implements Action {
+  readonly type = PREPARE_VIEW_FOR_DELETE;
+  constructor(public pageViewId: string, public viewName: string) { }
+}
+
+export class CancelViewDelete implements Action {
+  readonly type = CANCEL_VIEW_DELETE;
+  constructor(public pageViewId: string) { }
+}
+
 export type DataGridActions =
     | LoadViewConfig
     | LoadViewConfigSuccess
     | UpdatePagingOptions
     | UpdateDefaultSortDescriptor
     | UpdateSortDescriptor
+    | UpdateApplyDefaultFilters
     | LoadData
     | LoadDataSuccess
     | UpdateFields
@@ -216,6 +253,7 @@ export type DataGridActions =
     | UpdateInboundFilters
     | UpdateFilter
     | ClearFilter
+    | ClearAllNonGlobalFilters
     | ClearAllFilters
     | ToggleFilterPanel
     | SetFilterPanelDisplay
@@ -235,4 +273,8 @@ export type DataGridActions =
     | CloseSaveViewModal
     | SelectAll
     | HandleSavedViewClicked
-    | CloseSplitView;
+    | CloseSplitView
+    | DeleteSavedView
+    | DeleteSavedViewSuccess
+    | PrepareViewForDelete
+    | CancelViewDelete;

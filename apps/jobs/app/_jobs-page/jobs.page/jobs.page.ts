@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -15,6 +15,8 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
 
+import * as cloneDeep from 'lodash.clonedeep';
+
 @Component({
   selector: 'pf-jobs-page',
   templateUrl: './jobs.page.html'
@@ -24,17 +26,32 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   permissions = Permissions;
   pageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
   selectedKeys: number[];
-  titleCodeSearchField: ViewField;
+  peerField: ViewField;
+  peerFilterOptions = [{
+      display: '',
+      value: null
+    }, {
+      display: 'Yes',
+      value: 'Yes'
+    }, {
+      display: 'No',
+      value: 'No'
+    }];
 
   selectedKeysSubscription: Subscription;
-  globalFilterSubscription: Subscription;
+  gridFieldSubscription: Subscription;
 
   company$: Observable<string>;
   addingToProject$: Observable<boolean>;
 
+  addingNewJob = false;
+
   colTemplates = {};
+  filterTemplates = {};
 
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
+  @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
+  @ViewChild('peerFilter', {static: false}) peerFilter: ElementRef;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -47,20 +64,26 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedKeysSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedKeys = sk;
     });
-    this.globalFilterSubscription = this.store.select(fromPfGridReducer.getGlobalFilters, this.pageViewId).subscribe(gf => {
-      if (gf) {
-        this.titleCodeSearchField = gf.find(f => f.SourceName === 'JobTitleCode');
+    this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
+      if (fields) {
+        this.peerField = fields.find(f => f.SourceName === 'Exchange_ID');
       }
     });
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));
     this.store.dispatch(new fromJobsPageActions.LoadCompany());
   }
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'JobStatus': { Template: this.jobStatusColumn }
+      'JobStatus': { Template: this.jobStatusColumn },
+      'Exchange_ID': {Template: this.hasPeerDataColumn}
+    };
+
+    this.filterTemplates = {
+      'Peer': { Template: this.peerFilter }
     };
   }
 
@@ -74,27 +97,24 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.selectedKeysSubscription.unsubscribe();
-    this.globalFilterSubscription.unsubscribe();
+    this.gridFieldSubscription.unsubscribe();
   }
-
-  handleTitleCodeSearch(value: string) {
-    this.closeSplitView();
-    if (value.length) {
-      this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, this.buildTitleCodeFilter(value)));
-    } else {
-      this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, this.buildTitleCodeFilter('')));
-    }
-  }
-
   closeSplitView() {
     this.store.dispatch(new fromPfGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
   }
 
-  buildTitleCodeFilter(value: string): ViewField {
-    return {
-      ...this.titleCodeSearchField,
-      FilterOperator: 'contains',
-      FilterValue: value
-    };
+  handlePeerFilterChanged(value: any) {
+    const field = cloneDeep(this.peerField);
+    field.FilterValue = value;
+
+    if (field.FilterValue) {
+      this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, field));
+    } else {
+      this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
+    }
+  }
+
+  splitViewTabChange(tabPageViewId: string) {
+    this.store.dispatch(new fromPfGridActions.ClearAllFilters(tabPageViewId));
   }
 }
