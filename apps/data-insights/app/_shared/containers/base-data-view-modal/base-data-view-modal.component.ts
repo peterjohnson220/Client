@@ -1,5 +1,4 @@
 import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
-
 import { FormGroup } from '@angular/forms';
 
 import { Entity } from '../../models';

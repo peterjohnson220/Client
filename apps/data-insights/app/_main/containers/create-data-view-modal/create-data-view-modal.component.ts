@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder } from '@angular/forms';
 
 import { AbstractBaseDataViewModal } from '../../../_shared/containers';
 import { BaseDataView } from '../../../_shared/models';
