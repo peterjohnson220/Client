@@ -68,7 +68,8 @@ export class FormulasComponent implements OnInit, OnDestroy {
       FieldName: '',
       Formula: '',
       IsEditable: true,
-      DuplicateAllowed: false
+      DuplicateAllowed: false,
+      IsPublic: false
     };
     this.formulaFieldModal.open();
   }
@@ -81,7 +82,8 @@ export class FormulasComponent implements OnInit, OnDestroy {
       IsEditable: field.IsEditable,
       FormulaId: field.FormulaId,
       DuplicateAllowed: this.dataViewAccessLevel !== DataViewAccessLevel.ReadOnly,
-      DataType: field.DataType
+      DataType: field.DataType,
+      IsPublic: field.IsPublic
     };
     this.formulaFieldModal.open();
   }

@@ -4,4 +4,5 @@ export interface UpsertFormulaFieldRequest {
   FormulaId?: number;
   BaseEntityId: number;
   DataType: string;
+  IsPublic: boolean;
 }

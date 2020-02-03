@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Field } from '../../models';
+import { DataViewAccessLevel, Field } from '../../models';
 
 @Component({
   selector: 'pf-user-formula-card',
@@ -20,5 +20,9 @@ export class FormulaCardComponent {
 
   handleDeleteFormulaClick(field: Field): void {
     this.deleteClicked.emit(field);
+  }
+
+  public get canDelete(): boolean {
+    return this.field && this.field.AccessLevel === DataViewAccessLevel.Owner;
   }
 }

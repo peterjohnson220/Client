@@ -24,6 +24,23 @@
           Field name must be no longer than {{maxFieldNameLength}} characters.
         </div>
       </div>
+      <div class="form-group">
+        <div class="public-private-switch">
+          <span
+            [ngbPopover]="publicSwitchContent"
+            container="body"
+            placement="right"
+            triggers="mouseenter:mouseleave"
+            popoverTitle="Public vs Private">
+            <kendo-switch
+              formControlName="isPublic"
+              class="k-switch-lg"
+              onLabel="Public"
+              offLabel="Private">
+          </kendo-switch>
+          </span>
+        </div>
+      </div>
 
       <div class="form-group">
         <pf-formula-editor
@@ -66,5 +83,8 @@
   </div>
   <ng-template #popContent>
     You are changing the field type. If you save your changes, it will remove your filters on the formula field.
+  </ng-template>
+  <ng-template #publicSwitchContent>
+    Private formulas can only be viewed by you. Public formulas will be available to all users at your company.
   </ng-template>
 </ng-template>

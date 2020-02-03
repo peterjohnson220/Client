@@ -8,4 +8,5 @@ export interface FormulaFieldModalObj {
   IsEditable?: boolean;
   DuplicateAllowed?: boolean;
   DataType?: FieldDataType;
+  IsPublic: boolean;
 }

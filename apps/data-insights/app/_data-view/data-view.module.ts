@@ -9,6 +9,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { DragulaModule } from 'ng2-dragula';
 import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
@@ -62,6 +63,7 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
     NgbTooltipModule,
     NgbCollapseModule,
     PerfectScrollbarModule,
+    SwitchModule,
 
     // Routing
     DataViewRoutingModule,

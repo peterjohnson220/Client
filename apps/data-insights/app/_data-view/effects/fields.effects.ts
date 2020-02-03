@@ -119,7 +119,6 @@ export class FieldsEffects {
       ofType(fromFormulaFieldModalActions.CREATE_FORMULA_FIELD_SUCCESS),
       map((action: fromFormulaFieldModalActions.CreateFormulaFieldSuccess) => {
         const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(action.payload);
-        field.IsEditable = true;
         return new fromFieldsActions.AddNewFormulaField(field);
       })
     );

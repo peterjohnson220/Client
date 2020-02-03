@@ -1,3 +1,5 @@
+import { DataViewAccessLevel } from './user-data-view.model';
+
 export interface Field {
   EntityId: number;
   Entity: string;
@@ -19,6 +21,8 @@ export interface Field {
   FormulaName?: string;
   SortOrder?: number;
   SortDirection?: 'asc' | 'desc';
+  IsPublic?: boolean;
+  AccessLevel: DataViewAccessLevel;
 }
 
 export interface FieldListItem {
@@ -57,6 +61,7 @@ export function generateMockField(): Field {
     IsSortable: true,
     FieldType: FieldType.DataElement,
     Format: 'N1',
-    FormulaName: 'Formula Name'
+    FormulaName: 'Formula Name',
+    AccessLevel: DataViewAccessLevel.Owner
   };
 }
