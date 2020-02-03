@@ -22,6 +22,7 @@ import * as fromFaIcons from './fa-icons';
 import {
   JobDescriptionAppliesToModalComponent,
   JobDescriptionInfoHeaderNoLogoComponent,
+  ListAreaFilterBooleanComponent,
   ListAreaFilterDateComponent,
   ListAreaFilterNumberComponent,
   ListAreaFilterPillsComponent,
@@ -114,6 +115,7 @@ import { PeditorAutoFocusFixDirective } from './directives';
   ],
   declarations: [
     // Components
+    ListAreaFilterBooleanComponent,
     ListAreaFilterDateComponent,
     ListAreaFilterNumberComponent,
     ListAreaFilterPillsComponent,

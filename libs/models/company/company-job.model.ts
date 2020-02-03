@@ -6,6 +6,7 @@ export interface CompanyJob {
     JobFamily: string;
     JobDescription: string;
     CompanyJobDescriptionTemplateId: number;
+    PublicView: any;
 }
 
 export function generateMockCompanyJob(): CompanyJob {
@@ -16,6 +17,7 @@ export function generateMockCompanyJob(): CompanyJob {
     JobLevel: 'MockJobLevel',
     JobFamily: 'MockJobFamily',
     JobDescription: 'MockJobDescription',
-    CompanyJobDescriptionTemplateId: 1
+    CompanyJobDescriptionTemplateId: 1,
+    PublicView: true
   };
 }

@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { MomentModule } from 'angular2-moment';
-import { NgbDropdownModule, NgbPopoverModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnResizingService, FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -130,14 +130,12 @@ import { ListAreaService } from '../shared/services';
     ReactiveFormsModule,
     FormsModule,
     DropDownsModule,
-    NgbPopoverModule,
+    NgbModule,
     GridModule,
-    NgbDropdownModule,
     FilterMenuModule,
     SharedModule,
     FontAwesomeModule,
     PfJobDescriptionManagementModule,
-    NgbTabsetModule,
     MomentModule,
   ],
   declarations: [

@@ -245,4 +245,8 @@ export class JobDescriptionApiService {
   bulkExport(jdmExportPayload: JobDescriptionBulkExportPayload) {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.BulkExportNew`, { jdmExportPayload: JSON.stringify(jdmExportPayload) });
   }
+
+  updatePublicView(companyId: number, jobDescriptionId: number, publicView: boolean): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.UpdatePublicView`, {companyId, jobDescriptionId, publicView});
+  }
 }

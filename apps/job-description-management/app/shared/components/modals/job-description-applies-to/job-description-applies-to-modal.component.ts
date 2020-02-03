@@ -3,7 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { TemplateListItem } from 'libs/models/jdm';
@@ -15,61 +15,54 @@ import * as fromJobDescriptionAppliesToActions from '../../../actions/job-descri
 import * as fromJobDescriptionAppliesToReducers from '../../../reducers';
 import { JobDescriptionAppliesToItem } from '../../../models/job-description-appliesto-item.model';
 import { AppliesToAttributesExist } from '../../../models/applies-to-attributes-exist.model';
+import { Permissions } from 'libs/constants';
 
 @Component({
   selector: 'pf-job-description-applies-to-modal',
   templateUrl: './job-description-applies-to-modal.component.html'
 })
 export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy {
+  @Input() editing: boolean;
+  @Input() selectedCompanyJob: CompanyJobViewListItem;
+  @Output() appliesToUpdated = new EventEmitter();
   @ViewChild('jobDescriptionAppliesToModal', { static: true }) public jobDescriptionAppliesToModal: any;
 
-  @Input() selectedCompanyJob: CompanyJobViewListItem;
-  @Input() editing: boolean;
-
-  @Output() appliesToUpdated = new EventEmitter();
-
-  private appliesToform: FormGroup;
-
-  private jobDescriptionAppliesToItems$: Observable<JobDescriptionAppliesToItem[]>;
-  private templateListItems$: Observable<TemplateListItem[]>;
-  private jobDescriptionAppliesToItemsLoading$: Observable<boolean>;
-  private jobDescriptionAppliesToValues$: Observable<string[]>;
-  private jobDescriptionAppliesToValuesLoading$: Observable<boolean>;
-  private appliesToAttributesExist$: Observable<AppliesToAttributesExist>;
-
-  private appliesToField: string;
-  private appliesToValue: string;
-  private jobDescriptionTitle: string;
-  private appliesTo: JobDescriptionAppliesTo;
-  private jobDescriptionTitleExists: boolean;
-  private appliesToValueInvalid: boolean;
-  private requiredFieldsFilledIn = true;
-  private requiredAppliesToValueFilledIn: boolean;
-  private requiredAppliesToFieldFilledIn: boolean;
-  private canRemoveValues: boolean;
-  private appliesToExists: boolean;
-  private jobDescriptionId: number;
-  private companyJobId: number;
-  private loading = false;
-  private loadingFailed = false;
-  private searchColumnName: string;
-  private templateId = -1;
-
-  private appliesToAttributesExistSubscription: Subscription;
-
-  public source: string[];
+  public appliesTo: JobDescriptionAppliesTo;
+  public appliesToExists: boolean;
+  public appliesToField: string;
+  public appliesToform: FormGroup;
+  public appliesToValue: string;
+  public appliesToValueInvalid: boolean;
   public data: string[];
+  public jobDescriptionAppliesToItems$: Observable<JobDescriptionAppliesToItem[]>;
+  public jobDescriptionAppliesToItemsLoading$: Observable<boolean>;
+  public jobDescriptionAppliesToValuesLoading$: Observable<boolean>;
+  public jobDescriptionTitle: string;
+  public jobDescriptionTitleExists: boolean;
+  public loading = false;
+  public loadingFailed = false;
+  public permissions = Permissions;
+  public publicViewSelectedComboValue = true;
+  public requiredFieldsFilledIn = true;
+  public source: string[];
+  public templateId = -1;
+  public templateListItems$: Observable<TemplateListItem[]>;
+
+  private appliesToAttributesExist$: Observable<AppliesToAttributesExist>;
+  private appliesToAttributesExistSubscription: Subscription;
+  private canRemoveValues: boolean;
+  private companyJobId: number;
+  private jobDescriptionAppliesToValues$: Observable<string[]>;
+  private jobDescriptionId: number;
+  private modalRef: NgbModalRef;
+  private requiredAppliesToFieldFilledIn: boolean;
+  private requiredAppliesToValueFilledIn: boolean;
+  private searchColumnName: string;
 
   constructor(
-    // private jobDescriptionService: JobDescriptionService,
-    // private store: Store<JobDescriptionsState>,
-    // private templateStore: Store<TemplatesState>,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private store: Store<fromJobDescriptionAppliesToReducers.State>
-    // private jobDescriptionApiService: JobDescriptionApiService,
-    // private templateService: TemplateService
-
   ) {
     this.templateListItems$ = this.store.select(fromJobDescriptionAppliesToReducers.getTemplateList);
     this.jobDescriptionAppliesToItems$ = this.store.select(
@@ -101,7 +94,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
     this.store.dispatch(new fromTemplateListActions.LoadTemplateList({ publishedOnly: true }));
 
     this.templateId = -1;
-    this.modalService.open(this.jobDescriptionAppliesToModal, { backdrop: 'static' });
+    this.modalRef = this.modalService.open(this.jobDescriptionAppliesToModal, { backdrop: 'static', size: 'lg' });
   }
 
 
@@ -114,13 +107,15 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
       this.appliesToform.setValue({
         appliesToField: appliesTo.AppliesToField ? appliesTo.AppliesToField : '',
         appliesToValue: appliesTo.AppliesToValue ? appliesTo.AppliesToValue : '',
-        jobDescriptionTitle: appliesTo.JobDescriptionTitle ? appliesTo.JobDescriptionTitle : ''
+        jobDescriptionTitle: appliesTo.JobDescriptionTitle ? appliesTo.JobDescriptionTitle : '',
+        publicView: appliesTo.PublicView
       });
     } else {
       this.appliesToform.setValue({
         appliesToField: '',
         appliesToValue: '',
-        jobDescriptionTitle: ''
+        jobDescriptionTitle: '',
+        publicView: this.publicViewSelectedComboValue
       });
     }
   }
@@ -137,6 +132,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
       appliesTo.JobDescriptionTitle = this.appliesToform.controls['jobDescriptionTitle'].value
         ? this.appliesToform.controls['jobDescriptionTitle'].value
         : '';
+      appliesTo.PublicView = this.publicViewSelectedComboValue;
 
       const request = {
         JobDescriptionId: this.jobDescriptionId,
@@ -144,7 +140,8 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
           JobDescriptionAppliesTo: {
             JobDescriptionTitle: appliesTo.JobDescriptionTitle,
             AppliesToField: appliesTo.AppliesToField,
-            AppliesToValue: appliesTo.AppliesToValue
+            AppliesToValue: appliesTo.AppliesToValue,
+            PublicView: appliesTo.PublicView
           },
           Editing: this.editing
         }
@@ -159,8 +156,8 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
     this.appliesToform = this.formBuilder.group({
       jobDescriptionTitle: ['', Validators.maxLength(255)],
       appliesToField: ['', Validators.maxLength(50)],
-      appliesToValue: ['', Validators.maxLength(255)]
-
+      appliesToValue: ['', Validators.maxLength(255)],
+      publicView: true
     });
   }
 

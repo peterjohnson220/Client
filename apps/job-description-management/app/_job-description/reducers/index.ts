@@ -387,11 +387,6 @@ export const getBulkExportError = createSelector(
   fromBulkExportPopoverReducer.getBulkExportError
 );
 
-export const getListAreaColumnsToUpdate = createSelector(
-  selectJobDescriptionGridState,
-  fromJobDescriptionGridReducer.getListAreaColumnsToUpdate
-);
-
 export const getSearchTerm = createSelector(
   selectJobDescriptionGridState,
   fromJobDescriptionGridReducer.getSearchTerm
