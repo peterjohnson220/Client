@@ -108,7 +108,7 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
       this.pageNumberCheck.setValue(payload.PageNumberField);
       this.customTextCheck.setValue(payload.CustomTextField);
       this.customTextValue.setValue(payload.CustomTextValueField);
-      this.placeholderText = payload.CustomTextValueField === '' ? 'Custom Text, Limit 40 Characters' : '';
+      this.placeholderText = payload.CustomTextValueField === '' ? 'Custom Text, Limit 250 Characters' : '';
     }
   }
 
