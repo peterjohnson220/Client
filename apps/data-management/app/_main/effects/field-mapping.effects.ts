@@ -143,6 +143,10 @@ export class FieldMappingEffects {
     }),
     mergeMap(obj => {
       const mappingPackage = PayfactorsApiModelMapper.createMappingPackage(obj.payfactorsFields);
+      // TODO: Stop gap for sales demo. Remove for MVP
+      if (mappingPackage.MappingPayload.Items.length === 0) {
+        return [new fromFieldMappingActions.SaveMappingSuccess()];
+      }
       return this.mappingsHrisApiService.saveMappingFields(obj.userContext, mappingPackage)
         .pipe(
           map((response: any) => {
