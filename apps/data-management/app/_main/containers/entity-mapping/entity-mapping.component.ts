@@ -46,7 +46,7 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     this.providerFieldsSubscription = this.providerFields$
     .subscribe(v => {
       if (v) {
-        this.providerFields = orderBy(v[this.entityType], ['FieldName'], ['asc']);
+        this.providerFields = orderBy(v[this.entityType], [field => field.FieldName.toLocaleLowerCase()], ['asc']);
         this.filteredProviderFields = this.providerFields.filter( pf =>
           pf.FieldName.toLocaleLowerCase().includes(this.providerSearchTerm) && !pf.HasAssociation
         );
@@ -56,7 +56,14 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     this.payfactorFieldsSubscription = this.payfactorFields$
     .subscribe(v => {
       if (v) {
-        this.payfactorsFields = orderBy(v[this.entityType], ['IsRequired', 'FieldName'], ['desc', 'asc']);
+        this.payfactorsFields = orderBy(
+          v[this.entityType],
+          [
+            firstSortField => firstSortField.IsRequired,
+            secondSortField => secondSortField.FieldName.toLocaleLowerCase()
+          ],
+          ['desc', 'asc']
+        );
         this.filteredPayfactorsFields = this.payfactorsFields.filter( pf =>
           pf.FieldName.toLocaleLowerCase().includes(this.payfactorsSearchTerm.toLocaleLowerCase())
         );
