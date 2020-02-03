@@ -27,6 +27,12 @@ export class PfValidators {
     };
   }
 
+  static maxLengthTrimWhitespace(length: number): ValidatorFn {
+    return (control: FormControl) => {
+      return (control.value && control.value.trim().length >= length) ? {'maxLengthTrimmed': true} : null;
+    };
+  }
+
   static isNotNumeric(control: FormControl): ValidationResult {
     if (isNaN(control.value)) {
         return {'isNotNumeric': true};

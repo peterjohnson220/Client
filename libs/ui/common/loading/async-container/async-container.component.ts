@@ -16,6 +16,7 @@ export class AsyncContainerComponent implements OnChanges {
   @Input() hideReloadButton: boolean;
   @Input() noOpactity: boolean;
   @Input() spinnerType = 'SVG';
+  @Input() showSpinner = true;
   @Input() opacityLevel = 0.8;
 
   @Output() reload = new EventEmitter();

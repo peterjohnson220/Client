@@ -26,3 +26,47 @@
 #filter-popover-btn {
   border-color: #ccc;
 }
+
+.popover-body-content {
+  overflow-x: hidden;
+}
+
+.delete-filter-btns {
+  width: 100%;
+  text-align: right;
+}
+
+.delete-filter-btns .btn{
+  margin-left: 0.5em !important;
+}
+
+.footer{
+  border-top: 1px solid #CCC;
+  background: #f7f7f7
+}
+.footer .alert {
+  text-align: center;
+}
+
+.list-group-item-danger span {
+  color: #a94442;
+}
+
+.list-group .list-group-item:not(.disabled):not(.list-group-item-danger) {
+  cursor: pointer;
+}
+.list-group .list-group-item {
+  min-height: fit-content;
+  border-width: 1px 0 1px 0;
+}
+.list-group .list-group-item:first-child {
+  border-top: none;
+}
+.list-group .list-group-item-danger {
+  cursor: not-allowed;
+}
+
+.btn-secondary.disabled, .btn-secondary:disabled {
+  background-color: #fff;
+  border-color: #ccc;
+}

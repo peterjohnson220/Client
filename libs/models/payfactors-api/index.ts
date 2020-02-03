@@ -13,3 +13,4 @@ export * from './job-description-template';
 export * from './survey';
 export * from './reports';
 export * from './user';
+export * from './pricings';

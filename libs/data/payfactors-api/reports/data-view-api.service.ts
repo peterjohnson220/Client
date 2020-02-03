@@ -129,4 +129,12 @@ export class DataViewApiService {
   upsertFormulaField(request: UpsertFormulaFieldRequest): Observable<DataViewField> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpsertFormulaField`, request);
   }
+
+  deleteView(pageViewId: string, viewName: string) {
+    const request = {
+      PageViewId: pageViewId,
+      ViewName: viewName
+    };
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteView`, request);
+  }
 }

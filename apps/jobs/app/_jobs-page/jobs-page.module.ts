@@ -2,8 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import {NgbTooltipModule, NgbDropdownModule, NgbTabsetModule,} from '@ng-bootstrap/ng-bootstrap';
+import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
+
+import { NgbTooltipModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import * as fromFaIcons from './fa-icons';
@@ -16,6 +19,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
+import { JobManagementModule } from 'libs/features/job-management/job-management.module';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
@@ -27,11 +31,13 @@ import {
   JobDescriptionComponent,
   StructureGridComponent,
   PricingMatchesGridComponent,
-  ProjectDetailsComponent
+  ProjectDetailsComponent,
+  PricingHistoryComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
 import { PricingMatchesJobTitleComponent } from './grid-column-templates';
+
 
 @NgModule({
   imports: [
@@ -41,6 +47,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
 
     // 3rd Party
     LayoutModule,
+    SwitchModule,
     NgbTooltipModule,
     StoreModule.forFeature('jobsPageMain', reducers),
     EffectsModule.forFeature([
@@ -49,6 +56,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
+    DropDownListModule,
 
     // Routing
     JobsPageRoutingModule,
@@ -57,7 +65,8 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfDataGridModule
+    PfDataGridModule,
+    JobManagementModule
   ],
   declarations: [
     // Pages
@@ -71,6 +80,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     JobDescriptionComponent,
     StructureGridComponent,
     ProjectDetailsComponent,
+    PricingHistoryComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent

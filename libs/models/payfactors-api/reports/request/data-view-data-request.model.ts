@@ -7,6 +7,7 @@ export interface DataViewDataRequest {
   PagingOptions: PagingOptions;
   SortDescriptor?: DataViewSortDescriptor;
   WithCount: boolean;
+  ApplyDefaultFilters?: boolean;
 }
 
 export interface DataViewField {

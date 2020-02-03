@@ -35,6 +35,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalFiltersTemplate: TemplateRef<any>;
   @Input() customHeaderTemplate: TemplateRef<any>;
+  @Input() rowActionTemplate: TemplateRef<any>;
+  @Input() filterPanelTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
   @Input() defaultSort: SortDescriptor[];
@@ -42,6 +44,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() noRecordsFound: string;
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
+  @Input() applyDefaultFilters: boolean;
+  @Input() allowSort = true;
+  @Input() showActionBar = false;
+  @Input() actionBarClassName: string;
+  @Input() headerClassName: string;
 
 
   splitViewEmitter = new EventEmitter<string>();
@@ -49,13 +56,15 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   baseEntity$: Observable<DataViewEntity>;
   dataFields$: Observable<ViewField[]>;
   filterableFields$: Observable<ViewField[]>;
+  globalFilterableFields$: Observable<ViewField[]>;
   displayFilterPanel$: Observable<boolean>;
   savedViews$: Observable<SimpleDataView[]>;
   saveViewModalOpen$: Observable<boolean>;
   viewIsSaving$: Observable<boolean>;
-
+  globalFilterableFields: ViewField[];
   userFilteredFieldsSubscription: Subscription;
   selectedRecordIdSubscription: Subscription;
+  globalFilterableFieldsSubscription: Subscription;
 
   userFilteredFields: ViewField[];
   selectedRecordId: number;
@@ -81,6 +90,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       this.selectedRecordId = recordId;
     });
 
+    this.globalFilterableFieldsSubscription = this.store.select(fromReducer.getGlobalFilters, this.pageViewId).subscribe(gl => {
+      this.globalFilterableFields = gl;
+    });
+
     this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
     this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
     this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
@@ -95,6 +108,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.splitViewEmitter.unsubscribe();
     this.userFilteredFieldsSubscription.unsubscribe();
     this.selectedRecordIdSubscription.unsubscribe();
+    this.globalFilterableFieldsSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -113,6 +127,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     if (changes['pagingOptions']) {
       this.store.dispatch(new fromActions.UpdatePagingOptions(this.pageViewId, changes['pagingOptions'].currentValue));
+    }
+
+    if (changes['applyDefaultFilters']) {
+      this.store.dispatch(new fromActions.UpdateApplyDefaultFilters(this.pageViewId, changes['applyDefaultFilters'].currentValue));
     }
   }
 
@@ -137,7 +155,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   clearAllFilters() {
-    this.store.dispatch(new fromActions.ClearAllFilters(this.pageViewId));
+    this.store.dispatch(new fromActions.ClearAllNonGlobalFilters(this.pageViewId));
   }
 
   saveFilterClicked() {

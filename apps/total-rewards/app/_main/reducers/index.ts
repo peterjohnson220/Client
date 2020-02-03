@@ -54,7 +54,7 @@ export const getStatementsLoadingError = createSelector(getStatementsFeature, fr
 export const getStatementsSearchTerm = createSelector(getStatementsFeature, fromStatementsReducer.getSearchTerm);
 export const getStatementsTotal = createSelector(getStatementsFeature, fromStatementsReducer.getStatementsTotal);
 export const getStatementsIsCreateNewStatementModalOpen = createSelector(getStatementsFeature, fromStatementsReducer.getIsCreateNewStatementModalOpen);
-export const getStatementsOpenActionMenuStatementId = createSelector(getStatementsFeature, fromStatementsReducer.getOpenActionMenuStatementId)
+export const getStatementsOpenActionMenuStatementId = createSelector(getStatementsFeature, fromStatementsReducer.getOpenActionMenuStatementId);
 
 export const getStatementsGridState = createSelector(getStatementsGrid, fromGridReducer.getGridState);
 export const { selectAll: getStatements } = fromStatementsReducer.adapter.getSelectors(getStatementsFeature);

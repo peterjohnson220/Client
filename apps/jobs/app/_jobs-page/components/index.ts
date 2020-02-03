@@ -5,3 +5,5 @@ export * from './job-description/job-description.component';
 export * from './project-details/project-details.component';
 export * from './pricing-matches-grid/pricing-matches-grid.component';
 export * from './structure-grid/structure-grid.component';
+export * from './pricing-history/pricing-history.component';
+

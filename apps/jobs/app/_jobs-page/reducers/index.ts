@@ -32,18 +32,21 @@ export const selectJobsPageMainState =
 export const selectJobsPageState =
   createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.jobsPage);
 
+export const getCompany = createSelector(selectJobsPageState, fromJobsPageReducer.getCompany);
+export const getJobsPageId = createSelector(selectJobsPageState, fromJobsPageReducer.getJobsPageId);
+export const getCompanyLoading = createSelector(selectJobsPageState, fromJobsPageReducer.getloading);
+export const getCompanyLoadingError = createSelector(selectJobsPageState, fromJobsPageReducer.getloadingError);
+export const getToProjectButtonState = createSelector(selectJobsPageState, fromJobsPageReducer.getToProjectButtonState);
+
 // Job Description Selectors
 export const selectJobDescriptionState =
   createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.jobDescription);
 
-export const getCompany = createSelector(selectJobsPageState, fromJobsPageReducer.getCompany);
-export const getCompanyLoading = createSelector(selectJobsPageState, fromJobsPageReducer.getloading);
-export const getCompanyLoadingError = createSelector(selectJobsPageState, fromJobsPageReducer.getloadingError);
-export const getToProjectButtonState = createSelector(selectJobsPageState, fromJobsPageReducer.getToProjectButtonState);
 export const getJobDescription = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescription);
 export const getJobDescriptionManagementEnabled = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionManagementEnabled);
 export const getJobDescriptionUpdated = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionUpdated);
 export const getSavingState = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getSavingState);
 export const getJobDescriptionLoaded = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionLoaded);
+export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingIdToBeDeleted);
 
 
