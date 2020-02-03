@@ -17,8 +17,6 @@ import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
 
 import * as cloneDeep from 'lodash.clonedeep';
-import {ApiEndpointConstants} from '../constants/api-endpoint.constants';
-
 
 @Component({
   selector: 'pf-jobs-page',
@@ -28,13 +26,12 @@ import {ApiEndpointConstants} from '../constants/api-endpoint.constants';
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredPayMarketOptions: any;
   payMarketOptions: any;
-  apiEndpointConstants = ApiEndpointConstants;
   permissions = Permissions;
   pageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
   selectedKeys: number[];
   peerField: ViewField;
-  paymarketField: ViewField;
-  selectedPaymarket: any;
+  payMarketField: ViewField;
+  selectedPayMarket: any;
   peerFilterOptions = [{
       display: '',
       value: null
@@ -48,10 +45,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectedKeysSubscription: Subscription;
   gridFieldSubscription: Subscription;
-  remoteDataSourceSubscription: Subscription;
+  companyPayMarketsSubscription: Subscription;
   company$: Observable<string>;
   addingToProject$: Observable<boolean>;
-
   addingNewJob = false;
 
   colTemplates = {};
@@ -67,24 +63,24 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     field: 'CompanyJobs_Job_Title'
   }];
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private remoteDataSourceService: RemoteDataSourceService) {
-    this.remoteDataSourceSubscription =  this.remoteDataSourceService.getDataSource(`${this.apiEndpointConstants.PAY_MARKETS}`).subscribe( s =>
-    {
-      this.payMarketOptions = s.map(o =>  ({Value: o.Value, Id: o.Value}));
-      this.filteredPayMarketOptions = this.payMarketOptions;
-    }
-    );
+  constructor(private store: Store<fromJobsPageReducer.State>) {
+
     this.company$ = this.store.select(fromJobsPageReducer.getCompany);
     this.addingToProject$ = this.store.select(fromJobsPageReducer.getToProjectButtonState);
+    this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
+      .subscribe(o => {
+        this.filteredPayMarketOptions = o;
+        this.payMarketOptions = o;
+      });
     this.selectedKeysSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedKeys = sk;
     });
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.peerField = fields.find(f => f.SourceName === 'Exchange_ID');
-        this.paymarketField = fields.find(f => f.SourceName === 'PayMarketFilter');
-        this.selectedPaymarket = this.paymarketField.FilterValue !== null ?
-          {Value : this.paymarketField.FilterValue, Id : this.paymarketField.FilterValue} : null;
+        this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
+        this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
+          {Value : this.payMarketField.FilterValue, Id : this.payMarketField.FilterValue} : null;
       }
     });
   }
@@ -102,7 +98,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.filterTemplates = {
       'Exchange_ID': { Template: this.peerFilter },
-      'PayMarketFilter': { Template: this.payMarketFilter }
+      'PayMarket': { Template: this.payMarketFilter }
     };
   }
 
@@ -117,10 +113,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.selectedKeysSubscription.unsubscribe();
     this.gridFieldSubscription.unsubscribe();
-    this.remoteDataSourceSubscription.unsubscribe();
+    this.companyPayMarketsSubscription.unsubscribe();
   }
   closeSplitView() {
-    this.store.dispatch(new fromPfGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
+    this.store.dispatch(new fromPfGridActions.UpdateSelectedRecordId(this.pageViewId, null, null, null));
   }
 
   handlePeerFilterChanged(value: any) {
@@ -134,7 +130,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handlePayMarketFilterChanged(value: any) {
-    const field = cloneDeep(this.paymarketField);
+    const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
     this.updateField(field);
   }

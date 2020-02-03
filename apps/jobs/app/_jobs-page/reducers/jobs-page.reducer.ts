@@ -7,6 +7,7 @@ export interface State {
   loadingError: boolean;
   addingToProject: boolean;
   pricingIdToBeDeleted: number;
+  companyPayMarkets:any;
 }
 
 export const initialState: State = {
@@ -16,6 +17,7 @@ export const initialState: State = {
   loadingError: false,
   addingToProject : false,
   pricingIdToBeDeleted: undefined,
+  companyPayMarkets: [],
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -60,6 +62,12 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         pricingIdToBeDeleted: action.payload.CompanyJobPricingId
       };
     }
+    case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
+      return {
+        ...state,
+        companyPayMarkets: action.payload.map(o => ({Id: o.PayMarket, Value: o.PayMarket}))
+      };
+    }
     case fromJobsPageActions.CANCEL_DELETE_PRICING:
     case fromJobsPageActions.DELETE_PRICING_SUCCESS: {
       return {
@@ -79,3 +87,4 @@ export const getloading = (state: State) => state.loading;
 export const getloadingError = (state: State) => state.loadingError;
 export const getToProjectButtonState = (state: State) => state.addingToProject;
 export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDeleted;
+export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;

@@ -112,7 +112,7 @@
       Pay Market:
     </label>
       <kendo-dropdownlist
-        [(ngModel)]="selectedPaymarket"
+        [(ngModel)]="selectedPayMarket"
         [textField]="'Value'"
         [valueField]="'Id'"
         [defaultItem]="{Value:'All Pay Markets', Id: null}"
@@ -120,7 +120,7 @@
         (valueChange)="handlePayMarketFilterChanged($event)"
         [filterable]="true"
         (filterChange)="handleFilter($event)"
-        [attr.data-qa-id]="'ddm-operator-'+paymarketField.SourceName"
+        [attr.data-qa-id]="'ddm-operator-'+payMarketField.SourceName"
         class="k-dropdown-white form-control"
       >
       </kendo-dropdownlist>

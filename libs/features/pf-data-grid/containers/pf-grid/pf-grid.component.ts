@@ -117,7 +117,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     if (getSelection().toString()) {
       // User is highlighting text so we don't want to mark this as a click
     } else if (this.allowSplitView) {
-      this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.getSelectedRowPrimaryKey()], this.selectionField));
+      this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.getSelectedRowPrimaryKey()], '=', this.selectionField));
     } else if (this.expandedRowTemplate) {
       if (this.expandedRows.includes(rowIndex)) {
         this.store.dispatch(new fromActions.CollapseRow(this.pageViewId, rowIndex));

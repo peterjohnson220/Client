@@ -6,7 +6,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { CompanyApiService, JobsApiService, PricingApiService } from 'libs/data/payfactors-api';
+import {CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService} from 'libs/data/payfactors-api';
 import { UserContext, CompanyDto } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -25,6 +25,7 @@ export class JobsPageEffects {
     private companyApiService: CompanyApiService,
     private jobsApiService: JobsApiService,
     private pricingApiService: PricingApiService,
+    private payMarketApiService: PayMarketApiService,
     private store: Store<fromJobsReducer.State>,
     private jobManagementStore: Store<fromJobManagementReducer.State>
   ) { }
@@ -39,7 +40,11 @@ export class JobsPageEffects {
     ),
     switchMap((data) => {
       return this.companyApiService.get(data.userContext.CompanyId).pipe(
-        map((company: CompanyDto) => new fromJobsPageActions.LoadCompanySuccess(company.CompanyName)),
+        mergeMap((company: CompanyDto) =>
+        [
+          new fromJobsPageActions.LoadCompanySuccess(company.CompanyName),
+          new fromJobsPageActions.LoadCompanyPayMarkets(),
+        ]),
         catchError(error => {
           const msg = 'We encountered an error while loading your company data';
           return of(new fromJobsPageActions.HandleApiError(msg));
@@ -90,6 +95,25 @@ export class JobsPageEffects {
       new fromPfDataGridActions.LoadData(data.jobsPageId),
       new fromPfDataGridActions.CloseSplitView(data.jobsPageId)
     ])
+  );
+
+  @Effect()
+  loadCompanyPayMarkets$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.LOAD_COMPANY_PAYMARKETS),
+    withLatestFrom(
+      this.store.pipe(select(fromRootState.getUserContext)),
+      (action: fromJobsPageActions.LoadCompany, userContext: UserContext) =>
+        ({ action, userContext })
+    ),
+    switchMap(() => {
+      return this.payMarketApiService.getAll().pipe(
+        map(options => new fromJobsPageActions.LoadCompanyPayMarketsSuccess(options)),
+        catchError(error => {
+          const msg = 'We encountered an error while loading your company data';
+          return of(new fromJobsPageActions.HandleApiError(msg));
+        })
+      );
+    })
   );
 }
 
