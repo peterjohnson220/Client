@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
-import {PayfactorsApiService} from '../payfactors-api.service';
-import {Observable} from 'rxjs/Observable';
+
+import { Observable } from 'rxjs/Observable';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
+import {AddToProjectRequest} from '../../../../apps/jobs/app/_jobs-page/models/add-to-project';
 
 @Injectable()
 export class JobsApiService {
-  private endpoint = 'jobs';
+  private endpoint = 'Jobs';
+
   constructor(private payfactorsApiService: PayfactorsApiService
   ) {}
-  addJobsToProject(jobIds: number[]): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/AddToProject`, jobIds);
+
+  addToProject(request: AddToProjectRequest) {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/AddToProject`, request);
   }
 }

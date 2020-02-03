@@ -1,7 +1,7 @@
-<div class="d-flex justify-content-between align-items-center" id="action-bar-container" *ngIf="showActionBar">
+<div class="d-flex justify-content-between align-items-center space-out-children" id="action-bar-container" *ngIf="showActionBar">
   <ng-container *ngIf="globalFiltersTemplate" [ngTemplateOutlet]="globalFiltersTemplate">
   </ng-container>
-  <div class="d-flex space-out-children" *ngFor="let gl of globalFilters; trackBy: trackByFn;">
+  <div class="d-flex" *ngFor="let gl of globalFilters; trackBy: trackByFn;">
     <div *ngIf="gl.DataType==='bit'">
       <kendo-switch [title]="gl.FilterPlaceholder"  style="width:80px;"
                      [checked]="gl.FilterValue"

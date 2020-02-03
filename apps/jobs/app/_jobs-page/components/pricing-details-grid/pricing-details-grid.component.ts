@@ -1,7 +1,12 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
+
+import { Observable, Subscription } from 'rxjs';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
+
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { Permissions } from 'libs/constants';
 
 @Component({
   selector: 'pf-pricing-details-grid',
@@ -23,8 +28,13 @@ export class PricingDetailsGridComponent implements AfterViewInit {
     dir: 'asc',
     field: 'CompanyPayMarkets_PayMarket'
   }];
+  pageViewId = '86870F9F-C148-4626-92DE-C2B73B6E0D35';
+  permissions = Permissions;
+  selectedKeys: number[];
+  selectedKeysSubscription: Subscription;
+  addingToProject$: Observable<boolean>;
 
-  constructor() { }
+  constructor() {  }
 
   ngAfterViewInit() {
     this.colTemplates = {

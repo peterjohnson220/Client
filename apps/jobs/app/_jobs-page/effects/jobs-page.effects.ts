@@ -49,13 +49,13 @@ export class JobsPageEffects {
   );
 
   @Effect()
-  addJobsToProject: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobsPageActions.ADD_JOBS_TO_PROJECT),
+  addToProject$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.ADD_TO_PROJECT),
     switchMap((data: any) => {
-      return this.jobsApiService.addJobsToProject(data.payload).pipe(
+      return this.jobsApiService.addToProject(data.payload).pipe(
         map((projectId: number) => {
           window.location.href = `/marketdata/marketdata.asp?usersession_id=${projectId}`;
-          return null;
+          return new fromJobsPageActions.AddToProjectSuccess();
         }),
         catchError(error => {
           const msg = 'We encountered an error while creating a project';

@@ -592,7 +592,7 @@ export function resetFiltersForFilterableFields(state: DataGridStoreState, pageV
 
 function resetAllFilters(state: DataGridStoreState, pageViewId: string): ViewField[] {
   const fields: ViewField[] = cloneDeep(getFields(state, pageViewId));
-  if(!fields) {
+  if (!fields) {
     return;
   }
 

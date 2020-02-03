@@ -1,19 +1,21 @@
 <pf-data-grid
-  [pageViewId]="'86870F9F-C148-4626-92DE-C2B73B6E0D35'"
+  [pageViewId]="pageViewId"
   [showTitle]="false"
   [showColumnChooser] ="false"
   [showFilterChooser] ="false"
   [allowExport]="false"
   [contentNoPadding]="true"
   [selectionField]="'CompanyJobPricing_ID'"
+  [enableSelection]="true"
   [columnTemplates]="colTemplates"
   [expandedRowTemplate]="pricingMatchesGrid"
   [inboundFilters]="filters"
-  [defaultSort]="defaultSort">
+  [defaultSort]="defaultSort"
+  [headerClassName]="'pricing-details-grid-header'">
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
-  <pf-pricing-matches-grid [pricingInfo]="dataRow"></pf-pricing-matches-grid>   
+  <pf-pricing-matches-grid [pricingInfo]="dataRow"></pf-pricing-matches-grid>
 </ng-template>
 
 <ng-template #payMarketColumn let-dataRow="dataRow">
@@ -26,7 +28,7 @@
   </span>
   <br>
   <small>
-    <em class="text-muted">        
+    <em class="text-muted">
       Industry: {{dataRow['CompanyPayMarkets_Industry_Value'] || 'N/A' }}
       &#8226;
       Size: {{dataRow['CompanyPayMarkets_Size_Value'] || 'N/A'}}
@@ -40,7 +42,7 @@
 <ng-template #baseMrpColumn let-dataRow="dataRow">
   <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
   <small *ngIf="dataRow['CompanyJobs_Pricings_BaseMRP']">
-    <em class="text-muted">                
+    <em class="text-muted">
       ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
     </em>
   </small>
@@ -49,14 +51,12 @@
 <ng-template #baseTccColumn let-dataRow="dataRow">
   <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
   <small *ngIf="dataRow['CompanyJobs_Pricings_TCCMRP']">
-    <em class="text-muted">                
+    <em class="text-muted">
       ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
     </em>
   </small>
 </ng-template>
 
-
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>    
+  <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
 </ng-template>
-
