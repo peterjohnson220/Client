@@ -29,7 +29,7 @@ export interface DataViewField {
   SortOrder?: number;
   SortDirection?: 'asc' | 'desc';
   IsPublic?: boolean;
-  AccessLevel: DataViewAccessLevel;
+  AccessLevel?: DataViewAccessLevel;
 }
 
 export interface BaseFilter {
