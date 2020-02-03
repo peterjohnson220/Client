@@ -84,7 +84,7 @@
           <pf-loading-indicator></pf-loading-indicator> Loading count...
         </div>
         <ng-template #displayTotalCount>
-          <div *ngIf="!totalCountAsync.loadingError && !!totalCountAsync.obj">
+          <div *ngIf="!totalCountAsync.loadingError">
             Count: <span class="font-weight-bold">{{totalCountAsync.obj | number}}</span>
           </div>
           <div *ngIf="totalCountAsync.loadingError">

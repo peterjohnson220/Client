@@ -4,9 +4,9 @@ import { Store, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { isNumber } from 'lodash';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
-import { DataViewEntityResponse } from 'libs/models/payfactors-api/reports/response';
 
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import * as fromFieldActions from '../actions/fields.actions';
@@ -36,7 +36,7 @@ export class DataViewGridEffects {
         data.dataViewAsync.obj, data.fields, data.pagingOptions, data.filters, false);
       return this.dataViewApiService.getData(request)
       .pipe(
-        map((response: DataViewEntityResponse[]) => {
+        map((response: any[]) => {
           if (data.pagingOptions.From > 0) {
             return new fromDataViewGridActions.GetMoreDataSuccess(response);
           } else {
@@ -74,7 +74,10 @@ export class DataViewGridEffects {
         data.dataViewAsync.obj, data.fields, data.pagingOptions, data.filters, false);
       return this.dataViewApiService.getDataCount(request)
         .pipe(
-          map((response) => new fromDataViewGridActions.GetDataCountSuccess({ totalCount: response })),
+          map((response) => {
+            const totalCount: number = isNumber(response) ? response : 0;
+            return new fromDataViewGridActions.GetDataCountSuccess({ totalCount });
+          }),
           catchError(() => of(new fromDataViewGridActions.GetDataCountError()))
         );
     })
