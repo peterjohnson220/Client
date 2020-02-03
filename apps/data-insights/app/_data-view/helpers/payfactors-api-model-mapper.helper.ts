@@ -1,29 +1,20 @@
-import { SortDescriptor } from '@progress/kendo-data-query';
-
 import {
-  UserDataViewResponse,
+  DataViewAccessLevel,
   DataViewDataRequest,
   DataViewField,
-  PagingOptions,
-  DataViewFilterOptionsRequest,
-  DataViewFilter,
-  SaveUserViewFiltersRequest,
   DataViewFieldDataType,
-  ShareUserResponse,
   DataViewFieldType,
+  DataViewFilter,
   DataViewFilterIdentifier,
-  DuplicateUserViewRequest
+  DataViewFilterOptionsRequest,
+  DuplicateUserViewRequest,
+  PagingOptions,
+  SaveUserViewFiltersRequest,
+  ShareUserResponse,
+  UserDataViewResponse
 } from 'libs/models/payfactors-api';
 
-import {
-  UserDataView,
-  Field,
-  Filter,
-  FieldDataType,
-  SharedDataViewUser,
-  FieldType,
-  GetFilterOptionsData
-} from '../models';
+import { Field, FieldDataType, FieldType, Filter, GetFilterOptionsData, SharedDataViewUser, UserDataView } from '../models';
 import { FilterOperatorHelper } from './filter-operator.helper';
 import { Entity } from '../../_shared/models';
 
@@ -69,11 +60,13 @@ export class PayfactorsApiModelMapper {
       FormulaId: dataViewField.FormulaId,
       FieldType: this.mapDataViewFieldTypeToFieldType(dataViewField.FieldType),
       Format: dataViewField.Format,
-      IsEditable: dataViewField.IsEditable,
+      IsEditable: dataViewField.AccessLevel === DataViewAccessLevel.Owner || dataViewField.AccessLevel === DataViewAccessLevel.Edit,
       Formula: dataViewField.Formula,
       FormulaName: dataViewField.FormulaName,
       SortDirection: dataViewField.SortDirection,
-      SortOrder: dataViewField.SortOrder
+      SortOrder: dataViewField.SortOrder,
+      IsPublic: dataViewField.IsPublic,
+      AccessLevel: dataViewField.AccessLevel
     };
   }
 
@@ -137,7 +130,9 @@ export class PayfactorsApiModelMapper {
       FieldType: this.mapFieldTypeToDataViewFieldType(field.FieldType),
       Format: field.Format,
       SortDirection: field.SortDirection,
-      SortOrder: field.SortOrder
+      SortOrder: field.SortOrder,
+      IsPublic: field.IsPublic,
+      AccessLevel: field.AccessLevel
     };
   }
 

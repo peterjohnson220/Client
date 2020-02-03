@@ -10,7 +10,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromFormulaFieldActions from '../../actions/formula-field.actions';
 import { FormulaFieldModalComponent } from './formula-field-modal.component';
-import { FormulaFieldModalObj } from '../../models';
+import { FormulaFieldModalObj, FieldDataType } from '../../models';
 
 describe('Data Insights - Data View - Formula Field Modal Component', () => {
   let instance: FormulaFieldModalComponent;
@@ -64,12 +64,17 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
   it('should dispatch SaveFormula action with FormulaFieldModalObj when handling save clicked', () => {
     spyOn(store, 'dispatch');
     const fieldName = 'Compa-Ratio';
-    instance.formulaFieldForm.patchValue( { fieldName });
+    const isPublic = false;
+    instance.formulaFieldForm.patchValue( { fieldName, isPublic });
+    fixture.detectChanges();
     instance.formula = '[Base]/[Mid]';
+    instance.dataType = FieldDataType.Float;
     const formula: FormulaFieldModalObj = {
       FieldName: fieldName,
       Formula: instance.formula,
-      FormulaId: null
+      FormulaId: null,
+      IsPublic: isPublic,
+      DataType: instance.dataType
     };
     const expectedAction = new fromFormulaFieldActions.SaveFormulaField({ formula, baseEntityId: instance.baseEntityId });
 
