@@ -183,6 +183,11 @@ export const getCompanyJobCreatingError = createSelector(
   fromAddJobModalReducer.getCompanyJobCreatingError
 );
 
+export const getCompanyJobCreatingErrorMessage = createSelector(
+  selectAddJobModalState,
+  fromAddJobModalReducer.getCompanyJobCreatingErrorMessage
+);
+
 export const getCompanyJobCreatingSuccess = createSelector(
   selectAddJobModalState,
   fromAddJobModalReducer.getCompanyJobCreatingSuccess
