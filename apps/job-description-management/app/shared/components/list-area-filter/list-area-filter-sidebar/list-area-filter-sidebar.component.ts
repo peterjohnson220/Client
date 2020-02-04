@@ -52,6 +52,10 @@ export class ListAreaFilterSidebarComponent implements OnChanges {
       if (listAreaColumn.ColumnDataType === 'numeric' && currentFilter && currentFilter.value) {
         currentFilter.value = Number(currentFilter.value);
       }
+
+      if (listAreaColumn.ColumnDataType === 'boolean' && currentFilter && currentFilter.value) {
+        currentFilter.value = JSON.parse(currentFilter.value);
+      }
     }
 
     return currentFilter || emptyFilter;

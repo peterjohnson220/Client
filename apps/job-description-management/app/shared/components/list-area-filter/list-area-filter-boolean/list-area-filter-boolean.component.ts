@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ListAreaBaseFilter } from '../list-area-base-filter';
-import { BooleanOperatorOptions, PublicViewOptions } from '../../../models/list-area-options.model';
+import { BooleanOperatorOptions } from '../../../models/list-area-options.model';
 
 
 @Component({
@@ -8,7 +8,12 @@ import { BooleanOperatorOptions, PublicViewOptions } from '../../../models/list-
     templateUrl: './list-area-filter-boolean.component.html'
 })
 export class ListAreaFilterBooleanComponent extends ListAreaBaseFilter {
+
+    public publicViewOptions =  [
+        { display: 'Enabled', value: true},
+        { display: 'Disabled', value: false}
+      ];
+
     public dropDownOptions = BooleanOperatorOptions;
-    public publicViewOptions = PublicViewOptions;
-    public disableValueOperators = PublicViewOptions.filter(t => !t.checkValue);
+    public disableValueOperators = BooleanOperatorOptions.filter(t => !t.checkValue);
 }
