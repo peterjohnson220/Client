@@ -4,7 +4,7 @@ import { orderBy } from 'lodash';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromDataViewFieldsActions from '../actions/fields.actions';
-import { Field, FieldType } from '../models';
+import { Field, FieldType, DataViewAccessLevel } from '../models';
 import { FieldsHelper } from '../helpers';
 import { Suggestion } from '../../_data-view/models';
 
@@ -97,6 +97,9 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
       const reportFieldStateObjClone = cloneDeep(state.reportFieldsAsync);
       const removedField = FieldsHelper.findField(reportFieldStateObjClone.obj, action.payload);
       removedField.IsSelected = false;
+      if (!hasAccessToPrivateFormulaField(removedField)) {
+        reportFieldStateObjClone.obj = FieldsHelper.excludeFilter(reportFieldStateObjClone.obj, removedField);
+      }
       return {
         ...state,
         selectedReportFields: selectedFieldsClone,
@@ -235,3 +238,7 @@ export const getFormulaFieldSuggestions = (state: State) => {
     });
   }
 };
+
+function hasAccessToPrivateFormulaField(field: Field): boolean {
+  return field.FieldType === FieldType.Formula && !field.IsPublic && field.AccessLevel === DataViewAccessLevel.Owner;
+}

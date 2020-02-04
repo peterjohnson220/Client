@@ -117,6 +117,7 @@ export class FieldsHelper {
       fieldToUpdate.Formula = targetField.Formula;
       fieldToUpdate.IsSortable = targetField.IsSortable;
       fieldToUpdate.DataType = targetField.DataType;
+      fieldToUpdate.IsPublic = targetField.IsPublic;
     }
   }
 

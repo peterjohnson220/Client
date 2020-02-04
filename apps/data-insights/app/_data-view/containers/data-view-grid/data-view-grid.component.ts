@@ -152,7 +152,8 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
       FormulaId: field.FormulaId,
       DuplicateAllowed: this.dataViewAccessLevel !== DataViewAccessLevel.ReadOnly,
       DataType: field.DataType,
-      IsPublic: field.IsPublic
+      IsPublic: field.IsPublic,
+      AccessLevel: field.AccessLevel
     };
     this.formulaFieldModal.open();
   }
