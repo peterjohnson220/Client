@@ -83,6 +83,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   userContext: UserContext;
   loaderSetting: ILoadSettings;
   loaderConfigGroup: ConfigurationGroup;
+  isValidateOnly: boolean;
+  emailRecipients: EmailRecipientModel[] = [];
 
   existingLoaderSettings: LoaderSetting[];
   private configGroupSeed: ConfigurationGroup = {
@@ -127,7 +129,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       From: NotificationSource.GenericNotificationMessage,
       Payload: {
         Title: 'Organizational Data Loader',
-        Message: 'File(s) are being uploaded, you will receive an email when processing is complete.'
+        Message: '' // This will be populated when the 'Process' button has been clicked. See this.fileUploadData$ subscription
       },
       EnableHtml: true,
       Type: NotificationType.Event
@@ -186,6 +188,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.emailRecipients$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(recipients => {
+      this.emailRecipients = recipients;
+    });
+
     this.gettingColumnNames$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
@@ -212,6 +220,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
       this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
       this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
+      this.isValidateOnly = resp.validateOnly;
 
       this.getEntityChoice(LoaderType.Employees).dateFormat = resp.dateFormat;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = resp.isEmployeesFullReplace;
@@ -250,6 +259,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
       if (f) {
+        if (this.isValidateOnly) {
+          this.notification.success.Payload.Message = 'Your files will be validated based on the mapping provided.  ' +
+            'The results will be emailed and will include all records noting any record that would have been an error.';
+        } else {
+          this.notification.success.Payload.Message = 'File(s) are being uploaded, you will receive an email when processing is complete.';
+        }
         this.setNewStart(this.notification.success);
       }
     });
@@ -479,7 +494,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return true;
     }
 
-    if (this.stepIndex === OrgUploadStep.FieldMapping && !this.showFieldMapperTooltip) {
+    if (this.stepIndex === OrgUploadStep.FieldMapping && !this.showFieldMapperTooltip && !(this.isValidateOnly && this.emailRecipients.length <= 0)) {
       return true;
     }
 
@@ -516,6 +531,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   processBtnClick() {
     if (this.showFieldMapperTooltip) {
+      return;
+    }
+
+    if (this.isValidateOnly && this.emailRecipients.length <= 0) {
       return;
     }
     const loaderSettingsToSave = this.getLoaderSettingsToSave();
@@ -674,6 +693,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
+    newLoaderSettings.validateOnly = this.isValidateOnly;
 
     return OrgDataLoadHelper.getLoaderSettingsToSave(newLoaderSettings, this.existingLoaderSettings);
   }
@@ -684,5 +704,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   disabledClear() {
     return this.loadOptions.filter(l => l.isLoadingFinish === false).length > 0;
+  }
+
+  getFieldMapperTooltip() {
+    if (this.isValidateOnly && this.emailRecipients.length <= 0) {
+      return 'Please enter an email recipient to receive the results of this load.';
+    }
+
+    return this.showFieldMapperTooltip ? this.NextBtnToolTips[this.stepIndex - 1] : '';
   }
 }
