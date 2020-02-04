@@ -17,5 +17,6 @@ export enum TileTypes {
   Ideas = 'Ideas',
   QuickPrice = 'QuickPrice',
   TotalRewards = 'TotalRewards',
-  DataManagement = 'DataManagement'
+  DataManagement = 'DataManagement',
+  InternationalData = 'InternationalData'
 }
