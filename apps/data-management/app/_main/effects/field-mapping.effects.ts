@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { isEmpty, isObject, values } from 'lodash';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { catchError, filter, mergeMap, withLatestFrom, tap, map } from 'rxjs/operators';
 
 import { MappingsHrisApiService } from 'libs/data/payfactors-api/hris-api';
@@ -15,7 +15,7 @@ import * as fromRootState from 'libs/state/state';
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromReducers from '../reducers';
-import { PayMarketApiService } from 'libs/data/payfactors-api';
+import { PayMarketApiService, LoaderFieldMappingsApiService } from 'libs/data/payfactors-api';
 
 @Injectable()
 export class FieldMappingEffects {
@@ -98,7 +98,10 @@ export class FieldMappingEffects {
           mergeMap((response: any) => {
             const fields = PayfactorsApiModelMapper.mapPayfactorsEntityFieldsResponseToEntityDataField(response, OrgDataEntityType[obj.action.payload.entity]);
             return [
-              new fromFieldMappingActions.LoadPayfactorsFieldsByEntitySuccess({ entity: obj.action.payload.entity, payfactorsEntityFields: fields})
+              new fromFieldMappingActions.LoadPayfactorsFieldsByEntitySuccess({
+                  entity: obj.action.payload.entity,
+                  payfactorsEntityFields: fields
+              })
             ];
           })
         );
@@ -192,11 +195,40 @@ export class FieldMappingEffects {
     catchError((error) => of(new fromFieldMappingActions.LoadDefaultPaymarketError()))
   );
 
+  @Effect()
+  loadCustomFieldsByEntity$: Observable<Action> = this.actions$.pipe(
+    ofType<fromFieldMappingActions.LoadPayfactorsFieldsByEntity>(fromFieldMappingActions.LOAD_PAYFACTORS_FIELDS_BY_ENTITY),
+    withLatestFrom(
+      this.store.pipe(select(fromRootState.getUserContext)),
+      (action, userContext) => {
+        return {
+          action,
+          userContext
+      };
+    }),
+    mergeMap(obj => {
+      return forkJoin(
+        this.mappingsHrisApiService.getPayfactorsFields(obj.userContext, obj.action.payload.entity),
+        this.loaderFieldMappingsApiService.getCustomFieldsByEntity(obj.action.payload.entity, obj.userContext.CompanyId),
+      ).pipe(
+          mergeMap(([pff, cf]: [any, any]) => {
+            return [new fromFieldMappingActions.LoadCustomFieldsByEntitySuccess({
+                        customFields: cf,
+                        payfactorsFields: pff,
+                        entityType: obj.action.payload.entity
+                    })];
+          })
+        );
+    }),
+    catchError((error) => of(new fromFieldMappingActions.LoadPayfactorsFieldsByEntityError()))
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromReducers.State>,
     private mappingsHrisApiService: MappingsHrisApiService,
     private paymarketsApiService: PayMarketApiService,
+    private loaderFieldMappingsApiService: LoaderFieldMappingsApiService,
     private router: Router
   ) {}
 }

@@ -52,4 +52,15 @@ export class EntityMappingHelper {
 
     return payfactorsFields;
   }
+
+  static mapCustomUdfFieldsToPayfactorsEntity(customFields: any[], payfactorsFields: EntityDataField[]): EntityDataField[] {
+    const udfFields = payfactorsFields.filter(x => x.FieldName.includes('Udf'));
+
+    customFields.forEach(customField => {
+      const udfField = udfFields.find(udf => udf.FieldName + 'Name' === customField.Key);
+      udfField.FieldName = customField.Value;
+    });
+
+    return payfactorsFields.filter(x => !x.FieldName.includes('Udf'));
+  }
 }
