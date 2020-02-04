@@ -233,7 +233,8 @@ export class PayfactorsApiModelMapper {
       canEditConnection: connectionSummary.canEditConnection,
       hasConnection: connectionSummary.hasConnection,
       canEditMappings: connectionSummary.canEditMappings,
-      statuses: connectionSummary.statuses
+      statuses: connectionSummary.statuses,
+      selectedEntities: connectionSummary.selectedEntities
     };
   }
 }

@@ -6,4 +6,5 @@ export interface ConnectionSummaryResponse {
   hasConnection: boolean;
   canEditConnection: boolean;
   canEditMappings: boolean;
+  selectedEntities: string[];
 }
