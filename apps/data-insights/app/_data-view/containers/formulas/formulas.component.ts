@@ -20,7 +20,7 @@ export class FormulasComponent implements OnInit, OnDestroy {
   @ViewChild(DeleteUserFormulaModalComponent, { static: true }) public deleteFormulaFieldModal: DeleteUserFormulaModalComponent;
   dataView$: Observable<AsyncStateObj<UserDataView>>;
   formulaFieldSuggestions$: Observable<Suggestion[]>;
-  userForumla$: Observable<Field[]>;
+  userFormula$: Observable<Field[]>;
   formulaViewCount$: Observable<AsyncStateObj<number>>;
 
   userFormulaSub: Subscription;
@@ -34,18 +34,18 @@ export class FormulasComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromDataViewMainReducer.State>
   ) {
-    this.userForumla$ = this.store.pipe(select(fromDataViewMainReducer.getUserFormulas));
+    this.userFormula$ = this.store.pipe(select(fromDataViewMainReducer.getUserFormulas));
     this.dataView$ = this.store.pipe(select(fromDataViewMainReducer.getUserDataViewAsync));
     this.formulaFieldSuggestions$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaFieldSuggestions));
     this.formulaViewCount$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaViewCount));
   }
 
   ngOnInit() {
-      this.userFormulaSub = this.userForumla$.subscribe( field => {
-        if (field.length !== 0) {
-          this.userFormulas = field;
-        }
-      });
+    this.userFormulaSub = this.userFormula$.subscribe(fields => {
+      if (!!fields && fields.length !== 0) {
+        this.userFormulas = fields;
+      }
+    });
     this.dataViewSub = this.dataView$.subscribe(result => {
       if (!!result.obj) {
         this.dataViewAccessLevel = result.obj.AccessLevel;
@@ -69,7 +69,8 @@ export class FormulasComponent implements OnInit, OnDestroy {
       Formula: '',
       IsEditable: true,
       DuplicateAllowed: false,
-      IsPublic: false
+      IsPublic: false,
+      AccessLevel: DataViewAccessLevel.Owner
     };
     this.formulaFieldModal.open();
   }
@@ -83,7 +84,8 @@ export class FormulasComponent implements OnInit, OnDestroy {
       FormulaId: field.FormulaId,
       DuplicateAllowed: this.dataViewAccessLevel !== DataViewAccessLevel.ReadOnly,
       DataType: field.DataType,
-      IsPublic: field.IsPublic
+      IsPublic: field.IsPublic,
+      AccessLevel: field.AccessLevel
     };
     this.formulaFieldModal.open();
   }

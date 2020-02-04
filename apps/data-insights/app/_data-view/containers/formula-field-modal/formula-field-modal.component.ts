@@ -10,7 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromFormulaFieldActions from '../../actions/formula-field.actions';
-import { FormulaFieldModalObj, Suggestion, functionSuggestionList, FieldDataType } from '../../models';
+import { FormulaFieldModalObj, Suggestion, functionSuggestionList, FieldDataType, DataViewAccessLevel } from '../../models';
 import { FormulaEditorComponent } from '../../components';
 
 @Component({
@@ -120,6 +120,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.modalData.IsEditable = true;
     this.modalData.DuplicateAllowed = false;
     this.modalData.IsPublic = false;
+    this.modalData.AccessLevel = DataViewAccessLevel.Owner;
     this.updateForm();
   }
 
@@ -173,6 +174,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   private updateForm(): void {
+    const publicSwitchDisabled: boolean = (this.modalData && this.modalData.AccessLevel !== DataViewAccessLevel.Owner);
     this.title = this.modalData ? this.modalData.Title : '';
     this.fieldName = this.modalData ? this.modalData.FieldName : '';
     this.isPublic = this.modalData ? this.modalData.IsPublic : false;
@@ -180,7 +182,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     if (!!this.modalData && !!this.formulaFieldForm) {
       this.formulaFieldForm.reset({
         fieldName: { value: this.fieldName, disabled: !this.isEditable },
-        isPublic: { value: this.isPublic, disabled: (this.modalData && !!this.modalData.FormulaId) }
+        isPublic: { value: this.isPublic, disabled: publicSwitchDisabled }
       });
       this.handleFormulaChanged(this.modalData.Formula);
     }
