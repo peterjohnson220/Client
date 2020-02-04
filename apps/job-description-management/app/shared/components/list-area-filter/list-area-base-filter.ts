@@ -23,7 +23,7 @@ export abstract class ListAreaBaseFilter implements OnChanges {
   }
 
   handleFilterValueChanged(event) {
-    if (event) {
+    if (event != null) {
       this.filter.value = event;
       this.filterChanged.emit(this.filter);
     }

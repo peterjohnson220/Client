@@ -35,11 +35,6 @@ export const BooleanOperatorOptions: FilterOperator[] = [
   { display: 'Is equal to', value: 'eq', checkValue: true}
 ];
 
-export const PublicViewOptions: FilterOperator[] = [
-  { display: 'Enabled', value: 'true', checkValue: true},
-  { display: 'Disabled', value: 'false', checkValue: true}
-];
-
 export interface FilterOperator {
   display: string;
   value: string;
