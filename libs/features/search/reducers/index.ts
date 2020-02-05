@@ -8,11 +8,13 @@ import * as fromSearchFiltersReducer from './search-filters.reducer';
 import * as fromSingledFilterReducer from './singled-filter.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
 import * as fromSearchPageReducer from './search-page.reducer';
+import * as fromChildFilterReducer from './child-filter.reducer';
 
 // Feature area state
 export interface SearchFeatureState {
   searchFilters: fromSearchFiltersReducer.State;
   singledFilter: fromSingledFilterReducer.State;
+  childFilter: fromChildFilterReducer.State;
   searchResults: fromSearchResultsReducer.State;
   searchPage: fromSearchPageReducer.State;
 }
@@ -26,6 +28,7 @@ export interface State extends fromRoot.State {
 export const reducers = {
   searchFilters: fromSearchFiltersReducer.reducer,
   singledFilter: fromSingledFilterReducer.reducer,
+  childFilter: fromChildFilterReducer.reducer,
   searchResults: fromSearchResultsReducer.reducer,
   searchPage: fromSearchPageReducer.reducer
 };
@@ -44,6 +47,11 @@ export const selectSingledFilterState = createSelector(
   (state: SearchFeatureState) => state.singledFilter
 );
 
+export const selectChildFilterState = createSelector(
+  selectFeatureAreaState,
+  (state: SearchFeatureState) => state.childFilter
+);
+
 export const selectSearchResultsState = createSelector(
   selectFeatureAreaState,
   (state: SearchFeatureState) => state.searchResults
@@ -55,15 +63,36 @@ export const selectSearchPageState = createSelector(
 );
 
 // Search Filters Selectors
-export const getFilters = createSelector(
+export const getParentFilters = createSelector(
   selectSearchFiltersState,
-  fromSearchFiltersReducer.getFilters
+  fromSearchFiltersReducer.getParentFilters
+);
+
+export const getAllFilters = createSelector(
+  selectSearchFiltersState,
+  fromSearchFiltersReducer.getAllFilters
+);
+
+export const getSubFilters = createSelector(
+  selectSearchFiltersState,
+  fromSearchFiltersReducer.getSubFilters
+);
+
+export const getChildFilterName = createSelector(
+  selectChildFilterState,
+  selectSearchFiltersState,
+  (childFilter, filters) => {
+    if (childFilter.parentOptionValue) {
+      const parentFilter = <MultiSelectFilter>filters.filters.filter(x => x.BackingField === childFilter.filter.ParentBackingField)[0];
+      return parentFilter.Options.filter(x => x.Value === childFilter.parentOptionValue)[0].Name;
+    }
+  }
 );
 
 export const getOverallFilterSelectionsCount = createSelector(
-  getFilters,
+  getAllFilters,
   (filters: Filter[]) => {
-    const multiSelectFilters = filters.filter(f => f.Type === FilterType.Multi);
+    const multiSelectFilters = filters.filter(f => f.Type === FilterType.Multi || f.Type === FilterType.FilterableMulti);
     const RangeSelectFilter = filters.filter(f => f.Type === FilterType.Range);
 
     let returnCount = multiSelectFilters.reduce<number>((overallCount: number, currentFilter: MultiSelectFilter) => {
@@ -87,9 +116,24 @@ export const getSingledFilter = createSelector(
   fromSingledFilterReducer.getFilter
 );
 
+export const getChildFilter = createSelector(
+  selectChildFilterState,
+  fromChildFilterReducer.getFilter
+);
+
+export const getChildFilterParentOptionValue = createSelector(
+  selectChildFilterState,
+  fromChildFilterReducer.getParentOptionValue
+);
+
 export const getLoadingOptions = createSelector(
   selectSingledFilterState,
   fromSingledFilterReducer.getLoadingOptions
+);
+
+export const getChildLoadingOptions = createSelector(
+  selectChildFilterState,
+  fromChildFilterReducer.getLoadingOptions
 );
 
 export const getLoadingOptionsError = createSelector(
@@ -97,16 +141,35 @@ export const getLoadingOptionsError = createSelector(
   fromSingledFilterReducer.getLoadingOptionsError
 );
 
+export const getChildLoadingOptionsError = createSelector(
+  selectChildFilterState,
+  fromChildFilterReducer.getLoadingOptionsError
+);
+
 export const getSingledFilterSearchValue = createSelector(
   selectSingledFilterState,
   fromSingledFilterReducer.getSearchValue
 );
 
+export const getChildFilterSearchValue = createSelector(
+  selectChildFilterState,
+  fromChildFilterReducer.getSearchValue
+);
+
 export const getSingledFilterSelectionCount = createSelector(
   getSingledFilter,
-  getFilters,
+  getParentFilters,
   (singledFilter, filters) => {
     const backingFilter = <MultiSelectFilter>filters.find(f => f.Id === singledFilter.Id);
+    return !!backingFilter ? backingFilter.Options.filter(o => o.Selected).length : 0;
+  }
+);
+
+export const getChildFilterSelectionCount = createSelector(
+  getChildFilter,
+  getParentFilters,
+  (childFilter, filters) => {
+    const backingFilter = <MultiSelectFilter>filters.find(f => f.Id === childFilter.Id);
     return !!backingFilter ? backingFilter.Options.filter(o => o.Selected).length : 0;
   }
 );
@@ -141,6 +204,11 @@ export const getSearchResultsError = createSelector(
 export const getSearchingFilter = createSelector(
   selectSearchPageState,
   fromSearchPageReducer.getSearchingFilter
+);
+
+export const getSearchingChildFilter = createSelector(
+  selectSearchPageState,
+  fromSearchPageReducer.getSearchingChildFilter
 );
 
 export const getPageShown = createSelector(

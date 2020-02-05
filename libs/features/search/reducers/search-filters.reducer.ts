@@ -2,7 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import { Filter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
+import {Filter, isFilterableMultiFilter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter} from '../models';
 import { ClientServerFilterHelper, FiltersHelper } from '../helpers';
 
 export interface State {
@@ -64,8 +64,11 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
     case fromSearchFiltersActions.CLEAR_FILTER: {
       const copiedFilters = cloneDeep(state.filters);
       const filterToClear = copiedFilters.find(f => f.Id === action.payload.filterId);
-      FiltersHelper.clearFilter(filterToClear);
-
+      if (action.payload.parentOptionValue) {
+        FiltersHelper.clearFilterWithParentOptionValue(filterToClear, action.payload.parentOptionValue);
+      } else {
+        FiltersHelper.clearFilter(filterToClear);
+      }
       return {
         ...state,
         filters: copiedFilters
@@ -95,6 +98,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const clientFilters = cloneDeep(state.filters);
       const clientFiltersNotBeingRefreshed = clientFilters.filter(FiltersHelper.filterToNotRefresh);
       const serverFilters = cloneDeep(action.payload.filters);
+      const singleFilter = cloneDeep(action.payload.singleFilter)
 
       const newMultiSelectFilters = ClientServerFilterHelper.mergeClientWithServerMultiSelectFilters(
         {
@@ -111,7 +115,23 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         }
       );
 
-      const allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
+      const newFilterableMultiSelectFilters = ClientServerFilterHelper.mergeClientWithServerFilterableMultiSelectFilters(
+        {
+          serverFilters: serverFilters.filter(f => isFilterableMultiFilter(f) && !clientFiltersNotBeingRefreshed.some(cf => cf.Id === f.Id)),
+          clientFilters: clientFilters.filter(f => !FiltersHelper.filterToNotRefresh(f)),
+          subFilters: newMultiSelectFilters.filter(f => f.ParentBackingField !== null),
+          keepFilteredOutOptions: action.payload.keepFilteredOutOptions
+        }
+      );
+
+      const newSingleFilter = ClientServerFilterHelper.mergeNewFiltersWithSingleFilter(
+        {
+          singledFilter: singleFilter,
+          subFilters: newMultiSelectFilters.filter(f => f.ParentBackingField !== null)
+        }
+      );
+
+      const allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters).concat(newFilterableMultiSelectFilters);
 
       allFilters.sort((a, b) => a.Order - b.Order);
 
@@ -225,4 +245,6 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 }
 
 // Selector functions
-export const getFilters = (state: State) => state.filters;
+export const getParentFilters = (state: State) => state.filters.filter(f => f.ParentBackingField == null);
+export const getSubFilters = (state: State) => state.filters.filter(f => f.ParentBackingField !== null);
+export const getAllFilters = (state: State) => state.filters;

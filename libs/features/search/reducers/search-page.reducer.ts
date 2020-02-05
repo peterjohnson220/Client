@@ -3,11 +3,13 @@ import * as fromSearchPageActions from '../actions/search-page.actions';
 export interface State {
   pageShown: boolean;
   searchingFilter: boolean;
+  searchingChildFilter: boolean;
 }
 
 const initialState: State = {
   pageShown: false,
-  searchingFilter: false
+  searchingFilter: false,
+  searchingChildFilter: false
 };
 
 // Reducer function
@@ -23,6 +25,12 @@ export function reducer(state = initialState, action: fromSearchPageActions.Acti
       return {
         ...state,
         pageShown: false,
+      };
+    }
+    case fromSearchPageActions.TOGGLE_CHILD_FILTER_SEARCH: {
+      return {
+        ...state,
+        searchingChildFilter: !state.searchingChildFilter,
       };
     }
     case fromSearchPageActions.SHOW_PAGE: {
@@ -43,6 +51,12 @@ export function reducer(state = initialState, action: fromSearchPageActions.Acti
         searchingFilter: false
       };
     }
+    case fromSearchPageActions.HIDE_CHILD_FILTER_SEARCH: {
+      return {
+        ...state,
+        searchingChildFilter: false
+      };
+    }
     default: {
       return state;
     }
@@ -52,3 +66,4 @@ export function reducer(state = initialState, action: fromSearchPageActions.Acti
 // Selector functions
 export const getPageShown = (state: State) => state.pageShown;
 export const getSearchingFilter = (state: State) => state.searchingFilter;
+export const getSearchingChildFilter = (state: State) => state.searchingChildFilter;

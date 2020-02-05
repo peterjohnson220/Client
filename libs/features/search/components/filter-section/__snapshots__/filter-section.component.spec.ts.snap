@@ -24,7 +24,8 @@ exports[`Search Feature - Filter Section should display the given title in the h
         <span
           class="ellipsis-overflowing-text"
         >
-          Job Title/Code 
+           Job Title/Code 
+          
         </span>
         
         
@@ -80,7 +81,8 @@ exports[`Search Feature - Filter Section should display the transcluded content 
           <span
             class="ellipsis-overflowing-text"
           >
-            Job Title/Code 
+             Job Title/Code 
+            
           </span>
           
           
@@ -145,7 +147,8 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
         <span
           class="ellipsis-overflowing-text"
         >
-          Job Title/Code 
+           Job Title/Code 
+          
         </span>
         
         
@@ -204,7 +207,8 @@ exports[`Search Feature - Filter Section should show a search icon and show more
         <span
           class="ellipsis-overflowing-text"
         >
-          Publisher 
+           Publisher 
+          
         </span>
         
         

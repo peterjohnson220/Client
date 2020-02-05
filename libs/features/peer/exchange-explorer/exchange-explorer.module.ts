@@ -29,7 +29,8 @@ import {
   ExchangeScopeEffects,
   ExchangeSearchEffects,
   SingledFilterEffects,
-  ExchangeExplorerMapEffects
+  ExchangeExplorerMapEffects,
+  ChildFilterEffects
 } from './effects';
 import { ExchangeExplorerContextService } from './services';
 import * as fromFaIcons from './fa-icons';
@@ -49,7 +50,7 @@ const declarations = [
     // 3rd Party
     StoreModule.forFeature('feature_peer_exchangeExplorer', reducers),
     EffectsModule.forFeature([
-      ExchangeScopeEffects, ExchangeFilterContextEffects, ExchangeFilterEffects,
+      ChildFilterEffects, ExchangeScopeEffects, ExchangeFilterContextEffects, ExchangeFilterEffects,
       ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects, ExchangeExplorerMapEffects
     ]),
     SwitchModule,
