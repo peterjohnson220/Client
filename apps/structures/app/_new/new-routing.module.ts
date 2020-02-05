@@ -7,8 +7,8 @@ import { RangeGroupExistsGuard } from './job-based-range';
 import { JobBasedRangePageComponent } from './';
 
 const routes: Routes = [
-  { path: ':id', component: JobBasedRangePageComponent, canActivate: [RangeGroupExistsGuard] },
-  { path: 'not-found', component: NotFoundErrorPageComponent }
+  { path: 'not-found', component: NotFoundErrorPageComponent },
+  { path: ':id', component: JobBasedRangePageComponent, canActivate: [RangeGroupExistsGuard] }
 ];
 
 @NgModule({
