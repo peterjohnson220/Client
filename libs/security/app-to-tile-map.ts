@@ -5,5 +5,6 @@ interface AppToTileMap {
 export const AppToTileMapping: AppToTileMap = {
   'comphub': { tileName: 'Quick Price' },
   'data-insights': { tileName: 'Data Insights'},
-  'job-description-management': { tileName: 'Job Descriptions'}
+  'job-description-management': { tileName: 'Job Descriptions'},
+  'employees': { tileName: 'Employees'}
 };
