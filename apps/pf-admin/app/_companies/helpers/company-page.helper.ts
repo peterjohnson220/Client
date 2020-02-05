@@ -182,6 +182,10 @@ export class CompanyPageHelper {
             s.Disabled = true;
             return s;
           }
+          case CompanySettingsEnum.ProjectJobCount: {
+            s.Disabled = false;
+            return s;
+          }
           default: {
             s.Value = 'false';
             s.Disabled = false;
@@ -264,6 +268,10 @@ export class CompanyPageHelper {
             s.Disabled = true;
             return s;
           }
+          case CompanySettingsEnum.ProjectJobCount: {
+            s.Disabled = false;
+            return s;
+          }
           default: {
             s.Value = 'false';
             s.Disabled = false;
@@ -278,6 +286,10 @@ export class CompanyPageHelper {
       settings.map(s => {
         switch (s.Key) {
           case CompanySettingsEnum.MaxProjectJobCount: {
+            s.Disabled = false;
+            return s;
+          }
+          case CompanySettingsEnum.ProjectJobCount: {
             s.Disabled = false;
             return s;
           }
