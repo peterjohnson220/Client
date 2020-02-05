@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription, timer } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
+// import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
 import { CompanyStructure, generateMockCompanyStructure } from 'libs/models/structures/company-structure.model';
 
 import * as fromStructuresMainReducer from '../../../reducers';
@@ -28,7 +28,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   private readonly routeCompanyStructureId: number;
 
   public inEditModelNameMode = false;
-  public currentModel: CompanyStructureRangeGroup;
+  public currentModel: any;
   public currentStructure: CompanyStructure;
   public currentModelName: string;
   public currentStructureName: string;
@@ -135,7 +135,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
     }
 
     if (this.routeStructureName && this.routeModelName && this.routePayMarketId > 0) {
-      const currentModel = generateMockCompanyStructureRangeGroup();
+      const currentModel = { RangeGroupName: '' };
       currentModel.RangeGroupName = this.routeModelName;
       const currentStructure = generateMockCompanyStructure();
       currentStructure.StructureName = this.routeStructureName;

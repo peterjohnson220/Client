@@ -49,7 +49,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() showActionBar = false;
   @Input() actionBarClassName: string;
   @Input() headerClassName: string;
-
+  @Input() gridContainerSplitViewWidth = '500px';
+  @Input() splitOnSelection = true;
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;
@@ -171,7 +172,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   isSplitView() {
-    return this.splitViewTemplate && this.selectedRecordId;
+    return this.splitViewTemplate && (this.selectedRecordId || !this.splitOnSelection);
   }
 
 }

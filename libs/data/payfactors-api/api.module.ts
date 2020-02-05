@@ -34,7 +34,7 @@ import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
 import { DataViewApiService, ReportManagementApiService, TableauReportApiService, UserReportApiService } from './reports';
 import { NotificationsApiService } from './notifications';
-import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
+import { StructuresApiService, StructureRangeGroupApiService } from './structures';
 import {
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService,
@@ -100,7 +100,7 @@ import {PricingApiService} from './pricings';
     UserReportApiService,
     ReportManagementApiService,
     StructuresApiService,
-    StructuresRangeGroupApiService,
+    StructureRangeGroupApiService,
     DataViewApiService,
     NotificationsApiService,
     SurveyLibraryApiService,

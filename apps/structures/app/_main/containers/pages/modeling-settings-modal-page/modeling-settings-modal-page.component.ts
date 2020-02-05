@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromStructuresMainReducer from '../../../reducers';
-import { CompanyStructureRangeGroup } from '../../../../../../../libs/models/structures/company-structure-range-group.model';
 import * as fromJobRangeModelingModalActions from '../../../actions/job-range-modeling-modal.actions';
 
 @Component({
@@ -13,7 +12,7 @@ import * as fromJobRangeModelingModalActions from '../../../actions/job-range-mo
   styleUrls: ['./modeling-settings-modal-page.component.scss']
 })
 export class ModelingSettingsModalPageComponent {
-  currentModel: CompanyStructureRangeGroup;
+  currentModel: any;
 
   currentModelSubscription: Subscription;
 
