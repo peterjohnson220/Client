@@ -73,7 +73,11 @@
 
             </ng-container>
 
-            <div class="text-right mt-3">
+            <div class="form-inline mt-3 justify-content-end">
+              <div class="form-check mr-3" *ngIf="this.stepIndex == stepEnum.FieldMapping">
+                <input type="checkbox" class="form-check-input" id="validateOnly" [(ngModel)]="isValidateOnly">
+                <label class="form-check-label" for="validateOnly">Validate Only</label>
+              </div>
               <button type="button"
                       *ngIf="this.stepIndex !== stepEnum.Company && this.stepIndex !== stepEnum.FieldMapping"
                       class="btn mx-1 btn-md pf-secondary-btn"
@@ -90,7 +94,7 @@
                       *ngIf="this.stepIndex === stepEnum.FieldMapping"
                       [disabled]="isProcessingMapping$ | async"
                       [style.opacity]="this.getNextBtnOpacity()"
-                      [ngbTooltip]="this.showFieldMapperTooltip ? this.NextBtnToolTips[this.stepIndex - 1] : ''"
+                      [ngbTooltip]="this.getFieldMapperTooltip()"
                       placement="top"
                       (click)="processBtnClick()"
                       class="btn mx-1 pf-primary-btn">Process</button>
