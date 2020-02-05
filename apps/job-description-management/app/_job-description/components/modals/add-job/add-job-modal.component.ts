@@ -10,6 +10,7 @@ import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 import { CompanyJob } from 'libs/models/company';
 import { UserContext } from 'libs/models/security';
 import { TemplateListItem } from 'libs/models/jdm';
+import { JobDescriptionViewConstants } from '../../../../shared/constants';
 
 import * as fromAddJobModalActions from '../../../actions/add-job-modal.actions';
 import * as fromCompanyFlsaStatusActions from '../../../../shared/actions/company-flsa-status.actions';
@@ -41,10 +42,10 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
   public jobStatus = true;
   public jobUserDefinedFields$: Observable<CompanyJobUdfColumn[]>;
   public modalRef: NgbModalRef;
-  public publicView: Array<any> = [{ text: 'Enabled', value: true }, { text: 'Disabled', value: false }];
   public publicViewSelectedValue = true;
   public templateListItems$: Observable<TemplateListItem[]>;
   public templateListLoading$: Observable<boolean>;
+  public publicViewOptions = JobDescriptionViewConstants.PUBLIC_VIEW_OPTIONS;
 
   private companyJob$: Observable<CompanyJob>;
   private companyJobMessage$: Observable<string>;
@@ -92,6 +93,10 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
     } else {
       this.addAndAssign = true;
     }
+  }
+
+  valueChange(selection) {
+    this.publicViewSelectedValue = selection;
   }
 
   open() {
