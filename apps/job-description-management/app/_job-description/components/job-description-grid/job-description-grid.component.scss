@@ -62,7 +62,7 @@
 }
 
 #public-circle { 
-  opacity: 0.0; 
+  opacity: 0.0;
   color: #383d41; 
   transition: 0.3s;
 }
@@ -86,7 +86,7 @@
 }
 
 #private-circle { 
-  opacity: 0.0; 
+  opacity: 0.0;
   color: #383d41; 
   transition: 0.3s;
 }
@@ -97,4 +97,17 @@
 
 #private-icon-stack:hover > #private-eye {
   opacity: 0.8; 
+}
+
+@media all and (-ms-high-contrast:none)
+{
+  /* IE10 */
+  #public-circle, #private-circle { 
+    color: transparent; 
+  } 
+
+  /* IE11 */
+  *::-ms-backdrop, #public-circle, #private-circle { 
+    color: transparent;
+  } 
 }
