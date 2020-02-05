@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription, timer } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-// import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
+// import { StructureRangeGroupResponse } from 'libs/models/payfactors-api/structures';
 import { CompanyStructure, generateMockCompanyStructure } from 'libs/models/structures/company-structure.model';
 
 import * as fromStructuresMainReducer from '../../../reducers';

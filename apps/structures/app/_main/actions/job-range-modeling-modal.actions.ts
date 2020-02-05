@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { JobRangeModelingModalPage } from '../constants/structures.constants';
 
 export const OPEN_MODAL = '[Structures / Job Range Modeling Modal] Open Modal';

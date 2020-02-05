@@ -1,5 +1,5 @@
 import { CompanyStructureGrade, generateMockCompanyStructureGrade } from './company-structure-grade.model';
-// import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from './company-structure-range-group.model';
+// import { StructureRangeGroupResponse, generateMockCompanyStructureRangeGroup } from './company-structure-range-group.model';
 
 export interface CompanyStructure {
   CompanyStructuresId: number;

@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 
+import { ADD_JOB_PAGE } from 'libs/features/add-jobs/constants/add-jobs-modal.constants';
+
 export const OPEN_ADD_JOBS_MODAL_PAGE = '[AddJobs/JobBasedRangesAddJobsModalPage] Open Add Jobs Modal Page';
 export const CLOSE_ADD_JOBS_MODAL_PAGE = '[AddJobs/JobBasedRangesAddJobsModalPage] Close Add Jobs Modal Page';
 export const SET_CONTEXT = '[AddJobs/JobBasedRangesAddJobsModalPage] Set Context';
@@ -13,6 +15,8 @@ export class OpenAddJobsModalPage implements Action {
 
 export class CloseAddJobsModalPage implements Action {
   readonly type = CLOSE_ADD_JOBS_MODAL_PAGE;
+
+  constructor(public source = ADD_JOB_PAGE.DEFAULT) { }
 }
 
 export class SetContext implements Action {

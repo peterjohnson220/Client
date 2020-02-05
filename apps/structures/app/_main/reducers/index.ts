@@ -11,6 +11,7 @@ import * as fromJobRangeModelingGridReducer from './job-range-modeling-grid.redu
 import * as fromJobBasedRangesAddJobsModalPageReducer from './job-based-ranges-add-jobs-modal-page.reducer';
 import * as fromJobBasedRangesSearchResultsReducer from './job-based-ranges-search-results.reducer';
 import * as fromJobRangeModelingModalReducer from './job-range-modeling-modal.reducer';
+import * as fromModelingSettingsPageReducer from './modeling-settings-page.reducer';
 
 // Feature area state
 export interface StructuresMainState {
@@ -21,6 +22,7 @@ export interface StructuresMainState {
   jobsBasedRangesAddJobsModalPage: fromJobBasedRangesAddJobsModalPageReducer.State;
   jobBasedRangesSearchResults: fromJobBasedRangesSearchResultsReducer.State;
   jobRangeModelingModal: fromJobRangeModelingModalReducer.State;
+  modelingSettingsPage: fromModelingSettingsPageReducer.State;
 }
 
 // Extend root state with feature area state
@@ -36,7 +38,8 @@ export const reducers = {
   jobRangeModelingGrid: fromJobRangeModelingGridReducer.reducer,
   jobsBasedRangesAddJobsModalPage: fromJobBasedRangesAddJobsModalPageReducer.reducer,
   jobBasedRangesSearchResults: fromJobBasedRangesSearchResultsReducer.reducer,
-  jobRangeModelingModal: fromJobRangeModelingModalReducer.reducer
+  jobRangeModelingModal: fromJobRangeModelingModalReducer.reducer,
+  modelingSettingsPage: fromModelingSettingsPageReducer.reducer
 };
 
 // Select Feature Area
@@ -71,6 +74,11 @@ export const selectJobBasedRangesSearchResultsState = createSelector(
 export const selectJobRangeModelingModalState = createSelector(
   selectFeatureAreaState,
   (state: StructuresMainState) => state.jobRangeModelingModal
+);
+
+export const selectModelingSettingsState = createSelector(
+  selectFeatureAreaState,
+  (state: StructuresMainState) => state.modelingSettingsPage
 );
 
 // Structures Page
@@ -219,3 +227,26 @@ export const getCurrentModalPage = createSelector(
   selectJobRangeModelingModalState,
   fromJobRangeModelingModalReducer.getCurrentModalPage
 );
+
+
+// Modeling Settings Page
+export const getCurrenciesAsync = createSelector(
+  selectModelingSettingsState,
+  fromModelingSettingsPageReducer.getCurrenciesAsync
+);
+
+export const getStandardPayElementsAsync = createSelector(
+  selectModelingSettingsState,
+  fromModelingSettingsPageReducer.getStandardPayElementsAsync
+);
+
+export const getPercentilesAsync = createSelector(
+  selectModelingSettingsState,
+  fromModelingSettingsPageReducer.getPercentilesAsync
+);
+
+export const getCreateModelAsync = createSelector(
+  selectModelingSettingsState,
+  fromModelingSettingsPageReducer.getCreateModelAsync
+);
+

@@ -51,6 +51,8 @@ import { JobsApiService } from './jobs';
 import {DataImportApiService} from './integration/data-import';
 import { TotalRewardsApiService } from './total-rewards';
 import { SsoConfigApiService } from './sso';
+import { CurrencyApiService } from './currency';
+import { CompositeFieldApiService } from './composite-field';
 import {PricingApiService} from './pricings';
 
 @NgModule({
@@ -110,6 +112,8 @@ import {PricingApiService} from './pricings';
     DataImportApiService,
     TotalRewardsApiService,
     SsoConfigApiService,
+    CurrencyApiService,
+    CompositeFieldApiService,
     PricingApiService,
 
     // PEER

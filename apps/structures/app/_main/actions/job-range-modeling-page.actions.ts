@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-// import { CompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
+// import { StructureRangeGroupResponse } from 'libs/models/payfactors-api/structures';
 import { CompanyStructure } from 'libs/models/structures/company-structure.model';
 import { UpdateCompanyStructureRangeGroupNameDto } from 'libs/models/structures/update-company-structure-range-group-name-dto.model';
 
