@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
@@ -19,17 +19,18 @@ import {
     DataViewFieldType
 } from 'libs/models/payfactors-api';
 import { DataViewApiService } from 'libs/data/payfactors-api';
+import { IDataViewService } from 'libs/models/data-view';
 
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
-import { getUserFilteredFields, isValueRequired } from '../components';
-
+import { isValueRequired } from '../components';
 
 @Injectable()
 export class PfDataGridEffects {
     constructor(private actions$: Actions,
         private dataViewApiService: DataViewApiService,
-        private store: Store<fromPfDataGridReducer.State>
+        private store: Store<fromPfDataGridReducer.State>,
+        @Inject('DataViewService') private dataViewService: IDataViewService
     ) { }
 
     @Effect()
@@ -38,7 +39,7 @@ export class PfDataGridEffects {
             ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG),
             switchMap(
                 (action: fromPfDataGridActions.LoadViewConfig) =>
-                    this.dataViewApiService.getDataViewConfig(PfDataGridEffects.parsePageViewId(action.pageViewId), action.name).pipe(
+                    this.dataViewService.getDataViewConfig(PfDataGridEffects.parsePageViewId(action.pageViewId), action.name).pipe(
                         mergeMap((viewConfig: DataViewConfig) => {
                             return [
                                 new fromPfDataGridActions.LoadViewConfigSuccess(action.pageViewId, viewConfig),
@@ -74,7 +75,7 @@ export class PfDataGridEffects {
             ),
             switchMap((data) => {
                 if (data.fields) {
-                    return this.dataViewApiService
+                    return this.dataViewService
                         .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(
                             data.baseEntity ? data.baseEntity.Id : null,
                             data.fields,
@@ -141,7 +142,7 @@ export class PfDataGridEffects {
                 )
             ),
             switchMap((data) =>
-                this.dataViewApiService.updateDataView(PfDataGridEffects.buildSaveDataViewRequest(
+                this.dataViewService.updateDataView(PfDataGridEffects.buildSaveDataViewRequest(
                     PfDataGridEffects.parsePageViewId(data.action.pageViewId),
                     data.baseEntity.Id,
                     data.fields,
@@ -163,7 +164,7 @@ export class PfDataGridEffects {
         .pipe(
             ofType(fromPfDataGridActions.LOAD_SAVED_VIEWS),
             switchMap((action: fromPfDataGridActions.LoadSavedViews) =>
-                this.dataViewApiService.getViewsByUser(PfDataGridEffects.parsePageViewId(action.pageViewId)).pipe(
+                this.dataViewService.getViewsByUser(PfDataGridEffects.parsePageViewId(action.pageViewId)).pipe(
                     map((response: DataViewConfig[]) => {
                         return new fromPfDataGridActions.LoadSavedViewsSuccess(action.pageViewId, response);
                     }),

@@ -5,3 +5,4 @@
 #####################
 
 /apps/admin/app/_org-data-loader/               @PayFactors/integration
+/libs/features/pf-data-grid/                    @Payfactors/normandy

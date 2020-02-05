@@ -22,12 +22,13 @@ import {
   ValidateFormulaResponse,
   ValidateFormulaRequest,
   UpsertFormulaFieldRequest,
-  DeleteUserFormulaRequest
+  DeleteUserFormulaRequest, DataViewConfig
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { IDataViewService } from '../../../models/data-view';
 
 @Injectable()
-export class DataViewApiService {
+export class DataViewApiService implements IDataViewService {
   private endpoint = 'DataViews';
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
@@ -100,7 +101,7 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/RemoveSharePermission`, request);
   }
 
-  getDataViewConfig(pageViewId: string, name: string) {
+  getDataViewConfig(pageViewId: string, name: string): Observable<DataViewConfig> {
     const params = {
       pageViewId: pageViewId
     };

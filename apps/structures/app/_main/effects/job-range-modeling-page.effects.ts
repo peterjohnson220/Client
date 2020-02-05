@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { StructuresApiService, StructuresRangeGroupApiService } from 'libs/data/payfactors-api/structures';
+import { StructuresApiService, StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 import { UpdateCompanyStructureRangeGroupNameDto } from 'libs/models/structures/update-company-structure-range-group-name-dto.model';
 
 import * as fromJobRangeModelingActions from '../actions/job-range-modeling-page.actions';
@@ -57,7 +57,7 @@ export class JobRangeModelingPageEffects {
   constructor(
     private actions$: Actions,
     private structuresApiService: StructuresApiService,
-    private structuresRangeGroupApiService: StructuresRangeGroupApiService
+    private structuresRangeGroupApiService: StructureRangeGroupApiService
   ) {
   }
 }

@@ -57,7 +57,8 @@ import { JobLimitCounterComponent } from '../smallbiz/job-limit-counter';
   exports: [
     JobResultComponent,
     PaymarketsComponent,
-    JobLimitCounterComponent
+    JobLimitCounterComponent,
+    PfSearchModule
   ],
   providers: [
     SavedFiltersHelper,

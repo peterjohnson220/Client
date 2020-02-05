@@ -1,6 +1,6 @@
-import { CompanyStructureRange, generateMockCompanyStructureRange } from './company-structure-range.model';
+// import { CompanyStructureRange, generateMockCompanyStructureRange } from './company-structure-range.model';
 
-export interface CompanyStructureRangeGroup {
+export interface StructureRangeGroupResponse {
   CompanyStructuresRangeGroupId: number;
   CompanyId: number;
   CompanyStructuresId: number;
@@ -13,10 +13,10 @@ export interface CompanyStructureRangeGroup {
   IsPublished: boolean;
   IsCurrent: boolean;
   EffectiveDate: Date;
-  CompanyStructureRange: CompanyStructureRange[];
+  // CompanyStructureRange: CompanyStructureRange[];
 }
 
-export function generateMockCompanyStructureRangeGroup(): CompanyStructureRangeGroup {
+export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupResponse {
   return {
     CompanyStructuresRangeGroupId: 1,
     CompanyId: 13,
@@ -30,6 +30,6 @@ export function generateMockCompanyStructureRangeGroup(): CompanyStructureRangeG
     IsPublished: false,
     IsCurrent: true,
     EffectiveDate: new Date('1995-12-17T03:24:00'),
-    CompanyStructureRange: [generateMockCompanyStructureRange()]
+    // CompanyStructureRange: [generateMockCompanyStructureRange()]
   };
 }

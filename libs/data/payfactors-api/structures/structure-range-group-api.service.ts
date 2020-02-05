@@ -2,26 +2,25 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { StructureRangeGroupResponse } from 'libs/models/payfactors-api/structures';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
-import {
-  CompanyStructureRangeGroup
-} from '../../../models/structures/company-structure-range-group.model';
 import { UpdateCompanyStructureRangeGroupNameDto } from '../../../models/structures/update-company-structure-range-group-name-dto.model';
 
 @Injectable()
-export class StructuresRangeGroupApiService {
+export class StructureRangeGroupApiService {
   private readonly endpoint = 'StructureRangeGroup';
 
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  getCompanyStructureRangeGroup(companyStructureRangeGroupId: number): Observable<CompanyStructureRangeGroup> {
-    return this.payfactorsApiService.get<CompanyStructureRangeGroup>(`${this.endpoint}(${companyStructureRangeGroupId})`);
+  getCompanyStructureRangeGroup(companyStructureRangeGroupId: number): Observable<StructureRangeGroupResponse> {
+    return this.payfactorsApiService.get<StructureRangeGroupResponse>(`${this.endpoint}(${companyStructureRangeGroupId})`);
   }
 
   updateCompanyStructureRangeGroupName(updateCompanyStructureRangeGroupNameDto: UpdateCompanyStructureRangeGroupNameDto)
-    : Observable<CompanyStructureRangeGroup> {
-    return this.payfactorsApiService.post<CompanyStructureRangeGroup>(
+    : Observable<StructureRangeGroupResponse> {
+    return this.payfactorsApiService.post<StructureRangeGroupResponse>(
       `${this.endpoint}(${updateCompanyStructureRangeGroupNameDto.CompanyStructuresRangeGroupId})/Default.UpdateNameAsync`,
       {RangeGroupName: updateCompanyStructureRangeGroupNameDto.RangeGroupName});
   }

@@ -1,11 +1,11 @@
-import { CompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
+// import { CompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
 import { CompanyStructure } from 'libs/models/structures/company-structure.model';
 
 import * as fromJobRangeModelingPageActions from '../actions/job-range-modeling-page.actions';
 
 export interface State {
   structureLoadedFromServerComplete: boolean;
-  currentModel: CompanyStructureRangeGroup;
+  currentModel: any;
   isEditModelNameLoading: boolean;
   editModelNameError: string;
   currentStructure: CompanyStructure;
