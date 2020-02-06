@@ -1,33 +1,30 @@
-<pf-async-container [loading]="loading$ | async"
-                    [loadingError]="loadingError$ | async"
-                    [loadingErrorMessage]="'Error loading HRIS integration status'">
-  <div class="card mb-3 shadow-sm p-3">
-    <div class="card-body">
-      <h4 class="card-title">HRIS Integration</h4>
-      <!-- TODO: When we support more statuses, this can probably live as its own component -->
-      <span *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')" class="position-absolute integration-status integration-status-good">
-        Authenticated <fa-icon icon="check-circle" class="good-icon"></fa-icon>
-      </span>
-      <div class="row">
-        <div class="col-sm-12 p-0">
-          <pf-hris-integration-status [connectionSummary]="connectionSummary"></pf-hris-integration-status>
-        </div>
+<div class="card mb-3 shadow-sm p-3">
+  <div class="card-body">
+    <h4 class="card-title" *ngIf="transferMethodType === inbound">HRIS Integration</h4>
+    <h4 class="card-title" *ngIf="transferMethodType === outboundJdm">Outbound Job Description Integration</h4>
+    <!-- TODO: When we support more statuses, this can probably live as its own component -->
+    <span *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')" class="position-absolute integration-status integration-status-good">
+      Authenticated <fa-icon icon="check-circle" class="good-icon"></fa-icon>
+    </span>
+    <div class="row">
+      <div class="col-sm-12 p-0">
+        <pf-hris-integration-status [connectionSummary]="connectionSummary"></pf-hris-integration-status>
       </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <pf-transfer-schedule-summary></pf-transfer-schedule-summary>
-        </div>
+    </div>
+    <div class="row" *ngIf="transferMethodType !== outboundJdm">
+      <div class="col-sm-12">
+        <pf-transfer-schedule-summary></pf-transfer-schedule-summary>
       </div>
-      <div class="row pt-3">
-        <div class="col-sm-12 text-right">
-          <div class="p-2">
-            <button type="button" *ngIf="connectionSummary?.canEditMappings" class="btn btn-outline-primary" (click)="goToDataMapping()">View Data Mapping</button>
-          </div>
-          <div class="p-2">
-            <button type="button" *ngIf="false" class="btn btn-outline-primary">Edit</button>
-          </div>
+    </div>
+    <div class="row pt-3">
+      <div class="col-sm-12 text-right">
+        <div class="p-2">
+          <button type="button" *ngIf="connectionSummary?.canEditMappings" class="btn btn-outline-primary" (click)="goToDataMapping()">View Data Mapping</button>
+        </div>
+        <div class="p-2">
+          <button type="button" *ngIf="false" class="btn btn-outline-primary">Edit</button>
         </div>
       </div>
     </div>
   </div>
-</pf-async-container>
+</div>

@@ -1,7 +1,7 @@
 <pf-async-container [loading]="transferScheduleSummaryLoading$ | async"
                     [loadingError]="transferScheduleSummaryError$ | async"
                     [loadingErrorMessage]="'Error loading Transfer Schedule'">
-  <div class="card-mb-3 shadow-sm p-3">
+  <div class="card-mb-3 shadow-sm p-3" *ngIf="this.transferScheduleSummary.length">
     <div class="card-body">
       <h5 class="card-title text-uppercase text-muted">
         <fa-icon icon="calendar-alt"></fa-icon>
@@ -13,12 +13,6 @@
       <div class="row">
         <table class="table table-striped text-muted">
           <tbody>
-            <ng-container *ngIf="!this.transferScheduleSummary.length">
-              <tr *ngFor="let item of defaultEntities">
-                <td>{{ item }}</td>
-                <td class="text-right font-italic">not scheduled</td>
-              </tr>
-            </ng-container>
             <ng-container *ngIf="this.transferScheduleSummary.length">
               <tr *ngFor="let item of this.transferScheduleSummary">
                 <td>{{ item.entityMappingTypeName}}</td>
