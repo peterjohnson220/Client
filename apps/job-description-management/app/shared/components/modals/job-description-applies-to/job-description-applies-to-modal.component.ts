@@ -16,6 +16,7 @@ import * as fromJobDescriptionAppliesToReducers from '../../../reducers';
 import { JobDescriptionAppliesToItem } from '../../../models/job-description-appliesto-item.model';
 import { AppliesToAttributesExist } from '../../../models/applies-to-attributes-exist.model';
 import { Permissions } from 'libs/constants';
+import { JobDescriptionViewConstants } from '../../../constants';
 
 @Component({
   selector: 'pf-job-description-applies-to-modal',
@@ -58,6 +59,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
   private requiredAppliesToFieldFilledIn: boolean;
   private requiredAppliesToValueFilledIn: boolean;
   private searchColumnName: string;
+  private publicViewOptions = JobDescriptionViewConstants.PUBLIC_VIEW_OPTIONS;
 
   constructor(
     private modalService: NgbModal,
@@ -132,7 +134,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
       appliesTo.JobDescriptionTitle = this.appliesToform.controls['jobDescriptionTitle'].value
         ? this.appliesToform.controls['jobDescriptionTitle'].value
         : '';
-      appliesTo.PublicView = this.publicViewSelectedComboValue;
+      appliesTo.PublicView = this.appliesToform.controls['publicView'].value;
 
       const request = {
         JobDescriptionId: this.jobDescriptionId,
