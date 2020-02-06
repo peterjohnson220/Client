@@ -30,6 +30,10 @@ export const LOAD_DEFAULT_PAYMARKET_SUCCESS = '[Data Management/Field Mappings] 
 export const OPEN_DEFAULT_PAYMARKET_MODAL = '[Data Management/Field Mappings] Open Default Paymarket Modal';
 export const DISMISS_DEFAULT_PAYMARKET_MODAL = '[Data Management/Field Mappings] Dismiss Default Paymarket Modal';
 
+export const LOAD_CUSTOM_FIELDS_BY_ENTITY = '[Data Management/Field Mappings] Load Custom Fields';
+export const LOAD_CUSTOM_FIELDS_BY_ENTITY_ERROR = '[Data Management/Field Mappings] Load Custom Fields Error';
+export const LOAD_CUSTOM_FIELDS_BY_ENTITY_SUCCESS = '[Data Management/Field Mappings] Load Custom Fields Success';
+
 export class InitFieldMappingCard implements Action {
   readonly type = INIT_FIELD_MAPPING_CARD;
 
@@ -152,6 +156,24 @@ export class DismissDefaultPaymarketModal implements Action {
   constructor(public payload: { saveDefaultPaymarket: boolean }) {}
 }
 
+export class LoadCustomFieldsByEntity implements Action {
+  readonly type = LOAD_CUSTOM_FIELDS_BY_ENTITY;
+
+  constructor(public payload: { entity: string }) {}
+}
+
+export class LoadCustomFieldsByEntityError implements Action {
+  readonly type = LOAD_CUSTOM_FIELDS_BY_ENTITY_ERROR;
+
+  constructor() {}
+}
+
+export class LoadCustomFieldsByEntitySuccess implements Action {
+  readonly type = LOAD_CUSTOM_FIELDS_BY_ENTITY_SUCCESS;
+
+  constructor(public payload: { customFields: EntityDataField[], payfactorsFields: EntityDataField[], entityType: string }) {}
+}
+
 export type Actions
  = InitFieldMappingCard
  | InitFieldMappingCardError
@@ -172,4 +194,7 @@ export type Actions
  | LoadDefaultPaymarketError
  | LoadDefaultPaymarketSuccess
  | OpenDefaultPaymarketModal
- | DismissDefaultPaymarketModal;
+ | DismissDefaultPaymarketModal
+ | LoadCustomFieldsByEntity
+ | LoadCustomFieldsByEntityError
+ | LoadCustomFieldsByEntitySuccess;

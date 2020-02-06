@@ -197,7 +197,21 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
         defaultPaymarketModalOpen: false,
       };
     }
-    case fromFieldMappingActions.CANCEL_MAPPING: // TODO: stop gap for sales demo. Fix this when we move to MVP
+    case fromFieldMappingActions.CANCEL_MAPPING: { // TODO: stop gap for sales demo. Fix this when we move to MVP
+      return {
+        ...state,
+        payfactorsFields: null
+      };
+    }
+    case fromFieldMappingActions.LOAD_CUSTOM_FIELDS_BY_ENTITY_SUCCESS: {
+      const pf = cloneDeep(state.payfactorsFields);
+      pf[action.payload.entityType] = EntityMappingHelper.mapCustomUdfFieldsToPayfactorsEntity(action.payload.customFields, pf[action.payload.entityType]);
+      
+      return {
+        ...state,
+        payfactorsFields: pf
+      };
+    }
     default:
       return state;
   }
