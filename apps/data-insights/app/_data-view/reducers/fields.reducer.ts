@@ -97,7 +97,7 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
       const reportFieldStateObjClone = cloneDeep(state.reportFieldsAsync);
       const removedField = FieldsHelper.findField(reportFieldStateObjClone.obj, action.payload);
       removedField.IsSelected = false;
-      if (!hasAccessToPrivateFormulaField(removedField)) {
+      if (removedField.FieldType === FieldType.Formula && !hasAccessToPrivateFormulaField(removedField)) {
         reportFieldStateObjClone.obj = FieldsHelper.excludeFilter(reportFieldStateObjClone.obj, removedField);
       }
       return {
@@ -240,5 +240,5 @@ export const getFormulaFieldSuggestions = (state: State) => {
 };
 
 function hasAccessToPrivateFormulaField(field: Field): boolean {
-  return field.FieldType === FieldType.Formula && !field.IsPublic && field.AccessLevel === DataViewAccessLevel.Owner;
+  return !field.IsPublic && field.AccessLevel === DataViewAccessLevel.Owner;
 }
