@@ -3443,9 +3443,6 @@
             "styles": [
               "assets/scss/client.scss",
               "apps/total-rewards/styles.scss"
-            ],
-            "scripts": [
-              "assets/js/pendo.js"
             ]
           },
           "configurations": {
