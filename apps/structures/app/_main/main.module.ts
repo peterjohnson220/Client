@@ -32,6 +32,7 @@ import {
   JobBasedRangesAddJobsModalPageEffects,
   JobBasedRangesSearchResultsEffects,
   JobRangeModelingModalEffects,
+  ModelingSettingsPageEffects,
   SingledFilterEffects
 } from './effects';
 import { reducers } from './reducers';
@@ -54,6 +55,7 @@ import {
   JobRangeModelingModalComponent
 } from './containers';
 import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data';
+import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
 @NgModule({
   imports: [
@@ -71,10 +73,12 @@ import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data';
       JobBasedRangeAllStructuresEffects,
       JobRangeModelingGridEffects,
       JobRangeModelingModalEffects,
+      ModelingSettingsPageEffects,
       SingledFilterEffects
     ]),
     PerfectScrollbarModule,
     FontAwesomeModule,
+    NumericTextBoxModule,
 
     // Routing
     MainRoutingModule,

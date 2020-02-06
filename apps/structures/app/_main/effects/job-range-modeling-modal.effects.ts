@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import {  mergeMap} from 'rxjs/operators';
-import * as fromJobRangeModelingModalActions from '../actions/job-range-modeling-modal.actions';
+import { mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Action } from '@ngrx/store';
+
+import * as fromJobRangeModelingModalActions from '../actions/job-range-modeling-modal.actions';
+import * as fromStructuresMainReducer from '../reducers';
 
 @Injectable()
 export class JobRangeModelingModalEffects {
@@ -20,12 +22,20 @@ export class JobRangeModelingModalEffects {
   changePage$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobRangeModelingModalActions.CHANGE_PAGE),
-      mergeMap((action: fromJobRangeModelingModalActions.ChangePage) =>
-        [new fromJobRangeModelingModalActions.UpdateTitle(action.payload)]
-      ));
+      withLatestFrom(
+        this.store.select(fromStructuresMainReducer.getCurrentModel),
+        (action: fromJobRangeModelingModalActions.ChangePage, currentModel) => ({action, currentModel})
+      ),
+      switchMap((obj) => {
+        const title = `${obj.currentModel && obj.currentModel.RangeGroupName
+          ? obj.currentModel.RangeGroupName + ' - '
+          : ''} ${obj.action.payload} `;
+        return [new fromJobRangeModelingModalActions.UpdateTitle(title)];
+      }));
 
   constructor(
-    private actions$: Actions
+    private actions$: Actions,
+    private store: Store<fromStructuresMainReducer.State>
   ) {
   }
 }

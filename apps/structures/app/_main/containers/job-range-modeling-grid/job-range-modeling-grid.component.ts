@@ -9,7 +9,7 @@ import { CellClickEvent, GridComponent, GridDataResult, PageChangeEvent } from '
 import { State } from '@progress/kendo-data-query';
 
 import { ListAreaColumn } from 'libs/models/common/list-area';
-// import { CompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
+// import { StructureRangeGroupResponse } from 'libs/models/payfactors-api/structures';
 import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromStructuresMainReducer from '../../reducers';

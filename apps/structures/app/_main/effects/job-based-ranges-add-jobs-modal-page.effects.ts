@@ -11,6 +11,7 @@ import * as fromSearchPageActions from 'libs/features/search/actions/search-page
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import { ProjectApiService } from 'libs/data/payfactors-api/project';
 import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
+import { ADD_JOB_PAGE } from 'libs/features/add-jobs/constants/add-jobs-modal.constants';
 
 import * as fromJobBasedRangesAddJobsModalPageActions from '../actions/job-based-ranges-add-jobs-modal-page.actions';
 import * as fromJobRangeModelingModalActions from '../actions/job-range-modeling-modal.actions';
@@ -73,7 +74,7 @@ export class JobBasedRangesAddJobsModalPageEffects {
     .pipe(
       ofType(fromSearchPageActions.CLOSE_SEARCH_PAGE),
       mergeMap(() =>
-        [new fromJobBasedRangesAddJobsModalPageActions.CloseAddJobsModalPage()]
+        [new fromJobBasedRangesAddJobsModalPageActions.CloseAddJobsModalPage(ADD_JOB_PAGE.SEARCH)]
       )
     );
 
@@ -83,7 +84,7 @@ export class JobBasedRangesAddJobsModalPageEffects {
       ofType(fromJobBasedRangesAddJobsModalPageActions.CLOSE_ADD_JOBS_MODAL_PAGE),
       withLatestFrom(
         this.store.select(fromStructuresReducer.getContext),
-        (action, context) => {
+        (action: fromJobBasedRangesAddJobsModalPageActions.CloseAddJobsModalPage, context) => {
           return {
             action,
             context
@@ -94,7 +95,17 @@ export class JobBasedRangesAddJobsModalPageEffects {
         const actions = [];
 
         if (obj.context.IsFromAddStructureModal) {
-          actions.push(new fromJobRangeModelingModalActions.ChangePage(JobRangeModelingModalPage.ModelSettings));
+          switch (obj.action.source as ADD_JOB_PAGE) {
+            case ADD_JOB_PAGE.SEARCH:
+            case ADD_JOB_PAGE.ADD_JOBS:
+              actions.push(new fromJobRangeModelingModalActions.ChangePage(JobRangeModelingModalPage.ModelSettings));
+              break;
+            case ADD_JOB_PAGE.MODEL_SETTINGS:
+            case ADD_JOB_PAGE.DEFAULT:
+            default:
+              actions.push(new fromJobRangeModelingModalActions.CloseModal());
+              break;
+          }
         } else {
           actions.push(new fromJobRangeModelingModalActions.CloseModal());
         }
