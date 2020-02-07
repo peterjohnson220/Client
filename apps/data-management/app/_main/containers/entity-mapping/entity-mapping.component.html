@@ -17,7 +17,7 @@
               [ngbTooltip]="field.FieldName"
               placement="top-left"
               container="body"
-            >{{field.FieldName}}</label>
+            >{{field.DisplayName}}</label>
           </div>
         </div>
       </div>
@@ -57,10 +57,10 @@
               <label
                 class="w-100 mb-0 ellipsis-overflowing-text"
                 [class.font-weight-bold]="field.IsRequired"
-                [ngbTooltip]="field.FieldName"
+                [ngbTooltip]="field.DisplayName"
                 placement="top-left"
                 container="body"
-              >{{field.FieldName}}</label>
+              >{{field.DisplayName}}</label>
             </div>
           </div>
           <div
@@ -75,10 +75,10 @@
               >
                 <label
                   class="w-100 mb-0 ellipsis-overflowing-text"
-                  [ngbTooltip]="associatedField.FieldName"
+                  [ngbTooltip]="associatedField.DisplayName"
                   placement="top-left"
                   container="body"
-                >{{associatedField.FieldName}}</label>
+                >{{associatedField.DisplayName}}</label>
               </div>
               <button type="button" class="btn btn-outline-danger btn-remove-associated-entity px-4 py-1" (click)="removeAssociatedItem(field.EntityFieldId, field.AssociatedEntity[0])">REMOVE</button>
             </div>

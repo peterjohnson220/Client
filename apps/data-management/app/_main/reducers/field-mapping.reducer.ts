@@ -206,7 +206,6 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
     case fromFieldMappingActions.LOAD_CUSTOM_FIELDS_BY_ENTITY_SUCCESS: {
       const pf = cloneDeep(state.payfactorsFields);
       pf[action.payload.entityType] = EntityMappingHelper.mapCustomUdfFieldsToPayfactorsEntity(action.payload.customFields, pf[action.payload.entityType]);
-      
       return {
         ...state,
         payfactorsFields: pf
