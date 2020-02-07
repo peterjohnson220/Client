@@ -4,6 +4,7 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { LoaderFieldSet, FieldMappingsDTO } from 'libs/models/data-loads/index';
 import {FileUploadHeaderRequestModel} from 'libs/features/org-data-loader/models';
 import { OrgDataEntityType } from 'libs/constants';
+import { of } from 'rxjs';
 
 
 @Injectable()
@@ -41,19 +42,13 @@ export class LoaderFieldMappingsApiService {
   }
 
   getCustomFieldsByEntity(entity: string, companyId: number) {
-    let result;
-
     switch (entity) {
       case OrgDataEntityType.Employees:
-        result = this.getCustomEmployeeFields(companyId);
-        break;
+        return this.getCustomEmployeeFields(companyId);
       case OrgDataEntityType.Jobs:
-        result = this.getCustomJobFields(companyId);
-        break;
+        return this.getCustomJobFields(companyId);
       default:
-        result = null;
-        break;
+        return of([]);
     }
-    return result;
   }
 }
