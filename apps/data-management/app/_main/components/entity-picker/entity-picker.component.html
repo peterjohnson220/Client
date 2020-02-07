@@ -1,22 +1,11 @@
 <div *ngFor="let entity of entities"
      class="py-2">
-  <span class="cursor-pointer "
-        (click)="entity.isChecked = !entity.isChecked">
 
-    <fa-icon *ngIf="!entity.isChecked"
-             class="fa-lg unchecked-icon"
-             [icon]="['far', 'square']"></fa-icon>
+  <pf-checkbox [isChecked]="entity.isChecked"
+               [DisplayText]="entity.DisplayText"
+               [ToolTip]="entity.ToolTip"
+               (valueChange)="entity.isChecked = $event">
 
-    <fa-icon *ngIf="entity.isChecked"
-             class="fa-lg checked-icon"
-             [icon]="['fas', 'check-square']"></fa-icon>
+  </pf-checkbox>
 
-    <span class="ml-2"> {{entity.DisplayText}}</span>
-    <span class="ml-2">
-      <fa-icon [ngbTooltip]="entity.ToolTip"
-               placement="right"
-               [icon]="['fas', 'info-circle']"></fa-icon>
-    </span>
-
-  </span>
 </div>

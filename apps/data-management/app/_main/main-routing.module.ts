@@ -1,17 +1,13 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import {PermissionCheckEnum, Permissions} from 'libs/constants';
-import {AuthorizationGuard} from 'libs/security/guards';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { AuthorizationGuard } from 'libs/security/guards';
 
 import {
-  DataManagementHomePageComponent,
-  DataManagementLandingPageComponent,
-  OrgDataLoadComponent,
-  ResetIntegrationPageComponent,
-  TransferDataPageComponent,
-  TransferSchedulePageComponent
+    CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent, OrgDataLoadComponent,
+    ResetIntegrationPageComponent, TransferDataPageComponent, TransferSchedulePageComponent
 } from './containers';
 
 const routes: Routes = [
@@ -20,6 +16,11 @@ const routes: Routes = [
     component: OrgDataLoadComponent,
     canActivate: [AuthorizationGuard],
     data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD, Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any },
+  },
+  {
+    path: 'custom-employee-identifier',
+    component: CustomEmployeeIdentifierComponent,
+    canActivate: [AuthorizationGuard]
   },
   {
     path: '',

@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
 import * as fromEmailRecipientsReducer from 'libs/features/loader-email-reipients/state/reducers/email-recipients.reducer';
+import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
@@ -13,6 +13,7 @@ import * as fromFileUploadReducer from './file-upload.reducer';
 import * as fromCustomFieldsReducer from './custom-fields.reducer';
 import * as fromTransferScheduleReducer from './transfer-schedule.reducer';
 import * as fromHrisConnectionReducer from './hris-connection.reducer';
+import * as fromEntityIdentifierReducer from './entity-identifiers.reducer';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
@@ -25,6 +26,7 @@ export interface DataManagementMainState {
   emailRecipients: fromEmailRecipientsReducer.State;
   transferSchedule: fromTransferScheduleReducer.State;
   hrisConnection: fromHrisConnectionReducer.State;
+  entityIdentifiers: fromEntityIdentifierReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -41,7 +43,8 @@ export const reducers = {
   emailRecipients: fromEmailRecipientsReducer.reducer,
   customFieldsData: fromCustomFieldsReducer.reducer,
   transferSchedule: fromTransferScheduleReducer.reducer,
-  hrisConnection: fromHrisConnectionReducer.reducer
+  hrisConnection: fromHrisConnectionReducer.reducer,
+  entityIdentifiers: fromEntityIdentifierReducer.reducer
 };
 
 // Select Feature Area
@@ -84,6 +87,11 @@ export const selectTransferScheduleState = createSelector(
 export const selectHrisConnectionState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.hrisConnection
+);
+
+export const selectEntityIdentifierState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.entityIdentifiers
 );
 
 // Transfer Data Page
@@ -264,16 +272,16 @@ export const getColumnNamesError = createSelector(
 // Custom Fields
 export const getCustomJobField =
   createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFields
-);
+  );
 export const getCustomJobFieldError =
   createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFieldsError
-);
+  );
 export const getCustomEmployeeField =
   createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeField
-);
+  );
 export const getCustomEmployeeFieldError =
   createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeFieldError
-);
+  );
 
 // Notification
 export const isProcessingMapping = createSelector(
@@ -340,3 +348,10 @@ export const getHrisActiveConnectionSaving = createSelector(selectHrisConnection
 export const getHrisActiveConnectionSavingError = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getSavingError);
 export const getHrisActiveConnectionDeleteCompleted = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getDeleteCompleted);
 export const getHrisConnectionSummary = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getConnectionSummary);
+
+// entity identifiers
+export const getEmployeeIdentifiers = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.GetEmployeeIdentifiers);
+export const hasEntityIdDataError = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.HasDataError);
+export const isFetchingEntityIdData = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.IsFetchingData);
+export const hasSavedEntityIdData = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.HasSavedEmployeeIdentifiers);
+

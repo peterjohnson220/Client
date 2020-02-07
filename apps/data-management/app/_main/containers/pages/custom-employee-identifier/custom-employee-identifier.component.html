@@ -1,0 +1,109 @@
+<pf-async-container [loading]="">
+  <pf-page-with-title-bar>
+    <ng-container custom-button>
+      <button class="btn btn-secondary px-3 mr-2"
+              (click)="goBack()">
+        <fa-icon icon="long-arrow-alt-left"
+                 aria-hidden="true"></fa-icon>
+      </button>
+    </ng-container>
+    <ng-container page-title>
+      Employee Validation Settings
+    </ng-container>
+    <ng-container page-content>
+      <div class=" w-100 d-flex justify-content-center">
+        <div class="w-100">
+          <h4 class="my-2">Employee Fields <span *ngIf="this.selectedCompany"> -
+              {{this.selectedCompany.CompanyName}}</span></h4>
+          <div class="shadow p-3 rounded container-background">
+
+            <div *ngIf="step === stepEnum.Company">
+              <div class="form-group">
+                <label class="sr-only"
+                       for="companySearch">Company Search</label>
+                <pf-company-selector>
+                </pf-company-selector>
+              </div>
+              <div class="text-right mt-3">
+                <button type="button"
+                        (click)="companySelected()"
+                        [style.opacity]="this.getNextBtnOpacity()"
+                        [ngbTooltip]="this.areStepsValid() ? '' :  'You must choose a company'"
+                        placement="top"
+                        class="btn mx-1 pf-primary-btn">Next</button>
+              </div>
+            </div>
+            <div *ngIf="step === stepEnum.Fields">
+              <!-- TODO: possibly make me a component depending on final complexity-->
+              <div class="alert alert-info"
+                   role="alert"
+                   style="border-left: 8px solid #47A8CD ">
+                Select the fields that will make employee records unique. If more than one field is selected, employee
+                records will validate if the combination of the fields selected are unique.
+              </div>
+              <pf-async-container [loadingError]="hasFetchingError$ | async">
+
+                <div class="radio-size px-5">
+                  <div class="custom-control custom-radio">
+                    <input type="radio"
+                           id="empId"
+                           class="custom-control-input"
+                           [(ngModel)]="isCustomField"
+                           [value]="false">
+                    <label class="custom-control-label"
+                           for="empId">Employee ID</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input type="radio"
+                           id="selectFields"
+                           class="custom-control-input"
+                           [(ngModel)]="isCustomField"
+                           [value]="true">
+                    <label class="custom-control-label"
+                           for="selectFields">Select Fields</label>
+                  </div>
+
+                  <div *ngIf="isCustomField === true"
+                       class="ml-3 mt-3">
+                    <h5>Select up to 4 fields that will determine employee uniqueness.</h5>
+                    <div class="p-3 box-border">
+                      <ng-container *ngFor="let fields of employeeFields; let i = index; ">
+                        <pf-checkbox [isChecked]="fields.isChecked"
+                                     [isDisabled]="fields.isDisabled"
+                                     (valueChange)="checkboxChanged($event, fields)"
+                                     [DisplayText]="fields.Field">
+
+                        </pf-checkbox><br />
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+
+              </pf-async-container>
+              <div class="text-right mt-3">
+                <button type="button"
+                        (click)="refreshIdentifiers()"
+                        class="btn mx-1 btn-md pf-secondary-btn"
+                        [disabled]="isFetchingData$ | async">
+                  <span *ngIf="isFetchingData$ | async">
+                    <pf-loading-indicator></pf-loading-indicator>
+                  </span>Cancel</button>
+                <button type="button"
+                        (click)="submitChanges()"
+                        [style.opacity]="this.getNextBtnOpacity()"
+                        [ngbTooltip]="this.areStepsValid() ? '' :  'Invalid Selection'"
+                        placement="top"
+                        class="btn mx-1 pf-primary-btn"
+                        [disabled]="isFetchingData$ | async">
+                  <span *ngIf="isFetchingData$ | async">
+                    <pf-loading-indicator></pf-loading-indicator>
+                  </span>
+                  Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </pf-page-with-title-bar>
+</pf-async-container>

@@ -1,5 +1,6 @@
+import { CompanySelectorItem } from 'libs/features/company/models';
+
 import * as fromCompanySelectorActions from '../actions/company-selector.actions';
-import { CompanySelectorItem } from '../models';
 
 export interface State {
   getCompanies: boolean;

@@ -4,11 +4,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { SurveyLibraryApiService } from 'libs/data/payfactors-api';
+import { CompanySelectorItem } from 'libs/features/company/models';
 
 import * as fromSurveysReducer from '../../reducers';
 import * as fromSurveyActions from '../../actions/survey-actions';
 import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
-import { CompanySelectorItem } from '../../models';
 
 @Component({
   selector: 'pf-copy-survey-modal',
