@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ListAreaBaseFilter } from '../list-area-base-filter';
 import { BooleanOperatorOptions } from '../../../models/list-area-options.model';
+import { JobDescriptionViewConstants } from '../../../constants';
 
 
 @Component({
@@ -9,10 +10,7 @@ import { BooleanOperatorOptions } from '../../../models/list-area-options.model'
 })
 export class ListAreaFilterBooleanComponent extends ListAreaBaseFilter {
 
-    public publicViewOptions =  [
-        { display: 'Enabled', value: true},
-        { display: 'Disabled', value: false}
-      ];
+    public publicViewOptions = JobDescriptionViewConstants.PUBLIC_VIEW_OPTIONS;
 
     public dropDownOptions = BooleanOperatorOptions;
     public disableValueOperators = BooleanOperatorOptions.filter(t => !t.checkValue);

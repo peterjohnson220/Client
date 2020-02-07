@@ -78,11 +78,13 @@
         <label class="col-4 col-form-label">Public View:</label>
         <div class="col-8">
           <span>
-            <select id="publicViewInput" class="form-control" [ngModelOptions]="{standalone: true}"
-              [(ngModel)]="publicViewSelectedComboValue">
-              <option [ngValue]="true">Enabled</option>
-              <option [ngValue]="false">Disabled</option>
-            </select>
+            <kendo-dropdownlist class="form-control" formControlName="publicView"
+              [data]="publicViewOptions"
+              [textField]="'display'"
+              [valueField]="'value'"
+              [valuePrimitive]="true"
+              [style.width]="'100%'">
+            </kendo-dropdownlist>
           </span>
         </div>
       </div>

@@ -3,4 +3,9 @@ export class JobDescriptionViewConstants {
   public static PUBLIC_VIEW = 'Public';
 
   public static SYSTEM_VIEWS: string[] = [JobDescriptionViewConstants.DEFAULT_VIEW, JobDescriptionViewConstants.PUBLIC_VIEW];
+
+  public static PUBLIC_VIEW_OPTIONS =  [
+    { display: 'Enabled', value: true},
+    { display: 'Disabled', value: false}
+  ];
 }
