@@ -11,6 +11,9 @@
   [expandedRowTemplate]="pricingMatchesGrid"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
+  [showActionBar]="true"
+  [actionBarClassName]="'pricing-details-grid-action-bar ml-0 mt-1'"
+  [gridGlobalFiltersTemplate]="globalFilterTemplates"
   [headerClassName]="'pricing-details-grid-header'">
 </pf-data-grid>
 
@@ -60,3 +63,21 @@
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
 </ng-template>
+
+<ng-template #payMarketFilter>
+      <kendo-dropdownlist
+        style="width: 250px"
+      [(ngModel)]="selectedPayMarket"
+      [textField]="'Value'"
+      [valueField]="'Id'"
+      [defaultItem]="{Value:'All Pay Markets', Id: null}"
+      [data]="filteredPayMarketOptions"
+      (valueChange)="handlePayMarketFilterChanged($event)"
+      [filterable]="true"
+      (filterChange)="handleFilter($event)"
+      [attr.data-qa-id]="'ddm-operator-'+payMarketField.SourceName"
+      class="k-dropdown-white form-control"
+    >
+    </kendo-dropdownlist>
+</ng-template>
+

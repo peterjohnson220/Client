@@ -48,6 +48,8 @@ export const getJobDescriptionUpdated = createSelector(selectJobDescriptionState
 export const getSavingState = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getSavingState);
 export const getJobDescriptionLoaded = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionLoaded);
 export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingIdToBeDeleted);
+export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
 export const getShowAddToProjectSummaryModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowAddToProjectSummaryModal);
+
 
 

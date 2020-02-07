@@ -12,7 +12,11 @@
   [allowSort]="false"
   [noRecordsFound]="'This job has not been priced and does not have any pricing history.'"
   [rowActionTemplate]="rowActions"
-  [applyDefaultFilters]="false">
+  [applyDefaultFilters]="false"
+  [showActionBar]="true"
+  [gridGlobalFiltersTemplate]="globalFilterTemplates"
+  [actionBarClassName]="'employee-grid-action-bar ml-0 mt-1'"
+  [headerClassName]="'employee-grid-header'">
 </pf-data-grid>
 
 <ng-template #createUserColumn let-dataRow="dataRow">
@@ -29,6 +33,7 @@
 </ng-template>
 
 <pf-modal-form
+
   [modalId]="'au-delete-pricing'"
   [isOpen$]="pricingIdToBeDeleted$"
   [size]="'md'"
@@ -42,3 +47,20 @@
     This action will permanently delete this pricing. Would you like to continue?
   </ng-container>
 </pf-modal-form>
+
+<ng-template #payMarketFilter>
+  <kendo-dropdownlist
+    style="width: 250px"
+    [(ngModel)]="selectedPayMarket"
+    [textField]="'Value'"
+    [valueField]="'Id'"
+    [defaultItem]="{Value:'All Pay Markets', Id: null}"
+    [data]="filteredPayMarketOptions"
+    (valueChange)="handlePayMarketFilterChanged($event)"
+    [filterable]="true"
+    (filterChange)="handleFilter($event)"
+    [attr.data-qa-id]="'ddm-operator-'+payMarketField?.SourceName"
+    class="k-dropdown-white form-control">
+  </kendo-dropdownlist>
+</ng-template>
+

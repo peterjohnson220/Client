@@ -66,7 +66,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             expandedRows: [],
             selectAllState: 'unchecked',
             data: null,
-            applyDefaultFilters: true
+            applyDefaultFilters: true,
+            splitViewFilters: []
           }
         }
       };
@@ -121,7 +122,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             groupedFields: buildGroupedFields(action.fields),
             selectedRecordId: null,
             expandedRows: [],
-            splitViewFilters: []
           }
         }
       };
@@ -193,13 +193,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       updatedField.FilterValue = action.payload.FilterValue;
       updatedField.FilterOperator = action.payload.FilterOperator;
 
+      const splitViewFilters = updatedFields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
+        .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName))
+
       return {
         ...state,
         grids: {
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: updatedFields
+            fields: updatedFields,
+            splitViewFilters: splitViewFilters
           }
         }
       };
@@ -219,7 +223,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: clearedFilterFields
+            fields: clearedFilterFields,
+            splitViewFilters: []
           }
         }
       };
@@ -241,7 +246,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: resetAllFilters(state, action.pageViewId)
+            fields: resetAllFilters(state, action.pageViewId),
+            splitViewFilters: []
           }
         }
       };
@@ -254,7 +260,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             filterPanelOpen: !state.grids[action.pageViewId].filterPanelOpen,
             selectedRecordId: null,
-            splitViewFilters: [],
             fields: resetOperatorsForEmptyFilters(state, action.pageViewId)
           }
         }
@@ -270,8 +275,14 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
-    case fromPfGridActions.UPDATE_SELECTED_RECORD_ID:
-      return {
+    case fromPfGridActions.UPDATE_SELECTED_RECORD_ID: {
+        const  newSplitViewFilters = [...state.grids[action.pageViewId].splitViewFilters]
+          .filter(f => f.SourceName !== action.fieldName);
+
+        if (action.recordId) {
+          newSplitViewFilters.push(buildExternalFilter(action.recordId.toString(), action.operator, action.fieldName));
+        }
+        return  {
         ...state,
         grids: {
           ...state.grids,
@@ -279,10 +290,11 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             selectedRecordId: action.recordId,
             filterPanelOpen: false,
-            splitViewFilters: action.recordId ? [buildExternalFilter(action.recordId.toString(), action.fieldName)] : []
+            splitViewFilters: newSplitViewFilters
           }
         }
       };
+  }
     case fromPfGridActions.EXPAND_ROW:
       const newExpandedRows = [...(state.grids[action.pageViewId].expandedRows)];
       newExpandedRows.push(action.rowIndex);
@@ -439,8 +451,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectedRecordId: null,
-            splitViewFilters: []
+            selectedRecordId: null
           }
         }
       };
@@ -639,8 +650,10 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
 
     inboundFilters.forEach(filter => {
       const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName);
-      fieldToUpdate.FilterOperator = filter.Operator;
-      fieldToUpdate.FilterValue = filter.Value;
+      if (fieldToUpdate) {
+        fieldToUpdate.FilterOperator = filter.Operator;
+        fieldToUpdate.FilterValue = filter.Value;
+      }
     });
 
     return updatedFields;
@@ -649,10 +662,10 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
   return fields;
 }
 
-export function buildExternalFilter(value: string, fieldName: string): PfDataGridFilter {
+export function buildExternalFilter(value: string, operator: string,  fieldName: string): PfDataGridFilter {
   return {
     SourceName: fieldName,
-    Operator: '=',
+    Operator: operator,
     Value: value
   };
 }

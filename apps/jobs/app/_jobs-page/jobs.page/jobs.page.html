@@ -102,3 +102,23 @@
     </div>
   </div>
 </ng-template>
+<ng-template #payMarketFilter>
+  <div>
+    <label>
+      Pay Market:
+    </label>
+      <kendo-dropdownlist
+        [(ngModel)]="selectedPayMarket"
+        [textField]="'Value'"
+        [valueField]="'Id'"
+        [defaultItem]="{Value:'All Pay Markets', Id: null}"
+        [data]="filteredPayMarketOptions"
+        (valueChange)="handlePayMarketFilterChanged($event)"
+        [filterable]="true"
+        (filterChange)="handleFilter($event)"
+        [attr.data-qa-id]="'ddm-operator-'+payMarketField.SourceName"
+        class="k-dropdown-white form-control"
+      >
+      </kendo-dropdownlist>
+  </div>
+</ng-template>

@@ -16,6 +16,9 @@ export const CONFIRM_DELETE_PRICING_FROM_GRID = '[Jobs Page] Confirm Delete Pric
 export const DELETE_PRICING_FROM_GRID = '[Jobs Page] Delete Pricing From Grid';
 export const DELETE_PRICING_SUCCESS = '[Jobs Page] Delete Pricing Success';
 export const CANCEL_DELETE_PRICING = '[Jobs Page] Cancel Delete Pricing';
+export const LOAD_COMPANY_PAYMARKETS = '[Jobs Page] Load Company PayMarket';
+export const LOAD_COMPANY_PAYMARKETS_SUCCESS = '[Jobs Page] Load Company PayMarket Success';
+
 
 export class SetJobsPageId implements Action {
   readonly type = SET_JOBS_PAGE_ID;
@@ -76,6 +79,15 @@ export class CancelDeletePricing implements Action {
   readonly type = CANCEL_DELETE_PRICING;
   constructor() {}
 }
+export class LoadCompanyPayMarkets implements Action {
+  readonly type = LOAD_COMPANY_PAYMARKETS;
+  constructor() {}
+}
+export class LoadCompanyPayMarketsSuccess implements Action {
+  readonly type = LOAD_COMPANY_PAYMARKETS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 
 export type JobsPageActions
   = SetJobsPageId
@@ -89,4 +101,6 @@ export type JobsPageActions
   | ConfirmDeletePricingFromGrid
   | DeletePricingFromGrid
   | DeletePricingSuccess
-  | CancelDeletePricing;
+  | CancelDeletePricing
+  | LoadCompanyPayMarkets
+  | LoadCompanyPayMarketsSuccess;
