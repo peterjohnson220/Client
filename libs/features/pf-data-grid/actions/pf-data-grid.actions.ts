@@ -131,7 +131,7 @@ export class SetFilterPanelDisplay implements Action {
 
 export class UpdateSelectedRecordId implements Action {
   readonly type = UPDATE_SELECTED_RECORD_ID;
-  constructor(public pageViewId: string, public recordId: number, public fieldName: string) {}
+  constructor(public pageViewId: string, public recordId: number, public operator: string, public fieldName: string) {}
 }
 
 export class ExpandRow implements Action {
