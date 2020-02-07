@@ -1,13 +1,17 @@
 import { Action } from '@ngrx/store';
 
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
+import { AddToProjectRequest } from '../models';
 
 export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
 export const LOAD_COMPANY = '[Jobs Page] Load Company';
 export const LOAD_COMPANY_ERROR = '[Jobs Page] Load Company Error';
 export const LOAD_COMPANY_SUCCESS = '[Jobs Page] Load Company Success';
 export const HANDLE_API_ERROR = '[Jobs Page] Handle API Error';
-export const ADD_JOBS_TO_PROJECT = '[Jobs Page] Add To Project';
+export const ADD_TO_PROJECT = '[Jobs Page] Add To Project';
+export const ADD_TO_PROJECT_SUCCESS = '[Jobs Page] Add To Project Success';
+export const ADD_TO_PROJECT_SUMMARY = '[Jobs Page] Add to Project Summary';
+export const CANCEL_ADD_TO_PROJECT_SUMMARY = '[Jobs Page] Cancel Add to Project Summary';
 export const CONFIRM_DELETE_PRICING_FROM_GRID = '[Jobs Page] Confirm Delete Pricing From Grid';
 export const DELETE_PRICING_FROM_GRID = '[Jobs Page] Delete Pricing From Grid';
 export const DELETE_PRICING_SUCCESS = '[Jobs Page] Delete Pricing Success';
@@ -36,9 +40,24 @@ export class HandleApiError implements Action {
     constructor(public payload: string) { }
 }
 
-export class AddJobsToProject implements Action {
-  readonly type = ADD_JOBS_TO_PROJECT;
-  constructor(public payload: number[]) { }
+export class AddToProject implements Action {
+  readonly type = ADD_TO_PROJECT;
+  constructor(public payload: AddToProjectRequest) {}
+}
+
+export class AddToProjectSuccess implements Action {
+  readonly type = ADD_TO_PROJECT_SUCCESS;
+  constructor() {}
+}
+
+export class AddToProjectSummary implements Action {
+  readonly type = ADD_TO_PROJECT_SUMMARY;
+  constructor(public payload: AddToProjectRequest) {}
+}
+
+export class CancelAddToProjectSummary implements Action {
+  readonly type = CANCEL_ADD_TO_PROJECT_SUMMARY;
+  constructor() {}
 }
 
 export class ConfirmDeletePricingFromGrid implements Action {
@@ -75,7 +94,10 @@ export type JobsPageActions
   | LoadCompany
   | LoadCompanySuccess
   | HandleApiError
-  | AddJobsToProject
+  | AddToProject
+  | AddToProjectSuccess
+  | AddToProjectSummary
+  | CancelAddToProjectSummary
   | ConfirmDeletePricingFromGrid
   | DeletePricingFromGrid
   | DeletePricingSuccess

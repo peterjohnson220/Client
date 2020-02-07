@@ -1,22 +1,23 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { ViewField } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
-
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import {RemoteDataSourceService} from 'libs/core/services';
 
+import { PageViewIds } from '../constants';
+import { AddToProjectRequest } from '../models';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-
-import * as cloneDeep from 'lodash.clonedeep';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -27,8 +28,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredPayMarketOptions: any;
   payMarketOptions: any;
   permissions = Permissions;
-  pageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
-  selectedKeys: number[];
+  pageViewIds = PageViewIds;
+  pageViewId = this.pageViewIds.JOBS_PAGE;
+  selectedJobIds: number[];
+  selectedPricingIds: number[];
   peerField: ViewField;
   payMarketField: ViewField;
   selectedPayMarket: any;
@@ -44,10 +47,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }];
 
   selectedKeysSubscription: Subscription;
+  selectedPricingIdSubscription: Subscription;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   company$: Observable<string>;
   addingToProject$: Observable<boolean>;
+  showAddToProjectSummary$: Observable<boolean>;
+
   addingNewJob = false;
 
   colTemplates = {};
@@ -66,14 +72,17 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private store: Store<fromJobsPageReducer.State>) {
 
     this.company$ = this.store.select(fromJobsPageReducer.getCompany);
-    this.addingToProject$ = this.store.select(fromJobsPageReducer.getToProjectButtonState);
+    this.addingToProject$ = this.store.select(fromJobsPageReducer.getAddToProjectButtonState);
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
       });
     this.selectedKeysSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
-      this.selectedKeys = sk;
+      this.selectedJobIds = sk || [];
+    });
+    this.selectedPricingIdSubscription = this.store.select(fromPfGridReducer.getSelectedKeys, this.pageViewIds.PRICING_DETAILS).subscribe(pid => {
+      this.selectedPricingIds = pid || [];
     });
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
@@ -83,6 +92,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
           {Value : this.payMarketField.FilterValue, Id : this.payMarketField.FilterValue} : null;
       }
     });
+    this.showAddToProjectSummary$ = this.store.select(fromJobsPageReducer.getShowAddToProjectSummaryModal);
   }
 
   ngOnInit() {
@@ -102,8 +112,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  addJobsToProject() {
-    return this.store.dispatch(new fromJobsPageActions.AddJobsToProject(this.selectedKeys));
+  showAddToProjectSummary() {
+    this.store.dispatch(new fromJobsPageActions.AddToProjectSummary(this.getAddToProjectSummary()));
+  }
+
+  addToProject() {
+    this.store.dispatch(new fromJobsPageActions.AddToProject(this.getAddToProjectSummary()));
   }
 
   getPageTitle(companyName: string) {
@@ -112,9 +126,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.selectedKeysSubscription.unsubscribe();
+    this.selectedPricingIdSubscription.unsubscribe();
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
   }
+
   closeSplitView() {
     this.store.dispatch(new fromPfGridActions.UpdateSelectedRecordId(this.pageViewId, null, null, null));
   }
@@ -145,5 +161,17 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handleFilter(value) {
     this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+  }
+
+  dismissAddToProjectSummaryModal() {
+    this.store.dispatch(new fromJobsPageActions.CancelAddToProjectSummary());
+  }
+
+  getAddToProjectSummary(): AddToProjectRequest {
+    const summary: AddToProjectRequest = {
+      JobIds: this.selectedJobIds,
+      PricingIds: this.selectedPricingIds
+    };
+    return summary;
   }
 }

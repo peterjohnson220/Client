@@ -4,7 +4,6 @@
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
   [gridGlobalActionsTemplate]="gridGlobalActions"
-  [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
   [filterPanelTemplate]="filterTemplates"
   [showFilterChooser]="true"
@@ -13,7 +12,7 @@
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
-[showActionBar]="true">
+  [showActionBar]="true">
 </pf-data-grid>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
@@ -32,55 +31,52 @@
   </pf-jobs-details>
 </ng-template>
 
-<ng-template #gridActions>
+<ng-template #gridGlobalActions>
   <button
+    [disabled]="!(selectedJobIds.length || selectedPricingIds.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
-    [attr.data-qa-id]="'btn-addJobsToProject'"
+    [attr.data-qa-id]="'btn-add-to-project'"
     type="button"
-    [disabled]="!selectedKeys || selectedKeys.length==0"
-    (click)="addJobsToProject()"
-    class="btn btn-link">
-    <span *ngIf="!(addingToProject$ | async)">
-    <fa-icon icon="calculator"></fa-icon>
-      Add
-      <span *ngIf="selectedKeys?.length == 1"> Job</span>
-      <span *ngIf="selectedKeys?.length > 1"> ({{selectedKeys?.length}}) Jobs</span>
-      to Project
+    (click)="showAddToProjectSummary()"
+    title="Stuff and things"
+    class="btn btn-secondary ml-2">
+    Add to Project
+    <span *ngIf="selectedJobIds.length + selectedPricingIds.length > 0">
+      ({{selectedJobIds.length + selectedPricingIds.length}})
     </span>
   </button>
-</ng-template>
-
-<ng-template #gridGlobalActions>
   <button
     [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
     [attr.data-qa-id]="'btn-newJob'"
     type="button"
     (click)="addingNewJob = true"
-    class="btn btn-primary">
+    class="btn btn-primary ml-2">
     New Job
   </button>
 </ng-template>
 
 <pf-modal-form
-  [modalId]="'au-modal-add-jobs-to-project'"
-  [isOpen$]="addingToProject$"
   [size]="'md'"
-  [submitting]="false"
-  [showFooter]="false"
-  [centered]="true"
-  [allowDismiss]="false"
-  [title]="'Add Jobs to Project'"
+  [title]="'Add to Project'"
+  [primaryButtonText]="'Add'"
+  [primaryButtonTextSubmitting]="'Adding'"
+  [modalId]="'au-modal-jobs-page-add-to-project'"
+  [submitting]="(addingToProject$ | async)"
+  [isOpen$]="showAddToProjectSummary$"
+  (onSubmit)="addToProject()"
+  (onDismiss)="dismissAddToProjectSummaryModal()"
 >
   <ng-container basic-content>
-    <h4 class="text-center pb-3 pt-3">
-      <fa-icon icon="spinner" spin="true"> </fa-icon>
-      We are adding the selected
-      <span *ngIf="selectedKeys?.length == 1"> job</span>
-      <span *ngIf="selectedKeys?.length > 1"> jobs</span>
-      to a Project
-    </h4>
+    The following will be added to a new Project:
+    <div>
+      Job Count: {{selectedJobIds.length}}
+    </div>
+    <div>
+      Pricing Count: {{selectedPricingIds.length}}
+    </div>
   </ng-container>
 </pf-modal-form>
+
 
 <pf-job-management
   [showJobForm]="addingNewJob"

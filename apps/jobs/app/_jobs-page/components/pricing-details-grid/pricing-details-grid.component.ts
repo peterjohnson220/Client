@@ -1,18 +1,22 @@
-import {Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy} from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
+
+import { Subscription } from 'rxjs';
+
+import { Store } from '@ngrx/store';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
+
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import {RemoteDataSourceService} from 'libs/core/services';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import {ViewField} from 'libs/models/payfactors-api/reports/request';
+import { RemoteDataSourceService } from 'libs/core/services';
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
+
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import * as cloneDeep from 'lodash.clonedeep';
-import {Subscription} from 'rxjs';
+import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
-import {Store} from '@ngrx/store';
 import * as fromJobsPageReducer from '../../reducers';
-
-
 
 @Component({
   selector: 'pf-pricing-details-grid',
@@ -43,6 +47,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'CompanyPayMarkets_PayMarket'
   }];
+  selectedKeys: number[];
 
   constructor(private store: Store<fromJobsPageReducer.State>, private remoteDataSourceService: RemoteDataSourceService) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -51,7 +56,6 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
         this.payMarketOptions = o;
       });
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
-
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
