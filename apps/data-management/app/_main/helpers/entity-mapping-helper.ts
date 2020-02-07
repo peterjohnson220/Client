@@ -54,13 +54,15 @@ export class EntityMappingHelper {
   }
 
   static mapCustomUdfFieldsToPayfactorsEntity(customFields: any[], payfactorsFields: EntityDataField[]): EntityDataField[] {
-    const udfFields = payfactorsFields.filter(x => x.FieldName.includes('Udf'));
+    const udfFields = payfactorsFields.filter(x => x.FieldName.toLowerCase().startsWith('udf'));
 
-    customFields.forEach(customField => {
-      const udfField = udfFields.find(udf => udf.FieldName + 'Name' === customField.Key);
-      udfField.FieldName = customField.Value;
-    });
+    if (udfFields.length > 0) {
+      customFields.forEach(customField => {
+        const udfField = udfFields.find(udf => udf.FieldName + 'Name' === customField.Key);
+        udfField.DisplayName = customField.Value;
+      });
+    }
 
-    return payfactorsFields.filter(x => !x.FieldName.includes('Udf'));
+    return payfactorsFields.filter(x => !x.DisplayName.toLowerCase().startsWith('udf'));
   }
 }

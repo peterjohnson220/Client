@@ -119,6 +119,7 @@ export class PayfactorsApiModelMapper {
         EntityFieldId: pef.entityField_ID,
         EntityType: entityType,
         FieldName: pef.fieldName,
+        DisplayName: pef.fieldName,
         IsRequired: pef.requiredField,
         HasDescription: pef.hasDescription,
         Description: pef.description,
@@ -133,6 +134,7 @@ export class PayfactorsApiModelMapper {
       return {
         EntityType: entityType,
         FieldName: pef.name,
+        DisplayName: pef.name,
         HasAssociation: false,
         DataType: ImportDataType[pef.dataType]
       };
