@@ -82,14 +82,21 @@
                   <label class="col-2 col-form-label">Public View:</label>
                   <div class="col-4">
                       <div [ngClass]="{'public-view-tooltip' : !addAndAssign }">
-                          <select id="publicViewInput" class="form-control" [ngModelOptions]="{standalone: true}"
-                                  [(ngModel)]="publicViewSelectedValue" [disabled]="!addAndAssign">
-                              <option [ngValue]="true">Enabled</option>
-                              <option [ngValue]="false">Disabled</option>
-                          </select>
+                          <kendo-dropdownlist
+                            [data]="publicViewOptions"
+                            [textField]="'display'"
+                            [valueField]="'value'"
+                            [valuePrimitive]="true"
+                            [value]="publicViewSelectedValue"
+                            [style.width]="'100%'"
+                            (valueChange)="valueChange($event)"
+                            [disabled]="!addAndAssign" >
+                          </kendo-dropdownlist>
                           <span class="tooltiptext">Please select a template to set the Public View option.</span>
                       </div>
                   </div>
+
+
                 </ng-container>
               </div>
             </div>
