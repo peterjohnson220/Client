@@ -64,6 +64,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   colTemplates = {};
   filterTemplates = {};
 
+  filters = [{
+    SourceName: 'JobStatus',
+    Operator: '=',
+    Value: 'true'
+  }];
+
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
   @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
   @ViewChild('peerFilter', { static: false }) peerFilter: ElementRef;
