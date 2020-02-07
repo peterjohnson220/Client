@@ -1,5 +1,5 @@
+import { CompanySelectorItem } from 'libs/features/company/models';
 import { CompanyBaseInformation } from 'libs/models/company';
-import { CompanySelectorItem } from '../models';
 
 export class PayfactorsApiModelMapper {
 
