@@ -34,72 +34,18 @@ pipeline {
       steps {
         script {
           deleteDir()
-          checkout scm
-          echo "Branch: " + env.BRANCH_NAME
+          
+          git branch: "master", credentialsId: 'gitsshkey', url: 'git@github.com:PayFactors/client.git'
+          sh "git branch"
 
           env.buildurl = BUILD_URL.replace('codejenkins.engineering.payfactors.net', env.jenkins_server)
 
           nodejs(nodeVersion) {
-            def date = new Date()
-            sdf = new SimpleDateFormat("yyMMddHHmm")
-            dateVer = sdf.format(date)
-            echo "datetime (yyMMddHHmm): " + dateVer
-
             def pkgVersionOrig = sh(returnStdout: true, script: 'node -pe "require(\'./package.json\').version"').trim()
             env.pkgVersion = pkgVersionOrig + "." + env.BUILD_NUMBER
 
-            // Suffix according to branches.
-            if (env.BRANCH_NAME == 'master') {
-              suffix = '-Production'
-              env.buildConfig = '--prod'
-
-            } else if (env.BRANCH_NAME == 'develop') {
-              isAutoDeployBranch = true
-              suffix = '-Staging'
-              env.octoEnv = 'Staging'
-              env.buildConfig = '--configuration=staging'
-
-            } else if (env.BRANCH_NAME ==~ /^hotfix\/.*/) {
-              suffix = '-Hotfix'
-              env.buildConfig = '--configuration=production'
-
-              // Including date so hotfix packages from diff branches will be sorted correctly from Octopus.
-              env.pkgVersion = pkgVersionOrig + "." + dateVer
-
-              branchShortName = env.BRANCH_NAME.replace('hotfix/','')
-              branchShortName = branchShortName.replaceAll('[^a-zA-Z0-9 ]','')
-              int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
-              verDetails = "-" + branchShortName.substring(0,subStrLen) + "." + env.BUILD_NUMBER
-
-            } else if (env.BRANCH_NAME ==~ /^release\/.*/) {
-              suffix = '-RC'
-              env.buildConfig = '--prod'
-
-              // Including date so hotfix packages from diff branches will be sorted correctly from Octopus.
-              env.pkgVersion = pkgVersionOrig + "." + dateVer
-
-              branchShortName = env.BRANCH_NAME.replace('release/RC-','')
-              branchShortName = branchShortName.replace('release/','')
-              branchShortName = branchShortName.replaceAll('[^a-zA-Z0-9 ]','')
-              int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
-              verDetails = "-" + branchShortName.substring(0,subStrLen) + "." + env.BUILD_NUMBER
-
-            } else if (env.BRANCH_NAME == 'Normandy/develop') {
-              isAutoDeployBranch = true
-              suffix = '-Normandy'
-              octoChannel = 'Normandy'
-              env.octoEnv = 'Normandy'
-              octoVerSuffix = '-NM'
-              env.buildConfig = '--configuration=staging'
-
-            } else {
-              isPublishable = false
-              env.buildConfig = '--configuration=staging'
-              
-              branchShortName = env.BRANCH_NAME.replaceAll('[^a-zA-Z0-9 ]','')
-              int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
-              verDetails = "-" + branchShortName.substring(0,subStrLen)
-            }      
+            suffix = '-Sales'
+            env.buildConfig = '--configuration=sales'
             
             slackTitle = (isAutoDeployBranch) ? 'Build/Deploy' : 'Build'
 
@@ -125,23 +71,8 @@ pipeline {
 
             sh "git log -n 1 --pretty=format:'%H' > sha.txt"
 
-            // Select slack channel
-            configFileProvider([configFile(fileId: 'b6ff041b-b388-489a-b63b-e3389d76cea9', variable: 'slackChConfigFile')]) {
-              def slackChConfigRaw = readFile slackChConfigFile
-              def slackChConfig = new JsonSlurperClassic().parseText(slackChConfigRaw)
-              def branchShort = env.BRANCH_NAME.substring(0,4).toLowerCase()
-
-              slackCh = slackChConfig[branchShort]
-
-              echo "branchShort: ${branchShort}"
-
-              // f-build is dumping ground for the rest of branches.
-              if (slackCh == null) {
-                slackCh = "f-build"
-              } 
-              
-              echo "slackCh: ${slackCh}"
-            }
+            slackCh = "f-build"
+            echo "slackCh: ${slackCh}"
 
             sh 'npm install'
           }
@@ -234,42 +165,6 @@ pipeline {
         script {
           sh """
             curl -X POST ${env.octopus_server}/api/packages/raw -H "X-Octopus-ApiKey:${env.apikey}" -F "data=@${env.pkgFullName}.zip" --fail
-          """
-        }
-      }
-      post {
-        failure {
-          script { 
-            sendSlackFail(env.lastAuthor, env.pkgVersion)
-          }
-        }
-      }
-    }
-
-    stage ('Deploy') {
-      agent { label 'windows-deploy' }
-      when { expression { return isAutoDeployBranch}}
-      environment {
-        apikey = credentials('octoapikey')
-      }
-      steps {
-        unstash 'changes'
-
-        withEnv(["PATH+OCTO=${tool name: 'OctopusTools.6.12.0', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'}"]) {
-          bat """@echo off
-            octo create-release ^
-            --server ${env.octopus_server}/ ^
-            --apiKey ${env.apikey} ^
-            --project "${octoProject}" ^
-            --channel "${octoChannel}" ^
-            --Version ${env.pkgVersion + octoVerSuffix} ^
-            --packageversion ${env.pkgVersion}${suffix}${verDetails} ^
-            --deployto "${env.octoEnv}" ^
-            --guidedfailure=false ^
-            --releasenotesfile "CHANGES" ^
-            --deploymenttimeout=00:45:00 ^
-            --progress ^
-            --waitfordeployment
           """
         }
       }
