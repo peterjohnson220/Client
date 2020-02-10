@@ -4,7 +4,7 @@ import { FilterDescriptor } from '@progress/kendo-data-query';
 
 import { ListAreaColumn } from 'libs/models/common';
 
-import { DateOperatorOptions, NumericOperatorOptions, TextOperatorOptions } from '../../../models/list-area-options.model';
+import { DateOperatorOptions, NumericOperatorOptions, TextOperatorOptions, BooleanOperatorOptions } from '../../../models/list-area-options.model';
 
 @Component({
   selector: 'pf-list-area-filter-sidebar',
@@ -96,7 +96,7 @@ export class ListAreaFilterSidebarComponent implements OnChanges {
     }
 
     if (changedFilterIndex !== -1) {
-      if (this.filters[changedFilterIndex].value || this.valueCanBeEmptyOperator(this.filters[changedFilterIndex])) {
+      if (this.filters[changedFilterIndex].value != null || this.valueCanBeEmptyOperator(this.filters[changedFilterIndex])) {
         this.filters[changedFilterIndex] = event;
       } else {
         this.filters.splice(changedFilterIndex, 1);
@@ -135,6 +135,9 @@ export class ListAreaFilterSidebarComponent implements OnChanges {
         break;
       case 'numeric':
         isValueCanBeEmptyOperator = !NumericOperatorOptions.find(t => t.value === filter.operator).checkValue;
+        break;
+      case 'boolean':
+        isValueCanBeEmptyOperator = !BooleanOperatorOptions.find(t => t.value === filter.operator).checkValue;
         break;
     }
 
