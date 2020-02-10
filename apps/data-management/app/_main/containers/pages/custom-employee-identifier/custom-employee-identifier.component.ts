@@ -7,7 +7,6 @@ import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
-import { IntegrationApiService } from 'libs/data/payfactors-api/integration';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';

@@ -9,9 +9,15 @@ export interface EntityIdentifierViewModel {
 export function EntityIdentifierViewModelOptions(): EntityIdentifierViewModel[] {
     return [
         { Field: FieldNames.EMPLOYEE_ID, isChecked: true, isDisabled: true },
-        { Field: 'Job Code', isChecked: false, isDisabled: false },
-        { Field: 'Manager Id', isChecked: false, isDisabled: false },
-        { Field: 'Field2', isChecked: false, isDisabled: false },
-        { Field: 'Field3', isChecked: false, isDisabled: false }
+        { Field: FieldNames.DEPARTMENT, isChecked: false, isDisabled: false },
+        { Field: FieldNames.MANAGER_EMPLOYEE_ID, isChecked: false, isDisabled: false }
+    ];
+}
+
+export function MockEntityIdentifierViewModelOptions(): EntityIdentifierViewModel[] {
+    return [
+        ...EntityIdentifierViewModelOptions(),
+        { Field: 'Field4', isChecked: false, isDisabled: false },
+        { Field: 'Field5', isChecked: false, isDisabled: false }
     ];
 }
