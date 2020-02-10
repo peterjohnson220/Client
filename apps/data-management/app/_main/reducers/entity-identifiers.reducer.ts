@@ -32,7 +32,7 @@ export function reducer(state = initialState, action: fromEntityIdentifierAction
                 ...state,
                 hasDataError: true,
                 isFetchingData: false,
-                hasSaved: true
+                hasSaved: false
             };
         }
         case fromEntityIdentifierActions.PUT_EMPLOYEE_IDENTIFIERS_SUCCESS: {
