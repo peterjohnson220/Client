@@ -121,6 +121,6 @@ export class InboundEntitySelectionPageComponent implements OnInit, OnDestroy {
 
   goToAuthenticationPage() {
     this.store.dispatch(new fromTransferDataPageActions.ProceedToAuthentication(this.providerSupportedEntities));
-    this.router.navigate(['/transfer-data']);
+    this.router.navigate(['/transfer-data/inbound/authentication']);
   }
 }

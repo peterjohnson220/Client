@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
@@ -21,16 +21,15 @@ describe('Data Management - Main - Transfer Data Page', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           transferDataMain: combineReducers(fromDataManagementMainReducer.reducers),
-        })
+        }),
+        RouterTestingModule.withRoutes([{
+          path: '**',
+          redirectTo: '',
+        }]),
       ],
-      providers: [
-        {
-          provide: Router,
-          useValue: { navigate: jest.fn() },
-        }
-      ],
+      providers: [],
       declarations: [
-        TransferDataPageComponent
+        TransferDataPageComponent,
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

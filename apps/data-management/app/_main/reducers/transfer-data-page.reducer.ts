@@ -137,12 +137,10 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
       };
     }
     case fromTransferDataPageActions.PROCEED_TO_AUTHENTICATION: {
-      let selectedEntitiesClone = cloneDeep(state.selectedEntities);
-      selectedEntitiesClone = PayfactorsApiModelMapper.mapEntityChoiceToEntityTypeModel(action.payload);
       return {
         ...state,
         workflowStep: TransferDataWorkflowStep.Authentication,
-        selectedEntities: selectedEntitiesClone
+        selectedEntities: PayfactorsApiModelMapper.mapEntityChoiceToEntityTypeModel(action.payload),
       };
     }
     case fromTransferDataPageActions.UPDATE_WORKFLOWSTEP: {

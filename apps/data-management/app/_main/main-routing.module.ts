@@ -6,10 +6,16 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AuthorizationGuard, PfAdminGuard } from 'libs/security/guards';
 
 import {
-    CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent,
-    FieldMappingPageComponent, OrgDataLoadComponent,
-    ResetIntegrationPageComponent, TransferDataPageComponent, TransferSchedulePageComponent,
-    InboundEntitySelectionPageComponent
+  CustomEmployeeIdentifierComponent,
+  DataManagementHomePageComponent,
+  DataManagementLandingPageComponent,
+  FieldMappingPageComponent,
+  InboundAuthenticationPageComponent,
+  InboundEntitySelectionPageComponent,
+  OrgDataLoadComponent,
+  ResetIntegrationPageComponent,
+  TransferDataPageComponent,
+  TransferSchedulePageComponent,
 } from './containers';
 
 const routes: Routes = [
@@ -38,20 +44,25 @@ const routes: Routes = [
       },
       {
         path: 'transfer-data',
+        component: TransferDataPageComponent,
         children: [
-          {
-            path: '',
-            component: TransferDataPageComponent
-          },
           {
             path: 'inbound',
             children: [
               {
                 path: 'entity-selection',
                 component: InboundEntitySelectionPageComponent
-              }
+              },
+              {
+                path: 'authentication',
+                component: InboundAuthenticationPageComponent,
+              },
+              {
+                path: 'field-mapping',
+                component: FieldMappingPageComponent,
+              },
             ]
-          }
+          },
         ]
       },
       {
@@ -63,10 +74,6 @@ const routes: Routes = [
         path: 'reset',
         component: ResetIntegrationPageComponent
       },
-      {
-        path: 'field-mapping',
-        component: FieldMappingPageComponent
-      }
     ]
   }
 ];

@@ -167,13 +167,6 @@ export class TransferDataPageEffects {
       })
     );
 
-  @Effect({dispatch: false})
-  CreateConnectionSuccess$: Observable<Action> = this.actions$
-  .pipe(
-    ofType<fromTransferDataPageActions.CreateConnectionSuccess>(fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS),
-    tap(() => this.router.navigate(['/', 'field-mapping']))
-  );
-
 
 
   constructor(

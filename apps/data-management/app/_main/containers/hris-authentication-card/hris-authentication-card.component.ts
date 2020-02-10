@@ -1,17 +1,15 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil, merge } from 'rxjs/operators';
 
+import { OrgDataEntityType } from 'libs/constants';
 import { CredentialsPackage } from 'libs/models';
 
-import * as fromTransferDataPageActions from '../../actions/transfer-data-page.actions';
 import * as fromDataManagementMainReducer from '../../reducers';
-import { TransferDataWorkflowStep } from '../../data';
 import { PayfactorsApiModelMapper } from '../../helpers';
-import {EntityTypeModel, Provider} from '../../models';
+import { ConnectionSummary, EntityTypeModel, Provider } from '../../models';
 
 @Component({
   selector: 'pf-hris-authentication-card',
@@ -21,50 +19,47 @@ import {EntityTypeModel, Provider} from '../../models';
 })
 export class HrisAuthenticationCardComponent implements OnDestroy {
   @Input() validatedCredentials = false;
-  @Input() provider: Provider;
+  @Input() connectionSummary: ConnectionSummary;
   @Input() transferMethod: string;
+  @Output() backClicked = new EventEmitter();
+  @Output() cancelClicked = new EventEmitter();
+  @Output() saveClicked = new EventEmitter<CredentialsPackage>();
+  @Output() validateCredentials = new EventEmitter<CredentialsPackage>();
 
   @ViewChild('authenticatingModal', {static: true}) authenticatingModal: ElementRef;
 
   showModal = false;
 
-  validationErrors$: Observable<string[]>;
   showAuthenticatingModal$: Observable<boolean>;
-  selectedEntities$: Observable<EntityTypeModel[]>;
-  selectedEntities: EntityTypeModel[];
+  validationErrors$: Observable<string[]>;
 
   private creds: CredentialsPackage = null;
   private unsubscribe$ = new Subject();
 
-  constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
+  constructor(private store: Store<fromDataManagementMainReducer.State>) {
     this.validationErrors$ = this.store.select(fromDataManagementMainReducer.getValidationErrors);
     this.showAuthenticatingModal$ = this.store.select(fromDataManagementMainReducer.getShowAuthenticatingModal);
-    this.selectedEntities$ = this.store.select(fromDataManagementMainReducer.getSelectedEntities);
-    this.selectedEntities$.pipe(takeUntil(this.unsubscribe$)).subscribe(s => {
-      this.selectedEntities = s;
-    });
   }
 
   submitFormEvent(event: any) {
-    this.creds = PayfactorsApiModelMapper.mapFormValuesToCredentialsPackage(event, this.provider.ProviderCode, this.selectedEntities);
-    this.store.dispatch(new fromTransferDataPageActions.Validate(this.creds));
+    this.creds = PayfactorsApiModelMapper.mapFormValuesToCredentialsPackage(event, this.connectionSummary);
+    this.validateCredentials.emit(this.creds);
   }
 
-  cancelAuthClick() {
+  back() {
+    this.backClicked.emit();
+  }
+
+  cancel() {
     this.creds = null;
-    this.store.dispatch(new fromTransferDataPageActions.ResetTransferDataPageWorkflow());
-    this.router.navigate(['/']);
+    this.cancelClicked.emit();
   }
 
-  proceedBackToEntitySelection() {
-    this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.EntitySelection));
+  save() {
+    this.saveClicked.emit(this.creds);
   }
 
-  createConnectionClick() {
-    this.store.dispatch(new fromTransferDataPageActions.CreateConnection(this.creds));
-  }
-
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.unsubscribe();
   }
