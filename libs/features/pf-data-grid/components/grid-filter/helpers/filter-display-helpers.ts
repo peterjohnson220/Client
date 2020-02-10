@@ -36,7 +36,7 @@ export function getValueDisplay(value: string, dataType: DataViewFieldDataType) 
 export function getUserFilteredFields(fields: ViewField[]): ViewField[] {
   return fields && fields.length > 0 ? fields
     .filter(f => f.CustomFilterStrategy && !f.IsGlobalFilter)
-    .concat(fields.filter(f => f.IsFilterable && f.IsSelectable))
+    .concat(fields.filter(f => f.IsFilterable && f.IsSelectable && !f.IsGlobalFilter))
     .filter(f => f.FilterValue || !isValueRequired(f))
     : [];
 }
