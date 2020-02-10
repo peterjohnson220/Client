@@ -80,7 +80,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
       return {
         ...state,
-        companyPayMarkets: action.payload.map(o => ({Id: o.PayMarket, Value: o.PayMarket}))
+        companyPayMarkets: action.payload.map(o => ({Id: o.PayMarket, Value: o.PayMarket})).sort((a, b) => a.Id > b.Id ? 1 : -1)
       };
     }
     case fromJobsPageActions.CANCEL_DELETE_PRICING:

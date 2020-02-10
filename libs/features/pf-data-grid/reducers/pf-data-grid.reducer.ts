@@ -72,6 +72,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_VIEW_CONFIG_SUCCESS:
+      const currSplitViewFilters = action.payload && action.payload.Fields ?
+        action.payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
+        .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
       return {
         ...state,
         grids: {
@@ -81,7 +84,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             fields: updateFieldsWithFilters(action.payload.Fields, state.grids[action.pageViewId].inboundFilters),
             groupedFields: buildGroupedFields(resetFilters(action.payload.Fields)),
             baseEntity: action.payload.Entity,
-            loading: false
+            loading: false,
+            splitViewFilters: currSplitViewFilters
           }
         }
       };
@@ -235,7 +239,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: resetFiltersForFilterableFields(state, action.pageViewId)
+            fields: resetFiltersForFilterableFields(state, action.pageViewId),
+            splitViewFilters: []
           }
         }
       };
@@ -649,7 +654,7 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
     const updatedFields = cloneDeep(fields);
 
     inboundFilters.forEach(filter => {
-      const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName);
+      const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.IsSelected);
       if (fieldToUpdate) {
         fieldToUpdate.FilterOperator = filter.Operator;
         fieldToUpdate.FilterValue = filter.Value;
