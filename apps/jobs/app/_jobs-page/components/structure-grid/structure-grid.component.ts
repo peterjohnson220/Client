@@ -41,10 +41,13 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
-      .subscribe(o => this.filteredPayMarketOptions = o);
+      .subscribe(o => {
+        this.filteredPayMarketOptions = o;
+        this.payMarketOptions = o;
+      });
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
-        this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
+        this.payMarketField = fields.find(f => f.SourceName === 'PayMarket' && f.IsSelected === true);
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           {Value : this.payMarketField.FilterValue, Id : this.payMarketField.FilterValue} : null;
       }
@@ -79,6 +82,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
+    field.FilterOperator = '=';
     this.updateField(field);
   }
 
