@@ -1,4 +1,6 @@
+import {arraySortByString, SortDirection} from 'libs/core/functions';
 import * as fromJobsPageActions from '../actions';
+
 
 export interface State {
   company: string;
@@ -80,7 +82,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
       return {
         ...state,
-        companyPayMarkets: action.payload.map(o => ({Id: o.PayMarket, Value: o.PayMarket})).sort((a, b) => a.Id > b.Id ? 1 : -1)
+        companyPayMarkets: action.payload.map(o => ({Id: o.PayMarket, Value: o.PayMarket}))
+          .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending))
       };
     }
     case fromJobsPageActions.CANCEL_DELETE_PRICING:

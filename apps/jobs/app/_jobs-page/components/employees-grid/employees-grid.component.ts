@@ -42,7 +42,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
   payMarketOptions: any;
   selectedPayMarket: any;
 
-  constructor(private store: Store<fromPfGridReducer.State>, private cd: ChangeDetectorRef, private dataViewApiService: DataViewApiService) {
+  constructor(private store: Store<fromPfGridReducer.State>, private cd: ChangeDetectorRef) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
@@ -87,6 +87,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
+    field.FilterOperator = '=';
     this.updateField(field);
   }
 
