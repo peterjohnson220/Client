@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import { cloneDeep, isObject } from 'lodash';
 
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, Subject } from 'rxjs';
@@ -30,9 +30,7 @@ import { EntityIdentifierViewModel } from '../../../models/entity-identifiers-vi
 
 export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
 
-
   private unsubscribe$ = new Subject();
-  private userContext$: Observable<UserContext>;
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
   private hasSaved$: Observable<boolean>;
@@ -172,9 +170,7 @@ export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
 
     switch (this.step) {
       case EmployeeKeyStep.Company:
-        return !(
-          this.selectedCompany === null
-        );
+        return isObject(this.selectedCompany);
       case EmployeeKeyStep.Fields:
         if (!this.employeeFields || this.employeeFields.length === 0) {
           return false;
