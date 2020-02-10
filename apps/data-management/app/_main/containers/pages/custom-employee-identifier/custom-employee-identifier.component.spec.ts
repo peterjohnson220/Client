@@ -9,13 +9,13 @@ import { MockSelectedCompany } from 'libs/features/company/models/';
 import * as fromEntityIdentifierActions from '../../../actions/entity-identifier.actions';
 import { CustomEmployeeIdentifierComponent } from './custom-employee-identifier.component';
 import { EmployeeKeyStep } from './employee-key-step.enum';
-import { EntityIdentifierViewModelOptions } from '../../../models/entity-identifiers-view.model';
+import { MockEntityIdentifierViewModelOptions } from '../../../models/entity-identifiers-view.model';
 
 describe('CustomEmployeeIdentifierComponent', () => {
   let fixture: ComponentFixture<CustomEmployeeIdentifierComponent>;
   let store: MockStore<any>;
   let instance: CustomEmployeeIdentifierComponent;
-  let mockCompany = MockSelectedCompany();
+  const mockCompany = MockSelectedCompany();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,7 +39,7 @@ describe('CustomEmployeeIdentifierComponent', () => {
       { step: EmployeeKeyStep.Company, selectedCompany: null, result: false },
       { step: EmployeeKeyStep.Company, selectedCompany: mockCompany, result: true },
       { step: EmployeeKeyStep.Fields, selectedCompany: mockCompany, employeeFields: null, result: false },
-      { step: EmployeeKeyStep.Fields, selectedCompany: mockCompany, employeeFields: EntityIdentifierViewModelOptions(), result: true }
+      { step: EmployeeKeyStep.Fields, selectedCompany: mockCompany, employeeFields: MockEntityIdentifierViewModelOptions(), result: true }
     ];
 
     testCases.forEach((test, index) => {
@@ -54,7 +54,7 @@ describe('CustomEmployeeIdentifierComponent', () => {
   });
 
   it('should dispatch PutEmployeeIdentifiers on submitChanges()', () => {
-    instance.employeeFields = EntityIdentifierViewModelOptions();
+    instance.employeeFields = MockEntityIdentifierViewModelOptions();
     instance.selectedCompany = mockCompany;
     instance.submitChanges();
     const action = new fromEntityIdentifierActions.PutEmployeeIdentifiers(13, instance.employeeFields.filter(f => f.isChecked).map(f => f.Field));
@@ -62,13 +62,13 @@ describe('CustomEmployeeIdentifierComponent', () => {
   });
 
   it('should checkfield on click', () => {
-    instance.employeeFields = EntityIdentifierViewModelOptions();
+    instance.employeeFields = MockEntityIdentifierViewModelOptions();
     instance.checkboxChanged(true, instance.employeeFields[3]);
     expect(instance.employeeFields[3].isChecked).toBe(true);
   });
 
   it('should not checkfield on click with 4 items', () => {
-    instance.employeeFields = EntityIdentifierViewModelOptions();
+    instance.employeeFields = MockEntityIdentifierViewModelOptions();
     instance.employeeFields[1].isChecked = true;
     instance.employeeFields[2].isChecked = true;
     instance.employeeFields[3].isChecked = true;
