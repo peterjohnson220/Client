@@ -4,10 +4,12 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap, catchError, map, tap, mergeMap } from 'rxjs/operators';
 
-import { ProjectApiService, CompanyEmployeesApiService } from 'libs/data/payfactors-api';
+import { ProjectApiService, CompanyEmployeeApiService } from 'libs/data/payfactors-api';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { EmployeesPageViewId } from '../models';
 
 @Injectable()
 export class EmployeesPageEffects {
@@ -52,9 +54,18 @@ export class EmployeesPageEffects {
       })
   );
 
+  @Effect()
+  saveEmpoyeeSuccess$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.SAVE_EMPLOYEE_SUCCESS),
+      map(() =>
+        new fromPfDataGridActions.LoadData(EmployeesPageViewId)
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private projectsApiService: ProjectApiService,
-    private companyEmployeesApiService: CompanyEmployeesApiService
+    private companyEmployeesApiService: CompanyEmployeeApiService
   ) {}
 }
