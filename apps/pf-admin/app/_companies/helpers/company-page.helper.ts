@@ -281,27 +281,6 @@ export class CompanyPageHelper {
       }));
   }
 
-  static getSmallBusinessClientTypeCompanySettings(settings: CompanySetting[]): CompanySetting[] {
-    return settings.filter( s => s.Visible === false).concat(
-      settings.map(s => {
-        switch (s.Key) {
-          case CompanySettingsEnum.MaxProjectJobCount: {
-            s.Disabled = false;
-            return s;
-          }
-          case CompanySettingsEnum.ProjectJobCount: {
-            s.Disabled = false;
-            return s;
-          }
-          default: {
-            s.Value = 'false';
-            s.Disabled = false;
-            return s;
-          }
-        }
-      }));
-  }
-
   static modifyPeerTCRequestSettingDisabled(settings: CompanySetting[]): CompanySetting[] {
     // Disable Peer T&C request settings
     settings = settings.map((s) => {
