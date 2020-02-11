@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {FileRestrictions} from '@progress/kendo-angular-upload';
 
 import {
+  BONUS_TARGET_COLUMN_NAME, BONUS_TARGET_DISPLAY_NAME,
   DATE_FORMATS,
   LoaderType,
   ORG_DATA_CLIENTFIELDS_INDEX_RESET,
@@ -100,7 +101,11 @@ export class FieldMapperComponent implements OnInit {
     const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
     if (entityMapping) {
       for (const mapping of entityMapping.LoaderFieldMappings) {
-        this.addMappingWithoutCompleteEvent(mapping.InternalField, mapping.ClientField);
+        let internalField = mapping.InternalField;
+        if (internalField === BONUS_TARGET_COLUMN_NAME) {
+          internalField = BONUS_TARGET_DISPLAY_NAME;
+        }
+        this.addMappingWithoutCompleteEvent(internalField, mapping.ClientField);
       }
     }
   }
@@ -184,11 +189,8 @@ export class FieldMapperComponent implements OnInit {
 
   private compareFields(pfField, clientField) {
     const pfFieldOriginal = pfField;
-    /* the Bonus_Target field in the client files do not map to the Pf Bonus_Target field,
-    but rather to the BonusTargetPct so we need to ignore this applyRegExp for auto mapping */
-    if (pfField !== 'Bonus_Target') {
-      pfField = this.applyRegExp(pfField);
-    }
+
+    pfField = this.applyRegExp(pfField);
     clientField = this.applyRegExp(clientField);
 
     if (pfField !== clientField) {

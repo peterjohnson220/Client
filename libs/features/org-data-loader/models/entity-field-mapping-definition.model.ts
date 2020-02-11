@@ -79,14 +79,6 @@ export function getEmployeesCustomDictionary(): GenericKeyValue<string, string>[
         Value: 'Salary'
     },
     {
-      Key: 'Bonus_Target',
-        Value: 'Bonus_TargetValues'
-    },
-    {
-      Key: 'BonusTargetPct',
-        Value: 'Bonus_Target'
-    },
-    {
       Key: 'STIElig',
         Value: 'STI Eligibility'
     },
