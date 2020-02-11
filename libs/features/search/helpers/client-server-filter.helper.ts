@@ -1,9 +1,22 @@
-import { isRangeFilter, MultiSelectFilter, MultiSelectOption, RangeFilter } from '../models';
+import { isRangeFilter, FilterableMultiSelectFilter, FilterableMultiSelectOption, MultiSelectFilter, MultiSelectOption, RangeFilter } from '../models';
+import * as cloneDeep from 'lodash.clonedeep';
 
 export interface MultiSelectFiltersMergeParams {
   clientFilters: MultiSelectFilter[];
   serverFilters: MultiSelectFilter[];
   keepFilteredOutOptions: boolean;
+}
+
+export interface FilterableMultiSelectFiltersMergeParams {
+  clientFilters: FilterableMultiSelectFilter[];
+  serverFilters: FilterableMultiSelectFilter[];
+  subFilters: MultiSelectFilter[];
+  keepFilteredOutOptions: boolean;
+}
+
+export interface SingleFilterMergeParams {
+  singledFilter: MultiSelectFilter;
+  subFilters: MultiSelectFilter[];
 }
 
 export interface RangeFiltersMergeParams {
@@ -37,6 +50,55 @@ export class ClientServerFilterHelper {
     } else {
       mergedFilters = param.serverFilters;
     }
+
+    return mergedFilters;
+  }
+
+  static mergeNewFiltersWithSingleFilter(param: SingleFilterMergeParams) {
+    let mergedSingleFilter: FilterableMultiSelectFilter;
+
+    if (param.singledFilter) {
+      const subFilter = param.subFilters.filter(f => f.ParentBackingField === param.singledFilter.BackingField)[0];
+      if (!subFilter) { return; }
+      mergedSingleFilter = cloneDeep(param.singledFilter);
+      mergedSingleFilter.Options.forEach(o => {
+        o.SelectionsCount = subFilter.Options.filter( op => JSON.parse(op.Value).ParentOptionValue === o.Value && op.Selected).length;
+      });
+    }
+
+    return mergedSingleFilter;
+  }
+
+  static mergeClientWithServerFilterableMultiSelectFilters(param: FilterableMultiSelectFiltersMergeParams) {
+    let mergedFilters: FilterableMultiSelectFilter[];
+
+    if (param.clientFilters.length) {
+      mergedFilters = param.serverFilters.map(sf => {
+        const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
+
+        if (!!matchedClientFilter) {
+          sf.Options = this.mergeClientAndServerFilterableOptions(sf, matchedClientFilter);
+
+          if (param.keepFilteredOutOptions && sf.Options.length < this.maxNumberOfOptions) {
+            sf.Options = this.fillOptionsWithUnselectedClientFilterableOptions(sf.Options, matchedClientFilter.Options); // update for filterable options.....
+          }
+        }
+        return sf;
+      });
+    } else {
+      mergedFilters = param.serverFilters;
+    }
+
+    mergedFilters.forEach(f => {
+      const subFilter = param.subFilters.filter(fil => fil.ParentBackingField === f.BackingField)[0];
+
+      if (subFilter) {
+        f.Options.forEach(o => {
+          o.SelectionsCount = subFilter.Options.filter( op => JSON.parse(op.Value).ParentOptionValue === o.Value && op.Selected).length;
+        });
+      }
+
+    });
 
     return mergedFilters;
   }
@@ -86,8 +148,45 @@ export class ClientServerFilterHelper {
     return mergedOptions;
   }
 
+  static mergeClientAndServerFilterableOptions(serverFilter: FilterableMultiSelectFilter, clientFilter: FilterableMultiSelectFilter) {
+    let mergedOptions: FilterableMultiSelectOption[];
+
+    mergedOptions = serverFilter.Options.map(sfo => {
+      const matchedClientOptionIndex = clientFilter.Options.findIndex(cfo => cfo.Value === sfo.Value);
+
+      if (matchedClientOptionIndex >= 0) {
+        // Set selected to what it currently was
+        sfo.Selected = clientFilter.Options[matchedClientOptionIndex].Selected;
+
+        // Remove it from the current client filters
+        clientFilter.Options.splice(matchedClientOptionIndex, 1);
+      }
+
+      return sfo;
+    });
+    // Add Remaining selected options
+    mergedOptions = mergedOptions.concat(clientFilter.Options.filter(o => o.Selected).map(o => {
+      o.Count = 0;
+      return o;
+    }));
+
+    return mergedOptions;
+  }
+
   // Fill in the remainder option spots with current unselected client options
   private static fillOptionsWithUnselectedClientOptions(mergedOptions: MultiSelectOption[], clientOptions: MultiSelectOption[]) {
+    return mergedOptions.concat(
+      clientOptions
+        .filter(o => !o.Selected)
+        .splice(0, this.maxNumberOfOptions - mergedOptions.length)
+        .map(o => {
+          o.Count = 0;
+          return o;
+        })
+    );
+  }
+
+  private static fillOptionsWithUnselectedClientFilterableOptions(mergedOptions: FilterableMultiSelectOption[], clientOptions: FilterableMultiSelectOption[]) {
     return mergedOptions.concat(
       clientOptions
         .filter(o => !o.Selected)

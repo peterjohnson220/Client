@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import {take} from 'rxjs/operators';
 
 import { PayMarket } from 'libs/models/paymarket';
 import { SearchBase } from 'libs/features/search/containers/search-base';
@@ -9,12 +10,17 @@ import { ExchangeMapSummary } from 'libs/models/peer';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromChildSearchFilterActions from 'libs/features/search/actions/child-filter.actions';
+import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 
 import * as fromExchangeExplorerReducer from '../../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';
 import * as fromExchangeFilterContextActions from '../../actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerDataCutsActions from '../../actions/exchange-data-cut.actions';
+
 import { ExchangeJobExchangeDetail } from '../../../models';
+
+
 
 @Component({
   selector: 'pf-exchange-explorer',
@@ -37,6 +43,7 @@ export class ExchangeExplorerComponent extends SearchBase {
   selectionsCount$: Observable<number>;
   exchangeJobFilterOptions$: Observable<ExchangeJobExchangeDetail[]>;
   selectedExchangeJobId$: Observable<number>;
+  searchingChildFilters$: Observable<boolean>;
 
   exchangeId: number;
 
@@ -48,6 +55,7 @@ export class ExchangeExplorerComponent extends SearchBase {
 
     this.pageShown$ = this.store.pipe(select(fromSearchReducer.getPageShown));
     this.selectionsCount$ = this.store.pipe(select(fromSearchReducer.getOverallFilterSelectionsCount));
+    this.searchingChildFilters$ = this.store.pipe(select(fromSearchReducer.getSearchingChildFilter));
 
     this.limitToPayMarket$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextLimitToPayMarket));
     this.excludeIndirectJobMatches$ = this.exchangeExplorerStore.pipe(
@@ -78,6 +86,18 @@ export class ExchangeExplorerComponent extends SearchBase {
 
   handleExchangeJobSelected(payload: {exchangeJobId: number, similarExchangeJobIds: number[]}): void {
     this.store.dispatch(new fromExchangeFilterContextActions.SetExchangeJobSelection(payload));
+  }
+
+  handleMapClicked() {
+    let searchingChildFilter = null;
+
+    this.searchingChildFilters$.pipe(take(1)).subscribe(scf =>
+    searchingChildFilter = scf);
+
+    if (searchingChildFilter === true) {
+      this.store.dispatch(new fromSearchPageActions.ToggleChildFilterSearch());
+      this.store.dispatch(new fromChildSearchFilterActions.ClearChildFilter());
+    }
   }
 
   onSetContext(payload: any) {

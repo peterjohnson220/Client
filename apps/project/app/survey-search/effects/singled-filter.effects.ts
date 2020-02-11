@@ -23,7 +23,7 @@ export class SingledFilterEffects {
       ofType(fromSingledFilterActions.SEARCH_AGGREGATION),
       withLatestFrom(
         this.store.select(fromSearchReducer.getSingledFilter),
-        this.store.select(fromSearchReducer.getFilters),
+        this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         this.store.select(fromSearchReducer.getSingledFilterSearchValue),
         (action: fromSingledFilterActions.SearchAggregation, singledFilter, filters, context, searchValue) => (

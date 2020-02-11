@@ -67,7 +67,7 @@ export class JobBasedRangesSearchResultsEffects {
   searchJobs(action$: Actions<Action>): Observable<Action> {
     return action$.pipe(
       withLatestFrom(
-        this.store.select(fromSearchReducer.getFilters),
+        this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSearchReducer.getResultsPagingOptions),
         this.store.select(fromStructuresReducer.getContext),
         (action: fromSearchResultsActions.GetResults, filters, pagingOptions, context) =>

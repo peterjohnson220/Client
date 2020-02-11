@@ -39,7 +39,7 @@ export class SearchAggregationError implements Action {
 export class SearchAggregationSuccess implements Action {
   readonly type = SEARCH_AGGREGATION_SUCCESS;
 
-  constructor(public payload: { newOptions: MultiSelectOption[], currentSelections: MultiSelectOption[] }) {}
+  constructor(public payload: { newOptions: MultiSelectOption[], currentSelections: MultiSelectOption[], subFilters?: Filter[] }) {}
 }
 
 export class SetSearchValue implements Action {

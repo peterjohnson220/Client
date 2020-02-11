@@ -23,6 +23,7 @@ exports[`Structures - Job Based Ranges Add Jobs - Modal should not display GUI f
   router={[Function Object]}
   saved={[Function EventEmitter]}
   saving="false"
+  searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Store]}
   selectedJobIdsSubscription={[Function Subscriber]}
   selectedPayfactorsJobCodesSubscription={[Function Subscriber]}

@@ -7,6 +7,7 @@
   <pf-filter-section
     class="filter-section"
     [filter]="singledFilter$ | async"
+    [ngSwitch]="(singledFilter$| async)?.Type"
     [overriddenSelectionCount]="selectionCount$ | async"
     [singled]="true"
     [searchValue]="searchValue$ | async"
@@ -21,10 +22,19 @@
       [hideReloadButton]="true"
       [smartLoadingMask]="true">
 
+      <ng-container *ngSwitchCase="filterTypes.Multi">
       <pf-multi-select-filter
         [filter]="singledFilter$ | async"
         (optionSelected)="handleMultiSelectOptionSelected($event)">
       </pf-multi-select-filter>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="filterTypes.FilterableMulti">
+        <pf-filterable-multi-select-filter
+          [filter]="singledFilter$ | async"
+          (optionSelected)="handleMultiSelectOptionSelected($event)">
+        </pf-filterable-multi-select-filter>
+      </ng-container>
 
     </pf-async-container>
 

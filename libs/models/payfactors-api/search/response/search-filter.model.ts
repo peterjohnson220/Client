@@ -8,6 +8,7 @@ export interface SearchFilterOption {
   Name: string;
   Value: any;
   Count?: number;
+  ChildOptionCount?: number;
 }
 
 

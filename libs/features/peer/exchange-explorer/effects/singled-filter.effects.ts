@@ -26,9 +26,10 @@ export class SingledFilterEffects {
         this.exchangeExplorerContextService.selectFilterContext(),
         this.searchStore.pipe(select(fromSearchReducer.getSingledFilter)),
         this.searchStore.pipe(select(fromSearchReducer.getSingledFilterSearchValue)),
-        this.searchStore.pipe(select(fromSearchReducer.getFilters)),
-        (action, filterContext, singledFilter, searchValue, filters) => ({
-          filterContext, singledFilter, searchValue, filters
+        this.searchStore.pipe(select(fromSearchReducer.getParentFilters)),
+        this.searchStore.pipe(select(fromSearchReducer.getSubFilters)),
+        (action, filterContext, singledFilter, searchValue, filters, subFilters) => ({
+          filterContext, singledFilter, searchValue, filters, subFilters
         })),
       switchMap(data => {
         const request: SearchExchangeAggregationsRequest = {
@@ -37,6 +38,8 @@ export class SingledFilterEffects {
           TextQuery: data.searchValue
         };
 
+        const subFilters = data.subFilters;
+
         return this.exchangeDataSearchApiService.searchExchangeAggregations(request).pipe(
           map((response: SearchFilter) => {
             const matchingFilter = <MultiSelectFilter>data.filters.find(f => f.Id === data.singledFilter.Id);
@@ -44,8 +47,9 @@ export class SingledFilterEffects {
 
             return new fromSingledFilterActions.SearchAggregationSuccess(
               {
-                newOptions: this.payfactorsSearchApiModelMapper.mapSearchFilterOptionsToMultiSelectOptions(response.Options),
-                currentSelections
+                newOptions: this.payfactorsSearchApiModelMapper.mapSearchFilterOptionsToFilterableMultiSelectOptions(response.Options),
+                currentSelections,
+                subFilters
               }
             );
           }),

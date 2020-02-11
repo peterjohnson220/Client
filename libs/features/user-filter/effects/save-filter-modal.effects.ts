@@ -21,7 +21,7 @@ export class SaveFilterModalEffects {
   .pipe(
     ofType(fromSaveFilterModalActions.CREATE_SAVED_FILTER),
     withLatestFrom(
-      this.store.select(fromSearchReducer.getFilters),
+      this.store.select(fromSearchReducer.getParentFilters),
       (action: fromSaveFilterModalActions.CreateSavedFilter, filters) => ({ action, filters })),
     mergeMap(data => {
       const actions = [];
