@@ -5,14 +5,16 @@ import { Store } from '@ngrx/store';
 import {Subscription} from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
+
+import * as cloneDeep from 'lodash.clonedeep';
+
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import {ViewField} from 'libs/models/payfactors-api/reports/request';
-import * as cloneDeep from 'lodash.clonedeep';
-import {DataViewApiService} from 'libs/data/payfactors-api/reports';
+import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromJobsPageReducer from '../../reducers';
 
+import { PageViewIds } from '../../constants/';
 
 
 
@@ -32,9 +34,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'CompanyEmployees_Employee'
   }];
-  pageViewId = '12147D19-592A-44AF-9696-7F5347873D5E';
-  employeeGridFieldSubscription: Subscription;
-  noResultsText = 'There are no employees in this Job.';
+  pageViewId = PageViewIds.EMPLOYEES;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
@@ -48,17 +48,6 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
       });
-    this.employeeGridFieldSubscription = store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
-      if (fields) {
-        const employeeSearchField = fields.find(f => f.SourceName === 'Employees');
-        if (employeeSearchField.FilterValue) {
-          this.noResultsText = 'No employees match your search. Please try again.';
-        } else {
-          this.noResultsText = 'There are no employees in this Job.';
-        }
-        this.cd.detectChanges();
-      }
-    });
 
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
@@ -81,7 +70,6 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
-    this.employeeGridFieldSubscription.unsubscribe();
   }
 
   handlePayMarketFilterChanged(value: any) {
