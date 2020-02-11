@@ -11,10 +11,10 @@ export class AsyncStateObjHelper {
       [propertyName]: { ...state[propertyName], loading: false, obj: payload }
     };
   }
-  static loadingError(state, propertyName: string) {
+  static loadingError(state, propertyName: string, payload?: any) {
     return {
       ...state,
-      [propertyName]: { ...state[propertyName], loadingError: true, loading: false }
+      [propertyName]: { ...state[propertyName], loadingError: true, loading: false, loadingErrorResponse: payload }
     };
   }
   static saving(state, propertyName: string, payload?: any) {
@@ -29,10 +29,10 @@ export class AsyncStateObjHelper {
       [propertyName]: { ...state[propertyName], saving: false, savingSuccess: true, obj: payload }
     };
   }
-  static savingError(state, propertyName: string) {
+  static savingError(state, propertyName: string, payload?: any) {
     return {
       ...state,
-      [propertyName]: { ...state[propertyName], savingError: true, saving: false }
+      [propertyName]: { ...state[propertyName], savingError: true, saving: false, savingSuccess: false, savingErrorResponse: payload }
     };
   }
 }

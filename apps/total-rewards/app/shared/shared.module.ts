@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { EffectsModule } from '@ngrx/effects';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { DragulaModule } from 'ng2-dragula';
 import 'hammerjs';
 
-import { TotalRewardsStatementComponent, TotalRewardsControlComponent, TotalRewardsItemWellComponent } from './components';
+import { InlineStringEditorComponent, TotalRewardsStatementComponent, TotalRewardsControlComponent, TotalRewardsItemWellComponent } from './components';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -18,13 +18,17 @@ import { TotalRewardsStatementComponent, TotalRewardsControlComponent, TotalRewa
     // Third Party
     ChartModule,
     DragulaModule.forRoot(),
+
+    FontAwesomeModule,
   ],
   declarations: [
+    InlineStringEditorComponent,
     TotalRewardsStatementComponent,
     TotalRewardsControlComponent,
     TotalRewardsItemWellComponent,
   ],
   exports: [
+    InlineStringEditorComponent,
     TotalRewardsStatementComponent,
     TotalRewardsItemWellComponent,
   ],
