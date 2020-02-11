@@ -46,9 +46,10 @@ export class ListAreaService {
         display = dateFormatPipe.transform(display, 'MM/DD/YYYY');
         break;
       case 'boolean':
-        if (value === true) {
+        const boolValue = JSON.parse(display);
+        if (boolValue) {
           display = 'Enabled';
-        } else if (value === false) {
+        } else {
           display = 'Disabled';
         }
         break;
