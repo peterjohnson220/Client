@@ -38,7 +38,7 @@
     [attr.data-qa-id]="'btn-add-to-project'"
     type="button"
     (click)="showAddToProjectSummary()"
-    title="Stuff and things"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-secondary ml-2">
     Add to Project
     <span *ngIf="selectedJobIds.length + selectedPricingIds.length > 0">
