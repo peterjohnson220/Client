@@ -273,6 +273,38 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
     return this.data.filter(d => d.TemplateId).length;
   }
 
+  /* Uses rteData which has the data in the smart list including html tags. Removes
+     the data inside unordered and ordered lists, and the remaining html tags. Returns
+     false if there is nothing else, and true if there is something remaining.
+  */
+  hasUnstructuredData() {
+    var temp = this.rteData;
+
+    if (temp === null || temp.trim() === '') {
+      return false;
+    }
+
+    // remove unordered and ordered list elements
+    temp = this.removeAllElements("<ul>", "</ul>", temp);
+    temp = this.removeAllElements("<ol>", "</ol>", temp);
+
+    // get rid of remaining html tags
+    temp = temp.replace(/<[^>]*>/g, '');
+    return !(temp === null || temp.trim() === '');
+  }
+
+  // Removes all occurrences of a html element, including the opening and closing tags.
+  removeAllElements(opening: string, closing: string, text: string) {
+    var start = text.indexOf(opening);
+    var end = text.indexOf(closing);
+    while (start != -1) {
+      text = text.substring(0, start) + text.substring(end + closing.length, text.length);
+      start = text.indexOf(opening);
+      end = text.indexOf(closing);
+    }
+    return text;
+  }
+
   rteTextButNoData() {
     return this.rteData && ((this.checkInheritedData && this.getJobDescriptionDataCount() === 0) || (!this.checkInheritedData && this.data.length === 0));
   }
