@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { EntityDataField } from '../models';
+import { MappingPackage } from 'libs/models';
+import { EntityDataField, EntityField } from '../models';
 
 export const INIT_FIELD_MAPPING_CARD = '[Data Management/Field Mappings] Init Field Mapping Card';
 export const INIT_FIELD_MAPPING_CARD_ERROR = '[Data Management/Field Mappings] Init Field Mapping Card Error';
@@ -34,10 +35,14 @@ export const LOAD_CUSTOM_FIELDS_BY_ENTITY = '[Data Management/Field Mappings] Lo
 export const LOAD_CUSTOM_FIELDS_BY_ENTITY_ERROR = '[Data Management/Field Mappings] Load Custom Fields Error';
 export const LOAD_CUSTOM_FIELDS_BY_ENTITY_SUCCESS = '[Data Management/Field Mappings] Load Custom Fields Success';
 
+export const LOAD_MAPPED_FIELDS = '[Data Management/Field Mappings] Load Mapped Fields';
+export const LOAD_MAPPED_FIELDS_ERROR = '[Data Management/Field Mappings] Load Mapped Fields Error';
+export const LOAD_MAPPED_FIELDS_SUCCESS = '[Data Management/Field Mappings] Load Mapped Fields Success';
+
 export class InitFieldMappingCard implements Action {
   readonly type = INIT_FIELD_MAPPING_CARD;
 
-  constructor(public payload: { entities: any[]}) {}
+  constructor(public payload: string[]) {}
 }
 
 export class InitFieldMappingCardSuccess implements Action {
@@ -117,13 +122,7 @@ export class SaveMappingError implements Action {
 export class SaveMappingSuccess implements Action {
   readonly type = SAVE_MAPPING_SUCCESS;
 
-  constructor() {}
-}
-
-export class CancelMapping implements Action {
-  readonly type = CANCEL_MAPPING;
-
-  constructor() {}
+  constructor(public payload) {}
 }
 
 export class LoadDefaultPaymarket implements Action {
@@ -171,7 +170,25 @@ export class LoadCustomFieldsByEntityError implements Action {
 export class LoadCustomFieldsByEntitySuccess implements Action {
   readonly type = LOAD_CUSTOM_FIELDS_BY_ENTITY_SUCCESS;
 
-  constructor(public payload: { customFields: EntityDataField[], payfactorsFields: EntityDataField[], entityType: string }) {}
+  constructor(public payload: { customFields: any, entityType: string }) {}
+}
+
+export class LoadMappedFields implements Action {
+  readonly type = LOAD_MAPPED_FIELDS;
+
+  constructor(public payload: { mappedFields: MappingPackage, selectedEntities: string[] }) {}
+}
+
+export class LoadMappedFieldsError implements Action {
+  readonly type = LOAD_MAPPED_FIELDS_ERROR;
+
+  constructor() {}
+}
+
+export class LoadMappedFieldsSucces implements Action {
+  readonly type = LOAD_MAPPED_FIELDS_SUCCESS;
+
+  constructor(public payload: { payfactorsFields: EntityField, providerFields: EntityField }) {}
 }
 
 export type Actions
@@ -189,7 +206,6 @@ export type Actions
  | SaveMapping
  | SaveMappingError
  | SaveMappingSuccess
- | CancelMapping
  | LoadDefaultPaymarket
  | LoadDefaultPaymarketError
  | LoadDefaultPaymarketSuccess
@@ -197,4 +213,7 @@ export type Actions
  | DismissDefaultPaymarketModal
  | LoadCustomFieldsByEntity
  | LoadCustomFieldsByEntityError
- | LoadCustomFieldsByEntitySuccess;
+ | LoadCustomFieldsByEntitySuccess
+ | LoadMappedFields
+ | LoadMappedFieldsError
+ | LoadMappedFieldsSucces;

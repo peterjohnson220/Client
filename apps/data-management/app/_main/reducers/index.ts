@@ -196,13 +196,13 @@ export const fileUploadDataFailed = createSelector(
 
 
 // Field Mapping Card
-export const getFieldMappingCardLoading = createSelector(
+export const getFieldMappingPageLoading = createSelector(
   selectFieldMappingState,
-  fromFieldMappingReducer.getFieldMappingCardLoading
+  fromFieldMappingReducer.getFieldMappingPageLoading
 );
-export const getFieldMappingCardLoadingError = createSelector(
+export const getFieldMappingPageLoadingError = createSelector(
   selectFieldMappingState,
-  fromFieldMappingReducer.getFieldMappingCardLoadingError
+  fromFieldMappingReducer.getFieldMappingPageLoadingError
 );
 export const getProviderFields = createSelector(
   selectFieldMappingState,
@@ -223,6 +223,10 @@ export const savingMappings = createSelector(
 export const savingMappingsError = createSelector(
   selectFieldMappingState,
   fromFieldMappingReducer.savingMappingsError
+);
+export const isFieldMappingPageDirty = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.isFieldMappingPageDirty
 );
 
 // Default Paymarkets for Employee field mappings

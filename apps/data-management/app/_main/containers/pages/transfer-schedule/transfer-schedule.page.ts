@@ -57,7 +57,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.restoreCompletedSubscription = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryRestoreCompleted)
       .pipe(filter(x => x === true)).subscribe(s => {
         if (this.shouldGoBack) {
-          this.router.navigate(['/', 'transfer-data']); // TODO: update to be mapping page
+          this.router.navigate(['/', 'field-mapping']);
         }
       });
     this.showIntegrationFinishedModal$ = this.store.select(fromDataManagementMainReducer.getShowSetupCompleteModal);
@@ -84,7 +84,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
       this.shouldGoBack = true;
       this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
     } else {
-      this.router.navigate(['/', 'transfer-data']); // TODO: update to be mapping page
+      this.router.navigate(['/', 'field-mapping']);
     }
   }
 

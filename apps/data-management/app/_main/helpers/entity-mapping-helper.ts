@@ -1,3 +1,6 @@
+import { OrgDataEntityType } from 'libs/constants';
+import { MappingPackage } from 'libs/models/hris-api';
+
 import { EntityField, EntityDataField } from '../models';
 
 export class EntityMappingHelper {
@@ -16,7 +19,9 @@ export class EntityMappingHelper {
   static addAssociationToPayfactorsEntity(entityType: string, payfactorsEntityId: number,
     entity: EntityDataField,
     payfactorsFields: EntityField): EntityField {
+
     const pffEntityDataFields: EntityDataField[] = payfactorsFields[entityType];
+
     if (pffEntityDataFields) {
       const entityIndex = pffEntityDataFields.findIndex( x => {
         return x.EntityFieldId === payfactorsEntityId;
@@ -64,5 +69,38 @@ export class EntityMappingHelper {
     }
 
     return payfactorsFields.filter(x => !x.DisplayName.toLowerCase().startsWith('udf'));
+  }
+
+  static mapMappedFieldsTpProviderAndPayfactorsFields(providerFields: EntityField,
+    payfactorsFields: EntityField,
+    mappingPackage: MappingPackage,
+    selectedEntities: string[]): any {
+      if (mappingPackage.mappingPayload.items.length === 0) {
+        return { updatedProviderFields: providerFields, updatedPayfactorsFields: payfactorsFields };
+      }
+
+      selectedEntities.forEach(entity => {
+        const entityType = OrgDataEntityType[entity];
+        const mappedEntityItem = mappingPackage.mappingPayload.items.find(x => x.orgDataEntityType === entityType );
+        const payfactorsDataFields: EntityDataField[] = payfactorsFields[entityType];
+        const providerDataFields: EntityDataField[] = providerFields[entityType];
+
+        if (mappedEntityItem && mappedEntityItem.mappings.length > 0) {
+          mappedEntityItem.mappings.forEach(field => {
+            const pfEntityIndex = payfactorsDataFields.findIndex( x => {
+              return x.FieldName.toLowerCase() === field.destinationField.toLowerCase();
+            });
+            const pEntityIndex = providerDataFields.findIndex( x => {
+              return x.FieldName.toLowerCase() === field.sourceField.toLowerCase();
+            });
+
+            payfactorsDataFields[pfEntityIndex].AssociatedEntity.push(providerDataFields[pEntityIndex]);
+            providerDataFields[pEntityIndex].HasAssociation = true;
+          });
+        }
+        payfactorsFields[entityType] = payfactorsDataFields;
+        providerFields[entityType] = providerDataFields;
+      });
+      return { updatedProviderFields: providerFields, updatedPayfactorsFields: payfactorsFields };
   }
 }

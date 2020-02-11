@@ -1,0 +1,28 @@
+<pf-async-container [loading]="(fieldMappingPageLoading$ | async)"
+                    [loadingError]="fieldMappingPageLoadingError$ | async"
+                    [loadingErrorMessage]="'Error Loading Field Mapping Page'">
+  <div class="my-4 mx-3">
+    <div class="float-right"><h5 style="opacity: 0.6;">STEP 4/5</h5></div>
+    <h4>Map Fields</h4>
+    <div class="my-4">
+      <div class="alert alert-danger my-4" *ngIf="errorSavingMapping$ | async">
+        <h5 class="alert-heading mb-0">Something went wrong, please try again.</h5>
+      </div>
+      <pf-field-mappings-card
+        [selectedEntities]="selectedEntities">
+      </pf-field-mappings-card>
+      <div class="d-flex justify-content-end">
+          <div class="p-2">
+            <button type="button" class="btn btn-outline-danger px-3" [routerLink]="'/'" [disabled]="(savingMappings$ | async)">Cancel</button>
+          </div>
+          <div class="p-2" *ngIf="!workflowComplete">
+            <button type="button" class="btn btn-secondary px-4" [disabled]="(savingMappings$ | async)" [routerLink]="['/','transfer-data']">Back</button>
+          </div>
+          <div class="p-2">
+            <button type="button" class="btn btn-primary px-4" (click)="saveMappings()" [disabled]="!(canSaveMappings$ | async) || (savingMappings$ | async)">Save</button>
+          </div>
+      </div>
+    </div>
+  </div>
+  <pf-default-paymarket-confirmation-modal></pf-default-paymarket-confirmation-modal>
+</pf-async-container>

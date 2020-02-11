@@ -1,17 +1,17 @@
 import { ImportDataType } from 'libs/constants';
 
 export interface GenericMappableField {
-  IsArray: boolean;
-  DataType: ImportDataType;
-  Name: string;
-  MetaData: any;
+  isArray: boolean;
+  dataType: ImportDataType;
+  name: string;
+  metaData: any;
 }
 
 export function generateMockGenericMappableField(): GenericMappableField {
   return {
-    IsArray: false,
-    DataType: ImportDataType.String,
-    Name: 'Mock Generic Field Name',
-    MetaData: ''
+    isArray: false,
+    dataType: ImportDataType.String,
+    name: 'Mock Generic Field Name',
+    metaData: ''
   };
 }

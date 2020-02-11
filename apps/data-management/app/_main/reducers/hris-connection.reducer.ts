@@ -73,7 +73,8 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
       return {
         ...state,
         loading: true,
-        loadingError: false
+        loadingError: false,
+        summary: null
       };
     }
     case fromHrisConnectionActions.GET_HRIS_CONNECTION_SUMMARY_SUCCESS: {

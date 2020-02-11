@@ -6,7 +6,8 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AuthorizationGuard } from 'libs/security/guards';
 
 import {
-    CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent, OrgDataLoadComponent,
+    CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent,
+    FieldMappingPageComponent, OrgDataLoadComponent,
     ResetIntegrationPageComponent, TransferDataPageComponent, TransferSchedulePageComponent
 } from './containers';
 
@@ -47,6 +48,10 @@ const routes: Routes = [
       {
         path: 'reset',
         component: ResetIntegrationPageComponent
+      },
+      {
+        path: 'field-mapping',
+        component: FieldMappingPageComponent
       }
     ]
   }
