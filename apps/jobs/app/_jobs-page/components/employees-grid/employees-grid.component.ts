@@ -74,7 +74,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
       'PayMarket' : { Template: this.payMarketFilter }
     };
     this.colTemplates = {
-      'Employee': { Template: this.employeeColumn }
+      'Employees': { Template: this.employeeColumn }
     };
   }
 
