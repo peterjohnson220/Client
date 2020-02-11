@@ -19,7 +19,7 @@ export const selectFeatureAreaState = createFeatureSelector<SsoState>('sso');
 export const selectSsoState = createSelector(
   selectFeatureAreaState,
   (state: SsoState) => state.ssoConfig
-)
+);
 
 export const getSsoConfiguring = createSelector(
   selectSsoState,

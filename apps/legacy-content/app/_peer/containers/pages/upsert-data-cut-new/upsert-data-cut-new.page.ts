@@ -45,7 +45,7 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
   peerMapCompaniesSubscription: Subscription;
   weightingTypeSubscription: Subscription;
   persistedWeightingTypeForDataCutsSubscription: Subscription;
-  untaggedIncumbentCountSubscription : Subscription;
+  untaggedIncumbentCountSubscription: Subscription;
 
   companyJobId: number;
   companyPayMarketId: number;

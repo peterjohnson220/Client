@@ -4,7 +4,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import { ViewField, PagingOptions, DataViewEntity, DataViewConfig, SimpleDataView, DataViewFilter } from 'libs/models/payfactors-api';
+import { ViewField, PagingOptions, DataViewEntity, DataViewConfig, SimpleDataView } from 'libs/models/payfactors-api';
 
 import * as fromPfGridActions from '../actions';
 import { PfDataGridFilter } from '../models';
@@ -592,7 +592,7 @@ export function resetFiltersForFilterableFields(state: DataGridStoreState, pageV
 
 function resetAllFilters(state: DataGridStoreState, pageViewId: string): ViewField[] {
   const fields: ViewField[] = cloneDeep(getFields(state, pageViewId));
-  if(!fields) {
+  if (!fields) {
     return;
   }
 

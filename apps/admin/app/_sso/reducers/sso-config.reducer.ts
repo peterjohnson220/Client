@@ -11,10 +11,10 @@ const initialState: State = {
   configuring: false,
   configuringSuccess: false,
   configuringError: false
-}
+};
 
 export function reducer(state = initialState, action: fromSsoConfigActions.Actions): State {
-  switch(action.type) {
+  switch (action.type) {
     case fromSsoConfigActions.SSO_CONFIGURE:
       return{
         ...state,
