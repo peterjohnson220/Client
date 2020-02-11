@@ -98,7 +98,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const clientFilters = cloneDeep(state.filters);
       const clientFiltersNotBeingRefreshed = clientFilters.filter(FiltersHelper.filterToNotRefresh);
       const serverFilters = cloneDeep(action.payload.filters);
-      const singleFilter = cloneDeep(action.payload.singleFilter)
+      const singleFilter = cloneDeep(action.payload.singleFilter);
 
       const newMultiSelectFilters = ClientServerFilterHelper.mergeClientWithServerMultiSelectFilters(
         {
