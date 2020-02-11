@@ -220,7 +220,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       }
 
       clearedFilterField.FilterValue = null;
-
+      const svf = state.grids[action.pageViewId].splitViewFilters.filter(f => f.SourceName !== action.field.SourceName);
       return {
         ...state,
         grids: {
@@ -228,7 +228,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             fields: clearedFilterFields,
-            splitViewFilters: []
+            splitViewFilters: svf
           }
         }
       };
