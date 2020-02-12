@@ -5,7 +5,7 @@ import { SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesRespon
 import { SortDirection, arraySortByString } from 'libs/core/functions';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
 import { CompanySetting, CompanyDto, CompanySettingsEnum } from 'libs/models/company';
-import { SystemUserGroupNames } from 'libs/constants';
+import { SystemUserGroupNames, TileNames } from 'libs/constants';
 import * as fromCompanyPageActions from '../actions/company-page.actions';
 import { CompanyPageHelper } from '../helpers';
 
@@ -249,12 +249,20 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       };
     }
     case fromCompanyPageActions.GET_COMPANY_TILES_SUCCESS: {
+      const companyTiles = action.payload.map(c => {
+        if ( c.TileName === TileNames.InternationalData) {
+          return {...c, Checked: false};
+        } else {
+          return {...c};
+        }
+      });
+
       return {
         ...state,
         loadingCompanyTiles: false,
         loadingCompanyTilesSuccess: true,
-        companyTiles: action.payload,
-        initialCompanyTiles: action.payload
+        companyTiles: companyTiles,
+        initialCompanyTiles: companyTiles
       };
     }
     case fromCompanyPageActions.GET_COMPANY_TILES_ERROR: {
