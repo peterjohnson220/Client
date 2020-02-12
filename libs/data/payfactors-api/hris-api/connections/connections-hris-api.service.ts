@@ -4,6 +4,8 @@ import { UserContext } from 'libs/models/security';
 import {ValidateCredentialsResponse, CredentialsPackage,
   ConnectionPostRequest, ConnectionSummaryResponse} from 'libs/models';
 
+import {OrgDataEntityType} from '../../../../constants/hris-api';
+
 import { HrisApiService } from '../hris-api.service';
 
 const UTILITIES_SUB_DOMAIN_CONFIG_NAME = 'UtilitiesSubDomain';
@@ -39,6 +41,11 @@ export class ConnectionsHrisApiService {
   getSummary(userContext: UserContext) {
     const host = this.getHost(userContext);
     return this.hrisApiService.get<ConnectionSummaryResponse>(`${host}${this.endpoint}/${userContext.CompanyId}/summary`);
+  }
+
+  updateSelectedEntities(userContext: UserContext, connectionId: number, entityTypes: OrgDataEntityType[]) {
+    const host = this.getHost(userContext);
+    return this.hrisApiService.post(`${host}${this.endpoint}/${userContext.CompanyId}/${connectionId}/entities`, entityTypes);
   }
 
   private getHost(userContext: UserContext): string {

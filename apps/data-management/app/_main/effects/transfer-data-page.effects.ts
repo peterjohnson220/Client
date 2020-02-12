@@ -174,31 +174,7 @@ export class TransferDataPageEffects {
     tap(() => this.router.navigate(['/', 'field-mapping']))
   );
 
-  @Effect()
-  loadSelectedEntities$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromTransferDataPageActions.LOAD_ENTITY_SELECTION),
-      withLatestFrom(
-        this.store.select(fromDataManagementMainReducer.getSelectedProvider),
-        this.store.pipe(select(fromRootState.getUserContext)),
-        (action, selectedProvider, userContext) => {
-          return {
-            action,
-            selectedProvider,
-            userContext
-          };
-        }
-      ),
-      switchMap((obj) => {
-        return this.providersHrisApiService.getEntitySelectionByProvider(obj.userContext, obj.selectedProvider.ProviderId)
-          .pipe(
-            map((response: ProviderSupportedEntityDTO[]) => {
-              const entities = PayfactorsApiModelMapper.mapEntitySelectionResponseToEntitySelection(response);
-              return new fromTransferDataPageActions.LoadEntitySelectionSuccess(entities);
-          })
-        );
-      })
-    );
+
 
   constructor(
     private actions$: Actions,

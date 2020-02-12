@@ -8,7 +8,10 @@
     </span>
     <div class="row">
       <div class="col-sm-12 p-0">
-        <pf-hris-integration-status [connectionSummary]="connectionSummary"></pf-hris-integration-status>
+        <pf-hris-integration-status
+          [connectionSummary]="connectionSummary"
+          (onCreateNewIntegrationClicked)="createNewIntegration()"
+        ></pf-hris-integration-status>
       </div>
     </div>
     <div class="row" *ngIf="transferMethodType !== outboundJdm">
@@ -17,9 +20,9 @@
       </div>
     </div>
     <div class="row pt-3">
-      <div class="col-sm-12 text-right">
+      <div class="col-sm-12 text-right" *ngIf="transferMethodType !== outboundJdm && connectionSummary?.canEditMappings">
         <div class="p-2">
-          <button type="button" *ngIf="connectionSummary?.canEditMappings" class="btn btn-outline-primary" routerLink="field-mapping">View Data Mapping</button>
+          <button type="button" class="btn btn-outline-primary" routerLink="field-mapping">View Data Mapping</button>
         </div>
         <div class="p-2">
           <button type="button" *ngIf="false" class="btn btn-outline-primary">Edit</button>

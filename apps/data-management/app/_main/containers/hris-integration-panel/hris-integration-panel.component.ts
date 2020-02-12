@@ -14,6 +14,7 @@ export class HrisIntegrationPanelComponent {
   @Input() transferMethodType: TransferMethodTypes;
   @Input() connectionSummary: ConnectionSummary;
   @Output() onMappingButtonClicked = new EventEmitter();
+  @Output() onCreateNewIntegrationClicked = new EventEmitter();
 
   public inbound = TransferMethodTypes.HRIS_INTEGRATION;
   public outboundJdm = TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION;
@@ -26,4 +27,11 @@ export class HrisIntegrationPanelComponent {
            this.connectionSummary.statuses.find(s => s === status);
   }
 
+  goToDataMapping() {
+    this.onMappingButtonClicked.emit(this.transferMethodType);
+  }
+
+  createNewIntegration() {
+    this.onCreateNewIntegrationClicked.emit(this.transferMethodType);
+  }
 }
