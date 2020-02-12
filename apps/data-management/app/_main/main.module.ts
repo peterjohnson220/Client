@@ -31,11 +31,11 @@ import {
     HrisIntegrationSidebarComponent, HrisIntegrationStatusComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent,
     ResetIntegrationPageComponent, TransferDataPageComponent, TransferMethodDropdownComponent, TransferScheduleCardComponent,
     TransferScheduleCronComponent, TransferSchedulePageComponent, TransferScheduleSummaryComponent, WorkdayAuthenticationComponent,
-    WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
+    WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent, InboundEntitySelectionPageComponent
 } from './containers';
 import {
-    CustomFieldsEffect, EntityIdentifiersEffects, FieldMappingEffects, FileUploadEffects, HrisConnectionEffects,
-    OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects, TransferScheduleEffects
+  CustomFieldsEffect, EntityIdentifiersEffects, EntitySelectionEffects, FieldMappingEffects, FileUploadEffects, HrisConnectionEffects,
+  OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects, TransferScheduleEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
@@ -66,7 +66,8 @@ import { GetSupportedSchedulesPipe } from './pipes';
       CustomFieldsEffect,
       TransferScheduleEffects,
       HrisConnectionEffects,
-      EntityIdentifiersEffects
+      EntityIdentifiersEffects,
+      EntitySelectionEffects
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
@@ -118,6 +119,7 @@ import { GetSupportedSchedulesPipe } from './pipes';
     DefaultPaymarketConfirmationModalComponent,
     CustomEmployeeIdentifierComponent,
     PfCheckboxComponent,
+    InboundEntitySelectionPageComponent,
     FieldMappingPageComponent
   ]
 })

@@ -203,8 +203,8 @@ export class PayfactorsApiModelMapper {
             type = OrgDataEntityType.StructureMappings;
             break;
         case OrgDataEntityType.Structures:
-          type = OrgDataEntityType.Structures;
-          break;
+            type = OrgDataEntityType.Structures;
+            break;
         case OrgDataEntityType.PayMarkets:
             type = OrgDataEntityType.PayMarkets;
             break;
@@ -235,7 +235,23 @@ export class PayfactorsApiModelMapper {
       hasConnection: connectionSummary.hasConnection,
       canEditMappings: connectionSummary.canEditMappings,
       statuses: connectionSummary.statuses,
-      selectedEntities: connectionSummary.selectedEntities
+      selectedEntities: connectionSummary.selectedEntities,
+      connectionID: connectionSummary.connection_ID
     };
+  }
+
+  static mapEntityChoicesWithConnectionSummary(entityChoices: EntityChoice[], connectionSummary: ConnectionSummary): EntityChoice[] {
+    return entityChoices.map(e => {
+      return {
+        ...e,
+        isChecked: connectionSummary.selectedEntities.findIndex(s => s === e.dbName) > -1
+      };
+    });
+  }
+
+  static mapSelectedEntityChoicesToOrgDataEntityTypes(entityChoices: EntityChoice[]): OrgDataEntityType[] {
+    return entityChoices.filter(e => e.isChecked).map(e => {
+      return e.dbName as OrgDataEntityType;
+    });
   }
 }

@@ -6,12 +6,12 @@
       <pf-hris-integration-panel
         [transferMethodType]="inbound"
         [connectionSummary]="connectionSummary"
+        (onCreateNewIntegrationClicked)="createNewIntegration($event)"
         (onMappingButtonClicked)="goToMappingPage($event)"></pf-hris-integration-panel>
     </div>
     <div class="col-sm-12 col-md-6">
       <pf-hris-integration-panel
-        [transferMethodType]="outboundjdm"
-        (onMappingButtonClicked)="goToMappingPage($event)"></pf-hris-integration-panel>
+        [transferMethodType]="outboundjdm"></pf-hris-integration-panel>
     </div>
   </div>
 </pf-async-container>

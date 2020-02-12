@@ -5,12 +5,13 @@ import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {skip} from 'rxjs/operators';
 
-import { TransferMethodTypes } from 'libs/constants/hris-api';
+import {TransferMethodTypes} from 'libs/constants/hris-api';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 import {ConnectionSummary} from '../../../models';
+import {TransferDataWorkflowStep} from '../../../data';
 
 @Component({
   selector: 'pf-data-management-landing',
@@ -47,5 +48,11 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
 
   goToMappingPage($event: any) {
     this.router.navigate(['', '/field-mapping']);
+  }
+
+  createNewIntegration(transferMethod: TransferMethodTypes) {
+    this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.SelectTransferMethod));
+    // TODO: When vendor selection is changed, add the type
+    this.router.navigate(['/transfer-data']);
   }
 }

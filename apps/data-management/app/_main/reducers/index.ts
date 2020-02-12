@@ -14,6 +14,8 @@ import * as fromCustomFieldsReducer from './custom-fields.reducer';
 import * as fromTransferScheduleReducer from './transfer-schedule.reducer';
 import * as fromHrisConnectionReducer from './hris-connection.reducer';
 import * as fromEntityIdentifierReducer from './entity-identifiers.reducer';
+import * as fromEntitySelectionReducer from './entity-selection.reducer';
+import {SelectorHelper} from '../helpers';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
@@ -27,6 +29,7 @@ export interface DataManagementMainState {
   transferSchedule: fromTransferScheduleReducer.State;
   hrisConnection: fromHrisConnectionReducer.State;
   entityIdentifiers: fromEntityIdentifierReducer.State;
+  entitySelection: fromEntitySelectionReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -44,7 +47,8 @@ export const reducers = {
   customFieldsData: fromCustomFieldsReducer.reducer,
   transferSchedule: fromTransferScheduleReducer.reducer,
   hrisConnection: fromHrisConnectionReducer.reducer,
-  entityIdentifiers: fromEntityIdentifierReducer.reducer
+  entityIdentifiers: fromEntityIdentifierReducer.reducer,
+  entitySelection: fromEntitySelectionReducer.reducer
 };
 
 // Select Feature Area
@@ -92,6 +96,11 @@ export const selectHrisConnectionState = createSelector(
 export const selectEntityIdentifierState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.entityIdentifiers
+);
+
+export const selectEntitySelectionState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.entitySelection
 );
 
 // Transfer Data Page
@@ -180,10 +189,7 @@ export const getSelectedEntities = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getSelectedEntities
 );
-export const getProviderSupportedEntities = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getProviderSupportedEntities
-);
+
 export const fileUploadData = createSelector(
   selectOrganizationalDataPageState,
   fromOrganizationalDataPageReducer.fileUploadData
@@ -359,3 +365,12 @@ export const hasEntityIdDataError = createSelector(selectEntityIdentifierState, 
 export const isFetchingEntityIdData = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.IsFetchingData);
 export const hasSavedEntityIdData = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.HasSavedEmployeeIdentifiers);
 
+// entity selection page
+export const getProviderSupportedEntitiesObj = createSelector(selectEntitySelectionState, fromEntitySelectionReducer.getProviderSupportedEntitiesObj);
+export const getEntitySelectionSavingObj = createSelector(selectEntitySelectionState, fromEntitySelectionReducer.getUpdatedProviderSupportedEntitiesObj);
+export const getEntitySelectionShouldRedirect = createSelector(getHrisConnectionSummary, getSelectedProvider, (s1, s2) => {
+  return SelectorHelper.getEntitySelectionPageRedirectionStatus(s1, s2);
+});
+export const getEntitySelectionPageSelections = createSelector(getSelectedEntities, getProviderSupportedEntitiesObj, (s1, s2) => {
+  return { selections: s1, providerSupportedEntities: s2.obj };
+});
