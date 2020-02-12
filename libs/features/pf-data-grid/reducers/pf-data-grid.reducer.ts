@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, uniq } from 'lodash';
 
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
@@ -198,7 +198,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       updatedField.FilterOperator = action.payload.FilterOperator;
 
       const splitViewFilters = updatedFields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
-        .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName))
+        .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName));
 
       return {
         ...state,
@@ -430,13 +430,13 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.SELECT_ALL:
-      const selectAllState = state.grids[action.pageViewId].selectAllState === 'checked' ? 'unchecked' : 'checked';
-      let selectedKeys = [];
-      if (selectAllState === 'checked') {
-
-        selectedKeys = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
+      const selectAllStateToSet = state.grids[action.pageViewId].selectAllState === 'checked' ? 'unchecked' : 'checked';
+      const visibleKeys: number[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
+      let selectAllKeys = [];
+      if (selectAllStateToSet === 'checked') {
+        selectAllKeys = uniq([...state.grids[action.pageViewId].selectedKeys || [], ...visibleKeys]);
       } else {
-        selectedKeys = null;
+        selectAllKeys = state.grids[action.pageViewId].selectedKeys.filter(sk => !(visibleKeys.indexOf(sk) > -1));
       }
       return {
         ...state,
@@ -444,8 +444,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectedKeys: cloneDeep(selectedKeys),
-            selectAllState: selectAllState
+            selectedKeys: cloneDeep(selectAllKeys),
+            selectAllState: selectAllStateToSet
           }
         }
       };
