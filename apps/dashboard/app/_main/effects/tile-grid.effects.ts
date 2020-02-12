@@ -94,9 +94,19 @@ export class TileGridEffects {
         const nextSmallTile = marketingTiles.slice(i + 1).find(t => t.Size === 1);
 
         if (nextSmallTile) {
+          // swap a small tile in place of the current tile to make the tiles fit on the row
           marketingTiles[ marketingTiles.indexOf(nextSmallTile) ] = marketingTiles[ i ];
           marketingTiles[ i ] = nextSmallTile;
           currentRowColumnCount = 0;
+        } else {
+          const previousSmallTile = marketingTiles.slice().reverse().find(t => t.Size === 1);
+
+          if (previousSmallTile) {
+            // no more small tiles ahead of the current tile, so swap the last small tile with the current tile
+            marketingTiles[ marketingTiles.indexOf(previousSmallTile) ] = marketingTiles[ i ];
+            marketingTiles[ i ] = previousSmallTile;
+            currentRowColumnCount = 0;
+          }
         }
       }
     }
