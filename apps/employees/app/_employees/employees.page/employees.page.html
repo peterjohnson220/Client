@@ -1,0 +1,8 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="getPageTitle((userContext$ | async)?.CompanyName)"
+  [navigationURL]="'/client/dashboard'"
+  [selectionField]="'CompanyEmployee_ID'"
+  [allowExport]="false"
+  [defaultSort]="defaultSort">
+</pf-data-grid>

@@ -11,7 +11,7 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard, TileEnabledGuard],
     children: [
-      { path: '', loadChildren: () => import('apps/employees/app/_employees/main.module').then(m => m.MainModule) }
+      { path: '', loadChildren: () => import('apps/employees/app/_employees/employees-page.module').then(m => m.EmployeesPageModule) }
     ]
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },
