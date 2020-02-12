@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
-import { AuthorizationGuard } from 'libs/security/guards';
+import { AuthorizationGuard, PfAdminGuard } from 'libs/security/guards';
 
 import {
     CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent, OrgDataLoadComponent,
@@ -20,8 +20,7 @@ const routes: Routes = [
   {
     path: 'custom-employee-identifier',
     component: CustomEmployeeIdentifierComponent,
-    canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any }
+    canActivate: [PfAdminGuard]
   },
   {
     path: '',
