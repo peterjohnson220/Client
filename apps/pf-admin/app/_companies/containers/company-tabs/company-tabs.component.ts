@@ -203,9 +203,6 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   }
 
   private handleTabsDisplayByGroupAndClientType() {
-    if (this.groupName === SystemUserGroupNames.SmallBusiness) {
-      this.store.dispatch(new fromCompanyPageActions.SelectSmallBusinessClientType());
-    } else {
       switch (this.clientType) {
         case CompanyClientTypeConstants.PEER:
           this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
@@ -218,7 +215,4 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
           return;
       }
     }
-  }
-
-
 }

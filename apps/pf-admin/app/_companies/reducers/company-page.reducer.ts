@@ -484,15 +484,6 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         companyDataSetsEnabled: true
       };
     }
-    case fromCompanyPageActions.SELECT_SMALL_BUSINESS_CLIENT_TYPE: {
-      let companySettingsCopy = cloneDeep(state.companySettings);
-      companySettingsCopy = CompanyPageHelper.getSmallBusinessClientTypeCompanySettings(companySettingsCopy);
-
-      return {
-        ...state,
-        companySettings: companySettingsCopy
-      };
-    }
     case fromCompanyPageActions.DISABLE_PEER_AND_ANALYSIS_TILES: {
       let companyTilesCopy = cloneDeep(state.companyTiles);
       companyTilesCopy = CompanyPageHelper.disablePeerAndAnalysisCompanyTiles(companyTilesCopy);
