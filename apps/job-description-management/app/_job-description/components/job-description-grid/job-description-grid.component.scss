@@ -111,3 +111,9 @@
     color: transparent;
   } 
 }
+
+@supports (-ms-ime-align:auto) { 
+  #public-circle, #private-circle { 
+    color: transparent;
+  } 
+}
