@@ -137,7 +137,7 @@ export class FiltersHelper {
 
   static selectAll(filters: Filter[]): Filter[] {
     filters.map((filter: Filter) => {
-      if (isMultiFilter(filter)) {
+      if (isMultiFilter(filter) || isFilterableMultiFilter(filter)) {
         (filter as MultiSelectFilter).Options.map(o => o.Selected = true);
       }
       if (isRangeFilter(filter)) {
