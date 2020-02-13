@@ -57,12 +57,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   baseEntity$: Observable<DataViewEntity>;
   dataFields$: Observable<ViewField[]>;
   filterableFields$: Observable<ViewField[]>;
-  globalFilterableFields$: Observable<ViewField[]>;
+  globalFilterableFields: ViewField[];
   displayFilterPanel$: Observable<boolean>;
   savedViews$: Observable<SimpleDataView[]>;
   saveViewModalOpen$: Observable<boolean>;
   viewIsSaving$: Observable<boolean>;
-  globalFilterableFields: ViewField[];
   userFilteredFieldsSubscription: Subscription;
   selectedRecordIdSubscription: Subscription;
   globalFilterableFieldsSubscription: Subscription;
@@ -76,7 +75,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.splitViewEmitter.subscribe(res => {
       switch (res) {
         case 'close':
-          this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, null, this.selectionField));
+          this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, null, null, this.selectionField));
           break;
         default:
           break;

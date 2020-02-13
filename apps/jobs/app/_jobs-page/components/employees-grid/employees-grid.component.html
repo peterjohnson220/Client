@@ -11,7 +11,8 @@
   [showActionBar]="true"
   [actionBarClassName]="'employee-grid-action-bar ml-0 mt-1'"
   [headerClassName]="'employee-grid-header'"
-  [noRecordsFound]="noResultsText">
+  [gridGlobalFiltersTemplate]="globalFilterTemplates"
+  [noRecordsFound]="'There are no employees in this Job.'">
 </pf-data-grid>
 
 <ng-template #employeeColumn let-dataRow="dataRow">
@@ -22,4 +23,21 @@
   <ng-template #noEmployeeName>
     {{dataRow['CompanyEmployees_Employee_ID']}}
   </ng-template>
+</ng-template>
+
+<ng-template #payMarketFilter>
+  <kendo-dropdownlist
+    style="width: 250px"
+    [(ngModel)]="selectedPayMarket"
+    [textField]="'Value'"
+    [valueField]="'Id'"
+    [defaultItem]="{Value:'All Pay Markets', Id: null}"
+    [data]="filteredPayMarketOptions"
+    (valueChange)="handlePayMarketFilterChanged($event)"
+    [filterable]="true"
+    (filterChange)="handleFilter($event)"
+    [attr.data-qa-id]="'ddm-operator-'+payMarketField.SourceName"
+    class="k-dropdown-white form-control"
+  >
+  </kendo-dropdownlist>
 </ng-template>

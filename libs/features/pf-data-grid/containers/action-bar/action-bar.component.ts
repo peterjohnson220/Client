@@ -82,6 +82,10 @@ export class ActionBarComponent implements OnChanges {
   cancelDelete() {
     this.store.dispatch(new fromActions.CancelViewDelete(this.pageViewId));
   }
+
+  hasTemplate(globalFilter) {
+    return this.globalFiltersTemplate && this.globalFiltersTemplate[globalFilter.SourceName];
+  }
   trackByFn(index, item: ViewField) {
     return item.DataElementId;
   }
