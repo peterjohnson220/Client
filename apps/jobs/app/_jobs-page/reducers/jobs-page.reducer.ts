@@ -1,4 +1,6 @@
+import {arraySortByString, SortDirection} from 'libs/core/functions';
 import * as fromJobsPageActions from '../actions';
+
 
 export interface State {
   company: string;
@@ -6,7 +8,9 @@ export interface State {
   loading: boolean;
   loadingError: boolean;
   addingToProject: boolean;
+  showAddToProjectSummaryModal: boolean;
   pricingIdToBeDeleted: number;
+  companyPayMarkets:any;
 }
 
 export const initialState: State = {
@@ -15,7 +19,9 @@ export const initialState: State = {
   jobsPageId: '',
   loadingError: false,
   addingToProject : false,
+  showAddToProjectSummaryModal: false,
   pricingIdToBeDeleted: undefined,
+  companyPayMarkets: [],
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -41,7 +47,20 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         loadingError: false,
       };
     }
-    case fromJobsPageActions.ADD_JOBS_TO_PROJECT: {
+    case fromJobsPageActions.ADD_TO_PROJECT_SUMMARY: {
+      return {
+        ...state,
+        showAddToProjectSummaryModal: true
+
+      };
+    }
+    case fromJobsPageActions.CANCEL_ADD_TO_PROJECT_SUMMARY: {
+      return {
+        ...state,
+        showAddToProjectSummaryModal: false
+      };
+    }
+    case fromJobsPageActions.ADD_TO_PROJECT: {
       return {
         ...state,
         addingToProject: true
@@ -58,6 +77,13 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       return {
         ...state,
         pricingIdToBeDeleted: action.payload.CompanyJobPricingId
+      };
+    }
+    case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
+      return {
+        ...state,
+        companyPayMarkets: action.payload.map(o => ({Id: o.PayMarket, Value: o.PayMarket}))
+          .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending))
       };
     }
     case fromJobsPageActions.CANCEL_DELETE_PRICING:
@@ -77,5 +103,7 @@ export const getCompany = (state: State) => state.company;
 export const getJobsPageId = (state: State) => state.jobsPageId;
 export const getloading = (state: State) => state.loading;
 export const getloadingError = (state: State) => state.loadingError;
-export const getToProjectButtonState = (state: State) => state.addingToProject;
+export const getAddToProjectButtonState = (state: State) => state.addingToProject;
 export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDeleted;
+export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
+export const getShowAddToProjectSummaryModal = (state: State) => state.showAddToProjectSummaryModal;

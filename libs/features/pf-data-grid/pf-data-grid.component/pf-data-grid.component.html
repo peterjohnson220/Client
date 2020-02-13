@@ -20,7 +20,7 @@
   </ng-container>
   <ng-container page-content>
     <div class="d-flex h-100 flex-column">
-      <div *ngIf="gridActionsTemplate"
+      <div *ngIf="gridActionsTemplate || userFilteredFields.length > 0"
            class="no-gutters d-flex justify-content-between border pl-2 gridActionTemplate">
         <div class="flex-fill p-1">
           <div class="h-100" *ngIf="userFilteredFields.length > 0">
@@ -49,7 +49,7 @@
                     [columnTemplates]="columnTemplates"
                     [expandedRowTemplate]="expandedRowTemplate"
                     [customHeaderTemplate]="customHeaderTemplate"
-                    [enableSelection]="enableSelection && !isSplitView()"
+                    [enableSelection]="enableSelection"
                     [noRecordsFound]="noRecordsFound"
                     [selectedRecordId]="selectedRecordId"
                     [compactGrid]="compactGrid"
