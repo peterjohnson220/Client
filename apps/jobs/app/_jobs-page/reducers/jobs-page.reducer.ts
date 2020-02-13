@@ -1,4 +1,4 @@
-import {arraySortByString, SortDirection} from 'libs/core/functions';
+import { sortBy } from 'lodash';
 import * as fromJobsPageActions from '../actions';
 
 
@@ -10,7 +10,7 @@ export interface State {
   addingToProject: boolean;
   showAddToProjectSummaryModal: boolean;
   pricingIdToBeDeleted: number;
-  companyPayMarkets:any;
+  companyPayMarkets: any;
 }
 
 export const initialState: State = {
@@ -82,8 +82,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
       return {
         ...state,
-        companyPayMarkets: action.payload.map(o => ({Id: o.PayMarket, Value: o.PayMarket}))
-          .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending))
+        companyPayMarkets: sortBy(action.payload.map(o => ({Id: o.PayMarket, Value: o.PayMarket})), (s) => s.Id.toLowerCase() )
       };
     }
     case fromJobsPageActions.CANCEL_DELETE_PRICING:
