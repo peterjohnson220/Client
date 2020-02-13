@@ -53,6 +53,7 @@ import { CopyJobDescriptionModalComponent } from '../../copy-job-description-mod
 import { JobDescriptionHelper } from '../../../helpers';
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
+import * as fromWorkflowTemplateListActions from '../../../../shared/actions/shared-workflow.actions';
 
 @Component({
   selector: 'pf-job-description-page',
@@ -440,7 +441,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
 
     this.completedStepSubscription = this.completedStep$.subscribe(cs => this.completedStep = cs);
-    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => this.handleJobDescriptionChanged(result.obj));
+    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
+      if (result.obj) {
+        this.store.dispatch(new fromWorkflowTemplateListActions.Load(result.obj.CompanyJobId));
+      }
+      this.handleJobDescriptionChanged(result.obj);
+    });
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
