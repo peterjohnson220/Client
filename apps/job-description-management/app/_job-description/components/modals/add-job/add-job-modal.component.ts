@@ -35,7 +35,8 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
   public addAndAssign = false;
   public addJobForm: FormGroup;
   public companyId: number;
-  public companyJobMessage: string;
+  public duplicateJobCodeErrorMessage: string;
+  public companyJobErrorMessage: string;
   public companyJobSaveObj: CompanyJob;
   public jobFamilies$: Observable<string[]>;
   public jobFLSAStatus$: Observable<string[]>;
@@ -48,12 +49,18 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
   public publicViewOptions = JobDescriptionViewConstants.PUBLIC_VIEW_OPTIONS;
 
   private companyJob$: Observable<CompanyJob>;
-  private companyJobMessage$: Observable<string>;
+  private duplicateJobCodeErrorMessage$: Observable<string>;
   private companyJobMessageSubscription: Subscription;
   private companyJobSaveSubscription: Subscription;
   private companyJobSaveSuccess$: Observable<boolean>;
   private companyJobSaveSuccessSubscription: Subscription;
   private identity$: Observable<UserContext>;
+  private companyJobCreating$: Observable<boolean>;
+  private companyJobSaveError$: Observable<boolean>;
+  private companyJobSaveErrorMessage$: Observable<string>;
+  private companyJobSaveErrorSubscription: Subscription;
+  private companyJobSaveErrorMessageSubscription: Subscription;
+  private duplicateJobCodeErrorMessageSubscription: Subscription;
 
   constructor(
     private rootStore: Store<fromRootState.State>,
@@ -63,7 +70,7 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
     private modalService: NgbModal
   ) {
     this.companyJob$ = this.store.select(fromAddJobModalReducers.getCompanyJob);
-    this.companyJobMessage$ = this.store.select(fromAddJobModalReducers.getDuplicateCompanyJobMessage);
+    this.duplicateJobCodeErrorMessage$ = this.store.select(fromAddJobModalReducers.getDuplicateCompanyJobMessage);
     this.companyJobSaveSuccess$ = this.store.select(fromAddJobModalReducers.getCompanyJobCreatingSuccess);
     this.identity$ = this.rootStore.select(fromRootState.getUserContext);
     this.jobFamilies$ = this.sharedStore.select(fromSharedReducers.getJobFamilies);
@@ -71,6 +78,9 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
     this.jobUserDefinedFields$ = this.store.select(fromAddJobModalReducers.getCompanyJobUdfColumns);
     this.templateListItems$ = this.sharedStore.select(fromSharedReducers.getTemplateList);
     this.templateListLoading$ = this.sharedStore.select(fromSharedReducers.getTemplateListLoading);
+    this.companyJobCreating$ = this.store.select(fromAddJobModalReducers.getCompanyJobCreating);
+    this.companyJobSaveError$ = this.store.select(fromAddJobModalReducers.getCompanyJobCreatingError);
+    this.companyJobSaveErrorMessage$ = this.store.select(fromAddJobModalReducers.getCompanyJobCreatingErrorMessage);
   }
 
   ngOnInit() {
@@ -84,7 +94,7 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
   }
 
   handleJobCodeChanged() {
-    this.store.dispatch(new fromAddJobModalActions.SetDuplicateCompanyJobMessage(''));
+    this.duplicateJobCodeErrorMessage = '';
   }
 
   handleTemplateChanged(value: any) {
@@ -104,7 +114,6 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
     this.addAndAssign = false;
     this.addJobForm.patchValue({ CompanyId: this.companyId, JobStatus: true });
     this.sharedStore.dispatch(new fromTemplateListActions.LoadTemplateList({ publishedOnly: true }));
-    this.store.dispatch(new fromAddJobModalActions.SetDuplicateCompanyJobMessage(''));
     this.modalRef = this.modalService.open(this.addJobModal, { backdrop: 'static', size: 'lg' });
   }
 
@@ -116,7 +125,7 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
 
   private createSubscriptions() {
     this.companyJobSaveSubscription = this.companyJob$.subscribe(companyJob => this.companyJobSaveObj = companyJob);
-    this.companyJobMessageSubscription = this.companyJobMessage$.subscribe(errMessage => this.companyJobMessage = errMessage);
+    this.duplicateJobCodeErrorMessageSubscription = this.duplicateJobCodeErrorMessage$.subscribe(errMessage => this.duplicateJobCodeErrorMessage = errMessage);
     this.companyJobSaveSuccessSubscription = this.companyJobSaveSuccess$.subscribe(response => {
       if (response) {
         this.createCompanyJobComplete.emit({
@@ -125,8 +134,16 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
           publicView: this.publicViewSelectedValue
         });
 
-        this.modalRef.close();
+        if  (this.modalRef) {
+          this.modalRef.close();
         }
+      }
+    });
+    this.companyJobSaveErrorMessageSubscription = this.companyJobSaveErrorMessage$.subscribe(em => this.companyJobErrorMessage = em);
+    this.companyJobSaveErrorSubscription = this.companyJobSaveError$.subscribe(e => {
+      if (e) {
+        this.addJobForm.setErrors({'error': this.companyJobErrorMessage});
+      }
     });
   }
 
@@ -167,7 +184,9 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
 
   private unsubscribe() {
     this.companyJobSaveSubscription.unsubscribe();
-    this.companyJobMessageSubscription.unsubscribe();
+    this.duplicateJobCodeErrorMessageSubscription.unsubscribe();
     this.companyJobSaveSuccessSubscription.unsubscribe();
+    this.companyJobSaveErrorSubscription.unsubscribe();
+    this.companyJobSaveErrorMessageSubscription.unsubscribe();
   }
 }
