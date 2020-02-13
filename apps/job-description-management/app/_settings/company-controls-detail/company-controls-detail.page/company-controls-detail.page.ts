@@ -98,8 +98,8 @@ export class CompanyControlsDetailPageComponent implements OnInit, OnDestroy {
         this.confirmEditCompanyControlModal.open();
     }
 
-    showConfirmDeleteControlOptionModal() {
-        this.deleteOptionModal.open();
+    showConfirmDeleteControlOptionModal(affectedJobs: string[]) {
+        this.deleteOptionModal.open(affectedJobs);
     }
 
     copyControl() {
@@ -117,7 +117,7 @@ export class CompanyControlsDetailPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromCompanyControlDetailAction.ChangeControlName({controlName: newControlName}));
     }
 
-    handleControlOptionDeleteClick($event) {
-        this.showConfirmDeleteControlOptionModal();
+    handleControlOptionDeleteClick(event$: any) {
+        this.showConfirmDeleteControlOptionModal(event$.affectedJobs);
     }
 }
