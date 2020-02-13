@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 
-export const SET_PAGE_TITLE = '[Structures - Job Based Range] Set Page Title';
+export const SET_PAGE_METADATA = '[Structures - Job Based Range] Set Page Metadata';
 
-export class SetPageTitle implements Action {
-  readonly type = SET_PAGE_TITLE;
+export class SetPageMetadata implements Action {
+  readonly type = SET_PAGE_METADATA;
 
-  constructor(public payload: { pageTitle: string }) {}
+  constructor(public payload: { pageTitle: string, currency: string }) {}
 }
 
 export type PageActions
-  = SetPageTitle;
+  = SetPageMetadata;
