@@ -33,6 +33,7 @@
         <div class="form-group">
             <input type="checkbox" id="customTextCheck"  formControlName="customTextCheck" class="mr-3"/>
           <textarea rows="3" formControlName="customTextValue" class="w-50" placeholder="{{placeholderText}}" maxlength="250"></textarea>
+          <div *ngIf="displayCustomTextWarning"><span class="custom-text-warning">Text containing more than 40 characters will be displayed on a separate line</span></div>
         </div>
         <div class="d-flex pt-2 justify-content-between border-top">
             <button type="submit" 
