@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule , FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { EffectsModule } from '@ngrx/effects';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -12,6 +13,7 @@ import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
+import { EmployeesPageEffects } from './effects';
 import { EmployeesPageRoutingModule } from './employees-page-routing.module';
 import { EmployeesPageComponent } from './employees.page';
 
@@ -23,6 +25,9 @@ import { EmployeesPageComponent } from './employees.page';
     // 3rd Party
     StoreModule.forFeature('employees_main', reducers),
     FontAwesomeModule,
+    EffectsModule.forFeature([
+      EmployeesPageEffects
+    ]),
 
     // Routing
     EmployeesPageRoutingModule,

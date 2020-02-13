@@ -8,5 +8,39 @@
   [showActionBar]="true"
   [showColumnChooser] ="false"
   [showFilterChooser] ="false"
-  [noRecordsFound]="'No records available.'">
+  [noRecordsFound]="'No records available.'"
+  [enableSelection]="true"
+  [gridActionsTemplate]="gridActions">
 </pf-data-grid>
+
+<ng-template #gridActions>
+  <div class="grid-actions-container">
+    <button
+      type="button"
+      class="btn light-blue-btn"
+      [pfSecuredResource]="permissions.NEW_PROJECT"
+      [attr.data-qa-id]="'btn-priceJobs'"
+      [disabled]="priceJobsDisabled"
+      (click)="handlePriceJobsClicked()">
+      Price Jobs
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #pricingJobsMessage>
+  <div class="pricing-jobs-message">
+    <div class="space-out-children">
+      <span *ngIf="pricingJobs && !(pricingJobsError$ | async)">Creating Project</span>
+      <fa-icon [icon]="['fal', 'circle-notch']" spin="true"></fa-icon>
+    </div>
+    <div *ngIf="(pricingJobsError$ | async)" class="d-flex flex-column">
+      <div class="d-flex flex-row justify-content-center space-out-children pb-3">
+        <fa-icon class="text-danger" [icon]="['fal', 'exclamation-circle']"></fa-icon>
+        <span>Error Creating Project</span>
+      </div>
+      <div>
+        <button type="button" class="btn btn-secondary" (click)="handlePricingJobsMessageCloseClicked()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

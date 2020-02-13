@@ -1,10 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-html,
-body {
-  background-color: #FFFFFF !important;
-}
 
 .page-content {
   padding: 0;
   background-color: #f7f7f9 !important;
+}
+
+pf-employees-page {
+  .gridActionTemplate {
+    margin: 0.5rem 1rem 0.5rem 0.5rem;
+    height: 35.75px !important;
+    border: none !important;
+  }
 }
