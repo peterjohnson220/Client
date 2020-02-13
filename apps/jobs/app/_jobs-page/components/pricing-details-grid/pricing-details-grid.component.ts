@@ -49,7 +49,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
   }];
   selectedKeys: number[];
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private remoteDataSourceService: RemoteDataSourceService) {
+  constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;

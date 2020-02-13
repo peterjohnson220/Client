@@ -12,7 +12,6 @@ import { ViewField } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import {RemoteDataSourceService} from 'libs/core/services';
 
 import { PageViewIds } from '../constants';
 import { AddToProjectRequest } from '../models';
@@ -139,10 +138,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const field = cloneDeep(this.peerField);
     field.FilterValue = value;
     this.updateField(field);
-  }
-
-  splitViewTabChange(tabPageViewId: string) {
-    this.store.dispatch(new fromPfGridActions.ClearAllFilters(tabPageViewId));
   }
 
   handlePayMarketFilterChanged(value: any) {
