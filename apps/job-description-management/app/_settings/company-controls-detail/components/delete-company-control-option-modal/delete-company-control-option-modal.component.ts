@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,7 +9,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 export class DeleteCompanyControlOptionModalComponent {
     @ViewChild('deleteControlOptionModal', { static: true }) public deleteControlOptionModal: any;
 
-    @Input() affectedJobs: string[];
+    public affectedJobs: string[];
 
     private modalRef: NgbModalRef;
 
@@ -17,7 +17,8 @@ export class DeleteCompanyControlOptionModalComponent {
         private modalService: NgbModal
     ) { }
 
-    open() {
+    open(affectedJobs: string[]) {
         this.modalRef = this.modalService.open(this.deleteControlOptionModal, { backdrop: 'static' });
+        this.affectedJobs = affectedJobs;
     }
 }
