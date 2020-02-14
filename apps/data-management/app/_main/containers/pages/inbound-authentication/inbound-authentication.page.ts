@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { isObject } from 'lodash';
-import { Observable, Subject } from 'rxjs';
+import { asapScheduler, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { CredentialsPackage } from 'libs/models';
@@ -40,13 +40,15 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Authentication));
-    this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
+    asapScheduler.schedule(() => {
+      this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Authentication));
+      this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
 
-    this.connectionSummary$.subscribe(connectionSummary => {
-      if (!isObject(connectionSummary.provider)) {
-        this.cancel();
-      }
+      this.connectionSummary$.subscribe(connectionSummary => {
+        if (!isObject(connectionSummary.provider)) {
+          this.cancel();
+        }
+      });
     });
   }
 

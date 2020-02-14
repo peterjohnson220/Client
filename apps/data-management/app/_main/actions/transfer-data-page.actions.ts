@@ -40,6 +40,9 @@ export const OUTBOUND_INIT = '[Data Management/Transfer Data Page/Outbound] Init
 export const UPDATE_OUTBOUND_WORKFLOWSTEP = '[Data Management/Transfer Data Page/Outbound] Update Outbound Workfow Step';
 export const RESET_OUTBOUND_TRANSFER_DATA_PAGE_WORKFLOW = '[Data Management/Transfer Data Page/Outbound] Reset Outbound Transfer Data Page Workflow';
 
+// Mock outbound JDM actions
+// TODO: delete these
+export const OUTBOUND_JDM_VALIDATE = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials';
 export const INIT_OUTBOUND_JDM_VIEW_SELECTION_PAGE = '[Data Management/Outbound/JDM View Selection Page] Init Outbound Jdm View Selection Page';
 export const LOAD_OUTBOUND_JDM_VIEWS = '[Data Management/Outbound/JDM View Selection Page] Load Outbound Jdm Views';
 export const LOAD_OUTBOUND_JDM_VIEWS_ERROR = '[Data Management/Outbound/JDM View Selection Page] Load Outbound Jdm Views Error';
@@ -217,6 +220,14 @@ export class ResetOutboundTransferDataPageWorkflow implements Action {
   constructor() {}
 }
 
+// mock outbound JDM actions
+// TODO: delete these
+export class OutboundJdmValidate implements Action {
+  readonly type = OUTBOUND_JDM_VALIDATE;
+
+  constructor(public payload: CredentialsPackage) {}
+}
+
 export class InitOutboundJdmViewSelectionPage implements Action {
   readonly type = INIT_OUTBOUND_JDM_VIEW_SELECTION_PAGE;
 }
@@ -274,6 +285,7 @@ export type Actions
   | LoadOutboundTransferMethodsSuccess
   | UpdateOutboundWorkflowstep
   | ResetOutboundTransferDataPageWorkflow
+  | OutboundJdmValidate
   | InitOutboundJdmViewSelectionPage
   | LoadOutboundJdmViews
   | LoadOutboundJdmViewsError

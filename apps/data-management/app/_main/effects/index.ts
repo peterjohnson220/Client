@@ -8,3 +8,4 @@ export * from './transfer-schedule.effects';
 export * from './hris-connection.effects';
 export * from './entity-identifiers.effects';
 export * from './entity-selection.effects';
+export * from './outbound-jdm.effects';
