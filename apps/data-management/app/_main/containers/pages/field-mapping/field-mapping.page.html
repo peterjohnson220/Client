@@ -16,7 +16,7 @@
             <button type="button" class="btn btn-outline-danger px-3" [routerLink]="'/'" [disabled]="(savingMappings$ | async)">Cancel</button>
           </div>
           <div class="p-2" *ngIf="!workflowComplete">
-            <button type="button" class="btn btn-secondary px-4" [disabled]="(savingMappings$ | async)" [routerLink]="['/','transfer-data']">Back</button>
+            <button type="button" class="btn btn-secondary px-4" [disabled]="(savingMappings$ | async)" [routerLink]="['/transfer-data/inbound/authentication']">Back</button>
           </div>
           <div class="p-2">
             <button type="button" class="btn btn-primary px-4" (click)="saveMappings()" [disabled]="!(canSaveMappings$ | async) || (savingMappings$ | async)">Save</button>
