@@ -7,10 +7,9 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from 'libs/data/payfactors-api/organizational-data';
 import {DataImportApiService} from 'libs/data/payfactors-api/integration/data-import';
+import { ConfigurationGroup } from 'libs/models/data-loads';
 
 import * as fromOrganizationalDataActions from '../actions/organizational-data-page.action';
-import { ConfigurationGroup } from '../models';
-import * as fromOrgDataFieldMappingsActions from '../actions/organizational-data-field-mapping.actions';
 
 @Injectable()
 export class OrganizationalDataPageEffects {
@@ -29,13 +28,13 @@ export class OrganizationalDataPageEffects {
 
   @Effect()
   getConfigurationGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(fromOrganizationalDataActions.GET_CONFIGURATION_GROUP),
-    switchMap((action: fromOrganizationalDataActions.GetConfigGroup) =>
-      this.configurationGroupApiService.getConfigurationGroup(action.companyId).pipe(
-        map((configGroup: ConfigurationGroup) => {
-          return new fromOrganizationalDataActions.GetConfigGroupSuccess(configGroup);
+    ofType(fromOrganizationalDataActions.GET_CONFIGURATION_GROUPS),
+    switchMap((action: fromOrganizationalDataActions.GetConfigGroups) =>
+      this.configurationGroupApiService.getConfigurationGroups(action.companyId, action.loadType).pipe(
+        map((configGroups: ConfigurationGroup[]) => {
+          return new fromOrganizationalDataActions.GetConfigGroupsSuccess(configGroups);
         }),
-        catchError(error => of(new fromOrganizationalDataActions.GetConfigGroupFailed()))
+        catchError(error => of(new fromOrganizationalDataActions.GetConfigGroupsFailed()))
       )
     )
   );

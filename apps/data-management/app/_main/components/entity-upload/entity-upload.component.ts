@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 
-import { ConfigurationGroup, EntityChoice } from '../../models';
+
+import { ConfigurationGroup } from 'libs/models/data-loads';
+
+import { EntityChoice } from '../../models';
 import { FileUploadComponent } from '../file-upload/';
 
 @Component({

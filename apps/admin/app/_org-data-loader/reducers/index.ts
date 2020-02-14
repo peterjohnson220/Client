@@ -9,6 +9,7 @@ import * as fromRoot from 'libs/state/state';
 import * as fromCompanySelectorReducer from './company-selector.reducer';
 import * as fromOrgDataFieldMappingsReducer from './org-data-field-mappings.reducer';
 import * as fromOrgDataFilenamePatternsReducer from './org-data-filename-patterns.reducer';
+import * as fromConfigurationGroupReducer from './configuration-group.reducer';
 
 // Feature area state
 export interface OrgDataLoaderState {
@@ -17,6 +18,7 @@ export interface OrgDataLoaderState {
   emailRecipients: fromOrgDataEmailRecipientsReducer.State;
   loaderSettings: fromLoaderSettingsReducer.State;
   orgDataFilenamePatternSet: fromOrgDataFilenamePatternsReducer.State;
+  configurationGroups: fromConfigurationGroupReducer.State;
 }
 
 // Extend root state with feature area state
@@ -30,7 +32,8 @@ export const reducers = {
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
   emailRecipients: fromOrgDataEmailRecipientsReducer.reducer,
   loaderSettings: fromLoaderSettingsReducer.reducer,
-  orgDataFilenamePatternSet: fromOrgDataFilenamePatternsReducer.reducer
+  orgDataFilenamePatternSet: fromOrgDataFilenamePatternsReducer.reducer,
+  configurationGroups: fromConfigurationGroupReducer.reducer
 };
 
 // Select Feature Area
@@ -47,6 +50,8 @@ export const selectLoaderSettingsState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.loaderSettings);
 export const selectOrgDataFilenamePatternSetState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.orgDataFilenamePatternSet);
+export const selectConfigurationGroupsState =
+  createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.configurationGroups);
 
 export const {
   selectAll: getCompanies
@@ -142,4 +147,33 @@ export const getLoaderSettingsSavingError = createSelector(
 export const getOrgDataFilenamePatternSet = createSelector(
   selectOrgDataFilenamePatternSetState,
   fromOrgDataFilenamePatternsReducer.getOrgDataFilenamePatternSet
+);
+
+export const {
+  selectAll: getConfigurationGroups
+} = fromConfigurationGroupReducer.adapter.getSelectors(selectConfigurationGroupsState);
+
+export const getLoadingConfigurationGroups = createSelector(
+  selectConfigurationGroupsState,
+  fromConfigurationGroupReducer.getLoadingConfigurationGroups
+);
+
+export const getLoadingConfigurationGroupsError = createSelector(
+  selectConfigurationGroupsState,
+  fromConfigurationGroupReducer.getLoadingConfigurationGroupsError
+);
+
+export const getSavingConfigurationGroup = createSelector(
+  selectConfigurationGroupsState,
+  fromConfigurationGroupReducer.getSavingConfigurationGroup
+);
+
+export const getSavingConfigurationGroupError = createSelector(
+  selectConfigurationGroupsState,
+  fromConfigurationGroupReducer.getSavingConfigurationGroupError
+);
+
+export const getSavedConfigurationGroup = createSelector(
+  selectConfigurationGroupsState,
+  fromConfigurationGroupReducer.getSavedConfigurationGroup
 );

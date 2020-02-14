@@ -7,6 +7,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
+  configurationGroups$={[Function Store]}
   delimiter=""
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -40,6 +41,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
+  savedConfigurationGroup$={[Function Store]}
   selectedCompany={[Function Number]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
@@ -177,6 +179,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
+  configurationGroups$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -210,6 +213,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
+  savedConfigurationGroup$={[Function Store]}
   selectedCompany={[Function Number]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
@@ -347,6 +351,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
+  configurationGroups$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -380,6 +385,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
+  savedConfigurationGroup$={[Function Store]}
   selectedCompany={[Function Number]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
@@ -516,6 +522,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
+  configurationGroups$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -549,6 +556,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
+  savedConfigurationGroup$={[Function Store]}
   selectedCompany="undefined"
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
@@ -597,6 +605,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
+  configurationGroups$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -630,6 +639,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
+  savedConfigurationGroup$={[Function Store]}
   selectedCompany={[Function Number]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
