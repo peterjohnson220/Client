@@ -1,0 +1,37 @@
+.selected-badge {
+  &.active {
+    display: block;
+  }
+  display: none;
+  position: absolute;
+  right: 0;
+  font-size: 2rem;
+  color: #B2E5F9;
+}
+
+.active-background {
+  box-shadow: 0 0 1rem 0 #B2E5F9;
+}
+
+.card {
+  border: 1px solid rgba(207,216,225,0.8);
+  border-radius: 0.5rem;
+}
+
+.provider-img {
+  height: 9rem;
+  min-width: 21rem;
+}
+
+.provider {
+  cursor: pointer;
+}
+
+.inactive-provider {
+  background-color: #C0C0C0;
+  cursor: not-allowed;
+
+  img {
+    opacity: 0.8;
+  }
+}

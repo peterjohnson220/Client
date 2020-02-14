@@ -10,12 +10,12 @@ import { mergeMap, switchMap, map, withLatestFrom, catchError, delay, tap } from
 import * as fromRootState from 'libs/state/state';
 import { TransferMethodsHrisApiService, ProvidersHrisApiService,
   ConnectionsHrisApiService} from 'libs/data/payfactors-api/hris-api';
-import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse, ProviderSupportedEntityDTO, CredentialsPackage } from 'libs/models/hris-api';
+import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse, CredentialsPackage,
+  generateMockOutboundTransferMethodResponseList, generateMockOutboundProviderResponseList } from 'libs/models/hris-api';
 
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import * as fromDataManagementMainReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
-
 
 @Injectable()
 export class TransferDataPageEffects {
@@ -167,7 +167,48 @@ export class TransferDataPageEffects {
       })
     );
 
+  @Effect()
+  loadOutboundProviders$: Observable<Action> = this.actions$
+  .pipe(
+       ofType(fromTransferDataPageActions.LOAD_OUTBOUND_PROVIDERS),
+  switchMap((obj) => {
+    const providers = PayfactorsApiModelMapper.mapProviderResponsesToProviders(generateMockOutboundProviderResponseList());
+    return [new fromTransferDataPageActions.LoadOutboundProvidersSuccess(providers)];
+  })
+  );
 
+  @Effect()
+  setOutboundSelectedTransferMethod$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTransferDataPageActions.SET_OUTBOUND_SELECTED_TRANSFER_METHOD),
+      switchMap((action: fromTransferDataPageActions.SetOutboundSelectedTransferMethod) => [
+        new fromTransferDataPageActions.LoadOutboundProviders()
+      ])
+    );
+
+  @Effect()
+  loadOutboundTransferMethods$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTransferDataPageActions.LOAD_OUTBOUND_TRANSFER_METHODS),
+      switchMap((obj) => {
+        const transferMethods = PayfactorsApiModelMapper.mapTransferMethodResponseToTransferMethod(generateMockOutboundTransferMethodResponseList());
+        return [
+          new fromTransferDataPageActions.LoadOutboundTransferMethodsSuccess(transferMethods),
+          new fromTransferDataPageActions.SetOutboundSelectedTransferMethod(transferMethods.find( x => x.Selected).TransferMethodId)
+        ];
+      })
+    );
+
+    @Effect()
+    initOutboundTransferDataPage$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(fromTransferDataPageActions.OUTBOUND_INIT),
+        switchMap((action: fromTransferDataPageActions.OutboundInit) =>
+          [
+            new fromTransferDataPageActions.LoadOutboundTransferMethods()
+          ]
+        )
+      );
 
   constructor(
     private actions$: Actions,

@@ -25,6 +25,18 @@ export const CREATE_CONNECTION_ERROR = '[Data Management/Transfer Data Page] Cre
 export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] Create Connection Success';
 export const PROCEED_TO_AUTHENTICATION = '[Data Management/Transfer Data Page] Proceed to Authentication';
 export const UPDATE_WORKFLOWSTEP = '[Data Management/Transfer Data Page] Update Workfow Step';
+export const LOAD_OUTBOUND_PROVIDERS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Providers';
+export const LOAD_OUTBOUND_PROVIDERS_ERROR = '[Data Management/Transfer Data Page/Outbound] Load Outbound Providers Error';
+export const LOAD_OUTBOUND_PROVIDERS_SUCCESS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Providers Success';
+export const SET_OUTBOUND_SELECTED_PROVIDER = '[Data Management/Transfer Data Page/Outbound] Set Outbound Selected Provider';
+export const SET_OUTBOUND_SELECTED_TRANSFER_METHOD = '[Data Management/Transfer Data Page/Outbound] Set Outbound Selected Transfer Method';
+export const LOAD_OUTBOUND_TRANSFER_METHODS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Transfer Methods';
+export const LOAD_OUTBOUND_TRANSFER_METHODS_ERROR = '[Data Management/Transfer Data Page/Outbound] Load Outbound Transfer Methods Error';
+export const LOAD_OUTBOUND_TRANSFER_METHODS_SUCCESS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Transfer Methods Success';
+export const OUTBOUND_INIT = '[Data Management/Transfer Data Page/Outbound] Init Outbound Transfer Data Page';
+export const UPDATE_OUTBOUND_WORKFLOWSTEP = '[Data Management/Transfer Data Page/Outbound] Update Outbound Workfow Step';
+export const RESET_OUTBOUND_TRANSFER_DATA_PAGE_WORKFLOW = '[Data Management/Transfer Data Page/Outbound] Reset Outbound Transfer Data Page Workflow';
+
 
 export class Init implements Action {
   readonly type = INIT;
@@ -136,6 +148,64 @@ export class UpdateWorkflowstep implements Action {
   constructor(public payload: TransferDataWorkflowStep) {}
 }
 
+export class LoadOutboundProviders implements Action {
+  readonly type = LOAD_OUTBOUND_PROVIDERS;
+}
+
+export class LoadOutboundProvidersError implements Action {
+  readonly type = LOAD_OUTBOUND_PROVIDERS_ERROR;
+}
+
+export class LoadOutboundProvidersSuccess implements Action {
+  readonly type = LOAD_OUTBOUND_PROVIDERS_SUCCESS;
+
+  constructor(public payload: Provider[]) {}
+}
+
+export class SetOutboundSelectedProvider implements Action {
+  readonly type = SET_OUTBOUND_SELECTED_PROVIDER;
+
+  constructor(public payload: Provider) {}
+}
+
+export class SetOutboundSelectedTransferMethod implements Action {
+  readonly type = SET_OUTBOUND_SELECTED_TRANSFER_METHOD;
+
+  constructor(public payload: number) {}
+}
+
+export class LoadOutboundTransferMethods implements Action {
+  readonly type = LOAD_OUTBOUND_TRANSFER_METHODS;
+}
+
+export class LoadOutboundTransferMethodsError implements Action {
+  readonly type = LOAD_OUTBOUND_TRANSFER_METHODS_ERROR;
+}
+
+export class LoadOutboundTransferMethodsSuccess implements Action {
+  readonly type = LOAD_OUTBOUND_TRANSFER_METHODS_SUCCESS;
+
+  constructor(public payload: TransferMethod[]) {}
+}
+
+export class OutboundInit implements Action {
+  readonly type = OUTBOUND_INIT;
+
+  constructor() {}
+}
+
+export class UpdateOutboundWorkflowstep implements Action {
+  readonly type = UPDATE_OUTBOUND_WORKFLOWSTEP;
+
+  constructor(public payload: TransferDataWorkflowStep) {}
+}
+
+export class ResetOutboundTransferDataPageWorkflow implements Action {
+  readonly type = RESET_OUTBOUND_TRANSFER_DATA_PAGE_WORKFLOW;
+
+  constructor() {}
+}
+
 
 export type Actions
   = Init
@@ -158,4 +228,14 @@ export type Actions
   | ValidateError
   | ValidateSuccess
   | ProceedToAuthentication
-  | UpdateWorkflowstep;
+  | UpdateWorkflowstep
+  | LoadOutboundProviders
+  | LoadOutboundProvidersError
+  | LoadOutboundProvidersSuccess
+  | SetOutboundSelectedProvider
+  | SetOutboundSelectedTransferMethod
+  | LoadOutboundTransferMethods
+  | LoadOutboundTransferMethodsError
+  | LoadOutboundTransferMethodsSuccess
+  | UpdateOutboundWorkflowstep
+  | ResetOutboundTransferDataPageWorkflow;

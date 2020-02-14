@@ -16,6 +16,11 @@ import {
   ResetIntegrationPageComponent,
   TransferDataPageComponent,
   TransferSchedulePageComponent,
+  OutboundProviderSelectionPageComponent,
+  OutboundTransferSchedulePageComponent,
+  OutboundFieldMappingPageComponent,
+  OutboundEntitySelectionPageComponent,
+  OutboundAuthenticationPageComponent
 } from './containers';
 
 const routes: Routes = [
@@ -54,15 +59,40 @@ const routes: Routes = [
                 component: InboundEntitySelectionPageComponent
               },
               {
+                path: 'field-mapping',
+                component: FieldMappingPageComponent
+              },
+              {
                 path: 'authentication',
-                component: InboundAuthenticationPageComponent,
+                component: InboundAuthenticationPageComponent
+              }
+            ]
+          },
+          {
+            path: 'outbound',
+            children: [
+              {
+                path: 'vendor',
+                component: OutboundProviderSelectionPageComponent
+              },
+              {
+                path: 'entity-selection',
+                component: OutboundEntitySelectionPageComponent
+              },
+              {
+                path: 'authentication',
+                component: OutboundAuthenticationPageComponent
               },
               {
                 path: 'field-mapping',
-                component: FieldMappingPageComponent,
+                component: OutboundFieldMappingPageComponent
               },
+              {
+                path: 'transfer-schedule',
+                component: OutboundTransferSchedulePageComponent
+              }
             ]
-          },
+          }
         ]
       },
       {
@@ -73,7 +103,7 @@ const routes: Routes = [
       {
         path: 'reset',
         component: ResetIntegrationPageComponent
-      },
+      }
     ]
   }
 ];

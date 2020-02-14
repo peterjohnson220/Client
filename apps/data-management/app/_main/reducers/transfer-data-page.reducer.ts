@@ -21,6 +21,11 @@ export interface State {
   showAuthenticationModal: boolean;
   selectedEntities: EntityTypeModel[];
   activeConnection: CredentialsPackage;
+  outboundProviders: Provider[];
+  outboundSelectedProvider: Provider;
+  outboundSelectedTransferMethod: number;
+  outboundTransferMethods: TransferMethod[];
+  outboundWorkflowStep: TransferDataWorkflowStep;
 }
 
 export const initialState: State = {
@@ -34,7 +39,12 @@ export const initialState: State = {
   workflowStep: null, // TransferDataWorkflowStep.SelectTransferMethod, // change back to first workflowstep
   showAuthenticationModal: false,
   selectedEntities: [],
-  activeConnection: null
+  activeConnection: null,
+  outboundProviders: null,
+  outboundSelectedProvider: null,
+  outboundSelectedTransferMethod: null,
+  outboundTransferMethods: null,
+  outboundWorkflowStep: null
 };
 
 export function reducer(state: State = initialState, action: fromTransferDataPageActions.Actions) {
@@ -137,16 +147,62 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
       };
     }
     case fromTransferDataPageActions.PROCEED_TO_AUTHENTICATION: {
+      let selectedEntitiesClone = cloneDeep(state.selectedEntities);
+      selectedEntitiesClone = PayfactorsApiModelMapper.mapEntityChoiceToEntityTypeModel(action.payload);
       return {
         ...state,
         workflowStep: TransferDataWorkflowStep.Authentication,
-        selectedEntities: PayfactorsApiModelMapper.mapEntityChoiceToEntityTypeModel(action.payload),
+        selectedEntities: selectedEntitiesClone
       };
     }
     case fromTransferDataPageActions.UPDATE_WORKFLOWSTEP: {
       return {
         ...state,
         workflowStep: action.payload
+      };
+    }
+    case fromTransferDataPageActions.LOAD_OUTBOUND_PROVIDERS_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
+    case fromTransferDataPageActions.LOAD_OUTBOUND_PROVIDERS: {
+      return {
+        ...state,
+        outboundWorkflowStep: TransferDataWorkflowStep.OutboundProviders
+      };
+    }
+    case fromTransferDataPageActions.LOAD_OUTBOUND_PROVIDERS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        outboundProviders: action.payload
+      };
+    }
+    case fromTransferDataPageActions.SET_OUTBOUND_SELECTED_PROVIDER: {
+      return {
+        ...state,
+        outboundSelectedProvider: action.payload
+      };
+    }
+    case fromTransferDataPageActions.SET_OUTBOUND_SELECTED_TRANSFER_METHOD: {
+      return {
+        ...state,
+        outboundSelectedTransferMethod: action.payload
+      };
+    }
+    case fromTransferDataPageActions.LOAD_OUTBOUND_TRANSFER_METHODS_SUCCESS: {
+      return {
+        ...state,
+        outboundTransferMethods: action.payload
+      };
+    }
+    case fromTransferDataPageActions.RESET_OUTBOUND_TRANSFER_DATA_PAGE_WORKFLOW: {
+      return {
+        ...state,
+        outboundWorkflowStep: null
       };
     }
     default:
@@ -165,3 +221,11 @@ export const getWorkflowStep = (state: State) => state.workflowStep;
 export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
 export const getSelectedEntities = (state: State) => state.selectedEntities;
 export const getActiveConnection = (state: State) => state.activeConnection;
+export const getOutboundProviders = (state: State) => state.outboundProviders;
+export const getOutboundSelectedProvider = (state: State) => state.outboundSelectedProvider;
+export const getOutboundSelectedTransferMethod = (state: State) => state.outboundSelectedTransferMethod;
+export const getOutboundTransferMethods = (state: State) => state.outboundTransferMethods;
+export const getOutboundWorkflowStep = (state: State) => state.outboundWorkflowStep;
+
+
+
