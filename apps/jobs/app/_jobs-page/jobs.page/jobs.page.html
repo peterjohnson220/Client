@@ -26,8 +26,7 @@
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
   <pf-jobs-details
     [jobDetailsFilters]="splitViewFilters"
-    (onClose)="splitViewEmitter.emit('close')"
-    (tabChanged)="splitViewTabChange($event)">
+    (onClose)="splitViewEmitter.emit('close')">
   </pf-jobs-details>
 </ng-template>
 
