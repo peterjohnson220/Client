@@ -22,20 +22,51 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import {
-    DefaultPaymarketConfirmationModalComponent, EntityPickerComponent, EntityUploadComponent, FileMappingComponent, PfCheckboxComponent
+  DefaultPaymarketConfirmationModalComponent,
+  EntityPickerComponent,
+  EntityUploadComponent,
+  FileMappingComponent,
+  PfCheckboxComponent,
 } from './components';
 import { FileUploadComponent } from './components/file-upload';
 import {
-    CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent, EntityMappingComponent,
-    FieldMappingPageComponent, FieldMappingCardComponent, HrisAuthenticationCardComponent, HrisIntegrationPanelComponent,
-    HrisIntegrationSidebarComponent, HrisIntegrationStatusComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent,
-    ResetIntegrationPageComponent, TransferDataPageComponent, TransferMethodDropdownComponent, TransferScheduleCardComponent,
-    TransferScheduleCronComponent, TransferSchedulePageComponent, TransferScheduleSummaryComponent, WorkdayAuthenticationComponent,
-    WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent, InboundEntitySelectionPageComponent
+  CustomEmployeeIdentifierComponent,
+  DataManagementHomePageComponent,
+  DataManagementLandingPageComponent,
+  EntityMappingComponent,
+  FieldMappingPageComponent,
+  FieldMappingCardComponent,
+  HrisAuthenticationCardComponent,
+  HrisIntegrationPanelComponent,
+  HrisIntegrationSidebarComponent,
+  HrisIntegrationStatusComponent,
+  OrgDataLoadComponent,
+  PfTestAuthenticationComponent,
+  ProviderCardComponent,
+  ResetIntegrationPageComponent,
+  TransferDataPageComponent,
+  TransferMethodDropdownComponent,
+  TransferScheduleCardComponent,
+  TransferScheduleCronComponent,
+  TransferSchedulePageComponent,
+  TransferScheduleSummaryComponent,
+  WorkdayAuthenticationComponent,
+  WorkdayMockAuthenticationComponent,
+  WorkdayRestAuthenticationComponent,
+  InboundEntitySelectionPageComponent,
+  InboundAuthenticationPageComponent,
 } from './containers';
 import {
-  CustomFieldsEffect, EntityIdentifiersEffects, EntitySelectionEffects, FieldMappingEffects, FileUploadEffects, HrisConnectionEffects,
-  OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects, TransferScheduleEffects
+  CustomFieldsEffect,
+  EntityIdentifiersEffects,
+  EntitySelectionEffects,
+  FieldMappingEffects,
+  FileUploadEffects,
+  HrisConnectionEffects,
+  OrganizationalDataPageEffects,
+  OrgDataFieldMappingsEffects,
+  TransferDataPageEffects,
+  TransferScheduleEffects,
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
@@ -119,8 +150,9 @@ import { GetSupportedSchedulesPipe } from './pipes';
     DefaultPaymarketConfirmationModalComponent,
     CustomEmployeeIdentifierComponent,
     PfCheckboxComponent,
+    FieldMappingPageComponent,
     InboundEntitySelectionPageComponent,
-    FieldMappingPageComponent
+    InboundAuthenticationPageComponent,
   ]
 })
 export class MainModule {

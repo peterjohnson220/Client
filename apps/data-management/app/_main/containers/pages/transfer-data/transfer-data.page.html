@@ -35,11 +35,5 @@
         </div>
       </div>
     </div>
-    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.Authentication || (currentWorkflowStep$ | async) === workflowStep.Validated" class="my-4 mx-3">
-      <pf-hris-authentication-card
-        [provider]="selectedProvider"
-        [transferMethod]="'HRIS Integration'"
-        [validatedCredentials]="(currentWorkflowStep$ | async) === workflowStep.Validated">
-      </pf-hris-authentication-card>
-    </div>
 </pf-async-container>
+<router-outlet></router-outlet>

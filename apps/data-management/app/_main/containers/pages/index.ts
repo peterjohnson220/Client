@@ -7,3 +7,4 @@ export * from './reset-integration';
 export * from './custom-employee-identifier';
 export * from './field-mapping';
 export * from './inbound-entity-selection';
+export * from './inbound-authentication';
