@@ -1,28 +1,30 @@
 <pf-data-grid
   [title]="pageTitle$ | async"
   [navigationURL]="'/marketdata/structures.asp'"
+  [inboundFilters]="[filter]"
   [allowExport]="false"
   [showFilterChooser]="false"
   [showActionBar]="true"
   [gridGlobalActionsTemplate]="gridGlobalActions"
-  [pageViewId]="'1'"
+  [pageViewId]="'8881A5B6-2506-4755-B756-9D310EBFF8A1'"
   [pagingOptions]="defaultPagingOptions"
   [columnTemplates]="colTemplates"
   [gridContainerSplitViewWidth]="'60%'"
   [splitViewTemplate]="graph"
-  [splitOnSelection]="false">
+  [splitOnSelection]="false"
+  [applyDefaultFilters]="false">
 </pf-data-grid>
 
 <ng-template #min let-dataRow="dataRow" let-fieldName="fieldName">
-  <input type="text" class="form-control" [value]="dataRow.JobRanges_Min" />
+  <input type="text" class="form-control" [value]="dataRow.CompanyStructures_Ranges_Min" />
 </ng-template>
 
 <ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName">
-  <input type="text" class="form-control" [value]="dataRow.JobRanges_Mid" />
+  <input type="text" class="form-control" [value]="dataRow.CompanyStructures_Ranges_Mid" />
 </ng-template>
 
 <ng-template #max let-dataRow="dataRow" let-fieldName="fieldName">
-  <input type="text" class="form-control" [value]="dataRow.JobRanges_Max" />
+  <input type="text" class="form-control" [value]="dataRow.CompanyStructures_Ranges_Max" />
 </ng-template>
 
 <ng-template #gridGlobalActions>

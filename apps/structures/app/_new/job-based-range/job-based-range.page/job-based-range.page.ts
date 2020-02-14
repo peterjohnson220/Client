@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { PagingOptions } from 'libs/models/payfactors-api/search';
+import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
 import * as fromAddJobsModalActions from '../actions/add-jobs-modal.actions';
 import * as fromJobBasedRangeReducer from '../reducers';
@@ -27,12 +29,20 @@ export class JobBasedRangePageComponent implements OnInit, AfterViewInit {
     Count: 10
   };
   colTemplates = {};
+  filter: PfDataGridFilter;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>
+    public store: Store<fromJobBasedRangeReducer.State>,
+    public route: ActivatedRoute
   ) {
     this.pageTitle$ = this.store.pipe(select(fromJobBasedRangeReducer.getPageTitle));
     this.addJobsModalOpen$ = this.store.select(fromJobBasedRangeReducer.getAddJobsModalOpen);
+
+    this.filter  = {
+      SourceName: 'CompanyStructuresRangeGroup_ID',
+      Operator: '=',
+      Value: this.route.snapshot.params.id
+    };
   }
 
   // Events
