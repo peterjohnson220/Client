@@ -31,7 +31,7 @@ export const initialState: State = {
   selectedTransferMethod: null,
   selectedProvider: null,
   validationErrors: null,
-  workflowStep: null, //TransferDataWorkflowStep.SelectTransferMethod, // change back to first workflowstep
+  workflowStep: null, // TransferDataWorkflowStep.SelectTransferMethod, // change back to first workflowstep
   showAuthenticationModal: false,
   selectedEntities: [],
   activeConnection: null

@@ -89,7 +89,7 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
       const e = this.controlToEntityTypeMap[key];
       if (e) {
         const ctrl = this.workdayRestForm.get(key);
-        if (this.selectedEntities.find(x => x.EntityType === this.controlToEntityTypeMap[key])) {
+        if (this.selectedEntities.includes(this.controlToEntityTypeMap[key])) {
           ctrl.setValidators([Validators.required, Validators.pattern(/^https:\/\/([a-z0-9_-]+\.)+workday.com\//)]);
           this.ctrlVisibility[key] = true;
         } else {
