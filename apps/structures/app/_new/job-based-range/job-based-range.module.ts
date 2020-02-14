@@ -15,7 +15,6 @@ import { AddJobsModalComponent, AddJobsSearchResultsComponent } from './containe
 import { AddJobsUserFilterPopoverConfig } from './data';
 import { AddJobsModalEffects, SearchResultsEffects } from './effects';
 import { reducers } from './reducers';
-import { StaticDataViewService } from './services';
 import { JobBasedRangePageComponent } from './job-based-range.page';
 
 @NgModule({
@@ -45,8 +44,7 @@ import { JobBasedRangePageComponent } from './job-based-range.page';
   providers: [
     WindowRef,
     WindowCommunicationService,
-    { provide: UserFilterPopoverConfig, useValue: AddJobsUserFilterPopoverConfig },
-    { provide: 'DataViewService', useClass: StaticDataViewService }
+    { provide: UserFilterPopoverConfig, useValue: AddJobsUserFilterPopoverConfig }
   ],
   exports: [
     JobBasedRangePageComponent

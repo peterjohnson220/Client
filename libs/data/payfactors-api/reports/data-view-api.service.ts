@@ -25,10 +25,9 @@ import {
   DeleteUserFormulaRequest, DataViewConfig
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { IDataViewService } from '../../../models/data-view';
 
 @Injectable()
-export class DataViewApiService implements IDataViewService {
+export class DataViewApiService {
   private endpoint = 'DataViews';
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }

@@ -19,7 +19,6 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
 import { JobManagementModule } from 'libs/features/job-management/job-management.module';
-import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
@@ -83,9 +82,6 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
 
     // Column Templates
     PricingMatchesJobTitleComponent
-  ],
-  providers: [
-    { provide: 'DataViewService', useClass: DataViewApiService }
   ]
 })
 export class JobsPageModule {
