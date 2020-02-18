@@ -25,7 +25,8 @@ export class ExchangeExplorerEffects {
         mergeMap((response) => {
           const actions: any[] = [
             new fromExchangeExplorerContextInfoActions.LoadContextInfoSuccess({
-              payMarket: response.PayMarket,
+              payMarket: response.PayMarketContext && response.PayMarketContext.PayMarket || null,
+              payMarketGeoData: response.PayMarketContext && response.PayMarketContext.PayMarketGeoData || null,
               exchangeJobFilterOptions: response.AssociatedExchangeJobFilterOptions,
               searchFilterMappingDataObj: response.SearchFilterMappingData
             }),

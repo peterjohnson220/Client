@@ -11,7 +11,8 @@ export class GetExchangeDataResults implements Action {
 
   constructor(public payload?: {
     getSingledFilteredAggregates?: boolean,
-    resetInitialBounds?: boolean
+    resetInitialBounds?: boolean,
+    resetToPayMarketBounds?: boolean
   }) {}
 }
 
@@ -21,7 +22,8 @@ export class GetExchangeDataResultsSuccess implements Action {
   constructor(public payload: {
     response: ExchangeDataSearchResponse,
     getSingledFilteredAggregates?: boolean,
-    resetInitialBounds?: boolean
+    resetInitialBounds?: boolean,
+    resetToPayMarketBounds?: boolean
   }) {}
 }
 
