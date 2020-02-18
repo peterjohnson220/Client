@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,9 +20,13 @@ import { EmployeesPageViewId } from '../models';
   styleUrls: ['./employees.page.scss']
 })
 export class EmployeesPageComponent implements OnInit, OnDestroy {
+
   userContext$: Observable<UserContext>;
   pricingJobs$: Observable<boolean>;
   pricingJobsError$: Observable<boolean>;
+
+  showDeleteEmployeeModal = new BehaviorSubject<boolean>(false);
+  showDeleteEmployeeModal$ = this.showDeleteEmployeeModal.asObservable();
 
   selectedCompanyEmployeeIdsSubscription: Subscription;
   pricingJobsSubscription: Subscription;
@@ -36,7 +40,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
   }];
   selectedCompanyEmployeeIds: number[];
   pricingJobs: boolean;
-
   constructor(
     private rootStore: Store<fromRootState.State>,
     public store: Store<fromEmployeesReducer.State>,
@@ -84,6 +87,11 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
     } else {
       this.modalService.dismissAll();
     }
+  }
+
+  handleEmployeeDelete() {
+    this.showDeleteEmployeeModal.next(false);
+    return this.store.dispatch(new fromEmployeesPageActions.DeleteEmployee({pageViewId: this.pageViewId, companyEmployeeIds: this.selectedCompanyEmployeeIds}));
   }
 }
 

@@ -506,6 +506,18 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.CLEAR_SELECTIONS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedKeys: null,
+            selectAllState: 'unchecked'
+          }
+        }
+      };
     default:
       return state;
   }

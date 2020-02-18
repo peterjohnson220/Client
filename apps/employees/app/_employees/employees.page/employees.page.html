@@ -24,6 +24,15 @@
       (click)="handlePriceJobsClicked()">
       Price Jobs
     </button>
+    <button
+      [attr.data-qa-id]="'btn-deleteEmployee'"
+      type="button"
+      title="Delete"
+      [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
+      (click)="showDeleteEmployeeModal.next(true)"
+      class="btn btn-secondary ml-2">
+      <fa-icon icon="trash-alt"></fa-icon>
+    </button>
   </div>
 </ng-template>
 
@@ -44,3 +53,19 @@
     </div>
   </div>
 </ng-template>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete Employees'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [modalId]="'au-modal-employees-page-delete-employee'"
+  [isOpen$]=" showDeleteEmployeeModal$"
+  (onSubmit)="handleEmployeeDelete()"
+  (onDismiss)="showDeleteEmployeeModal.next(false)">
+
+  <ng-container basic-content>
+    <p>Are you sure you want to delete the <b>{{selectedCompanyEmployeeIds?.length}}</b> selected employee<span *ngIf="selectedCompanyEmployeeIds?.length > 1">s</span>?</p>
+  </ng-container>
+</pf-modal-form>
+
