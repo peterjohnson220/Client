@@ -23,7 +23,7 @@ const routes: Routes = [
     path: 'org-data-load',
     component: OrgDataLoadComponent,
     canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD, Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any }
+    data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD], Check: PermissionCheckEnum.Any }
   },
   {
     path: 'custom-employee-identifier',
