@@ -1,4 +1,4 @@
-import {DateFormatItem} from '../models';
+import { DateFormatItem } from '../models';
 
 export const ORG_DATA_UPLOAD_URL = '/odata/LoaderFieldMappings.UploadAndGetColumnNames';
 export const ORG_DATA_REMOVE_URL = '/odata/LoaderFieldMappings.RemoveDataFile';
@@ -49,7 +49,6 @@ export const ORG_DATA_PF_EMPLOYEE_FIELDS = [
   'Gender',
   'PayMarket',
   'Manager_Employee_ID',
-  'FLSA_Status',
   'DOB',
   'City',
   'State',
@@ -57,7 +56,6 @@ export const ORG_DATA_PF_EMPLOYEE_FIELDS = [
   'Country',
   'Facility',
   'Department',
-  'Location',
   'DOH',
   'Employee_Status',
   'Base',
