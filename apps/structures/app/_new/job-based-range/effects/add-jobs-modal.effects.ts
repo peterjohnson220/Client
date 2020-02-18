@@ -6,21 +6,19 @@ import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/
 import { Store } from '@ngrx/store';
 
 import { WindowCommunicationService } from 'libs/core/services';
-import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import { ProjectApiService } from 'libs/data/payfactors-api/project';
-import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
-
-import * as fromAddJobsModalActions from '../actions/add-jobs-modal.actions';
-import * as fromStructuresReducer from '../reducers';
+import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
+import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
+import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
+import * as fromAddJobsModalActions from 'libs/features/add-jobs/actions/modal.actions';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 
 @Injectable()
 export class AddJobsModalEffects {
   @Effect()
   setContext$ = this.actions$
     .pipe(
-      ofType(fromAddJobsModalActions.SET_CONTEXT),
+      ofType(fromAddJobsPageActions.SET_CONTEXT),
       mergeMap(() =>
         [new fromUserFilterActions.Init()]
       ));
@@ -28,13 +26,13 @@ export class AddJobsModalEffects {
   @Effect()
   addJobs$ = this.actions$
     .pipe(
-      ofType(fromAddJobsModalActions.ADD_SELECTED_JOBS),
+      ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS),
       withLatestFrom(
-        this.store.select(fromStructuresReducer.getContext),
-        this.store.select(fromPaymarketReducer.getSelectedPaymarkets),
-        this.store.select(fromStructuresReducer.getSelectedJobIds),
-        this.store.select(fromStructuresReducer.getSelectedPayfactorsJobCodes),
-        (action: fromAddJobsModalActions.AddSelectedJobs, context, payMarkets, selectedJobIds, selectedJobCodes) =>
+        this.store.select(fromAddJobsReducer.getContext),
+        this.store.select(fromAddJobsReducer.getSelectedPaymarkets),
+        this.store.select(fromAddJobsReducer.getSelectedJobIds),
+        this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes),
+        (action: fromAddJobsPageActions.AddSelectedJobs, context, payMarkets, selectedJobIds, selectedJobCodes) =>
           ({action, context, payMarkets, selectedJobIds, selectedJobCodes})
       ),
       switchMap((contextData) => {
@@ -46,11 +44,11 @@ export class AddJobsModalEffects {
           })
             .pipe(
               mergeMap(() => [
-                  new fromAddJobsModalActions.AddSelectedJobsSuccess(),
-                  new fromSearchPageActions.CloseSearchPage()
+                  new fromAddJobsPageActions.AddSelectedJobsSuccess(),
+                  new fromAddJobsModalActions.HandlePageComplete()
                 ]
               ),
-              catchError(error => of(new fromAddJobsModalActions.AddSelectedJobsError(error)))
+              catchError(error => of(new fromAddJobsPageActions.AddSelectedJobsError(error)))
             );
         }
       )
@@ -59,26 +57,18 @@ export class AddJobsModalEffects {
   @Effect({dispatch: false})
   addProjectJobsSuccess$ = this.actions$
     .pipe(
-      ofType(fromAddJobsModalActions.ADD_SELECTED_JOBS_SUCCESS),
-      tap((action: fromAddJobsModalActions.AddSelectedJobsSuccess) => {
+      ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS_SUCCESS),
+      tap((action: fromAddJobsPageActions.AddSelectedJobsSuccess) => {
         this.windowCommunicationService.postMessage(action.type);
       }),
       map(() => new fromCompanySettingsActions.LoadCompanySettings())
     );
 
-  @Effect()
-  closeSurveySearch$ = this.actions$
-    .pipe(
-      ofType(fromSearchPageActions.CLOSE_SEARCH_PAGE),
-      mergeMap(() =>
-        [new fromAddJobsModalActions.CloseAddJobsModal()]
-      ));
-
   constructor(
     private actions$: Actions,
     private windowCommunicationService: WindowCommunicationService,
     private projectApiService: ProjectApiService,
-    private store: Store<fromStructuresReducer.State>
+    private store: Store<fromAddJobsReducer.State>
   ) {
   }
 }

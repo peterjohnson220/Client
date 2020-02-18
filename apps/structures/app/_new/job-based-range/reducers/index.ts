@@ -5,14 +5,12 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromPageReducer from './page.reducer';
-import * as fromAddJobsModalReducer from './add-jobs-modal.reducer';
-import * as fromSearchResultsReducer from './search-results.reducer';
+import * as fromModelingSettingsPageReducer from './modeling-settings-page.reducer';
 
 // Feature area state
 export interface JobBasedRangeState {
   page: fromPageReducer.State;
-  addJobsModal: fromAddJobsModalReducer.State;
-  searchResults: fromSearchResultsReducer.State;
+  modelingSettingsPage: fromModelingSettingsPageReducer.State;
 }
 
 // Extend root state with feature area state
@@ -23,68 +21,46 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   page: fromPageReducer.reducer,
-  addJobsModal: fromAddJobsModalReducer.reducer,
-  searchResults: fromSearchResultsReducer.reducer
+  modelingSettingsPage: fromModelingSettingsPageReducer.reducer
 };
 
 // Select Feature Area
-export const selectJobBasedRangePageState =
+export const selectFeatureAreaState =
   createFeatureSelector<JobBasedRangeState>('structures_jobBasedRange');
 
 
 // Selectors
-export const selectPageState =
-  createSelector(selectJobBasedRangePageState, (state: JobBasedRangeState) => state.page);
+export const selectPageState = createSelector(
+  selectFeatureAreaState,
+  (state: JobBasedRangeState) => state.page
+);
+export const selectModelingSettingsState = createSelector(
+  selectFeatureAreaState,
+  (state: JobBasedRangeState) => state.modelingSettingsPage
+);
 
-export const selectAddJobsState =
-  createSelector(selectJobBasedRangePageState, (state: JobBasedRangeState) => state.addJobsModal);
-
-export const selectSearchResultsState =
-  createSelector(selectJobBasedRangePageState, (state: JobBasedRangeState) => state.searchResults);
-
-// Page
+// Job Based Range
 export const getPageTitle = createSelector(
   selectPageState, fromPageReducer.getPageTitle
 );
 
-// Add Jobs Modal
-export const getAddJobsModalOpen = createSelector(
-  selectAddJobsState,
-  fromAddJobsModalReducer.getAddJobsModalOpen
+// Modeling Settings Page
+export const getCurrenciesAsync = createSelector(
+  selectModelingSettingsState,
+  fromModelingSettingsPageReducer.getCurrenciesAsync
 );
 
-export const getContext = createSelector(
-  selectAddJobsState,
-  fromAddJobsModalReducer.getContext
+export const getStandardPayElementsAsync = createSelector(
+  selectModelingSettingsState,
+  fromModelingSettingsPageReducer.getStandardPayElementsAsync
 );
 
-export const getAddingData = createSelector(
-  selectAddJobsState,
-  fromAddJobsModalReducer.getAddingData
+export const getPercentilesAsync = createSelector(
+  selectModelingSettingsState,
+  fromModelingSettingsPageReducer.getPercentilesAsync
 );
 
-export const getAddingDataError = createSelector(
-  selectAddJobsState,
-  fromAddJobsModalReducer.getAddingDataError
-);
-
-export const getAddingDataErrorMessage = createSelector(
-  selectAddJobsState,
-  fromAddJobsModalReducer.getAddingDataErrorMessage
-);
-
-// Search Results
-export const getJobs = createSelector(
-  selectSearchResultsState,
-  fromSearchResultsReducer.getJobs
-);
-
-export const getSelectedJobIds = createSelector(
-  selectSearchResultsState,
-  fromSearchResultsReducer.getSelectedJobIds
-);
-
-export const getSelectedPayfactorsJobCodes = createSelector(
-  selectSearchResultsState,
-  fromSearchResultsReducer.getSelectedPayfactorsJobCodes
+export const getCreateModelAsync = createSelector(
+  selectModelingSettingsState,
+  fromModelingSettingsPageReducer.getCreateModelAsync
 );

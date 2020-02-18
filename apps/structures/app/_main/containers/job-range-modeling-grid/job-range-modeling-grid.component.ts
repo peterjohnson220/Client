@@ -14,7 +14,7 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromStructuresMainReducer from '../../reducers';
 import * as fromJobRangeModelingActions from '../../actions/job-range-modeling-grid.actions';
-import { StructureRangeDataDto } from '../../models';
+import { StructureRangeDataDto } from '../../../_new/job-based-range/models';
 import { testJobRangeModelingGridData } from '../../constants/test-data.constants';
 import { JobRangeModelingConstants } from '../../constants/structures.constants';
 

@@ -14,6 +14,7 @@ import {
   NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonModule, WindowCommunicationService } from 'libs/core';
@@ -23,16 +24,13 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfAddJobsModule } from 'libs/features/add-jobs';
 import { PfSearchModule } from 'libs/features/search';
 import { UserFilterPopoverConfig } from 'libs/features/user-filter/models';
+import { AddJobsConfig } from 'libs/features/add-jobs/data';
 
 import * as fromFaIcons from './fa-icons';
 import {
   JobBasedRangeAllStructuresEffects,
   JobRangeModelingPageEffects,
   JobRangeModelingGridEffects,
-  JobBasedRangesAddJobsModalPageEffects,
-  JobBasedRangesSearchResultsEffects,
-  JobRangeModelingModalEffects,
-  ModelingSettingsPageEffects,
   SingledFilterEffects
 } from './effects';
 import { reducers } from './reducers';
@@ -49,13 +47,11 @@ import {
   JobBasedRangeStructuresPageComponent,
   JobRangeModelingPageComponent,
   JobRangeModelingGridComponent,
-  JobBasedRangesAddJobsModalPageComponent,
-  JobBasedRangesSearchResultsComponent,
-  ModelingSettingsModalPageComponent,
   JobRangeModelingModalComponent
 } from './containers';
 import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data';
-import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
+import { JobBasedRangeAddJobsConfig } from '../_new/job-based-range/data';
+import { JobBasedRangeModule } from '../_new';
 
 @NgModule({
   imports: [
@@ -68,12 +64,8 @@ import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
     StoreModule.forFeature('structures_main', reducers),
     EffectsModule.forFeature([
       JobRangeModelingPageEffects,
-      JobBasedRangesAddJobsModalPageEffects,
-      JobBasedRangesSearchResultsEffects,
       JobBasedRangeAllStructuresEffects,
       JobRangeModelingGridEffects,
-      JobRangeModelingModalEffects,
-      ModelingSettingsPageEffects,
       SingledFilterEffects
     ]),
     PerfectScrollbarModule,
@@ -97,14 +89,14 @@ import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
     PfCommonUIModule,
     PfFormsModule,
     PfAddJobsModule,
-    PfSearchModule
+    PfSearchModule,
+    JobBasedRangeModule
   ],
   declarations: [
     // Components
     JobBasedRangeAllStructuresComponent,
     JobBasedRangeStructureFavoriteComponent,
     ModelNameInputComponent,
-    ModelingSettingsModalPageComponent,
     StructureCardComponent,
     EditGridColumnsModalComponent,
     StructureFavoriteHexagonComponent,
@@ -113,15 +105,13 @@ import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
     JobRangeModelingPageComponent,
     JobBasedRangeStructuresPageComponent,
     JobRangeModelingGridComponent,
-    JobBasedRangesAddJobsModalPageComponent,
-    JobBasedRangesSearchResultsComponent,
-    ModelingSettingsModalPageComponent,
     JobRangeModelingModalComponent
   ],
   providers: [
     WindowRef,
     WindowCommunicationService,
-    {provide: UserFilterPopoverConfig, useValue: JobBasedRangesAddJobsUserFilterPopoverConfig}
+    {provide: UserFilterPopoverConfig, useValue: JobBasedRangesAddJobsUserFilterPopoverConfig},
+    {provide: AddJobsConfig, useValue: JobBasedRangeAddJobsConfig}
   ]
 })
 export class MainModule {

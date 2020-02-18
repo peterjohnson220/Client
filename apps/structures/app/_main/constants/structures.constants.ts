@@ -12,8 +12,3 @@ export class JobRangeModelingConstants {
   static readonly NOT_FOUND_INDEX = -1;
   static readonly JOB_RANGE_MODELING_LINK = '/job-range-modeling';
 }
-
-export enum JobRangeModelingModalPage {
-  AddJobs = 'Add Jobs',
-  ModelSettings = 'Model Settings'
-}

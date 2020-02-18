@@ -12,8 +12,7 @@ import { MultiSelectFilter } from 'libs/features/search/models';
 import { JobSearchAggregationRequest } from 'libs/models/payfactors-api';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
-
-import * as fromStructuresReducer from '../reducers';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 
 @Injectable()
 export class SingledFilterEffects {
@@ -25,7 +24,7 @@ export class SingledFilterEffects {
       withLatestFrom(
         this.store.select(fromSearchReducer.getSingledFilter),
         this.store.select(fromSearchReducer.getParentFilters),
-        this.store.select(fromStructuresReducer.getContext),
+        this.store.select(fromAddJobsReducer.getContext),
         this.store.select(fromSearchReducer.getSingledFilterSearchValue),
         (action: fromSingledFilterActions.SearchAggregation, singledFilter, filters, context, searchValue) => (
           { action, singledFilter, filters, context, searchValue }
@@ -60,7 +59,7 @@ export class SingledFilterEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<fromStructuresReducer.State>,
+    private store: Store<fromAddJobsReducer.State>,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
     private jobSearchApiService: JobSearchApiService

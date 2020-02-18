@@ -20,9 +20,11 @@ import { JobResultComponent } from './components';
 import { JobSearchUserFilterType, SearchFilterMappingData } from './data';
 import { SavedFiltersHelper } from './helpers';
 import { reducers } from './reducers';
-import { JobSearchUserFilterEffects, PaymarketEffects } from './effects';
+import { AddJobsModalEffects, JobSearchUserFilterEffects, PaymarketEffects } from './effects';
 import { PaymarketsComponent } from './containers/paymarkets';
 import { JobLimitCounterComponent } from '../smallbiz/job-limit-counter';
+import { SearchResultsComponent } from './containers/search-results';
+import { AddJobsPageComponent } from './containers/pages/add-jobs';
 
 @NgModule({
   imports: [
@@ -33,6 +35,7 @@ import { JobLimitCounterComponent } from '../smallbiz/job-limit-counter';
     StoreModule.forFeature('addJobs_reducers', reducers),
     EffectsModule.forFeature([
       PaymarketEffects,
+      AddJobsModalEffects,
       JobSearchUserFilterEffects
     ]),
     InfiniteScrollModule,
@@ -52,13 +55,19 @@ import { JobLimitCounterComponent } from '../smallbiz/job-limit-counter';
     JobLimitCounterComponent,
 
     // Containers
-    PaymarketsComponent
+    PaymarketsComponent,
+    SearchResultsComponent,
+
+    // Pages
+    AddJobsPageComponent
   ],
   exports: [
     JobResultComponent,
     PaymarketsComponent,
     JobLimitCounterComponent,
-    PfSearchModule
+    PfSearchModule,
+    SearchResultsComponent,
+    AddJobsPageComponent
   ],
   providers: [
     SavedFiltersHelper,

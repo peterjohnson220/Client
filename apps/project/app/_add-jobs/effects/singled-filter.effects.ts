@@ -12,8 +12,7 @@ import { MultiSelectFilter } from 'libs/features/search/models';
 import { JobSearchAggregationRequest } from 'libs/models/payfactors-api';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
-
-import * as fromAddJobsReducer from '../reducers';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 
 @Injectable()
 export class SingledFilterEffects {
