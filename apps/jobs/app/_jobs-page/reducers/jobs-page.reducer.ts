@@ -1,25 +1,30 @@
-import { sortBy } from 'lodash';
+import * as cloneDeep from 'lodash.clonedeep';
+import { arraySortByString, SortDirection } from 'libs/core/functions';
 import * as fromJobsPageActions from '../actions';
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObjHelper } from 'libs/core';
 
 
 export interface State {
   company: string;
   jobsPageId: string;
-  loading: boolean;
-  loadingError: boolean;
-  addingToProject: boolean;
-  showAddToProjectSummaryModal: boolean;
+  loadingCompany: AsyncStateObj<boolean>;
+  showAddToProjectModal: boolean;
+  addingToProject: AsyncStateObj<boolean>;
+  showJobStatusModal: boolean;
+  changingJobStatus: AsyncStateObj<boolean>;
   pricingIdToBeDeleted: number;
   companyPayMarkets: any;
 }
 
 export const initialState: State = {
   company: '',
-  loading: false,
   jobsPageId: '',
-  loadingError: false,
-  addingToProject : false,
-  showAddToProjectSummaryModal: false,
+  loadingCompany: generateDefaultAsyncStateObj<boolean>(false),
+  showAddToProjectModal: false,
+  addingToProject: generateDefaultAsyncStateObj<boolean>(false),
+  showJobStatusModal: false,
+  changingJobStatus: generateDefaultAsyncStateObj<boolean>(false),
   pricingIdToBeDeleted: undefined,
   companyPayMarkets: [],
 };
@@ -32,46 +37,60 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         jobsPageId: action.payload,
       };
     }
+
     case fromJobsPageActions.LOAD_COMPANY: {
-      return {
-        ...state,
-        loading: true,
-        loadingError: false,
-      };
+      return AsyncStateObjHelper.loading(state, 'loadingCompany');
     }
     case fromJobsPageActions.LOAD_COMPANY_SUCCESS: {
-      return {
-        ...state,
-        company: action.payload,
-        loading: false,
-        loadingError: false,
-      };
-    }
-    case fromJobsPageActions.ADD_TO_PROJECT_SUMMARY: {
-      return {
-        ...state,
-        showAddToProjectSummaryModal: true
+      const loadingCompanyClone = cloneDeep(state.loadingCompany);
+      loadingCompanyClone.loadingError = false;
 
-      };
-    }
-    case fromJobsPageActions.CANCEL_ADD_TO_PROJECT_SUMMARY: {
       return {
         ...state,
-        showAddToProjectSummaryModal: false
+        loadingCompany: loadingCompanyClone,
+        company: action.payload
       };
     }
-    case fromJobsPageActions.ADD_TO_PROJECT: {
+    case fromJobsPageActions.LOAD_COMPANY_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'loadingCompany');
+    }
+    case fromJobsPageActions.SHOW_ADD_TO_PROJECT_MODAL: {
+      const addingToProjectClone = cloneDeep(state.addingToProject);
+      addingToProjectClone.loadingError = false;
+
       return {
         ...state,
-        addingToProject: true
+        showAddToProjectModal: action.payload,
+        addingToProject: addingToProjectClone
       };
     }
-    case fromJobsPageActions.HANDLE_API_ERROR: {
+    case fromJobsPageActions.ADDING_TO_PROJECT: {
+      return AsyncStateObjHelper.loading(state, 'addingToProject');
+    }
+    case fromJobsPageActions.ADDING_TO_PROJECT_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'addingToProject');
+    }
+    case fromJobsPageActions.ADDING_TO_PROJECT_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'addingToProject');
+    }
+    case fromJobsPageActions.SHOW_JOB_STATUS_MODAL: {
+      const changingJobStatusClone = cloneDeep(state.changingJobStatus);
+      changingJobStatusClone.loadingError = false;
+
       return {
         ...state,
-        loading: false,
-        loadingError: true
+        showJobStatusModal: action.payload,
+        changingJobStatus: changingJobStatusClone
       };
+    }
+    case fromJobsPageActions.CHANGING_JOB_STATUS: {
+      return AsyncStateObjHelper.loading(state, 'changingJobStatus');
+    }
+    case fromJobsPageActions.CHANGING_JOB_STATUS_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'changingJobStatus');
+    }
+    case fromJobsPageActions.CHANGING_JOB_STATUS_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'changingJobStatus');
     }
     case fromJobsPageActions.CONFIRM_DELETE_PRICING_FROM_GRID: {
       return {
@@ -82,7 +101,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
       return {
         ...state,
-        companyPayMarkets: sortBy(action.payload.map(o => ({Id: o.PayMarket, Value: o.PayMarket})), (s) => s.Id.toLowerCase() )
+        companyPayMarkets: action.payload.map(o => ({ Id: o.PayMarket, Value: o.PayMarket }))
+          .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending))
       };
     }
     case fromJobsPageActions.CANCEL_DELETE_PRICING:
@@ -100,9 +120,9 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 
 export const getCompany = (state: State) => state.company;
 export const getJobsPageId = (state: State) => state.jobsPageId;
-export const getloading = (state: State) => state.loading;
-export const getloadingError = (state: State) => state.loadingError;
-export const getAddToProjectButtonState = (state: State) => state.addingToProject;
+export const getShowAddToProjectModal = (state: State) => state.showAddToProjectModal;
+export const getAddingToProject = (state: State) => state.addingToProject;
+export const getShowJobStatusModal = (state: State) => state.showJobStatusModal;
+export const getChangingJobStatus = (state: State) => state.changingJobStatus;
 export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDeleted;
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
-export const getShowAddToProjectSummaryModal = (state: State) => state.showAddToProjectSummaryModal;
