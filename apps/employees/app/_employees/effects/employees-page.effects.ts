@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { switchMap, catchError, map, tap } from 'rxjs/operators';
+import { switchMap, catchError, map, tap, mergeMap } from 'rxjs/operators';
 
-import { ProjectApiService } from 'libs/data/payfactors-api/project';
+import { ProjectApiService, CompanyEmployeesApiService } from 'libs/data/payfactors-api';
 
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 @Injectable()
 export class EmployeesPageEffects {
@@ -33,8 +34,27 @@ export class EmployeesPageEffects {
       })
     );
 
+  @Effect()
+  deleteEmployee$ = this.actions$
+    .pipe(
+      ofType(fromEmployeesPageActions.DELETE_EMPLOYEE),
+      switchMap((data: any) => {
+        return this.companyEmployeesApiService.deleteEmployees(data.payload.companyEmployeeIds).pipe(
+          mergeMap(() => [
+            new fromEmployeesPageActions.DeleteEmployeeSuccess(),
+            new fromPfDataGridActions.ClearSelections(data.payload.pageViewId),
+            new fromPfDataGridActions.LoadData(data.payload.pageViewId)
+          ]),
+          catchError(() => {
+            return of(new fromEmployeesPageActions.DeleteEmployeeError());
+          })
+        );
+      })
+  );
+
   constructor(
     private actions$: Actions,
-    private projectsApiService: ProjectApiService
+    private projectsApiService: ProjectApiService,
+    private companyEmployeesApiService: CompanyEmployeesApiService
   ) {}
 }

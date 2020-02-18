@@ -39,7 +39,7 @@ import { EmployeesPageComponent } from './employees.page';
     PfDataGridModule
   ],
   declarations: [
-    EmployeesPageComponent
+    EmployeesPageComponent,
     // Containers
 
     // Components

@@ -48,6 +48,7 @@ import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
 import { JobsApiService } from './jobs';
+import { CompanyEmployeesApiService } from './employees';
 import {DataImportApiService} from './integration/data-import';
 import { TotalRewardsApiService } from './total-rewards';
 import { SsoConfigApiService } from './sso';
@@ -76,6 +77,7 @@ import {PricingApiService} from './pricings';
     UserFilterApiService,
     JobDescriptionApiService,
     JobsApiService,
+    CompanyEmployeesApiService,
     TermsConditionsApiService,
     SurveySearchApiService,
     CompanySettingsApiService,
