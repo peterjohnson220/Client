@@ -7,13 +7,16 @@ import { filter, take } from 'rxjs/operators';
 
 // import { StructureRangeGroupResponse } from 'libs/models/payfactors-api/structures';
 import { CompanyStructure, generateMockCompanyStructure } from 'libs/models/structures/company-structure.model';
+import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
+import * as fromAddJobsModalActions from 'libs/features/add-jobs/actions/modal.actions';
 
 import * as fromStructuresMainReducer from '../../../reducers';
 import * as fromJobRangeModelingActions from '../../../actions/job-range-modeling-page.actions';
-import * as fromJobRangeModelingModalActions from '../../../actions/job-range-modeling-modal.actions';
-import * as fromJobBasedRangesAddJobsModalPageActions from '../../../actions/job-based-ranges-add-jobs-modal-page.actions';
-import { JobRangeModelingConstants, JobRangeModelingModalPage } from '../../../constants/structures.constants';
+import { JobRangeModelingConstants } from '../../../constants/structures.constants';
 import { EditGridColumnsModalComponent } from '../../../components/modals';
+import {
+  JOB_BASED_RANGE_ADD_JOBS_MODAL_PAGE_WORKFLOW
+} from '../../../../_new/job-based-range/constants/add-jobs-modal.constants';
 
 @Component({
   selector: 'pf-job-range-modeling-page',
@@ -44,7 +47,6 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   public routeStructureName: string;
   public routeModelName: string;
   public routePayMarketId: number;
-  public jobRangeModelingPage = JobRangeModelingModalPage;
 
   private readonly routeProjectId: number = 382652;
 
@@ -135,7 +137,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
     }
 
     if (this.routeStructureName && this.routeModelName && this.routePayMarketId > 0) {
-      const currentModel = { RangeGroupName: '' };
+      const currentModel = {RangeGroupName: ''};
       currentModel.RangeGroupName = this.routeModelName;
       const currentStructure = generateMockCompanyStructure();
       currentStructure.StructureName = this.routeStructureName;
@@ -176,12 +178,12 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
   }
 
   // modal functions
-  showGenericModal(startPage: JobRangeModelingModalPage) {
-    this.store.dispatch(new fromJobRangeModelingModalActions.OpenModal(startPage));
+  showGenericModal() {
+    this.store.dispatch(new fromAddJobsModalActions.OpenAddJobsModal(JOB_BASED_RANGE_ADD_JOBS_MODAL_PAGE_WORKFLOW, this.currentModelName));
   }
 
   showGenericModalWithAddJobsAsStart(isFromAddStructureModal: boolean = false) {
-    this.showGenericModal(JobRangeModelingModalPage.AddJobs);
+    this.showGenericModal();
 
     // note: ProjectId => UserSession_ID in [dbo].[UserSession]
     const jobBasedRangesAddJobsModalPageContext = {
@@ -190,8 +192,7 @@ export class JobRangeModelingPageComponent implements OnInit, AfterViewInit, OnD
       IsFromAddStructureModal: isFromAddStructureModal
     };
 
-    this.store.dispatch(new fromJobBasedRangesAddJobsModalPageActions.OpenAddJobsModalPage());
-    this.store.dispatch(new fromJobBasedRangesAddJobsModalPageActions.SetContext(jobBasedRangesAddJobsModalPageContext));
+    this.store.dispatch(new fromAddJobsPageActions.SetContext(jobBasedRangesAddJobsModalPageContext));
   }
 
   ngOnDestroy(): void {

@@ -13,9 +13,8 @@ import { JobSearchPricingDataResponse, JobSearchRequest, JobSearchResponse } fro
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
-
-import * as fromAddJobsReducer from '../reducers';
-import * as fromAddJobsSearchResultsActions from '../actions/search-results.actions';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
 
 @Injectable()
 export class SearchResultsEffects {

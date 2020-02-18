@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { JobRangeModelingModalPage } from '../../constants/structures.constants';
 import { Store } from '@ngrx/store';
-import * as fromStructuresReducer from '../../reducers';
-import * as fromJobRangeModelingModalActions from '../../actions/job-range-modeling-modal.actions';
+
+import * as fromAddJobsModalActions from 'libs/features/add-jobs/actions/modal.actions';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+
+import { JobBasedRangeAddJobsModalPages } from '../../../_new/job-based-range/constants/add-jobs-modal.constants';
 
 @Component({
   selector: 'pf-job-range-modeling-modal',
@@ -15,26 +17,26 @@ export class JobRangeModelingModalComponent implements OnInit, OnDestroy {
   // Observables
   modalOpen$: Observable<boolean>;
   modalTitle$: Observable<string>;
-  currentModalPage$: Observable<JobRangeModelingModalPage>;
+  currentModalPage$: Observable<string>;
 
   // Subscriptions
 
   // Local variables
-  jobRangeModelingPage = JobRangeModelingModalPage;
+  jobRangeModelingPage = JobBasedRangeAddJobsModalPages;
 
   constructor(
-    private store: Store<fromStructuresReducer.State>
+    private store: Store<fromAddJobsReducer.State>
   ) {
-    this.modalTitle$ = this.store.select(fromStructuresReducer.getModalTitle);
-    this.currentModalPage$ = this.store.select(fromStructuresReducer.getCurrentModalPage);
-    this.modalOpen$ = this.store.select(fromStructuresReducer.getModalOpen);
+    this.modalTitle$ = this.store.select(fromAddJobsReducer.getModalTitle);
+    this.currentModalPage$ = this.store.select(fromAddJobsReducer.getCurrentModalPage);
+    this.modalOpen$ = this.store.select(fromAddJobsReducer.getAddJobsModalIsOpen);
   }
 
   ngOnInit() {
   }
 
   close() {
-    this.store.dispatch(new fromJobRangeModelingModalActions.CloseModal());
+    this.store.dispatch(new fromAddJobsModalActions.CloseAddJobsModal());
   }
 
   ngOnDestroy() {

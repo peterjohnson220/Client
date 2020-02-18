@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -8,20 +8,20 @@ import { Observable, Subscription } from 'rxjs';
 import { UserContext } from 'libs/models/security';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
-import * as fromRootState from 'libs/state/state';
 import { Permissions, SystemUserGroupNames } from 'libs/constants';
-import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
-import { staticFilters } from 'libs/features/add-jobs/data';
 import { SearchBase } from 'libs/features/search/containers/search-base';
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import { staticFilters } from 'libs/features/add-jobs/data';
+import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
+import * as fromRootState from 'libs/state/state';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromPaymarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
-import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
+import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
+import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
+import * as fromAddJobsModalActions from 'libs/features/add-jobs/actions/modal.actions';
+import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 
-import * as fromStructuresReducer from '../../reducers';
-import * as fromJobBasedRangesAddJobsModalActions from '../../actions/add-jobs-modal.actions';
-import * as fromJobBasedRangesSearchResultsActions from '../../actions/search-results.actions';
+import { JobBasedRangeAddJobsModalPages } from '../../constants/add-jobs-modal.constants';
 
 @Component({
   selector: 'pf-add-jobs-modal',
@@ -34,7 +34,6 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
 
   @Input() saving = false;
   @Input() errorSaving = false;
-  @Input() modalOpen$: Observable<boolean>;
   @Input() addJobsSaving: boolean;
 
   // Observables
@@ -48,6 +47,11 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
   userContext: Observable<UserContext>;
   _Permissions = null;
 
+  // Modal Observables
+  modalOpen$: Observable<boolean>;
+  modalTitle$: Observable<string>;
+  currentModalPage$: Observable<string>;
+
   // Subscriptions
   selectedJobIdsSubscription: Subscription;
   selectedPayfactorsJobCodesSubscription: Subscription;
@@ -58,31 +62,33 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
   isSmallBiz = false;
   selectedJobIdCount: number;
   selectedJobCodeCount: number;
-
-  addJobsForm: FormGroup;
   attemptedSave = false;
+  jobRangeModelingPage = JobBasedRangeAddJobsModalPages;
 
   constructor(
     private formBuilder: FormBuilder,
     store: Store<fromSearchReducer.State>,
     private router: Router,
-    private route: ActivatedRoute,
     private settingsService: SettingsService
   ) {
     super(store);
     this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
     this.numberOfSearchResults$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);
-    this.selectedPaymarkets$ = this.store.select(fromPaymarketReducer.getSelectedPaymarkets);
+    this.selectedPaymarkets$ = this.store.select(fromAddJobsReducer.getSelectedPaymarkets);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
-    this.addingData$ = this.store.select(fromStructuresReducer.getAddingData);
-    this.addingDataError$ = this.store.select(fromStructuresReducer.getAddingDataError);
-    this.addingDataErrorMessage$ = this.store.select(fromStructuresReducer.getAddingDataErrorMessage);
+    this.addingData$ = this.store.select(fromAddJobsReducer.getAddingData);
+    this.addingDataError$ = this.store.select(fromAddJobsReducer.getAddingDataError);
+    this.addingDataErrorMessage$ = this.store.select(fromAddJobsReducer.getAddingDataErrorMessage);
     this.userContext = store.select(fromRootState.getUserContext);
     this._Permissions = Permissions;
+
+    this.modalTitle$ = this.store.select(fromAddJobsReducer.getModalTitle);
+    this.currentModalPage$ = this.store.select(fromAddJobsReducer.getCurrentModalPage);
+    this.modalOpen$ = this.store.select(fromAddJobsReducer.getAddJobsModalIsOpen);
   }
 
   onSetContext(payload: any): void {
-    this.store.dispatch(new fromJobBasedRangesAddJobsModalActions.SetContext(payload));
+    this.store.dispatch(new fromAddJobsPageActions.SetContext(payload));
     this.store.dispatch(new fromSearchFiltersActions.AddFilters(staticFilters));
 
     this.store.dispatch(new fromPaymarketActions.SetDefaultPaymarket(Number(payload.PayMarketId)));
@@ -94,20 +100,8 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
 
   onResetApp(): void {
     this.store.dispatch(new fromPaymarketActions.ClearPayMarkets());
-    this.store.dispatch(new fromJobBasedRangesSearchResultsActions.ClearSelectedJobs());
-    this.store.dispatch(new fromJobBasedRangesSearchResultsActions.Reset());
-  }
-
-  handleAddClicked(): void {
-    this.store.dispatch(new fromJobBasedRangesAddJobsModalActions.AddSelectedJobs());
-  }
-
-  handleClearSelectionsClicked(): void {
-    this.store.dispatch(new fromJobBasedRangesSearchResultsActions.ClearSelectedJobs());
-  }
-
-  handleCreateNewJobClicked(): void {
-    this.router.navigate(['../create-new-job'], { relativeTo: this.route });
+    this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
+    this.store.dispatch(new fromAddJobsSearchResultsActions.Reset());
   }
 
   get numberOfJobsSelected(): number {
@@ -127,8 +121,6 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
   }
 
   ngOnInit() {
-    this.buildForm();
-
     this.userContext.subscribe(uc => {
       this.isSmallBiz = (uc.CompanySystemUserGroupsGroupName === SystemUserGroupNames.SmallBusiness);
       if (this.isSmallBiz) {
@@ -139,22 +131,18 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
       }
     });
 
-    this.selectedJobIdsSubscription = this.store.select(fromStructuresReducer.getSelectedJobIds)
+    this.selectedJobIdsSubscription = this.store.select(fromAddJobsReducer.getSelectedJobIds)
       .subscribe(jobIds => this.selectedJobIdCount = jobIds.length);
-    this.selectedPayfactorsJobCodesSubscription = this.store.select(fromStructuresReducer.getSelectedPayfactorsJobCodes)
+    this.selectedPayfactorsJobCodesSubscription = this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes)
       .subscribe(jobCodes => this.selectedJobCodeCount = jobCodes.length);
   }
 
-  handleModalDismiss() {
-    this.store.dispatch(new fromSearchPageActions.CloseSearchPage());
+  close() {
+    this.store.dispatch(new fromAddJobsModalActions.CloseAddJobsModal());
   }
 
   save() {
     this.attemptedSave = true;
-  }
-
-  buildForm() {
-    this.addJobsForm = this.formBuilder.group({});
   }
 
   ngOnDestroy() {

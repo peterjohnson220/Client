@@ -10,10 +10,8 @@ import { ProjectApiService } from 'libs/data/payfactors-api/project';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
-import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
-
-import * as fromAddJobsPageActions from '../actions/add-jobs-page.actions';
-import * as fromAddJobsReducer from '../reducers';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
 
 @Injectable()
 export class AddJobsPageEffects {
@@ -32,7 +30,7 @@ export class AddJobsPageEffects {
       ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS),
       withLatestFrom(
         this.store.select(fromAddJobsReducer.getContext),
-        this.store.select(fromPaymarketReducer.getSelectedPaymarkets),
+        this.store.select(fromAddJobsReducer.getSelectedPaymarkets),
         this.store.select(fromAddJobsReducer.getSelectedJobIds),
         this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes),
         (action: fromAddJobsPageActions.AddSelectedJobs, context, payMarkets, selectedJobIds, selectedJobCodes) =>

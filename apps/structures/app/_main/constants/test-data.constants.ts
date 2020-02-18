@@ -1,4 +1,4 @@
-import { StructureRangeDataDto } from '../models';
+import { StructureRangeDataDto } from '../../_new/job-based-range/models';
 
 export const testJobRangeModelingGridData: StructureRangeDataDto[] = [
   {

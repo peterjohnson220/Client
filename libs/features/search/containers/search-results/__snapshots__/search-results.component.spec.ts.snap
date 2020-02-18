@@ -2,6 +2,7 @@
 
 exports[`Search Feature - Search Results should show a message, when loading more results 1`] = `
 <pf-search-results
+  customSearchResultsStyle={[Function Object]}
   error$={[Function Store]}
   loadingMoreResults={[Function Boolean]}
   loadingMoreResults$={[Function Store]}
@@ -18,6 +19,7 @@ exports[`Search Feature - Search Results should show a message, when loading mor
   <div
     class="results"
     infinite-scroll=""
+    ng-reflect-ng-style="[object Object]"
   >
     <pf-async-container />
     

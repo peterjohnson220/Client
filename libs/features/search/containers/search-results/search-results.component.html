@@ -2,23 +2,24 @@
      class="results"
      infinite-scroll
      [class.smallBiz]="useSmallBizStyles"
+     [ngStyle]="customSearchResultsStyle"
      [scrollWindow]="false"
      [infiniteScrollDistance]="2"
      (scrolled)="onScroll()">
+  <pf-async-container
+    [loading]="loadingResults$ | async"
+    [loadingError]="error$ | async"
+    [hideReloadButton]="true"
+    [spinnerType]="spinnerType">
 
-    <pf-async-container
-      [loading]="loadingResults$ | async"
-      [loadingError]="error$ | async"
-      [hideReloadButton]="true"
-      [spinnerType]="spinnerType">
+    <ng-content></ng-content>
 
-      <ng-content></ng-content>
+  </pf-async-container>
 
-    </pf-async-container>
-
-    <div class="m-3" *ngIf="loadingMoreResults$ | async">
-      <pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator> Loading More Results...
-    </div>
+  <div class="m-3" *ngIf="loadingMoreResults$ | async">
+    <pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator>
+    Loading More Results...
   </div>
+</div>
 
 
