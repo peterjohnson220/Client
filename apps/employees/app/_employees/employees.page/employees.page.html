@@ -3,14 +3,15 @@
   [title]="getPageTitle((userContext$ | async)?.CompanyName)"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyEmployee_ID'"
-  [allowExport]="false"
-  [defaultSort]="defaultSort"
   [showActionBar]="true"
-  [showColumnChooser] ="false"
-  [showFilterChooser] ="false"
+  [showColumnChooser]="false"
+  [showFilterChooser]="false"
   [noRecordsFound]="'No records available.'"
   [enableSelection]="true"
-  [gridActionsTemplate]="gridActions">
+  [gridActionsTemplate]="gridActions"
+  [gridGlobalActionsTemplate]="gridGlobalActions"
+  [allowExport]="false"
+  [defaultSort]="defaultSort">
 </pf-data-grid>
 
 <ng-template #gridActions>
@@ -35,6 +36,20 @@
     </button>
   </div>
 </ng-template>
+<ng-template #gridGlobalActions>
+  <button
+    [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
+    [attr.data-qa-id]="'btn-newEmployee'"
+    type="button"
+    (click)="addNewEmployee()"
+    class="btn btn-primary">
+    New Employee
+  </button>
+</ng-template>
+
+<pf-employee-management
+  [companyId]="(userContext$ | async)?.CompanyId">
+</pf-employee-management>
 
 <ng-template #pricingJobsMessage>
   <div class="pricing-jobs-message">

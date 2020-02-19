@@ -6,9 +6,11 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserContext } from 'libs/models';
-import * as fromRootState from 'libs/state/state';
 import { Permissions } from 'libs/constants';
+import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromEmployeeManagementReducers from 'libs/features/employee-management/reducers';
+import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
@@ -21,6 +23,8 @@ import { EmployeesPageViewId } from '../models';
 })
 export class EmployeesPageComponent implements OnInit, OnDestroy {
 
+  @ViewChild('pricingJobsMessage', { static: true }) public pricingJobsMessage: any;
+  permissions = Permissions;
   userContext$: Observable<UserContext>;
   pricingJobs$: Observable<boolean>;
   pricingJobsError$: Observable<boolean>;
@@ -31,8 +35,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
   selectedCompanyEmployeeIdsSubscription: Subscription;
   pricingJobsSubscription: Subscription;
 
-  @ViewChild('pricingJobsMessage', { static: true }) public pricingJobsMessage: any;
-  permissions = Permissions;
   pageViewId = EmployeesPageViewId;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -43,6 +45,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
   constructor(
     private rootStore: Store<fromRootState.State>,
     public store: Store<fromEmployeesReducer.State>,
+    public employeeManagementStore: Store<fromEmployeeManagementReducers.State>,
     private pfGridStore: Store<fromPfGridReducer.State>,
     private modalService: NgbModal
   ) {
@@ -69,6 +72,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
 
   public get priceJobsDisabled(): boolean {
     return !this.selectedCompanyEmployeeIds || this.selectedCompanyEmployeeIds.length === 0 || this.pricingJobs;
+  }
+
+  addNewEmployee() {
+    this.employeeManagementStore.dispatch(new fromEmployeeManagementActions.ShowEmployeeForm(true));
   }
 
   handlePriceJobsClicked(): void {

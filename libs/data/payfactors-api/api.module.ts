@@ -14,7 +14,7 @@ import { CompanySecurityApiService } from './security';
 import { ExchangeDataSearchApiService, JobSearchApiService, SurveySearchApiService } from './search';
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
-import { CompanyApiService, CompanyJobApiService } from './company';
+import { CompanyApiService, CompanyEmployeeApiService, CompanyJobApiService } from './company';
 import {
     JobDescriptionApiService, JobDescriptionFooterViewApiService, JobDescriptionManagementApiService, JobDescriptionTemplateApiService,
     JobDescriptionWorkflowApiService, JobDescriptionWorkflowTemplateApiService
@@ -48,13 +48,13 @@ import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
 import { JobsApiService } from './jobs';
-import { CompanyEmployeesApiService } from './employees';
 import {DataImportApiService} from './integration/data-import';
 import { TotalRewardsApiService } from './total-rewards';
 import { SsoConfigApiService } from './sso';
 import { CurrencyApiService } from './currency';
 import { CompositeFieldApiService } from './composite-field';
-import {PricingApiService} from './pricings';
+import { PricingApiService } from './pricings';
+import { CountryApiService } from './country';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -77,7 +77,6 @@ import {PricingApiService} from './pricings';
     UserFilterApiService,
     JobDescriptionApiService,
     JobsApiService,
-    CompanyEmployeesApiService,
     TermsConditionsApiService,
     SurveySearchApiService,
     CompanySettingsApiService,
@@ -117,6 +116,8 @@ import {PricingApiService} from './pricings';
     CurrencyApiService,
     CompositeFieldApiService,
     PricingApiService,
+    CountryApiService,
+    CompanyEmployeeApiService,
 
     // PEER
     ExchangeApiService,

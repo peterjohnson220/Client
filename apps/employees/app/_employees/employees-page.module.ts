@@ -9,6 +9,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
+import { EmployeeManagementModule } from 'libs/features/employee-management';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 
 import * as fromFaIcons from './fa-icons';
@@ -16,6 +17,7 @@ import { reducers } from './reducers';
 import { EmployeesPageEffects } from './effects';
 import { EmployeesPageRoutingModule } from './employees-page-routing.module';
 import { EmployeesPageComponent } from './employees.page';
+
 
 @NgModule({
   imports: [
@@ -36,7 +38,8 @@ import { EmployeesPageComponent } from './employees.page';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfDataGridModule
+    PfDataGridModule,
+    EmployeeManagementModule,
   ],
   declarations: [
     EmployeesPageComponent,
