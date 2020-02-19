@@ -73,9 +73,9 @@ export const getAllFilters = createSelector(
   fromSearchFiltersReducer.getAllFilters
 );
 
-export const getSubFilters = createSelector(
+export const getChildFilters = createSelector(
   selectSearchFiltersState,
-  fromSearchFiltersReducer.getSubFilters
+  fromSearchFiltersReducer.getChildFilters
 );
 
 export const getChildFilterName = createSelector(
@@ -122,26 +122,6 @@ export const getChildFilterParentOptionValue = createSelector(
   fromChildFilterReducer.getParentOptionValue
 );
 
-export const getLoadingOptions = createSelector(
-  selectSingledFilterState,
-  fromSingledFilterReducer.getLoadingOptions
-);
-
-export const getChildLoadingOptions = createSelector(
-  selectChildFilterState,
-  fromChildFilterReducer.getLoadingOptions
-);
-
-export const getLoadingOptionsError = createSelector(
-  selectSingledFilterState,
-  fromSingledFilterReducer.getLoadingOptionsError
-);
-
-export const getChildLoadingOptionsError = createSelector(
-  selectChildFilterState,
-  fromChildFilterReducer.getLoadingOptionsError
-);
-
 export const getSingledFilterSearchValue = createSelector(
   selectSingledFilterState,
   fromSingledFilterReducer.getSearchValue
@@ -163,7 +143,7 @@ export const getSingledFilterSelectionCount = createSelector(
 
 export const getChildFilterSelectionCount = createSelector(
   getChildFilter,
-  getSubFilters,
+  getChildFilters,
   (childFilter, filters) => {
     const backingFilter = <MultiSelectFilter>filters.find(f => childFilter && f.Id === childFilter.Id);
     return !!backingFilter ? backingFilter.Options.filter(o => o.Selected).length : 0;

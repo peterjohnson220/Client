@@ -49,16 +49,18 @@ export class SearchFiltersEffects {
     .pipe(
       ofType(fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION),
       withLatestFrom(
-        this.store.select(fromSharedSearchReducer.getSubFilters),
+        this.store.select(fromSharedSearchReducer.getChildFilters),
         this.store.select(fromSharedSearchReducer.getParentFilters),
         this.store.select(fromSharedSearchReducer.getSearchingFilter),
         this.store.select(fromSharedSearchReducer.getSearchingChildFilter),
-        (action: fromSearchFiltersActions.ToggleMultiSelectOption, subFilters, parentFilters, searchingSingle, searchingChild) => ({action, subFilters, parentFilters, searchingSingle, searchingChild})
+        (action: fromSearchFiltersActions.ToggleMultiSelectOption, childFilters, parentFilters, searchingSingle, searchingChild) => (
+          {action, childFilters, parentFilters, searchingSingle, searchingChild}
+          )
       ),
       mergeMap((data) => {
         const actions = [];
 
-        const isChildFilter = data.searchingChild && data.subFilters.filter(f => f.Id === data.action.payload.filterId).length > 0;
+        const isChildFilter = data.searchingChild && data.childFilters.filter(f => f.Id === data.action.payload.filterId).length > 0;
 
         if (isChildFilter && data.searchingSingle) {
           actions.push(new fromSearchResultsActions.GetResults(

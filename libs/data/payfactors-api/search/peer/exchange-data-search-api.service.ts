@@ -12,7 +12,7 @@ import {
   SearchExchangeAggregationsRequest,
   ExchangeDataSearchResponse
 } from 'libs/models/payfactors-api/peer/exchange-data-search';
-import {ExchangeJobExchangeDetail} from '../../../../features/peer/models';
+import { ExchangeJobExchangeDetail } from '../../../../features/peer/models';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
 

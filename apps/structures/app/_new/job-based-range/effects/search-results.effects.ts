@@ -9,12 +9,13 @@ import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { JobSearchPricingDataResponse, JobSearchRequest, JobSearchResponse } from 'libs/models/payfactors-api/job-search';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 
 @Injectable()
 export class SearchResultsEffects {
@@ -104,7 +105,11 @@ export class SearchResultsEffects {
                   keepFilteredOutOptions: data.action.payload.keepFilteredOutOptions
                 }));
                 if (data.action.payload && data.action.payload.searchAggregation) {
-                  actions.push(new fromSingledFilterActions.SearchAggregation());
+                  // TODO: Should this be load more?
+                  const scrollPayload = {
+                    scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER
+                  };
+                  actions.push(new fromInfiniteScrollActions.Load(scrollPayload));
                 }
               }
 

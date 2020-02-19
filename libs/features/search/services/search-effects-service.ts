@@ -5,10 +5,11 @@ import { Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
 
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 
 import * as fromSearchResultsActions from '../actions/search-results.actions';
-import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromSearchReducer from '../reducers';
 
 @Injectable()
@@ -25,7 +26,11 @@ export class SearchEffectsService {
         const actions = [];
 
         if (data.searchingFilter && data.singledFilter.Id !== data.action.payload.filterId) {
-          actions.push(new fromSingledFilterActions.SearchAggregation());
+          // TODO: Should this be load more?
+          const scrollPayload = {
+            scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER
+          };
+          actions.push(new fromInfiniteScrollActions.Load(scrollPayload));
         }
 
         actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }));

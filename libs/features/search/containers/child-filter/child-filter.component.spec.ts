@@ -1,9 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChildFilterComponent } from './child-filter.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 import * as fromRootState from 'libs/state/state';
-import * as fromChildFilterActions from '../../actions/child-filter.actions';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
+
+import { ChildFilterComponent } from './child-filter.component';
 import * as fromSearchReducer from '../../reducers';
 
 describe('Search Feature Child Filter', () => {
@@ -29,9 +33,9 @@ describe('Search Feature Child Filter', () => {
 
   });
 
-  it('should dispatch a SearchAggregation action upon init', () => {
+  it('should dispatch an infinite scroll Load action upon init', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromChildFilterActions.SearchAggregation();
+    const expectedAction = new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER});
 
     fixture.detectChanges();
 

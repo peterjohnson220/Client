@@ -246,5 +246,5 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 
 // Selector functions
 export const getParentFilters = (state: State) => state.filters.filter(f => f.ParentBackingField == null);
-export const getSubFilters = (state: State) => state.filters.filter(f => f.ParentBackingField !== null);
+export const getChildFilters = (state: State) => state.filters.filter(f => f.ParentBackingField !== null);
 export const getAllFilters = (state: State) => state.filters;
