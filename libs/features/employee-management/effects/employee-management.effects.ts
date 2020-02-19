@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
 
 import { CompanyEmployeeApiService, CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import { PayMarketApiService, CountryApiService, CurrencyApiService, LoaderFieldMappingsApiService } from 'libs/data/payfactors-api';
@@ -163,6 +163,46 @@ export class EmployeeManagementEffects {
           );
         }
       )
+    );
+
+  @Effect()
+  updateEmployee$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.UPDATE_EMPLOYEE),
+      switchMap((action: fromEmployeeManagementActions.UpdateEmployee) => {
+        return this.companyEmployeeApiService.patch(action.payload)
+          .pipe(
+            map((response) => new fromEmployeeManagementActions.SaveEmployeeSuccess()),
+            catchError(() => of(new fromEmployeeManagementActions.SaveEmployeeError('There was an error processing this request.')))
+          );
+      })
+    );
+
+  @Effect()
+  editEmployee$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.EDIT_EMPLOYEE),
+      mergeMap((action: fromEmployeeManagementActions.EditEmployee) => {
+        return [
+          new fromEmployeeManagementActions.ShowEmployeeForm(true),
+          new fromEmployeeManagementActions.GetEmployee({
+            companyEmployeeId: action.payload.companyEmployeeId
+          })
+        ];
+      })
+    );
+
+  @Effect()
+  getEmployee$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.GET_EMPLOYEE),
+      switchMap((action: fromEmployeeManagementActions.GetEmployee) => {
+        return this.companyEmployeeApiService.get(action.payload.companyEmployeeId)
+          .pipe(
+            map((response) => new fromEmployeeManagementActions.GetEmployeeSuccess(response)),
+            catchError(() => of(new fromEmployeeManagementActions.GetEmployeeError()))
+          );
+      })
     );
 
   constructor(

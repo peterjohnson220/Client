@@ -38,4 +38,12 @@ export class CompanyEmployeeApiService {
   createEmployee(employee: CompanyEmployee) {
     return this.payfactorsApiService.post<any>(`${this.endpoint}`, employee);
   }
+
+  get(companyEmployeeId: number): Observable<CompanyEmployee> {
+    return this.payfactorsApiService.get<CompanyEmployee>(`${this.endpoint}(${companyEmployeeId})`);
+  }
+
+  patch(employee: CompanyEmployee) {
+    return this.payfactorsApiService.patch<any>(`${this.endpoint}(${employee.CompanyEmployeeId})`, employee);
+  }
 }

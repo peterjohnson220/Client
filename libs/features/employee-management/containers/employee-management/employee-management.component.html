@@ -3,18 +3,21 @@
   [isOpen$]="showEmployeeForm$"
   [size]="'lg'"
   [submitting]="saving$ | async"
-  [showFooter]="!(loading$ | async)"
+  [showFooter]="!(employee$ | async)?.loading"
   [centered]="false"
   [allowDismiss]="true"
   [primaryButtonText]="'Save'"
   [primaryButtonTextSubmitting]="'Saving'"
-  [title]="'Add Employee'"
+  [title]="modalTitle"
   [formGroup]="employeeForm"
   (onDismiss)="onCancelChanges()"
   (onSubmit)="onSubmit()">
   <ng-container form-content>
     <div class="container" [style.max-height]="'450px'" [style.overflow]="'auto'">
-      <pf-async-container [loading]="(loading$ | async) || (saving$ | async)" [smartLoadingMask]="true" [showSpinner]="false">
+      <pf-async-container
+        [loading]="(employee$ | async)?.loading || (saving$ | async)"
+        [loadingError]="(employee$ | async)?.loadingError"
+        [loadingErrorMessage]="'Error Loading Employee'">
         <form id="user-form" [formGroup]="employeeForm" autocomplete="nope">
           <input type="hidden" formControlName="CompanyEmployeeId"/>
           <input type="hidden" formControlName="CompanyId"/>
@@ -167,6 +170,7 @@
               <kendo-datepicker class="form-control"
                                 data-qa-id="dpckr-employee-form-dob"
                                 formControlName="DOB"
+                                [format]="'MM/dd/yyyy'"
                                 [ngClass]="{ 'is-invalid': !f.DOB.valid && f.DOB.touched }"></kendo-datepicker>
             </div>
           </div>
@@ -183,6 +187,7 @@
               <kendo-datepicker class="form-control"
                                 data-qa-id="dpckr-employee-form-doh"
                                 formControlName="DOH"
+                                [format]="'MM/dd/yyyy'"
                                 [ngClass]="{ 'is-invalid': !f.DOH.valid && f.DOH.touched }"></kendo-datepicker>
             </div>
           </div>

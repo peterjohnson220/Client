@@ -1,13 +1,15 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, Input, SimpleChanges, OnChanges, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import * as cloneDeep from 'lodash.clonedeep';
+import { IntlService } from '@progress/kendo-angular-intl';
 
+import * as fromRootState from 'libs/state/state';
 import { PfValidators } from 'libs/forms/validators';
-import { AsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee } from 'libs/models';
+import { AsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee, UserContext } from 'libs/models';
 
 import * as fromEmployeeManagementReducer from '../../reducers';
 import * as fromEmployeeManagementActions from '../../actions';
@@ -18,10 +20,10 @@ import * as fromEmployeeManagementActions from '../../actions';
   styleUrls: ['./employee-management.component.scss'],
 })
 export class EmployeeManagementComponent implements OnInit, OnDestroy {
-  @Input() companyId: number;
   @Output() saveSuccess = new EventEmitter();
 
   // observables
+  userContext$: Observable<UserContext>;
   showEmployeeForm$: Observable<boolean>;
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
@@ -34,12 +36,15 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   gradeCodes$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   structureNames$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   employeesUserDefinedFields$: Observable<AsyncStateObj<GenericKeyValue<string, string>[]>>;
+  employee$: Observable<AsyncStateObj<CompanyEmployee>>;
 
   // subscriptions
   openModalSubscription: Subscription;
   udfsSubscription: Subscription;
   structuresSubscription: Subscription;
   gradeCodesSubscription: Subscription;
+  employeeSubscription: Subscription;
+  userContextSubscription: Subscription;
 
   employeeForm: FormGroup;
   initialized = false;
@@ -57,12 +62,19 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     caseSensitive: false,
     operator: 'startsWith'
   };
+  companyId: number;
+  employee: CompanyEmployee;
+  udfFields: GenericKeyValue<string, string>[];
+
   get f() { return this.employeeForm.controls; }
 
   constructor(
-      private store: Store<fromEmployeeManagementReducer.State>,
-      private formBuilder: FormBuilder
+    private rootStore: Store<fromRootState.State>,
+    private store: Store<fromEmployeeManagementReducer.State>,
+    private formBuilder: FormBuilder,
+    private intlService: IntlService
   ) {
+    this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.showEmployeeForm$ = this.store.select(fromEmployeeManagementReducer.getShowEmployeeForm);
     this.saving$ = this.store.select(fromEmployeeManagementReducer.getSaving);
     this.jobs$ = this.store.select(fromEmployeeManagementReducer.getCompanyJobs);
@@ -74,10 +86,17 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.structureNames$ = this.store.select(fromEmployeeManagementReducer.getStructureNames);
     this.employeesUserDefinedFields$ = this.store.select(fromEmployeeManagementReducer.getEmployeesUserDefinedFields);
     this.errorMessage$ = this.store.select(fromEmployeeManagementReducer.getErrorMessage);
-    this.createForm();
+    this.employee$ = this.store.select(fromEmployeeManagementReducer.getEmployee);
   }
 
   ngOnInit() {
+    this.userContextSubscription = this.userContext$.subscribe(uc => {
+      if (!!uc) {
+        this.companyId = uc.CompanyId;
+        this.createForm();
+        this.store.dispatch(new fromEmployeeManagementActions.GetCustomFields({ companyId: uc.CompanyId }));
+      }
+    });
     this.openModalSubscription = this.showEmployeeForm$.subscribe(isOpen => {
       if (isOpen) {
         if (!this.initialized) {
@@ -87,6 +106,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     });
     this.udfsSubscription = this.employeesUserDefinedFields$.subscribe(userDefinedFieldsAync => {
       if (!!userDefinedFieldsAync && !!userDefinedFieldsAync.obj) {
+        this.udfFields = userDefinedFieldsAync.obj;
         for (const userDefinedField of userDefinedFieldsAync.obj) {
           this.employeeForm.addControl(
             userDefinedField.Key,
@@ -95,13 +115,22 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       }
     });
     this.gradeCodesSubscription = this.gradeCodes$.subscribe(gradeCodesAsync => {
-      if (!!gradeCodesAsync && !!gradeCodesAsync.obj) {
+      if (!!gradeCodesAsync && !gradeCodesAsync.loading && !!gradeCodesAsync.obj) {
         this.updateControl(gradeCodesAsync.obj, 'GradeCode');
       }
     });
     this.structuresSubscription = this.structureNames$.subscribe(structureNamesAsync => {
-      if (!!structureNamesAsync && !!structureNamesAsync.obj) {
+      if (!!structureNamesAsync && !structureNamesAsync.loading && !!structureNamesAsync.obj) {
         this.updateControl(structureNamesAsync.obj, 'StructureRangeGroupId');
+        this.loadGrades();
+      }
+    });
+    this.employeeSubscription = this.employee$.subscribe(asyncObj => {
+      if (!!this.employeeForm && !!asyncObj && asyncObj.loading) {
+        this.resetForm();
+      } else {
+        this.employee = asyncObj.obj;
+        this.updateForm();
       }
     });
   }
@@ -112,6 +141,12 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.udfsSubscription.unsubscribe();
     this.gradeCodesSubscription.unsubscribe();
     this.structuresSubscription.unsubscribe();
+    this.userContextSubscription.unsubscribe();
+    this.employeeSubscription.unsubscribe();
+  }
+
+  public get modalTitle(): string {
+    return !!this.employee ? 'Edit Employee' : 'Add Employee';
   }
 
   onCancelChanges() {
@@ -121,7 +156,11 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const employee = this.getEmployeeDataFromForm();
-    this.store.dispatch(new fromEmployeeManagementActions.SaveEmployee(employee));
+    if (!!employee.CompanyEmployeeId) {
+      this.store.dispatch(new fromEmployeeManagementActions.UpdateEmployee(employee));
+    } else {
+      this.store.dispatch(new fromEmployeeManagementActions.SaveEmployee(employee));
+    }
   }
 
   private createForm(): void {
@@ -210,6 +249,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     });
     this.calculatedTCC = 0;
     this.calculatedTDC = 0;
+    this.updateControl([], 'StructureRangeGroupId');
+    this.updateControl([], 'GradeCode');
   }
 
   private initializeDroplists() {
@@ -219,7 +260,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromEmployeeManagementActions.LoadCountries());
     this.store.dispatch(new fromEmployeeManagementActions.LoadCurrencies());
     this.store.dispatch(new fromEmployeeManagementActions.LoadDepartments());
-    this.store.dispatch(new fromEmployeeManagementActions.GetCustomFields({ companyId: this.companyId }));
   }
 
   public loadGrades() {
@@ -236,12 +276,10 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   }
 
   public onJobChanges() {
-    this.loadGrades();
     this.loadStructures();
   }
 
   public onPaymarketChanges() {
-    this.loadGrades();
     this.loadStructures();
   }
 
@@ -285,18 +323,84 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     employee.TCCCalculated = this.calculatedTCC;
     employee.TDCCalculated = this.calculatedTDC;
     employee.CompanyId = this.companyId;
+    if (!!this.employee) {
+      employee.CompanyEmployeeId = this.employee.CompanyEmployeeId;
+    }
     return employee;
   }
 
   private updateControl(list: KendoTypedDropDownItem[], controlName: string): void {
     if (!list.length) {
       this.employeeForm.controls[controlName].disable();
+      this.employeeForm.controls[controlName].setValue(null);
     } else {
       this.employeeForm.controls[controlName].enable();
+      this.employeeForm.controls[controlName].setValue(list[0].Value);
     }
-    const value = this.employeeForm.controls[controlName].value;
-    if (!list.some(x => x.Value === value)) {
-      this.employeeForm.controls[controlName].setValue(null);
+  }
+
+  private updateForm(): void {
+    if (!!this.employeeForm && !!this.employee) {
+      const rate: string = this.employee.Rate.toLowerCase() === 'annual'
+        ? 'Annual'
+        : 'Hourly';
+      this.employeeForm.patchValue({
+        EmployeeId: this.employee.EmployeeId,
+        ManagerEmployeeId: this.employee.ManagerEmployeeId,
+        FirstName: this.employee.FirstName,
+        LastName: this.employee.LastName,
+        EmployeeStatus: this.employee.EmployeeStatus,
+        City: this.employee.City,
+        State: this.employee.State,
+        Zip: this.employee.Zip,
+        Country: this.employee.Country,
+        CompanyJobId: this.employee.CompanyJobId,
+        CompanyPayMarketId: this.employee.CompanyPayMarketId,
+        Rate: rate,
+        CurrencyCode: this.employee.CurrencyCode,
+        DOB: this.convertToDate(this.employee.DOB),
+        DOH: this.convertToDate(this.employee.DOH),
+        Facility: this.employee.Facility,
+        STIElig: this.employee.STIElig,
+        LTIElig: this.employee.LTIElig,
+        Department: this.employee.Department,
+        Gender: this.employee.Gender,
+        Base: this.employee.Base,
+        FTE: this.employee.FTE,
+        Bonus: this.employee.Bonus,
+        BonusPct: this.employee.BonusPct,
+        BonusTarget: this.employee.BonusTarget,
+        OverrideTCC: this.employee.OverrideTCC,
+        TCC: this.employee.TCC,
+        TCCCalculated: this.employee.TCCCalculated,
+        TDCCalculated: this.employee.TDCCalculated,
+        STI: this.employee.STI,
+        LTI: this.employee.LTI,
+        OverrideTDC: this.employee.OverrideTDC,
+        TDC: this.employee.TDC,
+        BonusTargetPct: this.employee.BonusTargetPct,
+        TargetTCC: this.employee.TargetTCC,
+        TargetLTIP: this.employee.TargetLTIP,
+        TargetTDC: this.employee.TargetTDC,
+        Allow: this.employee.Allow,
+        TGP: this.employee.TGP,
+        Remun: this.employee.Remun,
+        Fixed: this.employee.Fixed,
+        StructureRangeGroupId: this.employee.StructureRangeGroupId,
+        GradeCode: this.employee.GradeCode
+      });
+      this.updateUDFFields();
+      this.loadStructures();
     }
+  }
+
+  private updateUDFFields(): void {
+    for (const udf of this.udfFields) {
+      this.employeeForm.controls[udf.Key].patchValue(this.employee[udf.Key]);
+    }
+  }
+
+  private convertToDate(date: Date): Date {
+    return date ? this.intlService.parseDate(date.toString()) : null;
   }
 }
