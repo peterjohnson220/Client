@@ -74,7 +74,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     case fromPfGridActions.LOAD_VIEW_CONFIG_SUCCESS:
       const currSplitViewFilters = action.payload && action.payload.Fields ?
         action.payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
-        .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
+          .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
       return {
         ...state,
         grids: {
@@ -281,13 +281,13 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_SELECTED_RECORD_ID: {
-        const  newSplitViewFilters = [...state.grids[action.pageViewId].splitViewFilters]
-          .filter(f => f.SourceName !== action.fieldName);
+      const newSplitViewFilters = [...state.grids[action.pageViewId].splitViewFilters]
+        .filter(f => f.SourceName !== action.fieldName);
 
-        if (action.recordId) {
-          newSplitViewFilters.push(buildExternalFilter(action.recordId.toString(), action.operator, action.fieldName));
-        }
-        return  {
+      if (action.recordId) {
+        newSplitViewFilters.push(buildExternalFilter(action.recordId.toString(), action.operator, action.fieldName));
+      }
+      return {
         ...state,
         grids: {
           ...state.grids,
@@ -299,7 +299,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
-  }
+    }
     case fromPfGridActions.EXPAND_ROW:
       const newExpandedRows = [...(state.grids[action.pageViewId].expandedRows)];
       newExpandedRows.push(action.rowIndex);
@@ -446,6 +446,18 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             selectedKeys: cloneDeep(selectAllKeys),
             selectAllState: selectAllStateToSet
+          }
+        }
+      };
+    case fromPfGridActions.CLEAR_SELECTIONS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedKeys: null,
+            selectAllState: 'unchecked'
           }
         }
       };
@@ -667,7 +679,7 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
   return fields;
 }
 
-export function buildExternalFilter(value: string, operator: string,  fieldName: string): PfDataGridFilter {
+export function buildExternalFilter(value: string, operator: string, fieldName: string): PfDataGridFilter {
   return {
     SourceName: fieldName,
     Operator: operator,

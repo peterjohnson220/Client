@@ -3,6 +3,7 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api';
+import { PageViewIds } from '../../constants';
 
 @Component({
   selector: 'pf-pricing-matches-grid',
@@ -62,6 +63,6 @@ export class PricingMatchesGridComponent implements AfterViewInit, OnChanges {
   }
 
   getPageViewId() {
-    return this.filter ? `229B0067-8144-4847-ACF9-69C24CA16285_${this.filter.Value}` : null;
+    return this.filter ? `${PageViewIds.PricingMatches}_${this.filter.Value}` : null;
   }
 }

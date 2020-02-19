@@ -29,21 +29,26 @@
         </div>
         <div class="card-block">
           <div class="flex-grow-1 d-flex flex-column form-group mb-0">
-        <textarea
-          class="form-control"
-          rows="12"
-          (keyup)="changeJobDescription($event)"
-          [value]="(jobDescription$ | async)?(jobDescription$ | async) :''"
-          [readonly]="(saving$ | async) || (jobDescriptionManagementEnabled$ | async)"
-          [placeholder]="(jobDescriptionLoaded$ | async)?'There is no Job Description loaded for this Job.':''"
-          [pfValidatable]="true"
-        ></textarea>
+            <textarea
+              class="form-control"
+              rows="12"
+              (keyup)="changeJobDescription($event)"
+              [value]="(jobDescription$ | async)?(jobDescription$ | async) :''"
+              [readonly]="(saving$ | async) || (jobDescriptionManagementEnabled$ | async)"
+              [placeholder]="(jobDescriptionLoaded$ | async)?'There is no Job Description loaded for this Job.':''"
+              [pfValidatable]="true"
+            >
+            </textarea>
           </div>
         </div>
       </div>
       <div class="d-flex justify-content-end"   *ngIf="!(jobDescriptionManagementEnabled$ | async)">
         <button class="btn btn-primary"
-                [disabled]="(updatedJobDescription?.length < 10 && !((jobDescriptionUpdated$ | async) && updatedJobDescription?.length===0) ) || !(jobDescriptionUpdated$ | async)  || (saving$ | async)"
+                [disabled]="(updatedJobDescription?.length < 10 && !((jobDescriptionUpdated$ | async) && updatedJobDescription?.length===0))
+                 ||
+                 !(jobDescriptionUpdated$ | async)
+                 ||
+                 (saving$ | async)"
                 [innerText]="(saving$ | async)?'Saving': 'Save'"
                 (click)="saveJobDescription()">
         </button>
