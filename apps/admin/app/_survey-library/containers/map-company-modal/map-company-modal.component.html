@@ -63,7 +63,7 @@
                 <th class="text-center">
                   Aging (%)
                 </th>
-                <th class="text-center">
+                <th class="text-center" *ngIf="!hasCompanySurveyUDFs">
                   Remove
                 </th>
               </thead>
@@ -81,7 +81,7 @@
                          (blur)="saveItem(item)"
                          [(ngModel)]="item.AgingFactor">
                 </td>
-                <td class="text-center">
+                <td class="text-center" *ngIf="!hasCompanySurveyUDFs">
                   <fa-icon icon="times"
                            size="sm"
                            (click)="removeAssociation(item.CompanyId)"></fa-icon>
