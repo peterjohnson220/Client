@@ -126,6 +126,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         this.store.dispatch(new fromActions.ExpandRow(this.pageViewId, rowIndex));
         this.grid.expandRow(rowIndex);
       }
+    } else if (this.enableSelection) {
+      this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, dataItem[this.getSelectedRowPrimaryKey()]));
     }
   }
 
