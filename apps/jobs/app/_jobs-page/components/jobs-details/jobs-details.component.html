@@ -5,44 +5,44 @@
   <ngb-tabset  [destroyOnHide]="false"
     (tabChange)="tabChange($event)"
   >
-    <ngb-tab [title]="'Pricing Details'" [id]="'PricingDetails'">
+    <ngb-tab [title]="'Pricing Details'" [id]="pageViewIds.PricingDetails">
       <ng-template ngbTabContent>
-        <div class="full-height" *ngIf="tabStatusOpened['PricingDetails'] === true">
+        <div class="full-height" *ngIf="tabStatusOpened[pageViewIds.PricingDetails] === true">
           <pf-pricing-details-grid [filters]="jobDetailsFilters"></pf-pricing-details-grid>
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab [title]="'Job Description'" [id]="'JobDescription'">
+    <ngb-tab [title]="'Job Description'" [id]="'JobDescriptionTab'">
       <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened['JobDescription'] === true" class="full-height">
+        <div *ngIf="tabStatusOpened['JobDescriptionTab'] === true" class="full-height">
           <pf-job-description  [filters]="jobDetailsFilters" ></pf-job-description>
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab [title]="'Employees'" [id]="'Employees'">
+    <ngb-tab [title]="'Employees'" [id]="pageViewIds.Employees">
       <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened['Employees'] === true" class="full-height">
+        <div *ngIf="tabStatusOpened[pageViewIds.Employees] === true" class="full-height">
           <pf-employees-grid [filters]="jobDetailsFilters"></pf-employees-grid>
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab [title]="'Structures'" [id]="'Structures'">
+    <ngb-tab [title]="'Structures'" [id]="pageViewIds.Structures">
       <ng-template ngbTabContent>
-        <div  *ngIf="tabStatusOpened['Structures'] === true" class="full-height">
+        <div  *ngIf="tabStatusOpened[pageViewIds.Structures] === true" class="full-height">
           <pf-structure-grid [filters]="jobDetailsFilters"></pf-structure-grid>
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab [title]="'Projects'" [id]="'Projects'">
+    <ngb-tab [title]="'Projects'" [id]="pageViewIds.Projects">
       <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened['Projects']  === true"  class="full-height">
+        <div *ngIf="tabStatusOpened[pageViewIds.Projects]  === true"  class="full-height">
           <pf-project-details [filters]="jobDetailsFilters"></pf-project-details>
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab [title]="'History'" [id]="'History'">
+    <ngb-tab [title]="'History'" [id]="pageViewIds.PricingHistory">
       <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened['History']  === true" class="full-height">
+        <div *ngIf="tabStatusOpened[pageViewIds.PricingHistory]  === true" class="full-height">
           <pf-pricing-history [filters]="jobDetailsFilters"></pf-pricing-history>
         </div>
       </ng-template>

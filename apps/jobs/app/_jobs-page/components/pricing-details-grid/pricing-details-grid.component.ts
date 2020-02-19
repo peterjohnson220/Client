@@ -17,6 +17,7 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromJobsPageReducer from '../../reducers';
+import { PageViewIds } from '../../constants';
 
 @Component({
   selector: 'pf-pricing-details-grid',
@@ -35,7 +36,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
 
   globalFilterTemplates = {};
   colTemplates = {};
-  pageViewId = '86870F9F-C148-4626-92DE-C2B73B6E0D35';
+  pageViewId = PageViewIds.PricingDetails;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
@@ -59,14 +60,14 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          {Value : this.payMarketField.FilterValue, Id : this.payMarketField.FilterValue} : null;
+          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
   }
 
   ngAfterViewInit() {
     this.globalFilterTemplates = {
-      'PayMarket' : { Template: this.payMarketFilter }
+      'PayMarket': { Template: this.payMarketFilter }
     };
     this.colTemplates = {
       'PayMarket': { Template: this.payMarketColumn },
@@ -87,7 +88,6 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
-    field.FilterOperator = '=';
     this.updateField(field);
   }
 

@@ -1,8 +1,8 @@
-import {Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy} from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import {Observable, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -10,14 +10,12 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import {ViewField} from 'libs/models/payfactors-api/reports/request';
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as cloneDeep from 'lodash.clonedeep';
 import * as fromJobsPageActions from '../../actions';
 import * as fromJobsPageReducer from '../../reducers';
-
-
-
+import { PageViewIds } from '../../constants';
 
 
 @Component({
@@ -29,10 +27,11 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
+
+  pageViewId = PageViewIds.PricingHistory;
+
   globalFilterTemplates = {};
   colTemplates = {};
-
-  pageViewId = 'c4c03aff-4164-4a47-800f-97f0fee46623';
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -62,7 +61,7 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          {Value : this.payMarketField.FilterValue, Id : this.payMarketField.FilterValue} : null;
+          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
   }
@@ -70,10 +69,10 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.globalFilterTemplates = {
-      'PayMarket' : { Template: this.payMarketFilter }
+      'PayMarket': { Template: this.payMarketFilter }
     };
     this.colTemplates = {
-      'Create_User': { Template: this.createUserColumn}
+      'Create_User': { Template: this.createUserColumn }
     };
   }
 
@@ -103,7 +102,6 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
-    field.FilterOperator = '=';
     this.updateField(field);
   }
 
