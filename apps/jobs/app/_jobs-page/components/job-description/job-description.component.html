@@ -1,30 +1,58 @@
 <pf-async-container [loading]="!(jobDescriptionLoaded$ | async)">
-  <div class="p-3">
-    <div class="card my-3">
-      <div class="card-header">
-        Job Description
+  <div class="job-description-container">
+    <div class="p-3">
+      <div class="card my-3">
+        <div class="card-header">
+          <div class="job-description-header-container row justify-content-between align-items-center">
+            <div class="pl-3">
+              Job Description
+            </div>
+            <div *ngIf="jobDescriptionId" class="row pr-3">
+              <div
+                class="export-btn pr-3 export-word"
+                title="Export to Word"
+                (click)="exportJobDescription('docx')"
+                [attr.data-qa-id]="'btn-jobs-page-export-jd-word'"
+              >
+                <fa-icon fa-icon [icon]="['fal', 'file-word']"></fa-icon>
+              </div>
+              <div
+                class="export-btn pr-3 export-pdf"
+                title="Export to PDF"
+                (click)="exportJobDescription('pdf')"
+                [attr.data-qa-id]="'btn-jobs-page-export-jd-pdf'"
+              >
+                <fa-icon fa-icon [icon]="['fal', 'file-pdf']"></fa-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-block">
+          <div class="flex-grow-1 d-flex flex-column form-group mb-0">
+            <textarea
+              class="form-control"
+              rows="12"
+              (keyup)="changeJobDescription($event)"
+              [value]="(jobDescription$ | async)?(jobDescription$ | async) :''"
+              [readonly]="(saving$ | async) || (jobDescriptionManagementEnabled$ | async)"
+              [placeholder]="(jobDescriptionLoaded$ | async)?'There is no Job Description loaded for this Job.':''"
+              [pfValidatable]="true"
+            >
+            </textarea>
+          </div>
+        </div>
       </div>
-      <div class="card-block">
-        <div class="flex-grow-1 d-flex flex-column form-group mb-0">
-        <textarea
-          class="form-control"
-          rows="12"
-          (keyup)="changeJobDescription($event)"
-          [value]="(jobDescription$ | async)?(jobDescription$ | async) :''"
-          [readonly]="(saving$ | async) || (jobDescriptionManagementEnabled$ | async)"
-           [placeholder]="(jobDescriptionLoaded$ | async)?'There is no Job Description loaded for this Job.':''"
-          [pfValidatable]="true"
-        ></textarea>
+      <div class="d-flex justify-content-end"   *ngIf="!(jobDescriptionManagementEnabled$ | async)">
+        <button class="btn btn-primary"
+                [disabled]="(updatedJobDescription?.length < 10 && !((jobDescriptionUpdated$ | async) && updatedJobDescription?.length===0))
+                 ||
+                 !(jobDescriptionUpdated$ | async)
+                 ||
+                 (saving$ | async)"
+                [innerText]="(saving$ | async)?'Saving': 'Save'"
+                (click)="saveJobDescription()">
+        </button>
       </div>
-      </div>
-    </div>
-     <div class="d-flex justify-content-end"   *ngIf="!(jobDescriptionManagementEnabled$ | async)">
-      <button class="btn btn-primary"
-              [disabled]="(updatedJobDescription?.length < 10 && !((jobDescriptionUpdated$ | async) && updatedJobDescription?.length===0) ) || !(jobDescriptionUpdated$ | async)  || (saving$ | async)"
-              [innerText]="(saving$ | async)?'Saving': 'Save'"
-              (click)="saveJobDescription()">
-      </button>
     </div>
   </div>
 </pf-async-container>
-
