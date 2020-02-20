@@ -148,23 +148,6 @@
   (cancelChanges)="addingNewJob = false">
 </pf-job-management>
 
-<ng-template #peerFilter>
-  <div class="row">
-    <div class="col-6">
-      <label>Peer:</label>
-      <kendo-dropdownlist
-        [data]="peerFilterOptions"
-        [textField]="'display'"
-        [valueField]="'value'"
-        [valuePrimitive]="true"
-        [ngModel]="peerField.FilterValue"
-        (valueChange)="handlePeerFilterChanged($event)"
-        [attr.data-qa-id]="'ddm-operator-jobs-page-'+ peerField.SourceName"
-        class="k-dropdown-white form-control">
-      </kendo-dropdownlist>
-    </div>
-  </div>
-</ng-template>
 <ng-template #payMarketFilter>
   <div>
     <label>Pay Market:</label>

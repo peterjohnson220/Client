@@ -81,7 +81,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       }
     });
 
-    this.userFilteredFieldsSubscription = this.store.select(fromReducer.getFields, this.pageViewId).subscribe(fields => {
+    this.userFilteredFieldsSubscription = this.store.select(fromReducer.getFilterableFields, this.pageViewId).subscribe(fields => {
       this.userFilteredFields = getUserFilteredFields(fields);
     });
 

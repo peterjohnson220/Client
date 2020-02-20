@@ -538,7 +538,7 @@ export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) 
 export const getFilterableFields = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] && state.grids[pageViewId].fields
     ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy))
-    : null;
+    : [];
 };
 export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pagingOptions : null;
 export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: string) => {

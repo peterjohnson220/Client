@@ -1,10 +1,9 @@
-<ng-container *ngIf="filterTemplate;else standardFilter" [ngTemplateOutlet]="filterTemplate.Template">
-</ng-container>
+<ng-container *ngIf="filterTemplate; else standardFilter" [ngTemplateOutlet]="filterTemplate.Template"></ng-container>
 
 <ng-template #standardFilter>
   <label>{{ field.DisplayName }}:</label>
 
-  <ng-container *ngIf="field.CustomFilterStrategy; else simpleFilter" >
+  <ng-container *ngIf="field.CustomFilterStrategy && field.DataType !== dataTypes.Bit; else simpleFilter" >
     <div class="row">
       <div class="col-12">
         <pf-input-debounce 
@@ -38,6 +37,7 @@
           <div class="col-6">
             <pf-input-debounce
               [id]="field.SourceName"
+              [attr.data-qa-id]="'txt-value-'+field.SourceName"
               [ngModel]="field.FilterValue"
               (valueChanged)="handleFilterValueChanged($event)"
               [disabled]="valueCanBeEmpty()"
@@ -65,7 +65,7 @@
               [value]="field.FilterValue"
               [disabled]="valueCanBeEmpty()"
               (valueChange)="handleFilterValueChanged($event)"
-              [attr.data-qa-id]="'txt-value-'+field.SourceName">
+              [attr.data-qa-id]="'datepicker-value-'+field.SourceName">
             </kendo-datepicker>
           </div>
         </div>
@@ -97,6 +97,18 @@
             </kendo-numerictextbox>
           </div>
         </div>
+      </ng-template>
+      <ng-template [ngSwitchCase]="dataTypes.Bit">
+        <kendo-dropdownlist
+          [data]="bitFilterOptions"
+          [textField]="'display'"
+          [valueField]="'value'"
+          [valuePrimitive]="true"
+          [ngModel]="field.FilterValue"
+          (valueChange)="handleFilterValueChanged($event)"
+          [attr.data-qa-id]="'ddl-bit-filter-value-'+ field.SourceName"
+          class="k-dropdown-white form-control">
+        </kendo-dropdownlist>
       </ng-template>
     </div>
   </ng-template>

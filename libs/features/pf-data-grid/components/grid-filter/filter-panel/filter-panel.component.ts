@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 
-import { ViewField } from 'libs/models/payfactors-api';
+import { ViewField, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
 import { FilterOperatorOptions, getUserFilteredFields } from '../helpers';
 
@@ -9,7 +9,7 @@ import { FilterOperatorOptions, getUserFilteredFields } from '../helpers';
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.scss']
 })
-export class FilterPanelComponent {
+export class FilterPanelComponent implements OnChanges {
 
   @Input() fields: ViewField[];
   @Input() filterTemplates: any;
@@ -19,7 +19,22 @@ export class FilterPanelComponent {
   @Output() filterCleared = new EventEmitter<ViewField>();
   @Output() close = new EventEmitter();
 
+  customFilterFields: ViewField[];
+  bitFields: ViewField[];
+  simpleFields: ViewField[];
+
   constructor() { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['fields']) {
+      // TODO: Make this more customizable to allow different filter section configurations
+      // This logic is repeated in the Filter-Builder panel and in getUserFilteredFields()
+      const newFields: ViewField[] = changes['fields'].currentValue;
+      this.customFilterFields = newFields.filter(f => f.CustomFilterStrategy && f.DataType !== DataViewFieldDataType.Bit);
+      this.bitFields = newFields.filter(f => f.DataType === DataViewFieldDataType.Bit);
+      this.simpleFields = newFields.filter(f => f.DataType !== DataViewFieldDataType.Bit && !f.CustomFilterStrategy);
+    }
+  }
 
   closeSidebar() {
     this.close.emit();
