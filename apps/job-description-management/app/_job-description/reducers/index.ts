@@ -280,6 +280,11 @@ export const getCompanyJobsJobDescriptionTemplateIdSavingError = createSelector(
   fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingError
 );
 
+export const getCompanyJobsJobDescriptionTemplateIdSavingErrorMessage = createSelector(
+  selectJobDescriptionListState,
+  fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingErrorMessage
+);
+
 export const getCompanyJobsJobDescriptionTemplateIdSavingSuccess = createSelector(
   selectJobDescriptionListState,
   fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingSuccess
