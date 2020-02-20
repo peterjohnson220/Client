@@ -20,7 +20,8 @@ import {
   OutboundTransferSchedulePageComponent,
   OutboundFieldMappingPageComponent,
   OutboundEntitySelectionPageComponent,
-  OutboundAuthenticationPageComponent
+  OutboundAuthenticationPageComponent,
+  OutboundJdmViewSelectionPageComponent
 } from './containers';
 
 const routes: Routes = [
@@ -90,6 +91,10 @@ const routes: Routes = [
               {
                 path: 'transfer-schedule',
                 component: OutboundTransferSchedulePageComponent
+              },
+              {
+                path: 'jdm-view-selection',
+                component: OutboundJdmViewSelectionPageComponent
               }
             ]
           }

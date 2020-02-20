@@ -1,13 +1,12 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { OrgDataEntityType } from 'libs/constants';
-
-import { CredentialsPackage } from 'libs/models';
+import { AsyncStateObjHelper } from 'libs/core';
+import { AsyncStateObj, CredentialsPackage, generateDefaultAsyncStateObj } from 'libs/models';
 
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import { TransferDataWorkflowStep } from '../data';
-import { EntityTypeModel, Provider, TransferMethod } from '../models';
+import { EntityTypeModel, JdmView, Provider, TransferMethod } from '../models';
 
 export interface State {
   loading: boolean;
@@ -26,6 +25,7 @@ export interface State {
   outboundSelectedTransferMethod: number;
   outboundTransferMethods: TransferMethod[];
   outboundWorkflowStep: TransferDataWorkflowStep;
+  outboundJdmViews: AsyncStateObj<JdmView[]>;
 }
 
 export const initialState: State = {
@@ -40,11 +40,13 @@ export const initialState: State = {
   showAuthenticationModal: false,
   selectedEntities: [],
   activeConnection: null,
+  // TODO: outbound stuff for sales demo, should be cleaned up when handling actual outbound integration
   outboundProviders: null,
   outboundSelectedProvider: null,
   outboundSelectedTransferMethod: null,
   outboundTransferMethods: null,
-  outboundWorkflowStep: null
+  outboundWorkflowStep: null,
+  outboundJdmViews: generateDefaultAsyncStateObj<JdmView[]>([])
 };
 
 export function reducer(state: State = initialState, action: fromTransferDataPageActions.Actions) {
@@ -205,6 +207,25 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
         outboundWorkflowStep: null
       };
     }
+    case fromTransferDataPageActions.INIT_OUTBOUND_JDM_VIEW_SELECTION_PAGE:
+    case fromTransferDataPageActions.LOAD_OUTBOUND_JDM_VIEWS: {
+      return AsyncStateObjHelper.loading(state, 'outboundJdmViews');
+    }
+    case fromTransferDataPageActions.LOAD_OUTBOUND_JDM_VIEWS_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'outboundJdmViews', action.payload);
+    }
+    case fromTransferDataPageActions.LOAD_OUTBOUND_JDM_VIEWS_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'outboundJdmViews');
+    }
+    case fromTransferDataPageActions.UPDATE_OUTBOUND_JDM_VIEWS: {
+      return AsyncStateObjHelper.saving(state, 'outboundJdmViews', action.payload);
+    }
+    case fromTransferDataPageActions.UPDATE_OUTBOUND_JDM_VIEWS_ERROR: {
+      return AsyncStateObjHelper.savingError(state, 'outboundJdmViews');
+    }
+    case fromTransferDataPageActions.UPDATE_OUTBOUND_JDM_VIEWS_SUCCESS: {
+      return AsyncStateObjHelper.savingSuccess(state, 'outboundJdmViews', state.outboundJdmViews.obj);
+    }
     default:
       return state;
   }
@@ -221,11 +242,12 @@ export const getWorkflowStep = (state: State) => state.workflowStep;
 export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
 export const getSelectedEntities = (state: State) => state.selectedEntities;
 export const getActiveConnection = (state: State) => state.activeConnection;
+
+// Outbound workflow
+// TODO: clean this up post sales demo release
 export const getOutboundProviders = (state: State) => state.outboundProviders;
 export const getOutboundSelectedProvider = (state: State) => state.outboundSelectedProvider;
 export const getOutboundSelectedTransferMethod = (state: State) => state.outboundSelectedTransferMethod;
 export const getOutboundTransferMethods = (state: State) => state.outboundTransferMethods;
 export const getOutboundWorkflowStep = (state: State) => state.outboundWorkflowStep;
-
-
-
+export const getOutboundJdmViews = (state: State) => state.outboundJdmViews;
