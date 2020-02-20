@@ -31,7 +31,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   globalFilterTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'CompanyJobs_Structures_Structure_Name'
+    field: 'CompanyJobs_Structures_Structure_Search'
   }];
   gridFieldSubscription: Subscription;
   companyPayMarketSubscription: Subscription;
