@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
 
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { Permissions } from 'libs/constants';
 
 import * as fromJobsPageReducer from '../../reducers';
 import * as fromJobDescriptionActions from '../../actions';
@@ -26,6 +27,7 @@ export class JobDescriptionComponent implements OnInit, OnChanges, OnDestroy {
   updatedJobDescription: string = null;
   jobDescriptionId: number;
   jobDescriptionIdSubscription: Subscription;
+  permissions: Permissions;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.jobDescriptionManagementEnabled$ = store.select(fromJobsPageReducer.getJobDescriptionManagementEnabled);
