@@ -27,7 +27,7 @@ export class JobDescriptionComponent implements OnInit, OnChanges, OnDestroy {
   updatedJobDescription: string = null;
   jobDescriptionId: number;
   jobDescriptionIdSubscription: Subscription;
-  permissions: Permissions;
+  permissions = Permissions;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.jobDescriptionManagementEnabled$ = store.select(fromJobsPageReducer.getJobDescriptionManagementEnabled);
