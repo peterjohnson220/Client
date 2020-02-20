@@ -72,7 +72,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
       'PayMarket': { Template: this.payMarketFilter }
     };
     this.colTemplates = {
-      'Structure_Name': { Template: this.nameColumn },
+      'Structure_Search': { Template: this.nameColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
