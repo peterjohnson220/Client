@@ -46,9 +46,9 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     this.providerFieldsSubscription = this.providerFields$
     .subscribe(v => {
       if (v) {
-        this.providerFields = v[this.entityType];
+        this.providerFields = orderBy(v[this.entityType], [field => field.DisplayName.toLocaleLowerCase()], ['asc']);
         this.filteredProviderFields = this.providerFields.filter( pf =>
-          pf.FieldName.toLocaleLowerCase().includes(this.providerSearchTerm) && !pf.HasAssociation
+          pf.DisplayName.toLocaleLowerCase().includes(this.providerSearchTerm) && !pf.HasAssociation
         );
       }
     });
@@ -56,9 +56,16 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     this.payfactorFieldsSubscription = this.payfactorFields$
     .subscribe(v => {
       if (v) {
-        this.payfactorsFields = orderBy(v[this.entityType], ['IsRequired', 'FieldName'], ['desc', 'asc']);
+        this.payfactorsFields = orderBy(
+          v[this.entityType],
+          [
+            firstSortField => firstSortField.IsRequired,
+            secondSortField => secondSortField.DisplayName.toLocaleLowerCase()
+          ],
+          ['desc', 'asc']
+        );
         this.filteredPayfactorsFields = this.payfactorsFields.filter( pf =>
-          pf.FieldName.toLocaleLowerCase().includes(this.payfactorsSearchTerm.toLocaleLowerCase())
+          pf.DisplayName.toLocaleLowerCase().includes(this.payfactorsSearchTerm.toLocaleLowerCase())
         );
       }
     });
@@ -99,14 +106,14 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     if (type === 'provider' && this.providerFields && this.providerFields.length) {
       this.providerSearchTerm = searchTerm.toLocaleLowerCase();
       this.filteredProviderFields = this.providerFields.filter( pf =>
-        pf.FieldName.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) && !pf.HasAssociation
+        pf.DisplayName.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) && !pf.HasAssociation
       );
     }
 
     if (type === 'payfactors' && this.payfactorsFields && this.payfactorsFields.length) {
       this.payfactorsSearchTerm = searchTerm.toLocaleLowerCase();
       this.filteredPayfactorsFields = this.payfactorsFields.filter( pf =>
-        pf.FieldName.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+        pf.DisplayName.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
       );
     }
   }

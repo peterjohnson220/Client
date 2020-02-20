@@ -29,8 +29,8 @@ export class ResetIntegrationPageComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromDataManagementMainReducer.State>,
               private router: Router) {
     this.activeConnection$ = this.store.select(fromDataManagementMainReducer.getHrisActiveConnection);
-    this.loading$ = this.store.select(fromDataManagementMainReducer.getHrisActiveConnectionLoading);
-    this.loadingError$ = this.store.select(fromDataManagementMainReducer.getHrisActiveConnectionLoadingError);
+    this.loading$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoading);
+    this.loadingError$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoadingError);
     this.saving$ = this.store.select(fromDataManagementMainReducer.getHrisActiveConnectionSaving);
     this.savingError$ = this.store.select(fromDataManagementMainReducer.getHrisActiveConnectionSavingError);
     this.deleteCompleted$ = this.store.select(fromDataManagementMainReducer.getHrisActiveConnectionDeleteCompleted);

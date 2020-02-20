@@ -15,6 +15,6 @@ export class LoadTemplateListSuccess implements Action {
   constructor(public payload: TemplateListItem[]) {}
 }
 
-export type Actions
+export type TemplateListActions
  = LoadTemplateList
  | LoadTemplateListSuccess;

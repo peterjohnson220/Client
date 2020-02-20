@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromSearchPageActions from '../../actions/search-page.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
-import { Filter, MultiSelectOption } from '../../models';
 import * as fromSearchReducer from '../../reducers';
+import { Filter, MultiSelectOption, FilterType } from '../../models';
 
 @Component({
   selector: 'pf-single-filter',
@@ -20,16 +19,23 @@ export class SingleFilterComponent implements OnInit {
   loadingOptions$: Observable<boolean>;
   loadingOptionsError$: Observable<boolean>;
   searchValue$: Observable<string>;
+  filterTypes = FilterType;
+  subFilters$: Observable<Filter[]>;
+  childFilter$: Observable<Filter>;
+  childFilterParentOptionValue$: Observable<any>;
 
   constructor(
-    private store: Store<fromSearchReducer.State>,
+    protected store: Store<fromSearchReducer.State>,
   ) {
     this.singledFilter$ = this.store.select(fromSearchReducer.getSingledFilter);
     this.selectionCount$ = this.store.select(fromSearchReducer.getSingledFilterSelectionCount);
     this.loadingOptions$ = this.store.select(fromSearchReducer.getLoadingOptions);
     this.loadingOptionsError$ = this.store.select(fromSearchReducer.getLoadingOptionsError);
     this.searchValue$ = this.store.select(fromSearchReducer.getSingledFilterSearchValue);
-  }
+    this.subFilters$ = this.store.select(fromSearchReducer.getSubFilters);
+    this.childFilter$ = this.store.select(fromSearchReducer.getChildFilter);
+    this.childFilterParentOptionValue$ = this.store.select(fromSearchReducer.getChildFilterParentOptionValue);
+    }
 
   ngOnInit() {
     this.store.dispatch(new fromSingledFilterActions.SearchAggregation());

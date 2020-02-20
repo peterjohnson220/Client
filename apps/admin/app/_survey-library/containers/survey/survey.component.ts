@@ -135,7 +135,7 @@ export class SurveyComponent implements OnInit {
   deletePublishedMatches(item: any) {
     this.selectedItemMatchCount = item.PublishMatchCount;
     this.selectedSurveyId = item.SurveyId;
-    this.deleteSurvey(item.SurveyId, EnumSurveyDelete.PUBLISHED_MATCHES)
+    this.deleteSurvey(item.SurveyId, EnumSurveyDelete.PUBLISHED_MATCHES);
   }
 
   copySurvey(surveyId: number, company: string) {

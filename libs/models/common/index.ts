@@ -18,3 +18,4 @@ export * from './status.enum';
 export * from './control-type.model';
 export * from './control-type-attribute.model';
 export * from './simple-yes-no-modal-options';
+export * from './currency-dto.model';

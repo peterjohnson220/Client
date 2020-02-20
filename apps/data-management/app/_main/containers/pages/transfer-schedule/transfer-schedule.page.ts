@@ -1,9 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
-import {Observable, Subscription} from 'rxjs';
-import {filter, skip} from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, skip } from 'rxjs/operators';
 import { fill } from 'lodash';
+
 import {TransferScheduleSummary, SyncScheduleDtoModel} from 'libs/models/hris-api/sync-schedule';
 
 import { PayfactorsApiModelMapper } from '../../../helpers';
@@ -32,7 +34,9 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   wasEdited: boolean;
   shouldGoBack: boolean;
 
-  constructor(private store: Store<fromDataManagementMainReducer.State>) {
+  showIntegrationFinishedModal$: Observable<boolean>;
+
+  constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
     this.transferScheduleSummary$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummary);
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummarySaving$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummarySaving);
@@ -53,9 +57,10 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.restoreCompletedSubscription = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryRestoreCompleted)
       .pipe(filter(x => x === true)).subscribe(s => {
         if (this.shouldGoBack) {
-          console.log('go back to the mapping page from here');
+          this.router.navigate(['/', 'field-mapping']);
         }
       });
+    this.showIntegrationFinishedModal$ = this.store.select(fromDataManagementMainReducer.getShowSetupCompleteModal);
   }
 
   ngOnInit() {
@@ -71,6 +76,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     if (this.wasEdited) {
       this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
     }
+    this.router.navigate(['/']);
   }
 
   goBack() {
@@ -78,12 +84,17 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
       this.shouldGoBack = true;
       this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
     } else {
-      console.log('go back to the mapping page from here');
+      this.router.navigate(['/', 'field-mapping']);
     }
   }
 
   onFinish() {
+    this.store.dispatch(new fromTransferScheduleActions.ShowIntegrationSetupCompletedModal(true));
+  }
 
+  onOk() {
+    this.store.dispatch(new fromTransferScheduleActions.ShowIntegrationSetupCompletedModal(false));
+    this.router.navigate(['/']);
   }
 
   canFinish(): boolean {

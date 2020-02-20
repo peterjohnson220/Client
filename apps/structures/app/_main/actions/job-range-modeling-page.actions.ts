@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
+// import { StructureRangeGroupResponse } from 'libs/models/payfactors-api/structures';
 import { CompanyStructure } from 'libs/models/structures/company-structure.model';
 import { UpdateCompanyStructureRangeGroupNameDto } from 'libs/models/structures/update-company-structure-range-group-name-dto.model';
 
@@ -28,14 +28,14 @@ export class GetModelData implements Action {
 export class GetModelDataSuccess implements Action {
   readonly type = GET_MODEL_DATA_SUCCESS;
 
-  constructor(public payload: CompanyStructureRangeGroup) {
+  constructor(public payload: any) {
   }
 }
 
 export class SetCurrentModel implements Action {
   readonly type = SET_CURRENT_MODEL;
 
-  constructor(public payload: CompanyStructureRangeGroup) {
+  constructor(public payload: any) {
   }
 }
 
@@ -70,7 +70,7 @@ export class UpdateCurrentCompanyStructureRangeGroupName implements Action {
 export class UpdateCurrentCompanyStructureRangeGroupNameSuccess implements Action {
   readonly type = UPDATE_CURRENT_COMPANY_STRUCTURE_RANGE_GROUP_NAME_SUCCESS;
 
-  constructor(public payload: CompanyStructureRangeGroup) {
+  constructor(public payload: any) {
   }
 }
 

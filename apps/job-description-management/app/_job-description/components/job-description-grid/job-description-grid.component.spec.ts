@@ -10,6 +10,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromJobDescriptionReducers from '../../reducers';
 import { JobDescriptionGridComponent } from './job-description-grid.component';
 import { generateMockCompanyJobViewListItem } from '../../models';
+import { MomentModule } from 'angular2-moment';
 
 describe('Job Description Management - Job Description - Job Description Grid', () => {
   let instance: JobDescriptionGridComponent;
@@ -24,7 +25,8 @@ describe('Job Description Management - Job Description - Job Description Grid', 
         StoreModule.forRoot({
           ...fromRootState.reducers,
           jobdescriptonmanagement_jobdescription: combineReducers(fromJobDescriptionReducers.reducers),
-        })
+        }),
+        MomentModule
       ],
       declarations: [
         JobDescriptionGridComponent, NgbDropdown

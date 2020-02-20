@@ -14,6 +14,7 @@ export class WorkdayAuthenticationComponent implements OnInit {
 
   @Output() submitClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();
+  @Output() backClick = new EventEmitter();
 
   workdayForm: FormGroup;
   submitted = false;
@@ -39,6 +40,10 @@ export class WorkdayAuthenticationComponent implements OnInit {
   cancelAuthenticationClick() {
     this.workdayForm.reset();
     this.cancelClick.emit();
+  }
+
+  backBtnClick() {
+    this.backClick.emit();
   }
 
   initForm(): void {

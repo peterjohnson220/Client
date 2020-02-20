@@ -30,6 +30,7 @@ export class LoaderSettings implements ILoadSettings {
     isStructureMappingsLoadEnabled: boolean;
     isEmployeesFullReplace: boolean;
     isStructureMappingsFullReplace: boolean;
+    validateOnly: boolean;
 }
 
 export class OrgDataLoadHelper {
@@ -96,6 +97,12 @@ export class OrgDataLoadHelper {
             true,
             this.stringSettingToBooleanTransform,
         );
+      loadSettings.validateOnly = this.getLoaderSettingValueIfSet<boolean>(
+        response,
+        LoaderSettingsKeys.ValidateOnly,
+        false,
+        this.stringSettingToBooleanTransform
+      );
 
         return loadSettings;
     }
@@ -144,6 +151,11 @@ export class OrgDataLoadHelper {
           this.booleanSettingToStringTransform(newLoaderSettings.isStructureMappingsFullReplace),
           existingLoaderSettings
         ),
+        this.getSettingIfChanged(
+          LoaderSettingsKeys.ValidateOnly,
+          this.booleanSettingToStringTransform(newLoaderSettings.validateOnly),
+          existingLoaderSettings
+        )
       ].filter(setting => isObject(setting));
     }
 

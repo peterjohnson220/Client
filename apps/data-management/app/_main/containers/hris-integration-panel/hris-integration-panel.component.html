@@ -1,22 +1,32 @@
 <div class="card mb-3 shadow-sm p-3">
   <div class="card-body">
-    <h4 class="card-title">HRIS Integration</h4>
-
+    <h4 class="card-title" *ngIf="transferMethodType === inbound">HRIS Integration</h4>
+    <h4 class="card-title" *ngIf="transferMethodType === outboundJdm">Outbound Job Description Integration</h4>
+    <!-- TODO: When we support more statuses, this can probably live as its own component -->
+    <span *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')" class="position-absolute integration-status integration-status-good">
+      Authenticated <fa-icon icon="check-circle" class="good-icon"></fa-icon>
+    </span>
     <div class="row">
       <div class="col-sm-12 p-0">
-        <pf-hris-integration-status></pf-hris-integration-status>
+        <pf-hris-integration-status
+          [connectionSummary]="connectionSummary"
+          (onCreateNewIntegrationClicked)="createNewIntegration()"
+        ></pf-hris-integration-status>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="transferMethodType !== outboundJdm">
       <div class="col-sm-12">
         <pf-transfer-schedule-summary></pf-transfer-schedule-summary>
       </div>
     </div>
-    <!-- TODO: Show this when mappings can be saved -->
-    <div class="row p-top-2" *ngIf="false">
-      <div class="col-sm-12 text-right">
-        <a href="javascript:void(0);" class="btn btn-outline-primary">View Data Mapping</a>
-        <a href="javascript:void(0);" class="btn btn-outline-primary">Edit</a>
+    <div class="row pt-3">
+      <div class="col-sm-12 text-right" *ngIf="transferMethodType !== outboundJdm && connectionSummary?.canEditMappings">
+        <div class="p-2">
+          <button type="button" class="btn btn-outline-primary" routerLink="field-mapping">View Data Mapping</button>
+        </div>
+        <div class="p-2">
+          <button type="button" *ngIf="false" class="btn btn-outline-primary">Edit</button>
+        </div>
       </div>
     </div>
   </div>

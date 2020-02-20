@@ -5,15 +5,31 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
+import { DataImportApiService } from 'libs/data/payfactors-api/integration/data-import';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from 'libs/data/payfactors-api/organizational-data';
-import {DataImportApiService} from 'libs/data/payfactors-api/integration/data-import';
+import { ConfigurationGroup } from 'libs/models/data-loads';
 
 import * as fromOrganizationalDataActions from '../actions/organizational-data-page.action';
-import { ConfigurationGroup } from '../models';
-import * as fromOrgDataFieldMappingsActions from '../actions/organizational-data-field-mapping.actions';
 
 @Injectable()
 export class OrganizationalDataPageEffects {
+
+
+  @Effect()
+  downloadOrgData$: Observable<Action> = this.actions$.pipe(
+    ofType(fromOrganizationalDataActions.PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA),
+    switchMap((action: fromOrganizationalDataActions.PublishDownloadOrgDataMessage) =>
+      this.organizationalDataApiService.downloadOrganizationalData(action.companyId).pipe(
+        map(() => {
+          return new fromOrganizationalDataActions.PublishDownloadOrgDataMessageSuccess(true);
+        }),
+        // API exceptions are handled via the API and send failure toast notifications so this
+        // should not be necessary, leaving for completeness if something needs it in the future
+        catchError(error => of(new fromOrganizationalDataActions.PublishDownloadOrgDataMessageError()))
+      )
+    )
+  );
+
   @Effect()
   getOrganizationalHeadersLink$: Observable<Action> = this.actions$.pipe(
     ofType(fromOrganizationalDataActions.GET_ORGANIZATIONAL_HEADERS_LINK),
@@ -29,13 +45,13 @@ export class OrganizationalDataPageEffects {
 
   @Effect()
   getConfigurationGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(fromOrganizationalDataActions.GET_CONFIGURATION_GROUP),
-    switchMap((action: fromOrganizationalDataActions.GetConfigGroup) =>
-      this.configurationGroupApiService.getConfigurationGroup(action.companyId).pipe(
-        map((configGroup: ConfigurationGroup) => {
-          return new fromOrganizationalDataActions.GetConfigGroupSuccess(configGroup);
+    ofType(fromOrganizationalDataActions.GET_CONFIGURATION_GROUPS),
+    switchMap((action: fromOrganizationalDataActions.GetConfigGroups) =>
+      this.configurationGroupApiService.getConfigurationGroups(action.companyId, action.loadType).pipe(
+        map((configGroups: ConfigurationGroup[]) => {
+          return new fromOrganizationalDataActions.GetConfigGroupsSuccess(configGroups);
         }),
-        catchError(error => of(new fromOrganizationalDataActions.GetConfigGroupFailed()))
+        catchError(error => of(new fromOrganizationalDataActions.GetConfigGroupsFailed()))
       )
     )
   );

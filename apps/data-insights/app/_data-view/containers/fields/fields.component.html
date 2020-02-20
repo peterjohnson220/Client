@@ -1,0 +1,38 @@
+<ng-container *ngIf="!viewAllFields; else viewAllFieldsTemplate">
+  <div class="actions">
+    <pf-add-report-fields
+      (fieldAdded)="handleFieldAdded($event)"
+      [fields]="(allFieldsAsync$ | async)?.obj">
+    </pf-add-report-fields>
+  </div>
+  <div class="d-flex flex-column">
+    <div class="second-actions-bar">
+      <button class="btn view-all-fields-btn configure-action-btn"
+        [attr.data-qa-id]="'btn-view-all-fields'"
+        (click)="toggleViewAllFields()">
+        <span class="btn-title">Browse All Fields</span>
+      </button>
+    </div>
+  
+    <div *ngIf="!!selectedFields" class="fields-container">
+      <div perfectScrollbar class="fields" dragula="fields-bag" [(dragulaModel)]="selectedFields">
+        <pf-report-field *ngFor="let field of selectedFields; trackBy: trackByFn;"
+          [field]="field"
+          [removable]="selectedFields.length > 1"
+          (fieldRemoved)="handleFieldRemoved($event)"
+          (displayNameUpdated)="handleDisplayNameUpdated(field, $event)">
+        </pf-report-field>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #viewAllFieldsTemplate>
+  <pf-view-all-fields
+    [fields]="(allFieldsAsync$ | async)?.obj"
+    [removable]="selectedFields.length > 1"
+    (backButtonClicked)="toggleViewAllFields()"
+    (fieldAdded)="handleFieldAdded($event)"
+    (fieldRemoved)="handleFieldRemoved($event)">
+  </pf-view-all-fields>
+</ng-template>

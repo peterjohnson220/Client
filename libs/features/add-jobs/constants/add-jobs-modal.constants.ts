@@ -1,0 +1,6 @@
+export enum ADD_JOB_PAGE {
+  DEFAULT,
+  ADD_JOBS,
+  SEARCH,
+  MODEL_SETTINGS
+}

@@ -20,6 +20,8 @@ export class CreateCompanyJob implements Action {
 
 export class CreateCompanyJobError implements Action {
   readonly type = CREATE_COMPANY_JOB_ERROR;
+
+  constructor(public payload: any) {}
 }
 
 export class CreateCompanyJobSuccess implements Action {
@@ -45,7 +47,7 @@ export class LoadCompanyJobUdfColumnsSuccess implements Action {
 export class SetDuplicateCompanyJobMessage implements Action {
   readonly type = SET_DUPLICATE_COMPANY_JOB_MESSAGE;
 
-  constructor(public payload: string) {}
+  constructor(public payload: {errorMessage: string}) {}
 }
 
 export class UpdateCompanyJob implements Action {

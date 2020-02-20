@@ -1,8 +1,8 @@
-<ng-template #addJobModal let-c="close" let-d="dismiss">
+<ng-template #addJobModal let-modal>
   <form [formGroup]="addJobForm" (ngSubmit)="submit()">
     <div class="modal-header">
       <h4 class="modal-title">Add Job</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -13,22 +13,22 @@
             <div class="standard-fields">
               <div class="form-group row pt-3">
                 <label class="col-2 col-form-label">Job Code:</label>
-                <div class="col-4" [class.has-danger]="!addJobForm.controls['JobCode'].pristine && (addJobForm.controls['JobCode'].invalid || companyJobMessage)">
+                <div class="col-4" [class.has-danger]="!addJobForm.controls['JobCode'].pristine && (addJobForm.controls['JobCode'].invalid || duplicateJobCodeErrorMessage)">
                   <input type="text" class="form-control"
                          formControlName="JobCode"
                          (keydown)="handleJobCodeChanged()">
-                  <span *ngIf="!addJobForm.controls['JobCode'].pristine && addJobForm.controls['JobCode'].hasError('required')" class="text-danger float-right">Required</span>
-                  <span *ngIf="!addJobForm.controls['JobCode'].pristine && addJobForm.controls['JobCode'].hasError('maxlength')" class="text-danger float-right">
+                  <span *ngIf="!addJobForm.controls['JobCode'].pristine && addJobForm.controls['JobCode'].hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
+                  <span *ngIf="!addJobForm.controls['JobCode'].pristine && addJobForm.controls['JobCode'].hasError('maxlength')" class="text-danger d-flex justify-content-end">
 	                            		Exceeds {{addJobForm.controls.JobCode.errors.maxlength.requiredLength}} characters:
                     {{addJobForm.controls.JobCode.errors.maxlength.actualLength}}
 	                    			</span>
-                  <span *ngIf="!addJobForm.controls['JobCode'].pristine" class="text-danger float-right">{{ companyJobMessage }}</span>
+                  <span *ngIf="!addJobForm.controls['JobCode'].pristine" class="text-danger d-flex justify-content-end">{{ duplicateJobCodeErrorMessage }}</span>
                 </div>
                 <label class="col-2 col-form-label">Job Title:</label>
                 <div class="col-4" [class.has-danger]="!addJobForm.controls['JobTitle'].pristine && (addJobForm.controls['JobTitle'].invalid)">
                   <input type="text" class="form-control" formControlName="JobTitle">
-                  <span *ngIf="!addJobForm.controls['JobTitle'].pristine && addJobForm.controls['JobTitle'].hasError('required')" class="text-danger float-right">Required</span>
-                  <span *ngIf="!addJobForm.controls['JobTitle'].pristine && addJobForm.controls['JobTitle'].hasError('maxlength')" class="text-danger float-right">
+                  <span *ngIf="!addJobForm.controls['JobTitle'].pristine && addJobForm.controls['JobTitle'].hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
+                  <span *ngIf="!addJobForm.controls['JobTitle'].pristine && addJobForm.controls['JobTitle'].hasError('maxlength')" class="text-danger d-flex justify-content-end">
 	                            		Exceeds {{addJobForm.controls.JobTitle.errors.maxlength.requiredLength}} characters:
                     {{addJobForm.controls.JobTitle.errors.maxlength.actualLength}}
 	                    			</span>
@@ -47,7 +47,7 @@
                 <label class="col-2 col-form-label">Level:</label>
                 <div class="col-4">
                   <input type="text" class="form-control" formControlName="JobLevel">
-                  <span *ngIf="!addJobForm.controls['JobLevel'].pristine && addJobForm.controls['JobLevel'].hasError('maxlength')" class="text-danger float-right">
+                  <span *ngIf="!addJobForm.controls['JobLevel'].pristine && addJobForm.controls['JobLevel'].hasError('maxlength')" class="text-danger d-flex justify-content-end">
 	                            		Exceeds {{addJobForm.controls.JobLevel.errors.maxlength.requiredLength}} characters:
                     {{addJobForm.controls.JobLevel.errors.maxlength.actualLength}}
 	                    			</span>
@@ -78,6 +78,26 @@
                                   [valuePrimitive]="true">
                   </kendo-combobox>
                 </div>
+                <ng-container *ngIf="canRestrictJobDescriptionFromPublicView">
+                  <label class="col-2 col-form-label">Public View:</label>
+                  <div class="col-4">
+                      <div [ngClass]="{'public-view-tooltip' : !addAndAssign }">
+                          <kendo-dropdownlist
+                            [data]="publicViewOptions"
+                            [textField]="'display'"
+                            [valueField]="'value'"
+                            [valuePrimitive]="true"
+                            [value]="publicViewSelectedValue"
+                            [style.width]="'100%'"
+                            (valueChange)="valueChange($event)"
+                            [disabled]="!addAndAssign" >
+                          </kendo-dropdownlist>
+                          <span class="tooltiptext">Please select a template to set the Public View option.</span>
+                      </div>
+                  </div>
+
+
+                </ng-container>
               </div>
             </div>
           </ng-template>
@@ -119,11 +139,24 @@
       </ngb-tabset>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+      <span *ngIf="(companyJobSaveError$ | async)" class="text-danger d-flex justify-content-end">{{ companyJobErrorMessage }}</span>
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
       <button type="submit" [disabled]="!addJobForm.valid" class="btn btn-primary">
-        <div *ngIf="!addAndAssign">Add</div>
-        <div *ngIf="addAndAssign">Add & Assign</div>
+        <div *ngIf="!addAndAssign">
+          <span *ngIf="(companyJobCreating$ | async)">
+            <pf-loading-indicator></pf-loading-indicator> Adding...
+          </span>
+          <span *ngIf="!(companyJobCreating$ | async)">Add</span>
+        </div>
+        <div *ngIf="addAndAssign">
+          <span *ngIf="(companyJobCreating$ | async)">
+            <pf-loading-indicator></pf-loading-indicator> Adding & Assigning...
+          </span>
+          <span *ngIf="!(companyJobCreating$ | async)">Add & Assign</span>
+        </div>
       </button>
     </div>
   </form>
 </ng-template>
+
+

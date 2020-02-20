@@ -51,16 +51,6 @@ describe('Job Description Management - Job Description - Add Job Modal', () => {
     modal = TestBed.get(NgbModal);
   });
 
-  it('should dispatch SetDuplicateCompanyJobMessage, when calling handleJobCodeChanged', () => {
-    spyOn(store, 'dispatch');
-
-    instance.handleJobCodeChanged();
-
-    const expectedAction = new fromAddJobModalActions.SetDuplicateCompanyJobMessage('');
-
-    expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
-  });
-
   it('should set addAndAssign to false, when calling handleTemplateChanged with value equal to -1', () => {
     instance.addAndAssign = true;
 
@@ -88,12 +78,11 @@ describe('Job Description Management - Job Description - Add Job Modal', () => {
     instance.open();
 
     const expectedFirstAction = new fromTemplateListActions.LoadTemplateList({ publishedOnly: true });
-    const expectedSecondAction = new fromAddJobModalActions.SetDuplicateCompanyJobMessage('');
 
     expect(instance.addAndAssign).toEqual(false);
     expect(instance.addJobForm.patchValue).toHaveBeenLastCalledWith({ CompanyId: 99, JobStatus: true });
     expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedFirstAction);
-    expect(store.dispatch).toHaveBeenNthCalledWith(2, expectedSecondAction);
     expect(modal.open).toHaveBeenLastCalledWith(instance.addJobModal, { backdrop: 'static', size: 'lg' });
   });
+
 });

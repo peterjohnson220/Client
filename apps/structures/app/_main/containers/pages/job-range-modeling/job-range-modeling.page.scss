@@ -39,8 +39,6 @@
   align-items: center;
 }
 
-::ng-deep .modal-content {
-  height: 90%;
-  min-width: 1000px;
-  min-height: 492px;
+.flex-right-justify {
+  justify-content: flex-end;
 }

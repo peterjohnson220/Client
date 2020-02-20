@@ -1,13 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import {Filter, FilterType, MultiSelectOption} from '../../models';
 
 import * as fromSearchPageActions from '../../actions/search-page.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import * as fromSearchReducer from '../../reducers';
-import { Filter, FilterType, MultiSelectOption } from '../../models';
 
 @Component({
   selector: 'pf-search-filters',
@@ -20,8 +19,11 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   @Input() defaultFocusedFilterId: string;
 
   filters$: Observable<Filter[]>;
+  subFilters$: Observable<Filter[]>;
   pageShown$: Observable<boolean>;
   filterSearchVisible$: Observable<boolean>;
+  childFilter$: Observable<Filter>;
+  childFilterParentOptionValue$: Observable<any>;
   pageShowSub: Subscription;
   filterTypes = FilterType;
   focusedFilter: string;
@@ -30,9 +32,12 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     private store: Store<fromSearchReducer.State>,
     private changeDetector: ChangeDetectorRef
   ) {
-    this.filters$ = this.store.select(fromSearchReducer.getFilters);
+    this.filters$ = this.store.select(fromSearchReducer.getParentFilters);
+    this.subFilters$ = this.store.select(fromSearchReducer.getSubFilters);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.filterSearchVisible$ = this.store.select(fromSearchReducer.getSearchingFilter);
+    this.childFilter$ = this.store.select(fromSearchReducer.getChildFilter);
+    this.childFilterParentOptionValue$ = this.store.select(fromSearchReducer.getChildFilterParentOptionValue);
   }
 
   shouldFocus(filter: Filter) {

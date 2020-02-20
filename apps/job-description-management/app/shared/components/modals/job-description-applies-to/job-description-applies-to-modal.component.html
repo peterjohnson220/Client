@@ -1,8 +1,8 @@
-<ng-template #jobDescriptionAppliesToModal let-c="close" let-d="dismiss">
+<ng-template #jobDescriptionAppliesToModal let-modal>
   <form [formGroup]="appliesToform" (ngSubmit)="submit()">
     <div class="modal-header">
       <h4 class="modal-title">{{ this.editing ? 'Update Job Description' : 'Create New Job Description' }}</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -74,6 +74,20 @@
 	             	</span>
         </div>
       </div>
+      <div class="form-group row" [pfSecuredResource]="permissions.CAN_RESTRICT_JOB_DESCRIPTIONS_FROM_THE_PUBLIC_VIEW">
+        <label class="col-4 col-form-label">Public View:</label>
+        <div class="col-8">
+          <span>
+            <kendo-dropdownlist class="form-control" formControlName="publicView"
+              [data]="publicViewOptions"
+              [textField]="'display'"
+              [valueField]="'value'"
+              [valuePrimitive]="true"
+              [style.width]="'100%'">
+            </kendo-dropdownlist>
+          </span>
+        </div>
+      </div>
       <div *ngIf="appliesToform.invalid">
 				<span *ngIf="!requiredFieldsFilledIn" class="text-danger">
             	Please enter either Job Description Title or Applies To Values
@@ -87,9 +101,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-      <button type="submit" [disabled]="appliesToform.invalid " class="btn btn-primary">{{ this.editing ? 'Save' : 'Create' }}</button>
-
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
+      <button type="submit" [disabled]="appliesToform.invalid" class="btn btn-primary">{{ this.editing ? 'Save' : 'Create' }}</button>
     </div>
   </form>
 </ng-template>

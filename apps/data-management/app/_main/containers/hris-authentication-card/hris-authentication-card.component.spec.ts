@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { Router } from '@angular/router';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
@@ -23,6 +24,12 @@ describe('Data Management - Main - Hris Authentication Card', () => {
           ...fromRootState.reducers,
           transferDataMain: combineReducers(fromDataManagementMainReducer.reducers),
         })
+      ],
+      providers: [
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() },
+        }
       ],
       declarations: [
         HrisAuthenticationCardComponent

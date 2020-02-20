@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { FormulaCardComponent } from './formula-card.component';
-import { generateMockField } from '../../../_main/models';
+import { generateMockField } from '../../models';
 
 describe('FormulaCardComponent', () => {
   let instance: FormulaCardComponent;
@@ -26,5 +26,14 @@ describe('FormulaCardComponent', () => {
     instance.handleEditFormulaClick(field);
 
     expect(instance.editFormulaClicked.emit).toHaveBeenCalledWith(field);
+  });
+
+  it('should emit deleteFormulaClick when handling delete formula', () => {
+    const field = generateMockField();
+    spyOn(instance.deleteClicked, 'emit');
+
+    instance.handleDeleteFormulaClick(field);
+
+    expect(instance.deleteClicked.emit).toHaveBeenCalledWith(field);
   });
 });

@@ -1,0 +1,134 @@
+<ng-template #assignModal>
+  <div class="modal-header">
+      <h4 class="modal-title">Assign Template ({{(template$ | async).TemplateName}}) to Jobs</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <div id="template-info-header">
+        <div class="alert alert-danger" role="alert" *ngIf="(companyJobsWithNoTemplateError$ | async)">
+            {{companyJobsWithNoTemplateErrorMessage$ | async}}
+        </div>
+        <div class="alert alert-danger" role="alert" *ngIf="(companyJobsWithTemplateError$ | async)" >
+            {{companyJobsWithTemplateErrorMessage$ | async}}
+        </div>
+        <div class="alert alert-danger" role="alert" *ngIf="(jobFamiliesLoadingError$ | async)" >
+            {{jobFamiliesLoadingErrorMessage$ | async}}
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <label>Job Family: </label>
+                    <select (change)="getCollectionOfJobsWithFamily($event.target.value)" [(ngModel)]="selectedFamily" class="form-control" id="job-family-dropdown">
+                            <option value="">All jobs, all families</option>
+                            <option *ngFor="let family of (jobFamilies$ | async)" [value]="family">{{family}}</option>
+                        </select>
+                </td>
+                <td>
+                    <pf-input-debounce id="search-box" [placeholderText]="'Search for a Job Code or Title...'" (valueChanged)="filterJobList($event)"></pf-input-debounce>
+                </td>
+            </tr>
+        </table>
+      </div>
+      <ngb-tabset (tabChange)="setActiveTab($event.nextId)">
+          <ngb-tab id="Assign" title="Assign">
+              <ng-template ngbTabContent>
+                  <div class="assign-modal-content">
+                      <div *ngIf="(companyJobsWithNoTemplate$ | async | companyJobSearch: searchTerm)?.length && !(companyJobsWithNoTemplateLoading$ | async)">   
+                          <div id="job-list" class="table-responsive">
+                              <table class="table">
+                                  <thead>
+                                      <tr>
+                                          <th class="select-all-box"><input type="checkbox" (change)="selectAll(assignTabSelectAll.checked)" [checked]="assignTabSelectAllStatus"
+                                                  #assignTabSelectAll /></th>
+                                          <th class="assign-tab-header-row">Job Code</th>
+                                          <th class="assign-tab-header-row">Job Title</th>
+                                          <th class="assign-tab-header-row">Job Family</th>
+                                          <th class="assign-tab-header-row">Template Name</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr *ngFor="let companyJob of (companyJobsWithNoTemplate$ | async) | companyJobSearch: searchTerm">
+                                          <td><input type="checkbox" *ngIf="!companyJob.CompanyJobDescriptionTemplateId" [value]="companyJob.CompanyJobId"
+                                                  (change)="selectCompanyJob(companyJob.CompanyJobId)" [checked]="(selectedCompanyJobIdsWithNoTemplate$ | async).indexOf(companyJob.CompanyJobId) > -1"
+                                              /></td>
+                                          <td>{{companyJob.JobCode}}</td>
+                                          <td>{{companyJob.JobTitle}}</td>
+                                          <td>{{companyJob.JobFamily}}</td>
+                                          <td>{{companyJob.TemplateName}}</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                      <div *ngIf="(companyJobsWithNoTemplateLoading$ | async)">
+                          <h5>
+                              <pf-loading-indicator [message]="'Loading Jobs...'"></pf-loading-indicator>
+                          </h5>
+                      </div>
+                      <div *ngIf="!(companyJobsWithNoTemplate$ | async | companyJobSearch: searchTerm)?.length && !(companyJobsWithNoTemplateLoading$ | async)">
+                          <h5>No Jobs</h5>
+                      </div>
+                  </div>
+              </ng-template>
+          </ngb-tab>
+          <ngb-tab id="Unassign">
+              <ng-template ngbTabTitle>Unassign ({{(companyJobsWithTemplate$ | async | companyJobSearch: searchTerm).length}})</ng-template>
+              <ng-template ngbTabContent>
+                  <div class="assign-modal-content">
+                      <div *ngIf="templateAssignmentSummary.AssignedJobsInReview" class="alert alert-info" role="alert">
+                          <i class="fas fa-info-circle" aria-hidden="true"></i>
+                          {{templateAssignmentSummary.AssignedJobsInReview}} job(s) associated to this template are In Review. Those jobs are hidden from this view and unable to be unassigned.
+                      </div>
+                      <div *ngIf="(companyJobsWithTemplate$ | async | companyJobSearch: searchTerm)?.length && !(companyJobsWithTemplateLoading$ | async)">
+                          <div id="job-list" class="table-responsive">
+                              <table class="table">
+                                  <thead>
+                                      <tr>
+                                          <th class="select-all-box"><input type="checkbox" #unassignTabSelectAll (change)="selectAll(unassignTabSelectAll.checked)"
+                                                  [checked]="unassignTabSelectAllStatus" /></th>
+                                          <th class="unassign-tab-header-row">Job Code</th>
+                                          <th class="unassign-tab-header-row">Job Title</th>
+                                          <th class="unassign-tab-header-row">Job Family</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr *ngFor="let companyJob of (companyJobsWithTemplate$ | async) | companyJobSearch: searchTerm">
+                                          <td><input type="checkbox" [value]="companyJob.CompanyJobId" (change)="selectCompanyJob(companyJob.CompanyJobId)"
+                                                  [checked]="(selectedCompanyJobIdsWithTemplate$ | async).indexOf(companyJob.CompanyJobId) > -1"
+                                              /></td>
+                                          <td>{{companyJob.JobCode}}</td>
+                                          <td>{{companyJob.JobTitle}}</td>
+                                          <td>{{companyJob.JobFamily}}</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                      <div *ngIf="(companyJobsWithTemplateLoading$ | async)">
+                          <h5>
+                              <pf-loading-indicator [message]="'Loading Jobs...'"></pf-loading-indicator>
+                          </h5>
+                      </div>
+                      <div *ngIf="!(companyJobsWithTemplate$ | async | companyJobSearch: searchTerm)?.length && !(companyJobsWithTemplateLoading$ | async)">
+                          <h5>No Jobs</h5>
+                      </div>
+                  </div>
+              </ng-template>
+          </ngb-tab>
+      </ngb-tabset>
+  </div>
+  <div class="modal-footer">
+    <span *ngIf="(saveError$ | async)" class="text-danger d-flex k-justify-content-start">{{(saveErrorMessage$ | async)}}</span>
+    <span id="assignSummary" *ngIf="(selectedCompanyJobIdsWithNoTemplate$ | async).length">{{(selectedCompanyJobIdsWithNoTemplate$ | async).length}} Jobs to be assigned.</span>
+    <span id="unassignSummary" *ngIf="(selectedCompanyJobIdsWithTemplate$ | async).length">{{(selectedCompanyJobIdsWithTemplate$ | async).length}} Jobs to be unassigned.</span>
+    <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+    <button class="btn btn-primary details-action-btn" 
+        [disabled]="(saving$ | async) || (saveError$ | async) || (companyJobsWithNoTemplateError$ | async) || (companyJobsWithTemplateError$ | async)" 
+        (click)="saveTemplateJobAssignments()">
+    <span *ngIf="(saving$ | async)"><pf-loading-indicator></pf-loading-indicator> Saving...</span>
+    <span *ngIf="!(saving$ | async)">Save</span>
+    </button>
+  </div>
+</ng-template>

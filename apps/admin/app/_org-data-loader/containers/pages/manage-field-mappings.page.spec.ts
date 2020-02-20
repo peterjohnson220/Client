@@ -12,7 +12,7 @@ import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
 import { LoaderEntityStatus } from 'libs/features/org-data-loader/models';
-import { MappingModel } from 'libs/models/data-loads';
+import { generateMockConfigurationGroup, MappingModel } from 'libs/models/data-loads';
 
 
 import * as fromOrgDataLoaderReducer from '../../reducers';
@@ -412,9 +412,11 @@ describe('ManageFieldMapperPageComponent', () => {
   it('should call SavingFieldMappings action when SaveMappings has been called', () => {
     component.mappings = [{ LoaderType: 'Employees', Mappings: ['Base__Salary'] }];
     component.selectedCompany = 13;
+    component.selectedConfigGroup = generateMockConfigurationGroup();
     const expectedPayload = {
       mappings: component.mappings,
-      companyId: component.selectedCompany
+      companyId: component.selectedCompany,
+      loaderConfigurationGroupId: 1
     };
 
     spyOn(fromOrgDataFieldMappingsActions, 'SavingFieldMappings');
@@ -449,14 +451,20 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '|';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = true;
       component.selectedCompany = 13;
+      component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
-      const expectedPayload = { settings: [{ LoaderSettingId: undefined, KeyName: 'Delimiter', KeyValue: '|' }], companyId: 13 };
+      const expectedPayload = {
+        settings: [{ LoaderSettingId: undefined, KeyName: 'Delimiter', KeyValue: '|' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
       component.SaveMappings();
@@ -475,15 +483,17 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
-        { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 10, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '|';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = true;
       component.selectedCompany = 13;
+      component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
-      const expectedPayload = { settings: [{ LoaderSettingId: undefined, KeyName: 'Delimiter', KeyValue: '|' }], companyId: 13 };
+      const expectedPayload = { settings: [{ LoaderSettingId: undefined, KeyName: 'Delimiter', KeyValue: '|' }], companyId: 13, loaderConfigurationGroupId: 1 };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
       component.SaveMappings();
@@ -502,15 +512,20 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.dateFormat = 'MM/dd/yyyy';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = true;
       component.selectedCompany = 13;
+      component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
-      const expectedPayload = { settings: [{ LoaderSettingId: undefined, KeyName: 'DateFormat', KeyValue: 'MM/dd/yyyy' }], companyId: 13 };
+      const expectedPayload = {
+        settings: [{ LoaderSettingId: undefined, KeyName: 'DateFormat', KeyValue: 'MM/dd/yyyy' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1 };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
       component.SaveMappings();
@@ -530,15 +545,20 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 7, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 9, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 10, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.dateFormat = 'MM/dd/yyyy';
       component.delimiter = '';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = true;
       component.selectedCompany = 13;
+      component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
-      const expectedPayload = { settings: [{ LoaderSettingId: undefined, KeyName: 'DateFormat', KeyValue: 'MM/dd/yyyy' }], companyId: 13 };
+      const expectedPayload = {
+        settings: [{ LoaderSettingId: undefined, KeyName: 'DateFormat', KeyValue: 'MM/dd/yyyy' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1};
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
       component.SaveMappings();
@@ -557,16 +577,19 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isEmployeesFullReplace = false;
       component.isStructureMappingsFullReplace = true;
       component.selectedCompany = 13;
+      component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
       const expectedPayload = {
         settings: [{ LoaderSettingId: undefined, KeyName: 'IsEmployeesFullReplace', KeyValue: 'false' }],
-        companyId: 13
+        companyId: 13,
+        loaderConfigurationGroupId: 1
       };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
@@ -586,16 +609,19 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = false;
       component.selectedCompany = 13;
+      component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
       const expectedPayload = {
         settings: [{ LoaderSettingId: undefined, KeyName: 'IsStructureMappingsFullReplace', KeyValue: 'false' }],
-        companyId: 13
+        companyId: 13,
+        loaderConfigurationGroupId: 1
       };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
@@ -615,15 +641,18 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isEmployeesLoadEnabled = true;
       component.selectedCompany = 13;
+    component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
       const expectedPayload = {
         settings: [{ LoaderSettingId: undefined, KeyName: 'IsEmployeesLoadEnabled', KeyValue: 'true' }],
-        companyId: 13
+        companyId: 13,
+        loaderConfigurationGroupId: 1
       };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
@@ -643,15 +672,18 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isJobsLoadEnabled = true;
       component.selectedCompany = 13;
+    component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
       const expectedPayload = {
         settings: [{ LoaderSettingId: undefined, KeyName: 'IsJobsLoadEnabled', KeyValue: 'true' }],
-        companyId: 13
+        companyId: 13,
+        loaderConfigurationGroupId: 1
       };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
@@ -671,15 +703,18 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isPaymarketsLoadEnabled = true;
       component.selectedCompany = 13;
+      component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
       const expectedPayload = {
         settings: [{ LoaderSettingId: undefined, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'true' }],
-        companyId: 13
+        companyId: 13,
+        loaderConfigurationGroupId: 1
       };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
@@ -699,15 +734,18 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isStructuresLoadEnabled = true;
       component.selectedCompany = 13;
+      component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
       const expectedPayload = {
         settings: [{ LoaderSettingId: undefined, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'true' }],
-        companyId: 13
+        companyId: 13,
+        loaderConfigurationGroupId: 1
       };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
@@ -727,15 +765,18 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isStructureMappingsLoadEnabled = true;
       component.selectedCompany = 13;
+      component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
       const expectedPayload = {
         settings: [{ LoaderSettingId: undefined, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'true' }],
-        companyId: 13
+        companyId: 13,
+        loaderConfigurationGroupId: 1
       };
       spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
 
@@ -755,10 +796,12 @@ describe('ManageFieldMapperPageComponent', () => {
       { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
       { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
       { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+      { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
     ];
     component.delimiter = ',';
     component.isEmployeesFullReplace = true;
     component.isStructureMappingsFullReplace = true;
+    component.selectedConfigGroup = generateMockConfigurationGroup();
     fixture.detectChanges();
 
     spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');

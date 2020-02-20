@@ -9,7 +9,7 @@ import { environment } from 'environments/environment';
 import { UserContext } from 'libs/models/security';
 import { CompanyTilesResponse, CompanyDataSetsReponse, ListCompositeFields } from 'libs/models/payfactors-api';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
-import { CompanyClientTypeConstants, SystemUserGroupNames } from 'libs/constants';
+import { CompanyClientTypeConstants, SystemUserGroupNames, TileNames } from 'libs/constants';
 
 import * as fromPfAdminMainReducer from '../../reducers';
 import * as fromCompanyPageActions from '../../actions/company-page.actions';
@@ -37,6 +37,7 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   loadingCompanyTilesSuccess$: Observable<boolean>;
   loadingCompanyTilesError$: Observable<boolean>;
   companyTiles$: Observable<CompanyTilesResponse[]>;
+  tileNames = TileNames;
 
   loadingCompanySettings$: Observable<boolean>;
   loadingCompanySettingsSuccess$: Observable<boolean>;
@@ -203,9 +204,6 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   }
 
   private handleTabsDisplayByGroupAndClientType() {
-    if (this.groupName === SystemUserGroupNames.SmallBusiness) {
-      this.store.dispatch(new fromCompanyPageActions.SelectSmallBusinessClientType());
-    } else {
       switch (this.clientType) {
         case CompanyClientTypeConstants.PEER:
           this.store.dispatch(new fromCompanyPageActions.SelectPeerClientType());
@@ -218,7 +216,4 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
           return;
       }
     }
-  }
-
-
 }

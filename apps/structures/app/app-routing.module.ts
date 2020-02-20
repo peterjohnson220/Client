@@ -2,17 +2,16 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppWrapperComponent } from 'libs/features/app-root';
-import { TileEnabledGuard, UserContextGuard } from 'libs/security';
+import { UserContextGuard } from 'libs/security';
 import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 
 export const routes: Routes = [
   {
     path: '',
     component: AppWrapperComponent,
-    // todo: introduce UserContextGuard and TileEnabled Guard
-    // canActivate: [UserContextGuard, TileEnabledGuard],
+    canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: () => import('apps/structures/app/_main/main.module').then(m => m.MainModule) }
+      { path: '', loadChildren: () => import('apps/structures/app/_new/new.module').then(m => m.NewModule) }
     ]
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },

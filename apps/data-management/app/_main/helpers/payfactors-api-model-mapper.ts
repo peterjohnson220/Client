@@ -10,7 +10,7 @@ import {
   TransferMethodResponse,
   ProviderSupportedEntityDTO, TransferScheduleSummary, SyncScheduleDtoModel,
   MappingPayloadItem,
-  MappingPayloadMapping
+  ConnectionSummaryResponse
 } from 'libs/models/hris-api';
 
 import {
@@ -22,7 +22,8 @@ import {
   TransferMethod,
   WorkdayRestCredentialsPackage, WorkdaySoapCredentialsPackage,
   EntityChoice,
-  EntityField
+  EntityField,
+  ConnectionSummary
 } from '../models';
 
 export class PayfactorsApiModelMapper {
@@ -38,16 +39,19 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  static mapProviderResponseToProvider(response: ProviderResponse[]): Provider[] {
-    return response.map(p => {
-      return {
-        ProviderId: p.provider_ID,
-        ProviderName: p.providerName,
-        ProviderCode: p.providerCode,
-        ImageUrl: p.providerImageUrl,
-        AuthenticationTypeId: p.authenticationType_ID
-      };
-    });
+  static mapProviderResponseToProvider(response: ProviderResponse): Provider {
+    return {
+      ProviderId: response.provider_ID,
+      ProviderName: response.providerName,
+      ProviderCode: response.providerCode,
+      ImageUrl: response.providerImageUrl,
+      AuthenticationTypeId: response.authenticationType_ID,
+      Active: response.active,
+    };
+  }
+
+  static mapProviderResponsesToProviders(response: ProviderResponse[]): Provider[] {
+    return response.map(p => this.mapProviderResponseToProvider(p));
   }
 
   static mapAuthenticationTypeResponseToAuthenticationType(response: AuthenticationTypeResponse): AuthenticationType {
@@ -114,6 +118,7 @@ export class PayfactorsApiModelMapper {
         EntityFieldId: pef.entityField_ID,
         EntityType: entityType,
         FieldName: pef.fieldName,
+        DisplayName: pef.fieldName,
         IsRequired: pef.requiredField,
         HasDescription: pef.hasDescription,
         Description: pef.description,
@@ -128,6 +133,7 @@ export class PayfactorsApiModelMapper {
       return {
         EntityType: entityType,
         FieldName: pef.name,
+        DisplayName: pef.name,
         HasAssociation: false,
         DataType: ImportDataType[pef.dataType]
       };
@@ -136,26 +142,26 @@ export class PayfactorsApiModelMapper {
 
   static createMappingPackage(request: EntityField): MappingPackage {
     return {
-      MappingPayload: {
-        Items: Object.entries(request)
+      mappingPayload: {
+        items: Object.entries(request)
           .map(([entityType, fields]) => this.getMappingsForEntity(entityType, fields))
-          .filter( mpi => mpi.Mappings.length > 0)
+          .filter( mpi => mpi.mappings.length > 0)
       }
     };
   }
 
   static getMappingsForEntity(entityType: string , fields: EntityDataField[]): MappingPayloadItem {
     return {
-      OrgDataEntityType: entityType,
-      Mappings: fields.filter(field => field.AssociatedEntity && field.AssociatedEntity.length > 0)
+      orgDataEntityType: entityType,
+      mappings: fields.filter(field => field.AssociatedEntity && field.AssociatedEntity.length > 0)
       .map(field => ({
-        DestinationField: field.FieldName,
-        SourceField: field.AssociatedEntity[0].FieldName,
-        SourceMetadata: {
-          DataType: field.AssociatedEntity[0].DataType,
-          IsArray: false,
-          MetaData: {},
-          Name: field.AssociatedEntity[0].FieldName
+        destinationField: field.FieldName,
+        sourceField: field.AssociatedEntity[0].FieldName,
+        sourceMetadata: {
+          dataType: field.AssociatedEntity[0].DataType,
+          isArray: false,
+          metaData: {},
+          name: field.AssociatedEntity[0].FieldName
         }
       }))
     };
@@ -197,8 +203,8 @@ export class PayfactorsApiModelMapper {
             type = OrgDataEntityType.StructureMappings;
             break;
         case OrgDataEntityType.Structures:
-          type = OrgDataEntityType.Structures;
-          break;
+            type = OrgDataEntityType.Structures;
+            break;
         case OrgDataEntityType.PayMarkets:
             type = OrgDataEntityType.PayMarkets;
             break;
@@ -219,6 +225,33 @@ export class PayfactorsApiModelMapper {
         Active: t.active === 1,
         SyncSchedule_ID: t.syncSchedule_ID ? t.syncSchedule_ID : 0
       };
+    });
+  }
+
+  static mapConnectionSummaryResponseToConnectionSummaryDto(connectionSummary: ConnectionSummaryResponse): ConnectionSummary {
+    return {
+      provider: connectionSummary.provider ? this.mapProviderResponseToProvider(connectionSummary.provider) : null,
+      canEditConnection: connectionSummary.canEditConnection,
+      hasConnection: connectionSummary.hasConnection,
+      canEditMappings: connectionSummary.canEditMappings,
+      statuses: connectionSummary.statuses,
+      selectedEntities: connectionSummary.selectedEntities,
+      connectionID: connectionSummary.connection_ID
+    };
+  }
+
+  static mapEntityChoicesWithConnectionSummary(entityChoices: EntityChoice[], connectionSummary: ConnectionSummary): EntityChoice[] {
+    return entityChoices.map(e => {
+      return {
+        ...e,
+        isChecked: connectionSummary.selectedEntities.findIndex(s => s === e.dbName) > -1
+      };
+    });
+  }
+
+  static mapSelectedEntityChoicesToOrgDataEntityTypes(entityChoices: EntityChoice[]): OrgDataEntityType[] {
+    return entityChoices.filter(e => e.isChecked).map(e => {
+      return e.dbName as OrgDataEntityType;
     });
   }
 }

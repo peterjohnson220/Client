@@ -1,7 +1,7 @@
-<ng-template #assignJobsToTemplateModal let-c="close" let-d="dismiss">
+<ng-template #assignJobsToTemplateModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Assign to Template</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="templateListInput" class="col-4 col-form-label">Template Name: {{errorMessage}}</label>
+      <label for="templateListInput" class="col-4 col-form-label">Template Name:</label>
       <div class="col-8" [class.has-danger]="errorMessage">
         <select id="templateListInput" class="form-control" [disabled]="templateListLoading$ | async" [(ngModel)]="templateId">
           <option [value]="-1"></option>
@@ -28,9 +28,20 @@
         <span *ngIf="errorMessage" class="text-danger float-right">Job already assigned to template please refresh page</span>
       </div>
     </div>
+    <ng-container *ngIf="canRestrictJobDescriptionFromPublicView">
+      <div class="form-group row" >
+        <label for="publicViewInput" class="col-4 col-form-label">Public View:</label>
+        <div class="col-8">
+          <select id="publicViewInput" class="form-control" [(ngModel)]="publicViewSelectedValue">
+            <option value="true">Enabled</option>
+            <option value="false">Disabled</option>
+          </select>
+        </div>
+      </div>
+    </ng-container>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
     <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="templateId == -1 || (templateListLoading$ | async) || errorMessage">Assign</button>
   </div>
 </ng-template>

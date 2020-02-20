@@ -9,7 +9,7 @@ import { CellClickEvent, GridComponent, GridDataResult, PageChangeEvent } from '
 import { State } from '@progress/kendo-data-query';
 
 import { ListAreaColumn } from 'libs/models/common/list-area';
-import { CompanyStructureRangeGroup } from 'libs/models/structures/company-structure-range-group.model';
+// import { StructureRangeGroupResponse } from 'libs/models/payfactors-api/structures';
 import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromStructuresMainReducer from '../../reducers';
@@ -29,12 +29,12 @@ export class JobRangeModelingGridComponent implements AfterViewInit, OnInit, OnD
 
   editableColumns: string[] = ['CurrentMin', 'CurrentMid', 'CurrentMax', 'RangeSpread', 'MidPointDiff'];
   gridState: State = { skip: 0, take: 100, sort: [] };
-  currentModel: CompanyStructureRangeGroup;
+  currentModel: any;
   firstGridLoadDispatched = false;
   listAreaColumns: ListAreaColumn[];
   gridData: StructureRangeDataDto[];
 
-  currentModel$: Observable<CompanyStructureRangeGroup>;
+  currentModel$: Observable<any>;
   gridDataResultAsync$: Observable<AsyncStateObj<GridDataResult>>;
   listAreaColumnsAsync$: Observable<AsyncStateObj<ListAreaColumn[]>>;
   listAreaColumnsReordering$: Observable<boolean>;

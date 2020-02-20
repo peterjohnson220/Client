@@ -1,5 +1,6 @@
+import { ConfigurationGroup } from 'libs/models/data-loads';
+
 import * as fromOrganizationalDataPageActions from '../actions/organizational-data-page.action';
-import {ConfigurationGroup} from '../models';
 
 export interface State {
   organizationalDataTemplateLink: string;
@@ -8,7 +9,7 @@ export interface State {
   isLoading: boolean;
   hasError: boolean;
   savedConfigurationGroup: ConfigurationGroup;
-  configurationGroup: ConfigurationGroup;
+  configurationGroups: ConfigurationGroup[];
   hasUploadedFiles: boolean;
   isProcessingMapping: boolean;
 }
@@ -19,7 +20,7 @@ export const initialState: State = {
   isModalOpen: false,
   isLoading: false,
   hasError: false,
-  configurationGroup: null,
+  configurationGroups: [],
   hasUploadedFiles: false,
   isProcessingMapping: false,
   savedConfigurationGroup: null
@@ -54,21 +55,21 @@ export function reducer(state = initialState, action: fromOrganizationalDataPage
         isModalOpen: action.payload
       };
     }
-    case fromOrganizationalDataPageActions.GET_CONFIGURATION_GROUP: {
+    case fromOrganizationalDataPageActions.GET_CONFIGURATION_GROUPS: {
       return {
         ...state,
         isLoading: true,
         hasError: false
       };
     }
-    case fromOrganizationalDataPageActions.GET_CONFIGURATION_GROUP_SUCCESS: {
+    case fromOrganizationalDataPageActions.GET_CONFIGURATION_GROUPS_SUCCESS: {
       return {
         ...state,
         isLoading: false,
-        configurationGroup: action.payload
+        configurationGroups: action.payload
       };
     }
-    case fromOrganizationalDataPageActions.GET_CONFIGURATION_GROUP_FAILED: {
+    case fromOrganizationalDataPageActions.GET_CONFIGURATION_GROUPS_FAILED: {
       return {
         ...state,
         isLoading: false,
@@ -128,7 +129,7 @@ export function reducer(state = initialState, action: fromOrganizationalDataPage
 export const getOrganizationalHeadersLink = (state: State) => state.organizationalDataTemplateLink;
 export const getOrganizationalHeadersLinkError = (state: State) => state.organizationalDataTemplateLinkError;
 export const getModalStateOpen = (state: State) => state.isModalOpen;
-export const getConfigurationGroup = (state: State) => state.configurationGroup;
+export const getConfigurationGroups = (state: State) => state.configurationGroups;
 export const getSavedConfigurationGroup = (state: State) => state.savedConfigurationGroup;
 export const getHasError = (state: State) => state.hasError;
 export const fileUploadData = (state: State) => state.hasUploadedFiles;

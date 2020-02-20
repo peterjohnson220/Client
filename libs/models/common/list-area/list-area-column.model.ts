@@ -8,6 +8,7 @@ export interface ListAreaColumn {
   Default: boolean;
   Required: boolean;
   DisableDropdown: boolean;
+  PublicView: boolean;
 }
 
 export function generateMockListAreaColumns(numberOfColumns: number = 2, startMockNumber: number = 1): ListAreaColumn[] {
@@ -32,6 +33,7 @@ export function generateMockListAreaColumn(mockNumber: number = 1): ListAreaColu
     Order: 1,
     Default: false,
     Required: false,
-    DisableDropdown: false
+    DisableDropdown: false,
+    PublicView: true
   };
 }

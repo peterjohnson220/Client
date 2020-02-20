@@ -248,8 +248,6 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
 
     if (this.clientTypeControl.value === CompanyClientTypeConstants.PEER_AND_ANALYSIS) {
       this.store.dispatch(new fromCompanyPageActions.SelectPeerAndAnalysisClientType());
-    } else if (this.repositoryControl.value === this.smallBusinessSystemUserGroupId) {
-      this.store.dispatch(new fromCompanyPageActions.SelectSmallBusinessClientType());
     } else {
       this.store.dispatch(new fromCompanyPageActions.SelectNonPeerClientType());
     }
@@ -274,7 +272,6 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     } else if (systemUserGroupsIdValue === this.smallBusinessSystemUserGroupId) {
       this.clientTypeControl.setValue(CompanyClientTypeConstants.DATA_ONLY);
       this.store.dispatch(new fromCompanyPageActions.EnableJobPricingLimiter(true));
-      this.store.dispatch(new fromCompanyPageActions.SelectSmallBusinessClientType());
       return;
     }
 

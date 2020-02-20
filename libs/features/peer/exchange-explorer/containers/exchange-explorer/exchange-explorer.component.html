@@ -54,8 +54,11 @@
   </ng-container>
 
   <ng-container content>
+    <div class="child-filters-sidebar" *ngIf="!!(searchingChildFilters$ | async)">
+      <pf-child-filter></pf-child-filter>
+    </div>
 
-   <pf-exchange-explorer-map></pf-exchange-explorer-map>
+   <pf-exchange-explorer-map (click)="handleMapClicked()"></pf-exchange-explorer-map>
 
     <ng-content select="[map-footer]">
 

@@ -1,5 +1,5 @@
 <pf-page-with-title-bar>
-    
+
   <ng-container page-title>
     <ng-container *ngIf="!identityInWorkflow && !identityInEmployeeAcknowledgement">
       <button type="button" class="btn btn-secondary back-btn" (click)="goBack()">
@@ -173,16 +173,15 @@
         [lockedJobDescription]="inHistory || !(hasCanEditJobDescriptionPermission)" >
 </pf-flsa-questionnaire-modal>
 
-<!--
 <pf-job-description-applies-to-modal 
     [editing]="true"
     (appliesToUpdated)="appliesToFormCompleted($event)">
-</pf-job-description-applies-to-modal>-->
+</pf-job-description-applies-to-modal>
 
 <pf-export-job-description-modal
   [jobDescriptionViews]="jobDescriptionViews"
   (export)="handleExportModalConfirmed($event)">
-</pf-export-job-description-modal> 
+</pf-export-job-description-modal>
 
 <pf-simple-yes-no-modal
   #discardDraftModal
@@ -207,17 +206,17 @@
   [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId">
 </pf-change-approver-modal>
 
-<!-- <pf-conflict-error-modal 
-    #conflictErrorModal 
-    [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage" 
-    [goBackLink]="(jobDescriptionSaveError$ | async)?.GoBackLink" 
+<!-- <pf-conflict-error-modal
+    #conflictErrorModal
+    [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage"
+    [goBackLink]="(jobDescriptionSaveError$ | async)?.GoBackLink"
     (onClose)="handleConflictOrSaveErrorModalClosed()">
 </pf-conflict-error-modal>
 
-<pf-save-error-modal 
-    #saveErrorModal 
-    [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage" 
-    [goBackLink]="(jobDescriptionSaveError$ | async)?.GoBackLink" 
+<pf-save-error-modal
+    #saveErrorModal
+    [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage"
+    [goBackLink]="(jobDescriptionSaveError$ | async)?.GoBackLink"
     (onClose)="handleConflictOrSaveErrorModalClosed()">
 </pf-save-error-modal>
 

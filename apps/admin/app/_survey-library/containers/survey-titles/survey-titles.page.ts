@@ -1,15 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { ActivatedRoute } from '@angular/router';
 
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 
-import * as fromRootState from 'libs/state/state';
+import { CompanySelectorItem } from 'libs/features/company/models';
 import { UserContext } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
 
 import { SurveyLibraryStateService } from '../../services/survey-library-state.service';
-import { CompanySelectorItem, SurveyTitle, SurveyTitleResponseModel, SurveyTitlesFilter } from '../../models';
+import { SurveyTitle, SurveyTitleResponseModel, SurveyTitlesFilter } from '../../models';
 import * as fromSurveyLibraryReducer from '../../reducers';
 import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
 import * as fromSurveyTitlesActions from '../../actions/survey-titles.actions';
@@ -21,7 +23,7 @@ import * as fromSurveyTitlesActions from '../../actions/survey-titles.actions';
 })
 
 export class SurveyTitlesPageComponent implements OnInit {
-  @ViewChild('TitleSearch', {static: false}) titleSearch;
+  @ViewChild('TitleSearch', { static: false }) titleSearch;
   public filter: SurveyTitlesFilter;
   public publisher: string;
   public systemUserGroupsId: number;
@@ -39,15 +41,15 @@ export class SurveyTitlesPageComponent implements OnInit {
   private saveSurveyTitleSuccess$: Observable<boolean>;
 
   constructor(private activeRoute: ActivatedRoute,
-              private store: Store<fromSurveyLibraryReducer.State>,
-              private state: SurveyLibraryStateService) {
+    private store: Store<fromSurveyLibraryReducer.State>,
+    private state: SurveyLibraryStateService) {
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.companies$ = store.select(fromSurveyLibraryReducer.getCompanies);
     this.surveyTitles$ = this.store.select(fromSurveyLibraryReducer.getSurveyTitles);
     this.loadingSurveyTitles$ = this.store.select(fromSurveyLibraryReducer.getLoadingSurveyTitles);
     this.surveyTitleModalOpen$ = new BehaviorSubject<boolean>(false);
     this.saveSurveyTitleSuccess$ = this.store.select(fromSurveyLibraryReducer.getSavingSurveyTitlesSuccess);
-    this.filter = {SearchTerm: '', CompanyId: undefined};
+    this.filter = { SearchTerm: '', CompanyId: undefined };
     this.publisherId = activeRoute.snapshot.params.id;
     this.isCollapsed = true;
 
@@ -81,7 +83,7 @@ export class SurveyTitlesPageComponent implements OnInit {
   }
 
   getSurveyTitles(): void {
-    this.store.dispatch(new fromSurveyTitlesActions.LoadingSurveyTitles({publisherId: this.publisherId, filter: this.filter}));
+    this.store.dispatch(new fromSurveyTitlesActions.LoadingSurveyTitles({ publisherId: this.publisherId, filter: this.filter }));
   }
 
   filterChanged(searchTerm: string) {

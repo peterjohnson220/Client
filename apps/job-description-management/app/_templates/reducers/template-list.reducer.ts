@@ -1,7 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromTemplateListActions from '../actions/template-list.actions';
-
+import * as fromTemplateListActions from '../actions';
 import { TemplateListItem } from '../models';
 
 export interface State {
@@ -16,7 +15,7 @@ const initialState: State = {
   entities: []
 };
 
-export function reducer(state = initialState, action: fromTemplateListActions.Actions): State {
+export function reducer(state = initialState, action: fromTemplateListActions.TemplateListActions): State {
   switch (action.type) {
     case fromTemplateListActions.LOAD_TEMPLATE_LIST:
       return {

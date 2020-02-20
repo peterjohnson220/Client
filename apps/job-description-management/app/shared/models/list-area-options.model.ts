@@ -31,6 +31,10 @@ export const TextOperatorOptions: FilterOperator[] = [
   { display: 'Is not empty', value: 'isnotempty', checkValue: false}
 ];
 
+export const BooleanOperatorOptions: FilterOperator[] = [
+  { display: 'Is equal to', value: 'eq', checkValue: true}
+];
+
 export interface FilterOperator {
   display: string;
   value: string;

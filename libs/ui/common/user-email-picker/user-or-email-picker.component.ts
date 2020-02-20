@@ -24,7 +24,7 @@ import { PfConstants } from '../../../models/common';
 @Component({
   selector: 'pf-user-or-email-picker',
   templateUrl: './user-or-email-picker.component.html',
-  styleUrls: [ './user-or-email-picker.component.scss' ]
+  styleUrls: ['./user-or-email-picker.component.scss']
 })
 
 export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
@@ -45,8 +45,8 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
 
 
   constructor(private companyApiService: CompanyApiService,
-              private userApiService: UserApiService,
-              private userContextStore: Store<fromRootState.State>) {
+    private userApiService: UserApiService,
+    private userContextStore: Store<fromRootState.State>) {
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
   }
 
@@ -84,22 +84,24 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
       return of([]);
     }
 
-    return !this.workflow ? this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType) : this.userApiService.picker(term)
-      .map((results: any) => {
-      let returnVal = [{}];
+    return !this.workflow
+      ? this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType)
+        .map((results: any) => this.handleEmailRecipientsResponse(results, term))
+      : this.userApiService.picker(term).map((results: any) => this.handleEmailRecipientsResponse(results, term));
+  }
 
-      if (results.length) {
-        if (this.nameToExclude) {
-          // filter out the user to exclude from this list (likely a current selected user)
-          results = results.filter(r => (r.FirstName + ' ' + r.LastName) !== this.nameToExclude);
-        }
-        returnVal = results;
-      } else {
-        returnVal = RegExp(RegexStrings.EMAIL, 'i').test(term) ? [ { EmailAddress: term } ] : returnVal;
+  private handleEmailRecipientsResponse(results: any, term: string) {
+    let returnVal = [{}];
+    if (results.length) {
+      if (this.nameToExclude) {
+        // filter out the user to exclude from this list (likely a current selected user)
+        results = results.filter(r => (r.FirstName + ' ' + r.LastName) !== this.nameToExclude);
       }
-
-      return returnVal;
-    });
+      returnVal = results;
+    } else {
+      returnVal = RegExp(RegexStrings.EMAIL, 'i').test(term) ? [{ EmailAddress: term }] : returnVal;
+    }
+    return returnVal;
   }
 
   userOrEmailTypeaheadFn = (text$: Observable<string>) =>

@@ -1,11 +1,11 @@
 import { PagingOptions } from '../../search/request';
+import { DataViewAccessLevel } from '../response';
 
 export interface DataViewDataRequest {
   BaseEntityId: number;
   Fields: DataViewField[];
   Filters: DataViewFilter[];
   PagingOptions: PagingOptions;
-  SortDescriptor?: DataViewSortDescriptor;
   WithCount: boolean;
   ApplyDefaultFilters?: boolean;
 }
@@ -25,9 +25,12 @@ export interface DataViewField {
   FormulaId?: number;
   FieldType: DataViewFieldType;
   Format?: string;
-  IsEditable?: boolean;
   Formula?: string;
   FormulaName?: string;
+  SortOrder?: number;
+  SortDirection?: 'asc' | 'desc';
+  IsPublic?: boolean;
+  AccessLevel?: DataViewAccessLevel;
 }
 
 export interface BaseFilter {
@@ -61,11 +64,6 @@ export enum DataViewFieldDataType {
 export enum DataViewFieldType {
   DataElement = 'dataElement',
   Formula = 'formula'
-}
-
-export interface DataViewSortDescriptor {
-  SortDirection: 'desc' | 'asc';
-  SortField: DataViewField;
 }
 
 export function getMockDataViewFilter(): DataViewFilter {

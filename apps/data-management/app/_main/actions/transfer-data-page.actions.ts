@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { CredentialsPackage } from 'libs/models';
 import { TransferMethod, Provider, EntityChoice } from '../models';
+import { TransferDataWorkflowStep } from '../data';
 
 export const INIT = '[Data Management/Transfer Data Page] Init Transfer Data Page';
 export const LOAD_AUTHENTICATION_FORM = '[Data Management/Transfer Data Page] Load Authentication Form';
@@ -22,10 +23,8 @@ export const VALIDATE_SUCCESS = '[Data Management/Transfer Data Page] Validate C
 export const CREATE_CONNECTION = '[Data Management/Transfer Data Page] Create Connection';
 export const CREATE_CONNECTION_ERROR = '[Data Management/Transfer Data Page] Create Connection Error';
 export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] Create Connection Success';
-export const LOAD_ENTITY_SELECTION = '[Data Management/Transfer Data Page] Load Entity Selection';
-export const LOAD_ENTITY_SELECTION_ERROR = '[Data Management/Transfer Data Page] Load Entity Selection Error';
-export const LOAD_ENTITY_SELECTION_SUCCESS = '[Data Management/Transfer Data Page] Load Entity Selection Success';
 export const PROCEED_TO_AUTHENTICATION = '[Data Management/Transfer Data Page] Proceed to Authentication';
+export const UPDATE_WORKFLOWSTEP = '[Data Management/Transfer Data Page] Update Workfow Step';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -122,31 +121,19 @@ export class CreateConnectionError implements Action {
 export class CreateConnectionSuccess implements Action {
   readonly type = CREATE_CONNECTION_SUCCESS;
 
-  constructor() {}
-}
-
-export class LoadEntitySelection implements Action {
-  readonly type = LOAD_ENTITY_SELECTION;
-
-  constructor() {}
-}
-
-export class LoadEntitySelectionError implements Action {
-  readonly type = LOAD_ENTITY_SELECTION_ERROR;
-
-  constructor() {}
-}
-
-export class LoadEntitySelectionSuccess implements Action {
-  readonly type = LOAD_ENTITY_SELECTION_SUCCESS;
-
-  constructor(public payload: EntityChoice[]) {}
+  constructor(public payload: CredentialsPackage) {}
 }
 
 export class ProceedToAuthentication implements Action {
   readonly type = PROCEED_TO_AUTHENTICATION;
 
   constructor(public payload: EntityChoice[]) {}
+}
+
+export class UpdateWorkflowstep implements Action {
+  readonly type = UPDATE_WORKFLOWSTEP;
+
+  constructor(public payload: TransferDataWorkflowStep) {}
 }
 
 
@@ -170,7 +157,5 @@ export type Actions
   | Validate
   | ValidateError
   | ValidateSuccess
-  | LoadEntitySelection
-  | LoadEntitySelectionError
-  | LoadEntitySelectionSuccess
-  | ProceedToAuthentication;
+  | ProceedToAuthentication
+  | UpdateWorkflowstep;

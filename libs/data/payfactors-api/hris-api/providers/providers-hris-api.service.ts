@@ -23,7 +23,7 @@ export class ProvidersHrisApiService {
 
     const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
-    return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}?transferMethodId=${transferMethodId}`);
+    return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}/all?transferMethodId=${transferMethodId}`);
   }
 
   getProviderById(userContext: UserContext, providerId: number) {

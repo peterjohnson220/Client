@@ -33,29 +33,37 @@
         </ng-template>
       </div>
     </div>
-
+    
     <div *ngFor="let listAreaColumn of listAreaColumns; let i = index" class="form-group">
-      <label>{{ listAreaColumn.ColumnDisplayName }}:</label>
-      <div [ngSwitch]="listAreaColumn.ColumnDataType">
-        <ng-template [ngSwitchCase]="'text'">
-          <pf-list-area-filter-text
-            [filter]="listAreaColumnAssociatedFilter[i]"
-            (filterChanged)="handleFilterChanged($event)">
-          </pf-list-area-filter-text>
-        </ng-template>
-        <ng-template [ngSwitchCase]="'date'">
-          <pf-list-area-filter-date
-            [filter]="listAreaColumnAssociatedFilter[i]"
-            (filterChanged)="handleFilterChanged($event)">
-          </pf-list-area-filter-date>
-        </ng-template>
-        <ng-template [ngSwitchCase]="'numeric'">
-          <pf-list-area-filter-number
-            [filter]="listAreaColumnAssociatedFilter[i]"
-            (filterChanged)="handleFilterChanged($event)">
-          </pf-list-area-filter-number>
-        </ng-template>
-      </div>
+      <ng-container *ngIf="listAreaColumn.Visible">
+        <label>{{ listAreaColumn.ColumnDisplayName }}:</label>
+        <div [ngSwitch]="listAreaColumn.ColumnDataType">
+          <ng-template [ngSwitchCase]="'text'">
+            <pf-list-area-filter-text
+              [filter]="listAreaColumnAssociatedFilter[i]"
+              (filterChanged)="handleFilterChanged($event)">
+            </pf-list-area-filter-text>
+          </ng-template>
+          <ng-template [ngSwitchCase]="'date'">
+            <pf-list-area-filter-date
+              [filter]="listAreaColumnAssociatedFilter[i]"
+              (filterChanged)="handleFilterChanged($event)">
+            </pf-list-area-filter-date>
+          </ng-template>
+          <ng-template [ngSwitchCase]="'numeric'">
+            <pf-list-area-filter-number
+              [filter]="listAreaColumnAssociatedFilter[i]"
+              (filterChanged)="handleFilterChanged($event)">
+            </pf-list-area-filter-number>
+          </ng-template>
+          <ng-template [ngSwitchCase]="'boolean'">
+            <pf-list-area-filter-boolean
+              [filter]="listAreaColumnAssociatedFilter[i]"
+              (filterChanged)="handleFilterChanged($event)">
+            </pf-list-area-filter-boolean>
+          </ng-template>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

@@ -1,15 +1,16 @@
-<div>
-  <div class="alert alert-primary" role="alert">
+<div *ngIf="!connectionSummary?.hasConnection">
+  <div class="alert alert-info" role="alert">
     <h4 class="alert-heading">No HRIS Integration to Display</h4>
     <p>
       Click the button below to create a new integration.
     </p>
   </div>
   <div class="w-100 text-center">
-    <a href="javascript:void(0);" class="btn btn-primary" routerLink="/transfer-data">Create New Integration</a>
+    <button type="button" class="btn btn-primary px-4" (click)="createNewIntegration()">Create New Integration</button>
   </div>
 </div>
-<!-- TODO: Show this when we can get the current connection -->
-<div *ngIf="false">
-
+<div *ngIf="connectionSummary?.hasConnection" class="row justify-content-center">
+  <div class="col col-sm-6">
+    <img [src]="connectionSummary?.provider?.ImageUrl" [alt]="connectionSummary?.provider?.ProviderName" class="img-fluid" />
+  </div>
 </div>

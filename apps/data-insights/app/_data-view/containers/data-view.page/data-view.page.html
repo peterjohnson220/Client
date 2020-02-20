@@ -1,0 +1,97 @@
+<div *ngIf="(userDataView$ | async) as userDataViewAsync" class="custom-report-page">
+    <pf-page-with-title-bar [returnUrl]="'/'">
+      <ng-container page-title>{{userDataViewAsync?.obj?.Name}}</ng-container>
+      <ng-container page-content>
+        <pf-async-container
+          [loading]="userDataViewAsync.loading"
+          [loadingError]="userDataViewAsync.loadingError"
+          [loadingErrorMessage]="loadingErrorMessage$ | async"
+          [hideReloadButton]="true">
+        </pf-async-container>
+        <div class="d-flex flex-row actions">
+          <button class="btn btn-secondary"
+                  [disabled]="isReadOnly"
+                  [attr.data-qa-id]="'btn-edit'"
+                  (click)="handleEditClicked()"
+                  ngbTooltip="Edit"
+                  container="body">
+            <fa-icon icon="edit"></fa-icon>
+          </button>
+          <button class="btn btn-secondary"
+                  [attr.data-qa-id]="'btn-duplicate'"
+                  (click)="handleDuplicateClicked()"
+                  ngbTooltip="Duplicate"
+                  container="body">
+            <fa-icon icon="clone"></fa-icon>
+          </button>
+          <button class="btn btn-secondary"
+                  [attr.data-qa-id]="'btn-export'"
+                  [disabled]="exportingUserDataReport$ | async"
+                  (click)="handleExportClicked()"
+                  ngbTooltip="Export"
+                  container="body">
+            <fa-icon icon="file-excel"></fa-icon>
+          </button>
+          <button class="btn btn-secondary"
+                  [disabled]="!isOwner"
+                  [attr.data-qa-id]="'btn-share'"
+                  (click)="handleShareClicked()"
+                  ngbTooltip="Share"
+                  container="body">
+            <fa-icon icon="share"></fa-icon>
+          </button>
+          <button class="btn btn-secondary"
+                  [disabled]="!isOwner"
+                  [attr.data-qa-id]="'btn-delete'"
+                  (click)="handleDeleteClicked()"
+                  ngbTooltip="Delete"
+                  container="body">
+            <fa-icon icon="trash-alt"></fa-icon>
+          </button>
+        </div>
+        <div class="d-flex flex-row main-content">
+          <ng-container *ngIf="!isReadOnly; else disabledConfigureToggleButton">
+            <pf-configure-sidebar
+              #leftSidebar
+              [formulaBuilderEnabled]="!!(formulaBuilderEnabled$ | async)">
+            </pf-configure-sidebar>
+          </ng-container>
+          <div class="data-view-grid-container" [ngClass]="configureSidebarOpen ? 'sidebar-open': 'sidebar-close'">
+            <pf-data-view-grid></pf-data-view-grid>
+          </div>
+        </div>
+      </ng-container>
+    </pf-page-with-title-bar>
+
+  <pf-edit-data-view-modal #editDataViewModal
+    [userDataView]="userDataView">
+  </pf-edit-data-view-modal>
+
+  <pf-duplicate-data-view-modal #duplicateDataViewModal
+    [userDataView]="userDataView">
+  </pf-duplicate-data-view-modal>
+
+  <pf-delete-user-workbook-modal
+    #deleteWorkbookModal
+    (deleteClicked)="handleDeleteSaveClicked()">
+  </pf-delete-user-workbook-modal>
+  <pf-share-report-modal
+    [users]="(shareableUsers$ | async)?.obj"
+    [sharedUserPermissions]="(sharedUserPermissions$ | async)?.obj"
+    [loadingPermissions]="(sharedUserPermissions$ | async)?.loading"
+    (shareClicked)="handleShareSavedClicked($event)"
+    (userRemoved)="handleUserRemoved($event)"
+    #shareReportModal>
+
+  </pf-share-report-modal>
+</div>
+
+<ng-template #disabledConfigureToggleButton>
+  <div class="disabled-configure-btn d-flex justify-content-between">
+    <span class="disabled">
+      <fa-icon class="icon open-icon" icon="chevron-double-right" size="lg"></fa-icon>
+    </span>
+  </div>
+</ng-template>
+
+

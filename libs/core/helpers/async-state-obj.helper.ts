@@ -17,4 +17,22 @@ export class AsyncStateObjHelper {
       [propertyName]: { ...state[propertyName], loadingError: true, loading: false }
     };
   }
+  static saving(state, propertyName: string, payload?: any) {
+    return {
+      ...state,
+      [propertyName]: { ...state[propertyName], saving: true, savingSuccess: false, savingError: false, obj: payload }
+    };
+  }
+  static savingSuccess(state, propertyName: string, payload?: any) {
+    return {
+      ...state,
+      [propertyName]: { ...state[propertyName], saving: false, savingSuccess: true, obj: payload }
+    };
+  }
+  static savingError(state, propertyName: string) {
+    return {
+      ...state,
+      [propertyName]: { ...state[propertyName], savingError: true, saving: false }
+    };
+  }
 }

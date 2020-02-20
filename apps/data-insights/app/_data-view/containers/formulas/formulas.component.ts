@@ -4,11 +4,11 @@ import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
 
-import * as fromDataInsightsMainReducer from '../../../_main/reducers/index';
-import { FormulaFieldModalObj, Suggestion } from '../../models';
-import { DataViewAccessLevel, Field, UserDataView } from '../../../_main/models';
+import * as fromDataViewMainReducer from '../../reducers';
+import { FormulaFieldModalObj, Suggestion, DataViewAccessLevel, Field, UserDataView } from '../../models';
 import { FormulaFieldModalComponent } from '../formula-field-modal';
-
+import { DeleteUserFormulaModalComponent } from '../../components/delete-user-formula-modal';
+import * as fromFormulaFieldActions from '../../actions/formula-field.actions';
 
 @Component({
   selector: 'pf-data-view-formulas',
@@ -17,9 +17,11 @@ import { FormulaFieldModalComponent } from '../formula-field-modal';
 })
 export class FormulasComponent implements OnInit, OnDestroy {
   @ViewChild(FormulaFieldModalComponent, { static: true }) public formulaFieldModal: FormulaFieldModalComponent;
+  @ViewChild(DeleteUserFormulaModalComponent, { static: true }) public deleteFormulaFieldModal: DeleteUserFormulaModalComponent;
   dataView$: Observable<AsyncStateObj<UserDataView>>;
   formulaFieldSuggestions$: Observable<Suggestion[]>;
-  userForumla$: Observable<Field[]>;
+  userFormula$: Observable<Field[]>;
+  formulaViewCount$: Observable<AsyncStateObj<number>>;
 
   userFormulaSub: Subscription;
   dataViewSub: Subscription;
@@ -27,21 +29,23 @@ export class FormulasComponent implements OnInit, OnDestroy {
   userFormulas: Field[];
   formulaFieldModalObj: FormulaFieldModalObj;
   dataViewAccessLevel: DataViewAccessLevel;
+  formulaToDelete: Field;
 
   constructor(
-    private store: Store<fromDataInsightsMainReducer.State>
+    private store: Store<fromDataViewMainReducer.State>
   ) {
-    this.userForumla$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserFormulas));
-    this.dataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getUserDataViewAsync));
-    this.formulaFieldSuggestions$ = this.store.pipe(select(fromDataInsightsMainReducer.getFormulaFieldSuggestions));
+    this.userFormula$ = this.store.pipe(select(fromDataViewMainReducer.getUserFormulas));
+    this.dataView$ = this.store.pipe(select(fromDataViewMainReducer.getUserDataViewAsync));
+    this.formulaFieldSuggestions$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaFieldSuggestions));
+    this.formulaViewCount$ = this.store.pipe(select(fromDataViewMainReducer.getFormulaViewCount));
   }
 
   ngOnInit() {
-      this.userFormulaSub = this.userForumla$.subscribe( field => {
-        if (field.length !== 0) {
-          this.userFormulas = field;
-        }
-      });
+    this.userFormulaSub = this.userFormula$.subscribe(fields => {
+      if (!!fields && fields.length !== 0) {
+        this.userFormulas = fields;
+      }
+    });
     this.dataViewSub = this.dataView$.subscribe(result => {
       if (!!result.obj) {
         this.dataViewAccessLevel = result.obj.AccessLevel;
@@ -64,7 +68,9 @@ export class FormulasComponent implements OnInit, OnDestroy {
       FieldName: '',
       Formula: '',
       IsEditable: true,
-      DuplicateAllowed: false
+      DuplicateAllowed: false,
+      IsPublic: false,
+      AccessLevel: DataViewAccessLevel.Owner
     };
     this.formulaFieldModal.open();
   }
@@ -77,9 +83,21 @@ export class FormulasComponent implements OnInit, OnDestroy {
       IsEditable: field.IsEditable,
       FormulaId: field.FormulaId,
       DuplicateAllowed: this.dataViewAccessLevel !== DataViewAccessLevel.ReadOnly,
-      DataType: field.DataType
+      DataType: field.DataType,
+      IsPublic: field.IsPublic,
+      AccessLevel: field.AccessLevel
     };
     this.formulaFieldModal.open();
+  }
+
+  handleDeleteFormulaClicked(field: Field): void {
+    this.formulaToDelete = field;
+    this.store.dispatch(new fromFormulaFieldActions.GetFormulaFieldViewCount(field.FormulaId));
+    this.deleteFormulaFieldModal.open();
+  }
+
+  handleDeleteConfirmClicked(field: Field): void {
+    this.store.dispatch(new fromFormulaFieldActions.DeleteFormulaField(field));
   }
 
 }

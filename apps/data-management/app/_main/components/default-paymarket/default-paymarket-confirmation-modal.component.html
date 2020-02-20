@@ -1,0 +1,16 @@
+<pf-modal-form
+  size="md"
+  title="Confirm Pay Markets"
+  primaryButtonText="OK"
+  secondaryButtonText="Back"
+  [isOpen$]="modalOpen$"
+  (onSubmit)="handleDismissDefaultPaymarketsModal(true)"
+  (onDismiss)="handleDismissDefaultPaymarketsModal(false)"
+>
+  <ng-container basic-content>
+    <div class="alert alert-warning" role="alert">
+      Your employee upload is currently missing references to pay market.
+      Any employees imported without a pay market will automatically be assigned to the default pay market which is currently {{defaultPaymarket$ | async}}.
+    </div>
+  </ng-container>
+</pf-modal-form>

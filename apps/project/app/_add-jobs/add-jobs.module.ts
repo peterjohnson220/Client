@@ -14,7 +14,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
 
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
-import { UserFilterTypeData } from 'libs/features/user-filter/models';
+import { UserFilterPopoverConfig, UserFilterTypeData } from 'libs/features/user-filter/models';
 import { SavedFiltersHelper } from 'libs/features/add-jobs/helpers';
 import { JobSearchUserFilterType, SearchFilterMappingData } from 'libs/features/add-jobs/data';
 import { PfAddJobsModule } from 'libs/features/add-jobs';
@@ -30,6 +30,7 @@ import {
   SingledFilterEffects
 } from './effects';
 import { AddJobsPageComponent, SearchResultsComponent, CreateNewJobPageComponent } from './containers';
+import { AddJobsUserFilterPopoverConfig } from './data';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import { AddJobsPageComponent, SearchResultsComponent, CreateNewJobPageComponent
   providers: [
     SavedFiltersHelper,
     {provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData},
-    {provide: UserFilterTypeData, useValue: JobSearchUserFilterType}
+    {provide: UserFilterTypeData, useValue: JobSearchUserFilterType},
+    {provide: UserFilterPopoverConfig, useValue: AddJobsUserFilterPopoverConfig}
   ]
 })
 export class AddJobsModule {

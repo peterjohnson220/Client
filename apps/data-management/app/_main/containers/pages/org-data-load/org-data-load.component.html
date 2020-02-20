@@ -16,19 +16,19 @@
       <div class=" w-100 d-flex justify-content-center">
         <div class="w-100">
           <h4 class="my-2">Load Organizational Data <span *ngIf="this.selectedCompany"> -
-            {{this.selectedCompany.CompanyName}}</span></h4>
+              {{this.selectedCompany.CompanyName}}</span></h4>
           <div class="shadow p-3 rounded container-background">
 
             <ngb-alert *ngIf="isModalOpen$ | async"
                        [type]="'danger'"
-                       (close)="setModalOpen(false)">Unable to download template file. Please contact services.
+                       (close)="setModalOpen(false)">Unable to download file. Please contact services.
             </ngb-alert>
             <div class="font-weight-bold pb-3">{{this.StepHeaders[this.stepIndex - 1]}}
               <span *ngIf="stepIndex === stepEnum.Files"
                     class="text-info float-right small py-2">
-                <a href="#"
-                   (click)="download($event)"
-                   id="data">Download Data</a> - <a href="#"
+                <span class="org-data-link"
+                      (click)="orgDataExportAction()"
+                      id="data-download-link">Download Data</span> - <a href="#"
                    (click)="goToLink($event,this.organizationalDataTemplateLink)"
                    id="template">Field Descriptions</a>
               </span>
@@ -62,18 +62,22 @@
                 </pf-entity-upload>
               </div>
 
-            <div *ngSwitchCase="stepEnum.FieldMapping"
-                 class="px-5">
-              <pf-file-mapping [entities]="loadOptions"
-                               [selectedCompany]="selectedCompany"
-                               [loaderConfigurationGroupId]="selectedMapping.LoaderConfigurationGroupId"
-                               (mappingComplete)="onMappingComplete($event)">
-              </pf-file-mapping>
-            </div>
+              <div *ngSwitchCase="stepEnum.FieldMapping"
+                   class="px-5">
+                <pf-file-mapping [entities]="loadOptions"
+                                 [selectedCompany]="selectedCompany"
+                                 [loaderConfigurationGroupId]="selectedMapping.LoaderConfigurationGroupId"
+                                 (mappingComplete)="onMappingComplete($event)">
+                </pf-file-mapping>
+              </div>
 
             </ng-container>
 
-            <div class="text-right mt-3">
+            <div class="form-inline mt-3 justify-content-end">
+              <div class="form-check mr-3" *ngIf="this.stepIndex == stepEnum.FieldMapping">
+                <input type="checkbox" class="form-check-input" id="validateOnly" [(ngModel)]="isValidateOnly">
+                <label class="form-check-label" for="validateOnly">Validate Only</label>
+              </div>
               <button type="button"
                       *ngIf="this.stepIndex !== stepEnum.Company && this.stepIndex !== stepEnum.FieldMapping"
                       class="btn mx-1 btn-md pf-secondary-btn"
@@ -90,30 +94,25 @@
                       *ngIf="this.stepIndex === stepEnum.FieldMapping"
                       [disabled]="isProcessingMapping$ | async"
                       [style.opacity]="this.getNextBtnOpacity()"
-                      [ngbTooltip]="this.showFieldMapperTooltip ? this.NextBtnToolTips[this.stepIndex - 1] : ''"
+                      [ngbTooltip]="this.getFieldMapperTooltip()"
                       placement="top"
                       (click)="processBtnClick()"
                       class="btn mx-1 pf-primary-btn">Process</button>
-              <button class="btn mx-1 btn-md pf-secondary-btn" *ngIf="stepIndex === stepEnum.FieldMapping" (click)="openEmailRecipientsModal()">Email Recipients</button>
+              <button class="btn mx-1 btn-md pf-secondary-btn"
+                      *ngIf="stepIndex === stepEnum.FieldMapping"
+                      (click)="openEmailRecipientsModal()">Email Recipients</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!--Export Form-->
-      <form name="OrgDataExportForm"
-            [action]="orgDataExportAction()"
-            method="POST">
-      </form>
-
-      <pf-email-recipients-modal
-        class="float-right m-2"
-        *ngIf="selectedCompany && stepIndex === stepEnum.FieldMapping"
-        [companyId]="selectedCompany.CompanyId"
-        [savingError$]="emailRecipientsSavingError$"
-        [removingError$]="emailRecipientsRemovingError$"
-        [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"
-        [recipients]="emailRecipients$ | async">
+      <pf-email-recipients-modal class="float-right m-2"
+                                 *ngIf="selectedCompany && stepIndex === stepEnum.FieldMapping"
+                                 [companyId]="selectedCompany.CompanyId"
+                                 [savingError$]="emailRecipientsSavingError$"
+                                 [removingError$]="emailRecipientsRemovingError$"
+                                 [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"
+                                 [recipients]="emailRecipients$ | async">
       </pf-email-recipients-modal>
 
     </ng-container>

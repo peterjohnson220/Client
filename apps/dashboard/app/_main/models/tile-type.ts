@@ -21,6 +21,7 @@ export class TileType {
   Ideas = TileTypes.Ideas;
   TotalRewards = TileTypes.TotalRewards;
   DataManagement = TileTypes.DataManagement;
+  InternationalData = TileTypes.InternationalData;
 
   constructor() {
     this.AllTypes = [
@@ -41,7 +42,8 @@ export class TileType {
       TileTypes.QuickPrice,
       TileTypes.Ideas,
       TileTypes.TotalRewards,
-      TileTypes.DataManagement
+      TileTypes.DataManagement,
+      TileTypes.InternationalData
     ];
   }
 }

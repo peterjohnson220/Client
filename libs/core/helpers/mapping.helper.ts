@@ -26,7 +26,8 @@ export class MappingHelper {
       Visible: request.Visible,
       Order: request.Order,
       Default: request.Default,
-      Required: request.Required
+      Required: request.Required,
+      PublicView: request.PublicView
     };
   }
 
@@ -46,7 +47,8 @@ export class MappingHelper {
       Order: response.Order,
       Default: response.Default,
       Required: response.Required,
-      DisableDropdown: false
+      DisableDropdown: false,
+      PublicView: response.PublicView
     };
   }
 

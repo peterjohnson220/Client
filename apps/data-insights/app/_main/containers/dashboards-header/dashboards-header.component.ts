@@ -3,16 +3,18 @@ import { Component, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } 
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
-import { AsyncStateObj } from 'libs/models/state';
 import { SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum } from 'libs/models';
+import { CompanySettingsEnum, AsyncStateObj } from 'libs/models';
 import { Permissions } from 'libs/constants';
 
-import * as fromDataViewActions from '../../actions/data-view.actions';
+import * as fromSharedMainReducer from '../../../_shared/reducers';
+import * as fromBaseDataViewModalActions from '../../../_shared/actions/base-data-view-modal.actions';
+import { Entity } from '../../../_shared/models';
+
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { DashboardView, Entity, SaveUserWorkbookModalData } from '../../models';
-import { SaveUserWorkbookModalComponent } from '../../components';
+import { DashboardView } from '../../models';
+import { CreateDataViewModalComponent } from '../create-data-view-modal';
 
 @Component({
   selector: 'pf-dashboards-header',
@@ -28,48 +30,51 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
 
   @Output() selectedDashboardViewChanged: EventEmitter<DashboardView> = new EventEmitter<DashboardView>();
 
+  baseEntitiesAsync$: Observable<AsyncStateObj<Entity[]>>;
   distinctTagsByView$: Observable<string[]>;
   tags$: Observable<string[]>;
   tagFilter$: Observable<string>;
   reportBuilderSettingEnabled$: Observable<boolean>;
-  baseEntitiesAsync$: Observable<AsyncStateObj<Entity[]>>;
-  savingUserDataView$: Observable<boolean>;
-  savingUserDataViewConflict$: Observable<boolean>;
-  savingUserDataViewError$: Observable<boolean>;
+  savingDataViewSuccess$: Observable<boolean>;
 
   reportBuilderSettingEnabledSub: Subscription;
+  savingDataViewSuccessSubscription: Subscription;
   permissions = Permissions;
 
-  @ViewChild(SaveUserWorkbookModalComponent, { static: false }) public saveUserWorkbookModalComponent: SaveUserWorkbookModalComponent;
+  @ViewChild(CreateDataViewModalComponent, { static: false }) public createDataViewModal: CreateDataViewModalComponent;
   reportBuilderSettingEnabled: boolean;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
     private settingsService: SettingsService
   ) {
+    this.baseEntitiesAsync$ = this.store.pipe(select(fromSharedMainReducer.getBaseEntitiesAsync));
     this.distinctTagsByView$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTagsByView));
     this.tags$ = this.store.pipe(select(fromDataInsightsMainReducer.getDistinctTags));
     this.tagFilter$ = this.store.pipe(select(fromDataInsightsMainReducer.getTagFilter));
-    this.baseEntitiesAsync$ = this.store.pipe(select(fromDataInsightsMainReducer.getBaseEntitiesAsync));
-    this.savingUserDataView$ = this.store.pipe(select(fromDataInsightsMainReducer.getSavingUserReport));
-    this.savingUserDataViewError$ = this.store.pipe(select(fromDataInsightsMainReducer.getSaveUserReportError));
-    this.savingUserDataViewConflict$ = this.store.pipe(select(fromDataInsightsMainReducer.getSaveUserReportConflict));
     this.reportBuilderSettingEnabled$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.DataInsightsReportBuilder
     );
+    this.savingDataViewSuccess$ = this.store.pipe(select(fromDataInsightsMainReducer.getSaveUserReportSuccess));
   }
 
   ngOnInit(): void {
     this.reportBuilderSettingEnabledSub = this.reportBuilderSettingEnabled$.subscribe(settingEnabled => {
       this.reportBuilderSettingEnabled = settingEnabled;
       if (settingEnabled) {
-        this.store.dispatch(new fromDataViewActions.GetBaseEntities());
+        this.store.dispatch(new fromBaseDataViewModalActions.GetBaseEntities());
+      }
+    });
+    this.savingDataViewSuccessSubscription = this.savingDataViewSuccess$.subscribe(succeeded => {
+      if (succeeded && !!this.createDataViewModal) {
+        this.createDataViewModal.close();
       }
     });
   }
 
   ngOnDestroy(): void {
     this.reportBuilderSettingEnabledSub.unsubscribe();
+    this.savingDataViewSuccessSubscription.unsubscribe();
   }
 
   handleViewChanged(view: DashboardView) {
@@ -81,10 +86,7 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
   }
 
   handleNewReportClicked() {
-    this.saveUserWorkbookModalComponent.open();
+    this.createDataViewModal.open();
   }
 
-  handleSaveUserDataViewClicked(saveUserDataViewModalData: SaveUserWorkbookModalData) {
-    this.store.dispatch(new fromDataViewActions.SaveUserReport(saveUserDataViewModalData));
-  }
 }

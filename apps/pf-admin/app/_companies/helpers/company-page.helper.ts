@@ -182,6 +182,10 @@ export class CompanyPageHelper {
             s.Disabled = true;
             return s;
           }
+          case CompanySettingsEnum.ProjectJobCount: {
+            s.Disabled = false;
+            return s;
+          }
           default: {
             s.Value = 'false';
             s.Disabled = false;
@@ -264,20 +268,7 @@ export class CompanyPageHelper {
             s.Disabled = true;
             return s;
           }
-          default: {
-            s.Value = 'false';
-            s.Disabled = false;
-            return s;
-          }
-        }
-      }));
-  }
-
-  static getSmallBusinessClientTypeCompanySettings(settings: CompanySetting[]): CompanySetting[] {
-    return settings.filter( s => s.Visible === false).concat(
-      settings.map(s => {
-        switch (s.Key) {
-          case CompanySettingsEnum.MaxProjectJobCount: {
+          case CompanySettingsEnum.ProjectJobCount: {
             s.Disabled = false;
             return s;
           }

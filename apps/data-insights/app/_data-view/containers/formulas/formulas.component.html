@@ -9,10 +9,11 @@
 
 <div class="user-formula-container">
   <div perfectScrollbar class="formula" *ngIf="!!userFormulas">
-    <div *ngFor="let userFormula of (userForumla$ | async); trackBy: trackByFn">
+    <div *ngFor="let userFormula of userFormulas; trackBy: trackByFn">
       <pf-user-formula-card
         [field]="userFormula"
-        (editFormulaClicked)="handleEditFormulaClicked($event)">
+        (editFormulaClicked)="handleEditFormulaClicked($event)"
+        (deleteClicked)="handleDeleteFormulaClicked($event)">
       </pf-user-formula-card>
     </div>
   </div>
@@ -20,7 +21,14 @@
 
 <pf-formula-field-modal
   #editFormulaModal
-  [baseEntityId]="(dataView$ | async)?.obj?.BaseEntityId"
+  [baseEntityId]="(dataView$ | async)?.obj?.Entity?.Id"
   [fieldSuggestions]="formulaFieldSuggestions$ | async"
   [modalData]="formulaFieldModalObj">
 </pf-formula-field-modal>
+
+<pf-delete-user-formula-modal
+  [loading]="(formulaViewCount$ | async)?.loading"
+  [field]="formulaToDelete"
+  [viewCount]="(formulaViewCount$ | async)?.obj"
+  (deleteClicked)="handleDeleteConfirmClicked($event)">
+</pf-delete-user-formula-modal>

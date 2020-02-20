@@ -1,0 +1,123 @@
+<div class="modeling-settings-form-content d-flex flex-column">
+  <div class="flex-column">
+    <div class="d-flex flex-row w-100">
+      <label class="col-form-label" for="model-settings-standard-pay-elements">Midpoint based on</label>
+    </div>
+    <div class="d-flex flex-row w-100">
+      <div class="form-group mr-3 flex-grow-1">
+        <kendo-combobox id="model-settings-standard-pay-elements" class="form-control"
+                        [allowCustom]="false"
+                        [data]="(StandardPayElements$ | async)?.obj"
+                        [loading]="(StandardPayElements$ | async).loading"
+                        [valuePrimitive]="true"
+                        [ngModel]=currentModelingSettingsData?.StandardPayElement
+                        [filterable]="true"
+                        [suggest]="true">
+        </kendo-combobox>
+      </div>
+
+      <div class="form-group model-settings-percentiles-group w-30">
+        <kendo-combobox id="model-settings-percentiles" class="form-control"
+                        [allowCustom]="false"
+                        [data]="(Percentiles$ | async)?.obj"
+                        [loading]="(Percentiles$ | async).loading"
+                        [valuePrimitive]="true"
+                        [ngModel]=currentModelingSettingsData?.Percentiles
+                        [filterable]="true"
+                        [suggest]="true">
+        </kendo-combobox>
+      </div>
+    </div>
+    <div class="d-flex flex-row w-100">
+      <label class="col-form-label" for="model-settings-min">Range Spread</label>
+    </div>
+    <div class="d-flex flex-row w-100 justify-content-between">
+      <div class="form-group input-group w-50 mr-3">
+        <kendo-numerictextbox  class="form-control"
+                               id="model-settings-min"
+                               placeholder="Minimum"
+                               [(ngModel)]="currentModelingSettingsData.Min"
+                               [format]="'n'"
+                               [spinners]="false"
+                               [decimals]="2"
+                               [max]="100"
+                               [min]="1"
+                               [autoCorrect]="true"
+        ></kendo-numerictextbox>
+        <div class="input-group-append">
+          <span class="d-flex input-group-text align-items-center pl-2">%</span>
+        </div>
+      </div>
+      <div class="form-group input-group w-50">
+        <kendo-numerictextbox  class="form-control"
+                               placeholder="Maximum"
+                               [(ngModel)]="currentModelingSettingsData.Max"
+                               [format]="'n'"
+                               [spinners]="false"
+                               [decimals]="2"
+                               [max]="100"
+                               [min]="1"
+                               [autoCorrect]="true"
+        ></kendo-numerictextbox>
+        <div class="input-group-append">
+          <span class=" d-flex input-group-text align-items-center pl-2">%</span>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row w-100 justify-content-between">
+      <div class="form-group w-100">
+        <label class="col-form-label" for="model-settings-rate">Rate</label>
+        <kendo-combobox id="model-settings-rate" class="form-control"
+                        [allowCustom]="false"
+                        [data]="_RATE_FIELDS"
+                        [valuePrimitive]="true"
+                        [ngModel]=currentModelingSettingsData?.Rate
+                        [placeholder]="'Select Rate'"
+                        [filterable]="true"
+                        [suggest]="true">
+        </kendo-combobox>
+      </div>
+    </div>
+    <div class="d-flex flex-row w-100">
+      <div class="form-group w-100">
+        <label class="col-form-label" for="model-settings-rate">Currency</label>
+        <kendo-combobox id="model-settings-currency" class="form-control"
+                        [allowCustom]="false"
+                        [data]="(CurrencyOptions$ | async)?.obj"
+                        [loading]="(CurrencyOptions$ | async).loading"
+                        [valuePrimitive]="false"
+                        [textField]="'CurrencyName'"
+                        [valueField]="'CurrencyCode'"
+                        [ngModel]=currentModelingSettingsData?.Currency
+                        [placeholder]="'Select Currency'"
+                        [filterable]="true"
+                        [suggest]="true">
+          <ng-template kendoComboBoxItemTemplate let-dataItem>
+            <span>{{dataItem['CurrencyCode']}} - {{dataItem['CurrencyName']}}</span>
+          </ng-template>
+        </kendo-combobox>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer d-flex justify-content-between">
+    <div class="flex-grow-1 d-flex justify-content-end space-out-children">
+      <button type="button"
+              class="btn btn-secondary"
+              (click)="handleClose()">Cancel
+      </button>
+      <button type="button"
+              class="btn btn-primary"
+              [disabled]="submitDisabled || (CreateModelAsync$ | async).loading"
+              (click)="handleModel()">
+        <span *ngIf="(CreateModelAsync$ | async).loading; else modelLabel">
+          <pf-loading-indicator></pf-loading-indicator> Modeling...
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #modelLabel>
+  <span>Model</span>
+</ng-template>

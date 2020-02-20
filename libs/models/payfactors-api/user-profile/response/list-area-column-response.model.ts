@@ -7,4 +7,5 @@ export interface ListAreaColumnResponse {
   Order: number;
   Default: boolean;
   Required: boolean;
+  PublicView: boolean;
 }

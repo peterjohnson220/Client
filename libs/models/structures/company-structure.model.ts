@@ -1,5 +1,5 @@
 import { CompanyStructureGrade, generateMockCompanyStructureGrade } from './company-structure-grade.model';
-import { CompanyStructureRangeGroup, generateMockCompanyStructureRangeGroup } from './company-structure-range-group.model';
+// import { StructureRangeGroupResponse, generateMockCompanyStructureRangeGroup } from './company-structure-range-group.model';
 
 export interface CompanyStructure {
   CompanyStructuresId: number;
@@ -7,7 +7,7 @@ export interface CompanyStructure {
   StructureCode: string;
   StructureName: string;
   CompanyStructureGrades?: CompanyStructureGrade[];
-  CompanyStructureRangeGroups?: CompanyStructureRangeGroup[];
+  CompanyStructureRangeGroups?: any[];
 }
 
 export function generateMockCompanyStructure(): CompanyStructure {
@@ -17,6 +17,6 @@ export function generateMockCompanyStructure(): CompanyStructure {
     StructureCode: 'TestStructureCode',
     StructureName: 'TestStructureName',
     CompanyStructureGrades: [generateMockCompanyStructureGrade()],
-    CompanyStructureRangeGroups: [generateMockCompanyStructureRangeGroup()]
+    CompanyStructureRangeGroups: []
   };
 }

@@ -74,7 +74,6 @@ export const PUT_SETTINGS_ERROR = '[Pf-Admin/Company Page] Put Settings Error';
 export const SELECT_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer Client Type';
 export const SELECT_PEER_AND_ANALYSIS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Peer And Analysis Client Type';
 export const SELECT_NON_PEER_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Non-Peer Client Type';
-export const SELECT_SMALL_BUSINESS_CLIENT_TYPE = '[Pf-Admin/Company Page] Select Small Business Client Type';
 
 // Disable Tiles
 export const DISABLE_PEER_AND_ANALYSIS_TILES = '[Pf-Admin/Company Page] Disable Peer And Analysis Company Tiles';
@@ -442,12 +441,6 @@ export class SelectNonPeerClientType implements Action {
   constructor() {}
 }
 
-export class SelectSmallBusinessClientType implements Action {
-  readonly type = SELECT_SMALL_BUSINESS_CLIENT_TYPE;
-
-  constructor() {}
-}
-
 export class DisablePeerAndAnalysisTiles implements Action {
   readonly type = DISABLE_PEER_AND_ANALYSIS_TILES;
 
@@ -517,7 +510,6 @@ export type Actions
   | SelectPeerClientType
   | SelectPeerAndAnalysisClientType
   | SelectNonPeerClientType
-  | SelectSmallBusinessClientType
   | GetCompany
   | GetCompanySuccess
   | GetCompanyError

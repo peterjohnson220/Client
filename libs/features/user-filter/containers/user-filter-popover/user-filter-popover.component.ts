@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Optional, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash.clonedeep';
@@ -14,6 +14,7 @@ import * as fromUserFilterPopoverActions from '../../actions/user-filter-popover
 import * as fromUserFilterReducer from '../../reducers';
 
 import {
+  UserFilterPopoverConfig,
   SavedFilter,
   SaveFilterModalData
 } from '../../models';
@@ -52,7 +53,8 @@ export class UserFilterPopoverComponent implements OnInit, OnDestroy {
   hasSelectedSavedFilter: boolean;
 
   constructor(
-    private store: Store<fromUserFilterReducer.State>
+    private store: Store<fromUserFilterReducer.State>,
+    @Optional() public userFilterPopoverConfig: UserFilterPopoverConfig
   ) {
     this.loading$ = this.store.select(fromUserFilterReducer.getLoading);
     this.error$ = this.store.select(fromUserFilterReducer.getLoadingError);

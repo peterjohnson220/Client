@@ -26,10 +26,12 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
   private loadingErrorSubscription: Subscription;
   private savingSuccessSubscription: Subscription;
   private loadingSuccessSubscription: Subscription;
+  private CUSTOM_FOOTER_TEXT_WRAP_AFTER = 40;
   public jdmFooterForm: FormGroup;
   public loadingSuccess = false;
   public loadingError = false;
   public placeholderText = '';
+  public displayCustomTextWarning = false;
 
   get createdByCheck() { return this.jdmFooterForm.controls['createdByCheck']; }
   get createdDateCheck() { return this.jdmFooterForm.controls['createdDateCheck']; }
@@ -78,7 +80,7 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
         versionNumberCheck: [null],
         pageNumberCheck: [null],
         customTextCheck: [null],
-        customTextValue: ['', [Validators.maxLength(40)]]},
+        customTextValue: ['', [Validators.maxLength(250)]]},
         { validator: this.maxCheckBoxCountValidator }
       );
   }
@@ -108,17 +110,25 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
       this.pageNumberCheck.setValue(payload.PageNumberField);
       this.customTextCheck.setValue(payload.CustomTextField);
       this.customTextValue.setValue(payload.CustomTextValueField);
-      this.placeholderText = payload.CustomTextValueField === '' ? 'Custom Text, Limit 40 Characters' : '';
+      this.placeholderText = payload.CustomTextValueField === '' ? 'Custom Text, Limit 250 Characters' : '';
     }
   }
 
   private maxCheckBoxCountValidator = (control: AbstractControl): {[key: string]: boolean} => {
     let checkCount = 0;
+    const customFooterTextLength = control.get('customTextValue').value.length;
+    this.displayCustomTextWarning = false;
+
     checkCount = control.get('createdByCheck').value === true ? checkCount + 1 : checkCount;
     checkCount = control.get('createdDateCheck').value === true ? checkCount + 1 : checkCount;
     checkCount = control.get('versionNumberCheck').value === true ? checkCount + 1 : checkCount;
     checkCount = control.get('pageNumberCheck').value === true ? checkCount + 1 : checkCount;
     checkCount = control.get('customTextCheck').value === true ? checkCount + 1 : checkCount;
+
+    if (checkCount >= 3 &&  control.get('customTextCheck').value === true && customFooterTextLength > this.CUSTOM_FOOTER_TEXT_WRAP_AFTER) {
+     this.displayCustomTextWarning = true;
+    }
+
     if (checkCount > 3) {
         return { 'customValidationError': true };
     } else {

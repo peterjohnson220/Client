@@ -21,7 +21,7 @@ exports[`TransferScheduleCardComponent should show a saveable form if the summar
         size="lg"
       />
       <h4
-        class="card-title"
+        class="card-title pb-3"
       >
         Employees
       </h4>
@@ -29,24 +29,31 @@ exports[`TransferScheduleCardComponent should show a saveable form if the summar
         id="1"
       />
       <div
-        class="text-right"
+        class="d-flex justify-content-end"
       >
-        
-        <a
-          class="btn btn-outline-danger"
-          href="javascript:void(0);"
+        <div
+          class="p-2"
         >
-          Disable
-        </a>
+          
+          <button
+            class="btn btn-outline-danger"
+            type="button"
+          >
+            Disable
+          </button>
+        </div>
         
-        <a
-          class="btn btn-primary btn-disabled disabled btn-light"
-          href="javascript:void(0);"
-          ng-reflect-klass="btn btn-primary"
-          ng-reflect-ng-class="[object Object]"
+        <div
+          class="p-2"
         >
-          Save
-        </a>
+          <button
+            class="btn btn-primary"
+            disabled=""
+            type="button"
+          >
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -69,7 +76,7 @@ exports[`TransferScheduleCardComponent should show an empty form if summary has 
     >
       
       <h4
-        class="card-title"
+        class="card-title pb-3"
       >
         Employees
       </h4>
@@ -77,24 +84,31 @@ exports[`TransferScheduleCardComponent should show an empty form if summary has 
         id="1"
       />
       <div
-        class="text-right"
+        class="d-flex justify-content-end"
       >
-        
-        <a
-          class="btn btn-outline-danger"
-          href="javascript:void(0);"
+        <div
+          class="p-2"
         >
-          Disable
-        </a>
+          
+          <button
+            class="btn btn-outline-danger"
+            type="button"
+          >
+            Disable
+          </button>
+        </div>
         
-        <a
-          class="btn btn-primary btn-disabled disabled btn-light"
-          href="javascript:void(0);"
-          ng-reflect-klass="btn btn-primary"
-          ng-reflect-ng-class="[object Object]"
+        <div
+          class="p-2"
         >
-          Save
-        </a>
+          <button
+            class="btn btn-primary"
+            disabled=""
+            type="button"
+          >
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>

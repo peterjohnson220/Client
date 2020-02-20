@@ -7,13 +7,19 @@ import {Observable} from 'rxjs';
 import {FileRestrictions} from '@progress/kendo-angular-upload';
 
 import {
+  BONUS_TARGET_COLUMN_NAME, BONUS_TARGET_DISPLAY_NAME,
   DATE_FORMATS,
   LoaderType,
   ORG_DATA_CLIENTFIELDS_INDEX_RESET,
   ORG_DATA_REMOVE_URL,
   ORG_DATA_UPLOAD_URL
 } from 'libs/features/org-data-loader/constants';
-import {DateFormatItem, FilenamePattern, LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
+import {DateFormatItem,
+  FilenamePattern,
+  LoaderEntityStatus,
+  VisibleLoaderOptionModel,
+  EntityFieldMappingDefinitionModel,
+  getEntityFieldMappingDefinition} from 'libs/features/org-data-loader/models';
 import {LoaderFieldSet} from 'libs/models/data-loads';
 
 @Component({
@@ -61,7 +67,6 @@ export class FieldMapperComponent implements OnInit {
     this.mappedFields = [];
     this.clientFields = [];
     this.dateFormatsFilteredData = this.dateFormats.slice();
-
   }
 
   ngOnInit() {
@@ -96,7 +101,11 @@ export class FieldMapperComponent implements OnInit {
     const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
     if (entityMapping) {
       for (const mapping of entityMapping.LoaderFieldMappings) {
-        this.addMappingWithoutCompleteEvent(mapping.InternalField, mapping.ClientField);
+        let internalField = mapping.InternalField;
+        if (internalField === BONUS_TARGET_COLUMN_NAME) {
+          internalField = BONUS_TARGET_DISPLAY_NAME;
+        }
+        this.addMappingWithoutCompleteEvent(internalField, mapping.ClientField);
       }
     }
   }
@@ -179,19 +188,27 @@ export class FieldMapperComponent implements OnInit {
   }
 
   private compareFields(pfField, clientField) {
-    pfField = pfField.toLowerCase().replace(new RegExp('[_ ]', 'g'), '');
-    clientField = clientField.toLowerCase().replace(new RegExp('[_ ]', 'g'), '');
+    const pfFieldOriginal = pfField;
 
-    return pfField === clientField;
+    pfField = this.applyRegExp(pfField);
+    clientField = this.applyRegExp(clientField);
+
+    if (pfField !== clientField) {
+      const custField = getEntityFieldMappingDefinition(this.loaderType).fieldMappingDefinitionModel.find(f => f.Key === pfFieldOriginal);
+      if (custField !== undefined) {
+        return this.applyRegExp(custField.Value) === clientField;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  private applyRegExp(value) {
+    return value.toLowerCase().replace(new RegExp('[_ ]', 'g'), '');
   }
 
   private mapSimilarFields() {
     for (let i = 0; i < this.clientFields.length; i++) {
-      /* the Bonus_Target field in the client files do not map to the Pf Bonus_Target field,
-    but rather to the BonusTargetPct so we need to ignore this auto mapping */
-      if (this.clientFields[i] === 'Bonus_Target') {
-        continue;
-      }
       for (let j = 0; j < this.payfactorsDataFields.length; j++) {
         if (this.compareFields(this.payfactorsDataFields[j], this.clientFields[i])) {
           this.addMappingWithCompleteEvent(this.payfactorsDataFields[j], this.clientFields[i]);

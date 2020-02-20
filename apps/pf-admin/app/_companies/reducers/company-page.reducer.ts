@@ -5,7 +5,7 @@ import { SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesRespon
 import { SortDirection, arraySortByString } from 'libs/core/functions';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
 import { CompanySetting, CompanyDto, CompanySettingsEnum } from 'libs/models/company';
-import { SystemUserGroupNames } from 'libs/constants';
+import { SystemUserGroupNames, TileNames } from 'libs/constants';
 import * as fromCompanyPageActions from '../actions/company-page.actions';
 import { CompanyPageHelper } from '../helpers';
 
@@ -249,12 +249,20 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       };
     }
     case fromCompanyPageActions.GET_COMPANY_TILES_SUCCESS: {
+      const companyTiles = action.payload.map(c => {
+        if ( c.TileName === TileNames.InternationalData) {
+          return {...c, Checked: false};
+        } else {
+          return {...c};
+        }
+      });
+
       return {
         ...state,
         loadingCompanyTiles: false,
         loadingCompanyTilesSuccess: true,
-        companyTiles: action.payload,
-        initialCompanyTiles: action.payload
+        companyTiles: companyTiles,
+        initialCompanyTiles: companyTiles
       };
     }
     case fromCompanyPageActions.GET_COMPANY_TILES_ERROR: {
@@ -482,15 +490,6 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         ...state,
         companyTiles: companyTilesCopy,
         companyDataSetsEnabled: true
-      };
-    }
-    case fromCompanyPageActions.SELECT_SMALL_BUSINESS_CLIENT_TYPE: {
-      let companySettingsCopy = cloneDeep(state.companySettings);
-      companySettingsCopy = CompanyPageHelper.getSmallBusinessClientTypeCompanySettings(companySettingsCopy);
-
-      return {
-        ...state,
-        companySettings: companySettingsCopy
       };
     }
     case fromCompanyPageActions.DISABLE_PEER_AND_ANALYSIS_TILES: {

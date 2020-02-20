@@ -4,8 +4,8 @@
     <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.SelectTransferMethod" class="my-4 mx-3">
       <div class="float-right"><h5 style="opacity: 0.6;">STEP 1/5</h5></div>
       <h4>HRIS Integration</h4>
-      <div class="mx-5 my-5">
-        <div class="row" style="display:none;">
+      <div class="m-5">
+        <div style="display:none;">
           <div class="col-4 mb-4 p-0">
             <pf-transfer-method-dropdown
               [transferMethods]="transferMethods$ | async"
@@ -13,7 +13,7 @@
             </pf-transfer-method-dropdown>
           </div>
         </div>
-        <div class="row">
+        <div>
           <div class="mb-4">
             <h5>Select an HRIS vendor from the list below.</h5>
           </div>
@@ -35,32 +35,11 @@
         </div>
       </div>
     </div>
-    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.EntitySelection">
-      <div class="float-right"><h5 style="opacity: 0.6;">STEP 2/5</h5></div>
-      <h4 class="mt-4 ml-2">Select entities to transfer</h4>
-      <div class="ml-5">
-        <h6 class="mt-4">Select which organizational data entity you would like to load data for:</h6>
-        <pf-entity-picker
-          [(entities)] = "providerSupportedEntities">
-        </pf-entity-picker>
-      </div>
-      <div *ngIf="providers$ | async" class="d-flex justify-content-end">
-        <div class="p-2">
-          <button type="button" class="btn btn-outline-danger" (click)="cancelTransferDataWorkflow()">Cancel</button>
-        </div>
-        <div class="p-2">
-          <button type="button" class="btn btn-info" [disabled]="!checkForSelectedEntity()" (click)="proceedToAuthentication()">Next</button>
-        </div>
-      </div>
-    </div>
     <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.Authentication || (currentWorkflowStep$ | async) === workflowStep.Validated" class="my-4 mx-3">
       <pf-hris-authentication-card
         [provider]="selectedProvider"
         [transferMethod]="'HRIS Integration'"
         [validatedCredentials]="(currentWorkflowStep$ | async) === workflowStep.Validated">
       </pf-hris-authentication-card>
-    </div>
-    <div *ngIf="(currentWorkflowStep$ | async) === workflowStep.Mappings">
-      <pf-field-mappings-card (resetWorkflow)="cancelTransferDataWorkflow()"></pf-field-mappings-card>
     </div>
 </pf-async-container>

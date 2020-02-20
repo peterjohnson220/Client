@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { PayfactorsApiService } from '../payfactors-api.service';
-import { LoaderFieldSet, FieldMappingsDTO } from 'libs/models/data-loads/index';
+import { of, Observable } from 'rxjs';
+import { OrgDataEntityType } from 'libs/constants';
 import {FileUploadHeaderRequestModel} from 'libs/features/org-data-loader/models';
+import { LoaderFieldSet, FieldMappingsDTO } from 'libs/models/data-loads/index';
 
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
 export class LoaderFieldMappingsApiService {
@@ -37,5 +40,25 @@ export class LoaderFieldMappingsApiService {
 
   getFileUploadColumnNames(fileUpload: FileUploadHeaderRequestModel) {
     return this.payfactorsApiService.postFormData(`${this.endpoint}.UploadAndGetColumnNames`, fileUpload);
+  }
+
+  getCustomFieldsByEntity(entity: string, companyId: number) {
+    let result: Observable<any[]>;
+    switch (entity) {
+      case OrgDataEntityType.Employees: {
+        result = this.getCustomEmployeeFields(companyId);
+        break;
+      }
+      case OrgDataEntityType.Jobs: {
+        result = this.getCustomJobFields(companyId);
+        break;
+      }
+      default: {
+        result =  of([]);
+        break;
+      }
+    }
+
+    return result;
   }
 }

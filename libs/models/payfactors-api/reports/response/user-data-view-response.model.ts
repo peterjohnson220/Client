@@ -12,8 +12,6 @@ export interface DataViewResponse {
   Entity: string;
   Name: string;
   Summary: string;
-  SortField: string;
-  SortDir: 'desc' | 'asc';
   AccessLevel: DataViewAccessLevel;
 }
 

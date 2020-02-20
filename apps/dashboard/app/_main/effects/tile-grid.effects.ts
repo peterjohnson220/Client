@@ -21,8 +21,9 @@ export class TileGridEffects {
       switchMap((action: fromTileGridActions.LoadingTiles) =>
         this.dashboardApiService.getUserDashboardTiles(action.includeTilePreviewData).pipe(
           map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos)),
+          map((tiles: Tile[]) => this.orderMarketingTiles(tiles)),
           map((tiles: Tile[]) => new fromTileGridActions.LoadingTilesSuccess(tiles)),
-          catchError(error => of (new fromTileGridActions.LoadingTilesError(error)))
+          catchError(error => of(new fromTileGridActions.LoadingTilesError(error)))
         )
       )
     );
@@ -33,9 +34,9 @@ export class TileGridEffects {
       ofType(fromTileGridActions.LOADING_SINGLE_TILE),
       switchMap((action: fromTileGridActions.LoadingSingleTile) =>
         this.dashboardApiService.getUserDashboardTile(action.tileId).pipe(
-          map((userTileDtos: UserTileDto) => this.mapToTiles([userTileDtos])),
+          map((userTileDtos: UserTileDto) => this.mapToTiles([ userTileDtos ])),
           map((tiles: Tile[]) => new fromTileGridActions.LoadingSingleTileSuccess(tiles)),
-          catchError(error => of (new fromTileGridActions.LoadingSingleTileError(error)))
+          catchError(error => of(new fromTileGridActions.LoadingSingleTileError(error)))
         )
       )
     );
@@ -48,7 +49,7 @@ export class TileGridEffects {
         this.dashboardApiService.reorderDashboardTiles(action.payload).pipe(
           map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos)),
           map((tiles: Tile[]) => new fromTileGridActions.ReorderTilesSuccess(tiles)),
-          catchError(error => of (new fromTileGridActions.ReorderTilesError(error)))
+          catchError(error => of(new fromTileGridActions.ReorderTilesError(error)))
         )
       )
     );
@@ -56,12 +57,80 @@ export class TileGridEffects {
   constructor(
     private actions$: Actions,
     private dashboardApiService: DashboardApiService
-  ) {}
+  ) {
+  }
 
-  mapToTiles(userTileDtos: UserTileDto[]): Tile[] {
+  private mapToTiles(userTileDtos: UserTileDto[]): Tile[] {
     const filteredTiles = userTileDtos
       .map(dt => UserTileToTileMapper.mapUserTileDtoToTile(dt))
       .filter(t => new TileType().AllTypes.indexOf(t.Type) !== -1);
     return filteredTiles;
+  }
+
+  // FORT-229 Reorder the marketing tiles so they are positioned next to each other without leaving empty space between
+  private orderMarketingTiles(tiles: Tile[]): Tile[] {
+    const MAX_COLUMN_COUNT = 4;
+    const marketingTiles = tiles.filter(t => t.MarketingEnabled === true);
+    const reorderedTiles = tiles.filter(t => t.MarketingEnabled !== true);
+    const firstSmallTile = marketingTiles.find(t => t.Size === 1);
+    const firstLargeTile = marketingTiles.find(t => t.Size === 2);
+
+    if (marketingTiles.length <= 1 ||
+      firstSmallTile == null ||
+      firstLargeTile == null) {
+      return tiles;
+    }
+
+    let currentRowColumnCount = this.getLastRowTileCount(reorderedTiles, MAX_COLUMN_COUNT);
+
+    for (let i = 0; i < marketingTiles.length; i++) {
+      currentRowColumnCount += marketingTiles[ i ].Size;
+
+      if (currentRowColumnCount === MAX_COLUMN_COUNT) {
+        currentRowColumnCount = 0;
+      }
+
+      if (currentRowColumnCount > MAX_COLUMN_COUNT) {
+        const nextSmallTile = marketingTiles.slice(i + 1).find(t => t.Size === 1);
+
+        if (nextSmallTile) {
+          // swap a small tile in place of the current tile to make the tiles fit on the row
+          marketingTiles[ marketingTiles.indexOf(nextSmallTile) ] = marketingTiles[ i ];
+          marketingTiles[ i ] = nextSmallTile;
+          currentRowColumnCount = 0;
+        } else {
+          const previousSmallTile = marketingTiles.slice().reverse().find(t => t.Size === 1);
+
+          if (previousSmallTile) {
+            // no more small tiles ahead of the current tile, so swap the last small tile with the current tile
+            marketingTiles[ marketingTiles.indexOf(previousSmallTile) ] = marketingTiles[ i ];
+            marketingTiles[ i ] = previousSmallTile;
+            currentRowColumnCount = 0;
+          }
+        }
+      }
+    }
+
+    reorderedTiles.push(...marketingTiles);
+
+    return reorderedTiles;
+  }
+
+  private getLastRowTileCount(nonMarketingTiles, MAX_COLUMN_COUNT) {
+    let lastRowTileCount = 0;
+
+    nonMarketingTiles.forEach(tile => {
+      lastRowTileCount += tile.Size;
+
+      if (lastRowTileCount === MAX_COLUMN_COUNT) {
+        lastRowTileCount = 0;
+      }
+
+      if (lastRowTileCount > MAX_COLUMN_COUNT) {
+        lastRowTileCount = 2;
+      }
+    });
+
+    return lastRowTileCount;
   }
 }

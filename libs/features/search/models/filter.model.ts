@@ -5,7 +5,8 @@ import { OperatorEnum } from '../../../constants';
 export enum FilterType {
   Text = 'Text',
   Multi = 'Multi',
-  Range = 'Range'
+  Range = 'Range',
+  FilterableMulti = 'FilterableMulti'
 }
 
 export interface Filter {
@@ -18,6 +19,7 @@ export interface Filter {
   CssClassName?: string;
   SaveDisabled?: boolean;
   Operator?: OperatorEnum;
+  ParentBackingField?: string;
 }
 
 export interface TextFilter extends Filter {
@@ -31,7 +33,7 @@ export interface MultiSelectFilter extends Filter {
   RefreshOptionsFromServer: boolean;
   OptionCountDisabled?: boolean;
   DefaultSelections: any[];
-  Type: FilterType.Multi;
+  Type: FilterType.Multi | FilterType.FilterableMulti;
   ShowAllOptions?: boolean;
 }
 
@@ -44,11 +46,24 @@ export interface RangeFilter extends Filter {
   Type: FilterType.Range;
 }
 
+export interface FilterableMultiSelectFilter extends MultiSelectFilter {
+  Options: FilterableMultiSelectOption[];
+  RefreshOptionsFromServer: boolean;
+  OptionCountDisabled?: boolean;
+  DefaultSelections: any[];
+  Type: FilterType.FilterableMulti;
+  ShowAllOptions?: boolean;
+}
+
 export interface MultiSelectOption {
   Name: string;
   Value: any;
   Count?: number;
   Selected: boolean;
+}
+export interface FilterableMultiSelectOption  extends MultiSelectOption {
+  SubAggregationCount: number;
+  SelectionsCount: number;
 }
 
 export type Filters = MultiSelectFilter | RangeFilter | TextFilter;
@@ -64,6 +79,10 @@ export function isMultiFilter(filter: Filter): filter is MultiSelectFilter {
 
 export function isRangeFilter(filter: Filter): filter is RangeFilter {
   return filter.Type === FilterType.Range;
+}
+
+export function isFilterableMultiFilter(filter: Filter): filter is FilterableMultiSelectFilter {
+  return filter.Type === FilterType.FilterableMulti;
 }
 
 // Mock Functions
@@ -95,12 +114,38 @@ export function generateMockMultiSelectFilter(): MultiSelectFilter {
   };
 }
 
+export function generateMockFilterableMultiSelectFilter(): FilterableMultiSelectFilter {
+  return {
+    Id: 'publisher',
+    BackingField: 'survey_publisher',
+    DisplayName: 'Publisher',
+    Options: [generateMockFilterableMultiSelectOption()],
+    Type: FilterType.FilterableMulti,
+    RefreshOptionsFromServer: true,
+    DefaultSelections: [],
+    Order: 1,
+    Locked: false,
+    CssClassName: 'au-chk-publisher'
+  };
+}
+
 export function generateMockMultiSelectOption(): MultiSelectOption {
   return {
     Name: 'Option 1',
     Count: 2,
     Value: 32,
     Selected: true
+  };
+}
+
+export function generateMockFilterableMultiSelectOption(): FilterableMultiSelectOption {
+  return {
+    Name: 'Option 1',
+    Count: 2,
+    Value: 32,
+    Selected: true,
+    SubAggregationCount: 0,
+    SelectionsCount: 0
   };
 }
 

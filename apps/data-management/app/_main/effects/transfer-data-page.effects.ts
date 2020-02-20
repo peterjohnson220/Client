@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Store, Action, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { mergeMap, switchMap, map, withLatestFrom, catchError, delay } from 'rxjs/operators';
+import { mergeMap, switchMap, map, withLatestFrom, catchError, delay, tap } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { TransferMethodsHrisApiService, ProvidersHrisApiService,
   ConnectionsHrisApiService} from 'libs/data/payfactors-api/hris-api';
-import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse, ProviderSupportedEntityDTO } from 'libs/models/hris-api';
+import { TransferMethodResponse, ProviderResponse, ValidateCredentialsResponse, ProviderSupportedEntityDTO, CredentialsPackage } from 'libs/models/hris-api';
 
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
-import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromDataManagementMainReducer from '../reducers';
-
 import { PayfactorsApiModelMapper } from '../helpers';
+
 
 @Injectable()
 export class TransferDataPageEffects {
@@ -85,7 +86,7 @@ export class TransferDataPageEffects {
         return this.providersHrisApiService.getProvidersByTransferMethodId(obj.userContext, obj.selectedTransferMethod)
           .pipe(
             map((response: ProviderResponse[]) => {
-              const providers = PayfactorsApiModelMapper.mapProviderResponseToProvider(response);
+              const providers = PayfactorsApiModelMapper.mapProviderResponsesToProviders(response);
               return new fromTransferDataPageActions.LoadProvidersSuccess(providers);
           })
         );
@@ -124,83 +125,63 @@ export class TransferDataPageEffects {
       })
     );
 
+  // TODO: Refactor to remove this and move to hris-connection-effects for splitting out to individual pages
   @Effect()
     CreateConnection$: Observable<Action> = this.actions$
     .pipe(
       ofType<fromTransferDataPageActions.CreateConnection>(fromTransferDataPageActions.CREATE_CONNECTION),
-      withLatestFrom(this.store.select(fromDataManagementMainReducer.getSelectedProvider),
-      this.store.pipe(select(fromRootState.getUserContext)),
-      (action, provider, userContext) => {
+      withLatestFrom(
+        this.store.select(fromDataManagementMainReducer.getSelectedProvider),
+        this.store.pipe(select(fromDataManagementMainReducer.getTransferDataPageActiveConnection)),
+        this.store.pipe(select(fromRootState.getUserContext)),
+      (action, provider, activeConnection, userContext) => {
         return {
           action,
           provider,
+          activeConnection,
           userContext
         };
       }),
       switchMap((obj) => {
+        if (obj.activeConnection) {
+          return [
+            new fromTransferDataPageActions.CreateConnectionSuccess(obj.activeConnection)
+          ];
+        }
+
         const connectionPostModel =
           PayfactorsApiModelMapper.createConnectionPostRequest(obj.action.payload, obj.userContext.CompanyId, obj.provider.ProviderId);
         return this.connectionsHrisApiService.connect(obj.userContext, connectionPostModel)
           .pipe(
-            map((response: any) => {
-              return new fromTransferDataPageActions.CreateConnectionSuccess();
+            switchMap((response: any) => {
+              return this.connectionsHrisApiService.get(obj.userContext)
+                .pipe(
+                  map((newConnection: CredentialsPackage) => {
+                    return new fromTransferDataPageActions.CreateConnectionSuccess(newConnection);
+                  }),
+                  catchError(error => of(new fromTransferDataPageActions.CreateConnectionError()))
+                );
             }),
             catchError(error => of(new fromTransferDataPageActions.CreateConnectionError()))
           );
       })
     );
 
-  @Effect()
+  @Effect({dispatch: false})
   CreateConnectionSuccess$: Observable<Action> = this.actions$
   .pipe(
     ofType<fromTransferDataPageActions.CreateConnectionSuccess>(fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS),
-    withLatestFrom(this.store.select(fromDataManagementMainReducer.getSelectedEntities),
-    (action, selectedEntities) => {
-      return {
-        action,
-        selectedEntities
-      };
-    }),
-    switchMap((obj) => {
-      return [
-        new fromFieldMappingActions.InitFieldMappingCard({
-          entities: obj.selectedEntities,
-        })
-      ];
-    })
+    tap(() => this.router.navigate(['/', 'field-mapping']))
   );
 
-  @Effect()
-  loadSelectedEntities$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromTransferDataPageActions.LOAD_ENTITY_SELECTION),
-      withLatestFrom(
-        this.store.select(fromDataManagementMainReducer.getSelectedProvider),
-        this.store.pipe(select(fromRootState.getUserContext)),
-        (action, selectedProvider, userContext) => {
-          return {
-            action,
-            selectedProvider,
-            userContext
-          };
-        }
-      ),
-      switchMap((obj) => {
-        return this.providersHrisApiService.getEntitySelectionByProvider(obj.userContext, obj.selectedProvider.ProviderId)
-          .pipe(
-            map((response: ProviderSupportedEntityDTO[]) => {
-              const entities = PayfactorsApiModelMapper.mapEntitySelectionResponseToEntitySelection(response);
-              return new fromTransferDataPageActions.LoadEntitySelectionSuccess(entities);
-          })
-        );
-      })
-    );
+
 
   constructor(
     private actions$: Actions,
     private store: Store<fromDataManagementMainReducer.State>,
     private transferMethodsHrisApiService: TransferMethodsHrisApiService,
     private providersHrisApiService: ProvidersHrisApiService,
-    private connectionsHrisApiService: ConnectionsHrisApiService
+    private connectionsHrisApiService: ConnectionsHrisApiService,
+    private router: Router
   ) {}
 }

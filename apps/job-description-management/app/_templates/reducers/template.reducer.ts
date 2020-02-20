@@ -1,8 +1,8 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { SaveError } from '../../shared/models/save-error.model';
 import { Template } from '../models';
-import * as fromTemplateActions from '../actions/template.actions';
+import * as fromTemplateActions from '../actions';
+import { SaveError } from '../../shared/models';
 
 export interface State {
   loaded: boolean;
@@ -14,6 +14,10 @@ export interface State {
   deleting: boolean;
   template: Template;
   saveError: SaveError;
+  loadingError: boolean;
+  errorMessage: string;
+  summary: any;
+  loadingSummary: boolean;
 }
 
 const initialState: State = {
@@ -25,10 +29,14 @@ const initialState: State = {
   editing: false,
   deleting: false,
   template: null,
-  saveError: null
+  saveError: null,
+  loadingError: false,
+  errorMessage: '',
+  summary: null,
+  loadingSummary: false
 };
 
-export function reducer(state = initialState, action: fromTemplateActions.Actions): State {
+export function reducer(state = initialState, action: fromTemplateActions.TemplateActions): State {
   switch (action.type) {
     case fromTemplateActions.SAVE_TEMPLATE:
       return {
@@ -71,7 +79,50 @@ export function reducer(state = initialState, action: fromTemplateActions.Action
         ...state,
         deleting: false
       };
+    case fromTemplateActions.LOAD_TEMPLATE:
+      return {
+        ...state,
+        loading: true,
+        loadingError: false,
+        errorMessage: ''
+      };
+    case fromTemplateActions.LOAD_TEMPLATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        loadingError: false,
+        errorMessage: '',
+        template: action.payload
+      };
+    case fromTemplateActions.LOAD_TEMPLATE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        loadingError: true,
+        errorMessage: action.payload.errorMessage
+      };
+    case fromTemplateActions.LOAD_TEMPLATE_ASSIGNMENT_SUMMARY:
+      return {
+        ...state,
+        loadingSummary: true
+      };
+    case fromTemplateActions.LOAD_TEMPLATE_ASSIGNMENT_SUMMARY_SUCCESS:
+      return {
+        ...state,
+        loadingSummary: false,
+        summary: action.payload
+      };
+    case fromTemplateActions.CLEAN_TEMPLATE_STATE:
+      return initialState;
     default:
       return state;
   }
 }
+
+export const getTemplate = (state: State) => state.template;
+export const getTemplateLoading = (state: State) => state.loading;
+export const getTemplateLoadingError = (state: State) => state.loadingError;
+export const getErrorMessage = (state: State) => state.errorMessage;
+export const getTemplateAssignmentSummary = (state: State) => state.summary;

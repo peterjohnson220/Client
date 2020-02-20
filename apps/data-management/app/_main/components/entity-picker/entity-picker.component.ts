@@ -8,7 +8,6 @@ import { EntityChoice } from '../../models';
   styleUrls: ['./entity-picker.component.scss']
 })
 export class EntityPickerComponent {
-
   @Input() entities: EntityChoice[];
 
   constructor() { }

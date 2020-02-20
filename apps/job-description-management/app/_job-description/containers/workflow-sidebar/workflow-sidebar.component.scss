@@ -41,3 +41,9 @@
   color: #d9534f;
   float: left;
 }
+
+/* Had to add this part so that the text area size doesn't push the buttons outside the scope of the header in Firefox */
+textarea {
+  height: 10em;
+}
+
