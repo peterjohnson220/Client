@@ -6,19 +6,19 @@ import { Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromPasswordSettingsReducer from '../reducers';
-import { PasswordManagementPageComponent } from './password-management.page';
-import { PasswordManagementSettingsComponent } from '../containers';
+import { SecuritySettingsPageComponent } from './security-settings.page';
+import { SecurityManagementSettingsComponent } from '../containers';
 
-describe('PasswordManagementComponent', () => {
-  let component: PasswordManagementPageComponent;
-  let fixture: ComponentFixture<PasswordManagementPageComponent>;
-  let childComponent: PasswordManagementSettingsComponent;
-  let childFixture: ComponentFixture<PasswordManagementSettingsComponent>;
+describe('SecuritySettingsComponent', () => {
+  let component: SecuritySettingsPageComponent;
+  let fixture: ComponentFixture<SecuritySettingsPageComponent>;
+  let childComponent: SecurityManagementSettingsComponent;
+  let childFixture: ComponentFixture<SecurityManagementSettingsComponent>;
   let store: Store<fromPasswordSettingsReducer.State>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PasswordManagementPageComponent, PasswordManagementSettingsComponent ],
+      declarations: [ SecuritySettingsPageComponent, SecurityManagementSettingsComponent ],
       providers: [ FormBuilder ],
       schemas: [ NO_ERRORS_SCHEMA ],
       imports: [
@@ -33,9 +33,9 @@ describe('PasswordManagementComponent', () => {
 
   beforeEach(() => {
     store = TestBed.get(Store);
-    fixture = TestBed.createComponent(PasswordManagementPageComponent);
+    fixture = TestBed.createComponent(SecuritySettingsPageComponent);
     component = fixture.componentInstance;
-    childFixture = TestBed.createComponent(PasswordManagementSettingsComponent);
+    childFixture = TestBed.createComponent(SecurityManagementSettingsComponent);
     childComponent = childFixture.componentInstance;
 
     component.settingsComponent = childComponent;

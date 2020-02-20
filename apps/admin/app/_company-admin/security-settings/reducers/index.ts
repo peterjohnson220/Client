@@ -4,7 +4,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromPasswordSettingsReducer from './password-setting.reducer';
+import * as fromPasswordSettingsReducer from './security-setting.reducer';
 
 // Feature area state
 export interface CompanyAdminPasswordSettingsState {

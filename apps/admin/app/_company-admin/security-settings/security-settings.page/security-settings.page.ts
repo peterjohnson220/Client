@@ -5,17 +5,17 @@ import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 
 import * as fromPasswordSettingsReducer from '../reducers';
-import { PasswordManagementSettingsComponent } from '../containers';
+import { SecurityManagementSettingsComponent } from '../containers';
 
 @Component({
-  selector: 'pf-password-management-page',
-  templateUrl: './password-management.page.html',
-  styleUrls: ['./password-management.page.scss']
+  selector: 'pf-security-settings-page',
+  templateUrl: './security-settings.page.html',
+  styleUrls: ['./security-settings.page.scss']
 })
-export class PasswordManagementPageComponent implements OnInit {
+export class SecuritySettingsPageComponent implements OnInit {
   env = environment;
 
-  @ViewChild(PasswordManagementSettingsComponent, { static: true }) settingsComponent: PasswordManagementSettingsComponent;
+  @ViewChild(SecurityManagementSettingsComponent, { static: true }) settingsComponent: SecurityManagementSettingsComponent;
   public passwordSettingsSaving$: Observable<boolean>;
   public isDirty = false;
 

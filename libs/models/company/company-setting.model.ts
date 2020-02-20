@@ -21,7 +21,8 @@ export enum CompanySettingsEnum {
   EnableLibraryForRoutedJobDescriptions = 'EnableLibraryForRoutedJobDescriptions',
   DataInsightsFormulaBuilder = 'DataInsightsFormulaBuilder',
   JDMPublicViewsUseClient = 'JDMPublicViewsUseClient',
-  JDMSettingsUseClient = 'JDMSettingsUseClient'
+  JDMSettingsUseClient = 'JDMSettingsUseClient',
+  SessionTimeoutMinutes = 'SessionTimeoutMinutes'
 }
 
 export interface CompanySetting {

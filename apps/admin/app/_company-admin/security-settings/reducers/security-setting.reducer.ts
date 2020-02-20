@@ -1,7 +1,7 @@
 import { CompanySetting } from 'libs/models/company';
 import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings/request';
 
-import * as fromPasswordSettingActions from '../actions/password-management-settings.action';
+import * as fromPasswordSettingActions from '../actions/security-settings.action';
 
 export interface State {
   loading: boolean;

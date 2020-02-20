@@ -7,7 +7,7 @@ import { UsersListPageComponent, UserPageComponent } from 'libs/features/user-ma
 
 import {
   NavigationPageComponent,
-  PasswordManagementPageComponent,
+  SecuritySettingsPageComponent,
   UserRolePageComponent,
   BulkAddUsersPageComponent
 } from './';
@@ -24,8 +24,8 @@ const routes: Routes = [
     data: { Permissions: [Permissions.USER_ROLES], Check: PermissionCheckEnum.Single }
   },
   {
-    path: 'passwordmanagement', component: PasswordManagementPageComponent, canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions.PASSWORD_MANAGEMENT], Check: PermissionCheckEnum.Single }
+    path: 'securitysettings', component: SecuritySettingsPageComponent, canActivate: [AuthorizationGuard],
+    data: { Permissions: [Permissions.SECURITY_SETTINGS], Check: PermissionCheckEnum.Single }
   },
   {
     path: ':companyId/users', component: UsersListPageComponent, canActivate: [AuthorizationGuard, LoadCompanyGuard],

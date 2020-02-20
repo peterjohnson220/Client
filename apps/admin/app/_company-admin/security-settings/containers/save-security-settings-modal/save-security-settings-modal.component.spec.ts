@@ -4,21 +4,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
-import { SavePasswordSettingsModalComponent } from './save-password-settings-modal.component';
+import { SaveSecuritySettingsModalComponent } from './save-security-settings-modal.component';
 import * as fromRootState from 'libs/state/state';
 import * as fromPasswordSettingsReducer from '../../reducers';
-import * as fromPasswordSettingActions from '../../actions/password-management-settings.action';
+import * as fromPasswordSettingActions from '../../actions/security-settings.action';
 import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings/request';
 
 describe('SavePasswordSettingsModalComponent', () => {
-  let component: SavePasswordSettingsModalComponent;
-  let fixture: ComponentFixture<SavePasswordSettingsModalComponent>;
+  let component: SaveSecuritySettingsModalComponent;
+  let fixture: ComponentFixture<SaveSecuritySettingsModalComponent>;
   let store: Store<fromPasswordSettingsReducer.State>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        SavePasswordSettingsModalComponent
+        SaveSecuritySettingsModalComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ],
@@ -34,7 +34,7 @@ describe('SavePasswordSettingsModalComponent', () => {
 
   beforeEach(() => {
     store = TestBed.get(Store);
-    fixture = TestBed.createComponent(SavePasswordSettingsModalComponent);
+    fixture = TestBed.createComponent(SaveSecuritySettingsModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

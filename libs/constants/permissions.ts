@@ -55,7 +55,7 @@ export class Permissions {
   public static USER_ROLES = 'User Roles';
   public static PEER_IMPORT_ASSOCIATIONS = 'Peer_Import_Associations';
   public static PEER_MANAGE_JOBS = 'Peer_Manage_Jobs';
-  public static PASSWORD_MANAGEMENT = 'Password Management';
+  public static SECURITY_SETTINGS = 'Security Settings';
   public static DATA_MANAGEMENT = 'Data Management';
 
   // DKG: Note there are two similar Org Loader permissions for different tiles, one for Company-Admin and one for Data-Management

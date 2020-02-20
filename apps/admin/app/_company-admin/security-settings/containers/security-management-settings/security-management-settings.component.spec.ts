@@ -5,19 +5,19 @@ import { FormBuilder } from '@angular/forms';
 import { Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { PasswordManagementSettingsComponent } from './password-management-settings.component';
+import { SecurityManagementSettingsComponent } from './security-management-settings.component';
 import * as fromPasswordSettingsReducer from '../../reducers';
-import * as fromPasswordSettingActions from '../../actions/password-management-settings.action';
+import * as fromPasswordSettingActions from '../../actions/security-settings.action';
 
 describe('PasswordManagementSettingsComponent', () => {
-  let component: PasswordManagementSettingsComponent;
-  let fixture: ComponentFixture<PasswordManagementSettingsComponent>;
+  let component: SecurityManagementSettingsComponent;
+  let fixture: ComponentFixture<SecurityManagementSettingsComponent>;
   let store: Store<fromPasswordSettingsReducer.State>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        PasswordManagementSettingsComponent
+        SecurityManagementSettingsComponent
       ],
       providers: [
         FormBuilder
@@ -33,7 +33,7 @@ describe('PasswordManagementSettingsComponent', () => {
     }).compileComponents();
 
     store = TestBed.get(Store);
-    fixture = TestBed.createComponent(PasswordManagementSettingsComponent);
+    fixture = TestBed.createComponent(SecurityManagementSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

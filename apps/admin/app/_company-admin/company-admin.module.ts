@@ -15,7 +15,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { UserManagementModule } from 'libs/features/user-management';
 
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
-import { UserRoleModule, PasswordManagementModule, NavigationModule, UserBulkAddModule } from './';
+import { UserRoleModule, SecuritySettingsModule, NavigationModule, UserBulkAddModule } from './';
 
 
 @NgModule({
@@ -43,7 +43,7 @@ import { UserRoleModule, PasswordManagementModule, NavigationModule, UserBulkAdd
 
     // Features
     UserRoleModule,
-    PasswordManagementModule,
+    SecuritySettingsModule,
     NavigationModule,
     UserManagementModule,
     UserBulkAddModule

@@ -11,18 +11,19 @@ import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings/
 import * as fromRootReducer from 'libs/state/state';
 
 import * as fromPasswordSettingsReducer from '../../reducers';
-import * as fromPasswordSettingActions from '../../actions/password-management-settings.action';
+import * as fromPasswordSettingActions from '../../actions/security-settings.action';
 
 @Component({
-  selector: 'pf-password-management-settings',
-  templateUrl: './password-management-settings.component.html',
-  styleUrls: ['./password-management-settings.component.scss']
+  selector: 'pf-security-management-settings',
+  templateUrl: './security-management-settings.component.html',
+  styleUrls: ['./security-management-settings.component.scss']
 })
-export class PasswordManagementSettingsComponent implements OnInit, OnDestroy {
+export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   private passwordExpirationEnabled: boolean;
   private passwordHistoryEnabled: boolean;
   private passwordExpirationDays: string;
+  private sessionTimeoutMinutes: string;
   private passwordHistoryNumber: string;
 
   public passwordForm: FormGroup;
@@ -79,19 +80,25 @@ export class PasswordManagementSettingsComponent implements OnInit, OnDestroy {
   public resetForm(): void {
     this.passwordForm = this.formBuilder.group({
       passwordExpirationDays: new FormControl(this.defaultDays, this.validateExpirationDays.bind(this)),
-      passwordHistoryNumber: new FormControl(this.defaultNum, this.validateHistoryNumber.bind(this))
+      passwordHistoryNumber: new FormControl(this.defaultNum, this.validateHistoryNumber.bind(this)),
+      sessionTimeoutMinutes: new FormControl(this.sessionTimeoutMinutes,  this.validateSessionTimeoutMinutesNumber.bind(this))
     });
     this.valueChange.emit(false);
     this.passwordForm.get('passwordExpirationDays').valueChanges
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(v => {
         this.valueChange.emit(true);
-    });
+      });
     this.passwordForm.get('passwordHistoryNumber').valueChanges
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(v => {
         this.valueChange.emit(true);
-    });
+      });
+    this.passwordForm.get('sessionTimeoutMinutes').valueChanges
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(v => {
+        this.valueChange.emit(true);
+      });
   }
 
   configureSubscription(): void {
@@ -113,6 +120,7 @@ export class PasswordManagementSettingsComponent implements OnInit, OnDestroy {
   getSaveRequest(): CompanySettingsSaveRequest {
     const historyNumber = this.passwordForm.get('passwordHistoryNumber');
     const expirationDays = this.passwordForm.get('passwordExpirationDays');
+    const sessionTimeoutMinutes = this.passwordForm.get('sessionTimeoutMinutes')
     const request: CompanySettingsSaveRequest = { CompanyId: this.companyId, Settings: []};
 
     if (historyNumber.dirty) {
@@ -131,6 +139,14 @@ export class PasswordManagementSettingsComponent implements OnInit, OnDestroy {
         request.Settings.push({Name: 'PasswordExpirationEnabled', Value: 'false'} as GenericNameValueDto);
       }
     }
+
+    if (sessionTimeoutMinutes.dirty) {
+      if (sessionTimeoutMinutes.value > 0) {
+        request.Settings.push({Name: 'SessionTimeoutMinutes', Value: sessionTimeoutMinutes.value} as GenericNameValueDto);
+      } else {
+        request.Settings.push({Name: 'SessionTimeoutMinutes', Value: '360'} as GenericNameValueDto);
+      }
+    }
     return request;
   }
 
@@ -147,6 +163,9 @@ export class PasswordManagementSettingsComponent implements OnInit, OnDestroy {
         break;
       case CompanySettingsEnum.PasswordHistoryNumber:
         this.passwordHistoryNumber = setting.Value;
+        break;
+      case CompanySettingsEnum.SessionTimeoutMinutes:
+        this.sessionTimeoutMinutes = setting.Value;
         break;
       default:
         break;
@@ -168,6 +187,16 @@ export class PasswordManagementSettingsComponent implements OnInit, OnDestroy {
     if (!valid) {
       return {
         validHistoryNumber: true
+      };
+    }
+    return null;
+  }
+
+  validateSessionTimeoutMinutesNumber(c: FormControl) {
+    const valid = this.isBetween(c, 5, 360);
+    if (!valid) {
+      return {
+        validSessionTimeoutMinutesNumber: true
       };
     }
     return null;
