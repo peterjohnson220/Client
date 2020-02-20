@@ -7,18 +7,18 @@ import {combineReducers, Store, StoreModule} from '@ngrx/store';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import * as fromDataInsightsMainReducer from '../../../_main/reducers';
+import * as fromDataViewMainReducer from '../../reducers';
 import * as fromRootState from 'libs/state/state';
 
 import { FormulasComponent } from './formulas.component';
-import { generateMockField } from '../../../_main/models';
+import { generateMockField } from '../../models';
 import { FormulaFieldModalComponent } from '../formula-field-modal';
 
 
 describe('FormulasComponent', () => {
   let instance: FormulasComponent;
   let fixture: ComponentFixture<FormulasComponent>;
-  let store: Store<fromDataInsightsMainReducer.State>;
+  let store: Store<fromDataViewMainReducer.State>;
   let formBuilder: FormBuilder;
   let ngbModal: NgbModal;
 
@@ -28,7 +28,7 @@ describe('FormulasComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          dataInsights_main: combineReducers(fromDataInsightsMainReducer.reducers),
+          dataView_main: combineReducers(fromDataViewMainReducer.reducers),
         }),
         ReactiveFormsModule
       ],

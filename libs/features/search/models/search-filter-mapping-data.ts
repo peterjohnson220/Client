@@ -10,6 +10,7 @@ export interface SearchFilterMappingData {
   SaveDisabled: boolean;
   RefreshOptionsFromServer: boolean;
   Operator?: OperatorEnum;
+  ParentBackingField?: string;
 }
 
 interface ISearchFilterMappingDataObj {

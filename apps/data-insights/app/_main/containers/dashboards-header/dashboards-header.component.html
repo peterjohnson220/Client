@@ -47,10 +47,4 @@
   </div>
 </div>
 
-<pf-save-user-workbook-modal *ngIf="(baseEntitiesAsync$ | async)?.obj?.length"
-  [baseEntities]="(baseEntitiesAsync$ | async)?.obj"
-  [saving]="savingUserDataView$ | async"
-  [saveNameConflict]="savingUserDataViewConflict$ | async"
-  [saveError]="savingUserDataViewError$ | async"
-  (saveClicked)="handleSaveUserDataViewClicked($event)">
-</pf-save-user-workbook-modal>
+<pf-create-data-view-modal *ngIf="reportBuilderSettingEnabled && (baseEntitiesAsync$ | async)?.obj?.length"></pf-create-data-view-modal>

@@ -20,3 +20,4 @@ export * from './job-description-library-drop.model';
 export * from './job-description-draft-details.model';
 export * from './cancel-workflow.model';
 export * from './workflow.model';
+export * from './job-description-workflow-compare-list-item.model';

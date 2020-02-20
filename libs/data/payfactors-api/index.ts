@@ -26,3 +26,4 @@ export * from './company-admin';
 export * from './jobs';
 export * from './total-rewards';
 export * from './pricings';
+export * from './currency';

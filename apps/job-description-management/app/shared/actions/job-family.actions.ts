@@ -10,6 +10,8 @@ export class LoadJobFamilies implements Action {
 
 export class LoadJobFamiliesError implements Action {
   readonly type = LOAD_JOB_FAMILIES_ERROR;
+
+  constructor(public payload: {errorMessage: string}) {}
 }
 
 export class LoadJobFamiliesSuccess implements Action {

@@ -37,13 +37,21 @@ export class ListAreaService {
     return display;
   }
 
-  private getValueDisplay(value: string, dataType: string) {
+  private getValueDisplay(value: any, dataType: string) {
     let display = value;
 
     switch (dataType) {
       case 'date':
         const dateFormatPipe = new DatePipe('en-US');
         display = dateFormatPipe.transform(display, 'MM/DD/YYYY');
+        break;
+      case 'boolean':
+        const boolValue = JSON.parse(display);
+        if (boolValue) {
+          display = 'Enabled';
+        } else {
+          display = 'Disabled';
+        }
         break;
     }
 

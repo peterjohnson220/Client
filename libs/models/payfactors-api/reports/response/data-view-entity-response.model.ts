@@ -1,6 +1,6 @@
 export interface DataViewEntityResponseWithCount {
   TotalCount: number;
-  Data: DataViewEntityResponse[];
+  Data: any[];
 }
 
 export interface DataViewEntityResponse {

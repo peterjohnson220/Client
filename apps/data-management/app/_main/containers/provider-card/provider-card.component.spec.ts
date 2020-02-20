@@ -8,7 +8,9 @@ describe('Data Management - Main - Provider Card', () => {
   let instance: ProviderCardComponent;
   let fixture: ComponentFixture<ProviderCardComponent>;
 
-  const mockProvider = generateMockProvider();
+  const mockActiveProvider = generateMockProvider();
+  const mockInactiveProvider = generateMockProvider();
+  mockInactiveProvider.Active = false;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,16 +24,31 @@ describe('Data Management - Main - Provider Card', () => {
 
     fixture = TestBed.createComponent(ProviderCardComponent);
     instance = fixture.componentInstance;
-
-    instance.provider = mockProvider;
-    fixture.detectChanges();
   });
 
-  it('Should emit event when provider is clicked', () => {
+  it('Should emit event when active provider is clicked', () => {
+    // arrange
+    instance.provider = mockActiveProvider;
+    fixture.detectChanges();
     spyOn(instance.providerSelected, 'emit');
 
+    // act
     instance.selectProviderClick(null);
 
+    // assert
     expect(instance.providerSelected.emit).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should not emit event when inactive provider is clicked', () => {
+    // arrange
+    instance.provider = mockInactiveProvider;
+    fixture.detectChanges();
+    spyOn(instance.providerSelected, 'emit');
+
+    // act
+    instance.selectProviderClick(null);
+
+    // assert
+    expect(instance.providerSelected.emit).not.toBeCalled();
   });
 });

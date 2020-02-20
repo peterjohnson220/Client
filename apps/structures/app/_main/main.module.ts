@@ -22,14 +22,18 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfAddJobsModule } from 'libs/features/add-jobs';
 import { PfSearchModule } from 'libs/features/search';
+import { UserFilterPopoverConfig } from 'libs/features/user-filter/models';
 
 import * as fromFaIcons from './fa-icons';
 import {
   JobBasedRangeAllStructuresEffects,
   JobRangeModelingPageEffects,
   JobRangeModelingGridEffects,
-  JobBasedRangesAddJobsModalEffects,
-  JobBasedRangesSearchResultsEffects
+  JobBasedRangesAddJobsModalPageEffects,
+  JobBasedRangesSearchResultsEffects,
+  JobRangeModelingModalEffects,
+  ModelingSettingsPageEffects,
+  SingledFilterEffects
 } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -37,7 +41,6 @@ import {
   JobBasedRangeAllStructuresComponent,
   JobBasedRangeStructureFavoriteComponent,
   ModelNameInputComponent,
-  ModelingSettingsComponent,
   StructureCardComponent,
   EditGridColumnsModalComponent,
   StructureFavoriteHexagonComponent
@@ -46,9 +49,13 @@ import {
   JobBasedRangeStructuresPageComponent,
   JobRangeModelingPageComponent,
   JobRangeModelingGridComponent,
-  JobBasedRangesAddJobsModalComponent,
-  JobBasedRangesSearchResultsComponent
+  JobBasedRangesAddJobsModalPageComponent,
+  JobBasedRangesSearchResultsComponent,
+  ModelingSettingsModalPageComponent,
+  JobRangeModelingModalComponent
 } from './containers';
+import { JobBasedRangesAddJobsUserFilterPopoverConfig } from './data';
+import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
 @NgModule({
   imports: [
@@ -61,13 +68,17 @@ import {
     StoreModule.forFeature('structures_main', reducers),
     EffectsModule.forFeature([
       JobRangeModelingPageEffects,
-      JobBasedRangesAddJobsModalEffects,
+      JobBasedRangesAddJobsModalPageEffects,
       JobBasedRangesSearchResultsEffects,
       JobBasedRangeAllStructuresEffects,
-      JobRangeModelingGridEffects
+      JobRangeModelingGridEffects,
+      JobRangeModelingModalEffects,
+      ModelingSettingsPageEffects,
+      SingledFilterEffects
     ]),
     PerfectScrollbarModule,
     FontAwesomeModule,
+    NumericTextBoxModule,
 
     // Routing
     MainRoutingModule,
@@ -93,7 +104,7 @@ import {
     JobBasedRangeAllStructuresComponent,
     JobBasedRangeStructureFavoriteComponent,
     ModelNameInputComponent,
-    ModelingSettingsComponent,
+    ModelingSettingsModalPageComponent,
     StructureCardComponent,
     EditGridColumnsModalComponent,
     StructureFavoriteHexagonComponent,
@@ -102,12 +113,15 @@ import {
     JobRangeModelingPageComponent,
     JobBasedRangeStructuresPageComponent,
     JobRangeModelingGridComponent,
-    JobBasedRangesAddJobsModalComponent,
-    JobBasedRangesSearchResultsComponent
+    JobBasedRangesAddJobsModalPageComponent,
+    JobBasedRangesSearchResultsComponent,
+    ModelingSettingsModalPageComponent,
+    JobRangeModelingModalComponent
   ],
   providers: [
     WindowRef,
-    WindowCommunicationService
+    WindowCommunicationService,
+    {provide: UserFilterPopoverConfig, useValue: JobBasedRangesAddJobsUserFilterPopoverConfig}
   ]
 })
 export class MainModule {

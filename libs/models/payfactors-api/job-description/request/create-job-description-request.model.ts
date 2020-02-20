@@ -3,4 +3,5 @@ export interface CreateJobDescriptionRequest {
   appliesToField: string;
   appliesToValue: string;
   jobDescriptionTitle: string;
+  publicView: boolean;
 }

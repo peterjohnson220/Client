@@ -64,6 +64,8 @@ export class UserTileToTileMapper {
         return TileTypes.TotalRewards;
       case 'Data Management':
         return TileTypes.DataManagement;
+      case 'International Data':
+        return TileTypes.InternationalData;
       default:
         return TileTypes.Unknown;
     }
@@ -222,6 +224,12 @@ export class UserTileToTileMapper {
       case TileTypes.TotalRewards:
           tile.CssClass = 'tile-blue';
           break;
+
+      case TileTypes.InternationalData:
+        tile.CssClass = 'tile-green';
+        tile.MarketingDescription = MarketingTileDescriptions.InternationalData;
+        tile.MarketingButtonText = 'EXPLORE';
+        break;
 
       default:
         tile.CssClass = 'tile-green';

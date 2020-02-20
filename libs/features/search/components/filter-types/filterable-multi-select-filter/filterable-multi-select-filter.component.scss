@@ -1,0 +1,10 @@
+@import 'search/filters';
+@import 'colors';
+
+.child-selected {
+  background: $selected-item-background-color
+}
+
+.filter-icon {
+  color: $left-sidebar-color
+}

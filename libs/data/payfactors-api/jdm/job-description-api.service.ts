@@ -133,6 +133,10 @@ export class JobDescriptionApiService {
     return this.payfactorsApiService.get<JobDescription[]>(`${this.endpoint}(${jobDescriptionId})/Default.GetJobCompareList`);
   }
 
+  getWorkflowCompareList(jobDescriptionId: number) {
+    return this.payfactorsApiService.get<JobDescription[]>(`${this.endpoint}(${jobDescriptionId})/Default.GetWorkflowCompareList`);
+  }
+
   getDetail(jobDescriptionId: number, revisionNumber: number = null, viewName: string = null): Observable<JobDescription> {
     let params = {};
     if (!!revisionNumber) {
@@ -173,6 +177,15 @@ export class JobDescriptionApiService {
       params: {
         revisionNumber,
         previousRevisionNumber
+      }
+    }, (response) => JSON.parse(response.value));
+  }
+
+  getWorkflowCompare(jobDescriptionId: number, sourceStepNumber: number, comparisonStepNumber: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetWorkflowCompare`, {
+      params: {
+        sourceStepNumber,
+        comparisonStepNumber
       }
     }, (response) => JSON.parse(response.value));
   }
@@ -231,5 +244,9 @@ export class JobDescriptionApiService {
 
   bulkExport(jdmExportPayload: JobDescriptionBulkExportPayload) {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.BulkExportNew`, { jdmExportPayload: JSON.stringify(jdmExportPayload) });
+  }
+
+  updatePublicView(companyId: number, jobDescriptionId: number, publicView: boolean): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.UpdatePublicView`, {companyId, jobDescriptionId, publicView});
   }
 }

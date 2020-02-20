@@ -1,4 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+
+import {ConnectionSummary} from '../../models';
 
 @Component({
   selector: 'pf-hris-integration-status',
@@ -6,11 +8,14 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
   styleUrls: ['./hris-integration-status.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HrisIntegrationStatusComponent implements OnInit {
+export class HrisIntegrationStatusComponent {
+  @Input() connectionSummary: ConnectionSummary;
+  @Output() onCreateNewIntegrationClicked = new EventEmitter();
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
   }
 
+  createNewIntegration() {
+    this.onCreateNewIntegrationClicked.emit();
+  }
 }

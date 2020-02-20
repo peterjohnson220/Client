@@ -1,70 +1,109 @@
-<kendo-grid rowClick
-            [data]="gridDataResult"
-            [pageable]="{
-              buttonCount: 5,
-              info: info,
-              type: 'numeric',
-              pageSizes: false,
-              previousNext: true
-            }"
-            [pageSize]="gridState.take"
-            [sortable]="true"
-            [sort]="gridState.sort"
-            [skip]="gridState.skip"
-            [selectable]="true"
-            (pageChange)="pageChanged.emit($event)"
-            (dataStateChange)="dataStateChanged.emit($event)"
-            (sortChange)="sortChanged.emit($event)"
-            (filterChange)="filterChanged.emit($event)"
-            (selectionChange)="handleRowClick($event)">
+<pf-async-container 
+  [loading]="loading" 
+  [loadingError]="loadingError"
+  [loadingErrorMessage]="'Error loading Job Descriptions'">
+  <kendo-grid 
+    rowClick 
+    [data]="gridDataResult" 
+    [pageable]="pageableSettings" 
+    [pageSize]="gridState.take"
+    [sortable]="true" 
+    [sort]="gridState.sort" 
+    [skip]="gridState.skip"
+    [selectable]="true" 
+    (pageChange)="pageChanged.emit($event)" 
+    (dataStateChange)="dataStateChanged.emit($event)"
+    (sortChange)="sortChanged.emit($event)" 
+    (selectionChange)="handleRowClick($event)">
+    <kendo-grid-column 
+      *ngFor="let listAreaColumn of listAreaColumns" 
+      [field]="listAreaColumn.ColumnDatabaseName"
+      [title]="listAreaColumn.ColumnDisplayName" 
+      [hidden]="setColumnVisibility(listAreaColumn)"
+      [width]="setColumnWidth(listAreaColumn.ColumnDatabaseName)"
+      [filterable]="setFilterable(listAreaColumn.ColumnDatabaseName)"
+      [class]="setColumnClass(listAreaColumn.ColumnDatabaseName)"
+      [headerClass]="setColumnClass(listAreaColumn.ColumnDatabaseName)">
 
-  <!--Front Static Columns-->
-  <kendo-grid-column field="JobCode" title="Job Code" [width]="150"></kendo-grid-column>
-  <kendo-grid-column field="JobTitle" title="Job Title" [width]="275"></kendo-grid-column>
+      <!-- Kendo Grid Templates -->
+      <ng-container *ngIf="listAreaColumn.ColumnDatabaseName === 'PublicView'">
+        <ng-template kendoGridHeaderTemplate let-column>
+          <span placement="top" ngbTooltip="Public View only applies to published job descriptions"
+            container="body">{{listAreaColumn.ColumnDisplayName}}</span>
+        </ng-template>
+      </ng-container>
 
-  <!--List Area Columns-->
-  <kendo-grid-column *ngFor="let listAreaColumn of listAreaColumns"
-                     [field]="listAreaColumn.ColumnDatabaseName"
-                     [title]="listAreaColumn.ColumnDisplayName"
-                     [width]="150">
-    <ng-template *ngIf="listAreaColumn.ColumnDataType === 'date'" kendoGridCellTemplate let-dataItem>
-      {{dataItem[listAreaColumn.ColumnDatabaseName] | date:'MM/dd/yyyy'}}
-    </ng-template>
-  </kendo-grid-column>
+      <ng-container *ngIf="listAreaColumn.ColumnDatabaseName === 'PublicView'">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <ng-container *ngIf="dataItem.JobDescriptionStatus === 'Published'">
+            <ng-container *ngIf="dataItem.PublicView === false; then privateView else publicView"></ng-container>
+            <ng-template #privateView>
+              <fa-stack class="fa-lg" id="private-icon-stack" placement="bottom" 
+              ngbTooltip="Show in public view" container="body" (click)="setTemplateView(dataItem)">
+                <fa-icon icon="circle" stackItemSize="2x" id="private-circle"></fa-icon>
+                <fa-icon icon="eye-slash" stackItemSize="1x" id="private-eye"></fa-icon>
+              </fa-stack>
+            </ng-template>
+            <ng-template #publicView>
+              <fa-stack class="fa-lg" id="public-icon-stack" placement="bottom" 
+              ngbTooltip="Hide from public view" container="body" (click)="setTemplateView(dataItem)">
+                <fa-icon icon="circle" stackItemSize="2x" id="public-circle"></fa-icon>
+                <fa-icon icon="eye" stackItemSize="1x" id="public-eye"></fa-icon>
+              </fa-stack>
+            </ng-template>
+          </ng-container>
+        </ng-template>
+      </ng-container>
 
-  <!--End Static Columns-->
-  <kendo-grid-column *ngIf="!isPublic" field="VersionNumber" title="Version" [width]="100" [filterable]="false" class="cancel-row-click text-center" [headerClass]="'text-center'">
-    <ng-template kendoGridCellTemplate let-dataItem>
-      <span *ngIf="!(dataItem.VersionNumber > 1)">{{ dataItem.VersionNumber }}</span>
-      <a id="history-btn" *ngIf="dataItem.VersionNumber > 1"
-         (click)="handleJobDescriptionHistoryClick(dataItem.JobDescriptionId, dataItem.JobTitle);">
-        {{ dataItem.VersionNumber }}
-      </a>
-    </ng-template>
-  </kendo-grid-column>
+      <ng-container *ngIf="listAreaColumn.ColumnDataType === 'date'">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{dataItem[listAreaColumn.ColumnDatabaseName] | amDateFormat:'MM/DD/YYYY'}}
+        </ng-template>
+      </ng-container>
 
-  <kendo-grid-column *ngIf="!isPublic" field="JobDescriptionStatus" title="Status" class="text-center" [headerClass]="'text-center'" [width]="100">
-    <ng-template kendoGridCellTemplate let-dataItem>
-      <pf-status-pill [status]="dataItem.JobDescriptionStatus"></pf-status-pill>
-    </ng-template>
-  </kendo-grid-column>
+      <ng-container *ngIf="listAreaColumn.ColumnDatabaseName === 'VersionNumber'">
+        <ng-template kendoGridHeaderTemplate let-column>
+          <div class="header-center cancel-row-click">{{listAreaColumn.ColumnDisplayName}}</div>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div *ngIf="dataItem.VersionNumber > 1; then clickBlock else simpleBlock"></div>
+          <ng-template #clickBlock>
+            <a id="history-btn" *ngIf="dataItem.VersionNumber > 1"
+              (click)="handleJobDescriptionHistoryClick(dataItem.JobDescriptionId, dataItem.JobTitle);">{{ dataItem.VersionNumber }}
+            </a>
+          </ng-template>
+          <ng-template #simpleBlock>
+            <span>{{dataItem.VersionNumber}}</span>
+          </ng-template>
+        </ng-template>
+      </ng-container>
 
-  <kendo-grid-column *ngIf="!isPublic" class="cancel-row-click" [width]="50" [style]="{'text-align': 'center', 'overflow': 'inherit'}">
-    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-      <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
-        <button class="btn btn-secondary btn-sm" id="jd-list-view-actions-dropdown" ngbDropdownToggle>
-          <fa-icon icon="ellipsis-h"></fa-icon>
-        </button>
-        <div class="dropdown-menu dropdown-menu-left" aria-labelledby="job-description-actions-dropdown" ngbDropdownMenu>
-          <button class="dropdown-item"
-                  [disabled]="dataItem.JobDescriptionStatus === 'Not Started'"
-                  (click)="handleNewJobDescriptionClick(dataItem);">
-            New Job Description
+      <ng-container *ngIf="listAreaColumn.ColumnDatabaseName === 'JobDescriptionStatus' && !isPublic">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <pf-status-pill [status]="dataItem.JobDescriptionStatus"></pf-status-pill>
+        </ng-template>
+      </ng-container>
+      <!-- End of Kendo Grid Templates -->
+
+    </kendo-grid-column>
+
+    <kendo-grid-column *ngIf="!isPublic" class="cancel-row-click" [width]="50"
+      [style]="{'text-align': 'center', 'overflow': 'inherit'}">
+      <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+        <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block k-grid-ignore-click"
+          placement="bottom-right">
+          <button ngbDropdownToggle class="btn btn-secondary btn-sm" id="jd-list-view-actions-dropdown">
+            <fa-icon icon="ellipsis-h"></fa-icon>
           </button>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-left"
+            aria-labelledby="job-description-actions-dropdown">
+            <button class="dropdown-item" [disabled]="dataItem.JobDescriptionStatus === 'Not Started'"
+              (click)="handleNewJobDescriptionClick(dataItem);">
+              New Job Description
+            </button>
+          </div>
         </div>
-      </div>
-    </ng-template>
-  </kendo-grid-column>
-</kendo-grid>
-
-<pf-async-container [loading]="loading"></pf-async-container>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+</pf-async-container>

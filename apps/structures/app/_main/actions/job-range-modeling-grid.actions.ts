@@ -80,12 +80,6 @@ export class UpdateGridState implements Action {
   constructor(public payload: KendoState) {}
 }
 
-export class UpdateListAreaColumn implements Action {
-  readonly type = UPDATE_LIST_AREA_COLUMN;
-
-  constructor(public payload: { ListAreaColumn: ListAreaColumn, Checked: boolean }) {}
-}
-
 export type Actions
   = LoadJobRangeModelingGrid
   | LoadJobRangeModelingGridError
@@ -98,5 +92,4 @@ export type Actions
   | SaveListAreaColumns
   | SaveListAreaColumnsError
   | SaveListAreaColumnsSuccess
-  | UpdateGridState
-  | UpdateListAreaColumn;
+  | UpdateGridState;

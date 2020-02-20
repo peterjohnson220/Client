@@ -3,8 +3,6 @@
   [numberOfCurrentResults]="(jobResults$ | async)?.length">
 
   <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
-    <!--Not tracking by ID here since we are only loading 25 and it does not make much of a performance difference
-    By leaving off the tracking we allow for the components to "reset" on each search [BC]-->
     <pf-add-job-result
       *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId"
       [job]="jobResult"
@@ -20,3 +18,4 @@
   </ng-template>
 
 </pf-search-results>
+

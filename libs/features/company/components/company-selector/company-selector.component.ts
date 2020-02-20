@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-
-import { CompanySelectorItem } from 'apps/admin/app/_survey-library/models';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import * as fromCompanySelectorActions from 'libs/features/company/actions/';
 import * as fromCompanyReducer from 'libs/features/company/reducers/';
+
+import { CompanySelectorItem } from '../../models';
 
 @Component({
   selector: 'pf-company-selector',

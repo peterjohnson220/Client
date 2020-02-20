@@ -1,0 +1,38 @@
+<ng-template #createDataViewModal let-modal>
+  <form [formGroup]="baseDataViewForm">
+    <pf-base-data-view-modal
+      [baseEntities]="baseEntities"
+      [reportName]="reportName"
+      [summary]="summary"
+      [baseDataViewForm]="baseDataViewForm"
+      [showErrorMessages]="showErrorMessages"
+      [saving]="(saving$ | async)"
+      [savingConflict]="(savingConflict$ | async)"
+      [savingError]="(savingError$ | async)"
+      [saveDisabled]="saveDisabled"
+      (saveClicked)="save()"
+      (cancelClicked)="close()">
+
+      <ng-container title>
+        <h4 class="title">Report Information</h4>
+      </ng-container>
+
+      <ng-container dataSource>
+        <kendo-dropdownlist
+          class="form-control entity-dropdownlist"
+          [attr.data-qa-id]="'ddm-entities'"
+          [data]="baseEntities"
+          [popupSettings]="{appendTo: 'component'}"
+          textField="Name"
+          valueField="Id"
+          formControlName="entity">
+        </kendo-dropdownlist>
+      </ng-container>
+
+      <ng-container saveButtonName>
+        <span>Next</span>
+      </ng-container>
+
+    </pf-base-data-view-modal>
+  </form>
+</ng-template>

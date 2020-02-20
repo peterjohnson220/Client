@@ -38,6 +38,9 @@ export const routes: Routes = [
           .then(m => m.SurveyLibraryModule)
       },
       {
+        path: 'sso', loadChildren: () => import('apps/admin/app/_sso/sso.module').then(m => m.SsoModule)
+      },
+      {
         path: 'survey-udf-manager', loadChildren: () => import('apps/admin/app/_survey-udf-manager/survey-udf-manager.module')
           .then(m => m.SurveyUdfManagerModule)
       },

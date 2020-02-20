@@ -1,11 +1,11 @@
 <pf-async-container [loading]="(transferScheduleSummaryLoading$ | async) || (transferScheduleSummarySaving$ | async)"
                     [loadingError]="transferScheduleSummaryError$ | async"
                     [loadingErrorMessage]="'Error loading Transfer Schedule'">
-  <div>
-    <div class="float-right"><h5 class="pt-4 pb-1 font-weight-bold" style="opacity: 0.6;">STEP 5/5</h5></div>
+  <div class="mt-4">
+    <div class="float-right"><h5 style="opacity: 0.6;">STEP 5/5</h5></div>
     <h4>Transfer Schedule</h4>
     <h5>Let us know how often you would like to refresh your company data.</h5>
-    <div class="row mb-3">
+    <div class="row mt-5 mb-3">
       <ng-container *ngFor="let item of transferScheduleSummary; let i = index">
         <div class="col-sm-4">
           <pf-transfer-schedule-card
@@ -15,12 +15,33 @@
         </div>
       </ng-container>
     </div>
-    <div class="row mb-3">
-      <div class="col-sm-12 text-right">
-        <a href="javascript:void(0);" class="btn btn-outline-danger" (click)="onCancel()">Cancel</a>
-        <a href="javascript:void(0);" class="btn" (click)="goBack()">Back</a>
-        <a href="javascript:void(0);" class="btn btn-primary" [ngClass]="{'btn-disabled disabled btn-light':!canFinish() }" (click)="onFinish()">Finish</a>
+    <div class="d-flex justify-content-end">
+      <div class="p-2">
+        <button type="button" class="btn btn-outline-danger px-4" (click)="onCancel()">Cancel</button>
+      </div>
+      <div class="p-2">
+        <button type="button" class="btn btn-secondary px-4" (click)="goBack()">Back</button>
+      </div>
+      <div class="p-2">
+        <button type="button" class="btn btn-primary px-4" [disabled]="!canFinish()" (click)="onFinish()">Finish</button>
       </div>
     </div>
   </div>
+  <pf-modal-form
+    [title]="'Integration Setup Complete'"
+    [size]="'md'"
+    [showFooter]="false"
+    [centered]="true"
+    [allowDismiss]="false"
+    [isOpen$]="showIntegrationFinishedModal$">
+    <ng-container basic-content>
+      <h5 class="mb-3 setup-complete-modal-header">Integration Setup Complete!</h5>
+      <div class="alert alert-success">
+        Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time.
+      </div>
+      <div class="">
+        <button class="btn btn-primary px-4 float-right" (click)="onOk()">Ok</button>
+      </div>
+    </ng-container>
+  </pf-modal-form>
 </pf-async-container>

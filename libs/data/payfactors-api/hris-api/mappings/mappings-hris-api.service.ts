@@ -17,35 +17,35 @@ export class MappingsHrisApiService {
   }
 
   getPayfactorsFields(userContext: UserContext, entity: string) {
-    const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
-    if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
-      throw new Error('Configuration error: Missing utilities subdomain configuration');
-    }
-
-    const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
+    const host = this.getHost(userContext);
 
     return this.hrisApiService.get<PayfactorsEntityFieldsResponse>(`${host}${this.endpoint}/${userContext.CompanyId}/payfactorsfields/${entity}`);
   }
 
   getProviderFields(userContext: UserContext, entity: string) {
-    const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
-    if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
-      throw new Error('Configuration error: Missing utilities subdomain configuration');
-    }
-
-    const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
+    const host = this.getHost(userContext);
 
     return this.hrisApiService.get<ProviderEntitiyFieldsResponse>(`${host}${this.endpoint}/${userContext.CompanyId}/providerfields/${entity}`);
   }
 
   saveMappingFields(userContext: UserContext, mappingPackage: MappingPackage) {
+    const host = this.getHost(userContext);
+
+    return this.hrisApiService.post<any>(`${host}${this.endpoint}/${userContext.CompanyId}/save`, mappingPackage);
+  }
+
+  getMappedFields(userContext: UserContext) {
+    const host = this.getHost(userContext);
+
+    return this.hrisApiService.get<MappingPackage>(`${host}${this.endpoint}/${userContext.CompanyId}/mappedfields`);
+  }
+
+  private getHost(userContext: UserContext): string {
     const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
     if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
     }
 
-    const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
-
-    return this.hrisApiService.post<any>(`${host}${this.endpoint}/${userContext.CompanyId}/save`, mappingPackage);
+    return `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
   }
 }

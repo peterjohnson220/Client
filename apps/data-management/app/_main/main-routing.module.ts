@@ -1,17 +1,15 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import {PermissionCheckEnum, Permissions} from 'libs/constants';
-import {AuthorizationGuard} from 'libs/security/guards';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { AuthorizationGuard, PfAdminGuard } from 'libs/security/guards';
 
 import {
-  DataManagementHomePageComponent,
-  DataManagementLandingPageComponent,
-  OrgDataLoadComponent,
-  ResetIntegrationPageComponent,
-  TransferDataPageComponent,
-  TransferSchedulePageComponent
+    CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent,
+    FieldMappingPageComponent, OrgDataLoadComponent,
+    ResetIntegrationPageComponent, TransferDataPageComponent, TransferSchedulePageComponent,
+    InboundEntitySelectionPageComponent
 } from './containers';
 
 const routes: Routes = [
@@ -19,7 +17,12 @@ const routes: Routes = [
     path: 'org-data-load',
     component: OrgDataLoadComponent,
     canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD, Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any },
+    data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD, Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any }
+  },
+  {
+    path: 'custom-employee-identifier',
+    component: CustomEmployeeIdentifierComponent,
+    canActivate: [PfAdminGuard]
   },
   {
     path: '',
@@ -35,7 +38,21 @@ const routes: Routes = [
       },
       {
         path: 'transfer-data',
-        component: TransferDataPageComponent
+        children: [
+          {
+            path: '',
+            component: TransferDataPageComponent
+          },
+          {
+            path: 'inbound',
+            children: [
+              {
+                path: 'entity-selection',
+                component: InboundEntitySelectionPageComponent
+              }
+            ]
+          }
+        ]
       },
       {
         path: 'transfer-schedule',
@@ -45,6 +62,10 @@ const routes: Routes = [
       {
         path: 'reset',
         component: ResetIntegrationPageComponent
+      },
+      {
+        path: 'field-mapping',
+        component: FieldMappingPageComponent
       }
     ]
   }

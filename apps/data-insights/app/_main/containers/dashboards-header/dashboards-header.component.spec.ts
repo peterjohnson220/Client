@@ -1,18 +1,21 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
+import { generateDefaultAsyncStateObj } from 'libs/models';
+
+import { generateMockEntity } from '../../../_shared/models';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
-import * as fromDashboardsActions from '../../actions/dashboards.actions';
-import * as fromDataViewActions from '../../actions/data-view.actions';
-
 import { DashboardsHeaderComponent } from './dashboards-header.component';
-import { DashboardView, generateMockSaveUserWorkbookModalData } from '../../models';
+import { DashboardView } from '../../models';
+import { CreateDataViewModalComponent } from '../create-data-view-modal';
 
 describe('Data Insights - Dashboards Comopnent', () => {
   let instance: DashboardsHeaderComponent;
@@ -28,10 +31,14 @@ describe('Data Insights - Dashboards Comopnent', () => {
         }),
         DropDownsModule
       ],
-      declarations: [ DashboardsHeaderComponent ],
+      declarations: [ DashboardsHeaderComponent, CreateDataViewModalComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
-        { provide: SettingsService, useClass: SettingsService }
+        { provide: SettingsService, useClass: SettingsService },
+        {
+          provide: FormBuilder,
+          useValue: { group: jest.fn(), reset: jest.fn(), patchValue: jest.fn() }
+        }
       ]
     });
 
@@ -51,13 +58,15 @@ describe('Data Insights - Dashboards Comopnent', () => {
     expect(instance.selectedDashboardViewChanged.emit).toHaveBeenCalledWith(view);
   });
 
-  it('should dispatch SaveUserReport action with save user report view clicked', () => {
-    const workbookData = generateMockSaveUserWorkbookModalData();
-    const expectedAction = new fromDataViewActions.SaveUserReport(workbookData);
-    spyOn(store, 'dispatch');
+  it('should open createDataViewModal when handling new report clicked', () => {
+    instance.reportBuilderSettingEnabled = true;
+    instance.baseEntitiesAsync$ = of(generateDefaultAsyncStateObj([generateMockEntity()]));
+    fixture.detectChanges();
 
-    instance.handleSaveUserDataViewClicked(workbookData);
+    spyOn(instance.createDataViewModal, 'open');
+    instance.handleNewReportClicked();
 
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(instance.createDataViewModal.open).toHaveBeenCalled();
   });
+
 });

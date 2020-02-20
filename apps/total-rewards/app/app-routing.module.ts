@@ -6,9 +6,9 @@ import { AuthorizationGuard, UserContextGuard } from 'libs/security';
 import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', canActivate: [UserContextGuard], redirectTo: 'main' },
+  { path: '', pathMatch: 'full', redirectTo: 'main' },
   {
-    path: 'main', canActivate: [AuthorizationGuard], component: AppWrapperComponent,
+    path: 'main', canActivate: [UserContextGuard, AuthorizationGuard], component: AppWrapperComponent,
     loadChildren: () => import('apps/total-rewards/app/_main/main.module').then(m => m.MainModule)
   },
   {

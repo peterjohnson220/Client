@@ -4,6 +4,8 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
 <pf-transfer-schedule
   editStates={[Function Array]}
   restoreCompletedSubscription={[Function Subscriber]}
+  router={[Function Object]}
+  showIntegrationFinishedModal$={[Function Store]}
   store={[Function MockStore]}
   syncSchedulesBackup={[Function Array]}
   transferScheduleSummary={[Function Array]}
@@ -14,12 +16,13 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
   transferScheduleSummarySubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <div>
+    <div
+      class="mt-4"
+    >
       <div
         class="float-right"
       >
         <h5
-          class="pt-4 pb-1 font-weight-bold"
           style="opacity: 0.6;"
         >
           STEP 5/5
@@ -32,39 +35,70 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         Let us know how often you would like to refresh your company data.
       </h5>
       <div
-        class="row mb-3"
+        class="row mt-5 mb-3"
       >
         
       </div>
       <div
-        class="row mb-3"
+        class="d-flex justify-content-end"
       >
         <div
-          class="col-sm-12 text-right"
+          class="p-2"
         >
-          <a
-            class="btn btn-outline-danger"
-            href="javascript:void(0);"
+          <button
+            class="btn btn-outline-danger px-4"
+            type="button"
           >
             Cancel
-          </a>
-          <a
-            class="btn"
-            href="javascript:void(0);"
+          </button>
+        </div>
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
           >
             Back
-          </a>
-          <a
-            class="btn btn-primary btn-disabled disabled btn-light"
-            href="javascript:void(0);"
-            ng-reflect-klass="btn btn-primary"
-            ng-reflect-ng-class="[object Object]"
+          </button>
+        </div>
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-primary px-4"
+            disabled=""
+            type="button"
           >
             Finish
-          </a>
+          </button>
         </div>
       </div>
     </div>
+    <pf-modal-form
+      title="Integration Setup Complete"
+    >
+      
+      <h5
+        class="mb-3 setup-complete-modal-header"
+      >
+        Integration Setup Complete!
+      </h5>
+      <div
+        class="alert alert-success"
+      >
+         Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
+      </div>
+      <div
+        class=""
+      >
+        <button
+          class="btn btn-primary px-4 float-right"
+        >
+          Ok
+        </button>
+      </div>
+    </pf-modal-form>
   </pf-async-container>
 </pf-transfer-schedule>
 `;
@@ -73,6 +107,8 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
 <pf-transfer-schedule
   editStates={[Function Array]}
   restoreCompletedSubscription={[Function Subscriber]}
+  router={[Function Object]}
+  showIntegrationFinishedModal$={[Function Store]}
   store={[Function MockStore]}
   syncSchedulesBackup={[Function Array]}
   transferScheduleSummary={[Function Array]}
@@ -83,12 +119,13 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
   transferScheduleSummarySubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <div>
+    <div
+      class="mt-4"
+    >
       <div
         class="float-right"
       >
         <h5
-          class="pt-4 pb-1 font-weight-bold"
           style="opacity: 0.6;"
         >
           STEP 5/5
@@ -101,39 +138,70 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         Let us know how often you would like to refresh your company data.
       </h5>
       <div
-        class="row mb-3"
+        class="row mt-5 mb-3"
       >
         
       </div>
       <div
-        class="row mb-3"
+        class="d-flex justify-content-end"
       >
         <div
-          class="col-sm-12 text-right"
+          class="p-2"
         >
-          <a
-            class="btn btn-outline-danger"
-            href="javascript:void(0);"
+          <button
+            class="btn btn-outline-danger px-4"
+            type="button"
           >
             Cancel
-          </a>
-          <a
-            class="btn"
-            href="javascript:void(0);"
+          </button>
+        </div>
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
           >
             Back
-          </a>
-          <a
-            class="btn btn-primary btn-disabled disabled btn-light"
-            href="javascript:void(0);"
-            ng-reflect-klass="btn btn-primary"
-            ng-reflect-ng-class="[object Object]"
+          </button>
+        </div>
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-primary px-4"
+            disabled=""
+            type="button"
           >
             Finish
-          </a>
+          </button>
         </div>
       </div>
     </div>
+    <pf-modal-form
+      title="Integration Setup Complete"
+    >
+      
+      <h5
+        class="mb-3 setup-complete-modal-header"
+      >
+        Integration Setup Complete!
+      </h5>
+      <div
+        class="alert alert-success"
+      >
+         Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
+      </div>
+      <div
+        class=""
+      >
+        <button
+          class="btn btn-primary px-4 float-right"
+        >
+          Ok
+        </button>
+      </div>
+    </pf-modal-form>
   </pf-async-container>
 </pf-transfer-schedule>
 `;

@@ -16,7 +16,8 @@ import {
   ControlTypeAttribute,
   SimpleYesNoModalOptions,
   UserAssignedRole,
-  JobDescriptionSection
+  JobDescriptionSection,
+  CompanyDto
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -51,6 +52,8 @@ import { ChangeApproverModalComponent } from '../../change-approver-modal';
 import { CopyJobDescriptionModalComponent } from '../../copy-job-description-modal';
 import { JobDescriptionHelper } from '../../../helpers';
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
+import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
+import * as fromWorkflowTemplateListActions from '../../../../shared/actions/shared-workflow.actions';
 
 @Component({
   selector: 'pf-job-description-page',
@@ -59,22 +62,22 @@ import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 })
 export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild('discardDraftModal', { static: true }) public discardDraftModal: SimpleYesNoModalComponent;
-  @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
-  @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
-  @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
   @ViewChild('jobMatchesModalComponent', { static: false }) public jobMatchesModalComponent: JobMatchesModalComponent;
+  @ViewChild(ChangeApproverModalComponent, { static: false }) public changeApproverModal: ChangeApproverModalComponent;
   @ViewChild(CopyJobDescriptionModalComponent, { static: false }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
+  @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
+  @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
+  @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
+  @ViewChild(JobDescriptionAppliesToModalComponent, { static: false }) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
   @ViewChild(WorkflowCancelModalComponent, { static: false }) public workflowCancelModal: WorkflowCancelModalComponent;
   @ViewChild(WorkflowSetupModalComponent, { static: false }) public workflowSetupModal: WorkflowSetupModalComponent;
-  @ViewChild(ChangeApproverModalComponent, { static: false }) public changeApproverModal: ChangeApproverModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
   userAssignedRoles$: Observable<UserAssignedRole[]>;
-  companyLogo$: Observable<AsyncStateObj<string>>;
-  enableLibraryForRoutedJobDescriptions$: Observable<boolean>;
+  company$: Observable<AsyncStateObj<CompanyDto>>;
   enablePublicViewsInClient$: Observable<boolean>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
   editingJobDescription$: Observable<boolean>;
@@ -94,8 +97,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   routerParamsSubscription: Subscription;
   identitySubscription: Subscription;
   revisionSubscription: Subscription;
-  companyLogoSubscription: Subscription;
-  enableLibraryForRoutedJobDescriptionsSubscription: Subscription;
+  companySubscription: Subscription;
   saveThrottleSubscription: Subscription;
   savingJobDescriptionSubscription: Subscription;
   jobDescriptionExtendedInfoSubscription: Subscription;
@@ -143,13 +145,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     private jobDescriptionManagementDndService: JobDescriptionManagementDnDService,
     private jobDescriptionDnDService: JobDescriptionDnDService
 ) {
-    this.companyLogo$ = this.store.select(fromJobDescriptionReducers.getCompanyLogoAsync);
+    this.company$ = this.store.select(fromJobDescriptionReducers.getCompanyAsync);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.userAssignedRoles$ = this.userContextStore.select(fromRootState.getUserAssignedRoles);
-    this.enableLibraryForRoutedJobDescriptions$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.EnableLibraryForRoutedJobDescriptions
-    );
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMPublicViewsUseClient
     );
@@ -186,8 +185,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.routerParamsSubscription.unsubscribe();
     this.jobDescriptionSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
-    this.companyLogoSubscription.unsubscribe();
-    this.enableLibraryForRoutedJobDescriptionsSubscription.unsubscribe();
+    this.companySubscription.unsubscribe();
     this.saveThrottleSubscription.unsubscribe();
     this.savingJobDescriptionSubscription.unsubscribe();
     this.jobDescriptionExtendedInfoSubscription.unsubscribe();
@@ -196,6 +194,21 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionViewsAsyncSubscription.unsubscribe();
     this.editingSubscription.unsubscribe();
     this.completedStepSubscription.unsubscribe();
+  }
+
+  appliesToFormCompleted(selected: any) {
+    // const newJobDescription = new CompanyJobViewListItem();
+    // newJobDescription.CompanyJobId = selected.companyJobId;
+    // var companyJobToAssign = newJobDescription.CompanyJobId;
+    // var companyJobToUnassign = [];
+    // if(selected.templateId == -1) {
+    //     this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
+    // } else {
+    //     this.templateService.saveCompanyJobsJobDescriptionTemplateId(selected.templateId,[companyJobToAssign],companyJobToUnassign).subscribe( () => {
+    //         this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
+    //     });
+
+    // }
   }
 
   goBack(): void {
@@ -349,7 +362,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     appliesTo.AppliesToValue = this.jobDescription.AppliesToValue;
     appliesTo.JobDescriptionTitle = this.jobDescription.JobDescriptionTitle;
 
-    // this.jobDescriptionAppliesToModalComponent.open(this.jobDescription.JobDescriptionId, this.jobDescription.CompanyJobId, appliesTo);
+    this.jobDescriptionAppliesToModalComponent.open(this.jobDescription.JobDescriptionId, this.jobDescription.CompanyJobId, appliesTo);
   }
 
   handleExportAsPDFClicked(): void {
@@ -428,7 +441,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
 
     this.completedStepSubscription = this.completedStep$.subscribe(cs => this.completedStep = cs);
-    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => this.handleJobDescriptionChanged(result.obj));
+    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
+      if (result.obj) {
+        this.store.dispatch(new fromWorkflowTemplateListActions.Load(result.obj.CompanyJobId));
+      }
+      this.handleJobDescriptionChanged(result.obj);
+    });
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
@@ -441,15 +459,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         }
       }
       this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
-      this.companyLogoSubscription = this.companyLogo$.subscribe((companyLogo) => {
-        this.companyLogoPath = companyLogo && companyLogo.obj
-          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + companyLogo.obj
+      this.companySubscription = this.company$.subscribe((company) => {
+        this.companyLogoPath = company && company.obj
+          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.obj.CompanyLogo
           : '';
+        if (company && company.obj) {
+          this.companyName = company.obj.CompanyName;
+        }
       });
       this.isSiteAdmin = userContext.AccessLevel === 'Admin';
       this.initRouterParams();
       if (!this.completedStep) {
-        this.store.dispatch(new fromJobDescriptionActions.LoadCompanyLogo(userContext.CompanyId));
+        this.store.dispatch(new fromJobDescriptionActions.LoadCompany(userContext.CompanyId));
       }
     });
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
@@ -457,8 +478,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.isCompanyAdmin = userRoles.some( x => x.RoleName === 'Company Admin' && x.Assigned);
       }
     });
-    this.enableLibraryForRoutedJobDescriptionsSubscription = this.enableLibraryForRoutedJobDescriptions$.subscribe(value =>
-      this.enableLibraryForRoutedJobDescriptions = value);
+
 
     // if the setting to enable public views in this repo is disabled redirect back to the NG implementation
     this.enablePublicViewsInClient$.pipe(

@@ -1,0 +1,48 @@
+<div>
+    <ng-template [ngIf]="!editingTemplateSettings">
+        <button *ngIf="template.TemplateStatus === 'Draft'" [disabled]="templatePublishing" (click)="publishTemplateClick.emit()" type="button" class="btn btn-success">
+          <span *ngIf="!templatePublishing">
+            <fa-icon icon="check-circle" aria-hidden="true"></fa-icon>
+          </span>
+          <span *ngIf="templatePublishing">
+            <fa-icon icon="spinner" aria-hidden="true"></fa-icon>
+          </span> Publish
+        </button>
+
+        <button *ngIf="template.TemplateStatus === 'Draft'" [disabled]="templatePublishing" (click)="discardDraftClick.emit()" type="button" class="btn btn-secondary">
+          <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon> Discard Draft          
+        </button>
+
+        <button *ngIf="template.TemplateStatus === 'Draft' || editingTemplate" type="button" class="btn btn-secondary" [disabled]="templatePublishing" (click)="addSectionClick.emit()">
+          <fa-icon icon="plus" aria-hidden="true"></fa-icon> Add Section          
+        </button>
+
+        <button *ngIf="!editingTemplate"
+          type="button"
+          class="btn btn-secondary"
+          [disabled]="templatePublishing"
+          (click)="editClick.emit()">
+          <fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon> Edit
+        </button>
+
+        <button *ngIf="template.TemplateStatus === 'Published'" (click)="assignClick.emit()" [disabled]="templatePublishing" type="button" class="btn btn-secondary">
+          <fa-icon icon="list-alt" aria-hidden="true"></fa-icon> Assign
+        </button>
+
+        <button type="button" class="btn btn-secondary" (click)="copyClick.emit()" [disabled]="templatePublishing">
+          <fa-icon icon="copy" aria-hidden="true"></fa-icon> Copy
+        </button>
+
+        <button type="button" class="btn btn-secondary" (click)="exportSettingsClick.emit()" [disabled]="templatePublishing">
+          <fa-icon icon="cog" aria-hidden="true"></fa-icon> Export Settings
+        </button>
+    </ng-template>
+    <ng-template [ngIf]="editingTemplateSettings">
+      <button type="button" class="btn btn-secondary" (click)="cancelExportSettingsClick.emit()" [disabled]="templatePublishing">
+        <fa-icon icon="times" aria-hidden="true"></fa-icon> Cancel
+      </button>
+      <button type="button" class="btn btn-primary" (click)="completeExportSettingsClick.emit()" [disabled]="templatePublishing">
+        <fa-icon icon="check" ></fa-icon> Done
+      </button>
+    </ng-template>
+</div>

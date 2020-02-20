@@ -29,7 +29,7 @@
   </p-editor>
 
   <div *ngIf="!readOnly" class="card my-3 control-table">
-    <div class="card-header" [class.no-control-data-warning]="rteTextButNoData()" (click)="toggleDataTable();">
+    <div class="card-header" [class.no-control-data-warning]="hasUnstructuredData()" (click)="toggleDataTable();">
 
       <ng-template [ngIf]="rteTextButNoData()">
         <fa-icon icon="exclamation-triangle"></fa-icon>
@@ -45,11 +45,11 @@
         - <strong>{{ data.length }}</strong> Total Items
       </ng-template>
 
-      <ng-template [ngIf]="rteTextButNoData()">
+      <ng-template [ngIf]="hasUnstructuredData()">
         - Unstructured data will be lost. Please Number or Bullet your content.
       </ng-template>
 
-      <button class="btn btn-sm btn-secondary float-right">
+      <button class="btn btn-sm btn-secondary float-right" type="button">
         <span *ngIf="!showDataTable"><fa-icon [icon]="['fas','caret-down']"></fa-icon></span>
         <span *ngIf="showDataTable"><fa-icon [icon]="['fas','caret-up']"></fa-icon></span>
       </button>

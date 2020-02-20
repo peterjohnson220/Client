@@ -8,7 +8,8 @@ export const ORG_DATA_PF_PAYMARKET_FIELDS = [
   'Country_Code',
   'Currency_Code',
   'Linked_PayMarket',
-  'Linked_AdjPct'
+  'Linked_AdjPct',
+  'ShowInLinkedStructure'
 ];
 
 export const ORG_DATA_PF_JOB_FIELDS = [
@@ -63,7 +64,7 @@ export const ORG_DATA_PF_EMPLOYEE_FIELDS = [
   'Rate',
   'Bonus',
   'BonusPct',
-  'Bonus_Target',
+  'Bonus_TargetValues',
   'BonusTargetPct',
   'STI',
   'TCC',
@@ -124,3 +125,6 @@ export const DATE_FORMATS: DateFormatItem[] = [
   {text: 'dd MMM yyyy (ex: 29 Jun 2015)', value: 'dd MMM yyyy'},
   {text: 'dd MMMM yyyy (ex: 29 June 2015)', value: 'dd MMMM yyyy'},
 ];
+
+export const BONUS_TARGET_COLUMN_NAME = 'Bonus_Target';
+export const BONUS_TARGET_DISPLAY_NAME = 'Bonus_TargetValues';

@@ -9,10 +9,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime } from 'rxjs/operators';
 
 import * as fromDataViewMainReducer from '../../reducers';
-import * as fromFormulaFieldActions from '../../actions/formula-field-modal.actions';
-import { FormulaFieldModalObj, Suggestion, functionSuggestionList } from '../../models';
+import * as fromFormulaFieldActions from '../../actions/formula-field.actions';
+import { FormulaFieldModalObj, Suggestion, functionSuggestionList, FieldDataType, DataViewAccessLevel } from '../../models';
 import { FormulaEditorComponent } from '../../components';
-import { FieldDataType } from '../../../_main/models';
 
 @Component({
   selector: 'pf-formula-field-modal',
@@ -47,7 +46,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   readonly maxFieldNameLength = 255;
   readonly VALIDATE_DEBOUNCE_TIME = 2000;
   saving: boolean;
-  savingSuccess: boolean;
+  isPublic = false;
   formulaFieldForm: FormGroup;
   title: string;
   fieldName: string;
@@ -120,6 +119,8 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.modalData.Formula = this.formula;
     this.modalData.IsEditable = true;
     this.modalData.DuplicateAllowed = false;
+    this.modalData.IsPublic = false;
+    this.modalData.AccessLevel = DataViewAccessLevel.Owner;
     this.updateForm();
   }
 
@@ -128,7 +129,8 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
       FieldName: this.formulaFieldForm.value.fieldName,
       Formula: this.formula,
       FormulaId: this.modalData ? this.modalData.FormulaId : null,
-      DataType: this.dataType
+      DataType: this.dataType,
+      IsPublic: this.formulaFieldForm.value.isPublic
     };
     this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: formulaInfo, baseEntityId: this.baseEntityId }));
   }
@@ -165,18 +167,22 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   private createForm(): void {
     this.formulaFieldForm = this.formBuilder.group({
       fieldName: [
-        { value: this.fieldName, disabled: !this.isEditable },
-        [PfValidators.required, Validators.maxLength(this.maxFieldNameLength)]]
+        { value: this.fieldName, disabled: false },
+        [PfValidators.required, Validators.maxLength(this.maxFieldNameLength)]],
+      isPublic: [{ value: this.isPublic }]
     });
   }
 
   private updateForm(): void {
+    const publicSwitchDisabled: boolean = (this.modalData && this.modalData.AccessLevel !== DataViewAccessLevel.Owner);
     this.title = this.modalData ? this.modalData.Title : '';
     this.fieldName = this.modalData ? this.modalData.FieldName : '';
+    this.isPublic = this.modalData ? this.modalData.IsPublic : false;
     this.saving = false;
     if (!!this.modalData && !!this.formulaFieldForm) {
       this.formulaFieldForm.reset({
-        fieldName: { value: this.fieldName, disabled: !this.isEditable }
+        fieldName: { value: this.fieldName, disabled: !this.isEditable },
+        isPublic: { value: this.isPublic, disabled: publicSwitchDisabled }
       });
       this.handleFormulaChanged(this.modalData.Formula);
     }

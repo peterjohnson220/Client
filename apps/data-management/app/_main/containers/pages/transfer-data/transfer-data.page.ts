@@ -1,16 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-
-import * as cloneDeep from 'lodash.clonedeep';
+import {Store} from '@ngrx/store';
+import {Observable, Subscription} from 'rxjs';
 
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromDataManagementMainReducer from '../../../reducers';
-import { TransferDataWorkflowStep } from '../../../data';
-import { AuthenticationType, Provider, TransferMethod, EntityChoice } from '../../../models';
-
+import {TransferDataWorkflowStep} from '../../../data';
+import {AuthenticationType, Provider, TransferMethod} from '../../../models';
 
 @Component({
   selector: 'pf-transfer-data-page',
@@ -22,7 +19,6 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
   transferMethods: TransferMethod[];
   selectedProvider: Provider;
   authenticationType: AuthenticationType;
-  providerSupportedEntities: EntityChoice[];
 
   providers$: Observable<Provider[]>;
   transferMethods$: Observable<TransferMethod[]>;
@@ -30,12 +26,10 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
   transferDataPageLoading$: Observable<boolean>;
   transferDataPageLoadingError$: Observable<boolean>;
   currentWorkflowStep$: Observable<TransferDataWorkflowStep>;
-  providerSupportedEntities$: Observable<EntityChoice[]>;
 
   transferMethodsSub: Subscription;
   selectedProviderSub: Subscription;
   authenticationTypeSub: Subscription;
-  providerSupportedEntitiesSub: Subscription;
 
   workflowStep = TransferDataWorkflowStep;
 
@@ -44,7 +38,6 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
     this.providers$ = this.store.select(fromDataManagementMainReducer.getProviders);
     this.selectedProvider$ = this.store.select(fromDataManagementMainReducer.getSelectedProvider);
     this.currentWorkflowStep$ = this.store.select(fromDataManagementMainReducer.getWorkflowStep);
-    this.providerSupportedEntities$ = this.store.select(fromDataManagementMainReducer.getProviderSupportedEntities);
 
     this.transferDataPageLoading$ = this.store.select(fromDataManagementMainReducer.getTransferDataPageLoading);
     this.transferDataPageLoadingError$ = this.store.select(fromDataManagementMainReducer.getTransferDataPageLoadingError);
@@ -53,8 +46,6 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
       this.transferMethods$.subscribe(tms => this.transferMethods = tms);
     this.selectedProviderSub =
       this.selectedProvider$.subscribe(sp => this.selectedProvider = sp);
-    this.providerSupportedEntitiesSub =
-      this.providerSupportedEntities$.subscribe(se => this.providerSupportedEntities = cloneDeep(se));
   }
 
   ngOnInit() {
@@ -64,7 +55,6 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.transferMethodsSub.unsubscribe();
     this.selectedProviderSub.unsubscribe();
-    this.providerSupportedEntitiesSub.unsubscribe();
   }
 
   cancelTransferDataWorkflow() {
@@ -80,15 +70,8 @@ export class TransferDataPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromTransferDataPageActions.SetSelectedProvider(provider));
   }
 
-  proceedToAuthentication() {
-    this.store.dispatch(new fromTransferDataPageActions.ProceedToAuthentication(this.providerSupportedEntities));
-  }
-
   proceedToEntitySelection() {
-    this.store.dispatch(new fromTransferDataPageActions.LoadEntitySelection());
-  }
-
-  checkForSelectedEntity() {
-    return this.providerSupportedEntities.filter(p => p.isChecked).length > 0;
+    this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.EntitySelection));
+    this.router.navigate(['transfer-data/inbound/entity-selection']);
   }
 }

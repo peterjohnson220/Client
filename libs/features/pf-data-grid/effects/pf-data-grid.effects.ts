@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
@@ -19,17 +19,18 @@ import {
     DataViewFieldType
 } from 'libs/models/payfactors-api';
 import { DataViewApiService } from 'libs/data/payfactors-api';
+import { IDataViewService } from 'libs/models/data-view';
 
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
-import { getUserFilteredFields, isValueRequired } from '../components';
-
+import { isValueRequired } from '../components';
 
 @Injectable()
 export class PfDataGridEffects {
     constructor(private actions$: Actions,
         private dataViewApiService: DataViewApiService,
-        private store: Store<fromPfDataGridReducer.State>
+        private store: Store<fromPfDataGridReducer.State>,
+        @Inject('DataViewService') private dataViewService: IDataViewService
     ) { }
 
     @Effect()
@@ -38,7 +39,7 @@ export class PfDataGridEffects {
             ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG),
             switchMap(
                 (action: fromPfDataGridActions.LoadViewConfig) =>
-                    this.dataViewApiService.getDataViewConfig(PfDataGridEffects.parsePageViewId(action.pageViewId), action.name).pipe(
+                    this.dataViewService.getDataViewConfig(PfDataGridEffects.parsePageViewId(action.pageViewId), action.name).pipe(
                         mergeMap((viewConfig: DataViewConfig) => {
                             return [
                                 new fromPfDataGridActions.LoadViewConfigSuccess(action.pageViewId, viewConfig),
@@ -74,7 +75,7 @@ export class PfDataGridEffects {
             ),
             switchMap((data) => {
                 if (data.fields) {
-                    return this.dataViewApiService
+                    return this.dataViewService
                         .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(
                             data.baseEntity ? data.baseEntity.Id : null,
                             data.fields,
@@ -141,7 +142,7 @@ export class PfDataGridEffects {
                 )
             ),
             switchMap((data) =>
-                this.dataViewApiService.updateDataView(PfDataGridEffects.buildSaveDataViewRequest(
+                this.dataViewService.updateDataView(PfDataGridEffects.buildSaveDataViewRequest(
                     PfDataGridEffects.parsePageViewId(data.action.pageViewId),
                     data.baseEntity.Id,
                     data.fields,
@@ -163,7 +164,7 @@ export class PfDataGridEffects {
         .pipe(
             ofType(fromPfDataGridActions.LOAD_SAVED_VIEWS),
             switchMap((action: fromPfDataGridActions.LoadSavedViews) =>
-                this.dataViewApiService.getViewsByUser(PfDataGridEffects.parsePageViewId(action.pageViewId)).pipe(
+                this.dataViewService.getViewsByUser(PfDataGridEffects.parsePageViewId(action.pageViewId)).pipe(
                     map((response: DataViewConfig[]) => {
                         return new fromPfDataGridActions.LoadSavedViewsSuccess(action.pageViewId, response);
                     }),
@@ -245,21 +246,11 @@ export class PfDataGridEffects {
         baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
         pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean, applyDefaultFilters: boolean) {
 
-        let singleSortDesc = null;
-        if (!!sortDescriptor && sortDescriptor.length > 0) {
-            const field: ViewField = fields.find(x => sortDescriptor[0].field === `${x.EntitySourceName}_${x.SourceName}`);
-            singleSortDesc = {
-                SortField: field,
-                SortDirection: sortDescriptor[0].dir
-            };
-        }
-
         return {
             BaseEntityId: baseEntityId,
-            Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields),
+            Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields, sortDescriptor),
             Filters: filters,
             PagingOptions: pagingOptions,
-            SortDescriptor: singleSortDesc,
             WithCount: withCount,
             ApplyDefaultFilters: applyDefaultFilters,
         };
@@ -273,10 +264,11 @@ export class PfDataGridEffects {
         }));
     }
 
-    static mapFieldsToDataViewFields(fields: ViewField[]): DataViewField[] {
+    static mapFieldsToDataViewFields(fields: ViewField[], sortDescriptor: SortDescriptor[]): DataViewField[] {
         return fields ? fields
             .filter(f => f.IsSelected)
             .map(f => {
+                const sortInfo = this.getSortInformation(f, sortDescriptor);
                 return {
                     EntityId: f.EntityId,
                     Entity: null,
@@ -288,10 +280,27 @@ export class PfDataGridEffects {
                     IsSelected: f.IsSelected,
                     IsSortable: false,
                     Order: f.Order,
-                    FieldType: DataViewFieldType.DataElement
+                    FieldType: DataViewFieldType.DataElement,
+                    SortOrder: !!sortInfo ? sortInfo.SortOrder : null,
+                    SortDirection: !!sortInfo ? sortInfo.SortDirection : null
                 };
             })
             : [];
+    }
+
+    private static getSortInformation(field: ViewField, sortDescriptor: SortDescriptor[]) {
+      if (!!sortDescriptor && sortDescriptor.length > 0) {
+        const sortInfo = sortDescriptor.find(x => x.field === `${field.EntitySourceName}_${field.SourceName}`);
+        if (!!sortInfo) {
+          return {
+            SortDirection: sortInfo.dir,
+            SortOrder: sortDescriptor.indexOf(sortInfo)
+          };
+        } else {
+          return null;
+        }
+      }
+      return null;
     }
 
     static mapFieldsToFilters(fields: ViewField[]): DataViewFilter[] {

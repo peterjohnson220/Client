@@ -8,7 +8,8 @@ import {
   JobDescriptionJobComparePageComponent,
   JobDescriptionListPageComponent,
   JobDescriptionVersionComparePageComponent,
-  JobDescriptionPageComponent
+  JobDescriptionPageComponent,
+  JobDescriptionWorkflowComparePageComponent
 } from './containers';
 import { JobDescriptionJobCompareListResolver, ResolveHistoryListGuard } from './guards';
 
@@ -31,6 +32,12 @@ const routes: Routes = [
     path: 'job-descriptions/compare-versions/:id',
     component: JobDescriptionVersionComparePageComponent,
     resolve: {historyList: ResolveHistoryListGuard},
+    canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
+  },
+  {
+    path: 'job-descriptions/workflow/compare-versions/:id',
+    component: JobDescriptionWorkflowComparePageComponent,
     canActivate: [AuthorizationGuard],
     data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
   },

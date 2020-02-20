@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CompanyStructure } from '../../../models/structures/company-structure.model';
 import { CompanyStructureView } from '../../../models/structures/company-structure-view.model';
+import { StructureRangeGroupResponse, generateMockCompanyStructureRangeGroup } from '../../../models/payfactors-api/structures';
 
 @Injectable()
 export class StructuresApiService {
@@ -30,4 +31,7 @@ export class StructuresApiService {
     return this.payfactorsApiService.post<number>(`${this.endpoint}(${companyStructureId})/Default.RemoveFavorite`);
   }
 
+  createModel(): Observable<StructureRangeGroupResponse> {
+    return of(generateMockCompanyStructureRangeGroup());
+  }
 }

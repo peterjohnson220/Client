@@ -1,0 +1,12 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="getPageTitle((userContext$ | async)?.CompanyName)"
+  [navigationURL]="'/client/dashboard'"
+  [selectionField]="'CompanyEmployee_ID'"
+  [allowExport]="false"
+  [defaultSort]="defaultSort"
+  [showActionBar]="true"
+  [showColumnChooser] ="false"
+  [showFilterChooser] ="false"
+  [noRecordsFound]="'No records available.'">
+</pf-data-grid>

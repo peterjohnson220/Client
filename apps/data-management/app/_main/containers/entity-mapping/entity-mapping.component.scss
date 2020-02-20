@@ -33,6 +33,9 @@ fa-icon {
     border: 1px solid;
     border-color: rgba(0,0,0,0.08);
     color: #000;
+    & :hover {
+      cursor: grab;
+    }
   }
 }
 
@@ -76,6 +79,8 @@ fa-icon {
     border: 1px solid;
     border-color: rgba(0,0,0,0.08);
     color: #000;
+    max-width: 20rem;
+    cursor: grabbing;
   }
 }
 .gu-mirror td:not(.gu-mirror-show) {
@@ -84,4 +89,9 @@ fa-icon {
 
 .gu-mirror .gu-mirror-show{
   display: none;
+}
+
+.min-width-1 {
+  /* required to make ellipsis work with flex boxes */
+  min-width: 1rem;
 }

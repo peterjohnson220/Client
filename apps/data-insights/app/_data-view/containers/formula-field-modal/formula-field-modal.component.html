@@ -6,7 +6,7 @@
   <div class="modal-body d-flex flex-column">
     <div class="instructions">
       <h5 id="header-info">Instructions</h5>
-      Use <b>[</b> to find and insert existing fields in your formula. Use <b>$</b> to view formula syntax. To view a complete list of all supported formulas with descriptions, <a href="javascript:void(0)">click here</a>
+      Use <b>[</b> to find and insert existing fields in your formula. Use <b>$</b> to view formula syntax. To view a complete list of all supported formulas with descriptions, <a href="https://resources.payfactors.com/docs/Content/C_Resources/PDFs/Custom%20Formula%20Field%20Glossary.pdf" target="_blank">click here</a>
     </div>
 
     <form [formGroup]="formulaFieldForm">
@@ -22,6 +22,23 @@
           name="fieldName" #formFieldName/>
         <div class="text-danger mt-2" *ngIf="formFieldName.value.length > maxFieldNameLength">
           Field name must be no longer than {{maxFieldNameLength}} characters.
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="public-private-switch">
+          <span
+            [ngbPopover]="publicSwitchContent"
+            container="body"
+            placement="right"
+            triggers="mouseenter:mouseleave"
+            popoverTitle="Public vs Private">
+            <kendo-switch
+              formControlName="isPublic"
+              class="k-switch-lg"
+              onLabel="Public"
+              offLabel="Private">
+          </kendo-switch>
+          </span>
         </div>
       </div>
 
@@ -66,5 +83,8 @@
   </div>
   <ng-template #popContent>
     You are changing the field type. If you save your changes, it will remove your filters on the formula field.
+  </ng-template>
+  <ng-template #publicSwitchContent>
+    Private formulas can only be viewed by you. Public formulas will be available to all users at your company.
   </ng-template>
 </ng-template>

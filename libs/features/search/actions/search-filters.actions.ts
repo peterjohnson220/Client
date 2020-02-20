@@ -39,7 +39,7 @@ export class ApplySavedFilters implements Action {
 export class ClearFilter implements Action {
   readonly type = CLEAR_FILTER;
 
-  constructor(public payload: {filterId: string}) {}
+  constructor(public payload: {filterId: string, parentOptionValue?: string}) {}
 }
 
 export class ClearFilters implements Action {
@@ -59,7 +59,8 @@ export class RefreshFilters implements Action {
 
   constructor(public payload: {
     filters: Filter[],
-    keepFilteredOutOptions: boolean
+    keepFilteredOutOptions: boolean,
+    singleFilter?: Filter
   }) {}
 }
 

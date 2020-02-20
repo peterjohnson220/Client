@@ -12,7 +12,6 @@ import {
   DuplicateUserViewRequest,
   UpdateDataViewFieldsRequest,
   DeleteUserViewRequest,
-  SaveUserDataViewSortOrderRequest,
   DataViewFilterOptionsRequest,
   SaveUserViewFiltersRequest,
   ShareUserDataViewRequest,
@@ -22,12 +21,14 @@ import {
   DataViewEntityResponseWithCount,
   ValidateFormulaResponse,
   ValidateFormulaRequest,
-  UpsertFormulaFieldRequest
+  UpsertFormulaFieldRequest,
+  DeleteUserFormulaRequest, DataViewConfig
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { IDataViewService } from '../../../models/data-view';
 
 @Injectable()
-export class DataViewApiService {
+export class DataViewApiService implements IDataViewService {
   private endpoint = 'DataViews';
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
@@ -80,10 +81,6 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdateDataViewFields`, request);
   }
 
-  saveUserDataViewSortOrder(request: SaveUserDataViewSortOrderRequest): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/SaveUserDataViewSortOrder`, request);
-  }
-
   getFilterOptions(request: DataViewFilterOptionsRequest): Observable<string[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetFilterOptions`, request);
   }
@@ -104,7 +101,7 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/RemoveSharePermission`, request);
   }
 
-  getDataViewConfig(pageViewId: string, name: string) {
+  getDataViewConfig(pageViewId: string, name: string): Observable<DataViewConfig> {
     const params = {
       pageViewId: pageViewId
     };
@@ -128,6 +125,22 @@ export class DataViewApiService {
 
   upsertFormulaField(request: UpsertFormulaFieldRequest): Observable<DataViewField> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpsertFormulaField`, request);
+  }
+
+  deleteFormulaField(request: DeleteUserFormulaRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteUserFormula`, request);
+  }
+
+  getDataViewCountForFormula(formulaId: number): Observable<number> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetDataViewCount`, { params: { formulaId: formulaId } }, this.extractRawResponse);
+  }
+
+  getDataCount(request: DataViewDataRequest): Observable<number> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetDataCount`, request);
+  }
+
+  private extractRawResponse(response: any) {
+    return response;
   }
 
   deleteView(pageViewId: string, viewName: string) {

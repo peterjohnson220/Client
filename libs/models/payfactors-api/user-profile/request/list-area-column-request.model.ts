@@ -7,4 +7,5 @@ export interface ListAreaColumnRequest {
   Order: number;
   Default: boolean;
   Required: boolean;
+  PublicView: boolean;
 }

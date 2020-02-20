@@ -52,5 +52,12 @@
     color: darken(red, 2%);
   }
 }
+.switch-wrapper {
+  &.disabled {
+    pointer-events: none;
+  }
+
+  cursor: pointer;
+}
 
 

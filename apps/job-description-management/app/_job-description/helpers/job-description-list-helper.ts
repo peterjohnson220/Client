@@ -22,7 +22,8 @@ export class JobDescriptionListHelper {
       appliesTo = {
         AppliesToField: '',
         AppliesToValue: '',
-        JobDescriptionTitle: ''
+        JobDescriptionTitle: '',
+        PublicView: companyJobViewListItem.PublicView
       };
     }
 
@@ -31,6 +32,7 @@ export class JobDescriptionListHelper {
       appliesToField: appliesTo.AppliesToField,
       appliesToValue: appliesTo.AppliesToValue,
       jobDescriptionTitle: appliesTo.JobDescriptionTitle,
+      publicView: appliesTo.PublicView == null ? true : appliesTo.PublicView
     };
   }
 

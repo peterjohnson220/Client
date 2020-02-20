@@ -60,13 +60,17 @@ export class SearchFiltersEffects {
       ofType(fromSearchFiltersActions.RESET_ALL_FILTERS),
       withLatestFrom(
         this.store.select(fromSharedSearchReducer.getSearchingFilter),
-        (action: fromSearchFiltersActions.ResetAllFilters, searchingFilter) => ({ action, searchingFilter })
+        this.store.select(fromSharedSearchReducer.getSearchingChildFilter),
+        (action: fromSearchFiltersActions.ResetAllFilters, searchingFilter, searchingChildFilter) => ({ action, searchingFilter, searchingChildFilter })
       ),
       mergeMap(data => {
           const actions = [];
 
           if (data.searchingFilter) {
             actions.push(new fromSearchPageActions.HideFilterSearch());
+          }
+          if (data.searchingChildFilter) {
+            actions.push(new fromSearchPageActions.HideChildFilterSearch());
           }
 
           actions.push(new fromUserFilterActions.SetSelected({ selected: false }));

@@ -1,0 +1,75 @@
+<pf-page-with-title-bar>
+  <ng-container page-title>
+    SSO Customer Configurations
+  </ng-container>
+
+  <ng-container page-content>
+    <form id="SSO-form" [formGroup]="ssoForm" (ngSubmit)="onSubmit(ssoForm.value)">
+      <div class="col-5">
+      <div class="form-group">
+        <label class="control-label" for="companyId">
+          Company Id <span class="text-danger">*</span>
+        </label>
+        <input class="form-control" id="companyId" type="number" formControlName="companyId" >
+        <span *ngIf="ssoForm.controls['companyId'].touched && ssoForm.controls['companyId'].invalid" class="invalid-feedback">Company Id required</span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="email">
+          Customer Email <span class="text-danger">*</span>
+        </label>
+        <input class="form-control" id="email" type="email" formControlName="email">
+        <span *ngIf="ssoForm.controls['email'].touched && ssoForm.controls['email'].invalid" class="invalid-feedback">Email required</span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="entityId">
+          Entity Id <span class="text-danger">*</span>
+        </label>
+        <input class="form-control" id="entityId" type="text" formControlName="entityId" >
+        <span *ngIf="ssoForm.controls['entityId'].touched && ssoForm.controls['entityId'].invalid" class="invalid-feedback">An Entity Id is required</span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="ssoEndpoint">
+          SSO Endpoint <span class="text-danger">*</span>
+        </label>
+        <input class="form-control" id="ssoEndpoint" type="url" formControlName="ssoEndpoint" >
+        <span *ngIf="ssoForm.controls['ssoEndpoint'].touched && ssoForm.controls['ssoEndpoint'].invalid" class="invalid-feedback">Please enter a SSO Endpoint</span>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="logOutUrl">
+          Log Out Url
+        </label>
+        <input class="form-control" id="logOutUrl" type="url" formControlName="logOutUrl" >
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="signingCertificate">
+          Signing Certificate <span class="text-danger">*</span>
+        </label>
+        <input class="form-control" id="signingCertificate" type="text" formControlName="signingCertificate" >
+        <span *ngIf="ssoForm.controls['signingCertificate'].touched && ssoForm.controls['signingCertificate'].invalid" class="invalid-feedback">Please enter a Signing Certificate</span>
+      </div>
+        <div class="btn-toolbar">
+          <button class="btn btn-primary" type="submit" [disabled]="!ssoForm.valid">Submit</button>
+          <button class="btn btn-primary" type="button" [disabled]="!createSuccess" (click)="open(ssoUrlModal)">Display SSO URL</button>
+          <span *ngIf="errorMessage" class="text-danger float-right">Something went wrong. Make sure required fields are filled out and in the right format</span>
+        </div>
+      </div>
+    </form>
+
+  </ng-container>
+
+  <ng-template #ssoUrlModal let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title" id="ssoUrlModalLabel">SSO URL</h4>
+        <button type="button" class="close" (click)="c('close')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ssoURL}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="c('close')">Close</button>
+      </div>
+  </ng-template>
+
+</pf-page-with-title-bar>

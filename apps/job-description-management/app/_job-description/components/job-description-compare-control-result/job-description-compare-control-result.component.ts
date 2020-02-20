@@ -50,6 +50,10 @@ export class JobDescriptionCompareControlResultComponent implements OnInit {
     if (this.control.Statuses) {
       this.hideBody = !this.control.Statuses.some(s => s === 'ChildrenChanged');
     }
-    this.showHeader = this.control.AdditionalProperties.ShowControlName;
+
+    if (this.control.AdditionalProperties) {
+      this.showHeader = this.control.AdditionalProperties.ShowControlName;
+    }
+
   }
 }

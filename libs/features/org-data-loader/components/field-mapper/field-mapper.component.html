@@ -86,7 +86,7 @@
         </select>
       </div>
       <div class="col px-0">
-        <select name="client_fields" size="20" class="list-box d-block mx-auto w-50 px-2" [(ngModel)]="selectedClientField">
+        <select name="client_fields" size="20" class="list-box d-block mx-auto w-auto px-2" [(ngModel)]="selectedClientField">
           <option *ngFor="let field of clientFields" value="{{field}}">{{field}}</option>
         </select>
       </div>
@@ -105,7 +105,7 @@
         >&lt; Remove Mapping</button>
       </div>
       <div class="col px-0">
-        <select name="mapped_fields" size="20" class="list-box d-block mx-auto w-75 px-2 mapped-fields" [(ngModel)]="selectedMapping">
+        <select name="mapped_fields" size="20" class="list-box d-block mx-auto w-auto px-2 mapped-fields" [(ngModel)]="selectedMapping">
           <option *ngFor="let field of mappedFields" value="{{field}}">{{formatMappingForDisplay(field)}}</option>
         </select>
       </div>

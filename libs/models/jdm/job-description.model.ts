@@ -2,20 +2,21 @@ import { JobDescriptionSection } from './job-description-section.model';
 import { JobInformationField } from './job-information-field.model';
 
 export class JobDescription {
-  JobDescriptionId: number;
-  CompanyId: number;
-  JobDescriptionRevision: number;
-  Name: string;
-  Sections: JobDescriptionSection[];
-  DraftNumber: number;
-  JobDescriptionStatus: string;
-  JobInformationFields: JobInformationField[];
-  TemplateId: number;
   AppliesToField: string;
   AppliesToValue: string;
-  JobDescriptionTitle: string;
+  CompanyId: number;
   CompanyJobId: number;
   CompanyLogo: string;
-  CreatedDate: string;
   CreatedBy: string;
+  CreatedDate: string;
+  DraftNumber: number;
+  JobDescriptionId: number;
+  JobDescriptionRevision: number;
+  JobDescriptionStatus: string;
+  JobDescriptionTitle: string;
+  JobInformationFields: JobInformationField[];
+  Name: string;
+  PublicView: boolean;
+  Sections: JobDescriptionSection[];
+  TemplateId: number;
 }

@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FeatureCollection, Point } from 'geojson';
 import * as mapboxgl from 'mapbox-gl';
+import { LngLatBounds } from 'mapbox-gl';
 
 import { ExchangeMapSummary } from 'libs/models/peer';
 import * as fromSearchReducer from 'libs/features/search/reducers';
@@ -22,8 +23,11 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
   cursorStyle: string;
   satelliteStyleEnabled = false;
   map: mapboxgl.Map;
-  ignoreNextMoveEnd = false;
+  ignoreNextMoveEnd = true;
   peerMapSummary: ExchangeMapSummary;
+  peerInitialMapBounds: number[];
+  peerInitialMapZoomLevel: number;
+  initialMoveEnd = true;
 
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
@@ -39,6 +43,8 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
   peerMapInitialZoomComplete$: Observable<boolean>;
   peerMapLoaded$: Observable<boolean>;
   peerMapSummarySub: Subscription;
+  peerInitialMapBoundsSub: Subscription;
+  peerInitialMapZoomLevelSub: Subscription;
 
   constructor(private store: Store<fromExchangeExplorerReducer.State>) {
     this.peerMapSummary$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapSummary));
@@ -103,10 +109,26 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
 
   handleMoveEndEvent(e: any) {
     if (!this.ignoreNextMoveEnd) {
+      let bounds;
+      let zoom;
+      // On the initial move end event we want the data to be loaded with the initial map bounds provided to the
+      // map without the padding applied. The bounds provided by 'e' in the event have the padding pre applied.
+      // This causes data to be loaded in the buffer when loading existing cuts. [BG]
+      if (this.initialMoveEnd && this.peerInitialMapBounds && this.peerInitialMapZoomLevel) {
+        bounds = new LngLatBounds(
+          [this.peerInitialMapBounds[0], this.peerInitialMapBounds[1]],
+          [this.peerInitialMapBounds[2], this.peerInitialMapBounds[3]]
+        );
+        zoom = this.peerInitialMapZoomLevel;
+      } else {
+        bounds = e.target.getBounds();
+        zoom = e.target.getZoom();
+      }
       this.store.dispatch(new fromMapActions.MoveEnd({
-        bounds: e.target.getBounds(),
-        zoom: e.target.getZoom()
+        bounds: bounds,
+        zoom: zoom
       }));
+      this.initialMoveEnd = false;
     }
 
     this.ignoreNextMoveEnd = false;
@@ -130,9 +152,13 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.peerMapSummarySub = this.peerMapSummary$.subscribe(pms => this.peerMapSummary = pms);
+    this.peerInitialMapBoundsSub = this.peerInitialMapBounds$.subscribe(ib => this.peerInitialMapBounds = ib);
+    this.peerInitialMapZoomLevelSub = this.peerMapInitialZoomLevel$.subscribe(iz => this.peerInitialMapZoomLevel = iz);
   }
 
   ngOnDestroy() {
     this.peerMapSummarySub.unsubscribe();
+    this.peerInitialMapBoundsSub.unsubscribe();
+    this.peerInitialMapZoomLevelSub.unsubscribe();
   }
 }

@@ -19,6 +19,9 @@ export const SAVE_LIST_AREA_COLUMNS_SUCCESS = '[job-description-management / Job
 export const UPDATE_GRID_STATE = '[job-description-management / Job Description Grid] Update Grid State';
 export const UPDATE_LIST_AREA_COLUMN = '[job-description-management / Job Description Grid] Update List Area Column';
 export const UPDATE_SEARCH_TERM = '[job-description-management / Job Description Grid] Update Search Term';
+export const UPDATE_PUBLIC_VIEW = '[job-description-management / Job Description Grid] Update Public View';
+export const UPDATE_PUBLIC_VIEW_SUCCESS = '[job-description-management / Job Description Grid] Update Public View Success';
+export const UPDATE_PUBLIC_VIEW_ERROR = '[job-description-management / Job Description Grid] Update Public View Error';
 export const LOAD_PUBLIC_JDM_COLUMNS = '[job-description-management / Job Description Grid] Load Public JDM Columns';
 export const LOAD_PUBLIC_JDM_COLUMNS_ERROR = '[job-description-management / Job Description Grid] Load Public JDM Columns Error';
 export const LOAD_PUBLIC_JDM_COLUMNS_SUCCESS = '[job-description-management / Job Description Grid] Load Public JDM Columns Success';
@@ -78,16 +81,26 @@ export class UpdateGridState implements Action {
   constructor(public payload: KendoState) {}
 }
 
-export class UpdateListAreaColumn implements Action {
-  readonly type = UPDATE_LIST_AREA_COLUMN;
-
-  constructor(public payload: { ListAreaColumn: ListAreaColumn, Checked: boolean }) {}
-}
-
 export class UpdateSearchTerm implements Action {
   readonly type = UPDATE_SEARCH_TERM;
 
   constructor(public payload: string) {}
+}
+
+export class UpdatePublicView implements Action {
+  readonly type = UPDATE_PUBLIC_VIEW;
+
+  constructor(public payload) {}
+}
+
+export class UpdatePublicViewSuccess implements Action {
+  readonly type = UPDATE_PUBLIC_VIEW_SUCCESS;
+
+  constructor(public payload) {}
+}
+
+export class UpdatePublicViewError implements Action {
+  readonly type = UPDATE_PUBLIC_VIEW_ERROR;
 }
 
 export class LoadPublicJdmColumns implements Action {
@@ -117,8 +130,10 @@ export type Actions
   | SaveListAreaColumnsError
   | SaveListAreaColumnsSuccess
   | UpdateGridState
-  | UpdateListAreaColumn
   | UpdateSearchTerm
+  | UpdatePublicView
+  | UpdatePublicViewSuccess
+  | UpdatePublicViewError
   | LoadPublicJdmColumns
   | LoadPublicJdmColumnsError
   | LoadPublicJdmColumnsSuccess;

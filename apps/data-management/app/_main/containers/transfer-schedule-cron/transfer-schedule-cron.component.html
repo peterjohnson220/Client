@@ -1,5 +1,5 @@
 <div *ngIf="editMode">
-  <div class="form-check">
+  <div class="form-check my-3">
     <input class="form-check-input" type="radio"
            [name]="'interval' + this.id"
            [id]="'intervalDaily' + this.id"
@@ -9,7 +9,7 @@
       Daily
     </label>
   </div>
-  <div class="form-check">
+  <div class="form-check my-3">
     <input class="form-check-input" type="radio"
            [name]="'interval' + this.id"
            [id]="'intervalWeekly' + this.id"
@@ -29,7 +29,7 @@
       (valueChange)="dayOfWeekChange($event)">
     </kendo-dropdownlist>
   </div>
-  <div class="form-check">
+  <div class="form-check my-3">
     <input class="form-check-input" type="radio"
            [name]="'interval' + this.id"
            [id]="'intervalMonthly' + this.id"
@@ -53,32 +53,32 @@
       [textField]="'text'"
       [valueField]="'value'"
       [value]="defaultDayOfWeek"
-      style="width: 8rem;"
+      style="width: 8rem; padding:0 0.5rem;"
       (valueChange)="dayOfMonthChange($event)"
     ></kendo-dropdownlist>
     of each month
   </div>
 </div>
 <div *ngIf="!editMode">
-  <div class="summary">
+  <div class="summary text-center">
     <div *ngIf="this.disabled">
       Disabled
     </div>
     <div *ngIf="!this.disabled">
       <div *ngIf="this.dailyChecked">
-        <b>Daily</b>
+        <h4 class="font-weight-light"><b>Daily</b></h4>
       </div>
       <div *ngIf="this.weeklyChecked">
-        Weekly on <b>{{ getWeeklyScheduleDetails() }}s</b>
+        <h4 class="font-weight-light">Weekly on <b>{{ getWeeklyScheduleDetails() }}s</b></h4>
       </div>
       <div *ngIf="this.monthlyChecked">
-        Every <b>{{ getMonthlyScheduleDetails() }}</b> of the month
+        <h4 class="font-weight-light">Every <b>{{ getMonthlyScheduleDetails() }}</b> of the month</h4>
       </div>
       <div *ngIf="lastRunDate" class="sync-info">
-        Last Received on {{ formatDate(lastRunDate) }}
+        <h4 class="font-weight-light font-italic">Last Received on {{ formatDate(lastRunDate) }}</h4>
       </div>
       <div *ngIf="!lastRunDate" class="sync-info">
-        Never Synchronized
+        <h5 class="font-weight-light font-italic">Never Synchronized</h5>
       </div>
     </div>
   </div>

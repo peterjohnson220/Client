@@ -2,10 +2,12 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { OrgDataEntityType } from 'libs/constants';
 
+import { CredentialsPackage } from 'libs/models';
+
+import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import { TransferDataWorkflowStep } from '../data';
-import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
-import { EntityChoice, EntityTypeModel, Provider, TransferMethod } from '../models';
+import { EntityTypeModel, Provider, TransferMethod } from '../models';
 
 export interface State {
   loading: boolean;
@@ -18,10 +20,10 @@ export interface State {
   validationErrors: string[];
   showAuthenticationModal: boolean;
   selectedEntities: EntityTypeModel[];
-  providerSupportedEntities: EntityChoice[];
+  activeConnection: CredentialsPackage;
 }
 
-const initialState: State = {
+export const initialState: State = {
   loading: false, // Change back after testing
   loadingError: false,
   transferMethods: null,
@@ -29,15 +31,10 @@ const initialState: State = {
   selectedTransferMethod: null,
   selectedProvider: null,
   validationErrors: null,
-  workflowStep: TransferDataWorkflowStep.SelectTransferMethod, // change back to first workflowstep
+  workflowStep: null, //TransferDataWorkflowStep.SelectTransferMethod, // change back to first workflowstep
   showAuthenticationModal: false,
-  selectedEntities: [
-    {
-      EntityType: OrgDataEntityType.Employees,
-      EntityName: 'Employees'
-    }
-  ],
-  providerSupportedEntities: []
+  selectedEntities: [],
+  activeConnection: null
 };
 
 export function reducer(state: State = initialState, action: fromTransferDataPageActions.Actions) {
@@ -80,12 +77,14 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
     case fromTransferDataPageActions.RESET_TRANSFER_DATA_PAGE_WORKFLOW: {
       return {
         ...state,
-        selectedProvider: null,
-        authenticationType: null,
-        validationErrors: null,
-        workflowStep: TransferDataWorkflowStep.SelectTransferMethod,
-        isValidCredentials: false,
-        isConnectionEstablished: false
+        workflowStep: null,
+        // TODO: fix this for MVP
+        // selectedProvider: null,
+        // authenticationType: null,
+        // validationErrors: null,
+        // workflowStep: TransferDataWorkflowStep.SelectTransferMethod,
+        // isValidCredentials: false,
+        // isConnectionEstablished: false
       };
     }
     case fromTransferDataPageActions.LOAD_AUTHENTICATION_FORM_SUCCESS: {
@@ -134,21 +133,7 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
       return {
         ...state,
         loading: false,
-        workflowStep: TransferDataWorkflowStep.Mappings
-      };
-    }
-    case fromTransferDataPageActions.LOAD_ENTITY_SELECTION: {
-      return {
-        ...state,
-        workflowStep: TransferDataWorkflowStep.EntitySelection,
-        loading: true
-      };
-    }
-    case fromTransferDataPageActions.LOAD_ENTITY_SELECTION_SUCCESS: {
-      return {
-        ...state,
-        providerSupportedEntities: action.payload,
-        loading: false
+        activeConnection: action.payload
       };
     }
     case fromTransferDataPageActions.PROCEED_TO_AUTHENTICATION: {
@@ -158,6 +143,12 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
         ...state,
         workflowStep: TransferDataWorkflowStep.Authentication,
         selectedEntities: selectedEntitiesClone
+      };
+    }
+    case fromTransferDataPageActions.UPDATE_WORKFLOWSTEP: {
+      return {
+        ...state,
+        workflowStep: action.payload
       };
     }
     default:
@@ -175,4 +166,4 @@ export const getValidationErrors = (state: State) => state.validationErrors;
 export const getWorkflowStep = (state: State) => state.workflowStep;
 export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
 export const getSelectedEntities = (state: State) => state.selectedEntities;
-export const getProviderSupportedEntities = (state: State) => state.providerSupportedEntities;
+export const getActiveConnection = (state: State) => state.activeConnection;

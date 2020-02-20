@@ -4,7 +4,7 @@ import groovy.io.FileType
 import groovy.json.JsonSlurperClassic
 import java.text.SimpleDateFormat
 
-nodeVersion = '10.15.0'
+nodeVersion = '12.15.0'
 pkgName = 'PayFactorsClient'
 
 octoProject = 'Client-J'
@@ -21,7 +21,7 @@ isPublishable = true
 isAutoDeployBranch = false
 
 pipeline {
-  agent { label 'ubuntu-node1' }
+  agent { label 'ubuntu' }
 
   options {
     buildDiscarder(logRotator(numToKeepStr:'20'))

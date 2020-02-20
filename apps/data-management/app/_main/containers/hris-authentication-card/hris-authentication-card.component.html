@@ -1,6 +1,6 @@
 <div>
   <div>
-    <div class="float-right"><h5 class="font-weight-bold" style="opacity: 0.6;">STEP 3/5</h5></div>
+    <div class="float-right"><h5 style="opacity: 0.6;">STEP 3/5</h5></div>
     <h4 class="mt-2">Authentication</h4>
   </div>
   <div>
@@ -19,18 +19,21 @@
       </div>
       <pf-workday-authentication *ngIf="provider?.ProviderCode === 'WORKDAY'"
                                  (cancelClick)="cancelAuthClick()"
+                                 (backClick)="proceedBackToEntitySelection()"
                                  (submitClick)="submitFormEvent($event)"
                                  [validated]="validatedCredentials">
       </pf-workday-authentication>
 
       <pf-test-authentication *ngIf="provider?.ProviderCode === 'PFTEST'"
                               (cancelClick)="cancelAuthClick()"
+                              (backClick)="proceedBackToEntitySelection()"
                               (submitClick)="submitFormEvent($event)"
                               [validated]="validatedCredentials">
       </pf-test-authentication>
 
       <pf-workdaymock-authentication *ngIf="provider?.ProviderCode === 'WDMOCK'"
                               (cancelClick)="cancelAuthClick()"
+                              (backClick)="proceedBackToEntitySelection()"
                               (submitClick)="submitFormEvent($event)"
                               [validated]="validatedCredentials">
       </pf-workdaymock-authentication>
@@ -38,6 +41,7 @@
       <pf-workdayrest-authentication *ngIf="provider?.ProviderCode === 'WDRESTRPT'"
                                      [selectedEntities]="selectedEntities$ | async"
                                      (cancelClick)="cancelAuthClick()"
+                                     (backClick)="proceedBackToEntitySelection()"
                                      (submitClick)="submitFormEvent($event)"
                                      [validated]="validatedCredentials">
       </pf-workdayrest-authentication>
@@ -46,6 +50,9 @@
         <div class="pb-1 d-flex justify-content-end">
           <div class="p-2">
             <button id="cancel" type="button" class="btn btn-outline-danger px-4" (click)="cancelAuthClick()">Cancel</button>
+          </div>
+          <div class="p-2">
+            <button id="cancel" class="btn btn-secondary px-4" (click)="proceedBackToEntitySelection()">Back</button>
           </div>
           <div class="p-2">
             <button id="connect" class="btn btn-primary px-4" (click)="createConnectionClick()">Next</button>

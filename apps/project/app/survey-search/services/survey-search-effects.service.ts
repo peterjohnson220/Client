@@ -24,7 +24,7 @@ export class SurveySearchEffectsService {
     return action$.pipe(
       // Get the current filters and paging options from the store
       withLatestFrom(
-        this.store.select(fromSearchReducer.getFilters),
+        this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSearchReducer.getResultsPagingOptions),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),

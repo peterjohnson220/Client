@@ -1,6 +1,7 @@
 import {CredentialsPackage} from 'libs/models/hris-api/connection/request';
 
 import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
+import {ConnectionSummary} from '../models';
 
 export interface State {
   loading: boolean;
@@ -9,6 +10,7 @@ export interface State {
   saving: boolean;
   savingError: boolean;
   deleteCompleted: boolean;
+  summary: ConnectionSummary;
 }
 
 export const initialState: State = {
@@ -17,7 +19,8 @@ export const initialState: State = {
   activeConnection: null,
   saving: false,
   savingError: false,
-  deleteCompleted: null
+  deleteCompleted: null,
+  summary: null
 };
 
 export function reducer(state: State = initialState, action: fromHrisConnectionActions.Actions) {
@@ -66,6 +69,29 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         savingError: true
       };
     }
+    case fromHrisConnectionActions.GET_HRIS_CONNECTION_SUMMARY: {
+      return {
+        ...state,
+        loading: true,
+        loadingError: false,
+        summary: null
+      };
+    }
+    case fromHrisConnectionActions.GET_HRIS_CONNECTION_SUMMARY_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: false,
+        summary: action.payload
+      };
+    }
+    case fromHrisConnectionActions.GET_HRIS_CONNECTION_SUMMARY_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
     default:
       return state;
   }
@@ -77,3 +103,4 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getSaving = (state: State) => state.saving;
 export const getSavingError = (state: State) => state.savingError;
 export const getDeleteCompleted = (state: State) => state.deleteCompleted;
+export const getConnectionSummary = (state: State) => state.summary;

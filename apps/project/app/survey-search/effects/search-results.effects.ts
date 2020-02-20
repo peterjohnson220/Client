@@ -29,7 +29,7 @@ export class SearchResultsEffects {
     .pipe(
       ofType(fromSurveySearchResultsActions.GET_SURVEY_DATA_RESULTS),
       withLatestFrom(
-        this.store.select(fromSearchReducer.getFilters),
+        this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
         (action: fromSurveySearchResultsActions.GetSurveyDataResults, filters, projectSearchContext, selectedDataCuts) =>
@@ -68,7 +68,7 @@ export class SearchResultsEffects {
     .pipe(
       ofType(fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS),
       withLatestFrom(
-        this.store.select(fromSearchReducer.getFilters),
+        this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
         (action: fromSurveySearchResultsActions.GetExchangeDataResults, filters, projectSearchContext, selectedDataCuts) =>

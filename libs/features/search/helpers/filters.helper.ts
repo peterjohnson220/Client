@@ -1,7 +1,19 @@
 import * as isEqual from 'lodash.isequal';
 
-import { Filter, Filters, FilterType, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, MultiSelectOption,
-         RangeFilter, TextFilter } from '../models';
+import {
+  Filter,
+  FilterableMultiSelectFilter,
+  Filters,
+  FilterType,
+  isFilterableMultiFilter,
+  isMultiFilter,
+  isRangeFilter,
+  isTextFilter,
+  MultiSelectFilter,
+  MultiSelectOption,
+  RangeFilter,
+  TextFilter
+} from '../models';
 
 export class FiltersHelper {
   static multiSelectToNotRefresh = f => isMultiFilter(f) && (!f.RefreshOptionsFromServer || f.Locked);
@@ -12,7 +24,7 @@ export class FiltersHelper {
   }
 
   static clearFilter(filter: Filter, optionValue?: any): Filter {
-    if (isMultiFilter(filter) && !filter.Locked) {
+    if ((isMultiFilter(filter) || isFilterableMultiFilter(filter)) && !filter.Locked) {
       if (!optionValue) {
         filter.Options.map(o => o.Selected = false);
       } else {
@@ -23,6 +35,13 @@ export class FiltersHelper {
       filter.SelectedMinValue = null;
     } else if (isTextFilter(filter)) {
       filter.Value = '';
+    }
+    return filter;
+  }
+
+  static clearFilterWithParentOptionValue(filter: Filter, parentOptionValue: string): Filter {
+    if ((isFilterableMultiFilter(filter) || isMultiFilter(filter)) && !filter.Locked) {
+      filter.Options.filter(o => JSON.parse(o.Value).ParentOptionValue === parentOptionValue).forEach(x => x.Selected = false );
     }
     return filter;
   }
@@ -76,6 +95,10 @@ export class FiltersHelper {
           hasValue = filter.Options.some(o => o.Selected);
           break;
         }
+        case FilterType.FilterableMulti: {
+          hasValue = filter.Options.some(o => o.Selected);
+          break;
+        }
         case FilterType.Text: {
           hasValue = filter.Value.length > 0;
           break;
@@ -98,6 +121,10 @@ export class FiltersHelper {
     return <MultiSelectFilter[]>filters.filter(f => isMultiFilter(f) && f.Options.some(o => o.Selected));
   }
 
+  static getFilterableMultiSelectFiltersWithSelections(filters: Filter[]): FilterableMultiSelectFilter[] {
+    return <FilterableMultiSelectFilter[]>filters.filter(f => isFilterableMultiFilter(f) && f.Options.some(o => o.Selected));
+  }
+
   static getMultiSelectFilterSelectedOptions(multiSelectFilter: MultiSelectFilter): MultiSelectOption[] {
     return multiSelectFilter.Options.filter(o => o.Selected);
   }
@@ -110,7 +137,7 @@ export class FiltersHelper {
 
   static selectAll(filters: Filter[]): Filter[] {
     filters.map((filter: Filter) => {
-      if (isMultiFilter(filter)) {
+      if (isMultiFilter(filter) || isFilterableMultiFilter(filter)) {
         (filter as MultiSelectFilter).Options.map(o => o.Selected = true);
       }
       if (isRangeFilter(filter)) {

@@ -1,8 +1,13 @@
-<div class="card mb-3 {{provider.ProviderId === selectedProvider ? 'active-background' : ''}}" 
+<div
+  class="card mb-3 provider"
+  [class.active-background]="provider.ProviderId === selectedProvider && provider.Active"
+  [class.inactive-provider]="!provider.Active"
   style="max-width: 21rem;" 
   (click)="selectProviderClick($event)">
-  <div class="px-2 selected-badge {{provider.ProviderId === selectedProvider ? 'active' : ''}}">
+  <div
+    class="px-2 selected-badge"
+    [class.active]="provider.ProviderId === selectedProvider && provider.Active">
     <fa-icon icon="check-circle" class="ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></fa-icon>
   </div>
-  <img class="provider-img p-4" src="{{provider.ImageUrl}}" alt="{{provider.ProviderName}}" />
+  <img class="provider-img p-4" [src]="provider.ImageUrl" [alt]="provider.ProviderName" />
 </div>

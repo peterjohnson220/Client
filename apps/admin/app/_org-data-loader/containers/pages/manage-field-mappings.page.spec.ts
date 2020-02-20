@@ -451,6 +451,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '|';
       component.isEmployeesFullReplace = true;
@@ -482,7 +483,8 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsPaymarketsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
-        { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 10, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '|';
       component.isEmployeesFullReplace = true;
@@ -510,6 +512,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.dateFormat = 'MM/dd/yyyy';
@@ -542,6 +545,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 7, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 9, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 10, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.dateFormat = 'MM/dd/yyyy';
       component.delimiter = '';
@@ -573,6 +577,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isEmployeesFullReplace = false;
@@ -604,6 +609,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isEmployeesFullReplace = true;
@@ -635,6 +641,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isEmployeesLoadEnabled = true;
@@ -665,6 +672,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isJobsLoadEnabled = true;
@@ -695,6 +703,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isPaymarketsLoadEnabled = true;
@@ -725,6 +734,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isStructuresLoadEnabled = true;
@@ -755,6 +765,7 @@ describe('ManageFieldMapperPageComponent', () => {
         { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
         { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
       ];
       component.delimiter = '';
       component.isStructureMappingsLoadEnabled = true;
@@ -785,6 +796,7 @@ describe('ManageFieldMapperPageComponent', () => {
       { LoaderSettingsId: 6, KeyName: 'IsStructuresLoadEnabled', KeyValue: 'false' },
       { LoaderSettingsId: 7, KeyName: 'IsStructureMappingsLoadEnabled', KeyValue: 'false' },
       { LoaderSettingsId: 8, KeyName: 'IsActive', KeyValue: 'true' },
+      { LoaderSettingsId: 9, KeyName: 'ValidateOnly', KeyValue: 'false' }
     ];
     component.delimiter = ',';
     component.isEmployeesFullReplace = true;

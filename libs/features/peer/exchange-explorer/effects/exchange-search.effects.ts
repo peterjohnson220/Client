@@ -2,23 +2,23 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { ExchangeMapResponse } from 'libs/models/peer';
-import * as fromSearchReducer from 'libs/features/search/reducers';
 import { ExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { OperatorEnum } from 'libs/constants';
 
-import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromExchangeExplorerReducer from '../reducers';
-
+import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
 import * as fromSearchResultsActions from '../../../search/actions/search-results.actions';
 import * as fromSearchFiltersActions from '../../../search/actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../../search/actions/singled-filter.actions';
+import * as fromChildFilterActions from '../../../search/actions/child-filter.actions';
 import * as fromMapActions from '../actions/map.actions';
 import { ExchangeExplorerContextService } from '../services';
 
@@ -32,18 +32,50 @@ export class ExchangeSearchEffects {
   getExchangeDataSearchResults$ = this.searchExchangeData(fromExchangeSearchResultsActions.GET_EXCHANGE_DATA_RESULTS);
 
   @Effect()
+  searchSingleChildAggregations$ = this.actions$
+    .pipe(
+      ofType(fromSearchResultsActions.GET_RESULTS, fromExchangeSearchResultsActions.GET_EXCHANGE_DATA_RESULTS),
+      withLatestFrom(
+        this.store.pipe(select(fromSearchReducer.getSearchingFilter)),
+        this.store.pipe(select(fromSearchReducer.getSearchingChildFilter)),
+        this.store.pipe(select(fromSearchReducer.getSingledFilter)),
+        (action: any, searchingFilter, searchingChildFilter, singledFilter) =>
+          ({action, searchingFilter, searchingChildFilter, singledFilter})
+
+      ),
+      mergeMap( payload => {
+        const actions = [];
+          if ( payload.searchingFilter &&
+               ((payload.action.payload && payload.action.payload.getSingledFilteredAggregates ) ||
+                 payload.singledFilter.Operator === OperatorEnum.And || payload.searchingChildFilter)) {
+            actions.push(new fromSingledFilterActions.SearchAggregation());
+          }
+
+          if (payload.searchingChildFilter) {
+            actions.push(new fromChildFilterActions.SearchAggregation());
+          }
+        return actions;
+      }
+      )
+    );
+
+  @Effect()
   getExchangeDataSearchResultsSuccess$ = this.actions$.pipe(
     ofType(fromExchangeSearchResultsActions.GET_EXCHANGE_DATA_RESULTS_SUCCESS),
     withLatestFrom(
       this.store.pipe(select(fromSearchReducer.getSearchingFilter)),
       this.store.pipe(select(fromSearchReducer.getSingledFilter)),
+      this.store.pipe(select(fromSearchReducer.getSearchingChildFilter)),
+      this.store.pipe(select(fromSearchReducer.getChildFilter)),
       this.store.pipe(select(fromExchangeExplorerReducer.getSearchFilterMappingDataObj)),
       (
         action: fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess,
         searchingFilter,
         singledFilter,
+        searchingChildFilter,
+        childFilter,
         searchFilterMappingDataObj
-      ) => ({payload: action.payload, searchingFilter, singledFilter, searchFilterMappingDataObj})
+      ) => ({payload: action.payload, searchingFilter, singledFilter, searchingChildFilter, childFilter, searchFilterMappingDataObj})
     ),
     mergeMap((searchResponseContext) => {
 
@@ -61,13 +93,9 @@ export class ExchangeSearchEffects {
 
       actions.push(new fromSearchFiltersActions.RefreshFilters({
         filters: filters,
-        keepFilteredOutOptions: searchResponse.KeepFilteredOutOptions
+        keepFilteredOutOptions: searchResponse.KeepFilteredOutOptions,
+        singleFilter: searchResponseContext.singledFilter
       }));
-
-      if (searchResponseContext.searchingFilter &&
-         (searchResponseContext.payload.getSingledFilteredAggregates || searchResponseContext.singledFilter.Operator === OperatorEnum.And)) {
-        actions.push(new fromSingledFilterActions.SearchAggregation());
-      }
 
       const exchangeMapResponse: ExchangeMapResponse = {
         FeatureCollection: searchResponse.FeatureCollection,
@@ -84,7 +112,7 @@ export class ExchangeSearchEffects {
     })
   );
 
-  searchExchangeData(subscribedAction: string): Observable<Action> {
+  searchExchangeData(subscribedAction: string): Observable <Action> {
     return this.actions$.pipe(
       ofType(subscribedAction),
       tap(action => this.store.dispatch(new fromMapActions.LoadPeerMapData())),
@@ -124,7 +152,7 @@ export class ExchangeSearchEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<fromExchangeExplorerReducer.State>,
+    private store: Store <fromExchangeExplorerReducer.State> ,
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private exchangeDataSearchApiService: ExchangeDataSearchApiService,

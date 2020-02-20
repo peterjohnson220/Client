@@ -15,9 +15,9 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfUserFilterModule } from 'libs/features/user-filter';
 
 import * as fromFaIcons from './fa-icons';
-import { FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent,
+import { FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent, FilterableMultiSelectFilterComponent,
 SearchLayoutComponent } from './components';
-import { SearchFiltersComponent, SingleFilterComponent, ResultsHeaderComponent,
+import { SearchFiltersComponent, SingleFilterComponent, ChildFilterComponent, ResultsHeaderComponent,
 SearchResultsComponent } from './containers';
 import { reducers } from './reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from './helpers';
@@ -26,11 +26,11 @@ import { SearchEffectsService } from './services';
 
 const declarations = [
   // Components
-  FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent,
+  FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent, FilterableMultiSelectFilterComponent,
   SearchLayoutComponent,
 
   // Containers
-  SearchFiltersComponent, SingleFilterComponent, ResultsHeaderComponent, SearchResultsComponent
+  SearchFiltersComponent, SingleFilterComponent, ChildFilterComponent, ResultsHeaderComponent, SearchResultsComponent
 ];
 
 @NgModule({

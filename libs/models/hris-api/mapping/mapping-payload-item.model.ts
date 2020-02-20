@@ -3,14 +3,14 @@ import { OrgDataEntityType } from 'libs/constants';
 import { MappingPayloadMapping, generateMockMappingPayloadMapping } from './mapping-payload-mapping.model';
 
 export interface MappingPayloadItem {
-  OrgDataEntityType: string;
-  Mappings: MappingPayloadMapping[];
+  orgDataEntityType: string;
+  mappings: MappingPayloadMapping[];
 }
 
 export function generateMockMappingPayloadItem(): MappingPayloadItem {
   return {
-    OrgDataEntityType: OrgDataEntityType.Employees,
-    Mappings: [
+    orgDataEntityType: OrgDataEntityType.Employees,
+    mappings: [
       generateMockMappingPayloadMapping(),
       generateMockMappingPayloadMapping(),
       generateMockMappingPayloadMapping(),

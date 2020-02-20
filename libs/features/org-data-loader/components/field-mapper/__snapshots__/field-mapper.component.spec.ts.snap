@@ -105,7 +105,7 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -135,7 +135,7 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >
@@ -252,7 +252,7 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -282,7 +282,7 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >
@@ -397,7 +397,7 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -427,7 +427,7 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >
@@ -525,7 +525,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -555,7 +555,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >
@@ -652,7 +652,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -682,7 +682,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >
@@ -780,7 +780,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -809,7 +809,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >
@@ -906,7 +906,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -935,7 +935,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >
@@ -1093,7 +1093,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -1123,7 +1123,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >
@@ -1260,7 +1260,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -1290,7 +1290,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >
@@ -1448,7 +1448,7 @@ exports[`FieldMapperComponent should show a date format selector when the loader
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-50 px-2"
+          class="list-box d-block mx-auto w-auto px-2"
           name="client_fields"
           size="20"
         >
@@ -1478,7 +1478,7 @@ exports[`FieldMapperComponent should show a date format selector when the loader
         class="col px-0"
       >
         <select
-          class="list-box d-block mx-auto w-75 px-2 mapped-fields"
+          class="list-box d-block mx-auto w-auto px-2 mapped-fields"
           name="mapped_fields"
           size="20"
         >

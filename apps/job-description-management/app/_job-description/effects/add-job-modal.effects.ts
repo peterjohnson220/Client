@@ -22,7 +22,7 @@ export class AddJobModalEffects {
           map((response: CompanyJob) => {
             return new fromAddJobModalActions.CreateCompanyJobSuccess(response);
           }),
-          catchError(response => of(new fromAddJobModalActions.CreateCompanyJobError()))
+          catchError(response => of(new fromAddJobModalActions.CreateCompanyJobError(response)))
         );
       }));
 
@@ -38,6 +38,17 @@ export class AddJobModalEffects {
           catchError(response => of(new fromAddJobModalActions.LoadCompanyJobUdfColumnsError()))
         )
       ));
+
+  @Effect()
+  createCompanyJobError: Observable<Action> = this.actions$
+  .pipe(
+    ofType(fromAddJobModalActions.CREATE_COMPANY_JOB_ERROR),
+      map((response: any) => {
+          if (response.payload.status === 409) {
+            return new fromAddJobModalActions.SetDuplicateCompanyJobMessage({errorMessage: 'Duplicate job code'});
+          }
+        })
+    );
 
   constructor(
     private actions$: Actions,

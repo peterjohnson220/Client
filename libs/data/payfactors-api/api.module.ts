@@ -34,7 +34,7 @@ import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
 import { DataViewApiService, ReportManagementApiService, TableauReportApiService, UserReportApiService } from './reports';
 import { NotificationsApiService } from './notifications';
-import { StructuresApiService, StructuresRangeGroupApiService } from './structures';
+import { StructuresApiService, StructureRangeGroupApiService } from './structures';
 import {
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService,
@@ -50,6 +50,9 @@ import { ConfigurationGroupApiService, OrganizationalDataApiService } from './or
 import { JobsApiService } from './jobs';
 import {DataImportApiService} from './integration/data-import';
 import { TotalRewardsApiService } from './total-rewards';
+import { SsoConfigApiService } from './sso';
+import { CurrencyApiService } from './currency';
+import { CompositeFieldApiService } from './composite-field';
 import {PricingApiService} from './pricings';
 
 @NgModule({
@@ -99,7 +102,7 @@ import {PricingApiService} from './pricings';
     UserReportApiService,
     ReportManagementApiService,
     StructuresApiService,
-    StructuresRangeGroupApiService,
+    StructureRangeGroupApiService,
     DataViewApiService,
     NotificationsApiService,
     SurveyLibraryApiService,
@@ -108,6 +111,9 @@ import {PricingApiService} from './pricings';
     ConfigurationGroupApiService,
     DataImportApiService,
     TotalRewardsApiService,
+    SsoConfigApiService,
+    CurrencyApiService,
+    CompositeFieldApiService,
     PricingApiService,
 
     // PEER

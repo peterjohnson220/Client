@@ -4,12 +4,14 @@ import { CompanyJob } from 'libs/models/company';
 import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 
 import * as fromAddJobModalActions from '../actions/add-job-modal.actions';
+import { MessageHelper } from '../../shared/helpers/message-helper';
 
 export interface State {
   companyJob: CompanyJob;
   companyJobUdfColumns: CompanyJobUdfColumn[];
   creatingCompanyJob: boolean;
   creatingCompanyJobError: boolean;
+  creatingCompanyJobErrorMessage: string;
   creatingCompanyJobSuccess: boolean;
   duplicateCompanyJobMessage: string;
   loadingCompanyJobUdfColumns: boolean;
@@ -21,6 +23,7 @@ export const initialState: State = {
   companyJobUdfColumns: [],
   creatingCompanyJob: false,
   creatingCompanyJobError: false,
+  creatingCompanyJobErrorMessage: '',
   creatingCompanyJobSuccess: false,
   duplicateCompanyJobMessage: '',
   loadingCompanyJobUdfColumns: false,
@@ -32,14 +35,18 @@ export function reducer(state = initialState, action: fromAddJobModalActions.Act
     case fromAddJobModalActions.CREATE_COMPANY_JOB:
       return {
         ...state,
-        creatingCompanyJob: true
+        creatingCompanyJob: true,
+        creatingCompanyJobError: false,
+        creatingCompanyJobSuccess: false
       };
     case fromAddJobModalActions.CREATE_COMPANY_JOB_ERROR:
       return {
         ...state,
         creatingCompanyJob: false,
         creatingCompanyJobError: true,
-        creatingCompanyJobSuccess: false
+        creatingCompanyJobSuccess: false,
+        creatingCompanyJobErrorMessage: MessageHelper.buildErrorMessage('There was an error creating this job.'),
+        duplicateCompanyJobMessage: ''
       };
     case fromAddJobModalActions.CREATE_COMPANY_JOB_SUCCESS:
       return {
@@ -47,7 +54,9 @@ export function reducer(state = initialState, action: fromAddJobModalActions.Act
         creatingCompanyJob: false,
         creatingCompanyJobError: false,
         creatingCompanyJobSuccess: true,
-        companyJob: cloneDeep(action.payload)
+        companyJob: cloneDeep(action.payload),
+        creatingCompanyJobErrorMessage: '',
+        duplicateCompanyJobMessage: ''
       };
     case fromAddJobModalActions.LOAD_COMPANY_JOB_UDF_COLUMNS:
       return {
@@ -70,7 +79,8 @@ export function reducer(state = initialState, action: fromAddJobModalActions.Act
     case fromAddJobModalActions.SET_DUPLICATE_COMPANY_JOB_MESSAGE:
       return {
         ...state,
-        duplicateCompanyJobMessage: action.payload
+        duplicateCompanyJobMessage: action.payload.errorMessage,
+        creatingCompanyJobErrorMessage: ''
       };
     case fromAddJobModalActions.UPDATE_COMPANY_JOB:
       return {
@@ -86,6 +96,7 @@ export const getCompanyJob = (state: State) => state.companyJob;
 export const getCompanyJobCreating = (state: State) => state.creatingCompanyJob;
 export const getCompanyJobCreatingSuccess = (state: State) => state.creatingCompanyJobSuccess;
 export const getCompanyJobCreatingError = (state: State) => state.creatingCompanyJobError;
+export const getCompanyJobCreatingErrorMessage = (state: State) => state.creatingCompanyJobErrorMessage;
 export const getCompanyJobUdfColumns = (state: State) => state.companyJobUdfColumns;
 export const getCompanyJobUdfColumnsLoading = (state: State) => state.loadingCompanyJobUdfColumns;
 export const getCompanyJobUdfColumnsLoadingError = (state: State) => state.loadingCompanyJobUdfColumnsError;

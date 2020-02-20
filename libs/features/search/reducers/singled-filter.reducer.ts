@@ -66,6 +66,16 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
     case fromSingledFilterActions.SEARCH_AGGREGATION_SUCCESS: {
       const filterCopy = cloneDeep(state.filter);
       filterCopy.Options = cloneDeep(action.payload.newOptions);
+      let subFilter;
+
+      if (action.payload.subFilters) {
+       subFilter = cloneDeep(action.payload.subFilters).filter(x => x.ParentBackingField === filterCopy.BackingField)[0];
+        if (subFilter) {
+          filterCopy.Options.forEach(o => {
+            o.SelectionsCount = subFilter.Options.filter( op => JSON.parse(op.Value).ParentOptionValue === o.Value && op.Selected).length;
+          });
+        }
+      }
 
       filterCopy.Options = filterCopy.Options.map(o => {
         o.Selected = action.payload.currentSelections.some(so => so.Value === o.Value);

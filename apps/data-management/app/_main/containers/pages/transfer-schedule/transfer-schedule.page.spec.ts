@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 
 import {of} from 'rxjs';
@@ -23,7 +24,11 @@ describe('TransferSchedulePageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideMockStore({ initialState })
+        provideMockStore({ initialState }),
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() },
+        }
       ],
       declarations: [
         TransferSchedulePageComponent,
@@ -63,5 +68,16 @@ describe('TransferSchedulePageComponent', () => {
     fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should dispatch an action when finish button is pressed', () => {
+    spyOn(store, 'dispatch');
+
+    instance.onFinish();
+
+    fixture.detectChanges();
+
+    const expectedInitAction = new fromTransferSchedulePageActions.ShowIntegrationSetupCompletedModal(true);
+    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedInitAction);
   });
 });

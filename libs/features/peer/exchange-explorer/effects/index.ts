@@ -5,3 +5,4 @@ export * from './singled-filter.effects';
 export * from './exchange-explorer.effects';
 export * from './exchange-filter.effects';
 export * from './exchange-explorer-map.effects';
+export * from './child-filter.effects';

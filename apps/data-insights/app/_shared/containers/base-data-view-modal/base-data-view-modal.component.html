@@ -1,0 +1,59 @@
+<div class="base-data-view-modal modal-body">
+    <div class="form-content row" [formGroup]="baseDataViewForm">
+      <div class="col-12">
+        <ng-content select="[title]"></ng-content>
+
+        <div class="form-group">
+          <label ngbTooltip="Select a data source to prepopulate your tabular report.  Once a source has been selected, you will be able to add fields in from outside data sources and edit the default fields.  Once a primary data source is selected, it cannot be modified.">
+            Data Source <span class="text-danger">*</span>
+          </label>
+
+          <ng-content select="[dataSource]"></ng-content>
+        </div>
+
+        <div class="form-group">
+          <label>Report Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control"
+            [attr.data-qa-id]="'txt-reportName'"
+            [placeholder]="'Report Name...'"
+            [value]="reportName"
+            ngbAutoFocus
+            maxlength="255"
+            formControlName="name"
+            name="name" #formReportName/>
+          <ng-container *ngIf="showErrorMessages && !saving">
+            <div class="text-danger mt-2" *ngIf="savingConflict">Report name in use. Please choose a unique report name.</div>
+            <div class="text-danger mt-2" *ngIf="savingError">Error Saving Report.</div>
+          </ng-container>
+          <div class="text-danger mt-2" *ngIf="formReportName.value.length > 255">Report name must be no longer than 255 characters.</div>
+        </div>
+        
+        <div class="form-group">
+          <label>Summary</label>
+          <textarea class="form-control summary" name="summary"
+            [attr.data-qa-id]="'txt-reportSummary'"
+            [value]="summary"
+            maxlength="300"
+            formControlName="summary"
+            placeholder="Report Summary...">
+          </textarea>
+        </div>
+
+      </div>
+    </div>
+</div>
+<div class="modal-footer">
+  <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary" (click)="close()">
+    Cancel
+  </button>
+  <button
+    [disabled]="saveDisabled"
+    [attr.data-qa-id]="'btn-save'"
+    (click)="save()"
+    type="button" class="btn light-blue-btn">
+    <span *ngIf="!saving">
+      <ng-content select="[saveButtonName]"></ng-content>
+    </span>
+    <span *ngIf="saving"><pf-loading-indicator></pf-loading-indicator> Saving...</span>
+  </button>
+</div>

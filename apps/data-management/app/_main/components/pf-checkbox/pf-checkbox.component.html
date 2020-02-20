@@ -1,0 +1,21 @@
+<span class="cursor-pointer"
+      (click)="valueChanged()"
+      [style.opacity]="isDisabled ? .6 : 1">
+
+  <fa-icon *ngIf="!isChecked"
+           class="fa-lg unchecked-icon"
+           [icon]="['far', 'square']"></fa-icon>
+
+  <fa-icon *ngIf="isChecked"
+           class="fa-lg checked-icon"
+           [icon]="['fas', 'check-square']"></fa-icon>
+
+  <span class="ml-2"> {{DisplayText}}</span>
+  <span class="ml-2"
+        *ngIf="ToolTip && ToolTip.length > 0">
+    <fa-icon [ngbTooltip]="ToolTip"
+             placement="right"
+             [icon]="['fas', 'info-circle']"></fa-icon>
+  </span>
+
+</span>

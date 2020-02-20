@@ -12,6 +12,7 @@ export interface JobMatchCut {
   DataCutId?: number;
   SurveyJobCode?: string;
   PeerCutId?: string;
+  CutFilterId?: string;
 }
 
 export function generateMockJobMatchCut(): JobMatchCut {

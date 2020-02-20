@@ -11,7 +11,7 @@ import { of, Subject } from 'rxjs';
 
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockListAreaColumn, generateMockListAreaColumns } from 'libs/models/common/list-area';
+import { generateMockListAreaColumns } from 'libs/models/common/list-area';
 import {
   generateMockCompositeFilter,
   generateMockFilter,
@@ -220,28 +220,6 @@ describe('Job Description Management - Job Description - Job Description List Pa
     expect(instance.filterThrottle.next).toHaveBeenLastCalledWith(mockedCurrentFilter.filters);
   });
 
-  it('should dispatch an UpdateListAreaColumn action, when calling handleColumnModified', () => {
-    spyOn(store, 'dispatch');
-
-    const mockedListAreaColumn = generateMockListAreaColumn();
-
-    const mockedListAreaColumnModifiedObj = {
-      listAreaColumn: cloneDeep(mockedListAreaColumn),
-      checked: false
-    };
-
-    instance.handleColumnModified(mockedListAreaColumnModifiedObj);
-
-    const expectedRequest = {
-      ListAreaColumn: cloneDeep(mockedListAreaColumn),
-      Checked: false
-    };
-
-    const expectedAction = new fromJobDescriptionGridActions.UpdateListAreaColumn(expectedRequest);
-
-    expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
-  });
-
   it('should dispatch a CreateJobDescription action, when calling handleCreateCompanyJobComplete with addAndAssign equal to true', () => {
     spyOn(store, 'dispatch');
 
@@ -299,20 +277,6 @@ describe('Job Description Management - Job Description - Job Description List Pa
     expect(instance.gridState.skip).toBe(10);
 
     const expectedAction = new fromJobDescriptionGridActions.LoadJobDescriptionGrid(instance.getQueryListStateRequest());
-
-    expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
-  });
-
-  it('should dispatch a SaveListAreaColumns action, when calling handleSaveColumns', () => {
-    spyOn(store, 'dispatch');
-
-    const mockedListAreaColumns = generateMockListAreaColumns();
-
-    instance.handleSaveColumns(mockedListAreaColumns);
-
-    const expectedRequest = { Columns: cloneDeep(mockedListAreaColumns) };
-
-    const expectedAction = new fromJobDescriptionGridActions.SaveListAreaColumns(expectedRequest);
 
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
   });
@@ -441,7 +405,6 @@ describe('Job Description Management - Job Description - Job Description List Pa
     instance.openNewJobDescModal(mockSelectedCompanyJob);
 
     expect(instance.selectedCompanyJobForModal).toEqual(cloneDeep(mockSelectedCompanyJob));
-    expect(instance.jobDescriptionAppliesToModalComponent.open).toHaveBeenLastCalledWith(2, 1);
   });
 
   it('should open saveFilterModalComponent, when calling saveFilterClicked', () => {

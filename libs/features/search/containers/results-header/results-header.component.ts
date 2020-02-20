@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
-import { Filter, isMultiFilter, isRangeFilter, Pill, PillGroup } from '../../models';
+import {Filter, isFilterableMultiFilter, isMultiFilter, isRangeFilter, Pill, PillGroup} from '../../models';
 import { FiltersHelper } from '../../helpers';
 import * as fromSearchReducer from '../../reducers';
 
@@ -27,7 +27,7 @@ export class ResultsHeaderComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromSearchReducer.State>
   ) {
-    this.filters$ = this.store.select(fromSearchReducer.getFilters);
+    this.filters$ = this.store.select(fromSearchReducer.getAllFilters);
   }
 
   // Event Handling
@@ -50,7 +50,7 @@ export class ResultsHeaderComponent implements OnInit, OnDestroy {
     this.filtersSub = this.filters$.subscribe(fs => {
       this.filters = fs;
       this.hasFiltersToSave = FiltersHelper.getFiltersWithValues(fs)
-        .filter(f => isMultiFilter(f) || isRangeFilter(f)).some(f => !f.Locked && f.SaveDisabled !== true);
+        .filter(f => isMultiFilter(f) || isRangeFilter(f) || isFilterableMultiFilter(f)).some(f => !f.Locked && f.SaveDisabled !== true);
     });
   }
 
