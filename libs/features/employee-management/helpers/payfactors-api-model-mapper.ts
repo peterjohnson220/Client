@@ -5,24 +5,17 @@ import { KendoTypedDropDownItem } from 'libs/models/kendo';
 export class PayfactorsApiModelMapper {
 
   static mapToDropdownList(response: any, valueField: string, nameField: string): KendoTypedDropDownItem[] {
-    if (response && response.length) {
-      const dropListItems = response.map(item => {
-        return {
-          Name: item[nameField] || '',
-          Value: item[valueField] || null
-        };
-      });
-      return orderBy(dropListItems, ['Name'], 'asc');
-    }
-    return [];
+    return this.mapItemsToDropdownList(response, valueField, (item => {
+      return item[nameField];
+    }));
   }
 
-  static mapCurrenciesToDropdownList(response: any): KendoTypedDropDownItem[] {
+  static mapItemsToDropdownList(response: any, valueField: string, nameMappingFunction: (item: any) => string): KendoTypedDropDownItem[] {
     if (response && response.length) {
       const dropListItems = response.map(item => {
         return {
-          Name: `${item['CurrencyCode']} - ${item['CurrencyName']}`,
-          Value: item['CurrencyCode'] || null
+          Name: nameMappingFunction(item),
+          Value: item[valueField] || null
         };
       });
       return orderBy(dropListItems, ['Name'], 'asc');
