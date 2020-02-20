@@ -21,10 +21,12 @@ export class EmployeeManagementEffects {
     .pipe(
       ofType(fromEmployeeManagementActions.LOAD_COMPANYJOBS),
       switchMap(() => {
-          return this.companyJobApiService.getAll(['JobTitle', 'CompanyJobId']).pipe(
+          return this.companyJobApiService.getAll(['JobTitle', 'CompanyJobId', 'JobCode']).pipe(
             map((response) => {
               return new fromEmployeeManagementActions.LoadCompanyJobsSuccess(
-                PayfactorsApiModelMapper.mapToDropdownList(response, 'CompanyJobId', 'JobTitle')
+                PayfactorsApiModelMapper.mapItemsToDropdownList(response, 'CompanyJobId', (item => {
+                  return `${item['JobCode']} - ${item['JobTitle']}`;
+                }))
               );
             }),
             catchError(() => of(new fromEmployeeManagementActions.LoadCompanyJobsError()))
@@ -75,7 +77,9 @@ export class EmployeeManagementEffects {
           return this.currencyApiService.getCurrencies().pipe(
             map((response) => {
               return new fromEmployeeManagementActions.LoadCurrenciesSuccess(
-                PayfactorsApiModelMapper.mapCurrenciesToDropdownList(response)
+                PayfactorsApiModelMapper.mapItemsToDropdownList(response, 'CurrencyCode', (item => {
+                  return `${item['CurrencyCode']} - ${item['CurrencyName']}`;
+                }))
               );
             }),
             catchError(() => of(new fromEmployeeManagementActions.LoadCurrenciesError()))
