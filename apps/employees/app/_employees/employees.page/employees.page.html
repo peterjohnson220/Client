@@ -28,6 +28,7 @@
     <button
       [attr.data-qa-id]="'btn-deleteEmployee'"
       type="button"
+      [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
       title="Delete"
       [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
       (click)="showDeleteEmployeeModal.next(true)"
