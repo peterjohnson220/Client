@@ -26,7 +26,7 @@ import {
   EntityPickerComponent,
   EntityUploadComponent,
   FileMappingComponent,
-  PfCheckboxComponent,
+  PfCheckboxComponent
 } from './components';
 import { FileUploadComponent } from './components/file-upload';
 import {
@@ -55,6 +55,11 @@ import {
   WorkdayRestAuthenticationComponent,
   InboundEntitySelectionPageComponent,
   InboundAuthenticationPageComponent,
+  OutboundProviderSelectionPageComponent,
+  OutboundEntitySelectionPageComponent,
+  OutboundFieldMappingPageComponent,
+  OutboundAuthenticationPageComponent,
+  OutboundTransferSchedulePageComponent
 } from './containers';
 import {
   CustomFieldsEffect,
@@ -66,7 +71,7 @@ import {
   OrganizationalDataPageEffects,
   OrgDataFieldMappingsEffects,
   TransferDataPageEffects,
-  TransferScheduleEffects,
+  TransferScheduleEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
@@ -150,9 +155,14 @@ import { GetSupportedSchedulesPipe } from './pipes';
     DefaultPaymarketConfirmationModalComponent,
     CustomEmployeeIdentifierComponent,
     PfCheckboxComponent,
-    FieldMappingPageComponent,
     InboundEntitySelectionPageComponent,
     InboundAuthenticationPageComponent,
+    FieldMappingPageComponent,
+    OutboundProviderSelectionPageComponent,
+    OutboundEntitySelectionPageComponent,
+    OutboundFieldMappingPageComponent,
+    OutboundAuthenticationPageComponent,
+    OutboundTransferSchedulePageComponent
   ]
 })
 export class MainModule {

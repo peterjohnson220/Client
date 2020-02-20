@@ -6,7 +6,7 @@
     </p>
   </div>
   <div class="w-100 text-center">
-    <button type="button" class="btn btn-primary px-4" (click)="createNewIntegration()">Create New Integration</button>
+    <button type="button" (click)="createNewIntegration()" class="btn btn-primary px-4">Create New Integration</button>
   </div>
 </div>
 <div *ngIf="connectionSummary?.hasConnection" class="row justify-content-center">

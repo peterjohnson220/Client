@@ -55,4 +55,8 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
     // TODO: When vendor selection is changed, add the type
     this.router.navigate(['/transfer-data']);
   }
+
+  goToOutboundWorkflow($event: any) {
+    this.router.navigate(['transfer-data/outbound/vendor']);
+  }
 }

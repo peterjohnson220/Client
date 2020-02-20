@@ -11,7 +11,8 @@
         <pf-hris-integration-status
           [connectionSummary]="connectionSummary"
           (onCreateNewIntegrationClicked)="createNewIntegration()"
-        ></pf-hris-integration-status>
+          [transferMethod]="transferMethodType">
+        </pf-hris-integration-status>
       </div>
     </div>
     <div class="row" *ngIf="transferMethodType !== outboundJdm">

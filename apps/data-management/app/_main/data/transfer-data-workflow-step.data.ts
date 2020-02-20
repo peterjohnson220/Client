@@ -4,5 +4,6 @@ export enum TransferDataWorkflowStep {
   Validated,
   Connect,
   Mappings,
-  EntitySelection
+  EntitySelection,
+  OutboundProviders,
 }

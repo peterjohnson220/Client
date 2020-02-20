@@ -374,3 +374,9 @@ export const getEntitySelectionShouldRedirect = createSelector(getHrisConnection
 export const getEntitySelectionPageSelections = createSelector(getSelectedEntities, getProviderSupportedEntitiesObj, (s1, s2) => {
   return { selections: s1, providerSupportedEntities: s2.obj };
 });
+// Outbound
+export const getOutboundProviders = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundProviders);
+export const getOutboundSelectedProvider = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundSelectedProvider);
+export const getOutboundSelectedTransferMethod = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundSelectedTransferMethod);
+export const getOutboundTransferMethods = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundTransferMethods);
+export const getOutboundWorkflowStep = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundWorkflowStep);
