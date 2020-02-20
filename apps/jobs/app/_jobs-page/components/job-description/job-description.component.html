@@ -7,7 +7,7 @@
             <div class="pl-3">
               Job Description
             </div>
-            <div *ngIf="jobDescriptionId" class="row pr-3">
+            <div *ngIf="jobDescriptionId" class="row pr-3" [pfSecuredResource]="permissions.JOB_DESCRIPTIONS">
               <div
                 class="export-btn pr-3 export-word"
                 title="Export to Word"
@@ -55,4 +55,9 @@
       </div>
     </div>
   </div>
+
+  <form name="exportForm" [action]="'/odata/JobDescription('+jobDescriptionId+')/Default.Export'" method="POST">
+    <input type="hidden" name="export-uid" />
+    <input type="hidden" name="export-type" />
+  </form>
 </pf-async-container>
