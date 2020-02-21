@@ -1,4 +1,4 @@
-import { createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
@@ -24,3 +24,19 @@ export const reducers = {
 // Select Feature Area
 export const selectStatementEditPageState =
   createFeatureSelector<StatementEditState>('totalRewards_statementEdit');
+
+// Feature Selectors
+export const selectStatementState = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.statementObject.obj
+);
+
+export const selectStatementLoading = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.statementObject.loading
+);
+
+export const selectStatementLoadingError = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.statementObject.loadingError
+);
