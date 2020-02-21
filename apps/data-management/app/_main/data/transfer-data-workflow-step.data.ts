@@ -6,4 +6,5 @@ export enum TransferDataWorkflowStep {
   Mappings,
   EntitySelection,
   OutboundProviders,
+  OutboundSelectJdmViews
 }

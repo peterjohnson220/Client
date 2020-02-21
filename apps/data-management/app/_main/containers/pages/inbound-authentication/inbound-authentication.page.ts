@@ -57,7 +57,7 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
 
   back() {
     this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.EntitySelection));
-    this.location.back();
+    this.router.navigate(['/transfer-data/inbound/entity-selection']);
   }
 
   cancel() {

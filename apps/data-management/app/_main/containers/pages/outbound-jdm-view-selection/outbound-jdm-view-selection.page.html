@@ -1,0 +1,25 @@
+<pf-async-container [loading]="(jdmViewSelectionPageLoading$ | async)"
+                    [loadingError]="jdmViewSelectionPageLoadingError$ | async"
+                    [loadingErrorMessage]="'Error Loading Outbound JDM View Selection Page'">
+  <div class="my-4 mx-3">
+    <div class="float-right"><h5 style="opacity: 0.6;">STEP 3/5</h5></div>
+    <h4>Outbound Job Description Integration</h4>
+    <div class="m-5">
+      <h5 class="mb-4">Select job description views to export:</h5>
+      <pf-entity-picker 
+          [entities]="jdmViews">
+      </pf-entity-picker>
+      <div class="d-flex justify-content-end">
+        <div class="p-2">
+          <button type="button" class="btn btn-outline-danger px-4" (click)="cancel()">Cancel</button>
+        </div>
+        <div class="p-2">
+          <button type="button" class="btn btn-secondary px-4" (click)="back()">Back</button>
+        </div>
+        <div class="p-2">
+          <button type="button" class="btn btn-primary px-4" [disabled]="!checkForSelectedJdmViews() || (jdmViews$ | async).saving" (click)="next()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-async-container>

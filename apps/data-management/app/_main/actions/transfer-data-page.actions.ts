@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CredentialsPackage } from 'libs/models';
-import { TransferMethod, Provider, EntityChoice } from '../models';
+import { TransferMethod, Provider, EntityChoice, JdmView } from '../models';
 import { TransferDataWorkflowStep } from '../data';
 
 export const INIT = '[Data Management/Transfer Data Page] Init Transfer Data Page';
@@ -25,6 +25,9 @@ export const CREATE_CONNECTION_ERROR = '[Data Management/Transfer Data Page] Cre
 export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] Create Connection Success';
 export const PROCEED_TO_AUTHENTICATION = '[Data Management/Transfer Data Page] Proceed to Authentication';
 export const UPDATE_WORKFLOWSTEP = '[Data Management/Transfer Data Page] Update Workfow Step';
+
+// Outbound workflow
+// TODO: clean this up post sales demo
 export const LOAD_OUTBOUND_PROVIDERS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Providers';
 export const LOAD_OUTBOUND_PROVIDERS_ERROR = '[Data Management/Transfer Data Page/Outbound] Load Outbound Providers Error';
 export const LOAD_OUTBOUND_PROVIDERS_SUCCESS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Providers Success';
@@ -36,6 +39,14 @@ export const LOAD_OUTBOUND_TRANSFER_METHODS_SUCCESS = '[Data Management/Transfer
 export const OUTBOUND_INIT = '[Data Management/Transfer Data Page/Outbound] Init Outbound Transfer Data Page';
 export const UPDATE_OUTBOUND_WORKFLOWSTEP = '[Data Management/Transfer Data Page/Outbound] Update Outbound Workfow Step';
 export const RESET_OUTBOUND_TRANSFER_DATA_PAGE_WORKFLOW = '[Data Management/Transfer Data Page/Outbound] Reset Outbound Transfer Data Page Workflow';
+
+export const INIT_OUTBOUND_JDM_VIEW_SELECTION_PAGE = '[Data Management/Outbound/JDM View Selection Page] Init Outbound Jdm View Selection Page';
+export const LOAD_OUTBOUND_JDM_VIEWS = '[Data Management/Outbound/JDM View Selection Page] Load Outbound Jdm Views';
+export const LOAD_OUTBOUND_JDM_VIEWS_ERROR = '[Data Management/Outbound/JDM View Selection Page] Load Outbound Jdm Views Error';
+export const LOAD_OUTBOUND_JDM_VIEWS_SUCCESS = '[Data Management/Outbound/JDM View Selection Page] Load Jdm Outbound Views Success';
+export const UPDATE_OUTBOUND_JDM_VIEWS = '[Data Management/Outbound/JDM View Selection Page] Update Jdm Views';
+export const UPDATE_OUTBOUND_JDM_VIEWS_ERROR = '[Data Management/Outbound/JDM View Selection Page] Update Jdm Views Error';
+export const UPDATE_OUTBOUND_JDM_VIEWS_SUCCESS = '[Data Management/Outbound/JDM View Selection Page] Update Jdm Views Success';
 
 
 export class Init implements Action {
@@ -206,6 +217,30 @@ export class ResetOutboundTransferDataPageWorkflow implements Action {
   constructor() {}
 }
 
+export class InitOutboundJdmViewSelectionPage implements Action {
+  readonly type = INIT_OUTBOUND_JDM_VIEW_SELECTION_PAGE;
+}
+export class LoadOutboundJdmViews implements Action {
+  readonly type = LOAD_OUTBOUND_JDM_VIEWS;
+}
+export class LoadOutboundJdmViewsError implements Action {
+  readonly type = LOAD_OUTBOUND_JDM_VIEWS_ERROR;
+}
+export class LoadOutboundJdmViewsSuccess implements Action {
+  readonly type = LOAD_OUTBOUND_JDM_VIEWS_SUCCESS;
+
+  constructor(public payload: JdmView[]) {}
+}
+export class UpdateOutboundJdmViews implements Action {
+  readonly type = UPDATE_OUTBOUND_JDM_VIEWS;
+  constructor(public payload: JdmView[]) {}
+}
+export class UpdateOutboundJdmViewsError implements Action {
+  readonly type = UPDATE_OUTBOUND_JDM_VIEWS_ERROR;
+}
+export class UpdateOutboundJdmViewsSuccess implements Action {
+  readonly type = UPDATE_OUTBOUND_JDM_VIEWS_SUCCESS;
+}
 
 export type Actions
   = Init
@@ -238,4 +273,11 @@ export type Actions
   | LoadOutboundTransferMethodsError
   | LoadOutboundTransferMethodsSuccess
   | UpdateOutboundWorkflowstep
-  | ResetOutboundTransferDataPageWorkflow;
+  | ResetOutboundTransferDataPageWorkflow
+  | InitOutboundJdmViewSelectionPage
+  | LoadOutboundJdmViews
+  | LoadOutboundJdmViewsError
+  | LoadOutboundJdmViewsSuccess
+  | UpdateOutboundJdmViews
+  | UpdateOutboundJdmViewsError
+  | UpdateOutboundJdmViewsSuccess;

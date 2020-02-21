@@ -59,7 +59,8 @@ import {
   OutboundEntitySelectionPageComponent,
   OutboundFieldMappingPageComponent,
   OutboundAuthenticationPageComponent,
-  OutboundTransferSchedulePageComponent
+  OutboundTransferSchedulePageComponent,
+  OutboundJdmViewSelectionPageComponent
 } from './containers';
 import {
   CustomFieldsEffect,
@@ -162,7 +163,8 @@ import { GetSupportedSchedulesPipe } from './pipes';
     OutboundEntitySelectionPageComponent,
     OutboundFieldMappingPageComponent,
     OutboundAuthenticationPageComponent,
-    OutboundTransferSchedulePageComponent
+    OutboundTransferSchedulePageComponent,
+    OutboundJdmViewSelectionPageComponent
   ]
 })
 export class MainModule {

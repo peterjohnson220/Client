@@ -97,6 +97,7 @@ export class InboundEntitySelectionPageComponent implements OnInit, OnDestroy {
 
   cancelTransferDataWorkflow() {
     this.store.dispatch(new fromTransferDataPageActions.ResetTransferDataPageWorkflow());
+    this.router.navigate(['/']);
   }
 
   proceedToAuthentication() {
