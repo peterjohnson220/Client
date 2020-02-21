@@ -19,9 +19,7 @@ import { JOB_BASED_RANGE_ADD_JOBS_MODAL_PAGE_WORKFLOW } from '../constants/add-j
   styleUrls: ['./job-based-range.page.scss']
 })
 export class JobBasedRangePageComponent implements OnInit, AfterViewInit {
-  @ViewChild('min', {static: false}) minColumn: ElementRef;
   @ViewChild('mid', {static: false}) midColumn: ElementRef;
-  @ViewChild('max', {static: false}) maxColumn: ElementRef;
   @ViewChild(AddJobsModalComponent, {static: false}) public AddJobsModalComponent: AddJobsModalComponent;
 
   pageTitle$: Observable<string>;
@@ -73,9 +71,7 @@ export class JobBasedRangePageComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.colTemplates = {
-      ['Min']: {Template: this.minColumn},
-      ['Mid']: {Template: this.midColumn},
-      ['Max']: {Template: this.maxColumn}
+      ['Mid']: {Template: this.midColumn}
     };
   }
 }
