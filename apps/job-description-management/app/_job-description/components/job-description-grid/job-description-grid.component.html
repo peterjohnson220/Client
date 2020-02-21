@@ -98,8 +98,13 @@
           <div ngbDropdownMenu class="dropdown-menu dropdown-menu-left"
             aria-labelledby="job-description-actions-dropdown">
             <button class="dropdown-item" [disabled]="dataItem.JobDescriptionStatus === 'Not Started'"
-              (click)="handleNewJobDescriptionClick(dataItem);">
+              (click)="handleNewJobDescriptionClick(dataItem)">
               New Job Description
+            </button>
+            <button class="dropdown-item"
+              (click)="handleDeleteJobDescriptionClick(dataItem.JobDescriptionId)"
+              [disabled]="dataItem.JobDescriptionCount <= 1">
+              Delete Job Description
             </button>
           </div>
         </div>

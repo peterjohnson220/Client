@@ -32,6 +32,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() dataStateChanged = new EventEmitter();
   @Output() sortChanged = new EventEmitter();
   @Output() publicViewChanged = new EventEmitter();
+  // TODO: @Output() openDeleteJobDescriptionModal = new EventEmitter();
 
   public info: any;
   public filterChanged: any;
@@ -81,6 +82,10 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
 
   handleNewJobDescriptionClick(companyJobViewListItem: CompanyJobViewListItem) {
     this.openNewJobDescriptionModal.emit(companyJobViewListItem);
+  }
+
+  handleDeleteJobDescriptionClick(jobDescriptionId) {
+    // TODO: this.openDeleteJobDescriptionModal.emit(jobDescriptionId);
   }
 
   setTemplateView(companyJobViewListItem) {
