@@ -4,9 +4,10 @@
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
   [gridGlobalActionsTemplate]="gridGlobalActions"
+  [gridGlobalFiltersTemplates]="globalFilterTemplates"
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
-  [filterPanelTemplate]="filterTemplates"
+  [filterPanelTemplates]="filterTemplates"
   [inboundFilters]="filters"
   [showFilterChooser]="true"
   [allowExport]="false"
@@ -180,4 +181,17 @@
       class="k-dropdown-white form-control">
     </kendo-dropdownlist>
   </div>
+</ng-template>
+
+<ng-template #jobStatusFilter let-field="field">
+  <kendo-switch 
+    *ngIf="field"
+    style="width:80px;"
+    [title]="field.FilterPlaceholder"
+    [checked]="field.FilterValue"
+    [onLabel]="'Active'"
+    [offLabel]="'Inactive'"
+    (valueChange)="handleJobStatusFilterChanged(field, $event)"
+    (click)="clearFiltersAndSelections()">
+  </kendo-switch>
 </ng-template>
