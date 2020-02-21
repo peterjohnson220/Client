@@ -42,8 +42,8 @@ export class JobBasedRangePageComponent implements OnInit, AfterViewInit {
     this.pageTitle$ = this.store.pipe(select(fromJobBasedRangeReducer.getPageTitle));
 
     // tslint:disable:no-bitwise
-    this.contextPaymarket = +(route.snapshot.params['Paymarket'] | 109139);
-    this.contextProjectId = +(route.snapshot.params['ProjectId'] | 768456);
+    this.contextPaymarket = route.snapshot.queryParams['Paymarket'] ? +(route.snapshot.queryParams['Paymarket']) : 109139;
+    this.contextProjectId = route.snapshot.queryParams['ProjectId'] ? +(route.snapshot.queryParams['ProjectId']) : 768456;
     this.filter  = {
       SourceName: 'CompanyStructuresRangeGroup_ID',
       Operator: '=',

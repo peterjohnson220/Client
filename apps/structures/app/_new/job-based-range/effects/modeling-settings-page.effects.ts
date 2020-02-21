@@ -20,8 +20,7 @@ export class ModelingSettingsPageEffects {
       switchMap(() =>
         [
           new fromModelingSettingsPageActions.GetCurrencies(),
-          new fromModelingSettingsPageActions.GetStandardPayElements(),
-          new fromModelingSettingsPageActions.GetPercentiles(),
+          new fromModelingSettingsPageActions.GetStandardPayElements()
         ]
       )
     );
@@ -44,25 +43,12 @@ export class ModelingSettingsPageEffects {
     .pipe(
       ofType(fromModelingSettingsPageActions.GET_STANDARD_PAY_ELEMENTS),
       switchMap(() =>
-        this.compositeFieldsApiService.GetCompositeFieldFieldNames()
+        this.compositeFieldsApiService.GetCompositeFieldsForStructures()
           .pipe(
             map((response) => new fromModelingSettingsPageActions.GetStandardPayElementsSuccess(response))
           )
       ),
       catchError(error => of(new fromModelingSettingsPageActions.GetStandardPayElementsError()))
-    );
-
-  @Effect()
-  getPercentiles$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromModelingSettingsPageActions.GET_PERCENTILES),
-      switchMap(() =>
-        this.compositeFieldsApiService.GetCompositeFieldDisplayNames()
-          .pipe(
-            map((response) => new fromModelingSettingsPageActions.GetPercentilesSuccess(response))
-          )
-      ),
-      catchError(error => of(new fromModelingSettingsPageActions.GetPercentilesError()))
     );
 
   @Effect()

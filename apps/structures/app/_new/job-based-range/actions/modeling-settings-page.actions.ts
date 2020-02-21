@@ -10,9 +10,6 @@ export const GET_CURRENCIES_ERROR = '[Structures/Modeling Settings Page] Get Cur
 export const GET_STANDARD_PAY_ELEMENTS = '[Structures/Modeling Settings Page] Get StandardPayElements';
 export const GET_STANDARD_PAY_ELEMENTS_SUCCESS = '[Structures/Modeling Settings Page] Get StandardPayElements Success';
 export const GET_STANDARD_PAY_ELEMENTS_ERROR = '[Structures/Modeling Settings Page] Get StandardPayElements Error';
-export const GET_PERCENTILES = '[Structures/Modeling Settings Page] Get Percentiles';
-export const GET_PERCENTILES_SUCCESS = '[Structures/Modeling Settings Page] Get Percentiles Success';
-export const GET_PERCENTILES_ERROR = '[Structures/Modeling Settings Page] Get Percentiles Error';
 export const CREATE_MODEL = '[Structures/Modeling Settings Page] Create Model';
 export const CREATE_MODEL_SUCCESS = '[Structures/Modeling Settings Page] Create Model Success';
 export const CREATE_MODEL_ERROR = '[Structures/Modeling Settings Page] Create Model Error';
@@ -66,27 +63,6 @@ export class GetStandardPayElementsError implements Action {
   }
 }
 
-export class GetPercentiles implements Action {
-  readonly type = GET_PERCENTILES;
-
-  constructor() {
-  }
-}
-
-export class GetPercentilesSuccess implements Action {
-  readonly type = GET_PERCENTILES_SUCCESS;
-
-  constructor(public payload: string[]) {
-  }
-}
-
-export class GetPercentilesError implements Action {
-  readonly type = GET_PERCENTILES_ERROR;
-
-  constructor() {
-  }
-}
-
 export class CreateModel implements Action {
   readonly type = CREATE_MODEL;
 
@@ -116,9 +92,6 @@ export type Actions
   | GetStandardPayElements
   | GetStandardPayElementsSuccess
   | GetStandardPayElementsError
-  | GetPercentiles
-  | GetPercentilesSuccess
-  | GetPercentilesError
   | CreateModel
   | CreateModelSuccess
   | CreateModelError;

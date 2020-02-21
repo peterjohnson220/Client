@@ -9,14 +9,12 @@ import * as fromModelingSettingsActions from '../actions/modeling-settings-page.
 export interface State {
   currenciesAsync: AsyncStateObj<CurrencyDto[]>;
   standardPayElementsAsync: AsyncStateObj<string[]>;
-  percentilesAsync: AsyncStateObj<string[]>;
   createModelAsync: AsyncStateObj<StructureRangeGroupResponse>;
 }
 
 const initialState: State = {
   currenciesAsync: generateDefaultAsyncStateObj<CurrencyDto[]>([]),
   standardPayElementsAsync: generateDefaultAsyncStateObj<string[]>([]),
-  percentilesAsync: generateDefaultAsyncStateObj<string[]>([]),
   createModelAsync: generateDefaultAsyncStateObj<any>(null)
 };
 
@@ -88,39 +86,6 @@ export function reducer(state = initialState, action: fromModelingSettingsAction
         standardPayElementsAsync: companyStructuresAsyncClone
       };
     }
-    case fromModelingSettingsActions.GET_PERCENTILES: {
-      const companyStructuresAsyncClone = cloneDeep(state.percentilesAsync);
-
-      companyStructuresAsyncClone.loading = true;
-      companyStructuresAsyncClone.loadingError = false;
-
-      return {
-        ...state,
-        percentilesAsync: companyStructuresAsyncClone
-      };
-    }
-    case fromModelingSettingsActions.GET_PERCENTILES_SUCCESS: {
-      const companyStructuresAsyncClone = cloneDeep(state.percentilesAsync);
-
-      companyStructuresAsyncClone.loading = false;
-      companyStructuresAsyncClone.obj = action.payload;
-
-      return {
-        ...state,
-        percentilesAsync: companyStructuresAsyncClone
-      };
-    }
-    case fromModelingSettingsActions.GET_PERCENTILES_ERROR: {
-      const companyStructuresAsyncClone = cloneDeep(state.percentilesAsync);
-
-      companyStructuresAsyncClone.loading = false;
-      companyStructuresAsyncClone.loadingError = true;
-
-      return {
-        ...state,
-        percentilesAsync: companyStructuresAsyncClone
-      };
-    }
     case fromModelingSettingsActions.CREATE_MODEL: {
       const companyStructuresAsyncClone = cloneDeep(state.createModelAsync);
 
@@ -162,5 +127,4 @@ export function reducer(state = initialState, action: fromModelingSettingsAction
 
 export const getCurrenciesAsync = (state: State) => state.currenciesAsync;
 export const getStandardPayElementsAsync = (state: State) => state.standardPayElementsAsync;
-export const getPercentilesAsync = (state: State) => state.percentilesAsync;
 export const getCreateModelAsync = (state: State) => state.createModelAsync;
