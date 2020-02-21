@@ -441,12 +441,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
 
     this.completedStepSubscription = this.completedStep$.subscribe(cs => this.completedStep = cs);
-    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
-      if (result.obj) {
-        this.store.dispatch(new fromWorkflowTemplateListActions.Load(result.obj.CompanyJobId));
-      }
-      this.handleJobDescriptionChanged(result.obj);
-    });
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
@@ -471,6 +465,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.initRouterParams();
       if (!this.completedStep) {
         this.store.dispatch(new fromJobDescriptionActions.LoadCompany(userContext.CompanyId));
+      }
+    });
+    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
+      this.handleJobDescriptionChanged(result.obj);
+      if ( !this.identity.IsPublic &&  result.obj ) {
+        this.store.dispatch(new fromWorkflowTemplateListActions.Load(result.obj.CompanyJobId));
       }
     });
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
