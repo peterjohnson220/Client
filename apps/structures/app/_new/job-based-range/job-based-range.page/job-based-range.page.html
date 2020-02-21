@@ -15,16 +15,8 @@
   [applyDefaultFilters]="false">
 </pf-data-grid>
 
-<ng-template #min let-dataRow="dataRow" let-fieldName="fieldName">
-  <input type="text" class="form-control" [value]="dataRow.CompanyStructures_Ranges_Min" />
-</ng-template>
-
 <ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName">
   <input type="text" class="form-control" [value]="dataRow.CompanyStructures_Ranges_Mid" />
-</ng-template>
-
-<ng-template #max let-dataRow="dataRow" let-fieldName="fieldName">
-  <input type="text" class="form-control" [value]="dataRow.CompanyStructures_Ranges_Max" />
 </ng-template>
 
 <ng-template #gridGlobalActions>
