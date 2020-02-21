@@ -55,10 +55,6 @@ export const getStandardPayElementsAsync = createSelector(
   fromModelingSettingsPageReducer.getStandardPayElementsAsync
 );
 
-export const getPercentilesAsync = createSelector(
-  selectModelingSettingsState,
-  fromModelingSettingsPageReducer.getPercentilesAsync
-);
 
 export const getCreateModelAsync = createSelector(
   selectModelingSettingsState,

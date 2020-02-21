@@ -26,7 +26,6 @@ export class ModelingSettingsModalPageComponent implements OnInit {
   submitDisabled = false;
   CurrencyOptions$: Observable<AsyncStateObj<CurrencyDto[]>>;
   StandardPayElements$: Observable<AsyncStateObj<string[]>>;
-  Percentiles$: Observable<AsyncStateObj<string[]>>;
   CreateModelAsync$: Observable<AsyncStateObj<StructureRangeGroupResponse>>;
 
   constructor(
@@ -34,7 +33,6 @@ export class ModelingSettingsModalPageComponent implements OnInit {
   ) {
     this.CurrencyOptions$ = this.store.select(fromJobBasedRangeReducer.getCurrenciesAsync);
     this.StandardPayElements$ = this.store.select(fromJobBasedRangeReducer.getStandardPayElementsAsync);
-    this.Percentiles$ = this.store.select(fromJobBasedRangeReducer.getPercentilesAsync);
     this.CreateModelAsync$ = this.store.select(fromJobBasedRangeReducer.getCreateModelAsync);
   }
 

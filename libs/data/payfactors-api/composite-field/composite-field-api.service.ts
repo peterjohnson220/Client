@@ -12,14 +12,8 @@ export class CompositeFieldApiService {
   }
 
   // Field Names -> Standard Pay Elements
-  GetCompositeFieldFieldNames(): Observable<string[]> {
+  GetCompositeFieldsForStructures(): Observable<string[]> {
     return this.payfactorsApiService.get<string[]>(
-      `${this.endpoint}/Default.GetCompositeFieldFieldNamesAsync`);
-  }
-
-  // Display Names -> Percentiles
-  GetCompositeFieldDisplayNames(): Observable<string[]> {
-    return this.payfactorsApiService.get<string[]>(
-      `${this.endpoint}/Default.GetCompositeFieldDisplayNamesAsync`);
+      `${this.endpoint}/Default.GetControlPointsForStructures`);
   }
 }
