@@ -30,6 +30,12 @@ export const LOAD_STRUCTURES_ERROR = '[EmployeeManagement] Load Structures Error
 export const GET_CUSTOM_FIELDS = '[EmployeeManagement] Get Custom Fields';
 export const GET_CUSTOM_FIELDS_SUCCESS = '[EmployeeManagement] Get Custom Fields Success';
 export const GET_CUSTOM_FIELDS_ERROR = '[EmployeeManagement] Get Custom Fields Error';
+export const EDIT_EMPLOYEE = '[EmployeeManagement] Edit Employee';
+export const GET_EMPLOYEE = '[EmployeeManagement] Get Employee';
+export const GET_EMPLOYEE_SUCCESS = '[EmployeeManagement] Get Employee Success';
+export const GET_EMPLOYEE_ERROR = '[EmployeeManagement] Get Employee Error';
+export const UPDATE_EMPLOYEE = '[EmployeeManagement] Update Employee';
+export const ADD_EMPLOYEE = '[EmployeeManagement] Add Employee';
 
 export class ShowEmployeeForm implements Action {
   readonly type = SHOW_EMPLOYEE_FORM;
@@ -179,6 +185,42 @@ export class GetCustomFieldsError implements Action {
   constructor() {}
 }
 
+export class EditEmployee implements Action {
+  readonly type = EDIT_EMPLOYEE;
+
+  constructor(public payload: { companyEmployeeId: number }) {}
+}
+
+export class GetEmployee implements Action {
+  readonly type = GET_EMPLOYEE;
+
+  constructor(public payload: { companyEmployeeId: number }) {}
+}
+
+export class GetEmployeeSuccess implements Action {
+  readonly type = GET_EMPLOYEE_SUCCESS;
+
+  constructor(public payload: CompanyEmployee) {}
+}
+
+export class GetEmployeeError implements Action {
+  readonly type = GET_EMPLOYEE_ERROR;
+
+  constructor() {}
+}
+
+export class UpdateEmployee implements Action {
+  readonly type = UPDATE_EMPLOYEE;
+
+  constructor(public payload: CompanyEmployee) {}
+}
+
+export class AddEmployee implements Action {
+  readonly type = ADD_EMPLOYEE;
+
+  constructor() {}
+}
+
 export type Actions
   = HandleApiError
   | ShowEmployeeForm
@@ -211,4 +253,10 @@ export type Actions
   | LoadGradeCodesError
   | GetCustomFields
   | GetCustomFieldsSuccess
-  | GetCustomFieldsError;
+  | GetCustomFieldsError
+  | EditEmployee
+  | GetEmployee
+  | GetEmployeeSuccess
+  | GetEmployeeError
+  | UpdateEmployee
+  | AddEmployee;

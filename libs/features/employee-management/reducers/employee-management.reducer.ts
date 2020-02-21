@@ -1,6 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { AsyncStateObj, generateDefaultAsyncStateObj, KendoTypedDropDownItem, GenericKeyValue } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee } from 'libs/models';
 
 import * as fromEmployeeManagementActions from '../actions/employee-management.actions';
 
@@ -16,6 +16,7 @@ export interface State {
   structureGrades: AsyncStateObj<KendoTypedDropDownItem[]>;
   structureNames: AsyncStateObj<KendoTypedDropDownItem[]>;
   employeesUserDefinedFields: AsyncStateObj<GenericKeyValue<string, string>[]>;
+  employee: AsyncStateObj<CompanyEmployee>;
 }
 
 export const initialState: State = {
@@ -29,7 +30,8 @@ export const initialState: State = {
   departments: generateDefaultAsyncStateObj<string[]>([]),
   structureGrades: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   structureNames: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
-  employeesUserDefinedFields: generateDefaultAsyncStateObj<GenericKeyValue<string, string>[]>([])
+  employeesUserDefinedFields: generateDefaultAsyncStateObj<GenericKeyValue<string, string>[]>([]),
+  employee: generateDefaultAsyncStateObj<CompanyEmployee>(null)
 };
 
 
@@ -41,7 +43,8 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
         showEmployeeForm: action.payload,
       };
     }
-    case fromEmployeeManagementActions.SAVE_EMPLOYEE: {
+    case fromEmployeeManagementActions.SAVE_EMPLOYEE:
+    case fromEmployeeManagementActions.UPDATE_EMPLOYEE: {
       return {
         ...state,
         saving: true,
@@ -254,7 +257,7 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
           Key: k.Key.replace('Name', ''),
           Value: k.Value
         };
-      })
+      });
       employeesUserDefinedFieldsClone.obj = mappedKeys;
       return {
         ...state,
@@ -267,6 +270,46 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
       return {
         ...state,
         employeesUserDefinedFields: employeesUserDefinedFieldsClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_EMPLOYEE: {
+      const employeeClone: AsyncStateObj<CompanyEmployee> = cloneDeep(state.employee);
+      employeeClone.loading = true;
+      employeeClone.loadingError = false;
+      employeeClone.obj = null;
+      return {
+        ...state,
+        showEmployeeForm: true,
+        employee: employeeClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_EMPLOYEE_SUCCESS: {
+      const employeeClone: AsyncStateObj<CompanyEmployee> = cloneDeep(state.employee);
+      employeeClone.loading = false;
+      employeeClone.obj = action.payload;
+
+      return {
+        ...state,
+        employee: employeeClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_EMPLOYEE_ERROR: {
+      const employeeClone: AsyncStateObj<CompanyEmployee> = cloneDeep(state.employee);
+      employeeClone.loading = false;
+      employeeClone.loadingError = true;
+
+      return {
+        ...state,
+        employee: employeeClone
+      };
+    }
+    case fromEmployeeManagementActions.ADD_EMPLOYEE: {
+      const employeeClone: AsyncStateObj<CompanyEmployee> = cloneDeep(state.employee);
+      employeeClone.obj = null;
+      return {
+        ...state,
+        employee: employeeClone,
+        showEmployeeForm: true
       };
     }
     default:
@@ -285,3 +328,4 @@ export const getGradeCodes = (state: State) => state.structureGrades;
 export const getStructureNames = (state: State) => state.structureNames;
 export const getEmployeesUserDefinedFields = (state: State) => state.employeesUserDefinedFields;
 export const getErrorMessage = (state: State) => state.errorMessage;
+export const getEmployeeAsync = (state: State) => state.employee;

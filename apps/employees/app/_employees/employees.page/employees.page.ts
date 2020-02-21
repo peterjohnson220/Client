@@ -42,6 +42,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
   }];
   selectedCompanyEmployeeIds: number[];
   pricingJobs: boolean;
+
   constructor(
     private rootStore: Store<fromRootState.State>,
     public store: Store<fromEmployeesReducer.State>,
@@ -75,7 +76,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
   }
 
   addNewEmployee() {
-    this.employeeManagementStore.dispatch(new fromEmployeeManagementActions.ShowEmployeeForm(true));
+    this.employeeManagementStore.dispatch(new fromEmployeeManagementActions.AddEmployee());
   }
 
   handlePriceJobsClicked(): void {
@@ -87,6 +88,20 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromEmployeesPageActions.ResetPricingJobsStatus());
   }
 
+  handleEmployeeDelete() {
+    this.showDeleteEmployeeModal.next(false);
+    return this.store.dispatch(new fromEmployeesPageActions.DeleteEmployee({pageViewId: this.pageViewId, companyEmployeeIds: this.selectedCompanyEmployeeIds}));
+  }
+
+  handleEditClicked(): void {
+    if (!this.selectedCompanyEmployeeIds || this.selectedCompanyEmployeeIds.length !== 1) {
+      return;
+    }
+    this.store.dispatch(new fromEmployeeManagementActions.EditEmployee({
+      companyEmployeeId: this.selectedCompanyEmployeeIds[0]
+    }));
+  }
+
   private handlePricingJobsStatusChanged(value: boolean): void {
     this.pricingJobs = value;
     if (this.pricingJobs) {
@@ -94,11 +109,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
     } else {
       this.modalService.dismissAll();
     }
-  }
-
-  handleEmployeeDelete() {
-    this.showDeleteEmployeeModal.next(false);
-    return this.store.dispatch(new fromEmployeesPageActions.DeleteEmployee({pageViewId: this.pageViewId, companyEmployeeIds: this.selectedCompanyEmployeeIds}));
   }
 }
 

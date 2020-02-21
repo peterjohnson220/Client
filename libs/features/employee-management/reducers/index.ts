@@ -41,3 +41,4 @@ export const getGradeCodes = createSelector(selectEmployeeDataState, fromEmploye
 export const getStructureNames = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getStructureNames);
 export const getEmployeesUserDefinedFields = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeesUserDefinedFields);
 export const getErrorMessage = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getErrorMessage);
+export const getEmployee = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeeAsync);
