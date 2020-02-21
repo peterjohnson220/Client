@@ -7,11 +7,13 @@
   <ng-container *ngIf="field.CustomFilterStrategy; else simpleFilter" >
     <div class="row">
       <div class="col-12">
-        <pf-input-debounce [attr.data-qa-id]="'txt-value-'+field.SourceName"
-                           [ngModel]="field.FilterValue"
-                           [placeholderText]="field.FilterPlaceholder ? field.FilterPlaceholder : null"
-                           (valueChanged)="handleFilterValueChanged($event)"
-                           [delay]="400">
+        <pf-input-debounce 
+          [id]="field.SourceName"
+          [attr.data-qa-id]="'txt-value-'+field.SourceName"
+          [ngModel]="field.FilterValue"
+          [placeholderText]="field.FilterPlaceholder ? field.FilterPlaceholder : null"
+          (valueChanged)="handleFilterValueChanged($event)"
+          [delay]="400">
         </pf-input-debounce>
       </div>
     </div>

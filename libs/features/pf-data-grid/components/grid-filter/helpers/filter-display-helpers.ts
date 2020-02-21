@@ -6,10 +6,6 @@ import { FilterOperatorOptions, isValueRequired } from './filter-operator-option
 
 
 export function getHumanizedFilter(field: ViewField) {
-  if (field === null) {
-    return `${field.SourceName} ${field.FilterOperator} ${field.FilterValue}`;
-  }
-
   const operatorDisplay = getOperatorDisplay(field.FilterOperator, field.DataType);
   const valueDisplay = getValueDisplay(field.FilterValue, field.DataType);
   return `${field.DisplayName} ${operatorDisplay} ${valueDisplay}`;

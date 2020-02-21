@@ -666,7 +666,7 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
     const updatedFields = cloneDeep(fields);
 
     inboundFilters.forEach(filter => {
-      const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.IsSelected);
+      const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName);
       if (fieldToUpdate) {
         fieldToUpdate.FilterOperator = filter.Operator;
         fieldToUpdate.FilterValue = filter.Value;

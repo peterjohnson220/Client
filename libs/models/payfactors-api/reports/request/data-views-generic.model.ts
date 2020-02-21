@@ -62,6 +62,16 @@ export interface SaveDataViewRequest {
   EntityId: number;
   PageViewId: string;
   Elements: any[];
+  Filters: any[];
+  Type: DataViewType;
+}
+
+export enum DataViewType {
+  dataInsights = 'DataInsights',
+  pfDataGrid = 'PfDataGrid',
+  userDefault = 'UserDefault',
+  savedFilter = 'SavedFilter',
+  export = 'Export'
 }
 
 export function generateMockViewConfig() {
