@@ -31,7 +31,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedJobIds: number[];
   selectedPricingIds: number[];
 
-  statusField: ViewField;
+  jobStatusField: ViewField;
   peerField: ViewField;
   payMarketField: ViewField;
   selectedPayMarket: any;
@@ -63,6 +63,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   colTemplates = {};
   filterTemplates = {};
+  globalFilterTemplates = {};
 
   filters = [{
     SourceName: 'JobStatus',
@@ -74,6 +75,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
   @ViewChild('peerFilter', { static: false }) peerFilter: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
+  @ViewChild('jobStatusFilter', { static: false }) jobStatusFilter: ElementRef;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -101,7 +103,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
-        this.updateStatusField(fields);
+        this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
         this.peerField = fields.find(f => f.SourceName === 'Exchange_ID');
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
@@ -125,15 +127,15 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       'Exchange_ID': { Template: this.peerFilter },
       'PayMarket': { Template: this.payMarketFilter }
     };
+
+    this.globalFilterTemplates = {
+      'JobStatus': { Template: this.jobStatusFilter }
+    };
   }
 
-  updateStatusField(fields: ViewField[]) {
-    const newStatusField = fields.find(f => f.SourceName === 'JobStatus');
-    if (this.statusField && newStatusField && this.statusField.FilterValue !== newStatusField.FilterValue) {
-      this.clearSelections();
-      this.store.dispatch(new fromPfDataGridActions.ClearAllNonGlobalFilters(this.pageViewId));
-    }
-    this.statusField = newStatusField;
+  clearFiltersAndSelections() {
+    this.clearSelections();
+    this.store.dispatch(new fromPfDataGridActions.ClearAllNonGlobalFilters(this.pageViewId));
   }
 
   clearSelections() {
@@ -195,6 +197,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateField(field);
   }
 
+  handleJobStatusFilterChanged(field: ViewField, value: any) {
+    const newField =  {...field};
+    newField.FilterOperator = '=';
+    newField.FilterValue = value;
+    this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, newField));
+  }
+
   updateField(field) {
     if (field.FilterValue) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
@@ -208,6 +217,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   isActiveJobs() {
-    return this.statusField ? this.statusField.FilterValue : false;
+    return this.jobStatusField ? this.jobStatusField.FilterValue : false;
   }
 }

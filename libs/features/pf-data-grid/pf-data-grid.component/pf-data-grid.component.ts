@@ -33,10 +33,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() gridGlobalActionsTemplate: TemplateRef<any>;
-  @Input() gridGlobalFiltersTemplate: TemplateRef<any>;
+  @Input() gridGlobalFiltersTemplates: any;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() rowActionTemplate: TemplateRef<any>;
-  @Input() filterPanelTemplate: TemplateRef<any>;
+  @Input() filterPanelTemplates: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
   @Input() defaultSort: SortDescriptor[];
@@ -55,7 +55,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;
   baseEntity$: Observable<DataViewEntity>;
-  dataFields$: Observable<ViewField[]>;
   filterableFields$: Observable<ViewField[]>;
   globalFilterableFields: ViewField[];
   displayFilterPanel$: Observable<boolean>;
@@ -96,7 +95,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
     this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
-    this.dataFields$ = this.store.select(fromReducer.getFields, this.pageViewId);
     this.filterableFields$ = this.store.select(fromReducer.getFilterableFields, this.pageViewId);
     this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
     this.savedViews$ = this.store.select(fromReducer.getSavedViews, this.pageViewId);
