@@ -24,7 +24,7 @@ export class RangeGroupExistsGuard implements CanActivate {
     return this.structureRangeGroupApiService.getCompanyStructureRangeGroup(rangeGroupId).pipe(
       map((response) => {
         if (response) {
-          this.store.dispatch(new fromPageActions.SetPageTitle({ pageTitle: response.RangeGroupName}));
+          this.store.dispatch(new fromPageActions.SetPageMetadata({ pageTitle: response.RangeGroupName, currency: response.Currency }));
           return true;
         } else {
           this.router.navigate(['not-found'], { relativeTo: this.route });

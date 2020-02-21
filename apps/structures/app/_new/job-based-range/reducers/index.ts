@@ -64,3 +64,7 @@ export const getCreateModelAsync = createSelector(
   selectModelingSettingsState,
   fromModelingSettingsPageReducer.getCreateModelAsync
 );
+
+export const getCurrency = createSelector(
+  selectPageState, fromPageReducer.getCurrency
+);
