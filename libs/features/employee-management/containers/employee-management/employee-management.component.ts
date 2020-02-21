@@ -330,12 +330,12 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   }
 
   private updateControl(list: KendoTypedDropDownItem[], controlName: string): void {
-    if (!list.length) {
+    const selectedValue = !!list.length ? list[0].Value : null;
+    this.employeeForm.controls[controlName].setValue(selectedValue);
+    if (!list.length || list.length === 1) {
       this.employeeForm.controls[controlName].disable();
-      this.employeeForm.controls[controlName].setValue(null);
     } else {
       this.employeeForm.controls[controlName].enable();
-      this.employeeForm.controls[controlName].setValue(list[0].Value);
     }
   }
 

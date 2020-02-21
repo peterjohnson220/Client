@@ -51,6 +51,17 @@
       <fa-icon icon="trash-alt"></fa-icon>
       Delete
     </button>
+    <div class="vertical-separator"></div>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      [attr.data-qa-id]="'btn-clearSelection'"
+      [disabled]="priceJobsDisabled"
+      [attr.data-qa-id]="'btn-priceJobs'"
+      (click)="handleClearSelectionClicked()">
+      <fa-icon [icon]="['far', 'times']"></fa-icon>
+      Clear Selection
+    </button>
   </div>
 </ng-template>
 <ng-template #gridGlobalActions>

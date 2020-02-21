@@ -8,5 +8,6 @@ import { faCircleNotch } from '@fortawesome/pro-light-svg-icons/faCircleNotch';
 // Regular
 import { faTrashAlt } from '@fortawesome/pro-regular-svg-icons/faTrashAlt';
 import { faTasksAlt } from '@fortawesome/pro-regular-svg-icons/faTasksAlt';
+import { faTimes } from '@fortawesome/pro-regular-svg-icons/faTimes';
 
-export const faIcons = [ faExclamationCircle, faCircleNotch, faTrashAlt, faTasksAlt, faEdit ];
+export const faIcons = [ faExclamationCircle, faCircleNotch, faTrashAlt, faTasksAlt, faEdit, faTimes ];
