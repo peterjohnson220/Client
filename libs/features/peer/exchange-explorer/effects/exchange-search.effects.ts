@@ -68,14 +68,17 @@ export class ExchangeSearchEffects {
       this.store.pipe(select(fromSearchReducer.getSearchingChildFilter)),
       this.store.pipe(select(fromSearchReducer.getChildFilter)),
       this.store.pipe(select(fromExchangeExplorerReducer.getSearchFilterMappingDataObj)),
+      this.store.pipe(select(fromExchangeExplorerReducer.getExchangeExplorerPayMarketGeoData)),
       (
         action: fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess,
         searchingFilter,
         singledFilter,
         searchingChildFilter,
         childFilter,
-        searchFilterMappingDataObj
-      ) => ({payload: action.payload, searchingFilter, singledFilter, searchingChildFilter, childFilter, searchFilterMappingDataObj})
+        searchFilterMappingDataObj,
+        payMarketGeoData
+      ) => ({payload: action.payload, searchingFilter, singledFilter, searchingChildFilter,
+              childFilter, searchFilterMappingDataObj, payMarketGeoData})
     ),
     mergeMap((searchResponseContext) => {
 
@@ -106,6 +109,8 @@ export class ExchangeSearchEffects {
 
       if (searchResponseContext.payload.resetInitialBounds) {
         actions.push(new fromMapActions.SetPeerMapBounds(exchangeMapResponse.MapSummary));
+      } else if (searchResponseContext.payload.resetToPayMarketBounds) {
+        actions.push(new fromMapActions.SetPeerMapBounds(searchResponseContext.payMarketGeoData));
       }
 
       return actions;
@@ -136,7 +141,8 @@ export class ExchangeSearchEffects {
                     ...successPayload,
                     ...{
                       getSingledFilteredAggregates: data.action.payload.getSingledFilteredAggregates,
-                      resetInitialBounds: data.action.payload.resetInitialBounds
+                      resetInitialBounds: data.action.payload.resetInitialBounds,
+                      resetToPayMarketBounds: data.action.payload.resetToPayMarketBounds
                     }
                   };
                 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { map, withLatestFrom, mergeMap, tap } from 'rxjs/operators';
+import { withLatestFrom, mergeMap, tap } from 'rxjs/operators';
 
 import { ExchangeScopeItem } from 'libs/models/peer';
 import * as fromLibsFeatureSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
@@ -19,21 +19,41 @@ export class ExchangeFilterContextEffects {
     ofType(fromExchangeFilterContextActions.TOGGLE_LIMIT_TO_PAYMARKET),
     withLatestFrom(
       this.store.pipe(select(fromExchangeExplorerReducers.getFilterContextScopeSelection)),
-      (action, scopeSelection) => !!scopeSelection
+      this.store.pipe(select(fromExchangeExplorerReducers.getFilterContextLimitToPayMarket)),
+      (
+        action: fromExchangeFilterContextActions.ToggleLimitToPayMarket,
+        scopeSelection,
+        limitToPayMarket
+      ) => ({scopeSelection, limitToPayMarket})
     ),
     tap(() => this.store.dispatch(new fromPeerMapActions.ClearMapFilterBounds())),
-    mergeMap((scopeSelected: boolean) => {
+    mergeMap((toggleLimitToPayMarket) => {
       let obs;
-      // Only clear selections on paymarket toggle if a scope is not selected
-      if (scopeSelected) {
-        obs = [
-          new fromExchangeSearchResultsActions.GetExchangeDataResults({resetInitialBounds: true})
-        ];
+
+      if (toggleLimitToPayMarket.limitToPayMarket) {
+        // Only clear selections on paymarket toggle if a scope is not selected
+        if (!!toggleLimitToPayMarket.scopeSelection) {
+          obs = [
+            new fromExchangeSearchResultsActions.GetExchangeDataResults({resetToPayMarketBounds: true})
+          ];
+        } else {
+          obs = [
+            new fromLibsFeatureSearchFiltersActions.ResetAllFilters(),
+            new fromExchangeSearchResultsActions.GetExchangeDataResults({resetToPayMarketBounds: true})
+          ];
+        }
       } else {
-        obs = [
-          new fromLibsFeatureSearchFiltersActions.ResetAllFilters(),
-          new fromExchangeSearchResultsActions.GetExchangeDataResults({resetInitialBounds: true})
-        ];
+        // Only clear selections on paymarket toggle if a scope is not selected
+        if (!!toggleLimitToPayMarket.scopeSelection) {
+          obs = [
+            new fromExchangeSearchResultsActions.GetExchangeDataResults({resetInitialBounds: true})
+          ];
+        } else {
+          obs = [
+            new fromLibsFeatureSearchFiltersActions.ResetAllFilters(),
+            new fromExchangeSearchResultsActions.GetExchangeDataResults({resetInitialBounds: true})
+          ];
+        }
       }
 
       return obs;
