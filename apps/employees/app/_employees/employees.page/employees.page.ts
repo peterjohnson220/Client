@@ -9,6 +9,7 @@ import { UserContext } from 'libs/models';
 import { Permissions } from 'libs/constants';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
 import * as fromEmployeeManagementReducers from 'libs/features/employee-management/reducers';
 import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 
@@ -100,6 +101,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromEmployeeManagementActions.EditEmployee({
       companyEmployeeId: this.selectedCompanyEmployeeIds[0]
     }));
+  }
+
+  handleClearSelectionClicked(): void {
+    this.pfGridStore.dispatch(new fromPfGridActions.ClearSelections(this.pageViewId));
   }
 
   private handlePricingJobsStatusChanged(value: boolean): void {
