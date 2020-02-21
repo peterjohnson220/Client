@@ -1,0 +1,21 @@
+<pf-page-with-title-bar [returnUrl]="'/'">
+  <ng-container page-title>
+    <span>{{pageTitle}}</span>
+  </ng-container>
+  <ng-container page-content>
+    <div class="canvas">
+      <div class="header-row">
+        <h3>
+          <pf-inline-string-editor
+            [placeholder]="'New Statement Name'"
+            [minCharacters]="1"
+            [maxCharacters]="statementNameMaxLength"
+            [icon]="'pencil'"
+            (valueChange)="onStatementNameValueChange($event)"
+          ></pf-inline-string-editor>
+        </h3>
+        <div class="header-row-buttons"></div>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>
