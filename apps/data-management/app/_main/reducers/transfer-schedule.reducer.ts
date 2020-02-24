@@ -101,7 +101,7 @@ export function reducer(state: State = initialState, action: fromTransferSchedul
         ...state,
         saving: true,
         savingError: false,
-        savingDtos: action.payload,
+        savingDtos: action.payload.schedules,
         restoreCompleted: false
       };
     }
@@ -125,7 +125,7 @@ export function reducer(state: State = initialState, action: fromTransferSchedul
         saving: false,
         savingError: false,
         savingDtos: [],
-        transferScheduleSummaries: action.payload,
+        transferScheduleSummaries: action.payload.summary,
         restoreCompleted: true
       };
     }
