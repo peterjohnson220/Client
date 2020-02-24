@@ -21,6 +21,7 @@ export class HrisAuthenticationCardComponent implements OnDestroy {
   @Input() validatedCredentials = false;
   @Input() connectionSummary: ConnectionSummary;
   @Input() transferMethod: string;
+  @Input() stepNumber = 3;
   @Output() backClicked = new EventEmitter();
   @Output() cancelClicked = new EventEmitter();
   @Output() saveClicked = new EventEmitter<CredentialsPackage>();
