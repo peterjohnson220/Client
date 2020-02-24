@@ -82,7 +82,7 @@ export class SaveTransferScheduleSuccess implements Action {
 export class SaveAllTransferSchedules implements Action {
   readonly type = SAVE_ALL_TRANSFER_SCHEDULES;
 
-  constructor(public payload: SyncScheduleDtoModel[]) {}
+  constructor(public payload: {schedules: SyncScheduleDtoModel[]; route: string }) {}
 }
 
 export class SaveAllTransferSchedulesError implements Action {
@@ -92,7 +92,7 @@ export class SaveAllTransferSchedulesError implements Action {
 export class SaveAllTransferSchedulesSuccess implements Action {
   readonly type = SAVE_ALL_TRANSFER_SCHEDULES_SUCCESS;
 
-  constructor(public payload: TransferScheduleSummary[]) {}
+  constructor(public payload: {summary: TransferScheduleSummary[]; route: string}) {}
 }
 
 export class ShowIntegrationSetupCompletedModal implements Action {

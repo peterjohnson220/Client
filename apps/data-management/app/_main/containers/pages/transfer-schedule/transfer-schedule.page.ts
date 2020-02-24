@@ -74,15 +74,19 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
 
   onCancel() {
     if (this.wasEdited) {
-      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
+      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules({schedules: this.syncSchedulesBackup, route: '/'}));
+    } else {
+      this.router.navigate(['/']);
     }
-    this.router.navigate(['/']);
   }
 
   goBack() {
     if (this.wasEdited) {
       this.shouldGoBack = true;
-      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
+      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules({
+        schedules: this.syncSchedulesBackup,
+        route: '/transfer-data/inbound/field-mapping'
+      }));
     } else {
       this.router.navigate(['/transfer-data/inbound/field-mapping']);
     }
