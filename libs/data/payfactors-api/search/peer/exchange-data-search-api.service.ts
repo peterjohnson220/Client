@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import {
   ExchangeDataSearchFilter, ExchangeMapResponse, SystemFilterRequest, SystemFilter,
-  FilterAggregateGroup, ExchangeExplorerContextInfo
+  FilterAggregateGroup, ExchangeExplorerContextInfo, PayMarketContext
 } from 'libs/models/peer';
 import { SearchFilter } from 'libs/models/payfactors-api/search/response';
 import {
@@ -34,6 +34,14 @@ export class ExchangeDataSearchApiService {
   getExchangeExplorerContextInfo(payload: {companyJobId?: number, companyPayMarketId?: number}|{exchangeId: number}):
     Observable<ExchangeExplorerContextInfo> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo`, {
+      params: payload
+    });
+  }
+
+  getPayMarketContextInfo(payload: {companyJobId?: number, companyPayMarketId?: number, exchangeJobId?: number}|
+                                   {companyJobId?: number, exchangeJobId?: number, cutGuid?: string}):
+    Observable<PayMarketContext> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPayMarketContextInfo`, {
       params: payload
     });
   }

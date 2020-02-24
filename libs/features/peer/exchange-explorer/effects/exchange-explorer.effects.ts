@@ -49,6 +49,23 @@ export class ExchangeExplorerEffects {
   );
 
   @Effect()
+  refreshPayMarketContext$ = this.actions$.pipe(
+    ofType(fromExchangeExplorerContextInfoActions.REFRESH_PAYMARKET_CONTEXT),
+    map((action: fromExchangeExplorerContextInfoActions.RefreshPayMarketContext) => action.payload),
+    switchMap((payload) =>
+      this.exchangeDataSearchApiService.getPayMarketContextInfo(payload).pipe(
+        map(response => {
+            return new fromExchangeExplorerContextInfoActions.RefreshPayMarketContextSuccess({
+              payMarket: response.PayMarket,
+              payMarketGeoData: response.PayMarketGeoData
+            });
+        }),
+        catchError(() => of(new fromExchangeExplorerContextInfoActions.RefreshPayMarketContextError))
+      )
+    )
+  );
+
+  @Effect()
   resetExchangeExplorerState$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromExchangeExplorerActions.RESET_EXCHANGE_EXPLORER_STATE),
