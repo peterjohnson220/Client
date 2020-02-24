@@ -2,6 +2,7 @@
   [connectionSummary]="connectionSummary$ | async"
   [transferMethod]="outboundJdmTransferMethod"
   [validatedCredentials]="(currentWorkflowStep$ | async) === workflowStep.Validated"
+  [stepNumber]="2"
   (backClicked)="back()"
   (cancelClicked)="cancel()"
   (saveClicked)="next($event)"
