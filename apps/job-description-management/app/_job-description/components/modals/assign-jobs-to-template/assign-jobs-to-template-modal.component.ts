@@ -17,6 +17,7 @@ import * as fromTemplateListActions from '../../../../shared/actions/template-li
 import * as fromTemplateListReducer from '../../../../shared/reducers';
 import { CompanyJobViewListItem } from '../../../models';
 import * as fromJobDescriptionListReducer from '../../../reducers';
+import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
 
 @Component({
   selector: 'pf-assign-jobs-to-template-modal',
@@ -30,16 +31,15 @@ export class AssignJobsToTemplateModalComponent implements OnInit, OnDestroy {
   @Output() templateAssignedToJob = new EventEmitter();
   @ViewChild('assignJobsToTemplateModal', {static: true}) public assignJobsToTemplateModal: any;
 
-  public errorMessage = false;
   public modalRef: NgbModalRef;
   public publicView: Array<any> = [{ text: 'Enabled', value: true }, { text: 'Disabled', value: false }];
   public publicViewSelectedValue = true;
   public templateId = -1;
   public templateListItems$: Observable<TemplateListItem[]>;
   public templateListLoading$: Observable<boolean>;
+  public assigningTemplateError$: Observable<boolean>;
+  public assigningTemplateErrorMessage$: Observable<string>;
 
-  private assigningTemplateError$: Observable<boolean>;
-  private assigningTemplateErrorSubscription: Subscription;
   private assigningTemplateSuccess$: Observable<boolean>;
   private assigningTemplateSuccessSubscription: Subscription;
 
@@ -48,29 +48,21 @@ export class AssignJobsToTemplateModalComponent implements OnInit, OnDestroy {
     private modalService: NgbModal
   ) {
     this.assigningTemplateError$ = this.store.select((fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingError));
+    this.assigningTemplateErrorMessage$ = this.store.select((fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingErrorMessage));
     this.assigningTemplateSuccess$ = this.store.select((fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingSuccess));
     this.templateListItems$ = this.store.select(fromTemplateListReducer.getTemplateList);
     this.templateListLoading$ = this.store.select(fromTemplateListReducer.getTemplateListLoading);
   }
 
   ngOnInit() {
-    this.errorMessage = false;
-
     this.assigningTemplateSuccessSubscription = this.assigningTemplateSuccess$.subscribe((isSuccess) => {
       if (isSuccess && this.modalRef) {
-        this.modalRef.close();
-      }
-    });
-
-    this.assigningTemplateErrorSubscription = this.assigningTemplateError$.subscribe((error) => {
-      if (error) {
-        this.errorMessage = true;
+        this.close();
       }
     });
   }
 
   ngOnDestroy() {
-    this.assigningTemplateErrorSubscription.unsubscribe();
     this.assigningTemplateSuccessSubscription.unsubscribe();
   }
 
@@ -78,6 +70,11 @@ export class AssignJobsToTemplateModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromTemplateListActions.LoadTemplateList({publishedOnly: true}));
     this.templateId = -1;
     this.modalRef = this.modalService.open(this.assignJobsToTemplateModal, {backdrop: 'static'});
+  }
+
+  close() {
+    this.modalRef.close();
+    this.store.dispatch(new fromJobDescriptionListActions.ClearCompanyJobsJobDescriptionTemplateState());
   }
 
   submit() {

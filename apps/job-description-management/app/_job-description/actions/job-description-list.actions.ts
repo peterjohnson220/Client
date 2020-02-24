@@ -15,6 +15,7 @@ export const SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_ERROR =
   '[job-description-management / Job Description List] Save Company Jobs Job Description Template Id Error';
 export const SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_SUCCESS =
   '[job-description-management / Job Description List] Save Company Jobs Job Description Template Id Success';
+export const CLEAR_JOB_DESCRIPTION_STATE = '[job-description-management / Job Description List] Clear Job Description State';
 
 export class CreateJobDescription implements Action {
   readonly type = CREATE_JOB_DESCRIPTION;
@@ -57,13 +58,17 @@ export class SaveCompanyJobsJobDescriptionTemplateId implements Action {
 export class SaveCompanyJobsJobDescriptionTemplateIdError implements Action {
   readonly type = SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_ERROR;
 
-  constructor(public payload: any) {}
+  constructor(public payload: {errorMessage: string}) {}
 }
 
 export class SaveCompanyJobsJobDescriptionTemplateIdSuccess implements Action {
   readonly type = SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_SUCCESS;
 
   constructor(public payload: SaveJobDescriptionTemplateIdSucessModel) {}
+}
+
+export class ClearCompanyJobsJobDescriptionTemplateState implements Action {
+  readonly type = CLEAR_JOB_DESCRIPTION_STATE;
 }
 
   export type Actions
@@ -75,4 +80,5 @@ export class SaveCompanyJobsJobDescriptionTemplateIdSuccess implements Action {
   | CreateJobDescriptionDraftSuccess
   | SaveCompanyJobsJobDescriptionTemplateId
   | SaveCompanyJobsJobDescriptionTemplateIdError
-  | SaveCompanyJobsJobDescriptionTemplateIdSuccess;
+  | SaveCompanyJobsJobDescriptionTemplateIdSuccess
+  | ClearCompanyJobsJobDescriptionTemplateState;
