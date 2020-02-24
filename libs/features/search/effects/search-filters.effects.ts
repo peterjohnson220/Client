@@ -48,11 +48,38 @@ export class SearchFiltersEffects {
   toggleMultiSelectOption$ = this.actions$
     .pipe(
       ofType(fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION),
-      mergeMap(() => [
-        new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }),
-        new fromUserFilterActions.SetSelected({ selected: false })
-      ])
-    );
+      withLatestFrom(
+        this.store.select(fromSharedSearchReducer.getSubFilters),
+        this.store.select(fromSharedSearchReducer.getParentFilters),
+        this.store.select(fromSharedSearchReducer.getSearchingFilter),
+        this.store.select(fromSharedSearchReducer.getSearchingChildFilter),
+        (action: fromSearchFiltersActions.ToggleMultiSelectOption, subFilters, parentFilters, searchingSingle, searchingChild) => ({action, subFilters, parentFilters, searchingSingle, searchingChild})
+      ),
+      mergeMap((data) => {
+        const actions = [];
+
+        const isChildFilter = data.searchingChild && data.subFilters.filter(f => f.Id === data.action.payload.filterId).length > 0;
+
+        if (isChildFilter && data.searchingSingle) {
+          actions.push(new fromSearchResultsActions.GetResults(
+            { keepFilteredOutOptions: true,
+              getSingledFilteredAggregates: true}
+              ));
+        } else if (!isChildFilter && data.searchingChild) {
+          actions.push(new fromSearchResultsActions.GetResults(
+            { keepFilteredOutOptions: true,
+              getChildFilteredAggregates: true}
+          ));
+        } else {
+          actions.push(new fromSearchResultsActions.GetResults(
+            { keepFilteredOutOptions: true }
+          ));
+        }
+
+        actions.push(new fromUserFilterActions.SetSelected({ selected: false }));
+        return actions;
+      }
+    ));
 
   @Effect()
   resetAllFilter$ = this.actions$

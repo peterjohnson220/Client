@@ -48,7 +48,7 @@ export class FilterSectionComponent {
 
   get selectionCount(): number {
     return this.overriddenSelectionCount ||
-      (isMultiFilter(this.filter) ? this.filter.Options.filter(o => o.Selected).length : 0);
+      (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter) ? this.filter.Options.filter(o => o.Selected).length : 0);
   }
 
   get selectableOptionCount(): number {

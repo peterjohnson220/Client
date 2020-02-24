@@ -27,6 +27,7 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
   solidFilter = solidFilter;
   borderFilter = borderFilter;
   searchingChildFilter$: Observable<boolean>;
+  loadingChildOptions$: Observable<boolean>;
 
   constructor(private store: Store<fromSearchReducer.State>) {
     super();
@@ -34,6 +35,7 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
     this.childFilterParentOptionValue$ = this.store.select(fromSearchReducer.getChildFilterParentOptionValue);
     this.subFilters$ = this.store.select(fromSearchReducer.getSubFilters);
     this.searchingChildFilter$ = this.store.select(fromSearchReducer.getSearchingChildFilter);
+    this.loadingChildOptions$  = this.store.select(fromSearchReducer.getChildLoadingOptions);
   }
 
   optionDisabled(option: FilterableMultiSelectOption) {
@@ -45,6 +47,7 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
     let existingChildFilter = null;
     let childFilterParentOptionValue = null;
     let searchingChildFilter = null;
+    let loadingChildOptions = null;
 
     this.subFilters$.pipe(take(1)).subscribe(x => {
       subFilters = x;
@@ -58,6 +61,10 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
     this.searchingChildFilter$.pipe(take(1)).subscribe(scf => {
       searchingChildFilter = scf;
     });
+    this.loadingChildOptions$.pipe(take(1)).subscribe(lco => {
+      loadingChildOptions = lco;
+    });
+
     const selectedChildFilter = subFilters.find(x => x.ParentBackingField === filter.BackingField);
 
     const childFilterExists = !(existingChildFilter === null || searchingChildFilter === false);
@@ -71,14 +78,14 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
       this.store.dispatch(new fromChildFilterActions.SearchAggregation());
       return;
     }
-    if (currentChildFilterClicked) {
-    this.store.dispatch(new fromSearchPageActions.ToggleChildFilterSearch());
-    this.store.dispatch(new fromChildFilterActions.ClearChildFilter());
-    return;
-  }
-  this.store.dispatch(new fromChildFilterActions.SetChildFilter({filter: selectedChildFilter, parentOption: option}));
-  this.store.dispatch(new fromChildFilterActions.SearchAggregation());
-  }
+    if (currentChildFilterClicked && !loadingChildOptions) {
+      this.store.dispatch(new fromSearchPageActions.ToggleChildFilterSearch());
+      this.store.dispatch(new fromChildFilterActions.ClearChildFilter());
+      return;
+    }
+    this.store.dispatch(new fromChildFilterActions.SetChildFilter({filter: selectedChildFilter, parentOption: option}));
+    this.store.dispatch(new fromChildFilterActions.SearchAggregation());
+    }
 
   childFiltersAreEquivalent(filterA: Filter, filterB: Filter): boolean {
       return (filterA && filterB) && filterA.ParentBackingField === filterB.ParentBackingField;
