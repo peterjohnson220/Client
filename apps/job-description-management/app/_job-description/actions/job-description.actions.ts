@@ -9,6 +9,7 @@ import {
   ReorderControlDataDto,
   JobDescriptionLibraryDropModel
 } from '../models';
+import { JobDescriptionAppliesTo } from '../../shared';
 
 export const GET_JOB_DESCRIPTION = '[job-description-management / Job Description] Get Job Description';
 export const GET_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Get Job Description Success';
@@ -48,6 +49,7 @@ export const ADD_SOURCE_DATA_TO_CONTROL = '[job-description-management / Job Des
 export const DELETE_JOB_DESCRIPTION = '[job-description-management / Job Description] Delete Job Description';
 export const DELETE_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Delete Job Description Success';
 export const DELETE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Delete Job Description Error';
+export const UPDATE_JOB_DESCRIPTION_APPLIES_TO = '[job-description-management / Job Description Applies To] Update Job Description Applies To Values';
 
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
@@ -267,6 +269,12 @@ export class DeleteJobDescriptionError implements Action {
   readonly type = DELETE_JOB_DESCRIPTION_ERROR;
 }
 
+export class UpdateJobDescriptionAppliesToValues implements Action {
+  readonly type = UPDATE_JOB_DESCRIPTION_APPLIES_TO;
+
+  constructor(public payload: JobDescriptionAppliesTo) {}
+}
+
 export type Actions
   = GetJobDescription
   | GetJobDescriptionSuccess
@@ -305,4 +313,5 @@ export type Actions
   | AddSourceDataToControl
   | DeleteJobDescription
   | DeleteJobDescriptionSuccess
-  | DeleteJobDescriptionError;
+  | DeleteJobDescriptionError
+  | UpdateJobDescriptionAppliesToValues;

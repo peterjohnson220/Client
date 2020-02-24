@@ -197,18 +197,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   appliesToFormCompleted(selected: any) {
-    // const newJobDescription = new CompanyJobViewListItem();
-    // newJobDescription.CompanyJobId = selected.companyJobId;
-    // var companyJobToAssign = newJobDescription.CompanyJobId;
-    // var companyJobToUnassign = [];
-    // if(selected.templateId == -1) {
-    //     this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
-    // } else {
-    //     this.templateService.saveCompanyJobsJobDescriptionTemplateId(selected.templateId,[companyJobToAssign],companyJobToUnassign).subscribe( () => {
-    //         this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
-    //     });
-
-    // }
+    this.store.dispatch(new fromJobDescriptionActions.UpdateJobDescriptionAppliesToValues(selected.jobDescriptionAppliesTo));
+    this.saveThrottle.next(true);
   }
 
   goBack(): void {
@@ -361,6 +351,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     appliesTo.AppliesToField = this.jobDescription.AppliesToField;
     appliesTo.AppliesToValue = this.jobDescription.AppliesToValue;
     appliesTo.JobDescriptionTitle = this.jobDescription.JobDescriptionTitle;
+    appliesTo.PublicView = this.jobDescription.PublicView;
 
     this.jobDescriptionAppliesToModalComponent.open(this.jobDescription.JobDescriptionId, this.jobDescription.CompanyJobId, appliesTo);
   }
