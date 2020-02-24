@@ -101,11 +101,14 @@
               (click)="handleNewJobDescriptionClick(dataItem)">
               New Job Description
             </button>
-            <button class="dropdown-item"
-              (click)="handleDeleteJobDescriptionClick(dataItem.JobDescriptionId)"
-              [disabled]="dataItem.JobDescriptionCount <= 1">
-              Delete Job Description
-            </button>
+            <div #toolTipWrapper *ngIf="hasDeleteJobDescriptionPermission === true"
+              [ngbTooltip]="tooltipForDeleteButton(dataItem.JobDescriptionCount)">
+              <button class="dropdown-item"
+                (click)="handleDeleteJobDescriptionClick(dataItem.JobDescriptionId)"
+                [disabled]="dataItem.JobDescriptionCount <= 1">
+                Delete Job Description
+              </button>
+            </div>
           </div>
         </div>
       </ng-template>

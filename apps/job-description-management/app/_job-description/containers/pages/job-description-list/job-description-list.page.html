@@ -87,6 +87,7 @@
               (navigateToJobDescription)="navigateToJobDescription($event)"
               (openJobDescriptionHistoryModal)="openJobDescriptionHistoryModal($event)"
               (openNewJobDescriptionModal)="openNewJobDescModal($event)"
+              (openDeleteJobDescriptionModal)="openDeleteJobDescModal($event)"
               (pageChanged)="handlePageChanged($event)"
               (sortChanged)="handleSortChanged($event)"
               (publicViewChanged)="handlePublicViewChanged($event)">
@@ -121,6 +122,8 @@
       [selectedCompanyJob]="selectedCompanyJobForModal"
       (appliesToUpdated)="appliesToFormCompleted($event)">
     </pf-job-description-applies-to-modal>
+
+    <pf-delete-job-description-modal></pf-delete-job-description-modal>
 
     <pf-add-job-modal
       (createCompanyJobComplete)="handleCreateCompanyJobComplete($event)"

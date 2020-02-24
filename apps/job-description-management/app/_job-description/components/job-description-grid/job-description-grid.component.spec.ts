@@ -11,6 +11,7 @@ import * as fromJobDescriptionReducers from '../../reducers';
 import { JobDescriptionGridComponent } from './job-description-grid.component';
 import { generateMockCompanyJobViewListItem } from '../../models';
 import { MomentModule } from 'angular2-moment';
+import { PermissionService } from 'libs/core';
 
 describe('Job Description Management - Job Description - Job Description Grid', () => {
   let instance: JobDescriptionGridComponent;
@@ -35,6 +36,10 @@ describe('Job Description Management - Job Description - Job Description Grid', 
         {
           provide: NgbModal,
           useValue: { open: jest.fn() }
+        },
+        {
+          provide: PermissionService,
+          useValue: { CheckPermission: jest.fn(() => true) }
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]

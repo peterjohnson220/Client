@@ -25,6 +25,9 @@ export interface State {
   companyAsync: AsyncStateObj<CompanyDto>;
   jobDescriptionViewsAsync: AsyncStateObj<string[]>;
   undoChangesComplete: boolean;
+  deleting: boolean;
+  deletingError: boolean;
+  deletingSuccess: boolean;
 }
 
 export const initialState: State = {
@@ -40,7 +43,10 @@ export const initialState: State = {
   jobDescriptionChangeHistory: [],
   companyAsync: generateDefaultAsyncStateObj<CompanyDto>(null),
   jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([]),
-  undoChangesComplete: false
+  undoChangesComplete: false,
+  deleting: false,
+  deletingError: false,
+  deletingSuccess: false
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
@@ -374,6 +380,31 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionAsync: asyncStateObjClone
       };
     }
+    case fromJobDescriptionActions.DELETE_JOB_DESCRIPTION: {
+      return {
+        ...state,
+        deleting: true,
+        deletingSuccess: false,
+        deletingError: false
+      };
+    }
+    case fromJobDescriptionActions.DELETE_JOB_DESCRIPTION_SUCCESS: {
+      return {
+        ...state,
+        deleting: false,
+        deletingSuccess: true,
+        deletingError: false
+      };
+    }
+    case fromJobDescriptionActions.DELETE_JOB_DESCRIPTION_ERROR: {
+      return {
+        ...state,
+        deleting: false,
+        deletingSuccess: false,
+        deletingError: true
+      };
+    }
+
     default:
       return state;
   }
@@ -391,4 +422,7 @@ export const getJobDescriptionExtendedInfo = (state: State) => state.jobDescript
 export const getJobDescriptionViewsAsync = (state: State) => state.jobDescriptionViewsAsync;
 export const getJobDescriptionIsFullscreen = (state: State) => state.jobDescriptionIsFullscreen;
 export const getUndoJobDescriptionChangesComplete = (state: State) => state.undoChangesComplete;
+export const getDeletingJobDescription = (state: State) => state.deleting;
+export const getDeletingJobDescriptionSuccess = (state: State) => state.deletingSuccess;
+export const getDeletingJobDescriptionError = (state: State) => state.deletingError;
 
