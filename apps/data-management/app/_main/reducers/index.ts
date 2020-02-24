@@ -15,6 +15,7 @@ import * as fromTransferScheduleReducer from './transfer-schedule.reducer';
 import * as fromHrisConnectionReducer from './hris-connection.reducer';
 import * as fromEntityIdentifierReducer from './entity-identifiers.reducer';
 import * as fromEntitySelectionReducer from './entity-selection.reducer';
+import * as fromOutboundJdmReducer from './outbound-jdm.reducer';
 import {SelectorHelper} from '../helpers';
 
 export interface DataManagementMainState {
@@ -30,6 +31,7 @@ export interface DataManagementMainState {
   hrisConnection: fromHrisConnectionReducer.State;
   entityIdentifiers: fromEntityIdentifierReducer.State;
   entitySelection: fromEntitySelectionReducer.State;
+  outboundJdm: fromOutboundJdmReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -48,7 +50,8 @@ export const reducers = {
   transferSchedule: fromTransferScheduleReducer.reducer,
   hrisConnection: fromHrisConnectionReducer.reducer,
   entityIdentifiers: fromEntityIdentifierReducer.reducer,
-  entitySelection: fromEntitySelectionReducer.reducer
+  entitySelection: fromEntitySelectionReducer.reducer,
+  outboundJdm: fromOutboundJdmReducer.reducer,
 };
 
 // Select Feature Area
@@ -101,6 +104,11 @@ export const selectEntityIdentifierState = createSelector(
 export const selectEntitySelectionState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.entitySelection
+);
+
+export const selectOutboundJdmState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.outboundJdm,
 );
 
 // Transfer Data Page
@@ -382,3 +390,6 @@ export const getOutboundSelectedTransferMethod = createSelector(selectTransferDa
 export const getOutboundTransferMethods = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundTransferMethods);
 export const getOutboundWorkflowStep = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundWorkflowStep);
 export const getOutboundJdmViews = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundJdmViews);
+
+// outbound jdm summary
+export const getJdmConnectionSummaryObj = createSelector(selectOutboundJdmState, fromOutboundJdmReducer.getConnectionSummary);

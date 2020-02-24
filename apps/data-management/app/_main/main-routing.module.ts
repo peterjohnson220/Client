@@ -13,15 +13,15 @@ import {
   InboundAuthenticationPageComponent,
   InboundEntitySelectionPageComponent,
   OrgDataLoadComponent,
+  OutboundAuthenticationPageComponent,
+  OutboundEntitySelectionPageComponent,
+  OutboundFieldMappingPageComponent,
+  OutboundJdmViewSelectionPageComponent,
+  OutboundProviderSelectionPageComponent,
+  OutboundTransferSchedulePageComponent,
   ResetIntegrationPageComponent,
   TransferDataPageComponent,
   TransferSchedulePageComponent,
-  OutboundProviderSelectionPageComponent,
-  OutboundTransferSchedulePageComponent,
-  OutboundFieldMappingPageComponent,
-  OutboundEntitySelectionPageComponent,
-  OutboundAuthenticationPageComponent,
-  OutboundJdmViewSelectionPageComponent
 } from './containers';
 
 const routes: Routes = [
@@ -95,7 +95,7 @@ const routes: Routes = [
               {
                 path: 'jdm-view-selection',
                 component: OutboundJdmViewSelectionPageComponent
-              }
+              },
             ]
           }
         ]

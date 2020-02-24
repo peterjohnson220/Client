@@ -105,6 +105,7 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
         workflowStep: TransferDataWorkflowStep.Authentication
       };
     }
+    case fromTransferDataPageActions.OUTBOUND_JDM_VALIDATE:
     case fromTransferDataPageActions.VALIDATE: {
       return {
         ...state,
