@@ -66,7 +66,12 @@ const routes: Routes = [
               {
                 path: 'authentication',
                 component: InboundAuthenticationPageComponent
-              }
+              },
+              {
+                path: 'transfer-schedule',
+                component: TransferSchedulePageComponent,
+                data: { FullPage: true }
+              },
             ]
           },
           {
@@ -90,7 +95,8 @@ const routes: Routes = [
               },
               {
                 path: 'transfer-schedule',
-                component: OutboundTransferSchedulePageComponent
+                component: OutboundTransferSchedulePageComponent,
+                data: { FullPage: true }
               },
               {
                 path: 'jdm-view-selection',
@@ -99,11 +105,6 @@ const routes: Routes = [
             ]
           }
         ]
-      },
-      {
-        path: 'transfer-schedule',
-        component: TransferSchedulePageComponent,
-        data: { FullPage: true }
       },
       {
         path: 'reset',

@@ -113,4 +113,16 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.wasEdited = this.wasEdited || $event;
     this.editStates[i] = $event;
   }
+
+  disableSchedule($event: number) {
+    this.store.dispatch(new fromTransferScheduleActions.DisableTransferSchedule($event));
+  }
+
+  enableSchedule($event: number) {
+    this.store.dispatch(new fromTransferScheduleActions.EnableTransferSchedule($event));
+  }
+
+  saveSchedule($event: SyncScheduleDtoModel) {
+    this.store.dispatch(new fromTransferScheduleActions.SaveTransferSchedule($event));
+  }
 }

@@ -1,13 +1,13 @@
-<pf-async-container [loading]="transferScheduleSummaryLoading$ | async"
-                    [loadingError]="transferScheduleSummaryError$ | async"
+<pf-async-container [loading]="(transferScheduleSummary$ | async).loading"
+                    [loadingError]="(transferScheduleSummary$ | async).loadingError"
                     [loadingErrorMessage]="'Error loading Transfer Schedule'">
-  <div class="card-mb-3 shadow-sm p-3" *ngIf="this.transferScheduleSummary.length">
+  <div class="card-mb-3 shadow-sm p-3" *ngIf="this.hasSummary">
     <div class="card-body">
       <h5 class="card-title text-uppercase text-muted">
         <fa-icon icon="calendar-alt"></fa-icon>
         Transfer Schedule
-        <span *ngIf="this.transferScheduleSummary.length" class="float-right text-lowercase">
-          <a class="text-muted" routerLink="/transfer-data/inbound/transfer-schedule">edit</a>
+        <span *ngIf="this.hasSummary" class="float-right text-lowercase">
+          <a class="text-muted" routerLink="/transfer-data/outbound/transfer-schedule">edit</a>
         </span>
       </h5>
       <div class="row">
@@ -25,3 +25,4 @@
     </div>
   </div>
 </pf-async-container>
+

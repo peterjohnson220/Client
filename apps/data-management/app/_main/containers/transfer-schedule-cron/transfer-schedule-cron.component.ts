@@ -16,12 +16,14 @@ export class TransferScheduleCronComponent implements OnChanges {
   @Input() editMode: boolean;
   @Input() disabled: boolean;
   @Input() lastRunDate: string;
+  @Input() showPublishButton: boolean;
   @Output() cronExpressionChanges = new EventEmitter();
   private cronArray: string[] = [];
 
   dailyChecked = false;
   weeklyChecked = false;
   monthlyChecked = false;
+  uponPublishChecked = false;
   dayValue: string;
   monthlyWeekOfMonthValue: string;
   monthlyDayValue: string;
@@ -70,6 +72,7 @@ export class TransferScheduleCronComponent implements OnChanges {
     this.dailyChecked = false;
     this.weeklyChecked = false;
     this.monthlyChecked = false;
+    this.uponPublishChecked = false;
 
     // check for daily
     if (fromCronHelpers.dailyCronExpression.test(this.cronExpression)) {
@@ -85,6 +88,10 @@ export class TransferScheduleCronComponent implements OnChanges {
     if (fromCronHelpers.monthlyCronExpression.test(this.cronExpression)) {
       this.monthlyChecked = true;
       this.parseMonthly(this.cronArray[4]);
+    }
+    // check for upon publish
+    if (fromCronHelpers.uponPublishCronExpression.test(this.cronExpression)) {
+      this.uponPublishChecked = true;
     }
   }
 
@@ -103,6 +110,9 @@ export class TransferScheduleCronComponent implements OnChanges {
         break;
       case 'monthly':
         this.setMonthly();
+        break;
+      case 'uponPublish':
+        this.setUponPublish();
         break;
     }
   }
@@ -123,6 +133,7 @@ export class TransferScheduleCronComponent implements OnChanges {
     this.dailyChecked = true;
     this.weeklyChecked = false;
     this.monthlyChecked = false;
+    this.uponPublishChecked = false;
     this.cronArray = ['0', '0', '*', '*', '*'];
     this.emitChange(false);
   }
@@ -131,6 +142,7 @@ export class TransferScheduleCronComponent implements OnChanges {
     this.dailyChecked = false;
     this.weeklyChecked = true;
     this.monthlyChecked = false;
+    this.uponPublishChecked = false;
     this.cronArray = ['0', '0', '*', '*', null];
     if (this.dayValue) {
       this.cronArray[4] = this.dayValue;
@@ -142,8 +154,18 @@ export class TransferScheduleCronComponent implements OnChanges {
     this.dailyChecked = false;
     this.weeklyChecked = false;
     this.monthlyChecked = true;
+    this.uponPublishChecked = false;
     this.cronArray = ['0', '0', '*', '*', null];
     this.monthChangeHandler();
+  }
+
+  setUponPublish() {
+    this.dailyChecked = false;
+    this.weeklyChecked = false;
+    this.monthlyChecked = false;
+    this.uponPublishChecked = true;
+    this.cronArray = ['1', '2', '3', '4', '5'];
+    this.emitChange(false);
   }
 
   itemDisabled(itemArgs: {dataItem: any, index: number}) {

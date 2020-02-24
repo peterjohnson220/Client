@@ -1,12 +1,10 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {Store} from '@ngrx/store';
 
 import {isObject} from 'util';
 
 import {TransferScheduleSummary, SyncScheduleDtoModel} from 'libs/models/hris-api/sync-schedule';
 
-import * as fromDataManagementMainReducer from '../../reducers';
-import * as fromTransferScheduleActions from '../../actions/transfer-schedule.actions';
+import { junkExpression } from '../../helpers';
 
 @Component({
   selector: 'pf-transfer-schedule-card',
@@ -16,13 +14,16 @@ import * as fromTransferScheduleActions from '../../actions/transfer-schedule.ac
 })
 export class TransferScheduleCardComponent implements OnChanges {
   @Input() transferSchedule: TransferScheduleSummary;
+  @Input() showPublishButton: boolean;
   @Output() changesPending = new EventEmitter();
+  @Output() scheduleEnableSubmitted = new EventEmitter();
+  @Output() scheduleDisableSubmitted = new EventEmitter();
+  @Output() scheduleSaveSubmitted = new EventEmitter();
+
   isDirty: boolean;
   active = true;
   editMode = true;
   newExpression: string;
-
-  constructor(private store: Store<fromDataManagementMainReducer.State>) { }
 
   canEdit() {
     return this.transferSchedule && this.transferSchedule.syncSchedule_ID > 0;
@@ -48,7 +49,6 @@ export class TransferScheduleCardComponent implements OnChanges {
   }
 
   toggleSchedule() {
-    const junkExpression = '59 23 31 12 *';
     let shouldDispatch = true;
 
     this.active = !this.active;
@@ -77,9 +77,9 @@ export class TransferScheduleCardComponent implements OnChanges {
     }
 
     if (this.active) {
-      this.store.dispatch(new fromTransferScheduleActions.EnableTransferSchedule(this.transferSchedule.syncSchedule_ID));
+      this.scheduleEnableSubmitted.emit(this.transferSchedule.syncSchedule_ID);
     } else {
-      this.store.dispatch(new fromTransferScheduleActions.DisableTransferSchedule(this.transferSchedule.syncSchedule_ID));
+      this.scheduleDisableSubmitted.emit(this.transferSchedule.syncSchedule_ID);
     }
   }
 
@@ -94,7 +94,7 @@ export class TransferScheduleCardComponent implements OnChanges {
       SyncSchedule_ID: this.transferSchedule.syncSchedule_ID ? this.transferSchedule.syncSchedule_ID : 0
     };
 
-    this.store.dispatch(new fromTransferScheduleActions.SaveTransferSchedule(model));
+    this.scheduleSaveSubmitted.emit(model);
   }
 
   setEditMode() {

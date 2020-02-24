@@ -3,5 +3,6 @@ export enum OrgDataEntityType {
   Jobs = 'Jobs',
   PayMarkets = 'PayMarkets',
   Structures = 'Structures',
-  StructureMappings = 'StructureMappings'
+  StructureMappings = 'StructureMappings',
+  JobDescriptions = 'JobDescriptions'
 }

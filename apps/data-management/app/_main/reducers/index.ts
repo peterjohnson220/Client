@@ -390,6 +390,7 @@ export const getOutboundSelectedTransferMethod = createSelector(selectTransferDa
 export const getOutboundTransferMethods = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundTransferMethods);
 export const getOutboundWorkflowStep = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundWorkflowStep);
 export const getOutboundJdmViews = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundJdmViews);
+export const getOutboundTransferSummaryObj = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getOutboundTransferSummaryObj);
 
 // outbound jdm summary
 export const getJdmConnectionSummaryObj = createSelector(selectOutboundJdmState, fromOutboundJdmReducer.getConnectionSummary);
