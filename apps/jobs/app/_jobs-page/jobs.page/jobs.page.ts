@@ -32,20 +32,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedPricingIds: number[];
 
   jobStatusField: ViewField;
-  peerField: ViewField;
   payMarketField: ViewField;
   selectedPayMarket: any;
-
-  peerFilterOptions = [{
-    display: '',
-    value: null
-  }, {
-    display: 'Yes',
-    value: 'Yes'
-  }, {
-    display: 'No',
-    value: 'No'
-  }];
 
   selectedKeysSubscription: Subscription;
   selectedPricingIdSubscription: Subscription;
@@ -104,7 +92,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
-        this.peerField = fields.find(f => f.SourceName === 'Exchange_ID');
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
@@ -124,7 +111,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.filterTemplates = {
-      'Exchange_ID': { Template: this.peerFilter },
       'PayMarket': { Template: this.payMarketFilter }
     };
 
@@ -182,12 +168,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   closeSplitView() {
     this.store.dispatch(new fromPfDataGridActions.UpdateSelectedRecordId(this.pageViewId, null, null, null));
-  }
-
-  handlePeerFilterChanged(value: any) {
-    const field = cloneDeep(this.peerField);
-    field.FilterValue = value;
-    this.updateField(field);
   }
 
   handlePayMarketFilterChanged(value: any) {

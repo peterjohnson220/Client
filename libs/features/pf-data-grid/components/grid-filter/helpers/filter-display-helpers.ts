@@ -29,10 +29,11 @@ export function getValueDisplay(value: string, dataType: DataViewFieldDataType) 
 
 // This function is not a reducer selector because we were seeing
 // ExpressionChangedAfterItHasBeenCheckedError console errors when opening the split view template
-export function getUserFilteredFields(fields: ViewField[]): ViewField[] {
-  return fields && fields.length > 0 ? fields
-    .filter(f => f.CustomFilterStrategy && !f.IsGlobalFilter)
-    .concat(fields.filter(f => f.IsFilterable && f.IsSelectable && !f.IsGlobalFilter))
-    .filter(f => f.FilterValue || !isValueRequired(f))
-    : [];
+export function getUserFilteredFields(filterableFields: ViewField[]): ViewField[] {
+
+  const filteredFields = filterableFields.filter(f => f.FilterValue || !isValueRequired(f));
+
+  return filteredFields.filter(f => f.CustomFilterStrategy && f.DataType !== DataViewFieldDataType.Bit)
+    .concat(filteredFields.filter(f => f.DataType === DataViewFieldDataType.Bit))
+    .concat(filteredFields.filter(f => f.DataType !== DataViewFieldDataType.Bit && !f.CustomFilterStrategy));
 }
