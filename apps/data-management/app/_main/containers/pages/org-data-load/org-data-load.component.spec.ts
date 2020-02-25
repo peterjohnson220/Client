@@ -6,6 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
 import * as fromCompanyReducer from 'libs/features/company/reducers';
 import { generateMockUserContext } from 'libs/models';
 
@@ -23,7 +25,7 @@ describe('OrgDataLoadComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, NgbTooltipModule.forRoot()],
       declarations: [OrgDataLoadComponent, EntityUploadComponent],
       providers: [provideMockStore({})],
       schemas: [NO_ERRORS_SCHEMA]
@@ -77,14 +79,16 @@ describe('OrgDataLoadComponent', () => {
   });
 
 
-  it('should  increment step on btn click with valid info for step 2', () => {
+  it('should increment step on btn click with valid info for step 2', () => {
     instance.stepIndex = 2;
     instance.loadOptions = getEntityChoicesForOrgLoader();
     instance.loadOptions[1].isChecked = true;
+    instance.tooltip = { open: jest.fn() };
     const ret = instance.areStepsValid();
     expect(ret).toBe(true);
 
     instance.nextBtnClick();
+    expect(instance.tooltip.open).toBeCalled();
     expect(instance.stepIndex).toBe(3);
 
   });
