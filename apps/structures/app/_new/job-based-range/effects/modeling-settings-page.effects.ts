@@ -43,7 +43,7 @@ export class ModelingSettingsPageEffects {
     .pipe(
       ofType(fromModelingSettingsPageActions.GET_STANDARD_PAY_ELEMENTS),
       switchMap(() =>
-        this.compositeFieldsApiService.GetCompositeFieldsForStructures()
+        this.compositeFieldsApiService.GetCompositeFieldsForStructuresModel()
           .pipe(
             map((response) => new fromModelingSettingsPageActions.GetStandardPayElementsSuccess(response))
           )
