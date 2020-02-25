@@ -14,6 +14,7 @@ import {TransferScheduleSummary} from 'libs/models/hris-api/sync-schedule/respon
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromTransferScheduleActions from '../../../actions/transfer-schedule.actions';
+import * as fromOutboundJdmActions from '../../../actions/outbound-jdm.actions';
 
 import {GetSupportedSchedulesPipe} from '../../../pipes';
 import {PayfactorsApiModelMapper} from '../../../helpers';
@@ -96,6 +97,7 @@ export class OutboundTransferSchedulePageComponent implements OnInit, OnDestroy 
   }
 
   onOk() {
+    this.store.dispatch(new fromOutboundJdmActions.CompleteConnection());
     this.store.dispatch(new fromTransferScheduleActions.ShowIntegrationSetupCompletedModal(false));
     this.router.navigate(['/']);
   }

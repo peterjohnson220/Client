@@ -36,7 +36,7 @@ export class OutboundJdmEffects {
       ofType(fromOutboundJdmActions.RESET_CONNECTION_SUMMARY),
       switchMap(() => {
         const summary: ConnectionSummary = {
-          connectionID: 12345,
+          connectionID: null,
           statuses: [],
           provider: {
             Active: true,
@@ -67,9 +67,10 @@ export class OutboundJdmEffects {
       switchMap(existingSummary => {
         const summary = {
           ...existingSummary.obj,
-          hasConnection: true,
+          connectionID: 12345,
+          canEditMappings: true,
+          statuses: ['Authenticated']
         };
-
         return of(new fromOutboundJdmActions.SaveConnectionSummarySuccess(summary));
       }),
     );
@@ -81,6 +82,23 @@ export class OutboundJdmEffects {
       delay(5000),
       switchMap(() => {
         return of(new fromTransferDataPageActions.ValidateSuccess());
+      }),
+    );
+
+  @Effect()
+  completeConnection$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromOutboundJdmActions.COMPLETE_CONNECTION),
+      withLatestFrom(
+        this.store.select(fromDataManagementMainReducer.getJdmConnectionSummaryObj),
+        (action, existingSummary) => existingSummary,
+      ),
+      switchMap(existingSummary => {
+        const summary = {
+          ...existingSummary.obj,
+          hasConnection: true
+        };
+        return of(new fromOutboundJdmActions.SaveConnectionSummarySuccess(summary));
       }),
     );
 

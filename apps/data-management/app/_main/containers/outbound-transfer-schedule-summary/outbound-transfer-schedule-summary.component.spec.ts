@@ -6,6 +6,7 @@ import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {Store} from '@ngrx/store';
 import * as fromTransferSchedulePageActions from '../../actions/transfer-schedule.actions';
 import * as fromTransferScheduleReducers from '../../reducers/transfer-schedule.reducer';
+import * as fromTransferDataPageReducers from '../../reducers/transfer-data-page.reducer';
 import {GetSupportedSchedulesPipe} from '../../pipes';
 
 describe('OutboundTransferScheduleSummaryComponent', () => {
@@ -13,7 +14,12 @@ describe('OutboundTransferScheduleSummaryComponent', () => {
   let fixture: ComponentFixture<OutboundTransferScheduleSummaryComponent>;
   let store: MockStore<any>;
 
-  const initialState = {data_management: {transferSchedule: fromTransferScheduleReducers.initialState}};
+  const initialState = {
+    data_management: {
+      transferSchedule: fromTransferScheduleReducers.initialState,
+      transferDataPage: fromTransferDataPageReducers.initialState
+    }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
