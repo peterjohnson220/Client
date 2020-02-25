@@ -16,4 +16,9 @@ export class CompositeFieldApiService {
     return this.payfactorsApiService.get<string[]>(
       `${this.endpoint}/Default.GetControlPointsForStructures`);
   }
+
+  GetCompositeFieldsForStructuresModel(): Observable<string[]> {
+    return this.payfactorsApiService.get<string[]>(
+      `${this.endpoint}/Default.GetControlPointsForStructuresModel`);
+  }
 }
