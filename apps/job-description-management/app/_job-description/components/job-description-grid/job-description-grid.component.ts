@@ -8,8 +8,9 @@ import { ListAreaColumn } from 'libs/models/common';
 import { CompanyJobViewListItem } from '../../models';
 import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating } from '../../reducers';
 
-import { Permissions } from 'libs/constants';
+import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import { JobDescriptionColumn } from '../../constants/job-description-column.constants';
+import { PermissionService } from 'libs/core';
 
 @Component({
   selector: 'pf-job-description-grid',
@@ -32,7 +33,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() dataStateChanged = new EventEmitter();
   @Output() sortChanged = new EventEmitter();
   @Output() publicViewChanged = new EventEmitter();
-  // TODO: @Output() openDeleteJobDescriptionModal = new EventEmitter();
+  @Output() openDeleteJobDescriptionModal = new EventEmitter();
 
   public info: any;
   public filterChanged: any;
@@ -44,15 +45,19 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     pageSizes: false,
     previousNext: true
   };
+  public hasDeleteJobDescriptionPermission: boolean;
 
   private creatingJobDescription: boolean;
   private creatingJobDescription$: Observable<boolean>;
   private creatingJobDescriptionSubscription: Subscription;
 
   constructor(
-    private store: Store<JobDescriptionManagementJobDescriptionState>
+    private store: Store<JobDescriptionManagementJobDescriptionState>,
+    private permissionService: PermissionService
   ) {
     this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
+    this.hasDeleteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_DELETE_JOB_DESCRIPTION],
+      PermissionCheckEnum.Single);
   }
 
   ngOnInit() {
@@ -85,7 +90,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteJobDescriptionClick(jobDescriptionId) {
-    // TODO: this.openDeleteJobDescriptionModal.emit(jobDescriptionId);
+    this.openDeleteJobDescriptionModal.emit(jobDescriptionId);
   }
 
   setTemplateView(companyJobViewListItem) {
@@ -182,5 +187,11 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     }
 
     return columnClass;
+  }
+
+  tooltipForDeleteButton(jobDescriptionCount: number): string {
+    if (jobDescriptionCount <= 1 ) {
+      return 'Job1 code should have at least one job description record';
+    }
   }
 }

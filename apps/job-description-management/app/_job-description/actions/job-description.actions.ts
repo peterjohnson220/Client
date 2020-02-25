@@ -5,7 +5,6 @@ import { CompanyDto, ControlType, JobDescription, JobDescriptionControl } from '
 
 import {
   GetJobDescriptionData,
-  SaveJobDescriptionTemplateIdSucessModel,
   JobDescriptionExtendedInfo,
   ReorderControlDataDto,
   JobDescriptionLibraryDropModel
@@ -46,6 +45,9 @@ export const UPDATE_CONTROL_ADDITIONAL_PROPERTIES = '[job-description-management
 export const REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Replace Job Description Via Copy';
 export const REORDER_CONTROL_DATA = '[job-description-management / Job Description] Reorder Control Data';
 export const ADD_SOURCE_DATA_TO_CONTROL = '[job-description-management / Job Description] Add Source Data to Control';
+export const DELETE_JOB_DESCRIPTION = '[job-description-management / Job Description] Delete Job Description';
+export const DELETE_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Delete Job Description Success';
+export const DELETE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Delete Job Description Error';
 
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
@@ -251,6 +253,19 @@ export class AddSourceDataToControl implements Action {
   constructor(public payload: { dropModel: JobDescriptionLibraryDropModel, controlTypes: ControlType[]}) {}
 }
 
+export class DeleteJobDescription implements Action {
+  readonly type = DELETE_JOB_DESCRIPTION;
+
+  constructor(public payload: { jobDescriptionId: number }) {}
+}
+
+export class DeleteJobDescriptionSuccess implements Action {
+  readonly type = DELETE_JOB_DESCRIPTION_SUCCESS;
+}
+
+export class DeleteJobDescriptionError implements Action {
+  readonly type = DELETE_JOB_DESCRIPTION_ERROR;
+}
 
 export type Actions
   = GetJobDescription
@@ -287,4 +302,7 @@ export type Actions
   | UpdateControlAdditionalProperties
   | ReplaceJobDescriptionViaCopy
   | ReorderControlData
-  | AddSourceDataToControl;
+  | AddSourceDataToControl
+  | DeleteJobDescription
+  | DeleteJobDescriptionSuccess
+  | DeleteJobDescriptionError;

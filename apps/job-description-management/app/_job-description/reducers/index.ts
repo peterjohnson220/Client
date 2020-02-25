@@ -351,6 +351,21 @@ export const getJobDescriptionViewsAsync = createSelector(
   fromJobDescriptionReducer.getJobDescriptionViewsAsync
 );
 
+export const getDeletingJobDescription = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getDeletingJobDescription
+);
+
+export const getDeletingJobDescriptionSuccess = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getDeletingJobDescriptionSuccess
+);
+
+export const getDeletingJobDescriptionError = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getDeletingJobDescriptionError
+);
+
 // Job Description Grid
 export const getJobDescriptionGridLoading = createSelector(
   selectJobDescriptionGridState,

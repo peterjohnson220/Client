@@ -190,6 +190,19 @@ export class JobDescriptionEffects {
       })
     );
 
+  @Effect()
+  deleteJobDescription$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.DELETE_JOB_DESCRIPTION),
+      switchMap((action: fromJobDescriptionActions.DeleteJobDescription) => {
+        return this.jobDescriptionApiService.deleteJobDescription(action.payload.jobDescriptionId)
+          .pipe(
+            map(() => new fromJobDescriptionActions.DeleteJobDescriptionSuccess()),
+            catchError(() => of(new fromJobDescriptionActions.DeleteJobDescriptionError()))
+          );
+      })
+    );
+
   private redirectForUnauthorized(error: HttpErrorResponse) {
     if (error.status === 403) {
       return error.error.error.message;
