@@ -14,11 +14,11 @@ import * as fromFaIcons from './fa-icons';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-import { PasswordSettingEffects } from './effects/password-setting.effects';
+import { SecuritySettingEffects } from './effects/security-setting.effects';
 import { reducers } from './reducers';
 
-import { PasswordManagementPageComponent } from './password-management.page/password-management.page';
-import { PasswordManagementSettingsComponent, SavePasswordSettingsModalComponent } from './containers';
+import { SecuritySettingsPageComponent } from './security-settings.page/security-settings.page';
+import { SecurityManagementSettingsComponent, SaveSecuritySettingsModalComponent } from './containers';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { PasswordManagementSettingsComponent, SavePasswordSettingsModalComponent
     // 3rd Party
     StoreModule.forFeature('companyAdminPasswordSettings', reducers),
     EffectsModule.forFeature([
-      PasswordSettingEffects,
+      SecuritySettingEffects,
     ]),
     GridModule,
     LayoutModule,
@@ -40,17 +40,17 @@ import { PasswordManagementSettingsComponent, SavePasswordSettingsModalComponent
   ],
   declarations: [
    // Feature
-   PasswordManagementPageComponent,
+   SecuritySettingsPageComponent,
 
    // Containers
-   PasswordManagementSettingsComponent,
-   SavePasswordSettingsModalComponent,
+   SecurityManagementSettingsComponent,
+   SaveSecuritySettingsModalComponent,
   ],
   exports: [
-    PasswordManagementPageComponent
+    SecuritySettingsPageComponent
   ]
 })
-export class PasswordManagementModule {
+export class SecuritySettingsModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(...fromFaIcons.faIcons);
    }

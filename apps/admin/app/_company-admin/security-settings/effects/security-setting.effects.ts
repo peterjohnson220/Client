@@ -11,12 +11,12 @@ import { CompanyApiService } from 'libs/data/payfactors-api/company';
 import * as fromCompanySettingActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromRootState from 'libs/state/state';
 
-import * as fromPasswordSettingActions from '../actions/password-management-settings.action';
+import * as fromPasswordSettingActions from '../actions/security-settings.action';
 import * as fromCompanyAdminReducer from '../reducers';
 import { CompanySetting } from 'libs/models';
 
 @Injectable()
-export class PasswordSettingEffects {
+export class SecuritySettingEffects {
   @Effect()
   loadPasswordSettings$ = this.actions$
     .pipe(
@@ -76,6 +76,6 @@ export class PasswordSettingEffects {
     if (!response || !response.length) {
       return [];
     }
-    return response.filter(item => item.Key.indexOf('Password') > -1);
+    return response.filter(item => item.Key.indexOf('Password') > -1 || item.Key.indexOf('Session') > -1);
   }
 }

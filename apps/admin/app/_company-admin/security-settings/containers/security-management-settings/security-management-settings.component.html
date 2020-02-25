@@ -47,6 +47,26 @@
         </div>
       </div>
     </div>
+    <div class="row form-group">
+      <div class="col-sm-6">
+        Session Timeout Minutes
+      </div>
+      <div class="col-sm-6">
+        <div class="input-group">
+          <input type="text" class="form-control input-body"
+                 [class.is-invalid]="!checkValidity('sessionTimeoutMinutes')"
+                 [class.has-clear-container]="!isClear('sessionTimeoutMinutes')"
+                 formControlName="sessionTimeoutMinutes" />
+          <span
+            *ngIf="!isClear('sessionTimeoutMinutes')"
+            (click)="clearField('sessionTimeoutMinutes')"
+            class="clear-container-search"> <fa-icon icon="times"></fa-icon></span>
+          <div class="invalid-feedback">
+            Please select a session timeout within the range of 5 - 360 minutes.
+          </div>
+        </div>
+      </div>
+    </div>
   </form>
 </pf-async-container>
 
