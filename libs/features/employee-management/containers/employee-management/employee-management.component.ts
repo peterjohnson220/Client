@@ -60,7 +60,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
 
   filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
-    operator: 'startsWith'
+    operator: 'contains'
   };
   companyId: number;
   employee: CompanyEmployee;
