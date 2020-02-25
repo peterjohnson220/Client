@@ -191,7 +191,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
 
   tooltipForDeleteButton(jobDescriptionCount: number): string {
     if (jobDescriptionCount <= 1 ) {
-      return 'Job1 code should have at least one job description record';
+      return 'Job code should have at least one job description record';
     }
   }
 }
