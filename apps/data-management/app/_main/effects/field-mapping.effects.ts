@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import { isEmpty, isObject, cloneDeep } from 'lodash';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -136,7 +136,7 @@ export class FieldMappingEffects {
       if (action.payload) {
         return this.router.navigate(['']);
       }
-      return this.router.navigate(['/', 'transfer-schedule']);
+      return this.router.navigate(['/transfer-data/inbound/transfer-schedule']);
     })
   );
 

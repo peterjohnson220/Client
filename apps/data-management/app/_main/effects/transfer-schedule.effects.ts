@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { SyncScheduleHrisApiService } from 'libs/data/payfactors-api/hris-api/sync-schedules';
-import { TransferScheduleSummary } from 'libs/models/hris-api/sync-schedule';
+import { generateOutboundTransferScheduleSummary, TransferScheduleSummary } from 'libs/models/hris-api/sync-schedule';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromTransferScheduleActions from '../actions/transfer-schedule.actions';
@@ -38,6 +38,25 @@ export class TransferScheduleEffects {
             }),
             catchError(e => of(new fromTransferScheduleActions.GetTransferSummaryError()))
           );
+      })
+    );
+
+  @Effect()
+  loadOutboundTransferScheduleSummary$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTransferScheduleActions.GET_OUTBOUND_TRANSFER_SUMMARY),
+      withLatestFrom(
+        this.store.pipe(select(fromDataManagementMainReducer.getOutboundTransferSummaryObj)),
+        (action, summary) => {
+          return {
+            action,
+            summary
+          };
+        }
+      ),
+      switchMap((obj) => {
+        const arr = obj.summary.obj.length > 0 ? obj.summary.obj : generateOutboundTransferScheduleSummary();
+        return of(arr).map(x => new fromTransferScheduleActions.GetOutboundTransferSummarySuccess(x));
       })
     );
 
@@ -114,6 +133,30 @@ export class TransferScheduleEffects {
             }),
             catchError(e => of(new fromTransferScheduleActions.SaveTransferScheduleError()))
           );
+      })
+    );
+
+  @Effect()
+  saveOutboundTransferSchedule$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTransferScheduleActions.SAVE_OUTBOUND_TRANSFER_SCHEDULE),
+      withLatestFrom(
+        this.store.pipe(select(fromDataManagementMainReducer.getOutboundTransferSummaryObj)),
+        (action: fromTransferScheduleActions.SaveOutboundTransferSchedule, summary) => {
+          return {
+            action,
+            summary
+          };
+        }
+      ),
+      switchMap((obj) => {
+        const val: TransferScheduleSummary = {
+          ...obj.summary.obj[0],
+          syncSchedule_ID: 1,
+          expression: obj.action.payload.Expression,
+          active: obj.action.payload.Active === true ? 1 : 0
+        };
+        return of(val).map(x => new fromTransferScheduleActions.SaveOutboundTransferScheduleSuccess(x));
       })
     );
 

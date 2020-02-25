@@ -61,6 +61,7 @@ import {
   OutboundJdmViewSelectionPageComponent,
   OutboundProviderSelectionPageComponent,
   OutboundTransferSchedulePageComponent,
+  OutboundTransferScheduleSummaryComponent
 } from './containers';
 import {
   CustomFieldsEffect,
@@ -166,6 +167,24 @@ import { GetSupportedSchedulesPipe } from './pipes';
     WorkdayAuthenticationComponent,
     WorkdayMockAuthenticationComponent,
     WorkdayRestAuthenticationComponent,
+    DataManagementLandingPageComponent,
+    HrisIntegrationPanelComponent,
+    HrisIntegrationStatusComponent,
+    HrisIntegrationSidebarComponent,
+    ResetIntegrationPageComponent,
+    DefaultPaymarketConfirmationModalComponent,
+    CustomEmployeeIdentifierComponent,
+    PfCheckboxComponent,
+    InboundEntitySelectionPageComponent,
+    InboundAuthenticationPageComponent,
+    FieldMappingPageComponent,
+    OutboundProviderSelectionPageComponent,
+    OutboundEntitySelectionPageComponent,
+    OutboundFieldMappingPageComponent,
+    OutboundAuthenticationPageComponent,
+    OutboundTransferSchedulePageComponent,
+    OutboundJdmViewSelectionPageComponent,
+    OutboundTransferScheduleSummaryComponent
   ]
 })
 export class MainModule {

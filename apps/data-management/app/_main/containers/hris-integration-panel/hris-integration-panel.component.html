@@ -15,9 +15,11 @@
         </pf-hris-integration-status>
       </div>
     </div>
-    <div class="row" *ngIf="transferMethodType !== outboundJdm">
+    <div class="row">
       <div class="col-sm-12">
-        <pf-transfer-schedule-summary></pf-transfer-schedule-summary>
+        <!-- do outbound one here -->
+        <pf-transfer-schedule-summary *ngIf="transferMethodType === inbound"></pf-transfer-schedule-summary>
+        <pf-outbound-transfer-schedule-summary *ngIf="transferMethodType === outboundJdm"></pf-outbound-transfer-schedule-summary>
       </div>
     </div>
     <div class="row pt-3">

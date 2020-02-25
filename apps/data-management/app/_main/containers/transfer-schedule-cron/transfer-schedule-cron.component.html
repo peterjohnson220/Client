@@ -58,6 +58,16 @@
     ></kendo-dropdownlist>
     of each month
   </div>
+  <div class="form-check my-3" *ngIf="this.showPublishButton">
+    <input class="form-check-input" type="radio"
+           [name]="'interval' + this.id"
+           [id]="'intervalUponPublish' + this.id"
+           [checked]="uponPublishChecked"
+           (click)="handleClick('uponPublish')" />
+    <label class="form-check-label" [for]="'intervalUponPublish' + this.id">
+      Upon publish
+    </label>
+  </div>
 </div>
 <div *ngIf="!editMode">
   <div class="summary text-center">
@@ -73,6 +83,9 @@
       </div>
       <div *ngIf="this.monthlyChecked">
         <h4 class="font-weight-light">Every <b>{{ getMonthlyScheduleDetails() }}</b> of the month</h4>
+      </div>
+      <div *ngIf="this.uponPublishChecked">
+        <h4 class="font-weight-light"><b>Upon publish</b></h4>
       </div>
       <div *ngIf="lastRunDate" class="sync-info">
         <h4 class="font-weight-light font-italic">Last Received on {{ formatDate(lastRunDate) }}</h4>
