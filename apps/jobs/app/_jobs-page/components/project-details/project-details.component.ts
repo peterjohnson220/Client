@@ -23,7 +23,6 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('projectAccessColumn', { static: false }) projectAccessColumn: ElementRef;
-  @ViewChild('projectNameColumn', { static: false }) projectNameColumn: ElementRef;
   @ViewChild('projectOwnerColumn', { static: false }) projectOwnerColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
@@ -63,7 +62,6 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
     };
     this.colTemplates = {
       'HasProjectAccess': { Template: this.projectAccessColumn },
-      'Session_Name': { Template: this.projectNameColumn },
       'Create_User': { Template: this.projectOwnerColumn }
     };
   }
