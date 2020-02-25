@@ -1,8 +1,15 @@
 .pf-data-grid-header {
   font-weight: bold !important;
-  text-align: center !important;
+  text-align: left !important;
   vertical-align: middle !important;
   background-color: white !important;
+
+  &.text-align-right {
+    text-align: right !important;
+  }
+  &.text-align-center {
+    text-align: center !important;
+  }
 }
 
 .pf-data-grid-no-header {

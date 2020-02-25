@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule , FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -18,7 +19,6 @@ import { EmployeesPageEffects } from './effects';
 import { EmployeesPageRoutingModule } from './employees-page-routing.module';
 import { EmployeesPageComponent } from './employees.page';
 
-
 @NgModule({
   imports: [
     // Angular
@@ -30,6 +30,7 @@ import { EmployeesPageComponent } from './employees.page';
     EffectsModule.forFeature([
       EmployeesPageEffects
     ]),
+    NgbTooltipModule,
 
     // Routing
     EmployeesPageRoutingModule,
