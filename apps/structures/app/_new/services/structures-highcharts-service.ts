@@ -22,6 +22,9 @@ export class StructuresHighchartsService {
         currency: currencyCode,
         locale: locale
       },
+      credits: {
+        enabled: false
+      },
       title: {
         text: undefined
       },
