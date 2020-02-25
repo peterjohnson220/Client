@@ -81,6 +81,7 @@ export class JobsPageEffects {
             new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails),
             new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs),
             new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
+            new fromPfDataGridActions.CloseSplitView(PageViewIds.Jobs),
           ]),
         catchError(error => of(new fromJobsPageActions.ChangingJobStatusError()))
       );
