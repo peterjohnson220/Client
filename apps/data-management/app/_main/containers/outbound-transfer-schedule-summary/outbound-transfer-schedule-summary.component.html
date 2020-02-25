@@ -1,5 +1,5 @@
-<pf-async-container [loading]="(transferScheduleSummary$ | async).loading"
-                    [loadingError]="(transferScheduleSummary$ | async).loadingError"
+<pf-async-container [loading]="(summaryObj$ | async)?.summary?.loading"
+                    [loadingError]="(summaryObj$ | async)?.summary?.loadingError"
                     [loadingErrorMessage]="'Error loading Transfer Schedule'">
   <div class="card-mb-3 shadow-sm p-3" *ngIf="this.hasSummary">
     <div class="card-body">
@@ -13,12 +13,10 @@
       <div class="row">
         <table class="table table-striped text-muted">
           <tbody>
-            <ng-container *ngIf="this.transferScheduleSummary.length">
-              <tr *ngFor="let item of this.transferScheduleSummary">
-                <td>{{ item.entityMappingTypeName}}</td>
-                <td class="text-right font-italic">{{ getSchedule(item) }}</td>
-              </tr>
-            </ng-container>
+            <tr *ngFor="let item of this.jdmViews">
+              <td>{{ item.DisplayText}}</td>
+              <td class="text-right font-italic">{{ getSchedule(this.transferScheduleSummary[0]) }}</td>
+            </tr>
           </tbody>
         </table>
       </div>

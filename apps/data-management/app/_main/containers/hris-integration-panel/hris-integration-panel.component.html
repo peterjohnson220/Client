@@ -23,9 +23,9 @@
       </div>
     </div>
     <div class="row pt-3">
-      <div class="col-sm-12 text-right" *ngIf="transferMethodType !== outboundJdm && connectionSummary?.canEditMappings">
+      <div class="col-sm-12 text-right" *ngIf="connectionSummary?.canEditMappings">
         <div class="p-2">
-          <button type="button" class="btn btn-outline-primary" routerLink="transfer-data/inbound/field-mapping">View Data Mapping</button>
+          <button type="button" class="btn btn-outline-primary" (click)="goToDataMapping()">View Data Mapping</button>
         </div>
         <div class="p-2">
           <button type="button" *ngIf="false" class="btn btn-outline-primary">Edit</button>

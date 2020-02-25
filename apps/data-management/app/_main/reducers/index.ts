@@ -394,3 +394,6 @@ export const getOutboundTransferSummaryObj = createSelector(selectTransferSchedu
 
 // outbound jdm summary
 export const getJdmConnectionSummaryObj = createSelector(selectOutboundJdmState, fromOutboundJdmReducer.getConnectionSummary);
+export const getOutboundTransferSummaryWidget = createSelector(getOutboundTransferSummaryObj, getOutboundJdmViews, (s1, s2) => {
+  return { summary: s1, views: s2 };
+});

@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 
+import {isObject, isEmpty} from 'lodash';
 import {Observable, Subscription} from 'rxjs';
-import {filter} from 'rxjs/operators';
 
 import {TransferScheduleSummary} from 'libs/models/hris-api/sync-schedule/response';
 import {AsyncStateObj} from 'libs/models/state';
@@ -11,6 +11,7 @@ import * as fromTransferScheduleActions from '../../actions/transfer-schedule.ac
 import * as fromCronHelpers from '../../helpers/cron-helper';
 import * as fromDataManagementMainReducer from '../../reducers';
 import {GetSupportedSchedulesPipe} from '../../pipes';
+import {JdmView} from '../../models';
 
 @Component({
   selector: 'pf-outbound-transfer-schedule-summary',
@@ -19,17 +20,23 @@ import {GetSupportedSchedulesPipe} from '../../pipes';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OutboundTransferScheduleSummaryComponent implements OnInit, OnDestroy {
-  transferScheduleSummary$: Observable<AsyncStateObj<TransferScheduleSummary[]>>;
+  summaryObj$: Observable<{ summary: AsyncStateObj<TransferScheduleSummary[]>, views: AsyncStateObj<JdmView[]> }>;
+
   transferScheduleSummary: TransferScheduleSummary[] = [];
-  transferScheduleSummarySubscription: Subscription;
+  jdmViews: JdmView[] = [];
+  summaryObjSubscription: Subscription;
   hasSummary = false;
 
   constructor(private store: Store<fromDataManagementMainReducer.State>) {
-    this.transferScheduleSummary$ = this.store.select(fromDataManagementMainReducer.getOutboundTransferSummaryObj);
-
-    this.transferScheduleSummarySubscription = this.transferScheduleSummary$.pipe(filter(v => !!v)).subscribe(s => {
-      this.transferScheduleSummary = new GetSupportedSchedulesPipe().transform(s.obj);
-      this.hasSummary = this.transferScheduleSummary.filter(x => !!x.expression).length > 0;
+    this.summaryObj$ = this.store.select(fromDataManagementMainReducer.getOutboundTransferSummaryWidget);
+    this.summaryObjSubscription = this.summaryObj$.subscribe(s => {
+      if (isObject(s.summary)) {
+        this.transferScheduleSummary = new GetSupportedSchedulesPipe().transform(s.summary.obj);
+      }
+      if (isObject(s.views)) {
+        this.jdmViews = s.views.obj.filter(x => x.isChecked);
+      }
+      this.hasSummary = this.transferScheduleSummary.filter(x => !!x.expression).length > 0 && !isEmpty(this.jdmViews);
     });
   }
 
@@ -38,7 +45,7 @@ export class OutboundTransferScheduleSummaryComponent implements OnInit, OnDestr
   }
 
   ngOnDestroy() {
-    this.transferScheduleSummarySubscription.unsubscribe();
+    this.summaryObjSubscription.unsubscribe();
   }
 
   getSchedule(item: TransferScheduleSummary): string {

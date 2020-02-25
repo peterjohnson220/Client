@@ -12,6 +12,7 @@ export const SAVE_CONNECTION_SUMMARY = '[Data Management/Outbound JDM] Save Conn
 export const SAVE_CONNECTION_SUMMARY_ERROR = '[Data Management/Outbound JDM] Save Connection Summary Error';
 export const SAVE_CONNECTION_SUMMARY_SUCCESS = '[Data Management/Outbound JDM] Save Connection Summary Success';
 export const SAVE_CREDENTIALS = '[Data Management/Outbound JDM] Save Credentials';
+export const COMPLETE_CONNECTION = '[Data Management/Outbound JDM] Complete Connection';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -61,6 +62,10 @@ export class SaveCredentials implements Action {
   constructor(public payload: CredentialsPackage) {}
 }
 
+export class CompleteConnection implements Action {
+  readonly type = COMPLETE_CONNECTION;
+}
+
 export type Actions
   = Init
   | LoadConnectionSummary
@@ -70,4 +75,5 @@ export type Actions
   | SaveConnectionSummary
   | SaveConnectionSummaryError
   | SaveConnectionSummarySuccess
-  | SaveCredentials;
+  | SaveCredentials
+  | CompleteConnection;
