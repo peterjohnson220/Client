@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import { forkJoin, Observable } from 'rxjs';
+import {BehaviorSubject, forkJoin, Observable} from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { ISubscription } from 'rxjs/Subscription';
 
@@ -9,6 +9,8 @@ import { PfValidators, PfEmailValidators, PfEmailTakenValidator } from 'libs/for
 import { GenericMenuItem, SubsidiaryInfo, UserAssignedRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserApiService } from 'libs/data/payfactors-api';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Field } from '../../../../../../apps/data-insights/app/_data-view/models';
 
 @Component({
   selector: 'pf-user-form',
@@ -27,6 +29,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
   readonly DEFAULT_STATUS = true;
 
   private passwordValidatorSubscription: ISubscription;
+
+  showUserRoleModal = new BehaviorSubject<boolean>(false);
+  showUserRoleModal$ = this.showUserRoleModal.asObservable();
 
   userForm: FormGroup;
 
@@ -76,7 +81,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userApiService: UserApiService
+    private userApiService: UserApiService,
+    private modalService: NgbModal
   ) {
 
     this.userForm = formBuilder.group({
@@ -254,5 +260,22 @@ export class UserFormComponent implements OnInit, OnDestroy {
         this.selectedValues.push(subsidiaryIdStr);
       }
     });
+  }
+
+  changeRole() {
+    this.userForm.patchValue(this.userForm.value);
+    this.showUserRoleModal.next(false);
+  }
+
+  changeStatus() {
+    setTimeout(() => {
+      if (!this.user.Active && this.userForm.value.status === 'true') {
+        this.showUserRoleModal.next(true);
+      }
+    });
+  }
+
+  trackByFn(index: any, field: Field) {
+    return field.DataElementId;
   }
 }
