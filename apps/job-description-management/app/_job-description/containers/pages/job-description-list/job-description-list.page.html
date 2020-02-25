@@ -11,7 +11,10 @@
       <div [pfSecuredResource]="[permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES, permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS]" ngbDropdown class="d-inline-block">
         <button class="btn btn-primary" ngbDropdownToggle>Admin</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-          <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES" routerLink="/templates" class="dropdown-item">Template Management</button>
+          <button *ngIf="templatesViewInClientEnabled" [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES" routerLink="/templates" class="dropdown-item">Template Management</button>
+          <a *ngIf="!templatesViewInClientEnabled" href="{{templateUrl}}">
+            <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES" class="dropdown-item">Template Management</button>
+          </a>
           <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS" routerLink="/settings" class="dropdown-item">Settings</button>
         </div>
       </div>

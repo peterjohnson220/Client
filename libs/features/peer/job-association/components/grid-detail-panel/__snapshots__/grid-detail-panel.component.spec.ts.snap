@@ -4,8 +4,12 @@ exports[`GridDetailPanelComponent should hide a link to download the jdm descrip
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter]}
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section
@@ -78,7 +82,11 @@ exports[`GridDetailPanelComponent should not render jdm controls when checkForJd
 <pf-grid-detail-panel
   checkForJdmDescription="false"
   closeClick={[Function EventEmitter]}
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   isExpanded$={[Function Observable]}
+  jdmUrl={[Function String]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section
@@ -135,7 +143,11 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
 <pf-grid-detail-panel
   checkForJdmDescription="false"
   closeClick={[Function EventEmitter]}
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
+  jdmUrl={[Function String]}
   jobFamily=""
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section
@@ -192,11 +204,15 @@ exports[`GridDetailPanelComponent should render input props 1`] = `
 <pf-grid-detail-panel
   checkForJdmDescription="false"
   closeClick={[Function EventEmitter]}
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
+  jdmUrl={[Function String]}
   jobCode={[Function String]}
   jobDescription={[Function String]}
   jobExchange={[Function String]}
   jobFamily={[Function String]}
   jobId={[Function Number]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section
@@ -253,8 +269,12 @@ exports[`GridDetailPanelComponent should show a link to download the jdm descrip
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter]}
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section
@@ -322,9 +342,13 @@ exports[`GridDetailPanelComponent should show a spinner when downloading a jdm d
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter]}
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading={[Function Boolean]}
+  jdmUrl={[Function String]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section
@@ -393,10 +417,14 @@ exports[`GridDetailPanelComponent should show an error message if the jdm descri
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter]}
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading="false"
   jdmDescriptionLoadingError={[Function Boolean]}
+  jdmUrl={[Function String]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section
@@ -469,8 +497,12 @@ exports[`GridDetailPanelComponent should show an informational message when mult
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter]}
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section

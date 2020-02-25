@@ -2,8 +2,12 @@
 
 exports[`CompanyJobDetailComponent should hide a link to download the jdm description via omitting the \`show\` class when no jdm descriptions exists 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
@@ -75,8 +79,12 @@ exports[`CompanyJobDetailComponent should hide a link to download the jdm descri
 
 exports[`CompanyJobDetailComponent should render the selected company jobs props 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
@@ -148,8 +156,12 @@ exports[`CompanyJobDetailComponent should render the selected company jobs props
 
 exports[`CompanyJobDetailComponent should show a link to download the jdm description via the \`show\` class when one jdm description id exists 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
@@ -216,9 +228,13 @@ exports[`CompanyJobDetailComponent should show a link to download the jdm descri
 
 exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm description 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading={[Function Boolean]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
@@ -286,10 +302,14 @@ exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm 
 
 exports[`CompanyJobDetailComponent should show an error message if the jdm description download fails 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading="false"
   jdmDescriptionLoadingError={[Function Boolean]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
@@ -361,8 +381,12 @@ exports[`CompanyJobDetailComponent should show an error message if the jdm descr
 
 exports[`CompanyJobDetailComponent should show an informational message when multiple jdm ids exist 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <h5
