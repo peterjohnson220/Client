@@ -61,11 +61,8 @@ export class JobsPageEffects {
       return this.jobsApiService.addToProject(data.payload).pipe(
         mergeMap((projectId: number) => {
           window.location.href = `/marketdata/marketdata.asp?usersession_id=${projectId}`;
-          return [
-            // TODO: When we migrate the Projects page to Client we have to make sure the state is cleared if we return back to the Jobs page
-            new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails),
-            new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs),
-          ];
+          // TODO: When we migrate the Projects page to Client we have to make sure the state is cleared if we return back to the Jobs page
+          return [];
         }),
         catchError(error => of(new fromJobsPageActions.AddingToProjectError()))
       );
