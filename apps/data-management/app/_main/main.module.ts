@@ -56,7 +56,6 @@ import {
   InboundEntitySelectionPageComponent,
   InboundAuthenticationPageComponent,
   OutboundAuthenticationPageComponent,
-  OutboundEntitySelectionPageComponent,
   OutboundFieldMappingPageComponent,
   OutboundJdmViewSelectionPageComponent,
   OutboundProviderSelectionPageComponent,
@@ -79,7 +78,7 @@ import {
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
-import { GetSupportedSchedulesPipe } from './pipes';
+import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pipes';
 
 @NgModule({
   imports: [
@@ -125,6 +124,7 @@ import { GetSupportedSchedulesPipe } from './pipes';
   ],
   declarations: [
     // Pipes
+    OrgDataEntityTypeToDisplayName,
     GetSupportedSchedulesPipe,
 
     // Pages
@@ -134,7 +134,6 @@ import { GetSupportedSchedulesPipe } from './pipes';
     InboundAuthenticationPageComponent,
     InboundEntitySelectionPageComponent,
     OutboundAuthenticationPageComponent,
-    OutboundEntitySelectionPageComponent,
     OutboundFieldMappingPageComponent,
     OutboundJdmViewSelectionPageComponent,
     OutboundProviderSelectionPageComponent,
@@ -178,12 +177,6 @@ import { GetSupportedSchedulesPipe } from './pipes';
     InboundEntitySelectionPageComponent,
     InboundAuthenticationPageComponent,
     FieldMappingPageComponent,
-    OutboundProviderSelectionPageComponent,
-    OutboundEntitySelectionPageComponent,
-    OutboundFieldMappingPageComponent,
-    OutboundAuthenticationPageComponent,
-    OutboundTransferSchedulePageComponent,
-    OutboundJdmViewSelectionPageComponent,
     OutboundTransferScheduleSummaryComponent
   ]
 })

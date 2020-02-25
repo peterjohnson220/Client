@@ -14,7 +14,6 @@ import {
   InboundEntitySelectionPageComponent,
   OrgDataLoadComponent,
   OutboundAuthenticationPageComponent,
-  OutboundEntitySelectionPageComponent,
   OutboundFieldMappingPageComponent,
   OutboundJdmViewSelectionPageComponent,
   OutboundProviderSelectionPageComponent,
@@ -80,10 +79,6 @@ const routes: Routes = [
               {
                 path: 'vendor',
                 component: OutboundProviderSelectionPageComponent
-              },
-              {
-                path: 'entity-selection',
-                component: OutboundEntitySelectionPageComponent
               },
               {
                 path: 'authentication',

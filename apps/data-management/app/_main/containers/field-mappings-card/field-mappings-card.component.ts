@@ -9,6 +9,8 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FieldMappingCardComponent {
   @Input() selectedEntities: string[];
+  @Input() sourceName: string;
+  @Input() targetName: string;
   @ViewChild(NgbTabset, { static: true }) tabSet: NgbTabset;
 
   constructor() { }

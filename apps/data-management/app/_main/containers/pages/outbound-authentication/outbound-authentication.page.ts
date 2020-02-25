@@ -55,7 +55,7 @@ export class OutboundAuthenticationPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe$.next();
-    this.unsubscribe$.unsubscribe();
+    this.unsubscribe$.complete();
   }
 
   back() {

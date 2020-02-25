@@ -59,8 +59,7 @@ import { TransferDataWorkflowStep } from '../../../data';
     next() {
       this.store.dispatch(new fromTransferDataPageActions.UpdateOutboundWorkflowstep(TransferDataWorkflowStep.Mappings));
       this.store.dispatch(new fromTransferDataPageActions.UpdateOutboundJdmViews(this.jdmViews));
-      // TODO: If you're working on outbound mapping, change this
-      this.router.navigate(['/transfer-data/outbound/transfer-schedule']);
+      this.router.navigate(['/transfer-data/outbound/field-mapping']);
     }
 
     back() {

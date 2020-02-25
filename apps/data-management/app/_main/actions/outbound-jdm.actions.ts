@@ -4,10 +4,12 @@ import { ConnectionSummary } from '../models';
 import { CredentialsPackage } from 'libs/models';
 
 export const INIT = '[Data Management/Outbound JDM] Initialize';
+export const INIT_FIELD_MAPPINGS = '[Data Management/Outbound JDM] Init Field Mappings';
 export const LOAD_CONNECTION_SUMMARY = '[Data Management/Outbound JDM] Load Connection Summary';
 export const LOAD_CONNECTION_SUMMARY_ERROR = '[Data Management/Outbound JDM] Load Connection Summary Error';
 export const LOAD_CONNECTION_SUMMARY_SUCCESS = '[Data Management/Outbound JDM] Load Connection Summary Success';
 export const RESET_CONNECTION_SUMMARY = '[Data Management/Outbound JDM] Reset Connection Summary';
+export const RESET_FIELD_MAPPINGS = '[Data Management/Outbound JDM] Reset Field Mappings';
 export const SAVE_CONNECTION_SUMMARY = '[Data Management/Outbound JDM] Save Connection Summary';
 export const SAVE_CONNECTION_SUMMARY_ERROR = '[Data Management/Outbound JDM] Save Connection Summary Error';
 export const SAVE_CONNECTION_SUMMARY_SUCCESS = '[Data Management/Outbound JDM] Save Connection Summary Success';
@@ -16,6 +18,14 @@ export const COMPLETE_CONNECTION = '[Data Management/Outbound JDM] Complete Conn
 
 export class Init implements Action {
   readonly type = INIT;
+
+  constructor() {}
+}
+
+export class InitFieldMappings implements Action {
+  readonly type = INIT_FIELD_MAPPINGS;
+
+  constructor() {}
 }
 
 export class LoadConnectionSummary implements Action {
@@ -26,6 +36,8 @@ export class LoadConnectionSummary implements Action {
 
 export class LoadConnectionSummaryError implements Action {
   readonly type = LOAD_CONNECTION_SUMMARY_ERROR;
+
+  constructor() {}
 }
 
 export class LoadConnectionSummarySuccess implements Action {
@@ -36,6 +48,12 @@ export class LoadConnectionSummarySuccess implements Action {
 
 export class ResetConnectionSummary implements Action {
   readonly type = RESET_CONNECTION_SUMMARY;
+
+  constructor() {}
+}
+
+export class ResetFieldMappings implements Action {
+  readonly type = RESET_FIELD_MAPPINGS;
 
   constructor() {}
 }
@@ -72,6 +90,7 @@ export type Actions
   | LoadConnectionSummaryError
   | LoadConnectionSummarySuccess
   | ResetConnectionSummary
+  | ResetFieldMappings
   | SaveConnectionSummary
   | SaveConnectionSummaryError
   | SaveConnectionSummarySuccess
