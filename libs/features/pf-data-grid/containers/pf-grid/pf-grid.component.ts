@@ -131,9 +131,13 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  getGridColumnHeaderClass() {
+  getGridColumnHeaderClass(col: ViewField) {
     const headerClass = this.compactGrid ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
-    return `${this.customHeaderClass || ''} ${headerClass}`.trim();
+    let textAlignClass = !!col && !!col.TextAlign ? `text-align-${col.TextAlign}` : '';
+    if (col.Group) {
+      textAlignClass = 'text-align-center';
+    }
+    return `${this.customHeaderClass || ''} ${headerClass} ${textAlignClass}`.trim();
   }
 
   getCheckboxHeaderClass() {
