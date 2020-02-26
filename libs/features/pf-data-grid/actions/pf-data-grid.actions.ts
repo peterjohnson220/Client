@@ -44,7 +44,6 @@ export const DELETE_SAVED_VIEW = '[PfDataGrid] Delete Saved View';
 export const DELETE_SAVED_VIEW_SUCCESS = '[PfDataGrid] Delete Saved View Success';
 export const PREPARE_VIEW_FOR_DELETE = '[PfDataGrid] Prepare View for Delete';
 export const CANCEL_VIEW_DELETE = '[PfDataGrid] Cancel View Delete';
-export const CLEAR_SELECTIONS = '[PfDataGrid] Clear Selections';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -243,11 +242,6 @@ export class PrepareViewForDelete implements Action {
 
 export class CancelViewDelete implements Action {
   readonly type = CANCEL_VIEW_DELETE;
-  constructor(public pageViewId: string) { }
-}
-
-export class ClearSelections implements Action {
-  readonly type = CLEAR_SELECTIONS;
   constructor(public pageViewId: string) { }
 }
 
