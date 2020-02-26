@@ -1,8 +1,8 @@
-import {Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -15,7 +15,6 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromJobsPageReducer from '../../reducers';
 
 import { PageViewIds } from '../../constants/';
-
 
 
 @Component({
@@ -34,7 +33,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'CompanyEmployees_Employee'
   }];
-  pageViewId = PageViewIds.EMPLOYEES;
+  pageViewId = PageViewIds.Employees;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
@@ -53,14 +52,14 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          {Value : this.payMarketField.FilterValue, Id : this.payMarketField.FilterValue} : null;
+          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
   }
 
   ngAfterViewInit() {
     this.globalFilterTemplates = {
-      'PayMarket' : { Template: this.payMarketFilter }
+      'PayMarket': { Template: this.payMarketFilter }
     };
     this.colTemplates = {
       'Employees': { Template: this.employeeColumn }

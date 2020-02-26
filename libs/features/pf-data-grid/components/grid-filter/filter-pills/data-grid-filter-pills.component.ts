@@ -25,7 +25,7 @@ export class PfDataGridFilterPillsComponent {
     this.clearFilter.emit(field);
   }
 
-  clearAll() {
+  clearFilters() {
     this.clearAllFilters.emit();
   }
 }

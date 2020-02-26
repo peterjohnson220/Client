@@ -35,8 +35,9 @@ export const SAVE_VIEW_SUCCESS = '[PfDataGrid] Save Filter Success';
 export const SAVE_VIEW_ERROR = '[PfDataGrid] Save Filter Error';
 export const OPEN_SAVE_VIEW_MODAL = '[PfDataGrid] Open Save View Modal';
 export const CLOSE_SAVE_VIEW_MODAL = '[PfDataGrid] Close Save View Modal';
-export const UPDATE_SELECTED_KEY =  '[PfDataGrid] Update selected key';
-export const SELECT_ALL =  '[PfDataGrid] Select All';
+export const UPDATE_SELECTED_KEY = '[PfDataGrid] Update selected key';
+export const SELECT_ALL = '[PfDataGrid] Select All';
+export const CLEAR_SELECTIONS = '[PfDataGrid] Clear Selections';
 export const HANDLE_SAVED_VIEW_CLICKED = '[PfDataGrid] Handle Saved View Clicked';
 export const CLOSE_SPLIT_VIEW = '[PfDataGrid] Close Split View';
 export const DELETE_SAVED_VIEW = '[PfDataGrid] Delete Saved View';
@@ -46,13 +47,13 @@ export const CANCEL_VIEW_DELETE = '[PfDataGrid] Cancel View Delete';
 export const CLEAR_SELECTIONS = '[PfDataGrid] Clear Selections';
 
 export class LoadViewConfig implements Action {
-    readonly type = LOAD_VIEW_CONFIG;
-    constructor(public pageViewId: string, public name: string = null) { }
+  readonly type = LOAD_VIEW_CONFIG;
+  constructor(public pageViewId: string, public name: string = null) { }
 }
 
 export class LoadViewConfigSuccess implements Action {
-    readonly type = LOAD_VIEW_CONFIG_SUCCESS;
-    constructor(public pageViewId: string, public payload: DataViewConfig) { }
+  readonly type = LOAD_VIEW_CONFIG_SUCCESS;
+  constructor(public pageViewId: string, public payload: DataViewConfig) { }
 }
 
 export class UpdatePagingOptions implements Action {
@@ -76,23 +77,23 @@ export class UpdateApplyDefaultFilters implements Action {
 }
 
 export class LoadData implements Action {
-    readonly type = LOAD_DATA;
-    constructor(public pageViewId: string) { }
+  readonly type = LOAD_DATA;
+  constructor(public pageViewId: string) { }
 }
 
 export class LoadDataSuccess implements Action {
-    readonly type = LOAD_DATA_SUCCESS;
-    constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
+  readonly type = LOAD_DATA_SUCCESS;
+  constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
 }
 
 export class UpdateFields implements Action {
-    readonly type = UPDATE_FIELDS;
-    constructor(public pageViewId: string, public fields: ViewField[]) { }
+  readonly type = UPDATE_FIELDS;
+  constructor(public pageViewId: string, public fields: ViewField[]) { }
 }
 
 export class UpdateFieldsSuccess implements Action {
-    readonly type = UPDATE_FIELDS_SUCCESS;
-    constructor(public pageViewId: string) { }
+  readonly type = UPDATE_FIELDS_SUCCESS;
+  constructor(public pageViewId: string) { }
 }
 
 export class UpdateInboundFilters implements Action {
@@ -112,37 +113,37 @@ export class ClearFilter implements Action {
 
 export class ClearAllNonGlobalFilters implements Action {
   readonly type = CLEAR_ALL_NON_GLOBAL_FILTERS;
-  constructor(public pageViewId: string) {}
+  constructor(public pageViewId: string) { }
 }
 
 export class ClearAllFilters implements Action {
   readonly type = CLEAR_ALL_FILTERS;
-  constructor(public pageViewId: string) {}
+  constructor(public pageViewId: string) { }
 }
 
 export class ToggleFilterPanel implements Action {
   readonly type = TOGGLE_FILTER_PANEL;
-  constructor(public pageViewId: string) {}
+  constructor(public pageViewId: string) { }
 }
 
 export class SetFilterPanelDisplay implements Action {
   readonly type = SET_FILTER_PANEL_DISPLAY;
-  constructor(public pageViewId: string, public displayValue: boolean) {}
+  constructor(public pageViewId: string, public displayValue: boolean) { }
 }
 
 export class UpdateSelectedRecordId implements Action {
   readonly type = UPDATE_SELECTED_RECORD_ID;
-  constructor(public pageViewId: string, public recordId: number, public operator: string, public fieldName: string) {}
+  constructor(public pageViewId: string, public recordId: number, public operator: string, public fieldName: string) { }
 }
 
 export class ExpandRow implements Action {
   readonly type = EXPAND_ROW;
-  constructor(public pageViewId: string, public rowIndex: number) {}
+  constructor(public pageViewId: string, public rowIndex: number) { }
 }
 
 export class CollapseRow implements Action {
   readonly type = COLLAPSE_ROW;
-  constructor(public pageViewId: string, public rowIndex: number) {}
+  constructor(public pageViewId: string, public rowIndex: number) { }
 }
 
 export class ClearLoading implements Action {
@@ -162,52 +163,57 @@ export class HandleApiError implements Action {
 
 export class LoadSavedViews implements Action {
   readonly type = LOAD_SAVED_VIEWS;
-  constructor(public pageViewId: string) {}
+  constructor(public pageViewId: string) { }
 }
 
 export class LoadSavedViewsSuccess implements Action {
   readonly type = LOAD_SAVED_VIEWS_SUCCESS;
-  constructor(public pageViewId: string, public payload: DataViewConfig[]) {}
+  constructor(public pageViewId: string, public payload: DataViewConfig[]) { }
 }
 
 export class LoadSavedViewsError implements Action {
   readonly type = LOAD_SAVED_VIEWS_ERROR;
-  constructor(public pageViewId: string, public payload: string) {}
+  constructor(public pageViewId: string, public payload: string) { }
 }
 
 export class SaveView implements Action {
   readonly type = SAVE_VIEW;
-  constructor(public pageViewId: string, public viewName: string) {}
+  constructor(public pageViewId: string, public viewName: string) { }
 }
 
 export class SaveViewSuccess implements Action {
   readonly type = SAVE_VIEW_SUCCESS;
-  constructor(public pageViewId: string, public payload: DataViewConfig) {}
+  constructor(public pageViewId: string, public payload: DataViewConfig) { }
 }
 
 export class SaveViewError implements Action {
   readonly type = SAVE_VIEW_ERROR;
-  constructor(public pageViewId: string, public payload: string) {}
+  constructor(public pageViewId: string, public payload: string) { }
 }
 
 export class OpenSaveViewModal implements Action {
   readonly type = OPEN_SAVE_VIEW_MODAL;
-  constructor(public pageViewId: string) {}
+  constructor(public pageViewId: string) { }
 }
 
 export class CloseSaveViewModal implements Action {
   readonly type = CLOSE_SAVE_VIEW_MODAL;
-  constructor(public pageViewId: string) {}
+  constructor(public pageViewId: string) { }
 }
 
-export class  UpdateSelectedKey implements  Action {
-  readonly  type = UPDATE_SELECTED_KEY;
+export class UpdateSelectedKey implements Action {
+  readonly type = UPDATE_SELECTED_KEY;
   constructor(public pageViewId: string, public payload: number) { }
 }
 
-export class SelectAll implements  Action {
-  readonly  type = SELECT_ALL;
+export class SelectAll implements Action {
+  readonly type = SELECT_ALL;
   constructor(public pageViewId: string, public primaryKey: string) { }
+}
+
+export class ClearSelections implements Action {
+  readonly type = CLEAR_SELECTIONS;
+  constructor(public pageViewId: string) { }
 }
 
 export class HandleSavedViewClicked implements Action {
@@ -246,42 +252,42 @@ export class ClearSelections implements Action {
 }
 
 export type DataGridActions =
-    | LoadViewConfig
-    | LoadViewConfigSuccess
-    | UpdatePagingOptions
-    | UpdateDefaultSortDescriptor
-    | UpdateSortDescriptor
-    | UpdateApplyDefaultFilters
-    | LoadData
-    | LoadDataSuccess
-    | UpdateFields
-    | UpdateFieldsSuccess
-    | UpdateInboundFilters
-    | UpdateFilter
-    | ClearFilter
-    | ClearAllNonGlobalFilters
-    | ClearAllFilters
-    | ToggleFilterPanel
-    | SetFilterPanelDisplay
-    | UpdateSelectedKey
-    | UpdateSelectedRecordId
-    | ExpandRow
-    | CollapseRow
-    | ClearLoading
-    | HandleApiError
-    | LoadSavedViews
-    | LoadSavedViewsSuccess
-    | LoadSavedViewsError
-    | SaveView
-    | SaveViewSuccess
-    | SaveViewError
-    | OpenSaveViewModal
-    | CloseSaveViewModal
-    | SelectAll
-    | HandleSavedViewClicked
-    | CloseSplitView
-    | DeleteSavedView
-    | DeleteSavedViewSuccess
-    | PrepareViewForDelete
-    | CancelViewDelete
-    | ClearSelections;
+  | LoadViewConfig
+  | LoadViewConfigSuccess
+  | UpdatePagingOptions
+  | UpdateDefaultSortDescriptor
+  | UpdateSortDescriptor
+  | UpdateApplyDefaultFilters
+  | LoadData
+  | LoadDataSuccess
+  | UpdateFields
+  | UpdateFieldsSuccess
+  | UpdateInboundFilters
+  | UpdateFilter
+  | ClearFilter
+  | ClearAllNonGlobalFilters
+  | ClearAllFilters
+  | ToggleFilterPanel
+  | SetFilterPanelDisplay
+  | UpdateSelectedKey
+  | UpdateSelectedRecordId
+  | ExpandRow
+  | CollapseRow
+  | ClearLoading
+  | HandleApiError
+  | LoadSavedViews
+  | LoadSavedViewsSuccess
+  | LoadSavedViewsError
+  | SaveView
+  | SaveViewSuccess
+  | SaveViewError
+  | OpenSaveViewModal
+  | CloseSaveViewModal
+  | SelectAll
+  | ClearSelections
+  | HandleSavedViewClicked
+  | CloseSplitView
+  | DeleteSavedView
+  | DeleteSavedViewSuccess
+  | PrepareViewForDelete
+  | CancelViewDelete;

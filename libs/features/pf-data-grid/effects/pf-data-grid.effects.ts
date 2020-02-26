@@ -16,7 +16,8 @@ import {
     DataViewFilter,
     DataViewEntityResponseWithCount,
     PagingOptions,
-    DataViewFieldType
+    DataViewFieldType,
+    DataViewType
 } from 'libs/models/payfactors-api';
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
@@ -67,7 +68,7 @@ export class PfDataGridEffects {
                         this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, loadDataAction.pageViewId)),
                         (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
-                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters})
+                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters })
                     )
                 ),
             ),
@@ -112,7 +113,12 @@ export class PfDataGridEffects {
             ),
             switchMap((data) =>
                 this.dataViewApiService.updateDataView(PfDataGridEffects
-                    .buildSaveDataViewRequest(PfDataGridEffects.parsePageViewId(data.action.pageViewId), data.baseEntity.Id, data.action.fields, null))
+                    .buildSaveDataViewRequest(
+                        PfDataGridEffects.parsePageViewId(data.action.pageViewId),
+                        data.baseEntity.Id,
+                        data.action.fields,
+                        null,
+                        DataViewType.userDefault))
                     .pipe(
                         map((response: any[]) => {
                             return new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId);
@@ -144,7 +150,8 @@ export class PfDataGridEffects {
                     PfDataGridEffects.parsePageViewId(data.action.pageViewId),
                     data.baseEntity.Id,
                     data.fields,
-                    data.action.viewName))
+                    data.action.viewName,
+                    DataViewType.savedFilter))
                     .pipe(
                         map((response: any) => {
                             return new fromPfDataGridActions.SaveViewSuccess(data.action.pageViewId, response);
@@ -205,17 +212,17 @@ export class PfDataGridEffects {
 
     @Effect()
     deleteView$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(fromPfDataGridActions.DELETE_SAVED_VIEW),
-        switchMap((action: any) => {
-          return this.dataViewApiService.deleteView(action.pageViewId, action.viewName).pipe(
-            mergeMap(() => [
-              new fromPfDataGridActions.DeleteSavedViewSuccess(action.pageViewId),
-              new fromPfDataGridActions.LoadSavedViews(action.pageViewId),
-            ])
-          );
-        })
-      );
+        .pipe(
+            ofType(fromPfDataGridActions.DELETE_SAVED_VIEW),
+            switchMap((action: any) => {
+                return this.dataViewApiService.deleteView(action.pageViewId, action.viewName).pipe(
+                    mergeMap(() => [
+                        new fromPfDataGridActions.DeleteSavedViewSuccess(action.pageViewId),
+                        new fromPfDataGridActions.LoadSavedViews(action.pageViewId),
+                    ])
+                );
+            })
+        );
 
     // TODO: We don't have a robust solution to display grids with the same PageViewId on the same page.
     // The PageViewID is the unique identifier in the NGRX state but we might have two different grids with the same PageViewID on the same page
@@ -228,15 +235,27 @@ export class PfDataGridEffects {
     }
 
     static buildSaveDataViewRequest(pageViewId: string, baseEntityId: number,
-        fields: ViewField[], name: string): SaveDataViewRequest {
+        fields: ViewField[], name: string, type: DataViewType): SaveDataViewRequest {
         return <SaveDataViewRequest>{
             PageViewId: pageViewId,
             EntityId: baseEntityId,
-            Elements: fields.
-                map(e => ({ ElementId: e.DataElementId, FilterOperator: e.FilterOperator,
-              FilterValue: (e.IsGlobalFilter === false && e.FilterValue !== null && name !== null) ?
-                e.FilterValue : null, IsSelected: e.IsSelected })),
-            Name: name
+            Name: name,
+            Type: type,
+            Elements: fields
+                .filter(f => f.IsSelected)
+                .map(e => ({
+                    DisplayName: e.DisplayName,
+                    DataElementId: e.DataElementId
+                })),
+                // TODO: Change the way we save filters. This assumes we never save GlobalFilters and we never save filters for Named Views
+            Filters: fields
+                .filter(f => !f.IsGlobalFilter && f.FilterValue !== null && name !== null)
+                .map(e => ({
+                    DataElementId: e.DataElementId,
+                    Operator: e.FilterOperator,
+                    Value: e.FilterValue
+                })),
+
         };
     }
 
