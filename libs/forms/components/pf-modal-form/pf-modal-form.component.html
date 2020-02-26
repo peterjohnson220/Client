@@ -43,6 +43,7 @@
       </button>
       <button type="button"
               class="btn btn-secondary"
+              [disabled]="!allowDismiss"
               (click)="dismiss()">{{secondaryButtonText }}</button>
     </div>
   </div>

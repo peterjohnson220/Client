@@ -6,9 +6,10 @@ import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import {CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService} from 'libs/data/payfactors-api';
+import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService } from 'libs/data/payfactors-api';
 import { UserContext, CompanyDto } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobManagementReducer from 'libs/features/job-management/reducers';
@@ -16,6 +17,7 @@ import * as fromJobManagementActions from 'libs/features/job-management/actions'
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';
+import { PageViewIds } from '../constants';
 
 @Injectable()
 export class JobsPageEffects {
@@ -27,7 +29,6 @@ export class JobsPageEffects {
     private pricingApiService: PricingApiService,
     private payMarketApiService: PayMarketApiService,
     private store: Store<fromJobsReducer.State>,
-    private jobManagementStore: Store<fromJobManagementReducer.State>
   ) { }
 
   @Effect()
@@ -41,10 +42,10 @@ export class JobsPageEffects {
     switchMap((data) => {
       return this.companyApiService.get(data.userContext.CompanyId).pipe(
         mergeMap((company: CompanyDto) =>
-        [
-          new fromJobsPageActions.LoadCompanySuccess(company.CompanyName),
-          new fromJobsPageActions.LoadCompanyPayMarkets(),
-        ]),
+          [
+            new fromJobsPageActions.LoadCompanySuccess(company.CompanyName),
+            new fromJobsPageActions.LoadCompanyPayMarkets(),
+          ]),
         catchError(error => {
           const msg = 'We encountered an error while loading your company data';
           return of(new fromJobsPageActions.HandleApiError(msg));
@@ -55,17 +56,34 @@ export class JobsPageEffects {
 
   @Effect()
   addToProject$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobsPageActions.ADD_TO_PROJECT),
+    ofType(fromJobsPageActions.ADDING_TO_PROJECT),
     switchMap((data: any) => {
       return this.jobsApiService.addToProject(data.payload).pipe(
-        map((projectId: number) => {
+        mergeMap((projectId: number) => {
           window.location.href = `/marketdata/marketdata.asp?usersession_id=${projectId}`;
-          return new fromJobsPageActions.AddToProjectSuccess();
+          // TODO: When we migrate the Projects page to Client we have to make sure the state is cleared if we return back to the Jobs page
+          return [];
         }),
-        catchError(error => {
-          const msg = 'We encountered an error while creating a project';
-          return of(new fromJobsPageActions.HandleApiError(msg));
-        })
+        catchError(error => of(new fromJobsPageActions.AddingToProjectError()))
+      );
+    })
+  );
+
+  @Effect()
+  changeJobStatus$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.CHANGING_JOB_STATUS),
+    switchMap((data: any) => {
+      return this.jobsApiService.changeJobStatus(data.payload).pipe(
+        mergeMap(() =>
+          [
+            new fromJobsPageActions.ChangingJobStatusSuccess(),
+            new fromJobsPageActions.ShowJobStatusModal(false),
+            new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails),
+            new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs),
+            new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
+            new fromPfDataGridActions.CloseSplitView(PageViewIds.Jobs),
+          ]),
+        catchError(error => of(new fromJobsPageActions.ChangingJobStatusError()))
       );
     })
   );

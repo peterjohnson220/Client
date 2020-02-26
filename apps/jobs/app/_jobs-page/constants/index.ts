@@ -1,1 +1,1 @@
-export * from './page-view-ids';
+export * from './page-view-id-constants';

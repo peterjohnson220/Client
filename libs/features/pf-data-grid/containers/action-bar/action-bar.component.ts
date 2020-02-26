@@ -21,7 +21,7 @@ export class ActionBarComponent implements OnChanges {
   @Input() pageViewId: string;
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
-  @Input() globalFiltersTemplate: TemplateRef<any>;
+  @Input() globalFiltersTemplates: TemplateRef<any>;
   @Input() globalFilters: ViewField[];
   @Input() showActionBar = false;
   @Output() onFilterSidebarToggle = new EventEmitter();
@@ -51,16 +51,8 @@ export class ActionBarComponent implements OnChanges {
 
   handleGlobalFilterValueChanged(field: ViewField, value: any) {
     const newField =  {...field};
-    switch (field.DataType) {
-      case DataViewFieldDataType.String:
-        newField.FilterOperator = 'contains';
-        newField.FilterValue = value;
-        break;
-      case DataViewFieldDataType.Bit:
-        newField.FilterOperator = '=';
-        newField.FilterValue = value;
-        break;
-    }
+    newField.FilterOperator = 'contains';
+    newField.FilterValue = value;
     this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, newField));
   }
   toggleFilterPanel() {
@@ -84,7 +76,7 @@ export class ActionBarComponent implements OnChanges {
   }
 
   hasTemplate(globalFilter) {
-    return this.globalFiltersTemplate && this.globalFiltersTemplate[globalFilter.SourceName];
+    return this.globalFiltersTemplates && this.globalFiltersTemplates[globalFilter.SourceName];
   }
   trackByFn(index, item: ViewField) {
     return item.DataElementId;

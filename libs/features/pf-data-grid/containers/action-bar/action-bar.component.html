@@ -1,20 +1,13 @@
-<div class="d-flex justify-content-between align-items-center" id="action-bar-container" *ngIf="showActionBar">
-  <div class="d-flex space-out-children">
-    <div class="mr-3" *ngFor="let gl of globalFilters; trackBy: trackByFn;">
-      <div [ngSwitch]="true">
-        <ng-container *ngSwitchCase="globalFiltersTemplate!=null && globalFiltersTemplate[gl.SourceName]!=null"
-                      [ngTemplateOutlet]="globalFiltersTemplate[gl.SourceName].Template">
-        </ng-container>
-
-        <kendo-switch *ngSwitchCase="gl.DataType==='bit'" [title]="gl.FilterPlaceholder"  style="width:80px;"
-                       [checked]="gl.FilterValue"
-                       [onLabel]="'Active'"
-                       [offLabel]="'Inactive'"
-                       (valueChange)="handleGlobalFilterValueChanged(gl, $event)"
-        >
-        </kendo-switch>
-
-        <pf-input-debounce *ngSwitchDefault
+<div class="d-flex align-items-center" id="action-bar-container" *ngIf="showActionBar">
+  <div class="d-flex space-out-children-lg">
+    <div *ngFor="let gl of globalFilters; trackBy: trackByFn;">
+      <ng-container *ngIf="globalFiltersTemplates && globalFiltersTemplates[gl.SourceName]; else omnisearchFilter"
+        [ngTemplateOutlet]="globalFiltersTemplates[gl.SourceName].Template"
+        [ngTemplateOutletContext]="{field: gl}">
+      </ng-container>
+      
+      <ng-template #omnisearchFilter>
+        <pf-input-debounce
           [placeholderText]="gl.FilterPlaceholder"
           [hideClearBtn]="false"
           [minWidth]="300"
@@ -23,11 +16,10 @@
           (valueChanged)="handleGlobalFilterValueChanged(gl, $event)"
           [id]="'txt-' + gl.SourceName">
         </pf-input-debounce>
-      </div>
+      </ng-template>
     </div>
   </div>
-  <div class="d-flex space-out-children">
-    <ng-container>
+  <div class="d-flex space-out-children-lg">
       <ng-container class="d-flex " *ngIf="globalActionsTemplate" [ngTemplateOutlet]="globalActionsTemplate"></ng-container>
 
       <button *ngIf="allowExport" type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
@@ -48,8 +40,7 @@
         (selectView)="savedViewClicked($event)"
         (prepareViewForDelete)="prepareViewForDelete($event)"
         (deleteViewEvent)="deleteView($event)"
-        (cancelDeleteEvent)="cancelDelete()"
-      ></pf-filter-chooser>
-    </ng-container>
+        (cancelDeleteEvent)="cancelDelete()">
+      </pf-filter-chooser>
   </div>
 </div>
