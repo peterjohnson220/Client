@@ -11,6 +11,7 @@ import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating 
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import { JobDescriptionColumn } from '../../constants/job-description-column.constants';
 import { PermissionService } from 'libs/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'pf-job-description-grid',
@@ -46,6 +47,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     previousNext: true
   };
   public hasDeleteJobDescriptionPermission: boolean;
+  public currentReviewerThreshold = 40;
 
   private creatingJobDescription: boolean;
   private creatingJobDescription$: Observable<boolean>;
@@ -91,6 +93,12 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
 
   handleDeleteJobDescriptionClick(jobDescriptionId) {
     this.openDeleteJobDescriptionModal.emit(jobDescriptionId);
+  }
+
+  hideCurrentReviewerTooltip(ngbTooltip: NgbTooltip) {
+    if (ngbTooltip.isOpen()) {
+      ngbTooltip.close();
+    }
   }
 
   setTemplateView(companyJobViewListItem) {
@@ -189,9 +197,17 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     return columnClass;
   }
 
+  showCurrentReviewerTooltip(currentReviewer: string, ngbTooltip: NgbTooltip) {
+    if (currentReviewer.trim().length > this.currentReviewerThreshold) {
+      ngbTooltip.open();
+    }
+  }
+
   tooltipForDeleteButton(jobDescriptionCount: number): string {
     if (jobDescriptionCount <= 1 ) {
       return 'Job code should have at least one job description record';
     }
   }
+
+
 }
