@@ -62,7 +62,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             pageViewId: action.pageViewId,
             loading: true,
             pagingOptions: DEFAULT_PAGING_OPTIONS,
-            inboundFilters: [],
             expandedRows: [],
             selectAllState: 'unchecked',
             data: null,
@@ -74,7 +73,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     case fromPfGridActions.LOAD_VIEW_CONFIG_SUCCESS:
       const currSplitViewFilters = action.payload && action.payload.Fields ?
         action.payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
-        .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
+          .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
       return {
         ...state,
         grids: {
@@ -281,13 +280,13 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_SELECTED_RECORD_ID: {
-        const  newSplitViewFilters = [...state.grids[action.pageViewId].splitViewFilters]
-          .filter(f => f.SourceName !== action.fieldName);
+      const newSplitViewFilters = [...state.grids[action.pageViewId].splitViewFilters]
+        .filter(f => f.SourceName !== action.fieldName);
 
-        if (action.recordId) {
-          newSplitViewFilters.push(buildExternalFilter(action.recordId.toString(), action.operator, action.fieldName));
-        }
-        return  {
+      if (action.recordId) {
+        newSplitViewFilters.push(buildExternalFilter(action.recordId.toString(), action.operator, action.fieldName));
+      }
+      return {
         ...state,
         grids: {
           ...state.grids,
@@ -299,7 +298,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
-  }
+    }
     case fromPfGridActions.EXPAND_ROW:
       const newExpandedRows = [...(state.grids[action.pageViewId].expandedRows)];
       newExpandedRows.push(action.rowIndex);
@@ -449,6 +448,18 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.CLEAR_SELECTIONS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedKeys: null,
+            selectAllState: 'unchecked'
+          }
+        }
+      };
     case fromPfGridActions.CLOSE_SPLIT_VIEW:
       return {
         ...state,
@@ -537,11 +548,9 @@ export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) 
   return state.grids[pageViewId] && state.grids[pageViewId].fields ? state.grids[pageViewId].fields.filter(f => f.IsGlobalFilter) : null;
 };
 export const getFilterableFields = (state: DataGridStoreState, pageViewId: string) => {
-  return state.grids[pageViewId] && state.grids[pageViewId].fields ?
-    state.grids[pageViewId].fields
-      .filter(f => f.CustomFilterStrategy && !f.IsGlobalFilter)
-      .concat(state.grids[pageViewId].fields.filter(f => f.IsFilterable && f.IsSelected))
-    : null;
+  return state.grids[pageViewId] && state.grids[pageViewId].fields
+    ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy))
+    : [];
 };
 export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pagingOptions : null;
 export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: string) => {
@@ -666,7 +675,7 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
     const updatedFields = cloneDeep(fields);
 
     inboundFilters.forEach(filter => {
-      const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.IsSelected);
+      const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName);
       if (fieldToUpdate) {
         fieldToUpdate.FilterOperator = filter.Operator;
         fieldToUpdate.FilterValue = filter.Value;
@@ -679,7 +688,7 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
   return fields;
 }
 
-export function buildExternalFilter(value: string, operator: string,  fieldName: string): PfDataGridFilter {
+export function buildExternalFilter(value: string, operator: string, fieldName: string): PfDataGridFilter {
   return {
     SourceName: fieldName,
     Operator: operator,

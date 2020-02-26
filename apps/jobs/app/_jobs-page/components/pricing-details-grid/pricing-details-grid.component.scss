@@ -1,10 +1,12 @@
+@import 'jobs-page-colors';
+
 :host ::ng-deep .pricing-details-grid-action-bar {
-  background-color: #ffffff;
+  background-color: $sub-grid-action-bar-background-color;
 }
 
 :host ::ng-deep .pricing-details-grid-header {
-  background-color: rgb(247, 247, 249) !important;
+  background-color: $sub-grid-header-color !important;
   border: none;
-  color: #6F6F6F;
-  font-weight: 600 !important;
+  color: $sub-grid-header-font-color;
+  font-weight: $sub-grid-header-font-weight !important;
 }

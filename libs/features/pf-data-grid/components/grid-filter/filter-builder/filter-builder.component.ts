@@ -21,8 +21,19 @@ export class FilterBuilderComponent implements OnChanges {
 
   field: ViewField;
 
-  private filterOperatorOptions = FilterOperatorOptions;
-  public dataTypes = DataViewFieldDataType;
+  filterOperatorOptions = FilterOperatorOptions;
+  dataTypes = DataViewFieldDataType;
+
+  bitFilterOptions = [{
+    display: '',
+    value: null
+  }, {
+    display: 'Yes',
+    value: 'Yes'
+  }, {
+    display: 'No',
+    value: 'No'
+  }];
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.viewField) {
@@ -47,7 +58,7 @@ export class FilterBuilderComponent implements OnChanges {
     return this.field.FilterValue ? +this.field.FilterValue : null;
   }
 
-  private valueCanBeEmpty() {
+  valueCanBeEmpty() {
     const disabledValueOperators = this.filterOperatorOptions[this.field.DataType].filter(o => !o.requiresValue);
     if (disabledValueOperators.find(d => d.value === this.field.FilterOperator)) {
       this.field.FilterValue = '';

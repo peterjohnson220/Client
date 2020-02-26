@@ -4,8 +4,11 @@
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
   [gridGlobalActionsTemplate]="gridGlobalActions"
+  [gridGlobalFiltersTemplates]="globalFilterTemplates"
+  [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
-  [filterPanelTemplate]="filterTemplates"
+  [filterPanelTemplates]="filterTemplates"
+  [inboundFilters]="filters"
   [showFilterChooser]="true"
   [allowExport]="false"
   [defaultSort]="defaultSort"
@@ -26,32 +29,57 @@
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
   <pf-jobs-details
     [jobDetailsFilters]="splitViewFilters"
-    (onClose)="splitViewEmitter.emit('close')"
-    (tabChanged)="splitViewTabChange($event)">
+    (onClose)="splitViewEmitter.emit('close')">
   </pf-jobs-details>
 </ng-template>
 
 <ng-template #gridGlobalActions>
   <button
-    [disabled]="!(selectedJobIds.length || selectedPricingIds.length)"
-    [pfSecuredResource]="permissions.NEW_PROJECT"
-    [attr.data-qa-id]="'btn-add-to-project'"
+    [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+    [attr.data-qa-id]="'btn-jobs-page-new-job'"
     type="button"
-    (click)="showAddToProjectSummary()"
+    title="Add Job"
+    (click)="addingNewJob = true"
+    class="btn btn-primary">
+    New Job
+  </button>  
+</ng-template>
+
+<ng-template #gridActions>
+  <button
+    [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length)"
+    [pfSecuredResource]="permissions.NEW_PROJECT"
+    [attr.data-qa-id]="'btn-jobs-page-add-to-project'"
+    type="button"
+    (click)="toggleAddToProjectModal(true)"
     [title]="!(selectedJobIds.length || selectedPricingIds.length) ? 'No Jobs or Pricings Selected' : ''"
-    class="btn btn-secondary ml-2">
+    class="btn btn-link">
     Add to Project
-    <span *ngIf="selectedJobIds.length + selectedPricingIds.length > 0">
+    <span *ngIf="selectedJobIds.length + selectedPricingIds.length > 0 && isActiveJobs()">
       ({{selectedJobIds.length + selectedPricingIds.length}})
     </span>
   </button>
   <button
-    [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
-    [attr.data-qa-id]="'btn-newJob'"
+    [disabled]="!(selectedJobIds.length)"
+    [pfSecuredResource]="permissions.JOBS_INACTIVATE_ACTIVATE"
+    [attr.data-qa-id]="'btn-jobs-page-inactivate-activate-jobs'"
     type="button"
-    (click)="addingNewJob = true"
-    class="btn btn-primary ml-2">
-    New Job
+    (click)="toggleJobStatusModal(true)"
+    [title]="!selectedJobIds.length ? 'No Jobs Selected' : ''"
+    class="btn btn-link">
+    {{isActiveJobs() ? 'Inactivate' : 'Activate'}}
+    <span *ngIf="selectedJobIds.length">
+      ({{selectedJobIds.length}})
+    </span>
+  </button>
+  <button
+    [disabled]="!(selectedJobIds.length || selectedPricingIds.length)"
+    [attr.data-qa-id]="'btn-jobs-page-clear-selections'"
+    type="button"
+    (click)="clearSelections()"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length) ? 'No Jobs or Pricings Selected' : ''"
+    class="btn btn-link">
+    Clear Selections
   </button>
 </ng-template>
 
@@ -61,11 +89,12 @@
   [primaryButtonText]="'Add'"
   [primaryButtonTextSubmitting]="'Adding'"
   [modalId]="'au-modal-jobs-page-add-to-project'"
-  [submitting]="(addingToProject$ | async)"
-  [isOpen$]="showAddToProjectSummary$"
+  [submitting]="(addingToProject$ | async).loading"
+  [allowDismiss]="!(addingToProject$ | async).loading"
+  [isOpen$]="showAddToProjectModal$"
   (onSubmit)="addToProject()"
-  (onDismiss)="dismissAddToProjectSummaryModal()"
->
+  (onDismiss)="toggleAddToProjectModal(false)">
+  
   <ng-container basic-content>
     The following will be added to a new Project:
     <div>
@@ -73,6 +102,42 @@
     </div>
     <div>
       Pricing Count: {{selectedPricingIds.length}}
+    </div>
+    <div *ngIf="(addingToProject$ | async).loadingError">
+      <br>
+      <span class="text-danger">
+        <b>We encountered a problem adding your selections to a project. Please try again or contact your account representative.</b>
+      </span>
+    </div>
+  </ng-container>
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="(isActiveJobs() ? 'Inactivate' : 'Activate') + ' Jobs'"
+  [primaryButtonText]="(isActiveJobs() ? 'Inactivate' : 'Activate')"
+  [primaryButtonTextSubmitting]="isActiveJobs() ? 'Inactivating' : 'Activating'"
+  [modalId]="'au-modal-jobs-page-inactivate-activate-jobs'"
+  [submitting]="(changingJobStatus$ | async).loading"
+  [allowDismiss]="!(changingJobStatus$ | async).loading"
+  [isOpen$]="showJobStatusModal$"
+  (onSubmit)="changingJobStatus()"
+  (onDismiss)="toggleJobStatusModal(false)">
+
+  <ng-container basic-content>
+    You are about to make {{selectedJobIds.length}} job{{selectedJobIds.length > 1 ? 's' : ''}}
+    {{isActiveJobs() ? 'Inactive' : 'Active'}}.
+    <br><br>
+    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}} 
+    for use throughout the system. Would you like to continue?
+    <div *ngIf="(changingJobStatus$ | async).loadingError">
+      <br>
+      <span class="text-danger">
+        <b>
+          We encountered a problem {{isActiveJobs() ? 'Inactivating' : 'Activating'}} the jobs you selected. 
+          Please try again or contact your account representative.
+        </b>
+      </span>
     </div>
   </ng-container>
 </pf-modal-form>
@@ -83,42 +148,33 @@
   (cancelChanges)="addingNewJob = false">
 </pf-job-management>
 
-<ng-template #peerFilter>
-  <div class="row">
-    <div class="col-6">
-      <label>Peer:</label>
-      <div>
-        <kendo-dropdownlist
-          [data]="peerFilterOptions"
-          [textField]="'display'"
-          [valueField]="'value'"
-          [valuePrimitive]="true"
-          [ngModel]="peerField.FilterValue"
-          (valueChange)="handlePeerFilterChanged($event)"
-          [attr.data-qa-id]="'ddm-operator-'+peerField.SourceName"
-          class="k-dropdown-white form-control">
-        </kendo-dropdownlist>
-      </div>
-    </div>
-  </div>
-</ng-template>
 <ng-template #payMarketFilter>
   <div>
-    <label>
-      Pay Market:
-    </label>
-      <kendo-dropdownlist
-        [(ngModel)]="selectedPayMarket"
-        [textField]="'Value'"
-        [valueField]="'Id'"
-        [defaultItem]="{Value:'All Pay Markets', Id: null}"
-        [data]="filteredPayMarketOptions"
-        (valueChange)="handlePayMarketFilterChanged($event)"
-        [filterable]="true"
-        (filterChange)="handleFilter($event)"
-        [attr.data-qa-id]="'ddm-operator-'+payMarketField.SourceName"
-        class="k-dropdown-white form-control"
-      >
-      </kendo-dropdownlist>
+    <label>Pay Market:</label>
+    <kendo-dropdownlist
+      [(ngModel)]="selectedPayMarket"
+      [textField]="'Value'"
+      [valueField]="'Id'"
+      [defaultItem]="{Value:'All Pay Markets', Id: null}"
+      [data]="filteredPayMarketOptions"
+      (valueChange)="handlePayMarketFilterChanged($event)"
+      [filterable]="true"
+      (filterChange)="handleFilter($event)"
+      [attr.data-qa-id]="'ddm-operator-jobs-page' + payMarketField.SourceName"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>
   </div>
+</ng-template>
+
+<ng-template #jobStatusFilter let-field="field">
+  <kendo-switch 
+    *ngIf="field"
+    style="width:80px;"
+    [title]="field.FilterPlaceholder"
+    [checked]="field.FilterValue"
+    [onLabel]="'Active'"
+    [offLabel]="'Inactive'"
+    (valueChange)="handleJobStatusFilterChanged(field, $event)"
+    (click)="clearFiltersAndSelections()">
+  </kendo-switch>
 </ng-template>

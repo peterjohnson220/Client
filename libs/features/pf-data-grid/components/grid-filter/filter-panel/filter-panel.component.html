@@ -12,8 +12,28 @@
     </div>
   </div>
   <div class="sidebar-content position-absolute p-3">
-    <div *ngFor="let field of fields; trackBy: trackByField" class="form-group">
-      <pf-filter-builder [viewField]="field" [filterTemplate]="filterTemplates[field.SourceName]" (filterChanged)="handleFilterChange($event)"></pf-filter-builder>
+    <div *ngFor="let field of customFilterFields; trackBy: trackByField" class="form-group">
+      <pf-filter-builder 
+        [viewField]="field"
+        [filterTemplate]="filterTemplates[field.SourceName]"
+        (filterChanged)="handleFilterChange($event)">
+      </pf-filter-builder>
+    </div>  
+    <div class="row">
+      <div *ngFor="let field of bitFields; trackBy: trackByField" class="col-6 form-group">
+        <pf-filter-builder 
+          [viewField]="field"
+          [filterTemplate]="filterTemplates[field.SourceName]"
+          (filterChanged)="handleFilterChange($event)">
+        </pf-filter-builder>  
+      </div>  
     </div>
+    <div *ngFor="let field of simpleFields; trackBy: trackByField" class="form-group">
+      <pf-filter-builder 
+        [viewField]="field"
+        [filterTemplate]="filterTemplates[field.SourceName]"
+        (filterChanged)="handleFilterChange($event)">
+      </pf-filter-builder>
+    </div>  
   </div>
 </div>

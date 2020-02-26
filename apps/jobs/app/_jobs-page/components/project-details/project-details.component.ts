@@ -1,14 +1,15 @@
-import {Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy} from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy } from '@angular/core';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as cloneDeep from 'lodash.clonedeep';
-import {Subscription} from 'rxjs';
-import {ViewField} from 'libs/models/payfactors-api/reports/request';
-import {Store} from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { Store } from '@ngrx/store';
 import * as fromJobsPageReducer from '../../reducers';
+import { PageViewIds } from '../../constants';
 
 
 
@@ -25,6 +26,9 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('projectNameColumn', { static: false }) projectNameColumn: ElementRef;
   @ViewChild('projectOwnerColumn', { static: false }) projectOwnerColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
+
+  pageViewId = PageViewIds.Projects;
+
   globalFilterTemplates = {};
   colTemplates = {};
 
@@ -32,7 +36,6 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'UserSessions_Session_Name'
   }];
-  pageViewId = 'C029F3C2-0FBC-4E1F-96A1-611879E2B2A2';
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
@@ -49,14 +52,14 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          {Value : this.payMarketField.FilterValue, Id : this.payMarketField.FilterValue} : null;
+          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
   }
 
   ngAfterViewInit() {
     this.globalFilterTemplates = {
-      'PayMarket' : { Template: this.payMarketFilter }
+      'PayMarket': { Template: this.payMarketFilter }
     };
     this.colTemplates = {
       'HasProjectAccess': { Template: this.projectAccessColumn },
@@ -72,7 +75,6 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
-    field.FilterOperator = '=';
     this.updateField(field);
   }
 
