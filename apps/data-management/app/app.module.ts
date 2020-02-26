@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { JwtAuthInterceptor } from 'libs/core/services/jwt-auth-interceptor.service';
 import { PfApiModule } from 'libs/data/payfactors-api';
@@ -33,7 +35,8 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
 
     // Kendo
-    DropDownsModule
+    DropDownsModule,
+    NgbModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtAuthInterceptor, multi: true }
