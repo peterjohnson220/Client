@@ -2,8 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { of } from 'rxjs';
+import { StoreModule } from '@ngrx/store';
 
 import { JobDescriptionParserPipe } from 'libs/core/pipes';
+import { SettingsService } from 'libs/state/app-context/services';
+import * as fromRootState from 'libs/state/state';
 
 import { GridDetailPanelComponent } from './grid-detail-panel.component';
 
@@ -13,9 +16,15 @@ describe('GridDetailPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers
+        })
+      ],
       declarations: [ GridDetailPanelComponent, JobDescriptionParserPipe ],
       // Shallow Testing
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [SettingsService],
     })
     .compileComponents();
   }));

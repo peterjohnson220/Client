@@ -83,6 +83,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public selectedCompanyJobForModal: CompanyJobViewListItem;
   public showFilterSidebar: any;
   public tokenId: string;
+  public templateUrl = '/ng/job-description-management/templates';
+  public templatesViewInClientEnabled = false;
   public userFilterDeleting$: Observable<boolean>;
   public userFilterError$: Observable<boolean>;
   public userFilterErrorMessage$: Observable<string>;
@@ -90,7 +92,9 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public userFilterListAdding$: Observable<boolean>;
   public userFilterListLoading$: Observable<boolean>;
   public savedGridState$: Observable<State>;
+  public enableCoreJdmInClient = false;
 
+  private enableJdmTemplatesInClient$: Observable<boolean>;
   private bulkExportError$: Observable<boolean>;
   private bulkExportErrorSubscription: Subscription;
   private enablePublicViewsInClient$: Observable<boolean>;
@@ -102,6 +106,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private savingListAreaColumnsSuccessSubscription: Subscription;
   private deleteJobDescriptionSuccess$: Observable<boolean>;
   private deleteJobDescriptionSuccessSubscription: Subscription;
+  private enabledJdmTemplatesInClientSubscription: Subscription;
 
   notification: { error: AppNotification<NotificationPayload> } = {
     error: {
@@ -129,7 +134,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.bulkExportControlLabelsLoading$ = this.store.select(fromJobDescriptionReducers.getControlLabelsLoading);
     this.bulkExportError$ = this.store.select(fromJobDescriptionReducers.getBulkExportError);
     this.bulkExportNoPublishedJobDescriptions$ = this.store.select(fromJobDescriptionReducers.getNoPublishedJobDescriptions);
-    this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMPublicViewsUseClient);
+    this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMCoreUseClient);
     this.gridDataResult$ = this.store.select(fromJobDescriptionReducers.getGridDataResult);
     this.gridLoading$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoading);
     this.gridLoadingError$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoadingError);
@@ -149,6 +154,9 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.userFilterListAdding$ = this.store.select(fromJobDescriptionReducers.getUserFilterAdding);
     this.userFilterListLoading$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoading);
     this.deleteJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDeletingJobDescriptionSuccess);
+    this.enableJdmTemplatesInClient$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.JDMTemplatesUseClient
+    );
 
     this.filterThrottle = new Subject();
 
@@ -446,6 +454,13 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       this.savedSearchTerm = savedSearchTerm || '';
       this.listFilter = savedSearchTerm || '';
     });
+
+    this.enabledJdmTemplatesInClientSubscription = this.enableJdmTemplatesInClient$.subscribe((setting) => {
+      if (setting === true) {
+        this.templateUrl = '/client/job-description-management/templates';
+        this.templatesViewInClientEnabled = true;
+      }
+    });
   }
 
   private routeToJobDescription(jobDescriptionId: number) {
@@ -465,5 +480,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.gridStateSubscription.unsubscribe();
     this.bulkExportErrorSubscription.unsubscribe();
     this.deleteJobDescriptionSuccessSubscription.unsubscribe();
+    this.enabledJdmTemplatesInClientSubscription.unsubscribe();
   }
 }

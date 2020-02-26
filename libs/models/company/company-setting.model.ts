@@ -20,9 +20,10 @@ export enum CompanySettingsEnum {
   DataInsightsThumbnailsViewDisplay = 'DataInsightsThumbnailsViewDisplay',
   EnableLibraryForRoutedJobDescriptions = 'EnableLibraryForRoutedJobDescriptions',
   DataInsightsFormulaBuilder = 'DataInsightsFormulaBuilder',
-  JDMPublicViewsUseClient = 'JDMPublicViewsUseClient',
+  SessionTimeoutMinutes = 'SessionTimeoutMinutes',
+  JDMCoreUseClient = 'JDMCoreUseClient',
   JDMSettingsUseClient = 'JDMSettingsUseClient',
-  SessionTimeoutMinutes = 'SessionTimeoutMinutes'
+  JDMTemplatesUseClient = 'JDMTemplatesUseClient'
 }
 
 export interface CompanySetting {

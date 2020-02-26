@@ -24,7 +24,7 @@
       <a href="javascript:void(0)" [class.show]="jdmDescriptionIds.length === 1" class="jdm-description ml-2 mr-2" (click)="handleViewJdmDescriptionClick()">View Full Job Description</a>
       <p class="text-muted mb-1" *ngIf="jdmDescriptionIds.length > 1">
         There is more than one Job Description for this job. Please refer to the 
-          <a href="/ng/job-description-management/job-descriptions" target="_blank">Job Description Management Tile</a> 
+          <a href="{{jdmUrl}}" target="_blank">Job Description Management Tile</a> 
         to view each description.
       </p>
       <pf-loading-indicator *ngIf="jdmDescriptionLoading"></pf-loading-indicator>

@@ -150,7 +150,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.userAssignedRoles$ = this.userContextStore.select(fromRootState.getUserAssignedRoles);
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMPublicViewsUseClient
+      CompanySettingsEnum.JDMCoreUseClient
     );
     this.controlTypesAsync$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersionAsync);
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
