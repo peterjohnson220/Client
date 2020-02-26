@@ -88,6 +88,8 @@
                               [valueField]="'Value'"
                               [textField]="'Name'"
                               [valuePrimitive]="true"
+                              [filterable]="true"
+                              [kendoDropDownFilter]="filterSettings"
                               [ngClass]="{ 'is-invalid': !f.CompanyJobId.valid && f.CompanyJobId.touched }"></kendo-combobox>
               <span *ngIf="f.CompanyJobId.errors?.required" class="invalid-feedback">Job is required</span>
             </div>
@@ -112,6 +114,8 @@
                               [valueField]="'Value'"
                               [textField]="'Name'"
                               [valuePrimitive]="true"
+                              [filterable]="true"
+                              [kendoDropDownFilter]="filterSettings"
                               [ngClass]="{ 'is-invalid': !f.CompanyPayMarketId.valid && f.CompanyPayMarketId.touched }"></kendo-combobox>
               <span *ngIf="f.CompanyPayMarketId.errors?.required" class="invalid-feedback">Pay Market is required</span>
             </div>
@@ -146,6 +150,8 @@
                               [valueField]="'Value'"
                               [textField]="'Name'"
                               [valuePrimitive]="true"
+                              [filterable]="true"
+                              [kendoDropDownFilter]="filterSettings"
                               [ngClass]="{ 'is-invalid': !f.Country.valid && f.Country.touched }"></kendo-combobox>
               <span *ngIf="f.Country.errors?.required" class="invalid-feedback">Country is required</span>
             </div>
@@ -162,6 +168,8 @@
                               [valueField]="'Value'"
                               [textField]="'Name'"
                               [valuePrimitive]="true"
+                              [filterable]="true"
+                              [kendoDropDownFilter]="filterSettings"
                               [ngClass]="{ 'is-invalid': !f.CurrencyCode.valid && f.CurrencyCode.touched }"></kendo-combobox>
               <span *ngIf="f.CurrencyCode.errors?.required" class="invalid-feedback">Currency is required</span>
             </div>
@@ -209,6 +217,8 @@
                               formControlName="Department"
                               [data]="(departments$ | async)?.obj"
                               [loading]="(departments$ | async)?.loading"
+                              [filterable]="true"
+                              [kendoDropDownFilter]="filterSettings"
                               [ngClass]="{ 'is-invalid': !f.Department.valid && f.Department.touched }"></kendo-combobox>
             </div>
           </div>
@@ -405,6 +415,8 @@
                               [valueField]="'Value'"
                               [textField]="'Name'"
                               [valuePrimitive]="true"
+                              [filterable]="true"
+                              [kendoDropDownFilter]="filterSettings"
                               formControlName="GradeCode"></kendo-combobox>
             </div>
           </div>
@@ -419,6 +431,8 @@
                               [valueField]="'Value'"
                               [textField]="'Name'"
                               formControlName="StructureRangeGroupId"
+                              [filterable]="true"
+                              [kendoDropDownFilter]="filterSettings"
                               [valuePrimitive]="true"></kendo-combobox>
             </div>
           </div>
