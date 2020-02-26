@@ -20,7 +20,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   @Output() reload = new EventEmitter();
 
   @Input() leftSidebarToggle = false;
-  clientAppRoot = '/' + environment.hostPath;
+  clientAppRoot = '/' + environment.hostPath + '/';
   ngAppRoot = environment.ngAppRoot;
   leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
   userContext$: Observable<UserContext>;

@@ -26,7 +26,7 @@ export class TileComponent implements OnInit, OnDestroy {
   @Input() userId: number;
 
   tilePreviewType: TilePreviewType = new TilePreviewType();
-  clientAppRoot = '/' + environment.hostPath;
+  clientAppRoot = '/' + environment.hostPath + '/';
   ngAppRoot = environment.ngAppRoot;
   previewModel: TilePreviewBase;
   highlightMarketingContent = false;
