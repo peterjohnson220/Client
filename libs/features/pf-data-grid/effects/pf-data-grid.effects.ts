@@ -69,8 +69,10 @@ export class PfDataGridEffects {
                         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, loadDataAction.pageViewId)),
-                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
-                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters })
+                        this.store.pipe(select(fromPfDataGridReducer.getInboundFilterSourceNameWhiteList, loadDataAction.pageViewId)),
+                        (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions,
+                         sortDescriptor, applyDefaultFilters, inboundFilterSourceNameWhiteList) =>
+                            ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, inboundFilterSourceNameWhiteList })
                     )
                 ),
             ),
@@ -80,7 +82,7 @@ export class PfDataGridEffects {
                         .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(
                             data.baseEntity ? data.baseEntity.Id : null,
                             data.fields,
-                            PfDataGridEffects.mapFieldsToFilters(data.fields),
+                            PfDataGridEffects.mapFieldsToFilters(data.fields, data.inboundFilterSourceNameWhiteList),
                             data.pagingOptions,
                             data.sortDescriptor,
                             data.pagingOptions && data.pagingOptions.From === 0,
@@ -322,9 +324,10 @@ export class PfDataGridEffects {
       return null;
     }
 
-    static mapFieldsToFilters(fields: ViewField[]): DataViewFilter[] {
+    static mapFieldsToFilters(fields: ViewField[], sourceNameWhiteList: string[]): DataViewFilter[] {
         return fields
-            .filter(field => field.FilterValue !== null || !isValueRequired(field))
+            .filter(field => (field.FilterValue !== null || !isValueRequired(field)) &&
+              ((!sourceNameWhiteList || !sourceNameWhiteList.length) || sourceNameWhiteList.indexOf(field.SourceName) > -1))
             .map(field => <DataViewFilter>{
                 EntitySourceName: field.EntitySourceName,
                 SourceName: field.SourceName,

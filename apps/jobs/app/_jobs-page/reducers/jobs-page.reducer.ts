@@ -15,6 +15,7 @@ export interface State {
   changingJobStatus: AsyncStateObj<boolean>;
   pricingIdToBeDeleted: number;
   companyPayMarkets: any;
+  structureGradeNames: any;
 }
 
 export const initialState: State = {
@@ -27,6 +28,7 @@ export const initialState: State = {
   changingJobStatus: generateDefaultAsyncStateObj<boolean>(false),
   pricingIdToBeDeleted: undefined,
   companyPayMarkets: [],
+  structureGradeNames: []
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -105,6 +107,13 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
           .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending))
       };
     }
+    case fromJobsPageActions.LOAD_STRUCTURE_GRADES_SUCCESS: {
+      return {
+        ...state,
+        structureGradeNames: action.payload.map(o => ({ Id: o, Value: o }))
+          .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending))
+      };
+    }
     case fromJobsPageActions.CANCEL_DELETE_PRICING:
     case fromJobsPageActions.DELETE_PRICING_SUCCESS: {
       return {
@@ -126,3 +135,4 @@ export const getShowJobStatusModal = (state: State) => state.showJobStatusModal;
 export const getChangingJobStatus = (state: State) => state.changingJobStatus;
 export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDeleted;
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
+export const getStructureGradeNames = (state: State) => state.structureGradeNames;

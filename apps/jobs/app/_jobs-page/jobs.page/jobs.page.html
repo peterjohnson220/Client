@@ -42,7 +42,7 @@
     (click)="addingNewJob = true"
     class="btn btn-primary">
     New Job
-  </button>  
+  </button>
 </ng-template>
 
 <ng-template #gridActions>
@@ -94,7 +94,7 @@
   [isOpen$]="showAddToProjectModal$"
   (onSubmit)="addToProject()"
   (onDismiss)="toggleAddToProjectModal(false)">
-  
+
   <ng-container basic-content>
     The following will be added to a new Project:
     <div>
@@ -128,13 +128,13 @@
     You are about to make {{selectedJobIds.length}} job{{selectedJobIds.length > 1 ? 's' : ''}}
     {{isActiveJobs() ? 'Inactive' : 'Active'}}.
     <br><br>
-    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}} 
+    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}}
     for use throughout the system. Would you like to continue?
     <div *ngIf="(changingJobStatus$ | async).loadingError">
       <br>
       <span class="text-danger">
         <b>
-          We encountered a problem {{isActiveJobs() ? 'Inactivating' : 'Activating'}} the jobs you selected. 
+          We encountered a problem {{isActiveJobs() ? 'Inactivating' : 'Activating'}} the jobs you selected.
           Please try again or contact your account representative.
         </b>
       </span>
@@ -159,15 +159,38 @@
       [data]="filteredPayMarketOptions"
       (valueChange)="handlePayMarketFilterChanged($event)"
       [filterable]="true"
-      (filterChange)="handleFilter($event)"
+      (filterChange)="handlePayMarketDropdownFilter($event)"
       [attr.data-qa-id]="'ddm-operator-jobs-page' + payMarketField.SourceName"
       class="k-dropdown-white form-control">
     </kendo-dropdownlist>
   </div>
 </ng-template>
 
+<ng-template #structureGradeFilter>
+  <div>
+    <label>Grade:</label>
+    <!--
+    [(ngModel)]="selectedPayMarket"
+
+
+    -->
+    <kendo-dropdownlist
+
+      [textField]="'Value'"
+      [valueField]="'Id'"
+      [defaultItem]="{Value:'All Grades', Id: null}"
+      [data]="filteredStructureGradeNameOptions"
+      (valueChange)="handleGradeFilterChanged($event)"
+      [filterable]="true"
+      (filterChange)="handleStructureGradeNameDropdownFilter($event)"
+      [attr.data-qa-id]="'ddm-operator-jobs-page' + structureGradeSearchField.SourceName"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
 <ng-template #jobStatusFilter let-field="field">
-  <kendo-switch 
+  <kendo-switch
     *ngIf="field"
     style="width:80px;"
     [title]="field.FilterPlaceholder"

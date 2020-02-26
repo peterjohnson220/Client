@@ -6,17 +6,19 @@ import { Observable, Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
+
+import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as cloneDeep from 'lodash.clonedeep';
+
 import * as fromJobsPageActions from '../../actions';
 import * as fromJobsPageReducer from '../../reducers';
 import { PageViewIds } from '../../constants';
-
 
 @Component({
   selector: 'pf-pricing-history',
@@ -28,6 +30,7 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
   @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
+  pricingHistoryGridInboundFilterSourceNameWhiteList = ['CompanyJob_ID', 'PayMarket'];
   pageViewId = PageViewIds.PricingHistory;
 
   globalFilterTemplates = {};
@@ -95,10 +98,12 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
   deletePricing() {
     this.store.dispatch(new fromJobsPageActions.DeletePricingFromGrid(this.pageViewId, this.deletePricingRequest));
   }
+
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
   }
+
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;

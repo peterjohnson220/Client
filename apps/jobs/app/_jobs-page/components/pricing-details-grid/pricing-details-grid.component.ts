@@ -10,7 +10,6 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { RemoteDataSourceService } from 'libs/core/services';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
@@ -25,7 +24,6 @@ import { PageViewIds } from '../../constants';
   styleUrls: ['./pricing-details-grid.component.scss']
 })
 export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
-
   @Input() filters: PfDataGridFilter[];
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
@@ -34,6 +32,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
   @ViewChild('baseTccColumn', { static: false }) baseTccColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
 
+  pricingDetailsGridInboundFilterSourceNameWhiteList = ['CompanyJob_ID', 'PayMarket'];
   globalFilterTemplates = {};
   colTemplates = {};
   pageViewId = PageViewIds.PricingDetails;

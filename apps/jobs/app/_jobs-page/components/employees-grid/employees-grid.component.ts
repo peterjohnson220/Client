@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -27,6 +27,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
   @ViewChild('employeeColumn', { static: false }) employeeColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
+  employeeGridInboundFilterSourceNameWhiteList = ['CompanyJob_ID', 'PayMarket', 'Employees'];
   globalFilterTemplates = {};
   colTemplates = {};
   defaultSort: SortDescriptor[] = [{
@@ -41,7 +42,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
   payMarketOptions: any;
   selectedPayMarket: any;
 
-  constructor(private store: Store<fromPfGridReducer.State>, private cd: ChangeDetectorRef) {
+  constructor(private store: Store<fromPfGridReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
