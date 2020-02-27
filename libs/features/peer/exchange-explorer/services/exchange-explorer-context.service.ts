@@ -12,7 +12,6 @@ import { Filter, MultiSelectFilter } from '../../../search/models';
 import { BaseExchangeDataSearchRequest } from '../../../../models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeDataSearchFilterContext } from '../../../../models/peer';
 import { PayfactorsSearchApiHelper } from '../../../search/helpers';
-
 @Injectable()
 export class ExchangeExplorerContextService {
 
@@ -45,15 +44,22 @@ export class ExchangeExplorerContextService {
   }
 
   selectCountOfCompanyFiltersSelected(): Observable<number> {
-    const searchFilters$: Observable<Filter[]> = this.searchStore.pipe(select(fromSearchReducer.getParentFilters));
+    const searchFilters$: Observable<Filter[]> = this.searchStore.pipe(select(fromSearchReducer.getAllFilters));
 
     return searchFilters$.pipe(
       map((filters: Filter[]) => {
-        return filters.filter((f: Filter) => f.BackingField === 'company_name').reduce<number>((val, f: MultiSelectFilter) => {
-          const selectedOptions = f.Options.filter(o => o.Selected);
-          const selectionCount = !!selectedOptions ? selectedOptions.length : 0;
-          return val += selectionCount;
-        }, 0);
+
+        const companyIdSelections = filters.filter((f: Filter) => f.BackingField === 'company_name').map((msf: MultiSelectFilter) => {
+           return msf.Options.filter(o => o.Selected).map(x => {
+            return x.Value.toString();
+          });
+        });
+
+        const subsidiaryParentIdSelections = filters.filter((f: Filter) => f.ParentBackingField === 'company_name').map((msf: MultiSelectFilter) => {
+          return msf.Options.filter(o => o.Selected).map(x => JSON.parse(x.Value).ParentOptionValue);
+        });
+
+        return new Set(companyIdSelections[0].concat(subsidiaryParentIdSelections[0])).size;
       })
     );
   }
