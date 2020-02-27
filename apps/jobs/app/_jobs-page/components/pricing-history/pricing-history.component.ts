@@ -102,6 +102,7 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
+    field.FilterOperator = '=';
     this.updateField(field);
   }
 
