@@ -6,7 +6,6 @@ import {Observable} from 'rxjs';
 import {Filter, MultiSelectOption} from '../../models';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromChildFilterActions from '../../actions/child-filter.actions';
-import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import {take} from 'rxjs/operators';
 
 @Component({
@@ -38,14 +37,14 @@ export class ChildFilterComponent extends SingleFilterComponent implements OnIni
 
   }
 
-  handleMultiSelectOptionSelected(optionSelectedObj: { filterId: string, option: MultiSelectOption }) {
+  handleMultiSelectOptionSelected(optionSelectedObj: { filterId: string, option: MultiSelectOption}) {
     this.store.dispatch(new fromChildFilterActions.ToggleMultiSelectOption(optionSelectedObj));
     this.store.dispatch(new fromSearchFiltersActions.ToggleMultiSelectOption(optionSelectedObj));
   }
+
   handleClearSection(filterId: string) {
-    let test;
     let parentOptionValue = '';
-    test = this.childFilterParentOptionValue$.pipe(take(1)).subscribe( x => {
+    this.childFilterParentOptionValue$.pipe(take(1)).subscribe( x => {
         parentOptionValue = x;
       }
     );

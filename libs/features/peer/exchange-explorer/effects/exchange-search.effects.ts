@@ -39,19 +39,22 @@ export class ExchangeSearchEffects {
         this.store.pipe(select(fromSearchReducer.getSearchingFilter)),
         this.store.pipe(select(fromSearchReducer.getSearchingChildFilter)),
         this.store.pipe(select(fromSearchReducer.getSingledFilter)),
-        (action: any, searchingFilter, searchingChildFilter, singledFilter) =>
-          ({action, searchingFilter, searchingChildFilter, singledFilter})
+        this.store.pipe(select(fromSearchReducer.getChildFilter)),
+        (action: any, searchingFilter, searchingChildFilter, singledFilter, childFilter) =>
+          ({action, searchingFilter, searchingChildFilter, singledFilter, childFilter})
 
       ),
       mergeMap( payload => {
         const actions = [];
           if ( payload.searchingFilter &&
-               ((payload.action.payload && payload.action.payload.getSingledFilteredAggregates ) ||
-                 payload.singledFilter.Operator === OperatorEnum.And || payload.searchingChildFilter)) {
+            ((payload.action.payload && payload.action.payload.getSingledFilteredAggregates ) || payload.singledFilter.Operator === OperatorEnum.And)) {
             actions.push(new fromSingledFilterActions.SearchAggregation());
           }
 
-          if (payload.searchingChildFilter) {
+          if ((payload.searchingChildFilter
+            && payload.action.payload.getChildFilteredAggregates
+            && payload.childFilter.ParentBackingField !== payload.singledFilter.BackingField) ||
+            (payload.childFilter && payload.childFilter.Operator === OperatorEnum.And)) {
             actions.push(new fromChildFilterActions.SearchAggregation());
           }
         return actions;

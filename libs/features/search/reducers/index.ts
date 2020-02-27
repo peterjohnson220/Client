@@ -80,12 +80,8 @@ export const getSubFilters = createSelector(
 
 export const getChildFilterName = createSelector(
   selectChildFilterState,
-  selectSearchFiltersState,
-  (childFilter, filters) => {
-    if (childFilter.parentOptionValue) {
-      const parentFilter = <MultiSelectFilter>filters.filters.filter(x => x.BackingField === childFilter.filter.ParentBackingField)[0];
-      return parentFilter.Options.filter(x => x.Value === childFilter.parentOptionValue)[0].Name;
-    }
+  (childFilter) => {
+    return childFilter.parentOptionName;
   }
 );
 
@@ -167,9 +163,9 @@ export const getSingledFilterSelectionCount = createSelector(
 
 export const getChildFilterSelectionCount = createSelector(
   getChildFilter,
-  getParentFilters,
+  getSubFilters,
   (childFilter, filters) => {
-    const backingFilter = <MultiSelectFilter>filters.find(f => f.Id === childFilter.Id);
+    const backingFilter = <MultiSelectFilter>filters.find(f => childFilter && f.Id === childFilter.Id);
     return !!backingFilter ? backingFilter.Options.filter(o => o.Selected).length : 0;
   }
 );

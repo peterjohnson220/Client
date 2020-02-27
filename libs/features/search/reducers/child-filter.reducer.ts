@@ -8,6 +8,7 @@ export interface State {
   filter: Filter;
   searchValue: string;
   parentOptionValue: string;
+  parentOptionName: string;
 }
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
   loadingOptionsError: false,
   filter: null,
   searchValue: '',
-  parentOptionValue : ''
+  parentOptionValue : '',
+  parentOptionName: ''
 };
 
 export function reducer(state = initialState, action: fromChildFilterActions.Actions): State {
@@ -74,6 +76,7 @@ export function reducer(state = initialState, action: fromChildFilterActions.Act
         ...state,
         filter: { ...<any>action.payload.filter, Options: [] },
         parentOptionValue: action.payload.parentOption.Value,
+        parentOptionName: action.payload.parentOption.Name,
         searchValue: ''
       };
     }
