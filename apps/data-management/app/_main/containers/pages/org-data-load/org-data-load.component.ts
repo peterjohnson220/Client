@@ -520,6 +520,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   public orgDataExportAction() {
+    if (this.tooltip) {
+      this.tooltip.close();
+    }
+
     if (this.selectedCompany) {
       this.mainStore.dispatch(new fromOrganizationalDataActions.PublishDownloadOrgDataMessage(this.selectedCompany.CompanyId));
     }
