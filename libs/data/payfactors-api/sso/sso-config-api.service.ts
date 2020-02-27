@@ -15,4 +15,8 @@ export class SsoConfigApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.CreateCustomerConnection`, customerConnection,
       (response) => response.value);
   }
+
+  getSsoConfigurations(): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}/Get`);
+  }
 }

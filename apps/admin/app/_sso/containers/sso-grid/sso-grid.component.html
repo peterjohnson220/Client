@@ -1,0 +1,35 @@
+<kendo-grid
+  [kendoGridBinding]="gridData"
+  [pageSize]="20"
+  [pageable]="true"
+  [sortable]="true"
+  [filterable]="true"
+  (edit)="displaySsoUrl($event)"
+  >
+  <kendo-grid-column field="CompanyId" [width]="50"></kendo-grid-column>
+  <kendo-grid-column field="CompanyName" [width]="50"></kendo-grid-column>
+  <kendo-grid-column field="IdpId" [width]="100"></kendo-grid-column>
+  <kendo-grid-column field="EmailDomain" [width]="100"></kendo-grid-column>
+  <kendo-grid-column field="SsoLogOutUrl" [width]="140"></kendo-grid-column>
+  <kendo-grid-command-column title="SSO Url" width="30">
+    <ng-template kendoGridCellTemplate>
+      <button kendoGridEditCommand [primary]="true">SSO Url</button>
+    </ng-template>
+  </kendo-grid-command-column>
+</kendo-grid>
+
+<ng-template #ssoUrlModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="ssoUrlModalLabel">SSO URL</h4>
+    <button type="button" class="close" (click)="c('close')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{ssoUrl}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('close')">Close</button>
+  </div>
+</ng-template>
+

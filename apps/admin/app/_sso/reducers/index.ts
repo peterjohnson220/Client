@@ -36,3 +36,28 @@ export const getSsoConfiguringError = createSelector(
   fromSsoConfigReducer.getSsoConfiguringError
 );
 
+export const getAddSsoConfigModalOpen = createSelector(
+  selectSsoState,
+  fromSsoConfigReducer.getAddSsoConfigModalOpen
+);
+
+export const getSsoConfigList =  createSelector(
+  selectSsoState,
+  fromSsoConfigReducer.getSsoConfigList
+);
+
+export const getSsoConfigLoading = createSelector(
+  selectSsoState,
+  fromSsoConfigReducer.getSsoConfigLoading
+);
+
+export const getSsoConfigLoadingSuccess = createSelector(
+  selectSsoState,
+  fromSsoConfigReducer.getSsoConfigLoadingSuccess
+);
+
+export const getSsoConfigLoadingError = createSelector(
+  selectSsoState,
+  fromSsoConfigReducer.getSsoConfigLoadingError
+);
+
