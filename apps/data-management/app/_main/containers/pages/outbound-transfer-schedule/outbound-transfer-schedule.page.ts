@@ -78,10 +78,8 @@ export class OutboundTransferSchedulePageComponent implements OnInit, OnDestroy 
     if (this.wasEdited) {
       this.shouldGoBack = true;
       this.store.dispatch(new fromTransferScheduleActions.SaveAllOutboundTransferSchedules(this.syncSchedulesBackup));
-    } else {
-      this.router.navigate(['/', 'field-mapping']);
     }
-
+    this.router.navigate(['/transfer-data/outbound/field-mapping']);
   }
 
   canFinish() {

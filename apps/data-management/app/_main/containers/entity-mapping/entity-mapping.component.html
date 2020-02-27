@@ -1,6 +1,6 @@
 <div class="row mt-5">
   <div class="col-sm-4">
-    <h5>Import Fields</h5>
+    <h5>{{sourceName}} Fields</h5>
     <div class="row">
       <div class="col">
         <pf-input-debounce [id]="'providerEntitySearch-' + entityType.toLowerCase()" [delay]="400"
@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="col-sm-8">
-    <h5>Payfactors Fields</h5>
+    <h5>{{targetName}} Fields</h5>
     <div class="row">
       <div class="col">
         <pf-input-debounce [id]="'payfactorsEntitySearch-' + entityType.toLowerCase()" [delay]="400"
