@@ -18,9 +18,10 @@ import {
 } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 import { Filter } from 'libs/features/search/models';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import { ExchangeExplorerContextService } from '../services';
@@ -155,7 +156,7 @@ export class ExchangeScopeEffects {
         }));
 
         if (payload.searchingFilter) {
-          actions.push(new fromSingledFilterActions.SearchAggregation());
+          actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER}));
         }
 
         const applyAction = payload.isDataCut ?

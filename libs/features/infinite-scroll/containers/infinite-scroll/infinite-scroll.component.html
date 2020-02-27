@@ -1,0 +1,23 @@
+<div #results
+     class="results"
+     infinite-scroll
+     [scrollWindow]="false"
+     [infiniteScrollDistance]="2"
+     (scrolled)="onScroll()">
+  <pf-async-container
+    [loading]="loading$ | async"
+    [loadingError]="error$ | async"
+    [hideReloadButton]="true"
+    [spinnerType]="spinnerType">
+
+    <ng-content></ng-content>
+
+  </pf-async-container>
+
+  <div class="m-3" *ngIf="loadingMore$ | async">
+    <pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator>
+    Loading More Results...
+  </div>
+</div>
+
+

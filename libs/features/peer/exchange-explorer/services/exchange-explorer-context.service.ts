@@ -21,8 +21,8 @@ export class ExchangeExplorerContextService {
     const mapFilter$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapFilter));
     const mapZoom$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapZoom));
     const searchFilters$ = this.searchStore.pipe(select(fromSearchReducer.getParentFilters));
-    const subFilters$ = this.searchStore.pipe(select(fromSearchReducer.getSubFilters));
-    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, mapZoom$, searchFilters$, subFilters$]);
+    const childFilters$ = this.searchStore.pipe(select(fromSearchReducer.getChildFilters));
+    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, mapZoom$, searchFilters$, childFilters$]);
 
     return combinedFilterContext$.pipe(
       map((combined) => {
@@ -33,10 +33,10 @@ export class ExchangeExplorerContextService {
         };
         const searchFields = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(combined[3]);
         const filters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[3]);
-        const subFilters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[4]);
+        const childFilters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[4]);
         const exchangeDataSearchRequest: BaseExchangeDataSearchRequest = {
           FilterContext: filterContext,
-          Filters: filters.concat(subFilters),
+          Filters: filters.concat(childFilters),
           SearchFields: !!searchFields ? searchFields : []
         };
         return exchangeDataSearchRequest;

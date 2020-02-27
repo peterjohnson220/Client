@@ -33,7 +33,7 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef
   ) {
     this.filters$ = this.store.select(fromSearchReducer.getParentFilters);
-    this.subFilters$ = this.store.select(fromSearchReducer.getSubFilters);
+    this.subFilters$ = this.store.select(fromSearchReducer.getChildFilters);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.filterSearchVisible$ = this.store.select(fromSearchReducer.getSearchingFilter);
     this.childFilter$ = this.store.select(fromSearchReducer.getChildFilter);

@@ -1,44 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
+import * as fromInfiniteScrollReducer from 'libs/features/infinite-scroll/reducers';
 
 import * as fromSearchPageActions from '../../actions/search-page.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import * as fromSearchReducer from '../../reducers';
-import { Filter, MultiSelectOption, FilterType } from '../../models';
+import { MultiSelectOption, FilterType, MultiSelectFilter } from '../../models';
 
 @Component({
   selector: 'pf-single-filter',
   templateUrl: './single-filter.component.html',
   styleUrls: ['./single-filter.component.scss']
 })
-export class SingleFilterComponent implements OnInit {
-  singledFilter$: Observable<Filter>;
+export class SingleFilterComponent implements OnInit, OnDestroy {
+  filter$: Observable<MultiSelectFilter>;
   selectionCount$: Observable<number>;
   loadingOptions$: Observable<boolean>;
   loadingOptionsError$: Observable<boolean>;
   searchValue$: Observable<string>;
   filterTypes = FilterType;
-  subFilters$: Observable<Filter[]>;
-  childFilter$: Observable<Filter>;
-  childFilterParentOptionValue$: Observable<any>;
 
-  constructor(
-    protected store: Store<fromSearchReducer.State>,
-  ) {
-    this.singledFilter$ = this.store.select(fromSearchReducer.getSingledFilter);
+  filterSub: Subscription;
+
+  filter: MultiSelectFilter;
+  scrollId: string;
+  get numberOfCurrentResults(): number {
+    if (!this.filter) {
+      return 0;
+    }
+
+    return (<MultiSelectFilter>this.filter).Options.length;
+  }
+  constructor(protected store: Store<fromSearchReducer.State>) {
+    this.scrollId = ScrollIdConstants.SEARCH_SINGLED_FILTER;
+    this.filter$ = <any>this.store.select(fromSearchReducer.getSingledFilter);
     this.selectionCount$ = this.store.select(fromSearchReducer.getSingledFilterSelectionCount);
-    this.loadingOptions$ = this.store.select(fromSearchReducer.getLoadingOptions);
-    this.loadingOptionsError$ = this.store.select(fromSearchReducer.getLoadingOptionsError);
     this.searchValue$ = this.store.select(fromSearchReducer.getSingledFilterSearchValue);
-    this.subFilters$ = this.store.select(fromSearchReducer.getSubFilters);
-    this.childFilter$ = this.store.select(fromSearchReducer.getChildFilter);
-    this.childFilterParentOptionValue$ = this.store.select(fromSearchReducer.getChildFilterParentOptionValue);
+    this.loadingOptions$ = this.store.select(fromInfiniteScrollReducer.getLoading, this.scrollId);
+    this.loadingOptionsError$ = this.store.select(fromInfiniteScrollReducer.getError, this.scrollId);
     }
 
   ngOnInit() {
-    this.store.dispatch(new fromSingledFilterActions.SearchAggregation());
+    this.filterSub = this.filter$.subscribe((filter) => {
+      this.filter = filter;
+    });
+    this.load();
+  }
+
+  ngOnDestroy(): void {
+    this.filterSub.unsubscribe();
   }
 
   backToAllFilters() {
@@ -57,6 +73,10 @@ export class SingleFilterComponent implements OnInit {
 
   handleSearchValueChanged(value: string) {
     this.store.dispatch(new fromSingledFilterActions.SetSearchValue(value));
-    this.store.dispatch(new fromSingledFilterActions.SearchAggregation());
+    this.load();
+  }
+
+  load(): void {
+    this.store.dispatch(new fromInfiniteScrollActions.Load({scrollId: this.scrollId}));
   }
 }

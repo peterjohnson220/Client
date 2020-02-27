@@ -17,10 +17,10 @@ import * as fromExchangeExplorerReducer from '../reducers';
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
 import * as fromSearchResultsActions from '../../../search/actions/search-results.actions';
 import * as fromSearchFiltersActions from '../../../search/actions/search-filters.actions';
-import * as fromSingledFilterActions from '../../../search/actions/singled-filter.actions';
-import * as fromChildFilterActions from '../../../search/actions/child-filter.actions';
 import * as fromMapActions from '../actions/map.actions';
 import { ExchangeExplorerContextService } from '../services';
+import * as fromInfiniteScrollActions from '../../../infinite-scroll/actions/infinite-scroll.actions';
+import {ScrollIdConstants} from '../../../infinite-scroll/models';
 
 @Injectable()
 export class ExchangeSearchEffects {
@@ -48,14 +48,14 @@ export class ExchangeSearchEffects {
         const actions = [];
           if ( payload.searchingFilter &&
             ((payload.action.payload && payload.action.payload.getSingledFilteredAggregates ) || payload.singledFilter.Operator === OperatorEnum.And)) {
-            actions.push(new fromSingledFilterActions.SearchAggregation());
+            actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER}));
           }
 
           if ((payload.searchingChildFilter
             && payload.action.payload.getChildFilteredAggregates
             && payload.childFilter.ParentBackingField !== payload.singledFilter.BackingField) ||
             (payload.childFilter && payload.childFilter.Operator === OperatorEnum.And)) {
-            actions.push(new fromChildFilterActions.SearchAggregation());
+            actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER}));
           }
         return actions;
       }
