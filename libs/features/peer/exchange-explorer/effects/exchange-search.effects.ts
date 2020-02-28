@@ -46,19 +46,34 @@ export class ExchangeSearchEffects {
       ),
       mergeMap( payload => {
         const actions = [];
-          if ( payload.searchingFilter &&
-            ((payload.action.payload && payload.action.payload.getSingledFilteredAggregates ) || payload.singledFilter.Operator === OperatorEnum.And)) {
+
+        if (payload.action.payload && payload.action.payload.isMapMove) {
+          if (payload.searchingFilter) {
+            actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER}));
+          }
+          if (payload.searchingChildFilter) {
+            actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER}));
+          }
+        } else {
+          const singleFilterRefreshNecessary = (payload.action.payload.getSingledFilteredAggregates ||
+            (payload.singledFilter && payload.singledFilter.Operator === OperatorEnum.And));
+
+          const childFilterRefreshNecessary = (!payload.searchingFilter || payload.searchingFilter &&
+            payload.singledFilter.BackingField !== payload.childFilter.ParentBackingField) &&
+            (payload.action.payload.getChildFilteredAggregates || (payload.childFilter && payload.childFilter.Operator === OperatorEnum.And));
+
+          if (singleFilterRefreshNecessary) {
             actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER}));
           }
 
-          if ((payload.searchingChildFilter
-            && payload.action.payload.getChildFilteredAggregates
-            && payload.childFilter.ParentBackingField !== payload.singledFilter.BackingField) ||
-            (payload.childFilter && payload.childFilter.Operator === OperatorEnum.And)) {
-            actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER}));
+          if (childFilterRefreshNecessary) {
+            if (payload.action.payload.getChildFilteredAggregates || payload.childFilter.Operator === OperatorEnum.And) {
+              actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER}));
+            }
           }
+        }
         return actions;
-      }
+        }
       )
     );
 
