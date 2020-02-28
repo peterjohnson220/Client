@@ -13,7 +13,8 @@ export class GetExchangeDataResults implements Action {
     getSingledFilteredAggregates?: boolean,
     resetInitialBounds?: boolean,
     resetToPayMarketBounds?: boolean,
-    getChildFilteredAggregates?: boolean
+    getChildFilteredAggregates?: boolean,
+    isMapMove?: boolean
 
   }) {}
 }

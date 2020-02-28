@@ -105,7 +105,7 @@ export class ExchangeFilterContextEffects {
   includeUntaggedEmployeesToggled$ = this.actions$.pipe(
     ofType(fromExchangeFilterContextActions.TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES),
     mergeMap(() => [
-      new fromExchangeSearchResultsActions.GetExchangeDataResults({getSingledFilteredAggregates: true})
+      new fromExchangeSearchResultsActions.GetExchangeDataResults({getSingledFilteredAggregates: true, getChildFilteredAggregates: true})
     ])
   );
 
