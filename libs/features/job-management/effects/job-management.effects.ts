@@ -53,6 +53,27 @@ export class JobManagementEffects {
         )
       )
     );
+
+  @Effect()
+  loadJob$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobManagementActions.LOAD_JOB),
+      mergeMap((loadJobAction: fromJobManagementActions.LoadJob) =>
+        of(loadJobAction).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromJobManagementReducer.getJobId)),
+            (action: fromJobManagementActions.LoadJob, jobId) => ({ action, jobId })
+          )
+        ),
+      ),
+      switchMap((data) =>
+        this.companyJobApiService.getCompanyJob(data.jobId).pipe(
+          map((job) => new fromJobManagementActions.LoadJobSuccess(job)),
+          catchError(response => this.handleError('There was an error loading the job information'))
+        )
+      )
+    );
+
   @Effect()
   saveCompanyJob$: Observable<Action> = this.actions$
     .pipe(
@@ -62,8 +83,9 @@ export class JobManagementEffects {
           withLatestFrom(
             this.rootStore.pipe(select(fromRootState.getUserContext)),
             this.store.pipe(select(fromJobManagementReducer.getCompanyJob)),
-            (action: fromJobManagementActions.SaveCompanyJob, userContext, companyJob) =>
-              ({ action, userContext, companyJob })
+            this.store.pipe(select(fromJobManagementReducer.getJobId)),
+            (action: fromJobManagementActions.SaveCompanyJob, userContext, companyJob, jobId) =>
+              ({ action, userContext, companyJob, jobId })
           )
         ),
       ),
@@ -71,9 +93,13 @@ export class JobManagementEffects {
         const newCompanyJob = cloneDeep(data.companyJob);
         newCompanyJob.CompanyId = data.userContext.CompanyId;
         newCompanyJob.JobStatus = true;
+        if (data.jobId) {
+          newCompanyJob.CompanyJobId = data.jobId;
+        }
         this.trimValues(newCompanyJob);
+
         return this.companyJobApiService
-          .createCompanyJob(newCompanyJob)
+          .saveCompanyJob(newCompanyJob)
           .pipe(
             map((response: CompanyJob) => {
               return new fromJobManagementActions.SaveCompanyJobSuccess();

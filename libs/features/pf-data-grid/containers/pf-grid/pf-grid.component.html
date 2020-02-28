@@ -37,7 +37,11 @@
                         [field]="mappedFieldName(col)"
                         [title]="col.DisplayName"
                         [headerClass]="getGridColumnHeaderClass()"
-                        [style]="{'text-align': col.TextAlign, 'background-color': backgroundColor ? backgroundColor : '', 'padding': '0.25rem 0.25rem'}"
+                        [style]="{
+                          'text-align': col.TextAlign,
+                          'background-color': backgroundColor ? backgroundColor : '',
+                          'padding': '0.25rem 0.25rem',
+                          'overflow': 'inherit'}"
                         [class]="getColumnClasses(col)"
                         [width]="selectedRecordId ? null : col.Width"
                         [minResizableWidth]="30">
@@ -62,7 +66,10 @@
           [field]="mappedFieldName(col)"
           [title]="col.DisplayName"
           [headerClass]="getGridColumnHeaderClass()"
-          [style]="{'text-align': col.TextAlign, 'background-color': backgroundColor ? backgroundColor : ''}"
+          [style]="{
+            'text-align': col.TextAlign,
+            'background-color': backgroundColor ? backgroundColor : '',
+            'overflow': 'inherit'}"
           [class]="getColumnClasses(col)"
           [width]="selectedRecordId ? null : col.Width"
           [minResizableWidth]="30">

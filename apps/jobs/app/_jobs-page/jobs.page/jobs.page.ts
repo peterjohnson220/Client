@@ -20,7 +20,8 @@ import { AsyncStateObj } from 'libs/models';
 
 @Component({
   selector: 'pf-jobs-page',
-  templateUrl: './jobs.page.html'
+  templateUrl: './jobs.page.html',
+  styleUrls: ['./jobs.page.scss']
 })
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -45,6 +46,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   structureGradeNameSubscription: Subscription;
 
   company$: Observable<string>;
+  selectedRecordId$: Observable<number>;
 
   showAddToProjectModal$: Observable<boolean>;
   addingToProject$: Observable<AsyncStateObj<boolean>>;
@@ -52,7 +54,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showJobStatusModal$: Observable<boolean>;
   changingJobStatus$: Observable<AsyncStateObj<boolean>>;
 
-  addingNewJob = false;
+  showJobEditModal = false;
+  editingJobId: number = null;
+
+  inlineMenuHideBorders = true;
 
   colTemplates = {};
   filterTemplates = {};
@@ -64,19 +69,23 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     Value: 'true'
   }];
 
-  @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
-  @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
-  @ViewChild('peerFilter', { static: false }) peerFilter: ElementRef;
-  @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
-  @ViewChild('jobStatusFilter', { static: false }) jobStatusFilter: ElementRef;
-  @ViewChild('structureGradeFilter', { static: false }) structureGradeFilter: ElementRef;
-
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'CompanyJobs_Job_Title'
   }];
 
+  @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
+  @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
+  @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
+
+  @ViewChild('peerFilter', { static: false }) peerFilter: ElementRef;
+  @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
+  @ViewChild('jobStatusFilter', { static: false }) jobStatusFilter: ElementRef;
+  @ViewChild('structureGradeFilter', { static: false }) structureGradeFilter: ElementRef;
+
   constructor(private store: Store<fromJobsPageReducer.State>) {
+
+    this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.pageViewId);
 
     this.company$ = this.store.select(fromJobsPageReducer.getCompany);
     this.showAddToProjectModal$ = this.store.select(fromJobsPageReducer.getShowAddToProjectModal);
@@ -121,6 +130,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.colTemplates = {
+      'Job_Title': { Template: this.jobTitleColumn },
       'JobStatus': { Template: this.jobStatusColumn },
       'Exchange_ID': { Template: this.hasPeerDataColumn }
     };
@@ -226,5 +236,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isActiveJobs() {
     return this.jobStatusField ? this.jobStatusField.FilterValue : false;
+  }
+
+  closeJobManagmentModal() {
+    this.showJobEditModal = false;
+    this.editingJobId = null;
   }
 }

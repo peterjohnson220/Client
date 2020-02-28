@@ -51,12 +51,12 @@ describe('Job Management Feature - Job Management', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('Should dispatch the ShowJobForm action when the showJobForm is set to true', () => {
-    const expectedAction = new fromActions.ShowJobForm(true);
+  it('Should dispatch the ShowJobModal action when the showJobForm is set to true', () => {
+    const expectedAction = new fromActions.ShowJobModal(true);
 
-    instance.showJobForm = true;
+    instance.showJobModal = true;
     instance.ngOnChanges({
-      showJobForm: new SimpleChange(null, true, true)
+      showJobModal: new SimpleChange(null, true, true)
     });
 
     fixture.detectChanges();
