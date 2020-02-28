@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+
 import { environment } from 'environments/environment';
 import { LoaderTypes, LoadTypes } from 'libs/constants';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
@@ -42,6 +44,8 @@ import { EntityChoice, FileUploadDataModel, getEntityChoicesForOrgLoader, OrgUpl
 export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   @ViewChild('entityUpload', { static: false }) uploadComponent: EntityUploadComponent;
+  @ViewChild('downloadToolTip', { static: false }) public tooltip: NgbTooltip;
+
   private defaultDelimiter = ',';
 
   loadOptions: EntityChoice[];
@@ -151,6 +155,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
     private cdr: ChangeDetectorRef) {
+
     this.loadOptions = getEntityChoicesForOrgLoader();
     this.AddAndSetSelectedMapping(this.configGroupSeed);
 
@@ -322,6 +327,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
     this.mainStore.dispatch(new fromOrganizationalDataActions.GetOrganizationalHeadersLink());
     this.mainStore.dispatch(new fromCompanySelectorActions.GetCompanies());
   }
@@ -506,10 +512,18 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       if (this.stepIndex !== OrgUploadStep.FieldMapping) {
         this.stepIndex += 1;
       }
+
+      if (this.stepIndex === OrgUploadStep.Files) {
+        this.tooltip.open();
+      }
     }
   }
 
   public orgDataExportAction() {
+    if (this.tooltip) {
+      this.tooltip.close();
+    }
+
     if (this.selectedCompany) {
       this.mainStore.dispatch(new fromOrganizationalDataActions.PublishDownloadOrgDataMessage(this.selectedCompany.CompanyId));
     }
