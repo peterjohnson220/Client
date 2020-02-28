@@ -1,0 +1,31 @@
+<pf-async-container [loading]="(providers$ | async).loading || (transferMethods$ | async).loading"
+                    [loadingError]="(providers$ | async).loadingError || (transferMethods$ | async).loadingError"
+                    [loadingErrorMessage]="'Error loading provider list page'">
+    <div class="my-4 mx-3">
+    <div class="float-right"><h5 style="opacity: 0.6;">STEP 1/5</h5></div>
+    <h4>HRIS Integration</h4>
+    <div class="m-5">
+      <div style="display:none;">
+        <div class="col-4 mb-4 p-0">
+          <pf-transfer-method-dropdown
+            [transferMethods]="(transferMethods$ | async).obj"
+            (transferMethodSelected)="setSelectedTransferMethod($event)">
+          </pf-transfer-method-dropdown>
+        </div>
+      </div>
+      <pf-provider-list 
+        [providers]="(providers$ | async).obj"
+        [selectedProvider]="(selectedProvider)?.ProviderId"
+        (providerSelected)="setSelectedProvider($event)">
+      </pf-provider-list>
+      <div *ngIf="providers$ | async" class="d-flex justify-content-end">
+          <div class="p-2">
+            <button type="button" class="btn btn-outline-danger px-4" (click)="cancel()">Cancel</button>
+          </div>
+          <div class="p-2">
+            <button type="button" class="btn btn-primary px-4" [disabled]="!selectedProvider" (click)="next(selectedProvider?.ProviderId)">Next</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</pf-async-container>

@@ -16,6 +16,7 @@ import * as fromHrisConnectionReducer from './hris-connection.reducer';
 import * as fromEntityIdentifierReducer from './entity-identifiers.reducer';
 import * as fromEntitySelectionReducer from './entity-selection.reducer';
 import * as fromOutboundJdmReducer from './outbound-jdm.reducer';
+import * as fromProviderListReducer from './provider-list.reducer';
 import {SelectorHelper} from '../helpers';
 
 export interface DataManagementMainState {
@@ -32,6 +33,7 @@ export interface DataManagementMainState {
   entityIdentifiers: fromEntityIdentifierReducer.State;
   entitySelection: fromEntitySelectionReducer.State;
   outboundJdm: fromOutboundJdmReducer.State;
+  providerList: fromProviderListReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -52,6 +54,7 @@ export const reducers = {
   entityIdentifiers: fromEntityIdentifierReducer.reducer,
   entitySelection: fromEntitySelectionReducer.reducer,
   outboundJdm: fromOutboundJdmReducer.reducer,
+  providerList: fromProviderListReducer.reducer
 };
 
 // Select Feature Area
@@ -111,35 +114,9 @@ export const selectOutboundJdmState = createSelector(
   (state: DataManagementMainState) => state.outboundJdm,
 );
 
-// Transfer Data Page
-export const getTransferMethods = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getTransferMethods
-);
-
-export const getProviders = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getProviders
-);
-
-export const getSelectedTransferMethod = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getSelectedTransferMethod
-);
-
-export const getSelectedProvider = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getSelectedProvider
-);
-
-export const getTransferDataPageLoading = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getLoading
-);
-
-export const getTransferDataPageLoadingError = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getLoadingError
+export const selectProviderListState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.providerList
 );
 
 export const getValidationErrors = createSelector(
@@ -161,6 +138,12 @@ export const getTransferDataPageActiveConnection = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getActiveConnection
 );
+
+// provider list
+export const getSelectedTransferMethod = createSelector(selectProviderListState, fromProviderListReducer.getSelectedTransferMethod);
+export const getProviders = createSelector(selectProviderListState, fromProviderListReducer.getProviders);
+export const getTransferMethods = createSelector(selectProviderListState, fromProviderListReducer.getTransferMethods);
+export const getSelectedProvider = createSelector(selectProviderListState, fromProviderListReducer.getSelectedProvider);
 
 // Organizational Data Page
 export const getOrganizationalHeadersLink = createSelector(
@@ -397,3 +380,4 @@ export const getJdmConnectionSummaryObj = createSelector(selectOutboundJdmState,
 export const getOutboundTransferSummaryWidget = createSelector(getOutboundTransferSummaryObj, getOutboundJdmViews, (s1, s2) => {
   return { summary: s1, views: s2 };
 });
+

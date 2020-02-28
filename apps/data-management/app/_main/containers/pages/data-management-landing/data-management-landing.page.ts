@@ -60,7 +60,7 @@ export class DataManagementLandingPageComponent implements OnInit {
     switch ($event) {
       case TransferMethodTypes.HRIS_INTEGRATION: {
         this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.SelectTransferMethod));
-        this.router.navigate(['/transfer-data']);
+        this.router.navigate(['/transfer-data/inbound/vendor']);
         break;
       }
       case TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION: {

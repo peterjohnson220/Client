@@ -12,6 +12,7 @@ import {
   FieldMappingPageComponent,
   InboundAuthenticationPageComponent,
   InboundEntitySelectionPageComponent,
+  InboundProvidersPageComponent,
   OrgDataLoadComponent,
   OutboundAuthenticationPageComponent,
   OutboundFieldMappingPageComponent,
@@ -54,6 +55,10 @@ const routes: Routes = [
           {
             path: 'inbound',
             children: [
+              {
+                path: 'vendor',
+                component: InboundProvidersPageComponent
+              },
               {
                 path: 'entity-selection',
                 component: InboundEntitySelectionPageComponent
