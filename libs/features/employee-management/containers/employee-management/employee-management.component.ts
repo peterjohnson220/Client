@@ -218,8 +218,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       TGP: 0,
       Remun: 0,
       Fixed: 0,
-      StructureRangeGroupId: null,
-      GradeCode: null
+      StructureRangeGroupId: [null, [Validators.required]],
+      GradeCode: [null, [Validators.required]],
     });
   }
 
@@ -317,7 +317,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   }
 
   private getEmployeeDataFromForm(): CompanyEmployee {
-    const employee: CompanyEmployee = cloneDeep(this.employeeForm.value);
+    const employee: CompanyEmployee = cloneDeep(this.employeeForm.getRawValue());
     employee.OverrideTCC = employee.TCC !== null;
     employee.OverrideTDC = employee.TDC !== null;
     employee.TCCCalculated = this.calculatedTCC;
@@ -330,7 +330,10 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   }
 
   private updateControl(list: KendoTypedDropDownItem[], controlName: string): void {
-    const selectedValue = !!list.length ? list[0].Value : null;
+    let selectedValue = !!list.length ? list[0].Value : null;
+    if (!!this.employee && this.employee[controlName] && list.some(x => x.Value === this.employee[controlName])) {
+        selectedValue = this.employee[controlName];
+    }
     this.employeeForm.controls[controlName].setValue(selectedValue);
     if (!list.length || list.length === 1) {
       this.employeeForm.controls[controlName].disable();
