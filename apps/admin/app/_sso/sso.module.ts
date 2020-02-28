@@ -8,14 +8,19 @@ import { SsoConfigEffects } from './effects';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { UploadModule } from '@progress/kendo-angular-upload';
+import { GridModule } from '@progress/kendo-angular-grid';
 
+import { PfCommonUIModule } from 'libs/ui/common';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
+
 import { SsoConfigPageComponent } from './containers/pages/sso-config';
 import { reducers } from './reducers';
 import { SsoRoutingModule } from './sso-routing.module';
-import { PfCommonUIModule } from 'libs/ui/common';
-
+import { SsoGridComponent } from './containers/sso-grid';
+import { AddSsoConfigModalComponent } from './containers/add-sso-config-modal';
 
 @NgModule({
   imports: [
@@ -30,17 +35,22 @@ import { PfCommonUIModule } from 'libs/ui/common';
     StoreModule.forFeature('sso', reducers),
     EffectsModule.forFeature([SsoConfigEffects]),
     FontAwesomeModule,
+    UploadModule,
+    GridModule,
 
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
+    PfCompanySelectorModule,
 
     // Routing
     SsoRoutingModule
   ],
   declarations: [
-    SsoConfigPageComponent
+    SsoConfigPageComponent,
+    SsoGridComponent,
+    AddSsoConfigModalComponent,
   ],
   providers: []
 })
