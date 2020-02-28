@@ -91,8 +91,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.structureGradeNameSubscription = this.store.select(fromJobsPageReducer.getStructureGradeNames).subscribe(sgn => {
-      this.structureGradeNameOptions = sgn;
-      this.filteredStructureGradeNameOptions = sgn;
+      this.structureGradeNameOptions = sgn.obj;
+      this.filteredStructureGradeNameOptions = sgn.obj;
     });
 
     this.selectedKeysSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {

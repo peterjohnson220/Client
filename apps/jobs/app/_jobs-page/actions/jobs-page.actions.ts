@@ -23,7 +23,7 @@ export const CANCEL_DELETE_PRICING = '[Jobs Page] Cancel Delete Pricing';
 export const LOAD_COMPANY_PAYMARKETS = '[Jobs Page] Load Company PayMarket';
 export const LOAD_COMPANY_PAYMARKETS_SUCCESS = '[Jobs Page] Load Company PayMarket Success';
 export const LOAD_STRUCTURE_GRADES = '[Jobs Page] Load Structure Grades';
-export const LOAD_STRUCTURE_GRADES_SUCCESS = '[Jobs Page] Load Structure Greades Success';
+export const LOAD_STRUCTURE_GRADES_SUCCESS = '[Jobs Page] Load Structure Grades Success';
 
 
 export class SetJobsPageId implements Action {

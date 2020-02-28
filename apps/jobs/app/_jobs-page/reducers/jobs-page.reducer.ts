@@ -108,11 +108,9 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       };
     }
     case fromJobsPageActions.LOAD_STRUCTURE_GRADES_SUCCESS: {
-      return {
-        ...state,
-        structureGradeNames: action.payload.map(o => ({ Id: o, Value: o }))
-          .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending))
-      };
+      return AsyncStateObjHelper.loadingSuccess(state, 'structureGradeNames',
+        action.payload.map(o => ({ Id: o, Value: o }))
+          .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending)));
     }
     case fromJobsPageActions.CANCEL_DELETE_PRICING:
     case fromJobsPageActions.DELETE_PRICING_SUCCESS: {

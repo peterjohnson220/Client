@@ -38,7 +38,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
     dir: 'asc',
     field: 'CompanyJobs_Structures_Structure_Search'
   }];
-  structureGridInboundFilterSourceNameWhiteList = ['CompanyJob_ID', 'PayMarket'];
+  structureGridInboundFilterSourceNameWhiteList = ['CompanyJobId', 'PayMarket'];
   gridFieldSubscription: Subscription;
   companyPayMarketSubscription: Subscription;
   payMarketField: ViewField;
