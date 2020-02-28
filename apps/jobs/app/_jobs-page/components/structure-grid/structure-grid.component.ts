@@ -91,6 +91,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
+    field.FilterOperator = '=';
     this.updateField(field);
   }
 

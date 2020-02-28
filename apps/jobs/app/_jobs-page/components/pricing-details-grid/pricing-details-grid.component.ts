@@ -86,6 +86,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
   }
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
+    field.FilterOperator = '=';
     field.FilterValue = value.Id;
     this.updateField(field);
   }
