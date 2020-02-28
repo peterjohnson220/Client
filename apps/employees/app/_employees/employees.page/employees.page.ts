@@ -43,6 +43,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
   }];
   selectedCompanyEmployeeIds: number[];
   pricingJobs: boolean;
+  filterTemplates = {};
 
   constructor(
     private rootStore: Store<fromRootState.State>,
