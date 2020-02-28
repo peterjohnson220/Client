@@ -405,6 +405,17 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       };
     }
 
+    case fromJobDescriptionActions.UPDATE_JOB_DESCRIPTION_APPLIES_TO:
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      asyncStateObjClone.obj.AppliesToField = action.payload.AppliesToField;
+      asyncStateObjClone.obj.AppliesToValue = action.payload.AppliesToValue;
+      asyncStateObjClone.obj.JobDescriptionTitle = action.payload.JobDescriptionTitle;
+      asyncStateObjClone.obj.PublicView = action.payload.PublicView;
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
     default:
       return state;
   }
