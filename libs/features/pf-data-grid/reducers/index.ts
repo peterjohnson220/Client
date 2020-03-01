@@ -48,6 +48,7 @@ export const getSortDescriptor = createSelector(selectPfDataGridState, fromPfDat
 export const getData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getData);
 export const getApplyDefaultFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getApplyDefaultFilters);
 export const getInboundFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getInboundFilters);
+export const getInboundFilterSourceNameWhiteList = createSelector(selectPfDataGridState, fromPfDataGridReducer.getInboundFilterSourceNameWhiteList);
 export const getFilterPanelDisplay = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterPanelDisplay);
 export const getSelectedRecordId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSelectedRecordId);
 export const getExpandedRows = createSelector(selectPfDataGridState, fromPfDataGridReducer.getExpandedRows);

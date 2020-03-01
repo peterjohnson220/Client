@@ -22,6 +22,8 @@ export const DELETE_PRICING_SUCCESS = '[Jobs Page] Delete Pricing Success';
 export const CANCEL_DELETE_PRICING = '[Jobs Page] Cancel Delete Pricing';
 export const LOAD_COMPANY_PAYMARKETS = '[Jobs Page] Load Company PayMarket';
 export const LOAD_COMPANY_PAYMARKETS_SUCCESS = '[Jobs Page] Load Company PayMarket Success';
+export const LOAD_STRUCTURE_GRADES = '[Jobs Page] Load Structure Grades';
+export const LOAD_STRUCTURE_GRADES_SUCCESS = '[Jobs Page] Load Structure Grades Success';
 
 
 export class SetJobsPageId implements Action {
@@ -117,6 +119,16 @@ export class LoadCompanyPayMarketsSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class LoadStructureGrades implements Action {
+  readonly type = LOAD_STRUCTURE_GRADES;
+  constructor() {}
+}
+
+export class LoadStructureGradesSuccess implements Action {
+  readonly type = LOAD_STRUCTURE_GRADES_SUCCESS;
+  constructor(public payload: string[]) {}
+}
+
 
 export type JobsPageActions
   = SetJobsPageId
@@ -137,4 +149,6 @@ export type JobsPageActions
   | DeletePricingSuccess
   | CancelDeletePricing
   | LoadCompanyPayMarkets
-  | LoadCompanyPayMarketsSuccess;
+  | LoadCompanyPayMarketsSuccess
+  | LoadStructureGrades
+  | LoadStructureGradesSuccess;

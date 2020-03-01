@@ -7,6 +7,7 @@ import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/opera
 import { Observable, of } from 'rxjs';
 
 import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService } from 'libs/data/payfactors-api';
+import { StructuresApiService } from 'libs/data/payfactors-api/structures';
 import { UserContext, CompanyDto } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -28,6 +29,7 @@ export class JobsPageEffects {
     private jobsApiService: JobsApiService,
     private pricingApiService: PricingApiService,
     private payMarketApiService: PayMarketApiService,
+    private structureApiService: StructuresApiService,
     private store: Store<fromJobsReducer.State>,
   ) { }
 
@@ -45,6 +47,7 @@ export class JobsPageEffects {
           [
             new fromJobsPageActions.LoadCompanySuccess(company.CompanyName),
             new fromJobsPageActions.LoadCompanyPayMarkets(),
+            new fromJobsPageActions.LoadStructureGrades()
           ]),
         catchError(error => {
           const msg = 'We encountered an error while loading your company data';
@@ -126,6 +129,20 @@ export class JobsPageEffects {
     switchMap(() => {
       return this.payMarketApiService.getAll().pipe(
         map(options => new fromJobsPageActions.LoadCompanyPayMarketsSuccess(options)),
+        catchError(error => {
+          const msg = 'We encountered an error while loading your company data';
+          return of(new fromJobsPageActions.HandleApiError(msg));
+        })
+      );
+    })
+  );
+
+  @Effect()
+  loadStructureGrades$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.LOAD_STRUCTURE_GRADES),
+    switchMap((action: any) => {
+      return this.structureApiService.getGradeNames().pipe(
+        map(grades => new fromJobsPageActions.LoadStructureGradesSuccess(grades)),
         catchError(error => {
           const msg = 'We encountered an error while loading your company data';
           return of(new fromJobsPageActions.HandleApiError(msg));

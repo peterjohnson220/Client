@@ -1,15 +1,21 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+
+import { Subscription } from 'rxjs';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
+
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import { Subscription } from 'rxjs';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 
-import { Store } from '@ngrx/store';
 import * as fromJobsPageReducer from '../../reducers';
-import * as cloneDeep from 'lodash.clonedeep';
+
 import { PageViewIds } from '../../constants';
 
 @Component({
@@ -18,7 +24,6 @@ import { PageViewIds } from '../../constants';
   styleUrls: ['./structure-grid.component.scss']
 })
 export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestroy {
-
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('nameColumn', { static: false }) nameColumn: ElementRef;
@@ -33,6 +38,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
     dir: 'asc',
     field: 'CompanyJobs_Structures_Structure_Search'
   }];
+  structureGridInboundFilterSourceNameWhiteList = ['CompanyJobId', 'PayMarket'];
   gridFieldSubscription: Subscription;
   companyPayMarketSubscription: Subscription;
   payMarketField: ViewField;
@@ -67,6 +73,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
       }
     }
   }
+
   ngAfterViewInit() {
     this.globalFilterTemplates = {
       'PayMarket': { Template: this.payMarketFilter }
@@ -99,5 +106,4 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   handleFilter(value) {
     this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
-
 }

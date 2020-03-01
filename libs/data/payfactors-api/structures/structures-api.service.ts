@@ -34,4 +34,8 @@ export class StructuresApiService {
   createModel(): Observable<StructureRangeGroupResponse> {
     return of(generateMockCompanyStructureRangeGroup());
   }
+
+  getGradeNames() {
+    return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetGradeNames`);
+  }
 }

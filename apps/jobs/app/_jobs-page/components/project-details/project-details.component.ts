@@ -1,17 +1,20 @@
 import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
+import { Subscription } from 'rxjs';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
+
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import * as cloneDeep from 'lodash.clonedeep';
-import { Subscription } from 'rxjs';
-import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { Store } from '@ngrx/store';
+
 import * as fromJobsPageReducer from '../../reducers';
 import { PageViewIds } from '../../constants';
-
-
 
 @Component({
   selector: 'pf-project-details',
@@ -19,9 +22,7 @@ import { PageViewIds } from '../../constants';
   styleUrls: ['./project-details.component.scss']
 })
 export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
-
   @Input() filters: PfDataGridFilter[];
-
   @ViewChild('projectAccessColumn', { static: false }) projectAccessColumn: ElementRef;
   @ViewChild('projectOwnerColumn', { static: false }) projectOwnerColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
@@ -35,6 +36,7 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'UserSessions_Session_Name'
   }];
+  projectGridInboundFilterSourceNameWhiteList = ['CompanyJob_ID', 'PayMarket'];
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;

@@ -51,6 +51,7 @@ export const getJobDescriptionLoaded = createSelector(selectJobDescriptionState,
 export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingIdToBeDeleted);
 export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
 export const getJobDescriptionId = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionId);
+export const getStructureGradeNames = createSelector(selectJobsPageState, fromJobsPageReducer.getStructureGradeNames);
 
 
 

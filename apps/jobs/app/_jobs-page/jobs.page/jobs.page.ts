@@ -26,6 +26,8 @@ import { AsyncStateObj } from 'libs/models';
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredPayMarketOptions: any;
   payMarketOptions: any;
+  structureGradeNameOptions: any;
+  filteredStructureGradeNameOptions: any;
   permissions = Permissions;
   pageViewId = PageViewIds.Jobs;
   selectedJobIds: number[];
@@ -33,12 +35,15 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   jobStatusField: ViewField;
   payMarketField: ViewField;
+  structureGradeSearchField: ViewField;
   selectedPayMarket: any;
 
   selectedKeysSubscription: Subscription;
   selectedPricingIdSubscription: Subscription;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
+  structureGradeNameSubscription: Subscription;
+
   company$: Observable<string>;
 
   showAddToProjectModal$: Observable<boolean>;
@@ -64,6 +69,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('peerFilter', { static: false }) peerFilter: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
   @ViewChild('jobStatusFilter', { static: false }) jobStatusFilter: ElementRef;
+  @ViewChild('structureGradeFilter', { static: false }) structureGradeFilter: ElementRef;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -83,16 +89,25 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
       });
+
+    this.structureGradeNameSubscription = this.store.select(fromJobsPageReducer.getStructureGradeNames).subscribe(sgn => {
+      this.structureGradeNameOptions = sgn.obj;
+      this.filteredStructureGradeNameOptions = sgn.obj;
+    });
+
     this.selectedKeysSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedJobIds = sk || [];
     });
+
     this.selectedPricingIdSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.PricingDetails).subscribe(pid => {
       this.selectedPricingIds = pid || [];
     });
+
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
+        this.structureGradeSearchField = fields.find(f => f.SourceName === 'Grade_Name');
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
@@ -111,7 +126,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.filterTemplates = {
-      'PayMarket': { Template: this.payMarketFilter }
+      'PayMarket': { Template: this.payMarketFilter },
+      'Grade_Name': { Template: this.structureGradeFilter }
     };
 
     this.globalFilterTemplates = {
@@ -164,6 +180,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedPricingIdSubscription.unsubscribe();
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
+    this.structureGradeNameSubscription.unsubscribe();
   }
 
   closeSplitView() {
@@ -172,6 +189,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
+    field.FilterValue = value.Id;
+    field.FilterOperator = '=';
+    this.updateField(field);
+  }
+
+  handleGradeFilterChanged(value: any) {
+    const field = cloneDeep(this.structureGradeSearchField);
     field.FilterValue = value.Id;
     field.FilterOperator = '=';
     this.updateField(field);
@@ -192,8 +216,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  handleFilter(value) {
+  handlePayMarketDropdownFilter(value) {
     this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+  }
+
+  handleStructureGradeNameDropdownFilter(value: string) {
+    this.filteredStructureGradeNameOptions = this.structureGradeNameOptions.filter(o => o.Id.toLowerCase().indexOf(value.toLowerCase()) > -1);
   }
 
   isActiveJobs() {
