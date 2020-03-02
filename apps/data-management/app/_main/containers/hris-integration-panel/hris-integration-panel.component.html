@@ -1,13 +1,21 @@
-<div class="card mb-3 shadow-sm p-3">
+<div class="card mb-3 shadow-sm">
   <div class="card-body">
-    <h4 class="card-title" *ngIf="transferMethodType === inbound">HRIS Integration</h4>
-    <h4 class="card-title" *ngIf="transferMethodType === outboundJdm">Outbound Job Description Integration</h4>
-    <!-- TODO: When we support more statuses, this can probably live as its own component -->
-    <span *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')" class="position-absolute integration-status integration-status-good">
-      Authenticated <fa-icon icon="check-circle" class="good-icon"></fa-icon>
-    </span>
     <div class="row">
-      <div class="col-sm-12 p-0">
+      <div class="col d-flex justify-content-between">
+        <h4 class="card-title d-inline-block flex-grow-1">
+          <span *ngIf="transferMethodType === inbound">HRIS Integration</span>
+          <span *ngIf="transferMethodType === outboundJdm">Outbound Job Description Integration</span>
+        </h4>
+        <!-- TODO: When we support more statuses, this can probably live as its own component -->
+        <span
+          *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')"
+          class="text-success d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0">
+          Authenticated <fa-icon icon="check-circle"></fa-icon>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
         <pf-hris-integration-status
           [connectionSummary]="connectionSummary"
           (onCreateNewIntegrationClicked)="createNewIntegration()"
@@ -22,8 +30,8 @@
         <pf-outbound-transfer-schedule-summary *ngIf="transferMethodType === outboundJdm"></pf-outbound-transfer-schedule-summary>
       </div>
     </div>
-    <div class="row pt-3">
-      <div class="col-sm-12 text-right" *ngIf="connectionSummary?.canEditMappings">
+    <div class="row">
+      <div class="col-sm-12 text-right pt-3" *ngIf="connectionSummary?.canEditMappings">
         <div class="p-2">
           <button type="button" class="btn btn-outline-primary" (click)="goToDataMapping()">View Data Mapping</button>
         </div>

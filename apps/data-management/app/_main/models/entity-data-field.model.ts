@@ -358,10 +358,10 @@ export function getMockOutboundJdmDestinationFields(): EntityDataField[] {
     {
       AssociatedEntity: [],
       DataType: ImportDataType.Custom,
-      DisplayName: 'Company_Insider_data',
+      DisplayName: 'Company_Insider_Data',
       EntityFieldId: 1,
       EntityType: OrgDataEntityType.JobDescriptions,
-      FieldName: 'Company_Insider_data',
+      FieldName: 'Company_Insider_Data',
       HasDescription: false,
       IsRequired: false,
     },
