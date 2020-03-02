@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -24,13 +24,13 @@ import { PageViewIds } from '../../constants';
   selector: 'pf-pricing-history',
   templateUrl: './pricing-history.component.html'
 })
-export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
+export class PricingHistoryComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
-  pricingHistoryGridInboundFilterSourceNameWhiteList = ['CompanyJob_ID', 'PayMarket'];
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   pageViewId = PageViewIds.PricingHistory;
 
   globalFilterTemplates = {};
@@ -77,6 +77,13 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
     this.colTemplates = {
       'Create_User': { Template: this.createUserColumn }
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['filters']) {
+      this.filters = cloneDeep(changes['filters'].currentValue)
+        .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+    }
   }
 
   confirmDeletePricingModal(event: any) {

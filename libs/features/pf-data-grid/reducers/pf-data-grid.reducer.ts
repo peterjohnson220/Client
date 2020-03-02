@@ -17,7 +17,6 @@ export interface DataGridState {
   fields: ViewField[];
   groupedFields: any[];
   inboundFilters: PfDataGridFilter[];
-  inboundFilterSourceNameWhiteList: string[];
   splitViewFilters: PfDataGridFilter[];
   filterPanelOpen: boolean;
   pagingOptions: PagingOptions;
@@ -187,17 +186,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             inboundFilters: action.payload,
             fields: applyInboundFilters(resetAllFilters(state, action.pageViewId), action.payload),
             expandedRows: []
-          }
-        }
-      };
-    case fromPfGridActions.UPDATE_INBOUND_FILTERS_SOURCENAME_WHITELIST:
-      return {
-        ...state,
-        grids: {
-          ...state.grids,
-          [action.pageViewId]: {
-            ...state.grids[action.pageViewId],
-            inboundFilterSourceNameWhiteList: action.payload
           }
         }
       };
@@ -562,8 +550,6 @@ export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: st
   return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
 };
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
-export const getInboundFilterSourceNameWhiteList = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ?
-  state.grids[pageViewId].inboundFilterSourceNameWhiteList : [];
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
 export const getSelectedRecordId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRecordId : null;
 export const getExpandedRows = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].expandedRows : null;

@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -22,12 +22,12 @@ import { PageViewIds } from '../../constants/';
   templateUrl: './employees-grid.component.html',
   styleUrls: ['./employees-grid.component.scss']
 })
-export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
+export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
   @ViewChild('employeeColumn', { static: false }) employeeColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
-  employeeGridInboundFilterSourceNameWhiteList = ['CompanyJob_ID', 'PayMarket', 'Employees'];
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Employees'];
   globalFilterTemplates = {};
   colTemplates = {};
   defaultSort: SortDescriptor[] = [{
@@ -65,6 +65,13 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
     this.colTemplates = {
       'Employees': { Template: this.employeeColumn }
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['filters']) {
+      this.filters = cloneDeep(changes['filters'].currentValue)
+        .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+    }
   }
 
   ngOnDestroy() {

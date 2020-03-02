@@ -15,7 +15,6 @@ export const UPDATE_DEFAULT_SORT_DESCRIPTOR = '[PfDataGrid] Update Default Sort 
 export const UPDATE_SORT_DESCRIPTOR = '[PfDataGrid] Update Sort Descriptor';
 export const UPDATE_APPLY_DEFAULT_FILTERS = '[PfDataGrid] Update Apply Default Filters';
 export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
-export const UPDATE_INBOUND_FILTERS_SOURCENAME_WHITELIST = '[PfDataGrid] Update Inbound Filters SourceName Whitelist';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
 export const CLEAR_ALL_NON_GLOBAL_FILTERS = '[PfDataGrid] Clear All Non Global Filters';
@@ -99,11 +98,6 @@ export class UpdateFieldsSuccess implements Action {
 export class UpdateInboundFilters implements Action {
   readonly type = UPDATE_INBOUND_FILTERS;
   constructor(public pageViewId: string, public payload: PfDataGridFilter[]) { }
-}
-
-export class UpdateInboundFiltersSourceNameWhiteList implements Action {
-  readonly type = UPDATE_INBOUND_FILTERS_SOURCENAME_WHITELIST;
-  constructor(public pageViewId: string, public payload: string[]) { }
 }
 
 export class UpdateFilter implements Action {
@@ -263,7 +257,6 @@ export type DataGridActions =
   | UpdateFields
   | UpdateFieldsSuccess
   | UpdateInboundFilters
-  | UpdateInboundFiltersSourceNameWhiteList
   | UpdateFilter
   | ClearFilter
   | ClearAllNonGlobalFilters
