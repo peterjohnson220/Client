@@ -197,6 +197,7 @@
   <div>
     <label>Grade:</label>
     <kendo-dropdownlist
+      [(ngModel)]="selectedStructureGrade"
       [textField]="'Value'"
       [valueField]="'Id'"
       [defaultItem]="{Value:'All Grades', Id: null}"
