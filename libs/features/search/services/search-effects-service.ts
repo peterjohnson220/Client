@@ -20,15 +20,26 @@ export class SearchEffectsService {
       withLatestFrom(
         this.store.select(fromSearchReducer.getSearchingFilter),
         this.store.select(fromSearchReducer.getSingledFilter),
-        (action: any, searchingFilter, singledFilter) => ({ action, searchingFilter, singledFilter })
+        this.store.select(fromSearchReducer.getSearchingChildFilter),
+        this.store.select(fromSearchReducer.getChildFilter),
+        (action: any, searchingFilter, singledFilter, searchingChildFilter, childFilter) =>
+          ({ action, searchingFilter, singledFilter, searchingChildFilter, childFilter })
       ),
       mergeMap(data => {
         const actions = [];
+        const isClearAllAction = !data.action.payload;
 
         if (data.searchingFilter && data.singledFilter.Id !== data.action.payload.filterId) {
           // TODO: Should this be load more?
           const scrollPayload = {
             scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER
+          };
+          actions.push(new fromInfiniteScrollActions.Load(scrollPayload));
+        }
+
+        if (data.searchingChildFilter && (isClearAllAction || data.childFilter.Id !== data.action.payload.filterId)) {
+          const scrollPayload = {
+            scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER
           };
           actions.push(new fromInfiniteScrollActions.Load(scrollPayload));
         }
