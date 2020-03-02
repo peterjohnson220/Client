@@ -1,6 +1,6 @@
 import { Component, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
-import { FilterOperator, Contains, DoesNotContain } from '../../../models';
+import { FilterOperator, Contains, DoesNotContain, IsNotNullOrEmpty, IsNullOrEmpty } from '../../../models';
 
 @Component({
   selector: 'pf-text-filter',
@@ -13,13 +13,16 @@ export class TextFilterComponent implements OnChanges {
   @Output() valueChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() changeOperator: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
 
-  operators = [ Contains, DoesNotContain ];
+  operators = [ Contains, DoesNotContain, IsNullOrEmpty, IsNotNullOrEmpty ];
   value: string;
+  hideInput: boolean;
 
   ngOnChanges(changes: SimpleChanges): void {
+    const operatorName =  changes.selectedOperator.currentValue.Name;
     if (changes.filterValue) {
       this.value = this.filterValue;
     }
+    this.hideInput = operatorName === 'is null or empty' || operatorName === 'is not null or empty';
   }
 
   handleTextChanged() {

@@ -68,3 +68,13 @@ export const IsTrueFalse: FilterOperator = {
   Value: '='
 };
 
+export const IsNullOrEmpty: FilterOperator = {
+  Name: 'is null or empty',
+  Value: 'isempty'
+};
+
+export const IsNotNullOrEmpty: FilterOperator = {
+  Name: 'is not null or empty',
+  Value: 'isnotempty'
+};
+
