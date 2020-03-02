@@ -38,7 +38,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() rowActionTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
-  @Input() inboundFiltersSourceNameWhiteList: string[];
   @Input() enableSelection = false;
   @Input() defaultSort: SortDescriptor[];
   @Input() pagingOptions:  PagingOptions;
@@ -118,10 +117,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     if (changes['inboundFilters']) {
       this.store.dispatch(new fromActions.UpdateInboundFilters(this.pageViewId, changes['inboundFilters'].currentValue));
-    }
-
-    if (changes['inboundFiltersSourceNameWhiteList']) {
-      this.store.dispatch(new fromActions.UpdateInboundFiltersSourceNameWhiteList(this.pageViewId, changes['inboundFiltersSourceNameWhiteList'].currentValue));
     }
 
     if (changes['defaultSort']) {

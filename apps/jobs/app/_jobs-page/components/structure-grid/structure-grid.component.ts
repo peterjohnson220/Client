@@ -31,14 +31,13 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
   pageViewId = PageViewIds.Structures;
-
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   colTemplates = {};
   globalFilterTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'CompanyJobs_Structures_Structure_Search'
   }];
-  structureGridInboundFilterSourceNameWhiteList = ['CompanyJobId', 'PayMarket'];
   gridFieldSubscription: Subscription;
   companyPayMarketSubscription: Subscription;
   payMarketField: ViewField;
@@ -64,7 +63,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters']) {
-      const newFilter = [...this.filters];
+      const newFilter = [...this.filters].filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
       const jobFilter = newFilter.find(f => f.SourceName === 'CompanyJob_ID');
       if (jobFilter) {
         newFilter.splice(this.filters.indexOf(jobFilter), 1);

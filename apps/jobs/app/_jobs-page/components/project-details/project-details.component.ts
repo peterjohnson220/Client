@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -21,12 +21,13 @@ import { PageViewIds } from '../../constants';
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.scss']
 })
-export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
+export class ProjectDetailsComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
   @ViewChild('projectAccessColumn', { static: false }) projectAccessColumn: ElementRef;
   @ViewChild('projectOwnerColumn', { static: false }) projectOwnerColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   pageViewId = PageViewIds.Projects;
 
   globalFilterTemplates = {};
@@ -36,7 +37,7 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'UserSessions_Session_Name'
   }];
-  projectGridInboundFilterSourceNameWhiteList = ['CompanyJob_ID', 'PayMarket'];
+
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
@@ -66,6 +67,13 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy {
       'HasProjectAccess': { Template: this.projectAccessColumn },
       'Create_User': { Template: this.projectOwnerColumn }
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['filters']) {
+      this.filters = cloneDeep(changes['filters'].currentValue)
+        .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+    }
   }
 
   ngOnDestroy() {

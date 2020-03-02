@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -23,7 +23,7 @@ import { PageViewIds } from '../../constants';
   templateUrl: './pricing-details-grid.component.html',
   styleUrls: ['./pricing-details-grid.component.scss']
 })
-export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
+export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
@@ -32,7 +32,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
   @ViewChild('baseTccColumn', { static: false }) baseTccColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
 
-  pricingDetailsGridInboundFilterSourceNameWhiteList = ['CompanyJob_ID', 'PayMarket'];
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   globalFilterTemplates = {};
   colTemplates = {};
   pageViewId = PageViewIds.PricingDetails;
@@ -79,6 +79,13 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['filters']) {
+      this.filters = cloneDeep(changes['filters'].currentValue)
+        .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+    }
   }
 
   handleFilter(value) {
