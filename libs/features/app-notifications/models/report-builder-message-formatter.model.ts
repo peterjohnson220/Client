@@ -1,6 +1,6 @@
 import { NotificationLevel, NotificationPayload, SuccessStatusPayLoad } from './notification.model';
 
-export class DataInsightsMessageFormatter {
+export class ReportBuilderMessageFormatter {
 
   static getEventMessage(level: NotificationLevel, payload: NotificationPayload): string {
     switch (level) {

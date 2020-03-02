@@ -18,6 +18,8 @@ export class ActionBarComponent implements OnChanges {
   @Input() showColumnChooser = true;
   @Input() showFilterChooser = true;
   @Input() allowExport = true;
+  @Input() exportSourceName: string;
+  @Input() selectionField: string;
   @Input() pageViewId: string;
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
@@ -31,6 +33,8 @@ export class ActionBarComponent implements OnChanges {
   selectedRecordId$: Observable<number>;
   viewDeleting$: Observable<boolean>;
   viewNameToBeDeleted$: Observable<string>;
+  exporting$: Observable<boolean>;
+  loadingExportingStatus$: Observable<boolean>;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -41,6 +45,8 @@ export class ActionBarComponent implements OnChanges {
       this.selectedRecordId$ = this.store.select(fromReducer.getSelectedRecordId, this.pageViewId);
       this.viewDeleting$ = this.store.select(fromReducer.getViewIsDeleting, this.pageViewId);
       this.viewNameToBeDeleted$ = this.store.select(fromReducer.getViewNameToBeDeleted, this.pageViewId);
+      this.exporting$ = this.store.select(fromReducer.getExportingGrid, this.pageViewId);
+      this.loadingExportingStatus$ = this.store.select(fromReducer.getLoadingExportingStatus, this.pageViewId);
     }
   }
 
@@ -84,5 +90,9 @@ export class ActionBarComponent implements OnChanges {
 
   getNgModel(field: ViewField) {
     return cloneDeep(field);
+  }
+
+  handleExportClicked(): void {
+    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.exportSourceName, this.selectionField));
   }
 }

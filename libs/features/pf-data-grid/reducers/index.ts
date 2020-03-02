@@ -59,3 +59,7 @@ export const getSaveViewModalOpen = createSelector(selectPfDataGridState, fromPf
 export const getViewIsSaving = createSelector(selectPfDataGridState, fromPfDataGridReducer.getViewIsSaving);
 export const getViewIsDeleting = createSelector(selectPfDataGridState, fromPfDataGridReducer.getViewIsDeleting);
 export const getViewNameToBeDeleted = createSelector(selectPfDataGridState, fromPfDataGridReducer.getViewNameToBeDeleted);
+export const getExportEventId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getExportEventId);
+export const getExportingGrid = createSelector(selectPfDataGridState, fromPfDataGridReducer.getExportingGrid);
+export const getExportViewId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getExportViewId);
+export const getLoadingExportingStatus = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLoadingExportingStatus);
