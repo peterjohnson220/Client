@@ -6,6 +6,8 @@ import { faTrashAlt } from '@fortawesome/pro-solid-svg-icons/faTrashAlt';
 import { faExchangeAlt } from '@fortawesome/pro-solid-svg-icons/faExchangeAlt';
 import { faFileWord } from '@fortawesome/pro-light-svg-icons/faFileWord';
 import { faFilePdf } from '@fortawesome/pro-light-svg-icons/faFilePdf';
+import { faEllipsisH } from '@fortawesome/pro-solid-svg-icons/faEllipsisH';
+import { faEdit } from '@fortawesome/pro-solid-svg-icons/faEdit';
 
 export const faIcons = [
   falTimes,
@@ -15,6 +17,8 @@ export const faIcons = [
   faTrashAlt,
   faExchangeAlt,
   faFileWord,
-  faFilePdf
+  faFilePdf,
+  faEllipsisH,
+  faEdit
 ];
 

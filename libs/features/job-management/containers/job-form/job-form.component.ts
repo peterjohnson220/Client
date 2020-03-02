@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, Validators, FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 
 import { CompanyJobUdf } from 'libs/models';
 
@@ -9,6 +9,7 @@ import * as fromJobManagementActions from '../../actions';
 import * as fromJobManagementReducer from '../../reducers';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import { PfValidators } from 'libs/forms';
+import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'pf-job-form',
@@ -18,7 +19,7 @@ import { PfValidators } from 'libs/forms';
 })
 export class JobFormComponent implements OnInit, OnDestroy {
 
-  showJobForm$: Observable<boolean>;
+  showJobModal$: Observable<boolean>;
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
   errorMessage$: Observable<string>;
@@ -31,6 +32,7 @@ export class JobFormComponent implements OnInit, OnDestroy {
   formChangesSubscription: Subscription;
   onShowFormSubscription: Subscription;
   duplicateJobCodeErrorSubscription: Subscription;
+  loadJobSuccessSubscription: Subscription;
 
   jobForm: FormGroup;
   duplicateJobCodeError = false;
@@ -48,9 +50,10 @@ export class JobFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromJobManagementReducer.State>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private actionsSubject: ActionsSubject
   ) {
-    this.showJobForm$ = this.store.select(fromJobManagementReducer.getShowJobForm);
+    this.showJobModal$ = this.store.select(fromJobManagementReducer.getShowJobModal);
     this.loading$ = this.store.select(fromJobManagementReducer.getLoading);
     this.saving$ = this.store.select(fromJobManagementReducer.getSaving);
     this.errorMessage$ = this.store.select(fromJobManagementReducer.getErrorMessage);
@@ -70,6 +73,12 @@ export class JobFormComponent implements OnInit, OnDestroy {
       FLSAStatus: ['', PfValidators.maxLengthTrimWhitespace(this.JOB_CODE_FLSA_MAX_LENGTH)],
       JobStatus: true,
     });
+
+     this.loadJobSuccessSubscription = actionsSubject
+      .pipe(ofType(fromJobManagementActions.LOAD_JOB_SUCCESS))
+      .subscribe((action: fromJobManagementActions.LoadJobSuccess) => {
+        this.jobForm.patchValue(action.payload.JobInfo);
+      });
   }
 
   ngOnInit() {
@@ -87,7 +96,7 @@ export class JobFormComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromJobManagementActions.UpdateCompanyJob(value));
     });
 
-    this.onShowFormSubscription = this.showJobForm$.subscribe(value => {
+    this.onShowFormSubscription = this.showJobModal$.subscribe(value => {
       this.jobForm.reset();
       this.store.dispatch(new fromJobManagementActions.SetDuplicateJobCodeError(false));
     });
@@ -104,6 +113,8 @@ export class JobFormComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromJobManagementActions.SetDuplicateJobCodeError(false));
       }
     });
+
+    
   }
 
   ngOnDestroy() {
@@ -111,6 +122,7 @@ export class JobFormComponent implements OnInit, OnDestroy {
     this.formChangesSubscription.unsubscribe();
     this.onShowFormSubscription.unsubscribe();
     this.duplicateJobCodeErrorSubscription.unsubscribe();
+    this.loadJobSuccessSubscription.unsubscribe();
   }
 
   submit(): void {

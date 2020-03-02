@@ -4,6 +4,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
 <pf-job-form
   DEFAULT_MAX_LENGTH={[Function Number]}
   JOB_CODE_FLSA_MAX_LENGTH={[Function Number]}
+  actionsSubject={[Function ActionsSubject]}
   duplicateJobCodeError="false"
   duplicateJobCodeError$={[Function Store]}
   duplicateJobCodeErrorSubscription={[Function Subscriber]}
@@ -15,10 +16,11 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   jobFlsaStatuses$={[Function Store]}
   jobForm={[Function FormGroup]}
   jobUserDefinedFields$={[Function Store]}
+  loadJobSuccessSubscription={[Function Subscriber]}
   loading$={[Function Store]}
   onShowFormSubscription={[Function Subscriber]}
   saving$={[Function Store]}
-  showJobForm$={[Function Store]}
+  showJobModal$={[Function Store]}
   store={[Function MockStore]}
   udfsSubscription={[Function Subscriber]}
 >

@@ -32,7 +32,9 @@ export const selectJobDataState =
 // User Form
 export const getState = createSelector(selectJobDataState, fromJobManagementReducer.getState);
 export const getLoading = createSelector(selectJobDataState, fromJobManagementReducer.getLoading);
-export const getShowJobForm = createSelector(selectJobDataState, fromJobManagementReducer.getShowJobForm);
+export const getLoadingJobOptions = createSelector(selectJobDataState, fromJobManagementReducer.getLoadingJobOptions);
+export const getShowJobModal = createSelector(selectJobDataState, fromJobManagementReducer.getShowJobModal);
+export const getJobId = createSelector(selectJobDataState, fromJobManagementReducer.getJobId);
 export const getCompanyJob = createSelector(selectJobDataState, fromJobManagementReducer.getCompanyJob);
 export const getJobFamilies = createSelector(selectJobDataState, fromJobManagementReducer.getJobFamilies);
 export const getCompanyFlsaStatuses = createSelector(selectJobDataState, fromJobManagementReducer.getCompanyFlsaStatuses);
@@ -40,3 +42,4 @@ export const getCompanyJobUdfs = createSelector(selectJobDataState, fromJobManag
 export const getSaving = createSelector(selectJobDataState, fromJobManagementReducer.getSaving);
 export const getDuplicateJobCodeError = createSelector(selectJobDataState, fromJobManagementReducer.getDuplicateJobCodeError);
 export const getErrorMessage = createSelector(selectJobDataState, fromJobManagementReducer.getErrorMessage);
+
