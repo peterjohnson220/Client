@@ -91,7 +91,6 @@ export class FieldMappingEffects {
         obj.payfactorsFields.Employees.some(field => field.FieldName === 'PayMarket' && isEmpty(field.AssociatedEntity)) ?
           new fromFieldMappingActions.OpenDefaultPaymarketModal() :
           new fromFieldMappingActions.SaveMapping();
-
       return [ nextAction ];
     }),
     catchError((error) => of(new fromFieldMappingActions.SaveMappingError()))
@@ -123,10 +122,10 @@ export class FieldMappingEffects {
         .pipe(
           map((response: any) => {
             return new fromFieldMappingActions.SaveMappingSuccess(obj.connectionSummary.hasConnection);
-          })
-        );
-    }),
-    catchError((error) => of(new fromFieldMappingActions.SaveMappingError()))
+          }),
+          catchError((error) => of(new fromFieldMappingActions.SaveMappingError())
+        ));
+    })
   );
 
   @Effect({dispatch: false})
