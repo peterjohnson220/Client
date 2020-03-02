@@ -32,7 +32,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
   colTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'CompanyEmployees_Employee'
+    field: 'CompanyEmployees_Employees'
   }];
   pageViewId = PageViewIds.Employees;
   gridFieldSubscription: Subscription;
