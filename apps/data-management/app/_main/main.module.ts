@@ -27,6 +27,7 @@ import {
   EntityUploadComponent,
   FileMappingComponent,
   PfCheckboxComponent,
+  ProviderListComponent
 } from './components';
 import { FileUploadComponent } from './components/file-upload';
 import {
@@ -55,6 +56,7 @@ import {
   WorkdayRestAuthenticationComponent,
   InboundEntitySelectionPageComponent,
   InboundAuthenticationPageComponent,
+  InboundProvidersPageComponent,
   OutboundAuthenticationPageComponent,
   OutboundFieldMappingPageComponent,
   OutboundJdmViewSelectionPageComponent,
@@ -74,6 +76,7 @@ import {
   OutboundJdmEffects,
   TransferDataPageEffects,
   TransferScheduleEffects,
+  ProviderListEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
@@ -106,6 +109,9 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
       OutboundJdmEffects,
       TransferDataPageEffects,
       TransferScheduleEffects,
+      EntityIdentifiersEffects,
+      EntitySelectionEffects,
+      ProviderListEffects
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
@@ -176,8 +182,15 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     PfCheckboxComponent,
     InboundEntitySelectionPageComponent,
     InboundAuthenticationPageComponent,
+    InboundProvidersPageComponent,
     FieldMappingPageComponent,
-    OutboundTransferScheduleSummaryComponent
+    OutboundProviderSelectionPageComponent,
+    OutboundFieldMappingPageComponent,
+    OutboundAuthenticationPageComponent,
+    OutboundTransferSchedulePageComponent,
+    OutboundJdmViewSelectionPageComponent,
+    OutboundTransferScheduleSummaryComponent,
+    ProviderListComponent
   ]
 })
 export class MainModule {

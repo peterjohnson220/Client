@@ -2,9 +2,9 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/co
 import {Router} from '@angular/router';
 
 import {Store} from '@ngrx/store';
-
 import {Observable, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
+
 import * as cloneDeep from 'lodash.clonedeep';
 
 import {AsyncStateObj} from 'libs/models/state';
@@ -15,6 +15,7 @@ import {TransferDataWorkflowStep} from '../../../data';
 import {PayfactorsApiModelMapper} from '../../../helpers';
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
+import * as fromProviderListActions from '../../../actions/provider-list.actions';
 import * as fromEntitySelectionActions from '../../../actions/entity-selection.actions';
 
 @Component({
@@ -62,7 +63,7 @@ export class InboundEntitySelectionPageComponent implements OnInit, OnDestroy {
       this.connectionSummary = s;
       if (s.connectionID) {
         this.editMode = true;
-        this.store.dispatch(new fromTransferDataPageActions.SetSelectedProvider(s.provider));
+        this.store.dispatch(new fromProviderListActions.SetSelectedProvider(s.provider));
       }
     });
     this.selectedProvider$.pipe(filter(v => !!v), takeUntil(this.unsubscribe$)).subscribe(p => {
@@ -117,7 +118,7 @@ export class InboundEntitySelectionPageComponent implements OnInit, OnDestroy {
 
   proceedBackToProviderSelection() {
     this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.SelectTransferMethod));
-    this.router.navigate(['/transfer-data']);
+    this.router.navigate(['/transfer-data/inbound/vendor']);
   }
 
   goToAuthenticationPage() {

@@ -232,12 +232,6 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
   }
 }
 
-export const getTransferMethods = (state: State) => state.transferMethods;
-export const getProviders = (state: State) => state.providers;
-export const getSelectedTransferMethod = (state: State) => state.selectedTransferMethod;
-export const getSelectedProvider = (state: State) => state.selectedProvider;
-export const getLoading = (state: State) => state.loading;
-export const getLoadingError = (state: State) => state.loadingError;
 export const getValidationErrors = (state: State) => state.validationErrors;
 export const getWorkflowStep = (state: State) => state.workflowStep;
 export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
