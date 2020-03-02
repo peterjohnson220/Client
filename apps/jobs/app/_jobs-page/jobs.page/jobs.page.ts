@@ -37,6 +37,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   payMarketField: ViewField;
   structureGradeSearchField: ViewField;
   selectedPayMarket: any;
+  selectedStructureGrade: any;
 
   selectedKeysSubscription: Subscription;
   selectedPricingIdSubscription: Subscription;
@@ -108,6 +109,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.structureGradeSearchField = fields.find(f => f.SourceName === 'Grade_Name');
+        this.selectedStructureGrade = this.structureGradeSearchField.FilterValue !== null ?
+          { Value: this.structureGradeSearchField.FilterValue, Id: this.structureGradeSearchField.FilterValue} : null;
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
