@@ -22,7 +22,11 @@
 
   <div class="d-flex">
     <div>{{dataRow['CompanyJobs_Job_Title']}}</div>
-    <div *ngIf="!(selectedRecordId$ | async)" class="ml-auto">
+    <div
+      *ngIf="!(selectedRecordId$ | async)"
+      [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+      class="ml-auto">
+
       <div ngbDropdown #jobsActionsMenu="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
         <button
           ngbDropdownToggle 
@@ -33,6 +37,7 @@
         <div ngbDropdownMenu class="dropdown-menu dropdown-menu-left">
           <button
             [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
+            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
             class="dropdown-item"
             (click)="editingJobId = dataRow['CompanyJobs_CompanyJob_ID']; showJobEditModal=true;">
             <fa-icon icon="edit" class="pr-2"></fa-icon> Edit Job
