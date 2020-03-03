@@ -98,6 +98,33 @@
           </div>
         </div>
       </ng-template>
+      <ng-template [ngSwitchCase]="dataTypes.Float">
+        <div class="row">
+          <div class="col-6">
+            <kendo-dropdownlist
+              [data]="filterOperatorOptions.float"
+              [textField]="'display'"
+              [valueField]="'value'"
+              [valuePrimitive]="true"
+              [ngModel]="field.FilterOperator"
+              (valueChange)="handleFilterOperatorChanged($event)"
+              [attr.data-qa-id]="'ddm-operator-'+field.SourceName"
+              class="k-dropdown-white form-control">
+            </kendo-dropdownlist>
+          </div>
+          <div class="col-6">
+            <kendo-numerictextbox
+              [value]="getNumericFieldValue()"
+              [format]="'n2'"
+              [decimals]="2"
+              [disabled]="valueCanBeEmpty()"
+              (pfDebounceValueChanged)="handleFilterValueChanged($event)"
+              [attr.data-qa-id]="'txt-value-'+field.SourceName"
+              class="form-control">
+            </kendo-numerictextbox>
+          </div>
+        </div>
+      </ng-template>
       <ng-template [ngSwitchCase]="dataTypes.Bit">
         <kendo-dropdownlist
           [data]="bitFilterOptions"

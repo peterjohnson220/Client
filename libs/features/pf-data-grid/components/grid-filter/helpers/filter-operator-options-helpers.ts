@@ -48,7 +48,8 @@ export const FilterOperatorOptions = {
   dateTime: dateFilterOperators,
   string: textFilterOperators,
   int: numericFilterOperators,
-  bit: booleanFilterOperators
+  bit: booleanFilterOperators,
+  float: numericFilterOperators
 };
 
 export function isValueRequired(field: ViewField) {
