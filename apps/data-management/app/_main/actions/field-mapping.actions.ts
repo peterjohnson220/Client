@@ -205,7 +205,7 @@ export class SaveOutboundJdmFieldMappings implements Action {
 export class SaveOutboundJdmFieldMappingsSuccess implements Action {
   readonly type = SAVE_OUTBOUND_MAPPING_SUCCESS;
 
-  constructor() {}
+  constructor(public payload) {}
 }
 
 

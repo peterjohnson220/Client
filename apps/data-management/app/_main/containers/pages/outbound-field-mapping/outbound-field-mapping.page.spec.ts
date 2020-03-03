@@ -43,18 +43,6 @@ describe('Data Management - Main - Transfer Data - Outbound Field Mapping Page',
     fixture.detectChanges();
   });
 
-  it('should dispatch an action when clicking the cancel button', () => {
-    // arrange
-    const expectedAction = new fromOutboundJdmActions.ResetConnectionSummary();
-    const spy = jest.spyOn(store, 'dispatch');
-
-    // act
-    instance.cancel();
-
-    // assert
-    expect(spy).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('should dispatch an action when clicking the save button', () => {
     // arrange
     const expectedAction = new fromFieldMappingActions.SaveOutboundJdmFieldMappings();

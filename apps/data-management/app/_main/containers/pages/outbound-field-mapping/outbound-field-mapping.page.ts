@@ -71,7 +71,6 @@ export class OutboundFieldMappingPageComponent implements OnInit, OnDestroy {
   }
 
   cancel() {
-    this.store.dispatch(new fromOutboundJdmActions.ResetConnectionSummary());
     this.router.navigate(['/']);
   }
 
