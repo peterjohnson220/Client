@@ -9,17 +9,24 @@ describe('TrsImageControlComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TrsImageControlComponent ]
-    })
-    .compileComponents();
+    });
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TrsImageControlComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
+    component.employee = { logoPath: 'path-to-logo' };
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('should set the image src with the supplied value', () => {
+    component.employee = { logoPath: 'path-to-logo' };
+    fixture.detectChanges();
+    const img = fixture.nativeElement.querySelector('img');
+    expect(img.src.includes('path-to-logo')).toBeTruthy();
   });
 });

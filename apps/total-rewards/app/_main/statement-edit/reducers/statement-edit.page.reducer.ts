@@ -8,7 +8,7 @@ export interface State {
   statementObject: AsyncStateObj<Statement>;
 }
 
-const initialState: State = {
+export const initialState: State = {
   statementId: 0,
   statementObject: generateDefaultAsyncStateObj<Statement>(null)
 };
