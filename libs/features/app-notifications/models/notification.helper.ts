@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { AppNotification, NotificationPayload, NotificationSource, ProgressStatusPayload } from './notification.model';
-import { DataInsightsMessageFormatter } from './data-insights-message-formatter.model';
+import { ReportBuilderMessageFormatter } from './report-builder-message-formatter.model';
 import { ExchangeDataCutsMessageFormatter } from './exchange-data-cuts-message-formatter';
 import { GenericMessageFormatter } from './generic-message-formatter';
 import { JobDescriptionBulkExportFormatter } from './job-description-bulk-export-formatter';
@@ -16,10 +16,6 @@ export class NotificationHelper {
   getEventMessage(notification: AppNotification<NotificationPayload>): string {
     let message = '';
     switch (notification.From) {
-      case NotificationSource.DataInsights: {
-        message = DataInsightsMessageFormatter.getEventMessage(notification.Level, notification.Payload);
-        break;
-      }
       case NotificationSource.ExchangeDataCutsExport: {
         message = ExchangeDataCutsMessageFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
@@ -33,6 +29,7 @@ export class NotificationHelper {
         break;
       }
       default: {
+        message = ReportBuilderMessageFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
       }
     }
@@ -42,12 +39,6 @@ export class NotificationHelper {
   getProgressMessage(notification: AppNotification<ProgressStatusPayload>): SafeHtml {
     let message = notification.Payload.Message;
     switch (notification.From) {
-      case NotificationSource.DataInsights: {
-        const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
-        message = DataInsightsMessageFormatter.getProgressMessage(notification.Payload.Message);
-        message = message + progressBar;
-        break;
-      }
       case NotificationSource.ExchangeDataCutsExport: {
         const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
         message = ExchangeDataCutsMessageFormatter.getProgressMessage(notification.Payload.Message);
@@ -61,6 +52,9 @@ export class NotificationHelper {
         break;
       }
       default: {
+        const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
+        message = ReportBuilderMessageFormatter.getProgressMessage(notification.Payload.Message);
+        message = message + progressBar;
         break;
       }
     }
