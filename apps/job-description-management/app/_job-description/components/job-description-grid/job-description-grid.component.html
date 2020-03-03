@@ -83,8 +83,18 @@
           <pf-status-pill [status]="dataItem.JobDescriptionStatus"></pf-status-pill>
         </ng-template>
       </ng-container>
-      <!-- End of Kendo Grid Templates -->
 
+      <ng-container *ngIf="listAreaColumn.ColumnDatabaseName === 'CurrentReviewer'">
+        <ng-template kendoGridCellTemplate let-dataItem>
+        <div (mouseover)="showCurrentReviewerTooltip(dataItem.CurrentReviewer, currentReviewerTooltip)" (mouseleave)="hideCurrentReviewerTooltip(currentReviewerTooltip)">
+          <div ngbTooltip="{{dataItem.CurrentReviewer}}" [autoClose]="false" triggers="manual" #currentReviewerTooltip="ngbTooltip" container="body"></div>
+          <div>
+            {{dataItem.CurrentReviewer | TruncateAfter: currentReviewerThreshold}}
+          </div>
+        </div>
+        </ng-template>
+      </ng-container>
+      <!-- End of Kendo Grid Templates -->
     </kendo-grid-column>
 
     <kendo-grid-column *ngIf="!isPublic" class="cancel-row-click" [width]="50"
