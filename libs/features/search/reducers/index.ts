@@ -9,6 +9,7 @@ import * as fromSingledFilterReducer from './singled-filter.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
 import * as fromSearchPageReducer from './search-page.reducer';
 import * as fromChildFilterReducer from './child-filter.reducer';
+import {getParentOptionValue} from './child-filter.reducer';
 
 // Feature area state
 export interface SearchFeatureState {
@@ -144,9 +145,11 @@ export const getSingledFilterSelectionCount = createSelector(
 export const getChildFilterSelectionCount = createSelector(
   getChildFilter,
   getChildFilters,
-  (childFilter, filters) => {
+  getParentOptionValue,
+  (childFilter, filters, parentOptionValue) => {
     const backingFilter = <MultiSelectFilter>filters.find(f => childFilter && f.Id === childFilter.Id);
-    return !!backingFilter ? backingFilter.Options.filter(o => o.Selected).length : 0;
+
+    return !!backingFilter ? backingFilter.Options.filter(o => o.Selected && JSON.parse(o.Value).ParentOptionValue === parentOptionValue).length : 0;
   }
 );
 
