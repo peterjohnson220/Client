@@ -1,17 +1,18 @@
 <div class="card mb-3 shadow-sm">
   <div class="card-body">
+    <div class="row" *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')">
+      <!-- TODO: When we support more statuses, this can probably live as its own component -->
+      <span
+        class="text-success d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0 col-12">
+        Authenticated <fa-icon icon="check-circle"></fa-icon>
+      </span>
+    </div>
     <div class="row">
       <div class="col d-flex justify-content-between">
         <h4 class="card-title d-inline-block flex-grow-1">
           <span *ngIf="transferMethodType === inbound">Inbound HRIS Integration</span>
           <span *ngIf="transferMethodType === outboundJdm">Outbound Job Description Integration</span>
         </h4>
-        <!-- TODO: When we support more statuses, this can probably live as its own component -->
-        <span
-          *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')"
-          class="text-success d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0">
-          Authenticated <fa-icon icon="check-circle"></fa-icon>
-        </span>
       </div>
     </div>
     <div class="row">
