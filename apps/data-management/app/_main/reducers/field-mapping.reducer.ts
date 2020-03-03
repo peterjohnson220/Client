@@ -148,6 +148,7 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
       return {
         ...state,
         saving: true,
+        savingError: false,
       };
     }
     case fromFieldMappingActions.SAVE_MAPPING_ERROR: {
@@ -162,6 +163,7 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
       return {
         ...state,
         saving: false,
+        savingError: false,
         isDirty: false
       };
     }

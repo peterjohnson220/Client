@@ -145,7 +145,8 @@ export class PayfactorsApiModelMapper {
       mappingPayload: {
         items: Object.entries(request)
           .map(([entityType, fields]) => this.getMappingsForEntity(entityType, fields))
-          .filter( mpi => mpi.mappings.length > 0)
+          .filter( mpi => mpi.mappings.length > 0
+            && mpi.orgDataEntityType !== OrgDataEntityType.JobDescriptions ) // TODO: Remove this once we start on actual outbound integration
       }
     };
   }
