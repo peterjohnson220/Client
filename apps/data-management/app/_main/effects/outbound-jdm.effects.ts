@@ -172,8 +172,17 @@ export class OutboundJdmEffects {
     .pipe(
       ofType<fromFieldMappingActions.SaveOutboundJdmFieldMappings>(fromFieldMappingActions.SAVE_OUTBOUND_MAPPINGS),
       delay(500),
-      switchMap(() => of(new fromFieldMappingActions.SaveOutboundJdmFieldMappingsSuccess())),
-      tap(() => this.router.navigate(['/transfer-data/outbound/transfer-schedule'])),
+      withLatestFrom(
+        this.store.select(fromDataManagementMainReducer.getJdmConnectionSummaryObj),
+        (action, existingSummary) => existingSummary,
+      ),
+      switchMap((existingSummary) => of(new fromFieldMappingActions.SaveOutboundJdmFieldMappingsSuccess(existingSummary.obj.hasConnection))),
+      tap((action: fromFieldMappingActions.SaveOutboundJdmFieldMappingsSuccess) => {
+        if (action.payload) {
+          return this.router.navigate(['']);
+        }
+        return this.router.navigate(['/transfer-data/outbound/transfer-schedule']);
+      }),
     );
 
   constructor(
