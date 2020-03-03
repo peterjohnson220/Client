@@ -78,7 +78,8 @@
           <div class="form-group row">
             <label class="col-2 col-form-label">Job <span class="text-danger">*</span></label>
             <div class="col-4">
-              <kendo-combobox class="form-control"
+              <kendo-combobox #jobsCombobox
+                              class="form-control"
                               data-qa-id="ddl-employee-form-job"
                               placeholder="Select a Job..."
                               formControlName="CompanyJobId"
@@ -104,7 +105,8 @@
           <div class="form-group row">
             <label class="col-2 col-form-label">Pay Market <span class="text-danger">*</span></label>
             <div class="col-4">
-              <kendo-combobox class="form-control"
+              <kendo-combobox #paymarketCombobox
+                              class="form-control"
                               data-qa-id="ddl-employee-form-paymarket"
                               placeholder="Select a Pay Market..."
                               formControlName="CompanyPayMarketId"
@@ -141,7 +143,8 @@
             </div>
             <label class="col-2 col-form-label">Work Country <span class="text-danger">*</span></label>
             <div class="col-4">
-              <kendo-combobox class="form-control"
+              <kendo-combobox #workCountryCombobox
+                              class="form-control"
                               data-qa-id="ddl-employee-form-country"
                               placeholder="Select a Work Country..."
                               formControlName="Country"
@@ -159,7 +162,8 @@
           <div class="form-group row">
             <label class="col-2 col-form-label">Currency Code <span class="text-danger">*</span></label>
             <div class="col-4">
-              <kendo-combobox class="form-control"
+              <kendo-combobox #currencyCombobox
+                              class="form-control"
                               data-qa-id="ddl-employee-form-currency"
                               placeholder="Select a Currency..."
                               formControlName="CurrencyCode"
@@ -211,7 +215,8 @@
             </div>
             <label class="col-2 col-form-label">Department</label>
             <div class="col-4">
-              <kendo-combobox class="form-control"
+              <kendo-combobox #departmentCombobox
+                              class="form-control"
                               data-qa-id="ddl-employee-form-department"
                               placeholder="Select a Department..."
                               formControlName="Department"

@@ -1,9 +1,9 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, Input, SimpleChanges, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, Input, SimpleChanges, OnChanges, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
+import { ComboBoxComponent, DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import * as cloneDeep from 'lodash.clonedeep';
 import { IntlService } from '@progress/kendo-angular-intl';
 
@@ -21,6 +21,11 @@ import * as fromEmployeeManagementActions from '../../actions';
 })
 export class EmployeeManagementComponent implements OnInit, OnDestroy {
   @Output() saveSuccess = new EventEmitter();
+  @ViewChild('jobsCombobox', { static: true }) jobsCombobox: ComboBoxComponent;
+  @ViewChild('paymarketCombobox', { static: true }) paymarketCombobox: ComboBoxComponent;
+  @ViewChild('currencyCombobox', { static: true }) currencyCombobox: ComboBoxComponent;
+  @ViewChild('workCountryCombobox', { static: true }) workCountryCombobox: ComboBoxComponent;
+  @ViewChild('departmentCombobox', { static: true }) departmentCombobox: ComboBoxComponent;
 
   // observables
   userContext$: Observable<UserContext>;
@@ -51,7 +56,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   genders = ['', 'Male', 'Female'];
   rates = ['Annual', 'Hourly'];
   yesNo: KendoTypedDropDownItem[] = [{Name: '', Value: null}, {Name: 'Y', Value: true}, {Name: 'N', Value: false}];
-
   calculatedTCC: number;
   calculatedTDC: number;
 
@@ -249,6 +253,11 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     });
     this.calculatedTCC = 0;
     this.calculatedTDC = 0;
+    this.jobsCombobox.filterChange.emit('');
+    this.paymarketCombobox.filterChange.emit('');
+    this.currencyCombobox.filterChange.emit('');
+    this.workCountryCombobox.filterChange.emit('');
+    this.departmentCombobox.filterChange.emit('');
     this.updateControl([], 'StructureRangeGroupId');
     this.updateControl([], 'GradeCode');
   }
