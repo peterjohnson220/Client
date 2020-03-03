@@ -17,7 +17,7 @@ exports[`Libs - Infinite Scroll -  should show a message, when loading more resu
   store={[Function Store]}
 >
   <div
-    class="results"
+    class="scroll-results"
     infinite-scroll=""
   >
     <pf-async-container />
