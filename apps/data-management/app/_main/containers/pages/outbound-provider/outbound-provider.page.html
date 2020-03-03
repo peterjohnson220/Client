@@ -1,5 +1,6 @@
 <div class="my-4 mx-3">
   <div class="float-right"><h5 style="opacity: 0.6;">STEP 1/5</h5></div>
+  <h4>Select Vendor</h4>
   <div class="m-5">
     <div style="display:none;">
       <div class="col-4 mb-4 p-0">
@@ -10,9 +11,6 @@
       </div>
     </div>
     <div>
-      <div class="mb-4">
-        <h5>Select vendor from the list below.</h5>
-      </div>
       <div class="card-deck">
         <pf-provider-card *ngFor="let provider of outboundProviders$ | async"
           [provider]="provider"
