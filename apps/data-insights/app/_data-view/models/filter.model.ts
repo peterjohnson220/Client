@@ -1,5 +1,5 @@
 import { Field, generateMockField, FieldDataType } from './field.model';
-import { FilterOperator, Between, Equals, Contains, IsTrueFalse } from './filter-operators.model';
+import { FilterOperator, Between, Equals, Contains, IsTrueFalse, IsNullOrEmpty, IsNotNullOrEmpty } from './filter-operators.model';
 
 export interface Filter {
   Field: Field;
@@ -54,6 +54,10 @@ export function validateFilter(filter: Filter): boolean {
   switch (filter.Operator) {
     case Between:
       return !!filter.SelectedOptions.length && filter.SelectedOptions.length === 2;
+    case IsNullOrEmpty:
+      return true;
+    case IsNotNullOrEmpty:
+      return true;
     default:
       return !!filter.SelectedOptions.length;
   }
