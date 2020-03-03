@@ -70,7 +70,7 @@ export class PfDataGridEffects {
                         this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
                         this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, loadDataAction.pageViewId)),
                         (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions,
-                         sortDescriptor, applyDefaultFilters, inboundFilterSourceNameWhiteList) =>
+                         sortDescriptor, applyDefaultFilters) =>
                             ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters })
                     )
                 ),

@@ -35,9 +35,12 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   globalFilterTemplates = {};
   colTemplates = {};
-  pageViewId = PageViewIds.PricingDetails;
+  pricedDataPageViewId = PageViewIds.PricingDetails;
+  notPricedDataPageViewId = PageViewIds.UnPricedPayMarkets;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
+  pricedDataSubscription: Subscription;
+  notPricedDataSubscription: Subscription;
   payMarketField: ViewField;
   filteredPayMarketOptions: any;
   payMarketOptions: any;
@@ -49,17 +52,33 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   }];
   selectedKeys: number[];
 
+  viewMode = 'Priced';
+  pricedCount;
+  unPricedCount;
+
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
       });
-    this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
+    this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pricedDataPageViewId).subscribe(fields => {
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
+      }
+    });
+
+    this.pricedDataSubscription = this.store.select(fromPfGridReducer.getData, this.pricedDataPageViewId).subscribe(pricedData => {
+      if (pricedData) {
+        this.unPricedCount = this.payMarketOptions.length - pricedData.total;
+      }
+    });
+
+    this.notPricedDataSubscription = this.store.select(fromPfGridReducer.getData, this.notPricedDataPageViewId).subscribe(notPricedData => {
+      if (notPricedData) {
+        this.pricedCount = this.payMarketOptions.length - notPricedData.total;
       }
     });
   }
@@ -79,6 +98,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
+    this.pricedDataSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -100,9 +120,9 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
 
   updateField(field) {
     if (field.FilterValue) {
-      this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, field));
+      this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pricedDataPageViewId, field));
     } else {
-      this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
+      this.store.dispatch(new fromPfGridActions.ClearFilter(this.pricedDataPageViewId, field));
     }
   }
 }

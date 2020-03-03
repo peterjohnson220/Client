@@ -1,5 +1,6 @@
 <pf-data-grid
-  [pageViewId]="pageViewId"
+  *ngIf="viewMode === 'Priced'"
+  [pageViewId]="pricedDataPageViewId"
   [showTitle]="false"
   [showColumnChooser] ="false"
   [showFilterChooser] ="false"
@@ -8,13 +9,35 @@
   [selectionField]="'CompanyJobPricing_ID'"
   [enableSelection]="true"
   [columnTemplates]="colTemplates"
+  [applyDefaultFilters]="false"
   [expandedRowTemplate]="pricingMatchesGrid"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [showActionBar]="true"
   [actionBarClassName]="'pricing-details-grid-action-bar ml-0 mt-1'"
   [gridGlobalFiltersTemplates]="globalFilterTemplates"
-  [headerClassName]="'pricing-details-grid-header'">
+  [gridGlobalActionsTemplate]="changeView"
+  [headerClassName]="'pricing-details-grid-header'"
+  [noRecordsFound]="'No Pay Markets priced for this job. Click &quot;Pay Markets not Priced&quot; above to view and select Pay Markets to price.'">
+</pf-data-grid>
+
+<pf-data-grid
+  *ngIf="viewMode === 'Not Priced'"
+  [pageViewId]="notPricedDataPageViewId"
+  [showTitle]="false"
+  [showColumnChooser] ="false"
+  [showFilterChooser] ="false"
+  [allowExport]="false"
+  [contentNoPadding]="true"
+  [selectionField]="'JobIdPayMarketId'"
+  [enableSelection]="true"
+  [inboundFilters]="filters"
+  [defaultSort]="defaultSort"
+  [showActionBar]="true"
+  [gridGlobalActionsTemplate]="changeView"
+  [actionBarClassName]="'pricing-details-grid-action-bar ml-0 mt-1'"
+  [headerClassName]="'pricing-details-grid-header'"
+  [noRecordsFound]="'All Pay Markets Priced'">
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
@@ -79,5 +102,15 @@
       class="k-dropdown-white form-control"
     >
     </kendo-dropdownlist>
+</ng-template>
+
+<ng-template #changeView>
+  <div (click)="viewMode === 'Priced' ? viewMode = 'Not Priced' : viewMode = 'Priced'">
+    <div class="pricing-count-badge">
+      <span class="badge badge-primary mr-2">{{viewMode === 'Priced' ? unPricedCount : pricedCount}}</span>
+      <span *ngIf="viewMode === 'Priced' ? unPricedCount > 1 : pricedCount > 1">{{viewMode === 'Priced' ? 'Pay Markets Not Priced' : 'Priced Pay Markets'}}</span>
+      <span *ngIf="viewMode === 'Priced' ? unPricedCount === 1 : pricedCount === 1">{{viewMode === 'Priced' ? 'Pay Market Not Priced' : 'Priced Pay Market'}}</span>
+    </div>
+  </div>
 </ng-template>
 
