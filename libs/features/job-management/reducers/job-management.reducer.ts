@@ -37,6 +37,7 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
     case fromJobManagementActions.SHOW_JOB_MODAL: {
       return {
         ...state,
+        jobId: null,
         showJobModal: action.payload,
       };
     }
@@ -75,6 +76,7 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
       return {
         ...state,
         loadingJob: false,
+        jobId: action.payload.JobInfo.CompanyJobId,
         companyJob: action.payload.JobInfo,
       };
     case fromJobManagementActions.UPDATE_COMPANY_JOB:
