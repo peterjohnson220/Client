@@ -1,21 +1,65 @@
+<pf-async-container [loading]="statementLoading$ | async" [loadingError]="statementLoadingError$ | async" (reload)="handleStatementReload()">
 
-
-<div style="text-align:left; width: 2000px; " class="container">
+<div class="container statement mt-4 mb-4 rounded" *ngIf="(statement$ | async)">
   <div *ngFor="let employee of employeeArray">
-    <div *ngFor="let section of templateObject.sections" class="row">
-      <div *ngFor="let column of section.columns" [ngClass]="getColumnWidth(section.columnCount)">
-        <div class="row columnRow" [dragula]="section.sectionName">
-          <div *ngFor="let control of column.columnControls" [ngClass]="getControlWidth(control.controlWidth)">
-            <pf-total-rewards-control [control]="control"
-                                      [companyColors]="companyColors"
-                                      [employee]="employee"
-                                      class="tr-control"
-            ></pf-total-rewards-control>
+    <div *ngFor="let page of (statement$ | async)?.Pages" class="pt-4 pb-4">
+      <section *ngFor="let section of page.Sections" class="row vertical-divider">
+        <div *ngFor="let column of section.Columns" [ngClass]="getColumnWidth(section.ColumnCount)">
+          <div class="row columnRow" >
+            <div *ngFor="let control of column.Controls" [ngClass]="getControlWidth(control.Layout.Width)">
+              <div *ngIf="control.ControlType === controlType.RichTextEditor" >
+                <pf-trs-rich-text-control
+                  [controlData]="control"
+                  [sectionTitlesStyles]="(statement$ | async)?.SectionTitlesStyles"
+                  [dataStyles]="(statement$ | async)?.BenefitFieldDataStyles"
+                  class="p-1"></pf-trs-rich-text-control>
+              </div>
+
+              <div *ngIf="control.ControlType === controlType.Image">
+                <pf-trs-image-control
+                  [controlData]="control"
+                  [employee]="employee"
+                  class="p-1"></pf-trs-image-control>
+              </div>
+
+              <div *ngIf="control.ControlType === controlType.Calculation">
+                <pf-trs-calculation-control
+                  [controlData]="control"
+                  [sectionTitlesStyles]="(statement$ | async)?.SectionTitlesStyles"
+                  [titlesStyles]="(statement$ | async)?.BenefitFieldTitlesStyles"
+                  [dataStyles]="(statement$ | async)?.BenefitFieldDataStyles"
+                  [calculationStyles]="(statement$ | async)?.BenefitFieldCalculationsStyles"
+                  class="p-1"></pf-trs-calculation-control>
+              </div>
+
+              <div *ngIf="control.ControlType === controlType.Chart">
+                <pf-trs-chart-control
+                  [controlData]="control"
+                  [companyColors]="companyColors"
+                  [employee]="employee"
+                  class="p-1"></pf-trs-chart-control>
+              </div>
+
+              <div *ngIf="control.ControlType === controlType.Title">
+                <pf-trs-title-control
+                  [controlData]="control"
+                  [titleStyles]="(statement$ | async)?.StatementTitleStyles"
+                  class="p-1"></pf-trs-title-control>
+              </div>
+
+              <div *ngIf="control.ControlType === controlType.Summary">
+                <pf-trs-summary-control
+                  [controlData]="control"
+                  [titleStyles]="(statement$ | async)?.StatementTitleStyles"
+                  class="p-1"></pf-trs-summary-control>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
-    <div style="page-break-after: always"></div>
+    <div class="page-break"></div>
   </div>
 
 </div>
+</pf-async-container>
