@@ -62,7 +62,8 @@
           </div>
           <div class="col-6">
             <kendo-datepicker
-              [value]="field.FilterValue"
+              [value]="getDateTimeValue()"
+              [format]="'MM/dd/yyyy'"
               [disabled]="valueCanBeEmpty()"
               (valueChange)="handleFilterValueChanged($event)"
               [attr.data-qa-id]="'datepicker-value-'+field.SourceName">
