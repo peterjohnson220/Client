@@ -31,7 +31,7 @@ describe('TotalRewardsStatementComponent', () => {
         provideMockStore({}),
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { queryParams: of({ params: { pages: 1 } }) } }
+          useValue: { queryParams: of({ params: { pages: 1 } }) }
         }
       ],
       declarations: [TotalRewardsStatementComponent],
@@ -100,7 +100,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render the expected number of columns', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj.Pages = [{ Sections: [{ Columns: [{}] } as any ] }]; 
+    statementEditState.statementObject.obj.Pages = [{ Sections: [{ Columns: [{}] } as any ] }];
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act
