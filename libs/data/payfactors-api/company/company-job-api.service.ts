@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CompanyJob, Match, CompanyJobToMapTo, LatestCompanyJob, JobInfoResponse } from 'libs/models';
+import { CompanyJob, Match, CompanyJobToMapTo, LatestCompanyJob, JobInfoResponse, CompanyJobAttachment } from 'libs/models';
 import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -57,6 +57,10 @@ export class CompanyJobApiService {
 
   saveCompanyJob(request: CompanyJob): Observable<CompanyJob> {
     return request.CompanyJobId ? this.patchCompanyJob(request) : this.createCompanyJob(request);
+  }
+
+  uploadAttachments(attachments: File[]): Observable<CompanyJobAttachment[]> {
+    return (this.payfactorsApiService.postFormData(`CloudFiles.UploadJobAttachment`, attachments));
   }
 
   createCompanyJob(request: CompanyJob): Observable<CompanyJob> {
