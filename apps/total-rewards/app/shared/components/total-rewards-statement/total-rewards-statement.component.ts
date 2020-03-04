@@ -66,7 +66,7 @@ export class TotalRewardsStatementComponent implements OnInit {
     this.statementLoading$ = this.store.pipe(select(fromTotalRewardsEditReducer.selectStatementLoading));
     this.statementLoadingError$ = this.store.pipe(select(fromTotalRewardsEditReducer.selectStatementLoadingError));
 
-    this.pageCountSubscription = this.route.queryParams.subscribe(params => {
+    this.pageCountSubscription = this.route.snapshot.queryParams.subscribe(params => {
       // This is for POC employees/pages
       if (params['pages']) {
         this.pageCount = params['pages'];

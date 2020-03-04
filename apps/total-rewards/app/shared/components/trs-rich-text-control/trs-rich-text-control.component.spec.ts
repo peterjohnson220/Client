@@ -9,17 +9,19 @@ describe('TrsRichTextControlComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TrsRichTextControlComponent ]
-    })
-    .compileComponents();
+    });
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TrsRichTextControlComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
+    component.sectionTitlesStyles = {} as any;
+    component.dataStyles = {} as any;
+    component.controlData = {} as any;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

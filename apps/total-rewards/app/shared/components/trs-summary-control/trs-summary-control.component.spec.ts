@@ -8,18 +8,19 @@ describe('TrsSummaryControlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TrsSummaryControlComponent ]
-    })
-    .compileComponents();
+      declarations: [TrsSummaryControlComponent]
+    });
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TrsSummaryControlComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
+    component.titleStyles = {} as any;
+    component.controlData = {} as any;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

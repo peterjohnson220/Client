@@ -9,17 +9,18 @@ describe('TrsTitleControlComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TrsTitleControlComponent ]
-    })
-    .compileComponents();
+    });
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TrsTitleControlComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
+    component.titleStyles = {} as any;
+    component.controlData = {} as any;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });
