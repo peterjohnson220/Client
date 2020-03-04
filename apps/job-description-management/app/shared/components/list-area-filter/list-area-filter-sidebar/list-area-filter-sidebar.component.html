@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="sidebar-content">
-    <div *ngFor="let customListAreaColumn of customListAreaColumns; let i = index" class="form-group">
+    <div *ngFor="let customListAreaColumn of customListAreaColumns; let i = index">
       <label>{{ customListAreaColumn.ColumnDisplayName }}:</label>
       <div [ngSwitch]="customListAreaColumn.ColumnDataType">
         <ng-template [ngSwitchCase]="'text'">
@@ -34,7 +34,7 @@
       </div>
     </div>
     
-    <div *ngFor="let listAreaColumn of listAreaColumns; let i = index" class="form-group">
+    <div *ngFor="let listAreaColumn of listAreaColumns; let i = index">
       <ng-container *ngIf="listAreaColumn.Visible">
         <label>{{ listAreaColumn.ColumnDisplayName }}:</label>
         <div [ngSwitch]="listAreaColumn.ColumnDataType">
