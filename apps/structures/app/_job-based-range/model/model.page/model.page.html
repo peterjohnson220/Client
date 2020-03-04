@@ -30,6 +30,17 @@
   </ng-template>
 </ng-template>
 
+<ng-template #mrpValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_MarketReferencePointValue as mrpValue; else noMRP">
+    <a class="temp-link-color-override" routerLink="pricings/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+      {{ mrpValue }}
+    </a>
+  </ng-container>
+  <ng-template #noMRP>
+    - -
+  </ng-template>
+</ng-template>
+
 <ng-template #gridGlobalActions>
   <button class="btn btn-secondary" (click)="handleAddJobsClicked()">Add Jobs</button>
 </ng-template>

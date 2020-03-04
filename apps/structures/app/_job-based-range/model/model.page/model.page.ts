@@ -22,6 +22,7 @@ import { JOB_BASED_RANGE_ADD_JOBS_MODAL_PAGE_WORKFLOW } from '../constants/add-j
 export class ModelPageComponent implements OnInit, AfterViewInit {
   @ViewChild('mid', {static: false}) midColumn: ElementRef;
   @ViewChild('eeCount', {static: false}) eeCountColumn: ElementRef;
+  @ViewChild('mrpValue', {static: false}) mrpValueColumn: ElementRef;
   @ViewChild(AddJobsModalComponent, {static: false}) public AddJobsModalComponent: AddJobsModalComponent;
 
   modelName$: Observable<string>;
@@ -74,7 +75,8 @@ export class ModelPageComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.colTemplates = {
       ['Mid']: {Template: this.midColumn},
-      ['NumEmployees']: {Template: this.eeCountColumn}
+      ['NumEmployees']: {Template: this.eeCountColumn},
+      ['MarketReferencePointValue']: {Template: this.mrpValueColumn}
     };
   }
 }
