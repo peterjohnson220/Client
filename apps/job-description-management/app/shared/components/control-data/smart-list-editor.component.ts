@@ -29,7 +29,6 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
 
   private rteData = '';
   private showDataTable = false;
-  private firstChange = true;
   private newDataFromLibraryIdentifierString = '========>FROM LIBRARY';
 
   constructor(
@@ -59,42 +58,40 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: any) {
-    if (this.firstChange) {
-      if (changes.data && changes.data.currentValue.length) {
-        const currentData = changes.data.currentValue;
-        const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
-        for (let i = 0; i < currentData.length; i++) {
-          const currentSourcedValue = currentData[i][sourcedAttributeName];
+    if (changes.data && changes.data.currentValue.length) {
+      const currentData = changes.data.currentValue;
+      const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
+      for (let i = 0; i < currentData.length; i++) {
+        const currentSourcedValue = currentData[i][sourcedAttributeName];
 
-          if (currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) {
-            currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
-            this.rebuildQuillHtmlFromSavedData();
-            this.focusRTE();
-          }
+        if (currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) {
+          currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
         }
+        this.rebuildQuillHtmlFromSavedData();
+        this.focusRTE();
       }
     }
-
-    this.firstChange = false;
   }
 
   focusRTE() {
     const quillContainer = this.elRef.nativeElement.querySelector('.ui-editor-content');
-    const quillApi = Quill.find(quillContainer);
+    if (quillContainer) {
+      const quillApi = Quill.find(quillContainer);
 
-    quillApi.disable();
-    const currentSelection = quillApi.getSelection();
+      quillApi.disable();
+      const currentSelection = quillApi.getSelection();
 
-    setTimeout(() => {
+      setTimeout(() => {
 
-      if (currentSelection) {
-        quillApi.setSelection(currentSelection.index, 0);
-      } else if (this.rteData) {
-        quillApi.setSelection(this.rteData.length, 0);
-      }
+        if (currentSelection) {
+          quillApi.setSelection(currentSelection.index, 0);
+        } else if (this.rteData) {
+          quillApi.setSelection(this.rteData.length, 0);
+        }
 
-      quillApi.enable();
-    }, 0);
+        quillApi.enable();
+      }, 0);
+    }
   }
 
   rebuildQuillHtmlFromSavedData() {
@@ -253,6 +250,10 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
 
     let currentData = this.rteData || '';
     this.rteData = currentData += newListString;
+
+    // Since "paste" with mouse right-click or ctrl-v doesn't trigger
+    // the OnTextChange event of the p-editor call this method
+    this.parseQuillHtmlIntoRealHtml(this.rteData);
 
     this.focusRTE();
   }
