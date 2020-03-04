@@ -21,7 +21,10 @@ export function getValueDisplay(value: string, dataType: DataViewFieldDataType) 
   switch (dataType) {
     case DataViewFieldDataType.DateTime:
       const dateFormatPipe = new DatePipe('en-US');
-      display = dateFormatPipe.transform(display, 'MM/DD/YYYY');
+      display = `${display}T00:00:00`;
+      const isValidDate = Date.parse(display) !== null;
+      const dateValue = isValidDate ? new Date(display) : '';
+      display = dateFormatPipe.transform(dateValue, 'MM/dd/yyyy');
       break;
   }
   return display;
