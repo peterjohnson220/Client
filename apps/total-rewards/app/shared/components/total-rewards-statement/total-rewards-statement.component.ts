@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
@@ -13,14 +13,13 @@ import * as fromEditStatementPageActions from '../../../_main/statement-edit/act
   templateUrl: './total-rewards-statement.component.html',
   styleUrls: ['./total-rewards-statement.component.scss']
 })
-export class TotalRewardsStatementComponent implements OnInit {
+export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
 
   @Input() statementId: number;
 
   statement$: Observable<Statement>;
   statementLoading$: Observable<boolean>;
   statementLoadingError$: Observable<boolean>;
-
 
   controlType = TotalRewardsControlEnum;
 
@@ -75,6 +74,10 @@ export class TotalRewardsStatementComponent implements OnInit {
         this.employeeArray.push(this.employeeData[i % 2]);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.pageCountSubscription.unsubscribe();
   }
 
   getColumnWidth(count) {

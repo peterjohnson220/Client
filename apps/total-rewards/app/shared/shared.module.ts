@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { DragulaModule } from 'ng2-dragula';
 import 'hammerjs';
+import { QuillModule } from 'ngx-quill';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -22,11 +24,12 @@ import { TrsRichTextControlComponent } from './components/trs-rich-text-control/
     // Angular
     CommonModule,
     HttpClientModule,
+    FormsModule,
 
     // Third Party
     ChartModule,
     DragulaModule.forRoot(),
-
+    QuillModule.forRoot(),
     FontAwesomeModule,
 
     // Payfactors
