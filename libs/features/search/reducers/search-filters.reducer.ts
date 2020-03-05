@@ -254,7 +254,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
     }
     case fromSearchFiltersActions.ADD_FILTER_OPTIONS: {
       const filtersCopy = cloneDeep(state.filters);
-      const updateFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField && isMultiFilter(f));
+      const updateFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField && (isMultiFilter(f) || isFilterableMultiFilter(f)));
       const serverOptions = cloneDeep(action.payload.newOptions);
       const clientOptions = updateFilter.Options;
       updateFilter.Options = clientOptions.concat(serverOptions);
