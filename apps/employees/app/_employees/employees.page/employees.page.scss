@@ -20,14 +20,11 @@
 .grid-actions-container {
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
   width: 100%;
 
-  .selected-employees-badge {
-    padding: 6px 1px;
-  }
-
   .btn {
-    margin-left: 1rem;
+    margin-left: .75rem;
     border: 0;
 
     &:focus {
@@ -41,17 +38,10 @@
   }
 
   .vertical-separator {
-    margin: .5rem 0 0.5rem 1rem;
-  }
-
-  .spacer {
-    flex-grow: 1;
+    margin: 0.5rem;
   }
 
   .btn-clear-selection {
-    margin-left: 0 !important;
-    fa-icon {
-      margin-right: 0 !important;
-    }
+    margin-left: 0;
   }
 }
