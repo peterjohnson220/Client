@@ -32,6 +32,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() backgroundColor: string;
   @Input() allowSort = true;
   @Input() customHeaderClass: string;
+  @Input() defaultColumnWidth: number;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
