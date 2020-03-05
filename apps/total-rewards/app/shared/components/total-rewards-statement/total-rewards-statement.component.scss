@@ -12,15 +12,15 @@
 .row.vertical-divider {
   overflow: hidden;
 }
-.row.vertical-divider > div[class^="col-"] {
+.row.vertical-divider > div[class*="col-"] {
   text-align: center;
   border-left: 1px solid $trs-canvas-background-color;
   border-right: 1px solid $trs-canvas-background-color;
 }
-.row.vertical-divider div[class^="col-"]:first-child {
+.row.vertical-divider div[class*="col-"]:first-child {
   border-left: none;
 }
-.row.vertical-divider div[class^="col-"]:last-child {
+.row.vertical-divider div[class*="col-"]:last-child {
   border-right: none;
 }
 
