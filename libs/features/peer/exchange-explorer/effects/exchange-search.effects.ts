@@ -9,7 +9,7 @@ import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/pe
 import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { ExchangeMapResponse } from 'libs/models/peer';
-import { ExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+import { ExchangeDataSearchRequest, SearchExchangeAggregationsRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { OperatorEnum } from 'libs/constants';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
@@ -17,10 +17,13 @@ import * as fromExchangeExplorerReducer from '../reducers';
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
 import * as fromSearchResultsActions from '../../../search/actions/search-results.actions';
 import * as fromSearchFiltersActions from '../../../search/actions/search-filters.actions';
+
 import * as fromMapActions from '../actions/map.actions';
 import { ExchangeExplorerContextService } from '../services';
 import * as fromInfiniteScrollActions from '../../../infinite-scroll/actions/infinite-scroll.actions';
-import {ScrollIdConstants} from '../../../infinite-scroll/models';
+import { ScrollIdConstants } from '../../../infinite-scroll/models';
+import { SearchFilter } from '../../../../models/payfactors-api/search/response';
+import { MultiSelectFilter } from '../../../search/models';
 
 @Injectable()
 export class ExchangeSearchEffects {
@@ -132,6 +135,40 @@ export class ExchangeSearchEffects {
       }
 
       return actions;
+    })
+  );
+
+  @Effect()
+  searchFilterShowMore$ = this.actions$.pipe(
+    ofType(fromSearchFiltersActions.SHOW_MORE),
+    withLatestFrom(
+      this.exchangeExplorerContextService.selectFilterContext(),
+      this.store.pipe(select(fromSearchReducer.getAllFilters)),
+      (
+        action: fromSearchFiltersActions.ShowMore, filterContext, filters
+      ) => ({payload: action.payload, filterContext, filters})
+    ),
+    switchMap(data => {
+      const filter = data.filters.find(f => f.BackingField === data.payload.backingField);
+      const request: SearchExchangeAggregationsRequest = {
+        ...data.filterContext,
+        SearchField: data.payload.backingField,
+        TextQuery: '',
+        PagingOptions: {From: filter.AggregateCount - 10, Count: 10}
+      };
+
+      return this.exchangeDataSearchApiService.searchExchangeAggregations(request).pipe(
+        map((response: SearchFilter) => {
+          const matchingFilter = <MultiSelectFilter>data.filters.find(f => f.BackingField === data.payload.backingField);
+          const currentSelections = matchingFilter.Options.filter(o => o.Selected);
+
+          return new fromSearchFiltersActions.AddFilterOptions({
+            backingField: data.payload.backingField,
+            newOptions: this.payfactorsSearchApiModelMapper.mapSearchFilterOptionsToFilterableMultiSelectOptions(response.Options),
+            currentSelections
+          });
+        })
+      );
     })
   );
 

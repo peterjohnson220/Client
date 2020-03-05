@@ -25,7 +25,7 @@ export interface RangeFiltersMergeParams {
 }
 
 export class ClientServerFilterHelper {
-  static maxNumberOfOptions = 5;
+  static defaultNumberOfOptions = 5;
 
   static mergeClientWithServerMultiSelectFilters(param: MultiSelectFiltersMergeParams) {
 
@@ -39,9 +39,9 @@ export class ClientServerFilterHelper {
 
         if (!!matchedClientFilter) {
           sf.Options = this.mergeClientAndServerOptions(sf, matchedClientFilter);
-
-          if (param.keepFilteredOutOptions && sf.Options.length < this.maxNumberOfOptions) {
-            sf.Options = this.fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options);
+          const overriddenMaxNumberOfOptions = sf.AggregateCount == null ? this.defaultNumberOfOptions : sf.AggregateCount;
+          if (param.keepFilteredOutOptions && sf.Options.length < overriddenMaxNumberOfOptions) {
+            sf.Options = this.fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options, overriddenMaxNumberOfOptions);
           }
         }
 
@@ -78,9 +78,10 @@ export class ClientServerFilterHelper {
 
         if (!!matchedClientFilter) {
           sf.Options = this.mergeClientAndServerFilterableOptions(sf, matchedClientFilter);
-
-          if (param.keepFilteredOutOptions && sf.Options.length < this.maxNumberOfOptions) {
-            sf.Options = this.fillOptionsWithUnselectedClientFilterableOptions(sf.Options, matchedClientFilter.Options); // update for filterable options.....
+          const overriddenMaxNumberOfOptions = sf.AggregateCount == null ? this.defaultNumberOfOptions : sf.AggregateCount;
+          if (param.keepFilteredOutOptions && sf.Options.length < overriddenMaxNumberOfOptions) {
+            sf.Options = this.fillOptionsWithUnselectedClientFilterableOptions(sf.Options, matchedClientFilter.Options,
+              overriddenMaxNumberOfOptions); // update for filterable options.....
           }
         }
         return sf;
@@ -174,11 +175,13 @@ export class ClientServerFilterHelper {
   }
 
   // Fill in the remainder option spots with current unselected client options
-  private static fillOptionsWithUnselectedClientOptions(mergedOptions: MultiSelectOption[], clientOptions: MultiSelectOption[]) {
+  private static fillOptionsWithUnselectedClientOptions(mergedOptions: MultiSelectOption[],
+                                                        clientOptions: MultiSelectOption[],
+                                                        maxNumberOfOptions: number) {
     return mergedOptions.concat(
       clientOptions
         .filter(o => !o.Selected)
-        .splice(0, this.maxNumberOfOptions - mergedOptions.length)
+        .splice(0, maxNumberOfOptions - mergedOptions.length)
         .map(o => {
           o.Count = 0;
           return o;
@@ -186,11 +189,13 @@ export class ClientServerFilterHelper {
     );
   }
 
-  private static fillOptionsWithUnselectedClientFilterableOptions(mergedOptions: FilterableMultiSelectOption[], clientOptions: FilterableMultiSelectOption[]) {
+  private static fillOptionsWithUnselectedClientFilterableOptions(mergedOptions: FilterableMultiSelectOption[],
+                                                                  clientOptions: FilterableMultiSelectOption[],
+                                                                  maxNumberOfOptions: number) {
     return mergedOptions.concat(
       clientOptions
         .filter(o => !o.Selected)
-        .splice(0, this.maxNumberOfOptions - mergedOptions.length)
+        .splice(0, maxNumberOfOptions - mergedOptions.length)
         .map(o => {
           o.Count = 0;
           return o;

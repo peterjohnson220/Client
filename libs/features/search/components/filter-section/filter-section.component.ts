@@ -24,7 +24,7 @@ export class FilterSectionComponent {
   protected cssReplacementRegex = /[\s]/g;
   collapsed: boolean;
   filterTypes = FilterType;
-  maxOptions = ClientServerFilterHelper.maxNumberOfOptions;
+  maxOptions = ClientServerFilterHelper.defaultNumberOfOptions;
 
   constructor() {}
 
@@ -88,6 +88,10 @@ export class FilterSectionComponent {
 
   get displayShowMore(): boolean {
     return this.optionCount >= this.maxOptions && !this.singled && !this.showAllOptions;
+  }
+
+  get disableShowMore(): boolean {
+    return (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter)) && this.optionCount + this.selectionCount < this.filter.AggregateCount;
   }
 
   toggle() {

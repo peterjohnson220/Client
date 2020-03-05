@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core';
+
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import {Filter, FilterType, MultiSelectOption} from '../../models';
+
+import { Filter, FilterType, MultiSelectOption } from '../../models';
 
 import * as fromSearchPageActions from '../../actions/search-page.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
@@ -17,6 +19,7 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   @Input() visible: boolean;
   @Input() defaultDisplayValue = 'block';
   @Input() defaultFocusedFilterId: string;
+  @Input() serverShowMore = false;
 
   filters$: Observable<Filter[]>;
   subFilters$: Observable<Filter[]>;
@@ -74,7 +77,11 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   }
 
   handleSectionShowMore(filter: Filter) {
-    this.toggleFilterSearch(filter);
+    if (this.serverShowMore) {
+      this.filterShowMore(filter);
+    } else {
+      this.toggleFilterSearch(filter);
+    }
   }
 
   // Lifecycle
@@ -93,6 +100,10 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   private toggleFilterSearch(filter: Filter): void {
     this.store.dispatch(new fromSearchPageActions.ToggleFilterSearch());
     this.store.dispatch(new fromSingledFilterActions.SetSingledFilter(filter));
+  }
+
+  private filterShowMore(filter: Filter): void {
+    this.store.dispatch(new fromSearchFiltersActions.ShowMore({backingField: filter.BackingField}));
   }
 }
 
