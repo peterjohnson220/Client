@@ -25,6 +25,7 @@ export class LoadStatementError implements Action {
 
 export class SaveStatement implements Action {
   readonly type = SAVE_STATEMENT;
+  constructor(public payload: Statement) {}
 }
 
 export class SaveStatementSuccess implements Action {
