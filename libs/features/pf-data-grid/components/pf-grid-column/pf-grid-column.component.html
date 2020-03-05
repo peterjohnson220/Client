@@ -12,3 +12,12 @@
 <ng-container *ngIf="getColumnType(field) === colType.default">
   {{dataItem[fieldName]}}
 </ng-container>
+<ng-container *ngIf="getColumnType(field) === colType.bit">
+  <ng-container *ngIf="dataItem[fieldName] !== null;else blankCellTemplate">
+    {{ dataItem[fieldName] === true ? 'Yes' : 'No' }}
+  </ng-container>
+</ng-container>
+
+<ng-template #blankCellTemplate>
+  <div class="empty-row"></div>
+</ng-template>
