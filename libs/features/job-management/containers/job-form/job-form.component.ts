@@ -20,9 +20,6 @@ import { ofType } from '@ngrx/effects';
 export class JobFormComponent implements OnInit, OnDestroy {
 
   showJobModal$: Observable<boolean>;
-  loading$: Observable<boolean>;
-  saving$: Observable<boolean>;
-  errorMessage$: Observable<string>;
   duplicateJobCodeError$: Observable<boolean>;
   jobFamilies$: Observable<string[]>;
   jobFlsaStatuses$: Observable<string[]>;
@@ -54,9 +51,6 @@ export class JobFormComponent implements OnInit, OnDestroy {
     private actionsSubject: ActionsSubject
   ) {
     this.showJobModal$ = this.store.select(fromJobManagementReducer.getShowJobModal);
-    this.loading$ = this.store.select(fromJobManagementReducer.getLoading);
-    this.saving$ = this.store.select(fromJobManagementReducer.getSaving);
-    this.errorMessage$ = this.store.select(fromJobManagementReducer.getErrorMessage);
     this.duplicateJobCodeError$ = this.store.select(fromJobManagementReducer.getDuplicateJobCodeError);
     this.jobFamilies$ = this.store.select(fromJobManagementReducer.getJobFamilies);
     this.jobFlsaStatuses$ = this.store.select(fromJobManagementReducer.getCompanyFlsaStatuses);
@@ -113,8 +107,6 @@ export class JobFormComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromJobManagementActions.SetDuplicateJobCodeError(false));
       }
     });
-
-    
   }
 
   ngOnDestroy() {
@@ -123,14 +115,6 @@ export class JobFormComponent implements OnInit, OnDestroy {
     this.onShowFormSubscription.unsubscribe();
     this.duplicateJobCodeErrorSubscription.unsubscribe();
     this.loadJobSuccessSubscription.unsubscribe();
-  }
-
-  submit(): void {
-    this.jobForm.markAllAsTouched();
-
-    if (this.jobForm.valid) {
-      this.store.dispatch(new fromJobManagementActions.SaveCompanyJob());
-    }
   }
 
   validateDuplicateJobCode(control: AbstractControl) {

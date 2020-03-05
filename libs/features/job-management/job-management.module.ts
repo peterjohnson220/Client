@@ -9,6 +9,9 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import * as fromFaIcons from './fa-icons';
+
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
@@ -17,6 +20,9 @@ import { reducers } from './reducers';
 
 import { JobManagementComponent } from './job-management/job-management.component';
 import { JobFormComponent } from './containers';
+import { JobContainerComponent } from './containers/job-container/job-container.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { JobAttachmentsComponent } from './containers/job-attachments/job-attachments.component';
 
 @NgModule({
   imports: [
@@ -31,6 +37,8 @@ import { JobFormComponent } from './containers';
     GridModule,
     LayoutModule,
     DropDownsModule,
+    NgbModule,
+    FontAwesomeModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -41,11 +49,17 @@ import { JobFormComponent } from './containers';
     JobManagementComponent,
 
     // Components
-    JobFormComponent
+    JobFormComponent,
+    JobContainerComponent,
+    JobAttachmentsComponent
   ],
   exports: [
     JobManagementComponent,
   ]
 })
 
-export class JobManagementModule { }
+export class JobManagementModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
+}

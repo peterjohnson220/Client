@@ -1,16 +1,19 @@
 import { Action } from '@ngrx/store';
 
-import { CompanyJob, CompanyJobUdf, JobInfoResponse } from 'libs/models';
+import { CompanyJob, CompanyJobUdf, JobInfoResponse, CompanyJobAttachment } from 'libs/models';
 
 export const SHOW_JOB_MODAL = '[JobManagement] Show Job Modal';
 export const SAVE_COMPANY_JOB = '[JobManagement] Save Company Job';
 export const SAVE_COMPANY_JOB_SUCCESS = '[JobManagement] Save Company Job Success';
+export const UPLOAD_ATTACHMENTS = '[JobManagement] Upload Attachemnts';
+export const UPLOAD_ATTACHMENTS_SUCCESS = '[JobManagement] Upload Attachemnts Success';
 export const LOAD_JOB_OPTIONS = '[JobManagement] Load Job Options';
 export const LOAD_JOB_OPTIONS_SUCCESS = '[JobManagement] Load Job Options Success';
 export const LOAD_JOB = '[JobManagement] Load Job';
 export const LOAD_JOB_SUCCESS = '[JobManagement] Load Job Success';
 export const SET_DUPLICATE_JOB_CODE_ERROR = '[JobManagement] Set Duplicate Job Code Error';
 export const UPDATE_COMPANY_JOB = '[JobManagement] Update Company Job';
+export const REMOVE_ATTACHMENT = '[JobManagement] Remove Attachment';
 export const HANDLE_API_ERROR = '[JobManagement] Handle API Error';
 
 export class ShowJobModal implements Action {
@@ -26,6 +29,16 @@ export class SaveCompanyJob implements Action {
 export class SaveCompanyJobSuccess implements Action {
   readonly type = SAVE_COMPANY_JOB_SUCCESS;
   constructor() { }
+}
+
+export class UploadAttachments implements Action {
+  readonly type = UPLOAD_ATTACHMENTS;
+  constructor(public attachments: File[]) { }
+}
+
+export class UploadAttachmentsSuccess implements Action {
+  readonly type = UPLOAD_ATTACHMENTS_SUCCESS;
+  constructor(public uploadedAttachments: CompanyJobAttachment[]) { }
 }
 
 export class LoadJobOptions implements Action {
@@ -60,6 +73,11 @@ export class UpdateCompanyJob implements Action {
   constructor(public payload: CompanyJob) { }
 }
 
+export class RemoveAttachment implements Action {
+  readonly type = REMOVE_ATTACHMENT;
+  constructor(public fileName: string) { }
+}
+
 export class HandleApiError implements Action {
   readonly type = HANDLE_API_ERROR;
   constructor(public payload: string) { }
@@ -69,10 +87,13 @@ export type Actions
   = ShowJobModal
   | SaveCompanyJob
   | SaveCompanyJobSuccess
+  | UploadAttachments
+  | UploadAttachmentsSuccess
   | LoadJobOptions
   | LoadJobOptionsSuccess
   | LoadJob
   | LoadJobSuccess
   | SetDuplicateJobCodeError
   | UpdateCompanyJob
+  | RemoveAttachment
   | HandleApiError;

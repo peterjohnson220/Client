@@ -6,6 +6,7 @@ import { Store, ActionsSubject } from '@ngrx/store';
 import * as fromJobManagementActions from '../actions';
 import * as fromJobManagementReducer from '../reducers';
 import { ofType } from '@ngrx/effects';
+import { CompanyJob } from 'libs/models';
 
 @Component({
   selector: 'pf-job-management',
@@ -23,6 +24,7 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
   showJobModal$: Observable<boolean>;
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
+  jobFormData$: Observable<CompanyJob>;
 
   saveSuccessSubscription = new Subscription();
 
@@ -37,6 +39,7 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
     this.showJobModal$ = this.store.select(fromJobManagementReducer.getShowJobModal);
     this.loading$ = this.store.select(fromJobManagementReducer.getLoading);
     this.saving$ = this.store.select(fromJobManagementReducer.getSaving);
+    this.jobFormData$ = this.store.select(fromJobManagementReducer.getJobFormData);
 
     this.saveSuccessSubscription = actionsSubject
       .pipe(ofType('SAVE_COMPANY_JOB_SUCCESS'))
@@ -68,4 +71,11 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
     this.cancelChanges.emit();
   }
 
+  getTitle(jobFormData: CompanyJob): string {
+    if (this.jobId) {
+      return `Edit Job - ${jobFormData && jobFormData.JobTitle ? jobFormData.JobTitle : ''}`;
+    } else {
+      return 'Add New Job';
+    }
+  }
 }

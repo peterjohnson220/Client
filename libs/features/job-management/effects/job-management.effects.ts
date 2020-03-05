@@ -7,7 +7,7 @@ import { Action, Store, select } from '@ngrx/store';
 import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
-import { CompanyJob } from 'libs/models';
+import { CompanyJob, CompanyJobAttachment, UserContext, Company } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromJobManagementReducer from '../reducers';
@@ -75,6 +75,21 @@ export class JobManagementEffects {
     );
 
   @Effect()
+  uploadAttachments$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobManagementActions.UPLOAD_ATTACHMENTS),
+      switchMap(
+        (action: fromJobManagementActions.UploadAttachments) =>
+          this.companyJobApiService.uploadAttachments(action.attachments).pipe(
+            map((attachments: CompanyJobAttachment[]) => new fromJobManagementActions.UploadAttachmentsSuccess(attachments)),
+            catchError(response => {
+              return this.handleError('There was an error while uploading your attachments');
+            })
+          )
+      )
+    );
+
+  @Effect()
   saveCompanyJob$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobManagementActions.SAVE_COMPANY_JOB),
@@ -82,22 +97,16 @@ export class JobManagementEffects {
         of(saveCompanyJobAction).pipe(
           withLatestFrom(
             this.rootStore.pipe(select(fromRootState.getUserContext)),
-            this.store.pipe(select(fromJobManagementReducer.getCompanyJob)),
+            this.store.pipe(select(fromJobManagementReducer.getJobFormData)),
+            this.store.pipe(select(fromJobManagementReducer.getAttachments)),
             this.store.pipe(select(fromJobManagementReducer.getJobId)),
-            (action: fromJobManagementActions.SaveCompanyJob, userContext, companyJob, jobId) =>
-              ({ action, userContext, companyJob, jobId })
+            (action: fromJobManagementActions.SaveCompanyJob, userContext, jobFormData, attachments, jobId) =>
+              ({ action, userContext, jobFormData, attachments, jobId })
           )
         ),
       ),
       switchMap((data) => {
-        const newCompanyJob = cloneDeep(data.companyJob);
-        newCompanyJob.CompanyId = data.userContext.CompanyId;
-        newCompanyJob.JobStatus = true;
-        if (data.jobId) {
-          newCompanyJob.CompanyJobId = data.jobId;
-        }
-        this.trimValues(newCompanyJob);
-
+        const newCompanyJob: CompanyJob = this.buildCompanyJobRequest(data.userContext, cloneDeep(data.jobFormData), cloneDeep(data.attachments), data.jobId);
         return this.companyJobApiService
           .saveCompanyJob(newCompanyJob)
           .pipe(
@@ -113,6 +122,26 @@ export class JobManagementEffects {
             })
           );
       }));
+
+  private buildCompanyJobRequest(userContext: UserContext, newCompanyJob: CompanyJob, attachments: CompanyJobAttachment[], jobId: number): CompanyJob {
+    newCompanyJob.CompanyId = userContext.CompanyId;
+    newCompanyJob.JobStatus = true;
+    if (jobId) {
+      newCompanyJob.CompanyJobId = jobId;
+    }
+
+    if (attachments && attachments.length > 0) {
+      newCompanyJob.CompanyJobsAttachments = attachments
+        .map(file => ({
+          ...file,
+          CompanyJobID: jobId ? jobId : -1,
+          CompanyID: userContext.CompanyId.toString(),
+        }));
+    }
+    this.trimValues(newCompanyJob);
+
+    return newCompanyJob;
+  }
 
   private handleError(message: string, title: string = 'Error'): Observable<Action> {
     const toastContent = `

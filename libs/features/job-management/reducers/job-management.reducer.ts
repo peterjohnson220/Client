@@ -1,18 +1,20 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromJobManagementActions from '../actions/job-management.actions';
-import { CompanyJob, CompanyJobUdf } from 'libs/models';
+import { CompanyJob, CompanyJobUdf, CompanyJobAttachment } from 'libs/models';
 
 export interface State {
   loadingJobOptions: boolean;
   loadingJob: boolean;
+  uploadingAttachments: boolean;
+  saving: boolean;
   showJobModal: boolean;
   jobId: number;
-  companyJob: CompanyJob;
+  jobFormData: CompanyJob;
+  attachments: CompanyJobAttachment[];
   companyFlsaStatuses: string[];
   jobFamilies: string[];
   companyJobUdfs: CompanyJobUdf[];
-  saving: boolean;
   duplicateJobCodeError: boolean;
   errorMessage: string;
 }
@@ -20,13 +22,15 @@ export interface State {
 export const initialState: State = {
   loadingJobOptions: false,
   loadingJob: false,
+  uploadingAttachments: false,
+  saving: false,
   showJobModal: false,
   jobId: null,
-  companyJob: null,
+  jobFormData: null,
+  attachments: [],
   companyFlsaStatuses: [],
   jobFamilies: [],
   companyJobUdfs: [],
-  saving: false,
   duplicateJobCodeError: false,
   errorMessage: '',
 };
@@ -38,6 +42,8 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
       return {
         ...state,
         jobId: null,
+        jobFormData: null,
+        attachments: [],
         showJobModal: action.payload,
       };
     }
@@ -50,8 +56,18 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
       return {
         ...state,
         saving: false,
-        companyJob: null,
         showJobModal: false
+      };
+    case fromJobManagementActions.UPLOAD_ATTACHMENTS:
+      return {
+        ...state,
+        uploadingAttachments: true
+      };
+    case fromJobManagementActions.UPLOAD_ATTACHMENTS_SUCCESS:
+      return {
+        ...state,
+        uploadingAttachments: false,
+        attachments: cloneDeep(state.attachments).concat(mapUploadedAttachments(action.uploadedAttachments))
       };
     case fromJobManagementActions.LOAD_JOB_OPTIONS:
       return {
@@ -74,15 +90,21 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
       };
     case fromJobManagementActions.LOAD_JOB_SUCCESS:
       return {
+        // The jobFormData is set by the subscription of the LOAD_JOB_SUCCESS in the JobFormComponent
         ...state,
         loadingJob: false,
         jobId: action.payload.JobInfo.CompanyJobId,
-        companyJob: action.payload.JobInfo,
+        attachments: action.payload.JobInfo.CompanyJobsAttachments
       };
     case fromJobManagementActions.UPDATE_COMPANY_JOB:
       return {
         ...state,
-        companyJob: cloneDeep(action.payload)
+        jobFormData: cloneDeep(action.payload)
+      };
+    case fromJobManagementActions.REMOVE_ATTACHMENT:
+      return {
+        ...state,
+        attachments: cloneDeep(state.attachments.filter(a => a.Filename !== action.fileName))
       };
     case fromJobManagementActions.SET_DUPLICATE_JOB_CODE_ERROR:
       return {
@@ -95,6 +117,7 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
         ...state,
         loadingJobOptions: false,
         saving: false,
+        uploadingAttachments: false,
         errorMessage: action.payload
       };
     default:
@@ -102,16 +125,28 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
   }
 }
 
+// The object returned from UploadJobAttachment has the property 
+// FileName but we are expected the property to be named Filename
+export function mapUploadedAttachments(attachments: any): CompanyJobAttachment[] {
+  return attachments.map(file => ({
+    CompanyJobAttachments_ID: 0,
+    DisplayName: file.DisplayName,
+    Filename: file.FileName
+  }));
+}
+
 export const getState = (state: State) => state;
-export const getLoading = (state: State) => state.loadingJobOptions || state.loadingJob;
+export const getLoading = (state: State) => state.loadingJobOptions || state.loadingJob || state.saving || state.uploadingAttachments;
 export const getLoadingJobOptions = (state: State) => state.loadingJobOptions;
 export const getLoadingJob = (state: State) => state.loadingJob;
+export const getSaving = (state: State) => state.saving;
+export const getUploadingAttachments = (state: State) => state.uploadingAttachments;
 export const getShowJobModal = (state: State) => state.showJobModal;
 export const getJobId = (state: State) => state.jobId;
-export const getCompanyJob = (state: State) => state.companyJob;
+export const getJobFormData = (state: State) => state.jobFormData;
+export const getAttachments = (state: State) => state.attachments;
 export const getCompanyFlsaStatuses = (state: State) => state.companyFlsaStatuses;
 export const getJobFamilies = (state: State) => state.jobFamilies;
 export const getCompanyJobUdfs = (state: State) => state.companyJobUdfs;
-export const getSaving = (state: State) => state.saving;
 export const getDuplicateJobCodeError = (state: State) => state.duplicateJobCodeError;
 export const getErrorMessage = (state: State) => state.errorMessage;

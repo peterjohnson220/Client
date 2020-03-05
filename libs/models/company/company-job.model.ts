@@ -16,7 +16,7 @@ export interface CompanyJob {
   JobStatus?: boolean;
   CompanyJobDescriptionTemplateId: number;
   TemplateName: string;
-  CompanyJobsAttachments: [];
+  CompanyJobsAttachments: CompanyJobAttachment[];
   PublicView?: any;
   CreateDate?: Date;
   CreateUser?: number;
@@ -72,6 +72,16 @@ export interface CompanyJob {
   UdfChar48: string;
   UdfChar49: string;
   UdfChar50: string;
+}
+
+export interface CompanyJobAttachment {
+  CompanyJobAttachments_ID: number;
+  CompanyJobID: number;
+  CompanyID: string;
+  Filename: string;
+  CreateDateExt: Date;
+  CreateUser: number;
+  DisplayName: string;
 }
 
 export function generateMockCompanyJob(): CompanyJob {
