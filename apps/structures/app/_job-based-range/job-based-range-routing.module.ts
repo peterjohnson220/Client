@@ -14,6 +14,10 @@ const routes: Routes = [
   { path: ':id/employees',
     canActivate: [RangeGroupExistsGuard],
     loadChildren: () => import('apps/structures/app/_job-based-range/employees/employees.module').then(m => m.EmployeesModule)
+  },
+  { path: ':id/pricings',
+    canActivate: [RangeGroupExistsGuard],
+    loadChildren: () => import('apps/structures/app/_job-based-range/pricings/pricings.module').then(m => m.PricingsModule)
   }
 ];
 
