@@ -58,8 +58,8 @@ export class ExchangeSearchEffects {
           const singleFilterRefreshNecessary = (payload.action.payload.getSingledFilteredAggregates ||
             (payload.singledFilter && payload.singledFilter.Operator === OperatorEnum.And));
 
-          const childFilterRefreshNecessary = (!payload.searchingFilter || payload.searchingFilter &&
-            payload.singledFilter.BackingField !== payload.childFilter.ParentBackingField) &&
+          const childFilterRefreshNecessary = payload.childFilter && (!payload.searchingFilter || payload.searchingFilter &&
+             payload.singledFilter.BackingField !== payload.childFilter.ParentBackingField) &&
             (payload.action.payload.getChildFilteredAggregates || (payload.childFilter && payload.childFilter.Operator === OperatorEnum.And));
 
           if (singleFilterRefreshNecessary) {
