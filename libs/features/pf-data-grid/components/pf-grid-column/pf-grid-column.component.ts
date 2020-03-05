@@ -26,6 +26,8 @@ export class PfGridColumnComponent {
       return PfDataGridColType.currency;
     } else if (col.DataType === PfDataGridColType.dateTime) {
       return PfDataGridColType.dateTime;
+    } else if (col.DataType === PfDataGridColType.bit) {
+      return PfDataGridColType.bit;
     } else {
       return PfDataGridColType.default;
     }

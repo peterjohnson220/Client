@@ -30,10 +30,10 @@ export class FilterBuilderComponent implements OnChanges {
     value: null
   }, {
     display: 'Yes',
-    value: 'Yes'
+    value: 'true'
   }, {
     display: 'No',
-    value: 'No'
+    value: 'false'
   }];
 
   constructor(private intlService: IntlService) {}
