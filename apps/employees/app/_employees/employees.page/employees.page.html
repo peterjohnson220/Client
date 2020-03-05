@@ -20,24 +20,6 @@
 
 <ng-template #gridActions>
   <div class="grid-actions-container">
-    <ng-container *ngIf="selectedCompanyEmployeeIds?.length > 0" class="d-flex">
-      <div class="selected-employees-badge">
-        <span class="badge badge-primary mr-2">{{selectedCompanyEmployeeIds.length}}</span>
-        <span *ngIf="selectedCompanyEmployeeIds.length > 1">employees selected</span>
-        <span *ngIf="selectedCompanyEmployeeIds.length === 1">employee selected</span>
-      </div>
-      <button
-        type="button"
-        class="btn btn-secondary btn-clear-selection"
-        ngbTooltip="Clear Selection"
-        container="body"
-        [attr.data-qa-id]="'btn-clearSelection'"
-        [disabled]="priceJobsDisabled"
-        (click)="handleClearSelectionClicked()">
-        <fa-icon [icon]="['far', 'times']"></fa-icon>
-      </button>
-    </ng-container>
-    <span class="spacer"></span>
     <button
       type="button"
       class="btn btn-secondary"
@@ -45,8 +27,8 @@
       [attr.data-qa-id]="'btn-priceJobs'"
       [disabled]="priceJobsDisabled"
       (click)="handlePriceJobsClicked()">
-      <fa-icon [icon]="['far', 'tasks-alt']"></fa-icon>
-      Price Jobs
+      <fa-icon [icon]="['far', 'calculator']"></fa-icon>
+      Create Project
     </button>
     <button
       [attr.data-qa-id]="'btn-editEmployee'"
@@ -67,6 +49,18 @@
       class="btn btn-secondary">
       <fa-icon icon="trash-alt"></fa-icon>
       Delete
+    </button>
+    <div
+      [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]"
+      class="vertical-separator"></div>
+    <button
+      type="button"
+      class="btn btn-secondary btn-clear-selection"
+      [attr.data-qa-id]="'btn-clearSelection'"
+      [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
+      (click)="handleClearSelectionClicked()">
+      <fa-icon [icon]="['far', 'times']"></fa-icon>
+      Clear Selections  <span *ngIf="selectedCompanyEmployeeIds?.length>0">({{selectedCompanyEmployeeIds.length}})</span>
     </button>
   </div>
 </ng-template>
