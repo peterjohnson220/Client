@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, Input, SimpleChanges, OnChanges, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
@@ -18,6 +18,7 @@ import * as fromEmployeeManagementActions from '../../actions';
   selector: 'pf-employee-management',
   templateUrl: './employee-management.component.html',
   styleUrls: ['./employee-management.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmployeeManagementComponent implements OnInit, OnDestroy {
   @Output() saveSuccess = new EventEmitter();
