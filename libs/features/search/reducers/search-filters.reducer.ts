@@ -2,7 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import {Filter, isFilterableMultiFilter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter} from '../models';
+import { Filter, isFilterableMultiFilter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
 import { ClientServerFilterHelper, FiltersHelper } from '../helpers';
 
 export interface State {
@@ -232,6 +232,32 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const rangeFilter = filtersCopy.find(f => f.Id === action.payload.filterId && isRangeFilter(f));
       rangeFilter.SelectedMinValue = action.payload.minValue;
       rangeFilter.SelectedMaxValue = action.payload.maxValue;
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
+    case fromSearchFiltersActions.SHOW_MORE: {
+      const filtersCopy = cloneDeep(state.filters);
+      const showMoreFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField);
+      if (showMoreFilter.AggregateCount == null || showMoreFilter.AggregateCount === 0) {
+        showMoreFilter.AggregateCount = 15;
+      } else {
+        showMoreFilter.AggregateCount += 10;
+      }
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
+    case fromSearchFiltersActions.ADD_FILTER_OPTIONS: {
+      const filtersCopy = cloneDeep(state.filters);
+      const updateFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField && isMultiFilter(f));
+      const serverOptions = cloneDeep(action.payload.newOptions);
+      const clientOptions = updateFilter.Options;
+      updateFilter.Options = clientOptions.concat(serverOptions);
 
       return {
         ...state,

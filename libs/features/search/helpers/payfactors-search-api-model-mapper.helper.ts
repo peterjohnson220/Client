@@ -145,7 +145,8 @@ export class PayfactorsSearchApiModelMapper {
     return {
       Name: filter.BackingField,
       DisplayName: filter.DisplayName,
-      Options: this.mapMultiSelectOptionsToSearchFilterOptions(filter.Options)
+      Options: this.mapMultiSelectOptionsToSearchFilterOptions(filter.Options),
+      AggregateCount: filter.AggregateCount
     };
   }
 
@@ -190,7 +191,8 @@ export class PayfactorsSearchApiModelMapper {
       DefaultSelections: [],
       SaveDisabled: mappingData.SaveDisabled,
       Operator: mappingData.Operator,
-      ParentBackingField : mappingData.ParentBackingField
+      ParentBackingField : mappingData.ParentBackingField,
+      AggregateCount: searchFilter.AggregateCount
     };
   }
 
