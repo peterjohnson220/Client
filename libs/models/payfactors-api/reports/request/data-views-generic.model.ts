@@ -57,6 +57,8 @@ export interface ViewField {
   FilterPlaceholder: string;
   FilterValue: string;
   FilterOperator: string;
+  SortOrder?: number;
+  SortDirection?: 'asc' | 'desc';
 }
 
 export interface DataView {

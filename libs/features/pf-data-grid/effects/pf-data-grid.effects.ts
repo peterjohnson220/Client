@@ -156,10 +156,10 @@ export class PfDataGridEffects {
                     data.fields,
                     data.sortDescriptor,
                     data.action.viewName,
-                    DataViewType.savedFilter))
+                    data.action.viewType))
                     .pipe(
                         map((response: any) => {
-                            return new fromPfDataGridActions.SaveViewSuccess(data.action.pageViewId, response);
+                            return new fromPfDataGridActions.SaveViewSuccess(data.action.pageViewId, response, data.action.viewType);
                         }),
                         catchError(error => {
                             const msg = 'We encountered an error while loading your data';

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions } from 'libs/models/payfactors-api';
+import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridFilter } from '../models';
@@ -184,12 +184,12 @@ export class LoadSavedViewsError implements Action {
 
 export class SaveView implements Action {
   readonly type = SAVE_VIEW;
-  constructor(public pageViewId: string, public viewName: string) { }
+  constructor(public pageViewId: string, public viewName: string, public viewType: DataViewType) { }
 }
 
 export class SaveViewSuccess implements Action {
   readonly type = SAVE_VIEW_SUCCESS;
-  constructor(public pageViewId: string, public payload: DataViewConfig) { }
+  constructor(public pageViewId: string, public payload: DataViewConfig, public viewType: DataViewType) { }
 }
 
 export class SaveViewError implements Action {

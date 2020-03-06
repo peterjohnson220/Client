@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { ViewField, DataViewEntity, SimpleDataView, PagingOptions } from 'libs/models/payfactors-api';
+import { ViewField, DataViewEntity, SimpleDataView, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { AppNotification, NotificationLevel } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 
@@ -48,6 +48,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
   @Input() allowSort = true;
+  @Input() saveSort = false;
   @Input() showActionBar = false;
   @Input() actionBarClassName: string;
   @Input() headerClassName: string;
@@ -205,7 +206,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   saveFilterHandler(filterName) {
-    this.store.dispatch(new fromActions.SaveView(this.pageViewId, filterName));
+    this.store.dispatch(new fromActions.SaveView(this.pageViewId, filterName, DataViewType.savedFilter));
   }
 
   isSplitView() {
