@@ -7,8 +7,8 @@
   [allowDismiss]="!(loading$ | async)"
   [primaryButtonText]="'Save'"
   [primaryButtonTextSubmitting]="(saving$ | async) ? 'Saving' : 'Save'"
-  (onDismiss)="onCancelChanges()"
-  [title]="getTitle(jobFormData$ | async)"
+  (onDismiss)="onCancelChanges()"  
+  [title]="!jobId ? 'Add New Job' : 'Edit Job - ' + ((jobFormData$ | async)?.JobTitle || '')"
   (onSubmit)="jobContainer.submit()">
   
   <ng-container basic-content>

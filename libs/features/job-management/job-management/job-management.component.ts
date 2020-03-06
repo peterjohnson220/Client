@@ -71,11 +71,4 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
     this.cancelChanges.emit();
   }
 
-  getTitle(jobFormData: CompanyJob): string {
-    if (this.jobId) {
-      return `Edit Job - ${jobFormData && jobFormData.JobTitle ? jobFormData.JobTitle : ''}`;
-    } else {
-      return 'Add New Job';
-    }
-  }
 }
