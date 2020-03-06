@@ -62,14 +62,13 @@ export class EntityIdentifiersEffects {
 
     private mapToViewModel(fields: string[], customFields: any[]): EntityIdentifierViewModel[] {
 
-        let fieldOptions = EntityIdentifierViewModelOptions();
+        const fieldOptions = EntityIdentifierViewModelOptions();
 
         if (customFields.length > 0 && customFields.find(field => field.Key === 'UdfChar1Name')) {
           const udf1 = customFields.find(field => field.Key === 'UdfChar1Name');
-          fieldOptions = [
-            ...fieldOptions,
-            { Field: udf1.Value, DbColumn: 'UDF_CHAR_1', isChecked: false, isDisabled: false }
-          ];
+          const udfFieldOption = fieldOptions.find(field => field.DbColumn === FieldNames.UDF_CHAR_1);
+          udfFieldOption.Field = udf1.Value;
+          udfFieldOption.isDisabled = false;
         }
 
         if (!fields || fields.length === 0) {
