@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, tap, withLatestFrom, concatMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { JobDescription } from 'libs/models/jdm';
 
@@ -123,19 +123,23 @@ export class JobDescriptionEffects {
       switchMap((action: fromJobDescriptionActions.DiscardDraft) => {
         return this.jobDescriptionApiService.discardDraft(action.payload.jobDescriptionId)
           .pipe(
-            map((response) => {
+            concatMap((response) => {
               if (response === '') {
-                return new fromJobDescriptionActions.DiscardDraftSuccess();
+                return [new fromJobDescriptionActions.DiscardDraftSuccess()];
               }
               const jobDescription: JobDescription = JSON.parse(response);
               const requestData: GetJobDescriptionData = {
                 JobDescriptionId: action.payload.jobDescriptionId,
                 InWorkflow: action.payload.inWorkflow
               };
-              return new fromJobDescriptionActions.GetJobDescriptionSuccess({
+              return [
+                new fromJobDescriptionActions.GetJobDescriptionSuccess({
                 jobDescription,
-                requestData
-              });
+                requestData }),
+                new fromJobDescriptionActions.GetJobDescriptionExtendedInfo({
+                jobDescriptionId: jobDescription.JobDescriptionId,
+                revision: jobDescription.JobDescriptionRevision }),
+              ];
             }),
             catchError(() => of(new fromJobDescriptionActions.DiscardDraftError()))
           );

@@ -84,7 +84,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   savingJobDescription$: Observable<boolean>;
   jobDescriptionLibraryBuckets$: Observable<AsyncStateObj<JobDescriptionLibraryBucket[]>>;
   jobDescriptionLibraryResults$: Observable<AsyncStateObj<JobDescriptionLibraryResult[]>>;
-  jobDescriptionRevision$: Observable<number>;
   jobDescriptionExtendedInfo$: Observable<JobDescriptionExtendedInfo>;
   acknowledging$: Observable<boolean>;
   employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
@@ -97,7 +96,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
   identitySubscription: Subscription;
-  revisionSubscription: Subscription;
   companySubscription: Subscription;
   saveThrottleSubscription: Subscription;
   savingJobDescriptionSubscription: Subscription;
