@@ -257,7 +257,13 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const updateFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField && (isMultiFilter(f) || isFilterableMultiFilter(f)));
       const serverOptions = cloneDeep(action.payload.newOptions);
       const clientOptions = updateFilter.Options;
-      updateFilter.Options = clientOptions.concat(serverOptions);
+      const newOptions = serverOptions.filter(nO => clientOptions.findIndex(o => o.Value === nO.Value) < 0);
+      const finalOptions = clientOptions.concat(newOptions);
+
+      updateFilter.Options = finalOptions.map(o => {
+        o.Selected = action.payload.currentSelections.some(so => so.Value === o.Value);
+        return o;
+      });
 
       return {
         ...state,
