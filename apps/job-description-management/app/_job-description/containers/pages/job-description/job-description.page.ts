@@ -91,7 +91,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   employeeAcknowledgementErrorMessage$: Observable<string>;
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   completedStep$: Observable<boolean>;
-  gettingJobDescriptionExtendedInfoSuccess$: Observable<boolean>;
+  gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
 
 
   jobDescriptionSubscription: Subscription;
@@ -161,7 +161,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionLibraryBuckets$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getBucketsAsync);
     this.jobDescriptionLibraryResults$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getResultsAsync);
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
-    this.gettingJobDescriptionExtendedInfoSuccess$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfoSuccess);
+    this.gettingJobDescriptionExtendedInfoSuccess$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfoAsync);
     this.jobDescriptionPublishing$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescription);
     this.acknowledging$ = this.store.select(fromJobDescriptionReducers.getAcknowledging);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
