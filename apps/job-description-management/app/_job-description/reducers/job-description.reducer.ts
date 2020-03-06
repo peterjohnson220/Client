@@ -19,6 +19,9 @@ export interface State {
   inHistory: boolean;
   publishButtonEnabled: boolean;
   jobDescriptionIsFullscreen: boolean;
+  GettingJobDescriptionExtendedInfo: boolean;
+  GettingJobDescriptionExtendedInfoSuccess: boolean;
+  GettingJobDescriptionExtendedInfoError: boolean;
   jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
   jobDescriptionRecentChange: JobDescription;
   jobDescriptionChangeHistory: JobDescription[];
@@ -38,6 +41,9 @@ export const initialState: State = {
   publishButtonEnabled: true,
   inHistory: false,
   jobDescriptionIsFullscreen: false,
+  GettingJobDescriptionExtendedInfo: false,
+  GettingJobDescriptionExtendedInfoSuccess: false,
+  GettingJobDescriptionExtendedInfoError: false,
   jobDescriptionExtendedInfo: null,
   jobDescriptionRecentChange: null,
   jobDescriptionChangeHistory: [],
@@ -271,10 +277,29 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionIsFullscreen: !jobDescriptionFullscreenStatus
       };
     }
+    case fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO: {
+      return {
+        ...state,
+        GettingJobDescriptionExtendedInfo: true,
+        GettingJobDescriptionExtendedInfoSuccess: false,
+        GettingJobDescriptionExtendedInfoError: false,
+      };
+    }
     case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_EXTENDED_INFO: {
       return {
         ...state,
+        GettingJobDescriptionExtendedInfo: false,
+        GettingJobDescriptionExtendedInfoSuccess: true,
+        GettingJobDescriptionExtendedInfoError: false,
         jobDescriptionExtendedInfo: action.payload
+      };
+    }
+    case fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO_ERROR: {
+      return {
+        ...state,
+        GettingJobDescriptionExtendedInfo: false,
+        GettingJobDescriptionExtendedInfoSuccess: false,
+        GettingJobDescriptionExtendedInfoError: true,
       };
     }
     case fromJobDescriptionActions.ADD_DATA_ROW_TO_CONTROL: {
@@ -436,4 +461,5 @@ export const getUndoJobDescriptionChangesComplete = (state: State) => state.undo
 export const getDeletingJobDescription = (state: State) => state.deleting;
 export const getDeletingJobDescriptionSuccess = (state: State) => state.deletingSuccess;
 export const getDeletingJobDescriptionError = (state: State) => state.deletingError;
+export const getJobDescriptionExtendedInfoSuccess = (state: State) => state.GettingJobDescriptionExtendedInfoSuccess;
 

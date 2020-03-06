@@ -366,6 +366,11 @@ export const getDeletingJobDescriptionError = createSelector(
   fromJobDescriptionReducer.getDeletingJobDescriptionError
 );
 
+export const getJobDescriptionExtendedInfoSuccess = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionExtendedInfoSuccess
+);
+
 // Job Description Grid
 export const getJobDescriptionGridLoading = createSelector(
   selectJobDescriptionGridState,
