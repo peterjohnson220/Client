@@ -19,6 +19,7 @@ export interface State {
   inHistory: boolean;
   publishButtonEnabled: boolean;
   jobDescriptionIsFullscreen: boolean;
+  GettingJobDescriptionExtendedInfoAsync: AsyncStateObj<boolean>;
   jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
   jobDescriptionRecentChange: JobDescription;
   jobDescriptionChangeHistory: JobDescription[];
@@ -38,6 +39,7 @@ export const initialState: State = {
   publishButtonEnabled: true,
   inHistory: false,
   jobDescriptionIsFullscreen: false,
+  GettingJobDescriptionExtendedInfoAsync: generateDefaultAsyncStateObj<boolean>(false),
   jobDescriptionExtendedInfo: null,
   jobDescriptionRecentChange: null,
   jobDescriptionChangeHistory: [],
@@ -271,10 +273,35 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionIsFullscreen: !jobDescriptionFullscreenStatus
       };
     }
-    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_EXTENDED_INFO: {
+    case fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO: {
+      const asyncStateObjClone = cloneDeep(state.GettingJobDescriptionExtendedInfoAsync);
+      asyncStateObjClone.loading = true;
+      asyncStateObjClone.error = false;
+      asyncStateObjClone.success = false;
       return {
         ...state,
+        GettingJobDescriptionExtendedInfoAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_EXTENDED_INFO: {
+      const asyncStateObjClone = cloneDeep(state.GettingJobDescriptionExtendedInfoAsync);
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.error = false;
+      asyncStateObjClone.success = true;
+      return {
+        ...state,
+        GettingJobDescriptionExtendedInfoAsync: asyncStateObjClone,
         jobDescriptionExtendedInfo: action.payload
+      };
+    }
+    case fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO_ERROR: {
+      const asyncStateObjClone = cloneDeep(state.GettingJobDescriptionExtendedInfoAsync);
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.error = true;
+      asyncStateObjClone.success = false;
+      return {
+        ...state,
+        GettingJobDescriptionExtendedInfoAsync: asyncStateObjClone
       };
     }
     case fromJobDescriptionActions.ADD_DATA_ROW_TO_CONTROL: {
@@ -436,4 +463,5 @@ export const getUndoJobDescriptionChangesComplete = (state: State) => state.undo
 export const getDeletingJobDescription = (state: State) => state.deleting;
 export const getDeletingJobDescriptionSuccess = (state: State) => state.deletingSuccess;
 export const getDeletingJobDescriptionError = (state: State) => state.deletingError;
+export const getJobDescriptionExtendedInfoAsync = (state: State) => state.GettingJobDescriptionExtendedInfoAsync;
 
