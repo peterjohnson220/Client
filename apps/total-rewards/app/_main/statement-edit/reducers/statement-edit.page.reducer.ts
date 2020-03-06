@@ -30,7 +30,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.A
     }
     case fromEditStatementActions.SAVE_STATEMENT: {
       console.log('SAVE TRIGGERED');
-      return AsyncStateObjHelper.saving(state, 'statementObject');
+      return AsyncStateObjHelper.saving(state, 'statementObject', action.payload);
     }
     case fromEditStatementActions.SAVE_STATEMENT_SUCCESS: {
       return AsyncStateObjHelper.savingSuccess(state, 'statementObject');

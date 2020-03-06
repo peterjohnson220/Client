@@ -3,6 +3,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions/statement-edit.page.actions';
@@ -20,6 +21,9 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   statement$: Observable<Statement>;
 
   statementIdSubscription: Subscription;
+  statementSubscription: Subscription;
+
+  statement: Statement;
   statementId: any;
   statementName: string;
 
@@ -38,14 +42,23 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
       }
     });
 
+    this.statementSubscription = this.statement$.subscribe(s => {
+        if (s) {
+          this.statement = cloneDeep(s);
+        }
+    });
+
   }
 
   ngOnDestroy(): void {
     this.statementIdSubscription.unsubscribe();
+    this.statementSubscription.unsubscribe();
   }
 
   onStatementNameValueChange(value: string): void {
     this.statementName = value;
-    this.store.dispatch(new fromEditStatementPageActions.SaveStatement());
+    const statementObj = this.statement;
+    statementObj.Name = value;
+    this.store.dispatch(new fromEditStatementPageActions.SaveStatement(statementObj));
   }
 }
