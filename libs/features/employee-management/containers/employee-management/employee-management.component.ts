@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { ComboBoxComponent, DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import * as cloneDeep from 'lodash.clonedeep';
@@ -9,7 +10,7 @@ import { IntlService } from '@progress/kendo-angular-intl';
 
 import * as fromRootState from 'libs/state/state';
 import { PfValidators } from 'libs/forms/validators';
-import { AsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee, UserContext } from 'libs/models';
+import { AsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee, UserContext, PfConstants } from 'libs/models';
 
 import * as fromEmployeeManagementReducer from '../../reducers';
 import * as fromEmployeeManagementActions from '../../actions';
@@ -17,10 +18,9 @@ import * as fromEmployeeManagementActions from '../../actions';
 @Component({
   selector: 'pf-employee-management',
   templateUrl: './employee-management.component.html',
-  styleUrls: ['./employee-management.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./employee-management.component.scss']
 })
-export class EmployeeManagementComponent implements OnInit, OnDestroy {
+export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() saveSuccess = new EventEmitter();
   @ViewChild('jobsCombobox', { static: true }) jobsCombobox: ComboBoxComponent;
   @ViewChild('paymarketCombobox', { static: true }) paymarketCombobox: ComboBoxComponent;
@@ -51,12 +51,16 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   gradeCodesSubscription: Subscription;
   employeeSubscription: Subscription;
   userContextSubscription: Subscription;
+  jobsSubscription: Subscription;
+  filterChangeSubscription: Subscription;
 
   employeeForm: FormGroup;
   initialized = false;
   genders = ['', 'Male', 'Female'];
   rates = ['Annual', 'Hourly'];
   yesNo: KendoTypedDropDownItem[] = [{Name: '', Value: null}, {Name: 'Y', Value: true}, {Name: 'N', Value: false}];
+  filteredJobs: KendoTypedDropDownItem[];
+  allJobs: KendoTypedDropDownItem[];
   calculatedTCC: number;
   calculatedTDC: number;
 
@@ -138,6 +142,25 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         this.updateForm();
       }
     });
+    this.jobsSubscription = this.jobs$.subscribe(jobs => {
+      if (!!jobs && !jobs.loading && !!jobs.obj) {
+        this.filteredJobs = jobs.obj;
+        this.allJobs = jobs.obj;
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.filterChangeSubscription = this.jobsCombobox.filterChange.asObservable().pipe(
+      debounceTime(PfConstants.DEBOUNCE_DELAY),
+      distinctUntilChanged())
+      .subscribe(searchTerm => {
+        if (!!searchTerm) {
+          this.filteredJobs = this.allJobs.filter(x => x.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
+        } else {
+          this.filteredJobs = this.allJobs;
+        }
+      });
   }
 
   ngOnDestroy() {
@@ -148,6 +171,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.structuresSubscription.unsubscribe();
     this.userContextSubscription.unsubscribe();
     this.employeeSubscription.unsubscribe();
+    this.filterChangeSubscription.unsubscribe();
+    this.jobsSubscription.unsubscribe();
   }
 
   public get modalTitle(): string {
