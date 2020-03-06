@@ -38,6 +38,10 @@ export class ModelingSettingsModalPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new fromModelingSettingsPageActions.GetModelingSettingsOptions());
+    // default to Annual if Rate is null
+    if (!this.currentModelingSettingsData.Rate) {
+      this.currentModelingSettingsData.Rate = 'Annual';
+    }
   }
 
   handleModel(): void {
