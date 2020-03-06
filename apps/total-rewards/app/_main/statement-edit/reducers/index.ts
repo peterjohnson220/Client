@@ -28,15 +28,15 @@ export const selectStatementEditPageState =
 // Feature Selectors
 export const selectStatementState = createSelector(
   selectStatementEditPageState,
-  (state: StatementEditState) => state.page.statementObject.obj
+  (state: StatementEditState) => state.page.statement.obj
 );
 
 export const selectStatementLoading = createSelector(
   selectStatementEditPageState,
-  (state: StatementEditState) => state.page.statementObject.loading
+  (state: StatementEditState) => state.page.statement.loading
 );
 
 export const selectStatementLoadingError = createSelector(
   selectStatementEditPageState,
-  (state: StatementEditState) => state.page.statementObject.loadingError
+  (state: StatementEditState) => state.page.statement.loadingError
 );

@@ -1,5 +1,57 @@
+@import "app-colors";
+
 .trs-calculation {
-  ul {
-    list-style-type: none;
+  table {
+    table-layout: fixed;
+    empty-cells: show;
+    tr{
+      td {
+        height: 8px;
+      }
+    }
+    .field-column {
+      width: 65%;
+    }
+    .contribution-column {
+      width: 25%;
+    }
+    .button-column {
+      width: 10%;
+    }
   }
 }
+
+.trs-calculation-row {
+  .remove-btn {
+    visibility: hidden;
+    margin: 0;
+    padding: .2rem;
+    line-height: 1;
+  }
+}
+
+.trs-calculation-row:hover {
+  .remove-btn {
+    visibility: visible;
+    position: relative;
+  }
+}
+
+.dropdown-toggle::after{
+  display:none;
+}
+
+.dropdown-menu {
+  min-width: 0;
+  max-width: 15rem;
+  padding: .3rem;
+  white-space: nowrap;
+}
+
+.add-button {
+  border: none;
+  color: $trs-canvas-background-color;
+}
+
+
+

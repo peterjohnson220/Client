@@ -50,8 +50,8 @@ pf-statement-edit {
     position: fixed;
     z-index: 100;
     top: $canvas-top;
-    transition: $left-nav-transition; 
-    left: $canvas-left; 
+    transition: $left-nav-transition;
+    left: $canvas-left;
     width: $canvas-width;
   }
 
@@ -73,14 +73,17 @@ pf-statement-edit {
       top: 168px;
       left: $canvas-left;
       width: $canvas-width;
+
       .ql-picker.ql-font {
         width: 160px;
       }
     }
+
     &.active .ql-toolbar {
       opacity: .95;
       pointer-events: initial;
     }
+
     .ql-editor {
       padding: 6px;
       overflow-y: hidden;
@@ -94,6 +97,7 @@ pf-statement-edit {
         left: 8px;
       }
     }
+
     .ql-container {
       margin-left: -10px;
       transition: border .6s ease-in-out, background-color .6s ease-in-out;
@@ -101,28 +105,34 @@ pf-statement-edit {
       height: $rich-text-height;
       font-family: Arial, sans-serif;
     }
+
     &:hover {
       .ql-container {
         border: 2px dashed rgba($link-color, .5);
       }
+
       .ql-toolbar.ql-snow + .ql-container.ql-snow {
         border-top: 2px dashed rgba($link-color, .5);
       }
     }
+
     &.active {
       .ql-container {
         border: 2px dashed $link-color;
       }
+
       .ql-toolbar.ql-snow + .ql-container.ql-snow {
         border-top: 2px dashed $link-color;
       }
     }
+
     &.invalid {
       .ql-toolbar.ql-snow + .ql-container.ql-snow {
         background-color: lighten(tomato, 10%);
         border-color: tomato;
       }
     }
+
     .ql-toolbar.ql-snow + .ql-container.ql-snow {
       border-top: 2px dashed transparent;
     }
@@ -151,6 +161,7 @@ pf-statement-edit {
     padding: 4px;
     background-color: #fff;
     text-align: left;
+
     &.selected {
       background-color: #D3E1EB;
     }
@@ -208,6 +219,19 @@ pf-statement-edit {
   .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Verdana]::before {
     content: 'Verdana';
     font-family: 'Verdana', sans-serif;
+  }
+}
+
+pf-total-rewards-statement {
+  .trs-calculation-row {
+    .edit-icon {
+      visibility: hidden;
+    }
+    &:hover {
+      .edit-icon {
+        visibility: visible;
+      }
+    }
   }
 }
 
