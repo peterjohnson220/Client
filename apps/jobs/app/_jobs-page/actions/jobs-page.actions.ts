@@ -16,6 +16,10 @@ export const SHOW_JOB_STATUS_MODAL = '[Jobs Page] Show Job Status Modal';
 export const CHANGING_JOB_STATUS = '[Jobs Page] Changing Job Status';
 export const CHANGING_JOB_STATUS_SUCCESS = '[Jobs Page] Changing Job Status Success';
 export const CHANGING_JOB_STATUS_ERROR = '[Jobs Page] Changing Job Status Error';
+export const SHOW_DELETE_JOB_MODAL = '[Jobs Page] Show Delete Job Modal';
+export const DELETING_JOB = '[Jobs Page] Deleting Job';
+export const DELETING_JOB_SUCCESS = '[Jobs Page] Deleting Job Success';
+export const DELETING_JOB_ERROR = '[Jobs Page] Deleting Job Error';
 export const CONFIRM_DELETE_PRICING_FROM_GRID = '[Jobs Page] Confirm Delete Pricing From Grid';
 export const DELETE_PRICING_FROM_GRID = '[Jobs Page] Delete Pricing From Grid';
 export const DELETE_PRICING_SUCCESS = '[Jobs Page] Delete Pricing Success';
@@ -68,7 +72,7 @@ export class AddingToProjectSuccess implements Action {
 
 export class AddingToProjectError implements Action {
   readonly type = ADDING_TO_PROJECT_ERROR;
-  constructor() {}
+  constructor(public error: any) {}
 }
 
 export class ShowJobStatusModal implements Action {
@@ -88,7 +92,27 @@ export class ChangingJobStatusSuccess implements Action {
 
 export class ChangingJobStatusError implements Action {
   readonly type = CHANGING_JOB_STATUS_ERROR;
+  constructor(public error: any) {}
+}
+
+export class ShowDeleteJobModal implements Action {
+  readonly type = SHOW_DELETE_JOB_MODAL;
+  constructor(public payload: boolean) {}
+}
+
+export class DeletingJob implements Action {
+  readonly type = DELETING_JOB;
+  constructor(public payload: number) {}
+}
+
+export class DeletingJobSuccess implements Action {
+  readonly type = DELETING_JOB_SUCCESS;
   constructor() {}
+}
+
+export class DeletingJobError implements Action {
+  readonly type = DELETING_JOB_ERROR;
+  constructor(public error: any) {}
 }
 
 export class ConfirmDeletePricingFromGrid implements Action {
@@ -144,6 +168,11 @@ export type JobsPageActions
   | ChangingJobStatus
   | ChangingJobStatusSuccess
   | ChangingJobStatusError
+  | ConfirmDeletePricingFromGrid
+  | ShowDeleteJobModal
+  | DeletingJob
+  | DeletingJobSuccess
+  | DeletingJobError
   | ConfirmDeletePricingFromGrid
   | DeletePricingFromGrid
   | DeletePricingSuccess

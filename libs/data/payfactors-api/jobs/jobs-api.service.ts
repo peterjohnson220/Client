@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { AddToProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
+import { AddToProjectRequest } from 'libs/models/payfactors-api';
 
 @Injectable()
 export class JobsApiService {
   private endpoint = 'Jobs';
-  private endpointLegacy = 'CompanyJob';
 
   constructor(private payfactorsApiService: PayfactorsApiService
   ) { }
@@ -15,7 +14,4 @@ export class JobsApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddToProject`, request);
   }
 
-  changeJobStatus(request: ChangeJobStatusRequest) {
-    return this.payfactorsApiService.post<any>(`${this.endpointLegacy}/Default.SetStatusForJobs`, request);
-  }
 }
