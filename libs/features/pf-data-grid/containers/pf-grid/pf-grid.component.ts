@@ -4,10 +4,9 @@ import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent } from '@progress/kendo-angular-grid';
-import { ViewField, PagingOptions } from 'libs/models/payfactors-api';
+import { ViewField, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { DataGridState } from '../../reducers/pf-data-grid.reducer';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { PfDataGridColType } from '../../enums';
 
 @Component({
   selector: 'pf-grid',
@@ -31,6 +30,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
   @Input() allowSort = true;
+  @Input() saveSort = false;
   @Input() customHeaderClass: string;
   @Input() defaultColumnWidth: number;
 
@@ -112,6 +112,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   onSortChange(sortDescriptor: SortDescriptor[]): void {
     this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, sortDescriptor));
+    if (this.saveSort) {
+      this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));
+    }
   }
 
   onCellClick({ dataItem, rowIndex }) {

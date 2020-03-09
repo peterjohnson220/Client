@@ -4,7 +4,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import { ViewField, PagingOptions, DataViewEntity, DataViewConfig, SimpleDataView } from 'libs/models/payfactors-api';
+import { ViewField, PagingOptions, DataViewEntity, DataViewConfig, SimpleDataView, DataViewType } from 'libs/models/payfactors-api';
 
 import * as fromPfGridActions from '../actions';
 import { PfDataGridFilter } from '../models';
@@ -78,6 +78,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const currSplitViewFilters = action.payload && action.payload.Fields ?
         action.payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
           .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
+      const sorts = findSortDescriptor(action.payload.Fields);
       return {
         ...state,
         grids: {
@@ -89,7 +90,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             baseEntity: action.payload.Entity,
             loading: false,
             splitViewFilters: currSplitViewFilters,
-            exportViewId: action.payload.ExportViewId
+            exportViewId: action.payload.ExportViewId,
+            sortDescriptor: sorts.length ? sorts : state.grids[action.pageViewId].defaultSortDescriptor
           }
         }
       };
@@ -398,7 +400,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     case fromPfGridActions.SAVE_VIEW_SUCCESS:
       const views = cloneDeep(state.grids[action.pageViewId].savedViews);
       // TODO: Refactor buildFiltersView so it can work with arrays and single objects
-      views.push(buildFiltersView([action.payload])[0]);
+      if (action.viewType === DataViewType.savedFilter) {
+        views.push(buildFiltersView([action.payload])[0]);
+      }
       return {
         ...state,
         grids: {
@@ -807,4 +811,17 @@ export function getTotalCount(state: DataGridState, totalCount: number) {
   } else {
     return null;
   }
+}
+
+export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
+  const sortFields: ViewField[] = fields.filter(f => f.IsSelected && f.IsSelectable && f.SortOrder !== null && f.SortDirection !== null);
+  if (sortFields.length) {
+    return sortFields.map(f => {
+      return {
+        field: `${f.EntitySourceName}_${f.SourceName}`,
+        dir: f.SortDirection
+      };
+    });
+  }
+  return [];
 }
