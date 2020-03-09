@@ -59,7 +59,7 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
     // If the selected row is a pending request, revert selection.
     // This is kind of a "hacky" work-around, but the best that I could come up with. [JP]
     const invalidSelectionIndex = context.selectedRows.findIndex(
-      sr => sr.index === context.index && sr.dataItem.PendingRequest
+      sr => sr.dataItem.PendingRequest
     );
     if (invalidSelectionIndex > -1) {
       context.selectedRows = context.deselectedRows;
