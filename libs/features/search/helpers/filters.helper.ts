@@ -129,6 +129,11 @@ export class FiltersHelper {
     return <MultiSelectFilter[]>filters.filter(f => isMultiFilter(f) && f.AggregateCount && f.AggregateCount > 0 && !f.Options.some(o => o.Selected));
   }
 
+  static getFilterableMultiSelectFiltersWithAggregateCountsAndNoSelections(filters: Filter[]): FilterableMultiSelectFilter[] {
+    return <FilterableMultiSelectFilter[]>filters.filter(f => isFilterableMultiFilter(f) &&
+                                                                  f.AggregateCount && f.AggregateCount > 0 && !f.Options.some(o => o.Selected));
+  }
+
   static getMultiSelectFilterSelectedOptions(multiSelectFilter: MultiSelectFilter): MultiSelectOption[] {
     return multiSelectFilter.Options.filter(o => o.Selected);
   }
