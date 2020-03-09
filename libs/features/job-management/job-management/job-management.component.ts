@@ -59,6 +59,9 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
 
     if (changes['showJobModal']) {
       this.store.dispatch(new fromJobManagementActions.ShowJobModal(changes['showJobModal'].currentValue));
+      if (changes['showJobModal'].currentValue) {
+        this.store.dispatch(new fromJobManagementActions.LoadStructurePaymarketGrade());
+      }
     }
   }
 

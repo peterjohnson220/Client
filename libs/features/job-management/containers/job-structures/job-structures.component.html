@@ -1,0 +1,79 @@
+<ng-container [ngSwitch]="true">
+  <div *ngSwitchCase="structuresList.length === 0">
+    <h5>There are no structures defined in your company. Please add some structures before you can map jobs to structures.</h5>
+  </div>
+  <div *ngSwitchCase="paymarketsList.length === 0">
+    <h5>There are no paymarkets defined in your company. Please add some paymarkets before you can map jobs to structures.</h5>
+  </div>
+  <div *ngSwitchCase="gradesList.length === 0">
+    <h5>There are no grades defined in your company. Please add some grades before you can map jobs to structures.</h5>
+  </div>  
+  <div *ngSwitchDefault class="pr-3">
+    <div class="row no-gutters">
+      <div class="col row">
+        <div class="col-4">
+          <label>Structure</label>
+          <kendo-dropdownlist
+            [data]="structuresList"  
+            textField="StructureName"
+            valueField="CompanyStructuresId"
+            [valuePrimitive]="true"
+            [(ngModel)]="structureId"
+            (valueChange)="structureChanged($event)"
+            [kendoDropDownFilter]="filterSettings"
+            [attr.data-qa-id]="'ddm-operator-job-edit-strucures'"
+            class="k-dropdown-white form-control">
+          </kendo-dropdownlist>
+        </div>
+        <div class="col-4">
+          <label>Pay Market</label>
+          <kendo-dropdownlist
+            [data]="paymarketsList"  
+            textField="PayMarket"
+            valueField="CompanyPayMarketId"
+            [valuePrimitive]="true"
+            [(ngModel)]="paymarketId"
+            (valueChange)="paymarketId = $event; errorMessage = ''"
+            [kendoDropDownFilter]="filterSettings"           
+            [attr.data-qa-id]="'ddm-operator-job-edit-paymarkets'"
+            class="k-dropdown-white form-control">
+          </kendo-dropdownlist>
+        </div>
+        <div class="col-4">
+          <label>Grade</label>
+          <kendo-dropdownlist
+            [data]="gradesList"  
+            textField="GradeName"
+            valueField="CompanyStructuresGradesId"
+            [valuePrimitive]="true"
+            [(ngModel)]="gradeId"
+            (valueChange)="gradeId = $event; errorMessage = ''"
+            [kendoDropDownFilter]="filterSettings"
+            [attr.data-qa-id]="'ddm-operator-job-edit-grades'"
+            class="k-dropdown-white form-control">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="justify-content-end align-self-end pl-px-30">
+        <button type="button" class="btn btn-secondary" (click)="addStructureMapping()">
+          <fa-icon icon="plus"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <div class="text-danger pt-3"><b>{{errorMessage}}</b></div>
+    <hr>
+    <br>
+    <div *ngFor="let structure of structures" class="row no-gutters pb-3">
+      <div class="col row">
+        <div class="col-4"><span class="pl-2">{{structure.StructureName}}</span></div>
+        <div class="col-4"><span class="pl-2">{{structure.PayMarket}}</span></div>
+        <div class="col-4"><span class="pl-2">{{structure.GradeName}}</span></div>
+      </div>
+      <div class="justify-content-end align-self-end pl-px-30">
+        <button type="button" class="btn btn-secondary">
+          <fa-icon icon="trash-alt" (click)="deleteStructureMapping(structure.CompanyStructuresRangeGroupId)"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -21,13 +21,13 @@
 <div *ngIf="attachments.length > 0">
   <h5 class="mb-3">Name{{(attachments$ | async)?.length > 1 ? 's' : ''}}</h5>
   <div class="px-3">
-    <div *ngFor="let attachment of attachments" class="row no-gutters mb-2 justify-content-between">
+    <div *ngFor="let attachment of attachments" class="row no-gutters pb-3 justify-content-between">
       <div class="flex-fill">
         <a href="/odata/CloudFiles.DownloadJobAttachment?FileName={{attachment.Filename}}">
           {{attachment.DisplayName}}
         </a>
       </div>
-      <button type="button" class="btn btn-light d-flex justify-content-end" (click)="removeAttachment(attachment.Filename)">
+      <button type="button" class="btn btn-secondary d-flex justify-content-end" (click)="removeAttachment(attachment.Filename)">
         <fa-icon icon="trash-alt"></fa-icon>
       </button>
     </div>
