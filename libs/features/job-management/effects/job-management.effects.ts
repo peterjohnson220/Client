@@ -7,7 +7,7 @@ import { Action, Store, select } from '@ngrx/store';
 import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
-import { CompanyJob, CompanyJobAttachment, UserContext, Company } from 'libs/models';
+import { CompanyJob, CompanyJobAttachment, UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromJobManagementReducer from '../reducers';

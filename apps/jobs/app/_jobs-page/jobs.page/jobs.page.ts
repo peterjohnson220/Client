@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -55,6 +55,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showJobStatusModal$: Observable<boolean>;
   changingJobStatus$: Observable<AsyncStateObj<boolean>>;
 
+  showDeleteJobModal$: Observable<boolean>;
+  deletingJob$: Observable<AsyncStateObj<boolean>>;
+  jobIdToDelete: number;
+  jobNameToDelete: string;
+
   showJobEditModal = false;
   editingJobId: number = null;
 
@@ -93,6 +98,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addingToProject$ = this.store.select(fromJobsPageReducer.getAddingToProject);
     this.showJobStatusModal$ = this.store.select(fromJobsPageReducer.getShowJobStatusModal);
     this.changingJobStatus$ = this.store.select(fromJobsPageReducer.getChangingJobStatus);
+    this.showDeleteJobModal$ = this.store.select(fromJobsPageReducer.getShowDeleteJobModal);
+    this.deletingJob$ = this.store.select(fromJobsPageReducer.getDeletingJob);
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -119,7 +126,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.structureGradeSearchField = fields.find(f => f.SourceName === 'Grade_Name');
         this.selectedStructureGrade = this.structureGradeSearchField.FilterValue !== null ?
-          { Value: this.structureGradeSearchField.FilterValue, Id: this.structureGradeSearchField.FilterValue} : null;
+          { Value: this.structureGradeSearchField.FilterValue, Id: this.structureGradeSearchField.FilterValue } : null;
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
@@ -184,6 +191,20 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromJobsPageActions.ChangingJobStatus(summary));
   }
 
+  openDeleteJobModal(jobId: number, jobName: string) {
+    this.jobIdToDelete = jobId;
+    this.jobNameToDelete = jobName;
+    this.store.dispatch(new fromJobsPageActions.ShowDeleteJobModal(true));
+  }
+
+  closeDeleteJobModal() {
+    this.store.dispatch(new fromJobsPageActions.ShowDeleteJobModal(false));
+  }
+
+  deleteJob() {
+    this.store.dispatch(new fromJobsPageActions.DeletingJob(this.jobIdToDelete));
+  }
+
   getPageTitle(companyName: string) {
     return companyName ? `${companyName} Jobs` : '';
   }
@@ -215,7 +236,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handleJobStatusFilterChanged(field: ViewField, value: any) {
-    const newField =  {...field};
+    const newField = { ...field };
     newField.FilterOperator = '=';
     newField.FilterValue = value;
     this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, newField));

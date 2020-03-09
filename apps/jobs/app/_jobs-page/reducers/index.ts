@@ -38,6 +38,8 @@ export const getShowAddToProjectModal = createSelector(selectJobsPageState, from
 export const getAddingToProject = createSelector(selectJobsPageState, fromJobsPageReducer.getAddingToProject);
 export const getShowJobStatusModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowJobStatusModal);
 export const getChangingJobStatus = createSelector(selectJobsPageState, fromJobsPageReducer.getChangingJobStatus);
+export const getShowDeleteJobModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowDeleteJobModal);
+export const getDeletingJob = createSelector(selectJobsPageState, fromJobsPageReducer.getDeletingJob);
 
 // Job Description Selectors
 export const selectJobDescriptionState =

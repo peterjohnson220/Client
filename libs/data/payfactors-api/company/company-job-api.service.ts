@@ -5,6 +5,7 @@ import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
+import { ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 
 @Injectable()
 export class CompanyJobApiService {
@@ -55,6 +56,10 @@ export class CompanyJobApiService {
     return this.payfactorsApiService.get(`${this.endpoint}(${companyJobId})/Default.GetJobSummary`);
   }
 
+  changeJobStatus(request: ChangeJobStatusRequest) {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.SetStatusForJobs`, request);
+  }
+
   saveCompanyJob(request: CompanyJob): Observable<CompanyJob> {
     return request.CompanyJobId ? this.patchCompanyJob(request) : this.createCompanyJob(request);
   }
@@ -69,6 +74,10 @@ export class CompanyJobApiService {
 
   patchCompanyJob(request: CompanyJob): Observable<CompanyJob> {
     return this.payfactorsApiService.patch<CompanyJob>(`${this.endpoint}(${request.CompanyJobId})/`, request);
+  }
+
+  deleteCompanyJob(jobId: number): Observable<CompanyJob> {
+    return this.payfactorsApiService.delete(`${this.endpoint}(${jobId})/`);
   }
 
   getJobsByFamilyNotAssignedToTemplate(jobFamily: string, templateId: Number) {
