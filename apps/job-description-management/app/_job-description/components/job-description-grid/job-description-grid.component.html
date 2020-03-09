@@ -101,7 +101,7 @@
       [style]="{'text-align': 'center', 'overflow': 'inherit'}">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
         <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block k-grid-ignore-click"
-          placement="bottom-right">
+          [pfSecuredResource]="permissions.JOB_DESCRIPTIONS_ADD" placement="bottom-right">
           <button ngbDropdownToggle class="btn btn-secondary btn-sm" id="jd-list-view-actions-dropdown">
             <fa-icon icon="ellipsis-h"></fa-icon>
           </button>
