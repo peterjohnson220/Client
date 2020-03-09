@@ -111,7 +111,7 @@ export class FilterSectionComponent {
   }
 
   handleShowMoreClicked(filter: Filter) {
-    if (this.allowedToSearch) {
+    if (this.allowedToSearch && !this.disableShowMore) {
       this.showMore.emit(filter);
     }
   }
