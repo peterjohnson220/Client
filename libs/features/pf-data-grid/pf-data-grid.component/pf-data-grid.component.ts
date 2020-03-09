@@ -31,6 +31,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() contentNoPadding = false;
   @Input() selectionField: string;
   @Input() columnTemplates: any;
+  @Input() aboveGridTemplate: TemplateRef<any>;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
@@ -56,6 +57,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() mainGridContainerClassName: string;
   @Input() exportSourceName: string;
   @Input() defaultColumnWidth: number;
+  @Input() showHeaderWhenCompact: boolean;
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;

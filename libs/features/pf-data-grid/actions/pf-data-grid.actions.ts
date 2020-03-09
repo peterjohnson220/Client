@@ -51,6 +51,7 @@ export const EXPORTING_COMPLETE = '[PfDataGrid] Exporting Complete';
 export const GET_EXPORTING_STATUS = '[PfDataGrid] Get Exporting Status';
 export const GET_EXPORTING_STATUS_SUCCESS = '[PfDataGrid] Get Exporting Status Success';
 export const GET_EXPORTING_STATUS_ERROR = '[PfDataGrid] Get Exporting Status Error';
+export const RESET = '[PfDataGrid] Reset';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -288,6 +289,10 @@ export class GetExportingStatusError implements Action {
   constructor(public pageViewId: string) {}
 }
 
+export class Reset implements Action {
+  readonly type = RESET;
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -334,4 +339,5 @@ export type DataGridActions =
   | ExportingComplete
   | GetExportingStatus
   | GetExportingStatusSuccess
-  | GetExportingStatusError;
+  | GetExportingStatusError
+  | Reset;

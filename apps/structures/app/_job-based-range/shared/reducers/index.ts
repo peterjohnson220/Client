@@ -33,10 +33,6 @@ export const selectMetadataState = createSelector(
 );
 
 // Metadata
-export const getModelName = createSelector(
-  selectMetadataState, fromMetadataReducer.getModelName
-);
-
-export const getCurrency = createSelector(
-  selectMetadataState, fromMetadataReducer.getCurrency
+export const getMetadata = createSelector(
+  selectMetadataState, fromMetadataReducer.getMetadata
 );

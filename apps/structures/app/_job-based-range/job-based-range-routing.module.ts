@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages/not-found-error';
 
-import { RangeGroupExistsGuard } from './model';
+import { RangeGroupExistsGuard } from './shared/guards';
 
 const routes: Routes = [
   { path: 'not-found', component: NotFoundErrorPageComponent },

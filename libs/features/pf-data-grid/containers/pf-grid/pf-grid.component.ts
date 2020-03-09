@@ -13,7 +13,7 @@ import { PfDataGridColType } from '../../enums';
   selector: 'pf-grid',
   templateUrl: './pf-grid.component.html',
   styleUrls: ['./pf-grid.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -33,6 +33,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() allowSort = true;
   @Input() customHeaderClass: string;
   @Input() defaultColumnWidth: number;
+  @Input() showHeaderWhenCompact: boolean;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -133,7 +134,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   getGridColumnHeaderClass(col: ViewField) {
-    const headerClass = this.compactGrid ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
+    const headerClass = (this.compactGrid && !this.showHeaderWhenCompact) ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
     let textAlignClass = !!col && !!col.TextAlign ? `text-align-${col.TextAlign}` : '';
     if (col.Group) {
       textAlignClass = 'text-align-center';

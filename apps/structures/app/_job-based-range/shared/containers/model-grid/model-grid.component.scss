@@ -1,0 +1,9 @@
+.temp-link-color-override {
+  &:not(.disabled) {
+    color: #1872ae;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

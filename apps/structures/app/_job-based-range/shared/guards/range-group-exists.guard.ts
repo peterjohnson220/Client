@@ -9,6 +9,7 @@ import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structur
 
 import * as fromMetadataActions from '../../shared/actions/metadata.actions';
 import * as fromJobBasedRangeReducer from '../reducers';
+import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 
 @Injectable()
 export class RangeGroupExistsGuard implements CanActivate {
@@ -24,8 +25,8 @@ export class RangeGroupExistsGuard implements CanActivate {
     return this.structureRangeGroupApiService.getCompanyStructureRangeGroup(rangeGroupId).pipe(
       map((response) => {
         if (response) {
-          this.store.dispatch(new fromMetadataActions.SetModelName(response.RangeGroupName));
-          this.store.dispatch(new fromMetadataActions.SetCurrency(response.Currency));
+          const metadata = PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(response);
+          this.store.dispatch(new fromMetadataActions.SetMetadata(metadata));
           return true;
         } else {
           this.router.navigate(['not-found'], { relativeTo: this.route });

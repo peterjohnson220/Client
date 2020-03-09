@@ -19,7 +19,7 @@ import { AddJobsConfig } from 'libs/features/add-jobs/data';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSearchModule } from 'libs/features/search';
 
-import { AddJobsModalComponent, ModelingSettingsModalPageComponent, JobBasedRangeChartComponent } from './containers';
+import { AddJobsModalComponent, ModelingSettingsModalComponent, JobBasedRangeChartComponent } from './containers';
 import { AddJobsUserFilterPopoverConfig, JobBasedRangeAddJobsConfig } from './data';
 import { AddJobsModalEffects, JobBasedRangeModalEffects, ModelingSettingsPageEffects, SearchResultsEffects } from './effects';
 import { reducers } from './reducers';
@@ -50,7 +50,6 @@ import { SharedModule } from '../shared/shared.module';
 
     // Payfactors
     PfFormsModule,
-    PfDataGridModule,
     PfCommonModule,
     PfAddJobsModule,
     PfCommonUIModule,
@@ -65,7 +64,7 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [
     ModelPageComponent,
     AddJobsModalComponent,
-    ModelingSettingsModalPageComponent,
+    ModelingSettingsModalComponent,
     JobBasedRangeChartComponent
   ],
   providers: [
