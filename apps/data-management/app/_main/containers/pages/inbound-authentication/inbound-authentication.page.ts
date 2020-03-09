@@ -13,7 +13,9 @@ import * as fromDataManagementMainReducer from '../../../reducers';
 import { TransferDataWorkflowStep } from '../../../data';
 import { ConnectionSummary } from '../../../models';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
+import * as fromProviderListActions from '../../../actions/provider-list.actions';
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
+import * as fromEntitySelectionActions from '../../../actions/entity-selection.actions';
 
 @Component({
   selector: 'pf-inbound-authentication',
@@ -48,6 +50,14 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
         if (!isObject(connectionSummary.provider)) {
           this.cancel();
         }
+
+        if (connectionSummary.connectionID) {
+          this.store.dispatch(new fromProviderListActions.SetSelectedProvider(connectionSummary.provider));
+          this.store.dispatch(new fromEntitySelectionActions.SetEntitySelections({
+            connectionId: connectionSummary.connectionID,
+            selectedEntities: connectionSummary.selectedEntities
+          }));
+        }
       });
     });
   }
@@ -68,11 +78,11 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
   }
 
   next(creds: CredentialsPackage) {
-    this.store.dispatch(new fromTransferDataPageActions.CreateConnection(creds));
+    this.store.dispatch(new fromHrisConnectionActions.CreateConnection(creds));
     this.router.navigate(['/transfer-data/inbound/field-mapping']);
   }
 
   validateCredentials(creds: CredentialsPackage) {
-    this.store.dispatch(new fromTransferDataPageActions.Validate(creds));
+    this.store.dispatch(new fromHrisConnectionActions.Validate(creds));
   }
 }

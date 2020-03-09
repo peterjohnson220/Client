@@ -15,6 +15,17 @@ export const DELETE_HRIS_CONNECTION = '[Data Management/HRIS Connections] Delete
 export const DELETE_HRIS_CONNECTION_ERROR = '[Data Management/HRIS Connections] Delete HRIS Connections Error';
 export const DELETE_HRIS_CONNECTION_SUCCESS = '[Data Management/HRIS Connections] Delete HRIS Connections Success';
 
+export const VALIDATE = '[Data Management/Transfer Data Page] Validate Credentials';
+export const VALIDATE_ERROR = '[Data Management/Transfer Data Page] Validate Credentials Error';
+export const VALIDATE_SUCCESS = '[Data Management/Transfer Data Page] Validate Credentials Success';
+
+export const CREATE_CONNECTION = '[Data Management/Transfer Data Page] Create Connection';
+export const CREATE_CONNECTION_ERROR = '[Data Management/Transfer Data Page] Create Connection Error';
+export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] Create Connection Success';
+
+// TODO: Delete this
+export const OUTBOUND_JDM_VALIDATE = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials';
+
 export class GetCurrentHrisConnection implements Action {
   readonly type = GET_CURRENT_HRIS_CONNECTION;
 }
@@ -49,6 +60,48 @@ export class GetHrisConnectionSummarySuccess implements Action {
   constructor(public payload: ConnectionSummary) {}
 }
 
+export class Validate implements Action {
+  readonly type = VALIDATE;
+
+  constructor(public payload: CredentialsPackage) {}
+}
+export class ValidateError implements Action {
+  readonly type = VALIDATE_ERROR;
+
+  constructor(public payload: string[] = []) {}
+}
+export class ValidateSuccess implements Action {
+  readonly type = VALIDATE_SUCCESS;
+
+  constructor() {}
+}
+
+export class CreateConnection implements Action {
+  readonly type = CREATE_CONNECTION;
+
+  constructor(public payload: CredentialsPackage) {}
+}
+
+export class CreateConnectionError implements Action {
+  readonly type = CREATE_CONNECTION_ERROR;
+
+  constructor() {}
+}
+
+export class CreateConnectionSuccess implements Action {
+  readonly type = CREATE_CONNECTION_SUCCESS;
+
+  constructor(public payload: CredentialsPackage) {}
+}
+
+
+// TODO: Delete for outbound
+export class OutboundJdmValidate implements Action {
+  readonly type = OUTBOUND_JDM_VALIDATE;
+
+  constructor(public payload: CredentialsPackage) {}
+}
+
 export type Actions
   = GetCurrentHrisConnection
   | GetCurrentHrisConnectionError
@@ -58,4 +111,11 @@ export type Actions
   | DeleteHRISConnectionSuccess
   | GetHrisConnectionSummary
   | GetHrisConnectionSummaryError
-  | GetHrisConnectionSummarySuccess;
+  | GetHrisConnectionSummarySuccess
+  | Validate
+  | ValidateError
+  | ValidateSuccess
+  | CreateConnection
+  | CreateConnectionError
+  | CreateConnectionSuccess
+  | OutboundJdmValidate;

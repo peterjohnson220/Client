@@ -119,19 +119,11 @@ export const selectProviderListState = createSelector(
   (state: DataManagementMainState) => state.providerList
 );
 
-export const getValidationErrors = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getValidationErrors
-);
+// Transfer Data Page
 
 export const getWorkflowStep = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getWorkflowStep
-);
-
-export const getShowAuthenticatingModal = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getShowAuthenticatingModal
 );
 
 export const getTransferDataPageActiveConnection = createSelector(
@@ -349,6 +341,8 @@ export const getHrisActiveConnectionSaving = createSelector(selectHrisConnection
 export const getHrisActiveConnectionSavingError = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getSavingError);
 export const getHrisActiveConnectionDeleteCompleted = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getDeleteCompleted);
 export const getHrisConnectionSummary = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getConnectionSummary);
+export const getShowAuthenticatingModal = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getShowAuthenticatingModal);
+export const getValidationErrors = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getValidationErrors);
 
 // entity identifiers
 export const getEmployeeIdentifiers = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.GetEmployeeIdentifiers);
@@ -380,4 +374,3 @@ export const getJdmConnectionSummaryObj = createSelector(selectOutboundJdmState,
 export const getOutboundTransferSummaryWidget = createSelector(getOutboundTransferSummaryObj, getOutboundJdmViews, (s1, s2) => {
   return { summary: s1, views: s2 };
 });
-
