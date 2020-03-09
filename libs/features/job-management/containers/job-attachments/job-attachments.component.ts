@@ -22,7 +22,7 @@ export class JobAttachmentsComponent implements OnInit, OnDestroy {
 
   attachments: CompanyJobAttachment[] = [];
   errorMessage = '';
-  supportedFileFormats = ['.jpg', '.jpeg', '.png', '.doc', '.xls', '.xlsx', '.pdf', '.docx', '.txt', '.csc', '.zip', '.mp4', '.wmv', '.avi'];
+  supportedFileFormats = ['.jpg', '.jpeg', '.png', '.doc', '.xls', '.xlsx', '.pdf', '.docx', '.txt', '.csv', '.zip', '.mp4', '.wmv', '.avi'];
 
   constructor(private store: Store<fromJobManagementReducer.State>) {
     this.attachments$ = this.store.select(fromJobManagementReducer.getAttachments);
@@ -58,7 +58,7 @@ export class JobAttachmentsComponent implements OnInit, OnDestroy {
       this.errorMessage = ' - You are trying to upload an invalid file extension';
     } else if (this.isInvalidFileSize(files)) {
       this.errorMessage = ' - You are trying to upload a file larger than 10MB';
-    } else {
+    } else if (files && files.length > 0) {
       this.store.dispatch(new fromJobManagementActions.UploadAttachments(files));
     }
 

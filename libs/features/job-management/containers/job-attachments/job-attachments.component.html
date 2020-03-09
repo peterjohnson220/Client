@@ -11,7 +11,7 @@
   <div class="justify-content-end align-self-center">
     <button [attr.data-qa-id]="'btn-job-management-attachments'" type="button" title="Select Files" 
       [disabled]="(attachments$ | async)?.length === 5"
-      class="btn btn-secondary"  (click)="fileInput.click(); errorMessage=''">
+      class="btn btn-secondary"  (click)="errorMessage=''; fileInput.click();">
       Select Files
     </button>
     <input #fileInput type="file" multiple hidden (change)="uploadFiles($event)">

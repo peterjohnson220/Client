@@ -97,9 +97,6 @@ export class PayfactorsApiService implements OnDestroy {
 
     const formData = this.buildFormData(formDataParams);
 
-    const headers = new Headers();
-    headers.append('Accept', 'application/json');
-
     const options = {
       headers: new HttpHeaders().append('Accept', 'application/json')
     };
