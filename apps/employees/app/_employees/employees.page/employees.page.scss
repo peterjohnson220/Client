@@ -1,4 +1,5 @@
 @import 'employees-page-styles';
+@import 'grid-actions';
 @import 'common/common';
 
 .header-bold, .page-content {
@@ -22,20 +23,6 @@
   flex-direction: row;
   justify-content: flex-end;
   width: 100%;
-
-  .btn {
-    margin-left: .75rem;
-    border: 0;
-
-    &:focus {
-      box-shadow: none;
-    }
-
-    fa-icon {
-      margin-right: 0.5rem;
-      color: #777;
-    }
-  }
 
   .vertical-separator {
     margin: 0.5rem;
