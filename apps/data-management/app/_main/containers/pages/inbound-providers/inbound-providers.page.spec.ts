@@ -39,7 +39,7 @@ describe('Data Management - Main - Transfer Data Page - Inbound - Vendor', () =>
     fixture = TestBed.createComponent(InboundProvidersPageComponent);
     instance = fixture.componentInstance;
   }));
-  
+
   it('should create', () => {
       fixture.detectChanges();
       expect(instance).toBeTruthy();

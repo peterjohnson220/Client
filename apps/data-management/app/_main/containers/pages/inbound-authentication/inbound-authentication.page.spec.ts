@@ -10,6 +10,7 @@ import { generateMockCredentialsPackage } from 'libs/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
+import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 import { InboundAuthenticationPageComponent } from './inbound-authentication.page';
 
 describe('Data Management - Main - Inbound Authentication Page', () => {
@@ -51,7 +52,7 @@ describe('Data Management - Main - Inbound Authentication Page', () => {
     // arrange
     const spy = jest.spyOn(store, 'dispatch');
     const mockCredsPackage = generateMockCredentialsPackage();
-    const expectedAction = new fromTransferDataPageActions.Validate(mockCredsPackage);
+    const expectedAction = new fromHrisConnectionActions.Validate(mockCredsPackage);
 
     // act
     instance.validateCredentials(mockCredsPackage);
@@ -76,7 +77,7 @@ describe('Data Management - Main - Inbound Authentication Page', () => {
     // arrange
     const spy = jest.spyOn(store, 'dispatch');
     const mockCredsPackage = generateMockCredentialsPackage();
-    const expectedAction = new fromTransferDataPageActions.CreateConnection(mockCredsPackage);
+    const expectedAction = new fromHrisConnectionActions.CreateConnection(mockCredsPackage);
 
     // act
     instance.next(mockCredsPackage);

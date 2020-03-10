@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
+
 import { Router } from '@angular/router';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-
-import { isEmpty, isObject } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { delay, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+
+import { isEmpty, isObject } from 'lodash';
+
+import { OrgDataEntityType } from 'libs/constants';
 
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromOutboundJdmActions from '../actions/outbound-jdm.actions';
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
+import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
+import { TransferDataWorkflowStep } from '../data/transfer-data-workflow-step.data';
 import { ConnectionSummary, getMockOutboundJdmDestinationFields, getMockOutboundJdmSourceFields } from '../models';
 import * as fromDataManagementMainReducer from '../reducers';
-import { OrgDataEntityType } from 'libs/constants';
 
 @Injectable()
 export class OutboundJdmEffects {
@@ -85,9 +90,12 @@ export class OutboundJdmEffects {
   @Effect()
   validateCredentials$: Observable<Action> = this.actions$
     .pipe(
-      ofType<fromTransferDataPageActions.OutboundJdmValidate>(fromTransferDataPageActions.OUTBOUND_JDM_VALIDATE),
+      ofType<fromHrisConnectionActions.OutboundJdmValidate>(fromHrisConnectionActions.OUTBOUND_JDM_VALIDATE),
       delay(5000),
-      switchMap(() => of(new fromTransferDataPageActions.ValidateSuccess())),
+      switchMap(() => [
+          new fromHrisConnectionActions.ValidateSuccess(),
+          new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Validated)
+      ]),
     );
 
   @Effect()

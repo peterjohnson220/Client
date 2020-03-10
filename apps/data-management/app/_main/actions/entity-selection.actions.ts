@@ -11,6 +11,7 @@ export const LOAD_ENTITY_SELECTION_SUCCESS = '[Data Management/Entity Selection 
 export const UPDATE_ENTITY_SELECTIONS = '[Data Management/Entity Selection Page] Update Entity Selections';
 export const UPDATE_ENTITY_SELECTIONS_ERROR = '[Data Management/Entity Selection Page] Update Entity Selections Error';
 export const UPDATE_ENTITY_SELECTIONS_SUCCESS = '[Data Management/Entity Selection Page] Update Entity Selections Success';
+export const SET_ENTITY_SELECTION = '[Data Management/Entity Selection Page] Set Entity Selections';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -46,6 +47,12 @@ export class UpdateEntitySelectionsSuccess implements Action {
   readonly type = UPDATE_ENTITY_SELECTIONS_SUCCESS;
 }
 
+export class SetEntitySelections implements Action {
+  readonly type = SET_ENTITY_SELECTION;
+
+  constructor(public payload: {connectionId: number, selectedEntities: OrgDataEntityType[]}) {}
+}
+
 export type Actions
   = Init
   | LoadEntitySelection
@@ -53,4 +60,5 @@ export type Actions
   | LoadEntitySelectionSuccess
   | UpdateEntitySelections
   | UpdateEntitySelectionsError
-  | UpdateEntitySelectionsSuccess;
+  | UpdateEntitySelectionsSuccess
+  | SetEntitySelections;

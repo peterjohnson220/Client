@@ -10,6 +10,7 @@ import { generateMockCredentialsPackage } from 'libs/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
+import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 import * as fromOutboundJdmActions from '../../../actions/outbound-jdm.actions';
 import { OutboundAuthenticationPageComponent } from './outbound-authentication.page';
 
@@ -52,7 +53,7 @@ describe('Data Management - Main - Outbound Authentication Page', () => {
     // arrange
     const spy = jest.spyOn(store, 'dispatch');
     const mockCredsPackage = generateMockCredentialsPackage();
-    const expectedAction = new fromTransferDataPageActions.OutboundJdmValidate(mockCredsPackage);
+    const expectedAction = new fromHrisConnectionActions.OutboundJdmValidate(mockCredsPackage);
 
     // act
     instance.validateCredentials(mockCredsPackage);

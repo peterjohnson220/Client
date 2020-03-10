@@ -11,6 +11,8 @@ export interface State {
   savingError: boolean;
   deleteCompleted: boolean;
   summary: ConnectionSummary;
+  validationErrors: string[];
+  showAuthenticationModal: boolean;
 }
 
 export const initialState: State = {
@@ -20,7 +22,9 @@ export const initialState: State = {
   saving: false,
   savingError: false,
   deleteCompleted: null,
-  summary: null
+  summary: null,
+  validationErrors: null,
+  showAuthenticationModal: false,
 };
 
 export function reducer(state: State = initialState, action: fromHrisConnectionActions.Actions) {
@@ -92,6 +96,56 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         loadingError: true
       };
     }
+    case fromHrisConnectionActions.OUTBOUND_JDM_VALIDATE:
+    case fromHrisConnectionActions.VALIDATE: {
+      return {
+        ...state,
+        showAuthenticationModal: true,
+      };
+    }
+    case fromHrisConnectionActions.VALIDATE_SUCCESS: {
+      return {
+        ...state,
+        validationErrors: null,
+        isValidCredentials: true,
+        showAuthenticationModal: false,
+      };
+    }
+    case fromHrisConnectionActions.VALIDATE_ERROR: {
+      if (action.payload) {
+        return {
+          ...state,
+          validationErrors: action.payload,
+          isValidCredentials: false,
+          showAuthenticationModal: false
+        };
+      }
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
+    case fromHrisConnectionActions.CREATE_CONNECTION: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case fromHrisConnectionActions.CREATE_CONNECTION_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        activeConnection: action.payload
+      };
+    }
+    case fromHrisConnectionActions.CREATE_CONNECTION_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
     default:
       return state;
   }
@@ -104,3 +158,5 @@ export const getSaving = (state: State) => state.saving;
 export const getSavingError = (state: State) => state.savingError;
 export const getDeleteCompleted = (state: State) => state.deleteCompleted;
 export const getConnectionSummary = (state: State) => state.summary;
+export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
+export const getValidationErrors = (state: State) => state.validationErrors;

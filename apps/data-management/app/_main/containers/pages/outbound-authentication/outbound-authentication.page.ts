@@ -14,6 +14,7 @@ import { TransferDataWorkflowStep } from '../../../data';
 import { ConnectionSummary } from '../../../models';
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromOutboundJdmActions from '../../../actions/outbound-jdm.actions';
+import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 
 @Component({
   selector: 'pf-outbound-authentication',
@@ -75,6 +76,6 @@ export class OutboundAuthenticationPageComponent implements OnInit, OnDestroy {
   }
 
   validateCredentials(creds: CredentialsPackage) {
-    this.store.dispatch(new fromTransferDataPageActions.OutboundJdmValidate(creds));
+    this.store.dispatch(new fromHrisConnectionActions.OutboundJdmValidate(creds));
   }
 }
