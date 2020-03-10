@@ -1,15 +1,16 @@
 <pf-data-grid
-  [title]="modelName$ | async"
+  [title]="(metaData$ | async)?.Name"
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
   [allowExport]="false"
   [showFilterChooser]="false"
   [showActionBar]="true"
   [columnTemplates]="colTemplates"
-  [pageViewId]="'BCC9B42C-ABC0-42ED-9BF6-D478AA17C50F'"
+  [pageViewId]="pricingsPageViewId"
   [gridContainerSplitViewWidth]="'70%'"
   [splitViewTemplate]="graph"
   [splitOnSelection]="false"
+  [aboveGridTemplate]="aboveGridTemplate"
   [applyDefaultFilters]="false">
 </pf-data-grid>
 
@@ -28,5 +29,12 @@
 <ng-template #graph>
   <div class="d-flex h-100 justify-content-center align-items-center">
     Graph will go here
+  </div>
+</ng-template>
+
+<ng-template #aboveGridTemplate>
+  <div style="height: 150px">
+    <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async"></pf-grid-context>
+    <pf-model-grid [inboundFilter]="filter" [rangeGroupId]="rangeGroupId" [singleRecordView]="true"></pf-model-grid>
   </div>
 </ng-template>

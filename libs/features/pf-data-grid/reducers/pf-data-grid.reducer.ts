@@ -615,6 +615,11 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     }
+    case fromPfGridActions.RESET: {
+      return {
+        ...INITIAL_STATE
+      };
+    }
     default:
       return state;
   }
@@ -673,7 +678,8 @@ export function buildGroupedFields(fields: ViewField[]): any[] {
     .map(g => ({
       'Order': Math.min(...g.items.map(c => (c as ViewField).Order)),
       'Group': g.value,
-      'Fields': g.items
+      'Fields': g.items,
+      'HasSelection': g.items.some((i: any) => i.IsSelected)
     }));
 
   const result: any[] = (groups as Array<GroupResult>).filter(g => g.value == null)[0].items;

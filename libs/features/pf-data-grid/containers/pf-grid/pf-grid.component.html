@@ -26,7 +26,7 @@
       </ng-template>
     </kendo-grid-checkbox-column>
     <ng-container *ngFor="let col of (dataFields$ | async)">
-      <ng-container *ngIf="col.Group">
+      <ng-container *ngIf="col.Group && col.HasSelection">
           <kendo-grid-column-group
             [title]="col.Group"
             [headerClass]="getGridColumnHeaderClass(col)"
@@ -79,7 +79,7 @@
       </ng-container>
     </ng-container>
     <ng-template *ngIf="noRecordsFound" kendoGridNoRecordsTemplate>
-      {{noRecordsFound}}
+      <ng-container *ngIf="!(loading$ | async)">{{noRecordsFound}}</ng-container>
     </ng-template>
     <div *ngIf="expandedRowTemplate">
       <div *kendoGridDetailTemplate="let dataItem">

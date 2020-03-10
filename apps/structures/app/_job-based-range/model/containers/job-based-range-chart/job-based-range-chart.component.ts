@@ -32,16 +32,16 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
-  currencySubscription: Subscription;
+  metadataSubscription: Subscription;
   pageViewId = JobBasedRangePageViewId;
   currency: string;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>
   ) {
-    this.currencySubscription = this.store.select(fromSharedJobBasedRangeReducer.getCurrency).subscribe(currency => {
-      if (currency) {
-        this.currency = currency;
+    this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
+      if (md) {
+        this.currency = md.Currency;
         this.chartLocale = getUserLocale();
         this.chartOptions = StructuresHighchartsService.getRangeOptions(this.chartLocale, this.currency);
       }
@@ -148,7 +148,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
-    this.currencySubscription.unsubscribe();
+    this.metadataSubscription.unsubscribe();
   }
 
 }

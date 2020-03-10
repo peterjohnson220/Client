@@ -29,7 +29,13 @@
 }
 
 .k-grid {
-  border: 0;
+  border-width: 0;
+
+  // Temporary hack. Scroll mode of none will cause a differing dom structure and classes causing the thead
+  // to inherit its border color differently. Ensuring we have a consistent border-color here [BC]
+  thead {
+    border-color: rgba(0,0,0,0.03)
+  }
 }
 
 .k-grid .k-hierarchy-cell {

@@ -22,6 +22,7 @@
   </ng-container>
   <ng-container page-content>
     <div class="d-flex h-100 flex-column">
+      <ng-container [ngTemplateOutlet]="aboveGridTemplate"></ng-container>
       <div *ngIf="gridActionsTemplate || userFilteredFields.length > 0"
            class="no-gutters d-flex justify-content-between border pl-2 gridActionTemplate">
         <div class="flex-fill p-1">
@@ -56,6 +57,7 @@
                     [noRecordsFound]="noRecordsFound"
                     [selectedRecordId]="selectedRecordId"
                     [compactGrid]="compactGrid"
+                    [showHeaderWhenCompact]="showHeaderWhenCompact"
                     [backgroundColor]="backgroundColor"
 		                [allowSort]="allowSort"
                     [rowActionTemplate]="rowActionTemplate"

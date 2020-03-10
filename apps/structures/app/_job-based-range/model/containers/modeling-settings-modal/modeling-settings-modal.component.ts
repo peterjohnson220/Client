@@ -15,10 +15,10 @@ import * as fromModelingSettingsPageActions from '../../actions/modeling-setting
 
 @Component({
   selector: 'pf-modeling-settings-modal-page',
-  templateUrl: './modeling-settings-modal-page.component.html',
-  styleUrls: ['./modeling-settings-modal-page.component.scss']
+  templateUrl: './modeling-settings-modal.component.html',
+  styleUrls: ['./modeling-settings-modal.component.scss']
 })
-export class ModelingSettingsModalPageComponent implements OnInit {
+export class ModelingSettingsModalComponent implements OnInit {
   _RATE_FIELDS = RATE_FIELDS;
   currentModel: StructureRangeGroupResponse;
   currentModelingSettingsData: ModelingSettingsFormData = {};
