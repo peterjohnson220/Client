@@ -29,7 +29,7 @@
 
       <div ngbDropdown #jobsActionsMenu="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
         <button
-          ngbDropdownToggle 
+          ngbDropdownToggle
           [attr.data-qa-id]="'btn-jobs-page-inline-actions-' + dataRow['CompanyJobs_CompanyJob_ID']"
           class="btn btn-secondary btn-sm hide-dropdown-arrow inline-menu-btn">
           <fa-icon icon="ellipsis-h"></fa-icon>
@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  
+
 </ng-template>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
@@ -81,6 +81,31 @@
     class="btn btn-primary">
     New Job
   </button>
+  <button [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length)"
+          type="button" title="Export" id="jobs-page-export-popover-btn" class="btn btn-secondary"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          placement="bottom-right" popoverTitle="Choose Export Type" [ngbPopover]="exportList"
+          [autoClose]="'outside'" [attr.data-qa-id]="'btn-jobs-page-export'"
+  >
+    <fa-icon icon="download"></fa-icon>
+  </button>
+
+  <!--
+  <button [disabled]="disabled || (savedViews && !savedViews.length)" [title]="(savedViews && !savedViews.length) ? 'No Saved Filters' : 'Saved Filters'"
+    type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="false" placement="bottom-right" #p="ngbPopover" popoverTitle="Saved Filters" [ngbPopover]="popContent"
+    [autoClose]="'outside'" [attr.data-qa-id]="'btn-saved-filters'" (hidden)="cancelDelete()">
+  </button>
+  -->
+
+
+
+  <!--<button
+    [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length)"
+    (click)="exportPricings()"
+    class="btn btn-primary">
+    Export Placeholder
+  </button>-->
 </ng-template>
 
 <ng-template #gridActions>
@@ -268,3 +293,35 @@
     (click)="clearFiltersAndSelections()">
   </kendo-switch>
 </ng-template>
+
+<ng-template #exportList>
+  <div class="popover-body-container">
+    <!--<p>
+      <pf-input-debounce [disabled]="viewDeleting || viewNameToBeDeleted" id="filter-search-box" [id]="'filter-chooser-search'" (valueChanged)="(filter = $event)" [placeholderText]="'Search for a Filter...'">
+      </pf-input-debounce>
+    </p> -->
+    <div>
+      System Exports
+    </div>
+    <div class="row">
+      <div class="col-8">
+        Download Pricings
+      </div>
+      <div class="col-4">
+        <button class="">
+          <fa-icon fa-icon [icon]="['fal', 'file-excel']"></fa-icon>
+        </button>
+        <button>
+          <fa-icon fa-icon [icon]="['fal', 'file-pdf']"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<form name="exportForm" [action]="'/odata/Jobs/ExportPricings'" method="POST">
+  <input type="hidden" name="export-uid" />
+  <input type="hidden" name="export-type" />
+  <input type="hidden" name="job-ids" />
+  <input type="hidden" name="pricing-ids" />
+</form>

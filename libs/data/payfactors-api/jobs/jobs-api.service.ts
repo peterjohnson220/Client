@@ -14,4 +14,8 @@ export class JobsApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddToProject`, request);
   }
 
+  exportPricings(request: any) {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/ExportPricings`, request);
+  }
+
 }

@@ -266,4 +266,18 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showJobEditModal = false;
     this.editingJobId = null;
   }
+
+  exportPricings() {
+    // TODO: clean this up. rename the form specific to the export. refactor the conditional for populating those collections. error(s) were server side
+    const htmlDocument: any = document;
+
+    htmlDocument.exportForm.elements['export-uid'].value = Date.now();
+    htmlDocument.exportForm.elements['export-type'].value = 'xlsx';
+    htmlDocument.exportForm.elements['job-ids'].value = this.selectedJobIds.length ? this.selectedJobIds : [];
+    htmlDocument.exportForm.elements['pricing-ids'].value = this.selectedPricingIds.length ? this.selectedPricingIds : [];
+    htmlDocument.exportForm.submit();
+
+    // TODO: remove this action/effect/service call stack
+    // this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
+  }
 }
