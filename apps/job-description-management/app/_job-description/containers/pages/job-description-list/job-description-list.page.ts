@@ -6,13 +6,13 @@ import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
-import { debounceTime, takeWhile, filter } from 'rxjs/operators';
+import { debounceTime, takeWhile, filter, take } from 'rxjs/operators';
 
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import { JdmListFilter } from 'libs/models/user-profile';
 import { ListAreaColumn } from 'libs/models/common';
 import { UserContext } from 'libs/models/security';
-import { CompanySettingsEnum } from 'libs/models';
+import { CompanySettingsEnum, TemplateListItem } from 'libs/models';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -42,6 +42,8 @@ import {
 import {
   DeleteJobDescriptionModalComponent
 } from '../../../../shared/components/modals/delete-job-description-modal/delete-job-description-modal.component';
+import * as fromTemplateReducer from '../../../../_templates/reducers';
+import * as fromTemplateActions from '../../../../_templates/actions/template-list.actions';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -94,6 +96,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public savedGridState$: Observable<State>;
   public enableCoreJdmInClient = false;
 
+  private templateListItems$: Observable<TemplateListItem[]>;
   private enableJdmTemplatesInClient$: Observable<boolean>;
   private bulkExportError$: Observable<boolean>;
   private bulkExportErrorSubscription: Subscription;
@@ -129,6 +132,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private settingsService: SettingsService,
     private store: Store<fromJobDescriptionReducers.State>,
+    private templateStore: Store<fromTemplateReducer.State>,
   ) {
     this.bulkExportControlLabels$ = this.store.select(fromJobDescriptionReducers.getControlLabels);
     this.bulkExportControlLabelsLoading$ = this.store.select(fromJobDescriptionReducers.getControlLabelsLoading);
@@ -154,6 +158,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.userFilterListAdding$ = this.store.select(fromJobDescriptionReducers.getUserFilterAdding);
     this.userFilterListLoading$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoading);
     this.deleteJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDeletingJobDescriptionSuccess);
+    this.templateListItems$ = this.templateStore.select(fromTemplateReducer.getTemplatesList);
     this.enableJdmTemplatesInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMTemplatesUseClient
     );
@@ -201,6 +206,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
+    this.store.dispatch(new fromTemplateActions.LoadTemplateList());
   }
 
   ngOnDestroy() {
@@ -361,6 +367,17 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   openNewJobDescModal(selectedCompanyJob: CompanyJobViewListItem) {
+    selectedCompanyJob = cloneDeep(selectedCompanyJob);
+    if (selectedCompanyJob.TemplateName == null) {
+      this.templateListItems$.pipe(
+        filter(i => !!i.length),
+        take(1)).subscribe(items => {
+          const existingTemplate = items.find(i => i.TemplateId === selectedCompanyJob.CompanyJobDescriptionTemplateId);
+          if (existingTemplate) {
+              selectedCompanyJob.TemplateName = existingTemplate.TemplateName;
+          }
+      });
+    }
     this.selectedCompanyJobForModal = selectedCompanyJob;
     this.jobDescriptionAppliesToModalComponent.open(selectedCompanyJob.JobDescriptionId, selectedCompanyJob.CompanyJobId);
   }
