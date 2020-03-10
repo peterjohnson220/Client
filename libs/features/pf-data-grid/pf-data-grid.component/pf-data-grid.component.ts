@@ -59,6 +59,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() exportSourceName: string;
   @Input() defaultColumnWidth: number;
   @Input() showHeaderWhenCompact: boolean;
+  @Input() useColumnGroups = true;
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;
