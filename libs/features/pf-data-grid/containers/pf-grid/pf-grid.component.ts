@@ -34,6 +34,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() customHeaderClass: string;
   @Input() defaultColumnWidth: number;
   @Input() showHeaderWhenCompact: boolean;
+  @Input() useColumnGroups = true;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -86,7 +87,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
       this.gridState$ = this.store.select(fromReducer.getGrid, changes['pageViewId'].currentValue);
       this.loading$ = this.store.select(fromReducer.getLoading, changes['pageViewId'].currentValue);
-      this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
+      if (this.useColumnGroups) {
+        this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
+      } else {
+        this.dataFields$ = this.store.select(fromReducer.getFields, changes['pageViewId'].currentValue);
+      }
+
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
       this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
