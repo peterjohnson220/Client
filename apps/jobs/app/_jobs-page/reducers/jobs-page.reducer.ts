@@ -16,6 +16,7 @@ export interface State {
   pricingIdToBeDeleted: number;
   companyPayMarkets: any;
   structureGradeNames: any;
+  pricingDetailsView: string;
 }
 
 export const initialState: State = {
@@ -28,7 +29,8 @@ export const initialState: State = {
   changingJobStatus: generateDefaultAsyncStateObj<boolean>(false),
   pricingIdToBeDeleted: undefined,
   companyPayMarkets: [],
-  structureGradeNames: []
+  structureGradeNames: [],
+  pricingDetailsView: 'Priced'
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -119,6 +121,12 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         pricingIdToBeDeleted: undefined
       };
     }
+    case fromJobsPageActions.CHANGE_PRICING_DETAILS_VIEW: {
+      return {
+        ...state,
+        pricingDetailsView: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -134,3 +142,4 @@ export const getChangingJobStatus = (state: State) => state.changingJobStatus;
 export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDeleted;
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
+export const getPricingDetailsView = (state: State) => state.pricingDetailsView;

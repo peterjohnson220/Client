@@ -1,11 +1,11 @@
 @import 'jobs-page-colors';
 @import 'common/common';
 
-:host ::ng-deep .pricing-details-grid-action-bar {
+:host ::ng-deep .not-priced-grid-action-bar {
   background-color: $sub-grid-action-bar-background-color;
 }
 
-:host ::ng-deep .pricing-details-grid-header {
+:host ::ng-deep .not-priced-grid-header {
   background-color: $sub-grid-header-color !important;
   border: none;
   color: $sub-grid-header-font-color;

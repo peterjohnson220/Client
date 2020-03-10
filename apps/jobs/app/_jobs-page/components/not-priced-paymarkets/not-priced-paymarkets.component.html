@@ -1,0 +1,49 @@
+<pf-data-grid
+  [pageViewId]="notPricedDataPageViewId"
+  [showTitle]="false"
+  [showColumnChooser] ="false"
+  [showFilterChooser] ="false"
+  [allowExport]="false"
+  [contentNoPadding]="true"
+  [selectionField]="'JobIdPayMarketId'"
+  [enableSelection]="true"
+  [columnTemplates]="notPricedDataColTemplates"
+  [inboundFilters]="filters"
+  [defaultSort]="defaultSort"
+  [showActionBar]="true"
+  [gridGlobalFiltersTemplates]="notPricedDataGlobalFilterTemplates"
+  [gridGlobalActionsTemplate]="changeView"
+  [actionBarClassName]="'not-priced-grid-action-bar ml-0 mt-1'"
+  [headerClassName]="'not-priced-grid-header'"
+  [noRecordsFound]="'All Pay Markets for this job have been priced. Click Priced Pay Markets above to view the details.'">
+</pf-data-grid>
+
+<ng-template #notPricedDataPayMarketFilter>
+  <kendo-dropdownlist
+    style="width: 250px"
+    [(ngModel)]="notPricedDataSelectedPayMarket"
+    [textField]="'Value'"
+    [valueField]="'Id'"
+    [defaultItem]="{Value:'All Pay Markets', Id: null}"
+    [data]="notPricedDataFilteredPayMarketOptions"
+    (valueChange)="handlePayMarketFilterChanged($event)"
+    [filterable]="true"
+    (filterChange)="handleFilter($event)"
+    [attr.data-qa-id]="'ddm-operator-'+notPricedDataPayMarketField.SourceName"
+    class="k-dropdown-white form-control"
+  >
+  </kendo-dropdownlist>
+</ng-template>
+
+<ng-template #sizeColumn let-dataRow="dataRow">
+  {{dataRow['vw_UnpricedJobPayMarketMetadata_Size_Value']}} {{dataRow['vw_UnpricedJobPayMarketMetadata_Size_Label']}}
+</ng-template>
+
+<ng-template #changeView>
+  <div class="view-change" (click)="switchViewToPriced()">
+    <div class="pricing-count-badge">
+      <span class="badge badge-primary mr-2">{{pricedCount}}</span>
+      <span>Priced Pay Market{{pricedCount === 1 ? '' : 's'}}</span>
+    </div>
+  </div>
+</ng-template>

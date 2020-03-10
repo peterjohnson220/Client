@@ -8,36 +8,16 @@
   [contentNoPadding]="true"
   [selectionField]="'CompanyJobPricing_ID'"
   [enableSelection]="true"
-  [columnTemplates]="colTemplates"
-  [applyDefaultFilters]="false"
+  [columnTemplates]="pricedDataColTemplates"
   [expandedRowTemplate]="pricingMatchesGrid"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [showActionBar]="true"
   [actionBarClassName]="'pricing-details-grid-action-bar ml-0 mt-1'"
-  [gridGlobalFiltersTemplates]="globalFilterTemplates"
+  [gridGlobalFiltersTemplates]="pricedDataGlobalFilterTemplates"
   [gridGlobalActionsTemplate]="changeView"
   [headerClassName]="'pricing-details-grid-header'"
   [noRecordsFound]="'No Pay Markets priced for this job. Click &quot;Pay Markets not Priced&quot; above to view and select Pay Markets to price.'">
-</pf-data-grid>
-
-<pf-data-grid
-  *ngIf="viewMode === 'Not Priced'"
-  [pageViewId]="notPricedDataPageViewId"
-  [showTitle]="false"
-  [showColumnChooser] ="false"
-  [showFilterChooser] ="false"
-  [allowExport]="false"
-  [contentNoPadding]="true"
-  [selectionField]="'JobIdPayMarketId'"
-  [enableSelection]="true"
-  [inboundFilters]="filters"
-  [defaultSort]="defaultSort"
-  [showActionBar]="true"
-  [gridGlobalActionsTemplate]="changeView"
-  [actionBarClassName]="'pricing-details-grid-action-bar ml-0 mt-1'"
-  [headerClassName]="'pricing-details-grid-header'"
-  [noRecordsFound]="'All Pay Markets Priced'">
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
@@ -87,29 +67,28 @@
   <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
 </ng-template>
 
-<ng-template #payMarketFilter>
+<ng-template #pricedDataPayMarketFilter>
       <kendo-dropdownlist
         style="width: 250px"
-      [(ngModel)]="selectedPayMarket"
+      [(ngModel)]="pricedDataSelectedPayMarket"
       [textField]="'Value'"
       [valueField]="'Id'"
       [defaultItem]="{Value:'All Pay Markets', Id: null}"
-      [data]="filteredPayMarketOptions"
+      [data]="pricedDataFilteredPayMarketOptions"
       (valueChange)="handlePayMarketFilterChanged($event)"
       [filterable]="true"
       (filterChange)="handleFilter($event)"
-      [attr.data-qa-id]="'ddm-operator-'+payMarketField.SourceName"
+      [attr.data-qa-id]="'ddm-operator-'+pricedDataPayMarketField.SourceName"
       class="k-dropdown-white form-control"
     >
     </kendo-dropdownlist>
 </ng-template>
 
 <ng-template #changeView>
-  <div (click)="viewMode === 'Priced' ? viewMode = 'Not Priced' : viewMode = 'Priced'">
+  <div class="view-change" (click)="switchViewToNotPriced()">
     <div class="pricing-count-badge">
-      <span class="badge badge-primary mr-2">{{viewMode === 'Priced' ? unPricedCount : pricedCount}}</span>
-      <span *ngIf="viewMode === 'Priced' ? unPricedCount > 1 : pricedCount > 1">{{viewMode === 'Priced' ? 'Pay Markets Not Priced' : 'Priced Pay Markets'}}</span>
-      <span *ngIf="viewMode === 'Priced' ? unPricedCount === 1 : pricedCount === 1">{{viewMode === 'Priced' ? 'Pay Market Not Priced' : 'Priced Pay Market'}}</span>
+      <span class="badge badge-primary mr-2">{{unPricedCount || 0}}</span>
+      <span>Pay Market{{unPricedCount === 1 ? '' : 's'}} Not Priced</span>
     </div>
   </div>
 </ng-template>

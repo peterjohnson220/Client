@@ -33,6 +33,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   pageViewId = PageViewIds.Jobs;
   selectedJobIds: number[];
   selectedPricingIds: number[];
+  selectedJobPayMarketCombos: string[];
 
   jobStatusField: ViewField;
   payMarketField: ViewField;
@@ -41,6 +42,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectedKeysSubscription: Subscription;
   selectedPricingIdSubscription: Subscription;
+  selectedJobPayMarketSubscription: Subscription;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   structureGradeNameSubscription: Subscription;
@@ -112,6 +114,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedPricingIds = pid || [];
     });
 
+    this.selectedJobPayMarketSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.NotPricedPayMarkets)
+      .subscribe(jpm => {
+        this.selectedJobPayMarketCombos = jpm || [];
+      });
+
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
@@ -153,6 +160,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   clearSelections() {
     this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails));
     this.store.dispatch(new fromPfDataGridActions.ClearSelections(this.pageViewId));
+    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.NotPricedPayMarkets));
   }
 
   toggleAddToProjectModal(state: boolean) {
@@ -162,9 +170,16 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   addToProject() {
     const payload: AddToProjectRequest = {
       JobIds: this.selectedJobIds,
-      PricingIds: this.selectedPricingIds
+      PricingIds: this.selectedPricingIds,
+      JobPayMarketSelections: this.selectedJobPayMarketCombos.map(jpm => {
+        const jobId = parseInt(jpm.split('_')[0], 10);
+        const payMarketId = parseInt(jpm.split('_')[1], 10);
+        return {
+          CompanyJobId: jobId,
+          CompanyPayMarketId: payMarketId
+        };
+      })
     };
-
     this.store.dispatch(new fromJobsPageActions.AddingToProject(payload));
   }
 
@@ -191,6 +206,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
     this.structureGradeNameSubscription.unsubscribe();
+    this.selectedJobPayMarketSubscription.unsubscribe();
   }
 
   closeSplitView() {

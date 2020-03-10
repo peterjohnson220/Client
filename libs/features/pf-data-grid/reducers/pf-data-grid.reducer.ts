@@ -33,7 +33,7 @@ export interface DataGridState {
   viewIsSaving: boolean;
   viewIsDeleting: boolean;
   viewNameToBeDeleted: string;
-  selectedKeys: number[];
+  selectedKeys: any[];
   selectAllState: string;
 }
 
