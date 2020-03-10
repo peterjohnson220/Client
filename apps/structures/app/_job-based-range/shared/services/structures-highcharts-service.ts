@@ -12,7 +12,7 @@ export class StructuresHighchartsService {
       };
   }
 
-  static getRangeOptions(locale, currencyCode) {
+  static getRangeOptions(locale, currencyCode, controlPointDisplay) {
     return {
 
       chart: {
@@ -31,10 +31,9 @@ export class StructuresHighchartsService {
       legend: {
         useHtml: true,
         layout: 'vertical',
-        align: 'left',
+        align: 'right',
         verticalAlign: 'top',
         floating: true,
-        x: 510,
         y: 30,
         borderWidth: 1
       },
@@ -105,7 +104,7 @@ export class StructuresHighchartsService {
         },
         enableMouseTracking: false
       }, {
-        name: 'Average salary',
+        name: 'Average ' + controlPointDisplay ,
         type: 'scatter',
         marker: {
           symbol: 'vline',
@@ -115,7 +114,7 @@ export class StructuresHighchartsService {
         },
         enableMouseTracking: false
       }, {
-        name: 'Outlier salary',
+        name: 'Outlier ' + controlPointDisplay,
         type: 'scatter',
         dataLabels: {
           useHTML: true,
