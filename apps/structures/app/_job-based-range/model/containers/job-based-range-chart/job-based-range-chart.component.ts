@@ -35,6 +35,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   metadataSubscription: Subscription;
   pageViewId = JobBasedRangePageViewId;
   currency: string;
+  controlPointDisplay: string;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>
@@ -42,8 +43,9 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
         this.currency = md.Currency;
+        this.controlPointDisplay = md.ControlPointDisplay;
         this.chartLocale = getUserLocale();
-        this.chartOptions = StructuresHighchartsService.getRangeOptions(this.chartLocale, this.currency);
+        this.chartOptions = StructuresHighchartsService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
@@ -88,6 +90,10 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Max));
   }
 
+  private addAverage(currentRow) {
+    this.averageSeriesData.push(currentRow.CompanyStructures_RangeGroup_AverageEEMRP);
+  }
+
   private processAndAddOutliers(xCoordinate, currentRow) {
     // this method is almost certainly going to change in the wake of the new style for outliers.
     if (currentRow.Outliers && currentRow.Outliers.length > 0) {
@@ -123,8 +129,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.addMidpoint(currentRow);
 
       // add to average
-      // todo fix the average and outliers
-      // this.averageSeriesData.push(currentRow.JobRanges_Avg);
+      this.addAverage(currentRow);
 
       // add any outliers
       // this.processAndAddOutliers(i, currentRow);

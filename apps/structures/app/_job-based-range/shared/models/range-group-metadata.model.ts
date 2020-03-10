@@ -3,4 +3,6 @@ export interface RangeGroupMetadata {
   Name: string;
   Currency: string;
   Rate: string;
+  ControlPoint: string;
+  ControlPointDisplay: string;
 }
