@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserContext } from 'libs/models';
 import { Permissions } from 'libs/constants';
+import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
@@ -44,6 +45,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
   selectedCompanyEmployeeIds: number[];
   pricingJobs: boolean;
   filterTemplates = {};
+  actionBarConfig: ActionBarConfig;
 
   constructor(
     private rootStore: Store<fromRootState.State>,
@@ -55,6 +57,11 @@ export class EmployeesPageComponent implements OnInit, OnDestroy {
     this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.pricingJobs$ = this.store.pipe(select(fromEmployeesReducer.getPricingJobs));
     this.pricingJobsError$ = this.store.pipe(select(fromEmployeesReducer.getPricingsJobsError));
+    this.actionBarConfig = {
+      AllowExport: true,
+      ExportSourceName: 'Employees',
+      ColumnChooserType: ColumnChooserType.ColumnGroup
+    };
   }
 
   ngOnInit(): void {

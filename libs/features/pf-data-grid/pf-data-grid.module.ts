@@ -33,7 +33,9 @@ import {
   FilterBuilderComponent,
   PfDataGridFilterPillsComponent,
   PfDataGridSaveViewModalComponent,
-  ColumnChooserComponent
+  ColumnChooserComponent,
+  ColumnGroupComponent,
+  ColumnGroupListComponent
 } from './components';
 
 @NgModule({
@@ -72,6 +74,8 @@ import {
     PfDataGridFilterPillsComponent,
     PfDataGridSaveViewModalComponent,
     ColumnChooserComponent,
+    ColumnGroupComponent,
+    ColumnGroupListComponent
   ],
   exports: [
     PfDataGridComponent

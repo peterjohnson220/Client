@@ -145,7 +145,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   getGridColumnHeaderClass(col: ViewField) {
     const headerClass = (this.compactGrid && !this.showHeaderWhenCompact) ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
     let textAlignClass = !!col && !!col.TextAlign ? `text-align-${col.TextAlign}` : '';
-    if (col.Group) {
+    if (col.Group && this.useColumnGroups) {
       textAlignClass = 'text-align-center';
     }
     return `${this.customHeaderClass || ''} ${headerClass} ${textAlignClass}`.trim();

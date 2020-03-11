@@ -22,7 +22,8 @@
   <div class="d-flex space-out-children-lg">
       <ng-container class="d-flex " *ngIf="globalActionsTemplate" [ngTemplateOutlet]="globalActionsTemplate"></ng-container>
 
-      <button *ngIf="allowExport && !!exportSourceName?.length" type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
+      <button *ngIf="actionBarConfig?.AllowExport && !!actionBarConfig?.ExportSourceName?.length"
+              type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
               placement="bottom-right" popoverTitle="Choose Content to Export"
               [disabled]="(exporting$ | async) || (loadingExportingStatus$ | async)"
               (click)="handleExportClicked()">
@@ -31,6 +32,7 @@
 
       <pf-column-chooser *ngIf="showColumnChooser"
         [dataFields]="dataFields$ | async"
+        [columnChooserType]="actionBarConfig ? actionBarConfig.ColumnChooserType : defaultColumnChooserType"
         (saveColumns)="updateFields($event)">
       </pf-column-chooser>
 

@@ -9,15 +9,14 @@
       [pageViewId]="pageViewId"
       [showColumnChooser]="showColumnChooser"
       [showFilterChooser]="showFilterChooser"
-      [allowExport]="allowExport"
-      [exportSourceName]="exportSourceName"
       [selectionField]="selectionField"
       [globalFilters]= "globalFilterableFields"
       [globalFilterAlignment]="showTitle?'Right':'Left'"
       [globalActionsTemplate]="gridGlobalActionsTemplate"
       [globalFiltersTemplates]="gridGlobalFiltersTemplates"
       (onFilterSidebarToggle)="toggleFilterPanel()"
-      [showActionBar]="showActionBar">
+      [showActionBar]="showActionBar"
+      [actionBarConfig]="actionBarConfig">
     </pf-action-bar>
   </ng-container>
   <ng-container page-content>

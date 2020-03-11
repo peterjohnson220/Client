@@ -1,0 +1,11 @@
+<div class="fields-group-container" *ngIf="!!columnGroups">
+  <div class="groups">
+    <div *ngFor="let group of columnGroups; trackBy: trackByFn">
+      <pf-column-group *ngIf="group.FilteredFields.length"
+        [columnGroup]="group"
+        [showFieldsOverride]="searchTerm && searchTerm.length"
+        (fieldClicked)="handleFieldClicked($event)">
+      </pf-column-group>
+    </div>
+  </div>
+</div>
