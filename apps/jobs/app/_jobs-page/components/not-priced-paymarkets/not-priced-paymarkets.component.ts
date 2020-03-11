@@ -76,7 +76,6 @@ export class NotPricedPaymarketsComponent implements AfterViewInit, OnDestroy, O
 
   ngOnDestroy() {
     this.notPricedDataGridFieldSubscription.unsubscribe();
-    // this.notPricedDataSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
   }
 

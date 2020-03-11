@@ -42,7 +42,7 @@
 <ng-template #changeView>
   <div class="view-change" (click)="switchViewToPriced()">
     <div class="pricing-count-badge">
-      <span class="badge badge-primary mr-2">{{pricedCount}}</span>
+      <span class="badge badge-primary mr-2">{{pricedCount || 0}}</span>
       <span>Priced Pay Market{{pricedCount === 1 ? '' : 's'}}</span>
     </div>
   </div>

@@ -93,18 +93,26 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
     this.notPricedDataSubscription = this.store.select(fromPfGridReducer.getData, PageViewIds.NotPricedPayMarkets).subscribe(notPricedData => {
       if (notPricedData) {
         this.notPricedDataObj = notPricedData;
-        this.pricedCount = notPricedData.total > 0 ?
-          notPricedData.data[0]['vw_UnpricedJobPayMarketMetadata_PricingCount'] :
-          this.payMarketCount - this.pricedDataObj.data[0]['CompanyJobs_Pricings_NotPricedCount'];
+        if (notPricedData.total > 0) {
+          this.pricedCount = notPricedData.data[0]['vw_UnpricedJobPayMarketMetadata_PricingCount'];
+        } else if (this.pricedDataObj) {
+          this.pricedCount = this.payMarketCount - this.pricedDataObj.data[0]['CompanyJobs_Pricings_NotPricedCount'];
+        } else {
+          this.pricedCount = this.payMarketCount;
+        }
       }
     });
 
     this.pricedDataSubscription = this.store.select(fromPfGridReducer.getData, PageViewIds.PricingDetails).subscribe(pricedData => {
       if (pricedData) {
         this.pricedDataObj = pricedData;
-        this.notPricedCount = pricedData.total > 0 ?
-          pricedData.data[0]['CompanyJobs_Pricings_NotPricedCount'] :
-          this.payMarketCount - this.notPricedDataObj.data[0]['vw_UnpricedJobPayMarketMetadata_PricingCount'];
+        if (pricedData.total > 0) {
+          this.notPricedCount = pricedData.data[0]['CompanyJobs_Pricings_NotPricedCount'];
+        } else if (this.notPricedDataObj) {
+          this.notPricedCount = this.payMarketCount - this.notPricedDataObj.data[0]['vw_UnpricedJobPayMarketMetadata_PricingCount'];
+        } else {
+          this.notPricedCount = this.payMarketCount;
+        }
       }
     });
     this.pricingDetailsViewSubscription = this.store.select(fromJobsPageReducer.getPricingDetailsView).subscribe(pdv => {
