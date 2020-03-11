@@ -2,18 +2,16 @@
   [modalId]="'au-modal-new-job'"
   [isOpen$]="showJobModal$"
   [size]="'lg'"
-  [submitting]="(loading$ | async) || (saving$ | async)"
+  [submitting]="loading$ | async"
   [centered]="false"
-  [allowDismiss]="!(loading$ | async) && !(saving$ | async)"
+  [allowDismiss]="!(loading$ | async)"
   [primaryButtonText]="'Save'"
-  [primaryButtonTextSubmitting]="(loading$ | async) ? 'Loading' : 'Saving'"
-  [title]="(jobId ? 'Edit' : 'Add New') + ' Job'"
-  (onDismiss)="onCancelChanges()"
-  (onSubmit)="jobForm.submit()"
->
+  [primaryButtonTextSubmitting]="(saving$ | async) ? 'Saving' : 'Save'"
+  (onDismiss)="onCancelChanges()"  
+  [title]="!jobId ? 'Add New Job' : 'Edit Job - ' + ((jobFormData$ | async)?.JobTitle || '')"
+  (onSubmit)="jobContainer.submit()">
+  
   <ng-container basic-content>
-    <div class="container" [style.max-height]="'450px'" [style.overflow]="'auto'">
-      <pf-job-form #jobForm></pf-job-form>
-    </div>
+    <pf-job-container #jobContainer></pf-job-container>
   </ng-container>
 </pf-modal-form>

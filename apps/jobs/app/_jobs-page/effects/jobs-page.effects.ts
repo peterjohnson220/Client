@@ -6,7 +6,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService } from 'libs/data/payfactors-api';
+import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
 import { UserContext, CompanyDto } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
@@ -26,6 +26,7 @@ export class JobsPageEffects {
   constructor(
     private actions$: Actions,
     private companyApiService: CompanyApiService,
+    private companyJobApiService: CompanyJobApiService,
     private jobsApiService: JobsApiService,
     private pricingApiService: PricingApiService,
     private payMarketApiService: PayMarketApiService,
@@ -67,7 +68,7 @@ export class JobsPageEffects {
           // TODO: When we migrate the Projects page to Client we have to make sure the state is cleared if we return back to the Jobs page
           return [];
         }),
-        catchError(error => of(new fromJobsPageActions.AddingToProjectError()))
+        catchError(error => of(new fromJobsPageActions.AddingToProjectError(error)))
       );
     })
   );
@@ -76,7 +77,7 @@ export class JobsPageEffects {
   changeJobStatus$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobsPageActions.CHANGING_JOB_STATUS),
     switchMap((data: any) => {
-      return this.jobsApiService.changeJobStatus(data.payload).pipe(
+      return this.companyJobApiService.changeJobStatus(data.payload).pipe(
         mergeMap(() =>
           [
             new fromJobsPageActions.ChangingJobStatusSuccess(),
@@ -86,7 +87,23 @@ export class JobsPageEffects {
             new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
             new fromPfDataGridActions.CloseSplitView(PageViewIds.Jobs),
           ]),
-        catchError(error => of(new fromJobsPageActions.ChangingJobStatusError()))
+        catchError(error => of(new fromJobsPageActions.ChangingJobStatusError(error)))
+      );
+    })
+  );
+
+  @Effect()
+  deleteJob$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.DELETING_JOB),
+    switchMap((data: any) => {
+      return this.companyJobApiService.deleteCompanyJob(data.payload).pipe(
+        mergeMap(() =>
+          [
+            new fromJobsPageActions.DeletingJobSuccess(),
+            new fromJobsPageActions.ShowDeleteJobModal(false),
+            new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
+          ]),
+        catchError(error => of(new fromJobsPageActions.DeletingJobError(error)))
       );
     })
   );

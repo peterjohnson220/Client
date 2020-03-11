@@ -1,0 +1,35 @@
+<div class="d-flex justify-content-between pb-2 px-3">
+  <div class="flex-fill">
+    <div>
+      Choose up to 5 files to attach to {{getJobTitle((jobFormData$|async)?.JobTitle)}}. Each file cannot be larger than 10MB.    
+    </div>
+    <div>
+      View supported formats <fa-icon [icon]="['far', 'info-circle']" placement="bottom" [ngbTooltip]="supportedFileFormats.join(', ')"></fa-icon>
+      <span class="text-danger"><b>{{errorMessage}}</b></span>
+    </div>
+  </div>
+  <div class="justify-content-end align-self-center">
+    <button [attr.data-qa-id]="'btn-job-management-attachments'" type="button" title="Select Files" 
+      [disabled]="(attachments$ | async)?.length === 5"
+      class="btn btn-secondary"  (click)="errorMessage=''; fileInput.click();">
+      Select Files
+    </button>
+    <input #fileInput type="file" multiple hidden (change)="uploadFiles($event)">
+  </div>
+</div>
+<hr>
+<div *ngIf="attachments.length > 0">
+  <h5 class="mb-3">Name{{(attachments$ | async)?.length > 1 ? 's' : ''}}</h5>
+  <div class="px-3">
+    <div *ngFor="let attachment of attachments" class="row no-gutters mb-2 justify-content-between">
+      <div class="flex-fill">
+        <a href="/odata/CloudFiles.DownloadJobAttachment?FileName={{attachment.Filename}}">
+          {{attachment.DisplayName}}
+        </a>
+      </div>
+      <button type="button" class="btn btn-light d-flex justify-content-end" (click)="removeAttachment(attachment.Filename)">
+        <fa-icon icon="trash-alt"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>
