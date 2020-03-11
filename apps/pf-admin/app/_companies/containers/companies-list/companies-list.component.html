@@ -38,8 +38,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="NotesCount" title="Notes" [width]="80">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-        <a (click)="$event.stopPropagation()"
-           href="/marketdata/admin/notes.asp?company_id={{dataItem.CompanyId}}">{{dataItem.NotesCount > 0 ? dataItem.NotesCount : "-"}}</a>
+        <a (click)="openNotesModal($event, dataItem)">{{dataItem.NotesCount > 0 ? dataItem.NotesCount : "-"}}</a>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="UserCount" title="Users" [width]="85">
@@ -65,3 +64,6 @@
     </kendo-grid-column>
   </kendo-grid>
 </ng-template>
+
+<!-- modal -->
+<pf-company-notes-modal></pf-company-notes-modal>
