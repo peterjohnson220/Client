@@ -308,6 +308,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleRouteForApprovalClicked(): void {
+    if ( !this.identity.IsPublic && this.jobDescription) {
+      this.store.dispatch(new fromWorkflowTemplateListActions.Load(this.jobDescription.CompanyJobId));
+    }
     this.workflowSetupModal.open();
   }
 
@@ -460,9 +463,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
       this.handleJobDescriptionChanged(result.obj);
-      if ( !this.identity.IsPublic &&  result.obj ) {
-        this.store.dispatch(new fromWorkflowTemplateListActions.Load(result.obj.CompanyJobId));
-      }
     });
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
       if (userRoles) {
