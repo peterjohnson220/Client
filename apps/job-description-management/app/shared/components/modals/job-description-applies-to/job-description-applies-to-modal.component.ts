@@ -171,17 +171,16 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
   }
 
   handleAppliesToFieldChanged(selectedJobDescriptionAppliesToItem: string) {
-    if (!!selectedJobDescriptionAppliesToItem) {
-      this.appliesToform.controls['appliesToValue'].setValue('');
-      this.resetFlags('AppliesTo');
 
-      if (selectedJobDescriptionAppliesToItem.length) {
-        this.searchColumnName = selectedJobDescriptionAppliesToItem;
-        this.store.dispatch(new fromJobDescriptionAppliesToActions.LoadJobDescriptionAppliesToValues(
-          {SearchTerm: this.searchColumnName}));
-      } else {
-        this.searchColumnName = '';
-      }
+    this.appliesToform.controls['appliesToValue'].setValue('');
+    this.resetFlags('AppliesTo');
+
+    if (selectedJobDescriptionAppliesToItem) {
+      this.searchColumnName = selectedJobDescriptionAppliesToItem;
+      this.store.dispatch(new fromJobDescriptionAppliesToActions.LoadJobDescriptionAppliesToValues(
+        {SearchTerm: this.searchColumnName}));
+    } else {
+      this.searchColumnName = '';
     }
   }
 
