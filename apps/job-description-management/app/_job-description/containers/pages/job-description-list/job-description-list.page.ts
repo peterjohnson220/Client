@@ -30,7 +30,7 @@ import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 import { CompanyJobViewListItem } from '../../../models';
-import { AvailableJobInformationField, ControlLabel } from '../../../../shared/models';
+import { AvailableJobInformationField, ControlLabel, LoadTemplateListRequest } from '../../../../shared/models';
 import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
 import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
@@ -42,8 +42,8 @@ import {
 import {
   DeleteJobDescriptionModalComponent
 } from '../../../../shared/components/modals/delete-job-description-modal/delete-job-description-modal.component';
-import * as fromTemplateReducer from '../../../../_templates/reducers';
-import * as fromTemplateActions from '../../../../_templates/actions/template-list.actions';
+import * as fromTemplateReducer from '../../../../shared/reducers';
+import * as fromTemplateActions from '../../../../shared/actions/template-list.actions';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -131,8 +131,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private settingsService: SettingsService,
-    private store: Store<fromJobDescriptionReducers.State>,
-    private templateStore: Store<fromTemplateReducer.State>,
+    private store: Store<fromJobDescriptionReducers.State>
   ) {
     this.bulkExportControlLabels$ = this.store.select(fromJobDescriptionReducers.getControlLabels);
     this.bulkExportControlLabelsLoading$ = this.store.select(fromJobDescriptionReducers.getControlLabelsLoading);
@@ -158,7 +157,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.userFilterListAdding$ = this.store.select(fromJobDescriptionReducers.getUserFilterAdding);
     this.userFilterListLoading$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoading);
     this.deleteJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDeletingJobDescriptionSuccess);
-    this.templateListItems$ = this.templateStore.select(fromTemplateReducer.getTemplatesList);
+    this.templateListItems$ = this.store.select(fromTemplateReducer.getTemplateList);
     this.enableJdmTemplatesInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMTemplatesUseClient
     );
@@ -206,7 +205,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
-    this.store.dispatch(new fromTemplateActions.LoadTemplateList());
+    this.store.dispatch(new fromTemplateActions.LoadTemplateList({publishedOnly: false }));
   }
 
   ngOnDestroy() {
