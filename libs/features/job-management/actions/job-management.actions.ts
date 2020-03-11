@@ -1,6 +1,14 @@
 import { Action } from '@ngrx/store';
 
-import { CompanyJob, CompanyJobUdf, JobInfoResponse, CompanyJobAttachment } from 'libs/models';
+import {
+  CompanyJob,
+  CompanyJobUdf,
+  JobInfoResponse,
+  CompanyJobAttachment,
+  CompanyStructure,
+  CompanyStructurePaymarketGrade,
+  CompanyStructureInfo
+} from 'libs/models';
 
 export const SHOW_JOB_MODAL = '[JobManagement] Show Job Modal';
 export const SAVE_COMPANY_JOB = '[JobManagement] Save Company Job';
@@ -9,8 +17,14 @@ export const UPLOAD_ATTACHMENTS = '[JobManagement] Upload Attachemnts';
 export const UPLOAD_ATTACHMENTS_SUCCESS = '[JobManagement] Upload Attachemnts Success';
 export const LOAD_JOB_OPTIONS = '[JobManagement] Load Job Options';
 export const LOAD_JOB_OPTIONS_SUCCESS = '[JobManagement] Load Job Options Success';
+export const LOAD_STRUCTURE_PAYMARKET_GRADE = '[JobManagement] Load StructurePaymarketGrade';
+export const LOAD_STRUCTURE_PAYMARKET_GRADE_SUCCESS = '[JobManagement] Load StructurePaymarketGrade Success';
 export const LOAD_JOB = '[JobManagement] Load Job';
 export const LOAD_JOB_SUCCESS = '[JobManagement] Load Job Success';
+export const SET_SELECTED_STRUCTURE_ID = '[JobManagement] Set Selected StructureId';
+export const ADD_STRUCTURE_MAPPING = '[JobManagement] Add Structure Mapping';
+export const DELETE_STRUCTURE_MAPPING = '[JobManagement] Delete Structure Mapping';
+export const SAVE_STRUCTURE_MAPPINGS = '[JobManagement] Save Structure Mappings';
 export const SET_DUPLICATE_JOB_CODE_ERROR = '[JobManagement] Set Duplicate Job Code Error';
 export const UPDATE_COMPANY_JOB = '[JobManagement] Update Company Job';
 export const REMOVE_ATTACHMENT = '[JobManagement] Remove Attachment';
@@ -50,22 +64,51 @@ export class LoadJobOptionsSuccess implements Action {
   constructor(
     public jobFamilies: string[],
     public companyFlsaStatuses: string[],
-    public companyJobUdfs: CompanyJobUdf[]) {}
+    public companyJobUdfs: CompanyJobUdf[],
+    public structures: CompanyStructure[]) { }
+}
+
+export class LoadStructurePaymarketGrade implements Action {
+  readonly type = LOAD_STRUCTURE_PAYMARKET_GRADE;
+}
+
+export class LoadStructurePaymarketGradeSuccess implements Action {
+  readonly type = LOAD_STRUCTURE_PAYMARKET_GRADE_SUCCESS;
+  constructor(public structurePaymarketGrade: CompanyStructurePaymarketGrade[]) { }
 }
 
 export class LoadJob implements Action {
   readonly type = LOAD_JOB;
-  constructor(public jobId: number) {}
+  constructor(public jobId: number) { }
 }
 
 export class LoadJobSuccess implements Action {
   readonly type = LOAD_JOB_SUCCESS;
-  constructor(public payload: JobInfoResponse) {}
+  constructor(public payload: JobInfoResponse) { }
+}
+
+export class SetSelectedStructureId implements Action {
+  readonly type = SET_SELECTED_STRUCTURE_ID;
+  constructor(public payload: number) { }
+}
+
+export class AddStructureMapping implements Action {
+  readonly type = ADD_STRUCTURE_MAPPING;
+  constructor(public payload: CompanyStructureInfo) { }
+}
+export class DeleteStructureMapping implements Action {
+  readonly type = DELETE_STRUCTURE_MAPPING;
+  constructor(public payload: number) { }
+}
+
+export class SaveStructureMappings implements Action {
+  readonly type = SAVE_STRUCTURE_MAPPINGS;
+  constructor(public jobId: number) { }
 }
 
 export class SetDuplicateJobCodeError implements Action {
-    readonly type = SET_DUPLICATE_JOB_CODE_ERROR;
-    constructor(public payload: boolean) { }
+  readonly type = SET_DUPLICATE_JOB_CODE_ERROR;
+  constructor(public payload: boolean) { }
 }
 
 export class UpdateCompanyJob implements Action {
@@ -91,8 +134,14 @@ export type Actions
   | UploadAttachmentsSuccess
   | LoadJobOptions
   | LoadJobOptionsSuccess
+  | LoadStructurePaymarketGrade
+  | LoadStructurePaymarketGradeSuccess
   | LoadJob
   | LoadJobSuccess
+  | SetSelectedStructureId
+  | AddStructureMapping
+  | DeleteStructureMapping
+  | SaveStructureMappings
   | SetDuplicateJobCodeError
   | UpdateCompanyJob
   | RemoveAttachment

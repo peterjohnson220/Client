@@ -13,6 +13,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromJobManagementReducer from '../reducers';
 import * as fromJobManagementActions from '../actions';
 import { ToastrService } from 'ngx-toastr';
+import { StructuresApiService, StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 
 @Injectable()
 export class JobManagementEffects {
@@ -31,6 +32,8 @@ export class JobManagementEffects {
   constructor(
     private actions$: Actions,
     private companyJobApiService: CompanyJobApiService,
+    private structuresApiService: StructuresApiService,
+    private structuresRangeGroupApiService: StructureRangeGroupApiService,
     private rootStore: Store<fromRootState.State>,
     private store: Store<fromJobManagementReducer.State>,
     private toastr: ToastrService,
@@ -44,12 +47,36 @@ export class JobManagementEffects {
         forkJoin(
           this.companyJobApiService.getJobFamilies(),
           this.companyJobApiService.getCompanyFLSAStatuses(),
-          this.companyJobApiService.getJobUserDefinedFields()
-        ).pipe(
-          map((options) => {
-            return new fromJobManagementActions.LoadJobOptionsSuccess(options[0], options[1], options[2]);
-          }),
-          catchError(response => this.handleError('There was an error loading the job information'))
+          this.companyJobApiService.getJobUserDefinedFields(),
+          this.structuresApiService.getCurrentStructuresWithValidPaymarkets())
+          .pipe(
+            mergeMap((options) => [
+              new fromJobManagementActions.LoadJobOptionsSuccess(options[0], options[1], options[2], options[3]),
+              new fromJobManagementActions.LoadStructurePaymarketGrade()
+            ]),
+            catchError(response => this.handleError('There was an error loading the job information'))
+          )
+      )
+    );
+
+  @Effect()
+  loadStructurePaymarketGrade$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(
+        fromJobManagementActions.LOAD_STRUCTURE_PAYMARKET_GRADE,
+        fromJobManagementActions.SET_SELECTED_STRUCTURE_ID),
+      mergeMap((loadStructurePaymarketGradeAction: fromJobManagementActions.LoadStructurePaymarketGrade) =>
+        of(loadStructurePaymarketGradeAction).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromJobManagementReducer.getSelectedStructureId)),
+            (action: fromJobManagementActions.LoadStructurePaymarketGrade, structureId) => ({ action, structureId })
+          )
+        ),
+      ),
+      switchMap((data) =>
+        this.structuresApiService.getStructurePaymarketsAndGrades(data.structureId).pipe(
+          map((structurePaymarketGrade) => new fromJobManagementActions.LoadStructurePaymarketGradeSuccess(structurePaymarketGrade)),
+          catchError(response => this.handleError('There was an error loading the job structure information'))
         )
       )
     );
@@ -82,9 +109,7 @@ export class JobManagementEffects {
         (action: fromJobManagementActions.UploadAttachments) =>
           this.companyJobApiService.uploadAttachments(action.attachments).pipe(
             map((attachments: CompanyJobAttachment[]) => new fromJobManagementActions.UploadAttachmentsSuccess(attachments)),
-            catchError(response => {
-              return this.handleError('There was an error while uploading your attachments');
-            })
+            catchError(response => this.handleError('There was an error while uploading your attachments'))
           )
       )
     );
@@ -111,7 +136,7 @@ export class JobManagementEffects {
           .saveCompanyJob(newCompanyJob)
           .pipe(
             map((response: CompanyJob) => {
-              return new fromJobManagementActions.SaveCompanyJobSuccess();
+              return new fromJobManagementActions.SaveStructureMappings(data.jobId > 0 ? data.jobId : response.CompanyJobId);
             }),
             catchError(response => {
               if (response.status === 409) {
@@ -120,6 +145,37 @@ export class JobManagementEffects {
                 return this.handleError('There was an error saving your job information. Please contact you service associate for assistance.');
               }
             })
+          );
+      }));
+
+  @Effect()
+  saveStructureMappings$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobManagementActions.SAVE_STRUCTURE_MAPPINGS),
+      mergeMap((saveStructureMappings: fromJobManagementActions.SaveStructureMappings) =>
+        of(saveStructureMappings).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromJobManagementReducer.getStructures)),
+            (action: fromJobManagementActions.SaveStructureMappings, structures) =>
+              ({ action, structures })
+          )
+        ),
+      ),
+      switchMap((data) => {
+        // reset Ids of newly added structure mappings to 0
+        const updatedStructures = data.structures.map(s => ({
+          ...s,
+          CompanyStructuresRangeGroupId: s.CompanyStructuresRangeGroupId > 0 ? s.CompanyStructuresRangeGroupId : 0
+        }));
+
+        return this.structuresRangeGroupApiService
+          .addJobStructureMapping(data.action.jobId, updatedStructures)
+          .pipe(
+            map((response: any) => {
+              return new fromJobManagementActions.SaveCompanyJobSuccess();
+            }),
+            catchError(response =>
+              this.handleError('There was an error saving your job information. Please contact you service associate for assistance.'))
           );
       }));
 
