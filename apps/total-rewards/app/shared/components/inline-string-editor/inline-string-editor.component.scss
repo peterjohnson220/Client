@@ -8,7 +8,7 @@ input[type=text] {
   margin: 0;
   border: 0;
   outline: none;
-  background-color: inherit;
+  background-color: transparent; // inherit should work here but doesn't for IE 11, so make transparent as a workaround
   color: inherit;
   width: 100%;
 }
