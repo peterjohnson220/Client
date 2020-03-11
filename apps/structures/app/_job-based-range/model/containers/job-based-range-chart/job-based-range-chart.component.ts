@@ -95,18 +95,20 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private processAndAddOutliers(xCoordinate, currentRow) {
-    // this method is almost certainly going to change in the wake of the new style for outliers.
-    if (currentRow.Outliers && currentRow.Outliers.length > 0) {
-      for (let o = 0; o < currentRow.Outliers.length; o++) {
-        const currentOutlier = cloneDeep(currentRow.Outliers[o]);
-        // set the "x" value
-        currentOutlier.x = xCoordinate;
-        // format the data for the tooltip
-        currentOutlier.deltaString = this.formatRangeDelta(currentOutlier.delta, currentOutlier.low);
-        currentOutlier.valueString = StructuresHighchartsService.formatCurrency(currentOutlier.y, this.chartLocale, this.currency);
-        this.outlierSeriesData.push(currentOutlier);
-      }
-    }
+    // Min Outlier
+    this.outlierSeriesData.push(
+      {
+        x: xCoordinate,
+        y: currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier,
+        count: currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier
+      });
+    // Max Outlier
+    this.outlierSeriesData.push(
+      {
+        x: xCoordinate,
+        y: currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier,
+        count: currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier
+      });
   }
 
   private processChartData(data: any) {
@@ -132,7 +134,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.addAverage(currentRow);
 
       // add any outliers
-      // this.processAndAddOutliers(i, currentRow);
+      this.processAndAddOutliers(i, currentRow);
     }
 
     // set the min/max
