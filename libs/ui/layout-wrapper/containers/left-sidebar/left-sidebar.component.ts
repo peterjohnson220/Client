@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angu
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { UserContext, SidebarLink, CompanySettingsEnum } from 'libs/models';
+import { UserContext, SidebarLink } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import { environment } from 'environments/environment';
@@ -19,6 +19,7 @@ import * as fromLayoutReducer from '../../reducers';
 export class LeftSidebarComponent implements OnInit, OnDestroy {
   @Output() reload = new EventEmitter();
 
+  @Input() enableCoreJdmInClient = false;
   @Input() leftSidebarToggle = false;
   clientAppRoot = '/' + environment.hostPath + '/';
   ngAppRoot = environment.ngAppRoot;
@@ -27,9 +28,6 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   userContextSubscription: Subscription;
   userId: number;
   companyName: string;
-  enableCoreJdmInClient = false;
-  enableCoreJdmInClient$: Observable<boolean>;
-  enableCoreJdmInClientSubscription: Subscription;
 
   constructor(
     private store: Store<fromRootState.State>,
@@ -38,9 +36,6 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   ) {
     this.leftSidebarNavigationLinks$ = layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks);
     this.userContext$ = store.select(fromRootState.getUserContext);
-    this.enableCoreJdmInClient$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMCoreUseClient
-    );
   }
 
   ngOnInit() {
@@ -52,14 +47,12 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.enableCoreJdmInClientSubscription = this.enableCoreJdmInClient$.subscribe((setting) => this.enableCoreJdmInClient = setting);
   }
 
   ngOnDestroy() {
     if (this.userContextSubscription) {
       this.userContextSubscription.unsubscribe();
     }
-    this.enableCoreJdmInClientSubscription.unsubscribe();
   }
 
   getSidebarHref(sidebarLink: SidebarLink) {
