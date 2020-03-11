@@ -11,7 +11,7 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
-import { JobBasedRangePageViewId } from '../../constants';
+import { PageViewIds } from '../../../shared/constants/page-view-ids';
 
 @Component({
   selector: 'pf-job-based-range-chart',
@@ -33,7 +33,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
   metadataSubscription: Subscription;
-  pageViewId = JobBasedRangePageViewId;
+  pageViewId = PageViewIds.Model;
   currency: string;
   controlPointDisplay: string;
 
