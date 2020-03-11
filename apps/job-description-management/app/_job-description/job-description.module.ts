@@ -86,7 +86,6 @@ import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescripti
 import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
 import { SharedModule } from '../shared/shared.module';
 import { ListAreaService } from '../shared/services';
-import { TemplatesModule } from '../_templates/templates.module';
 
 @NgModule({
   imports: [
@@ -126,7 +125,6 @@ import { TemplatesModule } from '../_templates/templates.module';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    TemplatesModule,
 
     // 3rd Party
     ReactiveFormsModule,
