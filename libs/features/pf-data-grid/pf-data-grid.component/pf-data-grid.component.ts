@@ -11,7 +11,7 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
-import { PfDataGridFilter } from '../models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from '../models';
 import { getUserFilteredFields } from '../components';
 
 @Component({
@@ -26,7 +26,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() navigationURL: string;
   @Input() showTitle = true;
   @Input() showColumnChooser = true;
-  @Input() allowExport = true;
   @Input() showFilterChooser = true;
   @Input() contentNoPadding = false;
   @Input() selectionField: string;
@@ -56,10 +55,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridContainerSplitViewWidth = '500px';
   @Input() splitOnSelection = true;
   @Input() mainGridContainerClassName: string;
-  @Input() exportSourceName: string;
   @Input() defaultColumnWidth: number;
   @Input() showHeaderWhenCompact: boolean;
   @Input() useColumnGroups = true;
+  @Input() actionBarConfig: ActionBarConfig = getDefaultActionBarConfig();
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;

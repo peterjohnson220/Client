@@ -1,0 +1,40 @@
+@import 'kendo-checkbox-overrides';
+@import 'common/common-variables';
+
+.header {
+  padding: 0.25rem 0;
+  cursor: pointer;
+
+  .title {
+    margin-top: 0.5rem;
+  }
+
+  .icon {
+    margin-top: 0.25rem;
+    margin-right: 0.5rem;
+  }
+
+  .select-all-checkbox {
+    margin-top: 0.65rem;
+    margin-right: 0.25rem;
+  }
+
+}
+
+.field {
+  padding: 0rem 1rem 0.5rem 1.125rem;
+
+  .title {
+    margin-top: 0.2rem;
+  }
+
+  &:hover {
+    background-color: #eaeaea;
+    cursor: pointer;
+  }
+
+}
+
+.disabled {
+  pointer-events: none;
+}

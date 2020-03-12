@@ -7,6 +7,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
+import { ActionBarConfig, ColumnChooserType } from '../../models';
 
 @Component({
   selector: 'pf-action-bar',
@@ -17,8 +18,6 @@ export class ActionBarComponent implements OnChanges {
 
   @Input() showColumnChooser = true;
   @Input() showFilterChooser = true;
-  @Input() allowExport = true;
-  @Input() exportSourceName: string;
   @Input() selectionField: string;
   @Input() pageViewId: string;
   @Input() globalFilterAlignment: string;
@@ -26,6 +25,7 @@ export class ActionBarComponent implements OnChanges {
   @Input() globalFiltersTemplates: TemplateRef<any>;
   @Input() globalFilters: ViewField[];
   @Input() showActionBar = false;
+  @Input() actionBarConfig: ActionBarConfig;
   @Output() onFilterSidebarToggle = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
@@ -35,6 +35,8 @@ export class ActionBarComponent implements OnChanges {
   viewNameToBeDeleted$: Observable<string>;
   exporting$: Observable<boolean>;
   loadingExportingStatus$: Observable<boolean>;
+
+  defaultColumnChooserType: ColumnChooserType = ColumnChooserType.Column;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -93,6 +95,6 @@ export class ActionBarComponent implements OnChanges {
   }
 
   handleExportClicked(): void {
-    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.exportSourceName, this.selectionField));
+    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName, this.selectionField));
   }
 }

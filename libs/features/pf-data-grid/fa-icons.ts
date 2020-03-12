@@ -5,8 +5,11 @@ import { faLongArrowDown } from '@fortawesome/pro-regular-svg-icons';
 import { faLongArrowUp } from '@fortawesome/pro-regular-svg-icons';
 import { faTrashAlt } from '@fortawesome/pro-solid-svg-icons/faTrashAlt';
 import { faTimes } from '@fortawesome/pro-regular-svg-icons/faTimes';
+import { faCaretRight } from '@fortawesome/pro-solid-svg-icons/faCaretRight';
+import { faCaretDown } from '@fortawesome/pro-solid-svg-icons/faCaretDown';
 
 export const faIcons = [
-  faDownload, faTable, faSlidersH, faLongArrowDown, faLongArrowUp, faTrashAlt, faTimes
+  faDownload, faTable, faSlidersH, faLongArrowDown, faLongArrowUp, faTrashAlt, faTimes, faCaretRight,
+  faCaretDown
 ];
 

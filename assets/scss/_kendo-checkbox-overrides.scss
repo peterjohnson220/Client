@@ -1,0 +1,26 @@
+@import '_colors';
+
+.k-checkbox-label {
+  margin-top: 0.4rem;
+}
+
+.k-checkbox-label::before {
+  background-color: white;
+}
+
+.k-checkbox:indeterminate + .k-checkbox-label::after {
+  border-color: $pf-brand-secondary-color;
+  background-color: $pf-brand-secondary-color;
+}
+
+.k-checkbox:checked + .k-checkbox-label::before {
+  border-color: $pf-brand-secondary-color;
+  background-color: $pf-brand-secondary-color;
+}
+
+.k-checkbox:checked + .k-checkbox-label::after {
+  font-size: 12px;
+  width: 15px;
+  height: 15px;
+  padding-top: 2px;
+}
