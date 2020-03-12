@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
 import { ViewField, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { DataGridState } from '../../reducers/pf-data-grid.reducer';
 import { SortDescriptor } from '@progress/kendo-data-query';
@@ -31,6 +31,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() backgroundColor: string;
   @Input() allowSort = true;
   @Input() saveSort = false;
+  @Input() reorderable = false;
   @Input() customHeaderClass: string;
   @Input() defaultColumnWidth: number;
   @Input() showHeaderWhenCompact: boolean;
@@ -90,7 +91,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       if (this.useColumnGroups) {
         this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
       } else {
-        this.dataFields$ = this.store.select(fromReducer.getFields, changes['pageViewId'].currentValue);
+        this.dataFields$ = this.store.select(fromReducer.getVisibleOrderedFields , changes['pageViewId'].currentValue);
       }
 
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
@@ -98,6 +99,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
     }
+  }
+
+  onColumnReorder(value: ColumnReorderEvent) {
+    this.store.dispatch(new fromActions.ReorderColumns(
+      this.pageViewId,
+      value.oldIndex - 1,
+      value.newIndex - 1,
+    ));
   }
 
   getValue(row: any, colName: string[]): string[] {

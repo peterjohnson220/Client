@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError, withLatestFrom, mergeMap, filter, groupBy } from 'rxjs/operators';
+import { map, switchMap, catchError, withLatestFrom, mergeMap, filter, groupBy, debounceTime } from 'rxjs/operators';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -174,6 +174,42 @@ export class PfDataGridEffects {
                     )
             )
         );
+
+  @Effect()
+  reorderColumns: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromPfDataGridActions.REORDER_COLUMNS),
+      debounceTime(200),
+      mergeMap((reorderColumnsAction: fromPfDataGridActions.ReorderColumns) =>
+        of(reorderColumnsAction).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, reorderColumnsAction.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getFields, reorderColumnsAction.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, reorderColumnsAction.pageViewId)),
+            (action: fromPfDataGridActions.ReorderColumns, baseEntity, fields, sortDescriptor) =>
+              ({ action, baseEntity, fields, sortDescriptor })
+          )
+        )
+      ),
+      switchMap((data) =>
+        this.dataViewApiService.updateDataView(PfDataGridEffects.buildDataView(
+          PfDataGridEffects.parsePageViewId(data.action.pageViewId),
+          data.baseEntity.Id,
+          data.fields,
+          data.sortDescriptor,
+          null,
+          DataViewType.userDefault))
+          .pipe(
+            map((response: any) => {
+              return new fromPfDataGridActions.ReorderColumnsSuccess();
+            }),
+            catchError(error => {
+              const msg = 'We encountered an error while reordering your column';
+              return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
+            })
+          )
+      )
+    );
 
     @Effect()
     loadSavedViews$: Observable<Action> = this.actions$

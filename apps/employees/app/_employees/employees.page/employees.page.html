@@ -1,4 +1,5 @@
 <pf-data-grid
+  [reorderable]="true"
   [pageViewId]="pageViewId"
   [title]="getPageTitle((userContext$ | async)?.CompanyName)"
   [navigationURL]="'/client/dashboard'"

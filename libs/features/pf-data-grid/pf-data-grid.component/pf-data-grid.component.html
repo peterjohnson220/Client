@@ -45,6 +45,7 @@
               <div class="full-size-wrapper">
                 <div [ngClass]="{'grid-container' : !compactGrid}">
                   <pf-grid
+                    [reorderable]="reorderable"
                     [pageViewId]="pageViewId"
                     [selectionEntityName]="(baseEntity$ | async)?.SourceName"
                     [selectionField]="selectionField"
