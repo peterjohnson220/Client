@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 
+import { isObject } from 'lodash';
 
 import { ConfigurationGroup } from 'libs/models/data-loads';
 
@@ -28,6 +29,11 @@ export class EntityUploadComponent {
     this.uploadComponents.forEach((child) => {
       child.ClearFile();
     });
+  }
+
+  public HasAnyFiles(): boolean {
+    const a = this.entities.findIndex(f => f.isChecked && isObject(f.File));
+    return a >= 0;
   }
 
   public ClearAllErrorMessages(): void {

@@ -23,6 +23,7 @@ export class WorkflowWatchSidebarComponent implements OnChanges, OnInit, OnDestr
   @Input() showSubway: true;
   @Input() isSiteAdmin: boolean;
   @Input() isCompanyAdmin: boolean;
+  @Input () gettingJobDescriptionExtendedInfoSuccess: boolean;
   @Output() changeApproverClicked = new EventEmitter();
   @Output() copyWorkflowLinkClicked = new EventEmitter();
   @Output() closed = new EventEmitter();
@@ -61,8 +62,10 @@ export class WorkflowWatchSidebarComponent implements OnChanges, OnInit, OnDestr
 
   ngOnChanges(changes: any) {
     if (changes.workflowId && changes.workflowId.currentValue !== changes.workflowId.previousValue) {
-      this.store.dispatch(new fromWorkflowActions.GetWorkflowLink({workflowId: this.workflowId}));
-      this.store.dispatch(new fromWorkflowActions.LoadWorkflowStepSummary({workflowId: this.workflowId}));
+      if (this.gettingJobDescriptionExtendedInfoSuccess) {
+        this.store.dispatch(new fromWorkflowActions.GetWorkflowLink({workflowId: this.workflowId}));
+        this.store.dispatch(new fromWorkflowActions.LoadWorkflowStepSummary({workflowId: this.workflowId}));
+      }
       this.store.dispatch(new fromWorkflowActions.LoadWorkflowLogEntries(
         {jobDescriptionId: this.jobDescription.JobDescriptionId, jobDescriptionRevision: this.jobDescription.JobDescriptionRevision}));
     }

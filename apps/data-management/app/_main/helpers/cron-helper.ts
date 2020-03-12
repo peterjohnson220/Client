@@ -18,6 +18,8 @@ const weeksOfMonth: Array<{text: string, value: string}> = [
 const dailyCronExpression = /^.+\* \* \*$/;
 const weeklyCronExpression = /^.+\* \* [0123456]$/;
 const monthlyCronExpression = /^.+ \* \* [0123456]#[1234]$/;
+const uponPublishCronExpression = /^1 2 3 4 5$/;
+const junkExpression = '59 23 31 12 *';
 
 export function getWeeklyShortSummaryFromExpression(expression: string): string {
   const cronArray = expression.split(' ');
@@ -45,7 +47,9 @@ export {
   weeksOfMonth,
   dailyCronExpression,
   weeklyCronExpression,
-  monthlyCronExpression
+  monthlyCronExpression,
+  junkExpression,
+  uponPublishCronExpression
 };
 
 

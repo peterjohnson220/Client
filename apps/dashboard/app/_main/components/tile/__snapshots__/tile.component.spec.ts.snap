@@ -2,9 +2,14 @@
 
 exports[`Tile should show tile preview chart when that type is given 1`] = `
 <pf-tile
+  clientAppRoot={[Function String]}
+  enableCoreJdmInClient="null"
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   highlightMarketingContent="false"
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
+  settingsService={[Function SettingsService]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
@@ -44,9 +49,14 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
 
 exports[`Tile should show tile preview icon when that type is given 1`] = `
 <pf-tile
+  clientAppRoot={[Function String]}
+  enableCoreJdmInClient="null"
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   highlightMarketingContent="false"
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
+  settingsService={[Function SettingsService]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
@@ -86,9 +96,14 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
 
 exports[`Tile should show tile preview list when that type is given 1`] = `
 <pf-tile
+  clientAppRoot={[Function String]}
+  enableCoreJdmInClient="null"
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   highlightMarketingContent="false"
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
+  settingsService={[Function SettingsService]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >

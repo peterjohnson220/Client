@@ -6,37 +6,28 @@
 
   <pf-filter-section
     class="filter-section"
-    [filter]="singledFilter$ | async"
-    [ngSwitch]="(singledFilter$| async)?.Type"
+    [filter]="filter$ | async"
+    [ngSwitch]="(filter$| async)?.Type"
     [overriddenSelectionCount]="selectionCount$ | async"
     [singled]="true"
     [searchValue]="searchValue$ | async"
     (clear)="handleClearSection($event)"
     (searchValueChanged)="handleSearchValueChanged($event)">
-
-    <pf-async-container
-      [loading]="loadingOptions$ | async"
-      [spinnerType]="'GIF'"
-      [loadingError]="loadingOptionsError$ | async"
-      [loadingErrorMessage]="'Error.'"
-      [hideReloadButton]="true"
-      [smartLoadingMask]="true">
-
+    <pf-infinite-scroll [scrollId]="scrollId" [numberOfCurrentResults]="numberOfCurrentResults">
       <ng-container *ngSwitchCase="filterTypes.Multi">
-      <pf-multi-select-filter
-        [filter]="singledFilter$ | async"
-        (optionSelected)="handleMultiSelectOptionSelected($event)">
-      </pf-multi-select-filter>
+        <pf-multi-select-filter
+          [filter]="filter$ | async"
+          (optionSelected)="handleMultiSelectOptionSelected($event)">
+        </pf-multi-select-filter>
       </ng-container>
 
       <ng-container *ngSwitchCase="filterTypes.FilterableMulti">
         <pf-filterable-multi-select-filter
-          [filter]="singledFilter$ | async"
+          [filter]="filter$ | async"
           (optionSelected)="handleMultiSelectOptionSelected($event)">
         </pf-filterable-multi-select-filter>
       </ng-container>
-
-    </pf-async-container>
+    </pf-infinite-scroll>
 
   </pf-filter-section>
 </div>

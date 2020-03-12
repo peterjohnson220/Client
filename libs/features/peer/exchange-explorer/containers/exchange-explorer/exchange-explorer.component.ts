@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { PayMarket } from 'libs/models/paymarket';
 import { SearchBase } from 'libs/features/search/containers/search-base';
 import { ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeJobExchangeDetail } from 'libs/features/peer/models';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
@@ -17,10 +18,6 @@ import * as fromExchangeExplorerReducer from '../../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';
 import * as fromExchangeFilterContextActions from '../../actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerDataCutsActions from '../../actions/exchange-data-cut.actions';
-
-import { ExchangeJobExchangeDetail } from '../../../models';
-
-
 
 @Component({
   selector: 'pf-exchange-explorer',
@@ -46,6 +43,8 @@ export class ExchangeExplorerComponent extends SearchBase {
   searchingChildFilters$: Observable<boolean>;
 
   exchangeId: number;
+  companyJobId: number;
+  cutGuid: string;
 
   constructor(
     private exchangeExplorerStore: Store<fromExchangeExplorerReducer.State>,
@@ -85,6 +84,23 @@ export class ExchangeExplorerComponent extends SearchBase {
   }
 
   handleExchangeJobSelected(payload: {exchangeJobId: number, similarExchangeJobIds: number[]}): void {
+    // We want to refresh the paymarket context if the exchange job is changed.
+    if (!!this.companyJobId && !!this.companyPayMarketId) {
+      const systemFilterRequest = {
+        companyJobId: this.companyJobId,
+        companyPayMarketId: this.companyPayMarketId,
+        exchangeJobId: payload.exchangeJobId
+      };
+      this.store.dispatch(new fromExchangeExplorerContextInfoActions.RefreshPayMarketContext(systemFilterRequest));
+    }
+    if (!!this.companyJobId && !!this.cutGuid) {
+      const systemFilterRequest = {
+        companyJobId: this.companyJobId,
+        exchangeJobId: payload.exchangeJobId,
+        cutGuid: this.cutGuid,
+      };
+      this.store.dispatch(new fromExchangeExplorerContextInfoActions.RefreshPayMarketContext(systemFilterRequest));
+    }
     this.store.dispatch(new fromExchangeFilterContextActions.SetExchangeJobSelection(payload));
   }
 
@@ -103,9 +119,11 @@ export class ExchangeExplorerComponent extends SearchBase {
   onSetContext(payload: any) {
     if (!!payload.cutGuid && payload.cutGuid !== '') {
       const systemFilterRequest = {exchangeDataCutGuid: payload.cutGuid, companyJobId: payload.companyJobId};
+      this.cutGuid = payload.cutGuid;
       this.store.dispatch(new fromExchangeExplorerDataCutsActions.LoadExchangeDataCut(systemFilterRequest));
       return;
     }
+    this.companyJobId = payload.companyJobId;
     this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
       this.exchangeId = payload.exchangeId;

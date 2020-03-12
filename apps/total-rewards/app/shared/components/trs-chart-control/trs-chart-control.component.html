@@ -1,0 +1,20 @@
+<div>
+  <h3>{{controlData.Title}}</h3>
+  <kendo-chart [seriesColors]="companyColors" style="height: 250px">
+    <kendo-chart-area background=""></kendo-chart-area>
+    <kendo-chart-series>
+      <kendo-chart-series-item
+        [autoFit]="true"
+        type="donut"
+        [data]="employee.compensationData"
+        categoryField="category"
+        field="value">
+        <kendo-chart-series-item-labels
+          position="outsideEnd"
+          color="#333333"
+          [content]="labelContent">
+        </kendo-chart-series-item-labels>
+      </kendo-chart-series-item>
+    </kendo-chart-series>
+  </kendo-chart>
+</div>

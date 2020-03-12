@@ -3442,10 +3442,11 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/employees/styles.scss"
+              "apps/employees/styles.scss",
+              "apps/employees/outside-view-encapsulation.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js",
+              "assets/js/pendo.js"
             ]
           },
           "configurations": {

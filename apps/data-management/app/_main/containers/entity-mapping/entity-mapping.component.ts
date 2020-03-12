@@ -19,6 +19,8 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
 
   @Input() entityType: string;
   @Input() entityGroupName = 'associated-bag';
+  @Input() sourceName: string;
+  @Input() targetName: string;
 
   private providerSearchTerm = '';
   private payfactorsSearchTerm = '';

@@ -62,17 +62,17 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapFormValuesToCredentialsPackage(request: any, providerCode: string, selectedEntities: EntityTypeModel[]): CredentialsPackage {
+  static mapFormValuesToCredentialsPackage(request: any, connectionSummary: ConnectionSummary): CredentialsPackage {
     const c = {
-      providerCode: providerCode,
-      syncEmployees: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.Employees) > -1,
-      syncJobs: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.Jobs) > -1,
-      syncPaymarkets: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.PayMarkets) > -1,
-      syncStructures: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.Structures) > -1,
-      syncStructureMappings: selectedEntities.findIndex(s => s.EntityType === OrgDataEntityType.StructureMappings) > -1
+      providerCode: connectionSummary.provider.ProviderCode,
+      syncEmployees: connectionSummary.selectedEntities.includes(OrgDataEntityType.Employees),
+      syncJobs: connectionSummary.selectedEntities.includes(OrgDataEntityType.Jobs),
+      syncPaymarkets: connectionSummary.selectedEntities.includes(OrgDataEntityType.PayMarkets),
+      syncStructures: connectionSummary.selectedEntities.includes(OrgDataEntityType.Structures),
+      syncStructureMappings: connectionSummary.selectedEntities.includes(OrgDataEntityType.StructureMappings),
     } as CredentialsPackage;
 
-    switch (providerCode) {
+    switch (connectionSummary.provider.ProviderCode) {
       case 'WORKDAY':
       case 'WDMOCK':
         return {
@@ -145,7 +145,8 @@ export class PayfactorsApiModelMapper {
       mappingPayload: {
         items: Object.entries(request)
           .map(([entityType, fields]) => this.getMappingsForEntity(entityType, fields))
-          .filter( mpi => mpi.mappings.length > 0)
+          .filter( mpi => mpi.mappings.length > 0
+            && mpi.orgDataEntityType !== OrgDataEntityType.JobDescriptions ) // TODO: Remove this once we start on actual outbound integration
       }
     };
   }
@@ -235,7 +236,7 @@ export class PayfactorsApiModelMapper {
       hasConnection: connectionSummary.hasConnection,
       canEditMappings: connectionSummary.canEditMappings,
       statuses: connectionSummary.statuses,
-      selectedEntities: connectionSummary.selectedEntities,
+      selectedEntities: connectionSummary.selectedEntities.map(e => OrgDataEntityType[e]),
       connectionID: connectionSummary.connection_ID
     };
   }

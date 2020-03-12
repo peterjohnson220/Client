@@ -6,12 +6,13 @@ import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, switchMap, withLatestFrom, map } from 'rxjs/operators';
 
 import { SearchResponse, PricingMatchesRequest, PricingMatchesResponse } from 'libs/models/payfactors-api';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
-import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
 import { PayfactorsSurveySearchApiHelper, createPricingMatchesRequest, PayfactorsSurveySearchApiModelMapper } from '../helpers';
@@ -66,7 +67,10 @@ export class SurveySearchEffectsService {
                   keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions
                 }));
                 if (l.action.payload && l.action.payload.searchAggregation) {
-                  actions.push(new fromSingledFilterActions.SearchAggregation());
+                  const scrollPayload = {
+                    scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER
+                  };
+                  actions.push(new fromInfiniteScrollActions.Load(scrollPayload));
                 }
               }
 

@@ -1,0 +1,27 @@
+@import "app-colors";
+
+.canvas {
+  margin-left: auto;
+  margin-right: auto;
+  width: 85%;
+  background: $trs-canvas-background-color;
+}
+
+.header-row {
+  background-color: #434950;
+  color: #D9DADC;
+  padding: 15px 20px 5px 20px;
+  display: flex;
+}
+
+.header-row-buttons {
+  align-self: flex-end;
+  flex-basis: 20%;
+}
+
+h3 {
+  min-width: 250px;
+  max-width: 80%;
+  flex-basis: 80%;
+  font-weight: initial;
+}

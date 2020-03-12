@@ -23,6 +23,7 @@ import { reducers } from './reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from './helpers';
 import { SearchFiltersEffects, SearchPageEffects } from './effects';
 import { SearchEffectsService } from './services';
+import {PfInfiniteScrollModule} from '../infinite-scroll';
 
 const declarations = [
   // Components
@@ -43,6 +44,7 @@ const declarations = [
     PfFormsModule,
     PfCommonUIModule,
     PfUserFilterModule,
+    PfInfiniteScrollModule,
 
     // 3rd Party
     StoreModule.forFeature('feature_search', reducers),

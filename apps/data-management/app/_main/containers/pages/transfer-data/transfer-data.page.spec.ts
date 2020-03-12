@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
@@ -21,16 +21,15 @@ describe('Data Management - Main - Transfer Data Page', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           transferDataMain: combineReducers(fromDataManagementMainReducer.reducers),
-        })
+        }),
+        RouterTestingModule.withRoutes([{
+          path: '**',
+          redirectTo: '',
+        }]),
       ],
-      providers: [
-        {
-          provide: Router,
-          useValue: { navigate: jest.fn() },
-        }
-      ],
+      providers: [],
       declarations: [
-        TransferDataPageComponent
+        TransferDataPageComponent,
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -42,22 +41,8 @@ describe('Data Management - Main - Transfer Data Page', () => {
     fixture.detectChanges();
   });
 
-  it('should dispatch init action when page is initialized', () => {
-    spyOn(store, 'dispatch');
-
-    instance.ngOnInit();
-    fixture.detectChanges();
-
-    const expectedInitAction = new fromTransferDataPageActions.Init();
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedInitAction);
+  it('should create', () => {
+    expect(instance).toBeTruthy();
   });
 
-  it('should dispatch an action when cancel button is clicked', () => {
-    spyOn(store, 'dispatch');
-
-    instance.cancelTransferDataWorkflow();
-
-    const expectedResetWorkflowAction = new fromTransferDataPageActions.ResetTransferDataPageWorkflow();
-    expect(store.dispatch).toHaveBeenCalledWith(expectedResetWorkflowAction);
-  });
 });

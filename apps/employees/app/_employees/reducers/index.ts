@@ -30,8 +30,12 @@ export const selectEmployeesPageState = createSelector(
 );
 
 // Employees Page
-export const loading = createSelector(
+export const getPricingJobs = createSelector(
   selectEmployeesPageState,
-  fromEmployeesPageReducer.getLoading
+  fromEmployeesPageReducer.getPricingJobs
 );
 
+export const getPricingsJobsError = createSelector(
+  selectEmployeesPageState,
+  fromEmployeesPageReducer.getPricingsJobsError
+);

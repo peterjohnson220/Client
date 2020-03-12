@@ -39,6 +39,11 @@ export const LOAD_MAPPED_FIELDS = '[Data Management/Field Mappings] Load Mapped 
 export const LOAD_MAPPED_FIELDS_ERROR = '[Data Management/Field Mappings] Load Mapped Fields Error';
 export const LOAD_MAPPED_FIELDS_SUCCESS = '[Data Management/Field Mappings] Load Mapped Fields Success';
 
+// outbound jdm actions, delete me
+export const SAVE_OUTBOUND_MAPPINGS = '[Data Management/Field Mappings] Save Outbound JDM Mappings';
+export const SAVE_OUTBOUND_MAPPING_SUCCESS = '[Data Management/Field Mappings] Save Outbound JDM Mappings Success';
+
+
 export class InitFieldMappingCard implements Action {
   readonly type = INIT_FIELD_MAPPING_CARD;
 
@@ -191,6 +196,19 @@ export class LoadMappedFieldsSucces implements Action {
   constructor(public payload: { payfactorsFields: EntityField, providerFields: EntityField }) {}
 }
 
+// outbound jdm actions, delete me
+export class SaveOutboundJdmFieldMappings implements Action {
+  readonly type = SAVE_OUTBOUND_MAPPINGS;
+
+  constructor() {}
+}
+export class SaveOutboundJdmFieldMappingsSuccess implements Action {
+  readonly type = SAVE_OUTBOUND_MAPPING_SUCCESS;
+
+  constructor(public payload) {}
+}
+
+
 export type Actions
  = InitFieldMappingCard
  | InitFieldMappingCardError
@@ -216,4 +234,6 @@ export type Actions
  | LoadCustomFieldsByEntitySuccess
  | LoadMappedFields
  | LoadMappedFieldsError
- | LoadMappedFieldsSucces;
+ | LoadMappedFieldsSucces
+ | SaveOutboundJdmFieldMappings
+ | SaveOutboundJdmFieldMappingsSuccess;

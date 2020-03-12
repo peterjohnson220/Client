@@ -7,5 +7,7 @@ export const countryFlagMap = {
   'IRL': 'ie',
   'AUS': 'au',
   'DEU': 'de',
-  'CHN': 'cn'
+  'CHN': 'cn',
+  'IND': 'in',
+  'SGP': 'sg',
 };

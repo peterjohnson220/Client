@@ -1,0 +1,19 @@
+<pf-page-with-title-bar>
+
+  <ng-container page-title>
+    <fa-icon class="mr-2" [icon]="'dollar-sign'" aria-hidden="true"></fa-icon>Total Rewards Statements
+  </ng-container>
+
+  <ng-container page-actions>
+    <pf-input-debounce
+      class="mr-2"
+      (valueChanged)="onSearchTermChange($event)"
+      [placeholderText]="'Search...'"
+      [automationClassName]="'au-tb-search'">
+    </pf-input-debounce>
+  </ng-container>
+
+  <ng-container page-content>
+    <pf-statements-grid></pf-statements-grid>
+  </ng-container>
+</pf-page-with-title-bar>

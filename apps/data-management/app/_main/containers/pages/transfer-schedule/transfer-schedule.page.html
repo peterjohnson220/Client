@@ -10,7 +10,10 @@
         <div class="col-sm-4">
           <pf-transfer-schedule-card
             [transferSchedule]="item"
-            (changesPending)="updateCanFinish(i, $event)">
+            (changesPending)="updateCanFinish(i, $event)"
+            (scheduleDisableSubmitted)="disableSchedule($event)"
+            (scheduleEnableSubmitted)="enableSchedule($event)"
+            (scheduleSaveSubmitted)="saveSchedule($event)">
           </pf-transfer-schedule-card>
         </div>
       </ng-container>

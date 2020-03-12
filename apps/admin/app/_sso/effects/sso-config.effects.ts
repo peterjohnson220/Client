@@ -25,6 +25,20 @@ export class SsoConfigEffects {
       )
     );
 
+  @Effect()
+  getSsoConfigs$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSsoConfigActions.GET_SSO_CONFIGURATIONS),
+      switchMap((action: fromSsoConfigActions.GetSsoConfiguration) =>
+      this.ssoConfigApiService.getSsoConfigurations().pipe(
+        map((response: any) => {
+          return new fromSsoConfigActions.GetSsoConfigurationSuccess(response);
+        }),
+        catchError( error => of(new fromSsoConfigActions.GetSsoConfigurationError()))
+      )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private ssoConfigApiService: SsoConfigApiService

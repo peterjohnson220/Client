@@ -1,0 +1,67 @@
+@import '../../../../search/styles/shared-variables';
+@import '../../../../search/styles/shared-styles';
+
+.page {
+  height: 100%;
+}
+
+.create-new-job{
+  display: flex;
+  align-items: center;
+  margin-left: .5rem;
+  height: $results-header-height;
+
+  .fa-plus {
+    margin-right: .15rem;
+  }
+}
+
+:host ::ng-deep pf-search-filters .filters{
+  @extend %position-below-results-header
+}
+
+:host ::ng-deep pf-search-results .results {
+  width: 100%;
+}
+
+pf-paymarkets {
+  @extend %position-below-results-header;
+  width: 32.5% !important;
+  right: 0;
+}
+
+:host ::ng-deep .content .actions-container {
+  width: 100%;
+}
+
+.clear-selections{
+  position: absolute;
+  left: 0;
+  margin-left: 1rem;
+}
+
+.error-adding-jobs {
+  font-weight: bold;
+}
+
+::ng-deep .modal-body {
+  padding: 0.15rem 0.15rem 0.15rem 0.25rem;
+}
+
+::ng-deep .modal-lg{
+  max-width: 1000px;
+
+  .modal-content {
+    height: 100%;
+
+    .modal-content {
+      height: auto;
+      margin: 0.2rem;
+    }
+
+    .modal-dialog {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

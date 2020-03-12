@@ -9,7 +9,11 @@ export const CLEAR_RESULTS = '[Search/Search Results] Clear Results';
 
 export class GetResults implements Action {
   readonly type = GET_RESULTS;
-  constructor(public payload: { keepFilteredOutOptions: boolean, searchAggregation?: boolean }) {}
+  constructor(public payload: {
+    keepFilteredOutOptions: boolean,
+    searchAggregation?: boolean,
+    getSingledFilteredAggregates?: boolean,
+    getChildFilteredAggregates?: boolean }) {}
 }
 
 export class GetResultsSuccess implements Action {

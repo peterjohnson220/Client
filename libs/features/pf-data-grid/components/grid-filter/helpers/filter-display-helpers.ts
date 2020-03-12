@@ -19,10 +19,19 @@ export function getValueDisplay(value: string, dataType: DataViewFieldDataType) 
   let display = value;
 
   switch (dataType) {
-    case DataViewFieldDataType.DateTime:
+    case DataViewFieldDataType.DateTime: {
       const dateFormatPipe = new DatePipe('en-US');
-      display = dateFormatPipe.transform(display, 'MM/DD/YYYY');
+      display = `${display}T00:00:00`;
+      const isValidDate = !isNaN(Date.parse(display));
+      display = isValidDate ? dateFormatPipe.transform(new Date(display), 'MM/dd/yyyy') : '';
       break;
+    }
+    case DataViewFieldDataType.Bit: {
+      if (display && !!display.length) {
+        display = display === 'true' ? 'Yes' : 'No';
+      }
+      break;
+    }
   }
   return display;
 }

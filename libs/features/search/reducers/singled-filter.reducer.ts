@@ -5,15 +5,11 @@ import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import { Filter } from '../models';
 
 export interface State {
-  loadingOptions: boolean;
-  loadingOptionsError: boolean;
   filter: Filter;
   searchValue: string;
 }
 
 const initialState: State = {
-  loadingOptions: false,
-  loadingOptionsError: false,
   filter: null,
   searchValue: ''
 };
@@ -49,42 +45,31 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
         filter: filterCopy
       };
     }
-    case fromSingledFilterActions.SEARCH_AGGREGATION: {
-      return {
-        ...state,
-        loadingOptions: true,
-        loadingOptionsError: false
-      };
-    }
-    case fromSingledFilterActions.SEARCH_AGGREGATION_ERROR: {
-      return {
-        ...state,
-        loadingOptions: false,
-        loadingOptionsError: true
-      };
-    }
-    case fromSingledFilterActions.SEARCH_AGGREGATION_SUCCESS: {
+    case fromSingledFilterActions.SET_SINGLED_FILTER_OPTIONS: {
       const filterCopy = cloneDeep(state.filter);
-      filterCopy.Options = cloneDeep(action.payload.newOptions);
+      const serverOptions = cloneDeep(action.payload.newOptions);
+      const clientOptions = action.payload.replaceClientOptions ? [] : filterCopy.Options;
+      const newOptions = serverOptions.filter(nO => clientOptions.findIndex(o => o.Value === nO.Value) < 0);
+      const finalOptions = clientOptions.concat(newOptions);
+
       let subFilter;
 
       if (action.payload.subFilters) {
        subFilter = cloneDeep(action.payload.subFilters).filter(x => x.ParentBackingField === filterCopy.BackingField)[0];
         if (subFilter) {
-          filterCopy.Options.forEach(o => {
+          finalOptions.forEach(o => {
             o.SelectionsCount = subFilter.Options.filter( op => JSON.parse(op.Value).ParentOptionValue === o.Value && op.Selected).length;
           });
         }
       }
 
-      filterCopy.Options = filterCopy.Options.map(o => {
+      filterCopy.Options = finalOptions.map(o => {
         o.Selected = action.payload.currentSelections.some(so => so.Value === o.Value);
         return o;
       });
 
       return {
         ...state,
-        loadingOptions: false,
         filter: filterCopy
       };
     }
@@ -138,6 +123,4 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
 
 // Selector functions
 export const getFilter = (state: State) => state.filter;
-export const getLoadingOptions = (state: State) => state.loadingOptions;
-export const getLoadingOptionsError = (state: State) => state.loadingOptionsError;
 export const getSearchValue = (state: State) => state.searchValue;

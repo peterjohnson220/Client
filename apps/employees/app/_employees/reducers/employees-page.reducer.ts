@@ -1,36 +1,39 @@
 // Import all exports from our feature's actions
-import * as fromFeatureActions from '../actions/employees-page.actions';
+import * as fromEmployeesPageActions from '../actions/employees-page.actions';
 
 // Define our feature state
 export interface State {
-  loading: boolean;
-  loadingError: boolean;
+  pricingJobs: boolean;
+  pricingJobsError: boolean;
 }
 
 // Define our initial state
 const initialState: State = {
-  loading: false,
-  loadingError: false
+  pricingJobs: false,
+  pricingJobsError: false
 };
 
 
 // Reducer function
-export function reducer(
-  state = initialState,
-  action: fromFeatureActions.Actions
-): State {
+export function reducer(state = initialState, action: fromEmployeesPageActions.Actions): State {
   switch (action.type) {
-    case fromFeatureActions.LOADING: {
+    case fromEmployeesPageActions.PRICE_JOBS: {
       return {
         ...state,
-        loading: true,
+        pricingJobs: true
       };
     }
-    case fromFeatureActions.LOADING_ERROR: {
+    case fromEmployeesPageActions.PRICE_JOBS_ERROR: {
       return {
         ...state,
-        loading: false,
-        loadingError: true
+        pricingJobsError: true
+      };
+    }
+    case fromEmployeesPageActions.RESET_PRICING_JOBS_STATUS: {
+      return {
+        ...state,
+        pricingJobs: false,
+        pricingJobsError: false
       };
     }
     default: {
@@ -40,5 +43,5 @@ export function reducer(
 }
 
 // Selector functions
-export const getLoading = (state: State) => state.loading;
-export const getLoadingError = (state: State) => state.loadingError;
+export const getPricingJobs = (state: State) => state.pricingJobs;
+export const getPricingsJobsError = (state: State) => state.pricingJobsError;

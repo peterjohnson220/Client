@@ -89,5 +89,12 @@ export class CompanyJobApiService {
       return this.payfactorsApiService.get(`${this.endpoint}/Default.GetJobsByFamilyWithTemplate`,
         {params: {jobFamily: jobFamily, templateId: templateId}});
   }
+
+  getAll(fields: string[]): Observable<CompanyJob[]> {
+    const fieldOptions = {
+      $select: fields.join()
+    };
+    return this.payfactorsApiService.get<CompanyJob[]>(`${this.endpoint}`, { params: fieldOptions });
+  }
 }
 

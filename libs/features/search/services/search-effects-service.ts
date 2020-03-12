@@ -5,10 +5,11 @@ import { Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
 
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 
 import * as fromSearchResultsActions from '../actions/search-results.actions';
-import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromSearchReducer from '../reducers';
 
 @Injectable()
@@ -19,13 +20,28 @@ export class SearchEffectsService {
       withLatestFrom(
         this.store.select(fromSearchReducer.getSearchingFilter),
         this.store.select(fromSearchReducer.getSingledFilter),
-        (action: any, searchingFilter, singledFilter) => ({ action, searchingFilter, singledFilter })
+        this.store.select(fromSearchReducer.getSearchingChildFilter),
+        this.store.select(fromSearchReducer.getChildFilter),
+        (action: any, searchingFilter, singledFilter, searchingChildFilter, childFilter) =>
+          ({ action, searchingFilter, singledFilter, searchingChildFilter, childFilter })
       ),
       mergeMap(data => {
         const actions = [];
+        const isClearAllAction = !data.action.payload;
 
         if (data.searchingFilter && data.singledFilter.Id !== data.action.payload.filterId) {
-          actions.push(new fromSingledFilterActions.SearchAggregation());
+          // TODO: Should this be load more?
+          const scrollPayload = {
+            scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER
+          };
+          actions.push(new fromInfiniteScrollActions.Load(scrollPayload));
+        }
+
+        if (data.searchingChildFilter && (isClearAllAction || data.childFilter.Id !== data.action.payload.filterId)) {
+          const scrollPayload = {
+            scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER
+          };
+          actions.push(new fromInfiniteScrollActions.Load(scrollPayload));
         }
 
         actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }));

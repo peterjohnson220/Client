@@ -1,6 +1,7 @@
 import { Input, Output, EventEmitter, Component, OnChanges, SimpleChanges } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
+import { IntlService } from '@progress/kendo-angular-intl';
 
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 
@@ -29,11 +30,13 @@ export class FilterBuilderComponent implements OnChanges {
     value: null
   }, {
     display: 'Yes',
-    value: 'Yes'
+    value: 'true'
   }, {
     display: 'No',
-    value: 'No'
+    value: 'false'
   }];
+
+  constructor(private intlService: IntlService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.viewField) {
@@ -51,6 +54,9 @@ export class FilterBuilderComponent implements OnChanges {
 
   handleFilterValueChanged(event) {
     this.field.FilterValue = event === null ? event : event.toString();
+    if (this.field.DataType === DataViewFieldDataType.DateTime) {
+      this.field.FilterValue = this.intlService.formatDate(event, 'yyyy-MM-dd');
+    }
     this.filterChanged.emit(this.field);
   }
 
@@ -67,4 +73,9 @@ export class FilterBuilderComponent implements OnChanges {
       return false;
     }
   }
+
+  getDateTimeValue(): Date {
+    return (this.field.FilterValue ? this.intlService.parseDate(this.field.FilterValue) : null);
+  }
+
 }

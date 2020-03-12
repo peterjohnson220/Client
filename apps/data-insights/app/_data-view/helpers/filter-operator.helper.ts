@@ -4,7 +4,7 @@ import {
   FilterOperator, Equals,
   Between, IsAfter, IsBefore, Is,
   LessThan, GreaterThan, GreaterThanOrEqual, LessThanOrEqual,
-  FieldDataType, IsTrueFalse, Contains, DoesNotContain, DoesNotEqual
+  FieldDataType, IsTrueFalse, Contains, DoesNotContain, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty
 } from '../models';
 
 export class FilterOperatorHelper {
@@ -37,6 +37,12 @@ export class FilterOperatorHelper {
       }
       case DoesNotEqual.Value: {
         return DoesNotEqual;
+      }
+      case IsNullOrEmpty.Value: {
+        return IsNullOrEmpty;
+      }
+      case IsNotNullOrEmpty.Value: {
+        return IsNotNullOrEmpty;
       }
       default: {
         return Equals;

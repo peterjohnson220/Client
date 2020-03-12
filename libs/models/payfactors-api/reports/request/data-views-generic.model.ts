@@ -1,9 +1,10 @@
-import { DataViewFieldDataType, DataViewFilter } from './data-view-data-request.model';
+import { DataViewFieldDataType, DataViewField, DataViewFilter } from './data-view-data-request.model';
 
 export interface DataViewConfig {
   Entity: DataViewEntity;
   Fields: ViewField[];
   Name: string;
+  ExportViewId: number;
 }
 
 export interface SimpleDataView {
@@ -58,12 +59,13 @@ export interface ViewField {
   FilterOperator: string;
 }
 
-export interface SaveDataViewRequest {
+export interface DataView {
   EntityId: number;
   PageViewId: string;
-  Elements: any[];
-  Filters: any[];
-  Type: DataViewType;
+  Elements: DataViewField[];
+  Filters: DataViewFilter[];
+  Name?: string;
+  Type?: DataViewType;
 }
 
 export enum DataViewType {

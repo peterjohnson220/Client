@@ -4,6 +4,11 @@
 @import 'colors';
 @import 'common/common-variables';
 
+@font-face {
+  font-family: "DejaVu Sans";
+  src: url("/client/comphub/assets/fonts/DejaVuSans.ttf");
+}
+
 %label {
   font-size: .85rem;
   text-transform: uppercase;
@@ -255,6 +260,17 @@
 
         .actions {
           display: none !important;
+        }
+      }
+    }
+    .graphs {
+      .g {
+        .v {
+          .currency {
+            font-family: "DejaVu Sans", sans-serif;
+            position: relative;
+            bottom: 4px;
+          }
         }
       }
     }

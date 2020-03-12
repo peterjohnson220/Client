@@ -143,10 +143,12 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
         isDirty: true
       };
     }
+    case fromFieldMappingActions.SAVE_OUTBOUND_MAPPINGS:
     case fromFieldMappingActions.SAVE_MAPPING: {
       return {
         ...state,
         saving: true,
+        savingError: false,
       };
     }
     case fromFieldMappingActions.SAVE_MAPPING_ERROR: {
@@ -156,10 +158,12 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
         savingError: true,
       };
     }
+    case fromFieldMappingActions.SAVE_OUTBOUND_MAPPING_SUCCESS:
     case fromFieldMappingActions.SAVE_MAPPING_SUCCESS: {
       return {
         ...state,
         saving: false,
+        savingError: false,
         isDirty: false
       };
     }

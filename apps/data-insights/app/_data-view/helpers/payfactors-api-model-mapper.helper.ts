@@ -206,7 +206,7 @@ export class PayfactorsApiModelMapper {
       const field = this.mapDataViewFieldToField(dataViewField);
       return {
         Field: field,
-        SelectedOptions: filter.Values,
+        SelectedOptions: filter.Values && filter.Values.length  && filter.Values[0] === null ? [] : filter.Values,
         Operator: FilterOperatorHelper.getFilterOperatorByDataType(field.DataType, filter),
         Options: [],
         IsValid: true

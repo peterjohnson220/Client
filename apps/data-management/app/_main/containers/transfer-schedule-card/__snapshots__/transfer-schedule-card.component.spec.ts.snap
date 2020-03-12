@@ -5,7 +5,9 @@ exports[`TransferScheduleCardComponent should show a saveable form if the summar
   active={[Function Boolean]}
   changesPending={[Function EventEmitter]}
   editMode={[Function Boolean]}
-  store={[Function MockStore]}
+  scheduleDisableSubmitted={[Function EventEmitter]}
+  scheduleEnableSubmitted={[Function EventEmitter]}
+  scheduleSaveSubmitted={[Function EventEmitter]}
   transferSchedule={[Function Object]}
 >
   <div
@@ -65,7 +67,9 @@ exports[`TransferScheduleCardComponent should show an empty form if summary has 
   active={[Function Boolean]}
   changesPending={[Function EventEmitter]}
   editMode={[Function Boolean]}
-  store={[Function MockStore]}
+  scheduleDisableSubmitted={[Function EventEmitter]}
+  scheduleEnableSubmitted={[Function EventEmitter]}
+  scheduleSaveSubmitted={[Function EventEmitter]}
   transferSchedule={[Function Object]}
 >
   <div

@@ -11,7 +11,7 @@ import * as fromFieldMappingActions from '../../../actions/field-mapping.actions
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 import { FieldMappingPageComponent } from './field-mapping.page';
 
-describe('Data Management - Main - Transfer Data Page', () => {
+describe('Data Management - Main - Transfer Data - Inbound Field Mapping Page', () => {
   let instance: FieldMappingPageComponent;
   let fixture: ComponentFixture<FieldMappingPageComponent>;
   let store: Store<fromDataManagementMainReducer.State>;

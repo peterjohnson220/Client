@@ -126,6 +126,10 @@ export const getExchangeJobFilterOptions = createSelector(
   selectExchangeExplorerContextInfo,
   fromExchangeExplorerContextInfoReducer.getExchangeJobFilterOptions
 );
+export const getExchangeExplorerPayMarketGeoData = createSelector(
+  selectExchangeExplorerContextInfo,
+  fromExchangeExplorerContextInfoReducer.getPayMarketGeoData
+);
 
 // Exchange Filter Context Selectors
 export const getFilterContextLimitToPayMarket = createSelector(
