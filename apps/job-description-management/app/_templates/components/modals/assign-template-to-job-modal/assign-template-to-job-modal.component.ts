@@ -109,6 +109,7 @@ export class AssignTemplateToJobModalComponent implements OnInit, OnDestroy {
 
   open() {
     this.getCollectionOfJobsWithFamily('');
+    this.setActiveTab('Assign');
     this.modalRef = this.modalService.open(this.assignModal, { backdrop: 'static', size: 'lg' });
   }
 

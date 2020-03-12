@@ -25,4 +25,8 @@ export class TotalRewardsApiService {
   createStatement(params: { Name: string, TemplateId: number }): Observable<number> {
     return this.payfactorsApiService.post<number>(`${this.endpoint}/CreateStatement`, params);
   }
+
+  getStatementFromId(statementId: number): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementFromId`, {params: { statementId }});
+  }
 }

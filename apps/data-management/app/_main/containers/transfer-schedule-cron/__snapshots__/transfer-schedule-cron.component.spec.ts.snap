@@ -10,6 +10,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a dai
   defaultDay={[Function Object]}
   id={[Function Number]}
   monthlyChecked="false"
+  uponPublishChecked="false"
   weeklyChecked="false"
   weeksOfMonth={[Function Array]}
 >
@@ -30,6 +31,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a dai
             </b>
           </h4>
         </div>
+        
         
         
         
@@ -63,6 +65,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a mon
   monthlyChecked={[Function Boolean]}
   monthlyDayValue={[Function String]}
   monthlyWeekOfMonthValue={[Function String]}
+  uponPublishChecked="false"
   weeklyChecked="false"
   weeksOfMonth={[Function Array]}
 >
@@ -88,6 +91,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a mon
              of the month
           </h4>
         </div>
+        
         
         
         <div
@@ -116,6 +120,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
   defaultDay={[Function Object]}
   id={[Function Number]}
   monthlyChecked="false"
+  uponPublishChecked="false"
   weeklyChecked={[Function Boolean]}
   weeksOfMonth={[Function Array]}
 >
@@ -138,6 +143,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
             </b>
           </h4>
         </div>
+        
         
         
         
@@ -164,6 +170,7 @@ exports[`TransferScheduleCronComponent should have a good default state if no ex
   daysOfWeek={[Function Array]}
   defaultDay={[Function Object]}
   monthlyChecked="false"
+  uponPublishChecked="false"
   weeklyChecked="false"
   weeksOfMonth={[Function Array]}
 >
@@ -174,6 +181,7 @@ exports[`TransferScheduleCronComponent should have a good default state if no ex
       
       
       <div>
+        
         
         
         

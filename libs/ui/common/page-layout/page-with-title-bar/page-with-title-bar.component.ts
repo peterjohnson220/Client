@@ -30,7 +30,7 @@ export class PageWithTitleBarComponent {
 
   goBack() {
     if (this.goBackUsingBrowserHistory) {
-      this.location.back();
+      return this.location.back();
     }
 
     this.goBackToPreviousRoute

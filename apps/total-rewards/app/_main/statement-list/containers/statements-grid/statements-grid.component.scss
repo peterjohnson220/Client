@@ -1,0 +1,10 @@
+@import 'colors';
+
+.name-link {
+  color: $link-color;
+  cursor: pointer;
+}
+
+.name-link:hover {
+  text-decoration: $pf-brand-primary-color underline;
+}

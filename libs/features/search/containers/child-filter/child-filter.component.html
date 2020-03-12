@@ -8,20 +8,12 @@
     [additionalTitle]="childFilterName$ | async"
     (clear)="handleClearSection($event)"
     (searchValueChanged)="handleSearchValueChanged($event)">
-
-    <pf-async-container
-      [loading]="childLoadingOptions$ | async"
-      [spinnerType]="'GIF'"
-      [loadingError]="childLoadingOptionsError$ | async"
-      [loadingErrorMessage]="'Error.'"
-      [hideReloadButton]="true"
-      [smartLoadingMask]="true">
-
+    <pf-infinite-scroll [scrollId]="scrollId" [numberOfCurrentResults]="numberOfCurrentResults">
       <pf-multi-select-filter
         [filter]="filter$ | async"
         (optionSelected)="handleMultiSelectOptionSelected($event)">
       </pf-multi-select-filter>
 
-    </pf-async-container>
+    </pf-infinite-scroll>
   </pf-filter-section>
 </div>

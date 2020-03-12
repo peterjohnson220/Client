@@ -103,12 +103,12 @@ export function reducer(state = initialState, action: fromWorkflowActions.Action
       };
     }
     case fromWorkflowActions.GET_WORKFLOW_LINK_SUCCESS: {
-      return {
-        ...state,
-        workflowLinkLoading: false,
-        workflowLinkLoaded: true,
-        workflowLink: action.payload
-      };
+        return {
+          ...state,
+          workflowLinkLoading: false,
+          workflowLinkLoaded: true,
+          workflowLink: action.payload
+        };
     }
     case fromWorkflowActions.SAVING_WORKFLOW: {
       return {

@@ -25,7 +25,8 @@ export class ExchangeExplorerEffects {
         mergeMap((response) => {
           const actions: any[] = [
             new fromExchangeExplorerContextInfoActions.LoadContextInfoSuccess({
-              payMarket: response.PayMarket,
+              payMarket: response.PayMarketContext && response.PayMarketContext.PayMarket || null,
+              payMarketGeoData: response.PayMarketContext && response.PayMarketContext.PayMarketGeoData || null,
               exchangeJobFilterOptions: response.AssociatedExchangeJobFilterOptions,
               searchFilterMappingDataObj: response.SearchFilterMappingData
             }),
@@ -43,6 +44,23 @@ export class ExchangeExplorerEffects {
           return actions;
         }),
         catchError(() => of(new fromExchangeExplorerContextInfoActions.LoadContextInfoError))
+      )
+    )
+  );
+
+  @Effect()
+  refreshPayMarketContext$ = this.actions$.pipe(
+    ofType(fromExchangeExplorerContextInfoActions.REFRESH_PAYMARKET_CONTEXT),
+    map((action: fromExchangeExplorerContextInfoActions.RefreshPayMarketContext) => action.payload),
+    switchMap((payload) =>
+      this.exchangeDataSearchApiService.getPayMarketContextInfo(payload).pipe(
+        map(response => {
+            return new fromExchangeExplorerContextInfoActions.RefreshPayMarketContextSuccess({
+              payMarket: response.PayMarket,
+              payMarketGeoData: response.PayMarketGeoData
+            });
+        }),
+        catchError(() => of(new fromExchangeExplorerContextInfoActions.RefreshPayMarketContextError))
       )
     )
   );

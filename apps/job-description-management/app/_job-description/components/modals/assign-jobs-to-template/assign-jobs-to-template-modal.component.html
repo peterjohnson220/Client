@@ -1,7 +1,7 @@
-<ng-template #assignJobsToTemplateModal let-modal>
+<ng-template #assignJobsToTemplateModal>
   <div class="modal-header">
     <h4 class="modal-title">Assign to Template</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -20,12 +20,12 @@
     </div>
     <div class="form-group row">
       <label for="templateListInput" class="col-4 col-form-label">Template Name:</label>
-      <div class="col-8" [class.has-danger]="errorMessage">
+      <div class="col-8" [class.has-danger]="(assigningTemplateError$ | async)">
         <select id="templateListInput" class="form-control" [disabled]="templateListLoading$ | async" [(ngModel)]="templateId">
           <option [value]="-1"></option>
           <option *ngFor="let template of templateListItems$ | async" [value]="template.TemplateId">{{template.TemplateName}}</option>
         </select>
-        <span *ngIf="errorMessage" class="text-danger float-right">Job already assigned to template please refresh page</span>
+        <span *ngIf="(assigningTemplateError$ | async)" class="text-danger float-right">{{assigningTemplateErrorMessage$ | async}}</span>
       </div>
     </div>
     <ng-container *ngIf="canRestrictJobDescriptionFromPublicView">
@@ -41,7 +41,7 @@
     </ng-container>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
-    <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="templateId == -1 || (templateListLoading$ | async) || errorMessage">Assign</button>
+    <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+    <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="templateId == -1 || (templateListLoading$ | async) || (assigningTemplateError$ | async)">Assign</button>
   </div>
 </ng-template>

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Libs - Infinite Scroll -  should show a message, when loading more results 1`] = `
+<pf-infinite-scroll
+  error$={[Function Store]}
+  hasAllResults="false"
+  hasAllResults$={[Function Store]}
+  hasAllResultsSub={[Function Subscriber]}
+  loading$={[Function Store]}
+  loadingMore={[Function Boolean]}
+  loadingMore$={[Function Store]}
+  loadingMoreSub={[Function Subscriber]}
+  loadingSub={[Function Subscriber]}
+  resultsContainer={[Function ElementRef]}
+  scrollId={[Function String]}
+  spinnerType={[Function String]}
+  store={[Function Store]}
+>
+  <div
+    class="scroll-results"
+    infinite-scroll=""
+  >
+    <pf-async-container />
+    
+    <div
+      class="m-3"
+    >
+      <pf-loading-indicator />
+       Loading More Results... 
+    </div>
+  </div>
+</pf-infinite-scroll>
+`;

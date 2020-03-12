@@ -21,9 +21,12 @@ export class PayMarketApiService {
       .get<any>(`${this.endpoint}(${companyPayMarketId})`);
   }
 
-  getAll(): Observable<PayMarket[]> {
+  getAll(fields?: string[]): Observable<PayMarket[]> {
+    const fieldOptions = fields && fields.length ? {
+      $select: fields.join()
+    } : {};
     return this.payfactorsApiService
-      .get<PayMarket[]>(`${this.endpoint}`);
+      .get<PayMarket[]>(`${this.endpoint}`, { params: fieldOptions });
   }
 
   getAllByCountryCode(countryCode: string): Observable<PayMarket[]> {

@@ -1,0 +1,26 @@
+<pf-async-container [loading]="(summaryObj$ | async)?.summary?.loading"
+                    [loadingError]="(summaryObj$ | async)?.summary?.loadingError"
+                    [loadingErrorMessage]="'Error loading Transfer Schedule'">
+  <div class="card-mb-3 shadow-sm p-3" *ngIf="this.hasSummary">
+    <div class="card-body">
+      <h5 class="card-title text-uppercase text-muted">
+        <fa-icon icon="calendar-alt"></fa-icon>
+        Transfer Schedule
+        <span *ngIf="this.hasSummary" class="float-right text-lowercase">
+          <a class="text-muted" routerLink="/transfer-data/outbound/transfer-schedule">edit</a>
+        </span>
+      </h5>
+      <div class="row">
+        <table class="table table-striped text-muted">
+          <tbody>
+            <tr *ngFor="let item of this.jdmViews">
+              <td>{{ item.DisplayText}}</td>
+              <td class="text-right font-italic">{{ getSchedule(this.transferScheduleSummary[0]) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</pf-async-container>
+

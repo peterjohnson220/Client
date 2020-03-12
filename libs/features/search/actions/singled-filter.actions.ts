@@ -4,9 +4,7 @@ import { Filter, MultiSelectOption } from '../models';
 
 export const APPLY_SELECTIONS = '[Search/Singled Filter] Apply Selections';
 export const CLEAR_SELECTIONS = '[Search/Singled Filter] Clear Selections';
-export const SEARCH_AGGREGATION = '[Search/Singled Filter] Search Aggregation';
-export const SEARCH_AGGREGATION_ERROR = '[Search/Singled Filter] Search Aggregation Error';
-export const SEARCH_AGGREGATION_SUCCESS = '[Search/Singled Filter] Search Aggregation Success';
+export const SET_SINGLED_FILTER_OPTIONS = '[Search/Singled Filter] Set Singled Filter Options';
 export const SET_SEARCH_VALUE = '[Search/Singled Filter] Set Search Value';
 export const SET_SINGLED_FILTER = '[Search/Singled Filter] Set Singled Filter';
 export const REMOVE_FILTER_VALUE = '[Search/Singled Filter] Remove Value';
@@ -24,22 +22,15 @@ export class ClearSelections implements Action {
   constructor() {}
 }
 
-export class SearchAggregation implements Action {
-  readonly type = SEARCH_AGGREGATION;
+export class SetSingledFilterOptions implements Action {
+  readonly type = SET_SINGLED_FILTER_OPTIONS;
 
-  constructor() {}
-}
-
-export class SearchAggregationError implements Action {
-  readonly type = SEARCH_AGGREGATION_ERROR;
-
-  constructor() {}
-}
-
-export class SearchAggregationSuccess implements Action {
-  readonly type = SEARCH_AGGREGATION_SUCCESS;
-
-  constructor(public payload: { newOptions: MultiSelectOption[], currentSelections: MultiSelectOption[], subFilters?: Filter[] }) {}
+  constructor(public payload: {
+    newOptions: MultiSelectOption[],
+    currentSelections: MultiSelectOption[],
+    subFilters?: Filter[],
+    replaceClientOptions?: boolean
+  }) {}
 }
 
 export class SetSearchValue implements Action {
@@ -68,9 +59,7 @@ export class ToggleMultiSelectOption implements Action {
 
 export type Actions
   = SetSingledFilter
-  | SearchAggregation
-  | SearchAggregationSuccess
-  | SearchAggregationError
+  | SetSingledFilterOptions
   | ToggleMultiSelectOption
   | ClearSelections
   | SetSearchValue

@@ -91,6 +91,7 @@ export class BulkExportPopoverComponent implements OnChanges {
     this.viewNameString = '';
     this.jobInformationFieldsLoading = true;
     this.selectedStatusesToExport = ['Published'];
+    this.includeHtmlFormatting = false;
   }
 
   handleViewChanged(view: string) {

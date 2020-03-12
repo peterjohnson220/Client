@@ -24,4 +24,11 @@ export class ProjectApiService {
   createNewJob(projectId: number, request: CreateNewProjectJobRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}(${projectId})/Default.CreateNewJob`, request);
   }
+
+  createFromEmployees(companyEmployeeIds: number[]): Observable<number> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.CreateFromEmployees`,
+      {
+        CompanyEmployeeIds: companyEmployeeIds
+      });
+  }
 }

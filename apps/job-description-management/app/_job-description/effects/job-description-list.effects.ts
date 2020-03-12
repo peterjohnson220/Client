@@ -10,6 +10,7 @@ import { JobDescriptionApiService, JobDescriptionTemplateApiService } from 'libs
 import * as fromJobDescriptionListActions from '../actions/job-description-list.actions';
 import { JobDescriptionListHelper } from '../helpers';
 import { SaveJobDescriptionTemplateIdSucessModel } from '../models';
+import { MessageHelper } from '../../shared';
 
 @Injectable()
 export class JobDescriptionListEffects {
@@ -82,7 +83,19 @@ export class JobDescriptionListEffects {
 
               return new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateIdSuccess(successPayload);
             }),
-            catchError(response => of(new fromJobDescriptionListActions.SaveCompanyJobsJobDescriptionTemplateIdError(response)))
+            catchError(response => {
+              if (response.status === 409) {
+                return of(new fromJobDescriptionListActions.
+                  SaveCompanyJobsJobDescriptionTemplateIdError(
+                    {errorMessage: 'Job already assigned to template please refresh page'})
+                  );
+              } else {
+                return of(new fromJobDescriptionListActions.
+                  SaveCompanyJobsJobDescriptionTemplateIdError(
+                    {errorMessage: MessageHelper.buildErrorMessage('There was an error saving this job information.')}
+                  ));
+              }
+            })
           );
       }));
 

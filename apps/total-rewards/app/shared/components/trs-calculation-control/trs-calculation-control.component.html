@@ -1,0 +1,6 @@
+<div class="trs-calculation">
+  <p [ngStyle]="setDefaultStyling(sectionTitlesStyles)">{{controlData.Title}}</p>
+  <div *ngFor="let listItem of controlData.DataFields" >
+    <p class="text-left" [ngStyle]="setDefaultStyling(dataStyles)">{{listItem}}</p>
+  </div>
+</div>

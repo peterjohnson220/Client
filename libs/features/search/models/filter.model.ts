@@ -20,6 +20,7 @@ export interface Filter {
   SaveDisabled?: boolean;
   Operator?: OperatorEnum;
   ParentBackingField?: string;
+  AggregateCount?: number;
 }
 
 export interface TextFilter extends Filter {
@@ -61,6 +62,7 @@ export interface MultiSelectOption {
   Count?: number;
   Selected: boolean;
 }
+
 export interface FilterableMultiSelectOption  extends MultiSelectOption {
   SubAggregationCount: number;
   SelectionsCount: number;

@@ -81,19 +81,23 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
     case fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS:
       return {
         ...state,
-        savingListAreaColumns: true
+        savingListAreaColumns: true,
+        savingListAreaColumnsSuccess: false,
+        savingListAreaColumnsError: false
       };
     case fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS_SUCCESS:
       return {
         ...state,
         listAreaColumns: action.payload.ListAreaColumns,
         savingListAreaColumns: false,
-        savingListAreaColumnsSuccess: true
+        savingListAreaColumnsSuccess: true,
+        savingListAreaColumnsError: false
       };
     case fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS_ERROR:
       return {
         ...state,
         savingListAreaColumns: false,
+        savingListAreaColumnsSuccess: false,
         savingListAreaColumnsError: true
       };
     case fromJobDescriptionGridActions.UPDATE_GRID_STATE:

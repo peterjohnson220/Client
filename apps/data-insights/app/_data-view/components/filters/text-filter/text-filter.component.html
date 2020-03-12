@@ -9,7 +9,8 @@
     [valueField]="'Value'">
   </kendo-dropdownlist>
 
-  <input class="form-control"
+  <input *ngIf="!hideInput"
+         class="form-control"
          data-qa-id="txt-text-filter"
          maxlength="255"
          type="text"

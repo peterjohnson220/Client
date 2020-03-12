@@ -1,0 +1,11 @@
+::ng-deep .modal-dialog {
+  height: 90%;
+}
+
+.temp-link-color-override {
+  color: #1872ae;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

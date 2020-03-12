@@ -1,3 +1,47 @@
+@import 'employees-page-styles';
+@import 'common/common';
+
 .header-bold, .page-content {
   color: white;
+}
+
+.pricing-jobs-message {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 1rem 0;
+}
+
+.badge-primary {
+  font-size: 100%;
+  background-color: $pf-brand-secondary-color;
+}
+
+.grid-actions-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+
+  .btn {
+    margin-left: .75rem;
+    border: 0;
+
+    &:focus {
+      box-shadow: none;
+    }
+
+    fa-icon {
+      margin-right: 0.5rem;
+      color: #777;
+    }
+  }
+
+  .vertical-separator {
+    margin: 0.5rem;
+  }
+
+  .btn-clear-selection {
+    margin-left: 0;
+  }
 }

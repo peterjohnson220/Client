@@ -8,8 +8,10 @@ import { ListAreaColumn } from 'libs/models/common';
 import { CompanyJobViewListItem } from '../../models';
 import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating } from '../../reducers';
 
-import { Permissions } from 'libs/constants';
+import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import { JobDescriptionColumn } from '../../constants/job-description-column.constants';
+import { PermissionService } from 'libs/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'pf-job-description-grid',
@@ -32,6 +34,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() dataStateChanged = new EventEmitter();
   @Output() sortChanged = new EventEmitter();
   @Output() publicViewChanged = new EventEmitter();
+  @Output() openDeleteJobDescriptionModal = new EventEmitter();
 
   public info: any;
   public filterChanged: any;
@@ -43,15 +46,20 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     pageSizes: false,
     previousNext: true
   };
+  public hasDeleteJobDescriptionPermission: boolean;
+  public currentReviewerThreshold = 40;
 
   private creatingJobDescription: boolean;
   private creatingJobDescription$: Observable<boolean>;
   private creatingJobDescriptionSubscription: Subscription;
 
   constructor(
-    private store: Store<JobDescriptionManagementJobDescriptionState>
+    private store: Store<JobDescriptionManagementJobDescriptionState>,
+    private permissionService: PermissionService
   ) {
     this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
+    this.hasDeleteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_DELETE_JOB_DESCRIPTION],
+      PermissionCheckEnum.Single);
   }
 
   ngOnInit() {
@@ -81,6 +89,16 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
 
   handleNewJobDescriptionClick(companyJobViewListItem: CompanyJobViewListItem) {
     this.openNewJobDescriptionModal.emit(companyJobViewListItem);
+  }
+
+  handleDeleteJobDescriptionClick(jobDescriptionId) {
+    this.openDeleteJobDescriptionModal.emit(jobDescriptionId);
+  }
+
+  hideCurrentReviewerTooltip(ngbTooltip: NgbTooltip) {
+    if (ngbTooltip.isOpen()) {
+      ngbTooltip.close();
+    }
   }
 
   setTemplateView(companyJobViewListItem) {
@@ -178,4 +196,18 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
 
     return columnClass;
   }
+
+  showCurrentReviewerTooltip(currentReviewer: string, ngbTooltip: NgbTooltip) {
+    if (currentReviewer.trim().length > this.currentReviewerThreshold) {
+      ngbTooltip.open();
+    }
+  }
+
+  tooltipForDeleteButton(jobDescriptionCount: number): string {
+    if (jobDescriptionCount <= 1 ) {
+      return 'Job code should have at least one job description record';
+    }
+  }
+
+
 }

@@ -35,6 +35,10 @@ export interface DataGridState {
   viewNameToBeDeleted: string;
   selectedKeys: number[];
   selectAllState: string;
+  exportEventId: number;
+  exportingGrid: boolean;
+  exportViewId: number;
+  loadingExportingStatus: boolean;
 }
 
 export interface DataGridStoreState {
@@ -84,7 +88,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             groupedFields: buildGroupedFields(resetFilters(action.payload.Fields)),
             baseEntity: action.payload.Entity,
             loading: false,
-            splitViewFilters: currSplitViewFilters
+            splitViewFilters: currSplitViewFilters,
+            exportViewId: action.payload.ExportViewId
           }
         }
       };
@@ -517,6 +522,95 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.CLEAR_SELECTIONS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedKeys: null,
+            selectAllState: 'unchecked'
+          }
+        }
+      };
+    case fromPfGridActions.EXPORT_GRID: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            exportingGrid: true
+          }
+        }
+      };
+    }
+    case fromPfGridActions.EXPORT_GRID_SUCCESS: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            exportEventId: action.exportEventId
+          }
+        }
+      };
+    }
+    case fromPfGridActions.EXPORTING_COMPLETE: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            exportEventId: null,
+            exportingGrid: false
+          }
+        }
+      };
+    }
+    case fromPfGridActions.GET_EXPORTING_STATUS: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            loadingExportingStatus: true
+          }
+        }
+      };
+    }
+    case fromPfGridActions.GET_EXPORTING_STATUS_SUCCESS: {
+      const eventId = !!action.payload ? action.payload.EventId : null;
+      const isExporting = !!action.payload;
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            exportEventId: eventId,
+            exportingGrid: isExporting,
+            loadingExportingStatus: false
+          }
+        }
+      };
+    }
+    case fromPfGridActions.GET_EXPORTING_STATUS_ERROR: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            loadingExportingStatus: false
+          }
+        }
+      };
+    }
     default:
       return state;
   }
@@ -563,6 +657,10 @@ export const getSelectedKeys = (state: DataGridStoreState, pageViewId: string) =
 export const getSelectAllState = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].selectAllState;
 export const getViewIsDeleting = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsDeleting;
 export const getViewNameToBeDeleted = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewNameToBeDeleted;
+export const getExportEventId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportEventId;
+export const getExportingGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportingGrid;
+export const getExportViewId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportViewId;
+export const getLoadingExportingStatus = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingExportingStatus;
 
 export function buildGroupedFields(fields: ViewField[]): any[] {
   const groups = groupBy(fields, [{ field: 'Group' }]);

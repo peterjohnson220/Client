@@ -2,27 +2,17 @@ import {SimpleChange} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/compiler/src/core';
 
-import {Store} from '@ngrx/store';
-import {MockStore, provideMockStore} from '@ngrx/store/testing';
-
 import {OrgDataEntityType} from 'libs/constants/hris-api';
 
 import {TransferScheduleCardComponent} from './transfer-schedule-card.component';
-import * as fromTransferSchedulePageActions from '../../actions/transfer-schedule.actions';
-import * as fromTransferScheduleReducers from '../../reducers/transfer-schedule.reducer';
+import {junkExpression} from '../../helpers';
 
 describe('TransferScheduleCardComponent', () => {
   let component: TransferScheduleCardComponent;
   let fixture: ComponentFixture<TransferScheduleCardComponent>;
-  let store: MockStore<any>;
-
-  const initialState = { data_management: { transferSchedule: fromTransferScheduleReducers.initialState} };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideMockStore({initialState})
-      ],
       declarations: [ TransferScheduleCardComponent ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -32,7 +22,6 @@ describe('TransferScheduleCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TransferScheduleCardComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
   });
 
   it('should create', () => {
@@ -69,7 +58,7 @@ describe('TransferScheduleCardComponent', () => {
   });
 
   it('should dispatch a disable action correctly', () => {
-    spyOn(store, 'dispatch');
+    spyOn(component.scheduleDisableSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -86,14 +75,12 @@ describe('TransferScheduleCardComponent', () => {
     fixture.detectChanges();
     component.toggleSchedule();
 
-    const expectedAction = new fromTransferSchedulePageActions.DisableTransferSchedule(1);
-
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedAction);
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(component.scheduleDisableSubmitted.emit).toHaveBeenNthCalledWith(1, 1);
+    expect(component.scheduleDisableSubmitted.emit).toHaveBeenCalledTimes(1);
   });
 
   it('should dispatch an enable action correctly', () => {
-    spyOn(store, 'dispatch');
+    spyOn(component.scheduleEnableSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -110,14 +97,12 @@ describe('TransferScheduleCardComponent', () => {
     fixture.detectChanges();
     component.toggleSchedule();
 
-    const expectedAction = new fromTransferSchedulePageActions.EnableTransferSchedule(1);
-
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedAction);
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(component.scheduleEnableSubmitted.emit).toHaveBeenNthCalledWith(1, 1);
+    expect(component.scheduleEnableSubmitted.emit).toHaveBeenCalledTimes(1);
   });
 
   it('should dispatch a save when disabling a schedule that does not exist yet', () => {
-    spyOn(store, 'dispatch');
+    spyOn(component.scheduleSaveSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -131,17 +116,19 @@ describe('TransferScheduleCardComponent', () => {
     fixture.detectChanges();
     component.toggleSchedule();
 
-    const expectedAction = new fromTransferSchedulePageActions.SaveTransferSchedule({
+    const expectedModel = {
       SyncSchedule_ID: 0,
       Active: false,
       EntityMappingType_ID: 1,
       Expression: '59 23 31 12 *'
-    });
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedAction);
+    };
+    expect(component.scheduleSaveSubmitted.emit).toHaveBeenNthCalledWith(1, expectedModel);
   });
 
   it('should not dispatch an action when enabling a junk schedule', () => {
-    spyOn(store, 'dispatch');
+    spyOn(component.scheduleSaveSubmitted, 'emit');
+    spyOn(component.scheduleEnableSubmitted, 'emit');
+    spyOn(component.scheduleDisableSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -156,15 +143,17 @@ describe('TransferScheduleCardComponent', () => {
     fixture.detectChanges();
     component.toggleSchedule();
 
-    expect(store.dispatch).toHaveBeenCalledTimes(0);
+    expect(component.scheduleSaveSubmitted.emit).toHaveBeenCalledTimes(0);
+    expect(component.scheduleEnableSubmitted.emit).toHaveBeenCalledTimes(0);
+    expect(component.scheduleDisableSubmitted.emit).toHaveBeenCalledTimes(0);
   });
 
   it('should not save if no changes were made', () => {
-    spyOn(store, 'dispatch');
+    spyOn(component.scheduleSaveSubmitted, 'emit');
 
     component.save();
 
-    expect(store.dispatch).toHaveBeenCalledTimes(0);
+    expect(component.scheduleSaveSubmitted.emit).toHaveBeenCalledTimes(0);
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -179,11 +168,11 @@ describe('TransferScheduleCardComponent', () => {
 
     component.save();
 
-    expect(store.dispatch).toHaveBeenCalledTimes(0);
+    expect(component.scheduleSaveSubmitted.emit).toHaveBeenCalledTimes(0);
   });
 
   it('should not save if a new expression was not set', () => {
-    spyOn(store, 'dispatch');
+    spyOn(component.scheduleSaveSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -203,11 +192,11 @@ describe('TransferScheduleCardComponent', () => {
 
     component.save();
 
-    expect(store.dispatch).toHaveBeenCalledTimes(0);
+    expect(component.scheduleSaveSubmitted.emit).toHaveBeenCalledTimes(0);
   });
 
   it('should save if a new expression was set', () => {
-    spyOn(store, 'dispatch');
+    spyOn(component.scheduleSaveSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -224,19 +213,18 @@ describe('TransferScheduleCardComponent', () => {
     component.setCronExpression({expression: '* * * * 1', force: false});
     component.save();
 
-    const expectedAction = new fromTransferSchedulePageActions.SaveTransferSchedule({
+    const expectedModel = {
       Expression: '* * * * 1',
       EntityMappingType_ID: 1,
       SyncSchedule_ID: 0,
       Active: true
-    });
+    };
 
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedAction);
+    expect(component.scheduleSaveSubmitted.emit).toHaveBeenNthCalledWith(1, expectedModel);
   });
 
   it('should create a junk schedule if we disable with no real schedule', () => {
-    spyOn(store, 'dispatch');
-
+    spyOn(component.scheduleSaveSubmitted, 'emit');
     component.transferSchedule = {
       entityMappingType_ID: 1,
       entityMappingTypeCode: OrgDataEntityType.Employees,
@@ -249,6 +237,14 @@ describe('TransferScheduleCardComponent', () => {
     fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     component.toggleSchedule();
+
+    const expectedModel = {
+      Expression: junkExpression,
+      EntityMappingType_ID: 1,
+      SyncSchedule_ID: 0,
+      Active: false
+    };
+    expect(component.scheduleSaveSubmitted.emit).toHaveBeenNthCalledWith(1, expectedModel);
   });
 
   it('should soft enable a schedule when a disabled schedule is edited', () => {

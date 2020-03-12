@@ -3,10 +3,110 @@
   [title]="getPageTitle((userContext$ | async)?.CompanyName)"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyEmployee_ID'"
-  [allowExport]="false"
-  [defaultSort]="defaultSort"
   [showActionBar]="true"
-  [showColumnChooser] ="false"
-  [showFilterChooser] ="false"
-  [noRecordsFound]="'No records available.'">
+  [showColumnChooser]="true"
+  [showFilterChooser]="true"
+  [filterPanelTemplates]="filterTemplates"
+  [noRecordsFound]="'No records available.'"
+  [enableSelection]="true"
+  [gridActionsTemplate]="gridActions"
+  [gridGlobalActionsTemplate]="gridGlobalActions"
+  [allowExport]="true"
+  [exportSourceName]="'Employees'"
+  [defaultSort]="defaultSort"
+  [mainGridContainerClassName]="'pl-3 pr-3'"
+  [defaultColumnWidth]="150">
 </pf-data-grid>
+
+<ng-template #gridActions>
+  <div class="grid-actions-container">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      [pfSecuredResource]="permissions.NEW_PROJECT"
+      [attr.data-qa-id]="'btn-priceJobs'"
+      [disabled]="priceJobsDisabled"
+      (click)="handlePriceJobsClicked()">
+      <fa-icon [icon]="['far', 'calculator']"></fa-icon>
+      Create Project
+    </button>
+    <button
+      [attr.data-qa-id]="'btn-editEmployee'"
+      type="button"
+      [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
+      [disabled]="selectedCompanyEmployeeIds?.length !== 1"
+      (click)="handleEditClicked()"
+      class="btn btn-secondary">
+      <fa-icon icon="edit"></fa-icon>
+      Edit
+    </button>
+    <button
+      [attr.data-qa-id]="'btn-deleteEmployee'"
+      type="button"
+      [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
+      [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
+      (click)="showDeleteEmployeeModal.next(true)"
+      class="btn btn-secondary">
+      <fa-icon icon="trash-alt"></fa-icon>
+      Delete
+    </button>
+    <div
+      [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]"
+      class="vertical-separator"></div>
+    <button
+      type="button"
+      class="btn btn-secondary btn-clear-selection"
+      [attr.data-qa-id]="'btn-clearSelection'"
+      [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
+      (click)="handleClearSelectionClicked()">
+      <fa-icon [icon]="['far', 'times']"></fa-icon>
+      Clear Selections  <span *ngIf="selectedCompanyEmployeeIds?.length>0">({{selectedCompanyEmployeeIds.length}})</span>
+    </button>
+  </div>
+</ng-template>
+<ng-template #gridGlobalActions>
+  <button
+    [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
+    [attr.data-qa-id]="'btn-newEmployee'"
+    type="button"
+    (click)="addNewEmployee()"
+    class="btn btn-primary">
+    New Employee
+  </button>
+</ng-template>
+
+<pf-employee-management></pf-employee-management>
+
+<ng-template #pricingJobsMessage>
+  <div class="pricing-jobs-message">
+    <div class="space-out-children">
+      <span *ngIf="pricingJobs && !(pricingJobsError$ | async)">Creating Project</span>
+      <fa-icon [icon]="['fal', 'circle-notch']" spin="true"></fa-icon>
+    </div>
+    <div *ngIf="(pricingJobsError$ | async)" class="d-flex flex-column">
+      <div class="d-flex flex-row justify-content-center space-out-children pb-3">
+        <fa-icon class="text-danger" [icon]="['fal', 'exclamation-circle']"></fa-icon>
+        <span>Error Creating Project</span>
+      </div>
+      <div>
+        <button type="button" class="btn btn-secondary" (click)="handlePricingJobsMessageCloseClicked()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete Employees'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [modalId]="'au-modal-employees-page-delete-employee'"
+  [isOpen$]=" showDeleteEmployeeModal$"
+  (onSubmit)="handleEmployeeDelete()"
+  (onDismiss)="showDeleteEmployeeModal.next(false)">
+
+  <ng-container basic-content>
+    <p>Are you sure you want to delete the <b>{{selectedCompanyEmployeeIds?.length}}</b> selected employee<span *ngIf="selectedCompanyEmployeeIds?.length > 1">s</span>?</p>
+  </ng-container>
+</pf-modal-form>
+

@@ -1,4 +1,5 @@
-import {generateMockProvider, Provider} from './provider.model';
+import { generateMockProvider, Provider } from './provider.model';
+import { OrgDataEntityType } from 'libs/constants';
 
 export interface ConnectionSummary {
   connectionID?: number;
@@ -7,7 +8,7 @@ export interface ConnectionSummary {
   hasConnection: boolean;
   canEditConnection: boolean;
   canEditMappings: boolean;
-  selectedEntities: string[];
+  selectedEntities: OrgDataEntityType[];
 }
 
 export function generateMockExistingConnectionSummary(): ConnectionSummary {

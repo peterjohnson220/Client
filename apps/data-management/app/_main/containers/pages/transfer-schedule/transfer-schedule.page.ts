@@ -57,7 +57,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.restoreCompletedSubscription = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryRestoreCompleted)
       .pipe(filter(x => x === true)).subscribe(s => {
         if (this.shouldGoBack) {
-          this.router.navigate(['/', 'field-mapping']);
+          this.router.navigate(['/transfer-data/inbound/field-mapping']);
         }
       });
     this.showIntegrationFinishedModal$ = this.store.select(fromDataManagementMainReducer.getShowSetupCompleteModal);
@@ -74,17 +74,21 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
 
   onCancel() {
     if (this.wasEdited) {
-      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
+      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules({schedules: this.syncSchedulesBackup, route: '/'}));
+    } else {
+      this.router.navigate(['/']);
     }
-    this.router.navigate(['/']);
   }
 
   goBack() {
     if (this.wasEdited) {
       this.shouldGoBack = true;
-      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules(this.syncSchedulesBackup));
+      this.store.dispatch(new fromTransferScheduleActions.SaveAllTransferSchedules({
+        schedules: this.syncSchedulesBackup,
+        route: '/transfer-data/inbound/field-mapping'
+      }));
     } else {
-      this.router.navigate(['/', 'field-mapping']);
+      this.router.navigate(['/transfer-data/inbound/field-mapping']);
     }
   }
 
@@ -108,5 +112,17 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   updateCanFinish(i: number, $event: boolean) {
     this.wasEdited = this.wasEdited || $event;
     this.editStates[i] = $event;
+  }
+
+  disableSchedule($event: number) {
+    this.store.dispatch(new fromTransferScheduleActions.DisableTransferSchedule($event));
+  }
+
+  enableSchedule($event: number) {
+    this.store.dispatch(new fromTransferScheduleActions.EnableTransferSchedule($event));
+  }
+
+  saveSchedule($event: SyncScheduleDtoModel) {
+    this.store.dispatch(new fromTransferScheduleActions.SaveTransferSchedule($event));
   }
 }

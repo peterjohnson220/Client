@@ -15,6 +15,8 @@ import * as fromTransferScheduleReducer from './transfer-schedule.reducer';
 import * as fromHrisConnectionReducer from './hris-connection.reducer';
 import * as fromEntityIdentifierReducer from './entity-identifiers.reducer';
 import * as fromEntitySelectionReducer from './entity-selection.reducer';
+import * as fromOutboundJdmReducer from './outbound-jdm.reducer';
+import * as fromProviderListReducer from './provider-list.reducer';
 import {SelectorHelper} from '../helpers';
 
 export interface DataManagementMainState {
@@ -30,6 +32,8 @@ export interface DataManagementMainState {
   hrisConnection: fromHrisConnectionReducer.State;
   entityIdentifiers: fromEntityIdentifierReducer.State;
   entitySelection: fromEntitySelectionReducer.State;
+  outboundJdm: fromOutboundJdmReducer.State;
+  providerList: fromProviderListReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -48,7 +52,9 @@ export const reducers = {
   transferSchedule: fromTransferScheduleReducer.reducer,
   hrisConnection: fromHrisConnectionReducer.reducer,
   entityIdentifiers: fromEntityIdentifierReducer.reducer,
-  entitySelection: fromEntitySelectionReducer.reducer
+  entitySelection: fromEntitySelectionReducer.reducer,
+  outboundJdm: fromOutboundJdmReducer.reducer,
+  providerList: fromProviderListReducer.reducer
 };
 
 // Select Feature Area
@@ -103,35 +109,14 @@ export const selectEntitySelectionState = createSelector(
   (state: DataManagementMainState) => state.entitySelection
 );
 
-// Transfer Data Page
-export const getTransferMethods = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getTransferMethods
+export const selectOutboundJdmState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.outboundJdm,
 );
 
-export const getProviders = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getProviders
-);
-
-export const getSelectedTransferMethod = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getSelectedTransferMethod
-);
-
-export const getSelectedProvider = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getSelectedProvider
-);
-
-export const getTransferDataPageLoading = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getLoading
-);
-
-export const getTransferDataPageLoadingError = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getLoadingError
+export const selectProviderListState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.providerList
 );
 
 export const getValidationErrors = createSelector(
@@ -153,6 +138,12 @@ export const getTransferDataPageActiveConnection = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getActiveConnection
 );
+
+// provider list
+export const getSelectedTransferMethod = createSelector(selectProviderListState, fromProviderListReducer.getSelectedTransferMethod);
+export const getProviders = createSelector(selectProviderListState, fromProviderListReducer.getProviders);
+export const getTransferMethods = createSelector(selectProviderListState, fromProviderListReducer.getTransferMethods);
+export const getSelectedProvider = createSelector(selectProviderListState, fromProviderListReducer.getSelectedProvider);
 
 // Organizational Data Page
 export const getOrganizationalHeadersLink = createSelector(
@@ -374,3 +365,19 @@ export const getEntitySelectionShouldRedirect = createSelector(getHrisConnection
 export const getEntitySelectionPageSelections = createSelector(getSelectedEntities, getProviderSupportedEntitiesObj, (s1, s2) => {
   return { selections: s1, providerSupportedEntities: s2.obj };
 });
+
+// Outbound
+export const getOutboundProviders = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundProviders);
+export const getOutboundSelectedProvider = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundSelectedProvider);
+export const getOutboundSelectedTransferMethod = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundSelectedTransferMethod);
+export const getOutboundTransferMethods = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundTransferMethods);
+export const getOutboundWorkflowStep = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundWorkflowStep);
+export const getOutboundJdmViews = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundJdmViews);
+export const getOutboundTransferSummaryObj = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getOutboundTransferSummaryObj);
+
+// outbound jdm summary
+export const getJdmConnectionSummaryObj = createSelector(selectOutboundJdmState, fromOutboundJdmReducer.getConnectionSummary);
+export const getOutboundTransferSummaryWidget = createSelector(getOutboundTransferSummaryObj, getOutboundJdmViews, (s1, s2) => {
+  return { summary: s1, views: s2 };
+});
+

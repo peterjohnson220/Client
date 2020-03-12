@@ -40,3 +40,16 @@ export function generateMockTransferScheduleSummaries(): TransferScheduleSummary
     }
   ];
 }
+
+export function generateOutboundTransferScheduleSummary(): TransferScheduleSummary[] {
+  return [
+    {
+      entityMappingType_ID: 1,
+      entityMappingTypeCode: OrgDataEntityType.JobDescriptions,
+      entityMappingTypeName: 'Job Descriptions',
+      supported: true,
+      active: null,
+      expression: null
+    }
+  ];
+}
