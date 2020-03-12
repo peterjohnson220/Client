@@ -17,6 +17,13 @@
                 <input type="checkbox" id="createdDateCheck" formControlName="createdDateCheck" class="mr-3"/> 
                 Created Date
             </label>
+          <kendo-dropdownlist class="pl-3" [ngClass]="createdDateCheck.value !== true?'visibility-hidden':''"
+                              [data]="DATE_FORMATS"
+                              [textField]="'text'"
+                              [valueField]="'value'" [(ngModel)]="dateFormatSelectedValue"  [ngModelOptions]="{standalone: true}"
+                              (valueChange)="handleDateFormatChanged($event)">
+          </kendo-dropdownlist>
+
         </div>
         <div class="form-group">
             <label for="versionNumberCheck">

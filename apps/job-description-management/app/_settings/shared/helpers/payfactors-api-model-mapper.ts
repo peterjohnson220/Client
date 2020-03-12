@@ -57,6 +57,7 @@ export class PayfactorsApiModelMapper {
     return {
       CreatedByField: footerViewModel.CreatedByField,
       CreatedDateField: footerViewModel.CreatedDateField,
+      CreatedDateFormatField: footerViewModel.CreatedDateFormatField,
       VersionNumberField: footerViewModel.VersionNumberField,
       PageNumberField: footerViewModel.PageNumberField,
       CustomTextField: footerViewModel.CustomTextField,
