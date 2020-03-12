@@ -275,7 +275,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   isActiveJobs() {
-    return this.jobStatusField ? this.jobStatusField.FilterValue : false;
+    return this.jobStatusField ? this.jobStatusField.FilterValue : true;
   }
 
   closeJobManagmentModal() {
