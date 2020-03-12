@@ -33,7 +33,7 @@ export interface DataGridState {
   viewIsSaving: boolean;
   viewIsDeleting: boolean;
   viewNameToBeDeleted: string;
-  selectedKeys: number[];
+  selectedKeys: any[];
   selectAllState: string;
   exportEventId: number;
   exportingGrid: boolean;
@@ -181,6 +181,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           },
         }
       };
+      /*
+      This action resets all filters prior to applying inbound filters to clear global text box search elements on tab switch/grid change
+       */
     case fromPfGridActions.UPDATE_INBOUND_FILTERS:
       return {
         ...state,

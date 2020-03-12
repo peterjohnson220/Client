@@ -31,7 +31,8 @@ import {
   StructureGridComponent,
   PricingMatchesGridComponent,
   ProjectDetailsComponent,
-  PricingHistoryComponent
+  PricingHistoryComponent,
+  NotPricedPaymarketsComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
@@ -80,6 +81,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     StructureGridComponent,
     ProjectDetailsComponent,
     PricingHistoryComponent,
+    NotPricedPaymarketsComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent

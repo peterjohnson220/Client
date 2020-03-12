@@ -29,7 +29,7 @@
 
       <div ngbDropdown #jobsActionsMenu="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
         <button
-          ngbDropdownToggle 
+          ngbDropdownToggle
           [attr.data-qa-id]="'btn-jobs-page-inline-actions-' + dataRow['CompanyJobs_CompanyJob_ID']"
           class="btn btn-secondary btn-sm hide-dropdown-arrow inline-menu-btn">
           <fa-icon icon="ellipsis-h"></fa-icon>
@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  
+
 </ng-template>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
@@ -85,7 +85,7 @@
 
 <ng-template #gridActions>
   <button
-    [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length)"
+    [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-jobs-page-add-to-project'"
     type="button"
@@ -93,8 +93,8 @@
     [title]="!(selectedJobIds.length || selectedPricingIds.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-link">
     Add to Project
-    <span *ngIf="selectedJobIds.length + selectedPricingIds.length > 0 && isActiveJobs()">
-      ({{selectedJobIds.length + selectedPricingIds.length}})
+    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && isActiveJobs()">
+      ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
     </span>
   </button>
   <button
@@ -111,11 +111,11 @@
     </span>
   </button>
   <button
-    [disabled]="!(selectedJobIds.length || selectedPricingIds.length)"
+    [disabled]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [attr.data-qa-id]="'btn-jobs-page-clear-selections'"
     type="button"
     (click)="clearSelections()"
-    [title]="!(selectedJobIds.length || selectedPricingIds.length) ? 'No Jobs or Pricings Selected' : ''"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-link">
     Clear Selections
   </button>
@@ -136,10 +136,13 @@
   <ng-container basic-content>
     The following will be added to a new Project:
     <div>
-      Job Count: {{selectedJobIds.length}}
+      &bull; Job Count: {{selectedJobIds.length}}
     </div>
     <div>
-      Pricing Count: {{selectedPricingIds.length}}
+      &bull; Pricing Count: {{selectedPricingIds.length}}
+    </div>
+    <div>
+      &bull; Job:Pay Market Associations: {{selectedJobPayMarketCombos.length}}
     </div>
     <div *ngIf="(addingToProject$ | async).loadingError">
       <br>
