@@ -40,4 +40,16 @@ describe('EntityUploadComponent', () => {
     expect(selected[0].DisplayText).toBe('Jobs');
   });
 
+  it('should evaluate HasAnyFiles() correctly on file upload', () => {
+    component.entities = getEntityChoicesForOrgLoader();
+
+    expect(component.HasAnyFiles()).toBe(false);
+
+    component.entities[1].isChecked = true;
+    component.entities[1].File = { lastModified: 1234, name: 'testfile', size: 1234, type: 'asdf', slice: jest.fn() };
+
+    expect(component.HasAnyFiles()).toBe(true);
+
+  });
+
 });

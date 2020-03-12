@@ -8,8 +8,8 @@
     [textField]="'Name'"
     [valueField]="'Value'">
   </kendo-dropdownlist>
-
-  <kendo-multiselect class="w-100"
+  <kendo-multiselect *ngIf="!hideMultiSelect"
+    class="w-100"
     #filterOptionsMultiSelect
     [attr.data-qa-id]="'ddm-string-filter-options'"
     [data]="options"

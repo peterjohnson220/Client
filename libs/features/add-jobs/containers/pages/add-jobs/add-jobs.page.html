@@ -1,0 +1,88 @@
+<pf-search-layout *ngIf="pageShown$ | async" [resultsCount]="isSmallBiz ? null : (numberOfSearchResults$ | async)">
+
+  <ng-container sidebar>
+
+    <div *ngIf="addJobsConfig?.enableCreateNewJobs && !(searchingFilter$ | async)" [pfSecuredResource]="_Permissions.JOBS_ADD_EDIT_DELETE" class="create-new-job" [attr.data-qa-id]="'btn-createNewJobNav'">
+      <div class="search-action" (click)="handleCreateNewJobClicked()">
+        <fa-icon [icon]="['far', 'plus']"></fa-icon> Create New Job
+      </div>
+    </div>
+
+    <pf-search-filters
+      [defaultFocusedFilterId]="'jobTitleCode'"
+      [visible]="!(searchingFilter$ | async)">
+    </pf-search-filters>
+
+    <pf-single-filter
+      *ngIf="!!(searchingFilter$ | async)">
+    </pf-single-filter>
+  </ng-container>
+
+  <ng-container content>
+
+    <pf-results-header></pf-results-header>
+
+    <pf-job-search-results [canSelectJobs]="canSelectJobs"
+                           [useSmallBizStyles]="isSmallBiz"
+                           [customSearchResultsStyle]="addJobsConfig?.enablePaymarkets ? {'width': '67%'} : {}">
+    </pf-job-search-results>
+
+    <pf-paymarkets *ngIf="addJobsConfig?.enablePaymarkets" [useSmallBizStyles]="isSmallBiz"></pf-paymarkets>
+
+    <pf-job-limit-counter *ngIf="!!isSmallBiz"
+                    [jobUsageCount]="jobUsageCount"
+                    [numberOfSearchResults]="(numberOfSearchResults$ | async)"
+                    [currentJobCountSetting]="currentJobCountSetting"
+                    [maxAllowedJobsSetting]="maxAllowedJobsSetting">
+    </pf-job-limit-counter>
+
+  </ng-container>
+
+  <ng-container action-buttons>
+
+    <span *ngIf="!(addingDataError$ | async)">
+      <button class="btn btn-sm btn-secondary mr-3 clear-selections"
+              [attr.data-qa-id]="'btn-clearSelections'"
+              [disabled]="numberOfJobsSelected === 0"
+              (click)="handleClearSelectionsClicked()">
+        Clear Selections
+      </button>
+
+      <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+              [attr.data-qa-id]="'btn-addJobs'"
+              [disabled]="(addingData$ | async)
+                          || (numberOfJobsSelected === 0)
+                          || (addJobsConfig?.enablePaymarkets && !(selectedPaymarkets$ | async)?.length)"
+              (click)="handleAddClicked()">
+
+        <ng-container *ngIf="!(addingData$ | async); else addingData">
+          Add
+          <span *ngIf="numberOfJobsSelected > 0">
+            ({{ numberOfJobsSelected }})
+          </span>
+        </ng-container>
+      </button>
+
+      <button (click)="handleCancelClicked()"
+              class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
+              [attr.data-qa-id]="'btn-cancelAddJobs'">
+        Cancel
+      </button>
+    </span>
+
+
+    <span class="error-adding-jobs text-danger" *ngIf="!!(addingDataError$ | async)">
+      {{
+      (addingDataErrorMessage$ | async)
+        ? (addingDataErrorMessage$ | async).error.error.message
+        : 'Error adding selected job(s).'
+      }}
+    </span>
+
+  </ng-container>
+
+</pf-search-layout>
+
+<ng-template #addingData>
+  Adding...
+</ng-template>

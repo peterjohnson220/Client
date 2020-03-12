@@ -1,0 +1,17 @@
+<ng-template #deleteJobDescriptionModal let-modal>
+  <form (ngSubmit)="submit()">
+    <div class="modal-header">
+      <h4 class="modal-title">Delete Job Description</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      You are about to permanently delete this job description along with the history and versions. Once removed you will not be able to restore this data.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+  </form>
+</ng-template>

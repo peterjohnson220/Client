@@ -1,10 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { StoreModule } from '@ngrx/store';
+
 import { generateMockCompanyJob } from 'libs/models/company/company-job.model';
 import { JobDescriptionParserPipe } from 'libs/core/pipes';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from 'libs/core/fa-icons';
+import { SettingsService } from 'libs/state/app-context/services';
+import * as fromRootState from 'libs/state/state';
 
 import { CompanyJobDetailComponent } from './company-job-detail.component';
 
@@ -14,10 +18,16 @@ describe('CompanyJobDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers
+        }),
+        FontAwesomeModule
+      ],
       declarations: [CompanyJobDetailComponent, JobDescriptionParserPipe],
-      imports: [FontAwesomeModule],
       // Shallow Testing
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [SettingsService],
     })
     .compileComponents();
   }));

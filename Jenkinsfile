@@ -92,6 +92,14 @@ pipeline {
               octoVerSuffix = '-NM'
               env.buildConfig = '--configuration=staging'
 
+			} else if (env.BRANCH_NAME == 'Enterprise/develop') {
+              isAutoDeployBranch = true
+              suffix = '-Enterprise'
+              octoChannel = 'Enterprise'
+              env.octoEnv = 'Enterprise'
+              octoVerSuffix = '-EP'
+              env.buildConfig = '--configuration=staging'
+
             } else {
               isPublishable = false
               env.buildConfig = '--configuration=staging'

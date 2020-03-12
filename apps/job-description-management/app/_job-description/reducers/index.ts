@@ -280,6 +280,11 @@ export const getCompanyJobsJobDescriptionTemplateIdSavingError = createSelector(
   fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingError
 );
 
+export const getCompanyJobsJobDescriptionTemplateIdSavingErrorMessage = createSelector(
+  selectJobDescriptionListState,
+  fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingErrorMessage
+);
+
 export const getCompanyJobsJobDescriptionTemplateIdSavingSuccess = createSelector(
   selectJobDescriptionListState,
   fromJobDescriptionListReducer.getCompanyJobsJobDescriptionTemplateIdSavingSuccess
@@ -344,6 +349,26 @@ export const getJobDescriptionExtendedInfo = createSelector(
 export const getJobDescriptionViewsAsync = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getJobDescriptionViewsAsync
+);
+
+export const getDeletingJobDescription = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getDeletingJobDescription
+);
+
+export const getDeletingJobDescriptionSuccess = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getDeletingJobDescriptionSuccess
+);
+
+export const getDeletingJobDescriptionError = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getDeletingJobDescriptionError
+);
+
+export const getJobDescriptionExtendedInfoAsync = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionExtendedInfoAsync
 );
 
 // Job Description Grid

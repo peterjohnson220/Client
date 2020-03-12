@@ -17,9 +17,9 @@ export class ProviderCardComponent {
 
   constructor() { }
 
-  selectProviderClick(event: any) {
+  selectProviderClick(provider: Provider) {
     if (this.provider.Active) {
-      this.providerSelected.emit(this.provider);
+      this.providerSelected.emit(provider);
     }
   }
 }

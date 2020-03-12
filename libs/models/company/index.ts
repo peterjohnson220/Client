@@ -7,3 +7,4 @@ export * from './match.model';
 export * from './company-configuration.model';
 export * from './company-form-data.model';
 export * from './company.model';
+export * from './company-employee.model';

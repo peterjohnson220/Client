@@ -1,0 +1,251 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TotalRewardsStatementComponent should render a mock statement derived from template A 1`] = `
+<pf-total-rewards-statement
+  companyColors={[Function Array]}
+  controlType={[Function Object]}
+  employeeArray={[Function Array]}
+  employeeData={[Function Array]}
+  pageCount={[Function Number]}
+  pageCountSubscription={[Function Subscriber]}
+  route={[Function Object]}
+  statement$={[Function Store]}
+  statementLoading$={[Function Store]}
+  statementLoadingError$={[Function Store]}
+  store={[Function MockStore]}
+>
+  <pf-async-container>
+    
+    <div
+      class="container statement mt-4 mb-4 rounded"
+    >
+      
+      <div>
+        
+        <div
+          class="pt-4 pb-4 trs-page"
+        >
+          
+          <section
+            class="row vertical-divider trs-section"
+          >
+            
+            <div
+              class="trs-column col-6 column"
+              ng-reflect-klass="trs-column"
+              ng-reflect-ng-class="col-6 column"
+            >
+              <div
+                class="row columnRow"
+              >
+                
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  
+                  <div>
+                    <pf-trs-image-control
+                      class="p-1"
+                    />
+                  </div>
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="trs-column col-6 column"
+              ng-reflect-klass="trs-column"
+              ng-reflect-ng-class="col-6 column"
+            >
+              <div
+                class="row columnRow"
+              >
+                
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  
+                  
+                  
+                  
+                  <div>
+                    <pf-trs-title-control
+                      class="p-1"
+                    />
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </section>
+          <section
+            class="row vertical-divider trs-section"
+          >
+            
+            <div
+              class="trs-column col-6 column"
+              ng-reflect-klass="trs-column"
+              ng-reflect-ng-class="col-6 column"
+            >
+              <div
+                class="row columnRow"
+              >
+                
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  <div>
+                    <pf-trs-rich-text-control
+                      class="p-1"
+                    />
+                  </div>
+                  
+                  
+                  
+                  
+                  
+                </div>
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  
+                  
+                  
+                  <div>
+                    <pf-trs-chart-control
+                      class="p-1"
+                    />
+                  </div>
+                  
+                  
+                </div>
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  <div>
+                    <pf-trs-rich-text-control
+                      class="p-1"
+                    />
+                  </div>
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="trs-column col-6 column"
+              ng-reflect-klass="trs-column"
+              ng-reflect-ng-class="col-6 column"
+            >
+              <div
+                class="row columnRow"
+              >
+                
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  
+                  
+                  <div>
+                    <pf-trs-calculation-control
+                      class="p-1"
+                    />
+                  </div>
+                  
+                  
+                  
+                </div>
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  
+                  
+                  <div>
+                    <pf-trs-calculation-control
+                      class="p-1"
+                    />
+                  </div>
+                  
+                  
+                  
+                </div>
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  
+                  
+                  <div>
+                    <pf-trs-calculation-control
+                      class="p-1"
+                    />
+                  </div>
+                  
+                  
+                  
+                </div>
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  
+                  
+                  <div>
+                    <pf-trs-calculation-control
+                      class="p-1"
+                    />
+                  </div>
+                  
+                  
+                  
+                </div>
+                <div
+                  class="col-12"
+                  ng-reflect-ng-class="col-12"
+                >
+                  
+                  
+                  
+                  
+                  
+                  
+                  <div>
+                    <pf-trs-summary-control
+                      class="p-1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div
+          class="page-break"
+        />
+      </div>
+    </div>
+  </pf-async-container>
+</pf-total-rewards-statement>
+`;

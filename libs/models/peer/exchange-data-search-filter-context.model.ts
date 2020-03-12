@@ -1,6 +1,6 @@
 import { SearchFilterMappingDataObj } from '../../features/search/models';
 import { ExchangeJobExchangeDetail } from '../../features/peer/models';
-import { generateMockPayMarket, PayMarket } from '../paymarket';
+import { generateMockPayMarketContext, PayMarketContext } from './paymarket-context.model';
 import { generateMockSystemFilter, SystemFilter } from './exchange-job-pay-market-filter.model';
 import {
   generateMockMapGeoData,
@@ -9,7 +9,7 @@ import {
 
 export interface ExchangeExplorerContextInfo {
   FilterContext: ExchangeDataSearchFilterContext;
-  PayMarket: PayMarket;
+  PayMarketContext: PayMarketContext;
   AssociatedExchangeJobFilterOptions: ExchangeJobExchangeDetail[];
   SearchFilterMappingData: SearchFilterMappingDataObj;
   InitialMapGeoData: MapGeoData;
@@ -40,7 +40,7 @@ export function generateMockExchangeDataSearchFilterContext(): ExchangeDataSearc
 export function generateMockExchangeExplorerContextInfo(): ExchangeExplorerContextInfo {
   return {
     FilterContext: generateMockExchangeDataSearchFilterContext(),
-    PayMarket: generateMockPayMarket(),
+    PayMarketContext: generateMockPayMarketContext(),
     AssociatedExchangeJobFilterOptions: [],
     SearchFilterMappingData: {},
     InitialMapGeoData: generateMockMapGeoData()

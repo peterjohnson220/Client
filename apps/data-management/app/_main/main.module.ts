@@ -22,25 +22,66 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import {
-    DefaultPaymarketConfirmationModalComponent, EntityPickerComponent, EntityUploadComponent, FileMappingComponent, PfCheckboxComponent
+  DefaultPaymarketConfirmationModalComponent,
+  EntityPickerComponent,
+  EntityUploadComponent,
+  FileMappingComponent,
+  PfCheckboxComponent,
+  ProviderListComponent
 } from './components';
 import { FileUploadComponent } from './components/file-upload';
 import {
-    CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent, EntityMappingComponent,
-    FieldMappingPageComponent, FieldMappingCardComponent, HrisAuthenticationCardComponent, HrisIntegrationPanelComponent,
-    HrisIntegrationSidebarComponent, HrisIntegrationStatusComponent, OrgDataLoadComponent, PfTestAuthenticationComponent, ProviderCardComponent,
-    ResetIntegrationPageComponent, TransferDataPageComponent, TransferMethodDropdownComponent, TransferScheduleCardComponent,
-    TransferScheduleCronComponent, TransferSchedulePageComponent, TransferScheduleSummaryComponent, WorkdayAuthenticationComponent,
-    WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent, InboundEntitySelectionPageComponent
+  CustomEmployeeIdentifierComponent,
+  DataManagementHomePageComponent,
+  DataManagementLandingPageComponent,
+  EntityMappingComponent,
+  FieldMappingPageComponent,
+  FieldMappingCardComponent,
+  HrisAuthenticationCardComponent,
+  HrisIntegrationPanelComponent,
+  HrisIntegrationSidebarComponent,
+  HrisIntegrationStatusComponent,
+  OrgDataLoadComponent,
+  PfTestAuthenticationComponent,
+  ProviderCardComponent,
+  ResetIntegrationPageComponent,
+  TransferDataPageComponent,
+  TransferMethodDropdownComponent,
+  TransferScheduleCardComponent,
+  TransferScheduleCronComponent,
+  TransferSchedulePageComponent,
+  TransferScheduleSummaryComponent,
+  WorkdayAuthenticationComponent,
+  WorkdayMockAuthenticationComponent,
+  WorkdayRestAuthenticationComponent,
+  InboundEntitySelectionPageComponent,
+  InboundAuthenticationPageComponent,
+  InboundProvidersPageComponent,
+  OutboundAuthenticationPageComponent,
+  OutboundFieldMappingPageComponent,
+  OutboundJdmViewSelectionPageComponent,
+  OutboundProviderSelectionPageComponent,
+  OutboundTransferSchedulePageComponent,
+  OutboundTransferScheduleSummaryComponent
 } from './containers';
 import {
-  CustomFieldsEffect, EntityIdentifiersEffects, EntitySelectionEffects, FieldMappingEffects, FileUploadEffects, HrisConnectionEffects,
-  OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, TransferDataPageEffects, TransferScheduleEffects
+  CustomFieldsEffect,
+  EntityIdentifiersEffects,
+  EntitySelectionEffects,
+  FieldMappingEffects,
+  FileUploadEffects,
+  HrisConnectionEffects,
+  OrganizationalDataPageEffects,
+  OrgDataFieldMappingsEffects,
+  OutboundJdmEffects,
+  TransferDataPageEffects,
+  TransferScheduleEffects,
+  ProviderListEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
-import { GetSupportedSchedulesPipe } from './pipes';
+import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pipes';
 
 @NgModule({
   imports: [
@@ -57,17 +98,20 @@ import { GetSupportedSchedulesPipe } from './pipes';
     DragulaModule.forRoot(),
     StoreModule.forFeature('data_management', reducers),
     EffectsModule.forFeature([
-      TransferDataPageEffects,
-      OrganizationalDataPageEffects,
-      FieldMappingEffects,
-      OrgDataFieldMappingsEffects,
-      FileUploadEffects,
-      LoaderSettingsEffects,
       CustomFieldsEffect,
-      TransferScheduleEffects,
-      HrisConnectionEffects,
       EntityIdentifiersEffects,
-      EntitySelectionEffects
+      EntitySelectionEffects,
+      FieldMappingEffects,
+      FileUploadEffects,
+      HrisConnectionEffects,
+      OrganizationalDataPageEffects,
+      OrgDataFieldMappingsEffects,
+      OutboundJdmEffects,
+      TransferDataPageEffects,
+      TransferScheduleEffects,
+      EntityIdentifiersEffects,
+      EntitySelectionEffects,
+      ProviderListEffects
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
@@ -86,31 +130,48 @@ import { GetSupportedSchedulesPipe } from './pipes';
   ],
   declarations: [
     // Pipes
+    OrgDataEntityTypeToDisplayName,
     GetSupportedSchedulesPipe,
 
     // Pages
     DataManagementHomePageComponent,
+    DataManagementLandingPageComponent,
+    FieldMappingPageComponent,
+    InboundAuthenticationPageComponent,
+    InboundEntitySelectionPageComponent,
+    OutboundAuthenticationPageComponent,
+    OutboundFieldMappingPageComponent,
+    OutboundJdmViewSelectionPageComponent,
+    OutboundProviderSelectionPageComponent,
+    OutboundTransferSchedulePageComponent,
+    ResetIntegrationPageComponent,
     TransferDataPageComponent,
+    TransferSchedulePageComponent,
 
     // Components
-    TransferMethodDropdownComponent,
-    ProviderCardComponent,
-    HrisAuthenticationCardComponent,
-    WorkdayAuthenticationComponent,
-    WorkdayMockAuthenticationComponent,
-    WorkdayRestAuthenticationComponent,
-    PfTestAuthenticationComponent,
-    OrgDataLoadComponent,
+    CustomEmployeeIdentifierComponent,
+    DefaultPaymarketConfirmationModalComponent,
     EntityPickerComponent,
     EntityUploadComponent,
-    FieldMappingCardComponent,
-    FileUploadComponent,
     EntityMappingComponent,
     FileMappingComponent,
-    TransferSchedulePageComponent,
+    FileUploadComponent,
+    FieldMappingCardComponent,
+    HrisAuthenticationCardComponent,
+    HrisIntegrationPanelComponent,
+    HrisIntegrationSidebarComponent,
+    HrisIntegrationStatusComponent,
+    OrgDataLoadComponent,
+    PfCheckboxComponent,
+    PfTestAuthenticationComponent,
+    ProviderCardComponent,
+    TransferMethodDropdownComponent,
     TransferScheduleSummaryComponent,
     TransferScheduleCardComponent,
     TransferScheduleCronComponent,
+    WorkdayAuthenticationComponent,
+    WorkdayMockAuthenticationComponent,
+    WorkdayRestAuthenticationComponent,
     DataManagementLandingPageComponent,
     HrisIntegrationPanelComponent,
     HrisIntegrationStatusComponent,
@@ -120,7 +181,16 @@ import { GetSupportedSchedulesPipe } from './pipes';
     CustomEmployeeIdentifierComponent,
     PfCheckboxComponent,
     InboundEntitySelectionPageComponent,
-    FieldMappingPageComponent
+    InboundAuthenticationPageComponent,
+    InboundProvidersPageComponent,
+    FieldMappingPageComponent,
+    OutboundProviderSelectionPageComponent,
+    OutboundFieldMappingPageComponent,
+    OutboundAuthenticationPageComponent,
+    OutboundTransferSchedulePageComponent,
+    OutboundJdmViewSelectionPageComponent,
+    OutboundTransferScheduleSummaryComponent,
+    ProviderListComponent
   ]
 })
 export class MainModule {

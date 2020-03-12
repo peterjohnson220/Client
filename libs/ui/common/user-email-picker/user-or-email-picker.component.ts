@@ -42,6 +42,7 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
   model: any;
   searching = false;
   searchFailed = false;
+  private restrictWorkflowToCompanyEmployeesOnly: boolean;
 
 
   constructor(private companyApiService: CompanyApiService,
@@ -54,6 +55,9 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
     this.identitySubscription = this.identity$.subscribe(i => {
       if (i) {
         this.avatarUrl = i.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/avatars/';
+        this.companyApiService.get(i.CompanyId).subscribe(company => {
+          this.restrictWorkflowToCompanyEmployeesOnly = company.RestrictWorkflowToCompanyEmployeesOnly;
+      });
       }
     });
   }
@@ -98,7 +102,7 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
         results = results.filter(r => (r.FirstName + ' ' + r.LastName) !== this.nameToExclude);
       }
       returnVal = results;
-    } else {
+    } else if (!this.restrictWorkflowToCompanyEmployeesOnly) {
       returnVal = RegExp(RegexStrings.EMAIL, 'i').test(term) ? [{ EmailAddress: term }] : returnVal;
     }
     return returnVal;

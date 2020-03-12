@@ -34,9 +34,9 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   @Input() disabled = false;
   @Input() maxLength = 524288;
   @Input() id: string;
-  @Input() automationClassName: '';
-  @Input() minWidth: '100';
-  @Input() value: '';
+  @Input() automationClassName = '';
+  @Input() minWidth = 100;
+  @Input() value = '';
   @Output() valueChanged: EventEmitter<string> = new EventEmitter();
   @Output() clearClicked = new EventEmitter();
 
@@ -44,7 +44,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
     this.clearEvent = new Subject();
   }
 
-  propogateChange = (_: any) => { };
+  propagateChange = (_: any) => { };
 
   ngOnInit() {
     this.inputEvents = observableFromEvent(this.elementRef.nativeElement, 'input');
@@ -64,6 +64,10 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
     this.innerValue = this.value;
   }
 
+  getMaxLength(): string {
+    return String(this.maxLength);
+  }
+
   clearValue() {
     if (!this.disabled) {
       this.innerValue = '';
@@ -73,11 +77,11 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   }
 
   onKey() {
-    this.propogateChange(this.innerValue);
+    this.propagateChange(this.innerValue);
   }
 
   onPaste() {
-    this.propogateChange(this.innerValue);
+    this.propagateChange(this.innerValue);
   }
 
   writeValue(value: any) {
@@ -85,7 +89,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   }
 
   registerOnChange(fn) {
-    this.propogateChange = fn;
+    this.propagateChange = fn;
   }
 
   blur() {
@@ -94,4 +98,17 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   }
 
   registerOnTouched() { }
+
+  getClearButtonCss(): any {
+    let cssClasses = '';
+
+    if (!this.disabled) {
+      cssClasses += 'action-item';
+    }
+
+    if (this.automationClassName) {
+      cssClasses += ' ' + this.automationClassName + '-clear';
+    }
+    return cssClasses;
+  }
 }

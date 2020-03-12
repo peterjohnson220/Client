@@ -1,9 +1,11 @@
 export interface AsyncStateObj<T> {
   loading: boolean;
   loadingError: boolean;
+  loadingErrorResponse: any;
   saving: boolean;
   savingSuccess: boolean;
   savingError: boolean;
+  savingErrorResponse: any;
   obj: T;
 }
 
@@ -11,9 +13,11 @@ export function generateDefaultAsyncStateObj<T>(defaultObjValue: T): AsyncStateO
   return {
     loading: false,
     loadingError: false,
+    loadingErrorResponse: null,
     saving: false,
     savingSuccess: false,
     savingError: false,
+    savingErrorResponse: null,
     obj: defaultObjValue
   };
 }

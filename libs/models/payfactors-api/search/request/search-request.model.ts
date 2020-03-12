@@ -24,6 +24,7 @@ export interface BaseSearchAggregationsRequest {
   SearchField: string;
   TextQuery: string;
   AggregateCount?: number;
+  PagingOptions?: PagingOptions;
 }
 
 export interface BaseProjectSearchRequest extends BaseSearchRequest {

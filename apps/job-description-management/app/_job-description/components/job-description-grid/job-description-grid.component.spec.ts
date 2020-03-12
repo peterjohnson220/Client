@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { NgbDropdown, NgbModal, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbModal, NgbPopoverModule, NgbModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromRootState from 'libs/state/state';
@@ -11,6 +11,9 @@ import * as fromJobDescriptionReducers from '../../reducers';
 import { JobDescriptionGridComponent } from './job-description-grid.component';
 import { generateMockCompanyJobViewListItem } from '../../models';
 import { MomentModule } from 'angular2-moment';
+import { PermissionService } from 'libs/core';
+import { TruncateAfterPipe } from 'libs/core/pipes';
+
 
 describe('Job Description Management - Job Description - Job Description Grid', () => {
   let instance: JobDescriptionGridComponent;
@@ -29,12 +32,16 @@ describe('Job Description Management - Job Description - Job Description Grid', 
         MomentModule
       ],
       declarations: [
-        JobDescriptionGridComponent, NgbDropdown
+        JobDescriptionGridComponent, NgbDropdown,  NgbTooltip, TruncateAfterPipe
       ],
       providers: [
         {
           provide: NgbModal,
           useValue: { open: jest.fn() }
+        },
+        {
+          provide: PermissionService,
+          useValue: { CheckPermission: jest.fn(() => true) }
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]

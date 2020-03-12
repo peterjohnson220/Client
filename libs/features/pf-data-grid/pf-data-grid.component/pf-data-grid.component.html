@@ -10,6 +10,8 @@
       [showColumnChooser]="showColumnChooser"
       [showFilterChooser]="showFilterChooser"
       [allowExport]="allowExport"
+      [exportSourceName]="exportSourceName"
+      [selectionField]="selectionField"
       [globalFilters]= "globalFilterableFields"
       [globalFilterAlignment]="showTitle?'Right':'Left'"
       [globalActionsTemplate]="gridGlobalActionsTemplate"
@@ -35,7 +37,7 @@
           <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
         </div>
       </div>
-      <div class="d-flex h-100">
+      <div class="d-flex h-100" [ngClass]="mainGridContainerClassName != null ? mainGridContainerClassName : ''">
         <div [ngClass]="isSplitView() ? 'main-grid-split' : 'main-grid-full'"
              [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
           <div class="flex-column-container">
@@ -57,7 +59,8 @@
                     [backgroundColor]="backgroundColor"
 		                [allowSort]="allowSort"
                     [rowActionTemplate]="rowActionTemplate"
-                    [customHeaderClass]="headerClassName">
+                    [customHeaderClass]="headerClassName"
+                    [defaultColumnWidth]="defaultColumnWidth">
                   </pf-grid>
                 </div>
               </div>

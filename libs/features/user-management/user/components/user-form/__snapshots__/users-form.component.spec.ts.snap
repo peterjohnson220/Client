@@ -13,10 +13,13 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
   companySubsidiaries={[Function Array]}
   companySubsidiaries$={[Function Observable]}
   formBuilder={[Function FormBuilder]}
+  modalService={[Function NgbModal]}
   newUser={[Function Object]}
   passwordValidatorSubscription={[Function Subscriber]}
   saveUser={[Function EventEmitter]}
   selectedValues={[Function Array]}
+  showUserRoleModal={[Function BehaviorSubject]}
+  showUserRoleModal$={[Function Observable]}
   user={[Function Object]}
   user$={[Function Observable]}
   userApiService="undefined"
@@ -111,6 +114,21 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
     <div
       class="form-group"
     >
+      <pf-modal-form
+        ng-reflect-is-open_="[object Object]"
+        ng-reflect-primary-button-class="btn-primary"
+        ng-reflect-primary-button-text="Save"
+        ng-reflect-size="md"
+        ng-reflect-title="Update User Role"
+      >
+        
+        
+        
+        <div
+          class="modal-container"
+          id="UpdateUserRole"
+        />
+      </pf-modal-form>
       <label
         class="control-label"
         for="status"
@@ -126,8 +144,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         class="form-control"
         formcontrolname="status"
         id="user-form-status"
-        ng-reflect-klass="form-control"
-        ng-reflect-ng-class="[object Object]"
         placeholder="Status"
       >
         <option

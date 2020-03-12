@@ -22,12 +22,12 @@
             <th class="job-info-heading">Created By:</th>
             <td>{{jobDescription?.CreatedBy}}</td>
             <th class="job-info-heading">Created Date:</th>
-            <td>{{jobDescription?.CreatedDate | date:'short'}}</td>
+            <td>{{jobDescription?.CreatedDate | date:'MM/dd/yyyy, hh:mm aa'}}</td>
           </tr>
           <tr *ngFor="let jobInfoFieldRow of jobInfoFieldRows">
             <ng-template ngFor let-jobInformationField [ngForOf]="jobInfoFieldRow.fields">
               <th class="job-info-heading">{{jobInformationField.DisplayName}}{{jobInformationField.DisplayName.length ? ':' : ''}}</th>
-              <td>{{jobInformationField?.DisplayName?.toString() === 'Last Updated Date' ? (jobInformationField.FieldValue | date:'short') : jobInformationField.FieldValue}}</td>
+              <td>{{jobInformationField?.DisplayName?.toString() === 'Last Updated Date' ? (jobInformationField.FieldValue | date:'MM/dd/yyyy, hh:mm aa') : jobInformationField.FieldValue}}</td>
             </ng-template>
           </tr>
           <tr *ngIf="!isPublic && (jobDescription?.AppliesToField || jobDescription?.JobDescriptionTitle)">

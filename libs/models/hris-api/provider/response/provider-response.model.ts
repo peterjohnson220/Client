@@ -51,3 +51,17 @@ export function generateMockProviderResponseList(): ProviderResponse[] {
     }
   ];
 }
+
+export function generateMockOutboundProviderResponseList(): ProviderResponse[] {
+  return [
+    {
+      provider_ID: 0,
+      transferMethod_ID: 0,
+      providerName: 'MockProviderName0',
+      providerCode: 'MockProviderCode0',
+      providerImageUrl: 'assets/images/workday-logo.png',
+      active: true,
+      authenticationType_ID: 1
+    }
+  ];
+}

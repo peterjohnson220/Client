@@ -13,11 +13,11 @@
     (pageChange)="onPageChange($event)"
     (sortChange)="onSortChange($event)"
     (cellClick)="onCellClick($event)">
-    <kendo-grid-checkbox-column [resizable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="23">
+    <kendo-grid-checkbox-column [resizable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
       <ng-template kendoGridHeaderTemplate>
         <input kendoGridSelectAllCheckbox id="selectAllCheckboxId"
-               [state]="selectAllState$ | async"
-               (selectAllChange)="onSelectAllChange($event)">
+              [state]="selectAllState$ | async"
+              (selectAllChange)="onSelectAllChange($event)">
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
         <input type="checkbox"
@@ -29,14 +29,14 @@
       <ng-container *ngIf="col.Group">
           <kendo-grid-column-group
             [title]="col.Group"
-            [headerClass]="getGridColumnHeaderClass()"
+            [headerClass]="getGridColumnHeaderClass(col)"
             [locked]="false">
               <ng-container *ngFor="let col of col.Fields">
                   <ng-container *ngIf="showColumn(col)">
                       <kendo-grid-column
                         [field]="mappedFieldName(col)"
                         [title]="col.DisplayName"
-                        [headerClass]="getGridColumnHeaderClass()"
+                        [headerClass]="getGridColumnHeaderClass(col)"
                         [style]="{'text-align': col.TextAlign, 'background-color': backgroundColor ? backgroundColor : '', 'padding': '0.25rem 0.25rem'}"
                         [class]="getColumnClasses(col)"
                         [width]="selectedRecordId ? null : col.Width"
@@ -61,10 +61,10 @@
         <kendo-grid-column
           [field]="mappedFieldName(col)"
           [title]="col.DisplayName"
-          [headerClass]="getGridColumnHeaderClass()"
+          [headerClass]="getGridColumnHeaderClass(col)"
           [style]="{'text-align': col.TextAlign, 'background-color': backgroundColor ? backgroundColor : ''}"
           [class]="getColumnClasses(col)"
-          [width]="selectedRecordId ? null : col.Width"
+          [width]="selectedRecordId ? null : (col.Width || defaultColumnWidth)"
           [minResizableWidth]="30">
           <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <pf-grid-column
