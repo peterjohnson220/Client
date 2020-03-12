@@ -9,6 +9,7 @@ import { FooterViewEffects } from './effects';
 import { reducers } from './reducers';
 import { FooterViewPageComponent } from './footer-view.page/footer-view.page';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
     // 3rd Party
     StoreModule.forFeature('jobDescriptionManagement_settings_footerView', reducers),
     EffectsModule.forFeature([FooterViewEffects]),
+    DropDownsModule,
 
     // Payfactors
     PfCommonUIModule
