@@ -15,6 +15,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   @ViewChild('results', { static: true }) resultsContainer: ElementRef;
   @Input() numberOfCurrentResults: number;
   @Input() useSmallBizStyles: boolean;
+  @Input() customSearchResultsStyle: any = {};
 
   // Observables
   loadingMoreResults$: Observable<boolean>;

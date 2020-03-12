@@ -1,18 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TotalRewardsPageComponent } from './containers/pages';
-import { EditTemplatePageComponent } from './containers/pages';
+import {StatementListPageComponent} from './statement-list/statement-list.page';
+import {StatementEditPageComponent} from './statement-edit/statement-edit.page';
 
 const routes: Routes = [
   {
-    path: '',
-    component: TotalRewardsPageComponent
+    path: '', component: StatementListPageComponent
   },
-  {
-    path: 'edit-template',
-    component: EditTemplatePageComponent
-  }
+  { path: 'statement/edit/:id', component: StatementEditPageComponent }
 ];
 
 @NgModule({

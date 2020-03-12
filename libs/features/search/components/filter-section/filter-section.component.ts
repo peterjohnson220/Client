@@ -24,7 +24,7 @@ export class FilterSectionComponent {
   protected cssReplacementRegex = /[\s]/g;
   collapsed: boolean;
   filterTypes = FilterType;
-  maxOptions = ClientServerFilterHelper.maxNumberOfOptions;
+  maxOptions = ClientServerFilterHelper.defaultNumberOfOptions;
 
   constructor() {}
 
@@ -48,7 +48,7 @@ export class FilterSectionComponent {
 
   get selectionCount(): number {
     return this.overriddenSelectionCount ||
-      (isMultiFilter(this.filter) ? this.filter.Options.filter(o => o.Selected).length : 0);
+      (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter) ? this.filter.Options.filter(o => o.Selected).length : 0);
   }
 
   get selectableOptionCount(): number {
@@ -90,6 +90,10 @@ export class FilterSectionComponent {
     return this.optionCount >= this.maxOptions && !this.singled && !this.showAllOptions;
   }
 
+  get disableShowMore(): boolean {
+    return (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter)) && this.optionCount + this.selectionCount < this.filter.AggregateCount;
+  }
+
   toggle() {
     if (!this.singled) {
       this.collapsed = !this.collapsed;
@@ -107,7 +111,7 @@ export class FilterSectionComponent {
   }
 
   handleShowMoreClicked(filter: Filter) {
-    if (this.allowedToSearch) {
+    if (this.allowedToSearch && !this.disableShowMore) {
       this.showMore.emit(filter);
     }
   }

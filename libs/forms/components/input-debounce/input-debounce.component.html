@@ -10,7 +10,7 @@
        [disabled]="disabled"
        [pfFocus]="focus"
        [pfFocusElementShowing]="showing"
-       [maxlength]="maxLength"
+       [maxlength]="getMaxLength()"
        [ngClass]="automationClassName"
        [attr.data-qa-id]="'txt-'+id">
 <div *ngIf="!hideClearBtn" class="input-group">
@@ -28,11 +28,11 @@
          [disabled]="disabled"
          [pfFocus]="focus"
          [pfFocusElementShowing]="showing"
-         [maxlength]="maxLength"
+         [maxlength]="getMaxLength()"
          [ngClass]="automationClassName"
          [attr.data-qa-id]="'txt-'+id"
          [style.min-width]="minWidth + 'px'">
-    <div (click)="clearValue()" class="input-group-append action-item" [ngClass]="{'action-item': !disabled}" [ngClass]="automationClassName + '-clear'">
+    <div (click)="clearValue()" class="input-group-append action-item" [ngClass]="getClearButtonCss()">
       <span class="input-group-text"><fa-icon icon="times" aria-hidden="true"></fa-icon></span>
     </div>
 </div>

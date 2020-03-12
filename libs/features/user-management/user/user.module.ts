@@ -16,6 +16,7 @@ import { reducers } from './reducers';
 
 import { UserFormComponent } from './components/user-form';
 import { UserPageComponent } from './user.page/user.page';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { UserPageComponent } from './user.page/user.page';
     GridModule,
     LayoutModule,
     FontAwesomeModule,
+    NgbModule,
 
     // Payfactors
     PfCommonUIModule,

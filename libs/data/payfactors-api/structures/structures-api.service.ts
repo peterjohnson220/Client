@@ -3,9 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CompanyStructure } from '../../../models/structures/company-structure.model';
-import { CompanyStructureView } from '../../../models/structures/company-structure-view.model';
-import { StructureRangeGroupResponse, generateMockCompanyStructureRangeGroup } from '../../../models/payfactors-api/structures';
+import { StructureRangeGroupResponse, generateMockCompanyStructureRangeGroup } from 'libs/models/payfactors-api';
+import {
+  CompanyStructure,
+  CompanyStructureView,
+  CompanyStructurePaymarketGrade,
+} from 'libs/models';
+
+
 
 @Injectable()
 export class StructuresApiService {
@@ -21,6 +26,14 @@ export class StructuresApiService {
 
   getCompanyStructuresListViewData(): Observable<CompanyStructureView[]> {
     return this.payfactorsApiService.get<CompanyStructureView[]>(`${this.endpoint}/GetStructuresListViewData`);
+  }
+
+  getCurrentStructuresWithValidPaymarkets(): Observable<CompanyStructure[]> {
+    return this.payfactorsApiService.get<CompanyStructure[]>(`${this.endpoint}/GetCurrentStructuresWithValidPaymarkets`);
+  }
+
+  getStructurePaymarketsAndGrades(companyStructureId: number): Observable<CompanyStructurePaymarketGrade[]> {
+    return this.payfactorsApiService.get<CompanyStructurePaymarketGrade[]>(`${this.endpoint}(${companyStructureId})/Default.GetPaymarketsAndGrades`);
   }
 
   addStructuresFavorite(companyStructureId: number): Observable<number> {

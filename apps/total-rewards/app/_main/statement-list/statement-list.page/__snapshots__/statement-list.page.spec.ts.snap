@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TotalRewardsPageComponent should show the create new banner when no statements are returned 1`] = `
+<pf-total-rewards-statement-list-page
+  loadingStatements$={[Function Observable]}
+  searchTerm$={[Function Observable]}
+  statements$={[Function Observable]}
+  store={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+    <fa-icon
+      aria-hidden="true"
+      class="mr-2"
+    />
+    Total Rewards Statements 
+    
+    <pf-input-debounce
+      class="mr-2"
+    />
+    
+    <pf-statements-grid />
+  </pf-page-with-title-bar>
+</pf-total-rewards-statement-list-page>
+`;
+
+exports[`TotalRewardsPageComponent should show the grid component when statements are returned 1`] = `
+<pf-total-rewards-statement-list-page
+  loadingStatements$={[Function Store]}
+  searchTerm$={[Function Store]}
+  statements$={[Function Observable]}
+  store={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+    <fa-icon
+      aria-hidden="true"
+      class="mr-2"
+    />
+    Total Rewards Statements 
+    
+    <pf-input-debounce
+      class="mr-2"
+    />
+    
+    <pf-statements-grid />
+  </pf-page-with-title-bar>
+</pf-total-rewards-statement-list-page>
+`;

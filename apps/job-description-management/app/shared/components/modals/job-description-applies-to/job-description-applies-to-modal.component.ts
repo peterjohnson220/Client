@@ -67,16 +67,11 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
     private store: Store<fromJobDescriptionAppliesToReducers.State>
   ) {
     this.templateListItems$ = this.store.select(fromJobDescriptionAppliesToReducers.getTemplateList);
-    this.jobDescriptionAppliesToItems$ = this.store.select(
-      fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToItems);
-    this.jobDescriptionAppliesToItemsLoading$ = this.store.select(
-      fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToLoading);
-    this.jobDescriptionAppliesToValues$ = this.store.select(
-      fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToValues);
-    this.jobDescriptionAppliesToValuesLoading$ = this.store.select(
-      fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToValuesLoading);
-    this.appliesToAttributesExist$ = this.store.select(
-      fromJobDescriptionAppliesToReducers.getAppliesToAttributesExist);
+    this.jobDescriptionAppliesToItems$ = this.store.select(fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToItems);
+    this.jobDescriptionAppliesToItemsLoading$ = this.store.select(fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToLoading);
+    this.jobDescriptionAppliesToValues$ = this.store.select(fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToValues);
+    this.jobDescriptionAppliesToValuesLoading$ = this.store.select(fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToValuesLoading);
+    this.appliesToAttributesExist$ = this.store.select(fromJobDescriptionAppliesToReducers.getAppliesToAttributesExist);
   }
 
   ngOnDestroy(): void {
@@ -176,15 +171,17 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
   }
 
   handleAppliesToFieldChanged(selectedJobDescriptionAppliesToItem: string) {
-    this.appliesToform.controls['appliesToValue'].setValue('');
-    this.resetFlags('AppliesTo');
+    if (!!selectedJobDescriptionAppliesToItem) {
+      this.appliesToform.controls['appliesToValue'].setValue('');
+      this.resetFlags('AppliesTo');
 
-    if (selectedJobDescriptionAppliesToItem.length) {
-      this.searchColumnName = selectedJobDescriptionAppliesToItem;
-      this.store.dispatch(new fromJobDescriptionAppliesToActions.LoadJobDescriptionAppliesToValues(
-        {SearchTerm: this.searchColumnName}));
-    } else {
-      this.searchColumnName = '';
+      if (selectedJobDescriptionAppliesToItem.length) {
+        this.searchColumnName = selectedJobDescriptionAppliesToItem;
+        this.store.dispatch(new fromJobDescriptionAppliesToActions.LoadJobDescriptionAppliesToValues(
+          {SearchTerm: this.searchColumnName}));
+      } else {
+        this.searchColumnName = '';
+      }
     }
   }
 

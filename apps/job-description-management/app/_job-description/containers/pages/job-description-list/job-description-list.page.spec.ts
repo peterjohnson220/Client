@@ -9,7 +9,6 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { FilterDescriptor } from '@progress/kendo-data-query';
 import { of, Subject } from 'rxjs';
 
-
 import * as fromRootState from 'libs/state/state';
 import { generateMockListAreaColumns } from 'libs/models/common/list-area';
 import {
@@ -31,11 +30,14 @@ import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import { CompanyJobViewListItem, generateMockCompanyJobViewListItem } from '../../../models';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent,
   WorkflowCancelModalComponent } from '../../../components';
+
+import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
 import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to/job-description-applies-to-modal.component';
-import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
-
+import {
+  DeleteJobDescriptionModalComponent
+} from '../../../../shared/components/modals/delete-job-description-modal/delete-job-description-modal.component';
 
 describe('Job Description Management - Job Description - Job Description List Page', () => {
   let instance: JobDescriptionListPageComponent;
@@ -85,7 +87,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
       ],
       declarations: [
         JobDescriptionListPageComponent, AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent,
-        JobDescriptionAppliesToModalComponent, SaveFilterModalComponent, WorkflowCancelModalComponent
+        JobDescriptionAppliesToModalComponent, SaveFilterModalComponent, WorkflowCancelModalComponent, DeleteJobDescriptionModalComponent
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -97,6 +99,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
     instance.jobDescriptionHistoryModalComponent = TestBed.createComponent(JobDescriptionHistoryModalComponent).componentInstance;
     instance.jobDescriptionAppliesToModalComponent = TestBed.createComponent(JobDescriptionAppliesToModalComponent).componentInstance;
     instance.saveFilterModalComponent = TestBed.createComponent(SaveFilterModalComponent).componentInstance;
+    instance.deleteJobDescriptionModalComponent = TestBed.createComponent(DeleteJobDescriptionModalComponent).componentInstance;
 
     instance.saveFilterModalComponent.filterForm = new FormGroup({});
     instance.filterThrottle = new Subject();
@@ -385,6 +388,15 @@ describe('Job Description Management - Job Description - Job Description List Pa
 
     expect(instance.selectedCompanyJobForModal).toEqual(cloneDeep(mockSelectedCompanyJob));
     expect(instance.assignJobToTemplateModalComponent.open).toHaveBeenCalled();
+  });
+
+  it('should open deleteJobDescriptionModalComponent, when calling openDeleteJobDescModal', () => {
+    spyOn(instance.deleteJobDescriptionModalComponent, 'open');
+
+    const jobDescrtiptionId = 123;
+
+    instance.openDeleteJobDescModal(jobDescrtiptionId);
+    expect(instance.deleteJobDescriptionModalComponent.open).toHaveBeenCalled();
   });
 
   it('should open jobDescriptionHistoryModalComponent, when calling openJobDescriptionHistoryModal', () => {

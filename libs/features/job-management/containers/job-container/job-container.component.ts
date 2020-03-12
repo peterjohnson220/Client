@@ -8,10 +8,12 @@ import { JobFormComponent } from '../job-form/job-form.component';
 import * as fromJobManagementActions from '../../actions';
 import * as fromJobManagementReducer from '../../reducers';
 import { JobAttachmentsComponent } from '../job-attachments/job-attachments.component';
+import { JobStructuresComponent } from '../job-structures/job-structures.component';
 
 enum JobManagementTabs {
   JobFields = 'JobFields',
   Attachments = 'Attachments',
+  Structures = 'Structures'
 }
 
 @Component({
@@ -23,6 +25,7 @@ export class JobContainerComponent implements OnInit, OnDestroy {
 
   @ViewChild('jobFormComponent', { static: false }) jobFormComponent: JobFormComponent;
   @ViewChild('attachmentsComponent', { static: false }) attachmentsComponent: JobAttachmentsComponent;
+  @ViewChild('structuresComponent', { static: false }) structuresComponent: JobStructuresComponent;
   @ViewChild('jobsTabs', { static: false }) jobsTabs: NgbTabset;
 
   loading$: Observable<boolean>;

@@ -4,6 +4,11 @@
   width: inherit;
 }
 
+.dropdown-item.disabled, .dropdown-item:disabled {
+  cursor: not-allowed;
+}
+
+
 #jd-list-view-actions-dropdown svg {
   font-size:  0.875rem;
   color: #ffffff;

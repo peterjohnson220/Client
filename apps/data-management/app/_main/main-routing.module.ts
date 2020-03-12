@@ -6,10 +6,22 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AuthorizationGuard, PfAdminGuard } from 'libs/security/guards';
 
 import {
-    CustomEmployeeIdentifierComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent,
-    FieldMappingPageComponent, OrgDataLoadComponent,
-    ResetIntegrationPageComponent, TransferDataPageComponent, TransferSchedulePageComponent,
-    InboundEntitySelectionPageComponent
+  CustomEmployeeIdentifierComponent,
+  DataManagementHomePageComponent,
+  DataManagementLandingPageComponent,
+  FieldMappingPageComponent,
+  InboundAuthenticationPageComponent,
+  InboundEntitySelectionPageComponent,
+  InboundProvidersPageComponent,
+  OrgDataLoadComponent,
+  OutboundAuthenticationPageComponent,
+  OutboundFieldMappingPageComponent,
+  OutboundJdmViewSelectionPageComponent,
+  OutboundProviderSelectionPageComponent,
+  OutboundTransferSchedulePageComponent,
+  ResetIntegrationPageComponent,
+  TransferDataPageComponent,
+  TransferSchedulePageComponent,
 } from './containers';
 
 const routes: Routes = [
@@ -17,7 +29,7 @@ const routes: Routes = [
     path: 'org-data-load',
     component: OrgDataLoadComponent,
     canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD, Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any }
+    data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD], Check: PermissionCheckEnum.Any }
   },
   {
     path: 'custom-employee-identifier',
@@ -38,34 +50,65 @@ const routes: Routes = [
       },
       {
         path: 'transfer-data',
+        component: TransferDataPageComponent,
         children: [
-          {
-            path: '',
-            component: TransferDataPageComponent
-          },
           {
             path: 'inbound',
             children: [
               {
+                path: 'vendor',
+                component: InboundProvidersPageComponent
+              },
+              {
                 path: 'entity-selection',
                 component: InboundEntitySelectionPageComponent
-              }
+              },
+              {
+                path: 'field-mapping',
+                component: FieldMappingPageComponent
+              },
+              {
+                path: 'authentication',
+                component: InboundAuthenticationPageComponent
+              },
+              {
+                path: 'transfer-schedule',
+                component: TransferSchedulePageComponent,
+                data: { FullPage: true }
+              },
+            ]
+          },
+          {
+            path: 'outbound',
+            children: [
+              {
+                path: 'vendor',
+                component: OutboundProviderSelectionPageComponent
+              },
+              {
+                path: 'authentication',
+                component: OutboundAuthenticationPageComponent
+              },
+              {
+                path: 'field-mapping',
+                component: OutboundFieldMappingPageComponent
+              },
+              {
+                path: 'transfer-schedule',
+                component: OutboundTransferSchedulePageComponent,
+                data: { FullPage: true }
+              },
+              {
+                path: 'jdm-view-selection',
+                component: OutboundJdmViewSelectionPageComponent
+              },
             ]
           }
         ]
       },
       {
-        path: 'transfer-schedule',
-        component: TransferSchedulePageComponent,
-        data: { FullPage: true }
-      },
-      {
         path: 'reset',
         component: ResetIntegrationPageComponent
-      },
-      {
-        path: 'field-mapping',
-        component: FieldMappingPageComponent
       }
     ]
   }

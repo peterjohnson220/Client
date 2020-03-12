@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 
+import { isEmpty, isObject } from 'lodash';
 import {Observable, of} from 'rxjs';
 import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 
@@ -15,6 +16,7 @@ import {ConnectionSummaryResponse} from 'libs/models/hris-api/connection/respons
 import {PayfactorsApiModelMapper} from '../helpers';
 import * as fromHrisConnectionReducer from '../reducers/hris-connection.reducer';
 import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
+import * as fromReducers from '../reducers';
 
 @Injectable()
 export class HrisConnectionEffects {
@@ -73,10 +75,14 @@ export class HrisConnectionEffects {
       ofType(fromHrisConnectionActions.GET_HRIS_CONNECTION_SUMMARY),
       withLatestFrom(
         this.store.pipe(select(fromRootState.getUserContext)),
-        (action, userContext) => {
+        this.store.pipe(select(fromReducers.getSelectedProvider)),
+        this.store.pipe(select(fromReducers.getSelectedEntities)),
+        (action, userContext, selectedProvider, selectedEntities) => {
           return {
             action,
-            userContext
+            userContext,
+            selectedProvider,
+            selectedEntities,
           };
         }
       ),
@@ -85,6 +91,15 @@ export class HrisConnectionEffects {
           .pipe(
             map((response: ConnectionSummaryResponse) => {
               const summary = PayfactorsApiModelMapper.mapConnectionSummaryResponseToConnectionSummaryDto(response);
+
+              if (isObject(obj.selectedProvider) && !isObject(summary.provider)) {
+                summary.provider = obj.selectedProvider;
+              }
+
+              if (!isEmpty(obj.selectedEntities) && isEmpty(summary.selectedEntities)) {
+                summary.selectedEntities = obj.selectedEntities.map(e => e.EntityType);
+              }
+
               return new fromHrisConnectionActions.GetHrisConnectionSummarySuccess(summary);
             }),
             catchError(e => of(new fromHrisConnectionActions.GetHrisConnectionSummaryError()))

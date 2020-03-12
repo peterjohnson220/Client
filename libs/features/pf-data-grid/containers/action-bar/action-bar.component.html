@@ -22,8 +22,10 @@
   <div class="d-flex space-out-children-lg">
       <ng-container class="d-flex " *ngIf="globalActionsTemplate" [ngTemplateOutlet]="globalActionsTemplate"></ng-container>
 
-      <button *ngIf="allowExport" type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
-              placement="bottom-right" popoverTitle="Choose Content to Export">
+      <button *ngIf="allowExport && !!exportSourceName?.length" type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
+              placement="bottom-right" popoverTitle="Choose Content to Export"
+              [disabled]="(exporting$ | async) || (loadingExportingStatus$ | async)"
+              (click)="handleExportClicked()">
         <fa-icon icon="download"></fa-icon>
       </button>
 

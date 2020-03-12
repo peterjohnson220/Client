@@ -4,12 +4,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-import * as fromRootState from 'libs/state/state';
+import { OrgDataEntityType } from 'libs/constants';
 import { generateMockCredentialsPackage } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromDataManagementMainReducer from '../../reducers';
-import {generateMockEntityTypeModel, generateMockProvider, PfTestCredentialsPackage} from '../../models';
-import * as fromTransferDataPageActions from '../../actions/transfer-data-page.actions';
+import { generateMockExistingConnectionSummary, PfTestCredentialsPackage} from '../../models';
+
 import { HrisAuthenticationCardComponent } from './hris-authentication-card.component';
 
 describe('Data Management - Main - Hris Authentication Card', () => {
@@ -25,12 +26,7 @@ describe('Data Management - Main - Hris Authentication Card', () => {
           transferDataMain: combineReducers(fromDataManagementMainReducer.reducers),
         })
       ],
-      providers: [
-        {
-          provide: Router,
-          useValue: { navigate: jest.fn() },
-        }
-      ],
+      providers: [],
       declarations: [
         HrisAuthenticationCardComponent
       ],
@@ -45,32 +41,41 @@ describe('Data Management - Main - Hris Authentication Card', () => {
     fixture.detectChanges();
   });
 
-  it('should dispath an action when form is submitted', () => {
-    spyOn(store, 'dispatch');
-    instance.provider = generateMockProvider();
-    instance.selectedEntities = [generateMockEntityTypeModel()];
+  it('should emit a validation event when form is submitted', () => {
+    // arrange
+    const spy = jest.spyOn(instance.validateCredentials, 'emit');
+    const mockConnectionSummary = generateMockExistingConnectionSummary();
+    instance.connectionSummary = mockConnectionSummary;
     const mockCredsPackage = generateMockCredentialsPackage() as PfTestCredentialsPackage;
     mockCredsPackage.UserName = 'MockUserName';
     mockCredsPackage.Password = 'MockPassword';
+    mockCredsPackage.syncEmployees = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.Employees);
+    mockCredsPackage.syncJobs = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.Jobs);
+    mockCredsPackage.syncPaymarkets = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.PayMarkets);
+    mockCredsPackage.syncStructures = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.Structures);
+    mockCredsPackage.syncStructureMappings = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.StructureMappings);
     const mockFormValues = {
       username: 'MockUserName',
       password: 'MockPassword'
     };
 
+    // act
     instance.submitFormEvent(mockFormValues);
 
-    const expectedInitAction =
-      new fromTransferDataPageActions.Validate(mockCredsPackage);
-
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedInitAction);
+    // assert
+    expect(spy).toHaveBeenCalledWith(mockCredsPackage);
   });
 
-  it('should dispatch a reset action when cancel button is clicked', () => {
-    spyOn(store, 'dispatch');
+  it('should emit credentials when next is clicked', () => {
+    // arrange
+    const spy = jest.spyOn(instance.saveClicked, 'emit');
+    const mockCredsPackage = generateMockCredentialsPackage() as PfTestCredentialsPackage;
+    (instance as any).creds = mockCredsPackage;
 
-    instance.cancelAuthClick();
+    // act
+    instance.save();
 
-    const expectedResetWorkflowAction = new fromTransferDataPageActions.ResetTransferDataPageWorkflow();
-    expect(store.dispatch).toHaveBeenCalledWith(expectedResetWorkflowAction);
+    // assert
+    expect(spy).toHaveBeenCalledWith(mockCredsPackage);
   });
 });

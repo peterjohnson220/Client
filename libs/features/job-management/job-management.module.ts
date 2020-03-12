@@ -23,6 +23,7 @@ import { JobFormComponent } from './containers';
 import { JobContainerComponent } from './containers/job-container/job-container.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JobAttachmentsComponent } from './containers/job-attachments/job-attachments.component';
+import { JobStructuresComponent } from './containers/job-structures/job-structures.component';
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import { JobAttachmentsComponent } from './containers/job-attachments/job-attach
     // Components
     JobFormComponent,
     JobContainerComponent,
-    JobAttachmentsComponent
+    JobAttachmentsComponent,
+    JobStructuresComponent
   ],
   exports: [
     JobManagementComponent,

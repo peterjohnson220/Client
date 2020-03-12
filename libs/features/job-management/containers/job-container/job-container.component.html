@@ -6,6 +6,11 @@
           <div class="mt-4 scrollable-tab-content"><pf-job-form #jobFormComponent></pf-job-form></div>
         </ng-template>
       </ngb-tab>
+      <ngb-tab [title]="'Structure Mapping'" [id]="jobManagementTabs.Structures">
+        <ng-template ngbTabContent>
+          <div class="mt-4 scrollable-tab-content"><pf-job-structures #structuresComponent></pf-job-structures></div>
+        </ng-template>
+      </ngb-tab>
       <ngb-tab [title]="'Attachments'" [id]="jobManagementTabs.Attachments">
         <ng-template ngbTabContent>
           <div class="mt-4 scrollable-tab-content"><pf-job-attachments #attachmentsComponent></pf-job-attachments></div>

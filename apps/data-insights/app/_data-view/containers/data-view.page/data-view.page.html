@@ -41,7 +41,7 @@
             <fa-icon icon="share"></fa-icon>
           </button>
           <button class="btn btn-secondary"
-                  [disabled]="!isOwner"
+                  [disabled]="!isOwner || (exportingUserDataReport$ | async)"
                   [attr.data-qa-id]="'btn-delete'"
                   (click)="handleDeleteClicked()"
                   ngbTooltip="Delete"

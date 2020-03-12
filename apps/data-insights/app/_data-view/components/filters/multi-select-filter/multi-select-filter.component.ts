@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter, ViewChild, OnChanges, SimpleCha
 
 import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
 
-import { FilterOperator, Equals, DoesNotEqual } from '../../../models';
+import { FilterOperator, Equals, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty } from '../../../models';
 
 @Component({
   selector: 'pf-multi-select-filter',
@@ -20,14 +20,17 @@ export class MultiSelectFilterComponent implements OnChanges {
   @Output() changeOperator: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
 
   @ViewChild('filterOptionsMultiSelect', {static: false}) public filterOptionsMultiSelect: MultiSelectComponent;
-  operators = [ Equals, DoesNotEqual ];
+  operators = [ Equals, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty ];
   readonly MIN_QUERY_LENGTH = 1;
+  hideMultiSelect: boolean;
 
   ngOnChanges(changes: SimpleChanges): void {
+    const operatorName = changes.selectedOperator.currentValue.Name;
     if (!!changes && !!changes.options && !!changes.options.currentValue &&
       !!this.filterValue && !!this.filterOptionsMultiSelect) {
       this.filterOptionsMultiSelect.toggle(true);
     }
+    this.hideMultiSelect = operatorName === 'is null or empty' || operatorName === 'is not null or empty';
   }
 
   handleFilterOptionsMultiSelectOpen(event: any) {

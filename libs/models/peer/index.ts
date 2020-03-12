@@ -38,3 +38,4 @@ export * from './tag-entity-type.enum';
 export * from './tag-information.model';
 export * from './tag-category-data-type.enum';
 export * from './exchange-data-search-filter-context.model';
+export * from './paymarket-context.model';

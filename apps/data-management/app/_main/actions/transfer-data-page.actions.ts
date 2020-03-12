@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CredentialsPackage } from 'libs/models';
-import { TransferMethod, Provider, EntityChoice } from '../models';
+import { TransferMethod, Provider, EntityChoice, JdmView } from '../models';
 import { TransferDataWorkflowStep } from '../data';
 
 export const INIT = '[Data Management/Transfer Data Page] Init Transfer Data Page';
@@ -25,6 +25,32 @@ export const CREATE_CONNECTION_ERROR = '[Data Management/Transfer Data Page] Cre
 export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] Create Connection Success';
 export const PROCEED_TO_AUTHENTICATION = '[Data Management/Transfer Data Page] Proceed to Authentication';
 export const UPDATE_WORKFLOWSTEP = '[Data Management/Transfer Data Page] Update Workfow Step';
+
+// Outbound workflow
+// TODO: clean this up post sales demo
+export const LOAD_OUTBOUND_PROVIDERS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Providers';
+export const LOAD_OUTBOUND_PROVIDERS_ERROR = '[Data Management/Transfer Data Page/Outbound] Load Outbound Providers Error';
+export const LOAD_OUTBOUND_PROVIDERS_SUCCESS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Providers Success';
+export const SET_OUTBOUND_SELECTED_PROVIDER = '[Data Management/Transfer Data Page/Outbound] Set Outbound Selected Provider';
+export const SET_OUTBOUND_SELECTED_TRANSFER_METHOD = '[Data Management/Transfer Data Page/Outbound] Set Outbound Selected Transfer Method';
+export const LOAD_OUTBOUND_TRANSFER_METHODS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Transfer Methods';
+export const LOAD_OUTBOUND_TRANSFER_METHODS_ERROR = '[Data Management/Transfer Data Page/Outbound] Load Outbound Transfer Methods Error';
+export const LOAD_OUTBOUND_TRANSFER_METHODS_SUCCESS = '[Data Management/Transfer Data Page/Outbound] Load Outbound Transfer Methods Success';
+export const OUTBOUND_INIT = '[Data Management/Transfer Data Page/Outbound] Init Outbound Transfer Data Page';
+export const UPDATE_OUTBOUND_WORKFLOWSTEP = '[Data Management/Transfer Data Page/Outbound] Update Outbound Workfow Step';
+export const RESET_OUTBOUND_TRANSFER_DATA_PAGE_WORKFLOW = '[Data Management/Transfer Data Page/Outbound] Reset Outbound Transfer Data Page Workflow';
+
+// Mock outbound JDM actions
+// TODO: delete these
+export const OUTBOUND_JDM_VALIDATE = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials';
+export const INIT_OUTBOUND_JDM_VIEW_SELECTION_PAGE = '[Data Management/Outbound/JDM View Selection Page] Init Outbound Jdm View Selection Page';
+export const LOAD_OUTBOUND_JDM_VIEWS = '[Data Management/Outbound/JDM View Selection Page] Load Outbound Jdm Views';
+export const LOAD_OUTBOUND_JDM_VIEWS_ERROR = '[Data Management/Outbound/JDM View Selection Page] Load Outbound Jdm Views Error';
+export const LOAD_OUTBOUND_JDM_VIEWS_SUCCESS = '[Data Management/Outbound/JDM View Selection Page] Load Jdm Outbound Views Success';
+export const UPDATE_OUTBOUND_JDM_VIEWS = '[Data Management/Outbound/JDM View Selection Page] Update Jdm Views';
+export const UPDATE_OUTBOUND_JDM_VIEWS_ERROR = '[Data Management/Outbound/JDM View Selection Page] Update Jdm Views Error';
+export const UPDATE_OUTBOUND_JDM_VIEWS_SUCCESS = '[Data Management/Outbound/JDM View Selection Page] Update Jdm Views Success';
+
 
 export class Init implements Action {
   readonly type = INIT;
@@ -136,6 +162,96 @@ export class UpdateWorkflowstep implements Action {
   constructor(public payload: TransferDataWorkflowStep) {}
 }
 
+export class LoadOutboundProviders implements Action {
+  readonly type = LOAD_OUTBOUND_PROVIDERS;
+}
+
+export class LoadOutboundProvidersError implements Action {
+  readonly type = LOAD_OUTBOUND_PROVIDERS_ERROR;
+}
+
+export class LoadOutboundProvidersSuccess implements Action {
+  readonly type = LOAD_OUTBOUND_PROVIDERS_SUCCESS;
+
+  constructor(public payload: Provider[]) {}
+}
+
+export class SetOutboundSelectedProvider implements Action {
+  readonly type = SET_OUTBOUND_SELECTED_PROVIDER;
+
+  constructor(public payload: Provider) {}
+}
+
+export class SetOutboundSelectedTransferMethod implements Action {
+  readonly type = SET_OUTBOUND_SELECTED_TRANSFER_METHOD;
+
+  constructor(public payload: number) {}
+}
+
+export class LoadOutboundTransferMethods implements Action {
+  readonly type = LOAD_OUTBOUND_TRANSFER_METHODS;
+}
+
+export class LoadOutboundTransferMethodsError implements Action {
+  readonly type = LOAD_OUTBOUND_TRANSFER_METHODS_ERROR;
+}
+
+export class LoadOutboundTransferMethodsSuccess implements Action {
+  readonly type = LOAD_OUTBOUND_TRANSFER_METHODS_SUCCESS;
+
+  constructor(public payload: TransferMethod[]) {}
+}
+
+export class OutboundInit implements Action {
+  readonly type = OUTBOUND_INIT;
+
+  constructor() {}
+}
+
+export class UpdateOutboundWorkflowstep implements Action {
+  readonly type = UPDATE_OUTBOUND_WORKFLOWSTEP;
+
+  constructor(public payload: TransferDataWorkflowStep) {}
+}
+
+export class ResetOutboundTransferDataPageWorkflow implements Action {
+  readonly type = RESET_OUTBOUND_TRANSFER_DATA_PAGE_WORKFLOW;
+
+  constructor() {}
+}
+
+// mock outbound JDM actions
+// TODO: delete these
+export class OutboundJdmValidate implements Action {
+  readonly type = OUTBOUND_JDM_VALIDATE;
+
+  constructor(public payload: CredentialsPackage) {}
+}
+
+export class InitOutboundJdmViewSelectionPage implements Action {
+  readonly type = INIT_OUTBOUND_JDM_VIEW_SELECTION_PAGE;
+}
+export class LoadOutboundJdmViews implements Action {
+  readonly type = LOAD_OUTBOUND_JDM_VIEWS;
+}
+export class LoadOutboundJdmViewsError implements Action {
+  readonly type = LOAD_OUTBOUND_JDM_VIEWS_ERROR;
+}
+export class LoadOutboundJdmViewsSuccess implements Action {
+  readonly type = LOAD_OUTBOUND_JDM_VIEWS_SUCCESS;
+
+  constructor(public payload: JdmView[]) {}
+}
+export class UpdateOutboundJdmViews implements Action {
+  readonly type = UPDATE_OUTBOUND_JDM_VIEWS;
+  constructor(public payload: JdmView[]) {}
+}
+export class UpdateOutboundJdmViewsError implements Action {
+  readonly type = UPDATE_OUTBOUND_JDM_VIEWS_ERROR;
+}
+export class UpdateOutboundJdmViewsSuccess implements Action {
+  readonly type = UPDATE_OUTBOUND_JDM_VIEWS_SUCCESS;
+}
 
 export type Actions
   = Init
@@ -158,4 +274,22 @@ export type Actions
   | ValidateError
   | ValidateSuccess
   | ProceedToAuthentication
-  | UpdateWorkflowstep;
+  | UpdateWorkflowstep
+  | LoadOutboundProviders
+  | LoadOutboundProvidersError
+  | LoadOutboundProvidersSuccess
+  | SetOutboundSelectedProvider
+  | SetOutboundSelectedTransferMethod
+  | LoadOutboundTransferMethods
+  | LoadOutboundTransferMethodsError
+  | LoadOutboundTransferMethodsSuccess
+  | UpdateOutboundWorkflowstep
+  | ResetOutboundTransferDataPageWorkflow
+  | OutboundJdmValidate
+  | InitOutboundJdmViewSelectionPage
+  | LoadOutboundJdmViews
+  | LoadOutboundJdmViewsError
+  | LoadOutboundJdmViewsSuccess
+  | UpdateOutboundJdmViews
+  | UpdateOutboundJdmViewsError
+  | UpdateOutboundJdmViewsSuccess;

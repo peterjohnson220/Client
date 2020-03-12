@@ -20,9 +20,25 @@
     <span *ngIf="f.title.errors?.maxlength" class="invalid-feedback">Title cannot be longer than {{MAX_TITLE_LENGTH}} characters</span>
   </div>
   <div class="form-group">
+    <pf-modal-form
+      [size]="'md'"
+      [title]="'Update User Role'"
+      [primaryButtonText]="'Save'"
+      [primaryButtonClass]="'btn-primary'"
+      [isOpen$]="showUserRoleModal$"
+      (onSubmit)="changeRole()"
+      (onDismiss)="showUserRoleModal.next(false)">
+      <ng-container basic-content>
+        <p> When a user is reactivated, they are automatically assigned to the 'Standard User' role. Be sure to reassign them to the right User Role, if applicable. <p>
+          <select id="user-form-user-role-modal" class="form-control" formControlName="userRole" >
+            <ng-container *ngFor="let role of userRoles; trackBy: trackByFn">
+              <option *ngIf="role.UiVisible" [value]="role.RoleId">{{role.RoleName}}</option>
+            </ng-container>
+          </select>
+      </ng-container>
+    </pf-modal-form>
     <label class="control-label" for="status">Status <span class="text-danger">*</span></label>
-    <select id="user-form-status" class="form-control" formControlName="status" placeholder="Status"
-      [ngClass]="{ 'is-invalid': !f.status.valid && f.status.touched }">
+    <select id="user-form-status" class="form-control" formControlName="status" placeholder="Status" (change)="changeStatus()">
       <option [value]="true">Active</option>
       <option [value]="false">Inactive</option>
     </select>
@@ -41,7 +57,7 @@
     <span *ngIf="f.emailAddress.errors?.required" class="invalid-feedback">Email Address is required</span>
     <span *ngIf="f.emailAddress.errors?.maxlength" class="invalid-feedback">Email Address cannot be longer than {{MAX_EMAIL_LENGTH}} characters</span>
     <span *ngIf="!f.emailAddress.errors?.required && f.emailAddress.errors?.emailFormat" class="invalid-feedback">Invalid Email Address</span>
-    <span *ngIf="!f.emailAddress.errors?.required && f.emailAddress.errors?.emailTaken" class="invalid-feedback">A user account with this Email Address already exists</span>    
+    <span *ngIf="!f.emailAddress.errors?.required && f.emailAddress.errors?.emailTaken" class="invalid-feedback">A user account with this Email Address already exists</span>
   </div>
   <div class="form-group">
     <label class="control-label" for="userRole">User Role <span class="text-danger">*</span></label>

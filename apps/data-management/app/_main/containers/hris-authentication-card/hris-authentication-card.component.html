@@ -1,6 +1,6 @@
 <div>
   <div>
-    <div class="float-right"><h5 style="opacity: 0.6;">STEP 3/5</h5></div>
+    <div class="float-right"><h5 style="opacity: 0.6;">STEP {{stepNumber}}/5</h5></div>
     <h4 class="mt-2">Authentication</h4>
   </div>
   <div>
@@ -17,45 +17,58 @@
       <div class="alert alert-success" *ngIf="validatedCredentials">
         <h5 class="mb-0">Authentication Successful</h5>
       </div>
-      <pf-workday-authentication *ngIf="provider?.ProviderCode === 'WORKDAY'"
-                                 (cancelClick)="cancelAuthClick()"
-                                 (backClick)="proceedBackToEntitySelection()"
-                                 (submitClick)="submitFormEvent($event)"
-                                 [validated]="validatedCredentials">
-      </pf-workday-authentication>
 
-      <pf-test-authentication *ngIf="provider?.ProviderCode === 'PFTEST'"
-                              (cancelClick)="cancelAuthClick()"
-                              (backClick)="proceedBackToEntitySelection()"
-                              (submitClick)="submitFormEvent($event)"
-                              [validated]="validatedCredentials">
-      </pf-test-authentication>
+      <ng-container [ngSwitch]="connectionSummary?.provider?.ProviderCode">
+        <pf-workday-authentication
+          *ngSwitchCase="'WORKDAY'"
+          (cancelClick)="cancel()"
+          (backClick)="back()"
+          (submitClick)="submitFormEvent($event)"
+          [validated]="validatedCredentials">
+        </pf-workday-authentication>
 
-      <pf-workdaymock-authentication *ngIf="provider?.ProviderCode === 'WDMOCK'"
-                              (cancelClick)="cancelAuthClick()"
-                              (backClick)="proceedBackToEntitySelection()"
-                              (submitClick)="submitFormEvent($event)"
-                              [validated]="validatedCredentials">
-      </pf-workdaymock-authentication>
+        <pf-test-authentication
+          *ngSwitchCase="'PFTEST'"
+          (cancelClick)="cancel()"
+          (backClick)="back()"
+          (submitClick)="submitFormEvent($event)"
+          [validated]="validatedCredentials">
+        </pf-test-authentication>
 
-      <pf-workdayrest-authentication *ngIf="provider?.ProviderCode === 'WDRESTRPT'"
-                                     [selectedEntities]="selectedEntities$ | async"
-                                     (cancelClick)="cancelAuthClick()"
-                                     (backClick)="proceedBackToEntitySelection()"
-                                     (submitClick)="submitFormEvent($event)"
-                                     [validated]="validatedCredentials">
-      </pf-workdayrest-authentication>
+        <pf-workdaymock-authentication 
+          *ngSwitchCase="'WDMOCK'"
+          (cancelClick)="cancel()"
+          (backClick)="back()"
+          (submitClick)="submitFormEvent($event)"
+          [validated]="validatedCredentials">
+        </pf-workdaymock-authentication>
+
+        <pf-workdayrest-authentication
+          *ngSwitchCase="'WDRESTRPT'"
+          [selectedEntities]="connectionSummary?.selectedEntities"
+          (cancelClick)="cancel()"
+          (backClick)="back()"
+          (submitClick)="submitFormEvent($event)"
+          [validated]="validatedCredentials">
+        </pf-workdayrest-authentication>
+
+        <div class="error-group mb-3" *ngSwitchCaseDefault>
+          <div class="alert alert-danger">
+            Error: no provider selected
+          </div>
+        </div>
+      </ng-container>
 
       <div *ngIf="validatedCredentials">
         <div class="pb-1 d-flex justify-content-end">
           <div class="p-2">
-            <button id="cancel" type="button" class="btn btn-outline-danger px-4" (click)="cancelAuthClick()">Cancel</button>
+            <button id="cancel" type="button" class="btn btn-outline-danger px-4" (click)="cancel()">Cancel</button>
           </div>
           <div class="p-2">
-            <button id="cancel" class="btn btn-secondary px-4" (click)="proceedBackToEntitySelection()">Back</button>
+            <button id="cancel" class="btn btn-secondary px-4" (click)="back()">Back</button>
           </div>
           <div class="p-2">
-            <button id="connect" class="btn btn-primary px-4" (click)="createConnectionClick()">Next</button>
+            <button id="connect" class="btn btn-primary px-4" (click)="save()">Next</button>
           </div>
         </div>
       </div>

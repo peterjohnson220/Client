@@ -17,18 +17,17 @@ import {
   ShareUserDataViewRequest,
   SharedUserPermission,
   RemoveSharePermissionRequest,
-  SaveDataViewRequest,
+  DataView,
   DataViewEntityResponseWithCount,
   ValidateFormulaResponse,
   ValidateFormulaRequest,
   UpsertFormulaFieldRequest,
-  DeleteUserFormulaRequest, DataViewConfig
+  DeleteUserFormulaRequest, DataViewConfig, ExportGridRequest
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { IDataViewService } from '../../../models/data-view';
 
 @Injectable()
-export class DataViewApiService implements IDataViewService {
+export class DataViewApiService {
   private endpoint = 'DataViews';
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
@@ -111,7 +110,7 @@ export class DataViewApiService implements IDataViewService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: params });
   }
 
-  updateDataView(request: SaveDataViewRequest) {
+  updateDataView(request: DataView) {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveView`, request);
   }
 
@@ -149,5 +148,9 @@ export class DataViewApiService implements IDataViewService {
       ViewName: viewName
     };
     return this.payfactorsApiService.post(`${this.endpoint}/DeleteView`, request);
+  }
+
+  exportGrid(request: ExportGridRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ExportGrid`, request);
   }
 }

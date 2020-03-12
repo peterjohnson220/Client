@@ -7,15 +7,15 @@ import { Observable, of } from 'rxjs';
 
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { JobSearchPricingDataResponse, JobSearchRequest, JobSearchResponse } from 'libs/models/payfactors-api/job-search';
-import * as fromSearchReducer from 'libs/features/search/reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
-
-import * as fromAddJobsReducer from '../reducers';
-import * as fromAddJobsSearchResultsActions from '../actions/search-results.actions';
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 
 @Injectable()
 export class SearchResultsEffects {
@@ -106,7 +106,7 @@ export class SearchResultsEffects {
                   keepFilteredOutOptions: data.action.payload.keepFilteredOutOptions
                 }));
                 if (data.action.payload && data.action.payload.searchAggregation) {
-                  actions.push(new fromSingledFilterActions.SearchAggregation());
+                  actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER}));
                 }
               }
 

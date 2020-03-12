@@ -1,0 +1,50 @@
+<div class="p-relative h-100">
+  <pf-async-container [loading]="statementsLoading$ | async" [loadingError]="statementsLoadingError$ | async">
+    <kendo-grid
+      class="h-100"
+      [data]="statementsGridData$ | async"
+      [pageSize]="(statementsGridState$ | async)?.take"
+      [skip]="(statementsGridState$ | async)?.skip"
+      [sort]="(statementsGridState$ | async)?.sort"
+      [filter]="(statementsGridState$ | async)?.filter"
+      [resizable]="true"
+      [sortable]="true"
+      [pageable]="{ buttonCount: 5, info: true }"
+      (dataStateChange)="onDataStateChange($event)">
+      <kendo-grid-column field="Name" title="Statement Name">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span class="name-link" (click)="navigateToStatementEdit(dataItem.Id)">{{dataItem.Name}}</span>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Status" title="Status"></kendo-grid-column>
+      <kendo-grid-column field="Employees" title="Employees"></kendo-grid-column>
+      <kendo-grid-column field="CreatedBy" title="Created By"></kendo-grid-column>
+      <kendo-grid-column field="CreatedDate" title="Created Date">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ dataItem.CreatedDate | date: 'MMM dd yyyy' }}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="LastRunBy" title="Last Run By"></kendo-grid-column>
+      <kendo-grid-column field="LastRunDate" title="Last Run Date">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ dataItem.LastRunDate | date: 'MMM dd yyyy' }}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column width="40">
+        <ng-template kendoGridCellTemplate let-statement="dataItem">
+          <pf-grid-action-menu
+            [isOpen]="(openActionMenuStatementId$ | async) === statement?.Id"
+            [statement]="statement"
+            (open)="onActionMenuOpen($event)"
+            (close)="onActionMenuClose()"
+            (editClick)="onActionMenuEditClick($event)"
+            (runStatementClick)="onActionMenuRunStatementClick($event)"
+            (viewHistoryClick)="onActionMenuViewHistoryClick($event)"
+            (copyClick)="onActionMenuCopyClick($event)"
+            (deleteClick)="onActionMenuDeleteClick($event)"
+          ></pf-grid-action-menu>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </pf-async-container>
+</div>

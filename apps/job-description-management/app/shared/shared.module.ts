@@ -40,7 +40,8 @@ import {
   ConflictErrorModalComponent,
   JobDescriptionLibraryComponent,
   UserRoutingSelectorComponent,
-  WorkflowStepCompletionPageComponent
+  WorkflowStepCompletionPageComponent,
+  DeleteJobDescriptionModalComponent
 } from './components';
 import {
   WorkflowConfigComponent
@@ -111,7 +112,8 @@ import { PeditorAutoFocusFixDirective } from './directives';
     JobDescriptionLibraryComponent,
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
-    WorkflowConfigComponent
+    WorkflowConfigComponent,
+    DeleteJobDescriptionModalComponent
   ],
   declarations: [
     // Components
@@ -136,6 +138,7 @@ import { PeditorAutoFocusFixDirective } from './directives';
     JobDescriptionLibraryComponent,
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
+    DeleteJobDescriptionModalComponent,
 
     // Containers
     WorkflowConfigComponent,

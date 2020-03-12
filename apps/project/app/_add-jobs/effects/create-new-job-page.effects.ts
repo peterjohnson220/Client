@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { map, catchError, switchMap, withLatestFrom, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -11,10 +12,9 @@ import { AddProjectJobsResponse } from 'libs/models/payfactors-api/project/respo
 import { WindowCommunicationService } from 'libs/core/services';
 import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
 import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
+import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 
 import * as fromCreateNewJobPageActions from '../actions/create-new-job-page.actions';
-import * as fromAddJobsReducer from '../reducers';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class CreateNewJobPageEffects {

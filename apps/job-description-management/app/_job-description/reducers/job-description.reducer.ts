@@ -19,12 +19,16 @@ export interface State {
   inHistory: boolean;
   publishButtonEnabled: boolean;
   jobDescriptionIsFullscreen: boolean;
+  GettingJobDescriptionExtendedInfoAsync: AsyncStateObj<boolean>;
   jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
   jobDescriptionRecentChange: JobDescription;
   jobDescriptionChangeHistory: JobDescription[];
   companyAsync: AsyncStateObj<CompanyDto>;
   jobDescriptionViewsAsync: AsyncStateObj<string[]>;
   undoChangesComplete: boolean;
+  deleting: boolean;
+  deletingError: boolean;
+  deletingSuccess: boolean;
 }
 
 export const initialState: State = {
@@ -35,12 +39,16 @@ export const initialState: State = {
   publishButtonEnabled: true,
   inHistory: false,
   jobDescriptionIsFullscreen: false,
+  GettingJobDescriptionExtendedInfoAsync: generateDefaultAsyncStateObj<boolean>(false),
   jobDescriptionExtendedInfo: null,
   jobDescriptionRecentChange: null,
   jobDescriptionChangeHistory: [],
   companyAsync: generateDefaultAsyncStateObj<CompanyDto>(null),
   jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([]),
-  undoChangesComplete: false
+  undoChangesComplete: false,
+  deleting: false,
+  deletingError: false,
+  deletingSuccess: false
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
@@ -265,10 +273,35 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionIsFullscreen: !jobDescriptionFullscreenStatus
       };
     }
-    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_EXTENDED_INFO: {
+    case fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO: {
+      const asyncStateObjClone = cloneDeep(state.GettingJobDescriptionExtendedInfoAsync);
+      asyncStateObjClone.loading = true;
+      asyncStateObjClone.error = false;
+      asyncStateObjClone.success = false;
       return {
         ...state,
+        GettingJobDescriptionExtendedInfoAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_EXTENDED_INFO: {
+      const asyncStateObjClone = cloneDeep(state.GettingJobDescriptionExtendedInfoAsync);
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.error = false;
+      asyncStateObjClone.success = true;
+      return {
+        ...state,
+        GettingJobDescriptionExtendedInfoAsync: asyncStateObjClone,
         jobDescriptionExtendedInfo: action.payload
+      };
+    }
+    case fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO_ERROR: {
+      const asyncStateObjClone = cloneDeep(state.GettingJobDescriptionExtendedInfoAsync);
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.error = true;
+      asyncStateObjClone.success = false;
+      return {
+        ...state,
+        GettingJobDescriptionExtendedInfoAsync: asyncStateObjClone
       };
     }
     case fromJobDescriptionActions.ADD_DATA_ROW_TO_CONTROL: {
@@ -374,6 +407,42 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionAsync: asyncStateObjClone
       };
     }
+    case fromJobDescriptionActions.DELETE_JOB_DESCRIPTION: {
+      return {
+        ...state,
+        deleting: true,
+        deletingSuccess: false,
+        deletingError: false
+      };
+    }
+    case fromJobDescriptionActions.DELETE_JOB_DESCRIPTION_SUCCESS: {
+      return {
+        ...state,
+        deleting: false,
+        deletingSuccess: true,
+        deletingError: false
+      };
+    }
+    case fromJobDescriptionActions.DELETE_JOB_DESCRIPTION_ERROR: {
+      return {
+        ...state,
+        deleting: false,
+        deletingSuccess: false,
+        deletingError: true
+      };
+    }
+
+    case fromJobDescriptionActions.UPDATE_JOB_DESCRIPTION_APPLIES_TO:
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      asyncStateObjClone.obj.AppliesToField = action.payload.AppliesToField;
+      asyncStateObjClone.obj.AppliesToValue = action.payload.AppliesToValue;
+      asyncStateObjClone.obj.JobDescriptionTitle = action.payload.JobDescriptionTitle;
+      asyncStateObjClone.obj.PublicView = action.payload.PublicView;
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
     default:
       return state;
   }
@@ -391,4 +460,8 @@ export const getJobDescriptionExtendedInfo = (state: State) => state.jobDescript
 export const getJobDescriptionViewsAsync = (state: State) => state.jobDescriptionViewsAsync;
 export const getJobDescriptionIsFullscreen = (state: State) => state.jobDescriptionIsFullscreen;
 export const getUndoJobDescriptionChangesComplete = (state: State) => state.undoChangesComplete;
+export const getDeletingJobDescription = (state: State) => state.deleting;
+export const getDeletingJobDescriptionSuccess = (state: State) => state.deletingSuccess;
+export const getDeletingJobDescriptionError = (state: State) => state.deletingError;
+export const getJobDescriptionExtendedInfoAsync = (state: State) => state.GettingJobDescriptionExtendedInfoAsync;
 
