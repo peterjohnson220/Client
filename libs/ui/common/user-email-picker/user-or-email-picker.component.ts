@@ -97,10 +97,6 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
   private handleEmailRecipientsResponse(results: any, term: string) {
     let returnVal = [{}];
     if (results.length) {
-      if (this.nameToExclude) {
-        // filter out the user to exclude from this list (likely a current selected user)
-        results = results.filter(r => (r.FirstName + ' ' + r.LastName) !== this.nameToExclude);
-      }
       returnVal = results;
     } else if (!this.restrictWorkflowToCompanyEmployeesOnly) {
       returnVal = RegExp(RegexStrings.EMAIL, 'i').test(term) ? [{ EmailAddress: term }] : returnVal;
