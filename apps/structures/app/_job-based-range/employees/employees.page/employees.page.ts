@@ -21,6 +21,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   filter: PfDataGridFilter;
   employeePageViewId = PageViewIds.Employees;
   rangeGroupId: any;
+  rangeId: number;
 
   constructor(
      private store: Store<fromSharedJobBasedRangeReducer.State>,
@@ -28,6 +29,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
    ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.rangeGroupId = this.route.parent.snapshot.params.id;
+    this.rangeId = parseInt(this.route.snapshot.params.id, 10);
     this.filter = {
       SourceName: 'CompanyStructuresRanges_ID',
       Operator: '=',
