@@ -1,7 +1,7 @@
 <ng-template #jobDescriptionAppliesToModal let-modal>
   <form [formGroup]="appliesToform" (ngSubmit)="submit()">
     <div class="modal-header">
-      <h4 class="modal-title">{{ this.editing ? 'Update Job Description' : 'Create New Job Description' }}</h4>
+      <h4 class="modal-title">{{ this.editing ? 'Update Job Description' : 'Create Sibling Job Description' }}</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>

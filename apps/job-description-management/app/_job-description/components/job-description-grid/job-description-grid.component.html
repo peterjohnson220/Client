@@ -109,7 +109,7 @@
             aria-labelledby="job-description-actions-dropdown">
             <button class="dropdown-item" [disabled]="dataItem.JobDescriptionStatus === 'Not Started'"
               (click)="handleNewJobDescriptionClick(dataItem)">
-              New Job Description
+              Add Sibling Description
             </button>
             <div #toolTipWrapper *ngIf="hasDeleteJobDescriptionPermission === true"
               [ngbTooltip]="tooltipForDeleteButton(dataItem.JobDescriptionCount)">
