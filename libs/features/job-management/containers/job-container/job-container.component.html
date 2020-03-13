@@ -1,4 +1,4 @@
-<pf-async-container [loading]="loading$ | async" [showSpinner]="false">
+<pf-async-container [loading]="loading$ | async" [showSpinner]="true">
   <div class="px-3">
     <ngb-tabset #jobsTabs [destroyOnHide]="false" (tabChange)="tabChange($event)">
       <ngb-tab [title]="'Job Fields'" [id]="jobManagementTabs.JobFields">

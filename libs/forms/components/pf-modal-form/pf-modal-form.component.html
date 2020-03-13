@@ -37,7 +37,7 @@
               [disabled]="submitDisabled"
               (click)="submit()">
         <span *ngIf="submitting">
-          <pf-loading-indicator></pf-loading-indicator> {{primaryButtonTextSubmitting}}
+          <pf-loading-indicator *ngIf="showSpinner"></pf-loading-indicator> {{primaryButtonTextSubmitting}}
         </span>
         <span *ngIf="!submitting">{{primaryButtonText}}</span>
       </button>
