@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import { delay, isNumber, isObject } from 'lodash';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {filter, take, takeUntil} from 'rxjs/operators';
 
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
@@ -14,7 +14,6 @@ import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loa
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import { Company } from 'libs/models/company/company.model';
 import { ConfigSetting } from 'libs/models/security';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
@@ -27,9 +26,12 @@ import {
   MappingModel
 } from 'libs/models/data-loads';
 import { LoadTypes } from 'libs/constants';
+import * as fromCompanySelectorActions from 'libs/features/company/actions';
+import { CompanySelectorItem } from 'libs/features/company/models';
+import * as fromCompanyReducer from 'libs/features/company/reducers';
+import {CompanySelectorComponent} from 'libs/features/company/components';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
-import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import * as fromConfigurationGroupsActions from '../../actions/configuration-groups.actions';
 import {
@@ -38,13 +40,14 @@ import {
 } from '../../constants';
 import { OrgDataFilenamePatternSet } from '../../models';
 
+
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
   templateUrl: './manage-field-mappings.page.html',
   styleUrls: ['./manage-field-mappings.page.scss']
 })
-export class ManageFieldMappingsPageComponent implements OnInit {
-
+export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
+  @ViewChild('companySelector', {static: false}) companySelector: CompanySelectorComponent;
   env = environment;
   payfactorsPaymarketDataFields: string[];
   payfactorsJobDataFields: string[];
@@ -56,9 +59,9 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   structureMappingComplete: boolean;
   structureMappingMappingComplete: boolean;
   employeeMappingComplete: boolean;
-  companies$: Observable<Company[]>;
-  companiesLoading$: Observable<boolean>;
-  selectedCompany: number;
+  companies$: Observable<CompanySelectorItem[]>;
+  selectedCompany$: Observable<CompanySelectorItem>;
+  selectedCompany: CompanySelectorItem = null;
   mappings: MappingModel[];
   companyMappings$: Observable<LoaderFieldSet[]>;
   companyMappingsLoading$: Observable<boolean>;
@@ -94,6 +97,8 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   private configurationGroups$: Observable<ConfigurationGroup[]>;
   selectedConfigGroup: ConfigurationGroup;
   private savedConfigurationGroup$: Observable<ConfigurationGroup>;
+  private unsubscribe$ = new Subject();
+
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -149,6 +154,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
     private notificationService: NotificationService,
     private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
+    private cdr: ChangeDetectorRef,
   ) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
@@ -162,8 +168,8 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.structureMappingMappingComplete = true;
     this.employeeMappingComplete = true;
 
-    this.companies$ = this.store.select(fromOrgDataAutoloaderReducer.getCompanies);
-    this.companiesLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getCompaniesLoading);
+    this.companies$ = this.store.select(fromCompanyReducer.getCompanies);
+    this.selectedCompany$ = this.store.select(fromCompanyReducer.getSelectedCompany);
     this.companyMappings$ = this.store.select(fromOrgDataAutoloaderReducer.getFieldMappings);
     this.companyMappingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingFieldMappings);
     this.saveMappingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsSuccess);
@@ -200,6 +206,25 @@ export class ManageFieldMappingsPageComponent implements OnInit {
       clientFileName: true,
       selectFile: true
     };
+
+    this.selectedCompany$.pipe(
+      takeUntil(this.unsubscribe$),
+    ).subscribe(f => {
+      this.selectedCompany = f;
+      if (f) {
+        this.companySelector.isDisabled = true;
+        this.CompanySelected();
+        this.cdr.detectChanges();
+      }
+    });
+
+    this.companies$.pipe(
+      filter(uc => !!uc),
+      take(1),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.store.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
+    });
 
     this.saveMappingsSuccess$
       .pipe(
@@ -278,7 +303,10 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   } // end constructor
 
   ngOnInit() {
-    this.store.dispatch(new fromCompanySelectorActions.LoadingCompanies());
+    this.store.dispatch(new fromCompanySelectorActions.GetCompanies());
+  }
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(true);
   }
 
   onPaymarketMappingComplete($event: LoaderEntityStatus) {
@@ -326,27 +354,26 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.isEmployeesFullReplace = $event.isFullReplace;
   }
 
-  onCompanySelected($event: number) {
-    this.selectedCompany = $event;
-    this.orgDataAutoloaderApi.getCustomJobFields(this.selectedCompany).subscribe(res => {
+  CompanySelected() {
+    this.orgDataAutoloaderApi.getCustomJobFields(this.selectedCompany.CompanyId).subscribe(res => {
       res.forEach((udf) => {
         this.payfactorsJobDataFields.push(udf.Value);
       });
     });
 
-    this.orgDataAutoloaderApi.getCustomEmployeeFields(this.selectedCompany).subscribe(res => {
+    this.orgDataAutoloaderApi.getCustomEmployeeFields(this.selectedCompany.CompanyId).subscribe(res => {
       res.forEach((udf) => {
         this.payfactorsEmployeeDataFields.push(udf.Value);
       });
     });
 
     this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
-      companyId: this.selectedCompany,
+      companyId: this.selectedCompany.CompanyId,
       loaderType: LoaderTypes.OrgData
     }));
 
     this.store.dispatch(new fromConfigurationGroupsActions.LoadingConfigurationGroups({
-      CompanyId: this.selectedCompany,
+      CompanyId: this.selectedCompany.CompanyId,
       LoadType: LoadTypes.Sftp
     }));
   }
@@ -364,7 +391,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     if (!this.selectedConfigGroup && (this.loaderSaveCoordination.settingsSaved || this.loaderSaveCoordination.mappingsSaved)) {
       const newConfigurationGroup: ConfigurationGroup = {
         LoaderConfigurationGroupId: null,
-        CompanyId: this.selectedCompany,
+        CompanyId: this.selectedCompany.CompanyId,
         GroupName: 'Sftp Saved Mappings',
         LoadType: LoadTypes.Sftp
       };
@@ -379,7 +406,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   private saveFieldMappings() {
     if (this.loaderSaveCoordination.mappingsSaved) {
       this.store.dispatch(new fromOrgDataFieldMappingsActions.SavingFieldMappings({
-        companyId: this.selectedCompany,
+        companyId: this.selectedCompany.CompanyId,
         mappings: this.mappings,
         loaderConfigurationGroupId: this.selectedConfigGroup.LoaderConfigurationGroupId
       }));
@@ -391,7 +418,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
     if (this.loaderSaveCoordination.settingsSaved) {
       this.store.dispatch(new fromLoaderSettingsActions.SavingLoaderSettings({
-        companyId: this.selectedCompany,
+        companyId: this.selectedCompany.CompanyId,
         settings: loaderSettingsToSave,
         loaderConfigurationGroupId: this.selectedConfigGroup.LoaderConfigurationGroupId
       }));
@@ -399,11 +426,11 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   private reloadLoaderSettings() {
-    this.store.dispatch(new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany, this.selectedConfigGroup.LoaderConfigurationGroupId));
+    this.store.dispatch(new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany.CompanyId, this.selectedConfigGroup.LoaderConfigurationGroupId));
   }
 
   private reloadFieldMappings() {
-    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany, this.selectedConfigGroup.LoaderConfigurationGroupId));
+    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany.CompanyId, this.selectedConfigGroup.LoaderConfigurationGroupId));
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {
