@@ -219,7 +219,7 @@ export class SelectAll implements Action {
 
 export class ClearSelections implements Action {
   readonly type = CLEAR_SELECTIONS;
-  constructor(public pageViewId: string, public selectionsToClear?: number[]) { }
+  constructor(public pageViewId: string, public selectionsToClear?: number[], public primaryKey?: string) { }
 }
 
 export class HandleSavedViewClicked implements Action {

@@ -54,6 +54,12 @@ export const DEFAULT_PAGING_OPTIONS: PagingOptions = {
   Count: 20
 };
 
+export enum SelectAllStatus {
+  checked = 'checked',
+  unchecked = 'unchecked',
+  indeterminate = 'indeterminate',
+}
+
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
     case fromPfGridActions.LOAD_VIEW_CONFIG:
@@ -67,7 +73,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             loading: true,
             pagingOptions: DEFAULT_PAGING_OPTIONS,
             expandedRows: [],
-            selectAllState: 'unchecked',
+            selectAllState: SelectAllStatus.unchecked,
             data: null,
             applyDefaultFilters: true,
             splitViewFilters: []
@@ -181,9 +187,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           },
         }
       };
-      /*
-      This action resets all filters prior to applying inbound filters to clear global text box search elements on tab switch/grid change
-       */
+    /*
+    This action resets all filters prior to applying inbound filters to clear global text box search elements on tab switch/grid change
+     */
     case fromPfGridActions.UPDATE_INBOUND_FILTERS:
       return {
         ...state,
@@ -415,15 +421,15 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_SELECTED_KEY:
-      let newSelectAllState = 'unchecked';
+      let newSelectAllState = SelectAllStatus.unchecked;
       const grid = state.grids[action.pageViewId];
       const newSelectedKeys = cloneDeep(grid.selectedKeys) || [];
       const index = newSelectedKeys.indexOf(action.payload);
       index > -1 ? newSelectedKeys.splice(index, 1) : newSelectedKeys.push(action.payload);
       if (newSelectedKeys && (newSelectedKeys.length === grid.data.total || newSelectedKeys.length === grid.pagingOptions.Count)) {
-        newSelectAllState = 'checked';
+        newSelectAllState = SelectAllStatus.checked;
       } else if (newSelectedKeys.length !== 0) {
-        newSelectAllState = 'indeterminate';
+        newSelectAllState = SelectAllStatus.indeterminate;
       }
       return {
         ...state,
@@ -437,10 +443,11 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.SELECT_ALL:
-      const selectAllStateToSet = state.grids[action.pageViewId].selectAllState === 'checked' ? 'unchecked' : 'checked';
-      const visibleKeys: any[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
+      const selectAllStateToSet = state.grids[action.pageViewId].selectAllState === SelectAllStatus.checked
+        ? SelectAllStatus.unchecked : SelectAllStatus.checked;
+      const visibleKeys: number[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
       let selectAllKeys = [];
-      if (selectAllStateToSet === 'checked') {
+      if (selectAllStateToSet === SelectAllStatus.checked) {
         selectAllKeys = uniq([...state.grids[action.pageViewId].selectedKeys || [], ...visibleKeys]);
       } else {
         selectAllKeys = state.grids[action.pageViewId].selectedKeys.filter(sk => !(visibleKeys.indexOf(sk) > -1));
@@ -457,14 +464,26 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.CLEAR_SELECTIONS:
+      let currentSelectedKeys = [];
+      let updatedSelectAllState = SelectAllStatus.unchecked;
+
+      if (action.pageViewId && action.selectionsToClear && action.selectionsToClear.length > 0) {
+        currentSelectedKeys = cloneDeep(state.grids[action.pageViewId].selectedKeys);
+        const currentVisibleKeys: number[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
+
+        currentSelectedKeys = currentSelectedKeys.filter(k => !action.selectionsToClear.includes(k));
+        updatedSelectAllState = currentVisibleKeys.filter(k => currentSelectedKeys.includes(k)).length > 0
+          ? SelectAllStatus.indeterminate : SelectAllStatus.unchecked;
+      }
+
       return {
         ...state,
         grids: {
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectedKeys: null,
-            selectAllState: 'unchecked'
+            selectedKeys: currentSelectedKeys,
+            selectAllState: updatedSelectAllState
           }
         }
       };
@@ -533,7 +552,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             selectedKeys: null,
-            selectAllState: 'unchecked'
+            selectAllState: SelectAllStatus.unchecked
           }
         }
       };
