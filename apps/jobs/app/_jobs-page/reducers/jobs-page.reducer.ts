@@ -1,14 +1,12 @@
 import * as cloneDeep from 'lodash.clonedeep';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 import * as fromJobsPageActions from '../actions';
-import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj, CompanyDto } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
 
 
 export interface State {
-  company: string;
   jobsPageId: string;
-  loadingCompany: AsyncStateObj<boolean>;
   showAddToProjectModal: boolean;
   addingToProject: AsyncStateObj<boolean>;
   showJobStatusModal: boolean;
@@ -22,9 +20,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  company: '',
   jobsPageId: '',
-  loadingCompany: generateDefaultAsyncStateObj<boolean>(false),
   showAddToProjectModal: false,
   addingToProject: generateDefaultAsyncStateObj<boolean>(false),
   showJobStatusModal: false,
@@ -44,24 +40,6 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         ...state,
         jobsPageId: action.payload,
       };
-    }
-
-    case fromJobsPageActions.LOAD_COMPANY: {
-      return AsyncStateObjHelper.loading(state, 'loadingCompany');
-    }
-    case fromJobsPageActions.LOAD_COMPANY_SUCCESS: {
-      const loadingCompanyClone = cloneDeep(state.loadingCompany);
-      loadingCompanyClone.loadingError = false;
-      loadingCompanyClone.loadingErrorResponse = null;
-
-      return {
-        ...state,
-        loadingCompany: loadingCompanyClone,
-        company: action.payload
-      };
-    }
-    case fromJobsPageActions.LOAD_COMPANY_ERROR: {
-      return AsyncStateObjHelper.loadingError(state, 'loadingCompany');
     }
     case fromJobsPageActions.SHOW_ADD_TO_PROJECT_MODAL: {
       const addingToProjectClone = cloneDeep(state.addingToProject);
@@ -160,7 +138,6 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
   }
 }
 
-export const getCompany = (state: State) => state.company;
 export const getJobsPageId = (state: State) => state.jobsPageId;
 export const getShowAddToProjectModal = (state: State) => state.showAddToProjectModal;
 export const getAddingToProject = (state: State) => state.addingToProject;

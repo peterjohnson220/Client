@@ -3,9 +3,6 @@ import { Action } from '@ngrx/store';
 import { AddToProjectRequest, ChangeJobStatusRequest, DeletePricingRequest } from 'libs/models/payfactors-api';
 
 export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
-export const LOAD_COMPANY = '[Jobs Page] Load Company';
-export const LOAD_COMPANY_ERROR = '[Jobs Page] Load Company Error';
-export const LOAD_COMPANY_SUCCESS = '[Jobs Page] Load Company Success';
 // TODO: Removed HANDLE_API_ERROR and replace it with AsyncStateObj
 export const HANDLE_API_ERROR = '[Jobs Page] Handle API Error';
 export const SHOW_ADD_TO_PROJECT_MODAL = '[Jobs Page] Show Add To Project Modal';
@@ -34,21 +31,6 @@ export const CHANGE_PRICING_DETAILS_VIEW = '[Jobs Page] Change Pricing Details V
 export class SetJobsPageId implements Action {
   readonly type = SET_JOBS_PAGE_ID;
   constructor(public payload: string) {}
-}
-
-export class LoadCompany implements Action {
-  readonly type = LOAD_COMPANY;
-  constructor() {}
-}
-
-export class LoadCompanySuccess implements Action {
-  readonly type = LOAD_COMPANY_SUCCESS;
-  constructor(public payload: string) {}
-}
-
-export class LoadCompanyError implements Action {
-  readonly type = LOAD_COMPANY_ERROR;
-  constructor() {}
 }
 
 export class HandleApiError implements Action {
@@ -162,9 +144,6 @@ export class ChangePricingDetailsView implements Action{
 
 export type JobsPageActions
   = SetJobsPageId
-  | LoadCompany
-  | LoadCompanySuccess
-  | LoadCompanyError
   | HandleApiError
   | ShowAddToProjectModal
   | AddingToProject
