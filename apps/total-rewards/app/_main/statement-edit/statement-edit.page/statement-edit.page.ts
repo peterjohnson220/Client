@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
- import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
@@ -8,7 +8,6 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions/statement-edit.page.actions';
 import { Statement } from '../../../shared/models';
-
 
 @Component({
   selector: 'pf-statement-edit.page',
@@ -43,9 +42,9 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     });
 
     this.statementSubscription = this.statement$.subscribe(s => {
-        if (s) {
-          this.statement = cloneDeep(s);
-        }
+      if (s) {
+        this.statement = cloneDeep(s);
+      }
     });
 
   }

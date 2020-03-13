@@ -1,6 +1,7 @@
 .offScreen {
   position: absolute;
-  top: -200px;
+  z-index: -100;
+  opacity: 0;
 }
 
 input[type=text] {
@@ -19,7 +20,6 @@ input[type=text] {
 
 .edit-text {
   display: block;
-  float: left;
   width: inherit;
   max-width: 95%;
   white-space: nowrap;

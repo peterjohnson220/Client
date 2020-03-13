@@ -8,7 +8,7 @@
          (blur)="disableEditState()"
          (change)="onChange()"
          [ngClass]="isInEditState ? '' : 'offScreen'">
-  <span *ngIf="isInEditState == false" (click)='enableEditState()' class="editable">
+  <span *ngIf="isInEditState == false" (click)="enableEditState()" class="editable d-flex">
     <span class="edit-text">{{getValue()}}</span>
     <span class="edit-icon">
       <fa-icon class="fa-xs ml-2" [icon]="icon" aria-hidden="true"></fa-icon>
@@ -17,5 +17,5 @@
 </span>
 
 <ng-template #isNotEditable>
-  <span id="non-editable-value">{{getValue()}}</span>
+  <span>{{getValue()}}</span>
 </ng-template>

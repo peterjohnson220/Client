@@ -8,7 +8,7 @@
       </pf-layout-wrapper-header>
     </div>
   </header>
-  <main [class.main-body-scroll]="!centerContentScroll">
+  <main [class.main-body-scroll]="!centerContentScroll" [class.left-sidebar-expanded]="leftSidebarToggle">
     <div class="left-sidebar"
          [class.left-sidebar-center-content-scroll]="centerContentScroll"
          [class.d-none]="(userContext$ | async)?.IsPublic || (userContext$ | async)?.WorkflowStepInfo"
