@@ -57,7 +57,6 @@ export class JobStructuresComponent implements OnInit, OnDestroy {
     this.paymarketGradeListSubscription = this.store.select(fromJobManagementReducer.getPaymarketGradeList).subscribe(value => {
       this.paymarketGradeList = value;
       this.updatePaymarketList();
-      this.updateGrade();
       this.errorMessage = '';
     });
   }
@@ -83,15 +82,27 @@ export class JobStructuresComponent implements OnInit, OnDestroy {
     }
 
     this.paymarketId = this.paymarketsList && this.paymarketsList.length > 0 ? this.paymarketsList[0].CompanyPayMarketId : null;
+
+    this.updateGrade();
   }
 
   updateGrade() {
-    this.gradesList = Array.from(new Set(this.paymarketGradeList.map(a => a.CompanyStructuresGradesId)))
-      .map(id => this.paymarketGradeList.find(a => a.CompanyStructuresGradesId === id))
-      .map(o => ({
-        CompanyStructuresGradesId: o.CompanyStructuresGradesId,
-        GradeName: o.GradeName
-      }));
+
+    if (this.paymarketId === -1) {
+      this.gradesList = Array.from(new Set(this.paymarketGradeList.map(a => a.CompanyStructuresGradesId)))
+        .map(id => this.paymarketGradeList.find(a => a.CompanyStructuresGradesId === id))
+        .map(o => ({
+          CompanyStructuresGradesId: o.CompanyStructuresGradesId,
+          GradeName: o.GradeName
+        }));
+    } else {
+      this.gradesList = this.paymarketGradeList
+        .filter(a => a.CompanyPayMarketId === this.paymarketId)
+        .map(o => ({
+          CompanyStructuresGradesId: o.CompanyStructuresGradesId,
+          GradeName: o.GradeName
+        }));
+    }
 
     this.gradeId = this.gradesList && this.gradesList.length > 0 ? this.gradesList[0].CompanyStructuresGradesId : null;
   }
@@ -101,20 +112,34 @@ export class JobStructuresComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobManagementActions.SetSelectedStructureId(value));
   }
 
+  paymarketChanged(value: any) {
+    this.errorMessage = '';
+    this.paymarketId = value;
+    this.updateGrade();
+  }
+
+  gradeChanged(value: any) {
+    this.errorMessage = '';
+    this.gradeId = value;
+  }
+
   addStructureMapping() {
     this.errorMessage = '';
     const selectedStructure = this.structuresList.find(o => o.CompanyStructuresId === this.structureId);
-    const selectedPayMarket = this.paymarketsList.find(o => o.CompanyPayMarketId === this.paymarketId);
-    const selectedGrade = this.gradesList.find(o => o.CompanyStructuresGradesId === this.gradeId);
 
     if (this.paymarketId === -1) {
       this.paymarketsList.forEach(element => {
-        if (element.CompanyPayMarketId !== -1) {
-          this.addMapping(selectedStructure, element, selectedGrade);
+        const paymarketGrade = this.paymarketGradeList.find(o => o.CompanyStructuresGradesId === this.gradeId 
+          && o.CompanyPayMarketId === element.CompanyPayMarketId);
+        if (element.CompanyPayMarketId !== -1 && paymarketGrade) {
+          this.addMapping(selectedStructure, paymarketGrade);
         }
       });
     } else {
-      this.addMapping(selectedStructure, selectedPayMarket, selectedGrade);
+      const paymarketGrade = this.paymarketGradeList.find(o => o.CompanyStructuresId === this.structureId
+        && o.CompanyPayMarketId === this.paymarketId
+        && o.CompanyStructuresGradesId === this.gradeId);
+      this.addMapping(selectedStructure, paymarketGrade);
     }
 
   }
@@ -124,12 +149,14 @@ export class JobStructuresComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobManagementActions.DeleteStructureMapping(id));
   }
 
-  private addMapping(structure: CompanyStructure, paymarket: SimplePaymarket, grade: SimpleGrade) {
-
-    if (this.structures.filter(o =>
+  private addMapping(structure: CompanyStructure, paymarketGrade: CompanyStructurePaymarketGrade) {
+    if (!paymarketGrade) {
+      this.errorMessage = 'The structure you selected doesn\'t have any paymarket/grade mappings';
+      return;
+    } else if (this.structures.filter(o =>
       o.CompanyStructuresId === structure.CompanyStructuresId &&
-      o.CompanyPayMarketId === paymarket.CompanyPayMarketId &&
-      o.CompanyStructuresGradesId === grade.CompanyStructuresGradesId
+      o.CompanyPayMarketId === paymarketGrade.CompanyPayMarketId &&
+      o.CompanyStructuresGradesId === paymarketGrade.CompanyStructuresGradesId
     ).length > 0) {
       this.errorMessage = 'The structure mapping(s) you are trying to add already exists.';
       return;
@@ -140,16 +167,15 @@ export class JobStructuresComponent implements OnInit, OnDestroy {
 
     const newMapping = {
       StructureName: structure.StructureName,
-      PayMarket: paymarket.PayMarket,
-      GradeName: grade.GradeName,
-      CompanyPayMarketId: paymarket.CompanyPayMarketId,
+      PayMarket: paymarketGrade.PayMarket,
+      GradeName: paymarketGrade.GradeName,
+      CompanyPayMarketId: paymarketGrade.CompanyPayMarketId,
       CompanyStructuresId: structure.CompanyStructuresId,
-      CompanyStructuresGradesId: grade.CompanyStructuresGradesId,
+      CompanyStructuresGradesId: paymarketGrade.CompanyStructuresGradesId,
       CompanyStructuresRangeGroupId: id
     };
 
     this.store.dispatch(new fromJobManagementActions.AddStructureMapping(newMapping));
   }
-
 
 }

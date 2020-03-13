@@ -74,10 +74,9 @@ export class JobManagementEffects {
         ),
       ),
       switchMap((data) =>
-        this.structuresApiService.getStructurePaymarketsAndGrades(data.structureId).pipe(
+        this.structuresApiService.getStructurePaymarketsAndGrades(data.structureId ? data.structureId : -1).pipe(
           map((structurePaymarketGrade) => new fromJobManagementActions.LoadStructurePaymarketGradeSuccess(structurePaymarketGrade)),
-          catchError(response => this.handleError('There was an error loading the job structure information'))
-        )
+          catchError(response => this.handleError('There was an error loading the job structure information')))
       )
     );
 
