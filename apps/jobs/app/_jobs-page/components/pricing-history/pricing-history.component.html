@@ -1,8 +1,6 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
   [showTitle]="false"
-  [showColumnChooser] ="false"
-  [showFilterChooser] ="false"
   [contentNoPadding]="true"
   [selectionField]="'CompanyJobPricing_ID'"
   [columnTemplates]="colTemplates"
@@ -12,10 +10,8 @@
   [noRecordsFound]="'This job has not been priced and does not have any pricing history.'"
   [rowActionTemplate]="rowActions"
   [applyDefaultFilters]="false"
-  [showActionBar]="true"
-  [gridGlobalFiltersTemplates]="globalFilterTemplates"
-  [actionBarClassName]="'employee-grid-action-bar ml-0 mt-1'"
-  [headerClassName]="'employee-grid-header'">
+  [headerClassName]="'employee-grid-header'"
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template #createUserColumn let-dataRow="dataRow">

@@ -10,6 +10,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField, AddToProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
+import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
@@ -51,7 +52,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   colTemplates = {};
   filterTemplates = {};
-  globalFilterTemplates = {};
 
   filters = [{
     SourceName: 'JobStatus',
@@ -64,11 +64,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('peerFilter', { static: false }) peerFilter: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
   @ViewChild('jobStatusFilter', { static: false }) jobStatusFilter: ElementRef;
+  @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'CompanyJobs_Job_Title'
   }];
+  actionBarConfig: ActionBarConfig;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
 
@@ -97,6 +99,14 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
+    this.actionBarConfig = {
+      ShowActionBar: true,
+      ShowColumnChooser: true,
+      ShowFilterChooser: true,
+      AllowExport: false,
+      ExportSourceName: '',
+      ColumnChooserType: ColumnChooserType.Column
+    };
   }
 
   ngOnInit() {
@@ -114,8 +124,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       'PayMarket': { Template: this.payMarketFilter }
     };
 
-    this.globalFilterTemplates = {
-      'JobStatus': { Template: this.jobStatusFilter }
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate,
+      GlobalFiltersTemplates: {
+        'JobStatus': this.jobStatusFilter
+      }
     };
   }
 

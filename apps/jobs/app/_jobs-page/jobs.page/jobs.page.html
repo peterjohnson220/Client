@@ -3,18 +3,15 @@
   [title]="getPageTitle(company$ | async)"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
-  [gridGlobalActionsTemplate]="gridGlobalActions"
-  [gridGlobalFiltersTemplates]="globalFilterTemplates"
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
   [filterPanelTemplates]="filterTemplates"
   [inboundFilters]="filters"
-  [showFilterChooser]="true"
   [defaultSort]="defaultSort"
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
-  [showActionBar]="true">
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">

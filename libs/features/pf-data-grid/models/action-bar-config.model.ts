@@ -1,7 +1,15 @@
+import { ElementRef } from '@angular/core';
+
 export interface ActionBarConfig {
+  ShowActionBar: boolean;
+  ShowColumnChooser: boolean;
+  ShowFilterChooser: boolean;
   AllowExport: boolean;
   ExportSourceName: string;
-  ColumnChooserType: ColumnChooserType;
+  ColumnChooserType?: ColumnChooserType;
+  ActionBarClassName?: string;
+  GlobalActionsTemplate?: ElementRef<any>;
+  GlobalFiltersTemplates?: { [key: string]: ElementRef<any> };
 }
 
 export enum ColumnChooserType {
@@ -11,6 +19,9 @@ export enum ColumnChooserType {
 
 export function getDefaultActionBarConfig(): ActionBarConfig {
   return {
+    ShowActionBar: true,
+    ShowColumnChooser: false,
+    ShowFilterChooser: false,
     AllowExport: false,
     ExportSourceName: '',
     ColumnChooserType: ColumnChooserType.Column

@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
@@ -22,6 +22,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   employeePageViewId = PageViewIds.Employees;
   rangeGroupId: any;
   rangeId: number;
+  actionBarConfig: ActionBarConfig;
 
   constructor(
      private store: Store<fromSharedJobBasedRangeReducer.State>,
@@ -34,6 +35,11 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       SourceName: 'CompanyStructuresRanges_ID',
       Operator: '=',
       Value: this.route.snapshot.params.id
+    };
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ShowColumnChooser: true,
+      ShowFilterChooser: false
     };
   }
 

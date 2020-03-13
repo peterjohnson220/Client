@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { Subscription } from 'rxjs';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -28,7 +28,6 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   pageViewId = PageViewIds.Structures;
 
   colTemplates = {};
-  globalFilterTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'CompanyJobs_Structures_Structure_Search'
@@ -39,6 +38,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   filteredPayMarketOptions: any;
   payMarketOptions: any;
   selectedPayMarket: any;
+  actionBarConfig: ActionBarConfig;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -54,6 +54,10 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ActionBarClassName: 'structure-grid-action-bar ml-0 mt-1'
+    };
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -68,8 +72,11 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
     }
   }
   ngAfterViewInit() {
-    this.globalFilterTemplates = {
-      'PayMarket': { Template: this.payMarketFilter }
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalFiltersTemplates: {
+        'PayMarket': this.payMarketFilter
+      }
     };
     this.colTemplates = {
       'Structure_Search': { Template: this.nameColumn },

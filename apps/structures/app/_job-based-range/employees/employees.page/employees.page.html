@@ -2,14 +2,13 @@
   [title]="(metaData$ | async)?.Name"
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
-  [showFilterChooser]="false"
-  [showActionBar]="true"
   [pageViewId]="employeePageViewId"
   [gridContainerSplitViewWidth]="'70%'"
   [splitViewTemplate]="graph"
   [splitOnSelection]="false"
   [applyDefaultFilters]="false"
-  [aboveGridTemplate]="aboveGridTemplate">
+  [aboveGridTemplate]="aboveGridTemplate"
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template #graph>
