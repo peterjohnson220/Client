@@ -97,7 +97,7 @@
       </div>
     </div>
     <kendo-grid-command-column *ngIf="rowActionTemplate"
-                               [headerClass]="getGridColumnHeaderClass()"
+                               [headerClass]="getGridColumnHeaderClass(null)"
     >
       <ng-template kendoGridCellTemplate let-dataItem="dataItem">
         <ng-container [ngTemplateOutlet]="rowActionTemplate"
