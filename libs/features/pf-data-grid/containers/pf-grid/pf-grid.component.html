@@ -1,6 +1,7 @@
 <pf-async-container [loading]="loading$ | async">
   <ng-container *ngIf="customHeaderTemplate" [ngTemplateOutlet]="customHeaderTemplate"></ng-container>
   <kendo-grid
+    [reorderable]="reorderable"
     [data]="data"
     [pageSize]="(pagingOptions$ | async)?.Count"
     [skip]="(pagingOptions$ | async)?.From"
@@ -12,6 +13,7 @@
     [rowClass]="getRowClasses"
     (pageChange)="onPageChange($event)"
     (sortChange)="onSortChange($event)"
+    (columnReorder)="onColumnReorder($event)"
     (cellClick)="onCellClick($event)">
     <kendo-grid-checkbox-column [resizable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
       <ng-template kendoGridHeaderTemplate>
