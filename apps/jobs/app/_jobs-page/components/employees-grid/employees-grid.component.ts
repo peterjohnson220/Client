@@ -9,7 +9,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromJobsPageReducer from '../../reducers';
@@ -27,7 +27,6 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
   @ViewChild('employeeColumn', { static: false }) employeeColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
-  globalFilterTemplates = {};
   colTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -40,6 +39,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
   filteredPayMarketOptions: any;
   payMarketOptions: any;
   selectedPayMarket: any;
+  actionBarConfig: ActionBarConfig;
 
   constructor(private store: Store<fromPfGridReducer.State>, private cd: ChangeDetectorRef) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -55,11 +55,18 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ActionBarClassName: 'employee-grid-action-bar ml-0 mt-1'
+    };
   }
 
   ngAfterViewInit() {
-    this.globalFilterTemplates = {
-      'PayMarket': { Template: this.payMarketFilter }
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalFiltersTemplates: {
+        'PayMarket': this.payMarketFilter
+      }
     };
     this.colTemplates = {
       'Employees': { Template: this.employeeColumn }

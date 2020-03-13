@@ -5,12 +5,11 @@
     [compactGrid]="true"
     [showHeaderWhenCompact]="true"
     [inboundFilters]="[inboundFilter]"
-    [showColumnChooser] ="false"
-    [showFilterChooser] ="false"
     [contentNoPadding]="true"
     [allowSort]="false"
     [applyDefaultFilters]="false"
-    [columnTemplates]="colTemplates">
+    [columnTemplates]="colTemplates"
+    [actionBarConfig]="actionBarConfig">
   </pf-data-grid>
 </ng-container>
 
@@ -20,9 +19,6 @@
     [navigationURL]="'/marketdata/structures.asp'"
     [inboundFilters]="[inboundFilter]"
     [defaultSort]="defaultSort"
-    [showFilterChooser]="false"
-    [showActionBar]="true"
-    [gridGlobalActionsTemplate]="gridGlobalActions"
     [pageViewId]="modelPageViewId"
     [pagingOptions]="defaultPagingOptions"
     [columnTemplates]="colTemplates"
@@ -31,7 +27,8 @@
     [aboveGridTemplate]="aboveGridTemplate"
     [splitOnSelection]="false"
     [noRecordsFound]="'No ranges found.'"
-    [applyDefaultFilters]="false">
+    [applyDefaultFilters]="false"
+    [actionBarConfig]="actionBarConfig">
   </pf-data-grid>
 </ng-template>
 

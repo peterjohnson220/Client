@@ -5,18 +5,12 @@
   <ng-container page-actions>
     <pf-action-bar
       class="flex-fill"
-      [ngClass]="actionBarClassName != null ? actionBarClassName : ''"
+      [ngClass]="actionBarConfig?.ActionBarClassName != null ? actionBarConfig.ActionBarClassName : ''"
       [pageViewId]="pageViewId"
-      [showColumnChooser]="showColumnChooser"
-      [showFilterChooser]="showFilterChooser"
       [selectionField]="selectionField"
-      [globalFilters]= "globalFilterableFields"
-      [globalFilterAlignment]="showTitle?'Right':'Left'"
-      [globalActionsTemplate]="gridGlobalActionsTemplate"
-      [globalFiltersTemplates]="gridGlobalFiltersTemplates"
-      (onFilterSidebarToggle)="toggleFilterPanel()"
-      [showActionBar]="showActionBar"
-      [actionBarConfig]="actionBarConfig">
+      [globalFilters]="globalFilterableFields"
+      [actionBarConfig]="actionBarConfig"
+      (onFilterSidebarToggle)="toggleFilterPanel()">
     </pf-action-bar>
   </ng-container>
   <ng-container page-content>

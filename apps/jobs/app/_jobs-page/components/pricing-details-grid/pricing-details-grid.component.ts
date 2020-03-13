@@ -8,7 +8,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { RemoteDataSourceService } from 'libs/core/services';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
@@ -49,6 +49,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
     field: 'CompanyPayMarkets_PayMarket'
   }];
   selectedKeys: number[];
+  actionBarConfig: ActionBarConfig;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -63,11 +64,18 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy {
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ActionBarClassName: 'pricing-details-grid-action-bar ml-0 mt-1'
+    };
   }
 
   ngAfterViewInit() {
-    this.globalFilterTemplates = {
-      'PayMarket': { Template: this.payMarketFilter }
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalFiltersTemplates: {
+        'PayMarket': this.payMarketFilter
+      }
     };
     this.colTemplates = {
       'PayMarket': { Template: this.payMarketColumn },

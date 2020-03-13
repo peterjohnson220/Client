@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 
 import { PageViewIds } from '../../constants/page-view-ids';
@@ -38,11 +38,16 @@ export class ModelGridComponent implements AfterViewInit {
     dir: 'asc',
     field: 'CompanyStructures_Ranges_Mid'
   }];
+  actionBarConfig: ActionBarConfig;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ShowActionBar: false
+    };
   }
 
   handleAddJobsClicked() {

@@ -1,17 +1,13 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
   [showTitle]="false"
-  [showColumnChooser] ="false"
-  [showFilterChooser] ="false"
   [contentNoPadding]="true"
   [columnTemplates]="colTemplates"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [noRecordsFound]="'This job has not been added to any projects.'"
-  [showActionBar]="true"
-  [gridGlobalFiltersTemplates]="globalFilterTemplates"
-  [actionBarClassName]="'employee-grid-action-bar ml-0 mt-1'"
-  [headerClassName]="'employee-grid-header'">
+  [headerClassName]="'employee-grid-header'"
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template kendoGridCellTemplate #projectAccessColumn let-dataRow="dataRow" let-rowIndex="rowIndex">

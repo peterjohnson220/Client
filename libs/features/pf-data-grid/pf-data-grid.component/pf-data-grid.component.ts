@@ -25,8 +25,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() title: string;
   @Input() navigationURL: string;
   @Input() showTitle = true;
-  @Input() showColumnChooser = true;
-  @Input() showFilterChooser = true;
   @Input() contentNoPadding = false;
   @Input() selectionField: string;
   @Input() columnTemplates: any;
@@ -34,8 +32,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
-  @Input() gridGlobalActionsTemplate: TemplateRef<any>;
-  @Input() gridGlobalFiltersTemplates: any;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() rowActionTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
@@ -49,7 +45,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() applyDefaultFilters: boolean;
   @Input() allowSort = true;
   @Input() saveSort = false;
-  @Input() showActionBar = false;
   @Input() actionBarClassName: string;
   @Input() headerClassName: string;
   @Input() gridContainerSplitViewWidth = '500px';

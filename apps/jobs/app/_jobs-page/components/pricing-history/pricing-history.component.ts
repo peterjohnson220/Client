@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
@@ -30,7 +30,6 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
 
   pageViewId = PageViewIds.PricingHistory;
 
-  globalFilterTemplates = {};
   colTemplates = {};
 
   defaultSort: SortDescriptor[] = [{
@@ -47,6 +46,7 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
   filteredPayMarketOptions: any;
   payMarketOptions: any;
   selectedPayMarket: any;
+  actionBarConfig: ActionBarConfig;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.pricingIdToBeDeleted$ = store.select(fromJobsPageReducer.getPricingIdToBeDeleted);
@@ -64,12 +64,18 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ActionBarClassName: 'employee-grid-action-bar ml-0 mt-1'
+    };
   }
 
-
   ngAfterViewInit() {
-    this.globalFilterTemplates = {
-      'PayMarket': { Template: this.payMarketFilter }
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalFiltersTemplates: {
+        'PayMarket': this.payMarketFilter
+      }
     };
     this.colTemplates = {
       'Create_User': { Template: this.createUserColumn }

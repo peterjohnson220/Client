@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
-import {ViewField, SimpleDataView, DataViewFieldDataType} from 'libs/models/payfactors-api';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ViewField, SimpleDataView } from 'libs/models/payfactors-api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -7,7 +7,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-import { ActionBarConfig, ColumnChooserType } from '../../models';
+import { ActionBarConfig } from '../../models';
 
 @Component({
   selector: 'pf-action-bar',
@@ -15,17 +15,10 @@ import { ActionBarConfig, ColumnChooserType } from '../../models';
   styleUrls: ['./action-bar.component.scss'],
 })
 export class ActionBarComponent implements OnChanges {
-
-  @Input() showColumnChooser = true;
-  @Input() showFilterChooser = true;
+  @Input() actionBarConfig: ActionBarConfig;
   @Input() selectionField: string;
   @Input() pageViewId: string;
-  @Input() globalFilterAlignment: string;
-  @Input() globalActionsTemplate: TemplateRef<any>;
-  @Input() globalFiltersTemplates: TemplateRef<any>;
   @Input() globalFilters: ViewField[];
-  @Input() showActionBar = false;
-  @Input() actionBarConfig: ActionBarConfig;
   @Output() onFilterSidebarToggle = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
@@ -35,8 +28,6 @@ export class ActionBarComponent implements OnChanges {
   viewNameToBeDeleted$: Observable<string>;
   exporting$: Observable<boolean>;
   loadingExportingStatus$: Observable<boolean>;
-
-  defaultColumnChooserType: ColumnChooserType = ColumnChooserType.Column;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -83,9 +74,6 @@ export class ActionBarComponent implements OnChanges {
     this.store.dispatch(new fromActions.CancelViewDelete(this.pageViewId));
   }
 
-  hasTemplate(globalFilter) {
-    return this.globalFiltersTemplates && this.globalFiltersTemplates[globalFilter.SourceName];
-  }
   trackByFn(index, item: ViewField) {
     return item.DataElementId;
   }
