@@ -43,6 +43,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   employeeData: any;
   jobRangeData: any;
   controlPointDisplay: string;
+  plotLinesAndBands: any;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -68,6 +69,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.processChartData();
       }
     });
+
 
   }
 
@@ -108,31 +110,16 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   }
 
-  private addMidpointLine(jobRangeData) {
-    this.chartInstance.yAxis[0].addPlotLine({
-      color: '#CD8C01',
-      width: 2,
-      value: StructuresHighchartsService.calculateMidpoint(
-        jobRangeData.CompanyStructures_Ranges_Min, jobRangeData.CompanyStructures_Ranges_Max),
-      zIndex: 10
-    });
-
+  private addMidpointLine() {
+    this.chartInstance.yAxis[0].addPlotLine(this.plotLinesAndBands.find(plb => plb.id === 'Mid-point'));
   }
 
   private addAverageLine() {
-    this.chartInstance.yAxis[0].addPlotLine({
-      color: '#6236FF',
-      width: 2,
-      value: this.jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP,
-      zIndex: 10
-    });
-
+    this.chartInstance.yAxis[0].addPlotLine(this.plotLinesAndBands.find(plb => plb.id === 'Average ' + this.controlPointDisplay));
   }
 
   private addSalaryBand() {
-    this.chartInstance.yAxis[0].addPlotBand(
-      {from: this.chartMin, to: this.chartMax, color: 'rgba(36,134,210,0.45)', zIndex: 0 }
-    );
+    this.chartInstance.yAxis[0].addPlotBand(this.plotLinesAndBands.find(plb => plb.id === 'Salary range'));
   }
 
   private processChartData() {
@@ -142,13 +129,38 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.jobRangeData = this.jobRangeGroupData.data.find(jr => jr.CompanyStructures_Ranges_CompanyStructuresRanges_ID === this.rangeId);
 
+      this.plotLinesAndBands = [
+        {
+          color: '#CD8C01',
+          id: 'Mid-point',
+          width: 2,
+          value: StructuresHighchartsService.calculateMidpoint(
+            this.jobRangeData.CompanyStructures_Ranges_Min, this.jobRangeData.CompanyStructures_Ranges_Max),
+          zIndex: 10
+        },
+        {
+          color: '#6236FF',
+          id: 'Average ' + this.controlPointDisplay,
+          width: 2,
+          value: this.jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP,
+          zIndex: 10
+        },
+        {
+          id: 'Salary range',
+          from: this.jobRangeData.CompanyStructures_Ranges_Min,
+          to: this.jobRangeData.CompanyStructures_Ranges_Max,
+          color: 'rgba(36,134,210,0.45)',
+          zIndex: 0
+        }
+      ];
+
       this.averageSeriesData = [];
       this.employeeSeriesData = [];
       this.employeeSeriesOutlierData = [];
 
       this.setInitialMinMax(this.jobRangeData);
 
-      this.addMidpointLine(this.jobRangeData);
+      this.addMidpointLine();
 
       this.addAverageLine();
 
@@ -172,6 +184,9 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       this.chartInstance.series[0].setData(this.salaryRangeSeriesData, false);
       this.chartInstance.series[3].setData(this.employeeSeriesData, false);
       this.chartInstance.series[4].setData(this.employeeSeriesOutlierData, true);
+
+      // store the plotLinesAndBands in one of the unused chart properties so we can access it
+      this.chartInstance.collectionsWithUpdate = this.plotLinesAndBands;
 
       // this seemed like a pretty good way to get things to line up. 65 is a constant to account for gaps and headers, the rest is dynamic based on rows
       this.chartInstance.setSize(null, (40 * this.employeeData.data.length) + 65);
