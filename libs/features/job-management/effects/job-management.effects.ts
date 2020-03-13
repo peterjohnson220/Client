@@ -130,9 +130,11 @@ export class JobManagementEffects {
         ),
       ),
       switchMap((data) => {
-        const newCompanyJob: CompanyJob = this.buildCompanyJobRequest(data.userContext, cloneDeep(data.jobFormData), cloneDeep(data.attachments), data.jobId);
+        const updatedCompanyJob: CompanyJob =
+          this.buildCompanyJobRequest(data.userContext, cloneDeep(data.jobFormData), cloneDeep(data.attachments), data.jobId);
+
         return this.companyJobApiService
-          .saveCompanyJob(newCompanyJob)
+          .saveCompanyJob(updatedCompanyJob)
           .pipe(
             map((response: CompanyJob) => {
               return new fromJobManagementActions.SaveStructureMappings(data.jobId > 0 ? data.jobId : response.CompanyJobId);
@@ -178,24 +180,26 @@ export class JobManagementEffects {
           );
       }));
 
-  private buildCompanyJobRequest(userContext: UserContext, newCompanyJob: CompanyJob, attachments: CompanyJobAttachment[], jobId: number): CompanyJob {
-    newCompanyJob.CompanyId = userContext.CompanyId;
-    newCompanyJob.JobStatus = true;
+  private buildCompanyJobRequest(userContext: UserContext, updatedCompanyJob: CompanyJob, attachments: CompanyJobAttachment[], jobId: number): CompanyJob {
+    updatedCompanyJob.CompanyId = userContext.CompanyId;
+
     if (jobId) {
-      newCompanyJob.CompanyJobId = jobId;
+      updatedCompanyJob.CompanyJobId = jobId;
+    } else {
+      updatedCompanyJob.JobStatus = true;
     }
 
     if (attachments && attachments.length > 0) {
-      newCompanyJob.CompanyJobsAttachments = attachments
+      updatedCompanyJob.CompanyJobsAttachments = attachments
         .map(file => ({
           ...file,
           CompanyJobID: jobId ? jobId : -1,
           CompanyID: userContext.CompanyId.toString(),
         }));
     }
-    this.trimValues(newCompanyJob);
+    this.trimValues(updatedCompanyJob);
 
-    return newCompanyJob;
+    return updatedCompanyJob;
   }
 
   private handleError(message: string, title: string = 'Error'): Observable<Action> {
