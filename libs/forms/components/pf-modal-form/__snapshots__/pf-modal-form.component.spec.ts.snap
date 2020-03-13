@@ -19,6 +19,7 @@ exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
   resetFormOnClose={[Function Boolean]}
   secondaryButtonText={[Function String]}
   showFooter={[Function Boolean]}
+  showSpinner={[Function Boolean]}
   size={[Function String]}
   submitEnabled={[Function Boolean]}
   submitting="false"
@@ -52,6 +53,7 @@ exports[`Pf Modal Form should show subTitle in modal header if a subTitle is pro
   resetFormOnClose={[Function Boolean]}
   secondaryButtonText={[Function String]}
   showFooter={[Function Boolean]}
+  showSpinner={[Function Boolean]}
   size={[Function String]}
   subTitle={[Function String]}
   submitEnabled={[Function Boolean]}
