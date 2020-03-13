@@ -8,14 +8,10 @@ import { Observable, of } from 'rxjs';
 
 import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
-import { UserContext, CompanyDto } from 'libs/models';
+import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-
-import * as fromJobManagementReducer from 'libs/features/job-management/reducers';
 import * as fromJobManagementActions from 'libs/features/job-management/actions';
-
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';
 import { PageViewIds } from '../constants';
@@ -33,30 +29,6 @@ export class JobsPageEffects {
     private structureApiService: StructuresApiService,
     private store: Store<fromJobsReducer.State>,
   ) { }
-
-  @Effect()
-  loadCompany$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobsPageActions.LOAD_COMPANY),
-    withLatestFrom(
-      this.store.pipe(select(fromRootState.getUserContext)),
-      (action: fromJobsPageActions.LoadCompany, userContext: UserContext) =>
-        ({ action, userContext })
-    ),
-    switchMap((data) => {
-      return this.companyApiService.get(data.userContext.CompanyId).pipe(
-        mergeMap((company: CompanyDto) =>
-          [
-            new fromJobsPageActions.LoadCompanySuccess(company.CompanyName),
-            new fromJobsPageActions.LoadCompanyPayMarkets(),
-            new fromJobsPageActions.LoadStructureGrades()
-          ]),
-        catchError(error => {
-          const msg = 'We encountered an error while loading your company data';
-          return of(new fromJobsPageActions.HandleApiError(msg));
-        })
-      );
-    })
-  );
 
   @Effect()
   addToProject$: Observable<Action> = this.actions$.pipe(
@@ -141,7 +113,7 @@ export class JobsPageEffects {
     ofType(fromJobsPageActions.LOAD_COMPANY_PAYMARKETS),
     withLatestFrom(
       this.store.pipe(select(fromRootState.getUserContext)),
-      (action: fromJobsPageActions.LoadCompany, userContext: UserContext) =>
+      (action: fromJobsPageActions.LoadCompanyPayMarkets, userContext: UserContext) =>
         ({ action, userContext })
     ),
     switchMap(() => {
