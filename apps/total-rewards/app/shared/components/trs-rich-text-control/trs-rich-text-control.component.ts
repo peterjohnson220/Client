@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { AnyFn } from '@ngrx/store/src/selector';
 import 'quill-mention';
@@ -13,25 +13,6 @@ const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
 const font = Quill.import('formats/font');
 font.whitelist = supportedFonts;
 Quill.register(font, true);
-
-const dataFields = [
-  { id: 'EmployeeId', value: 'Employee Id' },
-  { id: 'EmployeeFirstName', value: 'Employee First Name' },
-  { id: 'EmployeeLastName', value: 'Employee Last Name' },
-  { id: 'EmployeeCity', value: 'Employee City' },
-  { id: 'EmployeeJobCode', value: 'Employee Job Code' },
-  { id: 'EmployeeDepartment', value: 'Employee Department' },
-  { id: 'EmployeeDepartmentCode', value: 'Employee Department Code' },
-  { id: 'EmployeeDateOfBirth', value: 'Employee Date of Birth' },
-  { id: 'EmployeeDateOfHire', value: 'Employee Date of Hire' },
-  { id: 'EmployeeEmailAddress', value: 'Employee Email Address' },
-  { id: 'EmployeeStatus', value: 'Employee Status' },
-  { id: 'EmployeeFLSAStatus', value: 'Employee FLSA Status' },
-  { id: 'EmployeeFullTimeEmployee', value: 'EmployeeFullTimeEmployee' },
-  { id: 'EmployeeLocation', value: 'Employee Location' },
-  { id: 'EmployeeManagerId', value: 'Employee Manager Id' },
-  { id: 'EmployeeState', value: 'Employee State' },
-];
 
 @Component({
   selector: 'pf-trs-rich-text-control',
@@ -67,10 +48,10 @@ export class TrsRichTextControlComponent implements OnInit {
       showDenotationChar: false,
       source: (searchTerm: string, renderList: AnyFn) => {
         if (searchTerm) {
-          const matches = dataFields.filter(df => df.value.toLowerCase().includes(searchTerm.toLowerCase()));
+          const matches = this.dataFields.filter(df => df.value.toLowerCase().includes(searchTerm.toLowerCase()));
           renderList(matches, searchTerm);
         } else {
-          renderList(dataFields, searchTerm);
+          renderList(this.dataFields, searchTerm);
         }
       },
     },
@@ -78,6 +59,11 @@ export class TrsRichTextControlComponent implements OnInit {
 
   get richTextNode(): HTMLElement {
     return this.richText.elementRef.nativeElement;
+  }
+
+  // quill mention requires options with a lower case `value`
+  get dataFields(): { key: string, value: string }[] {
+    return this.controlData.DataFields.map(df => ({ key: df.Key, value: df.Value }));
   }
 
   ngOnInit() {
@@ -90,8 +76,8 @@ export class TrsRichTextControlComponent implements OnInit {
     // change has occurred, so tell parent to save
   }
 
-  onContentChanged(event: any) {
-    // get dom node references to the container around the quill content, and the content nodes itself
+  onContentChanged(quillContentChange: any) {
+    // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
     const contentNodes = this.richTextNode.querySelectorAll('.ql-editor p') as NodeListOf<HTMLElement>;
 
@@ -101,7 +87,7 @@ export class TrsRichTextControlComponent implements OnInit {
 
     // if we're over the pixel height of the container undo the change by applying the previous delta
     if (totalContentHeightInPixels > container.offsetHeight) {
-      event.editor.setContents(event.oldDelta.ops);
+      quillContentChange.editor.setContents(quillContentChange.oldDelta.ops);
       this.isInvalid = true;
       setTimeout(() => this.isInvalid = false, 1000);
     } else {
@@ -109,8 +95,8 @@ export class TrsRichTextControlComponent implements OnInit {
     }
   }
 
-  onSelectionChanged(event: any) {
-    if (event.oldRange === null) {
+  onSelectionChanged(quillSelectionChange: any) {
+    if (quillSelectionChange.oldRange === null) {
       this.isFocused = true;
     }
   }
