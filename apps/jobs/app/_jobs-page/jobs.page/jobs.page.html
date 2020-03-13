@@ -90,7 +90,7 @@
     [attr.data-qa-id]="'btn-jobs-page-add-to-project'"
     type="button"
     (click)="toggleAddToProjectModal(true)"
-    [title]="!(selectedJobIds.length || selectedPricingIds.length) ? 'No Jobs or Pricings Selected' : ''"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-link">
     Add to Project
     <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && isActiveJobs()">

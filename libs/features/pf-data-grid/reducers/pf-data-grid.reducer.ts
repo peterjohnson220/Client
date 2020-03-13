@@ -438,7 +438,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       };
     case fromPfGridActions.SELECT_ALL:
       const selectAllStateToSet = state.grids[action.pageViewId].selectAllState === 'checked' ? 'unchecked' : 'checked';
-      const visibleKeys: number[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
+      const visibleKeys: any[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
       let selectAllKeys = [];
       if (selectAllStateToSet === 'checked') {
         selectAllKeys = uniq([...state.grids[action.pageViewId].selectedKeys || [], ...visibleKeys]);
