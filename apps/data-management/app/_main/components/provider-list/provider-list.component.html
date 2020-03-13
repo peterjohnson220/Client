@@ -1,0 +1,9 @@
+<div>
+  <div class="card-deck">
+    <pf-provider-card *ngFor="let provider of providers"
+        [provider]="provider"
+        [selectedProvider]="selectedProvider"
+        (providerSelected)="setSelectedProvider($event)">
+    </pf-provider-card>
+  </div>
+</div>

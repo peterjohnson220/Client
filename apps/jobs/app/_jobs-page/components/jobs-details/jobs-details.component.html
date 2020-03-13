@@ -5,10 +5,15 @@
   <ngb-tabset  [destroyOnHide]="false"
     (tabChange)="tabChange($event)"
   >
-    <ngb-tab [title]="'Pricing Details'" [id]="pageViewIds.PricingDetails">
+    <ngb-tab [title]="'Pricing Details'" [id]="pageViewIds.PricingDetailsTabContainer">
       <ng-template ngbTabContent>
-        <div class="full-height" *ngIf="tabStatusOpened[pageViewIds.PricingDetails] === true">
-          <pf-pricing-details-grid [filters]="jobDetailsFilters"></pf-pricing-details-grid>
+        <div class="full-height" *ngIf="tabStatusOpened[pageViewIds.PricingDetailsTabContainer] === true">
+          <div [style.display]="pricingDetailsView === 'Not Priced' ? 'none' : 'inline'">
+            <pf-pricing-details-grid [filters]="jobDetailsFilters" [unPricedCount]="notPricedCount"></pf-pricing-details-grid>
+          </div>
+          <div [style.display]="pricingDetailsView === 'Priced' ? 'none' : 'inline'">
+            <pf-not-priced-paymarkets [filters]="jobDetailsFilters" [pricedCount]="pricedCount"></pf-not-priced-paymarkets>
+          </div>
         </div>
       </ng-template>
     </ngb-tab>

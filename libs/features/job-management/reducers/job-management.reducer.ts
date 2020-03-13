@@ -1,10 +1,18 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromJobManagementActions from '../actions/job-management.actions';
-import { CompanyJob, CompanyJobUdf, CompanyJobAttachment } from 'libs/models';
+import {
+  CompanyJob,
+  CompanyJobUdf,
+  CompanyJobAttachment,
+  CompanyStructure,
+  CompanyStructureInfo,
+  CompanyStructurePaymarketGrade
+} from 'libs/models';
 
 export interface State {
   loadingJobOptions: boolean;
+  loadingStructurePayMarketGrade: boolean;
   loadingJob: boolean;
   uploadingAttachments: boolean;
   saving: boolean;
@@ -12,15 +20,20 @@ export interface State {
   jobId: number;
   jobFormData: CompanyJob;
   attachments: CompanyJobAttachment[];
+  structures: CompanyStructureInfo[];
+  selectedStructureId: number;
   companyFlsaStatuses: string[];
   jobFamilies: string[];
   companyJobUdfs: CompanyJobUdf[];
+  structuresList: CompanyStructure[];
+  paymarketGradeList: CompanyStructurePaymarketGrade[];
   duplicateJobCodeError: boolean;
   errorMessage: string;
 }
 
 export const initialState: State = {
   loadingJobOptions: false,
+  loadingStructurePayMarketGrade: false,
   loadingJob: false,
   uploadingAttachments: false,
   saving: false,
@@ -28,9 +41,13 @@ export const initialState: State = {
   jobId: null,
   jobFormData: null,
   attachments: [],
+  structures: [],
+  selectedStructureId: null,
   companyFlsaStatuses: [],
   jobFamilies: [],
   companyJobUdfs: [],
+  structuresList: [],
+  paymarketGradeList: [],
   duplicateJobCodeError: false,
   errorMessage: '',
 };
@@ -44,7 +61,10 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
         jobId: null,
         jobFormData: null,
         attachments: [],
+        structures: [],
         showJobModal: action.payload,
+        selectedStructureId: action.payload && state.structuresList && state.structuresList.length > 0
+          ? state.structuresList[0].CompanyStructuresId : state.selectedStructureId
       };
     }
     case fromJobManagementActions.SAVE_COMPANY_JOB:
@@ -80,7 +100,20 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
         loadingJobOptions: false,
         jobFamilies: action.jobFamilies.filter(e => e.length > 0),
         companyFlsaStatuses: action.companyFlsaStatuses.filter(e => e.length > 0),
-        companyJobUdfs: action.companyJobUdfs
+        companyJobUdfs: action.companyJobUdfs,
+        structuresList: action.structures,
+        selectedStructureId: action.structures && action.structures.length > 0 ? action.structures[0].CompanyStructuresId : null
+      };
+    case fromJobManagementActions.LOAD_STRUCTURE_PAYMARKET_GRADE:
+      return {
+        ...state,
+        loadingStructurePayMarketGrade: true
+      };
+    case fromJobManagementActions.LOAD_STRUCTURE_PAYMARKET_GRADE_SUCCESS:
+      return {
+        ...state,
+        loadingStructurePayMarketGrade: false,
+        paymarketGradeList: action.structurePaymarketGrade
       };
     case fromJobManagementActions.LOAD_JOB:
       return {
@@ -90,11 +123,27 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
       };
     case fromJobManagementActions.LOAD_JOB_SUCCESS:
       return {
-        // The jobFormData is set by the subscription of the LOAD_JOB_SUCCESS in the JobFormComponent
+        // The jobFormData is set by the subscription of the LOAD_JOB_SUCCESS in the JobFormComponent because we are using reactive forms
         ...state,
         loadingJob: false,
         jobId: action.payload.JobInfo.CompanyJobId,
-        attachments: action.payload.JobInfo.CompanyJobsAttachments
+        attachments: action.payload.JobInfo.CompanyJobsAttachments,
+        structures: action.payload.StructureInfo
+      };
+    case fromJobManagementActions.SET_SELECTED_STRUCTURE_ID:
+      return {
+        ...state,
+        selectedStructureId: action.payload
+      };
+    case fromJobManagementActions.ADD_STRUCTURE_MAPPING:
+      return {
+        ...state,
+        structures: cloneDeep(state.structures).concat(action.payload)
+      };
+    case fromJobManagementActions.DELETE_STRUCTURE_MAPPING:
+      return {
+        ...state,
+        structures: cloneDeep(state.structures).filter(s => s.CompanyStructuresRangeGroupId !== action.payload)
       };
     case fromJobManagementActions.UPDATE_COMPANY_JOB:
       return {
@@ -118,6 +167,7 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
         loadingJobOptions: false,
         saving: false,
         uploadingAttachments: false,
+        loadingStructurePayMarketGrade: false,
         errorMessage: action.payload
       };
     default:
@@ -136,8 +186,10 @@ export function mapUploadedAttachments(attachments: any): CompanyJobAttachment[]
 }
 
 export const getState = (state: State) => state;
-export const getLoading = (state: State) => state.loadingJobOptions || state.loadingJob || state.saving || state.uploadingAttachments;
+export const getLoading = (state: State) =>
+  state.loadingJobOptions || state.loadingStructurePayMarketGrade || state.loadingJob || state.saving || state.uploadingAttachments;
 export const getLoadingJobOptions = (state: State) => state.loadingJobOptions;
+export const getLoadingStructurePayMarketGrade = (state: State) => state.loadingStructurePayMarketGrade;
 export const getLoadingJob = (state: State) => state.loadingJob;
 export const getSaving = (state: State) => state.saving;
 export const getUploadingAttachments = (state: State) => state.uploadingAttachments;
@@ -145,8 +197,12 @@ export const getShowJobModal = (state: State) => state.showJobModal;
 export const getJobId = (state: State) => state.jobId;
 export const getJobFormData = (state: State) => state.jobFormData;
 export const getAttachments = (state: State) => state.attachments;
+export const getStructures = (state: State) => state.structures;
+export const getSelectedStructureId = (state: State) => state.selectedStructureId;
 export const getCompanyFlsaStatuses = (state: State) => state.companyFlsaStatuses;
 export const getJobFamilies = (state: State) => state.jobFamilies;
 export const getCompanyJobUdfs = (state: State) => state.companyJobUdfs;
+export const getStructuresList = (state: State) => state.structuresList;
+export const getPaymarketGradeList = (state: State) => state.paymarketGradeList;
 export const getDuplicateJobCodeError = (state: State) => state.duplicateJobCodeError;
 export const getErrorMessage = (state: State) => state.errorMessage;

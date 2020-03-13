@@ -29,6 +29,7 @@
 .sidebar-filter-container {
   position: relative;
   flex: 0 0 450px;
+  background: $data-grid-filter-panel-background-color;
 }
 
 input[type=text]::-ms-clear{
@@ -37,4 +38,5 @@ input[type=text]::-ms-clear{
 
 .gridActionTemplate{
   height: 44px;
+  background: #FFFFFF;
  }

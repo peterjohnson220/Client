@@ -6,10 +6,10 @@
     </p>
   </div>
   <div class="w-100 text-center">
-    <button type="button" class="btn btn-primary px-4" (click)="createNewIntegration()">Create New Integration</button>
+    <button type="button" (click)="createNewIntegration()" class="btn btn-primary px-4">Create New Integration</button>
   </div>
 </div>
-<div *ngIf="connectionSummary?.hasConnection" class="row justify-content-center">
+<div *ngIf="connectionSummary?.hasConnection" class="row justify-content-center py-4">
   <div class="col col-sm-6">
     <img [src]="connectionSummary?.provider?.ImageUrl" [alt]="connectionSummary?.provider?.ProviderName" class="img-fluid" />
   </div>

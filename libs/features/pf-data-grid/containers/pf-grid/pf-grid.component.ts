@@ -32,6 +32,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() backgroundColor: string;
   @Input() allowSort = true;
   @Input() customHeaderClass: string;
+  @Input() defaultColumnWidth: number;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -126,12 +127,19 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         this.store.dispatch(new fromActions.ExpandRow(this.pageViewId, rowIndex));
         this.grid.expandRow(rowIndex);
       }
+    } else if (this.enableSelection) {
+      this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, dataItem[this.getSelectedRowPrimaryKey()]));
     }
   }
 
-  getGridColumnHeaderClass() {
+  getGridColumnHeaderClass(col: ViewField) {
     const headerClass = this.compactGrid ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
-    return `${this.customHeaderClass || ''} ${headerClass}`.trim();
+    let textAlignClass = !!col && !!col.TextAlign ? `text-align-${col.TextAlign}` : '';
+    // [GL] adding truthy check since the kendo action column does not have a ViewField bound to it, but it still calls this function
+    if (col && col.Group) {
+      textAlignClass = 'text-align-center';
+    }
+    return `${this.customHeaderClass || ''} ${headerClass} ${textAlignClass}`.trim();
   }
 
   getCheckboxHeaderClass() {

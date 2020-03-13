@@ -1,0 +1,19 @@
+<pf-data-grid
+  [title]="modelName$ | async"
+  [navigationURL]="'/marketdata/structures.asp'"
+  [inboundFilters]="[filter]"
+  [allowExport]="false"
+  [showFilterChooser]="false"
+  [showActionBar]="true"
+  [pageViewId]="'44EE8EB2-AD8D-4153-9064-1D7F65884EBD'"
+  [gridContainerSplitViewWidth]="'70%'"
+  [splitViewTemplate]="graph"
+  [splitOnSelection]="false"
+  [applyDefaultFilters]="false">
+</pf-data-grid>
+
+<ng-template #graph>
+  <div class="d-flex h-100 justify-content-center align-items-center">
+    Graph will go here
+  </div>
+</ng-template>

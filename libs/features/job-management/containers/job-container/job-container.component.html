@@ -1,16 +1,27 @@
-<pf-async-container [loading]="loading$ | async" [showSpinner]="false">
+<pf-async-container [loading]="loading$ | async" [showSpinner]="true">
   <div class="px-3">
     <ngb-tabset #jobsTabs [destroyOnHide]="false" (tabChange)="tabChange($event)">
       <ngb-tab [title]="'Job Fields'" [id]="jobManagementTabs.JobFields">
         <ng-template ngbTabContent>
-          <div class="mt-4 scrollable-tab-content"><pf-job-form #jobFormComponent></pf-job-form></div>
+          <perfect-scrollbar class="mt-4 tab-content overflow-hidden">
+            <pf-job-form #jobFormComponent></pf-job-form>
+          </perfect-scrollbar>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab [title]="'Structure Mapping'" [id]="jobManagementTabs.Structures">
+        <ng-template ngbTabContent>
+          <div class="mt-4 tab-content">
+            <pf-job-structures #structuresComponent></pf-job-structures>
+          </div>
         </ng-template>
       </ngb-tab>
       <ngb-tab [title]="'Attachments'" [id]="jobManagementTabs.Attachments">
         <ng-template ngbTabContent>
-          <div class="mt-4 scrollable-tab-content"><pf-job-attachments #attachmentsComponent></pf-job-attachments></div>
+          <perfect-scrollbar class="mt-4 tab-content overflow-hidden">
+            <pf-job-attachments #attachmentsComponent></pf-job-attachments>
+          </perfect-scrollbar>
         </ng-template>
       </ngb-tab>
-    </ngb-tabset>  
+    </ngb-tabset>
   </div>
 </pf-async-container>

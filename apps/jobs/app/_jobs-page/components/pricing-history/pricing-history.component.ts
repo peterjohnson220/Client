@@ -22,7 +22,8 @@ import { PageViewIds } from '../../constants';
 
 @Component({
   selector: 'pf-pricing-history',
-  templateUrl: './pricing-history.component.html'
+  templateUrl: './pricing-history.component.html',
+  styleUrls: ['./pricing-history.component.scss']
 })
 export class PricingHistoryComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];

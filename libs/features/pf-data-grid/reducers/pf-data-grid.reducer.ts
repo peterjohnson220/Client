@@ -33,8 +33,12 @@ export interface DataGridState {
   viewIsSaving: boolean;
   viewIsDeleting: boolean;
   viewNameToBeDeleted: string;
-  selectedKeys: number[];
+  selectedKeys: any[];
   selectAllState: string;
+  exportEventId: number;
+  exportingGrid: boolean;
+  exportViewId: number;
+  loadingExportingStatus: boolean;
 }
 
 export interface DataGridStoreState {
@@ -50,6 +54,12 @@ export const DEFAULT_PAGING_OPTIONS: PagingOptions = {
   Count: 20
 };
 
+export enum SelectAllStatus {
+  checked = 'checked',
+  unchecked = 'unchecked',
+  indeterminate = 'indeterminate',
+}
+
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
     case fromPfGridActions.LOAD_VIEW_CONFIG:
@@ -63,7 +73,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             loading: true,
             pagingOptions: DEFAULT_PAGING_OPTIONS,
             expandedRows: [],
-            selectAllState: 'unchecked',
+            selectAllState: SelectAllStatus.unchecked,
             data: null,
             applyDefaultFilters: true,
             splitViewFilters: []
@@ -84,7 +94,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             groupedFields: buildGroupedFields(resetFilters(action.payload.Fields)),
             baseEntity: action.payload.Entity,
             loading: false,
-            splitViewFilters: currSplitViewFilters
+            splitViewFilters: currSplitViewFilters,
+            exportViewId: action.payload.ExportViewId
           }
         }
       };
@@ -176,6 +187,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           },
         }
       };
+    /*
+    This action resets all filters prior to applying inbound filters to clear global text box search elements on tab switch/grid change
+     */
     case fromPfGridActions.UPDATE_INBOUND_FILTERS:
       return {
         ...state,
@@ -407,15 +421,15 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_SELECTED_KEY:
-      let newSelectAllState = 'unchecked';
+      let newSelectAllState = SelectAllStatus.unchecked;
       const grid = state.grids[action.pageViewId];
       const newSelectedKeys = cloneDeep(grid.selectedKeys) || [];
       const index = newSelectedKeys.indexOf(action.payload);
       index > -1 ? newSelectedKeys.splice(index, 1) : newSelectedKeys.push(action.payload);
       if (newSelectedKeys && (newSelectedKeys.length === grid.data.total || newSelectedKeys.length === grid.pagingOptions.Count)) {
-        newSelectAllState = 'checked';
+        newSelectAllState = SelectAllStatus.checked;
       } else if (newSelectedKeys.length !== 0) {
-        newSelectAllState = 'indeterminate';
+        newSelectAllState = SelectAllStatus.indeterminate;
       }
       return {
         ...state,
@@ -429,10 +443,11 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.SELECT_ALL:
-      const selectAllStateToSet = state.grids[action.pageViewId].selectAllState === 'checked' ? 'unchecked' : 'checked';
+      const selectAllStateToSet = state.grids[action.pageViewId].selectAllState === SelectAllStatus.checked
+        ? SelectAllStatus.unchecked : SelectAllStatus.checked;
       const visibleKeys: number[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
       let selectAllKeys = [];
-      if (selectAllStateToSet === 'checked') {
+      if (selectAllStateToSet === SelectAllStatus.checked) {
         selectAllKeys = uniq([...state.grids[action.pageViewId].selectedKeys || [], ...visibleKeys]);
       } else {
         selectAllKeys = state.grids[action.pageViewId].selectedKeys.filter(sk => !(visibleKeys.indexOf(sk) > -1));
@@ -449,14 +464,26 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.CLEAR_SELECTIONS:
+      let currentSelectedKeys = [];
+      let updatedSelectAllState = SelectAllStatus.unchecked;
+
+      if (action.pageViewId && action.selectionsToClear && action.selectionsToClear.length > 0) {
+        currentSelectedKeys = cloneDeep(state.grids[action.pageViewId].selectedKeys);
+        const currentVisibleKeys: number[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
+
+        currentSelectedKeys = currentSelectedKeys.filter(k => !action.selectionsToClear.includes(k));
+        updatedSelectAllState = currentVisibleKeys.filter(k => currentSelectedKeys.includes(k)).length > 0
+          ? SelectAllStatus.indeterminate : SelectAllStatus.unchecked;
+      }
+
       return {
         ...state,
         grids: {
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectedKeys: null,
-            selectAllState: 'unchecked'
+            selectedKeys: currentSelectedKeys,
+            selectAllState: updatedSelectAllState
           }
         }
       };
@@ -517,6 +544,95 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.CLEAR_SELECTIONS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedKeys: null,
+            selectAllState: SelectAllStatus.unchecked
+          }
+        }
+      };
+    case fromPfGridActions.EXPORT_GRID: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            exportingGrid: true
+          }
+        }
+      };
+    }
+    case fromPfGridActions.EXPORT_GRID_SUCCESS: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            exportEventId: action.exportEventId
+          }
+        }
+      };
+    }
+    case fromPfGridActions.EXPORTING_COMPLETE: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            exportEventId: null,
+            exportingGrid: false
+          }
+        }
+      };
+    }
+    case fromPfGridActions.GET_EXPORTING_STATUS: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            loadingExportingStatus: true
+          }
+        }
+      };
+    }
+    case fromPfGridActions.GET_EXPORTING_STATUS_SUCCESS: {
+      const eventId = !!action.payload ? action.payload.EventId : null;
+      const isExporting = !!action.payload;
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            exportEventId: eventId,
+            exportingGrid: isExporting,
+            loadingExportingStatus: false
+          }
+        }
+      };
+    }
+    case fromPfGridActions.GET_EXPORTING_STATUS_ERROR: {
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            loadingExportingStatus: false
+          }
+        }
+      };
+    }
     default:
       return state;
   }
@@ -563,6 +679,10 @@ export const getSelectedKeys = (state: DataGridStoreState, pageViewId: string) =
 export const getSelectAllState = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].selectAllState;
 export const getViewIsDeleting = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsDeleting;
 export const getViewNameToBeDeleted = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewNameToBeDeleted;
+export const getExportEventId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportEventId;
+export const getExportingGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportingGrid;
+export const getExportViewId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportViewId;
+export const getLoadingExportingStatus = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingExportingStatus;
 
 export function buildGroupedFields(fields: ViewField[]): any[] {
   const groups = groupBy(fields, [{ field: 'Group' }]);

@@ -11,6 +11,7 @@ export interface SearchFilterMappingData {
   RefreshOptionsFromServer: boolean;
   Operator?: OperatorEnum;
   ParentBackingField?: string;
+  AggregateCount?: number;
 }
 
 interface ISearchFilterMappingDataObj {

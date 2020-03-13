@@ -1,7 +1,9 @@
+import { CompanyStructureInfo } from '../structures';
+
 export class JobInfoResponse {
   JobInfo: CompanyJob;
   JobSummaryObj: any;
-  StructureInfo: any[];
+  StructureInfo: CompanyStructureInfo[];
 }
 
 export interface CompanyJob {

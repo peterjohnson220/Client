@@ -16,19 +16,18 @@ import {
   ExchangeExplorerScopeResponse,
   ExchangeExplorerScopeResponseContext
 } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
-import {Filter, MultiSelectFilter} from 'libs/features/search/models';
+import { Filter } from 'libs/features/search/models';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import * as fromLibsFeatureSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import { ExchangeExplorerContextService } from '../services';
 import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
 import * as fromExchangeFilterContextActions from '../actions/exchange-filter-context.actions';
 import * as fromMapActions from '../actions/map.actions';
-import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
 import * as fromExchangeDataCutActions from '../actions/exchange-data-cut.actions';
 import * as fromExchangeExplorerReducers from '../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../actions/exchange-explorer-context-info.actions';
@@ -76,7 +75,8 @@ export class ExchangeScopeEffects {
             FilterContext: exchangeExplorerContextInfo.FilterContext};
           return [
             new fromExchangeExplorerContextInfoActions.LoadContextInfoSuccess({
-              payMarket: exchangeExplorerContextInfo.PayMarket,
+              payMarket: exchangeExplorerContextInfo.PayMarketContext.PayMarket,
+              payMarketGeoData: exchangeExplorerContextInfo.PayMarketContext.PayMarketGeoData,
               exchangeJobFilterOptions: exchangeExplorerContextInfo.AssociatedExchangeJobFilterOptions,
               searchFilterMappingDataObj: exchangeExplorerContextInfo.SearchFilterMappingData
             }),
@@ -156,7 +156,7 @@ export class ExchangeScopeEffects {
         }));
 
         if (payload.searchingFilter) {
-          actions.push(new fromSingledFilterActions.SearchAggregation());
+          actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER}));
         }
 
         const applyAction = payload.isDataCut ?

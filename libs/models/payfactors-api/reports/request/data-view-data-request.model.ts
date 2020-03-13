@@ -43,6 +43,8 @@ export interface BaseFilter {
 export interface DataViewFilter extends BaseFilter {
   EntitySourceName: string;
   SourceName: string;
+  Value?: string;
+  DataElementId?: number;
 }
 
 export interface DataViewFilterIdentifier extends BaseFilter {

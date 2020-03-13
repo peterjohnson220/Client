@@ -84,19 +84,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   savingJobDescription$: Observable<boolean>;
   jobDescriptionLibraryBuckets$: Observable<AsyncStateObj<JobDescriptionLibraryBucket[]>>;
   jobDescriptionLibraryResults$: Observable<AsyncStateObj<JobDescriptionLibraryResult[]>>;
-  jobDescriptionRevision$: Observable<number>;
   jobDescriptionExtendedInfo$: Observable<JobDescriptionExtendedInfo>;
   acknowledging$: Observable<boolean>;
   employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
   employeeAcknowledgementErrorMessage$: Observable<string>;
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   completedStep$: Observable<boolean>;
+  gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
 
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
   identitySubscription: Subscription;
-  revisionSubscription: Subscription;
   companySubscription: Subscription;
   saveThrottleSubscription: Subscription;
   savingJobDescriptionSubscription: Subscription;
@@ -150,7 +149,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.userAssignedRoles$ = this.userContextStore.select(fromRootState.getUserAssignedRoles);
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMPublicViewsUseClient
+      CompanySettingsEnum.JDMCoreUseClient
     );
     this.controlTypesAsync$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersionAsync);
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
@@ -160,6 +159,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionLibraryBuckets$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getBucketsAsync);
     this.jobDescriptionLibraryResults$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getResultsAsync);
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
+    this.gettingJobDescriptionExtendedInfoSuccess$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfoAsync);
     this.jobDescriptionPublishing$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescription);
     this.acknowledging$ = this.store.select(fromJobDescriptionReducers.getAcknowledging);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
@@ -197,18 +197,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   appliesToFormCompleted(selected: any) {
-    // const newJobDescription = new CompanyJobViewListItem();
-    // newJobDescription.CompanyJobId = selected.companyJobId;
-    // var companyJobToAssign = newJobDescription.CompanyJobId;
-    // var companyJobToUnassign = [];
-    // if(selected.templateId == -1) {
-    //     this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
-    // } else {
-    //     this.templateService.saveCompanyJobsJobDescriptionTemplateId(selected.templateId,[companyJobToAssign],companyJobToUnassign).subscribe( () => {
-    //         this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
-    //     });
-
-    // }
+    this.store.dispatch(new fromJobDescriptionActions.UpdateJobDescriptionAppliesToValues(selected.jobDescriptionAppliesTo));
+    this.saveThrottle.next(true);
   }
 
   goBack(): void {
@@ -361,6 +351,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     appliesTo.AppliesToField = this.jobDescription.AppliesToField;
     appliesTo.AppliesToValue = this.jobDescription.AppliesToValue;
     appliesTo.JobDescriptionTitle = this.jobDescription.JobDescriptionTitle;
+    appliesTo.PublicView = this.jobDescription.PublicView;
 
     this.jobDescriptionAppliesToModalComponent.open(this.jobDescription.JobDescriptionId, this.jobDescription.CompanyJobId, appliesTo);
   }

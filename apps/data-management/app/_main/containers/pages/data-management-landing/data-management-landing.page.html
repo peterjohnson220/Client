@@ -5,14 +5,18 @@
     <div class="col-sm-12 col-md-6">
       <pf-hris-integration-panel
         [transferMethodType]="inbound"
-        [connectionSummary]="connectionSummary"
+        [connectionSummary]="(connectionSummary$ | async)"
         (onCreateNewIntegrationClicked)="createNewIntegration($event)"
-        (onMappingButtonClicked)="goToMappingPage($event)"></pf-hris-integration-panel>
+        (onMappingButtonClicked)="goToMappingPage($event)"
+      ></pf-hris-integration-panel>
     </div>
     <div class="col-sm-12 col-md-6">
       <pf-hris-integration-panel
-        [transferMethodType]="outboundjdm"></pf-hris-integration-panel>
+        [transferMethodType]="outboundjdm"
+        [connectionSummary]="(outboundConnectionSummary$ | async)?.obj"
+        (onCreateNewIntegrationClicked)="createNewIntegration($event)"
+        (onMappingButtonClicked)="goToMappingPage($event)"
+      ></pf-hris-integration-panel>
     </div>
   </div>
 </pf-async-container>
-

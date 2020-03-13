@@ -44,6 +44,13 @@ export const DELETE_SAVED_VIEW = '[PfDataGrid] Delete Saved View';
 export const DELETE_SAVED_VIEW_SUCCESS = '[PfDataGrid] Delete Saved View Success';
 export const PREPARE_VIEW_FOR_DELETE = '[PfDataGrid] Prepare View for Delete';
 export const CANCEL_VIEW_DELETE = '[PfDataGrid] Cancel View Delete';
+export const EXPORT_GRID = '[PfDataGrid] Export Grid';
+export const EXPORT_GRID_SUCCESS = '[PfDataGrid] Export Grid Success';
+export const EXPORT_GRID_ERROR = '[PfDataGrid] Export Grid Error';
+export const EXPORTING_COMPLETE = '[PfDataGrid] Exporting Complete';
+export const GET_EXPORTING_STATUS = '[PfDataGrid] Get Exporting Status';
+export const GET_EXPORTING_STATUS_SUCCESS = '[PfDataGrid] Get Exporting Status Success';
+export const GET_EXPORTING_STATUS_ERROR = '[PfDataGrid] Get Exporting Status Error';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -212,7 +219,7 @@ export class SelectAll implements Action {
 
 export class ClearSelections implements Action {
   readonly type = CLEAR_SELECTIONS;
-  constructor(public pageViewId: string) { }
+  constructor(public pageViewId: string, public selectionsToClear?: number[], public primaryKey?: string) { }
 }
 
 export class HandleSavedViewClicked implements Action {
@@ -243,6 +250,42 @@ export class PrepareViewForDelete implements Action {
 export class CancelViewDelete implements Action {
   readonly type = CANCEL_VIEW_DELETE;
   constructor(public pageViewId: string) { }
+}
+
+export class ExportGrid implements Action {
+  readonly type = EXPORT_GRID;
+  constructor(public pageViewId: string, public source: string, public selectionField: string) {}
+}
+
+export class ExportGridSuccess implements Action {
+  readonly type = EXPORT_GRID_SUCCESS;
+  constructor(public pageViewId: string, public exportEventId: any) {}
+}
+
+export class ExportGridError implements Action {
+  readonly type = EXPORT_GRID_ERROR;
+  constructor() {}
+}
+
+export class ExportingComplete implements Action {
+  readonly type = EXPORTING_COMPLETE;
+
+  constructor(public pageViewId: string) {}
+}
+
+export class GetExportingStatus implements Action {
+  readonly type = GET_EXPORTING_STATUS;
+  constructor(public pageViewId: string, public dataViewId: number) {}
+}
+
+export class GetExportingStatusSuccess implements Action {
+  readonly type = GET_EXPORTING_STATUS_SUCCESS;
+  constructor(public pageViewId: string, public payload: any) {}
+}
+
+export class GetExportingStatusError implements Action {
+  readonly type = GET_EXPORTING_STATUS_ERROR;
+  constructor(public pageViewId: string) {}
 }
 
 export type DataGridActions =
@@ -284,4 +327,11 @@ export type DataGridActions =
   | DeleteSavedView
   | DeleteSavedViewSuccess
   | PrepareViewForDelete
-  | CancelViewDelete;
+  | CancelViewDelete
+  | ExportGrid
+  | ExportGridSuccess
+  | ExportGridError
+  | ExportingComplete
+  | GetExportingStatus
+  | GetExportingStatusSuccess
+  | GetExportingStatusError;

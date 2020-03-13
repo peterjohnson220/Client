@@ -1,15 +1,15 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Action, select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import { Router } from '@angular/router';
 
-import {Observable, of} from 'rxjs';
-import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action, select, Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
+import { SyncScheduleHrisApiService } from 'libs/data/payfactors-api/hris-api/sync-schedules';
+import { generateOutboundTransferScheduleSummary, TransferScheduleSummary } from 'libs/models/hris-api/sync-schedule';
 import * as fromRootState from 'libs/state/state';
-
-import {SyncScheduleHrisApiService} from 'libs/data/payfactors-api/hris-api/sync-schedules';
-import {TransferScheduleSummary} from 'libs/models/hris-api/sync-schedule';
 
 import * as fromTransferScheduleActions from '../actions/transfer-schedule.actions';
 import * as fromDataManagementMainReducer from '../reducers';
@@ -38,6 +38,25 @@ export class TransferScheduleEffects {
             }),
             catchError(e => of(new fromTransferScheduleActions.GetTransferSummaryError()))
           );
+      })
+    );
+
+  @Effect()
+  loadOutboundTransferScheduleSummary$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTransferScheduleActions.GET_OUTBOUND_TRANSFER_SUMMARY),
+      withLatestFrom(
+        this.store.pipe(select(fromDataManagementMainReducer.getOutboundTransferSummaryObj)),
+        (action, summary) => {
+          return {
+            action,
+            summary
+          };
+        }
+      ),
+      switchMap((obj) => {
+        const arr = obj.summary.obj.length > 0 ? obj.summary.obj : generateOutboundTransferScheduleSummary();
+        return of(arr).map(x => new fromTransferScheduleActions.GetOutboundTransferSummarySuccess(x));
       })
     );
 
@@ -118,6 +137,30 @@ export class TransferScheduleEffects {
     );
 
   @Effect()
+  saveOutboundTransferSchedule$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTransferScheduleActions.SAVE_OUTBOUND_TRANSFER_SCHEDULE),
+      withLatestFrom(
+        this.store.pipe(select(fromDataManagementMainReducer.getOutboundTransferSummaryObj)),
+        (action: fromTransferScheduleActions.SaveOutboundTransferSchedule, summary) => {
+          return {
+            action,
+            summary
+          };
+        }
+      ),
+      switchMap((obj) => {
+        const val: TransferScheduleSummary = {
+          ...obj.summary.obj[0],
+          syncSchedule_ID: 1,
+          expression: obj.action.payload.Expression,
+          active: obj.action.payload.Active === true ? 1 : 0
+        };
+        return of(val).map(x => new fromTransferScheduleActions.SaveOutboundTransferScheduleSuccess(x));
+      })
+    );
+
+  @Effect()
   saveAllTransferSchedule$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromTransferScheduleActions.SAVE_ALL_TRANSFER_SCHEDULES),
@@ -131,19 +174,31 @@ export class TransferScheduleEffects {
         }
       ),
       switchMap((obj) => {
-        return this.syncScheduleHrisApiService.bulkUpsertTransferSchedule(obj.userContext, obj.action.payload)
+        return this.syncScheduleHrisApiService.bulkUpsertTransferSchedule(obj.userContext, obj.action.payload.schedules)
           .pipe(
             map((response: TransferScheduleSummary[]) => {
-              return new fromTransferScheduleActions.SaveAllTransferSchedulesSuccess(response);
+              return new fromTransferScheduleActions.SaveAllTransferSchedulesSuccess({summary: response, route: obj.action.payload.route});
             }),
             catchError(e => of(new fromTransferScheduleActions.SaveAllTransferSchedulesError()))
           );
       })
     );
 
+  @Effect({dispatch: false})
+  saveAllTransferSchedulesSuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTransferScheduleActions.SAVE_ALL_TRANSFER_SCHEDULES_SUCCESS),
+      tap((action: fromTransferScheduleActions.SaveAllTransferSchedulesSuccess) => {
+        if (action.payload) {
+          return this.router.navigate([action.payload.route]);
+        }
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromDataManagementMainReducer.State>,
-    private syncScheduleHrisApiService: SyncScheduleHrisApiService
+    private syncScheduleHrisApiService: SyncScheduleHrisApiService,
+    private router: Router
   ) {}
 }

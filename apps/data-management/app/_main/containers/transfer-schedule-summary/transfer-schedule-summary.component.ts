@@ -17,7 +17,6 @@ import {GetSupportedSchedulesPipe} from '../../pipes';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TransferScheduleSummaryComponent implements OnInit, OnDestroy {
-  defaultEntities = ['Paymarkets', 'Jobs', 'Structures', 'Structure Mappings', 'Employees'];
   transferScheduleSummary$: Observable<TransferScheduleSummary[]>;
   transferScheduleSummaryLoading$: Observable<boolean>;
   transferScheduleSummaryError$: Observable<boolean>;
@@ -57,6 +56,9 @@ export class TransferScheduleSummaryComponent implements OnInit, OnDestroy {
     }
     if (fromCronHelpers.monthlyCronExpression.test(item.expression)) {
       return fromCronHelpers.getMonthlyShortSummaryFromExpression(item.expression) + ' of every month';
+    }
+    if (fromCronHelpers.uponPublishCronExpression.test(item.expression)) {
+      return 'upon publish';
     }
   }
 }

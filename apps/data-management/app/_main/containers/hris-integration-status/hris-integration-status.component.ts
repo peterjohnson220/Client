@@ -1,5 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
+import { TransferMethodTypes } from 'libs/constants';
+
 import {ConnectionSummary} from '../../models';
 
 @Component({
@@ -11,6 +13,7 @@ import {ConnectionSummary} from '../../models';
 export class HrisIntegrationStatusComponent {
   @Input() connectionSummary: ConnectionSummary;
   @Output() onCreateNewIntegrationClicked = new EventEmitter();
+  @Input() transferMethod: TransferMethodTypes;
 
   constructor() {
   }

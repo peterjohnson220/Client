@@ -1,51 +1,45 @@
-import {Component, OnInit} from '@angular/core';
-import {SingleFilterComponent} from '../single-filter';
-import {Store} from '@ngrx/store';
-import * as fromSearchReducer from '../../reducers';
-import {Observable} from 'rxjs';
-import {Filter, MultiSelectOption} from '../../models';
+import { Component } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+
+import { SingleFilterComponent } from '../single-filter';
+import { MultiSelectOption } from '../../models';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromChildFilterActions from '../../actions/child-filter.actions';
-import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
-import {take} from 'rxjs/operators';
+import * as fromSearchReducer from '../../reducers';
 
 @Component({
   selector: 'pf-child-filter',
   templateUrl: './child-filter.component.html',
   styleUrls: ['./child-filter.component.scss']
 })
-export class ChildFilterComponent extends SingleFilterComponent implements OnInit {
-  filter$: Observable<Filter>;
-  searchValue$: Observable<string>;
-  selectionCount$: Observable<number>;
-  childLoadingOptions$: Observable<boolean>;
-  childLoadingOptionsError$: Observable<boolean>;
+export class ChildFilterComponent extends SingleFilterComponent {
   childFilterParentOptionValue$: Observable<string>;
   childFilterName$: Observable<string>;
 
   constructor(store: Store<fromSearchReducer.State>) {
     super(store);
-    this.filter$ = this.store.select(fromSearchReducer.getChildFilter);
-    this.searchValue$ = this.store.select(fromSearchReducer.getChildFilterSearchValue);
+
+    this.scrollId = ScrollIdConstants.SEARCH_CHILD_FILTER;
+    this.filter$ = <any>this.store.select(fromSearchReducer.getChildFilter);
     this.selectionCount$ = this.store.select(fromSearchReducer.getChildFilterSelectionCount);
-    this.childLoadingOptions$ = this.store.select(fromSearchReducer.getChildLoadingOptions);
-    this.childLoadingOptionsError$ = this.store.select(fromSearchReducer.getChildLoadingOptionsError);
+    this.searchValue$ = this.store.select(fromSearchReducer.getChildFilterSearchValue);
     this.childFilterParentOptionValue$ = this.store.select(fromSearchReducer.getChildFilterParentOptionValue);
     this.childFilterName$ = this.store.select(fromSearchReducer.getChildFilterName);
   }
-  ngOnInit() {
-    this.store.dispatch(new fromChildFilterActions.SearchAggregation());
 
-  }
-
-  handleMultiSelectOptionSelected(optionSelectedObj: { filterId: string, option: MultiSelectOption }) {
+  handleMultiSelectOptionSelected(optionSelectedObj: { filterId: string, option: MultiSelectOption}) {
     this.store.dispatch(new fromChildFilterActions.ToggleMultiSelectOption(optionSelectedObj));
     this.store.dispatch(new fromSearchFiltersActions.ToggleMultiSelectOption(optionSelectedObj));
   }
+
   handleClearSection(filterId: string) {
-    let test;
     let parentOptionValue = '';
-    test = this.childFilterParentOptionValue$.pipe(take(1)).subscribe( x => {
+    this.childFilterParentOptionValue$.pipe(take(1)).subscribe( x => {
         parentOptionValue = x;
       }
     );
@@ -56,7 +50,7 @@ export class ChildFilterComponent extends SingleFilterComponent implements OnIni
 
   handleSearchValueChanged(value: string) {
     this.store.dispatch(new fromChildFilterActions.SetSearchValue(value));
-    this.store.dispatch(new fromChildFilterActions.SearchAggregation());
+    this.load();
   }
 
 }

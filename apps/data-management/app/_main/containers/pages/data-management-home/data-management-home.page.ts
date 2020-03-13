@@ -17,7 +17,11 @@ export class DataManagementHomePageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.activatedRoute.url.subscribe(d => {
-      const x = this.activatedRoute.snapshot.firstChild.data;
+      let route = this.activatedRoute.snapshot.firstChild;
+      while (route.firstChild) {
+        route = route.firstChild;
+      }
+      const x = route.data;
       this.fullPage = x && x.FullPage === true;
     });
     this.eventsSubscription = this.router.events.pipe(

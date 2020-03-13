@@ -1,12 +1,17 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-import { TileComponent } from './tile.component';
+import { StoreModule } from '@ngrx/store';
+
 import {
   generateMockChartTile, generateMockIconTile, generateMockListTile, generateMockIconTileWithPayload,
   generateTilePreviewIconFromTile
 } from '../../models';
 import { StringReplacePipe } from 'libs/core/pipes';
+import { SettingsService } from 'libs/state/app-context/services';
+import * as fromRootState from 'libs/state/state';
+
+import { TileComponent } from './tile.component';
 
 describe('Tile', () => {
   let fixture: ComponentFixture<TileComponent>;
@@ -15,10 +20,16 @@ describe('Tile', () => {
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers
+        })
+      ],
       declarations: [
         TileComponent,
         StringReplacePipe
       ],
+      providers: [SettingsService],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });

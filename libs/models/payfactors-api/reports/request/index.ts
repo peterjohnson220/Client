@@ -16,3 +16,4 @@ export * from './remove-share-permission-request.model';
 export * from './validate-formula-request.model';
 export * from './upsert-formula-field-request.model';
 export * from './delete-user-formula-request.model';
+export * from './export-grid-request.model';

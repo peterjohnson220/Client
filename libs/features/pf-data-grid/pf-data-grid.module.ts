@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -58,6 +59,7 @@ import {
     NumericTextBoxModule,
     FontAwesomeModule,
     SwitchModule,
+    PerfectScrollbarModule,
   ],
   declarations: [
     PfDataGridComponent,

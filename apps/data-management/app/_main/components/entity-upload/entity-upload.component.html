@@ -32,7 +32,8 @@
       <select class="form-control"
               (ngModelChange)="mappingChange($event)"
               [ngModel]="selectedMapping"
-              id="mappingSelector">
+              id="mappingSelector"
+              [disabled]="HasAnyFiles()">
         <option *ngFor="let mapping of this.mappingOptions"
                 [ngValue]="mapping">{{mapping.GroupName}}</option>
       </select>
@@ -48,7 +49,8 @@
              name="delimSelector"
              class="form-control"
              [ngModel]="selectedDelimiter"
-             (ngModelChange)="delimiterChange($event)">
+             (ngModelChange)="delimiterChange($event)"
+             [disabled]="HasAnyFiles()">
     </div>
   </div>
 </div>

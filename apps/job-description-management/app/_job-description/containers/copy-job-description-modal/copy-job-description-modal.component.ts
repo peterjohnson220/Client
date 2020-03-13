@@ -58,7 +58,11 @@ export class CopyJobDescriptionModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.jobDescriptionAsyncSubscription = this.jobDescriptionAsync$.subscribe(asyncObj => this.jobDescription = asyncObj.obj);
+    this.jobDescriptionAsyncSubscription = this.jobDescriptionAsync$.subscribe(asyncObj => {
+      if (!!asyncObj.obj) {
+        this.jobDescription = asyncObj.obj;
+      }
+    });
     this.extendedInfoSubscription = this.extendedInfo$.subscribe(info => {
       if (!!info) {
         this.extendedInfo = info;
@@ -124,7 +128,7 @@ export class CopyJobDescriptionModalComponent implements OnInit, OnDestroy {
   }
 
   private initModal(): void {
-    if (!!this.extendedInfo && !this.workflowStepInfo) {
+    if (!!this.extendedInfo && !this.workflowStepInfo && !!this.jobDescription) {
       this.selectedFamily = this.extendedInfo.JobFamily;
       this.loadJobDescriptionSources(this.extendedInfo.JobFamily);
     }

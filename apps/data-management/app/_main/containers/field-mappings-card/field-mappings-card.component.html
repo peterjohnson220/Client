@@ -2,12 +2,14 @@
   <ngb-tab *ngFor="let entity of selectedEntities"
             [id]="'tab-'+ entity.toLowerCase()">
     <ng-template ngbTabTitle>
-        <h4 class="font-weight-lighter">{{entity}}</h4>
+        <h4 class="font-weight-lighter">{{entity | orgDataEntityTypeToDisplayName}}</h4>
     </ng-template>
     <ng-template ngbTabContent>
       <pf-entity-mapping
           [entityType]="entity"
-          [entityGroupName]="entity.toLowerCase() + '-associated-bag'">
+          [entityGroupName]="entity.toLowerCase() + '-associated-bag'"
+          [sourceName]="sourceName"
+          [targetName]="targetName">
       </pf-entity-mapping>
     </ng-template>
   </ngb-tab>
