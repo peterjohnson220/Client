@@ -7,6 +7,7 @@
                     [suggest]="true"
                     [textField]="'CompanyName'"
                     [valueField]="'CompanyId'"
+                    [disabled]="isDisabled"
                     class="form-control"
                     id="companySearch"
                     (valueChange)="setSelectedCompany($event)">

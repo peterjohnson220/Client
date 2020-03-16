@@ -13,7 +13,7 @@ import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
 import { LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import { generateMockConfigurationGroup, MappingModel } from 'libs/models/data-loads';
-
+import {CompanySelectorComponent} from 'libs/features/company/components';
 
 import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -51,7 +51,7 @@ describe('ManageFieldMapperPageComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     mockSftpDomainSelector = jest.fn();
     mockSftpPortSelector = jest.fn();
     TestBed.configureTestingModule({
@@ -62,7 +62,7 @@ describe('ManageFieldMapperPageComponent', () => {
         }),
         RouterTestingModule
       ],
-      declarations: [ManageFieldMappingsPageComponent],
+      declarations: [ManageFieldMappingsPageComponent, CompanySelectorComponent],
       providers: [
         {
           provide: ConfigSettingsSelectorFactory,
@@ -79,15 +79,12 @@ describe('ManageFieldMapperPageComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
-  }));
-
-  beforeEach(() => {
     store = TestBed.get(Store);
 
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(ManageFieldMappingsPageComponent);
     component = fixture.componentInstance;
-    component.selectedCompany = 13;
+    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
     component.visibleLoaderOptions = {
       clientFileName: true,
       selectFile: true
@@ -112,7 +109,7 @@ describe('ManageFieldMapperPageComponent', () => {
   });
 
   it('should show the field mapper when a company has been selected', () => {
-    component.selectedCompany = 13;
+    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -411,11 +408,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
   it('should call SavingFieldMappings action when SaveMappings has been called', () => {
     component.mappings = [{ LoaderType: 'Employees', Mappings: ['Base__Salary'] }];
-    component.selectedCompany = 13;
+    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
     component.selectedConfigGroup = generateMockConfigurationGroup();
     const expectedPayload = {
       mappings: component.mappings,
-      companyId: component.selectedCompany,
+      companyId: component.selectedCompany.CompanyId,
       loaderConfigurationGroupId: 1
     };
 
@@ -434,7 +431,7 @@ describe('ManageFieldMapperPageComponent', () => {
     fixture.detectChanges();
 
     spyOn(fromOrgDataFieldMappingsActions, 'SavingFieldMappings');
-
+    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
     component.SaveMappings();
 
     expect(fromOrgDataFieldMappingsActions.SavingFieldMappings).not.toHaveBeenCalled();
@@ -456,7 +453,7 @@ describe('ManageFieldMapperPageComponent', () => {
       component.delimiter = '|';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
       component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -489,7 +486,7 @@ describe('ManageFieldMapperPageComponent', () => {
       component.delimiter = '|';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
       component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -518,7 +515,7 @@ describe('ManageFieldMapperPageComponent', () => {
       component.dateFormat = 'MM/dd/yyyy';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
       component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -551,7 +548,7 @@ describe('ManageFieldMapperPageComponent', () => {
       component.delimiter = '';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
       component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -582,7 +579,7 @@ describe('ManageFieldMapperPageComponent', () => {
       component.delimiter = '';
       component.isEmployeesFullReplace = false;
       component.isStructureMappingsFullReplace = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
       component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -614,7 +611,7 @@ describe('ManageFieldMapperPageComponent', () => {
       component.delimiter = '';
       component.isEmployeesFullReplace = true;
       component.isStructureMappingsFullReplace = false;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
       component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -645,7 +642,7 @@ describe('ManageFieldMapperPageComponent', () => {
       ];
       component.delimiter = '';
       component.isEmployeesLoadEnabled = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
     component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -676,7 +673,7 @@ describe('ManageFieldMapperPageComponent', () => {
       ];
       component.delimiter = '';
       component.isJobsLoadEnabled = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
     component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -707,7 +704,7 @@ describe('ManageFieldMapperPageComponent', () => {
       ];
       component.delimiter = '';
       component.isPaymarketsLoadEnabled = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
       component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -738,7 +735,7 @@ describe('ManageFieldMapperPageComponent', () => {
       ];
       component.delimiter = '';
       component.isStructuresLoadEnabled = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
       component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 
@@ -769,7 +766,7 @@ describe('ManageFieldMapperPageComponent', () => {
       ];
       component.delimiter = '';
       component.isStructureMappingsLoadEnabled = true;
-      component.selectedCompany = 13;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
       component.selectedConfigGroup = generateMockConfigurationGroup();
       fixture.detectChanges();
 

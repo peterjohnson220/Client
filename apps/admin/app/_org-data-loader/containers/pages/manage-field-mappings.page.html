@@ -8,10 +8,7 @@
           <div>
             <h3>Company</h3>
           </div>
-          <pf-company-selector
-            [loading]="companiesLoading$ | async"
-            [companies]="companies$ | async"
-            (companySelected)="onCompanySelected($event)">
+          <pf-company-selector #companySelector>
           </pf-company-selector>
         </div>
 
@@ -131,7 +128,7 @@
       <pf-email-recipients-modal
         class="float-right m-2"
         *ngIf="selectedCompany"
-        [companyId]="selectedCompany"
+        [companyId]="selectedCompany.CompanyId"
         [savingError$]="emailRecipientsSavingError$"
         [removingError$]="emailRecipientsRemovingError$"
         [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"
