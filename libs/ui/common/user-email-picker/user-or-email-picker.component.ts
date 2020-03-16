@@ -31,6 +31,7 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
   @Input() companyId: number;
   @Input() nameToExclude: string;
   @Input() loaderType: string;
+  @Input() loaderConfigurationGroupId: number;
   @Input() jobId: number;
   @Input() workflow: boolean;
   @Output() selected = new EventEmitter();
@@ -89,7 +90,7 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
     }
 
     return !this.workflow
-      ? this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType)
+      ? this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType, this.loaderConfigurationGroupId)
         .map((results: any) => this.handleEmailRecipientsResponse(results, term))
       : this.userApiService.picker(term).map((results: any) => this.handleEmailRecipientsResponse(results, term));
   }

@@ -15,7 +15,8 @@ export class DataLoadEmailRecipientsApiService {
     return this.payfactorsApiService.get<any>(`${this.endpoint}(${payload.companyId})`,
       {
         params: {
-          loaderType: payload.loaderType
+          loaderType: payload.loaderType,
+          loaderConfigurationGroupId: payload.loaderConfigurationGroupId
         }
       });
   }

@@ -8,6 +8,7 @@ export interface EmailRecipientModel {
   LoaderType: string;
   IsCompanyServicesRep: boolean;
   UserPicture: string;
+  LoaderConfigurationGroupId: number;
 }
 
 export function GenerateMockEmailRecipient(): EmailRecipientModel {
@@ -20,6 +21,7 @@ export function GenerateMockEmailRecipient(): EmailRecipientModel {
     LastName: 'Recipient',
     LoaderType: 'OrgData',
     IsCompanyServicesRep: false,
-    UserPicture: 'default_user.png'
+    UserPicture: 'default_user.png',
+    LoaderConfigurationGroupId: 1
   };
 }

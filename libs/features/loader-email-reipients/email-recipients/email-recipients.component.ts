@@ -15,6 +15,7 @@ import { EmailRecipientModel } from '../../../models/data-loads';
 })
 export class EmailRecipientsComponent implements OnInit {
   @Input() companyId: number;
+  @Input() loaderConfigurationGroupId: number;
   @Input() recipients: EmailRecipientModel[];
   @Input() savingError$: Observable<boolean>;
   @Input() removingError$: Observable<boolean>;
@@ -42,6 +43,7 @@ export class EmailRecipientsComponent implements OnInit {
     this.errorText = '';
     recipient.CompanyId = this.companyId;
     recipient.LoaderType = LoaderTypes.OrgData;
+    recipient.LoaderConfigurationGroupId = this.loaderConfigurationGroupId;
     this.store.dispatch(new fromOrgDataEmailRecipientsActions.SavingEmailRecipient(recipient));
   }
 
