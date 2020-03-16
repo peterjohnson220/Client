@@ -15,23 +15,24 @@
     (cellClick)="onCellClick($event)">
     <kendo-grid-checkbox-column [resizable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
       <ng-template kendoGridHeaderTemplate>
-        <input kendoGridSelectAllCheckbox id="selectAllCheckboxId"
-              [state]="selectAllState$ | async"
-              (selectAllChange)="onSelectAllChange($event)">
+        <input type="checkbox" id="selectAllCheckboxId"
+              [checked]="(selectAllState$ | async) === selectAllStatus.checked"
+              [indeterminate]="(selectAllState$ | async) === selectAllStatus.indeterminate"
+              (click)="onSelectAllChange()">
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
         <input type="checkbox"
-               [checked]="isChecked((selectedKeys$ | async), dataItem[getSelectedRowPrimaryKey()])"
-               (click)="onSelectedKeysChange(dataItem[getSelectedRowPrimaryKey()])">
+               [checked]="(selectedKeys$ | async)?.indexOf(dataItem[primaryKey]) > -1"
+               (click)="onSelectedKeysChange(dataItem[primaryKey])">
       </ng-template>
     </kendo-grid-checkbox-column>
-    <ng-container *ngFor="let col of (dataFields$ | async)">
+    <ng-container *ngFor="let col of (dataFields$ | async); trackBy:trackByField">
       <ng-container *ngIf="col.Group">
           <kendo-grid-column-group
             [title]="col.Group"
             [headerClass]="getGridColumnHeaderClass(col)"
             [locked]="false">
-              <ng-container *ngFor="let col of col.Fields">
+              <ng-container *ngFor="let col of col.Fields; trackBy:trackByField">
                   <ng-container *ngIf="showColumn(col)">
                       <kendo-grid-column
                         [field]="mappedFieldName(col)"

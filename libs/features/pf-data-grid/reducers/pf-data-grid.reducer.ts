@@ -14,6 +14,7 @@ export interface DataGridState {
   pageViewId: string;
   loading: boolean;
   baseEntity: DataViewEntity;
+  selectionField: string;
   fields: ViewField[];
   groupedFields: any[];
   inboundFilters: PfDataGridFilter[];
@@ -59,6 +60,59 @@ export enum SelectAllStatus {
   unchecked = 'unchecked',
   indeterminate = 'indeterminate',
 }
+
+
+export const getState = (state: DataGridStoreState) => state;
+export const getGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId];
+export const getLoading = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].loading : null;
+export const getBaseEntity = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntity : null;
+export const getSelectionField = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectionField : null;
+export const getPrimaryKey = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] && state.grids[pageViewId].baseEntity
+    ? `${state.grids[pageViewId].baseEntity.SourceName}_${state.grids[pageViewId].selectionField}`
+    : '';
+};
+export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
+  ? state.grids[pageViewId].fields : null;
+export const getSelectableFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].fields
+  ? state.grids[pageViewId].fields.filter(f => f.IsSelectable) : null;
+export const getGroupedFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].groupedFields : null;
+export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] && state.grids[pageViewId].fields ? state.grids[pageViewId].fields.filter(f => f.IsGlobalFilter) : null;
+};
+export const getFilterableFields = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] && state.grids[pageViewId].fields
+    ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy))
+    : [];
+};
+export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pagingOptions : null;
+export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].defaultSortDescriptor : null;
+};
+export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].sortDescriptor : null;
+export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
+export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
+};
+export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
+export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
+export const getSelectedRecordId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRecordId : null;
+export const getExpandedRows = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].expandedRows : null;
+export const getSplitViewFilters = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].splitViewFilters : null;
+};
+export const getSavedViews = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].savedViews;
+export const getSaveViewModalOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].saveViewModalOpen;
+export const getViewIsSaving = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsSaving;
+export const getSelectedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedKeys : null;
+export const getSelectAllState = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].selectAllState;
+export const getViewIsDeleting = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsDeleting;
+export const getViewNameToBeDeleted = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewNameToBeDeleted;
+export const getExportEventId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportEventId;
+export const getExportingGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportingGrid;
+export const getExportViewId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportViewId;
+export const getLoadingExportingStatus = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingExportingStatus;
+
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -112,6 +166,14 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_DATA_SUCCESS:
+      const loadDataVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, action.payload.Data);
+
+      const selectedVisibleFields = loadDataVisibleFieldsIds.filter(k => state.grids[action.pageViewId].selectedKeys.includes(k));
+      const loadDataSelectAllState =
+        selectedVisibleFields.length === 0 ? SelectAllStatus.unchecked :
+          selectedVisibleFields.length === loadDataVisibleFieldsIds.length ? SelectAllStatus.checked :
+            SelectAllStatus.indeterminate;
+
       return {
         ...state,
         grids: {
@@ -123,6 +185,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
               total: getTotalCount(state.grids[action.pageViewId], action.payload.TotalCount)
             },
             loading: false,
+            selectAllState: loadDataSelectAllState
           }
         }
       };
@@ -136,7 +199,18 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             fields: action.fields,
             groupedFields: buildGroupedFields(action.fields),
             selectedRecordId: null,
-            expandedRows: [],
+            expandedRows: []
+          }
+        }
+      };
+    case fromPfGridActions.UPDATE_SELECTION_FIELD:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectionField: action.selectionField
           }
         }
       };
@@ -295,11 +369,12 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_SELECTED_RECORD_ID: {
+      const curSelectionField = getSelectionField(state, action.pageViewId);
       const newSplitViewFilters = [...state.grids[action.pageViewId].splitViewFilters]
-        .filter(f => f.SourceName !== action.fieldName);
+        .filter(f => f.SourceName !== curSelectionField);
 
       if (action.recordId) {
-        newSplitViewFilters.push(buildExternalFilter(action.recordId.toString(), action.operator, action.fieldName));
+        newSplitViewFilters.push(buildExternalFilter(action.recordId.toString(), action.operator, curSelectionField));
       }
       return {
         ...state,
@@ -446,12 +521,14 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     case fromPfGridActions.SELECT_ALL:
       const selectAllStateToSet = state.grids[action.pageViewId].selectAllState === SelectAllStatus.checked
         ? SelectAllStatus.unchecked : SelectAllStatus.checked;
-      const visibleKeys: number[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
+
+      const selectAllVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, state.grids[action.pageViewId].data.data);
+
       let selectAllKeys = [];
       if (selectAllStateToSet === SelectAllStatus.checked) {
-        selectAllKeys = uniq([...state.grids[action.pageViewId].selectedKeys || [], ...visibleKeys]);
+        selectAllKeys = uniq([...state.grids[action.pageViewId].selectedKeys || [], ...selectAllVisibleFieldsIds]);
       } else {
-        selectAllKeys = state.grids[action.pageViewId].selectedKeys.filter(sk => !(visibleKeys.indexOf(sk) > -1));
+        selectAllKeys = state.grids[action.pageViewId].selectedKeys.filter(sk => !(selectAllVisibleFieldsIds.indexOf(sk) > -1));
       }
       return {
         ...state,
@@ -465,15 +542,15 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.CLEAR_SELECTIONS:
-      let currentSelectedKeys = [];
-      let updatedSelectAllState = SelectAllStatus.unchecked;
+      let clearSelectionsSelectedKeys = [];
+      let clearSelectionsSelectAllState = SelectAllStatus.unchecked;
 
       if (action.pageViewId && action.selectionsToClear && action.selectionsToClear.length > 0) {
-        currentSelectedKeys = cloneDeep(state.grids[action.pageViewId].selectedKeys);
-        const currentVisibleKeys: number[] = state.grids[action.pageViewId].data.data.map((item) => item[action.primaryKey]);
+        clearSelectionsSelectedKeys = cloneDeep(state.grids[action.pageViewId].selectedKeys);
+        const clearSelectionsAllVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, state.grids[action.pageViewId].data.data);
 
-        currentSelectedKeys = currentSelectedKeys.filter(k => !action.selectionsToClear.includes(k));
-        updatedSelectAllState = currentVisibleKeys.filter(k => currentSelectedKeys.includes(k)).length > 0
+        clearSelectionsSelectedKeys = clearSelectionsSelectedKeys.filter(k => !action.selectionsToClear.includes(k));
+        clearSelectionsSelectAllState = clearSelectionsAllVisibleFieldsIds.filter(k => clearSelectionsSelectedKeys.includes(k)).length > 0
           ? SelectAllStatus.indeterminate : SelectAllStatus.unchecked;
       }
 
@@ -483,8 +560,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectedKeys: currentSelectedKeys,
-            selectAllState: updatedSelectAllState
+            selectedKeys: clearSelectionsSelectedKeys,
+            selectAllState: clearSelectionsSelectAllState
           }
         }
       };
@@ -640,51 +717,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
 }
 
 
-export const getState = (state: DataGridStoreState) => state;
-export const getGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId];
-export const getLoading = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].loading : null;
-export const getBaseEntity = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntity : null;
-export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
-  ? state.grids[pageViewId].fields : null;
-export const getSelectableFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].fields
-  ? state.grids[pageViewId].fields.filter(f => f.IsSelectable) : null;
-export const getGroupedFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].groupedFields : null;
-export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) => {
-  return state.grids[pageViewId] && state.grids[pageViewId].fields ? state.grids[pageViewId].fields.filter(f => f.IsGlobalFilter) : null;
-};
-export const getFilterableFields = (state: DataGridStoreState, pageViewId: string) => {
-  return state.grids[pageViewId] && state.grids[pageViewId].fields
-    ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy))
-    : [];
-};
-export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pagingOptions : null;
-export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: string) => {
-  return state.grids[pageViewId] ? state.grids[pageViewId].defaultSortDescriptor : null;
-};
-export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].sortDescriptor : null;
-export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
-export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: string) => {
-  return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
-};
-export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
-export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
-export const getSelectedRecordId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRecordId : null;
-export const getExpandedRows = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].expandedRows : null;
-export const getSplitViewFilters = (state: DataGridStoreState, pageViewId: string) => {
-  return state.grids[pageViewId] ? state.grids[pageViewId].splitViewFilters : null;
-};
-export const getSavedViews = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].savedViews;
-export const getSaveViewModalOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].saveViewModalOpen;
-export const getViewIsSaving = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsSaving;
-export const getSelectedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedKeys : null;
-export const getSelectAllState = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].selectAllState;
-export const getViewIsDeleting = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsDeleting;
-export const getViewNameToBeDeleted = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewNameToBeDeleted;
-export const getExportEventId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportEventId;
-export const getExportingGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportingGrid;
-export const getExportViewId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportViewId;
-export const getLoadingExportingStatus = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingExportingStatus;
-
 export function buildGroupedFields(fields: ViewField[]): any[] {
   const groups = groupBy(fields, [{ field: 'Group' }]);
   const orderedGroups = (groups as Array<GroupResult>)
@@ -830,4 +862,8 @@ export function getTotalCount(state: DataGridState, totalCount: number) {
   } else {
     return null;
   }
+}
+
+export function getVisibleFieldsIds(state: DataGridStoreState, pageViewId: string, data: any[]): number[] {
+  return data.map((item) => item[getPrimaryKey(state, pageViewId)]);
 }

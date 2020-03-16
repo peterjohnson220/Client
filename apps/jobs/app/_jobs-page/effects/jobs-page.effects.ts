@@ -72,7 +72,7 @@ export class JobsPageEffects {
         mergeMap(() =>
           [
             new fromJobsPageActions.DeletingJobSuccess(),
-            new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs, [data.payload], 'CompanyJobs_CompanyJob_ID'),
+            new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs, [data.payload]),
             new fromJobsPageActions.ShowDeleteJobModal(false),
             new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
           ]),
