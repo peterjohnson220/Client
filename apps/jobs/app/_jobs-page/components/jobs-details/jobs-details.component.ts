@@ -95,6 +95,7 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
         this.notPricedDataObj = notPricedData;
         if (notPricedData.total > 0) {
           this.pricedCount = notPricedData.data[0]['vw_UnpricedJobPayMarketMetadata_PricingCount'];
+          this.notPricedCount = this.payMarketCount - this.pricedCount;
         } else if (this.pricedDataObj) {
           if (this.pricedDataObj.total > 0) {
             this.pricedCount = this.payMarketCount - this.pricedDataObj.data[0]['CompanyJobs_Pricings_NotPricedCount'];
@@ -112,6 +113,7 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
         this.pricedDataObj = pricedData;
         if (pricedData.total > 0) {
           this.notPricedCount = pricedData.data[0]['CompanyJobs_Pricings_NotPricedCount'];
+          this.pricedCount = this.payMarketCount - this.notPricedCount;
         } else if (this.notPricedDataObj) {
           if (this.notPricedDataObj.total > 0) {
             this.notPricedCount = this.payMarketCount - this.notPricedDataObj.data[0]['vw_UnpricedJobPayMarketMetadata_PricingCount'];
