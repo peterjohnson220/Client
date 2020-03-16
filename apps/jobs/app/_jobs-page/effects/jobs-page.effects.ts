@@ -169,20 +169,6 @@ export class JobsPageEffects {
     })
   );
 
-  @Effect()
-  exportPricings$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobsPageActions.EXPORT_PRICINGS),
-    switchMap((action: any) => {
-      return this.jobsApiService.exportPricings(action.payload).pipe(
-        map(response => new fromPfDataGridActions.DoNothing('705B7FE1-42AB-4B57-A414-764E52981160')),
-        catchError(error => {
-          const msg = 'We encountered an error while exporting data';
-          return of(new fromJobsPageActions.HandleApiError(msg));
-        })
-      );
-    })
-  );
-
 
 }
 

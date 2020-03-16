@@ -299,30 +299,43 @@
 
 <ng-template #exportList>
   <div class="popover-body-container">
-    <!--<p>
+    <div class="popover-body-content">
+      <!--<p>
       <pf-input-debounce [disabled]="viewDeleting || viewNameToBeDeleted" id="filter-search-box" [id]="'filter-chooser-search'" (valueChanged)="(filter = $event)" [placeholderText]="'Search for a Filter...'">
       </pf-input-debounce>
     </p> -->
-    <div>
-      System Exports
-    </div>
-    <div class="row">
-      <div class="col-8">
-        Download Pricings
+      <div class="export-popover-divider pl-2">
+        System Exports
       </div>
-      <div class="col-4">
-        <button class="">
-          <fa-icon fa-icon [icon]="['fal', 'file-excel']"></fa-icon>
-        </button>
-        <button>
-          <fa-icon fa-icon [icon]="['fal', 'file-pdf']"></fa-icon>
-        </button>
+
+      <div class="list-group">
+        <div *ngFor="let opt of exportOptions" class="list-group-item list-group-item-action p-2">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <span>{{opt.Name}}</span>
+              <small class="export-desc">{{opt.Description}}</small>
+            </div>
+            <div class="export-btn-group space-out-children row">
+              <div>
+                <button *ngIf="opt.ValidExtensions.indexOf('xlsx') > -1" class="btn btn-secondary" (click)="exportPricings(opt, 'xlsx')">
+                  <fa-icon fa-icon [icon]="['fal', 'file-excel']"></fa-icon>
+                </button>
+              </div>
+              <div>
+                <button *ngIf="opt.ValidExtensions.indexOf('pdf') > -1" class="btn btn-secondary" (click)="exportPricings(opt, 'pdf')">
+                  <fa-icon fa-icon [icon]="['fal', 'file-pdf']"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 </ng-template>
 
-<form name="exportForm" [action]="'/odata/Jobs/ExportPricings'" method="POST">
+<form name="exportForm" method="POST">
   <input type="hidden" name="export-uid" />
   <input type="hidden" name="export-type" />
   <input type="hidden" name="job-ids" />

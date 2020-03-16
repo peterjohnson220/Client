@@ -82,6 +82,18 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     field: 'CompanyJobs_Job_Title'
   }];
 
+  exportOptions = [{
+    Name: 'Download Pricings',
+    Description: 'High Level Pricing Details including Pay Markets, Effective Dates',
+    Endpoint: '/odata/Jobs/ExportPricings',
+    ValidExtensions: ['xlsx']
+  }, {
+    Name: 'Download Job Report',
+    Description: 'Report including Pricing Details and a breakdown of Pay',
+    Endpoint: '/odata/Jobs/ExportJobReport',
+    ValidExtensions: ['xlsx', 'pdf']
+  }];
+
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
   @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
@@ -283,12 +295,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editingJobId = null;
   }
 
-  exportPricings() {
+  exportPricings(exportRequest: any, extension: string) {
     // TODO: clean this up. rename the form specific to the export. refactor the conditional for populating those collections. error(s) were server side
     const htmlDocument: any = document;
-
+    htmlDocument.exportForm.action = exportRequest.Endpoint;
     htmlDocument.exportForm.elements['export-uid'].value = Date.now();
-    htmlDocument.exportForm.elements['export-type'].value = 'xlsx';
+    htmlDocument.exportForm.elements['export-type'].value = extension;
     htmlDocument.exportForm.elements['job-ids'].value = this.selectedJobIds.length ? this.selectedJobIds : [];
     htmlDocument.exportForm.elements['pricing-ids'].value = this.selectedPricingIds.length ? this.selectedPricingIds : [];
     htmlDocument.exportForm.submit();

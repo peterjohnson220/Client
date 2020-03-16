@@ -1,3 +1,5 @@
+@import 'jobs-page-colors';
+
 .hide-dropdown-arrow::after {
   display: none !important;
 }
@@ -5,4 +7,37 @@
 .inline-menu-btn {
   border-color: transparent;
   background: transparent;
+}
+
+.export-popover-divider {
+  height: 25px;
+  background-color: $sub-grid-header-color;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.popover-body-container {
+  padding: 0.5rem 0;
+  height: 300px;
+}
+
+.export-list-item{
+  height: 50px;
+  border-bottom: 1px;
+}
+
+.export-desc {
+  display: block;
+  overflow: hidden;
+  font-style: italic;
+  color: #888e92;
+}
+
+.popover-body-content {
+  overflow-x: hidden;
+}
+
+.list-group .list-group-item {
+  min-height: fit-content;
+  border-width: 1px 0 1px 0;
 }
