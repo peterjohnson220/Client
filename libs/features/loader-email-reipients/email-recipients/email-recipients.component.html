@@ -9,7 +9,8 @@
     <div class="email-recipients-container">
       <pf-user-or-email-picker
         [companyId]="companyId"
-        [loaderType]="'OrgData'"
+        [loaderType]="'Organizational Data'"
+        [loaderConfigurationGroupId]="loaderConfigurationGroupId"
         (selected)="onRecipientSelected($event)">
       </pf-user-or-email-picker>
 

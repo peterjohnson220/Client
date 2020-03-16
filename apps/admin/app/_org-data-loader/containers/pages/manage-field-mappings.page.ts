@@ -257,13 +257,22 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
     this.configurationGroups$
       .pipe(
-        filter(configGroups => configGroups.length > 0)
+        filter(configGroups => !!configGroups)
       )
       .subscribe(configGroups => {
-        // For now we only save one config group per company per loadType, so the array only contains one item
-        this.selectedConfigGroup = configGroups[0];
-        this.reloadLoaderSettings();
-        this.reloadFieldMappings();
+        if (configGroups.length > 0) {
+          // For now we only save one config group per company per loadType, so the array only contains one item
+          this.selectedConfigGroup = configGroups[0];
+          this.reloadLoaderSettings();
+          this.reloadFieldMappings();
+        }
+
+        this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
+          companyId: this.selectedCompany,
+          loaderType: LoaderTypes.OrgData,
+          loaderConfigurationGroupId: this.selectedConfigGroup ? this.selectedConfigGroup.LoaderConfigurationGroupId : undefined
+        }));
+
       });
 
     this.savedConfigurationGroup$
@@ -339,12 +348,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         this.payfactorsEmployeeDataFields.push(udf.Value);
       });
     });
-
-    this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
-      companyId: this.selectedCompany,
-      loaderType: LoaderTypes.OrgData
-    }));
-
+    
     this.store.dispatch(new fromConfigurationGroupsActions.LoadingConfigurationGroups({
       CompanyId: this.selectedCompany,
       LoadType: LoadTypes.Sftp

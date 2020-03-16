@@ -132,6 +132,7 @@
         class="float-right m-2"
         *ngIf="selectedCompany"
         [companyId]="selectedCompany"
+        [loaderConfigurationGroupId]="selectedConfigGroup ? selectedConfigGroup.LoaderConfigurationGroupId : undefined"
         [savingError$]="emailRecipientsSavingError$"
         [removingError$]="emailRecipientsRemovingError$"
         [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"

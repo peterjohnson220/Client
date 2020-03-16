@@ -185,10 +185,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.clearSelections();
       if (f) {
         this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, LoadTypes.Manual));
-        this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
-          companyId: this.selectedCompany.CompanyId,
-          loaderType: LoaderTypes.OrgData
-        }));
         this.getPayfactorCustomFields(f.CompanyId);
       }
     });
@@ -240,11 +236,19 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)).subscribe(f => this.organizationalDataTemplateLink = f);
 
     this.configGroups$.pipe(
-      filter(configGroups => configGroups.length > 0),
+      filter(configGroups => !!configGroups && !!this.selectedCompany),
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
-      this.getSettings(f[0]);
-      this.loaderConfigGroup = f[0];
+      if (f.length > 0) {
+        this.getSettings(f[0]);
+        this.loaderConfigGroup = f[0];
+      }
+
+      this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
+        companyId: this.selectedCompany.CompanyId,
+        loaderType: LoaderTypes.OrgData,
+        loaderConfigurationGroupId: this.loaderConfigGroup ? this.loaderConfigGroup.LoaderConfigurationGroupId : undefined
+      }));
     });
 
     this.customJobFields$.pipe(
