@@ -47,9 +47,11 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   expandedRowsSubscription: Subscription;
   expandedRows: number[];
+  sortDescriptorSubscription: Subscription;
 
   dataSubscription: Subscription;
   data: GridDataResult;
+  sortDescriptor: SortDescriptor[];
 
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
 
@@ -71,12 +73,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.expandedRowsSubscription = this.store.select(fromReducer.getExpandedRows, this.pageViewId).subscribe(expandedRows => {
       this.expandedRows = expandedRows;
     });
+    this.sortDescriptorSubscription = this.sortDescriptor$.subscribe(value => this.sortDescriptor = value);
 
   }
 
   ngOnDestroy() {
     this.expandedRowsSubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
+    this.sortDescriptorSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {

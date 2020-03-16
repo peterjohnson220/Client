@@ -39,6 +39,10 @@
   thead {
     border-color: rgba(0,0,0,0.03)
   }
+
+  .k-grid-header th>.k-link>.k-icon {
+    display: none;
+  }
 }
 
 .k-grid .k-hierarchy-cell {
@@ -78,4 +82,12 @@ html .k-grid tr:hover {
 
 .pf-grid-checkbox {
   text-overflow: clip !important;
+}
+
+.sort-icon {
+  margin-right: 0.5rem;
+}
+
+.ellipsis-text {
+  @extend %ellipsis-overflowing-text;
 }
