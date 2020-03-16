@@ -1,6 +1,6 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
-  [title]="getPageTitle(company$ | async)"
+  [title]="(userContext$ | async)?.CompanyName + ' - Jobs'"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
   [gridGlobalActionsTemplate]="gridGlobalActions"
@@ -35,7 +35,7 @@
           <fa-icon icon="ellipsis-h"></fa-icon>
         </button>
         <div ngbDropdownMenu class="dropdown-menu dropdown-menu-left">
-          <button
+          <button  *ngIf="(userContext$ | async)?.CompanyId !== 1401"
             [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
             [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
             class="dropdown-item"

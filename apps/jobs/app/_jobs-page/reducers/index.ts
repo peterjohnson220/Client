@@ -32,7 +32,6 @@ export const selectJobsPageMainState =
 export const selectJobsPageState =
   createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.jobsPage);
 
-export const getCompany = createSelector(selectJobsPageState, fromJobsPageReducer.getCompany);
 export const getJobsPageId = createSelector(selectJobsPageState, fromJobsPageReducer.getJobsPageId);
 export const getShowAddToProjectModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowAddToProjectModal);
 export const getAddingToProject = createSelector(selectJobsPageState, fromJobsPageReducer.getAddingToProject);

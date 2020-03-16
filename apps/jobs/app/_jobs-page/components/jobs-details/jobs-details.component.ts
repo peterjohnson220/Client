@@ -95,8 +95,13 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
         this.notPricedDataObj = notPricedData;
         if (notPricedData.total > 0) {
           this.pricedCount = notPricedData.data[0]['vw_UnpricedJobPayMarketMetadata_PricingCount'];
+          this.notPricedCount = this.payMarketCount - this.pricedCount;
         } else if (this.pricedDataObj) {
-          this.pricedCount = this.payMarketCount - this.pricedDataObj.data[0]['CompanyJobs_Pricings_NotPricedCount'];
+          if (this.pricedDataObj.total > 0) {
+            this.pricedCount = this.payMarketCount - this.pricedDataObj.data[0]['CompanyJobs_Pricings_NotPricedCount'];
+          } else {
+            this.pricedCount = this.payMarketCount - this.notPricedCount;
+          }
         } else {
           this.pricedCount = this.payMarketCount;
         }
@@ -108,8 +113,13 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
         this.pricedDataObj = pricedData;
         if (pricedData.total > 0) {
           this.notPricedCount = pricedData.data[0]['CompanyJobs_Pricings_NotPricedCount'];
+          this.pricedCount = this.payMarketCount - this.notPricedCount;
         } else if (this.notPricedDataObj) {
-          this.notPricedCount = this.payMarketCount - this.notPricedDataObj.data[0]['vw_UnpricedJobPayMarketMetadata_PricingCount'];
+          if (this.notPricedDataObj.total > 0) {
+            this.notPricedCount = this.payMarketCount - this.notPricedDataObj.data[0]['vw_UnpricedJobPayMarketMetadata_PricingCount'];
+          } else {
+            this.notPricedCount = this.payMarketCount - this.pricedCount;
+          }
         } else {
           this.notPricedCount = this.payMarketCount;
         }
@@ -159,5 +169,7 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
     this.notPricedDataSubscription.unsubscribe();
     this.pricedDataSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
+
+    this.store.dispatch(new fromJobsPageActions.ChangePricingDetailsView('Priced'));
   }
 }

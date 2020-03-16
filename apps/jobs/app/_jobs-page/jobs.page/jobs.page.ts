@@ -1,22 +1,20 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-
 import { SortDescriptor } from '@progress/kendo-data-query';
-
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField, AddToProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-
+import { AsyncStateObj, UserContext } from 'libs/models';
 import { PageViewIds } from '../constants';
+
+import * as fromRootState from 'libs/state/state';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-import { AsyncStateObj } from 'libs/models';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -48,7 +46,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   companyPayMarketsSubscription: Subscription;
   structureGradeNameSubscription: Subscription;
 
-  company$: Observable<string>;
+  userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
 
   showAddToProjectModal$: Observable<boolean>;
@@ -105,9 +103,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
 
+    this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.pageViewId);
-
-    this.company$ = this.store.select(fromJobsPageReducer.getCompany);
     this.showAddToProjectModal$ = this.store.select(fromJobsPageReducer.getShowAddToProjectModal);
     this.addingToProject$ = this.store.select(fromJobsPageReducer.getAddingToProject);
     this.showJobStatusModal$ = this.store.select(fromJobsPageReducer.getShowJobStatusModal);
@@ -154,7 +151,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));
-    this.store.dispatch(new fromJobsPageActions.LoadCompany());
+    this.store.dispatch(new fromJobsPageActions.LoadCompanyPayMarkets());
+    this.store.dispatch(new fromJobsPageActions.LoadStructureGrades());
   }
 
   ngAfterViewInit() {
@@ -232,10 +230,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromJobsPageActions.DeletingJob(this.jobIdToDelete));
   }
 
-  getPageTitle(companyName: string) {
-    return companyName ? `${companyName} Jobs` : '';
-  }
-
   ngOnDestroy() {
     this.selectedKeysSubscription.unsubscribe();
     this.selectedPricingIdSubscription.unsubscribe();
@@ -246,7 +240,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeSplitView() {
-    this.store.dispatch(new fromPfDataGridActions.UpdateSelectedRecordId(this.pageViewId, null, null, null));
+    this.store.dispatch(new fromPfDataGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
   }
 
   handlePayMarketFilterChanged(value: any) {
