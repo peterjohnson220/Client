@@ -43,6 +43,11 @@
                         [class]="getColumnClasses(col)"
                         [width]="selectedRecordId ? null : col.Width"
                         [minResizableWidth]="30">
+
+                        <ng-template kendoGridHeaderTemplate let-column>
+                          <ng-container [ngTemplateOutlet]="customHeaderTemplate" [ngTemplateOutletContext]="{column: column}"></ng-container>
+                        </ng-template>
+
                         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                           <pf-grid-column
                             [columnTemplates]='columnTemplates'
@@ -68,6 +73,11 @@
           [class]="getColumnClasses(col)"
           [width]="selectedRecordId ? null : (col.Width || defaultColumnWidth)"
           [minResizableWidth]="30">
+
+          <ng-template kendoGridHeaderTemplate let-column>
+            <ng-container [ngTemplateOutlet]="customHeaderTemplate" [ngTemplateOutletContext]="{column: column}"></ng-container>
+          </ng-template>
+
           <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <pf-grid-column
                 [columnTemplates]='columnTemplates'
@@ -102,3 +112,13 @@
 
   </kendo-grid>
 </pf-async-container>
+
+<ng-template #customHeaderTemplate let-column="column">
+  <div *ngIf="column" class="ellipsis-text">
+    <ng-container *ngIf="!!sortDescriptor?.length && sortDescriptor[0].field === column.field">
+      <fa-icon *ngIf="sortDescriptor[0].dir === 'desc'" class="sort-icon" [icon]="['far', 'long-arrow-down']"></fa-icon>
+      <fa-icon *ngIf="sortDescriptor[0].dir === 'asc'" class="sort-icon" [icon]="['far', 'long-arrow-up']"></fa-icon>
+    </ng-container>
+    <span class="k-link">{{column.title}}</span>
+  </div>
+</ng-template>
