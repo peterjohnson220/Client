@@ -115,7 +115,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             data: {
               data: action.payload.Data,
-              total: getTotalCount(state.grids[action.pageViewId], action.payload.TotalCount)
+              total: action.payload.TotalCount
             },
             loading: false,
           }
@@ -829,16 +829,6 @@ export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
       .map(field => getHumanizedFilter(field))
       .join(' • ')
   }));
-}
-
-export function getTotalCount(state: DataGridState, totalCount: number) {
-  if (state.pagingOptions && state.pagingOptions.From === 0) {
-    return totalCount;
-  } else if (state.data) {
-    return state.data.total;
-  } else {
-    return null;
-  }
 }
 
 export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
