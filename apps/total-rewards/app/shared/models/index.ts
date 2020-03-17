@@ -10,3 +10,4 @@ export * from './image-control';
 export * from './layout';
 export * from './section';
 export * from './rich-text-control';
+export * from './rich-text-data-field';

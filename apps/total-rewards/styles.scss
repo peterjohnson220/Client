@@ -11,9 +11,9 @@ $canvas-width-expanded-left-nav: calc(85% - 203px);
 
 $left-nav-transition: left .3s, width .3s;
 
-// in the edit statement, adjust header dimenions when left side bar is expanded
+// adjust edit statement page's header dimenions when left side bar is expanded
 main.left-sidebar-expanded {
-  .header-row, .trs-rich-text-control.active .ql-toolbar {
+  pf-statement-edit .header-row, .trs-rich-text-control.active .ql-toolbar {
     left: $canvas-left-expanded-left-nav;
     width: $canvas-width-expanded-left-nav;
   }
