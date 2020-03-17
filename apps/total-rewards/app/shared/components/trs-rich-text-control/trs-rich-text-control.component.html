@@ -1,12 +1,12 @@
 <div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': isInvalid}">
-  <h4 [ngStyle]="setDefaultStyling(sectionTitlesStyles)">
+  <h4 class="primary-control-heading">
     <pf-inline-string-editor
       [placeholder]="controlData.Title"
       [maxCharacters]="50"
       (valueChange)="onTitleChange($event)"
     ></pf-inline-string-editor>
   </h4>
-  <div [ngStyle]="setDefaultStyling(dataStyles)" pfClickElsewhere (clickElsewhere)="onClickElsewhere()">
+  <div pfClickElsewhere (clickElsewhere)="onClickElsewhere()">
     <quill-editor 
       #richText
       [(ngModel)]="htmlContent"

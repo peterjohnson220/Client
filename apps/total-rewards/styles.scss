@@ -55,8 +55,13 @@ pf-statement-edit {
     width: $canvas-width;
   }
 
+  .primary-control-heading {
+    font-size: 1.5rem;
+    font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+  }
+
   .trs-rich-text-control {
-    height: 180px;
+    height: $rich-text-height;
     .ql-toolbar {
       text-align: center;
       opacity: 0;
@@ -79,6 +84,12 @@ pf-statement-edit {
     .ql-editor {
       padding: 6px;
       overflow-y: hidden;
+      .ql-size-large {
+        font-size: 1.4rem;
+      }
+      .ql-size-small {
+        font-size: .85rem;
+      }
       &.ql-blank::before {
         left: 8px;
       }
@@ -120,7 +131,7 @@ pf-statement-edit {
   // left bracket data field/mention
   .ql-mention-list-container {
     z-index: 100;
-    background-color: #fff;
+    background-color: white;
     max-height: 140px;
     width: 200px;
     overflow-y: hidden;

@@ -4,9 +4,7 @@ import { AnyFn } from '@ngrx/store/src/selector';
 import 'quill-mention';
 import Quill from 'quill';
 
-import { formatDefaultStyles } from 'libs/core/functions/format-default-styles';
-
-import { Styling, RichTextControl } from '../../models';
+import { RichTextControl } from '../../models';
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
 
@@ -23,8 +21,6 @@ export class TrsRichTextControlComponent implements OnInit {
   @ViewChild('richText', { static: true }) richText: any;
 
   @Input() controlData: RichTextControl;
-  @Input() sectionTitlesStyles: Styling;
-  @Input() dataStyles: Styling;
 
   isFocused = false;
   isInvalid = false;
@@ -35,7 +31,7 @@ export class TrsRichTextControlComponent implements OnInit {
     toolbar: {
       container: [
         [{ 'font': supportedFonts }],
-        [{ 'size': ['small', false, 'large', 'huge'] }],
+        [{ 'size': ['small', false, 'large'] }],
         ['bold', 'italic', 'underline'],
         [{ 'color': [] }],
         [{ 'align': [] }],
@@ -115,10 +111,6 @@ export class TrsRichTextControlComponent implements OnInit {
       // getSelection will have a null anchorNode if clicked in iFrame, and should default to last clicked if no selection, so just unset focus in iFrame case
       this.isFocused = false;
     }
-  }
-
-  setDefaultStyling(style: Styling) {
-    return formatDefaultStyles(style);
   }
 
 }

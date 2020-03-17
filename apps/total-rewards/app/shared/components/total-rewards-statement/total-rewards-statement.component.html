@@ -10,8 +10,6 @@
                 <div *ngIf="control.ControlType === controlType.RichTextEditor" >
                   <pf-trs-rich-text-control
                     [controlData]="control"
-                    [sectionTitlesStyles]="(statement$ | async)?.SectionTitlesStyles"
-                    [dataStyles]="(statement$ | async)?.BenefitFieldDataStyles"
                     class="p-1"></pf-trs-rich-text-control>
                 </div>
 
@@ -25,10 +23,6 @@
                 <div *ngIf="control.ControlType === controlType.Calculation">
                   <pf-trs-calculation-control
                     [controlData]="control"
-                    [sectionTitlesStyles]="(statement$ | async)?.SectionTitlesStyles"
-                    [titlesStyles]="(statement$ | async)?.BenefitFieldTitlesStyles"
-                    [dataStyles]="(statement$ | async)?.BenefitFieldDataStyles"
-                    [calculationStyles]="(statement$ | async)?.BenefitFieldCalculationsStyles"
                     class="p-1"></pf-trs-calculation-control>
                 </div>
 
@@ -43,14 +37,12 @@
                 <div *ngIf="control.ControlType === controlType.Title">
                   <pf-trs-title-control
                     [controlData]="control"
-                    [titleStyles]="(statement$ | async)?.StatementTitleStyles"
                     class="p-1"></pf-trs-title-control>
                 </div>
 
                 <div *ngIf="control.ControlType === controlType.Summary">
                   <pf-trs-summary-control
                     [controlData]="control"
-                    [titleStyles]="(statement$ | async)?.StatementTitleStyles"
                     class="p-1"></pf-trs-summary-control>
                 </div>
               </div>

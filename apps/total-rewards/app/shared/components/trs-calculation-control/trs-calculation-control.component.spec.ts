@@ -18,9 +18,6 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should create', () => {
-    component.sectionTitlesStyles = {} as any;
-    component.dataStyles = {} as any;
-    component.calculationStyles = {} as any;
     component.controlData = {} as any;
 
     fixture.detectChanges();
@@ -29,9 +26,6 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should render the supplied data fields', () => {
-    component.sectionTitlesStyles = {} as any;
-    component.dataStyles = {} as any;
-    component.calculationStyles = {} as any;
     component.controlData = { DataFields: ['first', 'second', 'third'] } as any;
 
     fixture.detectChanges();
@@ -42,9 +36,6 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should render the supplied title', () => {
-    component.sectionTitlesStyles = {} as any;
-    component.dataStyles = {} as any;
-    component.calculationStyles = {} as any;
     component.controlData = { Title: 'test title' } as any;
 
     fixture.detectChanges();
