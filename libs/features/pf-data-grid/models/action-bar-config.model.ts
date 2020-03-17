@@ -4,6 +4,7 @@ export interface ActionBarConfig {
   ShowActionBar: boolean;
   ShowColumnChooser: boolean;
   ShowFilterChooser: boolean;
+  AllowSaveFilter: boolean;
   AllowExport: boolean;
   ExportSourceName: string;
   ColumnChooserType?: ColumnChooserType;
@@ -23,6 +24,7 @@ export function getDefaultActionBarConfig(): ActionBarConfig {
     ShowColumnChooser: false,
     ShowFilterChooser: false,
     AllowExport: false,
+    AllowSaveFilter: true,
     ExportSourceName: '',
     ColumnChooserType: ColumnChooserType.Column
   };

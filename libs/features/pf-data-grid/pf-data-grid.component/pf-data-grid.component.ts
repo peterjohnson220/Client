@@ -151,7 +151,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
-      this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
+      if (this.actionBarConfig.AllowSaveFilter) {
+        this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
+      }
     }
 
     if (changes['inboundFilters']) {

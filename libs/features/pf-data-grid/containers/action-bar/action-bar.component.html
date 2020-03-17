@@ -39,6 +39,7 @@
   
         <pf-filter-chooser *ngIf="actionBarConfig.ShowFilterChooser"
           [savedViews]="savedViews$ | async"
+          [AllowSaveFilter]="actionBarConfig.AllowSaveFilter"
           [viewDeleting]="(viewDeleting$ | async)"
           [viewNameToBeDeleted]="(viewNameToBeDeleted$ | async)"
           (onFilterSidebarToggle)="toggleFilterPanel()"
