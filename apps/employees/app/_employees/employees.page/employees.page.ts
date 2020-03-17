@@ -63,6 +63,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: true,
+      AllowSaveFilter: false,
       ExportSourceName: 'Employees',
       ColumnChooserType: ColumnChooserType.ColumnGroup
     };

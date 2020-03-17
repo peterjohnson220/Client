@@ -43,7 +43,7 @@
   <button title="Filter" (click)="filterButtonClicked()" class="btn btn-secondary" [disabled]="disabled" [attr.data-qa-id]="'btn-grid-filter'">
     <fa-icon icon="sliders-h"></fa-icon>
   </button>
-  <button [disabled]="disabled || (savedViews && !savedViews.length)" [title]="(savedViews && !savedViews.length) ? 'No Saved Filters' : 'Saved Filters'"
+  <button *ngIf="AllowSaveFilter" [disabled]="disabled || (savedViews && !savedViews.length)" [title]="(savedViews && !savedViews.length) ? 'No Saved Filters' : 'Saved Filters'"
     type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
     aria-expanded="false" placement="bottom-right" #p="ngbPopover" popoverTitle="Saved Filters" [ngbPopover]="popContent"
     [autoClose]="'outside'" [attr.data-qa-id]="'btn-saved-filters'" (hidden)="cancelDelete()">

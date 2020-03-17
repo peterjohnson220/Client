@@ -13,6 +13,7 @@ export class FilterPanelComponent implements OnChanges {
 
   @Input() fields: ViewField[];
   @Input() filterTemplates: any;
+  @Input() AllowSaveFilter: boolean;
 
   @Output() saveFilterClicked = new EventEmitter();
   @Output() filterChanged = new EventEmitter<ViewField>();

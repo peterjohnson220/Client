@@ -73,6 +73,7 @@
         </div>
         <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3 border border-top-1">
           <pf-filter-panel
+            [AllowSaveFilter]="actionBarConfig.AllowSaveFilter"
             [fields]="filterableFields$ | async"
             [filterTemplates]="filterPanelTemplates"
             (close)="closeFilterPanel()"
