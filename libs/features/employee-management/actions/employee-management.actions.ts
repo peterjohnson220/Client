@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { CompanyEmployee, GenericKeyValue, KendoTypedDropDownItem } from 'libs/models';
+import { EmployeeValidation, Job } from '../models';
 
 export const HANDLE_API_ERROR = '[EmployeeManagement] Handle API Error';
 export const SHOW_EMPLOYEE_FORM = '[EmployeeManagement] Show Employee Form';
@@ -36,6 +37,9 @@ export const GET_EMPLOYEE_SUCCESS = '[EmployeeManagement] Get Employee Success';
 export const GET_EMPLOYEE_ERROR = '[EmployeeManagement] Get Employee Error';
 export const UPDATE_EMPLOYEE = '[EmployeeManagement] Update Employee';
 export const ADD_EMPLOYEE = '[EmployeeManagement] Add Employee';
+export const VALIDATE_EMPLOYEE_KEYS = '[EmployeeManagement] Validate Employee Keys';
+export const VALIDATE_EMPLOYEE_KEYS_SUCCESS = '[EmployeeManagement] Validate Employee Keys Success';
+export const VALIDATE_EMPLOYEE_KEYS_ERROR = '[EmployeeManagement] Validate Employee Keys Error';
 
 export class ShowEmployeeForm implements Action {
   readonly type = SHOW_EMPLOYEE_FORM;
@@ -69,7 +73,7 @@ export class LoadCompanyJobs implements Action {
 
 export class LoadCompanyJobsSuccess implements Action {
   readonly type = LOAD_COMPANYJOBS_SUCCESS;
-  constructor(public payload: KendoTypedDropDownItem[]) { }
+  constructor(public payload: Job[]) { }
 }
 
 export class LoadCompanyJobsError implements Action {
@@ -221,6 +225,23 @@ export class AddEmployee implements Action {
   constructor() {}
 }
 
+export class ValidateEmployeeKeys implements Action {
+  readonly type = VALIDATE_EMPLOYEE_KEYS;
+
+  constructor(public payload: CompanyEmployee) {}
+}
+
+export class ValidateEmployeeKeysSuccess implements Action {
+  readonly type = VALIDATE_EMPLOYEE_KEYS_SUCCESS;
+
+  constructor(public payload: EmployeeValidation) {}
+}
+
+export class ValidateEmployeeKeysError implements Action {
+  readonly type = VALIDATE_EMPLOYEE_KEYS_ERROR;
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = HandleApiError
   | ShowEmployeeForm
@@ -259,4 +280,7 @@ export type Actions
   | GetEmployeeSuccess
   | GetEmployeeError
   | UpdateEmployee
-  | AddEmployee;
+  | AddEmployee
+  | ValidateEmployeeKeys
+  | ValidateEmployeeKeysSuccess
+  | ValidateEmployeeKeysError;

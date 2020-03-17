@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
@@ -14,6 +14,8 @@ import { AsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee
 
 import * as fromEmployeeManagementReducer from '../../reducers';
 import * as fromEmployeeManagementActions from '../../actions';
+import { EmployeeValidation } from '../../models/employee-validation.model';
+import { Job } from '../../models';
 
 @Component({
   selector: 'pf-employee-management',
@@ -34,7 +36,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
   errorMessage$: Observable<string>;
-  jobs$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
+  jobs$: Observable<AsyncStateObj<Job[]>>;
   countries$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   currencies$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   departments$: Observable<AsyncStateObj<string[]>>;
@@ -43,6 +45,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   structureNames$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   employeesUserDefinedFields$: Observable<AsyncStateObj<GenericKeyValue<string, string>[]>>;
   employee$: Observable<AsyncStateObj<CompanyEmployee>>;
+  employeeValidationAsync$: Observable<AsyncStateObj<EmployeeValidation>>;
 
   // subscriptions
   openModalSubscription: Subscription;
@@ -53,16 +56,18 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   userContextSubscription: Subscription;
   jobsSubscription: Subscription;
   filterChangeSubscription: Subscription;
+  employeeValidationSubscription: Subscription;
 
   employeeForm: FormGroup;
   initialized = false;
   genders = ['', 'Male', 'Female'];
   rates = ['Annual', 'Hourly'];
   yesNo: KendoTypedDropDownItem[] = [{Name: '', Value: null}, {Name: 'Y', Value: true}, {Name: 'N', Value: false}];
-  filteredJobs: KendoTypedDropDownItem[];
-  allJobs: KendoTypedDropDownItem[];
+  filteredJobs: Job[];
+  allJobs: Job[];
   calculatedTCC: number;
   calculatedTDC: number;
+  jobCode: string;
 
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly HOURLY_CONVERSION_RATE = 2080;
@@ -74,6 +79,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   companyId: number;
   employee: CompanyEmployee;
   udfFields: GenericKeyValue<string, string>[];
+  employeeValidationAsync: AsyncStateObj<EmployeeValidation>;
 
   get f() { return this.employeeForm.controls; }
 
@@ -96,6 +102,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.employeesUserDefinedFields$ = this.store.select(fromEmployeeManagementReducer.getEmployeesUserDefinedFields);
     this.errorMessage$ = this.store.select(fromEmployeeManagementReducer.getErrorMessage);
     this.employee$ = this.store.select(fromEmployeeManagementReducer.getEmployee);
+    this.employeeValidationAsync$ = this.store.select(fromEmployeeManagementReducer.getEmployeeValidationAsync);
   }
 
   ngOnInit() {
@@ -148,6 +155,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
         this.allJobs = jobs.obj;
       }
     });
+    this.employeeValidationSubscription = this.employeeValidationAsync$.subscribe(asyncObj => this.employeeValidationAsync = asyncObj);
   }
 
   ngAfterViewInit(): void {
@@ -156,7 +164,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       distinctUntilChanged())
       .subscribe(searchTerm => {
         if (!!searchTerm) {
-          this.filteredJobs = this.allJobs.filter(x => x.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
+          this.filteredJobs = this.allJobs.filter(x => x.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
         } else {
           this.filteredJobs = this.allJobs;
         }
@@ -173,10 +181,17 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.employeeSubscription.unsubscribe();
     this.filterChangeSubscription.unsubscribe();
     this.jobsSubscription.unsubscribe();
+    this.employeeValidationSubscription.unsubscribe();
   }
 
   public get modalTitle(): string {
     return !!this.employee ? 'Edit Employee' : 'Add Employee';
+  }
+
+  public employeeValidationFailed(key: string): boolean {
+    return (this.employeeValidationAsync && this.employeeValidationAsync.obj &&
+      this.employeeValidationAsync.obj.IsValid === false &&
+      (this.employeeValidationAsync.obj.FieldKeys.indexOf(key) > -1));
   }
 
   onCancelChanges() {
@@ -186,11 +201,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
 
   onSubmit() {
     const employee = this.getEmployeeDataFromForm();
-    if (!!employee.CompanyEmployeeId) {
-      this.store.dispatch(new fromEmployeeManagementActions.UpdateEmployee(employee));
-    } else {
-      this.store.dispatch(new fromEmployeeManagementActions.SaveEmployee(employee));
-    }
+    this.store.dispatch(new fromEmployeeManagementActions.ValidateEmployeeKeys(employee));
   }
 
   private createForm(): void {
@@ -249,7 +260,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       Remun: 0,
       Fixed: 0,
       StructureRangeGroupId: [null, [Validators.required]],
-      GradeCode: [null, [Validators.required]],
+      GradeCode: [null, [Validators.required]]
     });
   }
 
@@ -310,7 +321,11 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.store.dispatch(new fromEmployeeManagementActions.LoadStructures({ jobId: jobId, paymarketId: paymarketId }));
   }
 
-  public onJobChanges() {
+  public onJobChanges(companyJobId: number) {
+    if (companyJobId) {
+      const selectedJob = this.filteredJobs.find(j => j.CompanyJobId === companyJobId);
+      this.jobCode = selectedJob ? selectedJob.JobCode : null;
+    }
     this.loadStructures();
   }
 
@@ -358,6 +373,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     employee.TCCCalculated = this.calculatedTCC;
     employee.TDCCalculated = this.calculatedTDC;
     employee.CompanyId = this.companyId;
+    employee.JobCode = this.jobCode;
     if (!!this.employee) {
       employee.CompanyEmployeeId = this.employee.CompanyEmployeeId;
     }
@@ -429,6 +445,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       });
       this.updateUDFFields();
       this.loadStructures();
+      this.jobCode = this.employee.JobCode;
     }
   }
 

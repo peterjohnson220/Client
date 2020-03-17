@@ -55,6 +55,7 @@ import { CurrencyApiService } from './currency';
 import { CompositeFieldApiService } from './composite-field';
 import { PricingApiService } from './pricings';
 import { CountryApiService } from './country';
+import { EntityKeysValidationApiService } from './validation';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -118,6 +119,7 @@ import { CountryApiService } from './country';
     PricingApiService,
     CountryApiService,
     CompanyEmployeeApiService,
+    EntityKeysValidationApiService,
 
     // PEER
     ExchangeApiService,
