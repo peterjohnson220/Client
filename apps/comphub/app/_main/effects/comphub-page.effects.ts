@@ -121,7 +121,27 @@ export class ComphubPageEffects {
           );
       })
     );
+  @Effect()
+  getExchangeDataSets$ = this.actions$
+    .pipe(
+      ofType(fromComphubPageActions.GET_EXCHANGE_DATA_SETS),
+      switchMap(() => {
+        return this.comphubApiService.getExchangeDataSets()
+          .pipe(
+            mergeMap((response) => {
+              const actions = [];
+              actions.push(new fromComphubPageActions.GetExchangeDataSetsSuccess(
+                response));
 
+              if (response.length) {
+                actions.push(new fromMarketsCardActions.InitMarketsCard());
+                actions.push(new fromJobsCardActions.GetTrendingJobs());
+              }
+              return actions;
+            })
+          );
+      })
+    );
   @Effect()
   updateActiveCountryDataSet$ = this.actions$
     .pipe(
@@ -138,7 +158,6 @@ export class ComphubPageEffects {
         new fromJobsCardActions.PersistActiveCountryDataSet()
       ])
     );
-
 
   private redirectForUnauthorized(error: HttpErrorResponse) {
     if (error.status === 401) {

@@ -6,12 +6,12 @@ import { AutoCompleteComponent, PopupSettings } from '@progress/kendo-angular-dr
 
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-import { SystemUserGroupNames } from 'libs/constants';
+import { CompanyClientTypeConstants, SystemUserGroupNames } from 'libs/constants';
 
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { CountryDataSet, JobPricingLimitInfo, TrendingJobGroup, WorkflowContext } from '../../../models';
+import { CountryDataSet, ExchangeDataSet, JobPricingLimitInfo, TrendingJobGroup, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 
 @Component({
@@ -34,15 +34,19 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   countryDataSets$: Observable<CountryDataSet[]>;
   countryDataSetsLoaded$: Observable<boolean>;
   loadingTrendingJobs$: Observable<boolean>;
+  exchangeDataSets$: Observable<ExchangeDataSet[]>;
 
   jobSearchOptionsSub: Subscription;
   selectedJobSub: Subscription;
+  userContextSub: Subscription;
 
   potentialOptions: string[];
   selectedJob: string;
+  userContext: UserContext;
   systemUserGroupNames = SystemUserGroupNames;
   popupSettings: PopupSettings;
   comphubPages = ComphubPages;
+  readonly PEER_AND_ANALYSIS = CompanyClientTypeConstants.PEER_AND_ANALYSIS;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -58,6 +62,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.countryDataSets$ = this.store.select(fromComphubMainReducer.getCountryDataSets);
     this.loadingTrendingJobs$ = this.store.select(fromComphubMainReducer.getLoadingTrendingJobs);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
+    this.exchangeDataSets$ = this.store.select(fromComphubMainReducer.getExchangeDataSets);
     this.popupSettings = {
       appendTo: 'component'
     };
@@ -66,11 +71,14 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.jobSearchOptionsSub = this.jobSearchOptions$.subscribe(o => this.potentialOptions = o);
     this.selectedJobSub = this.selectedJob$.subscribe(sj => this.selectedJob = sj);
+    this.userContextSub = this.userContext$.subscribe(uc => this.userContext = uc);
   }
 
   handleJobSearchFilterChange(searchTerm: string): void {
     if (searchTerm) {
-      this.store.dispatch(new fromJobsCardActions.GetJobSearchOptions(searchTerm));
+        this.userContext.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS ?
+        this.store.dispatch(new fromJobsCardActions.GetExchangeJobSearchOptions(searchTerm)) :
+        this.store.dispatch(new fromJobsCardActions.GetJobSearchOptions(searchTerm));
     }
   }
 
@@ -91,7 +99,13 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromComphubPageActions.UpdateActiveCountryDataSet(countryCode));
   }
 
+  handleExchangeDataSetChanged(exchangeId: number) {
+    this.jobSearch.reset();
+    this.store.dispatch(new fromComphubPageActions.UpdateActiveExchangeDataSet(exchangeId));
+  }
+
   ngOnDestroy(): void {
     this.jobSearchOptionsSub.unsubscribe();
+    this.userContextSub.unsubscribe();
   }
 }
