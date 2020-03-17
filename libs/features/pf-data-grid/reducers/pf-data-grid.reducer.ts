@@ -70,7 +70,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             selectAllState: 'unchecked',
             data: null,
             applyDefaultFilters: true,
-            splitViewFilters: []
+            splitViewFilters: [],
+            savedViews: []
           }
         }
       };
