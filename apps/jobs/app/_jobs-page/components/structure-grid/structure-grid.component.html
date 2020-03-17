@@ -17,26 +17,29 @@
 </pf-data-grid>
 
 <ng-template #nameColumn let-dataRow="dataRow">
-  <span> {{dataRow['CompanyJobs_Structures_Structure_Name']}} <small> ({{dataRow['CompanyJobs_Structures_Structure_Code']}})</small>  </span>
+  <div class="ellipsis-overflowing-text">
+    <span> {{dataRow['CompanyJobs_Structures_Structure_Name']}} <small> ({{dataRow['CompanyJobs_Structures_Structure_Code']}})</small>  </span>
+  </div>
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Structures_Rate'] | emptyPlaceholder"></span>
+  <div class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Structures_Rate'] | emptyPlaceholder"></span>
+  </div>
 </ng-template>
 
 <ng-template #payMarketFilter>
-    <kendo-dropdownlist
-      style="width: 250px"
-      [(ngModel)]="selectedPayMarket"
-      [textField]="'Value'"
-      [valueField]="'Id'"
-      [defaultItem]="{Value:'All Pay Markets', Id: null}"
-      [data]="filteredPayMarketOptions"
-      (valueChange)="handlePayMarketFilterChanged($event)"
-      [filterable]="true"
-      (filterChange)="handleFilter($event)"
-      [attr.data-qa-id]="'ddm-operator-'+payMarketField?.SourceName"
-      class="k-dropdown-white form-control"
-    >
-    </kendo-dropdownlist>
+  <kendo-dropdownlist
+    style="width: 250px"
+    [(ngModel)]="selectedPayMarket"
+    [textField]="'Value'"
+    [valueField]="'Id'"
+    [defaultItem]="{Value:'All Pay Markets', Id: null}"
+    [data]="filteredPayMarketOptions"
+    (valueChange)="handlePayMarketFilterChanged($event)"
+    [filterable]="true"
+    (filterChange)="handleFilter($event)"
+    [attr.data-qa-id]="'ddm-operator-'+payMarketField?.SourceName"
+    class="k-dropdown-white form-control">
+  </kendo-dropdownlist>
 </ng-template>
