@@ -19,7 +19,6 @@ export class ActionBarComponent implements OnChanges {
   @Input() showFilterChooser = true;
   @Input() allowExport = true;
   @Input() exportSourceName: string;
-  @Input() selectionField: string;
   @Input() pageViewId: string;
   @Input() globalFilterAlignment: string;
   @Input() globalActionsTemplate: TemplateRef<any>;
@@ -93,6 +92,6 @@ export class ActionBarComponent implements OnChanges {
   }
 
   handleExportClicked(): void {
-    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.exportSourceName, this.selectionField));
+    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.exportSourceName));
   }
 }

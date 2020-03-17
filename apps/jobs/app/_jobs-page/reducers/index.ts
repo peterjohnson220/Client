@@ -32,12 +32,17 @@ export const selectJobsPageMainState =
 export const selectJobsPageState =
   createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.jobsPage);
 
-export const getCompany = createSelector(selectJobsPageState, fromJobsPageReducer.getCompany);
 export const getJobsPageId = createSelector(selectJobsPageState, fromJobsPageReducer.getJobsPageId);
 export const getShowAddToProjectModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowAddToProjectModal);
 export const getAddingToProject = createSelector(selectJobsPageState, fromJobsPageReducer.getAddingToProject);
 export const getShowJobStatusModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowJobStatusModal);
 export const getChangingJobStatus = createSelector(selectJobsPageState, fromJobsPageReducer.getChangingJobStatus);
+export const getShowDeleteJobModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowDeleteJobModal);
+export const getDeletingJob = createSelector(selectJobsPageState, fromJobsPageReducer.getDeletingJob);
+export const getStructureGradeNames = createSelector(selectJobsPageState, fromJobsPageReducer.getStructureGradeNames);
+export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingIdToBeDeleted);
+export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
+export const getPricingDetailsView = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingDetailsView);
 
 // Job Description Selectors
 export const selectJobDescriptionState =
@@ -48,9 +53,8 @@ export const getJobDescriptionManagementEnabled = createSelector(selectJobDescri
 export const getJobDescriptionUpdated = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionUpdated);
 export const getSavingState = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getSavingState);
 export const getJobDescriptionLoaded = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionLoaded);
-export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingIdToBeDeleted);
-export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
 export const getJobDescriptionId = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionId);
+
 
 
 

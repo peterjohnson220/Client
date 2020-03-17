@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -22,16 +22,17 @@ import { PageViewIds } from '../../constants/';
   templateUrl: './employees-grid.component.html',
   styleUrls: ['./employees-grid.component.scss']
 })
-export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
+export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
   @ViewChild('employeeColumn', { static: false }) employeeColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Employees'];
   globalFilterTemplates = {};
   colTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'CompanyEmployees_Employee'
+    field: 'CompanyEmployees_Employees'
   }];
   pageViewId = PageViewIds.Employees;
   gridFieldSubscription: Subscription;
@@ -41,7 +42,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
   payMarketOptions: any;
   selectedPayMarket: any;
 
-  constructor(private store: Store<fromPfGridReducer.State>, private cd: ChangeDetectorRef) {
+  constructor(private store: Store<fromPfGridReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
@@ -64,6 +65,13 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy {
     this.colTemplates = {
       'Employees': { Template: this.employeeColumn }
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['filters']) {
+      this.filters = cloneDeep(changes['filters'].currentValue)
+        .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+    }
   }
 
   ngOnDestroy() {

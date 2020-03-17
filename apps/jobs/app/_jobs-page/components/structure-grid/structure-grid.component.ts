@@ -1,15 +1,21 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+
+import { Subscription } from 'rxjs';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
+
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import { Subscription } from 'rxjs';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 
-import { Store } from '@ngrx/store';
 import * as fromJobsPageReducer from '../../reducers';
-import * as cloneDeep from 'lodash.clonedeep';
+
 import { PageViewIds } from '../../constants';
 
 @Component({
@@ -18,7 +24,6 @@ import { PageViewIds } from '../../constants';
   styleUrls: ['./structure-grid.component.scss']
 })
 export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestroy {
-
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('nameColumn', { static: false }) nameColumn: ElementRef;
@@ -26,7 +31,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
   pageViewId = PageViewIds.Structures;
-
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   colTemplates = {};
   globalFilterTemplates = {};
   defaultSort: SortDescriptor[] = [{
@@ -58,7 +63,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters']) {
-      const newFilter = [...this.filters];
+      const newFilter = [...this.filters].filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
       const jobFilter = newFilter.find(f => f.SourceName === 'CompanyJob_ID');
       if (jobFilter) {
         newFilter.splice(this.filters.indexOf(jobFilter), 1);
@@ -67,6 +72,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
       }
     }
   }
+
   ngAfterViewInit() {
     this.globalFilterTemplates = {
       'PayMarket': { Template: this.payMarketFilter }
@@ -84,6 +90,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
+    field.FilterOperator = '=';
     this.updateField(field);
   }
 
@@ -98,5 +105,4 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   handleFilter(value) {
     this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
-
 }

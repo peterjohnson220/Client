@@ -4,10 +4,10 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
 <pf-job-form
   DEFAULT_MAX_LENGTH={[Function Number]}
   JOB_CODE_FLSA_MAX_LENGTH={[Function Number]}
+  actionsSubject={[Function ActionsSubject]}
   duplicateJobCodeError="false"
   duplicateJobCodeError$={[Function Store]}
   duplicateJobCodeErrorSubscription={[Function Subscriber]}
-  errorMessage$={[Function Store]}
   filterSettings={[Function Object]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
@@ -15,27 +15,28 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   jobFlsaStatuses$={[Function Store]}
   jobForm={[Function FormGroup]}
   jobUserDefinedFields$={[Function Store]}
-  loading$={[Function Store]}
+  loadJobSuccessSubscription={[Function Subscriber]}
   onShowFormSubscription={[Function Subscriber]}
-  saving$={[Function Store]}
-  showJobForm$={[Function Store]}
+  showJobModal$={[Function Store]}
   store={[Function MockStore]}
   udfsSubscription={[Function Subscriber]}
 >
-  <pf-async-container>
-    <form
-      autocomplete="nope"
-      id="user-form"
+  <form
+    autocomplete="nope"
+    id="user-form"
+  >
+    <h5>
+      Standard Fields
+    </h5>
+    <br />
+    <div
+      class="d-flex flex-wrap"
     >
-      <h5>
-        Standard Fields
-      </h5>
-      <br />
       <div
-        class="form-group row"
+        class="form-group col-6 row no-gutters"
       >
         <label
-          class="col-2 col-form-label"
+          class="col-4 col-form-label"
         >
           Job Code 
           <span
@@ -45,7 +46,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
           </span>
         </label>
         <div
-          class="col-4"
+          class="col-8"
         >
           <input
             class="form-control"
@@ -64,8 +65,12 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
           
           
         </div>
+      </div>
+      <div
+        class="form-group col-6 row no-gutters"
+      >
         <label
-          class="col-2 col-form-label"
+          class="col-4 col-form-label"
         >
           Job Title 
           <span
@@ -75,7 +80,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
           </span>
         </label>
         <div
-          class="col-4"
+          class="col-8"
         >
           <input
             class="form-control"
@@ -95,15 +100,15 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         </div>
       </div>
       <div
-        class="form-group row"
+        class="form-group col-6 row no-gutters"
       >
         <label
-          class="col-2 col-form-label"
+          class="col-4 col-form-label"
         >
           Job Family
         </label>
         <div
-          class="col-4"
+          class="col-8"
         >
           <kendo-combobox
             class="form-control"
@@ -114,13 +119,17 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
           />
           
         </div>
+      </div>
+      <div
+        class="form-group col-6 row no-gutters"
+      >
         <label
-          class="col-2 col-form-label"
+          class="col-4 col-form-label"
         >
           Level
         </label>
         <div
-          class="col-4"
+          class="col-8"
         >
           <input
             class="form-control"
@@ -134,15 +143,15 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         </div>
       </div>
       <div
-        class="form-group row"
+        class="form-group col-6 row no-gutters"
       >
         <label
-          class="col-2 col-form-label"
+          class="col-4 col-form-label"
         >
           FLSA Status
         </label>
         <div
-          class="col-4"
+          class="col-8"
         >
           <kendo-combobox
             class="form-control"
@@ -154,84 +163,63 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
           
         </div>
       </div>
-      
-      <div>
-        <br />
-        <hr />
-        <h5>
-          Custom Fields
-        </h5>
-        <br />
+    </div>
+    
+    <div>
+      <br />
+      <hr />
+      <h5>
+        Custom Fields
+      </h5>
+      <br />
+      <div
+        class="d-flex flex-wrap"
+      >
+        
         <div
-          class="row"
+          class="form-group col-6 row no-gutters"
         >
-          <div
-            class="col-6"
+          <label
+            class="col-4 col-form-label"
           >
+            UDF1
+          </label>
+          <div
+            class="col-8"
+          >
+            <input
+              class="form-control"
+              data-qa-id="txt-job-form-UDF1"
+              ng-reflect-klass="form-control"
+              ng-reflect-ng-class="[object Object]"
+              type="text"
+            />
             
-            <div>
-              
-              <div
-                class="form-group row"
-              >
-                <label
-                  class="col-4 col-form-label"
-                >
-                  UDF1
-                </label>
-                <div
-                  class="col-8"
-                >
-                  <input
-                    class="form-control"
-                    data-qa-id="txt-job-form-UDF1"
-                    ng-reflect-klass="form-control"
-                    ng-reflect-ng-class="[object Object]"
-                    type="text"
-                  />
-                  
-                </div>
-              </div>
-            </div>
-            <div>
-              
-            </div>
           </div>
-          <div
-            class="col-6"
+        </div>
+        <div
+          class="form-group col-6 row no-gutters"
+        >
+          <label
+            class="col-4 col-form-label"
           >
+            UDF2
+          </label>
+          <div
+            class="col-8"
+          >
+            <input
+              class="form-control"
+              data-qa-id="txt-job-form-UDF2"
+              ng-reflect-klass="form-control"
+              ng-reflect-ng-class="[object Object]"
+              type="text"
+            />
             
-            <div>
-              
-            </div>
-            <div>
-              
-              <div
-                class="form-group row"
-              >
-                <label
-                  class="col-4 col-form-label"
-                >
-                  UDF2
-                </label>
-                <div
-                  class="col-8"
-                >
-                  <input
-                    class="form-control"
-                    data-qa-id="txt-job-form-UDF2"
-                    ng-reflect-klass="form-control"
-                    ng-reflect-ng-class="[object Object]"
-                    type="text"
-                  />
-                  
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-    </form>
-  </pf-async-container>
+    </div>
+  </form>
 </pf-job-form>
 `;

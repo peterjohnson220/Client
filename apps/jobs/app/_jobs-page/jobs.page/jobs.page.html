@@ -1,6 +1,6 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
-  [title]="getPageTitle(company$ | async)"
+  [title]="(userContext$ | async)?.CompanyName + ' - Jobs'"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
   [gridGlobalActionsTemplate]="gridGlobalActions"
@@ -17,6 +17,44 @@
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
   [showActionBar]="true">
 </pf-data-grid>
+
+<ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
+
+  <div class="d-flex">
+    <div class="ellipsis-overflowing-text">{{dataRow['CompanyJobs_Job_Title']}}</div>
+    <div
+      *ngIf="!(selectedRecordId$ | async)"
+      [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+      class="ml-auto">
+
+      <div ngbDropdown #jobsActionsMenu="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
+        <button
+          ngbDropdownToggle
+          [attr.data-qa-id]="'btn-jobs-page-inline-actions-' + dataRow['CompanyJobs_CompanyJob_ID']"
+          class="btn btn-secondary btn-sm hide-dropdown-arrow inline-menu-btn">
+          <fa-icon icon="ellipsis-h"></fa-icon>
+        </button>
+        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-left">
+          <button  *ngIf="(userContext$ | async)?.CompanyId !== 1401"
+            [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
+            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+            class="dropdown-item"
+            (click)="editingJobId = dataRow['CompanyJobs_CompanyJob_ID']; showJobEditModal=true;">
+            <fa-icon icon="edit" class="pr-2" [fixedWidth]="true"></fa-icon> Edit Job
+          </button>
+          <button
+            [attr.data-qa-id]="'btn-jobs-page-delete-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
+            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+            class="dropdown-item"
+            (click)="openDeleteJobModal(dataRow['CompanyJobs_CompanyJob_ID'], dataRow['CompanyJobs_Job_Title'])">
+            <fa-icon icon="trash-alt" class="pr-2" [fixedWidth]="true"></fa-icon> Delete Job
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
   {{dataRow['CompanyJobs_JobStatus'] ? 'Active' : 'Inactive'}}
@@ -39,24 +77,24 @@
     [attr.data-qa-id]="'btn-jobs-page-new-job'"
     type="button"
     title="Add Job"
-    (click)="addingNewJob = true"
+    (click)="showJobEditModal = true"
     class="btn btn-primary">
     New Job
-  </button>  
+  </button>
 </ng-template>
 
 <ng-template #gridActions>
   <button
-    [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length)"
+    [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-jobs-page-add-to-project'"
     type="button"
     (click)="toggleAddToProjectModal(true)"
-    [title]="!(selectedJobIds.length || selectedPricingIds.length) ? 'No Jobs or Pricings Selected' : ''"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-link">
     Add to Project
-    <span *ngIf="selectedJobIds.length + selectedPricingIds.length > 0 && isActiveJobs()">
-      ({{selectedJobIds.length + selectedPricingIds.length}})
+    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && isActiveJobs()">
+      ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
     </span>
   </button>
   <button
@@ -73,11 +111,11 @@
     </span>
   </button>
   <button
-    [disabled]="!(selectedJobIds.length || selectedPricingIds.length)"
+    [disabled]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [attr.data-qa-id]="'btn-jobs-page-clear-selections'"
     type="button"
     (click)="clearSelections()"
-    [title]="!(selectedJobIds.length || selectedPricingIds.length) ? 'No Jobs or Pricings Selected' : ''"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-link">
     Clear Selections
   </button>
@@ -94,14 +132,17 @@
   [isOpen$]="showAddToProjectModal$"
   (onSubmit)="addToProject()"
   (onDismiss)="toggleAddToProjectModal(false)">
-  
+
   <ng-container basic-content>
     The following will be added to a new Project:
     <div>
-      Job Count: {{selectedJobIds.length}}
+      &bull; Job Count: {{selectedJobIds.length}}
     </div>
     <div>
-      Pricing Count: {{selectedPricingIds.length}}
+      &bull; Pricing Count: {{selectedPricingIds.length}}
+    </div>
+    <div>
+      &bull; Job:Pay Market Associations: {{selectedJobPayMarketCombos.length}}
     </div>
     <div *ngIf="(addingToProject$ | async).loadingError">
       <br>
@@ -128,13 +169,13 @@
     You are about to make {{selectedJobIds.length}} job{{selectedJobIds.length > 1 ? 's' : ''}}
     {{isActiveJobs() ? 'Inactive' : 'Active'}}.
     <br><br>
-    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}} 
+    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}}
     for use throughout the system. Would you like to continue?
     <div *ngIf="(changingJobStatus$ | async).loadingError">
       <br>
       <span class="text-danger">
         <b>
-          We encountered a problem {{isActiveJobs() ? 'Inactivating' : 'Activating'}} the jobs you selected. 
+          We encountered a problem {{isActiveJobs() ? 'Inactivating' : 'Activating'}} the jobs you selected.
           Please try again or contact your account representative.
         </b>
       </span>
@@ -142,10 +183,44 @@
   </ng-container>
 </pf-modal-form>
 
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete a Job - ' + jobNameToDelete"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [primaryButtonTextSubmitting]="'Deleting'"
+  [modalId]="'au-modal-jobs-page-delete-a-job'"
+  [submitting]="(deletingJob$ | async).loading"
+  [allowDismiss]="!(deletingJob$ | async).loading"
+  [isOpen$]="showDeleteJobModal$"
+  (onSubmit)="deleteJob()"
+  (onDismiss)="closeDeleteJobModal()">
+
+  <ng-container basic-content>
+    You are about to delete the <b>{{jobNameToDelete}}</b> job and all of the associated pricings, slotted job matches, structures and employees.
+    <br><br>
+    This cannot be undone. Are you sure?
+    <div *ngIf="deletingJob$ | async as deletingJob">
+      <div *ngIf="deletingJob.loadingError">
+        <br>
+        <span class="text-danger">
+          <b *ngIf="deletingJob.loadingErrorResponse.status === 409">
+            {{deletingJob.loadingErrorResponse.error.value}}
+          </b>
+          <b *ngIf="deletingJob.loadingErrorResponse.status !== 409">
+            We encountered a problem deleting your job. Please try again or contact your account representative.
+          </b>
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>
 
 <pf-job-management
-  [showJobForm]="addingNewJob"
-  (cancelChanges)="addingNewJob = false">
+  [showJobModal]="showJobEditModal"
+  [jobId]="editingJobId"
+  (cancelChanges)="closeJobManagmentModal()"
+  (saveSuccess)="closeJobManagmentModal()">
 </pf-job-management>
 
 <ng-template #payMarketFilter>
@@ -159,15 +234,33 @@
       [data]="filteredPayMarketOptions"
       (valueChange)="handlePayMarketFilterChanged($event)"
       [filterable]="true"
-      (filterChange)="handleFilter($event)"
+      (filterChange)="handlePayMarketDropdownFilter($event)"
       [attr.data-qa-id]="'ddm-operator-jobs-page' + payMarketField.SourceName"
       class="k-dropdown-white form-control">
     </kendo-dropdownlist>
   </div>
 </ng-template>
 
+<ng-template #structureGradeFilter>
+  <div>
+    <label>Grade:</label>
+    <kendo-dropdownlist
+      [(ngModel)]="selectedStructureGrade"
+      [textField]="'Value'"
+      [valueField]="'Id'"
+      [defaultItem]="{Value:'All Grades', Id: null}"
+      [data]="filteredStructureGradeNameOptions"
+      (valueChange)="handleGradeFilterChanged($event)"
+      [filterable]="true"
+      (filterChange)="handleStructureGradeNameDropdownFilter($event)"
+      [attr.data-qa-id]="'ddm-operator-jobs-page' + structureGradeSearchField.SourceName"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
 <ng-template #jobStatusFilter let-field="field">
-  <kendo-switch 
+  <kendo-switch
     *ngIf="field"
     style="width:80px;"
     [title]="field.FilterPlaceholder"

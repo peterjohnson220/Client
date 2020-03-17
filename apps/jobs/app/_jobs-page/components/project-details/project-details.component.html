@@ -11,8 +11,8 @@
   [noRecordsFound]="'This job has not been added to any projects.'"
   [showActionBar]="true"
   [gridGlobalFiltersTemplates]="globalFilterTemplates"
-  [actionBarClassName]="'employee-grid-action-bar ml-0 mt-1'"
-  [headerClassName]="'employee-grid-header'">
+  [actionBarClassName]="'project-grid-action-bar ml-0 mt-1'"
+  [headerClassName]="'project-grid-header'">
 </pf-data-grid>
 
 <ng-template kendoGridCellTemplate #projectAccessColumn let-dataRow="dataRow" let-rowIndex="rowIndex">
@@ -26,15 +26,6 @@
   </ng-container>
   <ng-template #noAccess>
     Owned by {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
-  </ng-template>
-</ng-template>
-
-<ng-template #projectNameColumn let-dataRow="dataRow">
-  <ng-container *ngIf="dataRow['UserSessions_Session_Name']; else createDate">
-    {{dataRow['UserSessions_Session_Name']}}
-  </ng-container>
-  <ng-template #createDate>
-    {{dataRow['UserSessions_Create_Date'] | date: 'MM/dd/yyyy'}}
   </ng-template>
 </ng-template>
 

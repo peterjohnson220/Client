@@ -1,3 +1,4 @@
+@import 'colors';
 @import '~dragula/dist/dragula.min.css';
 
 html,
@@ -37,11 +38,32 @@ div.matches-list-container>div:nth-of-type(odd) {
   background-color: #f7f7f9 !important;
 }
 
-// TODO: Discuss if these should be global for the whole company
+// TODO: Discuss if these toast rules shopuld be global for the whole company
 .toast-container .toast-close-button {
   top: 0.1em !important;
 }
 
 .toast-container .toast-title {
   padding: 10px 30px 10px 10px !important;
+}
+
+// TODO: Discuss if these nav rules should be global for the whole company
+.nav-link {
+  color: black !important;
+  padding: 0.75rem 1.0rem;
+}
+
+.nav-tabs .nav-link {
+  border-width: 0 !important;
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom: 2px solid $link-color !important;
+  z-index: 999;
+  font-weight: bold;
+  background-color: inherit;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid rgb(222,226,230);
 }

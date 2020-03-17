@@ -6,7 +6,7 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 
-import { NgbTooltipModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbTabsetModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
 
@@ -31,7 +31,8 @@ import {
   StructureGridComponent,
   PricingMatchesGridComponent,
   ProjectDetailsComponent,
-  PricingHistoryComponent
+  PricingHistoryComponent,
+  NotPricedPaymarketsComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
@@ -46,14 +47,15 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     // 3rd Party
     LayoutModule,
     SwitchModule,
+    NgbModule,
     NgbTooltipModule,
+    NgbTabsetModule,
     StoreModule.forFeature('jobsPageMain', reducers),
     EffectsModule.forFeature([
       JobsPageEffects,
       JobDescriptionEffects,
     ]),
     FontAwesomeModule,
-    NgbTabsetModule,
     DropDownListModule,
 
     // Routing
@@ -79,6 +81,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     StructureGridComponent,
     ProjectDetailsComponent,
     PricingHistoryComponent,
+    NotPricedPaymarketsComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent

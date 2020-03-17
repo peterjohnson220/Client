@@ -1,39 +1,51 @@
-import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 
 import * as fromJobManagementActions from '../actions';
 import * as fromJobManagementReducer from '../reducers';
+import { ofType } from '@ngrx/effects';
+import { CompanyJob } from 'libs/models';
 
 @Component({
   selector: 'pf-job-management',
   templateUrl: './job-management.component.html',
   styleUrls: ['./job-management.component.scss'],
 })
-export class JobManagementComponent implements OnInit, OnChanges {
+export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() showJobForm = false;
+  @Input() showJobModal = false;
+  @Input() jobId;
 
   @Output() cancelChanges = new EventEmitter();
   @Output() saveSuccess = new EventEmitter();
 
-  showJobForm$: Observable<boolean>;
+  showJobModal$: Observable<boolean>;
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
+  jobFormData$: Observable<CompanyJob>;
+
+  saveSuccessSubscription = new Subscription();
 
   /* TODO
     This component can be extended with a display-type property which determines how to show the AddJob form
 	    As a Modal
 	    As an embedded component withing a page
 	    As a Payfactors standalone page
-    Modify the job-management-component so we can edit jobs along with adding new jobs
     Replace all Add Job modals & componenets with the generic job-management-component
   */
-  constructor(private store: Store<fromJobManagementReducer.State>) {
-    this.showJobForm$ = this.store.select(fromJobManagementReducer.getShowJobForm);
+  constructor(private store: Store<fromJobManagementReducer.State>, private actionsSubject: ActionsSubject) {
+    this.showJobModal$ = this.store.select(fromJobManagementReducer.getShowJobModal);
     this.loading$ = this.store.select(fromJobManagementReducer.getLoading);
     this.saving$ = this.store.select(fromJobManagementReducer.getSaving);
+    this.jobFormData$ = this.store.select(fromJobManagementReducer.getJobFormData);
+
+    this.saveSuccessSubscription = actionsSubject
+      .pipe(ofType('SAVE_COMPANY_JOB_SUCCESS'))
+      .subscribe(data => {
+        this.saveSuccess.emit();
+      });
   }
 
   ngOnInit() {
@@ -41,9 +53,20 @@ export class JobManagementComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['showJobForm']) {
-      this.store.dispatch(new fromJobManagementActions.ShowJobForm(changes['showJobForm'].currentValue));
+    if (changes['jobId'] && changes['jobId'].currentValue) {
+      this.store.dispatch(new fromJobManagementActions.LoadJob(changes['jobId'].currentValue));
     }
+
+    if (changes['showJobModal']) {
+      this.store.dispatch(new fromJobManagementActions.ShowJobModal(changes['showJobModal'].currentValue));
+      if (changes['showJobModal'].currentValue) {
+        this.store.dispatch(new fromJobManagementActions.LoadStructurePaymarketGrade());
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.saveSuccessSubscription.unsubscribe();
   }
 
   onCancelChanges() {

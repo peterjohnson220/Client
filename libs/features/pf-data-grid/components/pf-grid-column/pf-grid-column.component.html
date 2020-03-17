@@ -1,5 +1,5 @@
 <ng-container *ngIf="getColumnType(field) === colType.dateTime">
-  {{dataItem[fieldName] | date: 'MM/dd/yyyy'}}
+  <div class="ellipsis-overflowing-text">{{dataItem[fieldName] | date: 'MM/dd/yyyy'}}</div>
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.currency"
   [ngTemplateOutlet]="columnTemplates[colType.currency].Template"
@@ -10,11 +10,13 @@
   [ngTemplateOutletContext]="{dataRow:dataItem, rowIndex: rowIndex}">
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.default">
-  {{dataItem[fieldName]}}
+  <div class="ellipsis-overflowing-text">{{dataItem[fieldName]}}</div>  
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.bit">
   <ng-container *ngIf="dataItem[fieldName] !== null;else blankCellTemplate">
-    {{ dataItem[fieldName] === true ? 'Yes' : 'No' }}
+    <div class="ellipsis-overflowing-text">
+      {{ dataItem[fieldName] === true ? 'Yes' : 'No' }}
+    </div>
   </ng-container>
 </ng-container>
 

@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -6,28 +6,32 @@ import { Observable, Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
+
+import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as cloneDeep from 'lodash.clonedeep';
+
 import * as fromJobsPageActions from '../../actions';
 import * as fromJobsPageReducer from '../../reducers';
 import { PageViewIds } from '../../constants';
 
-
 @Component({
   selector: 'pf-pricing-history',
-  templateUrl: './pricing-history.component.html'
+  templateUrl: './pricing-history.component.html',
+  styleUrls: ['./pricing-history.component.scss']
 })
-export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
+export class PricingHistoryComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   pageViewId = PageViewIds.PricingHistory;
 
   globalFilterTemplates = {};
@@ -76,6 +80,13 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
     };
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['filters']) {
+      this.filters = cloneDeep(changes['filters'].currentValue)
+        .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+    }
+  }
+
   confirmDeletePricingModal(event: any) {
     this.deletePricingRequest = {
       CompanyJobPricingId: event['CompanyJobs_Pricings_CompanyJobPricing_ID'],
@@ -95,13 +106,16 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy {
   deletePricing() {
     this.store.dispatch(new fromJobsPageActions.DeletePricingFromGrid(this.pageViewId, this.deletePricingRequest));
   }
+
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
   }
+
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
+    field.FilterOperator = '=';
     this.updateField(field);
   }
 
