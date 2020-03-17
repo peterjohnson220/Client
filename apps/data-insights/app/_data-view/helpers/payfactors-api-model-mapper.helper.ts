@@ -209,7 +209,8 @@ export class PayfactorsApiModelMapper {
         SelectedOptions: filter.Values && filter.Values.length  && filter.Values[0] === null ? [] : filter.Values,
         Operator: FilterOperatorHelper.getFilterOperatorByDataType(field.DataType, filter),
         Options: [],
-        IsValid: true
+        IsValid: true,
+        IsLocked: filter.IsLocked
       };
     });
   }

@@ -1,6 +1,7 @@
 <ng-container>
   <kendo-dropdownlist
     class="dropdown-list"
+    [class.d-none]="locked"
     [attr.data-qa-id]="'ddm-date-filter-operators'"
     [data]="operators"
     [ngModel]="selectedOperator ? selectedOperator : operators[0]"

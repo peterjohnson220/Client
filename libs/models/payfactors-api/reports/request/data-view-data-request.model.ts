@@ -45,6 +45,7 @@ export interface DataViewFilter extends BaseFilter {
   SourceName: string;
   Value?: string;
   DataElementId?: number;
+  IsLocked?: boolean;
 }
 
 export interface DataViewFilterIdentifier extends BaseFilter {
