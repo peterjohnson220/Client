@@ -26,8 +26,8 @@ function initializePendo(userContext)
 
       visitor = {
         id: idPrefix + userContext.UserId, // Required if user is logged in
-        email: userContext.EmailAddress // Optional
-        // role:         // Optional
+        email: userContext.EmailAddress, // Optional
+        'User Role': userContext.RoleName
 
         // You can add any additional visitor level key-values here,
         // as long as it's not one of the above reserved names.
