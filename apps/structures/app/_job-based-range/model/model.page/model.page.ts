@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -20,16 +20,17 @@ import { RangeGroupMetadata } from '../../shared/models';
   templateUrl: './model.page.html',
   styleUrls: ['./model.page.scss']
 })
-export class ModelPageComponent implements OnInit, OnDestroy {
+export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(AddJobsModalComponent, {static: false}) public AddJobsModalComponent: AddJobsModalComponent;
 
   metaData$: Observable<RangeGroupMetadata>;
-  filter: PfDataGridFilter;
+  filters: PfDataGridFilter[];
   rangeGroupId: any;
 
   // todo: remove temporary fields once back-end implemented
   private readonly contextPaymarket: number;
   private readonly contextProjectId: number;
+  private readonly newJobRange: boolean;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -37,11 +38,20 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.rangeGroupId = this.route.snapshot.params.id;
-    this.filter  = {
-      SourceName: 'CompanyStructuresRangeGroup_ID',
-      Operator: '=',
-      Value: this.rangeGroupId
-    };
+    this.filters  = [
+      {
+        SourceName: 'CompanyStructuresRangeGroup_ID',
+        Operator: '=',
+        Value: this.rangeGroupId
+      },
+      {
+        SourceName: 'CompanyStructuresRanges_ID',
+        Operator: 'notnull',
+        Value: ''
+      }
+    ];
+    const url = route.snapshot.url;
+    this.newJobRange = url && url.length > 0 && url[0].path === 'new';
 
     // tslint:disable:no-bitwise
     this.contextPaymarket = route.snapshot.queryParams['Paymarket'] ? +(route.snapshot.queryParams['Paymarket']) : 109139;
@@ -63,6 +73,13 @@ export class ModelPageComponent implements OnInit, OnDestroy {
 
   // Lifecycle
   ngOnInit(): void {
+    return;
+  }
+
+  ngAfterViewInit(): void {
+    if (this.newJobRange) {
+      this.handleAddJobs();
+    }
     return;
   }
 

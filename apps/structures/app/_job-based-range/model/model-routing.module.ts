@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: ModelPageComponent
+  },
+  {
+    path: 'new',
+    component: ModelPageComponent
   }
 ];
 

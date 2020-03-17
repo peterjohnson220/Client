@@ -23,7 +23,7 @@ export class ModelGridComponent implements AfterViewInit {
   @ViewChild('mrpValue', {static: false}) mrpValueColumn: ElementRef;
   @Input() singleRecordView: boolean;
   @Input() splitViewTemplate: TemplateRef<any>;
-  @Input() inboundFilter: PfDataGridFilter;
+  @Input() inboundFilters: PfDataGridFilter[];
   @Input() rangeGroupId: number;
   @Output() addJobs = new EventEmitter();
 
