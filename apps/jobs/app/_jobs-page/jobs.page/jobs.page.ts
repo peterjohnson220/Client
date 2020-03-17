@@ -104,6 +104,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: false,
+      AllowSaveFilter: true,
       ExportSourceName: '',
       ColumnChooserType: ColumnChooserType.Column
     };
