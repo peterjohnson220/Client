@@ -45,6 +45,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   structureGradeNameSubscription: Subscription;
+  selectedJobDataSubscription: Subscription;
+  customExportDataSubscription: Subscription;
 
   userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
@@ -81,16 +83,23 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }];
 
   exportOptions = [{
-    Name: 'Download Pricings',
+    Display: 'Download Pricings',
+    Name: 'DownloadPricings',
     Description: 'High Level Pricing Details including Pay Markets, Effective Dates',
-    Endpoint: '/odata/Jobs/ExportPricings',
-    ValidExtensions: ['xlsx']
+    Endpoint: 'ExportPricings',
+    ValidExtensions: ['xlsx'],
+    Custom: false
   }, {
-    Name: 'Download Job Report',
+    Display: 'Download Job Report',
+    Name: 'DownloadJobReport',
     Description: 'Report including Pricing Details and a breakdown of Pay',
-    Endpoint: '/odata/Jobs/ExportJobReport',
-    ValidExtensions: ['xlsx', 'pdf']
+    Endpoint: 'ExportJobReport',
+    ValidExtensions: ['xlsx', 'pdf'],
+    Custom: false
   }];
+  
+  disableExportPopover = true;
+  selectedJobPricingCount = 0;
 
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
@@ -129,6 +138,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.selectedPricingIdSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.PricingDetails).subscribe(pid => {
       this.selectedPricingIds = pid || [];
+
+      if (this.selectedPricingIds.length) {
+        this.disableExportPopover = false;
+      } else {
+        this.disableExportPopover = !(this.selectedJobPricingCount > 0);
+      }
     });
 
     this.selectedJobPayMarketSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.NotPricedPayMarkets)
@@ -147,12 +162,41 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
+
+    this.selectedJobDataSubscription = this.store.select(fromPfDataGridReducer.getSelectedData, this.pageViewId).subscribe(data => {
+      if (data) {
+        const pricingCount = data.map(d => d['CompanyJobs_Priced']);
+        this.selectedJobPricingCount = pricingCount.reduce((a, b) => a + b, 0);
+
+        if (this.selectedJobPricingCount > 0) {
+          this.disableExportPopover = false;
+        } else {
+          this.disableExportPopover = !(this.selectedPricingIds.length > 0);
+        }
+      }
+    });
+
+    this.customExportDataSubscription = this.store.select(fromJobsPageReducer.getCustomExportData).subscribe(exportData => {
+      if (exportData && exportData.DisplayText) {
+        const exportObj = {
+          Display: exportData.DisplayText,
+          Name: exportData.ExportName,
+          Description: 'Company custom export report',
+          Endpoint: 'ExportCustomJobReport',
+          ValidExtensions: ['xlsx'],
+          Custom: true
+        };
+
+        this.exportOptions.push(exportObj);
+      }
+    });
   }
 
   ngOnInit() {
     this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));
     this.store.dispatch(new fromJobsPageActions.LoadCompanyPayMarkets());
     this.store.dispatch(new fromJobsPageActions.LoadStructureGrades());
+    this.store.dispatch(new fromJobsPageActions.LoadCustomExports());
   }
 
   ngAfterViewInit() {
@@ -237,6 +281,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companyPayMarketsSubscription.unsubscribe();
     this.structureGradeNameSubscription.unsubscribe();
     this.selectedJobPayMarketSubscription.unsubscribe();
+    this.selectedJobDataSubscription.unsubscribe();
+    this.customExportDataSubscription.unsubscribe();
   }
 
   closeSplitView() {
@@ -290,16 +336,14 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   exportPricings(exportRequest: any, extension: string) {
-    // TODO: clean this up. rename the form specific to the export. refactor the conditional for populating those collections. error(s) were server side
-    const htmlDocument: any = document;
-    htmlDocument.exportForm.action = exportRequest.Endpoint;
-    htmlDocument.exportForm.elements['export-uid'].value = Date.now();
-    htmlDocument.exportForm.elements['export-type'].value = extension;
-    htmlDocument.exportForm.elements['job-ids'].value = this.selectedJobIds.length ? this.selectedJobIds : [];
-    htmlDocument.exportForm.elements['pricing-ids'].value = this.selectedPricingIds.length ? this.selectedPricingIds : [];
-    htmlDocument.exportForm.submit();
+    const request = {
+      CompanyJobIds: this.selectedJobIds,
+      PricingIds: this.selectedPricingIds,
+      FileExtension: extension,
+      Endpoint: exportRequest.Endpoint,
+      Name: exportRequest.Name
+    };
 
-    // TODO: remove this action/effect/service call stack
-    // this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
+    this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
   }
 }

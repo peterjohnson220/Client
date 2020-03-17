@@ -81,7 +81,9 @@
     class="btn btn-primary">
     New Job
   </button>
-  <button [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length)"
+
+  <button [disabled]="!isActiveJobs() || disableExportPopover"
+          [title]="disableExportPopover ? 'Select a Priced Job' : ''"
           type="button" title="Export" id="jobs-page-export-popover-btn" class="btn btn-secondary"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
           placement="bottom-right" popoverTitle="Choose Export Type" [ngbPopover]="exportList"
@@ -89,23 +91,6 @@
   >
     <fa-icon icon="download"></fa-icon>
   </button>
-
-  <!--
-  <button [disabled]="disabled || (savedViews && !savedViews.length)" [title]="(savedViews && !savedViews.length) ? 'No Saved Filters' : 'Saved Filters'"
-    type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
-    aria-expanded="false" placement="bottom-right" #p="ngbPopover" popoverTitle="Saved Filters" [ngbPopover]="popContent"
-    [autoClose]="'outside'" [attr.data-qa-id]="'btn-saved-filters'" (hidden)="cancelDelete()">
-  </button>
-  -->
-
-
-
-  <!--<button
-    [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length)"
-    (click)="exportPricings()"
-    class="btn btn-primary">
-    Export Placeholder
-  </button>-->
 </ng-template>
 
 <ng-template #gridActions>
@@ -297,35 +282,34 @@
   </kendo-switch>
 </ng-template>
 
+<!--TODO: Refactor this out to a component within the pf-data-grid for an expanded export UX -->
 <ng-template #exportList>
   <div class="popover-body-container">
     <div class="popover-body-content">
-      <!--<p>
-      <pf-input-debounce [disabled]="viewDeleting || viewNameToBeDeleted" id="filter-search-box" [id]="'filter-chooser-search'" (valueChanged)="(filter = $event)" [placeholderText]="'Search for a Filter...'">
-      </pf-input-debounce>
-    </p> -->
-      <div class="export-popover-divider pl-2">
-        System Exports
-      </div>
-
       <div class="list-group">
-        <div *ngFor="let opt of exportOptions" class="list-group-item list-group-item-action p-2">
+        <div *ngFor="let opt of exportOptions; let idx=index" class="list-group-item list-group-item-action p-2" [ngClass]="idx !== exportOptions.length - 1 ? 'list-group-border' : 'last-item'">
           <div class="row align-items-center">
-            <div class="col-8">
-              <span>{{opt.Name}}</span>
+            <div class="col-10">
+              <span>{{opt.Display}}</span>
               <small class="export-desc">{{opt.Description}}</small>
             </div>
-            <div class="export-btn-group space-out-children row">
-              <div>
-                <button *ngIf="opt.ValidExtensions.indexOf('xlsx') > -1" class="btn btn-secondary" (click)="exportPricings(opt, 'xlsx')">
-                  <fa-icon fa-icon [icon]="['fal', 'file-excel']"></fa-icon>
-                </button>
-              </div>
-              <div>
-                <button *ngIf="opt.ValidExtensions.indexOf('pdf') > -1" class="btn btn-secondary" (click)="exportPricings(opt, 'pdf')">
-                  <fa-icon fa-icon [icon]="['fal', 'file-pdf']"></fa-icon>
-                </button>
-              </div>
+            <div class="export-btn-group space-out-children row pl-2">
+                <div class="mr-1">
+                  <button [ngClass]="opt.ValidExtensions.indexOf('pdf') > -1 ? '' : 'hidden'"
+                          class="btn btn-secondary export-pdf"
+                          (click)="exportPricings(opt, 'pdf')">
+                    <fa-icon [icon]="['fal', 'file-pdf']" class="fa-lg"></fa-icon>
+                  </button>
+                </div>
+                <div>
+                  <button [disabled]="opt.Custom && !selectedPricingIds.length"
+                          [title]="opt.Custom && !selectedPricingIds.length ? 'Select a pricing' : ''"
+                          [ngClass]="opt.ValidExtensions.indexOf('xlsx') > -1 ? '' : 'hidden'"
+                          class="btn btn-secondary export-excel"
+                          (click)="exportPricings(opt, 'xlsx')">
+                    <fa-icon [icon]="['fal', 'file-excel']" class="fa-lg"></fa-icon>
+                  </button>
+                </div>
             </div>
           </div>
         </div>

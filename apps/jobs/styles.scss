@@ -38,7 +38,11 @@ div.matches-list-container>div:nth-of-type(odd) {
   background-color: #f7f7f9 !important;
 }
 
-// TODO: Discuss if these toast rules shopuld be global for the whole company
+// TODO: Discuss if these toast rules should be global for the whole company
+.toast-top-center{
+  margin-top: 3.75rem;
+}
+
 .toast-container .toast-close-button {
   top: 0.1em !important;
 }

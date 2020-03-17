@@ -17,6 +17,7 @@ export interface State {
   companyPayMarkets: any;
   structureGradeNames: any;
   pricingDetailsView: string;
+  customExportData: any;
 }
 
 export const initialState: State = {
@@ -30,7 +31,8 @@ export const initialState: State = {
   pricingIdToBeDeleted: undefined,
   companyPayMarkets: [],
   structureGradeNames: [],
-  pricingDetailsView: 'Priced'
+  pricingDetailsView: 'Priced',
+  customExportData: {}
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -132,6 +134,12 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         pricingDetailsView: action.payload
       };
     }
+    case fromJobsPageActions.LOAD_CUSTOM_EXPORTS_SUCCESS: {
+      return {
+        ...state,
+        customExportData: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -149,3 +157,4 @@ export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDele
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
 export const getPricingDetailsView = (state: State) => state.pricingDetailsView;
+export const getCustomExportData = (state: State) => state.customExportData;

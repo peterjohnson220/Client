@@ -6,18 +6,32 @@ import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
 import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromJobManagementActions from 'libs/features/job-management/actions';
+
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';
 import { PageViewIds } from '../constants';
 
 @Injectable()
 export class JobsPageEffects {
+
+  private readonly toastrOverrides = {
+    positionClass: 'toast-top-center',
+    tapToDismiss: true,
+    enableHtml: true,
+    preventDuplicates: true,
+    preventOpenDuplicates: true,
+    closeButton: true,
+    showMethod: 'fadeIn',
+    disableTimeOut: true,
+  };
 
   constructor(
     private actions$: Actions,
@@ -28,6 +42,7 @@ export class JobsPageEffects {
     private payMarketApiService: PayMarketApiService,
     private structureApiService: StructuresApiService,
     private store: Store<fromJobsReducer.State>,
+    private toastr: ToastrService
   ) { }
 
   @Effect()
@@ -140,6 +155,40 @@ export class JobsPageEffects {
       );
     })
   );
+
+  @Effect()
+  exportPricings$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.EXPORT_PRICINGS),
+    switchMap((action: any) => {
+      return this.jobsApiService.exportPricings(action.payload).pipe(
+        map(response => new fromPfDataGridActions.DoNothing(PageViewIds.Jobs)),
+        catchError(error => {
+          return this.handleError('Error creating export. Please contact Payfactors Support for assistance');
+        })
+      );
+    })
+  );
+
+  @Effect()
+  loadCustomExports$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.LOAD_CUSTOM_EXPORTS),
+    switchMap((action: any) => {
+      return this.jobsApiService.loadCustomExports().pipe(
+        map(response => new fromJobsPageActions.LoadCustomExportsSuccess(response)),
+        catchError(error => {
+          const msg = 'We encountered an error while loading your company data';
+          return of(new fromJobsPageActions.HandleApiError(msg));
+        })
+      );
+    })
+  );
+
+  private handleError(message: string, title: string = 'Error'): Observable<Action> {
+    const toastContent = `
+    <div class="message-container"><div class="alert-triangle-icon mr-3"></div>${message}</div>`;
+    this.toastr.error(toastContent, title, this.toastrOverrides);
+    return of(new fromJobsPageActions.HandleApiError(message));
+  }
 
 
 }

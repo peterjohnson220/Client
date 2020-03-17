@@ -15,7 +15,15 @@ export class JobsApiService {
   }
 
   exportPricings(request: any) {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/ExportPricings`, request);
+    return this.payfactorsApiService.downloadFile(`${this.endpoint}/${request.Endpoint}`, {
+      CompanyJobIds: request.CompanyJobIds,
+      PricingIds: request.PricingIds,
+      FileExtension: request.FileExtension,
+      Name: request.Name
+    });
   }
 
+  loadCustomExports() {
+    return this.payfactorsApiService.get(`CustomExport.GetCustomExportData?pageName=Jobs`);
+  }
 }

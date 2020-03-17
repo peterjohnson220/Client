@@ -26,6 +26,9 @@ export const LOAD_COMPANY_PAYMARKETS_SUCCESS = '[Jobs Page] Load Company PayMark
 export const LOAD_STRUCTURE_GRADES = '[Jobs Page] Load Structure Grades';
 export const LOAD_STRUCTURE_GRADES_SUCCESS = '[Jobs Page] Load Structure Grades Success';
 export const CHANGE_PRICING_DETAILS_VIEW = '[Jobs Page] Change Pricing Details View';
+export const EXPORT_PRICINGS = '[Jobs Page] Export Pricings';
+export const LOAD_CUSTOM_EXPORTS = '[Jobs Page] Load Custom Exports';
+export const LOAD_CUSTOM_EXPORTS_SUCCESS = '[Jobs Page] Load Custom Exports Success';
 
 
 export class SetJobsPageId implements Action {
@@ -136,9 +139,24 @@ export class LoadStructureGradesSuccess implements Action {
   constructor(public payload: string[]) {}
 }
 
-export class ChangePricingDetailsView implements Action{
+export class ChangePricingDetailsView implements Action {
   readonly type = CHANGE_PRICING_DETAILS_VIEW;
   constructor(public payload: string) {}
+}
+
+export class ExportPricings implements Action {
+  readonly type = EXPORT_PRICINGS;
+  constructor(public payload: any) {}
+}
+
+export class LoadCustomExports implements Action {
+  readonly type = LOAD_CUSTOM_EXPORTS;
+  constructor() {}
+}
+
+export class LoadCustomExportsSuccess implements Action {
+  readonly type = LOAD_CUSTOM_EXPORTS_SUCCESS;
+  constructor(public payload: any) {}
 }
 
 
@@ -166,4 +184,7 @@ export type JobsPageActions
   | LoadCompanyPayMarketsSuccess
   | LoadStructureGrades
   | LoadStructureGradesSuccess
-  | ChangePricingDetailsView;
+  | ChangePricingDetailsView
+  | ExportPricings
+  | LoadCustomExports
+  | LoadCustomExportsSuccess;
