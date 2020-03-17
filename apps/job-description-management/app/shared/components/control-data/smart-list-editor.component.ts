@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener, ElementRef, OnDestroy } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 
@@ -15,13 +16,15 @@ declare var Quill: any;
   styleUrls: [ './smart-list-editor.component.scss' ]
 })
 
-export class SmartListEditorComponent implements OnInit, OnChanges {
+export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() data: any[];
   @Input() attributes: ControlTypeAttribute[];
   @Input() readOnly: boolean;
   @Input() checkInheritedData: boolean;
   @Input() additionalProperties: any;
   @Input() undoChanges$: Observable<boolean>;
+  @Input() replaceContents$: Observable<boolean>;
+
 
   @Output() dataChangesDetected = new EventEmitter();
   @Output() smartEditorChangesDetected = new EventEmitter();
@@ -30,6 +33,8 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
   private rteData = '';
   private showDataTable = false;
   private newDataFromLibraryIdentifierString = '========>FROM LIBRARY';
+  private unsubscribe$ = new Subject();
+  private replaceContent = false;
 
   constructor(
     private elRef: ElementRef
@@ -55,6 +60,14 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
         }
       });
     }
+
+    if (this.replaceContents$) {
+      this.replaceContents$.pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe((c) => {
+        this.replaceContent = c;
+      });
+    }
   }
 
   ngOnChanges(changes: any) {
@@ -64,13 +77,19 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
       for (let i = 0; i < currentData.length; i++) {
         const currentSourcedValue = currentData[i][sourcedAttributeName];
 
-        if (currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) {
+        if ((currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) || this.replaceContent) {
           currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
+          this.rebuildQuillHtmlFromSavedData();
+          this.focusRTE();
+          this.replaceContent = false;
         }
-        this.rebuildQuillHtmlFromSavedData();
-        this.focusRTE();
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   focusRTE() {

@@ -44,6 +44,7 @@ export const REPLACE_CONTROL_DATA = '[job-description-management / Job Descripti
 export const UPDATE_CONTROL_DATA = '[job-description-management / Job Description] Update Control Data';
 export const UPDATE_CONTROL_ADDITIONAL_PROPERTIES = '[job-description-management / Job Description] Update Control Additional Properties';
 export const REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Replace Job Description Via Copy';
+export const RESET_REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Reset Replace Job Description Via Copy';
 export const REORDER_CONTROL_DATA = '[job-description-management / Job Description] Reorder Control Data';
 export const ADD_SOURCE_DATA_TO_CONTROL = '[job-description-management / Job Description] Add Source Data to Control';
 export const DELETE_JOB_DESCRIPTION = '[job-description-management / Job Description] Delete Job Description';
@@ -243,6 +244,10 @@ export class ReplaceJobDescriptionViaCopy implements Action {
   constructor(public payload: JobDescription) {}
 }
 
+export class ResetReplaceJobDescriptionViaCopy implements Action {
+  readonly type = RESET_REPLACE_JOB_DESCRIPTION_VIA_COPY;
+}
+
 export class ReorderControlData implements Action {
   readonly type = REORDER_CONTROL_DATA;
 
@@ -309,6 +314,7 @@ export type Actions
   | UpdateControlData
   | UpdateControlAdditionalProperties
   | ReplaceJobDescriptionViaCopy
+  | ResetReplaceJobDescriptionViaCopy
   | ReorderControlData
   | AddSourceDataToControl
   | DeleteJobDescription
