@@ -11,3 +11,8 @@
   right: calc( 0.75rem + 17px + 6.5px);
 }
 
+::ng-deep .k-combobox.is-invalid {
+  .k-dropdown-wrap {
+    border-color: #dc3545;
+  }
+}

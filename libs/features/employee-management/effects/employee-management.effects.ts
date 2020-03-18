@@ -6,7 +6,10 @@ import { Store, select } from '@ngrx/store';
 import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
 
 import { CompanyEmployeeApiService, CompanyJobApiService } from 'libs/data/payfactors-api/company';
-import { PayMarketApiService, CountryApiService, CurrencyApiService, LoaderFieldMappingsApiService } from 'libs/data/payfactors-api';
+import {
+  PayMarketApiService, CountryApiService, CurrencyApiService, LoaderFieldMappingsApiService,
+  EntityKeysValidationApiService
+} from 'libs/data/payfactors-api';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromEmployeeManagementReducer from '../reducers';
@@ -23,11 +26,8 @@ export class EmployeeManagementEffects {
       switchMap(() => {
           return this.companyJobApiService.getAll(['JobTitle', 'CompanyJobId', 'JobCode']).pipe(
             map((response) => {
-              return new fromEmployeeManagementActions.LoadCompanyJobsSuccess(
-                PayfactorsApiModelMapper.mapItemsToDropdownList(response, 'CompanyJobId', (item => {
-                  return `${item['JobCode']} - ${item['JobTitle']}`;
-                }))
-              );
+              const jobs = PayfactorsApiModelMapper.mapCompanyJobsToJobs(response);
+              return new fromEmployeeManagementActions.LoadCompanyJobsSuccess(jobs);
             }),
             catchError(() => of(new fromEmployeeManagementActions.LoadCompanyJobsError()))
           );
@@ -205,6 +205,38 @@ export class EmployeeManagementEffects {
       })
     );
 
+  @Effect()
+  validateEmployeeKeys$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.VALIDATE_EMPLOYEE_KEYS),
+      switchMap((action: fromEmployeeManagementActions.ValidateEmployeeKeys) => {
+        return this.entityKeysValidationApiService.validateEmployeeKeys(action.payload)
+          .pipe(
+            map(response => {
+              const validation = PayfactorsApiModelMapper.mapEntityKeyFieldsResponseToEmployeeValidation(response, action.payload);
+              return new fromEmployeeManagementActions.ValidateEmployeeKeysSuccess(validation);
+            }),
+            catchError(() => of(new fromEmployeeManagementActions.ValidateEmployeeKeysError('There was an error validating employee')))
+          );
+      })
+    );
+
+  @Effect()
+  validateEmployeeKeysSuccess$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.VALIDATE_EMPLOYEE_KEYS_SUCCESS),
+      map((action: fromEmployeeManagementActions.ValidateEmployeeKeysSuccess) => {
+        if (action.payload.IsValid) {
+          if (!!action.payload.Employee.CompanyEmployeeId) {
+            return new fromEmployeeManagementActions.UpdateEmployee(action.payload.Employee);
+          } else {
+            return new fromEmployeeManagementActions.SaveEmployee(action.payload.Employee);
+          }
+        }
+        return { type: 'No Action' };
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private rootStore: Store<fromRootState.State>,
@@ -214,6 +246,7 @@ export class EmployeeManagementEffects {
     private countryApiService: CountryApiService,
     private currencyApiService: CurrencyApiService,
     private companyEmployeeApiService: CompanyEmployeeApiService,
-    private loaderFieldMappingsApiService: LoaderFieldMappingsApiService
+    private loaderFieldMappingsApiService: LoaderFieldMappingsApiService,
+    private entityKeysValidationApiService: EntityKeysValidationApiService
   ) {}
 }
