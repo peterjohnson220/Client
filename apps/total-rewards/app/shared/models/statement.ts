@@ -1,5 +1,4 @@
 import { Page } from './page';
-import { Styling } from './styling';
 import { BaseControl } from './base-control';
 import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 
@@ -15,11 +14,6 @@ export interface Statement {
   Employees: number;
   Status: 'Active' | 'Draft';
   Pages: Page[];
-  StatementTitleStyles: Styling;
-  SectionTitlesStyles: Styling;
-  BenefitFieldTitlesStyles: Styling;
-  BenefitFieldDataStyles: Styling;
-  BenefitFieldCalculationsStyles: Styling;
 }
 
 export function generateMockStatement(): Statement {
@@ -34,36 +28,6 @@ export function generateMockStatement(): Statement {
     LastRunDate: new Date('December 17, 2019 03:24:00'),
     Employees: 13,
     Status: 'Active',
-    StatementTitleStyles: {
-      FontFamily: 'Segoe UI Semibold',
-      FontColor: '#000000',
-      FontSizeInPoints: 16,
-      Emphasis: ''
-    },
-    SectionTitlesStyles: {
-      FontFamily: 'Segoe UI',
-      FontColor: '#28435A',
-      FontSizeInPoints: 10,
-      Emphasis: 'Bold'
-    },
-    BenefitFieldTitlesStyles: {
-      FontFamily: 'Segoe UI',
-      FontColor: '#000000',
-      FontSizeInPoints: 10,
-      Emphasis: ''
-    },
-    BenefitFieldDataStyles: {
-      FontFamily: 'Segoe UI',
-      FontColor: '#000000',
-      FontSizeInPoints: 10,
-      Emphasis: ''
-    },
-    BenefitFieldCalculationsStyles: {
-      FontFamily: 'Segoe UI',
-      FontColor: '#000000',
-      FontSizeInPoints: 10,
-      Emphasis: ''
-    },
     Pages: [{
       Sections: [{
         ColumnCount: 2,

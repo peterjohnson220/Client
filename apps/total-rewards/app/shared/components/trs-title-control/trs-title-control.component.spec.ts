@@ -18,7 +18,6 @@ describe('TrsTitleControlComponent', () => {
   });
 
   it('should create', () => {
-    component.titleStyles = {} as any;
     component.controlData = {} as any;
     fixture.detectChanges();
     expect(component).toBeTruthy();

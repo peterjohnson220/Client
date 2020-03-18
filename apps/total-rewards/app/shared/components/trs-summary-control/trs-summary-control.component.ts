@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { BaseControl, Styling } from '../../models';
-import { formatDefaultStyles } from '../../../../../../libs/core/functions/format-default-styles';
+import { BaseControl } from '../../models';
 
 @Component({
   selector: 'pf-trs-summary-control',
@@ -11,14 +10,9 @@ import { formatDefaultStyles } from '../../../../../../libs/core/functions/forma
 export class TrsSummaryControlComponent implements OnInit {
 
   @Input() controlData: BaseControl;
-  @Input() titleStyles: Styling;
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  setDefaultStyling(style: Styling) {
-    return formatDefaultStyles(style);
   }
 }
