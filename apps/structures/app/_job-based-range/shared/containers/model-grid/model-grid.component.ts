@@ -21,6 +21,7 @@ export class ModelGridComponent implements AfterViewInit {
   @ViewChild('mid', {static: false}) midColumn: ElementRef;
   @ViewChild('eeCount', {static: false}) eeCountColumn: ElementRef;
   @ViewChild('mrpValue', {static: false}) mrpValueColumn: ElementRef;
+  @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @Input() singleRecordView: boolean;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() inboundFilter: PfDataGridFilter;
@@ -38,15 +39,22 @@ export class ModelGridComponent implements AfterViewInit {
     dir: 'asc',
     field: 'CompanyStructures_Ranges_Mid'
   }];
-  actionBarConfig: ActionBarConfig;
+  singleRecordActionBarConfig: ActionBarConfig;
+  fullGridActionBarConfig: ActionBarConfig;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
-    this.actionBarConfig = {
+
+    this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
+    };
+    this.fullGridActionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ShowActionBar: true,
+      ShowColumnChooser: true
     };
   }
 
@@ -59,6 +67,11 @@ export class ModelGridComponent implements AfterViewInit {
       ['Mid']: {Template: this.midColumn},
       ['NumEmployees']: {Template: this.eeCountColumn},
       ['MarketReferencePointValue']: {Template: this.mrpValueColumn}
+    };
+
+    this.fullGridActionBarConfig = {
+      ...this.fullGridActionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate
     };
   }
 }
