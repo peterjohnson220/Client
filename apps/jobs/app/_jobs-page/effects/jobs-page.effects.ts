@@ -6,7 +6,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
+import { JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
 import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
@@ -21,7 +21,6 @@ export class JobsPageEffects {
 
   constructor(
     private actions$: Actions,
-    private companyApiService: CompanyApiService,
     private companyJobApiService: CompanyJobApiService,
     private jobsApiService: JobsApiService,
     private pricingApiService: PricingApiService,
