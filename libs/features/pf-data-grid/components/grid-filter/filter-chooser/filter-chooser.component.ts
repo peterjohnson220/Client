@@ -21,7 +21,7 @@ export class FilterChooserComponent implements OnChanges {
   @Output() deleteViewEvent = new EventEmitter();
   @Output() cancelDeleteEvent = new EventEmitter();
 
-  @ViewChild('p', { static: true }) public p: any;
+  @ViewChild('p', { static: false }) public p: any;
 
   public filter: any;
 

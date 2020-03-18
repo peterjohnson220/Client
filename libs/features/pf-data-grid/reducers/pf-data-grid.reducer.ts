@@ -138,8 +138,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             data: null,
             applyDefaultFilters: true,
             splitViewFilters: [],
-            selectedKeys: [],
-            savedViews: []
+            selectedKeys: []
           }
         }
       };
@@ -491,7 +490,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.SAVE_VIEW_SUCCESS:
-      const views = cloneDeep(state.grids[action.pageViewId].savedViews);
+      const views = cloneDeep(state.grids[action.pageViewId].savedViews) || [];
       // TODO: Refactor buildFiltersView so it can work with arrays and single objects
       if (action.viewType === DataViewType.savedFilter) {
         views.push(buildFiltersView([action.payload])[0]);
