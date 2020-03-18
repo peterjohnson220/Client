@@ -162,7 +162,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.colTemplates = {
       'Job_Title': { Template: this.jobTitleColumn },
       'JobStatus': { Template: this.jobStatusColumn },
-      'Exchange_ID': { Template: this.hasPeerDataColumn }
+      'Peer': { Template: this.hasPeerDataColumn }
     };
 
     this.filterTemplates = {
