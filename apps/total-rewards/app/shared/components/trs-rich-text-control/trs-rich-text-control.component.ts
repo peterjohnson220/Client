@@ -81,9 +81,11 @@ export class TrsRichTextControlComponent implements OnInit {
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
     const contentNodes = this.richTextNode.querySelectorAll('.ql-editor p') as NodeListOf<HTMLElement>;
 
-    // calculate how many pixels tall the content is
+    // calculate how many pixels tall the content is with a for loop, as IE 11 does not support NodeListOf.forEach()
     let totalContentHeightInPixels = 0;
-    contentNodes.forEach((node: HTMLElement) => totalContentHeightInPixels += node.offsetHeight);
+    for (let i = 0; i < contentNodes.length; i ++) {
+      totalContentHeightInPixels += contentNodes[i].offsetHeight;
+    }
 
     // if we're over the pixel height of the container undo the change by applying the previous delta
     if (totalContentHeightInPixels > container.offsetHeight) {
