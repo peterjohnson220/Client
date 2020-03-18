@@ -1,5 +1,3 @@
-import {SystemPermission} from './roles';
-
 export interface UserContext {
   AccessLevel: string;
   CompanyId: number;

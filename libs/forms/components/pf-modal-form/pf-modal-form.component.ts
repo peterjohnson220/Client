@@ -35,6 +35,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() resetFormOnClose = true;
   @Input() windowClass: string = null;
   @Input() submitEnabled = true;
+  @Input() showSpinner = true;
   @Output() onSubmit = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
   @ViewChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;

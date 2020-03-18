@@ -6,15 +6,12 @@ import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService } from 'libs/data/payfactors-api';
-import { UserContext, CompanyDto } from 'libs/models';
+import { JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
+import { StructuresApiService } from 'libs/data/payfactors-api/structures';
+import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-
-import * as fromJobManagementReducer from 'libs/features/job-management/reducers';
 import * as fromJobManagementActions from 'libs/features/job-management/actions';
-
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';
 import { PageViewIds } from '../constants';
@@ -24,35 +21,13 @@ export class JobsPageEffects {
 
   constructor(
     private actions$: Actions,
-    private companyApiService: CompanyApiService,
+    private companyJobApiService: CompanyJobApiService,
     private jobsApiService: JobsApiService,
     private pricingApiService: PricingApiService,
     private payMarketApiService: PayMarketApiService,
+    private structureApiService: StructuresApiService,
     private store: Store<fromJobsReducer.State>,
   ) { }
-
-  @Effect()
-  loadCompany$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobsPageActions.LOAD_COMPANY),
-    withLatestFrom(
-      this.store.pipe(select(fromRootState.getUserContext)),
-      (action: fromJobsPageActions.LoadCompany, userContext: UserContext) =>
-        ({ action, userContext })
-    ),
-    switchMap((data) => {
-      return this.companyApiService.get(data.userContext.CompanyId).pipe(
-        mergeMap((company: CompanyDto) =>
-          [
-            new fromJobsPageActions.LoadCompanySuccess(company.CompanyName),
-            new fromJobsPageActions.LoadCompanyPayMarkets(),
-          ]),
-        catchError(error => {
-          const msg = 'We encountered an error while loading your company data';
-          return of(new fromJobsPageActions.HandleApiError(msg));
-        })
-      );
-    })
-  );
 
   @Effect()
   addToProject$: Observable<Action> = this.actions$.pipe(
@@ -64,7 +39,7 @@ export class JobsPageEffects {
           // TODO: When we migrate the Projects page to Client we have to make sure the state is cleared if we return back to the Jobs page
           return [];
         }),
-        catchError(error => of(new fromJobsPageActions.AddingToProjectError()))
+        catchError(error => of(new fromJobsPageActions.AddingToProjectError(error)))
       );
     })
   );
@@ -73,7 +48,7 @@ export class JobsPageEffects {
   changeJobStatus$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobsPageActions.CHANGING_JOB_STATUS),
     switchMap((data: any) => {
-      return this.jobsApiService.changeJobStatus(data.payload).pipe(
+      return this.companyJobApiService.changeJobStatus(data.payload).pipe(
         mergeMap(() =>
           [
             new fromJobsPageActions.ChangingJobStatusSuccess(),
@@ -83,7 +58,24 @@ export class JobsPageEffects {
             new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
             new fromPfDataGridActions.CloseSplitView(PageViewIds.Jobs),
           ]),
-        catchError(error => of(new fromJobsPageActions.ChangingJobStatusError()))
+        catchError(error => of(new fromJobsPageActions.ChangingJobStatusError(error)))
+      );
+    })
+  );
+
+  @Effect()
+  deleteJob$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.DELETING_JOB),
+    switchMap((data: any) => {
+      return this.companyJobApiService.deleteCompanyJob(data.payload).pipe(
+        mergeMap(() =>
+          [
+            new fromJobsPageActions.DeletingJobSuccess(),
+            new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs, [data.payload]),
+            new fromJobsPageActions.ShowDeleteJobModal(false),
+            new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
+          ]),
+        catchError(error => of(new fromJobsPageActions.DeletingJobError(error)))
       );
     })
   );
@@ -120,12 +112,26 @@ export class JobsPageEffects {
     ofType(fromJobsPageActions.LOAD_COMPANY_PAYMARKETS),
     withLatestFrom(
       this.store.pipe(select(fromRootState.getUserContext)),
-      (action: fromJobsPageActions.LoadCompany, userContext: UserContext) =>
+      (action: fromJobsPageActions.LoadCompanyPayMarkets, userContext: UserContext) =>
         ({ action, userContext })
     ),
     switchMap(() => {
       return this.payMarketApiService.getAll().pipe(
         map(options => new fromJobsPageActions.LoadCompanyPayMarketsSuccess(options)),
+        catchError(error => {
+          const msg = 'We encountered an error while loading your company data';
+          return of(new fromJobsPageActions.HandleApiError(msg));
+        })
+      );
+    })
+  );
+
+  @Effect()
+  loadStructureGrades$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.LOAD_STRUCTURE_GRADES),
+    switchMap((action: any) => {
+      return this.structureApiService.getGradeNames().pipe(
+        map(grades => new fromJobsPageActions.LoadStructureGradesSuccess(grades)),
         catchError(error => {
           const msg = 'We encountered an error while loading your company data';
           return of(new fromJobsPageActions.HandleApiError(msg));

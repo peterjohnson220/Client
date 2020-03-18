@@ -7,7 +7,6 @@
       class="flex-fill"
       [ngClass]="actionBarConfig?.ActionBarClassName != null ? actionBarConfig.ActionBarClassName : ''"
       [pageViewId]="pageViewId"
-      [selectionField]="selectionField"
       [globalFilters]="globalFilterableFields"
       [actionBarConfig]="actionBarConfig"
       (onFilterSidebarToggle)="toggleFilterPanel()">
@@ -41,8 +40,6 @@
                   <pf-grid
                     [reorderable]="reorderable"
                     [pageViewId]="pageViewId"
-                    [selectionEntityName]="(baseEntity$ | async)?.SourceName"
-                    [selectionField]="selectionField"
                     [allowSplitView]="!!splitViewTemplate"
                     [columnTemplates]="columnTemplates"
                     [expandedRowTemplate]="expandedRowTemplate"

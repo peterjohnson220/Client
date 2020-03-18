@@ -10,6 +10,7 @@ export const LOAD_DATA = '[PfDataGrid] Load Data';
 export const LOAD_DATA_SUCCESS = '[PfDataGrid] Load Data Success';
 export const UPDATE_FIELDS = '[PfDataGrid] Update Data Fields';
 export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
+export const UPDATE_SELECTION_FIELD = '[PfDataGrid] Update Selection Field';
 export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
 export const UPDATE_DEFAULT_SORT_DESCRIPTOR = '[PfDataGrid] Update Default Sort Descriptor';
 export const UPDATE_SORT_DESCRIPTOR = '[PfDataGrid] Update Sort Descriptor';
@@ -105,6 +106,11 @@ export class UpdateFieldsSuccess implements Action {
   constructor(public pageViewId: string) { }
 }
 
+export class UpdateSelectionField implements Action {
+  readonly type = UPDATE_SELECTION_FIELD;
+  constructor(public pageViewId: string, public selectionField: string) { }
+}
+
 export class UpdateInboundFilters implements Action {
   readonly type = UPDATE_INBOUND_FILTERS;
   constructor(public pageViewId: string, public payload: PfDataGridFilter[]) { }
@@ -142,7 +148,7 @@ export class SetFilterPanelDisplay implements Action {
 
 export class UpdateSelectedRecordId implements Action {
   readonly type = UPDATE_SELECTED_RECORD_ID;
-  constructor(public pageViewId: string, public recordId: number, public operator: string, public fieldName: string) { }
+  constructor(public pageViewId: string, public recordId: number, public operator: string) { }
 }
 
 export class ExpandRow implements Action {
@@ -217,12 +223,12 @@ export class UpdateSelectedKey implements Action {
 
 export class SelectAll implements Action {
   readonly type = SELECT_ALL;
-  constructor(public pageViewId: string, public primaryKey: string) { }
+  constructor(public pageViewId: string) { }
 }
 
 export class ClearSelections implements Action {
   readonly type = CLEAR_SELECTIONS;
-  constructor(public pageViewId: string) { }
+  constructor(public pageViewId: string, public selectionsToClear?: number[]) { }
 }
 
 export class HandleSavedViewClicked implements Action {
@@ -257,7 +263,7 @@ export class CancelViewDelete implements Action {
 
 export class ExportGrid implements Action {
   readonly type = EXPORT_GRID;
-  constructor(public pageViewId: string, public source: string, public selectionField: string) {}
+  constructor(public pageViewId: string, public source: string) {}
 }
 
 export class ExportGridSuccess implements Action {
@@ -317,6 +323,7 @@ export type DataGridActions =
   | LoadDataSuccess
   | UpdateFields
   | UpdateFieldsSuccess
+  | UpdateSelectionField
   | UpdateInboundFilters
   | UpdateFilter
   | ClearFilter

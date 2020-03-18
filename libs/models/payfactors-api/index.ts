@@ -15,4 +15,5 @@ export * from './survey';
 export * from './reports';
 export * from './user';
 export * from './pricings';
+export * from './structures';
 

@@ -1,0 +1,86 @@
+<ng-container [ngSwitch]="true">
+  <div *ngSwitchCase="structuresList.length === 0">
+    <h5>There are no structures defined in your company. Please add some structures before you can map jobs to structures.</h5>
+  </div> 
+  <div *ngSwitchDefault class="d-flex flex-column h-100">
+    <div>
+      <div class="pb-2 pr-3">
+        To add this job to a salary structure, choose a Structure Name, Pay Market and Grade and click the “+” button.
+        Once this job is assigned to the Structure(s), click Save to apply the changes.
+      </div>
+      <hr>
+      <div class="row no-gutters">
+        <div class="col row">
+          <div class="col-4">
+            <label><b>Structure</b></label>
+            <kendo-dropdownlist
+              [data]="structuresList"  
+              textField="StructureName"
+              valueField="CompanyStructuresId"
+              [valuePrimitive]="true"
+              [(ngModel)]="structureId"
+              (valueChange)="structureChanged($event)"
+              [kendoDropDownFilter]="filterSettings"
+              [attr.data-qa-id]="'ddm-operator-job-edit-strucures'"
+              class="k-dropdown-white form-control">
+            </kendo-dropdownlist>
+          </div>
+          <div class="col-4">
+            <label><b>Pay Market</b></label>
+            <kendo-dropdownlist
+              [data]="paymarketsList"  
+              textField="PayMarket"
+              valueField="CompanyPayMarketId"
+              [valuePrimitive]="true"
+              [(ngModel)]="paymarketId"
+              (valueChange)="paymarketChanged($event)"
+              [kendoDropDownFilter]="filterSettings"           
+              [attr.data-qa-id]="'ddm-operator-job-edit-paymarkets'"
+              class="k-dropdown-white form-control">
+            </kendo-dropdownlist>
+          </div>
+          <div class="col-4">
+            <label><b>Grade</b></label>
+            <kendo-dropdownlist
+              [data]="gradesList"  
+              textField="GradeName"
+              valueField="CompanyStructuresGradesId"
+              [valuePrimitive]="true"
+              [(ngModel)]="gradeId"
+              (valueChange)="gradeChanged($event)"
+              [kendoDropDownFilter]="filterSettings"
+              [attr.data-qa-id]="'ddm-operator-job-edit-grades'"
+              class="k-dropdown-white form-control">
+            </kendo-dropdownlist>
+          </div>
+        </div>
+        <div class="justify-content-end align-self-end pl-px-30 pr-3">
+          <button type="button" class="btn btn-secondary" (click)="addStructureMapping()">
+            <fa-icon icon="plus"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="text-danger pt-3"><b>{{errorMessage}}</b></div>
+      <hr>
+      <br>
+    </div>
+    <div class="overflow-hidden">
+      <div *ngIf="structures.length === 0"><b>No structures have been selected for this job.</b></div>
+      <perfect-scrollbar>
+        <div *ngFor="let structure of structures" class="row no-gutters pb-3 pr-3">
+          <div class="col row">
+            <div class="col-4"><span class="pl-2">{{structure.StructureName}}</span></div>
+            <div class="col-4"><span class="pl-2">{{structure.PayMarket}}</span></div>
+            <div class="col-4"><span class="pl-2">{{structure.GradeName}}</span></div>
+          </div>
+          <div class="justify-content-end align-self-end pl-px-30">
+            <button type="button" class="btn btn-secondary" (click)="deleteStructureMapping(structure.CompanyStructuresRangeGroupId)">
+              <fa-icon icon="trash-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+    
+  </div>
+</ng-container>

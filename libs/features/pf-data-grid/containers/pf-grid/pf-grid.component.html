@@ -17,29 +17,34 @@
     (cellClick)="onCellClick($event)">
     <kendo-grid-checkbox-column [resizable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
       <ng-template kendoGridHeaderTemplate>
-        <input kendoGridSelectAllCheckbox id="selectAllCheckboxId"
-              [state]="selectAllState$ | async"
-              (selectAllChange)="onSelectAllChange($event)">
+        <input type="checkbox" id="selectAllCheckboxId"
+              [checked]="(selectAllState$ | async) === selectAllStatus.checked"
+              [indeterminate]="(selectAllState$ | async) === selectAllStatus.indeterminate"
+              (click)="onSelectAllChange()">
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
         <input type="checkbox"
-               [checked]="isChecked((selectedKeys$ | async), dataItem[getSelectedRowPrimaryKey()])"
-               (click)="onSelectedKeysChange(dataItem[getSelectedRowPrimaryKey()])">
+               [checked]="(selectedKeys$ | async)?.indexOf(dataItem[primaryKey]) > -1"
+               (click)="onSelectedKeysChange(dataItem[primaryKey])">
       </ng-template>
     </kendo-grid-checkbox-column>
-    <ng-container *ngFor="let col of (dataFields$ | async)">
+    <ng-container *ngFor="let col of (dataFields$ | async); trackBy:trackByField">
       <ng-container *ngIf="col.Group && col.HasSelection">
           <kendo-grid-column-group
             [title]="col.Group"
             [headerClass]="getGridColumnHeaderClass(col)"
             [locked]="false">
-              <ng-container *ngFor="let col of col.Fields">
+              <ng-container *ngFor="let col of col.Fields; trackBy:trackByField">
                   <ng-container *ngIf="showColumn(col)">
                       <kendo-grid-column
                         [field]="mappedFieldName(col)"
                         [title]="col.DisplayName"
                         [headerClass]="getGridColumnHeaderClass(col)"
-                        [style]="{'text-align': col.TextAlign, 'background-color': backgroundColor ? backgroundColor : '', 'padding': '0.25rem 0.25rem'}"
+                        [style]="{
+                          'text-align': col.TextAlign,
+                          'background-color': backgroundColor ? backgroundColor : '',
+                          'padding': '0.25rem 0.25rem',
+                          'overflow': 'inherit'}"
                         [class]="getColumnClasses(col)"
                         [width]="selectedRecordId ? null : col.Width"
                         [minResizableWidth]="30">
@@ -69,7 +74,10 @@
           [field]="mappedFieldName(col)"
           [title]="col.DisplayName"
           [headerClass]="getGridColumnHeaderClass(col)"
-          [style]="{'text-align': col.TextAlign, 'background-color': backgroundColor ? backgroundColor : ''}"
+          [style]="{
+            'text-align': col.TextAlign,
+            'background-color': backgroundColor ? backgroundColor : '',
+            'overflow': 'inherit'}"
           [class]="getColumnClasses(col)"
           [width]="selectedRecordId ? null : (col.Width || defaultColumnWidth)"
           [minResizableWidth]="30">
@@ -101,7 +109,9 @@
         </ng-container>
       </div>
     </div>
-    <kendo-grid-command-column *ngIf="rowActionTemplate">
+    <kendo-grid-command-column *ngIf="rowActionTemplate"
+                               [headerClass]="getGridColumnHeaderClass(null)"
+    >
       <ng-template kendoGridCellTemplate let-dataItem="dataItem">
         <ng-container [ngTemplateOutlet]="rowActionTemplate"
                       [ngTemplateOutletContext]="{dataRow: dataItem}"
