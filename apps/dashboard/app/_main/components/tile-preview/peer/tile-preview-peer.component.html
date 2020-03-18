@@ -1,0 +1,74 @@
+<div class="tile-container row m-1">
+  <div class="exchange-carousel d-flex flex-column justify-content-between">
+    <ngb-carousel [activeId]="model.SelectedExchangeId"
+                  (slide)="onCarouselSlideChange($event)">
+      <ng-container *ngFor="let exchangePreviewModel of model.ExchangePreviewModels; trackBy: trackById">
+        <ng-template ngbSlide [id]="exchangePreviewModel.ExchangeId">
+          <a class="anchor-overlay"
+             [href]="model.TileUrl"></a>
+          <div class="exchange-metrics-container">
+            <div class="chart-container" *ngIf="exchangePreviewModel.CompanyJobTileChartItems && exchangePreviewModel.CompanyJobTileChartItems.length > 0">
+              <div>Exchange Name: {{exchangePreviewModel.ExchangeName}} </div>
+              <kendo-chart [transitions]="true">
+                <kendo-chart-area background="none" [height]="90"></kendo-chart-area>
+                <kendo-chart-series>
+                  <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
+                                           [type]="model.ChartType" [data]="exchangePreviewModel.CompanyJobTileChartItems"
+                                           categoryField="DataField" field="Percentage" [padding]="0">
+                    <kendo-chart-series-item-tooltip>
+                      <ng-template let-category="category" let-value="value">
+                        {{category}} : {{value}}%
+                      </ng-template>
+                    </kendo-chart-series-item-tooltip>
+                  </kendo-chart-series-item>
+                </kendo-chart-series>
+
+                <kendo-chart-legend *ngIf="model.ShouldLimitLegendText == false" [padding]="0" [visible]="true" position="left" [labels]="legendLabelStyle">
+                </kendo-chart-legend>
+
+                <kendo-chart-legend *ngIf="model.ShouldLimitLegendText == true" [padding]="0" [visible]="true" position="left" [labels]="limitLabelText">
+                </kendo-chart-legend>
+
+              </kendo-chart>
+              <div class="text-right pr-4">{{model.ChartLabel}}</div>
+            </div>
+
+            <div class="exchange-metrics">
+              <div *ngFor="let exchangeMetrics of exchangePreviewModel.ExchangeMetricsListItems" class="card card-body text-center mb-1 justify-content-center">
+                <div class="font-weight-bold">{{exchangeMetrics.Value | humanizeNumber}}</div>
+                <div class="small">{{exchangeMetrics.Key}}</div>
+              </div>
+            </div>
+
+            <div class="card card-body latest-companies mb-1">
+              <strong>Welcoming to Peer: </strong>
+              <span class="small pb-1 ellipsis-overflowing-text" *ngFor="let latestCompany of exchangePreviewModel.LatestPeerCompaniesList" [title]="latestCompany">
+                {{latestCompany}} <br/>
+              </span>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ngb-carousel>
+    <div class="carousel-controls d-flex flex-row justify-content-between"
+         *ngIf="exchangePreviewModels.length > 1">
+      <div class="control control-left"
+           (click)="handleControlLeftClick($event)">
+        <fa-icon icon="chevron-circle-left" size="2x"></fa-icon>
+      </div>
+      <div class="indicators flex-grow-1 space-out-children text-center">
+            <span class="control"
+                  [ngClass]="{'active' : model.SelectedExchangeId ===  mapping.ExchangeId}"
+                  *ngFor="let mapping of (exchangePreviewModels)"
+                  (click)="handleIndicatorClick($event, mapping.ExchangeId)">
+              <fa-icon icon="circle"></fa-icon>
+            </span>
+      </div>
+      <div class="control control-right"
+           (click)="handleControlRightClick($event)">
+        <fa-icon icon="chevron-circle-right" size="2x"></fa-icon>
+      </div>
+    </div>
+  </div>
+</div>
+

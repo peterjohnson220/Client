@@ -11,7 +11,7 @@ import {
   generateTilePreviewIconFromTile, generateTilePreviewChartFromTile,
   generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile,
   generateTilePreviewChartWithCalendarFromTile, generateTilePreviewChartWithListFromTile,
-  generateTilePreviewBasicListFromTile
+  generateTilePreviewBasicListFromTile, generateTilePreviewPeerFromTile, TilePreviewPeer
 } from '../../models';
 import { environment } from 'environments/environment';
 
@@ -40,7 +40,7 @@ export class TileComponent implements OnInit, OnDestroy {
     );
    }
 
-  static generatePreviewModel(tile: Tile): TilePreviewBase {
+  generatePreviewModel(tile: Tile): TilePreviewBase {
     switch (tile.PreviewType) {
       case TilePreviewTypes.Icon:
         return generateTilePreviewIconFromTile(tile);
@@ -56,6 +56,8 @@ export class TileComponent implements OnInit, OnDestroy {
         return generateTilePreviewChartWithListFromTile(tile);
       case TilePreviewTypes.BasicList:
         return generateTilePreviewBasicListFromTile(tile);
+      case TilePreviewTypes.Peer:
+        return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile), TileUrl: this.getTileHref(tile) };
       default:
         return {
           PreviewType: TilePreviewTypes.Unknown,
@@ -77,7 +79,7 @@ export class TileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.previewModel = TileComponent.generatePreviewModel(this.tile);
+    this.previewModel = this.generatePreviewModel(this.tile);
     this.enableCoreJdmInClientSubscription = this.enableCoreJdmInClient$.subscribe((setting) => this.enableCoreJdmInClient = setting);
   }
 
@@ -96,7 +98,7 @@ export class TileComponent implements OnInit, OnDestroy {
     return url;
   }
 
-  getUrl(ngApplink: boolean, url: string) {
+  getUrl(ngApplink: boolean, url: string): string {
     if (ngApplink) {
       return this.ngAppRoot + url;
     }
