@@ -1,0 +1,183 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="modalTitle"
+  [primaryButtonText]="buttonPrimaryText"
+  [primaryButtonTextSubmitting]="buttonPrimaryTextSubmitting"
+  [submitting]="(savingModelSettingsAsyncObj$ | async)?.saving"
+  [formGroup]="modelSettingsForm"
+  [isOpen$]="modalOpen$"
+  [alwaysEnabledSubmit]="true"
+  [flipPrimarySecondaryBtns]="true"
+  (onSubmit)="handleModalSubmit()"
+  (onSubmitAttempt)="handleModalSubmitAttempt()"
+  (onDismiss)="handleModalDismiss()">
+
+  <ng-container form-content>
+    <div class="pt-3" *ngIf="modalOpen$ | async">
+      <ngb-tabset [destroyOnHide]="false">
+        <ngb-tab [title]="metadata.IsCurrent ? 'Model Settings' : 'Current Model Settings'">
+          <ng-template ngbTabContent>
+            <div class="p-3 pr-5">
+              <div class="form-group">
+                <label for="structure-name">Structure Name</label>
+                  <kendo-autocomplete
+                    id="structure-name"
+                    class="form-control"
+                    formControlName="structureName"
+                    [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.structureName.valid }"
+                    [filterable]="true"
+                    (filterChange)="handleStructureNameChanged($event)"
+                    (valueChange)="clearModelNameExistsFailure()"
+                    [data]="(structureNameSuggestionsAsyncObj$ | async)?.obj"
+                    [disabled]="metadata.IsCurrent"
+                    [maxlength]="50">
+                  </kendo-autocomplete>
+                  <div class="invalid-feedback">
+                    Please provide/choose a structure name.
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="model-name">Model Name</label>
+                  <input type="text"
+                         class="form-control"
+                         id="model-name"
+                         formControlName="modelName"
+                         [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.modelName.valid) || modelNameExistsFailure }"
+                         [maxlength]="50"
+                         (input)="clearModelNameExistsFailure()"/>
+                  <div class="invalid-feedback">
+                    <div *ngIf="!formControls.modelName.valid">Please provide a model name.</div>
+                    <div *ngIf="modelNameExistsFailure">Model Name Exists</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="paymarket">Pay Market</label>
+                  <kendo-autocomplete
+                    id="paymarket"
+                    class="form-control"
+                    formControlName="payMarket"
+                    [value]="metadata.Paymarket"
+                    [disabled]="true">
+                  </kendo-autocomplete>
+                </div>
+                <div class="form-group w-50">
+                  <label for="midpoint">Midpoint based on</label>
+                  <kendo-combobox id="midpoint" class="form-control"
+                                  formControlName="controlPoint"
+                                  [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.controlPoint.valid }"
+                                  [loading]="controlPointsAsyncObj.loading"
+                                  [data]="controlPoints"
+                                  [textField]="'Display'"
+                                  [valueField]="'FieldName'"
+                                  [clearButton]="false"
+                                  [valuePrimitive]="true"
+                                  [allowCustom]="false"
+                                  [placeholder]="'Select Midpoint'"
+                                  [filterable]="true"
+                                  (filterChange)="handleControlPointFilterChange($event)"
+                                  (selectionChange)="handleControlPointSelectionChange()">
+                  </kendo-combobox>
+                  <div class="invalid-feedback">
+                    Please select a midpoint.
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-6">
+                    <label for="range-spread-min">Range Spread</label>
+                    <div class="input-group">
+                      <kendo-numerictextbox class="form-control"
+                                            id="range-spread-min"
+                                            placeholder="Minimum"
+                                            formControlName="spreadMin"
+                                            [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.spreadMin.valid }"
+                                            [format]="'n'"
+                                            [spinners]="false"
+                                            [decimals]="2"
+                                            [max]="200"
+                                            [min]="1"
+                                            [autoCorrect]="true">
+                      </kendo-numerictextbox>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                      <div class="invalid-feedback">
+                        Please provide a range spread minimum.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-6">
+                    <label>&nbsp;</label>
+                    <div class="input-group">
+                      <kendo-numerictextbox  class="form-control"
+                                             placeholder="Maximum"
+                                             formControlName="spreadMax"
+                                             [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.spreadMax.valid }"
+                                             [format]="'n'"
+                                             [spinners]="false"
+                                             [decimals]="2"
+                                             [max]="200"
+                                             [min]="1"
+                                             [autoCorrect]="true">
+                      </kendo-numerictextbox>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                      <div class="invalid-feedback">
+                        Please provide a range spread maximum.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="rate">Rate</label>
+                  <kendo-dropdownlist id="rate" class="form-control k-dropdown-white"
+                                      formControlName="rate"
+                                      [data]="['Annual', 'Hourly']"
+                                      [valuePrimitive]="true">
+                  </kendo-dropdownlist>
+                </div>
+                <div class="form-group">
+                  <label for="currency">Currency</label>
+                  <kendo-combobox id="currency" class="form-control"
+                                  formControlName="currency"
+                                  [ngClass]="{ 'is-invalid': !formControls.currency.valid }"
+                                  [loading]="currenciesAsyncObj.loading"
+                                  [data]="currencies"
+                                  [textField]="'CurrencyDisplay'"
+                                  [valueField]="'CurrencyCode'"
+                                  [valuePrimitive]="true"
+                                  [clearButton]="false"
+                                  [allowCustom]="false"
+                                  [placeholder]="'Select Currency'"
+                                  [filterable]="true"
+                                  (filterChange)="handleCurrencyFilterChange($event)"
+                                  (selectionChange)="handleCurrencySelectionChange()">
+                  </kendo-combobox>
+                  <div class="invalid-feedback">
+                    Please provide a currency.
+                  </div>
+                </div>
+            </div>
+
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Rounding" [disabled]="true">
+          <ng-template ngbTabContent>
+            Rounding content will go here
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Copy Model" [disabled]="true">
+          <ng-template ngbTabContent>
+            Copy Model content will go here
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="(savingModelSettingsAsyncObj$ | async)?.savingError" class="invalid-feedback d-block">
+      Error saving settings
+    </div>
+  </ng-container>
+</pf-modal-form>

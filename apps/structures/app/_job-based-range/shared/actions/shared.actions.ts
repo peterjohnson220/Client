@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { RangeGroupMetadata } from '../models';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
@@ -9,5 +10,5 @@ export class SetMetadata implements Action {
   constructor(public payload: RangeGroupMetadata) {}
 }
 
-export type MetadataActions
+export type SharedActions
   = SetMetadata;

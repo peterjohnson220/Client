@@ -15,7 +15,7 @@
 
 <ng-template #fullGrid>
   <pf-data-grid
-    [title]="(metaData$ | async)?.Name"
+    [title]="(metaData$ | async)?.StructureName"
     [navigationURL]="'/marketdata/structures.asp'"
     [inboundFilters]="inboundFilters"
     [defaultSort]="defaultSort"
@@ -60,6 +60,7 @@
 
 <ng-template #gridGlobalActions>
   <button class="btn btn-secondary" (click)="handleAddJobsClicked()">Add Jobs</button>
+  <pf-model-settings-btn [metadata]="metaData$ | async" (clicked)="handleModelSettingsClicked()"></pf-model-settings-btn>
 </ng-template>
 
 <ng-template #aboveGridTemplate>
@@ -67,3 +68,5 @@
     <pf-grid-context [title]="'Job Ranges'" [metadata]="metaData$ | async"></pf-grid-context>
   </div>
 </ng-template>
+
+<pf-model-settings-modal [rangeGroupId]="rangeGroupId"></pf-model-settings-modal>

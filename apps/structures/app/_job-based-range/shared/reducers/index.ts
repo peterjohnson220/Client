@@ -4,11 +4,13 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromMetadataReducer from './metadata.reducer';
+import * as fromSharedReducer from './shared.reducer';
+import * as fromModelSettingsModalReducer from './model-settings-modal.reducer';
 
 // Feature area state
 export interface JobBasedRangeSharedState {
-  metadata: fromMetadataReducer.State;
+  shared: fromSharedReducer.State;
+  modelSettingsModal: fromModelSettingsModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -18,7 +20,8 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  metadata: fromMetadataReducer.reducer
+  shared: fromSharedReducer.reducer,
+  modelSettingsModal: fromModelSettingsModalReducer.reducer
 };
 
 // Select Feature Area
@@ -27,12 +30,42 @@ export const selectFeatureAreaState =
 
 
 // Selectors
-export const selectMetadataState = createSelector(
+export const selectSharedState = createSelector(
   selectFeatureAreaState,
-  (state: JobBasedRangeSharedState) => state.metadata
+  (state: JobBasedRangeSharedState) => state.shared
 );
 
-// Metadata
+export const selectModelSettingsModalState = createSelector(
+  selectFeatureAreaState,
+  (state: JobBasedRangeSharedState) => state.modelSettingsModal
+);
+
+// Shared
 export const getMetadata = createSelector(
-  selectMetadataState, fromMetadataReducer.getMetadata
+  selectSharedState, fromSharedReducer.getMetadata
+);
+
+// Model Settings Modal
+export const getModelSettingsModalOpen = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getModalOpen
+);
+
+export const getCurrenciesAsyncObj = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getCurrenciesAsyncObj
+);
+
+export const getControlPointsAsyncObj = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getControlPointsAsyncObj
+);
+
+export const getStructureNameSuggestionsAsyncObj = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getStructureNameSuggestionsAsyncObj
+);
+
+export const getSavingModelSettingsAsyncObj = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getSavingModelSettingsAsyncObj
+);
+
+export const getModelNameExistsFailure = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getModelNameExistsFailure
 );

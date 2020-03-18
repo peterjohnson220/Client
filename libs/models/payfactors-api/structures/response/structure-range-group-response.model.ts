@@ -11,10 +11,16 @@ export interface StructureRangeGroupResponse {
   IsPublished: boolean;
   IsCurrent: boolean;
   EffectiveDate: Date;
+  StructureName: string;
+  RangeSpreadMin: number;
+  RangeSpreadMax: number;
 }
 
 export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupResponse {
   return {
+    RangeSpreadMax: 75,
+    RangeSpreadMin: 50,
+    StructureName: 'I am a structure',
     CompanyStructuresRangeGroupId: 1,
     CompanyId: 13,
     CompanyStructuresId: 1,
@@ -26,6 +32,6 @@ export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupRes
     ControlPoint: 'TestControlPoint',
     IsPublished: false,
     IsCurrent: true,
-    EffectiveDate: new Date('1995-12-17T03:24:00'),
+    EffectiveDate: new Date('1995-12-17T03:24:00')
   };
 }

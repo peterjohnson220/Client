@@ -20,7 +20,7 @@
         </ng-template>
       </div>
     </div>
-    <div class="d-flex space-out-children-lg">
+    <div class="d-flex space-out-children-md">
         <ng-container class="d-flex " *ngIf="actionBarConfig.GlobalActionsTemplate" [ngTemplateOutlet]="actionBarConfig.GlobalActionsTemplate"></ng-container>
   
         <button *ngIf="actionBarConfig.AllowExport && !!actionBarConfig.ExportSourceName?.length"

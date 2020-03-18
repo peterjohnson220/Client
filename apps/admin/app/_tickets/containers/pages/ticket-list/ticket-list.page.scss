@@ -1,4 +1,6 @@
-@import '../../../../../../../libs/styles/ngbootstrap-tabset-overrides';
+@import 'libs/styles/ngbootstrap-tabset-overrides';
+
+@include pf-tabset-alt-deep;
 
 :host ::ng-deep a.nav-link {
   border-color: white !important;

@@ -66,13 +66,14 @@ export class ToastsEffects {
 
         const toastConfig = {
           enableHtml: notification.EnableHtml,
-          disableTimeOut: true,
           tapToDismiss: true,
+          disableTimeOut: false
         };
 
         // for a generic message with download link we want to prevent misclicks so they get the file
         if (notificationDetail.toastHasFile) {
           toastConfig.tapToDismiss = false;
+          toastConfig.disableTimeOut = true;
         }
 
         this.toastr.success(eventMessage, notification.Payload.Title, toastConfig);

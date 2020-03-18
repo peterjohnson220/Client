@@ -9,6 +9,7 @@ import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 
 import { PageViewIds } from '../../constants/page-view-ids';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
+import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { RangeGroupMetadata } from '../../models';
 
@@ -27,6 +28,7 @@ export class ModelGridComponent implements AfterViewInit {
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() rangeGroupId: number;
   @Output() addJobs = new EventEmitter();
+  @Output() openModelSettings = new EventEmitter();
 
   metaData$: Observable<RangeGroupMetadata>;
   colTemplates = {};
@@ -58,10 +60,16 @@ export class ModelGridComponent implements AfterViewInit {
     };
   }
 
+  // Events
   handleAddJobsClicked() {
     this.addJobs.emit();
   }
 
+  handleModelSettingsClicked() {
+    this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+  }
+
+  // Lifecycle
   ngAfterViewInit() {
     this.colTemplates = {
       ['Mid']: {Template: this.midColumn},

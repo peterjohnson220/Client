@@ -10,6 +10,7 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { RangeGroupMetadata } from '../../shared/models';
+import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 
 @Component({
   selector: 'pf-pricings-page',
@@ -19,6 +20,7 @@ import { RangeGroupMetadata } from '../../shared/models';
 export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('source', {static: false}) sourceColumn: ElementRef;
   @ViewChild('jobTitleCode', {static: false}) jobTitleCode: ElementRef;
+  @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
 
   metaData$: Observable<RangeGroupMetadata>;
   filter: PfDataGridFilter;
@@ -44,6 +46,11 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
+  // Events
+  handleModelSettingsBtnClicked() {
+    this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+  }
+
   // Lifecycle
   ngOnInit(): void {
     return;
@@ -53,6 +60,11 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.colTemplates = {
       ['Source']: {Template: this.sourceColumn},
       ['Job_Title']: {Template: this.jobTitleCode}
+    };
+
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate
     };
   }
 
