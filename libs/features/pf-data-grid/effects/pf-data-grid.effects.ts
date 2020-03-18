@@ -83,7 +83,7 @@ export class PfDataGridEffects {
             if (data.fields) {
               return this.dataViewApiService
                 .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(
-                  data.baseEntity ? data.baseEntity.Id : null,
+                  data.baseEntity.Id,
                   data.fields,
                   PfDataGridEffects.mapFieldsToFiltersUseValuesProperty(data.fields),
                   data.pagingOptions,

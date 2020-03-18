@@ -138,7 +138,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             data: null,
             applyDefaultFilters: true,
             splitViewFilters: [],
-            selectedKeys: []
+            selectedKeys: [],
+            savedViews: []
           }
         }
       };
