@@ -4,7 +4,7 @@
     [showTitle]="false"
     [compactGrid]="true"
     [showHeaderWhenCompact]="true"
-    [inboundFilters]="[inboundFilter]"
+    [inboundFilters]="inboundFilters"
     [contentNoPadding]="true"
     [allowSort]="false"
     [applyDefaultFilters]="false"
@@ -17,7 +17,7 @@
   <pf-data-grid
     [title]="(metaData$ | async)?.Name"
     [navigationURL]="'/marketdata/structures.asp'"
-    [inboundFilters]="[inboundFilter]"
+    [inboundFilters]="inboundFilters"
     [defaultSort]="defaultSort"
     [pageViewId]="modelPageViewId"
     [pagingOptions]="defaultPagingOptions"
