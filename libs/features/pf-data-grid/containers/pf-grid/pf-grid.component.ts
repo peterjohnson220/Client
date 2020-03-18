@@ -5,7 +5,7 @@ import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
 import { ViewField, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
-import { DataGridState } from '../../reducers/pf-data-grid.reducer';
+import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
@@ -16,8 +16,6 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 })
 export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() selectionEntityName: string;
-  @Input() selectionField: string;
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
   @Input() expandedRowTemplate: TemplateRef<any>;
@@ -53,6 +51,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   data: GridDataResult;
   sortDescriptor: SortDescriptor[];
 
+  primaryKeySubscription: Subscription;
+  primaryKey: string;
+
+  selectionFieldSubscription: Subscription;
+  selectionField: string;
+
+  selectAllStatus = SelectAllStatus;
+
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
 
   constructor(private store: Store<fromReducer.State>) { }
@@ -75,21 +81,28 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     });
     this.sortDescriptorSubscription = this.sortDescriptor$.subscribe(value => this.sortDescriptor = value);
 
+    this.primaryKeySubscription = this.store.select(fromReducer.getPrimaryKey, this.pageViewId).subscribe(primaryKey => {
+      this.primaryKey = primaryKey;
+    });
+
+    this.selectionFieldSubscription = this.store.select(fromReducer.getSelectionField, this.pageViewId).subscribe(selectionField => {
+      this.selectionField = selectionField;
+    });
   }
 
   ngOnDestroy() {
     this.expandedRowsSubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
+    this.primaryKeySubscription.unsubscribe();
+    this.selectionFieldSubscription.unsubscribe();
     this.sortDescriptorSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
-
       if (this.grid) {
         this.grid.resetGroupsState();
       }
-
       this.gridState$ = this.store.select(fromReducer.getGrid, changes['pageViewId'].currentValue);
       this.loading$ = this.store.select(fromReducer.getLoading, changes['pageViewId'].currentValue);
       if (this.useColumnGroups) {
@@ -141,7 +154,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     if (getSelection().toString()) {
       // User is highlighting text so we don't want to mark this as a click
     } else if (this.allowSplitView) {
-      this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.getSelectedRowPrimaryKey()], '=', this.selectionField));
+      this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
     } else if (this.expandedRowTemplate) {
       if (this.expandedRows.includes(rowIndex)) {
         this.store.dispatch(new fromActions.CollapseRow(this.pageViewId, rowIndex));
@@ -151,7 +164,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         this.grid.expandRow(rowIndex);
       }
     } else if (this.enableSelection) {
-      this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, dataItem[this.getSelectedRowPrimaryKey()]));
+      this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, dataItem[this.primaryKey]));
     }
   }
 
@@ -171,7 +184,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   getRowClasses = (context: RowClassArgs) => ({
     'pf-data-grid-clickable-row': this.selectionField,
     'pf-data-grid-non-clickable-row': this.compactGrid,
-    'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.getSelectedRowPrimaryKey()] === this.selectedRecordId)
+    'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.primaryKey] === this.selectedRecordId)
   })
 
   getColumnClasses(col: ViewField) {
@@ -204,21 +217,18 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     return false;
   }
 
-  getSelectedRowPrimaryKey() {
-    return `${this.selectionEntityName}_${this.selectionField}`;
-  }
-
   onSelectedKeysChange(selectedKey: number) {
     this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, selectedKey));
   }
 
-  isChecked(selectedKeys, id) {
-    return (selectedKeys && selectedKeys.indexOf(id) > -1);
-  }
-
   onSelectAllChange() {
-    this.store.dispatch(new fromActions.SelectAll(this.pageViewId, this.getSelectedRowPrimaryKey()));
+    this.store.dispatch(new fromActions.SelectAll(this.pageViewId));
   }
 
+  trackByField(index, field: ViewField) {
+    return field
+      ? field.DataElementId ? field.DataElementId : field.Group
+      : index;
+  }
 
 }

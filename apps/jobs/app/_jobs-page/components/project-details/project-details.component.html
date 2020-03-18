@@ -24,15 +24,6 @@
   </ng-template>
 </ng-template>
 
-<ng-template #projectNameColumn let-dataRow="dataRow">
-  <ng-container *ngIf="dataRow['UserSessions_Session_Name']; else createDate">
-    {{dataRow['UserSessions_Session_Name']}}
-  </ng-container>
-  <ng-template #createDate>
-    {{dataRow['UserSessions_Create_Date'] | date: 'MM/dd/yyyy'}}
-  </ng-template>
-</ng-template>
-
 <ng-template #projectOwnerColumn let-dataRow="dataRow">
   {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
 </ng-template>

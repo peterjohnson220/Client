@@ -16,7 +16,6 @@ import { ActionBarConfig } from '../../models';
 })
 export class ActionBarComponent implements OnChanges {
   @Input() actionBarConfig: ActionBarConfig;
-  @Input() selectionField: string;
   @Input() pageViewId: string;
   @Input() globalFilters: ViewField[];
   @Output() onFilterSidebarToggle = new EventEmitter();
@@ -83,6 +82,6 @@ export class ActionBarComponent implements OnChanges {
   }
 
   handleExportClicked(): void {
-    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName, this.selectionField));
+    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName));
   }
 }

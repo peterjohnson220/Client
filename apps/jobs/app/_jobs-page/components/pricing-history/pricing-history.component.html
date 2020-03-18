@@ -24,11 +24,12 @@
 </ng-template>
 
 <ng-template #rowActions let-dataRow="dataRow">
-    <div class="text-right pr-4" [pfSecuredResource]="_Permissions.PRICING_PROJECTS_DELETE" (click)="confirmDeletePricingModal(dataRow)"><fa-icon icon="trash-alt"></fa-icon></div>
+  <div class="text-right pr-4" [pfSecuredResource]="_Permissions.PRICING_PROJECTS_DELETE" (click)="confirmDeletePricingModal(dataRow)">
+    <fa-icon icon="trash-alt"></fa-icon>
+  </div>
 </ng-template>
 
 <pf-modal-form
-
   [modalId]="'au-delete-pricing'"
   [isOpen$]="pricingIdToBeDeleted$"
   [size]="'md'"
@@ -36,8 +37,7 @@
   [primaryButtonClass]="'btn-danger'"
   [primaryButtonText]="'Delete'"
   (onSubmit)="deletePricing()"
-  (onDismiss)="cancelDeletePricing()"
->
+  (onDismiss)="cancelDeletePricing()">
   <ng-container basic-content>
     This action will permanently delete this pricing. Would you like to continue?
   </ng-container>

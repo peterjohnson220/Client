@@ -1,4 +1,4 @@
-<ng-container *ngIf="!!actionBarConfig">
+<ng-container *ngIf="!!actionBarConfig && (dataFields$ | async)?.length">
   <div class="d-flex align-items-center" id="action-bar-container" *ngIf="actionBarConfig.ShowActionBar">
     <div class="d-flex space-out-children-lg">
       <div *ngFor="let gl of globalFilters; trackBy: trackByFn;">

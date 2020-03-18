@@ -6,6 +6,7 @@ import { StructureRangeGroupResponse } from 'libs/models/payfactors-api/structur
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { UpdateCompanyStructureRangeGroupNameDto } from '../../../models/structures/update-company-structure-range-group-name-dto.model';
+import { CompanyStructureInfo } from 'libs/models';
 
 @Injectable()
 export class StructureRangeGroupApiService {
@@ -18,10 +19,15 @@ export class StructureRangeGroupApiService {
     return this.payfactorsApiService.get<StructureRangeGroupResponse>(`${this.endpoint}(${companyStructureRangeGroupId})`);
   }
 
+  addJobStructureMapping(companyJobId: number, structures: CompanyStructureInfo[]): Observable<number> {
+    return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.AddJobStructureMapping`,
+      { CompanyJobId: companyJobId, StructureData: structures });
+  }
+
   updateCompanyStructureRangeGroupName(updateCompanyStructureRangeGroupNameDto: UpdateCompanyStructureRangeGroupNameDto)
     : Observable<StructureRangeGroupResponse> {
     return this.payfactorsApiService.post<StructureRangeGroupResponse>(
       `${this.endpoint}(${updateCompanyStructureRangeGroupNameDto.CompanyStructuresRangeGroupId})/Default.UpdateNameAsync`,
-      {RangeGroupName: updateCompanyStructureRangeGroupNameDto.RangeGroupName});
+      { RangeGroupName: updateCompanyStructureRangeGroupNameDto.RangeGroupName });
   }
 }

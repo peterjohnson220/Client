@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { ViewField, DataViewEntity, SimpleDataView, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
+import { ViewField, SimpleDataView, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { AppNotification, NotificationLevel } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 
@@ -58,7 +58,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;
-  baseEntity$: Observable<DataViewEntity>;
   filterableFields$: Observable<ViewField[]>;
   globalFilterableFields: ViewField[];
   displayFilterPanel$: Observable<boolean>;
@@ -89,7 +88,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.splitViewEmitter.subscribe(res => {
       switch (res) {
         case 'close':
-          this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, null, null, this.selectionField));
+          this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, null, null));
           break;
         default:
           break;
@@ -109,7 +108,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     });
 
     this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
-    this.baseEntity$ = this.store.select(fromReducer.getBaseEntity, this.pageViewId);
     this.filterableFields$ = this.store.select(fromReducer.getFilterableFields, this.pageViewId);
     this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
     this.savedViews$ = this.store.select(fromReducer.getSavedViews, this.pageViewId);
@@ -156,6 +154,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       }
     }
 
+    if (changes['selectionField']) {
+      this.store.dispatch(new fromActions.UpdateSelectionField(this.pageViewId, changes['selectionField'].currentValue));
+    }
+
     if (changes['inboundFilters']) {
       this.store.dispatch(new fromActions.UpdateInboundFilters(this.pageViewId, changes['inboundFilters'].currentValue));
     }
@@ -171,6 +173,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['applyDefaultFilters']) {
       this.store.dispatch(new fromActions.UpdateApplyDefaultFilters(this.pageViewId, changes['applyDefaultFilters'].currentValue));
     }
+
   }
 
   hasFilters(fields: ViewField[]): boolean {

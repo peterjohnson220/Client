@@ -289,15 +289,16 @@ export class PfDataGridEffects {
             this.store.pipe(select(fromPfDataGridReducer.getFields, exportGridAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSelectedKeys, exportGridAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, exportGridAction.pageViewId)),
-            (action: fromPfDataGridActions.ExportGrid, baseEntity, fields, selectedKeys, sortDescriptor) =>
-              ({ action, baseEntity, fields, selectedKeys, sortDescriptor })
+            this.store.pipe(select(fromPfDataGridReducer.getSelectionField, exportGridAction.pageViewId)),
+            (action: fromPfDataGridActions.ExportGrid, baseEntity, fields, selectedKeys, sortDescriptor, selectionField) =>
+              ({ action, baseEntity, fields, selectedKeys, sortDescriptor, selectionField })
           )
         )
       ),
       switchMap((data) => {
         const selectableFields = data.fields.filter(f => f.IsSelectable);
         const selectedFields = PfDataGridEffects.mapFieldsToDataViewFields(selectableFields, data.sortDescriptor);
-        const filters = PfDataGridEffects.getFiltersForExportView(data.fields, data.action.selectionField, data.selectedKeys);
+        const filters = PfDataGridEffects.getFiltersForExportView(data.fields, data.selectionField, data.selectedKeys);
         const dataView: DataView = {
           EntityId: data.baseEntity.Id,
           PageViewId: data.action.pageViewId,
