@@ -65,7 +65,7 @@ export class TicketListDateRangeFilterComponent extends BaseFilterCellComponent 
     if (this.innerValue.start !== '' && this.innerValue.end !== '') {
       this.innerValue = {start: '', end: ''};
       this.modifyFilter(null);
-      this.valueChange.emit();
+      this.valueChange.emit(this.filter);
     }
 
     this.innerValue = {start: '', end: ''};
@@ -77,7 +77,7 @@ export class TicketListDateRangeFilterComponent extends BaseFilterCellComponent 
       if (!isEqual(this.innerValue, this.previousValue)) {
         if (this.innerValue.start !== '' && this.innerValue.end !== '') {
           this.modifyFilter(this.innerValue);
-          this.valueChange.emit();
+          this.valueChange.emit(this.filter);
         }
       }
     }
