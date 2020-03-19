@@ -119,8 +119,7 @@ pf-statement-edit {
     }
     &.invalid {
       .ql-toolbar.ql-snow + .ql-container.ql-snow {
-        background-color: lighten(tomato, 10%);
-        border-color: tomato;
+        border-color: darken(tomato, 10%);
       }
     }
     .ql-toolbar.ql-snow + .ql-container.ql-snow {
