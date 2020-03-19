@@ -1,7 +1,7 @@
 <div class="d-flex flex-row header" (click)="toggleShowFields()">
   <div class="icon" [attr.data-qa-id]="'cnt-showFields'" title="Show Fields">
-    <fa-icon *ngIf="!showFields" icon="caret-right"></fa-icon>
-    <fa-icon *ngIf="showFields" icon="caret-down"></fa-icon>
+    <fa-icon [ngClass]="!showFields ? '' : 'hidden'" icon="caret-right"></fa-icon>
+    <fa-icon [ngClass]="showFields ? '' : 'hidden'" icon="caret-down"></fa-icon>
   </div>
   <input #selectAllCheckbox type="checkbox" class="k-checkbox select-all-checkbox"
     id="selectall-checkbox-{{columnGroup?.GroupIndex}}"

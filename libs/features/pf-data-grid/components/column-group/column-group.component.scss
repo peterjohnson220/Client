@@ -10,8 +10,20 @@
   }
 
   .icon {
+    position: relative;
     margin-top: 0.25rem;
     margin-right: 0.5rem;
+    padding-right: 0.5rem;
+    fa-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      visibility: visible;
+
+      &.hidden {
+        visibility: hidden;
+      }
+    }
   }
 
   .select-all-checkbox {
