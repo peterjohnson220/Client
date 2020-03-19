@@ -126,7 +126,7 @@
           font-size: 2.25rem;
           color: $comphub-header-blue;
 
-          ::ng-deep .currency {
+          .currency {
             color: $pf-additional-colors-green;
             font-size: 70%;
           }
