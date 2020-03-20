@@ -58,7 +58,7 @@
               <ng-container *ngSwitchCase="field.DataType === dataTypes.Date">
                 {{dataItem[field.KendoGridField] | date: 'MM/dd/yyyy'}}
               </ng-container>
-              <ng-container *ngSwitchCase="isNumericDataTypeAndHasFormat(field.DataType, field.Format)">
+              <ng-container *ngSwitchCase="!!field.Format && field.FormatType === formatTypes.Number">
                 {{dataItem[field.KendoGridField] | number: field.Format}}
               </ng-container>
               <ng-template ngSwitchDefault>

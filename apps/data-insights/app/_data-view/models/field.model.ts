@@ -1,3 +1,5 @@
+import { FieldFormatType } from 'libs/models/payfactors-api/reports';
+
 import { DataViewAccessLevel } from './user-data-view.model';
 
 export interface Field {
@@ -16,6 +18,7 @@ export interface Field {
   FormulaId?: number;
   FieldType: FieldType;
   Format?: string;
+  FormatType?: FieldFormatType;
   IsEditable?: boolean;
   Formula?: string;
   FormulaName?: string;

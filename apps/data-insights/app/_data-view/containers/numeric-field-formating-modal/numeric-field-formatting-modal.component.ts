@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { FieldFormatType } from 'libs/models/payfactors-api';
 
 @Component({
   selector: 'pf-numeric-field-formatting-modal',
@@ -42,6 +43,7 @@ export class NumericFieldFormattingModalComponent {
   save(): void {
     this.numberFormat = `1.${this.decimals}-${this.decimals}`;
     this.field.Format = this.numberFormat;
+    this.field.FormatType = FieldFormatType.Number;
     this.saveClicked.emit(this.field);
     this.decimals = 0;
     this.value = 0;
