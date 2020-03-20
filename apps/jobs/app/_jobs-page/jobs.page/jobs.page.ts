@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
@@ -29,8 +29,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredStructureGradeNameOptions: any;
   permissions = Permissions;
   pageViewId = PageViewIds.Jobs;
-  selectedJobIds: number[];
-  selectedPricingIds: number[];
+  selectedJobIds: number[] = [];
+  selectedPricingIds: number[] = [];
   selectedJobPayMarketCombos: string[];
 
   jobStatusField: ViewField;
@@ -97,7 +97,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     ValidExtensions: ['xlsx', 'pdf'],
     Custom: false
   }];
-  
+
   disableExportPopover = true;
   selectedJobPricingCount = 0;
 
@@ -335,13 +335,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editingJobId = null;
   }
 
-  exportPricings(exportRequest: any, extension: string) {
+  exportPricings(exportRequest: any) {
     const request = {
       CompanyJobIds: this.selectedJobIds,
       PricingIds: this.selectedPricingIds,
-      FileExtension: extension,
-      Endpoint: exportRequest.Endpoint,
-      Name: exportRequest.Name
+      FileExtension: exportRequest.Extension,
+      Endpoint: exportRequest.Options.Endpoint,
+      Name: exportRequest.Options.Name
     };
 
     this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
