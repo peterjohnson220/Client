@@ -224,7 +224,9 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     }
     case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION_SUCCESS: {
       const asyncStateObjClone = cloneDeep(state.jobDescriptionAsync);
-      asyncStateObjClone.obj = action.payload;
+      asyncStateObjClone.obj = cloneDeep(action.payload);
+      asyncStateObjClone.obj.Sections = cloneDeep(state.jobDescriptionAsync.obj.Sections);
+
       const recentChange = state.jobDescriptionAsync.obj;
       return {
         ...state,
