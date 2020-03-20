@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
+import { ExchangeJobSearchApiService} from 'libs/data/payfactors-api/search/peer/exchange-job-search-api.service';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
@@ -65,6 +66,28 @@ export class JobsCardEffects {
       ));
 
   @Effect()
+  getExchangeJobSearchOptions = this.actions$
+    .pipe(
+      ofType(fromJobsCardActions.GET_EXCHANGE_JOB_SEARCH_OPTIONS),
+      debounceTime(100),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveExchangeDataSet),
+        (action: fromJobsCardActions.GetExchangeJobSearchOptions, dataSet) => ({ action, dataSet })
+      ),
+      switchMap((data) => {
+        return this.exchangeJobSearchApiService.getJobSearchAutocompleteResults({
+          Prefix: data.action.payload,
+          ExchangeId: data.dataSet.ExchangeId
+        }).pipe(
+          map(response => {
+            return new fromJobsCardActions.GetExchangeJobSearchOptionsSuccess(response);
+          }),
+          catchError((error) => of(new fromJobsCardActions.GetExchangeJobSearchOptionsError(),
+            new fromComphubPageActions.HandleApiError(error)))
+        );
+      })
+    );
+  @Effect()
   setSelectedJob$ = this.actions$
     .pipe(
       ofType(fromJobsCardActions.SET_SELECTED_JOB),
@@ -110,7 +133,8 @@ export class JobsCardEffects {
     private actions$: Actions,
     private store: Store<fromComphubReducer.State>,
     private comphubApiService: ComphubApiService,
-    private jobSearchApiService: JobSearchApiService
+    private jobSearchApiService: JobSearchApiService,
+    private exchangeJobSearchApiService: ExchangeJobSearchApiService
   ) {
   }
 }

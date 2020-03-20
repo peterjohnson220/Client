@@ -7,7 +7,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { AccordionCard, ComphubPages } from '../../../data';
-import { CountryDataSet, JobData, PricingPaymarket, WorkflowContext } from '../../../models';
+import { CountryDataSet, JobData, PricingPaymarket, WorkflowContext, ExchangeDataSet } from '../../../models';
 
 @Component({
   selector: 'pf-comphub-page',
@@ -33,6 +33,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   enabledPages$: Observable<ComphubPages[]>;
   accessedPages$: Observable<ComphubPages[]>;
   activeCountryDataSet$: Observable<CountryDataSet>;
+  activeExchangeDataSet$: Observable<ExchangeDataSet>;
 
   private enabledPagesSub: Subscription;
   private cardsSub: Subscription;
@@ -42,7 +43,8 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     selectedPageId: ComphubPages.Jobs,
     selectedPageIdDelayed: ComphubPages.Jobs,
     selectedPageIndex: 0,
-    activeCountryDataSet: null
+    activeCountryDataSet: null,
+    activeExchangeDataSet: null
   };
 
   private readonly cardHeaderWidth = 60;
@@ -59,6 +61,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.enabledPages$ = this.store.select(fromComphubMainReducer.getEnabledPages);
     this.accessedPages$ = this.store.select(fromComphubMainReducer.getPagesAccessed);
     this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
+    this.activeExchangeDataSet$ = this.store.select(fromComphubMainReducer.getActiveExchangeDataSet);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -83,20 +86,23 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.workflowContextSub = combineLatest(
       this.selectedPageId$,
       this.selectedPageIdDelayed$,
-      this.activeCountryDataSet$
+      this.activeCountryDataSet$,
+      this.activeExchangeDataSet$
     ).pipe(
-      map(([selectedPageId, selectedPageIdDelayed, activeCountryDataSet]) => {
+      map(([selectedPageId, selectedPageIdDelayed, activeCountryDataSet, activeExchangeDataSet]) => {
         return {
           selectedPageId,
           selectedPageIdDelayed,
           selectedPageIndex: this.cards.findIndex(c => c.Id === selectedPageId),
-          activeCountryDataSet
+          activeCountryDataSet,
+          activeExchangeDataSet
         };
       })
     ).subscribe((wc) => this.workflowContext = wc);
 
     this.store.dispatch(new fromComphubPageActions.Init());
     this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
+    this.store.dispatch(new fromComphubPageActions.GetExchangeDataSets());
   }
 
   ngOnDestroy() {

@@ -1,17 +1,17 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockUserContext } from 'libs/models/security';
 
 import { JobsCardComponent } from './jobs.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
 import * as fromCompHubPageActions from '../../../actions/comphub-page.actions';
 import { generateMockWorkflowContext } from '../../../models';
-
 
 describe('Comphub - Main - Jobs Card Component', () => {
   let instance: JobsCardComponent;
@@ -84,8 +84,9 @@ describe('Comphub - Main - Jobs Card Component', () => {
 
   it('should dispatch an action to get the job search options with the search term, when there is a non empty search term', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromJobsCardActions.GetJobSearchOptions('Accountant');
 
+    const expectedAction = new fromJobsCardActions.GetJobSearchOptions('Accountant');
+    instance.userContext = generateMockUserContext();
     instance.handleJobSearchFilterChange('Accountant');
 
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
@@ -93,6 +94,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
 
   it('should NOT dispatch an action to get the job search options, when there is an empty search term', () => {
     spyOn(store, 'dispatch');
+    instance.userContext = generateMockUserContext();
 
     instance.handleJobSearchFilterChange('');
 

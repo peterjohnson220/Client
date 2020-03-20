@@ -3,8 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { AccordionCard, AccordionCards, ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo } from '../models';
-
+import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet } from '../models';
 
 export interface State {
   cards: AccordionCard[];
@@ -14,6 +13,8 @@ export interface State {
   jobPricingLimitInfo: JobPricingLimitInfo;
   countryDataSetLoaded: boolean;
   countryDataSets: CountryDataSet[];
+  exchangeDataSets: ExchangeDataSet[];
+  exchangeDataSetLoaded: boolean;
 }
 
 const initialState: State = {
@@ -23,7 +24,9 @@ const initialState: State = {
   accessiblePages: [ComphubPages.Jobs],
   jobPricingLimitInfo: null,
   countryDataSetLoaded: false,
-  countryDataSets: []
+  countryDataSets: [],
+  exchangeDataSets: [],
+  exchangeDataSetLoaded: false
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -97,12 +100,30 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         countryDataSets: action.payload
       };
     }
+    case fromComphubPageActions.GET_EXCHANGE_DATA_SETS_SUCCESS: {
+      return {
+        ...state,
+        exchangeDataSetLoaded: true,
+        exchangeDataSets: action.payload
+      };
+    }
+
     case fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET: {
       return {
         ...state,
         countryDataSets: cloneDeep(state.countryDataSets).map(cds => {
           cds.Active = cds.CountryCode === action.payload;
           return cds;
+        })
+      };
+    }
+
+    case fromComphubPageActions.UPDATE_ACTIVE_EXCHANGE_DATA_SET: {
+      return {
+        ...state,
+        exchangeDataSets: cloneDeep(state.exchangeDataSets).map(eds => {
+          eds.Active = eds.ExchangeId === action.payload;
+          return eds;
         })
       };
     }
@@ -121,7 +142,9 @@ export const getEnabledPages = (state: State) => {
 export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInfo;
 export const getCountryDataSetsLoaded = (state: State) => state.countryDataSetLoaded;
 export const getCountryDataSets = (state: State) => state.countryDataSets;
+export const getExchangeDataSets = (state: State) => state.exchangeDataSets;
 export const getActiveCountryDataSet = (state: State) => state.countryDataSets.find(cds => cds.Active);
+export const getActiveExchangeDataSet = (state: State) => state.exchangeDataSets.find(eds => eds.Active);
 export const getJobPricingBlocked = createSelector(
   getJobPricingLimitInfo,
   getActiveCountryDataSet,
