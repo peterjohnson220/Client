@@ -4,13 +4,15 @@
       <div class="filters-container">
         <div class="filters-action-bar d-flex justify-content-end">
           <fa-icon icon="minus" class="filter-icons mr-2" data-qa-id="btn-toggleEditMode" (click)="toggleEditMode()"></fa-icon>
-          <fa-icon icon="times" id="delete-filter" class="filter-icons" data-qa-id="btn-deleteFilter" (click)="handleDeleteFilter(filter)"></fa-icon>
+          <fa-icon *ngIf="!filter.IsLocked" icon="times" id="delete-filter" class="filter-icons" data-qa-id="btn-deleteFilter" (click)="handleDeleteFilter()"></fa-icon>
+          <fa-icon *ngIf="filter.IsLocked" icon="lock-alt" class="filter-icons" data-qa-id="btn-lockedFilter"></fa-icon>
         </div>
       </div>
 
       <kendo-dropdownlist class="dropdown-list w-100"
                           [attr.data-qa-id]="'ddm-filter-fields'"
                           [data]="fields"
+                          [disabled]="filter.IsLocked"
                           [ngModel]="filter.Field"
                           [textField]="'DisplayName'"
                           [valueField]="'KendoGridField'"
@@ -55,6 +57,7 @@
       <ng-container *ngIf="filter.Field?.DataType === fieldDataType.Date">
         <pf-date-range-filter
           [selectedOperator]="filter.Operator"
+          [locked]="filter.IsLocked"
           [startDate]="filter?.SelectedOptions?.length > 0 ? filter.SelectedOptions[0] : null"
           [endDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[1] : null"
           (selectedOptionsChanged)="handleSelectedOptionsChange($event)"
@@ -84,8 +87,8 @@
 
     <ng-template #displayMode>
       <div class="d-flex justify-content-between display-mode" (click)="toggleEditMode()">
-        <div class="filter-display-name" [title]="selectedField?.DisplayName">
-          {{selectedField?.DisplayName}}
+        <div class="filter-display-name" [title]="filter.Field?.DisplayName">
+          {{filter.Field?.DisplayName}}
         </div>
         <div class="filter-options">
           <span class="badge badge-info"> {{selectedOptionsCount}}</span>

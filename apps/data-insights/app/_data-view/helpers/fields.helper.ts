@@ -79,10 +79,10 @@ export class FieldsHelper {
   static removeFiltersMatchingField(filters: Filter[], field: Field): Filter[] {
     switch (field.FieldType) {
       case FieldType.DataElement: {
-        return filters.filter(x => x.Field.DataElementId !== field.DataElementId);
+        return filters.filter(x => x.IsLocked || x.Field.DataElementId !== field.DataElementId);
       }
       case FieldType.Formula: {
-        return filters.filter(x => x.Field.FormulaId !== field.FormulaId);
+        return filters.filter(x => x.IsLocked || x.Field.FormulaId !== field.FormulaId);
       }
       default: {
         return filters;

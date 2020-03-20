@@ -85,10 +85,6 @@ export class FilterCardComponent implements OnInit {
     );
   }
 
-  public get selectedField(): Field {
-    return FieldsHelper.findField(this.fields, this.filter.Field);
-  }
-
   private builGetFilterOptionsData(query: string): void {
     this.getFilterOptionsData = {
       FilterIndex: this.filterIndex,

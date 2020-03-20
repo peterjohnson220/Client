@@ -15,6 +15,7 @@ import { faPlus } from '@fortawesome/pro-solid-svg-icons/faPlus';
 import { faMinus } from '@fortawesome/pro-solid-svg-icons/faMinus';
 import { faPencil } from '@fortawesome/pro-solid-svg-icons/faPencil';
 import { faGlobe } from '@fortawesome/pro-solid-svg-icons/faGlobe';
+import { faLockAlt } from '@fortawesome/pro-solid-svg-icons/faLockAlt';
 
 // Light
 import { faUsers } from '@fortawesome/pro-light-svg-icons/faUsers';
@@ -23,5 +24,5 @@ import { faFileSpreadsheet } from '@fortawesome/pro-light-svg-icons/faFileSpread
 export const faIcons = [
   faTimesCircle, faCheckCircle, faCircleNotch, faExclamationCircle, faEdit, faClone, faFileExcel, faShare,
   faTrashAlt, faTimes, faChevronDoubleRight, faChevronDoubleLeft, faPlus, faMinus, faPencil, faUsers,
-  faFileSpreadsheet, faGlobe
+  faFileSpreadsheet, faGlobe, faLockAlt
 ];
