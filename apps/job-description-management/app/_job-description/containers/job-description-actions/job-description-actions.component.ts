@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -22,7 +22,6 @@ import { JobDescriptionHelper } from '../../helpers';
   styleUrls: ['./job-description-actions.component.scss']
 })
 export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
-  @Input() hasFilteredView: boolean;
   @Output() undoClicked = new EventEmitter();
   @Output() publishClicked = new EventEmitter();
   @Output() routeForApprovalClicked = new EventEmitter();
@@ -67,6 +66,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobDescriptionViews: string[];
   identity: UserContext;
   inWorkflow: boolean;
+  isFilteredView: boolean;
   isFirstRecipient: boolean;
   undoQueueAvailable: boolean;
   containsFLSA: boolean;
@@ -141,6 +141,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
         this.enableLibraryForRoutedJobDescriptions = company.obj.EnableLibraryForRoutedJobDescriptions;
       }
     });
+    this.isFilteredView = this.viewName !== 'Default';
   }
 
   ngOnDestroy(): void {
@@ -163,6 +164,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
 
   handleViewChanged(viewName: string): void {
     this.viewName = viewName || 'Default';
+    this.isFilteredView = this.viewName !== 'Default';
 
     if (this.inHistory) {
       this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
