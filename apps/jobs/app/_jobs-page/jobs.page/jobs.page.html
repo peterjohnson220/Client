@@ -21,7 +21,7 @@
 <ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
 
   <div class="d-flex">
-    <div>{{dataRow['CompanyJobs_Job_Title']}}</div>
+    <div class="ellipsis-overflowing-text">{{dataRow['CompanyJobs_Job_Title']}}</div>
     <div
       *ngIf="!(selectedRecordId$ | async)"
       [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"

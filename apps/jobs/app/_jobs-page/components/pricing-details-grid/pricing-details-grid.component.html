@@ -26,7 +26,6 @@
 
 <ng-template #payMarketColumn let-dataRow="dataRow">
   <b>{{dataRow['CompanyPayMarkets_PayMarket']}}</b>
-
   <span placement="right" *ngIf="dataRow['CompanyPayMarkets_Linked_PayMarket_Name']" data-html="true"
         ngbTooltip="This pay market is linked to {{dataRow['CompanyPayMarkets_Linked_PayMarket_Name']}}.">
     <fa-icon class="pl-2" icon="link">
@@ -46,42 +45,47 @@
 </ng-template>
 
 <ng-template #baseMrpColumn let-dataRow="dataRow">
-  <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
-  <small *ngIf="dataRow['CompanyJobs_Pricings_BaseMRP']">
-    <em class="text-muted">
-      ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
-    </em>
-  </small>
+  <div class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+    <small *ngIf="dataRow['CompanyJobs_Pricings_BaseMRP']">
+      <em class="text-muted">
+        ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
+      </em>
+    </small>
+  </div>  
 </ng-template>
 
 <ng-template #baseTccColumn let-dataRow="dataRow">
-  <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
-  <small *ngIf="dataRow['CompanyJobs_Pricings_TCCMRP']">
-    <em class="text-muted">
-      ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
-    </em>
-  </small>
+  <div class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+    <small *ngIf="dataRow['CompanyJobs_Pricings_TCCMRP']">
+      <em class="text-muted">
+        ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
+      </em>
+    </small>
+  </div>  
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+  <div class=ellipsis-overflowing-text>
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+  </div>
 </ng-template>
 
 <ng-template #pricedDataPayMarketFilter>
-      <kendo-dropdownlist
-        style="width: 250px"
-      [(ngModel)]="pricedDataSelectedPayMarket"
-      [textField]="'Value'"
-      [valueField]="'Id'"
-      [defaultItem]="{Value:'All Pay Markets', Id: null}"
-      [data]="pricedDataFilteredPayMarketOptions"
-      (valueChange)="handlePayMarketFilterChanged($event)"
-      [filterable]="true"
-      (filterChange)="handleFilter($event)"
-      [attr.data-qa-id]="'ddm-operator-'+pricedDataPayMarketField.SourceName"
-      class="k-dropdown-white form-control"
-    >
-    </kendo-dropdownlist>
+  <kendo-dropdownlist
+    style="width: 250px"
+    [(ngModel)]="pricedDataSelectedPayMarket"
+    [textField]="'Value'"
+    [valueField]="'Id'"
+    [defaultItem]="{Value:'All Pay Markets', Id: null}"
+    [data]="pricedDataFilteredPayMarketOptions"
+    (valueChange)="handlePayMarketFilterChanged($event)"
+    [filterable]="true"
+    (filterChange)="handleFilter($event)"
+    [attr.data-qa-id]="'ddm-operator-'+pricedDataPayMarketField.SourceName"
+    class="k-dropdown-white form-control">
+</kendo-dropdownlist>
 </ng-template>
 
 <ng-template #changeView>

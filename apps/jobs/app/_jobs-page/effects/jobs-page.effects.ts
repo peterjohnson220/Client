@@ -35,7 +35,6 @@ export class JobsPageEffects {
 
   constructor(
     private actions$: Actions,
-    private companyApiService: CompanyApiService,
     private companyJobApiService: CompanyJobApiService,
     private jobsApiService: JobsApiService,
     private pricingApiService: PricingApiService,
