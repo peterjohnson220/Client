@@ -105,7 +105,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
         appliesToField: appliesTo.AppliesToField ? appliesTo.AppliesToField : '',
         appliesToValue: appliesTo.AppliesToValue ? appliesTo.AppliesToValue : '',
         jobDescriptionTitle: appliesTo.JobDescriptionTitle ? appliesTo.JobDescriptionTitle : '',
-        publicView: appliesTo.PublicView
+        publicView: appliesTo.PublicView == null ? true : appliesTo.PublicView
       });
     } else {
       this.appliesToform.setValue({
