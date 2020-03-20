@@ -4,3 +4,9 @@ export const dateFormatCasing = {
   'M/D/YYYY': 'M/d/yyyy',
   'DD/MM/YYYY' : 'dd/MM/yyyy'
 };
+
+export const formatTypeMapping = {
+  'int': 'number',
+  'float': 'number',
+  'dateTime': 'date'
+};

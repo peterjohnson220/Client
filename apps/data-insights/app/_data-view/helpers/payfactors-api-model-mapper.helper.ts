@@ -14,7 +14,7 @@ import {
   UserDataViewResponse
 } from 'libs/models/payfactors-api';
 
-import { Field, FieldDataType, FieldType, Filter, GetFilterOptionsData, SharedDataViewUser, UserDataView } from '../models';
+import { Field, FieldDataType, FieldType, Filter, GetFilterOptionsData, SharedDataViewUser, UserDataView, FieldCreator } from '../models';
 import { FilterOperatorHelper } from './filter-operator.helper';
 import { Entity } from '../../_shared/models';
 
@@ -59,15 +59,16 @@ export class PayfactorsApiModelMapper {
       DataElementOrder: dataViewField.DataElementOrder,
       FormulaId: dataViewField.FormulaId,
       FieldType: this.mapDataViewFieldTypeToFieldType(dataViewField.FieldType),
-      Format: dataViewField.Format,
-      FormatType: dataViewField.FormatType,
       IsEditable: dataViewField.AccessLevel === DataViewAccessLevel.Owner || dataViewField.AccessLevel === DataViewAccessLevel.Edit,
       Formula: dataViewField.Formula,
       FormulaName: dataViewField.FormulaName,
       SortDirection: dataViewField.SortDirection,
       SortOrder: dataViewField.SortOrder,
       IsPublic: dataViewField.IsPublic,
-      AccessLevel: dataViewField.AccessLevel
+      AccessLevel: dataViewField.AccessLevel,
+      FieldFormat: FieldCreator.generateFieldFormatProperty(dataViewField),
+      Is: FieldCreator.generateIsProperty(dataViewField),
+      KendoGridConfig: FieldCreator.generateKendoGridConfigProperty(dataViewField)
     };
   }
 
@@ -129,7 +130,7 @@ export class PayfactorsApiModelMapper {
       IsSortable: field.IsSortable,
       FormulaId: field.FormulaId,
       FieldType: this.mapFieldTypeToDataViewFieldType(field.FieldType),
-      Format: field.Format,
+      Format: field.FieldFormat && field.FieldFormat.Value ? field.FieldFormat.Value : null,
       SortDirection: field.SortDirection,
       SortOrder: field.SortOrder,
       IsPublic: field.IsPublic,

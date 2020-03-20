@@ -98,7 +98,7 @@ export class FieldsHelper {
         UserFormulasId: f.FormulaId,
         Order: index + 1,
         DisplayName: f.DisplayName,
-        Format: !!f.Format ? f.FormatType + ':' + f.Format : f.Format,
+        Format: f.FieldFormat && f.FieldFormat.Value ? f.FieldFormat.Value : null,
         SortDirection: f.SortDirection,
         SortOrder: f.SortOrder
       };

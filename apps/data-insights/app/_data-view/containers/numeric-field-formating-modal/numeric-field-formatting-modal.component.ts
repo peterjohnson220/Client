@@ -17,40 +17,38 @@ export class NumericFieldFormattingModalComponent {
 
   field: Field;
   decimals: number;
-  numberFormat: string;
-  value: number;
+  selectedFormatType: FieldFormatType;
+  formatTypes = FieldFormatType;
 
   constructor(
     private modalService: NgbModal
   ) { }
 
-  open(field, format): void {
+  open(field: Field): void {
     this.modalService.open(this.numericFieldFormatModal, {backdrop: 'static', centered: true});
     this.field = cloneDeep(field);
-    if (!!format) {
-      const parsedFormat = format.charAt(2);
+    this.selectedFormatType = FieldFormatType.Number;
+    this.decimals = 0;
+    if (!!this.field.FieldFormat.Format) {
+      const parsedFormat = this.field.FieldFormat.Format.charAt(2);
       this.decimals = parseInt(parsedFormat, 0);
-      this.value = this.decimals;
+      this.selectedFormatType = this.field.FieldFormat.Type;
     }
   }
 
   close(): void {
     this.decimals = 0;
-    this.value = 0;
     this.modalService.dismissAll();
   }
 
   save(): void {
-    this.numberFormat = `1.${this.decimals}-${this.decimals}`;
-    this.field.Format = this.numberFormat;
-    this.field.FormatType = FieldFormatType.Number;
+    const digitsInfo = `1.${this.decimals}-${this.decimals}`;
+    this.field.FieldFormat = {
+      Value: `${this.selectedFormatType}:${digitsInfo}`,
+      Type: this.selectedFormatType,
+      Format: digitsInfo
+    };
     this.saveClicked.emit(this.field);
-    this.decimals = 0;
-    this.value = 0;
-    this.modalService.dismissAll();
-  }
-
-  handleNumericValueChange(value: number) {
-    this.decimals = value;
+    this.close();
   }
 }

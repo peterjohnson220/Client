@@ -104,7 +104,7 @@ describe('Data Insights - Data View Grid', () => {
 
   it('should open number format modal when handleFieldFormatModalClicked with number data type', () => {
     const field = generateMockField();
-    field.DataType = FieldDataType.Int;
+    field.Is.Numeric = true;
     spyOn(instance.numericFieldFormattingModalComponent, 'open');
 
     instance.handleFieldFormatModalClicked(field);
@@ -114,7 +114,7 @@ describe('Data Insights - Data View Grid', () => {
 
   it('should open date format modal when handleFieldFormatModalClicked with date data type', () => {
     const field = generateMockField();
-    field.DataType = FieldDataType.Date;
+    field.Is.Date = true;
     spyOn(instance.dateFieldFormattingModalComponent, 'open');
 
     instance.handleFieldFormatModalClicked(field);
@@ -124,7 +124,7 @@ describe('Data Insights - Data View Grid', () => {
 
   it('should dispatch SetFormatOnSelectedField for number format modal or date format modal when handleSaveClicked', () => {
     const field = generateMockField();
-    const expectedAction = new fromFieldsActions.SetFormatOnSelectedField({field: field, format: field.Format});
+    const expectedAction = new fromFieldsActions.SetFormatOnSelectedField(field);
     spyOn(store, 'dispatch');
 
     instance.handleSaveClicked(field);
@@ -134,7 +134,7 @@ describe('Data Insights - Data View Grid', () => {
 
   it('should dispatch SetFormatOnSelectedField for number format modal or date format modal when handleClearFormatClicked', () => {
     const field = generateMockField();
-    const expectedAction = new fromFieldsActions.SetFormatOnSelectedField({field: field, format: null});
+    const expectedAction = new fromFieldsActions.ClearFormating(field);
     spyOn(store, 'dispatch');
 
     instance.handleClearFormatClicked(field);
