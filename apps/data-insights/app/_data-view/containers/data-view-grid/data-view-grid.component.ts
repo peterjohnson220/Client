@@ -5,6 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { FieldFormatType } from 'libs/models/payfactors-api/reports';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromFieldsActions from '../../actions/fields.actions';
@@ -48,6 +49,7 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   dataTypes = FieldDataType;
   formulaFieldModalObj: FormulaFieldModalObj;
   dataViewAccessLevel: DataViewAccessLevel;
+  formatTypes = FieldFormatType;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>

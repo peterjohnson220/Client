@@ -60,6 +60,7 @@ export class PayfactorsApiModelMapper {
       FormulaId: dataViewField.FormulaId,
       FieldType: this.mapDataViewFieldTypeToFieldType(dataViewField.FieldType),
       Format: dataViewField.Format,
+      FormatType: dataViewField.FormatType,
       IsEditable: dataViewField.AccessLevel === DataViewAccessLevel.Owner || dataViewField.AccessLevel === DataViewAccessLevel.Edit,
       Formula: dataViewField.Formula,
       FormulaName: dataViewField.FormulaName,
