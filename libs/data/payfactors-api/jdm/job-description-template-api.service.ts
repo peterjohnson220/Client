@@ -47,6 +47,10 @@ export class JobDescriptionTemplateApiService {
       {templateJsonAsString: JSON.stringify(template)});
   }
 
+  publishAsync(templateId: number, templateName: string): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${templateId})/Default.PublishAsync`, { templateName: templateName});
+  }
+
   saveCompanyJobsJobDescriptionTemplateId(templateId: number, request: SaveCompanyJobsJobDescriptionTemplateIdRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}(${templateId})/Default.SaveCompanyJobsJobDescriptionTemplateId`,
       request);
