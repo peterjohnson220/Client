@@ -7,12 +7,14 @@
     ></pf-inline-string-editor>
   </h4>
   <div pfClickElsewhere (clickElsewhere)="onClickElsewhere()">
-    <quill-editor 
-      #richText
-      [(ngModel)]="htmlContent"
-      [modules]="quillConfig" 
-      (onContentChanged)="onContentChanged($event)"
-      (onSelectionChanged)="onSelectionChanged($event)">
-    </quill-editor>
+    <a (click)="onClickEditor()">
+      <quill-editor 
+        #richText
+        [(ngModel)]="htmlContent"
+        [modules]="quillConfig" 
+        (onContentChanged)="onContentChanged($event)"
+        (onSelectionChanged)="onSelectionChanged($event)">
+      </quill-editor>
+    </a>
   </div>
 </div>

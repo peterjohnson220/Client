@@ -99,20 +99,15 @@ export class TrsRichTextControlComponent implements OnInit {
     }
   }
 
-  onClickElsewhere() {
-    try {
-      // get a handle to whatever text is highlighted in the page, then find it's parent
-      const selectedText: Selection = window.getSelection();
-      const highlightedTextNodesParent = selectedText.anchorNode.parentElement;
-
-      // need to prevent a bug where click, drag/select text then releasing the mouse outside the editor hides the editor ribbon, so bail if that's the case
-      if (!this.richTextNode.contains(highlightedTextNodesParent)) {
-        this.isFocused = false;
-      }
-    } catch {
-      // getSelection will have a null anchorNode if clicked in iFrame, and should default to last clicked if no selection, so just unset focus in iFrame case
-      this.isFocused = false;
+  onClickEditor() {
+    // most of the time this is redundant and called after onSelectionChanged, but useful for svg clicks which don't null out `oldRange`
+    if (!this.isFocused) {
+      this.isFocused = true;
     }
+  }
+
+  onClickElsewhere() {
+    this.isFocused = false;
   }
 
 }
