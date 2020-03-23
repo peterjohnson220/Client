@@ -11,8 +11,9 @@ import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataViewMainReducer from '../../reducers';
 import { DataViewGridComponent } from './data-view-grid.component';
-import { generateMockField } from '../../models';
+import { FieldDataType, generateMockField } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
+import { DateFieldFormattingModalComponent } from '../date-field-formatting-modal';
 
 describe('Data Insights - Data View Grid', () => {
   let fixture: ComponentFixture<DataViewGridComponent>;
@@ -28,7 +29,7 @@ describe('Data Insights - Data View Grid', () => {
           dataView_main: combineReducers(fromDataViewMainReducer.reducers)
         })
       ],
-      declarations: [ DataViewGridComponent, NumericFieldFormattingModalComponent ],
+      declarations: [ DataViewGridComponent, NumericFieldFormattingModalComponent, DateFieldFormattingModalComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
         {
@@ -101,18 +102,29 @@ describe('Data Insights - Data View Grid', () => {
     expect(store.dispatch).toHaveBeenCalledWith(sortFieldAction);
   });
 
-  it('should open number format modal when handleNumberFormatModalClicked', () => {
+  it('should open number format modal when handleFieldFormatModalClicked with number data type', () => {
     const field = generateMockField();
+    field.DataType = FieldDataType.Int;
     spyOn(instance.numericFieldFormattingModalComponent, 'open');
 
-    instance.handleNumberFormatModalClicked(field);
+    instance.handleFieldFormatModalClicked(field);
 
     expect(instance.numericFieldFormattingModalComponent.open).toHaveBeenCalled();
   });
 
-  it('should dispatch SetNumberFormatOnSelectedField number format modal when handleSaveClicked', () => {
+  it('should open date format modal when handleFieldFormatModalClicked with date data type', () => {
     const field = generateMockField();
-    const expectedAction = new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: field.Format});
+    field.DataType = FieldDataType.Date;
+    spyOn(instance.dateFieldFormattingModalComponent, 'open');
+
+    instance.handleFieldFormatModalClicked(field);
+
+    expect(instance.dateFieldFormattingModalComponent.open).toHaveBeenCalled();
+  });
+
+  it('should dispatch SetFormatOnSelectedField for number format modal or date format modal when handleSaveClicked', () => {
+    const field = generateMockField();
+    const expectedAction = new fromFieldsActions.SetFormatOnSelectedField({field: field, format: field.Format});
     spyOn(store, 'dispatch');
 
     instance.handleSaveClicked(field);
@@ -120,9 +132,9 @@ describe('Data Insights - Data View Grid', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch SetNumberFormatOnSelectedField number format modal when handleClearFormatClicked', () => {
+  it('should dispatch SetFormatOnSelectedField for number format modal or date format modal when handleClearFormatClicked', () => {
     const field = generateMockField();
-    const expectedAction = new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: null});
+    const expectedAction = new fromFieldsActions.SetFormatOnSelectedField({field: field, format: null});
     spyOn(store, 'dispatch');
 
     instance.handleClearFormatClicked(field);

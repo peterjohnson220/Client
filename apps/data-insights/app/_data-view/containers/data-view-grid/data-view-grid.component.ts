@@ -13,6 +13,7 @@ import * as fromDataInsightsMainReducer from '../../reducers';
 import { Field, FieldDataType, FieldType, UserDataView, DataViewAccessLevel, FormulaFieldModalObj, Suggestion } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 import { FormulaFieldModalComponent } from '../formula-field-modal';
+import { DateFieldFormattingModalComponent } from '../date-field-formatting-modal';
 
 @Component({
   selector: 'pf-data-view-grid',
@@ -21,6 +22,7 @@ import { FormulaFieldModalComponent } from '../formula-field-modal';
 })
 export class DataViewGridComponent implements OnInit, OnDestroy {
   @ViewChild('numericFieldFormattingModal', { static: true }) public numericFieldFormattingModalComponent: NumericFieldFormattingModalComponent;
+  @ViewChild('dateFieldFormattingModal', { static: true }) public dateFieldFormattingModalComponent: DateFieldFormattingModalComponent;
   @ViewChild(FormulaFieldModalComponent, { static: true }) public formulaFieldModal: FormulaFieldModalComponent;
 
   fields$: Observable<Field[]>;
@@ -120,25 +122,34 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
       fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float);
   }
 
+  isDateDataType(fieldDataType: FieldDataType): boolean {
+    return !!fieldDataType && (
+      fieldDataType === FieldDataType.Date);
+  }
+
   isNumericDataTypeAndHasFormat(fieldDataType: FieldDataType, hasFormat: string): boolean {
     return !!fieldDataType && (
       fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float) && !!hasFormat;
   }
 
-  handleNumberFormatModalClicked(field: Field, format?: string): void {
-    this.numericFieldFormattingModalComponent.open(field, format);
+  handleFieldFormatModalClicked(field: Field, format?: string, ): void {
+    if (this.isNumericDataType(field.DataType)) {
+      this.numericFieldFormattingModalComponent.open(field, format);
+    } else {
+      this.dateFieldFormattingModalComponent.open(field, format);
+    }
   }
 
   handleSaveClicked(field: Field): void {
-    this.store.dispatch(new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: field.Format}));
+    this.store.dispatch(new fromFieldsActions.SetFormatOnSelectedField({field: field, format: field.Format}));
   }
 
   handleClearFormatClicked(field: Field): void {
-    this.store.dispatch(new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: null}));
+    this.store.dispatch(new fromFieldsActions.SetFormatOnSelectedField({field: field, format: null}));
   }
 
   columnMenuEnabled(field: Field): boolean {
-    return this.isNumericDataType(field.DataType) || this.isFormulaField(field);
+    return this.isNumericDataType(field.DataType) || this.isFormulaField(field) || this.isDateDataType(field.DataType);
   }
 
   isFormulaField(field: Field): boolean {

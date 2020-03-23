@@ -25,10 +25,10 @@
                          width="150">
 
         <ng-template kendoGridColumnMenuTemplate let-service="service">
-          <ng-container *ngIf="isNumericDataType(field.DataType)">
-            <span class="highlight-format-action" *ngIf="!field.Format" (click)="handleNumberFormatModalClicked(field)">Field Formatting</span>
+          <ng-container *ngIf="isNumericDataType(field.DataType) || isDateDataType(field.DataType)">
+            <span class="highlight-format-action" *ngIf="!field.Format" (click)="handleFieldFormatModalClicked(field)">Field Formatting</span>
             <ng-container *ngIf="field.Format">
-              <span class="highlight-format-action" (click)="handleNumberFormatModalClicked(field, field.Format)">Edit Formatting</span>
+              <span class="highlight-format-action" (click)="handleFieldFormatModalClicked(field, field.Format)">Edit Formatting</span>
               <span class="highlight-format-action" (click)="handleClearFormatClicked(field)">Clear Formatting</span>
             </ng-container>
           </ng-container>
@@ -56,7 +56,7 @@
           <div [class.text-align-right]="isNumericDataType(field.DataType)">
             <span [ngSwitch]="true" *ngIf="dataItem[field.KendoGridField] !== null;else blankCellTemplate">
               <ng-container *ngSwitchCase="field.DataType === dataTypes.Date">
-                {{dataItem[field.KendoGridField] | date: 'MM/dd/yyyy'}}
+                {{dataItem[field.KendoGridField] | date: !!field.Format ? field.Format: 'MM/dd/yyyy'}}
               </ng-container>
               <ng-container *ngSwitchCase="!!field.Format && field.FormatType === formatTypes.Number">
                 {{dataItem[field.KendoGridField] | number: field.Format}}
@@ -100,6 +100,11 @@
   #numericFieldFormattingModal
   (saveClicked)="handleSaveClicked($event)">
 </pf-numeric-field-formatting-modal>
+
+<pf-date-field-formatting-modal
+  #dateFieldFormattingModal
+  (saveClicked)="handleSaveClicked($event)">
+</pf-date-field-formatting-modal>
 
 <pf-formula-field-modal
   #editFormulaModal
