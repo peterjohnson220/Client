@@ -7,7 +7,7 @@
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.template"
   [ngTemplateOutlet]="columnTemplates[field.SourceName].Template"
-  [ngTemplateOutletContext]="{dataRow:dataItem, rowIndex: rowIndex}">
+  [ngTemplateOutletContext]="{dataRow:dataItem, rowIndex: rowIndex, fieldName: fieldName}">
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.default">
   <div class="ellipsis-overflowing-text">{{dataItem[fieldName]}}</div>  
