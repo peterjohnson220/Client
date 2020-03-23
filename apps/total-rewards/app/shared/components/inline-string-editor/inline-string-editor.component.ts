@@ -49,7 +49,7 @@ export class InlineStringEditorComponent implements OnDestroy, OnInit {
 
   enableEditState(): void {
     this.isInEditState = true;
-    this.textBox.nativeElement.focus();
+    setTimeout(() => this.textBox.nativeElement.focus(), 0);
   }
 
   disableEditState(): void {

@@ -165,9 +165,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                   
                   
                   <div>
-                    <pf-trs-calculation-control
-                      class="p-1"
-                    />
+                    <pf-trs-calculation-control />
                   </div>
                   
                   
@@ -181,9 +179,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                   
                   
                   <div>
-                    <pf-trs-calculation-control
-                      class="p-1"
-                    />
+                    <pf-trs-calculation-control />
                   </div>
                   
                   
@@ -197,9 +193,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                   
                   
                   <div>
-                    <pf-trs-calculation-control
-                      class="p-1"
-                    />
+                    <pf-trs-calculation-control />
                   </div>
                   
                   
@@ -213,9 +207,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                   
                   
                   <div>
-                    <pf-trs-calculation-control
-                      class="p-1"
-                    />
+                    <pf-trs-calculation-control />
                   </div>
                   
                   

@@ -44,10 +44,12 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
     {
       name: 'Employee 2',
       compensationData: [
-        { value: 40, category: 'Base' },
-        { value: 20, category: 'Bonus' },
-        { value: 20, category: 'Healthcare' },
-        { value: 20, category: '401K Match' }
+        { value: 40000, category: 'Base' },
+        { value: 20000, category: 'Bonus' },
+        { value: 5000, category: 'STI' },
+        { value: 10000, category: 'LTI' },
+        { value: 20000, category: 'Medical_Insurance' },
+        { value: 20000, category: '401K_Savings_Match' }
       ],
       logoPath: 'https://vignette.wikia.nocookie.net/theoffice/images/0/02/Michael_Scott.jpg/revision/latest?cb=20170701090332'
     }
@@ -90,5 +92,25 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
 
   handleStatementReload() {
     this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
+  }
+
+  updateCalculationControlTitle(event) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(event));
+  }
+
+  updateCompFieldTitle(event) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateCalculationControlFieldTitle(event));
+  }
+
+  updateSummaryTitle(event) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateCalculationControlSummaryTitle(event));
+  }
+
+  removeCompField(event) {
+    this.store.dispatch(new fromEditStatementPageActions.RemoveCalculationControlCompensationField(event));
+  }
+
+  addCompField(event) {
+    this.store.dispatch(new fromEditStatementPageActions.AddCalculationControlCompensationField(event));
   }
 }

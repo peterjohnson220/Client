@@ -23,7 +23,11 @@
                 <div *ngIf="control.ControlType === controlType.Calculation">
                   <pf-trs-calculation-control
                     [controlData]="control"
-                    class="p-1"></pf-trs-calculation-control>
+                    (updateTitle)="updateCalculationControlTitle($event)"
+                    (updateCompFieldTitle)="updateCompFieldTitle($event)"
+                    (updateSummaryTitle)="updateSummaryTitle($event)"
+                    (removeCompField)="removeCompField($event)"
+                    (addCompField)="addCompField($event)"></pf-trs-calculation-control>
                 </div>
 
                 <div *ngIf="control.ControlType === controlType.Chart">

@@ -1,0 +1,339 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TrsCalculationControlComponent should display the Add Field button if a field has been removed 1`] = `
+<pf-trs-calculation-control
+  addCompField={[Function EventEmitter]}
+  compensationValuePlaceholder={[Function String]}
+  controlData={[Function Object]}
+  cp={[Function Object]}
+  removeCompField={[Function EventEmitter]}
+  removedFields={[Function Array]}
+  updateCompFieldTitle={[Function EventEmitter]}
+  updateSummaryTitle={[Function EventEmitter]}
+  updateTitle={[Function EventEmitter]}
+>
+  <div
+    class="trs-calculation container py-2"
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        <col
+          class="contribution-column"
+        />
+        <col
+          class="button-column"
+        />
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="text-left"
+            scope="col"
+          >
+            <pf-inline-string-editor />
+          </th>
+          <th
+            class="text-right"
+            scope="col"
+          >
+            Contribution
+          </th>
+          <th
+            scope="col"
+          />
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          
+          
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="text-left"
+          >
+            <pf-inline-string-editor />
+          </td>
+          <td
+            class="text-right"
+          >
+            $---,---
+          </td>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+    
+    
+    <div
+      class="d-inline-block"
+      ngbdropdown=""
+    >
+      <button
+        class="btn btn-sm btn-outline-primary add-button"
+        ngbdropdowntoggle=""
+        title="Add Field"
+      >
+        <fa-icon
+          class="fa-sm"
+        />
+      </button>
+      <div
+        class="w-auto"
+        ngbdropdownmenu=""
+      >
+        
+        <div>
+          <a
+            ngbdropdownitem=""
+          >
+            
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should render the supplied data fields 1`] = `
+<pf-trs-calculation-control
+  addCompField={[Function EventEmitter]}
+  compensationValuePlaceholder={[Function String]}
+  controlData={[Function Object]}
+  cp={[Function Object]}
+  removeCompField={[Function EventEmitter]}
+  removedFields={[Function Array]}
+  updateCompFieldTitle={[Function EventEmitter]}
+  updateSummaryTitle={[Function EventEmitter]}
+  updateTitle={[Function EventEmitter]}
+>
+  <div
+    class="trs-calculation container py-2"
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        <col
+          class="contribution-column"
+        />
+        <col
+          class="button-column"
+        />
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="text-left"
+            scope="col"
+          >
+            <pf-inline-string-editor />
+          </th>
+          <th
+            class="text-right"
+            scope="col"
+          >
+            Contribution
+          </th>
+          <th
+            scope="col"
+          />
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          
+          <td
+            class="text-left"
+          >
+            <pf-inline-string-editor />
+          </td>
+          
+          <td
+            class="text-right"
+          >
+            $---,---
+          </td>
+          
+          <td>
+            <button
+              class="remove-btn btn btn-sm btn-outline-danger"
+              type="button"
+            >
+              <fa-icon
+                class="fa-sm"
+              />
+            </button>
+          </td>
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          
+          <td
+            class="text-left"
+          >
+            <pf-inline-string-editor />
+          </td>
+          
+          <td
+            class="text-right"
+          >
+            $---,---
+          </td>
+          
+          <td>
+            <button
+              class="remove-btn btn btn-sm btn-outline-danger"
+              type="button"
+            >
+              <fa-icon
+                class="fa-sm"
+              />
+            </button>
+          </td>
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          
+          <td
+            class="text-left"
+          >
+            <pf-inline-string-editor />
+          </td>
+          
+          <td
+            class="text-right"
+          >
+            $---,---
+          </td>
+          
+          <td>
+            <button
+              class="remove-btn btn btn-sm btn-outline-danger"
+              type="button"
+            >
+              <fa-icon
+                class="fa-sm"
+              />
+            </button>
+          </td>
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="text-left"
+          >
+            <pf-inline-string-editor />
+          </td>
+          <td
+            class="text-right"
+          >
+            $---,---
+          </td>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
+<pf-trs-calculation-control
+  addCompField={[Function EventEmitter]}
+  compensationValuePlaceholder={[Function String]}
+  controlData={[Function Object]}
+  cp={[Function Object]}
+  removeCompField={[Function EventEmitter]}
+  removedFields={[Function Array]}
+  updateCompFieldTitle={[Function EventEmitter]}
+  updateSummaryTitle={[Function EventEmitter]}
+  updateTitle={[Function EventEmitter]}
+>
+  <div
+    class="trs-calculation container py-2"
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        <col
+          class="contribution-column"
+        />
+        <col
+          class="button-column"
+        />
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="text-left"
+            scope="col"
+          >
+            <pf-inline-string-editor />
+          </th>
+          <th
+            class="text-right"
+            scope="col"
+          >
+            Contribution
+          </th>
+          <th
+            scope="col"
+          />
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="text-left"
+          >
+            <pf-inline-string-editor />
+          </td>
+          <td
+            class="text-right"
+          >
+            $---,---
+          </td>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ChartModule } from '@progress/kendo-angular-charts';
@@ -18,6 +19,7 @@ import { TrsCalculationControlComponent } from './components/trs-calculation-con
 import { TrsChartControlComponent } from './components/trs-chart-control/trs-chart-control.component';
 import { TrsSummaryControlComponent } from './components/trs-summary-control/trs-summary-control.component';
 import { TrsRichTextControlComponent } from './components/trs-rich-text-control/trs-rich-text-control.component';
+import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
 
 @NgModule({
   imports: [
@@ -34,6 +36,7 @@ import { TrsRichTextControlComponent } from './components/trs-rich-text-control/
 
     // Payfactors
     PfCommonUIModule,
+    NgbDropdownModule,
   ],
   declarations: [
     InlineStringEditorComponent,
@@ -45,13 +48,17 @@ import { TrsRichTextControlComponent } from './components/trs-rich-text-control/
     TrsChartControlComponent,
     TrsSummaryControlComponent,
     TrsRichTextControlComponent,
+    CompensationFieldPipe,
   ],
   exports: [
     InlineStringEditorComponent,
     TotalRewardsStatementComponent,
     TotalRewardsItemWellComponent,
+    CompensationFieldPipe,
   ],
-  providers: [],
+  providers: [
+    CurrencyPipe
+  ],
 })
 export class SharedModule {
   constructor() {}
