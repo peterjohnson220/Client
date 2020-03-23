@@ -8,6 +8,7 @@ import { faFileWord } from '@fortawesome/pro-light-svg-icons/faFileWord';
 import { faFilePdf } from '@fortawesome/pro-light-svg-icons/faFilePdf';
 import { faEllipsisH } from '@fortawesome/pro-solid-svg-icons/faEllipsisH';
 import { faEdit } from '@fortawesome/pro-solid-svg-icons/faEdit';
+import { faPaperclip } from '@fortawesome/pro-solid-svg-icons/faPaperclip';
 
 export const faIcons = [
   falTimes,
@@ -19,6 +20,7 @@ export const faIcons = [
   faFileWord,
   faFilePdf,
   faEllipsisH,
-  faEdit
+  faEdit,
+  faPaperclip
 ];
 
