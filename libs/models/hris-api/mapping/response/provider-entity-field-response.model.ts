@@ -1,7 +1,7 @@
 export interface ProviderEntityField {
   dataType: string;
   isArray: boolean;
-  metatData: any;
+  metadata: any;
   name: string;
 }
 

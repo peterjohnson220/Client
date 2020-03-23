@@ -1,3 +1,5 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { ImportDataType, OrgDataEntityType, TransferMethodTypes} from 'libs/constants/hris-api';
 import {
   AuthenticationTypeResponse,
@@ -135,6 +137,8 @@ export class PayfactorsApiModelMapper {
         FieldName: pef.name,
         DisplayName: pef.name,
         HasAssociation: false,
+        Metadata: pef.metadata,
+        IsArray: pef.isArray,
         DataType: ImportDataType[pef.dataType]
       };
     });
@@ -160,8 +164,8 @@ export class PayfactorsApiModelMapper {
         sourceField: field.AssociatedEntity[0].FieldName,
         sourceMetadata: {
           dataType: field.AssociatedEntity[0].DataType,
-          isArray: false,
-          metaData: {},
+          isArray: field.AssociatedEntity[0].IsArray,
+          metaData: field.AssociatedEntity[0].Metadata,
           name: field.AssociatedEntity[0].FieldName
         }
       }))
