@@ -61,7 +61,7 @@ describe('InboundEntitySelectionPageComponent', () => {
       // arrange
       spyOn(store, 'dispatch');
       const expectedAction = new fromEntitySelectionActions.Init();
-      
+
       // act
       component.ngOnInit();
       fixture.detectChanges();
@@ -75,7 +75,7 @@ describe('InboundEntitySelectionPageComponent', () => {
       spyOn(store, 'dispatch');
       const summary = generateMockExistingConnectionSummary();
       const expectedAction = new fromProviderListActions.SetSelectedProvider(summary.provider);
-      
+
       // act
       component.ngOnInit();
       component.connectionSummary$ = of(summary);
@@ -91,7 +91,7 @@ describe('InboundEntitySelectionPageComponent', () => {
       spyOn(store, 'dispatch');
       const summary = generateMockNewConnectionSummary();
       const expectedAction = new fromProviderListActions.SetSelectedProvider(summary.provider);
-      
+
       // act
       component.ngOnInit();
       component.connectionSummary$ = of(summary);
