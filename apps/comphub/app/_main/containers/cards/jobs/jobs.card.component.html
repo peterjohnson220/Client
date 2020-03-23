@@ -28,10 +28,10 @@
           [ngModel]="workflowContext?.activeCountryDataSet?.CountryCode">
 
           <ng-template kendoDropDownListItemTemplate let-dataItem>
-            <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode}} mr-2" /> {{ dataItem?.CountryCode }}
+            <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode | lowercase}} mr-2" /> {{ dataItem?.CountryCode }}
           </ng-template>
           <ng-template kendoDropDownListValueTemplate let-dataItem>
-            <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode}} mr-2" /> {{ dataItem?.CountryCode }}
+            <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode | lowercase}} mr-2" /> {{ dataItem?.CountryCode }}
           </ng-template>
 
         </kendo-dropdownlist>
