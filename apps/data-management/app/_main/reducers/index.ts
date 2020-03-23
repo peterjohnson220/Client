@@ -9,7 +9,6 @@ import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
 import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
 import * as fromFieldMappingReducer from './field-mapping.reducer';
 import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
-import * as fromFileUploadReducer from './file-upload.reducer';
 import * as fromCustomFieldsReducer from './custom-fields.reducer';
 import * as fromTransferScheduleReducer from './transfer-schedule.reducer';
 import * as fromHrisConnectionReducer from './hris-connection.reducer';
@@ -24,7 +23,6 @@ export interface DataManagementMainState {
   fieldMappingPage: fromFieldMappingReducer.State;
   organizationalDataPage: fromOrganizationalDataPageReducer.State;
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.State;
-  fileUploadPage: fromFileUploadReducer.State;
   loaderSettings: fromLoaderSettingsReducer.State;
   customFieldsData: fromCustomFieldsReducer.State;
   emailRecipients: fromEmailRecipientsReducer.State;
@@ -45,7 +43,6 @@ export const reducers = {
   organizationalDataPage: fromOrganizationalDataPageReducer.reducer,
   fieldMappingPage: fromFieldMappingReducer.reducer,
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
-  fileUploadPage: fromFileUploadReducer.reducer,
   loaderSettings: fromLoaderSettingsReducer.reducer,
   emailRecipients: fromEmailRecipientsReducer.reducer,
   customFieldsData: fromCustomFieldsReducer.reducer,
@@ -77,9 +74,6 @@ export const selectOrgDataFieldMappingsState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.orgDataFieldMappings
 );
-export const selectOrgDataFileUploadState = createSelector(
-  selectFeatureAreaState,
-  (state: DataManagementMainState) => state.fileUploadPage);
 export const selectLoaderSettingState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.loaderSettings
@@ -246,22 +240,7 @@ export const getLoadingLoaderSettingsError = createSelector(selectLoaderSettingS
 export const { selectAll: getLoaderSettings } = fromLoaderSettingsReducer.adapter.getSelectors(selectLoaderSettingState);
 
 
-// File Upload
 
-export const getGettingColumnNames = createSelector(
-  selectOrgDataFileUploadState,
-  fromFileUploadReducer.GetGettingColumnNames
-);
-
-export const getColumnNames = createSelector(
-  selectOrgDataFileUploadState,
-  fromFileUploadReducer.GetColumnNames
-);
-
-export const getColumnNamesError = createSelector(
-  selectOrgDataFileUploadState,
-  fromFileUploadReducer.GetColumnNamesError
-);
 // Custom Fields
 export const getCustomJobField =
   createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFields
