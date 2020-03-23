@@ -8,6 +8,7 @@ import { faFileWord } from '@fortawesome/pro-light-svg-icons/faFileWord';
 import { faFilePdf } from '@fortawesome/pro-light-svg-icons/faFilePdf';
 import { faEllipsisH } from '@fortawesome/pro-solid-svg-icons/faEllipsisH';
 import { faEdit } from '@fortawesome/pro-solid-svg-icons/faEdit';
+import { faPaperclip } from '@fortawesome/pro-solid-svg-icons/faPaperclip';
 import { faDownload } from '@fortawesome/pro-solid-svg-icons/faDownload';
 import { faFileExcel } from '@fortawesome/pro-light-svg-icons/faFileExcel';
 
@@ -22,6 +23,7 @@ export const faIcons = [
   faFilePdf,
   faEllipsisH,
   faEdit,
+  faPaperclip,
   faDownload,
   faFileExcel
 ];

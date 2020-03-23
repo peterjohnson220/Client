@@ -21,7 +21,12 @@
 <ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
 
   <div class="d-flex">
-    <div class="ellipsis-overflowing-text">{{dataRow['CompanyJobs_Job_Title']}}</div>
+
+    <div  class="ellipsis-overflowing-text" >{{dataRow['CompanyJobs_Job_Title']}}</div>
+    <div><span placement="top" *ngIf="dataRow['CompanyJobs_JobAttachmentCount']>0" data-html="true"
+               ngbTooltip="{{dataRow['CompanyJobs_JobAttachmentCount']}} Attachment(s)">
+          <fa-icon icon="paperclip"></fa-icon>
+      </span></div>
     <div
       *ngIf="!(selectedRecordId$ | async)"
       [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
