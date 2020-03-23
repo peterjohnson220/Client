@@ -35,13 +35,15 @@
 		<ng-container *ngFor="let workflowStep of workflowSteps; let i = index">
 			<div class="workflow-step dnd-workflow-user-reorder"  [attr.data-index]="i">
 				<div class="container px-0">
-					<div class="row px-3">
-            <div>
-              {{i+1}}.
+					<div class="row">
+			<div class="col-1 workflow-user-count">				
+				<p class="text-right pt-2">{{i+1}}.</p>
+			</div>
+            <div class="col-1 justify-content-center">
               <img [src]="avatarUrl + workflowSteps[i].WorkflowStepUsers[0].UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" width="30" height="30">
             </div>
 
-			<div class="col-6 pr-1 workflow-user-container truncate">
+			<div class="col-5 workflow-user-container truncate">
               <span *ngFor="let stepUser of workflowStep.WorkflowStepUsers; let idx = index">
                 <span [ngClass]="{'workflow-user-forbidden' : stepUser.Permissions?.length === 0, 'dnd-workflow-user-reorder-handle grabbable' : workflowSteps.length > 1 && (!stepWithMultipleUsersBeingAdded && !stepAddingNonPfUsers)}">
 					{{stepUser.FirstName}} {{stepUser.LastName}}
