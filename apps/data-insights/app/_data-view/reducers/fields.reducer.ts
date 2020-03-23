@@ -151,11 +151,12 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
         reportFieldsAsync: reportFieldStateObjClone
       };
     }
-    case fromDataViewFieldsActions.SET_NUMBER_FORMAT_ON_SELECTED_FIELD: {
+    case fromDataViewFieldsActions.SET_FORMAT_ON_SELECTED_FIELD: {
       const fieldsClone = cloneDeep(state.selectedReportFields);
       const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload.field);
       if (fieldToUpdate) {
-        fieldToUpdate.Format = action.payload.numberFormat;
+        fieldToUpdate.Format = action.payload.format;
+        fieldToUpdate.FormatType = action.payload.field.FormatType;
       }
       return {
         ...state,

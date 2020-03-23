@@ -14,7 +14,7 @@ export const REORDER_FIELDS = '[Data Insights / Data View Fields] Reorder Fields
 export const SET_SELECTED_FIELDS = '[Data Insights / Data View Fields] Set Selected Fields';
 export const UPDATE_DISPLAY_NAME = '[Data Insights / Data View Fields] Update Display Name';
 export const ADD_NEW_FORMULA_FIELD = '[Data Insights / Data View Fields] Add New Formula Field';
-export const SET_NUMBER_FORMAT_ON_SELECTED_FIELD = '[Data Insights / Data View Fields] Set Number Format On Selected Field';
+export const SET_FORMAT_ON_SELECTED_FIELD = '[Data Insights / Data View Fields] Set Format On Selected Field';
 export const SAVE_UPDATED_FORMULA_FIELD = '[Data Insights / Data View Fields] Save Updated Formula Field';
 export const REMOVE_FORMULA_FIELD = '[Data Insights / Data View Fields] Remove Formula Field';
 export const SORT_FIELD = '[Data Insights / Data View Fields] Sort Field';
@@ -91,10 +91,10 @@ export class AddNewFormulaField implements Action {
   constructor(public payload: Field) {}
 }
 
-export  class SetNumberFormatOnSelectedField implements Action {
-  readonly type = SET_NUMBER_FORMAT_ON_SELECTED_FIELD;
+export  class SetFormatOnSelectedField implements Action {
+  readonly type = SET_FORMAT_ON_SELECTED_FIELD;
 
-  constructor(public payload: { field: Field, numberFormat: string }) {}
+  constructor(public payload: { field: Field, format: string }) {}
 }
 
 export class SaveUpdatedFormulaField implements Action {
@@ -128,7 +128,7 @@ export type Actions
   | SetSelectedFields
   | UpdateDisplayName
   | AddNewFormulaField
-  | SetNumberFormatOnSelectedField
+  | SetFormatOnSelectedField
   | SaveUpdatedFormulaField
   | RemoveFormulaField
   | SortField;

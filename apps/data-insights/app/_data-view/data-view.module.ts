@@ -26,7 +26,8 @@ import {
 } from './components';
 import {
   FormulaFieldModalComponent, DataViewGridComponent, DataViewPageComponent, FieldsComponent, FiltersComponent,
-  NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent
+  NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent,
+  DateFieldFormattingModalComponent
 } from './containers';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -80,7 +81,7 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
   declarations: [
     // Containers
     FormulaFieldModalComponent, DataViewGridComponent, DataViewPageComponent, FieldsComponent, FiltersComponent,
-    NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent,
+    NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent, DateFieldFormattingModalComponent,
 
     // Components
     FormulaEditorComponent, AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
