@@ -84,14 +84,21 @@
                               placeholder="Select a Job..."
                               formControlName="CompanyJobId"
                               (valueChange)="onJobChanges($event)"
-                              [data]="filteredJobs"
+                              [data]="(jobs$ | async)?.obj"
                               [loading]="(jobs$ | async)?.loading"
                               [valueField]="'CompanyJobId'"
                               [textField]="'DisplayName'"
                               [valuePrimitive]="true"
                               [filterable]="true"
                               [virtual]="true"
-                              [ngClass]="{ 'is-invalid': (!f.CompanyJobId.valid && f.CompanyJobId.touched) || employeeValidationFailed('JobCode') }"></kendo-combobox>
+                              [ngClass]="{ 'is-invalid': (!f.CompanyJobId.valid && f.CompanyJobId.touched) || employeeValidationFailed('JobCode') }">
+                <ng-template *ngIf="(jobs$ | async)?.obj?.length" kendoDropDownListFooterTemplate>
+                  <span class="search-message">
+                    Search to find more jobs...
+                    <a *ngIf="moreJobsToLoad$ | async" class="load-more" href="javascript:void(0)" (click)="loadMoreJobs()">Load More</a>
+                  </span>
+                </ng-template>
+              </kendo-combobox>
               <span *ngIf="f.CompanyJobId.errors?.required" class="invalid-feedback">Job is required</span>
             </div>
             <label class="col-2 col-form-label">Work State</label>

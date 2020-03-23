@@ -35,6 +35,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   showEmployeeForm$: Observable<boolean>;
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
+  moreJobsToLoad$: Observable<boolean>;
   errorMessage$: Observable<string>;
   jobs$: Observable<AsyncStateObj<Job[]>>;
   countries$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
@@ -64,13 +65,14 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   rates = ['Annual', 'Hourly'];
   yesNo: KendoTypedDropDownItem[] = [{Name: '', Value: null}, {Name: 'Y', Value: true}, {Name: 'N', Value: false}];
   filteredJobs: Job[];
-  allJobs: Job[];
   calculatedTCC: number;
   calculatedTDC: number;
   jobCode: string;
+  jobSearchTerm: string;
 
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly HOURLY_CONVERSION_RATE = 2080;
+  readonly PAGE_SIZE = 20;
 
   filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
@@ -103,6 +105,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.errorMessage$ = this.store.select(fromEmployeeManagementReducer.getErrorMessage);
     this.employee$ = this.store.select(fromEmployeeManagementReducer.getEmployee);
     this.employeeValidationAsync$ = this.store.select(fromEmployeeManagementReducer.getEmployeeValidationAsync);
+    this.moreJobsToLoad$ = this.store.select(fromEmployeeManagementReducer.getMoreCompanyJobsToLoad);
   }
 
   ngOnInit() {
@@ -110,7 +113,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       if (!!uc) {
         this.companyId = uc.CompanyId;
         this.createForm();
-        this.store.dispatch(new fromEmployeeManagementActions.GetCustomFields({ companyId: uc.CompanyId }));
       }
     });
     this.openModalSubscription = this.showEmployeeForm$.subscribe(isOpen => {
@@ -152,7 +154,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.jobsSubscription = this.jobs$.subscribe(jobs => {
       if (!!jobs && !jobs.loading && !!jobs.obj) {
         this.filteredJobs = jobs.obj;
-        this.allJobs = jobs.obj;
       }
     });
     this.employeeValidationSubscription = this.employeeValidationAsync$.subscribe(asyncObj => this.employeeValidationAsync = asyncObj);
@@ -163,11 +164,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       debounceTime(PfConstants.DEBOUNCE_DELAY),
       distinctUntilChanged())
       .subscribe(searchTerm => {
-        if (!!searchTerm) {
-          this.filteredJobs = this.allJobs.filter(x => x.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
-        } else {
-          this.filteredJobs = this.allJobs;
-        }
+        this.jobSearchTerm = searchTerm;
+        this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs({SearchTerm: searchTerm, Limit: this.PAGE_SIZE}));
       });
   }
 
@@ -202,6 +200,15 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   onSubmit() {
     const employee = this.getEmployeeDataFromForm();
     this.store.dispatch(new fromEmployeeManagementActions.ValidateEmployeeKeys(employee));
+  }
+
+  loadMoreJobs() {
+    this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs({
+        SearchTerm: this.jobSearchTerm,
+        Limit: this.PAGE_SIZE,
+        Skip: this.filteredJobs.length
+      }
+    ));
   }
 
   private createForm(): void {
@@ -295,17 +302,20 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.currencyCombobox.filterChange.emit('');
     this.workCountryCombobox.filterChange.emit('');
     this.departmentCombobox.filterChange.emit('');
+    this.jobSearchTerm = '';
+    this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs({SearchTerm: '', Limit: this.PAGE_SIZE}));
     this.updateControl([], 'StructureRangeGroupId');
     this.updateControl([], 'GradeCode');
   }
 
   private initializeDroplists() {
     this.initialized = true;
-    this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs());
+    this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs({SearchTerm: '', Limit: this.PAGE_SIZE}));
     this.store.dispatch(new fromEmployeeManagementActions.LoadPaymarkets());
     this.store.dispatch(new fromEmployeeManagementActions.LoadCountries());
     this.store.dispatch(new fromEmployeeManagementActions.LoadCurrencies());
     this.store.dispatch(new fromEmployeeManagementActions.LoadDepartments());
+    this.store.dispatch(new fromEmployeeManagementActions.GetCustomFields({ companyId: this.companyId }));
   }
 
   public loadGrades() {
@@ -325,6 +335,10 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     if (companyJobId) {
       const selectedJob = this.filteredJobs.find(j => j.CompanyJobId === companyJobId);
       this.jobCode = selectedJob ? selectedJob.JobCode : null;
+    } else {
+      if (!this.jobSearchTerm) {
+        this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs({SearchTerm: '', Limit: this.PAGE_SIZE}));
+      }
     }
     this.loadStructures();
   }
@@ -446,6 +460,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       this.updateUDFFields();
       this.loadStructures();
       this.jobCode = this.employee.JobCode;
+      this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobById(this.employee.CompanyJobId));
     }
   }
 
