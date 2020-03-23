@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { ViewField, DataViewEntity, SimpleDataView, PagingOptions } from 'libs/models/payfactors-api';
+import { ViewField, SimpleDataView, PagingOptions } from 'libs/models/payfactors-api';
 import { AppNotification, NotificationLevel } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 
@@ -42,7 +42,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
   @Input() defaultSort: SortDescriptor[];
-  @Input() pagingOptions:  PagingOptions;
+  @Input() pagingOptions: PagingOptions;
   @Input() noRecordsFound: string;
   @Input() compactGrid = false;
   @Input() backgroundColor: string;

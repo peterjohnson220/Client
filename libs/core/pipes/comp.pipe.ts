@@ -18,6 +18,8 @@ export class CompPipe implements PipeTransform {
       return rate === compRate.hourly ?
         this.decimalPipe.transform(value, '1.2-2') :
         this.decimalPipe.transform(value / 1000.0, '1.1-1');
+    } else {
+      return value;
     }
   }
 }

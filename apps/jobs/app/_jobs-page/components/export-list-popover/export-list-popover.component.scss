@@ -1,0 +1,40 @@
+.popover-body-container {
+  padding: 0.5rem 0.75rem;
+  min-height: 130px;
+}
+
+.export-desc {
+  display: block;
+  overflow: hidden;
+  font-style: italic;
+  color: #888e92;
+  line-height: 1.5em;
+  height: 3em;
+}
+
+.popover-body-content {
+  overflow-x: hidden;
+  min-height: 130px;
+}
+
+.list-group .list-group-item {
+  min-height: fit-content;
+}
+
+.list-group-border {
+  border-width: 1px 0 1px 0;
+}
+
+.last-item {
+  border-bottom: 0;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.export-btn-group .btn {
+  border: 0;
+  background-color: inherit;
+  padding: 0;
+}

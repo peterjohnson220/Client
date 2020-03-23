@@ -55,6 +55,7 @@ export const getSelectedRecordId = createSelector(selectPfDataGridState, fromPfD
 export const getExpandedRows = createSelector(selectPfDataGridState, fromPfDataGridReducer.getExpandedRows);
 export const getSplitViewFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSplitViewFilters);
 export const getSelectedKeys = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSelectedKeys);
+export const getSelectedData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSelectedData);
 export const getSelectAllState = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSelectAllState);
 export const getSavedViews = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSavedViews);
 export const getSaveViewModalOpen = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSaveViewModalOpen);
