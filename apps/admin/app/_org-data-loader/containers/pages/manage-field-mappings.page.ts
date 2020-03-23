@@ -291,13 +291,13 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
           this.reloadLoaderSettings();
           this.reloadFieldMappings();
         }
-
-        this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
-          companyId: this.selectedCompany.CompanyId,
-          loaderType: LoaderTypes.OrgData,
-          loaderConfigurationGroupId: this.selectedConfigGroup ? this.selectedConfigGroup.LoaderConfigurationGroupId : undefined
-        }));
-
+        if (this.selectedCompany) {
+          this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
+            companyId: this.selectedCompany.CompanyId,
+            loaderType: LoaderTypes.OrgData,
+            loaderConfigurationGroupId: this.selectedConfigGroup ? this.selectedConfigGroup.LoaderConfigurationGroupId : undefined
+          }));
+        }
       });
 
     this.savedConfigurationGroup$
