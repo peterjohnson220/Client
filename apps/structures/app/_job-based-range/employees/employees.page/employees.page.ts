@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
+import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { RangeGroupMetadata } from '../../shared/models';
@@ -17,6 +18,8 @@ import { RangeGroupMetadata } from '../../shared/models';
   styleUrls: ['./employees.page.scss']
 })
 export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
+
   metaData$: Observable<RangeGroupMetadata>;
   filter: PfDataGridFilter;
   employeePageViewId = PageViewIds.Employees;
@@ -43,13 +46,21 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     };
   }
 
+  // Events
+  handleModelSettingsBtnClicked() {
+    this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+  }
+
   // Lifecycle
   ngOnInit(): void {
     return;
   }
 
   ngAfterViewInit(): void {
-     return;
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate
+    };
   }
 
   ngOnDestroy(): void {

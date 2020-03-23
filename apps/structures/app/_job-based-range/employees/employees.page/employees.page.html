@@ -1,9 +1,9 @@
 <pf-data-grid
-  [title]="(metaData$ | async)?.Name"
+  [title]="(metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
   [pageViewId]="employeePageViewId"
-  [gridContainerSplitViewWidth]="'70%'"
+  [gridContainerSplitViewWidth]="'60%'"
   [splitViewTemplate]="graph"
   [splitOnSelection]="false"
   [applyDefaultFilters]="false"
@@ -15,6 +15,10 @@
     <pf-employee-salary-range-chart
       [rangeId]="rangeId">
     </pf-employee-salary-range-chart>
+</ng-template>
+
+<ng-template #gridGlobalActions>
+  <pf-model-settings-btn [metadata]="metaData$ | async" (clicked)="handleModelSettingsBtnClicked()"></pf-model-settings-btn>
 </ng-template>
 
 <ng-template #aboveGridTemplate>

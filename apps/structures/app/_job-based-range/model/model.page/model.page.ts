@@ -9,7 +9,6 @@ import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 
-import * as fromJobBasedRangeReducer from '../reducers';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { AddJobsModalComponent } from '../containers/add-jobs-modal';
 import { JOB_BASED_RANGE_ADD_JOBS_MODAL_PAGE_WORKFLOW } from '../constants/add-jobs-modal.constants';
@@ -33,7 +32,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly newJobRange: boolean;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>,
+    public store: Store<any>,
     private route: ActivatedRoute
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
@@ -73,7 +72,10 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Lifecycle
   ngOnInit(): void {
-    return;
+    this.route.params.subscribe((params) => {
+      this.rangeGroupId = params['id'];
+      this.filters[0] = {...this.filters[0], Value: this.rangeGroupId };
+    });
   }
 
   ngAfterViewInit(): void {

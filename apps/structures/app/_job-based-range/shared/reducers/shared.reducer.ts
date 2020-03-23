@@ -1,4 +1,4 @@
-import * as fromMetaDataActions from '../actions/metadata.actions';
+import * as fromSharedActions from '../actions/shared.actions';
 import { RangeGroupMetadata } from '../models';
 
 export interface State {
@@ -9,9 +9,9 @@ const initialState: State = {
   metadata: null
 };
 
-export function reducer(state = initialState, action: fromMetaDataActions.MetadataActions): State {
+export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
   switch (action.type) {
-    case fromMetaDataActions.SET_METADATA:
+    case fromSharedActions.SET_METADATA:
       return {
         ...state,
         metadata: action.payload

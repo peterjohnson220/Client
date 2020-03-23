@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 
 import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 
-import * as fromMetadataActions from '../../shared/actions/metadata.actions';
+import * as fromMetadataActions from '../actions/shared.actions';
 import * as fromJobBasedRangeReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 

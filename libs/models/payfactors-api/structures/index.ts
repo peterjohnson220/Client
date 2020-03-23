@@ -1,1 +1,2 @@
-export * from './structure-range-group-response.model';
+export * from './request';
+export * from './response';

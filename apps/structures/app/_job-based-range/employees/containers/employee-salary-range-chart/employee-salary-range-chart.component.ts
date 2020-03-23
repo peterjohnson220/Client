@@ -8,7 +8,6 @@ import { getUserLocale } from 'get-user-locale';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
-import * as fromJobBasedRangeReducer from '../../../model/reducers';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
@@ -46,8 +45,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   plotLinesAndBands: any;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>,
-    private route: ActivatedRoute
+    public store: Store<any>
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {

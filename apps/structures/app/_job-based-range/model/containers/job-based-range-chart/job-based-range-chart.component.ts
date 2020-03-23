@@ -3,12 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { cloneDeep } from 'lodash';
 import { getUserLocale } from 'get-user-locale';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
-import * as fromJobBasedRangeReducer from '../../reducers';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
@@ -38,7 +36,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   controlPointDisplay: string;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>
+    public store: Store<any>
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
