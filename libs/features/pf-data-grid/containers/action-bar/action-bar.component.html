@@ -1,4 +1,4 @@
-<div class="d-flex align-items-center" id="action-bar-container" *ngIf="showActionBar">
+<div class="d-flex align-items-center justify-content-between" id="action-bar-container" *ngIf="showActionBar">
   <ng-container *ngIf="(dataFields$ | async)?.length">
     <div class="d-flex space-out-children-lg">
       <div *ngFor="let gl of globalFilters; trackBy: trackByFn;">
@@ -19,11 +19,11 @@
           </pf-input-debounce>
         </ng-template>
       </div>
+
+      <ng-container class="d-flex " *ngIf="globalActionsTemplate" [ngTemplateOutlet]="globalActionsTemplate"></ng-container>
     </div>
     <div class="d-flex space-out-children-lg">
-      <ng-container class="d-flex " *ngIf="globalActionsTemplate" [ngTemplateOutlet]="globalActionsTemplate"></ng-container>
-
-      <button *ngIf="allowExport && !!exportSourceName?.length" type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
+            <button *ngIf="allowExport && !!exportSourceName?.length" type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
               placement="bottom-right" popoverTitle="Choose Content to Export"
               [disabled]="(exporting$ | async) || (loadingExportingStatus$ | async)"
               (click)="handleExportClicked()">

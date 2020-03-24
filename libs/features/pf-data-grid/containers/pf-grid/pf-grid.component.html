@@ -27,7 +27,7 @@
       </ng-template>
     </kendo-grid-checkbox-column>
     <ng-container *ngFor="let col of (dataFields$ | async); trackBy:trackByField">
-      <ng-container *ngIf="col.Group">
+      <ng-container *ngIf="col.Group && col.HasSelection">
           <kendo-grid-column-group
             [title]="col.Group"
             [headerClass]="getGridColumnHeaderClass(col)"

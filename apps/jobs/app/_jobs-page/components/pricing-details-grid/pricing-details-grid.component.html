@@ -2,7 +2,7 @@
   *ngIf="viewMode === 'Priced'"
   [pageViewId]="pricedDataPageViewId"
   [showTitle]="false"
-  [showColumnChooser] ="false"
+  [showColumnChooser] ="true"
   [showFilterChooser] ="false"
   [allowExport]="false"
   [contentNoPadding]="true"
@@ -52,7 +52,7 @@
         ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
       </em>
     </small>
-  </div>  
+  </div>
 </ng-template>
 
 <ng-template #baseTccColumn let-dataRow="dataRow">
@@ -63,7 +63,7 @@
         ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
       </em>
     </small>
-  </div>  
+  </div>
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
