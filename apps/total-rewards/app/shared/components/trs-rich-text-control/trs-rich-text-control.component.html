@@ -12,6 +12,7 @@
         #richText
         [(ngModel)]="htmlContent"
         [modules]="quillConfig" 
+        (onEditorCreated)="onEditorCreated($event)"
         (onContentChanged)="onContentChanged($event)"
         (onSelectionChanged)="onSelectionChanged($event)">
       </quill-editor>
