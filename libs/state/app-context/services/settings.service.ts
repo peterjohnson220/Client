@@ -19,10 +19,12 @@ export class SettingsService {
 
   selectUiPersistenceFeatureSettings(featureName: string): Observable<GenericNameValueDto[]> {
     return this.uiPersistenceSettings$.pipe(map(features => {
-      const featureSettingsModel = features.find(f => f.FeatureName === featureName);
-      return !!featureSettingsModel ? featureSettingsModel.Settings.map(s => {
-        return {Name: s.Key, Value: s.Value};
-      }) : [];
+      if (features) {
+        const featureSettingsModel = features.find(f => f.FeatureName === featureName);
+        return !!featureSettingsModel ? featureSettingsModel.Settings.map(s => {
+          return {Name: s.Key, Value: s.Value};
+        }) : [];
+      }
     }));
   }
 
