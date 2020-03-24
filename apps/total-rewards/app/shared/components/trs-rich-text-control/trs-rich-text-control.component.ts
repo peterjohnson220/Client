@@ -72,6 +72,20 @@ export class TrsRichTextControlComponent implements OnInit {
     // change has occurred, so tell parent to save
   }
 
+  onEditorCreated(quill: any) {
+    // add a matcher that strips out html formatting on paste: https://github.com/quilljs/quill/issues/1184#issuecomment-384935594
+    quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
+      const ops = [];
+      delta.ops.forEach(op => {
+        if (op.insert && typeof op.insert === 'string') {
+          ops.push({ insert: op.insert });
+        }
+      });
+      delta.ops = ops;
+      return delta;
+    });
+  }
+
   onContentChanged(quillContentChange: any) {
     // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
