@@ -30,7 +30,7 @@ export class PageWithTitleBarComponent {
 
   goBack() {
     if (this.goBackUsingBrowserHistory) {
-      return this.location.back();
+      window.location.href = document.referrer;
     }
 
     this.goBackToPreviousRoute
