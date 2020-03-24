@@ -11,6 +11,7 @@ import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { RangeGroupMetadata } from '../../shared/models';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
+import { Pages } from '../../shared/constants/pages';
 
 @Component({
   selector: 'pf-pricings-page',
@@ -26,6 +27,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   filter: PfDataGridFilter;
   colTemplates = {};
   pricingsPageViewId = PageViewIds.Pricings;
+  page = Pages.Pricings;
   rangeGroupId: any;
   actionBarConfig: ActionBarConfig;
 

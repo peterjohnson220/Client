@@ -20,6 +20,7 @@ import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper
 import { PageViewIds } from '../constants/page-view-ids';
 import { RangeGroupMetadata } from '../models';
 import * as fromSharedReducer from '../reducers';
+import { Pages } from '../constants/pages';
 
 @Injectable()
 export class ModelSettingsModalEffects {
@@ -114,6 +115,17 @@ export class ModelSettingsModalEffects {
                   ));
                   actions.push(new fromModelSettingsModalActions.CloseModal());
                   actions.push(new fromDataGridActions.LoadData(PageViewIds.Model));
+
+                  switch (data.action.payload.fromPage) {
+                    case Pages.Employees: {
+                      actions.push(new fromDataGridActions.LoadData(PageViewIds.Employees));
+                      break;
+                    }
+                    case Pages.Pricings: {
+                      actions.push(new fromDataGridActions.LoadData(PageViewIds.Pricings));
+                      break;
+                    }
+                  }
                 }
 
                 actions.push(new fromModelSettingsModalActions.SaveModelSettingsSuccess());

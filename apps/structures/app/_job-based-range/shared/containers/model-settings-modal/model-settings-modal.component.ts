@@ -10,6 +10,7 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { Currency, RangeGroupMetadata, ControlPoint } from '../../models';
+import { Pages } from '../../constants/pages';
 
 @Component({
   selector: 'pf-model-settings-modal',
@@ -18,6 +19,7 @@ import { Currency, RangeGroupMetadata, ControlPoint } from '../../models';
 })
 export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
+  @Input() page: Pages;
 
   modalOpen$: Observable<boolean>;
   metaData$: Observable<RangeGroupMetadata>;
@@ -89,7 +91,13 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   // Events
   handleModalSubmit() {
     if (this.modelSettingsForm.valid) {
-      this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings({ rangeGroupId: this.rangeGroupId, formValue: this.modelSettingsForm.value }));
+      this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings(
+        {
+          rangeGroupId: this.rangeGroupId,
+          formValue: this.modelSettingsForm.value,
+          fromPage: this.page
+        })
+      );
       this.reset();
     }
   }

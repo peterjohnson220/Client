@@ -4,6 +4,7 @@ import { CurrencyDto } from 'libs/models/common';
 import { Control } from 'mapbox-gl';
 import { ControlPoint } from '../models/control-point.model';
 import { Currency } from '../models';
+import { Pages } from '../constants/pages';
 
 export const OPEN_MODAL = '[Structures - Job Based Range - Model Settings] Open Modal';
 export const CLOSE_MODAL = '[Structures - Job Based Range - Model Settings] Close Modal';
@@ -77,7 +78,7 @@ export class GetStructureNameSuggestionsError implements Action {
 export class SaveModelSettings implements Action {
   readonly type = SAVE_MODEL_SETTINGS;
 
-  constructor(public payload: { rangeGroupId: number; formValue: any; }) {}
+  constructor(public payload: { rangeGroupId: number; formValue: any; fromPage: Pages }) {}
 }
 
 export class SaveModelSettingsSuccess implements Action {

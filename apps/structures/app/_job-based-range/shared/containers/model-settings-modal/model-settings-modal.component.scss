@@ -3,5 +3,9 @@
 
 :host ::ng-deep {
   @include pf-tabset;
+
+  .modal-body {
+    padding: 0;
+  }
 }
 
