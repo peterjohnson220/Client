@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromAddJobsModalActions from 'libs/features/add-jobs/actions/modal.actions';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
@@ -74,7 +75,9 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.rangeGroupId = params['id'];
-      this.filters[0] = {...this.filters[0], Value: this.rangeGroupId };
+      // This object must be being attached to the state at a later time since its being marked readonly and needs to be copied
+      this.filters = cloneDeep(this.filters);
+      this.filters.find(f => f.SourceName === 'CompanyStructuresRangeGroup_ID').Value = this.rangeGroupId;
     });
   }
 
