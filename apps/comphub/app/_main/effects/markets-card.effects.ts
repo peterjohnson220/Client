@@ -8,7 +8,7 @@ import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } fr
 import { ComphubApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
 import { AddPayMarketRequest, PayMarketDataResponse, MDLocationsRequest } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
-import { MDScopeGeoGroup } from 'libs/constants';
+import { CompanyClientTypeConstants } from 'libs/constants';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
@@ -28,14 +28,19 @@ export class MarketsCardEffects {
     ofType(fromMarketsCardActions.INIT_MARKETS_CARD),
     withLatestFrom(
       this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
-      (action: fromMarketsCardActions.InitMarketsCard, countryDataSet) => ({ action, countryDataSet })
+      this.store.select(fromRootState.getUserContext),
+      (action: fromMarketsCardActions.InitMarketsCard, countryDataSet, userContext ) => ({ action, countryDataSet, userContext })
     ),
     mergeMap((data) => {
       const actions = [];
       if (!data.countryDataSet) {
         return actions;
       }
-      actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: data.countryDataSet.CountryCode }));
+      if (data.userContext.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS) {
+        actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: 'All' }));
+      } else {
+        actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: data.countryDataSet.CountryCode }));
+      }
       return actions;
     })
   );

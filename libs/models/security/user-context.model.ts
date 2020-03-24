@@ -22,6 +22,7 @@ export interface UserContext {
   SessionId: string;
   RoleName: string;
   ClientType: string;
+  DefaultPayMarketId: number;
 }
 
 export interface ConfigSetting {
@@ -68,6 +69,7 @@ export function generateMockUserContext(): UserContext {
     IpAddress: '127.0.0.1',
     SessionId: '335f3387-77b2-4aca-95b6-2809c78c6c6a',
     RoleName: 'Company Administrator',
-    ClientType: 'Enterprise'
+    ClientType: 'Enterprise',
+    DefaultPayMarketId: 1
   };
 }

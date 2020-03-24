@@ -150,7 +150,7 @@ export const getCountryDataSets = createSelector(
 export const getExchangeDataSets = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getExchangeDataSets
-)
+);
 
 export const getActiveCountryDataSet = createSelector(
   selectComphubPageState,
