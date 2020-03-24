@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
-import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
 
 import { CompanyEmployeeApiService, CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import {
   PayMarketApiService, CountryApiService, CurrencyApiService, LoaderFieldMappingsApiService,
   EntityKeysValidationApiService
 } from 'libs/data/payfactors-api';
+import { ODataQuery } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromEmployeeManagementReducer from '../reducers';
@@ -23,17 +24,50 @@ export class EmployeeManagementEffects {
   loadCompanyJobs$ = this.actions$
     .pipe(
       ofType(fromEmployeeManagementActions.LOAD_COMPANYJOBS),
-      switchMap(() => {
-          return this.companyJobApiService.getAll(['JobTitle', 'CompanyJobId', 'JobCode']).pipe(
-            map((response) => {
-              const jobs = PayfactorsApiModelMapper.mapCompanyJobsToJobs(response);
-              return new fromEmployeeManagementActions.LoadCompanyJobsSuccess(jobs);
-            }),
-            catchError(() => of(new fromEmployeeManagementActions.LoadCompanyJobsError()))
-          );
+      switchMap((action: fromEmployeeManagementActions.LoadCompanyJobs) => {
+        const query: ODataQuery = {
+          Fields: ['CompanyJobId', 'JobCode', 'JobTitle'],
+          Top: action.payload.Limit,
+          Skip: action.payload.Skip || 0,
+          OrderBy: 'JobCode'
+        };
+        if (action.payload.SearchTerm) {
+          query.Filter = `contains(JobCode,'${action.payload.SearchTerm}') or contains(JobTitle,'${action.payload.SearchTerm}')`;
         }
-      )
-    );
+        return this.companyJobApiService.getAll(query).pipe(
+          map((response) => {
+            const jobs = PayfactorsApiModelMapper.mapCompanyJobsToJobs(response);
+            if (action.payload.Skip) {
+              return new fromEmployeeManagementActions.LoadMoreCompanyJobsSuccess({ jobs: jobs, moreData: jobs.length === action.payload.Limit });
+            } else {
+              return new fromEmployeeManagementActions.LoadCompanyJobsSuccess({ jobs: jobs, moreData: jobs.length === action.payload.Limit });
+            }
+          }),
+          catchError(() => of(new fromEmployeeManagementActions.LoadCompanyJobsError()))
+        );
+      }
+    )
+  );
+
+  @Effect()
+  loadCompanyJobsById$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.LOAD_COMPANYJOB_BY_ID),
+      switchMap((action: fromEmployeeManagementActions.LoadCompanyJobById) => {
+        const query: ODataQuery = {
+          Fields: ['CompanyJobId', 'JobCode', 'JobTitle'],
+          Filter: `CompanyJobId eq ${action.payload}`
+        };
+        return this.companyJobApiService.getAll(query).pipe(
+          map((response) => {
+            const jobs = PayfactorsApiModelMapper.mapCompanyJobsToJobs(response);
+            return new fromEmployeeManagementActions.LoadCompanyJobsSuccess({ jobs: jobs, moreData: false });
+          }),
+          catchError(() => of(new fromEmployeeManagementActions.LoadCompanyJobsError()))
+        );
+      }
+    )
+  );
 
   @Effect()
   loadPaymarkets$ = this.actions$

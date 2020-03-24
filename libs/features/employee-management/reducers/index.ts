@@ -43,3 +43,4 @@ export const getEmployeesUserDefinedFields = createSelector(selectEmployeeDataSt
 export const getErrorMessage = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getErrorMessage);
 export const getEmployee = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeeAsync);
 export const getEmployeeValidationAsync = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeeValidationAsync);
+export const getMoreCompanyJobsToLoad = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getMoreCompanyJobsToLoad);

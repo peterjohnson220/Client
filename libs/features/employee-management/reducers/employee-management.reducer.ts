@@ -19,6 +19,7 @@ export interface State {
   employeesUserDefinedFields: AsyncStateObj<GenericKeyValue<string, string>[]>;
   employee: AsyncStateObj<CompanyEmployee>;
   employeeValidation: AsyncStateObj<EmployeeValidation>;
+  moreJobsToLoad: boolean;
 }
 
 export const initialState: State = {
@@ -34,7 +35,8 @@ export const initialState: State = {
   structureNames: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   employeesUserDefinedFields: generateDefaultAsyncStateObj<GenericKeyValue<string, string>[]>([]),
   employee: generateDefaultAsyncStateObj<CompanyEmployee>(null),
-  employeeValidation: generateDefaultAsyncStateObj<EmployeeValidation>(null)
+  employeeValidation: generateDefaultAsyncStateObj<EmployeeValidation>(null),
+  moreJobsToLoad: true
 };
 
 
@@ -71,6 +73,7 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
         errorMessage: action.payload
       };
     }
+    case fromEmployeeManagementActions.LOAD_COMPANYJOB_BY_ID:
     case fromEmployeeManagementActions.LOAD_COMPANYJOBS: {
       const jobsClone = cloneDeep(state.jobs);
       jobsClone.loading = true;
@@ -82,10 +85,21 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
     case fromEmployeeManagementActions.LOAD_COMPANYJOBS_SUCCESS: {
       const jobsClone = cloneDeep(state.jobs);
       jobsClone.loading = false;
-      jobsClone.obj = action.payload;
+      jobsClone.obj = action.payload.jobs;
       return {
         ...state,
-        jobs: jobsClone
+        jobs: jobsClone,
+        moreJobsToLoad: action.payload.moreData
+      };
+    }
+    case fromEmployeeManagementActions.LOAD_MORE_COMPANYJOBS_SUCCESS: {
+      const jobsClone = cloneDeep(state.jobs);
+      jobsClone.loading = false;
+      jobsClone.obj = jobsClone.obj.concat(action.payload.jobs);
+      return {
+        ...state,
+        jobs: jobsClone,
+        moreJobsToLoad: action.payload.moreData
       };
     }
     case fromEmployeeManagementActions.LOAD_COMPANYJOBS_ERROR: {
@@ -369,3 +383,4 @@ export const getEmployeesUserDefinedFields = (state: State) => state.employeesUs
 export const getErrorMessage = (state: State) => state.errorMessage;
 export const getEmployeeAsync = (state: State) => state.employee;
 export const getEmployeeValidationAsync = (state: State) => state.employeeValidation;
+export const getMoreCompanyJobsToLoad = (state: State) => state.moreJobsToLoad;
