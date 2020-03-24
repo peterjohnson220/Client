@@ -151,7 +151,8 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
         reportFieldsAsync: reportFieldStateObjClone
       };
     }
-    case fromDataViewFieldsActions.SET_FORMAT_ON_SELECTED_FIELD: {
+    case fromDataViewFieldsActions.SET_FORMAT_ON_SELECTED_FIELD:
+    case fromDataViewFieldsActions.CLEAR_FORMATING: {
       const fieldsClone = cloneDeep(state.selectedReportFields);
       const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload);
       if (fieldToUpdate) {
@@ -195,18 +196,6 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
           fieldToUpdate.SortOrder = 0;
           fieldToUpdate.SortDirection = action.payload.sortDirection;
         }
-      }
-      return {
-        ...state,
-        selectedReportFields: fieldsClone
-      };
-    }
-    case fromDataViewFieldsActions.CLEAR_FORMATING: {
-      const fieldsClone = cloneDeep(state.selectedReportFields);
-      const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload);
-      if (fieldToUpdate) {
-        fieldToUpdate.FieldFormat.Format = null;
-        fieldToUpdate.FieldFormat.Value = null;
       }
       return {
         ...state,

@@ -20,7 +20,7 @@
           kendoDateRangeStartInput
           autoCorrectOn="blur"
           [value]="selectionRange?.start"
-          [format]="'MM/dd/yyyy'">
+          [format]="dateFormat">
         </kendo-dateinput>
       </div>
   
@@ -31,7 +31,7 @@
           kendoDateRangeEndInput
           autoCorrectOn="blur"
           [value]="selectionRange?.end"
-          [format]="'MM/dd/yyyy'">
+          [format]="dateFormat">
         </kendo-dateinput>
       </div>
     </div>
@@ -51,7 +51,7 @@
 <ng-template #datePickerTemplate>
   <kendo-datepicker
     [value]="selectedDate"
-    [format]="'MM/dd/yyyy'"
+    [format]="dateFormat"
     (valueChange)="handleValueChanged($event)">
   </kendo-datepicker>
 </ng-template>

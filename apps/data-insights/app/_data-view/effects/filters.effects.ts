@@ -10,6 +10,7 @@ import { PfConstants } from 'libs/models/common';
 
 import * as fromFiltersActions from '../actions/filters.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
+import * as fromFieldsActions from '../actions/fields.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
 
@@ -76,6 +77,18 @@ export class FiltersEffects {
             map(() => new fromFiltersActions.SaveFiltersSuccess()),
             catchError(() => of(new fromFiltersActions.SaveFiltersError()))
           );
+      })
+    );
+
+  @Effect()
+  fieldFormatChange$ = this.action$
+    .pipe(
+      ofType(
+        fromFieldsActions.SET_FORMAT_ON_SELECTED_FIELD,
+        fromFieldsActions.CLEAR_FORMATING
+      ),
+      map((action: fromFieldsActions.SetFormatOnSelectedField) => {
+        return new fromFiltersActions.UpdateFilterFormat(action.payload);
       })
     );
 

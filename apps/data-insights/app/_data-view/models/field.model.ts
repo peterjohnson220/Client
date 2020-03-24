@@ -1,7 +1,7 @@
 import { FieldFormatType, DataViewField, DataViewFieldDataType, DataViewFieldType } from 'libs/models/payfactors-api/reports';
 
 import { DataViewAccessLevel } from './user-data-view.model';
-import { formatTypeMapping } from '../helpers/field-format.helper';
+import { formatTypeMapping, getKendoNumericFormatFromFormat } from '../helpers/field-format.helper';
 
 export interface Field {
   EntityId: number;
@@ -51,6 +51,7 @@ export interface FieldFormat {
   Value: string;
   Type: FieldFormatType;
   Format: string;
+  KendoNumericFormat?: string;
 }
 
 export class FieldCreator {
@@ -72,16 +73,21 @@ export class FieldCreator {
       return {
         Value: null,
         Type: formatTypeMapping[dataViewField.DataType],
-        Format: null
+        Format: isDateField ? 'MM/dd/yyyy' : null,
+        KendoNumericFormat: isNumericField ? 'n' : null
       };
     }
     const parsedFormat: string[] = dataViewField.Format.split(':');
     const format: string = parsedFormat.length === 2 ? parsedFormat[1] : dataViewField.Format;
+    const kendoFormat: string = isNumericField
+      ? getKendoNumericFormatFromFormat(format, dataViewField.FormatType)
+      : null;
     const value: string = parsedFormat.length === 2 ? dataViewField.Format : `${dataViewField.FormatType}:${format}`;
     return {
       Value: value,
       Type: dataViewField.FormatType,
-      Format: format
+      Format: format,
+      KendoNumericFormat: kendoFormat
     };
   }
 

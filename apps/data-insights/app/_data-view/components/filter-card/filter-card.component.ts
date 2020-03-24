@@ -6,7 +6,6 @@ import { Field, Filter, FilterOperator, GetFilterOptionsData,
   FieldDataType, validateFilter, getDefaultOperatorByDataType,
   getDefaultSelectedOptions, getDefaultIsValid
 } from '../../models';
-import { FieldsHelper } from '../../helpers';
 
 @Component({
   selector: 'pf-filter-card',

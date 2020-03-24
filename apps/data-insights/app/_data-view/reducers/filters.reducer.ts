@@ -100,6 +100,15 @@ export function reducer(state = initialState, action: fromFiltersActions.Actions
         activeFilters: state.pendingFilters
       };
     }
+    case fromFiltersActions.UPDATE_FILTER_FORMAT: {
+      const pendingFiltersClone: Filter[] = FieldsHelper.updateFieldFormatInFilters(cloneDeep(state.pendingFilters), action.payload);
+      const activeFiltersClone: Filter[] = FieldsHelper.updateFieldFormatInFilters(cloneDeep(state.activeFilters), action.payload);
+      return {
+        ...state,
+        activeFilters: activeFiltersClone,
+        pendingFilters: pendingFiltersClone
+      };
+    }
     default: {
       return state;
     }
