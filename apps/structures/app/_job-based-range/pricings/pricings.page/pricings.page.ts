@@ -2,10 +2,11 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
@@ -29,8 +30,8 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   pricingsPageViewId = PageViewIds.Pricings;
   page = Pages.Pricings;
   rangeGroupId: any;
+  rangeId: number;
   actionBarConfig: ActionBarConfig;
-
   constructor(
      private store: Store<fromSharedJobBasedRangeReducer.State>,
      private route: ActivatedRoute
@@ -46,6 +47,8 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true
     };
+    this.rangeId = parseInt(this.route.snapshot.params.id, 10);
+
   }
 
   // Events
