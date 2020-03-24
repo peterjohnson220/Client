@@ -153,10 +153,9 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
     }
     case fromDataViewFieldsActions.SET_FORMAT_ON_SELECTED_FIELD: {
       const fieldsClone = cloneDeep(state.selectedReportFields);
-      const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload.field);
+      const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload);
       if (fieldToUpdate) {
-        fieldToUpdate.Format = action.payload.format;
-        fieldToUpdate.FormatType = action.payload.field.FormatType;
+        fieldToUpdate.FieldFormat = action.payload.FieldFormat;
       }
       return {
         ...state,
@@ -197,7 +196,18 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
           fieldToUpdate.SortDirection = action.payload.sortDirection;
         }
       }
-
+      return {
+        ...state,
+        selectedReportFields: fieldsClone
+      };
+    }
+    case fromDataViewFieldsActions.CLEAR_FORMATING: {
+      const fieldsClone = cloneDeep(state.selectedReportFields);
+      const fieldToUpdate = FieldsHelper.findField(fieldsClone, action.payload);
+      if (fieldToUpdate) {
+        fieldToUpdate.FieldFormat.Format = null;
+        fieldToUpdate.FieldFormat.Value = null;
+      }
       return {
         ...state,
         selectedReportFields: fieldsClone

@@ -18,6 +18,7 @@ export const SET_FORMAT_ON_SELECTED_FIELD = '[Data Insights / Data View Fields] 
 export const SAVE_UPDATED_FORMULA_FIELD = '[Data Insights / Data View Fields] Save Updated Formula Field';
 export const REMOVE_FORMULA_FIELD = '[Data Insights / Data View Fields] Remove Formula Field';
 export const SORT_FIELD = '[Data Insights / Data View Fields] Sort Field';
+export const CLEAR_FORMATING = '[Data Insights / Data View Fields] Clear Formating';
 
 export class GetReportFields implements Action {
   readonly type = GET_REPORT_FIELDS;
@@ -94,7 +95,7 @@ export class AddNewFormulaField implements Action {
 export  class SetFormatOnSelectedField implements Action {
   readonly type = SET_FORMAT_ON_SELECTED_FIELD;
 
-  constructor(public payload: { field: Field, format: string }) {}
+  constructor(public payload: Field) {}
 }
 
 export class SaveUpdatedFormulaField implements Action {
@@ -115,6 +116,12 @@ export class SortField implements Action {
   constructor(public payload: { field: Field, sortDirection: 'asc' | 'desc' }) {}
 }
 
+export class ClearFormating implements Action {
+  readonly type = CLEAR_FORMATING;
+
+  constructor(public payload: Field) {}
+}
+
 export type Actions
   = GetReportFields
   | GetReportFieldsSuccess
@@ -131,4 +138,5 @@ export type Actions
   | SetFormatOnSelectedField
   | SaveUpdatedFormulaField
   | RemoveFormulaField
-  | SortField;
+  | SortField
+  | ClearFormating;

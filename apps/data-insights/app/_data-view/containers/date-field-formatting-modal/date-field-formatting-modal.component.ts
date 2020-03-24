@@ -5,7 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { FieldFormatType } from 'libs/models/payfactors-api';
-import { dateFormatCasing } from '../../helpers/date-format-casing.helper';
+
+import { dateFormatCasing } from '../../helpers';
 
 @Component({
   selector: 'pf-date-field-formatting-modal',
@@ -24,10 +25,10 @@ export class DateFieldFormattingModalComponent {
     private modalService: NgbModal
   ) { }
 
-  open(field, format): void {
+  open(field: Field): void {
     this.modalService.open(this.dateFieldFormatModal, {backdrop: 'static', centered: true});
     this.field = cloneDeep(field);
-    this.selectedValue = !!format ? format.toUpperCase() : this.dateFormats[0];
+    this.selectedValue = !!field.FieldFormat.Format ? field.FieldFormat.Format.toUpperCase() : this.dateFormats[0];
   }
 
   close(): void {
@@ -35,8 +36,12 @@ export class DateFieldFormattingModalComponent {
   }
 
   save(): void {
-    this.field.Format = dateFormatCasing[this.selectedValue];
-    this.field.FormatType = FieldFormatType.Date;
+    const format = dateFormatCasing[this.selectedValue];
+    this.field.FieldFormat = {
+      Value: `${FieldFormatType.Date}:${format}`,
+      Type: FieldFormatType.Date,
+      Format: format
+    };
     this.saveClicked.emit(this.field);
     this.modalService.dismissAll();
   }

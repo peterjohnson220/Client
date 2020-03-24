@@ -10,7 +10,7 @@ import { FieldFormatType } from 'libs/models/payfactors-api/reports';
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Field, FieldDataType, FieldType, UserDataView, DataViewAccessLevel, FormulaFieldModalObj, Suggestion } from '../../models';
+import { Field, UserDataView, DataViewAccessLevel, FormulaFieldModalObj, Suggestion } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 import { FormulaFieldModalComponent } from '../formula-field-modal';
 import { DateFieldFormattingModalComponent } from '../date-field-formatting-modal';
@@ -48,7 +48,6 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     mode: 'single'
   };
   sortDesc: SortDescriptor[];
-  dataTypes = FieldDataType;
   formulaFieldModalObj: FormulaFieldModalObj;
   dataViewAccessLevel: DataViewAccessLevel;
   formatTypes = FieldFormatType;
@@ -117,43 +116,20 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     }
   }
 
-  isNumericDataType(fieldDataType: FieldDataType): boolean {
-    return !!fieldDataType && (
-      fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float);
-  }
-
-  isDateDataType(fieldDataType: FieldDataType): boolean {
-    return !!fieldDataType && (
-      fieldDataType === FieldDataType.Date);
-  }
-
-  isNumericDataTypeAndHasFormat(fieldDataType: FieldDataType, hasFormat: string): boolean {
-    return !!fieldDataType && (
-      fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float) && !!hasFormat;
-  }
-
-  handleFieldFormatModalClicked(field: Field, format?: string, ): void {
-    if (this.isNumericDataType(field.DataType)) {
-      this.numericFieldFormattingModalComponent.open(field, format);
+  handleFieldFormatModalClicked(field: Field ): void {
+    if (field.Is.Numeric) {
+      this.numericFieldFormattingModalComponent.open(field);
     } else {
-      this.dateFieldFormattingModalComponent.open(field, format);
+      this.dateFieldFormattingModalComponent.open(field);
     }
   }
 
   handleSaveClicked(field: Field): void {
-    this.store.dispatch(new fromFieldsActions.SetFormatOnSelectedField({field: field, format: field.Format}));
+    this.store.dispatch(new fromFieldsActions.SetFormatOnSelectedField(field));
   }
 
   handleClearFormatClicked(field: Field): void {
-    this.store.dispatch(new fromFieldsActions.SetFormatOnSelectedField({field: field, format: null}));
-  }
-
-  columnMenuEnabled(field: Field): boolean {
-    return this.isNumericDataType(field.DataType) || this.isFormulaField(field) || this.isDateDataType(field.DataType);
-  }
-
-  isFormulaField(field: Field): boolean {
-    return field.FieldType === FieldType.Formula;
+    this.store.dispatch(new fromFieldsActions.ClearFormating(field));
   }
 
   handleEditFormulaClick(field: Field): void {
