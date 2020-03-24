@@ -17,7 +17,7 @@ import { UserApiService, UserFilterApiService, UserProfileApiService } from './u
 import { CompanyApiService, CompanyEmployeeApiService, CompanyJobApiService } from './company';
 import {
     JobDescriptionApiService, JobDescriptionFooterViewApiService, JobDescriptionManagementApiService, JobDescriptionTemplateApiService,
-    JobDescriptionWorkflowApiService, JobDescriptionWorkflowTemplateApiService
+    JobDescriptionWorkflowApiService, JobDescriptionWorkflowTemplateApiService, JobDescriptionWorkflowStepUserApiService
 } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
 import { AppEnvironmentApiService } from './app-environment';
@@ -73,6 +73,7 @@ import { EntityKeysValidationApiService } from './validation';
     JobDescriptionManagementApiService,
     JobDescriptionWorkflowApiService,
     JobDescriptionWorkflowTemplateApiService,
+    JobDescriptionWorkflowStepUserApiService,
     JobDescriptionTemplateApiService,
     UserProfileApiService,
     UserFilterApiService,
