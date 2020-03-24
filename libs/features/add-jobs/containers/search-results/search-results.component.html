@@ -8,7 +8,8 @@
       *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId"
       [job]="jobResult"
       (jobClicked)="handleJobSelectionToggle(jobResult)"
-      (jobDetailClicked)="handleJobDetailClicked(jobResult)">
+      (jobDetailClicked)="handleJobDetailClicked(jobResult)"
+      [showJobBasedRangesJobMetadata] = "showJobBasedRangesJobMetadata">
     </pf-add-job-result>
   </ng-container>
 

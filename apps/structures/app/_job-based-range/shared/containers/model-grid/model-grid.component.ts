@@ -11,8 +11,8 @@ import { PageViewIds } from '../../constants/page-view-ids';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
+import { RangeGroupMetadata } from "../../models";
 
 @Component({
   selector: 'pf-model-grid',

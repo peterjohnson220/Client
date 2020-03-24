@@ -18,9 +18,9 @@ import * as fromModelSettingsModalActions from '../actions/model-settings-modal.
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import { PageViewIds } from '../constants/page-view-ids';
-import { RangeGroupMetadata } from '../models';
 import * as fromSharedReducer from '../reducers';
 import { Pages } from '../constants/pages';
+import { RangeGroupMetadata } from "../models";
 
 @Injectable()
 export class ModelSettingsModalEffects {

@@ -1,5 +1,5 @@
 import * as fromSharedActions from '../actions/shared.actions';
-import { RangeGroupMetadata } from '../models';
+import { RangeGroupMetadata } from "../models";
 
 export interface State {
   metadata: RangeGroupMetadata;

@@ -17,6 +17,7 @@ export class SearchResultsComponent {
   @Input() canSelectJobs: boolean;
   @Input() useSmallBizStyles: boolean;
   @Input() customSearchResultsStyle: any;
+  @Input() showJobBasedRangesJobMetadata = false;
 
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;

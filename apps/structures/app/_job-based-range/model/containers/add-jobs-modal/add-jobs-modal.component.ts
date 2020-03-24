@@ -17,11 +17,9 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import * as fromPaymarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
 import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
-import * as fromAddJobsModalActions from 'libs/features/add-jobs/actions/modal.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
-
-import { JobBasedRangeAddJobsModalPages } from '../../constants/add-jobs-modal.constants';
+import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 
 @Component({
   selector: 'pf-add-jobs-modal',
@@ -29,12 +27,12 @@ import { JobBasedRangeAddJobsModalPages } from '../../constants/add-jobs-modal.c
   styleUrls: ['./add-jobs-modal.component.scss']
 })
 export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestroy {
-  @Output() saved = new EventEmitter();
-  @Output() opened = new EventEmitter();
-
   @Input() saving = false;
   @Input() errorSaving = false;
   @Input() addJobsSaving: boolean;
+  @Input() rangeGroupId: number;
+  @Output() saved = new EventEmitter();
+  @Output() opened = new EventEmitter();
 
   // Observables
   searchingFilter$: Observable<boolean>;
@@ -47,14 +45,10 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
   userContext: Observable<UserContext>;
   _Permissions = null;
 
-  // Modal Observables
-  modalOpen$: Observable<boolean>;
-  modalTitle$: Observable<string>;
-  currentModalPage$: Observable<string>;
-
   // Subscriptions
   selectedJobIdsSubscription: Subscription;
   selectedPayfactorsJobCodesSubscription: Subscription;
+  userContextSubscription: Subscription;
 
   // Local variables
   maxAllowedJobsSetting = 0;
@@ -63,13 +57,16 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
   selectedJobIdCount: number;
   selectedJobCodeCount: number;
   attemptedSave = false;
-  jobRangeModelingPage = JobBasedRangeAddJobsModalPages;
+
+  // Constants
+  MODAL_NAME = 'Add Jobs';
 
   constructor(
     private formBuilder: FormBuilder,
     store: Store<fromSearchReducer.State>,
     private router: Router,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private route: ActivatedRoute
   ) {
     super(store);
     this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
@@ -81,10 +78,6 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
     this.addingDataErrorMessage$ = this.store.select(fromAddJobsReducer.getAddingDataErrorMessage);
     this.userContext = store.select(fromRootState.getUserContext);
     this._Permissions = Permissions;
-
-    this.modalTitle$ = this.store.select(fromAddJobsReducer.getModalTitle);
-    this.currentModalPage$ = this.store.select(fromAddJobsReducer.getCurrentModalPage);
-    this.modalOpen$ = this.store.select(fromAddJobsReducer.getAddJobsModalIsOpen);
   }
 
   onSetContext(payload: any): void {
@@ -121,7 +114,7 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
   }
 
   ngOnInit() {
-    this.userContext.subscribe(uc => {
+    this.userContextSubscription = this.userContext.subscribe(uc => {
       this.isSmallBiz = (uc.CompanySystemUserGroupsGroupName === SystemUserGroupNames.SmallBusiness);
       if (this.isSmallBiz) {
         this.settingsService.selectCompanySetting<number>(CompanySettingsEnum.MaxProjectJobCount, 'number')
@@ -138,7 +131,7 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
   }
 
   close() {
-    this.store.dispatch(new fromAddJobsModalActions.CloseAddJobsModal());
+    this.store.dispatch(new fromSearchPageActions.CloseSearchPage());
   }
 
   save() {
@@ -148,5 +141,6 @@ export class AddJobsModalComponent extends SearchBase implements OnInit, OnDestr
   ngOnDestroy() {
     this.selectedJobIdsSubscription.unsubscribe();
     this.selectedPayfactorsJobCodesSubscription.unsubscribe();
+    this.userContextSubscription.unsubscribe();
   }
 }

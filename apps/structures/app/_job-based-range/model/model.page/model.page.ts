@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromAddJobsModalActions from 'libs/features/add-jobs/actions/modal.actions';
+import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -13,9 +13,8 @@ import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromPublishModelModalActions from '../../shared/actions/publish-model-modal.actions';
 import { AddJobsModalComponent } from '../containers/add-jobs-modal';
-import { JOB_BASED_RANGE_ADD_JOBS_MODAL_PAGE_WORKFLOW } from '../constants/add-jobs-modal.constants';
-import { RangeGroupMetadata } from '../../shared/models';
 import { Pages } from '../../shared/constants/pages';
+import { RangeGroupMetadata } from "../../shared/models";
 
 @Component({
   selector: 'pf-model-page',
@@ -30,10 +29,10 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   rangeGroupId: any;
   page = Pages.Model;
 
-  // todo: remove temporary fields once back-end implemented
-  private readonly contextPaymarket: number;
-  private readonly contextProjectId: number;
-  private readonly newJobRange: boolean;
+  colTemplates = {};
+  filter: PfDataGridFilter;
+
+  newJobRange: boolean;
 
   constructor(
     public store: Store<any>,
@@ -41,6 +40,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.rangeGroupId = this.route.snapshot.params.id;
+
     this.filters  = [
       {
         SourceName: 'CompanyStructuresRangeGroup_ID',
@@ -55,23 +55,12 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     ];
     const url = route.snapshot.url;
     this.newJobRange = url && url.length > 0 && url[0].path === 'new';
-
-    // tslint:disable:no-bitwise
-    this.contextPaymarket = route.snapshot.queryParams['Paymarket'] ? +(route.snapshot.queryParams['Paymarket']) : 109139;
-    this.contextProjectId = route.snapshot.queryParams['ProjectId'] ? +(route.snapshot.queryParams['ProjectId']) : 768456;
   }
 
   // Events
-  handleAddJobs() {
-    this.store.dispatch(new fromAddJobsModalActions.OpenAddJobsModal(JOB_BASED_RANGE_ADD_JOBS_MODAL_PAGE_WORKFLOW));
-
-    // note: ProjectId => UserSession_ID in [dbo].[UserSession]
-    const jobBasedRangesAddJobsModalPageContext = {
-      PayMarketId: this.contextPaymarket,
-      ProjectId: this.contextProjectId
-    };
-
-    this.store.dispatch(new fromAddJobsPageActions.SetContext(jobBasedRangesAddJobsModalPageContext));
+  openAddJobsModal() {
+    this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
+    this.store.dispatch(new fromSearchPageActions.ShowPage());
   }
 
   handlePublishModel() {
@@ -89,8 +78,8 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.newJobRange) {
-      this.handleAddJobs();
+      if (this.newJobRange) {
+      this.openAddJobsModal();
     }
     return;
   }

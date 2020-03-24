@@ -11,6 +11,7 @@ import { JobResult } from 'libs/features/add-jobs/models/job-result.model';
 export class JobResultComponent {
   @Input() job: JobResult;
   @Input() showJobLevelFamilyDescription = false;
+  @Input() showJobBasedRangesJobMetadata = false;
   @Output() jobClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() jobDetailClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
 

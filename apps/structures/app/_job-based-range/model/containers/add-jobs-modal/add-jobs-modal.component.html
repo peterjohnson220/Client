@@ -1,15 +1,14 @@
 <pf-modal-form
   [size]="'lg'"
-  [title]="modalTitle$ | async"
+  [title]="MODAL_NAME"
   [modalId]="'job-range-modeling-modal-form'"
   [attr.data-qa-id]="'job-range-modeling-modal'"
-  [isOpen$]="modalOpen$"
+  [isOpen$]="pageShown$"
   [showFooter]="false"
   (onDismiss)="close()">
 
   <ng-container basic-content>
-    <pf-add-jobs-page
-      *ngIf="(currentModalPage$ | async) === jobRangeModelingPage.AddJobs">
+    <pf-add-jobs-page>
     </pf-add-jobs-page>
   </ng-container>
 </pf-modal-form>

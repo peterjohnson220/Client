@@ -5,6 +5,7 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
   jobDetailClicked={[Function EventEmitter]}
+  showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
 >
   <div
@@ -97,6 +98,7 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
               Finance
             </td>
           </tr>
+          
           <tr>
             <th>
               FLSA:
@@ -140,6 +142,7 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
   jobDetailClicked={[Function EventEmitter]}
+  showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
 >
   <div
@@ -198,6 +201,7 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
   jobDetailClicked={[Function EventEmitter]}
+  showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
 >
   <div
@@ -283,6 +287,7 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
               Finance
             </td>
           </tr>
+          
           <tr>
             <th>
               FLSA:
