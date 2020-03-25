@@ -26,8 +26,8 @@
 
 <ng-template #payMarketColumn let-dataRow="dataRow">
   <b>{{dataRow['CompanyPayMarkets_PayMarket']}}</b>
-  <span placement="right" *ngIf="dataRow['CompanyPayMarkets_Linked_PayMarket_Name']" data-html="true"
-        ngbTooltip="This pay market is linked to {{dataRow['CompanyPayMarkets_Linked_PayMarket_Name']}}.">
+  <span kendoTooltip *ngIf="dataRow['CompanyPayMarkets_Linked_PayMarket_Name']" data-html="true" position="right"
+        title="This pay market is linked to {{dataRow['CompanyPayMarkets_Linked_PayMarket_Name']}}.">
     <fa-icon class="pl-2" icon="link">
     </fa-icon>
   </span>
@@ -52,7 +52,7 @@
         ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
       </em>
     </small>
-  </div>  
+  </div>
 </ng-template>
 
 <ng-template #baseTccColumn let-dataRow="dataRow">
@@ -63,7 +63,7 @@
         ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
       </em>
     </small>
-  </div>  
+  </div>
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
