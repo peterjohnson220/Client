@@ -17,6 +17,7 @@ import { GridContextComponent, ModelSettingsBtnComponent } from './components';
 import { ModelGridComponent, ModelSettingsModalComponent } from './containers';
 import { ModelSettingsModalEffects } from './effects/model-settings-modal.effects';
 import { reducers } from './reducers';
+import { RangeValuePipe } from './pipes';
 import * as fromFaIcons from './fa-icons';
 
 @NgModule({
@@ -45,6 +46,7 @@ import * as fromFaIcons from './fa-icons';
     GridContextComponent,
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
+    RangeValuePipe,
   ],
   exports: [
     ModelGridComponent,
