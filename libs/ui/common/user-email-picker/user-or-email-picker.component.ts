@@ -92,7 +92,7 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
     return !this.workflow
       ? this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType, this.loaderConfigurationGroupId)
         .map((results: any) => this.handleEmailRecipientsResponse(results, term))
-      : this.userApiService.picker(term).map((results: any) => this.handleEmailRecipientsResponse(results, term));
+      : this.userApiService.jobPicker(term, this.jobId).map((results: any) => this.handleEmailRecipientsResponse(results, term));
   }
 
   private handleEmailRecipientsResponse(results: any, term: string) {
