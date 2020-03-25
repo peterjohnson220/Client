@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { JobDescription } from 'libs/models/jdm';
 
 import * as fromRootState from 'libs/state/state';
-import { JobDescriptionApiService, JobDescriptionTemplateApiService, JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
+import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowStepUserApiService } from 'libs/data/payfactors-api/jdm';
 import { ExtendedInfoResponse } from 'libs/models/payfactors-api/job-description/response';
 import { CompanyDto } from 'libs/models/company';
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
@@ -207,6 +207,20 @@ export class JobDescriptionEffects {
       })
     );
 
+  @Effect()
+  setWorkflowUserStepToIsBeingViewed$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED),
+      switchMap((action: fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewed) => {
+        return this.jobDescriptionWorkflowStepUserApiService.setWorkflowUserStepToIsBeingViewed(action.payload.jwt, action.payload.isBeingViewed).pipe(
+          map((response) => {
+            return new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedSuccess(response);
+          }),
+          catchError(() => of(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedError()))
+        );
+      })
+    );
+
   private redirectForUnauthorized(error: HttpErrorResponse) {
     if (error.status === 403) {
       return error.error.error.message;
@@ -217,9 +231,9 @@ export class JobDescriptionEffects {
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,
     private companyApiService: CompanyApiService,
-    private jobDescriptionTemplateApiService: JobDescriptionTemplateApiService,
     private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
     private router: Router,
     private userContextStore: Store<fromRootState.State>,
+    private jobDescriptionWorkflowStepUserApiService: JobDescriptionWorkflowStepUserApiService
   ) {}
 }

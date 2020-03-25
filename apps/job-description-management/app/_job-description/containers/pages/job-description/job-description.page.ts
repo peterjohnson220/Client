@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -92,7 +92,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStep$: Observable<boolean>;
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
 
-
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
   identitySubscription: Subscription;
@@ -169,6 +168,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.saveThrottle = new Subject();
   }
 
+  @HostListener('window:beforeunload')
+    onWindowClosed() {
+      this.unsetIsBeingViewed();
+    }
+
   ngOnInit(): void {
     this.initSubscriptions();
     this.initSaveThrottle();
@@ -177,6 +181,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     // we need the setting to check if we should redirect back to NG, but that call isn't made in public views, so fire an action to do that
     if (this.identity.IsPublic) {
       this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
+    }
+
+    if (this.tokenId && this.identityInWorkflow) {
+      this.store.dispatch(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewed({jwt: this.tokenId, isBeingViewed: true}));
     }
   }
 
@@ -604,5 +612,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     } else {
       this.jobDescriptionDisplayName = jobDescription.JobDescriptionTitle;
     }
+  }
+
+  private async unsetIsBeingViewed() {
+    const xmlHttp = new XMLHttpRequest();
+    const url = `/odata/WorkflowStepUser/SetIsBeingViewedOnWorkflowUserStep?jwt=${this.tokenId}&isBeingViewed=false`;
+    xmlHttp.open('GET', url, false);
+    xmlHttp.send();
   }
 }
