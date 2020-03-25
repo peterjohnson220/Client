@@ -17,12 +17,14 @@ export class DateRangeFilterComponent {
   @Input() endDate: string;
   @Input() locked: boolean;
   @Input() dateFormat: string;
+  @Input() fieldDisplayName: string;
   @Output() selectedOptionsChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() selectedOperatorChanged: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
 
   betweenOperator: FilterOperator = Between;
 
   operators = [ Between, Is, IsAfter, IsBefore ];
+  max: Date = new Date();
 
   constructor(private intlService: IntlService) {}
 

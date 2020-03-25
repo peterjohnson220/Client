@@ -52,6 +52,7 @@
   <kendo-datepicker
     [value]="selectedDate"
     [format]="dateFormat"
+    [max]="fieldDisplayName === 'Effective Date' ? max : null"
     (valueChange)="handleValueChanged($event)">
   </kendo-datepicker>
 </ng-template>

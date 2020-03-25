@@ -21,6 +21,7 @@ export class CreateDataViewModalComponent extends AbstractBaseDataViewModal {
   @ViewChild('createDataViewModal', { static: true }) public createDataViewModal: any;
 
   activeEntity: Entity;
+  max: Date = new Date();
   constructor(
     protected modalService: NgbModal,
     protected formBuilder: FormBuilder,

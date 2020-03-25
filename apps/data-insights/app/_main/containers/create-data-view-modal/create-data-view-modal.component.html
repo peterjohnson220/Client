@@ -36,6 +36,7 @@
             <label>{{requiredInfo.DisplayName}} <span class="text-danger">*</span></label>
             <kendo-datepicker
               class="form-control d-block w-50"
+              [max]="requiredInfo.DisplayName === 'Effective Date' ? max : null"
               formControlName="{{requiredInfo.FieldName}}"
               [attr.data-qa-id]="'txt-' + requiredInfo.FieldName"
               [format]="'MM/dd/yyyy'">
