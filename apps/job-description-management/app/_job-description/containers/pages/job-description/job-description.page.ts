@@ -167,12 +167,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.completedStep$ = this.store.select(fromJobDescriptionReducers.getCompletedStep);
     this.saveThrottle = new Subject();
-    this.defineDiscardDraftModalOptions();
   }
 
   ngOnInit(): void {
     this.initSubscriptions();
     this.initSaveThrottle();
+    this.defineDiscardDraftModalOptions();
 
     // we need the setting to check if we should redirect back to NG, but that call isn't made in public views, so fire an action to do that
     if (this.identity.IsPublic) {
