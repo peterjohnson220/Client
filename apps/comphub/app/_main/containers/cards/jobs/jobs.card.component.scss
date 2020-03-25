@@ -52,6 +52,13 @@
 
 .exchange-selector {
   kendo-dropdownlist {
-    width: 175px;
+    width: 200px;
+  }
+
+  .exchange-dropdown-label{
+    position:absolute;
+    top: -20px;
+    right:215px;
+    width:100px;
   }
 }
