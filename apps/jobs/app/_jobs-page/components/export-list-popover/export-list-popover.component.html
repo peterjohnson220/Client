@@ -2,7 +2,7 @@
   <div class="popover-body-container">
     <div class="popover-body-content">
       <div class="list-group">
-        <div *ngFor="let opt of exportOptions; let idx=index" class="list-group-item list-group-item-action p-2" [ngClass]="idx !== exportOptions.length - 1 ? 'list-group-border' : 'last-item'">
+        <div *ngFor="let opt of exportOptions; let idx=index" class="p-2" [ngClass]="idx !== exportOptions.length - 1 ? 'list-group-border' : 'last-item'">
           <div class="row align-items-center">
             <div class="col-10">
               <span>{{opt.Display}}</span>
@@ -11,6 +11,7 @@
             <div class="export-btn-group space-out-children row pl-2">
               <div class="mr-1">
                 <button [ngClass]="opt.ValidExtensions.indexOf('pdf') > -1 ? '' : 'hidden'"
+                        [title]="'Click to download'"
                         class="btn btn-secondary export-pdf"
                         (click)="handleExportClicked(opt, 'pdf')"
                         [attr.data-qa-id]="'btn-export='+opt.Name+'-pdf'"
@@ -20,7 +21,7 @@
               </div>
               <div>
                 <button [disabled]="disableCustomExport && opt.Custom"
-                        [title]="disableCustomExport ? disabledCustomExportTooltip : ''"
+                        [title]="disableCustomExport && opt.Custom ? disabledCustomExportTooltip : 'Click to download'"
                         [ngClass]="opt.ValidExtensions.indexOf('xlsx') > -1 ? '' : 'hidden'"
                         class="btn btn-secondary export-excel"
                         (click)="handleExportClicked(opt, 'xlsx')"
