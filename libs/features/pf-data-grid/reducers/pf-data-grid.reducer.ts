@@ -747,7 +747,7 @@ export function buildGroupedFields(fields: ViewField[]): any[] {
       'Order': Math.min(...g.items.map(c => (c as ViewField).Order)),
       'Group': g.value,
       'Fields': g.items,
-      'HasSelection': g.items.some((i: any) => i.IsSelected)
+      'HasSelection': g.items.some((i: any) => i.IsSelected && i.IsSelectable)
     }));
 
   const result: any[] = (groups as Array<GroupResult>).filter(g => g.value == null)[0].items;

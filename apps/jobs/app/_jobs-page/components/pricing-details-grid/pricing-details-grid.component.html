@@ -44,6 +44,13 @@
   </small>
 </ng-template>
 
+<ng-template #genericMrpColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <pf-pricing-details-mrp-column
+    [dataRow]="dataRow"
+    [fieldName]="fieldName"
+  ></pf-pricing-details-mrp-column>
+</ng-template>
+
 <ng-template #baseMrpColumn let-dataRow="dataRow">
   <div class="ellipsis-overflowing-text">
     <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>

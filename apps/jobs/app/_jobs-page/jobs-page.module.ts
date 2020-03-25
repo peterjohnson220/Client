@@ -33,7 +33,8 @@ import {
   ProjectDetailsComponent,
   PricingHistoryComponent,
   NotPricedPaymarketsComponent,
-  ExportListPopoverComponent
+  ExportListPopoverComponent,
+  PricingDetailsMrpColumnComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
@@ -84,6 +85,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     PricingHistoryComponent,
     NotPricedPaymarketsComponent,
     ExportListPopoverComponent,
+    PricingDetailsMrpColumnComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent

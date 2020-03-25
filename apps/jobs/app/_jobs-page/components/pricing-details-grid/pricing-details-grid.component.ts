@@ -32,8 +32,12 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   @ViewChild('baseMrpColumn', { static: false }) baseMrpColumn: ElementRef;
   @ViewChild('baseTccColumn', { static: false }) baseTccColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
+  @ViewChild('genericMrpColumn', { static: false }) genericMrpColumn: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
+  mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',
+    'SalesIncentiveActualMRP', 'SalesIncentiveActualPctMRP', 'SalesIncentiveTargetMRP', 'SalesIncentiveTargetPctMRP', 'TargetLTIPMRP', 'TargetTDCMRP', 'TCCMRP', 'TCCPlusAllowMRP',
+    'TCCPlusAllowNoCarMRP', 'TCCTargetMRP', 'TCCTargetPlusAllowMRP', 'TCCTargetPlusAllowNoCarMRP', 'TDCMRP', 'TGPMRP'];
   payMarketOptions: any;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -50,6 +54,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   pricedDataPayMarketField: ViewField;
   pricedDataFilteredPayMarketOptions: any;
   pricedDataSelectedPayMarket: any;
+  gridFields = [];
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -71,12 +76,15 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     this.pricedDataGlobalFilterTemplates = {
       'PayMarket': { Template: this.pricedDataPayMarketFilter }
     };
+
     this.pricedDataColTemplates = {
       'PayMarket': { Template: this.payMarketColumn },
-      'BaseMRP': { Template: this.baseMrpColumn },
-      'TCCMRP': { Template: this.baseTccColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
+
+    this.mrpFields.forEach(mrp => {
+      this.pricedDataColTemplates[mrp] = { Template: this.genericMrpColumn };
+    });
   }
 
   ngOnDestroy() {

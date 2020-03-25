@@ -8,3 +8,4 @@ export * from './structure-grid/structure-grid.component';
 export * from './pricing-history/pricing-history.component';
 export * from './not-priced-paymarkets/not-priced-paymarkets.component';
 export * from './export-list-popover';
+export * from './column-templates';
