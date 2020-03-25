@@ -20,8 +20,11 @@ import { Pages } from '../../constants/pages';
   styleUrls: ['./model-grid.component.scss']
 })
 export class ModelGridComponent implements AfterViewInit {
+  @ViewChild('min', {static: false}) minColumn: ElementRef;
   @ViewChild('mid', {static: false}) midColumn: ElementRef;
+  @ViewChild('max', {static: false}) maxColumn: ElementRef;
   @ViewChild('eeCount', {static: false}) eeCountColumn: ElementRef;
+  @ViewChild('avgBaseSalary', {static: false}) avgBaseSalaryColumn: ElementRef;
   @ViewChild('mrpValue', {static: false}) mrpValueColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @Input() singleRecordView: boolean;
@@ -74,8 +77,11 @@ export class ModelGridComponent implements AfterViewInit {
   // Lifecycle
   ngAfterViewInit() {
     this.colTemplates = {
+      ['Min']: {Template: this.minColumn},
       ['Mid']: {Template: this.midColumn},
+      ['Max']: {Template: this.maxColumn},
       ['NumEmployees']: {Template: this.eeCountColumn},
+      ['AvgBaseSalary']: {Template: this.avgBaseSalaryColumn},
       ['MarketReferencePointValue']: {Template: this.mrpValueColumn}
     };
 
