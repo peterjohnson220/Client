@@ -100,12 +100,15 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     const min = jobRangeData.CompanyStructures_Ranges_Min;
     const max = jobRangeData.CompanyStructures_Ranges_Max;
     const salary = currentRow.CompanyEmployees_EEMRPForStructureRangeGroup;
+    const fname = currentRow.CompanyEmployees_First_Name;
+    const lname = currentRow.CompanyEmployees_Last_Name;
+    const name = fname && fname.length > 0 && lname && lname.length > 0 ? currentRow.CompanyEmployees_First_Name + ' ' + currentRow.CompanyEmployees_Last_Name
+      + ' (' + currentRow.CompanyEmployees_Employee_ID + ')' : currentRow.CompanyEmployees_Employee_ID;
     if (salary >= min && salary <= max) {
-      this.employeeSeriesData.push({ x: xCoordinate, y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup});
+      this.employeeSeriesData.push({ x: xCoordinate, y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup, name: name});
     } else {
-      this.employeeSeriesOutlierData.push({ x: xCoordinate, y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup});
+      this.employeeSeriesOutlierData.push({ x: xCoordinate, y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup, name: name});
     }
-
   }
 
   private addMidpointLine() {
@@ -143,14 +146,14 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
           width: 2,
           value: StructuresHighchartsService.calculateMidpoint(
             this.jobRangeData.CompanyStructures_Ranges_Min, this.jobRangeData.CompanyStructures_Ranges_Max),
-          zIndex: 10
+          zIndex: 3
         },
         {
           color: '#6236FF',
           id: 'Average ' + this.controlPointDisplay,
           width: 2,
           value: this.jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP,
-          zIndex: 10
+          zIndex: 3
         },
         {
           id: 'Salary range',
