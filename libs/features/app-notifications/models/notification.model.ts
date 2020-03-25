@@ -41,5 +41,6 @@ export enum NotificationSource {
   DataInsights = 'Data Insights',
   ExchangeDataCutsExport = 'Exchange Data Cuts Exporter',
   GenericNotificationMessage = 'Generic Notification Message',
-  JobDescriptionBulkExport = 'Job Description Bulk Exporter'
+  JobDescriptionBulkExport = 'Job Description Bulk Exporter',
+  JobDescriptionTemplatePublisher = 'Job Description Template Publisher'
 }
