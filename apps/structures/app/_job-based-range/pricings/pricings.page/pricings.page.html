@@ -37,6 +37,6 @@
 <ng-template #aboveGridTemplate>
   <div style="height: 150px">
     <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async"></pf-grid-context>
-    <pf-model-grid [inboundFilters]="[filter]" [rangeGroupId]="rangeGroupId" [singleRecordView]="true"></pf-model-grid>
+    <pf-model-grid [inboundFilters]="[filter]" [rangeGroupId]="rangeGroupId" [singleRecordView]="true" [page]="page"></pf-model-grid>
   </div>
 </ng-template>

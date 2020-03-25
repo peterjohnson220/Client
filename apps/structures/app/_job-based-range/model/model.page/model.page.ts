@@ -14,6 +14,7 @@ import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { AddJobsModalComponent } from '../containers/add-jobs-modal';
 import { JOB_BASED_RANGE_ADD_JOBS_MODAL_PAGE_WORKFLOW } from '../constants/add-jobs-modal.constants';
 import { RangeGroupMetadata } from '../../shared/models';
+import { Pages } from '../../shared/constants/pages';
 
 @Component({
   selector: 'pf-model-page',
@@ -26,6 +27,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   metaData$: Observable<RangeGroupMetadata>;
   filters: PfDataGridFilter[];
   rangeGroupId: any;
+  page = Pages.Model;
 
   // todo: remove temporary fields once back-end implemented
   private readonly contextPaymarket: number;

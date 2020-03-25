@@ -12,6 +12,7 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { RangeGroupMetadata } from '../../models';
+import { Pages } from '../../constants/pages';
 
 @Component({
   selector: 'pf-model-grid',
@@ -27,6 +28,7 @@ export class ModelGridComponent implements AfterViewInit {
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() rangeGroupId: number;
+  @Input() page: Pages;
   @Output() addJobs = new EventEmitter();
   @Output() openModelSettings = new EventEmitter();
 

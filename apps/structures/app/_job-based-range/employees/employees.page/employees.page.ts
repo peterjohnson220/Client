@@ -11,6 +11,7 @@ import * as fromModelSettingsModalActions from '../../shared/actions/model-setti
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { RangeGroupMetadata } from '../../shared/models';
+import { Pages } from '../../shared/constants/pages';
 
 @Component({
   selector: 'pf-employees-page',
@@ -23,6 +24,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   metaData$: Observable<RangeGroupMetadata>;
   filter: PfDataGridFilter;
   employeePageViewId = PageViewIds.Employees;
+  page = Pages.Employees;
   rangeGroupId: any;
   rangeId: number;
   actionBarConfig: ActionBarConfig;
