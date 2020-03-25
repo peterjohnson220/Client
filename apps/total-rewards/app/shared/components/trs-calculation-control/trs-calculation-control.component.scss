@@ -1,4 +1,5 @@
 @import "app-colors";
+@import 'colors';
 
 .trs-calculation {
   table {
@@ -53,5 +54,8 @@
   color: $trs-canvas-background-color;
 }
 
-
+.add-comp-field-item:hover {
+  cursor: pointer;
+  color: $link-color !important;
+}
 

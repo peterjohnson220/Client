@@ -52,7 +52,7 @@
       </button>
       <div ngbDropdownMenu class="w-auto">
         <div *ngFor="let removedField of removedFields;">
-          <a ngbDropdownItem (click)="addField($event)">{{removedField.DefaultName}}</a>
+          <a ngbDropdownItem class="add-comp-field-item" (click)="addField($event)">{{removedField.DefaultName}}</a>
         </div>
       </div>
     </div>

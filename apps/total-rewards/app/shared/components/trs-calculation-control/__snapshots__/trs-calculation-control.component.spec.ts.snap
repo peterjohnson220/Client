@@ -98,6 +98,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
         
         <div>
           <a
+            class="add-comp-field-item"
             ngbdropdownitem=""
           >
             
