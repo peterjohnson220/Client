@@ -24,7 +24,7 @@
 
     <div  class="ellipsis-overflowing-text" >{{dataRow['CompanyJobs_Job_Title']}}</div>
     <div>
-      <div *ngIf="dataRow['CompanyJobs_JobAttachmentCount']>0" data-html="true" kendoTooltip
+      <div *ngIf="dataRow['CompanyJobs_JobAttachmentCount']>0 && !(selectedRecordId$ | async)" data-html="true" kendoTooltip
            title="{{dataRow['CompanyJobs_JobAttachmentCount']}} Attachment(s)">
           <fa-icon icon="paperclip"></fa-icon>
       </div>
