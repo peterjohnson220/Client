@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
 
-import { Equals, FilterOperator, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, FieldDataType } from '../../../models';
+import { Equals, FilterOperator, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual } from '../../../models';
 
 @Component({
   selector: 'pf-numeric-filter',
@@ -9,23 +9,19 @@ import { Equals, FilterOperator, GreaterThan, GreaterThanOrEqual, LessThan, Less
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NumericFilterComponent implements OnChanges {
-  @Input() dataType: FieldDataType;
   @Input() value: string;
   @Input() selectedOperator: FilterOperator;
+  @Input() format: string;
+  @Input() step: number;
   @Output() numericValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() changeOperator: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
   operators = [Equals, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual];
 
   numberValue: number;
-  decimals: number;
-  numberFormat: string;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.value) {
       this.setNumberValue();
-    }
-    if (changes.dataType) {
-      this.setInputOptions();
     }
   }
 
@@ -48,14 +44,5 @@ export class NumericFilterComponent implements OnChanges {
     } else {
       this.numberValue = null;
     }
-  }
-
-  private setInputOptions() {
-    if (this.dataType === FieldDataType.Int) {
-      this.decimals = 0;
-    } else {
-      this.decimals = 2;
-    }
-    this.numberFormat = `n${this.decimals}`;
   }
 }

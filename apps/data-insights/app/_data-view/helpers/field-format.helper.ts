@@ -1,3 +1,5 @@
+import { FieldFormatType } from 'libs/models/payfactors-api';
+
 export const dateFormatCasing = {
   'MM/DD/YYYY': 'MM/dd/yyyy',
   'M/D/YY': 'M/d/yy',
@@ -10,3 +12,9 @@ export const formatTypeMapping = {
   'float': 'number',
   'dateTime': 'date'
 };
+
+export function getKendoNumericFormatFromFormat(format: string, type: FieldFormatType): string {
+  const parsedFormat = format.split('-');
+  const formatPrefix = type === FieldFormatType.Percent ? 'p' : 'n';
+  return parsedFormat.length === 2 ? `${formatPrefix}${parseInt(parsedFormat[1], 0)}` : 'n';
+}

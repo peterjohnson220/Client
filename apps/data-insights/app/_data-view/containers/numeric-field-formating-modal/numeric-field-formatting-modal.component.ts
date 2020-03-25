@@ -43,10 +43,12 @@ export class NumericFieldFormattingModalComponent {
 
   save(): void {
     const digitsInfo = `1.${this.decimals}-${this.decimals}`;
+    const kendoFormat = this.selectedFormatType === FieldFormatType.Percent ? `p${this.decimals}` : `n${this.decimals}`;
     this.field.FieldFormat = {
       Value: `${this.selectedFormatType}:${digitsInfo}`,
       Type: this.selectedFormatType,
-      Format: digitsInfo
+      Format: digitsInfo,
+      KendoNumericFormat: kendoFormat
     };
     this.saveClicked.emit(this.field);
     this.close();

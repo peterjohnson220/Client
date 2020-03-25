@@ -54,21 +54,23 @@
         </pf-text-filter>
       </ng-container>
 
-      <ng-container *ngIf="filter.Field?.DataType === fieldDataType.Date">
+      <ng-container *ngIf="filter.Field?.Is.Date">
         <pf-date-range-filter
           [selectedOperator]="filter.Operator"
           [locked]="filter.IsLocked"
           [startDate]="filter?.SelectedOptions?.length > 0 ? filter.SelectedOptions[0] : null"
           [endDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[1] : null"
+          [dateFormat]="filter.Field?.FieldFormat?.Format"
           (selectedOptionsChanged)="handleSelectedOptionsChange($event)"
           (selectedOperatorChanged)="handleOperatorChanged($event)">
         </pf-date-range-filter>
       </ng-container>
 
-      <ng-container *ngIf="isNumericDataType">
+      <ng-container *ngIf="filter.Field?.Is.Numeric">
         <pf-numeric-filter
-          [dataType]="filter.Field?.DataType"
           [selectedOperator]="filter.Operator"
+          [format]="filter.Field?.FieldFormat?.KendoNumericFormat"
+          [step]="filter.Field?.FieldFormat?.Type === 'percent' ? 0.1 : 1"
           [value]="filter.SelectedOptions?.length ? filter.SelectedOptions[0] : null"
           (numericValuesChanged)="handleSelectedOptionsChange($event)"
           (changeOperator)="handleOperatorChanged($event)">

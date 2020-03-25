@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { FieldFormatType } from 'libs/models/payfactors-api/reports';
@@ -129,7 +130,11 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
   }
 
   handleClearFormatClicked(field: Field): void {
-    this.store.dispatch(new fromFieldsActions.ClearFormating(field));
+    const fieldToUpdate: Field = cloneDeep(field);
+    fieldToUpdate.FieldFormat.Format = null;
+    fieldToUpdate.FieldFormat.Value = null;
+    fieldToUpdate.FieldFormat.KendoNumericFormat = fieldToUpdate.Is.Numeric ? 'n' : null;
+    this.store.dispatch(new fromFieldsActions.ClearFormating(fieldToUpdate));
   }
 
   handleEditFormulaClick(field: Field): void {

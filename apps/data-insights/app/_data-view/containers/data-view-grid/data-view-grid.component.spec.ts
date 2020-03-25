@@ -11,7 +11,7 @@ import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataViewMainReducer from '../../reducers';
 import { DataViewGridComponent } from './data-view-grid.component';
-import { FieldDataType, generateMockField } from '../../models';
+import { generateMockField, Field } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 import { DateFieldFormattingModalComponent } from '../date-field-formatting-modal';
 
@@ -134,7 +134,16 @@ describe('Data Insights - Data View Grid', () => {
 
   it('should dispatch SetFormatOnSelectedField for number format modal or date format modal when handleClearFormatClicked', () => {
     const field = generateMockField();
-    const expectedAction = new fromFieldsActions.ClearFormating(field);
+    const formatClearedField: Field = {
+      ...field,
+      FieldFormat: {
+        ...field.FieldFormat,
+        Format: null,
+        Value: null,
+        KendoNumericFormat: null
+      }
+    };
+    const expectedAction = new fromFieldsActions.ClearFormating(formatClearedField);
     spyOn(store, 'dispatch');
 
     instance.handleClearFormatClicked(field);

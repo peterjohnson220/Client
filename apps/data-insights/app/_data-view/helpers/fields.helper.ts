@@ -90,6 +90,24 @@ export class FieldsHelper {
     }
   }
 
+  static compareField(x: Field, y: Field): boolean {
+    if (x.FieldType !== y.FieldType) {
+      return false;
+    }
+    return x.FieldType === FieldType.DataElement
+      ? x.DataElementId === y.DataElementId
+      : x.FormulaId === y.FormulaId;
+  }
+
+  static updateFieldFormatInFilters(filters: Filter[], field: Field): Filter[] {
+    return filters.map(filter => {
+      if (FieldsHelper.compareField(filter.Field, field)) {
+        filter.Field.FieldFormat = field.FieldFormat;
+      }
+      return filter;
+    });
+  }
+
   static buildUpdateDataViewFieldsRequest(fields: Field[], userDataView: UserDataView): UpdateDataViewFieldsRequest {
     const selectedFields: Field[] = orderBy(fields, 'Order');
     const fieldsToSave: UserDataElement[] = selectedFields.map((f, index) => {

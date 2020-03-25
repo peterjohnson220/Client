@@ -16,6 +16,7 @@ export class DateRangeFilterComponent {
   @Input() startDate: string;
   @Input() endDate: string;
   @Input() locked: boolean;
+  @Input() dateFormat: string;
   @Output() selectedOptionsChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() selectedOperatorChanged: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
 
