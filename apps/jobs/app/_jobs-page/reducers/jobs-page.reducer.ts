@@ -17,7 +17,7 @@ export interface State {
   companyPayMarkets: any;
   structureGradeNames: any;
   pricingDetailsView: string;
-  customExportData: any;
+  exportOptions: any;
 }
 
 export const initialState: State = {
@@ -32,7 +32,25 @@ export const initialState: State = {
   companyPayMarkets: [],
   structureGradeNames: [],
   pricingDetailsView: 'Priced',
-  customExportData: {}
+  exportOptions: [{
+    Display: 'Download Pricings',
+    Name: 'DownloadPricings',
+    Description: 'High Level Pricing Details including Pay Markets, Effective Dates',
+    Endpoint: 'ExportPricings',
+    ValidExtensions: ['xlsx'],
+    Custom: false,
+    Exporting: generateDefaultAsyncStateObj<boolean>(false),
+    ExportedReportExtension: undefined
+  }, {
+    Display: 'Download Job Report',
+    Name: 'DownloadJobReport',
+    Description: 'Report including Pricing Details and a breakdown of Pay',
+    Endpoint: 'ExportJobReport',
+    ValidExtensions: ['xlsx', 'pdf'],
+    Custom: false,
+    Exporting: generateDefaultAsyncStateObj<boolean>(false),
+    ExportedReportExtension: undefined
+  }]
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -135,9 +153,55 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       };
     }
     case fromJobsPageActions.LOAD_CUSTOM_EXPORTS_SUCCESS: {
+      const exportObj = {
+        Display: action.payload.DisplayText,
+        Name: action.payload.ExportName,
+        Description: 'Company custom export report',
+        Endpoint: 'ExportCustomJobReport',
+        ValidExtensions: ['xlsx'],
+        Custom: true,
+        Exporting: generateDefaultAsyncStateObj<boolean>(false),
+        ExportedReportExtension: undefined
+      };
+      const options = cloneDeep(state.exportOptions);
+      options.push(exportObj);
       return {
         ...state,
-        customExportData: action.payload
+        exportOptions: options
+      };
+    }
+    case fromJobsPageActions.EXPORT_PRICINGS: {
+      const updatedExportOptions = cloneDeep(state.exportOptions);
+      const exportedReport = updatedExportOptions.find(eo => eo.Name === action.payload.Name);
+
+      exportedReport.ExportedReportExtension = action.payload.FileExtension;
+      exportedReport.Exporting = AsyncStateObjHelper.loading(exportedReport, 'Exporting').Exporting;
+
+      return {
+        ...state,
+        exportOptions: updatedExportOptions
+      };
+    }
+    case fromJobsPageActions.EXPORT_PRICINGS_SUCCESS: {
+      const updatedExportOptions = cloneDeep(state.exportOptions);
+      const exportedReport = updatedExportOptions.find(eo => eo.Name === action.payload.Name);
+      exportedReport.ExportedReportExtension = action.payload.FileExtension;
+      exportedReport.Exporting = AsyncStateObjHelper.loadingSuccess(exportedReport, 'Exporting').Exporting;
+
+      return {
+        ...state,
+        exportOptions: updatedExportOptions
+      };
+    }
+    case fromJobsPageActions.EXPORT_PRICINGS_ERROR: {
+      const updatedExportOptions = cloneDeep(state.exportOptions);
+      const exportedReport = updatedExportOptions.find(eo => eo.Name === action.payload.Name);
+      exportedReport.ExportedReportExtension = action.payload.FileExtension;
+      exportedReport.Exporting = AsyncStateObjHelper.loadingError(exportedReport, 'Exporting').Exporting;
+
+      return {
+        ...state,
+        exportOptions: updatedExportOptions
       };
     }
     default: {
@@ -157,4 +221,4 @@ export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDele
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
 export const getPricingDetailsView = (state: State) => state.pricingDetailsView;
-export const getCustomExportData = (state: State) => state.customExportData;
+export const getExportOptions = (state: State) => state.exportOptions;

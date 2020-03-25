@@ -565,13 +565,19 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       };
     case fromPfGridActions.CLEAR_SELECTIONS:
       let clearSelectionsSelectedKeys = [];
+      let clearSelectionsSelectedData = [];
       let clearSelectionsSelectAllState = SelectAllStatus.unchecked;
 
       if (action.pageViewId && action.selectionsToClear && action.selectionsToClear.length > 0) {
         clearSelectionsSelectedKeys = cloneDeep(state.grids[action.pageViewId].selectedKeys);
+        clearSelectionsSelectedData = cloneDeep(state.grids[action.pageViewId].selectedData);
         const clearSelectionsAllVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, state.grids[action.pageViewId].data.data);
+        const keyIdentifier = getPrimaryKey(state, action.pageViewId);
 
         clearSelectionsSelectedKeys = clearSelectionsSelectedKeys.filter(k => !action.selectionsToClear.includes(k));
+        clearSelectionsSelectedData = clearSelectionsSelectedData.filter(d => {
+          return !action.selectionsToClear.includes(d[keyIdentifier]);
+        });
         clearSelectionsSelectAllState = clearSelectionsAllVisibleFieldsIds.filter(k => clearSelectionsSelectedKeys.includes(k)).length > 0
           ? SelectAllStatus.indeterminate : SelectAllStatus.unchecked;
       }
@@ -583,7 +589,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             selectedKeys: clearSelectionsSelectedKeys,
-            selectAllState: clearSelectionsSelectAllState
+            selectAllState: clearSelectionsSelectAllState,
+            selectedData: clearSelectionsSelectedData
           }
         }
       };

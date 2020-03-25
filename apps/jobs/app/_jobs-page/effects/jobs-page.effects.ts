@@ -160,9 +160,10 @@ export class JobsPageEffects {
     ofType(fromJobsPageActions.EXPORT_PRICINGS),
     switchMap((action: any) => {
       return this.jobsApiService.exportPricings(action.payload).pipe(
-        map(response => new fromPfDataGridActions.DoNothing(PageViewIds.Jobs)),
+        map(response => new fromJobsPageActions.ExportPricingsSuccess(action.payload)),
         catchError(error => {
-          return this.handleError('Error creating export. Please contact Payfactors Support for assistance');
+          return this.handleError('Error creating export. Please contact Payfactors Support for assistance', 'Error',
+            new fromJobsPageActions.ExportPricingsError(action.payload));
         })
       );
     })
@@ -182,11 +183,11 @@ export class JobsPageEffects {
     })
   );
 
-  private handleError(message: string, title: string = 'Error'): Observable<Action> {
+  private handleError(message: string, title: string = 'Error', resultingAction: Action = new fromJobsPageActions.HandleApiError(message)): Observable<Action> {
     const toastContent = `
     <div class="message-container"><div class="alert-triangle-icon mr-3"></div>${message}</div>`;
     this.toastr.error(toastContent, title, this.toastrOverrides);
-    return of(new fromJobsPageActions.HandleApiError(message));
+    return of(resultingAction);
   }
 
 

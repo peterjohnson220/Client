@@ -46,7 +46,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   companyPayMarketsSubscription: Subscription;
   structureGradeNameSubscription: Subscription;
   selectedJobDataSubscription: Subscription;
-  customExportDataSubscription: Subscription;
 
   userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
@@ -80,22 +79,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'CompanyJobs_Job_Title'
-  }];
-
-  exportOptions = [{
-    Display: 'Download Pricings',
-    Name: 'DownloadPricings',
-    Description: 'High Level Pricing Details including Pay Markets, Effective Dates',
-    Endpoint: 'ExportPricings',
-    ValidExtensions: ['xlsx'],
-    Custom: false
-  }, {
-    Display: 'Download Job Report',
-    Name: 'DownloadJobReport',
-    Description: 'Report including Pricing Details and a breakdown of Pay',
-    Endpoint: 'ExportJobReport',
-    ValidExtensions: ['xlsx', 'pdf'],
-    Custom: false
   }];
 
   disableExportPopover = true;
@@ -173,21 +156,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.disableExportPopover = !(this.selectedPricingIds.length > 0);
         }
-      }
-    });
-
-    this.customExportDataSubscription = this.store.select(fromJobsPageReducer.getCustomExportData).subscribe(exportData => {
-      if (exportData && exportData.DisplayText) {
-        const exportObj = {
-          Display: exportData.DisplayText,
-          Name: exportData.ExportName,
-          Description: 'Company custom export report',
-          Endpoint: 'ExportCustomJobReport',
-          ValidExtensions: ['xlsx'],
-          Custom: true
-        };
-
-        this.exportOptions.push(exportObj);
       }
     });
   }
@@ -282,7 +250,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.structureGradeNameSubscription.unsubscribe();
     this.selectedJobPayMarketSubscription.unsubscribe();
     this.selectedJobDataSubscription.unsubscribe();
-    this.customExportDataSubscription.unsubscribe();
   }
 
   closeSplitView() {
