@@ -1,5 +1,10 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
+import { Subscription } from 'rxjs';
+
+import * as fromJobsPageReducer from '../../reducers';
 
 @Component({
   selector: 'pf-export-list-popover',
@@ -7,15 +12,25 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['./export-list-popover.component.scss']
 })
 
-export class ExportListPopoverComponent {
-  @Input() exportOptions: any[];
+export class ExportListPopoverComponent implements OnDestroy {
   @Input() disablePopover: boolean;
   @Input() disabledPopoverTooltip: string;
   @Input() disableCustomExport = false;
   @Input() disabledCustomExportTooltip: string;
   @Output() exportEmitter = new EventEmitter();
 
-  constructor() {}
+  exportOptionsSubscription: Subscription;
+  exportOptions = [];
+  exportInProgress = false;
+
+  constructor(private store: Store<fromJobsPageReducer.State>) {
+    this.exportOptionsSubscription = this.store.select(fromJobsPageReducer.getExportOptions).subscribe(exportData => {
+      if (exportData) {
+        this.exportOptions = exportData;
+        this.exportInProgress = exportData.some(d => d.Exporting.loading);
+      }
+    });
+  }
 
   handleExportClicked(options: any, extension: string) {
     const metaData = {
@@ -24,5 +39,9 @@ export class ExportListPopoverComponent {
     };
 
     this.exportEmitter.emit(metaData);
+  }
+
+  ngOnDestroy() {
+    this.exportOptionsSubscription.unsubscribe();
   }
 }
