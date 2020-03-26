@@ -98,6 +98,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   selectedConfigGroup: ConfigurationGroup;
   private savedConfigurationGroup$: Observable<ConfigurationGroup>;
   private unsubscribe$ = new Subject();
+  loadType = LoadTypes.Sftp;
+  createdConfigurationGroup$: Observable<ConfigurationGroup>;
 
 
   private toastOptions: NotificationSettings = {
@@ -190,6 +192,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     const sftpPortConfigSelector = this.configSettingsSelectorFactory.getConfigSettingsSelector('SftpPort');
     this.sftpDomainConfig$ = this.store.select(sftpDomainConfigSelector);
     this.sftpPortConfig$ = this.store.select(sftpPortConfigSelector);
+    this.createdConfigurationGroup$ = this.store.select(fromOrgDataAutoloaderReducer.getCreatedConfigurationGroup);
 
     this.mappings = [];
     this.isActive = true;
@@ -308,6 +311,13 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
         this.saveLoaderSettings();
         this.saveFieldMappings();
+    });
+
+    this.createdConfigurationGroup$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(configurationGroup => !!configurationGroup)
+    ).subscribe(configurationGroup => {
+      this.selectedConfigGroup = configurationGroup;
     });
   } // end constructor
 
@@ -430,11 +440,13 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   }
 
   private reloadLoaderSettings() {
-    this.store.dispatch(new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany.CompanyId, this.selectedConfigGroup.LoaderConfigurationGroupId));
+    this.store.dispatch(
+      new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany.CompanyId, this.selectedConfigGroup.LoaderConfigurationGroupId));
   }
 
   private reloadFieldMappings() {
-    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany.CompanyId, this.selectedConfigGroup.LoaderConfigurationGroupId));
+    this.store.dispatch(
+      new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany.CompanyId, this.selectedConfigGroup.LoaderConfigurationGroupId));
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {

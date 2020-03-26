@@ -9,6 +9,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter=""
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -26,6 +27,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -159,13 +161,17 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            disabled=""
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              disabled=""
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
@@ -191,6 +197,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -208,6 +215,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -341,13 +349,17 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            disabled=""
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              disabled=""
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
@@ -373,8 +385,9 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
-  emailRecipients$={[Function Store]}
+  emailRecipients$={[Function Observable]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
   emailRecipientsSavingError$={[Function Store]}
@@ -390,6 +403,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -523,12 +537,16 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
@@ -554,6 +572,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -571,6 +590,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -647,6 +667,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -664,6 +685,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -797,12 +819,17 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              disabled=""
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >

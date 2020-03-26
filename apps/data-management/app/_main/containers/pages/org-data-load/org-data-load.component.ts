@@ -89,10 +89,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   loaderConfigGroup: ConfigurationGroup;
   isValidateOnly: boolean;
   emailRecipients: EmailRecipientModel[] = [];
+  loadType = LoadTypes.Manual;
 
   existingLoaderSettings: LoaderSetting[];
   private configGroupSeed: ConfigurationGroup = {
-    LoaderConfigurationGroupId: -1, GroupName: 'Add New Mapping', CompanyId: -1, LoadType: LoadTypes.Manual
+    LoaderConfigurationGroupId: -1, GroupName: 'Add New Mapping', CompanyId: -1, LoadType: this.loadType
   };
   private fileUploadData: FileUploadDataModel;
   StepHeaders: string[] = [
@@ -151,6 +152,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
   };
   private gettingColumnNames: boolean;
+  private createdConfigurationGroup$: Observable<ConfigurationGroup>;
 
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
@@ -177,6 +179,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.emailRecipientsSavingError$ = this.mainStore.select(fromDataManagementMainReducer.getSavingRecipientError);
     this.emailRecipientsRemovingError$ = this.mainStore.select(fromDataManagementMainReducer.getRemovingRecipientError);
     this.emailRecipientsModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getEmailRecipientsModalOpen);
+    this.createdConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getCreatedConfigurationGroup);
 
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$)
@@ -184,7 +187,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.selectedCompany = f;
       this.clearSelections();
       if (f) {
-        this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, LoadTypes.Manual));
+        this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, this.loadType));
         this.getPayfactorCustomFields(f.CompanyId);
       }
     });
@@ -293,6 +296,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     ).subscribe(configurationGroup => {
       this.saveSettingsAndMappings(this.getLoaderSettingsToSave(), configurationGroup.LoaderConfigurationGroupId);
       this.uploadFiles(configurationGroup.LoaderConfigurationGroupId);
+    });
+
+    this.createdConfigurationGroup$.pipe(
+      filter(configurationGroup => !!configurationGroup),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(configurationGroup => {
+      this.AddAndSetSelectedMapping(configurationGroup);
     });
 
 
@@ -504,7 +514,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return true;
     }
 
-    if (this.stepIndex === OrgUploadStep.FieldMapping && !this.showFieldMapperTooltip && !(this.isValidateOnly && this.emailRecipients.length <= 0)) {
+    if (this.stepIndex === OrgUploadStep.FieldMapping && !this.showFieldMapperTooltip && !(this.emailRecipients.length <= 0)) {
       return true;
     }
 
@@ -552,7 +562,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.isValidateOnly && this.emailRecipients.length <= 0) {
+    if (this.emailRecipients.length <= 0) {
       return;
     }
     const loaderSettingsToSave = this.getLoaderSettingsToSave();
@@ -575,7 +585,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         CompanyId: this.selectedCompany.CompanyId,
         GroupName: 'Saved Manual Mappings',
         LoaderConfigurationGroupId: null,
-        LoadType: LoadTypes.Manual
+        LoadType: this.loadType
       };
       this.mainStore.dispatch(new fromOrganizationalDataActions.SaveConfigGroup(newConfigGroup));
     }
@@ -725,7 +735,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   getFieldMapperTooltip() {
-    if (this.isValidateOnly && this.emailRecipients.length <= 0) {
+    if (this.emailRecipients.length <= 0) {
       return 'Please enter an email recipient to receive the results of this load.';
     }
 

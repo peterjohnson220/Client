@@ -322,6 +322,11 @@ export const getEmailRecipientsModalOpen = createSelector(
   fromEmailRecipientsReducer.getEmailRecipientsModalOpen
 );
 
+export const getCreatedConfigurationGroup = createSelector(
+  selectEmailRecipientsState,
+  fromEmailRecipientsReducer.getCreatedConfigurationGroup
+);
+
 
 // Transfer Schedule
 export const getTransferScheduleSummary = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getTransferScheduleSummary);
