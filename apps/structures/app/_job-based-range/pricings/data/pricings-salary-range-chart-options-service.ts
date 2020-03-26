@@ -2,6 +2,12 @@
 export class PricingsSalaryRangeChartOptionsService {
 
   static getPricingsRangeOptions(locale, currencyCode, controlPointDisplay) {
+    const tooltipFormatter = new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: currencyCode,
+      minimumFractionDigits: 0,
+      useGrouping: true
+    });
 
     return {
 
@@ -28,18 +34,28 @@ export class PricingsSalaryRangeChartOptionsService {
         borderWidth: 1
       },
       tooltip: {
-        useHTML: true
+        useHTML: true,
+        backgroundColor: '#282625',
+        borderColor: '#000000',
+        className: 'pricingToolTip',
+        formatter: function() {
+          return `
+            <span style="color: white;">
+              <b>${this.point.vendor}</b><br/>
+              ${this.point.titleAndEffectiveDate}<br/>
+              ${controlPointDisplay} ${this.point.mrpReferencePoint}: <b>${tooltipFormatter.format(Math.round(this.y))}</b>
+            </span>`;
+        }
       },
       yAxis: {
         labels: {
           formatter: function() {
-            const formatter = new Intl.NumberFormat(this.chart.userOptions.chart.locale, {
+            const formatter = new Intl.NumberFormat(locale, {
               style: 'currency',
-              currency: this.chart.userOptions.chart.currency,
+              currency: currencyCode,
               minimumFractionDigits: 0,
               useGrouping: false
             });
-
             const rawLabelValue = this.value / 1000;
             return formatter.format(rawLabelValue) + 'k';
           }
@@ -108,8 +124,7 @@ export class PricingsSalaryRangeChartOptionsService {
           lineColor: '#CD8C01',
           radius: 15
         },
-        enableMouseTracking: false,
-
+        enableMouseTracking: true
       }]
     };
   }
