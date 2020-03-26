@@ -13,6 +13,7 @@ import * as fromFaIcons from './fa-icons';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
+import { TooltipModule } from '@progress/kendo-angular-tooltip'
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -58,6 +59,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
       JobDescriptionEffects,
     ]),
     FontAwesomeModule,
+    TooltipModule,
     DropDownListModule,
 
     // Routing

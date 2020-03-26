@@ -23,10 +23,12 @@
   <div class="d-flex">
 
     <div  class="ellipsis-overflowing-text" >{{dataRow['CompanyJobs_Job_Title']}}</div>
-    <div><span placement="top" *ngIf="dataRow['CompanyJobs_JobAttachmentCount']>0" data-html="true"
-               ngbTooltip="{{dataRow['CompanyJobs_JobAttachmentCount']}} Attachment(s)">
+    <div>
+      <div *ngIf="dataRow['CompanyJobs_JobAttachmentCount']>0 && !(selectedRecordId$ | async)" data-html="true" kendoTooltip
+           title="{{dataRow['CompanyJobs_JobAttachmentCount']}} Attachment(s)">
           <fa-icon icon="paperclip"></fa-icon>
-      </span></div>
+      </div>
+    </div>
     <div
       *ngIf="!(selectedRecordId$ | async)"
       [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
@@ -88,7 +90,6 @@
   </button>
 
   <pf-export-list-popover
-    [exportOptions]="exportOptions"
     [disableCustomExport]="!selectedPricingIds.length"
     [disabledCustomExportTooltip]="'Select a pricing'"
     [disablePopover]="!isActiveJobs() || disableExportPopover"
