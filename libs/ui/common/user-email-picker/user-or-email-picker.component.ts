@@ -43,6 +43,7 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
   model: any;
   searching = false;
   searchFailed = false;
+  recipients;
   private restrictWorkflowToCompanyEmployeesOnly: boolean;
 
 
@@ -89,10 +90,15 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
       return of([]);
     }
 
-    return !this.workflow
-      ? this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType, this.loaderConfigurationGroupId)
-        .map((results: any) => this.handleEmailRecipientsResponse(results, term))
-      : this.userApiService.jobPicker(term, this.jobId).map((results: any) => this.handleEmailRecipientsResponse(results, term));
+    if (!this.workflow) {
+      this.recipients = this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType, this.loaderConfigurationGroupId);
+    } else if (this.jobId) {
+      this.recipients = this.userApiService.jobPicker(term, this.jobId).map((results: any) => this.handleEmailRecipientsResponse(results, term));
+    } else {
+      this.recipients = this.userApiService.picker(term).map((results: any) => this.handleEmailRecipientsResponse(results, term));
+    }
+
+    return this.recipients;
   }
 
   private handleEmailRecipientsResponse(results: any, term: string) {
