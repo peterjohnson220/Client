@@ -129,7 +129,7 @@ export class JobStructuresComponent implements OnInit, OnDestroy {
 
     if (this.paymarketId === -1) {
       this.paymarketsList.forEach(element => {
-        const paymarketGrade = this.paymarketGradeList.find(o => o.CompanyStructuresGradesId === this.gradeId 
+        const paymarketGrade = this.paymarketGradeList.find(o => o.CompanyStructuresGradesId === this.gradeId
           && o.CompanyPayMarketId === element.CompanyPayMarketId);
         if (element.CompanyPayMarketId !== -1 && paymarketGrade) {
           this.addMapping(selectedStructure, paymarketGrade);
