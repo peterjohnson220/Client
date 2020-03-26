@@ -31,20 +31,7 @@
     </div>
     <div class="flex-grow-1 d-flex justify-content-end space-out-children">
       <ng-content select="[button-container-left]"></ng-content>
-      <button *ngIf="formGroup"
-              type="submit"
-              class="btn"
-              form="form"
-              [ngClass]="primaryButtonClass"
-              [class.order-1]="flipPrimarySecondaryBtns"
-              [disabled]="submitDisabled">
-        <span *ngIf="submitting">
-          <pf-loading-indicator></pf-loading-indicator> {{primaryButtonTextSubmitting}}
-        </span>
-        <span *ngIf="!submitting">{{primaryButtonText}}</span>
-      </button>
-      <button *ngIf="!formGroup"
-              type="button"
+      <button type="button"
               class="btn"
               [ngClass]="primaryButtonClass"
               [class.order-1]="flipPrimarySecondaryBtns"
@@ -63,8 +50,7 @@
   </div>
 </ng-template>
 <ng-template #formContent>
-  <form id="form"
-        [formGroup]="formGroup"
+  <form [formGroup]="formGroup"
         (ngSubmit)="submit()">
     <ng-content select="[form-content]"></ng-content>
   </form>
