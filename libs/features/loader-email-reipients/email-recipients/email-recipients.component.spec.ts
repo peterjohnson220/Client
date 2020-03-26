@@ -51,7 +51,9 @@ describe('EmailRecipientsComponent', () => {
 
   it('should dispatch a SavingEmailRecipientAction when a recipient has been selected', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromEmailRecipientsActions.SavingEmailRecipient(component.recipients[0]);
+    component.loaderConfigurationGroupId = 1;
+    component.recipients[0].LoaderConfigurationGroupId = 1;
+    const expectedAction = new fromEmailRecipientsActions.SavingEmailRecipient(component.recipients[0], undefined);
     component.errorText = 'failed saving recipient';
 
     fixture.detectChanges();

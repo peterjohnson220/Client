@@ -112,12 +112,15 @@
           </kendo-tabstrip>
 
           <div class="float-right m-2">
-            <button
-              type="button"
-              class="btn btn-primary m-2"
-              [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete) || delimiter === ''"
-              (click)="SaveMappings()"
-            >Update</button>
+            <div class="d-inline"
+              [ngbTooltip]="(emailRecipients$ | async).length === 0 ? 'Please enter an email recipient to receive the results of this load.' : ''">
+              <button
+                type="button"
+                class="btn btn-primary m-2"
+                [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete) || delimiter === '' || (emailRecipients$ | async).length === 0"
+                (click)="SaveMappings()"
+              >Update</button>
+            </div>
             <button class="btn btn-secondary" (click)="openEmailRecipientsModal()">Email Recipients</button>
           </div>
 
@@ -130,6 +133,7 @@
         *ngIf="selectedCompany"
         [companyId]="selectedCompany.CompanyId"
         [loaderConfigurationGroupId]="selectedConfigGroup ? selectedConfigGroup.LoaderConfigurationGroupId : undefined"
+        [loadType]="loadType"
         [savingError$]="emailRecipientsSavingError$"
         [removingError$]="emailRecipientsRemovingError$"
         [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"

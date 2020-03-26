@@ -12,13 +12,14 @@ import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
 import { LoaderEntityStatus } from 'libs/features/org-data-loader/models';
-import { generateMockConfigurationGroup, MappingModel } from 'libs/models/data-loads';
+import { generateMockConfigurationGroup, GenerateMockEmailRecipient, MappingModel } from 'libs/models/data-loads';
 import {CompanySelectorComponent} from 'libs/features/company/components';
 
 import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import { ManageFieldMappingsPageComponent } from './manage-field-mappings.page';
 import { LoaderType } from '../../constants';
+import { of } from 'rxjs';
 
 describe('ManageFieldMapperPageComponent', () => {
   let component: ManageFieldMappingsPageComponent;
@@ -200,7 +201,7 @@ describe('ManageFieldMapperPageComponent', () => {
     component.structureMappingMappingComplete = true;
     component.employeeMappingComplete = true;
     component.delimiter = ',';
-
+    component.emailRecipients$ = of([GenerateMockEmailRecipient()]);
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
