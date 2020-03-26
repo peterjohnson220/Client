@@ -1,4 +1,4 @@
-import { cloneDeep, orderBy, uniq } from 'lodash';
+import { cloneDeep, orderBy, uniq, uniqBy } from 'lodash';
 
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
@@ -35,6 +35,7 @@ export interface DataGridState {
   viewIsDeleting: boolean;
   viewNameToBeDeleted: string;
   selectedKeys: any[];
+  selectedData: any[];
   selectAllState: string;
   exportEventId: number;
   exportingGrid: boolean;
@@ -112,6 +113,7 @@ export const getSavedViews = (state: DataGridStoreState, pageViewId: string) => 
 export const getSaveViewModalOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].saveViewModalOpen;
 export const getViewIsSaving = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsSaving;
 export const getSelectedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedKeys : null;
+export const getSelectedData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedData : null;
 export const getSelectAllState = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].selectAllState;
 export const getViewIsDeleting = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsDeleting;
 export const getViewNameToBeDeleted = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewNameToBeDeleted;
@@ -510,9 +512,20 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     case fromPfGridActions.UPDATE_SELECTED_KEY:
       let newSelectAllState = SelectAllStatus.unchecked;
       const grid = state.grids[action.pageViewId];
+
       const newSelectedKeys = cloneDeep(grid.selectedKeys) || [];
-      const index = newSelectedKeys.indexOf(action.payload);
-      index > -1 ? newSelectedKeys.splice(index, 1) : newSelectedKeys.push(action.payload);
+      const keyIndex = newSelectedKeys.indexOf(action.payload);
+      keyIndex > -1 ? newSelectedKeys.splice(keyIndex, 1) : newSelectedKeys.push(action.payload);
+
+      const dataPrimaryKey = getPrimaryKey(state, action.pageViewId);
+      const newSelectedData = cloneDeep(grid.selectedData) || [];
+      const selectedDataItem = grid.data.data.find(d => d[dataPrimaryKey] === action.payload);
+      const dataItemInActiveCollection = newSelectedData.find(d => d[dataPrimaryKey] === action.payload);
+      const selectedDataIndex = newSelectedData.indexOf(dataItemInActiveCollection);
+
+      selectedDataIndex > - 1 ? newSelectedData.splice(selectedDataIndex, 1) : newSelectedData.push(selectedDataItem);
+
+
       if (newSelectedKeys && (newSelectedKeys.length === grid.data.total || newSelectedKeys.length === grid.pagingOptions.Count)) {
         newSelectAllState = SelectAllStatus.checked;
       } else if (newSelectedKeys.length !== 0) {
@@ -525,7 +538,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             selectedKeys: newSelectedKeys,
-            selectAllState: newSelectAllState
+            selectAllState: newSelectAllState,
+            selectedData: newSelectedData
           }
         }
       };
@@ -533,13 +547,20 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const selectAllStateToSet = state.grids[action.pageViewId].selectAllState === SelectAllStatus.checked
         ? SelectAllStatus.unchecked : SelectAllStatus.checked;
 
-      const selectAllVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, state.grids[action.pageViewId].data.data);
+      const selectionPrimaryKey = getPrimaryKey(state, action.pageViewId);
+      const selectAllVisibleData = state.grids[action.pageViewId].data.data;
+      const selectAllVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, selectAllVisibleData);
 
       let selectAllKeys = [];
+      let selectAllData = [];
       if (selectAllStateToSet === SelectAllStatus.checked) {
         selectAllKeys = uniq([...state.grids[action.pageViewId].selectedKeys || [], ...selectAllVisibleFieldsIds]);
+        selectAllData = uniqBy([...state.grids[action.pageViewId].selectedData || [], ...selectAllVisibleData], selectionPrimaryKey);
       } else {
         selectAllKeys = state.grids[action.pageViewId].selectedKeys.filter(sk => !(selectAllVisibleFieldsIds.indexOf(sk) > -1));
+        selectAllData = state.grids[action.pageViewId].selectedData.filter(sd => {
+          return !selectAllVisibleData.find(vis => vis[selectionPrimaryKey] === sd[selectionPrimaryKey]);
+        });
       }
       return {
         ...state,
@@ -548,19 +569,26 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             selectedKeys: cloneDeep(selectAllKeys),
+            selectedData: cloneDeep(selectAllData),
             selectAllState: selectAllStateToSet
           }
         }
       };
     case fromPfGridActions.CLEAR_SELECTIONS:
       let clearSelectionsSelectedKeys = [];
+      let clearSelectionsSelectedData = [];
       let clearSelectionsSelectAllState = SelectAllStatus.unchecked;
 
       if (action.pageViewId && action.selectionsToClear && action.selectionsToClear.length > 0) {
         clearSelectionsSelectedKeys = cloneDeep(state.grids[action.pageViewId].selectedKeys);
+        clearSelectionsSelectedData = cloneDeep(state.grids[action.pageViewId].selectedData);
         const clearSelectionsAllVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, state.grids[action.pageViewId].data.data);
+        const keyIdentifier = getPrimaryKey(state, action.pageViewId);
 
         clearSelectionsSelectedKeys = clearSelectionsSelectedKeys.filter(k => !action.selectionsToClear.includes(k));
+        clearSelectionsSelectedData = clearSelectionsSelectedData.filter(d => {
+          return !action.selectionsToClear.includes(d[keyIdentifier]);
+        });
         clearSelectionsSelectAllState = clearSelectionsAllVisibleFieldsIds.filter(k => clearSelectionsSelectedKeys.includes(k)).length > 0
           ? SelectAllStatus.indeterminate : SelectAllStatus.unchecked;
       }
@@ -572,7 +600,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             selectedKeys: clearSelectionsSelectedKeys,
-            selectAllState: clearSelectionsSelectAllState
+            selectAllState: clearSelectionsSelectAllState,
+            selectedData: clearSelectionsSelectedData
           }
         }
       };

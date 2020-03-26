@@ -43,6 +43,7 @@ export const getStructureGradeNames = createSelector(selectJobsPageState, fromJo
 export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingIdToBeDeleted);
 export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
 export const getPricingDetailsView = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingDetailsView);
+export const getExportOptions = createSelector(selectJobsPageState, fromJobsPageReducer.getExportOptions);
 
 // Job Description Selectors
 export const selectJobDescriptionState =

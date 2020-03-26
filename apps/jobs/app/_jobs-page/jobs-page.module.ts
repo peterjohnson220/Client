@@ -13,6 +13,7 @@ import * as fromFaIcons from './fa-icons';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -32,7 +33,8 @@ import {
   PricingMatchesGridComponent,
   ProjectDetailsComponent,
   PricingHistoryComponent,
-  NotPricedPaymarketsComponent
+  NotPricedPaymarketsComponent,
+  ExportListPopoverComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
@@ -56,6 +58,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
       JobDescriptionEffects,
     ]),
     FontAwesomeModule,
+    TooltipModule,
     DropDownListModule,
 
     // Routing
@@ -82,6 +85,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     ProjectDetailsComponent,
     PricingHistoryComponent,
     NotPricedPaymarketsComponent,
+    ExportListPopoverComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent

@@ -17,7 +17,14 @@
 <ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
 
   <div class="d-flex">
-    <div class="ellipsis-overflowing-text">{{dataRow['CompanyJobs_Job_Title']}}</div>
+
+    <div  class="ellipsis-overflowing-text" >{{dataRow['CompanyJobs_Job_Title']}}</div>
+    <div>
+      <div *ngIf="dataRow['CompanyJobs_JobAttachmentCount']>0 && !(selectedRecordId$ | async)" data-html="true" kendoTooltip
+           title="{{dataRow['CompanyJobs_JobAttachmentCount']}} Attachment(s)">
+          <fa-icon icon="paperclip"></fa-icon>
+      </div>
+    </div>
     <div
       *ngIf="!(selectedRecordId$ | async)"
       [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
@@ -77,6 +84,14 @@
     class="btn btn-primary">
     New Job
   </button>
+
+  <pf-export-list-popover
+    [disableCustomExport]="!selectedPricingIds.length"
+    [disabledCustomExportTooltip]="'Select a pricing'"
+    [disablePopover]="disableExportPopover"
+    [disabledPopoverTooltip]="'Select a Priced Job'"
+    (exportEmitter)="exportPricings($event)"
+  ></pf-export-list-popover>
 </ng-template>
 
 <ng-template #gridActions>
