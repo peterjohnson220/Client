@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { delay, isNumber, isObject } from 'lodash';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter} from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
@@ -94,6 +94,9 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   private configurationGroups$: Observable<ConfigurationGroup[]>;
   selectedConfigGroup: ConfigurationGroup;
   private savedConfigurationGroup$: Observable<ConfigurationGroup>;
+  private unsubscribe$ = new Subject();
+  loadType = LoadTypes.Sftp;
+  createdConfigurationGroup$: Observable<ConfigurationGroup>;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -184,6 +187,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     const sftpPortConfigSelector = this.configSettingsSelectorFactory.getConfigSettingsSelector('SftpPort');
     this.sftpDomainConfig$ = this.store.select(sftpDomainConfigSelector);
     this.sftpPortConfig$ = this.store.select(sftpPortConfigSelector);
+    this.createdConfigurationGroup$ = this.store.select(fromOrgDataAutoloaderReducer.getCreatedConfigurationGroup);
 
     this.mappings = [];
     this.isActive = true;
@@ -283,6 +287,13 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
         this.saveLoaderSettings();
         this.saveFieldMappings();
+    });
+
+    this.createdConfigurationGroup$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(configurationGroup => !!configurationGroup)
+    ).subscribe(configurationGroup => {
+      this.selectedConfigGroup = configurationGroup;
     });
   } // end constructor
 
@@ -403,11 +414,13 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   private reloadLoaderSettings() {
-    this.store.dispatch(new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany, this.selectedConfigGroup.LoaderConfigurationGroupId));
+    this.store.dispatch(
+      new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany, this.selectedConfigGroup.LoaderConfigurationGroupId));
   }
 
   private reloadFieldMappings() {
-    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany, this.selectedConfigGroup.LoaderConfigurationGroupId));
+    this.store.dispatch(
+      new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany, this.selectedConfigGroup.LoaderConfigurationGroupId));
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {

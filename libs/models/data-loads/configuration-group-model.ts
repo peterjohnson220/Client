@@ -4,7 +4,7 @@ export interface ConfigurationGroup {
     LoaderConfigurationGroupId: number;
     GroupName: string;
     CompanyId: number;
-    LoadType: string;
+    LoadType: LoadTypes;
 }
 
 export function generateMockConfigurationGroup(): ConfigurationGroup {

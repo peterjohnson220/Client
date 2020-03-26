@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as fromOrgDataEmailRecipientsActions from '../actions/email-recipients.actions';
-import { EmailRecipientModel } from 'libs/models/data-loads';
+import { ConfigurationGroup, EmailRecipientModel } from 'libs/models/data-loads';
 
 export interface State extends EntityState<EmailRecipientModel> {
   loading: boolean;
@@ -10,6 +10,7 @@ export interface State extends EntityState<EmailRecipientModel> {
   removing: boolean;
   removingError: boolean;
   emailRecipientsModalOpen: boolean;
+  createdConfigurationGroup: ConfigurationGroup;
 }
 
 export const adapter: EntityAdapter<EmailRecipientModel> = createEntityAdapter<EmailRecipientModel>({
@@ -24,7 +25,8 @@ export const initialState: State = adapter.getInitialState({
   savingError: false,
   removing: false,
   removingError: false,
-  emailRecipientsModalOpen: false
+  emailRecipientsModalOpen: false,
+  createdConfigurationGroup: null
 });
 
 export function reducer(
@@ -104,6 +106,12 @@ export function reducer(
         emailRecipientsModalOpen: false
       };
     }
+    case fromOrgDataEmailRecipientsActions.SET_CREATED_CONFIGURATION_GROUP: {
+      return {
+        ...state,
+        createdConfigurationGroup: action.configurationGroup
+      };
+    }
     default: {
       return state;
     }
@@ -120,3 +128,5 @@ export const getRemovingEmailRecipients = (state: State) => state.removing;
 export const getRemovingEmailRecipientsError = (state: State) => state.removingError;
 
 export const getEmailRecipientsModalOpen = (state: State) => state.emailRecipientsModalOpen;
+
+export const getCreatedConfigurationGroup = (state: State) => state.createdConfigurationGroup;
