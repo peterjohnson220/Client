@@ -20,7 +20,8 @@
           kendoDateRangeStartInput
           autoCorrectOn="blur"
           [value]="selectionRange?.start"
-          [format]="dateFormat">
+          [format]="dateFormat"
+          [max]="max">
         </kendo-dateinput>
       </div>
   
@@ -31,7 +32,8 @@
           kendoDateRangeEndInput
           autoCorrectOn="blur"
           [value]="selectionRange?.end"
-          [format]="dateFormat">
+          [format]="dateFormat"
+          [max]="max">
         </kendo-dateinput>
       </div>
     </div>
@@ -52,7 +54,7 @@
   <kendo-datepicker
     [value]="selectedDate"
     [format]="dateFormat"
-    [max]="fieldDisplayName === 'Effective Date' ? max : null"
+    [max]="max"
     (valueChange)="handleValueChanged($event)">
   </kendo-datepicker>
 </ng-template>

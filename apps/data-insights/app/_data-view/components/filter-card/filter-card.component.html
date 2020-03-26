@@ -56,7 +56,6 @@
 
       <ng-container *ngIf="filter.Field?.Is.Date">
         <pf-date-range-filter
-          [fieldDisplayName]="filter.Field?.DisplayName"
           [selectedOperator]="filter.Operator"
           [locked]="filter.IsLocked"
           [startDate]="filter?.SelectedOptions?.length > 0 ? filter.SelectedOptions[0] : null"
