@@ -15,6 +15,7 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromJobsPageReducer from '../../reducers';
 
 import { PageViewIds } from '../../constants/';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 
 @Component({
@@ -25,6 +26,9 @@ import { PageViewIds } from '../../constants/';
 export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
   @ViewChild('employeeColumn', { static: false }) employeeColumn: ElementRef;
+  @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
+  @ViewChild('percentMrpColumn', { static: false }) percentMrpColumn: ElementRef;
+
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Employees'];
@@ -63,7 +67,10 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
       'PayMarket': { Template: this.payMarketFilter }
     };
     this.colTemplates = {
-      'Employees': { Template: this.employeeColumn }
+      'Employees': { Template: this.employeeColumn },
+      'BaseSalaryMarketIndex': { Template: this.percentMrpColumn },
+      'TotalCashCompensationMarketIndex': { Template: this.percentMrpColumn },
+      [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
 

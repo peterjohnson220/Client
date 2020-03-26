@@ -1,0 +1,60 @@
+<ng-template #exportList>
+  <div class="popover-body-container">
+    <div class="popover-body-content">
+      <div class="list-group">
+        <div *ngFor="let opt of exportOptions; let idx=index;" class="p-2" [ngClass]="idx !== exportOptions.length - 1 ? 'list-group-border' : 'last-item'">
+          <div class="row align-items-center">
+            <div class="col-10">
+              <span>{{opt.Display}}</span>
+              <small class="export-desc">{{opt.Description}}</small>
+            </div>
+            <div class="export-btn-group space-out-children row pl-2">
+              <div class="mr-1">
+                <button *ngIf="!opt.Exporting.loading || opt.Exporting.loading && opt.ExportedReportExtension !== 'pdf'"
+                        [disabled]="exportInProgress"
+                        [ngClass]="opt.ValidExtensions.indexOf('pdf') > -1 ? '' : 'hidden'"
+                        [title]="exportInProgress ? 'Download in progress' : 'Click to download'"
+                        class="btn btn-secondary export-pdf"
+                        (click)="handleExportClicked(opt, 'pdf');$event.stopPropagation();"
+                        [attr.data-qa-id]="'btn-export='+opt.Name+'-pdf'"
+                >
+                  <fa-icon [icon]="['fal', 'file-pdf']" class="fa-lg"></fa-icon>
+                </button>
+                <pf-loading-indicator
+                  *ngIf="opt.Exporting.loading && opt.ExportedReportExtension === 'pdf'"
+                ></pf-loading-indicator>
+              </div>
+              <div>
+                <button *ngIf="!opt.Exporting.loading || opt.Exporting.loading && opt.ExportedReportExtension !== 'xlsx'"
+                        [disabled]="(disableCustomExport && opt.Custom) || exportInProgress"
+                        [title]="exportInProgress ? 'Download in progress' : disableCustomExport && opt.Custom ? disabledCustomExportTooltip : 'Click to download'"
+                        [ngClass]="opt.ValidExtensions.indexOf('xlsx') > -1 ? '' : 'hidden'"
+                        class="btn btn-secondary export-excel"
+                        (click)="handleExportClicked(opt, 'xlsx');$event.stopPropagation();"
+                        [attr.data-qa-id]="'btn-export='+opt.Name+'-excel'"
+                >
+                  <fa-icon [icon]="['fal', 'file-excel']" class="fa-lg"></fa-icon>
+                </button>
+                <pf-loading-indicator
+                  *ngIf="opt.Exporting.loading && opt.ExportedReportExtension === 'xlsx'"
+                ></pf-loading-indicator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<button [disabled]="disablePopover"
+        [title]="disablePopover ? disabledPopoverTooltip : ''"
+        type="button" title="Export" id="jobs-page-export-popover-btn" class="btn btn-secondary"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+        placement="bottom-right" popoverTitle="Choose Export Type" [ngbPopover]="exportList"
+        [autoClose]="'outside'" [attr.data-qa-id]="'btn-grid-export-popover'"
+>
+  <fa-icon icon="download"></fa-icon>
+</button>
+
+
