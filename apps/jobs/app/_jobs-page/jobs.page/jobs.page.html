@@ -92,7 +92,7 @@
   <pf-export-list-popover
     [disableCustomExport]="!selectedPricingIds.length"
     [disabledCustomExportTooltip]="'Select a pricing'"
-    [disablePopover]="!isActiveJobs() || disableExportPopover"
+    [disablePopover]="disableExportPopover"
     [disabledPopoverTooltip]="'Select a Priced Job'"
     (exportEmitter)="exportPricings($event)"
   ></pf-export-list-popover>
