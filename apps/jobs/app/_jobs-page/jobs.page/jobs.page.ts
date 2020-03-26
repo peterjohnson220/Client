@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
@@ -31,8 +31,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredStructureGradeNameOptions: any;
   permissions = Permissions;
   pageViewId = PageViewIds.Jobs;
-  selectedJobIds: number[];
-  selectedPricingIds: number[];
+  selectedJobIds: number[] = [];
+  selectedPricingIds: number[] = [];
   selectedJobPayMarketCombos: string[];
 
   jobStatusField: ViewField;
@@ -47,6 +47,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   structureGradeNameSubscription: Subscription;
+  selectedJobDataSubscription: Subscription;
 
   userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
@@ -82,6 +83,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'CompanyJobs_Job_Title'
   }];
+
+  disableExportPopover = true;
+  selectedJobPricingCount = 0;
 
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
@@ -123,6 +127,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.selectedPricingIdSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.PricingDetails).subscribe(pid => {
       this.selectedPricingIds = pid || [];
+
+      if (this.selectedPricingIds.length) {
+        this.disableExportPopover = false;
+      } else {
+        this.disableExportPopover = !(this.selectedJobPricingCount > 0);
+      }
     });
 
     this.selectedJobPayMarketSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.NotPricedPayMarkets)
@@ -150,12 +160,26 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ExportSourceName: '',
       ColumnChooserType: ColumnChooserType.Column
     };
+
+    this.selectedJobDataSubscription = this.store.select(fromPfDataGridReducer.getSelectedData, this.pageViewId).subscribe(data => {
+      if (data) {
+        const pricingCount = data.map(d => d['CompanyJobs_Priced']);
+        this.selectedJobPricingCount = pricingCount.reduce((a, b) => a + b, 0);
+
+        if (this.selectedJobPricingCount > 0) {
+          this.disableExportPopover = false;
+        } else {
+          this.disableExportPopover = !(this.selectedPricingIds.length > 0);
+        }
+      }
+    });
   }
 
   ngOnInit() {
     this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));
     this.store.dispatch(new fromJobsPageActions.LoadCompanyPayMarkets());
     this.store.dispatch(new fromJobsPageActions.LoadStructureGrades());
+    this.store.dispatch(new fromJobsPageActions.LoadCustomExports());
   }
 
   ngAfterViewInit() {
@@ -244,6 +268,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companyPayMarketsSubscription.unsubscribe();
     this.structureGradeNameSubscription.unsubscribe();
     this.selectedJobPayMarketSubscription.unsubscribe();
+    this.selectedJobDataSubscription.unsubscribe();
   }
 
   closeSplitView() {
@@ -294,5 +319,17 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   closeJobManagmentModal() {
     this.showJobEditModal = false;
     this.editingJobId = null;
+  }
+
+  exportPricings(exportRequest: any) {
+    const request = {
+      CompanyJobIds: this.selectedJobIds,
+      PricingIds: this.selectedPricingIds,
+      FileExtension: exportRequest.Extension,
+      Endpoint: exportRequest.Options.Endpoint,
+      Name: exportRequest.Options.Name
+    };
+
+    this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
   }
 }

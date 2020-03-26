@@ -189,7 +189,7 @@ export class JobManagementEffects {
       updatedCompanyJob.JobStatus = true;
     }
 
-    if (attachments && attachments.length > 0) {
+    if (attachments) {
       updatedCompanyJob.CompanyJobsAttachments = attachments
         .map(file => ({
           ...file,

@@ -175,7 +175,7 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
   }
 }
 
-// The object returned from UploadJobAttachment has the property 
+// The object returned from UploadJobAttachment has the property
 // FileName but we are expected the property to be named Filename
 export function mapUploadedAttachments(attachments: any): CompanyJobAttachment[] {
   return attachments.map(file => ({

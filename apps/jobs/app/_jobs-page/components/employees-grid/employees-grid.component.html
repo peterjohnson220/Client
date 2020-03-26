@@ -20,6 +20,18 @@
   </ng-template>
 </ng-template>
 
+<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div class=ellipsis-overflowing-text>
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyEmployees_Rate'] | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #percentMrpColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div class=ellipsis-overflowing-text>
+    <span [innerHTML]="dataRow[fieldName] | number: '1.1-1' | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
 <ng-template #payMarketFilter>
   <kendo-dropdownlist
     style="width: 250px"

@@ -38,7 +38,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
   @Input() defaultSort: SortDescriptor[];
-  @Input() pagingOptions:  PagingOptions;
+  @Input() pagingOptions: PagingOptions;
   @Input() noRecordsFound: string;
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
