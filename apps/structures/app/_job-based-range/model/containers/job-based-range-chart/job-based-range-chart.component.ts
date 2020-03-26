@@ -92,20 +92,40 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.averageSeriesData.push(currentRow.CompanyStructures_RangeGroup_AverageEEMRP);
   }
 
+  private formatOutlierCount(min: boolean, count: number) {
+    return `${count} ${count > 1 ? 'employees' : 'employee'} ${min ? 'below min' : 'above max'}`;
+  }
+
+  private formatSalary(avgOutlier: number, avgCount: number) {
+    return `Average salary: ${StructuresHighchartsService.formatCurrency(avgOutlier, this.chartLocale, this.currency)}`;
+  }
+
+  private formatDelta(min: boolean, delta: number) {
+    return StructuresHighchartsService.formatCurrency(delta, this.chartLocale, this.currency)
+      + (min ? ' to bring all to minimum' : ' above the maximum');
+  }
+
   private processAndAddOutliers(xCoordinate, currentRow) {
     // Min Outlier
     this.outlierSeriesData.push(
       {
         x: xCoordinate,
         y: currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier,
-        count: currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier
+        count: currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier,
+        countString: this.formatOutlierCount(true, currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier),
+        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier, currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier),
+        delta: this.formatDelta(true, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMinOutliersAndMRP)
       });
+
     // Max Outlier
     this.outlierSeriesData.push(
       {
         x: xCoordinate,
         y: currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier,
-        count: currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier
+        count: currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier,
+        countString: this.formatOutlierCount(false, currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier),
+        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier, currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier),
+        delta: this.formatDelta(false, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMaxOutliersAndMRP)
       });
   }
 
