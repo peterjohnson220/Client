@@ -54,6 +54,7 @@ export class FilterChooserComponent implements OnChanges {
   }
 
   cancelDelete() {
+    this.filter = '';
     this.cancelDeleteEvent.emit();
   }
 
