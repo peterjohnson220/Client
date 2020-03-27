@@ -1,4 +1,9 @@
-<pf-page-with-title-bar [isFullHeader]="showTitle" [absoluteUrl]="navigationURL" [contentNoPadding]="contentNoPadding">
+<pf-page-with-title-bar 
+  [isFullHeader]="showTitle"
+  [absoluteUrl]="navigationURL"
+  [contentNoPadding]="contentNoPadding"
+  [contentClassNamesOverrides]="contentClassNamesOverrides ? contentClassNamesOverrides : 'pb-0'">
+
   <ng-container page-title *ngIf="showTitle">
     {{title | titlecase}}
   </ng-container>
@@ -22,8 +27,8 @@
   <ng-container page-content>
     <div class="d-flex h-100 flex-column">
       <div *ngIf="gridActionsTemplate || userFilteredFields.length > 0"
-           class="no-gutters d-flex justify-content-between border pl-2 gridActionTemplate">
-        <div class="flex-fill p-1">
+           class="no-gutters d-flex justify-content-between mb-2 sub-header">
+        <div class="flex-fill">
           <div class="h-100" *ngIf="userFilteredFields.length > 0">
             <pf-data-grid-filter-pills
               [fields]="userFilteredFields"
@@ -32,11 +37,11 @@
             </pf-data-grid-filter-pills>
           </div>
         </div>
-        <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end">
+        <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end grid-actions-container">         
           <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
         </div>
       </div>
-      <div class="d-flex h-100" [ngClass]="mainGridContainerClassName != null ? mainGridContainerClassName : ''">
+      <div class="d-flex h-100" [ngClass]="contentNoPadding ? '' : 'border'">
         <div [ngClass]="isSplitView() ? 'main-grid-split' : 'main-grid-full'"
              [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
           <div class="flex-column-container">
@@ -64,13 +69,13 @@
             </div>
           </div>
         </div>
-        <div *ngIf="isSplitView()" class="split-view-container">
+        <div *ngIf="isSplitView()" class="split-view-container border-left">
           <ng-container
             [ngTemplateOutlet]="splitViewTemplate"
             [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter, splitViewFilters: splitViewFilters$ | async}">
           </ng-container>
         </div>
-        <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3 border border-top-1">
+        <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3 border-left">
           <pf-filter-panel
             [fields]="filterableFields$ | async"
             [filterTemplates]="filterPanelTemplates"

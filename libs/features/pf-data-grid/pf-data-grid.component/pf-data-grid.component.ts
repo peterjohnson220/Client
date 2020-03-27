@@ -53,7 +53,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() headerClassName: string;
   @Input() gridContainerSplitViewWidth = '500px';
   @Input() splitOnSelection = true;
-  @Input() mainGridContainerClassName: string;
+  @Input() contentClassNamesOverrides: string;
   @Input() exportSourceName: string;
   @Input() defaultColumnWidth: number;
 
