@@ -10,6 +10,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
 import { PfFormsModule } from 'libs/forms';
@@ -46,6 +47,7 @@ import { CompanySelectorComponent, SftpAccountStatusComponent } from './containe
     LayoutModule,
     UploadModule,
     FontAwesomeModule,
+    NgbTooltipModule,
 
     // Routing
     OrgDataLoaderRoutingModule,

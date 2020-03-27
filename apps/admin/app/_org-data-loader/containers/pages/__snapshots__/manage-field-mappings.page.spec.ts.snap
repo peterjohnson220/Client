@@ -8,6 +8,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter=""
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -25,6 +26,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -56,6 +58,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -149,13 +152,17 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            disabled=""
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              disabled=""
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
@@ -180,6 +187,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -197,6 +205,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -228,6 +237,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -321,13 +331,17 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            disabled=""
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              disabled=""
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
@@ -352,8 +366,9 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
-  emailRecipients$={[Function Store]}
+  emailRecipients$={[Function Observable]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
   emailRecipientsSavingError$={[Function Store]}
@@ -369,6 +384,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -400,6 +416,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -493,12 +510,16 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
@@ -523,6 +544,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -540,6 +562,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -571,6 +594,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -606,6 +630,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   companyMappingsLoading$={[Function Store]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -623,6 +648,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -654,6 +680,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -747,12 +774,17 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              disabled=""
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
