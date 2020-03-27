@@ -421,8 +421,8 @@
                               formControlName="LTIElig"
                               placeholder="Select Eligibility..."></kendo-combobox>
             </div>
-            <label class="col-2 col-form-label">Grade <span *ngIf="(gradeCodes$ | async)?.obj?.length > 1" class="text-danger">*</span></label>
-            <div class="col-4">
+            <label [class.hidden]="!selectedStructure?.Is.GradeRange" class="col-2 col-form-label">Grade</label>
+            <div [class.hidden]="!selectedStructure?.Is.GradeRange" class="col-4">
               <kendo-combobox class="form-control"
                               data-qa-id="ddl-employee-form-grade"
                               placeholder="Select a Grade..."
@@ -433,27 +433,25 @@
                               [valuePrimitive]="true"
                               [filterable]="true"
                               [kendoDropDownFilter]="filterSettings"
-                              [ngClass]="{ 'is-invalid': !f.GradeCode.valid && f.GradeCode.touched }"
-                              formControlName="GradeCode"></kendo-combobox>
-              <span *ngIf="f.GradeCode.errors?.required" class="invalid-feedback">Grade is required</span>
+                              formControlName="GradeCode">
+              </kendo-combobox>
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-2 col-form-label">Structure Name <span *ngIf="(structureNames$ | async)?.obj?.length > 1" class="text-danger">*</span></label>
+            <label class="col-2 col-form-label">Structure Name</label>
             <div class="col-4">
               <kendo-combobox class="form-control" placeholder="Select a Structure Name..."
                               data-qa-id="txt-employee-form-structure-name"
-                              (valueChange)="onStructureChanges()"
-                              [data]="(structureNames$ | async)?.obj"
-                              [loading]="(structureNames$ | async)?.loading"
-                              [valueField]="'Value'"
+                              (valueChange)="onStructureChanges($event)"
+                              [data]="(structures$ | async)?.obj"
+                              [loading]="(structures$ | async)?.loading"
+                              [valueField]="'RangeGroupId'"
                               [textField]="'Name'"
                               formControlName="StructureRangeGroupId"
                               [filterable]="true"
                               [kendoDropDownFilter]="filterSettings"
-                              [ngClass]="{ 'is-invalid': !f.StructureRangeGroupId.valid && f.StructureRangeGroupId.touched }"
-                              [valuePrimitive]="true"></kendo-combobox>
-              <span *ngIf="f.StructureRangeGroupId.errors?.required" class="invalid-feedback">Structure Name is required</span>
+                              [valuePrimitive]="true">
+              </kendo-combobox>
             </div>
           </div>
           <ng-container *ngIf="!!(employeesUserDefinedFields$ | async)?.obj && (employeesUserDefinedFields$ | async)?.obj?.length">

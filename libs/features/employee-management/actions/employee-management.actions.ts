@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { CompanyEmployee, GenericKeyValue, KendoTypedDropDownItem } from 'libs/models';
-import { EmployeeValidation, Job, LoadJobsState } from '../models';
+import { EmployeeValidation, Job, LoadJobsState, Structure } from '../models';
 
 export const HANDLE_API_ERROR = '[EmployeeManagement] Handle API Error';
 export const SHOW_EMPLOYEE_FORM = '[EmployeeManagement] Show Employee Form';
@@ -165,12 +165,12 @@ export class LoadGradeCodesError implements Action {
 
 export class LoadStructures implements Action {
   readonly type = LOAD_STRUCTURES;
-  constructor(public payload: { jobId: number, paymarketId: number }) { }
+  constructor(public payload: { jobId: number, paymarketId: number, employeeId?: number }) { }
 }
 
 export class LoadStructuresSuccess implements Action {
   readonly type = LOAD_STRUCTURES_SUCCESS;
-  constructor(public payload: KendoTypedDropDownItem[]) { }
+  constructor(public payload: Structure[]) { }
 }
 
 export class LoadStructuresError implements Action {

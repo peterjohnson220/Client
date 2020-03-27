@@ -3,7 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee } from 'libs/models';
 
 import * as fromEmployeeManagementActions from '../actions/employee-management.actions';
-import { EmployeeValidation, Job } from '../models';
+import { EmployeeValidation, Job, Structure } from '../models';
 
 export interface State {
   errorMessage: string;
@@ -15,7 +15,7 @@ export interface State {
   countries: AsyncStateObj<KendoTypedDropDownItem[]>;
   departments: AsyncStateObj<string[]>;
   structureGrades: AsyncStateObj<KendoTypedDropDownItem[]>;
-  structureNames: AsyncStateObj<KendoTypedDropDownItem[]>;
+  structures: AsyncStateObj<Structure[]>;
   employeesUserDefinedFields: AsyncStateObj<GenericKeyValue<string, string>[]>;
   employee: AsyncStateObj<CompanyEmployee>;
   employeeValidation: AsyncStateObj<EmployeeValidation>;
@@ -32,7 +32,7 @@ export const initialState: State = {
   countries: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   departments: generateDefaultAsyncStateObj<string[]>([]),
   structureGrades: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
-  structureNames: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
+  structures: generateDefaultAsyncStateObj<Structure[]>([]),
   employeesUserDefinedFields: generateDefaultAsyncStateObj<GenericKeyValue<string, string>[]>([]),
   employee: generateDefaultAsyncStateObj<CompanyEmployee>(null),
   employeeValidation: generateDefaultAsyncStateObj<EmployeeValidation>(null),
@@ -211,28 +211,28 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
       };
     }
     case fromEmployeeManagementActions.LOAD_STRUCTURES: {
-      const structureNamesClone = cloneDeep(state.structureNames);
-      structureNamesClone.loading = true;
+      const structuresClone = cloneDeep(state.structures);
+      structuresClone.loading = true;
       return {
         ...state,
-        structureNames: structureNamesClone
+        structures: structuresClone
       };
     }
     case fromEmployeeManagementActions.LOAD_STRUCTURES_SUCCESS: {
-      const structureNamesClone = cloneDeep(state.structureNames);
-      structureNamesClone.loading = false;
-      structureNamesClone.obj = action.payload;
+      const structuresClone = cloneDeep(state.structures);
+      structuresClone.loading = false;
+      structuresClone.obj = action.payload;
       return {
         ...state,
-        structureNames: structureNamesClone
+        structures: structuresClone
       };
     }
     case fromEmployeeManagementActions.LOAD_STRUCTURES_ERROR: {
-      const structureNamesClone = cloneDeep(state.structureNames);
-      structureNamesClone.loading = false;
+      const structuresClone = cloneDeep(state.structures);
+      structuresClone.loading = false;
       return {
         ...state,
-        structureNames: structureNamesClone
+        structures: structuresClone
       };
     }
     case fromEmployeeManagementActions.LOAD_GRADE_CODES: {
@@ -378,7 +378,7 @@ export const getPaymarkets = (state: State) => state.paymarkets;
 export const getCountries = (state: State) => state.countries;
 export const getCurrencies = (state: State) => state.currencies;
 export const getGradeCodes = (state: State) => state.structureGrades;
-export const getStructureNames = (state: State) => state.structureNames;
+export const getStructures = (state: State) => state.structures;
 export const getEmployeesUserDefinedFields = (state: State) => state.employeesUserDefinedFields;
 export const getErrorMessage = (state: State) => state.errorMessage;
 export const getEmployeeAsync = (state: State) => state.employee;
