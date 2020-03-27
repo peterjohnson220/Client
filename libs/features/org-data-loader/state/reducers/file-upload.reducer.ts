@@ -1,5 +1,5 @@
-import * as fromFileUploadActions from '../actions/file-upload.actions';
-import {ColumnNameRequestModel} from '../models';
+import * as fromFileUploadActions from '../actions';
+import {ColumnNameRequestModel} from '../../models';
 
 export interface State {
   gettingColumnNames: boolean;
