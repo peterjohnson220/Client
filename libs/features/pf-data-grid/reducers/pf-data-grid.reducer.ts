@@ -22,6 +22,7 @@ export interface DataGridState {
   filterPanelOpen: boolean;
   pagingOptions: PagingOptions;
   applyDefaultFilters: boolean;
+  applyUserDefaultCompensationFields: boolean;
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
   data: GridDataResult;
@@ -94,6 +95,9 @@ export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string)
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
 export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
+};
+export const getApplyUserDefaultCompensationFields = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].applyUserDefaultCompensationFields : null;
 };
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
@@ -261,6 +265,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             applyDefaultFilters: action.value,
+          },
+        }
+      };
+    case fromPfGridActions.UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            applyUserDefaultCompensationFields: action.value,
           },
         }
       };

@@ -14,6 +14,7 @@
     [pagingOptions]="defaultPagingOptions"
     [compactGrid]="true"
     [backgroundColor]="'#F7F7F9'"
+    [applyUserDefaultCompensationFields]="true"
     [noRecordsFound]="'This pricing has no data cuts.'">
   </pf-data-grid>
 </div>
@@ -25,11 +26,11 @@
     |
     <span style="width: 4.5%">Adj. %</span>
     <span style="width: 99%"></span>
-  </div>  
+  </div>
 </ng-template>
 
 <ng-template #jobTitleColumn let-dataRow="dataRow">
-  <pf-pricing-matches-job-title [dataRow]="dataRow"></pf-pricing-matches-job-title>  
+  <pf-pricing-matches-job-title [dataRow]="dataRow"></pf-pricing-matches-job-title>
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
@@ -41,7 +42,7 @@
 <ng-template #wtgColumn let-dataRow="dataRow">
   <div class="ellipsis-overflowing-text">
     {{dataRow['CompanyJobs_PricingsMatches_Match_Weight'] | number: '1.2-2'}}
-  </div>  
+  </div>
 </ng-template>
 
 <ng-template #adjColumn let-dataRow="dataRow">

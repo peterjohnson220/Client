@@ -49,6 +49,7 @@ export const getDefaultSortDescriptor = createSelector(selectPfDataGridState, fr
 export const getSortDescriptor = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSortDescriptor);
 export const getData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getData);
 export const getApplyDefaultFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getApplyDefaultFilters);
+export const getApplyUserDefaultCompensationFields = createSelector(selectPfDataGridState, fromPfDataGridReducer.getApplyUserDefaultCompensationFields);
 export const getInboundFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getInboundFilters);
 export const getFilterPanelDisplay = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterPanelDisplay);
 export const getSelectedRecordId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSelectedRecordId);

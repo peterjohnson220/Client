@@ -39,18 +39,31 @@ export class PfDataGridEffects {
       ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG),
       groupBy((action: fromPfDataGridActions.LoadViewConfig) => action.pageViewId),
       mergeMap(pageViewIdGroup => pageViewIdGroup.pipe(
+        mergeMap((loadViewConfigAction: fromPfDataGridActions.LoadViewConfig) =>
+          of(loadViewConfigAction).pipe(
+            withLatestFrom(
+              this.store.pipe(select(fromPfDataGridReducer.getApplyUserDefaultCompensationFields, loadViewConfigAction.pageViewId)),
+              (action: fromPfDataGridActions.LoadViewConfig, applyUserDefaultCompensationFields) =>
+                ({action, applyUserDefaultCompensationFields})
+            )
+          ),
+        ),
         switchMap(
-          (action: fromPfDataGridActions.LoadViewConfig) =>
-            this.dataViewApiService.getDataViewConfig(PfDataGridEffects.parsePageViewId(action.pageViewId), action.name).pipe(
+          (data) =>
+            this.dataViewApiService.getDataViewConfig(
+                PfDataGridEffects.parsePageViewId(data.action.pageViewId),
+                data.action.name,
+                data.applyUserDefaultCompensationFields
+            ).pipe(
               mergeMap((viewConfig: DataViewConfig) => {
                 return [
-                  new fromPfDataGridActions.LoadViewConfigSuccess(action.pageViewId, viewConfig),
-                  new fromPfDataGridActions.LoadData(action.pageViewId)
+                  new fromPfDataGridActions.LoadViewConfigSuccess(data.action.pageViewId, viewConfig),
+                  new fromPfDataGridActions.LoadData(data.action.pageViewId)
                 ];
               }),
               catchError(error => {
                 const msg = 'We encountered an error while loading the data fields.';
-                return of(new fromPfDataGridActions.HandleApiError(action.pageViewId, msg));
+                return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
               })
             )
         )))
