@@ -1,5 +1,7 @@
+import { StructuresHighchartsService } from '../../shared/services';
+
 export class JobRangeModelChartService {
-  static getRangeOptions(locale, currencyCode, controlPointDisplay) {
+  static getRangeOptions(locale, currencyCode, controlPointDisplay, rate) {
     return {
       chart: {
         inverted: true,
@@ -36,15 +38,7 @@ export class JobRangeModelChartService {
       yAxis: {
         labels: {
           formatter: function() {
-            const formatter = new Intl.NumberFormat(this.chart.userOptions.chart.locale, {
-              style: 'currency',
-              currency: this.chart.userOptions.chart.currency,
-              minimumFractionDigits: 0,
-              useGrouping: false
-            });
-
-            const rawLabelValue = this.value / 1000;
-            return formatter.format(rawLabelValue) + 'k';
+            return StructuresHighchartsService.formatYAxisLabel(this.value, locale, currencyCode, rate);
           }
         },
         opposite: true,

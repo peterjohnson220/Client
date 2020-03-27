@@ -43,6 +43,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   controlPointDisplay: string;
   prevControlPointDisplay: string;
   plotLinesAndBands: any;
+  rate: string;
 
   constructor(
     public store: Store<any>
@@ -52,9 +53,10 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.currency = md.Currency;
         this.prevControlPointDisplay = this.controlPointDisplay;
         this.controlPointDisplay = md.ControlPointDisplay;
+        this.rate = md.Rate;
         this.chartLocale = getUserLocale();
         this.clearData();
-        this.chartOptions = EmployeeRangeChartService.getEmployeeRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
+        this.chartOptions = EmployeeRangeChartService.getEmployeeRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate);
       }
     });
 
@@ -110,7 +112,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       x: xCoordinate,
       y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup,
       empDisplay: name,
-      salaryDisplay: `${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency)}`
+      salaryDisplay: `${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`
     };
 
     if (salary >= min && salary <= max) {
@@ -127,7 +129,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       avgPositioninRange: jobRangeData.CompanyStructures_RangeGroup_AveragePositionInRange,
       avgSalary: `
         ${this.controlPointDisplay}:
-        ${StructuresHighchartsService.formatCurrency(jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP, this.chartLocale, this.currency)}
+        ${StructuresHighchartsService.formatCurrency(jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP, this.chartLocale, this.currency, this.rate, true)}
       `
     });
   }
@@ -150,6 +152,19 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       this.chartInstance.yAxis[0].removePlotLine('Mid-point');
       this.chartInstance.yAxis[0].removePlotLine('Average ' + this.prevControlPointDisplay);
     }
+  }
+
+  private updateChartLabels() {
+    const locale = this.chartLocale;
+    const currencyCode = this.currency;
+    const rate = this.rate;
+    this.chartInstance.yAxis[0].update({
+      labels: {
+        formatter: function() {
+          return StructuresHighchartsService.formatYAxisLabel(this.value, locale, currencyCode, rate);
+        }
+      }
+    }, false);
   }
 
   private processChartData() {
@@ -210,6 +225,8 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       // set the min/max
       this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
+
+      this.updateChartLabels();
 
       // set the series data (0 - salaryRange, 1 - midpoint, 2 - avg salary, 3 - outliers)
       this.chartInstance.series[3].setData(this.employeeAvgMrpSeriesData, false);

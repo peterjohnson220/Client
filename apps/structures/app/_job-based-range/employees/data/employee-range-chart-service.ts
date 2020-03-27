@@ -1,13 +1,6 @@
 export class EmployeeRangeChartService {
 
-  static getEmployeeRangeOptions(locale, currencyCode, controlPointDisplay) {
-    const formatter = new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency: currencyCode,
-      minimumFractionDigits: 0,
-      useGrouping: false
-    });
-
+  static getEmployeeRangeOptions(locale, currencyCode, controlPointDisplay, rate) {
     return {
       chart: {
         inverted: true,
@@ -42,12 +35,6 @@ export class EmployeeRangeChartService {
         borderWidth: 0
       },
       yAxis: {
-        labels: {
-          formatter: function() {
-            const rawLabelValue = this.value / 1000;
-            return formatter.format(rawLabelValue) + 'k';
-          }
-        },
         opposite: true,
         gridLineWidth: 1,
         gridLineDashStyle: 'Dash',

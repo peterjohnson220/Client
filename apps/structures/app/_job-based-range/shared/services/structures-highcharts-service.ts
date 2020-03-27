@@ -1,4 +1,5 @@
 import * as Highcharts from 'highcharts';
+import { RateType } from 'libs/data/data-sets';
 
 export class StructuresHighchartsService {
 
@@ -12,12 +13,13 @@ export class StructuresHighchartsService {
       };
   }
 
-  static formatCurrency(rawCurrency, locale, currencyCode) {
+  static formatCurrency(rawCurrency, locale, currencyCode, rate, useGrouping) {
     const formatter = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: currencyCode,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      minimumFractionDigits: rate === RateType.Hourly ? 2 : 0,
+      maximumFractionDigits: rate === RateType.Hourly ? 2 : 0,
+      useGrouping: useGrouping
     });
 
     return formatter.format(rawCurrency);
@@ -29,5 +31,11 @@ export class StructuresHighchartsService {
 
   static formatColumnRange(xCoordinate, low, high) {
     return { x: xCoordinate, low: low, high: high };
+  }
+
+  static formatYAxisLabel(value, locale, currencyCode, rate) {
+    const rawLabelValue = rate === RateType.Hourly ? value : value / 1000;
+    const formattedValue = StructuresHighchartsService.formatCurrency(rawLabelValue, locale, currencyCode, rate, false);
+    return formattedValue + (rate === RateType.Hourly ? '' : 'k');
   }
 }

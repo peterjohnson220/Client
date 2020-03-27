@@ -45,6 +45,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   jobRangeData: any;
   controlPointDisplay: string;
   plotLinesAndBands: any;
+  rate: string;
 
   constructor(
     public store: Store<any>,
@@ -54,9 +55,10 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       if (md) {
         this.currency = md.Currency;
         this.controlPointDisplay = md.ControlPointDisplay;
+        this.rate = md.Rate;
         this.chartLocale = getUserLocale();
         this.clearData();
-        this.chartOptions = PricingsSalaryRangeChartService.getPricingsRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
+        this.chartOptions = PricingsSalaryRangeChartService.getPricingsRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate);
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
@@ -117,18 +119,34 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   private addPricingsMRP(xCoordinate, currentRow, jobRangeData) {
     const {vendor, title} = PricingMatchHelper.splitPricingMatchSource(currentRow.vw_PricingMatchesJobTitlesMerged_Source);
     const formattedDate = formatDate(currentRow.vw_PricingMatchesJobTitlesMerged_Effective_Date, 'MM/dd/yyyy', this.chartLocale);
+    const mrpLabel = `${this.controlPointDisplay} ${appendOrdinalSuffix(currentRow.CompanyStructures_RangeGroup_MRPRefPtStructureRangeGroup)}`;
     this.pricingsSeriesData.push({
       x: xCoordinate,
       y: currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup,
+      salary: StructuresHighchartsService.formatCurrency(currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup,
+        this.chartLocale, this.currency, this.rate, true),
       vendor: vendor,
       titleAndEffectiveDate: (title ? title + ' - ' : '') + formattedDate,
-      mrpReferencePoint: appendOrdinalSuffix(currentRow.CompanyStructures_RangeGroup_MRPRefPtStructureRangeGroup)
+      mrpLabel: mrpLabel
     });
 
   }
 
   private addSalaryBand() {
     this.chartInstance.yAxis[0].addPlotBand(this.plotLinesAndBands.find(plb => plb.id === 'Salary range'));
+  }
+
+  private updateChartLabels() {
+    const locale = this.chartLocale;
+    const currencyCode = this.currency;
+    const rate = this.rate;
+    this.chartInstance.yAxis[0].update({
+      labels: {
+        formatter: function() {
+          return StructuresHighchartsService.formatYAxisLabel(this.value, locale, currencyCode, rate);
+        }
+      }
+    }, false);
   }
 
   private processChartData() {
@@ -169,6 +187,9 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       // set the min/max
       this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
+
+      this.updateChartLabels();
+
       this.chartInstance.series[0].setData(this.salaryRangeSeriesData, false);
       this.chartInstance.series[1].setData(this.pricingsSeriesData, true);
 
