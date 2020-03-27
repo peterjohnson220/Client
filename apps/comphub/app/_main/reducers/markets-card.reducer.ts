@@ -1,5 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { CompanyClientTypeConstants } from 'libs/constants';
+
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import { PricingPaymarket, MarketDataScope, MarketDataLocation } from '../models';
 import { PayfactorsApiModelMapper, MarketsCardHelper } from '../helpers';
@@ -68,9 +70,13 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
     case fromMarketsCardActions.SET_SELECTED_PAYMARKET: {
       let selectedPaymarket = action.payload.paymarket;
 
-      // Replace with 'National' paymarket (system default) if deselecting
+      // Replace with 'National' paymarket (system default) if deselecting, or empty peer paymarket if client is peer and analysis.
       if (!action.payload.initialLoad && action.payload.paymarket.CompanyPayMarketId === state.selectedPaymarket.CompanyPayMarketId) {
-        selectedPaymarket = MarketsCardHelper.buildDefaultPricingPayMarket();
+        if (!!action.payload.clientType && action.payload.clientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS) {
+          selectedPaymarket = MarketsCardHelper.buildEmptyPeerPricingPayMarket();
+        } else {
+          selectedPaymarket = MarketsCardHelper.buildDefaultPricingPayMarket();
+        }
       }
 
       return {

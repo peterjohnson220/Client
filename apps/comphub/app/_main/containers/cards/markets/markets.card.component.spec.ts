@@ -5,6 +5,8 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
+import { CompanyClientTypeConstants } from 'libs/constants';
+import { generateMockUserContext } from 'libs/models/security';
 
 import { MarketsCardComponent } from './markets.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -118,8 +120,10 @@ describe('Comphub - Main - Markets Card Component', () => {
   it('should dispatch a SetSelectedPayMarket action, when handling a paymarket being checked', () => {
     spyOn(store, 'dispatch');
     const selectedPayMarket = generateMockPricingPaymarket();
-    const expectedAction = new fromMarketsCardActions.SetSelectedPaymarket({paymarket: selectedPayMarket});
+    const expectedAction = new fromMarketsCardActions.SetSelectedPaymarket(
+      {paymarket: selectedPayMarket, initialLoad: false, clientType: CompanyClientTypeConstants.ENTERPRISE});
 
+    instance.userContext = generateMockUserContext();
     instance.handlePaymarketChecked(selectedPayMarket);
 
     expect(store.dispatch).toBeCalledWith(expectedAction);

@@ -56,4 +56,15 @@ export class MarketsCardHelper {
       SizeLabel: 'Employees'
     };
   }
+
+  static buildEmptyPeerPricingPayMarket(): PricingPaymarket {
+    return {
+      CompanyPayMarketId: null,
+      PayMarketName: '',
+      Industry: 'All',
+      Location: '',
+      Size: 'All',
+      SizeLabel: ''
+    };
+  }
 }

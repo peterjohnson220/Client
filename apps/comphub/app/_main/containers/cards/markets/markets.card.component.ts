@@ -32,6 +32,7 @@ export class MarketsCardComponent implements OnInit {
   selectedPaymarket$: Observable<PricingPaymarket>;
   paymarkets$: Observable<PricingPaymarket[]>;
   userContext$: Observable<UserContext>;
+  userContext: UserContext;
 
   addPayMarketFormOpen$: Observable<boolean>;
   savingPayMarket$: Observable<boolean>;
@@ -76,6 +77,7 @@ export class MarketsCardComponent implements OnInit {
   setupDefaultPayMarket() {
     forkJoin([this.getPayMarketsLoaded(), this.getUserContextLoaded()])
       .subscribe(([payMarkets, userContext]) => {
+        this.userContext = userContext;
         this.setDefaultPayMarketSelection(payMarkets, userContext);
       });
   }
@@ -111,7 +113,8 @@ export class MarketsCardComponent implements OnInit {
   }
 
   handlePaymarketChecked(checkedPayMarket: PricingPaymarket) {
-    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({paymarket: checkedPayMarket}));
+    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
+                              {paymarket: checkedPayMarket, initialLoad: false, clientType: this.userContext.ClientType}));
   }
 
   handleDismissInfoBanner() {
@@ -135,7 +138,7 @@ export class MarketsCardComponent implements OnInit {
       this.store.dispatch(new fromMarketsCardActions.HideAddNewPaymarketButton());
       for (const pp of paymarkets) {
         if (pp.CompanyPayMarketId === userContext.DefaultPayMarketId) {
-          this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({paymarket: pp, initialLoad: true}));
+          this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({paymarket: pp, initialLoad: true, clientType: userContext.ClientType}));
           break;
         }
       }
