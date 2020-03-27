@@ -1,5 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
@@ -7,11 +8,13 @@ import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { appendOrdinalSuffix } from 'libs/core/functions';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { PricingsSalaryRangeChartOptionsService } from '../../data';
+import { PricingMatchHelper } from '../../helpers';
 
 
 @Component({
@@ -112,7 +115,15 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addPricingsMRP(xCoordinate, currentRow, jobRangeData) {
-    this.pricingsSeriesData.push({ x: xCoordinate, y: currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup});
+    const {vendor, title} = PricingMatchHelper.splitPricingMatchSource(currentRow.vw_PricingMatchesJobTitlesMerged_Source);
+    const formattedDate = formatDate(currentRow.vw_PricingMatchesJobTitlesMerged_Effective_Date, 'MM/dd/yyyy', this.chartLocale);
+    this.pricingsSeriesData.push({
+      x: xCoordinate,
+      y: currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup,
+      vendor: vendor,
+      titleAndEffectiveDate: (title ? title + ' - ' : '') + formattedDate,
+      mrpReferencePoint: appendOrdinalSuffix(currentRow.CompanyStructures_RangeGroup_MRPRefPtStructureRangeGroup)
+    });
 
   }
 
