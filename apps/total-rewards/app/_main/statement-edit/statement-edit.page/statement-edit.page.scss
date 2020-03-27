@@ -15,9 +15,11 @@
   display: flex;
 }
 
-.header-row-buttons {
-  align-self: flex-end;
-  flex-basis: 20%;
+.header-row-save-status {
+  text-decoration: underline;
+  color: white;
+  font-size: 1.3em;
+  font-weight: 400;
 }
 
 h3 {

@@ -31,7 +31,7 @@ export class UpdateSearchTerm implements Action {
 
 export class OpenActionMenu implements Action {
   readonly type = OPEN_ACTION_MENU;
-  constructor(public payload: number) { }
+  constructor(public payload: string) { }
 }
 
 export class CloseActionMenu implements Action {

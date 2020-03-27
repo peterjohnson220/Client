@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Statement } from '../../../shared/models';
+import { StatementListViewModel } from '../../../shared/models';
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromTotalRewardsStatementsActions from '../actions/statement-list.page.actions';
 
@@ -14,7 +14,7 @@ import * as fromTotalRewardsStatementsActions from '../actions/statement-list.pa
 })
 export class StatementListPageComponent implements OnInit {
 
-  statements$: Observable<Statement[]>;
+  statements$: Observable<StatementListViewModel[]>;
   searchTerm$: Observable<string>;
   loadingStatements$: Observable<boolean>;
 

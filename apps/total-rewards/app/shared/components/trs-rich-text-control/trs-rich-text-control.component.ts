@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {Component, OnInit, Input, ViewChild, Output, EventEmitter} from '@angular/core';
 
 import { AnyFn } from '@ngrx/store/src/selector';
 import 'quill-mention';
 import Quill from 'quill';
 
 import { RichTextControl } from '../../models';
+import {UpdateTitleRequest, UpdateStringPropertyRequest} from '../../models/request-models';
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
 
@@ -21,9 +22,12 @@ export class TrsRichTextControlComponent implements OnInit {
   @ViewChild('richText', { static: true }) richText: any;
 
   @Input() controlData: RichTextControl;
+  @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
+  @Output() onContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter();
 
   isFocused = false;
   isInvalid = false;
+  shouldEmitSave = false;
   htmlContent: string;
   title: string;
 
@@ -67,9 +71,8 @@ export class TrsRichTextControlComponent implements OnInit {
     this.title = this.controlData.Title;
   }
 
-  onTitleChange(title: string) {
-    this.title = title;
-    // change has occurred, so tell parent to save
+  onTitleChanged(newTitle: string) {
+    this.onTitleChange.emit({ControlId: this.controlData.Id, Title: newTitle});
   }
 
   onEditorCreated(quill: any) {
@@ -104,6 +107,7 @@ export class TrsRichTextControlComponent implements OnInit {
       setTimeout(() => this.isInvalid = false, 1000);
     } else {
       // change has occurred, so tell parent to save
+      this.shouldEmitSave = true;
     }
   }
 
@@ -122,6 +126,13 @@ export class TrsRichTextControlComponent implements OnInit {
 
   onClickElsewhere() {
     this.isFocused = false;
+    this.emitOnContentChange();
   }
 
+  emitOnContentChange(): void {
+    if (this.shouldEmitSave && !this.isFocused) {
+      this.onContentChange.emit({ControlId: this.controlData.Id, value: this.htmlContent});
+      this.shouldEmitSave = false;
+    }
+  }
 }

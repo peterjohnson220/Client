@@ -8,13 +8,15 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import {CurrencyPipe} from '@angular/common';
 
-import { CalculationControl } from '../../models';
-import { CompensationField } from '../../models/compensation-field';
-import { UpdateTitleRequest } from '../../models/request-models/update-title-request';
-import { UpdateFieldOverrideNameRequest } from '../../models/request-models/update-field-override-name-request';
-import { UpdateFieldVisibilityRequest } from '../../models/request-models/update-field-visibility-request';
+import {CalculationControl} from '../../models';
+import {CompensationField} from '../../models/compensation-field';
+import {UpdateTitleRequest} from '../../models/request-models/update-title-request';
+import {UpdateFieldOverrideNameRequest} from '../../models/request-models/update-field-override-name-request';
+import {UpdateFieldVisibilityRequest} from '../../models/request-models/update-field-visibility-request';
+
+// import {UpdateCalculationControlRequest} from '../../models/request-models/update-calculction-control-request';
 
 @Component({
   selector: 'pf-trs-calculation-control',
@@ -27,17 +29,18 @@ export class TrsCalculationControlComponent implements OnInit, OnChanges {
   @Input() controlData: CalculationControl;
   @Input() employeeData: any;
 
-  @Output() updateTitle: EventEmitter<UpdateTitleRequest> = new EventEmitter();
-  @Output() updateCompFieldTitle: EventEmitter<UpdateFieldOverrideNameRequest> = new EventEmitter();
-  @Output() updateSummaryTitle: EventEmitter<UpdateTitleRequest> = new EventEmitter();
-  @Output() removeCompField: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
-  @Output() addCompField: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
+  @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
+  @Output() onCompFieldTitleChange: EventEmitter<UpdateFieldOverrideNameRequest> = new EventEmitter();
+  @Output() onUpdateSummaryTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
+  @Output() onCompFieldRemoved: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
+  @Output() onCompFieldAdded: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
 
   removedFields: CompensationField[];
 
   compensationValuePlaceholder = '$---,---';
 
-  constructor(public cp: CurrencyPipe) { }
+  constructor(public cp: CurrencyPipe) {
+  }
 
   ngOnInit() {
     this.removedFields = this.controlData.DataFields.filter(f => f.IsVisible === false);
@@ -50,24 +53,24 @@ export class TrsCalculationControlComponent implements OnInit, OnChanges {
   }
 
   removeField(field: CompensationField) {
-    this.removeCompField.emit({ ControlId: this.controlData.Id, DataFieldId: field.Id, IsVisible: false });
+    this.onCompFieldRemoved.emit({ControlId: this.controlData.Id, DataFieldId: field.Id, IsVisible: false});
   }
 
   addField(event: any) {
     const fieldToAdd = this.removedFields.find(f => f.DefaultName === event.target.text);
-    this.addCompField.emit({ ControlId: this.controlData.Id, DataFieldId: fieldToAdd.Id, IsVisible: true });
+    this.onCompFieldAdded.emit({ControlId: this.controlData.Id, DataFieldId: fieldToAdd.Id, IsVisible: true});
   }
 
   onCompFieldNameChange(field: CompensationField, name: string) {
-    this.updateCompFieldTitle.emit({ ControlId: this.controlData.Id, NewName: name, DataFieldId: field.Id });
+    this.onCompFieldTitleChange.emit({ControlId: this.controlData.Id, NewName: name, DataFieldId: field.Id});
   }
 
   onControlTitleChange(newTitle: string) {
-    this.updateTitle.emit({ ControlId: this.controlData.Id, NewSummaryTitle: newTitle });
+    this.onTitleChange.emit({ControlId: this.controlData.Id, Title: newTitle});
   }
 
   onSummaryTitleChange(summaryTitle: string) {
-    this.updateSummaryTitle.emit({ ControlId: this.controlData.Id, NewSummaryTitle: summaryTitle });
+    this.onUpdateSummaryTitleChange.emit({ControlId: this.controlData.Id, Title: summaryTitle});
   }
 
   getEmployerContributionValue(field: string) {

@@ -24,7 +24,7 @@ export class StatementsGridComponent implements OnInit {
   statementsLoading$: Observable<boolean>;
   statementsLoadingError$: Observable<boolean>;
 
-  openActionMenuStatementId$: Observable<number>;
+  openActionMenuStatementId$: Observable<string>;
 
   constructor(private store: Store<fromTotalRewardsReducer.State>, private router: Router) { }
 
@@ -41,7 +41,7 @@ export class StatementsGridComponent implements OnInit {
     this.store.dispatch(new fromTotalRewardsStatementsActions.LoadStatements());
   }
 
-  onActionMenuOpen(statementId: number) {
+  onActionMenuOpen(statementId: string) {
     this.store.dispatch(new fromTotalRewardsStatementsActions.OpenActionMenu(statementId));
   }
 
@@ -70,7 +70,7 @@ export class StatementsGridComponent implements OnInit {
     console.log('onActionMenuDeleteClick', statement);
   }
 
-  navigateToStatementEdit(id: any) {
+  navigateToStatementEdit(id: any): void {
     this.router.navigate(['/statement/edit/', id]).then();
   }
 }

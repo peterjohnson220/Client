@@ -3,20 +3,37 @@
     <span>{{pageTitle}}</span>
   </ng-container>
   <ng-container page-content>
-    <div class="canvas">
-      <div class="header-row">
-        <h3 class="w-100">
-          <pf-inline-string-editor
-            [placeholder]="'New Statement Name'"
-            [minCharacters]="1"
-            [maxCharacters]="statementNameMaxLength"
-            [icon]="'pencil'"
-            (valueChange)="onStatementNameValueChange($event)"
-          ></pf-inline-string-editor>
-        </h3>
-        <div class="header-row-buttons"></div>
+    <pf-async-container [loading]="(statementLoading$ | async) || (cloningFromTemplate$ | async)"
+                        [loadingError]="(statementLoadingError$ | async) || (cloningFromTemplateError$ | async) ||
+                                        (statementSavingError$ | async)"
+                        (reload)="handleStatementReload()">
+      <div class="canvas">
+        <div class="header-row">
+          <h3 class="w-100">
+            <pf-inline-string-editor
+              [placeholder]="'New Statement Name'"
+              [maxCharacters]="statementNameMaxLength"
+              [value]="getStatementName()"
+              (valueChange)="onStatementNameValueChange($event)"
+            ></pf-inline-string-editor>
+          </h3>
+          <div class="header-row-save-status pb-2">
+            <span *ngIf="!(statementSaving$ | async) && !(statementSavingSuccess$ | async) &&
+                         !(statementSavingError$ | async) ">Unsaved</span>
+            <span *ngIf="(statementSaving$ | async)">Saving</span>
+            <span *ngIf="(statementSavingSuccess$ | async)">Saved</span>
+          </div>
+        </div>
+        <pf-total-rewards-statement
+          [statement]="statement"
+          (onControlTitleChange)="handleOnControlTitleChange($event)"
+          (onCalculationControlCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
+          (onCalculationControlSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
+          (onCalculationControlCompFieldRemoved)="handleOnCalculationControlCompFieldRemoved($event)"
+          (onCalculationControlCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)"
+          (onRichTextControlContentChange)="handleOnRichTextControlContentChange($event)"
+        ></pf-total-rewards-statement>
       </div>
-      <pf-total-rewards-statement [statementId]="statementId"></pf-total-rewards-statement>
-    </div>
+    </pf-async-container>
   </ng-container>
 </pf-page-with-title-bar>

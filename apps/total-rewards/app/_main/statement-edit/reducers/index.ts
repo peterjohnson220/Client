@@ -31,6 +31,11 @@ export const selectStatementState = createSelector(
   (state: StatementEditState) => state.page.statement.obj
 );
 
+export const selectStatement = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.statement.obj
+);
+
 export const selectStatementLoading = createSelector(
   selectStatementEditPageState,
   (state: StatementEditState) => state.page.statement.loading
@@ -39,4 +44,30 @@ export const selectStatementLoading = createSelector(
 export const selectStatementLoadingError = createSelector(
   selectStatementEditPageState,
   (state: StatementEditState) => state.page.statement.loadingError
+);
+
+export const selectStatementSaving = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.statement.saving
+);
+
+export const selectStatementSavingSuccess = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.statement.savingSuccess
+);
+
+export const selectStatementSavingError = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.statement.savingError
+);
+
+
+export const selectCloningFromTemplate = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.cloningFromTemplate
+);
+
+export const selectCloningFromTemplateError = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.cloningFromTemplateError
 );

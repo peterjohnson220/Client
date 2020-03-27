@@ -13,20 +13,19 @@ export class TotalRewardsApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
   getStatements(searchTerm?: string): Observable<GridDataResult> {
-    const params = searchTerm ? { params: { searchTerm } } : {};
+    const params = searchTerm ? {params: {searchTerm}} : {};
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetStatements`, params, MappingHelper.mapListAreaResultToAggregateGridDataResult);
   }
 
-  validateStatementName(statementName: string): Observable<boolean> {
-    // pass in v => v as a noop since the default extractValueFromOdata mapping func returns {} for a false value
-    return this.payfactorsApiService.get<boolean>(`${this.endpoint}/ValidateStatementName`, { params: { statementName } }, v => v);
+  getStatementFromTemplateId(templateId: string): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementFromTemplateId`, {params: { templateId }});
   }
 
-  createStatement(params: { Name: string, TemplateId: number }): Observable<number> {
-    return this.payfactorsApiService.post<number>(`${this.endpoint}/CreateStatement`, params);
-  }
-
-  getStatementFromId(statementId: number): Observable<any> {
+  getStatementFromId(statementId: string): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementFromId`, {params: { statementId }});
+  }
+
+  saveStatement(statement: any): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/SaveStatement`, statement);
   }
 }
