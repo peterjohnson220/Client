@@ -55,11 +55,13 @@ export class ExchangeExplorerContextService {
           });
         });
 
-        const subsidiaryParentIdSelections = filters.filter((f: Filter) => f.ParentBackingField === 'company_name').map((msf: MultiSelectFilter) => {
+        const subsidiaryParentIdSelections = filters.filter((f: Filter) => f.BackingField === 'subsidiary_name').map((msf: MultiSelectFilter) => {
           return msf.Options.filter(o => o.Selected).map(x => JSON.parse(x.Value).ParentOptionValue);
         });
 
-        return new Set(companyIdSelections[0].concat(subsidiaryParentIdSelections[0])).size;
+        const selections = !!companyIdSelections[0] ? companyIdSelections[0].concat(subsidiaryParentIdSelections[0]) : subsidiaryParentIdSelections[0];
+        const numberOfSelections = new Set(!!selections ? selections : []).size;
+        return numberOfSelections;
       })
     );
   }
