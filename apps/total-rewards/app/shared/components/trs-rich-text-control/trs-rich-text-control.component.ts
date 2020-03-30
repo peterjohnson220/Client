@@ -27,6 +27,8 @@ export class TrsRichTextControlComponent implements OnInit {
   htmlContent: string;
   title: string;
 
+  quillMentionContainer: HTMLElement;
+
   quillConfig = {
     toolbar: {
       container: [
@@ -49,6 +51,9 @@ export class TrsRichTextControlComponent implements OnInit {
         } else {
           renderList(this.dataFields, searchTerm);
         }
+
+        // prevent bug where choosing a field, closing, then reopening with [ maintains the scroll position, since we always want to start at top
+        setTimeout(() => this.quillMentionContainer.scrollTop = 0, 0);
       },
     },
   };
@@ -84,6 +89,9 @@ export class TrsRichTextControlComponent implements OnInit {
       delta.ops = ops;
       return delta;
     });
+
+    // get a handle to the quill mention container that holds the data fields
+    this.quillMentionContainer = quill.getModule('mention').mentionContainer;
   }
 
   onContentChanged(quillContentChange: any) {
