@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
+import { JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
 import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
@@ -45,16 +45,16 @@ export class JobsPageEffects {
   ) { }
 
   @Effect()
-  addToProject$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobsPageActions.ADDING_TO_PROJECT),
+  createProject$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.CREATING_PROJECT),
     switchMap((data: any) => {
-      return this.jobsApiService.addToProject(data.payload).pipe(
+      return this.jobsApiService.createProject(data.payload).pipe(
         mergeMap((projectId: number) => {
           window.location.href = `/marketdata/marketdata.asp?usersession_id=${projectId}`;
           // TODO: When we migrate the Projects page to Client we have to make sure the state is cleared if we return back to the Jobs page
           return [];
         }),
-        catchError(error => of(new fromJobsPageActions.AddingToProjectError(error)))
+        catchError(error => of(new fromJobsPageActions.CreatingProjectError(error)))
       );
     })
   );

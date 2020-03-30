@@ -22,8 +22,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   ngAfterViewChecked(): void {
     // The jobTitleText and the detailsText are templates and their content changes
-    // after ngIf directives on the containing template and executed
-    // As a result the get the ExpressionChangedAfterItHasBeenCheckedError
+    // after ngIf directives on the containing template
+    // As a result we get the ExpressionChangedAfterItHasBeenCheckedError
     // The solution is to wait for the dom to render and set a local isOverflow property to check if the text overflows
       this.isOverflow = this.checkOverflow(this.jobTitleText.nativeElement) || this.checkOverflow(this.detailsText.nativeElement);
   }

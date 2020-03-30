@@ -5,7 +5,6 @@
   [showColumnChooser] ="false"
   [showFilterChooser] ="false"
   [allowExport]="false"
-  [contentNoPadding]="true"
   [selectionField]="'CompanyJobPricing_ID'"
   [enableSelection]="true"
   [columnTemplates]="pricedDataColTemplates"
@@ -85,7 +84,7 @@
     (filterChange)="handleFilter($event)"
     [attr.data-qa-id]="'ddm-operator-'+pricedDataPayMarketField.SourceName"
     class="k-dropdown-white form-control">
-</kendo-dropdownlist>
+  </kendo-dropdownlist>
 </ng-template>
 
 <ng-template #changeView>

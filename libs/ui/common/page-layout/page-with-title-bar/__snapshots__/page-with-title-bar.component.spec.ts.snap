@@ -34,6 +34,7 @@ exports[`Page With Title Bar should show no back button when no URL is provided 
     </div>
     <div
       class="page-content"
+      ng-reflect-klass="page-content"
     />
   </div>
 </pf-page-with-title-bar>
@@ -82,6 +83,7 @@ exports[`Page With Title Bar should show the back button, when provided a return
     </div>
     <div
       class="page-content"
+      ng-reflect-klass="page-content"
     />
   </div>
 </pf-page-with-title-bar>
@@ -134,6 +136,7 @@ exports[`Page With Title Bar should show the back button, when provided an absol
     </div>
     <div
       class="page-content"
+      ng-reflect-klass="page-content"
     />
   </div>
 </pf-page-with-title-bar>

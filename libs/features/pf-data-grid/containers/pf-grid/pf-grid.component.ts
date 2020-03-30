@@ -53,6 +53,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   selectAllStatus = SelectAllStatus;
 
+  pagingBarConfig = null;
+
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
 
   constructor(private store: Store<fromReducer.State>) { }
@@ -102,6 +104,22 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
+    }
+
+    if (changes['selectedRecordId']) {
+      this.pagingBarConfig = changes['selectedRecordId'].currentValue ?
+        {
+          info: true,
+          type: 'input',
+          pageSizes: false,
+          previousNext: true
+        } : {
+          buttonCount: 5,
+          info: true,
+          type: 'numeric',
+          pageSizes: [20, 50, 100, 250],
+          previousNext: true
+        };
     }
   }
 
@@ -170,28 +188,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   isSortable() {
     return this.allowSort ? this.selectedRecordId ? null : `{allowUnsort: 'true', mode: 'single'}` : null;
-  }
-
-  getPagingBarConfig(state: DataGridState) {
-    if (state && state.data && state.pagingOptions && (state.data.total / state.pagingOptions.Count) > 1) {
-      if (this.selectedRecordId) {
-        return {
-          info: true,
-          type: 'input',
-          pageSizes: false,
-          previousNext: true
-        };
-      } else {
-        return {
-          buttonCount: 5,
-          info: true,
-          type: 'numeric',
-          pageSizes: false,
-          previousNext: true
-        };
-      }
-    }
-    return false;
   }
 
   onSelectedKeysChange(selectedKey: number) {

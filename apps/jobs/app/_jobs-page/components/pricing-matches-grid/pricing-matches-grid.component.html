@@ -1,28 +1,25 @@
 
-<div class="border">
-  <pf-data-grid
-    [pageViewId]="getPageViewId()"
-    [showTitle]="false"
-    [showColumnChooser] ="false"
-    [showFilterChooser] ="false"
-    [allowExport]="false"
-    [contentNoPadding]="true"
-    [columnTemplates]="colTemplates"
-    [customHeaderTemplate]="pricingMatchesHeader"
-    [inboundFilters]="[filter]"
-    [defaultSort]="defaultSort"
-    [pagingOptions]="defaultPagingOptions"
-    [compactGrid]="true"
-    [backgroundColor]="'#F7F7F9'"
-    [noRecordsFound]="'This pricing has no data cuts.'">
-  </pf-data-grid>
-</div>
+<pf-data-grid
+  [pageViewId]="getPageViewId()"
+  [showTitle]="false"
+  [showColumnChooser] ="false"
+  [showFilterChooser] ="false"
+  [allowExport]="false"
+  [columnTemplates]="colTemplates"
+  [customHeaderTemplate]="pricingMatchesHeader"
+  [inboundFilters]="[filter]"
+  [defaultSort]="defaultSort"
+  [pagingOptions]="defaultPagingOptions"
+  [compactGrid]="true"
+  [backgroundColor]="'#F7F7F9'"
+  [noRecordsFound]="'This pricing has no data cuts.'"
+  [contentNoPadding]="true">
+</pf-data-grid>
 
 
 <ng-template #pricingMatchesHeader>
   <div class="row no-gutters text-center py-1" style="background-color: #F7F7F9">
     <span style="width: 4.5%">Wtg.</span>
-    |
     <span style="width: 4.5%">Adj. %</span>
     <span style="width: 99%"></span>
   </div>  

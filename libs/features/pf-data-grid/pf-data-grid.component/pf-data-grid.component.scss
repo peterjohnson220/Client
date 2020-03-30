@@ -17,7 +17,7 @@
   top: 0;
   right: 0;
   left: 0;
-  bottom: 0;
+  bottom: 0;  
 }
 
 .split-view-container {
@@ -32,11 +32,16 @@
   background: $data-grid-filter-panel-background-color;
 }
 
-input[type=text]::-ms-clear{
+input[type=text]::-ms-clear {
   display: none;
 }
 
-.gridActionTemplate{
-  height: 44px;
-  background: #FFFFFF;
- }
+.sub-header {
+  height: 35.75px !important;
+  border: none !important;
+}
+
+.grid-actions-container::ng-deep div,
+.grid-actions-container::ng-deep button {
+  margin-left: 1rem !important;
+}

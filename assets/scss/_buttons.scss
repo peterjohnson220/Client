@@ -1,0 +1,13 @@
+ .pf-btn-borderless {    
+    border: 0;
+
+    &:focus {
+      box-shadow: none;
+    }
+
+    fa-icon {
+      margin-right: 0.5rem;
+      color: #777;
+    }
+  }
+

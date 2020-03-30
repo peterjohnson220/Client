@@ -1,4 +1,4 @@
-export class AddToProjectRequest {
+export class CreateProjectRequest {
   JobIds: number[];
   PricingIds: number[];
   JobPayMarketSelections: JobPayMarketCombo[];

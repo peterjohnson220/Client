@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ViewField, AddToProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
+import { ViewField, CreateProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
 import { AsyncStateObj, UserContext } from 'libs/models';
 import { PageViewIds } from '../constants';
@@ -50,8 +50,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
 
-  showAddToProjectModal$: Observable<boolean>;
-  addingToProject$: Observable<AsyncStateObj<boolean>>;
+  showCreateProjectModal$: Observable<boolean>;
+  creatingProject$: Observable<AsyncStateObj<boolean>>;
 
   showJobStatusModal$: Observable<boolean>;
   changingJobStatus$: Observable<AsyncStateObj<boolean>>;
@@ -97,8 +97,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.pageViewId);
-    this.showAddToProjectModal$ = this.store.select(fromJobsPageReducer.getShowAddToProjectModal);
-    this.addingToProject$ = this.store.select(fromJobsPageReducer.getAddingToProject);
+    this.showCreateProjectModal$ = this.store.select(fromJobsPageReducer.getShowCreateProjectModal);
+    this.creatingProject$ = this.store.select(fromJobsPageReducer.getCreatingToProject);
     this.showJobStatusModal$ = this.store.select(fromJobsPageReducer.getShowJobStatusModal);
     this.changingJobStatus$ = this.store.select(fromJobsPageReducer.getChangingJobStatus);
     this.showDeleteJobModal$ = this.store.select(fromJobsPageReducer.getShowDeleteJobModal);
@@ -195,12 +195,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.NotPricedPayMarkets));
   }
 
-  toggleAddToProjectModal(state: boolean) {
-    this.store.dispatch(new fromJobsPageActions.ShowAddToProjectModal(state));
+  toggleCreateProjectModal(state: boolean) {
+    this.store.dispatch(new fromJobsPageActions.ShowCreateProjectModal(state));
   }
 
-  addToProject() {
-    const payload: AddToProjectRequest = {
+  createProject() {
+    const payload: CreateProjectRequest = {
       JobIds: this.selectedJobIds,
       PricingIds: this.selectedPricingIds,
       JobPayMarketSelections: this.selectedJobPayMarketCombos.map(jpm => {
@@ -212,7 +212,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         };
       })
     };
-    this.store.dispatch(new fromJobsPageActions.AddingToProject(payload));
+    this.store.dispatch(new fromJobsPageActions.CreatingProject(payload));
   }
 
   toggleJobStatusModal(state: boolean) {
