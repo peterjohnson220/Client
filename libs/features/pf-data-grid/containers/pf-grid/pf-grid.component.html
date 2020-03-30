@@ -4,7 +4,7 @@
     [data]="data"
     [pageSize]="(pagingOptions$ | async)?.Count"
     [skip]="(pagingOptions$ | async)?.From"
-    [pageable]="getPagingBarConfig(gridState$ | async)"
+    [pageable]="!compactGrid ? pagingBarConfig : false"
     [scrollable]="compactGrid ? 'none': ''"
     [resizable]="selectedRecordId ? false : true"
     [sortable]="isSortable()"
@@ -59,10 +59,8 @@
                     </ng-container>
               </ng-container>
           </kendo-grid-column-group>
-
       </ng-container>
       <ng-container *ngIf="showColumn(col)">
-
         <kendo-grid-column
           [field]="mappedFieldName(col)"
           [title]="col.DisplayName"
@@ -97,16 +95,10 @@
         </ng-container>
       </div>
     </div>
-    <kendo-grid-command-column *ngIf="rowActionTemplate"
-                               [headerClass]="getGridColumnHeaderClass(null)"
-    >
+    <kendo-grid-command-column *ngIf="rowActionTemplate" [headerClass]="getGridColumnHeaderClass(null)">
       <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-        <ng-container [ngTemplateOutlet]="rowActionTemplate"
-                      [ngTemplateOutletContext]="{dataRow: dataItem}"
-        >
-        </ng-container>
+        <ng-container [ngTemplateOutlet]="rowActionTemplate" [ngTemplateOutletContext]="{dataRow: dataItem}"></ng-container>
       </ng-template>
     </kendo-grid-command-column>
-
   </kendo-grid>
 </pf-async-container>

@@ -27,8 +27,7 @@
       <ng-content select="[page-actions]"></ng-content>
     </div>
   </div>
-  <div class="page-content"
-       [class.p-0]="contentNoPadding">
+  <div class="page-content" [ngClass]="contentClassNamesOverrides" [class.p-0]="contentNoPadding">
     <ng-content select="[page-content]"></ng-content>
   </div>
 </div>

@@ -87,7 +87,9 @@ export const getFilterableFields = (state: DataGridStoreState, pageViewId: strin
     ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy))
     : [];
 };
-export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pagingOptions : null;
+export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] && state.grids[pageViewId].pagingOptions ? state.grids[pageViewId].pagingOptions : null;
+};
 export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].defaultSortDescriptor : null;
 };

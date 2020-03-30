@@ -102,12 +102,13 @@
   <button
     [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
-    [attr.data-qa-id]="'btn-jobs-page-add-to-project'"
+    [attr.data-qa-id]="'btn-jobs-page-create-project'"
     type="button"
-    (click)="toggleAddToProjectModal(true)"
+    (click)="toggleCreateProjectModal(true)"
     [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
-    class="btn btn-link">
-    Add to Project
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon [icon]="['far', 'calculator']"></fa-icon>
+    Create Project
     <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && isActiveJobs()">
       ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
     </span>
@@ -119,37 +120,43 @@
     type="button"
     (click)="toggleJobStatusModal(true)"
     [title]="!selectedJobIds.length ? 'No Jobs Selected' : ''"
-    class="btn btn-link">
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon [icon]="['far', 'briefcase']"></fa-icon>
     {{isActiveJobs() ? 'Inactivate' : 'Activate'}}
-    <span *ngIf="selectedJobIds.length">
+    <span *ngIf="selectedJobIds.length" >
       ({{selectedJobIds.length}})
     </span>
   </button>
+  <div
+    class="vertical-separator my-2"
+    [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]">
+  </div>
   <button
     [disabled]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [attr.data-qa-id]="'btn-jobs-page-clear-selections'"
     type="button"
     (click)="clearSelections()"
     [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
-    class="btn btn-link">
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon [icon]="['far', 'times']"></fa-icon>
     Clear Selections
   </button>
 </ng-template>
 
 <pf-modal-form
   [size]="'md'"
-  [title]="'Add to Project'"
-  [primaryButtonText]="'Add'"
-  [primaryButtonTextSubmitting]="'Adding'"
-  [modalId]="'au-modal-jobs-page-add-to-project'"
-  [submitting]="(addingToProject$ | async).loading"
-  [allowDismiss]="!(addingToProject$ | async).loading"
-  [isOpen$]="showAddToProjectModal$"
-  (onSubmit)="addToProject()"
-  (onDismiss)="toggleAddToProjectModal(false)">
+  [title]="'Create Project'"
+  [primaryButtonText]="'Create'"
+  [primaryButtonTextSubmitting]="'Creating'"
+  [modalId]="'au-modal-jobs-page-create-project'"
+  [submitting]="(creatingProject$ | async).loading"
+  [allowDismiss]="!(creatingProject$ | async).loading"
+  [isOpen$]="showCreateProjectModal$"
+  (onSubmit)="createProject()"
+  (onDismiss)="toggleCreateProjectModal(false)">
 
   <ng-container basic-content>
-    The following will be added to a new Project:
+    The following will be used to create a new project:
     <div>
       &bull; Job Count: {{selectedJobIds.length}}
     </div>
@@ -159,10 +166,10 @@
     <div>
       &bull; Job:Pay Market Associations: {{selectedJobPayMarketCombos.length}}
     </div>
-    <div *ngIf="(addingToProject$ | async).loadingError">
+    <div *ngIf="(creatingProject$ | async).loadingError">
       <br>
       <span class="text-danger">
-        <b>We encountered a problem adding your selections to a project. Please try again or contact your account representative.</b>
+        <b>We encountered a problem creating your project. Please try again or contact your account representative.</b>
       </span>
     </div>
   </ng-container>

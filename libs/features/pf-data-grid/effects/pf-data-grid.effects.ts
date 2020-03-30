@@ -217,10 +217,21 @@ export class PfDataGridEffects {
         fromPfDataGridActions.CLEAR_FILTER,
         fromPfDataGridActions.CLEAR_ALL_NON_GLOBAL_FILTERS,
         fromPfDataGridActions.UPDATE_SORT_DESCRIPTOR),
-      mergeMap((action: any) => {
+      mergeMap((filterChangsAction: any) =>
+        of(filterChangsAction).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, filterChangsAction.pageViewId)),
+            (action: any, pagingOptions: PagingOptions) => ({ action, pagingOptions })
+          )
+        )
+      ),
+      mergeMap((data) => {
         return [
-          new fromPfDataGridActions.CloseSplitView(action.pageViewId),
-          new fromPfDataGridActions.UpdatePagingOptions(action.pageViewId, fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS)
+          new fromPfDataGridActions.CloseSplitView(data.action.pageViewId),
+          new fromPfDataGridActions.UpdatePagingOptions(
+            data.action.pageViewId,
+            data.pagingOptions ? { From: 0, Count: data.pagingOptions.Count } : fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS
+          )
         ];
       })
     );

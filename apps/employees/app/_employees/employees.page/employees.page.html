@@ -14,55 +14,53 @@
   [allowExport]="true"
   [exportSourceName]="'Employees'"
   [defaultSort]="defaultSort"
-  [mainGridContainerClassName]="'pl-3 pr-3'"
   [defaultColumnWidth]="150">
 </pf-data-grid>
 
 <ng-template #gridActions>
-  <div class="grid-actions-container">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      [pfSecuredResource]="permissions.NEW_PROJECT"
-      [attr.data-qa-id]="'btn-priceJobs'"
-      [disabled]="priceJobsDisabled"
-      (click)="handlePriceJobsClicked()">
-      <fa-icon [icon]="['far', 'calculator']"></fa-icon>
-      Create Project
-    </button>
-    <button
-      [attr.data-qa-id]="'btn-editEmployee'"
-      type="button"
-      [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
-      [disabled]="selectedCompanyEmployeeIds?.length !== 1"
-      (click)="handleEditClicked()"
-      class="btn btn-secondary">
-      <fa-icon icon="edit"></fa-icon>
-      Edit
-    </button>
-    <button
-      [attr.data-qa-id]="'btn-deleteEmployee'"
-      type="button"
-      [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
-      [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
-      (click)="showDeleteEmployeeModal.next(true)"
-      class="btn btn-secondary">
-      <fa-icon icon="trash-alt"></fa-icon>
-      Delete
-    </button>
-    <div
-      [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]"
-      class="vertical-separator"></div>
-    <button
-      type="button"
-      class="btn btn-secondary btn-clear-selection"
-      [attr.data-qa-id]="'btn-clearSelection'"
-      [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
-      (click)="handleClearSelectionClicked()">
-      <fa-icon [icon]="['far', 'times']"></fa-icon>
-      Clear Selections  <span *ngIf="selectedCompanyEmployeeIds?.length>0">({{selectedCompanyEmployeeIds.length}})</span>
-    </button>
+  <button
+    type="button"
+    class="btn btn-secondary pf-btn-borderless"
+    [pfSecuredResource]="permissions.NEW_PROJECT"
+    [attr.data-qa-id]="'btn-priceJobs'"
+    [disabled]="priceJobsDisabled"
+    (click)="handlePriceJobsClicked()">
+    <fa-icon [icon]="['far', 'calculator']"></fa-icon>
+    Create Project
+  </button>
+  <button
+    [attr.data-qa-id]="'btn-editEmployee'"
+    type="button"
+    [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
+    [disabled]="selectedCompanyEmployeeIds?.length !== 1"
+    (click)="handleEditClicked()"
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon icon="edit"></fa-icon>
+    Edit
+  </button>
+  <button
+    [attr.data-qa-id]="'btn-deleteEmployee'"
+    type="button"
+    [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
+    [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
+    (click)="showDeleteEmployeeModal.next(true)"
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon icon="trash-alt"></fa-icon>
+    Delete
+  </button>
+  <div
+    class="vertical-separator my-2"
+    [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]">
   </div>
+  <button
+    type="button"
+    class="btn btn-secondary pf-btn-borderless"
+    [attr.data-qa-id]="'btn-clearSelection'"
+    [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
+    (click)="handleClearSelectionClicked()">
+    <fa-icon [icon]="['far', 'times']"></fa-icon>
+    Clear Selections  <span *ngIf="selectedCompanyEmployeeIds?.length>0">({{selectedCompanyEmployeeIds.length}})</span>
+  </button>
 </ng-template>
 <ng-template #gridGlobalActions>
   <button
