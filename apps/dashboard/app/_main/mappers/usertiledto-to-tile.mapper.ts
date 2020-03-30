@@ -167,13 +167,15 @@ export class UserTileToTileMapper {
 
       case TileTypes.Peer:
         tile.CssClass = 'tile-blue';
-        tile.Size = 2;
         tile.MarketingDescription = MarketingTileDescriptions.Peer;
         tile.MarketingButtonText = 'EXPLORE';
+        const hasPeerData = !!tile.TilePreviewData && !!tile.TilePreviewData[0].ExchangePreviewModels && tile.TilePreviewData[0].ExchangePreviewModels.length;
 
-        if (tile.TilePreviewData == null || tile.TilePreviewData[ 0 ] == null) {
+        if (!hasPeerData) {
           tile.PreviewType = TilePreviewTypes.Icon;
+          tile.TilePreviewData = null;
         } else {
+          tile.Size = 2;
           tile.IgnoreTileAnchorOverlay = true;
           tile.ChartType = TilePreviewChartTypes.Pie;
           tile.ChartLabel = 'Company Jobs';
